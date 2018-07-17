@@ -45,7 +45,7 @@
                                 <div class="cmp-task-header">
                                     <h3 class="pm-task-title">
                                         <span class="pm-mark-done-checkbox">
-                                            <input :disabled="can_complete_task(task)"  @click="singleTaskDoneUndone()" class="" type="checkbox">
+                                            <input :disabled="can_complete_task(task)" v-model="task.status"  @change="singleTaskDoneUndone()" class="" type="checkbox">
                                         </span>
                                         <span :class="singleTaskTitle(task) + ' pm-task-title-wrap'">
                                             <div class="pm-task-title-text">
@@ -75,7 +75,7 @@
                                             <a v-if="PM_Vars.is_pro && task.status=='0' && can_edit_task(task) && user_can('view_private_task')" href="#" @click.prevent="singleTaskLockUnlock(task)">
                                                 <span :class="privateClass( task.meta.privacy )"></span>
                                             </a>
-                                            <a v-pm-tooltip :title="__('Copy this task URL', 'pm')" href="#" @click.prevent="copyUrl(task)">
+                                            <a v-pm-tooltip :title="__('Copy this task URL', 'wedevs-project-manager')" href="#" @click.prevent="copyUrl(task)">
                                                 <i  class="fa fa-clipboard" aria-hidden="true"></i>
                                             </a>
                                         </div>
@@ -131,13 +131,13 @@
                                                 <span
                                                     @click.prevent="isTaskDateEditMode()">
                                                     <span v-if="task_start_field">
-                                                        <!-- <span class="dashicons pm-date-edit-btn dashicons-edit" title="<?php _e( 'Edit Task Description', 'pm' ); ?>"></span> -->
+                                                        <!-- <span class="dashicons pm-date-edit-btn dashicons-edit" title="<?php _e( 'Edit Task Description', 'wedevs-project-manager'); ?>"></span> -->
                                                         {{ dateFormat( task.start_at.date ) }}
                                                     </span>
 
                                                     <span v-if="task_start_field && task.start_at.date && task.due_date.date">&ndash;</span>
                                                     <span v-if="task.due_date">
-                                                        <!-- <span class="dashicons pm-date-edit-btn dashicons-edit" title="<?php _e( 'Edit Task Description', 'pm' ); ?>"></span> -->
+                                                        <!-- <span class="dashicons pm-date-edit-btn dashicons-edit" title="<?php _e( 'Edit Task Description', 'wedevs-project-manager'); ?>"></span> -->
                                                         {{ dateFormat( task.due_date.date ) }}
                                                     </span>
 
@@ -157,7 +157,7 @@
                                                     @click.prevent="isTaskDateEditMode()"
                                                     v-bind:class="task.status ? completedTaskWrap(task.start_at.date, task.due_date.date) : taskDateWrap( task.start_at.date, task.due_date.date)">
                                                     <span>
-                                                        <!-- <span class="dashicons pm-date-edit-btn dashicons-edit" title="<?php _e( 'Edit Task Description', 'pm' ); ?>"></span> -->
+                                                        <!-- <span class="dashicons pm-date-edit-btn dashicons-edit" title="<?php _e( 'Edit Task Description', 'wedevs-project-manager'); ?>"></span> -->
                                                         <i style="font-size: 20px;" class="fa fa-calendar" aria-hidden="true"></i>
                                                     </span>
                                                 </span>
@@ -171,7 +171,7 @@
 
                                             </span>
 
-                                            <span class="pm-task-comment-count">{{ task.comments.data.length }} {{ __( 'Comments', 'pm' ) }}</span>
+                                            <span class="pm-task-comment-count">{{ task.comments.data.length }} {{ __( 'Comments', 'wedevs-project-manager') }}</span>
                                     </div>
                                 </div>
 
@@ -200,7 +200,7 @@
 
                                     </textarea>
                                     <div v-if="is_task_details_edit_mode && can_edit_task(task)" class="pm-help-text">
-                                        <span>{{ __( 'Shift+Enter for line break', 'pm' ) }}</span>
+                                        <span>{{ __( 'Shift+Enter for line break', 'wedevs-project-manager') }}</span>
                                     </div>
 
                                     <div class="clearfix pm-clear"></div>
@@ -284,7 +284,7 @@
                 }
             }
         },
-        data: function() {
+        data() {
             return {
                 loading: true,
                 is_task_title_edit_mode: false,
@@ -292,7 +292,7 @@
                 is_task_date_edit_mode: false,
                 is_enable_multi_select: false,
                 task_description: '',
-                update_description: __( 'Update Description', 'pm' ),
+                update_description: __( 'Update Description', 'wedevs-project-manager'),
                 task_id: this.$route.params.task_id,
                 list: {},
                 task: {},
@@ -322,7 +322,7 @@
                 }
             },
 
-            project_users: function() {
+            project_users () {
                 return this.$root.$store.state.project_users;
             },
             task_users () {
@@ -341,7 +341,7 @@
                  *
                  * @return array
                  */
-                get: function () {
+                get () {
                     this.assigned_to = this.task.assignees.data.map(function (user) {
                         return user.id;
                     });
@@ -353,7 +353,7 @@
                  *
                  * @param array selected_users
                  */
-                set: function ( selected_users ) {
+                set ( selected_users ) {
                     this.assigned_to = selected_users.map(function (user) {
                         return user.id;
                     });
@@ -371,8 +371,9 @@
             'do-action': DoAction
         },
 
-        created: function() {
+        created() {
             this.getSelfTask();
+            this.getGloabalProject(this.projectId);
             window.addEventListener('click', this.windowActivity);
             this.$root.$on('pm_date_picker', this.fromDate);
         },
@@ -390,16 +391,16 @@
                     return 'pm-line-through';
                 }
             },
-            singleTaskDoneUndone: function() {
+            singleTaskDoneUndone () {
                 var self = this,
-                    status = !this.task.status ? 1: 0;
+                    status = this.task.status ? 1: 0;
                 var args = {
                     data: {
                         task_id: this.task.id ? this.task.id : this.taskId,
                         status : status,
                         project_id: this.task.project_id,
                     },
-                    callback: function(res) {
+                    callback (res) {
                         if( status == '1' ) {
                             self.task.status = true;
                         } else {
@@ -420,7 +421,7 @@
                     },
                     task_id : self.task_id ? self.task_id : this.taskId,
                     project_id: self.projectId ? self.projectId : self.project_id,
-                    callback : function (res) {
+                    callback  (res) {
                         if (typeof res.data === 'undefined' ) {
                             pm.Toastr.error(res.message);
                             self.$router.go(-1);
@@ -453,7 +454,7 @@
                 });
             },
 
-            isEnableMultiSelect: function() {
+            isEnableMultiSelect () {
                 if ( !this.can_edit_task(this.task)){
                     return false;
                 }
@@ -464,7 +465,7 @@
                 });
             },
 
-            fromDate: function(date) {
+            fromDate (date) {
                 if ( date.field == 'datepicker_from' ) {
 
                     if (this.task.due_date.date) {
@@ -510,11 +511,11 @@
                     }
                 }
             },
-            updateTaskPrivacy: function(task, status) {
+            updateTaskPrivacy (task, status) {
                 task.task_privacy = status;
                 this.updateTaskElement(task);
             },
-            isTaskDetailsEditMode: function() {
+            isTaskDetailsEditMode () {
                 if ( !this.can_edit_task(this.task) ) {
                     this.is_task_details_edit_mode = false;
                 }else {
@@ -527,7 +528,7 @@
                 });
             },
 
-            updateDescription: function(task, event) {
+            updateDescription (task, event) {
                 if ( event.keyCode == 13 && event.shiftKey ) {
                     return;
                 }
@@ -540,7 +541,7 @@
                 this.updateTaskElement(task);
             },
 
-            closePopup: function() {
+            closePopup () {
                 pmBus.$emit('pm_after_close_single_task_modal');
                 return;
                 this.$router.go(-1);
@@ -559,11 +560,11 @@
                 }
             },
 
-            singleTaskTitle: function(task) {
+            singleTaskTitle (task) {
                 return task.completed ? 'pm-task-complete' : 'pm-task-incomplete';
             },
 
-            updateTaskElement: function(task) {
+            updateTaskElement (task) {
                 var start = new Date(task.start_at.date);
                 var end  = new Date(task.due_date.date);
                 var compare = pm.Moment(end).isBefore(start);
@@ -622,21 +623,21 @@
                 this.httpRequest(request_data);
             },
 
-            isTaskTitleEditMode: function() {
+            isTaskTitleEditMode () {
                 if ( !this.can_edit_task(this.task) ) {
                     return this.is_task_title_edit_mode = false;
                 }
                 return this.is_task_title_edit_mode = true;
             },
 
-            isTaskDateEditMode: function() {
+            isTaskDateEditMode () {
                 if ( !this.can_edit_task(this.task) ) {
                     return this.is_task_date_edit_mode = false;
                 }
                 return this.is_task_date_edit_mode = true;
             },
 
-            windowActivity: function(el) {
+            windowActivity (el) {
                 var title_blur      = jQuery(el.target).hasClass('pm-task-title-activity'),
                     dscription_blur = jQuery(el.target).closest('.pm-des-area'),
                     assign_user    =  jQuery(el.target).closest( '.pm-assigned-user-wrap' );
@@ -657,7 +658,7 @@
 
             },
 
-            datePickerDispaly: function(el) {
+            datePickerDispaly (el) {
                 var date_picker_blur       = jQuery(el.target).closest('.pm-task-date-wrap').hasClass('pm-date-window');
 
                 if ( ! date_picker_blur ) {

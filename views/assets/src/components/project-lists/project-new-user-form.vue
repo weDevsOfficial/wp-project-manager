@@ -4,22 +4,22 @@
         <div class="pm-error"></div>
         <form action="" class="pm-user-create-form" @submit.prevent="createUser()">
             <div class="pm-field-wrap">
-                <label>{{ __( 'Username', 'pm' ) }}</label>
+                <label>{{ __( 'Username', 'wedevs-project-manager') }}</label>
                 <input v-model="username" type="text" required name="user_name">
 
             </div>
             <div class="pm-field-wrap">
-                <label>{{ __( 'First Name', 'pm' ) }}</label >
+                <label>{{ __( 'First Name', 'wedevs-project-manager') }}</label >
                 <input v-model="first_name" type="text" name="first_name">
 
             </div>
             <div class="pm-field-wrap">
-                <label>{{ __( 'Last Name', 'pm' ) }}</label>
+                <label>{{ __( 'Last Name', 'wedevs-project-manager') }}</label>
                 <input v-model="last_name" type="text" name="last_name">
 
             </div>
             <div class="pm-field-wrap">
-                <label>{{ __( 'Email', 'pm' ) }}</label>
+                <label>{{ __( 'Email', 'wedevs-project-manager') }}</label>
                 <input v-model="email" type="email" required name="email">
 
             </div>
@@ -40,7 +40,7 @@
                 first_name: '',
                 last_name: '',
                 email: '',
-                create_user: __( 'Create User', 'pm' ),
+                create_user: __( 'Create User', 'wedevs-project-manager'),
                 show_spinner: false,
             }
         },

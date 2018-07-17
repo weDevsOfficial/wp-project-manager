@@ -36,8 +36,8 @@
                 show_spinner: false,
                 mentioned_user_ids: null,
                 notify_users: [],
-                add_new_comment: __( 'Add New Comment', 'pm' ),
-                Update_Comment: __( 'Update Comment', 'pm' ),
+                add_new_comment: __( 'Add New Comment', 'wedevs-project-manager'),
+                Update_Comment: __( 'Update Comment', 'wedevs-project-manager'),
                 deleted_files: [],
                 files: typeof this.comment.files === 'undefined' ? [] : this.comment.files.data,
             }

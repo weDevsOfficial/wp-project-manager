@@ -3,21 +3,21 @@
         
         <li class= "pm-sm-col-4">
             <router-link :to="{name: 'project_lists'}" class="pm-active-project">
-                {{ __( 'Active', 'pm' ) }}
+                {{ __( 'Active', 'wedevs-project-manager') }}
                 <span class="count">{{ activated }}</span>
             </router-link>
         </li>
 
         <li class="pm-sm-col-4">
             <router-link :to="{name: 'completed_projects'}" class="pm-archive-project">
-                {{ __( 'Completed', 'pm' ) }} 
+                {{ __( 'Completed', 'wedevs-project-manager') }} 
                 <span class="count">{{ completed }}</span> 
             </router-link> 
         </li>
 
         <li class=" pm-sm-col-4">
             <router-link :to="{name: 'all_projects'}" class="pm-all-project">
-                {{ __( 'All', 'pm' ) }}
+                {{ __( 'All', 'wedevs-project-manager') }}
                 <span class="count">{{ allof }}</span>
             </router-link>
         </li>

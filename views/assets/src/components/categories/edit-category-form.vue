@@ -2,16 +2,16 @@
     <div class="form-wrap">
         <form action="" @submit.prevent="updateSelfCategory()">
             <fieldset>
-                <legend class="inline-edit-legend">{{ __( 'Quick Edit', 'pm' ) }}</legend>
+                <legend class="inline-edit-legend">{{ __( 'Quick Edit', 'wedevs-project-manager') }}</legend>
                 <div class="inline-edit-col">
                 <label>
-                    <span class="title">{{ __( 'Name', 'pm' ) }}</span>
+                    <span class="title">{{ __( 'Name', 'wedevs-project-manager') }}</span>
                     <span class="input-text-wrap">
                         <input v-model="category.title" type="text" name="name" class="ptitle" value="">
                     </span>
                 </label>
                     <label>
-                    <span class="title">{{ __( 'Description', 'pm' ) }}</span>
+                    <span class="title">{{ __( 'Description', 'wedevs-project-manager') }}</span>
                     <span class="input-text-wrap">
                         <textarea v-model="category.description"></textarea>
                     </span>
@@ -20,7 +20,7 @@
             </fieldset>
 
             <p class="inline-edit-save submit">
-                <button @click.prevent="showHideCategoryEditForm(category)" type="button" class="cancel button alignleft">{{ __( 'Cancel', 'pm' ) }}</button>
+                <button @click.prevent="showHideCategoryEditForm(category)" type="button" class="cancel button alignleft">{{ __( 'Cancel', 'wedevs-project-manager') }}</button>
                 <input type="submit" class="save button button-primary alignright" :value="update_category">
                 <span v-show="show_spinner" class="pm-spinner"></span>
                 <br class="clear">
@@ -39,7 +39,7 @@
             return {
                 submit_disabled: false,
                 show_spinner:false,
-                update_category: __( 'Update Category', 'pm' ),
+                update_category: __( 'Update Category', 'wedevs-project-manager'),
             }
         },
         methods: {

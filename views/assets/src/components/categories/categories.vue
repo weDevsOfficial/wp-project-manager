@@ -1,6 +1,6 @@
 <template>
     <div class="wrap nosubsub">
-        <h1 class="wp-heading-inline">{{ __( 'Categories', 'pm' ) }}</h1>
+        <h1 class="wp-heading-inline">{{ __( 'Categories', 'wedevs-project-manager') }}</h1>
         <hr class="wp-header-end">
         <div v-if="!isFetchCategories" class="pm-data-load-before" >
             <div class="loadmoreanimation">
@@ -20,17 +20,17 @@
                 <div class="col-wrap">
 
                     <div class="form-wrap">
-                        <h2>{{ __( 'Add New Category', 'pm' ) }}</h2>
+                        <h2>{{ __( 'Add New Category', 'wedevs-project-manager') }}</h2>
                         <form @submit.prevent="categoryFormAction()" id="addtag" method="post" action="edit-tags.php" class="validate" >
                             
                             <div class="form-field form-required term-name-wrap">
-                                <label for="tag-name">{{ __( 'Name', 'pm' ) }}</label>
+                                <label for="tag-name">{{ __( 'Name', 'wedevs-project-manager') }}</label>
                                 <input v-model="title" required="required" name="tag-name" id="tag-name" type="text" value="" size="40" aria-required="true">
                                 <p></p>
                             </div>
 
                             <div class="form-field term-description-wrap">
-                                <label for="tag-description">{{ __( 'Description', 'pm' ) }}</label>
+                                <label for="tag-description">{{ __( 'Description', 'wedevs-project-manager') }}</label>
                                 <textarea v-model="description" name="description" id="tag-description" rows="5" cols="40"></textarea>
                                 <p></p>
                             </div>
@@ -51,12 +51,12 @@
                     
                         <div class="tablenav top">
                             <div class="alignleft actions bulkactions">
-                                <label for="bulk-action-selector-top" class="screen-reader-text">{{ __( 'Select bulk action', 'pm' ) }}</label>
+                                <label for="bulk-action-selector-top" class="screen-reader-text">{{ __( 'Select bulk action', 'wedevs-project-manager') }}</label>
                                 <select id="bulk-action-selector-top"  v-model="bulk_action" name="action">
-                                    <option value="-1">{{ __( 'Bulk Actions', 'pm' ) }}</option>
-                                    <option value="delete">{{ __( 'Delete', 'pm' ) }}</option>
+                                    <option value="-1">{{ __( 'Bulk Actions', 'wedevs-project-manager') }}</option>
+                                    <option value="delete">{{ __( 'Delete', 'wedevs-project-manager') }}</option>
                                 </select>
-                                <input type="submit" id="doaction" class="button action" :value="__( 'Apply', 'pm' )">
+                                <input type="submit" id="doaction" class="button action" :value="__( 'Apply', 'wedevs-project-manager')">
                             </div>
                             
                             <br class="clear">
@@ -66,17 +66,17 @@
                             <thead>
                                 <tr>
                                     <td id="cb" class="manage-column column-cb check-column">
-                                        <label class="screen-reader-text" for="cb-select-all-1">{{ __( 'Select all', 'pm' ) }}</label>
+                                        <label class="screen-reader-text" for="cb-select-all-1">{{ __( 'Select all', 'wedevs-project-manager') }}</label>
                                         <input @change="selectAll()" v-model="select_all"   id="cb-select-all-1" type="checkbox">
                                     </td>
                                     <th scope="col" id="name" class="manage-column column-name column-primary sortable desc">
                                         <a href="#">
-                                            <span>{{__( 'Name', 'pm' )}}</span>
+                                            <span>{{__( 'Name', 'wedevs-project-manager')}}</span>
                                         </a>
                                     </th>
                                     <th scope="col" id="description" class="manage-column column-description sortable desc">
                                         <a href="">
-                                            <span>{{ __( 'Description', 'pm' ) }}</span>
+                                            <span>{{ __( 'Description', 'wedevs-project-manager') }}</span>
                                         </a>
                                     </th>
                                     <!-- <th scope="col" id="description" class="manage-column column-description sortable desc">
@@ -101,7 +101,7 @@
                                     
                                         <div class="row-actions">
                                             <span class="edit">
-                                                <a @click.prevent="showHideCategoryEditForm(category)" href="#">{{ __('Edit', 'pm')}}</a> 
+                                                <a @click.prevent="showHideCategoryEditForm(category)" href="#">{{ __('Edit', 'wedevs-project-manager')}}</a> 
                                             </span>
                                         </div>
                                         
@@ -127,13 +127,13 @@
 
                                     <th scope="col" class="manage-column column-name column-primary sortable desc">
                                         <a href="#">
-                                            <span>{{  __( 'Name', 'pm' ) }}</span>
+                                            <span>{{  __( 'Name', 'wedevs-project-manager') }}</span>
                                         </a>
                                     </th>
 
                                     <th scope="col" class="manage-column column-description sortable desc">
                                         <a href="#">
-                                            <span>{{ __( 'Description', 'pm' ) }}</span>
+                                            <span>{{ __( 'Description', 'wedevs-project-manager') }}</span>
                                         </a>
                                     </th>   
                                     <!-- <th scope="col" id="description" class="manage-column column-description sortable desc">
@@ -152,10 +152,10 @@
 
                             <div class="alignleft actions bulkactions">
                                 <select v-model="bulk_action" name="action" id="bulk-action-selector-bottom">
-                                    <option value="-1">{{ __( 'Bulk Actions', 'pm' ) }}</option>
-                                    <option value="delete">{{ __( 'Delete', 'pm' ) }}</option>
+                                    <option value="-1">{{ __( 'Bulk Actions', 'wedevs-project-manager') }}</option>
+                                    <option value="delete">{{ __( 'Delete', 'wedevs-project-manager') }}</option>
                                 </select>
-                                <input type="submit" id="doaction2" class="button action" :value="__( 'Apply', 'pm' )">
+                                <input type="submit" id="doaction2" class="button action" :value="__( 'Apply', 'wedevs-project-manager')">
                             </div>
                             <br class="clear">
                         </div>
@@ -209,7 +209,7 @@
                 bulk_action: '-1',
                 select_all: false,
                 show_spinner: false,
-                add_new_category: __( 'Add New Category', 'pm' ),
+                add_new_category: __( 'Add New Category', 'wedevs-project-manager'),
             }
         },
         watch: {
@@ -252,7 +252,7 @@
 
 
             selfDeleted () {
-                if ( ! confirm( this.__( 'Are you sure!', 'pm' ) ) ) {
+                if ( ! confirm( this.__( 'Are you sure!', 'wedevs-project-manager') ) ) {
                     return;
                 }
                 var self = this;

@@ -156,9 +156,7 @@ class Task_Transformer extends TransformerAbstract {
     }
 
     public function includeAssignees( Task $item ) {
-        $user_ids = $item->assignees()->get()->toArray();//->pluck('assigned_to');
-        $user_ids = wp_list_pluck( $user_ids, 'assigned_to' );
-        $users = User::whereIn( 'id', $user_ids )->get();
+        $users = $item->user;
 
         return $this->collection( $users, new User_Transformer );
     }

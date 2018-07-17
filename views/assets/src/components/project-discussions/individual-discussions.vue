@@ -29,10 +29,10 @@
                         </span>
 
                         <div class="pm-small-title">
-                            {{ __( 'By', 'pm' ) }}
+                            {{ __( 'By', 'wedevs-project-manager') }}
                             <a :href="myTaskRedirect(discuss.creator.data.id)" :title="discuss.creator.data.display_name">
                                 {{ discuss.creator.data.display_name }}
-                            </a> {{ __( 'on', 'pm' ) }} {{ discuss.created_at.date }} {{ discuss.created_at.time }}             
+                            </a> {{ __( 'on', 'wedevs-project-manager') }} {{ discuss.created_at.date }} {{ discuss.created_at.time }}             
                         </div>
                     </h3>
                     <div class="pm-entry-detail">
@@ -58,7 +58,7 @@
             </div>
 
             <div v-if="discuss" class="pm-comment-area pm-box-shadow">
-                <h3> {{ discuss.meta.total_comments }} {{ __( 'Comments', 'pm' ) }}</h3>
+                <h3> {{ discuss.meta.total_comments }} {{ __( 'Comments', 'wedevs-project-manager') }}</h3>
                 <ul class="pm-comment-wrap" v-if="comments.length">
 
                     <li v-for="comment in comments" class="pm-comment clearfix even" :id="'pm-comment-' + comment.id" :key="comment.id">
@@ -74,7 +74,7 @@
                                         {{ comment.creator.data.display_name }}
                                     </a>
                                 </span>
-                                {{ __( 'on', 'pm' ) }}           
+                                {{ __( 'on', 'wedevs-project-manager') }}           
                                 <span class="pm-date">
 
                                     <time :datetime="comment.created_at.date +' ' + comment.created_at.time" :title="comment.created_at.date +' ' + comment.created_at.time">{{comment.created_at.date +' ' + comment.created_at.time}}</time>

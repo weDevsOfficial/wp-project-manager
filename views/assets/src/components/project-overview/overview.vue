@@ -28,7 +28,7 @@
                                 <div class="icon"></div> 
                                 <div class="count">
                                     <span>{{ meta.total_discussion_boards }}</span> 
-                                    {{ __( 'Discussions', 'pm' ) }}
+                                    {{ __( 'Discussions', 'wedevs-project-manager') }}
                                 </div> 
                             </router-link>
                         </li>
@@ -43,7 +43,7 @@
                                 <div class="icon"></div> 
                                 <div class="count">
                                     <span>{{ meta.total_task_lists }}</span> 
-                                    {{ __( 'Task Lists', 'pm' ) }}
+                                    {{ __( 'Task Lists', 'wedevs-project-manager') }}
                                 </div> 
                             </router-link>
                         </li>
@@ -54,7 +54,7 @@
                                 <div class="icon"></div> 
                                 <div class="count">
                                     <span>{{ meta.total_tasks }}</span> 
-                                    {{ __( 'Tasks', 'pm' ) }}
+                                    {{ __( 'Tasks', 'wedevs-project-manager') }}
                                 </div> 
                             </a>
                             
@@ -65,7 +65,7 @@
                                 <div class="icon"></div> 
                                 <div class="count">
                                     <span>{{ meta.total_comments }}</span>  
-                                    {{ __( 'Comments', 'pm' ) }}
+                                    {{ __( 'Comments', 'wedevs-project-manager') }}
                                 </div> 
                              </a>
                         </li>
@@ -79,7 +79,7 @@
                                 <div class="icon"></div> 
                                     <div class="count">
                                         <span>{{ meta.total_files }}</span>  
-                                        {{ __( 'Files', 'pm' ) }}
+                                        {{ __( 'Files', 'wedevs-project-manager') }}
                                 </div> 
                             </router-link>
                         </li>
@@ -94,7 +94,7 @@
                                 <div class="icon"></div> 
                                 <div class="count">
                                     <span>{{ meta.total_milestones }}</span> 
-                                        {{  __( 'Milestones', 'pm' ) }}
+                                        {{  __( 'Milestones', 'wedevs-project-manager') }}
                                 </div> 
                             </router-link>
                         </li>   
@@ -104,7 +104,7 @@
 
                 <div id="pm-chart" class="pm-chart">
 
-                    <h3>{{ __( 'Last 30 days', 'pm' ) }}</h3>
+                    <h3>{{ __( 'Last 30 days', 'wedevs-project-manager') }}</h3>
 
                     
                     <canvas v-pm-overview-chart width="1638" height="656" style="width: 819px; height: 328px;"></canvas>
@@ -113,7 +113,7 @@
             </div>
 
             <div class="pm-col-2 pm-sm-col-12 pm-right-part pm-last-col">
-                <h3 class="pm-border-bottom"> {{ __( 'Users', 'pm' ) }} </h3>
+                <h3 class="pm-border-bottom"> {{ __( 'Users', 'wedevs-project-manager') }} </h3>
                 <ul class="user_list">
                     <li v-for="user in users">
                         <img alt="admin" :src="user.avatar_url" class="avatar avatar-34 photo" height="34" width="34"> 

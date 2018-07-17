@@ -491,7 +491,7 @@ export default {
             return self.httpRequest(request);
         },
 
-        getGloabalProject(){
+        getGloabalProject (project_id){
             var args ={
                 callback (res) {
                     this.addProjectMeta(res.data);
@@ -501,7 +501,10 @@ export default {
                     pmBus.$emit('pm_after_fetch_project', res.data);
                 }
             }
-
+            if (project_id) {
+                args.project_id = project_id;
+                this.project_id = project_id;
+            }
             this.$root.$store.state.project_switch = false;
             var project = this.$root.$store.state.project;
             
@@ -702,7 +705,7 @@ export default {
         },
 
         deleteProject (id, project) {
-            if ( ! confirm( this.__( 'Are you sure to delete this project?', 'pm' ) ) ) {
+            if ( ! confirm( this.__( 'Are you sure to delete this project?', 'wedevs-project-manager') ) ) {
                 return;
             }
             var self = this;

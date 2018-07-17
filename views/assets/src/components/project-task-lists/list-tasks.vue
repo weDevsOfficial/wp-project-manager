@@ -6,7 +6,7 @@
                 <incompleted-tasks :task="task" :list="list"></incompleted-tasks>       
             </li>
 
-            <li v-if="!getIncompleteTasks.length" class="nonsortable">{{ __( 'No tasks found.', 'pm' ) }}</li>
+            <li v-if="!getIncompleteTasks.length" class="nonsortable">{{ __( 'No tasks found.', 'wedevs-project-manager') }}</li>
             <transition name="slide" v-if="can_create_task">
                 <li v-if="list.show_task_form" class="pm-todo-form nonsortable">
                     <new-task-form :list="list"></new-task-form>

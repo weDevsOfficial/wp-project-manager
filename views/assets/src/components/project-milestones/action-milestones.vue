@@ -30,10 +30,10 @@
         data () {
             return {
                 due_date: this.milestone.achieve_date.date,
-                edit_milestone: __( 'Edit Milestone', 'pm' ),
-                delete_milestone: __( 'Delete milestone', 'pm' ),
-                mark_as_incomplete: __( 'Mark as incomplete', 'pm' ),
-                mark_as_complete: __( 'Mark as complete', 'pm' ),
+                edit_milestone: __( 'Edit Milestone', 'wedevs-project-manager'),
+                delete_milestone: __( 'Delete milestone', 'wedevs-project-manager'),
+                mark_as_incomplete: __( 'Mark as incomplete', 'wedevs-project-manager'),
+                mark_as_complete: __( 'Mark as complete', 'wedevs-project-manager'),
 
 
             }

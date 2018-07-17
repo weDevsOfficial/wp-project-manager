@@ -4,7 +4,7 @@
         <form action="" v-on:submit.prevent="taskFormAction()" method="post" class="pm-form">
           
             <div class="item task-title">
-                <input v-model="task.title" type="text" name="task_title" class="task_title" :placeholder="add_new_task" value="" required="required">
+                <input v-model="task.title" type="text" name="task_title" class="task_title" :placeholder="add_new_task"  required="required">
             </div>
 
             <div class="item content">
@@ -41,14 +41,14 @@
                 </div>
             </div>
             <div class="item task-title">
-                <input v-model="task.estimation" type="number" min="1" class="pm-task-estimation" :placeholder="__('Estimated hour to complete the task', 'pm')" value="">
+                <input v-model="task.estimation" type="number" min="1" class="pm-task-estimation" :placeholder="estimation_placheholder">
             </div>
             <pm-do-action hook="pm_task_form" :actionData="task" ></pm-do-action>
             <div class="item submit">
                 <span class="pm-new-task-spinner"></span>
                 <span v-if="task.id"><input :disabled="submit_disabled" type="submit" class="button-primary" name="submit_todo" :value="update_task"></span>
                 <span v-if="!task.id"><input :disabled="submit_disabled" type="submit" class="button-primary" name="submit_todo" :value="add_task"></span>
-                <a @click.prevent="showHideTaskFrom(false, list, task )" class="button todo-cancel" href="#">{{ __( 'Cancel', 'pm' ) }}</a>
+                <a @click.prevent="showHideTaskFrom(false, list, task )" class="button todo-cancel" href="#">{{ __( 'Cancel', 'wedevs-project-manager') }}</a>
                 <span v-show="show_spinner" class="pm-spinner"></span>
             </div>
         </form>
@@ -106,13 +106,14 @@ export default {
             date_from: '',
             date_to: '',
             assigned_to: [],
-            add_new_task: __( 'Add a new task', 'pm' ),
-            task_description_placeholder: __( 'Add extra details about this task (optional)', 'pm' ),
-            task_start_date: __( 'Start Date', 'pm'),
-            task_due_date: __( 'Due Date', 'pm' ),
-            select_user_text: __( 'Select User', 'pm'),
-            update_task: __( 'Update Task', 'pm' ),
-            add_task: __( 'Add Task', 'pm' ),
+            add_new_task: __( 'Add a new task', 'wedevs-project-manager'),
+            task_description_placeholder: __( 'Add extra details about this task (optional)', 'wedevs-project-manager'),
+            task_start_date: __( 'Start Date', 'wedevs-project-manager'),
+            task_due_date: __( 'Due Date', 'wedevs-project-manager'),
+            select_user_text: __( 'Select User', 'wedevs-project-manager'),
+            update_task: __( 'Update Task', 'wedevs-project-manager'),
+            add_task: __( 'Add Task', 'wedevs-project-manager'),
+            estimation_placheholder: __('Estimated hour to complete the task', 'wedevs-project-manager')
         }
     },
     mixins: [Mixins],
