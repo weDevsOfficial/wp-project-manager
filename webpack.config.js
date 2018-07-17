@@ -11,8 +11,6 @@ function resolve (dir) {
   return path.join(__dirname, './views/assets/src', dir)
 }
 
-
-
 module.exports = {
     entry: {
         pm: './views/assets/src/start.js',
@@ -48,14 +46,18 @@ module.exports = {
                 loader: 'vue-loader',
                 options: {
                     loaders: {
-                        js: 'babel-loader'
+                        js: 'babel-loader',
                     }
                 },
             },
             {   
                 test: /\.js$/,
-                exclude: /(node_modules|bower_components)/,
                 loader: 'babel-loader',
+                include: [
+                    resolve(''),
+                    path.resolve('node_modules/vue-color'),
+                    path.resolve('node_modules/vue-multiselect')
+                ],
                 query: {
                     presets:[ 'es2015', 'react', 'stage-2' ]
                 }
