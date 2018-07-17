@@ -7,15 +7,15 @@
                         <img class="pm-uploaded-file" :src="file.thumb" :alt="file.name">
                     </a> 
                     
-                    <a href="#" @click.prevent="deletefile(file.id)" class="button">{{ __( 'Delete File', 'pm' ) }}</a>
+                    <a href="#" @click.prevent="deletefile(file.id)" class="button">{{ __( 'Delete File', 'wedevs-project-manager') }}</a>
                         
                 </div>
                      
             </div>
             <span> 
-                {{ __('To attach', 'pm') }} 
-                <a v-pm-uploader class="pm-upload-pickfiles"  href="#">{{ __('select files', 'pm') }}</a> 
-                {{ __('from your computer.', 'pm') }}
+                {{ __('To attach', 'wedevs-project-manager') }} 
+                <a v-pm-uploader class="pm-upload-pickfiles"  href="#">{{ __('select files', 'wedevs-project-manager') }}</a> 
+                {{ __('from your computer.', 'wedevs-project-manager') }}
             </span>
         </div>
     </div>

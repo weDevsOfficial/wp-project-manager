@@ -136,7 +136,7 @@ class Upgrade {
                         <p><?php _e( '<strong>WP Project Manager Data Update Required</strong> &#8211; Please click the button below to update to the latest version.', 'wedevs-project-manager' ) ?></p>
                         <form action="" method="post" style="padding-bottom: 10px;" class="PmUpgradeFrom">
                             <?php wp_nonce_field( '_nonce', 'pm_nonce' ); ?>
-                            <input type="submit" class="button button-primary" name="pm_update" value="<?php _e( 'Run the Update', 'pm' ); ?>">
+                            <input type="submit" class="button button-primary" name="pm_update" value="<?php _e( 'Run the Update', 'wedevs-project-manager' ); ?>">
                             <a href="https://wedevs.com/docs/wp-project-manager/how-to-migrate-to-wp-project-manager-v2-0/?utm_source=wp-admin&utm_medium=pm-action-link&utm_campaign=pm-docs" class="button promo-btn" target="_blank"><?php _e( 'Read More', 'wedevs-project-manager' ); ?></a>
                         </form>
                     </div>

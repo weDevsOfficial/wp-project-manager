@@ -4,31 +4,31 @@
         <div class="metabox-holder">
             <div id="pm_general" class="group" style="">
                 <form @submit.prevent="saveSelfSettings()" method="post" action="options.php">
-                    <h2>{{ __( 'General Settings', 'pm' ) }}</h2>
+                    <h2>{{ __( 'General Settings', 'wedevs-project-manager') }}</h2>
                     <table class="form-table">
                         <tbody>
                             <tr>
                                 <th scope="row">
-                                    <label for="pm_general[upload_limit]">{{ __( 'File Upload Limit', 'pm' ) }}</label>
+                                    <label for="pm_general[upload_limit]">{{ __( 'File Upload Limit', 'wedevs-project-manager') }}</label>
                                 </th>
                                 <td>
                                     <input v-model="upload_limit" type="text" class="regular-text">
-                                    <p class="description">{{ __( 'File Size in Megabytes. e.g: 2', 'pm' ) }}</p>
+                                    <p class="description">{{ __( 'File Size in Megabytes. e.g: 2', 'wedevs-project-manager') }}</p>
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row">
-                                    <label for="pm_general[pagination]">{{ __( 'Projects Per Page', 'pm' ) }}</label>
+                                    <label for="pm_general[pagination]">{{ __( 'Projects Per Page', 'wedevs-project-manager') }}</label>
                                 </th>
                                 <td>
                                     <input v-model="project_per_page" type="text" class="regular-text">
-                                    <p class="description">{{ __( '-1 for unlimited', 'pm' ) }}</p>
+                                    <p class="description">{{ __( '-1 for unlimited', 'wedevs-project-manager') }}</p>
                                 </td>
                             </tr>
                  
                             <tr>
                                 <th scope="row">
-                                    <label for="pm_general[show_todo]">{{ __( 'Task Lists Per Page', 'pm' ) }}</label>
+                                    <label for="pm_general[show_todo]">{{ __( 'Task Lists Per Page', 'wedevs-project-manager') }}</label>
                                 </th>
                                 <td>
                                     <input v-model="list_per_page" type="text" class="regular-text" id="pm_general[show_todo]" name="pm_general[show_todo]" value="">
@@ -36,7 +36,7 @@
                             </tr>
                             <tr>
                                 <th scope="row">
-                                    <label for="pm_general[show_incomplete_tasks]">{{ __( 'Incomplete Tasks Per Page', 'pm' ) }}</label>
+                                    <label for="pm_general[show_incomplete_tasks]">{{ __( 'Incomplete Tasks Per Page', 'wedevs-project-manager') }}</label>
                                 </th>
                                 <td>
                                     <input v-model="incomplete_tasks_per_page" type="text" class="regular-text" id="pm_general[show_incomplete_tasks]" name="pm_general[show_incomplete_tasks]" value="2">
@@ -44,7 +44,7 @@
                             </tr>
                             <tr>
                                 <th scope="row">
-                                    <label for="pm_general[show_completed_tasks]">{{ __( 'Completed Tasks Per Page', 'pm' ) }}</label>
+                                    <label for="pm_general[show_completed_tasks]">{{ __( 'Completed Tasks Per Page', 'wedevs-project-manager') }}</label>
                                 </th>
                                 <td>
                                     <input v-model="complete_tasks_per_page" type="text" class="regular-text" id="pm_general[show_completed_tasks]" name="pm_general[show_completed_tasks]" value="2">
@@ -52,7 +52,7 @@
                             </tr>
                             <tr>
                                 <th scope="row">
-                                    <label for="pm_general[project_manage_role]">{{__( 'Project Managing Capability', 'pm' )}}</label>
+                                    <label for="pm_general[project_manage_role]">{{__( 'Project Managing Capability', 'wedevs-project-manager')}}</label>
                                 </th>
                                 <td>
 
@@ -62,13 +62,13 @@
                                             {{ role_display_name }}
                                         </label>
                                         
-                                        <p class="description">{{ __( 'Select the user roles who can see and manage all projects.', 'pm' ) }}</p>
+                                        <p class="description">{{ __( 'Select the user roles who can see and manage all projects.', 'wedevs-project-manager') }}</p>
                                     </fieldset>
                                 </td>
                             </tr>
                             <tr>
                                 <th scope="row">
-                                    <label for="pm_general[project_create_role]">{{ __( 'Project Creation Capability', 'pm' ) }}</label>
+                                    <label for="pm_general[project_create_role]">{{ __( 'Project Creation Capability', 'wedevs-project-manager') }}</label>
                                 </th>
                                 <td>
 
@@ -78,7 +78,7 @@
                                             {{ role_display_name }}
                                         </label>
                                         
-                                        <p class="description">{{ __( 'Select the user roles who can see and manage all projects.', 'pm' ) }}</p>
+                                        <p class="description">{{ __( 'Select the user roles who can see and manage all projects.', 'wedevs-project-manager') }}</p>
                                     </fieldset>
                                 </td>
                             </tr>
@@ -113,7 +113,7 @@ export default {
             managing_capability: this.getSettings('managing_capability', []),
             project_create_capability: this.getSettings('project_create_capability', []),
             show_spinner: false,
-            save_changes: __( 'Save Changes', 'pm' )
+            save_changes: __( 'Save Changes', 'wedevs-project-manager')
         }
     },
     mixins: [Mixins],

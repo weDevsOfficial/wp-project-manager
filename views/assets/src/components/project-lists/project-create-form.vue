@@ -10,7 +10,7 @@
             <div class="pm-form-item item project-category">
                 <!-- v-model="project_cat" -->
                 <select v-model="project_category"  id='project_cat' class='chosen-select'>
-                    <option value="0">{{ __( '- Project Category -', 'pm' ) }}</option>
+                    <option value="0">{{ __( '- Project Category -', 'wedevs-project-manager') }}</option>
                     <option v-for="category in categories" :value="category.id">{{ category.title }}</option>
                 </select>
             </div>
@@ -33,7 +33,7 @@
                         <td>
                             <a @click.prevent="deleteUser(projectUser)" v-if="!is_project_creator(projectUser.id)" hraf="#" class="pm-del-proj-role pm-assign-del-user">
                                 <span class="dashicons dashicons-trash"></span> 
-                                <span class="title">{{ __( 'Delete', 'pm' ) }}</span>
+                                <span class="title">{{ __( 'Delete', 'wedevs-project-manager') }}</span>
                             </a>
                         </td>
                     </tr>
@@ -47,14 +47,14 @@
             <div class="pm-form-item item project-notify">
                 <label>
                     <input type="checkbox" v-model="project_notify" name="project_notify" id="project-notify" value="yes" />
-                    {{ __( 'Notify Co-Workers', 'pm' ) }}            
+                    {{ __( 'Notify Co-Workers', 'wedevs-project-manager') }}            
                 </label>
             </div>
 
             <div class="submit">
                 <input v-if="is_update" type="submit" name="update_project" id="update_project" class="button-primary" :value="update_project">
                 <input v-if="!is_update" type="submit" name="add_project" id="add_project" class="button-primary" :value="add_new_project">
-                <a @click.prevent="closeForm()" class="button project-cancel" href="#">{{ __( 'Cancel', 'pm' ) }}</a>
+                <a @click.prevent="closeForm()" class="button project-cancel" href="#">{{ __( 'Cancel', 'wedevs-project-manager') }}</a>
                 <span v-show="show_spinner" class="pm-loading"></span>
 
             </div>
@@ -84,12 +84,12 @@
                 project_notify: false,
                 assignees: [],
                 show_spinner: false,
-                name_of_the_project: __('Name of the project', 'pm'),
-                details_of_project: __( 'Some details about the project (optional)', 'pm' ),
-                search_user: __( 'Type 3 or more characters to search users...', 'pm' ),
-                create_new_user: __( 'Create a new user', 'pm' ),
-                add_new_project: __( 'Add New Project', 'pm' ),
-                update_project: __( 'Update Project', 'pm' ),
+                name_of_the_project: __('Name of the project', 'wedevs-project-manager'),
+                details_of_project: __( 'Some details about the project (optional)', 'wedevs-project-manager'),
+                search_user: __( 'Type 3 or more characters to search users...', 'wedevs-project-manager'),
+                create_new_user: __( 'Create a new user', 'wedevs-project-manager'),
+                add_new_project: __( 'Add New Project', 'wedevs-project-manager'),
+                update_project: __( 'Update Project', 'wedevs-project-manager'),
             }
         },
         components: {

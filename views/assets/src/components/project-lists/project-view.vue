@@ -14,8 +14,8 @@
     export default{
         data(){
             return {
-                list_view: __( 'List View', 'pm' ),
-                grid_view: __( 'Grid View', 'pm' ),
+                list_view: __( 'List View', 'wedevs-project-manager'),
+                grid_view: __( 'Grid View', 'wedevs-project-manager'),
                 //projects_view: this.$store.state.projects_view,
             }
         },

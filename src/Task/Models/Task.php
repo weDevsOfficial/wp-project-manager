@@ -91,6 +91,11 @@ class Task extends Eloquent {
     public function assignees() {
         return $this->hasMany( 'WeDevs\PM\Common\Models\Assignee', 'task_id' );
     }
+    
+    public function user() {
+        return $this->belongsToMany( 'WeDevs\PM\User\Models\User', pm_tb_prefix() . 'pm_assignees', 'task_id', 'assigned_to' )
+            ->withPivot('completed_at', 'assigned_at', 'started_at', 'status');
+    }
 
     public function projects() {
         return $this->belongsTo( 'WeDevs\PM\Project\Models\Project', 'project_id');

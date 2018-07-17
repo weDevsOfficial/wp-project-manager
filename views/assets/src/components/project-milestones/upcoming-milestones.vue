@@ -1,13 +1,13 @@
 <template>
     <div v-if="upComingMileStones.length" class="pm-upcomming-milestone pm-milestone-data">
-        <h2 class="group-title">{{ __( 'Upcoming Milestones', 'pm' )}}</h2>
+        <h2 class="group-title">{{ __( 'Upcoming Milestones', 'wedevs-project-manager')}}</h2>
 
         <div v-for="milestone in upComingMileStones" class="pm-milestone late">
             <div class="milestone-detail ">
                 <h3 class="milestone-head">
                     {{ milestone.title }} <br>
                     <span class="time-left">
-                        ({{ humanDate(milestone) }} {{ __( 'left -', 'pm' ) }} 
+                        ({{ humanDate(milestone) }} {{ __( 'left -', 'wedevs-project-manager') }} 
                         <time :datetime="momentFormat(milestone)" :title="momentFormat(milestone)">
                             {{ getDueDate(milestone) }}
                         </time>
@@ -29,7 +29,7 @@
             </transition>
             <div class="pm-milestone-items-details">
                 <div v-if="milestone.task_lists.data.length"  class="pm-col-6 pm-milestone-todo pm-sm-col-12">
-                    <h3>{{ __( 'Task Lists', 'pm' ) }}</h3>
+                    <h3>{{ __( 'Task Lists', 'wedevs-project-manager') }}</h3>
 
                     <ul>
                         <li v-for="list in milestone.task_lists.data">
@@ -39,7 +39,7 @@
                 </div>
                
                 <div v-if="milestone.discussion_boards.data.length"  class="pm-col-6 pm-milestone-discussion pm-last-col pm-sm-col-12">
-                    <h3>{{  __( 'Discussions', 'pm' ) }}</h3>
+                    <h3>{{  __( 'Discussions', 'wedevs-project-manager') }}</h3>
                     <ul>
                         <li v-for="discuss in milestone.discussion_boards.data">
                             <discuss :discuss="discuss"></discuss>

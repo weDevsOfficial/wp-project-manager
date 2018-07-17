@@ -313,7 +313,7 @@ export default {
          * @return {void}      
          */
         deleteMilestone ( args ) {
-            if ( ! confirm( this.__( 'Are you sure! Want to delete this milestones?', 'pm' ) ) ) {
+            if ( ! confirm( this.__( 'Are you sure! Want to delete this milestones?', 'wedevs-project-manager') ) ) {
                 return;
             }
             var pre_define = {
