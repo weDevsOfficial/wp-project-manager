@@ -577,7 +577,7 @@ function pm_filter_content_url( $content ) {
     
     return $content;
 }
-http://pm.pm/wp-admin/admin.php?page=pm_projects#/projects/1/task-lists/1/tasks/86
+
 function pm_get_user_url( $user_id = false ) {
     $user_id = $user_id ? $user_id : get_current_user_id();
 
