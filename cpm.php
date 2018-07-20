@@ -20,11 +20,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 require __DIR__.'/bootstrap/loaders.php';
 require __DIR__.'/libs/configurations.php';
 
-if ( !version_compare( phpversion(), '5.6.0', '>=' ) ) {
+if ( version_compare( phpversion(), '5.6.0', '<' ) ) {
     add_action( 'admin_notices',  'pm_php_version_notice'  );
 }
 
-if ( version_compare( phpversion(), '5.6.0', '<' ) ) {
+if ( version_compare( phpversion(), '5.6.0', '>=' ) ) {
     // is_plugin_active( 'erp/wp-erp.php' ) ||
     if ( class_exists('WeDevs_ERP') ) {
         add_action( 'admin_notices',  'pm_erp_compatibility_notices' );
@@ -132,7 +132,7 @@ if ( version_compare( phpversion(), '5.6.0', '<' ) ) {
         add_filter('upgrader_pre_install', array($upgrader, 'deactivate_plugin_before_upgrade'), 10, 2);
         add_filter('upgrader_clear_destination', array($upgrader, 'delete_old_plugin'), 10, 4);
 
-        $result   = $upgrader->install( pm_config( 'app.download_link' ) );
+        $result   = $upgrader->install( 'https://github.com/weDevsOfficial/wp-project-manager/releases/download/v2.0.1/wedevs-project-manager-php5.6-v2.0.1.zip' );
 
         if ( is_wp_error( $result ) ) {
              wp_send_json_error( $result );
