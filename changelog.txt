@@ -3,6 +3,8 @@
 	* **Fix** task complete incomplete issues in ms-edge
 	* **Fix** pagination error for per page -1
 	* **Fix** multisite installation and upgrade 
+	* **Fix** translation for vue files
+	* **Fix** Load project in single task page
 
 = v2.0.1 - Jun 29, 2018 =
 
