@@ -33,13 +33,13 @@ class Frontend {
         $this->init_filters();
 
         //Execute only plugin install time
-		register_activation_hook( PM_FILE, array( $this, 'install' ) );
-	}
+        register_activation_hook( PM_FILE, array( $this, 'install' ) );
+    }
 
-	public function install() {
-		new PM_Create_Table;
-		(new \RoleTableSeeder())->run();
-	}
+    public function install() {
+        new PM_Create_Table;
+        (new \RoleTableSeeder())->run();
+    }
 
 	/**
 	 * All actions
