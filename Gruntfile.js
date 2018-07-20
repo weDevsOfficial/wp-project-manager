@@ -1,7 +1,18 @@
 'use strict';
 module.exports = function(grunt) {
     var pkg = grunt.file.readJSON('package.json');
-
+    var stringReplace = {
+        download_link: {
+            src: ['config/app.php'],             // source files array (supports minimatch)
+            dest: 'config/app.php',             // destination directory or file
+            replacements: [
+                {
+                    from: '{github-download-version}',                   // string replacement
+                    to:'v' + pkg.version
+                },
+            ]
+        }
+    };
     grunt.initConfig({
         // Clean up build directory
         clean: {
@@ -75,6 +86,8 @@ module.exports = function(grunt) {
             }
         },
 
+        replace: stringReplace,
+
         run: {
             options: {},
 
@@ -102,7 +115,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks( 'grunt-contrib-concat' );
     grunt.loadNpmTasks( 'grunt-contrib-jshint' );
     grunt.loadNpmTasks( 'grunt-wp-i18n' );
-    //grunt.loadNpmTasks( 'grunt-text-replace' );
+    grunt.loadNpmTasks( 'grunt-text-replace' );
     //grunt.loadNpmTasks( 'grunt-contrib-uglify' );
     grunt.loadNpmTasks( 'grunt-contrib-watch' );
     grunt.loadNpmTasks( 'grunt-contrib-clean' );
@@ -118,6 +131,7 @@ module.exports = function(grunt) {
     grunt.registerTask( 'zip', [
         'clean',
         'run',
+        'replace',
         'copy',
         'compress'
     ]);
