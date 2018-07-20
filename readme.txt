@@ -122,11 +122,17 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
-= v2.0.2 - July 9, 2018 =
-   * **New** Add new field task estimated
-   * **Fix** task complete incomplete issues in ms-edge
-   * **Fix** pagination error for per page -1
-   * **Fix** multisite installation and upgrade 
+= v2.0.2 - July 20, 2018 =
+ 
+ * **New** Create function for getting individual task.
+ * **New** Hook for all CRUD (Create, Read, Update and Delete)
+ * **Fix** Task complete and incomplete issues in microsoft edge browser.
+ * **Fix** Pagination set -1 for per page and its getting error.
+ * **Fix** Multisite installation and upgrade.
+ * **Fix** Translation for vue files.
+ * **Fix** Fetch project in single task page.
+ * **Fix** Reduce conflict with WPERP plugin.
+ * **Fix** JS make compitable with IE>8.
 
 = v2.0.1 - Jun 29, 2018 =
 
