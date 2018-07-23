@@ -122,7 +122,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
-= v2.0.2 - July 20, 2018 =
+= v2.0.2 - July 23, 2018 =
  
  * **New** Create function for getting individual task.
  * **New** Hook for all CRUD (Create, Read, Update and Delete)
