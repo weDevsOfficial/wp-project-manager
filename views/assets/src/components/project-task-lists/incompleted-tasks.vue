@@ -4,7 +4,7 @@
         <div v-if="!task.edit_mode" class="pm-todo-content">
             <div class="pm-todo-inside">
                 <div class="pm-col-7">
-                   <input :disabled="can_complete_task(task)" v-model="task.status" @click="doneUndone()" type="checkbox"  value="" name="" >
+                   <input :disabled="can_complete_task(task)" v-model="task.status"  @change="doneUndone()" type="checkbox"  value="" name="" >
 
                     <span class="task-title">
                         <!-- <router-link 
@@ -68,10 +68,10 @@
                     <div class="pm-list-action" v-if="can_edit_task(task)">
 
                         <a href="#" @click.prevent="showHideTaskFrom('toggle', false, task )" class="pm-todo-edit">
-                            <span class="">{{ __('Edit', 'pm') }} |</span>
+                            <span class="">{{ __('Edit', 'wedevs-project-manager') }} |</span>
                         </a>
                         <a href="#" @click.prevent="deleteTask({task: task, list: list})" class="pm-todo-delete">
-                            <span class="">{{ __('Delete', 'pm') }}</span>
+                            <span class="">{{ __('Delete', 'wedevs-project-manager') }}</span>
                         </a>
                     </div>
                         
@@ -162,7 +162,7 @@
             },
             doneUndone (){
                 var self = this,
-                    status = !this.task.status ? 1: 0;
+                    status = this.task.status ? 1: 0;
                 var args = {
                     data: {
                         title: this.task.title,

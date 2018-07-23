@@ -7,15 +7,15 @@
                     <span class="pm-project-title">{{ project.title }}</span>
                      <a @click.prevent="showHideProjectForm('toggle')" href="#" v-if="is_manager()" class="pm-icon-edit pm-project-edit-link small-text">
                         <span class="dashicons dashicons-edit"></span> 
-                        <span class="text">{{  __( 'Edit', 'pm' ) }}</span>
+                        <span class="text">{{  __( 'Edit', 'wedevs-project-manager') }}</span>
                      </a>
                 </h3>
 
                 <div class="detail">{{project.description}}</div>
             </div>
             <div class="pm-completed-wrap">
-                <div v-if="project.status === 'complete'" class="ribbon-green">{{ __( 'Completed', 'pm' )}}</div>
-                <div v-if="project.status === 'incomplete'" class="ribbon-green incomplete">{{ __( 'Incomplete', 'pm' ) }}</div>
+                <div v-if="project.status === 'complete'" class="ribbon-green">{{ __( 'Completed', 'wedevs-project-manager')}}</div>
+                <div v-if="project.status === 'incomplete'" class="ribbon-green incomplete">{{ __( 'Incomplete', 'wedevs-project-manager') }}</div>
             </div>
             <div class="pm-col-6 pm-last-col pm-top-right-btn pm-text-right show_desktop_only" v-if="is_manager()">
                 <div class="pm-project-action">
@@ -23,20 +23,20 @@
                     <ul v-if="settings_hide" class="pm-settings">
                         <li>
                             <span class="pm-spinner"></span>
-                            <a href="#" @click.prevent="deleteProject(project.id)" :title="__( 'Delete project', 'pm' )">
+                            <a href="#" @click.prevent="deleteProject(project.id)" :title="__( 'Delete project', 'wedevs-project-manager')">
 
                                 <span class="dashicons dashicons-trash"></span>
-                                <span>{{ __( 'Delete', 'pm' ) }}</span>
+                                <span>{{ __( 'Delete', 'wedevs-project-manager') }}</span>
                             </a>
                         </li>
                         <li>
                             <span class="pm-spinner"></span>
                             <a @click.prevent="selfProjectMarkDone(project)" href="#">
                                 <span v-if="project.status === 'incomplete'" class="dashicons dashicons-yes"></span>
-                                <span v-if="project.status === 'incomplete'">{{ __( 'Complete', 'pm' ) }}</span>
+                                <span v-if="project.status === 'incomplete'">{{ __( 'Complete', 'wedevs-project-manager') }}</span>
 
                                 <span v-if="project.status === 'complete'" class="dashicons dashicons-undo"></span>
-                                <span v-if="project.status === 'complete'">{{ __( 'Restore', 'pm' ) }}</span>
+                                <span v-if="project.status === 'complete'">{{ __( 'Restore', 'wedevs-project-manager') }}</span>
                             </a>
                         </li>
                     </ul>
@@ -78,7 +78,7 @@
     export default {
         data () {
             return {
-                project_action: __('Project Actions', 'pm'),
+                project_action: __('Project Actions', 'wedevs-project-manager'),
                 settings_hide: false,
             }
 
@@ -107,7 +107,7 @@
                             project_id: this.project_id,
                         },
 
-                        name: this.__( 'Overview', 'pm' ),
+                        name: this.__( 'Overview', 'wedevs-project-manager'),
                         count: '',
                         class: 'overview pm-sm-col-12'
                     },
@@ -118,7 +118,7 @@
                             project_id: this.project_id,
                         },
 
-                        name: this.__( 'Activities', 'pm' ),
+                        name: this.__( 'Activities', 'wedevs-project-manager'),
                         count: project.meta.data.total_activities,
                         class: 'activity pm-sm-col-12'
                     },
@@ -129,7 +129,7 @@
                             project_id: this.project_id,
                         },
 
-                        name: this.__( 'Discussions', 'pm' ),
+                        name: this.__( 'Discussions', 'wedevs-project-manager'),
                         count: project.meta.data.total_discussion_boards,
                         class: 'message pm-sm-col-12'
                     },
@@ -140,7 +140,7 @@
                             project_id: this.project_id,
                         },
 
-                        name: this.__( 'Task Lists', 'pm' ),
+                        name: this.__( 'Task Lists', 'wedevs-project-manager'),
                         count: project.meta.data.total_task_lists,
                         class: 'to-do-list pm-sm-col-12'
                     },
@@ -151,7 +151,7 @@
                             project_id: this.project_id,
                         },
 
-                        name: this.__( 'Milestones', 'pm' ),
+                        name: this.__( 'Milestones', 'wedevs-project-manager'),
                         count: project.meta.data.total_milestones,
                         class: 'milestone pm-sm-col-12'
                     },
@@ -162,7 +162,7 @@
                             project_id: this.project_id,
                         },
 
-                        name: this.__( 'Files', 'pm' ),
+                        name: this.__( 'Files', 'wedevs-project-manager'),
                         count: project.meta.data.total_files,
                         class: 'files pm-sm-col-12'
                     }

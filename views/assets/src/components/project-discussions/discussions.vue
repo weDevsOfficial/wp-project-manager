@@ -17,31 +17,31 @@
         <div v-if="isFetchDiscussion">
             <div class="pm-blank-template discussion" v-if="blankTemplate">
                 <div class="pm-content" >
-                    <h3 class="pm-page-title">{{ __( 'Discussions', 'pm' ) }}</h3>
+                    <h3 class="pm-page-title">{{ __( 'Discussions', 'wedevs-project-manager') }}</h3>
 
                     <p>
-                        {{ __( 'Use our built in discussion panel to create an open discussion, a group discussion or a private conversation. Note that the Admin can always moderate these discussions.', 'pm' ) }} 
+                        {{ __( 'Use our built in discussion panel to create an open discussion, a group discussion or a private conversation. Note that the Admin can always moderate these discussions.', 'wedevs-project-manager') }} 
                     </p>
                         <div v-if="can_create_message()">
                             <a @click.prevent="showHideDiscussForm('toggle')" class="pm-btn pm-plus-white pm-new-message-btn pm-btn-uppercase" href="" id="pm-add-message"> <i aria-hidden="true" class="fa fa-plus-circle"></i>
-                                {{ __( 'Add New Discussion', 'pm' ) }} 
+                                {{ __( 'Add New Discussion', 'wedevs-project-manager') }} 
                             </a>
                         </div>
                         <transition name="slide" v-if="can_create_message()">
                             <div class="pm-new-message-form" v-if="is_discuss_form_active">
-                                <h3>{{ __( 'Create a new message', 'pm' ) }}</h3>
+                                <h3>{{ __( 'Create a new message', 'wedevs-project-manager') }}</h3>
                                 <new-discuss-form  :discuss="{}"></new-discuss-form>
 
                             </div>
                         </transition>
                     <div class="pm-list-content">
-                        <h3 class="pm-why-for pm-page-title"> {{ __( 'When to use Discussions?', 'pm' ) }} </h3>
+                        <h3 class="pm-why-for pm-page-title"> {{ __( 'When to use Discussions?', 'wedevs-project-manager') }} </h3>
 
                         <ul class="pm-list">
-                            <li> {{ __( 'To discuss a work matter privately.', 'pm' ) }} </li>
-                            <li> {{ __( 'To exchange files privately.', 'pm' ) }}</li>
-                            <li> {{ __( 'To discuss in a group.', 'pm' ) }}</li>
-                            <li> {{ __( 'To create an open discussion visible to all.', 'pm' ) }} </li>
+                            <li> {{ __( 'To discuss a work matter privately.', 'wedevs-project-manager') }} </li>
+                            <li> {{ __( 'To exchange files privately.', 'wedevs-project-manager') }}</li>
+                            <li> {{ __( 'To discuss in a group.', 'wedevs-project-manager') }}</li>
+                            <li> {{ __( 'To create an open discussion visible to all.', 'wedevs-project-manager') }} </li>
 
                         </ul>
                     </div>
@@ -51,12 +51,12 @@
                 <div class="pm-row discussion">
                     <div v-if="can_create_message()">
                         <a @click.prevent="showHideDiscussForm('toggle')" class="pm-btn pm-plus-white pm-new-message-btn pm-btn-uppercase" href="" id="pm-add-message"> <i aria-hidden="true" class="fa fa-plus-circle"></i>
-                            {{ __( 'Add New Discussion', 'pm' ) }} 
+                            {{ __( 'Add New Discussion', 'wedevs-project-manager') }} 
                         </a>
                     </div>
                     <transition name="slide" v-if="can_create_message()">
                         <div class="pm-form pm-new-message-form pm-col-6 pm-sm-col-12" v-if="is_discuss_form_active">
-                            <h3>{{ __( 'Create a new message', 'pm' )}}</h3>
+                            <h3>{{ __( 'Create a new message', 'wedevs-project-manager')}}</h3>
                             <new-discuss-form  :discuss="{}"></new-discuss-form>
 
                         </div>
@@ -65,7 +65,7 @@
                 </div>
                 <div class="pm-row pm-message-page">
                     <div class="pm-message-list pm-col-12 pm-sm-col-12">
-                        <div class="pm-box-title">{{ __( 'Discussion List', 'pm' ) }}</div>
+                        <div class="pm-box-title">{{ __( 'Discussion List', 'wedevs-project-manager') }}</div>
                         <ul class="dicussion-list">        
                             <li class="pm-col-12" v-for="discuss in discussion" :key="discuss.id">
                                 <router-link 
@@ -81,11 +81,11 @@
                                         </div>
                                         
                                         <div class="dicussion-meta">
-                                            {{ __( 'By', 'pm' ) }}
+                                            {{ __( 'By', 'wedevs-project-manager') }}
                                             <a :href="myTaskRedirect(discuss.creator.data.id)" :title="discuss.creator.data.display_name" >
                                                 {{ discuss.creator.data.display_name }}
                                             </a> 
-                                             {{ __( 'on', 'pm' ) }}
+                                             {{ __( 'on', 'wedevs-project-manager') }}
                                             {{ discuss.created_at.date }}                  
                                         </div>
 
@@ -107,7 +107,7 @@
                                     <router-link 
                                         class="pm-link" 
                                         :to="{ name: 'individual_discussions',  params: { discussion_id: discuss.id }}">
-                                        {{ discuss.meta.total_comments }} {{ __( 'Comments', 'pm' ) }} 
+                                        {{ discuss.meta.total_comments }} {{ __( 'Comments', 'wedevs-project-manager') }} 
                                     </router-link>           
                                 </div>
 
@@ -155,9 +155,9 @@
 
         data () {
             return {
-                edit: __('Edit', 'pm'),
-                delete_this_message: __('Delete this message', 'pm'),
-                make_it_private: __('Make it private', 'pm'),
+                edit: __('Edit', 'wedevs-project-manager'),
+                delete_this_message: __('Delete this message', 'wedevs-project-manager'),
+                make_it_private: __('Make it private', 'wedevs-project-manager'),
                 current_page_number: 1,
             }
         },
@@ -200,7 +200,7 @@
                 
                 var conditions = {
                     with: 'comments',
-                    per_page: 2,
+                    per_page: 20,
                     page: this.setCurrentPageNumber()
                 };
 

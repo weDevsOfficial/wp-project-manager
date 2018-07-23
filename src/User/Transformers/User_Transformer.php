@@ -52,6 +52,13 @@ class User_Transformer extends TransformerAbstract {
             'avatar_url'   => get_avatar_url( $user->user_email ),
         ];
 
+        if ( $user->pivot && $user->pivot->assigned_at ) {
+            $data['completed_at'] = format_date( $user->pivot->completed_at );
+            $data['started_at'] = format_date( $user->pivot->started_at );
+            $data['assigned_at'] = format_date( $user->pivot->assigned_at );
+            $data['status'] = (int) $user->pivot->status;
+        }
+
         return $data;
     }
 

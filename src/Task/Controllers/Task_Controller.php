@@ -49,6 +49,11 @@ class Task_Controller {
             $tasks = Task::where( 'project_id', $project_id )
                 ->parent();
             $tasks = apply_filters( 'pm_task_index_query', $tasks, $project_id, $request );
+            
+            if ( $per_page == '-1' ) {
+                $per_page = $tasks->count();
+            }
+            
             $tasks = $tasks->orderBy( 'created_at', 'DESC')
                 ->paginate( $per_page );
 
@@ -88,7 +93,7 @@ class Task_Controller {
         $assignees     = $request->get_param( 'assignees' );
         $project       = Project::find( $project_id );
         $board         = Board::find( $board_id );
-
+        
         if ( $project ) {
             $task = Task::create( $data );
         }
@@ -113,13 +118,17 @@ class Task_Controller {
         do_action('pm_after_create_task', $task, $request->get_params() );
 
         $resource = new Item( $task, new Task_Transformer );
+        
 
         $message = [
             'message' => pm_get_text('success_messages.task_created')
         ];
-        
 
-        return $this->get_response( $resource, $message );
+        $response = $this->get_response( $resource, $message );
+        
+        do_action('pm_create_task_aftre_transformer', $response, $request->get_params() );
+
+        return $response;
     }
 
     private function attach_assignees( Task $task, $assignees = [] ) {
@@ -175,26 +184,31 @@ class Task_Controller {
         $assignees  = $assignees ? $assignees : false;
         
         $task = Task::with('assignees')->find( $task_id );
-        
-        do_action( 'cpm_task_update', $list_id, $task_id, $request->get_params() );
-
-        $task->update_model( $data );
 
         if ( is_array( $assignees ) && $task ) {
             $task->assignees()->whereNotIn( 'assigned_to', $assignees )->delete();
             $this->attach_assignees( $task, $assignees );
         }
         
+        do_action( 'cpm_task_update', $list_id, $task_id, $request->get_params() );
+        $task->update_model( $data );
+        
+
         do_action( 'cpm_after_update_task', $task->id, $list_id, $project_id );
         do_action('pm_after_update_task', $task, $request->get_params() );
-        
         
         $resource = new Item( $task, new Task_Transformer );
         
         $message = [
             'message' => pm_get_text('success_messages.task_updated')
         ];
-        return $this->get_response( $resource, $message );
+        
+        $response = $this->get_response( $resource, $message );
+        
+        do_action('pm_update_task_aftre_transformer', $response, $request->get_params() );
+
+        return $response;
+
     }
 
     public function change_status( WP_REST_Request $request ) {
@@ -218,7 +232,11 @@ class Task_Controller {
             'message' => pm_get_text('success_messages.task_updated')
         ];
 
-        return $this->get_response( $resource, $message );
+        $response = $this->get_response( $resource, $message );
+
+        do_action('pm_update_task_aftre_transformer', $response, $request->get_params() );
+
+        return $response;
     }
 
     private function task_activity_comment ($task, $status) {

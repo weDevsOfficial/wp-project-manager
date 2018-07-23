@@ -32,9 +32,6 @@
         "psr-4": {
             "WeDevs\\PM\\Core\\": "core/",
             "WeDevs\\PM\\": "src/"
-        },
-        "files": [
-            "bootstrap/loaders.php"
-        ]
+        }
     }
 }

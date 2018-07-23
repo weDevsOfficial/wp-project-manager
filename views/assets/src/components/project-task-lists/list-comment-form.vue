@@ -45,8 +45,8 @@
             },
             notify_users: [],
             mentioned_user_ids: null,
-            add_new_comment: __( 'Add New Comment','pm' ),
-            update_comment: __( 'Update Comment', 'pm'),
+            add_new_comment: __( 'Add New Comment','wedevs-project-manager'),
+            update_comment: __( 'Update Comment', 'wedevs-project-manager'),
             show_spinner: false,
             submit_disabled: false,
             list_id: this.$route.params.list_id

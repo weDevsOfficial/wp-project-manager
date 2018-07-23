@@ -136,6 +136,9 @@ class Task_List_Transformer extends TransformerAbstract {
                 ->where( 'status', 1 );
 
         $tasks = apply_filters( 'pm_complete_task_query', $tasks,  $item->project_id, $item );
+        if ( $per_page == '-1' ) {
+            $per_page = $tasks->count();
+        }
         $tasks =  $tasks->orderBy( pm_tb_prefix() . 'pm_boardables.order', 'DESC' )
             ->paginate( $per_page );
 
@@ -154,6 +157,11 @@ class Task_List_Transformer extends TransformerAbstract {
         $tasks = $item->tasks()
             ->where( 'status', 0 );
         $tasks = apply_filters( 'pm_incomplete_task_query', $tasks,  $item->project_id, $item );
+        
+        if ( $per_page == '-1' ) {
+            $per_page = $tasks->count();
+        }
+        
         $tasks = $tasks->orderBy( pm_tb_prefix() . 'pm_boardables.order', 'DESC' )
             ->paginate( $per_page );
         return $this->make_paginated_tasks( $tasks );

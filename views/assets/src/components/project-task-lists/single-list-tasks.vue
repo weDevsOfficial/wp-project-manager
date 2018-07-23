@@ -2,23 +2,23 @@
     <div  id="pm-single-todo-list-view">
         
         <div class="pm-incomplete-tasks">
-            <h3 class="pm-task-list-title pm-tag-gray" style="margin-top:10px;"><a>{{ __( 'Incomplete Tasks', 'pm' ) }}</a></h3>
+            <h3 class="pm-task-list-title pm-tag-gray" style="margin-top:10px;"><a>{{ __( 'Incomplete Tasks', 'wedevs-project-manager') }}</a></h3>
             <ul  class="pm-incomplete-task-list pm-todos pm-todolist-content pm-incomplete-task" v-pm-sortable>
 
                 <li class="pm-todo" :data-id="task.id" :data-order="task.order" v-for="(task, task_index) in getIncompleteTasks" :key="task.id" :class="'pm-fade-out-'+task.ID">
                     <incompleted-tasks :task="task" :list="list"></incompleted-tasks>
                 </li>
 
-                <li v-if="!getIncompleteTasks.length" class="nonsortable">{{ __( 'No tasks found.', 'pm' ) }}</li>
+                <li v-if="!getIncompleteTasks.length" class="nonsortable">{{ __( 'No tasks found.', 'wedevs-project-manager') }}</li>
                 <li v-if="isIncompleteLoadMoreActive(list)" class="nonsortable">
-                    <a @click.prevent="loadMoreIncompleteTasks(list)" href="#">{{ __( 'More Tasks', 'pm' ) }}</a>
+                    <a @click.prevent="loadMoreIncompleteTasks(list)" href="#">{{ __( 'More Tasks', 'wedevs-project-manager') }}</a>
                     <span v-show="more_incomplete_task_spinner" class="pm-incomplete-task-spinner pm-spinner"></span>
                 </li>
             </ul>
         </div>
 
         <div class="pm-completed-tasks">
-            <h3 class="pm-task-list-title pm-tag-gray"><a>{{ __( 'Completed Tasks', 'pm' ) }}</a></h3>
+            <h3 class="pm-task-list-title pm-tag-gray"><a>{{ __( 'Completed Tasks', 'wedevs-project-manager') }}</a></h3>
             <ul  class="pm-completed-task-list pm-todos pm-todolist-content pm-todo-completed" v-pm-sortable>
                 
                 <li :data-id="task.id" :data-order="task.order" class="pm-todo" v-for="(task, task_index) in getCompletedTask" :key="task.id" :class="'pm-todo pm-fade-out-'+task.id">
@@ -26,10 +26,10 @@
                     <completed-tasks :task="task" :list="list"></completed-tasks>
                 </li>
 
-                <li v-if="!getCompletedTask.length" class="nonsortable">{{ __( 'No tasks found.', 'pm' )  }}</li>
+                <li v-if="!getCompletedTask.length" class="nonsortable">{{ __( 'No tasks found.', 'wedevs-project-manager')  }}</li>
 
                 <li v-if="isCompleteLoadMoreActive(list)" class="nonsortable">
-                    <a @click.prevent="loadMoreCompleteTasks(list)" href="#">{{ __( 'More Tasks', 'pm' ) }}</a>
+                    <a @click.prevent="loadMoreCompleteTasks(list)" href="#">{{ __( 'More Tasks', 'wedevs-project-manager') }}</a>
                     <span v-show="more_completed_task_spinner" class="pm-completed-task-spinner pm-spinner"></span>
                 </li>
             </ul>

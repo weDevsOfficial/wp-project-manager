@@ -49,7 +49,7 @@ export default {
             var pre_define = {
                     conditions: {
                         with: 'comments',
-                        per_page: 2,
+                        per_page: 20,
                         page: 1,
                     },
                     callback: false
@@ -504,7 +504,7 @@ export default {
         },
 
         deleteDiscuss (args) {
-            if ( ! confirm( this.__( 'Are you sure!', 'pm' ) ) ) {
+            if ( ! confirm( this.__( 'Are you sure!', 'wedevs-project-manager') ) ) {
                 return;
             }
             var self = this;
@@ -551,7 +551,7 @@ export default {
         },
 
         deleteComment(args){
-            if ( ! confirm( this.__( 'Are you sure to delete this comment?', 'pm' ) ) ) {
+            if ( ! confirm( this.__( 'Are you sure to delete this comment?', 'wedevs-project-manager') ) ) {
                 return;
             }
 

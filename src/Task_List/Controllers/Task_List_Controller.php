@@ -36,6 +36,11 @@ class Task_List_Controller {
 
         $task_lists = Task_List::where( 'project_id', $project_id);
         $task_lists = apply_filters( "pm_task_list_index_query", $task_lists, $project_id, $request );
+
+        if ( $per_page == '-1' ) {
+            $per_page = $task_lists->count();
+        }
+
         $task_lists = $task_lists->orderBy( 'created_at', 'DESC' )
             ->paginate( $per_page );
 

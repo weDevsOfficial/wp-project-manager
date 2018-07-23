@@ -4,7 +4,7 @@
         <a  @click.prevent="showHideListForm('toggle')" href="#" class="pm-btn pm-btn-blue pm-margin-bottom add-tasklist pm-btn-uppercase">
             <i v-if="!show_list_form" class="fa fa-plus-circle" aria-hidden="true"></i>
             <i v-if="show_list_form" class="fa fa-minus-circle" aria-hidden="true"></i>
-            {{ __( 'New Task List', 'pm' ) }}
+            {{ __( 'New Task List', 'wedevs-project-manager') }}
         </a>
     </div>
 </template>

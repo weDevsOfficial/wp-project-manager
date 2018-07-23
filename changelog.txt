@@ -1,129 +1,5 @@
-=== WP Project Manager ===
-Contributors: tareq1988, wedevs, asaquzzaman, mshossain110
-Donate Link: https://tareq.co/donate/
-Tags: project, manager, project manager, project management, todo, todo list, task, basecamp, milestone, message, file, comment, client, team, tracking, planning, lists, reporting, project management plugin for wordpress, project manager, project manager plugin for wordpress, wordpress project management
-Requires at least: 4.4
-Tested up to: 4.9.7
-Stable tag: 2.0.2
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
-
-The best WordPress Project Management plugin. Project Management with WordPress has never been this easy!
-
-== Description ==
-
-Best Project Management Tool for WordPress
-
-[youtube https://www.youtube.com/watch?v=GI4u8wXOxHg]
-
-The WordPress Project Management plugin. Manage your project simply with the \*right\* tools and options. It gives you the taste of a full-fledged project management solution, just inside your loved WordPress.
-
-[Pro Version](https://wedevs.com/wp-project-manager-pro/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=WP+Project+Manager+Pro) | [Add-ons](https://wedevs.com/product-category/plugins/wp-project-manager-pro/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=Addons+Page) | [Demo](http://pmdemo.wedevs.com/)
-
-= Add-ons =
-
-* [Kanban Board](https://wedevs.com/products/plugins/wp-project-manager-pro/kanban-board/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=Kanban+Board)
-* [Gantt Chart](https://wedevs.com/products/plugins/wp-project-manager-pro/gantt-chart/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=Gantt+Chart)
-* [Time Tracker](https://wedevs.com/products/plugins/wp-project-manager-pro/time-tracker/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=Time+Tracker)
-* [Invoice](https://wedevs.com/products/plugins/wp-project-manager-pro/invoice/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=Invoice)
-* [Sub Task](https://wedevs.com/products/plugins/wp-project-manager-pro/sub-task/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=Sub+Task)
-* [BuddyPress Integration](https://wedevs.com/products/plugins/wp-project-manager-pro/buddypress/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=BuddyPress)
-* [WooCommerce Integration](https://wedevs.com/products/plugins/wp-project-manager-pro/woocommerce-order/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=WooCommerce+Order)
-
-
-= Features =
- * **Projects**
-   * Create a new project
-   * Set title and details of that project
-   * Assign users for that project
- * **Messages**
-   * Messages are used for discussing about the project with co-workers of  that project
-   * You can add attachments on messages
-   * Comments can be made for discussion
- * **To-do List**
-   * Add as many to-do list as you want with title and description
-   * Add tasks, assign users, assign due date
-   * See progressbar on the list
-   * Add comments on individual to-do lists and to-do's
-   * Mark to-do as complete/incomplete
- * **Milestone**
-   * Create milestone
-   * Assign messages and to-do list on milestone
-   * 3 types of milestones are there, a) upcoming, b) completed and c) late milstone
- * **Files**
-   * See all the uploaded files on messages and comments in one place and navigate to invidual attached threads.
-
-= Detailed Walkthrough =
-[youtube http://www.youtube.com/watch?v=lR61ARrGb28]
-
-
-= Contribute =
-This may have bugs and lack of many features. If you want to contribute on this project, you are more than welcome. Please fork the repository from [Github](https://github.com/tareq1988/wp-project-manager).
-
-= Checkout Our Other Products =
-* [Dokan - Multivendor Plugin](https://wedevs.com/dokan/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=Dokan+Multivendor+Marketplace)
-* [WP User Frontend Pro](https://wedevs.com/wp-user-frontend-pro/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=WP+User+Frontend+Pro)
-* [WordPress ERP](https://wperp.com/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=WPERP)
-
-= Author =
-Brought to you by [Tareq Hasan](https://tareq.co/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=Author) from [weDevs](https://wedevs.com/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=From+weDevs)
-
-= Donate =
-Please [donate](https://tareq.co/donate/) for this awesome plugin to continue it's development to bring more awesome features.
-
-= Contribution =
-* French translation by Corentin allard
-* Dutch translation by eskamedia
-* Brazilian Portuguese translation by Anderson
-* German translation by Alexander Pfabel
-* Spanish translation by Luigi Libet
-* Indonesian translation by hirizh
-* Polish translation by Jacek Synowiec
-
-== Installation ==
-
-Extract the zip file and just drop the contents in the wp-content/plugins/ directory of your WordPress installation and then activate the Plugin from Plugins page.
-
-== Frequently Asked Questions ==
-
-= Q. Why doesn't it shows up in frontend =
-A. Currently all the project management options resides in the admin panel. No functionality shows up in frontend right now.
-
-= Q. Who can create projects? =
-A. Only Editors and Admin's can create projects and edit them.
-
-= Q. Who can create tasklist, todo, messages or milestone? =
-A. Admins and every co-workers from a project can create these.
-
-= Q. Can every member see every project? =
-A. Only admins (editor/administrator) can see all of them. Other user roles can only see their assigned projects.
-
-= Q. Can the plugin be extended? =
-A. Sure, lots of actions and filters are added by default and will add more of them.
-
-= Q. Found a bug =
-A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-project-manager/issues) on github.
-
-== Screenshots ==
-
-1. Project dashboard. You can see all your projects from here and can create new one.
-2. New project creation pop-up window
-3. Project overview page. See the activities going on in a single page at a glance.
-4. Project actvities feeds grouped by date. See what you or your team has done in a project.
-5. To-do list page. View all your to-do lists and to-do's inside them.
-6. Create to-do list form
-7. Create a task in a to-do list. Add task title, additional details, assign multiple users and set dates.
-8. Discussions page. Discuss with your team with various topics.
-9. Single discussion thread. Hop-in to a discussion and brainstorm with your team.
-10. Milestones page. Set milestones for a project and assign tasks, discussions on them and see the progress of that milestone. Mark complete once its done.
-11. See all the shared files across various to-do lists, to-do's and comments. All the attached files can be found in one place.
-12. Project settings -> General Tab
-13. Project Settings -> Email Settings Tab
-
-== Changelog ==
-
 = v2.0.2 - July 23, 2018 =
- 
+
  * **New** Create function for getting individual task.
  * **New** Hook for all CRUD (Create, Read, Update and Delete)
  * **Fix** Task complete and incomplete issues in microsoft edge browser.
@@ -156,8 +32,8 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
  * [fixed] Task list is not showing when using the Internet Explorer browser.
  * [fixed] Projects dashboard display missing alignment.
- * [Update] Improved plugins text domain.
-
+ * [Update] Improved plugin strings.
+ 
 = 1.6.14 - April 26, 2018 =
 
  * [fixed] Task is not showing after clicking on a task from the calendar.
@@ -177,7 +53,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
  * [fixed] To-do list, Discussion, milestone, page translation not working.
  * [fixed] Projects page translation not working.
  * [update] Improved plugin strings.
-
+ 
 = 1.6.11 - February 26, 2018 =
 
  * [fix] Notify users while commenting in a task.
@@ -196,18 +72,17 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
  * [fix] User search problem fixed when creating a project.
  * [fix] Text editor style problem fixed.
 
-
 = 1.6.9 - August 24, 2017 =
 
- * [fix] CPM free loader class active after loading WP all plugins
- * [fix] All co-workers get mail after completed the task
+ * [Fix] CPM free loader class active after loading WP all plugins
+ * [Fix] All co-workers get mail after completed the task
  * [new] weForms Upsell Class
 
 = 1.6.8 - August 17, 2017 =
 
- * [fix] Prevent the loading trix-editor for all WP page.
- * [fix] Text formating retained got from others editor.
- * [fix] Creating second task does change the date of first task.
+ * [Fix] Prevent the loading trix-editor for all WP page.
+ * [Fix] Text formating retained got from others editor.
+ * [Fix] Creating second task does change the date of first task.
  * [new] Add new component cpm-datepicker
 
 = 1.6.7 - August 01, 2017 =
@@ -231,8 +106,8 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
  * [fix] When complete a task then this completed task shown double in the to-do list.
  * [fix] Double "New To-Do" button shown.
  * [update] 'Get porject id' function always return false.
- * [update] Design change for single task page.
-
+ * [update] Design change for single task page. 
+ 
 = 1.6.5 - July 6, 2017 =
 
  * [fix] Co-worker can not show the list corner menu.
@@ -244,7 +119,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 = 1.6.4 - June 22, 2017 =
 
- * [new] Task list view on the right corner in to-do list section.
+ * [new] Task list-view on the right corner in to-do list section.
  * [update] Notify co-workers on task completion.
  * [update] Task update action hook.
  * [update] Style sheets updated.
@@ -303,7 +178,6 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
  * [fix] List style problem in tiny-MCE comment box while commenting on discussion board.
  * [fix] WP nonce problem in project discussion.
 
-
 = 1.6.1 - April 11, 2017 =
 
  * [fix] Load JS files only in todo list page
@@ -331,7 +205,6 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
  * [fix] Remove comments link from overview.
  * [fix] All functionalities for to-do list.
 
-
 = 1.5.1 - September 19, 2016 =
 
  * [new] Send Email Notification when a comment updates.
@@ -345,11 +218,11 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 = 1.5 - August 20, 2016 =
 
- * [new] Report section new design (*pro*).
- * [new] New Report item added (*pro*).
- * [new] Files tab new design and add new feature in pro version (*pro*).
- * [new] Add option for create document and connect to other online Docs (*pro*).
- * [new] Add option to upload files / attachment direct to a project (*pro*).
+ * [new] Report section new design.
+ * [new] New Report item added.
+ * [new] Files tab new design and add new feature in pro version.
+ * [new] Add option for create document and connect to other online Docs.
+ * [new] Add option to upload files / attachment direct to a project.
  * [fix] Duplicate mail send on project create.
  * [fix] Change cpm_get_option function.
 
@@ -431,20 +304,76 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
  * [improved] Free/Pro separation. Massive code change
  * [improved] Email notification templates updated. Removed the settings from admin.
 
-= 0.4.6 =
+= 1.2.2 - June 9, 2015 =
 
-* Fix: new project popup, some bug was still in the 0.4.5 version.
+* [fix] Fatal error on frontend
 
-= 0.4.5 =
+= 1.2.1 - June 7, 2015 =
 
-* Fix: new project popup
-* New: Pagination support on projects
+* [fix] Project report datepicker wasn't showing
+* [fix] URL management for admin/frontend
+* [improved] Plugin updater
 
-= 0.4.4 =
+= 1.2 - June 4, 2015 =
 
-* Language files updated
-* New action hooks and JS triggers added
-* Settings API updated
+* [new] Project Reporting
+* [new] Progress accross all the projects
+* [new] JSON REST API integration added
+
+= 1.1 - April 19, 2015 =
+
+* [new] Daily digest feature added
+* [improved] Plugin upgrade routine updated
+
+
+= 1.0 - March 1, 2015 =
+
+* [fix] Project delete time shoud be deleted all child post
+* [fix] Active Tabs not working for To-do Lists & Settings
+* [fix] Comment link problem for Subtask
+* [improved] Duplicate project - To-do lists order lost
+* [new] assign a task to more than one user
+* [new] Search feature
+* [new] Filter projects by clients
+* [new] Pagination in project home page
+* [fix] Files Tab Doesn't show any attachement to Client
+* [fix] Long Project Title Problem
+* [new] witch for disabling certain E-mail notification
+* [fix] Project manager date format is fixed
+* [fix] E-mail URL Problem
+* [new] Email Notification ON/OFF feature
+* [fix] Link in message body not working
+* [new] Rich text editor
+
+
+= 0.5.3 - April 19, 2014 =
+
+* [fix] 1 day decrease due to gmt_offset when updating todo
+* [fix] Added checking on single message/todo/milestone for unauthorized access
+* [new] BCC on/off settings for notification
+* [improved] Scrolling project people when more peoples are added on listing
+
+= 0.5.2 - Mar 25, 2014 =
+
+* [fix] privacy bug in milestone
+* [fix] project_category removed from project filter
+* [fix] milestone duplicate assignment
+* [fix] milestone lock icon
+* [fix] addons menu removed for other users
+
+= 0.5.1 =
+
+* default from email field added
+* separate calender and my task script function
+* avatar bug fix
+* stopwatch function removed
+* task trigger position changed
+* remove font family
+* number of projects bug fix in listing
+
+= 0.5 =
+
+* Pro version released
 
 = 0.4.3 =
 
@@ -455,7 +384,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 * fix: some typo fixes
 * improved: comment count next to tasklists
 
-= 0.4.2 =
+### 0.4.2
 
 * bug fix: project activity/comments on frontend widget
 * bug fix: project activity/comments on comment rss
@@ -467,12 +396,12 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 * new: Dutch translation language added
 * new: Brazilian Portuguese language added
 
-= 0.4.1 =
+### 0.4.1
 
 * bug fix: attachment association problem on comment update
 * bug fix: error on message update
 
-= 0.4 =
+### 0.4
 
 * improved: default email format changed to 'text/plain' from 'text/html'
 * improved: toggle added on user notification selection
@@ -486,32 +415,27 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 * new: French translation added
 * new: file upload size settings added
 
-= 0.3.1 =
+### 0.3.1
 
 * comment update bug fix
 * project activity is now grouped by date
 * "load more" button added on project activity
 * some function documentation added.
 
-= 0.3 =
+### 0.3
 
 * Translation capability added
 * Attachment security added. All files are now served via a proxy script
   for security with permission checking.
 
-= 0.2.1 =
+### 0.2.1
 
 * Comments display error fix
 
-= 0.2 =
+### 0.2
 
 * Remove comments from listing publicly
 * Post types are hidden from search
 
-= 0.1 =
+### 0.1
 Initial version released
-
-
-== Upgrade Notice ==
-
-<strong>BREAKING CHANGE</strong>: v2.0 release is a major version and introduces breaking changes by re-writing the whole plugin. Please test the plugin before updating from <strong>v1.x</strong>. Taking a database backup is adviced.
