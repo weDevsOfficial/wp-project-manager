@@ -1,9 +1,9 @@
 <template>
     <div class="pm-blank-template todolist">
         <div class="pm-content" >
-            <h3 class="pm-page-title">{{ __( 'Task Lists', 'pm' ) }}</h3>
+            <h3 class="pm-page-title">{{ __( 'Task Lists', 'wedevs-project-manager') }}</h3>
             <p>
-                {{ __( 'You can list all your Tasks in a single discussion using a Task list. Use these lists to divide a project into several sectors, assign co-workers and check progress.', 'pm' ) }}
+                {{ __( 'You can list all your Tasks in a single discussion using a Task list. Use these lists to divide a project into several sectors, assign co-workers and check progress.', 'wedevs-project-manager') }}
             </p>
 
             <new-task-list-btn v-if="can_create_list"></new-task-list-btn>
@@ -11,12 +11,12 @@
                 <new-task-list-form section="lists" v-if="is_active_list_form" :list="{}"></new-task-list-form>
             </transition>
             <div class="pm-list-content">
-                <h3 class="pm-why-for pm-page-title">{{ __( 'When to use Task Lists?', 'pm' )}}</h3>
+                <h3 class="pm-why-for pm-page-title">{{ __( 'When to use Task Lists?', 'wedevs-project-manager')}}</h3>
 
                 <ul class="pm-list">
-                    <li>{{ __( 'To partition a project internals.', 'pm' )}}</li>
-                    <li>{{ __( 'To mark milestone points.', 'pm' ) }}</li>
-                    <li>{{ __( 'To assign people to tasks.', 'pm' ) }}</li>
+                    <li>{{ __( 'To partition a project internals.', 'wedevs-project-manager')}}</li>
+                    <li>{{ __( 'To mark milestone points.', 'wedevs-project-manager') }}</li>
+                    <li>{{ __( 'To assign people to tasks.', 'wedevs-project-manager') }}</li>
                 </ul>
 
             </div>

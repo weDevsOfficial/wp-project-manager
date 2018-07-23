@@ -4,7 +4,7 @@
         <div class="pm-top-bar pm-no-padding">
             <div class="pm-row pm-no-padding">
                 <div class="pm-col-6">
-                    <h3>{{ __('Project Manager', 'pm') }}</h3>
+                    <h3>{{ __('Project Manager', 'wedevs-project-manager') }}</h3>
                 </div>
 
                 <div class="pm-col-6 pm-top-right-btn pm-text-right pm-last-col show_desktop_only">
@@ -66,7 +66,7 @@
         },
         data () {
             return {
-                start_new_project: __( 'Start a new project', 'pm' ),
+                start_new_project: __( 'Start a new project', 'wedevs-project-manager'),
             }
         }
 

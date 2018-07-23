@@ -33,11 +33,11 @@
                                     
                                     <div class="item-title">{{ file.name.slice(0, 20) }}</div>
                                     <span class="text">
-                                        {{ __('Attached to', 'pm') }} 
+                                        {{ __('Attached to', 'wedevs-project-manager') }} 
                                         <a :href="contentURL(file)">{{ attachTo(file) }}</a>  
-                                        {{ __('by', 'pm') }} 
+                                        {{ __('by', 'wedevs-project-manager') }} 
                                         <a href="#/my-tasks" title="admin">
-                                            {{ __('admin', 'pm') }}
+                                            {{ __('admin', 'wedevs-project-manager') }}
                                         </a>
                                     </span>
                                 </div>
@@ -59,7 +59,7 @@
                 </ul>
 
                 <ul v-if="!files.length">
-                    <li>{{ __('No result found!', 'pm') }}</li>
+                    <li>{{ __('No result found!', 'wedevs-project-manager') }}</li>
                 </ul>
 
             </div>

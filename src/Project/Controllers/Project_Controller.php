@@ -45,6 +45,10 @@ class Project_Controller {
 			$resource->setMeta( $this->projects_meta( $category ) );
 			return $this->get_response( $resource );
 		}
+		
+		if ( $per_page == '-1' ) {
+			$per_page = $projects->count();
+		}
 
 		$projects = $projects->paginate( $per_page );
 

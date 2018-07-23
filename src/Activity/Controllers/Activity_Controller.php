@@ -35,18 +35,11 @@ class Activity_Controller {
             ->paginate( $per_page );
         } else {
             $activities = Activity::where( pm_tb_prefix() .'pm_activities.project_id', $project_id )
-            // ->join( pm_tb_prefix() . 'pm_meta', function ($join) {
-            //     $join->on( pm_tb_prefix() . 'pm_meta.entity_type', '=', pm_tb_prefix() .'pm_activities.resource_type' );
-            // } )
-            // ->whereRaw( pm_tb_prefix() . 'pm_meta.entity_id'.'='. pm_tb_prefix() .'pm_activities.resource_id'  )
-            // ->where('meta_key', 'privacy')
-            // ->where('meta_value', )
-            ->orderBy( pm_tb_prefix() .'pm_activities.created_at', 'desc' )//->get();
+            ->orderBy( pm_tb_prefix() .'pm_activities.created_at', 'desc' )
             ->paginate( $per_page );
             
         }
         
-        //pmpr($activities->toArray()); die();
         $activity_collection = $activities->getCollection();
         $resource = new Collection( $activity_collection, new Activity_Transformer );
 

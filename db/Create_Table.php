@@ -368,8 +368,8 @@ class PM_Create_Table {
 	}
 
 	function update_version () {
-		delete_site_option( 'cpm_version' );
-		update_site_option( 'pm_version', config( 'app.version' ) );
+		delete_option( 'cpm_version' );
+		update_option( 'pm_version', config( 'app.version' ) );
 
 		// record the activation date/time if not exists
 		$installed = get_option( 'pm_installed' );

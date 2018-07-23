@@ -75,6 +75,8 @@ class Task_Transformer extends TransformerAbstract {
                 'project_id'  => $item->project_id,
                 'category_id' => $item->category_id,
                 'created_at'  => format_date( $item->created_at ),
+                'created_by'  => $item->created_by,
+                'updated_at'  => format_date( $item->updated_at ),
                 'meta'        => $this->meta( $item ),
             ], 
             $item
@@ -154,9 +156,7 @@ class Task_Transformer extends TransformerAbstract {
     }
 
     public function includeAssignees( Task $item ) {
-        $user_ids = $item->assignees()->get()->toArray();//->pluck('assigned_to');
-        $user_ids = wp_list_pluck( $user_ids, 'assigned_to' );
-        $users = User::whereIn( 'id', $user_ids )->get();
+        $users = $item->user;
 
         return $this->collection( $users, new User_Transformer );
     }

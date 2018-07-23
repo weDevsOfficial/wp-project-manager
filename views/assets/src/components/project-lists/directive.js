@@ -71,8 +71,8 @@ var Project = {
             }
 
         } ).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
-            var no_user = context.__( 'No users found.', 'pm' ),
-                create_new_user = context.__( 'Create a new user', 'pm' );
+            var no_user = context.__( 'No users found.', 'wedevs-project-manager'),
+                create_new_user = context.__( 'Create a new user', 'wedevs-project-manager');
             if ( item.email ) {
                 return $( "<li>" )
                 .append( '<a>'+item.display_name+'</a>' )

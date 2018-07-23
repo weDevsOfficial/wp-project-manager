@@ -74,7 +74,7 @@
                                 <div class="pm-col-8 pm-sm-col-12">
                                     <ul class="pm-footer-left-ul">
                                         <li v-if="isIncompleteLoadMoreActive(list)" class="pm-todo-refresh">
-                                            <a @click.prevent="loadMoreIncompleteTasks(list)" href="#">{{ __( 'More Tasks', 'pm' ) }}</a>
+                                            <a @click.prevent="loadMoreIncompleteTasks(list)" href="#">{{ __( 'More Tasks', 'wedevs-project-manager') }}</a>
                                         </li>
                                         <transition name="slide" v-if="can_create_task">
                                             <li class="pm-new-task-btn-li">
@@ -89,7 +89,7 @@
                                                     list_id: list.id 
                                                 }}">
                                                 <span>{{ list.meta.total_complete_tasks }}</span>  
-                                                {{ __( 'Completed', 'pm' ) }}
+                                                {{ __( 'Completed', 'wedevs-project-manager') }}
                                             </router-link>
                                         </li>
                                         <li  class="pm-todo-incomplete">
@@ -99,7 +99,7 @@
                                                     list_id: list.id 
                                                 }}">
                                                 <span>{{ list.meta.total_incomplete_tasks }}</span> 
-                                                {{ __( 'Incomplete', 'pm' ) }}
+                                                {{ __( 'Incomplete', 'wedevs-project-manager') }}
                                             </router-link>
                                         </li>
                                         <li  class="pm-todo-comment">
@@ -108,7 +108,7 @@
                                                 params: { 
                                                     list_id: list.id 
                                                 }}">
-                                                <span>{{ list.meta.total_comments }} {{ __( 'Comments', 'pm' ) }}</span>
+                                                <span>{{ list.meta.total_comments }} {{ __( 'Comments', 'wedevs-project-manager') }}</span>
                                             </router-link>
                                         </li>
                                     </ul>
