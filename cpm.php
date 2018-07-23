@@ -5,7 +5,7 @@
  * Description: WordPress Project Management plugin. Manage your projects and tasks, get things done.
  * Author: weDevs
  * Author URI: https://wedevs.com
- * Version: 2.0.1
+ * Version: 2.0.2
  * Text Domain: wedevs-project-manager
  * Domain Path: /languages
  * License: GPL2
@@ -132,18 +132,17 @@ if ( version_compare( phpversion(), '5.6.0', '>=' ) ) {
         add_filter('upgrader_pre_install', array($upgrader, 'deactivate_plugin_before_upgrade'), 10, 2);
         add_filter('upgrader_clear_destination', array($upgrader, 'delete_old_plugin'), 10, 4);
 
-        $result = $upgrader->install( 'https://github.com/weDevsOfficial/wp-project-manager/releases/download/v2.0.2/wedevs-project-manager-php5.6-v2.0.2.zip' );
+        $result   = $upgrader->install( 'https://github.com/weDevsOfficial/wp-project-manager/releases/download/v2.0.2/wedevs-project-manager-php5.6-v2.0.2.zip' );
 
         if ( is_wp_error( $result ) ) {
-            wp_send_json_error( $result );
+             wp_send_json_error( $result );
         }
 
         $result = activate_plugin( 'wedevs-project-manager/cpm.php' );
 
         if ( is_wp_error( $result ) ) {
-            wp_send_json_error( $result );
+             wp_send_json_error( $result );
         }
-        
         wp_send_json_success();
     }
 
