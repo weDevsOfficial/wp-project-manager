@@ -44,7 +44,7 @@ if ( version_compare( phpversion(), '5.6.0', '>=' ) ) {
         ?>
             <div class="error notice is-dismissible" id="pm-php-notice" style="padding: 1em; position: relative;">
                 <h2><?php _e( 'WP Project Manager moving PHP 5.6!', 'wedevs-project-manager' ); ?></h2>
-                <p><?php _e( 'WP Project Manager movidng PHP 5.6 very soon. Please upgrader your php version.', 'wedevs-project-manager' ); ?></p>
+                <p><?php _e( 'WP Project Manager moving PHP 5.6 very soon. Please upgrader your php version.', 'wedevs-project-manager' ); ?></p>
             </div>
         <?php 
     }
@@ -60,7 +60,7 @@ if ( version_compare( phpversion(), '5.6.0', '>=' ) ) {
         }
         ?>
         <div class="updated" id="pm-installer-notice" style="padding: 1em; position: relative;">
-            <h2><?php _e( 'WP Project Manager Not compatible with WPERP', 'wedevs-project-manager' ); ?></h2>
+            <h2><?php _e( 'Your installed version of Project Manager is not compatible with WP ERP', 'wedevs-project-manager' ); ?></h2>
             <p><?php _e( 'Please Install the compatible version', 'wedevs-project-manager' ); ?></p>
 
                 <p>
