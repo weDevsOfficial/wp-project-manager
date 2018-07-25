@@ -210,7 +210,7 @@ export default {
                             data: data.list 
                         };
                     }
-                    state.lists[list_index].incomplete_tasks.data.splice( 0, 0, data.task );
+                    state.lists[list_index].incomplete_tasks.data.push(data.task);
                 }else{
                     state.lists[list_index].incomplete_tasks = { data: data.task };
                 }                
@@ -641,6 +641,32 @@ export default {
         },
         fetchListStatus (state, status) {
             state.isListFetch = status;
+        },
+
+        receiveTask (state, data) {
+            var receive = data.receive;
+            var res = data.res;
+            
+            var setListindex = state.getIndex(state.lists, receive.list_id, 'id');
+            var senderListindex = state.getIndex(state.lists, res.sender_list_id, 'id');
+            var setIndex = false;
+
+            receive.orders.forEach(function(val) {
+                if(val.id == receive.task_id) {
+                    setIndex = val.index;
+                }
+            });
+
+            if(typeof state.lists[setListindex].incomplete_tasks != 'undefined' ){
+                state.lists[setListindex].incomplete_tasks.data.splice(setIndex, 0, res.task.data);
+                state.lists[setListindex].meta.total_incomplete_tasks = state.lists[setListindex].meta.total_incomplete_tasks + 1;
+            } 
+
+            if(typeof state.lists[senderListindex].incomplete_tasks != 'undefined' ){
+                let task_index = state.getIndex(state.lists[senderListindex].incomplete_tasks.data, receive.task_id, 'id');
+                state.lists[senderListindex].incomplete_tasks.data.splice(task_index, 1);
+                state.lists[senderListindex].meta.total_incomplete_tasks = state.lists[senderListindex].meta.total_incomplete_tasks - 1;
+            } 
         }
     }
 };
