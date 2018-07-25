@@ -1056,26 +1056,8 @@ var PM_TaskList_Mixin = {
          * @param  {Function} callback 
          * @return {Void}            
          */
-        taskOrder ( data, callback ) {
-            var self = this;
-            var request_data = {
-                url: self.base_url + '/pm/v2/projects/1/tasks/reorder',
-                type: 'PUT',
-                data: data,
-                success (res) {
-                    if (typeof callback !== 'undefined') {
-                        callback.call ( self, res );
-                    }
-                },
-                error (res) {
-                    // Showing error
-                    res.data.error.map( function( value, index ) {
-                        pm.Toastr.error(value);
-                    }); 
-                }
-            }
-
-            self.httpRequest(request_data);
+        taskOrder ( taskOrders ) {
+            this.taskReceive(taskOrders);
         },
 
         /**
@@ -1419,6 +1401,31 @@ var PM_TaskList_Mixin = {
             }
 
             return matches;
+        },
+        taskReceive (receive, callback) {
+            var self = this;
+            var request_data = {
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks/sorting',
+                type: 'POST',
+                data: receive,
+                success (res) {
+
+                    if(receive.receive == '1') {
+                        self.$store.commit('projectTaskLists/receiveTask', {
+                            receive: receive,
+                            res: res.data
+                        });
+                    }
+                    if(typeof callback != 'undefined') {
+                        callback(res, receive);
+                    }
+                },
+
+                error (res) {
+
+                }
+            }
+            self.httpRequest(request_data);
         }
     }
 }

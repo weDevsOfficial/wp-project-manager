@@ -356,6 +356,7 @@ export default {
             var pre_define ={
                 conditions : {
                     status: '',
+                    project_transform: true,
                     per_page: this.getSettings('project_per_page', 10),
                     page : this.setCurrentPageNumber(),
                     category: typeof this.$route.query.category !== 'undefined' ? this.$route.query.category[0] : '',
@@ -363,11 +364,13 @@ export default {
             }
 
             var  args = jQuery.extend(true, pre_define, args );
+            
             var conditions = pm_apply_filters( 'before_get_project', args.conditions );
             conditions = self.generateConditions(conditions);
-
+            
             var request_data = {
                 url: self.base_url + '/pm/v2/projects?'+conditions,
+                data: args.conditions,
                 success (res) {
                     res.data.map(function(project) {
                         self.addProjectMeta(project);

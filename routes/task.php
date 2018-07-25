@@ -14,6 +14,7 @@ $router->post( 'projects/{project_id}/tasks', 'WeDevs/PM/Task/Controllers/Task_C
     ->permission(['WeDevs\PM\Core\Permissions\Create_Task'])
     ->validator( 'WeDevs\PM\Task\Validators\Create_Task' );
 
+$router->post( 'projects/{project_id}/tasks/sorting', 'WeDevs/PM/Task/Controllers/Task_Controller@task_sorting' );
 
 $router->get( 'projects/{project_id}/tasks/{task_id}', 'WeDevs/PM/Task/Controllers/Task_Controller@show' )
     ->permission(['WeDevs\PM\Core\Permissions\Access_Project']);
