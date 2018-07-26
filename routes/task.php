@@ -19,14 +19,14 @@ $router->post( 'projects/{project_id}/tasks/sorting', 'WeDevs/PM/Task/Controller
 $router->get( 'projects/{project_id}/tasks/{task_id}', 'WeDevs/PM/Task/Controllers/Task_Controller@show' )
     ->permission(['WeDevs\PM\Core\Permissions\Access_Project']);
 
-$router->put( 'projects/{project_id}/tasks/{task_id}', 'WeDevs/PM/Task/Controllers/Task_Controller@update' )
+$router->post( 'projects/{project_id}/tasks/{task_id}/update', 'WeDevs/PM/Task/Controllers/Task_Controller@update' )
     ->permission(['WeDevs\PM\Core\Permissions\Edit_Task'])
     ->validator( 'WeDevs\PM\Task\Validators\Create_Task' );
 
-$router->put( 'projects/{project_id}/tasks/{task_id}/change-status', 'WeDevs/PM/Task/Controllers/Task_Controller@change_status' )
+$router->post( 'projects/{project_id}/tasks/{task_id}/change-status', 'WeDevs/PM/Task/Controllers/Task_Controller@change_status' )
     ->permission(['WeDevs\PM\Core\Permissions\Complete_Task']);
 
-$router->delete( 'projects/{project_id}/tasks/{task_id}', 'WeDevs/PM/Task/Controllers/Task_Controller@destroy' )
+$router->post( 'projects/{project_id}/tasks/{task_id}/delete', 'WeDevs/PM/Task/Controllers/Task_Controller@destroy' )
     ->permission(['WeDevs\PM\Core\Permissions\Edit_Task']);
 
 $router->put( 'projects/{project_id}/tasks/{task_id}/attach-users', 'WeDevs/PM/Task/Controllers/Task_Controller@attach_users' )

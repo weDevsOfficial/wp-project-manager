@@ -20,13 +20,13 @@ $router->post( 'categories', 'WeDevs/PM/Category/Controllers/Category_Controller
 $router->get( 'categories/{id}', 'WeDevs/PM/Category/Controllers/Category_Controller@show' )
     ->permission([$authentic]);
 
-$router->put( 'categories/{id}', 'WeDevs/PM/Category/Controllers/Category_Controller@update' )
+$router->post( 'categories/{id}/update', 'WeDevs/PM/Category/Controllers/Category_Controller@update' )
     ->permission([$project_manage_capability])
     ->validator( 'WeDevs\PM\Category\Validators\Update_Category' );
 
     
-$router->delete( 'categories/{id}', 'WeDevs/PM/Category/Controllers/Category_Controller@destroy' )
+$router->post( 'categories/{id}/delete', 'WeDevs/PM/Category/Controllers/Category_Controller@destroy' )
     ->permission([$project_manage_capability]);
 
-$router->delete( 'categories/bulk-delete', 'WeDevs/PM/Category/Controllers/Category_Controller@bulk_destroy' )
+$router->post( 'categories/bulk-delete', 'WeDevs/PM/Category/Controllers/Category_Controller@bulk_destroy' )
     ->permission([$project_manage_capability]);

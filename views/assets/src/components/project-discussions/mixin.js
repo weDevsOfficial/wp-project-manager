@@ -516,8 +516,8 @@ export default {
             var args = jQuery.extend(true, pre_define, args );
 
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/discussion-boards/' + args.discuss_id,
-                type: 'DELETE',
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/discussion-boards/' + args.discuss_id+'/delete',
+                type: 'POST',
                 success (res) {
                     self.$store.commit('projectDiscussions/afterDeleteDiscuss', args.discuss_id);
 
@@ -565,8 +565,8 @@ export default {
             var args = jQuery.extend(true, pre_define, args);
 
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/comments/'+ args.comment_id,
-                type: 'DELETE',
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/comments/'+ args.comment_id+'/delete',
+                type: 'POST',
                 success: function(res) {
                     pm.Toastr.success(res.message);
                     self.$store.commit('projectDiscussions/afterDeleteComment', {
