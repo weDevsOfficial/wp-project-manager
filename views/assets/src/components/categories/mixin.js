@@ -72,7 +72,7 @@ export default {
             var self = this;
             var pre_define = {
                     conditions: {
-                        per_page: 1,
+                        per_page: 20,
                         page: this.setCurrentPageNumber(),
                     },
                     callback: false

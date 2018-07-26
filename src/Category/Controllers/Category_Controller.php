@@ -32,8 +32,16 @@ class Category_Controller {
         });
 
         if ( $type ) {
-            $categories = Category::where('categorible_type', $type)->paginate($per_page);
+            $categories = Category::where('categorible_type', $type);
+            if ( $per_page == '-1' ) {
+                $per_page = $categories->count();
+            }
+            $categories = $categories->paginate($per_page);
         } else {
+
+            if ( $per_page == '-1' ) {
+                $per_page = Category::count();
+            }
             $categories = Category::paginate($per_page);
         }
 
