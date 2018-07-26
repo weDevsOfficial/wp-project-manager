@@ -28,7 +28,7 @@ $router->post( 'projects/{project_id}/discussion-boards/{discussion_board_id}', 
 $router->post( 'projects/{project_id}/discussion-boards/privacy/{discussion_board_id}', 'WeDevs/PM/Discussion_Board/Controllers/Discussion_Board_Controller@privacy' )
 	->permission(['WeDevs\PM\Core\Permissions\Edit_Discuss']);
 
-$router->delete( 'projects/{project_id}/discussion-boards/{discussion_board_id}', 'WeDevs/PM/Discussion_Board/Controllers/Discussion_Board_Controller@destroy' )
+$router->post( 'projects/{project_id}/discussion-boards/{discussion_board_id}/delete', 'WeDevs/PM/Discussion_Board/Controllers/Discussion_Board_Controller@destroy' )
 	->permission(['WeDevs\PM\Core\Permissions\Edit_Discuss']);
 
 $router->put( 'projects/{project_id}/discussion-boards/{discussion_board_id}/attach-users', 'WeDevs/PM/Discussion_Board/Controllers/Discussion_Board_Controller@attach_users' )->permission(['WeDevs\PM\Core\Permissions\Edit_Discuss']);

@@ -126,8 +126,8 @@ export default {
             this.show_spinner = true;
 
             var request_data = {
-                url: self.base_url + '/pm/v2/categories/' + args.data.id,
-                type: 'PUT',
+                url: self.base_url + '/pm/v2/categories/' + args.data.id + '/update',
+                type: 'POST',
                 data: args.data,
                 
                 success (res) {
@@ -185,7 +185,7 @@ export default {
                 data: {
                     'category_ids': args.category_ids
                 },
-                type: 'DELETE',
+                type: 'POST',
                 success: function(res) {
                     args.category_ids.map(function(id, index) {
                         self.$root.$store.commit('afterDeleteCategory', id);

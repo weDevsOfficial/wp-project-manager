@@ -599,12 +599,12 @@
                         'assignees': this.assigned_to
                     },
                     self = this,
-                    url = this.base_url + '/pm/v2/projects/'+project_id+'/tasks/'+task.id;
+                    url = this.base_url + '/pm/v2/projects/'+project_id+'/tasks/'+task.id+'/update';
 
                 var request_data = {
                     url: url,
                     data: update_data,
-                    type: 'PUT',
+                    type: 'POST',
                     success (res) {
                         pmBus.$emit('pm_after_update_single_task', res);
                         self.is_task_title_edit_mode = false;

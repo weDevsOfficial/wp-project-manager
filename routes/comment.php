@@ -23,5 +23,5 @@ $router->post( 'projects/{project_id}/comments/{comment_id}', 'WeDevs/PM/Comment
     ->validator( 'WeDevs\PM\Comment\Validators\Create_Comment' );
 
 
-$router->delete( 'projects/{project_id}/comments/{comment_id}', 'WeDevs/PM/Comment/Controllers/Comment_Controller@destroy' )
+$router->post( 'projects/{project_id}/comments/{comment_id}/delete', 'WeDevs/PM/Comment/Controllers/Comment_Controller@destroy' )
     ->permission(['WeDevs\PM\Core\Permissions\Edit_Comment']);

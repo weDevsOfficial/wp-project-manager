@@ -309,8 +309,8 @@ export default {
             args = jQuery.extend(true, pre_define, args );
             args = pm_apply_filters( 'before_project_save', args );
             var request = {
-                type: 'PUT',
-                url: this.base_url + '/pm/v2/projects/'+ args.data.id,
+                type: 'POST',
+                url: this.base_url + '/pm/v2/projects/'+ args.data.id+'/update',
                 data: args.data,
                 success (res) {
                     
@@ -603,8 +603,8 @@ export default {
             var self = this;
 
             self.httpRequest({
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/files/' + file_id,
-                type: 'DELETE',
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/files/' + file_id+'/delete',
+                type: 'POST',
                 success (res) {
                     
 
@@ -713,8 +713,8 @@ export default {
             }
             var self = this;
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/' + id,
-                type: 'DELETE',
+                url: self.base_url + '/pm/v2/projects/' + id+'/delete',
+                type: 'POST',
                 success (res) {
                     self.$store.commit('afterDeleteProject', id);
                     self.$store.commit('afterDeleteProjectCount', {project: project});

@@ -259,8 +259,8 @@ export default {
             var args = jQuery.extend(true, pre_define, args );
             var data = pm_apply_filters( 'before_milestone_save', args.data );
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+args.data.project_id+'/milestones/'+args.data.id,
-                type: 'PUT',
+                url: self.base_url + '/pm/v2/projects/'+args.data.project_id+'/milestones/'+args.data.id+'/update',
+                type: 'POST',
                 data: data,
                 success (res) {
                     self.addMeta(res.data);
@@ -325,8 +325,8 @@ export default {
             var self = this;
             
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones/' + args.milestone_id,
-                type: 'DELETE',
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones/' + args.milestone_id + '/delete',
+                type: 'POST',
                 success: function(res) {
                     self.$store.commit('projectMilestones/afterDeleteMilestone', args.milestone_id);
                     self.$root.$store.state.milestones_load = false;

@@ -16,10 +16,10 @@ $router->post( 'projects/{project_id}/files', 'WeDevs/PM/File/Controllers/File_C
 $router->get( 'projects/{project_id}/files/{file_id}', 'WeDevs/PM/File/Controllers/File_Controller@show' )
     ->permission(['WeDevs\PM\Core\Permissions\Access_Project']);
 
-$router->put( 'projects/{project_id}/files/{file_id}', 'WeDevs/PM/File/Controllers/File_Controller@rename' )
+$router->post( 'projects/{project_id}/files/{file_id}/update', 'WeDevs/PM/File/Controllers/File_Controller@rename' )
     ->permission(['WeDevs\PM\Core\Permissions\Edit_File']);
 
-$router->delete( 'projects/{project_id}/files/{file_id}', 'WeDevs/PM/File/Controllers/File_Controller@destroy' )
+$router->post( 'projects/{project_id}/files/{file_id}/delete', 'WeDevs/PM/File/Controllers/File_Controller@destroy' )
     ->permission(['WeDevs\PM\Core\Permissions\Edit_File']);
 
 $router->get( 'projects/{project_id}/files/{file_id}/users/{user_id}/download', 'WeDevs/PM/File/Controllers/File_Controller@download' )
