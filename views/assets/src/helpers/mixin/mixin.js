@@ -107,6 +107,16 @@ export default {
             return pm.Moment( date ).format( String( format ) );
         },
 
+        
+        dateTimeFormat(date) {
+            if ( !date ) {
+                return;
+            }
+
+            date = new Date(date);
+            return pm.Moment(date).format('hh:mm a');
+        },
+
 
         /**
          * WP settings date format convert to pm.Moment date format with time zone
@@ -121,21 +131,7 @@ export default {
             }
 
             date = new Date(date);
-            date = pm.Moment(date).format('YYYY-MM-DD');
-
-            var format = 'MMMM DD YYYY';
-
-            if ( PM_Vars.wp_date_format == 'Y-m-d' ) {
-            format = 'YYYY-MM-DD';
-
-            } else if ( PM_Vars.wp_date_format == 'm/d/Y' ) {
-                format = 'MM/DD/YYYY';
-
-            } else if ( PM_Vars.wp_date_format == 'd/m/Y' ) {
-                format = 'DD/MM/YYYY';
-            } 
-
-            return pm.Moment( date ).format(format);
+            return pm.Moment(date).format('MMM D');
         },
 
                 /**
@@ -149,9 +145,9 @@ export default {
             if ( !date ) {
                 return;
             }
-            
+
             date = new Date(date);
-            return pm.Moment(date).format('MMMM DD');
+            return pm.Moment(date).format('MMM D');
         },
         getSettings (key, pre_define, objKey ) {
 
