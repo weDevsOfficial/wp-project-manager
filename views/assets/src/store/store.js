@@ -17,6 +17,7 @@ export default new pm.Vuex.Store({
         project_users: [],
         is_single_task: false,
         categories: [],
+        categoryMeta: {},
         roles: [],
         milestones: [],
         milestones_load: false,
@@ -116,7 +117,9 @@ export default new pm.Vuex.Store({
             state.categories = categories;
             state.isFetchCategories = true;
         },
-
+        setCategoryMeta (state, meta) {
+            state.categoryMeta = meta;
+        },
         afterUpdateCategories (state, category) {
             var category_index = state.getIndex(state.categories, category.id, 'id');
             state.categories.splice(category_index,1, category);

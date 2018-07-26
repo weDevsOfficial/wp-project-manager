@@ -58,6 +58,12 @@
                                 </select>
                                 <input type="submit" id="doaction" class="button action" :value="__( 'Apply', 'wedevs-project-manager')">
                             </div>
+                            <pm-pagination 
+                                :total_pages="total_category_page" 
+                                :current_page_number="current_page_number" 
+                                component_name='category_pagination'>
+                                
+                            </pm-pagination>
                             
                             <br class="clear">
                         </div>
@@ -101,7 +107,8 @@
                                     
                                         <div class="row-actions">
                                             <span class="edit">
-                                                <a @click.prevent="showHideCategoryEditForm(category)" href="#">{{ __('Edit', 'wedevs-project-manager')}}</a> 
+                                                <a @click.prevent="showHideCategoryEditForm(category)" href="#">{{ __('Edit', 'wedevs-project-manager')}}</a> | 
+                                                <a @click.prevent="selfDeleteCategory(category)" href="#">{{ __('Delete', 'wedevs-project-manager')}}</a> 
                                             </span>
                                         </div>
                                         
@@ -157,9 +164,16 @@
                                 </select>
                                 <input type="submit" id="doaction2" class="button action" :value="__( 'Apply', 'wedevs-project-manager')">
                             </div>
+                            <pm-pagination 
+                                :total_pages="total_category_page" 
+                                :current_page_number="current_page_number" 
+                                component_name='category_pagination'>
+                                
+                            </pm-pagination>
                             <br class="clear">
                         </div>
                     </form>
+                    
                 </div>
             </div><!-- /col-right -->
         </div>
@@ -182,6 +196,11 @@
     }
     .pm .check-column input {
         margin: 0 0 0 8px;
+    }
+    .tablenav .pm-pagination-wrap {
+        width: auto;
+        margin-top: 0px;
+        text-align: right;
     }
 </style>
 
@@ -207,6 +226,7 @@
                 submit_disabled: false,
                 delete_items: [],
                 bulk_action: '-1',
+                current_page_number: 1,
                 select_all: false,
                 show_spinner: false,
                 add_new_category: __( 'Add New Category', 'wedevs-project-manager'),
@@ -219,6 +239,9 @@
                 }else{
                    this.select_all = false; 
                 }
+            },
+            '$route' (route) {
+                this.getCategories();
             }
         },
 
@@ -229,6 +252,9 @@
 
             isFetchCategories () {
                 return this.$root.$store.state.isFetchCategories;
+            },
+            total_category_page () {
+                return this.$root.$store.state.categoryMeta.pagination.total_pages;
             }
         },
 
@@ -281,6 +307,15 @@
                 this.newCategory(args);
                 this.title ='';
                 this.description = '';
+            },
+            selfDeleteCategory (category) {
+                  var self = this;
+                var args = {
+                    id: category.id,
+                    
+                }
+
+                self.deleteCategory(args);
             }
         }
     }

@@ -12,6 +12,7 @@ use WeDevs\PM\Common\Traits\Transformer_Manager;
 use WeDevs\PM\Category\Transformers\Category_Transformer;
 // use Illuminate\Database\Capsule\Manager as DB;
 use \WeDevs\ORM\Eloquent\Facades\DB;
+use Illuminate\Pagination\Paginator;
 
 class Category_Controller {
 
@@ -20,10 +21,20 @@ class Category_Controller {
     public function index( WP_REST_Request $request ) {
         $type = $request->get_param( 'type' );
 
+        $per_page = $request->get_param( 'per_page' );
+        $per_page = $per_page ? $per_page : 20;
+
+        $page = $request->get_param( 'page' );
+        $page = $page ? $page : 1;
+
+        Paginator::currentPageResolver(function () use ($page) {
+            return $page;
+        });
+
         if ( $type ) {
-            $categories = Category::where('categorible_type', $type)->paginate();
+            $categories = Category::where('categorible_type', $type)->paginate($per_page);
         } else {
-            $categories = Category::paginate();
+            $categories = Category::paginate($per_page);
         }
 
         $category_collection = $categories->getCollection();
