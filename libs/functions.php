@@ -590,9 +590,9 @@ function pm_get_user_url( $user_id = false ) {
 function pm_get_task_url( $project_id, $list_id, $task_id ) {
 
     $pm_base  = Email::getInstance()->pm_link();
-    $user_url = $pm_base . '#/projects/' . $project_id . '/task-lists/' . $list_id . '/tasks/' . $task_id;
+    $task_url = $pm_base . '#/projects/' . $project_id . '/task-lists/' . $list_id . '/tasks/' . $task_id;
 
-    return $user_url;
+    return $task_url;
 }
 
 function pm_get_task( $task_id ) {
@@ -613,5 +613,13 @@ function pm_get_task( $task_id ) {
 
 function pm_get_file_download_url( $project_id, $user_id, $file_id ) {
     return get_rest_url() . 'pm/v2/projects/' . $project_id . '/files/' . $file_id . '/users/' . $user_id . '/download';
+}
+
+function pm_get_list_url( $project_id, $list_id ) {
+
+    $pm_base  = Email::getInstance()->pm_link();
+    $list_url = $pm_base . '#/projects/' . $project_id . '/task-lists/' . $list_id;
+
+    return $list_url;
 }
 

@@ -3,8 +3,8 @@ Contributors: tareq1988, wedevs, asaquzzaman, mshossain110
 Donate Link: https://tareq.co/donate/
 Tags: project, manager, project manager, project management, todo, todo list, task, basecamp, milestone, message, file, comment, client, team, tracking, planning, lists, reporting, project management plugin for wordpress, project manager, project manager plugin for wordpress, wordpress project management
 Requires at least: 4.4
-Tested up to: 4.9.6
-Stable tag: 2.0.1
+Tested up to: 4.9.7
+Stable tag: 2.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -122,11 +122,17 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
-= v2.0.2 - July 9, 2018 =
-   * **New** Add new field task estimated
-   * **Fix** task complete incomplete issues in ms-edge
-   * **Fix** pagination error for per page -1
-   * **Fix** multisite installation and upgrade 
+= v2.0.2 - July 23, 2018 =
+ 
+ * **New** Create function for getting individual task.
+ * **New** Hook for all CRUD (Create, Read, Update and Delete)
+ * **Fix** Task complete and incomplete issues in microsoft edge browser.
+ * **Fix** Pagination set -1 for per page and its getting error.
+ * **Fix** Multisite installation and upgrade.
+ * **Fix** Translation for vue files.
+ * **Fix** Fetch project in single task page.
+ * **Fix** Reduce conflict with WPERP plugin.
+ * **Fix** JS make compitable with IE>8.
 
 = v2.0.1 - Jun 29, 2018 =
 
