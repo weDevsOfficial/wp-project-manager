@@ -553,20 +553,30 @@ export default {
         getProjectCategories (callback) {
             var callback = callback || false;
             var self = this;
+            var page = 0;
 
             var categories = self.$root.$store.state.categories;
-
-            if ( categories.length ) {
+            if (typeof self.$root.$store.state.categoryMeta.pagination !== 'undefined' ) {
+                page = self.$root.$store.state.categoryMeta.pagination.total_pages;
+            }
+            console.log("category");
+            if ( categories.length &&  page == 1 ) {
                 if (callback) {
                     //callback(categories);
                 }
                 return categories;
             }
+            var conditions = {
+                per_page: -1,
+                type: 'project'
+            }
+            var conditions = self.generateConditions(conditions);
 
             this.httpRequest({
-                url: self.base_url + '/pm/v2/categories?type=project',
+                url: self.base_url + '/pm/v2/categories?' + conditions,
                 success (res) {
                     self.$root.$store.commit('setCategories', res.data);
+                    self.$root.$store.commit('setCategoryMeta', res.meta);
 
                     if (callback) {
                         callback(res.data);
