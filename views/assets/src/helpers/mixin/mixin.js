@@ -149,7 +149,7 @@ export default {
             if ( !date ) {
                 return;
             }
-
+            
             date = new Date(date);
             return pm.Moment(date).format('MMMM DD');
         },
