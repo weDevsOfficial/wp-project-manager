@@ -559,7 +559,6 @@ export default {
             if (typeof self.$root.$store.state.categoryMeta.pagination !== 'undefined' ) {
                 page = self.$root.$store.state.categoryMeta.pagination.total_pages;
             }
-            console.log("category");
             if ( categories.length &&  page == 1 ) {
                 if (callback) {
                     //callback(categories);
