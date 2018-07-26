@@ -23,7 +23,8 @@ export function setLocaleData( data ) {
  *
  * @return {Jed} Jed instance.
  */
-export function getI18n(domain = '') {
+export function getI18n(domain) {
+	domain = domain || '';
 	if ( ! i18n[domain] ) {
 		setLocaleData( { '': {} } );
 	}

@@ -435,6 +435,34 @@ export default {
             });
 
         },
+        getUsers ( args ) {
+            var self = this;
+            var pre_define ={
+                data: {
+                },
+                conditions : {
+
+                },
+                callback: false
+            }
+
+            var  args = jQuery.extend(true, pre_define, args );
+            var conditions = self.generateConditions(args.conditions);
+
+            if (typeof args.data.id === 'undefined' ){
+                return ;
+            }
+
+            self.httpRequest({
+                url: self.base_url + '/pm/v2/users/?' + conditions ,
+                data: args.data,
+                success (res) {
+                    if (typeof args.callback === 'function' ) {
+                        args.callback.call(self, res);
+                    }
+                }
+            });
+        },
 
         getUser ( args ) {
             var self = this;
