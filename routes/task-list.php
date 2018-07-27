@@ -34,3 +34,5 @@ $router->put( 'projects/{project_id}/task-lists/{task_list_id}/detach-users', 'W
 
 $router->post( 'projects/{project_id}/task-lists/privacy/{task_list_id}', 'WeDevs/PM/Task_List/Controllers/Task_List_Controller@privacy' )
 	->permission(['WeDevs\PM\Core\Permissions\Edit_Task_List']);
+
+$router->post( 'projects/{project_id}/lists/sorting', 'WeDevs/PM/Task_List/Controllers/Task_List_Controller@list_sorting' );

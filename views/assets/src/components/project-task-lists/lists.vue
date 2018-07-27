@@ -33,9 +33,9 @@
                 </transition>
                 
                 
-                <ul class="pm-todolists">
+                <ul v-pm-list-sortable class="pm-todolists">
                 
-                    <li v-for="(list, index) in lists" :key="list.id"  :class="'pm-fade-out-'+list.id">
+                    <li  v-for="(list, index) in lists" :key="list.id" :data-id="list.id"  :class="'pm-list-sortable pm-fade-out-'+list.id">
 
                         <article class="pm-todolist">
                             <header class="pm-list-header">
@@ -204,6 +204,7 @@
     import tasks from './list-tasks.vue';
     import default_page from './default-list-page.vue';
     import Mixins from './mixin';
+
     
     export default {
 

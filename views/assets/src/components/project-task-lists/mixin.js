@@ -1426,6 +1426,30 @@ var PM_TaskList_Mixin = {
                 }
             }
             self.httpRequest(request_data);
+        },
+
+        listOrder (orders) {
+            var self = this;
+            
+            self.$store.commit('projectTaskLists/listOrdering', orders);
+            
+            var request_data = {
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/lists/sorting',
+                type: 'POST',
+                data: orders,
+                success (res) {
+
+                    // self.$store.commit('projectTaskLists/receiveTask', {
+                    //     receive: receive,
+                    //     res: res.data
+                   
+                },
+
+                error (res) {
+
+                }
+            }
+            self.httpRequest(request_data);
         }
     }
 }

@@ -9,6 +9,31 @@ var PM_Task = {
         this.sortable();
     },
 
+    listSortable: function(el, binding, vnode) {
+        var $ = jQuery;
+        var component = vnode.context;
+        
+
+        $(el).sortable({
+            cancel: '.nonsortable,form',
+            placeholder: "ui-state-highlight",
+            
+            
+            update: function(event, ui) {
+                if(ui.sender) {
+                    
+                } else {
+                    let todos  = $(ui.item).closest('ul.pm-todolists').find('li.pm-list-sortable');
+                    let orders = PM_Task.sorting(todos);
+                    
+                    component.listOrder({
+                        orders: orders
+                    });
+                };
+            }
+        });
+    },
+
     sortable: function (el, binding, vnode) {
         var $ = jQuery;
         var component = vnode.context;
@@ -70,43 +95,7 @@ var PM_Task = {
                 index: index,
                 id: task_id
             });
-            
-
-            //ids.push(task_id);
-           
-
-            // var task_index = component.getIndex(component.list.incomplete_tasks.data, task_id,'id');
-            
-            // if (task_index !== false && typeof component.list.incomplete_tasks !== 'undefined') {
-            //     component.list.incomplete_tasks.data[task_index].order = order;
-            // }
-
-            // if (task_index === false) {
-            //     var task_index = component.getIndex(component.list.complete_tasks.data, task_id,'id');
-
-            //     if ( task_index !== false && typeof component.list.complete_tasks !== 'undefined') {
-            //         component.list.complete_tasks.data[task_index].order = order;
-            //     }
-            // }
-
         }); 
-
-        // var after_revers_order = orders.sort(),
-        //     after_revers_order = after_revers_order.reverse();
-
-        // after_revers_order.forEach(function(order, key) {
-        //     send_data.push({
-        //         id: ids[key],
-        //         order: order
-        //     });
-        // });
-
-        // var data = {
-        //     task_orders: send_data,
-        //     board_id: component.list.id,
-        //     board_type: 'task_list'
-        // }
-        //component.taskOrder(data);
 
         return orders;
     },
@@ -212,5 +201,12 @@ pm.Vue.directive('prevent-line-break', {
 
     inserted: function (element) {
         PM_Task.disableLineBreak(element);
+    }
+});
+
+pm.Vue.directive('pm-list-sortable', {
+
+    inserted: function (el, binding, vnode) {
+        PM_Task.listSortable(el, binding, vnode);
     }
 });
