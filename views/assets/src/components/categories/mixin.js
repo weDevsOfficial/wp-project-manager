@@ -68,16 +68,28 @@ export default {
          * Get All categories 
          * @return {[data]} [description]
          */
-        getCategories () {
+        getCategories (args) {
             var self = this;
+            var pre_define = {
+                    conditions: {
+                        per_page: 20,
+                        page: this.setCurrentPageNumber(),
+                    },
+                    callback: false
+                };
+
+            var args       = jQuery.extend(true, pre_define, args );
+            var conditions = self.generateConditions(args.conditions);
+
             var request_data = {
-                url: self.base_url + '/pm/v2/categories',
+                url: self.base_url + '/pm/v2/categories?' + conditions,
                 success: function(res) {
                     res.data.map(function(category, index) {
                         self.addCategoryMeta(category);
                     });
                     pm.NProgress.done();  
                     self.$root.$store.commit('setCategories', res.data);
+                    self.$root.$store.commit('setCategoryMeta', res.meta);
                 }
             };
 
@@ -166,6 +178,47 @@ export default {
             self.httpRequest(request_data);
         },
 
+        deleteCategory (args) {
+            if ( ! confirm( this.__( 'Are you sure!', 'wedevs-project-manager') ) ) {
+                return;
+            }
+            var self = this;
+            var pre_define = {
+                    id: false,
+                    callback: false
+                };
+
+            var args = jQuery.extend(true, pre_define, args );
+
+            var request_data = {
+                url: self.base_url + '/pm/v2/categories/'+args.id+'/delete',
+                type: 'POST',
+                success (res) {
+                    self.$store.commit('projectDiscussions/afterDeleteDiscuss', args.discuss_id);
+
+                    if (!self.$root.$store.state.categories.length) {
+                        self.$router.push({
+                            name: 'categories',
+                        });
+                    } else {
+                        self.getCategories();
+                    }                
+                    pm.Toastr.success(res.message);
+                    if (typeof args.callback === 'function') {
+                        args.callback();
+                    } 
+                },
+
+                error ( res ) {
+                    res.responseJSON.message.map( function( value, index ) {
+                        pm.Toastr.error(value);
+                    });
+                }
+            }
+            
+            self.httpRequest(request_data);
+        },
+
         /**
          * Delete Bulk categories by categories ids
          * @param  {Object} args ids with callback
@@ -197,6 +250,12 @@ export default {
                 }
             }
             self.httpRequest(request_data);
-        }
+        },
+        setCurrentPageNumber () {
+            var self = this;
+            var current_page_number = self.$route.params.current_page_number ? self.$route.params.current_page_number : 1;
+            self.current_page_number = current_page_number;
+            return current_page_number;
+        },
     },
 };

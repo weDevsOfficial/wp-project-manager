@@ -104,17 +104,10 @@ return [
 		'in_footer'  => true
 	],
 
-	'pm-v-autocomplete' => [
-		'id'         => 'pm-v-autocomplete',
-		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/v-autocomplete/v-autocomplete.min.js',
-		'dependency' => ['pm-toastr'],
-		'in_footer'  => true
-	],
-
 	'pm-vue-library' => [
 		'id'         => 'pm-vue-library',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/js/library.js',
-		'dependency' => ['pm-v-autocomplete'],
+		'dependency' => ['pm-toastr'],
 		'in_footer'  => true
 	],
 
