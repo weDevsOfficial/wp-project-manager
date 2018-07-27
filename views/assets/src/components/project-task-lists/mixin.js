@@ -319,9 +319,9 @@ var PM_TaskList_Mixin = {
             var args = jQuery.extend(true, pre_define, args );
             var data = pm_apply_filters( 'before_task_list_save', args.data );
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/task-lists/'+self.list.id,
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/task-lists/'+self.list.id+'/update',
                 data: data,
-                type: 'PUT',
+                type: 'POST',
                 success (res) {
                     self.addMetaList(res.data);
                     pm.Toastr.success(res.message);
@@ -391,8 +391,8 @@ var PM_TaskList_Mixin = {
 
 
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/task-lists/' + args.list_id,
-                type: 'DELETE',
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/task-lists/' + args.list_id +'/delete',
+                type: 'POST',
                 success: function(res) {
                     self.$store.commit( 'projectTaskLists/afterDeleteList', args.list_id );
                     pm.Toastr.success(res.message);
@@ -538,8 +538,8 @@ var PM_TaskList_Mixin = {
             var data = pm_apply_filters( 'before_task_save', args.data );
             
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+args.data.project_id+'/tasks/'+args.data.task_id,
-                type: 'PUT',
+                url: self.base_url + '/pm/v2/projects/'+args.data.project_id+'/tasks/'+args.data.task_id+'/update',
+                type: 'POST',
                 data: data,
                 success (res) {
                     self.addTaskMeta(res.data);
@@ -610,8 +610,8 @@ var PM_TaskList_Mixin = {
             var args = jQuery.extend(true, pre_define, args);
 
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks/' + args.task.id,
-                type: 'DELETE',
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks/' + args.task.id + '/delete',
+                type: 'POST',
                 success (res) {
                     self.$store.commit( 'projectTaskLists/afterDeleteTask', {
                         'task': args.task,
@@ -1056,26 +1056,8 @@ var PM_TaskList_Mixin = {
          * @param  {Function} callback 
          * @return {Void}            
          */
-        taskOrder ( data, callback ) {
-            var self = this;
-            var request_data = {
-                url: self.base_url + '/pm/v2/projects/1/tasks/reorder',
-                type: 'PUT',
-                data: data,
-                success (res) {
-                    if (typeof callback !== 'undefined') {
-                        callback.call ( self, res );
-                    }
-                },
-                error (res) {
-                    // Showing error
-                    res.data.error.map( function( value, index ) {
-                        pm.Toastr.error(value);
-                    }); 
-                }
-            }
-
-            self.httpRequest(request_data);
+        taskOrder ( taskOrders ) {
+            this.taskReceive(taskOrders);
         },
 
         /**
@@ -1256,7 +1238,7 @@ var PM_TaskList_Mixin = {
             
             var request_data = {
                 url: self.base_url + '/pm/v2/projects/'+args.data.project_id+'/tasks/'+args.data.task_id +'/change-status',
-                type: 'PUT',
+                type: 'POST',
                 data: args.data,
                 success ( res ) {
                     if( typeof args.callback === 'function' ) {
@@ -1419,6 +1401,55 @@ var PM_TaskList_Mixin = {
             }
 
             return matches;
+        },
+        taskReceive (receive, callback) {
+            var self = this;
+            var request_data = {
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks/sorting',
+                type: 'POST',
+                data: receive,
+                success (res) {
+
+                    if(receive.receive == '1') {
+                        self.$store.commit('projectTaskLists/receiveTask', {
+                            receive: receive,
+                            res: res.data
+                        });
+                    }
+                    if(typeof callback != 'undefined') {
+                        callback(res, receive);
+                    }
+                },
+
+                error (res) {
+
+                }
+            }
+            self.httpRequest(request_data);
+        },
+
+        listOrder (orders) {
+            var self = this;
+            
+            self.$store.commit('projectTaskLists/listOrdering', orders);
+            
+            var request_data = {
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/lists/sorting',
+                type: 'POST',
+                data: orders,
+                success (res) {
+
+                    // self.$store.commit('projectTaskLists/receiveTask', {
+                    //     receive: receive,
+                    //     res: res.data
+                   
+                },
+
+                error (res) {
+
+                }
+            }
+            self.httpRequest(request_data);
         }
     }
 }

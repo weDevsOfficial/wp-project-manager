@@ -107,6 +107,16 @@ export default {
             return pm.Moment( date ).format( String( format ) );
         },
 
+        
+        dateTimeFormat(date) {
+            if ( !date ) {
+                return;
+            }
+
+            date = new Date(date);
+            return pm.Moment(date).format('hh:mm a');
+        },
+
 
         /**
          * WP settings date format convert to pm.Moment date format with time zone
@@ -121,21 +131,7 @@ export default {
             }
 
             date = new Date(date);
-            date = pm.Moment(date).format('YYYY-MM-DD');
-
-            var format = 'MMMM DD YYYY';
-
-            if ( PM_Vars.wp_date_format == 'Y-m-d' ) {
-            format = 'YYYY-MM-DD';
-
-            } else if ( PM_Vars.wp_date_format == 'm/d/Y' ) {
-                format = 'MM/DD/YYYY';
-
-            } else if ( PM_Vars.wp_date_format == 'd/m/Y' ) {
-                format = 'DD/MM/YYYY';
-            } 
-
-            return pm.Moment( date ).format(format);
+            return pm.Moment(date).format('MMM D');
         },
 
                 /**
@@ -151,7 +147,7 @@ export default {
             }
 
             date = new Date(date);
-            return pm.Moment(date).format('MMMM DD');
+            return pm.Moment(date).format('MMM D');
         },
         getSettings (key, pre_define, objKey ) {
 
@@ -309,8 +305,8 @@ export default {
             args = jQuery.extend(true, pre_define, args );
             args = pm_apply_filters( 'before_project_save', args );
             var request = {
-                type: 'PUT',
-                url: this.base_url + '/pm/v2/projects/'+ args.data.id,
+                type: 'POST',
+                url: this.base_url + '/pm/v2/projects/'+ args.data.id+'/update',
                 data: args.data,
                 success (res) {
                     
@@ -356,6 +352,7 @@ export default {
             var pre_define ={
                 conditions : {
                     status: '',
+                    project_transform: true,
                     per_page: this.getSettings('project_per_page', 10),
                     page : this.setCurrentPageNumber(),
                     category: typeof this.$route.query.category !== 'undefined' ? this.$route.query.category[0] : '',
@@ -363,11 +360,13 @@ export default {
             }
 
             var  args = jQuery.extend(true, pre_define, args );
+            
             var conditions = pm_apply_filters( 'before_get_project', args.conditions );
             conditions = self.generateConditions(conditions);
-
+            
             var request_data = {
                 url: self.base_url + '/pm/v2/projects?'+conditions,
+                data: args.conditions,
                 success (res) {
                     res.data.map(function(project) {
                         self.addProjectMeta(project);
@@ -434,6 +433,34 @@ export default {
                 }
             });
 
+        },
+        getUsers ( args ) {
+            var self = this;
+            var pre_define ={
+                data: {
+                },
+                conditions : {
+
+                },
+                callback: false
+            }
+
+            var  args = jQuery.extend(true, pre_define, args );
+            var conditions = self.generateConditions(args.conditions);
+
+            if (typeof args.data.id === 'undefined' ){
+                return ;
+            }
+
+            self.httpRequest({
+                url: self.base_url + '/pm/v2/users/?' + conditions ,
+                data: args.data,
+                success (res) {
+                    if (typeof args.callback === 'function' ) {
+                        args.callback.call(self, res);
+                    }
+                }
+            });
         },
 
         getUser ( args ) {
@@ -525,20 +552,29 @@ export default {
         getProjectCategories (callback) {
             var callback = callback || false;
             var self = this;
+            var page = 0;
 
             var categories = self.$root.$store.state.categories;
-
-            if ( categories.length ) {
+            if (typeof self.$root.$store.state.categoryMeta.pagination !== 'undefined' ) {
+                page = self.$root.$store.state.categoryMeta.pagination.total_pages;
+            }
+            if ( categories.length &&  page == 1 ) {
                 if (callback) {
                     //callback(categories);
                 }
                 return categories;
             }
+            var conditions = {
+                per_page: -1,
+                type: 'project'
+            }
+            var conditions = self.generateConditions(conditions);
 
             this.httpRequest({
-                url: self.base_url + '/pm/v2/categories?type=project',
+                url: self.base_url + '/pm/v2/categories?' + conditions,
                 success (res) {
                     self.$root.$store.commit('setCategories', res.data);
+                    self.$root.$store.commit('setCategoryMeta', res.meta);
 
                     if (callback) {
                         callback(res.data);
@@ -600,8 +636,8 @@ export default {
             var self = this;
 
             self.httpRequest({
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/files/' + file_id,
-                type: 'DELETE',
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/files/' + file_id+'/delete',
+                type: 'POST',
                 success (res) {
                     
 
@@ -710,8 +746,8 @@ export default {
             }
             var self = this;
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/' + id,
-                type: 'DELETE',
+                url: self.base_url + '/pm/v2/projects/' + id+'/delete',
+                type: 'POST',
                 success (res) {
                     self.$store.commit('afterDeleteProject', id);
                     self.$store.commit('afterDeleteProjectCount', {project: project});

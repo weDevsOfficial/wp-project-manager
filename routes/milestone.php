@@ -18,12 +18,13 @@ $router->post( 'projects/{project_id}/milestones', 'WeDevs/PM/Milestone/Controll
 $router->get( 'projects/{project_id}/milestones/{milestone_id}', 'WeDevs/PM/Milestone/Controllers/Milestone_Controller@show' )
     ->permission(['WeDevs\PM\Core\Permissions\Access_Project']);
 
-$router->put( 'projects/{project_id}/milestones/{milestone_id}', 'WeDevs/PM/Milestone/Controllers/Milestone_Controller@update' )
+$router->post( 'projects/{project_id}/milestones/{milestone_id}/update', 'WeDevs/PM/Milestone/Controllers/Milestone_Controller@update' )
     ->permission(['WeDevs\PM\Core\Permissions\Edit_Milestone'])
     ->validator( 'WeDevs\PM\Milestone\Validators\Create_Milestone' );
 
 
-$router->delete( 'projects/{project_id}/milestones/{milestone_id}', 'WeDevs/PM/Milestone/Controllers/Milestone_Controller@destroy' )
+$router->post( 'projects/{project_id}/milestones/{milestone_id}/delete', 'WeDevs/PM/Milestone/Controllers/Milestone_Controller@destroy' )
     ->permission(['WeDevs\PM\Core\Permissions\Edit_Milestone']);
+
 $router->post( 'projects/{project_id}/milestones/privacy/{milestone_id}', 'WeDevs/PM/Milestone/Controllers/Milestone_Controller@privacy' )
-->permission(['WeDevs\PM\Core\Permissions\Edit_Milestone']);
+	->permission(['WeDevs\PM\Core\Permissions\Edit_Milestone']);

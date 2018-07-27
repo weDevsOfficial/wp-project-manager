@@ -59,7 +59,7 @@ module.exports = {
                     path.resolve('node_modules/vue-multiselect')
                 ],
                 query: {
-                    presets:[ 'es2015', 'react', 'stage-2' ]
+                    presets:[ "env", "stage-3" , "es2015" ]
                 }
              
             },
@@ -85,7 +85,7 @@ module.exports = {
     },
 
     plugins: [
-        //new UglifyJsPlugin()
+        new UglifyJsPlugin()
     ]
 }
 

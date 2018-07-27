@@ -16,6 +16,7 @@ class Board extends Eloquent {
         'title',
         'description',
         'order',
+        'type',
         'project_id',
         'created_by',
         'updated_by',
