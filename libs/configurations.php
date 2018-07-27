@@ -155,7 +155,7 @@ function pm_install_project_manager() {
     add_filter('upgrader_pre_install', array($upgrader, 'deactivate_plugin_before_upgrade'), 10, 2);
     add_filter('upgrader_clear_destination', array($upgrader, 'delete_old_plugin'), 10, 4);
 
-    $result   = $upgrader->install( 'https://github.com/weDevsOfficial/wp-project-manager/releases/download/v2.0.2/wedevs-project-manager-php5.6-v2.0.2.zip' );
+    $result   = $upgrader->install( 'https://github.com/weDevsOfficial/wp-project-manager/releases/download/v2.0.4/wedevs-project-manager-php5.6-v2.0.4.zip' );
 
     if ( is_wp_error( $result ) ) {
          wp_send_json_error( $result );
