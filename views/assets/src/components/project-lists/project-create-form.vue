@@ -44,6 +44,8 @@
                 <input v-pm-users class="pm-project-coworker" type="text" name="user" :placeholder="search_user" size="45">
             </div>
 
+            <pm-do-action hook="pm_project_form" :actionData="project"></pm-do-action>
+
             <div class="pm-form-item item project-notify">
                 <label>
                     <input type="checkbox" v-model="project_notify" name="project_notify" id="project-notify" value="yes" />
@@ -205,6 +207,7 @@
                         'notify_users': this.project_notify,
                         'assignees': this.formatUsers(this.selectedUsers),
                         'status': this.project.status,
+                        'department_id': this.project.department_id
                     }   
                 }
 

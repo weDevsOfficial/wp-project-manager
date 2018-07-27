@@ -46,6 +46,7 @@ module.exports = function(grunt) {
                     '!readme.md',
                     '!composer.json',
                     '!composer.lock',
+                    '!composer.phar',
                     '!secret.json',
                     '!assets/less/**',
                     '!tests/**',
