@@ -1,3 +1,7 @@
+= v2.0.4 - July 27, 2018 =
+
+ * **Fix** Download link for wedevs project manager php-5.6.
+ 
 = v2.0.3 - July 27, 2018 =
 
  * **New** List drag, drop and reorder.
