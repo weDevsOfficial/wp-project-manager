@@ -20,7 +20,14 @@ weDevsPMRegisterChildrenRoute('project_root',
                 },
                 label: 'Categories',
                 order: 2,
-            }
+            },
+            children: [
+                {
+                    path: 'pages/:current_page_number', 
+                    component: categories,
+                    name: 'category_pagination',
+                },
+            ]
         }
 
     ]

@@ -23,11 +23,11 @@ $router->post( 'projects', 'WeDevs/PM/Project/Controllers/Project_Controller@sto
     ->validator( 'WeDevs\PM\Project\Validators\Create_Project' )
     ->sanitizer( 'WeDevs\PM\Project\Sanitizers\Project_Sanitizer' );
 
-$router->put( 'projects/{id}', 'WeDevs/PM/Project/Controllers/Project_Controller@update' )
+$router->post( 'projects/{id}/update', 'WeDevs/PM/Project/Controllers/Project_Controller@update' )
     ->permission(['WeDevs\PM\Core\Permissions\Project_Manage_Capability'])
     ->sanitizer( 'WeDevs\PM\Project\Sanitizers\Project_Sanitizer' )
     ->validator( 'WeDevs\PM\Project\Validators\Update_Project' );
 
-$router->delete( 'projects/{id}', 'WeDevs/PM/Project/Controllers/Project_Controller@destroy' )
+$router->post( 'projects/{id}/delete', 'WeDevs/PM/Project/Controllers/Project_Controller@destroy' )
     ->sanitizer( 'WeDevs\PM\Project\Sanitizers\Delete_Sanitizer' )
     ->permission(['WeDevs\PM\Core\Permissions\Project_Manage_Capability']);

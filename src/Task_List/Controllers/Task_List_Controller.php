@@ -15,6 +15,7 @@ use WeDevs\PM\Common\Models\Boardable;
 use WeDevs\PM\Common\Traits\Request_Filter;
 use WeDevs\PM\Milestone\Models\Milestone;
 use Illuminate\Pagination\Paginator;
+use WeDevs\PM\Common\Models\Board;
 
 class Task_List_Controller {
 
@@ -41,7 +42,7 @@ class Task_List_Controller {
             $per_page = $task_lists->count();
         }
 
-        $task_lists = $task_lists->orderBy( 'created_at', 'DESC' )
+        $task_lists = $task_lists->orderBy( 'order', 'DESC' )
             ->paginate( $per_page );
 
         $task_list_collection = $task_lists->getCollection();
@@ -77,8 +78,10 @@ class Task_List_Controller {
         $data = $this->extract_non_empty_values( $request );
         $milestone_id = $request->get_param( 'milestone' );
 
-        $milestone = Milestone::find( $milestone_id );
-        $task_list = Task_List::create( $data );
+        $milestone     = Milestone::find( $milestone_id );
+        $latest_order  = Task_List::latest_order();
+        $data['order'] = $latest_order + 1;
+        $task_list     = Task_List::create( $data );
 
         if ( $milestone ) {
             $this->attach_milestone( $task_list, $milestone );
@@ -241,5 +244,27 @@ class Task_List_Controller {
         $privacy = $request->get_param( 'is_private' );
         pm_update_meta( $task_list_id, $project_id, 'task_list', 'privacy', $privacy );
         return $this->get_response( NULL);
+    }
+
+    public function list_sorting( WP_REST_Request $request ) {
+
+        $orders  = $request->get_param( 'orders' );
+        $orders  = array_reverse( $orders );
+
+        foreach ( $orders as $index => $order ) {
+            //$index   = empty( $order['index'] ) ? 0 : intval( $order['index'] );
+            $list_id = empty( $order['id'] ) ? '' : intval( $order['id'] );
+
+            $board = Board::where( 'id', $list_id )
+                    ->where( 'type', 'task_list' )
+                    ->first();
+
+            if ( $board ) {
+                $board->order = $index;
+                $board->save();
+            }
+        }
+
+        wp_send_json_success();
     }
 }

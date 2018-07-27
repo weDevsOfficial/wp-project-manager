@@ -1,3 +1,13 @@
+= v2.0.3 - July 27, 2018 =
+
+ * **New** List drag, drop and reorder.
+ * **New** Task independently switch in task lists.
+ * **New** Added categry pagination.
+ * **Fix** Date format problem for task and overviews graph.
+ * **Update** Activity date format change.
+ * **Update** Load All Categories in select form.
+ * **Update** Load all HTTP request with GET and POST methods.
+
 = v2.0.2 - July 23, 2018 =
 
  * **New** Create function for getting individual task.

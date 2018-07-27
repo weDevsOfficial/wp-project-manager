@@ -69,13 +69,15 @@ class Enqueue_Scripts {
 						'quality' => 100 
 					)
 				),
-				'roles'                    => pm_get_wp_roles(),
-				'settings'                 => pm_get_settings(),
-				'text'                     => pm_get_text('common'),
-				'dir_url'                  => config('frontend.url'),
-				'is_pro'                   => $wedevs_pm_pro,
-				'is_admin'                 => is_admin(),
-				'language'                 => apply_filters( 'pm_get_jed_locale_data', [ 'pm' => pm_get_jed_locale_data( 'wedevs-project-manager' ) ] )
+				'roles'       => pm_get_wp_roles(),
+				'settings'    => pm_get_settings(),
+				'text'        => pm_get_text('common'),
+				'dir_url'     => config('frontend.url'),
+				'is_pro'      => $wedevs_pm_pro,
+				'is_admin'    => is_admin(),
+				'language'    => apply_filters( 'pm_get_jed_locale_data', [ 'pm' => pm_get_jed_locale_data( 'wedevs-project-manager' ) ] ),
+				'date_format' => get_option( 'date_format' ),
+				'time_format' =>  get_option( 'time_format' )
         ));
 	}
 }

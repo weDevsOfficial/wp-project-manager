@@ -1,12 +1,12 @@
 <template>
     <div class="pm-incomplete-tasks">
-        <ul  class="pm-todos pm-todolist-content pm-incomplete-task" v-pm-sortable>
+        <ul :data-list_id="list.id"  class="pm-todos pm-todolist-content pm-incomplete-task pm-connected-sortable" v-pm-sortable>
             <li :data-id="task.id" :data-order="task.order" class="pm-todo" v-for="(task, task_index) in getIncompleteTasks" :key="task.id" :class="'pm-fade-out-'+task.id">
 
                 <incompleted-tasks :task="task" :list="list"></incompleted-tasks>       
             </li>
-
-            <li v-if="!getIncompleteTasks.length" class="nonsortable">{{ __( 'No tasks found.', 'wedevs-project-manager') }}</li>
+            
+            <li v-if="!hasList" class="nonsortable">{{ __( 'No tasks found.', 'wedevs-project-manager') }}</li>
             <transition name="slide" v-if="can_create_task">
                 <li v-if="list.show_task_form" class="pm-todo-form nonsortable">
                     <new-task-form :list="list"></new-task-form>
@@ -49,7 +49,21 @@
                more_completed_task_spinner: false,
                loading_completed_tasks: true,
                loading_incomplete_tasks: true,
-               completed_tasks_next_page_number:null
+               completed_tasks_next_page_number:null,
+               hasList: false
+            }
+        },
+
+        watch: {
+            list: {
+                handler () {
+                    var self = this;
+                    pm.Vue.nextTick(function() {
+                        self.hasList = self.list.incomplete_tasks.data.length ? true : false;
+                    })
+                },
+
+                deep: true
             }
         },
 

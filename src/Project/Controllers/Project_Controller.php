@@ -26,6 +26,7 @@ class Project_Controller {
 		$page     = $request->get_param( 'page' );
 		$status   = $request->get_param( 'status' );
 		$category = $request->get_param( 'category' );
+		$project_transform = $request->get_param( 'project_transform' );
 
 		$per_page_from_settings = pm_get_settings( 'project_per_page' );
 		$per_page_from_settings = $per_page_from_settings ? $per_page_from_settings : 15;
@@ -38,6 +39,12 @@ class Project_Controller {
         }); 
 
 		$projects = $this->fetch_projects( $category, $status );
+
+		if( $project_transform == 'false' ) {
+			
+			wp_send_json_success( $projects->get()->toArray() );
+		}
+
 		$projects = apply_filters( 'pm_project_query', $projects, $request->get_params() );
 		if( $per_page == 'all' ) {
 			$project_collection = $projects->get();
@@ -98,12 +105,19 @@ class Project_Controller {
     }
 
     private function fetch_projects_by_category( $category = null ) {
-    	$category = Category::where( 'categorible_type', 'project' )
-    		->where( 'id', $category )
-    		->first();
     	$user_id = get_current_user_id();
+    	
     	if ( $category ) {
-    		$projects = $category->projects()->orderBy( 'created_at', 'DESC' );
+    		$category = Category::where( 'categorible_type', 'project' )
+	    		->where( 'id', $category )
+	    		->first();
+	    	
+	    	if ( $category ) {
+	    		$projects = $category->projects()->orderBy( 'created_at', 'DESC' );
+	    	} else {
+	    		$projects = Project::orderBy( 'created_at', 'DESC' );
+	    	}
+    		
     	} else {
     		$projects = Project::orderBy( 'created_at', 'DESC' );
     	}

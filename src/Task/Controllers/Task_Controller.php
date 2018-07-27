@@ -402,6 +402,54 @@ class Task_Controller {
         return $this->get_response( NULL);
     }
 
+    public function task_sorting( WP_REST_Request $request ) {
+        
+        $project_id = $request->get_param( 'project_id' );
+        $list_id    = $request->get_param( 'list_id' );
+        $task_id    = $request->get_param( 'task_id' );
+        $orders     = $request->get_param( 'orders' );
+        $receive    = $request->get_param( 'receive' );
+        $task       = [];
+        $sender_list_id = false;
+
+        if ( isset( $receive ) && $receive == 1 ) {
+            $task = pm_get_task( $task_id );
+            $sender_list_id = $task ? $task['data']['task_list']['data']['id'] : false;
+            $boardable = Boardable::where( 'board_type', 'task_list' )
+                ->where( 'boardable_id', $task_id )
+                ->first();
+            
+            if ( $boardable ) {
+                $boardable->board_id = $list_id;
+                $boardable->update();
+            } 
+
+            $task = pm_get_task( $task_id );
+        }
+        
+        foreach ( $orders as $order ) {
+            $index   = empty( $order['index'] ) ? 0 : intval( $order['index'] );
+            $task_id = empty( $order['id'] ) ? '' : intval( $order['id'] );
+
+            $boardable = Boardable::where( 'board_id', $list_id )
+                    ->where( 'board_type', 'task_list' )
+                    ->where( 'boardable_id', $task_id )
+                    ->where( 'boardable_type', 'task' )
+                    ->first();
+
+            if ( $boardable ) {
+                $boardable->order = $index;
+                $boardable->save();
+            }
+        }
+
+        wp_send_json_success( [
+            'task'           => $task,
+            'sender_list_id' => $sender_list_id,
+            'list_id'        => $list_id,
+            'project_id'     => $project_id
+        ] );
+    }
 }
 
 

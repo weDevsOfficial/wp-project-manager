@@ -12,16 +12,34 @@ use WeDevs\PM\Common\Traits\Request_Filter;
 use WeDevs\PM\User\Models\User;
 use WeDevs\PM\User\Transformers\User_Transformer;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Pagination\Paginator;
 
 class User_Controller {
     use Transformer_Manager, Request_Filter;
 
     public function index( WP_REST_Request $request ) {
-        $users = User::paginate();
-        $user_collection = $users->getCollection();
-        $resource = new Collection( $user_collection, new User_Transformer );
+        $id    = $request->get_param( 'id' );
 
-        $resource->setPaginator( new IlluminatePaginatorAdapter( $users ) );
+        $per_page   = $request->get_param( 'per_page' );
+        $per_page   = $per_page ? $per_page : 15;
+
+        $page       = $request->get_param( 'page' );
+        $page       = $page ? $page : 1;
+
+        Paginator::currentPageResolver(function () use ($page) {
+            return $page;
+        });
+        if ( $id && is_array( $id ) ) {
+            $users = User::find( $id );
+            $resource = new Collection( $users, new User_Transformer );
+        } else {
+            $users = User::paginate( $per_page );
+            $user_collection = $users->getCollection();
+            $resource = new Collection( $user_collection, new User_Transformer );
+
+            $resource->setPaginator( new IlluminatePaginatorAdapter( $users ) );
+        }
+
 
         return $this->get_response( $resource );
     }

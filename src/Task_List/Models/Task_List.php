@@ -72,4 +72,10 @@ class Task_List extends Eloquent {
             ->where( 'entity_type', 'task_list' );
     }
 
+    public static function latest_order() {
+        return self::where( 'type', 'task_list' )
+            ->max('order');
+        
+    }
+
 }
