@@ -122,6 +122,10 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= v2.0.4 - July 27, 2018 =
+
+ * **Fix** Download link for wedevs project manager php-5.6.
+
 = v2.0.3 - July 27, 2018 =
 
  * **New** List drag, drop and reorder.

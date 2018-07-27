@@ -66,12 +66,12 @@ module.exports = function(grunt) {
             main: {
                 options: {
                     mode: 'zip',
-                    archive: './build/pm-v' + pkg.version + '.zip'
+                    archive: './build/wedevs-project-manager-v' + pkg.version + '.zip'
                 },
                 expand: true,
                 cwd: 'build/',
                 src: ['**/*'],
-                dest: 'pm'
+                dest: 'wedevs-project-manager'
             }
         },
 
