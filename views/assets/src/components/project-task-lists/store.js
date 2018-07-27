@@ -667,6 +667,17 @@ export default {
                 state.lists[senderListindex].incomplete_tasks.data.splice(task_index, 1);
                 state.lists[senderListindex].meta.total_incomplete_tasks = state.lists[senderListindex].meta.total_incomplete_tasks - 1;
             } 
+        },
+
+        listOrdering (state, orders) {
+            var lists = [];
+            orders.orders.forEach(function(order) {
+                let index = state.getIndex( state.lists, order.id, 'id');
+
+                lists.push(state.lists[index]);
+            });
+
+            state.lists = lists;
         }
     }
 };
