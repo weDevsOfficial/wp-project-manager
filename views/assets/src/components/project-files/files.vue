@@ -30,8 +30,7 @@
                                     <a v-else class="pm-colorbox-img" :href="getDownloadUrl(file.attachment_id)" :title="file.name" target="_blank">
                                         <img :src="file.thumb" :alt="file.name">
                                     </a>
-                                    
-                                    <div class="item-title">{{ file.name.slice(0, 20) }}</div>
+                                    <div class="item-title" v-if="file.name">{{ file.name.slice(0, 20) }}</div>
                                     <span class="text">
                                         {{ __('Attached to', 'wedevs-project-manager') }} 
                                         <a :href="contentURL(file)">{{ attachTo(file) }}</a>  
