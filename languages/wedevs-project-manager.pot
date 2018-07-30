@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Project Manager 2.0.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/cpm\n"
-"POT-Creation-Date: 2018-07-27 09:07:06+00:00\n"
+"POT-Creation-Date: 2018-07-30 07:28:51+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -149,12 +149,13 @@ msgstr ""
 msgid "Project Manager"
 msgstr ""
 
-#: core/WP/Menu.php:18
+#: core/WP/Menu.php:18 views/assets/src/components/project-lists/router.js:49
 msgid "Projects"
 msgstr ""
 
 #: core/WP/Menu.php:20 views/assets/js/pm.js:9
 #: views/assets/src/components/categories/categories.vue:3
+#: views/assets/src/components/categories/router.js:21
 msgid "Categories"
 msgstr ""
 

@@ -874,9 +874,9 @@ export default {
         },
 
         saveSettings (settings, project_id, callback) {
-            settings = this.formatSettings(settings),
-                project_id = project_id || false,
-                self = this;
+            var settings   = this.formatSettings(settings);
+            var project_id = project_id || false;
+            var self       = this;
             
             var url = project_id 
                 ? self.base_url + '/pm/v2/projects/'+project_id+'/settings' 
