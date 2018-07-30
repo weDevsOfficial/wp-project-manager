@@ -162,4 +162,5 @@ return [
 	__( 'Clear', 'wedevs-project-manager' ),
 	__( 'Close', 'wedevs-project-manager' ),
 	__( 'Add List', 'cpm' ),
+	__( 'Projects', 'wedevs-project-manager' ),
 ];

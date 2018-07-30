@@ -40,9 +40,9 @@
                     </multiselect>
                 </div>
             </div>
-           <!--  <div class="item task-title">
+            <div class="item task-title">
                 <input v-model="task.estimation" type="number" min="1" class="pm-task-estimation" :placeholder="estimation_placheholder">
-            </div> -->
+            </div>
             <pm-do-action hook="pm_task_form" :actionData="task" ></pm-do-action>
             <div class="item submit">
                 <span class="pm-new-task-spinner"></span>

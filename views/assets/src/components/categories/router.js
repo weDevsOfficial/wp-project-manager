@@ -18,7 +18,7 @@ weDevsPMRegisterChildrenRoute('project_root',
                 permission: function(project) {
                     return pmHasManageCapability()
                 },
-                label: 'Categories',
+                label: __('Categories', 'wedevs-project-manager'),
                 order: 2,
             },
             children: [
