@@ -124,7 +124,7 @@ export default {
         saveSelfSettings () {
 
             this.show_spinner = true;
-            self = this;
+            var self = this;
             var data = {
                 upload_limit: this.upload_limit,
                 project_per_page: this.project_per_page,
