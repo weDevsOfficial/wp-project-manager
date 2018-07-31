@@ -26,7 +26,10 @@ if ( version_compare( phpversion(), '5.6.0', '<' ) ) {
 }
 
 if ( version_compare( phpversion(), '5.6.0', '>=' ) ) {
-    if ( class_exists('WeDevs_ERP') ) {
+    include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+    $is_erp_active = is_plugin_active('wp-erp/wp-erp.php');
+    
+    if ( class_exists('WeDevs_ERP') || $is_erp_active ) {
         add_action( 'admin_notices',  'pm_erp_compatibility_notices' );
         add_action( 'wp_ajax_pm_install_wp_project_manager',  'pm_install_project_manager' );
         return;
