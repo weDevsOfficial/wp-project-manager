@@ -149,12 +149,14 @@ msgstr ""
 msgid "Project Manager"
 msgstr ""
 
-#: core/WP/Menu.php:18
+#: core/WP/Menu.php:18 views/assets/js/pm.js:9
+#: views/assets/src/components/project-lists/router.js:49
 msgid "Projects"
 msgstr ""
 
 #: core/WP/Menu.php:20 views/assets/js/pm.js:9
 #: views/assets/src/components/categories/categories.vue:3
+#: views/assets/src/components/categories/router.js:21
 msgid "Categories"
 msgstr ""
 
@@ -1194,22 +1196,22 @@ msgid "No activity fount"
 msgstr ""
 
 #: views/assets/js/pm.js:9
-#: views/assets/src/components/project-files/files.vue:36
+#: views/assets/src/components/project-files/files.vue:35
 msgid "Attached to"
 msgstr ""
 
 #: views/assets/js/pm.js:9
-#: views/assets/src/components/project-files/files.vue:38
+#: views/assets/src/components/project-files/files.vue:37
 msgid "by"
 msgstr ""
 
 #: views/assets/js/pm.js:9
-#: views/assets/src/components/project-files/files.vue:40
+#: views/assets/src/components/project-files/files.vue:39
 msgid "admin"
 msgstr ""
 
 #: views/assets/js/pm.js:9
-#: views/assets/src/components/project-files/files.vue:62
+#: views/assets/src/components/project-files/files.vue:61
 msgid "No result found!"
 msgstr ""
 
