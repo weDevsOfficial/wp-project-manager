@@ -1,227 +1,272 @@
 <template>
-    <div class="nonsortable">
-        <!-- Spinner before load task -->
-        <div v-if="loading" class="modal-mask half-modal pm-task-modal modal-transition">
-            <div class="modal-wrapper">
-                <div class="modal-container" style="height: 20000px;">
-                    <span class="close-vue-modal">
+    <div id="pm-single-task-wrap">
+        <div class="nonsortable">
+            <!-- Spinner before load task -->
+            <div v-if="loading" class="modal-mask half-modal pm-task-modal modal-transition">
+                <div class="modal-wrapper">
+                    <div class="modal-container" style="height: 20000px;">
+                        <span class="close-vue-modal">
 
-                        <a  @click.prevent="closePopup()"><span class="dashicons dashicons-no"></span></a>
-                    </span>
+                            <a  @click.prevent="closePopup()"><span class="dashicons dashicons-no"></span></a>
+                        </span>
 
 
-                    <div class="modal-body pm-todolist">
+                        <div class="modal-body pm-todolist">
 
-                        <!-- Spinner before load task -->
-                        <div class="pm-data-load-before" >
-                            <div class="loadmoreanimation">
-                                <div class="load-spinner">
-                                    <div class="rect1"></div>
-                                    <div class="rect2"></div>
-                                    <div class="rect3"></div>
-                                    <div class="rect4"></div>
-                                    <div class="rect5"></div>
+                            <!-- Spinner before load task -->
+                            <div class="pm-data-load-before" >
+                                <div class="loadmoreanimation">
+                                    <div class="load-spinner">
+                                        <div class="rect1"></div>
+                                        <div class="rect2"></div>
+                                        <div class="rect3"></div>
+                                        <div class="rect4"></div>
+                                        <div class="rect5"></div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
 
-        <div v-else class="modal-mask half-modal pm-task-modal modal-transition" style="">
+            <div v-else class="popup-mask">                
+                <div class="popup-container">
+                    <div class="pm-flex pm-single-task-header">
+                        <div class="task-complete-incomplete">
+                            <div class="completed pm-flex" v-if="task.status">
+                                <i class="completed-img"></i>
+                                <span class="completed">{{ __( 'Completed', 'pm' ) }}</span>
+                            </div>
+                            <div class="incomplete pm-flex" v-if="!task.status">
+                                <i class="incomplete-img"></i>
+                                <span>{{ __( 'Incomplete', 'pm' ) }}</span>
+                            </div>
+                        </div>
 
-            <div class="modal-wrapper">
-                <div class="modal-container" style="">
+                        <div class="pm-flex">
+                            <div class="created-by">
+                                
+                                <span class="pm-light-color">{{ __('Created by', 'wedevs-project-manager') }}</span>
+                                <span class="pm-dark-color">{{ ucfirst( task.creator.data.display_name ) }}</span>
+                                <span class="pm-light-color">{{ __('on', 'wedevs-project-manager') }}</span>
+                                <span class="pm-dark-color">{{ cratedDateFormat( task.created_at.date ) }}</span>
+                                
+                            </div>
+                            <i class="single-task-more-options-incon"></i>
+                        </div>
+                    </div>
+
+                    <div :class="singleTaskTitle(task) + ' task-title-wrap'">
+                        <div class="task-title-text">
+
+                            <span v-if="is_task_title_edit_mode && can_edit_task(task)">
+                                <input
+                                    v-model="task.title"
+                                    @blur="updateTaskElement(task)"
+                                    @keyup.enter="updateTaskElement(task)"
+
+                                    class="pm-task-title-activity pm-task-title-field"
+                                    type="text">
+                            </span>
+
+                            <span
+                                :class="lineThrough(task) + ' pm-task-title-activity pm-task-title-span'"
+                                v-if="!is_task_title_edit_mode"
+                                @click.prevent="isTaskTitleEditMode()">
+                                {{ ucfirst(task.title) }}
+                            </span>
+
+                        </div>
+                    </div>
+
+
+
+
                     <span class="close-vue-modal">
                         <a  @click.prevent="closePopup()"><span class="dashicons dashicons-no"></span></a>
                     </span>
 
-                    <div class="modal-body pm-todolist">
-                        <div class="pm-col-12 pm-todo">
-                            <div class="pm-modal-conetnt">
-
-                                <div class="cmp-task-header">
-                                    <h3 class="pm-task-title">
-                                        <span class="pm-mark-done-checkbox">
-                                            <input :disabled="can_complete_task(task)" v-model="task.status"  @change="singleTaskDoneUndone()" class="" type="checkbox">
-                                        </span>
-                                        <span :class="singleTaskTitle(task) + ' pm-task-title-wrap'">
-                                            <div class="pm-task-title-text">
-
-                                                <span v-if="is_task_title_edit_mode && can_edit_task(task)">
-                                                    <input
-                                                        v-model="task.title"
-                                                        @blur="updateTaskElement(task)"
-                                                        @keyup.enter="updateTaskElement(task)"
-
-                                                        class="pm-task-title-activity pm-task-title-field"
-                                                        type="text">
-                                                </span>
-
-                                                <span
-                                                    :class="lineThrough(task) + ' pm-task-title-activity pm-task-title-span'"
-                                                    v-if="!is_task_title_edit_mode"
-                                                    @click.prevent="isTaskTitleEditMode()">
-                                                    {{ task.title }}
-                                                </span>
-
-                                            </div>
-
-                                            <div class="clearfix pm-clear"></div>
-                                        </span>
-                                        <div class="pm-task-title-right">
-                                            <a v-if="PM_Vars.is_pro && task.status=='0' && can_edit_task(task) && user_can('view_private_task')" href="#" @click.prevent="singleTaskLockUnlock(task)">
-                                                <span :class="privateClass( task.meta.privacy )"></span>
-                                            </a>
-                                            <a v-pm-tooltip :title="__('Copy this task URL', 'wedevs-project-manager')" href="#" @click.prevent="copyUrl(task)">
-                                                <i  class="fa fa-clipboard" aria-hidden="true"></i>
-                                            </a>
-                                        </div>
-                                        <div class="clearfix pm-clear"></div>
-
-                                    </h3>
-                                    <do-action :hook="'single_task_inline'" :actionData="doActionData"></do-action>
-                                    
-                                    <div class="pm-task-meta">
-
-                                        <span  class="pm-assigned-user-wrap">
-                                            <span v-if="task.assignees.data.length" class='pm-assigned-user'
-                                                @click.prevent="isEnableMultiSelect()"
-                                                v-for="user in task.assignees.data">
-
-                                                <a href="#" :title="user.display_name">
-                                                    <img :alt="user.display_name" :src="user.avatar_url" class="avatar avatar-48 photo" height="48" width="48">
-                                                </a>
-                                            </span>
-
-                                            <span v-if="!task.assignees.data.length" class='pm-assigned-user'
-                                                @click.prevent="isEnableMultiSelect()">
-                                                <i style="font-size: 20px;" class="fa fa-user" aria-hidden="true"></i>
-                                            </span>
-
-                                            <div v-if="is_enable_multi_select"  class="pm-multiselect pm-multiselect-single-task">
 
 
-                                                <multiselect
-                                                    v-model="task_assign"
-                                                    :options="project_users"
-                                                    :multiple="true"
-                                                    :close-on-select="false"
-                                                    :clear-on-select="true"
-                                                    :show-labels="true"
-                                                    :searchable="true"
-                                                    placeholder="Select User"
-                                                    select-label=""
-                                                    selected-label="selected"
-                                                    deselect-label=""
-                                                    label="display_name"
-                                                    track-by="id"
-                                                    :allow-empty="true">
+                    <div class="cmp-task-header">
+                        <h3 class="pm-task-title">
+                            <span class="pm-mark-done-checkbox">
+                                <input :disabled="can_complete_task(task)" v-model="task.status"  @change="singleTaskDoneUndone()" class="" type="checkbox">
+                            </span>
+                            <span :class="singleTaskTitle(task) + ' pm-task-title-wrap'">
+                                <div class="pm-task-title-text">
 
-                                            
+                                    <span v-if="is_task_title_edit_mode && can_edit_task(task)">
+                                        <input
+                                            v-model="task.title"
+                                            @blur="updateTaskElement(task)"
+                                            @keyup.enter="updateTaskElement(task)"
 
-                                                </multiselect>
-                                            </div>
+                                            class="pm-task-title-activity pm-task-title-field"
+                                            type="text">
+                                    </span>
 
-                                            </span>
+                                    <span
+                                        :class="lineThrough(task) + ' pm-task-title-activity pm-task-title-span'"
+                                        v-if="!is_task_title_edit_mode"
+                                        @click.prevent="isTaskTitleEditMode()">
+                                        {{ task.title }}
+                                    </span>
 
-                                            <span v-if="(task.start_at.date || task.due_date.date )" :class="taskDateWrap(task.due_date.date) + ' pm-task-date-wrap pm-date-window'">
-                                                <span
-                                                    @click.prevent="isTaskDateEditMode()">
-                                                    <span v-if="task_start_field">
-                                                        <!-- <span class="dashicons pm-date-edit-btn dashicons-edit" title="<?php _e( 'Edit Task Description', 'wedevs-project-manager'); ?>"></span> -->
-                                                        {{ dateFormat( task.start_at.date ) }}
-                                                    </span>
-
-                                                    <span v-if="task_start_field && task.start_at.date && task.due_date.date">&ndash;</span>
-                                                    <span v-if="task.due_date">
-                                                        <!-- <span class="dashicons pm-date-edit-btn dashicons-edit" title="<?php _e( 'Edit Task Description', 'wedevs-project-manager'); ?>"></span> -->
-                                                        {{ dateFormat( task.due_date.date ) }}
-                                                    </span>
-
-                                                </span>
-
-                                                <div class="pm-date-update-wrap" v-if="is_task_date_edit_mode && can_edit_task(task)">
-                                                    <div v-if="task_start_field" v-pm-datepicker class="pm-date-picker-from pm-inline-date-picker-from"></div>
-                                                    <div v-pm-datepicker class="pm-date-picker-to pm-inline-date-picker-to"></div>
-                                                    <div class="clearfix pm-clear"></div>
-                                                </div>
-
-
-                                            </span>
-
-                                            <span v-if="(!task.start_at.date && !task.due_date.date)" class="pm-task-date-wrap pm-date-window">
-                                                <span
-                                                    @click.prevent="isTaskDateEditMode()"
-                                                    v-bind:class="task.status ? completedTaskWrap(task.start_at.date, task.due_date.date) : taskDateWrap( task.start_at.date, task.due_date.date)">
-                                                    <span>
-                                                        <!-- <span class="dashicons pm-date-edit-btn dashicons-edit" title="<?php _e( 'Edit Task Description', 'wedevs-project-manager'); ?>"></span> -->
-                                                        <i style="font-size: 20px;" class="fa fa-calendar" aria-hidden="true"></i>
-                                                    </span>
-                                                </span>
-
-                                                <div class="pm-date-update-wrap" v-if="is_task_date_edit_mode && can_edit_task(task)">
-                                                    <div v-if="task_start_field" v-pm-datepicker class="pm-date-picker-from pm-inline-date-picker-from"></div>
-                                                    <div v-pm-datepicker class="pm-date-picker-to pm-inline-date-picker-to"></div>
-                                                    <div class="clearfix pm-clear"></div>
-                                                </div>
-
-
-                                            </span>
-
-                                            <span class="pm-task-comment-count">{{ task.comments.data.length }} {{ __( 'Comments', 'wedevs-project-manager') }}</span>
-                                    </div>
                                 </div>
 
-
-                                <div  class="task-details">
-
-                                    <!--v-if-->
-                                    
-                                    <div class="pm-des-area pm-desc-content" v-if="!is_task_details_edit_mode"  >
-                                        <div v-if="task.description.content != ''">
-                                            <div class="pm-task-description" v-html="task.description.html"></div>
-                                        </div>
-                                        <a class="task-description-edit-icon" @click.prevent="isTaskDetailsEditMode()" :title="update_description">
-                                            <i style="font-size: 16px;"  class="fa fa-pencil" aria-hidden="true"></i>
-                                            
-                                        </a>
-                                    </div>
-                                    <!-- @keyup.enter="updateTaskElement(task)" -->
-                                    <textarea
-                                        v-prevent-line-break
-                                        @blur="updateDescription(task, $event)"
-                                        @keyup.enter="updateDescription(task, $event)"
-                                        class="pm-des-area pm-desc-field"
-                                        v-if="is_task_details_edit_mode && can_edit_task(task)"
-                                        v-model="task_description">
-
-                                    </textarea>
-                                    <div v-if="is_task_details_edit_mode && can_edit_task(task)" class="pm-help-text">
-                                        <span>{{ __( 'Shift+Enter for line break', 'wedevs-project-manager') }}</span>
-                                    </div>
-
-                                    <div class="clearfix pm-clear"></div>
-                                    <do-action :hook="'aftre_single_task_details'" :actionData="doActionData"></do-action>
-                                </div>
-
-                                <do-action :hook="'aftre_single_task_content'" :actionData="doActionData"></do-action>
-                                <div class="pm-todo-wrap clearfix">
-                                    <div class="pm-task-comment">
-                                        <div class="comment-content">
-                                            <task-comments :task="task" :comments="task.comments.data"></task-comments>
-                                        </div>
-                                    </div>
-                                </div>
-
+                                <div class="clearfix pm-clear"></div>
+                            </span>
+                            <div class="pm-task-title-right">
+                                <a v-if="PM_Vars.is_pro && task.status=='0' && can_edit_task(task) && user_can('view_private_task')" href="#" @click.prevent="singleTaskLockUnlock(task)">
+                                    <span :class="privateClass( task.meta.privacy )"></span>
+                                </a>
+                                <a v-pm-tooltip :title="__('Copy this task URL', 'wedevs-project-manager')" href="#" @click.prevent="copyUrl(task)">
+                                    <i  class="fa fa-clipboard" aria-hidden="true"></i>
+                                </a>
                             </div>
-                            <div class="clearfix"></div>
+                            <div class="clearfix pm-clear"></div>
+
+                        </h3>
+                        <do-action :hook="'single_task_inline'" :actionData="doActionData"></do-action>
+                        
+                        <div class="pm-task-meta">
+
+                            <span  class="pm-assigned-user-wrap">
+                                <span v-if="task.assignees.data.length" class='pm-assigned-user'
+                                    @click.prevent="isEnableMultiSelect()"
+                                    v-for="user in task.assignees.data">
+
+                                    <a href="#" :title="user.display_name">
+                                        <img :alt="user.display_name" :src="user.avatar_url" class="avatar avatar-48 photo" height="48" width="48">
+                                    </a>
+                                </span>
+
+                                <span v-if="!task.assignees.data.length" class='pm-assigned-user'
+                                    @click.prevent="isEnableMultiSelect()">
+                                    <i style="font-size: 20px;" class="fa fa-user" aria-hidden="true"></i>
+                                </span>
+
+                                <div v-if="is_enable_multi_select"  class="pm-multiselect pm-multiselect-single-task">
+
+
+                                    <multiselect
+                                        v-model="task_assign"
+                                        :options="project_users"
+                                        :multiple="true"
+                                        :close-on-select="false"
+                                        :clear-on-select="true"
+                                        :show-labels="true"
+                                        :searchable="true"
+                                        placeholder="Select User"
+                                        select-label=""
+                                        selected-label="selected"
+                                        deselect-label=""
+                                        label="display_name"
+                                        track-by="id"
+                                        :allow-empty="true">
+
+                                
+
+                                    </multiselect>
+                                </div>
+
+                                </span>
+
+                                <span v-if="(task.start_at.date || task.due_date.date )" :class="taskDateWrap(task.due_date.date) + ' pm-task-date-wrap pm-date-window'">
+                                    <span
+                                        @click.prevent="isTaskDateEditMode()">
+                                        <span v-if="task_start_field">
+                                            <!-- <span class="dashicons pm-date-edit-btn dashicons-edit" title="<?php _e( 'Edit Task Description', 'wedevs-project-manager'); ?>"></span> -->
+                                            {{ dateFormat( task.start_at.date ) }}
+                                        </span>
+
+                                        <span v-if="task_start_field && task.start_at.date && task.due_date.date">&ndash;</span>
+                                        <span v-if="task.due_date">
+                                            <!-- <span class="dashicons pm-date-edit-btn dashicons-edit" title="<?php _e( 'Edit Task Description', 'wedevs-project-manager'); ?>"></span> -->
+                                            {{ dateFormat( task.due_date.date ) }}
+                                        </span>
+
+                                    </span>
+
+                                    <div class="pm-date-update-wrap" v-if="is_task_date_edit_mode && can_edit_task(task)">
+                                        <div v-if="task_start_field" v-pm-datepicker class="pm-date-picker-from pm-inline-date-picker-from"></div>
+                                        <div v-pm-datepicker class="pm-date-picker-to pm-inline-date-picker-to"></div>
+                                        <div class="clearfix pm-clear"></div>
+                                    </div>
+
+
+                                </span>
+
+                                <span v-if="(!task.start_at.date && !task.due_date.date)" class="pm-task-date-wrap pm-date-window">
+                                    <span
+                                        @click.prevent="isTaskDateEditMode()"
+                                        v-bind:class="task.status ? completedTaskWrap(task.start_at.date, task.due_date.date) : taskDateWrap( task.start_at.date, task.due_date.date)">
+                                        <span>
+                                            <!-- <span class="dashicons pm-date-edit-btn dashicons-edit" title="<?php _e( 'Edit Task Description', 'wedevs-project-manager'); ?>"></span> -->
+                                            <i style="font-size: 20px;" class="fa fa-calendar" aria-hidden="true"></i>
+                                        </span>
+                                    </span>
+
+                                    <div class="pm-date-update-wrap" v-if="is_task_date_edit_mode && can_edit_task(task)">
+                                        <div v-if="task_start_field" v-pm-datepicker class="pm-date-picker-from pm-inline-date-picker-from"></div>
+                                        <div v-pm-datepicker class="pm-date-picker-to pm-inline-date-picker-to"></div>
+                                        <div class="clearfix pm-clear"></div>
+                                    </div>
+
+
+                                </span>
+
+                                <span class="pm-task-comment-count">{{ task.comments.data.length }} {{ __( 'Comments', 'wedevs-project-manager') }}</span>
                         </div>
                     </div>
+
+
+                    <div  class="task-details">
+
+                        <!--v-if-->
+                        
+                        <div class="pm-des-area pm-desc-content" v-if="!is_task_details_edit_mode"  >
+                            <div v-if="task.description.content != ''">
+                                <div class="pm-task-description" v-html="task.description.html"></div>
+                            </div>
+                            <a class="task-description-edit-icon" @click.prevent="isTaskDetailsEditMode()" :title="update_description">
+                                <i style="font-size: 16px;"  class="fa fa-pencil" aria-hidden="true"></i>
+                                
+                            </a>
+                        </div>
+                        <!-- @keyup.enter="updateTaskElement(task)" -->
+                        <textarea
+                            v-prevent-line-break
+                            @blur="updateDescription(task, $event)"
+                            @keyup.enter="updateDescription(task, $event)"
+                            class="pm-des-area pm-desc-field"
+                            v-if="is_task_details_edit_mode && can_edit_task(task)"
+                            v-model="task_description">
+
+                        </textarea>
+                        <div v-if="is_task_details_edit_mode && can_edit_task(task)" class="pm-help-text">
+                            <span>{{ __( 'Shift+Enter for line break', 'wedevs-project-manager') }}</span>
+                        </div>
+
+                        <div class="clearfix pm-clear"></div>
+                        <do-action :hook="'aftre_single_task_details'" :actionData="doActionData"></do-action>
+                    </div>
+
+                    <do-action :hook="'aftre_single_task_content'" :actionData="doActionData"></do-action>
+                    <div class="pm-todo-wrap clearfix">
+                        <div class="pm-task-comment">
+                            <div class="comment-content">
+                                <task-comments :task="task" :comments="task.comments.data"></task-comments>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="clearfix"></div>
                 </div>
+                
             </div>
         </div>
     </div>
@@ -687,6 +732,19 @@
                 }
                 self.httpRequest(request_data);
             },
+
+            cratedDateFormat (date) {
+                if ( date == '' ) {
+                    return;
+                }      
+
+                date = new Date(date);
+                date = pm.Moment(date).format('YYYY-MM-DD');
+
+                var format = 'MMM D, YYYY';
+
+                return pm.Moment( date ).format( String( format ) );
+            }
         },
 
         destroyed () {

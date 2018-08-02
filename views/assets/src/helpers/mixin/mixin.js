@@ -107,6 +107,10 @@ export default {
             return pm.Moment( date ).format( String( format ) );
         },
 
+        ucfirst (word) {
+            return word.replace(/\w/, c => c.toUpperCase())
+        },
+
         
         dateTimeFormat(date) {
             if ( !date ) {
