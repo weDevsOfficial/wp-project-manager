@@ -17,8 +17,8 @@
                 <div v-if="project.status === 'complete'" class="ribbon-green">{{ __( 'Completed', 'wedevs-project-manager')}}</div>
                 <div v-if="project.status === 'incomplete'" class="ribbon-green incomplete">{{ __( 'Incomplete', 'wedevs-project-manager') }}</div>
             </div>
-            <div class="pm-col-6 pm-last-col pm-top-right-btn pm-text-right show_desktop_only" v-if="is_manager()">
-                <div class="pm-project-action">
+            <div class="pm-col-6 pm-last-col pm-top-right-btn pm-text-right show_desktop_only" >
+                <div class="pm-project-action" v-if="is_manager()">
                     <span @click.prevent="showProjectAction()" :title="project_action" class="dashicons dashicons-admin-generic pm-settings-bind"></span>
                     <ul v-if="settings_hide" class="pm-settings">
                         <li>

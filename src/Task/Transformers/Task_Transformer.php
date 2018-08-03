@@ -77,6 +77,7 @@ class Task_Transformer extends TransformerAbstract {
                 'created_at'  => format_date( $item->created_at ),
                 'created_by'  => $item->created_by,
                 'updated_at'  => format_date( $item->updated_at ),
+                'task_list_id' => $item->task_list,
                 'meta'        => $this->meta( $item ),
             ], 
             $item
