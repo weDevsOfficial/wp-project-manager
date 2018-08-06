@@ -1,5 +1,5 @@
 <template>
-    <div class="pm-top-bar pm-no-padding pm-project-header pm-project-head">
+    <div class="pm-top-bar pm-no-padding pm-project-header pm-project-head" v-if="hasProject">
         <div class="pm-row pm-no-padding pm-border-bottom">
 
             <div class="pm-col-6 pm-project-detail">
@@ -10,8 +10,9 @@
                         <span class="text">{{  __( 'Edit', 'wedevs-project-manager') }}</span>
                      </a>
                 </h3>
-
-                <div class="detail">{{project.description}}</div>
+                <div class="detail" v-if="project.description.content">
+                    <div class="pm-project-description" v-html="project.description.html"></div>
+                </div>
             </div>
             <div class="pm-completed-wrap">
                 <div v-if="project.status === 'complete'" class="ribbon-green">{{ __( 'Completed', 'wedevs-project-manager')}}</div>
@@ -47,7 +48,7 @@
             <div class="clearfix"></div>
              <transition name="slide" v-if="is_manager()">
                 <div class="pm-edit-project" v-if="is_project_edit_mode">
-                    <edit-project :is_update="true"></edit-project>
+                    <edit-project :project="project"></edit-project>
                 </div>
             </transition>
         </div>
@@ -91,6 +92,9 @@
 
             project () {
                 return  this.$root.$store.state.project;
+            },
+            hasProject () {
+                return this.project.hasOwnProperty('id');
             },
 
             menu () {

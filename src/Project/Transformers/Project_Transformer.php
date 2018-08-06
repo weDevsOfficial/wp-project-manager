@@ -26,7 +26,7 @@ class Project_Transformer extends TransformerAbstract {
         $data = [
             'id'                  => (int) $item->id,
             'title'               => (string) $item->title,
-            'description'         => (string) $item->description,
+            'description'         => [ 'html' => pm_get_content( $item->description ), 'content' => $item->description ],
             'status'              => $item->status,
             'budget'              => $item->budget,
             'pay_rate'            => $item->pay_rate,

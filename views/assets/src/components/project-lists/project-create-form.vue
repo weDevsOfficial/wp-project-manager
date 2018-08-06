@@ -17,7 +17,7 @@
 
             <div class="pm-form-item item project-detail">
                 <!-- v-model="project_description" -->
-                <textarea v-model="project.description"  class="pm-project-description" id="" rows="5" :placeholder="details_of_project"></textarea>
+                <textarea v-model="project_description"  class="pm-project-description" id="" rows="5" :placeholder="details_of_project"></textarea>
             </div>
 
             <div class="pm-form-item pm-project-role" v-if="show_role_field">
@@ -54,8 +54,8 @@
             </div>
 
             <div class="submit">
-                <input v-if="is_update" type="submit" name="update_project" id="update_project" class="button-primary" :value="update_project">
-                <input v-if="!is_update" type="submit" name="add_project" id="add_project" class="button-primary" :value="add_new_project">
+                <input v-if="project.id" type="submit" name="update_project" id="update_project" class="button-primary" :value="update_project">
+                <input v-if="!project.id" type="submit" name="add_project" id="add_project" class="button-primary" :value="add_new_project">
                 <a @click.prevent="closeForm()" class="button project-cancel" href="#">{{ __( 'Cancel', 'wedevs-project-manager') }}</a>
                 <span v-show="show_spinner" class="pm-loading"></span>
 
@@ -75,14 +75,20 @@
 
     var new_project_form = {
 
-        props: ['is_update'],
+        props: {
+            project: {
+                type: Object,
+                default () {
+                    return {};
+                }
+            }
+        },
 
         data () {
-
             return {
                 project_name: '',
                 project_cat: 0,
-                project_description: '',
+                project_description: typeof this.project.description == 'undefined' ? '' : this.project.description.content,
                 project_notify: false,
                 assignees: [],
                 show_spinner: false,
@@ -109,38 +115,22 @@
                 return this.$root.$store.state.categories;
             },
 
-            project () {
-                
-                var projects = this.$root.$store.state.projects;
-                var index = this.getIndex(projects, this.project_id, 'id');
-                var project = {};
-                
-                if ( index !== false ) {
-                    project = projects[index];
-                } 
-                
-                return project;
-            },
             selectedUsers () {
                 return this.$root.$store.state.assignees;
             },
 
             project_category: {
                 get () {
-                    if (this.is_update) {
-                        var projects = this.$root.$store.state.projects;
-                        var index = this.getIndex(projects, this.project_id, 'id');
-                        var project = projects[index];
-                    
+                    if ( this.project.hasOwnProperty('id') ) {
                         if ( 
-                            typeof project.categories !== 'undefined' 
+                            typeof this.project.categories !== 'undefined' 
                                 && 
-                            project.categories.data.length 
+                            this.project.categories.data.length 
                         ) {
 
                             this.project_cat = project.categories.data[0].id;
                             
-                            return project.categories.data[0].id;
+                            return this.project.categories.data[0].id;
                         }
                     }
 
@@ -203,7 +193,7 @@
                     data: {
                         'title': this.project.title,
                         'categories': this.project_cat ? [this.project_cat]: null,
-                        'description': this.project.description,
+                        'description': this.project_description,
                         'notify_users': this.project_notify,
                         'assignees': this.formatUsers(this.selectedUsers),
                         'status': this.project.status,
@@ -212,7 +202,7 @@
                 }
 
                 var self = this;
-                if (this.is_update) {
+                if (this.project.hasOwnProperty('id')) {
                     args.data.id = this.project.id;
                     args.callback = function ( res ) {
                         self.show_spinner = false;
@@ -238,17 +228,15 @@
                 }
             },
             setProjectUser () {
-                var projects = this.$root.$store.state.projects;
-                var index = this.getIndex(projects, this.project_id, 'id');
-                if ( index !== false && this.is_update ) {
-                    this.$root.$store.commit('setSeletedUser', projects[index].assignees.data);
+                if ( this.project.hasOwnProperty('id') ) {
+                    this.$root.$store.commit('setSeletedUser', this.project.assignees.data);
                 } else {
                     this.$root.$store.commit('resetSelectedUsers');
                 }
             },
 
             closeForm () {
-                if(!this.is_update) {
+                if(!this.project.hasOwnProperty('id')) {
                     this.project.title = '';
                     this.project_cat = 0;
                     this.project.description = ''
