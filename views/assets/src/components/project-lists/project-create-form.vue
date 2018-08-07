@@ -128,7 +128,7 @@
                             this.project.categories.data.length 
                         ) {
 
-                            this.project_cat = project.categories.data[0].id;
+                            this.project_cat = this.project.categories.data[0].id;
                             
                             return this.project.categories.data[0].id;
                         }
