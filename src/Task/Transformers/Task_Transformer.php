@@ -96,6 +96,16 @@ class Task_Transformer extends TransformerAbstract {
             'can_complete_task' => pm_user_can_complete_task( $item ),
         ] );
     }
+
+    /**
+     * Getter for defaultIncludes.
+     *
+     * @return array
+     */
+    public function getDefaultIncludes()
+    {
+        return apply_filters( "pm_task_transformer_default_includes", $this->defaultIncludes );
+    }
     /**
      * Include task list
      *

@@ -39,6 +39,16 @@ class Project_Transformer extends TransformerAbstract {
         return apply_filters( "pm_project_transformer", $data, $item );
     }
 
+    /**
+     * Getter for defaultIncludes.
+     *
+     * @return array
+     */
+    public function getDefaultIncludes()
+    {
+        return apply_filters( "pm_project_transformer_default_includes", $this->defaultIncludes );
+    }
+
     public function includeMeta (Project $item){
 
         return $this->item($item, function ($item) {
