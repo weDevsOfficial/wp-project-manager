@@ -75,6 +75,7 @@ class Task_Transformer extends TransformerAbstract {
                 'project_id'  => $item->project_id,
                 'category_id' => $item->category_id,
                 'created_at'  => format_date( $item->created_at ),
+                'completed_at' => format_date( $item->completed_at ),
                 'created_by'  => $item->created_by,
                 'updated_at'  => format_date( $item->updated_at ),
                 'task_list_id' => $item->task_list,
@@ -177,5 +178,10 @@ class Task_Transformer extends TransformerAbstract {
         $resource->setPaginator( new IlluminatePaginatorAdapter( $files ) );
 
         return $resource;
+    }
+
+    public function includeCompleter( $item ) {
+        $completer = $item->completer;
+        return $this->item( $completer, new User_Transformer );
     }
 }

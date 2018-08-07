@@ -37,12 +37,14 @@ class Task extends Eloquent {
         'recurrent',
         'status',
         'project_id',
+        'completed_by',
+        'completed_at',
         'parent_id',
         'created_by',
         'updated_by'
     ];
 
-    protected $dates = ['start_at', 'due_date'];
+    protected $dates = ['start_at', 'due_date', 'completed_at'];
 
     protected $attributes = [
         'priority' => 1,
@@ -108,6 +110,10 @@ class Task extends Eloquent {
     public function metas() {
         return $this->hasMany( 'WeDevs\PM\Common\Models\Meta', 'entity_id' )
             ->where( 'entity_type', 'task' );
+    }
+
+    public function completer() {
+        return $this->belongsTo( 'WeDevs\PM\User\Models\User', 'completed_by' );
     }
 
 }
