@@ -40,6 +40,16 @@ class Comment_Transformer extends TransformerAbstract {
         ];
     }
 
+        /**
+     * Getter for defaultIncludes.
+     *
+     * @return array
+     */
+    public function getDefaultIncludes()
+    {
+        return apply_filters( "pm_comment_transformer_default_includes", $this->defaultIncludes );
+    }
+
     /**
      * Include replies to a comment
      *

@@ -22,4 +22,14 @@ class Settings_Transformer extends TransformerAbstract {
             'created_at' => format_date( $item->created_at ),
         ];
     }
+
+    /**
+     * Getter for defaultIncludes.
+     *
+     * @return array
+     */
+    public function getDefaultIncludes()
+    {
+        return apply_filters( "pm_setting_transformer_default_includes", $this->defaultIncludes );
+    }
 }
