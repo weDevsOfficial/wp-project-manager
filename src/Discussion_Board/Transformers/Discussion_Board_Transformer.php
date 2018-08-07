@@ -38,6 +38,16 @@ class Discussion_Board_Transformer extends TransformerAbstract {
     
     }
 
+    /**
+     * Getter for defaultIncludes.
+     *
+     * @return array
+     */
+    public function getDefaultIncludes()
+    {
+        return apply_filters( "pm_discuss_board_transformer_default_includes", $this->defaultIncludes );
+    }
+
     public function meta( Discussion_Board $item ) {
         $meta = $item->metas()->get()->toArray();
         $meta = wp_list_pluck( $meta, 'meta_value', 'meta_key' );

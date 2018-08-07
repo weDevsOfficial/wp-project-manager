@@ -33,6 +33,16 @@ class File_Transformer extends TransformerAbstract {
         return array_merge( $model_data, $file );
     }
 
+    /**
+     * Getter for defaultIncludes.
+     *
+     * @return array
+     */
+    public function getDefaultIncludes()
+    {
+        return apply_filters( "pm_file_transformer_default_includes", $this->defaultIncludes );
+    }
+
     public function get_fileabel( $item ) {
 
         if ( $item->fileable_type == 'comment') {
