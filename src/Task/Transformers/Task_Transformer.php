@@ -36,7 +36,7 @@ class Task_Transformer extends TransformerAbstract {
      * @var array
      */
     protected $availableIncludes = [
-        'boards', 'comments', 'files'
+        'boards', 'comments', 'files', 'completer'
     ];
 
     /**
@@ -76,7 +76,6 @@ class Task_Transformer extends TransformerAbstract {
                 'category_id' => $item->category_id,
                 'created_at'  => format_date( $item->created_at ),
                 'completed_at' => format_date( $item->completed_at ),
-                'created_by'  => $item->created_by,
                 'updated_at'  => format_date( $item->updated_at ),
                 'task_list_id' => $item->task_list,
                 'meta'        => $this->meta( $item ),

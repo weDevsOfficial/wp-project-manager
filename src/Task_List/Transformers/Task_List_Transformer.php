@@ -122,14 +122,8 @@ class Task_List_Transformer extends TransformerAbstract {
     }
 
     public function includeTasks( Task_List $item ) {
-        $page = isset( $_GET['task_page'] ) ? $_GET['task_page'] : 1;
-
-        $tasks = $item->tasks();
-        $tasks = apply_filters( 'pm_task_query', $tasks,  $item->project_id, $item );
-        $tasks =  $tasks->orderBy( pm_tb_prefix() . 'pm_boardables.order', 'ASC' )
-            ->paginate( 15, ['*'], 'page', $page );
-
-        return $this->make_paginated_tasks( $tasks );
+        $tasks = $item->tasks;
+        return $this->collection( $tasks, new Task_Transformer );
     }
 
 
