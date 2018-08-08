@@ -12,6 +12,7 @@ use WeDevs\PM\File\Transformers\File_Transformer;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use WeDevs\PM\User\Models\User;
 use WeDevs\PM\User\Transformers\User_Transformer;
+use WeDevs\PM\Activity\Transformers\Activity_Transformer;
 use WeDevs\PM\Common\Traits\Resource_Editors;
 use Illuminate\Pagination\Paginator;
 use WeDevs\PM\Common\Models\Boardable;
@@ -36,7 +37,7 @@ class Task_Transformer extends TransformerAbstract {
      * @var array
      */
     protected $availableIncludes = [
-        'boards', 'comments', 'files', 'completer'
+        'boards', 'comments', 'files', 'completer', 'activities'
     ];
 
     /**
@@ -170,6 +171,11 @@ class Task_Transformer extends TransformerAbstract {
         $users = $item->user;
 
         return $this->collection( $users, new User_Transformer );
+    }
+
+    public function includeActivities( Task $item ) {
+        $activities = $item->activities;
+        return $this->collection( $activities, new Activity_Transformer );
     }
 
     public function includeFiles( Task $item ) {
