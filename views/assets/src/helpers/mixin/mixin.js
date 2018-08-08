@@ -107,6 +107,17 @@ export default {
             return pm.Moment( date ).format( String( format ) );
         },
 
+        shortTimeFormat ( date ) {
+            if ( date == '' ) {
+                return;
+            }      
+
+            date = new Date(date);
+            var format = 'hh:mm a';
+
+            return pm.Moment( date ).format( String( format ) );
+        },
+
         ucfirst (word) {
             return word.replace(/\w/, c => c.toUpperCase())
         },

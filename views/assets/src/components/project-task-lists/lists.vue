@@ -381,9 +381,11 @@
                     );
 
                     var prevTask = lists[list_index].incomplete_tasks.data[task_index];
-
-                    task.sub_task_content = prevTask.sub_task_content;
-                    task.edit_mode = prevTask.edit_mode;
+                    
+                    if(prevTask) {
+                        task.sub_task_content = prevTask.sub_task_content;
+                        task.edit_mode = prevTask.edit_mode;
+                    }
                 }
             },
            

@@ -62,6 +62,11 @@ return [
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/css/pm-style.css',
 		'dependency' => false,
 	],
+	'pm-const-style' => [
+		'id'         => 'pm-const-style',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/css/const-style.css',
+		'dependency' => false,
+	],
 	'pm-style' => [
 		'id'         => 'pm-style',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/css/style.css',
@@ -77,6 +82,7 @@ return [
 			'pm-loaautocompleteding',
 			'pm-pretty-photo',
 			'pm-tiptip',
+			'pm-const-style',
 			'pm-new-style'
 		],
 	],
