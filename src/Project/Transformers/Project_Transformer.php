@@ -26,7 +26,7 @@ class Project_Transformer extends TransformerAbstract {
         $data = [
             'id'                  => (int) $item->id,
             'title'               => (string) $item->title,
-            'description'         => (string) $item->description,
+            'description'         => [ 'html' => pm_get_content( $item->description ), 'content' => $item->description ],
             'status'              => $item->status,
             'budget'              => $item->budget,
             'pay_rate'            => $item->pay_rate,
@@ -37,6 +37,16 @@ class Project_Transformer extends TransformerAbstract {
             'created_at'          => format_date( $item->created_at ),
         ];
         return apply_filters( "pm_project_transformer", $data, $item );
+    }
+
+    /**
+     * Getter for defaultIncludes.
+     *
+     * @return array
+     */
+    public function getDefaultIncludes()
+    {
+        return apply_filters( "pm_project_transformer_default_includes", $this->defaultIncludes );
     }
 
     public function includeMeta (Project $item){

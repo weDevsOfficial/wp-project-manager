@@ -12,6 +12,10 @@ class Assignee_Transformer extends TransformerAbstract {
     use Resource_Editors;
 
     protected $defaultIncludes = [
+
+    ];
+
+    protected $availableIncludes = [
         'user', 'creator', 'updater'
     ];
 
@@ -23,6 +27,16 @@ class Assignee_Transformer extends TransformerAbstract {
             'started_at'   => format_date( $item->started_at ),
             'completed_at' => format_date( $item->completed_at ),
         ];
+    }
+
+    /**
+     * Getter for defaultIncludes.
+     *
+     * @return array
+     */
+    public function getDefaultIncludes()
+    {
+        return apply_filters( "pm_assignee_transformer_default_includes", $this->defaultIncludes );
     }
 
     public function includeUser( Assignee $item ) {

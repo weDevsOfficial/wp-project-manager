@@ -39,6 +39,16 @@ class Milestone_Transformer extends TransformerAbstract {
         return apply_filters( 'pm_milestone_transform', $data, $item, $this );
     }
 
+    /**
+     * Getter for defaultIncludes.
+     *
+     * @return array
+     */
+    public function getDefaultIncludes()
+    {
+        return apply_filters( "pm_milestone_transformer_default_includes", $this->defaultIncludes );
+    }
+
     public function meta( Milestone $item ) {
         $meta = $item->metas()->get()->toArray();
         $meta = wp_list_pluck( $meta, 'meta_value', 'meta_key' );

@@ -13,6 +13,7 @@ use WeDevs\PM\Comment\Models\Comment;
 use WeDevs\PM\Common\Models\Assignee;
 use WeDevs\PM\Project\Models\Project;
 use WeDevs\PM\Common\Models\Meta;
+use WeDevs\PM\Activity\Models\Activity;
 use Carbon\Carbon;
 
 
@@ -95,6 +96,10 @@ class Task extends Eloquent {
     public function user() {
         return $this->belongsToMany( 'WeDevs\PM\User\Models\User', pm_tb_prefix() . 'pm_assignees', 'task_id', 'assigned_to' )
             ->withPivot('completed_at', 'assigned_at', 'started_at', 'status');
+    }
+
+    public function activities() {
+        return $this->hasMany( 'WeDevs\PM\Activity\Models\Activity', 'resource_id' )->where( 'resource_type', 'task' );
     }
 
     public function projects() {
