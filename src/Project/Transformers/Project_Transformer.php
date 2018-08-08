@@ -7,6 +7,8 @@ use League\Fractal\TransformerAbstract;
 use WeDevs\PM\Category\Transformers\Category_Transformer;
 use WeDevs\PM\User\Transformers\User_Transformer;
 use WeDevs\PM\Common\Traits\Resource_Editors;
+use WeDevs\PM\Task_List\Transformers\Task_List_Transformer;
+use WeDevs\PM\Task\Transformers\Task_Transformer;
 use Carbon\Carbon;
 use WeDevs\PM\Task\Models\Task;
 
@@ -19,7 +21,7 @@ class Project_Transformer extends TransformerAbstract {
     ];
 
     protected $availableIncludes = [
-        'overview_graph'
+        'overview_graph', 'task_lists', 'tasks'
     ];
 
     public function transform( Project $item ) {
@@ -49,7 +51,7 @@ class Project_Transformer extends TransformerAbstract {
         return apply_filters( "pm_project_transformer_default_includes", $this->defaultIncludes );
     }
 
-    public function includeMeta (Project $item){
+    public function includeMeta (Project $item) {
 
         return $this->item($item, function ($item) {
             $list = $item->task_lists();
@@ -75,6 +77,16 @@ class Project_Transformer extends TransformerAbstract {
                 'total_activities'        => $item->activities()->count(),
             ];
         });
+    }
+
+    public function includeTaskLists ( Project $item ) {
+        $task_lists = $item->task_lists;
+        return $this->collection( $task_lists, new Task_List_Transformer );
+    }
+
+    public function includeTasks ( Project $item ) {
+        $tasks = $item->tasks;
+        return $this->collection( $tasks , new Task_Transformer );
     }
 
     public function includeOverviewGraph( Project $item ) {
