@@ -1,38 +1,39 @@
 <template>
     <div class="pm-task-comment-wrap">
         
-        <h3 class="pm-comment-title">{{ __( 'Discuss this task', 'wedevs-project-manager') }}</h3>
+        <div class="discuss-text pm-h2">{{ __( 'Discussion', 'wedevs-project-manager') }}</div>
 
-        <ul class="pm-comment-wrap" v-if="comments.length">
-            <li  v-for="comment in comments" :key="'tasks-comments-'+comment.id" :class="'pm-comment clearfix even pm-fade-out-'+comment.id">
+        <div  class="comment-content">
+            <ul class="comment-content-ul" v-if="comments.length">
+                <li  v-for="comment in comments" :key="'tasks-comments-'+comment.id" :class="'comment-li pm-fade-out-'+comment.id">
+                    <div class="comment-header">
+                        <div class="pm-avatar">
+                            <a :href="myTaskRedirect( comment.creator.data.id )" :title="comment.creator.data.display_name"><img :alt="comment.creator.data.display_name" :src="comment.creator.data.avatar_url" class="avatar avatar-96 photo" height="96" width="96"></a>
+                        </div>
 
-                <div class="pm-avatar">
-                     <a :href="myTaskRedirect( comment.creator.data.id )" :title="comment.creator.data.display_name"><img :alt="comment.creator.data.display_name" :src="comment.creator.data.avatar_url" class="avatar avatar-96 photo" height="96" width="96"></a>
-                </div>
-
-                <div class="pm-comment-container">
-                    <div class="pm-comment-meta">
-                        {{__( 'By', 'wedevs-project-manager')}}
-                        <span class="pm-author">
-                            <a :href="myTaskRedirect( comment.creator.data.id )" :title="comment.creator.data.display_name">
-                                {{ comment.creator.data.display_name }}
-                            </a>
-                        </span>
-                        <span>{{ __('on', 'wedevs-project-manager')}}</span>
-                        <span class="pm-date">
-                            <time :datetime="dateISO8601Format( comment.comment_date )" :title="dateISO8601Format( comment.comment_date )">{{ commentDate(comment) }}</time>
-                        </span>
-                        <!-- v-if="current_user_can_edit_delete(comment, task)" -->
-                        <div  class="pm-comment-action" v-if="can_edit_comment(comment)" >
-                            <span class="pm-edit-link">
-                                <a href="#" @click.prevent="showHideTaskCommentForm( comment )" class="dashicons dashicons-edit"></a>
+                        <div class="author-date">
+                            <span class="pm-author">
+                                <a :href="myTaskRedirect( comment.creator.data.id )" :title="comment.creator.data.display_name">
+                                    {{ ucfirst(comment.creator.data.display_name) }}
+                                </a>
                             </span>
-
-                            <span class="pm-delete-link">
-                                <a href="#" @click.prevent="deleteTaskComment( comment.id )" class="dashicons dashicons-trash"></a>
+                            
+                            <span class="pm-date">
+                                <time :datetime="dateISO8601Format( comment.comment_date )" :title="dateISO8601Format( comment.comment_date )">{{ commentDate(comment) }}</time>
                             </span>
                         </div>
                     </div>
+                    <!-- v-if="current_user_can_edit_delete(comment, task)" -->
+                  <!--   <div  class="pm-comment-action" v-if="can_edit_comment(comment)" >
+                        <span class="pm-edit-link">
+                            <a href="#" @click.prevent="showHideTaskCommentForm( comment )" class="dashicons dashicons-edit"></a>
+                        </span>
+
+                        <span class="pm-delete-link">
+                            <a href="#" @click.prevent="deleteTaskComment( comment.id )" class="dashicons dashicons-trash"></a>
+                        </span>
+                    </div> -->
+                    
 
                     <div class="pm-comment-content">
                         <div v-html="comment.content"></div>
@@ -47,16 +48,43 @@
                                 </a>
                             </li>
                         </ul>
+                    
+                        <transition name="slide" v-if="can_edit_comment(comment)" >
+                            <div class="pm-comment-edit-form" v-if="comment.edit_mode">
+                                <task-comment-form :task="task" :comment="comment" :comments="comments"></task-comment-form>
+                            </div>
+                        </transition>
                     </div>
-                    <transition name="slide" v-if="can_edit_comment(comment)" >
-                        <div class="pm-comment-edit-form" v-if="comment.edit_mode">
-                            <task-comment-form :task="task" :comment="comment" :comments="comments"></task-comment-form>
-                        </div>
-                    </transition>
+                </li>
+            </ul>
+            <div class="pm-flex comment-field-content">
+                <div class="pm-avatar comment-field-avatar">
+                    <a  href="#/my-tasks">
+                        <img class="avatar" :src="PM_Vars.avatar_url">
+                    </a>
                 </div>
-            </li>
-        </ul>
-        <div class="single-todo-comments">
+                <div class="comment-field">
+                    <div @click.prevent="showHideNewCommentField()" v-if="!commentFormMeta.activeNewCommentField" class="comment-field-text pm-light-font">{{ __( 'Add a comment', 'wedevs-project-manager' ) }}</div>
+                    <task-comment-form 
+                        v-if="commentFormMeta.activeNewCommentField"  
+                        :task="task" 
+                        :comment="{}" 
+                        :comments="comments"
+                        :commentFormMeta="commentFormMeta">
+                    </task-comment-form>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+       <!--  <div class="single-todo-comments">
             <div class="pm-comment-form-wrap">
 
                 <div class="pm-avatar">
@@ -66,9 +94,9 @@
                 </div>
                 <div class="pm-new-doc-comment-form">
                     <task-comment-form :task="task" :comment="{}" :comments="comments"></task-comment-form>
-                </div><!--v-end--><!--v-component-->
+                </div>
             </div>
-        </div>
+        </div> -->
     </div>
 </template>
 
@@ -92,7 +120,10 @@
         data: function() {
             return {
                 currnet_user_id: 1,
-                avatar_url: PM_Vars.avatar_url
+                avatar_url: PM_Vars.avatar_url,
+                commentFormMeta: {
+                    activeNewCommentField: false   
+                }
             }
         },
 
@@ -101,9 +132,12 @@
         },
 
         methods: {
+            showHideNewCommentField () {
+                this.commentFormMeta.activeNewCommentField = this.commentFormMeta.activeNewCommentField ? false : true;
+            },
             commentDate (comment) {
                 if (typeof comment.created_at != 'undefined') {
-                    return comment.created_at.date + ', ' + comment.created_at.time;
+                    return this.shortDateFormat(comment.created_at.date) + ', ' + this.shortTimeFormat(comment.created_at.time);
                 }
 
                 return '';

@@ -5,12 +5,13 @@
             <text-editor :editor_id="editor_id" :content="content"></text-editor>
         </div>
 
-         <file-uploader :files="files" :delete="deleted_files"></file-uploader>
-         <notify-user v-model="notify_users" :users="task.assignees.data"></notify-user>
+         <!-- <file-uploader :files="files" :delete="deleted_files"></file-uploader>
+         <notify-user v-model="notify_users" :users="task.assignees.data"></notify-user> -->
                
-        <div class="submit">
-            <input v-if="!comment.edit_mode" :disabled="submit_disabled" type="submit" class="button-primary"  :value="add_new_comment" id="" />
-            <input v-if="comment.edit_mode" :disabled="submit_disabled" type="submit" class="button-primary"  :value="update_comment" id="" />
+        <div class="pm-flex pm-comment-acction">
+            <input v-if="!comment.edit_mode" :disabled="submit_disabled" type="submit" class="pm-button pm-primary"  :value="add_new_comment" id="" />
+            <input v-if="comment.edit_mode" :disabled="submit_disabled" type="submit" class="pm-button pm-secondary"  :value="update_comment" id="" />
+            <a href="#" @click.prevent="hideCommentForm()" class="pm-button pm-secondary">{{__('Cancel', 'wedevs-project-manager')}}</a>
             <span v-show="show_spinner" class="pm-spinner"></span>
         </div>
     </form>
@@ -45,6 +46,12 @@
                     id: false
                 }
             }
+        },
+        commentFormMeta: {
+            type: [Object],
+            default () {
+                activeNewCommentField: true
+            }
         }
     },
 
@@ -61,7 +68,7 @@
             files: typeof this.comment.files === 'undefined' ? [] : this.comment.files.data,
             deleted_files: [],
             mentioned_user_ids: null,
-            add_new_comment: __( 'Add New Comment', 'wedevs-project-manager'),
+            add_new_comment: __( 'Post Comment', 'wedevs-project-manager'),
             update_comment: __( 'Update Comment', 'wedevs-project-manager'),
             notify_users: [],
         }
@@ -102,7 +109,9 @@
         },
     },
     methods: {
-
+        hideCommentForm () {
+            this.commentFormMeta.activeNewCommentField = false;
+        },
         taskCommentAction () {
             var regEx = /data-pm-user-id=":(.+?):"/g;
             this.mentioned_user_ids = this.getMatches(this.comment.content, regEx, 1);
