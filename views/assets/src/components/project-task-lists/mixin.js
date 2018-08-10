@@ -325,6 +325,7 @@ var PM_TaskList_Mixin = {
                 success (res) {
                     self.addMetaList(res.data);
                     pm.Toastr.success(res.message);
+                    
                     self.$store.commit( 'projectTaskLists/afterUpdateList', res.data);
                     self.showHideListForm(false, self.list);
 

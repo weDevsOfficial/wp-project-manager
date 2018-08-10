@@ -102,7 +102,7 @@ export default {
             date = new Date(date);
             date = pm.Moment(date).format('YYYY-MM-DD');
 
-            var format = 'MMM DD';
+            var format = 'DD MMM';
 
             return pm.Moment( date ).format( String( format ) );
         },

@@ -30,8 +30,12 @@
             </div>
 
 
-            <div v-else class="popup-mask">                
+            <div v-else class="popup-mask">   
+                <span class="close-vue-modal">
+                        <a  @click.prevent="closePopup()"><span class="dashicons dashicons-no"></span></a>
+                    </span>             
                 <div class="popup-container">
+                    
                     <div class="pm-single-task-header">
                         <div class="task-complete-incomplete">
                             <div class="completed pm-flex" v-if="task.status">
@@ -172,11 +176,12 @@
                                     <div v-pm-datepicker class="pm-date-picker-to pm-inline-date-picker-to"></div>
                                 </div>
                             </span>
-                            <span class="icon-pm-watch pm-font-size-16"></span>
+                            <!-- <span class="icon-pm-watch pm-font-size-16"></span>
                             <span class="icon-pm-tag pm-font-size-16"></span>
                             <span class="icon-pm-sorting pm-font-size-16"></span>
                             <span class="icon-pm-clip pm-font-size-16"></span>
-                            <span class="icon-pm-star pm-font-size-16"></span>
+                            <span class="icon-pm-star pm-font-size-16"></span> -->
+                            <do-action :hook="'single_task_inline'" :actionData="doActionData"></do-action>
                         </div>
                     </div>
 
@@ -223,6 +228,20 @@
 
                     <div class="discuss-wrap">
                         <task-comments :task="task" :comments="task.comments.data"></task-comments>
+                    </div>
+
+                    <div class="task-activities">
+                        <ul>
+                            <li v-for="activity in task.activities.data">
+                                <div class="activity-actor">
+                                    <img :src="activity.actor.data.avatar_url">
+                                </div>
+                                <div class="activity-content">
+
+                                    <activity-parser :activity="activity"></activity-parser>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
 
 
@@ -422,6 +441,7 @@
     import DoAction from './../common/do-action.vue';
     import Mixins from './mixin';
     import Multiselect from 'vue-multiselect';
+    import ActivityParser from '@components/common/activity-parser.vue';
     
     export default {
         props: {
@@ -523,7 +543,8 @@
         components: {
             'task-comments': comments,
             'multiselect': Multiselect,
-            'do-action': DoAction
+            'do-action': DoAction,
+            'activity-parser': ActivityParser
         },
 
         created() {
@@ -591,7 +612,7 @@
                 var self = this;
                 var args = {
                     condition : {
-                        with: 'boards,comments',
+                        with: 'boards,comments,activities',
                     },
                     task_id : self.task_id ? self.task_id : this.taskId,
                     project_id: self.projectId ? self.projectId : self.project_id,
@@ -819,9 +840,19 @@
                 var title_blur      = jQuery(el.target).hasClass('pm-task-title-activity'),
                     dscription_blur = jQuery(el.target).closest('#description-wrap'),
                     assign_user    =  jQuery(el.target).closest( '#pm-multiselect-single-task' ),
-                    actionMenu     = jQuery(el.target).closest( '#pm-action-menu' );
+                    actionMenu     = jQuery(el.target).closest( '#pm-action-menu' ),
+                    modal          = jQuery(el.target).closest( '.popup-container' ),
+                    datePicker = jQuery(el.target).closest('#ui-datepicker-div'),
+                    datePickerBtn = jQuery(el.target).closest('.ui-datepicker-buttonpane');
                     
-                
+                if(datePicker.length || datePickerBtn.length) {
+                    return;
+                }
+
+                if( !modal.length && jQuery('.popup-container').length ) {
+                    this.closePopup();
+                }
+
                 if(!actionMenu.length) {
                     this.showMenu(false);
                 }
