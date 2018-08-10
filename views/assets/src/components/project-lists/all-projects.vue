@@ -97,7 +97,12 @@
         methods: {
             projectQuery () {
                 this.loading = true;
-                this.getProjects();
+                this.getProjects({
+                    callback (res) {
+                        self.loading = false;
+
+                    }
+                });
             }
         }
     }

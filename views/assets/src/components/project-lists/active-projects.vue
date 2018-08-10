@@ -107,6 +107,7 @@
 
                     callback (res) {
                         self.projectFetchStatus(true);
+                        self.loading = false;
                     }
                 }
 
