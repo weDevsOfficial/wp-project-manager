@@ -125,13 +125,14 @@ export default {
          * 
          * @return string      
          */
-        dateFormat ( date ) {
+        dateFormat ( date, formate ) {
+            var formate = formate || 'MMM D';
             if ( !date ) {
                 return;
             }
 
             date = new Date(date);
-            return pm.Moment(date).format('MMM D');
+            return pm.Moment(date).format(formate);
         },
 
                 /**
@@ -376,7 +377,7 @@ export default {
                     self.$store.commit('setProjectsMeta', res.meta );
                     
                     pm.NProgress.done();
-                    self.loading = false;
+                    // self.loading = false;
                     
                     if(typeof args.callback != 'undefined'){
                         args.callback(res.data);
