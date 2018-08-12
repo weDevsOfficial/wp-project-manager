@@ -29,4 +29,8 @@ class File extends Eloquent {
         return $this->hasOne( 'WeDevs\PM\Comment\Models\Comment', 'id', 'fileable_id');
         return $this->belongsToMany( 'WeDevs\PM\Common\Models\Board', pm_tb_prefix() . 'pm_comments', 'id', 'commentable_id', 'fileable_id');
     }
+
+    public function meta() {
+        return $this->hasMany( 'WeDevs\PM\Common\Models\Meta', 'entity_id' )->where('entity_type', 'file');
+    }
 }
