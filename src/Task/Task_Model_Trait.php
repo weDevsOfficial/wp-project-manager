@@ -154,6 +154,9 @@ trait Task_Model_Trait {
     }
 
     public function getTaskListAttribute() {
-        return $this->task_lists()->first()->id;
+        $task_list = $this->task_lists()->first();
+        if ($task_list) {
+            return $task_list->id;
+        }
     }
 }
