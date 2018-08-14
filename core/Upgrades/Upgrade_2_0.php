@@ -889,8 +889,8 @@ class Upgrade_2_0 extends WP_Background_Process
             'start_at'    => get_post_meta( $post['ID'], '_start', true),
             'due_date'    => get_post_meta( $post['ID'], '_due', true),
             'parent_id'   => $post['post_type'] === 'cpm_task' ? 0: $listitems[$post['post_parent']],
-            'completed_by' => get_post_meta($post['ID'], '_completed_by', true);
-            'completed_at' => get_post_meta($post['ID'], '_completed_on', true);
+            'completed_by' => get_post_meta($post['ID'], '_completed_by', true),
+            'completed_at' => get_post_meta($post['ID'], '_completed_on', true),
             'created_by'  => $post['post_author'],
             'updated_by'  => $post['post_author'],
             'created_at'  => $post['post_date'],
