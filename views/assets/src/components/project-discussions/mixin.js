@@ -531,7 +531,6 @@ export default {
                     } else {
                         self.getDiscussion();
                     }
-                    self.$store.commit('updateProjectMeta', 'total_activities');
                     self.$store.commit('decrementProjectMeta', 'total_discussion_boards');
                 
                     pm.Toastr.success(res.message);
@@ -572,9 +571,7 @@ export default {
                     self.$store.commit('projectDiscussions/afterDeleteComment', {
                         comment_id: args.comment_id,
                         commentable_id: args.commentable_id
-                    } );
-                    self.$store.commit('updateProjectMeta', 'total_activities');
-   
+                    } );   
                 },
                 error (res) {
                     if (res.status == 500 ) {
