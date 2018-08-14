@@ -69,10 +69,10 @@ function format_date( $date ) {
     $timezone    = get_wp_timezone();
 
     return [
-        'date'      => $date ? $date->format( 'Y-m-d H:i:s' ) : null,
-        'time'      => $date ? $date->format( 'Y-m-d H:i:s' ) : null,
+        'date'      => $date ? $date->format( 'Y-m-d' ) : null,
+        'time'      => $date ? $date->format( 'H:i:s' ) : null,
         'timezone'  => tzcode_to_tzstring( $timezone ),
-        'timestamp' => $date ? strtotime( $date ) : null
+        'timestamp' => $date ?  $date->toATOMString() : null
     ];
 }
 
