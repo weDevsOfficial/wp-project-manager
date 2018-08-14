@@ -65,6 +65,8 @@ class Project_Transformer extends TransformerAbstract {
             $discussion = apply_filters( 'pm_discuss_query', $discussion, $item->id);
             $milestones = $item->milestones();
             $milestones = apply_filters( 'pm_milestone_index_query', $milestones, $item->id );
+            $files = $item->files();
+            $files = apply_filters( 'pm_file_query', $files, $item->id );
             return[
                 'total_task_lists'        => $list->count(),
                 'total_tasks'             => $task_count,
@@ -73,7 +75,7 @@ class Project_Transformer extends TransformerAbstract {
                 'total_discussion_boards' => $discussion->count(),
                 'total_milestones'        => $milestones->count(),
                 'total_comments'          => $item->comments()->count(),
-                'total_files'             => $item->files()->count(),
+                'total_files'             => $files->count(),
                 'total_activities'        => $item->activities()->count(),
             ];
         });

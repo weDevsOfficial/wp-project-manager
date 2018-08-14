@@ -69,10 +69,10 @@ function format_date( $date ) {
     $timezone    = get_wp_timezone();
 
     return [
-        'date'      => $date ? $date->format( 'Y-m-d H:i:s' ) : null,
-        'time'      => $date ? $date->format( 'Y-m-d H:i:s' ) : null,
+        'date'      => $date ? $date->format( 'Y-m-d' ) : null,
+        'time'      => $date ? $date->format( 'H:i:s' ) : null,
         'timezone'  => tzcode_to_tzstring( $timezone ),
-        'timestamp' => $date ? strtotime( $date ) : null
+        'timestamp' => $date ?  $date->toATOMString() : null
     ];
 }
 
@@ -388,6 +388,11 @@ function pm_has_manage_capability( $user_id = false ) {
     
     $user_id = $user_id ? intval( $user_id ) : get_current_user_id();
     $user    = get_user_by( 'id', $user_id );
+    
+    if ( !$user->roles || !is_array($user->roles) ) {
+        return false;
+    }
+    
     $manage_roles = (array) pm_get_settings( 'managing_capability' );
     
     $common_role  = array_intersect( $manage_roles, $user->roles );

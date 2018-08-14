@@ -181,7 +181,7 @@ class Task_Controller {
         $list_id    = $request->get_param( 'list_id' );
         $task_id    = $request->get_param( 'task_id' );
         $assignees  = $request->get_param( 'assignees' );
-        $assignees  = $assignees ? $assignees : false;
+        $assignees  = $assignees ? $assignees : [];
         
         $task = Task::with('assignees')->find( $task_id );
 
