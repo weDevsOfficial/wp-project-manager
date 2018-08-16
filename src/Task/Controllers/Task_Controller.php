@@ -20,6 +20,7 @@ use Carbon\Carbon;
 use WeDevs\PM\Common\Models\Assignee;
 use Illuminate\Pagination\Paginator;
 use WeDevs\PM\Comment\Models\Comment;
+use WeDevs\PM\Task_List\Transformers\Task_List_Transformer;
 
 class Task_Controller {
 
@@ -450,7 +451,132 @@ class Task_Controller {
             'project_id'     => $project_id
         ] );
     }
-}
 
+    public function filter( WP_REST_Request $request ) {
+        global $wpdb;
+        $per_page = 20;
+        $page  = 1;
+        $status    = $request->get_param('status');
+        $due_date  = $request->get_param('dueDate');
+        $assignees = $request->get_param('users');
+        $lists     = $request->get_param('lists');
+
+        Paginator::currentPageResolver(function () use ($page) {
+            return $page;
+        }); 
+
+        $task_lists = Task_List::with(
+            [
+                'tasks' => function($q) use( $status, $due_date, $assignees ) {
+                    
+                    if ( ! empty(  $status ) ) {
+                        $status = $status == 'complete' ? 1 : 0;
+                        $q->where( 'status', $status );
+                    }
+
+                    if ( ! empty(  $due_date ) ) {
+                        if( $due_date == 'overdue' ) {
+                            $q->where( 'due_date', '>', $due_date );
+                        } else if ( $due_date == 'today' ) {
+                            $today = date('Y-m-d', strtotime( current_time('mysql') ) );
+                            $q->where( 'due_date', $today );
+                        } else if ( $due_date == 'week' ) {
+                            $today = date('Y-m-d', strtotime( current_time('mysql') ) );
+                            $last = date('Y-m-d', strtotime( current_time('mysql') . '-1 week' ) );
+
+                            $q->where( 'due_date', '>=', $last );
+                            $q->where( 'due_date', '<=', $today );
+                        }
+                    }
+
+                    if ( ! empty(  $assignees[0] ) ) {
+
+                        $q->whereHas('assignees', function( $assign_query ) use( $assignees ) {
+                            $assign_query->whereIn('assigned_to', $assignees);
+                        });
+                    }
+
+                    
+                }
+            ]
+        )
+        ->whereHas('tasks', function($q) use( $status, $due_date, $assignees ) {
+                    
+                if ( ! empty(  $status ) ) {
+                    $status = $status == 'complete' ? 1 : 0;
+                    $q->where( 'status', $status );
+                }
+
+                if ( ! empty(  $due_date ) ) {
+                    if( $due_date == 'overdue' ) {
+                        $q->where( 'due_date', '>', $due_date );
+                    } else if ( $due_date == 'today' ) {
+                        $today = date('Y-m-d', strtotime( current_time('mysql') ) );
+                        $q->where( 'due_date', $today );
+                    } else if ( $due_date == 'week' ) {
+                        $today = date('Y-m-d', strtotime( current_time('mysql') ) );
+                        $last = date('Y-m-d', strtotime( current_time('mysql') . '-1 week' ) );
+
+                        $q->where( 'due_date', '>=', $last );
+                        $q->where( 'due_date', '<=', $today );
+                    }
+                }
+
+                if ( ! empty(  $assignees[0] ) ) {
+
+                    $q->whereHas('assignees', function( $assign_query ) use( $assignees ) {
+                        $assign_query->whereIn('assigned_to', $assignees);
+                    });
+                }
+            }
+        )
+        ->where(function($q) use( $lists ) {
+            
+            if(!empty($lists[0])) {
+                $q->whereIn( 'id', $lists );
+            }
+        })
+        ->orderBy( 'id', 'DESC' )
+        ->paginate( $per_page );
+
+        $tasks = [];
+
+        $collection = $task_lists->getCollection();
+
+        foreach ( $collection as $key => $task_list ) {
+            $task = new Collection( $task_list->tasks, new Task_Transformer );
+            $tasks[$task_list->id] = $this->get_response( $task );
+        }
+        
+        $resource = new Collection( $collection, new Task_List_Transformer );
+        $resource->setPaginator( new IlluminatePaginatorAdapter( $task_lists ) );
+
+        $req_lists = $this->get_response( $resource );
+
+        foreach ( $req_lists['data'] as $key => $req_list ) {
+            
+            $tasks = $tasks[$req_list['id']];
+            $incomplete = [];
+            $complete = [];
+            
+            foreach ( $tasks['data'] as $key => $task) {
+                
+                if ( $task['status'] == 'incomplete' ) {
+                    $incomplete[] = $task;
+                } else {
+                    $complete[] = $task;
+                }
+            }
+            
+            
+            $req_lists['data'][$key]['incomplete_tasks']['data'] = $incomplete;
+        
+            $req_lists['data'][$key]['complete_tasks']['data'] = $complete;
+            
+        }
+        
+        return $req_lists;
+    }
+}
 
 
