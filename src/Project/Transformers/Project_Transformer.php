@@ -26,7 +26,7 @@ class Project_Transformer extends TransformerAbstract {
         $data = [
             'id'                  => (int) $item->id,
             'title'               => (string) $item->title,
-            'description'         => (string) $item->description,
+            'description'         => [ 'html' => pm_get_content( $item->description ), 'content' => $item->description ],
             'status'              => $item->status,
             'budget'              => $item->budget,
             'pay_rate'            => $item->pay_rate,
@@ -37,6 +37,16 @@ class Project_Transformer extends TransformerAbstract {
             'created_at'          => format_date( $item->created_at ),
         ];
         return apply_filters( "pm_project_transformer", $data, $item );
+    }
+
+    /**
+     * Getter for defaultIncludes.
+     *
+     * @return array
+     */
+    public function getDefaultIncludes()
+    {
+        return apply_filters( "pm_project_transformer_default_includes", $this->defaultIncludes );
     }
 
     public function includeMeta (Project $item){
@@ -53,6 +63,8 @@ class Project_Transformer extends TransformerAbstract {
             $discussion = apply_filters( 'pm_discuss_query', $discussion, $item->id);
             $milestones = $item->milestones();
             $milestones = apply_filters( 'pm_milestone_index_query', $milestones, $item->id );
+            $files = $item->files();
+            $files = apply_filters( 'pm_file_query', $files, $item->id );
             return[
                 'total_task_lists'        => $list->count(),
                 'total_tasks'             => $task_count,
@@ -61,7 +73,7 @@ class Project_Transformer extends TransformerAbstract {
                 'total_discussion_boards' => $discussion->count(),
                 'total_milestones'        => $milestones->count(),
                 'total_comments'          => $item->comments()->count(),
-                'total_files'             => $item->files()->count(),
+                'total_files'             => $files->count(),
                 'total_activities'        => $item->activities()->count(),
             ];
         });

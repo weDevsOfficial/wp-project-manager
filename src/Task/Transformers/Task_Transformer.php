@@ -12,6 +12,7 @@ use WeDevs\PM\File\Transformers\File_Transformer;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use WeDevs\PM\User\Models\User;
 use WeDevs\PM\User\Transformers\User_Transformer;
+use WeDevs\PM\Activity\Transformers\Activity_Transformer;
 use WeDevs\PM\Common\Traits\Resource_Editors;
 use Illuminate\Pagination\Paginator;
 use WeDevs\PM\Common\Models\Boardable;
@@ -36,7 +37,7 @@ class Task_Transformer extends TransformerAbstract {
      * @var array
      */
     protected $availableIncludes = [
-        'boards', 'comments', 'files'
+        'boards', 'comments', 'files', 'activities'
     ];
 
     /**
@@ -77,6 +78,7 @@ class Task_Transformer extends TransformerAbstract {
                 'created_at'  => format_date( $item->created_at ),
                 'created_by'  => $item->created_by,
                 'updated_at'  => format_date( $item->updated_at ),
+                'task_list_id' => $item->task_list,
                 'meta'        => $this->meta( $item ),
             ], 
             $item
@@ -94,6 +96,16 @@ class Task_Transformer extends TransformerAbstract {
             'total_assignee' => $item->assignees->count(),
             'can_complete_task' => pm_user_can_complete_task( $item ),
         ] );
+    }
+
+    /**
+     * Getter for defaultIncludes.
+     *
+     * @return array
+     */
+    public function getDefaultIncludes()
+    {
+        return apply_filters( "pm_task_transformer_default_includes", $this->defaultIncludes );
     }
     /**
      * Include task list
@@ -159,6 +171,11 @@ class Task_Transformer extends TransformerAbstract {
         $users = $item->user;
 
         return $this->collection( $users, new User_Transformer );
+    }
+
+    public function includeActivities( Task $item ) {
+        $activities = $item->activities;
+        return $this->collection( $activities, new Activity_Transformer );
     }
 
     public function includeFiles( Task $item ) {

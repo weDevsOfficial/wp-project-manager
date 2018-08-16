@@ -302,6 +302,10 @@
                             ||
                         meta.list_view_type.meta_value == 'list'
                     ) {
+                        if (self.$store.state.projectTaskLists.is_single_task) {
+                            return true;
+                        }
+
                         self.$store.state.projectTaskLists.is_single_list = false;
                         self.isSingleTask();
                         self.getSelfLists();

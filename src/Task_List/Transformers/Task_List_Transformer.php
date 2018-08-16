@@ -45,6 +45,16 @@ class Task_List_Transformer extends TransformerAbstract {
         return apply_filters( 'pm_task_list_transform', $data, $item );
     }
 
+        /**
+     * Getter for defaultIncludes.
+     *
+     * @return array
+     */
+    public function getDefaultIncludes()
+    {
+        return apply_filters( "pm_task_list_transformer_default_includes", $this->defaultIncludes );
+    }
+
     public function meta( Task_List $item ) {
         $meta = $item->metas()->get()->toArray();
         $meta = wp_list_pluck( $meta, 'meta_value', 'meta_key' );

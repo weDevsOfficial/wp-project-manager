@@ -152,4 +152,11 @@ trait Task_Model_Trait {
     public function getPrivacyAtAttribute() {
         return $this->mates()->where('meta_key', 'privacy')->first()->meta_value === 1;
     }
+
+    public function getTaskListAttribute() {
+        $task_list = $this->task_lists()->first();
+        if ($task_list) {
+            return $task_list->id;
+        }
+    }
 }

@@ -330,7 +330,6 @@ export default {
                 success: function(res) {
                     self.$store.commit('projectMilestones/afterDeleteMilestone', args.milestone_id);
                     self.$root.$store.state.milestones_load = false;
-                    self.$store.commit('updateProjectMeta', 'total_activities');
                     self.$store.commit('decrementProjectMeta', 'total_milestones');
                     pm.Toastr.success(res.message);
                     if(typeof args.callback === 'function'){
