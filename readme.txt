@@ -1,10 +1,10 @@
 === WP Project Manager ===
-Contributors: tareq1988, wedevs, asaquzzaman, mshossain110
+Contributors: tareq1988, wedevs, asaquzzaman, mshossain110, mdmamun-1
 Donate Link: https://tareq.co/donate/
 Tags: project, manager, project manager, project management, todo, todo list, task, basecamp, milestone, message, file, comment, client, team, tracking, planning, lists, reporting, project management plugin for wordpress, project manager, project manager plugin for wordpress, wordpress project management
 Requires at least: 4.4
-Tested up to: 4.9.7
-Stable tag: 2.0.3
+Tested up to: 4.9.8
+Stable tag: 2.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -121,6 +121,19 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 13. Project Settings -> Email Settings Tab
 
 == Changelog ==
+
+= v2.0.5 - August 16, 2018 =
+
+* **New** Added filters for getting custom query in all transformers.
+* **New** Project description in html format.
+* **Fix** Undefined task title from activity.
+* **Fix** Single task popup close automatically.
+* **Fix** Activity count when delete an element.
+* **Fix** Manage capability return false, when user role is not found.
+* **Fix** Some translation issues.
+* **Fix** Some compatibility issue on internet explorer.
+* **Fix** Task assignee input field is not updating when assignee user field is Empty
+* **Fix** Task list milestone input field is not updating when milestone is Empty
 
 = v2.0.4 - July 27, 2018 =
 

@@ -89,7 +89,7 @@
         methods: {
             saveEmailSettings () {
                 this.show_spinner = true;
-                self = this;
+                var self = this;
                 var data = {
                     from_email: this.from_email,
                     link_to_backend: this.link_to_backend,

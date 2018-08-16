@@ -2,13 +2,20 @@ const path = require('path');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 const shell = require('shelljs');
 const outputPath = path.resolve( __dirname, 'views/assets/js')
-
+const plugins = [];
+const isProduction = (process.env.NODE_ENV == 'production');
 
 //Remove all webpack build file
 shell.rm('-rf', outputPath)
 
 function resolve (dir) {
   return path.join(__dirname, './views/assets/src', dir)
+}
+
+if (isProduction) {
+    plugins.push(
+        new UglifyJsPlugin()
+    )   
 }
 
 module.exports = {
@@ -83,10 +90,8 @@ module.exports = {
             }
         ]
     },
-
-    plugins: [
-        new UglifyJsPlugin()
-    ]
+    plugins: plugins
 }
+
 
 

@@ -125,13 +125,14 @@ export default {
          * 
          * @return string      
          */
-        dateFormat ( date ) {
+        dateFormat ( date, formate ) {
+            var formate = formate || 'MMM D';
             if ( !date ) {
                 return;
             }
 
             date = new Date(date);
-            return pm.Moment(date).format('MMM D');
+            return pm.Moment(date).format(formate);
         },
 
                 /**
@@ -376,7 +377,7 @@ export default {
                     self.$store.commit('setProjectsMeta', res.meta );
                     
                     pm.NProgress.done();
-                    self.loading = false;
+                    // self.loading = false;
                     
                     if(typeof args.callback != 'undefined'){
                         args.callback(res.data);
@@ -874,9 +875,9 @@ export default {
         },
 
         saveSettings (settings, project_id, callback) {
-            settings = this.formatSettings(settings),
-                project_id = project_id || false,
-                self = this;
+            var settings   = this.formatSettings(settings);
+            var project_id = project_id || false;
+            var self       = this;
             
             var url = project_id 
                 ? self.base_url + '/pm/v2/projects/'+project_id+'/settings' 

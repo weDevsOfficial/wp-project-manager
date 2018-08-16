@@ -397,7 +397,6 @@ var PM_TaskList_Mixin = {
                     self.$store.commit( 'projectTaskLists/afterDeleteList', args.list_id );
                     pm.Toastr.success(res.message);
                     self.listTemplateAction();
-                    self.$store.commit('updateProjectMeta', 'total_activities');
                     self.$store.commit('decrementProjectMeta', 'total_task_lists');
                     if( typeof args.callback === 'function' ) {
                       args.callback.call( self, res);
@@ -617,7 +616,6 @@ var PM_TaskList_Mixin = {
                         'task': args.task,
                         'list': args.list 
                     });
-                    self.$store.commit('updateProjectMeta', 'total_activities');
                     pm.Toastr.success(res.message);
                     if ( typeof args.callback === 'function' ){
                         args.callback.call(self, res);

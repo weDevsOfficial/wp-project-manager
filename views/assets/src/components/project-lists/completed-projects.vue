@@ -98,6 +98,9 @@
                 var args = {
                     conditions: {
                        status: 'complete' 
+                    },
+                    callback (res) {
+                        self.loading = false;
                     }
                 }
                 
