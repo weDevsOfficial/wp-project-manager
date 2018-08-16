@@ -64,7 +64,7 @@
                     'meta.milestone_title_new': "<a href='"+ this.resolve_url( ) + "'>" + obj.meta.milestone_title_new + "</a>",
                     'meta.task_title': "<a href='"+ this.resolve_url() + "'>" + obj.meta.task_title + "</a>",
                     'meta.task_title_old': "<a href='"+ this.resolve_url( ) + "'>" + obj.meta.task_title_old + "</a>",
-                    'meta.task_title_new': "<a href='"+ this.resolve_url() + "'>" + obj.meta.discussion_board_title + "</a>",
+                    'meta.task_title_new': "<a href='"+ this.resolve_url() + "'>" + obj.meta.task_title_new + "</a>",
                     'meta.file_title': "<a href='"+ this.resolve_url() + "'>" + obj.meta.file_title + "</a>",
                     'meta.file_title_old': "<a href='"+ this.resolve_url() + "'>" + obj.meta.file_title_old + "</a>",
                     'meta.file_title_new': "<a href='"+ this.resolve_url() + "'>" + obj.meta.file_title_new + "</a>",
