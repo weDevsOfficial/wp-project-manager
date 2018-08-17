@@ -114,6 +114,8 @@ class Task_List_Controller {
 
         if ( $milestone ) {
             $this->attach_milestone( $task_list, $milestone );
+        } else {
+            $task_list->milestones()->detach();
         }
         
         do_action( 'pm_update_task_list_before_response', $task_list, $request->get_params() );
