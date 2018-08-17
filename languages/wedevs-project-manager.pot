@@ -2,9 +2,9 @@
 # This file is distributed under the GPL2.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Project Manager 2.0.4\n"
+"Project-Id-Version: WP Project Manager 2.0.5\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/cpm\n"
-"POT-Creation-Date: 2018-07-27 09:21:04+00:00\n"
+"POT-Creation-Date: 2018-08-16 04:54:40+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -708,13 +708,13 @@ msgstr ""
 #: views/assets/src/components/project-discussions/mixin.js:507
 #: views/assets/src/components/project-task-lists/list-comments.vue:111
 #: views/assets/src/components/project-task-lists/mixin.js:382
-#: views/assets/src/components/project-task-lists/mixin.js:602
+#: views/assets/src/components/project-task-lists/mixin.js:601
 #: views/assets/src/components/project-task-lists/task-comments.vue:131
 msgid "Are you sure!"
 msgstr ""
 
 #: views/assets/js/library.js:1 views/assets/js/pm.js:1
-#: views/assets/src/helpers/mixin/mixin.js:744
+#: views/assets/src/helpers/mixin/mixin.js:745
 #: views/assets/vendor/mixin/mixin.js:636
 msgid "Are you sure to delete this project?"
 msgstr ""
@@ -822,25 +822,25 @@ msgid "Are you sure! Want to delete this milestones?"
 msgstr ""
 
 #: views/assets/js/pm.js:1
-#: views/assets/src/components/project-discussions/mixin.js:554
+#: views/assets/src/components/project-discussions/mixin.js:553
 msgid "Are you sure to delete this comment?"
 msgstr ""
 
-#: views/assets/js/pm.js:1 views/assets/src/components/common/header.vue:81
+#: views/assets/js/pm.js:1 views/assets/src/components/common/header.vue:82
 #: views/assets/src/components/project-lists/project-summary.vue:165
 msgid "Project Actions"
 msgstr ""
 
-#: views/assets/js/pm.js:1 views/assets/src/components/common/header.vue:110
+#: views/assets/js/pm.js:1 views/assets/src/components/common/header.vue:114
 msgid "Overview"
 msgstr ""
 
-#: views/assets/js/pm.js:1 views/assets/src/components/common/header.vue:121
+#: views/assets/js/pm.js:1 views/assets/src/components/common/header.vue:125
 msgid "Activities"
 msgstr ""
 
 #: views/assets/js/pm.js:1 views/assets/js/pm.js:9
-#: views/assets/src/components/common/header.vue:132
+#: views/assets/src/components/common/header.vue:136
 #: views/assets/src/components/project-discussions/discussions.vue:20
 #: views/assets/src/components/project-lists/project-summary.vue:32
 #: views/assets/src/components/project-milestones/completed-milestones.vue:32
@@ -851,7 +851,7 @@ msgid "Discussions"
 msgstr ""
 
 #: views/assets/js/pm.js:1 views/assets/js/pm.js:9
-#: views/assets/src/components/common/header.vue:143
+#: views/assets/src/components/common/header.vue:147
 #: views/assets/src/components/project-lists/project-summary.vue:48
 #: views/assets/src/components/project-milestones/completed-milestones.vue:23
 #: views/assets/src/components/project-milestones/late-milestones.vue:30
@@ -862,7 +862,7 @@ msgid "Task Lists"
 msgstr ""
 
 #: views/assets/js/pm.js:1 views/assets/js/pm.js:9
-#: views/assets/src/components/common/header.vue:154
+#: views/assets/src/components/common/header.vue:158
 #: views/assets/src/components/project-lists/project-summary.vue:78
 #: views/assets/src/components/project-milestones/milestones.vue:19
 #: views/assets/src/components/project-overview/overview.vue:97
@@ -870,40 +870,40 @@ msgid "Milestones"
 msgstr ""
 
 #: views/assets/js/pm.js:1 views/assets/js/pm.js:9
-#: views/assets/src/components/common/header.vue:165
+#: views/assets/src/components/common/header.vue:169
 #: views/assets/src/components/project-lists/project-summary.vue:93
 #: views/assets/src/components/project-overview/overview.vue:82
 msgid "Files"
 msgstr ""
 
 #: views/assets/js/pm.js:1
-#: views/assets/src/components/project-lists/project-create-form.vue:89
+#: views/assets/src/components/project-lists/project-create-form.vue:95
 msgid "Name of the project"
 msgstr ""
 
 #: views/assets/js/pm.js:1
-#: views/assets/src/components/project-lists/project-create-form.vue:90
+#: views/assets/src/components/project-lists/project-create-form.vue:96
 msgid "Some details about the project (optional)"
 msgstr ""
 
 #: views/assets/js/pm.js:1
-#: views/assets/src/components/project-lists/project-create-form.vue:91
+#: views/assets/src/components/project-lists/project-create-form.vue:97
 msgid "Type 3 or more characters to search users..."
 msgstr ""
 
 #: views/assets/js/pm.js:1 views/assets/js/pm.js:9
 #: views/assets/src/components/project-lists/directive.js:75
-#: views/assets/src/components/project-lists/project-create-form.vue:92
+#: views/assets/src/components/project-lists/project-create-form.vue:98
 msgid "Create a new user"
 msgstr ""
 
 #: views/assets/js/pm.js:1
-#: views/assets/src/components/project-lists/project-create-form.vue:93
+#: views/assets/src/components/project-lists/project-create-form.vue:99
 msgid "Add New Project"
 msgstr ""
 
 #: views/assets/js/pm.js:1
-#: views/assets/src/components/project-lists/project-create-form.vue:94
+#: views/assets/src/components/project-lists/project-create-form.vue:100
 #: views/emails/html/update-project.php:9
 msgid "Update Project"
 msgstr ""
@@ -1117,7 +1117,7 @@ msgstr ""
 #: views/assets/src/components/categories/categories.vue:57
 #: views/assets/src/components/categories/categories.vue:111
 #: views/assets/src/components/categories/categories.vue:163
-#: views/assets/src/components/common/header.vue:29
+#: views/assets/src/components/common/header.vue:30
 #: views/assets/src/components/project-lists/project-create-form.vue:36
 #: views/assets/src/components/project-lists/project-summary.vue:134
 #: views/assets/src/components/project-task-lists/incompleted-tasks.vue:74
@@ -1139,13 +1139,13 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: views/assets/js/pm.js:9 views/assets/src/components/common/header.vue:17
+#: views/assets/js/pm.js:9 views/assets/src/components/common/header.vue:18
 #: views/assets/src/components/project-lists/project-header-menu.vue:13
 #: views/assets/src/components/project-task-lists/lists.vue:92
 msgid "Completed"
 msgstr ""
 
-#: views/assets/js/pm.js:9 views/assets/src/components/common/header.vue:18
+#: views/assets/js/pm.js:9 views/assets/src/components/common/header.vue:19
 #: views/assets/src/components/project-task-lists/lists.vue:102
 msgid "Incomplete"
 msgstr ""
@@ -1154,12 +1154,12 @@ msgstr ""
 msgid "Delete project"
 msgstr ""
 
-#: views/assets/js/pm.js:9 views/assets/src/components/common/header.vue:36
+#: views/assets/js/pm.js:9 views/assets/src/components/common/header.vue:37
 #: views/assets/src/components/project-lists/project-summary.vue:141
 msgid "Complete"
 msgstr ""
 
-#: views/assets/js/pm.js:9 views/assets/src/components/common/header.vue:39
+#: views/assets/js/pm.js:9 views/assets/src/components/common/header.vue:40
 #: views/assets/src/components/project-lists/project-summary.vue:144
 msgid "Restore"
 msgstr ""
