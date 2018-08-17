@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?cw5d98');
-  src:  url('fonts/icomoon.eot?cw5d98#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?cw5d98') format('truetype'),
-    url('fonts/icomoon.woff?cw5d98') format('woff'),
-    url('fonts/icomoon.svg?cw5d98#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?t2tuat');
+  src:  url('fonts/icomoon.eot?t2tuat#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?t2tuat') format('truetype'),
+    url('fonts/icomoon.woff?t2tuat') format('woff'),
+    url('fonts/icomoon.svg?t2tuat#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -24,9 +24,21 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-pm-copy:before {
+  content: "\e903";
+  color: #d4d6d6;
+}
+.icon-pm-private:before {
+  content: "\e902";
+  color: #d4d6d6;
+}
+.icon-pm-delete:before {
+  content: "\e901";
+  color: #e9485e;
+}
 .icon-pm-user:before {
   content: "\e900";
-  color: #c5c5c5;
+  color: #ababab;
 }
 .icon-pm-align-left:before {
   content: "\e904";
