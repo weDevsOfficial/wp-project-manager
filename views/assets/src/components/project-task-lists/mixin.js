@@ -140,7 +140,7 @@ var PM_TaskList_Mixin = {
             var self = this,
             pre_define = {
                 condition: {
-                    with: 'incomplete_tasks',
+                    with: 'incomplete_tasks,complete_tasks',
                     per_page: this.getSettings('list_per_page', 10),
                     page: this.setCurrentPageNumber()
                 },

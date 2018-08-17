@@ -40,7 +40,7 @@
                         <div class="task-complete-incomplete">
                             <div class="completed pm-flex" v-if="task.status">
                                 <span class="icon-pm-completed pm-font-size-16"></span>
-                                <span><a href="#" @click.prevent="singleTaskDoneUndone()">{{ __( 'Completed', 'pm' ) }}</a></span>
+                                <span><a  href="#" @click.prevent="singleTaskDoneUndone()">{{ __( 'Completed', 'pm' ) }}</a></span>
                             </div>
                             <div class="incomplete pm-flex" v-if="!task.status">
                                 <span class="icon-pm-incomplete pm-font-size-16"></span>
@@ -60,16 +60,19 @@
                             <div id="pm-action-menu" class="task-action">
                                 <span style="font-size: 17px;" @click.prevent="showMenu()" class="icon-pm-more-options pm-font-size-16"></span>
                                 <div  v-if="isActiveMenu" class="action-menu">
-                                    <ul>
+                                    <ul class="action-menu-ul">
                                         <li>
+                                            <span class="icon-pm-copy pm-font-size-13"></span>
                                             <a @click.prevent="copyUrl(task)" href="#">{{ __('Copy', 'wedevs-project-manager') }}</a>
                                         </li>
                                         <li>
+                                            <span class="icon-pm-private pm-font-size-13"></span>
                                             <a v-if="task.meta.privacy=='1'" @click.prevent="singleTaskLockUnlock(task)" href="#">{{ __('Make Visible', 'wedevs-project-manager') }}</a>
                                             <a v-if="task.meta.privacy=='0'" @click.prevent="singleTaskLockUnlock(task)" href="#">{{ __('Make Private', 'wedevs-project-manager') }}</a>
 
                                         </li>
                                         <li>
+                                            <span class="icon-pm-delete pm-font-size-13"></span>
                                             <a @click.prevent="selfDeleteTask({task: task, list: list})" href="#">{{ __('Delete', 'wedevs-project-manager') }}</a>
                                         </li>
                                     </ul>

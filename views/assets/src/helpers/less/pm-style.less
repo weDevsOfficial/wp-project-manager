@@ -19,6 +19,44 @@
 	color: #000000;
 }
 
+.pm-shadow-menu(@width) {
+	position: absolute;
+    z-index: 9999;
+    background: #fff;
+    width: @width;
+    display: block;
+    box-shadow: 0px 2px 40px 0px rgba(214, 214, 214, 0.6);
+    text-align: left;
+    margin: 0;
+    border-radius: 3px;
+    border: 1px solid #ddd;
+}
+.pm-top-triangle(@color, @top, @left) {
+	position: absolute;
+    z-index: 99999;
+    border-width: 8px;
+    border-style: solid;
+    border-color: transparent;
+    top: @top;
+    border-bottom-color: @color;
+    left: @left;
+    border-radius: 3px;
+    content: "";
+}
+
+.pm-triangle-after() {
+	position: absolute;
+    z-index: 99999;
+    border-width: 8px;
+    border-style: solid;
+    border-color: transparent;
+    top: -14px;
+    border-bottom-color: #fff;
+    left: 115px;
+    border-radius: 3px;
+    content: "";
+}
+
 #wedevs-project-manager {
 	.popup-menu {
 		position: absolute;
@@ -36,6 +74,15 @@
 	}
 	.pm-font-size-16 {
 		font-size: 16px;
+	}
+	.pm-font-size-13 {
+		font-size: 13px;
+	}
+	.pm-font-size-12 {
+		font-size: 12px;
+	}
+	.pm-font-size-11 {
+		font-size: 11px;
 	}
 	.pm-flex {
 		.pm-flex-generator();
@@ -136,27 +183,38 @@
 				.task-action{
 					position: relative;
 					.action-menu {
-						position: absolute;
-					    z-index: 9999;
-					    background: #fff;
-					    width: 200px;
-					    display: block;
-					    box-shadow: 0px 6px 40px 0px rgba(46, 78, 90, 0.6);
+						.pm-shadow-menu(145px);
 					    left: 45px;
-					    text-align: left;
-					    margin: 0;
-					    top: 23px;
-					    border-radius: 3px;
-					    left: -182px;
-					    height: 151px;
+					    top: 31px;
+					    left: -122px;
 
-					    ul {
+					    
+					    .action-menu-ul {
+					    	&:before{
+					    		.pm-top-triangle(#ddd, -16px, 115px);
+							}
+
+							&:after{
+								.pm-top-triangle(#fff, -14px, 115px);
+							}
+
 					    	li {
-					    		padding: 10px;
+					    		padding: 16px 13px 0px 16px;
+    							margin: 0;
 					    		a {
-					    			
+					    			font-size: 12px;
+					    			.pm-dark-color-fun();
+					    			margin-left: 5px;
+					    		}
+
+					    		&:last-child {
+					    			padding-bottom: 16px;
 					    		}
 					    	}
+					    }
+
+					    .triangle-up {
+
 					    }
 					}
 				}
@@ -170,7 +228,7 @@
 				font-size: 1vw;
 				width: 50%;
 				a {
-					.pm-dark-color-fun();
+					.pm-light-color-fun();
 				}
 			}
 			.completed {
@@ -181,7 +239,7 @@
 			    font-size: 1vw;
 			    width: 39%;
 			    a {
-			    	.pm-dark-color-fun();
+			    	.pm-light-color-fun();
 			    }
 			}
 			
