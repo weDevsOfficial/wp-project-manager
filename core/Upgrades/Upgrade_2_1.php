@@ -30,9 +30,19 @@ class Upgrade_2_1 extends WP_Background_Process
 
     public function task($func)
     {
+        error_log( $func );
+        
         if (method_exists($this, $func)) {
             $this->{$func}();
         }
+
+        return false;
+    }
+
+    
+    function complete() {
+        parent::complete();        
+        // upgrade complete function
     }
 
     public function alter_task_table()
@@ -49,13 +59,21 @@ class Upgrade_2_1 extends WP_Background_Process
     public function migrate_complete_tasks()
     {
         $tasks = Task::with('assignees')->where('status', 1)->get();
-
         $tasks->map(function ($task) {
-            $completed_by = $task->assignees->whereNotNull('completed_at');
-            $task->completed_by = $completed_by->assigned_to;
-            $task->completed_at = $completed_by->completed_at;
+            $completed_by = $task->assignees->filter( function( $assignee ) {
+                return $assignee->completed_at != null;
+            })->first();
+            
+            if ( ! empty($completed_by) ) {
+                $task->completed_by = $completed_by->assigned_to;
+                $task->completed_at = $completed_by->completed_at;
+            } else {
+                $task->completed_by = $task->updated_by;
+                $task->completed_at = $task->updated_at;
+            }
             $task->save();
 
         });
+
     }
 }
