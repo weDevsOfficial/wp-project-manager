@@ -9,6 +9,8 @@ use WeDevs\PM\User\Transformers\User_Transformer;
 use WeDevs\PM\Common\Traits\Resource_Editors;
 use Carbon\Carbon;
 use WeDevs\PM\Task\Models\Task;
+use WeDevs\PM\Task\Transformers\Task_Transformer;
+use WeDevs\PM\Task_List\Transformers\Task_List_Transformer;
 
 class Project_Transformer extends TransformerAbstract {
 
@@ -19,7 +21,7 @@ class Project_Transformer extends TransformerAbstract {
     ];
 
     protected $availableIncludes = [
-        'overview_graph'
+        'overview_graph', 'task_lists', 'tasks'
     ];
 
     public function transform( Project $item ) {
@@ -77,6 +79,16 @@ class Project_Transformer extends TransformerAbstract {
                 'total_activities'        => $item->activities()->count(),
             ];
         });
+    }
+
+    public function includeTaskLists ( Project $item ) {
+        $task_lists = $item->task_lists;
+        return $this->collection( $task_lists, new Task_List_Transformer );
+    }
+
+    public function includeTasks ( Project $item ) {
+        $tasks = $item->tasks;
+        return $this->collection( $tasks , new Task_Transformer );
     }
 
     public function includeOverviewGraph( Project $item ) {
