@@ -94,12 +94,13 @@
 
         methods: {
             projectQuery () {
-                
+                var self = this;
                 var args = {
                     conditions: {
                        status: 'complete' 
                     },
                     callback (res) {
+                        self.projectFetchStatus(true);
                         self.loading = false;
                     }
                 }

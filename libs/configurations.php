@@ -161,6 +161,13 @@ function pm_install_project_manager() {
          wp_send_json_error( $result );
     }
 
+    if ( ! is_wp_error($result) ) {
+        require __DIR__.'/../vendor/autoload.php';
+
+        new \PM_Create_Table();
+        (new \RoleTableSeeder())->run();
+    }
+    
     $result = activate_plugin( 'wedevs-project-manager/cpm.php' );
 
     if ( is_wp_error( $result ) ) {
