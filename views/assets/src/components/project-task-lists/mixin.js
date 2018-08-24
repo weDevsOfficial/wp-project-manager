@@ -1161,7 +1161,7 @@ var PM_TaskList_Mixin = {
          */
         taskDateWrap ( due_date ) {
             if ( !due_date ) {
-                return 'pm-current-date';
+                return '';
             } 
 
             due_date = new Date(due_date);

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="10px" height="8px" viewBox="0 0 10 8" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50 (54983) - http://www.bohemiancoding.com/sketch -->
+    <title>Shape</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Start-Time-UX---Single-Task-Page-Design" transform="translate(-756.000000, -308.000000)" fill="#D4D6D6" fill-rule="nonzero">
+            <path d="M765.480525,311.441829 L757.773462,311.441829 L760.089709,308.952812 C760.292627,308.734901 760.292627,308.381408 760.089709,308.16353 C759.886791,307.94549 759.557814,307.94549 759.355196,308.16353 L756.152188,311.605295 C755.949271,311.823205 755.949271,312.17673 756.152188,312.394576 L759.355196,315.836502 C759.456625,315.945555 759.589554,316 759.722453,316 C759.855351,316 759.98828,315.945555 760.089709,315.836502 C760.292627,315.618592 760.292627,315.265099 760.089709,315.047253 L757.773462,312.558106 L765.480525,312.558106 C765.767382,312.558106 766,312.308186 766,311.999952 C766,311.691718 765.767412,311.441829 765.480525,311.441829 Z" id="Shape" transform="translate(761.000000, 312.000000) rotate(-180.000000) translate(-761.000000, -312.000000) "></path>
+        </g>
+    </g>
+</svg>
