@@ -19,7 +19,7 @@
 	color: #000000;
 }
 
-.pm-shadow-menu(@width) {
+.pm-popup-menu(@width) {
 	position: absolute;
     z-index: 9999;
     background: #fff;
@@ -58,17 +58,20 @@
 }
 
 #wedevs-project-manager {
-	.popup-menu {
-		position: absolute;
-	    z-index: 9999;
-	    background: #fff;
-	    display: block;
-	    box-shadow: 0px 6px 40px 0px rgba(46, 78, 90, 0.6);
-	    text-align: left;
-	    margin: 0;
-	    border-radius: 3px;
+	.pm-popup-menu {
+		.pm-popup-menu(145px);
 	}
-	ul {
+	.pm-popup-menu-ul {
+		&:before{
+    		.pm-top-triangle(#ddd, -16px, 115px);
+		}
+
+		&:after{
+			.pm-top-triangle(#fff, -14px, 115px);
+		}
+	}
+
+	ul { 
 		margin: 0;
 		padding: 0;
 	}
@@ -183,7 +186,7 @@
 				.task-action{
 					position: relative;
 					.action-menu {
-						.pm-shadow-menu(145px);
+						.pm-popup-menu(145px);
 					    left: 45px;
 					    top: 31px;
 					    left: -122px;
@@ -201,6 +204,7 @@
 					    	li {
 					    		padding: 16px 13px 0px 16px;
     							margin: 0;
+    							border: none;
 					    		a {
 					    			font-size: 12px;
 					    			.pm-dark-color-fun();
@@ -280,7 +284,7 @@
 				position: relative;
 			    font-size: 23px;
 			    top: -1px;
-			    left: -3px;
+			    left: 1px;
 
 			    .pm-multiselect-single-task {
 			    	position: absolute;
@@ -295,19 +299,27 @@
 			line-height: 0;
 		}
 		.option-icon-groups {
-			margin-right: -15px;
-			span {
-				display: inline-block;
-				margin-right: 12px;
-			} 
 
 			.icon-pm-calendar {
 				position: relative;
+				display: flex;
+				align-content: center;
+
+				.pm-task-date-wrap {
+					background: none;
+					color: #848484;
+					font-size: 11px;
+					font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif
+				}
+
 				.task-date {
 					position: absolute;
 				    left: -251px;
 				    top: 23px;
 				}
+			}
+			.individual-group-icon, .pm-action-wrap {
+				margin-left: 5px;
 			}
 		}  
 		.description-wrap {
