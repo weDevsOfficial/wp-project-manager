@@ -134,7 +134,7 @@ class Email {
     }
 
     public function pm_link() {
-        if( !$this->link_to_backend() ) {
+        if( !$this->link_to_backend() || false === current_user_can('administrator') ) {
             $pages   = get_option('pm_pages', []);
             $project = isset( $pages['project'] ) ? intval( $pages['project'] ) : '';
 

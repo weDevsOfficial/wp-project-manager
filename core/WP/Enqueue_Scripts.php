@@ -35,6 +35,18 @@ class Enqueue_Scripts {
 		}
 	}
 
+	public static function pm_link() {
+		if ( false === current_user_can('administrator') ) {
+			$pages   = get_option('pm_pages', []);
+			$project = isset( $pages['project'] ) ? intval( $pages['project'] ) : '';
+
+			if ( $project ) {
+				return get_permalink( $project );
+			}
+		}
+		return admin_url( 'admin.php?page=pm_projects' );
+	}
+
 	public static function localize_scripts() {
 		global $wedevs_pm_pro;
 		$upload_size = 10 * 1024 * 1024;
@@ -44,7 +56,7 @@ class Enqueue_Scripts {
 				'permission'               => wp_create_nonce('wp_rest'),
 				'nonce'                    => wp_create_nonce( 'pm_nonce' ),
 				'base_url'                 => home_url(),
-				'project_page'             => admin_url( 'admin.php?page=pm_projects' ),
+				'project_page'             => Enqueue_Scripts::pm_link(),
 				'rest_api_prefix'          => rest_get_url_prefix(),
 				'todo_list_form'           => apply_filters( 'todo_list_form', array( 'PM_Task_Mixin' ) ),
 				'todo_list_router_default' => apply_filters( 'todo_list_router_default', array( 'PM_Task_Mixin' ) ),
