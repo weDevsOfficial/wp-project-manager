@@ -46,14 +46,9 @@ class Project_Controller {
 		}
 
 		$projects = apply_filters( 'pm_project_query', $projects, $request->get_params() );
-		if( $per_page == 'all' ) {
-			$project_collection = $projects->get();
-			$resource = new Collection( $project_collection, new Project_Transformer );
-			$resource->setMeta( $this->projects_meta( $category ) );
-			return $this->get_response( $resource );
-		}
+		$projects = $projects->orderBy( 'created_at', 'DESC' );
 		
-		if ( $per_page == '-1' ) {
+		if ( $per_page == '-1' || $per_page == 'all' ) {
 			$per_page = $projects->count();
 		}
 
@@ -106,20 +101,20 @@ class Project_Controller {
 
     private function fetch_projects_by_category( $category = null ) {
     	$user_id = get_current_user_id();
-    	
-    	if ( $category ) {
+
+		if ( $category ) {
     		$category = Category::where( 'categorible_type', 'project' )
 	    		->where( 'id', $category )
 	    		->first();
 	    	
 	    	if ( $category ) {
-	    		$projects = $category->projects()->orderBy( 'created_at', 'DESC' );
+	    		$projects = $category->projects()->with('assignees');
 	    	} else {
-	    		$projects = Project::orderBy( 'created_at', 'DESC' );
+	    		$projects = Project::with('assignees');
 	    	}
     		
     	} else {
-    		$projects = Project::orderBy( 'created_at', 'DESC' );
+    		$projects = Project::with('assignees');
     	}
     	if ( !pm_has_manage_capability( $user_id ) ){
     		$projects = $projects->whereHas('assignees', function( $q ) use ( $user_id ) {
