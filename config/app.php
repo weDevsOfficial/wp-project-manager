@@ -6,5 +6,6 @@ return [
     'version'     => '2.0.5',
     'api'     	  => '2',
     'db_version'  => '2.0',
-    'text_domain' => 'pm'
+    'text_domain' => 'pm',
+    'comment_per_page' => 200,
 ];
