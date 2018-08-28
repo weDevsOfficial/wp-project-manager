@@ -23,11 +23,19 @@ import empty from './empty.vue'
 
 import project_lists from './active-projects.vue'
 
-
+// const all_projects = resolve => {
+//     require.ensure(['./all-projects.vue'], () => {
+//         resolve(require('./all-projects.vue'));
+//     });
+// }
 
 import all_projects from './all-projects.vue'
 
-
+// const completed_projects = resolve => {
+//     require.ensure(['./completed-projects.vue'], () => {
+//         resolve(require('./completed-projects.vue'));
+//     });
+// }
 
 import completed_projects from './completed-projects.vue'
 
