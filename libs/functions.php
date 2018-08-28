@@ -628,3 +628,18 @@ function pm_get_list_url( $project_id, $list_id ) {
     return $list_url;
 }
 
+function pm_get_project_page() {
+    if ( pm_is_request( 'admin' ) ) {
+        return admin_url( 'admin.php?page=pm_projects' );
+    }
+
+    if ( pm_is_request( 'frontend' ) ) {
+        $pages   = get_option( 'pm_pages', [] );
+        $project = empty( $pages['project'] ) ? '' : intval( $pages['project'] );
+        
+        if ( $project ) {
+            return get_permalink( $project );
+        }
+    }
+}
+
