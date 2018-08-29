@@ -123,7 +123,7 @@
 
             <div class="pm-project-action-icon">
                 <div class="pm-project-action" v-if="is_manager(project)">
-                    <pm-do-action :hook="'project_action_bar'" :actionData="project" ></pm-do-action>
+                    <favourite :project="project"></favourite>
                     <span @click.prevent="settingsShowHide(project)" :title="project_action" class="dashicons dashicons-admin-generic pm-settings-bind"></span>
 
 
@@ -157,6 +157,8 @@
 
 <script>
 
+    import Favourite from './favourite.vue';
+
     export default {
         data () {
             return {
@@ -173,6 +175,9 @@
             meta () {
                 return this.$root.$store.state.projects_meta;
             }
+        },
+        components: {
+            Favourite
         },
 
         methods: {
