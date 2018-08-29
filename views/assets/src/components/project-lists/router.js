@@ -30,6 +30,7 @@ import all_projects from './all-projects.vue'
 
 
 import completed_projects from './completed-projects.vue'
+import favourite_projects from './favourite-projects.vue'
 
 weDevsPMRegisterChildrenRoute('projects', 
     [
@@ -74,6 +75,19 @@ weDevsPMRegisterChildrenRoute('projects',
                     path: 'pages/:current_page_number', 
                     component: completed_projects,
                     name: 'completed_project_pagination',
+                },
+            ]
+        },
+        {
+            path: 'favourite', 
+            component: favourite_projects,
+            name: 'favourite_projects',
+
+            children: [
+                {
+                    path: 'pages/:current_page_number', 
+                    component: favourite_projects,
+                    name: 'favourite_project_pagination',
                 },
             ]
         },
