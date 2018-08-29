@@ -203,7 +203,16 @@ export default {
                 xhr.setRequestHeader("X-WP-Nonce", PM_Vars.permission);
             };
 
+            if(typeof property.data == 'undefined') {
+                property.data = {
+                    is_admin: PM_Vars.is_admin
+                }
+            }
+
+            property.data.is_admin = typeof property.data.is_admin == 'undefined' ? PM_Vars.is_admin : property.data.is_admin;
+
             property.beforeSend = typeof property.beforeSend === 'undefined' ? before : property.beforeSend;
+            
 
             return jQuery.ajax(property);
         },
