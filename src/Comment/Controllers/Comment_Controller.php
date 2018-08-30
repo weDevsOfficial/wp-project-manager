@@ -24,7 +24,7 @@ class Comment_Controller {
         $per_page = $request->get_param( 'per_page' );
         $page     = $request->get_param( 'page' );
 
-        $per_page = $per_page ? $per_page : 15;
+        $per_page = $per_page ? $per_page : pm_config('app.comment_per_page');
         $page     = $page ? $page : 1;
 
         $on = $request->get_param( 'on' );

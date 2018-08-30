@@ -11,6 +11,8 @@ use WeDevs\PM\Task_List\Transformers\Task_List_Transformer;
 use WeDevs\PM\Task\Transformers\Task_Transformer;
 use Carbon\Carbon;
 use WeDevs\PM\Task\Models\Task;
+use WeDevs\PM\Task\Transformers\Task_Transformer;
+use WeDevs\PM\Task_List\Transformers\Task_List_Transformer;
 
 class Project_Transformer extends TransformerAbstract {
 
