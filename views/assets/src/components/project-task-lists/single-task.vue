@@ -220,14 +220,17 @@
                     </div>
 
                     <div class="task-activities">
-                        <ul>
+                        <span class="activity-title">{{ __('Activity', 'wedevs-project-manager') }}</span>
+                        <ul  class="single-task-activity-ul">
                             <li v-for="activity in task.activities.data">
-                                <div class="activity-actor">
-                                    <img :src="activity.actor.data.avatar_url">
-                                </div>
-                                <div class="activity-content">
+                                <div class="activity-li-content">
+                                    <div class="activity-actor">
+                                        <img class="activity-author-image" :src="activity.actor.data.avatar_url">
+                                    </div>
+                                    <div class="activity-content">
 
-                                    <activity-parser :activity="activity"></activity-parser>
+                                        <activity-parser :activity="activity"></activity-parser>
+                                    </div>
                                 </div>
                             </li>
                         </ul>
