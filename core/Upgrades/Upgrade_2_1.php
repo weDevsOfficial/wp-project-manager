@@ -30,7 +30,6 @@ class Upgrade_2_1 extends WP_Background_Process
 
     public function task($func)
     {
-        error_log( $func );
         
         if (method_exists($this, $func)) {
             $this->{$func}();
