@@ -5,7 +5,8 @@ return [
     'slug'        => 'pm',
     'version'     => '2.0.5',
     'api'     	  => '2',
-    'db_version'  => '2.0',
+    'db_version'  => '2.1',
     'text_domain' => 'pm',
     'comment_per_page' => 200,
+
 ];

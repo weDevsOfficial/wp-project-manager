@@ -75,6 +75,8 @@ class Project_Controller {
 		$total_pending    = $eloquent_sql->where( 'status', Project::PENDING )->count();
 		$eloquent_sql     = $this->fetch_projects_by_category( $category );
 		$total_archived   = $eloquent_sql->where( 'status', Project::ARCHIVED )->count();
+		$eloquent_sql     = $this->fetch_projects_by_category( $category );
+		$favourite 		  = $eloquent_sql->whereNotNull( 'projectable_type' )->count();
 		$user_id          = get_current_user_id();
 
 		$meta  = [
@@ -82,14 +84,19 @@ class Project_Controller {
 			'total_incomplete' => $total_incomplete,
 			'total_complete'   => $total_complete,
 			'total_pending'    => $total_pending,
-			'totla_archived'   => $total_archived,
+			'total_archived'   => $total_archived,
+			'total_favourite'   => $favourite,
 		];
 
 		return $meta;
     }
 
     private function fetch_projects( $category, $status ) {
-    	$projects = $this->fetch_projects_by_category( $category );
+		$projects = $this->fetch_projects_by_category( $category );
+		
+		if ($status == 'favourite' ) {
+			$projects = $projects->whereNotNull( 'projectable_type' );
+		}
 
     	if ( in_array( $status, Project::$status ) ) {
 			$status   = array_search( $status, Project::$status );
@@ -259,6 +266,28 @@ class Project_Controller {
 			]);
 		}
 	}
+
+	public function favourite_project (WP_REST_Request $request) {
+        $project_id = $request->get_param( 'id' );
+        $favourite = $request->get_param( 'favourite' );
+
+        $project = Project::find( $project_id );
+        if ($favourite == 'true') {
+            $lastFavourite = Project::max('projectable_type');
+            $lastFavourite = absint($lastFavourite );
+
+            $project->projectable_type = $lastFavourite +1;
+        } else {
+            $project->projectable_type = null;
+        }
+        $project->save();
+		do_action( "pm_after_favaurite_project", $project );
+		
+		$resource = new Item( $project, new Project_Transformer );
+		$response = $this->get_response( $resource, [ 'message' =>  __( "The project has been marked as favourite", 'wedevs-project-manager' ) ] );
+
+        return $response;
+    }
 
 
 }
