@@ -289,6 +289,34 @@
 #wedevs-project-manager #pm-single-task-wrap .discuss-label {
   margin-bottom: 18px;
 }
+#wedevs-project-manager #pm-single-task-wrap .task-activities {
+  margin-top: 30px;
+}
+#wedevs-project-manager #pm-single-task-wrap .task-activities .activity-title {
+  font-size: 13px;
+  font-weight: bold;
+  color: #000;
+}
+#wedevs-project-manager #pm-single-task-wrap .task-activities .single-task-activity-ul {
+  margin-top: 18px;
+}
+#wedevs-project-manager #pm-single-task-wrap .task-activities .single-task-activity-ul li {
+  margin-bottom: 15px;
+}
+#wedevs-project-manager #pm-single-task-wrap .task-activities .single-task-activity-ul .activity-li-content {
+  display: flex;
+  font-size: 13px;
+}
+#wedevs-project-manager #pm-single-task-wrap .task-activities .single-task-activity-ul .activity-li-content strong {
+  font-size: 13px;
+  font-weight: normal;
+}
+#wedevs-project-manager #pm-single-task-wrap .task-activities .single-task-activity-ul .activity-author-image {
+  height: 24px;
+  width: 24px;
+  border-radius: 12px;
+  margin-right: 10px;
+}
 #wedevs-project-manager .pm-task-comment-wrap .discuss-text {
   margin-bottom: 5px;
 }
