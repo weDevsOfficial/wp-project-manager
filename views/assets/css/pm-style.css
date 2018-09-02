@@ -302,6 +302,8 @@
 }
 #wedevs-project-manager #pm-single-task-wrap .task-activities .single-task-activity-ul li {
   margin-bottom: 15px;
+  padding: 0;
+  border: none;
 }
 #wedevs-project-manager #pm-single-task-wrap .task-activities .single-task-activity-ul .activity-li-content {
   display: flex;
@@ -317,71 +319,113 @@
   border-radius: 12px;
   margin-right: 10px;
 }
-#wedevs-project-manager .pm-task-comment-wrap .discuss-text {
+#wedevs-project-manager #pm-single-task-wrap .pm-comment-form .attach-text {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  display: block;
+  font-size: 12px;
+  font-weight: bold;
+}
+#wedevs-project-manager #pm-single-task-wrap .pm-comment-form .comment-action-chunk {
+  display: flex;
+}
+#wedevs-project-manager #pm-single-task-wrap .pm-comment-form .comment-action-chunk .pm-button-cancel {
+  margin-left: 5px;
+}
+#wedevs-project-manager #pm-single-task-wrap .pm-comment-form .comment-action-chunk .pm-button-nofity-user {
+  margin-left: 5px;
+}
+#wedevs-project-manager #pm-single-task-wrap .pm-task-comment-wrap .discuss-text {
   margin-bottom: 5px;
 }
-#wedevs-project-manager .pm-task-comment-wrap .comment-content {
+#wedevs-project-manager #pm-single-task-wrap .pm-task-comment-wrap .comment-content {
   border: 1px solid #ECECEC;
   border-radius: 3px;
   padding: 18px;
   background: #FAFAFA;
 }
-#wedevs-project-manager .pm-task-comment-wrap .comment-content .comment-content-ul .comment-li {
+#wedevs-project-manager #pm-single-task-wrap .pm-task-comment-wrap .comment-content .comment-content-ul .comment-li {
   margin-bottom: 10px;
   background: none;
   border: none;
   padding: 8px;
 }
-#wedevs-project-manager .pm-task-comment-wrap .comment-content .comment-content-ul .comment-li p {
+#wedevs-project-manager #pm-single-task-wrap .pm-task-comment-wrap .comment-content .comment-content-ul .comment-li p {
   margin: 0;
   padding: 0;
 }
-#wedevs-project-manager .pm-task-comment-wrap .comment-content .comment-header {
+#wedevs-project-manager #pm-single-task-wrap .pm-task-comment-wrap .comment-content .comment-header {
   display: flex;
   justify-content: space-between;
 }
-#wedevs-project-manager .pm-task-comment-wrap .pm-avatar img {
+#wedevs-project-manager #pm-single-task-wrap .pm-task-comment-wrap .pm-avatar img {
   height: 24px;
   width: 24px;
   border-radius: 12px;
 }
-#wedevs-project-manager .pm-task-comment-wrap .author-date {
+#wedevs-project-manager #pm-single-task-wrap .pm-task-comment-wrap .author-date {
   width: 92%;
 }
-#wedevs-project-manager .pm-task-comment-wrap .author-date .pm-date {
+#wedevs-project-manager #pm-single-task-wrap .pm-task-comment-wrap .author-date .pm-date {
   font-size: 13px;
   color: #9C9C9C;
 }
-#wedevs-project-manager .pm-task-comment-wrap .author-date .pm-author {
+#wedevs-project-manager #pm-single-task-wrap .pm-task-comment-wrap .author-date .pm-author {
   font-size: 12px;
   font-weight: bold;
 }
-#wedevs-project-manager .pm-task-comment-wrap .pm-author {
+#wedevs-project-manager #pm-single-task-wrap .pm-task-comment-wrap .pm-author {
   margin-right: 18px;
 }
-#wedevs-project-manager .pm-task-comment-wrap .pm-comment-content {
+#wedevs-project-manager #pm-single-task-wrap .pm-task-comment-wrap .pm-comment-content {
   margin-left: 8%;
   margin-top: -4px;
   color: #000 !important;
 }
-#wedevs-project-manager .pm-task-comment-wrap .comment-field-content {
+#wedevs-project-manager #pm-single-task-wrap .pm-task-comment-wrap .comment-field-content {
   padding: 8px 0px 0px 8px;
 }
-#wedevs-project-manager .pm-task-comment-wrap .comment-field-content .comment-field-avatar {
+#wedevs-project-manager #pm-single-task-wrap .pm-task-comment-wrap .comment-field-content .comment-field-avatar {
   align-self: baseline;
 }
-#wedevs-project-manager .pm-task-comment-wrap .comment-field-content .comment-field {
+#wedevs-project-manager #pm-single-task-wrap .pm-task-comment-wrap .comment-field-content .comment-field {
   width: 92%;
 }
-#wedevs-project-manager .pm-task-comment-wrap .comment-field-content .comment-field .comment-field-text {
+#wedevs-project-manager #pm-single-task-wrap .pm-task-comment-wrap .comment-field-content .comment-field .comment-field-text {
   border: 1px solid #ECECEC;
   padding: 8px;
   border-radius: 3px;
   background: #FFFFFF;
 }
-#wedevs-project-manager .pm-task-comment-wrap .mce-tinymce {
+#wedevs-project-manager #pm-single-task-wrap .pm-task-comment-wrap .mce-tinymce {
   box-shadow: none;
 }
-#wedevs-project-manager .pm-task-comment-wrap .pm-comment-acction {
+#wedevs-project-manager #pm-single-task-wrap .pm-task-comment-wrap .pm-comment-acction {
   width: 38%;
+}
+#wedevs-project-manager #pm-single-task-wrap .pm-task-comment-wrap .pm-attachments li {
+  display: inline-block;
+  margin: 18px 11px 0 0;
+  border: none;
+  padding: 0;
+}
+#wedevs-project-manager #pm-single-task-wrap .pm-task-comment-wrap .pm-attachments li img {
+  margin: 0;
+}
+#wedevs-project-manager #pm-single-task-wrap .pm-attachment-items .pm-uploaded-item {
+  background: #f1f1f1;
+  padding: 10px 10px 4px 10px;
+  overflow: hidden;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  margin: 0 0 10px 0;
+  display: flex;
+  justify-content: space-between;
+}
+#wedevs-project-manager #pm-single-task-wrap .pm-attachment-items .pm-uploaded-item img {
+  margin-right: 13px;
+}
+#wedevs-project-manager #pm-single-task-wrap .pm-attachment-items .pm-uploaded-item .attachment-file {
+  display: flex;
 }

@@ -1,24 +1,20 @@
 <template>
-    <div class="pm-attachment-area">
+    <div class="pm-attachment-items">
         <div  id="pm-upload-container">
             <div class="pm-upload-filelist">
                 <div class="pm-uploaded-item" v-for="file in files" :key="file.id">
-                    <a class="pm-uploaded-img" :href="file.url" target="_blank">
-                        <img class="pm-uploaded-file" :src="file.thumb" :alt="file.name">
-                    </a> 
+                    <div class="attachment-file">
+                        <a class="pm-uploaded-img" :href="file.url" target="_blank">
+                            <img class="pm-uploaded-file" :src="file.thumb" :alt="file.name">
+                        </a> 
+                        <span>{{ file.name.toUpperCase() }}</span>
+                    </div>
                     
                     <a href="#" @click.prevent="deletefile(file.id)" class="button">{{ __( 'Delete File', 'wedevs-project-manager') }}</a>
                         
                 </div>
                      
             </div>
-            <span> 
-                <span v-if="!attr.onlyButton"> {{ __('To attach', 'wedevs-project-manager') }}</span>
-                <a v-pm-uploader class="pm-upload-pickfiles"  href="#">
-                    {{ attr.buttonText }}
-                </a> 
-                <span v-if="!attr.onlyButton">{{ __('from your computer.', 'wedevs-project-manager') }}</span>
-            </span>
         </div>
     </div>
 </template>
@@ -51,15 +47,6 @@
                 type: Boolean,
                 default: false,
             },
-            attr: {
-                type: Object,
-                default () {
-                    return {
-                        onlyButton: false,
-                        buttonText: __('select files', 'wedevs-project-manager')
-                    }
-                }
-            }
         },
 
         methods: {
