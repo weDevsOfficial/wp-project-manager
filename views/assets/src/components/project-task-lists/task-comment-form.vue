@@ -5,21 +5,37 @@
             <text-editor :editor_id="editor_id" :content="content"></text-editor>
         </div>
 
-         <!-- <file-uploader :files="files" :delete="deleted_files"></file-uploader>
-         <notify-user v-model="notify_users" :users="task.assignees.data"></notify-user> -->
+        <span class="attach-text" v-if="files.length">{{ 'Attach Files', 'wedevs-project-manager' }}</span>
+        <file-uploader :files="files" :delete="deleted_files"></file-uploader>
+       <!--  <div>
+            <a href="#" class="button button-secondary">{{ __('Attach', 'wedevs-project-manager') }}</a>
+
+        </div>
+        <div>
+            <a href="#" class="button button-secondary">{{ __('Notify user', 'wedevs-project-manager') }}</a>
+
+        </div> -->
+         <!-- <notify-user v-model="notify_users" :users="task.assignees.data"></notify-user> -->
+       
                
-        <div class="pm-flex pm-comment-acction">
-            <input v-if="!comment.edit_mode" :disabled="submit_disabled" type="submit" class="pm-button pm-primary"  :value="add_new_comment" id="" />
-            <input v-if="comment.edit_mode" :disabled="submit_disabled" type="submit" class="pm-button pm-secondary"  :value="update_comment" id="" />
-            <a href="#" @click.prevent="hideCommentForm()" class="pm-button pm-secondary">{{__('Cancel', 'wedevs-project-manager')}}</a>
-            <span v-show="show_spinner" class="pm-spinner"></span>
+        <div class="pm-flex">
+            <div class="comment-action-chunk">
+                <input v-if="!comment.edit_mode" :disabled="submit_disabled" type="submit" class="pm-button pm-primary"  :value="add_new_comment" id="" />
+                <input v-if="comment.edit_mode" :disabled="submit_disabled" type="submit" class="pm-button pm-secondary"  :value="update_comment" id="" />
+                <a href="#" @click.prevent="hideCommentForm()" class="pm-button pm-secondary pm-button-cancel">{{__('Cancel', 'wedevs-project-manager')}}</a>
+                <span v-show="show_spinner" class="pm-spinner"></span>
+            </div>
+            <div class="comment-action-chunk">
+                <a href="#" v-pm-uploader class="pm-button pm-secondary">{{ __('Attach', 'wedevs-project-manager') }}</a>
+                <a href="#" class="pm-button pm-secondary pm-button-nofity-user">{{ __('Notify user', 'wedevs-project-manager') }}</a>
+            </div>
         </div>
     </form>
 </template>
 
 <script>
   import editor from '@components/common/text-editor.vue';
-  import uploader from '@components/common/file-uploader.vue';
+  import uploader from '@components/common/file-uploader-updated.vue';
   import notifyUser from '@components/common/notify-user.vue';
   import Mixins from './mixin';
 
@@ -71,6 +87,10 @@
             add_new_comment: __( 'Post Comment', 'wedevs-project-manager'),
             update_comment: __( 'Update Comment', 'wedevs-project-manager'),
             notify_users: [],
+            fileUploaderAttr: {
+                onlyButton: true,
+                buttonText: __('Attach', 'wedevs-project-manager')
+            }
         }
     },
 
