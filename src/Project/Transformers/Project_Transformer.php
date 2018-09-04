@@ -9,6 +9,8 @@ use WeDevs\PM\User\Transformers\User_Transformer;
 use WeDevs\PM\Common\Traits\Resource_Editors;
 use Carbon\Carbon;
 use WeDevs\PM\Task\Models\Task;
+use WeDevs\PM\Task\Transformers\Task_Transformer;
+use WeDevs\PM\Task_List\Transformers\Task_List_Transformer;
 
 class Project_Transformer extends TransformerAbstract {
 
@@ -19,7 +21,7 @@ class Project_Transformer extends TransformerAbstract {
     ];
 
     protected $availableIncludes = [
-        'overview_graph'
+        'overview_graph', 'task_lists', 'tasks'
     ];
 
     public function transform( Project $item ) {
@@ -63,6 +65,8 @@ class Project_Transformer extends TransformerAbstract {
             $discussion = apply_filters( 'pm_discuss_query', $discussion, $item->id);
             $milestones = $item->milestones();
             $milestones = apply_filters( 'pm_milestone_index_query', $milestones, $item->id );
+            $files = $item->files();
+            $files = apply_filters( 'pm_file_query', $files, $item->id );
             return[
                 'total_task_lists'        => $list->count(),
                 'total_tasks'             => $task_count,
@@ -71,10 +75,20 @@ class Project_Transformer extends TransformerAbstract {
                 'total_discussion_boards' => $discussion->count(),
                 'total_milestones'        => $milestones->count(),
                 'total_comments'          => $item->comments()->count(),
-                'total_files'             => $item->files()->count(),
+                'total_files'             => $files->count(),
                 'total_activities'        => $item->activities()->count(),
             ];
         });
+    }
+
+    public function includeTaskLists ( Project $item ) {
+        $task_lists = $item->task_lists;
+        return $this->collection( $task_lists, new Task_List_Transformer );
+    }
+
+    public function includeTasks ( Project $item ) {
+        $tasks = $item->tasks;
+        return $this->collection( $tasks , new Task_Transformer );
     }
 
     public function includeOverviewGraph( Project $item ) {

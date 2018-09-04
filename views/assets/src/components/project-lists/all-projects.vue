@@ -96,8 +96,15 @@
 
         methods: {
             projectQuery () {
+                var self = this;
                 this.loading = true;
-                this.getProjects();
+                this.getProjects({
+                    callback (res) {
+                        self.projectFetchStatus(true);
+                        self.loading = false;
+
+                    }
+                });
             }
         }
     }

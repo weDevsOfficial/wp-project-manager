@@ -140,13 +140,14 @@ export default {
          * 
          * @return string      
          */
-        dateFormat ( date ) {
+        dateFormat ( date, formate ) {
+            var formate = formate || 'MMM D';
             if ( !date ) {
                 return;
             }
 
             date = new Date(date);
-            return pm.Moment(date).format('MMM D');
+            return pm.Moment(date).format(formate);
         },
 
                 /**
@@ -217,7 +218,16 @@ export default {
                 xhr.setRequestHeader("X-WP-Nonce", PM_Vars.permission);
             };
 
+            if(typeof property.data == 'undefined') {
+                property.data = {
+                    is_admin: PM_Vars.is_admin
+                }
+            }
+
+            property.data.is_admin = typeof property.data.is_admin == 'undefined' ? PM_Vars.is_admin : property.data.is_admin;
+
             property.beforeSend = typeof property.beforeSend === 'undefined' ? before : property.beforeSend;
+            
 
             return jQuery.ajax(property);
         },
@@ -391,7 +401,7 @@ export default {
                     self.$store.commit('setProjectsMeta', res.meta );
                     
                     pm.NProgress.done();
-                    self.loading = false;
+                    // self.loading = false;
                     
                     if(typeof args.callback != 'undefined'){
                         args.callback(res.data);
