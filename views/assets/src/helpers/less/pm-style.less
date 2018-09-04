@@ -146,7 +146,7 @@
 	.popup-mask {
 		position: fixed;
 		z-index: 10000;
-		top: 32px;
+		top: 0;
 		left: 0;
 		width: 100%;
 		height: 100%;
@@ -160,14 +160,138 @@
 		    margin-right: auto;
 		    background: #fff;
 		    border-radius: 3px;
-		    padding: 22px 25px;
-		    max-height: 92%;
-		    overflow: scroll;
+		    height: 90vh;
+		    top: 32px;
 		    position: relative;
+
+		    .popup-body {
+		    	overflow: scroll;
+			    height: 96%;
+			    width: auto;
+			    padding: 22px 25px;
+		    }
+
+		    .close-modal {
+		    	position: absolute;
+			    right: -24px;
+			    background: #000;
+			    color: #fff;
+			    z-index: 999999;
+			    padding: 2px;
+			    cursor: pointer;
+			    .dashicons {
+			    	color: #fff;
+			    }
+		    }
 		}
 	}
 
+	.pm-multiselect {
+		position: absolute;
+	    top: -8px;
+	    width: 236px;
+	    left: 34px;
+	    z-index: 9999;
+	    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+	    padding: 15px 0;
+	    border: 1px solid #ECECEC;
+	    background: #fff;
+	    border-radius: 3px;
+
+	    .assign-to {
+	    	font-size: 13px;
+	    	color: #000;
+	    	margin-bottom: 10px;
+	    	display: block;
+	    }
+	    .multiselect__content-wrapper {
+	    	display: block !important;
+	    	margin-top: 13px;
+
+	    	.multiselect__content {
+	    		border-radius: 3px;
+	    		border: 1px solid #ECECEC;
+	    		display: block;
+
+	    		li {
+	    			span {
+	    				background: #fff;
+	    				font-size: 13px;
+	    				color: #788383;
+	    				font-weight: normal;
+	    				font-family: "Helvetica Neue", sans-serif;
+	    			}
+	    			.multiselect__option--highlight:after {
+	    				background: none;
+    					color: #A5ACB1;
+	    			}
+
+	    			.multiselect__option:after {
+	    				content: "\2713 ";
+	    				color: #d4d6d6;
+	    			}
+	    			.multiselect__option--selected:after {
+	    				content: "X";
+	    				color: #d4d6d6;
+	    			}
+	    			&:hover {
+	    				.multiselect__option:after, .multiselect__option--selected:after {
+	    					color: #72777c;
+	    				}
+	    			}
+	    			.option__image {
+	    				height: 24px;
+					    width: 24px;
+					    border-radius: 12px;
+	    			}
+	    		}
+	    	}
+	    }
+
+	    .pm-multiselect-content {
+	    	width: 198px;
+	    	margin: auto;
+	    }
+
+	    .multiselect {
+	    	min-height: auto;
+	    }
+
+	    .multiselect__content {
+	    	position: relative;
+	    }
+	    .multiselect__select {
+	    	display: none;
+	    }
+	    .multiselect__tags {
+	    	border: none;
+	    	padding: 0;
+	    	min-height: auto;
+	    }
+	    .multiselect__tag {
+	    	display: none;
+	    	border: none;
+	    	padding: 0;
+	    }
+	    .multiselect__input {
+	    	display: block !important;
+		    width: 198px !important;
+		    position: relative !important;
+		    padding: 0 10px !important;
+		    height: 30px;
+		    border-radius: 3px;
+		    border-color: #ECECEC;
+		    font-size: 12px;
+		    color: #A5ACB1;
+		    box-shadow: none;
+
+	    }
+	}
+
 	#pm-single-task-wrap {
+		.pm-data-load-before {
+			margin-top: 62px;
+		}
 		.close-vue-modal {
 			position: absolute;
 		    right: 311px;
@@ -286,11 +410,8 @@
 			    top: -1px;
 			    left: 1px;
 
-			    .pm-multiselect-single-task {
-			    	position: absolute;
-			    	.multiselect {
-			    		width: 200px;
-			    	}
+			    #pm-multiselect-single-task {
+			    	position: relative;
 			    }
 			}
 		}
@@ -324,6 +445,22 @@
 		}  
 		.description-wrap {
 			margin-bottom: 20px;
+			.pm-desc-content {
+				display: flex;
+			}
+			.task-description-edit-icon {
+				color: #d9dbdb;
+			}
+			.pm-desc-field {
+				height: 55px;
+    			width: 100%;
+			}
+			.pm-help-text {
+				span {
+					font-size: 11px;
+    				font-style: italic;
+				}
+			}
 			.action-content {
 				border: 1px solid #ECECEC;
 			    padding: 13px;
@@ -387,6 +524,11 @@
 				.pm-button-nofity-user {
 					margin-left: 5px;
 				}
+
+				.notify-users {
+					border: none;
+					position: relative;
+				}
 			}
 		}
 		.pm-task-comment-wrap {
@@ -413,6 +555,26 @@
 			    .comment-header {
 			    	display: flex;
 	    			justify-content: space-between;
+	    			.icon-pm-down-arrow {
+	    				font-size: 7px;
+	    				cursor: pointer;
+	    				position: relative;
+	    			}
+	    			.comment-action {
+	    				width: 100px;
+					    right: -4px;
+					    top: 13px;
+					    font-size: 12px;
+					    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+					    color: #000;
+
+					    .comment-action-ul {
+					    	li {
+					    		padding: 8px 10px 7px 10px;
+					    		margin: 0;
+					    	}
+					    }
+	    			}
 			    }
 			}
 			.pm-avatar {
@@ -424,7 +586,7 @@
 				}
 			}
 			.author-date {
-				width: 92%;
+				width: 86.2%;
 				.pm-date {
 					font-size: 13px;
 					color: #9C9C9C;
@@ -442,6 +604,9 @@
 				margin-left: 8%;
 				margin-top: -4px;
 				color: #000 !important;
+				.pm-comment-edit-form {
+					margin-top: 20px;
+				}
 			}
 			.comment-field-content {
 				padding: 8px 0px 0px 8px;
