@@ -69,10 +69,10 @@ function format_date( $date ) {
     $timezone    = get_wp_timezone();
 
     return [
-        'date'      => $date ? $date->format( 'Y-m-d H:i:s' ) : null,
-        'time'      => $date ? $date->format( 'Y-m-d H:i:s' ) : null,
+        'date'      => $date ? $date->format( 'Y-m-d' ) : null,
+        'time'      => $date ? $date->format( 'H:i:s' ) : null,
         'timezone'  => tzcode_to_tzstring( $timezone ),
-        'timestamp' => $date ? strtotime( $date ) : null
+        'timestamp' => $date ?  $date->toATOMString() : null
     ];
 }
 
@@ -388,6 +388,11 @@ function pm_has_manage_capability( $user_id = false ) {
     
     $user_id = $user_id ? intval( $user_id ) : get_current_user_id();
     $user    = get_user_by( 'id', $user_id );
+    
+    if ( !$user->roles || !is_array($user->roles) ) {
+        return false;
+    }
+    
     $manage_roles = (array) pm_get_settings( 'managing_capability' );
     
     $common_role  = array_intersect( $manage_roles, $user->roles );
@@ -578,18 +583,19 @@ function pm_filter_content_url( $content ) {
     return $content;
 }
 
-function pm_get_user_url( $user_id = false ) {
+function pm_get_user_url( $user_id = false, $is_admin ) {
     $user_id = $user_id ? $user_id : get_current_user_id();
 
-    $pm_base  = Email::getInstance()->pm_link();
+    $is_admin = $is_admin ? 'admin' : 'frontend';
+    $pm_base  = pm_get_project_page($is_admin);
     $user_url = $pm_base . '#/my-tasks/' . $user_id;
 
     return $user_url;
 }
 
-function pm_get_task_url( $project_id, $list_id, $task_id ) {
-
-    $pm_base  = Email::getInstance()->pm_link();
+function pm_get_task_url( $project_id, $list_id, $task_id, $is_admin ) {
+    $is_admin = $is_admin ? 'admin' : 'frontend';
+    $pm_base  = pm_get_project_page($is_admin);
     $task_url = $pm_base . '#/projects/' . $project_id . '/task-lists/' . $list_id . '/tasks/' . $task_id;
 
     return $task_url;
@@ -615,11 +621,42 @@ function pm_get_file_download_url( $project_id, $user_id, $file_id ) {
     return get_rest_url() . 'pm/v2/projects/' . $project_id . '/files/' . $file_id . '/users/' . $user_id . '/download';
 }
 
-function pm_get_list_url( $project_id, $list_id ) {
+function pm_get_list_url( $project_id, $list_id, $is_admin ) {
 
-    $pm_base  = Email::getInstance()->pm_link();
+    $is_admin = $is_admin ? 'admin' : 'frontend';
+    $pm_base  = pm_get_project_page( $is_admin );
     $list_url = $pm_base . '#/projects/' . $project_id . '/task-lists/' . $list_id;
 
     return $list_url;
+}
+
+function pm_get_front_end_project_page() {
+    $pages   = get_option( 'pm_pages', [] );
+    $project = empty( $pages['project'] ) ? '' : absint( $pages['project'] );
+    
+    if ( $project ) {
+        return get_permalink( $project );
+    } 
+
+    return '';
+}
+
+function pm_get_project_page( $type = false ) {
+
+    if ( $type == 'admin' ) {
+        return admin_url( 'admin.php?page=pm_projects' );
+    } 
+
+    if ( $type == 'frontend' ) {
+        return pm_get_front_end_project_page();
+    }
+
+    if ( pm_is_request( 'admin' ) ) {
+        return admin_url( 'admin.php?page=pm_projects' );
+    }
+
+    if ( pm_is_request( 'frontend' ) ) {
+        return pm_get_front_end_project_page();
+    }
 }
 
