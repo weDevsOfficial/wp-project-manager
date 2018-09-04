@@ -8,7 +8,8 @@
                 <li  v-for="comment in comments" :key="'tasks-comments-'+comment.id" :class="'comment-li pm-fade-out-'+comment.id">
                     <div class="comment-header">
                         <div class="pm-avatar">
-                            <a :href="myTaskRedirect( comment.creator.data.id )" :title="comment.creator.data.display_name"><img :alt="comment.creator.data.display_name" :src="comment.creator.data.avatar_url" class="avatar avatar-96 photo" height="96" width="96"></a>
+                            <a :href="myTaskRedirect( comment.creator.data.id )" :title="comment.creator.data.display_name">
+                            <img :alt="comment.creator.data.display_name" :src="comment.creator.data.avatar_url" class="avatar avatar-96 photo" height="96" width="96"></a>
                         </div>
 
                         <div class="author-date">
@@ -22,6 +23,14 @@
                                 <time :datetime="dateISO8601Format( comment.comment_date )" :title="dateISO8601Format( comment.comment_date )">{{ commentDate(comment) }}</time>
                             </span>
                         </div>
+                        <span @click.prevent="showActionMenu(comment)" class="icon-pm-down-arrow comment-action-arrow">
+                            <div v-if="comment.actionMode" class="pm-popup-menu comment-action">
+                                <ul class="comment-action-ul">
+                                    <li><a href="#" @click.prevent="showHideTaskCommentForm( comment )">{{ __('Edit', 'wedevs-project-manager') }}</a></li>
+                                    <li><a href="#" @click.prevent="deleteTaskComment( comment.id )">{{ __('Delete', 'wedevs-project-manager') }}</a></li>
+                                </ul>
+                            </div>
+                        </span>
                     </div>
                     <!-- v-if="current_user_can_edit_delete(comment, task)" -->
                   <!--   <div  class="pm-comment-action" v-if="can_edit_comment(comment)" >
@@ -51,7 +60,7 @@
                     
                         <transition name="slide" v-if="can_edit_comment(comment)" >
                             <div class="pm-comment-edit-form" v-if="comment.edit_mode">
-                                <task-comment-form :task="task" :comment="comment" :comments="comments"></task-comment-form>
+                                <task-comment-form :task="task" :comment="comment" :comments="comments" :commentFormMeta="commentFormMeta"></task-comment-form>
                             </div>
                         </transition>
                     </div>
@@ -127,13 +136,41 @@
             }
         },
 
+        created () {
+            // this.comments.forEach(function(comment) {
+            //     pm.Vue.set(comment, 'actionMode', false);
+            // });
+
+            window.addEventListener('click', this.windowActivity);
+        },
+
         components: {
             'task-comment-form': comment_form
         },
 
         methods: {
+            windowActivity (el) {
+                var commentAction =  jQuery(el.target).closest('.comment-action-arrow');
+
+                if(!commentAction.length) {
+                    this.comments.forEach(function(comment) {
+                        pm.Vue.set(comment, 'actionMode', false);
+                    });
+                }
+            },
+            showActionMenu (comment) {
+                if(typeof comment.actionMode == 'undefined') {
+                    pm.Vue.set(comment, 'actionMode', true);
+                } else {
+                    comment.actionMode = comment.actionMode ? false : true; 
+                }
+                
+            },
             showHideNewCommentField () {
-                this.commentFormMeta.activeNewCommentField = this.commentFormMeta.activeNewCommentField ? false : true;
+                
+                    this.commentFormMeta.activeNewCommentField = this.commentFormMeta.activeNewCommentField ? false : true;
+                
+                
             },
             commentDate (comment) {
                 if (typeof comment.created_at != 'undefined') {

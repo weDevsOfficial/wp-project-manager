@@ -3,237 +3,242 @@
         <div class="nonsortable">
 
             <div v-if="loading" class="modal-mask half-modal pm-task-modal modal-transition">
-                <div class="modal-wrapper">
-                    <div class="modal-container" style="height: 20000px;">
-                        <span class="close-vue-modal">
-
-                            <a  @click.prevent="closePopup()"><span class="dashicons dashicons-no"></span></a>
-                        </span>
-
-
-                        <div class="modal-body pm-todolist">
-
-                            <div class="pm-data-load-before" >
-                                <div class="loadmoreanimation">
-                                    <div class="load-spinner">
-                                        <div class="rect1"></div>
-                                        <div class="rect2"></div>
-                                        <div class="rect3"></div>
-                                        <div class="rect4"></div>
-                                        <div class="rect5"></div>
-                                    </div>
-                                </div>
-                            </div>
+              
+                <div class="pm-data-load-before" >
+                    <div class="loadmoreanimation">
+                        <div class="load-spinner">
+                            <div class="rect1"></div>
+                            <div class="rect2"></div>
+                            <div class="rect3"></div>
+                            <div class="rect4"></div>
+                            <div class="rect5"></div>
                         </div>
                     </div>
                 </div>
+                
             </div>
 
 
-            <div v-else class="popup-mask">   
-                <span class="close-vue-modal">
-                        <a  @click.prevent="closePopup()"><span class="dashicons dashicons-no"></span></a>
-                    </span>             
+            <div v-else class="popup-mask"> 
+
                 <div class="popup-container">
-                    
-                    <div class="pm-single-task-header">
-                        <div class="task-complete-incomplete">
-                            <div class="completed pm-flex" v-if="task.status">
-                                <span class="icon-pm-completed pm-font-size-16"></span>
-                                <span><a  href="#" @click.prevent="singleTaskDoneUndone()">{{ __( 'Completed', 'pm' ) }}</a></span>
-                            </div>
-                            <div class="incomplete pm-flex" v-if="!task.status">
-                                <span class="icon-pm-incomplete pm-font-size-16"></span>
-                                <span><a href="#" @click.prevent="singleTaskDoneUndone()">{{ __( 'Mark Complete', 'pm' ) }}</a></span>
-                            </div>
-                        </div>
-
-                        <div class="pm-flex header-meta">
-                            <div class="created-by">
-                                
-                                <span class="pm-light-color">{{ __('Created by', 'wedevs-project-manager') }}</span>
-                                <span class="pm-dark-color">{{ ucfirst( task.creator.data.display_name ) }}</span>
-                                <span class="pm-light-color">{{ __('on', 'wedevs-project-manager') }}</span>
-                                <span class="pm-dark-color">{{ cratedDateFormat( task.created_at.date ) }}</span>
-                                
-                            </div>
-                            <div id="pm-action-menu" class="task-action">
-                                <span style="font-size: 17px;" @click.prevent="showMenu()" class="icon-pm-more-options pm-font-size-16"></span>
-                                <div  v-if="isActiveMenu" class="action-menu">
-                                    <ul class="action-menu-ul">
-                                        <li>
-                                            <span class="icon-pm-copy pm-font-size-13"></span>
-                                            <a @click.prevent="copyUrl(task)" href="#">{{ __('Copy', 'wedevs-project-manager') }}</a>
-                                        </li>
-                                        <li>
-                                            <span class="icon-pm-private pm-font-size-13"></span>
-                                            <a v-if="task.meta.privacy=='1'" @click.prevent="singleTaskLockUnlock(task)" href="#">{{ __('Make Visible', 'wedevs-project-manager') }}</a>
-                                            <a v-if="task.meta.privacy=='0'" @click.prevent="singleTaskLockUnlock(task)" href="#">{{ __('Make Private', 'wedevs-project-manager') }}</a>
-
-                                        </li>
-                                        <li>
-                                            <span class="icon-pm-delete pm-font-size-13"></span>
-                                            <a @click.prevent="selfDeleteTask({task: task, list: list})" href="#">{{ __('Delete', 'wedevs-project-manager') }}</a>
-                                        </li>
-                                    </ul>
+                    <span class="close-modal">
+                        <a  @click.prevent="closePopup()"><span class="dashicons dashicons-no"></span></a>
+                    </span>
+                    <div class="popup-body">
+                        <div class="pm-single-task-header">
+                            <div class="task-complete-incomplete">
+                                <div class="completed pm-flex" v-if="task.status">
+                                    <span class="icon-pm-completed pm-font-size-16"></span>
+                                    <span><a  href="#" @click.prevent="singleTaskDoneUndone()">{{ __( 'Completed', 'pm' ) }}</a></span>
+                                </div>
+                                <div class="incomplete pm-flex" v-if="!task.status">
+                                    <span class="icon-pm-incomplete pm-font-size-16"></span>
+                                    <span><a href="#" @click.prevent="singleTaskDoneUndone()">{{ __( 'Mark Complete', 'pm' ) }}</a></span>
                                 </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <div :class="singleTaskTitle(task) + ' task-title-wrap'">
-                        <div class="task-title-text">
-
-                            <span v-if="is_task_title_edit_mode && can_edit_task(task)">
-                                <input
-                                    v-model="task.title"
-                                    @blur="updateTaskElement(task)"
-                                    @keyup.enter="updateTaskElement(task)"
-
-                                    class="pm-task-title-activity pm-task-title-field"
-                                    type="text">
-                            </span>
-
-                            <span
-                                :class="lineThrough(task) + ' pm-task-title-activity pm-task-title-span'"
-                                v-if="!is_task_title_edit_mode"
-                                @click.prevent="isTaskTitleEditMode()">
-                                {{ ucfirst(task.title) }}
-                            </span>
-
-                        </div>
-                    </div>
-
-                    <div class="pm-flex options-wrap">
-                        <div class="assigne-users">
-                            <div v-if="task.assignees.data.length" class='pm-assigned-user' v-for="user in task.assignees.data">
-
-                                <a href="#" :title="user.display_name">
-                                    <img :alt="user.display_name" :src="user.avatar_url" class="avatar avatar-48 photo" height="48" width="48">
-                                </a>
-                            </div>
-                            <span id="pm-multiselect-single-task" @click.self.prevent="isEnableMultiSelect()" class="icon-pm-user">
-                                <div  v-if="is_enable_multi_select"  class="pm-multiselect pm-multiselect-single-task">
-
-                                        <multiselect
-                                            v-model="task_assign"
-                                            :options="project_users"
-                                            :multiple="true"
-                                            :close-on-select="false"
-                                            :clear-on-select="true"
-                                            :show-labels="true"
-                                            :searchable="true"
-                                            placeholder="Select User"
-                                            select-label=""
-                                            selected-label="selected"
-                                            deselect-label=""
-                                            label="display_name"
-                                            track-by="id"
-                                            :allow-empty="true">
-
-                                        </multiselect>
-                                    </div>
-                            </span>
-                        </div>
-                        <div class="pm-flex option-icon-groups">
-                            <span id="pm-calendar-wrap" @click.prevent="isTaskDateEditMode()" class="individual-group-icon calendar-group icon-pm-calendar pm-font-size-16">
-                                <span v-if="(task.start_at.date || task.due_date.date )" :class="taskDateWrap(task.due_date.date) + ' pm-task-date-wrap pm-date-window'">
-                                        
-                                    <span v-if="task_start_field">
-                                        
-                                        {{ dateFormat( task.start_at.date ) }}
-                                    </span>
-
-                                    <span v-if="task_start_field && task.start_at.date && task.due_date.date">&ndash;</span>
-                                    <span v-if="task.due_date">
-                                        
-                                        {{ dateFormat( task.due_date.date ) }}
-                                    </span>
-
-                                        
-                                </span>
-
-                                <span v-if="(!task.start_at.date && !task.due_date.date)" class="pm-task-date-wrap pm-date-window">
-                                    <span
-                                        @click.prevent="isTaskDateEditMode()"
-                                        v-bind:class="task.status ? completedTaskWrap(task.start_at.date, task.due_date.date) : taskDateWrap( task.start_at.date, task.due_date.date)">
-                                    </span>
-                                </span>
-                                <div v-if="is_task_date_edit_mode && can_edit_task(task)" class="task-date">
-                                    <div v-if="task_start_field" v-pm-datepicker class="pm-date-picker-from pm-inline-date-picker-from"></div>
-                                    <div v-pm-datepicker class="pm-date-picker-to pm-inline-date-picker-to"></div>
-                                </div>
-                            </span>
-                            
-                            <!-- <span class="icon-pm-watch pm-font-size-16"></span>
-                            <span class="icon-pm-tag pm-font-size-16"></span>
-                            <span class="icon-pm-sorting pm-font-size-16"></span>
-                            <span class="icon-pm-clip pm-font-size-16"></span>
-                            <span class="icon-pm-star pm-font-size-16"></span> -->
-                            <do-action :hook="'single_task_inline'" :actionData="doActionData"></do-action>
-                        </div>
-                    </div>
-
-                    <div id="description-wrap" class="description-wrap">
-                        <div v-if="!task.description.content && !is_task_details_edit_mode" @click.prevent="isTaskDetailsEditMode()"  class="action-content pm-flex">
-                            <span>
-                                <span class="icon-pm-align-left"></span>
-                                <span class="task-description">{{ __( 'Description', 'wedevs-project-manager' ) }}</span>
-                            </span>
-                            <span class="icon-pm-pencil"></span>
-                        </div>
-
-                        <div v-else class="task-details">
-
-                            <div class="pm-des-area pm-desc-content" v-if="!is_task_details_edit_mode"  >
-                                <div v-if="task.description.content != ''">
-                                    <div class="pm-task-description" v-html="task.description.html"></div>
-                                </div>
-                                <a class="task-description-edit-icon" @click.prevent="isTaskDetailsEditMode()" :title="update_description">
-                                    <i style="font-size: 16px;"  class="fa fa-pencil" aria-hidden="true"></i>
+                            <div class="pm-flex header-meta">
+                                <div class="created-by">
                                     
-                                </a>
-                            </div>
-                            
-                            <textarea
-                                v-prevent-line-break
-                                @blur="updateDescription(task, $event)"
-                                @keyup.enter="updateDescription(task, $event)"
-                                class="pm-des-area pm-desc-field"
-                                v-if="is_task_details_edit_mode && can_edit_task(task)"
-                                v-model="task_description">
+                                    <span class="pm-light-color">{{ __('Created by', 'wedevs-project-manager') }}</span>
+                                    <span class="pm-dark-color">{{ ucfirst( task.creator.data.display_name ) }}</span>
+                                    <span class="pm-light-color">{{ __('on', 'wedevs-project-manager') }}</span>
+                                    <span class="pm-dark-color">{{ cratedDateFormat( task.created_at.date ) }}</span>
+                                    
+                                </div>
+                                <div id="pm-action-menu" class="task-action">
+                                    <span style="font-size: 17px;" @click.prevent="showMenu()" class="icon-pm-more-options pm-font-size-16"></span>
+                                    <div  v-if="isActiveMenu" class="action-menu">
+                                        <ul class="action-menu-ul">
+                                            <li>
+                                                <span class="icon-pm-copy pm-font-size-13"></span>
+                                                <a @click.prevent="copyUrl(task)" href="#">{{ __('Copy', 'wedevs-project-manager') }}</a>
+                                            </li>
+                                            <li>
+                                                <span class="icon-pm-private pm-font-size-13"></span>
+                                                <a v-if="task.meta.privacy=='1'" @click.prevent="singleTaskLockUnlock(task)" href="#">{{ __('Make Visible', 'wedevs-project-manager') }}</a>
+                                                <a v-if="task.meta.privacy=='0'" @click.prevent="singleTaskLockUnlock(task)" href="#">{{ __('Make Private', 'wedevs-project-manager') }}</a>
 
-                            </textarea>
-                            <div v-if="is_task_details_edit_mode && can_edit_task(task)" class="pm-help-text">
-                                <span>{{ __( 'Shift+Enter for line break', 'wedevs-project-manager') }}</span>
-                            </div>
-
-                            <div class="clearfix pm-clear"></div>
-                            <do-action :hook="'aftre_single_task_details'" :actionData="doActionData"></do-action>
-                        </div>
-                    </div>
-
-                    <do-action :hook="'aftre_single_task_content'" :actionData="doActionData"></do-action>
-
-                    <div class="discuss-wrap">
-                        <task-comments :task="task" :comments="task.comments.data"></task-comments>
-                    </div>
-
-                    <div class="task-activities">
-                        <span class="activity-title">{{ __('Activity', 'wedevs-project-manager') }}</span>
-                        <ul  class="single-task-activity-ul">
-                            <li v-for="activity in task.activities.data">
-                                <div class="activity-li-content">
-                                    <div class="activity-actor">
-                                        <img class="activity-author-image" :src="activity.actor.data.avatar_url">
-                                    </div>
-                                    <div class="activity-content">
-
-                                        <activity-parser :activity="activity"></activity-parser>
+                                            </li>
+                                            <li>
+                                                <span class="icon-pm-delete pm-font-size-13"></span>
+                                                <a @click.prevent="selfDeleteTask({task: task, list: list})" href="#">{{ __('Delete', 'wedevs-project-manager') }}</a>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
-                            </li>
-                        </ul>
+                            </div>
+                        </div>
+
+                        <div :class="singleTaskTitle(task) + ' task-title-wrap'">
+                            <div class="task-title-text">
+
+                                <span v-if="is_task_title_edit_mode && can_edit_task(task)">
+                                    <input
+                                        v-model="task.title"
+                                        @blur="updateTaskElement(task)"
+                                        @keyup.enter="updateTaskElement(task)"
+
+                                        class="pm-task-title-activity pm-task-title-field"
+                                        type="text">
+                                </span>
+
+                                <span
+                                    :class="lineThrough(task) + ' pm-task-title-activity pm-task-title-span'"
+                                    v-if="!is_task_title_edit_mode"
+                                    @click.prevent="isTaskTitleEditMode()">
+                                    {{ ucfirst(task.title) }}
+                                </span>
+
+                            </div>
+                        </div>
+
+                        <div class="pm-flex options-wrap">
+                            <div class="assigne-users">
+                                <div v-if="task.assignees.data.length" class='pm-assigned-user' v-for="user in task.assignees.data">
+
+                                    <a href="#" :title="user.display_name">
+                                        <img :alt="user.display_name" :src="user.avatar_url" class="avatar avatar-48 photo" height="48" width="48">
+                                    </a>
+                                </div>
+                                <span id="pm-multiselect-single-task" @click.self.prevent="isEnableMultiSelect()" class="icon-pm-user">
+                                    <div  v-if="is_enable_multi_select"  class="pm-multiselect pm-multiselect-single-task">
+                                        <div class="pm-multiselect-content">
+                                            <div class="assign-to">{{ __('Assign to', 'wedevs-project-manager') }}</div>
+                                            <multiselect
+                                                v-model="task_assign"
+                                                :options="project_users"
+                                                :multiple="true"
+                                                :close-on-select="false"
+                                                :clear-on-select="true"
+                                                :show-labels="true"
+                                                :searchable="true"
+                                                placeholder="Select User"
+                                                select-label=""
+                                                selected-label="selected"
+                                                deselect-label=""
+                                                label="display_name"
+                                                track-by="id"
+                                                :allow-empty="true">
+
+                                               
+                                                <template slot="option" slot-scope="props">
+                                                    <img class="option__image" :src="props.option.avatar_url" alt="No Man’s Sky">
+                                                    <div class="option__desc">
+                                                        <span class="option__title">{{ props.option.display_name }}</span>
+                                                    </div>
+                                                </template>
+   
+
+                                            </multiselect>
+
+                                        </div>
+                                    </div>
+                                </span>
+                            </div>
+                            
+
+                            <div class="pm-flex option-icon-groups">
+                                <span id="pm-calendar-wrap" @click.prevent="isTaskDateEditMode()" class="individual-group-icon calendar-group icon-pm-calendar pm-font-size-16">
+                                    <span v-if="(task.start_at.date || task.due_date.date )" :class="taskDateWrap(task.due_date.date) + ' pm-task-date-wrap pm-date-window'">
+                                            
+                                        <span v-if="task_start_field">
+                                            
+                                            {{ dateFormat( task.start_at.date ) }}
+                                        </span>
+
+                                        <span v-if="task_start_field && task.start_at.date && task.due_date.date">&ndash;</span>
+                                        <span v-if="task.due_date">
+                                            
+                                            {{ dateFormat( task.due_date.date ) }}
+                                        </span>
+
+                                            
+                                    </span>
+
+                                    <span v-if="(!task.start_at.date && !task.due_date.date)" class="pm-task-date-wrap pm-date-window">
+                                        <span
+                                            @click.prevent="isTaskDateEditMode()"
+                                            v-bind:class="task.status ? completedTaskWrap(task.start_at.date, task.due_date.date) : taskDateWrap( task.start_at.date, task.due_date.date)">
+                                        </span>
+                                    </span>
+                                    <div v-if="is_task_date_edit_mode && can_edit_task(task)" class="task-date">
+                                        <div v-if="task_start_field" v-pm-datepicker class="pm-date-picker-from pm-inline-date-picker-from"></div>
+                                        <div v-pm-datepicker class="pm-date-picker-to pm-inline-date-picker-to"></div>
+                                    </div>
+                                </span>
+                                
+                                <!-- <span class="icon-pm-watch pm-font-size-16"></span>
+                                <span class="icon-pm-tag pm-font-size-16"></span>
+                                <span class="icon-pm-sorting pm-font-size-16"></span>
+                                <span class="icon-pm-clip pm-font-size-16"></span>
+                                <span class="icon-pm-star pm-font-size-16"></span> -->
+                                <do-action :hook="'single_task_inline'" :actionData="doActionData"></do-action>
+                            </div>
+                        </div>
+
+                        <div id="description-wrap" class="description-wrap">
+                            <div v-if="!task.description.content && !is_task_details_edit_mode" @click.prevent="isTaskDetailsEditMode()"  class="action-content pm-flex">
+                                <span>
+                                    <span class="icon-pm-align-left"></span>
+                                    <span class="task-description">{{ __( 'Description', 'wedevs-project-manager' ) }}</span>
+                                </span>
+                                <span class="icon-pm-pencil"></span>
+                            </div>
+
+                            <div v-else class="task-details">
+
+                                <div class="pm-des-area pm-desc-content" v-if="!is_task_details_edit_mode"  >
+                                    <div v-if="task.description.content != ''">
+                                        <div class="pm-task-description" v-html="task.description.html"></div>
+                                    </div>
+                                    <a class="task-description-edit-icon" @click.prevent="isTaskDetailsEditMode()" :title="update_description">
+                                        <i style="font-size: 16px;"  class="fa fa-pencil" aria-hidden="true"></i>
+                                        
+                                    </a>
+                                </div>
+                                
+                                <textarea
+                                    v-prevent-line-break
+                                    @blur="updateDescription(task, $event)"
+                                    @keyup.enter="updateDescription(task, $event)"
+                                    class="pm-des-area pm-desc-field"
+                                    v-if="is_task_details_edit_mode && can_edit_task(task)"
+                                    v-model="task_description">
+
+                                </textarea>
+                                <div v-if="is_task_details_edit_mode && can_edit_task(task)" class="pm-help-text">
+                                    <span>{{ __( 'Shift+Enter for line break', 'wedevs-project-manager') }}</span>
+                                </div>
+
+                                <div class="clearfix pm-clear"></div>
+                                <do-action :hook="'aftre_single_task_details'" :actionData="doActionData"></do-action>
+                            </div>
+                        </div>
+
+                        <do-action :hook="'aftre_single_task_content'" :actionData="doActionData"></do-action>
+
+                        <div class="discuss-wrap">
+                            <task-comments :task="task" :comments="task.comments.data"></task-comments>
+                        </div>
+
+                        <div class="task-activities">
+                            <span class="activity-title">{{ __('Activity', 'wedevs-project-manager') }}</span>
+                            <ul  class="single-task-activity-ul">
+                                <li v-for="activity in task.activities.data">
+                                    <div class="activity-li-content">
+                                        <div class="activity-actor">
+                                            <img class="activity-author-image" :src="activity.actor.data.avatar_url">
+                                        </div>
+                                        <div class="activity-content">
+
+                                            <activity-parser :activity="activity"></activity-parser>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
 
                 </div>
@@ -306,6 +311,9 @@
             },
 
             project_users () {
+                this.$root.$store.state.project_users.forEach(function(user) {
+                    pm.Vue.set(user, 'img');
+                });
                 return this.$root.$store.state.project_users;
             },
             task_users () {
@@ -360,6 +368,10 @@
             this.getGloabalProject(this.projectId);
             window.addEventListener('click', this.windowActivity);
             this.$root.$on('pm_date_picker', this.fromDate);
+
+            pm.Vue.nextTick(function() {
+                jQuery('body').addClass('pm-block-content');
+            });
         },
 
         methods: {
@@ -732,6 +744,7 @@
         destroyed () {
             this.$store.commit('isSigleTask', false);
             pmBus.$emit('pm_before_destroy_single_task', this.task);
+            jQuery('body').removeClass('pm-block-content');
         }
     }
 </script>
@@ -739,6 +752,9 @@
 <style>
     .pm-line-through {
         text-decoration: line-through;
+    }
+    .pm-block-content {
+        overflow: hidden;
     }
 </style>
 

@@ -27,7 +27,29 @@
             </div>
             <div class="comment-action-chunk">
                 <a href="#" v-pm-uploader class="pm-button pm-secondary">{{ __('Attach', 'wedevs-project-manager') }}</a>
-                <a href="#" class="pm-button pm-secondary pm-button-nofity-user">{{ __('Notify user', 'wedevs-project-manager') }}</a>
+                <div class="notify-users">
+                    <a href="#" @click.prevent="notifyUserButton()" class="pm-button pm-secondary pm-button-nofity-user">{{ __('Notify user', 'wedevs-project-manager') }}</a>
+                        <div v-if="activeNotifyUsers" class="pm-multiselect pm-multiselect-single-task">
+
+                            <multiselect
+                                v-model="notify_users"
+                                :options="project_users"
+                                :multiple="true"
+                                :close-on-select="false"
+                                :clear-on-select="true"
+                                :show-labels="true"
+                                :searchable="true"
+                                placeholder="Select User"
+                                select-label=""
+                                selected-label="selected"
+                                deselect-label=""
+                                label="display_name"
+                                track-by="id"
+                                :allow-empty="true">
+
+                            </multiselect>
+                        </div>
+                </div>
             </div>
         </div>
     </form>
@@ -37,6 +59,7 @@
   import editor from '@components/common/text-editor.vue';
   import uploader from '@components/common/file-uploader-updated.vue';
   import notifyUser from '@components/common/notify-user.vue';
+  import Multiselect from 'vue-multiselect';
   import Mixins from './mixin';
 
   export default {
@@ -90,14 +113,21 @@
             fileUploaderAttr: {
                 onlyButton: true,
                 buttonText: __('Attach', 'wedevs-project-manager')
-            }
+            },
+            activeNotifyUsers: false
+
         }
     },
 
     components: {
         'text-editor': editor,
         'file-uploader': uploader,
-        notifyUser: notifyUser
+        'notifyUser': notifyUser,
+        'multiselect': Multiselect,
+    },
+
+    created () {
+        window.addEventListener('click', this.windowActivity);
     },
 
     watch: {
@@ -118,6 +148,9 @@
     },
 
     computed: {
+        project_users () {
+            return this.$root.$store.state.project_users;
+        },
         /**
         * Editor ID
         * 
@@ -129,8 +162,35 @@
         },
     },
     methods: {
+        windowActivity (el) {
+            var commentAction =  jQuery(el.target).closest('.notify-users');
+
+            if(!commentAction.length) {
+                this.activeNotifyUsers = false;
+            }
+        },
+
+        notifyUserButton () {
+            this.activeNotifyUsers = this.activeNotifyUsers ? false : true;
+
+            if(this.activeNotifyUsers) {
+                pm.Vue.nextTick(function() {
+                    console.log(jQuery('.notify-users').find('.multiselect__input'));
+                    jQuery('.notify-users').find('.multiselect__input').show().focus();
+                });
+            }
+        },
+
         hideCommentForm () {
-            this.commentFormMeta.activeNewCommentField = false;
+            if(typeof this.comment.edit_mode != 'undefined') {
+                this.comment.edit_mode = false;
+            }
+            if(typeof this.commentFormMeta.activeNewCommentField == 'undefined') {
+                pm.Vue.set(this.commentFormMeta, 'activeNewCommentField', false);
+            } else {
+               this.commentFormMeta.activeNewCommentField = false; 
+            }
+            
         },
         taskCommentAction () {
             var regEx = /data-pm-user-id=":(.+?):"/g;
@@ -170,7 +230,7 @@
 
                 }
 
-                self.updateComment ( args );
+                self.updateComment( args );
             }else{
 
                 args.callback = function ( res ) {
