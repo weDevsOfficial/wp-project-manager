@@ -20,7 +20,7 @@
                             </span>
                             
                             <span class="pm-date">
-                                <time :datetime="dateISO8601Format( comment.comment_date )" :title="dateISO8601Format( comment.comment_date )">{{ commentDate(comment) }}</time>
+                                <time :datetime="dateISO8601Format( comment.comment_date )" :title="getFullDate( comment.created_at.date+' '+comment.created_at.time )">{{ commentDate(comment) }}</time>
                             </span>
                         </div>
                         <span @click.prevent="showActionMenu(comment)" class="icon-pm-down-arrow comment-action-arrow">
@@ -87,29 +87,29 @@
 
 
 
-
-
-
-
-
-
-       <!--  <div class="single-todo-comments">
-            <div class="pm-comment-form-wrap">
-
-                <div class="pm-avatar">
-                    <a :href="myTaskRedirect(PM_Vars.current_user.ID)">
-                        <img :src="avatar_url" height="48" width="48"/>
-                    </a>
-                </div>
-                <div class="pm-new-doc-comment-form">
-                    <task-comment-form :task="task" :comment="{}" :comments="comments"></task-comment-form>
-                </div>
-            </div>
-        </div> -->
     </div>
 </template>
 
-<style>
+<style lang="less">
+    .pm-task-comment-wrap {
+        .comment-content-ul {
+            .icon-pm-down-arrow {
+                cursor: pointer;
+                &:hover {
+                    &:before {
+                        color: #444;
+                    }
+                }
+            }
+        }
+        .comment-action-ul {
+            li {
+                a {
+                    display: block;
+                }
+            }
+        }
+    }
     .pm-task-comment-thumb {
         height: 80px;
         width: 80px;
@@ -174,7 +174,7 @@
             },
             commentDate (comment) {
                 if (typeof comment.created_at != 'undefined') {
-                    return this.shortDateFormat(comment.created_at.date) + ', ' + this.shortTimeFormat(comment.created_at.time);
+                    return this.shortDateFormat(comment.created_at.date) + ', ' + this.shortTimeFormat(comment.created_at.date+' '+comment.created_at.time);
                 }
 
                 return '';

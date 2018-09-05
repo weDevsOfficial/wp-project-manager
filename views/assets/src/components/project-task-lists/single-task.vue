@@ -44,7 +44,7 @@
                                     <span class="pm-light-color">{{ __('Created by', 'wedevs-project-manager') }}</span>
                                     <span class="pm-dark-color">{{ ucfirst( task.creator.data.display_name ) }}</span>
                                     <span class="pm-light-color">{{ __('on', 'wedevs-project-manager') }}</span>
-                                    <span class="pm-dark-color">{{ cratedDateFormat( task.created_at.date ) }}</span>
+                                    <span class="pm-dark-color" :title="getFullDate(task.created_at.timestamp)">{{ cratedDateFormat( task.created_at.date ) }}</span>
                                     
                                 </div>
                                 <div id="pm-action-menu" class="task-action">
@@ -143,13 +143,12 @@
                                 <span id="pm-calendar-wrap" @click.prevent="isTaskDateEditMode()" class="individual-group-icon calendar-group icon-pm-calendar pm-font-size-16">
                                     <span v-if="(task.start_at.date || task.due_date.date )" :class="taskDateWrap(task.due_date.date) + ' pm-task-date-wrap pm-date-window'">
                                             
-                                        <span v-if="task_start_field">
-                                            
+                                        <span :title="getFullDate(task.start_at.timestamp)" v-if="task_start_field">
                                             {{ dateFormat( task.start_at.date ) }}
                                         </span>
 
                                         <span v-if="task_start_field && task.start_at.date && task.due_date.date">&ndash;</span>
-                                        <span v-if="task.due_date">
+                                        <span :title="getFullDate(task.due_date.timestamp)" v-if="task.due_date">
                                             
                                             {{ dateFormat( task.due_date.date ) }}
                                         </span>
@@ -364,6 +363,7 @@
         },
 
         created() {
+            var self = this;
             this.getSelfTask();
             this.getGloabalProject(this.projectId);
             window.addEventListener('click', this.windowActivity);
@@ -371,6 +371,12 @@
 
             pm.Vue.nextTick(function() {
                 jQuery('body').addClass('pm-block-content');
+            });
+
+            jQuery(document).keyup(function(e) {
+                if (e.keyCode === 27) {
+                    self.closePopup();
+                }
             });
         },
 
@@ -625,7 +631,7 @@
                         pmBus.$emit('pm_after_update_single_task', res);
                         self.is_task_title_edit_mode = false;
                         self.is_task_details_edit_mode = false;
-                        self.is_enable_multi_select = false;
+                        //self.is_enable_multi_select = false;
                         self.task.description = res.data.description;
                         self.$store.commit('updateProjectMeta', 'total_activities');
                     },
