@@ -87,6 +87,15 @@ export default {
             }
         },
 
+        getFullDate (date) {
+            if ( date == '' ) {
+                return;
+            } 
+            date = new Date(date);
+            
+            return pm.Moment(date).format('dddd, MMMM D YYYY, H:mm:ss');
+        },
+
         /**
          * WP settings date format convert to pm.Moment date format with time zone
          * 

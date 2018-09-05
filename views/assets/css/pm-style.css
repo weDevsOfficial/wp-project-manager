@@ -141,13 +141,34 @@
   position: absolute;
   top: -8px;
   width: 236px;
-  left: 34px;
+  left: 40px;
   z-index: 9999;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   padding: 15px 0;
-  border: 1px solid #ECECEC;
+  border: 1px solid #DDDDDD;
   background: #fff;
   border-radius: 3px;
+  box-shadow: 0px 2px 40px 0px rgba(214, 214, 214, 0.6);
+}
+#wedevs-project-manager .pm-multiselect::before {
+  border-color: transparent #DDDDDD transparent transparent;
+  position: absolute;
+  border-style: solid;
+  top: 11px;
+  left: -10px;
+  content: "";
+  z-index: 9999;
+  border-width: 8px 10px 8px 0;
+}
+#wedevs-project-manager .pm-multiselect::after {
+  border-color: transparent #ffffff transparent transparent;
+  position: absolute;
+  border-style: solid;
+  top: 11px;
+  left: -9px;
+  content: "";
+  z-index: 9999;
+  border-width: 8px 10px 8px 0;
 }
 #wedevs-project-manager .pm-multiselect .assign-to {
   font-size: 13px;
@@ -158,11 +179,13 @@
 #wedevs-project-manager .pm-multiselect .multiselect__content-wrapper {
   display: block !important;
   margin-top: 13px;
+  height: auto !important;
 }
 #wedevs-project-manager .pm-multiselect .multiselect__content-wrapper .multiselect__content {
   border-radius: 3px;
   border: 1px solid #ECECEC;
   display: block;
+  max-height: 148px;
 }
 #wedevs-project-manager .pm-multiselect .multiselect__content-wrapper .multiselect__content li span {
   background: #fff;
@@ -247,6 +270,12 @@
 #wedevs-project-manager #pm-single-task-wrap .pm-single-task-header .header-meta .task-action {
   position: relative;
 }
+#wedevs-project-manager #pm-single-task-wrap .pm-single-task-header .header-meta .task-action .icon-pm-more-options {
+  cursor: pointer;
+}
+#wedevs-project-manager #pm-single-task-wrap .pm-single-task-header .header-meta .task-action:hover .icon-pm-more-options:before {
+  color: #444;
+}
 #wedevs-project-manager #pm-single-task-wrap .pm-single-task-header .header-meta .task-action .action-menu {
   position: absolute;
   z-index: 9999;
@@ -310,6 +339,12 @@
 #wedevs-project-manager #pm-single-task-wrap .pm-single-task-header .incomplete a {
   color: #A5ACB1;
 }
+#wedevs-project-manager #pm-single-task-wrap .pm-single-task-header .incomplete:hover a {
+  color: #444 !important;
+}
+#wedevs-project-manager #pm-single-task-wrap .pm-single-task-header .incomplete:hover .icon-pm-incomplete:before {
+  color: #444 !important;
+}
 #wedevs-project-manager #pm-single-task-wrap .pm-single-task-header .completed {
   height: 31px;
   padding: 4px 10px;
@@ -353,9 +388,7 @@
   font-size: 23px;
   top: -1px;
   left: 1px;
-}
-#wedevs-project-manager #pm-single-task-wrap .assigne-users .icon-pm-user #pm-multiselect-single-task {
-  position: relative;
+  cursor: pointer;
 }
 #wedevs-project-manager #pm-single-task-wrap .options-wrap {
   margin-bottom: 20px;
@@ -365,6 +398,10 @@
   position: relative;
   display: flex;
   align-content: center;
+  cursor: pointer;
+}
+#wedevs-project-manager #pm-single-task-wrap .option-icon-groups .icon-pm-calendar:hover:before {
+  color: #444;
 }
 #wedevs-project-manager #pm-single-task-wrap .option-icon-groups .icon-pm-calendar .pm-task-date-wrap {
   background: none;
@@ -422,7 +459,7 @@
   margin-top: 18px;
 }
 #wedevs-project-manager #pm-single-task-wrap .task-activities .single-task-activity-ul li {
-  margin-bottom: 15px;
+  margin-bottom: 8px;
   padding: 0;
   border: none;
 }
@@ -459,6 +496,16 @@
 #wedevs-project-manager #pm-single-task-wrap .pm-comment-form .comment-action-chunk .notify-users {
   border: none;
   position: relative;
+}
+#wedevs-project-manager #pm-single-task-wrap .pm-comment-form .comment-action-chunk .notify-users .pm-multiselect {
+  left: -141px;
+  top: 37px;
+}
+#wedevs-project-manager #pm-single-task-wrap .pm-comment-form .comment-action-chunk .notify-users .pm-multiselect:before {
+  border: none;
+}
+#wedevs-project-manager #pm-single-task-wrap .pm-comment-form .comment-action-chunk .notify-users .pm-multiselect:after {
+  border: none;
 }
 #wedevs-project-manager #pm-single-task-wrap .pm-task-comment-wrap .discuss-text {
   margin-bottom: 5px;

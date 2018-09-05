@@ -7,16 +7,6 @@
 
         <span class="attach-text" v-if="files.length">{{ 'Attach Files', 'wedevs-project-manager' }}</span>
         <file-uploader :files="files" :delete="deleted_files"></file-uploader>
-       <!--  <div>
-            <a href="#" class="button button-secondary">{{ __('Attach', 'wedevs-project-manager') }}</a>
-
-        </div>
-        <div>
-            <a href="#" class="button button-secondary">{{ __('Notify user', 'wedevs-project-manager') }}</a>
-
-        </div> -->
-         <!-- <notify-user v-model="notify_users" :users="task.assignees.data"></notify-user> -->
-       
                
         <div class="pm-flex">
             <div class="comment-action-chunk">
@@ -28,26 +18,31 @@
             <div class="comment-action-chunk">
                 <a href="#" v-pm-uploader class="pm-button pm-secondary">{{ __('Attach', 'wedevs-project-manager') }}</a>
                 <div class="notify-users">
+
                     <a href="#" @click.prevent="notifyUserButton()" class="pm-button pm-secondary pm-button-nofity-user">{{ __('Notify user', 'wedevs-project-manager') }}</a>
-                        <div v-if="activeNotifyUsers" class="pm-multiselect pm-multiselect-single-task">
 
-                            <multiselect
-                                v-model="notify_users"
-                                :options="project_users"
-                                :multiple="true"
-                                :close-on-select="false"
-                                :clear-on-select="true"
-                                :show-labels="true"
-                                :searchable="true"
-                                placeholder="Select User"
-                                select-label=""
-                                selected-label="selected"
-                                deselect-label=""
-                                label="display_name"
-                                track-by="id"
-                                :allow-empty="true">
+                    <div  v-if="activeNotifyUsers"  class="pm-multiselect pm-multiselect-single-task">
+                        <div class="pm-multiselect-content">
+                            <div class="assign-to">{{ __('Assign to', 'wedevs-project-manager') }}</div>
+                       
+                                <multiselect
+                                    v-model="notify_users"
+                                    :options="project_users"
+                                    :multiple="true"
+                                    :close-on-select="false"
+                                    :clear-on-select="true"
+                                    :show-labels="true"
+                                    :searchable="true"
+                                    placeholder="Select User"
+                                    select-label=""
+                                    selected-label="selected"
+                                    deselect-label=""
+                                    label="display_name"
+                                    track-by="id"
+                                    :allow-empty="true">
 
-                            </multiselect>
+                                </multiselect>
+                            </div>
                         </div>
                 </div>
             </div>
