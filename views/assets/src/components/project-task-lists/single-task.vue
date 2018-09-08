@@ -25,50 +25,50 @@
                     <span class="close-modal">
                         <a  @click.prevent="closePopup()"><span class="dashicons dashicons-no"></span></a>
                     </span>
-                    <div class="popup-body">
+                    <div v-activity-load-more class="popup-body">
                         <div class="pm-single-task-header">
                             <div class="task-complete-incomplete">
-                                <div class="completed pm-flex" v-if="task.status">
+                                <div class="completed" v-if="task.status">
                                     <span class="icon-pm-completed pm-font-size-16"></span>
                                     <span><a  href="#" @click.prevent="singleTaskDoneUndone()">{{ __( 'Completed', 'pm' ) }}</a></span>
                                 </div>
-                                <div class="incomplete pm-flex" v-if="!task.status">
+                                <div class="incomplete" v-if="!task.status">
                                     <span class="icon-pm-incomplete pm-font-size-16"></span>
                                     <span><a href="#" @click.prevent="singleTaskDoneUndone()">{{ __( 'Mark Complete', 'pm' ) }}</a></span>
                                 </div>
                             </div>
 
-                            <div class="pm-flex header-meta">
-                                <div class="created-by">
-                                    
-                                    <span class="pm-light-color">{{ __('Created by', 'wedevs-project-manager') }}</span>
-                                    <span class="pm-dark-color">{{ ucfirst( task.creator.data.display_name ) }}</span>
-                                    <span class="pm-light-color">{{ __('on', 'wedevs-project-manager') }}</span>
-                                    <span class="pm-dark-color" :title="getFullDate(task.created_at.timestamp)">{{ cratedDateFormat( task.created_at.date ) }}</span>
-                                    
-                                </div>
-                                <div id="pm-action-menu" class="task-action">
-                                    <span style="font-size: 17px;" @click.prevent="showMenu()" class="icon-pm-more-options pm-font-size-16"></span>
-                                    <div  v-if="isActiveMenu" class="action-menu">
-                                        <ul class="action-menu-ul">
-                                            <li>
-                                                <span class="icon-pm-copy pm-font-size-13"></span>
-                                                <a @click.prevent="copyUrl(task)" href="#">{{ __('Copy', 'wedevs-project-manager') }}</a>
-                                            </li>
-                                            <li>
-                                                <span class="icon-pm-private pm-font-size-13"></span>
-                                                <a v-if="task.meta.privacy=='1'" @click.prevent="singleTaskLockUnlock(task)" href="#">{{ __('Make Visible', 'wedevs-project-manager') }}</a>
-                                                <a v-if="task.meta.privacy=='0'" @click.prevent="singleTaskLockUnlock(task)" href="#">{{ __('Make Private', 'wedevs-project-manager') }}</a>
+                            
+                            <div class="created-by">
+                                
+                                <span class="pm-light-color">{{ __('Created by', 'wedevs-project-manager') }}</span>
+                                <span class="pm-dark-color">{{ ucfirst( task.creator.data.display_name ) }}</span>
+                                <span class="pm-light-color">{{ __('on', 'wedevs-project-manager') }}</span>
+                                <span class="pm-dark-color" :title="getFullDate(task.created_at.timestamp)">{{ cratedDateFormat( task.created_at.date ) }}</span>
+                            </div>
 
-                                            </li>
-                                            <li>
-                                                <span class="icon-pm-delete pm-font-size-13"></span>
-                                                <a @click.prevent="selfDeleteTask({task: task, list: list})" href="#">{{ __('Delete', 'wedevs-project-manager') }}</a>
-                                            </li>
-                                        </ul>
-                                    </div>
+                            <div id="pm-action-menu" class="task-action">
+                                <span style="font-size: 17px;" @click.prevent="showMenu()" class="icon-pm-more-options pm-font-size-16"></span>
+                                <div  v-if="isActiveMenu" class="action-menu">
+                                    <ul class="action-menu-ul">
+                                        <li>
+                                            <span class="icon-pm-copy pm-font-size-13"></span>
+                                            <a @click.prevent="copyUrl(task)" href="#">{{ __('Copy', 'wedevs-project-manager') }}</a>
+                                        </li>
+                                        <li>
+                                            <span class="icon-pm-private pm-font-size-13"></span>
+                                            <a v-if="task.meta.privacy=='1'" @click.prevent="singleTaskLockUnlock(task)" href="#">{{ __('Make Visible', 'wedevs-project-manager') }}</a>
+                                            <a v-if="task.meta.privacy=='0'" @click.prevent="singleTaskLockUnlock(task)" href="#">{{ __('Make Private', 'wedevs-project-manager') }}</a>
+
+                                        </li>
+                                        <li>
+                                            <span class="icon-pm-delete pm-font-size-13"></span>
+                                            <a @click.prevent="selfDeleteTask({task: task, list: list})" href="#">{{ __('Delete', 'wedevs-project-manager') }}</a>
+                                        </li>
+                                    </ul>
                                 </div>
                             </div>
+                            
                         </div>
 
                         <div :class="singleTaskTitle(task) + ' task-title-wrap'">
@@ -198,7 +198,7 @@
                                     </a>
                                 </div>
                                 
-                                <textarea
+                                <!-- <textarea
                                     v-prevent-line-break
                                     @blur="updateDescription(task, $event)"
                                     @keyup.enter="updateDescription(task, $event)"
@@ -209,6 +209,15 @@
                                 </textarea>
                                 <div v-if="is_task_details_edit_mode && can_edit_task(task)" class="pm-help-text">
                                     <span>{{ __( 'Shift+Enter for line break', 'wedevs-project-manager') }}</span>
+                                </div> -->
+                                
+                                <div v-if="is_task_details_edit_mode && can_edit_task(task)" class="item detail">
+                                    <text-editor v-if="is_task_details_edit_mode" :editor_id="'task-description-editor'" :content="content"></text-editor>
+                                    <div class="task-description-action">
+                                        <a @click.prevent="submitDescription(task)" href="#" class="pm-button pm-primary">{{ __( 'Update', 'wedevs-project-manager' ) }}</a>
+                                        <a @click.prevent="closeDescriptionEditor(task)" href="#" class="pm-button pm-secondary">{{ __( 'Cancel', 'wedevs-project-manager' ) }}</a>
+                                        <span v-if="description_show_spinner" class="pm-spinner"></span>
+                                    </div>
                                 </div>
 
                                 <div class="clearfix pm-clear"></div>
@@ -224,7 +233,7 @@
 
                         <div class="task-activities">
                             <span class="activity-title">{{ __('Activity', 'wedevs-project-manager') }}</span>
-                            <ul  class="single-task-activity-ul">
+                            <ul class="single-task-activity-ul">
                                 <li v-for="activity in task.activities.data">
                                     <div class="activity-li-content">
                                         <div class="activity-actor">
@@ -254,6 +263,22 @@
     import Mixins from './mixin';
     import Multiselect from 'vue-multiselect';
     import ActivityParser from '@components/common/activity-parser.vue';
+    import editor from '@components/common/text-editor.vue';
+
+    Vue.directive('activity-load-more', {
+        bind: function(el, binding, vnode) {
+            var self = this;
+
+            jQuery(el).bind('scroll', function() {
+                
+                if( jQuery(this).scrollTop() + jQuery(this).innerHeight()>=jQuery(this)[0].scrollHeight ) {
+                    
+                    vnode.context.loadMoreActivity();
+                }
+            })
+        }
+     
+    });
     
     export default {
         props: {
@@ -283,7 +308,13 @@
                 list: {},
                 task: {},
                 assigned_to: [],
-                isActiveMenu: false
+                isActiveMenu: false,
+                activityPage: 2,
+                activityLoading: false,
+                content: {
+                    html: ''
+                },
+                description_show_spinner: false
             }
         },
 
@@ -359,7 +390,8 @@
             'task-comments': comments,
             'multiselect': Multiselect,
             'do-action': DoAction,
-            'activity-parser': ActivityParser
+            'activity-parser': ActivityParser,
+            'text-editor': editor,
         },
 
         created() {
@@ -381,6 +413,50 @@
         },
 
         methods: {
+            submitDescription (task) {
+                task.description.content = this.content.html.trim();
+                this.description_show_spinner = true;
+                this.updateTaskElement(task);
+            },
+
+            closeDescriptionEditor () {
+                this.description_show_spinner = false;
+                this.is_task_details_edit_mode = false;
+                tinymce.execCommand( 'mceRemoveEditor', false, 'task-description-editor' );
+            },
+
+            loadMoreActivity () {
+
+                if( this.activityLoading ) {
+                    return;
+                }
+
+                var self = this;
+                var request_data = {
+                    url: self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks/'+self.task_id+ '/activity',
+                    type: 'POST',
+                    data: {
+                        activityPage: this.activityPage
+                    },
+                    success (res) {
+                        self.activityPage = self.activityPage + 1;
+                        
+                        if(typeof self.task.activities == 'undefined') {
+                           pm.Vue.set(self.task, 'activities', {});
+                           pm.Vue.set(self.task.activities, 'data', res.data);
+                        } else {
+                            self.task.activities.data = self.task.activities.data.concat(res.data);
+                        }
+                    },
+
+                    error (res) {
+                      
+                    }
+                }
+
+                //this.activityLoading = true;
+                self.httpRequest(request_data);
+            },
             showMenu (status) {
                 
                 if(typeof status != 'undefined') {
@@ -403,6 +479,7 @@
             copyUrl (task) {
                 pmBus.$emit('pm_generate_task_url', task);
                 pm.Toastr.success(this.__('Copied!', 'wedevs-project-manager'));
+                this.isActiveMenu = false;
             },
 
             lineThrough (task) {
@@ -431,6 +508,7 @@
                         pmBus.$emit('pm_after_task_doneUndone', res);
                     }
                 }
+
                 this.taskDoneUndone( args );
 
             },
@@ -447,13 +525,13 @@
                             pm.Toastr.error(res.message);
                             self.$router.go(-1);
                             return;
-                        }
-                        self.addMeta(res.data);
-                        //self.list = res.data.boards.data[0];
-                        //self.$store.commit('projectTaskLists/setSingleTask', res.data);
-                        self.task = res.data;
+                        } else {
+                            self.content.html = res.data.description.html;
+                            self.addMeta(res.data);
+                            self.task = res.data;
 
-                        self.loading = false;
+                            self.loading = false;
+                        }
                     }
                 }
                 
@@ -630,10 +708,11 @@
                     success (res) {
                         pmBus.$emit('pm_after_update_single_task', res);
                         self.is_task_title_edit_mode = false;
-                        self.is_task_details_edit_mode = false;
-                        //self.is_enable_multi_select = false;
+                        self.closeDescriptionEditor();
                         self.task.description = res.data.description;
                         self.$store.commit('updateProjectMeta', 'total_activities');
+
+                        
                     },
                     error (res) {
                         res.responseJSON.message.map( function( value, index ) {
@@ -722,6 +801,8 @@
                         } else {
                             pm.Toastr.success(self.__('Task visible for co-worker', 'wedevs-project-manager'));
                         }
+
+                        self.isActiveMenu = false;
                     },
 
                     error (res) {
