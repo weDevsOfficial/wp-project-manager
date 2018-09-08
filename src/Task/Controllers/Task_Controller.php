@@ -21,6 +21,8 @@ use WeDevs\PM\Common\Models\Assignee;
 use Illuminate\Pagination\Paginator;
 use WeDevs\PM\Comment\Models\Comment;
 use WeDevs\PM\Task_List\Transformers\Task_List_Transformer;
+use WeDevs\PM\Activity\Models\Activity;
+use WeDevs\PM\Activity\Transformers\Activity_Transformer;
 
 class Task_Controller {
 
@@ -576,6 +578,30 @@ class Task_Controller {
         }
         
         return $req_lists;
+    }
+
+    public function activities( WP_REST_Request $request ) {
+
+        $current_page = $request->get_param( 'activityPage' );
+        $task_id = $request->get_param( 'task_id' );
+        $per_page = 10;
+
+        Paginator::currentPageResolver(function () use ($current_page) {
+            return $current_page;
+        });
+
+        $activities = Activity::where('resource_id', $task_id)
+            ->where( 'resource_type', 'task' )
+            ->orderBy( 'created_at', 'DESC' )
+            ->paginate( $per_page );
+
+        $activity_collection = $activities->getCollection();
+        
+        $resource = new Collection( $activity_collection, new Activity_Transformer );
+        $resource->setPaginator( new IlluminatePaginatorAdapter( $activities ) );
+        
+
+        return $this->get_response( $resource );
     }
 }
 

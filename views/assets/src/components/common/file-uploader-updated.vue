@@ -7,10 +7,11 @@
                         <a class="pm-uploaded-img" :href="file.url" target="_blank">
                             <img class="pm-uploaded-file" :src="file.thumb" :alt="file.name">
                         </a> 
-                        <span>{{ file.name.toUpperCase() }}</span>
+                        <span @click.prevent="deletefile(file.id)" class="icon-pm-cross"></span>
+                        <!-- <a href="#" @click.prevent="deletefile(file.id)" class=""></a> -->
                     </div>
                     
-                    <a href="#" @click.prevent="deletefile(file.id)" class="button">{{ __( 'Delete File', 'wedevs-project-manager') }}</a>
+                    
                         
                 </div>
                      

@@ -6,58 +6,53 @@
         <div  class="comment-content">
             <ul class="comment-content-ul" v-if="comments.length">
                 <li  v-for="comment in comments" :key="'tasks-comments-'+comment.id" :class="'comment-li pm-fade-out-'+comment.id">
-                    <div class="comment-header">
-                        <div class="pm-avatar">
-                            <a :href="myTaskRedirect( comment.creator.data.id )" :title="comment.creator.data.display_name">
-                            <img :alt="comment.creator.data.display_name" :src="comment.creator.data.avatar_url" class="avatar avatar-96 photo" height="96" width="96"></a>
-                        </div>
-
-                        <div class="author-date">
-                            <span class="pm-author">
+                    <div  :class="lcommentLiBodyClass(comment.edit_mode)">
+                        <div class="comment-header">
+                            <div class="pm-avatar">
                                 <a :href="myTaskRedirect( comment.creator.data.id )" :title="comment.creator.data.display_name">
-                                    {{ ucfirst(comment.creator.data.display_name) }}
-                                </a>
+                                <img :alt="comment.creator.data.display_name" :src="comment.creator.data.avatar_url" class="avatar avatar-96 photo" height="96" width="96"></a>
+                            </div>
+                            
+                            <div v-if="!comment.edit_mode" class="author-date">
+                                <span class="pm-author">
+                                    <a :href="myTaskRedirect( comment.creator.data.id )" :title="comment.creator.data.display_name">
+                                        {{ ucfirst(comment.creator.data.display_name) }}
+                                    </a>
+                                </span>
+                                
+                                <span class="pm-date">
+                                    <time :datetime="dateISO8601Format( comment.comment_date )" :title="getFullDate( comment.created_at.date+' '+comment.created_at.time )">{{ commentDate(comment) }}</time>
+                                </span>
+                            </div>
+                            <span v-if="!comment.edit_mode" @click.prevent="showActionMenu(comment)" class="icon-pm-down-arrow comment-action-arrow">
+                                <div v-if="comment.actionMode" class="pm-popup-menu comment-action">
+                                    <ul class="comment-action-ul">
+                                        <li><a href="#" @click.prevent="showHideTaskCommentForm( comment )">{{ __('Edit', 'wedevs-project-manager') }}</a></li>
+                                        <li><a href="#" @click.prevent="deleteTaskComment( comment.id )">{{ __('Delete', 'wedevs-project-manager') }}</a></li>
+                                    </ul>
+                                </div>
                             </span>
                             
-                            <span class="pm-date">
-                                <time :datetime="dateISO8601Format( comment.comment_date )" :title="getFullDate( comment.created_at.date+' '+comment.created_at.time )">{{ commentDate(comment) }}</time>
-                            </span>
                         </div>
-                        <span @click.prevent="showActionMenu(comment)" class="icon-pm-down-arrow comment-action-arrow">
-                            <div v-if="comment.actionMode" class="pm-popup-menu comment-action">
-                                <ul class="comment-action-ul">
-                                    <li><a href="#" @click.prevent="showHideTaskCommentForm( comment )">{{ __('Edit', 'wedevs-project-manager') }}</a></li>
-                                    <li><a href="#" @click.prevent="deleteTaskComment( comment.id )">{{ __('Delete', 'wedevs-project-manager') }}</a></li>
+
+
+                        <div v-if="!comment.edit_mode" class="pm-comment-content">
+                            
+                                <div v-html="comment.content"></div>
+                                <ul class="pm-attachments" v-if="comment.files.data.length">
+                                    <li v-for="file in comment.files.data">
+                                        <a v-if="file.type == 'image'" v-pm-pretty-photo class="pm-colorbox-img" :href="getDownloadUrl(file.attachment_id)" :title="file.name" target="_blank">
+                                            <img class="pm-content-img-size" :src="file.thumb" :alt="file.name">
+                                        </a>
+
+                                        <a v-else class="pm-colorbox-img" :href="getDownloadUrl(file.attachment_id)" :title="file.name" target="_blank">
+                                            <img class="pm-content-img-size" :src="file.thumb" :alt="file.name">
+                                        </a>
+                                    </li>
                                 </ul>
-                            </div>
-                        </span>
-                    </div>
-                    <!-- v-if="current_user_can_edit_delete(comment, task)" -->
-                  <!--   <div  class="pm-comment-action" v-if="can_edit_comment(comment)" >
-                        <span class="pm-edit-link">
-                            <a href="#" @click.prevent="showHideTaskCommentForm( comment )" class="dashicons dashicons-edit"></a>
-                        </span>
 
-                        <span class="pm-delete-link">
-                            <a href="#" @click.prevent="deleteTaskComment( comment.id )" class="dashicons dashicons-trash"></a>
-                        </span>
-                    </div> -->
-                    
+                        </div>
 
-                    <div class="pm-comment-content">
-                        <div v-html="comment.content"></div>
-                        <ul class="pm-attachments" v-if="comment.files.data.length">
-                            <li v-for="file in comment.files.data">
-                                <a v-if="file.type == 'image'" v-pm-pretty-photo class="pm-colorbox-img" :href="getDownloadUrl(file.attachment_id)" :title="file.name" target="_blank">
-                                    <img class="pm-content-img-size" :src="file.thumb" :alt="file.name">
-                                </a>
-
-                                <a v-else class="pm-colorbox-img" :href="getDownloadUrl(file.attachment_id)" :title="file.name" target="_blank">
-                                    <img class="pm-content-img-size" :src="file.thumb" :alt="file.name">
-                                </a>
-                            </li>
-                        </ul>
-                    
                         <transition name="slide" v-if="can_edit_comment(comment)" >
                             <div class="pm-comment-edit-form" v-if="comment.edit_mode">
                                 <task-comment-form :task="task" :comment="comment" :comments="comments" :commentFormMeta="commentFormMeta"></task-comment-form>
@@ -149,6 +144,9 @@
         },
 
         methods: {
+            lcommentLiBodyClass (edit) {
+                return edit ? 'comment-li-body' : '';
+            },
             windowActivity (el) {
                 var commentAction =  jQuery(el.target).closest('.comment-action-arrow');
 

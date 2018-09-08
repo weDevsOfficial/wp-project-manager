@@ -11,15 +11,21 @@
         <div class="pm-flex">
             <div class="comment-action-chunk">
                 <input v-if="!comment.edit_mode" :disabled="submit_disabled" type="submit" class="pm-button pm-primary"  :value="add_new_comment" id="" />
-                <input v-if="comment.edit_mode" :disabled="submit_disabled" type="submit" class="pm-button pm-secondary"  :value="update_comment" id="" />
+                <input v-if="comment.edit_mode" :disabled="submit_disabled" type="submit" class="pm-button pm-primary"  :value="update_comment" id="" />
                 <a href="#" @click.prevent="hideCommentForm()" class="pm-button pm-secondary pm-button-cancel">{{__('Cancel', 'wedevs-project-manager')}}</a>
                 <span v-show="show_spinner" class="pm-spinner"></span>
             </div>
             <div class="comment-action-chunk">
-                <a href="#" v-pm-uploader class="pm-button pm-secondary">{{ __('Attach', 'wedevs-project-manager') }}</a>
+                <a href="#" v-pm-uploader class="pm-button pm-secondary">
+                    <span class="icon-pm-clip"></span>
+                    {{ __('Attach', 'wedevs-project-manager') }}
+                </a>
                 <div class="notify-users">
 
-                    <a href="#" @click.prevent="notifyUserButton()" class="pm-button pm-secondary pm-button-nofity-user">{{ __('Notify user', 'wedevs-project-manager') }}</a>
+                    <a href="#" @click.prevent="notifyUserButton()" class="pm-button pm-secondary pm-button-nofity-user">
+                        <span class="icon-pm-single-user"></span>
+                        {{ __('Notify user', 'wedevs-project-manager') }}
+                    </a>
 
                     <div  v-if="activeNotifyUsers"  class="pm-multiselect pm-multiselect-single-task">
                         <div class="pm-multiselect-content">
