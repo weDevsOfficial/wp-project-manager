@@ -31,25 +31,25 @@
                         <div class="pm-multiselect-content">
                             <div class="assign-to">{{ __('Assign to', 'wedevs-project-manager') }}</div>
                        
-                                <multiselect
-                                    v-model="notify_users"
-                                    :options="project_users"
-                                    :multiple="true"
-                                    :close-on-select="false"
-                                    :clear-on-select="true"
-                                    :show-labels="true"
-                                    :searchable="true"
-                                    placeholder="Select User"
-                                    select-label=""
-                                    selected-label="selected"
-                                    deselect-label=""
-                                    label="display_name"
-                                    track-by="id"
-                                    :allow-empty="true">
+                            <multiselect
+                                v-model="notify_users"
+                                :options="project_users"
+                                :multiple="true"
+                                :close-on-select="false"
+                                :clear-on-select="true"
+                                :show-labels="true"
+                                :searchable="true"
+                                placeholder="Select User"
+                                select-label=""
+                                selected-label="selected"
+                                deselect-label=""
+                                label="display_name"
+                                track-by="id"
+                                :allow-empty="true">
 
-                                </multiselect>
-                            </div>
+                            </multiselect>
                         </div>
+                    </div>
                 </div>
             </div>
         </div>
