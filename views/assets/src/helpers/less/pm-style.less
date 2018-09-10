@@ -21,7 +21,7 @@
 
 .pm-popup-menu(@width) {
 	position: absolute;
-    z-index: 9999;
+    z-index: 999;
     background: #fff;
     width: @width;
     display: block;
@@ -33,7 +33,7 @@
 }
 .pm-top-triangle(@color, @top, @left) {
 	position: absolute;
-    z-index: 99999;
+    z-index: 999;
     border-width: 8px;
     border-style: solid;
     border-color: transparent;
@@ -46,7 +46,7 @@
 
 .pm-triangle-after() {
 	position: absolute;
-    z-index: 99999;
+    z-index: 999;
     border-width: 8px;
     border-style: solid;
     border-color: transparent;
@@ -58,6 +58,9 @@
 }
 
 #wedevs-project-manager {
+	.daterangepicker {
+		z-index: 99999;
+	}
 	.pm-popup-menu {
 		.pm-popup-menu(145px);
 	}
@@ -143,9 +146,19 @@
 		color: #000000;
 	}
 
+	.hrm-dark-hover {
+		&:hover {
+			color: #444;
+			&:before {
+				color: #444;
+				cursor: pointer;
+			}
+		}
+	}
+
 	.popup-mask {
 		position: fixed;
-		z-index: 10000;
+		z-index: 999;
 		top: 0;
 		left: 0;
 		width: 100%;
@@ -177,7 +190,7 @@
 			    right: -24px;
 			    background: #000;
 			    color: #fff;
-			    z-index: 999999;
+			    z-index: 999;
 			    padding: 2px;
 			    cursor: pointer;
 			    .dashicons {
@@ -185,6 +198,140 @@
 			    }
 		    }
 		}
+	}
+
+	.pm-multiselect-top {
+		position: absolute;
+	    top: 26px;
+        width: 236px;
+        left: auto;
+        right: -13px;
+	    z-index: 9999;
+	    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+	    padding: 15px 0;
+	    border: 1px solid #DDDDDD;
+	    background: #fff;
+	    border-radius: 3px;
+	    box-shadow: 0px 2px 40px 0px rgba(214, 214, 214, 0.6);
+
+	    &::before {
+	    	border-color: transparent transparent #DDDDDD transparent;
+            position: absolute;
+            border-style: solid;
+            top: -9px;
+            left: auto;
+            content: "";
+            right: 10px;
+            z-index: 9999;
+            border-width: 0px 8px 8px 8px;
+	    }
+
+	   	&::after {
+    	    border-color: transparent transparent #ffffff transparent;
+            position: absolute;
+            border-style: solid;
+            top: -7px;
+            left: auto;
+            right: 10px;
+            content: "";
+            z-index: 9999;
+            border-width: 0 8px 7px 8px;
+	    }
+
+
+	    .assign-to {
+	    	font-size: 13px;
+	    	color: #000;
+	    	margin-bottom: 10px;
+	    	display: block;
+	    }
+	    .multiselect__single {
+	    	display: none;
+	    }
+	    .multiselect__content-wrapper {
+	    	display: block !important;
+	    	margin-top: 13px;
+	    	height: auto !important;
+
+	    	.multiselect__content {
+	    		border-radius: 3px;
+	    		border: 1px solid #ECECEC;
+	    		display: block;
+	    		max-height: 148px;
+
+	    		li {
+	    			span {
+	    				background: #fff;
+	    				font-size: 13px;
+	    				color: #788383;
+	    				font-weight: normal;
+	    				font-family: "Helvetica Neue", sans-serif;
+	    			}
+	    			.multiselect__option--highlight:after {
+	    				background: none;
+    					color: #A5ACB1;
+	    			}
+
+	    			.multiselect__option:after {
+	    				content: "\2713 ";
+	    				color: #d4d6d6;
+	    			}
+	    			.multiselect__option--selected:after {
+	    				content: "X";
+	    				color: #d4d6d6;
+	    			}
+	    			&:hover {
+	    				.multiselect__option:after, .multiselect__option--selected:after {
+	    					color: #72777c;
+	    				}
+	    			}
+	    			.option__image {
+	    				height: 24px;
+					    width: 24px;
+					    border-radius: 12px;
+	    			}
+	    		}
+	    	}
+	    }
+
+	    .pm-multiselect-content {
+	    	width: 198px;
+	    	margin: auto;
+	    }
+
+	    .multiselect {
+	    	min-height: auto;
+	    }
+
+	    .multiselect__content {
+	    	position: relative;
+	    }
+	    .multiselect__select {
+	    	display: none;
+	    }
+	    .multiselect__tags {
+	    	border: none;
+	    	padding: 0;
+	    	min-height: auto;
+	    }
+	    .multiselect__tag {
+	    	display: none;
+	    	border: none;
+	    	padding: 0;
+	    }
+	    .multiselect__input {
+	    	display: block !important;
+		    width: 198px !important;
+		    position: relative !important;
+		    padding: 0 10px !important;
+		    height: 30px;
+		    border-radius: 3px;
+		    border-color: #ECECEC;
+		    font-size: 12px;
+		    color: #A5ACB1;
+		    box-shadow: none;
+
+	    }
 	}
 
 	.pm-multiselect {

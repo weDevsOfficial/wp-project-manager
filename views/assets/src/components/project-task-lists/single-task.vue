@@ -163,8 +163,8 @@
                                         </span>
                                     </span>
                                     <div v-if="is_task_date_edit_mode && can_edit_task(task)" class="task-date">
-                                        <div v-if="task_start_field" v-pm-datepicker class="pm-date-picker-from pm-inline-date-picker-from"></div>
-                                        <div v-pm-datepicker class="pm-date-picker-to pm-inline-date-picker-to"></div>
+                                        <div v-if="task_start_field" v-pm-datepicker="'singleTask'" class="pm-date-picker-from pm-inline-date-picker-from"></div>
+                                        <div v-pm-datepicker="'singleTask'" class="pm-date-picker-to pm-inline-date-picker-to"></div>
                                     </div>
                                 </span>
                                 
@@ -264,6 +264,7 @@
     import Multiselect from 'vue-multiselect';
     import ActivityParser from '@components/common/activity-parser.vue';
     import editor from '@components/common/text-editor.vue';
+
 
     Vue.directive('activity-load-more', {
         bind: function(el, binding, vnode) {
@@ -566,7 +567,7 @@
             },
 
             fromDate (date) {
-                if ( date.field == 'datepicker_from' ) {
+                if ( date.id == 'singleTask' && date.field == 'datepicker_from' ) {
 
                     if (this.task.due_date.date) {
                         var start = new Date(date.date);
@@ -584,7 +585,7 @@
                     this.updateTaskElement(this.task);
                 }
 
-                if ( date.field == 'datepicker_to' ) {
+                if ( date.id == 'singleTask' && date.field == 'datepicker_to' ) {
 
                     if(this.task.start_at.date) {
                         var start = new Date(this.task.start_at.date);
