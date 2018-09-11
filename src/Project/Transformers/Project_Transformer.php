@@ -7,10 +7,10 @@ use League\Fractal\TransformerAbstract;
 use WeDevs\PM\Category\Transformers\Category_Transformer;
 use WeDevs\PM\User\Transformers\User_Transformer;
 use WeDevs\PM\Common\Traits\Resource_Editors;
+use WeDevs\PM\Task_List\Transformers\Task_List_Transformer;
+use WeDevs\PM\Task\Transformers\Task_Transformer;
 use Carbon\Carbon;
 use WeDevs\PM\Task\Models\Task;
-use WeDevs\PM\Task\Transformers\Task_Transformer;
-use WeDevs\PM\Task_List\Transformers\Task_List_Transformer;
 
 class Project_Transformer extends TransformerAbstract {
 
@@ -51,7 +51,7 @@ class Project_Transformer extends TransformerAbstract {
         return apply_filters( "pm_project_transformer_default_includes", $this->defaultIncludes );
     }
 
-    public function includeMeta (Project $item){
+    public function includeMeta (Project $item) {
 
         return $this->item($item, function ($item) {
             $list = $item->task_lists();
@@ -93,7 +93,7 @@ class Project_Transformer extends TransformerAbstract {
 
     public function includeOverviewGraph( Project $item ) {
         $today     = date( 'Y-m-d', strtotime( current_time( 'mysql' ) ) );
-        $first_day = date( 'Y-m-01', strtotime( current_time( 'mysql' ) ) );
+        $first_day = date( 'Y-m-d', strtotime('-1 month') );
         
         $graph_data = [];
 
