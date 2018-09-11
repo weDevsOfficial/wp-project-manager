@@ -93,7 +93,7 @@ class Project_Transformer extends TransformerAbstract {
 
     public function includeOverviewGraph( Project $item ) {
         $today     = date( 'Y-m-d', strtotime( current_time( 'mysql' ) ) );
-        $first_day = date( 'Y-m-01', strtotime( current_time( 'mysql' ) ) );
+        $first_day = date( 'Y-m-d', strtotime('-1 month') );
         
         $graph_data = [];
 

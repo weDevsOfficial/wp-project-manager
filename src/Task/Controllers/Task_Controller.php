@@ -185,7 +185,7 @@ class Task_Controller {
         
         $task = Task::with('assignees')->find( $task_id );
 
-        if ( is_array( $assignees ) && $task ) {
+        if ( !empty( $assignees ) && is_array( $assignees ) && $task ) {
             $task->assignees()->whereNotIn( 'assigned_to', $assignees )->delete();
             $this->attach_assignees( $task, $assignees );
         }
