@@ -55,7 +55,7 @@
                                         <a href="#" @click.prevent="showEditForm(list)" class="" title="Edit this List"><span class="dashicons dashicons-edit"></span></a>
                                         <a href="#" class="pm-btn pm-btn-xs" @click.prevent="deleteSelfList( list )"><span class="dashicons dashicons-trash"></span></a>
                                         <a href="#" @click.prevent="listLockUnlock(list)" v-if="PM_Vars.is_pro && user_can('view_private_list')"><span :class="privateClass( list.meta.privacy )"></span></a>
-                                        <list-dropdown-menu :list="list"></list-dropdown-menu>
+                                        <pm-do-action hook="list-dropdown-menu" :actionData="list"></pm-do-action>
                                     </div>
                                 </h3>
 
@@ -204,7 +204,6 @@
     import header from '@components/common/header.vue';
     import tasks from './list-tasks.vue';
     import default_page from './default-list-page.vue';
-    import ListDropdownMenu from './list-dropdown-menu.vue';
     import Mixins from './mixin';
 
     
@@ -225,7 +224,6 @@
             'pm-header': header,
             'list-tasks': tasks,
             'default-list-page': default_page,
-            ListDropdownMenu: ListDropdownMenu,
             
         },
 
