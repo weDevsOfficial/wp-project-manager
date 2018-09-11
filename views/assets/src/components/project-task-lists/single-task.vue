@@ -98,7 +98,7 @@
                             <div class="assigne-users">
                                 <div v-if="task.assignees.data.length" class='pm-assigned-user' v-for="user in task.assignees.data">
 
-                                    <a href="#" :title="user.display_name">
+                                    <a :href="userTaskProfileUrl(user.id)" :title="user.display_name">
                                         <img :alt="user.display_name" :src="user.avatar_url" class="avatar avatar-48 photo" height="48" width="48">
                                     </a>
                                 </div>
