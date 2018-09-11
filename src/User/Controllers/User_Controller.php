@@ -85,6 +85,7 @@ class User_Controller {
 
         // User creation
         $user_id = wp_insert_user( $user_data );
+        wp_send_new_user_notifications( $user_id );
         $user    = User::find( $user_id );
 
         // Transforming database model instance
