@@ -108,7 +108,12 @@ class Upgrade {
 
         // may be it's the first install
         if ( ! $installed_version ) {
-            update_option( 'pm_db_version', $updatable_versions );
+            if ( version_compare( $updatable_versions, '2.1' , '<=' ) ) {
+
+                update_option( 'pm_db_version', 2.0 );
+            } else {
+                update_option( 'pm_db_version', $updatable_versions );
+            }
             return false;
         }
 

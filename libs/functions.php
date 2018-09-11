@@ -343,15 +343,15 @@ function pm_get_role_caps( $project_id, $role ) {
 function pm_user_can( $cap, $project_id, $user_id = false ) {
     $user_id = $user_id ? $user_id : get_current_user_id();
     
-    // $cache_key  = 'pm_user_can-' . md5( serialize( [
-    //  'cap'        => $cap,
-    //  'project_id' => $project_id,
-    //  'user_id'    => $user_id
-    // ] ) );
+    $cache_key  = 'pm_user_can-' . md5( serialize( [
+     'cap'        => $cap,
+     'project_id' => $project_id,
+     'user_id'    => $user_id
+    ] ) );
 
-    // $items  = wp_cache_get( $cache_key, 'pm' );
+    $items  = wp_cache_get( $cache_key, 'pm' );
 
-    // if ( false === $items ) {
+    if ( false === $items ) {
         if ( pm_has_manage_capability( $user_id ) ) {
             return true;
         }
@@ -378,8 +378,8 @@ function pm_user_can( $cap, $project_id, $user_id = false ) {
             return $role_caps[$cap];
         }
 
-    //  wp_cache_set( $cache_key, $items, 'erp' );
-    // }
+        wp_cache_set( $cache_key, $items, 'erp' );
+    }
 
     return false;
 }
