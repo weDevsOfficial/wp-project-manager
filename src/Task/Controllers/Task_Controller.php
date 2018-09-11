@@ -185,7 +185,7 @@ class Task_Controller {
         
         $task = Task::with('assignees')->find( $task_id );
 
-        if ( is_array( $assignees ) && $task ) {
+        if ( !empty( $assignees ) && is_array( $assignees ) && $task ) {
             $task->assignees()->whereNotIn( 'assigned_to', $assignees )->delete();
             $this->attach_assignees( $task, $assignees );
         }
@@ -217,6 +217,14 @@ class Task_Controller {
         $status       = $request->get_param( 'status' );
         $old_value    = $task->status;
         $task->status = $status;
+
+        if ($status) {
+            $task->completed_by = get_current_user_id();
+            $task->completed_at = Carbon::now();
+        } else {
+            $task->completed_by = null;
+            $task->completed_at = null;
+        }
         
         if ( $task->save() ) {
             $this->update_task_status( $task );

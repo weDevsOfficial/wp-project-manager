@@ -1,7 +1,7 @@
 <template>
     <div class="pm-incomplete-tasks">
         <ul :data-list_id="list.id"  class="pm-todos pm-todolist-content pm-incomplete-task pm-connected-sortable" v-pm-sortable>
-            <li :data-id="task.id" :data-order="task.order" class="pm-todo" v-for="(task, task_index) in getIncompleteTasks" :key="task.id" :class="'pm-fade-out-'+task.id">
+            <li :data-id="task.id" :data-order="task.order" class="pm-todo" v-for="task in getIncompleteTasks" :key="task.id" :class="'pm-fade-out-'+task.id">
 
                 <incompleted-tasks :task="task" :list="list"></incompleted-tasks>       
             </li>
