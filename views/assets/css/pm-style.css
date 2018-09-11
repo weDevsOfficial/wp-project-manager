@@ -421,7 +421,7 @@
   border: 1px solid #ddd;
   left: 45px;
   top: 31px;
-  left: -122px;
+  left: -97px;
 }
 #wedevs-project-manager #pm-single-task-wrap .pm-single-task-header .task-action .action-menu .action-menu-ul:before {
   position: absolute;
@@ -448,7 +448,7 @@
   content: "";
 }
 #wedevs-project-manager #pm-single-task-wrap .pm-single-task-header .task-action .action-menu .action-menu-ul li {
-  padding: 16px 13px 0px 16px;
+  padding: 10px 0px 0px 16px;
   margin: 0;
   border: none;
 }
@@ -458,7 +458,7 @@
   margin-left: 5px;
 }
 #wedevs-project-manager #pm-single-task-wrap .pm-single-task-header .task-action .action-menu .action-menu-ul li:last-child {
-  padding-bottom: 16px;
+  padding-bottom: 10px;
 }
 #wedevs-project-manager #pm-single-task-wrap .pm-single-task-header .incomplete {
   display: flex;
@@ -549,8 +549,10 @@
 }
 #wedevs-project-manager #pm-single-task-wrap .option-icon-groups .icon-pm-calendar .task-date {
   position: absolute;
-  left: -251px;
+  left: -383px;
   top: 23px;
+  font-size: 14px;
+  display: flex;
 }
 #wedevs-project-manager #pm-single-task-wrap .option-icon-groups .individual-group-icon,
 #wedevs-project-manager #pm-single-task-wrap .option-icon-groups .pm-action-wrap {

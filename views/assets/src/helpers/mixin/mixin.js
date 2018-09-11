@@ -104,7 +104,8 @@ export default {
          * @return string      
          */
         shortDateFormat ( date ) {
-            if ( date == '' ) {
+
+            if ( !date ) {
                 return;
             }      
 
@@ -684,7 +685,7 @@ export default {
 
 
         userTaskProfileUrl ( user_id ) {
-            return PM_Vars.ajaxurl + '?page=pm_task#/user/' + user_id;
+            return this.myTaskRedirect( user_id );
         },
 
         /**
