@@ -69,13 +69,14 @@ var PM_TaskList_Mixin = {
         can_complete_task (task) {
             return !task.meta.can_complete_task;
         },
-        can_edit_task_list (lsit) {
+        can_edit_task_list (list) {
+            
             var user = PM_Vars.current_user;
             if (this.is_manager()) {
                 return true;
             }
 
-            if ( lsit.creator.data.id == user.ID ){
+            if ( list.creator.data.id == user.ID ){
                 return true;
             }
 
@@ -148,7 +149,10 @@ var PM_TaskList_Mixin = {
             };
 
             var args = jQuery.extend(true, pre_define, args );
-            var  condition = this.generateConditions(args.condition);     
+            
+            var conditionobject = pm_apply_filters( 'before_get_task_list', args.condition );
+            var condition = this.generateConditions(conditionobject);
+
             var request = {
                 url: self.base_url + '/pm/v2/projects/'+self.project_id+'/task-lists?'+condition,
                 success (res) {
@@ -205,7 +209,7 @@ var PM_TaskList_Mixin = {
             };
 
             var args = jQuery.extend(true, pre_define, args );
-            var  condition = self.generateConditions(args.condition);
+            var  condition = self.generateConditions(condition);
 
             var request = {
                 type: 'GET',
@@ -312,6 +316,7 @@ var PM_TaskList_Mixin = {
             var self = this,
             pre_define = {
                 data: {
+                    id: 0,
                     order: 0
                 },
                 callback: false,
@@ -319,7 +324,7 @@ var PM_TaskList_Mixin = {
             var args = jQuery.extend(true, pre_define, args );
             var data = pm_apply_filters( 'before_task_list_save', args.data );
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/task-lists/'+self.list.id+'/update',
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/task-lists/'+ data.id+'/update',
                 data: data,
                 type: 'POST',
                 success (res) {

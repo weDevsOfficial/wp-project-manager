@@ -20,6 +20,7 @@ class Upgrade_2_1 extends WP_Background_Process
         $funcions = [
             'alter_task_table',
             'migrate_complete_tasks',
+            'alter_broad_table',
         ];
         foreach ($funcions as $func) {
             $this->push_to_queue($func);
@@ -74,5 +75,14 @@ class Upgrade_2_1 extends WP_Background_Process
 
         });
 
+    }
+
+    public function alter_broad_table()
+    {
+        global $wpdb;
+        $table = $wpdb->prefix . 'pm_boards';
+        $sql = "ALTER TABLE {$table}
+            `status` tinyint(2) unsigned NOT NULL DEFAULT '1',";
+        $wpdb->query($sql);
     }
 }
