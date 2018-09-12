@@ -9,6 +9,7 @@ import colorPicker from '@components/common/color-picker.vue';
 import DoAction from '@components/common/do-action.vue';
 import ListForm from '@components/project-task-lists/new-task-list-form.vue';
 import TaskForm from '@components/project-task-lists/new-task-form.vue';
+import TaskList from '@components/project-task-lists/lists.vue';
 
 
 pm.Vue.component('pm-pagination', pagination);
@@ -22,6 +23,7 @@ pm.Vue.component('pm-color-picker', colorPicker);
 pm.Vue.component('pm-do-action', DoAction);
 pm.Vue.component('pm-new-list-form', ListForm);
 pm.Vue.component('pm-new-task-form', TaskForm);
+pm.Vue.component('pm-task-list', TaskList);
 
 
 

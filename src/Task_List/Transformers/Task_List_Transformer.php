@@ -38,6 +38,7 @@ class Task_List_Transformer extends TransformerAbstract {
             'title'       => $item->title,
             'description' => pm_filter_content_url( $item->description ),
             'order'       => (int) $item->order,
+            'status'      => $item->status,
             'created_at'  => format_date( $item->created_at ),
             'meta'        => $this->meta( $item ),
         ];
