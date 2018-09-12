@@ -10,6 +10,7 @@ import DoAction from '@components/common/do-action.vue';
 import ListForm from '@components/project-task-lists/new-task-list-form.vue';
 import TaskForm from '@components/project-task-lists/new-task-form.vue';
 import DatePicker from '@components/project-task-lists/date-picker.vue';
+import ContentDatePicker from '@components/common/content-date-picker.vue';
 
 pm.Vue.component('pm-pagination', pagination);
 pm.Vue.component('pm-date-picker', datePicker);
@@ -23,6 +24,7 @@ pm.Vue.component('pm-do-action', DoAction);
 pm.Vue.component('pm-new-list-form', ListForm);
 pm.Vue.component('pm-new-task-form', TaskForm);
 pm.Vue.component('pm-datepicker', DatePicker);
+pm.Vue.component('pm-content-datepicker', ContentDatePicker);
 
 
 
