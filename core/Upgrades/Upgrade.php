@@ -1,12 +1,14 @@
 <?php
 namespace WeDevs\PM\Core\Upgrades;
 use PM_Create_Table;
-set_time_limit(0);
+
+
 class Upgrade {
 
     /** @var array DB updates that need to be run */
     private static $updates = [
         '2.0'    => 'Upgrade_2_0',
+        '2.1'    => 'Upgrade_2_1',
     ];
 
     public static $instance = null;
@@ -101,10 +103,17 @@ class Upgrade {
     public static function is_needs_update() {
         $bd_version = get_option( 'cpm_db_version' );
         $installed_version = !empty( $bd_version ) ? get_option( 'cpm_db_version' ) : get_option( 'pm_db_version' );
-        $updatable_versions = config('app.db_version');
+
+        $updatable_versions = pm_config('app.db_version');
 
         // may be it's the first install
         if ( ! $installed_version ) {
+            if ( version_compare( $updatable_versions, '2.1' , '<=' ) ) {
+
+                update_option( 'pm_db_version', 2.0 );
+            } else {
+                update_option( 'pm_db_version', $updatable_versions );
+            }
             return false;
         }
 
@@ -126,9 +135,6 @@ class Upgrade {
             return;
         }
 
-        $installed_version  = get_option( 'cpm_db_version' );
-        $updatable_versions = config('app.db_version');
-        if ( ! is_null( $installed_version ) && version_compare( $installed_version, $updatable_versions, '<' ) ) {
             ?>
                 <div class="wrap">
                     <div class="notice notice-warning">
@@ -149,10 +155,7 @@ class Upgrade {
                     });
                 </script>
             <?php
-        } else {
-            update_option( 'pm_db_version', $updatable_versions );
-            //delete_option( 'cpm_db_version' );
-        }
+       
     }
     /**
      * Do all updates when Run updater btn click

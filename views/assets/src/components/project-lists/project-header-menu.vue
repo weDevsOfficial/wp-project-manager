@@ -21,6 +21,13 @@
                 <span class="count">{{ allof }}</span>
             </router-link>
         </li>
+        <li class="favourite-menu pm-sm-col-4">
+            <router-link :to="{name: 'favourite_projects'}" >
+                <span class="dashicons dashicons-star-filled"></span>
+                {{ __( 'Favourite', 'wedevs-project-manager') }}
+                <span class="count">{{ favourite }}</span>
+            </router-link>
+        </li>
         <div class="clearfix"></div>
     </ul>
 </template>
@@ -47,7 +54,16 @@
                 var complete   = this.$store.state.projects_meta.total_complete;
 
                 return incomplete + complete;
+            },
+            favourite () {
+                return this.$store.state.projects_meta.total_favourite;
             }
         }
     }
 </script>
+
+<style>
+    .favourite-menu a{
+        padding-left: 15px !important;
+    }
+</style>

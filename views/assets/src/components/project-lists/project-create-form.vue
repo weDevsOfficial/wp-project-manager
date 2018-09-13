@@ -11,7 +11,7 @@
                 <!-- v-model="project_cat" -->
                 <select v-model="project_category"  id='project_cat' class='chosen-select'>
                     <option value="0">{{ __( '- Project Category -', 'wedevs-project-manager') }}</option>
-                    <option v-for="category in categories" :value="category.id">{{ category.title }}</option>
+                    <option v-for="category in categories" :value="category.id" :key="category.id" >{{ category.title }}</option>
                 </select>
             </div>
 
@@ -26,7 +26,7 @@
                         <td>{{ projectUser.display_name }}</td>
                         <td>
                             <select  v-model="projectUser.roles.data[0].id" :disabled="is_project_creator(projectUser.id)">
-                                <option v-for="role in roles" :value="role.id">{{ role.title }}</option>
+                                <option v-for="role in roles" :value="role.id" :key="role.id" >{{ role.title }}</option>
                             </select>
                         </td>
                       

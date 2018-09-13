@@ -30,17 +30,18 @@ function migrations_table_prefix() {
 *  @return void
 */
 function pm_php_version_notice() {
+    
     if ( ! current_user_can( 'manage_options' ) ) {
         return;
     }
     $option = get_option('pm_hide_php_notice');
-    if ( $option['hide'] == '1' ) {
+    if ( $option['hide'] == '3' ) {
         return ;
     }
     ?>
         <div class="error notice is-dismissible" id="pm-php-notice" style="padding: 1em; position: relative;">
             <h2><?php _e( 'WP Project Manager moving PHP 5.6!', 'wedevs-project-manager' ); ?></h2>
-            <p><?php _e( 'WP Project Manager moving PHP 5.6 very soon. Please upgrader your php version.', 'wedevs-project-manager' ); ?></p>
+            <p><?php echo sprintf( __('WP Project Manager is moving PHP 5.6 after <strong>September 15, 2018</strong> from version <em>2.0.7</em>. Please upgrader your php version.', 'wedevs-project-manager' ) ); ?></p>
         </div>
         <script type="text/javascript">
         (function ($) {
@@ -68,7 +69,7 @@ function pm_hide_php_notice () {
         wp_send_json_error( __( 'Error: Nonce verification failed', 'wedevs-project-manager') );
     }
 
-    update_option('pm_hide_php_notice', [ 'hide' => 1, 'date'=> format_date(current_time('mysql'))]);
+    update_option('pm_hide_php_notice', [ 'hide' => 3, 'date'=> format_date(current_time('mysql'))]);
     wp_send_json_success();
 }
 
