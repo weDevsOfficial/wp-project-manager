@@ -889,6 +889,8 @@ class Upgrade_2_0 extends WP_Background_Process
             'start_at'    => get_post_meta( $post['ID'], '_start', true),
             'due_date'    => get_post_meta( $post['ID'], '_due', true),
             'parent_id'   => $post['post_type'] === 'cpm_task' ? 0: $listitems[$post['post_parent']],
+            'completed_by' => get_post_meta($post['ID'], '_completed_by', true),
+            'completed_at' => get_post_meta($post['ID'], '_completed_on', true),
             'created_by'  => $post['post_author'],
             'updated_by'  => $post['post_author'],
             'created_at'  => $post['post_date'],
@@ -1855,8 +1857,7 @@ class Upgrade_2_0 extends WP_Background_Process
           `updated_at` timestamp NULL DEFAULT NULL,
           PRIMARY KEY (`id`),
           KEY `project_id` (`project_id`),
-          KEY `client_id` (`client_id`),
-          FOREIGN KEY (`project_id`) REFERENCES `{$wpdb->prefix}pm_projects` (`id`) ON DELETE CASCADE
+          KEY `client_id` (`client_id`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
 
         
@@ -1876,9 +1877,7 @@ class Upgrade_2_0 extends WP_Background_Process
               `updated_by` int(11) UNSIGNED DEFAULT NULL,
               `created_at` timestamp NULL DEFAULT NULL,
               `updated_at` timestamp NULL DEFAULT NULL,
-              PRIMARY KEY (`id`),
-              FOREIGN KEY (`source`) REFERENCES `{$wpdb->prefix}pm_tasks` (`id`) ON DELETE CASCADE,
-              FOREIGN KEY (`target`) REFERENCES `{$wpdb->prefix}pm_tasks` (`id`) ON DELETE CASCADE
+              PRIMARY KEY (`id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
 
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
@@ -1909,8 +1908,7 @@ class Upgrade_2_0 extends WP_Background_Process
               `updated_at` timestamp NULL DEFAULT NULL,
               PRIMARY KEY (`id`),
               KEY `task_id` (`task_id`),
-              KEY `project_id` (`project_id`),
-              FOREIGN KEY (`task_id`) REFERENCES `{$wpdb->prefix}pm_tasks` (`id`) ON DELETE CASCADE
+              KEY `project_id` (`project_id`)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
 
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
