@@ -260,12 +260,21 @@
 	    		max-height: 148px;
 
 	    		li {
-	    			span {
+	    			.multiselect__option {
+	    				display: flex;
+    					align-items: center;
+	    				padding: 2px 0 0 6px;
 	    				background: #fff;
 	    				font-size: 13px;
 	    				color: #788383;
 	    				font-weight: normal;
 	    				font-family: "Helvetica Neue", sans-serif;
+	    			}
+	    			.multiselect__option--selected {
+	    				background: #f9f9f9;
+					    color: #35495e;
+					    margin: 3px;
+					    border: 1px solid #eee;
 	    			}
 	    			.multiselect__option--highlight:after {
 	    				background: none;
@@ -276,6 +285,7 @@
 	    				content: "\2713 ";
 	    				color: #d4d6d6;
 	    			}
+
 	    			.multiselect__option--selected:after {
 	    				content: "X";
 	    				color: #d4d6d6;
@@ -388,12 +398,22 @@
 	    		max-height: 148px;
 
 	    		li {
-	    			span {
+	    			
+	    			.multiselect__option {
+	    				padding: 2px 0 0 6px;
+	    				display: flex;
+    					align-items: center;
 	    				background: #fff;
 	    				font-size: 13px;
 	    				color: #788383;
 	    				font-weight: normal;
 	    				font-family: "Helvetica Neue", sans-serif;
+	    			}
+	    			.multiselect__option--selected {
+	    				background: #f9f9f9;
+					    color: #35495e;
+					    margin: 3px;
+					    border: 1px solid #eee;
 	    			}
 	    			.multiselect__option--highlight:after {
 	    				background: none;
@@ -662,6 +682,20 @@
 				    top: 23px;
 				    font-size: 14px;
 				    display: flex;
+                    border: 1px solid #DDDDDD;
+                    box-shadow: 0px 6px 20px 0px rgba(214, 214, 214, 0.6);
+
+                    .pm-date-picker-from {
+                        .ui-datepicker {
+                            border: none;
+                        }
+                    }
+
+                    .pm-date-picker-to {
+                        .ui-datepicker {
+                            border: none;
+                        }
+                    }
 				}
 			}
 			.individual-group-icon, .pm-action-wrap {
@@ -843,9 +877,31 @@
 
 					    .comment-action-ul {
 					    	li {
+					    		&:hover {
+					    			.icon-pm-pencil {
+					    				&:before {
+					    					color: #000;
+					    				}
+					    			}
+
+					    			.icon-pm-delete {
+					    				&:before {
+					    					color: #ff0404;
+					    				}
+					    			}
+					    		}
 					    		padding: 8px 10px 7px 10px;
-					    		margin: 0;
+						    	margin: 0;
+					    		.comment-action-edit {
+					    			color: #000;
+					    			margin-left: 3px;
+					    		}
+					    		.comment-action-delete {
+					    			color: #000;
+					    			margin-left: 6px;
+					    		}
 					    	}
+					    	
 					    }
 	    			}
 			    }
@@ -907,7 +963,7 @@
 			.pm-attachments {
 				li {
 					display: inline-block;
-					margin: 18px 11px 0 0;
+					margin: 18px 8px 0 0;
 					border: none;
 					padding: 0;
 

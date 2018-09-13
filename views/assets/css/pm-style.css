@@ -204,12 +204,21 @@
   display: block;
   max-height: 148px;
 }
-#wedevs-project-manager .pm-multiselect-top .multiselect__content-wrapper .multiselect__content li span {
+#wedevs-project-manager .pm-multiselect-top .multiselect__content-wrapper .multiselect__content li .multiselect__option {
+  display: flex;
+  align-items: center;
+  padding: 2px 0 0 6px;
   background: #fff;
   font-size: 13px;
   color: #788383;
   font-weight: normal;
   font-family: "Helvetica Neue", sans-serif;
+}
+#wedevs-project-manager .pm-multiselect-top .multiselect__content-wrapper .multiselect__content li .multiselect__option--selected {
+  background: #f9f9f9;
+  color: #35495e;
+  margin: 3px;
+  border: 1px solid #eee;
 }
 #wedevs-project-manager .pm-multiselect-top .multiselect__content-wrapper .multiselect__content li .multiselect__option--highlight:after {
   background: none;
@@ -317,12 +326,21 @@
   display: block;
   max-height: 148px;
 }
-#wedevs-project-manager .pm-multiselect .multiselect__content-wrapper .multiselect__content li span {
+#wedevs-project-manager .pm-multiselect .multiselect__content-wrapper .multiselect__content li .multiselect__option {
+  padding: 2px 0 0 6px;
+  display: flex;
+  align-items: center;
   background: #fff;
   font-size: 13px;
   color: #788383;
   font-weight: normal;
   font-family: "Helvetica Neue", sans-serif;
+}
+#wedevs-project-manager .pm-multiselect .multiselect__content-wrapper .multiselect__content li .multiselect__option--selected {
+  background: #f9f9f9;
+  color: #35495e;
+  margin: 3px;
+  border: 1px solid #eee;
 }
 #wedevs-project-manager .pm-multiselect .multiselect__content-wrapper .multiselect__content li .multiselect__option--highlight:after {
   background: none;
@@ -561,6 +579,14 @@
   top: 23px;
   font-size: 14px;
   display: flex;
+  border: 1px solid #DDDDDD;
+  box-shadow: 0px 6px 20px 0px rgba(214, 214, 214, 0.6);
+}
+#wedevs-project-manager #pm-single-task-wrap .option-icon-groups .icon-pm-calendar .task-date .pm-date-picker-from .ui-datepicker {
+  border: none;
+}
+#wedevs-project-manager #pm-single-task-wrap .option-icon-groups .icon-pm-calendar .task-date .pm-date-picker-to .ui-datepicker {
+  border: none;
 }
 #wedevs-project-manager #pm-single-task-wrap .option-icon-groups .individual-group-icon,
 #wedevs-project-manager #pm-single-task-wrap .option-icon-groups .pm-action-wrap {
@@ -726,6 +752,20 @@
   padding: 8px 10px 7px 10px;
   margin: 0;
 }
+#wedevs-project-manager #pm-single-task-wrap .pm-task-comment-wrap .comment-content .comment-header .comment-action .comment-action-ul li:hover .icon-pm-pencil:before {
+  color: #000;
+}
+#wedevs-project-manager #pm-single-task-wrap .pm-task-comment-wrap .comment-content .comment-header .comment-action .comment-action-ul li:hover .icon-pm-delete:before {
+  color: #ff0404;
+}
+#wedevs-project-manager #pm-single-task-wrap .pm-task-comment-wrap .comment-content .comment-header .comment-action .comment-action-ul li .comment-action-edit {
+  color: #000;
+  margin-left: 3px;
+}
+#wedevs-project-manager #pm-single-task-wrap .pm-task-comment-wrap .comment-content .comment-header .comment-action .comment-action-ul li .comment-action-delete {
+  color: #000;
+  margin-left: 6px;
+}
 #wedevs-project-manager #pm-single-task-wrap .pm-task-comment-wrap .pm-avatar img {
   height: 24px;
   width: 24px;
@@ -776,7 +816,7 @@
 }
 #wedevs-project-manager #pm-single-task-wrap .pm-task-comment-wrap .pm-attachments li {
   display: inline-block;
-  margin: 18px 11px 0 0;
+  margin: 18px 8px 0 0;
   border: none;
   padding: 0;
 }

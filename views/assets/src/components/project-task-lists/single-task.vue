@@ -121,7 +121,7 @@
                                                 :clear-on-select="true"
                                                 :show-labels="true"
                                                 :searchable="true"
-                                                placeholder="Select User"
+                                                :placeholder="__('Search User', 'wedevs-project-manager')"
                                                 select-label=""
                                                 selected-label="selected"
                                                 deselect-label=""
