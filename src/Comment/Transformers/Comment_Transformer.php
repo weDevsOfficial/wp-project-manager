@@ -59,7 +59,7 @@ class Comment_Transformer extends TransformerAbstract {
     public function includeReplies( Comment $item ) {
         $page = isset( $_GET['reply_page'] ) ? $_GET['reply_page'] : 1;
 
-        $replies = $item->replies()->paginate( 10, ['*'], 'reply_page', $page );
+        $replies = $item->replies()->paginate( pm_config('app.comment_per_page'), ['*'], 'reply_page', $page );
 
         $reply_collection = $replies->getCollection();
         $resource = $this->collection( $reply_collection, new Comment_Transformer );
