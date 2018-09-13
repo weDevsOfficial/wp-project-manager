@@ -39,13 +39,20 @@
                                 :clear-on-select="true"
                                 :show-labels="true"
                                 :searchable="true"
-                                placeholder="Select User"
+                                :placeholder="__('Search User', 'wedevs-project-manager')"
                                 select-label=""
                                 selected-label="selected"
                                 deselect-label=""
                                 label="display_name"
                                 track-by="id"
                                 :allow-empty="true">
+
+                                <template slot="option" slot-scope="props">
+                                    <img class="option__image" :src="props.option.avatar_url" alt="No Man’s Sky">
+                                    <div class="option__desc">
+                                        <span class="option__title">{{ props.option.display_name }}</span>
+                                    </div>
+                                </template>
 
                             </multiselect>
                         </div>
