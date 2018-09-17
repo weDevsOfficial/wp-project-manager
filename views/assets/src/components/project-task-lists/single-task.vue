@@ -59,17 +59,17 @@
                                         <li class="pm-dark-hover">
                                             
                                             <a class="pm-dark-hover title-anchor-menu-a icon-pm-private pm-font-size-13" v-if="task.meta.privacy=='1'" @click.prevent="singleTaskLockUnlock(task)" href="#">
-                                                <span class="title-anchor-menu">{{ __('Make Visible', 'wedevs-project-manager') }}</span>
+                                                <span class="action-menu-span title-anchor-menu">{{ __('Make Visible', 'wedevs-project-manager') }}</span>
                                             </a>
-                                            <a class="pm-dark-hover title-anchor-menu-a icon-pm-private pm-font-size-13" v-if="task.meta.privacy=='0'" @click.prevent="singleTaskLockUnlock(task)" href="#">
-                                                <span class="title-anchor-menu">{{ __('Make Private', 'wedevs-project-manager') }}</span>
+                                            <a class="pm-dark-hover title-anchor-menu-a icon-pm-unlock pm-font-size-13" v-if="task.meta.privacy=='0'" @click.prevent="singleTaskLockUnlock(task)" href="#">
+                                                <span class="action-menu-span title-anchor-menu">{{ __('Make Private', 'wedevs-project-manager') }}</span>
                                             </a>
 
                                         </li>
                                         <li>
                                             
                                             <a class="pm-dark-hover title-anchor-menu-a icon-pm-delete pm-font-size-13" @click.prevent="selfDeleteTask({task: task, list: list})" href="#">
-                                                <span class="title-anchor-menu">{{ __('Delete', 'wedevs-project-manager') }}</span>
+                                                <span class="action-menu-span title-anchor-menu">{{ __('Delete', 'wedevs-project-manager') }}</span>
                                             </a>
                                         </li>
                                     </ul>
@@ -147,6 +147,9 @@
                             
 
                             <div class="pm-flex option-icon-groups">
+                                <span @click.prevent="singleTaskLockUnlock(task)" v-if="task.meta.privacy=='0'" :title="__('Task is visible for co-worker', 'wedevs-project-manager')" class="icon-pm-unlock pm-dark-hover pm-font-size-16"></span>
+                                <span @click.prevent="singleTaskLockUnlock(task)" v-if="task.meta.privacy=='1'" :title="__('Task is not visible for co-worker', 'wedevs-project-manager')" class="icon-pm-private pm-dark-hover pm-font-size-16"></span>
+                                
                                 <span id="pm-calendar-wrap" @click.prevent="isTaskDateEditMode()" class="individual-group-icon calendar-group icon-pm-calendar pm-font-size-16">
                                     <span v-if="(task.start_at.date || task.due_date.date )" :class="taskDateWrap(task.due_date.date) + ' pm-task-date-wrap pm-date-window'">
                                             
@@ -159,8 +162,6 @@
                                             
                                             {{ dateFormat( task.due_date.date ) }}
                                         </span>
-
-                                            
                                     </span>
 
                                     <span v-if="(!task.start_at.date && !task.due_date.date)" class="pm-task-date-wrap pm-date-window">
@@ -281,7 +282,7 @@
                 
                 if( jQuery(this).scrollTop() + jQuery(this).innerHeight()>=jQuery(this)[0].scrollHeight ) {
                     
-                    vnode.context.loadMoreActivity();
+                    vnode.context.loadMoreActivity(vnode.context);
                 }
             })
         }
@@ -415,7 +416,13 @@
 
             jQuery(document).keyup(function(e) {
                 if (e.keyCode === 27) {
-                    self.closePopup();
+                    var subtaskInput = jQuery(e.target).closest('.new-subtask-form').find('.input-area');
+                    var mainBody = jQuery(e.target).closest('#pm-single-task-wrap');
+                    
+                    if(!subtaskInput.length && mainBody.length) {
+                        
+                       self.closePopup();
+                    } 
                 }
             });
         },
@@ -433,15 +440,14 @@
                 tinymce.execCommand( 'mceRemoveEditor', false, 'task-description-editor' );
             },
 
-            loadMoreActivity () {
+            loadMoreActivity (self) {
 
                 if( this.activityLoading ) {
                     return;
                 }
-
-                var self = this;
+                
                 var request_data = {
-                    url: self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks/'+self.task_id+ '/activity',
+                    url: self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks/'+self.task.id+ '/activity',
                     type: 'POST',
                     data: {
                         activityPage: this.activityPage
@@ -756,13 +762,14 @@
                     actionMenu     = jQuery(el.target).closest( '#pm-action-menu' ),
                     modal          = jQuery(el.target).closest( '.popup-container' ),
                     datePicker = jQuery(el.target).closest('#ui-datepicker-div'),
-                    datePickerBtn = jQuery(el.target).closest('.ui-datepicker-buttonpane');
+                    datePickerBtn = jQuery(el.target).closest('.ui-datepicker-buttonpane'),
+                    mainBody = jQuery(el.target).closest('#pm-single-task-wrap');
                     
                 if(datePicker.length || datePickerBtn.length) {
                     return;
                 }
 
-                if( !modal.length && jQuery('.popup-container').length ) {
+                if( !modal.length && jQuery('.popup-container').length && mainBody.length ) {
                     this.closePopup();
                 }
 

@@ -29,7 +29,7 @@
             if (tinymce.get(this.editor_id)) {
                 tinymce.execCommand( 'mceRemoveEditor', false, this.editor_id );
             }
-
+            console.log('textarea#' + self.editor_id);
             // Instantiate the editor
             var settings = {
                 selector: 'textarea#' + self.editor_id,
@@ -37,6 +37,7 @@
                 placeholder: self.__( 'Write a comment...', 'wedevs-project-manager'),
                 branding: false,
                 menubar: false,
+                auto_focus : self.editor_id,
                 setup: function (editor) {
                     editor.on('change', function () {
                         self.content.html = editor.getContent();
@@ -46,6 +47,11 @@
                     });
                     editor.on('NodeChange', function () {
                         self.content.html = editor.getContent();
+                    });
+
+                    editor.on('init', function () {
+                        editor.selection.select(editor.getBody(), true);
+                        editor.selection.collapse(false);
                     });
                 },
 
