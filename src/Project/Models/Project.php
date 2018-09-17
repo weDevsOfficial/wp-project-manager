@@ -112,4 +112,14 @@ class Project extends Eloquent {
         $role_id = Role::where('slug', 'co_worker')->first()->id;
         return $this->assignees()->where('role_id', $role_id);
     }
+
+    public function getFavouriteAttribute(  ) {
+        $user_id = get_current_user_id();
+        $favourite = $this->meta()->where('meta_key', '=', 'favourite_project' )
+                ->where( 'entity_type', 'project' )
+                ->where( 'entity_id', '=', $user_id )->first();
+        
+
+        return empty($favourite) ? null: $favourite;
+    }
 }

@@ -29,7 +29,7 @@ $router->post( 'projects/{id}/update', 'WeDevs/PM/Project/Controllers/Project_Co
     ->validator( 'WeDevs\PM\Project\Validators\Update_Project' );
 
 $router->post( 'projects/{id}/favourite', 'WeDevs/PM/Project/Controllers/Project_Controller@favourite_project' )
-    ->permission(['WeDevs\PM\Core\Permissions\Project_Manage_Capability']);
+    ->permission(['WeDevs\PM\Core\Permissions\Access_Project']);
 
 $router->post( 'projects/{id}/delete', 'WeDevs/PM/Project/Controllers/Project_Controller@destroy' )
     ->sanitizer( 'WeDevs\PM\Project\Sanitizers\Delete_Sanitizer' )
