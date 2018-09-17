@@ -21,7 +21,7 @@
         computed: {
             favoutireclass() {
                 let favoutireclass = 'dashicons dashicons-star-filled ';
-                favoutireclass += (parseInt(this.project.projectable_type))? 'pm-favourite': '';
+                favoutireclass += this.project.favourite? 'pm-favourite': '';
                 return favoutireclass;
             }
         },
@@ -31,7 +31,7 @@
                 var args = {
                     data: {
                         project_id: this.project.id,
-                        favourite: !Boolean(this.project.projectable_type)
+                        favourite: !Boolean(this.project.favourite)
 
                     }
                 }
@@ -43,12 +43,12 @@
                     success (res) {
                         pm.Toastr.success(res.message);
                         var projects = self.$store.state.projects.slice();
-                        var fbin = projects.findIndex( p => p.id == args.data.project_id);
+                        var fbin = projects.findIndex( p => p.id == self.project.id);
 
                         var project = projects.splice(fbin, 1);
 
-                        project.projectable_type = res.data.projectable_type;
-                        self.project.projectable_type = res.data.projectable_type;
+                        project.favourite = args.data.favourite
+                        self.project.favourite = args.data.favourite
                         
                         if (args.data.favourite) {
                             projects.splice(0, 0, project[0]);

@@ -122,12 +122,12 @@
             </footer>
 
             <div class="pm-project-action-icon">
-                <div class="pm-project-action" v-if="is_manager(project)">
+                <div class="pm-project-action">
                     <favourite :project="project"></favourite>
-                    <span @click.prevent="settingsShowHide(project)" :title="project_action" class="dashicons dashicons-admin-generic pm-settings-bind"></span>
+                    <span  v-if="is_manager(project)" @click.prevent="settingsShowHide(project)" :title="project_action" class="dashicons dashicons-admin-generic pm-settings-bind"></span>
 
 
-                    <ul v-if="project.settings_hide" class="pm-settings">
+                    <ul v-if="project.settings_hide && is_manager(project)" class="pm-settings">
                         <li>
                             <span class="pm-spinner"></span>
                             <a @click.prevent="deleteProject(project.id, project)" class="pm-project-delete-link" :title="__( 'Delete project', 'wedevs-project-manager')">
