@@ -110,7 +110,7 @@
 }
 #wedevs-project-manager .popup-mask {
   position: fixed;
-  z-index: 9999;
+  z-index: 9000;
   top: 0;
   left: 0;
   width: 100%;
@@ -125,6 +125,7 @@
   margin-right: auto;
   background: #fff;
   border-radius: 3px;
+  border-top-right-radius: 0;
   height: 90vh;
   top: 32px;
   position: relative;
@@ -214,11 +215,13 @@
   font-weight: normal;
   font-family: "Helvetica Neue", sans-serif;
 }
+#wedevs-project-manager .pm-multiselect-top .multiselect__content-wrapper .multiselect__content li .multiselect__option .option__image {
+  margin-right: 5px;
+}
 #wedevs-project-manager .pm-multiselect-top .multiselect__content-wrapper .multiselect__content li .multiselect__option--selected {
-  background: #f9f9f9;
-  color: #35495e;
-  margin: 3px;
-  border: 1px solid #eee;
+  background: #1ABC9C;
+  color: #fff;
+  border: 1px solid #fff;
 }
 #wedevs-project-manager .pm-multiselect-top .multiselect__content-wrapper .multiselect__content li .multiselect__option--highlight:after {
   background: none;
@@ -337,10 +340,9 @@
   font-family: "Helvetica Neue", sans-serif;
 }
 #wedevs-project-manager .pm-multiselect .multiselect__content-wrapper .multiselect__content li .multiselect__option--selected {
-  background: #f9f9f9;
-  color: #35495e;
-  margin: 3px;
-  border: 1px solid #eee;
+  background: #1ABC9C;
+  color: #fff;
+  border: 1px solid #fff;
 }
 #wedevs-project-manager .pm-multiselect .multiselect__content-wrapper .multiselect__content li .multiselect__option--highlight:after {
   background: none;
@@ -418,7 +420,8 @@
 #wedevs-project-manager #pm-single-task-wrap .pm-single-task-header .task-action .icon-pm-more-options {
   cursor: pointer;
   line-height: 0;
-  margin-left: 25px;
+  margin-left: 20px;
+  padding: 5px 0 5px 5px;
 }
 #wedevs-project-manager #pm-single-task-wrap .pm-single-task-header .task-action .icon-pm-more-options:before {
   vertical-align: middle;
@@ -466,9 +469,9 @@
   content: "";
 }
 #wedevs-project-manager #pm-single-task-wrap .pm-single-task-header .task-action .action-menu .action-menu-ul li {
-  padding: 10px 0px 8px 10px;
   margin: 0;
   border: none;
+  padding: 0;
 }
 #wedevs-project-manager #pm-single-task-wrap .pm-single-task-header .task-action .action-menu .action-menu-ul li .title-anchor-menu-a {
   display: block;
@@ -476,12 +479,16 @@
 }
 #wedevs-project-manager #pm-single-task-wrap .pm-single-task-header .task-action .action-menu .action-menu-ul li .title-anchor-menu {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-  margin-left: 5px;
+  margin-left: 8px;
+}
+#wedevs-project-manager #pm-single-task-wrap .pm-single-task-header .task-action .action-menu .action-menu-ul li .action-menu-span {
+  margin-left: 12px;
 }
 #wedevs-project-manager #pm-single-task-wrap .pm-single-task-header .task-action .action-menu .action-menu-ul li a {
   font-size: 12px;
   color: #000000;
   margin-left: 5px;
+  padding: 10px 0px 8px 10px;
 }
 #wedevs-project-manager #pm-single-task-wrap .pm-single-task-header .task-action .action-menu .action-menu-ul li:last-child {
   padding-bottom: 10px;
@@ -532,6 +539,9 @@
   font-weight: bold;
   color: #000000;
 }
+#wedevs-project-manager #pm-single-task-wrap .task-title-wrap .task-title-text .pm-task-title-field {
+  width: 100%;
+}
 #wedevs-project-manager #pm-single-task-wrap .pm-assigned-user {
   margin-right: 5px;
 }
@@ -558,6 +568,14 @@
   margin-bottom: 20px;
   line-height: 0;
 }
+#wedevs-project-manager #pm-single-task-wrap .option-icon-groups .icon-pm-unlock {
+  color: #d4d6d6;
+  margin-right: 5px;
+  font-size: 18px;
+}
+#wedevs-project-manager #pm-single-task-wrap .option-icon-groups .icon-pm-unlock:before {
+  vertical-align: middle;
+}
 #wedevs-project-manager #pm-single-task-wrap .option-icon-groups .icon-pm-calendar {
   position: relative;
   display: flex;
@@ -575,7 +593,7 @@
 }
 #wedevs-project-manager #pm-single-task-wrap .option-icon-groups .icon-pm-calendar .task-date {
   position: absolute;
-  left: -383px;
+  right: -13px;
   top: 23px;
   font-size: 14px;
   display: flex;

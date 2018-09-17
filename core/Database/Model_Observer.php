@@ -18,6 +18,13 @@ abstract class Model_Observer {
         $new = $resource->getAttributes();
 
         foreach ( $fillable_attributes as $attribute ) {
+            if ( !isset( $old[$attribute] ) ) {
+                continue;
+            }
+
+            if ( !isset( $new[$attribute] ) ) {
+                continue;
+            }
             if ( $old[$attribute] != $new[$attribute]  && method_exists( $this, $attribute ) ) {
                 $this->$attribute( $resource, $old[$attribute] );
             }
