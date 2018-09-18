@@ -527,6 +527,8 @@
 
 				    
 				    .action-menu-ul {
+				    	margin: 8px 0;
+
 				    	&:before{
 				    		.pm-top-triangle(#ddd, -16px, 115px);
 						}
@@ -556,10 +558,6 @@
 				    			margin-left: 5px;
 				    			padding: 10px 0px 8px 10px;
 				    		}
-
-				    		&:last-child {
-				    			padding-bottom: 10px;
-				    		}
 				    	}
 				    }
 
@@ -577,18 +575,17 @@
 				border-radius: 3px;
 				font-size: 1vw;
 				padding: 5px 10px;
+				.pm-light-color-fun();
 
 				.icon-pm-incomplete {
 					margin-right: 8px;
 				}
 
-				a {
-					.pm-light-color-fun();
-				}
+				
 				&:hover {
-					a {
-						color: #444 !important;
-					}
+					
+					color: #444 !important;
+					
 					.icon-pm-incomplete {
 
 						&:before {
@@ -604,14 +601,23 @@
 			    border: 1px solid #7dd322;
 			    border-radius: 3px;
 			    font-size: 1vw;
+			    color: #788383;
 
 			    .icon-pm-completed {
 			    	margin-right: 8px;
 			    }
 			    
-			    a {
-			    	.pm-light-color-fun();
-			    }
+			    &:hover {
+					
+					color: #444 !important;
+					
+					.icon-pm-completed {
+
+						&:before {
+							color: #83ed0e !important;
+						}
+					}
+				}
 			}
 			
 			.created-by {
@@ -793,6 +799,20 @@
 						font-size: 13px;
 						font-weight: normal;
 					}
+					.activity-watch-wrap {
+						color: #444;
+						display: inline-flex;
+						align-items: center;
+
+						.activity-watch-icon {
+							margin-left: 15px;
+							&:before {
+								margin-right: 5px;
+								color: #444;
+							}
+						}
+					}
+					
 				}
 				.activity-author-image {
 					height: 24px;
@@ -835,17 +855,9 @@
 				.notify-users {
 					border: none;
 					position: relative;
-					.pm-multiselect {
-						left: -141px;
-    					top: 37px;
-
-    					&:before {
-    						border: none;
-    					}
-
-    					&:after {
-    						border: none;
-    					}
+					.pm-multiselect-top {
+						right: 30px;
+    					top: 42px;
 					}
 				}
 			}
@@ -944,7 +956,7 @@
 			}
 
 			.pm-author {
-				margin-right: 18px;
+				margin-right: 10px;
 			}
 			.pm-comment-content {
 				margin-left: 8%;

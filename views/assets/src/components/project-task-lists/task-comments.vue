@@ -182,6 +182,7 @@
             },
             commentDate (comment) {
                 if (typeof comment.created_at != 'undefined') {
+                    return pm.Moment(comment.created_at.date).fromNow();
                     return this.shortDateFormat(comment.created_at.date) + ', ' + this.shortTimeFormat(comment.created_at.date+' '+comment.created_at.time);
                 }
 

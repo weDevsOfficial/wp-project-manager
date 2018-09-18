@@ -27,7 +27,7 @@
                         {{ __('Notify user', 'wedevs-project-manager') }}
                     </a>
 
-                    <div  v-if="activeNotifyUsers"  class="pm-multiselect pm-multiselect-single-task">
+                    <div  v-if="activeNotifyUsers"  class="pm-multiselect-top pm-multiselect-single-task">
                         <div class="pm-multiselect-content">
                             <div class="assign-to">{{ __('Assign to', 'wedevs-project-manager') }}</div>
                        

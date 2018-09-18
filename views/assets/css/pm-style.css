@@ -444,6 +444,9 @@
   top: 31px;
   left: -97px;
 }
+#wedevs-project-manager #pm-single-task-wrap .pm-single-task-header .task-action .action-menu .action-menu-ul {
+  margin: 8px 0;
+}
 #wedevs-project-manager #pm-single-task-wrap .pm-single-task-header .task-action .action-menu .action-menu-ul:before {
   position: absolute;
   z-index: 999;
@@ -490,9 +493,6 @@
   margin-left: 5px;
   padding: 10px 0px 8px 10px;
 }
-#wedevs-project-manager #pm-single-task-wrap .pm-single-task-header .task-action .action-menu .action-menu-ul li:last-child {
-  padding-bottom: 10px;
-}
 #wedevs-project-manager #pm-single-task-wrap .pm-single-task-header .incomplete {
   display: flex;
   align-items: center;
@@ -500,14 +500,12 @@
   border-radius: 3px;
   font-size: 1vw;
   padding: 5px 10px;
+  color: #A5ACB1;
 }
 #wedevs-project-manager #pm-single-task-wrap .pm-single-task-header .incomplete .icon-pm-incomplete {
   margin-right: 8px;
 }
-#wedevs-project-manager #pm-single-task-wrap .pm-single-task-header .incomplete a {
-  color: #A5ACB1;
-}
-#wedevs-project-manager #pm-single-task-wrap .pm-single-task-header .incomplete:hover a {
+#wedevs-project-manager #pm-single-task-wrap .pm-single-task-header .incomplete:hover {
   color: #444 !important;
 }
 #wedevs-project-manager #pm-single-task-wrap .pm-single-task-header .incomplete:hover .icon-pm-incomplete:before {
@@ -520,12 +518,16 @@
   border: 1px solid #7dd322;
   border-radius: 3px;
   font-size: 1vw;
+  color: #788383;
 }
 #wedevs-project-manager #pm-single-task-wrap .pm-single-task-header .completed .icon-pm-completed {
   margin-right: 8px;
 }
-#wedevs-project-manager #pm-single-task-wrap .pm-single-task-header .completed a {
-  color: #A5ACB1;
+#wedevs-project-manager #pm-single-task-wrap .pm-single-task-header .completed:hover {
+  color: #444 !important;
+}
+#wedevs-project-manager #pm-single-task-wrap .pm-single-task-header .completed:hover .icon-pm-completed:before {
+  color: #83ed0e !important;
 }
 #wedevs-project-manager #pm-single-task-wrap .pm-single-task-header .created-by {
   font-size: 1vw;
@@ -682,6 +684,18 @@
   font-size: 13px;
   font-weight: normal;
 }
+#wedevs-project-manager #pm-single-task-wrap .task-activities .single-task-activity-ul .activity-li-content .activity-watch-wrap {
+  color: #444;
+  display: inline-flex;
+  align-items: center;
+}
+#wedevs-project-manager #pm-single-task-wrap .task-activities .single-task-activity-ul .activity-li-content .activity-watch-wrap .activity-watch-icon {
+  margin-left: 15px;
+}
+#wedevs-project-manager #pm-single-task-wrap .task-activities .single-task-activity-ul .activity-li-content .activity-watch-wrap .activity-watch-icon:before {
+  margin-right: 5px;
+  color: #444;
+}
 #wedevs-project-manager #pm-single-task-wrap .task-activities .single-task-activity-ul .activity-author-image {
   height: 24px;
   width: 24px;
@@ -716,15 +730,9 @@
   border: none;
   position: relative;
 }
-#wedevs-project-manager #pm-single-task-wrap .pm-comment-form .comment-action-chunk .notify-users .pm-multiselect {
-  left: -141px;
-  top: 37px;
-}
-#wedevs-project-manager #pm-single-task-wrap .pm-comment-form .comment-action-chunk .notify-users .pm-multiselect:before {
-  border: none;
-}
-#wedevs-project-manager #pm-single-task-wrap .pm-comment-form .comment-action-chunk .notify-users .pm-multiselect:after {
-  border: none;
+#wedevs-project-manager #pm-single-task-wrap .pm-comment-form .comment-action-chunk .notify-users .pm-multiselect-top {
+  right: 30px;
+  top: 42px;
 }
 #wedevs-project-manager #pm-single-task-wrap .pm-task-comment-wrap .discuss-text {
   margin-bottom: 5px;
@@ -801,7 +809,7 @@
   font-weight: bold;
 }
 #wedevs-project-manager #pm-single-task-wrap .pm-task-comment-wrap .pm-author {
-  margin-right: 18px;
+  margin-right: 10px;
 }
 #wedevs-project-manager #pm-single-task-wrap .pm-task-comment-wrap .pm-comment-content {
   margin-left: 8%;
