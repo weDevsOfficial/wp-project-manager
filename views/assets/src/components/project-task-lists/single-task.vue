@@ -28,14 +28,18 @@
                     <div v-activity-load-more class="popup-body">
                         <div class="pm-single-task-header">
                             <div class="task-complete-incomplete">
-                                <div class="completed" v-if="task.status">
+                                
+                                <a class="completed" v-if="task.status" href="#" @click.prevent="singleTaskDoneUndone()">
                                     <span class="icon-pm-completed pm-font-size-16"></span>
-                                    <span><a  href="#" @click.prevent="singleTaskDoneUndone()">{{ __( 'Completed', 'pm' ) }}</a></span>
-                                </div>
-                                <div class="incomplete" v-if="!task.status">
+                                    {{ __( 'Completed', 'pm' ) }}
+                                </a>
+                            
+                            
+                                <a class="incomplete" v-if="!task.status" href="#" @click.prevent="singleTaskDoneUndone()">
                                     <span class="icon-pm-incomplete pm-font-size-16"></span>
-                                    <span><a href="#" @click.prevent="singleTaskDoneUndone()">{{ __( 'Mark Complete', 'pm' ) }}</a></span>
-                                </div>
+                                    {{ __( 'Mark Complete', 'pm' ) }}
+                                </a>
+                                
                             </div>
 
                             
@@ -53,7 +57,7 @@
                                     <ul class="action-menu-ul">
                                         <li class="pm-dark-hover">
                                             <a class="pm-dark-hover title-anchor-menu-a icon-pm-copy pm-font-size-13" @click.prevent="copyUrl(task)" href="#">
-                                                <span class="title-anchor-menu">{{ __('Copy', 'wedevs-project-manager') }}</span>
+                                                <span class="title-anchor-menu">{{ __('Copy Link', 'wedevs-project-manager') }}</span>
                                             </a>
                                         </li>
                                         <li class="pm-dark-hover">
@@ -240,7 +244,7 @@
                         </div>
 
                         <div class="task-activities">
-                            <span class="activity-title">{{ __('Activity', 'wedevs-project-manager') }}</span>
+                            <span class="activity-title pm-h2">{{ __('Activity', 'wedevs-project-manager') }}</span>
                             <ul class="single-task-activity-ul">
                                 <li v-for="activity in task.activities.data">
                                     <div class="activity-li-content">
@@ -250,6 +254,10 @@
                                         <div class="activity-content">
 
                                             <activity-parser :activity="activity"></activity-parser>
+                                            <span class="activity-watch-wrap">
+                                                <span class="activity-watch-icon icon-pm-watch"></span>
+                                                <span class="activity-form-now">{{ relativeDate(activity.committed_at.date) }}</span>
+                                            </span>
                                         </div>
                                     </div>
                                 </li>
@@ -812,7 +820,7 @@
                         task.meta.privacy = data.is_private;
                         
                         if(data.is_private) {
-                            pm.Toastr.success(self.__('Task mark as private', 'wedevs-project-manager'));
+                            pm.Toastr.success(self.__('Task marked as private', 'wedevs-project-manager'));
                         } else {
                             pm.Toastr.success(self.__('Task visible for co-worker', 'wedevs-project-manager'));
                         }

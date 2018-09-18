@@ -96,6 +96,16 @@ export default {
             return pm.Moment(date).format('dddd, MMMM D YYYY, H:mm:ss');
         },
 
+        relativeDate (date) {
+            if ( !date ) {
+                return;
+            }
+
+            date = new Date(date);
+
+            return pm.Moment(date).fromNow();
+        },
+
         /**
          * WP settings date format convert to pm.Moment date format with time zone
          * 
