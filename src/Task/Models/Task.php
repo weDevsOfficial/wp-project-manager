@@ -88,7 +88,7 @@ class Task extends Eloquent {
     }
 
     public function comments() {
-        return $this->hasMany( 'WeDevs\PM\Comment\Models\Comment', 'commentable_id' )->whereIn( 'commentable_type', ['task', 'task_activity'] );
+        return $this->hasMany( 'WeDevs\PM\Comment\Models\Comment', 'commentable_id' )->whereIn( 'commentable_type', ['task'] );
     }
 
     public function assignees() {
@@ -101,7 +101,7 @@ class Task extends Eloquent {
     }
 
     public function activities() {
-        return $this->hasMany( 'WeDevs\PM\Activity\Models\Activity', 'resource_id' )->where( 'resource_type', 'task' );
+        return $this->hasMany( 'WeDevs\PM\Activity\Models\Activity', 'resource_id' )->where( 'resource_type', 'task' )->orderBy( 'created_at', 'DESC' );
     }
 
     public function projects() {

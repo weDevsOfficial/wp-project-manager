@@ -45,5 +45,8 @@ $router->put( 'projects/{project_id}/tasks/reorder', 'WeDevs/PM/Task/Controllers
     ->permission(['WeDevs\PM\Core\Permissions\Project_Manage_Capability']);
 
 $router->post( 'projects/{project_id}/tasks/privacy/{task_id}', 'WeDevs/PM/Task/Controllers/Task_Controller@privacy' )
-->permission(['WeDevs\PM\Core\Permissions\Project_Manage_Capability']);
+    ->permission(['WeDevs\PM\Core\Permissions\Project_Manage_Capability']);
+
+$router->post( 'projects/{project_id}/tasks/filter', 'WeDevs/PM/Task/Controllers/Task_Controller@filter' );
+$router->post( 'projects/{project_id}/tasks/{task_id}/activity', 'WeDevs/PM/Task/Controllers/Task_Controller@activities' );
 

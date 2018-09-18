@@ -1,3 +1,4 @@
+import '@helpers/less/pm-style.less'
 import router from '@router/router'
 import store from '@store/store'
 import '@directives/directive'
