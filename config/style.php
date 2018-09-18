@@ -57,6 +57,21 @@ return [
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/css/tiptip/tipTip.css',
 		'dependency' => false,
 	],
+	'pm-daterangepicker' => [
+		'id'         => 'pm-daterangepicker',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/css/daterangepicker/daterangepicker.css',
+		'dependency' => false,
+	],
+	'pm-new-style' => [
+		'id'         => 'pm-new-style',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/css/pm-style.css',
+		'dependency' => false,
+	],
+	'pm-const-style' => [
+		'id'         => 'pm-const-style',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/css/const-style.css',
+		'dependency' => false,
+	],
 	'pm-style' => [
 		'id'         => 'pm-style',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/css/style.css',
@@ -71,7 +86,10 @@ return [
 			'pm-loading',
 			'pm-loaautocompleteding',
 			'pm-pretty-photo',
-			'pm-tiptip'
+			'pm-tiptip',
+			'pm-daterangepicker',
+			'pm-const-style',
+			'pm-new-style'
 		],
 	],
 ];

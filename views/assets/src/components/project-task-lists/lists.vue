@@ -1,5 +1,5 @@
 <template>
-    <div class="pm-wrap pm pm-front-end">
+    <div class="pm-wrap pm pm-front-end todo-lists-wrap">
         <pm-header></pm-header>
         <div v-if="!isListFetch" class="pm-data-load-before" >
             <div class="loadmoreanimation">
@@ -14,12 +14,14 @@
         </div>
 
         <div v-if="listViewType && isListFetch">
-            <default-list-page v-if="is_blank_Template"></default-list-page>
+
+            <default-list-page v-if="is_blank_Template && !isActiveFilter"></default-list-page>
             
             <div v-if="is_list_Template" id="pm-task-el" class="pm-task-container">
                 <div class="pm-inline-list-wrap">
                     <div class="pm-inline-list-element" v-if="can_create_list">
                         <new-task-list-btn></new-task-list-btn>
+                        <a @click.prevent="showFilter()" href="#">{{__('Filter', 'wedevs-project-manager')}}</a>
                     </div>
                     <div class="pm-right-inline-list-element">
                         
@@ -32,102 +34,168 @@
                     <new-task-list-form section="lists" v-if="is_active_list_form" :list="{}"></new-task-list-form>
                 </transition>
                 
-                
-                <ul v-pm-list-sortable class="pm-todolists">
-                
-                    <li  v-for="list in lists" :key="list.id" :data-id="list.id"  :class="'pm-list-sortable pm-fade-out-'+list.id">
-
-                        <article class="pm-todolist">
-                            <header class="pm-list-header">
-                                <h3>
-                                
-                                    <router-link :to="{ 
-                                        name: 'single_list', 
-                                        params: { 
-                                            list_id: list.id 
-                                        }}">
-                                    {{ list.title }}
-                                    
-                                    </router-link>
-                                    
-                                    <!-- v-if="list.can_del_edit" -->
-                                    <div class="pm-right" v-if="can_edit_task_list(list)">
-                                        <a href="#" @click.prevent="showEditForm(list)" class="" title="Edit this List"><span class="dashicons dashicons-edit"></span></a>
-                                        <a href="#" class="pm-btn pm-btn-xs" @click.prevent="deleteSelfList( list )"><span class="dashicons dashicons-trash"></span></a>
-                                        <a href="#" @click.prevent="listLockUnlock(list)" v-if="PM_Vars.is_pro && user_can('view_private_list')"><span :class="privateClass( list.meta.privacy )"></span></a>
-                                        <pm-do-action hook="list-action-menu" :actionData="list"></pm-do-action>
-                                    </div>
-                                </h3>
-
-                                <pre class="pm-entry-detail" v-html="list.description"></pre>
-                                
-                                <transition name="slide" v-if="can_edit_task_list(list)">
-                                    <div class="pm-update-todolist-form" v-if="list.edit_mode">
-
-                                        <new-task-list-form section="lists" :list="list" ></new-task-list-form>
-                                    </div>
-                                </transition>
-                            </header>
-                            <!-- Todos component -->
-                            <list-tasks :list="list"></list-tasks>
-
-                            <footer class="pm-row pm-list-footer">
-                                <div class="pm-col-8 pm-sm-col-12">
-                                    <ul class="pm-footer-left-ul">
-                                        <li v-if="isIncompleteLoadMoreActive(list)" class="pm-todo-refresh">
-                                            <a @click.prevent="loadMoreIncompleteTasks(list)" href="#">{{ __( 'More Tasks', 'wedevs-project-manager') }}</a>
-                                        </li>
-                                        <transition name="slide" v-if="can_create_task">
-                                            <li class="pm-new-task-btn-li">
-                                                <new-task-button :task="{}" :list="list"></new-task-button>
-                                            </li>
-                                       </transition>
-                                       
-                                        <li class="pm-todo-complete">
-                                            <router-link :to="{ 
-                                                name: 'single_list', 
-                                                params: { 
-                                                    list_id: list.id 
-                                                }}">
-                                                <span>{{ list.meta.total_complete_tasks }}</span>  
-                                                {{ __( 'Completed', 'wedevs-project-manager') }}
-                                            </router-link>
-                                        </li>
-                                        <li  class="pm-todo-incomplete">
-                                            <router-link :to="{ 
-                                                name: 'single_list', 
-                                                params: { 
-                                                    list_id: list.id 
-                                                }}">
-                                                <span>{{ list.meta.total_incomplete_tasks }}</span> 
-                                                {{ __( 'Incomplete', 'wedevs-project-manager') }}
-                                            </router-link>
-                                        </li>
-                                        <li  class="pm-todo-comment">
-                                            <router-link :to="{ 
-                                                name: 'single_list', 
-                                                params: { 
-                                                    list_id: list.id 
-                                                }}">
-                                                <span>{{ list.meta.total_comments }} {{ __( 'Comments', 'wedevs-project-manager') }}</span>
-                                            </router-link>
-                                        </li>
-                                    </ul>
-                                </div>
-
-                                <div class="pm-col-4">
-                                    <div class="pm-todo-progress-bar">
-                                        <div :style="getProgressStyle( list )" class="bar completed"></div>
-                                    </div>
-                                    <div class="pm-progress-percent">{{ getProgressPercent( list ) }}%</div>
-                                </div>
-                                
-                                <div class="pm-clearfix"></div>
-                            </footer>
-                        </article>
+                <div class="pm-flex todo-lists">
+                    <ul v-if="hasSearchContent()" v-pm-list-sortable :class="filterActiveClass()+ ' pm-todolists'">
                     
-                    </li>
-                </ul>
+                        <li  v-for="list in lists" :key="list.id" :data-id="list.id"  :class="'pm-list-sortable pm-fade-out-'+list.id">
+
+                            <article class="pm-todolist">
+                                <header class="pm-list-header">
+                                    <h3>
+                                    
+                                        <router-link :to="{ 
+                                            name: 'single_list', 
+                                            params: { 
+                                                list_id: list.id 
+                                            }}">
+                                        {{ list.title }}
+                                        
+                                        </router-link>
+
+                                        <div class="pm-right" v-if="can_edit_task_list(list)">
+                                            <a href="#" @click.prevent="showEditForm(list)" class="" title="Edit this List"><span class="dashicons dashicons-edit"></span></a>
+                                            <a href="#" class="pm-btn pm-btn-xs" @click.prevent="deleteSelfList( list )"><span class="dashicons dashicons-trash"></span></a>
+                                            <a href="#" @click.prevent="listLockUnlock(list)" v-if="PM_Vars.is_pro && user_can('view_private_list')"><span :class="privateClass( list.meta.privacy )"></span></a>
+                                            <pm-do-action hook="list-action-menu" :actionData="list"></pm-do-action>
+                                        </div>
+                                    </h3>
+
+                                    <pre class="pm-entry-detail" v-html="list.description"></pre>
+                                    
+                                    <transition name="slide" v-if="can_edit_task_list(list)">
+                                        <div class="pm-update-todolist-form" v-if="list.edit_mode">
+
+                                            <new-task-list-form section="lists" :list="list" ></new-task-list-form>
+                                        </div>
+                                    </transition>
+                                </header>
+                                
+                                <list-tasks :list="list"></list-tasks>
+
+                                <footer class="pm-row pm-list-footer">
+                                    <div class="pm-col-8 pm-sm-col-12">
+                                        <ul class="pm-footer-left-ul">
+                                            <li v-if="isIncompleteLoadMoreActive(list)" class="pm-todo-refresh">
+                                                <a @click.prevent="loadMoreIncompleteTasks(list)" href="#">{{ __( 'More Tasks', 'wedevs-project-manager') }}</a>
+                                            </li>
+                                            <transition name="slide" v-if="can_create_task">
+                                                <li class="pm-new-task-btn-li">
+                                                    <new-task-button :task="{}" :list="list"></new-task-button>
+                                                </li>
+                                           </transition>
+                                           
+                                            <li class="pm-todo-complete">
+                                                <router-link :to="{ 
+                                                    name: 'single_list', 
+                                                    params: { 
+                                                        list_id: list.id 
+                                                    }}">
+                                                    <span>{{ list.meta.total_complete_tasks }}</span>  
+                                                    {{ __( 'Completed', 'wedevs-project-manager') }}
+                                                </router-link>
+                                            </li>
+                                            <li  class="pm-todo-incomplete">
+                                                <router-link :to="{ 
+                                                    name: 'single_list', 
+                                                    params: { 
+                                                        list_id: list.id 
+                                                    }}">
+                                                    <span>{{ list.meta.total_incomplete_tasks }}</span> 
+                                                    {{ __( 'Incomplete', 'wedevs-project-manager') }}
+                                                </router-link>
+                                            </li>
+                                            <li  class="pm-todo-comment">
+                                                <router-link :to="{ 
+                                                    name: 'single_list', 
+                                                    params: { 
+                                                        list_id: list.id 
+                                                    }}">
+                                                    <span>{{ list.meta.total_comments }} {{ __( 'Comments', 'wedevs-project-manager') }}</span>
+                                                </router-link>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="pm-col-4">
+                                        <div class="pm-todo-progress-bar">
+                                            <div :style="getProgressStyle( list )" class="bar completed"></div>
+                                        </div>
+                                        <div class="pm-progress-percent">{{ getProgressPercent( list ) }}%</div>
+                                    </div>
+                                    
+                                    <div class="pm-clearfix"></div>
+                                </footer>
+                            </article>
+                        
+                        </li>
+                    </ul>
+
+                    <div v-if="isActiveFilter && !filterResults">{{__('No Result Found!', 'wedevs-project-manager')}}</div>
+                    <div class="list-search-menu" v-if="isActiveFilter">
+                        <div class="pm-flex">
+                            <span><a @click.prevent="showFilter()" href="#">X</a></span>
+                            <span>{{__('Task Filter', 'wedevs-project-manager')}}</span>
+                        </div>
+                        
+                        <form @submit.prevent="taskFilter()">
+                            <div>
+                                <div>{{__('Task list name', 'wedevs-project-manager')}}</div>
+                                <div>
+                                    <multiselect 
+                                        v-model="defaultList" 
+                                        :options="searchLists" 
+                                        :show-labels="false"
+                                        :searchable="true"
+                                        :loading="asyncListLoading"
+                                        :placeholder="'Type task list name'"
+                                        @search-change="asyncFind($event)"
+                                        label="title"
+                                        track-by="id">
+                                        <span slot="noResult">{{ __( 'No task list found.', 'pm-pro' ) }}</span>
+                                            
+                                    </multiselect> 
+                                
+                                </div>
+                            </div>
+                            <div>
+                                <div>{{__('Status', 'wedevs-project-manager')}}</div>
+                                <div>
+                                    <a @click.prevent="changeFilterStatus('complete')" href="#">{{__('Completed', 'wedevs-project-manager')}}</a>
+                                    <a @click.prevent="changeFilterStatus('incomplete')" href="#">{{__('On-going', 'wedevs-project-manager')}}</a>
+                                </div>
+                            </div>
+                            <div>
+                                <div>{{__('Assigned to', 'wedevs-project-manager')}}</div>
+                                <div>
+                                    <multiselect 
+                                        v-model="defaultUser" 
+                                        :options="projectUsers" 
+                                        :show-labels="false"
+                                        :placeholder="'Type task list name'"
+                                        label="display_name"
+                                        track-by="id">
+                                            
+                                    </multiselect>
+                                </div>
+                            </div>
+                            <div>
+                                <div>{{__('Due Date', 'wedevs-project-manager')}}</div>
+                                <div>
+                                    <multiselect 
+                                        v-model="dueDate" 
+                                        :options="dueDates" 
+                                        :show-labels="false"
+                                        :placeholder="'Type task list name'"
+                                        label="title"
+                                        track-by="id">
+                                            
+                                    </multiselect>
+                                </div>
+                            </div>
+                            <input type="submit" class="button-primary" name="submit_todo" :value="__('Done', 'wedevs-project-manager')">
+                        </form>
+                    </div>
+                </div>
                 <pm-pagination 
                     :total_pages="total_list_page" 
                     :current_page_number="current_page_number" 
@@ -143,7 +211,26 @@
     </div>
 </template>
     
-<style>
+<style lang="less">
+    .todo-lists-wrap {
+        .todo-lists {
+            position: relative;
+            align-items: baseline !important;
+            .pm-todolists {
+                width: 100%;
+                //-webkit-transition: width 2s; /* Safari */
+                //transition: width 2s;
+            }
+            .optimizeWidth {
+                width: 80%;
+            }
+            .list-search-menu {
+                width: 20%;
+                padding: 10px;
+            }
+        }
+    }
+
     .pm-entry-detail {
         font-family: Helvetica, Arial, sans-serif;
         margin: 0;
@@ -205,8 +292,8 @@
     import tasks from './list-tasks.vue';
     import default_page from './default-list-page.vue';
     import Mixins from './mixin';
+    import date_picker from './date-picker.vue';
 
-    
     export default {
 
         beforeRouteEnter (to, from, next) {
@@ -224,6 +311,8 @@
             'pm-header': header,
             'list-tasks': tasks,
             'default-list-page': default_page,
+            'multiselect': pm.Multiselect.Multiselect,
+            'pm-datepickter': date_picker
             
         },
 
@@ -240,11 +329,50 @@
                 index: false,
                 project_id: this.$route.params.project_id,
                 current_page_number: this.$route.params.current_page_number || 1,
+                isActiveFilter: false,
+                defaultList: {
+                    id: 0,
+                    title: this.__('All', 'wedevs-project-manager')
+                },
+                defaultUser: {
+                    id: 0,
+                    display_name: this.__('All', 'wedevs-project-manager')
+                },
+                filterDueDate: '',
+                filterStatus: '',
+                dueDates: [
+                    {
+                        'id': '0',
+                        'title': this.__('All', 'wedevs-project-manager'),
+                    },
+                    {
+                        'id': 'overdue',
+                        'title': this.__('Over Due', 'wedevs-project-manager'),
+                    },
+                    {
+                        'id': 'today',
+                        'title': this.__('Today', 'wedevs-project-manager'),
+                    },
+                    {
+                        'id': 'week',
+                        'title': this.__('Less Than 1 week', 'wedevs-project-manager'),
+                    }
+                ],
+                dueDate: {
+                    'id': '0',
+                    'title': this.__('All', 'wedevs-project-manager'),
+                },
+                searchLists: [],
+                asyncListLoading: false
             }
         },
 
         watch: {
             '$route' (route) {
+                if(route.query.filterTask == 'active') {
+                    return;
+                }
+
                 if(
                     route.name != 'lists_single_task'
                     &&
@@ -267,6 +395,24 @@
                 return this.$store.state.projectTaskLists.lists;
             },
 
+            listsForFilters () {
+                var lists = this.$store.state.projectTaskLists.lists;
+                var newLists = [{
+                    id: 0,
+                    title: this.__('All', 'wedevs-project-manager')
+                }];
+
+                lists.forEach(function(list) {
+                    newLists.push({
+                        id: list.id,
+                        title: list.title
+                    });
+                });
+
+                this.defaultList = newLists[0];
+                return newLists;
+            },
+
             /**
              * Get milestones from vuex store
              * 
@@ -287,7 +433,10 @@
             is_blank_Template(){
                 return this.$store.state.projectTaskLists.balankTemplateStatus;
             },
-            is_list_Template(){
+            is_list_Template() {
+                if(this.isActiveFilter) {
+                    return true;
+                }
                 return this.$store.state.projectTaskLists.listTemplateStatus; 
             },
             isListFetch () {
@@ -295,6 +444,10 @@
             },
 
             listViewType () { 
+                if(this.$route.query.filterTask == 'active') {
+                    return true;
+                }
+                
                 let meta = this.$store.state.projectMeta; 
                 var self = this;
                 if(meta.hasOwnProperty('list_view_type') ) {
@@ -321,6 +474,28 @@
                 }
 
                 return false;
+            },
+            projectUsers () {
+                let project = this.$store.state.project;
+
+                if(project) {
+                    project.assignees.data.splice(0, 1, {
+                        id: 0,
+                        display_name: this.__('All', 'wedevs-project-manager')
+                    })
+                    return project.assignees.data;
+                }
+
+                return [];
+            },
+            filterResults () {
+                var lists = this.$store.state.projectTaskLists.lists;
+
+                if(lists.length) {
+                    return true;
+                } else {
+                    return false;
+                }
             }
 
         },
@@ -328,9 +503,90 @@
         created () {
             pmBus.$on('pm_before_destroy_single_task', this.updateSingleTask);
             pmBus.$on('pm_generate_task_url', this.generateTaskUrl);
+
+            if(this.$route.query.filterTask == 'active') {
+                this.filterRequent();
+            } 
         },
 
         methods: {
+            setSearchLists (lists) {
+                var newLists = [{
+                    id: 0,
+                    title: this.__('All', 'wedevs-project-manager')
+                }];
+
+                lists.forEach(function(list) {
+                    newLists.push({
+                        id: list.id,
+                        title: list.title
+                    });
+                });
+
+                this.defaultList = newLists[0];
+                this.searchLists = newLists;
+            },
+
+            asyncFind (evt) {
+                var self = this,
+                timeout = 2000,
+                timer;
+
+                if(evt == '') {
+                    //return;
+                }
+
+                clearTimeout(timer);
+                self.asyncListLoading = true;
+
+                timer = setTimeout(function () {
+                    if (self.abort) {
+                        self.abort.abort();
+                    }
+
+                    var requestData = {
+                        type: 'GET',
+                        url: self.base_url + '/pm/v2/projects/' + self.project_id + '/lists/search',
+                        data: {
+                            title: evt
+                        },
+
+                        success: function success(res) {
+                            self.asyncListLoading = false;
+                            self.setSearchLists( res.data );
+                        }
+                    };
+
+                    self.abort = self.httpRequest(requestData);
+                }, timeout);
+            },
+            hasSearchContent () {
+                if( !this.isActiveFilter ) {
+                    return true;
+                } 
+
+                if( !this.filterResults ) {
+                    return false;
+                }
+
+                return true;
+            },
+            filterActiveClass () {
+                return this.isActiveFilter ? 'optimizeWidth' : '';
+            },
+            showFilter () {
+                this.isActiveFilter = this.isActiveFilter ? false : true;
+
+                this.$store.commit( 'projectTaskLists/balankTemplateStatus', false);
+
+                if(this.isActiveFilter == false) {
+                    this.$router.push({
+                        query: {}
+                    });
+
+                    this.getLists();
+                }
+            },
             generateTaskUrl (task) {
                 var url = this.$router.resolve({
                     name: 'lists_single_task',
@@ -386,9 +642,11 @@
                     );
 
                     var prevTask = lists[list_index].incomplete_tasks.data[task_index];
-
-                    task.sub_task_content = prevTask.sub_task_content;
-                    task.edit_mode = prevTask.edit_mode;
+                    
+                    if(prevTask) {
+                        task.sub_task_content = prevTask.sub_task_content;
+                        task.edit_mode = prevTask.edit_mode;
+                    }
                 }
             },
            
@@ -407,10 +665,11 @@
             getSelfLists () {
                 var self = this;
                 var args = {
-                        callback: function(res) {
-                            pm.NProgress.done();
-                        }
+                    callback: function(res) {
+                        pm.NProgress.done();
+                        self.setSearchLists( this.$store.state.projectTaskLists.lists );
                     }
+                }
                 this.getLists(args);
             },
 
@@ -436,7 +695,87 @@
                     }
                 }
                 this.deleteList(args);
+            },
+            changeFilterStatus (status) {
+                this.filterStatus = status;
+            },
+
+            taskFilter () {
+                var self = this;
+
+                var query = {
+                    users: this.filterUsersId(this.defaultUser),
+                    lists: this.filterListsId(this.defaultList),
+                    dueDate: this.dueDate.id,
+                    status: this.filterStatus,
+                    filterTask: 'active'
+                }
+
+                //var queryPaprams = this.setQuery(query);
+                console.log(query);
+                this.$router.push({
+                    query: query
+                });
+
+                this.filterRequent();
+            },
+
+            filterRequent () {
+                var self = this;
+                console.log(self.$route.query);
+                self.httpRequest({
+                    url: self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks/filter',
+                    type: 'POST',
+                    data: self.$route.query,
+                    success (res) {
+
+                        if(!res.data.length) {
+                            pm.Toastr.success(self.__('No Result Found!', 'wedevs-project-manager'));
+                            //return;
+                        }
+                        
+                        res.data.map(function(list,index) {
+                        self.addMetaList(list);
+
+                        if ( typeof list.incomplete_tasks !== 'undefined' ) {
+                            list.incomplete_tasks.data.map(function(task) {
+                                self.addTaskMeta(task);
+                            });
+                        }
+
+                        if ( typeof list.complete_tasks !== 'undefined' ) {
+                                list.complete_tasks.data.map(function(task) {
+                                    self.addTaskMeta(task);
+                                });
+                            }
+                        });
+                        self.$root.$store.state.projectTaskListLoaded = true;
+                        self.$store.commit('projectTaskLists/setLists', res.data);
+                        self.$store.commit('projectTaskLists/setListsMeta', res.meta.pagination);
+
+                        self.$store.commit( 'projectTaskLists/balankTemplateStatus', false);
+                        self.$store.commit( 'projectTaskLists/listTemplateStatus', true);
+                    }
+                });
+            },
+
+            filterUsersId (users) {
+                var ids = [];
+
+                ids.push(users.id);
+
+                return ids;
+            },
+
+            filterListsId (lists) {
+                var ids = [];
+
+                ids.push(lists.id);
+
+                return ids;
             }
-        }
+
+        },
+
     }
 </script>

@@ -140,7 +140,7 @@ var PM_TaskList_Mixin = {
             var self = this,
             pre_define = {
                 condition: {
-                    with: 'incomplete_tasks',
+                    with: 'incomplete_tasks,complete_tasks',
                     per_page: this.getSettings('list_per_page', 10),
                     page: this.setCurrentPageNumber()
                 },
@@ -325,6 +325,7 @@ var PM_TaskList_Mixin = {
                 success (res) {
                     self.addMetaList(res.data);
                     pm.Toastr.success(res.message);
+                    
                     self.$store.commit( 'projectTaskLists/afterUpdateList', res.data);
                     self.showHideListForm(false, self.list);
 
@@ -1158,7 +1159,7 @@ var PM_TaskList_Mixin = {
          */
         taskDateWrap ( due_date ) {
             if ( !due_date ) {
-                return 'pm-current-date';
+                return '';
             } 
 
             due_date = new Date(due_date);
