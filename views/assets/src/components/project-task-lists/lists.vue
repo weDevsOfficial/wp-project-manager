@@ -21,10 +21,10 @@
                 <div class="pm-inline-list-wrap">
                     <div class="pm-inline-list-element" v-if="can_create_list">
                         <new-task-list-btn></new-task-list-btn>
-                        <a @click.prevent="showFilter()" href="#">{{__('Filter', 'wedevs-project-manager')}}</a>
+                        
                     </div>
                     <div class="pm-right-inline-list-element">
-                        
+                        <a @click.prevent="showFilter()" href="#">{{__('Filter', 'wedevs-project-manager')}}</a>
                         <pm-do-action :hook="'pm-inline-list-button'"></pm-do-action>
                            
                     </div>
