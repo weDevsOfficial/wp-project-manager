@@ -18,7 +18,11 @@ pm.Vue.directive('pm-pretty-photo', {
 	inserted: function(el) {
 		var node = jQuery(el);
 		
-		node.prettyPhoto();
+		node.prettyPhoto({
+			allow_resize: true,
+			social_tools: '',
+			allow_expand: true,
+		} );
 		
 	},
 });
