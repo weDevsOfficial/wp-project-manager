@@ -22,20 +22,23 @@ class Task_List_Controller {
     use Transformer_Manager, Request_Filter;
 
     public function index( WP_REST_Request $request ) {
-        $project_id             = $request->get_param( 'project_id' );
-        $per_page               = $request->get_param( 'per_page' );
+
+        $project_id = $request->get_param( 'project_id' );
+        $per_page   = $request->get_param( 'per_page' );
+        $status     = $request->get_param( 'status' );
         $per_page_from_settings = pm_get_settings( 'list_per_page' );
         $per_page_from_settings = $per_page_from_settings ? $per_page_from_settings : 15;
         $per_page               = $per_page ? $per_page : $per_page_from_settings;
         
         $page = $request->get_param( 'page' );
         $page = $page ? $page : 1;
+        $status = isset( $status ) ? intval( $status ) : 1;
 
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
         }); 
 
-        $task_lists = Task_List::where( 'project_id', $project_id);
+        $task_lists = Task_List::where( 'project_id', $project_id)->where( 'status', $status );
         $task_lists = apply_filters( "pm_task_list_index_query", $task_lists, $project_id, $request );
 
         if ( $per_page == '-1' ) {

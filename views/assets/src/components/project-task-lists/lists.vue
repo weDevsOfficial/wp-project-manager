@@ -52,10 +52,12 @@
                                         
                                         </router-link>
 
+                                        <!-- v-if="list.can_del_edit" -->
                                         <div class="pm-right" v-if="can_edit_task_list(list)">
-                                            <a href="#" @click.prevent="showEditForm(list)" class="" title="Edit this List"><span class="dashicons dashicons-edit"></span></a>
+                                            
+                                            <a href="#" v-if="list.status == 'current'" @click.prevent="showEditForm(list)" class="" title="Edit this List"><span class="dashicons dashicons-edit"></span></a>
                                             <a href="#" class="pm-btn pm-btn-xs" @click.prevent="deleteSelfList( list )"><span class="dashicons dashicons-trash"></span></a>
-                                            <a href="#" @click.prevent="listLockUnlock(list)" v-if="PM_Vars.is_pro && user_can('view_private_list')"><span :class="privateClass( list.meta.privacy )"></span></a>
+                                            <a href="#"  @click.prevent="listLockUnlock(list)" v-if="PM_Vars.is_pro && user_can('view_private_list') && list.status == 'current'"><span :class="privateClass( list.meta.privacy )"></span></a>
                                             <pm-do-action hook="list-action-menu" :actionData="list"></pm-do-action>
                                         </div>
                                     </h3>
@@ -64,7 +66,6 @@
                                     
                                     <transition name="slide" v-if="can_edit_task_list(list)">
                                         <div class="pm-update-todolist-form" v-if="list.edit_mode">
-
                                             <new-task-list-form section="lists" :list="list" ></new-task-list-form>
                                         </div>
                                     </transition>
@@ -199,7 +200,7 @@
                 <pm-pagination 
                     :total_pages="total_list_page" 
                     :current_page_number="current_page_number" 
-                    component_name='list_pagination'>
+                    :component_name="$route.name + '_pagination'">
                     
                 </pm-pagination> 
             </div>
