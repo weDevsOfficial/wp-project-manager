@@ -24,11 +24,14 @@
                         
                     </div>
                     <div class="pm-right-inline-list-element">
-                        <a @click.prevent="showFilter()" href="#">{{__('Filter', 'wedevs-project-manager')}}</a>
+                        <div class="list-filter">
+
+                            <a v-pm-tooltip :title="__('Filter', 'wedevs-project-manager')" @click.prevent="showFilter()" href="#"><span class="icon-pm-filter"></span></a>
+                        </div>
                         <pm-do-action :hook="'pm-inline-list-button'"></pm-do-action>
                            
                     </div>
-                    <div class="pm-clearfix"></div>
+                    <!-- <div class="pm-clearfix"></div> -->
                 </div>
                 <transition name="slide" v-if="can_create_list">
                     <new-task-list-form section="lists" v-if="is_active_list_form" :list="{}"></new-task-list-form>
@@ -133,14 +136,14 @@
 
                     <div v-if="isActiveFilter && !filterResults">{{__('No Result Found!', 'wedevs-project-manager')}}</div>
                     <div class="list-search-menu" v-if="isActiveFilter">
-                        <div class="pm-flex">
+                        <div class="filter-title">
                             <span><a @click.prevent="showFilter()" href="#">X</a></span>
-                            <span>{{__('Task Filter', 'wedevs-project-manager')}}</span>
+                            <span class="task-filter">{{__('Task Filter', 'wedevs-project-manager')}}</span>
                         </div>
                         
                         <form @submit.prevent="taskFilter()">
-                            <div>
-                                <div>{{__('Task list name', 'wedevs-project-manager')}}</div>
+                            <div class="margin-top">
+                                <div class="margin-title">{{__('Task list name', 'wedevs-project-manager')}}</div>
                                 <div>
                                     <multiselect 
                                         v-model="defaultList" 
@@ -158,15 +161,17 @@
                                 
                                 </div>
                             </div>
-                            <div>
-                                <div>{{__('Status', 'wedevs-project-manager')}}</div>
+                            <div class="margin-top">
+                                <div class="margin-title">{{__('Status', 'wedevs-project-manager')}}</div>
                                 <div>
-                                    <a @click.prevent="changeFilterStatus('complete')" href="#">{{__('Completed', 'wedevs-project-manager')}}</a>
-                                    <a @click.prevent="changeFilterStatus('incomplete')" href="#">{{__('On-going', 'wedevs-project-manager')}}</a>
+                                    <a class="complete-btn" @click.prevent="changeFilterStatus('complete')" href="#">
+                                        <span>{{__('Completed', 'wedevs-project-manager')}}</span>
+                                    </a>
+                                    <a class="on-going-btn" @click.prevent="changeFilterStatus('incomplete')" href="#">{{__('On-going', 'wedevs-project-manager')}}</a>
                                 </div>
                             </div>
-                            <div>
-                                <div>{{__('Assigned to', 'wedevs-project-manager')}}</div>
+                            <div class="margin-top">
+                                <div class="margin-title">{{__('Assigned to', 'wedevs-project-manager')}}</div>
                                 <div>
                                     <multiselect 
                                         v-model="defaultUser" 
@@ -179,8 +184,8 @@
                                     </multiselect>
                                 </div>
                             </div>
-                            <div>
-                                <div>{{__('Due Date', 'wedevs-project-manager')}}</div>
+                            <div class="margin-top">
+                                <div class="margin-title">{{__('Due Date', 'wedevs-project-manager')}}</div>
                                 <div>
                                     <multiselect 
                                         v-model="dueDate" 
@@ -226,8 +231,49 @@
                 width: 80%;
             }
             .list-search-menu {
-                width: 20%;
+                width: 25%;
                 padding: 10px;
+                background: #fff;
+                border-right: 1px solid #e5e5e5;
+                border-top: 1px solid #e5e5e5;
+                border-bottom: 1px solid #e5e5e5;
+
+                .complete-btn {
+                    padding: 6px 15px;
+                    border-radius: 3px;
+                    background: #ebddf0;
+                    color: #9B59CA;
+                }
+
+                .on-going-btn {
+                    padding: 6px 15px;
+                    border-radius: 3px;
+                    background: #fdedf0;
+                    color: #E9485E;
+                }
+
+                .margin-top {
+                    margin-top: 20px;
+                    color: #000;
+                }
+
+                .margin-title {
+                    margin-bottom: 5px;
+                }
+
+                .filter-title {
+                    display: flex;
+                    align-items: center;
+
+                    a {
+                        margin-right: 7px;
+                        color: #848484;
+                    }
+
+                    .task-filter {
+                        color: #000;
+                    }
+                }
             }
         }
     }
@@ -238,13 +284,36 @@
         padding: 0;
     }
     .pm-inline-list-wrap .pm-right-inline-list-element {
-        float: right;
+        display: flex;
+        align-items: center;
+        .list-filter {
+            a {
+                background: #fff;
+                border: 1px solid #ddd;
+                border-right: none;
+                padding: 2px 10px;
+                color: #d5d5d5;
+
+                &:hover {
+                    .icon-pm-filter {
+                        color: #423e3f;
+                    }
+                }
+            }
+        }
+
+        .pm-action-wrap {
+            display: flex;
+            align-items: center;
+        }
     }
     .pm-inline-list-wrap {
         width: 100%;
+        display: flex;
+        align-items: center;
     }
     .pm-inline-list-element {
-        float: left;
+        flex: 1;
     }
 
     .pm-list-footer .pm-new-task-btn-li {

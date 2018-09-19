@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?a3l98u');
-  src:  url('fonts/icomoon.eot?a3l98u#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?a3l98u') format('truetype'),
-    url('fonts/icomoon.woff?a3l98u') format('woff'),
-    url('fonts/icomoon.svg?a3l98u#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?pv6gr4');
+  src:  url('fonts/icomoon.eot?pv6gr4#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?pv6gr4') format('truetype'),
+    url('fonts/icomoon.woff?pv6gr4') format('woff'),
+    url('fonts/icomoon.svg?pv6gr4#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -30,8 +30,14 @@
 .icon-pm-check-circle:before {
   content: "\e919";
 }
-.icon-pm-solid-plus:before {
+.icon-pm-copy-files:before {
   content: "\e918";
+}
+.icon-pm-undo-arrow:before {
+  content: "\e91a";
+}
+.icon-pm-archive:before {
+  content: "\e91b";
 }
 .icon-pm-cross:before {
   content: "\e917";
@@ -123,4 +129,7 @@
 .icon-pm-watch:before {
   content: "\e911";
   color: #d4d6d6;
+}
+.icon-pm-filter:before {
+  content: "\ea5b";
 }
