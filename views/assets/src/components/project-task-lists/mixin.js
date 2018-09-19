@@ -317,7 +317,6 @@ var PM_TaskList_Mixin = {
             pre_define = {
                 data: {
                     id: 0,
-                    order: 0
                 },
                 callback: false,
             };
