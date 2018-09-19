@@ -12,6 +12,7 @@ import TaskForm from '@components/project-task-lists/new-task-form.vue';
 import DatePicker from '@components/project-task-lists/date-picker.vue';
 import ContentDatePicker from '@components/common/content-date-picker.vue';
 import UsersDropDown from '@components/common/users-drop-down.vue';
+import pmFile from '@components/common/pm-file.vue';
 
 pm.Vue.component('pm-pagination', pagination);
 pm.Vue.component('pm-date-picker', datePicker);
@@ -27,6 +28,7 @@ pm.Vue.component('pm-new-task-form', TaskForm);
 pm.Vue.component('pm-datepicker', DatePicker);
 pm.Vue.component('pm-content-datepicker', ContentDatePicker);
 pm.Vue.component('pm-users-drop-down', UsersDropDown);
+pm.Vue.component('pm-file', pmFile);
 
 
 
