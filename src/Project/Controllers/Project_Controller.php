@@ -41,18 +41,17 @@ class Project_Controller {
 
 		$projects = $this->fetch_projects( $category, $status );
 
-		if( $project_transform == 'false' ) {
-			
-			wp_send_json_success( $projects->get()->toArray() );
-		}
-
 		$projects = apply_filters( 'pm_project_query', $projects, $request->get_params() );
 		$projects = $projects->orderBy(  pm_tb_prefix().'pm_projects.created_at', 'DESC' );
-		
-		if ( $per_page == '-1' || $per_page == 'all' ) {
-			$per_page = $projects->count();
-		}
 
+		if ( -1 === intval( $per_page ) || $per_page == 'all' ) {
+			$per_page = $projects->get()->count();
+		}
+		
+		if( $project_transform == 'false' ) {
+			wp_send_json_success( $projects->get()->toArray() );
+		}
+		
 		$projects = $projects->paginate( $per_page );
 
 		$project_collection = $projects->getCollection();
