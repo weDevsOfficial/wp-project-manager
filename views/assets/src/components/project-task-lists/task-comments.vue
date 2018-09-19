@@ -51,7 +51,7 @@
                                 <div v-html="comment.content"></div>
                                 <ul class="pm-attachments" v-if="comment.files.data.length">
                                     <li v-for="file in comment.files.data" :key="file.id">
-                                        
+                                        <pm-file :file="file" />
                                     </li>
                                 </ul>
 

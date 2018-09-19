@@ -22,6 +22,7 @@ pm.Vue.directive('pm-pretty-photo', {
 			allow_resize: true,
 			social_tools: '',
 			allow_expand: true,
+			deeplinking: false,
 		} );
 		
 	},

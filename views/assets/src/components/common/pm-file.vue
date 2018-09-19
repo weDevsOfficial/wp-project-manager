@@ -1,6 +1,10 @@
 <template>
 <div class="pm-file">
-    <a v-if="file.type == 'image'" v-pm-pretty-photo class="pm-colorbox-img" :href="getDownloadUrl(file.attachment_id)" :title="file.name" target="_blank">
+    <a v-if="isVideo" v-pm-pretty-photo class="pm-colorbox-img" :href="file.url + '?iframe=true'" :title="file.name" target="_blank" rel="prettyPhoto">
+        <img class="pm-content-img-size" :src="file.thumb" :alt="file.name">
+    </a>
+
+    <a v-else-if="isPrettyPhoto" v-pm-pretty-photo class="pm-colorbox-img" :href="getDownloadUrl(file.attachment_id)" :title="file.name" target="_blank" rel="prettyPhoto">
         <img class="pm-content-img-size" :src="file.thumb" :alt="file.name">
     </a>
 
@@ -26,7 +30,12 @@ export default {
         }
     },
     computed: {
-        
+        isPrettyPhoto () {
+            return this.file.type == 'image';
+        },
+        isVideo () {
+            return this.file.mime_type.split("/").indexOf('video') !== -1;
+        }
     },
     methods: {
         
