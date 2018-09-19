@@ -77,16 +77,10 @@ return [
 		'dependency' => ['pm-preloader'],
 		'in_footer'  => true
 	],
-	'pm-daterangepicker' => [
-		'id'         => 'pm-daterangepicker',
-		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/daterangepicker/daterangepicker.min.js',
-		'dependency' => ['pm-moment'],
-		'in_footer'  => true
-	],
 	'pm-locale' => [
 		'id'         => 'pm-locale',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/fullcalendar/locale-all.js',
-		'dependency' => ['pm-daterangepicker'],
+		'dependency' => ['pm-moment'],
 		'in_footer'  => true
 	],
 	'pm-fullcalendar' => [
