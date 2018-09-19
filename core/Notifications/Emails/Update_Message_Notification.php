@@ -16,9 +16,7 @@ class Update_Message_Notification extends Email {
     }
 
     public function trigger( $message, $request ) {
-        error_log( print_r($request['notify_users'] , true) );
         
-
         if ( empty( $request['notify_users'] ) ){
             return ;
         }
