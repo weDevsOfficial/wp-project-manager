@@ -47,6 +47,16 @@ class Task_List_Observer extends Model_Observer {
         $this->log_activity( $item, 'update_task_list_order', 'update', $meta );
     }
 
+    public function status( Task_list $item, $old_value ) {
+        $meta = [
+            'task_list_title'     => $item->title,
+            'task_list_status_old' => $old_value,
+            'task_list_status_new' => $item->status,
+        ];
+
+        $this->log_activity( $item, 'update_task_list_status', 'update', $meta );
+    }
+
     private function log_activity( Task_list $item, $action, $action_type, $meta = null ) {
         Activity::create([
             'actor_id'      => $item->updated_by,
