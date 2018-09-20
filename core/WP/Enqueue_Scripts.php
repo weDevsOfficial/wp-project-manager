@@ -37,7 +37,9 @@ class Enqueue_Scripts {
 
 	public static function localize_scripts() {
 		global $wedevs_pm_pro;
-		$upload_size = 10 * 1024 * 1024;
+		$upload_limit = intval(pm_get_settings('upload_limit'));
+		$upload_limit = empty( $upload_limit ) ? wp_max_upload_size() : $upload_limit;
+		$upload_size = intval( $upload_limit )  * 1024 * 1024;
 
 		wp_localize_script( 'pm-config', 'PM_Vars', array(
 				'ajaxurl'                  => admin_url( 'admin-ajax.php' ),

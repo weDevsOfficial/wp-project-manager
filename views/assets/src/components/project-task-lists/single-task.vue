@@ -27,7 +27,7 @@
                     </span>
                     <div v-activity-load-more class="popup-body">
                         <div class="pm-single-task-header">
-                            <div class="task-complete-incomplete">
+                            <div class="task-complete-incomplete" :class="{ 'disable': can_complete_task(task) }">
                                 
                                 <a class="completed" v-if="task.status" href="#" @click.prevent="singleTaskDoneUndone()">
                                     <span class="icon-pm-completed pm-font-size-16"></span>
@@ -35,7 +35,7 @@
                                 </a>
                             
                             
-                                <a class="incomplete" v-if="!task.status" href="#" @click.prevent="singleTaskDoneUndone()">
+                                <a  class="incomplete" v-if="!task.status" href="#" @click.prevent="singleTaskDoneUndone()">
                                     <span class="icon-pm-incomplete pm-font-size-16"></span>
                                     {{ __( 'Mark Complete', 'pm' ) }}
                                 </a>
@@ -60,7 +60,7 @@
                                                 <span class="title-anchor-menu">{{ __('Copy Link', 'wedevs-project-manager') }}</span>
                                             </a>
                                         </li>
-                                        <li class="pm-dark-hover">
+                                        <li class="pm-dark-hover" v-if="PM_Vars.is_pro && can_edit_task(task) && user_can('view_private_task')">
                                             
                                             <a class="pm-dark-hover title-anchor-menu-a icon-pm-private pm-font-size-13" v-if="task.meta.privacy=='1'" @click.prevent="singleTaskLockUnlock(task)" href="#">
                                                 <span class="action-menu-span title-anchor-menu">{{ __('Make Visible', 'wedevs-project-manager') }}</span>
@@ -70,7 +70,7 @@
                                             </a>
 
                                         </li>
-                                        <li>
+                                        <li  v-if="can_edit_task(task)">
                                             
                                             <a class="pm-dark-hover title-anchor-menu-a icon-pm-delete pm-font-size-13" @click.prevent="selfDeleteTask({task: task, list: list})" href="#">
                                                 <span class="action-menu-span title-anchor-menu">{{ __('Delete', 'wedevs-project-manager') }}</span>
@@ -153,8 +153,8 @@
                             
 
                             <div class="pm-flex option-icon-groups">
-                                <span @click.prevent="singleTaskLockUnlock(task)" v-if="task.meta.privacy=='0'" :title="__('Task is visible for co-worker', 'wedevs-project-manager')" class="icon-pm-unlock pm-dark-hover pm-font-size-16"></span>
-                                <span @click.prevent="singleTaskLockUnlock(task)" v-if="task.meta.privacy=='1'" :title="__('Task is not visible for co-worker', 'wedevs-project-manager')" class="icon-pm-private pm-dark-hover pm-font-size-16"></span>
+                                <span @click.prevent="singleTaskLockUnlock(task)" v-if="PM_Vars.is_pro && can_edit_task(task) && user_can('view_private_task') && task.meta.privacy=='0'" :title="__('Task is visible for co-worker', 'wedevs-project-manager')" class="icon-pm-unlock pm-dark-hover pm-font-size-16"></span>
+                                <span @click.prevent="singleTaskLockUnlock(task)" v-if="PM_Vars.is_pro && can_edit_task(task) && user_can('view_private_task') && task.meta.privacy=='1'" :title="__('Task is not visible for co-worker', 'wedevs-project-manager')" class="icon-pm-private pm-dark-hover pm-font-size-16"></span>
                                 
                                 <span id="pm-calendar-wrap" @click.prevent="isTaskDateEditMode()" class="individual-group-icon calendar-group icon-pm-calendar pm-font-size-16">
                                     <span v-if="(task.start_at.date || task.due_date.date )" :class="taskDateWrap(task.due_date.date) + ' pm-task-date-wrap pm-date-window'">
@@ -500,6 +500,9 @@
                 }
             },
             singleTaskDoneUndone () {
+                if (this.can_complete_task(this.task)) {
+                    return;
+                }
 
                 var self = this,
                     status = this.task.status ? 0 : 1;
