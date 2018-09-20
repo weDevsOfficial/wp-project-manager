@@ -128,3 +128,29 @@ function pm_register_routes() {
 function pm_view() {
     new Frontend();
 }
+
+function pm_user_tracking() {
+    add_action( 'plugins_loaded', 'pm_after_load_pro', 99 );
+}
+
+function pm_after_load_pro() {
+    add_action( 'init', 'pm_init_tracker' );
+}
+
+function pm_init_tracker() {
+
+    $insights = new AppSero\Insights( 'd6e3df28-610b-4315-840d-df0b2b02f4fe', 'WP Project Manager', PM_FILE );
+    $insights->add_extra( [
+        'projects'  => $insights->get_post_count( 'cpm_project' ),
+        'tasklist'  => $insights->get_post_count( 'cpm_task_list' ),
+        'tasks'     => $insights->get_post_count( 'cpm_task' ),
+        'message'   => $insights->get_post_count( 'cpm_message' ),
+        'milestone' => $insights->get_post_count( 'cpm_milestone' ),
+        'is_pro'    => class_exists('WeDevs\PM_Pro\Core\WP\Frontend') ? 'yes' : 'no'
+    ] );
+
+    $insights->init_plugin();
+}
+
+
+
