@@ -514,7 +514,7 @@ class Task_Controller {
                     
                 if ( ! empty(  $status ) ) {
                     $status = $status == 'complete' ? 1 : 0;
-                    $q->where( 'status', $status );
+                    $q->where( pm_tb_prefix(). 'pm_tasks.status', $status );
                 }
 
                 if ( ! empty(  $due_date ) ) {
@@ -564,7 +564,9 @@ class Task_Controller {
         $req_lists = $this->get_response( $resource );
 
         foreach ( $req_lists['data'] as $key => $req_list ) {
-            
+            if (! isset( $tasks[$req_list['id']] ) ) {
+                continue;
+            }
             $tasks = $tasks[$req_list['id']];
             $incomplete = [];
             $complete = [];
