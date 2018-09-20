@@ -1,9 +1,7 @@
 <?php
 
-class PM_Create_Table
-{
-    public function __construct()
-    {
+class PM_Create_Table {
+    public function __construct() {
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';
         $this->create_project_table();
         $this->create_tasks_table();
