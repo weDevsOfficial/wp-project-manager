@@ -206,7 +206,7 @@
                 <pm-pagination 
                     :total_pages="total_list_page" 
                     :current_page_number="current_page_number" 
-                    :component_name="$route.name + '_pagination'">
+                    :component_name="paginationComponent">
                     
                 </pm-pagination> 
             </div>
@@ -572,6 +572,9 @@
                 } else {
                     return false;
                 }
+            },
+            paginationComponent () {
+                return this.$route.name.indexOf('pagination') === -1 ? this.$route.name + '_pagination' : this.$route.name ;
             }
 
         },

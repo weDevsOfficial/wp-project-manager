@@ -107,17 +107,19 @@
 
                         <div class="pm-flex options-wrap">
                             <div class="assigne-users">
-                                <div v-if="task.assignees.data.length" class='pm-assigned-user' v-for="user in task.assignees.data">
+                                <div v-if="task.assignees.data.length" class='pm-assigned-user' v-for="user in task.assignees.data" :key="user.id">
 
                                     <a :href="userTaskProfileUrl(user.id)" :title="user.display_name">
                                         <img :alt="user.display_name" :src="user.avatar_url" class="avatar avatar-48 photo" height="48" width="48">
                                     </a>
                                 </div>
-                                <span id="pm-multiselect-single-task" @click.self.prevent="isEnableMultiSelect()" class="icon-pm-user">
-                                    <div  v-if="is_enable_multi_select"  class="pm-multiselect pm-multiselect-single-task">
+                                <span id="pm-multiselect-single-task" @click.prevent="isEnableMultiSelect()" class="icon-pm-user">
+                                    <div v-show="is_enable_multi_select"  class="pm-multiselect pm-multiselect-single-task">
                                         <div class="pm-multiselect-content">
                                             <div class="assign-to">{{ __('Assign to', 'wedevs-project-manager') }}</div>
                                             <multiselect
+                                                ref="assingTask"
+                                                id="assingTask"
                                                 v-model="task_assign"
                                                 :options="project_users"
                                                 :multiple="true"
@@ -246,7 +248,7 @@
                         <div class="task-activities">
                             <span class="activity-title pm-h2">{{ __('Activity', 'wedevs-project-manager') }}</span>
                             <ul class="single-task-activity-ul">
-                                <li v-for="activity in task.activities.data">
+                                <li v-for="activity in task.activities.data" :key="activity.id">
                                     <div class="activity-li-content">
                                         <div class="activity-actor">
                                             <img class="activity-author-image" :src="activity.actor.data.avatar_url">
@@ -336,18 +338,6 @@
         },
 
         mixins: [Mixins],
-
-        watch: {
-            is_enable_multi_select (val) {
-
-                if(val) {
-                    pm.Vue.nextTick(function() {
-                        jQuery('.multiselect__input').show().focus();
-                    });
-                }
-            }
-        },
-
         computed: {
             doActionData () {
                 return {
@@ -580,10 +570,10 @@
                     return false;
                 }
 
-                this.is_enable_multi_select = this.is_enable_multi_select ? false : true;
-
-                pm.Vue.nextTick(function() {
-                    jQuery('.multiselect__input').focus();
+                this.is_enable_multi_select = ! this.is_enable_multi_select;
+                pm.Vue.nextTick(() => {
+                    this.$refs.assingTask.$el.focus();
+                   
                 });
             },
 
