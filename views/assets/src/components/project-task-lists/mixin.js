@@ -209,7 +209,7 @@ var PM_TaskList_Mixin = {
             };
 
             var args = jQuery.extend(true, pre_define, args );
-            var  condition = self.generateConditions(condition);
+            var  condition = self.generateConditions(args.condition);
 
             var request = {
                 type: 'GET',
@@ -317,7 +317,6 @@ var PM_TaskList_Mixin = {
             pre_define = {
                 data: {
                     id: 0,
-                    order: 0
                 },
                 callback: false,
             };

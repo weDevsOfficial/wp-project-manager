@@ -36,6 +36,7 @@ class Project_Transformer extends TransformerAbstract {
             'color_code'          => $item->color_code,
             'order'               => $item->order,
             'projectable_type'    => $item->projectable_type,
+            'favourite'           => !empty($item->favourite) ? (boolean) $item->favourite->meta_value: false,
             'created_at'          => format_date( $item->created_at ),
         ];
         return apply_filters( "pm_project_transformer", $data, $item );

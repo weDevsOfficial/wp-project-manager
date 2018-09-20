@@ -16,6 +16,7 @@ use WeDevs\PM\User\Models\User_Role;
 use WeDevs\PM\Category\Models\Category;
 use WeDevs\PM\Common\Traits\File_Attachment;
 use Illuminate\Pagination\Paginator;
+use WeDevs\PM\Common\Models\Meta;
 
 class Project_Controller {
 
@@ -40,18 +41,17 @@ class Project_Controller {
 
 		$projects = $this->fetch_projects( $category, $status );
 
+		$projects = apply_filters( 'pm_project_query', $projects, $request->get_params() );
+		$projects = $projects->orderBy(  pm_tb_prefix().'pm_projects.created_at', 'DESC' );
+
+		if ( -1 === intval( $per_page ) || $per_page == 'all' ) {
+			$per_page = $projects->get()->count();
+		}
+		
 		if( $project_transform == 'false' ) {
-			
 			wp_send_json_success( $projects->get()->toArray() );
 		}
-
-		$projects = apply_filters( 'pm_project_query', $projects, $request->get_params() );
-		$projects = $projects->orderBy( 'created_at', 'DESC' );
 		
-		if ( $per_page == '-1' || $per_page == 'all' ) {
-			$per_page = $projects->count();
-		}
-
 		$projects = $projects->paginate( $per_page );
 
 		$project_collection = $projects->getCollection();
@@ -65,6 +65,7 @@ class Project_Controller {
     }
 
     private function projects_meta( $category ) {
+		$user_id = get_current_user_id();
 		$eloquent_sql     = $this->fetch_projects_by_category( $category );
 		$total_projects   = $eloquent_sql->count();
 		$eloquent_sql     = $this->fetch_projects_by_category( $category );
@@ -76,7 +77,11 @@ class Project_Controller {
 		$eloquent_sql     = $this->fetch_projects_by_category( $category );
 		$total_archived   = $eloquent_sql->where( 'status', Project::ARCHIVED )->count();
 		$eloquent_sql     = $this->fetch_projects_by_category( $category );
-		$favourite 		  = $eloquent_sql->whereNotNull( 'projectable_type' )->count();
+		$favourite 		  = $eloquent_sql->whereHas( 'meta', function ( $query ) use( $user_id ) {
+						$query->where('meta_key', '=', 'favourite_project')
+							->where('entity_id', '=', $user_id)
+							->whereNotNull( 'meta_value' );
+					} )->count();
 		$user_id          = get_current_user_id();
 
 		$meta  = [
@@ -93,15 +98,31 @@ class Project_Controller {
 
     private function fetch_projects( $category, $status ) {
 		$projects = $this->fetch_projects_by_category( $category );
+		$user_id = get_current_user_id();
 		
 		if ($status == 'favourite' ) {
-			$projects = $projects->whereNotNull( 'projectable_type' );
+			$projects = $projects->whereHas( 'meta', function ( $query ) use( $user_id ) {
+				$query->where('meta_key', '=', 'favourite_project')
+					->where('entity_id', '=', $user_id)
+					->whereNotNull( 'meta_value' );
+			} );
 		}
 
     	if ( in_array( $status, Project::$status ) ) {
 			$status   = array_search( $status, Project::$status );
 			$projects = $projects->where( 'status', $status );
 		}
+
+
+		
+
+		$projects = $projects->leftJoin( pm_tb_prefix() . 'pm_meta', function ( $join ) use( $user_id ) {
+			$join->on( pm_tb_prefix().'pm_projects.id', '=',  pm_tb_prefix().'pm_meta.project_id' )
+			->where('meta_key', '=', 'favourite_project')->where('entity_id', '=', $user_id);
+		})
+		->selectRaw( pm_tb_prefix().'pm_projects.*' )
+		->groupBy( pm_tb_prefix().'pm_projects.id' )
+		->orderBy( pm_tb_prefix().'pm_meta.meta_value', 'DESC');
 
 		return $projects;
     }
@@ -269,22 +290,26 @@ class Project_Controller {
 
 	public function favourite_project (WP_REST_Request $request) {
         $project_id = $request->get_param( 'id' );
-        $favourite = $request->get_param( 'favourite' );
+        $favourite  = $request->get_param( 'favourite' );
+        $user_id    = get_current_user_id();
 
-        $project = Project::find( $project_id );
+
         if ($favourite == 'true') {
-            $lastFavourite = Project::max('projectable_type');
-            $lastFavourite = absint($lastFavourite );
+            $lastFavourite = Meta::where([
+				'entity_id'  => $user_id,
+				'entity_type' => 'project',
+				'meta_key'		=> 'favourite_project'
+			])->max('meta_value');
+            $lastFavourite = intval($lastFavourite ) + 1;
+			pm_update_meta( $user_id, $project_id, 'project', 'favourite_project', $lastFavourite );
 
-            $project->projectable_type = $lastFavourite +1;
         } else {
-            $project->projectable_type = null;
-        }
-        $project->save();
-		do_action( "pm_after_favaurite_project", $project );
+            pm_update_meta( $user_id, $project_id, 'project', 'favourite_project', null );
+		}
 		
-		$resource = new Item( $project, new Project_Transformer );
-		$response = $this->get_response( $resource, [ 'message' =>  __( "The project has been marked as favourite", 'wedevs-project-manager' ) ] );
+		do_action( "pm_after_favaurite_project", $request );
+
+		$response = $this->get_response( null, [ 'message' =>  __( "The project has been marked as favourite", 'wedevs-project-manager' ) ] );
 
         return $response;
     }
