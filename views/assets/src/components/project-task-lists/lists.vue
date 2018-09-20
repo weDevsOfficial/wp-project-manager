@@ -57,11 +57,12 @@
 
                                         <!-- v-if="list.can_del_edit" -->
                                         <div class="pm-right" v-if="can_edit_task_list(list)">
-                                            
-                                            <a href="#" v-if="list.status == 'current'" @click.prevent="showEditForm(list)" class="" title="Edit this List"><span class="dashicons dashicons-edit"></span></a>
-                                            <a href="#" class="pm-btn pm-btn-xs" @click.prevent="deleteSelfList( list )"><span class="dashicons dashicons-trash"></span></a>
-                                            <a href="#"  @click.prevent="listLockUnlock(list)" v-if="PM_Vars.is_pro && user_can('view_private_list') && list.status == 'current'"><span :class="privateClass( list.meta.privacy )"></span></a>
-                                            <pm-do-action hook="list-action-menu" :actionData="list"></pm-do-action>
+                                            <div class="list-right-action">
+                                                <a href="#" v-pm-tooltip v-if="list.status == 'current'" @click.prevent="showEditForm(list)" class="" :title="__('Edit', 'wedevs-project-manager')"><span class="dashicons dashicons-edit"></span></a>
+                                                <a href="#" v-pm-tooltip :title="__('Delete', 'wedevs-project-manager')" class="pm-btn pm-btn-xs" @click.prevent="deleteSelfList( list )"><span class="dashicons dashicons-trash"></span></a>
+                                                <a href="#" v-pm-tooltip :title="helpTextPrivate(list.meta.privacy)"  @click.prevent="listLockUnlock(list)" v-if="PM_Vars.is_pro && user_can('view_private_list') && list.status == 'current'"><span :class="privateClass( list.meta.privacy )"></span></a>
+                                                <pm-do-action hook="list-action-menu" :actionData="list"></pm-do-action>
+                                            </div>
                                         </div>
                                     </h3>
 
@@ -224,8 +225,13 @@
             align-items: baseline !important;
             .pm-todolists {
                 width: 100%;
-                //-webkit-transition: width 2s; /* Safari */
-                //transition: width 2s;
+                .list-right-action {
+                    display: flex;
+                    align-items: center;
+                    a {
+                        margin-right: 5px;
+                    }
+                }
             }
             .optimizeWidth {
                 width: 80%;
@@ -241,7 +247,7 @@
                 .complete-btn {
                     padding: 6px 15px;
                     border-radius: 3px;
-                    background: #ebddf0;
+                    background: #f8f3f9;
                     color: #9B59CA;
                 }
 
@@ -580,6 +586,9 @@
         },
 
         methods: {
+            helpTextPrivate (privateList) {
+                return privateList ? __('Make Visible', 'wedevs-project-manager') : __('Make Private', 'wedevs-project-manager');
+            },
             setSearchLists (lists) {
                 var newLists = [{
                     id: 0,
