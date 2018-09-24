@@ -26,6 +26,7 @@ class Task_List_Controller {
         $project_id = $request->get_param( 'project_id' );
         $per_page   = $request->get_param( 'per_page' );
         $status     = $request->get_param( 'status' );
+        $list_id     = $request->get_param( 'list_id' ); //must be a array
         $per_page_from_settings = pm_get_settings( 'list_per_page' );
         $per_page_from_settings = $per_page_from_settings ? $per_page_from_settings : 15;
         $per_page               = $per_page ? $per_page : $per_page_from_settings;
@@ -38,7 +39,12 @@ class Task_List_Controller {
             return $page;
         }); 
 
-        $task_lists = Task_List::where( 'project_id', $project_id)->where( 'status', $status );
+        $task_lists = Task_List::where( 'project_id', $project_id)
+            ->where( 'status', $status )
+            ->where( function($q) use( $list_id ) {
+                //if()
+            });
+
         $task_lists = apply_filters( "pm_task_list_index_query", $task_lists, $project_id, $request );
 
         if ( $per_page == '-1' ) {
