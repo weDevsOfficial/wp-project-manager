@@ -16,6 +16,7 @@ require __DIR__.'/../vendor/autoload.php';
 
 
 pm_load_libs();
+pm_user_tracking();
 pm_view();
 pm_load_routes();
 pm_register_routes();

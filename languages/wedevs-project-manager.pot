@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Project Manager 2.0.5\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/cpm\n"
-"POT-Creation-Date: 2018-08-17 08:34:59+00:00\n"
+"POT-Creation-Date: 2018-09-20 11:22:46+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -19,7 +19,8 @@ msgstr ""
 
 #: core/Notifications/Emails/New_Comment_Notification.php:53
 #: core/Notifications/Emails/Update_Comment_Notification.php:52
-#: views/emails/html/new-message.php:39 views/emails/mention.php:13
+#: views/emails/html/new-message.php:39 views/emails/html/update-message.php:39
+#: views/emails/mention.php:13
 msgid "Message"
 msgstr ""
 
@@ -61,6 +62,10 @@ msgstr ""
 msgid "[%s][%s] Update Comment on: %s"
 msgstr ""
 
+#: core/Notifications/Emails/Update_Message_Notification.php:47
+msgid "[%s][%s] Update Message: %s"
+msgstr ""
+
 #: core/Notifications/Emails/Update_Project_Notification.php:24
 msgid "[%s] Updated Project: %s"
 msgstr ""
@@ -92,27 +97,27 @@ msgstr ""
 msgid "You have no permission to create project."
 msgstr ""
 
-#: core/Upgrades/Upgrade.php:136
+#: core/Upgrades/Upgrade.php:142
 msgid ""
 "<strong>WP Project Manager Data Update Required</strong> &#8211; Please "
 "click the button below to update to the latest version."
 msgstr ""
 
-#: core/Upgrades/Upgrade.php:139
+#: core/Upgrades/Upgrade.php:145
 msgid "Run the Update"
 msgstr ""
 
-#: core/Upgrades/Upgrade.php:140
+#: core/Upgrades/Upgrade.php:146
 msgid "Read More"
 msgstr ""
 
-#: core/Upgrades/Upgrade.php:148
+#: core/Upgrades/Upgrade.php:154
 msgid ""
 "It is strongly recommended that you backup your database before proceeding. "
 "Are you sure you wish to run the updater now?"
 msgstr ""
 
-#: core/WP/Enqueue_Scripts.php:65
+#: core/WP/Enqueue_Scripts.php:67
 msgid "Allowed Files"
 msgstr ""
 
@@ -150,7 +155,8 @@ msgid "Project Manager"
 msgstr ""
 
 #: core/WP/Menu.php:18 views/assets/js/pm.js:9
-#: views/assets/src/components/project-lists/router.js:49
+#: views/assets/src/components/project-lists/router.1.js:49
+#: views/assets/src/components/project-lists/router.js:42
 msgid "Projects"
 msgstr ""
 
@@ -192,29 +198,29 @@ msgstr ""
 msgid "Co-worker is person who works under a project."
 msgstr ""
 
-#: libs/configurations.php:42
+#: libs/configurations.php:43
 msgid "WP Project Manager moving PHP 5.6!"
 msgstr ""
 
-#: libs/configurations.php:43
+#: libs/configurations.php:44
 msgid ""
-"WP Project Manager moving PHP 5.6 very soon. Please upgrader your php "
-"version."
+"WP Project Manager is moving PHP 5.6 after <strong>September 15, "
+"2018</strong> from version <em>2.0.7</em>. Please upgrader your php version."
 msgstr ""
 
-#: libs/configurations.php:68 libs/configurations.php:137
+#: libs/configurations.php:69 libs/configurations.php:138
 msgid "Error: Nonce verification failed"
 msgstr ""
 
-#: libs/configurations.php:86
+#: libs/configurations.php:87
 msgid "Your installed version of Project Manager is not compatible with WP ERP"
 msgstr ""
 
-#: libs/configurations.php:87
+#: libs/configurations.php:88
 msgid "Please Install the compatible version"
 msgstr ""
 
-#: libs/configurations.php:90
+#: libs/configurations.php:91
 msgid "Install"
 msgstr ""
 
@@ -288,6 +294,10 @@ msgstr ""
 
 #: src/Milestone/Validators/Update_Milestone.php:12
 msgid "Milestone id must be greater than zero"
+msgstr ""
+
+#: src/Project/Controllers/Project_Controller.php:312
+msgid "The project has been marked as favourite"
 msgstr ""
 
 #: src/Project/Validators/Create_Project.php:10
@@ -702,19 +712,66 @@ msgstr ""
 msgid "Every %d Minutes"
 msgstr ""
 
+#: vendor/appsero/client/src/insights.php:407
+msgid ""
+"Want to help make <strong>%1$s</strong> even more awesome? Allow %1$s to "
+"collect non-sensitive diagnostic data and usage information."
+msgstr ""
+
+#: vendor/appsero/client/src/insights.php:412
+msgid "what we collect"
+msgstr ""
+
+#: vendor/appsero/client/src/insights.php:418
+msgid "Allow"
+msgstr ""
+
+#: vendor/appsero/client/src/insights.php:419
+msgid "No thanks"
+msgstr ""
+
+#: vendor/appsero/client/src/insights.php:615
+msgid "Once Weekly"
+msgstr ""
+
+#: vendor/appsero/client/src/insights.php:749
+msgid "If you have a moment, please let us know why you are deactivating:"
+msgstr ""
+
+#: vendor/appsero/client/src/insights.php:763
+msgid "I rather wouldn't say"
+msgstr ""
+
+#: vendor/appsero/client/src/insights.php:764
+msgid "Submit & Deactivate"
+msgstr ""
+
+#: vendor/appsero/client/src/insights.php:765 views/assets/js/library.js:1
+#: views/assets/js/pm.js:1 views/assets/js/pm.js:9
+#: views/assets/src/components/categories/edit-category-form.vue:23
+#: views/assets/src/components/project-discussions/new-discuss-form.vue:32
+#: views/assets/src/components/project-lists/project-create-form.vue:59
+#: views/assets/src/components/project-milestones/new-milestone-form.vue:18
+#: views/assets/src/components/project-task-lists/new-task-form.vue:51
+#: views/assets/src/components/project-task-lists/new-task-list-form.vue:27
+#: views/assets/src/components/project-task-lists/single-task.vue:232
+#: views/assets/src/components/project-task-lists/task-comment-form.vue:15
+msgid "Cancel"
+msgstr ""
+
 #: views/assets/js/library.js:1 views/assets/js/pm.js:1
 #: views/assets/src/components/categories/categories.vue:281
 #: views/assets/src/components/categories/mixin.js:182
 #: views/assets/src/components/project-discussions/mixin.js:507
-#: views/assets/src/components/project-task-lists/list-comments.vue:111
-#: views/assets/src/components/project-task-lists/mixin.js:382
-#: views/assets/src/components/project-task-lists/mixin.js:601
-#: views/assets/src/components/project-task-lists/task-comments.vue:131
+#: views/assets/src/components/project-task-lists/list-comments.vue:105
+#: views/assets/src/components/project-task-lists/mixin.js:387
+#: views/assets/src/components/project-task-lists/mixin.js:606
+#: views/assets/src/components/project-task-lists/task-comments.vue:205
 msgid "Are you sure!"
 msgstr ""
 
 #: views/assets/js/library.js:1 views/assets/js/pm.js:1
-#: views/assets/src/helpers/mixin/mixin.js:745
+#: views/assets/src/helpers/mixin/mixin.js:789
 #: views/assets/vendor/mixin/mixin.js:636
 msgid "Are you sure to delete this project?"
 msgstr ""
@@ -725,43 +782,47 @@ msgid "Write a comment..."
 msgstr ""
 
 #: views/assets/js/library.js:1 views/assets/js/pm.js:1
-#: views/assets/src/components/project-task-lists/single-task.vue:295
+#: views/assets/src/components/project-task-lists/single-task.vue:325
 msgid "Update Description"
 msgstr ""
 
 #: views/assets/js/library.js:1 views/assets/js/pm.js:1
-#: views/assets/src/components/project-discussions/comment-form.vue:39
-#: views/assets/src/components/project-task-lists/list-comment-form.vue:48
-#: views/assets/src/components/project-task-lists/task-comment-form.vue:64
-msgid "Add New Comment"
+#: views/assets/src/components/project-task-lists/single-task.vue:493
+msgid "Copied!"
+msgstr ""
+
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1
+#: views/assets/src/components/project-task-lists/single-task.vue:697
+msgid "Invalid date range!"
+msgstr ""
+
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1
+#: views/assets/src/components/project-task-lists/single-task.vue:816
+msgid "Task marked as private"
+msgstr ""
+
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1
+#: views/assets/src/components/project-task-lists/single-task.vue:818
+msgid "Task visible for co-worker"
+msgstr ""
+
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1
+#: views/assets/src/components/project-task-lists/task-comment-form.vue:118
+msgid "Post Comment"
 msgstr ""
 
 #: views/assets/js/library.js:1 views/assets/js/pm.js:1
 #: views/assets/src/components/project-discussions/comment-form.vue:40
 #: views/assets/src/components/project-task-lists/list-comment-form.vue:49
-#: views/assets/src/components/project-task-lists/task-comment-form.vue:65
+#: views/assets/src/components/project-task-lists/task-comment-form.vue:119
 #: views/emails/html/update-comment.php:12
 msgid "Update Comment"
 msgstr ""
 
 #: views/assets/js/library.js:1 views/assets/js/pm.js:1
-#: views/assets/src/components/common/file-uploader.vue:10
-msgid "Delete File"
-msgstr ""
-
-#: views/assets/js/library.js:1 views/assets/js/pm.js:1
-#: views/assets/src/components/common/file-uploader.vue:16
-msgid "To attach"
-msgstr ""
-
-#: views/assets/js/library.js:1 views/assets/js/pm.js:1
-#: views/assets/src/components/common/file-uploader.vue:17
-msgid "select files"
-msgstr ""
-
-#: views/assets/js/library.js:1 views/assets/js/pm.js:1
-#: views/assets/src/components/common/file-uploader.vue:18
-msgid "from your computer."
+#: views/assets/src/components/project-task-lists/task-comment-form.vue:21
+#: views/assets/src/components/project-task-lists/task-comment-form.vue:123
+msgid "Attach"
 msgstr ""
 
 #: views/assets/js/library.js:1 views/assets/js/pm.js:1
@@ -776,44 +837,124 @@ msgid "Select all"
 msgstr ""
 
 #: views/assets/js/library.js:1 views/assets/js/pm.js:1
+#: views/assets/src/components/project-task-lists/task-comment-form.vue:27
+msgid "Notify user"
+msgstr ""
+
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1
+#: views/assets/src/components/common/users-drop-down.vue:4
+#: views/assets/src/components/project-task-lists/single-task.vue:119
+#: views/assets/src/components/project-task-lists/task-comment-form.vue:32
+msgid "Assign to"
+msgstr ""
+
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1
+msgid "Search User"
+msgstr ""
+
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1
 #: views/assets/src/components/project-task-lists/task-comments.vue:4
-msgid "Discuss this task"
+msgid "Discussion"
 msgstr ""
 
 #: views/assets/js/library.js:1 views/assets/js/pm.js:1 views/assets/js/pm.js:9
-#: views/assets/src/components/project-discussions/discussions.vue:84
-#: views/assets/src/components/project-discussions/individual-discussions.vue:32
-#: views/assets/src/components/project-task-lists/list-comments.vue:15
-#: views/assets/src/components/project-task-lists/task-comments.vue:15
-msgid "By"
+#: views/assets/src/components/categories/categories.vue:110
+#: views/assets/src/components/common/header.vue:10
+#: views/assets/src/components/project-discussions/discussions.vue:158
+#: views/assets/src/components/project-task-lists/incompleted-tasks.vue:71
+#: views/assets/src/components/project-task-lists/task-comments.vue:33
+msgid "Edit"
+msgstr ""
+
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1 views/assets/js/pm.js:9
+#: views/assets/src/components/categories/categories.vue:57
+#: views/assets/src/components/categories/categories.vue:111
+#: views/assets/src/components/categories/categories.vue:163
+#: views/assets/src/components/common/header.vue:30
+#: views/assets/src/components/project-lists/project-create-form.vue:36
+#: views/assets/src/components/project-lists/project-summary.vue:135
+#: views/assets/src/components/project-task-lists/incompleted-tasks.vue:74
+#: views/assets/src/components/project-task-lists/single-task.vue:76
+#: views/assets/src/components/project-task-lists/task-comments.vue:39
+msgid "Delete"
+msgstr ""
+
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1
+#: views/assets/src/components/project-task-lists/task-comments.vue:75
+msgid "Add a comment"
+msgstr ""
+
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1 views/assets/js/pm.js:9
+#: views/assets/src/components/common/header.vue:18
+#: views/assets/src/components/project-lists/project-header-menu.vue:13
+#: views/assets/src/components/project-task-lists/lists.vue:99
+#: views/assets/src/components/project-task-lists/lists.vue:169
+#: views/assets/src/components/project-task-lists/single-task.vue:34
+msgid "Completed"
+msgstr ""
+
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1
+#: views/assets/src/components/project-task-lists/single-task.vue:40
+msgid "Mark Complete"
+msgstr ""
+
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1
+#: views/assets/src/components/project-task-lists/single-task.vue:48
+msgid "Created by"
 msgstr ""
 
 #: views/assets/js/library.js:1 views/assets/js/pm.js:1 views/assets/js/pm.js:9
 #: views/assets/src/components/project-discussions/discussions.vue:88
 #: views/assets/src/components/project-discussions/individual-discussions.vue:35
-#: views/assets/src/components/project-discussions/individual-discussions.vue:77
+#: views/assets/src/components/project-discussions/individual-discussions.vue:71
 #: views/assets/src/components/project-task-lists/list-comments.vue:22
-#: views/assets/src/components/project-task-lists/task-comments.vue:21
+#: views/assets/src/components/project-task-lists/single-task.vue:50
 msgid "on"
 msgstr ""
 
 #: views/assets/js/library.js:1 views/assets/js/pm.js:1
-msgid "Copy this task URL"
-msgstr ""
-
-#: views/assets/js/library.js:1 views/assets/js/pm.js:1 views/assets/js/pm.js:9
-#: views/assets/src/components/project-discussions/discussions.vue:110
-#: views/assets/src/components/project-discussions/individual-discussions.vue:61
-#: views/assets/src/components/project-lists/project-summary.vue:104
-#: views/assets/src/components/project-overview/overview.vue:68
-#: views/assets/src/components/project-task-lists/lists.vue:111
-#: views/assets/src/components/project-task-lists/single-task.vue:174
-msgid "Comments"
+#: views/assets/src/components/project-task-lists/single-task.vue:60
+msgid "Copy Link"
 msgstr ""
 
 #: views/assets/js/library.js:1 views/assets/js/pm.js:1
-#: views/assets/src/components/project-task-lists/single-task.vue:203
-msgid "Shift+Enter for line break"
+#: views/assets/src/components/project-task-lists/lists.vue:619
+#: views/assets/src/components/project-task-lists/single-task.vue:66
+msgid "Make Visible"
+msgstr ""
+
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1
+#: views/assets/src/components/project-task-lists/lists.vue:619
+#: views/assets/src/components/project-task-lists/single-task.vue:69
+msgid "Make Private"
+msgstr ""
+
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1
+msgid "Task is visible for co-worker"
+msgstr ""
+
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1
+msgid "Task is not visible for co-worker"
+msgstr ""
+
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1
+#: views/assets/src/components/project-task-lists/single-task.vue:231
+msgid "Update"
+msgstr ""
+
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1 views/assets/js/pm.js:9
+#: views/assets/src/components/categories/categories.vue:33
+#: views/assets/src/components/categories/categories.vue:85
+#: views/assets/src/components/categories/categories.vue:143
+#: views/assets/src/components/categories/edit-category-form.vue:14
+#: views/assets/src/components/project-task-lists/single-task.vue:198
+msgid "Description"
+msgstr ""
+
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1 views/assets/js/pm.js:9
+#: views/assets/src/components/project-overview/directive.js:9
+#: views/assets/src/components/project-task-lists/single-task.vue:249
+msgid "Activity"
 msgstr ""
 
 #: views/assets/js/pm.js:1
@@ -827,7 +968,7 @@ msgid "Are you sure to delete this comment?"
 msgstr ""
 
 #: views/assets/js/pm.js:1 views/assets/src/components/common/header.vue:82
-#: views/assets/src/components/project-lists/project-summary.vue:165
+#: views/assets/src/components/project-lists/project-summary.vue:168
 msgid "Project Actions"
 msgstr ""
 
@@ -913,7 +1054,41 @@ msgstr ""
 msgid "Create User"
 msgstr ""
 
+#: views/assets/js/pm.js:1 views/assets/js/pm.js:9
+#: views/assets/src/components/project-lists/project-header-menu.vue:20
+#: views/assets/src/components/project-task-lists/lists.vue:431
+#: views/assets/src/components/project-task-lists/lists.vue:435
+#: views/assets/src/components/project-task-lists/lists.vue:442
+#: views/assets/src/components/project-task-lists/lists.vue:459
+#: views/assets/src/components/project-task-lists/lists.vue:498
+#: views/assets/src/components/project-task-lists/lists.vue:580
+#: views/assets/src/components/project-task-lists/lists.vue:624
+msgid "All"
+msgstr ""
+
 #: views/assets/js/pm.js:1
+#: views/assets/src/components/project-task-lists/lists.vue:446
+msgid "Over Due"
+msgstr ""
+
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/project-task-lists/lists.vue:450
+msgid "Today"
+msgstr ""
+
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/project-task-lists/lists.vue:454
+msgid "Less Than 1 week"
+msgstr ""
+
+#: views/assets/js/pm.js:1 views/assets/js/pm.js:9
+#: views/assets/src/components/project-task-lists/lists.vue:138
+#: views/assets/src/components/project-task-lists/lists.vue:841
+msgid "No Result Found!"
+msgstr ""
+
+#: views/assets/js/pm.js:1 views/assets/js/pm.js:9
+#: views/assets/src/components/project-task-lists/lists.vue:147
 #: views/assets/src/components/project-task-lists/new-task-list-form.vue:71
 msgid "Task list name"
 msgstr ""
@@ -949,8 +1124,9 @@ msgstr ""
 msgid "Start Date"
 msgstr ""
 
-#: views/assets/js/pm.js:1
+#: views/assets/js/pm.js:1 views/assets/js/pm.js:9
 #: views/assets/src/components/project-milestones/new-milestone-form.vue:44
+#: views/assets/src/components/project-task-lists/lists.vue:191
 #: views/assets/src/components/project-task-lists/new-task-form.vue:112
 msgid "Due Date"
 msgstr ""
@@ -981,12 +1157,15 @@ msgstr ""
 msgid "Delete List"
 msgstr ""
 
-#: views/assets/js/pm.js:1 views/assets/js/pm.js:9
-#: views/assets/src/components/categories/categories.vue:110
-#: views/assets/src/components/common/header.vue:10
-#: views/assets/src/components/project-discussions/discussions.vue:158
-#: views/assets/src/components/project-task-lists/incompleted-tasks.vue:71
-msgid "Edit"
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/project-discussions/comment-form.vue:39
+#: views/assets/src/components/project-task-lists/list-comment-form.vue:48
+msgid "Add New Comment"
+msgstr ""
+
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/common/file-uploader.vue:59
+msgid "select files"
 msgstr ""
 
 #: views/assets/js/pm.js:1
@@ -1011,6 +1190,7 @@ msgstr ""
 
 #: views/assets/js/pm.js:1
 #: views/assets/src/components/project-discussions/new-discuss-form.vue:57
+#: views/emails/html/update-message.php:12
 msgid "Update Message"
 msgstr ""
 
@@ -1114,39 +1294,12 @@ msgid "- Project Category -"
 msgstr ""
 
 #: views/assets/js/pm.js:9
-#: views/assets/src/components/categories/categories.vue:57
-#: views/assets/src/components/categories/categories.vue:111
-#: views/assets/src/components/categories/categories.vue:163
-#: views/assets/src/components/common/header.vue:30
-#: views/assets/src/components/project-lists/project-create-form.vue:36
-#: views/assets/src/components/project-lists/project-summary.vue:134
-#: views/assets/src/components/project-task-lists/incompleted-tasks.vue:74
-msgid "Delete"
-msgstr ""
-
-#: views/assets/js/pm.js:9
 #: views/assets/src/components/project-lists/project-create-form.vue:52
 msgid "Notify Co-Workers"
 msgstr ""
 
-#: views/assets/js/pm.js:9
-#: views/assets/src/components/categories/edit-category-form.vue:23
-#: views/assets/src/components/project-discussions/new-discuss-form.vue:32
-#: views/assets/src/components/project-lists/project-create-form.vue:59
-#: views/assets/src/components/project-milestones/new-milestone-form.vue:18
-#: views/assets/src/components/project-task-lists/new-task-form.vue:51
-#: views/assets/src/components/project-task-lists/new-task-list-form.vue:27
-msgid "Cancel"
-msgstr ""
-
-#: views/assets/js/pm.js:9 views/assets/src/components/common/header.vue:18
-#: views/assets/src/components/project-lists/project-header-menu.vue:13
-#: views/assets/src/components/project-task-lists/lists.vue:92
-msgid "Completed"
-msgstr ""
-
 #: views/assets/js/pm.js:9 views/assets/src/components/common/header.vue:19
-#: views/assets/src/components/project-task-lists/lists.vue:102
+#: views/assets/src/components/project-task-lists/lists.vue:109
 msgid "Incomplete"
 msgstr ""
 
@@ -1155,24 +1308,28 @@ msgid "Delete project"
 msgstr ""
 
 #: views/assets/js/pm.js:9 views/assets/src/components/common/header.vue:37
-#: views/assets/src/components/project-lists/project-summary.vue:141
+#: views/assets/src/components/project-lists/project-summary.vue:142
 msgid "Complete"
 msgstr ""
 
 #: views/assets/js/pm.js:9 views/assets/src/components/common/header.vue:40
-#: views/assets/src/components/project-lists/project-summary.vue:144
+#: views/assets/src/components/project-lists/project-summary.vue:145
 msgid "Restore"
-msgstr ""
-
-#: views/assets/js/pm.js:9
-#: views/assets/src/components/project-overview/directive.js:9
-msgid "Activity"
 msgstr ""
 
 #: views/assets/js/pm.js:9
 #: views/assets/src/components/project-lists/project-summary.vue:63
 #: views/assets/src/components/project-overview/overview.vue:57
 msgid "Tasks"
+msgstr ""
+
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-discussions/discussions.vue:110
+#: views/assets/src/components/project-discussions/individual-discussions.vue:55
+#: views/assets/src/components/project-lists/project-summary.vue:104
+#: views/assets/src/components/project-overview/overview.vue:68
+#: views/assets/src/components/project-task-lists/lists.vue:118
+msgid "Comments"
 msgstr ""
 
 #: views/assets/js/pm.js:9
@@ -1196,22 +1353,22 @@ msgid "No activity fount"
 msgstr ""
 
 #: views/assets/js/pm.js:9
-#: views/assets/src/components/project-files/files.vue:35
+#: views/assets/src/components/project-files/files.vue:29
 msgid "Attached to"
 msgstr ""
 
 #: views/assets/js/pm.js:9
-#: views/assets/src/components/project-files/files.vue:37
+#: views/assets/src/components/project-files/files.vue:31
 msgid "by"
 msgstr ""
 
 #: views/assets/js/pm.js:9
-#: views/assets/src/components/project-files/files.vue:39
+#: views/assets/src/components/project-files/files.vue:33
 msgid "admin"
 msgstr ""
 
 #: views/assets/js/pm.js:9
-#: views/assets/src/components/project-files/files.vue:61
+#: views/assets/src/components/project-files/files.vue:55
 msgid "No result found!"
 msgstr ""
 
@@ -1227,7 +1384,8 @@ msgid "- Milestone -"
 msgstr ""
 
 #: views/assets/js/pm.js:9
-#: views/assets/src/components/project-task-lists/list-tasks.vue:9
+#: views/assets/src/components/project-task-lists/list-tasks.vue:8
+#: views/assets/src/components/project-task-lists/list-tasks.vue:23
 #: views/assets/src/components/project-task-lists/single-list-tasks.vue:12
 #: views/assets/src/components/project-task-lists/single-list-tasks.vue:29
 msgid "No tasks found."
@@ -1262,10 +1420,43 @@ msgid "To assign people to tasks."
 msgstr ""
 
 #: views/assets/js/pm.js:9
-#: views/assets/src/components/project-task-lists/lists.vue:77
+msgid "Filter"
+msgstr ""
+
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-task-lists/lists.vue:84
 #: views/assets/src/components/project-task-lists/single-list-tasks.vue:14
 #: views/assets/src/components/project-task-lists/single-list-tasks.vue:32
 msgid "More Tasks"
+msgstr ""
+
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-task-lists/lists.vue:142
+msgid "Task Filter"
+msgstr ""
+
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-task-lists/lists.vue:159
+msgid "No task list found."
+msgstr ""
+
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-task-lists/lists.vue:166
+msgid "Status"
+msgstr ""
+
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-task-lists/lists.vue:172
+msgid "On-going"
+msgstr ""
+
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-task-lists/lists.vue:177
+msgid "Assigned to"
+msgstr ""
+
+#: views/assets/js/pm.js:9
+msgid "Done"
 msgstr ""
 
 #: views/assets/js/pm.js:9
@@ -1279,8 +1470,30 @@ msgid "Completed Tasks"
 msgstr ""
 
 #: views/assets/js/pm.js:9
+#: views/assets/src/components/common/file-uploader.vue:10
+msgid "Delete File"
+msgstr ""
+
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/common/file-uploader.vue:16
+msgid "To attach"
+msgstr ""
+
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/common/file-uploader.vue:20
+msgid "from your computer."
+msgstr ""
+
+#: views/assets/js/pm.js:9
 #: views/assets/src/components/project-task-lists/list-comments.vue:4
 msgid "Discuss this task list"
+msgstr ""
+
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-discussions/discussions.vue:84
+#: views/assets/src/components/project-discussions/individual-discussions.vue:32
+#: views/assets/src/components/project-task-lists/list-comments.vue:15
+msgid "By"
 msgstr ""
 
 #: views/assets/js/pm.js:9
@@ -1417,8 +1630,8 @@ msgid "Active"
 msgstr ""
 
 #: views/assets/js/pm.js:9
-#: views/assets/src/components/project-lists/project-header-menu.vue:20
-msgid "All"
+#: views/assets/src/components/project-lists/project-header-menu.vue:27
+msgid "Favourite"
 msgstr ""
 
 #: views/assets/js/pm.js:9
@@ -1432,14 +1645,6 @@ msgstr ""
 #: views/assets/src/components/categories/categories.vue:137
 #: views/assets/src/components/categories/edit-category-form.vue:8
 msgid "Name"
-msgstr ""
-
-#: views/assets/js/pm.js:9
-#: views/assets/src/components/categories/categories.vue:33
-#: views/assets/src/components/categories/categories.vue:85
-#: views/assets/src/components/categories/categories.vue:143
-#: views/assets/src/components/categories/edit-category-form.vue:14
-msgid "Description"
 msgstr ""
 
 #: views/assets/js/pm.js:9
@@ -1500,12 +1705,15 @@ msgid "Project Managing Capability"
 msgstr ""
 
 #: views/assets/js/pm.js:9 views/assets/src/components/settings/general.vue:65
-#: views/assets/src/components/settings/general.vue:81
 msgid "Select the user roles who can see and manage all projects."
 msgstr ""
 
 #: views/assets/js/pm.js:9 views/assets/src/components/settings/general.vue:71
 msgid "Project Creation Capability"
+msgstr ""
+
+#: views/assets/js/pm.js:9 views/assets/src/components/settings/general.vue:81
+msgid "Select the user roles who can create project."
 msgstr ""
 
 #: views/assets/js/pm.js:9 views/assets/src/components/settings/email.vue:12
@@ -1561,6 +1769,10 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
+#: views/assets/src/components/project-task-lists/single-task.vue:225
+msgid "Shift+Enter for line break"
+msgstr ""
+
 #: views/emails/html/complete-task.php:12
 msgid "Task status has been changed"
 msgstr ""
@@ -1609,11 +1821,11 @@ msgstr ""
 msgid "Message Created By"
 msgstr ""
 
-#: views/emails/html/new-message.php:28
+#: views/emails/html/new-message.php:28 views/emails/html/update-message.php:28
 msgid "Title"
 msgstr ""
 
-#: views/emails/html/new-message.php:49
+#: views/emails/html/new-message.php:49 views/emails/html/update-message.php:49
 msgid "View Message"
 msgstr ""
 
@@ -1644,6 +1856,10 @@ msgstr ""
 
 #: views/emails/html/new-task.php:18
 msgid "Created By"
+msgstr ""
+
+#: views/emails/html/update-message.php:19
+msgid "Message Updated By"
 msgstr ""
 
 #: views/emails/html/update-project.php:15
