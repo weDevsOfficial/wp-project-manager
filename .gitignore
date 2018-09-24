@@ -14,6 +14,7 @@ npm-debug.log
 phpcs.ruleset.xml
 phpunit.xml.dist
 composer.lock
+composer.phar
 package-lock.json
 /tmp
 /build/

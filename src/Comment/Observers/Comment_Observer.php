@@ -21,6 +21,11 @@ class Comment_Observer extends Model_Observer {
         $this->log_activity( $comment, $action_type );
     }
 
+    public function deleting( $comment ) {
+        $action_type = 'delete';
+        $this->log_activity( $comment, $action_type );
+    }
+
     public function updated( $resource ) {
         $this->call_attribute_methods( $resource );
     }

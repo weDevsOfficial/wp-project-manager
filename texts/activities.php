@@ -40,6 +40,10 @@ return [
         __( '%1$s has created a discussion board titled as %2$s.', 'wedevs-project-manager' ),
         ['actor.data.display_name', 'meta.discussion_board_title']
     ],
+    'delete_discussion_board'             => [
+        __( '%1$s has deleted a discussion board titled as %2$s.', 'wedevs-project-manager' ),
+        ['actor.data.display_name', 'meta.deleted_discussion_board_title']
+    ],
     'update_discussion_board_title'       => [
         __( '%1$s has updated the title of a discussion board from "%2$s" to "%3$s".', 'wedevs-project-manager' ),
         ['actor.data.display_name', 'meta.discussion_board_title_old', 'meta.discussion_board_title_new']
@@ -57,6 +61,10 @@ return [
     'create_task_list'             => [
         __( '%1$s has created a task list titled as %2$s.', 'wedevs-project-manager' ),
         ['actor.data.display_name', 'meta.task_list_title']
+    ],
+    'delete_task_list'             => [
+        __( '%1$s has Deleted a task list titled as %2$s.', 'wedevs-project-manager' ),
+        ['actor.data.display_name', 'meta.deleted_task_list_title']
     ],
     'update_task_list_title'       => [
         __( '%1$s has updated the title of a task list from "%2$s" to "%3$s".', 'wedevs-project-manager' ),
@@ -76,6 +84,10 @@ return [
         __( '%1$s has created a milestone, %2$s.', 'wedevs-project-manager' ),
         ['actor.data.display_name', 'meta.milestone_title']
     ],
+    'delete_milestone'             => [
+        __( '%1$s has Deleted a milestone, %2$s.', 'wedevs-project-manager' ),
+        ['actor.data.display_name', 'meta.deleted_milestone_title']
+    ],
     'update_milestone_title'       => [
         __( '%1$s has updated the title of a milestone from "%2$s" to "%3$s".', 'wedevs-project-manager' ),
         ['actor.data.display_name', 'meta.milestone_title_old', 'meta.milestone_title_new']
@@ -93,6 +105,10 @@ return [
     'create_task'             => [
         __( '%1$s has created a task, %2$s.', 'wedevs-project-manager' ),
         ['actor.data.display_name', 'meta.task_title']
+    ],
+    'delete_task'             => [
+        __( '%1$s has deleted a task, %2$s.', 'wedevs-project-manager' ),
+        ['actor.data.display_name', 'meta.deleted_task_title']
     ],
     'update_task_title'       => [
         __( '%1$s has updated the title of a task from "%2$s" to "%3$s".', 'wedevs-project-manager' ),
