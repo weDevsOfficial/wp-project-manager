@@ -1,6 +1,6 @@
 <template>
 <div class="pm-file">
-    <a v-if="isVideo" v-pm-pretty-photo class="pm-colorbox-img" :href="file.url + '?iframe=true'" :title="file.name" target="_blank" rel="prettyPhoto">
+    <a v-if="isVideo" v-pm-pretty-photo class="pm-colorbox-img pm-video" :href="file.url + '?iframe=true'" :title="file.name" target="_blank" rel="prettyPhoto">
         <img class="pm-content-img-size" :src="file.thumb" :alt="file.name">
     </a>
 
