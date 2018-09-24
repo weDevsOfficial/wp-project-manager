@@ -164,11 +164,13 @@
                             </div>
                             <div class="margin-top">
                                 <div class="margin-title">{{__('Status', 'wedevs-project-manager')}}</div>
-                                <div>
-                                    <a class="complete-btn" @click.prevent="changeFilterStatus('complete')" href="#">
-                                        <span>{{__('Completed', 'wedevs-project-manager')}}</span>
+                                <div class="status-elements">
+                                    <a :class="'complete-btn ' + completeBoder()" @click.prevent="changeFilterStatus('complete')" href="#">
+                                        {{__('Completed', 'wedevs-project-manager')}}
                                     </a>
-                                    <a class="on-going-btn" @click.prevent="changeFilterStatus('incomplete')" href="#">{{__('On-going', 'wedevs-project-manager')}}</a>
+                                    <a :class="'on-going-btn ' + onGoingBorder()" @click.prevent="changeFilterStatus('incomplete')" href="#">
+                                        {{__('On-going', 'wedevs-project-manager')}}
+                                    </a>
                                 </div>
                             </div>
                             <div class="margin-top">
@@ -199,7 +201,7 @@
                                     </multiselect>
                                 </div>
                             </div>
-                            <input type="submit" class="button-primary" name="submit_todo" :value="__('Done', 'wedevs-project-manager')">
+                            <input  type="submit" class="button-primary filter-submit-btn" name="submit_todo" :value="__('Done', 'wedevs-project-manager')">
                         </form>
                     </div>
                 </div>
@@ -244,6 +246,18 @@
                 border-top: 1px solid #e5e5e5;
                 border-bottom: 1px solid #e5e5e5;
 
+                .filter-submit-btn {
+                    margin-top: 20px;
+                }
+
+                .complete-status {
+                    border: 1px solid #9B59CA;
+                }
+
+                .incomplete-status {
+                    border: 1px solid #E9485E;
+                }
+
                 .complete-btn {
                     padding: 6px 15px;
                     border-radius: 3px;
@@ -261,6 +275,12 @@
                 .margin-top {
                     margin-top: 20px;
                     color: #000;
+
+                    .status-elements {
+                        display: flex;
+                        align-items: center;
+                        justify-content: space-between;
+                    }
                 }
 
                 .margin-title {
@@ -589,6 +609,12 @@
         },
 
         methods: {
+            completeBoder () {
+                return this.filterStatus == 'complete' ? 'complete-status' : '';
+            },
+            onGoingBorder () {
+                return this.filterStatus == 'incomplete' ? 'incomplete-status' : '';
+            },
             helpTextPrivate (privateList) {
                 return privateList ? __('Make Visible', 'wedevs-project-manager') : __('Make Private', 'wedevs-project-manager');
             },

@@ -546,10 +546,8 @@ class Task_Controller {
                 $q->whereIn( 'id', $lists );
             }
         })
-        ->orderBy( 'id', 'DESC' )
+        ->orderBy( 'order', 'DESC' )
         ->paginate( $per_page );
-
-        $tasks = [];
 
         $collection = $task_lists->getCollection();
 
@@ -567,11 +565,12 @@ class Task_Controller {
             if (! isset( $tasks[$req_list['id']] ) ) {
                 continue;
             }
-            $tasks = $tasks[$req_list['id']];
+
+            $list_tasks = $tasks[$req_list['id']];
             $incomplete = [];
-            $complete = [];
-            
-            foreach ( $tasks['data'] as $key => $task) {
+            $complete   = [];
+
+            foreach ( $list_tasks['data'] as $task) {
                 
                 if ( $task['status'] == 'incomplete' ) {
                     $incomplete[] = $task;
@@ -580,10 +579,8 @@ class Task_Controller {
                 }
             }
             
-            
             $req_lists['data'][$key]['incomplete_tasks']['data'] = $incomplete;
-        
-            $req_lists['data'][$key]['complete_tasks']['data'] = $complete;
+            $req_lists['data'][$key]['complete_tasks']['data']   = $complete;
             
         }
         
