@@ -470,6 +470,7 @@ class Task_Controller {
         $due_date  = $request->get_param('dueDate');
         $assignees = $request->get_param('users');
         $lists     = $request->get_param('lists');
+        $project_id = $request->get_param('project_id');
 
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
@@ -477,7 +478,7 @@ class Task_Controller {
 
         $task_lists = Task_List::with(
             [
-                'tasks' => function($q) use( $status, $due_date, $assignees ) {
+                'tasks' => function($q) use( $status, $due_date, $assignees, $project_id ) {
                     
                     if ( ! empty(  $status ) ) {
                         $status = $status == 'complete' ? 1 : 0;
@@ -499,19 +500,22 @@ class Task_Controller {
                         }
                     }
 
-                    if ( ! empty(  $assignees[0] ) ) {
-
+                    if ( ! empty(  $assignees ) && ! empty(  $assignees[0] ) ) {
                         $q->whereHas('assignees', function( $assign_query ) use( $assignees ) {
-                            $assign_query->whereIn('assigned_to', $assignees);
+                            if( is_array( $assignees ) && $assignees[0] != 0 ) {
+                                $assign_query->whereIn('assigned_to', $assignees);
+                            } else if ( !is_array( $assignees ) && $assignees != 0) {
+                                $assign_query->where('assigned_to', $assignees);
+                            }
                         });
                     }
 
-                    
+                    $q = apply_filters( 'pm_task_query', $q, $project_id );
                 }
             ]
         )
-        ->whereHas('tasks', function($q) use( $status, $due_date, $assignees ) {
-                    
+        ->whereHas('tasks', function($q) use( $status, $due_date, $assignees, $project_id ) {
+                
                 if ( ! empty(  $status ) ) {
                     $status = $status == 'complete' ? 1 : 0;
                     $q->where( pm_tb_prefix(). 'pm_tasks.status', $status );
@@ -532,18 +536,26 @@ class Task_Controller {
                     }
                 }
 
-                if ( ! empty(  $assignees[0] ) ) {
-
+                if ( ! empty(  $assignees ) && ! empty(  $assignees[0] ) ) {
                     $q->whereHas('assignees', function( $assign_query ) use( $assignees ) {
-                        $assign_query->whereIn('assigned_to', $assignees);
+                        if( is_array( $assignees ) && $assignees[0] != 0 ) {
+                            $assign_query->whereIn('assigned_to', $assignees);
+                        } else if ( !is_array( $assignees ) && $assignees != 0) {
+                            $assign_query->where('assigned_to', $assignees);
+                        }
                     });
                 }
+
+                $q = apply_filters( 'pm_task_query', $q, $project_id );
             }
         )
         ->where(function($q) use( $lists ) {
-            
-            if(!empty($lists[0])) {
-                $q->whereIn( 'id', $lists );
+            if( !empty( $lists ) && !empty( $lists[0] ) ) {
+                if( is_array( $lists ) && $lists[0] != 0 ) {
+                    $q->whereIn( 'id', $lists );
+                } else if ( !is_array( $lists ) &&  $lists != 0 ) {
+                    $q->where( 'id', $lists );
+                }
             }
         })
         ->orderBy( 'order', 'DESC' )

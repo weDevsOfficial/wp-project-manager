@@ -574,11 +574,12 @@
             projectUsers () {
                 let project = this.$store.state.project;
 
-                if(project) {
+                if(project.assignees) {
                     project.assignees.data.splice(0, 1, {
                         id: 0,
                         display_name: this.__('All', 'wedevs-project-manager')
-                    })
+                    });
+
                     return project.assignees.data;
                 }
 
@@ -602,13 +603,48 @@
         created () {
             pmBus.$on('pm_before_destroy_single_task', this.updateSingleTask);
             pmBus.$on('pm_generate_task_url', this.generateTaskUrl);
+            pmBus.$on('pm_after_fetch_project', this.afterFetchProject);
 
             if(this.$route.query.filterTask == 'active') {
+                this.setSearchData();
+                this.isActiveFilter = true;
                 this.filterRequent();
             } 
         },
 
         methods: {
+            afterFetchProject (project) {
+
+                //set filter search user
+                if(this.$route.query.filterTask == 'active') {
+                    let index = this.getIndex(this.projectUsers, this.$route.query.users, 'id');
+                    this.defaultUser = project.assignees.data[index];
+                } 
+            },
+            setSearchData () {
+                var self = this;
+                this.filterStatus = this.$route.query.status;
+                var request = {
+                    data: {
+
+                    },
+                    url: this.base_url + '/pm/v2/projects/'+this.project_id+'/task-lists',
+                 
+                    success (res) {
+                        self.searchLists = res.data;
+                        self.searchLists.splice(0, 1,    {
+                            id: 0,
+                            title: self.__('All', 'wedevs-project-manager')
+                        });
+                        let index = self.getIndex(self.searchLists, self.$route.query.lists, 'id');
+                        self.defaultList = self.searchLists[index];
+                    }
+                }
+                
+                this.httpRequest(request);
+                let duDateIndex = this.getIndex(this.dueDates, self.$route.query.dueDate, 'id');
+                this.dueDate = this.dueDates[duDateIndex];
+            },
             completeBoder () {
                 return this.filterStatus == 'complete' ? 'complete-status' : '';
             },
@@ -820,7 +856,7 @@
                 }
 
                 //var queryPaprams = this.setQuery(query);
-                console.log(query);
+                
                 this.$router.push({
                     query: query
                 });
@@ -830,7 +866,7 @@
 
             filterRequent () {
                 var self = this;
-                console.log(self.$route.query);
+                
                 self.httpRequest({
                     url: self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks/filter',
                     type: 'POST',

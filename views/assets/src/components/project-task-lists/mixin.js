@@ -874,12 +874,23 @@ var PM_TaskList_Mixin = {
          * @return {Boolean}      [description]
          */
         isIncompleteLoadMoreActive ( list ) {
+            
+            if(typeof this.$route.query.filterTask != 'undefined') {
+                if(this.$route.query.filterTask == 'active') {
+                    //if(this.$route.query.status == 'complete') {
+                        
+                        return false;
+                    //}
+                }
+            }
+
             if (typeof list.incomplete_tasks === 'undefined') {
                 return false;
             }
 
             var count_tasks = list.meta.total_incomplete_tasks;
             var total_set_task = list.incomplete_tasks.data.length;
+
             if (total_set_task === count_tasks) {
                 return false;
             }
