@@ -24,7 +24,7 @@
                                     <time :datetime="dateISO8601Format( comment.comment_date )" :title="getFullDate( comment.created_at.date+' '+comment.created_at.time )">{{ commentDate(comment) }}</time>
                                 </span>
                             </div>
-                            <span v-if="!comment.edit_mode" @click.prevent="showActionMenu(comment)" class="icon-pm-down-arrow comment-action-arrow">
+                            <div v-if="!comment.edit_mode" @click.prevent="showActionMenu(comment)" class="icon-pm-down-arrow comment-action-arrow">
                                 <div v-if="comment.actionMode" class="pm-popup-menu comment-action">
                                     <ul class="comment-action-ul">
                                         <li>
@@ -41,19 +41,19 @@
                                         </li>
                                     </ul>
                                 </div>
-                            </span>
+                            </div>
                             
                         </div>
 
 
                         <div v-if="!comment.edit_mode" class="pm-comment-content">
                             
-                                <div v-html="comment.content"></div>
-                                <ul class="pm-attachments" v-if="comment.files.data.length">
-                                    <li v-for="file in comment.files.data" :key="file.id">
-                                        <pm-file :file="file" />
-                                    </li>
-                                </ul>
+                            <div v-html="comment.content"></div>
+                            <ul class="pm-attachments" v-if="comment.files.data.length">
+                                <li v-for="file in comment.files.data" :key="file.id">
+                                    <pm-file :file="file" />
+                                </li>
+                            </ul>
 
                         </div>
 

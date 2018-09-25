@@ -258,12 +258,24 @@
                                             <activity-parser :activity="activity"></activity-parser>
                                             <span class="activity-watch-wrap">
                                                 <span class="activity-watch-icon icon-pm-watch"></span>
-                                                <span class="activity-form-now">{{ relativeDate(activity.committed_at.date) }}</span>
+                                                <span :title="getFullDate( activity.committed_at.date +' '+ activity.committed_at.time )" class="activity-form-now">{{ relativeDate(activity.committed_at.date +' '+ activity.committed_at.time) }}</span>
                                             </span>
                                         </div>
                                     </div>
                                 </li>
                             </ul>
+
+                            <div v-if="activityLoading" class="pm-data-load-before" >
+                                <div class="loadmoreanimation">
+                                    <div class="load-spinner">
+                                        <div class="rect1"></div>
+                                        <div class="rect2"></div>
+                                        <div class="rect3"></div>
+                                        <div class="rect4"></div>
+                                        <div class="rect5"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -330,6 +342,7 @@
                 isActiveMenu: false,
                 activityPage: 2,
                 activityLoading: false,
+                allActivityLoaded: false,
                 content: {
                     html: ''
                 },
@@ -440,6 +453,10 @@
 
             loadMoreActivity (self) {
 
+                if(this.allActivityLoaded) {
+                    return;
+                }
+
                 if( this.activityLoading ) {
                     return;
                 }
@@ -451,13 +468,18 @@
                         activityPage: this.activityPage
                     },
                     success (res) {
+                        self.activityLoading = false;
                         self.activityPage = self.activityPage + 1;
                         
                         if(typeof self.task.activities == 'undefined') {
-                           pm.Vue.set(self.task, 'activities', {});
-                           pm.Vue.set(self.task.activities, 'data', res.data);
+                            pm.Vue.set(self.task, 'activities', {});
+                            pm.Vue.set(self.task.activities, 'data', res.data);
                         } else {
                             self.task.activities.data = self.task.activities.data.concat(res.data);
+                        }
+
+                        if(!res.data.length) {
+                            self.allActivityLoaded = true;
                         }
                     },
 
@@ -466,7 +488,7 @@
                     }
                 }
 
-                //this.activityLoading = true;
+                this.activityLoading = true;
                 self.httpRequest(request_data);
             },
             showMenu (status) {
@@ -782,7 +804,8 @@
                 }
                 
                 if ( ! dscription_blur.length ) {
-                    this.is_task_details_edit_mode = false;
+                    this.closeDescriptionEditor();
+                    //this.is_task_details_edit_mode = false;
                 }
                 if ( ! assign_user.length ) {
                     this.is_enable_multi_select = false;
