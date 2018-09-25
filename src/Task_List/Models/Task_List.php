@@ -11,9 +11,10 @@ use WeDevs\PM\File\Models\File;
 use WeDevs\PM\User\Models\User;
 use WeDevs\PM\Milestone\Models\Milestone;
 use WeDevs\PM\Common\Models\Meta;
+use WeDevs\PM\Common\Traits\Board_Status;
 
 class Task_List extends Eloquent {
-    use Model_Events;
+    use Model_Events, Board_Status;
 
     protected $table = 'pm_boards';
 
@@ -21,12 +22,15 @@ class Task_List extends Eloquent {
         'title',
         'description',
         'order',
+        'status',
         'project_id',
         'created_by',
         'updated_by',
     ];
 
     protected $attributes = ['type' => 'task_list'];
+
+
 
     public function newQuery( $except_deleted = true ) {
         return parent::newQuery( $except_deleted )->where( 'type', '=', 'task_list' );

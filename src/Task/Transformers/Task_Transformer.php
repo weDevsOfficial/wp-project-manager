@@ -174,7 +174,13 @@ class Task_Transformer extends TransformerAbstract {
     }
 
     public function includeActivities( Task $item ) {
-        $activities = $item->activities;
+        $page = isset( $_GET['activitie_page'] ) ? $_GET['activitie_page'] : 1;
+
+        Paginator::currentPageResolver(function () use ($page) {
+            return $page;
+        }); 
+
+        $activities = $item->activities()->paginate( 10 );
         return $this->collection( $activities, new Activity_Transformer );
     }
 

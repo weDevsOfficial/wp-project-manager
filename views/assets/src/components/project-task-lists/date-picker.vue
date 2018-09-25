@@ -1,5 +1,5 @@
 <template>
-    <input type="text" class="pm-datepickter" :value="dateValue">
+    <input type="text" class="pm-datepicker" :value="dateValue">
 </template>
 
 <script>
@@ -20,7 +20,7 @@
         },
         mounted: function() {
             var self = this,
-                limit_date = ( self.dependency == 'pm-datepickter-from' ) ? "maxDate" : "minDate";
+                limit_date = ( self.dependency == 'pm-datepicker-from' ) ? "maxDate" : "minDate";
 
             jQuery( self.$el ).datepicker({
                 dateFormat: 'yy-mm-dd',
