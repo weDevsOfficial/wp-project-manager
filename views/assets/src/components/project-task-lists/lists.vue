@@ -26,7 +26,7 @@
                     <div class="pm-right-inline-list-element">
                         <div class="list-filter">
 
-                            <a v-pm-tooltip :title="__('Filter', 'wedevs-project-manager')" @click.prevent="showFilter()" href="#"><span class="icon-pm-filter"></span></a>
+                            <a v-pm-tooltip :title="__('Task Filter', 'wedevs-project-manager')" @click.prevent="showFilter()" href="#"><span class="icon-pm-filter"></span></a>
                         </div>
                         <pm-do-action :hook="'pm-inline-list-button'"></pm-do-action>
                            
