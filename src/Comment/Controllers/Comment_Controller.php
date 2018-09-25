@@ -8,6 +8,7 @@ use League\Fractal\Resource\Item as Item;
 use League\Fractal\Resource\Collection as Collection;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use WeDevs\PM\Common\Traits\Transformer_Manager;
+use WeDevs\PM\Common\Traits\Last_activity;
 use WeDevs\PM\Comment\Transformers\Comment_Transformer;
 use WeDevs\PM\Common\Traits\Request_Filter;
 use WeDevs\PM\Comment\Models\Comment;
@@ -17,7 +18,7 @@ use WeDevs\PM\Common\Traits\File_Attachment;
 
 class Comment_Controller {
 
-    use Transformer_Manager, Request_Filter, File_Attachment;
+    use Transformer_Manager, Request_Filter, File_Attachment, Last_activity;
 
     public function index( WP_REST_Request $request ) {
         $project_id = $request->get_param( 'project_id' );
@@ -89,7 +90,8 @@ class Comment_Controller {
         $resource = new Item( $comment, new Comment_Transformer );
 
         $message = [
-            'message' => pm_get_text('success_messages.comment_created')
+            'message' => pm_get_text('success_messages.comment_created'),
+            'activity' => $this->last_activity(),
         ];
 
         do_action( 'cpm_comment_new', $comment->id , $request->get_param('project_id'), $request->get_params() );
@@ -128,7 +130,8 @@ class Comment_Controller {
         $resource = new Item( $comment, new Comment_Transformer );
 
         $message = [
-            'message' => pm_get_text('success_messages.comment_updated')
+            'message' => pm_get_text('success_messages.comment_updated'),
+            'activity' => $this->last_activity(),
         ];
 
         $response = $this->get_response( $resource, $message );
@@ -147,7 +150,8 @@ class Comment_Controller {
         $comment->delete();
 
         $message = [
-            'message' => pm_get_text('success_messages.comment_deleted')
+            'message' => pm_get_text('success_messages.comment_deleted'),
+            'activity' => $this->last_activity(),
         ];
 
         return $this->get_response(false, $message);

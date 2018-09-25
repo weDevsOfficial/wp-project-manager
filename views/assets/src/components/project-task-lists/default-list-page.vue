@@ -27,6 +27,9 @@
             <p>
                 {{ __( 'No Archive list found', 'wedevs-project-manager') }}
             </p>
+            <p>
+                <a @click.prevent="$router.push({ name: 'task_lists', params: { project_id} })" class="button"> {{ __( 'Back to task list', 'wedevs-project-manager') }} </a>
+            </p>
         </div>
 
     </div>
