@@ -604,6 +604,7 @@
             pmBus.$on('pm_before_destroy_single_task', this.updateSingleTask);
             pmBus.$on('pm_generate_task_url', this.generateTaskUrl);
             pmBus.$on('pm_after_fetch_project', this.afterFetchProject);
+            this.$store.state.projectTaskLists.isListFetch = false; 
 
             if(this.$route.query.filterTask == 'active') {
                 this.setSearchData();

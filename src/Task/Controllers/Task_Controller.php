@@ -16,6 +16,7 @@ use WeDevs\PM\Project\Models\Project;
 use WeDevs\PM\Common\Models\Boardable;
 use WeDevs\PM\Common\Models\Board;
 use WeDevs\PM\Common\Traits\Request_Filter;
+use WeDevs\PM\Common\Traits\Last_activity;
 use Carbon\Carbon;
 use WeDevs\PM\Common\Models\Assignee;
 use Illuminate\Pagination\Paginator;
@@ -26,7 +27,7 @@ use WeDevs\PM\Activity\Transformers\Activity_Transformer;
 
 class Task_Controller {
 
-    use Transformer_Manager, Request_Filter;
+    use Transformer_Manager, Request_Filter, Last_activity;
 
     public function index( WP_REST_Request $request ) {
         $project_id = $request->get_param( 'project_id' );
@@ -124,7 +125,8 @@ class Task_Controller {
         
 
         $message = [
-            'message' => pm_get_text('success_messages.task_created')
+            'message' => pm_get_text('success_messages.task_created'),
+            'activity' => $this->last_activity(),
         ];
 
         $response = $this->get_response( $resource, $message );
@@ -203,7 +205,8 @@ class Task_Controller {
         $resource = new Item( $task, new Task_Transformer );
         
         $message = [
-            'message' => pm_get_text('success_messages.task_updated')
+            'message' => pm_get_text('success_messages.task_updated'),
+            'activity' => $this->last_activity(),
         ];
         
         $response = $this->get_response( $resource, $message );
@@ -240,7 +243,8 @@ class Task_Controller {
         $resource = new Item( $task, new Task_Transformer );
 
         $message = [
-            'message' => pm_get_text('success_messages.task_updated')
+            'message' => pm_get_text('success_messages.task_updated'),
+            'activity' => $this->last_activity(),
         ];
 
         $response = $this->get_response( $resource, $message );
@@ -297,7 +301,8 @@ class Task_Controller {
         do_action( 'cpm_delete_task_after', $task_id, $project_id, $project_id );
         
         $message = [
-            'message' => pm_get_text('success_messages.task_deleted')
+            'message' => pm_get_text('success_messages.task_deleted'),
+            'activity' => $this->last_activity(),
         ];
 
         return $this->get_response(false, $message);

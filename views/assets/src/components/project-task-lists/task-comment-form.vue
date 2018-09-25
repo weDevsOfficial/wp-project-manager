@@ -235,6 +235,11 @@
                 args.callback = function(res){
                     var index = self.getIndex( self.comments, self.comment.id, 'id' );
                     self.comments.splice(index, 1, res.data);
+                    if ( typeof self.task.activities !== 'undefined' ) {
+                        self.task.activities.data.unshift(res.activity.data);
+                    } else {
+                        self.task.activities = { data: [res.activity.data] };
+                    }
 
                 }
 
@@ -250,6 +255,12 @@
                     self.notify_users    = [];
                     self.files           = []; 
                     self.deleted_files   = [];
+
+                    if ( typeof self.task.activities !== 'undefined' ) {
+                        self.task.activities.data.unshift(res.activity.data);
+                    } else {
+                        self.task.activities = { data: [res.activity.data] };
+                    }
                 }
                 self.addComment ( args );
             }
