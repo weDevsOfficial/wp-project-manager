@@ -15,9 +15,10 @@ global $wedevs_pm_pro;
 require __DIR__.'/../vendor/autoload.php';
 
 
-load_libs();
-view();
-load_routes();
-register_routes();
+pm_load_libs();
+pm_user_tracking();
+pm_view();
+pm_load_routes();
+pm_register_routes();
 
 do_action( 'pm_loaded' );

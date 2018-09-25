@@ -43,7 +43,7 @@ weDevsPMRegisterChildrenRoute('projects',
                 {
                     path: 'pages/:current_page_number', 
                     component: task_lists_route,
-                    name: 'list_pagination',
+                    name: 'task_lists_pagination',
                 },
             ] 
         }

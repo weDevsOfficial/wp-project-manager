@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "fe15c47fcd188f95f96ec050d40a8105",
+    "content-hash": "b7a6d0ffdb22b1a53ef6f9684aa4d964",
     "packages": [
         {
             "name": "a5hleyrich/wp-background-processing",
@@ -41,6 +41,39 @@
             ],
             "description": "WP Background Processing can be used to fire off non-blocking asynchronous requests or as a background processing tool, allowing you to queue tasks.",
             "time": "2018-02-12T09:24:05+00:00"
+        },
+        {
+            "name": "appsero/client",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/AppSero/client.git",
+                "reference": "64216bf4072899f2cbed9fd921b8368da6775ffb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/AppSero/client/zipball/64216bf4072899f2cbed9fd921b8368da6775ffb",
+                "reference": "64216bf4072899f2cbed9fd921b8368da6775ffb",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "AppSero\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Tareq Hasan",
+                    "email": "tareq@appsero.com"
+                }
+            ],
+            "description": "AppSero Client",
+            "time": "2018-08-10T17:00:01+00:00"
         },
         {
             "name": "danielstjules/stringy",
@@ -696,7 +729,9 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "appsero/client": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
