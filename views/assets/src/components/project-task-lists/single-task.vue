@@ -507,6 +507,12 @@
                     list: this.task.task_list.data,
                     callback (data) {
                         self.closePopup();
+                         if ( typeof self.task.activities !== 'undefined' ) {
+                            self.task.activities.data.unshift(data.activity.data);
+                        } else {
+                            self.task.activities = { data: [data.activity.data] };
+                        }
+
                     }
                 });
             },
@@ -540,6 +546,12 @@
                             self.task.status = true;
                         } else {
                             self.task.status = false;
+                        }
+                        
+                        if ( typeof self.task.activities !== 'undefined' ) {
+                            self.task.activities.data.unshift(res.activity.data);
+                        } else {
+                            self.task.activities = { data: [res.activity.data] };
                         }
                         
                         pmBus.$emit('pm_after_task_doneUndone', res);
@@ -748,6 +760,11 @@
                         self.closeDescriptionEditor();
                         self.task.description = res.data.description;
                         self.$store.commit('updateProjectMeta', 'total_activities');
+                        if ( typeof self.task.activities !== 'undefined' ) {
+                            self.task.activities.data.unshift(res.activity.data);
+                        } else {
+                            self.task.activities = { data: [res.activity.data] };
+                        }
 
                         
                     },

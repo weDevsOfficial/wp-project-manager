@@ -17,6 +17,14 @@ class Task_List_Observer extends Model_Observer {
         $this->log_activity( $resource, 'create_task_list', 'create', $meta );
     }
 
+    public function deleting( $resource ) {
+        $meta = [
+            'deleted_task_list_title' => $resource->title,
+        ];
+
+        $this->log_activity( $resource, 'delete_task_list', 'delete', $meta );
+    }
+
     public function updated( $resource ) {
         $this->call_attribute_methods( $resource );
     }
