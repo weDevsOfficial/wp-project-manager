@@ -14,6 +14,8 @@ use WeDevs\PM\Common\Traits\Resource_Editors;
 use WeDevs\PM\Task\Models\Task;
 use Illuminate\Database\Capsule\Manager as DB;
 use Illuminate\Pagination\Paginator;
+use League\Fractal\Resource\Collection as Collection;
+
 
 class Task_List_Transformer extends TransformerAbstract {
 
@@ -38,6 +40,7 @@ class Task_List_Transformer extends TransformerAbstract {
             'title'       => $item->title,
             'description' => pm_filter_content_url( $item->description ),
             'order'       => (int) $item->order,
+            'status'      => $item->status,
             'created_at'  => format_date( $item->created_at ),
             'meta'        => $this->meta( $item ),
         ];

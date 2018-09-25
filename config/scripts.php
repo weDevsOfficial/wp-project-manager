@@ -1,5 +1,5 @@
 <?php
-
+//https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js
 $suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 return [
@@ -80,7 +80,7 @@ return [
 	'pm-locale' => [
 		'id'         => 'pm-locale',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/fullcalendar/locale-all.js',
-		'dependency' => ['pm-fullcalendar'],
+		'dependency' => ['pm-moment'],
 		'in_footer'  => true
 	],
 	'pm-fullcalendar' => [
@@ -125,10 +125,17 @@ return [
 		'in_footer'  => true
 	],
 
+	'pm-touch-punch' => [
+		'id'         => 'pm-touch-punch',
+		'url'        => 'https://unpkg.com/draggabilly@2/dist/draggabilly.pkgd.min.js',
+		'dependency' => ['pm-uploader'],
+		'in_footer'  => true
+	],
+
 	'pm-tiptip' => [
 		'id'         => 'pm-tiptip',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/tiptip/jquery.tipTip.min.js',
-		'dependency' => ['pm-uploader'],
+		'dependency' => ['pm-touch-punch'],
 		'in_footer'  => true
 	],
 

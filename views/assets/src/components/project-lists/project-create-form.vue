@@ -22,16 +22,16 @@
 
             <div class="pm-form-item pm-project-role" v-if="show_role_field">
                 <table>
-                    <tr v-for="projectUser in selectedUsers" :key="projectUser.id" v-if="current_user.data.ID != projectUser.id">
+                    <tr v-for="projectUser in selectedUsers" :key="projectUser.id">
                         <td>{{ projectUser.display_name }}</td>
                         <td>
-                            <select  v-model="projectUser.roles.data[0].id" :disabled="is_project_creator(projectUser.id)">
+                            <select  v-model="projectUser.roles.data[0].id" :disabled="!canUserEdit(projectUser.id)">
                                 <option v-for="role in roles" :value="role.id" :key="role.id" >{{ role.title }}</option>
                             </select>
                         </td>
                       
                         <td>
-                            <a @click.prevent="deleteUser(projectUser)" v-if="!is_project_creator(projectUser.id)" hraf="#" class="pm-del-proj-role pm-assign-del-user">
+                            <a @click.prevent="deleteUser(projectUser)" v-if="canUserEdit(projectUser.id)" hraf="#" class="pm-del-proj-role pm-assign-del-user">
                                 <span class="dashicons dashicons-trash"></span> 
                                 <span class="title">{{ __( 'Delete', 'wedevs-project-manager') }}</span>
                             </a>
@@ -151,7 +151,7 @@
         methods: {
 
             deleteUser (del_user) {
-                if ( this.is_project_creator(del_user.id) ) {
+                if ( !this.canUserEdit(del_user.id) ) {
                     return;
                 }
                 
@@ -163,14 +163,16 @@
                     }
                 );
             },
-            is_project_creator (user_id) {
-                if ( !this.project.hasOwnProperty('creator') ){
+            canUserEdit (user_id) {
+                if (this.has_manage_capability()) {
+                    return true;
+                }
+                
+                if (this.current_user.data.ID == user_id) {
                     return false;
                 }
 
-                if ( this.project.creator.data.id  == user_id ) {
-                    return true;
-                }
+                return true
 
             },
             /**

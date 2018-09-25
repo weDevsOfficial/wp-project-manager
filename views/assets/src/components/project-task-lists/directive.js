@@ -101,6 +101,7 @@ var PM_Task = {
     },
 
     datepicker: function(el, binding, vnode) {
+        
         var $ = jQuery;
         $( '.pm-date-field').datepicker({
             dateFormat: 'yy-mm-dd',
@@ -108,7 +109,7 @@ var PM_Task = {
             changeYear: true,
             yearRange: '-50:+5',
             onSelect: function(dateText) {
-                vnode.context.$root.$emit( 'pm_date_picker', { field: 'datepicker', date: dateText } );
+                vnode.context.$root.$emit( 'pm_date_picker', { id: binding.value, field: 'datepicker', date: dateText } );
             }
         });
 
@@ -121,7 +122,7 @@ var PM_Task = {
                 $( ".pm-date-picker-to" ).datepicker( "option", "minDate", selectedDate );
             },
             onSelect: function(dateText) {
-                vnode.context.$root.$emit( 'pm_date_picker', { field: 'datepicker_from', date: dateText, self: this } );
+                vnode.context.$root.$emit( 'pm_date_picker', { id: binding.value, field: 'datepicker_from', date: dateText, self: this } );
             }
         });
 
@@ -134,7 +135,7 @@ var PM_Task = {
                 $( ".pm-date-picker-from" ).datepicker( "option", "maxDate", selectedDate );
             },
             onSelect: function(dateText) {
-                vnode.context.$root.$emit( 'pm_date_picker', { field: 'datepicker_to', date: dateText } );
+                vnode.context.$root.$emit( 'pm_date_picker', { id: binding.value, field: 'datepicker_to', date: dateText } );
             }
         });
 
@@ -171,8 +172,23 @@ var PM_Task = {
                 e.preventDefault();
             }
         });
+    },
+
+    daterangeRangepicker (el, binding, vnode) {
+        console.log(jQuery('.pm-date-picker-from'));
+        jQuery(el).daterangepicker({
+            alwaysShowCalendars: true,
+            opens: 'center'
+        });
     }
 }
+
+//Register a global custom directive called v-pm-datepicker
+pm.Vue.directive('pm-daterange-rangepicker', {
+    inserted: function (el, binding, vnode) {
+        PM_Task.daterangeRangepicker( el, binding, vnode );
+    },
+});
 
 //Register a global custom directive called v-pm-datepicker
 pm.Vue.directive('pm-datepicker', {

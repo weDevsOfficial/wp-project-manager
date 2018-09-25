@@ -22,7 +22,7 @@ class Textdomain {
      * values in lang static property.
      */
     protected function load() {
-        self::$texts = load_texts();
+        self::$texts = pm_load_texts();
     }
 
     public static function get_text( $key ) {
