@@ -69,13 +69,14 @@ var PM_TaskList_Mixin = {
         can_complete_task (task) {
             return !task.meta.can_complete_task;
         },
-        can_edit_task_list (lsit) {
+        can_edit_task_list (list) {
+            
             var user = PM_Vars.current_user;
             if (this.is_manager()) {
                 return true;
             }
 
-            if ( lsit.creator.data.id == user.ID ){
+            if ( list.creator.data.id == user.ID ){
                 return true;
             }
 
@@ -140,7 +141,7 @@ var PM_TaskList_Mixin = {
             var self = this,
             pre_define = {
                 condition: {
-                    with: 'incomplete_tasks',
+                    with: 'incomplete_tasks,complete_tasks',
                     per_page: this.getSettings('list_per_page', 10),
                     page: this.setCurrentPageNumber()
                 },
@@ -148,7 +149,10 @@ var PM_TaskList_Mixin = {
             };
 
             var args = jQuery.extend(true, pre_define, args );
-            var  condition = this.generateConditions(args.condition);     
+            
+            var conditionobject = pm_apply_filters( 'before_get_task_list', args.condition );
+            var condition = this.generateConditions(conditionobject);
+
             var request = {
                 url: self.base_url + '/pm/v2/projects/'+self.project_id+'/task-lists?'+condition,
                 success (res) {
@@ -312,19 +316,20 @@ var PM_TaskList_Mixin = {
             var self = this,
             pre_define = {
                 data: {
-                    order: 0
+                    id: 0,
                 },
                 callback: false,
             };
             var args = jQuery.extend(true, pre_define, args );
             var data = pm_apply_filters( 'before_task_list_save', args.data );
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/task-lists/'+self.list.id+'/update',
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/task-lists/'+ data.id+'/update',
                 data: data,
                 type: 'POST',
                 success (res) {
                     self.addMetaList(res.data);
                     pm.Toastr.success(res.message);
+                    
                     self.$store.commit( 'projectTaskLists/afterUpdateList', res.data);
                     self.showHideListForm(false, self.list);
 
@@ -869,12 +874,23 @@ var PM_TaskList_Mixin = {
          * @return {Boolean}      [description]
          */
         isIncompleteLoadMoreActive ( list ) {
+            
+            if(typeof this.$route.query.filterTask != 'undefined') {
+                if(this.$route.query.filterTask == 'active') {
+                    //if(this.$route.query.status == 'complete') {
+                        
+                        return false;
+                    //}
+                }
+            }
+
             if (typeof list.incomplete_tasks === 'undefined') {
                 return false;
             }
 
             var count_tasks = list.meta.total_incomplete_tasks;
             var total_set_task = list.incomplete_tasks.data.length;
+
             if (total_set_task === count_tasks) {
                 return false;
             }
@@ -1158,7 +1174,7 @@ var PM_TaskList_Mixin = {
          */
         taskDateWrap ( due_date ) {
             if ( !due_date ) {
-                return 'pm-current-date';
+                return '';
             } 
 
             due_date = new Date(due_date);

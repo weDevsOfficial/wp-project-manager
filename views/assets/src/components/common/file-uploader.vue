@@ -13,9 +13,11 @@
                      
             </div>
             <span> 
-                {{ __('To attach', 'wedevs-project-manager') }} 
-                <a v-pm-uploader class="pm-upload-pickfiles"  href="#">{{ __('select files', 'wedevs-project-manager') }}</a> 
-                {{ __('from your computer.', 'wedevs-project-manager') }}
+                <span v-if="!attr.onlyButton"> {{ __('To attach', 'wedevs-project-manager') }}</span>
+                <a v-pm-uploader class="pm-upload-pickfiles"  href="#">
+                    {{ attr.buttonText }}
+                </a> 
+                <span v-if="!attr.onlyButton">{{ __('from your computer.', 'wedevs-project-manager') }}</span>
             </span>
         </div>
     </div>
@@ -29,10 +31,6 @@
         inserted: function (el, binding, vnode) { 
             new PM_Uploader(el, 'pm-upload-container', vnode.context );
         },
-
-        update: function (el, binding, vnode) { 
-            //new PM_Uploader('pm-upload-pickfiles', 'pm-upload-container', vnode.context );
-        }
     });
 
     export default {
@@ -52,6 +50,15 @@
             single: {
                 type: Boolean,
                 default: false,
+            },
+            attr: {
+                type: Object,
+                default () {
+                    return {
+                        onlyButton: false,
+                        buttonText: __('select files', 'wedevs-project-manager')
+                    }
+                }
             }
         },
 

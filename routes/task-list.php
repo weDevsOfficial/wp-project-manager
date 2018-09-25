@@ -35,4 +35,10 @@ $router->put( 'projects/{project_id}/task-lists/{task_list_id}/detach-users', 'W
 $router->post( 'projects/{project_id}/task-lists/privacy/{task_list_id}', 'WeDevs/PM/Task_List/Controllers/Task_List_Controller@privacy' )
 	->permission(['WeDevs\PM\Core\Permissions\Edit_Task_List']);
 
-$router->post( 'projects/{project_id}/lists/sorting', 'WeDevs/PM/Task_List/Controllers/Task_List_Controller@list_sorting' );
+$router->post( 'projects/{project_id}/lists/sorting', 'WeDevs/PM/Task_List/Controllers/Task_List_Controller@list_sorting' )
+	->permission(['WeDevs\PM\Core\Permissions\Project_Manage_Capability']);
+
+$router->get( 'projects/{project_id}/lists/search', 'WeDevs/PM/Task_List/Controllers/Task_List_Controller@list_search' )
+	->permission(['WeDevs\PM\Core\Permissions\Access_Project']);
+
+

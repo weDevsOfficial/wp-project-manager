@@ -1,9 +1,7 @@
 <?php
 
-class PM_Create_Table
-{
-    public function __construct()
-    {
+class PM_Create_Table {
+    public function __construct() {
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';
         $this->create_project_table();
         $this->create_tasks_table();
@@ -178,6 +176,7 @@ class PM_Create_Table
 			  `description` text,
 			  `order` int(11) UNSIGNED DEFAULT NULL,
 			  `type` varchar(255) DEFAULT NULL,
+			  `status` tinyint(2) unsigned NOT NULL DEFAULT '1',
 			  `project_id` int(11) UNSIGNED NOT NULL,
 			  `created_by` int(11) UNSIGNED DEFAULT NULL,
 			  `updated_by` int(11) UNSIGNED DEFAULT NULL,

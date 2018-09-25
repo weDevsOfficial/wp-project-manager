@@ -78,10 +78,7 @@
         mixins: [Mixins],
 
         created () {
-
-            if ( this.list.milestone != -1 && typeof this.list.milestone != 'undefined') {
-                this.milestone_id = this.list.milestone.data.id;
-            }
+            this.checkMilestone();
         },
 
         computed: {
@@ -98,6 +95,13 @@
 
 
         methods: {
+            checkMilestone () {
+                if ( this.list.milestone != -1 && typeof this.list.milestone != 'undefined') {
+                    this.milestone_id = this.list.milestone.data.id;
+                } else {
+                    this.milestone_id = -1;
+                }
+            },
 
             /**
              * Get todo list form class

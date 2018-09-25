@@ -82,8 +82,8 @@
             handler: function( new_content ) {
                 this.discuss.description = new_content.html;
             },
-        deep: true
-      }
+            deep: true
+        }
     },
 
     components: {
@@ -91,6 +91,7 @@
         'file-uploader': uploader,
         notifyUser: notifyUser
     },
+    
     computed: {
         milestones () {
             return this.$root.$store.state.milestones;
