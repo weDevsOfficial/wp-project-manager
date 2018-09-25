@@ -87,6 +87,25 @@ export default {
             }
         },
 
+        getFullDate (date) {
+            if ( date == '' ) {
+                return;
+            } 
+            date = new Date(date);
+            
+            return pm.Moment(date).format('dddd, MMMM D YYYY, H:mm:ss');
+        },
+
+        relativeDate (date) {
+            if ( !date ) {
+                return;
+            }
+
+            date = new Date(date);
+
+            return pm.Moment(date).fromNow();
+        },
+
         /**
          * WP settings date format convert to pm.Moment date format with time zone
          * 
@@ -95,16 +114,32 @@ export default {
          * @return string      
          */
         shortDateFormat ( date ) {
-            if ( date == '' ) {
+
+            if ( !date ) {
                 return;
             }      
 
             date = new Date(date);
             date = pm.Moment(date).format('YYYY-MM-DD');
 
-            var format = 'MMM DD';
+            var format = 'DD MMM';
 
             return pm.Moment( date ).format( String( format ) );
+        },
+
+        shortTimeFormat ( date ) {
+            if ( date == '' ) {
+                return;
+            }      
+
+            date = new Date(date);
+            var format = 'hh:mm a';
+
+            return pm.Moment( date ).format( String( format ) );
+        },
+
+        ucfirst (word) {
+            return word.replace(/\w/, c => c.toUpperCase())
         },
 
         
@@ -660,7 +695,7 @@ export default {
 
 
         userTaskProfileUrl ( user_id ) {
-            return PM_Vars.ajaxurl + '?page=pm_task#/user/' + user_id;
+            return this.myTaskRedirect( user_id );
         },
 
         /**

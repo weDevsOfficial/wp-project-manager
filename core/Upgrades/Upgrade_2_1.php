@@ -7,19 +7,18 @@ use WP_Background_Process;
 /**
  *   Upgrade project manager 2.0
  */
-class Upgrade_2_1 extends WP_Background_Process
-{
+class Upgrade_2_1 extends WP_Background_Process {
     /**
      * @var string
      */
     protected $action = 'pm_db_migration_2_1';
 
     /*initialize */
-    public function upgrade_init()
-    {
+    public function upgrade_init() {
         $funcions = [
             'alter_task_table',
             'migrate_complete_tasks',
+            'alter_broad_table',
         ];
         foreach ($funcions as $func) {
             $this->push_to_queue($func);
@@ -28,8 +27,7 @@ class Upgrade_2_1 extends WP_Background_Process
         $this->save()->dispatch();
     }
 
-    public function task($func)
-    {
+    public function task($func) {
         
         if (method_exists($this, $func)) {
             $this->{$func}();
@@ -44,8 +42,7 @@ class Upgrade_2_1 extends WP_Background_Process
         // upgrade complete function
     }
 
-    public function alter_task_table()
-    {
+    public function alter_task_table() {
         global $wpdb;
         $table = $wpdb->prefix . 'pm_tasks';
         $sql = "ALTER TABLE {$table}
@@ -55,8 +52,7 @@ class Upgrade_2_1 extends WP_Background_Process
         $wpdb->query($sql);
     }
 
-    public function migrate_complete_tasks()
-    {
+    public function migrate_complete_tasks() {
         $tasks = Task::with('assignees')->where('status', 1)->get();
         $tasks->map(function ($task) {
             $completed_by = $task->assignees->filter( function( $assignee ) {
@@ -74,5 +70,12 @@ class Upgrade_2_1 extends WP_Background_Process
 
         });
 
+    }
+
+    public function alter_broad_table() {
+        global $wpdb;
+        $table = $wpdb->prefix . 'pm_boards';
+        $sql = "ALTER TABLE {$table} ADD `status` TINYINT(2) NOT NULL DEFAULT '1'";
+        $wpdb->query($sql);
     }
 }

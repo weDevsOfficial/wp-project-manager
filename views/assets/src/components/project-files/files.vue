@@ -17,19 +17,13 @@
 
             <div v-if="!loading">
                 <ul class="pm-folders-list" v-if="files.length">
-                    <li class="file" v-for="file in files">
+                    <li class="file" v-for="file in files" :key="file.id">
 
                         <div class="ff-content">
                             <div>
                                 <div class="image-content">
                                     
-                                    <a v-if="file.type == 'image'" v-pm-pretty-photo class="pm-colorbox-img" :href="getDownloadUrl(file.attachment_id)" :title="file.name" target="_blank">
-                                        <img :src="file.thumb" :alt="file.name">
-                                    </a>
-
-                                    <a v-else class="pm-colorbox-img" :href="getDownloadUrl(file.attachment_id)" :title="file.name" target="_blank">
-                                        <img :src="file.thumb" :alt="file.name">
-                                    </a>
+                                    <pm-file :file="file" />
                                     <div class="item-title" v-if="file.name">{{ file.name.slice(0, 20) }}</div>
                                     <span class="text">
                                         {{ __('Attached to', 'wedevs-project-manager') }} 

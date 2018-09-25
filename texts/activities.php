@@ -101,7 +101,7 @@ return [
         ['actor.data.display_name', 'meta.milestone_title']
     ],
 
-    // Activities on milestone
+    // Activities on task
     'create_task'             => [
         __( '%1$s has created a task, %2$s.', 'wedevs-project-manager' ),
         ['actor.data.display_name', 'meta.task_title']
@@ -160,12 +160,20 @@ return [
         __( '%1$s has updated a comment on a task, %2$s.', 'wedevs-project-manager'),
         ['actor.data.display_name', 'meta.task_title']
     ],
+    'delete_comment_on_task'       => [
+        __( '%1$s has deleted a comment on a task, %2$s.', 'wedevs-project-manager'),
+        ['actor.data.display_name', 'meta.task_title']
+    ],
     'reply_comment_on_task'        => [
         __( '%1$s has replied a comment on a task, %2$s', 'wedevs-project-manager'),
         ['actor.data.display_name', 'meta.task_title']
     ],
     'update_reply_comment_on_task' => [
         __( '%1$s has updated a reply comment on a task, %2$s.', 'wedevs-project-manager'),
+        ['actor.data.display_name', 'meta.task_title']
+    ],
+    'delete_reply_comment_on_task' => [
+        __( '%1$s has deleted a reply comment on a task, %2$s.', 'wedevs-project-manager'),
         ['actor.data.display_name', 'meta.task_title']
     ],
 
@@ -178,12 +186,20 @@ return [
         __( '%1$s has updated a comment on a task list, %2$s.', 'wedevs-project-manager'),
         ['actor.data.display_name', 'meta.task_list_title']
     ],
+    'delete_comment_on_task_list'       => [
+        __( '%1$s has deleted a comment on a task list, %2$s.', 'wedevs-project-manager'),
+        ['actor.data.display_name', 'meta.task_list_title']
+    ],
     'reply_comment_on_task_list'        => [
         __( '%1$s has replied a comment on a task list, %2$s', 'wedevs-project-manager'),
         ['actor.data.display_name', 'meta.task_list_title']
     ],
     'update_reply_comment_on_task_list' => [
         __( '%1$s has updated a reply comment on a task list, %2$s.', 'wedevs-project-manager'),
+        ['actor.data.display_name', 'meta.task_list_title']
+    ],
+    'delete_reply_comment_on_task_list' => [
+        __( '%1$s has deleted a reply comment on a task list, %2$s.', 'wedevs-project-manager'),
         ['actor.data.display_name', 'meta.task_list_title']
     ],
 
@@ -196,12 +212,20 @@ return [
         __( '%1$s has updated a comment on a discussion board, %2$s.', 'wedevs-project-manager'),
         ['actor.data.display_name', 'meta.discussion_board_title']
     ],
+    'delete_comment_on_discussion_board'       => [
+        __( '%1$s has deleted a comment on a discussion board, %2$s.', 'wedevs-project-manager'),
+        ['actor.data.display_name', 'meta.discussion_board_title']
+    ],
     'reply_comment_on_discussion_board'        => [
         __( '%1$s has replied a comment on a discussion board, %2$s', 'wedevs-project-manager'),
         ['actor.data.display_name', 'meta.discussion_board_title']
     ],
     'update_reply_comment_on_discussion_board' => [
         __( '%1$s has updated a reply comment on a discussion board, %2$s.', 'wedevs-project-manager'),
+        ['actor.data.display_name', 'meta.discussion_board_title']
+    ],
+    'delete_reply_comment_on_discussion_board' => [
+        __( '%1$s has deleted a reply comment on a discussion board, %2$s.', 'wedevs-project-manager'),
         ['actor.data.display_name', 'meta.discussion_board_title']
     ],
 
@@ -214,12 +238,20 @@ return [
         __( '%1$s has updated a comment on a milestone, %2$s.', 'wedevs-project-manager'),
         ['actor.data.display_name', 'meta.milestone_title']
     ],
+    'delete_comment_on_milestone'       => [
+        __( '%1$s has deleted a comment on a milestone, %2$s.', 'wedevs-project-manager'),
+        ['actor.data.display_name', 'meta.milestone_title']
+    ],
     'reply_comment_on_milestone'        => [
         __( '%1$s has replied a comment on a milestone, %2$s', 'wedevs-project-manager'),
         ['actor.data.display_name', 'meta.milestone_title']
     ],
     'update_reply_comment_on_milestone' => [
         __( '%1$s has updated a reply comment on a milestone, %2$s.', 'wedevs-project-manager'),
+        ['actor.data.display_name', 'meta.milestone_title']
+    ],
+    'delete_reply_comment_on_milestone' => [
+        __( '%1$s has deleted a reply comment on a milestone, %2$s.', 'wedevs-project-manager'),
         ['actor.data.display_name', 'meta.milestone_title']
     ],
 
@@ -232,12 +264,20 @@ return [
         __( '%1$s has updated a comment on the project, %2$s.', 'wedevs-project-manager'),
         ['actor.data.display_name', 'meta.project_title']
     ],
+    'delete_comment_on_project'       => [
+        __( '%1$s has deleted a comment on the project, %2$s.', 'wedevs-project-manager'),
+        ['actor.data.display_name', 'meta.project_title']
+    ],
     'reply_comment_on_project'        => [
         __( '%1$s has replied a comment on the project, %2$s', 'wedevs-project-manager'),
         ['actor.data.display_name', 'meta.project_title']
     ],
     'update_reply_comment_on_project' => [
         __( '%1$s has updated a reply comment on the project, %2$s.', 'wedevs-project-manager'),
+        ['actor.data.display_name', 'meta.project_title']
+    ],
+    'delete_reply_comment_on_project' => [
+        __( '%1$s has deleted a reply comment on the project, %2$s.', 'wedevs-project-manager'),
         ['actor.data.display_name', 'meta.project_title']
     ],
 
@@ -250,6 +290,10 @@ return [
         __( '%1$s has updated a comment on a file, %2$s.', 'wedevs-project-manager'),
         ['actor.data.display_name', 'meta.file_title']
     ],
+    'delete_comment_on_file'       => [
+        __( '%1$s has deleted a comment on a file, %2$s.', 'wedevs-project-manager'),
+        ['actor.data.display_name', 'meta.file_title']
+    ],
     'reply_comment_on_file'        => [
         __( '%1$s has replied a comment on a file, %2$s', 'wedevs-project-manager'),
         ['actor.data.display_name', 'meta.file_title']
@@ -258,6 +302,12 @@ return [
         __( '%1$s has updated a reply comment on a file, %2$s.', 'wedevs-project-manager'),
         ['actor.data.display_name', 'meta.file_title']
     ],
+    'delete_reply_comment_on_file' => [
+        __( '%1$s has deleted a reply comment on a file, %2$s.', 'wedevs-project-manager'),
+        ['actor.data.display_name', 'meta.file_title']
+    ],
+
+    // duplicate project 
     'duplicate_project' => [
         __( '%1$s has duplicated project from , %2$s.', 'wedevs-project-manager'),
         ['actor.data.display_name', 'meta.old_project_title']
