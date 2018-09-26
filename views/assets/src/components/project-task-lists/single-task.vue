@@ -177,8 +177,23 @@
                                         </span>
                                     </span>
                                     <div v-if="is_task_date_edit_mode && can_edit_task(task)" class="task-date">
-                                        <div v-if="task_start_field" v-pm-datepicker="'singleTask'" class="pm-date-picker-from pm-inline-date-picker-from"></div>
-                                        <div v-pm-datepicker="'singleTask'" class="pm-date-picker-to pm-inline-date-picker-to"></div>
+                                        <pm-content-datepicker 
+                                            v-if="task_start_field" 
+                                            v-model="task.start_at.date"
+                                            :callback="callBackDatePickerForm" 
+                                            dependency="pm-datepickter-to" 
+                                            class="pm-datepicker-from pm-inline-date-picker-from">
+                                                
+                                        </pm-content-datepicker>
+                                        <pm-content-datepicker 
+                                            v-model="task.due_date.date" 
+                                            dependency="pm-datepickter-from" 
+                                            :callback="callBackDatePickerTo"
+                                            class="pm-datepicker-to pm-inline-date-picker-to">
+                                                
+                                        </pm-content-datepicker>
+                                      <!--   <div v-if="task_start_field" v-pm-datepicker="'singleTask'" class="pm-date-picker-from pm-inline-date-picker-from"></div>
+                                        <div v-pm-datepicker="'singleTask'" class="pm-date-picker-to pm-inline-date-picker-to"></div> -->
                                     </div>
                                 </span>
                                 
@@ -419,7 +434,7 @@
             this.getSelfTask();
             this.getGloabalProject(this.projectId);
             window.addEventListener('click', this.windowActivity);
-            this.$root.$on('pm_date_picker', this.fromDate);
+            //this.$root.$on('pm_date_picker', this.fromDate);
 
             pm.Vue.nextTick(function() {
                 jQuery('body').addClass('pm-block-content');
@@ -439,6 +454,26 @@
         },
 
         methods: {
+            callBackDatePickerForm (date) {
+                
+                let dateFrom = {
+                    id: 'singleTask',
+                    field: 'datepicker_from',
+                    date: date
+                }
+
+                this.fromDate(dateFrom);
+            },
+            callBackDatePickerTo (date) {
+                
+                let dateTo = {
+                    id: 'singleTask',
+                    field: 'datepicker_to',
+                    date: date
+                }
+
+                this.fromDate(dateTo);
+            },
             submitDescription (task) {
                 task.description.content = this.content.html.trim();
                 this.description_show_spinner = true;
@@ -798,12 +833,12 @@
             windowActivity (el) {
                 var title_blur      = jQuery(el.target).hasClass('pm-task-title-activity'),
                     dscription_blur = jQuery(el.target).closest('#description-wrap'),
-                    assign_user    =  jQuery(el.target).closest( '#pm-multiselect-single-task' ),
-                    actionMenu     = jQuery(el.target).closest( '#pm-action-menu' ),
-                    modal          = jQuery(el.target).closest( '.popup-container' ),
-                    datePicker = jQuery(el.target).closest('#ui-datepicker-div'),
-                    datePickerBtn = jQuery(el.target).closest('.ui-datepicker-buttonpane'),
-                    mainBody = jQuery(el.target).closest('#pm-single-task-wrap');
+                    assign_user     = jQuery(el.target).closest( '#pm-multiselect-single-task' ),
+                    actionMenu      = jQuery(el.target).closest( '#pm-action-menu' ),
+                    modal           = jQuery(el.target).closest( '.popup-container' ),
+                    datePicker      = jQuery(el.target).closest('#ui-datepicker-div'),
+                    datePickerBtn   = jQuery(el.target).closest('.ui-datepicker-buttonpane'),
+                    mainBody        = jQuery(el.target).closest('#pm-single-task-wrap');
                     
                 if(datePicker.length || datePickerBtn.length) {
                     return;
