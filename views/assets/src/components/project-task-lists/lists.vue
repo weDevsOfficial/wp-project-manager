@@ -25,7 +25,6 @@
                     </div>
                     <div class="pm-right-inline-list-element">
                         <div class="list-filter">
-
                             <a v-pm-tooltip :title="__('Task Filter', 'wedevs-project-manager')" @click.prevent="showFilter()" href="#"><span class="icon-pm-filter"></span></a>
                         </div>
                         <pm-do-action :hook="'pm-inline-list-button'"></pm-do-action>
@@ -313,6 +312,7 @@
         display: flex;
         align-items: center;
         .list-filter {
+            border-right: 1px solid #ddd;
             a {
                 background: #fff;
                 border: 1px solid #ddd;
