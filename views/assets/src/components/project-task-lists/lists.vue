@@ -36,7 +36,7 @@
                     <new-task-list-form section="lists" v-if="is_active_list_form" :list="{}"></new-task-list-form>
                 </transition>
                 
-                <div class="pm-flex todo-lists">
+                <div class="pm-task-list-flex todo-lists">
                     <ul v-if="hasSearchContent()" v-pm-list-sortable :class="filterActiveClass()+ ' pm-todolists'">
                     
                         <li  v-for="list in lists" :key="list.id" :data-id="list.id"  :class="'pm-list-sortable pm-fade-out-'+list.id">
@@ -46,7 +46,9 @@
                         </li>
                     </ul>
 
-                    <div v-if="isActiveFilter && !filterResults">{{__('No Result Found!', 'wedevs-project-manager')}}</div>
+                    <div class="pm-demo-template" v-if="isActiveFilter && !filterResults">
+                        <span>{{__('No Result Found!', 'wedevs-project-manager')}}</span>
+                    </div>
                     <div class="list-search-menu" v-if="isActiveFilter">
                         <div class="filter-title">
                             <span><a @click.prevent="showFilter()" href="#">X</a></span>
@@ -133,9 +135,30 @@
     
 <style lang="less">
     .todo-lists-wrap {
+        .pm-task-list-flex {
+            display: flex;
+        }
         .todo-lists {
             position: relative;
-            align-items: baseline !important;
+
+            .pm-demo-template {
+                margin-top: 30px;
+                flex: 1;
+                background-size: 80%;
+                background-position: center;
+                display: flex;
+                align-items: center;
+                background-color: #ffffff;
+                border: 1px solid #e5e5e5;
+
+                span {
+                    margin: auto;
+                    font-size: 20px;
+                    font-weight: bold;
+                    color: #444;
+                }
+            }
+
             .pm-todolists {
                 width: 100%;
                 .list-right-action {
@@ -156,6 +179,8 @@
                 border-right: 1px solid #e5e5e5;
                 border-top: 1px solid #e5e5e5;
                 border-bottom: 1px solid #e5e5e5;
+                padding: 10px 20px;
+                margin-top: 30px;
 
                 .filter-submit-btn {
                     margin-top: 20px;
