@@ -32,7 +32,7 @@
                             </div>
                             <div class="date pm-col-4 pm-sm-col-12">
                                 <time :datetime="pmDateISO8601Format(activity.committed_at.date, activity.committed_at.time)" :title="pmDateISO8601Format(activity.committed_at.date, activity.committed_at.time)">
-                                    <i>{{ taskDateFormat(activity.committed_at.date) }}, {{ dateTimeFormat(activity.committed_at.timestamp) }}</i>
+                                    <i>{{ taskDateFormat(activity.committed_at.date) }}, {{ dateTimeFormat(activity.committed_at.datetime) }}</i>
                                 </time>
                             </div> 
                             <div class="clear"></div> 
