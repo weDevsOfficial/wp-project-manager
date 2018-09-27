@@ -4169,6 +4169,11 @@ a.pm-icon-tick.grey {
 .pm .milestone .pm-content {
   background-image: url('../images/blank_milestone.svg');
 }
+
+.pm .pm-blank-template {
+  background-image: url('../images/blank_todolist.svg');
+  background-repeat: no-repeat;
+}
 .pm .modal-mask {
   position: fixed;
   z-index: 10000;
