@@ -94,6 +94,22 @@ var PM_TaskList_Mixin = {
 
             return false;
         },
+
+        isArchivedList (list) {
+            if (list.status === 'archived' ) {
+                return true;
+            }
+
+            return false;
+        },
+        isArchivedTaskList (task) {
+            if (typeof task.task_list !== 'undefined' ) {
+                if (task.task_list.data.status === 'archived' ) {
+                    return true;
+                }
+            }
+            return false;
+        },
         /**
          * Get task completed progress width
          * 
