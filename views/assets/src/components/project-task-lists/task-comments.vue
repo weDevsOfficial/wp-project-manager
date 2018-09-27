@@ -21,7 +21,7 @@
                                 </span>
                                 
                                 <span class="pm-date">
-                                    <time :datetime="dateISO8601Format( comment.comment_date )" :title="getFullDate( comment.created_at.date+' '+comment.created_at.time )">{{ commentDate(comment) }}</time>
+                                    <time :datetime="dateISO8601Format( comment.comment_date )" :title="getFullDate( comment.created_at.date+' '+comment.created_at.time )">{{ relativeDate(comment.created_at.datetime) }}</time>
                                 </span>
                             </div>
                             <div v-if="!comment.edit_mode" @click.prevent="showActionMenu(comment)" class="icon-pm-down-arrow comment-action-arrow">
@@ -176,8 +176,8 @@
             },
             commentDate (comment) {
                 if (typeof comment.created_at != 'undefined') {
-                    return pm.Moment(comment.created_at.date).fromNow();
-                    return this.shortDateFormat(comment.created_at.date) + ', ' + this.shortTimeFormat(comment.created_at.date+' '+comment.created_at.time);
+                    return pm.Moment(comment.created_at.datetime).fromNow();
+                    return this.shortDateFormat(comment.created_at.datetime) + ', ' + this.shortTimeFormat(comment.created_at.datetime);
                 }
 
                 return '';

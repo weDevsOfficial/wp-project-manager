@@ -86,7 +86,7 @@
                                                 {{ discuss.creator.data.display_name }}
                                             </a> 
                                              {{ __( 'on', 'wedevs-project-manager') }}
-                                            {{ discuss.created_at.date }}                  
+                                            {{ taskDateFormat(discuss.created_at.date) }}, {{ dateTimeFormat(discuss.created_at.datetime) }}                  
                                         </div>
 
                                     </div>
