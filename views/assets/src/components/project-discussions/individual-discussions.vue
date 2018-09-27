@@ -32,7 +32,7 @@
                             {{ __( 'By', 'wedevs-project-manager') }}
                             <a :href="myTaskRedirect(discuss.creator.data.id)" :title="discuss.creator.data.display_name">
                                 {{ discuss.creator.data.display_name }}
-                            </a> {{ __( 'on', 'wedevs-project-manager') }} {{ discuss.created_at.date }} {{ discuss.created_at.time }}             
+                            </a> {{ __( 'on', 'wedevs-project-manager') }} {{ taskDateFormat(discuss.created_at.date) }}, {{ dateTimeFormat(discuss.created_at.datetime) }}            
                         </div>
                     </h3>
                     <div class="pm-entry-detail">
@@ -71,7 +71,7 @@
                                 {{ __( 'on', 'wedevs-project-manager') }}           
                                 <span class="pm-date">
 
-                                    <time :datetime="comment.created_at.date +' ' + comment.created_at.time" :title="comment.created_at.date +' ' + comment.created_at.time">{{comment.created_at.date +' ' + comment.created_at.time}}</time>
+                                     <time :datetime="getFullDate( comment.created_at.datetime )" :title="getFullDate( comment.created_at.datetime )">{{ relativeDate(comment.created_at.datetime) }}</time>
                                     
                                 </span>
 
