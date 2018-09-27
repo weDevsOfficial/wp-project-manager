@@ -134,7 +134,7 @@
                         </li>
                     </ul>
 
-                    <div class="pm-blank-template" v-if="isActiveFilter && !filterResults">
+                    <div class="pm-demo-template" v-if="isActiveFilter && !filterResults">
                         <span>{{__('No Result Found!', 'wedevs-project-manager')}}</span>
                     </div>
                     <div class="list-search-menu" v-if="isActiveFilter">
@@ -229,13 +229,15 @@
         .todo-lists {
             position: relative;
 
-            .pm-blank-template {
+            .pm-demo-template {
                 margin-top: 30px;
                 flex: 1;
                 background-size: 80%;
                 background-position: center;
                 display: flex;
                 align-items: center;
+                background-color: #ffffff;
+                border: 1px solid #e5e5e5;
 
                 span {
                     margin: auto;

@@ -4170,7 +4170,7 @@ a.pm-icon-tick.grey {
   background-image: url('../images/blank_milestone.svg');
 }
 
-.pm .pm-blank-template {
+.pm .pm-demo-template {
   background-image: url('../images/blank_todolist.svg');
   background-repeat: no-repeat;
 }
