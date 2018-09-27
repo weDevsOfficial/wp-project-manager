@@ -240,7 +240,8 @@
                     } else {
                         self.task.activities = { data: [res.activity.data] };
                     }
-
+                    self.submit_disabled = false;
+                    self.show_spinner    = false;
                 }
 
                 self.updateComment( args );

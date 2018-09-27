@@ -71,6 +71,7 @@ function format_date( $date ) {
     return [
         'date'      => $date ? $date->format( 'Y-m-d' ) : null,
         'time'      => $date ? $date->format( 'H:i:s' ) : null,
+        'datetime'      => $date ? $date->format( 'Y-m-d H:i:s' ) : null,
         'timezone'  => tzcode_to_tzstring( $timezone ),
         'timestamp' => $date ?  $date->toATOMString() : null
     ];

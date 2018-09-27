@@ -21,7 +21,7 @@
                         </span>
                         <span>{{ __('on', 'wedevs-project-manager') }}</span>
                         <span class="pm-date">
-                            <time :datetime="dateISO8601Format( comment.comment_date )" :title="dateISO8601Format( comment.comment_date )">{{ dateTimeFormat( comment.comment_date ) }}</time>
+                            <time :datetime="getFullDate( comment.created_at.datetime )" :title="getFullDate( comment.created_at.datetime )">{{ relativeDate(comment.created_at.datetime) }}</time>
                         </span>
                         <!-- v-if="current_user_can_edit_delete(comment, list)" -->
                         <div  class="pm-comment-action" v-if="can_edit_comment(comment)" >
