@@ -14,7 +14,7 @@
 
         </ul> 
 
-        <ul :data-list_id="list.id"  class="pm-todos pm-todolist-content pm-incomplete-task pm-connected-sortable">
+        <ul :data-list_id="list.id"  class="pm-todos pm-todolist-content pm-complete-task pm-connected-sortable">
             <li :data-id="task.id" :data-order="task.order" class="pm-todo" v-for="task in getCompleteTasks" :key="task.id" :class="'pm-fade-out-'+task.id">
                 <complete-tasks :task="task" :list="list"></complete-tasks>       
 
@@ -31,6 +31,14 @@
         
     </div>
 </template>
+
+<style lang="less">
+    .pm-complete-task {
+        .pm-todo-text {
+            text-decoration: line-through;
+        }
+    }
+</style>
 
 <script>
     import new_task_form from './new-task-form.vue';
