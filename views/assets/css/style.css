@@ -227,9 +227,6 @@ a:active {
   color: #555555;
   background: #ffffff;
   vertical-align: middle;
-  -webkit-border-radius: 0px;
-     -moz-border-radius: 0px;
-          border-radius: 0px;
   border: 1px solid #DDDDDD;
   -webkit-box-shadow: none;
      -moz-box-shadow: none;
