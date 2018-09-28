@@ -29,7 +29,9 @@ class Update_Project_Notification extends Email {
         foreach ($assignees as $assignee ) {
             if( $this->is_enable_user_notification( $assignee['id'] ) ) {
                 if (  !$this->notify_manager()  && $assignee['roles']['data'][0]['slug'] == 'manager' ) {
-                    continue;
+                    if( $this->is_enable_user_notification_for_notification_type( $assignee['id'] , '_cpm_email_notification_update_project' ) ){
+                        continue;
+                    }
                 }
 
                 $users[] = $assignee['email'];

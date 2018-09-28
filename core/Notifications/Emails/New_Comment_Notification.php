@@ -33,7 +33,9 @@ class New_Comment_Notification extends Email {
 
         foreach ( $notify_users as $u ) {
             if( $this->is_enable_user_notification( $u ) ){
-                $users[] = $project->assignees->where( 'ID', $u )->first()->user_email;
+                if( $this->is_enable_user_notification_for_notification_type( $u, '_cpm_email_notification_new_comment' ) ){
+                    $users[] = $project->assignees->where( 'ID', $u )->first()->user_email;
+                }
             }
         }
 
