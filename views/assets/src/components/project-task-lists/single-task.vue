@@ -70,7 +70,7 @@
                                             </a>
 
                                         </li>
-                                        <li  v-if="can_edit_task(task)">
+                                        <li  v-if="can_edit_task(task) || isArchivedTaskList(task)">
                                             
                                             <a class="pm-dark-hover title-anchor-menu-a icon-pm-delete pm-font-size-13" @click.prevent="selfDeleteTask({task: task, list: list})" href="#">
                                                 <span class="action-menu-span title-anchor-menu">{{ __('Delete', 'wedevs-project-manager') }}</span>
