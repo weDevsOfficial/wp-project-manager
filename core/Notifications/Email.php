@@ -109,6 +109,21 @@ class Email {
         return true;
     }
 
+    public function is_enable_user_notification_for_notification_type( $user_id, $notification_type) {
+
+        if (!is_numeric( $user_id ) ) {
+            return false;
+        }
+
+        $user_email_notification = get_user_meta( $user_id, $notification_type, true );
+
+        if ( $user_email_notification == 'off' ) {
+            return false;
+        }
+
+        return true;
+    }
+
     public function from_email() {
         $email = pm_get_settings( 'from_email' );
         $email = empty( $email ) ? get_bloginfo('admin_email'): $email; 
