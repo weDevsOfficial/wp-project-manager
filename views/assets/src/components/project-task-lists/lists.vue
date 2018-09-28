@@ -1,7 +1,7 @@
 <template>
-    <div class="pm-wrap pm pm-front-end todo-lists-wrap">
+    <div class="pm-task-list-wrap">
         <pm-header></pm-header>
-        <div v-if="!isListFetch" class="pm-data-load-before" >
+        <!-- <div v-if="!isListFetch" class="pm-data-load-before" >
             <div class="loadmoreanimation">
                 <div class="load-spinner">
                     <div class="rect1"></div>
@@ -12,8 +12,8 @@
                 </div>
             </div>
         </div>
-
-        <div v-if="listViewType && isListFetch">
+ -->
+        <!-- <div v-if="listViewType && isListFetch">
 
             <default-list-page v-if="is_blank_Template && !isActiveFilter"></default-list-page>
             
@@ -30,7 +30,7 @@
                         <pm-do-action :hook="'pm-inline-list-button'"></pm-do-action>
                            
                     </div>
-                    <!-- <div class="pm-clearfix"></div> -->
+                    
                 </div>
                 <transition name="slide" v-if="can_create_list">
                     <new-task-list-form section="lists" v-if="is_active_list_form" :list="{}"></new-task-list-form>
@@ -54,7 +54,6 @@
                                         
                                         </router-link>
 
-                                        <!-- v-if="list.can_del_edit" -->
                                         <div class="pm-right" v-if="can_edit_task_list(list)">
                                             <div class="list-right-action">
                                                 <a href="#" v-pm-tooltip v-if="list.status == 'current'" @click.prevent="showEditForm(list)" class="" :title="__('Edit', 'wedevs-project-manager')"><span class="dashicons dashicons-edit"></span></a>
@@ -213,193 +212,15 @@
                     
                 </pm-pagination> 
             </div>
-            <router-view name="single-task"></router-view>
-            
-            
-        </div>
+            <router-view name="single-task"></router-view> 
+        </div> -->
         
     </div>
 </template>
     
 <style lang="less">
-    .todo-lists-wrap {
-        .pm-task-list-flex {
-            display: flex;
-        }
-        .todo-lists {
-            position: relative;
+    .pm-task-list-wrap {
 
-            .pm-demo-template {
-                margin-top: 30px;
-                flex: 1;
-                background-size: 80%;
-                background-position: center;
-                display: flex;
-                align-items: center;
-                background-color: #ffffff;
-                border: 1px solid #e5e5e5;
-
-                span {
-                    margin: auto;
-                    font-size: 20px;
-                    font-weight: bold;
-                    color: #444;
-                }
-            }
-
-            .pm-todolists {
-                width: 100%;
-                .list-right-action {
-                    display: flex;
-                    align-items: center;
-                    a {
-                        margin-right: 5px;
-                    }
-                }
-            }
-            .optimizeWidth {
-                width: 80%;
-            }
-            .list-search-menu {
-                width: 25%;
-                padding: 10px;
-                background: #fff;
-                border-right: 1px solid #e5e5e5;
-                border-top: 1px solid #e5e5e5;
-                border-bottom: 1px solid #e5e5e5;
-                padding: 10px 20px;
-                margin-top: 30px;
-
-                .filter-submit-btn {
-                    margin-top: 20px;
-                }
-
-                .complete-status {
-                    border: 1px solid #9B59CA;
-                }
-
-                .incomplete-status {
-                    border: 1px solid #E9485E;
-                }
-
-                .complete-btn {
-                    padding: 6px 15px;
-                    border-radius: 3px;
-                    background: #f8f3f9;
-                    color: #9B59CA;
-                }
-
-                .on-going-btn {
-                    padding: 6px 15px;
-                    border-radius: 3px;
-                    background: #fdedf0;
-                    color: #E9485E;
-                }
-
-                .margin-top {
-                    margin-top: 20px;
-                    color: #000;
-
-                    .status-elements {
-                        display: flex;
-                        align-items: center;
-                        justify-content: space-between;
-                    }
-                }
-
-                .margin-title {
-                    margin-bottom: 5px;
-                }
-
-                .filter-title {
-                    display: flex;
-                    align-items: center;
-
-                    a {
-                        margin-right: 7px;
-                        color: #848484;
-                    }
-
-                    .task-filter {
-                        color: #000;
-                    }
-                }
-            }
-        }
-    }
-
-    .pm-entry-detail {
-        font-family: Helvetica, Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-    }
-    .pm-inline-list-wrap .pm-right-inline-list-element {
-        display: flex;
-        align-items: center;
-        .list-filter {
-            border-right: 1px solid #ddd;
-            a {
-                background: #fff;
-                border: 1px solid #ddd;
-                border-right: none;
-                padding: 2px 10px;
-                color: #d5d5d5;
-
-                &:hover {
-                    .icon-pm-filter {
-                        color: #423e3f;
-                    }
-                }
-            }
-        }
-
-        .pm-action-wrap {
-            display: flex;
-            align-items: center;
-        }
-    }
-    .pm-inline-list-wrap {
-        width: 100%;
-        display: flex;
-        align-items: center;
-    }
-    .pm-inline-list-element {
-        flex: 1;
-    }
-
-    .pm-list-footer .pm-new-task-btn-li {
-        padding-left: 0 !important;
-    }
-    .pm-list-footer .pm-footer-left-ul li {
-        display: inline-block;
-        padding-left: 28px;
-        background-size: 20px;
-        background-repeat: no-repeat;
-        margin: 5px 0;
-        padding-bottom: 5px;
-        margin-right: 2%;
-    }
-    .pm-list-footer .pm-footer-left-ul li a {
-        line-height: 150%;
-        font-size: 12px;
-    }
-    .pm-list-footer .pm-footer-left {
-        width: 66%;
-    }
-    .pm-list-footer .pm-footer-right {
-        width: 30%;
-    }
-    .pm-list-footer .pm-footer-left, .pm-list-footer .pm-footer-right {
-        float: left;
-    }
-    .pm-list-footer .pm-todo-progress-bar, .pm-list-footer .pm-progress-percent {
-        display: inline-block;
-    }
-    .pm-list-footer .pm-todo-progress-bar {
-        width: 70%;
-    }
-    .pm-list-footer .pm-progress-percent {
-        margin-left: 6px;
     }
 
 </style>
