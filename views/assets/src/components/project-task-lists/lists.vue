@@ -1,6 +1,87 @@
 <template>
     <div class="pm-task-list-wrap">
         <pm-header></pm-header>
+
+        <div class="list-content-wrap">
+            
+            <div class="content">
+                <pm-menu></pm-menu>
+                <div class="todos-wrap">
+                    No result Found
+
+                </div>
+            </div>
+
+            <div class="list-search-menu" v-if="isActiveFilter">
+                <div class="filter-title">
+                    <span><a @click.prevent="showFilter()" href="#">X</a></span>
+                    <span class="task-filter">{{__('Task Filter', 'wedevs-project-manager')}}</span>
+                </div>
+                
+                <form @submit.prevent="taskFilter()">
+                    <div class="margin-top">
+                        <div class="margin-title">{{__('Task list name', 'wedevs-project-manager')}}</div>
+                        <div>
+                            <multiselect 
+                                v-model="defaultList" 
+                                :options="searchLists" 
+                                :show-labels="false"
+                                :searchable="true"
+                                :loading="asyncListLoading"
+                                :placeholder="'Type task list name'"
+                                @search-change="asyncFind($event)"
+                                label="title"
+                                track-by="id">
+                                <span slot="noResult">{{ __( 'No task list found.', 'pm-pro' ) }}</span>
+                                    
+                            </multiselect> 
+                        
+                        </div>
+                    </div>
+                    <div class="margin-top">
+                        <div class="margin-title">{{__('Status', 'wedevs-project-manager')}}</div>
+                        <div class="status-elements">
+                            <a :class="'complete-btn ' + completeBoder()" @click.prevent="changeFilterStatus('complete')" href="#">
+                                {{__('Completed', 'wedevs-project-manager')}}
+                            </a>
+                            <a :class="'on-going-btn ' + onGoingBorder()" @click.prevent="changeFilterStatus('incomplete')" href="#">
+                                {{__('On-going', 'wedevs-project-manager')}}
+                            </a>
+                        </div>
+                    </div>
+                    <div class="margin-top">
+                        <div class="margin-title">{{__('Assigned to', 'wedevs-project-manager')}}</div>
+                        <div>
+                            <multiselect 
+                                v-model="defaultUser" 
+                                :options="projectUsers" 
+                                :show-labels="false"
+                                :placeholder="'Type task list name'"
+                                label="display_name"
+                                track-by="id">
+                                    
+                            </multiselect>
+                        </div>
+                    </div>
+                    <div class="margin-top">
+                        <div class="margin-title">{{__('Due Date', 'wedevs-project-manager')}}</div>
+                        <div>
+                            <multiselect 
+                                v-model="dueDate" 
+                                :options="dueDates" 
+                                :show-labels="false"
+                                :placeholder="'Type task list name'"
+                                label="title"
+                                track-by="id">
+                                    
+                            </multiselect>
+                        </div>
+                    </div>
+                    <input  type="submit" class="button-primary filter-submit-btn" name="submit_todo" :value="__('Done', 'wedevs-project-manager')">
+                </form>
+            </div>
+
+        </div>
         <!-- <div v-if="!isListFetch" class="pm-data-load-before" >
             <div class="loadmoreanimation">
                 <div class="load-spinner">
@@ -220,7 +301,27 @@
     
 <style lang="less">
     .pm-task-list-wrap {
+        .list-content-wrap {
+            display: flex;
+            margin-top: 20px;
+            background: #FAFAFA;
+            .content {
+                flex: 1;
+                border: 1px solid #E5E4E4;
 
+                .todos-wrap {
+
+                }
+            }
+
+            .list-search-menu {
+                width: 265px;
+                padding: 18px;
+                border-top: 1px solid #E5E4E4;
+                border-bottom: 1px solid #E5E4E4;
+                border-right: 1px solid #E5E4E4;
+            }
+        }
     }
 
 </style>
@@ -235,6 +336,7 @@
     import default_page from './default-list-page.vue';
     import Mixins from './mixin';
     import date_picker from './date-picker.vue';
+    import Menu from '@components/common/menu.vue';
 
     export default {
 
@@ -254,7 +356,8 @@
             'list-tasks': tasks,
             'default-list-page': default_page,
             'multiselect': pm.Multiselect.Multiselect,
-            'pm-datepickter': date_picker
+            'pm-datepickter': date_picker,
+            'pm-menu': Menu
             
         },
 
@@ -271,7 +374,7 @@
                 index: false,
                 project_id: this.$route.params.project_id,
                 current_page_number: this.$route.params.current_page_number || 1,
-                isActiveFilter: false,
+                isActiveFilter: true,
                 defaultList: {
                     id: 0,
                     title: this.__('All', 'wedevs-project-manager')
