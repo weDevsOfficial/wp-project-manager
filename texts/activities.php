@@ -56,6 +56,10 @@ return [
         __( '%1$s has updated the order of a discussion board, %2$s.', 'wedevs-project-manager' ),
         ['actor.data.display_name', 'meta.discussion_board_title']
     ],
+    'update_discussion_board_status'       => [
+        __( '%1$s has updated the status of a discussion board, %2$s.', 'wedevs-project-manager' ),
+        ['actor.data.display_name', 'meta.discussion_board_title']
+    ],
 
     // Activities on task list
     'create_task_list'             => [
@@ -78,6 +82,14 @@ return [
         __( '%1$s has updated the order of a task list, %2$s.', 'wedevs-project-manager' ),
         ['actor.data.display_name', 'meta.task_list_title']
     ],
+    'archived_task_list'       => [
+        __( '%1$s has archived a task list, %2$s.', 'wedevs-project-manager' ),
+        ['actor.data.display_name', 'meta.task_list_title']
+    ],
+    'restore_task_list'       => [
+        __( '%1$s has restore a task list, %2$s.', 'wedevs-project-manager' ),
+        ['actor.data.display_name', 'meta.task_list_title']
+    ],
 
     // Activities on milestone
     'create_milestone'             => [
@@ -98,6 +110,10 @@ return [
     ],
     'update_milestone_order'       => [
         __( '%1$s has updated the order of a milestone, %2$s.', 'wedevs-project-manager' ),
+        ['actor.data.display_name', 'meta.milestone_title']
+    ],
+    'update_milestone_status'       => [
+        __( '%1$s has updated the status of a milestone, %2$s.', 'wedevs-project-manager' ),
         ['actor.data.display_name', 'meta.milestone_title']
     ],
 

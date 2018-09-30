@@ -94,6 +94,22 @@ var PM_TaskList_Mixin = {
 
             return false;
         },
+
+        isArchivedList (list) {
+            if (list.status === 'archived' ) {
+                return true;
+            }
+
+            return false;
+        },
+        isArchivedTaskList (task) {
+            if (typeof task.task_list !== 'undefined' ) {
+                if (task.task_list.data.status === 'archived' ) {
+                    return true;
+                }
+            }
+            return false;
+        },
         /**
          * Get task completed progress width
          * 
@@ -1319,7 +1335,9 @@ var PM_TaskList_Mixin = {
         },
 
         listLockUnlock (list) {
-
+            if (this.isArchivedList(list)) {
+                return ;
+            }
             var self = this;
             var data = {
                 is_private: list.meta.privacy == '0' ? 1 : 0
@@ -1345,7 +1363,9 @@ var PM_TaskList_Mixin = {
         },
 
         TaskLockUnlock (task) {
-            
+            if (this.isArchivedTaskList(task)) {
+                return ;
+            }
             var self = this;
             var data = {
                 is_private: task.meta.privacy == '0' ? 1 : 0

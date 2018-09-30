@@ -224,6 +224,7 @@ class Comment_Observer extends Model_Observer {
 
         $meta = [
             'comment_id'    => $comment->id,
+            'parent'        => $file->parent,
             'file_url'      => $physical_file['url'],
             'file_title'    => $physical_file['name'] . '.' . $physical_file['file_extension'],
             'attachment_id' => $file->attachment_id,
