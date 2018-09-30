@@ -3,10 +3,10 @@
 use WeDevs\PM\Core\Config\Config;
 
 if ( ! function_exists( 'config' ) ) {
-		
-	function config( $key = null ) {
-	    return Config::get( $key );
-	}
+        
+    function config( $key = null ) {
+        return Config::get( $key );
+    }
 }
 
 function pm_config( $key = null ) {
@@ -18,7 +18,7 @@ function pm_wp_config( $key ) {
 }
 
 function migrations_table_prefix() {
-    $slug 	= config( 'app.slug' );
+    $slug   = config( 'app.slug' );
     $prefix = str_replace( '-', '_', str_replace( ' ', '_', $slug ) );
 
     return $prefix;
@@ -34,14 +34,11 @@ function pm_php_version_notice() {
     if ( ! current_user_can( 'manage_options' ) ) {
         return;
     }
-    $option = get_option('pm_hide_php_notice');
-    if ( $option['hide'] == '3' ) {
-        return ;
-    }
+
+    $php_version = phpversion();
     ?>
-        <div class="error notice is-dismissible" id="pm-php-notice" style="padding: 1em; position: relative;">
-            <h2><?php _e( 'WP Project Manager moving PHP 5.6!', 'wedevs-project-manager' ); ?></h2>
-            <p><?php echo sprintf( __('WP Project Manager is moving PHP 5.6 after <strong>September 15, 2018</strong> from version <em>2.0.7</em>. Please upgrader your php version.', 'wedevs-project-manager' ) ); ?></p>
+        <div class="error notice" id="pm-php-notice" style="padding: 1em; position: relative;">
+            <p><?php echo sprintf( __("Your php version is <strong>{$php_version}</strong>. You need to update your php <strong>5.6</strong> or upper version to run project manager.", "wedevs-project-manager" ) ); ?></p>
         </div>
         <script type="text/javascript">
         (function ($) {
