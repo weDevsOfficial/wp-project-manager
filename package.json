@@ -1,6 +1,6 @@
 {
   "name": "pmapi",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "Front-end package manager for project manager",
   "main": "index.js",
   "directories": {
