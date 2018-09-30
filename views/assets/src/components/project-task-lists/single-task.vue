@@ -70,7 +70,7 @@
                                             </a>
 
                                         </li>
-                                        <li  v-if="can_edit_task(task)">
+                                        <li  v-if="can_edit_task(task) || isArchivedTaskList(task)">
                                             
                                             <a class="pm-dark-hover title-anchor-menu-a icon-pm-delete pm-font-size-13" @click.prevent="selfDeleteTask({task: task, list: list})" href="#">
                                                 <span class="action-menu-span title-anchor-menu">{{ __('Delete', 'wedevs-project-manager') }}</span>
@@ -153,8 +153,8 @@
                             
 
                             <div class="pm-flex option-icon-groups">
-                                <span @click.prevent="singleTaskLockUnlock(task)" v-if="PM_Vars.is_pro && can_edit_task(task) && user_can('view_private_task') && task.meta.privacy=='0'" :title="__('Task is visible for co-worker', 'wedevs-project-manager')" class="icon-pm-unlock pm-dark-hover pm-font-size-16"></span>
-                                <span @click.prevent="singleTaskLockUnlock(task)" v-if="PM_Vars.is_pro && can_edit_task(task) && user_can('view_private_task') && task.meta.privacy=='1'" :title="__('Task is not visible for co-worker', 'wedevs-project-manager')" class="icon-pm-private pm-dark-hover pm-font-size-16"></span>
+                                <span @click.prevent="singleTaskLockUnlock(task)" v-if="isTaskLock" :title="__('Task is visible for co-worker', 'wedevs-project-manager')" class="icon-pm-unlock pm-dark-hover pm-font-size-16"></span>
+                                <span @click.prevent="singleTaskLockUnlock(task)" v-if="isTaskUnlock" class="icon-pm-private pm-dark-hover pm-font-size-16"></span>
                                 
                                 <span id="pm-calendar-wrap" @click.prevent="isTaskDateEditMode()" class="individual-group-icon calendar-group icon-pm-calendar pm-font-size-16">
                                     <span v-if="(task.start_at.date || task.due_date.date )" :class="taskDateWrap(task.due_date.date) + ' pm-task-date-wrap pm-date-window'">
@@ -207,7 +207,7 @@
                         </div>
 
                         <div id="description-wrap" class="description-wrap">
-                            <div v-if="!task.description.content && !is_task_details_edit_mode" @click.prevent="isTaskDetailsEditMode()"  class="action-content pm-flex">
+                            <div v-if="showdescriptionfield" @click.prevent="isTaskDetailsEditMode()"  class="action-content pm-flex">
                                 <span>
                                     <span class="icon-pm-align-left"></span>
                                     <span class="task-description">{{ __( 'Description', 'wedevs-project-manager' ) }}</span>
@@ -218,10 +218,10 @@
                             <div v-else class="task-details">
 
                                 <div class="pm-des-area pm-desc-content" v-if="!is_task_details_edit_mode"  >
-                                    <div v-if="task.description.content != ''">
-                                        <div class="pm-task-description" v-html="task.description.html"></div>
-                                    </div>
-                                    <a class="task-description-edit-icon" @click.prevent="isTaskDetailsEditMode()" :title="update_description">
+                                    
+                                    <div v-if="task.description.content != ''" class="pm-task-description" v-html="task.description.html"></div>
+                                    
+                                    <a class="task-description-edit-icon" @click.prevent="isTaskDetailsEditMode()" :title="update_description" v-if="can_edit_task(task) && !isArchivedTaskList(task)">
                                         <i style="font-size: 16px;"  class="fa fa-pencil" aria-hidden="true"></i>
                                         
                                     </a>
@@ -240,7 +240,7 @@
                                     <span>{{ __( 'Shift+Enter for line break', 'wedevs-project-manager') }}</span>
                                 </div> -->
                                 
-                                <div v-if="is_task_details_edit_mode && can_edit_task(task)" class="item detail">
+                                <div v-if="is_task_details_edit_mode && can_edit_task(task) && !isArchivedTaskList(task)" class="item detail">
                                     <text-editor v-if="is_task_details_edit_mode" :editor_id="'task-description-editor'" :content="content"></text-editor>
                                     <div class="task-description-action">
                                         <a @click.prevent="submitDescription(task)" href="#" class="pm-button pm-primary">{{ __( 'Update', 'wedevs-project-manager' ) }}</a>
@@ -419,6 +419,18 @@
                     this.updateTaskElement(this.task);
                 }
             },
+            isTaskLock () {
+                return PM_Vars.is_pro && this.can_edit_task(this.task) && this.user_can('view_private_task') && this.task.meta.privacy=='0';
+            },
+            isTaskUnlock () {
+                return PM_Vars.is_pro && this.can_edit_task(this.task) && this.user_can('view_private_task') && this.task.meta.privacy=='1';
+            },
+            showdescriptionfield () {
+                if (this.isArchivedTaskList(this.task)) {
+                    return false;
+                }
+                return !this.task.description.content && !this.is_task_details_edit_mode;
+            }
         },
 
         components: {
@@ -563,6 +575,9 @@
                 }
             },
             singleTaskDoneUndone () {
+                if (this.isArchivedTaskList(this.task)) {
+                    return;
+                }
                 if (this.can_complete_task(this.task)) {
                     return;
                 }
@@ -638,6 +653,9 @@
             },
 
             isEnableMultiSelect () {
+                if (this.isArchivedTaskList(this.task)) {
+                    return false;
+                }
                 if ( !this.can_edit_task(this.task)){
                     return false;
                 }
@@ -700,6 +718,10 @@
                 this.updateTaskElement(task);
             },
             isTaskDetailsEditMode () {
+                if (this.isArchivedTaskList(this.task)) {
+                     this.is_task_details_edit_mode = false;
+                }
+
                 if ( !this.can_edit_task(this.task) ) {
                     this.is_task_details_edit_mode = false;
                 }else {
@@ -749,6 +771,9 @@
             },
 
             updateTaskElement (task) {
+                if (this.isArchivedTaskList(this.task)) {
+                    return;
+                }
                 var start = new Date(task.start_at.date);
                 var end  = new Date(task.due_date.date);
                 var compare = pm.Moment(end).isBefore(start);
@@ -814,6 +839,10 @@
             },
 
             isTaskTitleEditMode () {
+                if (this.isArchivedTaskList(this.task)) {
+                    return this.is_task_title_edit_mode = false;
+                }
+
                 if ( !this.can_edit_task(this.task) ) {
                     return this.is_task_title_edit_mode = false;
                 }
@@ -821,6 +850,10 @@
             },
 
             isTaskDateEditMode () {
+                if (this.isArchivedTaskList(this.task)) {
+                    return this.is_task_date_edit_mode = false;
+                }
+
                 if ( !this.can_edit_task(this.task) ) {
                     this.is_task_date_edit_mode = this.is_task_date_edit_mode ? false : true;
 
@@ -876,6 +909,9 @@
             },
 
             singleTaskLockUnlock (task) {
+                if (this.isArchivedTaskList(task)) {
+                    return;
+                }
                 var self = this;
                 var data = {
                     is_private: task.meta.privacy == '0' ? 1 : 0
