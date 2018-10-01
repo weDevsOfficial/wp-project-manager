@@ -67,7 +67,7 @@
 
                                         <pre class="pm-entry-detail" v-html="list.description"></pre>
                                         
-                                        <transition name="slide" v-if="can_edit_task_list(list) || isArchvedList(list)">
+                                        <transition name="slide" v-if="can_edit_task_list(list) || isArchivedList(list)">
                                             <div class="pm-update-todolist-form" v-if="list.edit_mode">
                                                 <new-task-list-form section="lists" :list="list" ></new-task-list-form>
                                             </div>
