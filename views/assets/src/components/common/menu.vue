@@ -1,40 +1,57 @@
 <template>
-	<div class="pm-project-menu">
+	<nav class="pm-project-menu">
 
         <div class="menu-item" v-if="menu.length" v-for="item in menu"> 
 
             <router-link 
                 :class="item.class +' '+ setActiveMenu(item)"
                 :to="item.route">
-                <div class="menu-text-wrap">
+                <!-- <div class="menu-text-wrap"> -->
 	                <span :class="'logo '+setMenuIcon(item)"></span>
 	                <span>{{ item.name }}</span>
-            	</div>
+            	<!-- </div> -->
                 <!-- <div>{{ item.count }}</div> -->
             </router-link>
         </div>      
-            <!-- <do-action :hook="'pm-header-menu'" :actionData="menu"></do-action> -->
+        <do-action :hook="'pm-header-menu'" :actionData="menu"></do-action> 
 
-    </div>
+    </nav>
 
 </template>
 
 
 <style lang="less">
 	.pm-project-menu {
-		display: flex;
-	    align-items: center;
 	    background: #fff;
 	    border-bottom: 1px solid #E5E4E4;
 	    padding: 0 10px;
 
+        &:after {
+            display: table;
+            clear: both;
+            content: "";
+            display: block;
+        }
+
 	    .menu-item {
+            float: left;
 	    	a {
 	    		display: inline-block;
-			    margin: 8px 0 0 0;
-			    padding: 5px 13px 13px 13px;
+			    margin: 9px 0 0 0;
+			    padding: 5px 13px 14px 13px;
 			    font-size: 13px;
 			    color: #000;
+                white-space: nowrap;
+                display: flex;
+                align-items: center;
+                border: none;
+
+                .logo {
+                    margin-right: 5px;
+                    &:before {
+                        font-size: 12px;
+                    }
+                }
 	    	}
 	    	
 	    	.active {
@@ -45,17 +62,6 @@
 			    margin-bottom: -1px;
 			    border-bottom-left-radius: 0;
 			    border-bottom-right-radius: 0;
-	    	}
-	    	.menu-text-wrap {
-	    		display: flex;
-	    		align-items: center;
-
-	    		.logo {
-	    			margin-right: 5px;
-	    			&:before {
-	    				font-size: 12px;
-	    			}
-	    		}
 	    	}
 	    }
 	}

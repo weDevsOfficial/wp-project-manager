@@ -6,79 +6,83 @@
             
             <div class="content">
                 <pm-menu></pm-menu>
-                <div class="todos-wrap">
-                    No result Found
+                <div class="todos-wrap no-task">
+                    <span>{{ __( 'No result Found', 'wedevs-project-manager') }}</span>
 
                 </div>
             </div>
 
             <div class="list-search-menu" v-if="isActiveFilter">
                 <div class="filter-title">
-                    <span><a @click.prevent="showFilter()" href="#">X</a></span>
-                    <span class="task-filter">{{__('Task Filter', 'wedevs-project-manager')}}</span>
+                    <div>
+                        <a @click.prevent="showFilter()" href="#" class="icon-pm-cross"></a>
+                        <span class="task-filter">{{__('Task Filter', 'wedevs-project-manager')}}</span>
+                    </div>
                 </div>
                 
-                <form @submit.prevent="taskFilter()">
-                    <div class="margin-top">
-                        <div class="margin-title">{{__('Task list name', 'wedevs-project-manager')}}</div>
-                        <div>
-                            <multiselect 
-                                v-model="defaultList" 
-                                :options="searchLists" 
-                                :show-labels="false"
-                                :searchable="true"
-                                :loading="asyncListLoading"
-                                :placeholder="'Type task list name'"
-                                @search-change="asyncFind($event)"
-                                label="title"
-                                track-by="id">
-                                <span slot="noResult">{{ __( 'No task list found.', 'pm-pro' ) }}</span>
-                                    
-                            </multiselect> 
-                        
+                <div class="search-content">
+                    <form @submit.prevent="taskFilter()">
+                        <div class="margin-top">
+                            <div class="margin-title">{{__('Task list name', 'wedevs-project-manager')}}</div>
+                            <div>
+                                <multiselect 
+                                    v-model="defaultList" 
+                                    :options="searchLists" 
+                                    :show-labels="false"
+                                    :searchable="true"
+                                    :loading="asyncListLoading"
+                                    :placeholder="'Type task list name'"
+                                    @search-change="asyncFind($event)"
+                                    label="title"
+                                    track-by="id">
+                                    <span slot="noResult">{{ __( 'No task list found.', 'pm-pro' ) }}</span>
+                                        
+                                </multiselect> 
+                            
+                            </div>
                         </div>
-                    </div>
-                    <div class="margin-top">
-                        <div class="margin-title">{{__('Status', 'wedevs-project-manager')}}</div>
-                        <div class="status-elements">
-                            <a :class="'complete-btn ' + completeBoder()" @click.prevent="changeFilterStatus('complete')" href="#">
-                                {{__('Completed', 'wedevs-project-manager')}}
-                            </a>
-                            <a :class="'on-going-btn ' + onGoingBorder()" @click.prevent="changeFilterStatus('incomplete')" href="#">
-                                {{__('On-going', 'wedevs-project-manager')}}
-                            </a>
+                        <div class="margin-top">
+                            <div class="margin-title">{{__('Status', 'wedevs-project-manager')}}</div>
+                            <div class="status-elements">
+                                <a :class="'complete-btn ' + completeBoder()" @click.prevent="changeFilterStatus('complete')" href="#">
+                                    {{__('Completed', 'wedevs-project-manager')}}
+                                </a>
+                                <a :class="'on-going-btn ' + onGoingBorder()" @click.prevent="changeFilterStatus('incomplete')" href="#">
+                                    {{__('On-going', 'wedevs-project-manager')}}
+                                </a>
+                            </div>
                         </div>
-                    </div>
-                    <div class="margin-top">
-                        <div class="margin-title">{{__('Assigned to', 'wedevs-project-manager')}}</div>
-                        <div>
-                            <multiselect 
-                                v-model="defaultUser" 
-                                :options="projectUsers" 
-                                :show-labels="false"
-                                :placeholder="'Type task list name'"
-                                label="display_name"
-                                track-by="id">
-                                    
-                            </multiselect>
+                        <div class="margin-top">
+                            <div class="margin-title">{{__('Assigned to', 'wedevs-project-manager')}}</div>
+                            <div>
+                                <multiselect 
+                                    v-model="defaultUser" 
+                                    :options="projectUsers" 
+                                    :show-labels="false"
+                                    :placeholder="'Type task list name'"
+                                    label="display_name"
+                                    track-by="id">
+                                        
+                                </multiselect>
+                            </div>
                         </div>
-                    </div>
-                    <div class="margin-top">
-                        <div class="margin-title">{{__('Due Date', 'wedevs-project-manager')}}</div>
-                        <div>
-                            <multiselect 
-                                v-model="dueDate" 
-                                :options="dueDates" 
-                                :show-labels="false"
-                                :placeholder="'Type task list name'"
-                                label="title"
-                                track-by="id">
-                                    
-                            </multiselect>
+                        <div class="margin-top">
+                            <div class="margin-title">{{__('Due Date', 'wedevs-project-manager')}}</div>
+                            <div>
+                                <multiselect 
+                                    v-model="dueDate" 
+                                    :options="dueDates" 
+                                    :show-labels="false"
+                                    :placeholder="'Type task list name'"
+                                    label="title"
+                                    track-by="id">
+                                        
+                                </multiselect>
+                            </div>
                         </div>
-                    </div>
-                    <input  type="submit" class="button-primary filter-submit-btn" name="submit_todo" :value="__('Done', 'wedevs-project-manager')">
-                </form>
+                        <input  type="submit" class="button-primary filter-submit-btn" name="submit_todo" :value="__('Done', 'wedevs-project-manager')">
+                    </form>
+                </div>
             </div>
 
         </div>
@@ -306,20 +310,52 @@
             margin-top: 20px;
             background: #FAFAFA;
             .content {
-                flex: 1;
+                flex: 5;
                 border: 1px solid #E5E4E4;
+                display: flex;
+                flex-direction: column;
 
                 .todos-wrap {
 
                 }
+
+                .no-task {
+                    margin: auto;
+                    font-size: 15px;
+                    color: #000;
+                }
             }
 
             .list-search-menu {
-                width: 265px;
-                padding: 18px;
                 border-top: 1px solid #E5E4E4;
                 border-bottom: 1px solid #E5E4E4;
                 border-right: 1px solid #E5E4E4;
+                font-size: 13px;
+                color: #000;
+                background: #fff;
+                flex: 1.7;
+
+
+                .filter-title {
+                    height: 51px;
+                    white-space: nowrap;
+                    border-bottom: 1px solid #e5e4e4;
+                    display: flex;
+                    align-items: center;
+                    padding-left: 15px;
+
+                    .icon-pm-cross {
+                        margin-right: 10px;
+                        &:before {
+                            color: #95A5A6;
+                            font-size: 10px;
+                        }
+                    }
+                }
+
+                .search-content {
+                    padding: 15px;
+                }
             }
         }
     }
