@@ -124,14 +124,16 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 = v2.0.6 - August 16, 2018 =
 
-* **New** Task single page redesign
-* **New** Show activity in single task page
+* **New** Set permission setting for user mail notification.
+* **New** Task single page redesign.
+* **New** Show activity in single task page.
 * **New** Projects can mark as favourite by users.
 * **New** Added completed_by and completed_at fields in pm_tasks database table.
 * **New** Added status field in pm_broad database table.
 * **New** Support for video file upload.
 * **New** New user notification.
 * **New** Advanced task filter from task list page.
+* **New** Set deleted activity log in activity section.
 * **Fix** Invalid time issue in activity page.
 * **Fix** Overview graph for last 3o days activity
 * **Fix** Get email notification when update discussion
