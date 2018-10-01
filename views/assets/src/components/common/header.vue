@@ -27,7 +27,9 @@
                                     <span class="">{{ __( 'Delete', 'wedevs-project-manager') }}</span>
                                 </a>
                             </li>
+                            <!-- <do-action :hook="'pm-header-menu'" :actionData="menu"></do-action>  -->
                         </ul>
+
                     </div>
                 </div>
             </div>

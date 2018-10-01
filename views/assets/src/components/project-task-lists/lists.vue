@@ -1,11 +1,10 @@
 <template>
     <div class="pm-task-list-wrap">
         <pm-header></pm-header>
-
+        <pm-menu></pm-menu>
         <div class="list-content-wrap">
-            
             <div class="content">
-                <pm-menu></pm-menu>
+                
                 <div class="todos-wrap no-task">
                     <span>{{ __( 'No result Found', 'wedevs-project-manager') }}</span>
 
@@ -80,12 +79,16 @@
                                 </multiselect>
                             </div>
                         </div>
-                        <input  type="submit" class="button-primary filter-submit-btn" name="submit_todo" :value="__('Done', 'wedevs-project-manager')">
+                        <div class="action">
+                            <input  type="submit" class="pm-button pm-primary filter-submit-btn" name="submit_todo" :value="__('Done', 'wedevs-project-manager')">
+                            <a @click.prevent="showFilter()" class="pm-button pm-secondary" href="#">{{__('Cancel', 'wedevs-project-manager')  }}</a>
+                        </div>
                     </form>
                 </div>
             </div>
 
         </div>
+        <div @click.prevent="showFilter()">open filter</div>
         <!-- <div v-if="!isListFetch" class="pm-data-load-before" >
             <div class="loadmoreanimation">
                 <div class="load-spinner">
@@ -307,13 +310,14 @@
     .pm-task-list-wrap {
         .list-content-wrap {
             display: flex;
-            margin-top: 20px;
+            
             background: #FAFAFA;
             .content {
                 flex: 5;
                 border: 1px solid #E5E4E4;
                 display: flex;
                 flex-direction: column;
+                border-top: none;
 
                 .todos-wrap {
 
@@ -327,7 +331,6 @@
             }
 
             .list-search-menu {
-                border-top: 1px solid #E5E4E4;
                 border-bottom: 1px solid #E5E4E4;
                 border-right: 1px solid #E5E4E4;
                 font-size: 13px;
@@ -335,11 +338,55 @@
                 background: #fff;
                 flex: 1.7;
 
+                .action {
+                    display: flex;
+                    align-items: center;
+                    margin-top: 18px;
+                    
+                    .pm-primary {
+                        margin-right: 10px !important;
+                    }
+                }
+
+                .margin-top {
+                    margin-bottom: 10px;
+                }
+
+                .margin-title {
+                    margin-bottom: 2px;
+                }
+
+                .multiselect__select {
+                    position: absolute;
+                    width: 26px;
+                    height: 35px;
+                    right: 5px;
+                    top: -3px;
+                    text-align: center;
+                    transition: transform .2s ease;
+                }
+
+                .multiselect__tags {
+                    
+                }
+
+                .multiselect__single {
+                    color: #999999;
+                    font-size: 12px;
+                }
+
+                .multiselect__input {
+                    border: none;
+                    box-shadow: none;
+                    margin: 0;
+                    margin-top: -1px;
+                    padding: 0;
+                }
+
 
                 .filter-title {
                     height: 51px;
                     white-space: nowrap;
-                    border-bottom: 1px solid #e5e4e4;
                     display: flex;
                     align-items: center;
                     padding-left: 15px;
@@ -443,7 +490,12 @@
                     'id': '0',
                     'title': this.__('All', 'wedevs-project-manager'),
                 },
-                searchLists: [],
+                searchLists: [
+                    {
+                        id: 0,
+                        title: this.__('All', 'wedevs-project-manager')
+                    }
+                ],
                 asyncListLoading: false
             }
         },
