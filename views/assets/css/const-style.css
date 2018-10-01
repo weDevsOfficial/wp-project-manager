@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?dj5n5v');
-  src:  url('fonts/icomoon.eot?dj5n5v#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?dj5n5v') format('truetype'),
-    url('fonts/icomoon.woff?dj5n5v') format('woff'),
-    url('fonts/icomoon.svg?dj5n5v#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?7yulda');
+  src:  url('fonts/icomoon.eot?7yulda#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?7yulda') format('truetype'),
+    url('fonts/icomoon.woff?7yulda') format('woff'),
+    url('fonts/icomoon.svg?7yulda#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -29,6 +29,13 @@
 }
 .icon-pm-check-circle:before {
   content: "\e919";
+}
+.icon-pm-invoice:before {
+  content: "\e92d";
+}
+.icon-pm-gantchart:before {
+  content: "\e930";
+  color: #c9c9c9;
 }
 .icon-pm-activity:before {
   content: "\e92c";

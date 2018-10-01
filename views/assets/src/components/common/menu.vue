@@ -1,7 +1,7 @@
 <template>
-	<nav class="pm-project-menu">
+	<nav v-if="menu.length" class="pm-project-menu">
 
-        <div class="menu-item" v-if="menu.length" v-for="item in menu"> 
+        <div class="menu-item" v-for="item in menu"> 
 
             <router-link 
                 :class="item.class +' '+ setActiveMenu(item)"
@@ -13,8 +13,7 @@
                 <!-- <div>{{ item.count }}</div> -->
             </router-link>
         </div>      
-        <do-action :hook="'pm-header-menu'" :actionData="menu"></do-action> 
-
+        <pm-do-action :hook="'pm-header-menu'"></pm-do-action> 
     </nav>
 
 </template>
@@ -23,8 +22,9 @@
 <style lang="less">
 	.pm-project-menu {
 	    background: #fff;
-	    border-bottom: 1px solid #E5E4E4;
-	    padding: 0 10px;
+	    border: 1px solid #E5E4E4;
+	    padding: 0 5px;
+        margin-top: 20px;
 
         &:after {
             display: table;
@@ -34,11 +34,11 @@
         }
 
 	    .menu-item {
-            float: left;
+            display: inline-block;
 	    	a {
 	    		display: inline-block;
 			    margin: 9px 0 0 0;
-			    padding: 5px 13px 14px 13px;
+			    padding: 5px 14px 14px 14px;
 			    font-size: 13px;
 			    color: #000;
                 white-space: nowrap;
