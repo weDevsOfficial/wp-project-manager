@@ -218,6 +218,7 @@
                         var index = self.getIndex(self.comments, id, 'id');
                         pm.Toastr.success(res.message);
                         self.comments.splice(index, 1);
+                        self.$store.commit('updateProjectMeta', 'total_activities');
                     }
                 }
                 this.httpRequest(request_data);

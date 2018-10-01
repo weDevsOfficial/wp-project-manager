@@ -113,6 +113,7 @@
                     success (res) {
                         var index = self.getIndex(self.comments, id, 'id');
                         pm.Toastr.success(res.message);
+                        self.$store.commit('updateProjectMeta', 'total_activities');
                         self.comments.splice(index, 1);
                     }
                 }

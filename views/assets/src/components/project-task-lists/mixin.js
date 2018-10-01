@@ -419,6 +419,7 @@ var PM_TaskList_Mixin = {
                     pm.Toastr.success(res.message);
                     self.listTemplateAction();
                     self.$store.commit('decrementProjectMeta', 'total_task_lists');
+                    self.$store.commit('updateProjectMeta', 'total_activities');
                     if( typeof args.callback === 'function' ) {
                       args.callback.call( self, res);
                     }
@@ -638,6 +639,7 @@ var PM_TaskList_Mixin = {
                         'list': args.list 
                     });
                     pm.Toastr.success(res.message);
+                    self.$store.commit('updateProjectMeta', 'total_activities');
                     if ( typeof args.callback === 'function' ){
                         args.callback.call(self, res);
                     }
