@@ -21,7 +21,9 @@ class New_Task_Notification extends Email {
 
         foreach ($task->assignees->toArray() as $assignee ) {
             if( $this->is_enable_user_notification( $assignee['assigned_to'] ) ){
-                $users[] = $assignee['assigned_user']['user_email'];
+                if( $this->is_enable_user_notification_for_notification_type( $assignee['assigned_to'], '_cpm_email_notification_new_task' ) ){
+                    $users[] = $assignee['assigned_user']['user_email'];
+                }
             }
         }
 

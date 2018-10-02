@@ -23,21 +23,14 @@ import empty from './empty.vue'
 
 import project_lists from './active-projects.vue'
 
-// const all_projects = resolve => {
-//     require.ensure(['./all-projects.vue'], () => {
-//         resolve(require('./all-projects.vue'));
-//     });
-// }
+
 
 import all_projects from './all-projects.vue'
 
-// const completed_projects = resolve => {
-//     require.ensure(['./completed-projects.vue'], () => {
-//         resolve(require('./completed-projects.vue'));
-//     });
-// }
+
 
 import completed_projects from './completed-projects.vue'
+import favourite_projects from './favourite-projects.vue'
 
 weDevsPMRegisterChildrenRoute('projects', 
     [
@@ -82,6 +75,19 @@ weDevsPMRegisterChildrenRoute('projects',
                     path: 'pages/:current_page_number', 
                     component: completed_projects,
                     name: 'completed_project_pagination',
+                },
+            ]
+        },
+        {
+            path: 'favourite', 
+            component: favourite_projects,
+            name: 'favourite_projects',
+
+            children: [
+                {
+                    path: 'pages/:current_page_number', 
+                    component: favourite_projects,
+                    name: 'favourite_project_pagination',
                 },
             ]
         },

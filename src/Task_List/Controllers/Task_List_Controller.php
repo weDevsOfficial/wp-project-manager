@@ -22,20 +22,29 @@ class Task_List_Controller {
     use Transformer_Manager, Request_Filter;
 
     public function index( WP_REST_Request $request ) {
+
         $project_id = $request->get_param( 'project_id' );
-        $per_page = $request->get_param( 'per_page' );
+        $per_page   = $request->get_param( 'per_page' );
+        $status     = $request->get_param( 'status' );
+        $list_id     = $request->get_param( 'list_id' ); //must be a array
         $per_page_from_settings = pm_get_settings( 'list_per_page' );
         $per_page_from_settings = $per_page_from_settings ? $per_page_from_settings : 15;
-        $per_page = $per_page ? $per_page : $per_page_from_settings;
+        $per_page               = $per_page ? $per_page : $per_page_from_settings;
         
         $page = $request->get_param( 'page' );
         $page = $page ? $page : 1;
+        $status = isset( $status ) ? intval( $status ) : 1;
 
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
         }); 
 
-        $task_lists = Task_List::where( 'project_id', $project_id);
+        $task_lists = Task_List::where( 'project_id', $project_id)
+            ->where( 'status', $status )
+            ->where( function($q) use( $list_id ) {
+                //if()
+            });
+
         $task_lists = apply_filters( "pm_task_list_index_query", $task_lists, $project_id, $request );
 
         if ( $per_page == '-1' ) {
@@ -269,4 +278,22 @@ class Task_List_Controller {
 
         wp_send_json_success();
     }
+
+    public function list_search( WP_REST_Request $request ) {
+        global $wpdb;
+        $project_id  = $request->get_param( 'project_id' );
+        $title       = $request->get_param( 'title' );
+
+        $task_lists = Task_List::where( function($q) use( $title ) {
+            if ( !empty( $title ) ) {
+                $q->where('title', 'like', '%'.$title.'%');
+            } 
+        })
+        ->get();
+
+        $resource = new Collection( $task_lists, new Task_List_Transformer );
+        
+        return $this->get_response( $resource );
+    }
+
 }

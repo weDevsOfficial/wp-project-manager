@@ -3,6 +3,7 @@ vendor
 /views/assets/js/chunk/
 /views/assets/js/library.js
 /views/assets/js/pm.js
+/views/assets/css/pm-style.css
 /.idea
 .env
 .DS_Store
@@ -14,6 +15,7 @@ npm-debug.log
 phpcs.ruleset.xml
 phpunit.xml.dist
 composer.lock
+composer.phar
 package-lock.json
 /tmp
 /build/

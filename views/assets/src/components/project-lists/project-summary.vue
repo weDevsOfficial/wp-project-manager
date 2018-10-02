@@ -3,7 +3,7 @@
 
         <h3 v-if="!projects.length">{{ __( 'No projects found.', 'wedevs-project-manager') }}</h3>
 
-        <article class="pm-project pm-column-gap-left pm-sm-col-12" v-for="project in projects">
+        <article class="pm-project pm-column-gap-left pm-sm-col-12" v-for="project in projects" :key="project.id">
             <router-link 
                 :title="project.title"
                 :to="{ name: 'pm_overview',  params: { project_id: project.id }}">
@@ -117,16 +117,17 @@
 
             <footer class="pm-project-people">
                 <div class="pm-scroll">
-                    <img v-for="user in project.assignees.data" :alt="user.display_name" :src="user.avatar_url" class="avatar avatar-48 photo" height="48" width="48">  
+                    <img v-for="user in project.assignees.data" :alt="user.display_name" :src="user.avatar_url" class="avatar avatar-48 photo" height="48" width="48" :key="user.id">  
                 </div>
             </footer>
 
             <div class="pm-project-action-icon">
-                <div class="pm-project-action" v-if="is_manager(project)">
-                    <span @click.prevent="settingsShowHide(project)" :title="project_action" class="dashicons dashicons-admin-generic pm-settings-bind"></span>
+                <div class="pm-project-action">
+                    <favourite :project="project"></favourite>
+                    <span  v-if="is_manager(project)" @click.prevent="settingsShowHide(project)" :title="project_action" class="dashicons dashicons-admin-generic pm-settings-bind"></span>
 
 
-                    <ul v-if="project.settings_hide" class="pm-settings">
+                    <ul v-if="project.settings_hide && is_manager(project)" class="pm-settings">
                         <li>
                             <span class="pm-spinner"></span>
                             <a @click.prevent="deleteProject(project.id, project)" class="pm-project-delete-link" :title="__( 'Delete project', 'wedevs-project-manager')">
@@ -156,6 +157,8 @@
 
 <script>
 
+    import Favourite from './favourite.vue';
+
     export default {
         data () {
             return {
@@ -172,6 +175,9 @@
             meta () {
                 return this.$root.$store.state.projects_meta;
             }
+        },
+        components: {
+            Favourite
         },
 
         methods: {

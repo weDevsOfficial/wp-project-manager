@@ -14,6 +14,7 @@ namespace WeDevs\PM\Core\Notifications;
 use WeDevs\PM\Core\Notifications\Emails\New_Project_Notification;
 use WeDevs\PM\Core\Notifications\Emails\Update_Project_Notification;
 use WeDevs\PM\Core\Notifications\Emails\New_Message_Notification;
+use WeDevs\PM\Core\Notifications\Emails\Update_Message_Notification;
 use WeDevs\PM\Core\Notifications\Emails\New_Comment_Notification;
 use WeDevs\PM\Core\Notifications\Emails\Update_Comment_Notification;
 use WeDevs\PM\Core\Notifications\Emails\New_Task_Notification;
@@ -39,6 +40,7 @@ use WeDevs\PM\Core\Notifications\Emails\Complete_Task_Notification;
             'pm_after_new_project',
             'pm_after_update_project',
             'pm_after_new_message',
+            'pm_after_update_message',
             'pm_after_create_task',
             'pm_after_update_task',
             'pm_changed_task_status',
@@ -132,6 +134,7 @@ use WeDevs\PM\Core\Notifications\Emails\Complete_Task_Notification;
         new New_Project_Notification();
         new Update_Project_Notification();
         new New_Message_Notification();
+        new Update_Message_Notification();
         new New_Comment_Notification();
         new Update_Comment_Notification();
         new New_Task_Notification();

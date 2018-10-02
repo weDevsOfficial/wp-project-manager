@@ -37,7 +37,7 @@ class Task_Transformer extends TransformerAbstract {
      * @var array
      */
     protected $availableIncludes = [
-        'boards', 'comments', 'files', 'activities'
+        'boards', 'comments', 'files', 'completer', 'activities'
     ];
 
     /**
@@ -76,7 +76,7 @@ class Task_Transformer extends TransformerAbstract {
                 'project_id'  => $item->project_id,
                 'category_id' => $item->category_id,
                 'created_at'  => format_date( $item->created_at ),
-                'created_by'  => $item->created_by,
+                'completed_at' => format_date( $item->completed_at ),
                 'updated_at'  => format_date( $item->updated_at ),
                 'task_list_id' => $item->task_list,
                 'meta'        => $this->meta( $item ),
@@ -157,7 +157,7 @@ class Task_Transformer extends TransformerAbstract {
 
         $comments = $item->comments()
             ->orderBy( 'created_at', 'ASC' )
-            ->paginate( 10 );
+            ->paginate( pm_config('app.comment_per_page') );
 
         $comment_collection = $comments->getCollection();
         $resource = $this->collection( $comment_collection, new Comment_Transformer );
@@ -174,7 +174,13 @@ class Task_Transformer extends TransformerAbstract {
     }
 
     public function includeActivities( Task $item ) {
-        $activities = $item->activities;
+        $page = isset( $_GET['activitie_page'] ) ? $_GET['activitie_page'] : 1;
+
+        Paginator::currentPageResolver(function () use ($page) {
+            return $page;
+        }); 
+
+        $activities = $item->activities()->paginate( 10 );
         return $this->collection( $activities, new Activity_Transformer );
     }
 
@@ -193,5 +199,10 @@ class Task_Transformer extends TransformerAbstract {
         $resource->setPaginator( new IlluminatePaginatorAdapter( $files ) );
 
         return $resource;
+    }
+
+    public function includeCompleter( $item ) {
+        $completer = $item->completer;
+        return $this->item( $completer, new User_Transformer );
     }
 }
