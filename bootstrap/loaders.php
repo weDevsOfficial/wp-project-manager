@@ -6,7 +6,7 @@ use WeDevs\PM\Core\Router\WP_Router;
 use WeDevs\PM\Core\Database\Migrater;
 use WeDevs\PM\Core\WP\Frontend;
 
-function load_configurations() {
+function pm_load_configurations() {
     $files = glob( __DIR__ . "/../config/*.php" );
 
     if ( $files === false ) {
@@ -23,7 +23,7 @@ function load_configurations() {
     return $config;
 }
 
-function load_texts() {
+function pm_load_texts() {
     $files = glob( __DIR__ . "/../texts/*.php" );
 
     if ( $files === false ) {
@@ -40,7 +40,7 @@ function load_texts() {
     return $lang;
 }
 
-function load_libs() {
+function pm_load_libs() {
     $files = glob( __DIR__ . "/../libs/*.php" );
 
     if ( $files === false ) {
@@ -60,7 +60,7 @@ function load_libs() {
  * These files will be considered as route files only, nothing else.
  * So make files in that directoy carefully.
  */
-function load_routes() {
+function pm_load_routes() {
     $files = glob( __DIR__ . "/../routes/*.php" );
 
     if ( $files === false ) {
@@ -75,9 +75,9 @@ function load_routes() {
     unset( $files );
 }
 
-function load_orm() {
+function pm_load_orm() {
     $capsule = new Capsule;
-    $config_db = config('db');
+    $config_db = pm_config('db');
     $status = $capsule->addConnection( $config_db );
 
     // Setup eloquent model events
@@ -90,7 +90,7 @@ function load_orm() {
     $capsule->bootEloquent();
 }
 
-function load_schema() {
+function pm_load_schema() {
     $contents = [];
     $files = glob( __DIR__ . "/../db/migrations/*.php" );
 
@@ -108,23 +108,48 @@ function load_schema() {
     return $contents;
 }
 
-function migrate_db() {
+function pm_migrate_db() {
     $migrater = new Migrater();
 
     $migrater->create_migrations_table();
     $migrater->build_schema();
 }
 
-function seed_db() {
+function pm_seed_db() {
     (new RoleTableSeeder())->run();
 }
 
-function register_routes() {
+function pm_register_routes() {
     $routes = Router::get_routes();
 
     WP_Router::register($routes);
 }
 
-function view() {
+function pm_view() {
     new Frontend();
 }
+
+function pm_user_tracking() {
+    add_action( 'plugins_loaded', 'pm_after_load_pro', 99 );
+}
+
+function pm_after_load_pro() {
+    add_action( 'init', 'pm_init_tracker' );
+}
+
+function pm_init_tracker() {
+    $insights = new AppSero\Insights( 'd6e3df28-610b-4315-840d-df0b2b02f4fe', 'WP Project Manager', PM_FILE );
+    $insights->add_extra( [
+        'projects'  => pm_total_projects(),
+        'tasklist'  => pm_total_task(),
+        'tasks'     => pm_total_task_list(),
+        'message'   => pm_total_message(),
+        'milestone' => pm_total_milestone(),
+        'is_pro'    => class_exists('WeDevs\PM_Pro\Core\WP\Frontend') ? 'yes' : 'no'
+    ] );
+
+    $insights->init_plugin();
+}
+
+
+

@@ -40,6 +40,10 @@ return [
         __( '%1$s has created a discussion board titled as %2$s.', 'wedevs-project-manager' ),
         ['actor.data.display_name', 'meta.discussion_board_title']
     ],
+    'delete_discussion_board'             => [
+        __( '%1$s has deleted a discussion board titled as %2$s.', 'wedevs-project-manager' ),
+        ['actor.data.display_name', 'meta.deleted_discussion_board_title']
+    ],
     'update_discussion_board_title'       => [
         __( '%1$s has updated the title of a discussion board from "%2$s" to "%3$s".', 'wedevs-project-manager' ),
         ['actor.data.display_name', 'meta.discussion_board_title_old', 'meta.discussion_board_title_new']
@@ -52,11 +56,19 @@ return [
         __( '%1$s has updated the order of a discussion board, %2$s.', 'wedevs-project-manager' ),
         ['actor.data.display_name', 'meta.discussion_board_title']
     ],
+    'update_discussion_board_status'       => [
+        __( '%1$s has updated the status of a discussion board, %2$s.', 'wedevs-project-manager' ),
+        ['actor.data.display_name', 'meta.discussion_board_title']
+    ],
 
     // Activities on task list
     'create_task_list'             => [
         __( '%1$s has created a task list titled as %2$s.', 'wedevs-project-manager' ),
         ['actor.data.display_name', 'meta.task_list_title']
+    ],
+    'delete_task_list'             => [
+        __( '%1$s has Deleted a task list titled as %2$s.', 'wedevs-project-manager' ),
+        ['actor.data.display_name', 'meta.deleted_task_list_title']
     ],
     'update_task_list_title'       => [
         __( '%1$s has updated the title of a task list from "%2$s" to "%3$s".', 'wedevs-project-manager' ),
@@ -70,11 +82,23 @@ return [
         __( '%1$s has updated the order of a task list, %2$s.', 'wedevs-project-manager' ),
         ['actor.data.display_name', 'meta.task_list_title']
     ],
+    'archived_task_list'       => [
+        __( '%1$s has archived a task list, %2$s.', 'wedevs-project-manager' ),
+        ['actor.data.display_name', 'meta.task_list_title']
+    ],
+    'restore_task_list'       => [
+        __( '%1$s has restore a task list, %2$s.', 'wedevs-project-manager' ),
+        ['actor.data.display_name', 'meta.task_list_title']
+    ],
 
     // Activities on milestone
     'create_milestone'             => [
         __( '%1$s has created a milestone, %2$s.', 'wedevs-project-manager' ),
         ['actor.data.display_name', 'meta.milestone_title']
+    ],
+    'delete_milestone'             => [
+        __( '%1$s has Deleted a milestone, %2$s.', 'wedevs-project-manager' ),
+        ['actor.data.display_name', 'meta.deleted_milestone_title']
     ],
     'update_milestone_title'       => [
         __( '%1$s has updated the title of a milestone from "%2$s" to "%3$s".', 'wedevs-project-manager' ),
@@ -88,11 +112,19 @@ return [
         __( '%1$s has updated the order of a milestone, %2$s.', 'wedevs-project-manager' ),
         ['actor.data.display_name', 'meta.milestone_title']
     ],
+    'update_milestone_status'       => [
+        __( '%1$s has updated the status of a milestone, %2$s.', 'wedevs-project-manager' ),
+        ['actor.data.display_name', 'meta.milestone_title']
+    ],
 
-    // Activities on milestone
+    // Activities on task
     'create_task'             => [
         __( '%1$s has created a task, %2$s.', 'wedevs-project-manager' ),
         ['actor.data.display_name', 'meta.task_title']
+    ],
+    'delete_task'             => [
+        __( '%1$s has deleted a task, %2$s.', 'wedevs-project-manager' ),
+        ['actor.data.display_name', 'meta.deleted_task_title']
     ],
     'update_task_title'       => [
         __( '%1$s has updated the title of a task from "%2$s" to "%3$s".', 'wedevs-project-manager' ),
@@ -144,12 +176,20 @@ return [
         __( '%1$s has updated a comment on a task, %2$s.', 'wedevs-project-manager'),
         ['actor.data.display_name', 'meta.task_title']
     ],
+    'delete_comment_on_task'       => [
+        __( '%1$s has deleted a comment on a task, %2$s.', 'wedevs-project-manager'),
+        ['actor.data.display_name', 'meta.task_title']
+    ],
     'reply_comment_on_task'        => [
         __( '%1$s has replied a comment on a task, %2$s', 'wedevs-project-manager'),
         ['actor.data.display_name', 'meta.task_title']
     ],
     'update_reply_comment_on_task' => [
         __( '%1$s has updated a reply comment on a task, %2$s.', 'wedevs-project-manager'),
+        ['actor.data.display_name', 'meta.task_title']
+    ],
+    'delete_reply_comment_on_task' => [
+        __( '%1$s has deleted a reply comment on a task, %2$s.', 'wedevs-project-manager'),
         ['actor.data.display_name', 'meta.task_title']
     ],
 
@@ -162,12 +202,20 @@ return [
         __( '%1$s has updated a comment on a task list, %2$s.', 'wedevs-project-manager'),
         ['actor.data.display_name', 'meta.task_list_title']
     ],
+    'delete_comment_on_task_list'       => [
+        __( '%1$s has deleted a comment on a task list, %2$s.', 'wedevs-project-manager'),
+        ['actor.data.display_name', 'meta.task_list_title']
+    ],
     'reply_comment_on_task_list'        => [
         __( '%1$s has replied a comment on a task list, %2$s', 'wedevs-project-manager'),
         ['actor.data.display_name', 'meta.task_list_title']
     ],
     'update_reply_comment_on_task_list' => [
         __( '%1$s has updated a reply comment on a task list, %2$s.', 'wedevs-project-manager'),
+        ['actor.data.display_name', 'meta.task_list_title']
+    ],
+    'delete_reply_comment_on_task_list' => [
+        __( '%1$s has deleted a reply comment on a task list, %2$s.', 'wedevs-project-manager'),
         ['actor.data.display_name', 'meta.task_list_title']
     ],
 
@@ -180,12 +228,20 @@ return [
         __( '%1$s has updated a comment on a discussion board, %2$s.', 'wedevs-project-manager'),
         ['actor.data.display_name', 'meta.discussion_board_title']
     ],
+    'delete_comment_on_discussion_board'       => [
+        __( '%1$s has deleted a comment on a discussion board, %2$s.', 'wedevs-project-manager'),
+        ['actor.data.display_name', 'meta.discussion_board_title']
+    ],
     'reply_comment_on_discussion_board'        => [
         __( '%1$s has replied a comment on a discussion board, %2$s', 'wedevs-project-manager'),
         ['actor.data.display_name', 'meta.discussion_board_title']
     ],
     'update_reply_comment_on_discussion_board' => [
         __( '%1$s has updated a reply comment on a discussion board, %2$s.', 'wedevs-project-manager'),
+        ['actor.data.display_name', 'meta.discussion_board_title']
+    ],
+    'delete_reply_comment_on_discussion_board' => [
+        __( '%1$s has deleted a reply comment on a discussion board, %2$s.', 'wedevs-project-manager'),
         ['actor.data.display_name', 'meta.discussion_board_title']
     ],
 
@@ -198,12 +254,20 @@ return [
         __( '%1$s has updated a comment on a milestone, %2$s.', 'wedevs-project-manager'),
         ['actor.data.display_name', 'meta.milestone_title']
     ],
+    'delete_comment_on_milestone'       => [
+        __( '%1$s has deleted a comment on a milestone, %2$s.', 'wedevs-project-manager'),
+        ['actor.data.display_name', 'meta.milestone_title']
+    ],
     'reply_comment_on_milestone'        => [
         __( '%1$s has replied a comment on a milestone, %2$s', 'wedevs-project-manager'),
         ['actor.data.display_name', 'meta.milestone_title']
     ],
     'update_reply_comment_on_milestone' => [
         __( '%1$s has updated a reply comment on a milestone, %2$s.', 'wedevs-project-manager'),
+        ['actor.data.display_name', 'meta.milestone_title']
+    ],
+    'delete_reply_comment_on_milestone' => [
+        __( '%1$s has deleted a reply comment on a milestone, %2$s.', 'wedevs-project-manager'),
         ['actor.data.display_name', 'meta.milestone_title']
     ],
 
@@ -216,12 +280,20 @@ return [
         __( '%1$s has updated a comment on the project, %2$s.', 'wedevs-project-manager'),
         ['actor.data.display_name', 'meta.project_title']
     ],
+    'delete_comment_on_project'       => [
+        __( '%1$s has deleted a comment on the project, %2$s.', 'wedevs-project-manager'),
+        ['actor.data.display_name', 'meta.project_title']
+    ],
     'reply_comment_on_project'        => [
         __( '%1$s has replied a comment on the project, %2$s', 'wedevs-project-manager'),
         ['actor.data.display_name', 'meta.project_title']
     ],
     'update_reply_comment_on_project' => [
         __( '%1$s has updated a reply comment on the project, %2$s.', 'wedevs-project-manager'),
+        ['actor.data.display_name', 'meta.project_title']
+    ],
+    'delete_reply_comment_on_project' => [
+        __( '%1$s has deleted a reply comment on the project, %2$s.', 'wedevs-project-manager'),
         ['actor.data.display_name', 'meta.project_title']
     ],
 
@@ -234,6 +306,10 @@ return [
         __( '%1$s has updated a comment on a file, %2$s.', 'wedevs-project-manager'),
         ['actor.data.display_name', 'meta.file_title']
     ],
+    'delete_comment_on_file'       => [
+        __( '%1$s has deleted a comment on a file, %2$s.', 'wedevs-project-manager'),
+        ['actor.data.display_name', 'meta.file_title']
+    ],
     'reply_comment_on_file'        => [
         __( '%1$s has replied a comment on a file, %2$s', 'wedevs-project-manager'),
         ['actor.data.display_name', 'meta.file_title']
@@ -242,6 +318,12 @@ return [
         __( '%1$s has updated a reply comment on a file, %2$s.', 'wedevs-project-manager'),
         ['actor.data.display_name', 'meta.file_title']
     ],
+    'delete_reply_comment_on_file' => [
+        __( '%1$s has deleted a reply comment on a file, %2$s.', 'wedevs-project-manager'),
+        ['actor.data.display_name', 'meta.file_title']
+    ],
+
+    // duplicate project 
     'duplicate_project' => [
         __( '%1$s has duplicated project from , %2$s.', 'wedevs-project-manager'),
         ['actor.data.display_name', 'meta.old_project_title']

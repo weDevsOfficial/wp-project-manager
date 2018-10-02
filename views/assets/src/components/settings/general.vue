@@ -57,7 +57,7 @@
                                 <td>
 
                                     <fieldset>
-                                        <label v-for="(role_display_name, role) in roles">
+                                        <label v-for="(role_display_name, role) in roles" :key="role">
                                             <input type="checkbox" class="checkbox" v-model="managing_capability" :value="role">
                                             {{ role_display_name }}
                                         </label>
@@ -73,12 +73,12 @@
                                 <td>
 
                                     <fieldset>
-                                        <label v-for="(role_display_name, role) in roles">
+                                        <label v-for="(role_display_name, role) in roles" :key="role">
                                             <input type="checkbox" class="checkbox" v-model="project_create_capability" :value="role">
                                             {{ role_display_name }}
                                         </label>
                                         
-                                        <p class="description">{{ __( 'Select the user roles who can see and manage all projects.', 'wedevs-project-manager') }}</p>
+                                        <p class="description">{{ __( 'Select the user roles who can create project.', 'wedevs-project-manager') }}</p>
                                     </fieldset>
                                 </td>
                             </tr>

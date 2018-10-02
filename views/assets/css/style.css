@@ -486,7 +486,7 @@ ul.pm-inline-ul li {
   border: 1px solid #dddddd;
   border-collapse: separate;
   *border-collapse: collapse;
-  border-left: 0;
+  
   -webkit-border-radius: 4px;
      -moz-border-radius: 4px;
           border-radius: 4px;
@@ -4134,7 +4134,7 @@ a.pm-icon-tick.grey {
   padding: 0px 10px 8px;
   font-weight: bold;
   color: #000;
-  font-size: 16px;
+  font-size: 20px;
 }
 .pm .pm-blank-template .pm-content .pm-list-content {
   background: #FEFCE3 ;
@@ -4168,6 +4168,11 @@ a.pm-icon-tick.grey {
 }
 .pm .milestone .pm-content {
   background-image: url('../images/blank_milestone.svg');
+}
+
+.pm .pm-demo-template {
+  background-image: url('../images/blank_todolist.svg');
+  background-repeat: no-repeat;
 }
 .pm .modal-mask {
   position: fixed;

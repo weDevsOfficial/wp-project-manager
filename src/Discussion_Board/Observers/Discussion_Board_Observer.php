@@ -17,6 +17,14 @@ class Discussion_Board_Observer extends Model_Observer {
 
         $this->log_activity( $resource, 'create_discussion_board', 'create', $meta );
     }
+    public function deleting( $resource ) {
+
+        $meta = [
+            'deleted_discussion_board_title' => $resource->title,
+        ];
+
+        $this->log_activity( $resource, 'delete_discussion_board', 'delete', $meta );
+    }
 
     public function updated( $resource ) {
         $this->call_attribute_methods( $resource );

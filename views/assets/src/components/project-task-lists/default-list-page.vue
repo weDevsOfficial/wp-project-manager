@@ -1,6 +1,6 @@
 <template>
     <div class="pm-blank-template todolist">
-        <div class="pm-content" >
+        <div class="pm-content">
             <h3 class="pm-page-title">{{ __( 'Task Lists', 'wedevs-project-manager') }}</h3>
             <p>
                 {{ __( 'You can list all your Tasks in a single discussion using a Task list. Use these lists to divide a project into several sectors, assign co-workers and check progress.', 'wedevs-project-manager') }}
@@ -22,7 +22,7 @@
             </div>
 
         </div>
-
+        
 
     </div>
 </template>
@@ -42,7 +42,7 @@
         computed: {
             is_active_list_form () {
                 return this.$store.state.projectTaskLists.is_active_list_form;
-            },
+            }
         }
     }
 </script>

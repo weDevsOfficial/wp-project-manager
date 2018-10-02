@@ -21,6 +21,11 @@ class Comment_Observer extends Model_Observer {
         $this->log_activity( $comment, $action_type );
     }
 
+    public function deleting( $comment ) {
+        $action_type = 'delete';
+        $this->log_activity( $comment, $action_type );
+    }
+
     public function updated( $resource ) {
         $this->call_attribute_methods( $resource );
     }
@@ -70,11 +75,16 @@ class Comment_Observer extends Model_Observer {
 
         if ( $action_type == 'create' && $comment->commentable_type == 'comment' ) {
             $action = 'reply_comment_on_task';
-        } elseif ( $action_type == 'update' && $comment->commentable_type == 'comment' ) {
+        } else if ( $action_type == 'update' && $comment->commentable_type == 'comment' ) {
             $action = 'update_reply_comment_on_task';
-        } elseif ( $action_type == 'create' ) {
+        } else if ( $action_type == 'delete' && $comment->commentable_type == 'comment' ) {
+            $action = 'delete_reply_comment_on_task';
+        } else if ( $action_type == 'create' ) {
             $action = 'comment_on_task';
-        } elseif ( $action_type == 'update' ) {
+        } else if ( $action_type == 'delete' ) {
+            $action = 'delete_comment_on_task';
+        }
+        else if ( $action_type == 'update' ) {
             $action = 'update_comment_on_task';
         }
 
@@ -99,10 +109,14 @@ class Comment_Observer extends Model_Observer {
             $action = 'reply_comment_on_task_list';
         } elseif ( $action_type == 'update' && $comment->commentable_type == 'comment' ) {
             $action = 'update_reply_comment_on_task_list';
+        } elseif ( $action_type == 'delete' && $comment->commentable_type == 'comment' ) {
+            $action = 'delete_reply_comment_on_task_list';
         } elseif ( $action_type == 'create' ) {
             $action = 'comment_on_task_list';
         } elseif ( $action_type == 'update' ) {
             $action = 'update_comment_on_task_list';
+        } elseif ( $action_type == 'delete' ) {
+            $action = 'delete_comment_on_task_list';
         }
 
         Activity::create([
@@ -126,10 +140,14 @@ class Comment_Observer extends Model_Observer {
             $action = 'reply_comment_on_discussion_board';
         } elseif ( $action_type == 'update' && $comment->commentable_type == 'comment' ) {
             $action = 'update_reply_comment_on_discussion_board';
+        } elseif ( $action_type == 'delete' && $comment->commentable_type == 'comment' ) {
+            $action = 'delete_reply_comment_on_discussion_board';
         } elseif ( $action_type == 'create' ) {
             $action = 'comment_on_discussion_board';
         } elseif ( $action_type == 'update' ) {
             $action = 'update_comment_on_discussion_board';
+        } elseif ( $action_type == 'delete' ) {
+            $action = 'delete_comment_on_discussion_board';
         }
 
         Activity::create([
@@ -153,10 +171,14 @@ class Comment_Observer extends Model_Observer {
             $action = 'reply_comment_on_milestone';
         } elseif ( $action_type == 'update' && $comment->commentable_type == 'comment' ) {
             $action = 'update_reply_comment_on_milestone';
+        }  elseif ( $action_type == 'delete' && $comment->commentable_type == 'comment' ) {
+            $action = 'delete_reply_comment_on_milestone';
         } elseif ( $action_type == 'create' ) {
             $action = 'comment_on_milestone';
         } elseif ( $action_type == 'update' ) {
             $action = 'update_comment_on_milestone';
+        } elseif ( $action_type == 'delete' ) {
+            $action = 'delete_comment_on_milestone';
         }
 
         Activity::create([
@@ -202,6 +224,7 @@ class Comment_Observer extends Model_Observer {
 
         $meta = [
             'comment_id'    => $comment->id,
+            'parent'        => $file->parent,
             'file_url'      => $physical_file['url'],
             'file_title'    => $physical_file['name'] . '.' . $physical_file['file_extension'],
             'attachment_id' => $file->attachment_id,
@@ -211,10 +234,14 @@ class Comment_Observer extends Model_Observer {
             $action = 'reply_comment_on_file';
         } elseif ( $action_type == 'update' && $comment->commentable_type == 'comment' ) {
             $action = 'update_reply_comment_on_file';
+        } elseif ( $action_type == 'delete' && $comment->commentable_type == 'comment' ) {
+            $action = 'delete_reply_comment_on_file';
         } elseif ( $action_type == 'create' ) {
             $action = 'comment_on_file';
         } elseif ( $action_type == 'update' ) {
             $action = 'update_comment_on_file';
+        } elseif ( $action_type == 'delete' ) {
+            $action = 'delete_comment_on_file';
         }
 
         Activity::create([

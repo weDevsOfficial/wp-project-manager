@@ -79,6 +79,12 @@ class Model extends \WeDevs\ORM\Eloquent\Model {
                 do_action( 'pm_deleted', $this );
                 //Activity_Log::entry( $this, 'deleted' );
                 break;
+
+            case 'deleting':
+
+                do_action( 'pm_deleting', $this );
+                Activity_Log::entry( $this, 'deleting' );
+                break;
         }
         //Do not remove this line
         return parent::fireModelEvent($event, $halt);

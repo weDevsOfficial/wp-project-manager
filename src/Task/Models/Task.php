@@ -38,12 +38,14 @@ class Task extends Eloquent {
         'recurrent',
         'status',
         'project_id',
+        'completed_by',
+        'completed_at',
         'parent_id',
         'created_by',
         'updated_by'
     ];
 
-    protected $dates = ['start_at', 'due_date'];
+    protected $dates = ['start_at', 'due_date', 'completed_at'];
 
     protected $attributes = [
         'priority' => 1,
@@ -86,7 +88,7 @@ class Task extends Eloquent {
     }
 
     public function comments() {
-        return $this->hasMany( 'WeDevs\PM\Comment\Models\Comment', 'commentable_id' )->whereIn( 'commentable_type', ['task', 'task_activity'] );
+        return $this->hasMany( 'WeDevs\PM\Comment\Models\Comment', 'commentable_id' )->whereIn( 'commentable_type', ['task'] );
     }
 
     public function assignees() {
@@ -99,7 +101,7 @@ class Task extends Eloquent {
     }
 
     public function activities() {
-        return $this->hasMany( 'WeDevs\PM\Activity\Models\Activity', 'resource_id' )->where( 'resource_type', 'task' );
+        return $this->hasMany( 'WeDevs\PM\Activity\Models\Activity', 'resource_id' )->where( 'resource_type', 'task' )->orderBy( 'created_at', 'DESC' );
     }
 
     public function projects() {
@@ -113,6 +115,10 @@ class Task extends Eloquent {
     public function metas() {
         return $this->hasMany( 'WeDevs\PM\Common\Models\Meta', 'entity_id' )
             ->where( 'entity_type', 'task' );
+    }
+
+    public function completer() {
+        return $this->belongsTo( 'WeDevs\PM\User\Models\User', 'completed_by' );
     }
 
 }

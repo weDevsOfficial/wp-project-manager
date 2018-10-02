@@ -26,13 +26,13 @@
                 </div> 
                 <div class="pm-activity-body pm-col-11 pm-sm-col-12 pm-right pm-last-col"> 
                     <ul>
-                        <li v-for="activity in group.activities" >
+                        <li v-for="activity in group.activities" :key="activity.id" >
                             <div class="pm-col-8 pm-sm-col-12">
                                 <activity-parser :activity="activity"></activity-parser>
                             </div>
                             <div class="date pm-col-4 pm-sm-col-12">
                                 <time :datetime="pmDateISO8601Format(activity.committed_at.date, activity.committed_at.time)" :title="pmDateISO8601Format(activity.committed_at.date, activity.committed_at.time)">
-                                    <i>{{ taskDateFormat(activity.committed_at.date) }}, {{ dateTimeFormat(activity.committed_at.time) }}</i>
+                                    <i>{{ taskDateFormat(activity.committed_at.date) }}, {{ dateTimeFormat(activity.committed_at.datetime) }}</i>
                                 </time>
                             </div> 
                             <div class="clear"></div> 

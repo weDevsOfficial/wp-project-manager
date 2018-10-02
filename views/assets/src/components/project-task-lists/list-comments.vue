@@ -21,10 +21,10 @@
                         </span>
                         <span>{{ __('on', 'wedevs-project-manager') }}</span>
                         <span class="pm-date">
-                            <time :datetime="dateISO8601Format( comment.comment_date )" :title="dateISO8601Format( comment.comment_date )">{{ dateTimeFormat( comment.comment_date ) }}</time>
+                            <time :datetime="getFullDate( comment.created_at.datetime )" :title="getFullDate( comment.created_at.datetime )">{{ relativeDate(comment.created_at.datetime) }}</time>
                         </span>
                         <!-- v-if="current_user_can_edit_delete(comment, list)" -->
-                        <div  class="pm-comment-action" v-if="can_edit_comment(comment)" >
+                        <div  class="pm-comment-action" v-if="can_edit_comment(comment) && !isArchivedList(list)" >
                             <span class="pm-edit-link">
                                 <a href="#" @click.prevent="showHideListCommentEditForm( comment )" class="dashicons dashicons-edit"></a>
                             </span>
@@ -37,19 +37,13 @@
                     <div class="pm-comment-content">
                         <div v-html="comment.content"></div>
                         <ul class="pm-attachments" v-if="comment.files.data.length">
-                            <li v-for="file in comment.files.data">
-                                <a v-if="file.type == 'image'" v-pm-pretty-photo class="pm-colorbox-img" :href="getDownloadUrl(file.attachment_id)" :title="file.name" target="_blank">
-                                    <img class="pm-content-img-size" :src="file.thumb" :alt="file.name">
-                                </a>
-
-                                <a v-else class="pm-colorbox-img" :href="getDownloadUrl(file.attachment_id)" :title="file.name" target="_blank">
-                                    <img class="pm-content-img-size" :src="file.thumb" :alt="file.name">
-                                </a>
+                            <li v-for="file in comment.files.data" :key="file.id">
+                                <pm-file :file="file" />
                             </li>
                         </ul>
                     </div>
 
-                    <transition name="slide" v-if="can_edit_comment(comment)" >
+                    <transition name="slide" v-if="can_edit_comment(comment) && !isArchivedList(list)" >
                         <div class="pm-comment-edit-form" v-if="comment.edit_mode">
                             <div :class="'pm-slide-'+comment.id">
                                 <list-comment-form :comment="comment" :list="list"></list-comment-form>
@@ -59,7 +53,7 @@
                 </div>
             </li>
         </ul>
-        <div class="single-todo-comments">
+        <div class="single-todo-comments" v-if="!isArchivedList(list)">
             <div class="pm-comment-form-wrap">
 
                 <div class="pm-avatar">
@@ -119,6 +113,7 @@
                     success (res) {
                         var index = self.getIndex(self.comments, id, 'id');
                         pm.Toastr.success(res.message);
+                        self.$store.commit('updateProjectMeta', 'total_activities');
                         self.comments.splice(index, 1);
                     }
                 }

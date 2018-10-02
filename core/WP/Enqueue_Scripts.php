@@ -37,14 +37,16 @@ class Enqueue_Scripts {
 
 	public static function localize_scripts() {
 		global $wedevs_pm_pro;
-		$upload_size = 10 * 1024 * 1024;
+		$upload_limit = intval(pm_get_settings('upload_limit'));
+		$upload_limit = empty( $upload_limit ) ? wp_max_upload_size() : $upload_limit;
+		$upload_size = intval( $upload_limit )  * 1024 * 1024;
 
 		wp_localize_script( 'pm-config', 'PM_Vars', array(
 				'ajaxurl'                  => admin_url( 'admin-ajax.php' ),
 				'permission'               => wp_create_nonce('wp_rest'),
 				'nonce'                    => wp_create_nonce( 'pm_nonce' ),
 				'base_url'                 => home_url(),
-				'project_page'             => admin_url( 'admin.php?page=pm_projects' ),
+				'project_page'             => pm_get_project_page(),
 				'rest_api_prefix'          => rest_get_url_prefix(),
 				'todo_list_form'           => apply_filters( 'todo_list_form', array( 'PM_Task_Mixin' ) ),
 				'todo_list_router_default' => apply_filters( 'todo_list_router_default', array( 'PM_Task_Mixin' ) ),

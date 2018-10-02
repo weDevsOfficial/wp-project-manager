@@ -5,21 +5,69 @@
             <text-editor :editor_id="editor_id" :content="content"></text-editor>
         </div>
 
-         <file-uploader :files="files" :delete="deleted_files"></file-uploader>
-         <notify-user v-model="notify_users" :users="task.assignees.data"></notify-user>
+        <span class="attach-text" v-if="files.length">{{ 'Attach Files', 'wedevs-project-manager' }}</span>
+        <file-uploader :files="files" :delete="deleted_files"></file-uploader>
                
-        <div class="submit">
-            <input v-if="!comment.edit_mode" :disabled="submit_disabled" type="submit" class="button-primary"  :value="add_new_comment" id="" />
-            <input v-if="comment.edit_mode" :disabled="submit_disabled" type="submit" class="button-primary"  :value="update_comment" id="" />
-            <span v-show="show_spinner" class="pm-spinner"></span>
+        <div class="pm-flex">
+            <div class="comment-action-chunk">
+                <input v-if="!comment.edit_mode" :disabled="submit_disabled" type="submit" class="pm-button pm-primary"  :value="add_new_comment" id="" />
+                <input v-if="comment.edit_mode" :disabled="submit_disabled" type="submit" class="pm-button pm-primary"  :value="update_comment" id="" />
+                <a href="#" @click.prevent="hideCommentForm()" class="pm-button pm-secondary pm-button-cancel">{{__('Cancel', 'wedevs-project-manager')}}</a>
+                <span v-show="show_spinner" class="pm-spinner"></span>
+            </div>
+            <div class="comment-action-chunk">
+                <a href="#" v-pm-uploader class="pm-button pm-secondary">
+                    <span class="icon-pm-clip"></span>
+                    {{ __('Attach', 'wedevs-project-manager') }}
+                </a>
+                <div class="notify-users">
+
+                    <a href="#" @click.prevent="notifyUserButton()" class="pm-button pm-secondary pm-button-nofity-user">
+                        <span class="icon-pm-single-user"></span>
+                        {{ __('Notify user', 'wedevs-project-manager') }}
+                    </a>
+
+                    <div  v-if="activeNotifyUsers"  class="pm-multiselect-top pm-multiselect-single-task">
+                        <div class="pm-multiselect-content">
+                            <div class="assign-to">{{ __('Assign to', 'wedevs-project-manager') }}</div>
+                       
+                            <multiselect
+                                v-model="notify_users"
+                                :options="project_users"
+                                :multiple="true"
+                                :close-on-select="false"
+                                :clear-on-select="true"
+                                :show-labels="true"
+                                :searchable="true"
+                                :placeholder="__('Search User', 'wedevs-project-manager')"
+                                select-label=""
+                                selected-label="selected"
+                                deselect-label=""
+                                label="display_name"
+                                track-by="id"
+                                :allow-empty="true">
+
+                                <template slot="option" slot-scope="props">
+                                    <img class="option__image" :src="props.option.avatar_url" alt="No Man’s Sky">
+                                    <div class="option__desc">
+                                        <span class="option__title">{{ props.option.display_name }}</span>
+                                    </div>
+                                </template>
+
+                            </multiselect>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </form>
 </template>
 
 <script>
   import editor from '@components/common/text-editor.vue';
-  import uploader from '@components/common/file-uploader.vue';
+  import uploader from '@components/common/file-uploader-updated.vue';
   import notifyUser from '@components/common/notify-user.vue';
+  import Multiselect from 'vue-multiselect';
   import Mixins from './mixin';
 
   export default {
@@ -45,6 +93,12 @@
                     id: false
                 }
             }
+        },
+        commentFormMeta: {
+            type: [Object],
+            default () {
+                activeNewCommentField: true
+            }
         }
     },
 
@@ -61,16 +115,27 @@
             files: typeof this.comment.files === 'undefined' ? [] : this.comment.files.data,
             deleted_files: [],
             mentioned_user_ids: null,
-            add_new_comment: __( 'Add New Comment', 'wedevs-project-manager'),
+            add_new_comment: __( 'Post Comment', 'wedevs-project-manager'),
             update_comment: __( 'Update Comment', 'wedevs-project-manager'),
             notify_users: [],
+            fileUploaderAttr: {
+                onlyButton: true,
+                buttonText: __('Attach', 'wedevs-project-manager')
+            },
+            activeNotifyUsers: false
+
         }
     },
 
     components: {
         'text-editor': editor,
         'file-uploader': uploader,
-        notifyUser: notifyUser
+        'notifyUser': notifyUser,
+        'multiselect': Multiselect,
+    },
+
+    created () {
+        window.addEventListener('click', this.windowActivity);
     },
 
     watch: {
@@ -91,6 +156,9 @@
     },
 
     computed: {
+        project_users () {
+            return this.$root.$store.state.project_users;
+        },
         /**
         * Editor ID
         * 
@@ -102,7 +170,36 @@
         },
     },
     methods: {
+        windowActivity (el) {
+            var commentAction =  jQuery(el.target).closest('.notify-users');
 
+            if(!commentAction.length) {
+                this.activeNotifyUsers = false;
+            }
+        },
+
+        notifyUserButton () {
+            this.activeNotifyUsers = this.activeNotifyUsers ? false : true;
+
+            if(this.activeNotifyUsers) {
+                pm.Vue.nextTick(function() {
+                    console.log(jQuery('.notify-users').find('.multiselect__input'));
+                    jQuery('.notify-users').find('.multiselect__input').show().focus();
+                });
+            }
+        },
+
+        hideCommentForm () {
+            if(typeof this.comment.edit_mode != 'undefined') {
+                this.comment.edit_mode = false;
+            }
+            if(typeof this.commentFormMeta.activeNewCommentField == 'undefined') {
+                pm.Vue.set(this.commentFormMeta, 'activeNewCommentField', false);
+            } else {
+               this.commentFormMeta.activeNewCommentField = false; 
+            }
+            
+        },
         taskCommentAction () {
             var regEx = /data-pm-user-id=":(.+?):"/g;
             this.mentioned_user_ids = this.getMatches(this.comment.content, regEx, 1);
@@ -138,10 +235,16 @@
                 args.callback = function(res){
                     var index = self.getIndex( self.comments, self.comment.id, 'id' );
                     self.comments.splice(index, 1, res.data);
-
+                    if ( typeof self.task.activities !== 'undefined' ) {
+                        self.task.activities.data.unshift(res.activity.data);
+                    } else {
+                        self.task.activities = { data: [res.activity.data] };
+                    }
+                    self.submit_disabled = false;
+                    self.show_spinner    = false;
                 }
 
-                self.updateComment ( args );
+                self.updateComment( args );
             }else{
 
                 args.callback = function ( res ) {
@@ -153,6 +256,12 @@
                     self.notify_users    = [];
                     self.files           = []; 
                     self.deleted_files   = [];
+
+                    if ( typeof self.task.activities !== 'undefined' ) {
+                        self.task.activities.data.unshift(res.activity.data);
+                    } else {
+                        self.task.activities = { data: [res.activity.data] };
+                    }
                 }
                 self.addComment ( args );
             }

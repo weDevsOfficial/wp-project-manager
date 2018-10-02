@@ -1,9 +1,23 @@
 <template>
     <div class="pm-incomplete-tasks">
         <ul :data-list_id="list.id"  class="pm-todos pm-todolist-content pm-incomplete-task pm-connected-sortable" v-pm-sortable>
-            <li :data-id="task.id" :data-order="task.order" class="pm-todo" v-for="(task, task_index) in getIncompleteTasks" :key="task.id" :class="'pm-fade-out-'+task.id">
+            <li :data-id="task.id" :data-order="task.order" class="pm-todo" v-for="task in getIncompleteTasks" :key="task.id" :class="'pm-fade-out-'+task.id">
+                <incompleted-tasks :task="task" :list="list"></incompleted-tasks>
+            </li>
+            
+            <!-- <li v-if="!hasList" class="nonsortable">{{ __( 'No tasks found.', 'wedevs-project-manager') }}</li>
+            <transition name="slide" v-if="can_create_task">
+                <li v-if="list.show_task_form" class="pm-todo-form nonsortable">
+                    <new-task-form :list="list"></new-task-form>
+                </li>
+            </transition> -->
 
-                <incompleted-tasks :task="task" :list="list"></incompleted-tasks>       
+        </ul> 
+
+        <ul :data-list_id="list.id"  class="pm-todos pm-todolist-content pm-complete-task pm-connected-sortable">
+            <li :data-id="task.id" :data-order="task.order" class="pm-todo" v-for="task in getCompleteTasks" :key="task.id" :class="'pm-fade-out-'+task.id">
+                <complete-tasks :task="task" :list="list"></complete-tasks>       
+
             </li>
             
             <li v-if="!hasList" class="nonsortable">{{ __( 'No tasks found.', 'wedevs-project-manager') }}</li>
@@ -17,6 +31,14 @@
         
     </div>
 </template>
+
+<style lang="less">
+    .pm-complete-task {
+        .pm-todo-text {
+            text-decoration: line-through;
+        }
+    }
+</style>
 
 <script>
     import new_task_form from './new-task-form.vue';
@@ -59,7 +81,14 @@
                 handler () {
                     var self = this;
                     pm.Vue.nextTick(function() {
-                        self.hasList = self.list.incomplete_tasks.data.length ? true : false;
+                        let list_incomplete = self.list.incomplete_tasks.data.length;
+                        let list_complete = self.list.complete_tasks.data.length;
+                        
+                        if( list_incomplete || list_complete ) {
+                            self.hasList = true;
+                        } else {
+                            self.hasList = false;
+                        }
                     })
                 },
 
@@ -91,6 +120,18 @@
                     });
 
                     return this.list.incomplete_tasks.data;
+                }
+
+                return [];
+            },
+
+            getCompleteTasks () {
+                if ( this.list.complete_tasks ) {
+                    this.list.complete_tasks.data.map(function(task, index) {
+                        task.status = true;
+                    });
+
+                    return this.list.complete_tasks.data;
                 }
 
                 return [];
@@ -130,7 +171,7 @@
         components: {
             'new-task-form': new_task_form,
             'incompleted-tasks': incompleted_tasks,
-            'completed-tasks': completed_tasks,
+            'complete-tasks': completed_tasks,
             'single-task': pm.SingleTask
         },
 

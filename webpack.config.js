@@ -4,6 +4,8 @@ const shell = require('shelljs');
 const outputPath = path.resolve( __dirname, 'views/assets/js')
 const plugins = [];
 const isProduction = (process.env.NODE_ENV == 'production');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
 
 //Remove all webpack build file
 shell.rm('-rf', outputPath)
@@ -17,6 +19,13 @@ if (isProduction) {
         new UglifyJsPlugin()
     )   
 }
+
+// extract css into its own file
+const extractCss = new ExtractTextPlugin({
+    filename: "../css/pm-style.css"
+});
+
+plugins.push( extractCss );
 
 module.exports = {
     entry: {
@@ -75,18 +84,22 @@ module.exports = {
                 loader: 'file-loader',
                 exclude: /node_modules/,
                 options: {
-                    name: '[name].[ext]?[hash]'
+                    name: '[name].[ext]?[hash]',
+                    outputPath: '../css/images/'
                 }
             },
             {
                 test: /\.less$/,
-                use: [{
-                    loader: "style-loader" // creates style nodes from JS strings
-                }, {
-                    loader: "css-loader" // translates CSS into CommonJS
-                }, {
-                    loader: "less-loader" // compiles Less to CSS
-                }]
+                use: extractCss.extract({
+                    use: [
+                        {
+                            loader: "css-loader"
+                        }, 
+                        {
+                            loader: "less-loader"
+                        }
+                    ]
+                })
             }
         ]
     },
