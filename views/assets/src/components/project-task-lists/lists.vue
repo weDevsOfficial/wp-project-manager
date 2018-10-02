@@ -4,11 +4,27 @@
         <pm-menu></pm-menu>
         <div class="list-content-wrap">
             <div class="content">
+
+                <div class="list-action-btn-wrap">
+                    <div class="new-list-btn">
+                        <a href="#" class="pm-button pm-primary">
+                            <span class="plus">+</span>
+                            <span>{{ __('Add Task List', 'wedevs-project-manager') }}</span>
+                        </a>
+                    </div>
+                    <pm-do-action :hook="'pm-inline-list-button'"></pm-do-action>
+                    <div>
+                        <a class="pm-button pm-primary" v-pm-tooltip :title="__('Task Filter', 'wedevs-project-manager')" @click.prevent="showFilter()" href="#">
+                            <span class="icon-pm-filter"></span>
+                            <span>{{__('Filter', 'wedevs-project-manager')}}</span>
+                        </a>
+                    </div>
+                </div>
                 
-                <div class="todos-wrap no-task">
+                <!-- <div class="todos-wrap no-task">
                     <span>{{ __( 'No result Found', 'wedevs-project-manager') }}</span>
 
-                </div>
+                </div> -->
             </div>
 
             <div class="list-search-menu" v-if="isActiveFilter">
@@ -319,6 +335,66 @@
                 flex-direction: column;
                 border-top: none;
 
+                .list-action-btn-wrap {
+                    display: flex;
+                    align-items: center;
+                    padding: 20px;
+
+                    .pm-list-header-menu {
+                        display: flex;
+                        align-items: center;
+                    }
+
+                    .list-view-btn {
+                        display: flex;
+                        align-items: center;
+                        padding: 5px 13px;
+                        background: #fff;
+                        border: 1px solid #e5e4e4;
+                        border-radius: 3px;
+                        border-right: none;
+                        border-top-right-radius: 0;
+                        border-bottom-right-radius: 0;
+
+                        .icon-pm-list-view {
+                            margin-right: 5px;
+                            &:before {
+                                vertical-align: middle;
+                            }
+                        }
+
+                    }
+
+                    .kanboard-btn {
+                        display: flex;
+                        align-items: center;
+                        padding: 5px 13px;
+                        background: #fff;
+                        border: 1px solid #e5e4e4;
+                        border-radius: 3px;
+                        border-top-left-radius: 0;
+                        border-bottom-left-radius: 0;
+
+                        .icon-pm-kanboard-view {
+                            margin-right: 5px;
+                            &:before {
+                                vertical-align: middle;
+                            }
+                        }
+                    }
+
+                    .new-list-btn {
+                        flex: 1;
+                        .plus {
+                            margin-right: 2px;
+                            font-size: 15px;
+                        }
+                    }
+                    .pm-action-wrap {
+                        display: flex;
+                    }
+                }
+
                 .todos-wrap {
 
                 }
@@ -345,11 +421,41 @@
                     
                     .pm-primary {
                         margin-right: 10px !important;
+                        padding: 0 20px 1px !important;
                     }
                 }
 
                 .margin-top {
                     margin-bottom: 10px;
+                    .complete-btn {
+                        padding: 6px 15px;
+                        border-radius: 3px;
+                        background: #f8f3f9;
+                        color: #9B59CA;
+                        margin-right: 20px;
+                        border: 1px solid #fff;
+                        white-space: nowrap;
+                    }
+
+                    .complete-status {
+                        border: 1px solid #9B59CA;
+                    }
+
+                    .on-going-btn {
+                        padding: 6px 15px;
+                        border-radius: 3px;
+                        background: #fdedf0;
+                        color: #E9485E;
+                        border: 1px solid #fff;
+                        white-space: nowrap;
+                    }
+                    .incomplete-status {
+                        border: 1px solid #E9485E;
+                    }
+                    .status-elements {
+                        display: flex;
+                        align-items: center;
+                    }
                 }
 
                 .margin-title {
@@ -367,7 +473,8 @@
                 }
 
                 .multiselect__tags {
-                    
+                    padding: 1px 40px 0 1px !important;
+                    min-height: auto !important;
                 }
 
                 .multiselect__single {
@@ -401,7 +508,7 @@
                 }
 
                 .search-content {
-                    padding: 15px;
+                    padding: 0 15px 15px 15px;
                 }
             }
         }
