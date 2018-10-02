@@ -22,7 +22,6 @@ require __DIR__.'/libs/configurations.php';
 
 if ( version_compare( phpversion(), '5.6.0', '<' ) ) {
     add_action( 'admin_notices',  'pm_php_version_notice'  );
-    add_action( 'wp_ajax_pm_hide_php_notice',  'pm_hide_php_notice' );
     return;
 }
 
