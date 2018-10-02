@@ -1,6 +1,6 @@
 <?php
 return [
-	__( 'Are you sure!', 'wedevs-project-manager' ),
+	__( 'Are you sure?', 'wedevs-project-manager' ),
 	__( 'Are you sure to delete this project?', 'wedevs-project-manager' ),
 	__( 'Write a comment...', 'wedevs-project-manager' ),
 	__( 'Update Description', 'wedevs-project-manager' ),
@@ -32,7 +32,7 @@ return [
 	__( 'Description', 'wedevs-project-manager' ),
 	__( 'Update', 'wedevs-project-manager' ),
 	__( 'Activity', 'wedevs-project-manager' ),
-	__( 'Are you sure! Want to delete this milestones?', 'wedevs-project-manager' ),
+	__( 'Are you sure you want to delete this milestones?', 'wedevs-project-manager' ),
 	__( 'Are you sure to delete this comment?', 'wedevs-project-manager' ),
 	__( 'Project Actions', 'wedevs-project-manager' ),
 	__( 'Overview', 'wedevs-project-manager' ),
