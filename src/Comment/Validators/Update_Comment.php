@@ -8,8 +8,8 @@ class Update_Comment extends Abstract_Validator {
     public function messages() {
         return [
             'content.required' => __( 'Comment title is required.', 'wedevs-project-manager' ),
-            'id.required'      => __( 'Comment id is required.', 'wedevs-project-manager' ),
-            'id.gtz'           => __( 'Comment id must be greater than zero', 'wedevs-project-manager' ),
+            'id.required'      => __( 'Comment ID is required.', 'wedevs-project-manager' ),
+            'id.gtz'           => __( 'Comment ID must be greater than zero', 'wedevs-project-manager' ),
         ];
     }
 
