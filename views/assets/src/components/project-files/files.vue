@@ -52,7 +52,7 @@
                 </ul>
 
                 <ul v-if="!files.length">
-                    <li>{{ __('No result found!', 'wedevs-project-manager') }}</li>
+                    <li>{{ __('No results found.', 'wedevs-project-manager') }}</li>
                 </ul>
 
             </div>
