@@ -19,8 +19,10 @@ trait Task_Model_Trait {
     ];
 
     public static $recurrency = [
-        0 => 'no',
-        1 => 'yes'
+        0 => '0', // no repeat
+        1 => '1', // weekly
+        2 => '2', // Monthly
+        3 => '3', // Annually
     ];
 
     public static $payability = [

@@ -665,25 +665,28 @@ function pm_get_project_page( $type = false ) {
 }
 
 
-function pm_total_task(){
+function pm_total_task() {
 	$task = Task::count();
 	return $task;
 }
 
-function pm_total_task_list(){
+function pm_total_task_list() {
 	$task_list = Task_List::count();
 	return $task_list;
 }
 
-function pm_total_milestone(){
+function pm_total_milestone() {
 	$milestone = Milestone::count();
 	return $milestone;
 }
 
-function pm_total_message(){
+function pm_total_message() {
 	$message = Discussion_Board::count();
 	return $message;
 }
 
 
+
+
+//var_dump(pm_total_task());
 

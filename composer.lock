@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "b7a6d0ffdb22b1a53ef6f9684aa4d964",
+    "content-hash": "d5a531d5ee6f91be3e1966afd83a7e90",
     "packages": [
         {
             "name": "a5hleyrich/wp-background-processing",
@@ -503,6 +503,50 @@
             "time": "2017-06-12T11:04:56+00:00"
         },
         {
+            "name": "mtdowling/cron-expression",
+            "version": "v1.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mtdowling/cron-expression.git",
+                "reference": "9504fa9ea681b586028adaaa0877db4aecf32bad"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mtdowling/cron-expression/zipball/9504fa9ea681b586028adaaa0877db4aecf32bad",
+                "reference": "9504fa9ea681b586028adaaa0877db4aecf32bad",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0|~5.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Cron\\": "src/Cron/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                }
+            ],
+            "description": "CRON for PHP: Calculate the next or previous run date and determine if a CRON expression is due",
+            "keywords": [
+                "cron",
+                "schedule"
+            ],
+            "time": "2017-01-23T04:29:33+00:00"
+        },
+        {
             "name": "nesbot/carbon",
             "version": "1.33.0",
             "source": {
@@ -556,6 +600,102 @@
                 "time"
             ],
             "time": "2018-08-07T08:39:47+00:00"
+        },
+        {
+            "name": "peppeocchi/php-cron-scheduler",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/peppeocchi/php-cron-scheduler.git",
+                "reference": "e9179477660443f3367975468721fee0256e1b6b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/peppeocchi/php-cron-scheduler/zipball/e9179477660443f3367975468721fee0256e1b6b",
+                "reference": "e9179477660443f3367975468721fee0256e1b6b",
+                "shasum": ""
+            },
+            "require": {
+                "mtdowling/cron-expression": "@stable",
+                "php": ">=5.4.0",
+                "swiftmailer/swiftmailer": "@stable"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "GO": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Giuseppe Occhipinti",
+                    "email": "peppeocchi@gmail.com"
+                }
+            ],
+            "description": "PHP Cron Job Scheduler",
+            "keywords": [
+                "cron job",
+                "scheduler"
+            ],
+            "time": "2015-09-29T18:30:59+00:00"
+        },
+        {
+            "name": "swiftmailer/swiftmailer",
+            "version": "v5.4.12",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/swiftmailer/swiftmailer.git",
+                "reference": "181b89f18a90f8925ef805f950d47a7190e9b950"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/swiftmailer/swiftmailer/zipball/181b89f18a90f8925ef805f950d47a7190e9b950",
+                "reference": "181b89f18a90f8925ef805f950d47a7190e9b950",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9.1",
+                "symfony/phpunit-bridge": "~3.2"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.4-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "lib/swift_required.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chris Corbyn"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "Swiftmailer, free feature-rich PHP mailer",
+            "homepage": "https://swiftmailer.symfony.com",
+            "keywords": [
+                "email",
+                "mail",
+                "mailer"
+            ],
+            "time": "2018-07-31T09:26:32+00:00"
         },
         {
             "name": "symfony/polyfill-mbstring",
