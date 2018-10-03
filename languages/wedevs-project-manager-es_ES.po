@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: WP Project Manager\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/cpm\n"
 "POT-Creation-Date: 2018-07-11 06:41:04+00:00\n"
-"PO-Revision-Date: 2018-07-11 12:46+0600\n"
+"PO-Revision-Date: 2018-10-03 12:07-0500\n"
 "Last-Translator: David <david@closemarketing.es>\n"
 "Language-Team: Tareq Hasan <tareq@wedevs.com>\n"
 "Language: es_ES\n"
@@ -12,66 +12,69 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-KeywordsList: _e;__;gettext_noop;esc_attr_e;_n\n"
 "X-Poedit-Basepath: .\n"
-"X-Generator: Poedit 2.0.8\n"
+"X-Generator: Poedit 2.1.1\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: ..\n"
 
-#: core/Notifications/Emails/Complete_Task_Notification.php:42
-#, fuzzy
-#| msgid "[%s] %s Task status has changed in %s"
+#: core/Notifications/Emails/Complete_Task_Notification.php:44
 msgid "[%s] %s Task mark as %s in %s"
 msgstr "ha cambiado el estado de la tarea [%s] %s en %s"
 
-#: core/Notifications/Emails/New_Comment_Notification.php:53
-#: core/Notifications/Emails/Update_Comment_Notification.php:52
-#: views/emails/html/new-message.php:39 views/emails/mention.php:13
+#: core/Notifications/Emails/New_Comment_Notification.php:55
+#: core/Notifications/Emails/Update_Comment_Notification.php:54
+#: views/emails/html/new-message.php:39 views/emails/html/update-message.php:39
+#: views/emails/mention.php:13
 msgid "Message"
 msgstr "Mensaje"
 
-#: core/Notifications/Emails/New_Comment_Notification.php:58
-#: core/Notifications/Emails/Update_Comment_Notification.php:55
+#: core/Notifications/Emails/New_Comment_Notification.php:60
+#: core/Notifications/Emails/Update_Comment_Notification.php:57
 #: views/emails/mention.php:20
 msgid "Task List"
-msgstr "Componentes"
+msgstr "Lista de tareas"
 
-#: core/Notifications/Emails/New_Comment_Notification.php:63
-#: core/Notifications/Emails/Update_Comment_Notification.php:58
-#: views/assets/js/pm.js:18541
+#: core/Notifications/Emails/New_Comment_Notification.php:65
+#: core/Notifications/Emails/Update_Comment_Notification.php:60
+#: views/assets/js/pm.js:9
 #: views/assets/src/components/project-overview/directive.js:10
 #: views/emails/mention.php:25
 msgid "Task"
-msgstr "Actividad"
+msgstr "Tarea"
 
-#: core/Notifications/Emails/New_Comment_Notification.php:68
+#: core/Notifications/Emails/New_Comment_Notification.php:70
 msgid "File"
 msgstr "Archivo"
 
-#: core/Notifications/Emails/New_Comment_Notification.php:81
+#: core/Notifications/Emails/New_Comment_Notification.php:83
 msgid "[%s][%s] New Comment on: %s"
 msgstr "[%s][%s] Nuevo Comentario en: %s"
 
-#: core/Notifications/Emails/New_Message_Notification.php:47
+#: core/Notifications/Emails/New_Message_Notification.php:49
 msgid "[%s][%s] New Message: %s"
 msgstr "[%s][%s] Nuevo mensaje: %s"
 
 #: core/Notifications/Emails/New_Project_Notification.php:24
 msgid "[%s] New Project Invitation: %s"
-msgstr "[%s] Nueva invitación al Proyecto: %s"
+msgstr "[%s] Nueva invitación al proyecto: %s"
 
-#: core/Notifications/Emails/New_Task_Notification.php:41
+#: core/Notifications/Emails/New_Task_Notification.php:43
 msgid "[%s][%s] New Task Assigned: %s"
-msgstr "[%s][%s] Nueva actividad asignada: %s"
+msgstr "[%s][%s] Nueva tarea asignada: %s"
 
-#: core/Notifications/Emails/Update_Comment_Notification.php:49
+#: core/Notifications/Emails/Update_Comment_Notification.php:51
 msgid "[%s][%s] Update Comment on: %s"
 msgstr "[%s] [%s] Comentario actualizado el: %s"
 
+#: core/Notifications/Emails/Update_Message_Notification.php:47
+msgid "[%s][%s] Update Message: %s"
+msgstr "[%s][%s] mensaje de actualización: %s"
+
 #: core/Notifications/Emails/Update_Project_Notification.php:24
 msgid "[%s] Updated Project: %s"
-msgstr "[%s] Actualizado proyecto: %s"
+msgstr "[%s] Proyecto actualizado: %s"
 
-#: core/Notifications/Emails/Update_Task_Notification.php:40
+#: core/Notifications/Emails/Update_Task_Notification.php:42
 msgid "[%s][%s] Update Task Assigned: %s"
 msgstr "[%s] [%s] Actualizar la tarea asignada: %s"
 
@@ -87,10 +90,8 @@ msgid "You have no permission."
 msgstr "No tiene ningún permiso."
 
 #: core/Permissions/Complete_Task.php:36
-#, fuzzy
-#| msgid "You have no permission to create message."
 msgid "You have no permission to change task status."
-msgstr "No tienes permiso para crear un mensaje."
+msgstr "No tienes permiso para cambiar el estado de la tarea."
 
 #: core/Permissions/Create_File.php:16
 msgid "You have no permission to create message."
@@ -98,9 +99,9 @@ msgstr "No tienes permiso para crear un mensaje."
 
 #: core/Permissions/Project_Craete_Capability.php:17
 msgid "You have no permission to create project."
-msgstr "No tienes permiso para para crear planes."
+msgstr "No tienes permiso para para crear proyectos."
 
-#: core/Upgrades/Upgrade.php:136
+#: core/Upgrades/Upgrade.php:142
 msgid ""
 "<strong>WP Project Manager Data Update Required</strong> &#8211; Please "
 "click the button below to update to the latest version."
@@ -108,71 +109,76 @@ msgstr ""
 "<strong>Actualización Requerida de WP Project Manager </strong> &#8211; Por "
 "favor haga clic en el botón de abajo para actualizar a la última versión."
 
-#: core/Upgrades/Upgrade.php:139
+#: core/Upgrades/Upgrade.php:145
 msgid "Run the Update"
 msgstr "Ejecute la actualización"
 
-#: core/Upgrades/Upgrade.php:140
-#, fuzzy
-#| msgid "Load More..."
+#: core/Upgrades/Upgrade.php:146
 msgid "Read More"
-msgstr "Cargar Más..."
+msgstr "Leer más"
 
-#: core/Upgrades/Upgrade.php:148
+#: core/Upgrades/Upgrade.php:154
 msgid ""
 "It is strongly recommended that you backup your database before proceeding. "
 "Are you sure you wish to run the updater now?"
 msgstr ""
+"Es muy recomendable que realices una copia de seguridad de tu base de datos "
+"antes de continuar. ¿Estas seguro que deseas ejecutar el actualizador ahora?"
 
-#: core/WP/Enqueue_Scripts.php:65
+#: core/WP/Enqueue_Scripts.php:67
 msgid "Allowed Files"
-msgstr "Documentos Permitidos"
+msgstr "Archivos permitidos"
 
 #: core/WP/Frontend.php:140
 msgid "Every %d Minutes PM schedule"
-msgstr ""
+msgstr "Cada %d minutos PM horario"
 
 #: core/WP/Frontend.php:167
 msgid "<h2>WP Project Manager Pro required version 2.0 or above.</span></h2>"
-msgstr ""
+msgstr "<h2>Se require la version WP Project Manager Pro  2.0 o superior.</h2>"
 
 #: core/WP/Frontend.php:168
 msgid "<p>To migrate version 2.0, Please read mmigration docs </p>"
 msgstr ""
+"<p>Para migrara a la versión 2.0, por favor lee los documentos de migracion</"
+"p>"
 
 #: core/WP/Frontend.php:177
 msgid "Read Docs"
-msgstr ""
+msgstr "Leer documentos"
 
 #: core/WP/Frontend.php:284
 msgid "Get Pro"
-msgstr ""
+msgstr "Obtén la versión PRO"
 
 #: core/WP/Frontend.php:287 core/WP/Menu.php:36
 msgid "Settings"
 msgstr "Ajustes"
 
 #: core/WP/Frontend.php:288
-#, fuzzy
-#| msgid "Document"
 msgid "Documentation"
-msgstr "Documento"
+msgstr "Documentación"
 
-#: core/WP/Menu.php:16 views/assets/src/components/project-lists/header.vue:7
+#: core/WP/Menu.php:16 views/assets/js/pm.js:9
+#: views/assets/src/components/project-lists/header.vue:7
 msgid "Project Manager"
 msgstr "Gestor Proyectos"
 
-#: core/WP/Menu.php:18
+#: core/WP/Menu.php:18 views/assets/js/pm.js:9
+#: views/assets/src/components/project-lists/router.1.js:49
+#: views/assets/src/components/project-lists/router.js:42
 msgid "Projects"
 msgstr "Proyectos"
 
-#: core/WP/Menu.php:20 views/assets/src/components/categories/categories.vue:3
+#: core/WP/Menu.php:20 views/assets/js/pm.js:9
+#: views/assets/src/components/categories/categories.vue:3
+#: views/assets/src/components/categories/router.js:21
 msgid "Categories"
 msgstr "Categorías"
 
 #: core/WP/Menu.php:22
 msgid "My Tasks"
-msgstr "Mis Actividades"
+msgstr "Mis tareas"
 
 #: core/WP/Menu.php:23
 msgid "Calendar"
@@ -192,7 +198,7 @@ msgstr "Administrador"
 
 #: db/seeds/RoleTableSeeder.php:25
 msgid "Manager is a person who manages the project."
-msgstr ""
+msgstr "El administrador es la persona quien gestiona el proyecto."
 
 #: db/seeds/RoleTableSeeder.php:33
 msgid "Co-Worker"
@@ -200,31 +206,25 @@ msgstr "Colaborador"
 
 #: db/seeds/RoleTableSeeder.php:35
 msgid "Co-worker is person who works under a project."
-msgstr ""
+msgstr "El colaborador es la persona que trabaja en un proyecto."
 
 #: src/Category/Validators/Create_Category.php:10
 #: src/Category/Validators/Update_Category.php:10
-#, fuzzy
-#| msgid "Task title is required."
 msgid "Category title is required."
-msgstr "Se requiere un nombre de Actividad."
+msgstr "Se requiere un titulo de categoria."
 
 #: src/Category/Validators/Update_Category.php:11
-#, fuzzy
-#| msgid "Email is required."
 msgid "Category id is required."
-msgstr "E-mail es requerido."
+msgstr "Se requiere un id de categoria."
 
 #: src/Category/Validators/Update_Category.php:12
 msgid "Category id must be greater than zero"
-msgstr ""
+msgstr "El id de categoría debe ser mayor que cero"
 
 #: src/Comment/Validators/Create_Comment.php:10
 #: src/Comment/Validators/Update_Comment.php:10
-#, fuzzy
-#| msgid "Task title is required."
 msgid "Comment title is required."
-msgstr "Se requiere un nombre de Actividad."
+msgstr "Se requiere un titulo de comentario."
 
 #: src/Comment/Validators/Create_Comment.php:11
 #: src/Discussion_Board/Validators/Create_Discussion_Board.php:11
@@ -233,39 +233,31 @@ msgstr "Se requiere un nombre de Actividad."
 #: src/Task/Validators/Create_Task.php:11
 #: src/Task_List/Validators/Create_Task_List.php:11
 msgid "Project id is required."
-msgstr ""
+msgstr "Se requiere un id de proyecto."
 
 #: src/Comment/Validators/Update_Comment.php:11
-#, fuzzy
-#| msgid "Email is required."
 msgid "Comment id is required."
-msgstr "E-mail es requerido."
+msgstr "Se requiere un id de comentario."
 
 #: src/Comment/Validators/Update_Comment.php:12
 msgid "Comment id must be greater than zero"
-msgstr ""
+msgstr "El id de comentario debe ser mayor que cero"
 
 #: src/Discussion_Board/Validators/Create_Discussion_Board.php:10
-#, fuzzy
-#| msgid "Task title is required."
 msgid "Discussion title is required."
-msgstr "Se requiere un nombre de Actividad."
+msgstr "Se requiere un titulo de discusión."
 
 #: src/Discussion_Board/Validators/Update_Discussion_Board.php:10
-#, fuzzy
-#| msgid "Task title is required."
 msgid "Discuss title is required."
-msgstr "Se requiere un nombre de Actividad."
+msgstr "Se requiere un titulo de discusión."
 
 #: src/Discussion_Board/Validators/Update_Discussion_Board.php:11
-#, fuzzy
-#| msgid " is required."
 msgid "Discuss id is required."
-msgstr " se requiere."
+msgstr "Se requiere un id de discusión."
 
 #: src/Discussion_Board/Validators/Update_Discussion_Board.php:12
 msgid "Discuss id must be greater than zero"
-msgstr ""
+msgstr "El id de discusión debe ser mayor que cero"
 
 #: src/File/Controllers/File_Controller.php:97
 msgid "file not found"
@@ -273,82 +265,72 @@ msgstr "archivo no encontrado"
 
 #: src/Milestone/Controllers/Milestone_Controller.php:58
 msgid "this is mishu"
-msgstr ""
+msgstr "este es mishu"
 
 #: src/Milestone/Validators/Create_Milestone.php:10
 #: src/Milestone/Validators/Update_Milestone.php:10
-#, fuzzy
-#| msgid "Milestone name is required."
 msgid "Milestone title is required."
-msgstr "Nombre de Etapa Requerido."
+msgstr "Se requiere un titulo de hito."
 
 #: src/Milestone/Validators/Update_Milestone.php:11
-#, fuzzy
-#| msgid "Milestone name is required."
 msgid "Milestone id is required."
-msgstr "Nombre de Etapa Requerido."
+msgstr "Se requiere un id de hito."
 
 #: src/Milestone/Validators/Update_Milestone.php:12
 msgid "Milestone id must be greater than zero"
-msgstr ""
+msgstr "El id de hito debe ser mayor que cero"
+
+#: src/Project/Controllers/Project_Controller.php:312
+msgid "The project has been marked as favourite"
+msgstr "El proyecto ha sido marcado como favorito"
 
 #: src/Project/Validators/Create_Project.php:10
 #: src/Project/Validators/Update_Project.php:10
 msgid "Project title is required."
-msgstr ""
+msgstr "Se requiere un titulo de proyecto."
 
 #: src/Project/Validators/Update_Project.php:12
 msgid "Project id must be greater than zero"
-msgstr ""
+msgstr "El id de proyecto debe ser mayor que cero"
 
 #: src/Role/Validators/Create_Role.php:10
 #: src/Role/Validators/Update_Role.php:10
-#, fuzzy
-#| msgid "Task title is required."
 msgid "Role title is required."
-msgstr "Se requiere un nombre de Actividad."
+msgstr "Se requiere un titulo de rol."
 
 #: src/Role/Validators/Update_Role.php:11
-#, fuzzy
-#| msgid " is required."
 msgid "Role id is required."
-msgstr " se requiere."
+msgstr "Se requiere un id de rol."
 
 #: src/Role/Validators/Update_Role.php:12
 msgid "Role id must be greater than zero"
-msgstr ""
+msgstr "El id de rol debe ser mayor que cero"
 
 #: src/Task/Validators/Create_Task.php:10
 #: src/Task/Validators/Update_Task.php:10
 msgid "Task title is required."
-msgstr "Se requiere un nombre de Actividad."
+msgstr "Se requiere un titulo de tarea."
 
 #: src/Task/Validators/Update_Task.php:11
-#, fuzzy
-#| msgid "Task title is required."
 msgid "Task id is required."
-msgstr "Se requiere un nombre de Actividad."
+msgstr "Se requiere un id de tarea."
 
 #: src/Task/Validators/Update_Task.php:12
 msgid "Task id must be greater than zero"
-msgstr ""
+msgstr "El id de tarea debe ser mayor que cero"
 
 #: src/Task_List/Validators/Create_Task_List.php:10
 #: src/Task_List/Validators/Update_Task_List.php:10
-#, fuzzy
-#| msgid "Task title is required."
 msgid "Task list title is required."
-msgstr "Se requiere un nombre de Actividad."
+msgstr "Se requiere un titulo de lista de tareas."
 
 #: src/Task_List/Validators/Update_Task_List.php:11
-#, fuzzy
-#| msgid "Task list name is required."
 msgid "Task list id is required."
-msgstr "Nombre de Lista requerido."
+msgstr "Se requiere un id de lista de tareas."
 
 #: src/Task_List/Validators/Update_Task_List.php:12
 msgid "Task list id must be greater than zero"
-msgstr ""
+msgstr "El id de la lista de tareas debe ser mayor que cero"
 
 #: texts/activities.php:6
 msgid "%1$s has created a project titled as %2$s"
@@ -356,224 +338,317 @@ msgstr "%1$s ha creado un proyecto titulado como %2$s"
 
 #: texts/activities.php:10
 msgid "%1$s has updated project title from \"%2$s\" to \"%3$s\"."
-msgstr ""
+msgstr "%1$s ha actualizado el titulo de proyecto de \"%2$s\" a \"%3$s\"."
 
 #: texts/activities.php:14
 msgid "%1$s has updated %2$s project description."
-msgstr ""
+msgstr "%1$s ha actualizado la descripcion del proyecto %2$s."
 
 #: texts/activities.php:18
 msgid "%1$s has updated project status from \"%2$s\" to \"%3$s\"."
-msgstr ""
+msgstr "%1$s ha actualizado el estado del proyecto de \"%2$s\" a \"%3$s\"."
 
 #: texts/activities.php:22
 msgid "%1$s has updated project budget from \"%2$s\" to \"%3$s\"."
 msgstr ""
+"%1$s ha actualizado el presupuesto del proyecto de \"%2$s\" a \"%3$s\"."
 
 #: texts/activities.php:26
 msgid "%1$s has updated project pay rate from \"%2$s\" to \"%3$s\"."
 msgstr ""
+"%1$s ha actualizado la tasa de pago del proyecto de \"%2$s\" a \"%3$s\"."
 
 #: texts/activities.php:30
 msgid "%1$s has updated project est completion date from \"%2$s\" to \"%3$s\"."
 msgstr ""
+"%1$s ha actualizado la fecha estimada de finalización de \"%2$s\" a \"%3$s\"."
 
 #: texts/activities.php:34
 msgid "%1$s has updated project color code from \"%2$s\" to \"%3$s\"."
 msgstr ""
+"%1$s ha actualizado el codigo de color del proyecto de \"%2$s\" a \"%3$s\"."
 
 #: texts/activities.php:40
 msgid "%1$s has created a discussion board titled as %2$s."
-msgstr ""
+msgstr "%1$s ha creado una discusión titulada como %2$s."
 
 #: texts/activities.php:44
-msgid ""
-"%1$s has updated the title of a discussion board from \"%2$s\" to \"%3$s\"."
-msgstr ""
+msgid "%1$s has deleted a discussion board titled as %2$s."
+msgstr "%1$s ha eliminado una discusión titulada como %2$s."
 
 #: texts/activities.php:48
-msgid "%1$s has updated the description of a discussion board, %2$s."
-msgstr ""
+msgid ""
+"%1$s has updated the title of a discussion board from \"%2$s\" to \"%3$s\"."
+msgstr "%1$s ha actualizado el titulo de una discusión de \"%2$s\" a \"%3$s\"."
 
 #: texts/activities.php:52
+msgid "%1$s has updated the description of a discussion board, %2$s."
+msgstr "%1$s ha actualizado la descripción de una discusión, %2$s."
+
+#: texts/activities.php:56
 msgid "%1$s has updated the order of a discussion board, %2$s."
-msgstr ""
+msgstr "%1$s ha actualizado el orden de una discusión, %2$s."
 
-#: texts/activities.php:58
-msgid "%1$s has created a task list titled as %2$s."
-msgstr ""
-
-#: texts/activities.php:62
-msgid "%1$s has updated the title of a task list from \"%2$s\" to \"%3$s\"."
-msgstr ""
+#: texts/activities.php:60
+msgid "%1$s has updated the status of a discussion board, %2$s."
+msgstr "%1$s ha actualizado el estado de una discusión, %2$s."
 
 #: texts/activities.php:66
-msgid "%1$s has updated the description of a task list, %2$s."
-msgstr ""
+msgid "%1$s has created a task list titled as %2$s."
+msgstr "%1$s ha creado una lista de tareas titulada como %2$s."
 
 #: texts/activities.php:70
+msgid "%1$s has Deleted a task list titled as %2$s."
+msgstr "%1$s ha eliminado una lista de tareas titulada como %2$s."
+
+#: texts/activities.php:74
+msgid "%1$s has updated the title of a task list from \"%2$s\" to \"%3$s\"."
+msgstr ""
+"%1$s ha actualizado el titulo de una lista de tareas de \"%2$s\" a \"%3$s\"."
+
+#: texts/activities.php:78
+msgid "%1$s has updated the description of a task list, %2$s."
+msgstr "%1$s ha actualizado la descripción de una lista de tareas, %2$s."
+
+#: texts/activities.php:82
 msgid "%1$s has updated the order of a task list, %2$s."
-msgstr ""
+msgstr "%1$s ha actualizado el orden de una lista de tareas, %2$s."
 
-#: texts/activities.php:76
+#: texts/activities.php:86
+msgid "%1$s has archived a task list, %2$s."
+msgstr "%1$s ha archivado una lista de tareas, %2$s."
+
+#: texts/activities.php:90
+msgid "%1$s has restore a task list, %2$s."
+msgstr "%1$s ha restaurado una lista de tareas, %2$s."
+
+#: texts/activities.php:96
 msgid "%1$s has created a milestone, %2$s."
-msgstr ""
+msgstr "%1$s ha creado un hito, %2$s."
 
-#: texts/activities.php:80
+#: texts/activities.php:100
+msgid "%1$s has Deleted a milestone, %2$s."
+msgstr "%1$s ha eliminado un hito, %2$s."
+
+#: texts/activities.php:104
 msgid "%1$s has updated the title of a milestone from \"%2$s\" to \"%3$s\"."
-msgstr ""
+msgstr "%1$s ha actualizado el titulo de un hito de \"%2$s\" a \"%3$s\"."
 
-#: texts/activities.php:84
+#: texts/activities.php:108
 msgid "%1$s has updated the description of a milestone, %2$s."
-msgstr ""
+msgstr "%1$s ha actualizado la descripción de un hito, %2$s."
 
-#: texts/activities.php:88
+#: texts/activities.php:112
 msgid "%1$s has updated the order of a milestone, %2$s."
-msgstr ""
+msgstr "%1$s ha actualizado el orden de un hito, %2$s."
 
-#: texts/activities.php:94
-msgid "%1$s has created a task, %2$s."
-msgstr ""
-
-#: texts/activities.php:98
-msgid "%1$s has updated the title of a task from \"%2$s\" to \"%3$s\"."
-msgstr ""
-
-#: texts/activities.php:102
-msgid "%1$s has updated the description of a task, %2$s."
-msgstr ""
-
-#: texts/activities.php:106
-msgid "%1$s has updated the estimation of a task, %2$s, from %3$s to %4$s."
-msgstr ""
-
-#: texts/activities.php:110
-msgid "%1$s has updated the start date of a task, %2$s, from %3$s to %4$s."
-msgstr ""
-
-#: texts/activities.php:114
-msgid "%1$s has updated the due date of a task, %2$s, from %3$s to %4$s."
-msgstr ""
-
-#: texts/activities.php:118
-msgid "%1$s has updated the complexity of a task, %2$s, from %3$s to %4$s."
-msgstr ""
+#: texts/activities.php:116
+msgid "%1$s has updated the status of a milestone, %2$s."
+msgstr "%1$s ha actualizado el estado de un hito, %2$s."
 
 #: texts/activities.php:122
-msgid "%1$s has updated the priority of a task, %2$s, from %3$s to %4$s."
-msgstr ""
+msgid "%1$s has created a task, %2$s."
+msgstr "%1$s ha creado una tarea, %2$s."
 
 #: texts/activities.php:126
-msgid "%1$s has updated the payable status of a task, %2$s, from %3$s to %4$s."
-msgstr ""
+msgid "%1$s has deleted a task, %2$s."
+msgstr "%1$s ha eliminado una tarea, %2$s."
 
 #: texts/activities.php:130
-msgid "%1$s has updated the recurrency of a task, %2$s, from %3$s to %4$s."
-msgstr ""
+msgid "%1$s has updated the title of a task from \"%2$s\" to \"%3$s\"."
+msgstr "%1$s ha actualizado el titulo de una tarea de \"%2$s\" a \"%3$s\"."
 
 #: texts/activities.php:134
-msgid "%1$s has updated the status of a task, %2$s, from %3$s to %4$s."
-msgstr ""
+msgid "%1$s has updated the description of a task, %2$s."
+msgstr "%1$s ha actualizado la descripción de una tarea, %2$s."
 
-#: texts/activities.php:140
-msgid "%1$s has commented on a task, %2$s."
-msgstr ""
+#: texts/activities.php:138
+msgid "%1$s has updated the estimation of a task, %2$s, from %3$s to %4$s."
+msgstr "%1$s ha actualizado la estimación de una tarea, %2$s, de %3$s a %4$s."
 
-#: texts/activities.php:144
-msgid "%1$s has updated a comment on a task, %2$s."
+#: texts/activities.php:142
+msgid "%1$s has updated the start date of a task, %2$s, from %3$s to %4$s."
 msgstr ""
+"%1$s ha actualizado la fecha de inicio de una tarea, %2$s, de %3$s a %4$s."
 
-#: texts/activities.php:148
-msgid "%1$s has replied a comment on a task, %2$s"
+#: texts/activities.php:146
+msgid "%1$s has updated the due date of a task, %2$s, from %3$s to %4$s."
 msgstr ""
+"%1$s ha actualizado la fecha de vencimiento de una tarea, %2$s, de %3$s a "
+"%4$s."
 
-#: texts/activities.php:152
-msgid "%1$s has updated a reply comment on a task, %2$s."
-msgstr ""
+#: texts/activities.php:150
+msgid "%1$s has updated the complexity of a task, %2$s, from %3$s to %4$s."
+msgstr "%1$s ha actualizado la complejidad de una tarea, %2$s, de %3$s a %4$s."
+
+#: texts/activities.php:154
+msgid "%1$s has updated the priority of a task, %2$s, from %3$s to %4$s."
+msgstr "%1$s ha actualizado la prioridad de una tarea, %2$s, de %3$s a %4$s."
 
 #: texts/activities.php:158
-msgid "%1$s has commented on a task list, %2$s."
+msgid "%1$s has updated the payable status of a task, %2$s, from %3$s to %4$s."
 msgstr ""
+"%1$s ha actualizado el estado de pago de una tarea, %2$s, de %3$s a %4$s."
 
 #: texts/activities.php:162
-msgid "%1$s has updated a comment on a task list, %2$s."
-msgstr ""
+msgid "%1$s has updated the recurrency of a task, %2$s, from %3$s to %4$s."
+msgstr "%1$s ha actualizado la recurrencia de una tarea, %2$s, de %3$s a %4$s."
 
 #: texts/activities.php:166
-msgid "%1$s has replied a comment on a task list, %2$s"
-msgstr ""
+msgid "%1$s has updated the status of a task, %2$s, from %3$s to %4$s."
+msgstr "%1$s ha actualizado el estado de una tarea, %2$s, de %3$s a %4$s."
 
-#: texts/activities.php:170
-msgid "%1$s has updated a reply comment on a task list, %2$s."
-msgstr ""
+#: texts/activities.php:172
+msgid "%1$s has commented on a task, %2$s."
+msgstr "%1$s ha comentado en una tarea, %2$s."
 
 #: texts/activities.php:176
-msgid "%1$s has commented on a discussion board, %2$s."
-msgstr ""
+msgid "%1$s has updated a comment on a task, %2$s."
+msgstr "%1$s ha actualizado un comentario en una tarea, %2$s."
 
 #: texts/activities.php:180
-msgid "%1$s has updated a comment on a discussion board, %2$s."
-msgstr ""
+msgid "%1$s has deleted a comment on a task, %2$s."
+msgstr "%1$s ha eliminado un comentario en una tarea, %2$s."
 
 #: texts/activities.php:184
-msgid "%1$s has replied a comment on a discussion board, %2$s"
-msgstr ""
+msgid "%1$s has replied a comment on a task, %2$s"
+msgstr "%1$s ha respondido un comentario en una tarea, %2$s"
 
 #: texts/activities.php:188
-msgid "%1$s has updated a reply comment on a discussion board, %2$s."
-msgstr ""
+msgid "%1$s has updated a reply comment on a task, %2$s."
+msgstr "%1$s ha actualizado una respuesta de un comentario de una tarea, %2$s."
 
-#: texts/activities.php:194
-msgid "%1$s has commented on a milestone, %2$s."
-msgstr ""
+#: texts/activities.php:192
+msgid "%1$s has deleted a reply comment on a task, %2$s."
+msgstr "%1$s ha eliminado una respuesta de un comentario en una tarea, %2$s."
 
 #: texts/activities.php:198
-msgid "%1$s has updated a comment on a milestone, %2$s."
-msgstr ""
+msgid "%1$s has commented on a task list, %2$s."
+msgstr "%1$s ha comentado en una lista de tareas, %2$s."
 
 #: texts/activities.php:202
-msgid "%1$s has replied a comment on a milestone, %2$s"
-msgstr ""
+msgid "%1$s has updated a comment on a task list, %2$s."
+msgstr "%1$s ha actualizado un comentario en una lista de tareas, %2$s."
 
 #: texts/activities.php:206
-msgid "%1$s has updated a reply comment on a milestone, %2$s."
-msgstr ""
+msgid "%1$s has deleted a comment on a task list, %2$s."
+msgstr "%1$s ha eliminado un comentario en una lista de tareas, %2$s."
 
-#: texts/activities.php:212
-msgid "%1$s has commented on the project, %2$s."
-msgstr ""
+#: texts/activities.php:210
+msgid "%1$s has replied a comment on a task list, %2$s"
+msgstr "%1$s ha respondido un comentario en una lista de tareas, %2$s"
 
-#: texts/activities.php:216
-msgid "%1$s has updated a comment on the project, %2$s."
+#: texts/activities.php:214
+msgid "%1$s has updated a reply comment on a task list, %2$s."
 msgstr ""
+"%1$s ha actualizado una respuesta de comentario en una lista de tareas, %2$s."
 
-#: texts/activities.php:220
-msgid "%1$s has replied a comment on the project, %2$s"
+#: texts/activities.php:218
+msgid "%1$s has deleted a reply comment on a task list, %2$s."
 msgstr ""
+"%1$s ha eliminado una respuesta de comentario en una lista de tareas, %2$s."
 
 #: texts/activities.php:224
+msgid "%1$s has commented on a discussion board, %2$s."
+msgstr "%1$s ha comentado en una discusión, %2$s."
+
+#: texts/activities.php:228
+msgid "%1$s has updated a comment on a discussion board, %2$s."
+msgstr "%1$s ha actualizado un comentario en una discusión, %2$s."
+
+#: texts/activities.php:232
+msgid "%1$s has deleted a comment on a discussion board, %2$s."
+msgstr "%1$s ha eliminado un comentario de una discusión, %2$s."
+
+#: texts/activities.php:236
+msgid "%1$s has replied a comment on a discussion board, %2$s"
+msgstr "%1$s ha respondido un comentario en una discusión, %2$s"
+
+#: texts/activities.php:240
+msgid "%1$s has updated a reply comment on a discussion board, %2$s."
+msgstr ""
+"%1$s ha actualizado una respuesta de comentario en una discusión, %2$s."
+
+#: texts/activities.php:244
+msgid "%1$s has deleted a reply comment on a discussion board, %2$s."
+msgstr "%1$s ha eliminado una respuesta de comentario en una discusión, %2$s."
+
+#: texts/activities.php:250
+msgid "%1$s has commented on a milestone, %2$s."
+msgstr "%1$s ha comentado en un hito, %2$s."
+
+#: texts/activities.php:254
+msgid "%1$s has updated a comment on a milestone, %2$s."
+msgstr "%1$s ha actualizado un comentario en un hito, %2$s."
+
+#: texts/activities.php:258
+msgid "%1$s has deleted a comment on a milestone, %2$s."
+msgstr "%1$s ha eliminado un comentario en un hito, %2$s."
+
+#: texts/activities.php:262
+msgid "%1$s has replied a comment on a milestone, %2$s"
+msgstr "%1$s ha respondido un comentario en un hito, %2$s"
+
+#: texts/activities.php:266
+msgid "%1$s has updated a reply comment on a milestone, %2$s."
+msgstr "%1$s ha actualizado una respuesta de comentario en un hito, %2$s."
+
+#: texts/activities.php:270
+msgid "%1$s has deleted a reply comment on a milestone, %2$s."
+msgstr "%1$s ha eliminado una respuesta de comentario en un hito, %2$s."
+
+#: texts/activities.php:276
+msgid "%1$s has commented on the project, %2$s."
+msgstr "%1$s ha comentado en el proyecto, %2$s."
+
+#: texts/activities.php:280
+msgid "%1$s has updated a comment on the project, %2$s."
+msgstr "%1$s ha actualizado un comentario en el proyecto, %2$s."
+
+#: texts/activities.php:284
+msgid "%1$s has deleted a comment on the project, %2$s."
+msgstr "%1$s ha eliminado un comentario en el proyecto, %2$s."
+
+#: texts/activities.php:288
+msgid "%1$s has replied a comment on the project, %2$s"
+msgstr "%1$s ha respondido un comentario en un proyecto, %2$s"
+
+#: texts/activities.php:292
 msgid "%1$s has updated a reply comment on the project, %2$s."
 msgstr ""
+"%1$s ha actualizado una respuesta de un comentario en un proyecto, %2$s."
 
-#: texts/activities.php:230
+#: texts/activities.php:296
+msgid "%1$s has deleted a reply comment on the project, %2$s."
+msgstr "%1$s ha eliminado una respuesta de un comentario en un proyecto, %2$s."
+
+#: texts/activities.php:302
 msgid "%1$s has commented on a file, %2$s."
-msgstr ""
+msgstr "%1$s ha comentado en un archivo, %2$s."
 
-#: texts/activities.php:234
+#: texts/activities.php:306
 msgid "%1$s has updated a comment on a file, %2$s."
-msgstr ""
+msgstr "%1$s ha actualizado un comentario en un archivo, %2$s."
 
-#: texts/activities.php:238
+#: texts/activities.php:310
+msgid "%1$s has deleted a comment on a file, %2$s."
+msgstr "%1$s ha eliminado un comentario en un archivo, %2$s."
+
+#: texts/activities.php:314
 msgid "%1$s has replied a comment on a file, %2$s"
-msgstr ""
+msgstr "%1$s ha respondido un comentario en un archivo, %2$s"
 
-#: texts/activities.php:242
+#: texts/activities.php:318
 msgid "%1$s has updated a reply comment on a file, %2$s."
-msgstr ""
+msgstr "%1$s ha actualizado una respuesta de comentario en un archivo, %2$s."
 
-#: texts/activities.php:246
+#: texts/activities.php:322
+msgid "%1$s has deleted a reply comment on a file, %2$s."
+msgstr "%1$s ha eliminado una respuesta de comentario en un archivo, %2$s."
+
+#: texts/activities.php:328
 msgid "%1$s has duplicated project from , %2$s."
-msgstr ""
+msgstr "%1$s ha duplicado el proyecto desde , %2$s."
 
 #: texts/resource_types.php:5
 msgid "project"
@@ -585,11 +660,11 @@ msgstr "foros board"
 
 #: texts/resource_types.php:11
 msgid "task list"
-msgstr "componentes"
+msgstr "lista de tareas"
 
 #: texts/resource_types.php:14
 msgid "task"
-msgstr "actividad"
+msgstr "tarea"
 
 #: texts/resource_types.php:17
 msgid "milestone"
@@ -605,267 +680,385 @@ msgstr "archivo"
 
 #: texts/success_messages.php:6
 msgid "A project has been created successfully."
-msgstr ""
+msgstr "Un proyecto ha sido creado con éxito."
 
 #: texts/success_messages.php:9
 msgid "A project has been updated successfully."
-msgstr ""
+msgstr "Un proyecto ha sido actualizado con éxito."
 
 #: texts/success_messages.php:12
 msgid "A project has been deleted successfully."
-msgstr ""
+msgstr "Un proyecto ha sido eliminado con éxito."
 
 #: texts/success_messages.php:16
 msgid "A category has been created successfully."
-msgstr ""
+msgstr "Una categoría ha sido creada con éxito."
 
 #: texts/success_messages.php:19
 msgid "A category has been updated successfully."
-msgstr ""
+msgstr "Una categoría ha sido actualizada con éxito."
 
 #: texts/success_messages.php:22
 msgid "A category has been deleted successfully."
-msgstr ""
+msgstr "Una categoría ha sido eliminada con éxito."
 
 #: texts/success_messages.php:25
 msgid "All the selected categories has been deleted successfully."
-msgstr ""
+msgstr "Todas las categorias seleccionadas han sido eliminadas con éxito."
 
 #: texts/success_messages.php:29
 msgid "Successfully commented."
-msgstr ""
+msgstr "Comentado con éxito."
 
 #: texts/success_messages.php:32
 msgid "A comment has been updated successfully."
-msgstr ""
+msgstr "Un comentario ha sido actualizado con éxito."
 
 #: texts/success_messages.php:35
 msgid "A comment has been deleted successfully."
-msgstr ""
+msgstr "Un comentario ha sido eliminado con éxito."
 
 #: texts/success_messages.php:39
 msgid "A new discussion has been created successfully."
-msgstr ""
+msgstr "Una nueva discusión ha sido creada con éxito."
 
 #: texts/success_messages.php:42
 msgid "A discussion has been updated successfully."
-msgstr ""
+msgstr "Una nueva discusión ha sido actualizada con éxito."
 
 #: texts/success_messages.php:45
 msgid "A discussion has been deleted successfully."
-msgstr ""
+msgstr "Una nueva discusión ha sido eliminada con éxito."
 
 #: texts/success_messages.php:49
 msgid "A new milestone has been created successfully."
-msgstr ""
+msgstr "Un nuevo hito ha sido creado con éxito."
 
 #: texts/success_messages.php:52
 msgid "A milestone has been updated successfully."
-msgstr ""
+msgstr "Un hito ha sido actualizado con éxito."
 
 #: texts/success_messages.php:55
 msgid "A milestone has been deleted successfully."
-msgstr ""
+msgstr "Un hito ha sido eliminado con éxito."
 
 #: texts/success_messages.php:59
 msgid "A new task list has been created successfully."
-msgstr "Nuevo Componente creado correctamente."
+msgstr "Una nueva lista de tareas ha sido creada con éxito."
 
 #: texts/success_messages.php:62
 msgid "Task list has been updated successfully."
-msgstr "Componente actualizado con éxito."
+msgstr "La lista de tareas ha sido actualizada con éxito."
 
 #: texts/success_messages.php:65
 msgid "Task list has been deleted successfully."
-msgstr "Componente borrado correctamente."
+msgstr "La lista de tareas ha sido borrado con éxito."
 
 #: texts/success_messages.php:69
 msgid "A new task has been created successfully."
-msgstr "Se ha creado una nueva Actividad correctamente."
+msgstr "Una nueva tarea ha sido creada con éxito."
 
 #: texts/success_messages.php:72
 msgid "A Task has been updated successfully."
-msgstr ""
+msgstr "Una tarea ha sido actualizada con éxito."
 
 #: texts/success_messages.php:75
 msgid "The task has been deleted successfully."
-msgstr "La Actividad ha sido eliminada correctamente."
+msgstr "La tarea ha sido eliminada con éxito."
 
 #: texts/success_messages.php:78
 msgid "Settings has been changed successfully."
-msgstr ""
+msgstr "Los ajustes ha sido cambiados con éxito."
 
 #: texts/success_messages.php:81
 msgid "No element found"
-msgstr ""
+msgstr "No se ha encontrado elementos"
 
 #: texts/success_messages.php:84
-#, fuzzy
-#| msgid "No Project Found"
 msgid "No Project found"
-msgstr "No se encontraron Proyectos"
+msgstr "No se encontraron proyectos"
 
 #: texts/success_messages.php:87
 msgid "Task marked as done"
-msgstr "Marcar Actividad como completada"
+msgstr "Marcar tarea como completada"
 
 #: texts/success_messages.php:90
 msgid "Task reopened"
-msgstr "Actividad reactivada"
+msgstr "Tarea reabierta"
 
 #: vendor/a5hleyrich/wp-background-processing/classes/wp-background-process.php:425
 msgid "Every %d Minutes"
-msgstr ""
+msgstr "Cada %d minutos"
 
-#: views/assets/js/library.js:887 views/assets/js/library.js:1099
-#: views/assets/js/library.js:4869 views/assets/js/pm.js:887
-#: views/assets/js/pm.js:1099 views/assets/js/pm.js:5443
-#: views/assets/js/pm.js:5954 views/assets/js/pm.js:9713
-#: views/assets/js/pm.js:14773
-#: views/assets/src/components/categories/categories.vue:255
+#: vendor/appsero/client/src/insights.php:407
+msgid ""
+"Want to help make <strong>%1$s</strong> even more awesome? Allow %1$s to "
+"collect non-sensitive diagnostic data and usage information."
+msgstr ""
+"Queremos ayudar a hacer <strong>%1$s</strong> aun mejor? Permitenos %1$s "
+"recolectar datos de diagnostico no sensibles e información de uso."
+
+#: vendor/appsero/client/src/insights.php:412
+msgid "what we collect"
+msgstr "lo que recolectamos"
+
+#: vendor/appsero/client/src/insights.php:418
+msgid "Allow"
+msgstr "Permitir"
+
+#: vendor/appsero/client/src/insights.php:419
+msgid "No thanks"
+msgstr "No gracias"
+
+#: vendor/appsero/client/src/insights.php:615
+msgid "Once Weekly"
+msgstr "Una vez por semana"
+
+#: vendor/appsero/client/src/insights.php:749
+msgid "If you have a moment, please let us know why you are deactivating:"
+msgstr ""
+"Si tienes un momento, por favor déjanos saber por que estas desactivando:"
+
+#: vendor/appsero/client/src/insights.php:763
+msgid "I rather wouldn't say"
+msgstr "Prefiero no decirlo"
+
+#: vendor/appsero/client/src/insights.php:764
+msgid "Submit & Deactivate"
+msgstr "Enviar y desactivar"
+
+#: vendor/appsero/client/src/insights.php:765 views/assets/js/library.js:1
+#: views/assets/js/pm.js:1 views/assets/js/pm.js:9
+#: views/assets/src/components/categories/edit-category-form.vue:23
+#: views/assets/src/components/project-discussions/new-discuss-form.vue:32
+#: views/assets/src/components/project-lists/project-create-form.vue:59
+#: views/assets/src/components/project-milestones/new-milestone-form.vue:18
+#: views/assets/src/components/project-task-lists/new-task-form.vue:51
+#: views/assets/src/components/project-task-lists/new-task-list-form.vue:27
+#: views/assets/src/components/project-task-lists/single-task.vue:247
+#: views/assets/src/components/project-task-lists/task-comment-form.vue:15
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1
+#: views/assets/src/components/categories/categories.vue:281
+#: views/assets/src/components/categories/mixin.js:182
 #: views/assets/src/components/project-discussions/mixin.js:507
-#: views/assets/src/components/project-task-lists/list-comments.vue:111
-#: views/assets/src/components/project-task-lists/mixin.js:382
-#: views/assets/src/components/project-task-lists/mixin.js:602
-#: views/assets/src/components/project-task-lists/task-comments.vue:131
+#: views/assets/src/components/project-task-lists/list-comments.vue:105
+#: views/assets/src/components/project-task-lists/mixin.js:403
+#: views/assets/src/components/project-task-lists/mixin.js:623
+#: views/assets/src/components/project-task-lists/task-comments.vue:209
 msgid "Are you sure!"
 msgstr "Esta seguro!"
 
-#: views/assets/js/library.js:3158 views/assets/js/pm.js:3732
-#: views/assets/src/helpers/mixin/mixin.js:703
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1
+#: views/assets/src/helpers/mixin/mixin.js:789
 #: views/assets/vendor/mixin/mixin.js:636
 msgid "Are you sure to delete this project?"
 msgstr "¿Estás seguro que quieres eliminar este proyecto?"
 
-#: views/assets/js/library.js:3841 views/assets/js/pm.js:4415
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1
 #: views/assets/src/components/common/text-editor.vue:37
 msgid "Write a comment..."
 msgstr "Agregar nuevo..."
 
-#: views/assets/js/library.js:4169 views/assets/js/pm.js:4743
-#: views/assets/src/components/project-task-lists/single-task.vue:295
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1
+#: views/assets/src/components/project-task-lists/single-task.vue:352
 msgid "Update Description"
 msgstr "Descripción de la actualización"
 
-#: views/assets/js/library.js:4632 views/assets/js/pm.js:5206
-#: views/assets/js/pm.js:10728 views/assets/js/pm.js:14513
-#: views/assets/src/components/project-discussions/comment-form.vue:39
-#: views/assets/src/components/project-task-lists/list-comment-form.vue:48
-#: views/assets/src/components/project-task-lists/task-comment-form.vue:64
-msgid "Add New Comment"
-msgstr "Añadir nuevo comentario"
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1
+#: views/assets/src/components/project-task-lists/single-task.vue:568
+msgid "Copied!"
+msgstr "¡Copiado!"
 
-#: views/assets/js/library.js:4633 views/assets/js/pm.js:5207
-#: views/assets/js/pm.js:10729 views/assets/js/pm.js:14514
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1
+#: views/assets/src/components/project-task-lists/single-task.vue:791
+msgid "Invalid date range!"
+msgstr "¡Rango de fecha inválido!"
+
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1
+#: views/assets/src/components/project-task-lists/single-task.vue:927
+msgid "Task marked as private"
+msgstr "La tarea marcada como privada"
+
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1
+#: views/assets/src/components/project-task-lists/single-task.vue:929
+msgid "Task visible for co-worker"
+msgstr "La tarea visible para el colaborador"
+
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1
+#: views/assets/src/components/project-task-lists/task-comment-form.vue:118
+msgid "Post Comment"
+msgstr "Publicar comentario"
+
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1
 #: views/assets/src/components/project-discussions/comment-form.vue:40
 #: views/assets/src/components/project-task-lists/list-comment-form.vue:49
-#: views/assets/src/components/project-task-lists/task-comment-form.vue:65
+#: views/assets/src/components/project-task-lists/task-comment-form.vue:119
 #: views/emails/html/update-comment.php:12
 msgid "Update Comment"
 msgstr "Actualizar Comentario"
 
-#: views/assets/js/library.js:5620 views/assets/js/pm.js:7465
-msgid "textarea"
-msgstr ""
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1
+#: views/assets/src/components/project-task-lists/task-comment-form.vue:21
+#: views/assets/src/components/project-task-lists/task-comment-form.vue:123
+msgid "Attach"
+msgstr "Adjuntar"
 
-#: views/assets/js/library.js:5661 views/assets/js/pm.js:7506
-#: views/assets/js/pm.js:25191
-msgid "form"
-msgstr ""
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1
+#: views/assets/src/components/common/notify-user.vue:4
+msgid "Notify users"
+msgstr "Notificar a usarios"
 
-#: views/assets/js/library.js:5753 views/assets/js/library.js:5843
-#: views/assets/js/library.js:6109 views/assets/js/library.js:6887
-#: views/assets/js/library.js:6964 views/assets/js/library.js:7110
-#: views/assets/js/library.js:10361 views/assets/js/library.js:10395
-#: views/assets/js/library.js:10440 views/assets/js/library.js:10498
-#: views/assets/js/library.js:10699 views/assets/js/library.js:10757
-#: views/assets/js/pm.js:7598 views/assets/js/pm.js:7688
-#: views/assets/js/pm.js:7954 views/assets/js/pm.js:8732
-#: views/assets/js/pm.js:8809 views/assets/js/pm.js:8955
-#: views/assets/js/pm.js:23547 views/assets/js/pm.js:23616
-#: views/assets/js/pm.js:23915 views/assets/js/pm.js:24205
-#: views/assets/js/pm.js:24239 views/assets/js/pm.js:24446
-#: views/assets/js/pm.js:24569 views/assets/js/pm.js:24729
-#: views/assets/js/pm.js:24763 views/assets/js/pm.js:25132
-#: views/assets/js/pm.js:25346 views/assets/js/pm.js:25862
-#: views/assets/js/pm.js:25896 views/assets/js/pm.js:25987
-#: views/assets/js/pm.js:26537 views/assets/js/pm.js:26640
-#: views/assets/js/pm.js:26731 views/assets/js/pm.js:26795
-#: views/assets/js/pm.js:26886 views/assets/js/pm.js:27157
-#: views/assets/js/pm.js:27200 views/assets/js/pm.js:27551
-#: views/assets/js/pm.js:27638 views/assets/js/pm.js:27777
-#: views/assets/js/pm.js:28558 views/assets/js/pm.js:28592
-#: views/assets/js/pm.js:28674 views/assets/js/pm.js:29193
-#: views/assets/js/pm.js:29234 views/assets/js/pm.js:29675
-#: views/assets/js/pm.js:29935 views/assets/js/pm.js:29969
-#: views/assets/js/pm.js:30251 views/assets/js/pm.js:30296
-#: views/assets/js/pm.js:30476 views/assets/js/pm.js:30954
-#: views/assets/js/pm.js:31165 views/assets/js/pm.js:31200
-#: views/assets/js/pm.js:31386 views/assets/js/pm.js:31477
-#: views/assets/js/pm.js:31586 views/assets/js/pm.js:31651
-#: views/assets/js/pm.js:31962 views/assets/js/pm.js:32460
-#: views/assets/js/pm.js:32830 views/assets/js/pm.js:33075
-#: views/assets/js/pm.js:33109 views/assets/js/pm.js:33209
-#: views/assets/js/pm.js:33376 views/assets/js/pm.js:33446
-#: views/assets/js/pm.js:33803 views/assets/js/pm.js:33846
-#: views/assets/js/pm.js:34055 views/assets/js/pm.js:34228
-#: views/assets/js/pm.js:34332 views/assets/js/pm.js:34372
-msgid "div"
-msgstr ""
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1 views/assets/js/pm.js:9
+#: views/assets/src/components/categories/categories.vue:75
+#: views/assets/src/components/common/notify-user.vue:7
+msgid "Select all"
+msgstr "Seleccionar Todos"
 
-#: views/assets/js/library.js:6909 views/assets/js/pm.js:8754
-#: views/assets/js/pm.js:23525
-msgid "span"
-msgstr ""
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1
+#: views/assets/src/components/project-task-lists/task-comment-form.vue:27
+msgid "Notify user"
+msgstr "Notificar usuario"
 
-#: views/assets/js/library.js:6937 views/assets/js/pm.js:8782
-#: views/assets/js/pm.js:24537 views/assets/js/pm.js:26571
-#: views/assets/js/pm.js:28649 views/assets/js/pm.js:32805
-#: views/assets/js/pm.js:33414
-msgid "input"
-msgstr ""
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1
+#: views/assets/src/components/common/users-drop-down.vue:4
+#: views/assets/src/components/project-task-lists/single-task.vue:119
+#: views/assets/src/components/project-task-lists/task-comment-form.vue:32
+msgid "Assign to"
+msgstr "Asignar a"
 
-#: views/assets/js/pm.js:2326
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1
+msgid "Search User"
+msgstr "Buscar usuario"
+
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1
+#: views/assets/src/components/project-task-lists/task-comments.vue:4
+msgid "Discussion"
+msgstr "Discusión"
+
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1 views/assets/js/pm.js:9
+#: views/assets/src/components/categories/categories.vue:110
+#: views/assets/src/components/common/header.vue:10
+#: views/assets/src/components/project-discussions/discussions.vue:158
+#: views/assets/src/components/project-task-lists/incompleted-tasks.vue:71
+#: views/assets/src/components/project-task-lists/task-comments.vue:33
+msgid "Edit"
+msgstr "Editar"
+
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1 views/assets/js/pm.js:9
+#: views/assets/src/components/categories/categories.vue:57
+#: views/assets/src/components/categories/categories.vue:111
+#: views/assets/src/components/categories/categories.vue:163
+#: views/assets/src/components/common/header.vue:30
+#: views/assets/src/components/project-lists/project-create-form.vue:36
+#: views/assets/src/components/project-lists/project-summary.vue:135
+#: views/assets/src/components/project-task-lists/incompleted-tasks.vue:74
+#: views/assets/src/components/project-task-lists/single-task.vue:76
+#: views/assets/src/components/project-task-lists/task-comments.vue:39
+msgid "Delete"
+msgstr "Eliminar"
+
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1
+#: views/assets/src/components/project-task-lists/task-comments.vue:75
+msgid "Add a comment"
+msgstr "Añadir un comentario"
+
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1 views/assets/js/pm.js:9
+#: views/assets/src/components/common/header.vue:18
+#: views/assets/src/components/project-lists/project-header-menu.vue:13
+#: views/assets/src/components/project-task-lists/lists.vue:98
+#: views/assets/src/components/project-task-lists/lists.vue:170
+#: views/assets/src/components/project-task-lists/single-task.vue:34
+msgid "Completed"
+msgstr "Completado"
+
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1
+#: views/assets/src/components/project-task-lists/single-task.vue:40
+msgid "Mark Complete"
+msgstr "Marcar como completado"
+
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1
+#: views/assets/src/components/project-task-lists/single-task.vue:48
+msgid "Created by"
+msgstr "Creado por"
+
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1 views/assets/js/pm.js:9
+#: views/assets/src/components/project-discussions/discussions.vue:88
+#: views/assets/src/components/project-discussions/individual-discussions.vue:35
+#: views/assets/src/components/project-discussions/individual-discussions.vue:71
+#: views/assets/src/components/project-task-lists/list-comments.vue:22
+#: views/assets/src/components/project-task-lists/single-task.vue:50
+msgid "on"
+msgstr "en"
+
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1
+#: views/assets/src/components/project-task-lists/single-task.vue:60
+msgid "Copy Link"
+msgstr "Copiar enlace"
+
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1
+#: views/assets/src/components/project-task-lists/lists.vue:681
+#: views/assets/src/components/project-task-lists/single-task.vue:66
+msgid "Make Visible"
+msgstr "Hacer visible"
+
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1
+#: views/assets/src/components/project-task-lists/lists.vue:681
+#: views/assets/src/components/project-task-lists/single-task.vue:69
+msgid "Make Private"
+msgstr "Hacer privado"
+
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1
+msgid "Task is visible for co-worker"
+msgstr "La tarea es visible para el colaborador"
+
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1 views/assets/js/pm.js:9
+#: views/assets/src/components/categories/categories.vue:33
+#: views/assets/src/components/categories/categories.vue:85
+#: views/assets/src/components/categories/categories.vue:143
+#: views/assets/src/components/categories/edit-category-form.vue:14
+#: views/assets/src/components/project-task-lists/single-task.vue:213
+msgid "Description"
+msgstr "Descripción"
+
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1
+#: views/assets/src/components/project-task-lists/single-task.vue:246
+msgid "Update"
+msgstr "Actualizar"
+
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1 views/assets/js/pm.js:9
+#: views/assets/src/components/project-overview/directive.js:9
+#: views/assets/src/components/project-task-lists/single-task.vue:264
+msgid "Activity"
+msgstr "Actividad"
+
+#: views/assets/js/pm.js:1
 #: views/assets/src/components/project-milestones/mixin.js:316
 msgid "Are you sure! Want to delete this milestones?"
-msgstr ""
+msgstr "¿Estas seguro en eliminar este hito?"
 
-#: views/assets/js/pm.js:5999
+#: views/assets/js/pm.js:1
 #: views/assets/src/components/project-discussions/mixin.js:554
 msgid "Are you sure to delete this comment?"
-msgstr ""
+msgstr "¿Estas seguro en borrar este comentario?"
 
-#: views/assets/js/pm.js:9674
-#: views/assets/src/components/categories/categories.vue:23
-#: views/assets/src/components/categories/categories.vue:212
-msgid "Add New Category"
-msgstr "Agregar Categoría Nueva"
-
-#: views/assets/js/pm.js:9793
-#: views/assets/src/components/categories/edit-category-form.vue:42
-msgid "Update Category"
-msgstr "Actualizar Categoría"
-
-#: views/assets/js/pm.js:10288 views/assets/js/pm.js:12746
-#: views/assets/src/components/common/header.vue:81
-#: views/assets/src/components/project-lists/project-summary.vue:165
-#, fuzzy
-#| msgid "Project Activity"
+#: views/assets/js/pm.js:1 views/assets/src/components/common/header.vue:82
+#: views/assets/src/components/project-lists/project-summary.vue:168
 msgid "Project Actions"
-msgstr "Actividad de Proyecto"
+msgstr "Actividades del proyecto"
 
-#: views/assets/js/pm.js:10314
-#: views/assets/src/components/common/header.vue:110
+#: views/assets/js/pm.js:1 views/assets/src/components/common/header.vue:114
 msgid "Overview"
-msgstr "Estadisticas"
+msgstr "Estadísticas"
 
-#: views/assets/js/pm.js:10323
-#: views/assets/src/components/common/header.vue:121
+#: views/assets/js/pm.js:1 views/assets/src/components/common/header.vue:125
 msgid "Activities"
 msgstr "Registro"
 
-#: views/assets/js/pm.js:10332
-#: views/assets/src/components/common/header.vue:132
+#: views/assets/js/pm.js:1 views/assets/js/pm.js:9
+#: views/assets/src/components/common/header.vue:136
 #: views/assets/src/components/project-discussions/discussions.vue:20
 #: views/assets/src/components/project-lists/project-summary.vue:32
 #: views/assets/src/components/project-milestones/completed-milestones.vue:32
@@ -875,8 +1068,8 @@ msgstr "Registro"
 msgid "Discussions"
 msgstr "Foros"
 
-#: views/assets/js/pm.js:10341
-#: views/assets/src/components/common/header.vue:143
+#: views/assets/js/pm.js:1 views/assets/js/pm.js:9
+#: views/assets/src/components/common/header.vue:147
 #: views/assets/src/components/project-lists/project-summary.vue:48
 #: views/assets/src/components/project-milestones/completed-milestones.vue:23
 #: views/assets/src/components/project-milestones/late-milestones.vue:30
@@ -884,367 +1077,508 @@ msgstr "Foros"
 #: views/assets/src/components/project-overview/overview.vue:46
 #: views/assets/src/components/project-task-lists/default-list-page.vue:4
 msgid "Task Lists"
-msgstr "Componentes"
+msgstr "Listas de tareas"
 
-#: views/assets/js/pm.js:10350
-#: views/assets/src/components/common/header.vue:154
+#: views/assets/js/pm.js:1 views/assets/js/pm.js:9
+#: views/assets/src/components/common/header.vue:158
 #: views/assets/src/components/project-lists/project-summary.vue:78
 #: views/assets/src/components/project-milestones/milestones.vue:19
 #: views/assets/src/components/project-overview/overview.vue:97
 msgid "Milestones"
 msgstr "Metas"
 
-#: views/assets/js/pm.js:10359
-#: views/assets/src/components/common/header.vue:165
+#: views/assets/js/pm.js:1 views/assets/js/pm.js:9
+#: views/assets/src/components/common/header.vue:169
 #: views/assets/src/components/project-lists/project-summary.vue:93
 #: views/assets/src/components/project-overview/overview.vue:82
 msgid "Files"
 msgstr "Archivos"
 
-#: views/assets/js/pm.js:10975
-#: views/assets/src/components/categories/categories.vue:104
-#: views/assets/src/components/common/header.vue:10
-#: views/assets/src/components/project-discussions/discussions.vue:158
-#: views/assets/src/components/project-task-lists/incompleted-tasks.vue:71
-msgid "Edit"
-msgstr "Editar"
-
-#: views/assets/js/pm.js:10976
-#: views/assets/src/components/project-discussions/discussions.vue:159
-msgid "Delete this message"
-msgstr "Eliminar este mensaje"
-
-#: views/assets/js/pm.js:10977
-#: views/assets/src/components/project-discussions/discussions.vue:160
-#, fuzzy
-#| msgid "Make private"
-msgid "Make it private"
-msgstr "Definir como Privado"
-
-#: views/assets/js/pm.js:11351
-#: views/assets/src/components/project-discussions/new-discuss-form.vue:55
-msgid "Enter message title"
-msgstr "Introducir Título del Mensaje"
-
-#: views/assets/js/pm.js:11352
-#: views/assets/src/components/project-discussions/new-discuss-form.vue:56
-msgid "Add Message"
-msgstr "Añadir Mensaje"
-
-#: views/assets/js/pm.js:11353
-#: views/assets/src/components/project-discussions/new-discuss-form.vue:57
-msgid "Update Message"
-msgstr "Actualizar Mensaje"
-
-#: views/assets/js/pm.js:12089
-#: views/assets/src/components/project-lists/header.vue:69
-msgid "Start a new project"
-msgstr "Empezar nuevo proyecto"
-
-#: views/assets/js/pm.js:12190
-#: views/assets/src/components/project-lists/project-create-form.vue:87
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/project-lists/project-create-form.vue:95
 msgid "Name of the project"
 msgstr "Nombre del Proyecto"
 
-#: views/assets/js/pm.js:12191
-#: views/assets/src/components/project-lists/project-create-form.vue:88
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/project-lists/project-create-form.vue:96
 msgid "Some details about the project (optional)"
 msgstr "Algunos detalles del Proyecyo (opcional)"
 
-#: views/assets/js/pm.js:12192
-#: views/assets/src/components/project-lists/project-create-form.vue:89
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/project-lists/project-create-form.vue:97
 msgid "Type 3 or more characters to search users..."
 msgstr "Introduzca  3 o más caracteres para buscar usuarios..."
 
-#: views/assets/js/pm.js:12193 views/assets/js/pm.js:18016
+#: views/assets/js/pm.js:1 views/assets/js/pm.js:9
 #: views/assets/src/components/project-lists/directive.js:75
-#: views/assets/src/components/project-lists/project-create-form.vue:90
+#: views/assets/src/components/project-lists/project-create-form.vue:98
 msgid "Create a new user"
 msgstr "Crear un nuevo usuario"
 
-#: views/assets/js/pm.js:12194
-#: views/assets/src/components/project-lists/project-create-form.vue:91
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/project-lists/project-create-form.vue:99
 msgid "Add New Project"
 msgstr "Añadir nuevo Proyecto"
 
-#: views/assets/js/pm.js:12195
-#: views/assets/src/components/project-lists/project-create-form.vue:92
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/project-lists/project-create-form.vue:100
 #: views/emails/html/update-project.php:9
 msgid "Update Project"
 msgstr "Actualizar Proyecto"
 
-#: views/assets/js/pm.js:12536
+#: views/assets/js/pm.js:1
 #: views/assets/src/components/project-lists/project-new-user-form.vue:43
 msgid "Create User"
 msgstr "Crear carpeta"
 
-#: views/assets/js/pm.js:12853
-#: views/assets/src/components/project-lists/project-view.vue:17
-msgid "List View"
-msgstr "Ver Actividad"
+#: views/assets/js/pm.js:1 views/assets/js/pm.js:9
+#: views/assets/src/components/project-lists/project-header-menu.vue:20
+#: views/assets/src/components/project-task-lists/lists.vue:456
+#: views/assets/src/components/project-task-lists/lists.vue:460
+#: views/assets/src/components/project-task-lists/lists.vue:467
+#: views/assets/src/components/project-task-lists/lists.vue:484
+#: views/assets/src/components/project-task-lists/lists.vue:523
+#: views/assets/src/components/project-task-lists/lists.vue:605
+#: views/assets/src/components/project-task-lists/lists.vue:663
+#: views/assets/src/components/project-task-lists/lists.vue:686
+msgid "All"
+msgstr "Todos"
 
-#: views/assets/js/pm.js:12854
-#: views/assets/src/components/project-lists/project-view.vue:18
-msgid "Grid View"
-msgstr "Ver Mensaje"
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/project-task-lists/lists.vue:471
+msgid "Over Due"
+msgstr "Con retraso"
 
-#: views/assets/js/pm.js:12946
-#: views/assets/src/components/project-milestones/action-milestones.vue:33
-msgid "Edit Milestone"
-msgstr "Editar Meta"
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/project-task-lists/lists.vue:475
+msgid "Today"
+msgstr "Hoy"
 
-#: views/assets/js/pm.js:12947
-#: views/assets/src/components/project-milestones/action-milestones.vue:34
-msgid "Delete milestone"
-msgstr "Eliminar Hito"
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/project-task-lists/lists.vue:479
+msgid "Less Than 1 week"
+msgstr "Menos de una semana"
 
-#: views/assets/js/pm.js:12948
-#: views/assets/src/components/project-milestones/action-milestones.vue:35
-msgid "Mark as incomplete"
-msgstr "Marcar como incompleto"
+#: views/assets/js/pm.js:1 views/assets/js/pm.js:9
+#: views/assets/src/components/project-task-lists/lists.vue:138
+#: views/assets/src/components/project-task-lists/lists.vue:903
+msgid "No Result Found!"
+msgstr "¡No se ha encontrado resultados!"
 
-#: views/assets/js/pm.js:12949
-#: views/assets/src/components/project-milestones/action-milestones.vue:36
-msgid "Mark as complete"
-msgstr "Marcar como completo"
+#: views/assets/js/pm.js:1 views/assets/js/pm.js:9
+#: views/assets/src/components/project-task-lists/lists.vue:148
+#: views/assets/src/components/project-task-lists/new-task-list-form.vue:71
+msgid "Task list name"
+msgstr "Nombre de la lista de tareas"
 
-#: views/assets/js/pm.js:13571 views/assets/js/pm.js:15563
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/project-task-lists/new-task-list-form.vue:72
+msgid "Task list details"
+msgstr "Detalles de la lista de tareas"
+
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/project-task-lists/new-task-list-form.vue:73
+msgid "Update List"
+msgstr "Actualizar Lista"
+
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/project-discussions/discussions.vue:16
+#: views/assets/src/components/project-task-lists/new-task-list-form.vue:74
+msgid "Add List"
+msgstr "Añadir Lista"
+
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/project-task-lists/new-task-form.vue:109
+msgid "Add a new task"
+msgstr "Añadir una nueva tarea"
+
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/project-task-lists/new-task-form.vue:110
+msgid "Add extra details about this task (optional)"
+msgstr "Agregar detalles adicionales acerca de esta tarea (opcional)"
+
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/project-task-lists/new-task-form.vue:111
+msgid "Start Date"
+msgstr "Día de inicio"
+
+#: views/assets/js/pm.js:1 views/assets/js/pm.js:9
 #: views/assets/src/components/project-milestones/new-milestone-form.vue:44
+#: views/assets/src/components/project-task-lists/lists.vue:192
 #: views/assets/src/components/project-task-lists/new-task-form.vue:112
 msgid "Due Date"
 msgstr "Fecha de vencimiento"
 
-#: views/assets/js/pm.js:13572
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/project-task-lists/new-task-form.vue:113
+msgid "Select User"
+msgstr "Seleccionar usuario"
+
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/project-task-lists/new-task-form.vue:114
+msgid "Update Task"
+msgstr "Actualizar tarea"
+
+#: views/assets/js/pm.js:1 views/assets/js/pm.js:9
+#: views/assets/src/components/project-task-lists/new-task-btn.vue:3
+#: views/assets/src/components/project-task-lists/new-task-form.vue:115
+msgid "Add Task"
+msgstr "Añadir tarea"
+
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/project-task-lists/new-task-form.vue:116
+msgid "Estimated hour to complete the task"
+msgstr "Horas estimadas para completar la tarea"
+
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/project-task-lists/single-list.vue:121
+msgid "Delete List"
+msgstr "Eliminar esta lista"
+
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/project-discussions/comment-form.vue:39
+#: views/assets/src/components/project-task-lists/list-comment-form.vue:48
+msgid "Add New Comment"
+msgstr "Añadir nuevo comentario"
+
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/common/file-uploader.vue:59
+msgid "select files"
+msgstr "seleccionar archivos"
+
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/project-discussions/discussions.vue:159
+msgid "Delete this message"
+msgstr "Eliminar este mensaje"
+
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/project-discussions/discussions.vue:160
+msgid "Make it private"
+msgstr "Hacerlo privado"
+
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/project-discussions/new-discuss-form.vue:55
+msgid "Enter message title"
+msgstr "Introducir Título del Mensaje"
+
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/project-discussions/new-discuss-form.vue:56
+msgid "Add Message"
+msgstr "Añadir Mensaje"
+
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/project-discussions/new-discuss-form.vue:57
+#: views/emails/html/update-message.php:12
+msgid "Update Message"
+msgstr "Actualizar Mensaje"
+
+#: views/assets/js/pm.js:1
 #: views/assets/src/components/project-milestones/new-milestone-form.vue:45
 msgid "Milestone name"
 msgstr "Nombre de la Meta"
 
-#: views/assets/js/pm.js:13573
+#: views/assets/js/pm.js:1 views/assets/js/pm.js:9
 #: views/assets/src/components/project-milestones/milestones.vue:24
 #: views/assets/src/components/project-milestones/milestones.vue:52
 #: views/assets/src/components/project-milestones/new-milestone-form.vue:46
 msgid "Add Milestone"
 msgstr "Añadir Meta"
 
-#: views/assets/js/pm.js:13574
+#: views/assets/js/pm.js:1
 #: views/assets/src/components/project-milestones/new-milestone-form.vue:47
 msgid "Update Milestone"
 msgstr "Actualizar Meta"
 
-#: views/assets/js/pm.js:15560
-#: views/assets/src/components/project-task-lists/new-task-form.vue:109
-msgid "Add a new task"
-msgstr "Añadir nueva Actividad"
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/project-milestones/action-milestones.vue:33
+msgid "Edit Milestone"
+msgstr "Editar Meta"
 
-#: views/assets/js/pm.js:15561
-#: views/assets/src/components/project-task-lists/new-task-form.vue:110
-msgid "Add extra details about this task (optional)"
-msgstr "Agregar detalles adicionales acerca de esta Actividad (opcional)"
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/project-milestones/action-milestones.vue:34
+msgid "Delete milestone"
+msgstr "Eliminar Hito"
 
-#: views/assets/js/pm.js:15562
-#: views/assets/src/components/project-task-lists/new-task-form.vue:111
-msgid "Start Date"
-msgstr "Día de inicio"
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/project-milestones/action-milestones.vue:35
+msgid "Mark as incomplete"
+msgstr "Marcar como incompleto"
 
-#: views/assets/js/pm.js:15564
-#: views/assets/src/components/project-task-lists/new-task-form.vue:113
-msgid "Select User"
-msgstr "Seleccionar usuario"
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/project-milestones/action-milestones.vue:36
+msgid "Mark as complete"
+msgstr "Marcar como completo"
 
-#: views/assets/js/pm.js:15565
-#: views/assets/src/components/project-task-lists/new-task-form.vue:114
-msgid "Update Task"
-msgstr "Actualizar actividad"
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/project-lists/header.vue:69
+msgid "Start a new project"
+msgstr "Empezar nuevo proyecto"
 
-#: views/assets/js/pm.js:15566
-#: views/assets/src/components/project-task-lists/new-task-btn.vue:3
-#: views/assets/src/components/project-task-lists/new-task-form.vue:115
-msgid "Add Task"
-msgstr "Añadir Actividad"
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/project-lists/project-view.vue:17
+msgid "List View"
+msgstr "Ver Actividad"
 
-#: views/assets/js/pm.js:15567
-#: views/assets/src/components/project-task-lists/new-task-form.vue:116
-#, fuzzy
-#| msgid "Are you sure to delete this task?"
-msgid "Estimated hour to complete the task"
-msgstr "¿Seguro de eliminar esta actividad?"
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/project-lists/project-view.vue:18
+msgid "Grid View"
+msgstr "Ver Mensaje"
 
-#: views/assets/js/pm.js:15928
-#: views/assets/src/components/project-task-lists/new-task-list-form.vue:71
-msgid "Task list name"
-msgstr "Nombre del componente"
+#: views/assets/js/pm.js:1 views/assets/js/pm.js:9
+#: views/assets/src/components/categories/categories.vue:23
+#: views/assets/src/components/categories/categories.vue:232
+msgid "Add New Category"
+msgstr "Agregar Categoría Nueva"
 
-#: views/assets/js/pm.js:15929
-#: views/assets/src/components/project-task-lists/new-task-list-form.vue:72
-msgid "Task list details"
-msgstr "Detalles del componente"
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/categories/edit-category-form.vue:42
+msgid "Update Category"
+msgstr "Actualizar Categoría"
 
-#: views/assets/js/pm.js:15930
-#: views/assets/src/components/project-task-lists/new-task-list-form.vue:73
-msgid "Update List"
-msgstr "Actualizar Lista"
-
-#: views/assets/js/pm.js:15931
-#: views/assets/src/components/project-discussions/discussions.vue:16
-#: views/assets/src/components/project-task-lists/new-task-list-form.vue:74
-msgid "Add List"
-msgstr "Añadir Lista"
-
-#: views/assets/js/pm.js:16368
-#: views/assets/src/components/project-task-lists/single-list.vue:121
-msgid "Delete List"
-msgstr "Eliminar esta lista"
-
-#: views/assets/js/pm.js:16699 views/assets/js/pm.js:16847
-#: views/assets/src/components/settings/email.vue:82
+#: views/assets/js/pm.js:1 views/assets/src/components/settings/email.vue:82
 #: views/assets/src/components/settings/general.vue:116
 msgid "Save Changes"
 msgstr "Guardar Cambios"
 
-#: views/assets/js/pm.js:18015
+#: views/assets/js/pm.js:9
 #: views/assets/src/components/project-lists/directive.js:74
 msgid "No users found."
 msgstr "No se encontraron usuarios."
 
-#: views/assets/js/pm.js:18540
-#: views/assets/src/components/project-overview/directive.js:9
-msgid "Activity"
-msgstr "Actividad"
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-lists/project-new-user-form.vue:7
+msgid "Username"
+msgstr "Nombre de usuario"
 
-#: views/assets/js/pm.js:23425 views/assets/js/pm.js:23847
-#: views/assets/js/pm.js:31861
-msgid "ul"
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-lists/project-new-user-form.vue:12
+msgid "First Name"
+msgstr "Primer Nombre"
+
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-lists/project-new-user-form.vue:17
+msgid "Last Name"
+msgstr "Apellido"
+
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-lists/project-new-user-form.vue:22
+msgid "Email"
+msgstr "Email"
+
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-lists/project-create-form.vue:13
+#: views/assets/src/components/project-lists/project-filter-by-category.vue:6
+msgid "- Project Category -"
+msgstr "- Categoría de proyecto -"
+
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-lists/project-create-form.vue:52
+msgid "Notify Co-Workers"
+msgstr "Notificar a colaboradores"
+
+#: views/assets/js/pm.js:9 views/assets/src/components/common/header.vue:19
+#: views/assets/src/components/project-task-lists/lists.vue:108
+msgid "Incomplete"
+msgstr "Incompleto"
+
+#: views/assets/js/pm.js:9
+msgid "Delete project"
+msgstr "Eliminar proyecto"
+
+#: views/assets/js/pm.js:9 views/assets/src/components/common/header.vue:37
+#: views/assets/src/components/project-lists/project-summary.vue:142
+msgid "Complete"
+msgstr "Completado"
+
+#: views/assets/js/pm.js:9 views/assets/src/components/common/header.vue:40
+#: views/assets/src/components/project-lists/project-summary.vue:145
+msgid "Restore"
+msgstr "Restaurar"
+
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-lists/project-summary.vue:63
+#: views/assets/src/components/project-overview/overview.vue:57
+msgid "Tasks"
+msgstr "Tareas"
+
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-discussions/discussions.vue:110
+#: views/assets/src/components/project-discussions/individual-discussions.vue:55
+#: views/assets/src/components/project-lists/project-summary.vue:104
+#: views/assets/src/components/project-overview/overview.vue:68
+#: views/assets/src/components/project-task-lists/lists.vue:117
+msgid "Comments"
+msgstr "Comentarios"
+
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-overview/overview.vue:107
+msgid "Last 30 days"
+msgstr "Últimos 30 días"
+
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-overview/overview.vue:116
+msgid "Users"
+msgstr "Usuarios"
+
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-activities/activities.vue:46
+msgid "Load More ..."
+msgstr "Cargar más ..."
+
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-activities/activities.vue:48
+msgid "No activity fount"
+msgstr "No se ha encontrado actividades"
+
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-files/files.vue:29
+msgid "Attached to"
+msgstr "Adjuntado a"
+
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-files/files.vue:31
+msgid "by"
+msgstr "por"
+
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-files/files.vue:33
+msgid "admin"
+msgstr "administrar"
+
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-files/files.vue:55
+msgid "No result found!"
+msgstr "No se encontró ningún resultado!"
+
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-task-lists/new-task-list-btn.vue:7
+msgid "New Task List"
+msgstr "Nueva lista de tareas"
+
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-discussions/new-discuss-form.vue:16
+#: views/assets/src/components/project-task-lists/new-task-list-form.vue:16
+msgid "- Milestone -"
+msgstr "-- Hito --"
+
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-task-lists/list-tasks.vue:8
+#: views/assets/src/components/project-task-lists/list-tasks.vue:23
+#: views/assets/src/components/project-task-lists/single-list-tasks.vue:12
+#: views/assets/src/components/project-task-lists/single-list-tasks.vue:29
+msgid "No tasks found."
+msgstr "No se han encontrado tareas."
+
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-task-lists/default-list-page.vue:6
+msgid ""
+"You can list all your Tasks in a single discussion using a Task list. Use "
+"these lists to divide a project into several sectors, assign co-workers and "
+"check progress."
 msgstr ""
+"Puede listar todas sus tareas en una sola discusión utilizando una lista de "
+"tareas. Utilice estas listas para dividir un proyecto en varios grupos, "
+"asignar colaboradores y comprobar el progreso."
 
-#: views/assets/js/pm.js:26597
-msgid "a"
-msgstr ""
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-task-lists/default-list-page.vue:14
+msgid "When to use Task Lists?"
+msgstr "¿Cuándo usar las listas de tareas?"
 
-#: views/assets/js/pm.js:30932 views/assets/js/pm.js:31629
-#, fuzzy
-#| msgid "Overview"
-msgid "router-view"
-msgstr "Estadisticas"
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-task-lists/default-list-page.vue:17
+msgid "To partition a project internals."
+msgstr "Para dividir un proyecto interno."
 
-#: views/assets/js/pm.js:33541
-msgid "svg"
-msgstr ""
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-task-lists/default-list-page.vue:18
+msgid "To mark milestone points."
+msgstr "Para marcar puntos de hito."
 
-#: views/assets/js/pm.js:33711
-msgid "vue-content-loading"
-msgstr ""
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-task-lists/default-list-page.vue:19
+msgid "To assign people to tasks."
+msgstr "Para asignar personas a las tareas."
 
-#: views/assets/src/components/categories/categories.vue:27
-#: views/assets/src/components/categories/categories.vue:74
-#: views/assets/src/components/categories/categories.vue:130
-#: views/assets/src/components/categories/edit-category-form.vue:8
-msgid "Name"
-msgstr "Nombre"
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-task-lists/lists.vue:143
+msgid "Task Filter"
+msgstr "Filtro de tarea"
 
-#: views/assets/src/components/categories/categories.vue:33
-#: views/assets/src/components/categories/categories.vue:79
-#: views/assets/src/components/categories/categories.vue:136
-#: views/assets/src/components/categories/edit-category-form.vue:14
-msgid "Description"
-msgstr "Descripción"
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-task-lists/lists.vue:83
+#: views/assets/src/components/project-task-lists/single-list-tasks.vue:14
+#: views/assets/src/components/project-task-lists/single-list-tasks.vue:32
+msgid "More Tasks"
+msgstr "Mas tareas"
 
-#: views/assets/src/components/categories/categories.vue:54
-msgid "Select bulk action"
-msgstr ""
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-task-lists/lists.vue:160
+msgid "No task list found."
+msgstr "No se ha encontrado lista de tareas."
 
-#: views/assets/src/components/categories/categories.vue:56
-#: views/assets/src/components/categories/categories.vue:155
-msgid "Bulk Actions"
-msgstr ""
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-task-lists/lists.vue:167
+msgid "Status"
+msgstr "Estado"
 
-#: views/assets/src/components/categories/categories.vue:57
-#: views/assets/src/components/categories/categories.vue:156
-#: views/assets/src/components/common/header.vue:29
-#: views/assets/src/components/project-lists/project-create-form.vue:36
-#: views/assets/src/components/project-lists/project-summary.vue:134
-#: views/assets/src/components/project-task-lists/incompleted-tasks.vue:74
-msgid "Delete"
-msgstr "Eliminar"
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-task-lists/lists.vue:173
+msgid "On-going"
+msgstr "En marcha"
 
-#: views/assets/src/components/categories/categories.vue:69
-#: views/assets/src/components/common/notify-user.vue:7
-msgid "Select all"
-msgstr "Seleccionar Todos"
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-task-lists/lists.vue:178
+msgid "Assigned to"
+msgstr "Asignado a"
 
-#: views/assets/src/components/categories/edit-category-form.vue:5
-msgid "Quick Edit"
-msgstr ""
+#: views/assets/js/pm.js:9
+msgid "Done"
+msgstr "Hecho"
 
-#: views/assets/src/components/categories/edit-category-form.vue:23
-#: views/assets/src/components/project-discussions/new-discuss-form.vue:32
-#: views/assets/src/components/project-lists/project-create-form.vue:57
-#: views/assets/src/components/project-milestones/new-milestone-form.vue:18
-#: views/assets/src/components/project-task-lists/new-task-form.vue:51
-#: views/assets/src/components/project-task-lists/new-task-list-form.vue:27
-msgid "Cancel"
-msgstr "Cancelar"
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-task-lists/single-list-tasks.vue:5
+msgid "Incomplete Tasks"
+msgstr "Tareas incompletas"
 
-#: views/assets/src/components/common/color-picker.vue:9
-msgid "Select Color"
-msgstr ""
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-task-lists/single-list-tasks.vue:21
+msgid "Completed Tasks"
+msgstr "Tareas completadas"
 
-#: views/assets/src/components/common/color-picker.vue:25
-msgid "Clear"
-msgstr ""
-
-#: views/assets/src/components/common/color-picker.vue:31
-msgid "Close"
-msgstr "Cerrar"
-
+#: views/assets/js/pm.js:9
 #: views/assets/src/components/common/file-uploader.vue:10
 msgid "Delete File"
 msgstr "Eliminar archivo"
 
+#: views/assets/js/pm.js:9
 #: views/assets/src/components/common/file-uploader.vue:16
 msgid "To attach"
 msgstr "Para adjuntar"
 
-#: views/assets/src/components/common/file-uploader.vue:17
-msgid "select files"
-msgstr "seleccionar archivos"
-
-#: views/assets/src/components/common/file-uploader.vue:18
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/common/file-uploader.vue:20
 msgid "from your computer."
-msgstr ""
+msgstr "desde tu computadora."
 
-#: views/assets/src/components/common/header.vue:17
-#: views/assets/src/components/project-lists/project-header-menu.vue:13
-#: views/assets/src/components/project-task-lists/lists.vue:92
-msgid "Completed"
-msgstr "Completado"
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-task-lists/list-comments.vue:4
+msgid "Discuss this task list"
+msgstr "Comentar esta lista de tareas"
 
-#: views/assets/src/components/common/header.vue:18
-#: views/assets/src/components/project-task-lists/lists.vue:102
-msgid "Incomplete"
-msgstr "Incompleto"
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-discussions/discussions.vue:84
+#: views/assets/src/components/project-discussions/individual-discussions.vue:32
+#: views/assets/src/components/project-task-lists/list-comments.vue:15
+msgid "By"
+msgstr "Por"
 
-#: views/assets/src/components/common/header.vue:36
-#: views/assets/src/components/project-lists/project-summary.vue:141
-msgid "Complete"
-msgstr "Completado"
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-task-lists/single-list.vue:29
+msgid "Back to Task Lists"
+msgstr "Volver a las listas de tareas"
 
-#: views/assets/src/components/common/header.vue:39
-#: views/assets/src/components/project-lists/project-summary.vue:144
-msgid "Restore"
-msgstr "Restaurar"
-
-#: views/assets/src/components/common/notify-user.vue:4
-msgid "Notify users"
-msgstr "Notificar a usarios"
-
-#: views/assets/src/components/project-activities/activities.vue:46
-msgid "Load More ..."
-msgstr ""
-
-#: views/assets/src/components/project-activities/activities.vue:48
-msgid "No activity fount"
-msgstr ""
-
+#: views/assets/js/pm.js:9
 #: views/assets/src/components/project-discussions/discussions.vue:23
 msgid ""
 "Use our built in discussion panel to create an open discussion, a group "
@@ -1255,144 +1589,74 @@ msgstr ""
 "discusión o una conversación privada. Tenga en cuenta que el administrador "
 "puede moderarlas."
 
+#: views/assets/js/pm.js:9
 #: views/assets/src/components/project-discussions/discussions.vue:27
 #: views/assets/src/components/project-discussions/discussions.vue:54
 msgid "Add New Discussion"
 msgstr "Añadir nuevo"
 
+#: views/assets/js/pm.js:9
 #: views/assets/src/components/project-discussions/discussions.vue:32
 #: views/assets/src/components/project-discussions/discussions.vue:59
 msgid "Create a new message"
 msgstr "Crear nuevo mensaje"
 
+#: views/assets/js/pm.js:9
 #: views/assets/src/components/project-discussions/discussions.vue:38
 msgid "When to use Discussions?"
 msgstr "Cuándo utilizar los foros?"
 
+#: views/assets/js/pm.js:9
 #: views/assets/src/components/project-discussions/discussions.vue:41
 msgid "To discuss a work matter privately."
 msgstr "Para discutir un asunto de trabajo privado."
 
+#: views/assets/js/pm.js:9
 #: views/assets/src/components/project-discussions/discussions.vue:42
 msgid "To exchange files privately."
 msgstr "Para intercambiar archivos de forma privada."
 
+#: views/assets/js/pm.js:9
 #: views/assets/src/components/project-discussions/discussions.vue:43
 msgid "To discuss in a group."
 msgstr "Para discutir en grupo."
 
+#: views/assets/js/pm.js:9
 #: views/assets/src/components/project-discussions/discussions.vue:44
 msgid "To create an open discussion visible to all."
 msgstr "Para crear un Foro abierto visible para todos."
 
+#: views/assets/js/pm.js:9
 #: views/assets/src/components/project-discussions/discussions.vue:68
 msgid "Discussion List"
 msgstr "Foros"
 
-#: views/assets/src/components/project-discussions/discussions.vue:84
-#: views/assets/src/components/project-discussions/individual-discussions.vue:32
-#: views/assets/src/components/project-task-lists/list-comments.vue:15
-#: views/assets/src/components/project-task-lists/task-comments.vue:15
-msgid "By"
-msgstr "Por"
-
-#: views/assets/src/components/project-discussions/discussions.vue:88
-#: views/assets/src/components/project-discussions/individual-discussions.vue:35
-#: views/assets/src/components/project-discussions/individual-discussions.vue:77
-#: views/assets/src/components/project-task-lists/list-comments.vue:22
-#: views/assets/src/components/project-task-lists/task-comments.vue:21
-msgid "on"
-msgstr "en"
-
-#: views/assets/src/components/project-discussions/discussions.vue:110
-#: views/assets/src/components/project-discussions/individual-discussions.vue:61
-#: views/assets/src/components/project-lists/project-summary.vue:104
-#: views/assets/src/components/project-overview/overview.vue:68
-#: views/assets/src/components/project-task-lists/lists.vue:111
-#: views/assets/src/components/project-task-lists/single-task.vue:174
-msgid "Comments"
-msgstr "Comentarios"
-
-#: views/assets/src/components/project-discussions/new-discuss-form.vue:16
-#: views/assets/src/components/project-task-lists/new-task-list-form.vue:16
-msgid "- Milestone -"
-msgstr "-- Hito --"
-
-#: views/assets/src/components/project-files/files.vue:36
-msgid "Attached to"
-msgstr ""
-
-#: views/assets/src/components/project-files/files.vue:38
-msgid "by"
-msgstr "por"
-
-#: views/assets/src/components/project-files/files.vue:40
-msgid "admin"
-msgstr ""
-
-#: views/assets/src/components/project-files/files.vue:62
-msgid "No result found!"
-msgstr "No se encontró ningún resultado!"
-
-#: views/assets/src/components/project-lists/project-create-form.vue:13
-#: views/assets/src/components/project-lists/project-filter-by-category.vue:6
-msgid "- Project Category -"
-msgstr "- Categoría de proyecto -"
-
-#: views/assets/src/components/project-lists/project-create-form.vue:50
-msgid "Notify Co-Workers"
-msgstr "Notificar a colaboradores"
-
-#: views/assets/src/components/project-lists/project-header-menu.vue:6
-msgid "Active"
-msgstr "Activo"
-
-#: views/assets/src/components/project-lists/project-header-menu.vue:20
-msgid "All"
-msgstr "Todos"
-
-#: views/assets/src/components/project-lists/project-new-project-btn.vue:3
-#: views/emails/html/new-project.php:10
-msgid "New Project"
-msgstr "Nuevo Proyecto"
-
-#: views/assets/src/components/project-lists/project-new-user-form.vue:7
-msgid "Username"
-msgstr "Nombre de usuario"
-
-#: views/assets/src/components/project-lists/project-new-user-form.vue:12
-msgid "First Name"
-msgstr "Primer Nombre"
-
-#: views/assets/src/components/project-lists/project-new-user-form.vue:17
-msgid "Last Name"
-msgstr "Apellido"
-
-#: views/assets/src/components/project-lists/project-new-user-form.vue:22
-msgid "Email"
-msgstr "Email"
-
-#: views/assets/src/components/project-lists/project-summary.vue:4
-msgid "No projects found."
-msgstr "No encontramos Proyectos."
-
-#: views/assets/src/components/project-lists/project-summary.vue:63
-#: views/assets/src/components/project-overview/overview.vue:57
-msgid "Tasks"
-msgstr "Actividades"
-
-#: views/assets/src/components/project-milestones/completed-milestones.vue:3
-msgid "Completed Milestones"
-msgstr "Metas completas"
-
-#: views/assets/src/components/project-milestones/completed-milestones.vue:43
-msgid "Completed on:"
-msgstr "Completado en:"
-
+#: views/assets/js/pm.js:9
 #: views/assets/src/components/project-milestones/late-milestones.vue:3
 msgid "Late Milestones"
 msgstr "Metas atrasadas"
 
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-milestones/upcoming-milestones.vue:3
+msgid "Upcoming Milestones"
+msgstr "Metas próximas"
+
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-milestones/upcoming-milestones.vue:10
+msgid "left -"
+msgstr "izquierda -"
+
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-milestones/completed-milestones.vue:3
+msgid "Completed Milestones"
+msgstr "Metas completas"
+
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-milestones/completed-milestones.vue:43
+msgid "Completed on:"
+msgstr "Completado en:"
+
+#: views/assets/js/pm.js:9
 #: views/assets/src/components/project-milestones/milestones.vue:21
 msgid ""
 "Create a lifecycle of your projects using milestones. Time mark the "
@@ -1405,217 +1669,218 @@ msgstr ""
 "gente a fin de asignar una fecha para completar el proyecto de acuerdo a los "
 "pasos."
 
+#: views/assets/js/pm.js:9
 #: views/assets/src/components/project-milestones/milestones.vue:37
 msgid "When to use Milestones?"
 msgstr "¿Cuándo usar Etapas?"
 
+#: views/assets/js/pm.js:9
 #: views/assets/src/components/project-milestones/milestones.vue:40
 msgid "To set a target date for the project overall."
 msgstr "Establezca una fecha para el proyecto en general."
 
+#: views/assets/js/pm.js:9
 #: views/assets/src/components/project-milestones/milestones.vue:41
 msgid "To divide a project into several development-time phases."
 msgstr "Para dividir un proyecto en varias fases en tiempo de desarrollo."
 
+#: views/assets/js/pm.js:9
 #: views/assets/src/components/project-milestones/milestones.vue:42
 msgid "To coordinate projects and assigned persons timely."
 msgstr "Coordinar proyectos y personas asignadas oportunamente."
 
-#: views/assets/src/components/project-milestones/upcoming-milestones.vue:3
-msgid "Upcoming Milestones"
-msgstr "Metas próximas"
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-lists/project-summary.vue:4
+msgid "No projects found."
+msgstr "No se han encontrado proyectos."
 
-#: views/assets/src/components/project-milestones/upcoming-milestones.vue:10
-msgid "left -"
-msgstr ""
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-lists/project-new-project-btn.vue:3
+#: views/emails/html/new-project.php:10
+msgid "New Project"
+msgstr "Nuevo proyecto"
 
-#: views/assets/src/components/project-overview/overview.vue:107
-msgid "Last 30 days"
-msgstr "Últimos 30 días"
+#: views/assets/js/pm.js:9
+msgid "Search By Client..."
+msgstr "Buscar por cliente..."
 
-#: views/assets/src/components/project-overview/overview.vue:116
-msgid "Users"
-msgstr "Usuarios"
+#: views/assets/js/pm.js:9
+msgid "Search All..."
+msgstr "Buscar todo..."
 
-#: views/assets/src/components/project-task-lists/default-list-page.vue:6
-msgid ""
-"You can list all your Tasks in a single discussion using a Task list. Use "
-"these lists to divide a project into several sectors, assign co-workers and "
-"check progress."
-msgstr ""
-"Puede listar todas sus Actividades en una sola discusión utilizando unos "
-"componentes. Utilice estas listas para dividir un proyecto en varios "
-"sectores, asignar colaboradores y comprobar el progreso."
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-lists/project-header-menu.vue:6
+msgid "Active"
+msgstr "Activo"
 
-#: views/assets/src/components/project-task-lists/default-list-page.vue:14
-msgid "When to use Task Lists?"
-msgstr "¿Cuándo usar los Componentes?"
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-lists/project-header-menu.vue:27
+msgid "Favourite"
+msgstr "Favorito"
 
-#: views/assets/src/components/project-task-lists/default-list-page.vue:17
-msgid "To partition a project internals."
-msgstr "Para dividir un proyecto interno."
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/categories/edit-category-form.vue:5
+msgid "Quick Edit"
+msgstr "Edición rápida"
 
-#: views/assets/src/components/project-task-lists/default-list-page.vue:18
-msgid "To mark milestone points."
-msgstr "Para marcar puntos de hito."
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/categories/categories.vue:27
+#: views/assets/src/components/categories/categories.vue:80
+#: views/assets/src/components/categories/categories.vue:137
+#: views/assets/src/components/categories/edit-category-form.vue:8
+msgid "Name"
+msgstr "Nombre"
 
-#: views/assets/src/components/project-task-lists/default-list-page.vue:19
-msgid "To assign people to tasks."
-msgstr "Para asignar personas a las Actividades."
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/categories/categories.vue:54
+msgid "Select bulk action"
+msgstr "Seleccionar acción masiva"
 
-#: views/assets/src/components/project-task-lists/list-comments.vue:4
-msgid "Discuss this task list"
-msgstr "Comentar esta Componente"
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/categories/categories.vue:56
+#: views/assets/src/components/categories/categories.vue:162
+msgid "Bulk Actions"
+msgstr "Acciones masivas"
 
-#: views/assets/src/components/project-task-lists/list-tasks.vue:9
-#: views/assets/src/components/project-task-lists/single-list-tasks.vue:12
-#: views/assets/src/components/project-task-lists/single-list-tasks.vue:29
-msgid "No tasks found."
-msgstr "No hay Actividades."
+#: views/assets/js/pm.js:9
+msgid "Apply"
+msgstr "Aplicar"
 
-#: views/assets/src/components/project-task-lists/lists.vue:77
-#: views/assets/src/components/project-task-lists/single-list-tasks.vue:14
-#: views/assets/src/components/project-task-lists/single-list-tasks.vue:32
-msgid "More Tasks"
-msgstr "Mas Actividades"
+#: views/assets/js/pm.js:9 views/assets/src/components/settings/general.vue:7
+#: views/assets/src/components/settings/header.vue:5
+msgid "General Settings"
+msgstr "Configuración general"
 
-#: views/assets/src/components/project-task-lists/new-task-list-btn.vue:7
-msgid "New Task List"
-msgstr "Nuevo Componente"
-
-#: views/assets/src/components/project-task-lists/single-list-tasks.vue:5
-msgid "Incomplete Tasks"
-msgstr "Actividades incompletas"
-
-#: views/assets/src/components/project-task-lists/single-list-tasks.vue:21
-msgid "Completed Tasks"
-msgstr "Actividades completadas"
-
-#: views/assets/src/components/project-task-lists/single-list.vue:29
-msgid "Back to Task Lists"
-msgstr "Volver a las listas de Actividades"
-
-#: views/assets/src/components/project-task-lists/single-task.vue:203
-msgid "Shift+Enter for line break"
-msgstr "Shift + Enter para salto de línea"
-
-#: views/assets/src/components/project-task-lists/task-comments.vue:4
-msgid "Discuss this task"
-msgstr "Discutir esta actividad"
-
-#: views/assets/src/components/settings/email.vue:7
+#: views/assets/js/pm.js:9 views/assets/src/components/settings/email.vue:7
 #: views/assets/src/components/settings/header.vue:9
 msgid "E-Mail Settings"
 msgstr "Ajustes de E-Mail"
 
-#: views/assets/src/components/settings/email.vue:12
+#: views/assets/js/pm.js:9 views/assets/src/components/settings/general.vue:12
+msgid "File Upload Limit"
+msgstr "Líminte de Subida de Archivos"
+
+#: views/assets/js/pm.js:9 views/assets/src/components/settings/general.vue:16
+msgid "File Size in Megabytes. e.g: 2"
+msgstr "Tamaño de archivo en megabytes. e.g: 2"
+
+#: views/assets/js/pm.js:9 views/assets/src/components/settings/general.vue:21
+msgid "Projects Per Page"
+msgstr "Proyectos por página"
+
+#: views/assets/js/pm.js:9 views/assets/src/components/settings/general.vue:25
+msgid "-1 for unlimited"
+msgstr "-1 para un número ilimitado"
+
+#: views/assets/js/pm.js:9 views/assets/src/components/settings/general.vue:31
+msgid "Task Lists Per Page"
+msgstr "Listas de tareas por página"
+
+#: views/assets/js/pm.js:9 views/assets/src/components/settings/general.vue:39
+msgid "Incomplete Tasks Per Page"
+msgstr "Tareas incompletas por página"
+
+#: views/assets/js/pm.js:9 views/assets/src/components/settings/general.vue:47
+msgid "Completed Tasks Per Page"
+msgstr "Tareas completadas por página"
+
+#: views/assets/js/pm.js:9 views/assets/src/components/settings/general.vue:55
+msgid "Project Managing Capability"
+msgstr "Capacidad de Gestión de proyectos"
+
+#: views/assets/js/pm.js:9 views/assets/src/components/settings/general.vue:65
+msgid "Select the user roles who can see and manage all projects."
+msgstr ""
+"Elige el rol del usuario que puede ver y administrar todos los proyectos."
+
+#: views/assets/js/pm.js:9 views/assets/src/components/settings/general.vue:71
+msgid "Project Creation Capability"
+msgstr "Capacidad de creación de proyectos"
+
+#: views/assets/js/pm.js:9 views/assets/src/components/settings/general.vue:81
+msgid "Select the user roles who can create project."
+msgstr "Seleccionar los roles de usuario que pueden crear proyectos."
+
+#: views/assets/js/pm.js:9 views/assets/src/components/settings/email.vue:12
 msgid "From Email"
 msgstr "Desde el correo electrónico"
 
-#: views/assets/src/components/settings/email.vue:20
+#: views/assets/js/pm.js:9 views/assets/src/components/settings/email.vue:20
 msgid "Links in the Email"
 msgstr "Enlaces en el correo electrónico"
 
-#: views/assets/src/components/settings/email.vue:25
+#: views/assets/js/pm.js:9 views/assets/src/components/settings/email.vue:25
 msgid "Link to Backend"
 msgstr "Enlace al escritorio"
 
-#: views/assets/src/components/settings/email.vue:28
+#: views/assets/js/pm.js:9 views/assets/src/components/settings/email.vue:28
 msgid ""
 "Select where do you want to take the user. Notification emails contain links."
 msgstr ""
 "Seleccione dónde desea tomar el usuario. Correos electrónicos de "
 "notificación contienen vínculos."
 
-#: views/assets/src/components/settings/email.vue:35
+#: views/assets/js/pm.js:9 views/assets/src/components/settings/email.vue:35
 msgid "E-Mail Type"
 msgstr "Tipo de E-Mail"
 
-#: views/assets/src/components/settings/email.vue:39
+#: views/assets/js/pm.js:9 views/assets/src/components/settings/email.vue:39
 msgid "HTML Mail"
 msgstr "Mail HTML"
 
-#: views/assets/src/components/settings/email.vue:40
+#: views/assets/js/pm.js:9 views/assets/src/components/settings/email.vue:40
 msgid "Plain Text"
 msgstr "Texto Plano"
 
-#: views/assets/src/components/settings/email.vue:46
+#: views/assets/js/pm.js:9 views/assets/src/components/settings/email.vue:46
 msgid "Send email via Bcc"
 msgstr "Enviar correo electrónico a través de BCC"
 
-#: views/assets/src/components/settings/email.vue:52
+#: views/assets/js/pm.js:9 views/assets/src/components/settings/email.vue:52
 msgid "Enable Bcc"
 msgstr "Habilitar Bcc"
 
-#: views/assets/src/components/settings/general.vue:7
-#: views/assets/src/components/settings/header.vue:5
-msgid "General Settings"
-msgstr "Configuración general"
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/common/color-picker.vue:9
+msgid "Select Color"
+msgstr "Seleccionar color"
 
-#: views/assets/src/components/settings/general.vue:12
-msgid "File Upload Limit"
-msgstr "Líminte de Subida de Archivos"
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/common/color-picker.vue:25
+msgid "Clear"
+msgstr "Limpiar"
 
-#: views/assets/src/components/settings/general.vue:16
-msgid "File Size in Megabytes. e.g: 2"
-msgstr "Tamaño de archivo en megabytes. e.g: 2"
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/common/color-picker.vue:31
+msgid "Close"
+msgstr "Cerrar"
 
-#: views/assets/src/components/settings/general.vue:21
-msgid "Projects Per Page"
-msgstr "Proyectos por página"
-
-#: views/assets/src/components/settings/general.vue:25
-msgid "-1 for unlimited"
-msgstr "-1 para un número ilimitado"
-
-#: views/assets/src/components/settings/general.vue:31
-msgid "Task Lists Per Page"
-msgstr "Componentes por página"
-
-#: views/assets/src/components/settings/general.vue:39
-msgid "Incomplete Tasks Per Page"
-msgstr "Actividades incompletas por página"
-
-#: views/assets/src/components/settings/general.vue:47
-msgid "Completed Tasks Per Page"
-msgstr "Actividades terminadas por página"
-
-#: views/assets/src/components/settings/general.vue:55
-msgid "Project Managing Capability"
-msgstr "Capacidad de Gestión de proyectos"
-
-#: views/assets/src/components/settings/general.vue:65
-#: views/assets/src/components/settings/general.vue:81
-msgid "Select the user roles who can see and manage all projects."
-msgstr ""
-"Elige el rol del usuario que puede ver y administrar todos los proyectos."
-
-#: views/assets/src/components/settings/general.vue:71
-msgid "Project Creation Capability"
-msgstr "Capacidad de creación de proyectos"
+#: views/assets/src/components/project-task-lists/single-task.vue:240
+msgid "Shift+Enter for line break"
+msgstr "Shift + Enter para salto de línea"
 
 #: views/emails/html/complete-task.php:12
 msgid "Task status has been changed"
-msgstr ""
+msgstr "El estado de tarea ha sido cambiado"
 
 #: views/emails/html/complete-task.php:25
 msgid "Changed by"
-msgstr ""
+msgstr "Cambiado por"
 
 #: views/emails/html/complete-task.php:31 views/emails/html/new-task.php:24
 #: views/emails/html/update-task.php:24
 msgid "due date"
-msgstr ""
+msgstr "fecha de vencimiento"
 
 #: views/emails/html/complete-task.php:36 views/emails/html/new-task.php:29
 #: views/emails/html/update-task.php:29
 msgid "start at"
-msgstr ""
+msgstr "iniciar en"
 
 #: views/emails/html/complete-task.php:54 views/emails/html/new-task.php:46
 #: views/emails/html/update-task.php:46
 msgid "View Task"
-msgstr "Ver Actividad"
+msgstr "Ver tarea"
 
 #: views/emails/html/new-comment.php:12
 msgid "New Comment"
@@ -1642,11 +1907,11 @@ msgstr "Nuevo Mensaje"
 msgid "Message Created By"
 msgstr "Mensaje creado por"
 
-#: views/emails/html/new-message.php:28
+#: views/emails/html/new-message.php:28 views/emails/html/update-message.php:28
 msgid "Title"
 msgstr "Titulo"
 
-#: views/emails/html/new-message.php:49
+#: views/emails/html/new-message.php:49 views/emails/html/update-message.php:49
 msgid "View Message"
 msgstr "Ver Mensaje"
 
@@ -1673,11 +1938,15 @@ msgstr "Ver Proyecto"
 
 #: views/emails/html/new-task.php:12
 msgid "New task has been assigned to you"
-msgstr "La nueva actividad se te ha asignado"
+msgstr "La nueva tarea se te ha asignado"
 
 #: views/emails/html/new-task.php:18
 msgid "Created By"
 msgstr "Creado por"
+
+#: views/emails/html/update-message.php:19
+msgid "Message Updated By"
+msgstr "Mensaje actualizado por"
 
 #: views/emails/html/update-project.php:15
 msgid "Project Updated By"
@@ -1685,19 +1954,15 @@ msgstr "Proyecto actualizado por"
 
 #: views/emails/html/update-project.php:24
 msgid "You are assigned to a project \"%s\" by %s."
-msgstr ""
+msgstr "Estas asignado a un proyecto \"%s\" por %s."
 
 #: views/emails/html/update-task.php:12
-#, fuzzy
-#| msgid "New task has been assigned to you"
 msgid "Update task has been assigned to you"
-msgstr "La nueva actividad se te ha asignado"
+msgstr "La tarea se te ha asignado"
 
 #: views/emails/html/update-task.php:18
-#, fuzzy
-#| msgid "Update"
 msgid "Updated By"
-msgstr "Actualizar"
+msgstr "Actualizado por"
 
 #: views/emails/mention.php:39
 msgid "You are mentioned in a comment by"
@@ -1709,1785 +1974,24 @@ msgstr "Da click en el link para ver el comentario."
 
 #. Plugin Name of the plugin/theme
 msgid "WP Project Manager"
-msgstr "Planes/Proyectos/Programas"
+msgstr "WP Project Manager"
 
 #. Plugin URI of the plugin/theme
 msgid "https://wedevs.com/wp-project-manager-pro/"
-msgstr ""
+msgstr "https://wedevs.com/wp-project-manager-pro/"
 
 #. Description of the plugin/theme
 msgid ""
 "WordPress Project Management plugin. Manage your projects and tasks, get "
 "things done."
 msgstr ""
+"WordPress Project Management plugin. Gestiona tus proyectos y tareas, "
+"consigue que las cosas se hagan."
 
 #. Author of the plugin/theme
 msgid "weDevs"
-msgstr ""
+msgstr "weDevs"
 
 #. Author URI of the plugin/theme
 msgid "https://wedevs.com"
-msgstr ""
-
-#~ msgid "Add-ons"
-#~ msgstr "Add-ons"
-
-#~ msgid "Project created by %s"
-#~ msgstr "Proyecto creado por %s"
-
-#~ msgid "Project details updated by %s"
-#~ msgstr "Detalles de proyecto actualizados por %s"
-
-#~ msgid "Message \"%s\" created by %s"
-#~ msgstr "Mensaje \"%s\" creado por %s"
-
-#~ msgid "Message \"%s\" updated by %s"
-#~ msgstr "Mensaje \"%s\" actualizado por %s"
-
-#~ msgid "Message with ID %d was not found in the database"
-#~ msgstr "El Mensaje con la ID %d no fue encontrado en la base de datos"
-
-#~ msgid "Message \"%s\" deleted by %s"
-#~ msgstr "Mensaje \"%s\" eliminado por %s"
-
-#~ msgid "Task list \"%s\" created by %s"
-#~ msgstr "Componente \"%s\", creado por %s"
-
-#~ msgid "Task list \"%s\" updated by %s"
-#~ msgstr "Componente \"%s\", actualizado por %s"
-
-#~ msgid "Task list \"%s\" deleted by %s"
-#~ msgstr "Componente \"%s\" eliminado por %s"
-
-#~ msgid "Task \"%s\" added to task list \"%s\" by %s"
-#~ msgstr "Actividad \"%s\" agregada al componente \"%s\" por %s"
-
-#~ msgid "Task \"%s\" updated by %s"
-#~ msgstr "Actividad \"%s\", actualizada por %s"
-
-#~ msgid "Task \"%s\" completed by %s"
-#~ msgstr "Actividad \"%s\", completada por %s"
-
-#~ msgid "Task \"%s\" marked as undone by %s"
-#~ msgstr "Actividad \"%s\" marcada como incompleta por %s"
-
-#~ msgid "Task \"%s\" deleted from task list \"%s\" by %s"
-#~ msgstr "Actividad \"%s\" eliminada del componente \"%s\", por %s"
-
-#~ msgid "%s commented on a %s"
-#~ msgstr "%s comentó en una %s"
-
-#~ msgid "%s updated a comment on a %s"
-#~ msgstr "%s comentario actualizado en una %s"
-
-#~ msgid "%s deleted a comment"
-#~ msgstr "%s Eliminar comentario"
-
-#~ msgid "Milestone \"%s\" added by %s"
-#~ msgstr "Etapa \"%s\" agregada por %s"
-
-#~ msgid "Milestone \"%s\" updated by %s"
-#~ msgstr "Etapa \"%s\" actualizada por %s"
-
-#~ msgid "Milestone \"%s\" deleted by %s"
-#~ msgstr "Etapa \"%s\" eliminada por %s"
-
-#~ msgid "Milestone \"%s\" marked as complete by %s"
-#~ msgstr "Etapa \"%s\" marcada como completada por %s"
-
-#~ msgid "Milestone \"%s\" marked as incomplete by %s"
-#~ msgstr "Meta \"%s\" marcada como incompleta por %s"
-
-#~ msgid "Link to Front-end"
-#~ msgstr "Enlace al frente"
-
-#~ msgid "Task List Style"
-#~ msgstr "Estilo de lista"
-
-#~ msgid "Pagination"
-#~ msgstr "Paginación"
-
-#~ msgid "Lazy Load"
-#~ msgstr "Carga Lenta"
-
-#~ msgid "Select the user roles who can create projects."
-#~ msgstr "Seleccione el rol de usuario que puede crear proyectos."
-
-#~ msgid "- Select -"
-#~ msgstr "- Seleccionar -"
-
-#~ msgid "Invalid project ID."
-#~ msgstr "ID de Proyecto no válido."
-
-#~ msgid "Access Denied"
-#~ msgstr "Acceso denegado"
-
-#~ msgid "Username is required."
-#~ msgstr "Falta el nombre de usuario."
-
-#~ msgid "Invalid email"
-#~ msgstr "Correo electrónico no válido"
-
-#~ msgid "Username already exist"
-#~ msgstr "Este nombre de usuario ya existe"
-
-#~ msgid "Email already exist"
-#~ msgstr "Dirección de correo electrónico ya existe"
-
-#~ msgid "Are you cheating?"
-#~ msgstr "Erro: ¿Haciendo Trampa?"
-
-#~ msgid "Project ID required"
-#~ msgstr "Se requiere ID de proyecto"
-
-#~ msgid "Project name is required."
-#~ msgstr "Nombre del proyecto es necesario."
-
-#~ msgid "Start date is a date field and should be formatted as Y-m-d"
-#~ msgstr "Fecha de inicio es un campo de fecha de formato Y-m-d"
-
-#~ msgid "Due date is a date field and should be formatted as Y-m-d"
-#~ msgstr "Fecha final es un campo de fecha y de formato Y-m-d"
-
-#~ msgid "The task has been updated successfully."
-#~ msgstr "La Actividad se ha actualizado con éxito."
-
-#~ msgid "The task has been marked as completed."
-#~ msgstr "La Actividad ha sido marcada como completada."
-
-#~ msgid "The task has been reopened."
-#~ msgstr "La Actividad ha sido reactivada."
-
-#~ msgid "Successfully updated"
-#~ msgstr "Actualizado correctamente"
-
-#~ msgid "Error"
-#~ msgstr "Error"
-
-#~ msgid "Add a comment..."
-#~ msgstr "Añadir comentario..."
-
-#~ msgid "Successfully deleted comment"
-#~ msgstr "Comentario borrado correctamente"
-
-#~ msgid "Create a new user?"
-#~ msgstr "Crear un nuevo usuario?"
-
-#~ msgid "Successfully reordered"
-#~ msgstr "Reordenado correctamente"
-
-#~ msgid "API key does not exist!"
-#~ msgstr "Clave de API no existe!"
-
-#~ msgid "Secret key does not exist!"
-#~ msgstr "Clave secreta no existe!"
-
-#~ msgid "API key does not match!"
-#~ msgstr "Clave de API no coincide!"
-
-#~ msgid "Secret key does not match!"
-#~ msgstr "Clave secreta no coincide!"
-
-#~ msgid "Project API Keys"
-#~ msgstr "Claves API del Proyecto"
-
-#~ msgid "Generate API Key"
-#~ msgstr "Generar clave de API"
-
-#~ msgid "Consumer Key:"
-#~ msgstr "Clave Consumidor:"
-
-#~ msgid "Consumer Secret:"
-#~ msgstr "Clave secreta del cliente:"
-
-#~ msgid "Revoke API Key"
-#~ msgstr "Revocar la clave de API"
-
-#~ msgid "This feature is only available in the Pro Version."
-#~ msgstr "Esta función sólo está disponible en la versión Pro."
-
-#~ msgid "Upgrade to Pro Version"
-#~ msgstr "Actualización a la versión Pro"
-
-#~ msgid "Messages"
-#~ msgstr "Mensajes"
-
-#~ msgid "message post type"
-#~ msgstr "mesaje tipo post"
-
-#~ msgid "Add New Message"
-#~ msgstr "Añadir nuevo Mensaje"
-
-#~ msgid "Edit Message"
-#~ msgstr "Editar Mensaje"
-
-#~ msgid "Search Messages"
-#~ msgstr "Buscar Mensajes"
-
-#~ msgid "No messages found."
-#~ msgstr "No se encontraron Mensajes."
-
-#~ msgid "No messages found in Trash."
-#~ msgstr "No hay mensajes en la papelera."
-
-#~ msgid "Parent Message"
-#~ msgstr "Mensaje Padre"
-
-#~ msgid "Milestone"
-#~ msgstr "Meta"
-
-#~ msgid "Add New Milestone"
-#~ msgstr "Añadir una Meta nueva"
-
-#~ msgid "New Milestone"
-#~ msgstr "Nueva Meta"
-
-#~ msgid "View Milestone"
-#~ msgstr "Ver Meta"
-
-#~ msgid "Search Milestone"
-#~ msgstr "Buscar Meta"
-
-#~ msgid "No milestones found."
-#~ msgstr "No se encontraron Etapas."
-
-#~ msgid "No milestones found in Trash."
-#~ msgstr "No hay etapas en la basura."
-
-#~ msgid "Parent Milestone"
-#~ msgstr "Meta Padre"
-
-#~ msgid "[%s] Project Update Invitation: %s"
-#~ msgstr "[%s] Invitación a actualizar proyecto: %s"
-
-#~ msgid "[%s][%s] Task Completed: %s"
-#~ msgstr "[%s][%s] Actividad completada: %s"
-
-#~ msgid "[%s][%s] New Sub Task Assigned: %s"
-#~ msgstr "[%s][%s] Nueva actividad asignada: %s"
-
-#~ msgid "Project"
-#~ msgstr "Proyecto"
-
-#~ msgid "project manager post type"
-#~ msgstr "manager de proyecto tipo post"
-
-#~ msgid "Add Project"
-#~ msgstr "Añadir Proyecto"
-
-#~ msgid "Edit Project"
-#~ msgstr "Aditar Proyecto"
-
-#~ msgid "Search Project"
-#~ msgstr "Buscar Proyecto"
-
-#~ msgid "No projects found in Trash."
-#~ msgstr "Proyectos no encontrados en la papelera."
-
-#~ msgid "Parent Project"
-#~ msgstr "Poryecto Padre"
-
-#~ msgid "Search Project Categories"
-#~ msgstr "Buscar categorías de proyectos"
-
-#~ msgid "All Project Categories"
-#~ msgstr "Todas las categorías de proyectos"
-
-#~ msgid "Parent Project Category"
-#~ msgstr "Categoría principal del proyecto"
-
-#~ msgid "Parent Project Category:"
-#~ msgstr "Categoría de Proyecto Padre:"
-
-#~ msgid "Edit Project Category"
-#~ msgstr "Editar categoría de proyecto"
-
-#~ msgid "Add New Project Category"
-#~ msgstr "Agregar nueva categoría de proyectos"
-
-#~ msgid "New Project Category Name"
-#~ msgstr "Nuevo nombre de la categoría del proyecto"
-
-#~ msgid "Sure to confirm pin task list"
-#~ msgstr "Confirmas fijar Componentes"
-
-#~ msgid "Sure to confirm un-pin task list"
-#~ msgstr "Confirmas eliminar componente"
-
-#~ msgid "File uploads"
-#~ msgstr "Las cargas de archivos"
-
-#~ msgid "Attach a File"
-#~ msgstr "Adjuntar un archivo"
-
-#~ msgid "Submit"
-#~ msgstr "Enviar"
-
-#~ msgid "Add Task List"
-#~ msgstr "Añadir Componente"
-
-#~ msgid "Update Task List"
-#~ msgstr "Actualizar Componentes"
-
-#~ msgid "Are you sure to update task status?"
-#~ msgstr "¿Seguro en actualizar el estado de la Actividad?"
-
-#~ msgid "from your computer"
-#~ msgstr "desde su ordenador"
-
-#~ msgid "Attachments"
-#~ msgstr "Archivos adjuntos"
-
-#~ msgid "Comment"
-#~ msgstr "Comentario"
-
-#~ msgid "Private Task"
-#~ msgstr "Actividad Privada"
-
-#~ msgid "Completed by"
-#~ msgstr "Terminado por"
-
-#~ msgid "Add Comment"
-#~ msgstr "Agregar comentario"
-
-#~ msgid "Are you sure to delete this file?"
-#~ msgstr "¿Está seguro de que desea eliminar este archivo?"
-
-#~ msgid "Please write something in comments!"
-#~ msgstr "Por favor, escriba algo en los comentarios!"
-
-#~ msgid "Add New Task List"
-#~ msgstr "Añadir nuevo componente"
-
-#~ msgid "Edit Task List"
-#~ msgstr "Editar Componentes"
-
-#~ msgid "View Task List"
-#~ msgstr "Ver Componentes"
-
-#~ msgid "Search Task List"
-#~ msgstr "Buscar Componentes"
-
-#~ msgid "No task lists found."
-#~ msgstr "No hay componentes."
-
-#~ msgid "No task lists found in Trash."
-#~ msgstr "No hay componentes en la papelera."
-
-#~ msgid "Parent Task List"
-#~ msgstr "Componente Padre"
-
-#~ msgid "Add New Task"
-#~ msgstr "Añadir nueva actividad"
-
-#~ msgid "Edit Task"
-#~ msgstr "Editar Actividad"
-
-#~ msgid "New Task"
-#~ msgstr "Nueva Actividad"
-
-#~ msgid "Search Task"
-#~ msgstr "Buscar Actividad"
-
-#~ msgid "No tasks found in Trash."
-#~ msgstr "Sin actividades en la papelera."
-
-#~ msgid "Parent Task"
-#~ msgstr "Actividad Padre"
-
-#~ msgid "Task name is required."
-#~ msgstr "Nombre de la actividad es requerido."
-
-#~ msgid "Current Task"
-#~ msgstr "Actividad actual"
-
-#~ msgid "Outstanding Task"
-#~ msgstr "Actividades pendientes"
-
-#~ msgid "Completed Task"
-#~ msgstr "Actividad finalizada"
-
-#~ msgid ""
-#~ "Want to help make <strong>WP Project Manager</strong> even more awesome?"
-#~ msgstr ""
-#~ "¿Quieres ayudar a hacer <strong> WP Project Manager </strong> más "
-#~ "impresionante?"
-
-#~ msgid ""
-#~ "Allow weDevs to collect non-sensitive diagnostic data and usage "
-#~ "information."
-#~ msgstr ""
-#~ "Permite a weDevs recoger información no confidencial de los datos y el "
-#~ "uso."
-
-#~ msgid "Enjoy <strong>15% discount</strong> on upgrades and add-on purchase."
-#~ msgstr ""
-#~ "Obtén <strong> 15% de descuento </strong> en actualizaciones y "
-#~ "complementos."
-
-#~ msgid "Number of projects and tasks"
-#~ msgstr "Número de proyectos y Actividades"
-
-#~ msgid " is email field."
-#~ msgstr " es un campo de correo."
-
-#~ msgid " is a date field and should be formated as Y-m-d."
-#~ msgstr " es un campo de fecha con formato Y-m-d."
-
-#~ msgid "Pro Version"
-#~ msgstr "Versión Pro"
-
-#~ msgid "WP Project Manager Pro - add-ons"
-#~ msgstr "WP Project Manager Pro - add-ons"
-
-#~ msgid "Installed"
-#~ msgstr "Instalado"
-
-#~ msgid "View Details"
-#~ msgstr "Ver detalles"
-
-#~ msgid "Error fetching add-ons. Please try again later!"
-#~ msgstr "Error fetching add-ons. Por favor, inténtelo de nuevo más tarde!"
-
-#~ msgid "Invalid post ID."
-#~ msgstr "ID de publicación no válido."
-
-#~ msgid "Sorry! You are not assigned to this project."
-#~ msgstr "¡ups! no estás asignado a este proyecto."
-
-#~ msgid "Sorry! You do not have permission to view this comments."
-#~ msgstr "¡Lo lamento! no tienes permiso para ver estos comentarios."
-
-#~ msgid "Sorry! You do not have permission to view this comment."
-#~ msgstr "¡Lo siento! no tienes permiso para ver este comentario."
-
-#~ msgid "Sorry! You do not have permission to edit this comment."
-#~ msgstr "¡Lo siento! no tienes permiso para editar este comentario."
-
-#~ msgid "Invalid task list ID."
-#~ msgstr "ID de componente no válido."
-
-#~ msgid "Sorry! You do not have permission to view this task list."
-#~ msgstr "¡Lo lamento! no tienes permiso para ver esta componente."
-
-#~ msgid "Sorry! You do not have permission to create task list."
-#~ msgstr "¡Lo lamento! no tienes permiso para crear componentes."
-
-#~ msgid "Invalid list ID."
-#~ msgstr "ID de lista no válido."
-
-#~ msgid "Sorry! Permission denied to edit task list."
-#~ msgstr "¡Lo siento! Permiso denegado para editar componentes."
-
-#~ msgid "Permission denied."
-#~ msgstr "Permiso denegado."
-
-#~ msgid "Permanently deleted post"
-#~ msgstr "Elemento eliminado permanentemente"
-
-#~ msgid "Deleted post"
-#~ msgstr "Post eliminado"
-
-#~ msgid "Sorry! You do not have permission to view this message."
-#~ msgstr "¡Lo lamento! no tienes permiso para ver este mensaje."
-
-#~ msgid "Message name is required."
-#~ msgstr "Nombre del Mensaje requerido."
-
-#~ msgid "Sorry! You do not have permission to create message."
-#~ msgstr "¡Lo lamento! no tienes permiso para crear mensajes."
-
-#~ msgid "Invalid message ID."
-#~ msgstr "ID del mensaje no válido."
-
-#~ msgid "Sorry! You do not have permission to edit this message."
-#~ msgstr "¡Lo lamento! no tienes permiso para editar este mensaje."
-
-#~ msgid "Sorry! Permission denied."
-#~ msgstr "¡Lo siento! Permiso denegado."
-
-#~ msgid "Sorry! You do not have permission to view this milestone."
-#~ msgstr "¡Lo lamento! no tienes permiso para ver este etapa."
-
-#~ msgid "Sorry! You do not have permission to create milestone."
-#~ msgstr "¡Lo lamento! no tienes permiso para crear etapas."
-
-#~ msgid "Invalid milestone ID."
-#~ msgstr "ID de hito no válido."
-
-#~ msgid "Sorry! You do not have permission to edit this milestone."
-#~ msgstr "¡Lo lamento! no tienes permiso para editar este etapa."
-
-#~ msgid "Sorry! You do not have permission to delete this milestone."
-#~ msgstr "¡Lo lamento! no tienes permiso para borrar este etapa."
-
-#~ msgid "You do not have permission to create projects."
-#~ msgstr "Usted no tiene permiso para crear proyectos."
-
-#~ msgid "Cannot create project, something wrong!"
-#~ msgstr "¡No se puede crear el proyecto, algo salió mal!"
-
-#~ msgid "You do not have permission to edit this project."
-#~ msgstr "No tienes permiso para editar este proyecto."
-
-#~ msgid "Cannot edit project, something wrong!"
-#~ msgstr "!No se pudo editar el proyecto, algo falló!"
-
-#~ msgid "You do not have permission to delete this project."
-#~ msgstr "No tienes permiso para borrar este proyecto."
-
-#~ msgid "Sorry! You do not have permission to view this task."
-#~ msgstr "¡Lo lamento! no tienes permiso para ver esta actividad."
-
-#~ msgid "Sorry! You do not have permission to create task."
-#~ msgstr "¡Lo lamento! no tienes permiso para crear actividades."
-
-#~ msgid "Invalid task ID."
-#~ msgstr "ID de actividad no válida."
-
-#~ msgid "Sorry! You do not have permission to edit this task."
-#~ msgstr "¡Lo lamento! no tienes permiso para editar esta actividad."
-
-#~ msgid "Search by Client..."
-#~ msgstr "Buscar por cliente..."
-
-#~ msgid "Search All..."
-#~ msgstr "Buscar todos..."
-
-#~ msgid "- All Categories -"
-#~ msgstr "- Todas las Categorias -"
-
-#~ msgid "Select Co-Workers"
-#~ msgstr "Elegir colaboradores"
-
-#~ msgid "To attach, %sselect files%s from your computer."
-#~ msgstr "Para adjuntar, %s selecciona los archivos %s de tu computadora."
-
-#~ msgid "file access denied"
-#~ msgstr "se ha denegado el acceso al archivo"
-
-#~ msgid "Create"
-#~ msgstr "Crear"
-
-#~ msgid "View Private"
-#~ msgstr "Ver Privado"
-
-#~ msgid "Upload or create doc"
-#~ msgstr "Cargar o Crear doc"
-
-#~ msgid "View Private files or docs"
-#~ msgstr "Ver archivos privados o docs"
-
-#~ msgid "Delete project"
-#~ msgstr "Eliminar proyecto"
-
-#~ msgid "Duplicate"
-#~ msgstr "Duplicar"
-
-#~ msgid "&laquo;"
-#~ msgstr "&laquo;"
-
-#~ msgid "&raquo;"
-#~ msgstr "&raquo;"
-
-#~ msgid "You cannot use this field more than once!"
-#~ msgstr "!No puedes utilizar este campo más de una vez!"
-
-#~ msgid "You cannot create more than 4 actions!"
-#~ msgstr "¡No se puede crear más de 4 acciones!"
-
-#~ msgid "Are you sure?"
-#~ msgstr "¿Estás seguro?"
-
-#~ msgid "Completed by %s on %s"
-#~ msgstr "Completado por %s el %s"
-
-#~ msgid "Add this task"
-#~ msgstr "Agregar una actividad"
-
-#~ msgid "Edit this task list"
-#~ msgstr "Editar Componente"
-
-#~ msgid "Delete this task list"
-#~ msgstr "Borrar Componente"
-
-#~ msgid "Are you sure to delete this task list?"
-#~ msgstr "¿Seguro de eliminar este componente?"
-
-#~ msgid "Add a task"
-#~ msgstr "Agregar una actividad"
-
-#~ msgid "%d Comment"
-#~ msgid_plural "%d Comments"
-#~ msgstr[0] "%d Comentario"
-#~ msgstr[1] "%d Comentarios"
-
-#~ msgid "Add this comment"
-#~ msgstr "Añadir este comentario"
-
-#~ msgid "Saving..."
-#~ msgstr "Guardar..."
-
-#~ msgid "By %s on %s at %s"
-#~ msgstr "Por %s en %s el %s"
-
-#~ msgid "left"
-#~ msgstr "queda"
-
-#~ msgid "late"
-#~ msgstr "tarde"
-
-#~ msgid "Discussion"
-#~ msgstr "Foro"
-
-#~ msgid "Status"
-#~ msgstr "Estado"
-
-#~ msgid "Time Range"
-#~ msgstr "Intervalo de tiempo"
-
-#~ msgid "All Projects"
-#~ msgstr "Todos los proyectos"
-
-#~ msgid "Select a Co-Worker"
-#~ msgstr "Seleccione un Colaborador"
-
-#~ msgid "All Co-Workers"
-#~ msgstr "Compañeros de trabajo"
-
-#~ msgid "All Status"
-#~ msgstr "Todos los Estados"
-
-#~ msgid "Inactive"
-#~ msgstr "Inactivo"
-
-#~ msgid "Yearly"
-#~ msgstr "Anual"
-
-#~ msgid "Monthly"
-#~ msgstr "Mensual"
-
-#~ msgid "Weekly"
-#~ msgstr "Semanal"
-
-#~ msgid "From"
-#~ msgstr "Desde"
-
-#~ msgid "To"
-#~ msgstr "Hasta"
-
-#~ msgid "Generate Report"
-#~ msgstr "Generar informe"
-
-#~ msgid "Export to CSV"
-#~ msgstr "Exportar a CSV"
-
-#~ msgid "Server environment details (PHP, MySQL, server, WordPress versions)"
-#~ msgstr ""
-#~ "Entorno del servidor (Versiones del PHP, MySQL, Servidor, WordPress)"
-
-#~ msgid "Number of users in your site"
-#~ msgstr "Número de usuarios del Portal"
-
-#~ msgid "Site language"
-#~ msgstr "Lenguaje del sitio"
-
-#~ msgid "Number of active and inactive plugins"
-#~ msgstr "Número de plugins activos e inactivos"
-
-#~ msgid "Site name and url"
-#~ msgstr "Nombre del portal y URL"
-
-#~ msgid "Your name and email address"
-#~ msgstr "Tu nombre y correo electrónico"
-
-#~ msgid "what we collect"
-#~ msgstr "qué recogemos"
-
-#~ msgid "No sensitive data is tracked."
-#~ msgstr "No se da seguimiento a datos sensibles."
-
-#~ msgid "Allow"
-#~ msgstr "Permitir"
-
-#~ msgid "No thanks"
-#~ msgstr "No, gracias"
-
-#~ msgid "Once Weekly"
-#~ msgstr "Una vez a la semana"
-
-#~ msgid "I couldn't understand how to make it work"
-#~ msgstr "No pudé entender cómo hacer que funcione"
-
-#~ msgid "Would you like us to assist you?"
-#~ msgstr "¿Deseas asistencia?"
-
-#~ msgid "I found a better plugin"
-#~ msgstr "Encontré un mejor plugin"
-
-#~ msgid "Which plugin?"
-#~ msgstr "¿Que plugin?"
-
-#~ msgid ""
-#~ "The plugin is great, but I need specific feature that you don't support"
-#~ msgstr ""
-#~ "El plugin es bueno, pero necesito características específicas que no "
-#~ "tienen"
-
-#~ msgid "Could you tell us more about that feature?"
-#~ msgstr "¿Podrías decirnos más acerca de esa característica?"
-
-#~ msgid "The plugin is not working"
-#~ msgstr "El plugin no funciona"
-
-#~ msgid "Could you tell us a bit more whats not working?"
-#~ msgstr "¿Podrías decirnos qué no funciona?"
-
-#~ msgid "It's not what I was looking for"
-#~ msgstr "No es lo que busco"
-
-#~ msgid "The plugin didn't work as expected"
-#~ msgstr "El plugin no funcionó como se esperaba"
-
-#~ msgid "What did you expect?"
-#~ msgstr "¿Qué esperabas?"
-
-#~ msgid "Other"
-#~ msgstr "Otro"
-
-#~ msgid "Could you tell us a bit more?"
-#~ msgstr "¿Podrías contarnos un poco más?"
-
-#~ msgid "If you have a moment, please let us know why you are deactivating:"
-#~ msgstr ""
-#~ "Si tienes un momento, por favor, háganoslo saber por qué se está "
-#~ "desactivando:"
-
-#~ msgid "I rather wouldn't say"
-#~ msgstr "Prefiero no decirlo"
-
-#~ msgid "Submit & Deactivate"
-#~ msgstr "Enviar y desactivar"
-
-#~ msgid "Install Now"
-#~ msgstr "Instalar ahora"
-
-#~ msgid "Dismiss this notice."
-#~ msgstr "Descartar este aviso."
-
-#~ msgid "You don't have permission to install the plugins"
-#~ msgstr "No tienes permiso para instalar los plugins"
-
-#~ msgid "Choose File"
-#~ msgstr "Elija Archivo"
-
-#~ msgid "discussion"
-#~ msgstr "comentarios"
-
-#~ msgid "Documents & Files"
-#~ msgstr "Documentos y Archivos"
-
-#~ msgid ""
-#~ "Access all the files from all discussions in one place. Store your "
-#~ "project related files, docs, images or any other files on-site. Makes "
-#~ "sharing and storing easy and convenient, plus you can add privacy here "
-#~ "too."
-#~ msgstr ""
-#~ "Ten acceso a todos los archivos de todos los comentarios en un lugar. "
-#~ "Almacena los archivos, docs, imágenes o cualquier archivo de los "
-#~ "proyectos o planes en un sitio. Comparte, almacena y define su privacidad."
-
-#~ msgid "Benefits of Documents"
-#~ msgstr "Ventajas de documentos"
-
-#~ msgid "Integrate easily with projects or tasks."
-#~ msgstr "Se integran fácilmente con proyectos o actividades."
-
-#~ msgid "Shared storage keeps all data secure."
-#~ msgstr "Almacenamiento compartido mantiene los datos seguros."
-
-#~ msgid "File sharing privacy."
-#~ msgstr "Privacidad de uso compartido de archivos."
-
-#~ msgid "Date"
-#~ msgstr "Fecha"
-
-#~ msgid "New task has been completed"
-#~ msgstr "Nueva actividad se ha completado"
-
-#~ msgid "Author:"
-#~ msgstr "Autor:"
-
-#~ msgid "Permalink:"
-#~ msgstr "Enlace permanente:"
-
-#~ msgid "Comment link"
-#~ msgstr "Enlace del comentario"
-
-#~ msgid "Comment:"
-#~ msgstr "Comentario:"
-
-#~ msgid "You are assigned to a project update \"%s\" by %s."
-#~ msgstr "Estás asignado a un proyecto actualizado \"%s\" por %s."
-
-#~ msgid "Attached to <a href=\"%s\">%s</a> by %s"
-#~ msgstr "Adjuto a <a href=\"%s\">%s</a> por %s"
-
-#~ msgid "Assign User"
-#~ msgstr "Asignar colaborador"
-
-#~ msgid "No Man’s Sky"
-#~ msgstr "Terreno de nadie"
-
-#~ msgid "Make public"
-#~ msgstr "Hacer público"
-
-#~ msgid "Edit Task Title"
-#~ msgstr "Editar título de la actividad"
-
-#~ msgid "Edit Task Description"
-#~ msgstr "Editar descripción de la actividad"
-
-#~ msgid "No completed tasks."
-#~ msgstr "No hay actividades completadas."
-
-#~ msgid "Edit this List"
-#~ msgstr "Editar Componente"
-
-#~ msgid "Lists"
-#~ msgstr "Listas"
-
-#~ msgid "Select Task List"
-#~ msgstr "Seleccione el componente"
-
-#~ msgid "By %s on %s"
-#~ msgstr "Por %s en %s"
-
-#~ msgid "Are you sure to delete this message?"
-#~ msgstr "¿Estás seguro que quieres eliminar este mensaje?"
-
-#~ msgid "Error: Message not found"
-#~ msgstr "Error: Mesaje no encontrado"
-
-#~ msgid "You do not have permission to access this page."
-#~ msgstr "No tienes permiso para acceder a esta página."
-
-#~ msgid "No comments found."
-#~ msgstr "No se encontraron comentarios."
-
-#~ msgid "Error: Project not found"
-#~ msgstr "Error: Proyecto no encontrado"
-
-#~ msgid "Error: Permission denied"
-#~ msgstr "Error: Permiso denagado"
-
-#~ msgid "Filter"
-#~ msgstr "Filtrar"
-
-#~ msgid "Active <span class=\"count\">%d</span>"
-#~ msgstr "Activo <span class=\"count\">%d</span>"
-
-#~ msgid "Completed <span class=\"count\">%d</span>"
-#~ msgstr "Completado <span class=\"count\">%d</span>"
-
-#~ msgctxt "taxonomy general name"
-#~ msgid "Project Categories"
-#~ msgstr "Categorías de planes/proyectos"
-
-#~ msgctxt "taxonomy singular name"
-#~ msgid "Location"
-#~ msgstr "Localización"
-
-#~ msgctxt "Discussion"
-#~ msgid "Discussion"
-#~ msgid_plural "Discussions"
-#~ msgstr[0] "Foro"
-#~ msgstr[1] "Foros"
-
-#~ msgctxt "Task"
-#~ msgid "Task"
-#~ msgid_plural "Tasks"
-#~ msgstr[0] "Tarea"
-#~ msgstr[1] "Tareas"
-
-#~ msgctxt "Single project status"
-#~ msgid "Completed"
-#~ msgstr "Completado"
-
-#~ msgid "1 Comment"
-#~ msgid_plural "%d Comments"
-#~ msgstr[0] "1 Comentario"
-#~ msgstr[1] "1 Comentario"
-
-#~ msgid "%s Task"
-#~ msgid_plural "%s Tasks"
-#~ msgstr[0] "%s Tarea"
-#~ msgstr[1] "%s Tarea"
-
-#~ msgid "Agregar una nueva tarea"
-#~ msgstr "Agregar una nueva actividad"
-
-#~ msgid "Listas de tareas"
-#~ msgstr "Componentes"
-
-#~ msgid ""
-#~ "Puede enumerar todas sus tareas en una sola discusión utilizando una "
-#~ "lista de tareas. Utilice estas listas para dividir un proyecto en varios "
-#~ "sectores, asignar compañeros de trabajo y verificar el progreso."
-#~ msgstr ""
-#~ "Puede enumerar todas sus tareas en una sola discusión utilizando una "
-#~ "lista de tareas. Utilice estas listas para dividir un proyecto en varios "
-#~ "sectores, asignar compañeros de trabajo y verificar el progreso."
-
-#~ msgid "¿Cuándo usar listas de tareas?"
-#~ msgstr "¿Cuándo usar Componentes?"
-
-#~ msgid "Tareas"
-#~ msgstr "Actividades"
-
-#~ msgid "Hitos"
-#~ msgstr "Hitos"
-
-#~ msgid "Cuándo usar Milestones?"
-#~ msgstr "¿Cuándo usar Hitos?"
-
-#~ msgid "Agregue detalles adicionales sobre esta tarea (opcional)"
-#~ msgstr "Agregue detalles adicionales sobre esta actividad (opcional)"
-
-#~ msgid "Nombre de la lista de tareas"
-#~ msgstr "Nombre del Componente"
-
-#~ msgid "Detalles de la lista de tareas"
-#~ msgstr "Detalles de la lista de tareas"
-
-#~ msgid "- Hito -"
-#~ msgstr "- Hito -"
-
-#~ msgid "Employee New Task"
-#~ msgstr "Nueva Actividad del empleado"
-
-#~ msgid "Text content is required."
-#~ msgstr "Contenido del texto requerido."
-
-#~ msgid "Department"
-#~ msgstr "Departamento"
-
-#~ msgid "Assign co-worker from departments"
-#~ msgstr "Asignar colaborador desde departamentos"
-
-#~ msgid "Task Title"
-#~ msgstr "Título de actividad"
-
-#~ msgid "Task Content"
-#~ msgstr "Contenido de la actividad"
-
-#~ msgid "Private"
-#~ msgstr "Private"
-
-#~ msgid "Assign New Task"
-#~ msgstr "Asignar actividad nueva"
-
-#~ msgid "Re-opened to-do"
-#~ msgstr "Re-abrir Tarea"
-
-#~ msgid "General"
-#~ msgstr "General"
-
-#~ msgid "To-do List Style"
-#~ msgstr "Estilo de lista de tareas"
-
-#~ msgid "Invalid project id"
-#~ msgstr "Id de Proyecto no válido"
-
-#~ msgid "Co-worker"
-#~ msgstr "Co-trabajador"
-
-#~ msgid "Todo list name is required."
-#~ msgstr "Se requiere nombre de la Actividad."
-
-#~ msgid "A new todo list has been created successfully."
-#~ msgstr "Se creó nueva lista de tareas correctamente."
-
-#~ msgid "No user found!"
-#~ msgstr "Usuario no encontrado!"
-
-#~ msgid "[%s] Updated Project Invitation: %s"
-#~ msgstr "[%s] Invitación a proyecto actualizado: %s"
-
-#~ msgid "To-do Lists"
-#~ msgstr "Listas de tareas"
-
-#~ msgid "Add a new to-do"
-#~ msgstr "Añadir una nueva Tarea"
-
-#~ msgid "Due date"
-#~ msgstr "Fecha límite"
-
-#~ msgid "To-Do Lists"
-#~ msgstr "Las listas de tareas pendientes"
-
-#~ msgid "Add New To-do List"
-#~ msgstr "Agregar nueva lista de tareas"
-
-#~ msgid "No Task Found"
-#~ msgstr "No se encontraron Tareas"
-
-#~ msgid ""
-#~ "Want to help make <strong>WP Project Manager</strong> even more awesome? "
-#~ "Allow weDevs to collect non-sensitive diagnostic data and usage "
-#~ "information. Enjoy <strong>15% discount</strong> on upgrades and add-on "
-#~ "purchase."
-#~ msgstr ""
-#~ "¿Quieres ayudar a hacer <strong> WP Project Manager </strong> más "
-#~ "impresionante? Permite a weDevs recoger información no confidencial de "
-#~ "los datos y el uso, obtén <strong> 15% de descuento </strong> en "
-#~ "actualizaciones y complementos."
-
-#~ msgid "Sorry! you are not assigned in this project"
-#~ msgstr "¡Lo sentimos! No se le asigno en este proyecto"
-
-#~ msgid "Sorry! you are not assinged in this project"
-#~ msgstr "¡Lo sentimos! Usted no está asignado en este proyecto"
-
-#~ msgid "Sorry! you do not have persmission to view this todo list"
-#~ msgstr ""
-#~ "¡Lo sentimos! No tienes permisos para ver esta lista de tareas pendientes"
-
-#~ msgid "Task List Name Required"
-#~ msgstr "Se requiere un nombre de lista de tareas"
-
-#~ msgid "Invalid project id."
-#~ msgstr "Id de proyecto invalido."
-
-#~ msgid "Invalid list id"
-#~ msgstr "Id. de lista no válido"
-
-#~ msgid "Project Name Required"
-#~ msgstr "Se requiere un nombre de proyecto"
-
-#~ msgid "Sorry! you do not have permission to view this todo list"
-#~ msgstr ""
-#~ "¡Lo sentimos! No tiene permiso para crear una lista de tareas pendientes"
-
-#~ msgid "Task Name Required"
-#~ msgstr "Se requiere un nombre de tarea"
-
-#~ msgid "Select co-workers"
-#~ msgstr "Seleccionar colaboradores"
-
-#~ msgid "To-do list"
-#~ msgstr "Lista de Tareas"
-
-#~ msgid "To-do"
-#~ msgstr "Por hacer"
-
-#~ msgid "New Todo List"
-#~ msgstr "Nueva Lista de Tareas"
-
-#~ msgid "Update Todo List"
-#~ msgstr "Actualizar Lista de Tareas"
-
-#~ msgid "Add this to-do"
-#~ msgstr "Añadir esta Tarea"
-
-#~ msgid "Start date"
-#~ msgstr "Fecha de inicio"
-
-#~ msgid "To-do list name"
-#~ msgstr "Nombre de la lista de tareas pendientes"
-
-#~ msgid "To-do list detail"
-#~ msgstr "Detalle Lista de tareas"
-
-#~ msgid "<span>%d</span> Comments"
-#~ msgstr "<span>%d</span> Comentarios"
-
-#~ msgid "Update comment"
-#~ msgstr "Actuializar comentario"
-
-#~ msgid "Edit milestone"
-#~ msgstr "Editar meta"
-
-#~ msgid "Mark un-complete"
-#~ msgstr "Marcar como inclompleto"
-
-#~ msgid "To-do List"
-#~ msgstr "Lista de Tareas"
-
-#~ msgid "--Select--"
-#~ msgstr "--Seleccione--"
-
-#~ msgid "This feature is only available in the project manager pro Version"
-#~ msgstr ""
-#~ "Esta característica sólo está disponible en el gestor de proyectos "
-#~ "versión pro"
-
-#~ msgid "-Select-"
-#~ msgstr "-Seleccionar-"
-
-#~ msgid "To Do Lists"
-#~ msgstr "Listas de tareas"
-
-#~ msgid "Canel"
-#~ msgstr "Cancelar"
-
-#~ msgid "thread"
-#~ msgstr "hilo"
-
-#~ msgid "ADD NEW DISCUSSION"
-#~ msgstr "AGREGAR NUEVA DISCUCIÓN"
-
-#~ msgid "Completed By"
-#~ msgstr "Completado por"
-
-#~ msgid "Hi! "
-#~ msgstr "Hola! "
-
-#~ msgid "NEW COMMENT"
-#~ msgstr "NUEVO COMENTARIO"
-
-#~ msgid "Author : "
-#~ msgstr "Autor : "
-
-#~ msgid "Comment : "
-#~ msgstr "Comentario : "
-
-#~ msgid "NEW MESSAGE"
-#~ msgstr "NUEVO MENSAJE"
-
-#~ msgid "Title "
-#~ msgstr "Título "
-
-#~ msgid "Message "
-#~ msgstr "Mensaje "
-
-#~ msgid "NEW PROJECT"
-#~ msgstr "NUEVO PROYECTO"
-
-#~ msgid "Due Date "
-#~ msgstr "Fecha de vencimiento "
-
-#~ msgid "UPDATE COMMENT"
-#~ msgstr "COMENTARIO ACTUALIZADO"
-
-#~ msgid "UPDATE PROJECT"
-#~ msgstr "ACTUALIZAR PROYECTO"
-
-#~ msgid "Discuss this to-do list"
-#~ msgstr "Discutir esta Lista de Tareas"
-
-#~ msgid "Back to to-do lists"
-#~ msgstr "Regresar a las listas de tareas"
-
-#~ msgid " Comment"
-#~ msgstr " Comentario"
-
-#~ msgid "One Comment"
-#~ msgstr "Un Comentario"
-
-#~ msgid "This action has been disabled by the administrator."
-#~ msgstr "Esta acción la deshabilitó el administrador."
-
-#~ msgid "Slow down cowboy, no need to check for new mails so often!"
-#~ msgstr ""
-#~ "¡Tranquilo, campeón! ¡No hace falta comprobar el correo tan a menudo!"
-
-#~ msgid "There doesn&#8217;t seem to be any new mail."
-#~ msgstr "Parece que no hay ningún correo electrónico nuevo."
-
-#~ msgid "Author is %s"
-#~ msgstr "El autor es %s"
-
-#~ msgid "Posted title:"
-#~ msgstr "Titulo publicado:"
-
-#~ msgid "Oops: %s"
-#~ msgstr "Oops: %s"
-
-#~ msgid "Mission complete. Message %s deleted."
-#~ msgstr "Misión cumplida. Mensaje %s borrado."
-
-#~ msgid "No project found !"
-#~ msgstr "Ningún proyecto encontrado !"
-
-#~ msgid "Project: "
-#~ msgstr "Proyecto: "
-
-#~ msgid "Task List: "
-#~ msgstr "Lista de tareas: "
-
-#~ msgid "Task: "
-#~ msgstr "Tarea: "
-
-#~ msgid "Message: "
-#~ msgstr "Mensaje: "
-
-#~ msgid "Milestone: "
-#~ msgstr "Hito: "
-
-#~ msgid "No item found !"
-#~ msgstr "No se ha encontrado ningún artículo !"
-
-#~ msgid "[%s] - Project Manager Daily Digest (%s)"
-#~ msgstr "[%s] - Resumen Diario del Gerente del Proyecto (%s)"
-
-#~ msgid "Project Daily Digest"
-#~ msgstr "Resumen diario de proyectos"
-
-#~ msgid "Project items due or added or completed in the last 24 hours"
-#~ msgstr ""
-#~ "Los elementos de proyecto pendientes o agregados o completados en las "
-#~ "últimas 24 horas"
-
-#~ msgid "This is an automated email from %s, powered by %s."
-#~ msgstr "Este es un correo electrónico automático de %s, alimentado por %s."
-
-#~ msgid "New to-do items:"
-#~ msgstr "Nuevos elementos:"
-
-#~ msgid "Completed to-do items:"
-#~ msgstr "Los elementos de tareas completadas:"
-
-#~ msgid "Due to-do items:"
-#~ msgstr "Artículos pendientes:"
-
-#~ msgid "New milestones:"
-#~ msgstr "Nuevos hitos:"
-
-#~ msgid "(Completed by %s)"
-#~ msgstr "(completado por %s)"
-
-#~ msgid "Documents"
-#~ msgstr "Documentos"
-
-#~ msgid "Add Document"
-#~ msgstr "Agregar documento"
-
-#~ msgid "Add New Document"
-#~ msgstr "Agregar nuevo documento"
-
-#~ msgid "Edit Document"
-#~ msgstr "Editar documento"
-
-#~ msgid "New Document"
-#~ msgstr "Nuevo documento"
-
-#~ msgid "View Document"
-#~ msgstr "Ver documento"
-
-#~ msgid "Search Documents"
-#~ msgstr "Búsqueda de documentos"
-
-#~ msgid "No Documents Found"
-#~ msgstr "No se han encontrado documentos"
-
-#~ msgid "No Documentst Found in Trash"
-#~ msgstr "No se encontraron Documentos en la Papelera"
-
-#~ msgid "Parent Document"
-#~ msgstr "Documento primario"
-
-#~ msgid "Create a folder"
-#~ msgstr "Crear una carpeta"
-
-#~ msgid "Upload a file"
-#~ msgstr "Cargar un archivo"
-
-#~ msgid "Create a doc"
-#~ msgstr "Crear un doc"
-
-#~ msgid "Create a document"
-#~ msgstr "Crear un documento"
-
-#~ msgid "Back to previous"
-#~ msgstr "Volver a la anterior"
-
-#~ msgid "Make files private."
-#~ msgstr "Hacer los archivos privados."
-
-#~ msgid "Folder or Documents not found. Please create new folder or document."
-#~ msgstr ""
-#~ "No se ha encontrado la carpeta o los documentos. Cree una nueva carpeta o "
-#~ "documento."
-
-#~ msgid "Link for  Docs"
-#~ msgstr "Enlace a GOOGLE DOCS"
-
-#~ msgid "Download"
-#~ msgstr "Descargar"
-
-#~ msgid "Note"
-#~ msgstr "Nota"
-
-#~ msgid "View Current Post"
-#~ msgstr "Ver post actual"
-
-#~ msgid "View Online"
-#~ msgstr "Ver Online"
-
-#~ msgid " Load More Files"
-#~ msgstr " Cargar más archivos"
-
-#~ msgid "Update Doc"
-#~ msgstr "Actualizar el Doc"
-
-#~ msgid "Cancel Edit"
-#~ msgstr "Cancelar edición"
-
-#~ msgid "Revisions"
-#~ msgstr "Revisiones"
-
-#~ msgid "No Revision"
-#~ msgstr "No hay ninguna revisión"
-
-#~ msgid "Are you sure to delete this folder?"
-#~ msgstr "¿Está seguro de que desea eliminar esta carpeta?"
-
-#~ msgid "Are you sure to change privacy for this file or folder?"
-#~ msgstr ""
-#~ "Está seguro de que desea cambiar la privacidad de este archivo o carpeta?"
-
-#~ msgid "Attached to "
-#~ msgstr "Adjunto a "
-
-#~ msgid " by "
-#~ msgstr " por "
-
-#~ msgid "Pleae choose any file first"
-#~ msgstr "Por favor seleccione un archivo primero"
-
-#~ msgid "Folder name already exist! Please check again."
-#~ msgstr "El nombre de la carpeta ya existe! Compruebe de nuevo."
-
-#~ msgid "You have not access to creat folder."
-#~ msgstr "No tienes acceso para crear carpetas."
-
-#~ msgid "There is an error while delete, please try again!"
-#~ msgstr "Se ha producido un error al eliminar, por favor inténtelo de nuevo!"
-
-#~ msgid "Permission Problem"
-#~ msgstr "Problema de permisos"
-
-#~ msgid "[%s][%s] Mentioned on comment: %s"
-#~ msgstr "[%s][%s] Mencionado en un comentario: %s"
-
-#~ msgid "Select a milestone"
-#~ msgstr "Seleccione un hito"
-
-#~ msgid "No milestone on this Project"
-#~ msgstr "Ningún hito en este proyecto"
-
-#~ msgid "Overdue Task"
-#~ msgstr "Tarea retrasada"
-
-#~ msgid "All Project"
-#~ msgstr "Todos los proyectos"
-
-#~ msgid "All Coworker"
-#~ msgstr "Todol los colaboradores"
-
-#~ msgid "User Activity Report"
-#~ msgstr "Informe de actividad del usuario"
-
-#~ msgid "<b> Rnage </b>"
-#~ msgstr "<b> Rango </b>"
-
-#~ msgid "All Task by Project"
-#~ msgstr "Todas las tareas por proyecto"
-
-#~ msgid "Task Status : All Task"
-#~ msgstr "El estado de la tarea : Todas las tareas"
-
-#~ msgid "All Task by Milestone"
-#~ msgstr "Todas las tareas por hito"
-
-#~ msgid "All Unassigned Task"
-#~ msgstr "Todas las tareas sin asignar"
-
-#~ msgid "Not assigned"
-#~ msgstr "No asignada"
-
-#~ msgid "Not set"
-#~ msgstr "No definido"
-
-#~ msgid "No due date"
-#~ msgstr "Sin fecha de vencimiento"
-
-#~ msgid "Report Title : "
-#~ msgstr "Título del informe: "
-
-#~ msgid "Project for : "
-#~ msgstr "Proyecto de : "
-
-#~ msgid "Co Worker : "
-#~ msgstr "Co trabajador : "
-
-#~ msgid "Project : "
-#~ msgstr "Proyecto : "
-
-#~ msgid "Task Name"
-#~ msgstr "Nombre de tarea"
-
-#~ msgid "Assign to"
-#~ msgstr "Asignar a"
-
-#~ msgid "Assign date"
-#~ msgstr "Fecha de asignación"
-
-#~ msgid "Complete Date"
-#~ msgstr "Fecha de completado"
-
-#~ msgid "Year"
-#~ msgstr "Año"
-
-#~ msgid "Month"
-#~ msgstr "Mes"
-
-#~ msgid "Week"
-#~ msgstr "Semana"
-
-#~ msgid "Assign To"
-#~ msgstr "Asignar a"
-
-#~ msgid "Incompleted"
-#~ msgstr "Incompleto"
-
-#~ msgid "Current"
-#~ msgstr "Actual"
-
-#~ msgid "Outstanding"
-#~ msgstr "Excepcional"
-
-#~ msgid "No Data Found!"
-#~ msgstr "No se han encontrado datos!"
-
-#~ msgid ""
-#~ "Please <a href=\"%s\">enter</a> your <strong>WP Project Manager</strong> "
-#~ "plugin license key to get regular update and support."
-#~ msgstr ""
-#~ "Por favor <a href=\"%s\">ingresa</a> tu clave de licencia del "
-#~ "Appy<strong>Project Manager</strong> para obtener apoyo y actualización "
-#~ "regular."
-
-#~ msgid "Please activate your copy"
-#~ msgstr "Por favor active su copia"
-
-#~ msgid "Empty license key"
-#~ msgstr "Llave de licencia vacía"
-
-#~ msgid "Settings Saved"
-#~ msgstr "Configuración guardada"
-
-#~ msgid "E-mail Address"
-#~ msgstr "Dirección de e-mail"
-
-#~ msgid "Enter your purchase Email address"
-#~ msgstr "Introduzca su dirección de correo electrónico de compra"
-
-#~ msgid "License Key"
-#~ msgstr "Clave de licencia"
-
-#~ msgid "has been expired %s ago"
-#~ msgstr "ha expirado hace %s"
-
-#~ msgid "will expire in %s"
-#~ msgstr "caducará en %s"
-
-#~ msgid "Validity:"
-#~ msgstr "Validez:"
-
-#~ msgid "Renew License"
-#~ msgstr "Renovar la licencia"
-
-#~ msgid "Plugin is activated"
-#~ msgstr "Plugin está activado"
-
-#~ msgid "Delete License"
-#~ msgstr "Eliminar licencia"
-
-#~ msgid "Your Project Manager Pro is almost ready!"
-#~ msgstr "El gestor de planes casi está listo"
-
-#~ msgid "Error: Nonce verification failed"
-#~ msgstr "No se pudo verificar el fallo."
-
-#~ msgid "Search..."
-#~ msgstr "Buscar..."
-
-#~ msgid "Task start date"
-#~ msgstr "La fecha de inicio de la tarea"
-
-#~ msgid "Enable task start date field"
-#~ msgstr "Habilitar el campo de fecha de inicio de la tarea"
-
-#~ msgid "Logo"
-#~ msgstr "Logo"
-
-#~ msgid "Daily Digest"
-#~ msgstr "Resumen diario"
-
-#~ msgid "Enable Daily Digest"
-#~ msgstr "Habilitar Resumen Diario"
-
-#~ msgid "Client"
-#~ msgstr "Cliente"
-
-#~ msgid "My Tasks %s"
-#~ msgstr "Mis tareas %s"
-
-#~ msgid "My Calender"
-#~ msgstr "Mi calendario"
-
-#~ msgid "Page Settings"
-#~ msgstr "Ajustes de página"
-
-#~ msgid "My Task"
-#~ msgstr "Mi tarea"
-
-#~ msgid "Sorry, the main plugin is not installed"
-#~ msgstr "Lo sentimos, el plugin principal no está instalado"
-
-#~ msgid "<strong>%s</strong> version %s is now available! %s."
-#~ msgstr "<strong>%s</strong> La versión %s ya está disponible! %s."
-
-#~ msgid "Enable project manager Daily Digest"
-#~ msgstr "Habilitar Resumen Diario del administrador de proyectos"
-
-#~ msgid "Email Notification"
-#~ msgstr "Notificación de correo electrónico"
-
-#~ msgid "Enable project manager email"
-#~ msgstr "Habilitar el correo electrónico del director de proyecto"
-
-#~ msgid "-Select Project"
-#~ msgstr "-Seleccione un proyecto"
-
-#~ msgid "File is private. Click to make file public."
-#~ msgstr ""
-#~ "Archivo es privado. Haga clic en esta opción para convertir el archivo a "
-#~ "público."
-
-#~ msgid "File is public. Click to make file private."
-#~ msgstr ""
-#~ "Archivo es público. Haga clic en esta opción para convertir el archivo en "
-#~ "privado."
-
-#~ msgid "No Progress Found!"
-#~ msgstr "Progreso No encontrado!"
-
-#~ msgid "Project Report"
-#~ msgstr "Informe de proyecto"
-
-#~ msgid "Advance Search Project"
-#~ msgstr "Búsqueda Avanzada de Proyectos"
-
-#~ msgid "Advance Report Form"
-#~ msgstr "Formulario de informe de avance"
-
-#~ msgid "Please select an filter!"
-#~ msgstr "Seleccione un filtro!"
-
-#~ msgid "Back to Report Dashboard"
-#~ msgstr "Volver al panel de informe"
-
-#~ msgid "Advanced Report"
-#~ msgstr "Informe avanzado"
-
-#~ msgid "Overdue Tasks"
-#~ msgstr "Tareas atrasadas"
-
-#~ msgid ""
-#~ "Generate a report based on <strong>tasks</strong> which are "
-#~ "<strong>pending</strong> beyond due dates."
-#~ msgstr ""
-#~ "Generar un informe basado en <strong>Tareas</strong> que esten "
-#~ "<strong>pendientes</strong> más allá de las fechas de vencimiento."
-
-#~ msgid "Complete Task"
-#~ msgstr "Completar tarea"
-
-#~ msgid ""
-#~ "Generate a report from <strong>tasks</strong> which were "
-#~ "<strong>completed</strong>."
-#~ msgstr ""
-#~ "Generar un informe desde <strong>Tareas</strong> que este "
-#~ "<strong>completado</strong>."
-
-#~ msgid "User Activities"
-#~ msgstr "Las actividades de los usuarios"
-
-#~ msgid ""
-#~ "Create a report based on an employee or <strong>all employee</strong> "
-#~ "activity on <strong>tasks</strong>."
-#~ msgstr ""
-#~ "Crear un informe a partir de un empleado o <strong>todos los "
-#~ "trabajadores</strong> Actividad en <strong>Tareas</strong>."
-
-#~ msgid "Project Task"
-#~ msgstr "Tarea de proyecto"
-
-#~ msgid ""
-#~ "Find out <strong>all tasks</strong> from your <strong>Project</strong>."
-#~ msgstr ""
-#~ "Descubra <strong>Todas las tareas</strong> de su <strong>Proyecto</"
-#~ "strong>."
-
-#~ msgid "Task by Milestone"
-#~ msgstr "Tarea por hito"
-
-#~ msgid ""
-#~ "Browse   <strong>tasks</strong> reports according to <strong>Milestones</"
-#~ "strong> (CSV exportable)."
-#~ msgstr ""
-#~ "Busque   <strong>Tareas</strong> informes según <strong>Hitos</strong> "
-#~ "(CSV exportables)."
-
-#~ msgid ""
-#~ "Find out <strong>all tasks</strong> whichwere not  <strong>assigned</"
-#~ "strong> to any employee."
-#~ msgstr ""
-#~ "Descubra <strong>Todas las tareas</strong> que no fueron "
-#~ "<strong>Asignadas</strong> a cualquier empleado."
-
-#~ msgid "Filter Report"
-#~ msgstr "Filtrar informe"
-
-#~ msgid "Coworker"
-#~ msgstr "Compañero de trabajo"
-
-#~ msgid "Total Result"
-#~ msgstr "Resultado total"
-
-#~ msgid "Assigned to"
-#~ msgstr "Asignada a"
-
-#~ msgid "Assigned Date"
-#~ msgstr "Fecha asignada"
-
-#~ msgid "Time"
-#~ msgstr "Tiempo"
-
-#~ msgid "No Data Found, Please search again!"
-#~ msgstr "No se han encontrado datos, busque de nuevo!"
-
-#~ msgid "Report for"
-#~ msgstr "Informe para"
-
-#~ msgid "All Task"
-#~ msgstr "Todas las tareas"
-
-#~ msgid "All Complete Task"
-#~ msgstr "Toda tarea completa"
-
-#~ msgid "Run Report"
-#~ msgstr "Ejecutar informe"
-
-#~ msgid "Selec a project"
-#~ msgstr "Selección de un proyecto"
-
-#~ msgid "Assigned To"
-#~ msgstr "Asignado a"
-
-#~ msgid "The user could not be found!"
-#~ msgstr "No se encontró el usuario!"
-
-#~ msgid "Select an User"
-#~ msgstr "Seleccione un usuario"
-
-#~ msgid "Unable update, please check your permission!!"
-#~ msgstr "No se puede actualizar, compruebe su permiso!!"
-
-#~ msgid "Assign Task"
-#~ msgstr "Asignar tarea"
-
-#~ msgid "At a glance"
-#~ msgstr "De un vistazo"
-
-#~ msgid "Sorry! you do no have permission to view this comment"
-#~ msgstr "¡Lo lamento! no tienes permiso para ver este comentario"
-
-#~ msgid "Sorry! you do no have permission to view this todo list"
-#~ msgstr "¡Lo lamento! no tienes permiso para ver esta lista de tareas"
-
-#~ msgid "file size in Megabyte. e.g: 2"
-#~ msgstr "tamaño de archivos en Megabyte. Ej. 2"
-
-#~ msgid "New Project Subject"
-#~ msgstr "Asunto de Nuevo Proyecto"
-
-#~ msgid "New Project Body"
-#~ msgstr "Cuerpo de Nuevo Proyecto"
-
-#~ msgid "New Message Subject"
-#~ msgstr "Asundo de Nuevo Mensaje"
-
-#~ msgid "New Message Body"
-#~ msgstr "Cuerpo de Nuevo Mensaje"
-
-#~ msgid "New Comment Subject"
-#~ msgstr "Asunto de Nuevo Comentario"
-
-#~ msgid "Body"
-#~ msgstr "Cuerpo"
-
-#~ msgid "New Assigned Task Subject"
-#~ msgstr "Asunto de Nueva Tarea Asignada"
-
-#~ msgid "%d message"
-#~ msgstr "%d mensaje"
-
-#~ msgid "%d to-do"
-#~ msgstr "%d tareas"
-
-#~ msgid "%d comment"
-#~ msgstr "%d comentarios"
-
-#~ msgid "%d file"
-#~ msgstr "%d fichero"
-
-#~ msgid "%d milestone"
-#~ msgstr "%d metas"
-
-#~ msgid "(Completed by %s on %s)"
-#~ msgstr "(Completado por %s en %s)"
-
-#~ msgid "Add a to-do"
-#~ msgstr "Añadir una Tarea"
-
-#~ msgid "Message details here"
-#~ msgstr "Detalles de mesaje"
-
-#~ msgid "Details about milestone (optional)"
-#~ msgstr "Detalles del Hito (opcional)"
-
-#~ msgid "Reopen"
-#~ msgstr "Re-abrir"
-
-#~ msgid ""
-#~ "<a href=\"%s\">Download</a> or go to the <a href=\"%s\">discussion</a>."
-#~ msgstr ""
-#~ "<a href=\"%s\">Descargar</a> o ir a la <a href=\"%s\">Discución</a>."
-
-#~ msgid "No Files Found!"
-#~ msgstr "No se encontraron archivos"
-
-#~ msgid "Add New"
-#~ msgstr "Añadir Nuevo"
-
-#~ msgid "No messages found! How about adding one?"
-#~ msgstr "No se encontraron mensajes. ¿Qué tal si añades uno? "
-
-#~ msgid "&larr; back"
-#~ msgstr "&larr; atrás"
-
-#~ msgid "No Milestone Found!"
-#~ msgstr "No se encontraron Metas"
-
-#~ msgid "Add new milestone"
-#~ msgstr "Añadir nueva meta"
-
-#~ msgid "Project Info"
-#~ msgstr "Información de Proyecto"
-
-#~ msgid "Oh dear, no To-do list found!"
-#~ msgstr "O no, no se encontraron Listas de Tareas"
+msgstr "https://wedevs.com"
