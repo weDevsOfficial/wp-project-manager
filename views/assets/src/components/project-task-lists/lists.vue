@@ -7,14 +7,14 @@
 
                 <div class="list-action-btn-wrap">
                     <div class="new-list-btn">
-                        <a href="#" class="pm-button pm-primary">
+                        <a href="#" class="list-action-group add-list">
                             <span class="plus">+</span>
                             <span>{{ __('Add Task List', 'wedevs-project-manager') }}</span>
                         </a>
                     </div>
                     <pm-do-action :hook="'pm-inline-list-button'"></pm-do-action>
                     <div>
-                        <a class="pm-button pm-primary" v-pm-tooltip :title="__('Task Filter', 'wedevs-project-manager')" @click.prevent="showFilter()" href="#">
+                        <a class="task-filter list-action-group" v-pm-tooltip :title="__('Task Filter', 'wedevs-project-manager')" @click.prevent="showFilter()" href="#">
                             <span class="icon-pm-filter"></span>
                             <span>{{__('Filter', 'wedevs-project-manager')}}</span>
                         </a>
@@ -326,19 +326,45 @@
     .pm-task-list-wrap {
         .list-content-wrap {
             display: flex;
-            
+            flex-wrap: wrap;
             background: #FAFAFA;
+
             .content {
                 flex: 5;
                 border: 1px solid #E5E4E4;
-                display: flex;
-                flex-direction: column;
                 border-top: none;
 
                 .list-action-btn-wrap {
                     display: flex;
                     align-items: center;
                     padding: 20px;
+                    flex-wrap: wrap;
+
+                    .add-list {
+                    }
+
+                    .list-action-group {
+                        height: 30px;
+                        font-size: 12px;
+                        padding: 0 13px;
+                        border-radius: 3px;
+                        white-space: nowrap;
+                    }
+
+                    .task-filter {
+                        display: flex;
+                        align-items: center;
+                        background: #1A9ED4;
+                        height: 30px;
+                        color: #fff;
+                        padding: 0 13px;
+                        border-radius: 3px;
+                        font-size: 12px;
+
+                        .icon-pm-filter {
+                            margin-right: 5px;
+                        }
+                    }
 
                     .pm-list-header-menu {
                         display: flex;
@@ -348,18 +374,34 @@
                     .list-view-btn {
                         display: flex;
                         align-items: center;
-                        padding: 5px 13px;
                         background: #fff;
-                        border: 1px solid #e5e4e4;
+                        border: 1px solid #E2E2E2;
                         border-radius: 3px;
-                        border-right: none;
                         border-top-right-radius: 0;
                         border-bottom-right-radius: 0;
+                        color: #788383;
+                        border-right-color: #fff;
+                        white-space: nowrap;
+
+                        &:hover {
+                            border-color: #1A9ED4;
+                            border-right: 1px solid #1A9ED4;
+                            color: #1A9ED4;
+
+                            .icon-pm-list-view {
+                                &:before {
+                                    color: #1A9ED4;
+                                }
+                            }
+                        }
 
                         .icon-pm-list-view {
                             margin-right: 5px;
+
                             &:before {
                                 vertical-align: middle;
+                                color: #d7dee2;
+
                             }
                         }
 
@@ -368,12 +410,25 @@
                     .kanboard-btn {
                         display: flex;
                         align-items: center;
-                        padding: 5px 13px;
                         background: #fff;
-                        border: 1px solid #e5e4e4;
+                        border: 1px solid #E2E2E2;
                         border-radius: 3px;
                         border-top-left-radius: 0;
                         border-bottom-left-radius: 0;
+                        color: #788383;
+                        white-space: nowrap;
+
+                        &:hover {
+                            border-color: #1A9ED4;
+                            color: #1A9ED4;
+
+                            .icon-pm-kanboard-view {
+                                &:before {
+                                    color: #1A9ED4;
+                                }
+                            }
+                        }
+                        
 
                         .icon-pm-kanboard-view {
                             margin-right: 5px;
@@ -385,13 +440,51 @@
 
                     .new-list-btn {
                         flex: 1;
+                        a {
+                            height: 30px !important;
+                            display: flex;
+                            align-items: center;
+                            width: 117px;
+                            background: #1A9ED4;
+                            height: 30px;
+                            color: #fff;
+                            padding: 0 13px;
+                            border-radius: 3px;
+                            font-size: 12px;
+
+                        }
                         .plus {
-                            margin-right: 2px;
+                            margin-right: 5px;
                             font-size: 15px;
                         }
                     }
                     .pm-action-wrap {
                         display: flex;
+                        align-items: center;
+                        .archive-page-button {
+                            margin: 0 15px;
+                            a {
+                                border: 1px solid #e4e5e5;
+                                background: #fff;
+                                display: flex;
+                                align-items: center;
+                                white-space: nowrap;
+                                &:hover {
+                                    border-color: #1A9ED4;
+                                    border-right: 1px solid #1A9ED4;
+                                    color: #1A9ED4;
+
+                                    .icon-pm-archive {
+                                        &:before {
+                                            color: #1A9ED4;
+                                        }
+                                    }
+                                }
+                            }
+                            .icon-pm-archive {
+                                color: #788383;
+                            } 
+                        }
                     }
                 }
 
@@ -409,10 +502,12 @@
             .list-search-menu {
                 border-bottom: 1px solid #E5E4E4;
                 border-right: 1px solid #E5E4E4;
+                border-left: 1px solid #E5E4E4;
                 font-size: 13px;
                 color: #000;
                 background: #fff;
                 flex: 1.7;
+                margin-left: -1px;
 
                 .action {
                     display: flex;
