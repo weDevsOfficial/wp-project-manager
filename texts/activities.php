@@ -328,4 +328,8 @@ return [
         __( '%1$s has duplicated project from , %2$s.', 'wedevs-project-manager'),
         ['actor.data.display_name', 'meta.old_project_title']
     ],
+    'duplicate_list' => [
+        __( '%1$s has duplicated list from , %2$s.', 'wedevs-project-manager'),
+        ['actor.data.display_name', 'meta.old_task_list_title']
+    ],
 ];
