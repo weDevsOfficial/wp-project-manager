@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: WP Project Manager\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/cpm\n"
 "POT-Creation-Date: 2018-07-11 06:41:04+00:00\n"
-"PO-Revision-Date: 2018-10-03 12:07-0500\n"
+"PO-Revision-Date: 2018-10-03 12:12-0500\n"
 "Last-Translator: David <david@closemarketing.es>\n"
 "Language-Team: Tareq Hasan <tareq@wedevs.com>\n"
 "Language: es_ES\n"
@@ -977,7 +977,7 @@ msgstr "Completado"
 #: views/assets/js/library.js:1 views/assets/js/pm.js:1
 #: views/assets/src/components/project-task-lists/single-task.vue:40
 msgid "Mark Complete"
-msgstr "Marcar como completado"
+msgstr "Marcar completado"
 
 #: views/assets/js/library.js:1 views/assets/js/pm.js:1
 #: views/assets/src/components/project-task-lists/single-task.vue:48
@@ -1388,7 +1388,7 @@ msgstr "Eliminar proyecto"
 #: views/assets/js/pm.js:9 views/assets/src/components/common/header.vue:37
 #: views/assets/src/components/project-lists/project-summary.vue:142
 msgid "Complete"
-msgstr "Completado"
+msgstr "Completar"
 
 #: views/assets/js/pm.js:9 views/assets/src/components/common/header.vue:40
 #: views/assets/src/components/project-lists/project-summary.vue:145
@@ -1634,12 +1634,12 @@ msgstr "Foros"
 #: views/assets/js/pm.js:9
 #: views/assets/src/components/project-milestones/late-milestones.vue:3
 msgid "Late Milestones"
-msgstr "Metas atrasadas"
+msgstr "Hitos atrasados"
 
 #: views/assets/js/pm.js:9
 #: views/assets/src/components/project-milestones/upcoming-milestones.vue:3
 msgid "Upcoming Milestones"
-msgstr "Metas próximas"
+msgstr "Hitos próximos"
 
 #: views/assets/js/pm.js:9
 #: views/assets/src/components/project-milestones/upcoming-milestones.vue:10
@@ -1649,7 +1649,7 @@ msgstr "izquierda -"
 #: views/assets/js/pm.js:9
 #: views/assets/src/components/project-milestones/completed-milestones.vue:3
 msgid "Completed Milestones"
-msgstr "Metas completas"
+msgstr "Hitos completos"
 
 #: views/assets/js/pm.js:9
 #: views/assets/src/components/project-milestones/completed-milestones.vue:43
@@ -1672,7 +1672,7 @@ msgstr ""
 #: views/assets/js/pm.js:9
 #: views/assets/src/components/project-milestones/milestones.vue:37
 msgid "When to use Milestones?"
-msgstr "¿Cuándo usar Etapas?"
+msgstr "¿Cuándo usar hitos?"
 
 #: views/assets/js/pm.js:9
 #: views/assets/src/components/project-milestones/milestones.vue:40
@@ -1702,11 +1702,11 @@ msgstr "Nuevo proyecto"
 
 #: views/assets/js/pm.js:9
 msgid "Search By Client..."
-msgstr "Buscar por cliente..."
+msgstr "Buscar por cliente ..."
 
 #: views/assets/js/pm.js:9
 msgid "Search All..."
-msgstr "Buscar todo..."
+msgstr "Buscar todo ..."
 
 #: views/assets/js/pm.js:9
 #: views/assets/src/components/project-lists/project-header-menu.vue:6
