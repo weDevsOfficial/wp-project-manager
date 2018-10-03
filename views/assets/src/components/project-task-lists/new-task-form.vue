@@ -22,6 +22,8 @@
                     <pm-datepickter v-model="task.due_date.date" class="pm-datepickter-to" dependency="pm-datepickter-from" :placeholder="task_due_date"></pm-datepickter>
                 </div>
             </div>
+
+            <pm-task-recurrent :recurrant-info="task_recurrent_status"> </pm-task-recurrent>
     
             <div class="item user">
                 <div>
@@ -40,6 +42,8 @@
                     </multiselect>
                 </div>
             </div>
+
+
             <!-- <div class="item task-title">
                 <input v-model="task.estimation" type="number" min="1" class="pm-task-estimation" :placeholder="estimation_placheholder">
             </div> -->
@@ -64,6 +68,7 @@
 
 <script>
 import date_picker from './date-picker.vue';
+import recurrent from './task-recurrent.vue';
 import Mixins from './mixin';
 
 export default {
@@ -102,6 +107,7 @@ export default {
             submit_disabled: false,
             before_edit: jQuery.extend( true, {}, this.task ),
             task_description: this.task.description.content,
+            task_recurrent_status: {'recurrent': this.recurrentStatus(this.task.id), }, //recurrentStatus(this.task.id),
             show_spinner: false,
             date_from: '',
             date_to: '',
@@ -120,7 +126,9 @@ export default {
 
     components: {
     	'multiselect': pm.Multiselect.Multiselect,
-    	'pm-datepickter': date_picker
+    	'pm-datepickter': date_picker,
+        'pm-task-recurrent': recurrent
+
     },
 
     beforeMount () {
@@ -321,7 +329,8 @@ export default {
                     due_date: this.task.due_date.date,
                     list_id: this.list.id,
                     order: this.task.order,
-                    estimation: this.task.estimation
+                    estimation: this.task.estimation,
+                    recurrent: this.task.recurrent
                 },
                 callback: function( res ) {
                     self.show_spinner = false;
@@ -341,6 +350,15 @@ export default {
             return users.map(function (user) {
                 return user.id;
             });
+        },
+
+        recurrentStatus (taskId) {
+            if(!taskId){
+                return "0";
+            } else {
+                return this.task.recurrent;
+            }
+
         }
     }
 }

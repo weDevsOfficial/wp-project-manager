@@ -27,6 +27,7 @@
                     </span>
                     <div v-activity-load-more class="popup-body">
                         <div class="pm-single-task-header">
+
                             <div class="task-complete-incomplete" :class="{ 'disable': can_complete_task(task) }">
                                 
                                 <a class="completed" v-if="task.status" href="#" @click.prevent="singleTaskDoneUndone()">
