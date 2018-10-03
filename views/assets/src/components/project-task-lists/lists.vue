@@ -135,7 +135,7 @@
                     </ul>
 
                     <div class="pm-demo-template" v-if="isActiveFilter && !filterResults">
-                        <span>{{__('No Result Found!', 'wedevs-project-manager')}}</span>
+                        <span>{{__('No results found.', 'wedevs-project-manager')}}</span>
                     </div>
                     <div class="list-search-menu" v-if="isActiveFilter">
                         <div class="filter-title">
@@ -900,7 +900,7 @@
                     success (res) {
 
                         if(!res.data.length) {
-                            pm.Toastr.success(self.__('No Result Found!', 'wedevs-project-manager'));
+                            pm.Toastr.success(self.__('No results found.', 'wedevs-project-manager'));
                             //return;
                         }
                         
