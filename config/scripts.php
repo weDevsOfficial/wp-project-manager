@@ -153,6 +153,7 @@ return [
 			'jquery-ui-tooltip',
 			'pm-tiny-mce',
 			'jquery-ui-sortable',
+			'jquery-touch-punch',
 			'pm-uploader',
 			'pm-tiptip'
 		],
