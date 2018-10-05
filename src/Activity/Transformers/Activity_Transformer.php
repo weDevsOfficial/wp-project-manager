@@ -4,6 +4,7 @@ namespace WeDevs\PM\Activity\Transformers;
 
 use League\Fractal\TransformerAbstract;
 use WeDevs\PM\Activity\Models\Activity;
+use WeDevs\PM\Comment\Models\Comment;
 use WeDevs\PM\User\Transformers\User_Transformer;
 use WeDevs\PM\Project\Transformers\Project_Transformer;
 
@@ -108,7 +109,7 @@ class Activity_Transformer extends TransformerAbstract {
     private function parse_meta_for_comment( Activity $activity ) {
         $meta = [];
 
-        if ( ! is_array( $activity ) ) {
+        if ( ! is_array( $activity->meta ) ) {
             return $meta;
         }
 
@@ -125,9 +126,73 @@ class Activity_Transformer extends TransformerAbstract {
                 $meta['commentable_type'] = $activity->meta['commentable_type'];
                 $meta['trans_commentable_type'] = $trans_commentable_type;
                 $meta['commentable_title'] = $activity->meta['commentable_title'];
+            }elseif ($key=='comment_id'){
+                //CASE " comments in discusion (undefined) by old comment resources id and text";
+                $this->convertObsoleteResources();
+
+                $comment_old=get_comment( $value );
+                $comment_new=Comment::where('content',$comment_old->comment_content)->first();
+
+                if($comment_new instanceof Comment){
+                    unset($activity->meta[$key]);
+                    if($comment_new->commentable_type=='task_list') {
+                        $meta['comment_id'] = $comment_new->task_list()->first()->title;
+                        $activity->setMetaAttribute([
+                            'text'=>str_replace("meta.comment_id","meta.task_list_title",$activity->meta['text']),
+                            'task_list_title'=> $comment_new->task_list()->first()->title
+                        ]);
+                    }elseif($comment_new->commentable_type=='task'){
+                        $meta['comment_id']=$comment_new->task()->first()->title;
+                        $activity->setMetaAttribute([
+                            'text'=>str_replace("meta.comment_id","meta.task_title",$activity->meta['text']),
+                            'task_title'=> $comment_new->task()->first()->title
+                        ]);
+                    }
+
+                    $activity->resource_id=$comment_new->commentable_id;
+                    $activity->resource_type=$comment_new->commentable_type;
+
+                    return $meta;
+                }
             }
         }
 
         return $meta;
+    }
+
+    private static $execution_count=0;
+
+    public function convertObsoleteResources(){
+        if(self::$execution_count==0){
+            $activities=Activity::where('meta','like','%meta.comment_id%')
+                ->where('resource_type','comment');
+            
+            $activities->each(function($activity){
+                $comment_old=get_comment( $activity->meta['comment_id'] );
+                $comment_new=Comment::where('content',$comment_old->comment_content)->first();
+
+                if($comment_new instanceof Comment){
+                    if($comment_new->commentable_type=='task_list') {
+                        unset($activity->meta['comment_id']);
+                        $activity->setMetaAttribute([
+                            'text'=>str_replace("meta.comment_id","meta.task_list_title",$activity->meta['text']),
+                            'task_list_title'=> $comment_new->task_list()->first()->title
+                        ]);
+                    }elseif($comment_new->commentable_type=='task'){
+                        unset($activity->meta['comment_id']);
+                        $activity->setMetaAttribute([
+                            'text'=>str_replace("meta.comment_id","meta.task_title",$activity->meta['text']),
+                            'task_title'=> $comment_new->task()->first()->title
+                        ]);
+                    }
+                    $activity->resource_id=$comment_new->commentable_id;
+                    $activity->resource_type=$comment_new->commentable_type;
+
+                    $activity->save();
+                }
+            });
+
+        }
+        self::$execution_count++;
     }
 }
