@@ -78,7 +78,7 @@ export default new pm.Vuex.Store({
         },
         setProject (state, project) {
             state.projects.push(project);
-            state.project = project;
+            state.project = jQuery.extend(true, {}, project);
         },
 
         setProjectMeta (state, projectMeta) {

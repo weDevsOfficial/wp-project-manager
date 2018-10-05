@@ -460,8 +460,6 @@ export default {
             self.httpRequest({
                 url:self.base_url + '/pm/v2/projects/'+ args.project_id + '?' + conditions ,
                 success (res) {
-                    
-
                     if (typeof args.callback === 'function' ) {
                         args.callback.call(self, res);
                     }

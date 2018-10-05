@@ -239,7 +239,7 @@ a:active {
 .pm textarea {
   height: 80px;
 }
-.pm input[type="radio"],
+/*.pm input[type="radio"],
 .pm input[type="checkbox"] {
   margin: 4px 0 0;
   margin-top: 1px \9;
@@ -252,7 +252,7 @@ a:active {
   margin-top: 1px \9;
   *margin-top: 0;
   line-height: normal;
-}
+}*/
 .pm ul {
   list-style: none;
 }
