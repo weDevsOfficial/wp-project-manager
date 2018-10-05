@@ -1,24 +1,26 @@
 <template>
-    <div class="pm-todo-wrap clearfix">
+    <div class="pm-todo-wrap">
+        <div class="todo-content">
+            <div class="checkbox">
+                <input :disabled="can_complete_task(task)" v-model="task.status"  @change="doneUndone()" class="" type="checkbox"  value="" name="" >
+            </div>
+            <span class="task-title">
+                
+                <a class="title" href="#" @click.prevent="getSingleTask(task)">
+                    <span class="">{{ task.title }}</span>
+                </a>
+             
+            </span> 
+        </div>
+
+    </div>
+    <!-- <div class="pm-todo-wrap clearfix">
         <div class="pm-todo-content" >
             <div>
                 <div class="pm-col-6">
                     <input :disabled="can_complete_task(task)" v-model="task.status"  @change="doneUndone()" class="" type="checkbox"  value="" name="" >
 
                     <span class="task-title">
-                        
-                        <!-- <router-link 
-                            :to="{ 
-                                name: route_name, 
-                                params: { 
-                                    list_id: list.id, 
-                                    task_id: task.id, 
-                                    project_id: project_id, 
-                                    task: task 
-                            }}">
-
-                            <span class="pm-todo-text">{{ task.title }}</span>
-                        </router-link> -->
                         
                         <a href="#" @click.prevent="getSingleTask(task)">
                             <span class="pm-todo-text">{{ task.title }}</span>
@@ -66,7 +68,7 @@
         <div v-if="parseInt(taskId) && parseInt(projectId)">
             <single-task :taskId="taskId" :projectId="projectId"></single-task>
         </div>
-    </div>
+    </div> -->
 </template>
 
 

@@ -1,5 +1,4 @@
 <template>
-    
     <div class="pm-header-title-content" v-if="project">
         <div class="project-title">
             <span class="title">{{ project.title }}</span>
@@ -46,9 +45,7 @@
             <div v-if="project.status === 'complete'" class="complete">{{ __( 'Completed', 'wedevs-project-manager')}}</div>
             <div v-if="project.status === 'incomplete'" class="incomplete">{{ __( 'Incomplete', 'wedevs-project-manager') }}</div>
         </div> 
-    </div>
-
-
+    </div> 
     
 </template>
 
@@ -93,11 +90,14 @@
                 border: 1px solid #E5E4E4;
                 background: #fff;
                 color: #95A5A6;
-                padding: 6px 10px;
+                padding: 0px 10px;
                 border-radius: 3px;
                 cursor: pointer;
                 border-top-right-radius: 0px;
                 border-bottom-right-radius: 0px;
+                height: 30px;
+                display: flex;
+                align-items: center;
 
                 &:hover {
                     border: 1px solid #1A9ED4;
@@ -113,22 +113,23 @@
 
         .settings {
             position: relative;
-            .icon-pm-settings {
-                border: 1px solid #E5E4E4;
-                background: #fff;
-                color: #95A5A6;
-                padding: 6px 10px;
-                border-radius: 3px;
-                cursor: pointer;
-                border-left-color: #fff;
-                border-top-left-radius: 0px;
-                border-bottom-left-radius: 0px;
-
-                &:hover {
-                    border: 1px solid #1A9ED4;
-                    color: #1A9ED4;
-                    
-                    
+            height: 30px;
+            display: flex;
+            align-items: center;
+            border: 1px solid #E5E4E4;
+            background: #fff;
+            color: #95A5A6;
+            padding: 0px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            border-left-color: #fff;
+            border-top-left-radius: 0px;
+            border-bottom-left-radius: 0px;
+            &:hover {
+                border: 1px solid #1A9ED4;
+                color: #1A9ED4;
+                
+                .icon-pm-settings {
                     &:before {
                         color: #1A9ED4;
                     }
@@ -139,11 +140,11 @@
                 position: relative;
                 display: none;
                 .pm-triangle-top {
-                    left: 0 !important;
+                    left: -26px !important;
                     right: 0 !important;
                     width: 127px !important;
                     padding: 0px !important;
-                    top: 20px !important;
+                    top: 26px !important;
 
                     &:before {
                         right: auto !important;
@@ -187,8 +188,7 @@
             }
         }
     }
-
-    
+ 
 </style>
 
 <script>
@@ -201,20 +201,22 @@
             return {
                 project_action: __('Project Actions', 'wedevs-project-manager'),
                 settings_hide: false,
+
             }
 
         },
 
         computed: {
             is_project_edit_mode () {
-                return this.$root.$store.state.is_project_form_active;
+                return this.$store.state.is_project_form_active;
             },
 
             project () {
-                return  this.$root.$store.state.project;
+                return  this.$store.state.project;
             },
             hasProject () {
-                return this.project.hasOwnProperty('id');
+
+                return this.$store.state.project.hasOwnProperty('id');
             },
 
 
@@ -224,6 +226,13 @@
             this.getGloabalProject();
             this.getProjectCategories();
             this.getRoles(); 
+
+            // console.log(this.$store)
+
+            // const vm = this;
+            // pmBus.$on('pm_after_fetch_project', () => {
+            //     vm.project = vm.$store.state.project;
+            // })
         },
 
         components: {

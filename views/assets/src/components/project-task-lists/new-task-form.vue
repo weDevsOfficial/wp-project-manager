@@ -1,7 +1,64 @@
 <template>
     <div :class="'pm-task-form pm-slide-'+task.id">
 
-        <form action="" v-on:submit.prevent="taskFormAction()" method="post" class="pm-form">
+        <div class="input-area">
+            <div class="input-action-wrap">
+                <div>
+                    <span class="plus-text">+</span>
+                </div>
+                <input  class="input-field" :placeholder="__('Add new task', 'wedevs-project-manager')" type="text">
+                <a  class="update-button" href="#"><span class="icon-pm-check-circle"></span></a>
+                <div class="action-icons">
+                    <pm-do-action hook="pm_task_form" :actionData="task" ></pm-do-action>
+                    <span  class="icon-pm-single-user pm-dark-hover">
+                        <!-- <div  class="pm-multiselect-top pm-multiselect-subtask-task">
+                            <div class="pm-multiselect-content">
+                                <div class="assign-to">{{ __('Assign to', 'wedevs-project-manager') }}</div>
+                                <multiselect
+                                    v-model="task.assignees.data"
+                                    :options="project_users"
+                                    :multiple="true"
+                                    :close-on-select="false"
+                                    :clear-on-select="true"
+                                    :show-labels="true"
+                                    :searchable="true"
+                                    placeholder="Select User"
+                                    select-label=""
+                                    selected-label="selected"
+                                    deselect-label=""
+                                    label="display_name"
+                                    track-by="id"
+                                    :allow-empty="true">
+
+                                   <template slot="option" slot-scope="props">
+                                        <img class="option__image" :src="props.option.avatar_url">
+                                        <div class="option__desc">
+                                            <span class="option__title">{{ props.option.display_name }}</span>
+                                        </div>
+                                    </template>
+
+                                </multiselect>
+                            </div>
+                        </div> -->
+
+                    </span>
+                    <!-- <span @click.prevent="showHideDescription()" class="icon-pm-pencil pm-dark-hover"></span> -->
+
+                    <span  class="icon-pm-calendar pm-dark-hover">
+
+                    </span>
+                    
+                </div>
+                <!-- <div class="subtask-date">
+                    <div  v-pm-datepicker="'subTaskForm'"  class="pm-date-picker-from pm-inline-date-picker-from"></div>
+                    <div v-pm-datepicker="'subTaskForm'"  class="pm-date-picker-to pm-inline-date-picker-to"></div>
+
+                </div> -->
+                
+            </div>
+        </div>
+
+        <!-- <form action="" v-on:submit.prevent="taskFormAction()" method="post" class="pm-form">
           
             <div class="item task-title">
                 <input v-model="task.title" type="text" name="task_title" class="task_title" :placeholder="add_new_task"  required="required">
@@ -40,9 +97,7 @@
                     </multiselect>
                 </div>
             </div>
-            <!-- <div class="item task-title">
-                <input v-model="task.estimation" type="number" min="1" class="pm-task-estimation" :placeholder="estimation_placheholder">
-            </div> -->
+           
             <pm-do-action hook="pm_task_form" :actionData="task" ></pm-do-action>
             <div class="item submit">
                 <span class="pm-new-task-spinner"></span>
@@ -51,15 +106,148 @@
                 <a @click.prevent="showHideTaskFrom(false, list, task )" class="button todo-cancel" href="#">{{ __( 'Cancel', 'wedevs-project-manager') }}</a>
                 <span v-show="show_spinner" class="pm-spinner"></span>
             </div>
-        </form>
+        </form> -->
 
     </div>
 </template>
 
-<style>
-    .pm-task-estimation {
-        width: 100%;
+<style lang="less">
+    .pm-task-form {
+        .create-area {
+            &:hover {
+                .icon-plus {
+                    color: #444;
+                }
+            }
+            border: 1px solid #ECECEC;
+            width: 100%;
+            padding: 5px 10px;
+            color: #B0BABC;
+            .icon-plus {
+                line-height: 0;
+                margin-right: 10px;
+                font-size: 25px;
+                color: #D7DEE2;
+            }
+        }
+        .input-area {
+            .input-action-wrap {
+                position: relative;
+                .update-button {
+                    position: absolute;
+                    right: 0;
+                    top: 0px;
+                    background: #019dd6;
+                    color: #fff;
+                    font-size: 12px;
+                    padding: 6px 8px;
+                    &:hover {
+                        background: #008ec2;
+                    }
+                }
+                .plus-text {
+                    position: absolute;
+                    top: 4px;
+                    margin-left: 9px;
+                    font-size: 25px;
+                    color: #B5C0C3;
+                    font-weight: 200;
+                }
+
+                .subtask-date {
+                    position: absolute;
+                    top: 33px;
+                    right: 0px;
+                    display: flex;
+                    border: 1px solid #DDDDDD;
+                    border-top: none;
+                    box-shadow: 0px 6px 20px 0px rgba(214, 214, 214, 0.6);
+                    flex-wrap: wrap;
+                    z-index: 9;
+                    font-size: 12px;
+
+                    .pm-date-picker-from {
+                        .ui-datepicker {
+                            border: none;
+                        }
+                    }
+
+                    .pm-date-picker-to {
+                        .ui-datepicker {
+                            border: none;
+                        }
+                    }
+                }
+            }
+            .description-field {
+                border: none;
+                border-bottom: 1px solid #1A9ED4;
+                height: 30px;
+                padding: 10px;
+                width: 100%;
+                margin-bottom: 15px;
+                box-shadow: none;
+                line-height: 1.5;
+            }
+            .icon-pm-single-user {
+                position: relative;
+                .pm-multiselect-top {
+                    top: 23px !important;
+                    border-top: none !important;
+                    border-top-right-radius: 0 !important;
+                    border-top-left-radius: 0 !important;
+
+                }
+            }
+            .input-field {
+                width: 100%;
+                height: 33px;
+                padding-left: 28px;
+                padding-right: 84px;
+                box-shadow: none !important;
+                &::placeholder {
+                    color: #B5C0C3;
+                    font-weight: 300;
+                    font-size: 12px;
+                }
+            }
+            .action-icons {
+                position: absolute;
+                right: 18px;
+                top: 6px;
+                margin-right: 11px;
+                display: flex;
+                align-items: center;
+
+                .pm-make-privacy {
+                    .icon-pm-unlock, .icon-pm-private {
+                        margin-right: 0;
+                        vertical-align: middle;
+                        cursor: pointer;
+
+                        &:before {
+                            color: #d4d6d6;
+                        }
+
+                        &:hover {
+                            &:before {
+                                color: #444;
+                            }
+                        }
+                    }
+                }
+
+                span {
+                    margin-right: 10px;
+                }
+                .date-picker {
+                    position: absolute;
+                }
+            }
+        }
     }
+
+
 </style>
 
 <script>
@@ -158,7 +346,7 @@ export default {
 
     computed: {
     	project_users () {
-    		return this.$root.$store.state.project_users;
+    		return this.$store.state.project_users;
     	},
         /**
          * Check current user can view the todo or not

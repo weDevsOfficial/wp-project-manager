@@ -1,17 +1,32 @@
 <template>
-    <div class="pm-incomplete-tasks">
-        <ul :data-list_id="list.id"  class="pm-todos pm-todolist-content pm-incomplete-task pm-connected-sortable" v-pm-sortable>
-            <li :data-id="task.id" :data-order="task.order" class="pm-todo" v-for="task in getIncompleteTasks" :key="task.id" :class="'pm-fade-out-'+task.id">
+    <div class="task-group">
+        <ul :data-list_id="list.id"  class="incomplete-task-ul pm-connected-sortable" v-pm-sortable>
+            <li :data-id="task.id" :data-order="task.order" v-for="task in getIncompleteTasks" :key="task.id" :class="'incomplete-task-li pm-fade-out-'+task.id">
                 <incompleted-tasks :task="task" :list="list"></incompleted-tasks>
             </li>
+        </ul> 
+
+        <ul :data-list_id="list.id"  class="complete-task-ul pm-connected-sortable">
+            <li :data-id="task.id" :data-order="task.order"  v-for="task in getCompleteTasks" :key="task.id" :class="'complete-task-li pm-fade-out-'+task.id">
+                <complete-tasks :task="task" :list="list"></complete-tasks>       
+
+            </li>
             
-            <!-- <li v-if="!hasList" class="nonsortable">{{ __( 'No tasks found.', 'wedevs-project-manager') }}</li>
+            <!-- <li v-if="!hasList" class="nonsortable">{{ __( 'No tasks found.', 'wedevs-project-manager') }}</li> -->
             <transition name="slide" v-if="can_create_task">
                 <li v-if="list.show_task_form" class="pm-todo-form nonsortable">
                     <new-task-form :list="list"></new-task-form>
                 </li>
-            </transition> -->
+            </transition>
 
+        </ul> 
+        
+    </div>
+<!--     <div class="pm-incomplete-tasks">
+        <ul :data-list_id="list.id"  class="pm-todos pm-todolist-content pm-incomplete-task pm-connected-sortable" v-pm-sortable>
+            <li :data-id="task.id" :data-order="task.order" class="pm-todo" v-for="task in getIncompleteTasks" :key="task.id" :class="'pm-fade-out-'+task.id">
+                <incompleted-tasks :task="task" :list="list"></incompleted-tasks>
+            </li>
         </ul> 
 
         <ul :data-list_id="list.id"  class="pm-todos pm-todolist-content pm-complete-task pm-connected-sortable">
@@ -29,13 +44,40 @@
 
         </ul> 
         
-    </div>
+    </div> -->
 </template>
 
 <style lang="less">
-    .pm-complete-task {
-        .pm-todo-text {
-            text-decoration: line-through;
+    .task-group {
+        padding: 0 20px;
+        margin-top: 5px;
+        
+        .incomplete-task-li, .complete-task-li {
+            margin-bottom: 10px;
+        }
+        .pm-todo-wrap {
+            .todo-content {
+                display: flex;
+                align-items: center;
+                .checkbox {
+                    width: 30px;
+                    input[type="checkbox"] {
+                        border-radius: 3px;
+                    }
+                }
+                .task-title {
+                    .title {
+                        font-size: 14px;
+                        color: #525252;
+                    }
+                }
+            }
+        }
+        .incomplete-task-ul {
+            
+        }
+        .complete-task-ul {
+            
         }
     }
 </style>

@@ -2,7 +2,8 @@
     <div class="pm-task-list-wrap">
         <pm-header></pm-header>
         <pm-menu></pm-menu>
-        <div class="list-content-wrap">
+
+        <div v-if="listViewType" class="list-content-wrap">
             <div class="content">
 
                 <div class="list-action-btn-wrap">
@@ -19,6 +20,43 @@
                             <span>{{__('Filter', 'wedevs-project-manager')}}</span>
                         </a>
                     </div>
+                </div>
+
+                <div class="task-field">
+                    <new-task-form  :list="list"></new-task-form>
+                </div>
+
+                <div class="list-items">
+
+                    <ul v-if="hasSearchContent()" v-pm-list-sortable :class="filterActiveClass()+ ' pm-todolists'">
+                    
+                        <li  v-for="list in lists" :key="list.id" :data-id="list.id"  :class="'pm-list-sortable list-li pm-fade-out-'+list.id">
+
+                            <div class="list-content">
+                                <div class="list-title">
+                                    <span class="icon-pm-down-arrow"></span>
+                                    <router-link class="list-title-anchor" :to="{ 
+                                        name: 'single_list', 
+                                        params: { 
+                                            list_id: list.id 
+                                        }}">
+                                    {{ list.title }}
+                                    
+                                    </router-link>
+                                    <div class="progress-bar">
+                                        <div :style="getProgressStyle( list )" class="bar completed"></div>
+                                    </div>
+                                       
+                                    <!-- never remove <div class="pm-progress-percent">{{ getProgressPercent( list ) }}%</div> -->
+                                    <div class="task-count">
+                                        <span>{{ list.meta.total_complete_tasks }}</span>/<span>{{ getTotalTask(list.meta.total_complete_tasks, list.meta.total_incomplete_tasks) }}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <list-tasks :list="list"></list-tasks>
+                        </li>
+                    </ul>
                 </div>
                 
                 <!-- <div class="todos-wrap no-task">
@@ -53,7 +91,6 @@
                                     <span slot="noResult">{{ __( 'No task list found.', 'pm-pro' ) }}</span>
                                         
                                 </multiselect> 
-                            
                             </div>
                         </div>
                         <div class="margin-top">
@@ -104,7 +141,7 @@
             </div>
 
         </div>
-        <div @click.prevent="showFilter()">open filter</div>
+        
         <!-- <div v-if="!isListFetch" class="pm-data-load-before" >
             <div class="loadmoreanimation">
                 <div class="load-spinner">
@@ -334,14 +371,86 @@
                 border: 1px solid #E5E4E4;
                 border-top: none;
 
+                .task-field {
+                    padding: 0 20px;
+                    margin-top: 2px;
+
+                    .task-input {
+                        height: 35px;
+                        width: 100%;
+                        border-radius: 3px;
+                        border: 1px solid #e5e4e4;
+
+                        &::placeholder {
+                            color: #B5C0C3;
+                            font-size: 12px;
+                            padding-left: 5px;
+                            font-weight: 300;
+                        }
+                    }
+                }
+
+                .list-items {
+                    margin-top: 15px;
+                    .list-li>.list-content {
+                        &:hover {
+                            border-top: 1px solid #e5e4e4;
+                            border-bottom: 1px solid #e5e4e4;
+                            background: #fff;
+                        }
+                    }
+                    .list-content {
+                        padding: 5px 0;
+                        border-top: 1px solid #fafafa;
+                        border-bottom: 1px solid #fafafa;
+
+                        .list-title {
+                            display: flex;
+                            flex-wrap: wrap;
+                            align-items: center;
+                            padding: 0 20px;
+
+                            .progress-bar {
+                                width: 52px;
+                                background: #D7DEE2;
+                                height: 5px;
+                                border-radius: 3px;
+                                margin-right: 12px;
+
+                                .completed {
+                                    background: #1A9ED4;
+                                    height: 5px;
+                                    border-radius: 3px;
+                                }
+                            }
+                            .task-count {
+                                font-size: 12px;
+                                color: #A5A5A5;
+                            }
+                            .list-title-anchor {
+                                font-size: 14px;
+                                color: #000;
+                                font-weight: 600;
+                                margin-right: 40px;
+                            }
+                            .icon-pm-up-arrow, .icon-pm-down-arrow {
+                                width: 30px;
+                                display: flex;
+                                &:before {
+                                    color: #000;
+                                    font-size: 7px;
+                                    font-weight: bold;
+                                }
+                            }
+                        }
+                    }
+                }
+
                 .list-action-btn-wrap {
                     display: flex;
                     align-items: center;
                     padding: 20px;
                     flex-wrap: wrap;
-
-                    .add-list {
-                    }
 
                     .list-action-group {
                         height: 30px;
@@ -622,6 +731,7 @@
     import Mixins from './mixin';
     import date_picker from './date-picker.vue';
     import Menu from '@components/common/menu.vue';
+    import new_task_form from './new-task-form.vue';
 
     export default {
 
@@ -642,7 +752,8 @@
             'default-list-page': default_page,
             'multiselect': pm.Multiselect.Multiselect,
             'pm-datepickter': date_picker,
-            'pm-menu': Menu
+            'pm-menu': Menu,
+            'new-task-form': new_task_form,
             
         },
 
@@ -853,6 +964,9 @@
         },
 
         methods: {
+            getTotalTask (incomplete, complete) {
+                return parseInt(incomplete)+parseInt(complete);
+            },
             afterFetchProject (project) {
 
                 //set filter search user
