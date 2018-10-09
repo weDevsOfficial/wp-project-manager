@@ -28,10 +28,10 @@
                         </a>
                     </span>
                     
-                    <span v-if="taskTimeWrap(task)" :class="taskDateWrap(task.due_date.date)">
-                        <span v-if="task_start_field">{{ taskDateFormat( task.start_at.date ) }}</span>
-                        <span v-if="isBetweenDate( task_start_field, task.start_at.date, task.due_date.date )">&ndash;</span>
-                        <span>{{ taskDateFormat(task.due_date.date) }}</span>
+                    <span v-if="taskTimeWrap(task)" :class="taskDateWrap(task.due_date.datetime)">
+                        <span v-if="task_start_field">{{ taskDateFormat( task.start_at.datetime ) }}</span>
+                        <span v-if="isBetweenDate( task_start_field, task.start_at.datetime, task.due_date.datetime )">&ndash;</span>
+                        <span>{{ taskDateFormat(task.due_date.datetime) }}</span>
                     </span>
                 </div>
                 
