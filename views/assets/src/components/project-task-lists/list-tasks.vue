@@ -20,6 +20,10 @@
             </transition>
 
         </ul> 
+
+        <div class="list-task-form nonsortable">
+            <new-task-form  :list="list"></new-task-form>
+        </div>
         
     </div>
 <!--     <div class="pm-incomplete-tasks">
@@ -49,26 +53,135 @@
 
 <style lang="less">
     .task-group {
-        padding: 0 20px;
-        margin-top: 5px;
         
+        margin: 16px 0;
+
+        .incomplete-task-ul{
+            
+        }
+
+        .list-task-form {
+            padding: 0 20px;
+
+            .update-button {
+                position: absolute;
+                right: 0;
+                top: 0px;
+                background: #fafafa !important;
+                color: #fff !important;
+                font-size: 12px;
+                font-weight: bolder;
+                padding: 5px 8px !important;
+                border: 1px solid #ddd;
+            }
+        }
+
+        .user-wrap {
+            display: inline-block;
+            .assigned-user {
+                img {
+                    height: 24px;
+                    width: 24px;
+                    border-radius: 12px;
+                }
+            }
+        }
         .incomplete-task-li, .complete-task-li {
-            margin-bottom: 10px;
+            margin-bottom: 18px;
         }
         .pm-todo-wrap {
+            padding: 0 20px !important;
+            &:hover  .pm-todo-item > .move {
+                display: block;
+            }
+            .pm-todo-item {
+                
+                position: relative;
+
+                .move {
+                    cursor: move;
+                    margin-top: 1px;
+                    position: absolute;
+                    left: -11px;
+                    display: none;
+
+                    .icon-pm-drag-drop {
+                        &:before {
+                            font-size: 12px;
+                            font-weight: bold;
+                            color: #999;
+                        }
+                    }
+                }
+            }
             .todo-content {
                 display: flex;
                 align-items: center;
                 .checkbox {
-                    width: 30px;
+                    min-width: 30px;
                     input[type="checkbox"] {
                         border-radius: 3px;
                     }
                 }
+
                 .task-title {
                     .title {
                         font-size: 14px;
-                        color: #525252;
+                        color: #000;
+                    }
+                    margin-right: 20px;
+                }
+                .pm-due-date {
+                    color: #E94F44 !important;
+                    .icon-pm-calendar {
+                        &:before {
+                            color: #E94F44 !important;
+                        }
+                    }
+                }
+                .pm-current-date {
+                    color: #4A90E2 !important;
+                    .icon-pm-calendar {
+                        &:before {
+                            color: #4A90E2 !important;
+                        }
+                    }
+                }
+                .pm-due-date, .pm-current-date {
+                    font-size: 12px;
+                    margin-right: 18px;
+                    white-space: nowrap;
+                    background: none;
+                    padding: 0 !important;
+                }
+                .comment {
+                    display: flex;
+                    align-items: center;
+                    color: #A5A5A5;
+                    .icon-pm-comment {
+                        &:before {
+                            color: #d7dee2;
+                        }
+                    }
+                    
+                    span {
+                        margin-right: 2px;
+                    }
+                }
+                .assigned-users-content {
+                    display: flex;
+                    align-items: center;
+                    margin-right: 18px;
+
+                    .image-anchor {
+                        line-height: 0;
+                        margin-right: 3px;
+                    }
+                    .image {
+                        height: 20px;
+                        width: 20px;
+                        border-radius: 12px;
+                        display: inline-block;
                     }
                 }
             }
@@ -87,6 +200,7 @@
     import incompleted_tasks from './incompleted-tasks.vue';
     import completed_tasks from './completed-tasks.vue';
     import Mixins from './mixin';
+
 
     export default {
         

@@ -55,7 +55,7 @@ class Task_List_Controller {
             ->paginate( $per_page );
 
         $task_list_collection = $task_lists->getCollection();
-
+        
         $resource = new Collection( $task_list_collection, new Task_List_Transformer );
         $resource->setPaginator( new IlluminatePaginatorAdapter( $task_lists ) );
 

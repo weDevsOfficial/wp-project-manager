@@ -361,7 +361,7 @@
                 content: {
                     html: ''
                 },
-                description_show_spinner: false
+                description_show_spinner: false,
             }
         },
 

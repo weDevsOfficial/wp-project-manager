@@ -6,12 +6,13 @@
                 <div>
                     <span class="plus-text">+</span>
                 </div>
-                <input  class="input-field" :placeholder="__('Add new task', 'wedevs-project-manager')" type="text">
-                <a  class="update-button" href="#"><span class="icon-pm-check-circle"></span></a>
+                <input v-model="task.title"  class="input-field" :placeholder="__('Add new task', 'wedevs-project-manager')" type="text">
+                <a @click.prevent="taskFormAction()"  class="update-button" href="#"><span class="icon-pm-check-circle"></span></a>
                 <div class="action-icons">
                     <pm-do-action hook="pm_task_form" :actionData="task" ></pm-do-action>
-                    <span  class="icon-pm-single-user pm-dark-hover">
-                        <!-- <div  class="pm-multiselect-top pm-multiselect-subtask-task">
+                    <span @click.self.prevent="enableDisable('descriptionField')" class="icon-pm-align-left"></span>
+                    <span  @click.self.prevent="enableDisable('isEnableMultiselect')" class="task-user-multiselect icon-pm-single-user pm-dark-hover">
+                        <div v-if="isEnableMultiselect" class="pm-multiselect-top pm-multiselect-subtask-task">
                             <div class="pm-multiselect-content">
                                 <div class="assign-to">{{ __('Assign to', 'wedevs-project-manager') }}</div>
                                 <multiselect
@@ -39,21 +40,23 @@
 
                                 </multiselect>
                             </div>
-                        </div> -->
+                        </div>
 
                     </span>
                     <!-- <span @click.prevent="showHideDescription()" class="icon-pm-pencil pm-dark-hover"></span> -->
 
-                    <span  class="icon-pm-calendar pm-dark-hover">
-
-                    </span>
+                    <span  @click.self.prevent="enableDisable('datePicker')" class="icon-pm-calendar new-task-calendar pm-dark-hover"></span>
                     
                 </div>
-                <!-- <div class="subtask-date">
-                    <div  v-pm-datepicker="'subTaskForm'"  class="pm-date-picker-from pm-inline-date-picker-from"></div>
-                    <div v-pm-datepicker="'subTaskForm'"  class="pm-date-picker-to pm-inline-date-picker-to"></div>
+                <div v-if="datePicker" class="subtask-date new-task-caledar-wrap">
+                    <div  v-pm-datepicker="'subTaskForm'" v-model="task.start_at.date"  class="pm-date-picker-from pm-inline-date-picker-from"></div>
+                    <div v-pm-datepicker="'subTaskForm'" v-model="task.due_date.date"  class="pm-date-picker-to pm-inline-date-picker-to"></div>
 
-                </div> -->
+                </div>
+                <div v-if="descriptionField" class="new-task-description">
+                    <text-editor  :editor_id="'new-task-description-editor-' + list.id" :content="content"></text-editor>
+                    
+                </div>
                 
             </div>
         </div>
@@ -247,12 +250,12 @@
         }
     }
 
-
 </style>
 
 <script>
 import date_picker from './date-picker.vue';
 import Mixins from './mixin';
+import editor from '@components/common/text-editor.vue';
 
 export default {
     // Get passing data for this component. Remember only array and objects are
@@ -286,6 +289,9 @@ export default {
      */
     data: function() {
         return {
+            isEnableMultiselect: false,
+            datePicker: false,
+            descriptionField: false,
             task_privacy: ( this.task.task_privacy == 'yes' ) ? true : false,
             submit_disabled: false,
             before_edit: jQuery.extend( true, {}, this.task ),
@@ -301,14 +307,18 @@ export default {
             select_user_text: __( 'Select User', 'wedevs-project-manager'),
             update_task: __( 'Update Task', 'wedevs-project-manager'),
             add_task: __( 'Add Task', 'wedevs-project-manager'),
-            estimation_placheholder: __('Estimated hour to complete the task', 'wedevs-project-manager')
+            estimation_placheholder: __('Estimated hour to complete the task', 'wedevs-project-manager'),
+            content: {
+                html: this.task.description
+            },
         }
     },
     mixins: [Mixins],
 
     components: {
     	'multiselect': pm.Multiselect.Multiselect,
-    	'pm-datepickter': date_picker
+    	'pm-datepickter': date_picker,
+        'text-editor': editor
     },
 
     beforeMount () {
@@ -318,6 +328,7 @@ export default {
     // Initial action for this component
     created: function() {
         this.$on( 'pm_date_picker', this.getDatePicker );
+        window.addEventListener('click', this.windowActivity);
     },
 
     watch: {
@@ -405,6 +416,28 @@ export default {
     },
 
     methods: {
+        windowActivity (el) {
+            var multiselect  = jQuery(el.target).closest('.task-user-multiselect'),
+                calendarBtn = jQuery(el.target).hasClass('new-task-calendar'),
+                calendarCont = jQuery(el.target).closest('.new-task-caledar-wrap');
+            
+            if( !calendarBtn && !calendarCont.length ) {
+                this.datePicker = false;
+            }
+
+            if ( !multiselect.length ) {
+                this.isEnableMultiselect = false;
+            }
+        },
+        enableDisable (key, status) {
+            status = status || '';
+
+            if(status == '') {
+                this[key] = this[key] ? false : true;
+            } else {
+                this[key] = status;
+            }
+        },
     	setDefaultValue () {
     		if (typeof this.task.assignees !== 'undefined') {
     			var self = this;
@@ -504,7 +537,7 @@ export default {
                     board_id: this.list.id,
                     assignees: this.filterUserId(this.task.assignees.data),//this.assigned_to,
                     title: this.task.title,
-                    description: this.task_description,
+                    description: this.content.html.trim(),
                     start_at: this.task.start_at.date,
                     due_date: this.task.due_date.date,
                     list_id: this.list.id,

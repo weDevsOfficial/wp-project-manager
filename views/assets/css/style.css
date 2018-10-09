@@ -1869,7 +1869,7 @@ ul.pm-activity ul li:before {
   font-size: 12px;
   line-height: 1.3em;
   color: #fff;
-  padding: 2px 5px;
+  padding: 0px 5px;
 }
 .pm-task-done {
   -webkit-border-radius: 3px;
