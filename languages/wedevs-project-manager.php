@@ -109,7 +109,6 @@ return [
 	__( 'Attached to', 'wedevs-project-manager' ),
 	__( 'by', 'wedevs-project-manager' ),
 	__( 'admin', 'wedevs-project-manager' ),
-	__( 'No results found.', 'wedevs-project-manager' ),
 	__( 'New Task List', 'wedevs-project-manager' ),
 	__( '- Milestone -', 'wedevs-project-manager' ),
 	__( 'No tasks found.', 'wedevs-project-manager' ),
