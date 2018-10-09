@@ -29,6 +29,7 @@ class Project_Controller {
 		$category = $request->get_param( 'category' );
 		$project_transform = $request->get_param( 'project_transform' );
 
+		$group_id= $request->get_param('group_id',0);
 		$per_page_from_settings = pm_get_settings( 'project_per_page' );
 		$per_page_from_settings = $per_page_from_settings ? $per_page_from_settings : 15;
 
@@ -57,26 +58,26 @@ class Project_Controller {
 		$project_collection = $projects->getCollection();
 		$resource = new Collection( $project_collection, new Project_Transformer );
 
-		$resource->setMeta( $this->projects_meta( $category ) );
+		$resource->setMeta( $this->projects_meta( $category ,$group_id) );
 
         $resource->setPaginator( new IlluminatePaginatorAdapter( $projects ) );
         
         return $this->get_response( $resource );
     }
 
-    private function projects_meta( $category ) {
+    private function projects_meta( $category ,$group_id=0) {
 		$user_id = get_current_user_id();
-		$eloquent_sql     = $this->fetch_projects_by_category( $category );
+		$eloquent_sql     = $this->fetch_projects_by_category( $category ,$group_id);
 		$total_projects   = $eloquent_sql->count();
-		$eloquent_sql     = $this->fetch_projects_by_category( $category );
+		$eloquent_sql     = $this->fetch_projects_by_category( $category ,$group_id);
 		$total_incomplete = $eloquent_sql->where( 'status', Project::INCOMPLETE )->count();
-		$eloquent_sql     = $this->fetch_projects_by_category( $category );
+		$eloquent_sql     = $this->fetch_projects_by_category( $category ,$group_id);
 		$total_complete   = $eloquent_sql->where( 'status', Project::COMPLETE )->count();
-		$eloquent_sql     = $this->fetch_projects_by_category( $category );
+		$eloquent_sql     = $this->fetch_projects_by_category( $category ,$group_id);
 		$total_pending    = $eloquent_sql->where( 'status', Project::PENDING )->count();
-		$eloquent_sql     = $this->fetch_projects_by_category( $category );
+		$eloquent_sql     = $this->fetch_projects_by_category( $category ,$group_id);
 		$total_archived   = $eloquent_sql->where( 'status', Project::ARCHIVED )->count();
-		$eloquent_sql     = $this->fetch_projects_by_category( $category );
+		$eloquent_sql     = $this->fetch_projects_by_category( $category ,$group_id);
 		$favourite 		  = $eloquent_sql->whereHas( 'meta', function ( $query ) use( $user_id ) {
 						$query->where('meta_key', '=', 'favourite_project')
 							->where('entity_id', '=', $user_id)
@@ -127,7 +128,7 @@ class Project_Controller {
 		return $projects;
     }
 
-    private function fetch_projects_by_category( $category = null ) {
+    private function fetch_projects_by_category( $category = null ,$group_id=0) {
     	$user_id = get_current_user_id();
 
 		if ( $category ) {
@@ -150,6 +151,13 @@ class Project_Controller {
     				});
     	}
     	
+    	if ($group_id>0){
+
+    	    $projects->leftJoin( pm_tb_prefix() . 'pm_meta as '.pm_tb_prefix() . 'pm_meta_g', function ( $join ) use($group_id) {
+                $join->on( pm_tb_prefix().'pm_projects.id', '=', pm_tb_prefix().'pm_meta_g.project_id' );
+            })->where(pm_tb_prefix().'pm_meta_g.meta_key','group_id')->where(pm_tb_prefix().'pm_meta_g.meta_value',$group_id);
+
+        }
     	return $projects;
     }
 
