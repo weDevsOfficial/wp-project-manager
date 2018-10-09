@@ -17,6 +17,7 @@ var PM_TaskList_Mixin = {
             if (!PM_Vars.is_pro) {
                 return false;
             }
+
            return this.getSettings('task_start_field', false);
         },
 
@@ -841,6 +842,7 @@ var PM_TaskList_Mixin = {
             list.edit_mode  = false;
             list.show_task_form = false;
             list.task_loading_status = false;
+            list.expand = false;
         },
 
         /**

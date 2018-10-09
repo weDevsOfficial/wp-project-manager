@@ -34,7 +34,9 @@
 
                             <div class="list-content">
                                 <div class="list-title">
-                                    <span class="icon-pm-down-arrow"></span>
+                                    <span v-if="!list.expand" @click.prevent="listExpand(list)" class="icon-pm-down-arrow"></span>
+                                    <span v-if="list.expand" @click.prevent="listExpand(list)" class="icon-pm-up-arrow"></span>
+
                                     <router-link class="list-title-anchor" :to="{ 
                                         name: 'single_list', 
                                         params: { 
@@ -54,7 +56,7 @@
                                 </div>
                             </div>
 
-                            <list-tasks :list="list"></list-tasks>
+                            <list-tasks v-if="list.expand" :list="list"></list-tasks>
                         </li>
                     </ul>
                 </div>
@@ -370,7 +372,32 @@
                 flex: 5;
                 border: 1px solid #E5E4E4;
                 border-top: none;
+                .pm-task-form {
+                    .new-task-description {
+                        width: 99.7%;
+                    }
+                    .mce-tinymce {
+                        border-top: none;
+                        box-shadow: none;
+                    }
+                    .update-button {
+                        position: absolute;
+                        right: 0;
+                        top: 0px;
+                        background: #fafafa !important;
+                        color: #fff !important;
+                        font-size: 12px;
+                        font-weight: bolder;
+                        padding: 5px 8px !important;
+                        border: 1px solid #ddd;
 
+                        .icon-pm-check-circle {
+                            &:before {
+                                color: #999;
+                            }
+                        }
+                    }
+                }
                 .task-field {
                     padding: 0 20px;
                     margin-top: 2px;
@@ -391,7 +418,11 @@
                 }
 
                 .list-items {
-                    margin-top: 15px;
+                    margin-top: 25px;
+                    .list-li {
+                        margin-bottom: 10px;
+                    }
+
                     .list-li>.list-content {
                         &:hover {
                             border-top: 1px solid #e5e4e4;
@@ -429,15 +460,17 @@
                             }
                             .list-title-anchor {
                                 font-size: 14px;
-                                color: #000;
+                                color: #047098;
                                 font-weight: 600;
                                 margin-right: 40px;
                             }
                             .icon-pm-up-arrow, .icon-pm-down-arrow {
                                 width: 30px;
                                 display: flex;
+                                cursor: pointer;
+                                padding: 7px 0px;
                                 &:before {
-                                    color: #000;
+                                    color: #047098;
                                     font-size: 7px;
                                     font-weight: bold;
                                 }
@@ -964,6 +997,10 @@
         },
 
         methods: {
+            listExpand (list) {
+                console.log(list);
+                list.expand = list.expand ? false : true; 
+            },
             getTotalTask (incomplete, complete) {
                 return parseInt(incomplete)+parseInt(complete);
             },
