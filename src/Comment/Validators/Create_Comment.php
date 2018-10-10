@@ -14,7 +14,7 @@ class Create_Comment extends Abstract_Validator {
 
     public function rules() {
         return [
-            'content'    => 'required',
+            'content'    => 'required|pm_kses',
             'project_id' => 'required'
         ];
     }

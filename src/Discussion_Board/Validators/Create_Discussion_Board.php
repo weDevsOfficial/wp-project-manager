@@ -15,6 +15,7 @@ class Create_Discussion_Board extends Abstract_Validator {
     public function rules() {
         return [
             'title'      => 'required',
+            'description' => 'pm_kses',
             'project_id' => 'required'
         ];
     }
