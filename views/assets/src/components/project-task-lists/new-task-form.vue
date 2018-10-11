@@ -14,12 +14,12 @@
             <div class="item date">
                 
                 <div class="pm-task-start-field" v-if="task_start_field">
-                    <pm-datepickter v-model="task.start_at.date" class="pm-datepickter-from" dependency="pm-datepickter-to" :placeholder="task_start_date"></pm-datepickter>
+                    <pm-datepickter v-model="task.start_at.datetime" class="pm-datepickter-from" dependency="pm-datepickter-to" :placeholder="task_start_date"></pm-datepickter>
                     
                 </div>
 
                 <div class="pm-task-due-field">
-                    <pm-datepickter v-model="task.due_date.date" class="pm-datepickter-to" dependency="pm-datepickter-from" :placeholder="task_due_date"></pm-datepickter>
+                    <pm-datepickter v-model="task.due_date.datetime" class="pm-datepickter-to" dependency="pm-datepickter-from" :placeholder="task_due_date"></pm-datepickter>
                 </div>
             </div>
     
@@ -228,13 +228,13 @@ export default {
 
     		if (typeof this.task.start_at === 'undefined') {
     			this.task.start_at = {
-    				date: ''
+                    datetime: ''
     			};
     		}
 
     		if (typeof this.task.due_date === 'undefined') {
     			this.task.due_date = {
-    				date: ''
+                    datetime: ''
     			};
     		}
     	},
@@ -294,10 +294,10 @@ export default {
                 return false;
             }
 
-            var start = new Date(this.task.start_at.date);
+            var start = new Date(this.task.start_at.datetime);
 
-            if(this.task.due_date.date) {
-                var end  = new Date(this.task.due_date.date);
+            if(this.task.due_date.datetime) {
+                var end  = new Date(this.task.due_date.datetime);
                 var compare = pm.Moment(end).isBefore(start);
 
                 if(this.task_start_field && compare) {
@@ -317,8 +317,8 @@ export default {
                     assignees: this.filterUserId(this.task.assignees.data),//this.assigned_to,
                     title: this.task.title,
                     description: this.task_description,
-                    start_at: this.task.start_at.date,
-                    due_date: this.task.due_date.date,
+                    start_at: this.task.start_at.datetime,
+                    due_date: this.task.due_date.datetime,
                     list_id: this.list.id,
                     order: this.task.order,
                     estimation: this.task.estimation
