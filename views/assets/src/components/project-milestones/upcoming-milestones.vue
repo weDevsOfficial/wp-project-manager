@@ -79,7 +79,7 @@
                     if ( milestone.status === 'complete' ) {
                         return false;
                     }
-                    var due_date = milestone.achieve_date.date;
+                    var due_date = milestone.achieve_date.datetime;
 
                     if ( !due_date ) {
                         return false;

@@ -392,21 +392,21 @@ export default {
             return { width: width+'%' };
         },
         humanDate (milestone) {
-            var due_date = milestone.achieve_date.date ? milestone.achieve_date.date : milestone.created_at.date;
+            var due_date = milestone.achieve_date.datetime ? milestone.achieve_date.datetime : milestone.created_at.datetime;
                 due_date = new Date(due_date),
                 due_date = pm.Moment(due_date).format();
 
             return pm.Moment(due_date).fromNow(true);
         },
         momentFormat (milestone) {
-            var due_date = milestone.achieve_date.date ? milestone.achieve_date.date : milestone.created_at.date;
+            var due_date = milestone.achieve_date.datetime ? milestone.achieve_date.datetime : milestone.created_at.datetime;
                 due_date = new Date(due_date),
                 due_date = pm.Moment(due_date).format();
 
             return due_date;
         },
         getDueDate (milestone) {
-            var due_date = milestone.achieve_date.date ? milestone.achieve_date.date : milestone.created_at.date;
+            var due_date = milestone.achieve_date.datetime ? milestone.achieve_date.datetime : milestone.created_at.datetime;
             var due_date = this.dateFormat(due_date);
 
             return due_date;

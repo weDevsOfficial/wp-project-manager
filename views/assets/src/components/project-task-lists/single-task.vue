@@ -978,7 +978,7 @@
         overflow: hidden;
     }
 
-    <!-- fix datepicker selector padding heigh -->
+   /* fix datepicker selector padding heigh */
     table.ui-datepicker-calendar tbody tr td{
         padding:0px !important;
         line-height: 1em !important;

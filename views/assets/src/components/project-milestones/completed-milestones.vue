@@ -41,7 +41,7 @@
             </div>
             <div class="pm-milestone-completed">
                 {{ __( 'Completed on:', 'wedevs-project-manager') }}
-                <time :datetime="milestone.achieved_at.date +' '+ milestone.achieved_at.time" :title="milestone.achieved_at.date +' '+ milestone.achieved_at.time">{{milestone.achieved_at.date}} {{milestone.achieved_at.time}}</time>            
+                <time :datetime="milestone.achieved_at.date +' '+ milestone.achieved_at.time" :title="milestone.achieved_at.date +' '+ milestone.achieved_at.time">{{milestone.achieved_at.datetime}} {{milestone.achieved_at.time}}</time>
             </div>
         </div>
     </div>
