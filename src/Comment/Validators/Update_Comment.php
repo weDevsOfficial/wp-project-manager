@@ -15,7 +15,7 @@ class Update_Comment extends Abstract_Validator {
 
     public function rules() {
         return [
-            'content' => 'required|pm_kses',
+            'content' => 'required',
             'id'      => 'required|gtz', //Greater than zero (gtz)
         ];
     }
