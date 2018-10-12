@@ -48,10 +48,10 @@ var PM_Task = {
                 if(ui.sender) {
                     PM_Task.receive(this, vnode, ui, event);
                 } else {
-                    let listId = $(ui.item).closest('ul.pm-todolist-content').data('list_id');
-                    let todos  = $(ui.item).closest('ul.pm-todolist-content').find('li.pm-todo');
+                    let listId = $(ui.item).closest('ul.incomplete-task-ul').data('list_id');
+                    let todos  = $(ui.item).closest('ul.incomplete-task-ul').find('li.incomplete-task-li');
                     let orders = PM_Task.sorting(todos);
-                    
+
                     component.taskOrder({
                         list_id: listId,
                         orders: orders
@@ -64,9 +64,9 @@ var PM_Task = {
     receive: function(self, vnode, ui) {
         
         var $ = jQuery,
-            listId = $(ui.item).closest('ul.pm-todolist-content').data('list_id'),
+            listId = $(ui.item).closest('ul.incomplete-task-ul').data('list_id'),
             taskId = $(ui.item).data('id'),
-            todos  = $(ui.item).closest('ul.pm-todolist-content').find('li.pm-todo'),
+            todos  = $(ui.item).closest('ul.incomplete-task-ul').find('li.incomplete-task-li'),
             orders = PM_Task.sorting(todos);
 
         vnode.context.taskReceive({
