@@ -1,47 +1,71 @@
 <template>
-    <div class="pm-todo-wrap">
-        <div class="pm-todo-item">
-            <div class="move">
-                <span class="icon-pm-drag-drop"></span>
-            </div> 
-            <div v-if="!task.edit_mode" class="todo-content">
-
-                <div class="checkbox">
-                    <input :disabled="can_complete_task(task)" v-model="task.status"  @change="doneUndone()" type="checkbox"  value="" name="" >
+    <div class="pm-todo-wrap">                    
+        <div v-if="!task.edit_mode" class="pm-todo-item">
+            
+            <div class="todo-content">
+                <div class="task-left">
+                    <div class="move">
+                        <span class="icon-pm-drag-drop"></span>
+                    </div> 
+                    <div class="checkbox">
+                        <input :disabled="can_complete_task(task)" v-model="task.status"  @change="doneUndone()" type="checkbox"  value="" name="" >
+                    </div>
                 </div>
+                <div class="title-wrap">
 
-                <div class="task-title">
-                    <a class="title" href="#" @click.prevent="getSingleTask(task)">{{ task.title }}</a>
-                </div>                
-
-                <div v-if="task.assignees.data.length" class="assigned-users-content">
-                    
-                    <a class="image-anchor" v-for="user in task.assignees.data" :key="user.id" :href="myTaskRedirect(user.id)" :title="user.display_name">
-                        <img class="image" :src="user.avatar_url" :alt="user.display_name" height="48" width="48">
-                    </a>
-                    
-                </div>
-
-                <div class="move">
-                    <span class="icon-pm-drag-drop"></span>
+                    <div class="task-title">
+                        <a class="title" href="#" @click.prevent="getSingleTask(task)">{{ task.title }}</a>
+                    </div>  
                 </div> 
 
-                <div v-if="taskTimeWrap(task)" :class="taskDateWrap(task.due_date.date)">
-                    <span class="icon-pm-calendar"></span>
-                    <span v-if="task_start_field">{{ taskDateFormat( task.start_at.date ) }}</span>
-                    <span v-if="isBetweenDate( task_start_field, task.start_at.date, task.due_date.date )">&ndash;</span>
-                    <span>{{ taskDateFormat(task.due_date.date) }}</span>
-                </div>
+                <div class="task-right task-action-wrap">
 
-                <div class="comment">
-                    <span class="icon-pm-comment"></span>
-                    <span>{{ task.meta.total_comment }}</span>
-                </div>                    
+                    <div v-if="task.assignees.data.length" class="task-activity assigned-users-content">
+                        <a class="image-anchor" v-for="user in task.assignees.data" :key="user.id" :href="myTaskRedirect(user.id)" :title="user.display_name">
+                            <img class="image" :src="user.avatar_url" :alt="user.display_name" height="48" width="48">
+                        </a>
+                    </div> 
 
+                    <div v-if="taskTimeWrap(task)" :class="'task-activity '+taskDateWrap(task.due_date.date)">
+                        <span class="icon-pm-calendar"></span>
+                        <span v-if="task_start_field">{{ taskDateFormat( task.start_at.date ) }}</span>
+                        <span v-if="isBetweenDate( task_start_field, task.start_at.date, task.due_date.date )">&ndash;</span>
+                        <span>{{ taskDateFormat(task.due_date.date) }}</span>
+                    </div>
+                    <!-- v-if="parseInt(task.meta.total_comment) > 0" -->
+                    <div class="task-activity comment">
+                        <span class="icon-pm-comment"></span>
+                        <span>{{ task.meta.total_comment }}</span>
+                    </div>  
+
+                    <div @click.prevent="showHideMoreMenu(task)" class="nonsortable more-menu">
+                        <span class="icon-pm-more-options"></span>
+                        <div v-if="task.moreMenu" class="more-menu-ul-wrap">
+                            <ul>
+                                <li class="first-li">
+                                    <a @click.prevent="showHideTaskFrom('toggle', false, task )" class="li-a" href="#">
+                                        <span class="icon-pm-pencil"></span>
+                                        <span>{{ __('Edit', 'wedevs-project-manager') }}</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a @click.prevent="deleteTask({task: task, list: list})" class="li-a" href="#">
+                                        <span class="icon-pm-delete"></span>
+                                        <span>{{ __('Delete', 'wedevs-project-manager') }}</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>                  
             </div>
         </div>
-    
-         <div v-if="parseInt(taskId) && parseInt(projectId)">
+        
+        <div class="task-update-wrap nonsortable">
+            <new-task-form v-if="task.edit_mode" :task="task" :list="list"></new-task-form>
+        </div>
+        
+        <div v-if="parseInt(taskId) && parseInt(projectId)">
             <single-task :taskId="taskId" :projectId="projectId"></single-task>
         </div>
     </div>
@@ -150,6 +174,7 @@
         },
 
         created () {
+            window.addEventListener('click', this.windowActivity);
             pmBus.$on('pm_after_close_single_task_modal', this.afterCloseSingleTaskModal);
         },
 
@@ -181,6 +206,17 @@
         },
         
         methods: {
+            showHideMoreMenu(task) {
+                task.moreMenu = task.moreMenu ? false : true;
+            },
+            windowActivity (el) {
+                var updateField  = jQuery(el.target).closest('.task-update-wrap'),
+                    updateBtn = jQuery(el.target).hasClass('icon-pm-pencil');
+
+                if ( !updateBtn && !updateField.length ) {
+                    this.task.edit_mode = false;
+                }
+            },
             afterCloseSingleTaskModal () {
 
                 if(this.$route.name == 'lists_single_task') {

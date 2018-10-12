@@ -5,19 +5,26 @@
                 <incompleted-tasks :task="task" :list="list"></incompleted-tasks>
             </li>
         </ul> 
-
-        <ul :data-list_id="list.id"  class="complete-task-ul pm-connected-sortable">
+        <div class="nonsortable more-task-wrap">
+            <div class="show-completed-task" v-if="getCompleteTasks.length">
+                
+                <span v-if="!showCompletedTask" @click.prevent="showHideCompletedTask()">{{ __('Show Completed Task', 'wedevs-project-manager') }}</span>
+                <span v-if="showCompletedTask" @click.prevent="showHideCompletedTask()">{{ __('Hide Completed Task', 'wedevs-project-manager') }}</span>
+            </div>
+        </div>
+        
+        <ul v-if="showCompletedTask" :data-list_id="list.id"  class="complete-task-ul nonsortable pm-connected-sortable">
             <li :data-id="task.id" :data-order="task.order"  v-for="task in getCompleteTasks" :key="task.id" :class="'complete-task-li pm-fade-out-'+task.id">
                 <complete-tasks :task="task" :list="list"></complete-tasks>       
 
             </li>
             
             <!-- <li v-if="!hasList" class="nonsortable">{{ __( 'No tasks found.', 'wedevs-project-manager') }}</li> -->
-            <transition name="slide" v-if="can_create_task">
+          <!--   <transition name="slide" v-if="can_create_task">
                 <li v-if="list.show_task_form" class="pm-todo-form nonsortable">
                     <new-task-form :list="list"></new-task-form>
                 </li>
-            </transition>
+            </transition> -->
 
         </ul> 
 
@@ -55,13 +62,50 @@
     .task-group {
         
         margin: 16px 0;
+        .more-task-wrap {
+            margin-bottom: 18px;
+            .show-completed-task {
+                margin-left: 28%;
+                span {
+                    color: #1ABC9C;
+                    font-size: 13px;
+                    cursor: pointer;
+                }
+            } 
+        }
 
-        .incomplete-task-ul{
-            
+
+        .complete-task-ul{
+            .task-title {
+                a {
+                    text-decoration: line-through;
+                }
+            }
+            .pm-todo-wrap {
+                margin: 0 46px !important;
+
+                .task-title {
+                    .title {
+                        color: #525252;
+                    }
+                }
+
+                .checkbox {
+                    input[type="checkbox"] {
+                        background: #1ABC9C;
+                        border-color: #1ABC9C;
+                    }
+                    input[type="checkbox"]:checked {
+                        &:before {
+                            color: #fff;
+                        }
+                    }
+                }
+            }
         }
 
         .list-task-form {
-            padding: 0 20px;
+            margin: 0 20px 0 46px;
 
             .update-button {
                 position: absolute;
@@ -87,36 +131,120 @@
             }
         }
         .incomplete-task-li, .complete-task-li {
-            margin-bottom: 18px;
+            margin-bottom: 10px;
         }
         .pm-todo-wrap {
-            padding: 0 20px !important;
-            &:hover  .pm-todo-item > .move {
-                display: block;
+            margin: 0 32px !important;
+
+            .task-update-wrap {
+                margin: 0 0 0 15px;
+                width: 100%;
+            }
+
+            &:hover  .pm-todo-item .task-left > .move {
+                .icon-pm-drag-drop {
+                    &:before {
+                        color: #bababa;
+                    }
+                }
             }
             .pm-todo-item {
                 
                 position: relative;
+                .task-left {
+                    display: flex;
+                    align-items: center;
+                    .move {
+                        cursor: move;
+                        padding-right: 8px;
 
-                .move {
-                    cursor: move;
-                    margin-top: 1px;
-                    position: absolute;
-                    left: -11px;
-                    display: none;
-
-                    .icon-pm-drag-drop {
-                        &:before {
-                            font-size: 12px;
-                            font-weight: bold;
-                            color: #999;
+                        .icon-pm-drag-drop {
+                            &:before {
+                                font-size: 12px;
+                                font-weight: bold;
+                                color: #fafafa;
+                            }
                         }
+                    }
+                    .checkbox {
+                        line-height: 0;
                     }
                 }
             }
             .todo-content {
                 display: flex;
-                align-items: center;
+                align-items: baseline;
+                .title-wrap {
+                    display: flex;
+                    align-items: baseline;
+                }
+                .task-action-wrap {
+                    display: flex;
+                    align-items: center;
+
+                    .task-activity {
+                        margin-left: 15px;
+                    }
+
+                    .more-menu {
+                        padding: 0 12px;
+                        cursor: pointer;
+                        position: relative;
+
+                        .more-menu-ul-wrap, .list-update-warp {
+                            position: absolute;
+                            white-space: nowrap;
+                            top: 31px;
+                            left: auto;
+                            right: -6px;
+                            z-index: 9999;
+                            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+                            border: 1px solid #DDDDDD;
+                            background: #fff;
+                            border-radius: 3px;
+                            box-shadow: 0px 2px 40px 0px rgba(214, 214, 214, 0.6);
+
+                            &:before {
+                                border-color: transparent transparent #DDDDDD transparent;
+                                position: absolute;
+                                border-style: solid;
+                                top: -9px;
+                                right: 11px;
+                                content: "";
+                                z-index: 9999;
+                                border-width: 0px 8px 8px 8px;
+                            }
+
+                            &:after {
+                                border-color: transparent transparent #ffffff transparent;
+                                position: absolute;
+                                border-style: solid;
+                                top: -7px;
+                                right: 11px;
+                                content: "";
+                                z-index: 9999;
+                                border-width: 0 8px 7px 8px;
+                            }
+                            .first-li {
+                                margin-top: 6px;
+                            }
+
+                            .li-a {
+                                display: inline-block;
+                                width: 100%;
+                                padding: 0 30px 0 12px;
+                                color: #7b7d7e;
+                                font-weight: 400;
+                                font-size: 12px;
+                            }
+
+                            .icon-pm-pencil, .icon-pm-delete {
+                                display: inline-block;
+                                width: 20px;
+                            }
+                        }
+                    }
+                }
                 .checkbox {
                     min-width: 30px;
                     input[type="checkbox"] {
@@ -127,7 +255,7 @@
                 .task-title {
                     .title {
                         font-size: 14px;
-                        color: #000;
+                        color: #525252;
                     }
                     margin-right: 20px;
                 }
@@ -149,7 +277,6 @@
                 }
                 .pm-due-date, .pm-current-date {
                     font-size: 12px;
-                    margin-right: 18px;
                     white-space: nowrap;
                     background: none;
                     padding: 0 !important;
@@ -168,18 +295,25 @@
                         margin-right: 2px;
                     }
                 }
+                .task-edit-pencil {
+                    margin-right: 18px;
+                    font-size: 11px;
+                    cursor: pointer;
+                }
+                .task-delete {
+                    margin-right: 18px;
+                }
                 .assigned-users-content {
                     display: flex;
                     align-items: center;
-                    margin-right: 18px;
 
                     .image-anchor {
                         line-height: 0;
                         margin-right: 3px;
                     }
                     .image {
-                        height: 20px;
-                        width: 20px;
+                        height: 16px;
+                        width: 16px;
                         border-radius: 12px;
                         display: inline-block;
                     }
@@ -216,19 +350,20 @@
          */
         data () {
             return {
-               showTaskForm: false,
-               task: {},
-               tasks: this.list.tasks,
-               task_index: 'undefined', // Using undefined for slideToggle class
-               task_loading_status: false,
-               complete_show_load_more_btn: false,
-               currnet_user_id: this.$store.state.projectTaskLists.get_current_user_id,
-               more_incomplete_task_spinner: false,
-               more_completed_task_spinner: false,
-               loading_completed_tasks: true,
-               loading_incomplete_tasks: true,
-               completed_tasks_next_page_number:null,
-               hasList: false
+                showCompletedTask: false,
+                showTaskForm: false,
+                task: {},
+                tasks: this.list.tasks,
+                task_index: 'undefined', // Using undefined for slideToggle class
+                task_loading_status: false,
+                complete_show_load_more_btn: false,
+                currnet_user_id: this.$store.state.projectTaskLists.get_current_user_id,
+                more_incomplete_task_spinner: false,
+                more_completed_task_spinner: false,
+                loading_completed_tasks: true,
+                loading_incomplete_tasks: true,
+                completed_tasks_next_page_number:null,
+                hasList: false
             }
         },
 
@@ -332,6 +467,9 @@
         },
 
         methods: {
+            showHideCompletedTask() {
+                this.showCompletedTask = this.showCompletedTask ? false : true;
+            },
             is_assigned (task) {
                 return true;
                 var get_current_user_id = this.$store.state.projectTaskLists.get_current_user_id,

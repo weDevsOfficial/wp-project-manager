@@ -1,5 +1,38 @@
-<template>    
-    <div :class="todolistFormClass(list)+' pm-new-todolist-form'">
+<template>  
+
+<div class="list-form">
+
+    <form v-on:submit.prevent="listFormAction()" action="" method="post">
+        <div class="item title">
+            <input type="text" class="title-field" required="required" name="tasklist_name" v-model="list.title" :placeholder="task_list_name">
+        </div>
+
+        <div class="item content">
+            <textarea class="description-field" name="tasklist_detail" id="" v-model="list.description" cols="40" rows="2" :placeholder="task_list_details"></textarea>
+        </div>
+
+        <div class="item milestone">
+            <select class="milestone-field" v-model="milestone_id">
+                <option value="-1">
+                    {{ __( '- Milestone -', 'wedevs-project-manager') }}
+                </option>
+                <option v-for="milestone in milestones" :value="milestone.id">
+                    {{ milestone.title }}
+                </option>
+            </select>
+        </div>
+        
+        <pm-do-action hook="pm_task_list_form" :actionData="list" ></pm-do-action>
+
+        <div class="item submit">
+            <input @click.prevent="listFormAction()" v-if="list.id" type="submit" class="pm-button pm-primary" :disabled="submit_disabled" name="submit_todo" :value="task_list_update">
+            <input v-if="!list.id" type="submit" class="pm-button pm-primary" :disabled="submit_disabled" name="submit_todo" :value="add_list">
+            <a @click.prevent="showHideListForm(false, list)" class="pm-button pm-secondary" href="#">{{__( 'Cancel', 'wedevs-project-manager')}}</a>
+            <span v-show="show_spinner" class="pm-spinner"></span>
+        </div>
+    </form>
+</div>  
+<!--     <div :class="todolistFormClass(list)+' pm-new-todolist-form'">
 
         <form v-on:submit.prevent="listFormAction()" action="" method="post">
             <div class="item title">
@@ -28,7 +61,7 @@
                 <span v-show="show_spinner" class="pm-spinner"></span>
             </div>
         </form>
-    </div>
+    </div> -->
 </template>
 
 <script>
@@ -120,7 +153,7 @@
              * @return void
              */
             listFormAction: function() {
-
+                console.log('asdkjfhasdkj');
                 // Prevent sending request when multiple click submit button 
                 if ( this.submit_disabled ) {
                     return;

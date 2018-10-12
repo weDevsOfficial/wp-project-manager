@@ -476,6 +476,7 @@ var PM_TaskList_Mixin = {
             },
             args = jQuery.extend(true, pre_define, args);
             var data = pm_apply_filters( 'before_task_save', args.data );
+            
             var request_data = {
                 url: self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks',
                 type: 'POST',
@@ -809,7 +810,8 @@ var PM_TaskList_Mixin = {
 
             if ( task ) {
                 if ( status === 'toggle' ) {
-                    task.edit_mode = task.edit_mode ? false : true; 
+                    task.edit_mode = !task.edit_mode;
+                    console.log(task.edit_mode);
                 } else {
                     task.edit_mode = status;
                 }
@@ -843,6 +845,7 @@ var PM_TaskList_Mixin = {
             list.show_task_form = false;
             list.task_loading_status = false;
             list.expand = false;
+            list.moreMenu = false;
         },
 
         /**
@@ -850,7 +853,8 @@ var PM_TaskList_Mixin = {
          * @param {[Object]} task [Task Object]
          */
         addTaskMeta ( task ) {
-            task.edit_mode = false;       
+            task.edit_mode = false;   
+            task.moreMenu = false;    
         },
 
         /**

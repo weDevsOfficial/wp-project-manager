@@ -6,11 +6,11 @@
                 <div>
                     <span class="plus-text">+</span>
                 </div>
-                <input v-model="task.title"  class="input-field" :placeholder="__('Add new task', 'wedevs-project-manager')" type="text">
+                <input @keyup.enter="taskFormAction()" v-model="task.title"  class="input-field" :placeholder="__('Add new task', 'wedevs-project-manager')" type="text">
                 <a @click.prevent="taskFormAction()"  class="update-button" href="#"><span class="icon-pm-check-circle"></span></a>
                 <div class="action-icons">
                     <pm-do-action hook="pm_task_form" :actionData="task" ></pm-do-action>
-                    <span @click.self.prevent="enableDisable('descriptionField')" class="icon-pm-align-left"></span>
+                    <span @click.self.prevent="enableDisable('descriptionField')" class="icon-pm-align-left new-task-description-btn"></span>
                     <span  @click.self.prevent="enableDisable('isEnableMultiselect')" class="task-user-multiselect icon-pm-single-user pm-dark-hover">
                         <div v-if="isEnableMultiselect" class="pm-multiselect-top pm-multiselect-subtask-task">
                             <div class="pm-multiselect-content">
@@ -49,8 +49,19 @@
                     
                 </div>
                 <div v-if="datePicker" class="subtask-date new-task-caledar-wrap">
-                    <div  v-pm-datepicker="'subTaskForm'" v-model="task.start_at.date"  class="pm-date-picker-from pm-inline-date-picker-from"></div>
-                    <div v-pm-datepicker="'subTaskForm'" v-model="task.due_date.date"  class="pm-date-picker-to pm-inline-date-picker-to"></div>
+                    <pm-content-datepicker  
+                        v-if="task_start_field"
+                        v-model="task.start_at.date"  
+                        class="pm-date-picker-from pm-inline-date-picker-from"
+                        :callback="callBackDatePickerForm">
+                        
+                    </pm-content-datepicker>
+                    <pm-content-datepicker 
+                        v-model="task.due_date.date"  
+                        class="pm-date-picker-to pm-inline-date-picker-to"
+                        :callback="callBackDatePickerTo">
+                            
+                    </pm-content-datepicker>
 
                 </div>
                 <div v-if="descriptionField" class="new-task-description">
@@ -309,7 +320,7 @@ export default {
             add_task: __( 'Add Task', 'wedevs-project-manager'),
             estimation_placheholder: __('Estimated hour to complete the task', 'wedevs-project-manager'),
             content: {
-                html: this.task.description
+                html: this.task.description.html
             },
         }
     },
@@ -419,8 +430,14 @@ export default {
         windowActivity (el) {
             var multiselect  = jQuery(el.target).closest('.task-user-multiselect'),
                 calendarBtn = jQuery(el.target).hasClass('new-task-calendar'),
-                calendarCont = jQuery(el.target).closest('.new-task-caledar-wrap');
-            
+                calendarCont = jQuery(el.target).closest('.new-task-caledar-wrap'),
+                description = jQuery(el.target).closest('.new-task-description'),
+                descriptionBtn = jQuery(el.target).hasClass('new-task-description-btn');
+
+            if( !descriptionBtn && !description.length ) {
+                this.descriptionField = false;
+            }
+
             if( !calendarBtn && !calendarCont.length ) {
                 this.datePicker = false;
             }
@@ -428,6 +445,13 @@ export default {
             if ( !multiselect.length ) {
                 this.isEnableMultiselect = false;
             }
+        },
+        callBackDatePickerForm (date) {
+            this.task.start_at.date = date;
+        },
+        callBackDatePickerTo (date) {
+            
+            this.task.due_date.date = date;
         },
         enableDisable (key, status) {
             status = status || '';
@@ -537,7 +561,7 @@ export default {
                     board_id: this.list.id,
                     assignees: this.filterUserId(this.task.assignees.data),//this.assigned_to,
                     title: this.task.title,
-                    description: this.content.html.trim(),
+                    description: this.content.html ? this.content.html.trim() : '',
                     start_at: this.task.start_at.date,
                     due_date: this.task.due_date.date,
                     list_id: this.list.id,
@@ -548,6 +572,17 @@ export default {
                     self.show_spinner = false;
                     self.submit_disabled = false;
                     self.task_description = res.data.description.content;
+                }
+            }
+
+            if (this.task.due_date.date) {
+                var start = new Date(this.task.start_at.date);
+                var end  = new Date(this.task.due_date.date);
+                var compare = pm.Moment(end).isBefore(start);
+
+                if(this.task_start_field && compare) {
+                    pm.Toastr.error('Invalid date range!');
+                    return;
                 }
             }
             
