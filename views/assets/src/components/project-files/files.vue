@@ -1,6 +1,8 @@
 <template>
     <div class="pm-wrap pm-front-end">
         <pm-header></pm-header>
+        <pm-heder-menu></pm-heder-menu>
+        
         <div v-if="!is_pro">
             <div v-if="loading" class="pm-data-load-before" >
                 <div class="loadmoreanimation">

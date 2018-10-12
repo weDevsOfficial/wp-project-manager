@@ -21,6 +21,15 @@ export default {
     },
 
     methods: {
+        enableDisable (key, status) {
+            status = status || '';
+
+            if(status == '') {
+                this[key] = this[key] ? false : true;
+            } else {
+                this[key] = status;
+            }
+        },
         __ (text, domain) {
             return __(text, domain);
         },

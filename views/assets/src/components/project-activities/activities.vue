@@ -2,6 +2,7 @@
     <div class="pm-wrap pm-front-end">
 
     <pm-header></pm-header>
+    <pm-heder-menu></pm-heder-menu>
 
     <div v-if="!isActivityFetched" class="pm-data-load-before" >
         <div class="loadmoreanimation">
