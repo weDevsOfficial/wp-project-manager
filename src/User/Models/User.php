@@ -34,4 +34,8 @@ class User extends Eloquent {
         return $this->belongsToMany( 'WeDevs\PM\Role\Models\Role', pm_tb_prefix() . 'pm_role_user', 'user_id', 'role_id' )
             ->withPivot('project_id', 'role_id');
     }
+
+    public function projects() {
+        return $this->belongsToMany( 'WeDevs\PM\Project\Models\Project', pm_tb_prefix() . 'pm_role_user', 'user_id', 'project_id' );
+    }
 }
