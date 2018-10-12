@@ -95,6 +95,9 @@ var PM_TaskList_Mixin = {
 
             return false;
         },
+        isInboxList (id) {
+            return this.$root.$store.state.project.list_inbox == id & 1;
+        },
         /**
          * Get task completed progress width
          * 

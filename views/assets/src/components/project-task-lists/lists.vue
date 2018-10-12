@@ -33,7 +33,7 @@
 
                     <ul v-if="hasSearchContent()" v-pm-list-sortable :class="filterActiveClass()+ ' pm-todolists'">
                     
-                        <li  v-for="list in lists" :key="list.id" :data-id="list.id"  :class="'pm-list-sortable list-li pm-fade-out-'+list.id">
+                        <li  v-for="list in lists" :key="list.id" :data-id="list.id"  :class="taskListClass(list.id)">
 
                             <div  class="list-content">
                                 <div class="list-item-content">
@@ -1259,6 +1259,14 @@
             },
             getTotalTask (incomplete, complete) {
                 return parseInt(incomplete)+parseInt(complete);
+            },
+            taskListClass (list_id) {
+                let listcalss = 'pm-list-sortable list-li pm-fade-out-' + list_id;
+
+                if ( this.isInboxList( list_id ) ) {
+                    listcalss += ' nonsortable'
+                }
+                return listcalss;
             },
             afterFetchProject (project) {
 
