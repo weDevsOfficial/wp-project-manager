@@ -57,7 +57,9 @@ class Frontend {
 		add_action( 'plugins_loaded', array( $this, 'pm_content_filter' ) );
 		add_action( 'plugins_loaded', array( $this, 'pm_content_filter_url' ) );
         add_filter( 'plugin_action_links_' . PM_BASENAME , array( $this, 'plugin_action_links' ) );
-		add_filter( 'in_plugin_update_message-' . PM_BASENAME , array( $this, 'upgrade_notice' ), 10, 2 );
+        add_filter( 'in_plugin_update_message-' . PM_BASENAME , array( $this, 'upgrade_notice' ), 10, 2 );
+        add_action( 'admin_footer', array( $this, 'switch_project_html' ) );
+        add_action('admin_bar_menu', array( $this, 'pm_toolbar_search_button' ), 999);
 
         if ( class_exists('WeDevs_CPM_Pro') ) {
 			add_action( 'admin_notices', [$this, 'pm_pro_notice'] );
@@ -304,5 +306,37 @@ function project_text_editor($config) {
             echo '<div style="background-color: #d54e21; padding: 10px; color: #f9f9f9; margin-top: 10px">';
             echo $new_version->upgrade_notice . '</div>';
         }
+    }
+
+    public function switch_project_html() {
+        wp_enqueue_script( 'pmglobal' );
+        wp_enqueue_style( 'pmglobal' );
+        wp_localize_script( 'pmglobal', 'PM_Global_Vars',[
+            'rest_url'                 => home_url() .'/'.rest_get_url_prefix(),
+            'project_page'             => pm_get_project_page(),
+            'permission'               => wp_create_nonce('wp_rest'),
+        ])
+        ?>
+            <div class="pmswitchproject" id="pmswitchproject">
+                <div class="pmswitcharea">
+                    <input id="tags" type="text" placeholder="Search Project">
+                </div>
+                
+            </div>
+        <?php
+    }
+
+
+    public function pm_toolbar_search_button($wp_admin_bar) {
+            $wp_admin_bar->add_node( array(
+            'id'		=> 'pm_search',
+            'title'     => '<span class="ab-icon dashicons dashicons-search"></span>',
+            'href'      => '#',
+            'parent' => 'top-secondary',
+            'meta'  => [
+                'title' => __('Search in projects', 'pm-pro'),
+            ]
+            
+        ) );
     }
 }
