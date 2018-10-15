@@ -212,6 +212,10 @@
                     this.updateProject ( args );
                 } else {
                     args.callback = function(res) {
+                        if ( res.status !== 200 ) {
+                            self.show_spinner = false;
+                            return;
+                        }
                         self.project.title = '';
                         self.project_cat = 0;
                         self.project.description = ''

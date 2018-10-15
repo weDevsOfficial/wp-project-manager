@@ -320,6 +320,10 @@ export default {
                         });
                     }
                     
+                    if(typeof args.callback === 'function'){
+                        args.callback(res);
+                    }
+                    
                 }
             };
 
