@@ -47,7 +47,7 @@
                     </div>  
                 </div>  
 
-                <div @click.prevent="showHideTaskMoreMenu(task)" class="nonsortable more-menu">
+                <div @click.prevent="showHideTaskMoreMenu(task, list)" class="nonsortable more-menu task-more-menu">
                     <span class="icon-pm-more-options"></span>
                     <div v-if="task.moreMenu" class="more-menu-ul-wrap">
                         <ul>
@@ -194,7 +194,6 @@
         },
 
         created () {
-            console.log(this.task);
             window.addEventListener('click', this.windowActivity);
             pmBus.$on('pm_after_close_single_task_modal', this.afterCloseSingleTaskModal);
         },
@@ -228,13 +227,17 @@
         
         methods: {
             isPrivateTask (isPrivate) {
-
                 return isPrivate == '1' ? true : false;
             },
 
             windowActivity (el) {
                 var updateField  = jQuery(el.target).closest('.task-update-wrap'),
-                    updateBtn = jQuery(el.target).hasClass('icon-pm-pencil');
+                    updateBtn = jQuery(el.target).hasClass('icon-pm-pencil'),
+                    taskActionWrap = jQuery(el.target).closest('.task-more-menu');
+                
+                if(!taskActionWrap.length) {
+                    this.task.moreMenu = false;
+                }
 
                 if ( !updateBtn && !updateField.length ) {
                     this.task.edit_mode = false;
