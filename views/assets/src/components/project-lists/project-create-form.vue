@@ -33,7 +33,7 @@
                         <td>
                             <a @click.prevent="deleteUser(projectUser)" v-if="canUserEdit(projectUser.id)" hraf="#" class="pm-del-proj-role pm-assign-del-user">
                                 <span class="dashicons dashicons-trash"></span> 
-                                <span class="title">{{ __( 'Delete', 'wedevs-project-manager') }}</span>
+                                <!-- <span class="title">{{ __( 'Delete', 'wedevs-project-manager') }}</span> -->
                             </a>
                         </td>
                     </tr>

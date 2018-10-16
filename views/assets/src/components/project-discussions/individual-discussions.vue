@@ -2,6 +2,7 @@
     <div class="pm-wrap pm-front-end">
 
         <pm-header></pm-header>
+        <pm-heder-menu></pm-heder-menu>
 
         <div v-if="loading" class="pm-data-load-before" >
             <div class="loadmoreanimation">
@@ -15,7 +16,7 @@
             </div>
         </div>
 
-        <div v-else>
+        <div class="pm-individual-discussion" v-else>
             <div v-if="discuss" id="pm-signle-message"> 
                 <div class="pm-single">
                     <h3 class="pm-box-title">
@@ -120,6 +121,9 @@
 </template>
 
 <style lang="less">
+    .pm-individual-discussion {
+        margin-top: 10px;
+    }
     
         .pm-content-img-size {
             height: 80px;

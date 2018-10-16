@@ -5,11 +5,20 @@
                 <incompleted-tasks :task="task" :list="list"></incompleted-tasks>
             </li>
         </ul> 
+
+        
         <div class="nonsortable more-task-wrap">
-            <div class="show-completed-task" v-if="getCompleteTasks.length">
+            <div v-if="isIncompleteLoadMoreActive(list)" class="group-action-btn">
+                <a class="anchor-btn" @click.prevent="loadMoreIncompleteTasks(list)" href="#">{{ __( 'More Tasks', 'wedevs-project-manager') }}</a>
+            </div>
+            <div class="group-action-btn show-completed-task" v-if="getCompleteTasks.length">
                 
-                <span v-if="!showCompletedTask" @click.prevent="showHideCompletedTask()">{{ __('Show Completed Task', 'wedevs-project-manager') }}</span>
-                <span v-if="showCompletedTask" @click.prevent="showHideCompletedTask()">{{ __('Hide Completed Task', 'wedevs-project-manager') }}</span>
+                <a v-if="!showCompletedTask" @click.prevent="showHideCompletedTask()" class="anchor-btn" href="#">
+                    <span>{{ __('Show Completed Task', 'wedevs-project-manager') }}</span>
+                </a>
+                <a v-if="showCompletedTask" @click.prevent="showHideCompletedTask()" class="anchor-btn" href="#">    
+                    <span>{{ __('Hide Completed Task', 'wedevs-project-manager') }}</span>
+                </a>
             </div>
         </div>
         
@@ -64,14 +73,31 @@
         margin: 16px 0;
         .more-task-wrap {
             margin-bottom: 18px;
-            .show-completed-task {
-                margin-left: 28%;
-                span {
-                    color: #1ABC9C;
-                    font-size: 13px;
-                    cursor: pointer;
+            display: flex;
+            align-items: center;
+            margin: 25px 0 20px;
+            margin-left: 48px;
+
+
+            .group-action-btn {
+                margin-right: 15px;
+
+                .anchor-btn {
+                    height: 30px;
+                    font-size: 12px;
+                    padding: 6px 13px;
+                    border-radius: 3px;
+                    border: 1px solid #e4e5e5;
+                    color: #788383;
+                    font-weight: 300;
+                    background: #fff;   
+
+                    &:hover {
+                        border-color: #1A9ED4;
+                        color: #1A9ED4;
+                    }
                 }
-            } 
+            }
         }
 
 
@@ -82,7 +108,7 @@
                 }
             }
             .pm-todo-wrap {
-                margin: 0 46px !important;
+                margin: 0 33px 0 47px !important;
 
                 .task-title {
                     .title {
@@ -134,7 +160,7 @@
             margin-bottom: 10px;
         }
         .pm-todo-wrap {
-            margin: 0 32px !important;
+            margin: 0 33px !important;
 
             .task-update-wrap {
                 margin: 0 0 0 15px;
@@ -151,14 +177,23 @@
             .pm-todo-item {
                 
                 position: relative;
+            }
+            .todo-content {
+                display: flex;
+                align-items: baseline;
+
                 .task-left {
                     display: flex;
                     align-items: center;
+                    position: relative;
+                    top: -2px;
+
                     .move {
                         cursor: move;
                         padding-right: 8px;
 
                         .icon-pm-drag-drop {
+
                             &:before {
                                 font-size: 12px;
                                 font-weight: bold;
@@ -170,79 +205,114 @@
                         line-height: 0;
                     }
                 }
-            }
-            .todo-content {
-                display: flex;
-                align-items: baseline;
                 .title-wrap {
                     display: flex;
                     align-items: baseline;
+                    position: relative;
+                    top: -3px;
                 }
+
+                .more-menu {
+                    padding: 0 0 0 12px;
+                    cursor: pointer;
+                    position: relative;
+                    display: flex;
+                    justify-content: flex-end;
+                    flex: 1;
+                    top: -1px;
+
+                    &:hover {
+                        .icon-pm-more-options {
+                            &:before {
+                                color: #6d6d6d;
+                            }
+                        }
+                    }
+
+                    .more-menu-ul-wrap, .list-update-warp {
+                        position: absolute;
+                        white-space: nowrap;
+                        top: 31px;
+                        left: auto;
+                        right: -18px;
+                        z-index: 9999;
+                        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+                        border: 1px solid #DDDDDD;
+                        background: #fff;
+                        border-radius: 3px;
+                        box-shadow: 0px 2px 40px 0px rgba(214, 214, 214, 0.6);
+
+                        &:before {
+                            border-color: transparent transparent #DDDDDD transparent;
+                            position: absolute;
+                            border-style: solid;
+                            top: -9px;
+                            right: 11px;
+                            content: "";
+                            z-index: 9999;
+                            border-width: 0px 8px 8px 8px;
+                        }
+
+                        &:after {
+                            border-color: transparent transparent #ffffff transparent;
+                            position: absolute;
+                            border-style: solid;
+                            top: -7px;
+                            right: 11px;
+                            content: "";
+                            z-index: 9999;
+                            border-width: 0 8px 7px 8px;
+                        }
+                        .first-li {
+                            margin-top: 6px;
+                        }
+
+                        .li-a {
+                            display: inline-block;
+                            width: 100%;
+                            padding: 0 30px 0 12px;
+                            color: #7b7d7e;
+                            font-weight: 400;
+                            font-size: 12px;
+
+                            &:hover {
+                                color: #000;
+                                .icon-pm-pencil, .icon-pm-private, .icon-pm-unlock {
+                                    &:before {
+                                        color: #000;
+                                    }
+                                }
+                                .icon-pm-delete {
+                                    &:before {
+                                        color: #d62222;
+                                    }
+                                }
+                            }
+                        }
+
+                        .icon-pm-pencil, .icon-pm-delete, .icon-pm-private, .icon-pm-unlock {
+                            display: inline-block;
+                            width: 20px;
+                            &:before {
+                                color: #d7dee2;
+                            }
+
+                            &:hover {
+                                &:before {
+                                    color: #000;
+                                }
+                            }
+                        }
+                    }
+                }
+
                 .task-action-wrap {
                     display: flex;
                     align-items: center;
 
                     .task-activity {
                         margin-left: 15px;
-                    }
-
-                    .more-menu {
-                        padding: 0 12px;
-                        cursor: pointer;
-                        position: relative;
-
-                        .more-menu-ul-wrap, .list-update-warp {
-                            position: absolute;
-                            white-space: nowrap;
-                            top: 31px;
-                            left: auto;
-                            right: -6px;
-                            z-index: 9999;
-                            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-                            border: 1px solid #DDDDDD;
-                            background: #fff;
-                            border-radius: 3px;
-                            box-shadow: 0px 2px 40px 0px rgba(214, 214, 214, 0.6);
-
-                            &:before {
-                                border-color: transparent transparent #DDDDDD transparent;
-                                position: absolute;
-                                border-style: solid;
-                                top: -9px;
-                                right: 11px;
-                                content: "";
-                                z-index: 9999;
-                                border-width: 0px 8px 8px 8px;
-                            }
-
-                            &:after {
-                                border-color: transparent transparent #ffffff transparent;
-                                position: absolute;
-                                border-style: solid;
-                                top: -7px;
-                                right: 11px;
-                                content: "";
-                                z-index: 9999;
-                                border-width: 0 8px 7px 8px;
-                            }
-                            .first-li {
-                                margin-top: 6px;
-                            }
-
-                            .li-a {
-                                display: inline-block;
-                                width: 100%;
-                                padding: 0 30px 0 12px;
-                                color: #7b7d7e;
-                                font-weight: 400;
-                                font-size: 12px;
-                            }
-
-                            .icon-pm-pencil, .icon-pm-delete {
-                                display: inline-block;
-                                width: 20px;
-                            }
-                        }
+                        line-height: 0;
                     }
                 }
                 .checkbox {

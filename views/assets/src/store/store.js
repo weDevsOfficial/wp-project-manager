@@ -55,6 +55,7 @@ export default new pm.Vuex.Store({
             }
         },
         updateListViewType(state, view) {
+ 
             if(
                 state.projectMeta.hasOwnProperty('list_view_type')
                     &&
@@ -62,6 +63,7 @@ export default new pm.Vuex.Store({
             ) {
                 state.projectMeta.list_view_type.meta_value = view;
             } else {
+
                 state.projectMeta['list_view_type']= {
                     meta_value: view
                 }
@@ -172,8 +174,8 @@ export default new pm.Vuex.Store({
             // console.log(state.projects[index], project);
 
             //state.projects[index] = project;
-            jQuery.extend(true, state.projects[index], project);
-            jQuery.extend(true, state.project, project);
+            state.projects[index] = jQuery.extend(true, {}, project);
+            state.project = jQuery.extend(true, {}, project);
             //console.log(state.projects[index], project);
             // jQuery.each(state.projects[index], function(key, value) {
             //  //console.log(state.projects[index][key], project[key]);

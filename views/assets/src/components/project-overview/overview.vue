@@ -132,6 +132,12 @@
 
 </template>
 
+<style lang="less">
+    .project-overview {
+        margin-top: 10px;
+    }
+</style>
+
 <script>
     import header from './../common/header.vue';
     import directive from './directive';

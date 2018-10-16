@@ -1,4 +1,5 @@
 import clickOutside from '@helpers/click-outside';
+import Popper from 'popper.js';
 
 pm.Vue.directive('pm-slide-up-down', {
 	inserted: function(el) {
@@ -34,4 +35,15 @@ pm.Vue.directive('pm-tooltip', {
 	},
 });
 
+pm.Vue.directive('pm-popper', {
+	inserted: function(el) {
+		const reference = document.querySelector('#popper-ref');
+		const popper = document.querySelector('#poppercontent');
+		var popperss = new Popper(reference, popper, {
+		    placement: 'bottom'
+		});
+	},
+});
+
 pm.Vue.directive('pm-click-outside', clickOutside);
+

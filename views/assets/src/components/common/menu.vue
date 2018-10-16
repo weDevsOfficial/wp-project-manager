@@ -153,7 +153,7 @@
 
 				if(name == item.route.name) {
 					return 'active';
-				}
+				} 
 			},
 			setMenuIcon (item) {
                 switch(item.route.name) {

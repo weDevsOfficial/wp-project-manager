@@ -1,5 +1,6 @@
 <template>
-    <div class="pm-task-list-wrap">
+    <div  class="pm-task-list-wrap">
+        
         <pm-header></pm-header>
         <pm-menu></pm-menu>
 
@@ -18,7 +19,7 @@
                     
                     <pm-do-action :hook="'pm-inline-list-button'"></pm-do-action>
                     <div>
-                        <a class="task-filter list-action-group" v-pm-tooltip :title="__('Task Filter', 'wedevs-project-manager')" @click.prevent="showFilter()" href="#">
+                        <a :class="isActiveTaskFilter() + ' list-action-group'" v-pm-tooltip :title="__('Task Filter', 'wedevs-project-manager')" @click.prevent="showFilter()" href="#">
                             <span class="icon-pm-filter"></span>
                             <span>{{__('Filter', 'wedevs-project-manager')}}</span>
                         </a>
@@ -31,7 +32,19 @@
 
                 <div class="list-items">
 
-                    <ul v-if="hasSearchContent()" v-pm-list-sortable :class="filterActiveClass()+ ' pm-todolists'">
+                    <div v-if="!isListFetch" class="pm-data-load-before" >
+                        <div class="loadmoreanimation">
+                            <div class="load-spinner">
+                                <div class="rect1"></div>
+                                <div class="rect2"></div>
+                                <div class="rect3"></div>
+                                <div class="rect4"></div>
+                                <div class="rect5"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ul v-if="hasSearchContent() && isListFetch" v-pm-list-sortable :class="filterActiveClass()+ ' pm-todolists'">
                     
                         <li  v-for="list in lists" :key="list.id" :data-id="list.id"  :class="'pm-list-sortable list-li pm-fade-out-'+list.id">
 
@@ -68,28 +81,29 @@
                                             <span v-if="!parseInt(list.meta.privacy)" class="icon-pm-unlock"></span>
                                             <span v-if="parseInt(list.meta.privacy)" class="icon-pm-private"></span>
                                         </div>
-                                        <div @click.prevent="showHideMoreMenu(list)" class="more-menu">
-                                            <span  class="icon-pm-more-options"></span>
-                                            <div v-if="list.moreMenu && !list.edit_mode"  class="more-menu-ul-wrap">
-                                                <ul>
-                                                    <li class="first-li">
-                                                        <a @click.prevent="showEditForm(list)" class="li-a" href="#">
-                                                            <span class="icon-pm-pencil"></span>
-                                                            <span>{{ __('Edit', 'wedevs-project-manager') }}</span>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a @click.prevent="deleteSelfList( list )" class="li-a" href="#">
-                                                            <span class="icon-pm-delete"></span>
-                                                            <span>{{ __('Delete', 'wedevs-project-manager') }}</span>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
+                                    </div>
 
-                                            <div v-if="list.edit_mode" class="list-update-warp">
-                                                 <new-task-list-form section="lists" :list="list" ></new-task-list-form>
-                                            </div>
+                                    <div :data-list_id="list.id" @click.prevent="showHideMoreMenu(list)" class="more-menu list-more-menu">
+                                        <span  class="icon-pm-more-options"></span>
+                                        <div v-if="list.moreMenu && !list.edit_mode"  class="more-menu-ul-wrap">
+                                            <ul>
+                                                <li class="first-li">
+                                                    <a @click.prevent="showEditForm(list)" class="li-a" href="#">
+                                                        <span class="icon-pm-pencil"></span>
+                                                        <span>{{ __('Edit', 'wedevs-project-manager') }}</span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a @click.prevent="deleteSelfList( list )" class="li-a" href="#">
+                                                        <span class="icon-pm-delete"></span>
+                                                        <span>{{ __('Delete', 'wedevs-project-manager') }}</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div v-if="list.edit_mode" class="list-update-warp">
+                                             <new-task-list-form section="lists" :list="list" ></new-task-list-form>
                                         </div>
                                     </div>
                                 </div>
@@ -110,7 +124,7 @@
                 <div class="filter-title">
                     <div>
                         <a @click.prevent="showFilter()" href="#" class="icon-pm-cross"></a>
-                        <span class="task-filter">{{__('Task Filter', 'wedevs-project-manager')}}</span>
+                        <span class="active-task-filter">{{__('Task Filter', 'wedevs-project-manager')}}</span>
                     </div>
                 </div>
                 
@@ -150,7 +164,7 @@
                             <div>
                                 <multiselect 
                                     v-model="defaultUser" 
-                                    :options="projectUsers" 
+                                    :options="searchProjectUsers" 
                                     :show-labels="false"
                                     :placeholder="'Type task list name'"
                                     label="display_name"
@@ -182,6 +196,13 @@
             </div>
 
         </div>
+
+        <pm-pagination 
+            :total_pages="total_list_page" 
+            :current_page_number="current_page_number" 
+            :component_name="paginationComponent">
+            
+        </pm-pagination> 
         
         <!-- <div v-if="!isListFetch" class="pm-data-load-before" >
             <div class="loadmoreanimation">
@@ -321,7 +342,7 @@
                     <div class="list-search-menu" v-if="isActiveFilter">
                         <div class="filter-title">
                             <span><a @click.prevent="showFilter()" href="#">X</a></span>
-                            <span class="task-filter">{{__('Task Filter', 'wedevs-project-manager')}}</span>
+                            <span class="active-task-filter">{{__('Task Filter', 'wedevs-project-manager')}}</span>
                         </div>
                         
                         <form @submit.prevent="taskFilter()">
@@ -474,14 +495,6 @@
                         padding: 5px 0;
                         border-top: 1px solid #fafafa;
                         border-bottom: 1px solid #fafafa;
-                        &:hover {
-                            .list-item-content .icon-pm-drag-drop {
-                                &:before {
-                                    color: #bababa;
-                                }
-
-                            }
-                        }
 
                         .list-item-content {
                             display: flex;
@@ -489,8 +502,28 @@
                             padding: 0 20px 0 0;
 
                             .before-title {
+                                position: relative;
+                                top: 2px;
+
                                 .icon-pm-drag-drop {
                                     cursor: move;
+                                    padding: 0 10px;
+                                    
+                                    &:before {
+                                        color: #fafafa;
+                                    }
+                                }
+
+                                .icon-pm-up-arrow, .icon-pm-down-arrow {
+                                    width: 25px;
+                                    cursor: pointer;
+                                    display: flex;
+
+                                    &:before {
+                                        color: #047098;
+                                        font-size: 7px;
+                                        font-weight: bold;
+                                    }
                                 }
                             }
 
@@ -498,6 +531,120 @@
                                 display: flex;
                                 align-items: center;
                                 white-space: nowrap;
+                            }
+                            .after-title {
+                                position: relative;
+                                top: -1px;
+                            }
+                            .more-menu {
+                                padding: 0 12px;
+                                cursor: pointer;
+                                position: relative;
+                                display: flex;
+                                flex: 1;
+                                justify-content: flex-end;
+                                position: relative;
+                                top: 2px;
+
+                                &:hover {
+                                    .icon-pm-more-options {
+                                        &:before {
+                                            color: #6d6d6d;
+                                        }
+                                    }
+                                }
+
+                                .more-menu-ul-wrap, .list-update-warp {
+                                    position: absolute;
+                                    top: 31px;
+                                    left: auto;
+                                    right: -6px;
+                                    z-index: 9999;
+                                    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+                                    border: 1px solid #DDDDDD;
+                                    background: #fff;
+                                    border-radius: 3px;
+                                    box-shadow: 0px 2px 40px 0px rgba(214, 214, 214, 0.6);
+
+                                    &:before {
+                                        border-color: transparent transparent #DDDDDD transparent;
+                                        position: absolute;
+                                        border-style: solid;
+                                        top: -9px;
+                                        right: 11px;
+                                        content: "";
+                                        z-index: 9999;
+                                        border-width: 0px 8px 8px 8px;
+                                    }
+
+                                    &:after {
+                                        border-color: transparent transparent #ffffff transparent;
+                                        position: absolute;
+                                        border-style: solid;
+                                        top: -7px;
+                                        right: 11px;
+                                        content: "";
+                                        z-index: 9999;
+                                        border-width: 0 8px 7px 8px;
+                                    }
+                                    .first-li {
+                                        margin-top: 6px;
+                                    }
+
+                                    .li-a {
+                                        display: inline-block;
+                                        width: 100%;
+                                        padding: 0 30px 0 12px;
+                                        color: #7b7d7e;
+                                        font-weight: 400;
+                                        font-size: 12px;
+                                        white-space: nowrap;
+                                    }
+
+                                    .icon-pm-pencil, .icon-pm-delete {
+                                        display: inline-block;
+                                        width: 20px;
+                                    }
+                                }
+
+                                .list-update-warp {
+                                    width: 300px;
+
+                                    form {
+                                        padding: 10px;
+
+                                        .submit {
+                                            padding: 0;
+                                            margin: 0;
+                                            display: flex;
+                                            align-items: center;
+                                            .list-cancel {
+                                                width: auto !important;
+                                            }
+                                        }
+                                        .pm-secondary {
+                                            width: auto !important;
+                                            margin-left: 10px !important;
+                                        }
+                                        .title-field, .description-field, .milestone-field, .pm-action-wrap {
+                                            width: 100%;
+                                            margin-bottom: 15px !important;
+                                            border-radius: 3px;
+                                            display: inline-block;
+                                        }
+                                        .pm-make-privacy {
+                                            line-height: 0;
+                                            label {
+                                                line-height: 0;
+                                            }
+                                        }
+                                        .content {
+                                            border: none !important;
+                                        }
+
+                                    }
+                                }
+
                             }
                             .after-title {
                                 .icon-pm-unlock {
@@ -513,113 +660,7 @@
                                 .list-title-action {
                                     margin-left: 12px;
                                 }
-                                .more-menu {
-                                    padding: 0 12px;
-                                    cursor: pointer;
-                                    position: relative;
-
-                                    .more-menu-ul-wrap, .list-update-warp {
-                                        position: absolute;
-                                        top: 31px;
-                                        left: auto;
-                                        right: -6px;
-                                        z-index: 9999;
-                                        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-                                        border: 1px solid #DDDDDD;
-                                        background: #fff;
-                                        border-radius: 3px;
-                                        box-shadow: 0px 2px 40px 0px rgba(214, 214, 214, 0.6);
-
-                                        &:before {
-                                            border-color: transparent transparent #DDDDDD transparent;
-                                            position: absolute;
-                                            border-style: solid;
-                                            top: -9px;
-                                            right: 11px;
-                                            content: "";
-                                            z-index: 9999;
-                                            border-width: 0px 8px 8px 8px;
-                                        }
-
-                                        &:after {
-                                            border-color: transparent transparent #ffffff transparent;
-                                            position: absolute;
-                                            border-style: solid;
-                                            top: -7px;
-                                            right: 11px;
-                                            content: "";
-                                            z-index: 9999;
-                                            border-width: 0 8px 7px 8px;
-                                        }
-                                        .first-li {
-                                            margin-top: 6px;
-                                        }
-
-                                        .li-a {
-                                            display: inline-block;
-                                            width: 100%;
-                                            padding: 0 30px 0 12px;
-                                            color: #7b7d7e;
-                                            font-weight: 400;
-                                            font-size: 12px;
-                                        }
-
-                                        .icon-pm-pencil, .icon-pm-delete {
-                                            display: inline-block;
-                                            width: 20px;
-                                        }
-                                    }
-
-                                    .list-update-warp {
-                                        width: 300px;
-
-                                        form {
-                                            padding: 10px;
-
-                                            .submit {
-                                                padding: 0;
-                                                margin: 0;
-                                                display: flex;
-                                                align-items: center;
-                                                .list-cancel {
-                                                    width: auto !important;
-                                                }
-                                            }
-                                            .pm-secondary {
-                                                width: auto !important;
-                                                margin-left: 10px !important;
-                                            }
-                                            .title-field, .description-field, .milestone-field, .pm-action-wrap {
-                                                width: 100%;
-                                                margin-bottom: 15px !important;
-                                                border-radius: 3px;
-                                                display: inline-block;
-                                            }
-                                            .pm-make-privacy {
-                                                line-height: 0;
-                                                label {
-                                                    line-height: 0;
-                                                }
-                                            }
-                                            .content {
-                                                border: none !important;
-                                            }
-
-                                        }
-                                    }
-
-                                }
                             }
-
-                            .icon-pm-drag-drop {
-                                padding: 0 7px;
-                                &:before {
-                                    color: #fafafa;
-                                }
-                            }
-                        }
-                        .list-title {
-                            
                         }
 
                         .progress-bar {
@@ -643,16 +684,16 @@
                             color: #047098;
                             font-weight: 600;
                             margin-right: 40px;
+                            position: relative;
+                            top: 1px;
                         }
-                        .icon-pm-up-arrow, .icon-pm-down-arrow {
-                            width: 25px;
-                            display: flex;
-                            cursor: pointer;
-                            padding: 7px 0px;
-                            &:before {
-                                color: #047098;
-                                font-size: 7px;
-                                font-weight: bold;
+
+                        &:hover {
+                            .list-item-content .icon-pm-drag-drop {
+                                &:before {
+                                    color: #bababa;
+                                }
+
                             }
                         }
                     }
@@ -672,7 +713,7 @@
                         white-space: nowrap;
                     }
 
-                    .task-filter {
+                    .active-task-filter {
                         display: flex;
                         align-items: center;
                         background: #1A9ED4;
@@ -684,6 +725,31 @@
 
                         .icon-pm-filter {
                             margin-right: 5px;
+                        }
+                    }
+
+                    .task-filter {
+                        display: flex;
+                        align-items: center;
+                        height: 30px;
+                        color: #788383;
+                        padding: 0 13px;
+                        border-radius: 3px;
+                        font-size: 12px;
+                        border: 1px solid #e4e5e5;
+
+                        &:hover {
+                            border-color: #1A9ED4 !important;
+                            color: #1A9ED4;
+
+                            .icon-pm-filter {
+                                color: #1A9ED4;
+                            }
+                        }
+
+                        .icon-pm-filter {
+                            margin-right: 5px;
+                            color: #d4d6d6;
                         }
                     }
 
@@ -713,16 +779,6 @@
                                 &:before {
                                     color: #1A9ED4;
                                 }
-                            }
-                        }
-
-                        .icon-pm-list-view {
-                            margin-right: 5px;
-
-                            &:before {
-                                vertical-align: middle;
-                                color: #d7dee2;
-
                             }
                         }
 
@@ -872,8 +928,38 @@
                                 color: #788383;
                             } 
                         }
+
+                        .icon-pm-list-view {
+                            margin-right: 5px;
+
+                            &:before {
+                                vertical-align: middle;
+                                color: #d7dee2;
+
+                            }
+                        }
+
+                        .active-list-header-btn {
+                            border-color: #1A9ED4 !important;
+                            border-right: 1px solid #1A9ED4 !important;
+                            color: #1A9ED4;
+
+                            .icon-pm-archive {
+                                &:before {
+                                    color: #1A9ED4 !important;
+                                }
+                            }
+
+                            .icon-pm-list-view {
+                                &:before {
+                                    color: #1A9ED4;
+                                }
+                            }
+                        } 
                     }
                 }
+
+
 
                 .todos-wrap {
 
@@ -1175,6 +1261,7 @@
                 
                 let meta = this.$store.state.projectMeta; 
                 var self = this;
+               
                 if(meta.hasOwnProperty('list_view_type') ) {
                     if (
                         !meta.list_view_type
@@ -1189,10 +1276,12 @@
                         self.isSingleTask();
                         self.getSelfLists();
                         self.getGlobalMilestones();
-                    } else {
+                    } else if(  meta.list_view_type.meta_value == "kanboard") {
                         self.$router.push({
                             name: 'kanboard'
                         });
+                    } else if(  meta.list_view_type.meta_value == "archive") {
+                        self.getSelfLists();
                     }
 
                     return true;
@@ -1204,12 +1293,30 @@
                 let project = this.$store.state.project;
 
                 if(project.assignees) {
-                    project.assignees.data.splice(0, 1, {
-                        id: 0,
-                        display_name: this.__('All', 'wedevs-project-manager')
-                    });
 
                     return project.assignees.data;
+                }
+
+                return [];
+            },
+            searchProjectUsers () {
+                let project = this.$store.state.project;
+                
+
+                if(project.assignees) {
+                    let assignees = project.assignees.data.slice();
+
+                    if(assignees[0].display_name != 'All' ) {
+
+                        assignees.unshift(
+                            {
+                                id: 0,
+                                display_name: this.__('All', 'wedevs-project-manager')
+                            }
+                        );
+                    }
+
+                    return assignees;
                 }
 
                 return [];
@@ -1244,11 +1351,28 @@
         },
 
         methods: {
+            isActiveTaskFilter () {
+                return this.isActiveFilter ? 'active-task-filter' : 'task-filter';
+            },
             showHideMoreMenu (list) {
+
+                this.lists.forEach(function(taskList) {
+                    if(taskList.id != list.id) {
+                        taskList.moreMenu = false;
+                    }
+                });
+                
                 list.moreMenu = list.moreMenu ? false : true; 
             },
             windowActivity (el) {
-                var listForm = jQuery(el.target).closest('.new-list-btn');
+                var listForm = jQuery(el.target).closest('.new-list-btn'),
+                    listActionWrap = jQuery(el.target).closest('.list-more-menu');
+                
+                if(!listActionWrap.length) {
+                    this.lists.forEach(function(list) {
+                        list.moreMenu = false;
+                    });
+                }
 
                 if(!listForm.length) {
                     this.showHideListForm(false);

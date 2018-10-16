@@ -175,7 +175,6 @@ var PM_Task = {
     },
 
     daterangeRangepicker (el, binding, vnode) {
-        console.log(jQuery('.pm-date-picker-from'));
         jQuery(el).daterangepicker({
             alwaysShowCalendars: true,
             opens: 'center'
