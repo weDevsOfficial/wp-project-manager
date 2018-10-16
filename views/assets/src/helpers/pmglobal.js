@@ -20,32 +20,35 @@
         });
     }
     function pm_result_item_url ( item ) {
-        var url = PM_Global_Vars.project_page;
+        var url = null; 
 
 
         switch (item.type) {
             case 'task':
-                url =  url + '#/projects/'+ item.project_id + '/task-lists/tasks/' + item.id
+                url = '#/projects/'+ item.project_id + '/task-lists/tasks/' + item.id
                 break;
             case 'subtask':
-                url =  url + '#/projects/'+ item.project_id + '/task-lists/tasks/' + item.parent_id
+                url = '#/projects/'+ item.project_id + '/task-lists/tasks/' + item.parent_id
                 break;
             case 'project':
-                url =  url + '#/projects/'+ item.id + '/overview/';
+                url = '#/projects/'+ item.id + '/overview/';
                 break;
             case 'milestone':
-                url =  url + '#/projects/'+ item.project_id + '/milestones/';
+                url = '#/projects/'+ item.project_id + '/milestones/';
                 break;
 
             case 'discussion_board':
                 
                 break;
             case 'task_list':
-                url =  url + '#/projects/'+ item.project_id + '/task-lists/'+ item.id;
+                url = '#/projects/'+ item.project_id + '/task-lists/'+ item.id;
                 break;
             default:
                 url = url;
                 break;
+        }
+        if (url) {
+            return PM_Global_Vars.project_page + url;
         }
         return url;
     }
@@ -122,7 +125,7 @@
             if($(e.target).closest('#wp-admin-bar-pm_search').length) {
                 return;
             }
-            if ($(e.target).parent('.pmswitcharea').length) {
+            if ($(e.target).closest('.pmswitcharea').length) {
                 return;
             }
             if ($(this).find('#pmswitchproject').hasClass('active')) {
@@ -138,6 +141,7 @@
         
         element.find('input').pmautocomplete({
             autoFocus: true,
+            appendTo: ".pm-spresult",
             source ( req, res ) {
                 $( this ).removeClass( 'pm-open' );
                 if (!req.term.trim() && availableTags.length ){
@@ -175,12 +179,21 @@
             open () { 
                 $( this ).removeClass( 'pm-sspinner' );
                 $( this ).addClass( 'pm-open' );
-                $( this ).pmautocomplete( 'widget' ).css( 'z-index', 999999 );
+                $( this ).pmautocomplete( 'widget' ).css( {
+                    'z-index': 999999,
+                    'position': 'relative',
+                    'top': 0,
+                    'left': 0,
+                } );
             },
             select (event, ui) {
-                // console.log(event, ui)
-                location.href = pm_result_item_url(ui.item);
-                element.css('display', 'none').removeClass('active');
+                let url = pm_result_item_url(ui.item);
+                if (url) {
+                    location.href = url;
+                    element.css('display', 'none').removeClass('active');
+                }
+                 
+                
             }
         }).focus(function () {
             $(this).data('custom-pmautocomplete').search(' ');
@@ -194,6 +207,7 @@
 
             return $('<li>')
                 .data("ui-autocomplete-item", item)
+                .append("<span class='icon-pm-incomplete'></span>")
                 .append("<a href='"+pm_result_item_url(item)+"'>" + item.title + "</a>")
                 .appendTo(ul);
      
