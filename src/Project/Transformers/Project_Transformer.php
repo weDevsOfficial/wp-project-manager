@@ -25,6 +25,13 @@ class Project_Transformer extends TransformerAbstract {
     ];
 
     public function transform( Project $item ) {
+        $listmeta = pm_get_meta($item->id, $item->id, 'task_list', 'list-inbox');
+        if($listmeta) {
+            $listmeta = $listmeta->meta_value;
+        }else {
+            $listmeta = 0;
+        }
+
         $data = [
             'id'                  => (int) $item->id,
             'title'               => (string) $item->title,
@@ -38,6 +45,7 @@ class Project_Transformer extends TransformerAbstract {
             'projectable_type'    => $item->projectable_type,
             'favourite'           => !empty($item->favourite) ? (boolean) $item->favourite->meta_value: false,
             'created_at'          => format_date( $item->created_at ),
+            'list_inbox'          => (int) $listmeta,
         ];
         return apply_filters( "pm_project_transformer", $data, $item );
     }
