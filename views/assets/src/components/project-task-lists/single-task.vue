@@ -106,14 +106,15 @@
                         </div>
 
                         <div class="pm-flex options-wrap">
-                            <div class="assigne-users">
+                            <div class="pm-flex assigne-users">
                                 <div v-if="task.assignees.data.length" class='pm-assigned-user' v-for="user in task.assignees.data" :key="user.id">
 
                                     <a :href="userTaskProfileUrl(user.id)" :title="user.display_name">
                                         <img :alt="user.display_name" :src="user.avatar_url" class="avatar avatar-48 photo" height="48" width="48">
                                     </a>
                                 </div>
-                                <span id="pm-multiselect-single-task" @click.prevent="isEnableMultiSelect()" class="icon-pm-user">
+                                <div id="pm-multiselect-single-task" >
+                                    <span @click.prevent="isEnableMultiSelect()" class="icon-pm-user"></span>
                                     <div v-show="is_enable_multi_select"  class="pm-multiselect pm-multiselect-single-task">
                                         <div class="pm-multiselect-content">
                                             <div class="assign-to">{{ __('Assign to', 'wedevs-project-manager') }}</div>
@@ -137,7 +138,7 @@
 
                                                
                                                 <template slot="option" slot-scope="props">
-                                                    <img class="option__image" :src="props.option.avatar_url" alt="No Man’s Sky">
+                                                    <img class="option__image" :src="props.option.avatar_url">
                                                     <div class="option__desc">
                                                         <span class="option__title">{{ props.option.display_name }}</span>
                                                     </div>
@@ -148,7 +149,7 @@
 
                                         </div>
                                     </div>
-                                </span>
+                                </div>
                             </div>
                             
 
