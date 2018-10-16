@@ -35,7 +35,7 @@
                         <span>{{ task.meta.total_comment }}</span>
                     </div>  
                 </div>   
-                <div @click.prevent="showHideTaskMoreMenu(task)" class="more-menu">
+                <div @click.prevent="showHideTaskMoreMenu(task, list)" class="more-menu task-more-menu">
                     <span class="icon-pm-more-options"></span>
                     <div v-if="task.moreMenu" class="more-menu-ul-wrap">
                         <ul>
@@ -141,9 +141,17 @@
             }
         },
         created () {
+            window.addEventListener('click', this.windowActivity);
             pmBus.$on('pm_after_close_single_task_modal', this.afterCloseSingleTaskModal);
         },
         methods: {
+            windowActivity (el) {
+                var taskActionWrap = jQuery(el.target).closest('.task-more-menu');
+                
+                if(!taskActionWrap.length) {
+                    this.task.moreMenu = false;
+                }
+            },
             afterCloseSingleTaskModal () {
                 
                 if(this.$route.name == 'lists_single_task') {

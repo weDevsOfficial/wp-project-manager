@@ -1474,8 +1474,24 @@ var PM_TaskList_Mixin = {
             self.httpRequest(request_data);
         },
 
-        showHideTaskMoreMenu(task) {
+        showHideTaskMoreMenu(task, lsit) {
+            lsit = lsit || {};
+
             task.moreMenu = task.moreMenu ? false : true;
+            var completeTasks = typeof lsit.complete_tasks == 'undefined' ? [] : lsit.complete_tasks.data;
+            var incopleteTasks = typeof lsit.incomplete_tasks == 'undefined' ? [] : lsit.incomplete_tasks.data;
+
+            completeTasks.forEach(function(taskItem) {
+                if(task.id != taskItem.id) {
+                    taskItem.moreMenu = false;
+                }
+            });
+
+            incopleteTasks.forEach(function(taskItem) {
+                if(task.id != taskItem.id) {
+                    taskItem.moreMenu = false;
+                }
+            });
         },
     }
 }

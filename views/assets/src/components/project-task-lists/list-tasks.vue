@@ -7,7 +7,9 @@
         </ul> 
 
         
-        <div class="nonsortable more-task-wrap">
+        <div
+        v-if="isIncompleteLoadMoreActive(list) && getCompleteTasks.length"
+        class="nonsortable more-task-wrap">
             <div v-if="isIncompleteLoadMoreActive(list)" class="group-action-btn">
                 <a class="anchor-btn" @click.prevent="loadMoreIncompleteTasks(list)" href="#">{{ __( 'More Tasks', 'wedevs-project-manager') }}</a>
             </div>

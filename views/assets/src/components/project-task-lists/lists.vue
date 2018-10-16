@@ -452,6 +452,10 @@
                         padding: 5px 8px !important;
                         border: 1px solid #ddd;
 
+                        &:hover {
+                            background: #d7dee2 !important;
+                        }
+
                         .icon-pm-check-circle {
                             &:before {
                                 color: #999;
