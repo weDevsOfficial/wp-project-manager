@@ -183,7 +183,6 @@
 
             if(this.activeNotifyUsers) {
                 pm.Vue.nextTick(function() {
-                    console.log(jQuery('.notify-users').find('.multiselect__input'));
                     jQuery('.notify-users').find('.multiselect__input').show().focus();
                 });
             }

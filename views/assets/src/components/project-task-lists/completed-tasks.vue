@@ -34,21 +34,20 @@
                         <span class="icon-pm-comment"></span>
                         <span>{{ task.meta.total_comment }}</span>
                     </div>  
-
-                    <div @click.prevent="showHideMoreMenu(task)" class="more-menu">
-                        <span class="icon-pm-more-options"></span>
-                        <div v-if="task.moreMenu" class="more-menu-ul-wrap">
-                            <ul>
-                                <li>
-                                    <a @click.prevent="deleteTask({task: task, list: list})" class="li-a" href="#">
-                                        <span class="icon-pm-delete"></span>
-                                        <span>{{ __('Delete', 'wedevs-project-manager') }}</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                </div>   
+                <div @click.prevent="showHideTaskMoreMenu(task)" class="more-menu">
+                    <span class="icon-pm-more-options"></span>
+                    <div v-if="task.moreMenu" class="more-menu-ul-wrap">
+                        <ul>
+                            <li>
+                                <a @click.prevent="deleteTask({task: task, list: list})" class="li-a" href="#">
+                                    <span class="icon-pm-delete"></span>
+                                    <span>{{ __('Delete', 'wedevs-project-manager') }}</span>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
-                </div>                  
+                </div>               
             </div>
         </div>
         

@@ -1,5 +1,4 @@
 <?php
-//https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js
 $suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 return [
@@ -118,9 +117,10 @@ return [
 		'in_footer'  => true
 	],
 
-	'pm-uploader' => [
-		'id'         => 'pm-uploader',
-		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/uploader/uploader.js',
+
+	'pm-popper' => [
+		'id'         => 'pm-popper',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/popper/popper.min.js',
 		'dependency' => ['pm-pretty-photo'],
 		'in_footer'  => true
 	],
@@ -128,7 +128,7 @@ return [
 	'pm-touch-punch' => [
 		'id'         => 'pm-touch-punch',
 		'url'        => 'https://unpkg.com/draggabilly@2/dist/draggabilly.pkgd.min.js',
-		'dependency' => ['pm-uploader'],
+		'dependency' => ['pm-popper'],
 		'in_footer'  => true
 	],
 
@@ -136,6 +136,13 @@ return [
 		'id'         => 'pm-tiptip',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/tiptip/jquery.tipTip.min.js',
 		'dependency' => ['pm-touch-punch'],
+		'in_footer'  => true
+	],
+
+	'pm-uploader' => [
+		'id'         => 'pm-uploader',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/uploader/uploader.js',
+		'dependency' => ['pm-tiptip'],
 		'in_footer'  => true
 	],
 
@@ -154,7 +161,6 @@ return [
 			'pm-tiny-mce',
 			'jquery-ui-sortable',
 			'pm-uploader',
-			'pm-tiptip'
 		],
 		'in_footer'  => true
 	],

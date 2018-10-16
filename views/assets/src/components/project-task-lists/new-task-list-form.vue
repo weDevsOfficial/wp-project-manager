@@ -153,7 +153,6 @@
              * @return void
              */
             listFormAction: function() {
-                console.log('asdkjfhasdkj');
                 // Prevent sending request when multiple click submit button 
                 if ( this.submit_disabled ) {
                     return;

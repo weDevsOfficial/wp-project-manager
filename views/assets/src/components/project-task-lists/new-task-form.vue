@@ -397,19 +397,6 @@ export default {
              * @return array
              */
             get: function () {
-                // var filtered_users = [];
-
-                // if ( this.task.assigned_to && this.task.assigned_to.length ) {
-                //     var assigned_to = this.task.assigned_to.map(function (id) {
-                //         return parseInt(id);
-                //     });
-
-
-                //     filtered_users = this.project_users.filter(function (user) {
-                //         return (assigned_to.indexOf(parseInt(user.id)) >= 0);
-                //     });
-                // }
-                
                 return typeof this.task.assignees == 'undefined' ? [] : this.task.assignees.data;
             }, 
 
@@ -572,6 +559,12 @@ export default {
                     self.show_spinner = false;
                     self.submit_disabled = false;
                     self.task_description = res.data.description.content;
+
+                    self.task.title = '';
+                    self.content.html = '';
+                    self.task.start_at.date = '';
+                    self.task.due_date.date = '';
+                    self.task.assignees.data = [];
                 }
             }
 

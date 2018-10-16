@@ -86,6 +86,7 @@
     "moment": "^2.19.1",
     "moment-timezone": "^0.5.13",
     "nprogress": "^0.2.0",
+    "popper.js": "^1.14.4",
     "toastr": "^2.1.2",
     "v-autocomplete": "^1.8.2",
     "vue": "^2.5.2",

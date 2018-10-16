@@ -1,12 +1,15 @@
 <template>
-    <div class="pm-header-title-content" v-if="project">
+    <div class="pm-header-title-content" v-if="isProjectLoaded">
         <div class="project-title">
             <span class="title">{{ project.title }}</span>
-            <span class="icon-pm-pencil"></span>
+            <a href="#" @click.prevent="showHideProjectForm('toggle')" class="icon-pm-pencil project-update-btn"></a>
 
-            <div class="settings">
-                <span class="icon-pm-settings"></span>
-                <div class="settings-activity">
+            <edit-project v-if="is_project_edit_mode && is_manager()" class="project-edit-form" :project="project"></edit-project>
+            <div class="settings header-settings">
+
+                <a href="#" @click.prevent="showHideSettings()" class="icon-pm-settings header-settings-btn"></a>
+
+                <div v-if="settingStatus" class="settings-activity">
                     <div class="pm-triangle-top">
                         <ul class="action-ul">
                             <li>
@@ -38,8 +41,6 @@
         <div>
             <pm-do-action hook="pm_project_header" ></pm-do-action>
         </div>
-
-
 
         <div class="project-status">
             <div v-if="project.status === 'complete'" class="complete">{{ __( 'Completed', 'wedevs-project-manager')}}</div>
@@ -78,6 +79,41 @@
             display: flex;
             align-items: center;
             line-height: 0;
+            position: relative;
+
+            .project-edit-form {
+                position: absolute;
+                padding: 5px 5px 15px 15px;
+                top: 40px;
+                z-index: 99;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+                border: 1px solid #DDDDDD;
+                background: #fff;
+                border-radius: 3px;
+                box-shadow: 0px 2px 40px 0px rgba(214, 214, 214, 0.6);
+
+                &:before {
+                    border-color: transparent transparent #DDDDDD transparent;
+                    position: absolute;
+                    border-style: solid;
+                    top: -9px;
+                    left: 116px;
+                    content: "";
+                    z-index: 9999;
+                    border-width: 0px 8px 8px 8px;
+                }
+
+                &:after {
+                    border-color: transparent transparent #ffffff transparent;
+                    position: absolute;
+                    border-style: solid;
+                    top: -7px;
+                    left: 116px;
+                    content: "";
+                    z-index: 9999;
+                    border-width: 0 8px 7px 8px;
+                }
+            }
 
             .title {
                 font-size: 18px;
@@ -98,11 +134,11 @@
                 height: 30px;
                 display: flex;
                 align-items: center;
+                z-index: 9;
 
                 &:hover {
                     border: 1px solid #1A9ED4;
                     color: #1A9ED4;
-                    
                     
                     &:before {
                         color: #1A9ED4;
@@ -113,34 +149,41 @@
 
         .settings {
             position: relative;
-            height: 30px;
             display: flex;
             align-items: center;
             border: 1px solid #E5E4E4;
             background: #fff;
             color: #95A5A6;
-            padding: 0px 10px;
             border-radius: 3px;
             cursor: pointer;
             border-left-color: #fff;
             border-top-left-radius: 0px;
             border-bottom-left-radius: 0px;
+            margin-left: -1px;
             &:hover {
                 border: 1px solid #1A9ED4;
                 color: #1A9ED4;
+                z-index: 99;
                 
                 .icon-pm-settings {
                     &:before {
                         color: #1A9ED4;
+
                     }
                 }
             }
 
+            .header-settings-btn {
+                height: 28px;
+                padding: 0 10px;
+                display: flex;
+                align-items: center;
+            }
+
             .settings-activity {
                 position: relative;
-                display: none;
                 .pm-triangle-top {
-                    left: -26px !important;
+                    left: -36px !important;
                     right: 0 !important;
                     width: 127px !important;
                     padding: 0px !important;
@@ -160,6 +203,10 @@
                         margin: 0;
                         padding: 0;
 
+                        .icon-pm-undo-arrow {
+
+                        }
+
                         li {
                             margin: 0;
                             padding: 0;
@@ -168,22 +215,17 @@
                                 align-items: center;
                                 padding: 10px;
 
-                                .icon-pm-completed {
-                                    margin-right: 5px;
+                                .icon-pm-completed, .icon-pm-delete, .icon-pm-undo-arrow {
+                                    width: 20px;
                                 }
-
-                                .icon-pm-delete {
-                                    margin-right: 9px;
+                                .icon-pm-undo-arrow {
+                                    &:before {
+                                        font-size: 11px;
+                                    }
                                 }
                             }
                         }
                     }
-                }
-            }
-
-            &:hover {
-                .settings-activity {
-                    display: block;
                 }
             }
         }
@@ -201,12 +243,18 @@
             return {
                 project_action: __('Project Actions', 'wedevs-project-manager'),
                 settings_hide: false,
-
+                settingStatus: false,
+                isEnableUpdateForm: false
             }
 
         },
 
         computed: {
+            isProjectLoaded () {
+                let project = this.$store.state.project;
+                
+                return jQuery.isEmptyObject(project) ? false : true;
+            },
             is_project_edit_mode () {
                 return this.$store.state.is_project_form_active;
             },
@@ -218,21 +266,13 @@
 
                 return this.$store.state.project.hasOwnProperty('id');
             },
-
-
         },
 
         created () {
             this.getGloabalProject();
             this.getProjectCategories();
             this.getRoles(); 
-
-            // console.log(this.$store)
-
-            // const vm = this;
-            // pmBus.$on('pm_after_fetch_project', () => {
-            //     vm.project = vm.$store.state.project;
-            // })
+            window.addEventListener('click', this.windowActivity);
         },
 
         components: {
@@ -241,11 +281,35 @@
         },
 
         methods: {
+            windowActivity (el) {
+                var settingsWrap  = jQuery(el.target).closest('.header-settings'),
+                    settingsBtn = jQuery(el.target).hasClass('header-settings-btn'),
+                    projectUpdatebtn = jQuery(el.target).hasClass('project-update-btn'),
+                    projectUdpateWrap = jQuery(el.target).closest('.project-edit-form');
+
+                if ( !settingsBtn && !settingsWrap.length ) {
+                    this.settingStatus = false;
+                }
+
+                if ( !projectUpdatebtn && !projectUdpateWrap.length ) {
+        
+                    this.showHideProjectForm(false);
+                }
+            },
+
+            enableDisableUpdateForm () {
+                this.isEnableUpdateForm = this.isEnableUpdateForm ? false : true;
+            },
+
+            showHideSettings () {
+                this.settingStatus = this.settingStatus ? false : true;
+            },
             showProjectAction () {
                 this.settings_hide = !this.settings_hide;
             },
 
             selfProjectMarkDone () {
+
                 var args = {
                     data: {
                         id : this.project.id,
@@ -262,7 +326,6 @@
                         );
                     }
                 } 
-
 
                 this.updateProject( args );
             }

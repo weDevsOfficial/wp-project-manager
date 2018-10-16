@@ -32,32 +32,52 @@
                         <span v-if="isBetweenDate( task_start_field, task.start_at.date, task.due_date.date )">&ndash;</span>
                         <span>{{ taskDateFormat(task.due_date.date) }}</span>
                     </div>
+
+                    <div class="task-activity" v-if="isPrivateTask(task.meta.privacy)">
+                        <span class="icon-pm-private"></span>
+                    </div>
+                    <div class="task-activity">
+                        <do-action :hook="'task_inline'" :actionData="doActionData"></do-action>
+
+                    </div>
                     <!-- v-if="parseInt(task.meta.total_comment) > 0" -->
                     <div class="task-activity comment">
                         <span class="icon-pm-comment"></span>
                         <span>{{ task.meta.total_comment }}</span>
                     </div>  
+                </div>  
 
-                    <div @click.prevent="showHideMoreMenu(task)" class="nonsortable more-menu">
-                        <span class="icon-pm-more-options"></span>
-                        <div v-if="task.moreMenu" class="more-menu-ul-wrap">
-                            <ul>
-                                <li class="first-li">
-                                    <a @click.prevent="showHideTaskFrom('toggle', false, task )" class="li-a" href="#">
-                                        <span class="icon-pm-pencil"></span>
-                                        <span>{{ __('Edit', 'wedevs-project-manager') }}</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a @click.prevent="deleteTask({task: task, list: list})" class="li-a" href="#">
-                                        <span class="icon-pm-delete"></span>
-                                        <span>{{ __('Delete', 'wedevs-project-manager') }}</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                <div @click.prevent="showHideTaskMoreMenu(task)" class="nonsortable more-menu">
+                    <span class="icon-pm-more-options"></span>
+                    <div v-if="task.moreMenu" class="more-menu-ul-wrap">
+                        <ul>
+                            <li v-if="PM_Vars.is_pro && can_edit_task(task) && user_can('view_private_task') && !isPrivateTask(task.meta.privacy)"  class="first-li">
+                                <a @click.prevent="TaskLockUnlock(task)" class="li-a" href="#">
+                                    <span class="icon-pm-private"></span>
+                                    <span>{{ __('Make Private', 'wedevs-project-manager') }}</span>
+                                </a>
+                            </li>
+                            <li v-if="PM_Vars.is_pro && can_edit_task(task) && user_can('view_private_task') && isPrivateTask(task.meta.privacy)"  class="first-li">
+                                <a @click.prevent="TaskLockUnlock(task)" class="li-a" href="#">
+                                    <span class="icon-pm-unlock"></span>
+                                    <span>{{ __('Make Public', 'wedevs-project-manager') }}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a @click.prevent="showHideTaskFrom('toggle', false, task )" class="li-a" href="#">
+                                    <span class="icon-pm-pencil"></span>
+                                    <span>{{ __('Edit', 'wedevs-project-manager') }}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a @click.prevent="deleteTask({task: task, list: list})" class="li-a" href="#">
+                                    <span class="icon-pm-delete"></span>
+                                    <span>{{ __('Delete', 'wedevs-project-manager') }}</span>
+                                </a>
+                            </li>
+                        </ul>
                     </div>
-                </div>                  
+                </div>                
             </div>
         </div>
         
@@ -174,6 +194,7 @@
         },
 
         created () {
+            console.log(this.task);
             window.addEventListener('click', this.windowActivity);
             pmBus.$on('pm_after_close_single_task_modal', this.afterCloseSingleTaskModal);
         },
@@ -206,9 +227,11 @@
         },
         
         methods: {
-            showHideMoreMenu(task) {
-                task.moreMenu = task.moreMenu ? false : true;
+            isPrivateTask (isPrivate) {
+
+                return isPrivate == '1' ? true : false;
             },
+
             windowActivity (el) {
                 var updateField  = jQuery(el.target).closest('.task-update-wrap'),
                     updateBtn = jQuery(el.target).hasClass('icon-pm-pencil');

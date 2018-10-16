@@ -811,7 +811,6 @@ var PM_TaskList_Mixin = {
             if ( task ) {
                 if ( status === 'toggle' ) {
                     task.edit_mode = !task.edit_mode;
-                    console.log(task.edit_mode);
                 } else {
                     task.edit_mode = status;
                 }
@@ -1470,7 +1469,11 @@ var PM_TaskList_Mixin = {
                 }
             }
             self.httpRequest(request_data);
-        }
+        },
+
+        showHideTaskMoreMenu(task) {
+            task.moreMenu = task.moreMenu ? false : true;
+        },
     }
 }
 
