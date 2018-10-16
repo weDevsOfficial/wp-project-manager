@@ -51,9 +51,10 @@
                             <div  class="list-content">
                                 <div class="list-item-content">
                                     <div class="before-title">
-                                        <span class="icon-pm-drag-drop"></span>
-                                        <span v-if="!list.expand" @click.prevent="listExpand(list)" class="icon-pm-down-arrow"></span>
-                                        <span v-if="list.expand" @click.prevent="listExpand(list)" class="icon-pm-up-arrow"></span>
+                                        <span v-if="!isInbox(list.id)" class="icon-pm-drag-drop"></span>
+                                        
+                                        <span v-if="!list.expand" @click.prevent="listExpand(list)" :class="inboxClass(list) + ' icon-pm-down-arrow'"></span>
+                                        <span v-if="list.expand" @click.prevent="listExpand(list)" :class="inboxClass(list) + ' icon-pm-up-arrow'"></span>
                                     </div>
 
                                     <div class="list-title">
@@ -77,13 +78,13 @@
                                         <div class="list-title-action task-count">
                                             <span>{{ list.meta.total_complete_tasks }}</span>/<span>{{ getTotalTask(list.meta.total_complete_tasks, list.meta.total_incomplete_tasks) }}</span>
                                         </div>
-                                        <div class="list-title-action">
+                                        <div v-if="!isInbox(list.id)" class="list-title-action">
                                             <span v-if="!parseInt(list.meta.privacy)" class="icon-pm-unlock"></span>
                                             <span v-if="parseInt(list.meta.privacy)" class="icon-pm-private"></span>
                                         </div>
                                     </div>
 
-                                    <div :data-list_id="list.id" @click.prevent="showHideMoreMenu(list)" class="more-menu list-more-menu">
+                                    <div v-if="!isInbox(list.id)" :data-list_id="list.id" @click.prevent="showHideMoreMenu(list)" class="more-menu list-more-menu">
                                         <span  class="icon-pm-more-options"></span>
                                         <div v-if="list.moreMenu && !list.edit_mode"  class="more-menu-ul-wrap">
                                             <ul>
@@ -509,6 +510,11 @@
                                 position: relative;
                                 top: 2px;
 
+                                .inbox-list {
+                                    padding: 0 26px;
+                                    position: relative;
+                                    top: -2px;
+                                }
                                 .icon-pm-drag-drop {
                                     cursor: move;
                                     padding: 0 10px;
@@ -1355,6 +1361,9 @@
         },
 
         methods: {
+            inboxClass (list) {
+                return this.isInbox(list.id) ? 'inbox-list' : '';
+            },
             isActiveTaskFilter () {
                 return this.isActiveFilter ? 'active-task-filter' : 'task-filter';
             },
