@@ -11,6 +11,7 @@ use League\Fractal\Resource\Collection as Collection;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use WeDevs\PM\Common\Traits\Transformer_Manager;
 use WeDevs\PM\Task_List\Transformers\Task_List_Transformer;
+use WeDevs\PM\Task_List\Transformers\Task_Transformer;
 use WeDevs\PM\Common\Models\Boardable;
 use WeDevs\PM\Common\Traits\Request_Filter;
 use WeDevs\PM\Milestone\Models\Milestone;
@@ -34,7 +35,7 @@ class Task_List_Controller {
         $page = $request->get_param( 'page' );
         $page = $page ? $page : 1;
         $status = isset( $status ) ? intval( $status ) : 1;
-
+        
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
         }); 
@@ -62,6 +63,16 @@ class Task_List_Controller {
         return $this->get_response( $resource );
     }
 
+    public function listInbox ( WP_REST_Request $request ) {
+        $project_id = $request->get_param( 'project_id' );
+        $tasks = Task::parent()->doesnthave('boardables')->where('project_id', $project_id)->get();
+
+        $resource = new Collection ( $tasks, new Task_Transformer );
+
+        return $this->get_response( $resource );
+
+    }
+    
     public function show( WP_REST_Request $request ) {
         $project_id   = $request->get_param( 'project_id' );
         $task_list_id = $request->get_param( 'task_list_id' );
