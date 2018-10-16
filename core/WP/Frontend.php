@@ -319,8 +319,30 @@ function project_text_editor($config) {
         ?>
             <div class="pmswitchproject" id="pmswitchproject">
                 <div class="pmswitcharea">
-                    <input id="tags" type="text" placeholder="Search Project">
+                    <div class="pm-si-area" >
+                        <div class="pm-sp-in">
+                            <input id="tags" type="text" placeholder="Jump to a project">
+                            <div class="pm-spresult"></div>
+                        </div>
+                        <div class="switchinfo">
+                            <div>
+                                <span class="icon-pm-unlock"></span> 
+                                <span> to navigate</span>
+                            </div>
+                            <div>
+                                <span class="icon-pm-unlock"></span>
+                                <span> to select </span>
+                            </div>
+                            <div>
+                                <span>esc</span>
+                                <span>to dismiss</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+
                 </div>
+                <div class="pmbackoverlay" ></div>
                 
             </div>
         <?php
@@ -334,7 +356,7 @@ function project_text_editor($config) {
             'href'      => '#',
             'parent' => 'top-secondary',
             'meta'  => [
-                'title' => __('Search in projects', 'pm-pro'),
+                'title' => __('Jump to a project', 'pm-pro'),
             ]
             
         ) );
