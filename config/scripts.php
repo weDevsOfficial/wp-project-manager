@@ -117,18 +117,10 @@ return [
 		'in_footer'  => true
 	],
 
-
-	'pm-popper' => [
-		'id'         => 'pm-popper',
-		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/popper/popper.min.js',
-		'dependency' => ['pm-pretty-photo'],
-		'in_footer'  => true
-	],
-
 	'pm-touch-punch' => [
 		'id'         => 'pm-touch-punch',
 		'url'        => 'https://unpkg.com/draggabilly@2/dist/draggabilly.pkgd.min.js',
-		'dependency' => ['pm-popper'],
+		'dependency' => ['pm-pretty-photo'],
 		'in_footer'  => true
 	],
 

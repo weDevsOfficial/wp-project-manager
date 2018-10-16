@@ -1,5 +1,4 @@
 import clickOutside from '@helpers/click-outside';
-import Popper from 'popper.js';
 
 pm.Vue.directive('pm-slide-up-down', {
 	inserted: function(el) {
