@@ -95,8 +95,17 @@ var PM_TaskList_Mixin = {
 
             return false;
         },
+
         isInboxList (id) {
-            return this.$root.$store.state.project.list_inbox == id & 1;
+           return this.isInbox(id);
+        },
+
+        isInbox (id) {
+            return this.$store.state.project.list_inbox == id & 1;  
+        },
+
+        getInboxId () {
+            return this.$store.state.project.list_inbox;
         },
         /**
          * Get task completed progress width
@@ -478,6 +487,12 @@ var PM_TaskList_Mixin = {
                 callback: false
             },
             args = jQuery.extend(true, pre_define, args);
+            
+            if(typeof args.data.board_id == 'undefined') {
+                args.data.board_id = this.getInboxId();
+                args.data.list_id = this.getInboxId();
+            }
+            
             var data = pm_apply_filters( 'before_task_save', args.data );
             
             var request_data = {
