@@ -217,7 +217,7 @@
                 width: 100%;
                 height: 33px;
                 padding-left: 28px;
-                padding-right: 84px;
+                padding-right: 131px;
                 box-shadow: none !important;
                 &::placeholder {
                     color: #B5C0C3;
@@ -232,6 +232,16 @@
                 margin-right: 11px;
                 display: flex;
                 align-items: center;
+
+                .new-task-description-btn {
+                    cursor: pointer;
+
+                    &:hover {
+                        &:before {
+                            color: #000;
+                        }
+                    }
+                }
 
                 .pm-make-privacy {
                     .icon-pm-unlock, .icon-pm-private {

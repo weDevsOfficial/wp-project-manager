@@ -8,7 +8,7 @@
 
         
         <div
-        v-if="isIncompleteLoadMoreActive(list) && getCompleteTasks.length"
+        v-if="isIncompleteLoadMoreActive(list) || getCompleteTasks.length"
         class="nonsortable more-task-wrap">
             <div v-if="isIncompleteLoadMoreActive(list)" class="group-action-btn">
                 <a class="anchor-btn" @click.prevent="loadMoreIncompleteTasks(list)" href="#">{{ __( 'More Tasks', 'wedevs-project-manager') }}</a>
@@ -71,7 +71,12 @@
 
 <style lang="less">
     .task-group {
-        
+        .ui-state-highlight {
+            background: none !important;
+            border: 1px dashed #d7dee2 !important;
+            min-height: 30px !important;
+            margin: 0 21px 10px 48px !important;
+        }
         margin: 16px 0;
         .more-task-wrap {
             margin-bottom: 18px;
@@ -160,6 +165,19 @@
         }
         .incomplete-task-li, .complete-task-li {
             margin-bottom: 10px;
+
+            &:hover {
+                .pm-todo-wrap {
+                    .task-more-menu {
+                        .icon-pm-more-options {
+                            &:before {
+                               color: #d6d6d6;
+                            }
+                        }
+                    }
+                }
+            }
+           
         }
         .pm-todo-wrap {
             margin: 0 33px !important;
@@ -169,13 +187,17 @@
                 width: 100%;
             }
 
-            &:hover  .pm-todo-item .task-left > .move {
-                .icon-pm-drag-drop {
-                    &:before {
-                        color: #bababa;
+            &:hover {
+                .pm-todo-item .task-left > .move {
+                    .icon-pm-drag-drop {
+                        &:before {
+                            color: #bababa;
+                        }
                     }
                 }
-            }
+
+            }  
+
             .pm-todo-item {
                 
                 position: relative;
@@ -191,7 +213,7 @@
                     top: -2px;
 
                     .move {
-                        cursor: move;
+                        cursor: grab;
                         padding-right: 8px;
 
                         .icon-pm-drag-drop {
@@ -222,6 +244,12 @@
                     justify-content: flex-end;
                     flex: 1;
                     top: -1px;
+
+                    .icon-pm-more-options {
+                        &:before {
+                            color: #fafafa;
+                        }
+                    }
 
                     &:hover {
                         .icon-pm-more-options {
@@ -311,6 +339,10 @@
                 .task-action-wrap {
                     display: flex;
                     align-items: center;
+
+                    .task-time {
+                        white-space: nowrap;
+                    }
 
                     .task-activity {
                         margin-left: 15px;

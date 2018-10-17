@@ -5,7 +5,7 @@
             <div class="todo-content">
                 <div class="task-left">
                     <div class="move">
-                        <span class="icon-pm-drag-drop"></span>
+                        <span class="pm-task-drag-handle icon-pm-drag-drop"></span>
                     </div> 
                     <div class="checkbox">
                         <input :disabled="can_complete_task(task)" v-model="task.status"  @change="doneUndone()" type="checkbox"  value="" name="" >
@@ -26,7 +26,7 @@
                         </a>
                     </div> 
 
-                    <div v-if="taskTimeWrap(task)" :class="'task-activity '+taskDateWrap(task.due_date.date)">
+                    <div v-if="taskTimeWrap(task)" :class="'task-activity task-time '+taskDateWrap(task.due_date.date)">
                         <span class="icon-pm-calendar"></span>
                         <span v-if="task_start_field">{{ taskDateFormat( task.start_at.date ) }}</span>
                         <span v-if="isBetweenDate( task_start_field, task.start_at.date, task.due_date.date )">&ndash;</span>
@@ -36,15 +36,17 @@
                     <div class="task-activity" v-if="isPrivateTask(task.meta.privacy)">
                         <span class="icon-pm-private"></span>
                     </div>
+
+                    <!-- v-if="parseInt(task.meta.total_comment) > 0" -->
+                    <div v-if="parseInt(task.meta.total_comment) > 0" class="task-activity comment">
+                        <span class="icon-pm-comment"></span>
+                        <span>{{ task.meta.total_comment }}</span>
+                    </div> 
                     <div class="task-activity">
                         <do-action :hook="'task_inline'" :actionData="doActionData"></do-action>
 
                     </div>
-                    <!-- v-if="parseInt(task.meta.total_comment) > 0" -->
-                    <div class="task-activity comment">
-                        <span class="icon-pm-comment"></span>
-                        <span>{{ task.meta.total_comment }}</span>
-                    </div>  
+                     
                 </div>  
 
                 <div @click.prevent="showHideTaskMoreMenu(task, list)" class="nonsortable more-menu task-more-menu">

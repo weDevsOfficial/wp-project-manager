@@ -44,6 +44,7 @@
                         </div>
                     </div>
 
+
                     <ul v-if="hasSearchContent() && isListFetch" v-pm-list-sortable :class="filterActiveClass()+ ' pm-todolists'">
                     
                         <li  v-for="list in lists" :key="list.id" :data-id="list.id"  :class="taskListClass(list.id)">
@@ -51,7 +52,7 @@
                             <div  class="list-content">
                                 <div class="list-item-content">
                                     <div class="before-title">
-                                        <span v-if="!isInbox(list.id)" class="icon-pm-drag-drop"></span>
+                                        <span v-if="!isInbox(list.id)" class="pm-list-drag-handle icon-pm-drag-drop"></span>
                                         
                                         <span v-if="!list.expand" @click.prevent="listExpand(list)" :class="inboxClass(list) + ' icon-pm-down-arrow'"></span>
                                         <span v-if="list.expand" @click.prevent="listExpand(list)" :class="inboxClass(list) + ' icon-pm-up-arrow'"></span>
@@ -424,6 +425,12 @@
     
 <style lang="less">
     .pm-task-list-wrap {
+        .ui-state-highlight {
+            background: none !important;
+            border: 1px dashed #d7dee2 !important;
+            min-height: 50px !important;
+            margin: 0 20px !important;
+        }
         .list-content-wrap {
             display: flex;
             flex-wrap: wrap;
@@ -484,7 +491,7 @@
                 }
 
                 .list-items {
-                    margin-top: 25px;
+                    margin-top: 15px;
                     .list-li {
                         margin-bottom: 10px;
                     }
@@ -494,6 +501,14 @@
                             border-top: 1px solid #e5e4e4;
                             border-bottom: 1px solid #e5e4e4;
                             background: #fff;
+
+                            .list-more-menu {
+                                .icon-pm-more-options {
+                                    &:before {
+                                        color: #d6d6d6;
+                                    }
+                                }
+                            }
                         }
                     }
                     .list-content {
@@ -516,7 +531,7 @@
                                     top: -2px;
                                 }
                                 .icon-pm-drag-drop {
-                                    cursor: move;
+                                    cursor: grab;
                                     padding: 0 10px;
                                     
                                     &:before {
@@ -555,6 +570,12 @@
                                 justify-content: flex-end;
                                 position: relative;
                                 top: 2px;
+
+                                .icon-pm-more-options {
+                                    &:before {
+                                        color: #fafafa;
+                                    }
+                                }
 
                                 &:hover {
                                     .icon-pm-more-options {
@@ -747,6 +768,7 @@
                         border-radius: 3px;
                         font-size: 12px;
                         border: 1px solid #e4e5e5;
+                        background: #fff;
 
                         &:hover {
                             border-color: #1A9ED4 !important;
@@ -915,7 +937,7 @@
                         display: flex;
                         align-items: center;
                         .archive-page-button {
-                            margin: 0 15px;
+                            margin: 0 3px 0 15px;
                             a {
                                 border: 1px solid #e4e5e5;
                                 background: #fff;
@@ -951,7 +973,6 @@
 
                         .active-list-header-btn {
                             border-color: #1A9ED4 !important;
-                            border-right: 1px solid #1A9ED4 !important;
                             color: #1A9ED4;
 
                             .icon-pm-archive {
