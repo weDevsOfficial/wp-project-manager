@@ -36,6 +36,7 @@ export default {
         inline_task_end_date: '',
         inline_task_description: '',
         inline_todo_list_id: 0,
+        expandListIds: [],
         inline_display: {
             users: false,
             start: false,
@@ -678,6 +679,14 @@ export default {
             });
 
             state.lists = lists;
+        },
+        expandList (state, listId) {
+            let i = state.expandListIds.findIndex(x => x == listId);
+            if (i !== -1) {
+                state.expandListIds.splice(i, 1);
+            }else {
+                state.expandListIds.push(listId);
+            }
         }
     }
 };

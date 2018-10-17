@@ -1392,7 +1392,8 @@
                 }
             },
             listExpand (list) {
-                list.expand = list.expand ? false : true; 
+                list.expand = list.expand ? false : true;
+                this.$store.commit('projectTaskLists/expandList', list.id);
             },
             getTotalTask (incomplete, complete) {
                 return parseInt(incomplete)+parseInt(complete);
@@ -1515,7 +1516,8 @@
 
                 this.$store.commit( 'projectTaskLists/balankTemplateStatus', false);
 
-                if(this.isActiveFilter == false) {
+                if(this.isActiveFilter == false && this.$route.query.hasOwnProperty('filterTask')) {
+                    
                     this.$router.push({
                         query: {}
                     });

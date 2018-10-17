@@ -858,10 +858,11 @@ var PM_TaskList_Mixin = {
          * @param {[Object]} list [Task list Object]
          */
         addMetaList ( list ) {
+            let ids = this.$store.state.projectTaskLists.expandListIds;
             list.edit_mode  = false;
             list.show_task_form = false;
             list.task_loading_status = false;
-            list.expand = false;
+            list.expand = ids.findIndex(x => x == list.id) !== -1;
             list.moreMenu = false;
         },
 
