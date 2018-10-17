@@ -1,6 +1,7 @@
 <template>
     <div class="pm-wrap pm pm-front-end">
         <pm-header></pm-header>
+        <pm-menu></pm-menu>
 
         <!-- Spinner before load task -->
       <div v-if="loading" class="pm-data-load-before" >
@@ -99,6 +100,7 @@
     import new_task_button from './new-task-btn.vue';
     import header from './../common/header.vue';
     import Mixins from './mixin';
+    import Menu from '@components/common/menu.vue';
 
     export default {
         beforeRouteEnter (to, from, next) {
@@ -320,7 +322,8 @@
             'list-comments': list_comments,
             'new-task-list-form': new_task_list_form,
             'new-task-button': new_task_button,
-            'pm-header': header
+            'pm-header': header,
+            pmMenu: Menu,
         }
     }
 </script>
