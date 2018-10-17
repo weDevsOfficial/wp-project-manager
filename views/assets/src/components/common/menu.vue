@@ -1,7 +1,7 @@
 <template>
 	<nav v-if="menu.length" class="pm-project-menu">
 
-        <div class="menu-item" v-for="item in menu"> 
+        <div class="menu-item" v-for="item in menu" :key="item.name"> 
 
             <router-link 
                 :class="item.class +' '+ setActiveMenu(item)"
@@ -69,6 +69,12 @@
 
 <script>
 	export default {
+        props: {
+            current: {
+                type: String,
+                default: false,
+            }
+        },
 		computed: {
 			menu () {
                 var project = this.$root.$store.state.project;
@@ -150,8 +156,7 @@
 		methods: {
 			setActiveMenu (item) {
 				var name = this.$route.name;
-
-				if(name == item.route.name) {
+				if(name == item.route.name || this.current == item.route.name) {
 					return 'active';
 				} 
 			},
