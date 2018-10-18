@@ -60,7 +60,7 @@
         <div class="pm-todo-content" >
             <div>
                 <div class="pm-col-6">
-                    <input :disabled="can_complete_task(task)" v-model="task.status"  @change="doneUndone()" class="" type="checkbox"  value="" name="" >
+                    <input :disabled="can_complete_task(task) ||  isArchivedTaskList(task)" v-model="task.status"  @change="doneUndone()" class="" type="checkbox"  value="" name="" >
 
                     <span class="task-title">
                         
@@ -95,7 +95,7 @@
                 </div>
 
 
-                <div class="pm-col-1 pm-todo-action-right pm-last-col" v-if="can_edit_task(task)">
+                <div class="pm-col-1 pm-todo-action-right pm-last-col" v-if="can_edit_task(task) && !isArchivedTaskList(task)">
                     <a href="#" @click.prevent="deleteTask({task: task, list: list})" class="pm-todo-delete"><span class="dashicons dashicons-trash"></span></a>
                 </div>
                 <div class="clearfix"></div>
