@@ -17,7 +17,7 @@
                         <a class="title" href="#" @click.prevent="getSingleTask(task)">{{ task.title }}</a>
                     </div>  
                 </div> 
-
+                
                 <div class="task-right task-action-wrap">
 
                     <div v-if="task.assignees.data.length" class="task-activity assigned-users-content">
@@ -83,8 +83,8 @@
             </div>
         </div>
         
-        <div class="task-update-wrap nonsortable">
-            <new-task-form v-if="task.edit_mode" :task="task" :list="list"></new-task-form>
+        <div v-if="task.edit_mode" class="task-update-wrap nonsortable">
+            <new-task-form  :task="task" :list="list"></new-task-form>
         </div>
         
         <div v-if="parseInt(taskId) && parseInt(projectId)">
