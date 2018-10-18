@@ -101,6 +101,8 @@
                                                         <span>{{ __('Delete', 'wedevs-project-manager') }}</span>
                                                     </a>
                                                 </li>
+                                                <pm-do-action hook="list-action-menu" :actionData="list"></pm-do-action>
+
                                             </ul>
                                         </div>
 
@@ -643,7 +645,7 @@
                                         white-space: nowrap;
                                     }
 
-                                    .icon-pm-pencil, .icon-pm-delete {
+                                    .icon-pm-pencil, .icon-pm-delete, .li-a-icon {
                                         display: inline-block;
                                         width: 20px;
                                     }
