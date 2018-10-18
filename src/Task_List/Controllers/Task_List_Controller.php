@@ -97,9 +97,10 @@ class Task_List_Controller {
     public function store( WP_REST_Request $request ) {
         $data = $this->extract_non_empty_values( $request );
         $milestone_id = $request->get_param( 'milestone' );
+        $project_id = $request->get_param( 'project_id' );
 
         $milestone     = Milestone::find( $milestone_id );
-        $latest_order  = Task_List::latest_order();
+        $latest_order  = Task_List::latest_order($project_id);
         $data['order'] = $latest_order + 1;
         $task_list     = Task_List::create( $data );
 
@@ -114,7 +115,7 @@ class Task_List_Controller {
             'message' => pm_get_text('success_messages.task_list_created')
         ];
         $response = $this->get_response( $resource, $message );
-        do_action( 'cpm_tasklist_new', $task_list->id, $request->get_param( 'project_id' ), $request->get_params() );
+        do_action( 'cpm_tasklist_new', $task_list->id, $project_id, $request->get_params() );
         do_action( 'pm_after_new_task_list', $response, $request->get_params() );
         return $response;
     }
