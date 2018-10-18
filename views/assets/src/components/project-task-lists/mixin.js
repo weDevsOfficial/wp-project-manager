@@ -843,7 +843,7 @@ var PM_TaskList_Mixin = {
         showHideTaskFrom ( status, list, task ) {
             var list = list || false;
             var task = task || false;
-
+            
             if ( task ) {
                 if ( status === 'toggle' ) {
                     task.edit_mode = !task.edit_mode;
@@ -1469,7 +1469,9 @@ var PM_TaskList_Mixin = {
                 type: 'POST',
                 data: receive,
                 success (res) {
-
+                    if (res.data.task.data) {
+                        self.addTaskMeta(res.data.task.data);
+                    }
                     if(receive.receive == '1') {
                         self.$store.commit('projectTaskLists/receiveTask', {
                             receive: receive,
@@ -1514,7 +1516,6 @@ var PM_TaskList_Mixin = {
 
         showHideTaskMoreMenu(task, lsit) {
             lsit = lsit || {};
-
             task.moreMenu = task.moreMenu ? false : true;
             var completeTasks = typeof lsit.complete_tasks == 'undefined' ? [] : lsit.complete_tasks.data;
             var incopleteTasks = typeof lsit.incomplete_tasks == 'undefined' ? [] : lsit.incomplete_tasks.data;
