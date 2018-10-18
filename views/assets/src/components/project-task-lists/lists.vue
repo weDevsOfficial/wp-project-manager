@@ -1124,10 +1124,9 @@
                 }
             }
         }
-
         @media screen and (max-width: 480px) {
             .list-content-wrap {
-                display: block;
+                flex-direction: column-reverse;
                 .content {
                     .list-items {
                         .list-content {
