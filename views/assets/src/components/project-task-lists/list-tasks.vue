@@ -438,7 +438,7 @@
             }
 
             .pm-todo-wrap {
-                margin: 0 28px !important;
+                margin: 0 16px !important;
                 .todo-content {
                     flex-wrap: wrap;
                     position: relative;
@@ -452,6 +452,14 @@
                         
                     }
 
+                    .task-left {
+                        .move {
+                            cursor: grab;
+                            padding-right: 10px;
+                            padding-left: 10px;
+                        }
+                    } 
+
                     .title-wrap {
                         flex: 80%;
                     }
@@ -464,7 +472,7 @@
                     }
 
                     .task-action-wrap {
-                        margin-left: 29px;
+                        margin-left: 42px;
                         margin-top: 5px;
                     }
                 }
