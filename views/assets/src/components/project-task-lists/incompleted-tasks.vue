@@ -8,7 +8,8 @@
                         <span class="pm-task-drag-handle icon-pm-drag-drop"></span>
                     </div> 
                     <div class="checkbox">
-                        <input :disabled="can_complete_task(task)" v-model="task.status"  @change="doneUndone()" type="checkbox"  value="" name="" >
+                        <input v-if="!show_spinner" :disabled="can_complete_task(task)" v-model="task.status"  @change="doneUndone()" type="checkbox"  value="" name="" >
+                        <span class="pm-spinner" v-if="show_spinner"></span>
                     </div>
                 </div>
                 <div class="title-wrap">
@@ -38,10 +39,10 @@
                     </div>
 
                     <!-- v-if="parseInt(task.meta.total_comment) > 0" -->
-                    <div v-if="parseInt(task.meta.total_comment) > 0" class="task-activity comment">
+                    <a href="#" @click.prevent="getSingleTask(task)" v-if="parseInt(task.meta.total_comment) > 0" class="task-activity comment">
                         <span class="icon-pm-comment"></span>
                         <span>{{ task.meta.total_comment }}</span>
-                    </div> 
+                    </a> 
                     <div class="task-activity">
                         <do-action :hook="'task_inline'" :actionData="doActionData"></do-action>
 
@@ -192,6 +193,7 @@
             return {
                 taskId: false,
                 projectId: false,
+                show_spinner: false
             }
         },
 
@@ -268,6 +270,7 @@
             doneUndone (){
                 var self = this,
                     status = this.task.status ? 1: 0;
+                    this.show_spinner = true;
                 var args = {
                     data: {
                         title: this.task.title,
@@ -281,6 +284,7 @@
                             list_id: self.list.id,
                             task_id: self.task.id
                         });
+                        self.show_spinner = false
                     }
                 }
 
