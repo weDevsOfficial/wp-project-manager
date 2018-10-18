@@ -72,7 +72,7 @@
         props: {
             current: {
                 type: String,
-                default: false,
+                default: '',
             }
         },
 		computed: {

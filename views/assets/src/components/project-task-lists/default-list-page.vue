@@ -1,6 +1,6 @@
 <template>
     <div class="pm-blank-template todolist">
-        <div class="pm-content" v-if="!is_archive_page" >
+        <div class="pm-content">
             <h3 class="pm-page-title">{{ __( 'Task Lists', 'wedevs-project-manager') }}</h3>
             <p>
                 {{ __( 'You can list all your Tasks in a single discussion using a Task list. Use these lists to divide a project into several sectors, assign co-workers and check progress.', 'wedevs-project-manager') }}
@@ -22,15 +22,7 @@
             </div>
 
         </div>
-        <div class="pm-content"  v-else>
-            <h2 class="pm-page-title">{{ __( 'Archive Task Lists', 'wedevs-project-manager') }}</h2>
-            <p>
-                {{ __( 'No Archive list found', 'wedevs-project-manager') }}
-            </p>
-            <p>
-                <a @click.prevent="$router.push({ name: 'task_lists', params: { project_id} })" class="button button-primary"> {{ __( 'Back to task list', 'wedevs-project-manager') }} </a>
-            </p>
-        </div>
+        
 
     </div>
 </template>
@@ -50,9 +42,6 @@
         computed: {
             is_active_list_form () {
                 return this.$store.state.projectTaskLists.is_active_list_form;
-            },
-            is_archive_page () {
-                return this.$route.name === 'task_lists_archive';
             }
         }
     }

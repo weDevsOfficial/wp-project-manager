@@ -39,7 +39,7 @@
 
         </ul> 
 
-        <div class="list-task-form nonsortable">
+        <div v-if="!isInbox(list.id)" class="list-task-form nonsortable">
             <new-task-form  :list="list"></new-task-form>
         </div>
         

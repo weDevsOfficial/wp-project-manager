@@ -107,6 +107,22 @@ var PM_TaskList_Mixin = {
         getInboxId () {
             return this.$store.state.project.list_inbox;
         },
+
+        isArchivedList (list) {
+            if (list.status === 'archived' ) {
+                return true;
+            }
+
+            return false;
+        },
+        isArchivedTaskList (task) {
+            if (typeof task.task_list !== 'undefined' ) {
+                if (task.task_list.data.status === 'archived' ) {
+                    return true;
+                }
+            }
+            return false;
+        },
         /**
          * Get task completed progress width
          * 
@@ -397,7 +413,7 @@ var PM_TaskList_Mixin = {
          * @return void         
          */
         deleteList ( args ) {
-            if ( ! confirm( this.__( 'Are you sure!', 'wedevs-project-manager') ) ) {
+            if ( ! confirm( this.__( 'Are you sure?', 'wedevs-project-manager') ) ) {
                 return;
             }
             var self = this,
@@ -416,6 +432,7 @@ var PM_TaskList_Mixin = {
                     pm.Toastr.success(res.message);
                     self.listTemplateAction();
                     self.$store.commit('decrementProjectMeta', 'total_task_lists');
+                    self.$store.commit('updateProjectMeta', 'total_activities');
                     if( typeof args.callback === 'function' ) {
                       args.callback.call( self, res);
                     }
@@ -623,7 +640,7 @@ var PM_TaskList_Mixin = {
         },
 
         deleteTask (args) {
-            if ( ! confirm( this.__( 'Are you sure!', 'wedevs-project-manager') ) ) {
+            if ( ! confirm( this.__( 'Are you sure?', 'wedevs-project-manager') ) ) {
                 return;
             }
 
@@ -642,6 +659,7 @@ var PM_TaskList_Mixin = {
                         'list': args.list 
                     });
                     pm.Toastr.success(res.message);
+                    self.$store.commit('updateProjectMeta', 'total_activities');
                     if ( typeof args.callback === 'function' ){
                         args.callback.call(self, res);
                     }
@@ -1343,7 +1361,9 @@ var PM_TaskList_Mixin = {
         },
 
         listLockUnlock (list) {
-
+            if (this.isArchivedList(list)) {
+                return ;
+            }
             var self = this;
             var data = {
                 is_private: list.meta.privacy == '0' ? 1 : 0
@@ -1369,7 +1389,9 @@ var PM_TaskList_Mixin = {
         },
 
         TaskLockUnlock (task) {
-            
+            if (this.isArchivedTaskList(task)) {
+                return ;
+            }
             var self = this;
             var data = {
                 is_private: task.meta.privacy == '0' ? 1 : 0

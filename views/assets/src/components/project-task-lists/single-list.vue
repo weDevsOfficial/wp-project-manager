@@ -41,8 +41,8 @@
                                     {{ list.title }}
                                    
                                     <div class="pm-right" v-if="can_edit_task_list(list)">
-                                        <a href="#" @click.prevent="showHideListForm('toggle', list)" class="pm-icon-edit"><span class="dashicons dashicons-edit"></span></a>
-                                        <a href="#" class="pm-btn pm-btn-xs" @click.prevent="deleteSelfList()" :title="delete_task_list" ><span class="dashicons dashicons-trash"></span></a>
+                                        <a href="#" v-if="!isArchivedListComponent" @click.prevent="showHideListForm('toggle', list)" class="pm-icon-edit"><span class="dashicons dashicons-edit"></span></a>
+                                        <a href="#"  class="pm-btn pm-btn-xs" @click.prevent="deleteSelfList()" :title="delete_task_list" ><span class="dashicons dashicons-trash"></span></a>
                                         <a href="#" @click.prevent="listLockUnlock(list)"  v-if="PM_Vars.is_pro && user_can('view_private_list')"><span :class="privateClass(list.meta.privacy)"></span> </a>
                                     </div>
                                 </h3>
@@ -51,7 +51,7 @@
                                     {{ list.description }}
                                 </div>
 
-                               <transition name="slide" v-if="can_create_list">
+                               <transition name="slide" v-if="can_create_list || !isArchivedListComponent">
                                     <div class="pm-update-todolist-form" v-if="list.edit_mode">
                                         <!-- New Todo list form -->
                                         <new-task-list-form :list="list" section="single"></new-task-list-form>
@@ -65,7 +65,7 @@
                             <footer class="pm-row pm-list-footer">
                                 <div class="pm-col-6">
 
-                                    <div v-if="can_create_task">
+                                    <div v-if="can_create_task && !isArchivedList(list)">
                                         <new-task-button :task="{}" :list="list" list_index="0"></new-task-button>
                                     </div>
 
@@ -183,6 +183,10 @@
             init: function() {
                 return this.$store.state.projectTaskLists.init;
             },
+
+            isArchivedListComponent () {
+                return this.isArchivedList(this.list);
+            }
 
         },
 
