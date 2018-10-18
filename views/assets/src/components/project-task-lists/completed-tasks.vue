@@ -5,7 +5,8 @@
             <div class="todo-content">
                 <div class="task-left">
                     <div class="checkbox">
-                        <input :disabled="can_complete_task(task)" v-model="task.status"  @change="doneUndone()" type="checkbox"  value="" name="" >
+                        <input v-if="!show_spinner" :disabled="can_complete_task(task)" v-model="task.status"  @change="doneUndone()" type="checkbox"  value="" name="" >
+                        <span class="pm-spinner" v-if="show_spinner"></span>
                     </div>
                 </div>
                 <div class="title-wrap">
@@ -30,10 +31,10 @@
                         <span>{{ taskDateFormat(task.due_date.date) }}</span>
                     </div>
                     <!-- v-if="parseInt(task.meta.total_comment) > 0" -->
-                    <div class="task-activity comment">
+                    <a  href="#" @click.prevent="getSingleTask(task)" class="task-activity comment">
                         <span class="icon-pm-comment"></span>
                         <span>{{ task.meta.total_comment }}</span>
-                    </div>  
+                    </a>  
                 </div>   
                 <div @click.prevent="showHideTaskMoreMenu(task, list)" class="more-menu task-more-menu">
                     <span class="icon-pm-more-options"></span>
@@ -124,7 +125,8 @@
         data () {
             return {
                 taskId: false,
-                projectId: false
+                projectId: false,
+                show_spinner: false,
             }
         },
         components: {
@@ -187,6 +189,7 @@
             doneUndone (){
                 var self = this,
                  status = this.task.status ? 1: 0;
+                 this.show_spinner = true;
                 var args = {
                     data: {
                         title: this.task.title,
@@ -200,6 +203,7 @@
                             list_id: self.list.id,
                             task_id: self.task.id
                         });
+                        self.show_spinner = false;
                     }
                 }
 
