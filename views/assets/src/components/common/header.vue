@@ -42,10 +42,10 @@
             <pm-do-action hook="pm_project_header" ></pm-do-action>
         </div>
 
-        <div class="project-status">
+       <!--  <div class="project-status">
             <div v-if="project.status === 'complete'" class="complete">{{ __( 'Completed', 'wedevs-project-manager')}}</div>
             <div v-if="project.status === 'incomplete'" class="incomplete">{{ __( 'Incomplete', 'wedevs-project-manager') }}</div>
-        </div> 
+        </div>  -->
     </div> 
     
 </template>
