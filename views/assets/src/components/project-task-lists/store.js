@@ -520,10 +520,10 @@ export default {
                 length   = state.lists.length;
 
             if (per_page <= length) {
-                state.lists.splice(0,0,list);
+                state.lists.splice(1,0,list);
                 state.lists.pop();
             } else {
-                state.lists.splice(0,0,list);
+                state.lists.splice(1,0,list);
             }
         },
         afterUpdateList (state, list) {
