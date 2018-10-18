@@ -8,8 +8,8 @@ class Update_Category extends Abstract_Validator {
     public function messages() {
         return [
             'title.required' => __( 'Category title is required.', 'wedevs-project-manager' ),
-            'id.required'    => __( 'Category id is required.', 'wedevs-project-manager' ),
-            'id.gtz'         => __( 'Category id must be greater than zero', 'wedevs-project-manager' ),
+            'id.required'    => __( 'Category ID is required.', 'wedevs-project-manager' ),
+            'id.gtz'         => __( 'Category ID must be greater than zero', 'wedevs-project-manager' ),
         ];
     }
 

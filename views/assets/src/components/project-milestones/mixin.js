@@ -313,7 +313,7 @@ export default {
          * @return {void}      
          */
         deleteMilestone ( args ) {
-            if ( ! confirm( this.__( 'Are you sure! Want to delete this milestones?', 'wedevs-project-manager') ) ) {
+            if ( ! confirm( this.__( 'Are you sure you want to delete this milestones?', 'wedevs-project-manager') ) ) {
                 return;
             }
             var pre_define = {
@@ -331,6 +331,7 @@ export default {
                     self.$store.commit('projectMilestones/afterDeleteMilestone', args.milestone_id);
                     self.$root.$store.state.milestones_load = false;
                     self.$store.commit('decrementProjectMeta', 'total_milestones');
+                    self.$store.commit('updateProjectMeta', 'total_activities');
                     pm.Toastr.success(res.message);
                     if(typeof args.callback === 'function'){
                         args.callback.call(self, res);

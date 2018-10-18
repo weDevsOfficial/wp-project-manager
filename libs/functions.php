@@ -6,6 +6,10 @@ use League\Fractal;
 use League\Fractal\Resource\Item as Item;
 use WeDevs\PM\Task\Transformers\Task_Transformer;
 use WeDevs\PM\Task\Models\Task;
+use WeDevs\PM\Task_List\Models\Task_List;
+use WeDevs\PM\Discussion_Board\Models\Discussion_Board;
+use WeDevs\PM\Milestone\Models\Milestone;
+use WeDevs\PM\Project\Models\Project;
 
 function pm_get_text( $key ) {
     return Textdomain::get_text( $key);
@@ -659,5 +663,30 @@ function pm_get_project_page( $type = false ) {
     if ( pm_is_request( 'frontend' ) ) {
         return pm_get_front_end_project_page();
     }
+}
+
+function pm_total_projects() {
+    $project = Project::count();
+    return $project;
+}
+
+function pm_total_task() {
+    $task = Task::count();
+    return $task;
+}
+
+function pm_total_task_list() {
+    $task_list = Task_List::count();
+    return $task_list;
+}
+
+function pm_total_milestone() {
+    $milestone = Milestone::count();
+    return $milestone;
+}
+
+function pm_total_message() {
+    $message = Discussion_Board::count();
+    return $message;
 }
 

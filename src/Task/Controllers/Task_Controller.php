@@ -138,6 +138,9 @@ class Task_Controller {
 
     private function attach_assignees( Task $task, $assignees = [] ) {
         foreach ( $assignees as $user_id ) {
+            if ( ! intval( $user_id ) ) {
+                continue ;
+            }
             $data = [
                 'task_id'     => $task->id,
                 'assigned_to' => $user_id,
@@ -194,7 +197,7 @@ class Task_Controller {
             $task->assignees()->whereNotIn( 'assigned_to', $assignees )->delete();
             $this->attach_assignees( $task, $assignees );
         }
-        
+                
         do_action( 'cpm_task_update', $list_id, $task_id, $request->get_params() );
         $task->update_model( $data );
         

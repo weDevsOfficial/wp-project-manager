@@ -65,7 +65,7 @@
                     </div>
                 </li>
             </ul>
-            <div class="pm-flex comment-field-content">
+            <div class="pm-flex comment-field-content" v-if="!isArchivedTaskList(task)">
                 <div class="pm-avatar comment-field-avatar">
                     <a  href="#/my-tasks">
                         <img class="avatar" :src="PM_Vars.avatar_url">
@@ -161,6 +161,9 @@
                 }
             },
             showActionMenu (comment) {
+                if (this.isArchivedTaskList(this.task)) {
+                    return false;
+                }
                 if(typeof comment.actionMode == 'undefined') {
                     pm.Vue.set(comment, 'actionMode', true);
                 } else {
@@ -169,10 +172,11 @@
                 
             },
             showHideNewCommentField () {
+                if (this.isArchivedTaskList(this.task)) {
+                    return false;
+                }
                 
-                    this.commentFormMeta.activeNewCommentField = this.commentFormMeta.activeNewCommentField ? false : true;
-                
-                
+                this.commentFormMeta.activeNewCommentField = this.commentFormMeta.activeNewCommentField ? false : true;
             },
             commentDate (comment) {
                 if (typeof comment.created_at != 'undefined') {
@@ -202,7 +206,7 @@
             },
 
             deleteTaskComment (id) {
-                if ( !confirm( this.__( 'Are you sure!', 'wedevs-project-manager') ) ) {
+                if ( !confirm( this.__( 'Are you sure?', 'wedevs-project-manager') ) ) {
                     return;
                 }
                 var self = this;
@@ -214,6 +218,7 @@
                         var index = self.getIndex(self.comments, id, 'id');
                         pm.Toastr.success(res.message);
                         self.comments.splice(index, 1);
+                        self.$store.commit('updateProjectMeta', 'total_activities');
                     }
                 }
                 this.httpRequest(request_data);
