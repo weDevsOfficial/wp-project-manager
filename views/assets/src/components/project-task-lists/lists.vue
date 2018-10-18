@@ -19,7 +19,7 @@
                     
                     <pm-do-action :hook="'pm-inline-list-button'"></pm-do-action>
                     <div>
-                        <a :class="isActiveTaskFilter() + ' list-action-group'" v-pm-tooltip :title="__('Task Filter', 'wedevs-project-manager')" @click.prevent="showFilter()" href="#">
+                        <a :class="isActiveTaskFilter() + ' list-action-group task-filter-btn'" v-pm-tooltip :title="__('Task Filter', 'wedevs-project-manager')" @click.prevent="showFilter()" href="#">
                             <span class="icon-pm-filter"></span>
                             <span>{{__('Filter', 'wedevs-project-manager')}}</span>
                         </a>
@@ -1124,7 +1124,48 @@
                 }
             }
         }
+
+        @media screen and (max-width: 480px) {
+            .list-content-wrap {
+                display: block;
+                .content {
+                    .list-items {
+                        .list-content {
+                            .list-item-content {
+                                .before-title  {
+                                    .icon-pm-drag-drop {
+                                        padding: 0 5px;
+                                    }
+
+                                    .inbox-list {
+                                        padding: 0 26px 0 17px;
+                                    }
+                                }
+                            }
+                        }
+                    } 
+                    .list-action-btn-wrap {
+                        padding: 20px 10px;
+                        .list-action-wrap {
+                            margin-top: 10px;
+                        }
+                        .task-filter-btn {
+                            margin-top: 10px;
+                        }
+                        .pm-action-wrap {
+                            margin-top: 10px;
+                        }
+                    } 
+                    .task-field {
+                        padding: 0 10px;
+                    }
+                }
+            }
+        }
     }
+
+    
+
 
 </style>
 

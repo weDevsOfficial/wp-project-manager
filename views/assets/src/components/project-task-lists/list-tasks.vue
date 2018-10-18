@@ -72,16 +72,17 @@
 
 <style lang="less">
     .task-group {
+        margin: 14px 0;
         .ui-state-highlight {
             background: none !important;
             border: 1px dashed #d7dee2 !important;
             min-height: 30px !important;
             margin: 0 21px 10px 48px !important;
         }
-        margin: 16px 0;
         .incomplete-task-ul{
-            padding: 1px !important;
+            padding: 2px !important;
         }
+        
         .more-task-wrap {
             margin-bottom: 18px;
             display: flex;
@@ -433,6 +434,55 @@
         }
         .complete-task-ul {
             
+        }
+
+        @media screen and (max-width: 480px) {
+            .incomplete-task-li, .complete-task-li {
+                margin-bottom: 20px;
+            }
+
+            .pm-todo-wrap {
+                margin: 0 28px !important;
+                .todo-content {
+                    flex-wrap: wrap;
+                    position: relative;
+
+                    input[type="checkbox"] {
+                        height: 16px;
+                        width: 16px;
+                        &:before {
+                            font: normal 22px/1 dashicons !important;
+                        }
+                        
+                    }
+
+                    .title-wrap {
+                        flex: 80%;
+                    }
+
+                    .task-more-menu {
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        flex: none;
+                    }
+
+                    .task-action-wrap {
+                        margin-left: 29px;
+                        margin-top: 5px;
+                    }
+                }
+            } 
+
+            .complete-task-li {
+                .pm-todo-wrap {
+                    .todo-content {
+                        .task-action-wrap {
+                            margin-left: 17px;
+                        }
+                    }
+                }
+            }
         }
     }
 </style>
