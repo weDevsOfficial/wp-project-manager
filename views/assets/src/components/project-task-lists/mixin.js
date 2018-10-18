@@ -862,7 +862,7 @@ var PM_TaskList_Mixin = {
             list.edit_mode  = false;
             list.show_task_form = false;
             list.task_loading_status = false;
-            list.expand = ids.findIndex(x => x == list.id) !== -1;
+            list.expand = ids.findIndex(x => x == list.id) === -1;
             list.moreMenu = false;
         },
 

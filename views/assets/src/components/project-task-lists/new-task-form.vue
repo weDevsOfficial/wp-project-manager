@@ -4,7 +4,8 @@
         <div class="input-area">
             <div class="input-action-wrap">
                 <div>
-                    <span class="plus-text">+</span>
+                    <span class="plus-text" v-if="!show_spinner">+</span>
+                    <span class="pm-spinner" v-if="show_spinner"></span>
                 </div>
                 <input @keyup.enter="taskFormAction()" v-model="task.title"  class="input-field" :placeholder="__('Add new task', 'wedevs-project-manager')" type="text">
                 <a @click.prevent="taskFormAction()"  class="update-button" href="#"><span class="icon-pm-check-circle"></span></a>
@@ -127,6 +128,11 @@
 
 <style lang="less">
     .pm-task-form {
+        span.pm-spinner {
+            position: absolute;
+            top: 8px;
+            left: 7px;
+        }
         .create-area {
             &:hover {
                 .icon-plus {
