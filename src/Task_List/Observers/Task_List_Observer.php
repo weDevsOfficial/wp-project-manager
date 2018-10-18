@@ -61,8 +61,14 @@ class Task_List_Observer extends Model_Observer {
             'task_list_status_old' => $old_value,
             'task_list_status_new' => $item->status,
         ];
+        
+        if ( $item->status == 'archived' ) {
+            $action = 'archived_task_list';
+        } else {
+            $action = 'restore_task_list';
+        }
 
-        $this->log_activity( $item, 'update_task_list_status', 'update', $meta );
+        $this->log_activity( $item, $action, 'update', $meta );
     }
 
     private function log_activity( Task_list $item, $action, $action_type, $meta = null ) {

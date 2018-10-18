@@ -24,7 +24,7 @@
                             <time :datetime="getFullDate( comment.created_at.datetime )" :title="getFullDate( comment.created_at.datetime )">{{ relativeDate(comment.created_at.datetime) }}</time>
                         </span>
                         <!-- v-if="current_user_can_edit_delete(comment, list)" -->
-                        <div  class="pm-comment-action" v-if="can_edit_comment(comment)" >
+                        <div  class="pm-comment-action" v-if="can_edit_comment(comment) && !isArchivedList(list)" >
                             <span class="pm-edit-link">
                                 <a href="#" @click.prevent="showHideListCommentEditForm( comment )" class="dashicons dashicons-edit"></a>
                             </span>
@@ -43,7 +43,7 @@
                         </ul>
                     </div>
 
-                    <transition name="slide" v-if="can_edit_comment(comment)" >
+                    <transition name="slide" v-if="can_edit_comment(comment) && !isArchivedList(list)" >
                         <div class="pm-comment-edit-form" v-if="comment.edit_mode">
                             <div :class="'pm-slide-'+comment.id">
                                 <list-comment-form :comment="comment" :list="list"></list-comment-form>
@@ -53,7 +53,7 @@
                 </div>
             </li>
         </ul>
-        <div class="single-todo-comments">
+        <div class="single-todo-comments" v-if="!isArchivedList(list)">
             <div class="pm-comment-form-wrap">
 
                 <div class="pm-avatar">
@@ -102,7 +102,7 @@
                 return false;
             },
             deleteListComment (id) {
-                if ( !confirm( this.__( 'Are you sure!', 'wedevs-project-manager') ) ) {
+                if ( !confirm( this.__( 'Are you sure?', 'wedevs-project-manager') ) ) {
                     return;
                 }
                 var self = this;
@@ -113,6 +113,7 @@
                     success (res) {
                         var index = self.getIndex(self.comments, id, 'id');
                         pm.Toastr.success(res.message);
+                        self.$store.commit('updateProjectMeta', 'total_activities');
                         self.comments.splice(index, 1);
                     }
                 }

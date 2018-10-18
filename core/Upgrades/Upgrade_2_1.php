@@ -45,11 +45,19 @@ class Upgrade_2_1 extends WP_Background_Process {
     public function alter_task_table() {
         global $wpdb;
         $table = $wpdb->prefix . 'pm_tasks';
-        $sql = "ALTER TABLE {$table}
-			ADD `completed_by` int(11) unsigned NULL AFTER `parent_id`,
-			ADD `completed_at` timestamp NULL AFTER `completed_by`;";
+        $result = $wpdb->get_results ("SHOW COLUMNS FROM  $table LIKE 'completed_by' ");
+        if( !$result ) {
+            $sql = "ALTER TABLE {$table}
+                ADD `completed_by` int(11) unsigned NULL AFTER `parent_id`;";
 
-        $wpdb->query($sql);
+            $wpdb->query($sql);
+        }
+
+        $result = $wpdb->get_results ("SHOW COLUMNS FROM  $table LIKE 'completed_at'");
+        if( !$result ) {
+            $sql = "ALTER TABLE {$table} ADD `completed_at` timestamp NULL AFTER `completed_by`;";
+            $wpdb->query($sql);
+        }
     }
 
     public function migrate_complete_tasks() {
@@ -75,7 +83,10 @@ class Upgrade_2_1 extends WP_Background_Process {
     public function alter_broad_table() {
         global $wpdb;
         $table = $wpdb->prefix . 'pm_boards';
-        $sql = "ALTER TABLE {$table} ADD `status` TINYINT(2) NOT NULL DEFAULT '1'";
-        $wpdb->query($sql);
+        $result = $wpdb->get_results ("SHOW COLUMNS FROM  $table LIKE 'status'");
+        if( !$result ) {
+            $sql = "ALTER TABLE {$table} ADD `status` TINYINT(2) NOT NULL DEFAULT '1'";
+            $wpdb->query($sql);
+        }
     }
 }

@@ -8,7 +8,7 @@ class Create_Discussion_Board extends Abstract_Validator {
     public function messages() {
         return [
             'title.required' => __( 'Discussion title is required.', 'wedevs-project-manager' ),
-            'project_id.required' => __( 'Project id is required.', 'wedevs-project-manager' ),
+            'project_id.required' => __( 'Project ID is required.', 'wedevs-project-manager' ),
         ];
     }
 

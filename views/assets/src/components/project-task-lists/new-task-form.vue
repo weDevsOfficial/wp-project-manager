@@ -597,9 +597,16 @@ export default {
         },
 
         filterUserId (users) {
-            return users.map(function (user) {
+            let cuser = [];
+            cuser = users.map(function (user) {
                 return user.id;
             });
+
+            if (!cuser.length) {
+                cuser = [0];
+            }
+
+            return cuser;
         }
     }
 }
