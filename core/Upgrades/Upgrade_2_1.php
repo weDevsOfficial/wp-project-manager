@@ -46,7 +46,7 @@ class Upgrade_2_1 extends WP_Background_Process {
         global $wpdb;
         $table = $wpdb->prefix . 'pm_tasks';
         $result = $wpdb->get_results ("SHOW COLUMNS FROM  $table LIKE 'completed_by' ");
-        if( !$result ) {
+        if( empty( $result ) ) {
             $sql = "ALTER TABLE {$table}
                 ADD `completed_by` int(11) unsigned NULL AFTER `parent_id`;";
 
@@ -84,7 +84,7 @@ class Upgrade_2_1 extends WP_Background_Process {
         global $wpdb;
         $table = $wpdb->prefix . 'pm_boards';
         $result = $wpdb->get_results ("SHOW COLUMNS FROM  $table LIKE 'status'");
-        if( !$result ) {
+        if( empty( $result ) ) {
             $sql = "ALTER TABLE {$table} ADD `status` TINYINT(2) NOT NULL DEFAULT '1'";
             $wpdb->query($sql);
         }

@@ -95,5 +95,8 @@ var PM_Overview = {
 pm.Vue.directive('pm-overview-chart', {
     inserted: function (el, binding, vnode) {
         PM_Overview.chart(el, binding, vnode);
+    },
+    update: function (el, binding, vnode) {
+        PM_Overview.chart(el, binding, vnode);
     }
 });

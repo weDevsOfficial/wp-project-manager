@@ -4,7 +4,7 @@
         <img class="pm-content-img-size" :src="file.thumb" :alt="file.name">
     </a>
 
-    <a v-else-if="isPrettyPhoto" v-pm-pretty-photo class="pm-colorbox-img" :href="getDownloadUrl(file.attachment_id)" :title="file.name" target="_blank" rel="prettyPhoto">
+    <a v-else-if="isPrettyPhoto" v-pm-pretty-photo class="pm-colorbox-img" :href="file.url" :title="file.name" target="_blank" rel="prettyPhoto">
         <img class="pm-content-img-size" :src="file.thumb" :alt="file.name">
     </a>
 

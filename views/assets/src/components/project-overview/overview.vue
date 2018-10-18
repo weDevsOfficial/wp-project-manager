@@ -176,6 +176,12 @@
         components: {
             'pm-header': header
         },
+        watch: {
+            '$route' (to, from) {
+                this.getOverViews();
+                this.$forceUpdate();
+            }
+        },
 
         methods : {
             ...pm.Vuex.mapMutations('projectOverview', 
@@ -188,7 +194,8 @@
                     conditions :{
                         with : 'overview_graph'
                     },
-                    callback : function (res){
+                    project_id: this.$route.params.project_id,
+                    callback  (res){
                         this.$root.$store.state.projectOverviewLoaded = true;
                         this.setOverViews( res.data );
                         pm.NProgress.done();

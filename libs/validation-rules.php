@@ -26,3 +26,18 @@ function gtz( $value ) {
 	return false;
 }
 
+function pm_unique ($value, $args){
+	// Listing all the variables
+	list($model, $collumn) = $args;
+	if ( empty( $collumn ) ) {
+		$collumn = 'title';
+	}
+
+	$calssname = "WeDevs\PM\\" .$args[0]. "\\Models\\" .$args[0];
+	if ( class_exists( $calssname ) ) {
+		return ! $calssname::where($collumn, $value )->exists();
+	}
+
+	return false;
+}
+
