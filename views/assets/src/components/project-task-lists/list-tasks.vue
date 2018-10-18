@@ -1,6 +1,7 @@
 <template>
     <div class="task-group">
         <ul :data-list_id="list.id"  class="incomplete-task-ul pm-connected-sortable" v-pm-sortable>
+            
             <li :data-id="task.id" :data-order="task.order" v-for="task in getIncompleteTasks" :key="task.id" :class="'incomplete-task-li pm-fade-out-'+task.id">
                 <incompleted-tasks :task="task" :list="list"></incompleted-tasks>
             </li>
@@ -78,6 +79,9 @@
             margin: 0 21px 10px 48px !important;
         }
         margin: 16px 0;
+        .incomplete-task-ul{
+            padding: 1px !important;
+        }
         .more-task-wrap {
             margin-bottom: 18px;
             display: flex;
