@@ -92,4 +92,11 @@ return [
 			'pm-new-style'
 		],
 	],
+
+    'pmglobal' => [
+        'id'         => 'pmglobal',
+        'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/css/pmglobal.css',
+        'dependency' => [
+        ],
+    ],
 ];

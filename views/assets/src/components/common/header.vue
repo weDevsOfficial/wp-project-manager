@@ -248,6 +248,13 @@
             }
 
         },
+        watch: {
+            '$route' (to, from) {
+                this.getGloabalProject(to.params.project_id);
+                this.getProjectCategories();
+                this.getRoles();
+            }
+        },
 
         computed: {
             isProjectLoaded () {
@@ -267,7 +274,7 @@
                 return this.$store.state.project.hasOwnProperty('id');
             },
         },
-
+        
         created () {
             this.getGloabalProject();
             this.getProjectCategories();

@@ -14,7 +14,8 @@ $router->get( 'projects/{project_id}/discussion-boards', 'WeDevs/PM/Discussion_B
 
 $router->post( 'projects/{project_id}/discussion-boards', 'WeDevs/PM/Discussion_Board/Controllers/Discussion_Board_Controller@store' )
     ->permission([$create_discuss])
-    ->validator( 'WeDevs\PM\Discussion_Board\Validators\Create_Discussion_Board' );
+    ->validator( 'WeDevs\PM\Discussion_Board\Validators\Create_Discussion_Board' )
+    ->sanitizer( 'WeDevs\PM\Discussion_Board\Validators\Discussion_Board_Sanitizer' );
 
 
 $router->get( 'projects/{project_id}/discussion-boards/{discussion_board_id}', 'WeDevs/PM/Discussion_Board/Controllers/Discussion_Board_Controller@show' )
@@ -22,7 +23,8 @@ $router->get( 'projects/{project_id}/discussion-boards/{discussion_board_id}', '
 
 $router->post( 'projects/{project_id}/discussion-boards/{discussion_board_id}', 'WeDevs/PM/Discussion_Board/Controllers/Discussion_Board_Controller@update' )
     ->permission(['WeDevs\PM\Core\Permissions\Edit_Discuss'])
-    ->validator( 'WeDevs\PM\Discussion_Board\Validators\Create_Discussion_Board' );
+    ->validator( 'WeDevs\PM\Discussion_Board\Validators\Create_Discussion_Board' )
+    ->sanitizer( 'WeDevs\PM\Discussion_Board\Validators\Discussion_Board_Sanitizer' );
 
 
 $router->post( 'projects/{project_id}/discussion-boards/privacy/{discussion_board_id}', 'WeDevs/PM/Discussion_Board/Controllers/Discussion_Board_Controller@privacy' )

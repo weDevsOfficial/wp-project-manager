@@ -165,5 +165,14 @@ return [
 			'pm-const'
 		],
 		'in_footer'  => true
+	],
+	'pmglobal' => [
+		'id'         => 'pmglobal',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/js/pmglobal.js',
+		'dependency' => [
+			'jquery',
+			'jquery-ui-autocomplete',
+		],
+		'in_footer'  => true
 	]
 ];

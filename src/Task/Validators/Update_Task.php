@@ -16,6 +16,7 @@ class Update_Task extends Abstract_Validator {
     public function rules() {
         return [
             'title' => 'required',
+            'description' => 'pm_kses',
             'id'    => 'required|gtz', //Greater than zero (gtz)
         ];
     }
