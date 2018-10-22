@@ -50,17 +50,17 @@
                      
                 </div>  
 
-                <div @click.prevent="showHideTaskMoreMenu(task, list)" class="nonsortable more-menu task-more-menu">
+                <div v-if="can_edit_task(task) && !isArchivedTaskList(task)" @click.prevent="showHideTaskMoreMenu(task, list)" class="nonsortable more-menu task-more-menu">
                     <span class="icon-pm-more-options"></span>
                     <div v-if="task.moreMenu" class="more-menu-ul-wrap">
                         <ul>
-                            <li v-if="PM_Vars.is_pro && can_edit_task(task) && user_can('view_private_task') && !isPrivateTask(task.meta.privacy)"  class="first-li">
+                            <li v-if="PM_Vars.is_pro && user_can('view_private_task') && !isPrivateTask(task.meta.privacy)"  class="first-li">
                                 <a @click.prevent="TaskLockUnlock(task)" class="li-a" href="#">
                                     <span class="icon-pm-private"></span>
                                     <span>{{ __('Make Private', 'wedevs-project-manager') }}</span>
                                 </a>
                             </li>
-                            <li v-if="PM_Vars.is_pro && can_edit_task(task) && user_can('view_private_task') && isPrivateTask(task.meta.privacy)"  class="first-li">
+                            <li v-if="PM_Vars.is_pro && user_can('view_private_task') && isPrivateTask(task.meta.privacy)"  class="first-li">
                                 <a @click.prevent="TaskLockUnlock(task)" class="li-a" href="#">
                                     <span class="icon-pm-unlock"></span>
                                     <span>{{ __('Make Public', 'wedevs-project-manager') }}</span>
@@ -84,7 +84,7 @@
             </div>
         </div>
         
-        <div v-if="task.edit_mode" class="task-update-wrap nonsortable">
+        <div v-if="task.edit_mode && can_create_task" class="task-update-wrap nonsortable">
             <new-task-form  :task="task" :list="list"></new-task-form>
         </div>
         

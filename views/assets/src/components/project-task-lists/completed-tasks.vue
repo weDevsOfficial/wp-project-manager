@@ -36,7 +36,7 @@
                         <span>{{ task.meta.total_comment }}</span>
                     </a>  
                 </div>   
-                <div @click.prevent="showHideTaskMoreMenu(task, list)" class="more-menu task-more-menu">
+                <div v-if="can_edit_task(task) && !isArchivedTaskList(task)" @click.prevent="showHideTaskMoreMenu(task, list)" class="more-menu task-more-menu">
                     <span class="icon-pm-more-options"></span>
                     <div v-if="task.moreMenu" class="more-menu-ul-wrap">
                         <ul>
