@@ -576,7 +576,7 @@
 				align-items: center;
 				border: 1px solid #DEDEDE;
 				border-radius: 3px;
-				font-size: 1vw;
+				font-size: 12px;
 				padding: 5px 10px;
 				.pm-light-color-fun();
 
@@ -603,7 +603,7 @@
 				padding: 5px 10px;
 			    border: 1px solid #7dd322;
 			    border-radius: 3px;
-			    font-size: 1vw;
+			    font-size: 12px;
 			    color: #788383;
 
 			    .icon-pm-completed {
@@ -624,7 +624,7 @@
 			}
 			
 			.created-by {
-				font-size: 1vw;
+				font-size: 12px;
 				margin-left: auto;
 			}
 		}
@@ -1131,6 +1131,30 @@
             z-index: 9999;
             border-width: 0 8px 7px 8px;
 	    }
+	}
+
+	@media screen and (max-width: 480px) {
+
+		#pm-single-task-wrap {
+			.pm-single-task-header {
+				.task-complete-incomplete {
+					.incomplete, .completed {
+						white-space: nowrap;
+					}
+				}
+
+				.created-by {
+					font-size: 10px;
+				}
+				.task-action {
+					.icon-pm-more-options {
+						margin-left: 0;
+    					padding: 10px 0 10px 10px;
+					}
+				} 
+			}
+			
+		}
 	}
 
 
