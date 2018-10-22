@@ -40,7 +40,7 @@
 
         </ul> 
 
-        <div v-if="!isInbox(list.id)" class="list-task-form nonsortable">
+        <div v-if="createNewTask" class="list-task-form nonsortable">
             <new-task-form  :list="list"></new-task-form>
         </div>
         
@@ -554,6 +554,9 @@
         },
 
         computed: {
+            createNewTask () {
+                return !this.isInbox(this.list.id) && this.can_create_task && !this.isArchivedList(this.list)
+            },
             /**
              * Check, Has task from this props list
              * 

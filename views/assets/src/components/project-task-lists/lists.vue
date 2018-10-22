@@ -84,11 +84,12 @@
                                         </div>
                                     </div>
 
-                                    <div v-if="!isInbox(list.id)" :data-list_id="list.id" @click.prevent="showHideMoreMenu(list)" class="more-menu list-more-menu">
+                                    <div v-if="!isInbox(list.id) && can_edit_task_list(list)" :data-list_id="list.id" @click.prevent="showHideMoreMenu(list)" class="more-menu list-more-menu">
+
                                         <span  class="icon-pm-more-options"></span>
                                         <div v-if="list.moreMenu && !list.edit_mode"  class="more-menu-ul-wrap">
                                             <ul>
-                                                <li class="first-li" v-if="can_edit_task_list(list)">
+                                                <li class="first-li" v-if="!isArchivedList(list)">
                                                     <a @click.prevent="showEditForm(list)" class="li-a" href="#">
                                                         <span class="icon-pm-pencil"></span>
                                                         <span>{{ __('Edit', 'wedevs-project-manager') }}</span>
