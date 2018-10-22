@@ -131,10 +131,17 @@ return [
 		'in_footer'  => true
 	],
 
+	'pm-slicknav' => [
+		'id'         => 'pm-slicknav',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/slicknav/slicknav.min.js',
+		'dependency' => ['pm-tiptip'],
+		'in_footer'  => true
+	],
+
 	'pm-uploader' => [
 		'id'         => 'pm-uploader',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/uploader/uploader.js',
-		'dependency' => ['pm-tiptip'],
+		'dependency' => ['pm-slicknav'],
 		'in_footer'  => true
 	],
 
