@@ -68,9 +68,16 @@ var PM_TaskList_Mixin = {
         //     ]
         // ),
         can_complete_task (task) {
+            if (this.isArchivedTaskList(task)) {
+                return true;
+            }
             return !task.meta.can_complete_task;
         },
         can_edit_task_list (list) {
+
+            if (this.isArchivedList(list)) {
+                return false;
+            }
             
             var user = PM_Vars.current_user;
             if (this.is_manager()) {
