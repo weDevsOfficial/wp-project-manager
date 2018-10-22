@@ -8,7 +8,7 @@
             <div class="content">
                 <div class="list-action-btn-wrap">
                     <div class="new-list-btn">
-                        <a @click.prevent="showHideListForm('toggle')" href="#" class="list-action-group add-list">
+                        <a v-if="can_create_list" @click.prevent="showHideListForm('toggle')" href="#" class="list-action-group add-list">
                             <span class="plus">+</span>
                             <span>{{ __('Add Task List', 'wedevs-project-manager') }}</span>
                         </a>
@@ -26,7 +26,7 @@
                     </div>
                 </div>
 
-                <div class="task-field">
+                <div class="task-field" v-if="can_create_task">
                     <new-task-form  :list="list"></new-task-form>
                 </div>
 

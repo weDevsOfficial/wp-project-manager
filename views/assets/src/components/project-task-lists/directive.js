@@ -12,13 +12,13 @@ var PM_Task = {
     listSortable: function(el, binding, vnode) {
         var $ = jQuery;
         var component = vnode.context;
-        
 
         $(el).sortable({
             cancel: '.nonsortable,form',
             placeholder: "ui-state-highlight",
             items: '> li:not(.nonsortable)',
             handle: '.pm-list-drag-handle',
+            disabled: !component.is_manager(),
             
             
             update: function(event, ui) {
@@ -46,6 +46,7 @@ var PM_Task = {
             connectWith: '.pm-connected-sortable',
             placeholder: "ui-state-highlight",
             handle: '.pm-task-drag-handle',
+            disabled: !component.is_manager(),
             
             update: function(event, ui) {
                 if(ui.sender) {
