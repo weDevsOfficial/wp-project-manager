@@ -88,7 +88,7 @@
                                         <span  class="icon-pm-more-options"></span>
                                         <div v-if="list.moreMenu && !list.edit_mode"  class="more-menu-ul-wrap">
                                             <ul>
-                                                <li class="first-li">
+                                                <li class="first-li" v-if="can_edit_task_list(list)">
                                                     <a @click.prevent="showEditForm(list)" class="li-a" href="#">
                                                         <span class="icon-pm-pencil"></span>
                                                         <span>{{ __('Edit', 'wedevs-project-manager') }}</span>
@@ -199,7 +199,7 @@
             </div>
 
         </div>
-
+        <router-view name="single-task"></router-view> 
         <pm-pagination 
             :total_pages="total_list_page" 
             :current_page_number="current_page_number" 

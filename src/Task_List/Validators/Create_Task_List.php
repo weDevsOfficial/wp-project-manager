@@ -15,7 +15,6 @@ class Create_Task_List extends Abstract_Validator {
     public function rules() {
         return [
             'title'      => 'required',
-            'description' => 'pm_kses',
             'project_id' => 'required',
         ];
     }
