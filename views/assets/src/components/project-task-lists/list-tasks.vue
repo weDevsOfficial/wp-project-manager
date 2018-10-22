@@ -73,7 +73,7 @@
 <style lang="less">
     .task-group {
         margin: 14px 0;
-        .ui-state-highlight {
+        .pm-ui-state-highlight {
             background: none !important;
             border: 1px dashed #d7dee2 !important;
             min-height: 30px !important;

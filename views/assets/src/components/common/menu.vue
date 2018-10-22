@@ -1,21 +1,41 @@
 <template>
-	<nav v-if="menu.length" class="pm-project-menu">
+    <div>
+      <!--   <div class="pm-header-menu-wrap">
+        	<nav v-if="menu.length" class="pm-project-menu">
 
-        <div class="menu-item" v-for="item in menu" :key="item.name"> 
+                <div class="menu-item" v-for="item in menu" :key="item.name"> 
 
-            <router-link 
-                :class="item.class +' '+ setActiveMenu(item)"
-                :to="item.route">
-                <!-- <div class="menu-text-wrap"> -->
-	                <span :class="'logo '+setMenuIcon(item)"></span>
-	                <span>{{ item.name }}</span>
-            	<!-- </div> -->
-                <!-- <div>{{ item.count }}</div> -->
-            </router-link>
-        </div>      
-        <pm-do-action :hook="'pm-header-menu'"></pm-do-action> 
-    </nav>
+                    <router-link 
+                        :class="item.class +' '+ setActiveMenu(item)"
+                        :to="item.route">
+                        
+        	                <span :class="'logo '+setMenuIcon(item)"></span>
+        	                <span>{{ item.name }}</span>
+                    </router-link>
+                </div>      
+                <pm-do-action :hook="'pm-header-menu'"></pm-do-action> 
+            </nav>
+        </div> -->
 
+        <div class="pm-header-menu-wrap">
+            <nav v-pm-header-menu-responsive v-if="menu.length" class="pm-project-menu">
+
+                <div class="menu-item" v-for="item in menu" :key="item.name"> 
+
+                    <router-link 
+                        :class="item.class +' '+ setActiveMenu(item)"
+                        :to="item.route">
+                        <!-- <div class="menu-text-wrap"> -->
+                            <span :class="'logo '+setMenuIcon(item)"></span>
+                            <span>{{ item.name }}</span>
+                        <!-- </div> -->
+                        <!-- <div>{{ item.count }}</div> -->
+                    </router-link>
+                </div>      
+                <pm-do-action :hook="'pm-header-menu'"></pm-do-action> 
+            </nav>
+        </div>
+    </div>
 </template>
 
 
@@ -24,7 +44,6 @@
 	    background: #fff;
 	    border: 1px solid #E5E4E4;
 	    padding: 0 5px;
-        margin-top: 20px;
 
         &:after {
             display: table;
@@ -65,6 +84,24 @@
 	    	}
 	    }
 	}
+
+    .pm-header-menu-wrap {
+        margin-top: 20px;
+        .slicknav_menu {
+            display: none;
+        }
+    }
+
+    @media screen and (max-width: 480px) {
+        .pm-header-menu-wrap {
+            .slicknav_menu {
+                display: block;
+            }
+            .pm-project-menu {
+                display: none;
+            }
+        }
+    }
 </style>
 
 <script>
