@@ -1,6 +1,5 @@
 <template>
     <div  class="pm-task-list-wrap">
-        
         <pm-header></pm-header>
         <pm-menu></pm-menu>
 
