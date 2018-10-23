@@ -25,6 +25,7 @@
     z-index: 99999;
     left: 42%;
     top: 20%;
+    border-radius: 3px;
 }
 #pmswitchproject .pmswitcharea .pm-si-area .pm-sp-in {
     padding: 20px;
@@ -36,6 +37,9 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
+    line-height: 0;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
 }
 #pmswitchproject .pmswitcharea .switchinfo div {
     display: flex;
@@ -44,9 +48,6 @@
 }
 #pmswitchproject .pmswitcharea .switchinfo div span {
     margin: 0px 3px;
-}
-#pmswitchproject .pmswitcharea .pm-si-area {
-
 }
 #pmswitchproject .pmswitcharea  .ui-widget-content {
     border: none;
