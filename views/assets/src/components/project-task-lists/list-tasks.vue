@@ -88,8 +88,6 @@
             display: flex;
             align-items: center;
             margin: 25px 0 20px;
-            margin-left: 48px;
-
 
             .group-action-btn {
                 margin-right: 15px;
@@ -120,7 +118,7 @@
                 }
             }
             .pm-todo-wrap {
-                margin: 0 33px 0 47px !important;
+                //margin: 0 33px 0 47px !important;
 
                 .task-title {
                     .title {
@@ -143,8 +141,6 @@
         }
 
         .list-task-form {
-            margin: 0 20px 0 46px;
-
             .update-button {
                 position: absolute;
                 right: 0;
@@ -185,7 +181,7 @@
            
         }
         .pm-todo-wrap {
-            margin: 0 33px !important;
+            //margin: 0 33px !important;
 
             .task-update-wrap {
                 margin: 0 0 0 15px;
