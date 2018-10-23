@@ -15,7 +15,7 @@ var PM_Task = {
 
         $(el).sortable({
             cancel: '.nonsortable,form',
-            placeholder: "ui-state-highlight",
+            placeholder: "pm-ui-state-highlight",
             items: '> li:not(.nonsortable)',
             handle: '.pm-list-drag-handle',
             disabled: !component.is_manager(),
@@ -44,7 +44,7 @@ var PM_Task = {
         $(el).sortable({
             cancel: '.nonsortable,form',
             connectWith: '.pm-connected-sortable',
-            placeholder: "ui-state-highlight",
+            placeholder: "pm-ui-state-highlight",
             handle: '.pm-task-drag-handle',
             disabled: !component.is_manager(),
             
