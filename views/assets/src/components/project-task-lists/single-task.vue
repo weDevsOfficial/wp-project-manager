@@ -28,15 +28,16 @@
                     <div v-activity-load-more class="popup-body">
                         <div class="pm-single-task-header">
                             <div class="task-complete-incomplete" :class="{ 'disable': can_complete_task(task) }">
-                                
                                 <a class="completed" v-if="task.status" href="#" @click.prevent="singleTaskDoneUndone()">
-                                    <span class="icon-pm-completed pm-font-size-16"></span>
+                                    <span class="icon-pm-completed pm-font-size-16" v-if="!show_spinner_status"></span>
+                                    <span class="pm-spinner" v-if="show_spinner_status"></span>
                                     {{ __( 'Completed', 'pm' ) }}
                                 </a>
                             
                             
                                 <a  class="incomplete" v-if="!task.status" href="#" @click.prevent="singleTaskDoneUndone()">
-                                    <span class="icon-pm-incomplete pm-font-size-16"></span>
+                                    <span class="icon-pm-incomplete pm-font-size-16" v-if="!show_spinner_status"></span>
+                                    <span class="pm-spinner" v-if="show_spinner_status"></span>
                                     {{ __( 'Mark Complete', 'pm' ) }}
                                 </a>
                                 
@@ -93,6 +94,7 @@
 
                                         class="pm-task-title-activity pm-task-title-field"
                                         type="text">
+                                        <span class="pm-spinner" v-if="show_spinner"></span>
                                 </span>
 
                                 <span
@@ -363,6 +365,8 @@
                     html: ''
                 },
                 description_show_spinner: false,
+                show_spinner_status: false,
+                show_spinner: false,
             }
         },
 
@@ -585,6 +589,8 @@
 
                 var self = this,
                     status = this.task.status ? 0 : 1;
+
+                    this.show_spinner_status = true;
                 
                 var args = {
                     data: {
@@ -604,7 +610,7 @@
                         } else {
                             self.task.activities = { data: [res.activity.data] };
                         }
-                        
+                        self.show_spinner_status = false
                         pmBus.$emit('pm_after_task_doneUndone', res);
                     }
                 }
@@ -792,6 +798,7 @@
                     pm.Toastr.error(__('Invalid date range!', 'wedevs-project-manager'));
                     return;
                 }
+                this.show_spinner = true;
 
                 var update_data  = {
                         'title': task.title,
@@ -826,6 +833,7 @@
                         } else {
                             self.task.activities = { data: [res.activity.data] };
                         }
+                        self.show_spinner = false;
 
                         
                     },
