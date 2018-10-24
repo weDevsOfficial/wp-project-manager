@@ -23,8 +23,8 @@
                 </div>
             </div>
 
-            <pm-task-recurrent :recurrant-info="task_recurrent_status"> </pm-task-recurrent>
-    
+            <!--<pm-do-action hook="pm_task_recurrent" :actionData="task" ></pm-do-action>-->
+
             <div class="item user">
                 <div>
                     <multiselect 
@@ -68,7 +68,6 @@
 
 <script>
 import date_picker from './date-picker.vue';
-import recurrent from './task-recurrent.vue';
 import Mixins from './mixin';
 
 export default {
@@ -107,7 +106,6 @@ export default {
             submit_disabled: false,
             before_edit: jQuery.extend( true, {}, this.task ),
             task_description: this.task.description.content,
-            task_recurrent_status: {'recurrent': this.recurrentStatus(this.task.id), }, //recurrentStatus(this.task.id),
             show_spinner: false,
             date_from: '',
             date_to: '',
@@ -127,7 +125,6 @@ export default {
     components: {
     	'multiselect': pm.Multiselect.Multiselect,
     	'pm-datepickter': date_picker,
-        'pm-task-recurrent': recurrent
 
     },
 
@@ -329,8 +326,7 @@ export default {
                     due_date: this.task.due_date.date,
                     list_id: this.list.id,
                     order: this.task.order,
-                    estimation: this.task.estimation,
-                    recurrent: this.task.recurrent
+                    estimation: this.task.estimation
                 },
                 callback: function( res ) {
                     self.show_spinner = false;
@@ -351,15 +347,6 @@ export default {
                 return user.id;
             });
         },
-
-        recurrentStatus (taskId) {
-            if(!taskId){
-                return "0";
-            } else {
-                return this.task.recurrent;
-            }
-
-        }
     }
 }
 </script>

@@ -23,6 +23,7 @@ trait Task_Model_Trait {
         1 => '1', // weekly
         2 => '2', // Monthly
         3 => '3', // Annually
+        9 => '9', // never
     ];
 
     public static $payability = [
