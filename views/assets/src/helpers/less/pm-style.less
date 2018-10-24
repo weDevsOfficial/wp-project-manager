@@ -580,7 +580,7 @@
 				padding: 5px 10px;
 				.pm-light-color-fun();
 
-				.icon-pm-incomplete {
+				.icon-pm-incomplete, .pm-spinner {
 					margin-right: 8px;
 				}
 
@@ -606,7 +606,7 @@
 			    font-size: 12px;
 			    color: #788383;
 
-			    .icon-pm-completed {
+			    .icon-pm-completed, .pm-spinner {
 			    	margin-right: 8px;
 			    }
 			    
@@ -1140,6 +1140,10 @@
             z-index: 9999;
             border-width: 0 8px 7px 8px;
 	    }
+	}
+
+	.pm-datepicker-from, .pm-datepicker-to {
+		z-index: 9;
 	}
 
 	@media screen and (max-width: 600px) {
