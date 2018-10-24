@@ -14,6 +14,7 @@ import ContentDatePicker from '@components/common/content-date-picker.vue';
 import pmFile from '@components/common/pm-file.vue';
 import TaskList from '@components/project-task-lists/lists.vue';
 import HeaderMenu from '@components/common/menu.vue';
+import Comments from '@components/common/comments.vue';
 
 pm.Vue.component('pm-pagination', pagination);
 pm.Vue.component('pm-date-picker', datePicker);
@@ -31,6 +32,7 @@ pm.Vue.component('pm-content-datepicker', ContentDatePicker);
 pm.Vue.component('pm-file', pmFile);
 pm.Vue.component('pm-task-list', TaskList);
 pm.Vue.component('pm-heder-menu', HeaderMenu);
+pm.Vue.component('pm-comments', Comments);
 
 
 

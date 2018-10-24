@@ -68,6 +68,10 @@
             </div>
 
             <list-tasks :list="list"></list-tasks>
+            <div class="list-comments-wrap">
+                <div class="discuss-text">{{ __( 'Discussion', 'wedevs-project-manager') }}</div>
+                <pm-comments :comments="comments" :commentable="list"></pm-comments>
+            </div>
             
         </div>
         
@@ -170,6 +174,60 @@
         border-left: 1px solid #e5e4e4;
         border-right: 1px solid #e5e4e4;
 
+        .list-comments-wrap {
+            .margin-left();
+            margin-bottom: 20px;
+           
+            .pm-comment-edit-form {
+                margin-right: 28px !important;
+            }
+            .pm-comment-form {
+                width: 99.9%;
+                .comment-submit {
+                    margin-right: 6px !important;
+                }
+                .pm-button-nofity-user {
+                    margin-left: 6px !important;
+                }
+                .comment-submit-btn {
+                    margin-top: 6px !important;
+                }
+            }
+            
+            .comment-content {
+                border: none;
+                padding: 14px 0 0 1px;
+                .pm-attachment-items {
+                    .pm-uploaded-item {
+                        padding: 10px 10px 0 0;
+                        margin: 0;
+                    }
+                }
+
+                .pm-comment-edit-form {
+                    .attach-text {
+                        margin-bottom: 0;
+                    }
+                }
+                .comment-field-content {
+                    padding: 5px 0 0 0 ;
+                    .comment-field {
+                        width: 94.5%;
+                    }
+                    .comment-field-avatar {
+                        margin-right: 20px;
+                    }
+                }
+            }
+            .discuss-text {
+                margin: 10px 0;
+                margin-top: 35px;
+                font-size: 14px;
+                font-weight: bold;
+                color: #000000;
+            }
+        }
+
         .task-group {
             .incomplete-task-li {
                 .pm-todo-wrap {
@@ -178,7 +236,7 @@
             }
             
             .more-task-wrap, .list-task-form {
-                margin-left: 22px;
+                .margin-left();
             }
             .complete-task-li {
                 .pm-todo-wrap {
