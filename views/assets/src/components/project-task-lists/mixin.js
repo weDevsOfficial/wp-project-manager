@@ -1099,17 +1099,6 @@ var PM_TaskList_Mixin = {
         },
 
         /**
-         * ISO_8601 Date format convert to pm.Moment date format
-         * 
-         * @param  string date 
-         * 
-         * @return string      
-         */
-        dateISO8601Format ( date ) {
-          return pm.Moment( date ).format();
-        },
-
-        /**
          * Task Order for sortable 
          * @param  {[Object]}   data     Data order
          * @param  {Function} callback 
