@@ -180,9 +180,11 @@
         $(document).bind('keydown', function (e) {
             var keycode = e.keyCode || e.which;
             if (!jpressed && ctrlDown && keycode === jKey) {
+                e.preventDefault();
                 jpressed = true;
                 show_search_element();
             } else if (jpressed && ctrlDown && keycode === jKey) {
+                e.preventDefault();
                 jpressed = false;
                 element.css('display', 'none').removeClass('active');
             }
