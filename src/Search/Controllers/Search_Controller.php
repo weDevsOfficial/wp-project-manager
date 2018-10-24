@@ -93,10 +93,6 @@ class Search_Controller {
 		} elseif ( 'project' === $model ) {
 			$items = array_merge( $items, $this->search_in_project( $string ) );
 		}
-
-		if ( empty( $items ) ) {
-            $items = [ [ "no_result" => __( "No result found.", 'pm-pro' )] ];
-        }
         
         return $items;
 
@@ -118,10 +114,6 @@ class Search_Controller {
             $items = [ [ "no_result" => __( "No result found.", 'pm-pro' ) ]];
 		}
 		
-    	if ( empty( $items ) ) {
-            $items = [ [ "no_result" => __( "No result found.", 'pm-pro' )] ];
-        }
-        
         return $items;
 	}
 	
