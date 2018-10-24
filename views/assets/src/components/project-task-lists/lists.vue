@@ -43,7 +43,6 @@
                         </div>
                     </div>
 
-
                     <ul v-if="hasSearchContent() && isListFetch" v-pm-list-sortable :class="filterActiveClass()+ ' pm-todolists'">
                     
                         <li  v-for="list in lists" :key="list.id" :data-id="list.id"  :class="taskListClass(list.id)">
@@ -52,36 +51,32 @@
                                 <div class="list-item-content">
                                     <div class="before-title">
                                         <span v-if="!isInbox(list.id)" class="pm-list-drag-handle icon-pm-drag-drop"></span>
-                                        
                                         <span v-if="!list.expand" @click.prevent="listExpand(list)" :class="inboxClass(list) + ' icon-pm-down-arrow'"></span>
                                         <span v-if="list.expand" @click.prevent="listExpand(list)" :class="inboxClass(list) + ' icon-pm-up-arrow'"></span>
                                     </div>
 
                                     <div class="list-title">
-                                 
-                                        <router-link class="list-title-anchor" :to="{ 
-                                            name: 'single_list', 
-                                            params: { 
-                                                list_id: list.id 
-                                            }}">
-                                        {{ list.title }}
-                                        
-                                        </router-link>
+                                        <span @click.prevent="listExpand(list)" class="list-title-anchor">{{ list.title }}</span>
                                     </div>
                                     <div class="after-title">
                                         
-                                        <div class="list-title-action progress-bar">
-                                            <div :style="getProgressStyle( list )" class="bar completed"></div>
-                                        </div>
-                                           
-                                        <!-- never remove <div class="pm-progress-percent">{{ getProgressPercent( list ) }}%</div> -->
-                                        <div class="list-title-action task-count">
-                                            <span>{{ list.meta.total_complete_tasks }}</span>/<span>{{ getTotalTask(list.meta.total_complete_tasks, list.meta.total_incomplete_tasks) }}</span>
-                                        </div>
-                                        <div v-if="!isInbox(list.id)" class="list-title-action">
-                                            <span v-if="!parseInt(list.meta.privacy)" class="icon-pm-unlock"></span>
-                                            <span v-if="parseInt(list.meta.privacy)" class="icon-pm-private"></span>
-                                        </div>
+                                            <div class="view-single-list" v-pm-tooltip :title="__('Single List', 'wedevs-project-manager')">
+                                                <span @click.prevent="goToSigleList(list)" class="icon-pm-eye"></span>
+                                            </div>
+                                            <div class="list-title-action progress-bar">
+                                                <div :style="getProgressStyle( list )" class="bar completed"></div>
+                                            </div>
+                                               
+                                            <!-- never remove <div class="pm-progress-percent">{{ getProgressPercent( list ) }}%</div> -->
+                                            <div class="list-title-action task-count">
+                                                <span>{{ list.meta.total_complete_tasks }}</span>/<span>{{ getTotalTask(list.meta.total_complete_tasks, list.meta.total_incomplete_tasks) }}</span>
+                                            </div>
+
+                                            <div v-if="!isInbox(list.id)" class="list-title-action">
+                                                <span v-if="!parseInt(list.meta.privacy)" class="icon-pm-unlock"></span>
+                                                <span v-if="parseInt(list.meta.privacy)" class="icon-pm-private"></span>
+                                            </div>
+                                        
                                     </div>
 
                                     <div v-if="!isInbox(list.id) && can_edit_task_list(list)" :data-list_id="list.id" @click.prevent="showHideMoreMenu(list)" class="more-menu list-more-menu">
@@ -509,6 +504,25 @@
                         margin-bottom: 10px;
                     }
 
+                    .task-group {
+                        .complete-task-ul{
+                            .pm-todo-wrap {
+                                margin: 0 33px 0 47px !important;
+                            }
+                        }
+
+                        .pm-todo-wrap {
+                            margin: 0 33px !important;
+                        }
+
+                        .more-task-wrap { 
+                            margin-left: 48px;
+                        }
+                        .list-task-form  {
+                            margin: 0 20px 0 46px;
+                        }
+                    }
+
                     .list-li>.list-content {
                         &:hover {
                             border-top: 1px solid #e5e4e4;
@@ -572,7 +586,32 @@
                             }
                             .after-title {
                                 position: relative;
-                                top: -1px;
+                                top: 2px;
+
+                                .view-single-list {
+                                    cursor: pointer;
+                                    &:hover {
+                                        .icon-pm-eye {
+                                            &:before {
+                                                color: #000;
+                                            }
+                                        }
+                                    }
+                                }
+
+                                .icon-pm-unlock {
+                                    &:before {
+                                        color: #d7dee2;
+                                    }
+                                }
+                                .icon-pm-private {
+                                    &:before {
+                                        color: #d7dee2;
+                                    }
+                                }
+                                .list-title-action {
+                                    margin-left: 12px;
+                                }
                             }
                             .more-menu {
                                 padding: 0 12px;
@@ -689,21 +728,6 @@
                                     }
                                 }
 
-                            }
-                            .after-title {
-                                .icon-pm-unlock {
-                                    &:before {
-                                        color: #d7dee2;
-                                    }
-                                }
-                                .icon-pm-private {
-                                    &:before {
-                                        color: #d7dee2;
-                                    }
-                                }
-                                .list-title-action {
-                                    margin-left: 12px;
-                                }
                             }
                         }
 
@@ -1434,6 +1458,16 @@
         },
 
         methods: {
+            goToSigleList (list) {
+                this.$router.push({
+                    name: 'single_list',
+                    params: { 
+                        project_id: this.project_id,
+                        list_id: list.id
+                    }
+                });
+            },
+
             inboxClass (list) {
                 return this.isInbox(list.id) ? 'inbox-list' : '';
             },
