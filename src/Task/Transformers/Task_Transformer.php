@@ -89,13 +89,21 @@ class Task_Transformer extends TransformerAbstract {
         $meta = $item->metas()->get()->toArray();
         $meta = wp_list_pluck( $meta, 'meta_value', 'meta_key' );
 
-        return array_merge( $meta, [
+        $metas = array_merge( $meta, [
             'total_comment'  => $item->comments->count(),
             'total_files'    => $item->files->count(),
             'total_board'    => $item->boards->count(),
             'total_assignee' => $item->assignees->count(),
             'can_complete_task' => pm_user_can_complete_task( $item ),
         ] );
+
+//        recurrence data unserialized
+	    if(array_key_exists('recurrence', $metas)){
+		    $recurrence = $metas['recurrence'];
+		    $metas['recurrence'] = maybe_unserialize($recurrence);
+
+	    }
+	    return $metas;
     }
 
     /**
