@@ -5,7 +5,7 @@ return [
 	
 	'pm-config' => [
 		'id'         => 'pm-config',
-		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/config.js',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/bootstrap.js',
 		'dependency' => ['jquery'],
 		'in_footer'  => true
 	],
