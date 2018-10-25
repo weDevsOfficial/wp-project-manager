@@ -46,7 +46,7 @@
                     </span>
                     <!-- <span @click.prevent="showHideDescription()" class="icon-pm-pencil pm-dark-hover"></span> -->
 
-                    <span  @click.self.prevent="enableDisable('datePicker')" class="icon-pm-calendar new-task-calendar pm-dark-hover"></span>
+                    <span @click.self.prevent="enableDisable('datePicker')" class="icon-pm-calendar new-task-calendar pm-dark-hover"></span>
                     
                 </div>
                 <div v-if="datePicker" class="subtask-date new-task-caledar-wrap">
@@ -161,6 +161,7 @@
                     color: #fff;
                     font-size: 12px;
                     padding: 6px 8px;
+                    
                     &:hover {
                         background: #008ec2;
                     }
