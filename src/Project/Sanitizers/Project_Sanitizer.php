@@ -9,7 +9,7 @@ class Project_Sanitizer extends Abstract_Sanitizer {
         return [
             'projectable_type' => 'trimer',
             'title'            => 'trimer',
-            'description'      => 'trimer',
+            'description'      => 'trimer|pm_kses',
             'status'           => 'trimer',
         ];
     }

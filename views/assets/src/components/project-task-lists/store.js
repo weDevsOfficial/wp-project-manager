@@ -36,6 +36,7 @@ export default {
         inline_task_end_date: '',
         inline_task_description: '',
         inline_todo_list_id: 0,
+        expandListIds: [],
         inline_display: {
             users: false,
             start: false,
@@ -519,10 +520,10 @@ export default {
                 length   = state.lists.length;
 
             if (per_page <= length) {
-                state.lists.splice(0,0,list);
+                state.lists.splice(1,0,list);
                 state.lists.pop();
             } else {
-                state.lists.splice(0,0,list);
+                state.lists.splice(1,0,list);
             }
         },
         afterUpdateList (state, list) {
@@ -678,6 +679,14 @@ export default {
             });
 
             state.lists = lists;
+        },
+        expandList (state, listId) {
+            let i = state.expandListIds.findIndex(x => x == listId);
+            if (i !== -1) {
+                state.expandListIds.splice(i, 1);
+            }else {
+                state.expandListIds.push(listId);
+            }
         }
     }
 };

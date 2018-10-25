@@ -4,7 +4,9 @@ Donate Link: https://tareq.co/donate/
 Tags: project, manager, project manager, project management, todo, todo list, task, basecamp, milestone, message, file, comment, client, team, tracking, planning, lists, reporting, project management plugin for wordpress, project manager, project manager plugin for wordpress, wordpress project management
 Requires at least: 4.4
 Tested up to: 4.9.8
-Stable tag: 2.0.4
+Requires PHP: 5.6
+Stable tag: 2.0.6
+
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -122,16 +124,18 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
-= v2.0.6 - August 16, 2018 =
+= v2.0.6 - Oct 02, 2018 =
 
-* **New** Task single page redesign
-* **New** Show activity in single task page
+* **New** Set permission setting for user mail notification.
+* **New** Task single page redesign.
+* **New** Show activity in single task page.
 * **New** Projects can mark as favourite by users.
 * **New** Added completed_by and completed_at fields in pm_tasks database table.
 * **New** Added status field in pm_broad database table.
 * **New** Support for video file upload.
 * **New** New user notification.
 * **New** Advanced task filter from task list page.
+* **New** Set deleted activity log in activity section.
 * **Fix** Invalid time issue in activity page.
 * **Fix** Overview graph for last 3o days activity
 * **Fix** Get email notification when update discussion

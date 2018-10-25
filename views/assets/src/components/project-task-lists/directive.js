@@ -12,11 +12,13 @@ var PM_Task = {
     listSortable: function(el, binding, vnode) {
         var $ = jQuery;
         var component = vnode.context;
-        
 
         $(el).sortable({
             cancel: '.nonsortable,form',
-            placeholder: "ui-state-highlight",
+            placeholder: "pm-ui-state-highlight",
+            items: '> li:not(.nonsortable)',
+            handle: '.pm-list-drag-handle',
+            disabled: !component.is_manager(),
             
             
             update: function(event, ui) {
@@ -42,16 +44,18 @@ var PM_Task = {
         $(el).sortable({
             cancel: '.nonsortable,form',
             connectWith: '.pm-connected-sortable',
-            placeholder: "ui-state-highlight",
+            placeholder: "pm-ui-state-highlight",
+            handle: '.pm-task-drag-handle',
+            disabled: !component.is_manager(),
             
             update: function(event, ui) {
                 if(ui.sender) {
                     PM_Task.receive(this, vnode, ui, event);
                 } else {
-                    let listId = $(ui.item).closest('ul.pm-todolist-content').data('list_id');
-                    let todos  = $(ui.item).closest('ul.pm-todolist-content').find('li.pm-todo');
+                    let listId = $(ui.item).closest('ul.incomplete-task-ul').data('list_id');
+                    let todos  = $(ui.item).closest('ul.incomplete-task-ul').find('li.incomplete-task-li');
                     let orders = PM_Task.sorting(todos);
-                    
+
                     component.taskOrder({
                         list_id: listId,
                         orders: orders
@@ -64,9 +68,9 @@ var PM_Task = {
     receive: function(self, vnode, ui) {
         
         var $ = jQuery,
-            listId = $(ui.item).closest('ul.pm-todolist-content').data('list_id'),
+            listId = $(ui.item).closest('ul.incomplete-task-ul').data('list_id'),
             taskId = $(ui.item).data('id'),
-            todos  = $(ui.item).closest('ul.pm-todolist-content').find('li.pm-todo'),
+            todos  = $(ui.item).closest('ul.incomplete-task-ul').find('li.incomplete-task-li'),
             orders = PM_Task.sorting(todos);
 
         vnode.context.taskReceive({
@@ -175,7 +179,6 @@ var PM_Task = {
     },
 
     daterangeRangepicker (el, binding, vnode) {
-        console.log(jQuery('.pm-date-picker-from'));
         jQuery(el).daterangepicker({
             alwaysShowCalendars: true,
             opens: 'center'

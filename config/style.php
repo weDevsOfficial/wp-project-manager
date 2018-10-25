@@ -67,6 +67,11 @@ return [
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/css/pm-style.css',
 		'dependency' => false,
 	],
+	'pm-slicknav' => [
+		'id'         => 'pm-slicknav',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/css/slicknav/slicknav.min.css',
+		'dependency' => false,
+	],
 	'pm-const-style' => [
 		'id'         => 'pm-const-style',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/css/const-style.css',
@@ -89,7 +94,15 @@ return [
 			'pm-tiptip',
 			'pm-daterangepicker',
 			'pm-const-style',
-			'pm-new-style'
+			'pm-new-style',
+			'pm-slicknav'
 		],
 	],
+
+    'pmglobal' => [
+        'id'         => 'pmglobal',
+        'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/css/pmglobal.css',
+        'dependency' => [
+        ],
+    ],
 ];

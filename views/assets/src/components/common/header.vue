@@ -1,75 +1,237 @@
 <template>
-    <div class="pm-top-bar pm-no-padding pm-project-header pm-project-head" v-if="hasProject">
-        <div class="pm-row pm-no-padding pm-border-bottom">
+    <div class="pm-header-title-content" v-if="isProjectLoaded">
+        <div class="project-title">
+            <span class="title">{{ project.title }}</span>
+            <a href="#" @click.prevent="showHideProjectForm('toggle')" class="icon-pm-pencil project-update-btn"></a>
 
-            <div class="pm-col-6 pm-project-detail">
-                <h3>
-                    <span class="pm-project-title">{{ project.title }}</span>
-                     <a @click.prevent="showHideProjectForm('toggle')" href="#" v-if="is_manager()" class="pm-icon-edit pm-project-edit-link small-text">
-                        <span class="dashicons dashicons-edit"></span> 
-                        <span class="text">{{  __( 'Edit', 'wedevs-project-manager') }}</span>
-                     </a>
-                </h3>
-                <div class="detail" v-if="project.description.content">
-                    <div class="pm-project-description" v-html="project.description.html"></div>
+            <edit-project v-if="is_project_edit_mode && is_manager()" class="project-edit-form" :project="project"></edit-project>
+            <div class="settings header-settings">
+
+                <a href="#" @click.prevent="showHideSettings()" class="icon-pm-settings header-settings-btn"></a>
+
+                <div v-if="settingStatus" class="settings-activity">
+                    <div class="pm-triangle-top">
+                        <ul class="action-ul">
+                            <li>
+                                <a @click.prevent="selfProjectMarkDone(project)" href="#">
+                                    <span v-if="project.status === 'incomplete'" class="icon-pm-completed"></span>
+                                    <span v-if="project.status === 'incomplete'">{{ __( 'Complete', 'wedevs-project-manager') }}</span>
+
+                                    <span v-if="project.status === 'complete'" class="icon-pm-undo-arrow"></span>
+                                    <span v-if="project.status === 'complete'">{{ __( 'Restore', 'wedevs-project-manager') }}</span>
+                                </a>
+                            </li>
+                        
+                            <li>
+                                <a href="#" @click.prevent="deleteProject(project.id)" :title="__( 'Delete project', 'wedevs-project-manager')">
+
+                                    <span class="icon-pm-delete"></span>
+                                    <span class="">{{ __( 'Delete', 'wedevs-project-manager') }}</span>
+                                </a>
+                            </li>
+                            <!-- <do-action :hook="'pm-header-menu'" :actionData="menu"></do-action>  -->
+                        </ul>
+
+                    </div>
                 </div>
             </div>
-            <div class="pm-completed-wrap">
-                <div v-if="project.status === 'complete'" class="ribbon-green">{{ __( 'Completed', 'wedevs-project-manager')}}</div>
-                <div v-if="project.status === 'incomplete'" class="ribbon-green incomplete">{{ __( 'Incomplete', 'wedevs-project-manager') }}</div>
-            </div>
-            <div class="pm-col-6 pm-last-col pm-top-right-btn pm-text-right show_desktop_only" >
-                <div class="pm-project-action" v-if="is_manager()">
-                    <span @click.prevent="showProjectAction()" :title="project_action" class="dashicons dashicons-admin-generic pm-settings-bind"></span>
-                    <ul v-if="settings_hide" class="pm-settings">
-                        <li>
-                            <span class="pm-spinner"></span>
-                            <a href="#" @click.prevent="deleteProject(project.id)" :title="__( 'Delete project', 'wedevs-project-manager')">
 
-                                <span class="dashicons dashicons-trash"></span>
-                                <span>{{ __( 'Delete', 'wedevs-project-manager') }}</span>
-                            </a>
-                        </li>
-                        <li>
-                            <span class="pm-spinner"></span>
-                            <a @click.prevent="selfProjectMarkDone(project)" href="#">
-                                <span v-if="project.status === 'incomplete'" class="dashicons dashicons-yes"></span>
-                                <span v-if="project.status === 'incomplete'">{{ __( 'Complete', 'wedevs-project-manager') }}</span>
-
-                                <span v-if="project.status === 'complete'" class="dashicons dashicons-undo"></span>
-                                <span v-if="project.status === 'complete'">{{ __( 'Restore', 'wedevs-project-manager') }}</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <pm-do-action hook="pm_project_header" ></pm-do-action>
-            </div>
-
-            <div class="clearfix"></div>
-             <transition name="slide" v-if="is_manager()">
-                <div class="pm-edit-project" v-if="is_project_edit_mode">
-                    <edit-project :project="project"></edit-project>
-                </div>
-            </transition>
         </div>
 
-        <div class="pm-row pm-project-group">
-            <ul v-if="menu.length">
-                <li v-for="item in menu"> 
-                    <router-link 
-                        :class="item.class"
-                        :to="item.route">
-                        <span>{{ item.name }}</span>
-                        <div>{{ item.count }}</div>
-                    </router-link>
-                </li>      
-                <do-action :hook="'pm-header-menu'" :actionData="menu"></do-action>
-            </ul>
+        <div>
+            <pm-do-action hook="pm_project_header" ></pm-do-action>
         </div>
 
-        <div class="clearfix"></div>
-    </div>
+       <!--  <div class="project-status">
+            <div v-if="project.status === 'complete'" class="complete">{{ __( 'Completed', 'wedevs-project-manager')}}</div>
+            <div v-if="project.status === 'incomplete'" class="incomplete">{{ __( 'Incomplete', 'wedevs-project-manager') }}</div>
+        </div>  -->
+    </div> 
+    
 </template>
+
+<style lang="less">
+    
+    .pm-header-title-content {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+
+        .project-status {
+            .incomplete, .complete {
+                border: 1px solid #E5E4E4;
+                background: #fff;
+                padding: 4px 8px;
+                margin-left: 5px;
+                cursor: pointer;
+                border-radius: 3px;
+                color: #788383;
+                font-size: 12px;
+
+                &:hover {
+                    border: 1px solid #1A9ED4;
+                    color: #1A9ED4;
+                }
+            }
+        }
+        .project-title {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            line-height: 0;
+            position: relative;
+
+            .project-edit-form {
+                position: absolute;
+                padding: 5px 5px 15px 15px;
+                top: 40px;
+                z-index: 99;
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+                border: 1px solid #DDDDDD;
+                background: #fff;
+                border-radius: 3px;
+                box-shadow: 0px 2px 40px 0px rgba(214, 214, 214, 0.6);
+
+                &:before {
+                    border-color: transparent transparent #DDDDDD transparent;
+                    position: absolute;
+                    border-style: solid;
+                    top: -9px;
+                    left: 116px;
+                    content: "";
+                    z-index: 9999;
+                    border-width: 0px 8px 8px 8px;
+                }
+
+                &:after {
+                    border-color: transparent transparent #ffffff transparent;
+                    position: absolute;
+                    border-style: solid;
+                    top: -7px;
+                    left: 116px;
+                    content: "";
+                    z-index: 9999;
+                    border-width: 0 8px 7px 8px;
+                }
+            }
+
+            .title {
+                font-size: 18px;
+                font-weight: bold;
+                color: #000;
+                margin-right: 20px;
+                white-space: nowrap;
+            }
+            .icon-pm-pencil {
+                border: 1px solid #E5E4E4;
+                background: #fff;
+                color: #95A5A6;
+                padding: 0px 10px;
+                border-radius: 3px;
+                cursor: pointer;
+                border-top-right-radius: 0px;
+                border-bottom-right-radius: 0px;
+                height: 30px;
+                display: flex;
+                align-items: center;
+                z-index: 9;
+
+                &:hover {
+                    border: 1px solid #1A9ED4;
+                    color: #1A9ED4;
+                    
+                    &:before {
+                        color: #1A9ED4;
+                    }
+                }
+            }
+        }
+
+        .settings {
+            position: relative;
+            display: flex;
+            align-items: center;
+            border: 1px solid #E5E4E4;
+            background: #fff;
+            color: #95A5A6;
+            border-radius: 3px;
+            cursor: pointer;
+            border-left-color: #fff;
+            border-top-left-radius: 0px;
+            border-bottom-left-radius: 0px;
+            margin-left: -1px;
+            &:hover {
+                border: 1px solid #1A9ED4;
+                color: #1A9ED4;
+                z-index: 99;
+                
+                .icon-pm-settings {
+                    &:before {
+                        color: #1A9ED4;
+
+                    }
+                }
+            }
+
+            .header-settings-btn {
+                height: 28px;
+                padding: 0 10px;
+                display: flex;
+                align-items: center;
+            }
+
+            .settings-activity {
+                position: relative;
+                .pm-triangle-top {
+                    left: -36px !important;
+                    right: 0 !important;
+                    width: 127px !important;
+                    padding: 0px !important;
+                    top: 26px !important;
+
+                    &:before {
+                        right: auto !important;
+                        left: 10px !important;
+                    }
+
+                    &:after {
+                        right: auto !important;
+                        left: 10px !important;
+                    }
+
+                    .action-ul {
+                        margin: 0;
+                        padding: 0;
+
+                        .icon-pm-undo-arrow {
+
+                        }
+
+                        li {
+                            margin: 0;
+                            padding: 0;
+                            a {
+                                display: flex;
+                                align-items: center;
+                                padding: 10px;
+
+                                .icon-pm-completed, .icon-pm-delete, .icon-pm-undo-arrow {
+                                    width: 20px;
+                                }
+                                .icon-pm-undo-arrow {
+                                    &:before {
+                                        font-size: 11px;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+ 
+</style>
 
 <script>
     //import router from './../../router/router';
@@ -81,103 +243,43 @@
             return {
                 project_action: __('Project Actions', 'wedevs-project-manager'),
                 settings_hide: false,
+                settingStatus: false,
+                isEnableUpdateForm: false
             }
 
+        },
+        watch: {
+            '$route' (to, from) {
+                this.getGloabalProject(to.params.project_id);
+                this.getProjectCategories();
+                this.getRoles();
+            }
         },
 
         computed: {
+            isProjectLoaded () {
+                let project = this.$store.state.project;
+                
+                return jQuery.isEmptyObject(project) ? false : true;
+            },
             is_project_edit_mode () {
-                return this.$root.$store.state.is_project_form_active;
+                return this.$store.state.is_project_form_active;
             },
 
             project () {
-                return  this.$root.$store.state.project;
+                return  this.$store.state.project;
             },
             hasProject () {
-                return this.project.hasOwnProperty('id');
+
+                return this.$store.state.project.hasOwnProperty('id');
             },
-
-            menu () {
-                var project = this.$root.$store.state.project;
-                
-                if( typeof project.meta === 'undefined' ){
-                    return [];
-                }
-
-                return [
-                    {
-                        route: {
-                            name: 'pm_overview',
-                            project_id: this.project_id,
-                        },
-
-                        name: this.__( 'Overview', 'wedevs-project-manager'),
-                        count: '',
-                        class: 'overview pm-sm-col-12'
-                    },
-
-                    {
-                        route: {
-                            name: 'activities',
-                            project_id: this.project_id,
-                        },
-
-                        name: this.__( 'Activities', 'wedevs-project-manager'),
-                        count: project.meta.data.total_activities,
-                        class: 'activity pm-sm-col-12'
-                    },
-
-                    {
-                        route: {
-                            name: 'discussions',
-                            project_id: this.project_id,
-                        },
-
-                        name: this.__( 'Discussions', 'wedevs-project-manager'),
-                        count: project.meta.data.total_discussion_boards,
-                        class: 'message pm-sm-col-12'
-                    },
-
-                    {
-                        route: {
-                            name: 'task_lists',
-                            project_id: this.project_id,
-                        },
-
-                        name: this.__( 'Task Lists', 'wedevs-project-manager'),
-                        count: project.meta.data.total_task_lists,
-                        class: 'to-do-list pm-sm-col-12'
-                    },
-
-                    {
-                        route: {
-                            name: 'milestones',
-                            project_id: this.project_id,
-                        },
-
-                        name: this.__( 'Milestones', 'wedevs-project-manager'),
-                        count: project.meta.data.total_milestones,
-                        class: 'milestone pm-sm-col-12'
-                    },
-
-                    {
-                        route: {
-                            name: 'pm_files',
-                            project_id: this.project_id,
-                        },
-
-                        name: this.__( 'Files', 'wedevs-project-manager'),
-                        count: project.meta.data.total_files,
-                        class: 'files pm-sm-col-12'
-                    }
-                ];
-            }
         },
-
+        
         created () {
             this.getGloabalProject();
             this.getProjectCategories();
             this.getRoles(); 
+            window.addEventListener('click', this.windowActivity);
         },
 
         components: {
@@ -186,11 +288,35 @@
         },
 
         methods: {
+            windowActivity (el) {
+                var settingsWrap  = jQuery(el.target).closest('.header-settings'),
+                    settingsBtn = jQuery(el.target).hasClass('header-settings-btn'),
+                    projectUpdatebtn = jQuery(el.target).hasClass('project-update-btn'),
+                    projectUdpateWrap = jQuery(el.target).closest('.project-edit-form');
+
+                if ( !settingsBtn && !settingsWrap.length ) {
+                    this.settingStatus = false;
+                }
+
+                if ( !projectUpdatebtn && !projectUdpateWrap.length ) {
+        
+                    this.showHideProjectForm(false);
+                }
+            },
+
+            enableDisableUpdateForm () {
+                this.isEnableUpdateForm = this.isEnableUpdateForm ? false : true;
+            },
+
+            showHideSettings () {
+                this.settingStatus = this.settingStatus ? false : true;
+            },
             showProjectAction () {
                 this.settings_hide = !this.settings_hide;
             },
 
             selfProjectMarkDone () {
+
                 var args = {
                     data: {
                         id : this.project.id,
@@ -207,7 +333,6 @@
                         );
                     }
                 } 
-
 
                 this.updateProject( args );
             }

@@ -14,6 +14,7 @@ class Create_Role extends Abstract_Validator {
     public function rules() {
         return [
             'title'  => 'required',
+            'description' => 'pm_kses',
         ];
     }
 }

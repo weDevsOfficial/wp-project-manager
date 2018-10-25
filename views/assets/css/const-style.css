@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?pv6gr4');
-  src:  url('fonts/icomoon.eot?pv6gr4#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?pv6gr4') format('truetype'),
-    url('fonts/icomoon.woff?pv6gr4') format('woff'),
-    url('fonts/icomoon.svg?pv6gr4#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?d1pvcp');
+  src:  url('fonts/icomoon.eot?d1pvcp#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?d1pvcp') format('truetype'),
+    url('fonts/icomoon.woff?d1pvcp') format('woff'),
+    url('fonts/icomoon.svg?d1pvcp#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -30,14 +30,85 @@
 .icon-pm-check-circle:before {
   content: "\e919";
 }
+.icon-pm-invoice:before {
+  content: "\e92d";
+}
+.icon-pm-gantchart:before {
+  content: "\e930";
+  color: #c9c9c9;
+}
+.icon-pm-activity:before {
+  content: "\e92c";
+  color: #c9c9c9;
+}
+.icon-pm-search:before {
+  content: "\e92b";
+  color: #95a5a6;
+}
+.icon-pm-settings:before {
+  content: "\e92a";
+  color: #c9c9c9;
+}
+.icon-pm-task-count:before {
+  content: "\e926";
+  color: #d6d6d6;
+}
+.icon-pm-comment:before {
+  content: "\e927";
+  color: #d6d6d6;
+}
+.icon-pm-left-arrow:before {
+  content: "\e928";
+  color: #95a5a6;
+}
+.icon-pm-move:before {
+  content: "\e929";
+  color: #d7dee2;
+}
+.icon-pm-drag-drop:before {
+  content: "\e923";
+  color: #d7dee2;
+}
+.icon-pm-kanboard-view:before {
+  content: "\e924";
+  color: #d7dee2;
+}
+.icon-pm-list-view:before {
+  content: "\e925";
+  color: #1a9ed4;
+}
+.icon-pm-task-filter:before {
+  content: "\e922";
+  color: #fff;
+}
+.icon-pm-file:before {
+  content: "\e91e";
+  color: #f39c12;
+}
+.icon-pm-mileston:before {
+  content: "\e91f";
+  color: #9b59b6;
+}
+.icon-pm-discussion:before {
+  content: "\e920";
+  color: #1abc9c;
+}
+.icon-pm-task-list:before {
+  content: "\e921";
+  color: #e9485e;
+}
+.icon-pm-overview:before {
+  content: "\e91d";
+  color: #3b80f4;
+}
+.icon-pm-archive:before {
+  content: "\e91b";
+}
 .icon-pm-copy-files:before {
   content: "\e918";
 }
 .icon-pm-undo-arrow:before {
   content: "\e91a";
-}
-.icon-pm-archive:before {
-  content: "\e91b";
 }
 .icon-pm-cross:before {
   content: "\e917";
@@ -110,6 +181,10 @@
   content: "\e90b";
   color: #d6d6d6;
 }
+.icon-pm-plus:before {
+  content: "\e91c";
+  color: #ababab;
+}
 .icon-pm-smile:before {
   content: "\e90d";
   color: #d4d6d6;
@@ -129,6 +204,9 @@
 .icon-pm-watch:before {
   content: "\e911";
   color: #d4d6d6;
+}
+.icon-pm-eye:before {
+  content: "\e9ce";
 }
 .icon-pm-filter:before {
   content: "\ea5b";

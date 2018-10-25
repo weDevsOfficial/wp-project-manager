@@ -138,14 +138,14 @@ function pm_after_load_pro() {
 }
 
 function pm_init_tracker() {
-
     $insights = new AppSero\Insights( 'd6e3df28-610b-4315-840d-df0b2b02f4fe', 'WP Project Manager', PM_FILE );
     $insights->add_extra( [
-//        'projects'  => $insights->get_post_count( 'cpm_project' ),
-//        'tasklist'  => $insights->get_post_count( 'cpm_task_list' ),
-//        'tasks'     => $insights->get_post_count( 'cpm_task' ),
-//        'message'   => $insights->get_post_count( 'cpm_message' ),
-//        'milestone' => $insights->get_post_count( 'cpm_milestone' ),
+
+        'projects'  => pm_total_projects(),
+        'tasklist'  => pm_total_task(),
+        'tasks'     => pm_total_task_list(),
+        'message'   => pm_total_message(),
+        'milestone' => pm_total_milestone(),
         'is_pro'    => class_exists('WeDevs\PM_Pro\Core\WP\Frontend') ? 'yes' : 'no'
     ] );
 
