@@ -164,7 +164,6 @@
         }
 
         $(document).bind('keydown', function (e) {
-            e.preventDefault();
             var keycode = e.keyCode || e.which;
             if (keycode === ctrlKey || keycode === cmdKey) {
                 ctrlDown = true;
@@ -172,7 +171,6 @@
         });
 
         $(document).bind('keyup', function (e) {
-            e.preventDefault();
             var keycode = e.keyCode || e.which;
             if (keycode === ctrlKey || keycode === cmdKey) {
                 ctrlDown = false;
@@ -180,7 +178,6 @@
         });
 
         $(document).bind('keydown', function (e) {
-            e.preventDefault();
             var keycode = e.keyCode || e.which;
             if (!jpressed && ctrlDown && keycode === jKey) {
                 e.preventDefault();
