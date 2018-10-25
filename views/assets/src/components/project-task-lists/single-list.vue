@@ -229,9 +229,29 @@
         }
 
         .task-group {
+            
             .incomplete-task-li {
                 .pm-todo-wrap {
                     margin-left: 5px;
+                    .todo-content {
+                        margin-right: 20px;
+                        .icon-pm-more-options {
+                            padding-right: 10px;
+                        }
+                    }
+                    .task-update-wrap {
+                        width: auto;
+                        margin: 0 20px 0 15px;
+                    }
+                }
+            }
+
+            .pm-task-form {
+                .update-button {
+                    background: #d7dee2 !important;
+                    &:hover {
+                        background: #b7bdc0 !important;
+                    }
                 }
             }
             
@@ -241,6 +261,12 @@
             .complete-task-li {
                 .pm-todo-wrap {
                     margin-left: 22px;
+                    .todo-content {
+                        margin-right: 20px;
+                        .icon-pm-more-options {
+                            padding-right: 10px;
+                        }
+                    }
                 }
             }
         }
