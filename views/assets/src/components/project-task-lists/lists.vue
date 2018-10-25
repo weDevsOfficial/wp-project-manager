@@ -519,7 +519,7 @@
                             margin-left: 48px;
                         }
                         .list-task-form  {
-                            margin: 0 20px 0 46px;
+                            margin: 0 20px 0 52px;
                         }
                     }
 
@@ -1242,7 +1242,7 @@
                 index: false,
                 project_id: this.$route.params.project_id,
                 current_page_number: this.$route.params.current_page_number || 1,
-                isActiveFilter: true,
+                isActiveFilter: false,
                 defaultList: {
                     id: 0,
                     title: this.__('All', 'wedevs-project-manager')
