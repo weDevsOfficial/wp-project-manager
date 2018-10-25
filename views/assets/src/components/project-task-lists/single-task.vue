@@ -305,6 +305,11 @@
 
 </template>
 
+<style lang="less">
+
+  
+</style>
+
 <script>
     import comments from './task-comments.vue';
     import DoAction from './../common/do-action.vue';
