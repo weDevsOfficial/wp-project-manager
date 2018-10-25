@@ -5,7 +5,7 @@
             <h3 class="pm-task-list-title pm-tag-gray" style="margin-top:10px;"><a>{{ __( 'Incomplete Tasks', 'wedevs-project-manager') }}</a></h3>
             <ul  class="pm-incomplete-task-list pm-todos pm-todolist-content pm-incomplete-task" v-pm-sortable>
 
-                <li class="pm-todo" :data-id="task.id" :data-order="task.order" v-for="(task, task_index) in getIncompleteTasks" :key="task.id" :class="'pm-fade-out-'+task.ID">
+                <li class="pm-todo" :data-id="task.id" :data-order="task.order" v-for="task in getIncompleteTasks" :key="task.id" :class="'pm-fade-out-'+task.ID">
                     <incompleted-tasks :task="task" :list="list"></incompleted-tasks>
                 </li>
 
@@ -21,7 +21,7 @@
             <h3 class="pm-task-list-title pm-tag-gray"><a>{{ __( 'Completed Tasks', 'wedevs-project-manager') }}</a></h3>
             <ul  class="pm-completed-task-list pm-todos pm-todolist-content pm-todo-completed" v-pm-sortable>
                 
-                <li :data-id="task.id" :data-order="task.order" class="pm-todo" v-for="(task, task_index) in getCompletedTask" :key="task.id" :class="'pm-todo pm-fade-out-'+task.id">
+                <li :data-id="task.id" :data-order="task.order" class="pm-todo" v-for="task in getCompletedTask" :key="task.id" :class="'pm-todo pm-fade-out-'+task.id">
                     
                     <completed-tasks :task="task" :list="list"></completed-tasks>
                 </li>
@@ -42,10 +42,30 @@
     </div>
 </template>
 
-<style>
-    .pm-list-footer .pm-new-task-button-icon {
-        margin-top: 5px;
+<style lang="less">
+.pm-todolist .list-form {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    margin-top: 20px;
+    padding: 10px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+
+    .item input[type="text"],
+    .item select,
+    .item textarea {
+        width: 100%;
+        height: 28px;
+        padding: 3px 8px;
+        font-size: 12px;
+        line-height: 100%;
+        box-shadow: none;
+        border: 1px solid #ddd;
+        background: #fff;
     }
+    .item textarea {
+        height: 84px;
+    }
+}
 </style>
 
 <script>

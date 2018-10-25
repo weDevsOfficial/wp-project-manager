@@ -33,7 +33,7 @@
                         <td>
                             <a @click.prevent="deleteUser(projectUser)" v-if="canUserEdit(projectUser.id)" hraf="#" class="pm-del-proj-role pm-assign-del-user">
                                 <span class="dashicons dashicons-trash"></span> 
-                                <span class="title">{{ __( 'Delete', 'wedevs-project-manager') }}</span>
+                                <!-- <span class="title">{{ __( 'Delete', 'wedevs-project-manager') }}</span> -->
                             </a>
                         </td>
                     </tr>
@@ -212,6 +212,10 @@
                     this.updateProject ( args );
                 } else {
                     args.callback = function(res) {
+                        if ( res.status !== 200 ) {
+                            self.show_spinner = false;
+                            return;
+                        }
                         self.project.title = '';
                         self.project_cat = 0;
                         self.project.description = ''

@@ -183,7 +183,6 @@
 
             if(this.activeNotifyUsers) {
                 pm.Vue.nextTick(function() {
-                    console.log(jQuery('.notify-users').find('.multiselect__input'));
                     jQuery('.notify-users').find('.multiselect__input').show().focus();
                 });
             }
@@ -235,7 +234,13 @@
                 args.callback = function(res){
                     var index = self.getIndex( self.comments, self.comment.id, 'id' );
                     self.comments.splice(index, 1, res.data);
-
+                    if ( typeof self.task.activities !== 'undefined' ) {
+                        self.task.activities.data.unshift(res.activity.data);
+                    } else {
+                        self.task.activities = { data: [res.activity.data] };
+                    }
+                    self.submit_disabled = false;
+                    self.show_spinner    = false;
                 }
 
                 self.updateComment( args );
@@ -250,6 +255,12 @@
                     self.notify_users    = [];
                     self.files           = []; 
                     self.deleted_files   = [];
+
+                    if ( typeof self.task.activities !== 'undefined' ) {
+                        self.task.activities.data.unshift(res.activity.data);
+                    } else {
+                        self.task.activities = { data: [res.activity.data] };
+                    }
                 }
                 self.addComment ( args );
             }

@@ -21,6 +21,15 @@ export default {
     },
 
     methods: {
+        enableDisable (key, status) {
+            status = status || '';
+
+            if(status == '') {
+                this[key] = this[key] ? false : true;
+            } else {
+                this[key] = status;
+            }
+        },
         __ (text, domain) {
             return __(text, domain);
         },
@@ -100,7 +109,7 @@ export default {
             if ( !date ) {
                 return;
             }
-
+            
             date = new Date(date);
 
             return pm.Moment(date).fromNow();
@@ -185,6 +194,18 @@ export default {
             date = new Date(date);
             return pm.Moment(date).format('MMM D');
         },
+        
+        /**
+         * ISO_8601 Date format convert to pm.Moment date format
+         * 
+         * @param  string date 
+         * 
+         * @return string      
+         */
+        dateISO8601Format ( date ) {
+          return pm.Moment( date ).format();
+        },
+
         getSettings (key, pre_define, objKey ) {
 
             var pre_define  = typeof pre_define == 'undefined' ? false : pre_define,
@@ -318,6 +339,10 @@ export default {
                         res.responseJSON.message.map( function( value, index ) {
                             pm.Toastr.error(value);
                         });
+                    }
+                    
+                    if(typeof args.callback === 'function'){
+                        args.callback(res);
                     }
                     
                 }
@@ -460,8 +485,6 @@ export default {
             self.httpRequest({
                 url:self.base_url + '/pm/v2/projects/'+ args.project_id + '?' + conditions ,
                 success (res) {
-                    
-
                     if (typeof args.callback === 'function' ) {
                         args.callback.call(self, res);
                     }
@@ -1014,6 +1037,10 @@ export default {
         myTaskRedirect (userid) {
             var current_user = PM_Vars.current_user.ID;
 
+            if (!this.canShowMyTaskRedirect(userid) ) {
+                return false;
+            }
+
             if (!PM_Vars.is_pro) {
                 return this.$router.resolve({ name: 'my-tasks'}).href;
 
@@ -1025,6 +1052,18 @@ export default {
 
             return this.$router.resolve({name: 'mytask-tasks', params: {user_id: userid}}).href;
 
+        },
+
+        canShowMyTaskRedirect (userid) {
+            var current_user = PM_Vars.current_user.ID;
+            if (this.has_manage_capability()) {
+                return true;
+            }
+
+            if (current_user == userid) {
+                return true;
+            }
+            return false;
         },
 
         fileDownload (fileId) {

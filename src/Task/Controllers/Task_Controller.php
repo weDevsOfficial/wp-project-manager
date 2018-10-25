@@ -16,6 +16,7 @@ use WeDevs\PM\Project\Models\Project;
 use WeDevs\PM\Common\Models\Boardable;
 use WeDevs\PM\Common\Models\Board;
 use WeDevs\PM\Common\Traits\Request_Filter;
+use WeDevs\PM\Common\Traits\Last_activity;
 use Carbon\Carbon;
 use WeDevs\PM\Common\Models\Assignee;
 use Illuminate\Pagination\Paginator;
@@ -26,7 +27,7 @@ use WeDevs\PM\Activity\Transformers\Activity_Transformer;
 
 class Task_Controller {
 
-    use Transformer_Manager, Request_Filter;
+    use Transformer_Manager, Request_Filter, Last_activity;
 
     public function index( WP_REST_Request $request ) {
         $project_id = $request->get_param( 'project_id' );
@@ -124,7 +125,8 @@ class Task_Controller {
         
 
         $message = [
-            'message' => pm_get_text('success_messages.task_created')
+            'message' => pm_get_text('success_messages.task_created'),
+            'activity' => $this->last_activity(),
         ];
 
         $response = $this->get_response( $resource, $message );
@@ -136,6 +138,9 @@ class Task_Controller {
 
     private function attach_assignees( Task $task, $assignees = [] ) {
         foreach ( $assignees as $user_id ) {
+            if ( ! intval( $user_id ) ) {
+                continue ;
+            }
             $data = [
                 'task_id'     => $task->id,
                 'assigned_to' => $user_id,
@@ -192,7 +197,7 @@ class Task_Controller {
             $task->assignees()->whereNotIn( 'assigned_to', $assignees )->delete();
             $this->attach_assignees( $task, $assignees );
         }
-        
+                
         do_action( 'cpm_task_update', $list_id, $task_id, $request->get_params() );
         $task->update_model( $data );
         
@@ -203,7 +208,8 @@ class Task_Controller {
         $resource = new Item( $task, new Task_Transformer );
         
         $message = [
-            'message' => pm_get_text('success_messages.task_updated')
+            'message' => pm_get_text('success_messages.task_updated'),
+            'activity' => $this->last_activity(),
         ];
         
         $response = $this->get_response( $resource, $message );
@@ -240,7 +246,8 @@ class Task_Controller {
         $resource = new Item( $task, new Task_Transformer );
 
         $message = [
-            'message' => pm_get_text('success_messages.task_updated')
+            'message' => pm_get_text('success_messages.task_updated'),
+            'activity' => $this->last_activity(),
         ];
 
         $response = $this->get_response( $resource, $message );
@@ -297,7 +304,8 @@ class Task_Controller {
         do_action( 'cpm_delete_task_after', $task_id, $project_id, $project_id );
         
         $message = [
-            'message' => pm_get_text('success_messages.task_deleted')
+            'message' => pm_get_text('success_messages.task_deleted'),
+            'activity' => $this->last_activity(),
         ];
 
         return $this->get_response(false, $message);
@@ -480,6 +488,8 @@ class Task_Controller {
             [
                 'tasks' => function($q) use( $status, $due_date, $assignees, $project_id ) {
                     
+                    $q->where('project_id', $project_id);
+                    
                     if ( ! empty(  $status ) ) {
                         $status = $status == 'complete' ? 1 : 0;
                         $q->where( 'status', $status );
@@ -487,7 +497,8 @@ class Task_Controller {
 
                     if ( ! empty(  $due_date ) ) {
                         if( $due_date == 'overdue' ) {
-                            $q->where( 'due_date', '>', $due_date );
+                            $today = date( 'Y-m-d', strtotime( current_time('mysql') ) );
+                            $q->where( 'due_date', '<', $today );
                         } else if ( $due_date == 'today' ) {
                             $today = date('Y-m-d', strtotime( current_time('mysql') ) );
                             $q->where( 'due_date', $today );
@@ -516,6 +527,8 @@ class Task_Controller {
         )
         ->whereHas('tasks', function($q) use( $status, $due_date, $assignees, $project_id ) {
                 
+                $q->where('project_id', $project_id);
+
                 if ( ! empty(  $status ) ) {
                     $status = $status == 'complete' ? 1 : 0;
                     $q->where( pm_tb_prefix(). 'pm_tasks.status', $status );
@@ -523,7 +536,8 @@ class Task_Controller {
 
                 if ( ! empty(  $due_date ) ) {
                     if( $due_date == 'overdue' ) {
-                        $q->where( 'due_date', '>', $due_date );
+                        $today = date( 'Y-m-d', strtotime( current_time('mysql') ) );
+                        $q->where( 'due_date', '<', $today );
                     } else if ( $due_date == 'today' ) {
                         $today = date('Y-m-d', strtotime( current_time('mysql') ) );
                         $q->where( 'due_date', $today );
@@ -558,6 +572,7 @@ class Task_Controller {
                 }
             }
         })
+        ->where('project_id', $project_id)
         ->orderBy( 'order', 'DESC' )
         ->paginate( $per_page );
 

@@ -78,7 +78,7 @@
                                             {{ role_display_name }}
                                         </label>
                                         
-                                        <p class="description">{{ __( 'Select the user roles who can create project.', 'wedevs-project-manager') }}</p>
+                                        <p class="description">{{ __( 'Select the user roles who can create projects.', 'wedevs-project-manager') }}</p>
                                     </fieldset>
                                 </td>
                             </tr>

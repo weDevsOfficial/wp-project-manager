@@ -1,6 +1,6 @@
 {
   "name": "pmapi",
-  "version": "2.0.5",
+  "version": "2.0.6",
   "description": "Front-end package manager for project manager",
   "main": "index.js",
   "directories": {
@@ -8,7 +8,7 @@
   },
   "scripts": {
     "dev": "webpack --progress --colors --watch",
-    "build": "NODE_ENV=production webpack --progress --colors ",
+    "build": "cross-env NODE_ENV=production webpack --progress --colors ",
     "release": "webpack --progress --colors gurnt zip",
     "makepot": "wpvuei18n makepot"
   },
@@ -37,6 +37,7 @@
     "cli": "^1.0.1",
     "coffee-loader": "^0.8.0",
     "coffeescript": "^1.12.7",
+    "cross-env": "^5.2.0",
     "css-loader": "^0.28.7",
     "due": "0.0.18",
     "es6-promise": "^4.2.4",
@@ -86,6 +87,7 @@
     "moment": "^2.19.1",
     "moment-timezone": "^0.5.13",
     "nprogress": "^0.2.0",
+    "popper.js": "^1.14.4",
     "toastr": "^2.1.2",
     "v-autocomplete": "^1.8.2",
     "vue": "^2.5.2",

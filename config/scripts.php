@@ -1,12 +1,11 @@
 <?php
-//https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js
 $suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
 return [
 	
 	'pm-config' => [
 		'id'         => 'pm-config',
-		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/config.js',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/bootstrap.js',
 		'dependency' => ['jquery'],
 		'in_footer'  => true
 	],
@@ -118,17 +117,10 @@ return [
 		'in_footer'  => true
 	],
 
-	'pm-uploader' => [
-		'id'         => 'pm-uploader',
-		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/uploader/uploader.js',
-		'dependency' => ['pm-pretty-photo'],
-		'in_footer'  => true
-	],
-
 	'pm-touch-punch' => [
 		'id'         => 'pm-touch-punch',
 		'url'        => 'https://unpkg.com/draggabilly@2/dist/draggabilly.pkgd.min.js',
-		'dependency' => ['pm-uploader'],
+		'dependency' => ['pm-pretty-photo'],
 		'in_footer'  => true
 	],
 
@@ -136,6 +128,20 @@ return [
 		'id'         => 'pm-tiptip',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/tiptip/jquery.tipTip.min.js',
 		'dependency' => ['pm-touch-punch'],
+		'in_footer'  => true
+	],
+
+	'pm-slicknav' => [
+		'id'         => 'pm-slicknav',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/slicknav/slicknav.min.js',
+		'dependency' => ['pm-tiptip'],
+		'in_footer'  => true
+	],
+
+	'pm-uploader' => [
+		'id'         => 'pm-uploader',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/uploader/uploader.js',
+		'dependency' => ['pm-slicknav'],
 		'in_footer'  => true
 	],
 
@@ -153,8 +159,8 @@ return [
 			'jquery-ui-tooltip',
 			'pm-tiny-mce',
 			'jquery-ui-sortable',
+			'jquery-touch-punch',
 			'pm-uploader',
-			'pm-tiptip'
 		],
 		'in_footer'  => true
 	],
@@ -164,6 +170,15 @@ return [
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/js/pm.js',
 		'dependency' => [
 			'pm-const'
+		],
+		'in_footer'  => true
+	],
+	'pmglobal' => [
+		'id'         => 'pmglobal',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/js/pmglobal.js',
+		'dependency' => [
+			'jquery',
+			'jquery-ui-autocomplete',
 		],
 		'in_footer'  => true
 	]

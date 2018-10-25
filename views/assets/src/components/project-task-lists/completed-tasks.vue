@@ -1,24 +1,69 @@
 <template>
-    <div class="pm-todo-wrap clearfix">
+<div class="pm-todo-wrap">                    
+        <div v-if="!task.edit_mode" class="pm-todo-item">
+            
+            <div class="todo-content">
+                <div class="task-left">
+                    <div class="checkbox">
+                        <input v-if="!show_spinner" :disabled="can_complete_task(task)" v-model="task.status"  @change="doneUndone()" type="checkbox"  value="" name="" >
+                        <span class="pm-spinner" v-if="show_spinner"></span>
+                    </div>
+                </div>
+                <div class="title-wrap">
+
+                    <div class="task-title">
+                        <a class="title" href="#" @click.prevent="getSingleTask(task)">{{ task.title }}</a>
+                    </div>  
+                </div> 
+
+                <div class="task-right task-action-wrap">
+
+                    <div v-if="task.assignees.data.length" class="task-activity assigned-users-content">
+                        <a class="image-anchor" v-for="user in task.assignees.data" :key="user.id" :href="myTaskRedirect(user.id)" :title="user.display_name">
+                            <img class="image" :src="user.avatar_url" :alt="user.display_name" height="48" width="48">
+                        </a>
+                    </div> 
+
+                    <div v-if="taskTimeWrap(task)" :class="'task-activity '+taskDateWrap(task.due_date.date)">
+                        <span class="icon-pm-calendar"></span>
+                        <span v-if="task_start_field">{{ taskDateFormat( task.start_at.date ) }}</span>
+                        <span v-if="isBetweenDate( task_start_field, task.start_at.date, task.due_date.date )">&ndash;</span>
+                        <span>{{ taskDateFormat(task.due_date.date) }}</span>
+                    </div>
+                    <!-- v-if="parseInt(task.meta.total_comment) > 0" -->
+                    <a  href="#" @click.prevent="getSingleTask(task)" class="task-activity comment">
+                        <span class="icon-pm-comment"></span>
+                        <span>{{ task.meta.total_comment }}</span>
+                    </a>  
+                </div>   
+                <div v-if="can_edit_task(task) && !isArchivedTaskList(task)" @click.prevent="showHideTaskMoreMenu(task, list)" class="more-menu task-more-menu">
+                    <span class="icon-pm-more-options"></span>
+                    <div v-if="task.moreMenu" class="more-menu-ul-wrap">
+                        <ul>
+                            <li>
+                                <a @click.prevent="deleteTask({task: task, list: list})" class="li-a" href="#">
+                                    <span class="icon-pm-delete"></span>
+                                    <span>{{ __('Delete', 'wedevs-project-manager') }}</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>               
+            </div>
+        </div>
+        
+        
+        <div v-if="parseInt(taskId) && parseInt(projectId)">
+            <single-task :taskId="taskId" :projectId="projectId"></single-task>
+        </div>
+    </div>
+    <!-- <div class="pm-todo-wrap clearfix">
         <div class="pm-todo-content" >
             <div>
                 <div class="pm-col-6">
-                    <input :disabled="can_complete_task(task)" v-model="task.status"  @change="doneUndone()" class="" type="checkbox"  value="" name="" >
+                    <input :disabled="can_complete_task(task) ||  isArchivedTaskList(task)" v-model="task.status"  @change="doneUndone()" class="" type="checkbox"  value="" name="" >
 
                     <span class="task-title">
-                        
-                        <!-- <router-link 
-                            :to="{ 
-                                name: route_name, 
-                                params: { 
-                                    list_id: list.id, 
-                                    task_id: task.id, 
-                                    project_id: project_id, 
-                                    task: task 
-                            }}">
-
-                            <span class="pm-todo-text">{{ task.title }}</span>
-                        </router-link> -->
                         
                         <a href="#" @click.prevent="getSingleTask(task)">
                             <span class="pm-todo-text">{{ task.title }}</span>
@@ -51,7 +96,7 @@
                 </div>
 
 
-                <div class="pm-col-1 pm-todo-action-right pm-last-col" v-if="can_edit_task(task)">
+                <div class="pm-col-1 pm-todo-action-right pm-last-col" v-if="can_edit_task(task) && !isArchivedTaskList(task)">
                     <a href="#" @click.prevent="deleteTask({task: task, list: list})" class="pm-todo-delete"><span class="dashicons dashicons-trash"></span></a>
                 </div>
                 <div class="clearfix"></div>
@@ -66,7 +111,7 @@
         <div v-if="parseInt(taskId) && parseInt(projectId)">
             <single-task :taskId="taskId" :projectId="projectId"></single-task>
         </div>
-    </div>
+    </div> -->
 </template>
 
 
@@ -80,7 +125,8 @@
         data () {
             return {
                 taskId: false,
-                projectId: false
+                projectId: false,
+                show_spinner: false,
             }
         },
         components: {
@@ -97,9 +143,17 @@
             }
         },
         created () {
+            window.addEventListener('click', this.windowActivity);
             pmBus.$on('pm_after_close_single_task_modal', this.afterCloseSingleTaskModal);
         },
         methods: {
+            windowActivity (el) {
+                var taskActionWrap = jQuery(el.target).closest('.task-more-menu');
+                
+                if(!taskActionWrap.length) {
+                    this.task.moreMenu = false;
+                }
+            },
             afterCloseSingleTaskModal () {
                 
                 if(this.$route.name == 'lists_single_task') {
@@ -135,6 +189,7 @@
             doneUndone (){
                 var self = this,
                  status = this.task.status ? 1: 0;
+                 this.show_spinner = true;
                 var args = {
                     data: {
                         title: this.task.title,
@@ -148,6 +203,7 @@
                             list_id: self.list.id,
                             task_id: self.task.id
                         });
+                        self.show_spinner = false;
                     }
                 }
 

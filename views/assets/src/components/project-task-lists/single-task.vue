@@ -29,15 +29,16 @@
                         <div class="pm-single-task-header">
 
                             <div class="task-complete-incomplete" :class="{ 'disable': can_complete_task(task) }">
-                                
                                 <a class="completed" v-if="task.status" href="#" @click.prevent="singleTaskDoneUndone()">
-                                    <span class="icon-pm-completed pm-font-size-16"></span>
+                                    <span class="icon-pm-completed pm-font-size-16" v-if="!show_spinner_status"></span>
+                                    <span class="pm-spinner" v-if="show_spinner_status"></span>
                                     {{ __( 'Completed', 'pm' ) }}
                                 </a>
                             
                             
                                 <a  class="incomplete" v-if="!task.status" href="#" @click.prevent="singleTaskDoneUndone()">
-                                    <span class="icon-pm-incomplete pm-font-size-16"></span>
+                                    <span class="icon-pm-incomplete pm-font-size-16" v-if="!show_spinner_status"></span>
+                                    <span class="pm-spinner" v-if="show_spinner_status"></span>
                                     {{ __( 'Mark Complete', 'pm' ) }}
                                 </a>
                                 
@@ -71,7 +72,7 @@
                                             </a>
 
                                         </li>
-                                        <li  v-if="can_edit_task(task)">
+                                        <li  v-if="can_edit_task(task) || isArchivedTaskList(task)">
                                             
                                             <a class="pm-dark-hover title-anchor-menu-a icon-pm-delete pm-font-size-13" @click.prevent="selfDeleteTask({task: task, list: list})" href="#">
                                                 <span class="action-menu-span title-anchor-menu">{{ __('Delete', 'wedevs-project-manager') }}</span>
@@ -94,6 +95,7 @@
 
                                         class="pm-task-title-activity pm-task-title-field"
                                         type="text">
+                                        <span class="pm-spinner" v-if="show_spinner"></span>
                                 </span>
 
                                 <span
@@ -107,14 +109,15 @@
                         </div>
 
                         <div class="pm-flex options-wrap">
-                            <div class="assigne-users">
+                            <div class="pm-flex assigne-users">
                                 <div v-if="task.assignees.data.length" class='pm-assigned-user' v-for="user in task.assignees.data" :key="user.id">
 
                                     <a :href="userTaskProfileUrl(user.id)" :title="user.display_name">
                                         <img :alt="user.display_name" :src="user.avatar_url" class="avatar avatar-48 photo" height="48" width="48">
                                     </a>
                                 </div>
-                                <span id="pm-multiselect-single-task" @click.prevent="isEnableMultiSelect()" class="icon-pm-user">
+                                <div id="pm-multiselect-single-task" >
+                                    <span @click.prevent="isEnableMultiSelect()" class="icon-pm-user"></span>
                                     <div v-show="is_enable_multi_select"  class="pm-multiselect pm-multiselect-single-task">
                                         <div class="pm-multiselect-content">
                                             <div class="assign-to">{{ __('Assign to', 'wedevs-project-manager') }}</div>
@@ -138,7 +141,7 @@
 
                                                
                                                 <template slot="option" slot-scope="props">
-                                                    <img class="option__image" :src="props.option.avatar_url" alt="No Man’s Sky">
+                                                    <img class="option__image" :src="props.option.avatar_url">
                                                     <div class="option__desc">
                                                         <span class="option__title">{{ props.option.display_name }}</span>
                                                     </div>
@@ -149,13 +152,13 @@
 
                                         </div>
                                     </div>
-                                </span>
+                                </div>
                             </div>
                             
 
                             <div class="pm-flex option-icon-groups">
-                                <span @click.prevent="singleTaskLockUnlock(task)" v-if="PM_Vars.is_pro && can_edit_task(task) && user_can('view_private_task') && task.meta.privacy=='0'" :title="__('Task is visible for co-worker', 'wedevs-project-manager')" class="icon-pm-unlock pm-dark-hover pm-font-size-16"></span>
-                                <span @click.prevent="singleTaskLockUnlock(task)" v-if="PM_Vars.is_pro && can_edit_task(task) && user_can('view_private_task') && task.meta.privacy=='1'" :title="__('Task is not visible for co-worker', 'wedevs-project-manager')" class="icon-pm-private pm-dark-hover pm-font-size-16"></span>
+                                <span @click.prevent="singleTaskLockUnlock(task)" v-if="isTaskLock" :title="__('Task is visible for co-worker', 'wedevs-project-manager')" class="icon-pm-unlock pm-dark-hover pm-font-size-16"></span>
+                                <span @click.prevent="singleTaskLockUnlock(task)" v-if="isTaskUnlock" class="icon-pm-private pm-dark-hover pm-font-size-16"></span>
                                 
                                 <span id="pm-calendar-wrap" @click.prevent="isTaskDateEditMode()" class="individual-group-icon calendar-group icon-pm-calendar pm-font-size-16">
                                     <span v-if="(task.start_at.date || task.due_date.date )" :class="taskDateWrap(task.due_date.date) + ' pm-task-date-wrap pm-date-window'">
@@ -178,8 +181,23 @@
                                         </span>
                                     </span>
                                     <div v-if="is_task_date_edit_mode && can_edit_task(task)" class="task-date">
-                                        <div v-if="task_start_field" v-pm-datepicker="'singleTask'" class="pm-date-picker-from pm-inline-date-picker-from"></div>
-                                        <div v-pm-datepicker="'singleTask'" class="pm-date-picker-to pm-inline-date-picker-to"></div>
+                                        <pm-content-datepicker 
+                                            v-if="task_start_field" 
+                                            v-model="task.start_at.date"
+                                            :callback="callBackDatePickerForm" 
+                                            dependency="pm-datepickter-to" 
+                                            class="pm-datepicker-from pm-inline-date-picker-from">
+                                                
+                                        </pm-content-datepicker>
+                                        <pm-content-datepicker 
+                                            v-model="task.due_date.date" 
+                                            dependency="pm-datepickter-from" 
+                                            :callback="callBackDatePickerTo"
+                                            class="pm-datepicker-to pm-inline-date-picker-to">
+                                                
+                                        </pm-content-datepicker>
+                                      <!--   <div v-if="task_start_field" v-pm-datepicker="'singleTask'" class="pm-date-picker-from pm-inline-date-picker-from"></div>
+                                        <div v-pm-datepicker="'singleTask'" class="pm-date-picker-to pm-inline-date-picker-to"></div> -->
                                     </div>
                                 </span>
                                 
@@ -193,7 +211,7 @@
                         </div>
 
                         <div id="description-wrap" class="description-wrap">
-                            <div v-if="!task.description.content && !is_task_details_edit_mode" @click.prevent="isTaskDetailsEditMode()"  class="action-content pm-flex">
+                            <div v-if="showdescriptionfield" @click.prevent="isTaskDetailsEditMode()"  class="action-content pm-flex">
                                 <span>
                                     <span class="icon-pm-align-left"></span>
                                     <span class="task-description">{{ __( 'Description', 'wedevs-project-manager' ) }}</span>
@@ -204,10 +222,10 @@
                             <div v-else class="task-details">
 
                                 <div class="pm-des-area pm-desc-content" v-if="!is_task_details_edit_mode"  >
-                                    <div v-if="task.description.content != ''">
-                                        <div class="pm-task-description" v-html="task.description.html"></div>
-                                    </div>
-                                    <a class="task-description-edit-icon" @click.prevent="isTaskDetailsEditMode()" :title="update_description">
+                                    
+                                    <div v-if="task.description.content != ''" class="pm-task-description" v-html="task.description.html"></div>
+                                    
+                                    <a class="task-description-edit-icon" @click.prevent="isTaskDetailsEditMode()" :title="update_description" v-if="can_edit_task(task) && !isArchivedTaskList(task)">
                                         <i style="font-size: 16px;"  class="fa fa-pencil" aria-hidden="true"></i>
                                         
                                     </a>
@@ -226,7 +244,7 @@
                                     <span>{{ __( 'Shift+Enter for line break', 'wedevs-project-manager') }}</span>
                                 </div> -->
                                 
-                                <div v-if="is_task_details_edit_mode && can_edit_task(task)" class="item detail">
+                                <div v-if="is_task_details_edit_mode && can_edit_task(task) && !isArchivedTaskList(task)" class="item detail">
                                     <text-editor v-if="is_task_details_edit_mode" :editor_id="'task-description-editor'" :content="content"></text-editor>
                                     <div class="task-description-action">
                                         <a @click.prevent="submitDescription(task)" href="#" class="pm-button pm-primary">{{ __( 'Update', 'wedevs-project-manager' ) }}</a>
@@ -259,12 +277,24 @@
                                             <activity-parser :activity="activity"></activity-parser>
                                             <span class="activity-watch-wrap">
                                                 <span class="activity-watch-icon icon-pm-watch"></span>
-                                                <span class="activity-form-now">{{ relativeDate(activity.committed_at.date) }}</span>
+                                                <span :title="getFullDate( activity.committed_at.date +' '+ activity.committed_at.time )" class="activity-form-now">{{ relativeDate(activity.committed_at.date +' '+ activity.committed_at.time) }}</span>
                                             </span>
                                         </div>
                                     </div>
                                 </li>
                             </ul>
+
+                            <div v-if="activityLoading" class="pm-data-load-before" >
+                                <div class="loadmoreanimation">
+                                    <div class="load-spinner">
+                                        <div class="rect1"></div>
+                                        <div class="rect2"></div>
+                                        <div class="rect3"></div>
+                                        <div class="rect4"></div>
+                                        <div class="rect5"></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
@@ -275,6 +305,11 @@
     </div>
 
 </template>
+
+<style lang="less">
+
+  
+</style>
 
 <script>
     import comments from './task-comments.vue';
@@ -331,10 +366,13 @@
                 isActiveMenu: false,
                 activityPage: 2,
                 activityLoading: false,
+                allActivityLoaded: false,
                 content: {
                     html: ''
                 },
-                description_show_spinner: false
+                description_show_spinner: false,
+                show_spinner_status: false,
+                show_spinner: false,
             }
         },
 
@@ -392,6 +430,18 @@
                     this.updateTaskElement(this.task);
                 }
             },
+            isTaskLock () {
+                return PM_Vars.is_pro && this.can_edit_task(this.task) && this.user_can('view_private_task') && this.task.meta.privacy=='0';
+            },
+            isTaskUnlock () {
+                return PM_Vars.is_pro && this.can_edit_task(this.task) && this.user_can('view_private_task') && this.task.meta.privacy=='1';
+            },
+            showdescriptionfield () {
+                if (this.isArchivedTaskList(this.task)) {
+                    return false;
+                }
+                return !this.task.description.content && !this.is_task_details_edit_mode;
+            }
         },
 
         components: {
@@ -407,7 +457,7 @@
             this.getSelfTask();
             this.getGloabalProject(this.projectId);
             window.addEventListener('click', this.windowActivity);
-            this.$root.$on('pm_date_picker', this.fromDate);
+            //this.$root.$on('pm_date_picker', this.fromDate);
 
             pm.Vue.nextTick(function() {
                 jQuery('body').addClass('pm-block-content');
@@ -427,6 +477,26 @@
         },
 
         methods: {
+            callBackDatePickerForm (date) {
+                
+                let dateFrom = {
+                    id: 'singleTask',
+                    field: 'datepicker_from',
+                    date: date
+                }
+
+                this.fromDate(dateFrom);
+            },
+            callBackDatePickerTo (date) {
+                
+                let dateTo = {
+                    id: 'singleTask',
+                    field: 'datepicker_to',
+                    date: date
+                }
+
+                this.fromDate(dateTo);
+            },
             submitDescription (task) {
                 task.description.content = this.content.html.trim();
                 this.description_show_spinner = true;
@@ -441,6 +511,10 @@
 
             loadMoreActivity (self) {
 
+                if(this.allActivityLoaded) {
+                    return;
+                }
+
                 if( this.activityLoading ) {
                     return;
                 }
@@ -452,13 +526,18 @@
                         activityPage: this.activityPage
                     },
                     success (res) {
+                        self.activityLoading = false;
                         self.activityPage = self.activityPage + 1;
                         
                         if(typeof self.task.activities == 'undefined') {
-                           pm.Vue.set(self.task, 'activities', {});
-                           pm.Vue.set(self.task.activities, 'data', res.data);
+                            pm.Vue.set(self.task, 'activities', {});
+                            pm.Vue.set(self.task.activities, 'data', res.data);
                         } else {
                             self.task.activities.data = self.task.activities.data.concat(res.data);
+                        }
+
+                        if(!res.data.length) {
+                            self.allActivityLoaded = true;
                         }
                     },
 
@@ -467,7 +546,7 @@
                     }
                 }
 
-                //this.activityLoading = true;
+                this.activityLoading = true;
                 self.httpRequest(request_data);
             },
             showMenu (status) {
@@ -486,6 +565,12 @@
                     list: this.task.task_list.data,
                     callback (data) {
                         self.closePopup();
+                         if ( typeof self.task.activities !== 'undefined' ) {
+                            self.task.activities.data.unshift(data.activity.data);
+                        } else {
+                            self.task.activities = { data: [data.activity.data] };
+                        }
+
                     }
                 });
             },
@@ -501,12 +586,17 @@
                 }
             },
             singleTaskDoneUndone () {
+                if (this.isArchivedTaskList(this.task)) {
+                    return;
+                }
                 if (this.can_complete_task(this.task)) {
                     return;
                 }
 
                 var self = this,
                     status = this.task.status ? 0 : 1;
+
+                    this.show_spinner_status = true;
                 
                 var args = {
                     data: {
@@ -521,6 +611,12 @@
                             self.task.status = false;
                         }
                         
+                        if ( typeof self.task.activities !== 'undefined' ) {
+                            self.task.activities.data.unshift(res.activity.data);
+                        } else {
+                            self.task.activities = { data: [res.activity.data] };
+                        }
+                        self.show_spinner_status = false
                         pmBus.$emit('pm_after_task_doneUndone', res);
                     }
                 }
@@ -570,6 +666,9 @@
             },
 
             isEnableMultiSelect () {
+                if (this.isArchivedTaskList(this.task)) {
+                    return false;
+                }
                 if ( !this.can_edit_task(this.task)){
                     return false;
                 }
@@ -632,6 +731,10 @@
                 this.updateTaskElement(task);
             },
             isTaskDetailsEditMode () {
+                if (this.isArchivedTaskList(this.task)) {
+                     this.is_task_details_edit_mode = false;
+                }
+
                 if ( !this.can_edit_task(this.task) ) {
                     this.is_task_details_edit_mode = false;
                 }else {
@@ -681,6 +784,9 @@
             },
 
             updateTaskElement (task) {
+                if (this.isArchivedTaskList(this.task)) {
+                    return;
+                }
                 var start = new Date(task.start_at.date);
                 var end  = new Date(task.due_date.date);
                 var compare = pm.Moment(end).isBefore(start);
@@ -698,6 +804,7 @@
                     pm.Toastr.error(__('Invalid date range!', 'wedevs-project-manager'));
                     return;
                 }
+                this.show_spinner = true;
 
                 var update_data  = {
                         'title': task.title,
@@ -727,6 +834,12 @@
                         self.closeDescriptionEditor();
                         self.task.description = res.data.description;
                         self.$store.commit('updateProjectMeta', 'total_activities');
+                        if ( typeof self.task.activities !== 'undefined' ) {
+                            self.task.activities.data.unshift(res.activity.data);
+                        } else {
+                            self.task.activities = { data: [res.activity.data] };
+                        }
+                        self.show_spinner = false;
 
                         
                     },
@@ -741,6 +854,10 @@
             },
 
             isTaskTitleEditMode () {
+                if (this.isArchivedTaskList(this.task)) {
+                    return this.is_task_title_edit_mode = false;
+                }
+
                 if ( !this.can_edit_task(this.task) ) {
                     return this.is_task_title_edit_mode = false;
                 }
@@ -748,6 +865,10 @@
             },
 
             isTaskDateEditMode () {
+                if (this.isArchivedTaskList(this.task)) {
+                    return this.is_task_date_edit_mode = false;
+                }
+
                 if ( !this.can_edit_task(this.task) ) {
                     this.is_task_date_edit_mode = this.is_task_date_edit_mode ? false : true;
 
@@ -760,12 +881,12 @@
             windowActivity (el) {
                 var title_blur      = jQuery(el.target).hasClass('pm-task-title-activity'),
                     dscription_blur = jQuery(el.target).closest('#description-wrap'),
-                    assign_user    =  jQuery(el.target).closest( '#pm-multiselect-single-task' ),
-                    actionMenu     = jQuery(el.target).closest( '#pm-action-menu' ),
-                    modal          = jQuery(el.target).closest( '.popup-container' ),
-                    datePicker = jQuery(el.target).closest('#ui-datepicker-div'),
-                    datePickerBtn = jQuery(el.target).closest('.ui-datepicker-buttonpane'),
-                    mainBody = jQuery(el.target).closest('#pm-single-task-wrap');
+                    assign_user     = jQuery(el.target).closest( '#pm-multiselect-single-task' ),
+                    actionMenu      = jQuery(el.target).closest( '#pm-action-menu' ),
+                    modal           = jQuery(el.target).closest( '.popup-container' ),
+                    datePicker      = jQuery(el.target).closest('#ui-datepicker-div'),
+                    datePickerBtn   = jQuery(el.target).closest('.ui-datepicker-buttonpane'),
+                    mainBody        = jQuery(el.target).closest('#pm-single-task-wrap');
                     
                 if(datePicker.length || datePickerBtn.length) {
                     return;
@@ -783,7 +904,8 @@
                 }
                 
                 if ( ! dscription_blur.length ) {
-                    this.is_task_details_edit_mode = false;
+                    this.closeDescriptionEditor();
+                    //this.is_task_details_edit_mode = false;
                 }
                 if ( ! assign_user.length ) {
                     this.is_enable_multi_select = false;
@@ -802,6 +924,9 @@
             },
 
             singleTaskLockUnlock (task) {
+                if (this.isArchivedTaskList(task)) {
+                    return;
+                }
                 var self = this;
                 var data = {
                     is_private: task.meta.privacy == '0' ? 1 : 0

@@ -2,6 +2,7 @@
     <div class="pm-wrap pm-front-end">
 
     <pm-header></pm-header>
+    <pm-heder-menu></pm-heder-menu>
 
     <div v-if="!isActivityFetched" class="pm-data-load-before" >
         <div class="loadmoreanimation">
@@ -15,7 +16,7 @@
         </div>
     </div>
 
-    <div v-if="isActivityFetched">
+    <div class="pm-activities" v-if="isActivityFetched">
         <ul v-if="activities.length" class="pm-activity-list">
             <li v-for="group in activities" :key="group.id" class="pm-row"> 
                 <div class="pm-activity-date pm-col-1 pm-sm-col-12">
@@ -32,7 +33,7 @@
                             </div>
                             <div class="date pm-col-4 pm-sm-col-12">
                                 <time :datetime="pmDateISO8601Format(activity.committed_at.date, activity.committed_at.time)" :title="pmDateISO8601Format(activity.committed_at.date, activity.committed_at.time)">
-                                    <i>{{ taskDateFormat(activity.committed_at.date) }}, {{ dateTimeFormat(activity.committed_at.timestamp) }}</i>
+                                    <i>{{ taskDateFormat(activity.committed_at.date) }}, {{ dateTimeFormat(activity.committed_at.datetime) }}</i>
                                 </time>
                             </div> 
                             <div class="clear"></div> 
@@ -45,10 +46,16 @@
 
         <a v-if="total_activity>loaded_activities" href="#" @click.prevent="loadMore()" class="button pm-load-more">{{ __( 'Load More ...', 'wedevs-project-manager') }}</a>
         <span v-show="show_spinner" class="pm-spinner"></span>
-        <div v-if="!activities.length" class="no-activity" > {{ __( 'No activity fount', 'wedevs-project-manager') }} </div>
+        <div v-if="!activities.length" class="no-activity" > {{ __( 'No activity found.', 'wedevs-project-manager') }} </div>
     </div>
 </div>
 </template>
+
+<style lang="less">
+    .pm-activities {
+        margin-top: 10px;
+    }
+</style>
 
 <script>
     import header from '@components/common/header.vue';

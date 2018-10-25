@@ -1,6 +1,7 @@
 <template>
     <div class="pm-wrap pm-front-end" id="pm-milestone-page">
         <pm-header></pm-header>
+        <pm-heder-menu></pm-heder-menu>
 
         <div v-if="!isFetchMilestone" class="pm-data-load-before" >
             <div class="loadmoreanimation">
@@ -13,7 +14,8 @@
                 </div>
             </div>
         </div>
-        <div v-if="isFetchMilestone">
+        
+        <div class="pm-milestone" v-if="isFetchMilestone">
             <div class="pm-blank-template milestone" v-if="blankTemplate">
                 <div class="pm-content" >
                     <h3 class="pm-page-title">  {{ __( 'Milestones', 'wedevs-project-manager') }}</h3>
@@ -81,6 +83,11 @@
     </div>
 </template>
 
+<style lang="less">
+    .pm-milestone {
+        margin-top: 10px;
+    }
+</style>
 
 <script>
     import header from './../common/header.vue';

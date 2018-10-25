@@ -17,6 +17,7 @@ use WeDevs\PM\Category\Models\Category;
 use WeDevs\PM\Common\Traits\File_Attachment;
 use Illuminate\Pagination\Paginator;
 use WeDevs\PM\Common\Models\Meta;
+use WeDevs\PM\Task_List\Models\Task_List;
 
 class Project_Controller {
 
@@ -187,7 +188,9 @@ class Project_Controller {
 			'user_id' => wp_get_current_user()->ID,
 			'role_id' => 1, // 1 for manager
 		];
-
+		//craeate list inbox when create project
+		$this->create_list_inbox($project->id);
+		
 		if ( is_array( $assignees ) ) {
 			$this->assign_users( $project, $assignees );
 		}
@@ -312,7 +315,31 @@ class Project_Controller {
 		$response = $this->get_response( null, [ 'message' =>  __( "The project has been marked as favourite", 'wedevs-project-manager' ) ] );
 
         return $response;
-    }
+	}
+	
+	function create_list_inbox($project_id) {
+
+		$meta = Meta::firstOrCreate([
+			'entity_id'	=> $project_id,
+			'entity_type' => 'task_list',
+			'meta_key' => 'list-inbox',
+			'project_id' => $project_id,
+		]);
+
+		if ( empty( $meta->meta_value ) ) {
+
+			$list = Task_List::create([
+				'title' => __('Inbox', 'wedevs-project-manager'),
+				'description' => __('Inbox', 'wedevs-project-manager'),
+				'order' => 999999,
+				'project_id' => $project_id,
+			]);
+
+			$meta->meta_value = $list->id;
+			$meta->save();
+
+		}
+	}
 
 
 }

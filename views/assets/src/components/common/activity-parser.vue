@@ -136,6 +136,9 @@
                     case 'task_list':
                         url =  this.$router.resolve({ name : 'single_list' , params: { project_id: project_id, list_id: resource_id  }  }).href;
                         break;
+                    case 'file':
+                        url =  this.$router.resolve({ name : 'singleFile' , params: { project_id: project_id, fileId: resource_id, folder_id: meta.parent  }  }).href;
+                        break;
                     default:
                         url = '#';
                         break;
