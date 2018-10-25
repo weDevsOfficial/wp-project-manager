@@ -194,6 +194,18 @@ export default {
             date = new Date(date);
             return pm.Moment(date).format('MMM D');
         },
+        
+        /**
+         * ISO_8601 Date format convert to pm.Moment date format
+         * 
+         * @param  string date 
+         * 
+         * @return string      
+         */
+        dateISO8601Format ( date ) {
+          return pm.Moment( date ).format();
+        },
+
         getSettings (key, pre_define, objKey ) {
 
             var pre_define  = typeof pre_define == 'undefined' ? false : pre_define,

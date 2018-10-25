@@ -62,7 +62,7 @@
 		z-index: 99999;
 	}
 	.pm-popup-menu {
-		.pm-popup-menu(145px);
+		.pm-popup-menu('145px');
 	}
 	.pm-popup-menu-ul {
 		&:before{
@@ -523,7 +523,7 @@
 				}
 				position: relative;
 				.action-menu {
-					.pm-popup-menu(145px);
+					.pm-popup-menu('145px');
 				    left: 45px;
 				    top: 31px;
 				    left: -97px;
@@ -887,114 +887,7 @@
 			.discuss-text {
 				margin-bottom: 5px;
 			}
-			.comment-content {
-				border: 1px solid #ECECEC;
-			    border-radius: 3px;
-			    padding: 18px;
-			    background: #FAFAFA;
-			    .comment-action-arrow {
-			    	position: relative;
 
-			    	.comment-action {
-						position: absolute;
-						font-size: 12px;
-						margin: 0;
-						padding: 0;
-					    top: 20px;
-				        width: 85px;
-				        left: auto;
-				        right: -13px;
-					    z-index: 9999;
-					    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-					    padding: 0;
-					    border: 1px solid #DDDDDD;
-					    background: #fff;
-					    border-radius: 3px;
-					    box-shadow: 0px 2px 40px 0px rgba(214, 214, 214, 0.6);
-
-					    &::before {
-					    	border-color: transparent transparent #DDDDDD transparent;
-				            position: absolute;
-				            border-style: solid;
-				            top: -9px;
-				            left: auto;
-				            content: "";
-				            right: 10px;
-				            z-index: 9999;
-				            border-width: 0px 8px 8px 8px;
-					    }
-
-					   	&::after {
-				    	    border-color: transparent transparent #ffffff transparent;
-				            position: absolute;
-				            border-style: solid;
-				            top: -7px;
-				            left: auto;
-				            right: 10px;
-				            content: "";
-				            z-index: 9999;
-				            border-width: 0 8px 7px 8px;
-					    }
-
-					    .comment-action-ul {
-					    	li {
-					    		&:hover {
-					    			.icon-pm-pencil {
-					    				&:before {
-					    					color: #000;
-					    				}
-					    			}
-
-					    			.icon-pm-delete {
-					    				&:before {
-					    					color: #ff0404;
-					    				}
-					    			}
-					    		}
-					    		padding: 8px 10px 7px 10px;
-						    	margin: 0;
-					    		.comment-action-edit {
-					    			color: #000;
-					    			margin-left: 3px;
-					    		}
-					    		.comment-action-delete {
-					    			color: #000;
-					    			margin-left: 6px;
-					    		}
-					    	}
-					    	
-					    }
-				    }
-			    }
-			    
-
-			    .comment-content-ul {
-			    	.comment-li {
-			    		margin-bottom: 10px;
-					    background: none;
-					    border: none;
-					    padding: 8px;
-			    		p {
-			    			margin: 0;
-			    			padding: 0;
-			    		}
-
-			    		.comment-li-body {
-			    			display: flex;
-			    			justify-content: space-between;
-			    		}
-			    	}
-			    }
-			    .comment-header {
-			    	display: flex;
-	    			justify-content: space-between;
-	    			.icon-pm-down-arrow {
-	    				font-size: 7px;
-	    				cursor: pointer;
-	    				position: relative;
-	    			}
-			    }
-			}
 			.pm-avatar {
 				//margin-right: 18px;
 				img {
@@ -1019,13 +912,13 @@
 				margin-right: 10px;
 			}
 			.pm-comment-content {
-				margin-left: 8%;
+				margin-left: 44px;
 				margin-top: -4px;
 				color: #000 !important;
 				
 			}
 			.pm-comment-edit-form {
-				width: 92%;
+				flex: 1;
 			}
 			.comment-field-content {
 				padding: 8px 0px 0px 8px;
