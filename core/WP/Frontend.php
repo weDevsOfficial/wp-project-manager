@@ -315,50 +315,24 @@ function project_text_editor($config) {
             'rest_url'                 => home_url() .'/'.rest_get_url_prefix(),
             'project_page'             => pm_get_project_page(),
             'permission'               => wp_create_nonce('wp_rest'),
-        ])
-        ?>
-            <div class="pmswitchproject" id="pmswitchproject">
-                <div class="pmswitcharea">
-                    <div class="pm-si-area" >
-                        <div class="pm-sp-in">
-                            <input id="tags" type="text" placeholder="Jump to a project">
-                            <div class="pm-spresult"></div>
-                        </div>
-                        <div class="switchinfo">
-                            <div>
-                                <span class="icon-pm-unlock"></span> 
-                                <span> to navigate</span>
-                            </div>
-                            <div>
-                                <span class="icon-pm-unlock"></span>
-                                <span> to select </span>
-                            </div>
-                            <div>
-                                <span>esc</span>
-                                <span>to dismiss</span>
-                            </div>
-                        </div>
-                    </div>
-                    
+        ]);
 
-                </div>
-                <div class="pmbackoverlay" ></div>
-                
-            </div>
-        <?php
+        require_once pm_config('frontend.view_path') . '/project-switch/project-switch.php';
     }
 
 
     public function pm_toolbar_search_button($wp_admin_bar) {
-            $wp_admin_bar->add_node( array(
-            'id'		=> 'pm_search',
-            'title'     => '<span class="ab-icon dashicons dashicons-search"></span>',
-            'href'      => '#',
-            'parent' => 'top-secondary',
-            'meta'  => [
-                'title' => __('Jump to a project', 'pm-pro'),
+        $wp_admin_bar->add_node( 
+            [
+                'id'		=> 'pm_search',
+                'title'     => '<span class="ab-icon dashicons dashicons-search"></span>',
+                'href'      => '#',
+                'parent' => 'top-secondary',
+                'meta'  => [
+                    'title' => __('Jump to a project', 'pm-pro'),
+                ]
+                
             ]
-            
-        ) );
+        );
     }
 }
