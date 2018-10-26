@@ -330,7 +330,7 @@ class Project_Controller {
 
 			$list = Task_List::create([
 				'title' => __('Inbox', 'wedevs-project-manager'),
-				'description' => __('Inbox', 'wedevs-project-manager'),
+				'description' => __('This is a system default task list. Any task without an assigned tasklist will appear here.', 'wedevs-project-manager'),
 				'order' => 999999,
 				'project_id' => $project_id,
 			]);
