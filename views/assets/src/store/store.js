@@ -79,7 +79,9 @@ export default new pm.Vuex.Store({
             state.projects = projects.projects;
         },
         setProject (state, project) {
-            state.projects.push(project);
+            if (state.projects.findIndex(x => x.id === project.id) === -1) {
+                state.projects.push(project);
+            }
             state.project = jQuery.extend(true, {}, project);
         },
 
