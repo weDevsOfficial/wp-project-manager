@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?d1pvcp');
-  src:  url('fonts/icomoon.eot?d1pvcp#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?d1pvcp') format('truetype'),
-    url('fonts/icomoon.woff?d1pvcp') format('woff'),
-    url('fonts/icomoon.svg?d1pvcp#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?yj2odc');
+  src:  url('fonts/icomoon.eot?yj2odc#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?yj2odc') format('truetype'),
+    url('fonts/icomoon.woff?yj2odc') format('woff'),
+    url('fonts/icomoon.svg?yj2odc#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -29,6 +29,14 @@
 }
 .icon-pm-check-circle:before {
   content: "\e919";
+}
+.icon-pm-enter:before {
+  content: "\e92e";
+  color: #5d5d5d;
+}
+.icon-pm-navigation:before {
+  content: "\e92f";
+  color: #5d5d5d;
 }
 .icon-pm-invoice:before {
   content: "\e92d";
@@ -207,6 +215,9 @@
 }
 .icon-pm-eye:before {
   content: "\e9ce";
+}
+.icon-pm-loop:before {
+  content: "\ea2e";
 }
 .icon-pm-filter:before {
   content: "\ea5b";
