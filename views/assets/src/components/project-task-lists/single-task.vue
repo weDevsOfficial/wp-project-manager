@@ -157,6 +157,7 @@
                             
 
                             <div class="pm-flex option-icon-groups">
+                                <do-action :hook="'single_task_action'" :actionData="doActionData"></do-action>
                                 <span @click.prevent="singleTaskLockUnlock(task)" v-if="isTaskLock" :title="__('Task is visible for co-worker', 'wedevs-project-manager')" class="icon-pm-unlock pm-dark-hover pm-font-size-16"></span>
                                 <span @click.prevent="singleTaskLockUnlock(task)" v-if="isTaskUnlock" class="icon-pm-private pm-dark-hover pm-font-size-16"></span>
                                 
