@@ -6,6 +6,17 @@
     left: 0;
     z-index: 99999;
 }
+.pmswitchproject .icon-pm-navigation {
+    color: #c8c7c7;
+}
+
+.pmswitchproject .icon-pm-navigation:before, .pmswitchproject .icon-pm-enter:before {
+    color: #c8c7c7;
+}
+
+.pmswitchproject .icon-pm-enter {
+    font-size: 9px;
+}
 #pmswitchproject .pmbackoverlay {
     background: rgba(0, 0, 0, 0.4);
     position: fixed;

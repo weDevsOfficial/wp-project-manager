@@ -245,6 +245,28 @@
                 display: flex;
                 align-items: center;
 
+                .pm-action-wrap {
+                    display: flex;
+                    align-items: center;
+                    .pm-task-recurrent {
+                        margin-right: 10px;
+                        .icon-pm-loop {
+                            &:before {
+                                vertical-align: middle;
+                                color: #d4d6d6;
+                                font-weight: 600;
+                                cursor: pointer;
+                            }
+
+                            &:hover {
+                                &:before {
+                                    color: #000;
+                                }
+                            }
+                        }
+                    }
+                }
+
                 .new-task-description-btn {
                     cursor: pointer;
 

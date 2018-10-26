@@ -512,11 +512,12 @@
                         }
 
                         .pm-todo-wrap {
-                            margin: 0 33px !important;
+                            margin: 0 36px !important;
+                            margin-right: 32px !important;
                         }
 
                         .more-task-wrap { 
-                            margin-left: 48px;
+                            margin-left: 52px;
                         }
                         .list-task-form  {
                             margin: 0 20px 0 52px;
