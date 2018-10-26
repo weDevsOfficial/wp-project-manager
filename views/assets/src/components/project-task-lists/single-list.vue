@@ -232,7 +232,7 @@
             
             .incomplete-task-li {
                 .pm-todo-wrap {
-                    margin-left: 5px;
+                    margin-left: 4px;
                     .todo-content {
                         margin-right: 20px;
                         .icon-pm-more-options {
@@ -241,7 +241,7 @@
                     }
                     .task-update-wrap {
                         width: auto;
-                        margin: 0 20px 0 15px;
+                        margin: 0 17px 0 14px;
                     }
                 }
             }

@@ -184,8 +184,8 @@
             //margin: 0 33px !important;
 
             .task-update-wrap {
-                margin: 0 0 0 17px;
-                width: 99.9%;
+                margin: 0 0 0 14px;
+                width: 100%;
             }
 
             &:hover {
