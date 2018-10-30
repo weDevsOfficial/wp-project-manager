@@ -16,7 +16,7 @@
                 <option value="-1">
                     {{ __( '- Milestone -', 'wedevs-project-manager') }}
                 </option>
-                <option v-for="milestone in milestones" :value="milestone.id">
+                <option v-for="milestone in milestones" :value="milestone.id" :key="milestone.id">
                     {{ milestone.title }}
                 </option>
             </select>
