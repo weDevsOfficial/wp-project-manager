@@ -8,5 +8,17 @@ return [
     'db_version'  => '2.1',
     'text_domain' => 'pm',
     'comment_per_page' => 200,
+    'allowed_html' => [
+        'a' => [ 'href', 'title' ],
+        'br' => [],
+        'em' => [],
+        'strong' => [],
+        'span' => ['style', 'class'],
+        'b' => [],
+        'em' => [],
+        'p' => [],
+        'code' => [],
+        'pre' => [],
+    ]
 
 ];

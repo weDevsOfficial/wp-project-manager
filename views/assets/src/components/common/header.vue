@@ -84,6 +84,13 @@
             }
 
         },
+        watch: {
+            '$route' (to, from) {
+                this.getGloabalProject(to.params.project_id);
+                this.getProjectCategories();
+                this.getRoles();
+            }
+        },
 
         computed: {
             is_project_edit_mode () {
@@ -173,7 +180,7 @@
                 ];
             }
         },
-
+        
         created () {
             this.getGloabalProject();
             this.getProjectCategories();
