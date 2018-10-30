@@ -509,6 +509,9 @@
                     .list-description {
                         margin-left: 50px;
                         margin-right: 20px;
+                        font-style: italic;
+                        font-weight: 300;
+                        font-size: 12px;
                     }
                     .list-li {
                         margin-bottom: 10px;
