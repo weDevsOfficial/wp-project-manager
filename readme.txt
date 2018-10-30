@@ -124,6 +124,17 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= v2.0.7 - Oct 02, 2018 =
+
+*  **New** Switch project with key binding cmd+j.
+*  **New** Task list page redesign.
+*  **New** Single Task list page redesign.
+*  **New** Default task list inbox. 
+*  **New** Input field validate and sanitization for edit.
+*  **New** Unique title for project.
+*  **Fix** List filter query all project.
+*  **Fix** Sorting task and list in mobile.
+
 = v2.0.6 - Oct 02, 2018 =
 
 * **New** Set permission setting for user mail notification.

@@ -228,13 +228,15 @@
                     }
                     .checkbox {
                         line-height: 0;
+                        position: relative;
+                        top: 1px;
                     }
                 }
                 .title-wrap {
                     display: flex;
                     align-items: baseline;
                     position: relative;
-                    top: -3px;
+                    top: -1px;
                 }
 
                 .more-menu {
