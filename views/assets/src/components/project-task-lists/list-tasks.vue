@@ -536,8 +536,8 @@
                 handler () {
                     var self = this;
                     pm.Vue.nextTick(function() {
-                        let list_incomplete = self.list.incomplete_tasks.data.length;
-                        let list_complete = self.list.complete_tasks.data.length;
+                        let list_incomplete = typeof self.list.incomplete_tasks == 'undefined' ? 0 : self.list.incomplete_tasks.data.length;
+                        let list_complete = typeof self.list.complete_tasks == 'undefined' ? 0 : self.list.complete_tasks.data.length;
                         
                         if( list_incomplete || list_complete ) {
                             self.hasList = true;
