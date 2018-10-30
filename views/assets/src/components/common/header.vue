@@ -292,13 +292,15 @@
                 var settingsWrap  = jQuery(el.target).closest('.header-settings'),
                     settingsBtn = jQuery(el.target).hasClass('header-settings-btn'),
                     projectUpdatebtn = jQuery(el.target).hasClass('project-update-btn'),
-                    projectUdpateWrap = jQuery(el.target).closest('.project-edit-form');
+                    projectUdpateWrap = jQuery(el.target).closest('.project-edit-form'),
+                    newUser      = jQuery(el.target).hasClass('pm-more-user-form-btn'),
+                    userSelect = jQuery(el.target).closest('.ui-autocomplete');
 
                 if ( !settingsBtn && !settingsWrap.length ) {
                     this.settingStatus = false;
                 }
 
-                if ( !projectUpdatebtn && !projectUdpateWrap.length ) {
+                if ( !projectUpdatebtn && !projectUdpateWrap.length && !newUser && !userSelect.length ) {
         
                     this.showHideProjectForm(false);
                 }

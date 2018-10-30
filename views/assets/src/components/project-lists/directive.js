@@ -47,7 +47,7 @@ var Project = {
                     $( "form.pm-user-create-form" ).find( 'input[type=text]' ).val( '' );
                     $( "#pm-create-user-wrap" ).dialog( "open" );
                 } else {
-
+                    
                     var has_user = context.selectedUsers.find(function(user) {
                         return ui.item.id === user.id ? true : false;
                     });
@@ -61,7 +61,10 @@ var Project = {
                         //         user: ui.item
                         //     }
                         // );
-                        context.$root.$store.commit('updateSeletedUser', ui.item);
+                        context.$store.commit('updateSeletedUser', {
+                            item:  ui.item,
+                            project_id: context.project_id
+                        });
                     }
                     
                     $( '.pm-project-role>table' ).append( ui.item._user_meta );
@@ -79,7 +82,7 @@ var Project = {
                 .appendTo( ul );
             } else {
                 return $( "<li>" )
-                .append( '<a><div class="no-user-wrap"><p>'+no_user+'</p> <span class="button-primary">'+create_new_user+'</span></div></a>' )
+                .append( '<a><div class="no-user-wrap"><p>'+no_user+'</p> <span class="pm-more-user-form-btn button-primary">'+create_new_user+'</span></div></a>' )
                 .appendTo( ul );
             }
             

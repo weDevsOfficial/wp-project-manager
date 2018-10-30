@@ -116,7 +116,15 @@
             },
 
             selectedUsers () {
-                return this.$root.$store.state.assignees;
+                
+                if(jQuery.isEmptyObject(this.project)) {
+                    return this.$store.state.assignees;
+                } else {
+                    var projects = this.$store.state.projects;
+                    var index = this.getIndex(projects, this.project.id, 'id');
+                    
+                    return projects[index].assignees.data;
+                }
             },
 
             project_category: {
@@ -155,7 +163,7 @@
                     return;
                 }
                 
-                this.$root.$store.commit(
+                this.$store.commit(
                     'afterDeleteUserFromProject', 
                     {
                         project_id: this.project_id,
