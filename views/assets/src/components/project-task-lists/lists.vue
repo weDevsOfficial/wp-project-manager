@@ -47,7 +47,7 @@
                     
                         <li  v-for="list in lists" :key="list.id" :data-id="list.id"  :class="taskListClass(list.id)">
 
-                            <div  class="list-content">
+                            <div class="list-content">
                                 <div class="list-item-content">
                                     <div class="before-title">
                                         <span v-if="!isInbox(list.id)" class="pm-list-drag-handle icon-pm-drag-drop"></span>
@@ -59,8 +59,8 @@
                                         <span @click.prevent="listExpand(list)" class="list-title-anchor">{{ list.title }}</span>
                                     </div>
                                     <div class="after-title">
-                                        
-                                            <div class="view-single-list" v-pm-tooltip :title="__('Single List', 'wedevs-project-manager')">
+                                            <!-- v-pm-tooltip -->
+                                            <div class="view-single-list"  :title="__('Single List', 'wedevs-project-manager')">
                                                 <span @click.prevent="goToSigleList(list)" class="icon-pm-eye"></span>
                                             </div>
                                             <div class="list-title-action progress-bar">
@@ -106,6 +106,11 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+
+                            <div v-if="list.expand" class="list-description">
+                                <span v-if="!isInbox(list.id)" v-html="list.description"></span>
+                                <span v-if="isInbox(list.id)">{{ __('This is a system default task list. Any task without an assigned tasklist will appear here.', 'wedevs-project-manager') }}</span>
                             </div>
 
                             <list-tasks v-if="list.expand" :list="list"></list-tasks>
@@ -500,6 +505,11 @@
 
                 .list-items {
                     margin-top: 15px;
+                    margin-bottom: 20px;
+                    .list-description {
+                        margin-left: 50px;
+                        margin-right: 20px;
+                    }
                     .list-li {
                         margin-bottom: 10px;
                     }

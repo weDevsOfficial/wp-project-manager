@@ -33,32 +33,32 @@
                         <span v-if="!parseInt(list.meta.privacy)" class="icon-pm-unlock"></span>
                         <span v-if="parseInt(list.meta.privacy)" class="icon-pm-private"></span>
                     </div>
+                </div>
 
-                    <div v-if="!isInbox(list.id) && can_edit_task_list(list)" :data-list_id="list.id" @click.prevent="showHideMoreMenu(list)" class="more-menu list-more-menu">
+                <div v-if="!isInbox(list.id) && can_edit_task_list(list)" :data-list_id="list.id" @click.prevent="showHideMoreMenu(list)" class="more-menu list-more-menu">
 
-                        <span  class="icon-pm-more-options"></span>
-                        <div v-if="list.moreMenu && !list.edit_mode"  class="more-menu-ul-wrap">
-                            <ul>
-                                <li class="first-li" v-if="!isArchivedList(list)">
-                                    <a @click.prevent="showEditForm(list)" class="li-a" href="#">
-                                        <span class="icon-pm-pencil"></span>
-                                        <span>{{ __('Edit', 'wedevs-project-manager') }}</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a @click.prevent="deleteSelfList( list )" class="li-a" href="#">
-                                        <span class="icon-pm-delete"></span>
-                                        <span>{{ __('Delete', 'wedevs-project-manager') }}</span>
-                                    </a>
-                                </li>
-                                <pm-do-action hook="list-action-menu" :actionData="list"></pm-do-action>
+                    <span  class="icon-pm-more-options"></span>
+                    <div v-if="list.moreMenu && !list.edit_mode"  class="more-menu-ul-wrap">
+                        <ul>
+                            <li class="first-li" v-if="!isArchivedList(list)">
+                                <a @click.prevent="showEditForm(list)" class="li-a" href="#">
+                                    <span class="icon-pm-pencil"></span>
+                                    <span>{{ __('Edit', 'wedevs-project-manager') }}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a @click.prevent="deleteSelfList( list )" class="li-a" href="#">
+                                    <span class="icon-pm-delete"></span>
+                                    <span>{{ __('Delete', 'wedevs-project-manager') }}</span>
+                                </a>
+                            </li>
+                            <pm-do-action hook="list-action-menu" :actionData="list"></pm-do-action>
 
-                            </ul>
-                        </div>
+                        </ul>
+                    </div>
 
-                        <div v-if="list.edit_mode" class="list-update-warp">
-                             <new-task-list-form section="lists" :list="list" ></new-task-list-form>
-                        </div>
+                    <div v-if="list.edit_mode" class="list-update-warp">
+                         <new-task-list-form section="lists" :list="list" ></new-task-list-form>
                     </div>
                 </div>
             </div>
@@ -204,6 +204,11 @@
                     }
                 }
 
+                .pm-popup-menu {
+                    width: auto !important;
+                    white-space: nowrap;
+                }
+
                 .pm-comment-edit-form {
                     .attach-text {
                         margin-bottom: 0;
@@ -320,7 +325,6 @@
             align-items: baseline;
 
             .title {
-                flex: 1;
                 span {
                     font-size: 14px;
                     color: #000;
@@ -331,6 +335,8 @@
             .list-actions {
                 display: flex;
                 align-items: center;
+                position: relative;
+                top: -2px;
 
                 .list-title-action {
                     margin-left: 12px;
@@ -365,119 +371,124 @@
                         margin-left: 12px;
                     }
                 }
-                .more-menu {
-                    padding: 0 12px;
-                    cursor: pointer;
-                    position: relative;
-                    position: relative;
-                    top: 0px;
+            }
 
+            .more-menu {
+                padding: 0 12px;
+                cursor: pointer;
+                position: relative;
+                position: relative;
+                top: 0px;
+                flex: 1;
+                justify-content: flex-end;
+                display: flex;
+
+
+                .icon-pm-more-options {
+                    &:before {
+                        color: #d7dee2;
+                    }
+                }
+
+                &:hover {
                     .icon-pm-more-options {
                         &:before {
-                            color: #d7dee2;
+                            color: #6d6d6d;
                         }
                     }
-
-                    &:hover {
-                        .icon-pm-more-options {
-                            &:before {
-                                color: #6d6d6d;
-                            }
-                        }
-                    }
-
-                    .more-menu-ul-wrap, .list-update-warp {
-                        position: absolute;
-                        top: 31px;
-                        left: auto;
-                        right: -6px;
-                        z-index: 9999;
-                        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
-                        border: 1px solid #DDDDDD;
-                        background: #fff;
-                        border-radius: 3px;
-                        box-shadow: 0px 2px 40px 0px rgba(214, 214, 214, 0.6);
-
-                        &:before {
-                            border-color: transparent transparent #DDDDDD transparent;
-                            position: absolute;
-                            border-style: solid;
-                            top: -9px;
-                            right: 11px;
-                            content: "";
-                            z-index: 9999;
-                            border-width: 0px 8px 8px 8px;
-                        }
-
-                        &:after {
-                            border-color: transparent transparent #ffffff transparent;
-                            position: absolute;
-                            border-style: solid;
-                            top: -7px;
-                            right: 11px;
-                            content: "";
-                            z-index: 9999;
-                            border-width: 0 8px 7px 8px;
-                        }
-                        .first-li {
-                            margin-top: 6px;
-                        }
-
-                        .li-a {
-                            display: inline-block;
-                            width: 100%;
-                            padding: 0 30px 0 12px;
-                            color: #7b7d7e;
-                            font-weight: 400;
-                            font-size: 12px;
-                            white-space: nowrap;
-                        }
-
-                        .icon-pm-pencil, .icon-pm-delete, .li-a-icon {
-                            display: inline-block;
-                            width: 20px;
-                        }
-                    }
-
-                    .list-update-warp {
-                        width: 300px;
-
-                        form {
-                            padding: 10px;
-
-                            .submit {
-                                padding: 0;
-                                margin: 0;
-                                display: flex;
-                                align-items: center;
-                                .list-cancel {
-                                    width: auto !important;
-                                }
-                            }
-                            .pm-secondary {
-                                width: auto !important;
-                                margin-left: 10px !important;
-                            }
-                            .title-field, .description-field, .milestone-field, .pm-action-wrap {
-                                width: 100%;
-                                margin-bottom: 15px !important;
-                                border-radius: 3px;
-                                display: inline-block;
-                            }
-                            .pm-make-privacy {
-                                line-height: 0;
-                                label {
-                                    line-height: 0;
-                                }
-                            }
-                            .content {
-                                border: none !important;
-                            }
-
-                        }
-                    }
-
                 }
+
+                .more-menu-ul-wrap, .list-update-warp {
+                    position: absolute;
+                    top: 31px;
+                    left: auto;
+                    right: -6px;
+                    z-index: 9999;
+                    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+                    border: 1px solid #DDDDDD;
+                    background: #fff;
+                    border-radius: 3px;
+                    box-shadow: 0px 2px 40px 0px rgba(214, 214, 214, 0.6);
+
+                    &:before {
+                        border-color: transparent transparent #DDDDDD transparent;
+                        position: absolute;
+                        border-style: solid;
+                        top: -9px;
+                        right: 11px;
+                        content: "";
+                        z-index: 9999;
+                        border-width: 0px 8px 8px 8px;
+                    }
+
+                    &:after {
+                        border-color: transparent transparent #ffffff transparent;
+                        position: absolute;
+                        border-style: solid;
+                        top: -7px;
+                        right: 11px;
+                        content: "";
+                        z-index: 9999;
+                        border-width: 0 8px 7px 8px;
+                    }
+                    .first-li {
+                        margin-top: 6px;
+                    }
+
+                    .li-a {
+                        display: inline-block;
+                        width: 100%;
+                        padding: 0 30px 0 12px;
+                        color: #7b7d7e;
+                        font-weight: 400;
+                        font-size: 12px;
+                        white-space: nowrap;
+                    }
+
+                    .icon-pm-pencil, .icon-pm-delete, .li-a-icon {
+                        display: inline-block;
+                        width: 20px;
+                    }
+                }
+
+                .list-update-warp {
+                    width: 300px;
+
+                    form {
+                        padding: 10px;
+
+                        .submit {
+                            padding: 0;
+                            margin: 0;
+                            display: flex;
+                            align-items: center;
+                            .list-cancel {
+                                width: auto !important;
+                            }
+                        }
+                        .pm-secondary {
+                            width: auto !important;
+                            margin-left: 10px !important;
+                        }
+                        .title-field, .description-field, .milestone-field, .pm-action-wrap {
+                            width: 100%;
+                            margin-bottom: 15px !important;
+                            border-radius: 3px;
+                            display: inline-block;
+                        }
+                        .pm-make-privacy {
+                            line-height: 0;
+                            label {
+                                line-height: 0;
+                            }
+                        }
+                        .content {
+                            border: none !important;
+                        }
+
+                    }
+                }
+
             }
 
             .progress-bar {

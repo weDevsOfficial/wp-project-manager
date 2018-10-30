@@ -893,7 +893,7 @@ var PM_TaskList_Mixin = {
          */
         addTaskMeta ( task ) {
             task.edit_mode = false;   
-            task.moreMenu = false;    
+            task.moreMenu = false;
         },
 
         /**
