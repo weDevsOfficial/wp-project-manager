@@ -528,7 +528,7 @@ export default {
         },
         afterUpdateList (state, list) {
             var list_index = state.getIndex(state.lists, list.id, 'id');
-            var merge_list = jQuery.extend(true, state.lists[list_index], list);
+            var merge_list = jQuery.extend(true, list, state.lists[list_index]);
             state.lists.splice(list_index,1,list);
         },
         afterNewListupdateListsMeta (state) {
