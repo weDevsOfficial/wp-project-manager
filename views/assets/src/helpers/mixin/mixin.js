@@ -320,6 +320,10 @@ export default {
                         });
                     }
                     
+                    if(typeof args.callback === 'function'){
+                        args.callback(res);
+                    }
+                    
                 }
             };
 
@@ -1014,6 +1018,10 @@ export default {
         myTaskRedirect (userid) {
             var current_user = PM_Vars.current_user.ID;
 
+            if (!this.canShowMyTaskRedirect(userid) ) {
+                return false;
+            }
+
             if (!PM_Vars.is_pro) {
                 return this.$router.resolve({ name: 'my-tasks'}).href;
 
@@ -1025,6 +1033,18 @@ export default {
 
             return this.$router.resolve({name: 'mytask-tasks', params: {user_id: userid}}).href;
 
+        },
+
+        canShowMyTaskRedirect (userid) {
+            var current_user = PM_Vars.current_user.ID;
+            if (this.has_manage_capability()) {
+                return true;
+            }
+
+            if (current_user == userid) {
+                return true;
+            }
+            return false;
         },
 
         fileDownload (fileId) {

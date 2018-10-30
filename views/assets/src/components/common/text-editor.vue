@@ -29,7 +29,6 @@
             if (tinymce.get(this.editor_id)) {
                 tinymce.execCommand( 'mceRemoveEditor', false, this.editor_id );
             }
-            console.log('textarea#' + self.editor_id);
             // Instantiate the editor
             var settings = {
                 selector: 'textarea#' + self.editor_id,
@@ -67,6 +66,8 @@
                     'Trebuchet MS=trebuchet ms,geneva;'+
                     'Verdana=verdana,geneva;',
                 plugins: PM_Vars.todo_list_text_editor.plugins,
+                valid_elements : 'a[href|target=_blank],strong,i,em,b,br,p,span[style],code,pre',
+                paste_word_valid_elements: "a[href|target=_blank],b,strong,i,em,p,span[style],br,code,pre",
                 toolbar1: 'shortcodes bold italic strikethrough bullist numlist alignleft aligncenter alignjustify alignright link textcolor blockquote underline forecolor',
                 toolbar2: 'formatselect forecolor backcolor underline blockquote hr code',
                 toolbar3: 'fontselect fontsizeselect removeformat undo redo',

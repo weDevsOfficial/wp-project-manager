@@ -488,6 +488,8 @@ class Task_Controller {
             [
                 'tasks' => function($q) use( $status, $due_date, $assignees, $project_id ) {
                     
+                    $q->where('project_id', $project_id);
+                    
                     if ( ! empty(  $status ) ) {
                         $status = $status == 'complete' ? 1 : 0;
                         $q->where( 'status', $status );
@@ -525,6 +527,8 @@ class Task_Controller {
         )
         ->whereHas('tasks', function($q) use( $status, $due_date, $assignees, $project_id ) {
                 
+                $q->where('project_id', $project_id);
+
                 if ( ! empty(  $status ) ) {
                     $status = $status == 'complete' ? 1 : 0;
                     $q->where( pm_tb_prefix(). 'pm_tasks.status', $status );
@@ -568,6 +572,7 @@ class Task_Controller {
                 }
             }
         })
+        ->where('project_id', $project_id)
         ->orderBy( 'order', 'DESC' )
         ->paginate( $per_page );
 

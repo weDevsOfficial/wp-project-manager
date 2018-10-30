@@ -31,6 +31,7 @@ module.exports = {
     entry: {
         pm: './views/assets/src/start.js',
         library: './views/assets/src/helpers/library.js',
+        pmglobal: './views/assets/src/helpers/pmglobal.js',
     },
 
     output: {
