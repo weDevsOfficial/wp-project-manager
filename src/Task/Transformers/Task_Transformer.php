@@ -97,12 +97,6 @@ class Task_Transformer extends TransformerAbstract {
             'can_complete_task' => pm_user_can_complete_task( $item ),
         ] );
 
-//        recurrence data unserialized
-	    if(array_key_exists('recurrence', $metas)){
-		    $recurrence = $metas['recurrence'];
-		    $metas['recurrence'] = maybe_unserialize($recurrence);
-
-	    }
 	    return $metas;
     }
 

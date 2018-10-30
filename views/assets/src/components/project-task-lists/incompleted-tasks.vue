@@ -27,7 +27,7 @@
                         </a>
                     </div> 
 
-                    <div v-if="taskTimeWrap(task)" :class="'task-activity task-time '+taskDateWrap(task.due_date.date)">
+                    <div v-if="taskTimeWrap(task)" :title="getTaskFullDate(task)" :class="'task-activity task-time '+taskDateWrap(task.due_date.date)">
                         <span class="icon-pm-calendar"></span>
                         <span v-if="task_start_field">{{ taskDateFormat( task.start_at.date ) }}</span>
                         <span v-if="isBetweenDate( task_start_field, task.start_at.date, task.due_date.date )">&ndash;</span>
@@ -230,6 +230,23 @@
         },
         
         methods: {
+            getTaskFullDate (task) {
+                var date = '';
+                
+                if(this.task_start_field && task.start_at.date) {
+                    date = this.getFullDate(task.start_at.date, task.start_at.time);
+                }
+
+                if(this.task_start_field && task.start_at.date && task.due_date.date) {
+                    date = date + '-';
+                }
+
+                if(task.due_date.date) {
+                    date = date + this.getFullDate(task.due_date.date, task.due_date.time);
+                }
+                
+                return date;
+            },
             isPrivateTask (isPrivate) {
                 return isPrivate == '1' ? true : false;
             },
