@@ -212,6 +212,7 @@ export default new pm.Vuex.Store({
         },
 
         updateSeletedUser (state, data) {
+            
             if(data.project_id) {
                 var index = state.getIndex(state.projects, data.project_id, 'id');
 
