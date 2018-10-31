@@ -1,6 +1,7 @@
 <template>
     <div class="task-group">
-        <ul :data-list_id="list.id" v-if="getIncompleteTasks.length"  class="incomplete-task-ul pm-connected-sortable" v-pm-sortable>
+        
+        <ul :data-list_id="list.id"   class="incomplete-task-ul pm-connected-sortable" v-pm-sortable :class="{'has-items' : getIncompleteTasks.length }">
             
             <li :data-id="task.id" :data-order="task.order" v-for="task in getIncompleteTasks" :key="task.id" :class="'incomplete-task-li pm-fade-out-'+task.id">
                 <incompleted-tasks :task="task" :list="list"></incompleted-tasks>
@@ -81,6 +82,8 @@
         }
         .incomplete-task-ul{
             padding: 2px !important;
+        }
+        .incomplete-task-ul.has-items {
             margin-bottom: 8px !important;
         }
         
