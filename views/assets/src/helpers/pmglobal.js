@@ -75,7 +75,7 @@
       });
 
       $(document).ready(function () {
-        let ctrlDown = false, jpressed = false;
+        let ctrlDown = false, jpressed = false, otherkey = false ;
         var ctrlKey = 17, 
             cmdKey = 91, 
             jKey = 74,
@@ -91,36 +91,41 @@
     
         $(document).bind ('keydown', function(e) {
             let keycode = e.keyCode || e.which;
-            if (keycode === ctrlKey || keycode === cmdKey){
+            
+            if ( (keycode === ctrlKey || keycode === cmdKey) && ! otherkey ){
                 ctrlDown = true;
-            }
-        });
-    
-        $(document).bind('keyup', function (e) {
-            let keycode = e.keyCode || e.which;
-            if (keycode === ctrlKey || keycode === cmdKey){
-                ctrlDown = false;
-            }
-        });
-    
-        $(document).bind('keydown', function (e) {
-            let keycode = e.keyCode || e.which;
-            if (!jpressed && ctrlDown && keycode === jKey ) {
+                otherkey = false;
+            } else if (!jpressed && ctrlDown && keycode === jKey && !otherkey ) {
                 e.preventDefault();
                 jpressed = true;
+                otherkey = false;
                 show_search_element();
             } else if(jpressed && ctrlDown && keycode === jKey ) {
                 e.preventDefault();
                 jpressed = false;
+                otherkey = false;
                 element.css('display', 'none').removeClass('active');
+            }else {
+                otherkey = true;
             }
 
             if ( keycode === escKey ) {
                 jpressed = false;
                 ctrlDown = false;
+                otherkey = false;
                 element.css('display', 'none').removeClass('active');
+            } 
+
+        });
+    
+        $(document).bind('keyup', function (e) {
+            let keycode = e.keyCode || e.which;
+            otherkey = false;
+            if (keycode === ctrlKey || keycode === cmdKey){
+                ctrlDown = false;
             }
         });
+    
 
         $(document).bind('click', function (e) {
             if($(e.target).closest('#wp-admin-bar-pm_search').length) {
@@ -130,6 +135,9 @@
                 return;
             }
             if ($(this).find('#pmswitchproject').hasClass('active')) {
+                jpressed = false;
+                ctrlDown = false;
+                otherkey = false;
                 element.css('display', 'none').removeClass('active');
             }
         });

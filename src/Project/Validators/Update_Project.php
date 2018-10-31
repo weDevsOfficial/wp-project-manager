@@ -15,8 +15,9 @@ class Update_Project extends Abstract_Validator {
     }
 
     public function rules() {
+        $id = $this->request->get_param( 'id' );
         return [
-            'title' => 'required|pm_unique:Project,title',
+            'title' => 'required|pm_unique:Project,title,'.$id,
             'id'    => 'required|gtz', //Greater than zero (gtz)
         ];
     }
