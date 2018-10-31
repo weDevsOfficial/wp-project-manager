@@ -456,7 +456,7 @@
                 
                 .pm-task-form {
                     .new-task-description {
-                        width: 99.7%;
+                        width: 99.8%;
                     }
                     .mce-tinymce {
                         border-top: none;
