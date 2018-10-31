@@ -102,7 +102,7 @@
                                         </div>
 
                                         <div v-if="list.edit_mode" class="list-update-warp">
-                                             <new-task-list-form section="lists" :list="list" ></new-task-list-form>
+                                            <new-task-list-form section="lists" :list="list" ></new-task-list-form>
                                         </div>
                                     </div>
                                 </div>
