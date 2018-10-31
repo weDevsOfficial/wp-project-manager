@@ -47,7 +47,7 @@ var Project = {
                     $( "form.pm-user-create-form" ).find( 'input[type=text]' ).val( '' );
                     $( "#pm-create-user-wrap" ).dialog( "open" );
                 } else {
-                    
+
                     var has_user = context.selectedUsers.find(function(user) {
                         return ui.item.id === user.id ? true : false;
                     });
