@@ -712,6 +712,8 @@
                                             margin: 0;
                                             display: flex;
                                             align-items: center;
+                                            justify-content: flex-end;
+
                                             .list-cancel {
                                                 width: auto !important;
                                             }
@@ -939,6 +941,8 @@
                                     margin: 0;
                                     display: flex;
                                     align-items: center;
+                                    justify-content: flex-end;
+                                    
                                     .list-cancel {
                                         width: auto !important;
                                     }
