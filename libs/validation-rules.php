@@ -33,9 +33,13 @@ function pm_unique ($value, $args){
 		$collumn = 'title';
 	}
 
-	$calssname = "WeDevs\PM\\" .$args[0]. "\\Models\\" .$args[0];
+	
+	$id = empty( $args[2] ) ? 0 : intval( $args[2] );
+	
+
+	$calssname = "WeDevs\PM\\" .$model. "\\Models\\" .$model;
 	if ( class_exists( $calssname ) ) {
-		return ! $calssname::where($collumn, $value )->exists();
+		return ! $calssname::where($collumn, $value )->where('id', '!=', $id)->exists();
 	}
 
 	return false;
