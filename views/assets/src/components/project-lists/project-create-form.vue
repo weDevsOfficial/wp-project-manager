@@ -116,7 +116,7 @@
             },
 
             selectedUsers () {
-                
+
                 if(jQuery.isEmptyObject(this.project)) {
                     return this.$store.state.assignees;
                 } else {

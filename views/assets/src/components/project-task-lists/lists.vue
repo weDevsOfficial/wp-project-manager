@@ -520,7 +520,7 @@
                     .task-group {
                         .complete-task-ul{
                             .pm-todo-wrap {
-                                margin: 0 33px 0 47px !important;
+                                margin: 0 33px 0 52px !important;
                             }
                         }
 
@@ -563,9 +563,6 @@
                             padding: 0 20px 0 0;
 
                             .before-title {
-                                position: relative;
-                                top: 2px;
-
                                 .inbox-list {
                                     padding: 0 26px;
                                     position: relative;

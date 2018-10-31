@@ -827,12 +827,21 @@ var PM_TaskList_Mixin = {
 
             if ( list && typeof list.edit_mode != 'undefined' ) {
                 if ( status === 'toggle' ) {
-                    list.edit_mode = list.edit_mode ? false : true;
+                    this.$store.commit( 'projectTaskLists/showHideListFormStatus', {
+                        status: list.edit_mode ? false : true,
+                        list: list
+                    });
                 } else {
-                    list.edit_mode = status;
+                    this.$store.commit( 'projectTaskLists/showHideListFormStatus', {
+                        status: status,
+                        list: list
+                    });
                 }
             } else {
-                this.$store.commit( 'projectTaskLists/showHideListFormStatus', status);
+                this.$store.commit( 'projectTaskLists/showHideListFormStatus', {
+                    status: status,
+                    list: false
+                });
             }
         },
 
