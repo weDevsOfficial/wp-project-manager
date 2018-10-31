@@ -197,6 +197,10 @@
                 if(item.route.name == 'task_lists' && name == 'single_list' ) {
                     return 'active';
                 }
+
+                if(item.route.name == 'discussions' && name == 'individual_discussions' ) {
+                    return 'active';
+                }
                 
 				if(name == item.route.name || this.current == item.route.name) {
 					return 'active';

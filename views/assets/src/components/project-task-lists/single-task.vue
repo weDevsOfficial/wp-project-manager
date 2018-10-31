@@ -161,7 +161,7 @@
                                 <span @click.prevent="singleTaskLockUnlock(task)" v-if="isTaskLock" :title="__('Task is visible for co-worker', 'wedevs-project-manager')" class="icon-pm-unlock pm-dark-hover pm-font-size-16"></span>
                                 <span @click.prevent="singleTaskLockUnlock(task)" v-if="isTaskUnlock" class="icon-pm-private pm-dark-hover pm-font-size-16"></span>
                                 
-                                <span id="pm-calendar-wrap" @click.prevent="isTaskDateEditMode()" class="individual-group-icon calendar-group icon-pm-calendar pm-font-size-16">
+                                <span id="pm-calendar-wrap" @click.self.prevent="isTaskDateEditMode()" class="individual-group-icon calendar-group icon-pm-calendar pm-font-size-16">
                                     <span v-if="(task.start_at.date || task.due_date.date )" :class="taskDateWrap(task.due_date.date) + ' pm-task-date-wrap pm-date-window'">
                                             
                                         <span :title="getFullDate(task.start_at.timestamp)" v-if="task_start_field">
@@ -867,13 +867,11 @@
 
             isTaskDateEditMode () {
                 if (this.isArchivedTaskList(this.task)) {
-                    return this.is_task_date_edit_mode = false;
+                    this.is_task_date_edit_mode = false;
                 }
 
                 if ( !this.can_edit_task(this.task) ) {
                     this.is_task_date_edit_mode = this.is_task_date_edit_mode ? false : true;
-
-                    return this.is_task_date_edit_mode;
                 }
                 
                 this.is_task_date_edit_mode = this.is_task_date_edit_mode ? false : true;
