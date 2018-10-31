@@ -203,7 +203,6 @@ export default new pm.Vuex.Store({
         },
 
         updateSeletedUser (state, data) {
-            console.log(data.project_id);
             if(data.project_id) {
                 var index = state.getIndex(state.projects, data.project_id, 'id');
                 state.projects[index].assignees.data.push(data.item);
