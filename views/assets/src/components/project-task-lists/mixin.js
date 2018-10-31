@@ -43,6 +43,9 @@ var PM_TaskList_Mixin = {
         },
         can_create_task () {
             return this.user_can("create_task");
+        },
+        isArchivedPage () {
+            return this.$route.name == 'task_lists_archive' || this.$route.name == 'task_lists_archive_pagination'
         }
 
     },
