@@ -172,19 +172,10 @@ export default new pm.Vuex.Store({
 
         updateProject (state, project) {
             var index = state.getIndex(state.projects, project.id, 'id');
-            //console.log(state.projects[index]);
-            // console.log(state.projects[index], project);
-
-            //state.projects[index] = project;
-            state.projects[index] = jQuery.extend(true, {}, project);
+            
+            pm.Vue.set(state.projects, index, project);
+            //state.projects[index] = jQuery.extend(true, {}, project);
             state.project = jQuery.extend(true, {}, project);
-            //console.log(state.projects[index], project);
-            // jQuery.each(state.projects[index], function(key, value) {
-            //  //console.log(state.projects[index][key], project[key]);
-            //  jQuery.extend(true, state.projects[index][key], project[key]);
-            // });
-
-            // //console.log(state.projects[index]);
         },
 
         showHideProjectDropDownAction (state, data) {
@@ -212,10 +203,9 @@ export default new pm.Vuex.Store({
         },
 
         updateSeletedUser (state, data) {
-            
+            console.log(data.project_id);
             if(data.project_id) {
                 var index = state.getIndex(state.projects, data.project_id, 'id');
-
                 state.projects[index].assignees.data.push(data.item);
             } else {
                 state.assignees.push(data.item);
