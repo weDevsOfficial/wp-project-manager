@@ -102,7 +102,7 @@
                                         </div>
 
                                         <div v-if="list.edit_mode" class="list-update-warp">
-                                             <new-task-list-form section="lists" :list="list" ></new-task-list-form>
+                                            <new-task-list-form section="lists" :list="list" ></new-task-list-form>
                                         </div>
                                     </div>
                                 </div>
@@ -456,7 +456,7 @@
                 
                 .pm-task-form {
                     .new-task-description {
-                        width: 99.7%;
+                        width: 99.8%;
                     }
                     .mce-tinymce {
                         border-top: none;

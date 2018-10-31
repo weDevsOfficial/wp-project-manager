@@ -255,11 +255,13 @@
                 var updateField  = jQuery(el.target).closest('.task-update-wrap'),
                     updateBtn = jQuery(el.target).closest('.edit-task-btn'),
                     taskActionWrap = jQuery(el.target).closest('.task-more-menu');
+                
                 if(!taskActionWrap.length) {
                     this.task.moreMenu = false;
                 }
+                
+                if ( !updateBtn.length && !updateField.length ) {
 
-                if ( !updateBtn && !updateField.length ) {
                     this.task.edit_mode = false;
                 }
             },

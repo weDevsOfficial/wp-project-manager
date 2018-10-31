@@ -153,6 +153,9 @@
                 loading: true,
             }
         },
+        created () {
+            //console.log(this.$route);
+        },
         computed: {
             discuss () {
                 if ( this.$store.state.projectDiscussions.discussion.length ) {
