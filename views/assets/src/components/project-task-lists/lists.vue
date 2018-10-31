@@ -6,13 +6,13 @@
         <div v-if="listViewType" class="list-content-wrap">
             <div class="content">
                 <div class="list-action-btn-wrap">
-                    <div class="new-list-btn">
-                        <a v-if="can_create_list" @click.prevent="showHideListForm('toggle')" href="#" class="list-action-group add-list">
+                    <div class="new-list-btn" >
+                        <a v-if="can_create_list  && !isArchivedPage" @click.prevent="showHideListForm('toggle')" href="#" class="list-action-group add-list">
                             <span class="plus">+</span>
                             <span>{{ __('Add Task List', 'wedevs-project-manager') }}</span>
                         </a>
 
-                        <new-task-list-form v-if="is_active_list_form && can_create_list"></new-task-list-form>
+                        <new-task-list-form v-if="is_active_list_form && can_create_list  && !isArchivedPage"></new-task-list-form>
                         
                     </div>
                     
@@ -25,7 +25,7 @@
                     </div>
                 </div>
 
-                <div class="task-field" v-if="can_create_task">
+                <div class="task-field" v-if="can_create_task && !isArchivedPage">
                     <new-task-form  :list="list"></new-task-form>
                 </div>
 
@@ -1256,18 +1256,18 @@
                 isActiveFilter: false,
                 defaultList: {
                     id: 0,
-                    title: this.__('All', 'wedevs-project-manager')
+                    title: this.__('Any', 'wedevs-project-manager')
                 },
                 defaultUser: {
                     id: 0,
-                    display_name: this.__('All', 'wedevs-project-manager')
+                    display_name: this.__('Any', 'wedevs-project-manager')
                 },
                 filterDueDate: '',
                 filterStatus: '',
                 dueDates: [
                     {
                         'id': '0',
-                        'title': this.__('All', 'wedevs-project-manager'),
+                        'title': this.__('Any', 'wedevs-project-manager'),
                     },
                     {
                         'id': 'overdue',
@@ -1284,7 +1284,7 @@
                 ],
                 dueDate: {
                     'id': '0',
-                    'title': this.__('All', 'wedevs-project-manager'),
+                    'title': this.__('Any', 'wedevs-project-manager'),
                 },
                 searchLists: [
                     {
@@ -1529,7 +1529,9 @@
                 //set filter search user
                 if(this.$route.query.filterTask == 'active') {
                     let index = this.getIndex(this.projectUsers, this.$route.query.users, 'id');
-                    this.defaultUser = project.assignees.data[index];
+                    if ( index  ) {
+                        this.defaultUser = project.assignees.data[index];
+                    }
                 } 
             },
             setSearchData () {
@@ -1758,7 +1760,6 @@
 
             taskFilter () {
                 var self = this;
-
                 var query = {
                     users: this.filterUsersId(this.defaultUser),
                     lists: this.filterListsId(this.defaultList),
