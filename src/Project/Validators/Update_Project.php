@@ -8,6 +8,7 @@ class Update_Project extends Abstract_Validator {
     public function messages() {
         return [
             'title.required' => __( 'Project title is required.', 'wedevs-project-manager' ),
+            'title.pm_unique' => __( 'Project title must be unique.', 'wedevs-project-manager' ),
             'id.required'    => __( 'Project ID is required.', 'wedevs-project-manager' ),
             'id.gtz'         => __( 'Project ID must be greater than zero', 'wedevs-project-manager' ),
         ];
@@ -15,7 +16,7 @@ class Update_Project extends Abstract_Validator {
 
     public function rules() {
         return [
-            'title' => 'required',
+            'title' => 'required|pm_unique:Project,title',
             'id'    => 'required|gtz', //Greater than zero (gtz)
         ];
     }
