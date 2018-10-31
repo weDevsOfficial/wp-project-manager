@@ -1520,7 +1520,7 @@
                 let listcalss = 'pm-list-sortable list-li pm-fade-out-' + list_id;
 
                 if ( this.isInboxList( list_id ) ) {
-                    listcalss += ' nonsortable'
+                    listcalss += ' listindex'
                 }
                 return listcalss;
             },
