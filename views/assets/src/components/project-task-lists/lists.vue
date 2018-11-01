@@ -79,9 +79,9 @@
                                         
                                     </div>
 
-                                    <div v-if="!isInbox(list.id) && can_edit_task_list(list)" :data-list_id="list.id" @click="showHideMoreMenu(list)" class="more-menu list-more-menu">
+                                    <div v-if="!isInbox(list.id) && can_edit_task_list(list)" :data-list_id="list.id" class="more-menu list-more-menu">
 
-                                        <span  class="icon-pm-more-options"></span>
+                                        <span @click="showHideMoreMenu(list)" class="icon-pm-more-options"></span>
                                         <div v-if="list.moreMenu && !list.edit_mode"  class="more-menu-ul-wrap">
                                             <ul>
                                                 <li class="first-li" v-if="!isArchivedList(list)">
@@ -624,9 +624,11 @@
                                     margin-left: 12px;
                                 }
                             }
+                            .list-title {
+                                cursor: pointer;
+                            }
                             .more-menu {
                                 padding: 0 12px;
-                                cursor: pointer;
                                 position: relative;
                                 display: flex;
                                 flex: 1;
@@ -635,6 +637,8 @@
                                 top: 2px;
 
                                 .icon-pm-more-options {
+                                    padding: 0 10px;
+                                    cursor: pointer;
                                     &:before {
                                         color: #fafafa;
                                     }
@@ -699,6 +703,10 @@
                                         display: inline-block;
                                         width: 20px;
                                     }
+                                }
+
+                                .more-menu-ul-wrap {
+                                    right: 3px;
                                 }
 
                                 .list-update-warp {
@@ -903,7 +911,7 @@
                         .list-form {
                             position: absolute;
                             top: 40px;
-                            width: 80%;
+                            width: 50%;
                             left: auto;
                             z-index: 9999;
                             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
