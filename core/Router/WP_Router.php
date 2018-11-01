@@ -129,8 +129,8 @@ class WP_Router {
 	 */
 	private function prepare_args( $http_verb, $namespace, $uri, $validator = null, $sanitizer = null ) {
 
-        $validator = $validator ? new $validator() : null;
-        $sanitizer = $sanitizer ? new $sanitizer() : null;
+        $validator = $validator ? new $validator( $this->prepare_request_object( $http_verb, $namespace, $uri ) ) : null;
+        $sanitizer = $sanitizer ? new $sanitizer( $this->prepare_request_object( $http_verb, $namespace, $uri ) ) : null;
 		$args = [];
 
 		if ( $validator ) {
