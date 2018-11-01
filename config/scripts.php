@@ -189,6 +189,7 @@ return [
 	'pm' => [
 		'id'         => 'pm-scripts',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/js/pm.js',
+		'path'       => $view_path . '/assets/js/pm.js',
 		'dependency' => [
 			'pm-const'
 		],
@@ -197,6 +198,7 @@ return [
 	'pmglobal' => [
 		'id'         => 'pmglobal',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/js/pmglobal.js',
+		'path'       => $view_path . '/assets/js/pmglobal.js',
 		'dependency' => [
 			'jquery',
 			'jquery-ui-autocomplete',
