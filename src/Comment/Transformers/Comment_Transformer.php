@@ -82,8 +82,6 @@ class Comment_Transformer extends TransformerAbstract {
 
         $resource = $this->collection( $files, new File_Transformer );
 
-        $resource->setPaginator( new IlluminatePaginatorAdapter( $files ) );
-
         return $resource;
     }
 }
