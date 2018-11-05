@@ -528,7 +528,7 @@ export default {
         },
         afterUpdateList (state, list) {
             var list_index = state.getIndex(state.lists, list.id, 'id');
-            var merge_list = jQuery.extend(true, state.lists[list_index], list);
+            var merge_list = jQuery.extend(true, list, state.lists[list_index]);
             state.lists.splice(list_index,1,list);
         },
         afterNewListupdateListsMeta (state) {
@@ -553,12 +553,18 @@ export default {
             state.milestones = milestones;
         },
 
-        showHideListFormStatus (state, status) {
-            if ( status === 'toggle' ) {
-                state.is_active_list_form = state.is_active_list_form ? false : true;
+        showHideListFormStatus (state, data) {
+            if(data.list && !jQuery.isEmptyObject(data.list)) {
+                var list_index = state.getIndex(state.lists, data.list.id, 'id');
+                pm.Vue.set(state.lists[list_index], 'edit_mode', data.status);
             } else {
-                state.is_active_list_form = status;
+                if ( data.status === 'toggle' ) {
+                    state.is_active_list_form = state.is_active_list_form ? false : true;
+                } else {
+                    state.is_active_list_form = data.status;
+                } 
             }
+  
         },
 
         setTotalListPage (state, total) {

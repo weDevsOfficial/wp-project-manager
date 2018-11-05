@@ -43,6 +43,9 @@ var PM_TaskList_Mixin = {
         },
         can_create_task () {
             return this.user_can("create_task");
+        },
+        isArchivedPage () {
+            return this.$route.name == 'task_lists_archive' || this.$route.name == 'task_lists_archive_pagination'
         }
 
     },
@@ -827,12 +830,21 @@ var PM_TaskList_Mixin = {
 
             if ( list && typeof list.edit_mode != 'undefined' ) {
                 if ( status === 'toggle' ) {
-                    list.edit_mode = list.edit_mode ? false : true;
+                    this.$store.commit( 'projectTaskLists/showHideListFormStatus', {
+                        status: list.edit_mode ? false : true,
+                        list: list
+                    });
                 } else {
-                    list.edit_mode = status;
+                    this.$store.commit( 'projectTaskLists/showHideListFormStatus', {
+                        status: status,
+                        list: list
+                    });
                 }
             } else {
-                this.$store.commit( 'projectTaskLists/showHideListFormStatus', status);
+                this.$store.commit( 'projectTaskLists/showHideListFormStatus', {
+                    status: status,
+                    list: false
+                });
             }
         },
 
@@ -893,7 +905,7 @@ var PM_TaskList_Mixin = {
          */
         addTaskMeta ( task ) {
             task.edit_mode = false;   
-            task.moreMenu = false;    
+            task.moreMenu = false;
         },
 
         /**

@@ -2,14 +2,14 @@
     <div class="pm-header-title-content" v-if="isProjectLoaded">
         <div class="project-title">
             <span class="title">{{ project.title }}</span>
-            <a href="#" @click.prevent="showHideProjectForm('toggle')" class="icon-pm-pencil project-update-btn"></a>
+            <a href="#" v-if="is_manager()" @click.prevent="showHideProjectForm('toggle')" class="icon-pm-pencil project-update-btn"></a>
 
             <edit-project v-if="is_project_edit_mode && is_manager()" class="project-edit-form" :project="project"></edit-project>
             <div class="settings header-settings">
 
-                <a href="#" @click.prevent="showHideSettings()" class="icon-pm-settings header-settings-btn"></a>
+                <a href="#" v-if="is_manager()" @click.prevent="showHideSettings()" class="icon-pm-settings header-settings-btn"></a>
 
-                <div v-if="settingStatus" class="settings-activity">
+                <div v-if="settingStatus && is_manager()" class="settings-activity">
                     <div class="pm-triangle-top">
                         <ul class="action-ul">
                             <li>
@@ -203,9 +203,6 @@
                         margin: 0;
                         padding: 0;
 
-                        .icon-pm-undo-arrow {
-
-                        }
 
                         li {
                             margin: 0;
@@ -290,16 +287,24 @@
         methods: {
             windowActivity (el) {
                 var settingsWrap  = jQuery(el.target).closest('.header-settings'),
-                    settingsBtn = jQuery(el.target).hasClass('header-settings-btn'),
-                    projectUpdatebtn = jQuery(el.target).hasClass('project-update-btn'),
-                    projectUdpateWrap = jQuery(el.target).closest('.project-edit-form');
+                    settingsBtn       = jQuery(el.target).hasClass('header-settings-btn'),
+                    projectUpdatebtn  = jQuery(el.target).hasClass('project-update-btn'),
+                    projectUdpateWrap = jQuery(el.target).closest('.project-edit-form'),
+                    newUser           = jQuery(el.target).hasClass('pm-more-user-form-btn'),
+                    newUserbtn        = jQuery(el.target).hasClass('pm-new-user-btn'),
+                    userSelect        = jQuery(el.target).closest('.ui-autocomplete');
 
                 if ( !settingsBtn && !settingsWrap.length ) {
                     this.settingStatus = false;
                 }
 
-                if ( !projectUpdatebtn && !projectUdpateWrap.length ) {
-        
+                if ( 
+                    !projectUpdatebtn 
+                     && !projectUdpateWrap.length 
+                     && !newUser 
+                     && !userSelect.length 
+                     && !newUserbtn 
+                ) {
                     this.showHideProjectForm(false);
                 }
             },

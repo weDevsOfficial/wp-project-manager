@@ -116,7 +116,15 @@
             },
 
             selectedUsers () {
-                return this.$root.$store.state.assignees;
+
+                if(!this.project.hasOwnProperty('assignees')) {
+                    return this.$store.state.assignees;
+                } else {
+                    var projects = this.$store.state.projects;
+                    var index = this.getIndex(projects, this.project.id, 'id');
+                    
+                    return projects[index].assignees.data;
+                }
             },
 
             project_category: {
@@ -155,7 +163,7 @@
                     return;
                 }
                 
-                this.$root.$store.commit(
+                this.$store.commit(
                     'afterDeleteUserFromProject', 
                     {
                         project_id: this.project_id,
@@ -185,7 +193,7 @@
                 }
                 
                 if ( !this.project.title ) {
-                    pm.Toastr.error('Project title is required!');
+                    pm.Toastr.error(__('Project title is required!', 'wedevs-project-manager'));
                     return;
                 }
 
@@ -212,10 +220,11 @@
                     this.updateProject ( args );
                 } else {
                     args.callback = function(res) {
-                        if ( res.status !== 200 ) {
-                            self.show_spinner = false;
-                            return;
-                        }
+                        // console.log(res.status);
+                        // if ( res.status !== 200 ) {
+                        //     self.show_spinner = false;
+                        //     return;
+                        // }
                         self.project.title = '';
                         self.project_cat = 0;
                         self.project.description = ''
@@ -251,7 +260,7 @@
                     this.$store.commit('setSeletedUser', []);
                     jQuery( "#pm-project-dialog" ).dialog('close'); 
                 }
-                this.showHideProjectForm(false)
+                this.showHideProjectForm(false);
             },
         }
     }

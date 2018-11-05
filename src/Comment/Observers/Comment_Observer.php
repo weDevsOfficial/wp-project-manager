@@ -89,7 +89,7 @@ class Comment_Observer extends Model_Observer {
         }
 
         Activity::create([
-            'actor_id'      => $comment->updated_by,
+            'actor_id'      => get_current_user_id(),
             'action'        => $action,
             'action_type'   => $action_type,
             'resource_id'   => $task->id,
@@ -120,7 +120,7 @@ class Comment_Observer extends Model_Observer {
         }
 
         Activity::create([
-            'actor_id'      => $comment->updated_by,
+            'actor_id'      => get_current_user_id(),
             'action'        => $action,
             'action_type'   => $action_type,
             'resource_id'   => $list->id,
@@ -151,7 +151,7 @@ class Comment_Observer extends Model_Observer {
         }
 
         Activity::create([
-            'actor_id'      => $comment->updated_by,
+            'actor_id'      => get_current_user_id(),
             'action'        => $action,
             'action_type'   => $action_type,
             'resource_id'   => $board->id,
@@ -182,7 +182,7 @@ class Comment_Observer extends Model_Observer {
         }
 
         Activity::create([
-            'actor_id'      => $comment->updated_by,
+            'actor_id'      => get_current_user_id(),
             'action'        => $action,
             'action_type'   => $action_type,
             'resource_id'   => $milestone->id,
@@ -209,7 +209,7 @@ class Comment_Observer extends Model_Observer {
         }
 
         Activity::create([
-            'actor_id'      => $comment->updated_by,
+            'actor_id'      => get_current_user_id(),
             'action'        => $action,
             'action_type'   => $action_type,
             'resource_id'   => $project->id,
@@ -245,7 +245,7 @@ class Comment_Observer extends Model_Observer {
         }
 
         Activity::create([
-            'actor_id'      => $comment->updated_by,
+            'actor_id'      => get_current_user_id(),
             'action'        => $action,
             'action_type'   => $action_type,
             'resource_id'   => $file->id,

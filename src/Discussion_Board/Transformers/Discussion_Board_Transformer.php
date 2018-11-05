@@ -93,12 +93,10 @@ class Discussion_Board_Transformer extends TransformerAbstract {
 
         $files = $item->files()
             ->orderBy( 'created_at', 'DESC' )
-            ->paginate( 10 );
+            ->get();
 
-        $file_collection = $files->getCollection();
-        $resource = $this->collection( $file_collection, new File_Transformer );
-
-        $resource->setPaginator( new IlluminatePaginatorAdapter( $files ) );
+        
+        $resource = $this->collection( $files, new File_Transformer );
 
         return $resource;
     }
