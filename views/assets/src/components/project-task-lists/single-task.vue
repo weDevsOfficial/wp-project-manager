@@ -161,16 +161,16 @@
                                 <span @click.prevent="singleTaskLockUnlock(task)" v-if="isTaskLock" :title="__('Task is visible for co-worker', 'wedevs-project-manager')" class="icon-pm-unlock pm-dark-hover pm-font-size-16"></span>
                                 <span @click.prevent="singleTaskLockUnlock(task)" v-if="isTaskUnlock" class="icon-pm-private pm-dark-hover pm-font-size-16"></span>
                                 
-                                <span id="pm-calendar-wrap" @click.self.prevent="isTaskDateEditMode()" class="individual-group-icon calendar-group icon-pm-calendar pm-font-size-16">
+                                <span id="pm-calendar-wrap" @click.prevent="isTaskDateEditMode()" class="individual-group-icon calendar-group icon-pm-calendar pm-font-size-16">
                                     <span v-if="(task.start_at.date || task.due_date.date )" :class="taskDateWrap(task.due_date.date) + ' pm-task-date-wrap pm-date-window'">
-                                            
+
                                         <span :title="getFullDate(task.start_at.timestamp)" v-if="task_start_field">
                                             {{ dateFormat( task.start_at.date ) }}
                                         </span>
 
                                         <span v-if="task_start_field && task.start_at.date && task.due_date.date">&ndash;</span>
                                         <span :title="getFullDate(task.due_date.timestamp)" v-if="task.due_date">
-                                            
+
                                             {{ dateFormat( task.due_date.date ) }}
                                         </span>
                                     </span>
@@ -182,26 +182,26 @@
                                         </span>
                                     </span>
                                     <div v-if="is_task_date_edit_mode && can_edit_task(task)" class="task-date">
-                                        <pm-content-datepicker 
-                                            v-if="task_start_field" 
+                                        <pm-content-datepicker
+                                            v-if="task_start_field"
                                             v-model="task.start_at.date"
-                                            :callback="callBackDatePickerForm" 
-                                            dependency="pm-datepickter-to" 
+                                            :callback="callBackDatePickerForm"
+                                            dependency="pm-datepickter-to"
                                             class="pm-datepicker-from pm-inline-date-picker-from">
-                                                
+
                                         </pm-content-datepicker>
-                                        <pm-content-datepicker 
-                                            v-model="task.due_date.date" 
-                                            dependency="pm-datepickter-from" 
+                                        <pm-content-datepicker
+                                            v-model="task.due_date.date"
+                                            dependency="pm-datepickter-from"
                                             :callback="callBackDatePickerTo"
                                             class="pm-datepicker-to pm-inline-date-picker-to">
-                                                
+
                                         </pm-content-datepicker>
                                       <!--   <div v-if="task_start_field" v-pm-datepicker="'singleTask'" class="pm-date-picker-from pm-inline-date-picker-from"></div>
                                         <div v-pm-datepicker="'singleTask'" class="pm-date-picker-to pm-inline-date-picker-to"></div> -->
                                     </div>
                                 </span>
-                                
+
                                 <!-- <span class="icon-pm-watch pm-font-size-16"></span>
                                 <span class="icon-pm-tag pm-font-size-16"></span>
                                 <span class="icon-pm-sorting pm-font-size-16"></span>
@@ -223,15 +223,15 @@
                             <div v-else class="task-details">
 
                                 <div class="pm-des-area pm-desc-content" v-if="!is_task_details_edit_mode"  >
-                                    
+
                                     <div v-if="task.description.content != ''" class="pm-task-description" v-html="task.description.html"></div>
-                                    
+
                                     <a class="task-description-edit-icon" @click.prevent="isTaskDetailsEditMode()" :title="update_description" v-if="can_edit_task(task) && !isArchivedTaskList(task)">
                                         <i style="font-size: 16px;"  class="fa fa-pencil" aria-hidden="true"></i>
-                                        
+
                                     </a>
                                 </div>
-                                
+
                                 <!-- <textarea
                                     v-prevent-line-break
                                     @blur="updateDescription(task, $event)"
@@ -244,7 +244,7 @@
                                 <div v-if="is_task_details_edit_mode && can_edit_task(task)" class="pm-help-text">
                                     <span>{{ __( 'Shift+Enter for line break', 'wedevs-project-manager') }}</span>
                                 </div> -->
-                                
+
                                 <div v-if="is_task_details_edit_mode && can_edit_task(task) && !isArchivedTaskList(task)" class="item detail">
                                     <text-editor v-if="is_task_details_edit_mode" :editor_id="'task-description-editor'" :content="content"></text-editor>
                                     <div class="task-description-action">
@@ -300,7 +300,7 @@
                     </div>
 
                 </div>
-                
+
             </div>
         </div>
     </div>
@@ -309,7 +309,7 @@
 
 <style lang="less">
 
-  
+
 </style>
 
 <script>
@@ -326,16 +326,16 @@
             var self = this;
 
             jQuery(el).bind('scroll', function() {
-                
+
                 if( jQuery(this).scrollTop() + jQuery(this).innerHeight()>=jQuery(this)[0].scrollHeight ) {
-                    
+
                     vnode.context.loadMoreActivity(vnode.context);
                 }
             })
         }
-     
+
     });
-    
+
     export default {
         props: {
             taskId: {
@@ -468,18 +468,18 @@
                 if (e.keyCode === 27) {
                     var subtaskInput = jQuery(e.target).closest('.new-subtask-form').find('.input-area');
                     var mainBody = jQuery(e.target).closest('#pm-single-task-wrap');
-                    
+
                     if(!subtaskInput.length && mainBody.length) {
-                        
+
                        self.closePopup();
-                    } 
+                    }
                 }
             });
         },
 
         methods: {
             callBackDatePickerForm (date) {
-                
+
                 let dateFrom = {
                     id: 'singleTask',
                     field: 'datepicker_from',
@@ -489,7 +489,7 @@
                 this.fromDate(dateFrom);
             },
             callBackDatePickerTo (date) {
-                
+
                 let dateTo = {
                     id: 'singleTask',
                     field: 'datepicker_to',
@@ -519,7 +519,7 @@
                 if( this.activityLoading ) {
                     return;
                 }
-                
+
                 var request_data = {
                     url: self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks/'+self.task.id+ '/activity',
                     type: 'POST',
@@ -529,7 +529,7 @@
                     success (res) {
                         self.activityLoading = false;
                         self.activityPage = self.activityPage + 1;
-                        
+
                         if(typeof self.task.activities == 'undefined') {
                             pm.Vue.set(self.task, 'activities', {});
                             pm.Vue.set(self.task.activities, 'data', res.data);
@@ -543,7 +543,7 @@
                     },
 
                     error (res) {
-                      
+
                     }
                 }
 
@@ -551,18 +551,18 @@
                 self.httpRequest(request_data);
             },
             showMenu (status) {
-                
+
                 if(typeof status != 'undefined') {
                     this.isActiveMenu = status;
                 } else {
-                   this.isActiveMenu = this.isActiveMenu ? false : true;  
+                   this.isActiveMenu = this.isActiveMenu ? false : true;
                 }
-                
+
             },
             selfDeleteTask() {
                 var self = this;
                 this.deleteTask({
-                    task: this.task, 
+                    task: this.task,
                     list: this.task.task_list.data,
                     callback (data) {
                         self.closePopup();
@@ -598,7 +598,7 @@
                     status = this.task.status ? 0 : 1;
 
                     this.show_spinner_status = true;
-                
+
                 var args = {
                     data: {
                         task_id: this.task.id ? this.task.id : this.taskId,
@@ -611,7 +611,7 @@
                         } else {
                             self.task.status = false;
                         }
-                        
+
                         if ( typeof self.task.activities !== 'undefined' ) {
                             self.task.activities.data.unshift(res.activity.data);
                         } else {
@@ -647,7 +647,7 @@
                         }
                     }
                 }
-                
+
                 this.getTask(args);
 
             },
@@ -677,7 +677,7 @@
                 this.is_enable_multi_select = ! this.is_enable_multi_select;
                 pm.Vue.nextTick(() => {
                     this.$refs.assingTask.$el.focus();
-                   
+
                 });
             },
 
@@ -842,7 +842,7 @@
                         }
                         self.show_spinner = false;
 
-                        
+
                     },
                     error (res) {
                         res.responseJSON.message.map( function( value, index ) {
@@ -850,7 +850,7 @@
                         });
                     }
                 }
-                
+
                 this.httpRequest(request_data);
             },
 
@@ -867,11 +867,13 @@
 
             isTaskDateEditMode () {
                 if (this.isArchivedTaskList(this.task)) {
-                    this.is_task_date_edit_mode = false;
+                    return this.is_task_date_edit_mode = false;
                 }
 
                 if ( !this.can_edit_task(this.task) ) {
                     this.is_task_date_edit_mode = this.is_task_date_edit_mode ? false : true;
+
+                    return this.is_task_date_edit_mode;
                 }
                 
                 this.is_task_date_edit_mode = this.is_task_date_edit_mode ? false : true;
