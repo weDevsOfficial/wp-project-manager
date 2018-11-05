@@ -46,7 +46,6 @@
 
                             
                             <div class="created-by">
-                                
                                 <span class="pm-light-color">{{ __('Created by', 'wedevs-project-manager') }}</span>
                                 <span class="pm-dark-color">{{ ucfirst( task.creator.data.display_name ) }}</span>
                                 <span class="pm-light-color">{{ __('on', 'wedevs-project-manager') }}</span>
@@ -157,7 +156,8 @@
                             
 
                             <div class="pm-flex option-icon-groups">
-                                <do-action :hook="'single_task_action'" :actionData="doActionData"></do-action>
+                                <do-action :hook="'single_task_action'" :actionData="task"></do-action>
+                                <!--recurrent-->
                                 <span @click.prevent="singleTaskLockUnlock(task)" v-if="isTaskLock" :title="__('Task is visible for co-worker', 'wedevs-project-manager')" class="icon-pm-unlock pm-dark-hover pm-font-size-16"></span>
                                 <span @click.prevent="singleTaskLockUnlock(task)" v-if="isTaskUnlock" class="icon-pm-private pm-dark-hover pm-font-size-16"></span>
                                 
@@ -459,7 +459,7 @@
             this.getGloabalProject(this.projectId);
             window.addEventListener('click', this.windowActivity);
             //this.$root.$on('pm_date_picker', this.fromDate);
-
+            this.$store.commit('isSigleTask', true);
             pm.Vue.nextTick(function() {
                 jQuery('body').addClass('pm-block-content');
             });
