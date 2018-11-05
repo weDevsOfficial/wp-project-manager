@@ -58,7 +58,7 @@ class Discussion_Board_Observer extends Model_Observer {
 
     private function log_activity( Discussion_Board $item, $action, $action_type, $meta = null ) {
         Activity::create([
-            'actor_id'      => $item->updated_by,
+            'actor_id'      => get_current_user_id(),
             'action'        => $action,
             'action_type'   => $action_type,
             'resource_id'   => $item->id,

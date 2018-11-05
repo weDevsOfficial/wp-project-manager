@@ -96,7 +96,10 @@
                 if ( this.submit_disabled ) {
                     return;
                 }
-
+                if(!this.milestone.title) {
+                    pm.Toastr.error('Milestone title required!');
+                    return false;
+                }
                 // Disable submit button for preventing multiple click
                 this.submit_disabled = true;
                 // Showing loading option 

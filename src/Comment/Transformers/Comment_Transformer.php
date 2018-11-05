@@ -78,12 +78,9 @@ class Comment_Transformer extends TransformerAbstract {
     public function includeFiles( Comment $item ) {
         $page = isset( $_GET['file_page'] ) ? $_GET['file_page'] : 1;
 
-        $files = $item->files()->paginate( 10, ['*'], 'file_page', $page );
+        $files = $item->files()->get();
 
-        $file_collection = $files->getCollection();
-        $resource = $this->collection( $file_collection, new File_Transformer );
-
-        $resource->setPaginator( new IlluminatePaginatorAdapter( $files ) );
+        $resource = $this->collection( $files, new File_Transformer );
 
         return $resource;
     }

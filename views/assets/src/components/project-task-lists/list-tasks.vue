@@ -1,6 +1,7 @@
 <template>
     <div class="task-group">
-        <ul :data-list_id="list.id"  class="incomplete-task-ul pm-connected-sortable" v-pm-sortable>
+        
+        <ul :data-list_id="list.id"   class="incomplete-task-ul pm-connected-sortable" v-pm-sortable :class="{'has-items' : getIncompleteTasks.length }">
             
             <li :data-id="task.id" :data-order="task.order" v-for="task in getIncompleteTasks" :key="task.id" :class="'incomplete-task-li pm-fade-out-'+task.id">
                 <incompleted-tasks :task="task" :list="list"></incompleted-tasks>
@@ -82,12 +83,15 @@
         .incomplete-task-ul{
             padding: 2px !important;
         }
+        .incomplete-task-ul.has-items {
+            margin-bottom: 8px !important;
+        }
         
         .more-task-wrap {
             margin-bottom: 18px;
             display: flex;
             align-items: center;
-            margin: 25px 0 20px;
+            margin: 0px 0 20px;
 
             .group-action-btn {
                 margin-right: 15px;
@@ -228,13 +232,15 @@
                     }
                     .checkbox {
                         line-height: 0;
+                        position: relative;
+                        top: 1px;
                     }
                 }
                 .title-wrap {
                     display: flex;
                     align-items: baseline;
                     position: relative;
-                    top: -3px;
+                    top: -1px;
                 }
 
                 .more-menu {

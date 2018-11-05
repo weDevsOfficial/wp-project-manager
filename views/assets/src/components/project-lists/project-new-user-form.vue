@@ -24,7 +24,7 @@
 
             </div>
             <div>
-                <input class="button-primary" type="submit" :value="create_user" name="create_user">
+                <input class="button-primary pm-new-user-btn" type="submit" :value="create_user" name="create_user">
                 <span v-show="show_spinner" class="pm-spinner"></span>
             </div>
         </form>
@@ -63,16 +63,13 @@
                     success: function(res) {
                         self.addUserMeta(res.data);
                         self.show_spinner = false;
-                        
-                        // self.$root.$store.commit(
-                        //     'setNewUser',
-                        //     {
-                        //         project_id: self.project_id,
-                        //         user: res.data
-                        //     }
-                        // );
-
-                        self.$root.$store.commit('updateSeletedUser', res.data);
+                 
+                        self.$root.$store.commit('updateSeletedUser', 
+                            {
+                                project_id: self.project_id,
+                                item: res.data
+                            }
+                        );
                         jQuery( "#pm-create-user-wrap" ).dialog( "close" );
                     }
                 });
