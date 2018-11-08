@@ -59,7 +59,9 @@ class Frontend {
         add_filter( 'plugin_action_links_' . PM_BASENAME , array( $this, 'plugin_action_links' ) );
         add_filter( 'in_plugin_update_message-' . PM_BASENAME , array( $this, 'upgrade_notice' ), 10, 2 );
         add_action( 'admin_footer', array( $this, 'switch_project_html' ) );
+        add_action( 'admin_footer', array( $this, 'new_task_craeting' ) );
         add_action('admin_bar_menu', array( $this, 'pm_toolbar_search_button' ), 999);
+        add_action('admin_bar_menu', array( $this, 'pm_toolbar_new_task_creating' ), 999);
 
         if ( class_exists('WeDevs_CPM_Pro') ) {
 			add_action( 'admin_notices', [$this, 'pm_pro_notice'] );
@@ -320,6 +322,38 @@ function project_text_editor($config) {
         require_once pm_config('frontend.view_path') . '/project-switch/project-switch.php';
     }
 
+    public function new_task_craeting() {
+        require_once pm_config('frontend.view_path') . '/project-switch/task-creating.php';
+    }
+
+    public function pm_toolbar_new_task_creating ($wp_admin_bar) {
+        $wp_admin_bar->add_node(
+            [
+                'id'		=> 'pm_create_task',
+                'title'     => '<span class="ab-icon dashicons dashicons-welcome-add-page"></span>',
+                'href'      => '#',
+                'parent' => 'top-secondary',
+                'meta'  => [
+                    'title' => __('Create New Task', 'wedevs-project-manager'),
+                ]
+                
+            ]
+         );
+
+         $wp_admin_bar->add_node(
+            [
+                'id'		=> 'pm_new_create_task',
+                'title'     => 'Task',
+                'href'      => '#',
+                'parent' => 'new-content',
+                'meta'  => [
+                    'title' => __('Create New Task', 'wedevs-project-manager'),
+                ]
+                
+            ]
+         );
+    }
+
 
     public function pm_toolbar_search_button($wp_admin_bar) {
         $wp_admin_bar->add_node( 
@@ -329,7 +363,7 @@ function project_text_editor($config) {
                 'href'      => '#',
                 'parent' => 'top-secondary',
                 'meta'  => [
-                    'title' => __('Jump to a project', 'pm-pro'),
+                    'title' => __('Jump to a project', 'wedevs-project-manager'),
                 ]
                 
             ]

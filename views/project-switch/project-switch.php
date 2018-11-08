@@ -1,6 +1,6 @@
-<div class="pmswitchproject" id="pmswitchproject">
+<div class="pmswitchproject pm-global" id="pmswitchproject">
     <div class="pmswitcharea">
-        <div class="pm-si-area" >
+        <div class="inner" >
             <div class="pm-sp-in">
                 <input id="tags" type="text" placeholder="Jump to a project">
                 <div class="pm-spresult"></div>
@@ -25,6 +25,3 @@
     
 </div>
 
-<style>
-
-</style>
