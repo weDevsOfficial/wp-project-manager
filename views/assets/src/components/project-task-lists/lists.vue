@@ -448,6 +448,7 @@
             display: flex;
             flex-wrap: wrap;
             background: #FAFAFA;
+            display: block;
 
             .content {
                 flex: 5;
