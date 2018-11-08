@@ -467,7 +467,7 @@
                     } 
 
                     .title-wrap {
-                        flex: 80%;
+                        flex: 50%;
                     }
 
                     .task-more-menu {
