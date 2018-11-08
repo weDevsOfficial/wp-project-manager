@@ -36,6 +36,7 @@ export default {
         inline_task_end_date: '',
         inline_task_description: '',
         inline_todo_list_id: 0,
+        expandListIds: [],
         inline_display: {
             users: false,
             start: false,
@@ -519,15 +520,15 @@ export default {
                 length   = state.lists.length;
 
             if (per_page <= length) {
-                state.lists.splice(0,0,list);
+                state.lists.splice(1,0,list);
                 state.lists.pop();
             } else {
-                state.lists.splice(0,0,list);
+                state.lists.splice(1,0,list);
             }
         },
         afterUpdateList (state, list) {
             var list_index = state.getIndex(state.lists, list.id, 'id');
-            var merge_list = jQuery.extend(true, state.lists[list_index], list);
+            var merge_list = jQuery.extend(true, list, state.lists[list_index]);
             state.lists.splice(list_index,1,list);
         },
         afterNewListupdateListsMeta (state) {
@@ -552,12 +553,18 @@ export default {
             state.milestones = milestones;
         },
 
-        showHideListFormStatus (state, status) {
-            if ( status === 'toggle' ) {
-                state.is_active_list_form = state.is_active_list_form ? false : true;
+        showHideListFormStatus (state, data) {
+            if(data.list && !jQuery.isEmptyObject(data.list)) {
+                var list_index = state.getIndex(state.lists, data.list.id, 'id');
+                pm.Vue.set(state.lists[list_index], 'edit_mode', data.status);
             } else {
-                state.is_active_list_form = status;
+                if ( data.status === 'toggle' ) {
+                    state.is_active_list_form = state.is_active_list_form ? false : true;
+                } else {
+                    state.is_active_list_form = data.status;
+                } 
             }
+  
         },
 
         setTotalListPage (state, total) {
@@ -678,6 +685,14 @@ export default {
             });
 
             state.lists = lists;
+        },
+        expandList (state, listId) {
+            let i = state.expandListIds.findIndex(x => x == listId);
+            if (i !== -1) {
+                state.expandListIds.splice(i, 1);
+            }else {
+                state.expandListIds.push(listId);
+            }
         }
     }
 };

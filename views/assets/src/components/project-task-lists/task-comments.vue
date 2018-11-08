@@ -127,7 +127,7 @@
 
         data: function() {
             return {
-                currnet_user_id: 1,
+                currnet_user_id: PM_Vars.current_user.ID,
                 avatar_url: PM_Vars.avatar_url,
                 commentFormMeta: {
                     activeNewCommentField: false   
@@ -206,7 +206,7 @@
             },
 
             deleteTaskComment (id) {
-                if ( !confirm( this.__( 'Are you sure!', 'wedevs-project-manager') ) ) {
+                if ( !confirm( this.__( 'Are you sure?', 'wedevs-project-manager') ) ) {
                     return;
                 }
                 var self = this;

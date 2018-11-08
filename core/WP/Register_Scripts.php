@@ -8,11 +8,13 @@ class Register_Scripts {
 		$scripts = config('scripts');
 
 		foreach ( $scripts as $script ) {
+			$path = empty( $script['path'] ) ? config( 'app.version' ) : filemtime( $script['path'] );
+			
 			wp_register_script( 
 				$script['id'], 
 				$script['url'], 
 				$script['dependency'], 
-				config( 'app.version' ), 
+				$path, 
 				$script['in_footer'] 
 			);
 		}
@@ -22,11 +24,13 @@ class Register_Scripts {
 		$styles = config('style');
 		
 		foreach ( $styles as $style ) {
+			$path = empty( $style['path'] ) ? config( 'app.version' ) : filemtime( $style['path'] );
+
 			wp_register_style( 
 				$style['id'], 
 				$style['url'], 
 				$style['dependency'], 
-				config( 'app.version' ), 
+				$path, 
 				'all'
 			);
 		}

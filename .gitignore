@@ -1,8 +1,6 @@
 /node_modules/
-vendor
-/views/assets/js/chunk/
-/views/assets/js/library.js
-/views/assets/js/pm.js
+/vendor/
+/views/assets/js/
 /views/assets/css/pm-style.css
 /.idea
 .env
@@ -14,7 +12,6 @@ npm-debug.log
 /tests/test-sample.php
 phpcs.ruleset.xml
 phpunit.xml.dist
-composer.lock
 composer.phar
 package-lock.json
 /tmp

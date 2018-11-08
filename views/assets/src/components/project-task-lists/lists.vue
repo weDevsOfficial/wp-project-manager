@@ -1,7 +1,214 @@
 <template>
-    <div class="pm-wrap pm pm-front-end todo-lists-wrap">
+    <div  class="pm-task-list-wrap">
         <pm-header></pm-header>
-        <div v-if="!isListFetch" class="pm-data-load-before" >
+        <pm-menu></pm-menu>
+
+        <div v-if="listViewType" class="list-content-wrap">
+            <div class="content">
+                <div class="list-action-btn-wrap">
+                    <div class="new-list-btn" >
+                        <a v-if="can_create_list  && !isArchivedPage" @click.prevent="showHideListForm('toggle')" href="#" class="list-action-group add-list">
+                            <span class="plus">+</span>
+                            <span>{{ __('Add Task List', 'wedevs-project-manager') }}</span>
+                        </a>
+
+                        <new-task-list-form v-if="is_active_list_form && can_create_list  && !isArchivedPage"></new-task-list-form>
+                        
+                    </div>
+                    
+                    <pm-do-action :hook="'pm-inline-list-button'"></pm-do-action>
+                    <div>
+                        <a :class="isActiveTaskFilter() + ' list-action-group task-filter-btn'" v-pm-tooltip :title="__('Task Filter', 'wedevs-project-manager')" @click.prevent="showFilter()" href="#">
+                            <span class="icon-pm-filter"></span>
+                            <span>{{__('Filter', 'wedevs-project-manager')}}</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="task-field" v-if="can_create_task && !isArchivedPage">
+                    <new-task-form  :list="list"></new-task-form>
+                </div>
+
+                <div class="list-items">
+
+                    <div v-if="!isListFetch" class="pm-data-load-before" >
+                        <div class="loadmoreanimation">
+                            <div class="load-spinner">
+                                <div class="rect1"></div>
+                                <div class="rect2"></div>
+                                <div class="rect3"></div>
+                                <div class="rect4"></div>
+                                <div class="rect5"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <ul v-if="hasSearchContent() && isListFetch" v-pm-list-sortable :class="filterActiveClass()+ ' pm-todolists'">
+                    
+                        <li  v-for="list in lists" :key="list.id" :data-id="list.id"  :class="taskListClass(list.id)">
+
+                            <div class="list-content">
+                                <div class="list-item-content">
+                                    <div class="before-title">
+                                        <span v-if="!isInbox(list.id)" class="pm-list-drag-handle icon-pm-drag-drop"></span>
+                                        <span v-if="!list.expand" @click.prevent="listExpand(list)" :class="inboxClass(list) + ' icon-pm-down-arrow'"></span>
+                                        <span v-if="list.expand" @click.prevent="listExpand(list)" :class="inboxClass(list) + ' icon-pm-up-arrow'"></span>
+                                    </div>
+
+                                    <div class="list-title">
+                                        <span @click.prevent="listExpand(list)" class="list-title-anchor">{{ list.title }}</span>
+                                    </div>
+                                    <div class="after-title">
+                                            <!-- v-pm-tooltip -->
+                                            <div class="view-single-list"  :title="__('Single List', 'wedevs-project-manager')">
+                                                <span @click.prevent="goToSigleList(list)" class="icon-pm-eye"></span>
+                                            </div>
+                                            <div class="list-title-action progress-bar">
+                                                <div :style="getProgressStyle( list )" class="bar completed"></div>
+                                            </div>
+                                               
+                                            <!-- never remove <div class="pm-progress-percent">{{ getProgressPercent( list ) }}%</div> -->
+                                            <div class="list-title-action task-count">
+                                                <span>{{ list.meta.total_complete_tasks }}</span>/<span>{{ getTotalTask(list.meta.total_complete_tasks, list.meta.total_incomplete_tasks) }}</span>
+                                            </div>
+
+                                            <div v-if="!isInbox(list.id) && PM_Vars.is_pro" class="list-title-action">
+                                                <span v-if="!parseInt(list.meta.privacy)" class="icon-pm-unlock"></span>
+                                                <span v-if="parseInt(list.meta.privacy)" class="icon-pm-private"></span>
+                                            </div>
+                                        
+                                    </div>
+
+                                    <div v-if="!isInbox(list.id) && can_edit_task_list(list)" :data-list_id="list.id" class="more-menu list-more-menu">
+
+                                        <span @click="showHideMoreMenu(list)" class="icon-pm-more-options"></span>
+                                        <div v-if="list.moreMenu && !list.edit_mode"  class="more-menu-ul-wrap">
+                                            <ul>
+                                                <li class="first-li" v-if="!isArchivedList(list)">
+                                                    <a @click.prevent="showEditForm(list)" class="li-a" href="#">
+                                                        <span class="icon-pm-pencil"></span>
+                                                        <span>{{ __('Edit', 'wedevs-project-manager') }}</span>
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a @click.prevent="deleteSelfList( list )" class="li-a" href="#">
+                                                        <span class="icon-pm-delete"></span>
+                                                        <span>{{ __('Delete', 'wedevs-project-manager') }}</span>
+                                                    </a>
+                                                </li>
+                                                <pm-do-action hook="list-action-menu" :actionData="list"></pm-do-action>
+
+                                            </ul>
+                                        </div>
+
+                                        <div v-if="list.edit_mode" class="list-update-warp">
+                                            <new-task-list-form section="lists" :list="list" ></new-task-list-form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div v-if="list.expand" class="list-description">
+                                <span v-if="!isInbox(list.id)" v-html="list.description"></span>
+                                <span v-if="isInbox(list.id)">{{ __('This is a system default task list. Any task without an assigned tasklist will appear here.', 'wedevs-project-manager') }}</span>
+                            </div>
+
+                            <list-tasks v-if="list.expand" :list="list"></list-tasks>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- <div class="todos-wrap no-task">
+                    <span>{{ __( 'No result Found', 'wedevs-project-manager') }}</span>
+
+                </div> -->
+            </div>
+
+            <div class="list-search-menu" v-if="isActiveFilter">
+                <div class="filter-title">
+                    <div>
+                        <a @click.prevent="showFilter()" href="#" class="icon-pm-cross"></a>
+                        <span class="active-task-filter">{{__('Task Filter', 'wedevs-project-manager')}}</span>
+                    </div>
+                </div>
+                
+                <div class="search-content">
+                    <form @submit.prevent="taskFilter()">
+                        <div class="margin-top">
+                            <div class="margin-title">{{__('Task list name', 'wedevs-project-manager')}}</div>
+                            <div>
+                                <multiselect 
+                                    v-model="defaultList" 
+                                    :options="searchLists" 
+                                    :show-labels="false"
+                                    :searchable="true"
+                                    :loading="asyncListLoading"
+                                    :placeholder="'Type task list name'"
+                                    @search-change="asyncFind($event)"
+                                    label="title"
+                                    track-by="id">
+                                    <span slot="noResult">{{ __( 'No task list found.', 'pm-pro' ) }}</span>
+                                        
+                                </multiselect> 
+                            </div>
+                        </div>
+                        <div class="margin-top">
+                            <div class="margin-title">{{__('Status', 'wedevs-project-manager')}}</div>
+                            <div class="status-elements">
+                                <a :class="'complete-btn ' + completeBoder()" @click.prevent="changeFilterStatus('complete')" href="#">
+                                    {{__('Completed', 'wedevs-project-manager')}}
+                                </a>
+                                <a :class="'on-going-btn ' + onGoingBorder()" @click.prevent="changeFilterStatus('incomplete')" href="#">
+                                    {{__('On-going', 'wedevs-project-manager')}}
+                                </a>
+                            </div>
+                        </div>
+                        <div class="margin-top">
+                            <div class="margin-title">{{__('Assigned to', 'wedevs-project-manager')}}</div>
+                            <div>
+                                <multiselect 
+                                    v-model="defaultUser" 
+                                    :options="searchProjectUsers" 
+                                    :show-labels="false"
+                                    :placeholder="'Type task list name'"
+                                    label="display_name"
+                                    track-by="id">
+                                        
+                                </multiselect>
+                            </div>
+                        </div>
+                        <div class="margin-top">
+                            <div class="margin-title">{{__('Due Date', 'wedevs-project-manager')}}</div>
+                            <div>
+                                <multiselect 
+                                    v-model="dueDate" 
+                                    :options="dueDates" 
+                                    :show-labels="false"
+                                    :placeholder="'Type task list name'"
+                                    label="title"
+                                    track-by="id">
+                                        
+                                </multiselect>
+                            </div>
+                        </div>
+                        <div class="action">
+                            <input  type="submit" class="pm-button pm-primary filter-submit-btn" name="submit_todo" :value="__('Done', 'wedevs-project-manager')">
+                            <a @click.prevent="showFilter()" class="pm-button pm-secondary" href="#">{{__('Cancel', 'wedevs-project-manager')  }}</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+        <router-view name="single-task"></router-view> 
+        <pm-pagination 
+            :total_pages="total_list_page" 
+            :current_page_number="current_page_number" 
+            :component_name="paginationComponent">
+            
+        </pm-pagination> 
+        
+        <!-- <div v-if="!isListFetch" class="pm-data-load-before" >
             <div class="loadmoreanimation">
                 <div class="load-spinner">
                     <div class="rect1"></div>
@@ -12,8 +219,8 @@
                 </div>
             </div>
         </div>
-
-        <div v-if="listViewType && isListFetch">
+ -->
+        <!-- <div v-if="listViewType && isListFetch">
 
             <default-list-page v-if="is_blank_Template && !isActiveFilter"></default-list-page>
             
@@ -30,7 +237,7 @@
                         <pm-do-action :hook="'pm-inline-list-button'"></pm-do-action>
                            
                     </div>
-                    <!-- <div class="pm-clearfix"></div> -->
+                    
                 </div>
                 <transition name="slide" v-if="can_create_list">
                     <new-task-list-form section="lists" v-if="is_active_list_form" :list="{}"></new-task-list-form>
@@ -45,6 +252,16 @@
                                     <header class="pm-list-header">
                                         <h3>
                                         
+
+                                        </router-link>
+
+                                        <div class="pm-right" v-if="can_edit_task_list(list)">
+                                            <div class="list-right-action">
+                                                <a href="#" v-pm-tooltip v-if="list.status == 'current'" @click.prevent="showEditForm(list)" class="" :title="__('Edit', 'wedevs-project-manager')"><span class="dashicons dashicons-edit"></span></a>
+                                                <a href="#" v-pm-tooltip :title="__('Delete', 'wedevs-project-manager')" class="pm-btn pm-btn-xs" @click.prevent="deleteSelfList( list )"><span class="dashicons dashicons-trash"></span></a>
+                                                <a href="#" v-pm-tooltip :title="helpTextPrivate(list.meta.privacy)"  @click.prevent="listLockUnlock(list)" v-if="PM_Vars.is_pro && user_can('view_private_list') && list.status == 'current'"><span :class="privateClass( list.meta.privacy )"></span></a>
+                                                <pm-do-action hook="list-action-menu" :actionData="list"></pm-do-action>
+
                                             <router-link :to="{ 
                                                 name: 'single_list', 
                                                 params: { 
@@ -54,7 +271,7 @@
                                             
                                             </router-link>
 
-                                            <!-- v-if="list.can_del_edit" -->
+                                            
                                             <div class="pm-right" v-if="can_edit_task_list(list)">
                                                 <div class="list-right-action">
                                                     <a href="#" v-pm-tooltip @click.prevent="showEditForm(list)" class="" :title="__('Edit', 'wedevs-project-manager')"><span class="dashicons dashicons-edit"></span></a>
@@ -135,12 +352,12 @@
                     </ul>
 
                     <div class="pm-demo-template" v-if="isActiveFilter && !filterResults">
-                        <span>{{__('No Result Found!', 'wedevs-project-manager')}}</span>
+                        <span>{{__('No results found.', 'wedevs-project-manager')}}</span>
                     </div>
                     <div class="list-search-menu" v-if="isActiveFilter">
                         <div class="filter-title">
                             <span><a @click.prevent="showFilter()" href="#">X</a></span>
-                            <span class="task-filter">{{__('Task Filter', 'wedevs-project-manager')}}</span>
+                            <span class="active-task-filter">{{__('Task Filter', 'wedevs-project-manager')}}</span>
                         </div>
                         
                         <form @submit.prevent="taskFilter()">
@@ -213,194 +430,788 @@
                     
                 </pm-pagination> 
             </div>
-            <router-view name="single-task"></router-view>
-            
-            
-        </div>
+            <router-view name="single-task"></router-view> 
+        </div> -->
         
     </div>
 </template>
     
 <style lang="less">
-    .todo-lists-wrap {
-        .pm-task-list-flex {
-            display: flex;
+    .pm-task-list-wrap {
+        .pm-ui-state-highlight {
+            background: none !important;
+            border: 1px dashed #d7dee2 !important;
+            min-height: 50px !important;
+            margin: 0 20px !important;
         }
-        .todo-lists {
-            position: relative;
+        .list-content-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            background: #FAFAFA;
 
-            .pm-demo-template {
-                margin-top: 30px;
-                flex: 1;
-                background-size: 80%;
-                background-position: center;
-                display: flex;
-                align-items: center;
-                background-color: #ffffff;
-                border: 1px solid #e5e5e5;
+            .content {
+                flex: 5;
+                border: 1px solid #E5E4E4;
+                border-top: none;
+                
+                .pm-task-form {
+                    .new-task-description {
+                        width: 99.8%;
+                    }
+                    .mce-tinymce {
+                        border-top: none;
+                        box-shadow: none;
+                    }
+                    .update-button {
+                        position: absolute;
+                        right: 0;
+                        top: 0px;
+                        background: #fafafa !important;
+                        color: #fff !important;
+                        font-size: 12px;
+                        font-weight: bolder;
+                        padding: 5px 8px !important;
+                        border: 1px solid #ddd;
 
-                span {
-                    margin: auto;
-                    font-size: 20px;
-                    font-weight: bold;
-                    color: #444;
-                }
-            }
+                        &:hover {
+                            background: #d7dee2 !important;
+                        }
 
-            .pm-todolists {
-                width: 100%;
-                .list-right-action {
-                    display: flex;
-                    align-items: center;
-                    a {
-                        margin-right: 5px;
+                        .icon-pm-check-circle {
+                            &:before {
+                                color: #999;
+                            }
+                        }
                     }
                 }
+                .task-field {
+                    padding: 0 20px;
+                    margin-top: 2px;
+
+                    .task-input {
+                        height: 35px;
+                        width: 100%;
+                        border-radius: 3px;
+                        border: 1px solid #e5e4e4;
+
+                        &::placeholder {
+                            color: #B5C0C3;
+                            font-size: 12px;
+                            padding-left: 5px;
+                            font-weight: 300;
+                        }
+                    }
+                }
+
+                .list-items {
+                    margin-top: 15px;
+                    margin-bottom: 20px;
+                    .list-description {
+                        margin-left: 50px;
+                        margin-right: 20px;
+                        font-style: italic;
+                        font-weight: 300;
+                        font-size: 12px;
+                    }
+                    .list-li {
+                        margin-bottom: 10px;
+                    }
+
+                    .task-group {
+                        .complete-task-ul{
+                            .pm-todo-wrap {
+                                margin: 0 33px 0 52px !important;
+                            }
+                        }
+
+                        .pm-todo-wrap {
+                            margin: 0 36px !important;
+                            margin-right: 32px !important;
+                        }
+
+                        .more-task-wrap { 
+                            margin-left: 52px;
+                        }
+                        .list-task-form  {
+                            margin: 0 20px 0 52px;
+                        }
+                    }
+
+                    .list-li>.list-content {
+                        &:hover {
+                            border-top: 1px solid #e5e4e4;
+                            border-bottom: 1px solid #e5e4e4;
+                            background: #fff;
+
+                            .list-more-menu {
+                                .icon-pm-more-options {
+                                    &:before {
+                                        color: #d6d6d6;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    .list-content {
+                        padding: 5px 0;
+                        border-top: 1px solid #fafafa;
+                        border-bottom: 1px solid #fafafa;
+
+                        .list-item-content {
+                            display: flex;
+                            align-items: baseline;
+                            padding: 0 20px 0 0;
+
+                            .before-title {
+                                .inbox-list {
+                                    padding: 0 26px;
+                                    position: relative;
+                                    top: -2px;
+                                }
+                                .icon-pm-drag-drop {
+                                    cursor: grab;
+                                    padding: 0 10px;
+                                    
+                                    &:before {
+                                        color: #fafafa;
+                                    }
+                                }
+
+                                .icon-pm-up-arrow, .icon-pm-down-arrow {
+                                    width: 25px;
+                                    cursor: pointer;
+                                    display: flex;
+
+                                    &:before {
+                                        color: #047098;
+                                        font-size: 7px;
+                                        font-weight: bold;
+                                    }
+                                }
+                            }
+
+                            .before-title, .after-title {
+                                display: flex;
+                                align-items: center;
+                                white-space: nowrap;
+                            }
+                            .after-title {
+                                position: relative;
+                                top: 2px;
+
+                                .view-single-list {
+                                    cursor: pointer;
+                                    &:hover {
+                                        .icon-pm-eye {
+                                            &:before {
+                                                color: #000;
+                                            }
+                                        }
+                                    }
+                                }
+
+                                .icon-pm-unlock {
+                                    &:before {
+                                        color: #d7dee2;
+                                    }
+                                }
+                                .icon-pm-private {
+                                    &:before {
+                                        color: #d7dee2;
+                                    }
+                                }
+                                .list-title-action {
+                                    margin-left: 12px;
+                                }
+                            }
+                            .list-title {
+                                cursor: pointer;
+                            }
+                            .more-menu {
+                                padding: 0 12px;
+                                position: relative;
+                                display: flex;
+                                flex: 1;
+                                justify-content: flex-end;
+                                position: relative;
+                                top: 2px;
+
+                                .icon-pm-more-options {
+                                    padding: 0 10px;
+                                    cursor: pointer;
+                                    &:before {
+                                        color: #fafafa;
+                                    }
+                                }
+
+                                &:hover {
+                                    .icon-pm-more-options {
+                                        &:before {
+                                            color: #6d6d6d;
+                                        }
+                                    }
+                                }
+
+                                .more-menu-ul-wrap, .list-update-warp {
+                                    position: absolute;
+                                    top: 31px;
+                                    left: auto;
+                                    right: -6px;
+                                    z-index: 9999;
+                                    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+                                    border: 1px solid #DDDDDD;
+                                    background: #fff;
+                                    border-radius: 3px;
+                                    box-shadow: 0px 2px 40px 0px rgba(214, 214, 214, 0.6);
+
+                                    &:before {
+                                        border-color: transparent transparent #DDDDDD transparent;
+                                        position: absolute;
+                                        border-style: solid;
+                                        top: -9px;
+                                        right: 11px;
+                                        content: "";
+                                        z-index: 9999;
+                                        border-width: 0px 8px 8px 8px;
+                                    }
+
+                                    &:after {
+                                        border-color: transparent transparent #ffffff transparent;
+                                        position: absolute;
+                                        border-style: solid;
+                                        top: -7px;
+                                        right: 11px;
+                                        content: "";
+                                        z-index: 9999;
+                                        border-width: 0 8px 7px 8px;
+                                    }
+                                    .first-li {
+                                        margin-top: 6px;
+                                    }
+
+                                    .li-a {
+                                        display: inline-block;
+                                        width: 100%;
+                                        padding: 0 30px 0 12px;
+                                        color: #7b7d7e;
+                                        font-weight: 400;
+                                        font-size: 12px;
+                                        white-space: nowrap;
+                                    }
+
+                                    .icon-pm-pencil, .icon-pm-delete, .li-a-icon {
+                                        display: inline-block;
+                                        width: 20px;
+                                    }
+                                }
+
+                                .more-menu-ul-wrap {
+                                    right: 3px;
+                                }
+
+                                .list-update-warp {
+                                    width: 300px;
+
+                                    form {
+                                        padding: 10px;
+
+                                        .submit {
+                                            padding: 0;
+                                            margin: 0;
+                                            display: flex;
+                                            align-items: center;
+                                            justify-content: flex-end;
+
+                                            .list-cancel {
+                                                width: auto !important;
+                                            }
+                                        }
+                                        .pm-secondary {
+                                            width: auto !important;
+                                            margin-left: 10px !important;
+                                        }
+                                        .title-field, .description-field, .milestone-field, .pm-action-wrap {
+                                            width: 100%;
+                                            margin-bottom: 15px !important;
+                                            border-radius: 3px;
+                                            display: inline-block;
+                                        }
+                                        .pm-make-privacy {
+                                            line-height: 0;
+                                            label {
+                                                line-height: 0;
+                                            }
+                                        }
+                                        .content {
+                                            border: none !important;
+                                        }
+
+                                    }
+                                }
+
+                            }
+                        }
+
+                        .progress-bar {
+                            width: 52px;
+                            background: #D7DEE2;
+                            height: 5px;
+                            border-radius: 3px;
+
+                            .completed {
+                                background: #1A9ED4;
+                                height: 5px;
+                                border-radius: 3px;
+                            }
+                        }
+                        .task-count {
+                            font-size: 12px;
+                            color: #A5A5A5;
+                        }
+                        .list-title-anchor {
+                            font-size: 14px;
+                            color: #047098;
+                            font-weight: 600;
+                            margin-right: 40px;
+                            position: relative;
+                            top: 1px;
+                        }
+
+                        &:hover {
+                            .list-item-content .icon-pm-drag-drop {
+                                &:before {
+                                    color: #bababa;
+                                }
+
+                            }
+                        }
+                    }
+                }
+
+                .list-action-btn-wrap {
+                    display: flex;
+                    align-items: center;
+                    padding: 20px;
+                    flex-wrap: wrap;
+
+                    .list-action-group {
+                        height: 30px;
+                        font-size: 12px;
+                        padding: 0 13px;
+                        border-radius: 3px;
+                        white-space: nowrap;
+                    }
+
+                    .active-task-filter {
+                        display: flex;
+                        align-items: center;
+                        background: #1A9ED4;
+                        height: 30px;
+                        color: #fff;
+                        padding: 0 13px;
+                        border-radius: 3px;
+                        font-size: 12px;
+
+                        .icon-pm-filter {
+                            margin-right: 5px;
+                        }
+                    }
+
+                    .task-filter {
+                        display: flex;
+                        align-items: center;
+                        height: 30px;
+                        color: #788383;
+                        padding: 0 13px;
+                        border-radius: 3px;
+                        font-size: 12px;
+                        border: 1px solid #e4e5e5;
+                        background: #fff;
+
+                        &:hover {
+                            border-color: #1A9ED4 !important;
+                            color: #1A9ED4;
+
+                            .icon-pm-filter {
+                                color: #1A9ED4;
+                            }
+                        }
+
+                        .icon-pm-filter {
+                            margin-right: 5px;
+                            color: #d4d6d6;
+                        }
+                    }
+
+                    .pm-list-header-menu {
+                        display: flex;
+                        align-items: center;
+                    }
+
+                    .list-view-btn {
+                        display: flex;
+                        align-items: center;
+                        background: #fff;
+                        border: 1px solid #E2E2E2;
+                        border-radius: 3px;
+                        border-top-right-radius: 0;
+                        border-bottom-right-radius: 0;
+                        color: #788383;
+                        border-right-color: #fff;
+                        white-space: nowrap;
+
+                        &:hover {
+                            border-color: #1A9ED4;
+                            border-right: 1px solid #1A9ED4;
+                            color: #1A9ED4;
+
+                            .icon-pm-list-view {
+                                &:before {
+                                    color: #1A9ED4;
+                                }
+                            }
+                        }
+
+                    }
+
+                    .kanboard-btn {
+                        display: flex;
+                        align-items: center;
+                        background: #fff;
+                        border: 1px solid #E2E2E2;
+                        border-radius: 3px;
+                        border-top-left-radius: 0;
+                        border-bottom-left-radius: 0;
+                        color: #788383;
+                        white-space: nowrap;
+
+                        &:hover {
+                            border-color: #1A9ED4;
+                            color: #1A9ED4;
+
+                            .icon-pm-kanboard-view {
+                                &:before {
+                                    color: #1A9ED4;
+                                }
+                            }
+                        }
+                        
+
+                        .icon-pm-kanboard-view {
+                            margin-right: 5px;
+                            &:before {
+                                vertical-align: middle;
+                            }
+                        }
+                    }
+
+                    .new-list-btn {
+                        flex: 1;
+                        position: relative;
+                        .list-form {
+                            position: absolute;
+                            top: 40px;
+                            width: 50%;
+                            left: auto;
+                            z-index: 9999;
+                            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+                            border: 1px solid #DDDDDD;
+                            background: #fff;
+                            border-radius: 3px;
+                            box-shadow: 0px 2px 40px 0px rgba(214, 214, 214, 0.6);
+
+                            &:before {
+                                border-color: transparent transparent #DDDDDD transparent;
+                                position: absolute;
+                                border-style: solid;
+                                top: -9px;
+                                left: 28px;
+                                content: "";
+                                z-index: 9999;
+                                border-width: 0px 8px 8px 8px;
+                            }
+
+                            &:after {
+                                border-color: transparent transparent #ffffff transparent;
+                                position: absolute;
+                                border-style: solid;
+                                top: -7px;
+                                left: 28px;
+                                content: "";
+                                z-index: 9999;
+                                border-width: 0 8px 7px 8px;
+                            }
+                            form {
+                                padding: 10px;
+
+                                .submit {
+                                    padding: 0;
+                                    margin: 0;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: flex-end;
+                                    
+                                    .list-cancel {
+                                        width: auto !important;
+                                    }
+                                }
+                                .pm-secondary {
+                                    width: auto !important;
+                                    margin-left: 10px !important;
+                                }
+                                .title-field, .description-field, .milestone-field, .pm-action-wrap {
+                                    width: 100%;
+                                    margin-bottom: 15px;
+                                    border-radius: 3px;
+                                }
+                                .pm-make-privacy {
+                                    line-height: 0;
+                                    label {
+                                        line-height: 0;
+                                    }
+                                }
+                                .content {
+                                    border: none !important;
+                                }
+                            }
+                        }
+                        a {
+                            height: 30px !important;
+                            display: flex;
+                            align-items: center;
+                            width: 117px;
+                            background: #1A9ED4;
+                            height: 30px;
+                            color: #fff;
+                            padding: 0 13px;
+                            border-radius: 3px;
+                            font-size: 12px;
+
+                        }
+                        .plus {
+                            margin-right: 5px;
+                            font-size: 15px;
+                        }
+                    }
+                    .pm-action-wrap {
+                        display: flex;
+                        align-items: center;
+                        .archive-page-button {
+                            margin: 0 3px 0 15px;
+                            a {
+                                border: 1px solid #e4e5e5;
+                                background: #fff;
+                                display: flex;
+                                align-items: center;
+                                white-space: nowrap;
+                                &:hover {
+                                    border-color: #1A9ED4;
+                                    border-right: 1px solid #1A9ED4;
+                                    color: #1A9ED4;
+
+                                    .icon-pm-archive {
+                                        &:before {
+                                            color: #1A9ED4;
+                                        }
+                                    }
+                                }
+                            }
+                            .icon-pm-archive {
+                                color: #788383;
+                            } 
+                        }
+
+                        .icon-pm-list-view {
+                            margin-right: 5px;
+
+                            &:before {
+                                vertical-align: middle;
+                                color: #d7dee2;
+
+                            }
+                        }
+
+                        .active-list-header-btn {
+                            border-color: #1A9ED4 !important;
+                            color: #1A9ED4;
+
+                            .icon-pm-archive {
+                                &:before {
+                                    color: #1A9ED4 !important;
+                                }
+                            }
+
+                            .icon-pm-list-view {
+                                &:before {
+                                    color: #1A9ED4;
+                                }
+                            }
+                        } 
+                    }
+                }
+
+
+
+                .todos-wrap {
+
+                }
+
+                .no-task {
+                    margin: auto;
+                    font-size: 15px;
+                    color: #000;
+                }
             }
-            .optimizeWidth {
-                width: 80%;
-            }
+
             .list-search-menu {
-                width: 25%;
-                padding: 10px;
+                border-bottom: 1px solid #E5E4E4;
+                border-right: 1px solid #E5E4E4;
+                border-left: 1px solid #E5E4E4;
+                font-size: 13px;
+                color: #000;
                 background: #fff;
-                border-right: 1px solid #e5e5e5;
-                border-top: 1px solid #e5e5e5;
-                border-bottom: 1px solid #e5e5e5;
-                padding: 10px 20px;
-                margin-top: 30px;
+                flex: 1.7;
+                margin-left: -1px;
 
-                .filter-submit-btn {
-                    margin-top: 20px;
-                }
-
-                .complete-status {
-                    border: 1px solid #9B59CA;
-                }
-
-                .incomplete-status {
-                    border: 1px solid #E9485E;
-                }
-
-                .complete-btn {
-                    padding: 6px 15px;
-                    border-radius: 3px;
-                    background: #f8f3f9;
-                    color: #9B59CA;
-                }
-
-                .on-going-btn {
-                    padding: 6px 15px;
-                    border-radius: 3px;
-                    background: #fdedf0;
-                    color: #E9485E;
+                .action {
+                    display: flex;
+                    align-items: center;
+                    margin-top: 18px;
+                    
+                    .pm-primary {
+                        margin-right: 10px !important;
+                        padding: 0 20px 1px !important;
+                    }
                 }
 
                 .margin-top {
-                    margin-top: 20px;
-                    color: #000;
+                    margin-bottom: 10px;
+                    .complete-btn {
+                        padding: 6px 15px;
+                        border-radius: 3px;
+                        background: #f8f3f9;
+                        color: #9B59CA;
+                        margin-right: 20px;
+                        border: 1px solid #fff;
+                        white-space: nowrap;
+                    }
 
+                    .complete-status {
+                        border: 1px solid #9B59CA;
+                    }
+
+                    .on-going-btn {
+                        padding: 6px 15px;
+                        border-radius: 3px;
+                        background: #fdedf0;
+                        color: #E9485E;
+                        border: 1px solid #fff;
+                        white-space: nowrap;
+                    }
+                    .incomplete-status {
+                        border: 1px solid #E9485E;
+                    }
                     .status-elements {
                         display: flex;
                         align-items: center;
-                        justify-content: space-between;
                     }
                 }
 
                 .margin-title {
-                    margin-bottom: 5px;
+                    margin-bottom: 2px;
                 }
+
+                .multiselect__select {
+                    position: absolute;
+                    width: 26px;
+                    height: 35px;
+                    right: 5px;
+                    top: -3px;
+                    text-align: center;
+                    transition: transform .2s ease;
+                }
+
+                .multiselect__tags {
+                    padding: 1px 40px 0 1px !important;
+                    min-height: auto !important;
+                }
+
+                .multiselect__single {
+                    color: #999999;
+                    font-size: 12px;
+                }
+
+                .multiselect__input {
+                    border: none;
+                    box-shadow: none;
+                    margin: 0;
+                    margin-top: -1px;
+                    padding: 0;
+                }
+
 
                 .filter-title {
+                    height: 51px;
+                    white-space: nowrap;
                     display: flex;
                     align-items: center;
+                    padding-left: 15px;
 
-                    a {
-                        margin-right: 7px;
-                        color: #848484;
+                    .icon-pm-cross {
+                        margin-right: 10px;
+                        &:before {
+                            color: #95A5A6;
+                            font-size: 10px;
+                        }
                     }
+                }
 
-                    .task-filter {
-                        color: #000;
+                .search-content {
+                    padding: 0 15px 15px 15px;
+                }
+            }
+        }
+        @media screen and (max-width: 480px) {
+            .list-content-wrap {
+                flex-direction: column-reverse;
+                .content {
+                    .list-items {
+                        .list-content {
+                            .list-item-content {
+                                .before-title  {
+                                    .icon-pm-drag-drop {
+                                        padding: 0 5px;
+                                    }
+
+                                    .inbox-list {
+                                        padding: 0 26px 0 17px;
+                                    }
+                                }
+                            }
+                        }
+                    } 
+                    .list-action-btn-wrap {
+                        padding: 20px 10px;
+                        .list-action-wrap {
+                            margin-top: 10px;
+                        }
+                        .task-filter-btn {
+                            margin-top: 10px;
+                        }
+                        .pm-action-wrap {
+                            margin-top: 10px;
+                        }
+                    } 
+                    .task-field {
+                        padding: 0 10px;
                     }
                 }
             }
         }
     }
 
-    .pm-entry-detail {
-        font-family: Helvetica, Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-    }
-    .pm-inline-list-wrap .pm-right-inline-list-element {
-        display: flex;
-        align-items: center;
-        .list-filter {
-            border-right: 1px solid #ddd;
-            a {
-                background: #fff;
-                border: 1px solid #ddd;
-                border-right: none;
-                padding: 2px 10px;
-                color: #d5d5d5;
+    
 
-                &:hover {
-                    .icon-pm-filter {
-                        color: #423e3f;
-                    }
-                }
-            }
-        }
-
-        .pm-action-wrap {
-            display: flex;
-            align-items: center;
-        }
-    }
-    .pm-inline-list-wrap {
-        width: 100%;
-        display: flex;
-        align-items: center;
-    }
-    .pm-inline-list-element {
-        flex: 1;
-    }
-
-    .pm-list-footer .pm-new-task-btn-li {
-        padding-left: 0 !important;
-    }
-    .pm-list-footer .pm-footer-left-ul li {
-        display: inline-block;
-        padding-left: 28px;
-        background-size: 20px;
-        background-repeat: no-repeat;
-        margin: 5px 0;
-        padding-bottom: 5px;
-        margin-right: 2%;
-    }
-    .pm-list-footer .pm-footer-left-ul li a {
-        line-height: 150%;
-        font-size: 12px;
-    }
-    .pm-list-footer .pm-footer-left {
-        width: 66%;
-    }
-    .pm-list-footer .pm-footer-right {
-        width: 30%;
-    }
-    .pm-list-footer .pm-footer-left, .pm-list-footer .pm-footer-right {
-        float: left;
-    }
-    .pm-list-footer .pm-todo-progress-bar, .pm-list-footer .pm-progress-percent {
-        display: inline-block;
-    }
-    .pm-list-footer .pm-todo-progress-bar {
-        width: 70%;
-    }
-    .pm-list-footer .pm-progress-percent {
-        margin-left: 6px;
-    }
 
 </style>
 
@@ -414,6 +1225,8 @@
     import default_page from './default-list-page.vue';
     import Mixins from './mixin';
     import date_picker from './date-picker.vue';
+    import Menu from '@components/common/menu.vue';
+    import new_task_form from './new-task-form.vue';
 
     export default {
 
@@ -434,7 +1247,8 @@
             'default-list-page': default_page,
             'multiselect': pm.Multiselect.Multiselect,
             'pm-datepickter': date_picker,
-            
+            'pm-menu': Menu,
+            'new-task-form': new_task_form,
         },
 
         mixins: [Mixins],
@@ -446,6 +1260,7 @@
          */
         data () {
             return {
+                isActiveListForm: false,
                 list: {},
                 index: false,
                 project_id: this.$route.params.project_id,
@@ -453,18 +1268,18 @@
                 isActiveFilter: false,
                 defaultList: {
                     id: 0,
-                    title: this.__('All', 'wedevs-project-manager')
+                    title: this.__('Any', 'wedevs-project-manager')
                 },
                 defaultUser: {
                     id: 0,
-                    display_name: this.__('All', 'wedevs-project-manager')
+                    display_name: this.__('Any', 'wedevs-project-manager')
                 },
                 filterDueDate: '',
                 filterStatus: '',
                 dueDates: [
                     {
                         'id': '0',
-                        'title': this.__('All', 'wedevs-project-manager'),
+                        'title': this.__('Any', 'wedevs-project-manager'),
                     },
                     {
                         'id': 'overdue',
@@ -481,9 +1296,14 @@
                 ],
                 dueDate: {
                     'id': '0',
-                    'title': this.__('All', 'wedevs-project-manager'),
+                    'title': this.__('Any', 'wedevs-project-manager'),
                 },
-                searchLists: [],
+                searchLists: [
+                    {
+                        id: 0,
+                        title: this.__('All', 'wedevs-project-manager')
+                    }
+                ],
                 asyncListLoading: false
             }
         },
@@ -571,6 +1391,7 @@
                 
                 let meta = this.$store.state.projectMeta; 
                 var self = this;
+               
                 if(meta.hasOwnProperty('list_view_type') ) {
                     if (
                         !meta.list_view_type
@@ -585,10 +1406,12 @@
                         self.isSingleTask();
                         self.getSelfLists();
                         self.getGlobalMilestones();
-                    } else {
+                    } else if(  meta.list_view_type.meta_value == "kanboard") {
                         self.$router.push({
                             name: 'kanboard'
                         });
+                    } else if(  meta.list_view_type.meta_value == "archive") {
+                        self.getSelfLists();
                     }
 
                     return true;
@@ -600,12 +1423,30 @@
                 let project = this.$store.state.project;
 
                 if(project.assignees) {
-                    project.assignees.data.splice(0, 1, {
-                        id: 0,
-                        display_name: this.__('All', 'wedevs-project-manager')
-                    });
 
                     return project.assignees.data;
+                }
+
+                return [];
+            },
+            searchProjectUsers () {
+                let project = this.$store.state.project;
+                
+
+                if(project.assignees) {
+                    let assignees = project.assignees.data.slice();
+
+                    if(assignees[0].display_name != 'All' ) {
+
+                        assignees.unshift(
+                            {
+                                id: 0,
+                                display_name: this.__('All', 'wedevs-project-manager')
+                            }
+                        );
+                    }
+
+                    return assignees;
                 }
 
                 return [];
@@ -630,7 +1471,8 @@
             pmBus.$on('pm_generate_task_url', this.generateTaskUrl);
             pmBus.$on('pm_after_fetch_project', this.afterFetchProject);
             this.$store.state.projectTaskLists.isListFetch = false; 
-
+            window.addEventListener('click', this.windowActivity);
+            
             if(this.$route.query.filterTask == 'active') {
                 this.setSearchData();
                 this.isActiveFilter = true;
@@ -639,12 +1481,69 @@
         },
 
         methods: {
+            goToSigleList (list) {
+                this.$router.push({
+                    name: 'single_list',
+                    params: { 
+                        project_id: this.project_id,
+                        list_id: list.id
+                    }
+                });
+            },
+
+            inboxClass (list) {
+                return this.isInbox(list.id) ? 'inbox-list' : '';
+            },
+            isActiveTaskFilter () {
+                return this.isActiveFilter ? 'active-task-filter' : 'task-filter';
+            },
+            showHideMoreMenu (list) {
+
+                this.lists.forEach(function(taskList) {
+                    if(taskList.id != list.id) {
+                        taskList.moreMenu = false;
+                    }
+                });
+                
+                list.moreMenu = list.moreMenu ? false : true; 
+            },
+            windowActivity (el) {
+                var listForm = jQuery(el.target).closest('.new-list-btn'),
+                    listActionWrap = jQuery(el.target).closest('.list-more-menu');
+                
+                if(!listActionWrap.length) {
+                    this.lists.forEach(function(list) {
+                        list.moreMenu = false;
+                    });
+                }
+
+                if(!listForm.length) {
+                    this.showHideListForm(false);
+                }
+            },
+            listExpand (list) {
+                list.expand = list.expand ? false : true;
+                this.$store.commit('projectTaskLists/expandList', list.id);
+            },
+            getTotalTask (incomplete, complete) {
+                return parseInt(incomplete)+parseInt(complete);
+            },
+            taskListClass (list_id) {
+                let listcalss = 'pm-list-sortable list-li pm-fade-out-' + list_id;
+
+                if ( this.isInboxList( list_id ) ) {
+                    listcalss += ' listindex'
+                }
+                return listcalss;
+            },
             afterFetchProject (project) {
 
                 //set filter search user
                 if(this.$route.query.filterTask == 'active') {
                     let index = this.getIndex(this.projectUsers, this.$route.query.users, 'id');
-                    this.defaultUser = project.assignees.data[index];
+                    if ( index  ) {
+                        this.defaultUser = project.assignees.data[index];
+                    }
                 } 
             },
             setSearchData () {
@@ -749,7 +1648,8 @@
 
                 this.$store.commit( 'projectTaskLists/balankTemplateStatus', false);
 
-                if(this.isActiveFilter == false) {
+                if(this.isActiveFilter == false && this.$route.query.hasOwnProperty('filterTask')) {
+                    
                     this.$router.push({
                         query: {}
                     });
@@ -872,7 +1772,6 @@
 
             taskFilter () {
                 var self = this;
-
                 var query = {
                     users: this.filterUsersId(this.defaultUser),
                     lists: this.filterListsId(this.defaultList),
@@ -900,7 +1799,7 @@
                     success (res) {
 
                         if(!res.data.length) {
-                            pm.Toastr.success(self.__('No Result Found!', 'wedevs-project-manager'));
+                            pm.Toastr.success(self.__('No results found.', 'wedevs-project-manager'));
                             //return;
                         }
                         

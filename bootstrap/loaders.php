@@ -140,6 +140,7 @@ function pm_after_load_pro() {
 function pm_init_tracker() {
     $insights = new AppSero\Insights( 'd6e3df28-610b-4315-840d-df0b2b02f4fe', 'WP Project Manager', PM_FILE );
     $insights->add_extra( [
+
         'projects'  => pm_total_projects(),
         'tasklist'  => pm_total_task(),
         'tasks'     => pm_total_task_list(),

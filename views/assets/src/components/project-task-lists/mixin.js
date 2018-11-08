@@ -17,6 +17,7 @@ var PM_TaskList_Mixin = {
             if (!PM_Vars.is_pro) {
                 return false;
             }
+
            return this.getSettings('task_start_field', false);
         },
 
@@ -42,6 +43,9 @@ var PM_TaskList_Mixin = {
         },
         can_create_task () {
             return this.user_can("create_task");
+        },
+        isArchivedPage () {
+            return this.$route.name == 'task_lists_archive' || this.$route.name == 'task_lists_archive_pagination'
         }
 
     },
@@ -67,6 +71,9 @@ var PM_TaskList_Mixin = {
         //     ]
         // ),
         can_complete_task (task) {
+            if (this.isArchivedTaskList(task)) {
+                return true;
+            }
             return !task.meta.can_complete_task;
         },
         can_edit_task_list (list) {
@@ -93,6 +100,18 @@ var PM_TaskList_Mixin = {
             }
 
             return false;
+        },
+
+        isInboxList (id) {
+           return this.isInbox(id);
+        },
+
+        isInbox (id) {
+            return this.$store.state.project.list_inbox == id & 1;  
+        },
+
+        getInboxId () {
+            return this.$store.state.project.list_inbox;
         },
 
         isArchivedList (list) {
@@ -400,7 +419,7 @@ var PM_TaskList_Mixin = {
          * @return void         
          */
         deleteList ( args ) {
-            if ( ! confirm( this.__( 'Are you sure!', 'wedevs-project-manager') ) ) {
+            if ( ! confirm( this.__( 'Are you sure?', 'wedevs-project-manager') ) ) {
                 return;
             }
             var self = this,
@@ -491,7 +510,14 @@ var PM_TaskList_Mixin = {
                 callback: false
             },
             args = jQuery.extend(true, pre_define, args);
+            
+            if(typeof args.data.board_id == 'undefined') {
+                args.data.board_id = this.getInboxId();
+                args.data.list_id = this.getInboxId();
+            }
+            
             var data = pm_apply_filters( 'before_task_save', args.data );
+            
             var request_data = {
                 url: self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks',
                 type: 'POST',
@@ -620,7 +646,7 @@ var PM_TaskList_Mixin = {
         },
 
         deleteTask (args) {
-            if ( ! confirm( this.__( 'Are you sure!', 'wedevs-project-manager') ) ) {
+            if ( ! confirm( this.__( 'Are you sure?', 'wedevs-project-manager') ) ) {
                 return;
             }
 
@@ -804,12 +830,21 @@ var PM_TaskList_Mixin = {
 
             if ( list && typeof list.edit_mode != 'undefined' ) {
                 if ( status === 'toggle' ) {
-                    list.edit_mode = list.edit_mode ? false : true;
+                    this.$store.commit( 'projectTaskLists/showHideListFormStatus', {
+                        status: list.edit_mode ? false : true,
+                        list: list
+                    });
                 } else {
-                    list.edit_mode = status;
+                    this.$store.commit( 'projectTaskLists/showHideListFormStatus', {
+                        status: status,
+                        list: list
+                    });
                 }
             } else {
-                this.$store.commit( 'projectTaskLists/showHideListFormStatus', status);
+                this.$store.commit( 'projectTaskLists/showHideListFormStatus', {
+                    status: status,
+                    list: false
+                });
             }
         },
 
@@ -823,10 +858,10 @@ var PM_TaskList_Mixin = {
         showHideTaskFrom ( status, list, task ) {
             var list = list || false;
             var task = task || false;
-
+            
             if ( task ) {
                 if ( status === 'toggle' ) {
-                    task.edit_mode = task.edit_mode ? false : true; 
+                    task.edit_mode = !task.edit_mode;
                 } else {
                     task.edit_mode = status;
                 }
@@ -856,9 +891,12 @@ var PM_TaskList_Mixin = {
          * @param {[Object]} list [Task list Object]
          */
         addMetaList ( list ) {
+            let ids = this.$store.state.projectTaskLists.expandListIds;
             list.edit_mode  = false;
             list.show_task_form = false;
             list.task_loading_status = false;
+            list.expand = ids.findIndex(x => x == list.id) === -1;
+            list.moreMenu = false;
         },
 
         /**
@@ -866,7 +904,8 @@ var PM_TaskList_Mixin = {
          * @param {[Object]} task [Task Object]
          */
         addTaskMeta ( task ) {
-            task.edit_mode = false;       
+            task.edit_mode = false;   
+            task.moreMenu = false;
         },
 
         /**
@@ -1069,17 +1108,6 @@ var PM_TaskList_Mixin = {
             }
           });
           return target;
-        },
-
-        /**
-         * ISO_8601 Date format convert to pm.Moment date format
-         * 
-         * @param  string date 
-         * 
-         * @return string      
-         */
-        dateISO8601Format ( date ) {
-          return pm.Moment( date ).format();
         },
 
         /**
@@ -1445,7 +1473,9 @@ var PM_TaskList_Mixin = {
                 type: 'POST',
                 data: receive,
                 success (res) {
-
+                    if (res.data.task.data) {
+                        self.addTaskMeta(res.data.task.data);
+                    }
                     if(receive.receive == '1') {
                         self.$store.commit('projectTaskLists/receiveTask', {
                             receive: receive,
@@ -1486,7 +1516,26 @@ var PM_TaskList_Mixin = {
                 }
             }
             self.httpRequest(request_data);
-        }
+        },
+
+        showHideTaskMoreMenu(task, lsit) {
+            lsit = lsit || {};
+            task.moreMenu = task.moreMenu ? false : true;
+            var completeTasks = typeof lsit.complete_tasks == 'undefined' ? [] : lsit.complete_tasks.data;
+            var incopleteTasks = typeof lsit.incomplete_tasks == 'undefined' ? [] : lsit.incomplete_tasks.data;
+
+            completeTasks.forEach(function(taskItem) {
+                if(task.id != taskItem.id) {
+                    taskItem.moreMenu = false;
+                }
+            });
+
+            incopleteTasks.forEach(function(taskItem) {
+                if(task.id != taskItem.id) {
+                    taskItem.moreMenu = false;
+                }
+            });
+        },
     }
 }
 

@@ -1,6 +1,7 @@
 <template>
     <div class="pm-wrap pm-front-end">
         <pm-header></pm-header>
+        <pm-heder-menu></pm-heder-menu>
 
         <div v-if="!isFetchDiscussion" class="pm-data-load-before" >
             <div class="loadmoreanimation">
@@ -14,7 +15,7 @@
             </div>
         </div>
         <!-- {{ pm.i18n.__('Add List', 'cpm') }} -->
-        <div v-if="isFetchDiscussion">
+        <div class="pm-discussion" v-if="isFetchDiscussion">
             <div class="pm-blank-template discussion" v-if="blankTemplate">
                 <div class="pm-content" >
                     <h3 class="pm-page-title">{{ __( 'Discussions', 'wedevs-project-manager') }}</h3>
@@ -135,6 +136,12 @@
     </div>
 
 </template>
+
+<style lang="less">
+    .pm-discussion {
+        margin-top: 10px;
+    }
+</style>
 
 
 <script>

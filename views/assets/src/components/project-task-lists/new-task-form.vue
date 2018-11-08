@@ -1,7 +1,79 @@
 <template>
     <div :class="'pm-task-form pm-slide-'+task.id">
 
-        <form action="" v-on:submit.prevent="taskFormAction()" method="post" class="pm-form">
+        <div class="input-area">
+            <div class="input-action-wrap">
+                <div>
+                    <span class="plus-text" v-if="!show_spinner">+</span>
+                    <span class="pm-spinner" v-if="show_spinner"></span>
+                </div>
+                <input @keyup.enter="taskFormAction()" v-model="task.title"  class="input-field" :placeholder="__('Add new task', 'wedevs-project-manager')" type="text">
+                <a @click.prevent="taskFormAction()"  class="update-button" href="#"><span class="icon-pm-check-circle"></span></a>
+                <div class="action-icons">
+                    <pm-do-action hook="pm_task_form" :actionData="task" ></pm-do-action>
+                    <span @click.self.prevent="enableDisable('descriptionField')" class="icon-pm-align-left new-task-description-btn"></span>
+                    <span  @click.self.prevent="enableDisable('isEnableMultiselect')" class="task-user-multiselect icon-pm-single-user pm-dark-hover">
+                        <div v-if="isEnableMultiselect" class="pm-multiselect-top pm-multiselect-subtask-task">
+                            <div class="pm-multiselect-content">
+                                <div class="assign-to">{{ __('Assign to', 'wedevs-project-manager') }}</div>
+                                <multiselect
+                                    v-model="task.assignees.data"
+                                    :options="project_users"
+                                    :multiple="true"
+                                    :close-on-select="false"
+                                    :clear-on-select="true"
+                                    :show-labels="true"
+                                    :searchable="true"
+                                    placeholder="Select User"
+                                    select-label=""
+                                    selected-label="selected"
+                                    deselect-label=""
+                                    label="display_name"
+                                    track-by="id"
+                                    :allow-empty="true">
+
+                                   <template slot="option" slot-scope="props">
+                                        <img class="option__image" :src="props.option.avatar_url">
+                                        <div class="option__desc">
+                                            <span class="option__title">{{ props.option.display_name }}</span>
+                                        </div>
+                                    </template>
+
+                                </multiselect>
+                            </div>
+                        </div>
+
+                    </span>
+                    <!-- <span @click.prevent="showHideDescription()" class="icon-pm-pencil pm-dark-hover"></span> -->
+
+                    <span @click.self.prevent="enableDisable('datePicker')" class="icon-pm-calendar new-task-calendar pm-dark-hover"></span>
+                    
+                </div>
+                <div v-if="datePicker" class="subtask-date new-task-caledar-wrap">
+                    <pm-content-datepicker  
+                        v-if="task_start_field"
+                        v-model="task.start_at.date"  
+                        class="pm-date-picker-from pm-inline-date-picker-from"
+                        :callback="callBackDatePickerForm">
+                        
+                    </pm-content-datepicker>
+                    <pm-content-datepicker 
+                        v-model="task.due_date.date"  
+                        class="pm-date-picker-to pm-inline-date-picker-to"
+                        :callback="callBackDatePickerTo">
+                            
+                    </pm-content-datepicker>
+
+                </div>
+                <div v-if="descriptionField" class="new-task-description">
+                    <text-editor  :editor_id="'new-task-description-editor-' + list.id" :content="content"></text-editor>
+                    
+                </div>
+                
+            </div>
+        </div>
+
+        <!-- <form action="" v-on:submit.prevent="taskFormAction()" method="post" class="pm-form">
           
             <div class="item task-title">
                 <input v-model="task.title" type="text" name="task_title" class="task_title" :placeholder="add_new_task"  required="required">
@@ -22,7 +94,9 @@
                     <pm-datepickter v-model="task.due_date.date" class="pm-datepickter-to" dependency="pm-datepickter-from" :placeholder="task_due_date"></pm-datepickter>
                 </div>
             </div>
-    
+
+            <pm-do-action hook="pm_task_recurrent" :actionData="task" ></pm-do-action>
+
             <div class="item user">
                 <div>
                     <multiselect 
@@ -40,9 +114,10 @@
                     </multiselect>
                 </div>
             </div>
-            <!-- <div class="item task-title">
+             <div class="item task-title">
                 <input v-model="task.estimation" type="number" min="1" class="pm-task-estimation" :placeholder="estimation_placheholder">
-            </div> -->
+            </div> 
+
             <pm-do-action hook="pm_task_form" :actionData="task" ></pm-do-action>
             <div class="item submit">
                 <span class="pm-new-task-spinner"></span>
@@ -51,20 +126,193 @@
                 <a @click.prevent="showHideTaskFrom(false, list, task )" class="button todo-cancel" href="#">{{ __( 'Cancel', 'wedevs-project-manager') }}</a>
                 <span v-show="show_spinner" class="pm-spinner"></span>
             </div>
-        </form>
+        </form> -->
 
     </div>
 </template>
 
-<style>
-    .pm-task-estimation {
-        width: 100%;
+<style lang="less">
+    .pm-task-form {
+        span.pm-spinner {
+            position: absolute;
+            top: 8px;
+            left: 7px;
+        }
+        .create-area {
+            &:hover {
+                .icon-plus {
+                    color: #444;
+                }
+            }
+            border: 1px solid #ECECEC;
+            width: 100%;
+            padding: 5px 10px;
+            color: #B0BABC;
+            .icon-plus {
+                line-height: 0;
+                margin-right: 10px;
+                font-size: 25px;
+                color: #D7DEE2;
+            }
+        }
+        .input-area {
+            .input-action-wrap {
+                position: relative;
+                .update-button {
+                    position: absolute;
+                    right: 0;
+                    top: 0px;
+                    background: #019dd6;
+                    color: #fff;
+                    font-size: 12px;
+                    padding: 6px 8px;
+                    
+                    &:hover {
+                        background: #008ec2;
+                    }
+                }
+                .plus-text {
+                    position: absolute;
+                    top: 4px;
+                    margin-left: 9px;
+                    font-size: 25px;
+                    color: #B5C0C3;
+                    font-weight: 200;
+                }
+
+                .subtask-date {
+                    position: absolute;
+                    top: 33px;
+                    right: 0px;
+                    display: flex;
+                    border: 1px solid #DDDDDD;
+                    border-top: none;
+                    box-shadow: 0px 6px 20px 0px rgba(214, 214, 214, 0.6);
+                    flex-wrap: wrap;
+                    z-index: 9;
+                    font-size: 12px;
+
+                    .pm-date-picker-from {
+                        .ui-datepicker {
+                            border: none;
+                        }
+                    }
+
+                    .pm-date-picker-to {
+                        .ui-datepicker {
+                            border: none;
+                        }
+                    }
+                }
+            }
+            .description-field {
+                border: none;
+                border-bottom: 1px solid #1A9ED4;
+                height: 30px;
+                padding: 10px;
+                width: 100%;
+                margin-bottom: 15px;
+                box-shadow: none;
+                line-height: 1.5;
+            }
+            .icon-pm-single-user {
+                position: relative;
+                .pm-multiselect-top {
+                    top: 23px !important;
+                    border-top: none !important;
+                    border-top-right-radius: 0 !important;
+                    border-top-left-radius: 0 !important;
+
+                }
+            }
+            .input-field {
+                width: 100%;
+                height: 33px;
+                padding-left: 28px;
+                padding-right: 131px;
+                box-shadow: none !important;
+                &::placeholder {
+                    color: #B5C0C3;
+                    font-weight: 300;
+                    font-size: 12px;
+                }
+            }
+            .action-icons {
+                position: absolute;
+                right: 18px;
+                top: 9px;
+                margin-right: 11px;
+                display: flex;
+                align-items: center;
+
+                .pm-action-wrap {
+                    display: flex;
+                    align-items: center;
+                    line-height: 0;
+
+                    .pm-task-recurrent {
+                        margin-right: 10px;
+                        .icon-pm-loop {
+                            &:before {
+                                vertical-align: middle;
+                                color: #d4d6d6;
+                                font-weight: 600;
+                                cursor: pointer;
+                            }
+
+                            &:hover {
+                                &:before {
+                                    color: #000;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .new-task-description-btn {
+                    cursor: pointer;
+
+                    &:hover {
+                        &:before {
+                            color: #000;
+                        }
+                    }
+                }
+
+                .pm-make-privacy {
+                    .icon-pm-unlock, .icon-pm-private {
+                        margin-right: 0;
+                        vertical-align: middle;
+                        cursor: pointer;
+
+                        &:before {
+                            color: #d4d6d6;
+                        }
+
+                        &:hover {
+                            &:before {
+                                color: #444;
+                            }
+                        }
+                    }
+                }
+
+                span {
+                    margin-right: 10px;
+                }
+                .date-picker {
+                    position: absolute;
+                }
+            }
+        }
     }
+
 </style>
 
 <script>
 import date_picker from './date-picker.vue';
 import Mixins from './mixin';
+import editor from '@components/common/text-editor.vue';
 
 export default {
     // Get passing data for this component. Remember only array and objects are
@@ -98,6 +346,9 @@ export default {
      */
     data: function() {
         return {
+            isEnableMultiselect: false,
+            datePicker: false,
+            descriptionField: false,
             task_privacy: ( this.task.task_privacy == 'yes' ) ? true : false,
             submit_disabled: false,
             before_edit: jQuery.extend( true, {}, this.task ),
@@ -113,14 +364,18 @@ export default {
             select_user_text: __( 'Select User', 'wedevs-project-manager'),
             update_task: __( 'Update Task', 'wedevs-project-manager'),
             add_task: __( 'Add Task', 'wedevs-project-manager'),
-            estimation_placheholder: __('Estimated hour to complete the task', 'wedevs-project-manager')
+            estimation_placheholder: __('Estimated hour to complete the task', 'wedevs-project-manager'),
+            content: {
+                html: this.task.description.html
+            },
         }
     },
     mixins: [Mixins],
 
     components: {
     	'multiselect': pm.Multiselect.Multiselect,
-    	'pm-datepickter': date_picker
+    	'pm-datepickter': date_picker,
+        'text-editor': editor
     },
 
     beforeMount () {
@@ -130,6 +385,7 @@ export default {
     // Initial action for this component
     created: function() {
         this.$on( 'pm_date_picker', this.getDatePicker );
+        window.addEventListener('click', this.windowActivity);
     },
 
     watch: {
@@ -158,7 +414,7 @@ export default {
 
     computed: {
     	project_users () {
-    		return this.$root.$store.state.project_users;
+    		return this.$store.state.project_users;
     	},
         /**
          * Check current user can view the todo or not
@@ -187,19 +443,6 @@ export default {
              * @return array
              */
             get: function () {
-                // var filtered_users = [];
-
-                // if ( this.task.assigned_to && this.task.assigned_to.length ) {
-                //     var assigned_to = this.task.assigned_to.map(function (id) {
-                //         return parseInt(id);
-                //     });
-
-
-                //     filtered_users = this.project_users.filter(function (user) {
-                //         return (assigned_to.indexOf(parseInt(user.id)) >= 0);
-                //     });
-                // }
-                
                 return typeof this.task.assignees == 'undefined' ? [] : this.task.assignees.data;
             }, 
 
@@ -217,6 +460,41 @@ export default {
     },
 
     methods: {
+        windowActivity (el) {
+            var multiselect  = jQuery(el.target).closest('.task-user-multiselect'),
+                calendarBtn = jQuery(el.target).hasClass('new-task-calendar'),
+                calendarCont = jQuery(el.target).closest('.new-task-caledar-wrap'),
+                description = jQuery(el.target).closest('.new-task-description'),
+                descriptionBtn = jQuery(el.target).hasClass('new-task-description-btn');
+
+            if( !descriptionBtn && !description.length ) {
+                this.descriptionField = false;
+            }
+
+            if( !calendarBtn && !calendarCont.length ) {
+                this.datePicker = false;
+            }
+
+            if ( !multiselect.length ) {
+                this.isEnableMultiselect = false;
+            }
+        },
+        callBackDatePickerForm (date) {
+            this.task.start_at.date = date;
+        },
+        callBackDatePickerTo (date) {
+            
+            this.task.due_date.date = date;
+        },
+        enableDisable (key, status) {
+            status = status || '';
+
+            if(status == '') {
+                this[key] = this[key] ? false : true;
+            } else {
+                this[key] = status;
+            }
+        },
     	setDefaultValue () {
     		if (typeof this.task.assignees !== 'undefined') {
     			var self = this;
@@ -316,7 +594,7 @@ export default {
                     board_id: this.list.id,
                     assignees: this.filterUserId(this.task.assignees.data),//this.assigned_to,
                     title: this.task.title,
-                    description: this.task_description,
+                    description: this.content.html ? this.content.html.trim() : '',
                     start_at: this.task.start_at.date,
                     due_date: this.task.due_date.date,
                     list_id: this.list.id,
@@ -327,6 +605,23 @@ export default {
                     self.show_spinner = false;
                     self.submit_disabled = false;
                     self.task_description = res.data.description.content;
+
+                    self.task.title = '';
+                    self.content.html = '';
+                    self.task.start_at.date = '';
+                    self.task.due_date.date = '';
+                    self.task.assignees.data = [];
+                }
+            }
+
+            if (this.task.due_date.date) {
+                var start = new Date(this.task.start_at.date);
+                var end  = new Date(this.task.due_date.date);
+                var compare = pm.Moment(end).isBefore(start);
+
+                if(this.task_start_field && compare) {
+                    pm.Toastr.error('Invalid date range!');
+                    return;
                 }
             }
             

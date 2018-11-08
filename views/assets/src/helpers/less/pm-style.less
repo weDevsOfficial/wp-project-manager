@@ -158,7 +158,7 @@
 
 	.popup-mask {
 		position: fixed;
-		z-index: 9000;
+		z-index: 9999;
 		top: 0;
 		left: 0;
 		width: 100%;
@@ -175,7 +175,7 @@
 		    border-radius: 3px;
 		    border-top-right-radius: 0;
 		    height: 90vh;
-		    top: 32px;
+		    top: 37px;
 		    position: relative;
 
 		    .popup-body {
@@ -243,7 +243,7 @@
 	    .assign-to {
 	    	font-size: 13px;
 	    	color: #000;
-	    	margin-bottom: 10px;
+	    	margin-bottom: 12px;
 	    	display: block;
 	    }
 	    .multiselect__single {
@@ -352,7 +352,7 @@
 		position: absolute;
 	    top: -8px;
 	    width: 236px;
-	    left: 40px;
+	    left: 35px;
 	    z-index: 9999;
 	    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 	    padding: 15px 0;
@@ -389,7 +389,10 @@
 	    	color: #000;
 	    	margin-bottom: 10px;
 	    	display: block;
-	    }
+		}
+		.multiselect__placeholder {
+			display: none;
+		}
 	    .multiselect__content-wrapper {
 	    	display: block !important;
 	    	margin-top: 13px;
@@ -573,11 +576,11 @@
 				align-items: center;
 				border: 1px solid #DEDEDE;
 				border-radius: 3px;
-				font-size: 1vw;
+				font-size: 12px;
 				padding: 5px 10px;
 				.pm-light-color-fun();
 
-				.icon-pm-incomplete {
+				.icon-pm-incomplete, .pm-spinner {
 					margin-right: 8px;
 				}
 
@@ -600,10 +603,10 @@
 				padding: 5px 10px;
 			    border: 1px solid #7dd322;
 			    border-radius: 3px;
-			    font-size: 1vw;
+			    font-size: 12px;
 			    color: #788383;
 
-			    .icon-pm-completed {
+			    .icon-pm-completed, .pm-spinner {
 			    	margin-right: 8px;
 			    }
 			    
@@ -621,7 +624,7 @@
 			}
 			
 			.created-by {
-				font-size: 1vw;
+				font-size: 12px;
 				margin-left: auto;
 			}
 		}
@@ -631,9 +634,15 @@
 			.task-title-text {
 				font-size: 18px;
 				font-weight: bold;
+				position: relative;
 				.pm-dark-color-fun();
 				.pm-task-title-field {
 					width: 100%;
+				}
+				.pm-spinner {
+					position: absolute;
+					top: 6px;
+					right: 4px;
 				}
 			}
 		}
@@ -657,6 +666,11 @@
 					display: inline-flex;
 				}
 			}
+			#pm-multiselect-single-task {
+				position: relative;
+				top: 0px;
+				left: -4px;
+			}
 			.icon-pm-user {
 				position: relative;
 			    font-size: 23px;
@@ -678,6 +692,24 @@
 					}
 				}
 			}
+			.pm-action-wrap {
+				.pm-task-recurrent {
+					margin-right: 10px;
+
+					.icon-pm-loop {
+						&:before {
+							color: #d4d6d6;
+	    					font-weight: 600;
+	    					cursor: pointer;
+						}
+						&:hover {
+							&:before {
+								color: #000;
+							}
+						}
+					}
+				}
+			}
 			.icon-pm-unlock {
 				color: #d4d6d6;
 			    margin-right: 5px;
@@ -686,15 +718,18 @@
 			    	vertical-align: middle;
 			    }
 			}
-			.icon-pm-calendar {
+			#pm-calendar-wrap {
 				position: relative;
 				display: flex;
 				align-content: center;
 				.at-hover();
 
 				.pm-task-date-wrap {
-					background: none;
-					color: #848484;
+					display: flex;
+				    line-height: 0;
+				    align-items: center;
+    				padding: 0 3px;
+    				margin-left: 3px;
 					font-size: 11px;
 					font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif
 				}
@@ -765,7 +800,7 @@
 			}
 			.action-content {
 				border: 1px solid #ECECEC;
-			    padding: 13px;
+			    padding: 5px 10px;
 			    border-radius: 3px;
 			}
 			.task-description {
@@ -867,14 +902,34 @@
 			}
 		}
 		.pm-task-comment-wrap {
-			.discuss-text {
-				margin-bottom: 5px;
+			.comment-content {
+				.comment-header {
+					display: flex;
+    				justify-content: space-between;
+
+    				.icon-pm-down-arrow {
+    					font-size: 7px;
+					    cursor: pointer;
+					    position: relative;
+    				}
+				}
 			}
+
 			.comment-content {
 				border: 1px solid #ECECEC;
 			    border-radius: 3px;
 			    padding: 18px;
 			    background: #FAFAFA;
+			    .comment-header {
+					display: flex;
+    				justify-content: space-between;
+
+    				.icon-pm-down-arrow {
+    					font-size: 7px;
+					    cursor: pointer;
+					    position: relative;
+    				}
+    			}
 			    .comment-action-arrow {
 			    	position: relative;
 
@@ -949,35 +1004,11 @@
 					    }
 				    }
 			    }
-			    
-
-			    .comment-content-ul {
-			    	.comment-li {
-			    		margin-bottom: 10px;
-					    background: none;
-					    border: none;
-					    padding: 8px;
-			    		p {
-			    			margin: 0;
-			    			padding: 0;
-			    		}
-
-			    		.comment-li-body {
-			    			display: flex;
-			    			justify-content: space-between;
-			    		}
-			    	}
-			    }
-			    .comment-header {
-			    	display: flex;
-	    			justify-content: space-between;
-	    			.icon-pm-down-arrow {
-	    				font-size: 7px;
-	    				cursor: pointer;
-	    				position: relative;
-	    			}
-			    }
 			}
+			.discuss-text {
+				margin-bottom: 5px;
+			}
+
 			.pm-avatar {
 				//margin-right: 18px;
 				img {
@@ -1002,13 +1033,13 @@
 				margin-right: 10px;
 			}
 			.pm-comment-content {
-				margin-left: 8%;
+				margin-left: 41px;
 				margin-top: -4px;
 				color: #000 !important;
 				
 			}
 			.pm-comment-edit-form {
-				width: 92%;
+				flex: 1;
 			}
 			.comment-field-content {
 				padding: 8px 0px 0px 8px;
@@ -1016,7 +1047,7 @@
 					align-self: baseline;
 				}
 				.comment-field {
-					width: 92%;
+					width: 93%;
 					.comment-field-text {
 						border: 1px solid #ECECEC;
 					    padding: 8px;
@@ -1082,6 +1113,105 @@
 					}
 				}
 			}
+		}
+	}
+
+
+	.pm-triangle-top {
+		position: absolute;
+	    top: 26px;
+        width: 236px;
+        left: auto;
+        right: -13px;
+	    z-index: 9999;
+	    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+	    padding: 15px 0;
+	    border: 1px solid #DDDDDD;
+	    background: #fff;
+	    border-radius: 3px;
+	    box-shadow: 0px 2px 40px 0px rgba(214, 214, 214, 0.6);
+
+	    &::before {
+	    	border-color: transparent transparent #DDDDDD transparent;
+            position: absolute;
+            border-style: solid;
+            top: -9px;
+            left: auto;
+            content: "";
+            right: 10px;
+            z-index: 9999;
+            border-width: 0px 8px 8px 8px;
+	    }
+
+	   	&::after {
+    	    border-color: transparent transparent #ffffff transparent;
+            position: absolute;
+            border-style: solid;
+            top: -7px;
+            left: auto;
+            right: 10px;
+            content: "";
+            z-index: 9999;
+            border-width: 0 8px 7px 8px;
+	    }
+	}
+
+	.pm-datepicker-from, .pm-datepicker-to {
+		z-index: 9;
+	}
+
+	@media screen and (max-width: 600px) {
+		.popup-mask {
+			.popup-container {
+				.close-modal {
+					right: 0px;
+				}
+
+				.popup-body {
+					padding: 10px;
+					padding-top: 28px;
+				}
+			}
+		}
+	}
+	@media screen and (max-width: 480px) {
+		.popup-mask {
+			.popup-container {
+				width: 100%;
+				margin: 0;
+				height: 100vh;
+				top: 0px;
+
+				.close-modal {
+					right: 3px;
+				}
+
+				.popup-body {
+					padding: 10px;
+					padding-top: 28px;
+				}
+			}
+		}
+
+		#pm-single-task-wrap {
+			.pm-single-task-header {
+				.task-complete-incomplete {
+					.incomplete, .completed {
+						white-space: nowrap;
+					}
+				}
+
+				.created-by {
+					font-size: 10px;
+				}
+				.task-action {
+					.icon-pm-more-options {
+						margin-left: 0;
+    					padding: 10px 0 10px 10px;
+					}
+				} 
+			}
+			
 		}
 	}
 

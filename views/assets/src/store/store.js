@@ -55,6 +55,7 @@ export default new pm.Vuex.Store({
             }
         },
         updateListViewType(state, view) {
+ 
             if(
                 state.projectMeta.hasOwnProperty('list_view_type')
                     &&
@@ -62,6 +63,7 @@ export default new pm.Vuex.Store({
             ) {
                 state.projectMeta.list_view_type.meta_value = view;
             } else {
+
                 state.projectMeta['list_view_type']= {
                     meta_value: view
                 }
@@ -77,8 +79,10 @@ export default new pm.Vuex.Store({
             state.projects = projects.projects;
         },
         setProject (state, project) {
-            state.projects.push(project);
-            state.project = project;
+            if (state.projects.findIndex(x => x.id === project.id) === -1) {
+                state.projects.push(project);
+            }
+            state.project = jQuery.extend(true, {}, project);
         },
 
         setProjectMeta (state, projectMeta) {
@@ -168,19 +172,10 @@ export default new pm.Vuex.Store({
 
         updateProject (state, project) {
             var index = state.getIndex(state.projects, project.id, 'id');
-            //console.log(state.projects[index]);
-            // console.log(state.projects[index], project);
-
-            //state.projects[index] = project;
-            jQuery.extend(true, state.projects[index], project);
-            jQuery.extend(true, state.project, project);
-            //console.log(state.projects[index], project);
-            // jQuery.each(state.projects[index], function(key, value) {
-            //  //console.log(state.projects[index][key], project[key]);
-            //  jQuery.extend(true, state.projects[index][key], project[key]);
-            // });
-
-            // //console.log(state.projects[index]);
+            
+            pm.Vue.set(state.projects, index, project);
+            //state.projects[index] = jQuery.extend(true, {}, project);
+            state.project = jQuery.extend(true, {}, project);
         },
 
         showHideProjectDropDownAction (state, data) {
@@ -194,6 +189,7 @@ export default new pm.Vuex.Store({
         },
 
         afterDeleteUserFromProject (state, data) {
+            
             if ( data.project_id ) {
                 var index = state.getIndex(state.projects, data.project_id, 'id');
                 var users = state.projects[index].assignees.data;
@@ -206,8 +202,14 @@ export default new pm.Vuex.Store({
             }
         },
 
-        updateSeletedUser (state, assignees) {
-            state.assignees.push(assignees);
+        updateSeletedUser (state, data) {
+            if(data.project_id) {
+                var index = state.getIndex(state.projects, data.project_id, 'id');
+                state.projects[index].assignees.data.push(data.item);
+            } else {
+                state.assignees.push(data.item);
+            }
+            
         },
 
         setSeletedUser(state, assignees) {
