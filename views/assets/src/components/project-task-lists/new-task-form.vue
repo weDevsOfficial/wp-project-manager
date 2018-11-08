@@ -240,7 +240,7 @@
             .action-icons {
                 position: absolute;
                 right: 18px;
-                top: 6px;
+                top: 9px;
                 margin-right: 11px;
                 display: flex;
                 align-items: center;
@@ -248,6 +248,8 @@
                 .pm-action-wrap {
                     display: flex;
                     align-items: center;
+                    line-height: 0;
+
                     .pm-task-recurrent {
                         margin-right: 10px;
                         .icon-pm-loop {

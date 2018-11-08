@@ -57,7 +57,7 @@
 
 		watch: {
 			selected () {
-				console.log(this.selected);
+				
 			}
 			
 		}

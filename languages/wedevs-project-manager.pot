@@ -2,9 +2,9 @@
 # This file is distributed under the GPL2.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Project Manager 2.0.6\n"
+"Project-Id-Version: WP Project Manager 2.0.7\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/cpm\n"
-"POT-Creation-Date: 2018-11-01 08:32:51+00:00\n"
+"POT-Creation-Date: 2018-11-08 08:29:29+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -836,6 +836,7 @@ msgstr ""
 #: views/assets/src/components/project-discussions/new-discuss-form.vue:32
 #: views/assets/src/components/project-lists/project-create-form.vue:59
 #: views/assets/src/components/project-milestones/new-milestone-form.vue:18
+#: views/assets/src/components/project-task-lists/list-comment-form.vue:15
 #: views/assets/src/components/project-task-lists/lists.vue:196
 #: views/assets/src/components/project-task-lists/new-task-form.vue:126
 #: views/assets/src/components/project-task-lists/new-task-list-form.vue:31
@@ -850,7 +851,7 @@ msgstr ""
 #: views/assets/src/components/categories/mixin.js:182
 #: views/assets/src/components/common/comments.vue:436
 #: views/assets/src/components/project-discussions/mixin.js:507
-#: views/assets/src/components/project-task-lists/list-comments.vue:105
+#: views/assets/src/components/project-task-lists/list-comments.vue:436
 #: views/assets/src/components/project-task-lists/mixin.js:422
 #: views/assets/src/components/project-task-lists/mixin.js:649
 #: views/assets/src/components/project-task-lists/task-comments.vue:209
@@ -895,14 +896,15 @@ msgstr ""
 
 #: views/assets/js/library.js:1 views/assets/js/pm.js:1
 #: views/assets/src/components/common/comment-form.vue:198
+#: views/assets/src/components/project-task-lists/list-comment-form.vue:119
 #: views/assets/src/components/project-task-lists/task-comment-form.vue:118
 msgid "Post Comment"
 msgstr ""
 
 #: views/assets/js/library.js:1 views/assets/js/pm.js:1
 #: views/assets/src/components/common/comment-form.vue:199
-#: views/assets/src/components/project-discussions/comment-form.vue:40
-#: views/assets/src/components/project-task-lists/list-comment-form.vue:49
+#: views/assets/src/components/project-discussions/comment-form.vue:46
+#: views/assets/src/components/project-task-lists/list-comment-form.vue:120
 #: views/assets/src/components/project-task-lists/task-comment-form.vue:119
 #: views/emails/html/update-comment.php:12
 msgid "Update Comment"
@@ -911,6 +913,8 @@ msgstr ""
 #: views/assets/js/library.js:1 views/assets/js/pm.js:1 views/assets/js/pm.js:9
 #: views/assets/src/components/common/comment-form.vue:21
 #: views/assets/src/components/common/comment-form.vue:203
+#: views/assets/src/components/project-task-lists/list-comment-form.vue:21
+#: views/assets/src/components/project-task-lists/list-comment-form.vue:124
 #: views/assets/src/components/project-task-lists/task-comment-form.vue:21
 #: views/assets/src/components/project-task-lists/task-comment-form.vue:123
 msgid "Attach"
@@ -929,6 +933,7 @@ msgstr ""
 
 #: views/assets/js/library.js:1 views/assets/js/pm.js:1 views/assets/js/pm.js:9
 #: views/assets/src/components/common/comment-form.vue:27
+#: views/assets/src/components/project-task-lists/list-comment-form.vue:27
 #: views/assets/src/components/project-task-lists/task-comment-form.vue:27
 msgid "Notify user"
 msgstr ""
@@ -936,6 +941,7 @@ msgstr ""
 #: views/assets/js/library.js:1 views/assets/js/pm.js:1 views/assets/js/pm.js:9
 #: views/assets/src/components/common/comment-form.vue:32
 #: views/assets/src/components/common/users-drop-down.vue:4
+#: views/assets/src/components/project-task-lists/list-comment-form.vue:32
 #: views/assets/src/components/project-task-lists/new-task-form.vue:18
 #: views/assets/src/components/project-task-lists/single-task.vue:123
 #: views/assets/src/components/project-task-lists/task-comment-form.vue:32
@@ -948,6 +954,7 @@ msgstr ""
 
 #: views/assets/js/library.js:1 views/assets/js/pm.js:1 views/assets/js/pm.js:9
 #: views/assets/src/components/common/comments.vue:4
+#: views/assets/src/components/project-task-lists/list-comments.vue:4
 #: views/assets/src/components/project-task-lists/single-list.vue:72
 #: views/assets/src/components/project-task-lists/task-comments.vue:4
 msgid "Discussion"
@@ -959,6 +966,7 @@ msgstr ""
 #: views/assets/src/components/project-discussions/discussions.vue:165
 #: views/assets/src/components/project-task-lists/incompleted-tasks.vue:72
 #: views/assets/src/components/project-task-lists/incompleted-tasks.vue:155
+#: views/assets/src/components/project-task-lists/list-comments.vue:33
 #: views/assets/src/components/project-task-lists/lists.vue:90
 #: views/assets/src/components/project-task-lists/single-list.vue:46
 #: views/assets/src/components/project-task-lists/task-comments.vue:33
@@ -976,6 +984,7 @@ msgstr ""
 #: views/assets/src/components/project-task-lists/completed-tasks.vue:46
 #: views/assets/src/components/project-task-lists/incompleted-tasks.vue:78
 #: views/assets/src/components/project-task-lists/incompleted-tasks.vue:158
+#: views/assets/src/components/project-task-lists/list-comments.vue:39
 #: views/assets/src/components/project-task-lists/lists.vue:96
 #: views/assets/src/components/project-task-lists/single-list.vue:52
 #: views/assets/src/components/project-task-lists/single-task.vue:78
@@ -985,6 +994,7 @@ msgstr ""
 
 #: views/assets/js/library.js:1 views/assets/js/pm.js:1 views/assets/js/pm.js:9
 #: views/assets/src/components/common/comments.vue:75
+#: views/assets/src/components/project-task-lists/list-comments.vue:75
 #: views/assets/src/components/project-task-lists/task-comments.vue:75
 msgid "Add a comment"
 msgstr ""
@@ -1013,7 +1023,6 @@ msgstr ""
 #: views/assets/src/components/project-discussions/discussions.vue:89
 #: views/assets/src/components/project-discussions/individual-discussions.vue:36
 #: views/assets/src/components/project-discussions/individual-discussions.vue:72
-#: views/assets/src/components/project-task-lists/list-comments.vue:22
 #: views/assets/src/components/project-task-lists/single-task.vue:52
 msgid "on"
 msgstr ""
@@ -1181,17 +1190,17 @@ msgid "Add List"
 msgstr ""
 
 #: views/assets/js/pm.js:1
-#: views/assets/src/components/project-task-lists/new-task-form.vue:358
+#: views/assets/src/components/project-task-lists/new-task-form.vue:360
 msgid "Add a new task"
 msgstr ""
 
 #: views/assets/js/pm.js:1
-#: views/assets/src/components/project-task-lists/new-task-form.vue:359
+#: views/assets/src/components/project-task-lists/new-task-form.vue:361
 msgid "Add extra details about this task (optional)"
 msgstr ""
 
 #: views/assets/js/pm.js:1
-#: views/assets/src/components/project-task-lists/new-task-form.vue:360
+#: views/assets/src/components/project-task-lists/new-task-form.vue:362
 msgid "Start Date"
 msgstr ""
 
@@ -1199,28 +1208,28 @@ msgstr ""
 #: views/assets/src/components/project-milestones/new-milestone-form.vue:44
 #: views/assets/src/components/project-task-lists/lists.vue:181
 #: views/assets/src/components/project-task-lists/lists.vue:409
-#: views/assets/src/components/project-task-lists/new-task-form.vue:361
+#: views/assets/src/components/project-task-lists/new-task-form.vue:363
 msgid "Due Date"
 msgstr ""
 
 #: views/assets/js/pm.js:1
-#: views/assets/src/components/project-task-lists/new-task-form.vue:362
+#: views/assets/src/components/project-task-lists/new-task-form.vue:364
 msgid "Select User"
 msgstr ""
 
 #: views/assets/js/pm.js:1
-#: views/assets/src/components/project-task-lists/new-task-form.vue:363
+#: views/assets/src/components/project-task-lists/new-task-form.vue:365
 msgid "Update Task"
 msgstr ""
 
 #: views/assets/js/pm.js:1 views/assets/js/pm.js:9
 #: views/assets/src/components/project-task-lists/new-task-btn.vue:3
-#: views/assets/src/components/project-task-lists/new-task-form.vue:364
+#: views/assets/src/components/project-task-lists/new-task-form.vue:366
 msgid "Add Task"
 msgstr ""
 
 #: views/assets/js/pm.js:1
-#: views/assets/src/components/project-task-lists/new-task-form.vue:365
+#: views/assets/src/components/project-task-lists/new-task-form.vue:367
 msgid "Estimated hour to complete the task"
 msgstr ""
 
@@ -1270,19 +1279,8 @@ msgid "Files"
 msgstr ""
 
 #: views/assets/js/pm.js:1
-#: views/assets/src/components/project-task-lists/single-list.vue:539
+#: views/assets/src/components/project-task-lists/single-list.vue:542
 msgid "Delete List"
-msgstr ""
-
-#: views/assets/js/pm.js:1
-#: views/assets/src/components/project-discussions/comment-form.vue:39
-#: views/assets/src/components/project-task-lists/list-comment-form.vue:48
-msgid "Add New Comment"
-msgstr ""
-
-#: views/assets/js/pm.js:1
-#: views/assets/src/components/common/file-uploader.vue:59
-msgid "select files"
 msgstr ""
 
 #: views/assets/js/pm.js:1
@@ -1296,19 +1294,29 @@ msgid "Make it private"
 msgstr ""
 
 #: views/assets/js/pm.js:1
-#: views/assets/src/components/project-discussions/new-discuss-form.vue:55
+#: views/assets/src/components/project-discussions/new-discuss-form.vue:61
 msgid "Enter message title"
 msgstr ""
 
 #: views/assets/js/pm.js:1
-#: views/assets/src/components/project-discussions/new-discuss-form.vue:56
+#: views/assets/src/components/project-discussions/new-discuss-form.vue:62
 msgid "Add Message"
 msgstr ""
 
 #: views/assets/js/pm.js:1
-#: views/assets/src/components/project-discussions/new-discuss-form.vue:57
+#: views/assets/src/components/project-discussions/new-discuss-form.vue:63
 #: views/emails/html/update-message.php:12
 msgid "Update Message"
+msgstr ""
+
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/common/file-uploader.vue:59
+msgid "select files"
+msgstr ""
+
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/project-discussions/comment-form.vue:45
+msgid "Add New Comment"
 msgstr ""
 
 #: views/assets/js/pm.js:1
@@ -1613,6 +1621,12 @@ msgid "Completed Tasks"
 msgstr ""
 
 #: views/assets/js/pm.js:9
+#: views/assets/src/components/project-task-lists/single-list.vue:17
+#: views/assets/src/components/project-task-lists/single-list.vue:101
+msgid "Back to Task Lists"
+msgstr ""
+
+#: views/assets/js/pm.js:9
 #: views/assets/src/components/common/file-uploader.vue:10
 msgid "Delete File"
 msgstr ""
@@ -1625,24 +1639,6 @@ msgstr ""
 #: views/assets/js/pm.js:9
 #: views/assets/src/components/common/file-uploader.vue:20
 msgid "from your computer."
-msgstr ""
-
-#: views/assets/js/pm.js:9
-#: views/assets/src/components/project-task-lists/list-comments.vue:4
-msgid "Discuss this task list"
-msgstr ""
-
-#: views/assets/js/pm.js:9
-#: views/assets/src/components/project-discussions/discussions.vue:85
-#: views/assets/src/components/project-discussions/individual-discussions.vue:33
-#: views/assets/src/components/project-task-lists/list-comments.vue:15
-msgid "By"
-msgstr ""
-
-#: views/assets/js/pm.js:9
-#: views/assets/src/components/project-task-lists/single-list.vue:17
-#: views/assets/src/components/project-task-lists/single-list.vue:101
-msgid "Back to Task Lists"
 msgstr ""
 
 #: views/assets/js/pm.js:9
@@ -1693,6 +1689,12 @@ msgstr ""
 #: views/assets/js/pm.js:9
 #: views/assets/src/components/project-discussions/discussions.vue:69
 msgid "Discussion List"
+msgstr ""
+
+#: views/assets/js/pm.js:9
+#: views/assets/src/components/project-discussions/discussions.vue:85
+#: views/assets/src/components/project-discussions/individual-discussions.vue:33
+msgid "By"
 msgstr ""
 
 #: views/assets/js/pm.js:9
