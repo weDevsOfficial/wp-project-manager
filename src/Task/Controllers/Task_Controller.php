@@ -98,6 +98,10 @@ class Task_Controller {
         $project       = Project::find( $project_id );
         $board         = Board::find( $board_id );
         
+        if ( empty( $board_id ) ) {
+            $board_id = $data['board_id'] = pm_get_meta($project_id, $project_id, 'task_list', 'list-inbox');
+        }
+        
         if ( $project ) {
             $task = Task::create( $data );
         }
