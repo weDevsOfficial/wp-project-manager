@@ -1,7 +1,9 @@
 <template>
-    <div class="pm-wrap pm-front-end">
+    <div class="pm-wrap  pm-front-end">
         <pm-header></pm-header>
-        <div v-if="!is_pro">
+        <pm-heder-menu></pm-heder-menu>
+        
+        <div class="pm-files" v-if="!is_pro">
             <div v-if="loading" class="pm-data-load-before" >
                 <div class="loadmoreanimation">
                     <div class="load-spinner">
@@ -52,17 +54,23 @@
                 </ul>
 
                 <ul v-if="!files.length">
-                    <li>{{ __('No result found!', 'wedevs-project-manager') }}</li>
+                    <li>{{ __('No results found.', 'wedevs-project-manager') }}</li>
                 </ul>
 
             </div>
         </div>
-        <div v-else>
+        <div class="pm-files" v-else>
             <do-action :hook="'pm_file_footer'"></do-action>
         </div>
     </div>
 
 </template>
+
+<style lang="less">
+    .pm-files {
+        margin-top: 10px;
+    }
+</style>
 
 <script>
 

@@ -27,16 +27,18 @@
                     </span>
                     <div v-activity-load-more class="popup-body">
                         <div class="pm-single-task-header">
+
                             <div class="task-complete-incomplete" :class="{ 'disable': can_complete_task(task) }">
-                                
                                 <a class="completed" v-if="task.status" href="#" @click.prevent="singleTaskDoneUndone()">
-                                    <span class="icon-pm-completed pm-font-size-16"></span>
+                                    <span class="icon-pm-completed pm-font-size-16" v-if="!show_spinner_status"></span>
+                                    <span class="pm-spinner" v-if="show_spinner_status"></span>
                                     {{ __( 'Completed', 'pm' ) }}
                                 </a>
                             
                             
                                 <a  class="incomplete" v-if="!task.status" href="#" @click.prevent="singleTaskDoneUndone()">
-                                    <span class="icon-pm-incomplete pm-font-size-16"></span>
+                                    <span class="icon-pm-incomplete pm-font-size-16" v-if="!show_spinner_status"></span>
+                                    <span class="pm-spinner" v-if="show_spinner_status"></span>
                                     {{ __( 'Mark Complete', 'pm' ) }}
                                 </a>
                                 
@@ -93,6 +95,7 @@
 
                                         class="pm-task-title-activity pm-task-title-field"
                                         type="text">
+                                        <span class="pm-spinner" v-if="show_spinner"></span>
                                 </span>
 
                                 <span
@@ -106,14 +109,15 @@
                         </div>
 
                         <div class="pm-flex options-wrap">
-                            <div class="assigne-users">
+                            <div class="pm-flex assigne-users">
                                 <div v-if="task.assignees.data.length" class='pm-assigned-user' v-for="user in task.assignees.data" :key="user.id">
 
                                     <a :href="userTaskProfileUrl(user.id)" :title="user.display_name">
                                         <img :alt="user.display_name" :src="user.avatar_url" class="avatar avatar-48 photo" height="48" width="48">
                                     </a>
                                 </div>
-                                <span id="pm-multiselect-single-task" @click.prevent="isEnableMultiSelect()" class="icon-pm-user">
+                                <div id="pm-multiselect-single-task" >
+                                    <span @click.prevent="isEnableMultiSelect()" class="icon-pm-user"></span>
                                     <div v-show="is_enable_multi_select"  class="pm-multiselect pm-multiselect-single-task">
                                         <div class="pm-multiselect-content">
                                             <div class="assign-to">{{ __('Assign to', 'wedevs-project-manager') }}</div>
@@ -137,7 +141,7 @@
 
                                                
                                                 <template slot="option" slot-scope="props">
-                                                    <img class="option__image" :src="props.option.avatar_url" alt="No Man’s Sky">
+                                                    <img class="option__image" :src="props.option.avatar_url">
                                                     <div class="option__desc">
                                                         <span class="option__title">{{ props.option.display_name }}</span>
                                                     </div>
@@ -148,15 +152,16 @@
 
                                         </div>
                                     </div>
-                                </span>
+                                </div>
                             </div>
                             
 
                             <div class="pm-flex option-icon-groups">
+                                <do-action :hook="'single_task_action'" :actionData="doActionData"></do-action>
                                 <span @click.prevent="singleTaskLockUnlock(task)" v-if="isTaskLock" :title="__('Task is visible for co-worker', 'wedevs-project-manager')" class="icon-pm-unlock pm-dark-hover pm-font-size-16"></span>
                                 <span @click.prevent="singleTaskLockUnlock(task)" v-if="isTaskUnlock" class="icon-pm-private pm-dark-hover pm-font-size-16"></span>
                                 
-                                <span id="pm-calendar-wrap" @click.prevent="isTaskDateEditMode()" class="individual-group-icon calendar-group icon-pm-calendar pm-font-size-16">
+                                <span id="pm-calendar-wrap" @click.self.prevent="isTaskDateEditMode()" class="individual-group-icon calendar-group icon-pm-calendar pm-font-size-16">
                                     <span v-if="(task.start_at.date || task.due_date.date )" :class="taskDateWrap(task.due_date.date) + ' pm-task-date-wrap pm-date-window'">
                                             
                                         <span :title="getFullDate(task.start_at.timestamp)" v-if="task_start_field">
@@ -302,6 +307,11 @@
 
 </template>
 
+<style lang="less">
+
+  
+</style>
+
 <script>
     import comments from './task-comments.vue';
     import DoAction from './../common/do-action.vue';
@@ -361,7 +371,9 @@
                 content: {
                     html: ''
                 },
-                description_show_spinner: false
+                description_show_spinner: false,
+                show_spinner_status: false,
+                show_spinner: false,
             }
         },
 
@@ -584,6 +596,8 @@
 
                 var self = this,
                     status = this.task.status ? 0 : 1;
+
+                    this.show_spinner_status = true;
                 
                 var args = {
                     data: {
@@ -603,7 +617,7 @@
                         } else {
                             self.task.activities = { data: [res.activity.data] };
                         }
-                        
+                        self.show_spinner_status = false
                         pmBus.$emit('pm_after_task_doneUndone', res);
                     }
                 }
@@ -791,6 +805,7 @@
                     pm.Toastr.error(__('Invalid date range!', 'wedevs-project-manager'));
                     return;
                 }
+                this.show_spinner = true;
 
                 var update_data  = {
                         'title': task.title,
@@ -825,6 +840,7 @@
                         } else {
                             self.task.activities = { data: [res.activity.data] };
                         }
+                        self.show_spinner = false;
 
                         
                     },
@@ -851,13 +867,11 @@
 
             isTaskDateEditMode () {
                 if (this.isArchivedTaskList(this.task)) {
-                    return this.is_task_date_edit_mode = false;
+                    this.is_task_date_edit_mode = false;
                 }
 
                 if ( !this.can_edit_task(this.task) ) {
                     this.is_task_date_edit_mode = this.is_task_date_edit_mode ? false : true;
-
-                    return this.is_task_date_edit_mode;
                 }
                 
                 this.is_task_date_edit_mode = this.is_task_date_edit_mode ? false : true;

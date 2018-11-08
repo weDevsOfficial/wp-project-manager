@@ -61,7 +61,7 @@ class Task_List_Transformer extends TransformerAbstract {
     public function meta( Task_List $item ) {
         $meta = $item->metas()->get()->toArray();
         $meta = wp_list_pluck( $meta, 'meta_value', 'meta_key' );
-        
+
         return array_merge( $meta, [
             'total_tasks'            => $item->tasks()->count(),
             'total_complete_tasks'   => $item->tasks()->where( 'status', Task::COMPLETE )->count(),

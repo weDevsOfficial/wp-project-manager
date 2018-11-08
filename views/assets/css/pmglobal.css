@@ -1,0 +1,116 @@
+#pmswitchproject {
+    width: 100%;
+    height: 100%;
+    display: none;
+    top: 0;
+    left: 0;
+    z-index: 99999;
+}
+.pmswitchproject .icon-pm-navigation {
+    color: #c8c7c7;
+}
+
+.pmswitchproject .icon-pm-navigation:before, .pmswitchproject .icon-pm-enter:before {
+    color: #c8c7c7;
+}
+
+.pmswitchproject .icon-pm-enter {
+    font-size: 9px;
+}
+#pmswitchproject .pmbackoverlay {
+    background: rgba(0, 0, 0, 0.4);
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+}
+
+#pmswitchproject .pmswitcharea .pm-si-area {
+    background: #fff;
+    width: 340px;
+    height: auto;
+    text-align: center;
+    position: fixed;
+    z-index: 99999;
+    left: 42%;
+    top: 20%;
+    border-radius: 3px;
+}
+#pmswitchproject .pmswitcharea .pm-si-area .pm-sp-in {
+    padding: 20px;
+}
+#pmswitchproject .pmswitcharea .switchinfo {
+    color: #bababa;
+    padding: 5px 20px;
+    background: #f7f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    line-height: 1;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+#pmswitchproject .pmswitcharea .switchinfo div {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+#pmswitchproject .pmswitcharea .switchinfo div span {
+    margin: 0px 3px;
+}
+#pmswitchproject .pmswitcharea  .ui-widget-content {
+    border: none;
+    background: transparent;
+    box-shadow: none;
+    margin-top: 10px;
+}
+
+#pmswitchproject .pmswitcharea  .ui-widget-content .ui-state-focus {
+    background: #1A9ED4;
+    background-image: none;
+    color: #fff;
+    border-width: 0px;
+}
+#pmswitchproject .pmswitcharea .pm-si-area input {
+    width: 100%;
+    padding: 14px;
+}
+
+#pmswitchproject .ui-autocomplete li.pm-search-type {
+    background: #eee;
+    padding: 10px;
+    font-weight: 700;
+    text-transform: capitalize;
+    cursor: auto;
+}
+
+#pmswitchproject .ui-autocomplete.ui-menu li.ui-menu-item a {
+    padding: 10px;
+    text-decoration: none;
+    display: block;
+    overflow: hidden;
+    
+}
+#pmswitchproject .ui-autocomplete.ui-menu li.ui-menu-item.ui-state-focus a {
+    color: #fff;
+}
+#pmswitchproject .ui-menu .ui-menu-item {
+    margin: 0;
+    zoom: 1;
+    width: 97%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0 0 0 10px;
+}
+#pmswitchproject .ui-menu .ui-menu-item.no-result {
+    padding: 10px 0 10px 10px;
+    color: #000;
+    cursor: auto;
+
+}
+#pmswitchproject .ui-menu .ui-menu-item.no-result.ui-state-focus {
+    background: transparent;
+}

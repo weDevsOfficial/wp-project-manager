@@ -1,6 +1,7 @@
 <template>
     <div class="pm-wrap pm-front-end">
         <pm-header></pm-header>
+        <pm-heder-menu></pm-heder-menu>
 
         <div v-if="!fetchOverview" class="pm-data-load-before" >
             <div class="loadmoreanimation">
@@ -131,6 +132,12 @@
 
 </template>
 
+<style lang="less">
+    .project-overview {
+        margin-top: 10px;
+    }
+</style>
+
 <script>
     import header from './../common/header.vue';
     import directive from './directive';
@@ -169,6 +176,12 @@
         components: {
             'pm-header': header
         },
+        watch: {
+            '$route' (to, from) {
+                this.getOverViews();
+                this.$forceUpdate();
+            }
+        },
 
         methods : {
             ...pm.Vuex.mapMutations('projectOverview', 
@@ -181,7 +194,8 @@
                     conditions :{
                         with : 'overview_graph'
                     },
-                    callback : function (res){
+                    project_id: this.$route.params.project_id,
+                    callback  (res){
                         this.$root.$store.state.projectOverviewLoaded = true;
                         this.setOverViews( res.data );
                         pm.NProgress.done();

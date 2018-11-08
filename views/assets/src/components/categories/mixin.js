@@ -179,7 +179,7 @@ export default {
         },
 
         deleteCategory (args) {
-            if ( ! confirm( this.__( 'Are you sure!', 'wedevs-project-manager') ) ) {
+            if ( ! confirm( this.__( 'Are you sure?', 'wedevs-project-manager') ) ) {
                 return;
             }
             var self = this;

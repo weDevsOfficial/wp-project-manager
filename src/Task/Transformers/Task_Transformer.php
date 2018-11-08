@@ -85,18 +85,22 @@ class Task_Transformer extends TransformerAbstract {
         );
     }
 
+
     public function meta( Task $item ) {
         $meta = $item->metas()->get()->toArray();
         $meta = wp_list_pluck( $meta, 'meta_value', 'meta_key' );
 
-        return array_merge( $meta, [
+        $metas = array_merge( $meta, [
             'total_comment'  => $item->comments->count(),
             'total_files'    => $item->files->count(),
             'total_board'    => $item->boards->count(),
             'total_assignee' => $item->assignees->count(),
             'can_complete_task' => pm_user_can_complete_task( $item ),
         ] );
+        
+	    return $metas;
     }
+
 
     /**
      * Getter for defaultIncludes.

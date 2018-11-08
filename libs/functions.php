@@ -7,8 +7,9 @@ use League\Fractal\Resource\Item as Item;
 use WeDevs\PM\Task\Transformers\Task_Transformer;
 use WeDevs\PM\Task\Models\Task;
 use WeDevs\PM\Task_List\Models\Task_List;
-use WeDevs\PM\Discussion_Board\Models\Discussion_Board;
 use WeDevs\PM\Milestone\Models\Milestone;
+use WeDevs\PM\Discussion_Board\Models\Discussion_Board;
+use Illuminate\Database\Eloquent\Collection;
 use WeDevs\PM\Project\Models\Project;
 
 function pm_get_text( $key ) {

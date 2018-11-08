@@ -45,10 +45,11 @@ abstract class Abstract_Validator implements Validator {
         $validation_fns = $rules[$key];
         $fns            = $this->get_validation_fns( $validation_fns );
         $value          = $this->request->get_param( $key );
-
+        
         foreach ( $fns as $fn ) {
             if ( !$this->call_validation_fn( $value, $fn ) ) {
-                $this->errors[$key][] = $messages[$key . '.' . $fn];
+                $fname = explode( ':', $fn );
+                $this->errors[$key][] = $messages[$key . '.' . $fname[0]];
             }
         }
 

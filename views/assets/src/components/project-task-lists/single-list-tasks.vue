@@ -42,10 +42,30 @@
     </div>
 </template>
 
-<style>
-    .pm-list-footer .pm-new-task-button-icon {
-        margin-top: 5px;
+<style lang="less">
+.pm-todolist .list-form {
+    background: #fff;
+    border: 1px solid #e5e5e5;
+    margin-top: 20px;
+    padding: 10px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+
+    .item input[type="text"],
+    .item select,
+    .item textarea {
+        width: 100%;
+        height: 28px;
+        padding: 3px 8px;
+        font-size: 12px;
+        line-height: 100%;
+        box-shadow: none;
+        border: 1px solid #ddd;
+        background: #fff;
     }
+    .item textarea {
+        height: 84px;
+    }
+}
 </style>
 
 <script>

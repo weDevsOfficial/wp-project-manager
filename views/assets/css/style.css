@@ -227,9 +227,6 @@ a:active {
   color: #555555;
   background: #ffffff;
   vertical-align: middle;
-  -webkit-border-radius: 0px;
-     -moz-border-radius: 0px;
-          border-radius: 0px;
   border: 1px solid #DDDDDD;
   -webkit-box-shadow: none;
      -moz-box-shadow: none;
@@ -242,7 +239,7 @@ a:active {
 .pm textarea {
   height: 80px;
 }
-.pm input[type="radio"],
+/*.pm input[type="radio"],
 .pm input[type="checkbox"] {
   margin: 4px 0 0;
   margin-top: 1px \9;
@@ -255,7 +252,7 @@ a:active {
   margin-top: 1px \9;
   *margin-top: 0;
   line-height: normal;
-}
+}*/
 .pm ul {
   list-style: none;
 }
@@ -1872,7 +1869,7 @@ ul.pm-activity ul li:before {
   font-size: 12px;
   line-height: 1.3em;
   color: #fff;
-  padding: 2px 5px;
+  padding: 0px 5px;
 }
 .pm-task-done {
   -webkit-border-radius: 3px;
@@ -3443,7 +3440,7 @@ a.pm-icon-tick.grey {
   margin-right: 10px;
 }
 .pm .project-overview .pm-right-part .user_list li {
-  margin: 0 0 15px 0;
+  margin: 0 0 15px 10px;
   clear: left;
 }
 .pm .project-overview .pm-right-part .user_list li img {
