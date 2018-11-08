@@ -70,7 +70,7 @@
             <list-tasks :list="list"></list-tasks>
             <div class="list-comments-wrap">
                 <div class="discuss-text">{{ __( 'Discussion', 'wedevs-project-manager') }}</div>
-                <pm-comments :comments="comments" :commentable="list"></pm-comments>
+                <list-comments :comments="comments" :commentable="list"></list-comments>
             </div>
             
         </div>
@@ -567,6 +567,16 @@
             window.addEventListener('click', this.windowActivity);
         },
 
+        components: {
+            'single-list-tasks': single_list_tasks,
+            'list-comments': list_comments,
+            'new-task-list-form': new_task_list_form,
+            'new-task-button': new_task_button,
+            'pm-header': header,
+            'list-tasks': tasks,
+            pmMenu: Menu,
+        },
+
         computed: {
             /**
              * Get todo lists from vuex store
@@ -751,18 +761,6 @@
                 this.deleteList(args);
             }
         },
-
-
-
-        components: {
-            'single-list-tasks': single_list_tasks,
-            'list-comments': list_comments,
-            'new-task-list-form': new_task_list_form,
-            'new-task-button': new_task_button,
-            'pm-header': header,
-            'list-tasks': tasks,
-            pmMenu: Menu,
-        }
     }
 </script>
 
