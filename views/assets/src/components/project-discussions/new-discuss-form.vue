@@ -37,6 +37,12 @@
     </div>
 </template>
 
+<style lang="less">
+    .pm-message-form-wrap .notify-users .pm-user-list {
+        padding: 10px 10px 10px 16px !important;
+    }
+</style>
+
 <script>
   import editor from '@components/common/text-editor.vue';
   import uploader from '@components/common/file-uploader.vue';
