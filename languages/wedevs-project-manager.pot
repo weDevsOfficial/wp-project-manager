@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Project Manager 2.0.7\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/cpm\n"
-"POT-Creation-Date: 2018-11-08 08:54:19+00:00\n"
+"POT-Creation-Date: 2018-11-08 13:16:49+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -124,7 +124,7 @@ msgstr ""
 
 #: core/Upgrades/Upgrade_2_2.php:34
 #: src/Project/Controllers/Project_Controller.php:333 views/assets/js/pm.js:9
-#: views/assets/src/components/project-task-lists/lists.vue:113
+#: views/assets/src/components/project-task-lists/lists.vue:114
 msgid ""
 "This is a system default task list. Any task without an assigned tasklist "
 "will appear here."
@@ -837,7 +837,7 @@ msgstr ""
 #: views/assets/src/components/project-lists/project-create-form.vue:59
 #: views/assets/src/components/project-milestones/new-milestone-form.vue:18
 #: views/assets/src/components/project-task-lists/list-comment-form.vue:15
-#: views/assets/src/components/project-task-lists/lists.vue:196
+#: views/assets/src/components/project-task-lists/lists.vue:197
 #: views/assets/src/components/project-task-lists/new-task-form.vue:126
 #: views/assets/src/components/project-task-lists/new-task-list-form.vue:31
 #: views/assets/src/components/project-task-lists/new-task-list-form.vue:61
@@ -967,7 +967,7 @@ msgstr ""
 #: views/assets/src/components/project-task-lists/incompleted-tasks.vue:72
 #: views/assets/src/components/project-task-lists/incompleted-tasks.vue:155
 #: views/assets/src/components/project-task-lists/list-comments.vue:33
-#: views/assets/src/components/project-task-lists/lists.vue:90
+#: views/assets/src/components/project-task-lists/lists.vue:91
 #: views/assets/src/components/project-task-lists/single-list.vue:46
 #: views/assets/src/components/project-task-lists/task-comments.vue:33
 msgid "Edit"
@@ -985,7 +985,7 @@ msgstr ""
 #: views/assets/src/components/project-task-lists/incompleted-tasks.vue:78
 #: views/assets/src/components/project-task-lists/incompleted-tasks.vue:158
 #: views/assets/src/components/project-task-lists/list-comments.vue:39
-#: views/assets/src/components/project-task-lists/lists.vue:96
+#: views/assets/src/components/project-task-lists/lists.vue:97
 #: views/assets/src/components/project-task-lists/single-list.vue:52
 #: views/assets/src/components/project-task-lists/single-task.vue:78
 #: views/assets/src/components/project-task-lists/task-comments.vue:39
@@ -1002,9 +1002,9 @@ msgstr ""
 #: views/assets/js/library.js:1 views/assets/js/pm.js:1 views/assets/js/pm.js:9
 #: views/assets/src/components/common/header.vue:46
 #: views/assets/src/components/project-lists/project-header-menu.vue:13
-#: views/assets/src/components/project-task-lists/lists.vue:159
-#: views/assets/src/components/project-task-lists/lists.vue:315
-#: views/assets/src/components/project-task-lists/lists.vue:387
+#: views/assets/src/components/project-task-lists/lists.vue:160
+#: views/assets/src/components/project-task-lists/lists.vue:316
+#: views/assets/src/components/project-task-lists/lists.vue:388
 #: views/assets/src/components/project-task-lists/single-task.vue:35
 msgid "Completed"
 msgstr ""
@@ -1033,14 +1033,14 @@ msgid "Copy Link"
 msgstr ""
 
 #: views/assets/js/library.js:1 views/assets/js/pm.js:1
-#: views/assets/src/components/project-task-lists/lists.vue:1580
+#: views/assets/src/components/project-task-lists/lists.vue:1584
 #: views/assets/src/components/project-task-lists/single-task.vue:68
 msgid "Make Visible"
 msgstr ""
 
 #: views/assets/js/library.js:1 views/assets/js/pm.js:1 views/assets/js/pm.js:9
 #: views/assets/src/components/project-task-lists/incompleted-tasks.vue:60
-#: views/assets/src/components/project-task-lists/lists.vue:1580
+#: views/assets/src/components/project-task-lists/lists.vue:1584
 #: views/assets/src/components/project-task-lists/single-task.vue:71
 msgid "Make Private"
 msgstr ""
@@ -1127,48 +1127,48 @@ msgid "Create User"
 msgstr ""
 
 #: views/assets/js/pm.js:1
-#: views/assets/src/components/project-task-lists/lists.vue:1271
 #: views/assets/src/components/project-task-lists/lists.vue:1275
-#: views/assets/src/components/project-task-lists/lists.vue:1282
-#: views/assets/src/components/project-task-lists/lists.vue:1299
+#: views/assets/src/components/project-task-lists/lists.vue:1279
+#: views/assets/src/components/project-task-lists/lists.vue:1286
+#: views/assets/src/components/project-task-lists/lists.vue:1303
 msgid "Any"
 msgstr ""
 
 #: views/assets/js/pm.js:1
-#: views/assets/src/components/project-task-lists/lists.vue:1286
+#: views/assets/src/components/project-task-lists/lists.vue:1290
 msgid "Over Due"
 msgstr ""
 
 #: views/assets/js/pm.js:1
-#: views/assets/src/components/project-task-lists/lists.vue:1290
+#: views/assets/src/components/project-task-lists/lists.vue:1294
 msgid "Today"
 msgstr ""
 
 #: views/assets/js/pm.js:1
-#: views/assets/src/components/project-task-lists/lists.vue:1294
+#: views/assets/src/components/project-task-lists/lists.vue:1298
 msgid "Less Than 1 week"
 msgstr ""
 
 #: views/assets/js/pm.js:1 views/assets/js/pm.js:9
 #: views/assets/src/components/project-lists/project-header-menu.vue:20
-#: views/assets/src/components/project-task-lists/lists.vue:1304
-#: views/assets/src/components/project-task-lists/lists.vue:1343
-#: views/assets/src/components/project-task-lists/lists.vue:1444
-#: views/assets/src/components/project-task-lists/lists.vue:1562
-#: views/assets/src/components/project-task-lists/lists.vue:1585
+#: views/assets/src/components/project-task-lists/lists.vue:1308
+#: views/assets/src/components/project-task-lists/lists.vue:1347
+#: views/assets/src/components/project-task-lists/lists.vue:1448
+#: views/assets/src/components/project-task-lists/lists.vue:1566
+#: views/assets/src/components/project-task-lists/lists.vue:1589
 msgid "All"
 msgstr ""
 
 #: views/assets/js/pm.js:1 views/assets/js/pm.js:9
 #: views/assets/src/components/project-files/files.vue:57
-#: views/assets/src/components/project-task-lists/lists.vue:355
-#: views/assets/src/components/project-task-lists/lists.vue:1802
+#: views/assets/src/components/project-task-lists/lists.vue:356
+#: views/assets/src/components/project-task-lists/lists.vue:1806
 msgid "No results found."
 msgstr ""
 
 #: views/assets/js/pm.js:1 views/assets/js/pm.js:9
-#: views/assets/src/components/project-task-lists/lists.vue:138
-#: views/assets/src/components/project-task-lists/lists.vue:365
+#: views/assets/src/components/project-task-lists/lists.vue:139
+#: views/assets/src/components/project-task-lists/lists.vue:366
 #: views/assets/src/components/project-task-lists/new-task-list-form.vue:105
 msgid "Task list name"
 msgstr ""
@@ -1206,8 +1206,8 @@ msgstr ""
 
 #: views/assets/js/pm.js:1 views/assets/js/pm.js:9
 #: views/assets/src/components/project-milestones/new-milestone-form.vue:44
-#: views/assets/src/components/project-task-lists/lists.vue:181
-#: views/assets/src/components/project-task-lists/lists.vue:409
+#: views/assets/src/components/project-task-lists/lists.vue:182
+#: views/assets/src/components/project-task-lists/lists.vue:410
 #: views/assets/src/components/project-task-lists/new-task-form.vue:363
 msgid "Due Date"
 msgstr ""
@@ -1448,7 +1448,7 @@ msgstr ""
 #: views/assets/src/components/project-discussions/individual-discussions.vue:56
 #: views/assets/src/components/project-lists/project-summary.vue:104
 #: views/assets/src/components/project-overview/overview.vue:69
-#: views/assets/src/components/project-task-lists/lists.vue:334
+#: views/assets/src/components/project-task-lists/lists.vue:335
 msgid "Comments"
 msgstr ""
 
@@ -1510,7 +1510,7 @@ msgstr ""
 
 #: views/assets/js/pm.js:9
 #: views/assets/src/components/project-task-lists/list-tasks.vue:16
-#: views/assets/src/components/project-task-lists/lists.vue:300
+#: views/assets/src/components/project-task-lists/lists.vue:301
 #: views/assets/src/components/project-task-lists/single-list-tasks.vue:14
 #: views/assets/src/components/project-task-lists/single-list-tasks.vue:32
 msgid "More Tasks"
@@ -1555,18 +1555,18 @@ msgid "To assign people to tasks."
 msgstr ""
 
 #: views/assets/js/pm.js:9
-#: views/assets/src/components/project-task-lists/lists.vue:12
+#: views/assets/src/components/project-task-lists/lists.vue:13
 msgid "Add Task List"
 msgstr ""
 
 #: views/assets/js/pm.js:9
-#: views/assets/src/components/project-task-lists/lists.vue:131
-#: views/assets/src/components/project-task-lists/lists.vue:360
+#: views/assets/src/components/project-task-lists/lists.vue:132
+#: views/assets/src/components/project-task-lists/lists.vue:361
 msgid "Task Filter"
 msgstr ""
 
 #: views/assets/js/pm.js:9
-#: views/assets/src/components/project-task-lists/lists.vue:23
+#: views/assets/src/components/project-task-lists/lists.vue:24
 msgid "Filter"
 msgstr ""
 
@@ -1575,26 +1575,26 @@ msgid "Single List"
 msgstr ""
 
 #: views/assets/js/pm.js:9
-#: views/assets/src/components/project-task-lists/lists.vue:150
-#: views/assets/src/components/project-task-lists/lists.vue:377
+#: views/assets/src/components/project-task-lists/lists.vue:151
+#: views/assets/src/components/project-task-lists/lists.vue:378
 msgid "No task list found."
 msgstr ""
 
 #: views/assets/js/pm.js:9
-#: views/assets/src/components/project-task-lists/lists.vue:156
-#: views/assets/src/components/project-task-lists/lists.vue:384
+#: views/assets/src/components/project-task-lists/lists.vue:157
+#: views/assets/src/components/project-task-lists/lists.vue:385
 msgid "Status"
 msgstr ""
 
 #: views/assets/js/pm.js:9
-#: views/assets/src/components/project-task-lists/lists.vue:162
-#: views/assets/src/components/project-task-lists/lists.vue:390
+#: views/assets/src/components/project-task-lists/lists.vue:163
+#: views/assets/src/components/project-task-lists/lists.vue:391
 msgid "On-going"
 msgstr ""
 
 #: views/assets/js/pm.js:9
-#: views/assets/src/components/project-task-lists/lists.vue:167
-#: views/assets/src/components/project-task-lists/lists.vue:395
+#: views/assets/src/components/project-task-lists/lists.vue:168
+#: views/assets/src/components/project-task-lists/lists.vue:396
 msgid "Assigned to"
 msgstr ""
 
@@ -1911,11 +1911,11 @@ msgid "Close"
 msgstr ""
 
 #: views/assets/src/components/common/header.vue:47
-#: views/assets/src/components/project-task-lists/lists.vue:325
+#: views/assets/src/components/project-task-lists/lists.vue:326
 msgid "Incomplete"
 msgstr ""
 
-#: views/assets/src/components/project-task-lists/lists.vue:122
+#: views/assets/src/components/project-task-lists/lists.vue:123
 msgid "No result Found"
 msgstr ""
 

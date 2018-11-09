@@ -480,6 +480,11 @@
                     .task-action-wrap {
                         margin-left: 42px;
                         margin-top: 5px;
+                        flex-wrap: wrap;
+                        
+                        .task-activity {
+                            margin-top: 8px;
+                        }
                     }
                 }
             } 
