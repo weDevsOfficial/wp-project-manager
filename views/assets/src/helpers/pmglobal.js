@@ -1,77 +1,102 @@
 (function($){
     "use strict";
 
-    function pm_search_request(term, callback) {
-        jQuery.ajax({
-            beforeSend (xhr) {
-                xhr.setRequestHeader("X-WP-Nonce", PM_Global_Vars.permission);
-            },
-            url: PM_Global_Vars.rest_url + '/pm/v2/search',
-            data: {
-                query: term,
-                model: 'project', 
-            },
-            success (res) {
-                if (typeof callback ==='function') {
-                    callback(res)
+    var PM_Global = {
+        pm_search_request(term, callback) {
+            jQuery.ajax({
+                beforeSend (xhr) {
+                    xhr.setRequestHeader("X-WP-Nonce", PM_Global_Vars.permission);
+                },
+                url: PM_Global_Vars.rest_url + '/pm/v2/search',
+                data: {
+                    query: term,
+                    model: 'project', 
+                },
+                success (res) {
+                    if (typeof callback ==='function') {
+                        callback(res)
+                    }
                 }
+            });
+        },
+
+        pm_result_item_url ( item ) {
+            var url = null; 
+    
+    
+            switch (item.type) {
+                case 'task':
+                    url = '#/projects/'+ item.project_id + '/task-lists/tasks/' + item.id
+                    break;
+                case 'subtask':
+                    url = '#/projects/'+ item.project_id + '/task-lists/tasks/' + item.parent_id
+                    break;
+                case 'project':
+                    url = '#/projects/'+ item.id + '/overview/';
+                    break;
+                case 'milestone':
+                    url = '#/projects/'+ item.project_id + '/milestones/';
+                    break;
+    
+                case 'discussion_board':
+                    
+                    break;
+                case 'task_list':
+                    url = '#/projects/'+ item.project_id + '/task-lists/'+ item.id;
+                    break;
+                default:
+                    url = url;
+                    break;
             }
-        });
-    }
-    function pm_result_item_url ( item ) {
-        var url = null; 
+            if (url) {
+                return PM_Global_Vars.project_page + url;
+            }
+            return url;
+        },
 
+        pm_get_projects (callback) {
+            jQuery.ajax({
+                beforeSend (xhr) {
+                    xhr.setRequestHeader("X-WP-Nonce", PM_Global_Vars.permission);
+                },
+                url: PM_Global_Vars.rest_url + '/pm/v2/projects?project_transform=false&per_page=all',
+                data: {
+                },
+                success (res) {
+                    console.log(res);
+                    if (typeof callback ==='function') {
+                        callback(res)
+                    }
+                }
+            });
+        },
 
-        switch (item.type) {
-            case 'task':
-                url = '#/projects/'+ item.project_id + '/task-lists/tasks/' + item.id
-                break;
-            case 'subtask':
-                url = '#/projects/'+ item.project_id + '/task-lists/tasks/' + item.parent_id
-                break;
-            case 'project':
-                url = '#/projects/'+ item.id + '/overview/';
-                break;
-            case 'milestone':
-                url = '#/projects/'+ item.project_id + '/milestones/';
-                break;
-
-            case 'discussion_board':
-                
-                break;
-            case 'task_list':
-                url = '#/projects/'+ item.project_id + '/task-lists/'+ item.id;
-                break;
-            default:
-                url = url;
-                break;
+        pm_create_task (data, callback) {
+            jQuery.ajax({
+                beforeSend (xhr) {
+                    xhr.setRequestHeader("X-WP-Nonce", PM_Global_Vars.permission);
+                },
+                method: 'POST',
+                url: PM_Global_Vars.rest_url + '/pm/v2/projects/' + data.project_id + '/tasks',
+                data: data,
+                success (res) {
+                    console.log(res);
+                    if (typeof callback ==='function') {
+                        callback(res)
+                    }
+                }
+            });
         }
-        if (url) {
-            return PM_Global_Vars.project_page + url;
-        }
-        return url;
     }
+
+    
 
     $.widget( "custom.pmautocomplete", $.ui.autocomplete, {
         _create: function() {
           this._super();
           this.widget().menu( "option", "items", "> :not(.pm-search-type)" );
-        },
-        // _renderMenu: function( ul, items ) {
-        //   var that = this,
-        //     currentCategory = "";
-        //   $.each( items, function( index, item ) {
-        //     var li;
-        //     if ( item.type != currentCategory ) {
-        //       ul.append( "<li class='pm-search-type'>" + item.type.replace('_', ' ') + "</li>" );
-        //       currentCategory = item.type;
-        //     }
-        //     li = that._renderItemData( ul, item );
-        //     if ( item.type ) {
-        //       li.attr( "aria-label", item.type + " : " + item.title );
-        //     }
-        //   });
-        // }
+        }
+        
       });
 
       $(document).ready(function () {
@@ -131,7 +156,15 @@
             if($(e.target).closest('#wp-admin-bar-pm_search').length) {
                 return;
             }
+
+            if($(e.target).closest('#wp-admin-bar-pm_create_task').length) {
+                return;
+            }
+            
             if ($(e.target).closest('.pmswitcharea').length) {
+                return;
+            }
+            if ($(e.target).closest('#pmcteatetask .inner').length) {
                 return;
             }
             if ($(this).find('#pmswitchproject').hasClass('active')) {
@@ -140,6 +173,10 @@
                 otherkey = false;
                 element.css('display', 'none').removeClass('active');
             }
+            if ($(this).find('#pmcteatetask').hasClass('active')) { 
+                newTaskElement.css('display', 'none').removeClass('active');
+            }
+
         });
 
         $('#wp-admin-bar-pm_search a').bind('click', function(e) {
@@ -158,7 +195,7 @@
                     return;
                 } 
                 else if (!req.term.trim() && !availableTags.length) {
-                    pm_search_request('', function (response) {
+                    PM_Global.pm_search_request('', function (response) {
                         availableTags = response;
                         res(response)
                     })
@@ -174,7 +211,7 @@
                         res( a );
                     }
                     
-                    pm_search_request(req.term, function (response) {
+                    PM_Global.pm_search_request(req.term, function (response) {
                         availableTags = response;
                         res(response)
                     })
@@ -196,7 +233,7 @@
                 } );
             },
             select (event, ui) {
-                let url = pm_result_item_url(ui.item);
+                let url = PM_Global.pm_result_item_url(ui.item);
                 if (url) {
                     location.href = url;
                     element.css('display', 'none').removeClass('active');
@@ -217,10 +254,41 @@
             return $('<li>')
                 .data("ui-autocomplete-item", item)
                 .append("<span class='icon-pm-incomplete'></span>")
-                .append("<a href='"+pm_result_item_url(item)+"'>" + item.title + "</a>")
+                .append("<a href='"+PM_Global.pm_result_item_url(item)+"'>" + item.title + "</a>")
                 .appendTo(ul);
      
         };
+
+
+        // create new task
+        var newTaskElement = $('#pmcteatetask');
+        function open_task_form () {
+            newTaskElement.css('display', 'block').addClass('active');
+        }
+
+        $('#wp-admin-bar-pm_create_task a').bind('click', function(e) {
+            e.preventDefault();
+            open_task_form()
+            PM_Global.pm_get_projects(function (res) {
+                let html = '';
+
+                html +="<select name='project' id='project' >";
+                html += "<option value='0' selected > Select A project </option>";
+                res.data.map((item) => {
+                    html +=  "<option value="+ item.id +"  > "+ item.title +" </option>"
+                });
+                html +="</select>";
+
+                newTaskElement.find('.select-project').html(html);
+
+            });
+        });
+
+        $('#newtaskform').submit(function (event) {
+            event.preventDefault();
+
+            
+        })
             
     })
   
