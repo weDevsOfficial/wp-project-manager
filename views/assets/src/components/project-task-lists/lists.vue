@@ -512,6 +512,9 @@
                         font-style: italic;
                         font-weight: 300;
                         font-size: 12px;
+                        word-wrap: break-word;
+                        word-break: break-all;
+                        hyphens: auto;
                     }
                     .list-li {
                         margin-bottom: 10px;
@@ -556,6 +559,9 @@
                         padding: 5px 0;
                         border-top: 1px solid #fafafa;
                         border-bottom: 1px solid #fafafa;
+                        word-break: break-all;
+                        word-wrap: break-word;
+                        hyphens: auto;
 
                         .list-item-content {
                             display: flex;
