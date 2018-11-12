@@ -885,9 +885,10 @@
                     modal           = jQuery(el.target).closest( '.popup-container' ),
                     datePicker      = jQuery(el.target).closest('#ui-datepicker-div'),
                     datePickerBtn   = jQuery(el.target).closest('.ui-datepicker-buttonpane'),
+                    hasCalendarArrowBtn = jQuery(el.target).hasClass('ui-icon'),
                     mainBody        = jQuery(el.target).closest('#pm-single-task-wrap');
                     
-                if(datePicker.length || datePickerBtn.length) {
+                if(datePicker.length || datePickerBtn.length || hasCalendarArrowBtn) {
                     return;
                 }
 
