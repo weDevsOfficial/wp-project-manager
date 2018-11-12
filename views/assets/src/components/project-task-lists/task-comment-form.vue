@@ -216,6 +216,10 @@
             this.show_spinner = true;
             var self = this;
 
+            let notify_users = [];
+
+            this.notify_users.map( u => { notify_users.push(u.id) });
+
             var args = {
                 data: {
                     commentable_id: self.task_id,
@@ -225,7 +229,7 @@
                     mentioned_users: self.mentioned_user_ids,
                     files: self.files || [],
                     project_id: self.task.project_id,
-                    notify_users: this.notify_users
+                    notify_users: notify_users
                 },
             }
 

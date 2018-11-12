@@ -4,201 +4,202 @@
         <pm-menu></pm-menu>
 
         <div v-if="listViewType" class="list-content-wrap">
-            <div class="content">
-                <div class="list-action-btn-wrap">
-                    <div class="new-list-btn" >
-                        <a v-if="can_create_list  && !isArchivedPage" @click.prevent="showHideListForm('toggle')" href="#" class="list-action-group add-list">
-                            <span class="plus">+</span>
-                            <span>{{ __('Add Task List', 'wedevs-project-manager') }}</span>
-                        </a>
+            <div class="list-content-body">
+                <div class="content">
+                    <div class="list-action-btn-wrap">
+                        <div class="new-list-btn" >
+                            <a v-if="can_create_list  && !isArchivedPage" @click.prevent="showHideListForm('toggle')" href="#" class="list-action-group add-list">
+                                <span class="plus">+</span>
+                                <span>{{ __('Add Task List', 'wedevs-project-manager') }}</span>
+                            </a>
 
-                        <new-task-list-form v-if="is_active_list_form && can_create_list  && !isArchivedPage"></new-task-list-form>
+                            <new-task-list-form v-if="is_active_list_form && can_create_list  && !isArchivedPage"></new-task-list-form>
+                            
+                        </div>
                         
-                    </div>
-                    
-                    <pm-do-action :hook="'pm-inline-list-button'"></pm-do-action>
-                    <div>
-                        <a :class="isActiveTaskFilter() + ' list-action-group task-filter-btn'" v-pm-tooltip :title="__('Task Filter', 'wedevs-project-manager')" @click.prevent="showFilter()" href="#">
-                            <span class="icon-pm-filter"></span>
-                            <span>{{__('Filter', 'wedevs-project-manager')}}</span>
-                        </a>
-                    </div>
-                </div>
-
-                <div class="task-field" v-if="can_create_task && !isArchivedPage">
-                    <new-task-form  :list="list"></new-task-form>
-                </div>
-
-                <div class="list-items">
-
-                    <div v-if="!isListFetch" class="pm-data-load-before" >
-                        <div class="loadmoreanimation">
-                            <div class="load-spinner">
-                                <div class="rect1"></div>
-                                <div class="rect2"></div>
-                                <div class="rect3"></div>
-                                <div class="rect4"></div>
-                                <div class="rect5"></div>
-                            </div>
+                        <pm-do-action :hook="'pm-inline-list-button'"></pm-do-action>
+                        <div>
+                            <a :class="isActiveTaskFilter() + ' list-action-group task-filter-btn'" v-pm-tooltip :title="__('Task Filter', 'wedevs-project-manager')" @click.prevent="showFilter()" href="#">
+                                <span class="icon-pm-filter"></span>
+                                <span>{{__('Filter', 'wedevs-project-manager')}}</span>
+                            </a>
                         </div>
                     </div>
 
-                    <ul v-if="hasSearchContent() && isListFetch" v-pm-list-sortable :class="filterActiveClass()+ ' pm-todolists'">
-                    
-                        <li  v-for="list in lists" :key="list.id" :data-id="list.id"  :class="taskListClass(list.id)">
+                    <div class="task-field" v-if="can_create_task && !isArchivedPage">
+                        <new-task-form  :list="list"></new-task-form>
+                    </div>
 
-                            <div class="list-content">
-                                <div class="list-item-content">
-                                    <div class="before-title">
-                                        <span v-if="!isInbox(list.id)" class="pm-list-drag-handle icon-pm-drag-drop"></span>
-                                        <span v-if="!list.expand" @click.prevent="listExpand(list)" :class="inboxClass(list) + ' icon-pm-down-arrow'"></span>
-                                        <span v-if="list.expand" @click.prevent="listExpand(list)" :class="inboxClass(list) + ' icon-pm-up-arrow'"></span>
-                                    </div>
+                    <div class="list-items">
 
-                                    <div class="list-title">
-                                        <span @click.prevent="listExpand(list)" class="list-title-anchor">{{ list.title }}</span>
-                                    </div>
-                                    <div class="after-title">
-                                            <!-- v-pm-tooltip -->
-                                            <div class="view-single-list"  :title="__('Single List', 'wedevs-project-manager')">
-                                                <span @click.prevent="goToSigleList(list)" class="icon-pm-eye"></span>
-                                            </div>
-                                            <div class="list-title-action progress-bar">
-                                                <div :style="getProgressStyle( list )" class="bar completed"></div>
-                                            </div>
-                                               
-                                            <!-- never remove <div class="pm-progress-percent">{{ getProgressPercent( list ) }}%</div> -->
-                                            <div class="list-title-action task-count">
-                                                <span>{{ list.meta.total_complete_tasks }}</span>/<span>{{ getTotalTask(list.meta.total_complete_tasks, list.meta.total_incomplete_tasks) }}</span>
-                                            </div>
+                        <div v-if="!isListFetch" class="pm-data-load-before" >
+                            <div class="loadmoreanimation">
+                                <div class="load-spinner">
+                                    <div class="rect1"></div>
+                                    <div class="rect2"></div>
+                                    <div class="rect3"></div>
+                                    <div class="rect4"></div>
+                                    <div class="rect5"></div>
+                                </div>
+                            </div>
+                        </div>
 
-                                            <div v-if="!isInbox(list.id) && PM_Vars.is_pro" class="list-title-action">
-                                                <span v-if="!parseInt(list.meta.privacy)" class="icon-pm-unlock"></span>
-                                                <span v-if="parseInt(list.meta.privacy)" class="icon-pm-private"></span>
-                                            </div>
-                                        
-                                    </div>
+                        <ul v-if="hasSearchContent() && isListFetch" v-pm-list-sortable :class="filterActiveClass()+ ' pm-todolists'">
+                        
+                            <li  v-for="list in lists" :key="list.id" :data-id="list.id"  :class="taskListClass(list.id)">
 
-                                    <div v-if="!isInbox(list.id) && can_edit_task_list(list)" :data-list_id="list.id" class="more-menu list-more-menu">
-
-                                        <span @click="showHideMoreMenu(list)" class="icon-pm-more-options"></span>
-                                        <div v-if="list.moreMenu && !list.edit_mode"  class="more-menu-ul-wrap">
-                                            <ul>
-                                                <li class="first-li" v-if="!isArchivedList(list)">
-                                                    <a @click.prevent="showEditForm(list)" class="li-a" href="#">
-                                                        <span class="icon-pm-pencil"></span>
-                                                        <span>{{ __('Edit', 'wedevs-project-manager') }}</span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a @click.prevent="deleteSelfList( list )" class="li-a" href="#">
-                                                        <span class="icon-pm-delete"></span>
-                                                        <span>{{ __('Delete', 'wedevs-project-manager') }}</span>
-                                                    </a>
-                                                </li>
-                                                <pm-do-action hook="list-action-menu" :actionData="list"></pm-do-action>
-
-                                            </ul>
+                                <div class="list-content">
+                                    <div class="list-item-content">
+                                        <div class="before-title">
+                                            <span v-if="!isInbox(list.id)" class="pm-list-drag-handle icon-pm-drag-drop"></span>
+                                            <span v-if="!list.expand" @click.prevent="listExpand(list)" :class="inboxClass(list) + ' icon-pm-down-arrow'"></span>
+                                            <span v-if="list.expand" @click.prevent="listExpand(list)" :class="inboxClass(list) + ' icon-pm-up-arrow'"></span>
                                         </div>
 
-                                        <div v-if="list.edit_mode" class="list-update-warp">
-                                            <new-task-list-form section="lists" :list="list" ></new-task-list-form>
+                                        <div class="list-title">
+                                            <span @click.prevent="listExpand(list)" class="list-title-anchor">{{ list.title }}</span>
+                                        </div>
+                                        <div class="after-title">
+                                                <!-- v-pm-tooltip -->
+                                                <div class="view-single-list"  :title="__('Single List', 'wedevs-project-manager')">
+                                                    <span @click.prevent="goToSigleList(list)" class="icon-pm-eye"></span>
+                                                </div>
+                                                <div class="list-title-action progress-bar">
+                                                    <div :style="getProgressStyle( list )" class="bar completed"></div>
+                                                </div>
+                                                   
+                                                <!-- never remove <div class="pm-progress-percent">{{ getProgressPercent( list ) }}%</div> -->
+                                                <div class="list-title-action task-count">
+                                                    <span>{{ list.meta.total_complete_tasks }}</span>/<span>{{ getTotalTask(list.meta.total_complete_tasks, list.meta.total_incomplete_tasks) }}</span>
+                                                </div>
+
+                                                <div v-if="!isInbox(list.id) && PM_Vars.is_pro" class="list-title-action">
+                                                    <span v-if="!parseInt(list.meta.privacy)" class="icon-pm-unlock"></span>
+                                                    <span v-if="parseInt(list.meta.privacy)" class="icon-pm-private"></span>
+                                                </div>
+                                            
+                                        </div>
+
+                                        <div v-if="!isInbox(list.id) && can_edit_task_list(list)" :data-list_id="list.id" class="more-menu list-more-menu">
+
+                                            <span @click="showHideMoreMenu(list)" class="icon-pm-more-options"></span>
+                                            <div v-if="list.moreMenu && !list.edit_mode"  class="more-menu-ul-wrap">
+                                                <ul>
+                                                    <li class="first-li" v-if="!isArchivedList(list)">
+                                                        <a @click.prevent="showEditForm(list)" class="li-a" href="#">
+                                                            <span class="icon-pm-pencil"></span>
+                                                            <span>{{ __('Edit', 'wedevs-project-manager') }}</span>
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a @click.prevent="deleteSelfList( list )" class="li-a" href="#">
+                                                            <span class="icon-pm-delete"></span>
+                                                            <span>{{ __('Delete', 'wedevs-project-manager') }}</span>
+                                                        </a>
+                                                    </li>
+                                                    <pm-do-action hook="list-action-menu" :actionData="list"></pm-do-action>
+
+                                                </ul>
+                                            </div>
+
+                                            <div v-if="list.edit_mode" class="list-update-warp">
+                                                <new-task-list-form section="lists" :list="list" ></new-task-list-form>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
 
-                            <div v-if="list.expand" class="list-description">
-                                <span v-if="!isInbox(list.id)" v-html="list.description"></span>
-                                <span v-if="isInbox(list.id)">{{ __('This is a system default task list. Any task without an assigned tasklist will appear here.', 'wedevs-project-manager') }}</span>
-                            </div>
+                                <div v-if="list.expand" class="list-description">
+                                    <span v-if="!isInbox(list.id)" v-html="list.description"></span>
+                                    <span v-if="isInbox(list.id)">{{ __('This is a system default task list. Any task without an assigned tasklist will appear here.', 'wedevs-project-manager') }}</span>
+                                </div>
 
-                            <list-tasks v-if="list.expand" :list="list"></list-tasks>
-                        </li>
-                    </ul>
+                                <list-tasks v-if="list.expand" :list="list"></list-tasks>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <!-- <div class="todos-wrap no-task">
+                        <span>{{ __( 'No result Found', 'wedevs-project-manager') }}</span>
+
+                    </div> -->
                 </div>
-                
-                <!-- <div class="todos-wrap no-task">
-                    <span>{{ __( 'No result Found', 'wedevs-project-manager') }}</span>
 
-                </div> -->
-            </div>
-
-            <div class="list-search-menu" v-if="isActiveFilter">
-                <div class="filter-title">
-                    <div>
-                        <a @click.prevent="showFilter()" href="#" class="icon-pm-cross"></a>
-                        <span class="active-task-filter">{{__('Task Filter', 'wedevs-project-manager')}}</span>
+                <div class="list-search-menu" v-if="isActiveFilter">
+                    <div class="filter-title">
+                        <div>
+                            <a @click.prevent="showFilter()" href="#" class="icon-pm-cross"></a>
+                            <span class="active-task-filter">{{__('Task Filter', 'wedevs-project-manager')}}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="search-content">
+                        <form @submit.prevent="taskFilter()">
+                            <div class="margin-top">
+                                <div class="margin-title">{{__('Task list name', 'wedevs-project-manager')}}</div>
+                                <div>
+                                    <multiselect 
+                                        v-model="defaultList" 
+                                        :options="searchLists" 
+                                        :show-labels="false"
+                                        :searchable="true"
+                                        :loading="asyncListLoading"
+                                        :placeholder="'Type task list name'"
+                                        @search-change="asyncFind($event)"
+                                        label="title"
+                                        track-by="id">
+                                        <span slot="noResult">{{ __( 'No task list found.', 'pm-pro' ) }}</span>
+                                            
+                                    </multiselect> 
+                                </div>
+                            </div>
+                            <div class="margin-top">
+                                <div class="margin-title">{{__('Status', 'wedevs-project-manager')}}</div>
+                                <div class="status-elements">
+                                    <a :class="'complete-btn ' + completeBoder()" @click.prevent="changeFilterStatus('complete')" href="#">
+                                        {{__('Completed', 'wedevs-project-manager')}}
+                                    </a>
+                                    <a :class="'on-going-btn ' + onGoingBorder()" @click.prevent="changeFilterStatus('incomplete')" href="#">
+                                        {{__('On-going', 'wedevs-project-manager')}}
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="margin-top">
+                                <div class="margin-title">{{__('Assigned to', 'wedevs-project-manager')}}</div>
+                                <div>
+                                    <multiselect 
+                                        v-model="defaultUser" 
+                                        :options="searchProjectUsers" 
+                                        :show-labels="false"
+                                        :placeholder="'Type task list name'"
+                                        label="display_name"
+                                        track-by="id">
+                                            
+                                    </multiselect>
+                                </div>
+                            </div>
+                            <div class="margin-top">
+                                <div class="margin-title">{{__('Due Date', 'wedevs-project-manager')}}</div>
+                                <div>
+                                    <multiselect 
+                                        v-model="dueDate" 
+                                        :options="dueDates" 
+                                        :show-labels="false"
+                                        :placeholder="'Type task list name'"
+                                        label="title"
+                                        track-by="id">
+                                            
+                                    </multiselect>
+                                </div>
+                            </div>
+                            <div class="action">
+                                <input  type="submit" class="pm-button pm-primary filter-submit-btn" name="submit_todo" :value="__('Done', 'wedevs-project-manager')">
+                                <a @click.prevent="showFilter()" class="pm-button pm-secondary" href="#">{{__('Cancel', 'wedevs-project-manager')  }}</a>
+                            </div>
+                        </form>
                     </div>
                 </div>
-                
-                <div class="search-content">
-                    <form @submit.prevent="taskFilter()">
-                        <div class="margin-top">
-                            <div class="margin-title">{{__('Task list name', 'wedevs-project-manager')}}</div>
-                            <div>
-                                <multiselect 
-                                    v-model="defaultList" 
-                                    :options="searchLists" 
-                                    :show-labels="false"
-                                    :searchable="true"
-                                    :loading="asyncListLoading"
-                                    :placeholder="'Type task list name'"
-                                    @search-change="asyncFind($event)"
-                                    label="title"
-                                    track-by="id">
-                                    <span slot="noResult">{{ __( 'No task list found.', 'pm-pro' ) }}</span>
-                                        
-                                </multiselect> 
-                            </div>
-                        </div>
-                        <div class="margin-top">
-                            <div class="margin-title">{{__('Status', 'wedevs-project-manager')}}</div>
-                            <div class="status-elements">
-                                <a :class="'complete-btn ' + completeBoder()" @click.prevent="changeFilterStatus('complete')" href="#">
-                                    {{__('Completed', 'wedevs-project-manager')}}
-                                </a>
-                                <a :class="'on-going-btn ' + onGoingBorder()" @click.prevent="changeFilterStatus('incomplete')" href="#">
-                                    {{__('On-going', 'wedevs-project-manager')}}
-                                </a>
-                            </div>
-                        </div>
-                        <div class="margin-top">
-                            <div class="margin-title">{{__('Assigned to', 'wedevs-project-manager')}}</div>
-                            <div>
-                                <multiselect 
-                                    v-model="defaultUser" 
-                                    :options="searchProjectUsers" 
-                                    :show-labels="false"
-                                    :placeholder="'Type task list name'"
-                                    label="display_name"
-                                    track-by="id">
-                                        
-                                </multiselect>
-                            </div>
-                        </div>
-                        <div class="margin-top">
-                            <div class="margin-title">{{__('Due Date', 'wedevs-project-manager')}}</div>
-                            <div>
-                                <multiselect 
-                                    v-model="dueDate" 
-                                    :options="dueDates" 
-                                    :show-labels="false"
-                                    :placeholder="'Type task list name'"
-                                    label="title"
-                                    track-by="id">
-                                        
-                                </multiselect>
-                            </div>
-                        </div>
-                        <div class="action">
-                            <input  type="submit" class="pm-button pm-primary filter-submit-btn" name="submit_todo" :value="__('Done', 'wedevs-project-manager')">
-                            <a @click.prevent="showFilter()" class="pm-button pm-secondary" href="#">{{__('Cancel', 'wedevs-project-manager')  }}</a>
-                        </div>
-                    </form>
-                </div>
             </div>
-
         </div>
         <router-view name="single-task"></router-view> 
         <pm-pagination 
@@ -444,9 +445,8 @@
             min-height: 50px !important;
             margin: 0 20px !important;
         }
-        .list-content-wrap {
+        .list-content-body {
             display: flex;
-            flex-wrap: wrap;
             background: #FAFAFA;
 
             .content {
@@ -1179,7 +1179,11 @@
         }
         @media screen and (max-width: 480px) {
             .list-content-wrap {
-                flex-direction: column-reverse;
+                display: block;
+                .list-content-body {
+                    flex-direction: column-reverse;
+                }
+
                 .content {
                     .list-items {
                         .list-content {

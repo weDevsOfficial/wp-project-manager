@@ -240,7 +240,7 @@
             .action-icons {
                 position: absolute;
                 right: 18px;
-                top: 6px;
+                top: 9px;
                 margin-right: 11px;
                 display: flex;
                 align-items: center;
@@ -248,6 +248,8 @@
                 .pm-action-wrap {
                     display: flex;
                     align-items: center;
+                    line-height: 0;
+
                     .pm-task-recurrent {
                         margin-right: 10px;
                         .icon-pm-loop {
@@ -462,14 +464,15 @@ export default {
             var multiselect  = jQuery(el.target).closest('.task-user-multiselect'),
                 calendarBtn = jQuery(el.target).hasClass('new-task-calendar'),
                 calendarCont = jQuery(el.target).closest('.new-task-caledar-wrap'),
+                hasCalendarArrowBtn = jQuery(el.target).hasClass('ui-icon'),
                 description = jQuery(el.target).closest('.new-task-description'),
                 descriptionBtn = jQuery(el.target).hasClass('new-task-description-btn');
 
             if( !descriptionBtn && !description.length ) {
                 this.descriptionField = false;
             }
-
-            if( !calendarBtn && !calendarCont.length ) {
+          
+            if( !calendarBtn && !calendarCont.length && !hasCalendarArrowBtn) {
                 this.datePicker = false;
             }
 
