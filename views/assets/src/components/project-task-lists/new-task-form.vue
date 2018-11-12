@@ -464,14 +464,15 @@ export default {
             var multiselect  = jQuery(el.target).closest('.task-user-multiselect'),
                 calendarBtn = jQuery(el.target).hasClass('new-task-calendar'),
                 calendarCont = jQuery(el.target).closest('.new-task-caledar-wrap'),
+                hasCalendarArrowBtn = jQuery(el.target).hasClass('ui-icon'),
                 description = jQuery(el.target).closest('.new-task-description'),
                 descriptionBtn = jQuery(el.target).hasClass('new-task-description-btn');
 
             if( !descriptionBtn && !description.length ) {
                 this.descriptionField = false;
             }
-
-            if( !calendarBtn && !calendarCont.length ) {
+          
+            if( !calendarBtn && !calendarCont.length && !hasCalendarArrowBtn) {
                 this.datePicker = false;
             }
 
