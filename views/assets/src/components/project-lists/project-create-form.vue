@@ -19,25 +19,26 @@
                 <!-- v-model="project_description" -->
                 <textarea v-model="project_description"  class="pm-project-description" id="" rows="5" :placeholder="details_of_project"></textarea>
             </div>
-
-            <div class="pm-form-item pm-project-role" v-if="show_role_field">
-                <table>
-                    <tr v-for="projectUser in selectedUsers" :key="projectUser.id">
-                        <td>{{ projectUser.display_name }}</td>
-                        <td>
-                            <select  v-model="projectUser.roles.data[0].id" :disabled="!canUserEdit(projectUser.id)">
-                                <option v-for="role in roles" :value="role.id" :key="role.id" >{{ role.title }}</option>
-                            </select>
-                        </td>
-                      
-                        <td>
-                            <a @click.prevent="deleteUser(projectUser)" v-if="canUserEdit(projectUser.id)" hraf="#" class="pm-del-proj-role pm-assign-del-user">
-                                <span class="dashicons dashicons-trash"></span> 
-                                <!-- <span class="title">{{ __( 'Delete', 'wedevs-project-manager') }}</span> -->
-                            </a>
-                        </td>
-                    </tr>
-                </table>
+            <div class="pm-project-form-users-wrap">
+                <div class="pm-form-item pm-project-role" v-if="show_role_field">
+                    <table>
+                        <tr v-for="projectUser in selectedUsers" :key="projectUser.id">
+                            <td>{{ projectUser.display_name }}</td>
+                            <td>
+                                <select  v-model="projectUser.roles.data[0].id" :disabled="!canUserEdit(projectUser.id)">
+                                    <option v-for="role in roles" :value="role.id" :key="role.id" >{{ role.title }}</option>
+                                </select>
+                            </td>
+                          
+                            <td>
+                                <a @click.prevent="deleteUser(projectUser)" v-if="canUserEdit(projectUser.id)" hraf="#" class="pm-del-proj-role pm-assign-del-user">
+                                    <span class="dashicons dashicons-trash"></span> 
+                                    <!-- <span class="title">{{ __( 'Delete', 'wedevs-project-manager') }}</span> -->
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             </div>
             
             <div class="pm-form-item item project-users" v-if="show_role_field">
@@ -67,6 +68,19 @@
         </div>
     </div>
 </template>
+
+<style lang="less">
+    .pm-project-form {
+        .pm-project-form-users-wrap {
+            overflow: hidden;
+            .pm-project-role {
+                height: 150px;
+                overflow: scroll;
+            }
+        }
+    }
+
+</style>
 
 <script>
     import directive from './directive.js';

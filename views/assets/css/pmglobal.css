@@ -48,6 +48,7 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
+    line-height: 1;
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
 }
@@ -89,6 +90,7 @@
     padding: 10px;
     text-decoration: none;
     display: block;
+    overflow: hidden;
     
 }
 #pmswitchproject .ui-autocomplete.ui-menu li.ui-menu-item.ui-state-focus a {
@@ -97,7 +99,7 @@
 #pmswitchproject .ui-menu .ui-menu-item {
     margin: 0;
     zoom: 1;
-    width: 100%;
+    width: 97%;
     display: flex;
     justify-content: flex-start;
     align-items: center;

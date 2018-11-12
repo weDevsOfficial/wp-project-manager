@@ -125,10 +125,16 @@
         margin-top: 10px;
     }
     
-        .pm-content-img-size {
-            height: 80px;
-            width: 80px;
+    .pm-content-img-size {
+        height: 80px;
+        width: 80px;
+    }
+    .pm-individual-discussion {
+        .pm-comment-form-wrap {
+            margin-top: 10px;
         }
+    }
+
     
 
 </style>
