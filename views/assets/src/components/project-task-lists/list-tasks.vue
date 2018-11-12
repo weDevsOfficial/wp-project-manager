@@ -125,6 +125,9 @@
                 //margin: 0 33px 0 47px !important;
 
                 .task-title {
+                    word-break: break-all;
+                    word-wrap: break-word;
+                    hyphens: auto;
                     .title {
                         color: #525252;
                     }
@@ -364,6 +367,9 @@
                 }
 
                 .task-title {
+                    word-break: break-all;
+                    word-wrap: break-word;
+                    hyphens: auto;
                     .title {
                         font-size: 14px;
                         color: #525252;
