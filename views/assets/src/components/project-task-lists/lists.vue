@@ -1056,12 +1056,6 @@
                     }
                 }
 
-
-
-                .todos-wrap {
-
-                }
-
                 .no-task {
                     margin: auto;
                     font-size: 15px;
