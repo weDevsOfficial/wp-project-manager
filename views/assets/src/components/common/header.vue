@@ -227,6 +227,12 @@
             }
         }
     }
+
+     @media screen and (max-width: 360px) {
+        .project-title .pm-project-form .project-cancel {
+            margin-bottom: 0px !important;
+        }
+    }
  
 </style>
 

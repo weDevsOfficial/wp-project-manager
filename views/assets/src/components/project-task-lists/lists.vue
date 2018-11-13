@@ -27,7 +27,7 @@
                     </div>
 
                     <div class="task-field" v-if="can_create_task && !isArchivedPage">
-                        <new-task-form  :list="list"></new-task-form>
+                        <new-task-form  :list="list" :focus="true"></new-task-form>
                     </div>
 
                     <div class="list-items">

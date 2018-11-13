@@ -74,7 +74,7 @@
         .pm-project-form-users-wrap {
             overflow: hidden;
             .pm-project-role {
-                height: 150px;
+                max-height: 150px;
                 overflow: scroll;
             }
         }
