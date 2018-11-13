@@ -71,6 +71,16 @@
 
 <style lang="less">
     .pm-project-form {
+        .project-department {
+            label {
+                line-height: 1;
+                display: block;
+                margin-bottom: 5px;
+            }
+            select {
+                display: block;
+            }
+        }
         .pm-project-form-users-wrap {
             overflow: hidden;
             .pm-project-role {
