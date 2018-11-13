@@ -5,7 +5,16 @@
 <script>
     
     export default {
-        props : ['activity'],
+        props :{
+            activity: {
+                type: Object,
+                required: true
+            },
+            page: {
+                type: String,
+                default: ''
+            }
+        },
         data (){
             return {
 
@@ -107,7 +116,7 @@
                 return value;
             },
 
-            resolve_url(){
+            resolve_url () {
                 //return this.$router.resolve({ name : name, params: params }).href;
                 var url,
                 resource_type= this.activity.resource_type,
@@ -118,7 +127,12 @@
                 
                 switch (resource_type) {
                     case 'task':
-                        url = this.$router.resolve({ name : 'lists_single_task' , params: { project_id: project_id, task_id: resource_id }  }).href;
+                        if (this.page == 'project') {
+                            url = this.$router.resolve({ name : 'activity_single_task' , params: { project_id: project_id, task_id: resource_id }  }).href;
+                        } else {
+                            url = this.$router.resolve({ name : 'lists_single_task' , params: { project_id: project_id, task_id: resource_id }  }).href;
+                        }
+                        
                         break;
                     case 'project':
                         url =  this.$router.resolve({ name : 'pm_overview' , params: { project_id: resource_id }  }).href;

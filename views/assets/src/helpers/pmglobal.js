@@ -237,6 +237,7 @@
                 if (url) {
                     location.href = url;
                     element.css('display', 'none').removeClass('active');
+                    jpressed = false;
                 }
                  
                 

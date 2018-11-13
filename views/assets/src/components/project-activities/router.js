@@ -21,6 +21,13 @@ weDevsPMRegisterChildrenRoute('projects',
                     component: activities_route, 
                     name: 'activities_pagination',
                 },
+                {
+                    path: 'tasks/:task_id', 
+                    components: {
+                        singleTask: pm.SingleTask
+                    },
+                    name: 'activity_single_task',
+                },
             ]
 		}
 	]
