@@ -139,7 +139,7 @@
     }
  }
 
- @media screen and (max-width: 460px) {
+ @media screen and (max-width: 360px) {
     .pm-global .inner {
         left: 3%;
     }

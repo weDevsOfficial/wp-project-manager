@@ -476,6 +476,10 @@
                 }
             });
         },
+        destroyed () {
+            this.task = {};
+            this.list = {};
+        },
 
         methods: {
             callBackDatePickerForm (date) {
