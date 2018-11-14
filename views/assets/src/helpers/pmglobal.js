@@ -190,15 +190,18 @@
             autoFocus: true,
             appendTo: ".pm-spresult",
             source ( req, res ) {
+                var self = this;
                 $( this ).removeClass( 'pm-open' );
                 if (!req.term.trim() && availableTags.length ){
                     res( availableTags );
+                    $( self ).removeClass( 'pm-sspinner' );
                     return;
                 } 
                 else if (!req.term.trim() && !availableTags.length) {
                     PM_Global.pm_search_request('', function (response) {
                         availableTags = response;
-                        res(response)
+                        res(response);
+                        $( self ).removeClass( 'pm-sspinner' );
                     })
                     return;
                 }
@@ -210,11 +213,13 @@
                     });
                     if ( a.length ) {
                         res( a );
+                        $( self ).removeClass( 'pm-sspinner' );
                     }
                     
                     PM_Global.pm_search_request(req.term, function (response) {
                         availableTags = response;
-                        res(response)
+                        res(response);
+                        $( self ).removeClass( 'pm-sspinner' );
                     })
                     
                 }
