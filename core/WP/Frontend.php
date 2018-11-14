@@ -59,9 +59,9 @@ class Frontend {
         add_filter( 'plugin_action_links_' . PM_BASENAME , array( $this, 'plugin_action_links' ) );
         add_filter( 'in_plugin_update_message-' . PM_BASENAME , array( $this, 'upgrade_notice' ), 10, 2 );
         add_action( 'admin_footer', array( $this, 'switch_project_html' ) );
-        add_action( 'admin_footer', array( $this, 'new_task_craeting' ) );
+        // add_action( 'admin_footer', array( $this, 'new_task_craeting' ) );
         add_action('admin_bar_menu', array( $this, 'pm_toolbar_search_button' ), 999);
-        add_action('admin_bar_menu', array( $this, 'pm_toolbar_new_task_creating' ), 999);
+        // add_action('admin_bar_menu', array( $this, 'pm_toolbar_new_task_creating' ), 999);
 
         if ( class_exists('WeDevs_CPM_Pro') ) {
 			add_action( 'admin_notices', [$this, 'pm_pro_notice'] );
