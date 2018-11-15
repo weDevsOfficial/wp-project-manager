@@ -156,8 +156,9 @@ export default {
             if ( !date ) {
                 return;
             }
-
+            console.log(date);
             date = new Date(date);
+            console.log(date)
             return pm.Moment(date).format('hh:mm a');
         },
 
