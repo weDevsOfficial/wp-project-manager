@@ -179,7 +179,7 @@
         }
         .incomplete-task-li, .complete-task-li {
             margin-bottom: 10px;
-
+            
             &:hover {
                 .pm-todo-wrap {
                     .task-more-menu {
@@ -259,7 +259,7 @@
                     display: flex;
                     justify-content: flex-end;
                     flex: 1;
-                    top: -1px;
+                    top: 1px;
 
                     .icon-pm-more-options {
                         &:before {
@@ -429,6 +429,8 @@
                 .assigned-users-content {
                     display: flex;
                     align-items: center;
+                    position: relative;
+                    top: 2.5px;
 
                     .image-anchor {
                         line-height: 0;
@@ -444,7 +446,8 @@
             }
         }
         .incomplete-task-ul {
-            
+            padding-left: 0 !important;
+            padding-right: 0 !important;
         }
         .complete-task-ul {
             
@@ -475,6 +478,8 @@
                             cursor: grab;
                             padding-right: 10px;
                             padding-left: 10px;
+                            position: relative;
+                            top: 2px;
                         }
                     } 
 

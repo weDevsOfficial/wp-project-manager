@@ -12,13 +12,38 @@ class Model extends \WeDevs\ORM\Eloquent\Model {
 
     protected static $pmFireEvent = true;
 
+    protected $prefixed_table = null;
+
+    /**
+     * Set the table associated with the model.
+     *
+     * @param  string  $table
+     * @return $this
+     */
+    public function setTable($table)
+    {
+        if ( ! empty( $this->table ) ) {
+            $table = $this->table;
+        }
+
+        if ( ! $this->prefixed_table ) {
+            $this->prefixed_table = $this->getConnection()->db->prefix . $table;
+        }
+
+        return $this;
+    }
+
     /**
      * Get the table name with WP prefix
      *
      * @return string
      */
     public function getTable() {
-        return $this->getConnection()->db->prefix . $this->table;
+        if ( ! $this->prefixed_table ) {
+            $this->prefixed_table = $this->getConnection()->db->prefix . $this->table;
+        }
+
+        return $this->prefixed_table;
     }
 
     /**
@@ -42,14 +67,14 @@ class Model extends \WeDevs\ORM\Eloquent\Model {
     }
 
     protected function fireModelEvent($event, $halt = true) {
-        
+
         if ( !static::$pmFireEvent ) {
             return true;
         }
 
         $user = wp_get_current_user();
         $fillable = $this->getFillable();
-        
+
         switch ( $event ) {
             case 'creating':
                 if ( in_array('created_by', $fillable, true) ) {
@@ -57,13 +82,13 @@ class Model extends \WeDevs\ORM\Eloquent\Model {
                     $this->updated_by = $user->ID;
                 }
                 break;
-            
+
             case 'created':
                 do_action( 'pm_created', $this );
                 Activity_Log::entry( $this, 'created' );
                 break;
-           
-            case 'updating': 
+
+            case 'updating':
                 if ( in_array('updated_by', $fillable, true) ) {
                     $this->updated_by = $user->ID;
                 }
@@ -75,7 +100,7 @@ class Model extends \WeDevs\ORM\Eloquent\Model {
                 break;
 
             case 'deleted':
-                
+
                 do_action( 'pm_deleted', $this );
                 //Activity_Log::entry( $this, 'deleted' );
                 break;
