@@ -173,6 +173,8 @@
         border-bottom: 1px solid #e5e4e4;
         border-left: 1px solid #e5e4e4;
         border-right: 1px solid #e5e4e4;
+        word-break: break-all;
+        hyphens: auto;
 
         .list-comments-wrap {
             .margin-left();

@@ -227,6 +227,12 @@
             }
         }
     }
+
+     @media screen and (max-width: 360px) {
+        .project-title .pm-project-form .project-cancel {
+            margin-bottom: 0px !important;
+        }
+    }
  
 </style>
 
@@ -247,6 +253,7 @@
         },
         watch: {
             '$route' (to, from) {
+                this.project_id = typeof to.params.project_id !== 'undefined' ? to.params.project_id : 0;
                 this.getGloabalProject(to.params.project_id);
                 this.getProjectCategories();
                 this.getRoles();
