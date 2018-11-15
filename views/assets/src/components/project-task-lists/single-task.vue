@@ -278,7 +278,7 @@
                                             <activity-parser :activity="activity"></activity-parser>
                                             <span class="activity-watch-wrap">
                                                 <span class="activity-watch-icon icon-pm-watch"></span>
-                                                <span :title="getFullDate( activity.committed_at.date +' '+ activity.committed_at.time )" class="activity-form-now">{{ relativeDate(activity.committed_at.date +' '+ activity.committed_at.time) }}</span>
+                                                <span :title="getFullDate( activity.committed_at.timestamp )" class="activity-form-now">{{ relativeDate(activity.committed_at.timestamp) }}</span>
                                             </span>
                                         </div>
                                     </div>
