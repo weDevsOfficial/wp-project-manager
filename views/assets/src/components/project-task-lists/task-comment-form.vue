@@ -207,7 +207,7 @@
             if ( this.submit_disabled ) {
                 return;
             }
-            if (typeof this.comment.content === 'undefined' || this.comment.content == '') {
+            if (typeof this.comment.html === 'undefined' || this.comment.html == '') {
                 return;
             }
             // Disable submit button for preventing multiple click
@@ -223,7 +223,7 @@
             var args = {
                 data: {
                     commentable_id: self.task_id,
-                    content: self.comment.content,
+                    content: self.comment.html,
                     commentable_type: 'task',
                     deleted_files: self.deleted_files || [],
                     mentioned_users: self.mentioned_user_ids,

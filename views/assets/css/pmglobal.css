@@ -128,3 +128,19 @@
 .pm-global .select-project {
     margin: 10px 0px;
 }
+@media screen and (max-width: 600px) {
+    .pm-global .inner {
+        left: 25%;
+    }
+}
+@media screen and (max-width: 480px) {
+    .pm-global .inner {
+        left: 15%;
+    }
+ }
+
+ @media screen and (max-width: 360px) {
+    .pm-global .inner {
+        left: 3%;
+    }
+ }

@@ -32,7 +32,7 @@
                     url = '#/projects/'+ item.project_id + '/task-lists/tasks/' + item.parent_id
                     break;
                 case 'project':
-                    url = '#/projects/'+ item.id + '/overview/';
+                    url = '#/projects/'+ item.id + '/task-lists/';
                     break;
                 case 'milestone':
                     url = '#/projects/'+ item.project_id + '/milestones/';
@@ -102,7 +102,8 @@
       $(document).ready(function () {
         let ctrlDown = false, jpressed = false, otherkey = false ;
         var ctrlKey = 17, 
-            cmdKey = 91, 
+            cmdKey = 91,
+            cmdKey2 = 93, 
             jKey = 74,
             escKey = 27;
     
@@ -116,8 +117,8 @@
     
         $(document).bind ('keydown', function(e) {
             let keycode = e.keyCode || e.which;
-            
-            if ( (keycode === ctrlKey || keycode === cmdKey) && ! otherkey ){
+
+            if ( (keycode === ctrlKey || keycode === cmdKey || keycode === cmdKey2) && ! otherkey ){
                 ctrlDown = true;
                 otherkey = false;
             } else if (!jpressed && ctrlDown && keycode === jKey && !otherkey ) {
@@ -146,7 +147,7 @@
         $(document).bind('keyup', function (e) {
             let keycode = e.keyCode || e.which;
             otherkey = false;
-            if (keycode === ctrlKey || keycode === cmdKey){
+            if (keycode === ctrlKey || keycode === cmdKey || keycode === cmdKey2){
                 ctrlDown = false;
             }
         });
@@ -189,15 +190,18 @@
             autoFocus: true,
             appendTo: ".pm-spresult",
             source ( req, res ) {
+                var self = this;
                 $( this ).removeClass( 'pm-open' );
                 if (!req.term.trim() && availableTags.length ){
                     res( availableTags );
+                    $( self ).removeClass( 'pm-sspinner' );
                     return;
                 } 
                 else if (!req.term.trim() && !availableTags.length) {
                     PM_Global.pm_search_request('', function (response) {
                         availableTags = response;
-                        res(response)
+                        res(response);
+                        $( self ).removeClass( 'pm-sspinner' );
                     })
                     return;
                 }
@@ -209,11 +213,13 @@
                     });
                     if ( a.length ) {
                         res( a );
+                        $( self ).removeClass( 'pm-sspinner' );
                     }
                     
                     PM_Global.pm_search_request(req.term, function (response) {
                         availableTags = response;
-                        res(response)
+                        res(response);
+                        $( self ).removeClass( 'pm-sspinner' );
                     })
                     
                 }
@@ -237,6 +243,7 @@
                 if (url) {
                     location.href = url;
                     element.css('display', 'none').removeClass('active');
+                    jpressed = false;
                 }
                  
                 

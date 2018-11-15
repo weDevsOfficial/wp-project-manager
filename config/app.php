@@ -9,11 +9,11 @@ return [
     'text_domain' => 'pm',
     'comment_per_page' => 200,
     'allowed_html' => [
-        'a'      => [ 'href', 'title' ],
+        'a'      => [ 'href' => [], 'title' => [] ],
         'br'     => [],
         'em'     => [],
         'strong' => [],
-        'span'   => ['style', 'class'],
+        'span'   => ['style' =>[], 'class' => [], 'id' =>[], 'data-pm-user-id' => [], 'data-pm-user' => [], 'name' => [], 'title' => []],
         'b'      => [],
         'em'     => [],
         'p'      => [],
