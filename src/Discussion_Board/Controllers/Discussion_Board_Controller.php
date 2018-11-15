@@ -68,13 +68,7 @@ class Discussion_Board_Controller {
     }
 
     public function store( WP_REST_Request $request ) {
-        $taskobj = new Task();
-        
-        $tsk = Task::create(['title'=>'its now working']);
-        
-       
 
-        die();
         $data = $this->extract_non_empty_values( $request );
         $media_data = $request->get_file_params();
         $milestone_id = $request->get_param( 'milestone' );
