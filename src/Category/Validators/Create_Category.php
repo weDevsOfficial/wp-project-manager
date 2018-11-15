@@ -14,7 +14,6 @@ class Create_Category extends Abstract_Validator {
     public function rules() {
         return [
             'title'  => 'required',
-            'description' => 'pm_kses'
         ];
     }
 }
