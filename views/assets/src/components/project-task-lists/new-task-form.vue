@@ -7,7 +7,7 @@
                     <span class="plus-text" v-if="!show_spinner">+</span>
                     <span class="pm-spinner" v-if="show_spinner"></span>
                 </div>
-                <input @keyup.enter="taskFormAction()" v-model="task.title"  class="input-field" :placeholder="__('Add new task', 'wedevs-project-manager')" type="text">
+                <input @keyup.enter="taskFormAction()" v-model="task.title"  class="input-field task-input-field" :placeholder="__('Add new task', 'wedevs-project-manager')" type="text">
                 <a @click.prevent="taskFormAction()"  class="update-button" href="#"><span class="icon-pm-check-circle"></span></a>
                 <div class="action-icons">
                     <pm-do-action hook="pm_task_form" :actionData="task" ></pm-do-action>
@@ -72,62 +72,6 @@
                 
             </div>
         </div>
-
-        <!-- <form action="" v-on:submit.prevent="taskFormAction()" method="post" class="pm-form">
-          
-            <div class="item task-title">
-                <input v-model="task.title" type="text" name="task_title" class="task_title" :placeholder="add_new_task"  required="required">
-            </div>
-
-            <div class="item content">
-                <textarea v-model="task_description" name="task_text" class="todo_content" cols="40" :placeholder="task_description_placeholder" rows="2"></textarea>
-            </div>
-
-            <div class="item date">
-                
-                <div class="pm-task-start-field" v-if="task_start_field">
-                    <pm-datepickter v-model="task.start_at.date" class="pm-datepickter-from" dependency="pm-datepickter-to" :placeholder="task_start_date"></pm-datepickter>
-                    
-                </div>
-
-                <div class="pm-task-due-field">
-                    <pm-datepickter v-model="task.due_date.date" class="pm-datepickter-to" dependency="pm-datepickter-from" :placeholder="task_due_date"></pm-datepickter>
-                </div>
-            </div>
-
-            <pm-do-action hook="pm_task_recurrent" :actionData="task" ></pm-do-action>
-
-            <div class="item user">
-                <div>
-                    <multiselect 
-                        v-model="task.assignees.data" 
-                        :options="project_users" 
-                        :multiple="true" 
-                        :close-on-select="false"
-                        :clear-on-select="false"
-                        :hide-selected="true"
-                        :show-labels="false"
-                        :placeholder="select_user_text"
-                        label="display_name"
-                        track-by="id">
-                            
-                    </multiselect>
-                </div>
-            </div>
-             <div class="item task-title">
-                <input v-model="task.estimation" type="number" min="1" class="pm-task-estimation" :placeholder="estimation_placheholder">
-            </div> 
-
-            <pm-do-action hook="pm_task_form" :actionData="task" ></pm-do-action>
-            <div class="item submit">
-                <span class="pm-new-task-spinner"></span>
-                <span v-if="task.id"><input :disabled="submit_disabled" type="submit" class="button-primary" name="submit_todo" :value="update_task"></span>
-                <span v-if="!task.id"><input :disabled="submit_disabled" type="submit" class="button-primary" name="submit_todo" :value="add_task"></span>
-                <a @click.prevent="showHideTaskFrom(false, list, task )" class="button todo-cancel" href="#">{{ __( 'Cancel', 'wedevs-project-manager') }}</a>
-                <span v-show="show_spinner" class="pm-spinner"></span>
-            </div>
-        </form> -->
-
     </div>
 </template>
 

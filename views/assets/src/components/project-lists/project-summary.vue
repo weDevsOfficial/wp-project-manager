@@ -1,4 +1,4 @@
-<template>
+<template> 
     <div class="pm-clearfix">
 
         <h3 v-if="!projects.length">{{ __( 'No projects found.', 'wedevs-project-manager') }}</h3>
