@@ -12,6 +12,23 @@ class Model extends \WeDevs\ORM\Eloquent\Model {
 
     protected static $pmFireEvent = true;
 
+    protected $prefixed_table = null;
+
+    /**
+     * Set the table associated with the model.
+     *
+     * @param  string  $table
+     * @return $this
+     */
+    // public function setTable($table)
+    // {
+    //     if ( ! $this->prefixed_table ) {
+    //         $this->prefixed_table = $this->getConnection()->db->prefix . $table;
+    //     }
+
+    //     return $this;
+    // }
+
     /**
      * Get the table name with WP prefix
      *
