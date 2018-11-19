@@ -110,7 +110,17 @@ export default {
                 return;
             }
             
-            date = new Date(date.replace(/-/g, "/"));
+            date = new Date(date);
+            date = date.toUTCString();
+            // var y = date.getFullYear(),
+            //     m = date.getMonth(),
+            //     d = date.getDate(),
+            //     h = date.getHours(),
+            //     mi = date.getMinutes(),
+            //     s = date.getSeconds();
+
+            // date = y+'/'+m+'/'+d+' '+h+':'+mi+':'+s;
+            console.log(date);
 
             return pm.Moment(date).fromNow();
         },
