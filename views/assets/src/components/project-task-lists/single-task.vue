@@ -50,7 +50,7 @@
                                 <span class="pm-light-color">{{ __('Created by', 'wedevs-project-manager') }}</span>
                                 <span class="pm-dark-color">{{ ucfirst( task.creator.data.display_name ) }}</span>
                                 <span class="pm-light-color">{{ __('on', 'wedevs-project-manager') }}</span>
-                                <span class="pm-dark-color" :title="getFullDate(task.created_at.timestamp)">{{ cratedDateFormat( task.created_at.date ) }}</span>
+                                <span class="pm-dark-color" :title="getFullDate(task.created_at.datetime)">{{ cratedDateFormat( task.created_at.date ) }}</span>
                             </div>
 
                             <div id="pm-action-menu" class="task-action">
@@ -164,12 +164,12 @@
                                 <span id="pm-calendar-wrap" @click.self.prevent="isTaskDateEditMode()" class="individual-group-icon calendar-group icon-pm-calendar pm-font-size-16">
                                     <span v-if="(task.start_at.date || task.due_date.date )" :class="taskDateWrap(task.due_date.date) + ' pm-task-date-wrap pm-date-window'">
                                             
-                                        <span :title="getFullDate(task.start_at.timestamp)" v-if="task_start_field">
+                                        <span :title="getFullDate(task.start_at.datetime)" v-if="task_start_field">
                                             {{ dateFormat( task.start_at.date ) }}
                                         </span>
 
                                         <span v-if="task_start_field && task.start_at.date && task.due_date.date">&ndash;</span>
-                                        <span :title="getFullDate(task.due_date.timestamp)" v-if="task.due_date">
+                                        <span :title="getFullDate(task.due_date.datetime)" v-if="task.due_date">
                                             
                                             {{ dateFormat( task.due_date.date ) }}
                                         </span>
@@ -278,7 +278,7 @@
                                             <activity-parser :activity="activity"></activity-parser>
                                             <span class="activity-watch-wrap">
                                                 <span class="activity-watch-icon icon-pm-watch"></span>
-                                                <span :title="getFullDate( activity.committed_at.timestamp )" class="activity-form-now">{{ relativeDate(activity.committed_at.timestamp) }}</span>
+                                                <span :title="getFullDate( activity.committed_at.datetime )" class="activity-form-now">{{ relativeDate(activity.committed_at.datetime) }}</span>
                                             </span>
                                         </div>
                                     </div>

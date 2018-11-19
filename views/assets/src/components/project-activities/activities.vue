@@ -32,8 +32,8 @@
                                 <activity-parser :activity="activity" :page="'project'"></activity-parser>
                             </div>
                             <div class="date pm-col-4 pm-sm-col-12">
-                                <time :datetime="pmDateISO8601Format(activity.committed_at.date, activity.committed_at.time)" :title="pmDateISO8601Format(activity.committed_at.date, activity.committed_at.time)">
-                                    <i>{{ taskDateFormat(activity.committed_at.date) }}, {{ dateTimeFormat(activity.committed_at.timestamp) }}</i>
+                                <time :datetime="pm(activity.committed_at.date, activity.committed_at.time)" :title="pmDateISO8601Format(activity.committed_at.date, activity.committed_at.time)">
+                                    <i>{{ taskDateFormat(activity.committed_at.date) }}, {{ dateTimeFormat(activity.committed_at.datetime) }}</i>
                                 </time>
                             </div> 
                             <div class="clear"></div> 
@@ -230,7 +230,9 @@
 
             afterCloseSingleTaskModal () {
                 var current_page_number = this.$route.params.current_page_number;
-
+                if ( 'activity_single_task' !== this.$route.name) {
+                    return;
+                }
                 if (! current_page_number) {
                     this.$router.push({
                         name:'activities',
