@@ -74,6 +74,9 @@ class Comment_Controller {
         $data       = $this->extract_non_empty_values( $request );
         $media_data = $request->get_file_params();
         $type       = $request->get_param('type');
+
+        $commentable_type = $request->get_param( 'commentable_type' );
+        $commentable_id = $request->get_param('commentable_id');
     
         $files      = array_key_exists( 'files', $media_data ) ? $media_data['files'] : null;
 
@@ -91,7 +94,7 @@ class Comment_Controller {
 
         $message = [
             'message' => pm_get_text('success_messages.comment_created'),
-            'activity' => $this->last_activity(),
+            'activity' => $this->last_activity( $commentable_type, $commentable_id ),
         ];
 
         do_action( 'cpm_comment_new', $comment->id , $request->get_param('project_id'), $request->get_params() );
@@ -131,7 +134,7 @@ class Comment_Controller {
 
         $message = [
             'message' => pm_get_text('success_messages.comment_updated'),
-            'activity' => $this->last_activity(),
+            'activity' => $this->last_activity( $comment->commentable_type, $comment->commentable_id  ),
         ];
 
         $response = $this->get_response( $resource, $message );
@@ -143,6 +146,10 @@ class Comment_Controller {
     public function destroy( WP_REST_Request $request ) {
         $comment_id = $request->get_param( 'comment_id' );
         $comment    = Comment::find( $comment_id );
+
+        $resource_type = $comment->resource_type;
+        $resource_id = $comment->resource_id;
+
         do_action( 'cpm_comment_delete', $comment, false );
         $this->detach_files( $comment );
         $comment->replies()->delete();
@@ -151,7 +158,7 @@ class Comment_Controller {
 
         $message = [
             'message' => pm_get_text('success_messages.comment_deleted'),
-            'activity' => $this->last_activity(),
+            'activity' => $this->last_activity( $resource_type, $resource_id ),
         ];
 
         return $this->get_response(false, $message);
