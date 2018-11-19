@@ -25,6 +25,7 @@
                     <span class="close-modal">
                         <a  @click.prevent="closePopup()"><span class="dashicons dashicons-no"></span></a>
                     </span>
+                    
                     <div v-activity-load-more class="popup-body">
                         <div class="pm-single-task-header">
 
@@ -44,7 +45,6 @@
                                 
                             </div>
 
-                            
                             <div class="created-by">
                                 
                                 <span class="pm-light-color">{{ __('Created by', 'wedevs-project-manager') }}</span>
@@ -83,7 +83,7 @@
                             </div>
                             
                         </div>
-
+                        
                         <div :class="singleTaskTitle(task) + ' task-title-wrap'">
                             <div class="task-title-text">
 
@@ -266,7 +266,7 @@
                         </div>
 
                         <div class="task-activities">
-                            <span class="activity-title pm-h2">{{ __('Activity', 'wedevs-project-manager') }}</span>
+                            <span  class="activity-title pm-h2">{{ __('Activity', 'wedevs-project-manager') }}</span>
                             <ul class="single-task-activity-ul">
                                 <li v-for="activity in task.activities.data" :key="activity.id">
                                     <div class="activity-li-content">
@@ -319,7 +319,6 @@
     import Multiselect from 'vue-multiselect';
     import ActivityParser from '@components/common/activity-parser.vue';
     import editor from '@components/common/text-editor.vue';
-
 
     Vue.directive('activity-load-more', {
         bind: function(el, binding, vnode) {
@@ -482,6 +481,9 @@
         },
 
         methods: {
+            test (index) {
+                //console.log(index);
+            },
             callBackDatePickerForm (date) {
                 
                 let dateFrom = {
