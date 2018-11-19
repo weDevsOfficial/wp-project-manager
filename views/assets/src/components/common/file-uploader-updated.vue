@@ -1,6 +1,6 @@
 <template>
     <div class="pm-attachment-items">
-        <div  id="pm-upload-container">
+        <div id="pm-upload-container">
             <div class="pm-upload-filelist">
                 <div class="pm-uploaded-item" v-for="file in files" :key="file.id">
                     <div class="attachment-file">
@@ -27,6 +27,12 @@
     Vue.directive('pm-uploader', {
         inserted: function (el, binding, vnode) { 
             new PM_Uploader(el, 'pm-upload-container', vnode.context );
+        },
+    });
+
+    Vue.directive('pm-upload-container', {
+        inserted: function (el, binding, vnode) { 
+            console.log(jQuery('#pm-upload-container').find('.moxie-shim'));
         },
     });
 
@@ -87,9 +93,6 @@
                     this.delete.push(file_id);
                 }  
             },
-            test () {
-
-            }
         }
     }
 </script>
