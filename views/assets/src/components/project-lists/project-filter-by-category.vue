@@ -1,16 +1,14 @@
 <template>
-    <div>
-        <form action="" method="get" class="pm-project-filters" id="pm-project-filters">
-            <select @change="categoryFilter()" v-model="categorie_id">
-                <option value="-1">
-                   {{ __( '- Project Category -', 'wedevs-project-manager') }}
-                </option>
-                <option v-for="categorie in categories" :value="categorie.id">
-                    {{ categorie.title }}
-                </option>
-            </select>
-        </form>
-    </div>
+    <form action="" method="get" class="pm-filter-selection" id="pm-project-filters">
+        <select @change="categoryFilter()" v-model="categorie_id" class="form-control">
+            <option value="-1">
+               {{ __( '- Project Category -', 'wedevs-project-manager') }}
+            </option>
+            <option v-for="categorie in categories" :value="categorie.id">
+                {{ categorie.title }}
+            </option>
+        </select>
+    </form>
 </template>
 
 <script>

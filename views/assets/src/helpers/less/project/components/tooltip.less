@@ -1,0 +1,38 @@
+/*
+ * Component: Tooltip;
+ */
+.pm-has-tooltip {
+	position: relative;
+	.pm-tooltip-label {
+		display: block;
+		position: absolute;
+		bottom: 100%;
+		margin-bottom: 8px;
+		left: 50%;
+		min-width: 50px;
+		line-height: 100%;
+		opacity: 0;
+		visibility: hidden;
+		transform: translate(-50%, -20%);
+		transition: all .3s ease-in-out;
+		z-index: 999;
+		background: #000;
+		color: #fff;
+		padding: 8px 10px;
+		white-space: nowrap;
+		border-radius: @theme-border-radius;
+		.rem(11);
+		&:after {
+			.pm-bubble-border(@right: 50%);
+			transform: translate(50%, 0);
+			border-bottom-color: #000;
+		}
+	}
+	&:hover {
+		.pm-tooltip-label {
+			opacity: 1;
+			visibility: visible;
+			transform: translate(-50%, 0);
+		}
+	}
+}
