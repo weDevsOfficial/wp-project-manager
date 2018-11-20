@@ -1,48 +1,35 @@
 <template>
-    <div class="pm-wrap pm-front-end">
 
-        <div class="pm-top-bar pm-no-padding">
-            <div class="pm-row pm-no-padding">
-                <div class="pm-col-6">
-                    <h3>{{ __('Project Manager', 'wedevs-project-manager') }}</h3>
-                </div>
+        <!-- header -->
+        <div class="pm-header pm-clearfix">
+            <div class="pm-container">
+                <div class="pm-header-row">
+                    <!-- header-left -->
+                    <div class="pm-header-left">
+                        <h2 class="pm-d-inline"> {{ __('Project Manager', 'wedevs-project-manager') }}</h2>
+                        <project-new-project-btn v-if="has_create_capability()"></project-new-project-btn>
+                    </div> <!-- end header-left -->
 
-                <div class="pm-col-6 pm-top-right-btn pm-text-right pm-last-col show_desktop_only">
-
-                </div>
-                <div class="clearfix"></div>
-            </div>
-
-            <div class="pm-row pm-no-padding pm-priject-search-bar">
-                <div class="pm-new-project-btn pm-col-2 pm-sm-col-12  " >
-                    <project-new-project-btn v-if="has_create_capability()"></project-new-project-btn>
-                </div>
-
-                <div class="pm-col-9 pm-no-padding pm-no-margin pm-sm-col-12  ">
-                    <div class="pm-col-5 pm-sm-col-12">
-                        <project-filter-by-category></project-filter-by-category>
+                    <!-- header-right -->
+                    <div class="pm-header-right pm-text-right">
+                        <!-- <form action="#" class="pm-search-form" method="get">
+                            <div class="pm-form-has-addon">
+                                <input type="text" placeholder="Search" class="pm-form-control">
+                                <button type="submit" class="pm-submit-btn"><i class="pm-icon flaticon-magnifying-glass-browser"></i></button>
+                            </div>
+                        </form> -->
+                        <pm-do-action hook="pm_projects_header" ></pm-do-action>
                     </div>
-                    <pm-do-action hook="pm_projects_header" ></pm-do-action>
-                </div>
-                <div class="clearfix"> </div>
-            </div>
-
-            <div class="pm-row pm-project-group">
-                <project-header-menu></project-header-menu>
-
-                <div class="pm-col-4 pm-last-col pm-text-right show_desktop_only">
-                    <project-view></project-view>
                 </div>
             </div>
 
-            <div class="clearfix"> </div>
+            <!-- project popup dialog -->
+            <div id="pm-project-dialog" v-pm-popup-box style="z-index:999;" :title="start_new_project" v-show="has_create_capability()">
+                <project-create-form :project="{}"></project-create-form>
+            </div> 
         </div>
 
-        <div id="pm-project-dialog" v-pm-popup-box style="z-index:999;" :title="start_new_project" v-if="has_create_capability()">
-            <project-create-form :project="{}"></project-create-form>
-                
-        </div> 
-    </div>
+        
 </template>
 
 <script>
@@ -53,6 +40,10 @@
     import project_header_menu from './project-header-menu.vue';
     import project_view from './project-view.vue';
     import project_create_form from './project-create-form.vue';
+    // import project home page's styles
+    import '@helpers/less/project/pm-project.less';
+
+
 
     export default {
         components: {
@@ -72,5 +63,35 @@
 
     }
 </script>
+
+<style lang="less">
+    .pm-page-wrapper .pm-overview-panel .pm-panel-header {
+        border-radius: 3px 3px 0 0 !important;
+    }
+
+    .pm-project-content {
+
+    }
+    .pm-project-form {
+        .project-department {
+            label {
+                line-height: 1;
+                display: block;
+                margin-bottom: 5px;
+            }
+            select {
+                display: block;
+            }
+        }
+        .pm-project-form-users-wrap {
+            overflow: hidden;
+            .pm-project-role {
+                max-height: 150px;
+                overflow: scroll;
+            }
+        }
+    }
+
+</style>
 
 

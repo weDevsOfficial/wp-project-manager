@@ -1,0 +1,70 @@
+/*
+ * Component: Dropdown;
+ */
+.pm-has-dropdown {
+	position: relative;
+	.pm-dropdown-menu {
+		position: absolute;
+		top: 100%;
+		right: 0;
+		z-index: 99;
+		min-width: 150px;
+		padding: 7px 0;
+		border: 1px solid @theme-border-color;
+		border-radius: @theme-border-radius;
+		opacity: 0;
+		visibility: hidden;
+		transition: all .3s;
+		transform: translate(0, -50px);
+		background: #fff;
+		margin-top: 8px;
+		box-shadow: 0 1px 10px 0 rgba(#000, .18);
+		&:after, &:before {
+			.pm-bubble-border();
+			top: initial;
+			bottom: 100%;
+			border-top: none;
+			border-bottom: 8px solid #fff;
+		}
+		&:before {
+			right: 3.5px;
+			border-bottom: 10px solid @theme-border-color;
+			border-left-width: 7px;
+			border-right-width: 7px;
+		}
+		&.pm-dropdown-open {
+			transform: translate(0, 0);
+			opacity: 1;
+			visibility: visible;
+		}
+		li {
+			display: block;
+			width: 100%;
+			a {
+				display: block;
+				width: 100%;
+				padding: 7px 14px;
+				color: #000;
+				margin: 0 !important;
+				&:hover {
+					background: darken(#fff, 5%);
+				}
+				i {
+					color: @color-orange;
+					display: inline-block;
+					margin-right: 7px;
+				}
+			}
+			&.pm-action-edit {
+				a i {
+					color: @color-orange;
+				}
+			}
+			&.pm-action-delete {
+				a i {
+					color: @color-pink;
+				}
+			}
+		}
+	}
+}
