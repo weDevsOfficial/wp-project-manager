@@ -1,6 +1,6 @@
 <template> 
     <!-- project-list-view toggle this class for list view -->
-    <div class="pm-projects-row">
+    <div class="pm-projects-row" :class="{'project-list-view': !activeClass('grid_view') }">
         <h3 v-if="!projects.length" class="no-projects">{{ __( 'No projects found.', 'wedevs-project-manager') }}</h3>
         <div class="pm-project-column" v-for="project in projects" :key="project.id">
 
@@ -162,8 +162,10 @@
 <script>
 
     import Favourite from './favourite.vue';
+    import Mixins from './mixin';
 
     export default {
+        mixins: [Mixins],
         data () {
             return {
                 is_active_settings: false,
