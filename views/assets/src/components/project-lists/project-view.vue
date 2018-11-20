@@ -2,15 +2,15 @@
 
     <ul class="pm-view-style-group pm-list-inline">
         <li>
-            <a v-bind:class="{'active': activeClass('grid_view') }" href="javascript:void(0)" :title="grid_view" @click.prevent="setcookie('grid_view')"> 
+            <a v-bind:class="{'active': activeClass('grid_view') }" href="#" :title="grid_view" @click.prevent="setcookie('grid_view')"> 
                 <i class="pm-icon flaticon-menu-1"></i>
-                <span>Grid View</span>
+                <span>{{ __( 'Grid View', 'wedevs-project-manager') }}</span>
             </a>
         </li>
         <li>
-            <a v-bind:class="{'active': activeClass('list_view') }" href="javascript:void(0)" :title="list_view" @click.prevent="setcookie('list_view')">  
+            <a v-bind:class="{'active': activeClass('list_view') }" href="#" :title="list_view" @click.prevent="setcookie('list_view')">  
                 <i class="pm-icon flaticon-list" ></i>   
-                <span>List View</span>
+                <span>{{ __( 'List pm-view-style-group', 'wedevs-project-manager') }}</span>
             </a>
         </li>
     </ul>
