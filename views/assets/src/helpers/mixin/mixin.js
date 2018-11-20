@@ -97,7 +97,7 @@ export default {
         },
 
         getFullDate (date) {
-            if ( date == '' ) {
+            if ( !date ) {
                 return;
             } 
             date = new Date(date.replace(/-/g, "/"));
@@ -137,7 +137,7 @@ export default {
         },
 
         shortTimeFormat ( date ) {
-            if ( date == '' ) {
+            if ( !date ) {
                 return;
             }      
 
