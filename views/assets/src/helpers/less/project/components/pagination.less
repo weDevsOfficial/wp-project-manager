@@ -1,0 +1,19 @@
+/*
+ * Component: pagination
+ */
+
+.pm-overview-panel .pm-pagination-wrap {
+	margin: 0 0 20px !important;
+	a {
+		transition: background .3s ease-in;
+		&.current,
+		&:hover, 
+		&:focus {
+			background: @theme-color !important;
+		}
+		&.current {
+			cursor: not-allowed;
+			opacity: .8;
+		}
+	}
+}
