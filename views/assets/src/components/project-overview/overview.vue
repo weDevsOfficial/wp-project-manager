@@ -112,9 +112,9 @@
                 
                 </div>
             </div>
-            <search-user></search-user>
+            <search-user v-model="show_modal"></search-user>
             <div class="pm-col-2 pm-sm-col-12 pm-right-part pm-last-col">
-                <h3 class="pm-border-bottom user-title"> {{ __( 'Users', 'wedevs-project-manager') }} </h3> <h3 class="user-btn"><a class="add-user"><i class="icon-pm-plus"></i></a></h3>
+                <h3 class="pm-border-bottom user-title"> {{ __( 'Users', 'wedevs-project-manager') }} </h3> <h3 class="user-btn"><a @click="addUser()" class="add-user"><i class="icon-pm-plus"></i></a></h3>
                 <ul class="user_list">
                     <li v-for="user in users" :key="user.id">
                         <div class="list-left">
@@ -186,6 +186,11 @@
                 vm.getOverViews();
             });
         },
+        data(){
+           return {
+               show_modal: false
+           }
+        },
         computed: {
             ...pm.Vuex.mapState('projectOverview',
                 {
@@ -252,6 +257,9 @@
             },
             removeUser(user){
                 console.log(user);
+            },
+            addUser(){
+                this.show_modal = true;
             }
         }
     }
