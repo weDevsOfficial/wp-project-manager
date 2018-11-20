@@ -163,24 +163,14 @@
                                 
                                 <span id="pm-calendar-wrap" @click.prevent="isTaskDateEditMode()" class="individual-group-icon calendar-group icon-pm-calendar pm-font-size-16">
                                     <span v-if="(task.start_at.date || task.due_date.date )" :class="taskDateWrap(task.due_date.date) + ' pm-task-date-wrap pm-date-window'">
-<<<<<<< HEAD
-
-                                        <span :title="getFullDate(task.start_at.timestamp)" v-if="task_start_field">
-=======
                                             
                                         <span :title="getFullDate(task.start_at.datetime)" v-if="task_start_field">
->>>>>>> a4f8766a9e7382b20d7943ce47a0176c9461f25b
                                             {{ dateFormat( task.start_at.date ) }}
                                         </span>
 
                                         <span v-if="task_start_field && task.start_at.date && task.due_date.date">&ndash;</span>
-<<<<<<< HEAD
-                                        <span :title="getFullDate(task.due_date.timestamp)" v-if="task.due_date">
-
-=======
                                         <span :title="getFullDate(task.due_date.datetime)" v-if="task.due_date">
                                             
->>>>>>> a4f8766a9e7382b20d7943ce47a0176c9461f25b
                                             {{ dateFormat( task.due_date.date ) }}
                                         </span>
                                     </span>
