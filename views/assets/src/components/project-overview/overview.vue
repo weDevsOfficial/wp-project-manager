@@ -112,16 +112,21 @@
                 
                 </div>
             </div>
-
+            <search-user></search-user>
             <div class="pm-col-2 pm-sm-col-12 pm-right-part pm-last-col">
-                <h3 class="pm-border-bottom"> {{ __( 'Users', 'wedevs-project-manager') }} </h3>
+                <h3 class="pm-border-bottom user-title"> {{ __( 'Users', 'wedevs-project-manager') }} </h3> <h3 class="user-btn"><a class="add-user"><i class="icon-pm-plus"></i></a></h3>
                 <ul class="user_list">
                     <li v-for="user in users" :key="user.id">
-                        <img alt="admin" :src="user.avatar_url" class="avatar avatar-34 photo" height="34" width="34"> 
-                        <a  :href="myTaskRedirect(user.id)">
-                            {{ user.display_name }}
-                        </a>
-                        <span v-for="role in user.roles.data" :key="role.id">{{ role.title }}</span>
+                        <div class="list-left">
+                            <img alt="admin" :src="user.avatar_url" class="avatar avatar-34 photo" height="34" width="34">
+                            <a  :href="myTaskRedirect(user.id)">
+                                {{ cutString(user.display_name, 3, true) }}
+                            </a>
+                            <span v-for="role in user.roles.data" :key="role.id">{{ role.title }}</span>
+                        </div>
+                        <div class="list-right">
+                            <a class="delete-user" @click="removeUser(user.id)"> <i class="icon-pm-delete"></i></a>
+                        </div>
                     </li>
                 </ul>
             </div>
@@ -136,12 +141,44 @@
     .project-overview {
         margin-top: 10px;
     }
+    .user-title{ width: 73%; }
+    .user-btn{ width: 23%; border-bottom: solid 1px #eee;}
+    .user-btn, .user-title{ display: inline-block; float: left }
+    .add-user { cursor: pointer; }
+    .user_list{
+        li{
+            a.delete-user{
+                display: none;
+                i.icon-pm-delete:before{
+                    color: #c7cfd1 !important;
+                }
+            }
+
+            &:hover{
+                a.delete-user{
+                    display: inline-block;
+                    cursor: pointer;
+                    font-size: 14px;
+                    padding: 0;
+                    margin: 10px;
+                }
+            }
+
+            .list-left, .list-right{
+                /*border: 1px solid red; */
+                float: left;
+            }
+            .list-left{ width: 82%; }
+            .list-right{ width: 12%;}
+        }
+    }
 </style>
 
 <script>
     import header from './../common/header.vue';
     import directive from './directive';
     import Mixins from './mixin';
+    import searchUser from './searchUser.vue';
 
     export default {
         beforeRouteEnter (to, from, next) {
@@ -150,7 +187,7 @@
             });
         },
         computed: {
-            ...pm.Vuex.mapState('projectOverview', 
+            ...pm.Vuex.mapState('projectOverview',
                 {
                     'meta': state => state.meta,
                     'users': state => state.assignees,
@@ -174,7 +211,8 @@
             // }
         },
         components: {
-            'pm-header': header
+            'pm-header': header,
+            'search-user': searchUser
         },
         watch: {
             '$route' (to, from) {
@@ -203,6 +241,17 @@
                 }
 
                 this.getProject(args);
+            },
+            cutString(string, length, dot){
+               var output = "";
+                output = string.substring(0, parseInt(length));
+                if(dot && string.length > length){
+                    output += "...";
+                }
+               return output;
+            },
+            removeUser(user){
+                console.log(user);
             }
         }
     }
