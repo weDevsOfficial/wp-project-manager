@@ -1,0 +1,70 @@
+// common styles for pm page wrapper elements
+	h2 {
+		.rem(18);
+	}
+	h3 {
+		.rem(16);
+	}
+	ul, ol {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+	li {
+		margin-bottom: 0;
+	}
+	a {
+		text-decoration: none;
+	}
+
+	.pm-d-inline {
+		display: inline-block;
+	}
+	.pm-list-inline {
+		li {
+			display: inline-block;
+		}
+	}
+	.pm-pull-left {
+		float: left;
+	}
+	.pm-pull-right {
+		float: right;
+	}
+	.pm-text-left {
+		text-align: left;
+	}
+	.pm-text-right {
+		text-align: right;
+	}
+	.pm-text-center {
+		text-align: center;
+	}
+	.pm-text-justify {
+		text-align: justify;
+	}
+	.pm-btn {
+		display: inline-block;
+		padding: 7px 12px;
+		border-radius: 4px;
+		&.pm-btn-primary {
+			background: @theme-color;
+			color: #fff;
+			&:hover {
+				background: darken(@theme-color, 10%);
+			}
+		}
+	}
+	.pm-form-control {
+		padding: 7px 12px;
+		background: #fff;
+		border: 1px solid @theme-border-color;
+		border-radius: @theme-border-radius;
+	}
+	.pm-icon, [class^="flaticon-"] {
+		&:before {
+			margin-left: 0 !important;
+			.rem(11) !important;
+			line-height: 100% !important;
+		}
+	}
