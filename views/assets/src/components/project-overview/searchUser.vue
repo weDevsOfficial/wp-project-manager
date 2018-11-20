@@ -1,105 +1,142 @@
 <template>
-    <div>
-        <input type="text" class="pm-users-search" @keyup="" v-model="searchChar">
+<div>
+
+    <div v-if="value" id="pm-add-user-wrap">
+        <div class="nonsortable">
+
+            <div class="popup-mask">
+                <div class="popup-container">
+                     <span class="close-modal">
+                        <a  @click.prevent="closeModal()"><span class="dashicons dashicons-no"></span></a>
+                    </span>
+                    <div class="popup-body">
+                        <h3>Add User</h3>
+                        <input type="text" class="pm-users-search" @keyup="searchUser" v-model="searchChar">
+                    </div>
+
+                    <ul class="user_list">
+                        <li v-for="user in users" :key="user.id">
+                            <img alt="admin" :src="user.avatar_url" class="avatar avatar-34 photo" height="34" width="34">
+                            <a  :href="myTaskRedirect(user.id)">
+                                {{ user.display_name }}
+                            </a>
+                        </li>
+                    </ul>
+
+                    <div v-if="pm_abort" class="popup-body">
+                        <div class="btn-box">
+                            <a class="button button-primary">Add</a>
+                            <a class="button button-cancel">Cancel</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
     </div>
-    
+
+</div>
 </template>
 
 <script>
 
     export default {
 
-        data:function(){
+        props: {
+            value:{
+                type: Boolean,
+                default: false
+            }
+        },
+
+        data() {
           return {
-              searchChar : ''
+              searchChar : '',
+              pm_abort: null,
+              users:[],
           }
         },
+        methods: {
 
-        created:function(){
+            searchUser:function () {
 
-        },
-        mounted:function () {
-            var self = this;
-            var $ = jQuery;
-            var pm_abort;
-            $( ".pm-user-search" ).autocomplete( {
-                minLength: 3,
+                var $ = jQuery;
 
-                source: function( request, response ) {
+                if(this.searchChar.length > 2){
                     var args = {
                         conditions: {
-                            query : 'alm'
+                            query : this.searchChar
                         },
                         callback: function (res) {
-                            if ( res.data.length ) {
-                                response( res.data );
-                            } else {
-                                response({
-                                    value: '0',
-                                });
-                            }
+                            this.users = res.data
+                            console.log(this.users);
                         }
                     }
 
-                    if ( pm_abort ) {
-                        pm_abort.abort();
+                    if ( this.pm_abort ) {
+                        this.pm_abort.abort();
                     }
-                    pm_abort = self.get_search_user(args);
-                },
+                    this.pm_abort = this.get_search_user(args);
 
-                search: function() {
-                    $( this ).addClass( 'pm-spinner' );
-                },
-
-                open: function() {
-                    var self = $( this );
-                    self.autocomplete( 'widget' ).css( 'z-index', 999999 );
-                    self.removeClass( 'pm-spinner' );
-                    return false;
-                },
-
-                select: function( event, ui ) {
-                    if ( ui.item.value === '0' ) {
-                        $( "form.pm-user-create-form" ).find( 'input[type=text]' ).val( '' );
-                        $( "#pm-create-user-wrap" ).dialog( "open" );
-                    } else {
-
-                        var has_user = this.selectedUsers.find(function(user) {
-                            return ui.item.id === user.id ? true : false;
-                        });
-
-                        if (!has_user) {
-                            this.addUserMeta(ui.item);
-                            // this.$root.$store.commit(
-                            //     'setNewUser',
-                            //     {
-                            //         project_id: this.project_id,
-                            //         user: ui.item
-                            //     }
-                            // );
-                            this.$store.commit('updateSeletedUser', {
-                                item:  ui.item,
-                                project_id: this.project_id
-                            });
-                        }
-
-                        $( '.pm-project-role>table' ).append( ui.item._user_meta );
-                        $( "input.pm-project-coworker" ).val( '' );
-                    }
-                    return false;
+                } else {
+                    this.users = [];
                 }
+            },
 
-            }).data(function(data){
-                console.log(data);
-            });
-        },
-
-        computed:{
+            closeModal:function () {
+                this.searchChar = '';
+                this.users = [];
+                this.$emit('input', false);
+            }
 
         }
     }
 </script>
 
-<style scoped>
+<style lang="less">
+
+    #pm-add-user-wrap{
+        ul.user_list {
+            margin: 0;
+            padding: 0;
+            border-top: 0.2px solid #ccc;
+
+            li {
+                margin: 0;
+                padding: 8px;
+                display: block;
+                height: auto;
+                clear: left;
+                border-bottom: 0.2px solid #ccc;
+                overflow: auto;
+                &:hover {
+                    background: rgba(0, 185, 235, 0.1);
+                }
+            }
+
+            li img {
+                border-radius: 50px;
+                float: left;
+                margin-right: 10px;
+            }
+
+            li a {
+                font-weight: 600;
+            }
+        }
+
+        .popup-mask {
+            .popup-container {
+                height: auto !important;
+                width: auto !important;
+                .popup-body {
+                    height: auto !important;
+                    input{
+                        width: 100%;
+                        }
+                    }
+            }
+        }
+    }
 
 </style>
