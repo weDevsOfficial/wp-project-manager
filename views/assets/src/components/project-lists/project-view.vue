@@ -1,10 +1,18 @@
 <template>
 
-    <ul class="pm-project-view ">
-        <li><a href="javascript:void(0)" :title="list_view" class="change-view" @click.prevent="setcookie('list_view')">  <span class=" dashicons dashicons-menu" v-bind:class="{'active': activeClass('list_view') }" ></span></a></li>
-        <li><a href="javascript:void(0)"  :title="grid_view" class="change-view" @click.prevent="setcookie('grid_view')"> <span class=" dashicons dashicons-screenoptions" v-bind:class="{'active': activeClass('grid_view') }" ></span></a>
+    <ul class="pm-view-style-group pm-list-inline">
+        <li>
+            <a v-bind:class="{'active': activeClass('grid_view') }" href="javascript:void(0)" :title="grid_view" @click.prevent="setcookie('grid_view')"> 
+                <i class="pm-icon flaticon-menu-1"></i>
+                <span>Grid View</span>
+            </a>
         </li>
-        <div class="clearfix"></div>
+        <li>
+            <a v-bind:class="{'active': activeClass('list_view') }" href="javascript:void(0)" :title="list_view" @click.prevent="setcookie('list_view')">  
+                <i class="pm-icon flaticon-list" ></i>   
+                <span>List View</span>
+            </a>
+        </li>
     </ul>
 </template>
 

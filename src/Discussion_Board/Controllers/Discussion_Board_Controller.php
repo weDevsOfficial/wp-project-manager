@@ -18,6 +18,8 @@ use WeDevs\PM\Core\File_System\File_System;
 use WeDevs\PM\Common\Traits\File_Attachment;
 use Illuminate\Pagination\Paginator;
 
+use WeDevs\PM\Task\Models\Task;
+
 class Discussion_Board_Controller {
 
     use Transformer_Manager, Request_Filter, File_Attachment;
@@ -66,6 +68,7 @@ class Discussion_Board_Controller {
     }
 
     public function store( WP_REST_Request $request ) {
+
         $data = $this->extract_non_empty_values( $request );
         $media_data = $request->get_file_params();
         $milestone_id = $request->get_param( 'milestone' );

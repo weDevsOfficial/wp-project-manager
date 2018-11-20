@@ -97,10 +97,10 @@ export default {
         },
 
         getFullDate (date) {
-            if ( date == '' ) {
+            if ( !date ) {
                 return;
             } 
-            date = new Date(date);
+            date = new Date(date.replace(/-/g, "/"));
             
             return pm.Moment(date).format('dddd, MMMM D YYYY, H:mm:ss');
         },
@@ -109,8 +109,8 @@ export default {
             if ( !date ) {
                 return;
             }
-            
-            date = new Date(date);
+            //getTimezoneOffset
+            date = new Date(date.replace(/-/g, "/"));
 
             return pm.Moment(date).fromNow();
         },
@@ -128,7 +128,7 @@ export default {
                 return;
             }      
 
-            date = new Date(date);
+            date = new Date(date.replace(/-/g, "/"));
             date = pm.Moment(date).format('YYYY-MM-DD');
 
             var format = 'DD MMM';
@@ -137,11 +137,11 @@ export default {
         },
 
         shortTimeFormat ( date ) {
-            if ( date == '' ) {
+            if ( !date ) {
                 return;
             }      
 
-            date = new Date(date);
+            date = new Date(date.replace(/-/g, "/"));
             var format = 'hh:mm a';
 
             return pm.Moment( date ).format( String( format ) );
@@ -156,8 +156,8 @@ export default {
             if ( !date ) {
                 return;
             }
-
-            date = new Date(date);
+            
+            date = new Date(date.replace(/-/g, "/"));
             return pm.Moment(date).format('hh:mm a');
         },
 
@@ -175,7 +175,7 @@ export default {
                 return;
             }
 
-            date = new Date(date);
+            date = new Date(date.replace(/-/g, "/"));
             return pm.Moment(date).format(formate);
         },
 
@@ -191,7 +191,7 @@ export default {
                 return;
             }
 
-            date = new Date(date);
+            date = new Date(date.replace(/-/g, "/"));
             return pm.Moment(date).format('MMM D');
         },
         

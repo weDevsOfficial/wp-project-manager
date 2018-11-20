@@ -125,6 +125,9 @@
                 //margin: 0 33px 0 47px !important;
 
                 .task-title {
+                    word-break: break-all;
+                    word-wrap: break-word;
+                    hyphens: auto;
                     .title {
                         color: #525252;
                     }
@@ -170,7 +173,7 @@
         }
         .incomplete-task-li, .complete-task-li {
             margin-bottom: 10px;
-
+            
             &:hover {
                 .pm-todo-wrap {
                     .task-more-menu {
@@ -250,7 +253,7 @@
                     display: flex;
                     justify-content: flex-end;
                     flex: 1;
-                    top: -1px;
+                    top: 1px;
 
                     .icon-pm-more-options {
                         &:before {
@@ -364,6 +367,9 @@
                 }
 
                 .task-title {
+                    word-break: break-all;
+                    word-wrap: break-word;
+                    hyphens: auto;
                     .title {
                         font-size: 14px;
                         color: #525252;
@@ -417,6 +423,8 @@
                 .assigned-users-content {
                     display: flex;
                     align-items: center;
+                    position: relative;
+                    top: 2.5px;
 
                     .image-anchor {
                         line-height: 0;
@@ -432,7 +440,8 @@
             }
         }
         .incomplete-task-ul {
-            
+            padding-left: 0 !important;
+            padding-right: 0 !important;
         }
         .complete-task-ul {
             
@@ -463,11 +472,13 @@
                             cursor: grab;
                             padding-right: 10px;
                             padding-left: 10px;
+                            position: relative;
+                            top: 2px;
                         }
                     } 
 
                     .title-wrap {
-                        flex: 80%;
+                        flex: 50%;
                     }
 
                     .task-more-menu {
@@ -480,6 +491,11 @@
                     .task-action-wrap {
                         margin-left: 42px;
                         margin-top: 5px;
+                        flex-wrap: wrap;
+                        
+                        .task-activity {
+                            margin-top: 8px;
+                        }
                     }
                 }
             } 
