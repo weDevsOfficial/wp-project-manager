@@ -16,5 +16,6 @@ composer.phar
 package-lock.json
 /tmp
 /build/
+pm.sublime-project
 
 

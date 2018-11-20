@@ -35,7 +35,7 @@
                     </div>
                 </div>
 
-                <div v-if="!isInbox(list.id) && can_edit_task_list(list)" :data-list_id="list.id" @click.prevent="showHideMoreMenu(list)" class="more-menu list-more-menu">
+                <div v-if="!isInbox(list.id) && can_edit_task_list(list)" :data-list_id="list.id" @click="showHideMoreMenu(list)" class="more-menu list-more-menu">
 
                     <span  class="icon-pm-more-options"></span>
                     <div v-if="list.moreMenu && !list.edit_mode"  class="more-menu-ul-wrap">
@@ -70,7 +70,7 @@
             <list-tasks :list="list"></list-tasks>
             <div class="list-comments-wrap">
                 <div class="discuss-text">{{ __( 'Discussion', 'wedevs-project-manager') }}</div>
-                <pm-comments :comments="comments" :commentable="list"></pm-comments>
+                <list-comments :comments="comments" :commentable="list"></list-comments>
             </div>
             
         </div>
@@ -173,6 +173,8 @@
         border-bottom: 1px solid #e5e4e4;
         border-left: 1px solid #e5e4e4;
         border-right: 1px solid #e5e4e4;
+        word-break: break-all;
+        hyphens: auto;
 
         .list-comments-wrap {
             .margin-left();
@@ -280,8 +282,11 @@
             .margin-left();
             margin-top: 7px;
             span {
-                font-size: 13px;
                 color: #525252;
+                font-style: italic;
+                font-weight: 300;
+                font-size: 12px;
+                
             }   
         }
 
@@ -561,6 +566,17 @@
             this.$store.state.projectTaskLists.is_single_list = true; 
             pmBus.$on('pm_before_destroy_single_task', this.afterDestroySingleTask);
             pmBus.$on('pm_generate_task_url', this.generateTaskUrl);
+            window.addEventListener('click', this.windowActivity);
+        },
+
+        components: {
+            'single-list-tasks': single_list_tasks,
+            'list-comments': list_comments,
+            'new-task-list-form': new_task_list_form,
+            'new-task-button': new_task_button,
+            'pm-header': header,
+            'list-tasks': tasks,
+            pmMenu: Menu,
         },
 
         computed: {
@@ -607,6 +623,13 @@
         },
 
         methods: {
+            windowActivity (el) {
+                var listActionWrap = jQuery(el.target).closest('.list-more-menu');
+
+                if ( !listActionWrap.length ) {
+                    this.list.moreMenu = false;
+                }
+            },
             showHideMoreMenu (list) {
                 list.moreMenu = list.moreMenu ? false : true; 
             },
@@ -740,18 +763,6 @@
                 this.deleteList(args);
             }
         },
-
-
-
-        components: {
-            'single-list-tasks': single_list_tasks,
-            'list-comments': list_comments,
-            'new-task-list-form': new_task_list_form,
-            'new-task-button': new_task_button,
-            'pm-header': header,
-            'list-tasks': tasks,
-            pmMenu: Menu,
-        }
     }
 </script>
 
