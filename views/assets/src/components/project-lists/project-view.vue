@@ -10,7 +10,7 @@
         <li>
             <a v-bind:class="{'active': activeClass('list_view') }" href="#" :title="list_view" @click.prevent="setcookie('list_view')">  
                 <i class="pm-icon flaticon-list" ></i>   
-                <span>{{ __( 'List pm-view-style-group', 'wedevs-project-manager') }}</span>
+                <span>{{ __( 'List View', 'wedevs-project-manager') }}</span>
             </a>
         </li>
     </ul>
@@ -69,13 +69,7 @@
 
                  return "";
             },
-            activeClass(view){
-                if ( view == this.projects_view ) {
-                    return view;
-                }
-                
-                //return this.$store.state.projects_view === view;
-            }
+
         }
     }
 </script>
