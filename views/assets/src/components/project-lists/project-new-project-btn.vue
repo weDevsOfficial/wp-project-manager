@@ -1,6 +1,6 @@
 <template>
-    <a href="#" id="pm-create-project" @click.prevent="is_popup_active()" class="pm-btn pm-plus-white pm-btn-uppercase">
-        <i class="fa fa-plus-circle" aria-hidden="true"></i> {{ __( 'New Project', 'wedevs-project-manager') }}
+    <a href="#" id="pm-create-project" @click.prevent="is_popup_active()" class="pm-btn pm-btn-primary pm-btn-uppercase">
+        <i class="pm-icon flaticon-plus" aria-hidden="true"></i>&nbsp;&nbsp;{{ __( 'New Project', 'wedevs-project-manager') }}
     </a>
 </template>
 

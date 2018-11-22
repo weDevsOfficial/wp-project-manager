@@ -25,6 +25,7 @@
                     <span class="close-modal">
                         <a  @click.prevent="closePopup()"><span class="dashicons dashicons-no"></span></a>
                     </span>
+                    
                     <div v-activity-load-more class="popup-body">
                         <div class="pm-single-task-header">
 
@@ -44,13 +45,12 @@
                                 
                             </div>
 
-                            
                             <div class="created-by">
                                 
                                 <span class="pm-light-color">{{ __('Created by', 'wedevs-project-manager') }}</span>
                                 <span class="pm-dark-color">{{ ucfirst( task.creator.data.display_name ) }}</span>
                                 <span class="pm-light-color">{{ __('on', 'wedevs-project-manager') }}</span>
-                                <span class="pm-dark-color" :title="getFullDate(task.created_at.timestamp)">{{ cratedDateFormat( task.created_at.date ) }}</span>
+                                <span class="pm-dark-color" :title="getFullDate(task.created_at.datetime)">{{ cratedDateFormat( task.created_at.date ) }}</span>
                             </div>
 
                             <div id="pm-action-menu" class="task-action">
@@ -83,7 +83,7 @@
                             </div>
                             
                         </div>
-
+                        
                         <div :class="singleTaskTitle(task) + ' task-title-wrap'">
                             <div class="task-title-text">
 
@@ -164,12 +164,12 @@
                                 <span id="pm-calendar-wrap" @click.self.prevent="isTaskDateEditMode()" class="individual-group-icon calendar-group icon-pm-calendar pm-font-size-16">
                                     <span v-if="(task.start_at.date || task.due_date.date )" :class="taskDateWrap(task.due_date.date) + ' pm-task-date-wrap pm-date-window'">
                                             
-                                        <span :title="getFullDate(task.start_at.timestamp)" v-if="task_start_field">
+                                        <span :title="getFullDate(task.start_at.datetime)" v-if="task_start_field">
                                             {{ dateFormat( task.start_at.date ) }}
                                         </span>
 
                                         <span v-if="task_start_field && task.start_at.date && task.due_date.date">&ndash;</span>
-                                        <span :title="getFullDate(task.due_date.timestamp)" v-if="task.due_date">
+                                        <span :title="getFullDate(task.due_date.datetime)" v-if="task.due_date">
                                             
                                             {{ dateFormat( task.due_date.date ) }}
                                         </span>
@@ -266,7 +266,7 @@
                         </div>
 
                         <div class="task-activities">
-                            <span class="activity-title pm-h2">{{ __('Activity', 'wedevs-project-manager') }}</span>
+                            <span  class="activity-title pm-h2">{{ __('Activity', 'wedevs-project-manager') }}</span>
                             <ul class="single-task-activity-ul">
                                 <li v-for="activity in task.activities.data" :key="activity.id">
                                     <div class="activity-li-content">
@@ -278,7 +278,7 @@
                                             <activity-parser :activity="activity"></activity-parser>
                                             <span class="activity-watch-wrap">
                                                 <span class="activity-watch-icon icon-pm-watch"></span>
-                                                <span :title="getFullDate( activity.committed_at.date +' '+ activity.committed_at.time )" class="activity-form-now">{{ relativeDate(activity.committed_at.date +' '+ activity.committed_at.time) }}</span>
+                                                <span :title="getFullDate( activity.committed_at.datetime )" class="activity-form-now">{{ relativeDate(activity.committed_at.datetime) }}</span>
                                             </span>
                                         </div>
                                     </div>
@@ -319,7 +319,6 @@
     import Multiselect from 'vue-multiselect';
     import ActivityParser from '@components/common/activity-parser.vue';
     import editor from '@components/common/text-editor.vue';
-
 
     Vue.directive('activity-load-more', {
         bind: function(el, binding, vnode) {
@@ -469,7 +468,7 @@
                     var subtaskInput = jQuery(e.target).closest('.new-subtask-form').find('.input-area');
                     var mainBody = jQuery(e.target).closest('#pm-single-task-wrap');
                     
-                    if(!subtaskInput.length && mainBody.length) {
+                    if(!subtaskInput.length && !mainBody.length) {
                         
                        self.closePopup();
                     } 
@@ -482,6 +481,9 @@
         },
 
         methods: {
+            test (index) {
+                //console.log(index);
+            },
             callBackDatePickerForm (date) {
                 
                 let dateFrom = {
