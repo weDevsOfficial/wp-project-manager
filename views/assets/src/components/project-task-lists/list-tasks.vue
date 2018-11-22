@@ -39,7 +39,14 @@
                 </li>
             </transition> -->
 
-        </ul> 
+        </ul>
+        <div
+        v-if="isCompleteLoadMoreActive(list) && showCompletedTask"
+        class="nonsortable more-task-wrap">
+            <div v-if="isIncompleteLoadMoreActive(list)" class="group-action-btn">
+                <a class="anchor-btn" @click.prevent="loadMoreCompleteTasks(list)" href="#">{{ __( 'More Tasks', 'wedevs-project-manager') }}</a>
+            </div>
+        </div>
 
         <div v-if="createNewTask" class="list-task-form nonsortable">
             <new-task-form  :list="list"></new-task-form>
