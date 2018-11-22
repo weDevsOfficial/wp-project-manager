@@ -94,6 +94,10 @@ var PM_TaskList_Mixin = {
             if (this.is_manager()) {
                 return true;
             }
+            
+            if (typeof task.id  === 'undefined' && this.can_create_task) {
+                return true;
+            }
 
             if ( task.creator.data.id == user.ID ){
                 return true;
