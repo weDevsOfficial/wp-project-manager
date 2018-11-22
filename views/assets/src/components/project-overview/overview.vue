@@ -15,7 +15,7 @@
             </div>
         </div>
 
-        <div v-if="fetchOverview" class="project-overview">
+        <div v-if="fetchOverview" class="project-overview pm-project-overview-container">
             <div class="pm-col-10 pm-sm-col-12">
                 <div class="overview-menu">
                     <ul>
@@ -107,7 +107,6 @@
 
                     <h3>{{ __( 'Last 30 days', 'wedevs-project-manager') }}</h3>
 
-                    
                     <canvas v-pm-overview-chart width="1638" height="656" style="width: 819px; height: 328px;"></canvas>
                 
                 </div>
@@ -133,8 +132,8 @@
 </template>
 
 <style lang="less">
-    .project-overview {
-        margin-top: 10px;
+    .pm .pm-col-10 {
+        margin-bottom: 0;
     }
 </style>
 
