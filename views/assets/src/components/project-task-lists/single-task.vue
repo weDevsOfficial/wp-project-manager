@@ -468,7 +468,7 @@
                     var subtaskInput = jQuery(e.target).closest('.new-subtask-form').find('.input-area');
                     var mainBody = jQuery(e.target).closest('#pm-single-task-wrap');
                     
-                    if(!subtaskInput.length && mainBody.length) {
+                    if(!subtaskInput.length && !mainBody.length) {
                         
                        self.closePopup();
                     } 
