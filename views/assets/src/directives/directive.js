@@ -48,9 +48,9 @@ pm.Vue.directive('pm-click-outside', clickOutside);
 
 pm.Vue.directive('pm-header-menu-responsive', {
 	inserted: function(el) {
-		jQuery(el).slicknav({
-				prependTo:'.pm-header-menu-wrap'
-		});
+		// jQuery(el).slicknav({
+		// 		prependTo:'.pm-header-menu-wrap'
+		// });
 	},
 });
 
