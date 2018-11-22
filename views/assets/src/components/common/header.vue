@@ -2,9 +2,10 @@
     <div class="pm-header-title-content" v-if="isProjectLoaded">
         <div class="project-title">
             <span class="title">{{ project.title }}</span>
-            <a href="#" v-if="is_manager()" @click.prevent="showHideProjectForm('toggle')" class="icon-pm-pencil project-update-btn"></a>
-
-            <edit-project v-if="is_project_edit_mode && is_manager()" class="project-edit-form" :project="project"></edit-project>
+            <div class="pm-title-edit-settings">
+                <a href="#" v-if="is_manager()" @click.prevent="showHideProjectForm('toggle')" class="icon-pm-pencil project-update-btn"></a>
+                <edit-project v-if="is_project_edit_mode && is_manager()" class="project-edit-form" :project="project"></edit-project>
+            </div>
             <div class="settings header-settings">
 
                 <a href="#" v-if="is_manager()" @click.prevent="showHideSettings()" class="icon-pm-settings header-settings-btn"></a>
@@ -38,7 +39,7 @@
 
         </div>
 
-        <div>
+        <div class="project-search-box-container">
             <pm-do-action hook="pm_project_header" ></pm-do-action>
         </div>
 
@@ -56,6 +57,58 @@
         display: flex;
         flex-wrap: wrap;
         align-items: center;
+        .pm-title-edit-settings {
+            border-right: 1px solid #E5E4E4;
+            position: relative;
+            .project-edit-form {
+                left: 0;
+                white-space: nowrap;
+                padding: 10px 15px !important;
+                min-width: 250px;
+                @media (max-width: 767px){
+                    left: inherit;
+                    right: 0px;
+                }
+                .pm-form {
+                    .item {
+                        margin-right: 0;
+                        input[type='text'], input[type='email'], input[type='tel'], textarea, select {
+                            width: 100%;
+                            &:focus {
+                                border-color: #027eb3;
+                            }
+                        }
+                    }
+                    
+                    .pm-del-proj-role {
+                        cursor: pointer;
+                    }
+                    #project-notify {
+                        margin-right: 5px;
+                    }
+                    table {
+                        width: 100%;
+                        td:nth-child(2){
+                            text-align: center;
+                            select {
+                                width: 100%;
+                            }
+                        }
+                        td:last-child {
+                            text-align: right;
+                        }
+                    }
+                    .submit {
+                        .project-cancel {
+                            box-shadow: 0 1px 0 #c5c5c5;
+                        }
+                        .pm-loading:after {
+                            margin: 6px 0 0 10px;
+                        }
+                    }
+                }
+            }
+        }
 
         .project-status {
             .incomplete, .complete {
@@ -78,7 +131,6 @@
             flex: 1;
             display: flex;
             align-items: center;
-            line-height: 0;
             position: relative;
 
             .project-edit-form {
@@ -97,10 +149,14 @@
                     position: absolute;
                     border-style: solid;
                     top: -9px;
-                    left: 116px;
+                    left: 10px;
                     content: "";
                     z-index: 9999;
                     border-width: 0px 8px 8px 8px;
+                    @media (max-width: 767px){
+                        left: inherit;
+                        right: 10px;
+                    }
                 }
 
                 &:after {
@@ -108,10 +164,14 @@
                     position: absolute;
                     border-style: solid;
                     top: -7px;
-                    left: 116px;
+                    left: 10px;
                     content: "";
                     z-index: 9999;
                     border-width: 0 8px 7px 8px;
+                    @media (max-width: 767px){
+                        left: inherit;
+                        right: 10px;
+                    }
                 }
             }
 
@@ -199,6 +259,20 @@
                         left: 10px !important;
                     }
 
+                    @media (max-width: 767px){
+                        left: inherit !important;
+                        right: 0 !important;
+                        &:before {
+                            right: 10px !important;
+                            left: auto !important;
+                        }
+
+                        &:after {
+                            right: 10px !important;
+                            left: auto !important;
+                        }
+                    }
+
                     .action-ul {
                         margin: 0;
                         padding: 0;
@@ -227,8 +301,14 @@
             }
         }
     }
+    
+    @media (max-width: 767px){
+        .project-search-box-container .pm-search-field input {
+            min-width: 100%;
+        }
+    }
 
-     @media screen and (max-width: 360px) {
+    @media (max-width: 360px) {
         .project-title .pm-project-form .project-cancel {
             margin-bottom: 0px !important;
         }

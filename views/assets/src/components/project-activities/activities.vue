@@ -16,7 +16,7 @@
         </div>
     </div>
 
-    <div class="pm-activities" v-if="isActivityFetched">
+    <div class="pm-activities pm-activities-container" v-if="isActivityFetched">
         <ul v-if="activities.length" class="pm-activity-list">
             <li v-for="group in activities" :key="group.id" class="pm-row"> 
                 <div class="pm-activity-date pm-col-1 pm-sm-col-12">
@@ -52,12 +52,6 @@
     <router-view name="singleTask"></router-view>
 </div>
 </template>
-
-<style lang="less">
-    .pm-activities {
-        margin-top: 10px;
-    }
-</style>
 
 <script>
     import header from '@components/common/header.vue';
@@ -255,3 +249,9 @@
     }
 
 </script>
+
+<style lang="less">
+    .pm-activity-body ul li {
+        border-bottom: 1px solid #e8e8e7;
+    }
+</style>
