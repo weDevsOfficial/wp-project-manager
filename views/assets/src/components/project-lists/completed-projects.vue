@@ -24,14 +24,44 @@
             </div>
             <div v-else>
                 <div class="pm-projects pm-row pm-no-padding pm-no-margin" v-bind:class="[projects_view_class()]">
-                    <project-summary></project-summary>
-                    <pm-pagination 
-                        :total_pages="total_pages" 
-                        :current_page_number="current_page_number" 
-                        component_name='completed_project_pagination'>
-                        
-                    </pm-pagination> 
-                </div>
+                    <div class="pm-overview-container">
+                        <div class="pm-panel pm-overview-panel">
+                            <!-- pm panel header -->
+                            <div class="pm-panel-header">
+                                <div class="pm-grid-row">
+                                    <!-- project page header menu -->
+                                    <project-header-menu></project-header-menu>
+
+                                    <!-- pm header right column -->
+                                    <div class="pm-col-6-sm">
+                                        <!-- pm view stayle container -->
+                                        <div class="pm-view-style-container pm-text-right">
+                                            <!-- project view component -->
+                                            <project-view></project-view>
+                                            <!-- filter by category component -->
+                                            <project-filter-by-category></project-filter-by-category>
+                                        </div>
+                                    </div> <!-- end col -->
+                                </div>
+                            </div>
+
+                            <!-- start panel body -->
+                            <div class="pm-panel-body">
+                                <div class="pm-grid-row">
+                                    <project-summary></project-summary>
+                                    <pm-pagination 
+                                        :total_pages="total_pages" 
+                                        :current_page_number="current_page_number" 
+                                        component_name='completed_project_pagination'>
+                                        
+                                    </pm-pagination>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div><!-- pm-overview-panel -->
+                
             </div>
             
         </div>
@@ -39,6 +69,9 @@
 </template>
 
 <script>
+    import project_header_menu from './project-header-menu.vue';
+    import project_view from './project-view.vue';
+    import project_filter_by_category from './project-filter-by-category.vue';
     import project_summary from './project-summary.vue';
     import pagination from './../common/pagination.vue';
     import after_project from './../common/do-action.vue';
@@ -89,7 +122,10 @@
             'pm-pagination': pagination,
             'do-action': after_project,
             'project-loading': project_loading,
-            'project-list-header': Header
+            'project-list-header': Header,
+            'project-header-menu': project_header_menu,
+            'project-view': project_view,
+            'project-filter-by-category': project_filter_by_category
         },
 
         methods: {

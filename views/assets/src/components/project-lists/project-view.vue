@@ -1,10 +1,18 @@
 <template>
 
-    <ul class="pm-project-view ">
-        <li><a href="javascript:void(0)" :title="list_view" class="change-view" @click.prevent="setcookie('list_view')">  <span class=" dashicons dashicons-menu" v-bind:class="{'active': activeClass('list_view') }" ></span></a></li>
-        <li><a href="javascript:void(0)"  :title="grid_view" class="change-view" @click.prevent="setcookie('grid_view')"> <span class=" dashicons dashicons-screenoptions" v-bind:class="{'active': activeClass('grid_view') }" ></span></a>
+    <ul class="pm-view-style-group pm-list-inline">
+        <li>
+            <a v-bind:class="{'active': activeClass('grid_view') }" href="#" :title="grid_view" @click.prevent="setcookie('grid_view')"> 
+                <i class="pm-icon flaticon-menu-1"></i>
+                <span>{{ __( 'Grid View', 'wedevs-project-manager') }}</span>
+            </a>
         </li>
-        <div class="clearfix"></div>
+        <li>
+            <a v-bind:class="{'active': activeClass('list_view') }" href="#" :title="list_view" @click.prevent="setcookie('list_view')">  
+                <i class="pm-icon flaticon-list" ></i>   
+                <span>{{ __( 'List View', 'wedevs-project-manager') }}</span>
+            </a>
+        </li>
     </ul>
 </template>
 
@@ -61,13 +69,7 @@
 
                  return "";
             },
-            activeClass(view){
-                if ( view == this.projects_view ) {
-                    return view;
-                }
-                
-                //return this.$store.state.projects_view === view;
-            }
+
         }
     }
 </script>

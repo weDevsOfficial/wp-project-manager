@@ -130,7 +130,7 @@ class Task_Controller {
 
         $message = [
             'message' => pm_get_text('success_messages.task_created'),
-            'activity' => $this->last_activity(),
+            'activity' => $this->last_activity( 'task', $task->id ),
         ];
 
         $response = $this->get_response( $resource, $message );
@@ -213,7 +213,7 @@ class Task_Controller {
         
         $message = [
             'message' => pm_get_text('success_messages.task_updated'),
-            'activity' => $this->last_activity(),
+            'activity' => $this->last_activity( 'task', $task->id ),
         ];
         
         $response = $this->get_response( $resource, $message );
@@ -251,7 +251,7 @@ class Task_Controller {
 
         $message = [
             'message' => pm_get_text('success_messages.task_updated'),
-            'activity' => $this->last_activity(),
+            'activity' => $this->last_activity( 'task', $task->id ),
         ];
 
         $response = $this->get_response( $resource, $message );
@@ -309,7 +309,7 @@ class Task_Controller {
         
         $message = [
             'message' => pm_get_text('success_messages.task_deleted'),
-            'activity' => $this->last_activity(),
+            'activity' => $this->last_activity( 'task', $task->id ),
         ];
 
         return $this->get_response(false, $message);

@@ -1,0 +1,63 @@
+/*
+ * Component: Project list view
+ */
+
+@media only screen and (min-width: 768px){
+	.project-list-view {
+		.pm-project-column {
+		    flex-basis: 100% !important;
+	    	max-width: 100% !important;
+		}
+		.pm-project-item {
+			display: flex;
+			flex-wrap: wrap;
+		    align-items: center;
+		    position: relative;
+		}
+		.pm-project-item-header {
+	    	flex-basis: 20% !important;
+	    	max-width: 20% !important;
+	    	.pm-project-settings {
+	    		position: absolute;
+			    right: 15px;
+			    top: calc(50% - 13px);
+	    	}
+	    	.pm-project-title {
+	    		margin-bottom: 0;
+	    	}
+	    }
+	    .pm-project-item-body {
+	    	flex-basis: calc(80% - 50px) !important;
+	    	max-width: calc(80% - 50px) !important;
+	    }
+	    .pm-project-info {
+	    	display: flex;
+		    flex-direction: row;
+		    align-items: center;
+		    justify-content: center;
+		    .pm-project-description {
+		    	display: none;
+		    }
+		    .pm-project-meta-counters {
+		    	margin-bottom: -10px !important;
+		    }
+		    .pm-project-users {
+		    	margin-top: 0 !important;
+		    	margin-left: 40px;
+		    	margin-bottom: -8px;
+		    }
+		    .pm-project-meta-counters,
+		    .pm-project-progress,
+		    .pm-project-users {
+				flex-grow: 4;
+		    }
+		    .pm-project-progress {
+		    	width: auto !important;
+		    	display: inherit !important;
+		    	min-width: 120px;
+		    	margin: 0 40px !important;
+		    	order: 2;
+		    }
+	    }
+	}
+}
