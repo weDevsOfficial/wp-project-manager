@@ -1,41 +1,36 @@
 <template>
-<div>
 
-    <div v-if="value" id="pm-add-user-wrap">
-        <div class="nonsortable">
+<div v-if="value" id="pm-add-user-wrap">
+    <div class="add-user-pop">
+        <div class="popup-container">
+             <span class="close-modal">
+                <a  @click.prevent="closeModal()"><span class="dashicons dashicons-no"></span></a>
+            </span>
+            <div class="popup-body">
+                <h3>Add User</h3>
+                <input type="text" class="pm-users-search" @keyup="searchUser" v-model="searchChar">
+            </div>
 
-            <div class="popup-mask">
-                <div class="popup-container">
-                     <span class="close-modal">
-                        <a  @click.prevent="closeModal()"><span class="dashicons dashicons-no"></span></a>
-                    </span>
-                    <div class="popup-body">
-                        <h3>Add User</h3>
-                        <input type="text" class="pm-users-search" @keyup="searchUser" v-model="searchChar">
-                    </div>
+            <ul class="user_list">
+                <li v-for="user in users" :key="user.id">
+                    <img alt="admin" :src="user.avatar_url" class="avatar avatar-34 photo" height="34" width="34">
+                    <a  :href="myTaskRedirect(user.id)">
+                        {{ user.display_name }}
+                    </a>
+                </li>
+            </ul>
 
-                    <ul class="user_list">
-                        <li v-for="user in users" :key="user.id">
-                            <img alt="admin" :src="user.avatar_url" class="avatar avatar-34 photo" height="34" width="34">
-                            <a  :href="myTaskRedirect(user.id)">
-                                {{ user.display_name }}
-                            </a>
-                        </li>
-                    </ul>
-
-                    <div v-if="pm_abort" class="popup-body">
-                        <div class="btn-box">
-                            <a class="button button-primary">Add</a>
-                            <a class="button button-cancel">Cancel</a>
-                        </div>
-                    </div>
-
+            <div v-if="pm_abort" class="popup-body">
+                <div class="btn-box">
+                    <a class="button button-primary">Add</a>
+                    <a class="button button-cancel">Cancel</a>
                 </div>
             </div>
+
         </div>
     </div>
-
 </div>
+
 </template>
 
 <script>
@@ -96,6 +91,7 @@
 <style lang="less">
 
     #pm-add-user-wrap{
+        position: relative;
         ul.user_list {
             margin: 0;
             padding: 0;
@@ -125,18 +121,40 @@
             }
         }
 
-        .popup-mask {
-            .popup-container {
-                height: auto !important;
-                width: auto !important;
-                .popup-body {
-                    height: auto !important;
-                    input{
-                        width: 100%;
-                        }
-                    }
+        input{
+            width: 96%;
+            margin: 1.8%;
+        }
+
+        .add-user-pop {
+            position: absolute;
+            top: 26px;
+            width: 200px;
+            left: auto;
+            right: -8px;
+            z-index: 9999;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+            padding: 15px 0;
+            border: 1px solid #DDDDDD;
+            background: #fff;
+            border-radius: 3px;
+            box-shadow: 0px 2px 40px 0px rgba(214, 214, 214, 0.6);
+
+            &:after {
+                border-color: transparent transparent #ffffff transparent;
+                position: absolute;
+                border-style: solid;
+                top: -7px;
+                left: auto;
+                right: 30px;
+                content: "";
+                z-index: 9999;
+                border-width: 0 8px 7px 8px;
             }
         }
+
     }
+
+
 
 </style>
