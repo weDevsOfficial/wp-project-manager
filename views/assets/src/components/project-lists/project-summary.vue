@@ -332,6 +332,9 @@
     .no-projects {
         margin: 0 15px 20px;
     }
+    .pm-project-meta-counters li a[href="#"] {
+        cursor: default;
+    }
 </style>
 
 
