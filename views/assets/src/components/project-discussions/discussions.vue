@@ -15,7 +15,7 @@
             </div>
         </div>
         <!-- {{ pm.i18n.__('Add List', 'cpm') }} -->
-        <div class="pm-discussion" v-if="isFetchDiscussion">
+        <div class="pm-discussion pm-discussion-container" v-if="isFetchDiscussion">
             <div class="pm-blank-template discussion" v-if="blankTemplate">
                 <div class="pm-content" >
                     <h3 class="pm-page-title">{{ __( 'Discussions', 'wedevs-project-manager') }}</h3>
@@ -139,7 +139,11 @@
 
 <style lang="less">
     .pm-discussion {
-        margin-top: 10px;
+        .pm-blank-template {
+            background: transparent;
+            border: none;
+            box-shadow: none;
+        }
     }
 </style>
 

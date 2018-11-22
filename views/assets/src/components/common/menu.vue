@@ -2,7 +2,7 @@
     <div>
       <!--   <div class="pm-header-menu-wrap">
         	<nav v-if="menu.length" class="pm-project-menu">
-
+                
                 <div class="menu-item" v-for="item in menu" :key="item.name"> 
 
                     <router-link 
@@ -18,8 +18,10 @@
         </div> -->
 
         <div class="pm-header-menu-wrap">
-            <nav v-pm-header-menu-responsive v-if="menu.length" class="pm-project-menu">
-
+            <nav v-pm-header-menu-responsive v-if="menu.length" :class="(isNavCollapse) ? 'pm-project-menu menu-items-open' : 'pm-project-menu'">
+                <div class="pm-nav-menu-toggle dashicons dashicons-arrow-down-alt2" @click="collapseNav()">
+                    <span>Menu</span>
+                </div>
                 <div class="menu-item" v-for="item in menu" :key="item.name"> 
 
                     <router-link 
@@ -43,7 +45,7 @@
 	.pm-project-menu {
 	    background: #fff;
 	    border: 1px solid #E5E4E4;
-	    padding: 0 5px;
+	    padding: 0 9px;
 
         &:after {
             display: table;
@@ -75,12 +77,12 @@
 	    	
 	    	.active {
 	    		border: 1px solid #E5E4E4;
-			    background: #fafafa;
-			    border-bottom: 1px solid #fafafa;
-			    border-radius: 3px;
-			    margin-bottom: -1px;
-			    border-bottom-left-radius: 0;
-			    border-bottom-right-radius: 0;
+                background: #fbfbfb;
+                border-bottom: 1px solid #fbfbfb;
+                border-radius: 3px;
+                margin-bottom: -1px;
+                border-bottom-left-radius: 0;
+                border-bottom-right-radius: 0;
 	    	}
 	    }
 	}
@@ -91,16 +93,76 @@
             display: none;
         }
     }
+    
+    .pm-nav-menu-toggle {
+        display: none;
+    }
+    .pm-header-title-content .project-title .title {
+        white-space: initial;
+    }
+    @media (max-width: 767px) {
+        .pm-project-menu {
+            padding: 0;
+            display: flex;
+            flex-wrap: wrap;
+            .pm-nav-menu-toggle {
+                display: block;
+                width: 100%;
+                padding: 10px 15px;
+                min-height: 45px;
+                text-align: left;
+                cursor: pointer;
+                span {
+                    font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+                }
+                &:before {
+                    float: right;
+                }
+            }
+            .menu-item {
+                display: none;
+                flex-basis: 100%;
+                a {
+                    margin-top: 0;
+                    padding: 10px 15px;
+                    border-top: 1px solid #f2f2f2;
+                    &.active {
+                        border-radius: 0;
+                        border-left: 0;
+                        border-right: 0;
+                        margin: 0;
+                        &:parent {
+                            opacity: .4;
+                        }
+                    }
+                }
+            }
+            .pm-action-wrap {
+                width: 100%;
+                display: block;
+            }
+            &.menu-items-open {
+                .menu-item {
+                    display: initial;
+                }
+                .pm-nav-menu-toggle {
+                    &:before {
+                        transform: rotate(180deg);
+                    }
+                }
+            }
+        }
+    }
 
     @media screen and (max-width: 480px) {
-        .pm-header-menu-wrap {
+        /*.pm-header-menu-wrap {
             .slicknav_menu {
                 display: block;
             }
             .pm-project-menu {
                 display: none;
             }
-        }
+        }*/
     }
 </style>
 
@@ -110,6 +172,11 @@
             current: {
                 type: String,
                 default: '',
+            }
+        },
+        data () {
+            return {
+                isNavCollapse: false,
             }
         },
 		computed: {
@@ -191,6 +258,11 @@
 		},
 
 		methods: {
+            // collapse navigation
+            collapseNav () {
+                this.isNavCollapse = ! this.isNavCollapse;
+            },
+
 			setActiveMenu (item) {
 				var name = this.$route.name;
 
