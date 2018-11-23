@@ -1,20 +1,38 @@
 <template>
 
-<div v-if="value" id="pm-add-user-wrap">
+<div id="pm-add-user-wrap">
     <div class="add-user-pop">
         <div class="popup-container">
-             <span class="close-modal">
-                <a  @click.prevent="closeModal()"><span class="dashicons dashicons-no"></span></a>
-            </span>
             <div class="popup-body">
                 <h3>Add User</h3>
                 <input type="text" class="pm-users-search" @keyup="searchUser" v-model="searchChar">
             </div>
 
+            <div class="popup-body">
+
+                <table>
+                    <tr v-for="projectUser in selected" :key="projectUser.id">
+                        <td>{{ projectUser.display_name }}</td>
+                        <td>
+                            <select  v-model="projectUser.roles.data[0].id" :disabled="!canUserEdit(projectUser.id)">
+                                <option v-for="role in roles" :value="role.id" :key="role.id" >{{ role.title }}</option>
+                            </select>
+                        </td>
+
+                        <td>
+                            <a @click.prevent="removeUser(projectUser)"  hraf="#" class="pm-del-proj-role pm-assign-del-user">
+                                <span class="dashicons dashicons-trash"></span>
+                            </a>
+                        </td>
+                    </tr>
+                </table>
+
+            </div>
+
             <ul class="user_list">
-                <li v-for="user in users" :key="user.id">
+                <li v-for="(user, index) in users" :key="user.id" @click="appendUser(user)">
                     <img alt="admin" :src="user.avatar_url" class="avatar avatar-34 photo" height="34" width="34">
-                    <a  :href="myTaskRedirect(user.id)">
+                    <a>
                         {{ user.display_name }}
                     </a>
                 </li>
@@ -22,8 +40,8 @@
 
             <div v-if="pm_abort" class="popup-body">
                 <div class="btn-box">
-                    <a class="button button-primary">Add</a>
-                    <a class="button button-cancel">Cancel</a>
+                    <a class="button button-primary" @click="saveUsers()">Add</a>
+                    <a class="button button-cancel" @click="closeSearch()">Cancel</a>
                 </div>
             </div>
 
@@ -34,41 +52,38 @@
 </template>
 
 <script>
-
+    import Mixins from './mixin'
     export default {
-
-        props: {
-            value:{
-                type: Boolean,
-                default: false
-            }
-        },
 
         data() {
           return {
               searchChar : '',
               pm_abort: null,
               users:[],
+              selected: [],
+              show_spinner: false
+
           }
         },
+        mixins:[Mixins],
         methods: {
 
-            searchUser:function () {
+            searchUser: function () {
 
                 var $ = jQuery;
 
-                if(this.searchChar.length > 2){
+                if (this.searchChar.length > 2) {
                     var args = {
                         conditions: {
-                            query : this.searchChar
+                            query: this.searchChar
                         },
                         callback: function (res) {
-                            this.users = res.data
+                            this.users = res.data;
                             console.log(this.users);
                         }
                     }
 
-                    if ( this.pm_abort ) {
+                    if (this.pm_abort) {
                         this.pm_abort.abort();
                     }
                     this.pm_abort = this.get_search_user(args);
@@ -78,13 +93,33 @@
                 }
             },
 
-            closeModal:function () {
-                this.searchChar = '';
-                this.users = [];
-                this.$emit('input', false);
+            appendUser(s_user){
+
+                var has_user = this.selectedUsers.find(function(user) {
+                    return s_user.id === user.id ? true : false;
+                });
+
+                if (!has_user) {
+                    this.selected.push(s_user);
+                }
+
+                return false;
+            },
+            removeUser (user) {
+                let i = this.selected.findIndex(u => u.id === user.id );
+
+                this.selected.splice(i, 1);
             }
 
+
+        },
+
+        computed:{
+
         }
+
+
+
     }
 </script>
 

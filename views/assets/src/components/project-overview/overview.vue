@@ -120,18 +120,18 @@
                         <i class="icon-pm-plus"></i>
                     </a>
                 </h3>
-                <search-user v-model="show_modal"></search-user>
+                <search-user v-if="show_modal" v-pm-click-outside="hidePop" @close="hidePop"></search-user>
                 <ul class="user_list">
-                    <li v-for="user in users" :key="user.id">
+                    <li v-for="user in selectedUsers" :key="user.id">
                         <div class="list-left">
                             <img alt="admin" :src="user.avatar_url" class="avatar avatar-34 photo" height="34" width="34">
                             <a  :href="myTaskRedirect(user.id)">
-                                {{ cutString(user.display_name, 3, true) }}
+                                {{ cutString(user.display_name, 8, true) }}
                             </a>
                             <span v-for="role in user.roles.data" :key="role.id">{{ role.title }}</span>
                         </div>
                         <div class="list-right">
-                            <a class="delete-user" @click="removeUser(user.id)"> <i class="icon-pm-delete"></i></a>
+                            <a class="delete-user" @click="deleteUser(user)"> <i class="icon-pm-delete"></i></a>
                         </div>
                     </li>
                 </ul>
@@ -197,6 +197,7 @@
                show_modal: false
            }
         },
+        mixins:[Mixins],
         computed: {
             ...pm.Vuex.mapState('projectOverview',
                 {
@@ -207,7 +208,8 @@
             ),
             fetchOverview () {
                 return this.$root.$store.state.projectOverviewLoaded;
-            }
+            },
+
 
             // meta () {
             //     return this.$store.state.meta;
@@ -233,7 +235,7 @@
         },
 
         methods : {
-            ...pm.Vuex.mapMutations('projectOverview', 
+            ...pm.Vuex.mapMutations('projectOverview',
                 [
                     'setOverViews'
                 ]
@@ -253,21 +255,16 @@
 
                 this.getProject(args);
             },
-            cutString(string, length, dot){
-               var output = "";
-                output = string.substring(0, parseInt(length));
-                if(dot && string.length > length){
-                    output += "...";
-                }
-               return output;
-            },
-            removeUser(user){
-                console.log(user);
-            },
             addUser(){
                 this.show_modal = true;
+            },
+            hidePop(){
+                this.show_modal = false;
             }
-        }
+
+        },
+
+
     }
 
 </script>
