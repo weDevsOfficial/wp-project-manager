@@ -131,16 +131,16 @@
                                     <img class="pm-img-circle" :src="user.avatar_url" :alt="user.display_name">
                                 </li> -->
 
-                                <li  v-for="(user, key) in project.assignees.data" v-if="key < 6" class="pm-has-tooltip">
+                                <li v-for="(user, key) in project.assignees.data" v-if="key < 6" class="pm-has-tooltip">
                                     <img class="pm-img-circle" :src="user.avatar_url" :alt="user.display_name">
                                     <span class="pm-tooltip-label">{{ user.display_name }}</span>
                                 </li>
                                 
                                 <!-- more user button and their markup -->
-                                <li v-for="(user, key) in project.assignees.data" v-if="key > 7" class="pm-more-users pm-has-dropdown">
-                                    <a :data-project_id="project.id" @click.prevent="showMoreUser(project)" href="#" class="pm-dropdown-trigger">3+</a>
+                                <li v-if="project.assignees.data.length > 7" class="pm-more-users pm-has-dropdown">
+                                    <a :data-project_id="project.id" @click.prevent="showMoreUser(project)" href="#" class="pm-dropdown-trigger">{{ project.assignees.data.length - 8 }}+</a>
                                     <ul :class="'pm-dropdown-menu '+ pmDropDownOpen(project)">
-                                        <li class="pm-has-tooltip">
+                                        <li v-for="(user, key) in project.assignees.data" v-if="key > 7" class="pm-has-tooltip">
                                             <img class="pm-img-circle" :src="user.avatar_url" :alt="user.display_name">
                                             <span class="pm-tooltip-label">{{ user.display_name }}</span>
                                         </li>
