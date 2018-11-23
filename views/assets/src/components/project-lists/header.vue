@@ -92,6 +92,12 @@
         }
     }
 
+    .ui-dialog {
+        left: 50% !important;
+        transform: translate(-50%, 0);
+        max-width: calc(100% - 50px);
+    }
+
 </style>
 
 
