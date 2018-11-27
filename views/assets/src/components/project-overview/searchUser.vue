@@ -1,69 +1,66 @@
 <template>
 
-<div id="pm-add-user-wrap">
-    <div class="add-user-pop">
-        <div class="popup-container">
-            <div class="popup-body">
-                <h3>Add User</h3>
-                <input type="text" class="pm-users-search" @keyup="searchUser" v-model="searchChar">
-            </div>
+    <div id="pm-add-user-wrap">
+        <div class="add-user-pop">
+            <div class="popup-container">
+                <div class="popup-body">
+                    <h3>Add User</h3>
 
-            <div class="popup-body">
+                    <input v-if="!search_done" type="text" ref="search" class="pm-users-search" @keyup="searchUser" placeholder="Search User" v-model="searchChar">
+                        <div v-if="search_done" v-for="projectUser in selected" :key="projectUser.id">
+                            <div><input @click.prevent="resetSearch()" class="show-name" type="text" :value="projectUser.display_name"></div>
+                            <div>
+                                <select  v-model="projectUser.roles.data[0].id" :disabled="!canUserEdit(projectUser.id)" @change="updateSelected(projectUser, projectUser.roles.data[0].id)" >
+                                    <option v-for="role in roles" :value="role.id" :key="role.id" >{{ role.title }}</option>
+                                </select>
+                                <a @click.prevent="removeUser(projectUser)"  href="#" class="pm-del-proj-role pm-assign-del-user">
+                                    <span class="dashicons dashicons-trash"></span>
+                                </a>
+                            </div>
 
-                <table>
-                    <tr v-for="projectUser in selected" :key="projectUser.id">
-                        <td>{{ projectUser.display_name }}</td>
-                        <td>
-                            <select  v-model="projectUser.roles.data[0].id" :disabled="!canUserEdit(projectUser.id)">
-                                <option v-for="role in roles" :value="role.id" :key="role.id" >{{ role.title }}</option>
-                            </select>
-                        </td>
+                        </div>
 
-                        <td>
-                            <a @click.prevent="removeUser(projectUser)"  hraf="#" class="pm-del-proj-role pm-assign-del-user">
-                                <span class="dashicons dashicons-trash"></span>
-                            </a>
-                        </td>
-                    </tr>
-                </table>
-
-            </div>
-
-            <ul class="user_list">
-                <li v-for="(user, index) in users" :key="user.id" @click="appendUser(user)">
-                    <img alt="admin" :src="user.avatar_url" class="avatar avatar-34 photo" height="34" width="34">
-                    <a>
-                        {{ user.display_name }}
-                    </a>
-                </li>
-            </ul>
-
-            <div v-if="pm_abort" class="popup-body">
-                <div class="btn-box">
-                    <a class="button button-primary" @click="saveUsers()">Add</a>
-                    <a class="button button-cancel" @click="closeSearch()">Cancel</a>
                 </div>
-            </div>
 
+
+                <div v-if="notfound" class="popup-body" >
+                        <h1>{{ notfound }} {{ searched_users.length }}   Not Found</h1>
+                </div>
+
+                <ul v-if="!search_done" class="user_list">
+                    <li v-for="(user, index) in searched_users" :key="user.id" @click="appendUser(user)">
+                        <img alt="admin" :src="user.avatar_url" class="avatar avatar-34 photo" height="17" width="17">
+                        <a>
+                            {{ user.display_name }}
+                        </a>
+                    </li>
+                </ul>
+
+                <div v-if="selected.length > 0" class="popup-body">
+                    <div class="btn-box">
+                        <a class="button button-primary" @click="saveUsers()">Add</a>
+                        <a class="button button-cancel" @click="closeSearch()">Cancel</a>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
-</div>
 
 </template>
 
 <script>
     import Mixins from './mixin'
+    import project_new_user_form from '../project-lists/project-new-user-form.vue';
     export default {
 
         data() {
-          return {
-              searchChar : '',
-              pm_abort: null,
-              users:[],
-              selected: [],
-              show_spinner: false
+            return {
+                searchChar : '',
+                pm_abort: null,
+                notfound: false
 
-          }
+            }
         },
         mixins:[Mixins],
         methods: {
@@ -71,54 +68,97 @@
             searchUser: function () {
 
                 var $ = jQuery;
-
-                if (this.searchChar.length > 2) {
+                this.searched_users = [];
+                if (this.searchChar.length > 0) {
                     var args = {
                         conditions: {
                             query: this.searchChar
                         },
                         callback: function (res) {
-                            this.users = res.data;
-                            console.log(this.users);
+                            let i = 0;
+                            for(i = 0; i < res.data.length; i++){
+                                var has_user = this.selectedUsers.find(function(user) {
+                                    return res.data[i].id === user.id ? true : false;
+                                });
+                                var is_duplicate = this.selected.find(function(user) {
+                                    return res.data[i].id === user.id ? true : false;
+                                });
+                                if (!has_user && !is_duplicate) {
+                                    this.searched_users.push(res.data[i]);
+                                }
+
+                            }
+
                         }
                     }
 
                     if (this.pm_abort) {
                         this.pm_abort.abort();
                     }
+
                     this.pm_abort = this.get_search_user(args);
 
+
                 } else {
-                    this.users = [];
+                    this.searched_users = [];
                 }
+
+
             },
 
-            appendUser(s_user){
-
+            appendUser: function(s_user){
                 var has_user = this.selectedUsers.find(function(user) {
                     return s_user.id === user.id ? true : false;
                 });
 
-                if (!has_user) {
+                var is_duplicate = this.selected.find(function(user) {
+                    return s_user.id === user.id ? true : false;
+                });
+
+                if (!has_user && !is_duplicate) {
+                    this.addUserMeta(s_user);
+                    // this.$store.commit('updateSeletedUser', {
+                    //     item:  s_user,
+                    //     project_id: this.project.id
+                    // });
+
                     this.selected.push(s_user);
                 }
-
+                this.search_done = true;
                 return false;
             },
-            removeUser (user) {
+
+            updateSelected: function(user,value){
+                user.roles.data[0] = this.roles.find((roleObj) => {
+                    return roleObj.id === value;
+                });
+            },
+
+            removeUser: function(user) {
                 let i = this.selected.findIndex(u => u.id === user.id );
+                let s = this.selectedUsers.findIndex(u => u.id === user.id );
 
                 this.selected.splice(i, 1);
-            }
+                this.selectedUsers.splice(s, 1);
+            },
+
+            resetSearch: function(){
+                this.search_done = false;
+                this.searchChar = '';
+                this.$nextTick(() => {
+                    this.$refs.search.focus();
+                })
+                this.searched_users = [];
+                this.selected = [];
+            },
+
 
 
         },
 
-        computed:{
-
+        components:{
+            'project-new-user-form': project_new_user_form
         }
-
-
 
     }
 </script>
@@ -156,10 +196,11 @@
             }
         }
 
-        input{
+        input, input.show-name{
             width: 96%;
             margin: 1.8%;
         }
+        .popup-body{ padding: 0 8px}
 
         .add-user-pop {
             position: absolute;
