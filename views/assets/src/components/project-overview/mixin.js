@@ -1,6 +1,16 @@
 
 export default {
-    data(){},
+
+    data(){
+        return{
+            searched_users:[],
+            selected: [],
+            show_spinner: false,
+            search_done:false,
+            save_done: false,
+        }
+    },
+
     methods: {
         cutString(string, length, dot){
             var output = "";
@@ -11,16 +21,20 @@ export default {
             return output;
         },
         saveUsers () {
-            // if ( this.show_spinner ) {
-            //     return;
-            // }
 
-            if ( !this.project.title ) {
+            if (!this.project.title) {
                 pm.Toastr.error(__('Project title is required!', 'wedevs-project-manager'));
                 return;
             }
 
             // this.show_spinner = true;
+            let i = 0;
+            for (i = 0; i < this.selected.length; i++) {
+                this.$store.commit('updateSeletedUser', {
+                    item: this.selected[i],
+                    project_id: this.project.id
+                });
+            }
 
             var args = {
                 data: {
@@ -41,7 +55,11 @@ export default {
                     self.show_spinner = false;
                 }
                 this.updateProject ( args );
-                this.closeSearch();
+                // this.$emit('close');
+                this.searched_users = [];
+                this.selected = [];
+                this.search_done = false;
+                this.searchChar = '';
             }
         },
 
@@ -95,8 +113,23 @@ export default {
             this.$emit('close');
         },
 
+        removeSelected(){
+            console.log(this.selected.length)
+            if(this.searched_users.length > 0){
+                console.log('hit');
+                let i = 0;
+                for(i = 0; i < this.searched_users.length; i++){
+                    let user = this.searched_users[i];
+                    let s = this.selectedUsers.findIndex(u => u.id === user.id );
+
+                    this.selectedUsers.splice(s, 1);
+                }
+            }
+        }
+
     },
     computed:{
+
         project () {
             return  this.$store.state.project;
         },
@@ -110,7 +143,6 @@ export default {
             } else {
                 var projects = this.$store.state.projects;
                 var index = this.getIndex(projects, this.project.id, 'id');
-
                 return projects[index].assignees.data;
             }
         },
@@ -138,4 +170,4 @@ export default {
             }
         }
     }
-};
+}

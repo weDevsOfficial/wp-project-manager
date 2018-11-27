@@ -120,7 +120,7 @@
                         <i class="icon-pm-plus"></i>
                     </a>
                 </h3>
-                <search-user v-if="show_modal" v-pm-click-outside="hidePop" @close="hidePop"></search-user>
+                <search-user v-if="show_modal" v-pm-click-outside="hidePop" @close="hidePop" ></search-user>
                 <ul class="user_list">
                     <li v-for="user in selectedUsers" :key="user.id">
                         <div class="list-left">
@@ -260,6 +260,7 @@
             },
             hidePop(){
                 this.show_modal = false;
+                this.removeSelected();
             }
 
         },
