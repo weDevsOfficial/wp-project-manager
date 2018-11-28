@@ -96,18 +96,27 @@ class User_Controller {
 
     public function search( WP_REST_Request $request ) {
         $query_string = $request->get_param( 'query' );
+        $limit = $request->get_param( 'limit' );
         $term         = $request->get_param( 'term');
 
         $users = User::where( 'user_login', 'LIKE', '%' . $query_string . '%' )
             ->orWhere( 'user_nicename', 'LIKE', '%' . $query_string . '%' )
             ->orWhere( 'user_email', 'LIKE', '%' . $query_string . '%' )
-            ->orWhere( 'user_url', 'LIKE', '%' . $query_string . '%')
-            ->paginate();
+            ->orWhere( 'user_url', 'LIKE', '%' . $query_string . '%');
+//        var_dump($limit);
+        if ( $limit ) {
+            $users =  $users->limit( intval( $limit ) )->get();
+        } else {
+            $users =  $users->get();
+        }
 
-        $user_collection = $users->getCollection();
-        $resource = new Collection( $user_collection, new User_Transformer );
 
-        $resource->setPaginator( new IlluminatePaginatorAdapter( $users ) );
+
+//        $user_collection = $users->getCollection();
+//        $resource = new Collection( $user_collection, new User_Transformer );
+        $resource = new Collection( $users, new User_Transformer );
+
+//        $resource->setPaginator( new IlluminatePaginatorAdapter( $users ) );
 
         return $this->get_response( $resource );
     }
