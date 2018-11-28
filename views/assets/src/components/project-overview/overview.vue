@@ -114,12 +114,14 @@
             </div>
 
             <div class="pm-col-2 pm-sm-col-12 pm-right-part pm-last-col">
-                <h3 class="pm-border-bottom user-title"> {{ __( 'Users', 'wedevs-project-manager') }} </h3>
-                <h3 class="user-btn">
-                    <a @click="addUser()" class="add-user">
-                        <i class="icon-pm-plus"></i>
-                    </a>
-                </h3>
+                <div class="users-header">
+                    <h3> {{ __( 'Users', 'wedevs-project-manager') }} </h3>
+                    <span>
+                        <a @click="addUser()" class="add-user">
+                            <i class="icon-pm-plus"></i>
+                        </a>
+                    </span>
+                </div>
                 <search-user v-if="show_modal" v-pm-click-outside="hidePop" @close="hidePop" ></search-user>
                 <ul class="user_list">
                     <li v-for="user in selectedUsers" :key="user.id">
@@ -147,12 +149,58 @@
     .project-overview {
         margin-top: 10px;
     }
-    .user-title{ width: 73%; }
-    .user-btn{ width: 23%; border-bottom: solid 1px #eee;}
-    .user-btn, .user-title{ display: inline-block; float: left }
+
+    .users-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #eee;
+        padding: 10px;
+        h3 {
+            padding: 0 !important;
+            margin: 0 !important;
+        }
+        .user-title {
+            margin-bottom: 0;
+        }
+    }
+
+    #pm-add-user-wrap {
+        position: relative;
+        .add-user-pop {
+            top: 100% !important;
+            right: 0 !important;
+            padding: 10px  0 0 !important;
+            &:after {
+                right: 10px !important;;
+            }
+        }
+    }
+
+    .pm .project-overview .pm-right-part h3 {
+        margin-bottom: 10px;
+        padding: 0;
+    }
+
+    .pm .project-overview .pm-right-part h3 {
+        /*margin: 5px !important;*/
+        /*padding: 0 !important;*/
+    }
+
+    .user-btn { display: inline-block; float: left }
     .add-user { cursor: pointer; }
     .user_list{
+        margin-top: 5px !important;
         li{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 0 !important;
+            padding: 5px 10px;
+            &:not(:last-child){
+                margin-bottom: 5px !important;
+                border-bottom: 1px solid #eee;
+            }
             a.delete-user{
                 display: none;
                 i.icon-pm-delete:before{
@@ -169,14 +217,13 @@
                     margin: 10px;
                 }
             }
-
-            .list-left, .list-right{
-                /*border: 1px solid red; */
-                float: left;
+            .list-left {
+                flex-basis: 90%;
             }
-            .list-left{ width: 82%; }
-            .list-right{ width: 12%;}
         }
+    }
+    #pm-add-user-wrap {
+
     }
 </style>
 

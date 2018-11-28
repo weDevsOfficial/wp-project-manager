@@ -3,46 +3,51 @@
     <div id="pm-add-user-wrap">
         <div class="add-user-pop">
             <div class="popup-container">
-                <div class="popup-body">
-                    <h3>Add User</h3>
+                <div v-if="!createNew" class="search-user">
+                    <div class="popup-body">
+                        <h3>Add User</h3>
+                        <input v-if="!search_done" type="text" ref="search" class="pm-users-search" @keyup="searchUser" placeholder="Search User" v-model="searchChar">
+                            <div v-if="search_done" v-for="projectUser in selected" :key="projectUser.id">
+                                <div><input @click.prevent="resetSearch()" class="show-name" type="text" :value="projectUser.display_name"></div>
+                                <div>
+                                    <select  v-model="projectUser.roles.data[0].id" :disabled="!canUserEdit(projectUser.id)" @change="updateSelected(projectUser, projectUser.roles.data[0].id)" >
+                                        <option v-for="role in roles" :value="role.id" :key="role.id" >{{ role.title }}</option>
+                                    </select>
+                                    <!--<a @click.prevent="removeUser(projectUser)"  href="#" class="pm-del-proj-role pm-assign-del-user">-->
+                                        <!--<span class="dashicons dashicons-trash"></span>-->
+                                    <!--</a>-->
+                                </div>
 
-                    <input v-if="!search_done" type="text" ref="search" class="pm-users-search" @keyup="searchUser" placeholder="Search User" v-model="searchChar">
-                        <div v-if="search_done" v-for="projectUser in selected" :key="projectUser.id">
-                            <div><input @click.prevent="resetSearch()" class="show-name" type="text" :value="projectUser.display_name"></div>
-                            <div>
-                                <select  v-model="projectUser.roles.data[0].id" :disabled="!canUserEdit(projectUser.id)" @change="updateSelected(projectUser, projectUser.roles.data[0].id)" >
-                                    <option v-for="role in roles" :value="role.id" :key="role.id" >{{ role.title }}</option>
-                                </select>
-                                <a @click.prevent="removeUser(projectUser)"  href="#" class="pm-del-proj-role pm-assign-del-user">
-                                    <span class="dashicons dashicons-trash"></span>
-                                </a>
                             </div>
 
-                        </div>
-
-                </div>
-
-
-                <div v-if="notfound" class="popup-body" >
-                        <h1>{{ notfound }} {{ searched_users.length }}   Not Found</h1>
-                </div>
-
-                <ul v-if="!search_done" class="user_list">
-                    <li v-for="(user, index) in searched_users" :key="user.id" @click="appendUser(user)">
-                        <img alt="admin" :src="user.avatar_url" class="avatar avatar-34 photo" height="17" width="17">
-                        <a>
-                            {{ user.display_name }}
-                        </a>
-                    </li>
-                </ul>
-
-                <div v-if="selected.length > 0" class="popup-body">
-                    <div class="btn-box">
-                        <a class="button button-primary" @click="saveUsers()">Add</a>
-                        <a class="button button-cancel" @click="closeSearch()">Cancel</a>
                     </div>
-                </div>
 
+                    <div v-if="notfound" class="popup-body">
+                        <p class="centered">No user found named <span class="pm-text-danger">"{{ searchChar }}"</span>, You can create a new user</p>
+                        <button class="button-primary pm-new-user-btn" @click="createNewUser(true)" type="button">Create User</button>
+
+                    </div>
+
+                    <ul v-if="!search_done" class="user_list">
+                        <li v-for="(user, index) in searched_users" :key="user.id" @click="appendUser(user)">
+                            <img alt="admin" :src="user.avatar_url" class="avatar avatar-34 photo" height="17" width="17">
+                            <a>
+                                {{ user.display_name }}
+                            </a>
+                        </li>
+                    </ul>
+
+                    <div v-if="selected.length > 0" class="popup-body">
+                        <div class="btn-box">
+                            <a class="button button-primary" @click="saveUsers()">Add</a>
+                            <a class="button button-cancel" @click="closeSearch()">Cancel</a>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="create-user add-user-inside-pop">
+                    <add-new-user v-if="createNew" @created="createNewUser(false)"></add-new-user>
+                </div>
             </div>
         </div>
     </div>
@@ -51,14 +56,15 @@
 
 <script>
     import Mixins from './mixin'
-    import project_new_user_form from '../project-lists/project-new-user-form.vue';
+    import addNewUser from './addNewUser.vue';
     export default {
 
         data() {
             return {
                 searchChar : '',
                 pm_abort: null,
-                notfound: false
+                notfound: false,
+                createNew: false
 
             }
         },
@@ -72,7 +78,8 @@
                 if (this.searchChar.length > 0) {
                     var args = {
                         conditions: {
-                            query: this.searchChar
+                            query: this.searchChar,
+                            limit: 6
                         },
                         callback: function (res) {
                             let i = 0;
@@ -88,6 +95,13 @@
                                 }
 
                             }
+
+                            if (!res.data.length)  {
+                                this.notfound = true;
+                            } else {
+                                this.notfound = false;
+                            }
+
 
                         }
                     }
@@ -152,12 +166,20 @@
                 this.selected = [];
             },
 
+            createNewUser(isNot){
+                if(isNot){
+                    this.createNew = true;
+                } else {
+                    this.createNew = false;
+                }
+
+             }
+
 
 
         },
-
         components:{
-            'project-new-user-form': project_new_user_form
+            'add-new-user': addNewUser
         }
 
     }
@@ -165,8 +187,21 @@
 
 <style lang="less">
 
+
     #pm-add-user-wrap{
         position: relative;
+        .add-user-inside-pop {
+            .pm-user-create-form {
+                padding: 10px;
+            }
+            .pm-field-wrap {
+                margin-bottom: 10px;
+            }
+        }
+
+        .pm-text-danger {
+            color: #9C3232;
+        }
         ul.user_list {
             margin: 0;
             padding: 0;
@@ -197,10 +232,17 @@
         }
 
         input, input.show-name{
-            width: 96%;
-            margin: 1.8%;
+            width: 100%;
         }
-        .popup-body{ padding: 0 8px}
+        .popup-body{
+            padding: 0 8px;
+            p {
+                margin-top: 0;
+            }
+            .pm-new-user-btn {
+                margin-bottom: 10px;
+            }
+        }
 
         .add-user-pop {
             position: absolute;
@@ -228,6 +270,23 @@
                 border-width: 0 8px 7px 8px;
             }
         }
+        .pm-users-search {
+            margin-bottom: 10px;
+        }
+        .show-name, select {
+            margin: 0 0 10px 0 !important;
+            width: 100% !important;
+        }
+        .btn-box {
+            display: flex;
+            flex-direction: row-reverse;
+            margin-bottom: 10px;
+            .button-cancel {
+                margin-right: 10px;
+            }
+        }
+
+
 
     }
 
