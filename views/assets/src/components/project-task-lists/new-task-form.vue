@@ -277,7 +277,7 @@ export default {
                     assignees: {
                         data: []
                     },
-                    estimation: ''
+                    estimation: 0
                 }
             }
         },
@@ -559,7 +559,8 @@ export default {
                     due_date: this.task.due_date.date,
                     list_id: this.list.id,
                     order: this.task.order,
-                    estimation: this.task.estimation
+                    estimation: this.task.estimation,
+                    recurrent: this.task.recurrent
                 },
                 callback: function( res ) {
                     self.show_spinner = false;
