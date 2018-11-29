@@ -46,7 +46,7 @@
 
                 </div>
                 <div class="create-user add-user-inside-pop">
-                    <add-new-user v-if="createNew" @created="createNewUser(false)"></add-new-user>
+                    <add-new-user :first-name="searchChar" v-if="createNew" @created="createNewUser(false)"></add-new-user>
                 </div>
             </div>
         </div>
@@ -170,6 +170,18 @@
                 if(isNot){
                     this.createNew = true;
                 } else {
+                    if(!_.isEmpty(this.createdNewUser)){
+                        let newUser = this.createdNewUser;
+                        // selected:res.data,
+                        //     notfound: false,
+                        //     createNew: false,
+                        //     searchDone: true
+                        this.selected.push(newUser.selected);
+                        this.notfound = newUser.notfound;
+                        this.createNew = newUser.createNew;
+                        this.search_done = newUser.searchDone;
+                        this.$root.$store.commit('resetCreatedUser')
+                    }
                     this.createNew = false;
                 }
 
@@ -180,6 +192,16 @@
         },
         components:{
             'add-new-user': addNewUser
+        },
+        created:function(){
+            this.$nextTick(() => {
+                this.$refs.search.focus();
+            });
+        },
+        computed:{
+            createdNewUser(){
+                return this.$store.state.newlyCreated;
+            }
         }
 
     }
@@ -208,13 +230,14 @@
             border-top: 0.2px solid #ccc;
 
             li {
-                margin: 0;
+                margin: 0 !important;
                 padding: 8px;
                 display: block;
                 height: auto;
                 clear: left;
                 border-bottom: 0.2px solid #ccc;
                 overflow: auto;
+                cursor: pointer;
                 &:hover {
                     background: rgba(0, 185, 235, 0.1);
                 }
@@ -228,6 +251,7 @@
 
             li a {
                 font-weight: 600;
+                cursor: pointer;
             }
         }
 
