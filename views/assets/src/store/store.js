@@ -249,6 +249,13 @@ export default new pm.Vuex.Store({
             state.history = {
                 to, from
             };
+        },
+
+        setCreatedUser (state, created_user) {
+            state.newlyCreated = created_user;
+        },
+        resetCreatedUser (state){
+            state.newlyCreated = {};
         }
     }
 
