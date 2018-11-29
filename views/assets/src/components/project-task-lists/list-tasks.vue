@@ -7,7 +7,6 @@
                 <incompleted-tasks :task="task" :list="list"></incompleted-tasks>
             </li>
         </ul> 
-
         
         <div
         v-if="isIncompleteLoadMoreActive(list) || getCompleteTasks.length"

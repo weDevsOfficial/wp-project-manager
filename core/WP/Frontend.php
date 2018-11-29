@@ -359,7 +359,7 @@ function project_text_editor($config) {
         $wp_admin_bar->add_node( 
             [
                 'id'		=> 'pm_search',
-                'title'     => '<span class="ab-icon dashicons icon-pm-switch-project"></span>',
+                'title'     => '<span class="ab-icon icon-pm-switch-project" style="padding: 6px 0;"></span>',
                 'href'      => '#',
                 'parent' => 'top-secondary',
                 'meta'  => [
