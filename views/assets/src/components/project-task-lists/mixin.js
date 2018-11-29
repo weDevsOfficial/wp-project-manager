@@ -94,6 +94,10 @@ var PM_TaskList_Mixin = {
             if (this.is_manager()) {
                 return true;
             }
+            
+            if (typeof task.id  === 'undefined' && this.can_create_task) {
+                return true;
+            }
 
             if ( task.creator.data.id == user.ID ){
                 return true;
@@ -189,7 +193,7 @@ var PM_TaskList_Mixin = {
             var condition = this.generateConditions(conditionobject);
 
             var request = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/task-lists?'+condition,
+                url: self.base_url + '/pm/v2/projects/'+self.$route.params.project_id+'/task-lists?'+condition,
                 success (res) {
 
                     res.data.map(function(list,index) {

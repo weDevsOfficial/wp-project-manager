@@ -57,61 +57,6 @@
             <single-task :taskId="taskId" :projectId="projectId"></single-task>
         </div>
     </div>
-    <!-- <div class="pm-todo-wrap clearfix">
-        <div class="pm-todo-content" >
-            <div>
-                <div class="pm-col-6">
-                    <input :disabled="can_complete_task(task) ||  isArchivedTaskList(task)" v-model="task.status"  @change="doneUndone()" class="" type="checkbox"  value="" name="" >
-
-                    <span class="task-title">
-                        
-                        <a href="#" @click.prevent="getSingleTask(task)">
-                            <span class="pm-todo-text">{{ task.title }}</span>
-                        </a>
-                     
-                    </span> 
-                  
-
-                    <span class='pm-assigned-user' v-for="user in task.assignees.data" :key="user.id">
-                        <a :href="myTaskRedirect(user.id)" :title="user.display_name">
-                            <img :src="user.avatar_url" :alt="user.display_name" height="48" width="48">
-                        </a>
-
-                    </span>
-
-                    <span v-if="taskTimeWrap(task)" :class="completedTaskWrap(task.due_date.date)">
-                        <span v-if="task_start_field">{{ dateFormat( task.start_at.date ) }}</span>
-                        <span v-if="isBetweenDate( task_start_field, task.start_at.date, task.due_date.date )">&ndash;</span>
-                        <span>{{ dateFormat( task.due_date.date ) }}</span>
-                    </span>
-                </div>
-
-                <div class="pm-col-5">
-                    
-                    <span class="pm-comment-count">
-                        <a href="#">
-                            {{ task.comment_count }}
-                        </a>
-                    </span>
-                </div>
-
-
-                <div class="pm-col-1 pm-todo-action-right pm-last-col" v-if="can_edit_task(task) && !isArchivedTaskList(task)">
-                    <a href="#" @click.prevent="deleteTask({task: task, list: list})" class="pm-todo-delete"><span class="dashicons dashicons-trash"></span></a>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-        </div>
-         <transition name="slide" v-if="can_edit_task(task)">
-            <div class="pm-todo-form" v-if="task.edit_mode">
-                <new-task-form :task="task" :list="list"></new-task-form>
-            </div>
-        </transition>
-
-        <div v-if="parseInt(taskId) && parseInt(projectId)">
-            <single-task :taskId="taskId" :projectId="projectId"></single-task>
-        </div>
-    </div> -->
 </template>
 
 

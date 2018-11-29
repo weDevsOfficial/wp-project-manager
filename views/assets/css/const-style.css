@@ -1,10 +1,13 @@
+/*
+ * icomoon font css
+ */
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?yj2odc');
-  src:  url('fonts/icomoon.eot?yj2odc#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?yj2odc') format('truetype'),
-    url('fonts/icomoon.woff?yj2odc') format('woff'),
-    url('fonts/icomoon.svg?yj2odc#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?xhopfy');
+  src:  url('fonts/icomoon.eot?xhopfy#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?xhopfy') format('truetype'),
+    url('fonts/icomoon.woff?xhopfy') format('woff'),
+    url('fonts/icomoon.svg?xhopfy#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -29,6 +32,10 @@
 }
 .icon-pm-check-circle:before {
   content: "\e919";
+}
+.icon-pm-switch-project:before {
+  content: "\e931";
+  color: #9ea3a7;
 }
 .icon-pm-enter:before {
   content: "\e92e";
@@ -222,3 +229,65 @@
 .icon-pm-filter:before {
   content: "\ea5b";
 }
+
+
+/*
+ * Flaticon icon font: Flaticon
+ * Creation date: 14/11/2018 09:12
+ */
+
+@font-face {
+  font-family: "Flaticon";
+  src: url("flaticon-fonts/Flaticon.eot");
+  src: url("flaticon-fonts/Flaticon.eot?#iefix") format("embedded-opentype"),
+       url("flaticon-fonts/Flaticon.woff") format("woff"),
+       url("flaticon-fonts/Flaticon.ttf") format("truetype"),
+       url("flaticon-fonts/Flaticon.svg#Flaticon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: "Flaticon";
+    src: url("./Flaticon.svg#Flaticon") format("svg");
+  }
+}
+
+[class^="flaticon-"]:before, [class*=" flaticon-"]:before,
+[class^="flaticon-"]:after, [class*=" flaticon-"]:after {   
+  font-family: Flaticon;
+        font-size: 20px;
+font-style: normal;
+margin-left: 20px;
+}
+
+.flaticon-document:before { content: "\f100"; }
+.flaticon-arrow:before { content: "\f101"; }
+.flaticon-menu:before { content: "\f102"; }
+.flaticon-data-analytics:before { content: "\f103"; }
+.flaticon-people:before { content: "\f104"; }
+.flaticon-more:before { content: "\f105"; }
+.flaticon-chat:before { content: "\f106"; }
+.flaticon-edit:before { content: "\f107"; }
+.flaticon-delete:before { content: "\f108"; }
+.flaticon-private:before { content: "\f109"; }
+.flaticon-lock:before { content: "\f10a"; }
+.flaticon-move:before { content: "\f10b"; }
+.flaticon-calendar:before { content: "\f10c"; }
+.flaticon-clock:before { content: "\f10d"; }
+.flaticon-copy:before { content: "\f10e"; }
+.flaticon-check-mark:before { content: "\f10f"; }
+.flaticon-cross:before { content: "\f110"; }
+.flaticon-list:before { content: "\f111"; }
+.flaticon-refresh:before { content: "\f112"; }
+.flaticon-print:before { content: "\f113"; }
+.flaticon-comment-black-oval-bubble-shape:before { content: "\f114"; }
+.flaticon-menu-1:before { content: "\f115"; }
+.flaticon-flag:before { content: "\f116"; }
+.flaticon-plus:before { content: "\f117"; }
+.flaticon-magnifying-glass-browser:before { content: "\f118"; }
+.flaticon-bookmark-star:before { content: "\f119"; }
+.flaticon-pm-archive:before { content: "\f11a"; }
+.flaticon-pm-discussions:before { content: "\f11b"; }
+.flaticon-pm-overview:before { content: "\f11c"; }

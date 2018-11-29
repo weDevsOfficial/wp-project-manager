@@ -136,7 +136,8 @@ return [
 
 	'pm-touch-punch' => [
 		'id'         => 'pm-touch-punch',
-		'url'        => 'https://unpkg.com/draggabilly@2/dist/draggabilly.pkgd.min.js',
+		'path'       => $view_path . '/assets/vendor/touch-punch/draggabilly.min.js',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/touch-punch/draggabilly.min.js',
 		'dependency' => ['pm-pretty-photo'],
 		'in_footer'  => true
 	],
@@ -149,19 +150,19 @@ return [
 		'in_footer'  => true
 	],
 
-	'pm-slicknav' => [
-		'id'         => 'pm-slicknav',
-		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/slicknav/slicknav.min.js',
-		'path'       => $view_path . '/assets/vendor/slicknav/slicknav.min.js',
-		'dependency' => ['pm-tiptip'],
-		'in_footer'  => true
-	],
+	// 'pm-slicknav' => [
+	// 	'id'         => 'pm-slicknav',
+	// 	'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/slicknav/slicknav.min.js',
+	// 	'path'       => $view_path . '/assets/vendor/slicknav/slicknav.min.js',
+	// 	'dependency' => ['pm-tiptip'],
+	// 	'in_footer'  => true
+	// ],
 
 	'pm-uploader' => [
 		'id'         => 'pm-uploader',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/uploader/uploader.js',
 		'path'       => $view_path . '/assets/vendor/uploader/uploader.js',
-		'dependency' => ['pm-slicknav'],
+		'dependency' => ['pm-tiptip'],
 		'in_footer'  => true
 	],
 

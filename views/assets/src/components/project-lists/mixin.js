@@ -17,6 +17,14 @@ export default {
     },
 	methods: {
 
+        activeClass(view){
+            if ( view == this.projects_view ) {
+                return view;
+            }
+            
+            //return this.$store.state.projects_view === view;
+        },
+
 		projects_view_class (){
             return 'grid_view' === this.projects_view ? 'pm-project-grid': 'pm-project-list'
         },
