@@ -146,9 +146,9 @@ class Comment_Controller {
     public function destroy( WP_REST_Request $request ) {
         $comment_id = $request->get_param( 'comment_id' );
         $comment    = Comment::find( $comment_id );
-
-        $resource_type = $comment->resource_type;
-        $resource_id = $comment->resource_id;
+        
+        $resource_type = $comment->commentable_type;
+        $resource_id = $comment->commentable_id;
 
         do_action( 'cpm_comment_delete', $comment, false );
         $this->detach_files( $comment );

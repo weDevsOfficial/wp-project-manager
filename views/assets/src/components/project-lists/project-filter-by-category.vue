@@ -4,7 +4,7 @@
             <option value="-1">
                {{ __( '- Project Category -', 'wedevs-project-manager') }}
             </option>
-            <option v-for="categorie in categories" :value="categorie.id">
+            <option v-for="categorie in categories" :value="categorie.id" :key="categorie.id">
                 {{ categorie.title }}
             </option>
         </select>
@@ -24,8 +24,6 @@
                 return this.$root.$store.state.categories;
             }
         },
-
-
         methods: {
             categoryFilter () {
                 var self = this;
@@ -33,10 +31,10 @@
                     'category': self.categorie_id === '-1' ? false : self.categorie_id
                 }
 
-                var setQuery = this.setQuery(extra_ele);
-                
+                // var setQuery = this.setQuery(extra_ele);
+
                 this.$router.push({
-                    query: setQuery
+                    query: extra_ele
                 });
             }
         }

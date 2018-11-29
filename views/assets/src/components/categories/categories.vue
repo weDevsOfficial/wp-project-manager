@@ -96,7 +96,7 @@
                             
                             <tbody id="the-list" data-wp-lists="list:tag">
 
-                                <tr id="tag-1" v-for="category in categories" key="category.id" :class="catTrClass(category)" :key="category.id">
+                                <tr id="tag-1" v-for="category in categories" :class="catTrClass(category)" :key="category.id">
                                     <th v-if="!category.edit_mode" scope="row" class="check-column">
                                         <input v-model="delete_items" :value="category.id" type="checkbox"  id="cb-select-48">
                                     </th>

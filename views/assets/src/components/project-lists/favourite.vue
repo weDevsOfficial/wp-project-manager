@@ -1,5 +1,5 @@
 <template>
-    <a href="javscript: void(0)" :class="favoutireclass" @click="favouriteUnfavourite()"><i class="pm-icon flaticon-bookmark-star"></i></a>
+    <a href="" :class="favoutireclass" @click.prevent="favouriteUnfavourite()"><i class="pm-icon flaticon-bookmark-star"></i></a>
 </template>
 
 
