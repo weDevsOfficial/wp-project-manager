@@ -21,10 +21,10 @@
                                 </span>
                                 
                                 <span class="pm-date">
-                                    <time :datetime="dateISO8601Format( comment.comment_date )" :title="getFullDate( comment.created_at.date+' '+comment.created_at.time )">{{ relativeDate(comment.created_at.datetime) }}</time>
+                                    <time :datetime="dateISO8601Format( comment.created_at.datetime )" :title="getFullDate( comment.created_at.date+' '+comment.created_at.time )">{{ relativeDate(comment.created_at.datetime) }}</time>
                                 </span>
                             </div>
-                            <div v-if="!comment.edit_mode" @click.prevent="showActionMenu(comment)" class="icon-pm-down-arrow comment-action-arrow">
+                            <div v-if="!comment.edit_mode && can_edit_comment(comment)" @click.prevent="showActionMenu(comment)" class="icon-pm-down-arrow comment-action-arrow">
                                 <div v-if="comment.actionMode" class="pm-popup-menu comment-action">
                                     <ul class="comment-action-ul">
                                         <li>

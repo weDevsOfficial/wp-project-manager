@@ -3484,6 +3484,8 @@ a.pm-icon-tick.grey {
   margin-right: 0px;
   font-size: 13px;
   float: right;
+  word-break: break-all;
+  hyphens: auto;
 }
 .pm .pm-activity-list li.pm-row .pm-activity-body .pm-col-8,
 .pm .pm-activity-list li.pm-row .pm-activity-body .pm-col-4 {
@@ -3753,6 +3755,7 @@ a.pm-icon-tick.grey {
   padding-left: 28px;
   padding-top: 5px;
   color: #019dd6;
+  min-width: 150px;
 }
 .pm .pm-message-page .pm-message-list li:hover {
   background: #f9f9f9;

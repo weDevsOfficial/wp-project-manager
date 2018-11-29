@@ -67,7 +67,7 @@
                                 </a>
                             </li>
                             <li class="edit-task-btn">
-                                <a @click.prevent="showHideTaskFrom('toggle', false, task )" class="li-a" href="#">
+                                <a @click.prevent="taskFormActivity('toggle', false, task, $event)" class="li-a" href="#">
                                     <span class="icon-pm-pencil"></span>
                                     <span>{{ __('Edit', 'wedevs-project-manager') }}</span>
                                 </a>
@@ -93,87 +93,6 @@
         </div>
     </div>
 
-    <!-- <div class="pm-todo-wrap clearfix">
-        
-        <div v-if="!task.edit_mode" class="pm-todo-content">
-            <div class="pm-todo-inside">
-                <div class="pm-col-7">
-                   <input :disabled="can_complete_task(task) || isArchivedTaskList(task)" v-model="task.status"  @change="doneUndone()" type="checkbox"  value="" name="" >
-
-                    <span class="task-title">
-                        
-                        <a href="#" @click.prevent="getSingleTask(task)">{{ task.title }}</a>
-                    
-                    </span>                 
-
-                    <span class='pm-assigned-user' v-for="user in task.assignees.data" :key="user.id">
-                        <a :href="myTaskRedirect(user.id)" :title="user.display_name">
-                            <img :src="user.avatar_url" :alt="user.display_name" height="48" width="48">
-                        </a>
-                    </span>
-                    
-                    <span v-if="taskTimeWrap(task)" :class="taskDateWrap(task.due_date.date)">
-                        <span v-if="task_start_field">{{ taskDateFormat( task.start_at.date ) }}</span>
-                        <span v-if="isBetweenDate( task_start_field, task.start_at.date, task.due_date.date )">&ndash;</span>
-                        <span>{{ taskDateFormat(task.due_date.date) }}</span>
-                    </span>
-                </div>
-                
-                <div class="pm-col-4 pm-todo-action-center">
-                    
-                    <span class="pm-task-comment pm-todo-action-child">
-
-                            <router-link 
-                                :to="{ 
-                                    name: route_name, 
-                                    params: { 
-                                        list_id: list.id, 
-                                        task_id: task.id, 
-                                        project_id: project_id, 
-                                }}">
-
-                                <span class="pm-comment-count">
-                                    {{ task.meta.total_comment }}
-                                </span>
-                            </router-link>
-                    </span>
-                    <span>
-                        <a v-if="PM_Vars.is_pro && can_edit_task(task) && user_can('view_private_task')" href="#" @click.prevent="TaskLockUnlock(task)"><span :class="privateClass( task.meta.privacy )"></span></a>
-                    </span>
-
-                    <do-action :hook="'task_inline'" :actionData="doActionData"></do-action>
-                    <div class="pm-clearfix"></div>
-
-                </div>
-
-                <div class="clearfix"></div>
-
-                <div class="pm-list-action-wrap" v-if="!isArchivedTaskList(task)">
-                    <div class="pm-list-action" v-if="can_edit_task(task)">
-
-                        <a href="#" @click.prevent="showHideTaskFrom('toggle', false, task )" class="pm-todo-edit">
-                            <span class="">{{ __('Edit', 'wedevs-project-manager') }} |</span>
-                        </a>
-                        <a href="#" @click.prevent="deleteTask({task: task, list: list})" class="pm-todo-delete">
-                            <span class="">{{ __('Delete', 'wedevs-project-manager') }}</span>
-                        </a>
-                    </div>
-                        
-                </div>
-            </div>
-            
-            <do-action v-if="!isSingleTask" :hook="'after_task_content'" :actionData="doActionData"></do-action>
-        </div>
-        <transition name="slide" v-if="can_edit_task(task)">
-            <div class="pm-todo-form" v-if="task.edit_mode">
-                <new-task-form :task="task" :list="list"></new-task-form>
-            </div>
-        </transition>
-
-        <div v-if="parseInt(taskId) && parseInt(projectId)">
-            <single-task :taskId="taskId" :projectId="projectId"></single-task>
-        </div>
-    </div> -->
 </template>
 
 <style lang="less">
@@ -185,7 +104,20 @@
     import Mixins from './mixin';
     
     export default {
-        props: ['task', 'list'],
+        props: {
+            task: {
+                type: [Object],
+                default () {
+                    return {}
+                }
+            },
+            list: {
+                type: [Object],
+                default () {
+                    return {};
+                } 
+            }
+        },
         
         mixins: [Mixins],
 
@@ -198,8 +130,14 @@
         },
 
         created () {
+            var self = this;
             window.addEventListener('click', this.windowActivity);
             pmBus.$on('pm_after_close_single_task_modal', this.afterCloseSingleTaskModal);
+            jQuery('body').keyup(function(e) {
+                if (e.keyCode === 27) {
+                    self.task.edit_mode = false;
+                }
+            });
         },
 
         components: {
@@ -230,6 +168,16 @@
         },
         
         methods: {
+            taskFormActivity (toggle, status, task, el) {
+                var li = jQuery(el.target).closest('.incomplete-task-li');
+                
+                this.showHideTaskFrom(toggle, status, task);
+
+                pm.Vue.nextTick(function() {
+                    li.find('.task-input-field').focus();
+                });
+
+            },
             getTaskFullDate (task) {
                 var date = '';
                 

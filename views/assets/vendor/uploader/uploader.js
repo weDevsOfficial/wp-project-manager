@@ -47,7 +47,10 @@
     PM_Uploader.prototype = {
 
         init: function (up, params) {
-
+            
+            jQuery('#pm-upload-container')
+                .find('input[type="file"]')
+                .attr({'tabindex': '-1'});
         },
 
         added: function (up, files) {

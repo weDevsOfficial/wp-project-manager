@@ -25,4 +25,8 @@ class Meta extends Eloquent {
     public function milestone() {
         return $this->belongsTo( 'WeDevs\PM\Milestone\Models\Milestone', 'entity_id' );
     }
+
+    public function getMetaValueAttribute( $value ) {
+        return maybe_unserialize( $value );
+    }
 }

@@ -10,8 +10,8 @@
                
         <div class="pm-flex">
             <div class="comment-action-chunk">
-                <input v-if="!comment.edit_mode" :disabled="submit_disabled" type="submit" class="pm-button pm-primary"  :value="add_new_comment" id="" />
-                <input v-if="comment.edit_mode" :disabled="submit_disabled" type="submit" class="pm-button pm-primary"  :value="update_comment" id="" />
+                <input  v-if="!comment.edit_mode" :disabled="submit_disabled" type="submit" class="pm-button pm-primary"  :value="add_new_comment" id="" />
+                <input  v-if="comment.edit_mode" :disabled="submit_disabled" type="submit" class="pm-button pm-primary"  :value="update_comment" id="" />
                 <a href="#" @click.prevent="hideCommentForm()" class="pm-button pm-secondary pm-button-cancel">{{__('Cancel', 'wedevs-project-manager')}}</a>
                 <span v-show="show_spinner" class="pm-spinner"></span>
             </div>
@@ -207,7 +207,7 @@
             if ( this.submit_disabled ) {
                 return;
             }
-            if (typeof this.comment.content === 'undefined' || this.comment.content == '') {
+            if (typeof this.content.html === 'undefined' || this.content.html == '') {
                 return;
             }
             // Disable submit button for preventing multiple click
@@ -223,7 +223,7 @@
             var args = {
                 data: {
                     commentable_id: self.task_id,
-                    content: self.comment.content,
+                    content: self.content.html,
                     commentable_type: 'task',
                     deleted_files: self.deleted_files || [],
                     mentioned_users: self.mentioned_user_ids,

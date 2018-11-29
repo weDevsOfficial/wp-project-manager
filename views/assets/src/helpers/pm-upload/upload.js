@@ -55,7 +55,6 @@
         },
 
         added: function (up, files) {
-
             var $container = $('#' + this.container).find('.pm-upload-filelist');
             self = this;
             

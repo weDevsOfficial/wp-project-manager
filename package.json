@@ -1,6 +1,6 @@
 {
   "name": "pmapi",
-  "version": "2.0.7",
+  "version": "2.0.8",
   "description": "Front-end package manager for project manager",
   "main": "index.js",
   "directories": {
@@ -71,8 +71,10 @@
     "rimraf": "^2.6.1",
     "sass-loader": "^6.0.6",
     "shx": "^0.2.2",
+    "style-loader": "^0.19.1",
     "uglify-js": "^3.4.4",
     "uglifyjs-webpack-plugin": "^1.2.4",
+    "url-loader": "^1.1.2",
     "vue-loader": "^13.0.4",
     "vue-template-compiler": "^2.4.2",
     "watch": "^1.0.2",
