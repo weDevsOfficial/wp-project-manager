@@ -877,12 +877,12 @@
                 }
 
                 if ( !this.can_edit_task(this.task) ) {
-                    this.is_task_date_edit_mode = this.is_task_date_edit_mode ? false : true;
+                    this.is_task_date_edit_mode = false;
 
                     return this.is_task_date_edit_mode;
                 }
                 
-                this.is_task_date_edit_mode = this.is_task_date_edit_mode ? false : true;
+                this.is_task_date_edit_mode = true; 
             },
 
             windowActivity (el) {
