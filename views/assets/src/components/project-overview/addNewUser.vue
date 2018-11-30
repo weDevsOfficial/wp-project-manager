@@ -2,15 +2,15 @@
     <div class="pm-create-user-form-wrap">
         <h3>Create New User</h3>
         <div class="pm-error"></div>
-        <form action="" class="pm-user-create-form" @submit.prevent="createUser()">
+        <form action="" class="pm-user-create-form" @submit.prevent="saveUser()">
             <div class="pm-field-wrap">
                 <label for="user_name">{{ __( 'Username', 'wedevs-project-manager') }}</label>
-                <input ref="user_name" id="user_name" v-model="username" type="text" required name="user_name">
+                <input id="user_name" v-model="username" type="text" required name="user_name">
 
             </div>
             <div class="pm-field-wrap">
                 <label for="first_name">{{ __( 'First Name', 'wedevs-project-manager') }}</label >
-                <input id="first_name" v-model="first_name" type="text" name="first_name">
+                <input ref="first_name" id="first_name" v-model="first_name" type="text" name="first_name">
 
             </div>
             <div class="pm-field-wrap">
@@ -20,12 +20,12 @@
             </div>
             <div class="pm-field-wrap">
                 <label for="email">{{ __( 'Email', 'wedevs-project-manager') }}</label>
-                <input id="email" v-model="email" type="email" required name="email">
-
+                <input @blur="searchUser()" v-bind:class="{danger:user_found}" id="email" v-model="email" type="email" required name="email">
+                <span v-if="user_found" class="danger">{{ exist_msg }}</span>
             </div>
             <div class="button-box">
                 <button class="button button-cancel" type="button" @click="cancelUser()">{{ cancel_user }}</button>
-                <input class="button-primary pm-new-user-btn" type="submit" :value="create_user" name="create_user">
+                <input :disabled="user_found" class="button-primary pm-new-user-btn" type="submit" :value="create_user" name="create_user">
                 <span v-show="show_spinner" class="pm-spinner"></span>
             </div>
         </form>
@@ -36,7 +36,7 @@
     import Mixins from './mixin'
     export default {
         props :{
-            firstName: {
+            userName: {
                 type: String,
                 default: ''
             }
@@ -44,13 +44,15 @@
         mixins:[Mixins],
         data () {
             return {
-                username: '',
-                first_name: this.firstName,
+                username: this.userName,
+                first_name: '',
                 last_name: '',
                 email: '',
                 create_user: __( 'Create', 'wedevs-project-manager'),
                 cancel_user: __( 'Cancel', 'wedevs-project-manager'),
                 show_spinner: false,
+                user_found: false,
+                exist_msg: ''
             }
         },
         methods: {
@@ -72,7 +74,7 @@
                         self.addUserMeta(res.data);
                         self.$root.$store.commit('setCreatedUser',{
                             selected:res.data,
-                            notfound: false,
+                            user_found: false,
                             createNew: false,
                             searchDone: true
                         });
@@ -83,13 +85,53 @@
                 });
             },
 
+            searchUser: function () {
+                var $ = jQuery;
+
+                if(this.email != '') {
+                    var args = {
+                        conditions: {
+                            query: this.email
+                        },
+                        callback: function (res) {
+
+                            if (!res.data.length) {
+                                this.user_found = false;
+                                this.exist_msg = ""
+                            } else {
+                                this.user_found = true;
+                                this.exist_msg = "this email already exists with user name \"" + res.data[0].username + "\"";
+                            }
+                            this.show_spinner = false;
+                        }
+                    }
+
+                    if (this.pm_abort) {
+                        this.pm_abort.abort();
+                    }
+
+                    this.pm_abort = this.get_search_user(args);
+                } else {
+                    this.user_found = false;
+                    this.exist_msg = ""
+                }
+
+            },
+
+            saveUser(){
+              this.searchUser();
+              if(!this.user_found){
+                  this.createUser();
+              }
+            },
+
             cancelUser() {
                this.$emit('created');
             }
         },
         created:function(){
                 this.$nextTick(() => {
-                this.$refs.user_name.focus();
+                this.$refs.first_name.focus();
             });
         }
     }
@@ -119,6 +161,13 @@
         }
         .button-cancel {
             margin-right: 10px;
+        }
+        input.danger{
+            border-color: #aa1111 !important;
+        }
+        span.danger{
+           font-size: 10px;
+            color: red;
         }
     }
 </style>

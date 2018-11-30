@@ -22,7 +22,7 @@
 
                     </div>
 
-                    <div v-if="notfound" class="popup-body">
+                    <div v-if="notfound && searchChar !== ''" class="popup-body">
                         <p class="centered">No user found named <span class="pm-text-danger">"{{ searchChar }}"</span>, You can create a new user</p>
                         <button class="button-primary pm-new-user-btn" @click="createNewUser(true)" type="button">Create User</button>
 
@@ -46,7 +46,7 @@
 
                 </div>
                 <div class="create-user add-user-inside-pop">
-                    <add-new-user :first-name="searchChar" v-if="createNew" @created="createNewUser(false)"></add-new-user>
+                    <add-new-user :user-name="searchChar" v-if="createNew" @created="createNewUser(false)"></add-new-user>
                 </div>
             </div>
         </div>
