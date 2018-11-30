@@ -63,7 +63,7 @@
             </div>
 
         </form>
-        <div v-pm-user-create-popup-box id="pm-create-user-wrap" :title="create_new_user">
+        <div v-pm-user-create-popup-box id="pm-create-user-wrap" class="pm-new-user-wrap" :title="create_new_user">
             <project-new-user-form></project-new-user-form>
         </div>
     </div>

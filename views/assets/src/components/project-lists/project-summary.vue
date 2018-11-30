@@ -91,7 +91,7 @@
                             </li>
                             <li class="pm-meta-files pm-has-tooltip">
                                 <router-link :to="{
-                                    name: 'task_lists',
+                                    name: 'pm_files',
                                     params: {
                                         project_id: project.id
                                     }}">
