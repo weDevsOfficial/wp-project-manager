@@ -23,9 +23,9 @@
                 <input id="email" v-model="email" type="email" required name="email">
 
             </div>
-            <div>
+            <div class="button-box">
+                <button class="button button-cancel" type="button" @click="cancelUser()">{{ cancel_user }}</button>
                 <input class="button-primary pm-new-user-btn" type="submit" :value="create_user" name="create_user">
-                <button class="pm-new-user-btn button-cancel" type="button">Cancel</button>
                 <span v-show="show_spinner" class="pm-spinner"></span>
             </div>
         </form>
@@ -48,7 +48,8 @@
                 first_name: this.firstName,
                 last_name: '',
                 email: '',
-                create_user: __( 'Create User', 'wedevs-project-manager'),
+                create_user: __( 'Create', 'wedevs-project-manager'),
+                cancel_user: __( 'Cancel', 'wedevs-project-manager'),
                 show_spinner: false,
             }
         },
@@ -76,11 +77,14 @@
                             searchDone: true
                         });
                         self.show_spinner = false;
-
                     }
                 }).done(function( data ){
                     self.$emit('created');
                 });
+            },
+
+            cancelUser() {
+               this.$emit('created');
             }
         },
         created:function(){
@@ -97,6 +101,24 @@
         /*color: red;*/
         padding: 0 !important;
         margin: 5px 10px!important;
+        }
+
+        .pm-new-user-btn{
+            width: auto !important;
+        }
+
+        .button-box{
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: flex-end;
+            align-items: center;
+
+        }
+        .pm-spinner {
+            margin-left: 10px;
+        }
+        .button-cancel {
+            margin-right: 10px;
         }
     }
 </style>
