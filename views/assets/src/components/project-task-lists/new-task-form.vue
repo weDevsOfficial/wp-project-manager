@@ -65,9 +65,9 @@
                     </pm-content-datepicker>
 
                 </div>
+
                 <div v-if="descriptionField" class="new-task-description">
                     <text-editor  :editor_id="'new-task-description-editor-' + list.id" :content="content"></text-editor>
-                    
                 </div>
                 
             </div>
@@ -420,6 +420,8 @@ export default {
 
     methods: {
         windowActivity (el) {
+            var self = this;
+            
             var multiselect  = jQuery(el.target).closest('.task-user-multiselect'),
                 calendarBtn = jQuery(el.target).hasClass('new-task-calendar'),
                 calendarCont = jQuery(el.target).closest('.new-task-caledar-wrap'),
@@ -428,7 +430,9 @@ export default {
                 descriptionBtn = jQuery(el.target).hasClass('new-task-description-btn');
 
             if( !descriptionBtn && !description.length ) {
-                this.descriptionField = false;
+                pm.Vue.nextTick(function() {
+                    self.descriptionField = false;
+                });
             }
           
             if( !calendarBtn && !calendarCont.length && !hasCalendarArrowBtn) {
