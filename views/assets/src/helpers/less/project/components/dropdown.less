@@ -3,6 +3,9 @@
  */
 .pm-has-dropdown {
 	position: relative;
+	> a > i {	
+		pointer-events: none;
+	}
 	.pm-dropdown-menu {
 		position: absolute;
 		top: 100%;
@@ -18,7 +21,7 @@
 		transform: translate(0, -50px);
 		background: #fff;
 		margin-top: 8px;
-		box-shadow: 0 1px 10px 0 rgba(#000, .18);
+		//box-shadow: 0px 1px 10px 0px rgba(#000, .18);
 		&:after, &:before {
 			.pm-bubble-border();
 			top: initial;

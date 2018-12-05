@@ -3,7 +3,7 @@
  */
 
 // collapse handler
-.pm-tabs-collapse {
+/*.pm-tabs-collapse {
     position: absolute;
     right: -20px;
     top: 0;
@@ -12,7 +12,7 @@
     	border-radius: 0 @theme-border-radius 0 @theme-border-radius !important;
     	outline: none;
     }
-}
+}*/
 .pm-tabs-opened {
 	.pm-tabs {
 		max-height: 300px !important;
@@ -303,6 +303,13 @@
 				font-weight: bold;
 				margin-top: 0;
 				max-width: calc(100% - 60px);
+				display: -webkit-box;
+			    height: 47px;
+			    line-height: 22px;
+			    -webkit-line-clamp: 2;
+			    -webkit-box-orient: vertical;
+			    overflow: hidden;
+			    text-overflow: ellipsis;
 				a {
 					color: #000;
 					&:hover {

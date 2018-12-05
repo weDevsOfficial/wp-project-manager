@@ -114,13 +114,23 @@ class Task_Observer extends Model_Observer {
     }
 
     public function recurrent( Task $item, $old_value ) {
-        $meta = [
-            'task_title'         => $item->title,
-            'task_recurrent_old' => $old_value,
-            'task_recurrent_new' => $item->recurrent,
+        
+        $recurrent = [
+            0 => 'none recurrent',
+            1 => 'weekly recurrent',
+            2 => 'Monthly recurrent',
+            3 => 'Annually recurrent',
+            9 => 'never recurrent'
         ];
 
-        $this->log_activity( $item, 'update_task_recurrent_status', 'update', $meta );
+        $meta = [
+            'task_title'         => $item->title,
+            'task_recurrent_old' => $recurrent[ intval( $old_value) ],
+            'task_recurrent_new' => $recurrent[ intval( $item->recurrent ) ],
+        ];
+        
+
+        $this->log_activity( $item, 'update_task_recurrent', 'update', $meta );
     }
 
     public function status( Task $item, $old_value ) {
