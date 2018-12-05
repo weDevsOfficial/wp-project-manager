@@ -1,6 +1,6 @@
 <template> 
     <!-- project-list-view toggle this class for list view -->
-    <div class="pm-projects-row">
+    <div class="pm-projects-row" :class="{'project-list-view': !activeClass('grid_view') }">
         <h3 v-if="!projects.length" class="no-projects">{{ __( 'No projects found.', 'wedevs-project-manager') }}</h3>
         <div class="pm-project-column" v-for="project in projects" :key="project.id">
 
@@ -20,17 +20,19 @@
                         </li>
 
                         <li class="pm-has-dropdown">
-                            <a href="javscript: void(0)" class="pm-dropdown-trigger" @click.prevent="dropdownTrigger()"><i class="pm-icon flaticon-more"></i></a>
+                            <a @click.prevent="dropdownTrigger(project)" :data-project_id="project.id" href="#" class="pm-dropdown-trigger">
+                                <i class="pm-icon flaticon-more"></i>
+                            </a>
                             <!-- prev condition v-if="project.settings_hide && is_manager(project)" -->
-                            <ul :class="dropdownToggleClass">
+                            <ul :class="dropdownToggleClass(project)">
                                 <li>
-                                    <a href="javascript: void(0);" @click.prevent="deleteProject(project.id, project)" class="pm-project-delete-link" :title="__( 'Delete project', 'wedevs-project-manager')">
+                                    <a href="#" @click.prevent="deleteProject(project.id, project)" class="pm-project-delete-link" :title="__( 'Delete project', 'wedevs-project-manager')">
                                         <span class="dashicons dashicons-trash"></span>
                                         <span>{{ __( 'Delete', 'wedevs-project-manager') }}</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="javascript: void(0);" @click.prevent="projectMarkAsDoneUndone(project)" class="pm-archive" >
+                                    <a href="#" @click.prevent="projectMarkAsDoneUndone(project)" class="pm-archive" >
                                         <span v-if="project.status == 'incomplete'" class="dashicons dashicons-yes"></span>
                                         <span v-if="project.status == 'incomplete'">{{ __( 'Complete', 'wedevs-project-manager') }}</span>
 
@@ -89,7 +91,7 @@
                             </li>
                             <li class="pm-meta-files pm-has-tooltip">
                                 <router-link :to="{
-                                    name: 'task_lists',
+                                    name: 'pm_files',
                                     params: {
                                         project_id: project.id
                                     }}">
@@ -129,49 +131,18 @@
                                     <img class="pm-img-circle" :src="user.avatar_url" :alt="user.display_name">
                                 </li> -->
 
-                                <li class="pm-has-tooltip">
-                                    <img src="http://2.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=96&d=mm&r=g" alt="">
-                                    <span class="pm-tooltip-label">User Name</span>
+                                <li v-for="(user, key) in project.assignees.data" v-if="key < 6" :key="key" class="pm-has-tooltip">
+                                    <img class="pm-img-circle" :src="user.avatar_url" :alt="user.display_name">
+                                    <span class="pm-tooltip-label">{{ user.display_name }}</span>
                                 </li>
-                                <li class="pm-has-tooltip">
-                                    <img src="http://2.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=96&d=mm&r=g" alt="">
-                                    <span class="pm-tooltip-label">User Name</span>
-                                </li>
-                                <li class="pm-has-tooltip">
-                                    <img src="http://2.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=96&d=mm&r=g" alt="">
-                                    <span class="pm-tooltip-label">User Name</span>
-                                </li>
-                                <li class="pm-has-tooltip">
-                                    <img src="http://2.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=96&d=mm&r=g" alt="">
-                                    <span class="pm-tooltip-label">User Name</span>
-                                </li>
-                                <li class="pm-has-tooltip">
-                                    <img src="http://2.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=96&d=mm&r=g" alt="">
-                                    <span class="pm-tooltip-label">User Name</span>
-                                </li>
-                                <li class="pm-has-tooltip">
-                                    <img src="http://2.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=96&d=mm&r=g" alt="">
-                                    <span class="pm-tooltip-label">User Name</span>
-                                </li>
+                                
                                 <!-- more user button and their markup -->
-                               <li class="pm-more-users pm-has-dropdown">
-                                    <a href="#" class="pm-dropdown-trigger">3+</a>
-                                    <ul class="pm-dropdown-menu">
-                                        <li class="pm-has-tooltip">
-                                            <img src="http://2.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=96&d=mm&r=g" alt="">
-                                            <span class="pm-tooltip-label">User Name</span>
-                                        </li>
-                                        <li class="pm-has-tooltip">
-                                            <img src="http://2.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=96&d=mm&r=g" alt="">
-                                            <span class="pm-tooltip-label">User Name</span>
-                                        </li>
-                                        <li class="pm-has-tooltip">
-                                            <img src="http://2.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=96&d=mm&r=g" alt="">
-                                            <span class="pm-tooltip-label">User Name</span>
-                                        </li>
-                                        <li class="pm-has-tooltip">
-                                            <img src="http://2.gravatar.com/avatar/873b98cc2b8493be36707ba58929dfec?s=96&d=mm&r=g" alt="">
-                                            <span class="pm-tooltip-label">User Name</span>
+                                <li v-if="project.assignees.data.length > 7" class="pm-more-users pm-has-dropdown">
+                                    <a :data-project_id="project.id" @click.prevent="showMoreUser(project)" href="#" class="pm-dropdown-trigger">{{ project.assignees.data.length - 8 }}+</a>
+                                    <ul :class="'pm-dropdown-menu '+ pmDropDownOpen(project)">
+                                        <li v-for="(user, key) in project.assignees.data" v-if="key > 7" :key="key" class="pm-has-tooltip">
+                                            <img class="pm-img-circle" :src="user.avatar_url" :alt="user.display_name">
+                                            <span class="pm-tooltip-label">{{ user.display_name }}</span>
                                         </li>
                                     </ul>
                                 </li>
@@ -191,8 +162,10 @@
 <script>
 
     import Favourite from './favourite.vue';
+    import Mixins from './mixin';
 
     export default {
+        mixins: [Mixins],
         data () {
             return {
                 is_active_settings: false,
@@ -204,30 +177,82 @@
         },
         computed: {
             projects () {
+                this.$root.$store.state.projects.forEach(function(project) {
+                    pm.Vue.set(project, 'showMoreUser', false );
+                    pm.Vue.set(project, 'showDropDownMenu', false );
+                });
                 return this.$root.$store.state.projects;
             },
             meta () {
                 return this.$root.$store.state.projects_meta;
             },
-            // dropdown class toggler
-            dropdownToggleClass () {
-                if(this.dropdownToggleStatus){
-                    return "pm-settings pm-dropdown-menu pm-dropdown-open";
-                }else {
-                    return "pm-settings pm-dropdown-menu";
-                }
-            }
-
         },
+
         components: {
             Favourite
         },
 
+        created () {
+            window.addEventListener('click', this.windowActivity);
+        },
+
         methods: {
+            windowActivity (el) {
+                var element = jQuery(el.target),
+                    moreUser = element.closest('.pm-more-users'),
+                    projectId = element.data('project_id'),
+                    moreMenu = element.closest('.pm-has-dropdown'),
+                    menuProjectId = element.data('project_id');
+
+                if(!moreUser.length) {
+                    this.projects.forEach(function(project) {
+                        project.showMoreUser = false;
+                    });
+                } else {
+                    this.projects.forEach(function(project) {
+                        if(project.id != projectId) {
+                            project.showMoreUser = false;
+                        }
+                    });
+                }
+
+                if(!moreMenu.length) {
+                    this.projects.forEach(function(project) {
+                        project.showDropDownMenu = false;
+                    });
+                } else {
+                    this.projects.forEach(function(project) {
+                        if(project.id != menuProjectId) {
+                            project.showDropDownMenu = false;
+                        }
+                    });
+                }
+                
+            },
+            showMoreUser (project) {
+                project.showMoreUser = project.showMoreUser ? false : true;
+            },
+
+            pmDropDownOpen (project) {
+                if(project.showMoreUser) {
+                    return 'pm-dropdown-open';
+                }
+
+                return '';
+            },
 
             // dropdown trigger
-            dropdownTrigger () {
-                this.dropdownToggleStatus = !this.dropdownToggleStatus;
+            dropdownTrigger (project) {
+                project.showDropDownMenu = project.showDropDownMenu ? false : true;
+            },
+
+            // dropdown class toggler
+            dropdownToggleClass(project) {
+                if(project.showDropDownMenu){
+                    return "pm-settings pm-dropdown-menu pm-dropdown-open";
+                } else {
+                    return "pm-settings pm-dropdown-menu";
+                }
             },
 
             settingsShowHide (project) {
@@ -306,6 +331,9 @@
     }
     .no-projects {
         margin: 0 15px 20px;
+    }
+    .pm-project-meta-counters li a[href="#"] {
+        cursor: default;
     }
 </style>
 

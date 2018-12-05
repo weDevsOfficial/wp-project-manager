@@ -159,8 +159,8 @@ return [
         ['actor.data.display_name', 'meta.task_title', 'meta.task_payable_old', 'meta.task_payable_new']
     ],
     'update_task_recurrent'   => [
-        __( '%1$s has updated the recurrency of a task, %2$s, from %3$s to %4$s.', 'wedevs-project-manager' ),
-        ['actor.data.display_name', 'meta.task_title', 'meta.task_recurrent_old', 'meta.task_recurrent_old']
+        __( '%1$s has updated the recurrency of a task, %2$s, %3$s to %4$s.', 'wedevs-project-manager' ),
+        ['actor.data.display_name', 'meta.task_title', 'meta.task_recurrent_old', 'meta.task_recurrent_new']
     ],
     'update_task_status'      => [
         __( '%1$s has updated the status of a task, %2$s, from %3$s to %4$s.', 'wedevs-project-manager' ),
