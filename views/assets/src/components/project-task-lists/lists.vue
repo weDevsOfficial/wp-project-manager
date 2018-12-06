@@ -74,8 +74,8 @@
                                                 </div>
 
                                                 <div v-if="!isInbox(list.id) && PM_Vars.is_pro" class="list-title-action">
-                                                    <span v-if="!parseInt(list.meta.privacy)" class="icon-pm-unlock"></span>
-                                                    <span v-if="parseInt(list.meta.privacy)" class="icon-pm-private"></span>
+                                                    <span  v-if="!parseInt(list.meta.privacy)" class="icon-pm-unlock"></span>
+                                                    <span  v-if="parseInt(list.meta.privacy)" class="icon-pm-private"></span>
                                                 </div>
                                             
                                         </div>
@@ -533,10 +533,10 @@
                         }
 
                         .more-task-wrap { 
-                            margin-left: 52px;
+                            margin-left: 50px;
                         }
                         .list-task-form  {
-                            margin: 0 20px 0 52px;
+                            margin: 0 20px 0 50px;
                         }
                     }
 
@@ -669,7 +669,7 @@
                                     background: #fff;
                                     border-radius: 3px;
                                     box-shadow: 0px 2px 40px 0px rgba(214, 214, 214, 0.6);
-
+                                    padding: 7px 0;    
                                     &:before {
                                         border-color: transparent transparent #DDDDDD transparent;
                                         position: absolute;
@@ -692,7 +692,7 @@
                                         border-width: 0 8px 7px 8px;
                                     }
                                     .first-li {
-                                        margin-top: 6px;
+                                        // margin-top: 6px;
                                     }
 
                                     .li-a {
