@@ -10,8 +10,8 @@
                
         <div class="pm-flex">
             <div class="comment-action-chunk">
-                <input v-if="!comment.edit_mode" :disabled="submit_disabled" type="submit" class="pm-button pm-primary"  :value="add_new_comment" id="" />
-                <input v-if="comment.edit_mode" :disabled="submit_disabled" type="submit" class="pm-button pm-primary"  :value="update_comment" id="" />
+                <input  v-if="!comment.edit_mode" :disabled="submit_disabled" type="submit" class="pm-button pm-primary"  :value="add_new_comment" id="" />
+                <input  v-if="comment.edit_mode" :disabled="submit_disabled" type="submit" class="pm-button pm-primary"  :value="update_comment" id="" />
                 <a href="#" @click.prevent="hideCommentForm()" class="pm-button pm-secondary pm-button-cancel">{{__('Cancel', 'wedevs-project-manager')}}</a>
                 <span v-show="show_spinner" class="pm-spinner"></span>
             </div>

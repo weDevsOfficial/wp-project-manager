@@ -67,13 +67,20 @@ function weDevsPmProAddonRegisterModule(module, path) {
  * @param priority Priority of filter to apply. Default: 10 (like WordPress)
  */
 function pm_add_filter( tag, callback, priority ) {
+    let ref = [];
+
     if( typeof priority === "undefined" ) {
         priority = 10;
     }
 
+    if (jQuery.isArray(callback)) {
+        ref = [ callback[0].$options.name, callback[1]];
+        callback = callback[0][callback[1]];
+    }
+
     // If the tag doesn't exist, create it.
     WeDevsfilters[tag] = WeDevsfilters[ tag ] || [];
-    WeDevsfilters[tag].push( { priority: priority, callback: callback } );
+    WeDevsfilters[tag].push( { priority: priority, callback: callback, ref: ref } );
 }
 
 /**
@@ -119,9 +126,13 @@ function pm_remove_filter( tag, callback ) {
     if(typeof WeDevsfilters[ tag ] === 'undefined' ) {
         return;
     }
-    WeDevsfilters[ tag ].forEach( function( filter, i ) {
-        if( filter.callback.name === callback ) {
+    WeDevsfilters[ tag ].forEach( function( filter, i ) {        
+        if( ! jQuery.isArray(callback) && filter.callback.name === callback ) {
             WeDevsfilters[ tag ].splice(i, 1);
+        } else if ( jQuery.isArray(callback) && filter.ref.length ) {
+            if ( filter.ref[0] === callback[0].$options.name && filter.ref[1] === callback[1] ) {
+                WeDevsfilters[ tag ].splice(i, 1);
+            }
         }
     } );
 }

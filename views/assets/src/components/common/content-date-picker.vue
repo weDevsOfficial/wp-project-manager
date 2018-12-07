@@ -35,10 +35,11 @@
                     if( typeof self.callback === 'function') {
                         self.callback(dateText);
                     }
-                   // self.$emit('input', dateText);
+                   self.$emit('input', dateText);
                 }
             });
-
+    
+            jQuery( self.$el ).datepicker('setDate', self.dateValue);
             // jQuery(self.$el).on("change", function() {
             //     var date = jQuery(self.$el).val();
             //     self.$emit('input', date);

@@ -7,7 +7,6 @@
                 <incompleted-tasks :task="task" :list="list"></incompleted-tasks>
             </li>
         </ul> 
-
         
         <div
         v-if="isIncompleteLoadMoreActive(list) || getCompleteTasks.length"
@@ -40,9 +39,10 @@
             </transition> -->
 
         </ul>
-
-        <div v-if="showCompletedTask" class="nonsortable more-task-wrap">
-            <div v-if="isCompleteLoadMoreActive(list)" class="group-action-btn">
+        <div
+        v-if="isCompleteLoadMoreActive(list) && showCompletedTask"
+        class="nonsortable more-task-wrap">
+            <div v-if="isIncompleteLoadMoreActive(list)" class="group-action-btn">
                 <a class="anchor-btn" @click.prevent="loadMoreCompleteTasks(list)" href="#">{{ __( 'More Tasks', 'wedevs-project-manager') }}</a>
             </div>
         </div>
@@ -52,29 +52,6 @@
         </div>
         
     </div>
-<!--     <div class="pm-incomplete-tasks">
-        <ul :data-list_id="list.id"  class="pm-todos pm-todolist-content pm-incomplete-task pm-connected-sortable" v-pm-sortable>
-            <li :data-id="task.id" :data-order="task.order" class="pm-todo" v-for="task in getIncompleteTasks" :key="task.id" :class="'pm-fade-out-'+task.id">
-                <incompleted-tasks :task="task" :list="list"></incompleted-tasks>
-            </li>
-        </ul> 
-
-        <ul :data-list_id="list.id"  class="pm-todos pm-todolist-content pm-complete-task pm-connected-sortable">
-            <li :data-id="task.id" :data-order="task.order" class="pm-todo" v-for="task in getCompleteTasks" :key="task.id" :class="'pm-fade-out-'+task.id">
-                <complete-tasks :task="task" :list="list"></complete-tasks>       
-
-            </li>
-            
-            <li v-if="!hasList" class="nonsortable">{{ __( 'No tasks found.', 'wedevs-project-manager') }}</li>
-            <transition name="slide" v-if="can_create_task">
-                <li v-if="list.show_task_form" class="pm-todo-form nonsortable">
-                    <new-task-form :list="list"></new-task-form>
-                </li>
-            </transition>
-
-        </ul> 
-        
-    </div> -->
 </template>
 
 <style lang="less">

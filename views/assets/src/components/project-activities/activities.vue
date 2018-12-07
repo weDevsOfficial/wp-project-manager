@@ -230,7 +230,9 @@
 
             afterCloseSingleTaskModal () {
                 var current_page_number = this.$route.params.current_page_number;
-
+                if ( 'activity_single_task' !== this.$route.name) {
+                    return;
+                }
                 if (! current_page_number) {
                     this.$router.push({
                         name:'activities',
