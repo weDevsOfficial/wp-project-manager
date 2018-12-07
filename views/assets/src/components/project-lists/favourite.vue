@@ -1,5 +1,5 @@
 <template>
-    <span :class="favoutireclass" @click="favouriteUnfavourite()"></span>
+    <a href="" :class="favoutireclass" @click.prevent="favouriteUnfavourite()"><i class="pm-icon flaticon-bookmark-star"></i></a>
 </template>
 
 
@@ -20,8 +20,8 @@
         },
         computed: {
             favoutireclass() {
-                let favoutireclass = 'dashicons dashicons-star-filled ';
-                favoutireclass += this.project.favourite? 'pm-favourite': '';
+                let favoutireclass = '';
+                favoutireclass += this.project.favourite? 'pm-favourite-active': '';
                 return favoutireclass;
             }
         },

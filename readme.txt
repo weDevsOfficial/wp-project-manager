@@ -124,6 +124,20 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= v2.0.8 - Nov 29, 2018 =
+
+* **New** Project home page redesign.
+* **New** Close single task popup with ESC button.
+* **New** Single task popup is enable from activity page.
+* **Update** Task filter form alignment.
+* **Fix** Relative date for comments.
+* **Fix** Tabindex for texteditor.
+* **Fix** Latest activity for single task.
+* **Fix** More task button missing from completed tasks.
+* **Fix** Date picker auto hide problem.
+* **Fix** Task list responsive issue.
+* **Remove** Slicknav library.
+
 = v2.0.7 - Nov 08, 2018 =
 
 *  **New** Switch project with key binding cmd+j/clt+j.

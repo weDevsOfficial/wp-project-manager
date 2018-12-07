@@ -63,34 +63,11 @@
             </div>
 
         </form>
-        <div v-pm-user-create-popup-box id="pm-create-user-wrap" :title="create_new_user">
+        <div v-pm-user-create-popup-box id="pm-create-user-wrap" class="pm-new-user-wrap" :title="create_new_user">
             <project-new-user-form></project-new-user-form>
         </div>
     </div>
 </template>
-
-<style lang="less">
-    .pm-project-form {
-        .project-department {
-            label {
-                line-height: 1;
-                display: block;
-                margin-bottom: 5px;
-            }
-            select {
-                display: block;
-            }
-        }
-        .pm-project-form-users-wrap {
-            overflow: hidden;
-            .pm-project-role {
-                max-height: 150px;
-                overflow: scroll;
-            }
-        }
-    }
-
-</style>
 
 <script>
     import directive from './directive.js';
