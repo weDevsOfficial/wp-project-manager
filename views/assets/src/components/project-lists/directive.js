@@ -54,18 +54,13 @@ var Project = {
                     
                     if (!has_user) {
                         context.addUserMeta(ui.item);
-                        // context.$root.$store.commit(
-                        //     'setNewUser',
-                        //     {
-                        //         project_id: context.project_id,
-                        //         user: ui.item
-                        //     }
-                        // );
+                        
                         context.$store.commit('updateSeletedUser', {
                             item:  ui.item,
                             project_id: context.project_id
                         });
                     }
+                    
                     
                     $( '.pm-project-role>table' ).append( ui.item._user_meta );
                     $( "input.pm-project-coworker" ).val( '' );
