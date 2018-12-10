@@ -19,7 +19,7 @@
                             <favourite :project="project"></favourite>
                         </li>
 
-                        <li class="pm-has-dropdown">
+                        <li class="pm-has-dropdown" v-if="is_manager(project)">
                             <a @click.prevent="dropdownTrigger(project)" :data-project_id="project.id" href="#" class="pm-dropdown-trigger">
                                 <i class="pm-icon flaticon-more"></i>
                             </a>
