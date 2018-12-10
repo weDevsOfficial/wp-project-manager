@@ -12,12 +12,6 @@
 
                     <!-- header-right -->
                     <div class="pm-header-right pm-text-right">
-                        <!-- <form action="#" class="pm-search-form" method="get">
-                            <div class="pm-form-has-addon">
-                                <input type="text" placeholder="Search" class="pm-form-control">
-                                <button type="submit" class="pm-submit-btn"><i class="pm-icon flaticon-magnifying-glass-browser"></i></button>
-                            </div>
-                        </form> -->
                         <pm-do-action hook="pm_projects_header" ></pm-do-action>
                     </div>
                 </div>
@@ -72,25 +66,7 @@
     .pm-project-content {
 
     }
-    .pm-project-form {
-        .project-department {
-            label {
-                line-height: 1;
-                display: block;
-                margin-bottom: 5px;
-            }
-            select {
-                display: block;
-            }
-        }
-        .pm-project-form-users-wrap {
-            overflow: hidden;
-            .pm-project-role {
-                max-height: 150px;
-                overflow: scroll;
-            }
-        }
-    }
+    
 
     .ui-dialog {
         left: 50% !important;
