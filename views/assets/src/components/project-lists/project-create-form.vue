@@ -69,6 +69,28 @@
     </div>
 </template>
 
+<style lang="less">
+    .pm-project-form {
+        .project-department {
+            label {
+                line-height: 1;
+                display: block;
+                margin-bottom: 5px;
+            }
+            select {
+                display: block;
+            }
+        }
+        .pm-project-form-users-wrap {
+            overflow: hidden;
+            .pm-project-role {
+                max-height: 150px;
+                overflow: scroll;
+            }
+        }
+    }
+</style>
+
 <script>
     import directive from './directive.js';
     import project_new_user_form from './project-new-user-form.vue';
