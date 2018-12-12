@@ -78,6 +78,13 @@
                                     <span>{{ __('Delete', 'wedevs-project-manager') }}</span>
                                 </a>
                             </li>
+
+                            <li>
+                                <a @click.prevent="move({task: task, list: list})" class="li-a" href="#">
+                                    <span class="icon-pm-delete"></span>
+                                    <span>{{ __('Move', 'wedevs-project-manager') }}</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
                 </div>                
@@ -90,6 +97,10 @@
         
         <div v-if="parseInt(taskId) && parseInt(projectId)">
             <single-task :taskId="taskId" :projectId="projectId"></single-task>
+        </div>
+
+        <div v-if="moveTaskItems.popupModal">
+            <move-task :items="moveTaskItems"></move-task>
         </div>
     </div>
 
@@ -111,6 +122,7 @@
     import new_task_form from './new-task-form.vue';
     import DoAction from './../common/do-action.vue';
     import Mixins from './mixin';
+    import MoveTask from './move-task.vue';
     
     export default {
         props: {
@@ -134,7 +146,15 @@
             return {
                 taskId: false,
                 projectId: false,
-                show_spinner: false
+                show_spinner: false,
+                
+                moveTaskItems: {
+                    task: {},
+                    list: {},
+                    lists: [],
+                    projectId: false,
+                    popupModal: false,
+                }
             }
         },
 
@@ -152,7 +172,8 @@
         components: {
             'new-task-form': new_task_form,
             'do-action': DoAction,
-            'single-task': pm.SingleTask
+            'single-task': pm.SingleTask,
+            'move-task': MoveTask
         },
         
         computed: {
@@ -177,6 +198,12 @@
         },
         
         methods: {
+            move (items) {
+                this.moveTaskItems.popupModal = true;
+                this.moveTaskItems.task = items.task;
+                this.moveTaskItems.list = items.list;
+                this.moveTaskItems.projectId = this.project_id;
+            },
             taskFormActivity (toggle, status, task, el) {
                 var li = jQuery(el.target).closest('.incomplete-task-li');
                 

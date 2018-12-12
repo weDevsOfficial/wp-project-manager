@@ -664,12 +664,20 @@ export default {
                 }
             });
 
-            if(typeof state.lists[setListindex].incomplete_tasks != 'undefined' ){
+            if(
+                setListindex !== false 
+                    && 
+                typeof state.lists[setListindex].incomplete_tasks != 'undefined' 
+            ){
                 state.lists[setListindex].incomplete_tasks.data.splice(setIndex, 0, res.task.data);
                 state.lists[setListindex].meta.total_incomplete_tasks = state.lists[setListindex].meta.total_incomplete_tasks + 1;
             } 
 
-            if(typeof state.lists[senderListindex].incomplete_tasks != 'undefined' ){
+            if(
+                senderListindex !== false 
+                    && 
+                typeof state.lists[senderListindex].incomplete_tasks != 'undefined' 
+            ){
                 let task_index = state.getIndex(state.lists[senderListindex].incomplete_tasks.data, receive.task_id, 'id');
                 state.lists[senderListindex].incomplete_tasks.data.splice(task_index, 1);
                 state.lists[senderListindex].meta.total_incomplete_tasks = state.lists[senderListindex].meta.total_incomplete_tasks - 1;
