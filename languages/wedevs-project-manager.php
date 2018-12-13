@@ -28,6 +28,7 @@ return [
 	__( 'Copy Link', 'wedevs-project-manager' ),
 	__( 'Make Visible', 'wedevs-project-manager' ),
 	__( 'Make Private', 'wedevs-project-manager' ),
+	__( 'Task List: ', 'wedevs-project-manager' ),
 	__( 'Task is visible for co-worker', 'wedevs-project-manager' ),
 	__( 'Description', 'wedevs-project-manager' ),
 	__( 'Update', 'wedevs-project-manager' ),
