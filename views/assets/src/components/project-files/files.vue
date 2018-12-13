@@ -3,7 +3,7 @@
         <pm-header></pm-header>
         <pm-heder-menu></pm-heder-menu>
         
-        <div class="pm-files" v-if="!is_pro">
+        <div class="pm-files pm-files-container-free" v-if="!is_pro">
             <div v-if="loading" class="pm-data-load-before" >
                 <div class="loadmoreanimation">
                     <div class="load-spinner">
@@ -59,7 +59,7 @@
 
             </div>
         </div>
-        <div class="pm-files" v-else>
+        <div class="pm-files pm-files-container-pro" v-else>
             <do-action :hook="'pm_file_footer'"></do-action>
         </div>
     </div>
@@ -67,9 +67,7 @@
 </template>
 
 <style lang="less">
-    .pm-files {
-        margin-top: 10px;
-    }
+    
 </style>
 
 <script>

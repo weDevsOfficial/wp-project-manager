@@ -1472,6 +1472,7 @@ var PM_TaskList_Mixin = {
         },
         taskReceive (receive, callback) {
             var self = this;
+            
             var request_data = {
                 url: self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks/sorting',
                 type: 'POST',
