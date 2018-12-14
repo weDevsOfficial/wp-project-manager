@@ -145,7 +145,7 @@ class WP_Router {
 	}
 
 	protected function prepare_request_object( $http_verb, $namespace, $uri) {
-		$request_uri = $_SERVER['REQUEST_URI'];
+		$server_name = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ): '';
 		$url_prefix = '/' . rest_get_url_prefix();
 		$request_uri = substr( $request_uri, strlen( $url_prefix ) );
 
@@ -198,12 +198,12 @@ class WP_Router {
 
         if ( !isset( $headers['Authorization'] ) ) {
             if ( isset( $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] ) ) {
-                $headers['Authorization'] = $_SERVER['REDIRECT_HTTP_AUTHORIZATION'];
+                $headers['Authorization'] = sanitize_text_field( wp_unslash( $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] ) );
             } elseif ( isset( $_SERVER['PHP_AUTH_USER'] ) ) {
-                $basic_pass = isset( $_SERVER['PHP_AUTH_PW'] ) ? $_SERVER['PHP_AUTH_PW'] : '';
+                $basic_pass = isset( $_SERVER['PHP_AUTH_PW'] ) ? sanitize_text_field( wp_unslash($_SERVER['PHP_AUTH_PW'] ) ) : '';
                 $headers['Authorization'] = 'Basic ' . base64_encode( $_SERVER['PHP_AUTH_USER'] . ':' . $basic_pass );
             } elseif ( isset( $_SERVER['PHP_AUTH_DIGEST'] ) ) {
-                $headers['Authorization'] = $_SERVER['PHP_AUTH_DIGEST'];
+                $headers['Authorization'] = sanitize_text_field( wp_unslash($_SERVER['PHP_AUTH_DIGEST'] ) );
             }
         }
 
