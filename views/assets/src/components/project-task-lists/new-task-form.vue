@@ -10,9 +10,9 @@
                 <input @keyup.enter="taskFormAction()" v-model="task.title"  class="input-field" :placeholder="__('Add new task', 'wedevs-project-manager')" type="text" ref="taskForm">
                 <a @click.prevent="taskFormAction()"  class="update-button" href="#"><span class="icon-pm-check-circle"></span></a>
                 <div class="action-icons">
-                    <pm-do-action hook="pm_task_form" :actionData="task" ></pm-do-action>
+                    <pm-do-action hook="pm_task_form" :actionData="task"></pm-do-action>
                     <!-- time estimation -->
-                    <span title="Estimate time" class="pm-icon flaticon-clock pm-estimate-icon"></span>
+                    <!-- <span title="Estimate time" class="pm-icon flaticon-clock pm-estimate-icon"></span> -->
                     <span title="Description" @click.self.prevent="enableDisable('descriptionField')" class="icon-pm-align-left new-task-description-btn"></span>
                     <span title="Assign user" @click.self.prevent="enableDisable('isEnableMultiselect')" class="task-user-multiselect icon-pm-single-user pm-dark-hover">
                         <div v-if="isEnableMultiselect" class="pm-multiselect-top pm-multiselect-subtask-task">
@@ -196,7 +196,7 @@
             .action-icons {
                 position: absolute;
                 right: 18px;
-                top: 6px;
+                top: 9px;
                 margin-right: 11px;
                 display: flex;
                 align-items: center;

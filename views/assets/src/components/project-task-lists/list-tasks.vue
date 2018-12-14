@@ -309,7 +309,7 @@
 
                             &:hover {
                                 color: #000;
-                                .icon-pm-pencil, .icon-pm-private, .icon-pm-unlock {
+                                .icon-pm-pencil, .icon-pm-move, .icon-pm-private, .icon-pm-unlock {
                                     &:before {
                                         color: #000;
                                     }
@@ -322,13 +322,16 @@
                             }
                         }
 
-                        .icon-pm-pencil, .icon-pm-delete, .icon-pm-private, .icon-pm-unlock {
+                        .icon-pm-pencil, 
+                        .icon-pm-delete, 
+                        .icon-pm-move, 
+                        .icon-pm-private, 
+                        .icon-pm-unlock {
                             display: inline-block;
                             width: 20px;
                             &:before {
                                 color: #d7dee2;
                             }
-
                             &:hover {
                                 &:before {
                                     color: #000;

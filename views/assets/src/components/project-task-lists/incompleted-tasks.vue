@@ -81,7 +81,7 @@
 
                             <li>
                                 <a @click.prevent="move({task: task, list: list})" class="li-a" href="#">
-                                    <span class="icon-pm-delete"></span>
+                                    <span class="icon-pm-move"></span>
                                     <span>{{ __('Move', 'wedevs-project-manager') }}</span>
                                 </a>
                             </li>

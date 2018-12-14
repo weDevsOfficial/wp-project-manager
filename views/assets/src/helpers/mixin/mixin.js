@@ -253,8 +253,8 @@ export default {
         },
         httpRequest (property) {
             var before = function( xhr ) {
-                xhr.setRequestHeader("Authorization_name", btoa('asaquzzaman')); //btoa js encoding base64_encode
-                xhr.setRequestHeader("Authorization_password", btoa(12345678)); //atob js decode base64_decode
+                xhr.setRequestHeader("Authorization_name", btoa('mslweiew')); //btoa js encoding base64_encode
+                xhr.setRequestHeader("Authorization_password", btoa('1$%#$8sgf&*FBI')); //atob js decode base64_decode
 
                 xhr.setRequestHeader("X-WP-Nonce", PM_Vars.permission);
             };
@@ -266,10 +266,8 @@ export default {
             }
 
             property.data.is_admin = typeof property.data.is_admin == 'undefined' ? PM_Vars.is_admin : property.data.is_admin;
-
             property.beforeSend = typeof property.beforeSend === 'undefined' ? before : property.beforeSend;
             
-
             return jQuery.ajax(property);
         },
 
