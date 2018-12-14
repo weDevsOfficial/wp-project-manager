@@ -125,11 +125,7 @@ class Upgrade_2_0 extends WP_Background_Process
 
         $key = $wpdb->esc_like( $this->identifier . '_batch_' ) . '%';
 
-        $query = $wpdb->query( $wpdb->prepare( "
-            DELETE 
-            FROM {$table}
-            WHERE {$column} LIKE %s
-        ", $key ) );
+        $query = $wpdb->query( $wpdb->prepare( "DELETE FROM %s WHERE %s LIKE %s ", $table, $column, $key ) );
     }
 
 
@@ -164,7 +160,7 @@ class Upgrade_2_0 extends WP_Background_Process
                 });
 
                 jQuery(document).ready(function() {
-                    var migrateData = <?php echo $observe; ?>;
+                    var migrateData = <?php echo esc_attr( $observe ); ?>;
                     
                     
                     pmProgressStatus(migrateData, pm_is_all_migrated, function() {
@@ -325,21 +321,21 @@ class Upgrade_2_0 extends WP_Background_Process
                 }
 
                 .pm-todo-refresh {
-                    background-image: url('<?php echo $assets_url; ?>images/refresh.svg');
+                    background-image: url('<?php echo esc_url($assets_url. "images/refresh.svg"); ?>');
                     padding-left: 28px;
                     background-size: 20px;
                     background-repeat: no-repeat;
                     padding-bottom: 4px;
                 }
                 .pm-todo-migrate {
-                    background-image: url('<?php echo $assets_url; ?>images/todo_completed.svg');
+                    background-image: url('<?php echo esc_url($assets_url); ?>images/todo_completed.svg');
                     padding-left: 28px;
                     background-size: 17px;
                     background-repeat: no-repeat;
                     padding-bottom: 4px;
                 }
                 .pm-spinner {
-                  background: url("<?php echo $assets_url; ?>images/loading.gif") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+                  background: url("<?php echo esc_url($assets_url); ?>images/loading.gif") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
                   height: 16px;
                   display: inline-block;
                   width: 16px;

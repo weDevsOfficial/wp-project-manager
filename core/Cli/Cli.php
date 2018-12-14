@@ -33,7 +33,9 @@ class CLI extends \WP_CLI_Command {
      * @return void
      */
     protected function info( $message ) {
-        echo \WP_CLI::colorize( "%c{$message}%n\n" );
+        $result = \WP_CLI::colorize( "%c{$message}%n\n" );
+
+        echo esc_attr( $result );
     }
 
     /**
@@ -85,7 +87,9 @@ class CLI extends \WP_CLI_Command {
      * @return void
      */
     protected function warning( $message ) {
-        echo \WP_CLI::colorize( "%YWarning:%n {$message}\n" );
+        $result = \WP_CLI::colorize( "%YWarning:%n {$message}\n" );
+
+        echo esc_attr( $result );
     }
 
     /**
@@ -127,13 +131,15 @@ class CLI extends \WP_CLI_Command {
      * @return boolean
      */
     protected function confirm( $message ) {
-        echo \WP_CLI::colorize( "%YWarning:%n {$message} [y/n] " );
+        $result = \WP_CLI::colorize( "%YWarning:%n {$message} [y/n] " );
+        echo esc_attr( $result );
 
         $input = fgets( STDIN );
         $input = strtolower( trim( $input ) );
 
         if ( ! in_array( $input , [ 'y', 'n' ] ) ) {
-            echo \WP_CLI::colorize( "%RError:%n Type 'y' or 'n' and then press enter\n" );
+             $result2 = \WP_CLI::colorize( "%RError:%n Type 'y' or 'n' and then press enter\n" );
+            echo esc_attr($result2);
             return $this->confirm( $message );
         }
 
