@@ -22,7 +22,7 @@ class User_Transformer extends TransformerAbstract {
     {
 
         if ( !$project_id ) {
-            $request_uri = $_SERVER['REQUEST_URI'];
+            $request_uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ): '';
             $project_uri = preg_match_all('/projects\/[0-9]+/', $request_uri, $matches, PREG_SET_ORDER);
             
             if ( !empty( $matches ) ) {
