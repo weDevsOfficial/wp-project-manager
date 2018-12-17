@@ -160,7 +160,7 @@ class Upgrade_2_0 extends WP_Background_Process
                 });
 
                 jQuery(document).ready(function() {
-                    var migrateData = <?php echo esc_attr( $observe ); ?>;
+                    var migrateData = <?php echo $observe; ?>;
                     
                     
                     pmProgressStatus(migrateData, pm_is_all_migrated, function() {
@@ -446,16 +446,16 @@ class Upgrade_2_0 extends WP_Background_Process
             $ids = implode( ',', $ids );
 
             //milestone query
-            $milestons = $wpdb->get_results( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_parent in ($ids) AND post_type in ('cpm_milestne', 'cpm_milestone') AND post_status=%s", 'publish' ), ARRAY_A );
+            $milestons = $wpdb->get_results( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_parent in (%s) AND post_type in ('cpm_milestne', 'cpm_milestone') AND post_status=%s", $ids, 'publish' ), ARRAY_A );
             $total_milestone = $wpdb->num_rows;
 
             //message query
-            $message = $wpdb->get_results( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_parent in ($ids) AND post_type=%s AND post_status=%s", 'cpm_message', 'publish' ), ARRAY_A );
+            $message = $wpdb->get_results( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_parent in (%s) AND post_type=%s AND post_status=%s", $ids, 'cpm_message', 'publish' ), ARRAY_A );
             $total_message = $wpdb->num_rows;
             $comments_ids = array_merge( $comments_ids, wp_list_pluck( $message, 'ID' ) );
 
             // tasklist query
-            $tasklist = $wpdb->get_results( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_parent in ($ids) AND post_type=%s AND post_status=%s", 'cpm_task_list', 'publish' ), ARRAY_A );
+            $tasklist = $wpdb->get_results( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_parent in (%s) AND post_type=%s AND post_status=%s", $ids, 'cpm_task_list', 'publish' ), ARRAY_A );
             $total_task_list = $wpdb->num_rows;
 
             if ( $total_task_list ) {
@@ -464,7 +464,7 @@ class Upgrade_2_0 extends WP_Background_Process
                 $list_ids = implode( ',', $list_ids );
 
                 // task query
-                $tasks = $wpdb->get_results( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_parent in ($list_ids) AND post_type=%s AND post_status=%s", 'cpm_task', 'publish' ), ARRAY_A );
+                $tasks = $wpdb->get_results( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_parent in (%s) AND post_type=%s AND post_status=%s", $list_ids, 'cpm_task', 'publish' ), ARRAY_A );
                 $total_task = $wpdb->num_rows;
 
                 if ( $total_task ) {
@@ -472,7 +472,7 @@ class Upgrade_2_0 extends WP_Background_Process
                     $comments_ids = array_merge( $comments_ids, $task_ids );
                     $task_ids = implode( ',', $task_ids );
 
-                    $tasks = $wpdb->get_results( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_parent in ($task_ids) AND post_type=%s AND post_status=%s", 'cpm_sub_task', 'publish' ), ARRAY_A );
+                    $tasks = $wpdb->get_results( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_parent in (%s) AND post_type=%s AND post_status=%s", $task_ids, 'cpm_sub_task', 'publish' ), ARRAY_A );
                     $total_task =  $total_task + $wpdb->num_rows;
 
                 }
