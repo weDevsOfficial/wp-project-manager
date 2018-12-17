@@ -25,12 +25,12 @@
                                 params: {
                                     'project_id': project_id
                                 }
-                            }"> 
-                                <div class="icon"></div> 
+                            }">
+                                <div class="icon"></div>
                                 <div class="count">
-                                    <span>{{ meta.total_discussion_boards }}</span> 
+                                    <span>{{ meta.total_discussion_boards }}</span>
                                     {{ __( 'Discussions', 'wedevs-project-manager') }}
-                                </div> 
+                                </div>
                             </router-link>
                         </li>
 
@@ -40,34 +40,34 @@
                                 params: {
                                     'project_id': project_id
                                 }
-                            }"> 
-                                <div class="icon"></div> 
+                            }">
+                                <div class="icon"></div>
                                 <div class="count">
-                                    <span>{{ meta.total_task_lists }}</span> 
+                                    <span>{{ meta.total_task_lists }}</span>
                                     {{ __( 'Task Lists', 'wedevs-project-manager') }}
-                                </div> 
+                                </div>
                             </router-link>
                         </li>
 
                         <li class="todos">
                             <a>
 
-                                <div class="icon"></div> 
+                                <div class="icon"></div>
                                 <div class="count">
-                                    <span>{{ meta.total_tasks }}</span> 
+                                    <span>{{ meta.total_tasks }}</span>
                                     {{ __( 'Tasks', 'wedevs-project-manager') }}
-                                </div> 
+                                </div>
                             </a>
-                            
+
                         </li>
 
                         <li class="comments">
                             <a>
-                                <div class="icon"></div> 
+                                <div class="icon"></div>
                                 <div class="count">
-                                    <span>{{ meta.total_comments }}</span>  
+                                    <span>{{ meta.total_comments }}</span>
                                     {{ __( 'Comments', 'wedevs-project-manager') }}
-                                </div> 
+                                </div>
                              </a>
                         </li>
                         <li class="files">
@@ -76,12 +76,12 @@
                                 params: {
                                     'project_id': project_id
                                 }
-                            }"> 
-                                <div class="icon"></div> 
+                            }">
+                                <div class="icon"></div>
                                     <div class="count">
-                                        <span>{{ meta.total_files }}</span>  
+                                        <span>{{ meta.total_files }}</span>
                                         {{ __( 'Files', 'wedevs-project-manager') }}
-                                </div> 
+                                </div>
                             </router-link>
                         </li>
 
@@ -91,15 +91,15 @@
                                 params: {
                                     'project_id': project_id
                                 }
-                            }"> 
-                                <div class="icon"></div> 
+                            }">
+                                <div class="icon"></div>
                                 <div class="count">
-                                    <span>{{ meta.total_milestones }}</span> 
+                                    <span>{{ meta.total_milestones }}</span>
                                         {{  __( 'Milestones', 'wedevs-project-manager') }}
-                                </div> 
+                                </div>
                             </router-link>
-                        </li>   
-                        <div class="clearfix"></div>            
+                        </li>
+                        <div class="clearfix"></div>
                      </ul>
                 </div>
 
@@ -107,9 +107,9 @@
 
                     <h3>{{ __( 'Last 30 days', 'wedevs-project-manager') }}</h3>
 
-                    
+
                     <canvas v-pm-overview-chart width="1638" height="656" style="width: 819px; height: 328px;"></canvas>
-                
+
                 </div>
             </div>
 
@@ -130,10 +130,10 @@
                             <a  :href="myTaskRedirect(user.id)">
                                 {{ cutString(user.display_name, 8, true) }}
                             </a>
-                            <span v-for="role in user.roles.data" :key="role.id">{{ role.title }}</span>
+                            <span v-for="role in user.roles.data" :key="role.id">{{ __( role.title, 'wedevs-project-manager') }}</span>
                         </div>
                         <div class="list-right">
-                            <a class="delete-user" @click="deleteUser(user)"> <i class="icon-pm-delete"></i></a>
+                            <a v-if="canUserEdit(user.id)" class="delete-user" @click="deleteUser(user)"> <i class="icon-pm-delete"></i></a>
                         </div>
                     </li>
                 </ul>
