@@ -145,7 +145,7 @@ class WP_Router {
 	}
 
 	protected function prepare_request_object( $http_verb, $namespace, $uri) {
-		$server_name = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ): '';
+		$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ): '';
 		$url_prefix = '/' . rest_get_url_prefix();
 		$request_uri = substr( $request_uri, strlen( $url_prefix ) );
 
