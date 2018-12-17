@@ -200,12 +200,12 @@
             }
             .todo-content {
                 display: flex;
-                /*align-items: baseline;*/
-                align-items: center;
+                align-items: baseline;
+                // align-items: center;
 
                 .task-left {
                     display: flex;
-                    align-items: center;
+                    align-items: baseline;
                     /*position: relative;
                     top: -2px;*/
 
@@ -223,11 +223,10 @@
                         }
                     }
                     .checkbox {
-                        /*line-height: 0;
                         position: relative;
-                        top: 1px;*/
-                        display: flex;
-                        align-items: center;
+                        top: -1.5px;
+                        // display: flex;
+                        // align-items: center;
                     }
                 }
                 .title-wrap {
@@ -344,6 +343,8 @@
                 .task-action-wrap {
                     display: flex;
                     align-items: center;
+                    position: relative;
+                    top: 3px;
 
                     .task-time {
                         white-space: nowrap;
