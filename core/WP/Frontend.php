@@ -175,10 +175,10 @@ function project_text_editor($config) {
 		 ?>
 		 <div class="notice" id="pm-promotional-offer-notice">
 
-                <img class="pm-logo" src="<?php echo config('frontend.url') . 'views/assets/images/pm-icon.png'; ?>" alt="">
-                <div class="pm-offer-msg-wrap"><?php echo $offer_msg; ?></div>
+                <img class="pm-logo" src="<?php echo esc_url(config('frontend.url') . 'views/assets/images/pm-icon.png'); ?>" alt="">
+                <div class="pm-offer-msg-wrap"><?php echo esc_html($offer_msg); ?></div>
                 <span class="dashicons dashicons-megaphone"></span>
-                <a href="https://wedevs.com/docs/wp-project-manager/how-to-migrate-to-wp-project-manager-v2-0/?utm_source=wp-admin&utm_medium=pm-action-link&utm_campaign=pm-docs" class="button button-primary promo-btn" target="_blank"><?php _e( 'Read Docs', 'wedevs-project-manager' ); ?></a>
+                <a href="https://wedevs.com/docs/wp-project-manager/how-to-migrate-to-wp-project-manager-v2-0/?utm_source=wp-admin&utm_medium=pm-action-link&utm_campaign=pm-docs" class="button button-primary promo-btn" target="_blank"><?php esc_html_e( 'Read Docs', 'wedevs-project-manager' ); ?></a>
             </div>
 
             <style>
@@ -305,8 +305,7 @@ function project_text_editor($config) {
     public function upgrade_notice( $current, $new_version ) {
 
         if ( isset( $new_version->upgrade_notice ) && strlen( trim( $new_version->upgrade_notice ) ) > 0 ) {
-            echo '<div style="background-color: #d54e21; padding: 10px; color: #f9f9f9; margin-top: 10px">';
-            echo $new_version->upgrade_notice . '</div>';
+            echo esc_html('<div style="background-color: #d54e21; padding: 10px; color: #f9f9f9; margin-top: 10px">'. $new_version->upgrade_notice . '</div>');
         }
     }
 
