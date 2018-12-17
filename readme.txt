@@ -124,6 +124,16 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= v2.0.9 - Dec 19, 2018 =
+
+* **Fix** Project update time dialog-box close automatically.
+* **Fix** Conflict with text editor and datepicker problem for task create.
+* **Fix** Date-picker selected date.
+* **Update** Permission for project delete.
+* **Update** Set inbox broad if not broad id provided.
+* **Update** d]Downloadable link from my task.
+* **New** Move tasks from one list to another.
+
 = v2.0.8 - Nov 29, 2018 =
 
 * **New** Project home page redesign.
@@ -143,7 +153,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 *  **New** Switch project with key binding cmd+j/clt+j.
 *  **New** Task list page redesign.
 *  **New** Single task list page redesign.
-*  **New** System default task list inbox. 
+*  **New** System default task list inbox.
 *  **New** All description fields with validation and sanitization at edit time.
 *  **New** Project title should be unique.
 *  **Fix** Task filter query.
@@ -193,7 +203,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
  * **Update** Load all HTTP request with GET and POST methods.
 
 = v2.0.2 - July 23, 2018 =
- 
+
  * **New** Create function for getting individual task.
  * **New** Hook for all CRUD (Create, Read, Update and Delete)
  * **Fix** Task complete and incomplete issues in microsoft edge browser.
