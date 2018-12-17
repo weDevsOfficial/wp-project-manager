@@ -128,7 +128,6 @@ class WP_Router {
 	 * wp rest route.)
 	 */
 	private function prepare_args( $http_verb, $namespace, $uri, $validator = null, $sanitizer = null ) {
-
         $validator = $validator ? new $validator( $this->prepare_request_object( $http_verb, $namespace, $uri ) ) : null;
         $sanitizer = $sanitizer ? new $sanitizer( $this->prepare_request_object( $http_verb, $namespace, $uri ) ) : null;
 		$args = [];
@@ -176,18 +175,20 @@ class WP_Router {
      */
     private function get_headers() {
         $headers = array();
+        $server = wp_unslash( $_SERVER );
 
         $copy_server = array(
-            'CONTENT_TYPE'   => 'Content-Type',
-            'CONTENT_LENGTH' => 'Content-Length',
-            'CONTENT_MD5'    => 'Content-Md5',
+			'CONTENT_TYPE'    => 'Content-Type',
+			'CONTENT_LENGTH'  => 'Content-Length',
+			'CONTENT_MD5'     => 'Content-Md5',
+			'HTTP_X_WP_NONCE' => 'HTTP_X_WP_NONCE'
         );
 
-        foreach ( $_SERVER as $key => $value ) {
+        foreach ( $server as $key => $value ) {
             if ( substr( $key, 0, 5 ) === 'HTTP_' ) {
                 $key = substr( $key, 5 );
 
-                if ( !isset( $copy_server[$key] ) || !isset( $_SERVER[$key] ) ) {
+                if ( !isset( $copy_server[$key] ) || !isset( $server[$key] ) ) {
                     $key = str_replace( ' ', '-', ucwords( strtolower( str_replace( '_', ' ', $key ) ) ) );
                     $headers[$key] = $value;
                 }
@@ -197,13 +198,13 @@ class WP_Router {
         }
 
         if ( !isset( $headers['Authorization'] ) ) {
-            if ( isset( $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] ) ) {
-                $headers['Authorization'] = sanitize_text_field( wp_unslash( $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] ) );
-            } elseif ( isset( $_SERVER['PHP_AUTH_USER'] ) ) {
-                $basic_pass = isset( $_SERVER['PHP_AUTH_PW'] ) ? sanitize_text_field( wp_unslash($_SERVER['PHP_AUTH_PW'] ) ) : '';
-                $headers['Authorization'] = 'Basic ' . base64_encode( $_SERVER['PHP_AUTH_USER'] . ':' . $basic_pass );
-            } elseif ( isset( $_SERVER['PHP_AUTH_DIGEST'] ) ) {
-                $headers['Authorization'] = sanitize_text_field( wp_unslash($_SERVER['PHP_AUTH_DIGEST'] ) );
+            if ( isset( $server['REDIRECT_HTTP_AUTHORIZATION'] ) ) {
+                $headers['Authorization'] = sanitize_text_field( wp_unslash( $server['REDIRECT_HTTP_AUTHORIZATION'] ) );
+            } elseif ( isset( $server['PHP_AUTH_USER'] ) ) {
+                $basic_pass = isset( $server['PHP_AUTH_PW'] ) ? sanitize_text_field( wp_unslash($server['PHP_AUTH_PW'] ) ) : '';
+                $headers['Authorization'] = 'Basic ' . base64_encode( $server['PHP_AUTH_USER'] . ':' . $basic_pass );
+            } elseif ( isset( $server['PHP_AUTH_DIGEST'] ) ) {
+                $headers['Authorization'] = sanitize_text_field( wp_unslash($server['PHP_AUTH_DIGEST'] ) );
             }
         }
 
@@ -234,9 +235,19 @@ class WP_Router {
     }
 
 	protected function append_params( WP_REST_Request $request ) {
-		$request->set_query_params( $_GET );
-		$request->set_body_params( $_POST );
-		$request->set_file_params( $_FILES );
+		$nonce = $request->get_header( 'x_wp_nonce' );
+		
+		if (  ! wp_verify_nonce( $nonce, 'wp_rest' ) ) {
+			return false;
+		}
+		
+		$get_data = wp_unslash( $_GET );
+		$post_data = wp_unslash( $_POST );
+		$file_data = wp_unslash( $_FILES );
+
+		$request->set_query_params( $get_data );
+		$request->set_body_params( $post_data );
+		$request->set_file_params( $file_data );
 
 		return $request;
 	}
