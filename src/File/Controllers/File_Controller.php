@@ -94,7 +94,7 @@ class File_Controller {
 
         if ( ! file_exists( $path ) ) {
             header( "Status: 404 Not Found" );
-            die( __( 'file not found', 'wedevs-project-manager' ) );
+            die( esc_html__( 'file not found', 'wedevs-project-manager' ) );
         }
 
         $file_name = basename( $path );

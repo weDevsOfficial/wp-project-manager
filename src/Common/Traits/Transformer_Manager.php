@@ -13,7 +13,7 @@ trait Transformer_Manager {
         $manager->setSerializer( new DataArraySerializer() );
 
         if ( isset( $_GET['with'] ) ) {
-            $manager->parseIncludes( $_GET['with'] );
+            $manager->parseIncludes( sanitize_text_field( wp_unslash( $_GET['with'] ) ) ) ;
         }
 
         if ($resource) {
@@ -31,7 +31,7 @@ trait Transformer_Manager {
         $manager->setSerializer( new DataArraySerializer() );
 
         if ( isset( $_GET['with'] ) ) {
-            $manager->parseIncludes( $_GET['with'] );
+            $manager->parseIncludes( sanitize_text_field( wp_unslash( $_GET['with'] ) ) );
         }
 
         if ($resource) {
