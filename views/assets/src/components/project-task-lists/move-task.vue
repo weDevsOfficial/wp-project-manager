@@ -9,7 +9,7 @@
 	            
 		           	<div class="popup-body">
 		           		<form action="" @submit.prevent="move()" method="post">
-		           			<div><strong>{{ __('Task Title: ', 'wedevs-project-manager') }}</strong>{{ items.task.title }}</div>
+		           			<div class="pm-task-title"><strong>{{ __('Task: ', 'wedevs-project-manager') }}</strong>{{ items.task.title }}</div>
 			           		<div>
 
 			                    <multiselect
@@ -51,6 +51,9 @@
 <style lang="less">
 
 	.pm-move-task-wrap {
+		.pm-task-title {
+			margin-bottom: 10px;
+		}
 		.pm-right {
 			display: flex;
 		    align-items: center;
