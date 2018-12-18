@@ -142,7 +142,10 @@ class Upgrade {
                 <div class="wrap">
                     <div class="notice notice-warning">
 
-                        <p><?php esc_html_e( '<strong>WP Project Manager Data Update Required</strong> &#8211; Please click the button below to update to the latest version.', 'wedevs-project-manager' ) ?></p>
+                        <p>
+                            <strong><?php esc_attr_e( 'WP Project Manager Data Update Required', 'wedevs-project-manager' ); ?></strong>
+                            <?php esc_attr_e('&#8211; Please click the button below to update to the latest version.', 'wedevs-project-manager' ) ?>
+                        </p>
                         <form action="" method="post" style="padding-bottom: 10px;" class="PmUpgradeFrom">
                             <?php wp_nonce_field( '_nonce', 'pm_nonce' ); ?>
                             <input type="submit" class="button button-primary" name="pm_update" value="<?php esc_html_e( 'Run the Update', 'wedevs-project-manager' ); ?>">
