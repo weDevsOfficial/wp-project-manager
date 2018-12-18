@@ -125,7 +125,7 @@ class Upgrade_2_0 extends WP_Background_Process
 
         $key = $wpdb->esc_like( $this->identifier . '_batch_' ) . '%';
 
-        $query = $wpdb->query( $wpdb->prepare( "DELETE FROM %s WHERE %s LIKE %s ", $table, $column, $key ) );
+        $query = $wpdb->query( $wpdb->prepare( "DELETE FROM {$table} WHERE {$column} LIKE %s ", $key ) );
     }
 
 
@@ -160,7 +160,7 @@ class Upgrade_2_0 extends WP_Background_Process
                 });
 
                 jQuery(document).ready(function() {
-                    var migrateData = <?php echo esc_attr( $observe ); ?>;
+                    var migrateData = <?php echo $observe; ?>;
                     
                     
                     pmProgressStatus(migrateData, pm_is_all_migrated, function() {
@@ -370,7 +370,7 @@ class Upgrade_2_0 extends WP_Background_Process
         $this->delete_queue_batch(); 
 
         global $wpdb;
-        $ids = $wpdb->get_results( $wpdb->prepare( "SELECT ID FROM %s WHERE post_type = %s", $wpdb->posts, 'cpm_project' ), ARRAY_A );
+        $ids = $wpdb->get_results( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_type = %s", 'cpm_project' ), ARRAY_A );
 
         if ( is_wp_error( $ids ) ) {
             return;
@@ -437,7 +437,7 @@ class Upgrade_2_0 extends WP_Background_Process
         $total_comment   = 0;
         $comments_ids    = [];
 
-        $projects = $wpdb->get_results( $wpdb->prepare( "SELECT ID FROM %s WHERE post_type = %s", $wpdb->posts, 'cpm_project' ), ARRAY_A );
+        $projects = $wpdb->get_results( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_type = %s", 'cpm_project' ), ARRAY_A );
         $total_project = $wpdb->num_rows;
 
         if ( $total_project ) {
@@ -446,16 +446,16 @@ class Upgrade_2_0 extends WP_Background_Process
             $ids = implode( ',', $ids );
 
             //milestone query
-            $milestons = $wpdb->get_results( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_parent in (%s) AND post_type in ('cpm_milestne', 'cpm_milestone') AND post_status=%s", $ids, 'publish' ), ARRAY_A );
+            $milestons = $wpdb->get_results( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_parent in (%s) AND post_type in ('cpm_milestne', 'cpm_milestone') AND post_status=%s", $ids, 'publish' ), ARRAY_A );
             $total_milestone = $wpdb->num_rows;
 
             //message query
-            $message = $wpdb->get_results( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_parent in (%s) AND post_type=%s AND post_status=%s", $ids, 'cpm_message', 'publish' ), ARRAY_A );
+            $message = $wpdb->get_results( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_parent in (%s) AND post_type=%s AND post_status=%s", $ids, 'cpm_message', 'publish' ), ARRAY_A );
             $total_message = $wpdb->num_rows;
             $comments_ids = array_merge( $comments_ids, wp_list_pluck( $message, 'ID' ) );
 
             // tasklist query
-            $tasklist = $wpdb->get_results( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_parent in (%s) AND post_type=%s AND post_status=%s", $ids, 'cpm_task_list', 'publish' ), ARRAY_A );
+            $tasklist = $wpdb->get_results( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_parent in (%s) AND post_type=%s AND post_status=%s", $ids, 'cpm_task_list', 'publish' ), ARRAY_A );
             $total_task_list = $wpdb->num_rows;
 
             if ( $total_task_list ) {
@@ -464,7 +464,7 @@ class Upgrade_2_0 extends WP_Background_Process
                 $list_ids = implode( ',', $list_ids );
 
                 // task query
-                $tasks = $wpdb->get_results( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_parent in (%s) AND post_type=%s AND post_status=%s", $list_ids, 'cpm_task', 'publish' ), ARRAY_A );
+                $tasks = $wpdb->get_results( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_parent in (%s) AND post_type=%s AND post_status=%s", $list_ids, 'cpm_task', 'publish' ), ARRAY_A );
                 $total_task = $wpdb->num_rows;
 
                 if ( $total_task ) {
@@ -472,7 +472,7 @@ class Upgrade_2_0 extends WP_Background_Process
                     $comments_ids = array_merge( $comments_ids, $task_ids );
                     $task_ids = implode( ',', $task_ids );
 
-                    $tasks = $wpdb->get_results( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_parent in (%s) AND post_type=%s AND post_status=%s", $task_ids, 'cpm_sub_task', 'publish' ), ARRAY_A );
+                    $tasks = $wpdb->get_results( $wpdb->prepare( "SELECT ID FROM {$wpdb->posts} WHERE post_parent in (%s) AND post_type=%s AND post_status=%s", $task_ids, 'cpm_sub_task', 'publish' ), ARRAY_A );
                     $total_task =  $total_task + $wpdb->num_rows;
 
                 }
@@ -484,7 +484,7 @@ class Upgrade_2_0 extends WP_Background_Process
         if ( ! empty( $comments_ids ) ) {
             $comments_ids = implode( ',', $comments_ids );
             $total_comment   = $wpdb->get_var( 
-               $wpdb->prepare("SELECT count(comment_ID) FROM {%s} WHERE comment_post_ID IN (%s)", $wpdb->comments, $comments_ids )
+               $wpdb->prepare("SELECT count(comment_ID) FROM {$wpdb->comments} WHERE comment_post_ID IN (%s)", $comments_ids )
             );
         }
 
@@ -548,7 +548,7 @@ class Upgrade_2_0 extends WP_Background_Process
             return ;
         }
 
-        $oldProject = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->posts WHERE ID=%d", $project_id ) );
+        $oldProject = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM {$wpdb->posts} WHERE ID=%d", $project_id ) );
 
         $newProject = $this->save_object( new Project, [
             'title'       => $oldProject->post_title,
@@ -602,7 +602,7 @@ class Upgrade_2_0 extends WP_Background_Process
         }
         global $wpdb;
         $table    = $wpdb->prefix . 'cpm_user_role';
-        $oldroles = $wpdb->get_results( $wpdb->prepare ( "SELECT * FROM %s WHERE project_id=%d", $table, $oldProjectId ), ARRAY_A );
+        $oldroles = $wpdb->get_results( $wpdb->prepare ( "SELECT * FROM {$table} WHERE project_id=%d", $oldProjectId ), ARRAY_A );
 
         if ( is_wp_error( $oldroles ) ) {
             return;
@@ -850,13 +850,7 @@ class Upgrade_2_0 extends WP_Background_Process
         }
         
         $in         = implode( ',', array_keys( $listitems  ));
-        $oldTask    = $wpdb->get_results( $wpdb->prepare( 
-                "SELECT * FROM %s WHERE post_parent IN (%s) AND  post_type=%s AND post_status=%s", 
-                $wpdb->posts, 
-                $in, 
-                $post_type, 
-                'publish' 
-        ), ARRAY_A );
+        $oldTask    = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->posts} WHERE post_parent IN (%s) AND  post_type=%s AND post_status=%s", $in, $post_type, 'publish' ), ARRAY_A );
         $tasks      = [];
         $taskParent = [];
 
@@ -976,7 +970,7 @@ class Upgrade_2_0 extends WP_Background_Process
         }
         global $wpdb;
         $in        = implode(',', array_keys( $ids ) );
-        $OComments = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM %s WHERE comment_post_ID IN(%s)", $wpdb->comments, $in ), ARRAY_A );
+        $OComments = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->comments} WHERE comment_post_ID IN(%s)", $in ), ARRAY_A );
         
         $comments  = [];
 
@@ -1039,7 +1033,7 @@ class Upgrade_2_0 extends WP_Background_Process
         }
         global $wpdb;
         $table   = $wpdb->prefix . 'cpm_file_relationship';
-        $files   = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {%s} WHERE project_id=%d ORDER BY `id` ASC", $table, $OldProjectId ), ARRAY_A );
+        $files   = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$table} WHERE project_id=%d ORDER BY `id` ASC", $OldProjectId ), ARRAY_A );
         $fileArr = [];
         $comments = [];
         
@@ -1116,7 +1110,7 @@ class Upgrade_2_0 extends WP_Background_Process
         }
         global $wpdb;
         $in        = implode( ',', array_keys( $ids ) );
-        $attachments = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM %s WHERE post_parent IN(%s) and post_type=%s", $wpdb->posts, $in, 'attachment' ), ARRAY_A);
+        $attachments = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->posts} WHERE post_parent IN(%s) and post_type=%s", $in, 'attachment' ), ARRAY_A);
 
         foreach ( $attachments as $attachment ){
             $this->add_file([
@@ -1140,7 +1134,7 @@ class Upgrade_2_0 extends WP_Background_Process
         }
         global $wpdb;
         $in        = implode( ',', array_keys( $ids ) );
-        $revisions = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM %s WHERE post_parent IN(%s) and post_type=%s", $wpdb->posts, $in, 'revision' ), ARRAY_A);
+        $revisions = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->posts} WHERE post_parent IN(%s) and post_type=%s", $in, 'revision' ), ARRAY_A);
         
         foreach( $revisions as $revision ){
             $meta=[];
@@ -1474,7 +1468,7 @@ class Upgrade_2_0 extends WP_Background_Process
             return ;
         }
         global $wpdb;
-        $activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM %s WHERE  comment_post_ID=%d AND comment_type=%s ORDER BY `comment_ID` ASC", $wpdb->comments, $oldProjectId, 'cpm_activity' ), ARRAY_A );
+        $activities = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->comments} WHERE  comment_post_ID=%d AND comment_type=%s ORDER BY `comment_ID` ASC", $oldProjectId, 'cpm_activity' ), ARRAY_A );
         
         foreach ( $activities as $activity ) {
 
@@ -1593,7 +1587,7 @@ class Upgrade_2_0 extends WP_Background_Process
 
         global $wpdb;
         $table = $wpdb->prefix. 'cpm_time_tracker';
-        $timetracker = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM %s WHERE  project_id=%d", $table, $oldProjectId ), ARRAY_A );
+        $timetracker = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$table} WHERE  project_id=%d", $oldProjectId ), ARRAY_A );
         if ( is_wp_error( $timetracker ) ) {
             return;
         }
@@ -1783,7 +1777,7 @@ class Upgrade_2_0 extends WP_Background_Process
         }
         $object = implode(',', $object);
         
-        $terms_releation = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM %s WHERE  term_taxonomy_id in(%s)", $wpdb->term_relationships, $object ), ARRAY_A );
+        $terms_releation = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->term_relationships} WHERE  term_taxonomy_id in(%s)", $object ), ARRAY_A );
         
         $projects = get_option( "pm_db_migration", [] );
         
