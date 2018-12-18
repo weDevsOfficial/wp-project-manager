@@ -23,6 +23,7 @@ class Milestone_Controller {
     public function index( WP_REST_Request $request ) {
         $project_id = $request->get_param( 'project_id' );
         $per_page   = $request->get_param( 'per_page' );
+        $status     = $request->get_param( 'status' );
         $per_page   = $per_page ? $per_page : 15;
         
         $page       = $request->get_param( 'page' );
@@ -34,6 +35,11 @@ class Milestone_Controller {
 
         $milestones = Milestone::with('metas')
             ->where( 'project_id', $project_id );
+
+        if ( ! empty( $status ) ) {
+            $milestones = $milestones->where( 'status',  $status);
+        }
+
         $milestones = apply_filters("pm_milestone_index_query", $milestones, $project_id, $request );
         
         if ( $per_page == '-1' ) {
@@ -55,7 +61,7 @@ class Milestone_Controller {
         foreach ($metas as $meta) {
             $milestones[] = $meta->milestone;
         }
-        echo esc_html__('this is mishu', 'wedevs-project-manager');
+        
         return $milestones;
     }
 
@@ -96,13 +102,6 @@ class Milestone_Controller {
             'project_id'  => $milestone->project_id,
         ]);
 
-        Meta::create([
-            'entity_id'   => $milestone->id,
-            'entity_type' => 'milestone',
-            'meta_key'    => 'status',
-            'meta_value'  => Milestone::INCOMPLETE,
-            'project_id'  => $milestone->project_id,
-        ]);
         do_action("pm_new_milestone_before_response", $milestone, $request->get_params() );
         // Transform milestone data
         $resource  = new Item( $milestone, new Milestone_Transformer );
@@ -150,19 +149,6 @@ class Milestone_Controller {
             $meta->save();
         }
 
-        if ( $milestone && in_array( $status, Milestone::$status ) ) {
-            $status = array_search( $status, Milestone::$status );
-            $meta   = Meta::firstOrCreate([
-                'entity_id'   => $milestone->id,
-                'entity_type' => 'milestone',
-                'meta_key'    => 'status',
-                'project_id'  => $milestone->project_id,
-            ]);
-
-            $meta->meta_value = $status;
-            $meta->save();
-            do_action( 'cpm_milestone_complete', $milestone->id, $status );
-        }
         do_action( 'cpm_milestone_update', $milestone_id, $project_id, $request->get_params() );
         do_action("pm_update_milestone_before_response", $milestone, $request->get_params() );
         $resource = new Item( $milestone, new Milestone_Transformer );

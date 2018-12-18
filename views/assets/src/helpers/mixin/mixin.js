@@ -889,14 +889,17 @@ export default {
             return milestones;
           }else {
             var request = {
-              url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones',
-              success (res) {
-                self.$root.$store.commit( 'setMilestones', res.data );
+                data: {
+                    status: 1
+                },
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones',
+                success (res) {
+                    self.$root.$store.commit( 'setMilestones', res.data );
 
-                if (typeof callback === 'function') {
-                  callback.call( self, res.data);
+                    if (typeof callback === 'function') {
+                    callback.call( self, res.data);
+                    }
                 }
-              }
             };
             self.httpRequest(request);
           }    
