@@ -176,7 +176,7 @@ class Email {
 
         $blogname     = self::getInstance()->get_blogname();
         $server_name = isset( $_SERVER['SERVER_NAME'] ) ? sanitize_text_field( wp_unslash( $_SERVER['SERVER_NAME'] ) ): '';
-        $no_reply     = 'no-reply@' . preg_replace( '#^www\.#', '', strtolower( $serverName  ) );
+        $no_reply     = 'no-reply@' . preg_replace( '#^www\.#', '', strtolower( $server_name  ) );
         $content_type = 'Content-Type: text/html';
         $charset      = 'Charset: UTF-8';
         $from_email   = self::getInstance()->from_email();
