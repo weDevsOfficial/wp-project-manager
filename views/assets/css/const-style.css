@@ -1,13 +1,10 @@
-/*
- * icomoon font css
- */
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?xhopfy');
-  src:  url('fonts/icomoon.eot?xhopfy#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?xhopfy') format('truetype'),
-    url('fonts/icomoon.woff?xhopfy') format('woff'),
-    url('fonts/icomoon.svg?xhopfy#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?5gajjh');
+  src:  url('fonts/icomoon.eot?5gajjh#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?5gajjh') format('truetype'),
+    url('fonts/icomoon.woff?5gajjh') format('woff'),
+    url('fonts/icomoon.svg?5gajjh#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -32,6 +29,14 @@
 }
 .icon-pm-check-circle:before {
   content: "\e919";
+}
+.icon-pm-capability:before {
+  content: "\e91c";
+  color: #ccc;
+}
+.icon-pm-integration:before {
+  content: "\e932";
+  color: #ccc;
 }
 .icon-pm-switch-project:before {
   content: "\e931";
@@ -196,10 +201,6 @@
   content: "\e90b";
   color: #d6d6d6;
 }
-.icon-pm-plus:before {
-  content: "\e91c";
-  color: #ababab;
-}
 .icon-pm-smile:before {
   content: "\e90d";
   color: #d4d6d6;
@@ -229,6 +230,9 @@
 .icon-pm-filter:before {
   content: "\ea5b";
 }
+
+
+
 
 
 /*
