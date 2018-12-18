@@ -357,6 +357,8 @@
 
                 return this.$store.state.project.hasOwnProperty('id');
             },
+
+
         },
         
         created () {
