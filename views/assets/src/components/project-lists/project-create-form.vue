@@ -26,7 +26,7 @@
                             <td>{{ projectUser.display_name }}</td>
                             <td>
                                 <select  v-model="projectUser.roles.data[0].id" :disabled="!canUserEdit(projectUser.id)">
-                                    <option v-for="role in roles" :value="role.id" :key="role.id" >{{ role.title }}</option>
+                                    <option v-for="role in roles" :value="role.id" :key="role.id" >{{ __(role.title, 'wedevs-project-manager') }}</option>
                                 </select>
                             </td>
                           
@@ -121,6 +121,7 @@
                 create_new_user: __( 'Create a new user', 'wedevs-project-manager'),
                 add_new_project: __( 'Add New Project', 'wedevs-project-manager'),
                 update_project: __( 'Update Project', 'wedevs-project-manager'),
+                client: __("Client", 'wedevs-project-manager'), // Dont Remove this one its require for Client translation
             }
         },
         components: {
