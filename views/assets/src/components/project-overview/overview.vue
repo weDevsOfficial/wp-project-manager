@@ -1,5 +1,5 @@
 <template>
-    <div class="pm-wrap pm-front-end">
+    <div class="pm-wrap pm-front-end pm-overview">
         <pm-header></pm-header>
         <pm-heder-menu></pm-heder-menu>
 
@@ -16,7 +16,7 @@
         </div>
 
         <div v-if="fetchOverview" class="project-overview pm-project-overview-container">
-            <div class="pm-col-10 pm-sm-col-12">
+            <div class="pm-col-10 pm-sm-col-12 user-lists">
                 <div class="overview-menu">
                     <ul>
                         <li class="message">
@@ -146,6 +146,9 @@
 
 <style lang="less">
     .project-overview {
+        .user-lists {
+            margin-right: 0;
+        }
         .pm-delte-user {
             overflow: visible !important;
         }
