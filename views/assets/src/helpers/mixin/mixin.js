@@ -423,7 +423,7 @@ export default {
                     project_transform: true,
                     per_page: this.getSettings('project_per_page', 10),
                     page : this.setCurrentPageNumber(),
-                    category: typeof this.$route.query.category !== 'undefined' ? this.$route.query.category[0] : '',
+                    category: typeof this.$route.query.category !== 'undefined' ? this.$route.query.category : '',
                 }
             }
 
