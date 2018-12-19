@@ -436,8 +436,7 @@
             }
         }
         .incomplete-task-ul {
-            padding-left: 0 !important;
-            padding-right: 0 !important;
+            padding: 1px 0 !important;
         }
         .complete-task-ul {
             
