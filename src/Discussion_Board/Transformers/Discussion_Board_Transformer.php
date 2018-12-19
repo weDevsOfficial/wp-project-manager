@@ -66,7 +66,7 @@ class Discussion_Board_Transformer extends TransformerAbstract {
     }
 
     public function includeComments( Discussion_Board $item ) {
-        $page = isset( $_GET['comment_page'] ) ? $_GET['comment_page'] : 1;
+        $page = isset( $_GET['comment_page'] ) ? intval( $_GET['comment_page'] ) : 1;
 
         // Paginator::currentPageResolver(function () use ($page) {
         //     return $page;
@@ -85,7 +85,7 @@ class Discussion_Board_Transformer extends TransformerAbstract {
     }
 
     public function includeFiles( Discussion_Board $item ) {
-        $page = isset( $_GET['file_page'] ) ? $_GET['file_page'] : 1;
+        $page = isset( $_GET['file_page'] ) ? intval($_GET['file_page']) : 1;
 
         Paginator::currentPageResolver(function () use ($page) {
             return $page;

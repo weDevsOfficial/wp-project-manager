@@ -6,7 +6,7 @@
 
 weDevsPmRegisterModule('projectFiles', 'project-files');
 
-import files from './files.vue'
+import files from './files.vue';
 
 weDevsPMRegisterChildrenRoute('projects', 
     [

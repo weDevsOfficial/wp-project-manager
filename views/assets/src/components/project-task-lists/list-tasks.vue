@@ -63,9 +63,7 @@
             min-height: 30px !important;
             margin: 0 21px 10px 48px !important;
         }
-        .incomplete-task-ul{
-            padding: 2px !important;
-        }
+        
         .incomplete-task-ul.has-items {
             margin-bottom: 8px !important;
         }
@@ -155,9 +153,16 @@
             }
         }
         .incomplete-task-li, .complete-task-li {
-            margin-bottom: 10px;
+            /*margin-bottom: 10px;*/
+            padding: 8px 0;
+            border-top: 1px solid transparent;
+            border-bottom: 1px solid transparent;
+            /*background: red;
+            border-bottom: 1px solid #fff;*/
             
             &:hover {
+                background: #fff;
+                border-color: #f0f0f0;
                 .pm-todo-wrap {
                     .task-more-menu {
                         .icon-pm-more-options {
@@ -196,12 +201,13 @@
             .todo-content {
                 display: flex;
                 align-items: baseline;
+                // align-items: center;
 
                 .task-left {
                     display: flex;
-                    align-items: center;
-                    position: relative;
-                    top: -2px;
+                    align-items: baseline;
+                    /*position: relative;
+                    top: -2px;*/
 
                     .move {
                         cursor: grab;
@@ -217,40 +223,42 @@
                         }
                     }
                     .checkbox {
-                        line-height: 0;
                         position: relative;
-                        top: 1px;
+                        top: -1.5px;
+                        // display: flex;
+                        // align-items: center;
                     }
                 }
                 .title-wrap {
                     display: flex;
-                    align-items: baseline;
-                    position: relative;
-                    top: -1px;
+                    /*align-items: baseline;*/
+                    /*position: relative;*/
+                    /*top: -1px;*/
                 }
 
                 .more-menu {
                     padding: 0 0 0 12px;
-                    cursor: pointer;
                     position: relative;
                     display: flex;
                     justify-content: flex-end;
                     flex: 1;
-                    top: 1px;
+                    /*top: 1px;*/
 
                     .icon-pm-more-options {
+                        padding: 0 5px;
+                        margin: 0 -5px; 
+                        cursor: pointer;
                         &:before {
                             color: #fafafa;
                         }
-                    }
-
-                    &:hover {
-                        .icon-pm-more-options {
+                        &:hover {
                             &:before {
                                 color: #6d6d6d;
                             }
                         }
                     }
+
+                    
 
                     .more-menu-ul-wrap, .list-update-warp {
                         position: absolute;
@@ -264,7 +272,7 @@
                         background: #fff;
                         border-radius: 3px;
                         box-shadow: 0px 2px 40px 0px rgba(214, 214, 214, 0.6);
-
+                        padding: 7px 0; 
                         &:before {
                             border-color: transparent transparent #DDDDDD transparent;
                             position: absolute;
@@ -287,7 +295,7 @@
                             border-width: 0 8px 7px 8px;
                         }
                         .first-li {
-                            margin-top: 6px;
+                            // margin-top: 6px;
                         }
 
                         .li-a {
@@ -300,7 +308,7 @@
 
                             &:hover {
                                 color: #000;
-                                .icon-pm-pencil, .icon-pm-private, .icon-pm-unlock {
+                                .icon-pm-pencil, .icon-pm-move, .icon-pm-private, .icon-pm-unlock {
                                     &:before {
                                         color: #000;
                                     }
@@ -313,13 +321,16 @@
                             }
                         }
 
-                        .icon-pm-pencil, .icon-pm-delete, .icon-pm-private, .icon-pm-unlock {
+                        .icon-pm-pencil, 
+                        .icon-pm-delete, 
+                        .icon-pm-move, 
+                        .icon-pm-private, 
+                        .icon-pm-unlock {
                             display: inline-block;
                             width: 20px;
                             &:before {
                                 color: #d7dee2;
                             }
-
                             &:hover {
                                 &:before {
                                     color: #000;
@@ -332,6 +343,8 @@
                 .task-action-wrap {
                     display: flex;
                     align-items: center;
+                    position: relative;
+                    top: 3px;
 
                     .task-time {
                         white-space: nowrap;
@@ -406,11 +419,11 @@
                 .assigned-users-content {
                     display: flex;
                     align-items: center;
-                    position: relative;
-                    top: 2.5px;
+                    /*position: relative;
+                    top: 2.5px;*/
 
                     .image-anchor {
-                        line-height: 0;
+                        /*line-height: 0;*/
                         margin-right: 3px;
                     }
                     .image {
@@ -423,8 +436,7 @@
             }
         }
         .incomplete-task-ul {
-            padding-left: 0 !important;
-            padding-right: 0 !important;
+            padding: 1px 0 !important;
         }
         .complete-task-ul {
             

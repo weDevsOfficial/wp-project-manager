@@ -219,7 +219,7 @@ function pm_get_response( $resource, $extra = [] ) {
     $manager->setSerializer( $data_serialize );
 
     if ( isset( $_GET['with'] ) ) {
-        $manager->parseIncludes( $_GET['with'] );
+        $manager->parseIncludes( sanitize_text_field( wp_unslash( $_GET['with'] ) ) );
     }
 
     if ($resource) {

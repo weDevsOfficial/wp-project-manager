@@ -25,13 +25,13 @@
                         <tr v-for="projectUser in selectedUsers" :key="projectUser.id">
                             <td>{{ projectUser.display_name }}</td>
                             <td>
-                                <select  v-model="projectUser.roles.data[0].id" :disabled="!canUserEdit(projectUser.id)">
-                                    <option v-for="role in roles" :value="role.id" :key="role.id" >{{ role.title }}</option>
+                                <select  v-model="projectUser.roles.data[0].id" :disabled="!canUserEdit(projectUser)">
+                                    <option v-for="role in roles" :value="role.id" :key="role.id" >{{ __(role.title, 'wedevs-project-manager') }}</option>
                                 </select>
                             </td>
                           
                             <td>
-                                <a @click.prevent="deleteUser(projectUser)" v-if="canUserEdit(projectUser.id)" hraf="#" class="pm-del-proj-role pm-assign-del-user">
+                                <a @click.prevent="deleteUser(projectUser)" v-if="canUserEdit(projectUser)" hraf="#" class="pm-del-proj-role pm-assign-del-user">
                                     <span class="dashicons dashicons-trash"></span> 
                                     <!-- <span class="title">{{ __( 'Delete', 'wedevs-project-manager') }}</span> -->
                                 </a>
@@ -63,11 +63,33 @@
             </div>
 
         </form>
-        <div v-pm-user-create-popup-box id="pm-create-user-wrap" :title="create_new_user">
+        <div v-pm-user-create-popup-box id="pm-create-user-wrap" class="pm-new-user-wrap" :title="create_new_user">
             <project-new-user-form></project-new-user-form>
         </div>
     </div>
 </template>
+
+<style lang="less">
+    .pm-project-form {
+        .project-department {
+            label {
+                line-height: 1;
+                display: block;
+                margin-bottom: 5px;
+            }
+            select {
+                display: block;
+            }
+        }
+        .pm-project-form-users-wrap {
+            overflow: hidden;
+            .pm-project-role {
+                max-height: 150px;
+                overflow: scroll;
+            }
+        }
+    }
+</style>
 
 <script>
     import directive from './directive.js';
@@ -99,6 +121,7 @@
                 create_new_user: __( 'Create a new user', 'wedevs-project-manager'),
                 add_new_project: __( 'Add New Project', 'wedevs-project-manager'),
                 update_project: __( 'Update Project', 'wedevs-project-manager'),
+                client: __("Client", 'wedevs-project-manager'), // Dont Remove this one its require for Client translation
             }
         },
         components: {
@@ -172,12 +195,17 @@
                     }
                 );
             },
-            canUserEdit (user_id) {
+            canUserEdit (user) {
+                
                 if (this.has_manage_capability()) {
                     return true;
                 }
-                
-                if (this.current_user.data.ID == user_id) {
+
+                if (user.manage_capability) {
+                    return false;
+                }
+                                
+                if (this.current_user.data.ID == user.id) {
                     return false;
                 }
 

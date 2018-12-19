@@ -29,4 +29,12 @@ class Meta extends Eloquent {
     public function getMetaValueAttribute( $value ) {
         return maybe_unserialize( $value );
     }
+
+    public function setMetaValueAttribute( $value ) {
+        if( !is_serialized( $value ) ) { 
+            $value = maybe_serialize($value); 
+        }
+
+        $this->attributes['meta_value'] = $value;
+    }
 }

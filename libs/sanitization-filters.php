@@ -13,5 +13,5 @@ function html_esc( $value ) {
 }
 
 function pm_kses($value) {
-	return wp_kses($value, pm_config('app.allowed_html'), ['http', 'https', 'mailto', 'feed']);
+	return wp_kses($value, wp_kses_allowed_html( 'post' ), ['http', 'https', 'mailto', 'feed']);
 }

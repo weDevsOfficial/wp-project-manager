@@ -107,6 +107,17 @@
                             </div>
                         </div>
 
+                        <div class="task-list-title-wrap" v-if="task.task_list.data">
+                            <div class="task-list-title-text">
+                                <span >
+                                    {{ __("Task List: ", 'wedevs-project-manager' ) }}
+                                </span>
+                                <strong>
+                                    {{ task.task_list.data.title }}
+                                </strong>
+                            </div>
+                        </div>
+
                         <div class="pm-flex options-wrap">
                             <div class="pm-flex assigne-users">
                                 <div v-if="task.assignees.data.length" class='pm-assigned-user' v-for="user in task.assignees.data" :key="user.id">

@@ -12,7 +12,7 @@ trait Board_Status {
     
     
         public function getStatusAttribute( $value ) {
-            $value = $value ? (int) $value : 1;
+            $value = isset( $value ) ? (int) $value : 1;
     
             if ( array_key_exists( $value, self::$status ) ) {
                 return self::$status[(int) $value];

@@ -105,50 +105,6 @@ weDevsPMRegisterChildrenRoute('project_root',
             name: 'projects',
             children: wedevsPMGetRegisterChildrenRoute('projects'),
 
-            // children: 
-            // [
-            //     {
-            //         path: '', 
-            //         component: project_lists,
-            //         name: 'project_lists',
-            //         children: [
-            //             {
-            //                 path: 'pages/:current_page_number', 
-            //                 component: project_lists,
-            //                 name: 'project_pagination',
-            //             },
-            //         ]
-            //     },
-
-            //     {
-            //         path: 'all', 
-            //         component: all_projects,
-            //         name: 'all_projects',
-
-            //         children: [
-            //             {
-            //                 path: 'pages/:current_page_number', 
-            //                 component: all_projects,
-            //                 name: 'all_project_pagination',
-            //             },
-            //         ]
-            //     },
-
-            //     {
-            //         path: 'completed', 
-            //         component: completed_projects,
-            //         name: 'completed_projects',
-
-            //         children: [
-            //             {
-            //                 path: 'pages/:current_page_number', 
-            //                 component: completed_projects,
-            //                 name: 'completed_project_pagination',
-            //             },
-            //         ]
-            //     },
-
-            // ]
         }
         
     ]
