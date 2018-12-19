@@ -24,7 +24,11 @@ class Offers {
         if ( ! current_user_can( 'manage_options' ) ) {
             return;
         }
-
+        
+        if ( date( 'Y-m-d', current_time( 'timestamp') ) > '2018-12-30' ) {
+            return;
+        }
+        
         global $wedevs_pm_pro;
 
         // check if it has already been dismissed
