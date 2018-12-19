@@ -5,7 +5,7 @@ Tags: web task manager, online collaboration tool, task tracker, productivity to
 Requires at least: 4.4
 Tested up to: 5.0.1
 Requires PHP: 5.6
-Stable tag: 2.0.8
+Stable tag: 2.0.9
 
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -210,6 +210,10 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 13. Project Settings -> Email Settings Tab
 
 == Changelog ==
+
+= v2.0.9 - Dec 19, 2018 =
+
+* **Hotfix** Fatal error at page and post edit time.
 
 = v2.0.9 - Dec 19, 2018 =
 
