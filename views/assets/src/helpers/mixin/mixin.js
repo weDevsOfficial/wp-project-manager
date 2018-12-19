@@ -423,7 +423,7 @@ export default {
                     project_transform: true,
                     per_page: this.getSettings('project_per_page', 10),
                     page : this.setCurrentPageNumber(),
-                    category: typeof this.$route.query.category !== 'undefined' ? this.$route.query.category[0] : '',
+                    category: typeof this.$route.query.category !== 'undefined' ? this.$route.query.category : '',
                 }
             }
 
@@ -889,14 +889,17 @@ export default {
             return milestones;
           }else {
             var request = {
-              url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones',
-              success (res) {
-                self.$root.$store.commit( 'setMilestones', res.data );
+                data: {
+                    status: 1
+                },
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones',
+                success (res) {
+                    self.$root.$store.commit( 'setMilestones', res.data );
 
-                if (typeof callback === 'function') {
-                  callback.call( self, res.data);
+                    if (typeof callback === 'function') {
+                    callback.call( self, res.data);
+                    }
                 }
-              }
             };
             self.httpRequest(request);
           }    

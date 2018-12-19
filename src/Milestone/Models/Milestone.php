@@ -26,6 +26,7 @@ class Milestone extends Eloquent {
         'title',
         'description',
         'order',
+        'status',
         'project_id',
         'created_by',
         'updated_by',
@@ -49,33 +50,26 @@ class Milestone extends Eloquent {
     	}
     }
 
-    public function getAchievedAtAttribute() {
-        return $this->status_field->meta_value == self::COMPLETE ? $this->status_field->updated_at : null;
+    public function setStatusAttribute( $value ) {
+
+        $value = strtolower( $value );
+        $key   = array_search( $value, self::$status );
+
+        if ( array_key_exists( $value, self::$status ) ) {
+            $this->attributes['status'] = $value;
+        } else {
+            $this->attributes['status'] = $key;
+        }
     }
 
-    public function getStatusAttribute() {
-        $status       = self::INCOMPLETE;
-        $today        = Carbon::today();
-        $achieved_at  = $this->achieved_at;
-        $achieve_date = $this->achieve_date;
+    public function getStatusAttribute( $value ) {
+        $value = (int) $value;
 
-        if ( $achieved_at ) {
-            $status = self::COMPLETE;
-        } elseif ( $achieve_date && $achieve_date->diffInDays( $today, false ) > 0 ) {
-            $status = self::OVERDUE;
+        if ( array_key_exists( $value, self::$status ) ) {
+            return self::$status[(int) $value];
         }
 
-        $meta = Meta::firstOrCreate([
-            'entity_id'   => $this->id,
-            'entity_type' => 'milestone',
-            'meta_key'    => 'status',
-            'project_id'  => $this->project_id,
-        ]);
-
-        $meta->meta_value = $status;
-        $meta->save();
-
-        return self::$status[$status];
+        return self::$status[0];
     }
 
     public function metas() {
@@ -87,12 +81,6 @@ class Milestone extends Eloquent {
         return $this->belongsTo( 'WeDevs\PM\Common\Models\Meta', 'id', 'entity_id' )
             ->where( 'entity_type', 'milestone' )
             ->where( 'meta_key', 'achieve_date' );
-    }
-
-    public function status_field() {
-        return $this->belongsTo( 'WeDevs\PM\Common\Models\Meta', 'id', 'entity_id' )
-            ->where( 'entity_type', 'milestone' )
-            ->where( 'meta_key', 'status' );
     }
 
     public function task_lists() {
