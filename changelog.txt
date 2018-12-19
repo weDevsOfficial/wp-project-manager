@@ -1,3 +1,13 @@
+= v2.0.9 - Dec 19, 2018 =
+
+* **New** Update user from overview page.
+* **New** Move tasks from one list to another.
+* **Update** Permission for project delete.
+* **Fix** Project update time dialog-box close automatically.
+* **Fix** Conflict with text editor and datepicker problem for task create.
+* **Fix** Date-picker auto close, when select a date.
+* **Fix** Coding standard according wordpress.
+
 = v2.0.8 - Nov 29, 2018 =
 
 * **New** Project home page redesign.
