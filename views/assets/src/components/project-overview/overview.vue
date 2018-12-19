@@ -145,7 +145,6 @@
 </template>
 
 <style lang="less">
-<<<<<<< HEAD
     .project-overview {
         .user-lists {
             margin-right: 0;
@@ -154,9 +153,6 @@
             overflow: visible !important;
         }
     }
-=======
-
->>>>>>> c24c2db32bad5c684ae8d7e9ff7a9eab18679334
     .pm .pm-col-10 {
         margin-bottom: 0;
     }
