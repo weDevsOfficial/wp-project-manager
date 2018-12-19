@@ -1,3 +1,7 @@
+= v2.0.10 - Dec 19, 2018 =
+
+* **Hotfix** Fatal error at page and post edit time.
+
 = v2.0.9 - Dec 19, 2018 =
 
 * **New** Update user from overview page.
