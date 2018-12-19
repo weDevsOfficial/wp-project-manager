@@ -30,7 +30,7 @@ class Milestone_Transformer extends TransformerAbstract {
             'description'  => $item->description,
             'order'        => (int) $item->order,
             'achieve_date' => format_date( $item->achieve_date ),
-            'achieved_at'  => format_date( $item->achieved_at ),
+            'achieved_at'  => format_date( $item->updated_at ),
             'status'       => $item->status,
             'created_at'   => format_date( $item->created_at ),
             'meta'         => $this->meta( $item ),
@@ -59,7 +59,7 @@ class Milestone_Transformer extends TransformerAbstract {
     }
 
     public function includeTaskLists( Milestone $item ) {
-        $page = isset( $_GET['task_list_page'] ) ? $_GET['task_list_page'] : 1;
+        $page = isset( $_GET['task_list_page'] ) ? intval( $_GET['task_list_page'] ) : 1;
 
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
@@ -79,7 +79,7 @@ class Milestone_Transformer extends TransformerAbstract {
     }
 
     public function includeDiscussionBoards( Milestone $item ) {
-        $page = isset( $_GET['discussion_page'] ) ? $_GET['discussion_page'] : 1;
+        $page = isset( $_GET['discussion_page'] ) ? intval( $_GET['discussion_page'] ) : 1;
 
         Paginator::currentPageResolver(function () use ($page) {
             return $page;

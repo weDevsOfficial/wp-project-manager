@@ -205,11 +205,12 @@ export default new pm.Vuex.Store({
         updateSeletedUser (state, data) {
             if(data.project_id) {
                 var index = state.getIndex(state.projects, data.project_id, 'id');
-                state.projects[index].assignees.data.push(data.item);
+                state.projects[index].assignees.data.unshift(data.item);
             } else {
                 state.assignees.push(data.item);
             }
             
+            $('.pm-project-role').animate({ scrollTop: 0 }, "slow");
         },
 
         setSeletedUser(state, assignees) {
@@ -249,6 +250,13 @@ export default new pm.Vuex.Store({
             state.history = {
                 to, from
             };
+        },
+
+        setCreatedUser (state, created_user) {
+            state.newlyCreated = created_user;
+        },
+        resetCreatedUser (state){
+            state.newlyCreated = {};
         }
     }
 

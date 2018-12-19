@@ -15,7 +15,7 @@
             </div>
         </div>
         
-        <div class="pm-milestone" v-if="isFetchMilestone">
+        <div class="pm-milestone pm-milestone-container" v-if="isFetchMilestone">
             <div class="pm-blank-template milestone" v-if="blankTemplate">
                 <div class="pm-content" >
                     <h3 class="pm-page-title">  {{ __( 'Milestones', 'wedevs-project-manager') }}</h3>
@@ -85,7 +85,11 @@
 
 <style lang="less">
     .pm-milestone {
-        margin-top: 10px;
+        .pm-blank-template {
+            background: transparent;
+            border: none;
+            box-shadow: none;
+        }
     }
 </style>
 

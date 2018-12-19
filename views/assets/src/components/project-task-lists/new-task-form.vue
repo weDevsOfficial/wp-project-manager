@@ -10,9 +10,11 @@
                 <input @keyup.enter="taskFormAction()" v-model="task.title"  class="input-field" :placeholder="__('Add new task', 'wedevs-project-manager')" type="text" ref="taskForm">
                 <a @click.prevent="taskFormAction()"  class="update-button" href="#"><span class="icon-pm-check-circle"></span></a>
                 <div class="action-icons">
-                    <pm-do-action hook="pm_task_form" :actionData="task" ></pm-do-action>
-                    <span @click.self.prevent="enableDisable('descriptionField')" class="icon-pm-align-left new-task-description-btn"></span>
-                    <span  @click.self.prevent="enableDisable('isEnableMultiselect')" class="task-user-multiselect icon-pm-single-user pm-dark-hover">
+                    <pm-do-action hook="pm_task_form" :actionData="task"></pm-do-action>
+                    <!-- time estimation -->
+                    <!-- <span title="Estimate time" class="pm-icon flaticon-clock pm-estimate-icon"></span> -->
+                    <span title="Description" @click.self.prevent="enableDisable('descriptionField')" class="icon-pm-align-left new-task-description-btn"></span>
+                    <span title="Assign user" @click.self.prevent="enableDisable('isEnableMultiselect')" class="task-user-multiselect icon-pm-single-user pm-dark-hover">
                         <div v-if="isEnableMultiselect" class="pm-multiselect-top pm-multiselect-subtask-task">
                             <div class="pm-multiselect-content">
                                 <div class="assign-to">{{ __('Assign to', 'wedevs-project-manager') }}</div>
@@ -46,7 +48,7 @@
                     </span>
                     <!-- <span @click.prevent="showHideDescription()" class="icon-pm-pencil pm-dark-hover"></span> -->
 
-                    <span @click.self.prevent="enableDisable('datePicker')" class="icon-pm-calendar new-task-calendar pm-dark-hover"></span>
+                    <span title="Date" @click.self.prevent="enableDisable('datePicker')" class="icon-pm-calendar new-task-calendar pm-dark-hover"></span>
                     
                 </div>
                 <div v-if="datePicker" class="subtask-date new-task-caledar-wrap">
@@ -65,9 +67,9 @@
                     </pm-content-datepicker>
 
                 </div>
+
                 <div v-if="descriptionField" class="new-task-description">
                     <text-editor  :editor_id="'new-task-description-editor-' + list.id" :content="content"></text-editor>
-                    
                 </div>
                 
             </div>
@@ -76,6 +78,16 @@
 </template>
 
 <style lang="less">
+    span.pm-estimate-icon {
+        cursor: pointer;
+        &::before {
+            font-size: 14px !important;
+            color: #d9dbdb;
+        }
+        &:hover:before {
+            color: #000;
+        }
+    }
     .pm-task-form {
         span.pm-spinner {
             position: absolute;
@@ -420,6 +432,8 @@ export default {
 
     methods: {
         windowActivity (el) {
+            var self = this;
+            
             var multiselect  = jQuery(el.target).closest('.task-user-multiselect'),
                 calendarBtn = jQuery(el.target).hasClass('new-task-calendar'),
                 calendarCont = jQuery(el.target).closest('.new-task-caledar-wrap'),
@@ -428,7 +442,9 @@ export default {
                 descriptionBtn = jQuery(el.target).hasClass('new-task-description-btn');
 
             if( !descriptionBtn && !description.length ) {
-                this.descriptionField = false;
+                pm.Vue.nextTick(function() {
+                    self.descriptionField = false;
+                });
             }
           
             if( !calendarBtn && !calendarCont.length && !hasCalendarArrowBtn) {

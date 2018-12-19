@@ -64,7 +64,7 @@
                         self.addUserMeta(res.data);
                         self.show_spinner = false;
                  
-                        self.$root.$store.commit('updateSeletedUser', 
+                        self.$store.commit('updateSeletedUser', 
                             {
                                 project_id: self.project_id,
                                 item: res.data

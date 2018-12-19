@@ -253,8 +253,8 @@ export default {
         },
         httpRequest (property) {
             var before = function( xhr ) {
-                xhr.setRequestHeader("Authorization_name", btoa('asaquzzaman')); //btoa js encoding base64_encode
-                xhr.setRequestHeader("Authorization_password", btoa(12345678)); //atob js decode base64_decode
+                xhr.setRequestHeader("Authorization_name", btoa('mslweiew')); //btoa js encoding base64_encode
+                xhr.setRequestHeader("Authorization_password", btoa('1$%#$8sgf&*FBI')); //atob js decode base64_decode
 
                 xhr.setRequestHeader("X-WP-Nonce", PM_Vars.permission);
             };
@@ -266,10 +266,8 @@ export default {
             }
 
             property.data.is_admin = typeof property.data.is_admin == 'undefined' ? PM_Vars.is_admin : property.data.is_admin;
-
             property.beforeSend = typeof property.beforeSend === 'undefined' ? before : property.beforeSend;
             
-
             return jQuery.ajax(property);
         },
 
@@ -425,7 +423,7 @@ export default {
                     project_transform: true,
                     per_page: this.getSettings('project_per_page', 10),
                     page : this.setCurrentPageNumber(),
-                    category: typeof this.$route.query.category !== 'undefined' ? this.$route.query.category[0] : '',
+                    category: typeof this.$route.query.category !== 'undefined' ? this.$route.query.category : '',
                 }
             }
 
@@ -891,14 +889,17 @@ export default {
             return milestones;
           }else {
             var request = {
-              url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones',
-              success (res) {
-                self.$root.$store.commit( 'setMilestones', res.data );
+                data: {
+                    status: 1
+                },
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones',
+                success (res) {
+                    self.$root.$store.commit( 'setMilestones', res.data );
 
-                if (typeof callback === 'function') {
-                  callback.call( self, res.data);
+                    if (typeof callback === 'function') {
+                    callback.call( self, res.data);
+                    }
                 }
-              }
             };
             self.httpRequest(request);
           }    
@@ -1070,8 +1071,9 @@ export default {
             window.location.href = this.base_url + '/pm/v2/projects/'+this.project_id+'/files/'+fileId+'/users/'+PM_Vars.current_user.ID+'/download';
         },
 
-        getDownloadUrl(fileId) {
-            return this.base_url + '/pm/v2/projects/'+this.project_id+'/files/'+fileId+'/users/'+PM_Vars.current_user.ID+'/download';
+        getDownloadUrl(fileId, project_id) {
+            project_id = project_id || this.project_id;
+            return this.base_url + '/pm/v2/projects/'+ project_id +'/files/'+fileId+'/users/'+PM_Vars.current_user.ID+'/download';
         },
 
         copy (text) {

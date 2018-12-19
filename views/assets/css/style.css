@@ -3321,32 +3321,38 @@ a.pm-icon-tick.grey {
 }
 .pm .project-overview .overview-menu ul {
   padding: 0px;
-  margin: 0px;
+  margin: 0 -10px !important;
+  display: flex;
+  flex-wrap: wrap;
 }
 .pm .project-overview .overview-menu ul li {
-  float: left;
-  list-style: none;
-  margin: 0px;
-  margin-right: 10px;
-  border: solid 1px #E5E5E5;
+  flex-basis: 16.66%;
+  max-width: 16.66%;
+  padding: 0 10px 20px;
+
+}
+.pm .project-overview .overview-menu ul li a {
+  display: flex;
   padding: 20px 10px;
-  text-align: center !important;
-  background: #ffffff;
-  width: 15.5%;
-  margin-bottom: 20px;
-  clear: right;
+  border: solid 1px #E5E5E5;
+  background: #fff;
+  box-shadow: none;
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+.pm .project-overview .overview-menu ul li a:hover,
+.pm .project-overview .overview-menu ul li a:focus {
+  box-shadow: 0 15px 30px 0 rgba(0,0,0,.11), 0 5px 15px 0 rgba(0,0,0,.08);
 }
 .pm .project-overview .overview-menu ul li a div {
   float: left;
 }
 .pm .project-overview .overview-menu ul li a .icon {
-  padding: 7px;
   border-radius: 50%;
   color: #ffffff;
-  margin-right: 8%;
-  height: 24px;
-  width: 24px;
-  background-size: 14px;
+  margin: 0 10px;
+  height: 45px;
+  width: 45px;
+  background-size: 16px;
   background-repeat: no-repeat;
   background-position: center center;
 }
@@ -3390,7 +3396,7 @@ a.pm-icon-tick.grey {
   background: #ffffff;
   padding: 0;
   margin-top: 0;
-  margin-right: 10px;
+  /*margin-right: 10px;*/
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
   border: 1px solid #e5e5e5;
 }
@@ -3430,9 +3436,8 @@ a.pm-icon-tick.grey {
 }
 .pm .project-overview .pm-right-part h3 {
   margin: 0px;
-  padding: 8px 12px;
-  margin-bottom: 15px;
-  font-size: 14px;
+  padding: 10px;
+  font-size: 16px;
   line-height: 1.4;
 }
 .pm .project-overview .pm-right-part .user_list {
@@ -3440,13 +3445,23 @@ a.pm-icon-tick.grey {
   margin-right: 10px;
 }
 .pm .project-overview .pm-right-part .user_list li {
-  margin: 0 0 15px 10px;
+  padding: 10px;
   clear: left;
+  border-bottom: 1px solid #eee;
 }
 .pm .project-overview .pm-right-part .user_list li img {
   border-radius: 50px;
   float: left;
   margin-right: 10px;
+  margin-top: 5px;
+}
+.pm .project-overview .pm-right-part .user_list li a {
+  height: 18px;
+  overflow: hidden;
+  display: inline-block;
+  width: calc(100% - 55px);
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .pm .project-overview .pm-right-part .user_list li span {
   display: block;
@@ -4806,21 +4821,6 @@ a.pm-icon-tick.grey {
   .pm .pm-project-list .pm-project .pm-project-people {
     text-align: center;
   }
-  .pm .project-overview .overview-menu ul li {
-    width: 30.19999%;
-    float: left;
-    display: flex;
-    margin-bottom: 20px;
-    text-align: center !important;
-  }
-  .pm .project-overview .overview-menu ul li .icon {
-    padding: 25px 0px;
-    width: 70px;
-    font-size: 150%;
-    border-radius: 50px;
-    color: #ffffff;
-    margin-right: 20px;
-  }
   .pm .project-overview .pm-right-part {
     width: 100%;
   }
@@ -4843,6 +4843,60 @@ a.pm-icon-tick.grey {
     overflow: hidden;
   }
 }
+@media only screen and (max-width: 1400px) {
+  .pm .project-overview .overview-menu ul li {
+    flex-basis: 33.33% !important;
+    max-width: 33.33% !important;
+  }
+  .pm .project-overview .overview-menu ul li a {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .pm .project-overview .overview-menu ul li {
+    flex-basis: 50% !important;
+    max-width: 50% !important;
+  }
+  .pm-header-title-content .project-title {
+    flex-basis: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .pm-header-title-content .project-title {
+    display: block;
+    position: relative !important;
+    line-height: inherit !important;
+  }
+  
+  .pm-header-title-content .project-title .title {
+    max-width: calc(100% - 70px);
+    display: block;
+  }
+  .pm-header-title-content .pm-title-edit-settings {
+    right: 35px;
+  }
+  .pm-header-title-content .settings {
+    right: 0;
+  }
+  .pm-header-title-content .pm-title-edit-settings, 
+  .pm-header-title-content .settings {
+    position: absolute !important;
+    top: 0;
+    z-index: 999;
+  }
+  .pm-header-title-content .project-title + div {
+    width: 100%;
+  }
+  .pm-header-title-content .project-title + div input {
+    width: 100% !important;
+  }
+  
+    
+
+
+}
+
 @media print {
   .pm .pm-no-print {
     display: none;
@@ -5303,3 +5357,20 @@ a.pm-icon-tick.grey {
   width: 100%;
   height: auto;
 }
+
+/* change background and spacing for each project sub pages */
+.pm-project-overview-container,
+.pm-activities-container,
+.pm-discussion-container,
+.pm-milestone-container,
+.pm-files-container-free,
+.pm-files-container-pro,
+.pm-gantt-wrap,
+.pm-settings {
+  margin-top: 0 !important;
+  padding: 20px;
+  border: 1px solid #E5E4E4;
+  border-top: 0;
+  background: #FAFAFA;
+}
+

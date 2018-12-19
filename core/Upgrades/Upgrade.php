@@ -94,6 +94,7 @@ class Upgrade {
         }, self::$updates);
 
     }
+    
     /**
      * Check if need any update
      *
@@ -123,6 +124,7 @@ class Upgrade {
         }
         return false;
     }
+
     /**
      * Show update notice
      *
@@ -140,11 +142,14 @@ class Upgrade {
                 <div class="wrap">
                     <div class="notice notice-warning">
 
-                        <p><?php _e( '<strong>WP Project Manager Data Update Required</strong> &#8211; Please click the button below to update to the latest version.', 'wedevs-project-manager' ) ?></p>
+                        <p>
+                            <strong><?php esc_attr_e( 'WP Project Manager Data Update Required', 'wedevs-project-manager' ); ?></strong>
+                            <?php esc_attr_e('&#8211; Please click the button below to update to the latest version.', 'wedevs-project-manager' ) ?>
+                        </p>
                         <form action="" method="post" style="padding-bottom: 10px;" class="PmUpgradeFrom">
                             <?php wp_nonce_field( '_nonce', 'pm_nonce' ); ?>
-                            <input type="submit" class="button button-primary" name="pm_update" value="<?php _e( 'Run the Update', 'wedevs-project-manager' ); ?>">
-                            <a href="https://wedevs.com/docs/wp-project-manager/how-to-migrate-to-wp-project-manager-v2-0/?utm_source=wp-admin&utm_medium=pm-action-link&utm_campaign=pm-docs" class="button promo-btn" target="_blank"><?php _e( 'Read More', 'wedevs-project-manager' ); ?></a>
+                            <input type="submit" class="button button-primary" name="pm_update" value="<?php esc_html_e( 'Run the Update', 'wedevs-project-manager' ); ?>">
+                            <a href="https://wedevs.com/docs/wp-project-manager/how-to-migrate-to-wp-project-manager-v2-0/?utm_source=wp-admin&utm_medium=pm-action-link&utm_campaign=pm-docs" class="button promo-btn" target="_blank"><?php esc_html_e( 'Read More', 'wedevs-project-manager' ); ?></a>
                         </form>
                     </div>
                 </div>
@@ -152,12 +157,13 @@ class Upgrade {
                     jQuery('form.PmUpgradeFrom').submit(function(event){
                         //event.preventDefault();
 
-                        return confirm( '<?php _e( 'It is strongly recommended that you backup your database before proceeding. Are you sure you wish to run the updater now?', 'wedevs-project-manager' ); ?>' );
+                        return confirm( '<?php esc_html_e( 'It is strongly recommended that you backup your database before proceeding. Are you sure you wish to run the updater now?', 'wedevs-project-manager' ); ?>' );
                     });
                 </script>
             <?php
        
     }
+
     /**
      * Do all updates when Run updater btn click
      *
@@ -171,12 +177,18 @@ class Upgrade {
         if ( ! isset( $_POST['pm_update'] ) ) {
             return;
         }
-        if ( ! wp_verify_nonce( $_POST['pm_nonce'], '_nonce' ) ) {
+
+        if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['pm_nonce'] ) ), '_nonce' ) ) {
+            return;
+        }
+
+        if ( ! current_user_can( 'manage_options' ) ) {
             return;
         }
 
         $this->perform_updates();
     }
+
     /**
      * Perform all updates
      *

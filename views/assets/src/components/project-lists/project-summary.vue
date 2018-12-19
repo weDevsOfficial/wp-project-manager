@@ -19,7 +19,7 @@
                             <favourite :project="project"></favourite>
                         </li>
 
-                        <li class="pm-has-dropdown">
+                        <li class="pm-has-dropdown" v-if="is_manager(project)">
                             <a @click.prevent="dropdownTrigger(project)" :data-project_id="project.id" href="#" class="pm-dropdown-trigger">
                                 <i class="pm-icon flaticon-more"></i>
                             </a>
@@ -91,7 +91,7 @@
                             </li>
                             <li class="pm-meta-files pm-has-tooltip">
                                 <router-link :to="{
-                                    name: 'task_lists',
+                                    name: 'pm_files',
                                     params: {
                                         project_id: project.id
                                     }}">
@@ -131,16 +131,16 @@
                                     <img class="pm-img-circle" :src="user.avatar_url" :alt="user.display_name">
                                 </li> -->
 
-                                <li v-for="(user, key) in project.assignees.data" v-if="key < 6" :key="key" class="pm-has-tooltip">
+                                <li v-for="(user, key) in project.assignees.data" v-if="key <= 5" :key="key" class="pm-has-tooltip">
                                     <img class="pm-img-circle" :src="user.avatar_url" :alt="user.display_name">
                                     <span class="pm-tooltip-label">{{ user.display_name }}</span>
                                 </li>
                                 
                                 <!-- more user button and their markup -->
-                                <li v-if="project.assignees.data.length > 7" class="pm-more-users pm-has-dropdown">
-                                    <a :data-project_id="project.id" @click.prevent="showMoreUser(project)" href="#" class="pm-dropdown-trigger">{{ project.assignees.data.length - 8 }}+</a>
+                                <li v-if="project.assignees.data.length > 6" class="pm-more-users pm-has-dropdown">
+                                    <a :data-project_id="project.id" @click.prevent="showMoreUser(project)" href="#" class="pm-dropdown-trigger">{{ project.assignees.data.length - 6 }}+</a>
                                     <ul :class="'pm-dropdown-menu '+ pmDropDownOpen(project)">
-                                        <li v-for="(user, key) in project.assignees.data" v-if="key > 7" :key="key" class="pm-has-tooltip">
+                                        <li v-for="(user, key) in project.assignees.data" v-if="key > 5" :key="key" class="pm-has-tooltip">
                                             <img class="pm-img-circle" :src="user.avatar_url" :alt="user.display_name">
                                             <span class="pm-tooltip-label">{{ user.display_name }}</span>
                                         </li>
