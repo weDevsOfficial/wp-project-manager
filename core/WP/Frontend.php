@@ -9,6 +9,8 @@ use WeDevs\PM\Core\WP\Register_Scripts;
 use WeDevs\PM\Core\WP\Enqueue_Scripts as Enqueue_Scripts;
 use WeDevs\PM\Core\File_System\File_System as File_System;
 use WeDevs\PM\Core\Cli\Commands;
+use WeDevs\PM\Core\Promotions\Promotions;
+use WeDevs\PM\Core\Promotions\Offers;
 use PM_Create_Table;
 
 
@@ -161,6 +163,8 @@ function project_text_editor($config) {
 	public function instantiate() {
         Notification::init_transactional_emails();
         new Upgrade();
+        new Offers();
+        //new Promotions();
 	}
 
 	public function register_scripts() {
