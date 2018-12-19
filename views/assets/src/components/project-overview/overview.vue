@@ -68,7 +68,7 @@
                                     <span>{{ meta.total_comments }}</span>
                                     {{ __( 'Comments', 'wedevs-project-manager') }}
                                 </div>
-                             </a>
+                            </a>
                         </li>
                         <li class="files">
                             <router-link :to="{
@@ -78,9 +78,9 @@
                                 }
                             }">
                                 <div class="icon"></div>
-                                    <div class="count">
-                                        <span>{{ meta.total_files }}</span>
-                                        {{ __( 'Files', 'wedevs-project-manager') }}
+                                <div class="count">
+                                    <span>{{ meta.total_files }}</span>
+                                    {{ __( 'Files', 'wedevs-project-manager') }}
                                 </div>
                             </router-link>
                         </li>
@@ -95,12 +95,12 @@
                                 <div class="icon"></div>
                                 <div class="count">
                                     <span>{{ meta.total_milestones }}</span>
-                                        {{  __( 'Milestones', 'wedevs-project-manager') }}
+                                    {{  __( 'Milestones', 'wedevs-project-manager') }}
                                 </div>
                             </router-link>
                         </li>
                         <div class="clearfix"></div>
-                     </ul>
+                    </ul>
                 </div>
 
                 <div id="pm-chart" class="pm-chart">
@@ -116,7 +116,7 @@
                     <h3> {{ __( 'Users', 'wedevs-project-manager') }} </h3>
                     <span>
                         <a @click="addUser()" class="add-user">
-                            <i class="flaticon-plus"></i>
+                            <i class="fa fa-plus"></i> Add
                         </a>
                     </span>
                 </div>
@@ -131,8 +131,8 @@
                             <span v-for="role in user.roles.data" :key="role.id">{{ __( role.title, 'wedevs-project-manager') }}</span>
                         </div>
                         <div class="list-right">
-                            <a href="#" v-if="canUserEdit(user.id)" class="pm-delte-user" @click.prevent="deleteUser(user)"> <i class="icon-pm-delete"></i></a>
-                            
+                            <a href="#" v-if="canUserEdit(user.id)" class="pm-delte-user pm-delete-user" @click.prevent="deleteUser(user)"> <i class="icon-pm-delete"></i></a>
+
                         </div>
                     </li>
                 </ul>
@@ -145,6 +145,7 @@
 </template>
 
 <style lang="less">
+<<<<<<< HEAD
     .project-overview {
         .user-lists {
             margin-right: 0;
@@ -153,6 +154,9 @@
             overflow: visible !important;
         }
     }
+=======
+
+>>>>>>> c24c2db32bad5c684ae8d7e9ff7a9eab18679334
     .pm .pm-col-10 {
         margin-bottom: 0;
     }
@@ -208,16 +212,19 @@
                 margin-bottom: 5px !important;
                 border-bottom: 1px solid #eee;
             }
-            a.delete-user{
-                display: none;
+            a.pm-delete-user{
+                display: none !important;
+                overflow: visible !important;
+                display: inline-block;
+                height: auto;
                 i.icon-pm-delete:before{
-                    color: #c7cfd1 !important;
+                    /*color: #c7cfd1 !important;*/
                 }
             }
 
             &:hover{
-                a.delete-user{
-                    display: inline-block;
+                a.pm-delete-user{
+                    display: block !important;
                     cursor: pointer;
                     font-size: 14px;
                     padding: 0;
@@ -247,9 +254,9 @@
             });
         },
         data(){
-           return {
-               show_modal: false
-           }
+            return {
+                show_modal: false
+            }
         },
         mixins:[Mixins],
         computed: {
@@ -323,6 +330,3 @@
     }
 
 </script>
-
-
-

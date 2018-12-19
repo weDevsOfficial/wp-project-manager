@@ -20,6 +20,8 @@
 
                             </div>
 
+                        <div class="spiner" v-show="show_spinner"><span class="pm-spinner"></span> &nbsp;&nbsp; <span class="wait"> wait ... </span></div>
+
                     </div>
 
                     <div v-if="notfound && searchChar !== ''" class="popup-body">
@@ -75,6 +77,7 @@
 
                 var $ = jQuery;
                 this.searched_users = [];
+                this.show_spinner = true;
                 if (this.searchChar.length > 0) {
                     var args = {
                         conditions: {
@@ -93,11 +96,13 @@
                                 if (!has_user && !is_duplicate) {
                                     this.searched_users.push(res.data[i]);
                                 }
+                                this.show_spinner = false;
 
                             }
 
                             if (!res.data.length)  {
                                 this.notfound = true;
+                                this.show_spinner = false;
                             } else {
                                 this.notfound = false;
                             }
@@ -115,6 +120,7 @@
 
                 } else {
                     this.searched_users = [];
+                    this.show_spinner = false;
                 }
 
 
@@ -310,7 +316,18 @@
             }
         }
 
+        div.spiner{
 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            span.wait{
+                font-size: 11px;
+                color: #00a0d2;
+            }
+
+        }
 
     }
 

@@ -25,13 +25,13 @@
                         <tr v-for="projectUser in selectedUsers" :key="projectUser.id">
                             <td>{{ projectUser.display_name }}</td>
                             <td>
-                                <select  v-model="projectUser.roles.data[0].id" :disabled="!canUserEdit(projectUser.id)">
+                                <select  v-model="projectUser.roles.data[0].id" :disabled="!canUserEdit(projectUser)">
                                     <option v-for="role in roles" :value="role.id" :key="role.id" >{{ __(role.title, 'wedevs-project-manager') }}</option>
                                 </select>
                             </td>
                           
                             <td>
-                                <a @click.prevent="deleteUser(projectUser)" v-if="canUserEdit(projectUser.id)" hraf="#" class="pm-del-proj-role pm-assign-del-user">
+                                <a @click.prevent="deleteUser(projectUser)" v-if="canUserEdit(projectUser)" hraf="#" class="pm-del-proj-role pm-assign-del-user">
                                     <span class="dashicons dashicons-trash"></span> 
                                     <!-- <span class="title">{{ __( 'Delete', 'wedevs-project-manager') }}</span> -->
                                 </a>
@@ -195,12 +195,17 @@
                     }
                 );
             },
-            canUserEdit (user_id) {
+            canUserEdit (user) {
+                
                 if (this.has_manage_capability()) {
                     return true;
                 }
-                
-                if (this.current_user.data.ID == user_id) {
+
+                if (user.manage_capability) {
+                    return false;
+                }
+                                
+                if (this.current_user.data.ID == user.id) {
                     return false;
                 }
 

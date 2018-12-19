@@ -5,27 +5,27 @@
         <form action="" class="pm-user-create-form" @submit.prevent="saveUser()">
             <div class="pm-field-wrap">
                 <label for="user_name">{{ __( 'Username', 'wedevs-project-manager') }}</label>
-                <input id="user_name" v-model="username" type="text" required name="user_name">
+                <input id="user_name" v-model="username" type="text" required name="user_name" tabindex="1">
 
             </div>
             <div class="pm-field-wrap">
                 <label for="first_name">{{ __( 'First Name', 'wedevs-project-manager') }}</label >
-                <input ref="first_name" id="first_name" v-model="first_name" type="text" name="first_name">
+                <input ref="first_name" id="first_name" v-model="first_name" type="text" name="first_name" tabindex="2">
 
             </div>
             <div class="pm-field-wrap">
                 <label for="last_name">{{ __( 'Last Name', 'wedevs-project-manager') }}</label>
-                <input id="last_name" v-model="last_name" type="text" name="last_name">
+                <input id="last_name" v-model="last_name" type="text" name="last_name" tabindex="3">
 
             </div>
             <div class="pm-field-wrap">
                 <label for="email">{{ __( 'Email', 'wedevs-project-manager') }}</label>
-                <input @blur="searchUser()" v-bind:class="{danger:user_found}" id="email" v-model="email" type="email" required name="email">
+                <input @blur="searchUser()" v-bind:class="{danger:user_found}" id="email" v-model="email" type="email" required name="email" tabindex="4">
                 <span v-if="user_found" class="danger">{{ exist_msg }}</span>
             </div>
             <div class="button-box">
-                <button class="button button-cancel" type="button" @click="cancelUser()">{{ cancel_user }}</button>
-                <input :disabled="user_found" class="button-primary pm-new-user-btn" type="submit" :value="create_user" name="create_user">
+                <button class="button button-cancel" type="button" @click="cancelUser()" tabindex="6">{{ cancel_user }}</button>
+                <input :disabled="user_found" class="button-primary pm-new-user-btn" type="submit" :value="create_user" name="create_user" tabindex="5">
                 <span v-show="show_spinner" class="pm-spinner"></span>
             </div>
         </form>
