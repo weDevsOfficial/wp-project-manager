@@ -55,6 +55,11 @@ module.exports = function(grunt) {
                     '!**/README.md',
                     '!**/customs.json',
                     '!nbproject',
+                    '!phpcs-report.txt',
+                    '!phpcs.xml.dist',
+                    '!phpcs.xml.dist',
+                    '!pm.sublime-project',
+                    '!views/assets/css/Single Task Page.json',
                     '!**/*~'
                 ],
                 dest: 'build/'
