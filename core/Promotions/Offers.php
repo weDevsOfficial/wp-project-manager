@@ -25,7 +25,7 @@ class Offers {
             return;
         }
         
-        if ( date( 'Y-m-d', current_time( 'timestamp') ) > '2018-12-30' ) {
+        if ( date( 'Y-m-d', current_time( 'timestamp') ) > '2018-12-31' ) {
             return;
         }
         

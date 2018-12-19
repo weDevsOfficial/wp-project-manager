@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Project Manager 2.0.8\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/cpm\n"
-"POT-Creation-Date: 2018-12-13 09:11:26+00:00\n"
+"POT-Creation-Date: 2018-12-19 08:26:20+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -20,13 +20,11 @@ msgstr ""
 #: core/Notifications/Emails/New_Comment_Notification.php:55
 #: core/Notifications/Emails/Update_Comment_Notification.php:54
 #: views/emails/html/new-message.php:39 views/emails/html/update-message.php:39
-#: views/emails/mention.php:13
 msgid "Message"
 msgstr ""
 
 #: core/Notifications/Emails/New_Comment_Notification.php:60
 #: core/Notifications/Emails/Update_Comment_Notification.php:57
-#: views/emails/mention.php:20
 msgid "Task List"
 msgstr ""
 
@@ -34,7 +32,6 @@ msgstr ""
 #: core/Notifications/Emails/Update_Comment_Notification.php:60
 #: views/assets/js/pm.js:9
 #: views/assets/src/components/project-overview/directive.js:10
-#: views/emails/mention.php:25
 msgid "Task"
 msgstr ""
 
@@ -97,21 +94,85 @@ msgstr ""
 msgid "You have no permission to create project."
 msgstr ""
 
-#: core/Upgrades/Upgrade.php:143
+#: core/Promotions/Offers.php:43
 msgid ""
-"<strong>WP Project Manager Data Update Required</strong> &#8211; Please "
-"click the button below to update to the latest version."
+"<p>In this Christmas, stay on top of budgets. Spend <strong>30%% "
+"LESS</strong> on <strong>WP Project Manager Pro</strong> and increase "
+"productivity for you and your organization. [Limited time ⏳😎]</p> <p><a "
+"target=\"_blank\" class=\"button button-primary\" href=\"%s\">Grab The "
+"Deal</a></p>"
+msgstr ""
+
+#: core/Promotions/Offers.php:79 core/Promotions/Wedevs_Promotion.php:187
+msgid "You have no permission to do that"
+msgstr ""
+
+#: core/Promotions/Offers.php:83 core/Promotions/Wedevs_Promotion.php:191
+msgid "Invalid nonce"
+msgstr ""
+
+#: core/Promotions/Promotions.php:42
+msgid "Visualize all the task progress and get full insights"
+msgstr ""
+
+#: core/Promotions/Promotions.php:43
+msgid ""
+"Leverage the Gantt chart feature in your WP Project Manager Pro. Get exact "
+"progress illustration of all tasks, and never miss a deadline."
+msgstr ""
+
+#: core/Promotions/Promotions.php:50
+msgid "Get more organized and more efficient in Kanban Style"
+msgstr ""
+
+#: core/Promotions/Promotions.php:51
+msgid ""
+"Utilize the popular Kanban method and improve your workflow significantly. "
+"Segment your tasks into a different category and utilize the most of "
+"project management tools."
+msgstr ""
+
+#: core/Promotions/Promotions.php:58
+msgid "Time wastage is not an option!"
+msgstr ""
+
+#: core/Promotions/Promotions.php:59
+msgid ""
+"Time is money! So make the most out of it. Use the advanced time tracker "
+"extension to get accurate insights about time management."
+msgstr ""
+
+#: core/Promotions/Promotions.php:66
+msgid "Small things bring great achievements!"
+msgstr ""
+
+#: core/Promotions/Promotions.php:67
+msgid ""
+"Breakdown your main task into smaller parts and set milestones for them. "
+"Complete big tasks successfully easier than ever."
+msgstr ""
+
+#: core/Promotions/Wedevs_Promotion.php:82
+msgid "Learn More &rarr;"
 msgstr ""
 
 #: core/Upgrades/Upgrade.php:146
-msgid "Run the Update"
+msgid "WP Project Manager Data Update Required"
 msgstr ""
 
 #: core/Upgrades/Upgrade.php:147
+msgid "&#8211; Please click the button below to update to the latest version."
+msgstr ""
+
+#: core/Upgrades/Upgrade.php:151
+msgid "Run the Update"
+msgstr ""
+
+#: core/Upgrades/Upgrade.php:152
 msgid "Read More"
 msgstr ""
 
-#: core/Upgrades/Upgrade.php:155
+#: core/Upgrades/Upgrade.php:160
 msgid ""
 "It is strongly recommended that you backup your database before proceeding. "
 "Are you sure you wish to run the updater now?"
@@ -134,39 +195,39 @@ msgstr ""
 msgid "Allowed Files"
 msgstr ""
 
-#: core/WP/Frontend.php:144
+#: core/WP/Frontend.php:146
 msgid "Every %d Minutes PM schedule"
 msgstr ""
 
-#: core/WP/Frontend.php:171
+#: core/WP/Frontend.php:175
 msgid "<h2>WP Project Manager Pro required version 2.0 or above.</span></h2>"
 msgstr ""
 
-#: core/WP/Frontend.php:172
+#: core/WP/Frontend.php:176
 msgid "<p>To migrate version 2.0, Please read mmigration docs </p>"
 msgstr ""
 
-#: core/WP/Frontend.php:181
+#: core/WP/Frontend.php:185
 msgid "Read Docs"
 msgstr ""
 
-#: core/WP/Frontend.php:288
+#: core/WP/Frontend.php:292
 msgid "Get Pro"
 msgstr ""
 
-#: core/WP/Frontend.php:291 core/WP/Menu.php:36
+#: core/WP/Frontend.php:295 core/WP/Menu.php:36
 msgid "Settings"
 msgstr ""
 
-#: core/WP/Frontend.php:292
+#: core/WP/Frontend.php:296
 msgid "Documentation"
 msgstr ""
 
-#: core/WP/Frontend.php:337 core/WP/Frontend.php:350
+#: core/WP/Frontend.php:340 core/WP/Frontend.php:353
 msgid "Create New Task"
 msgstr ""
 
-#: core/WP/Frontend.php:366
+#: core/WP/Frontend.php:369
 msgid "Jump to a project"
 msgstr ""
 
@@ -268,10 +329,6 @@ msgstr ""
 
 #: src/File/Controllers/File_Controller.php:97
 msgid "file not found"
-msgstr ""
-
-#: src/Milestone/Controllers/Milestone_Controller.php:58
-msgid "this is mishu"
 msgstr ""
 
 #: src/Milestone/Validators/Create_Milestone.php:10
@@ -839,6 +896,7 @@ msgstr ""
 #: views/assets/src/components/project-discussions/new-discuss-form.vue:32
 #: views/assets/src/components/project-lists/project-create-form.vue:60
 #: views/assets/src/components/project-milestones/new-milestone-form.vue:18
+#: views/assets/src/components/project-overview/addNewUser.vue:52
 #: views/assets/src/components/project-task-lists/list-comment-form.vue:15
 #: views/assets/src/components/project-task-lists/lists.vue:197
 #: views/assets/src/components/project-task-lists/new-task-list-form.vue:31
@@ -861,7 +919,7 @@ msgid "Are you sure?"
 msgstr ""
 
 #: views/assets/js/library.js:1 views/assets/js/pm.js:1
-#: views/assets/src/helpers/mixin/mixin.js:812
+#: views/assets/src/helpers/mixin/mixin.js:810
 #: views/assets/vendor/mixin/mixin.js:636
 msgid "Are you sure to delete this project?"
 msgstr ""
@@ -1082,6 +1140,17 @@ msgstr ""
 msgid "Are you sure to delete this comment?"
 msgstr ""
 
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/project-lists/project-create-form.vue:225
+#: views/assets/src/components/project-overview/mixin.js:26
+msgid "Project title is required!"
+msgstr ""
+
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/project-overview/mixin.js:80
+msgid "Are you sure!"
+msgstr ""
+
 #: views/assets/js/pm.js:1 views/assets/src/components/common/header.vue:327
 msgid "Project Actions"
 msgstr ""
@@ -1119,13 +1188,18 @@ msgid "Update Project"
 msgstr ""
 
 #: views/assets/js/pm.js:1
-#: views/assets/src/components/project-lists/project-create-form.vue:219
-msgid "Project title is required!"
+#: views/assets/src/components/project-lists/project-create-form.vue:124
+msgid "Client"
 msgstr ""
 
 #: views/assets/js/pm.js:1
 #: views/assets/src/components/project-lists/project-new-user-form.vue:43
 msgid "Create User"
+msgstr ""
+
+#: views/assets/js/pm.js:1
+#: views/assets/src/components/project-overview/addNewUser.vue:51
+msgid "Create"
 msgstr ""
 
 #: views/assets/js/pm.js:1
@@ -1391,21 +1465,25 @@ msgstr ""
 
 #: views/assets/js/pm.js:9
 #: views/assets/src/components/project-lists/project-new-user-form.vue:7
+#: views/assets/src/components/project-overview/addNewUser.vue:7
 msgid "Username"
 msgstr ""
 
 #: views/assets/js/pm.js:9
 #: views/assets/src/components/project-lists/project-new-user-form.vue:12
+#: views/assets/src/components/project-overview/addNewUser.vue:12
 msgid "First Name"
 msgstr ""
 
 #: views/assets/js/pm.js:9
 #: views/assets/src/components/project-lists/project-new-user-form.vue:17
+#: views/assets/src/components/project-overview/addNewUser.vue:17
 msgid "Last Name"
 msgstr ""
 
 #: views/assets/js/pm.js:9
 #: views/assets/src/components/project-lists/project-new-user-form.vue:22
+#: views/assets/src/components/project-overview/addNewUser.vue:22
 msgid "Email"
 msgstr ""
 
@@ -1499,7 +1577,7 @@ msgstr ""
 
 #: views/assets/js/pm.js:9
 #: views/assets/src/components/project-task-lists/move-task.vue:12
-msgid "Task Title: "
+msgid "Task: "
 msgstr ""
 
 #: views/assets/js/pm.js:9
@@ -1988,7 +2066,6 @@ msgid "On"
 msgstr ""
 
 #: views/emails/html/new-comment.php:38 views/emails/html/update-comment.php:38
-#: views/emails/mention.php:47
 msgid "View Comment"
 msgstr ""
 
@@ -2013,7 +2090,6 @@ msgid "Project Created By"
 msgstr ""
 
 #: views/emails/html/new-project.php:23 views/emails/html/update-project.php:22
-#: views/emails/mention.php:37
 msgid "Hello"
 msgstr ""
 
@@ -2055,14 +2131,6 @@ msgstr ""
 
 #: views/emails/html/update-task.php:18
 msgid "Updated By"
-msgstr ""
-
-#: views/emails/mention.php:39
-msgid "You are mentioned in a comment by"
-msgstr ""
-
-#: views/emails/mention.php:41
-msgid "Please click the link bellow to view the comment."
 msgstr ""
 
 #. Plugin Name of the plugin/theme
