@@ -1,16 +1,16 @@
-=== WP Project Manager ===
-Contributors: tareq1988, wedevs, asaquzzaman, mshossain110, mdmamun-1
+=== WP Project Manager - Project, Task Mangement & Team Collaboration Software ===
+Contributors: tareq1988, wedevs, asaquzzaman
 Donate Link: https://tareq.co/donate/
-Tags: project, manager, project manager, project management, todo, todo list, task, basecamp, milestone, message, file, comment, client, team, tracking, planning, lists, reporting, project management plugin for wordpress, project manager, project manager plugin for wordpress, wordpress project management
+Tags: web task manager, online collaboration tool, task tracker, productivity tool, open source project management software
 Requires at least: 4.4
-Tested up to: 4.9.8
+Tested up to: 5.0.1
 Requires PHP: 5.6
 Stable tag: 2.0.6
 
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-The best WordPress Project Management plugin. Project Management with WordPress has never been this easy!
+WP Project Manager - Task scheduling, Project management, Team collaboration is easier than ever.
 
 == Description ==
 
@@ -18,7 +18,27 @@ Best Project Management Tool for WordPress
 
 [youtube https://www.youtube.com/watch?v=GI4u8wXOxHg]
 
-The WordPress Project Management plugin. Manage your project simply with the \*right\* tools and options. It gives you the taste of a full-fledged project management solution, just inside your loved WordPress.
+👉 Official Free Demo Link: [Official Demo](https://pmdemo.wedevs.com/)
+👉 Learn More About Project Manager(PRO): [All The Features of Project Manager](https://wedevs.com/wp-project-manager-pro/)
+
+WP Project Manager is one of the most sophisticated project and task management tools in WordPress. With all the advanced features of this task organizer, you can [create](https://wedevs.com/docs/wp-project-manager/getting-started/creating-a-project/), organize, and assign projects, tasks, to-dos, faster than ever within minutes. User-friendly interface and web based task management feature have turned it into the best open source project management software. Boost the productivity of your team with time tracking tool and measure the performance variation with the built-in reports with this simple yet effective project management plugin. 
+
+= [Efficient Task Manager with Intuitive Interface](https://wedevs.com/wp-project-manager-pro/) =
+Manage all types of tasks and projects with the least time possible. The interactive user-friendly interface will not only give you a smooth experience but also assist you to boost the overall efficiency.
+
+= [Team Collaboration made easy](https://wedevs.com/wp-project-manager-pro/testimonials/) =
+With built-in discussion thread and file sharing option, make the most out of a teamwork without any hassle. Easily work simultaneously with remote teams with this team collaboration tool for WordPress.
+
+= [Best fit for any kind of teams](https://wedevs.com/wp-project-manager-pro/#teamtab-2) =
+No matter which team or organization you are running, WP Project Manager ensures the best outcome from all kinds of teams. This is why this plugin has become the favorite open source project management software for every team and individuals.
+
+= [Full control over privacy and security](https://wedevs.com/wp-project-manager-pro/features/) =
+No compromise with privacy and permission among the tasks or projects. With user role customization and team permission feature ([Pro](https://wedevs.com/wp-project-manager-pro/features/)), manage who can see or who can manage which project very easily. 
+
+= [Personal board for users](https://wedevs.com/wp-project-manager-pro/features/) =
+Everyone gets their own dashboard to stay updated about tasks in the most organized way. From this personal board, a user will be able to access only the projects and tasks he is allowed to see.
+
+Why WP Project Manager should be your first choice in task management plugins? [Compare WP Project Manager with other popular project management solutions](https://wedevs.com/wp-project-manager-pro/compare/).
 
 [Pro Version](https://wedevs.com/wp-project-manager-pro/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=WP+Project+Manager+Pro) | [Add-ons](https://wedevs.com/product-category/plugins/wp-project-manager-pro/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=Addons+Page) | [Demo](http://pmdemo.wedevs.com/)
 
@@ -31,6 +51,7 @@ The WordPress Project Management plugin. Manage your project simply with the \*r
 * [Sub Task](https://wedevs.com/products/plugins/wp-project-manager-pro/sub-task/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=Sub+Task)
 * [BuddyPress Integration](https://wedevs.com/products/plugins/wp-project-manager-pro/buddypress/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=BuddyPress)
 * [WooCommerce Integration](https://wedevs.com/products/plugins/wp-project-manager-pro/woocommerce-order/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=WooCommerce+Order)
+
 
 
 = Features =

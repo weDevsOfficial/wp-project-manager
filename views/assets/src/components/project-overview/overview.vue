@@ -116,7 +116,7 @@
                     <h3> {{ __( 'Users', 'wedevs-project-manager') }} </h3>
                     <span>
                         <a @click="addUser()" class="add-user">
-                            <i class="icon-pm-plus"></i>
+                            <i class="flaticon-plus"></i>
                         </a>
                     </span>
                 </div>
@@ -124,7 +124,7 @@
                 <ul class="user_list">
                     <li v-for="user in selectedUsers" :key="user.id">
                         <div class="list-left">
-                            <img alt="admin" :src="user.avatar_url" class="avatar avatar-34 photo" height="34" width="34">
+                            <img :alt="ucfirst(user.display_name)" :src="user.avatar_url" class="avatar avatar-34 photo" height="34" width="34">
                             <a :title="ucfirst(user.display_name)" :href="myTaskRedirect(user.id)">
                                 {{ ucfirst(cutString(user.display_name, 8, true)) }}
                             </a>
