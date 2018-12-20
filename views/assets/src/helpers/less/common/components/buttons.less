@@ -1,0 +1,62 @@
+/*
+ * Component: Buttons.less;
+ */
+
+.@{theme-prefix}--btn {
+    //display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    padding: 8px 15px;
+    border-radius: @pm-border-radius;
+    font-size: 12px;
+    line-height: 100%;
+    transition: all .3s;
+    i {
+        display: inherit;
+        margin-right: 7px;
+        &:before {
+            // font-size: 15px !important;
+        }
+    }
+    &.@{theme-prefix}--btn-default {
+    	border: 1px solid @pm-border-color;
+    	color: #828C8C;
+        background: #fff;
+    	&:hover {
+	    	background: @pm-theme-color;
+	    	border-color: @pm-theme-color;
+	    	color: #fff;
+
+	    }
+    }
+
+    &.@{theme-prefix}--btn-primary {
+        border: 1px solid @pm-theme-color;
+        background: @pm-theme-color;
+        color: #fff;
+        &:hover {
+            background: fade(@pm-theme-color, 80%);
+            border-color: fade(@pm-theme-color, 80%);
+        }
+    }
+    
+
+    // Disabled comes first so active can properly restyle
+    &.@{theme-prefix}-disabled,
+    &:disabled {
+        opacity: .8;
+        box-shadow: none;
+    }
+
+    // Opinionated: add "hand" cursor to non-disabled .btn elements
+    &:not(:disabled):not(.@{theme-prefix}-disabled) {
+        cursor: pointer;
+    }
+
+    
+}
+
