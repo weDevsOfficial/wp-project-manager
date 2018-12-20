@@ -211,7 +211,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
-= v2.0.9 - Dec 19, 2018 =
+= v2.0.10 - Dec 19, 2018 =
 
 * **Hotfix** Fatal error at page and post edit time.
 
