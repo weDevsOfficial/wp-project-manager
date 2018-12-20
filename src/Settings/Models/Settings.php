@@ -19,6 +19,10 @@ class Settings extends Eloquent {
         'updated_by'
     ];
 
+    public static $hideSettings = [
+        'zapier_api'
+    ];
+
     public function setValueAttribute( $value ) {
         $this->attributes['value'] = serialize( $value );
     }

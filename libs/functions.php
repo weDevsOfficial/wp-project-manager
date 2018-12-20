@@ -117,7 +117,8 @@ function pm_get_settings( $key = null, $project_id = false ) {
         $settings = \WeDevs\PM\Settings\Models\Settings::where( 'key', $key )
             ->first();
     } else {
-        $all_settings = \WeDevs\PM\Settings\Models\Settings::all();
+        $hide = \WeDevs\PM\Settings\Models\Settings::$hideSettings;
+        $all_settings = \WeDevs\PM\Settings\Models\Settings::whereNotIn( 'key', $hide )->get();
     }
 
     if ( $settings ) {

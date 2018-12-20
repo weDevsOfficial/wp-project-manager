@@ -260,7 +260,7 @@ class Task_Controller {
 
         $response = $this->get_response( $resource, $message );
 
-        do_action('pm_update_task_aftre_transformer', $response, $request->get_params() );
+        do_action('pm_changed_task_status_aftre_transformer', $response, $request->get_params() );
 
         return $response;
     }
