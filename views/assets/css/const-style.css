@@ -261,6 +261,20 @@
 font-style: normal;
 margin-left: 20px;
 }
+.fi:before{
+  display: inline-block;
+  font-family: "Flaticon";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-decoration: inherit;
+  text-rendering: optimizeLegibility;
+  text-transform: none;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+}
 
 .flaticon-document:before { content: "\f100"; }
 .flaticon-arrow:before { content: "\f101"; }
@@ -293,3 +307,327 @@ margin-left: 20px;
 .flaticon-pm-overview:before { content: "\f11c"; }
 .flaticon-planning:before { content: "\f11d"; }
 .flaticon-planning-1:before { content: "\f11e"; }
+.flaticon-eye:before { content: "\f11f"; }
+.flaticon-filter-tool-black-shape:before { content: "\f120"; }
+.flaticon-export:before { content: "\f121"; }
+.flaticon-data-export-symbol-of-a-window-with-an-arrow:before { content: "\f122"; }
+.flaticon-pdf:before { content: "\f123"; }
+.flaticon-resume:before { content: "\f124"; }
+.flaticon-test:before { content: "\f125"; }
+    
+/*
+ * icomoon font css
+ */
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoon.eot?xhopfy');
+  src:  url('fonts/icomoon.eot?xhopfy#iefix') format('embedded-opentype'),
+    url('fonts/icomoon.ttf?xhopfy') format('truetype'),
+    url('fonts/icomoon.woff?xhopfy') format('woff'),
+    url('fonts/icomoon.svg?xhopfy#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-pm-unlock:before {
+  content: "\e90c";
+}
+.icon-pm-check-circle:before {
+  content: "\e919";
+}
+.icon-pm-switch-project:before {
+  content: "\e931";
+  color: #9ea3a7;
+}
+.icon-pm-enter:before {
+  content: "\e92e";
+  color: #5d5d5d;
+}
+.icon-pm-navigation:before {
+  content: "\e92f";
+  color: #5d5d5d;
+}
+.icon-pm-invoice:before {
+  content: "\e92d";
+}
+.icon-pm-gantchart:before {
+  content: "\e930";
+  color: #c9c9c9;
+}
+.icon-pm-activity:before {
+  content: "\e92c";
+  color: #c9c9c9;
+}
+.icon-pm-search:before {
+  content: "\e92b";
+  color: #95a5a6;
+}
+.icon-pm-settings:before {
+  content: "\e92a";
+  color: #c9c9c9;
+}
+.icon-pm-task-count:before {
+  content: "\e926";
+  color: #d6d6d6;
+}
+.icon-pm-comment:before {
+  content: "\e927";
+  color: #d6d6d6;
+}
+.icon-pm-left-arrow:before {
+  content: "\e928";
+  color: #95a5a6;
+}
+.icon-pm-move:before {
+  content: "\e929";
+  color: #d7dee2;
+}
+.icon-pm-drag-drop:before {
+  content: "\e923";
+  color: #d7dee2;
+}
+.icon-pm-kanboard-view:before {
+  content: "\e924";
+  color: #d7dee2;
+}
+.icon-pm-list-view:before {
+  content: "\e925";
+  color: #1a9ed4;
+}
+.icon-pm-task-filter:before {
+  content: "\e922";
+  color: #fff;
+}
+.icon-pm-file:before {
+  content: "\e91e";
+  color: #f39c12;
+}
+.icon-pm-mileston:before {
+  content: "\e91f";
+  color: #9b59b6;
+}
+.icon-pm-discussion:before {
+  content: "\e920";
+  color: #1abc9c;
+}
+.icon-pm-task-list:before {
+  content: "\e921";
+  color: #e9485e;
+}
+.icon-pm-overview:before {
+  content: "\e91d";
+  color: #3b80f4;
+}
+.icon-pm-archive:before {
+  content: "\e91b";
+}
+.icon-pm-copy-files:before {
+  content: "\e918";
+}
+.icon-pm-undo-arrow:before {
+  content: "\e91a";
+}
+.icon-pm-cross:before {
+  content: "\e917";
+  color: #e9485e;
+}
+.icon-pm-single-user:before {
+  content: "\e916";
+  color: #d4d6d6;
+}
+.icon-pm-up-arrow:before {
+  content: "\e915";
+  color: #788383;
+}
+.icon-pm-stop:before {
+  content: "\e914";
+}
+.icon-pm-rigth-arrow:before {
+  content: "\e912";
+  color: #d4d6d6;
+}
+.icon-pm-play:before {
+  content: "\e913";
+  color: #d4d6d6;
+}
+.icon-pm-copy:before {
+  content: "\e903";
+  color: #d4d6d6;
+}
+.icon-pm-private:before {
+  content: "\e902";
+  color: #d4d6d6;
+}
+.icon-pm-delete:before {
+  content: "\e901";
+  color: #e9485e;
+}
+.icon-pm-user:before {
+  content: "\e900";
+  color: #ababab;
+}
+.icon-pm-align-left:before {
+  content: "\e904";
+  color: #d6d6d6;
+}
+.icon-pm-calendar:before {
+  content: "\e905";
+  color: #d4d6d6;
+}
+.icon-pm-clip:before {
+  content: "\e906";
+  color: #d4d6d6;
+}
+.icon-pm-completed:before {
+  content: "\e907";
+  color: #7ed321;
+}
+.icon-pm-down-arrow:before {
+  content: "\e908";
+  color: #ccd4d9;
+}
+.icon-pm-incomplete:before {
+  content: "\e909";
+  color: #d6d6d6;
+}
+.icon-pm-more-options:before {
+  content: "\e90a";
+  color: #d6d6d6;
+}
+.icon-pm-pencil:before {
+  content: "\e90b";
+  color: #d6d6d6;
+}
+.icon-pm-plus:before {
+  content: "\e91c";
+  color: #ababab;
+}
+.icon-pm-smile:before {
+  content: "\e90d";
+  color: #d4d6d6;
+}
+.icon-pm-sorting:before {
+  content: "\e90e";
+  color: #d4d6d6;
+}
+.icon-pm-star:before {
+  content: "\e90f";
+  color: #d6d6d6;
+}
+.icon-pm-tag:before {
+  content: "\e910";
+  color: #d4d6d6;
+}
+.icon-pm-watch:before {
+  content: "\e911";
+  color: #d4d6d6;
+}
+.icon-pm-eye:before {
+  content: "\e9ce";
+}
+.icon-pm-loop:before {
+  content: "\ea2e";
+}
+.icon-pm-filter:before {
+  content: "\ea5b";
+}
+
+
+/*
+ * Flaticon icon font: Flaticon
+ * Creation date: 14/11/2018 09:12
+ */
+
+@font-face {
+  font-family: "Flaticon";
+  src: url("flaticon-fonts/Flaticon.eot");
+  src: url("flaticon-fonts/Flaticon.eot?#iefix") format("embedded-opentype"),
+       url("flaticon-fonts/Flaticon.woff") format("woff"),
+       url("flaticon-fonts/Flaticon.ttf") format("truetype"),
+       url("flaticon-fonts/Flaticon.svg#Flaticon") format("svg");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: "Flaticon";
+    src: url("./Flaticon.svg#Flaticon") format("svg");
+  }
+}
+
+[class^="flaticon-"]:before, [class*=" flaticon-"]:before,
+[class^="flaticon-"]:after, [class*=" flaticon-"]:after {   
+  font-family: Flaticon;
+        font-size: 20px;
+font-style: normal;
+margin-left: 20px;
+}
+.fi:before{
+  display: inline-block;
+  font-family: "Flaticon";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-decoration: inherit;
+  text-rendering: optimizeLegibility;
+  text-transform: none;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+}
+
+.flaticon-document:before { content: "\f100"; }
+.flaticon-arrow:before { content: "\f101"; }
+.flaticon-menu:before { content: "\f102"; }
+.flaticon-data-analytics:before { content: "\f103"; }
+.flaticon-people:before { content: "\f104"; }
+.flaticon-more:before { content: "\f105"; }
+.flaticon-chat:before { content: "\f106"; }
+.flaticon-edit:before { content: "\f107"; }
+.flaticon-delete:before { content: "\f108"; }
+.flaticon-private:before { content: "\f109"; }
+.flaticon-lock:before { content: "\f10a"; }
+.flaticon-move:before { content: "\f10b"; }
+.flaticon-calendar:before { content: "\f10c"; }
+.flaticon-clock:before { content: "\f10d"; }
+.flaticon-copy:before { content: "\f10e"; }
+.flaticon-check-mark:before { content: "\f10f"; }
+.flaticon-cross:before { content: "\f110"; }
+.flaticon-list:before { content: "\f111"; }
+.flaticon-refresh:before { content: "\f112"; }
+.flaticon-print:before { content: "\f113"; }
+.flaticon-comment-black-oval-bubble-shape:before { content: "\f114"; }
+.flaticon-menu-1:before { content: "\f115"; }
+.flaticon-flag:before { content: "\f116"; }
+.flaticon-plus:before { content: "\f117"; }
+.flaticon-magnifying-glass-browser:before { content: "\f118"; }
+.flaticon-bookmark-star:before { content: "\f119"; }
+.flaticon-pm-archive:before { content: "\f11a"; }
+.flaticon-pm-discussions:before { content: "\f11b"; }
+.flaticon-pm-overview:before { content: "\f11c"; }
+.flaticon-planning:before { content: "\f11d"; }
+.flaticon-planning-1:before { content: "\f11e"; }
+.flaticon-eye:before { content: "\f11f"; }
+.flaticon-filter-tool-black-shape:before { content: "\f120"; }
+.flaticon-export:before { content: "\f121"; }
+.flaticon-data-export-symbol-of-a-window-with-an-arrow:before { content: "\f122"; }
+.flaticon-pdf:before { content: "\f123"; }
+.flaticon-resume:before { content: "\f124"; }
+.flaticon-test:before { content: "\f125"; }

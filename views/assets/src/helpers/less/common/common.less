@@ -1,0 +1,49 @@
+/*
+ * File: Common.less :: for all common templates;
+ */
+
+// theme prefix
+@theme-prefix: pm;
+// common variables
+@pm-border-color: #E5E5E5;
+@pm-font-color: #A5ACB1;
+@pm-border-radius: 3px;
+@pm-theme-color: #0073aa;
+
+// import utility styles
+@import "utility";
+// import flexgrid
+@import "grid";
+
+// import components
+@import "components/display";
+@import "components/buttons";
+@import "components/form";
+@import "components/card";
+
+
+// common styles
+.@{theme-prefix}-page-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	margin: 20px 0;
+}
+.@{theme-prefix}-filter-wrapper {
+	display: flex;
+	align-items: center;
+}
+
+
+
+#pm-report {
+	.@{theme-prefix}-dropdown-menu {
+		li a {
+			color: @pm-font-color;
+		}
+		&.mt-10 {
+			margin-top: 10px !important;
+		}
+	}
+}
