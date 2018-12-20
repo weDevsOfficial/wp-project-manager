@@ -15,7 +15,7 @@
     }
 </style>
 <script>
-    import do_action from './components/common/do-action.vue';
+    import do_action from '@components/common/do-action.vue';
 
     export default {
         components: {
