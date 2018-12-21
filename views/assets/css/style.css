@@ -312,24 +312,25 @@ a:active {
 }
 .pm .pm-pagination-wrap .pm-pagination-btn {
   border: 1px solid #ddd;
-  padding: 4px 10px;
+  padding: 5px 12px;
   margin-left: 2px;
   font-size: 12px;
   background: #fff;
   color: #000;
   display: inline-block;
   line-height: 1.5;
+  border-radius: 3px;
 }
 .pm .pm-pagination-wrap .pm-pagination-btn:first-child{
     margin-left: 0px;
 }
 .pm .pm-pagination-wrap .current {
-  background: #32373c;
+  background: #027eb3;
   border-color: #ddd;
   color: #fff;
 }
 .pm .pm-pagination-wrap .pm-pagination-btn:hover {
-  background: #32373c;
+  background: #027eb3;
   border-color: #d6d6d6;
   color: #fff;
 }
