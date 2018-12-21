@@ -1097,7 +1097,7 @@
                     route.name != 'lists_single_task'
                     &&
                     this.current_page_number != route.params.current_page_number
-                ) {
+                ) { 
                     this.getSelfLists();
                 }
                 
@@ -1176,12 +1176,13 @@
                         !meta.list_view_type
                             ||
                         meta.list_view_type.meta_value == 'list'
-                    ) {
-                        if (self.$store.state.projectTaskLists.is_single_task) {
+                    ) { 
+                        if (self.$store.state.projectTaskLists.is_single_task) { 
                             return true;
                         }
 
                         self.$store.state.projectTaskLists.is_single_list = false;
+
                         self.isSingleTask();
                         self.getSelfLists();
                         self.getGlobalMilestones();
@@ -1189,7 +1190,7 @@
                         self.$router.push({
                             name: 'kanboard'
                         });
-                    } else if(  meta.list_view_type.meta_value == "archive") {
+                    } else if(  meta.list_view_type.meta_value == "archive") { 
                         self.getSelfLists();
                     }
 
@@ -1460,7 +1461,6 @@
             },
           
             updateSingleTask (task) {
-
                 if(task.status == 'complete' || task.status === true) {
                     this.afterTaskDoneUndone(task);
                 } else {
@@ -1471,7 +1471,7 @@
                     });
                 }
 
-                this.$store.commit('projectTaskLists/updateSingleTaskActiveMode', false);
+                //this.$store.commit('projectTaskLists/updateSingleTaskActiveMode', false);
                 
             },
 
@@ -1519,6 +1519,7 @@
                         self.setSearchLists( this.$store.state.projectTaskLists.lists );
                     }
                 }
+
                 this.getLists(args);
             },
 

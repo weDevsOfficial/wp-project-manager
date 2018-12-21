@@ -250,7 +250,6 @@
                 }
             },
             afterCloseSingleTaskModal () {
-
                 if(this.$route.name == 'lists_single_task') {
                     this.$router.push({
                         name: 'task_lists'
