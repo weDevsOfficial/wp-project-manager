@@ -990,7 +990,7 @@
         },
 
         destroyed () {
-            this.$store.commit('isSigleTask', false);
+            //this.$store.commit('isSigleTask', false);
             pmBus.$emit('pm_before_destroy_single_task', this.task);
             jQuery('body').removeClass('pm-block-content');
         }

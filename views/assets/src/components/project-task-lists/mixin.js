@@ -195,7 +195,7 @@ var PM_TaskList_Mixin = {
             var request = {
                 url: self.base_url + '/pm/v2/projects/'+self.$route.params.project_id+'/task-lists?'+condition,
                 success (res) {
-
+                    
                     res.data.map(function(list,index) {
                         self.addMetaList(list);
 
@@ -254,6 +254,7 @@ var PM_TaskList_Mixin = {
                 type: 'GET',
                 url: self.base_url + '/pm/v2/projects/'+self.project_id+'/task-lists/'+ args.list_id +'?'+condition,
                 success (res) {
+
                     self.addMetaList(res.data);
                       
                     if ( typeof res.data.comments !== 'undefined' ) {
