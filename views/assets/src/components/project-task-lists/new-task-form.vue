@@ -1,7 +1,8 @@
 <template>
     <div :class="'pm-task-form pm-slide-'+task.id">
-
+       
         <div class="input-area">
+            
             <div class="input-action-wrap">
                 <div>
                     <span class="plus-text" v-if="!show_spinner">+</span>
@@ -14,38 +15,44 @@
                     <!-- time estimation -->
                     <!-- <span title="Estimate time" class="pm-icon flaticon-clock pm-estimate-icon"></span> -->
                     <span title="Description" @click.self.prevent="enableDisable('descriptionField')" class="icon-pm-align-left new-task-description-btn"></span>
-                    <span title="Assign user" @click.self.prevent="enableDisable('isEnableMultiselect')" class="task-user-multiselect icon-pm-single-user pm-dark-hover">
-                        <div v-if="isEnableMultiselect" class="pm-multiselect-top pm-multiselect-subtask-task">
-                            <div class="pm-multiselect-content">
-                                <div class="assign-to">{{ __('Assign to', 'wedevs-project-manager') }}</div>
-                                <multiselect
-                                    v-model="task.assignees.data"
-                                    :options="project_users"
-                                    :multiple="true"
-                                    :close-on-select="false"
-                                    :clear-on-select="true"
-                                    :show-labels="true"
-                                    :searchable="true"
-                                    placeholder="Select User"
-                                    select-label=""
-                                    selected-label="selected"
-                                    deselect-label=""
-                                    label="display_name"
-                                    track-by="id"
-                                    :allow-empty="true">
+                    <!-- popper -->
+                    <popper trigger="click" :options="popperOptions">
+                        <div class="popper">
+                            <div class="pm-multiselect-top pm-multiselect-subtask-task">
+                                <div class="pm-multiselect-content">
+                                    <div class="assign-to">{{ __('Assign to', 'wedevs-project-manager') }}</div>
+                                    <multiselect
+                                        v-model="task.assignees.data"
+                                        :options="project_users"
+                                        :multiple="true"
+                                        :close-on-select="false"
+                                        :clear-on-select="true"
+                                        :show-labels="true"
+                                        :searchable="true"
+                                        placeholder="Select User"
+                                        select-label=""
+                                        selected-label="selected"
+                                        deselect-label=""
+                                        label="display_name"
+                                        track-by="id"
+                                        :allow-empty="true">
 
-                                   <template slot="option" slot-scope="props">
-                                        <img class="option__image" :src="props.option.avatar_url">
-                                        <div class="option__desc">
-                                            <span class="option__title">{{ props.option.display_name }}</span>
-                                        </div>
-                                    </template>
+                                       <template slot="option" slot-scope="props">
+                                            <img class="option__image" :src="props.option.avatar_url">
+                                            <div class="option__desc">
+                                                <span class="option__title">{{ props.option.display_name }}</span>
+                                            </div>
+                                        </template>
 
-                                </multiselect>
+                                    </multiselect>
+                                </div>
                             </div>
                         </div>
+                        
+                        <!-- popper trigger element -->
+                        <span slot="reference" title="Assign user" class="popper-ref task-user-multiselect icon-pm-single-user pm-dark-hover"></span>
+                    </popper>
 
-                    </span>
                     <!-- <span @click.prevent="showHideDescription()" class="icon-pm-pencil pm-dark-hover"></span> -->
 
                     <span title="Date" @click.self.prevent="enableDisable('datePicker')" class="icon-pm-calendar new-task-calendar pm-dark-hover"></span>
@@ -71,13 +78,51 @@
                 <div v-if="descriptionField" class="new-task-description">
                     <text-editor  :editor_id="'new-task-description-editor-' + list.id" :content="content"></text-editor>
                 </div>
+
+                
                 
             </div>
         </div>
     </div>
+
+
 </template>
 
 <style lang="less">
+    .popper-ref {
+        margin-right: 0 !important;
+    }
+    .popper {
+        padding: 0 !important;
+        background: #fff !important;
+        box-shadow: none !important;
+        &:parent span {
+            margin-right: 0;
+        }
+        &[x-placement^="bottom"] .popper__arrow {
+            border-color: transparent transparent #ddd transparent !important;
+        }
+        &[x-placement^="top"] .popper__arrow {
+            border-color: #ddd transparent transparent transparent !important;
+        }
+        &[x-placement^="left"] .popper__arrow {
+            border-color: transparent transparent transparent #ddd !important;
+        }
+        &[x-placement^="right"] .popper__arrow {
+            border-color: transparent #ddd transparent transparent !important;
+        }
+        .pm-multiselect-top {
+            position: static !important;
+            background: transparent;
+            border: 0;
+            &:after, &:before {
+                display: none;
+            }
+            .assign-to {
+                text-align: left;
+            }
+        }
+    }
     span.pm-estimate-icon {
         cursor: pointer;
         &::before {
@@ -196,7 +241,7 @@
             .action-icons {
                 position: absolute;
                 right: 18px;
-                top: 9px;
+                top: 6px;
                 margin-right: 11px;
                 display: flex;
                 align-items: center;
@@ -253,7 +298,11 @@
                     }
                 }
 
-                span {
+                .task-estimation-arae {
+                    margin-right: 10px;
+                }
+
+                & > span {
                     margin-right: 10px;
                 }
                 .date-picker {
@@ -269,6 +318,8 @@
 import date_picker from './date-picker.vue';
 import Mixins from './mixin';
 import editor from '@components/common/text-editor.vue';
+// import popper library
+import Popper from 'vue-popperjs';
 
 export default {
     // Get passing data for this component. Remember only array and objects are
@@ -327,7 +378,7 @@ export default {
             estimation_placheholder: __('Estimated hour to complete the task', 'wedevs-project-manager'),
             content: {
                 html: this.task.description.html
-            },
+            }
         }
     },
     mixins: [Mixins],
@@ -335,7 +386,8 @@ export default {
     components: {
     	'multiselect': pm.Multiselect.Multiselect,
     	'pm-datepickter': date_picker,
-        'text-editor': editor
+        'text-editor': editor,
+        'popper': Popper
     },
 
     beforeMount () {
@@ -384,6 +436,14 @@ export default {
     },
 
     computed: {
+
+        // popper options
+        popperOptions () {
+            return {
+                placement: 'bottom-end'
+            }
+        },
+
     	project_users () {
     		return this.$store.state.project_users;
     	},
