@@ -7,12 +7,12 @@
     <a v-else-if="isPrettyPhoto" v-pm-pretty-photo class="pm-colorbox-img" :href="file.url" :title="file.name" target="_blank" rel="prettyPhoto">
         <img class="pm-content-img-size" :src="file.thumb" :alt="file.name">
     </a>
-    
-    <a v-else class="pm-colorbox-img" :href="getDownloadUrl(file.attachment_id, file.fileable.project_id)" :title="file.name" target="_blank">
+
+    <a v-else class="pm-colorbox-img" :href="getDownloadUrl(file.attachment_id, projectId)" :title="file.name" target="_blank">
         <img class="pm-content-img-size" :src="file.thumb" :alt="file.name">
     </a>
 </div>
-    
+
 </template>
 
 
@@ -26,7 +26,7 @@ export default {
     },
     data() {
         return {
-            
+
         }
     },
     computed: {
@@ -35,15 +35,22 @@ export default {
         },
         isVideo () {
             return this.file.mime_type.split("/").indexOf('video') !== -1;
+        },
+        projectId () {
+           if ( this.file.fileable ) {
+               return this.file.fileable.project_id;
+           }
+
+           return this.project_id;
         }
     },
     methods: {
-        
+
     }
 }
 </script>
 
 
 <style lang="css">
-    
+
 </style>
