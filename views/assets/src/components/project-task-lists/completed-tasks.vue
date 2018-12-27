@@ -1,5 +1,5 @@
 <template>
-<div class="pm-todo-wrap">                    
+    <div class="pm-todo-wrap">                    
         <div v-if="!task.edit_mode" class="pm-todo-item">
             
             <div class="todo-content">
@@ -37,21 +37,25 @@
                     </a>  
                 </div>   
                 <div v-if="can_edit_task(task) && !isArchivedTaskList(task)" @click.prevent="showHideTaskMoreMenu(task, list)" class="more-menu task-more-menu">
-                    <span class="icon-pm-more-options"></span>
-                    <div v-if="task.moreMenu" class="more-menu-ul-wrap">
-                        <ul>
-                            <li>
-                                <a @click.prevent="deleteTask({task: task, list: list})" class="li-a" href="#">
-                                    <span class="icon-pm-delete"></span>
-                                    <span>{{ __('Delete', 'wedevs-project-manager') }}</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                    <popper trigger="click" :options="popperOptions">
+                        <div class="pm-popper popper">
+                            <div class="more-menu-ul-wrap">
+                                <ul>
+                                    <li>
+                                        <a @click.prevent="deleteTask({task: task, list: list})" class="li-a" href="#">
+                                            <span class="icon-pm-delete"></span>
+                                            <span>{{ __('Delete', 'wedevs-project-manager') }}</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- popper trigger element -->
+                        <span slot="reference" title="Action" class="pm-popper-ref popper-ref icon-pm-more-options"></span>
+                    </popper>
                 </div>               
             </div>
         </div>
-        
         
         <div v-if="parseInt(taskId) && parseInt(projectId)">
             <single-task :taskId="taskId" :projectId="projectId"></single-task>
@@ -63,6 +67,8 @@
 <script>
     import new_task_form from './new-task-form.vue';
     import Mixins from './mixin';
+    // import popper library
+    import Popper from 'vue-popperjs';
     
     export default {
         props: ['task', 'list'],
@@ -76,7 +82,8 @@
         },
         components: {
             'new-task-form': new_task_form,
-            'single-task': pm.SingleTask
+            'single-task': pm.SingleTask,
+            'popper': Popper
         },
         computed: {
             route_name (){
@@ -85,6 +92,13 @@
                 }
 
                 return 'lists_single_task'
+            },
+            // popper options
+            popperOptions () {
+                return {
+                    placement: 'bottom-end',
+                    modifiers: { offset: { offset: '0, 5px' } }
+                }
             }
         },
         created () {

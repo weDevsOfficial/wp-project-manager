@@ -82,25 +82,32 @@
 
                                         <div v-if="!isInbox(list.id) && can_edit_task_list(list)" :data-list_id="list.id" class="more-menu list-more-menu">
 
-                                            <span @click="showHideMoreMenu(list)" class="icon-pm-more-options"></span>
-                                            <div v-if="list.moreMenu && !list.edit_mode"  class="more-menu-ul-wrap">
-                                                <ul>
-                                                    <li class="first-li" v-if="!isArchivedList(list)">
-                                                        <a @click.prevent="showEditForm(list)" class="li-a" href="#">
-                                                            <span class="icon-pm-pencil"></span>
-                                                            <span>{{ __('Edit', 'wedevs-project-manager') }}</span>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a @click.prevent="deleteSelfList( list )" class="li-a" href="#">
-                                                            <span class="icon-pm-delete"></span>
-                                                            <span>{{ __('Delete', 'wedevs-project-manager') }}</span>
-                                                        </a>
-                                                    </li>
-                                                    <pm-do-action hook="list-action-menu" :actionData="list"></pm-do-action>
+                                            <!-- popper -->
+                                            <popper trigger="click" :options="popperOptions">
+                                                <div class="pm-popper popper">
+                                                    <div class="more-menu-ul-wrap">
+                                                        <ul>
+                                                            <li class="first-li" v-if="!isArchivedList(list)">
+                                                                <a @click.prevent="showEditForm(list)" class="li-a" href="#">
+                                                                    <span class="icon-pm-pencil"></span>
+                                                                    <span>{{ __('Edit', 'wedevs-project-manager') }}</span>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a @click.prevent="deleteSelfList( list )" class="li-a" href="#">
+                                                                    <span class="icon-pm-delete"></span>
+                                                                    <span>{{ __('Delete', 'wedevs-project-manager') }}</span>
+                                                                </a>
+                                                            </li>
+                                                            <pm-do-action hook="list-action-menu" :actionData="list"></pm-do-action>
 
-                                                </ul>
-                                            </div>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- popper trigger element -->
+                                                <span slot="reference" title="Assign user" class="pm-popper-ref popper-ref icon-pm-more-options"></span>
+                                            </popper>
 
                                             <div v-if="list.edit_mode" class="list-update-warp">
                                                 <new-task-list-form section="lists" :list="list" ></new-task-list-form>
@@ -434,38 +441,13 @@
                                 }
 
                                 .more-menu-ul-wrap, .list-update-warp {
-                                    position: absolute;
-                                    top: 31px;
-                                    left: auto;
-                                    right: -6px;
-                                    z-index: 9999;
                                     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
                                     border: 1px solid #DDDDDD;
                                     background: #fff;
                                     border-radius: 3px;
                                     box-shadow: 0px 2px 40px 0px rgba(214, 214, 214, 0.6);
-                                    padding: 7px 0;    
-                                    &:before {
-                                        border-color: transparent transparent #DDDDDD transparent;
-                                        position: absolute;
-                                        border-style: solid;
-                                        top: -9px;
-                                        right: 11px;
-                                        content: "";
-                                        z-index: 9999;
-                                        border-width: 0px 8px 8px 8px;
-                                    }
-
-                                    &:after {
-                                        border-color: transparent transparent #ffffff transparent;
-                                        position: absolute;
-                                        border-style: solid;
-                                        top: -7px;
-                                        right: 11px;
-                                        content: "";
-                                        z-index: 9999;
-                                        border-width: 0 8px 7px 8px;
-                                    }
+                                    padding: 7px 0; 
+                                    text-align: left;
                                     .first-li {
                                         // margin-top: 6px;
                                     }
@@ -484,10 +466,6 @@
                                         display: inline-block;
                                         width: 20px;
                                     }
-                                }
-
-                                .more-menu-ul-wrap {
-                                    right: 3px;
                                 }
 
                                 .list-update-warp {
@@ -1006,6 +984,8 @@
     import date_picker from './date-picker.vue';
     import Menu from '@components/common/menu.vue';
     import new_task_form from './new-task-form.vue';
+    // import popper library
+    import Popper from 'vue-popperjs';
 
     export default {
 
@@ -1028,6 +1008,7 @@
             'pm-datepickter': date_picker,
             'pm-menu': Menu,
             'new-task-form': new_task_form,
+            'popper': Popper
         },
 
         mixins: [Mixins],
@@ -1241,7 +1222,14 @@
             },
             paginationComponent () {
                 return this.$route.name.indexOf('pagination') === -1 ? this.$route.name + '_pagination' : this.$route.name ;
-            }
+            },
+            // popper options
+            popperOptions () {
+                return {
+                    placement: 'bottom-end',
+                    modifiers: { offset: { offset: '0, 3px' } }
+                }
+            },
 
         },
 

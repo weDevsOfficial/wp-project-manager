@@ -17,7 +17,7 @@
                     <span title="Description" @click.self.prevent="enableDisable('descriptionField')" class="icon-pm-align-left new-task-description-btn"></span>
                     <!-- popper -->
                     <popper trigger="click" :options="popperOptions">
-                        <div class="popper">
+                        <div class="pm-popper popper">
                             <div class="pm-multiselect-top pm-multiselect-subtask-task">
                                 <div class="pm-multiselect-content">
                                     <div class="assign-to">{{ __('Assign to', 'wedevs-project-manager') }}</div>
@@ -50,7 +50,7 @@
                         </div>
                         
                         <!-- popper trigger element -->
-                        <span slot="reference" title="Assign user" class="popper-ref task-user-multiselect icon-pm-single-user pm-dark-hover"></span>
+                        <span slot="reference" title="Assign user" class="pm-popper-ref popper-ref task-user-multiselect icon-pm-single-user pm-dark-hover"></span>
                     </popper>
 
                     <!-- <span @click.prevent="showHideDescription()" class="icon-pm-pencil pm-dark-hover"></span> -->
@@ -79,8 +79,6 @@
                     <text-editor  :editor_id="'new-task-description-editor-' + list.id" :content="content"></text-editor>
                 </div>
 
-                
-                
             </div>
         </div>
     </div>
@@ -89,40 +87,6 @@
 </template>
 
 <style lang="less">
-    .popper-ref {
-        margin-right: 0 !important;
-    }
-    .popper {
-        padding: 0 !important;
-        background: #fff !important;
-        box-shadow: none !important;
-        &:parent span {
-            margin-right: 0;
-        }
-        &[x-placement^="bottom"] .popper__arrow {
-            border-color: transparent transparent #ddd transparent !important;
-        }
-        &[x-placement^="top"] .popper__arrow {
-            border-color: #ddd transparent transparent transparent !important;
-        }
-        &[x-placement^="left"] .popper__arrow {
-            border-color: transparent transparent transparent #ddd !important;
-        }
-        &[x-placement^="right"] .popper__arrow {
-            border-color: transparent #ddd transparent transparent !important;
-        }
-        .pm-multiselect-top {
-            position: static !important;
-            background: transparent;
-            border: 0;
-            &:after, &:before {
-                display: none;
-            }
-            .assign-to {
-                text-align: left;
-            }
-        }
-    }
     span.pm-estimate-icon {
         cursor: pointer;
         &::before {
@@ -440,7 +404,8 @@ export default {
         // popper options
         popperOptions () {
             return {
-                placement: 'bottom-end'
+                placement: 'bottom-end',
+                modifiers: { offset: { offset: '0, 3px' } }
             }
         },
 

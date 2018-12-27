@@ -51,42 +51,47 @@
                 </div>  
 
                 <div v-if="can_edit_task(task) && !isArchivedTaskList(task)" class="nonsortable more-menu task-more-menu">
-                    <span class="icon-pm-more-options" @click.prevent="showHideTaskMoreMenu(task, list)"></span>
-                    <div v-if="task.moreMenu" class="more-menu-ul-wrap">
-                        <ul>
-                            <li v-if="PM_Vars.is_pro && user_can('view_private_task') && !isPrivateTask(task.meta.privacy)"  class="first-li">
-                                <a @click.prevent="TaskLockUnlock(task)" class="li-a" href="#">
-                                    <span  class="icon-pm-private"></span>
-                                    <span>{{ __('Make Private', 'wedevs-project-manager') }}</span>
-                                </a>
-                            </li>
-                            <li v-if="PM_Vars.is_pro && user_can('view_private_task') && isPrivateTask(task.meta.privacy)"  class="first-li">
-                                <a @click.prevent="TaskLockUnlock(task)" class="li-a" href="#">
-                                    <span class="icon-pm-unlock"></span>
-                                    <span>{{ __('Make Public', 'wedevs-project-manager') }}</span>
-                                </a>
-                            </li>
-                            <li class="edit-task-btn">
-                                <a @click.prevent="taskFormActivity('toggle', false, task, $event)" class="li-a" href="#">
-                                    <span class="icon-pm-pencil"></span>
-                                    <span>{{ __('Edit', 'wedevs-project-manager') }}</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a @click.prevent="deleteTask({task: task, list: list})" class="li-a" href="#">
-                                    <span class="icon-pm-delete"></span>
-                                    <span>{{ __('Delete', 'wedevs-project-manager') }}</span>
-                                </a>
-                            </li>
+                    <popper trigger="click" :options="popperOptions">
+                        <div class="pm-popper popper">
+                            <div class="more-menu-ul-wrap">
+                                <ul>
+                                    <li v-if="PM_Vars.is_pro && user_can('view_private_task') && !isPrivateTask(task.meta.privacy)"  class="first-li">
+                                        <a @click.prevent="TaskLockUnlock(task)" class="li-a" href="#">
+                                            <span  class="icon-pm-private"></span>
+                                            <span>{{ __('Make Private', 'wedevs-project-manager') }}</span>
+                                        </a>
+                                    </li>
+                                    <li v-if="PM_Vars.is_pro && user_can('view_private_task') && isPrivateTask(task.meta.privacy)"  class="first-li">
+                                        <a @click.prevent="TaskLockUnlock(task)" class="li-a" href="#">
+                                            <span class="icon-pm-unlock"></span>
+                                            <span>{{ __('Make Public', 'wedevs-project-manager') }}</span>
+                                        </a>
+                                    </li>
+                                    <li class="edit-task-btn">
+                                        <a @click.prevent="taskFormActivity('toggle', false, task, $event)" class="li-a" href="#">
+                                            <span class="icon-pm-pencil"></span>
+                                            <span>{{ __('Edit', 'wedevs-project-manager') }}</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a @click.prevent="deleteTask({task: task, list: list})" class="li-a" href="#">
+                                            <span class="icon-pm-delete"></span>
+                                            <span>{{ __('Delete', 'wedevs-project-manager') }}</span>
+                                        </a>
+                                    </li>
 
-                            <li>
-                                <a @click.prevent="move({task: task, list: list})" class="li-a" href="#">
-                                    <span class="icon-pm-move"></span>
-                                    <span>{{ __('Move', 'wedevs-project-manager') }}</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                                    <li>
+                                        <a @click.prevent="move({task: task, list: list})" class="li-a" href="#">
+                                            <span class="icon-pm-move"></span>
+                                            <span>{{ __('Move', 'wedevs-project-manager') }}</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- popper trigger element -->
+                        <span slot="reference" title="action" class="pm-popper-ref popper-ref icon-pm-more-options"></span>
+                    </popper>
                 </div>                
             </div>
         </div>
@@ -114,15 +119,17 @@
             margin-right: 15px;
         }
     }
-    .task-group .pm-todo-wrap .todo-content .more-menu {
-
-    }
+    .more-menu-ul-wrap {
+        text-align: left;        
+    }    
 </style>
 <script>
     import new_task_form from './new-task-form.vue';
     import DoAction from './../common/do-action.vue';
     import Mixins from './mixin';
     import MoveTask from './move-task.vue';
+    // import popper library
+    import Popper from 'vue-popperjs';
     
     export default {
         props: {
@@ -173,7 +180,8 @@
             'new-task-form': new_task_form,
             'do-action': DoAction,
             'single-task': pm.SingleTask,
-            'move-task': MoveTask
+            'move-task': MoveTask,
+            'popper': Popper
         },
         
         computed: {
@@ -193,6 +201,13 @@
                 return {
                     task: this.task,
                     list: this.list
+                }
+            },
+            // popper options
+            popperOptions () {
+                return {
+                    placement: 'bottom-end',
+                    modifiers: { offset: { offset: '0, 5px' } }
                 }
             }
         },
