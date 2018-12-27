@@ -3,38 +3,48 @@
         <div class="project-title">
             <span class="title">{{ project.title }}</span>
             <div class="pm-title-edit-settings">
-                <a href="#" v-if="is_manager()" @click.prevent="showHideProjectForm('toggle')" class="icon-pm-pencil project-update-btn"></a>
-                <edit-project v-if="is_project_edit_mode && is_manager()" class="project-edit-form" :project="project"></edit-project>
+                <popper trigger="click" :options="popperOptions">
+                    <div class="pm-popper popper">
+                        <edit-project v-if="is_manager()" class="project-edit-form" :project="project"></edit-project>
+                    </div>
+                    <!-- popper trigger element -->
+                    <a href="#" v-if="is_manager()" slot="reference" title="action" class="pm-popper-ref popper-ref icon-pm-pencil project-update-btn"></a>
+                </popper>
             </div>
             <div class="settings header-settings">
+                <popper trigger="click" :options="popperOptions">
+                    <div class="pm-popper popper">
+                        <div v-if="is_manager()" class="pm-action-menu-container">
+                            <ul class="action-ul">
+                                <li>
+                                    <a @click.prevent="selfProjectMarkDone(project)" href="#">
+                                        <span v-if="project.status === 'incomplete'" class="icon-pm-completed"></span>
+                                        <span v-if="project.status === 'incomplete'">{{ __( 'Complete', 'wedevs-project-manager') }}</span>
 
-                <a href="#" v-if="is_manager()" @click.prevent="showHideSettings()" class="icon-pm-settings header-settings-btn"></a>
+                                        <span v-if="project.status === 'complete'" class="icon-pm-undo-arrow"></span>
+                                        <span v-if="project.status === 'complete'">{{ __( 'Restore', 'wedevs-project-manager') }}</span>
+                                    </a>
+                                </li>
+                            
+                                <li>
+                                    <a href="#" @click.prevent="deleteProject(project.id)" :title="__( 'Delete project', 'wedevs-project-manager')">
 
-                <div v-if="settingStatus && is_manager()" class="settings-activity">
-                    <div class="pm-triangle-top">
-                        <ul class="action-ul">
-                            <li>
-                                <a @click.prevent="selfProjectMarkDone(project)" href="#">
-                                    <span v-if="project.status === 'incomplete'" class="icon-pm-completed"></span>
-                                    <span v-if="project.status === 'incomplete'">{{ __( 'Complete', 'wedevs-project-manager') }}</span>
+                                        <span class="icon-pm-delete"></span>
+                                        <span class="">{{ __( 'Delete', 'wedevs-project-manager') }}</span>
+                                    </a>
+                                </li>
+                                <!-- <do-action :hook="'pm-header-menu'" :actionData="menu"></do-action>  -->
+                            </ul>
 
-                                    <span v-if="project.status === 'complete'" class="icon-pm-undo-arrow"></span>
-                                    <span v-if="project.status === 'complete'">{{ __( 'Restore', 'wedevs-project-manager') }}</span>
-                                </a>
-                            </li>
-                        
-                            <li>
-                                <a href="#" @click.prevent="deleteProject(project.id)" :title="__( 'Delete project', 'wedevs-project-manager')">
-
-                                    <span class="icon-pm-delete"></span>
-                                    <span class="">{{ __( 'Delete', 'wedevs-project-manager') }}</span>
-                                </a>
-                            </li>
-                            <!-- <do-action :hook="'pm-header-menu'" :actionData="menu"></do-action>  -->
-                        </ul>
-
+                        </div>
                     </div>
-                </div>
+                    <!-- popper trigger element -->
+                    <span v-if="is_manager()" slot="reference" title="action" class="pm-popper-ref popper-ref icon-pm-settings header-settings-btn"></span>
+                </popper>
+
+                <!-- <a href="#" v-if="is_manager()" @click.prevent="showHideSettings()" class="icon-pm-settings header-settings-btn"></a> -->
+
+                
             </div>
 
         </div>
@@ -134,45 +144,13 @@
             position: relative;
 
             .project-edit-form {
-                position: absolute;
+                text-align: left;
                 padding: 5px 5px 15px 15px;
-                top: 40px;
-                z-index: 99;
                 font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
                 border: 1px solid #DDDDDD;
                 background: #fff;
                 border-radius: 3px;
                 box-shadow: 0px 2px 40px 0px rgba(214, 214, 214, 0.6);
-
-                &:before {
-                    border-color: transparent transparent #DDDDDD transparent;
-                    position: absolute;
-                    border-style: solid;
-                    top: -9px;
-                    left: 10px;
-                    content: "";
-                    z-index: 9999;
-                    border-width: 0px 8px 8px 8px;
-                    @media (max-width: 767px){
-                        left: inherit;
-                        right: 10px;
-                    }
-                }
-
-                &:after {
-                    border-color: transparent transparent #ffffff transparent;
-                    position: absolute;
-                    border-style: solid;
-                    top: -7px;
-                    left: 10px;
-                    content: "";
-                    z-index: 9999;
-                    border-width: 0 8px 7px 8px;
-                    @media (max-width: 767px){
-                        left: inherit;
-                        right: 10px;
-                    }
-                }
             }
 
             .title {
@@ -240,59 +218,42 @@
                 align-items: center;
             }
 
-            .settings-activity {
-                position: relative;
-                .pm-triangle-top {
-                    left: -36px !important;
+            .pm-action-menu-container {
+                padding: 7px 0;
+                background: #fff;
+                box-shadow: 0px 2px 40px 0px rgba(214, 214, 214, 0.6);
+                border-radius: 3px;
+                border: 1px solid #ddd;
+                min-width: 120px;
+                &:after,
+                &:before {
+                    display: none;
+                }
+
+                @media (max-width: 767px){
+                    left: inherit !important;
                     right: 0 !important;
-                    width: 127px !important;
-                    padding: 0px !important;
-                    top: 26px !important;
+                }
 
-                    &:before {
-                        right: auto !important;
-                        left: 10px !important;
-                    }
+                .action-ul {
+                    margin: 0;
+                    padding: 0;
 
-                    &:after {
-                        right: auto !important;
-                        left: 10px !important;
-                    }
 
-                    @media (max-width: 767px){
-                        left: inherit !important;
-                        right: 0 !important;
-                        &:before {
-                            right: 10px !important;
-                            left: auto !important;
-                        }
-
-                        &:after {
-                            right: 10px !important;
-                            left: auto !important;
-                        }
-                    }
-
-                    .action-ul {
+                    li {
                         margin: 0;
                         padding: 0;
+                        a {
+                            display: flex;
+                            align-items: center;
+                            padding: 5px 10px;
 
-
-                        li {
-                            margin: 0;
-                            padding: 0;
-                            a {
-                                display: flex;
-                                align-items: center;
-                                padding: 10px;
-
-                                .icon-pm-completed, .icon-pm-delete, .icon-pm-undo-arrow {
-                                    width: 20px;
-                                }
-                                .icon-pm-undo-arrow {
-                                    &:before {
-                                        font-size: 11px;
-                                    }
+                            .icon-pm-completed, .icon-pm-delete, .icon-pm-undo-arrow {
+                                width: 20px;
+                            }
+                            .icon-pm-undo-arrow {
+                                &:before {
+                                    font-size: 11px;
                                 }
                             }
                         }
@@ -320,6 +281,8 @@
     //import router from './../../router/router';
     import do_action from './do-action.vue';
     import edit_project from './../project-lists/project-create-form.vue';
+    // import popper library
+    import Popper from 'vue-popperjs';
 
     export default {
         data () {
@@ -357,6 +320,7 @@
 
                 return this.$store.state.project.hasOwnProperty('id');
             },
+
         },
         
         created () {
@@ -368,7 +332,8 @@
 
         components: {
             'do-action': do_action,
-            'edit-project': edit_project
+            'edit-project': edit_project,
+            'popper': Popper
         },
 
         methods: {
@@ -433,6 +398,13 @@
                 } 
 
                 this.updateProject( args );
+            }
+        },
+        // popper options
+        popperOptions () {
+            return {
+                placement: 'top-end',
+                modifiers: { offset: { offset: '0, 10px' } }
             }
         }
     }

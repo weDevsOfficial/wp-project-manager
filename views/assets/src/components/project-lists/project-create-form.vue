@@ -85,7 +85,7 @@
             overflow: hidden;
             .pm-project-role {
                 max-height: 150px;
-                overflow: scroll;
+                overflow: auto;
             }
         }
     }
