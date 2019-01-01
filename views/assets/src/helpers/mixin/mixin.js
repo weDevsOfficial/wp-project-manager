@@ -148,6 +148,10 @@ export default {
         },
 
         ucfirst (word) {
+            if(word == '' || typeof word == 'undefined') {
+                return '';
+            }
+            
             return word.replace(/\w/, c => c.toUpperCase())
         },
 
