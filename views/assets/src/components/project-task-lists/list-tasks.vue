@@ -261,42 +261,13 @@
                     
 
                     .more-menu-ul-wrap, .list-update-warp {
-                        position: absolute;
-                        white-space: nowrap;
-                        top: 31px;
-                        left: auto;
-                        right: -18px;
                         z-index: 9999;
                         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
                         border: 1px solid #DDDDDD;
                         background: #fff;
                         border-radius: 3px;
                         box-shadow: 0px 2px 40px 0px rgba(214, 214, 214, 0.6);
-                        padding: 7px 0; 
-                        &:before {
-                            border-color: transparent transparent #DDDDDD transparent;
-                            position: absolute;
-                            border-style: solid;
-                            top: -9px;
-                            right: 11px;
-                            content: "";
-                            z-index: 9999;
-                            border-width: 0px 8px 8px 8px;
-                        }
-
-                        &:after {
-                            border-color: transparent transparent #ffffff transparent;
-                            position: absolute;
-                            border-style: solid;
-                            top: -7px;
-                            right: 11px;
-                            content: "";
-                            z-index: 9999;
-                            border-width: 0 8px 7px 8px;
-                        }
-                        .first-li {
-                            // margin-top: 6px;
-                        }
+                        padding: 7px 0;
 
                         .li-a {
                             display: inline-block;
