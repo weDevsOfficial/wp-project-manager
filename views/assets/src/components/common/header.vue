@@ -290,7 +290,17 @@
                 project_action: __('Project Actions', 'wedevs-project-manager'),
                 settings_hide: false,
                 settingStatus: false,
-                isEnableUpdateForm: false
+                isEnableUpdateForm: false,
+                popperOptions: 
+                {
+                    placement: 'top-end',
+                    modifiers: 
+                    { 
+                        offset: { 
+                            offset: '0, 10px' 
+                        } 
+                    }
+                }
             }
 
         },
@@ -398,14 +408,15 @@
                 } 
 
                 this.updateProject( args );
-            }
-        },
-        // popper options
-        popperOptions () {
-            return {
-                placement: 'top-end',
-                modifiers: { offset: { offset: '0, 10px' } }
-            }
+            },
+
+            // popper options
+            // popperOptions () {
+            //     return {
+            //         placement: 'top-end',
+            //         modifiers: { offset: { offset: '0, 10px' } }
+            //     }
+            // }
         }
     }
 </script>
