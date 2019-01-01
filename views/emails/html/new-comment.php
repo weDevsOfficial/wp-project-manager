@@ -27,11 +27,11 @@ $tpbk = config('frontend.assets_url') .'images/tpbk.png';
         </div>
 
         <div style="font-family: arial; font-size: 14px; line-height: 24px; color: #7e7e7e;">
-           <?php echo esc_html( $content ); ?>
+           <?php echo $content; ?>
         </div>
 
     </div>
-    
+
     <div style="padding: 18px; margin: 30px auto 45px; border-radius: 30px; background: #00b1e7; width: 171px;text-align: center;">
 
         <a href="<?php echo esc_url( $comment_link ); ?>" style="font-family: lato; font-size: 16px; text-decoration: none; color: #fff;">
@@ -39,6 +39,6 @@ $tpbk = config('frontend.assets_url') .'images/tpbk.png';
         </a>
 
     </div>
-    
+
 </div>
 
