@@ -9,7 +9,7 @@
         <ul v-if="isFetchProjects" class="pm-tabs pm-list-inline">
             <li class="pm-tab-item pm-item-active">
                 <router-link :to="{name: 'project_lists'}">
-                    <i class="pm-icon flaticon-pm-overview"></i>
+                    <i class="pm-icon icon-pm-task-list"></i>
                     <span>{{ __( 'Active', 'wedevs-project-manager') }}</span>
                 </router-link>
             </li>

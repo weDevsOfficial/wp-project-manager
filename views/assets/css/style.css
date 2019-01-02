@@ -219,7 +219,7 @@ a:active {
 .pm input[type="color"],
 .pm .uneditable-input {
   display: inline-block;
-  height: 28px;
+  height: 30px;
   padding: 3px 8px;
   margin-bottom: 0 0 10px;
   font-size: 12px;
@@ -4648,7 +4648,7 @@ a.pm-icon-tick.grey {
   .pm #pm-report ul {
     text-align: center;
   }
-  .pm #pm-report ul li {
+  /*.pm #pm-report ul li {
     padding: 40px;
     background: #fff;
     border: solid 1px #ccc;
@@ -4656,7 +4656,7 @@ a.pm-icon-tick.grey {
     margin-left: 0;
     text-align: center;
     float: none ;
-  }
+  }*/
   .pm #pm-report ul li a {
     padding: 15px;
   }
