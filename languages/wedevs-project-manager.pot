@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Project Manager 2.0.10\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/cpm\n"
-"POT-Creation-Date: 2018-12-19 16:24:00+00:00\n"
+"POT-Creation-Date: 2018-12-27 11:28:09+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -912,8 +912,8 @@ msgstr ""
 #: views/assets/src/components/common/comments.vue:436
 #: views/assets/src/components/project-discussions/mixin.js:507
 #: views/assets/src/components/project-task-lists/list-comments.vue:436
-#: views/assets/src/components/project-task-lists/mixin.js:426
-#: views/assets/src/components/project-task-lists/mixin.js:653
+#: views/assets/src/components/project-task-lists/mixin.js:427
+#: views/assets/src/components/project-task-lists/mixin.js:654
 #: views/assets/src/components/project-task-lists/task-comments.vue:209
 msgid "Are you sure?"
 msgstr ""
@@ -1089,14 +1089,14 @@ msgid "Copy Link"
 msgstr ""
 
 #: views/assets/js/library.js:1 views/assets/js/pm.js:1
-#: views/assets/src/components/project-task-lists/lists.vue:1359
+#: views/assets/src/components/project-task-lists/lists.vue:1360
 #: views/assets/src/components/project-task-lists/single-task.vue:67
 msgid "Make Visible"
 msgstr ""
 
 #: views/assets/js/library.js:1 views/assets/js/pm.js:1 views/assets/js/pm.js:9
 #: views/assets/src/components/project-task-lists/incompleted-tasks.vue:60
-#: views/assets/src/components/project-task-lists/lists.vue:1359
+#: views/assets/src/components/project-task-lists/lists.vue:1360
 #: views/assets/src/components/project-task-lists/single-task.vue:70
 msgid "Make Private"
 msgstr ""
@@ -1229,15 +1229,15 @@ msgstr ""
 #: views/assets/src/components/project-lists/project-header-menu.vue:31
 #: views/assets/src/components/project-task-lists/lists.vue:1083
 #: views/assets/src/components/project-task-lists/lists.vue:1122
-#: views/assets/src/components/project-task-lists/lists.vue:1223
-#: views/assets/src/components/project-task-lists/lists.vue:1341
-#: views/assets/src/components/project-task-lists/lists.vue:1364
+#: views/assets/src/components/project-task-lists/lists.vue:1224
+#: views/assets/src/components/project-task-lists/lists.vue:1342
+#: views/assets/src/components/project-task-lists/lists.vue:1365
 msgid "All"
 msgstr ""
 
 #: views/assets/js/pm.js:1 views/assets/js/pm.js:9
 #: views/assets/src/components/project-files/files.vue:57
-#: views/assets/src/components/project-task-lists/lists.vue:1581
+#: views/assets/src/components/project-task-lists/lists.vue:1582
 msgid "No results found."
 msgstr ""
 
