@@ -5,12 +5,11 @@
 .@{theme-prefix}-table {
     position: relative;
     width: 100%;
-    // margin-bottom: @spacer;
-    // background-color: @table-bg; // Reset for nesting within parents with `background-color`.
+    background: #fff;
     border-radius: 3px;
-    // label.form-check-label {
-    //     margin-left: 0;
-    // }
+    label.form-check-label {
+        margin-left: 0;
+    }
 
     thead tr .col--check {
         width: 45px;
@@ -23,6 +22,7 @@
         }
     }
     tbody {
+        background: transparent !important;
         td, th {
             padding: 17px 20px;
             color: #666;
@@ -38,19 +38,13 @@
             width: 17%;
             text-align: left;
         }
-        // td:first-child,
-        // th:first-child {
-        //     @media (min-width: 783px){
-        //         padding-left: 32px;
-        //     }
-        // }
+    }
+
+    .col--date-beetwen  {
+        width: 300px;
     }
 
     @media screen and (max-width: 782px) {
-        // thead tr .col--check {
-        //     padding: 10px 5px;
-        //     width: 45px;
-        // }
         thead tr th, thead tr td {
             padding: 10px !important;
         }
@@ -153,7 +147,7 @@
     thead {
         tr {
             box-shadow: 0 5px 12px 0 rgba(0,100,235,0.06);
-            
+            transform: translateY(-0.1px);
             th {
                 font-weight: 300;
             }
@@ -224,6 +218,13 @@
             }
         }
     }
+    .col--task, .col--task * {
+        font-weight: 600 !important;
+        color: #1A9ED4;
+        a:hover {
+            text-decoration: underline !important;
+        }
+    }
 
     // Responsive
     .is-row-expanded {
@@ -233,7 +234,7 @@
         }
 
         .@{theme-prefix}-toggle-row:before {
-            content: "\f103";
+            content: "\F126";
         }
     }
 
@@ -275,7 +276,7 @@
             display: block;
             padding: 5px;
             color: #444;
-            content: "\f101";
+            content: "\F125";
             font-family: "Flaticon";
             font-size: 10px;
             line-height: 1;
