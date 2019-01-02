@@ -12,7 +12,7 @@ const WeDevsfilters = {};
 var pmProjects = [];
 
 function weDevsPMRegisterChildrenRoute (parentRouteName, routes) {
-    
+
 	routes.forEach(function(route) {
 		if (weDevsPMChildrenRouter.hasOwnProperty(parentRouteName)  ) {
 			weDevsPMChildrenRouter[parentRouteName].push(route);
@@ -28,7 +28,7 @@ function wedevsPMGetRegisterChildrenRoute(parentRouteName, prevRoute) {
 	if (weDevsPMChildrenRouter.hasOwnProperty(parentRouteName)  ) {
 		return prevRoute.concat(weDevsPMChildrenRouter[parentRouteName]);
 	}
-	
+
 	return prevRoute;
 }
 
@@ -126,7 +126,7 @@ function pm_remove_filter( tag, callback ) {
     if(typeof WeDevsfilters[ tag ] === 'undefined' ) {
         return;
     }
-    WeDevsfilters[ tag ].forEach( function( filter, i ) {        
+    WeDevsfilters[ tag ].forEach( function( filter, i ) {
         if( ! jQuery.isArray(callback) && filter.callback.name === callback ) {
             WeDevsfilters[ tag ].splice(i, 1);
         } else if ( jQuery.isArray(callback) && filter.ref.length ) {
@@ -176,8 +176,8 @@ function pmUserCan(cap, project, user) {
         return true;
     }
 
-    if ( 
-        role_caps.hasOwnProperty(cap) 
+    if (
+        role_caps.hasOwnProperty(cap)
         &&
         (
             role_caps[cap] === true
@@ -197,7 +197,7 @@ function pmGetRoleCaps (project, role) {
         capabilities: {}
     },
     project = jQuery.extend(true, default_project, project );
-    
+
     if( project.capabilities.hasOwnProperty(role) ) {
         return project.capabilities[role];
     } else {
@@ -222,7 +222,7 @@ function pmGetRole (project, user) {
     }
 
     var project_user = project.assignees.data[index];
-    
+
     return project_user.roles.data.length ? project_user.roles.data[0].slug : false;
 }
 
@@ -235,7 +235,7 @@ function pmIsUserInProject (project, user) {
         }
     },
     project = jQuery.extend(true, default_project, project );
-    
+
     var index = pmGetIndex(project.assignees.data, user_id, 'id');
 
     if ( index === false ) {
@@ -290,5 +290,5 @@ function pmHasCreateCapability () {
     if ( PM_Vars.create_capability === '1' ){
         return true;
     }
-    return false; 
+    return false;
 }
