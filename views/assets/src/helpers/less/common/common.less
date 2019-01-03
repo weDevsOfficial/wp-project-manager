@@ -1,0 +1,380 @@
+/*
+ * File: Common.less :: for all common templates;
+ */
+
+// theme prefix
+@theme-prefix: pm;
+// common variables
+@pm-border-color: #E5E5E5;
+@pm-font-color: #A5ACB1;
+@pm-border-radius: 3px;
+@pm-theme-color: #0073aa;
+
+// import utility styles
+@import "utility";
+// import flexgrid
+@import "grid";
+
+// import components
+@import "components/display";
+@import "components/buttons";
+@import "components/form";
+@import "components/card";
+@import "components/table";
+
+
+// common styles
+.@{theme-prefix}-page-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
+	margin: 20px 0;
+}
+.@{theme-prefix}-filter-wrapper {
+	display: flex;
+	align-items: center;
+}
+.@{theme-prefix}-text-primary {
+	color: #027eb3;
+}
+.@{theme-prefix} {
+	strong, b {
+		font-weight: 400;
+	}
+}
+
+.@{theme-prefix}-report-export-block {
+	
+	.@{theme-prefix}-dropdown-menu {
+		font-weight: 300;
+		white-space: nowrap;
+		box-shadow: 0 4px 10px 0 rgba(0,0,0,0.09); 
+		span[class*=flaticon]{
+			margin-right: 5px;
+			&:before {
+				font-size: 16px;
+			}
+		}
+		&:after {
+			right: 15px !important;
+		}
+		&:before {
+			right: 13px !important;
+		}
+	}
+}
+
+
+
+#pm-report {
+	.@{theme-prefix}-dropdown-menu {
+		li a {
+			color: @pm-font-color;
+			font-size: 12px;
+		}
+		&.mt-10 {
+			margin-top: 10px !important;
+		}
+	}
+}
+
+.pm-page-title-container {
+	display: flex;
+	align-items: center;
+	h1 {
+		padding: 0;
+		margin-right: 20px;
+	}
+}
+
+
+// pm filter report modal styles
+
+.pm-filter-report-modal {
+	border-radius: 3px;
+	border: 1px solid #ddd;
+	background: #fff;
+	.subtask-date {
+		.pm-col-sm-6 {
+			position: relative;
+			color: #788383;
+			font-weight: 300;
+			input {
+				padding-left: 30px;
+				padding-right: 30px;
+				color: #788383;
+				::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+				  color: #788383;
+				}
+				::-moz-placeholder { /* Firefox 19+ */
+				  color: #788383;
+				}
+				:-ms-input-placeholder { /* IE 10+ */
+				  color: #788383;
+				}
+				:-moz-placeholder { /* Firefox 18- */
+				  color: #788383;
+				}
+			}
+			&:before,
+			&:after {
+				position: absolute;
+				top: 4px;
+				z-index: 1;
+				font-family: Flaticon;
+				font-size: 10px;
+				pointer-events: none;
+				color: #788383;
+				font-weight: 300;
+			}
+			&:before {
+				content: "\f10c";
+				left: 19px;			}
+			&:after {
+				content: "\f125";
+				right: 19px;
+			}
+		}
+	}
+	form {
+		.filter-input {
+			margin-bottom: 19px !important;
+			label {
+				margin: 0 0 10px !important;
+				display: flex;
+				font-size: 12px;
+				color: #000;
+			}	
+		}
+		input {
+			border-radius: 3px;
+			height: 30px !important;
+			::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+			  color: #788383;
+			}
+			::-moz-placeholder { /* Firefox 19+ */
+			  color: #788383;
+			}
+			:-ms-input-placeholder { /* IE 10+ */
+			  color: #788383;
+			}
+			:-moz-placeholder { /* Firefox 18- */
+			  color: #788383;
+			}
+		}  
+		input.pm-datepicker {
+			margin-bottom: 19px !important;
+		}
+
+		.multiselect {
+			min-height: inherit !important;
+			position: relative;
+			.multiselect__select {
+				position: absolute;
+				right: 0;
+				top: 0;
+				z-index: 1;
+			}
+			&.multiselect--active {
+				.multiselect__input {
+					border: 0 !important;
+					// height: 32px !important;
+					border-radius: 0 !important;
+					padding-left: 10px !important;
+					line-height: 100% !important;
+					top: -1px;
+				}
+				.multiselect__tags {
+					border-radius: 3px 3px 0 0 !important;
+				}
+				.multiselect__select {
+					width: 32px;
+				}
+			}
+			.multiselect__select {
+				padding: 7px 10px;
+				height: 35px !important;
+				display: flex;
+			    align-items: center;
+			    justify-content: flex-end;
+				&:before {
+					content: "\f125";
+					font-family: Flaticon;
+					border: none;
+					position: static;
+					font-size: 10px;
+					margin-top: 0;
+				}
+			}
+			.multiselect__tags {
+				padding: 0 !important;
+				border-radius: 3px !important;
+				border-color: #ddd;
+				min-height: 35px !important;
+				display: flex;
+				align-items: center;
+				// margin-bottom: 19px !important;
+				.multiselect__input {
+					margin-bottom: 0px !important;
+					border-width: 0 !important;
+					display: none;
+					font-size: 12px !important;
+					font-weight: 300 !important;
+					padding: 0 10px !important;
+					&:focus {
+						box-shadow: none !important;
+					}
+				}
+				.multiselect__placeholder, .multiselect__single {
+					margin: 0;
+					padding: 0 10px;
+					font-size: 12px;
+					font-weight: 300;
+					color: #788383;
+				}
+			}
+			&.multiselect--active {
+				.multiselect__input {
+					border-width: 1px;
+					width: 100% !important;
+					border-radius: 3px !important;
+					display: block;
+				}
+			}
+			.multiselect__content {
+				border-color: #ddd;
+				li {
+					span {
+						font-size: 12px;
+						font-weight: 300;
+						color: #788383;
+						text-align: left;
+						&:hover {
+							color: #fff !important;
+						}
+						&.multiselect__option--highlight span {
+							color: #fff !important;
+						}
+					}
+
+					.multiselect__option--selected.multiselect__option--highlight:after {
+						background: #FF2C5E !important;
+					}
+					&:hover span {
+						color: #fff !important;
+						&.multiselect__option--selected {
+							background: #FF2C5E !important;
+						}
+					}
+				}
+			}
+		}
+		.multiselect__option--selected.multiselect__option--highlight {
+			background: #FF2C5E !important;
+			
+			span {
+				color: #fff !important;
+			}
+		}
+		.pm-modal-form-buttons {
+			display: flex;
+			flex-direction: row-reverse;
+			input[type="submit"]{
+				margin-bottom: 0 !important;
+				width: auto !important;
+				display: inline-flex;
+				border: 0 !important;
+				box-shadow: none;
+			}
+		}
+	}
+	h3 {
+		margin: 0 0 19px 0;
+		font-size: 13px;
+		font-weight: 600;
+		color: #000;
+	}
+	.pm-filter-modal-header {
+		padding: 19px;
+		border-bottom: 1px solid #ddd;
+	}
+	.pm-filter-modal-body {
+		padding: 19px;
+	}
+
+}
+// pm report meta panel styles
+.pm-report-meta-panel {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    .pm-report-panel-icon {
+        display: inline-flex;
+        width: 39px;
+        height: 39px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        color: #fff;
+        margin-right: 13px;
+        i:before {
+            font-size: 16px !important;
+        }
+    } 
+    h4 {
+        margin: 0 0 5px 0;
+        font-size: 20px;
+        font-weight: 400;
+    }
+    span {
+    	font-size: 13px;
+    	color: #575D64;
+    }
+}
+.pm-report-project-panel {
+    .pm-report-panel-icon {
+        background: #FF2C5E;
+    }
+    h4 {
+        color: #FF2C5E;
+    }
+}
+.pm-report-worker-panel {
+    .pm-report-panel-icon {
+        background: #4152CB;
+    }  
+    h4 {
+        color: #4152CB;
+    }  
+}
+.pm-report-result-panel {
+    .pm-report-panel-icon {
+        background: #2ECC71;
+    } 
+    h4 {
+        color: #2ECC71;
+    }
+}
+@media (max-width: 767px) {
+	.pm-filter-wrapper {
+		flex-basis: 100%;
+		margin-top: 20px;
+	}
+	.pm-report-meta-panel {
+		margin-bottom: 20px;
+	}
+	.pm-page-body .pm--row .pm-col-xs-12 {
+		margin-bottom: 20px;
+	}
+	.pm .modal-container {
+		width: 95% !important;
+	}
+}
+
+@media (max-width: 640px){
+    #pm-report ul.pm-dropdown-menu li a {
+        padding: 7px 14px !important;
+        text-align: left;
+    }
+}
