@@ -65,7 +65,7 @@
                                     params: {
                                         project_id: project.id
                                     }}">
-                                    <i class="pm-icon flaticon-pm-overview" aria-hidden="true"></i>
+                                    <i class="pm-icon logo icon-pm-task-list" aria-hidden="true"></i>
                                     <span class="pm-tooltip-label">{{ parseInt(project.meta.data.total_tasks) + __( ' Tasks', 'wedevs-project-manager') }}</span>
                                 </router-link>
                             </li>
@@ -334,6 +334,12 @@
     }
     .pm-project-meta-counters li a[href="#"] {
         cursor: default;
+    }
+    .pm-meta-overview i {
+        vertical-align: baseline !important;
+    }
+    .pm-meta-overview a:hover i:before {
+        color: #fff;
     }
 </style>
 
