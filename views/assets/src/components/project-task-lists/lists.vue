@@ -1145,13 +1145,14 @@
             },
 
             listViewType () { 
+
                 if(this.$route.query.filterTask == 'active') {
                     return true;
                 }
                 
                 let meta = this.$store.state.projectMeta; 
                 var self = this;
-               
+                 
                 if(meta.hasOwnProperty('list_view_type') ) {
                     if (
                         !meta.list_view_type
@@ -1163,10 +1164,8 @@
                         }
 
                         self.$store.state.projectTaskLists.is_single_list = false;
-
                         self.isSingleTask();
                         self.getSelfLists();
-                        self.getGlobalMilestones();
                     } else if(  meta.list_view_type.meta_value == "kanboard") {
                         self.$router.push({
                             name: 'kanboard'
@@ -1235,6 +1234,7 @@
         },
 
         created () {
+            this.getGlobalMilestones();
             pmBus.$on('pm_before_destroy_single_task', this.updateSingleTask);
             pmBus.$on('pm_generate_task_url', this.generateTaskUrl);
             pmBus.$on('pm_after_fetch_project', this.afterFetchProject);
