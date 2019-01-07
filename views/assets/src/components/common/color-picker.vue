@@ -43,11 +43,11 @@
 </template>
 
 <script>
-    // import Sketch from 'vue-color/src/components/Sketch.vue';
+    import Sketch from 'vue-color/src/components/Sketch.vue';
 
     export default {
         components: {
-            Sketch: pm.color.default,
+            Sketch: Sketch,
         },
 
         props: {
