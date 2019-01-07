@@ -55,16 +55,10 @@ class Settings_Controller {
         $project_id = $request->get_param( 'project_id' );
         $settings   = $request->get_param( 'settings' );
         
-
         if ( is_array( $settings ) ) {
             $settings_collection = [];
 
             foreach ( $settings as $settings_data ) {
-
-                // if ( $settings_data['key'] == 'logo' &&  empty($settings_data['value'])) {
-                //     continue;
-                // }
-                
                 $settings_collection[] = $this->save_settings( $settings_data, $project_id );
             }
 
@@ -82,6 +76,16 @@ class Settings_Controller {
     }
 
     public static function save_settings( $data, $project_id = 0 ) {
+        $add_more = ! empty( $data['value']['settings_add_more'] ) && ( $data['value']['settings_add_more'] == 'data_continue' ) ? true : false; 
+        
+        if ( $add_more ) {
+            return Settings::create([
+                'key'        => $data['key'],
+                'project_id' => $project_id,
+                'value'      => $data['value']['data']
+            ]);
+        }
+
         if ( $project_id ) {
             $settings = Settings::firstOrCreate([
                 'key' => $data['key'],
@@ -94,7 +98,7 @@ class Settings_Controller {
         }
 
         $settings->update_model( $data );
-
+        
         return $settings;
     }
 
