@@ -11,12 +11,13 @@ use League\Fractal\Resource\Collection as Collection;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use WeDevs\PM\Common\Traits\Transformer_Manager;
 use WeDevs\PM\Task_List\Transformers\Task_List_Transformer;
-use WeDevs\PM\Task_List\Transformers\Task_Transformer;
+use WeDevs\PM\Task\Transformers\Task_Transformer;
 use WeDevs\PM\Common\Models\Boardable;
 use WeDevs\PM\Common\Traits\Request_Filter;
 use WeDevs\PM\Milestone\Models\Milestone;
 use Illuminate\Pagination\Paginator;
 use WeDevs\PM\Common\Models\Board;
+
 
 class Task_List_Controller {
 
@@ -41,10 +42,7 @@ class Task_List_Controller {
         }); 
 
         $task_lists = Task_List::where( 'project_id', $project_id)
-            ->where( 'status', $status )
-            ->where( function($q) use( $list_id ) {
-                //if()
-            });
+            ->where( 'status', $status );
 
         $task_lists = apply_filters( "pm_task_list_index_query", $task_lists, $project_id, $request );
 
