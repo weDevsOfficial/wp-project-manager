@@ -274,6 +274,11 @@
             },
 
             closeForm () {
+                
+                let event = document.createEvent('HTMLEvents');
+                event.initEvent('click', true, false);
+                document.querySelector('.popper-ref').dispatchEvent(event);
+
                 if(!this.project.hasOwnProperty('id')) {
                     this.project.title = '';
                     this.project_cat = 0;
