@@ -76,7 +76,7 @@ class Settings_Controller {
     }
 
     public static function save_settings( $data, $project_id = 0 ) {
-        $add_more = ! empty( $data['value']['settings_add_more'] ) && ( $data['value']['settings_add_more'] == 'data_continue' ) ? true : false; 
+        $add_more = ! empty( $data['value']['settings_add_more_value'] ) && ( $data['value']['settings_add_more_value'] == 'data_continue' ) ? true : false; 
         
         if ( $add_more ) {
             return Settings::create([
@@ -105,14 +105,14 @@ class Settings_Controller {
     public function pluck_without_project(WP_REST_Request $request) {
         $key = $request->get_param('key');
 
-        return pm_get_settings( $kye );
+        return pm_get_setting( $kye );
     }
 
     public function pluck_with_project(WP_REST_Request $request) {
         $project_id = $request->get_param('project_id');
         $key        = $request->get_param('key');
 
-        return pm_get_settings( $kye, $project_id );
+        return pm_get_setting( $kye, $project_id );
     }
 
     public function notice(WP_REST_Request $request) {
