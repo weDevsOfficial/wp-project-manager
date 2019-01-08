@@ -37,7 +37,7 @@ class Enqueue_Scripts {
 
 	public static function localize_scripts() {
 		global $wedevs_pm_pro;
-		$upload_limit = intval(pm_get_settings('upload_limit'));
+		$upload_limit = intval(pm_get_setting('upload_limit'));
 		$upload_limit = empty( $upload_limit ) ? wp_max_upload_size() : $upload_limit;
 		$upload_size = intval( $upload_limit )  * 1024 * 1024;
 
@@ -72,7 +72,7 @@ class Enqueue_Scripts {
 					)
 				),
 				'roles'       => pm_get_wp_roles(),
-				'settings'    => pm_get_settings(),
+				'settings'    => pm_get_setting(),
 				'text'        => pm_get_text('common'),
 				'dir_url'     => config('frontend.url'),
 				'is_pro'      => $wedevs_pm_pro,
