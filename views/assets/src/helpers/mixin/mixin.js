@@ -946,10 +946,11 @@ export default {
             return diff;
         },
 
-        saveSettings (settings, project_id, callback) {
+        saveSettings (settings, project_id, callback, id) {
             var settings   = this.formatSettings(settings);
             var project_id = project_id || false;
             var self       = this;
+            id = id || false;
             
             var url = project_id 
                 ? self.base_url + '/pm/v2/projects/'+project_id+'/settings' 
@@ -958,13 +959,38 @@ export default {
             var request = {
                 url: url,
                 data: {
-                    settings: settings
+                    settings: settings,
+                    id: id
                 },
                 type: 'POST',
                 success (res) {
                     pm.Toastr.success(res.message);
                     if (typeof callback !== 'undefined') {
                         callback(res.data);
+                    }
+                }
+            };
+            
+            self.httpRequest(request);
+        },
+
+        deleteProjectSettings (id, args) {
+            var self  = this;
+
+            args = args || {};
+
+            var url = self.base_url + '/pm/v2/projects/'+this.project_id+'/delete/'+id+'/settings' 
+
+            var request = {
+                url: url,
+                data: {
+                    id: id
+                },
+                type: 'POST',
+                success (res) {
+                    //pm.Toastr.success(res.message);
+                    if (typeof args.callback !== 'undefined') {
+                        args.callback(res.data);
                     }
                 }
             };
