@@ -51,7 +51,7 @@
                 </div>  
 
                 <div v-if="can_edit_task(task) && !isArchivedTaskList(task)" class="nonsortable more-menu task-more-menu">
-                    <popper trigger="click" :options="popperOptions">
+                    <pm-popper trigger="click" :options="popperOptions">
                         <div class="pm-popper popper">
                             <div class="more-menu-ul-wrap">
                                 <ul>
@@ -91,7 +91,7 @@
                         </div>
                         <!-- popper trigger element -->
                         <span slot="reference" title="action" class="pm-popper-ref popper-ref icon-pm-more-options"></span>
-                    </popper>
+                    </pm-popper>
                 </div>                
             </div>
         </div>
@@ -128,8 +128,6 @@
     import DoAction from './../common/do-action.vue';
     import Mixins from './mixin';
     import MoveTask from './move-task.vue';
-    // import popper library
-    import Popper from 'vue-popperjs';
     
     export default {
         props: {
@@ -180,8 +178,7 @@
             'new-task-form': new_task_form,
             'do-action': DoAction,
             'single-task': pm.SingleTask,
-            'move-task': MoveTask,
-            'popper': Popper
+            'move-task': MoveTask
         },
         
         computed: {
