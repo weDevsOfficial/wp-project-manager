@@ -3,16 +3,16 @@
         <div class="project-title">
             <span class="title">{{ project.title }}</span>
             <div class="pm-title-edit-settings">
-                <popper trigger="click" :options="popperOptions">
+                <pm-popper trigger="click" :options="popperOptions">
                     <div class="pm-popper popper">
                         <edit-project v-if="is_manager()" class="project-edit-form" :project="project"></edit-project>
                     </div>
                     <!-- popper trigger element -->
                     <a href="#" v-if="is_manager()" slot="reference" title="action" class="pm-popper-ref popper-ref icon-pm-pencil project-update-btn"></a>
-                </popper>
+                </pm-popper>
             </div>
             <div class="settings header-settings">
-                <popper trigger="click" :options="popperOptions">
+                <pm-popper trigger="click" :options="popperOptions">
                     <div class="pm-popper popper">
                         <div v-if="is_manager()" class="pm-action-menu-container">
                             <ul class="action-ul">
@@ -40,7 +40,7 @@
                     </div>
                     <!-- popper trigger element -->
                     <span v-if="is_manager()" slot="reference" title="action" class="pm-popper-ref popper-ref icon-pm-settings header-settings-btn"></span>
-                </popper>
+                </pm-popper>
 
                 <!-- <a href="#" v-if="is_manager()" @click.prevent="showHideSettings()" class="icon-pm-settings header-settings-btn"></a> -->
 
@@ -281,8 +281,7 @@
     //import router from './../../router/router';
     import do_action from './do-action.vue';
     import edit_project from './../project-lists/project-create-form.vue';
-    // import popper library
-    import Popper from 'vue-popperjs';
+   
 
     export default {
         data () {
@@ -342,8 +341,7 @@
 
         components: {
             'do-action': do_action,
-            'edit-project': edit_project,
-            'popper': Popper
+            'edit-project': edit_project
         },
 
         methods: {
