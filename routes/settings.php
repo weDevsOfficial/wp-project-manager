@@ -19,3 +19,6 @@ $router->get( 'projects/{project_id}/settings', 'WeDevs/PM/Settings/Controllers/
 
 $router->post( 'projects/{project_id}/settings', 'WeDevs/PM/Settings/Controllers/Settings_Controller@store' )
     ->permission(['WeDevs\PM\Core\Permissions\Project_Manage_Capability']);
+
+$router->post( 'projects/{project_id}/delete/{id}/settings', 'WeDevs/PM/Settings/Controllers/Settings_Controller@destroy' )
+    ->permission(['WeDevs\PM\Core\Permissions\Project_Manage_Capability']);

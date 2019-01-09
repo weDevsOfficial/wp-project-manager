@@ -132,7 +132,7 @@ class Task_List_Transformer extends TransformerAbstract {
 
     public function includeCompleteTasks( Task_List $item ) {
         $page = isset( $_GET['complete_task_page'] ) ? intval($_GET['complete_task_page']) : 1;
-        $per_page = pm_get_settings( 'complete_tasks_per_page' );
+        $per_page = pm_get_setting( 'complete_tasks_per_page' );
         $per_page = $per_page ? $per_page : 5;
 
         Paginator::currentPageResolver(function () use ($page) {
@@ -159,7 +159,7 @@ class Task_List_Transformer extends TransformerAbstract {
             return $page;
         }); 
 
-        $per_page = pm_get_settings( 'incomplete_tasks_per_page' );
+        $per_page = pm_get_setting( 'incomplete_tasks_per_page' );
         $per_page = $per_page ? $per_page : 5;
         $tasks = $item->tasks()
             ->where( 'status', 0 );

@@ -125,25 +125,25 @@ class Email {
     }
 
     public function from_email() {
-        $email = pm_get_settings( 'from_email' );
+        $email = pm_get_setting( 'from_email' );
         $email = empty( $email ) ? get_bloginfo('admin_email'): $email; 
         return apply_filters('pm_from_email', $email);
     }
 
     public function is_bcc_enable() {
-        $enable_bcc = pm_get_settings( 'enable_bcc' );
+        $enable_bcc = pm_get_setting( 'enable_bcc' );
         $enable_bcc = isset( $enable_bcc ) ? $enable_bcc == "true" : false;
         return apply_filters( 'pm_enable_bcc', $enable_bcc  ) ;
     }
 
     public function email_type() {
-        $email_type = pm_get_settings('email_type');
+        $email_type = pm_get_setting('email_type');
         $email_type = isset( $email_type ) ? $email_type : 'text/html';
         return apply_filters( 'pm_email_type', $email_type );
     }
 
     public function link_to_backend() {
-        $link_to_backend = pm_get_settings('link_to_backend');
+        $link_to_backend = pm_get_setting('link_to_backend');
         $link_to_backend = ( isset( $link_to_backend ) && $link_to_backend == 'false' ) ? false : true;
         return apply_filters('pm_email_link_to_backend', $link_to_backend ) ;
     }

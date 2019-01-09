@@ -12,7 +12,7 @@
                 <div class="title-wrap">
 
                     <div class="task-title">
-                        <a class="title" href="#" @click.prevent="getSingleTask(task)">{{ task.title }}</a>
+                        <a class="title" href="#" @click.prevent="getSingleTask(task)">{{ ucfirst(task.title) }}</a>
                     </div>  
                 </div> 
 
@@ -37,7 +37,7 @@
                     </a>  
                 </div>   
                 <div v-if="can_edit_task(task) && !isArchivedTaskList(task)" @click.prevent="showHideTaskMoreMenu(task, list)" class="more-menu task-more-menu">
-                    <popper trigger="click" :options="popperOptions">
+                    <pm-popper trigger="click" :options="popperOptions">
                         <div class="pm-popper popper">
                             <div class="more-menu-ul-wrap">
                                 <ul>
@@ -52,7 +52,7 @@
                         </div>
                         <!-- popper trigger element -->
                         <span slot="reference" title="Action" class="pm-popper-ref popper-ref icon-pm-more-options"></span>
-                    </popper>
+                    </pm-popper>
                 </div>               
             </div>
         </div>
@@ -67,8 +67,6 @@
 <script>
     import new_task_form from './new-task-form.vue';
     import Mixins from './mixin';
-    // import popper library
-    import Popper from 'vue-popperjs';
     
     export default {
         props: ['task', 'list'],
@@ -82,8 +80,7 @@
         },
         components: {
             'new-task-form': new_task_form,
-            'single-task': pm.SingleTask,
-            'popper': Popper
+            'single-task': pm.SingleTask
         },
         computed: {
             route_name (){

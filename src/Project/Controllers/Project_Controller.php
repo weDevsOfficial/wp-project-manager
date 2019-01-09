@@ -30,7 +30,7 @@ class Project_Controller {
 		$category = $request->get_param( 'category' );
 		$project_transform = $request->get_param( 'project_transform' );
 
-		$per_page_from_settings = pm_get_settings( 'project_per_page' );
+		$per_page_from_settings = pm_get_setting( 'project_per_page' );
 		$per_page_from_settings = $per_page_from_settings ? $per_page_from_settings : 15;
 
 		$per_page = $per_page ? $per_page : $per_page_from_settings;
