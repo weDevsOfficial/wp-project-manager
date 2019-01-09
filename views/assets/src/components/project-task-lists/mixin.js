@@ -521,7 +521,8 @@ var PM_TaskList_Mixin = {
                 args.data.list_id = this.getInboxId();
             }
             
-            var data = pm_apply_filters( 'before_task_save', args.data );
+            var data = pm_apply_filters( 'before_task_save', args.data ),
+                data = wp.hooks.applyFilters( 'before_task_save', data );
             
             var request_data = {
                 url: self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks',
@@ -570,7 +571,7 @@ var PM_TaskList_Mixin = {
                 }
             }
 
-            self.httpRequest(request_data);
+            //self.httpRequest(request_data);
         },
 
         /**

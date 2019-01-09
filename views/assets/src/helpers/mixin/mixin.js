@@ -12,7 +12,8 @@ export default {
             PM_Vars: PM_Vars,
             pm: pm,
             taskLists: TaskLists,
-            currentDate: pm.Moment(new Date()).format('YYYY-MM-DD')
+            currentDate: pm.Moment(new Date()).format('YYYY-MM-DD'),
+            randomNumber: []
         }
     },
 
@@ -21,6 +22,18 @@ export default {
     },
 
     methods: {
+        getUniqueRandomNumber() {
+            var r = Math.floor(Math.random()*100000) + 1;
+
+            if(this.randomNumber.indexOf(r) === -1) {
+                this.randomNumber.push(r);
+
+                return r;
+            }
+
+            this.getUniqueRandomNumber();
+            
+        },
         enableDisable (key, status) {
             status = status || '';
 
