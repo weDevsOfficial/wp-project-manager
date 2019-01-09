@@ -57,7 +57,7 @@
                                         </div>
 
                                         <div class="list-title">
-                                            <span @click.prevent="listExpand(list)" class="list-title-anchor">{{ list.title }}</span>
+                                            <span @click.prevent="listExpand(list)" class="list-title-anchor">{{ ucfirst( list.title ) }}</span>
                                         </div>
                                         <div class="after-title">
                                                 <!-- v-pm-tooltip -->
@@ -83,7 +83,7 @@
                                         <div v-if="!isInbox(list.id) && can_edit_task_list(list)" :data-list_id="list.id" class="more-menu list-more-menu">
 
                                             <!-- popper -->
-                                            <popper trigger="click" :options="popperOptions">
+                                            <pm-popper trigger="click" :options="popperOptions">
                                                 <div class="pm-popper popper">
                                                     <div class="more-menu-ul-wrap">
                                                         <ul>
@@ -107,7 +107,7 @@
                                                 
                                                 <!-- popper trigger element -->
                                                 <span slot="reference" title="Assign user" class="pm-popper-ref popper-ref icon-pm-more-options"></span>
-                                            </popper>
+                                            </pm-popper>
 
                                             <div v-if="list.edit_mode" class="list-update-warp">
                                                 <new-task-list-form section="lists" :list="list" ></new-task-list-form>
@@ -984,8 +984,6 @@
     import date_picker from './date-picker.vue';
     import Menu from '@components/common/menu.vue';
     import new_task_form from './new-task-form.vue';
-    // import popper library
-    import Popper from 'vue-popperjs';
 
     export default {
 
@@ -1007,8 +1005,7 @@
             'multiselect': pm.Multiselect.Multiselect,
             'pm-datepickter': date_picker,
             'pm-menu': Menu,
-            'new-task-form': new_task_form,
-            'popper': Popper
+            'new-task-form': new_task_form
         },
 
         mixins: [Mixins],

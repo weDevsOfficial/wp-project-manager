@@ -16,7 +16,7 @@
                     <!-- <span title="Estimate time" class="pm-icon flaticon-clock pm-estimate-icon"></span> -->
                     <span title="Description" @click.self.prevent="enableDisable('descriptionField')" class="icon-pm-align-left new-task-description-btn"></span>
                     <!-- popper -->
-                    <popper trigger="click" :options="popperOptions">
+                    <pm-popper trigger="click" :options="popperOptions">
                         <div class="pm-popper popper">
                             <div class="pm-multiselect-top pm-multiselect-subtask-task">
                                 <div class="pm-multiselect-content">
@@ -51,7 +51,7 @@
                         
                         <!-- popper trigger element -->
                         <span slot="reference" title="Assign user" class="pm-popper-ref popper-ref task-user-multiselect icon-pm-single-user pm-dark-hover"></span>
-                    </popper>
+                    </pm-popper>
 
                     <!-- <span @click.prevent="showHideDescription()" class="icon-pm-pencil pm-dark-hover"></span> -->
 
@@ -282,8 +282,6 @@
 import date_picker from './date-picker.vue';
 import Mixins from './mixin';
 import editor from '@components/common/text-editor.vue';
-// import popper library
-import Popper from 'vue-popperjs';
 
 export default {
     // Get passing data for this component. Remember only array and objects are
@@ -350,8 +348,7 @@ export default {
     components: {
     	'multiselect': pm.Multiselect.Multiselect,
     	'pm-datepickter': date_picker,
-        'text-editor': editor,
-        'popper': Popper
+        'text-editor': editor
     },
 
     beforeMount () {
