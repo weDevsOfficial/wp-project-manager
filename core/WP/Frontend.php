@@ -12,6 +12,7 @@ use WeDevs\PM\Core\Cli\Commands;
 use WeDevs\PM\Core\Promotions\Promotions;
 use WeDevs\PM\Core\Promotions\Offers;
 use PM_Create_Table;
+use WeDevs\PM\Tools\Helpers\ImportTrello;
 
 
 class Frontend {
@@ -165,6 +166,7 @@ function project_text_editor($config) {
         new Upgrade();
         new Offers();
         //new Promotions();
+        new ImportTrello();
 	}
 
 	public function register_scripts() {
@@ -339,7 +341,7 @@ function project_text_editor($config) {
                 'meta'  => [
                     'title' => __('Create New Task', 'wedevs-project-manager'),
                 ]
-                
+
             ]
          );
 
@@ -352,14 +354,14 @@ function project_text_editor($config) {
                 'meta'  => [
                     'title' => __('Create New Task', 'wedevs-project-manager'),
                 ]
-                
+
             ]
          );
     }
 
 
     public function pm_toolbar_search_button($wp_admin_bar) {
-        $wp_admin_bar->add_node( 
+        $wp_admin_bar->add_node(
             [
                 'id'		=> 'pm_search',
                 'title'     => '<span class="ab-icon icon-pm-switch-project" style="padding: 6px 0;"></span>',
@@ -368,7 +370,7 @@ function project_text_editor($config) {
                 'meta'  => [
                     'title' => __('Jump to a project', 'wedevs-project-manager'),
                 ]
-                
+
             ]
         );
     }

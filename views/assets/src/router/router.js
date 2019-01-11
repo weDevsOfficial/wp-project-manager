@@ -2,19 +2,20 @@
 import projects from '@components/project-lists/router';
 import categories from '@components/categories/router';
 import add_ons from '@components/add-ons/router';
+import '@components/tools/router';
 
 if (!PM_Vars.is_pro) {
     require( '@components/my-tasks/router');
     require('@components/calendar/router');
     require('@components/reports/router');
-    require('@components/progress/router'); 
+    require('@components/progress/router');
 }
 
 import {general, email} from '@components/settings/router';
 import Empty from '@components/root/init.vue';
 
 weDevs_PM_Routers.push({
-	path: '/', 
+	path: '/',
     component:  Empty,
     name: 'project_root',
 
