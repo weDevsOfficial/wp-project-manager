@@ -202,7 +202,7 @@
 
         },
         created:function(){
-            // initializing on created
+            console.log(weDevsPmModules)
             this.api_key = this.getSettings('api_key', '', 'trello_credentials');
             this.apikey =this.getSettings('api_key', '', 'trello_credentials');// 48bd6e943d3f5037d385e6c274d873bf
             this.token = this.getSettings('token', '', 'trello_credentials');
