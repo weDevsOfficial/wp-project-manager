@@ -42,7 +42,7 @@
         </div>
 
 
-        <asana-workspaces v-if="token" :credentials="token" :workspaces="profileData.workspaces"></asana-workspaces>
+        <asana-workspaces ref="asanaws" v-if="token" :credentials="{ token:token }" :workspaces="profileData.workspaces" @allProjectSelected=""></asana-workspaces>
 
     </div>
 </template>
@@ -104,6 +104,10 @@
 
             profile(data){
                this.cbData = data;
+            },
+
+            allSelected(){
+                this.selected = this.$refs.asanaws.isAllSelected
             }
         },
 
