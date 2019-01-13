@@ -1,6 +1,6 @@
-weDevsPmProRegisterModule("pmTools", 'tools');
-weDevsPmProRegisterModule("trello", 'tools/trello-import');
-weDevsPmProRegisterModule("appAsana", 'tools/asana-import');
+weDevsPmRegisterModule("pmTools", 'tools');
+weDevsPmRegisterModule("trello", 'tools/trello-import');
+weDevsPmRegisterModule("asana", 'tools/asana-import');
 
 
 import mixin from './mixin';

@@ -72,7 +72,7 @@ class Model extends \WeDevs\ORM\Eloquent\Model {
             return true;
         }
 
-//        $user = wp_get_current_user();
+        $user = 1;//wp_get_current_user();
         $fillable = $this->getFillable();
 
         switch ( $event ) {

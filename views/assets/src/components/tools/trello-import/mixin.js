@@ -88,7 +88,7 @@ export default {
             var self = this;
             var request = {
                 type: 'GET',
-                url: self.base_url+"/pm-pro/v2/tools/"+url,
+                url: self.base_url+"/pm/v2/tools/"+url,
                 success (res) {
                     if(res.length > 0){
                         res.forEach(function(val){
