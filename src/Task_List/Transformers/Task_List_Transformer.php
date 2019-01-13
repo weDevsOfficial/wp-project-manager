@@ -28,8 +28,8 @@ class Task_List_Transformer extends TransformerAbstract {
     protected $availableIncludes = [
         'assignees',
         'tasks',
-        'complete_tasks',
-        'incomplete_tasks',
+        //'complete_tasks',
+        //'incomplete_tasks',
         'comments',
         'files',
     ];
@@ -43,6 +43,7 @@ class Task_List_Transformer extends TransformerAbstract {
             'status'      => $item->status,
             'created_at'  => format_date( $item->created_at ),
             'meta'        => $this->meta( $item ),
+            'extra'       => true
         ];
 
         return apply_filters( 'pm_task_list_transform', $data, $item );

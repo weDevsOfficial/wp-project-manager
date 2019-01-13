@@ -6,6 +6,8 @@ use WP_REST_Request;
 use WeDevs\PM\Task_List\Models\Task_List;
 use WeDevs\PM\Task\Models\Task;
 use League\Fractal;
+use League\Fractal\Manager as Manager;
+use League\Fractal\Serializer\DataArraySerializer;
 use League\Fractal\Resource\Item as Item;
 use League\Fractal\Resource\Collection as Collection;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
@@ -24,6 +26,9 @@ class Task_List_Controller {
     use Transformer_Manager, Request_Filter;
 
     public function index( WP_REST_Request $request ) {
+        global $wpdb;
+        $task_tb = $wpdb->prefix . 'pm_tasks';
+        $list_tb = $wpdb->prefix . 'pm_boardables';
 
         $project_id = $request->get_param( 'project_id' );
         $per_page   = $request->get_param( 'per_page' );
@@ -32,20 +37,34 @@ class Task_List_Controller {
         $per_page_from_settings = pm_get_setting( 'list_per_page' );
         $per_page_from_settings = $per_page_from_settings ? $per_page_from_settings : 15;
         $per_page               = $per_page ? $per_page : $per_page_from_settings;
+        $with = $request->get_param( 'with' );
+        $with = explode( ',', $with );
         
         $page = $request->get_param( 'page' );
         $page = $page ? $page : 1;
         $status = isset( $status ) ? intval( $status ) : 1;
-        
+      
+        $task_lists = Task_List::leftJoin( pm_tb_prefix() . 'pm_meta', function($join)  {
+                $join->on(
+                    pm_tb_prefix().'pm_boards.id', '=', pm_tb_prefix() .'pm_meta.entity_id'
+                );
+            } )
+            ->where( pm_tb_prefix() .'pm_boards.project_id', $project_id)
+            ->where( pm_tb_prefix() .'pm_boards.status', $status )
+            ->where( pm_tb_prefix() .'pm_boards.project_id', $project_id )
+            ->where( pm_tb_prefix() .'pm_meta.entity_type', '=', 'task_list' )
+            ->where( pm_tb_prefix() .'pm_meta.meta_key', '=', 'privacy' )
+            ->where( pm_tb_prefix() .'pm_meta.meta_value', '!=', 1 );
+
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
         }); 
 
-        $task_lists = Task_List::where( 'project_id', $project_id)
-            ->where( 'status', $status );
+        $task_lists = Task_List::where( pm_tb_prefix().'pm_boards.project_id', $project_id)
+            ->where( pm_tb_prefix().'pm_boards.status', $status );
 
         $task_lists = apply_filters( "pm_task_list_index_query", $task_lists, $project_id, $request );
-
+        
         if ( $per_page == '-1' ) {
             $per_page = $task_lists->count();
         }
@@ -54,11 +73,176 @@ class Task_List_Controller {
             ->paginate( $per_page );
 
         $task_list_collection = $task_lists->getCollection();
-        
         $resource = new Collection( $task_list_collection, new Task_List_Transformer );
         $resource->setPaginator( new IlluminatePaginatorAdapter( $task_lists ) );
 
+        $lists = $this->get_response( $resource );
+
+        $list_ids = wp_list_pluck( $lists['data'], 'id' );
+
+        if ( in_array( 'incomplete_tasks', $with ) ) {
+            $incomplete_tasks = $this->get_incomplete_tasks( $list_ids, $project_id );
+            $lists            = $this->set_incomplete_task_in_lists( $lists, $incomplete_tasks );
+        }
+        
+        if ( in_array( 'complete_tasks', $with ) ) {
+            $complete_tasks   = $this->get_complete_tasks( $list_ids, $project_id );
+            $lists            = $this->set_complete_task_in_lists( $lists, $complete_tasks );
+        }
+
+        return $lists;
+    }
+
+    public function set_incomplete_task_in_lists( $lists, $incomplete_tasks ) {
+        $filter_tasks = [];
+
+        foreach ( $incomplete_tasks['data'] as $key => $task ) {
+            $filter_tasks[$task['task_list_id']][] = $task;
+        }
+
+        foreach ( $lists['data'] as $key => $list ) {
+            $lists['data'][$key]['incomplete_tasks']['meta'] = $incomplete_tasks['meta'];
+            $lists['data'][$key]['incomplete_tasks']['data'] = [];
+            if ( ! empty( $filter_tasks[$list['id']] ) ) {
+                $lists['data'][$key]['incomplete_tasks']['data'] = $filter_tasks[$list['id']];
+            }
+        }
+
+        return $lists;
+    }
+
+    public function set_complete_task_in_lists( $lists, $complete_tasks ) {
+        $filter_tasks = [];
+
+        foreach ( $complete_tasks['data'] as $key => $task ) {
+            $filter_tasks[$task['task_list_id']][] = $task;
+        }
+
+        foreach ( $lists['data'] as $key => $list ) {
+            $lists['data'][$key]['complete_tasks']['meta'] = $complete_tasks['meta'];
+            $lists['data'][$key]['complete_tasks']['data'] = [];
+            if ( ! empty( $filter_tasks[$list['id']] ) ) {
+                $lists['data'][$key]['complete_tasks']['data'] = $filter_tasks[$list['id']];
+            }
+        }
+
+        return $lists;
+    }
+
+    public function get_incomplete_tasks( $list_ids, $project_id ) {
+        $page = isset( $_GET['incomplete_task_page'] ) ? intval( $_GET['incomplete_task_page'] ) : 1;
+
+        Paginator::currentPageResolver(function () use ($page) {
+            return $page;
+        }); 
+
+        $per_page = pm_get_setting( 'incomplete_tasks_per_page' );
+        $per_page = $per_page ? $per_page : 5;
+
+        $incomplete_tasks = Task::leftJoin( pm_tb_prefix() . 'pm_boardables', function($join)  {
+                $join->on(
+                    pm_tb_prefix().'pm_tasks.id', '=', pm_tb_prefix() .'pm_boardables.boardable_id'
+                );
+            })
+            ->where( pm_tb_prefix() .'pm_boardables.board_type', '=', 'task_list' )
+            ->where( pm_tb_prefix() .'pm_boardables.boardable_type', '=', 'task' )
+            ->whereIn( pm_tb_prefix() .'pm_boardables.board_id', $list_ids )
+            ->where( pm_tb_prefix() .'pm_tasks.status', 0 )
+            ->where( pm_tb_prefix() .'pm_tasks.project_id', $project_id );
+
+        $incomplete_tasks = apply_filters( 'pm_incomplete_task_query', $incomplete_tasks,  $project_id );
+
+        if ( $per_page == '-1' ) {
+            $per_page = $incomplete_tasks->count();
+        }
+        $incomplete_tasks =  $incomplete_tasks->orderBy( pm_tb_prefix() . 'pm_boardables.order', 'ASC' )
+            ->paginate( $per_page );
+
+        $task_collection = $incomplete_tasks->getCollection();
+        $resource = new collection( $task_collection, new Task_Transformer );
+
+        $resource->setPaginator( new IlluminatePaginatorAdapter( $incomplete_tasks ) );
+
         return $this->get_response( $resource );
+    }
+
+    public function get_complete_tasks( $list_ids, $project_id ) {
+        $page = isset( $_GET['complete_task_page'] ) ? intval($_GET['complete_task_page']) : 1;
+
+        Paginator::currentPageResolver(function () use ($page) {
+            return $page;
+        }); 
+
+        $per_page = pm_get_setting( 'incomplete_tasks_per_page' );
+        $per_page = $per_page ? $per_page : 5;
+
+        $incomplete_tasks = Task::leftJoin( pm_tb_prefix() . 'pm_boardables', function($join)  {
+                $join->on(
+                    pm_tb_prefix().'pm_tasks.id', '=', pm_tb_prefix() .'pm_boardables.boardable_id'
+                );
+            })
+            ->where( pm_tb_prefix() .'pm_boardables.board_type', '=', 'task_list' )
+            ->where( pm_tb_prefix() .'pm_boardables.boardable_type', '=', 'task' )
+            ->whereIn( pm_tb_prefix() .'pm_boardables.board_id', $list_ids )
+            ->where( pm_tb_prefix() .'pm_tasks.status', 1 )
+            ->where( pm_tb_prefix() .'pm_tasks.project_id', $project_id );
+
+        $incomplete_tasks = apply_filters( 'pm_complete_task_query', $incomplete_tasks,  $project_id );
+
+        if ( $per_page == '-1' ) {
+            $per_page = $incomplete_tasks->count();
+        }
+        $incomplete_tasks =  $incomplete_tasks->orderBy( pm_tb_prefix() . 'pm_boardables.order', 'ASC' )
+            ->paginate( $per_page );
+
+        $task_collection = $incomplete_tasks->getCollection();
+        $resource = new collection( $task_collection, new Task_Transformer );
+
+        $resource->setPaginator( new IlluminatePaginatorAdapter( $incomplete_tasks ) );
+
+        return $this->get_response( $resource );
+    }
+
+    public function get_task_lists( $offset = 0, $limit = 10, $status=1 ) {
+        global $wpdb;
+        
+        $sql = "SELECT bo.* FROM pm_pm_boards as bo
+
+            LEFT JOIN pm_pm_meta as mt ON bo.id=mt.`entity_id` 
+                AND mt.`entity_type`='task_list'
+                AND mt.`meta_key`='privacy'
+                AND mt.`meta_value`!=$status
+
+            WHERE bo.type='task_list' AND bo.status=1
+
+            ORDER BY bo.order DESC
+            LIMIT $offset,$limit";
+        
+        return $wpdb->get_results( $sql, 'ARRAY_A' );
+    }
+
+    public function get_tasks( $list_ids, $status, $offset=0, $limit=10 ) {
+        global $wpdb;
+
+        $list_ids = implode( ',', $list_ids );
+
+        $sql = "SELECT tasks.* FROM pm_pm_tasks as tasks
+
+            LEFT JOIN pm_pm_boardables as ba ON tasks.`id` = ba.`boardable_id` 
+                AND ba.`board_type`='task_list'
+                AND ba.`boardable_type`='task'
+                
+            LEFT JOIN pm_pm_meta as mt ON tasks.`id`=mt.`entity_id` 
+                AND mt.`entity_type`='task'
+                AND mt.`meta_key`='privacy'
+                AND mt.`meta_value`!=$status
+
+            WHERE ba.`boardable_id` IN ($list_ids)
+                AND tasks.`status`=1
+
+            LIMIT 0,10";
+        
+        return $wpdb->get_results( $sql ); 
     }
 
     public function listInbox ( WP_REST_Request $request ) {
@@ -74,6 +258,8 @@ class Task_List_Controller {
     public function show( WP_REST_Request $request ) {
         $project_id   = $request->get_param( 'project_id' );
         $task_list_id = $request->get_param( 'task_list_id' );
+        $with = $request->get_param( 'with' );
+        $with = explode( ',', $with );
 
         $task_list = Task_List::with( 'tasks' )
             ->where( 'id', $task_list_id )
@@ -89,7 +275,22 @@ class Task_List_Controller {
 
         $resource = new Item( $task_list, new Task_List_Transformer );
 
-        return $this->get_response( $resource );
+        $list =  $this->get_response( $resource );
+        $list_id = [$task_list_id];
+
+        if ( in_array( 'incomplete_tasks', $with ) ) {
+            $incomplete_tasks = $this->get_incomplete_tasks( $list_id, $project_id );
+            $list['data']['incomplete_tasks']['meta'] = $incomplete_tasks['meta'];
+            $list['data']['incomplete_tasks']['data'] = $incomplete_tasks['data']; 
+        }
+        
+        if ( in_array( 'complete_tasks', $with ) ) {
+            $complete_tasks   = $this->get_complete_tasks( $list_id, $project_id );
+            $list['data']['complete_tasks']['meta'] = $complete_tasks['meta'];
+            $list['data']['complete_tasks']['data'] = $complete_tasks['data']; 
+        }
+
+        return $list;
     }
 
     public function store( WP_REST_Request $request ) {
