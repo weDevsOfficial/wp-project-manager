@@ -54,7 +54,7 @@ class Task_List_Controller {
             ->where( pm_tb_prefix() .'pm_boards.project_id', $project_id )
             ->where( pm_tb_prefix() .'pm_meta.entity_type', '=', 'task_list' )
             ->where( pm_tb_prefix() .'pm_meta.meta_key', '=', 'privacy' )
-            ->where( pm_tb_prefix() .'pm_meta.meta_value', '!=', 1 );
+            ->where( pm_tb_prefix() .'pm_meta.meta_value', '!=', $status );
 
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
