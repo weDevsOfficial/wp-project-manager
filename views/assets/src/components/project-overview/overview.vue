@@ -261,7 +261,6 @@
                 }
             ),
             fetchOverview () {
-                console.log("fetchOverview", this.$root.$store.state.projectOverviewLoaded);
                 return this.$root.$store.state.projectOverviewLoaded;
             },
 
