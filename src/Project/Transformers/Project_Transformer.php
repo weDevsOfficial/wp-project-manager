@@ -66,7 +66,7 @@ class Project_Transformer extends TransformerAbstract {
             $list = $item->task_lists();
             $list = apply_filters( 'pm_task_list_query', $list, $item->id );
             $task = $item->tasks();
-            $task = apply_filters( 'pm_task_query', $task, $item->id );
+            //$task = apply_filters( 'pm_task_query', $task, $item->id );
             $task_count = $task->count();
             $complete_tasks_count = $task->where( 'status', Task::COMPLETE)->count();
             $incomplete_tasks_count = $task->where( 'status', Task::INCOMPLETE)->count();

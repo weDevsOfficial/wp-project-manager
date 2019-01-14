@@ -9,11 +9,13 @@
         </ul> 
         
         <div
-        v-if="isIncompleteLoadMoreActive(list) || getCompleteTasks.length"
-        class="nonsortable more-task-wrap">
+            v-if="isIncompleteLoadMoreActive(list) || getCompleteTasks.length"
+            class="nonsortable more-task-wrap">
+            
             <div v-if="isIncompleteLoadMoreActive(list)" class="group-action-btn">
                 <a class="anchor-btn" @click.prevent="loadMoreIncompleteTasks(list)" href="#">{{ __( 'More Tasks', 'wedevs-project-manager') }}</a>
             </div>
+
             <div class="group-action-btn show-completed-task" v-if="getCompleteTasks.length">
                 
                 <a v-if="!showCompletedTask" @click.prevent="showHideCompletedTask()" class="anchor-btn" href="#">
@@ -40,9 +42,10 @@
 
         </ul>
         <div
-        v-if="isCompleteLoadMoreActive(list) && showCompletedTask"
-        class="nonsortable more-task-wrap">
-            <div v-if="isIncompleteLoadMoreActive(list)" class="group-action-btn">
+            v-if="isCompleteLoadMoreActive(list) && showCompletedTask"
+            class="nonsortable more-task-wrap">
+
+            <div v-if="isCompleteLoadMoreActive(list)" class="group-action-btn">
                 <a class="anchor-btn" @click.prevent="loadMoreCompleteTasks(list)" href="#">{{ __( 'More Tasks', 'wedevs-project-manager') }}</a>
             </div>
         </div>
