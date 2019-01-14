@@ -80,17 +80,103 @@ class Task_List_Controller {
 
         $list_ids = wp_list_pluck( $lists['data'], 'id' );
 
+
         if ( in_array( 'incomplete_tasks', $with ) ) {
-            $incomplete_tasks = $this->get_incomplete_tasks( $list_ids, $project_id );
+            $incomplete_task_ids = $this->get_incomplete_task_ids( $list_ids, $project_id );
+            $tasks = Task::whereIn('id', $incomplete_task_ids)->get();
+            $resource = new collection( $tasks, new Task_Transformer );
+            $incomplete_tasks = $this->get_response( $resource );
+
             $lists            = $this->set_incomplete_task_in_lists( $lists, $incomplete_tasks );
         }
         
         if ( in_array( 'complete_tasks', $with ) ) {
-            $complete_tasks   = $this->get_complete_tasks( $list_ids, $project_id );
+            $complete_task_ids = $this->get_complete_task_ids( $list_ids, $project_id );
+            $tasks = Task::whereIn('id', $complete_task_ids)->get();
+            $resource = new collection( $tasks, new Task_Transformer );
+            $complete_tasks = $this->get_response( $resource );
             $lists            = $this->set_complete_task_in_lists( $lists, $complete_tasks );
         }
 
         return $lists;
+    }
+
+    public function get_incomplete_task_ids( $list_ids, $project_id ) {
+        global $wpdb;
+
+
+        $per_page = pm_get_setting( 'incomplete_tasks_per_page' );
+        $per_page = $per_page ? $per_page : 5;
+
+        $list_ids = implode(',', $list_ids );
+
+        $permission = apply_filters( 'pm_incomplete_task_query', '', $project_id );
+        
+        $sql = "SELECT ibord_id, SUBSTRING_INDEX(GROUP_CONCAT(task.task_id order by task.task_id asc), ',', $per_page) as itasks_id
+            FROM 
+                (
+                    SELECT 
+                        itasks.id as task_id,  
+                        ibord.board_id as ibord_id 
+                    FROM 
+                        pm_pm_tasks as itasks 
+                        inner join pm_pm_boardables as ibord on itasks.id = ibord.boardable_id 
+                        AND ibord.board_id in ($list_ids)
+                        $permission
+                    WHERE
+                        itasks.status=0
+                        AND ibord.board_type='task_list'
+                        AND ibord.boardable_type='task'
+                        
+                ) as task
+      
+            group by ibord_id";
+
+        $results = $wpdb->get_results( $sql );
+        
+        $task_ids = wp_list_pluck( $results, 'itasks_id' );
+        $task_ids = implode( ',', $task_ids );
+
+        return explode(',', $task_ids);
+    }
+
+    public function get_complete_task_ids( $list_ids, $project_id ) {
+        global $wpdb;
+
+
+        $per_page = pm_get_setting( 'complete_tasks_per_page' );
+        $per_page = $per_page ? $per_page : 5;
+
+        $list_ids = implode(',', $list_ids );
+
+        $permission = apply_filters( 'pm_complete_task_query', '', $project_id );
+        
+        $sql = "SELECT ibord_id, SUBSTRING_INDEX(GROUP_CONCAT(task.task_id order by task.task_id asc), ',', $per_page) as itasks_id
+            FROM 
+                (
+                    SELECT 
+                        itasks.id as task_id,  
+                        ibord.board_id as ibord_id 
+                    FROM 
+                        pm_pm_tasks as itasks 
+                        inner join pm_pm_boardables as ibord on itasks.id = ibord.boardable_id 
+                        AND ibord.board_id in ($list_ids)
+                        $permission
+                    WHERE
+                        itasks.status=1
+                        AND ibord.board_type='task_list'
+                        AND ibord.boardable_type='task'
+                        
+                ) as task
+      
+            group by ibord_id";
+
+        $results = $wpdb->get_results( $sql );
+        
+        $task_ids = wp_list_pluck( $results, 'itasks_id' );
+        $task_ids = implode( ',', $task_ids );
+
+        return explode(',', $task_ids);
     }
 
     public function set_incomplete_task_in_lists( $lists, $incomplete_tasks ) {
@@ -101,7 +187,7 @@ class Task_List_Controller {
         }
 
         foreach ( $lists['data'] as $key => $list ) {
-            $lists['data'][$key]['incomplete_tasks']['meta'] = $incomplete_tasks['meta'];
+           // $lists['data'][$key]['incomplete_tasks']['meta'] = $incomplete_tasks['meta'];
             $lists['data'][$key]['incomplete_tasks']['data'] = [];
             if ( ! empty( $filter_tasks[$list['id']] ) ) {
                 $lists['data'][$key]['incomplete_tasks']['data'] = $filter_tasks[$list['id']];
@@ -119,7 +205,7 @@ class Task_List_Controller {
         }
 
         foreach ( $lists['data'] as $key => $list ) {
-            $lists['data'][$key]['complete_tasks']['meta'] = $complete_tasks['meta'];
+            //$lists['data'][$key]['complete_tasks']['meta'] = $complete_tasks['meta'];
             $lists['data'][$key]['complete_tasks']['data'] = [];
             if ( ! empty( $filter_tasks[$list['id']] ) ) {
                 $lists['data'][$key]['complete_tasks']['data'] = $filter_tasks[$list['id']];
