@@ -42,7 +42,7 @@
         <div
         v-if="isCompleteLoadMoreActive(list) && showCompletedTask"
         class="nonsortable more-task-wrap">
-            <div v-if="isIncompleteLoadMoreActive(list)" class="group-action-btn">
+            <div v-if="isCompleteLoadMoreActive(list)" class="group-action-btn">
                 <a class="anchor-btn" @click.prevent="loadMoreCompleteTasks(list)" href="#">{{ __( 'More Tasks', 'wedevs-project-manager') }}</a>
             </div>
         </div>
