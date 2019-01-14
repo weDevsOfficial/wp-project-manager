@@ -3,7 +3,8 @@
         <ul class="workspace">
             <li class="list-item" v-for="(workspace, index) in workspaces">
                 <h4 class="workspace-name">{{ workspace.name }}</h4>
-                <asana-projects :credentials="{token:token}" :ws-id="workspace.id"></asana-projects>
+                <!--{{ workspace.projects }}-->
+                <asana-projects :asana-projects="workspace.projects" :credentials="{token:token}" ></asana-projects>
             </li>
         </ul>
     </div>
@@ -17,15 +18,17 @@
             credentials: {
                 type:Object
             },
-            workspaces: {
-                type:Object
-            }
+            // workspaces: {
+            //     type:Object
+            // }
         },
         data(){
             return{
                 token: this.credentials.token,
                 imported:[],
                 inProgress:[],
+                workspaces:[],
+                wspUrl:"https://app.asana.com/api/1.0/workspaces"
             }
         },
         mixins:[mix],
@@ -36,7 +39,7 @@
             selectAll(status){
                 var self = this;
                 self.$store.commit('asana/emptyAsanaProjects')
-                this.orgs.forEach(function(val){
+                this.workspaces.forEach(function(val){
                     val.projects.forEach(function(project){
                         if(!self.checkImportStatus(self.imported, project.id) && !self.checkImportStatus(self.inProgress, project.id)){
                             project.clicked = status;//!project.clicked;
@@ -48,13 +51,41 @@
                         }
                     })
                 })
+
+
+            },
+
+            getWorkspaces(data){
+                this.workspaces = data.data;
+                var self = this;
+                self.workspaces.forEach(function (val, index) {
+                    var url = "https://app.asana.com/api/1.0/workspaces/"+val.id+"/projects"
+                    jQuery.ajax({
+                        url: url,
+                        async: false,
+                        crossDomain: true,
+                        type: 'GET',
+                        headers: {
+                            Authorization: "Bearer "+self.token
+                        },
+                        success: function(res){
+                            res.data.map((obj) => {
+                                obj.clicked = false;
+                                return obj;
+                            });
+                            self.workspaces[index].projects = res.data;
+                        },
+                        error: function(){}
+                    });
+                });
             }
+
         },
         computed:{
             selectable(){
                 var totalAsanaProjects = parseInt(0)
                 var totalImported = parseInt(this.imported.length);
-                this.orgs.forEach(function(val){
+                this.workspaces.forEach(function(val){
                     val.projects.forEach(function(project){
                         totalAsanaProjects ++
                     })
@@ -74,9 +105,13 @@
         },
         watch: {
             selectedAsanaProjects: function (val) {
+                console.log(this.$store.state.asana.selectedAsanaProjects)
                 this.$emit('allProjectSelected')
             }
         },
+        created(){
+            this.getAsana(this.credentials.token, this.wspUrl, this.getWorkspaces, function(){});
+        }
 
 
     }

@@ -29,6 +29,7 @@
                             </tr>
                             </tbody>
                         </table>
+                        <!--{{ profileData }}-->
                     </div>
 
                 </div>
@@ -42,7 +43,21 @@
         </div>
 
 
-        <asana-workspaces ref="asanaws" v-if="token" :credentials="{ token:token }" :workspaces="profileData.workspaces" @allProjectSelected=""></asana-workspaces>
+        <!--<asana-workspaces-->
+                <!--ref="asanaws"-->
+                <!--v-if="token"-->
+                <!--:credentials="{ token:token }"-->
+                <!--:workspaces="cbData.data.workspaces"-->
+                <!--@allProjectSelected="allSelected()"-->
+        <!--/>-->
+        <asana-workspaces
+                ref="asanaws"
+                v-if="token"
+                :credentials="{ token:token }"
+                @allProjectSelected="allSelected()"
+        />
+
+
 
     </div>
 </template>
@@ -103,12 +118,64 @@
             },
 
             profile(data){
+               var self = this;
                this.cbData = data;
+               // this.profileData.workspaces.forEach(function (val, index) {
+               //     var url = "https://app.asana.com/api/1.0/workspaces/"+val.id+"/projects"
+               //     jQuery.ajax({
+               //         url: url,
+               //         async: false,
+               //         crossDomain: true,
+               //         type: 'GET',
+               //         headers: {
+               //             Authorization: "Bearer "+self.token
+               //         },
+               //         success: function(res){
+               //             res.data.map((obj) => {
+               //                 obj.clicked = false;
+               //                 return obj;
+               //             });
+               //             self.profileData.workspaces[index].projects = res.data;
+               //         },
+               //         error: function(){}
+               //     });
+               // });
             },
 
             allSelected(){
                 this.selected = this.$refs.asanaws.isAllSelected
-            }
+            },
+
+            checkAll: function(){
+                this.selected = !this.selected;
+                this.$refs.asanaws.selectAll(this.selected);
+            },
+
+            sendToProcess: function(){
+                var self = this;
+
+                var args = {
+                    data: {
+                        projects:self.selectedprojects
+                    },
+                    user_id: this.current_user.ID,
+                    callback: false,
+                };
+                var request = {
+                    type: 'POST',
+                    data: args.data,
+                    url: self.base_url+"/pm/v2/tools/asana-import",
+                    success (res) {
+                        self.requestSent = true;
+                        console.log(res);
+                        toastr.info(res.msg);
+                    }
+                };
+
+                self.httpRequest(request);
+
+            },
+
         },
 
         computed:{
@@ -122,6 +189,16 @@
 
             profileData(){
                 return this.cbData.data
+            },
+            selectedprojects() {
+                return  this.$store.state.asana.selectedAsanaProjects;
+            },
+            disableReqBtn(){
+                if(this.requestSent || this.selectedprojects.length === 0){
+                    return true;
+                } else {
+                    return false;
+                }
             }
         },
 
