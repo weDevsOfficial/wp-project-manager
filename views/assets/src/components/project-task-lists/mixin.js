@@ -571,7 +571,7 @@ var PM_TaskList_Mixin = {
                 }
             }
 
-            //self.httpRequest(request_data);
+            self.httpRequest(request_data);
         },
 
         /**
