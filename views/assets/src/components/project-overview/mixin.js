@@ -146,8 +146,11 @@ export default {
             } else {
                 var projects = this.$store.state.projects;
                 var index = this.getIndex(projects, this.project.id, 'id');
-                return projects[index].assignees.data;
+                if (index) {
+                    return projects[index].assignees.data;
+                }
             }
+            return [];
         },
 
         project_category: {

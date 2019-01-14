@@ -146,8 +146,10 @@
                 } else {
                     var projects = this.$store.state.projects;
                     var index = this.getIndex(projects, this.project.id, 'id');
+                    if (index) {
+                        return projects[index].assignees.data;
+                    }
                     
-                    return projects[index].assignees.data;
                 }
             },
 
