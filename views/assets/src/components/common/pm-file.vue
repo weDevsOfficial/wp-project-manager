@@ -34,7 +34,11 @@ export default {
             return this.file.type == 'image';
         },
         isVideo () {
-            return this.file.mime_type.split("/").indexOf('video') !== -1;
+            if (typeof this.file.mime_type !== 'undefined' ) {
+                return this.file.mime_type.split("/").indexOf('video') !== -1;
+            } else {
+                return this.file.type.split("/").indexOf('video') !== -1;
+            }
         },
         projectId () {
            if ( this.file.fileable ) {
