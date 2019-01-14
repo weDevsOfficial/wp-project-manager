@@ -22,3 +22,7 @@ $router->get( 'tools/trello-in-process', 'WeDevs/PM/Tools/Controllers/TrelloCont
 
 $router->post( 'tools/activeCollab-auth', 'WeDevs/PM/Tools/Controllers/ActiveCollabController@authenticateAc' )
     ->permission(['WeDevs\PM\Core\Permissions\Project_Manage_Capability']);
+
+
+$router->post( 'tools/asana-import', 'WeDevs/PM/Tools/Controllers/AsanaController@import' )
+    ->permission(['WeDevs\PM\Core\Permissions\Project_Manage_Capability']);
