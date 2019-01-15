@@ -144,8 +144,7 @@ Class File_System {
                 $response['thumb'] = $thumb[0];
                 $response['type']  = 'image';
             } else {
-
-                $response['thumb'] = wp_mime_type_icon( $attachment_id );
+                $response['thumb'] = wp_mime_type_icon( $file->post_mime_type );
                 
                 $response['type']  = 'file';
             }
