@@ -54,9 +54,6 @@ class Task_List_Controller {
             ->where( pm_tb_prefix() .'pm_boards.project_id', $project_id );
 
 
-        // $task_lists = Task_List::where( pm_tb_prefix().'pm_boards.project_id', $project_id)
-        //     ->where( pm_tb_prefix().'pm_boards.status', $status );
-
         $task_lists = apply_filters( "pm_task_list_index_query", $task_lists, $project_id, $request );
         
         if ( $per_page == '-1' ) {
@@ -77,19 +74,16 @@ class Task_List_Controller {
 
         if ( in_array( 'incomplete_tasks', $with ) ) {
             $incomplete_task_ids = $this->get_incomplete_task_ids( $list_ids, $project_id );
-            $tasks               = Task::whereIn('id', $incomplete_task_ids)->get();
-            $resource            = new collection( $tasks, new Task_Transformer );
-            $incomplete_tasks    = $this->get_response( $resource );
+            $incomplete_tasks    = $this->get_tasks( $incomplete_task_ids );
             
-            $lists               = $this->set_incomplete_task_in_lists( $lists, $incomplete_tasks );
+            $lists = $this->set_incomplete_task_in_lists( $lists, $incomplete_tasks );
         }
         
         if ( in_array( 'complete_tasks', $with ) ) {
             $complete_task_ids = $this->get_complete_task_ids( $list_ids, $project_id );
-            $tasks = Task::whereIn('id', $complete_task_ids)->get();
-            $resource = new collection( $tasks, new Task_Transformer );
-            $complete_tasks = $this->get_response( $resource );
-            $lists            = $this->set_complete_task_in_lists( $lists, $complete_tasks );
+            $complete_tasks    = $this->get_tasks( $complete_task_ids );
+            
+            $lists = $this->set_complete_task_in_lists( $lists, $complete_tasks );
         }
 
         return $lists;
@@ -109,7 +103,7 @@ class Task_List_Controller {
         $limit      = $pagenum == 1 ? '' : "LIMIT $offset,$per_page";
         
         $list_ids   = implode(',', $list_ids );
-        $permission = apply_filters( 'pm_incomplete_task_query', '', $project_id );
+        $permission = apply_filters( 'pm_incomplete_task_query_permission', '', $project_id );
         
         $sql = "SELECT ibord_id, SUBSTRING_INDEX(GROUP_CONCAT(task.task_id order by task.iorder asc), ',', $per_page) as itasks_id
             FROM 
@@ -155,7 +149,7 @@ class Task_List_Controller {
         $limit      = $pagenum == 1 ? '' : "LIMIT $offset,$per_page";
         
         $list_ids   = implode(',', $list_ids );
-        $permission = apply_filters( 'pm_complete_task_query', '', $project_id );
+        $permission = apply_filters( 'pm_complete_task_query_permission', '', $project_id );
         
         $sql = "SELECT ibord_id, SUBSTRING_INDEX(GROUP_CONCAT(task.task_id order by task.iorder asc), ',', $per_page) as itasks_id
             FROM 
@@ -259,25 +253,35 @@ class Task_List_Controller {
 
         if ( in_array( 'incomplete_tasks', $with ) ) {
             $incomplete_task_ids = $this->get_incomplete_task_ids( $list_id, $project_id );
-
-            $tasks               = Task::whereIn('id', $incomplete_task_ids)->get();
-            $resource            = new collection( $tasks, new Task_Transformer );
-            $incomplete_tasks    = $this->get_response( $resource );
-            
+            $incomplete_tasks    = $this->get_tasks( $incomplete_task_ids );
+  
             $list['data']['incomplete_tasks']['data'] = $incomplete_tasks['data']; 
         }
         
         if ( in_array( 'complete_tasks', $with ) ) {
-            $complete_task_ids   = $this->get_complete_task_ids( $list_id, $project_id );
-
-            $tasks               = Task::whereIn('id', $complete_task_ids)->get();
-            $resource            = new collection( $tasks, new Task_Transformer );
-            $complete_tasks    = $this->get_response( $resource );
+            $complete_task_ids = $this->get_complete_task_ids( $list_id, $project_id );
+            $complete_tasks    = $this->get_tasks( $complete_task_ids );
             
             $list['data']['complete_tasks']['data'] = $complete_tasks['data']; 
         }
 
         return $list;
+    }
+
+    public function get_tasks( $task_ids, $args=[] ) {
+        
+        $tasks = Task::select( pm_tb_prefix() . 'pm_tasks.*' )
+            ->whereIn( pm_tb_prefix() . 'pm_tasks.id', $task_ids )
+            ->leftJoin( pm_tb_prefix() . 'pm_boardables', function( $join ) {
+                $join->on( pm_tb_prefix() . 'pm_tasks.id', '=', pm_tb_prefix() . 'pm_boardables.boardable_id' );
+            } )
+            ->orderBy( pm_tb_prefix() . 'pm_boardables.order', 'ASC' )
+            ->get();
+
+        $resource = new collection( $tasks, new Task_Transformer );
+        $tasks    = $this->get_response( $resource );
+
+        return $tasks;
     }
 
     public function store( WP_REST_Request $request ) {
