@@ -64,9 +64,9 @@ class Task_List_Transformer extends TransformerAbstract {
         $meta = wp_list_pluck( $meta, 'meta_value', 'meta_key' );
 
         return array_merge( $meta, [
-            'total_tasks'            => $item->tasks()->count(),
-            'total_complete_tasks'   => $item->tasks()->where( 'status', Task::COMPLETE )->count(),
-            'total_incomplete_tasks' => $item->tasks()->where( 'status', Task::INCOMPLETE )->count(),
+            'total_tasks'            => $item->tasks( $item->project_id )->count(),
+            'total_complete_tasks'   => $item->tasks( $item->project_id )->where( 'status', Task::COMPLETE )->count(),
+            'total_incomplete_tasks' => $item->tasks( $item->project_id )->where( 'status', Task::INCOMPLETE )->count(),
             'total_comments'         => $item->comments()->count(),
             'totla_files'            => $item->files()->count(),
             'total_assignees'        => $item->assignees()->count(),

@@ -5,7 +5,7 @@
             <div class="todo-content">
                 <div class="task-left">
                     <div class="move pm-task-drag-handle">
-                        <span class="icon-pm-drag-drop"></span>
+                        <span :class="is_manager (project) ? 'icon-pm-drag-drop' : 'blank-drag-drop'"></span>
                     </div> 
                     <div class="checkbox">
                         <input v-if="!show_spinner" :disabled="can_complete_task(task)" v-model="task.status"  @change="doneUndone()" type="checkbox"  value="" name="" >
@@ -206,6 +206,9 @@
                     placement: 'bottom-end',
                     modifiers: { offset: { offset: '0, 5px' } }
                 }
+            },
+            project () {
+                return this.$store.state.project;
             }
         },
         

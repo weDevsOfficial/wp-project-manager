@@ -234,10 +234,13 @@ class Task_List_Controller {
         $with = $request->get_param( 'with' );
         $with = explode( ',', $with );
 
-        $task_list = Task_List::with( 'tasks' )
-            ->where( 'id', $task_list_id )
-            ->where( 'project_id', $project_id );
+        $task_list = Task_List::select(pm_tb_prefix().'pm_boards.*')
+            //->with( 'tasks' )
+            ->where( pm_tb_prefix().'pm_boards.id', $task_list_id )
+            ->where( pm_tb_prefix().'pm_boards.project_id', $project_id );
+            
             $task_list = apply_filters("pm_task_list_show_query", $task_list, $project_id, $request );
+            
             $task_list = $task_list->first();
 
         if ( $task_list == NULL ) {
