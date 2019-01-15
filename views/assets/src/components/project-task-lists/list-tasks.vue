@@ -215,6 +215,9 @@
                     .move {
                         cursor: grab;
                         padding-right: 8px;
+                        .blank-drag-drop {
+                            margin-left: 8px;
+                        }
 
                         .icon-pm-drag-drop {
 
