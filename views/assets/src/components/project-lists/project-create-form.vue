@@ -140,14 +140,15 @@
             },
 
             selectedUsers () {
-
+                
                 if(!this.project.hasOwnProperty('assignees')) {
                     return this.$store.state.assignees;
                 } else {
                     var projects = this.$store.state.projects;
-                    var index = this.getIndex(projects, this.project.id, 'id');
-                    
-                    return projects[index].assignees.data;
+                    var index = projects.findIndex(i => i.id == this.project.id);
+                    if (index !== -1) {
+                        return projects[index].assignees.data;
+                    }
                 }
             },
 

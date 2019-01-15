@@ -232,9 +232,6 @@
             }
         }
     }
-    #pm-add-user-wrap {
-
-    }
 </style>
 
 <script>
@@ -304,8 +301,8 @@
                     },
                     project_id: this.$route.params.project_id,
                     callback  (res){
-                        this.$root.$store.state.projectOverviewLoaded = true;
                         this.setOverViews( res.data );
+                        this.$root.$store.state.projectOverviewLoaded = true;
                         pm.NProgress.done();
                     }
                 }
@@ -321,6 +318,9 @@
             }
 
         },
+        beforeDestroy () {
+            this.$root.$store.state.projectOverviewLoaded = false;
+        }
 
 
     }

@@ -8,7 +8,8 @@
                         <edit-project v-if="is_manager()" class="project-edit-form" :project="project"></edit-project>
                     </div>
                     <!-- popper trigger element -->
-                    <a href="#" v-if="is_manager()" slot="reference" title="action" class="pm-popper-ref popper-ref icon-pm-pencil project-update-btn"></a>
+                    <a href="#"  slot="reference" title="action" class="pm-popper-ref popper-ref icon-pm-pencil project-update-btn"></a>
+                    
                 </pm-popper>
             </div>
             <div class="settings header-settings">
@@ -39,7 +40,7 @@
                         </div>
                     </div>
                     <!-- popper trigger element -->
-                    <span v-if="is_manager()" slot="reference" title="action" class="pm-popper-ref popper-ref icon-pm-settings header-settings-btn"></span>
+                    <span  slot="reference" title="action" class="pm-popper-ref popper-ref icon-pm-settings header-settings-btn"></span>
                 </pm-popper>
 
                 <!-- <a href="#" v-if="is_manager()" @click.prevent="showHideSettings()" class="icon-pm-settings header-settings-btn"></a> -->
