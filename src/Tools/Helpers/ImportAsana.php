@@ -7,34 +7,27 @@
  */
 
 namespace WeDevs\PM\Tools\Helpers;
+
+use WeDevs\PM\Tools\Library\PM_Asana;
 use WP_Background_Process;
-use WP_Query;
 use WeDevs\PM\Project\Models\Project;
 use WeDevs\PM\Task\Models\Task;
 use WeDevs\PM\Role\Models\Role;
 use WeDevs\PM\User\Models\User_Role;
-use WeDevs\PM_Pro\User\Models\User;
-use WeDevs\PM\Milestone\Models\Milestone;
-use WeDevs\PM\Common\Models\Meta;
 use WeDevs\PM\Common\Models\Board;
 use WeDevs\PM\Common\Models\Boardable;
 use WeDevs\PM\Common\Models\Assignee;
-use WeDevs\PM\File\Models\File;
 use WeDevs\PM\Comment\Models\Comment;
-use WeDevs\PM\Settings\Models\Settings;
-use WeDevs\PM\Category\Models\Category;
-use WeDevs\PM\Activity\Models\Activity;
 
-use WeDevs\PM\Tools\Library\PM_Trello;
 
-class ImportTrello extends WP_Background_Process
+class ImportAsana extends WP_Background_Process
 {
     /**
      * @var string
      */
-    protected $action = 'trello_import';
-    private $credentials; //= pm_get_settings('trello_credentials');
-    public $trello;
+    protected $action = 'asana_import';
+    private $credentials; //= pm_get_settings('asana_credentials');
+    public $asana;
     private $imported;
     private $importing;
 
@@ -42,20 +35,24 @@ class ImportTrello extends WP_Background_Process
     {
         parent::__construct();
 
-        $this->credentials = pm_get_setting('trello_credentials');
+        $this->credentials = pm_get_setting('asana_credentials');
         if(!$this->credentials){
-            pm_set_settings('trello_credentials', array('api_key' => '', 'token' => ''));
+            pm_set_settings('asana_credentials', array('token' => ''));
         } else {
-            if(array_key_exists('api_key', $this->credentials)) {
-                $this->trello = new PM_Trello($this->credentials['api_key'], $this->credentials['token']);
+            if(array_key_exists('token', $this->credentials)) {
+                if(!empty($this->credentials['token'])){
+                    $this->asana = new PM_Asana([
+                        'personalAccessToken' => base64_decode($this->credentials['token'])
+                    ]);
+                }
             }
-            $this->imported = get_option('imported_from_trello');
-            $this->importing = get_option('importing_from_trello');
+            $this->imported = get_option('imported_from_asana');
+            $this->importing = get_option('importing_from_asana');
             if(!$this->imported){
-                add_option('imported_from_trello', array());
+                add_option('imported_from_asana', array());
             }
             if(!$this->importing){
-                add_option('importing_from_trello', array());
+                add_option('importing_from_asana', array());
             }
         }
     }
@@ -75,14 +72,13 @@ class ImportTrello extends WP_Background_Process
     protected function task( $item ) {
         // Actions to perform
         if(!in_array($item, $this->imported)) {
-            $this->fetchAndSaveTrello($item);
+            $this->fetchAndSaveasana($item);
             array_push($this->imported, $item);
-            if (in_array($item, $this->importing)) {
-                $key = array_search($item, $this->importing);
+            if (($key = array_search($item, $this->importing)) !== false) {
                 unset($this->importing[$key]);
-                update_option('importing_from_trello', $this->importing);
+                update_option('importing_from_asana', $this->importing);
             }
-            update_option('imported_from_trello', $this->imported);
+            update_option('imported_from_asana', $this->imported);
         }
         return false;
     }
@@ -121,20 +117,21 @@ class ImportTrello extends WP_Background_Process
     }
 
     /**
-     * takes trello board id and fetch all boards
+     * takes asana project id and fetch all projects
      * from API
-     * @param $board_id
+     * @param $project_id
      */
 
-    public function fetchAndSaveTrello($board_id) {
+    public function fetchAndSaveasana($project_id) {
 
-        $board = $this->trello->getBoard($board_id);
-        $board_members = $this->trello->getBoardMemberships($board_id);
-        // trello board to cpm project
+        $project_data = $this->asana->getAsana('projects/'.$project_id);
+        $project = $project_data->data;
+        $project_members = $project->members;
+        // asana project to cpm project
         $pm_project = new Project();
-        $pm_project->title = $board['name'];
-        $pm_project->description = $board['desc'];
-        $pm_project->status = $board['closed'];
+        $pm_project->title = $project->name;
+        $pm_project->description = $project->notes;
+        $pm_project->status = $project->archived;
         $pm_project->budget = null;
         $pm_project->pay_rate = null;
         $pm_project->est_completion_date = null;
@@ -147,68 +144,62 @@ class ImportTrello extends WP_Background_Process
         $pm_project->save();
 
         //migrating members to user
-        $this->migrateBoardsMembers($board_members, $pm_project->id);
-        // trello lists to cpm boards
-        $this->fetchAndSaveLists($board_id,$pm_project->id);
+        $this->migrateprojectsMembers($project_members, $pm_project->id);
+        // asana lists to cpm projects
+        $this->fetchAndSaveLists($project_id,$pm_project->id);
 
-        error_log($board['name']);
+        error_log($project->name);
 
     }
 
     /**
-     * converting trello lists to cpm boards
-     * fetching all lists from trello API against its board
-     * trello lists to cpm boards
-     * @param $board_id
+     * converting asana lists to cpm projects
+     * fetching all lists from asana API against its project
+     * asana lists to cpm projects
+     * @param $project_id
      * @param $pm_project_id
      */
 
-    public function fetchAndSaveLists( $board_id, $pm_project_id ){
-        $lists = $this->trello->getLists( $board_id );
-        error_log( print_r($lists, TRUE) );
+    public function fetchAndSaveLists( $project_id, $pm_project_id ){
 
-            $lists = $this->repairStringArray($lists);
+            $pm_board = new Board();
+            $pm_board->title = "inbox";
+            $pm_board->description = "";
+            $pm_board->order = "1";
+            $pm_board->type = "task_list";
+            $pm_board->status = 1;//$list['closed'];
+            $pm_board->project_id = $pm_project_id;
+            $pm_board->created_by = get_current_user_id();
+            $pm_board->updated_by = get_current_user_id();
+            $pm_board->save();
 
-            foreach ( $lists as $list ) {
-                $pm_board = new Board();
-                $pm_board->title = $list['name'];
-                $pm_board->description = "";
-                $pm_board->order = $list['pos'];
-                $pm_board->type = "task_list";
-                $pm_board->status = 1;//$list['closed'];
-                $pm_board->project_id = $pm_project_id;
-                $pm_board->created_by = get_current_user_id();
-                $pm_board->updated_by = get_current_user_id();
-                $pm_board->save();
-
-                // trello Cards to cpm Tasks
-                $this->fetchAndSaveCards($list['id'], $pm_board->id, $pm_project_id);
-            }
-
+            // trello Cards to cpm Tasks
+            $this->fetchAndSaveTasks($project_id, $pm_board->id, $pm_project_id);
 
     }
 
     /**
-     * Converting trello cards to pm tasks
+     * Converting asana cards to pm tasks
      * @param $list_id
-     * @param $pm_board_id
+     * @param $pm_project_id
      */
-    public function fetchAndSaveCards($trello_list_id, $pm_board_id, $pm_preject_id){
-        $cards = $this->trello->getCards($trello_list_id);
-        if (is_array($cards)) {
-            if (count($cards) > 0) {
-                foreach ($cards as $card) {
+    public function fetchAndSaveTasks($asana_project_id, $pm_project_id, $pm_preject_id){
+        $task_data = $this->asana->getAsana('projects/'.$asana_project_id.'/tasks');
+        $tasks = $task_data->data;
+        if (is_array($tasks)) {
+            if (count($tasks) > 0) {
+                foreach ($tasks as $task) {
                     $pm_taks = new Task();
-                    $pm_taks->title = $card['name'];
-                    $pm_taks->description = $card['desc'];
+                    $pm_taks->title = $task->name;
+                    $pm_taks->description = "";
                     $pm_taks->estimation = 0;
                     $pm_taks->start_at = null;
-                    $pm_taks->due_date = $card['due'];
+                    $pm_taks->due_date = null;
                     $pm_taks->complexity = 0;
                     $pm_taks->priority = 1;
-                    $pm_taks->payable = $card['due'];
-                    $pm_taks->recurrent = $card['due'];
-                    $pm_taks->status = $card['closed'];
+                    $pm_taks->payable = null;
+                    $pm_taks->recurrent = NULL;
+                    $pm_taks->status = 1;
                     $pm_taks->project_id = $pm_preject_id;
                     $pm_taks->completed_by = null;
                     $pm_taks->completed_at = null;
@@ -217,34 +208,34 @@ class ImportTrello extends WP_Background_Process
                     $pm_taks->updated_by = get_current_user_id();
                     $pm_taks->save();
 
-                    $boardable = new Boardable();
-                    $boardable->board_id = $pm_board_id;
-                    $boardable->board_type = "task_list";
-                    $boardable->boardable_id = $pm_taks->id;
-                    $boardable->boardable_type = "task";
-                    $boardable->order = 1;
-                    $boardable->created_by = get_current_user_id();
-                    $boardable->updated_by = get_current_user_id();
-                    $boardable->save();
+                    $projectable = new Boardable();
+                    $projectable->board_id = $pm_project_id;
+                    $projectable->board_type = "task_list";
+                    $projectable->boardable_id = $pm_taks->id;
+                    $projectable->boardable_type = "task";
+                    $projectable->order = 1;
+                    $projectable->created_by = get_current_user_id();
+                    $projectable->updated_by = get_current_user_id();
+                    $projectable->save();
 
-                    $card_members = $this->trello->getCardMembers($card['id']);
-                    $card_actions = $this->trello->getCardActions($card['id']);
-                    $card_checklists = $this->trello->getCardChecklists($card['id']);
-
-                    //migrating members to user
-                    if (is_array($card_members)) {
-                        $this->migrateCardMembers($card_members, $pm_preject_id, $pm_taks->id);
-                    }
-
-                    //migrating comments to discussion
-                    if (is_array($card_actions)) {
-                        $this->migrateCommentCards($card_actions, $pm_preject_id, $pm_taks->id);
-                    }
-
-                    //migrating checklists to sub_task
-                    if (is_array($card_checklists)) {
-                        $this->migrateCardChecklists($card_checklists, $pm_board_id, $pm_preject_id, $pm_taks->id);
-                    }
+//                    $card_members = $this->asana->getCardMembers($card['id']);
+//                    $card_actions = $this->asana->getCardActions($card['id']);
+//                    $card_checklists = $this->asana->getCardChecklists($card['id']);
+//
+//                    //migrating members to user
+//                    if (is_array($card_members)) {
+//                        $this->migrateCardMembers($card_members, $pm_preject_id, $pm_taks->id);
+//                    }
+//
+//                    //migrating comments to discussion
+//                    if (is_array($card_actions)) {
+//                        $this->migrateCommentCards($card_actions, $pm_preject_id, $pm_taks->id);
+//                    }
+//
+//                    //migrating checklists to sub_task
+//                    if (is_array($card_checklists)) {
+//                        $this->migrateCardChecklists($card_checklists, $pm_project_id, $pm_preject_id, $pm_taks->id);
+//                    }
                 }
             }
         }
@@ -256,39 +247,39 @@ class ImportTrello extends WP_Background_Process
      * @return int|\WP_Error
      */
     public function getOrCreateUserId($username, $email){
-       $hasUser = get_user_by( 'email', $email);
-       if(!$hasUser){
-           $newUser = wp_create_user( $username, wp_generate_password(10), $email);
-           wp_send_new_user_notifications($newUser);
-           return $newUser;
-       } else {
-           return $hasUser->ID;
-       }
+        $hasUser = get_user_by( 'email', $email);
+        if(!$hasUser){
+            $newUser = wp_create_user( $username, wp_generate_password(10), $email);
+            wp_send_new_user_notifications($newUser);
+            return $newUser;
+        } else {
+            return $hasUser->ID;
+        }
     }
 
     /**
-     * migrating trello board members to cpm project user
+     * migrating asana project members to cpm project user
      * @param $members
-     * @param $board_id
+     * @param $project_id
      */
 
-    public function migrateBoardsMembers($trello_board_members,$pm_project_id){
-        error_log('entered Board Members');
-        $trello_board_members = $this->repairStringArray($trello_board_members);
-        foreach ($trello_board_members as $member){
+    public function migrateprojectsMembers($asana_project_members,$pm_project_id){
+        error_log('entered project Members');
+        foreach ($asana_project_members as $member){
             $user_id = null;
             $user_role = array();
-            $credentials = $this->trello->getMemberInfo($member['idMember']);
-            if($credentials['email']){
-                $user_id = $this->getOrCreateUserId($credentials['username'],$credentials['email']);
+            $user_data = $this->asana->getAsana('users/'.$member->id);
+            $credentials = $user_data->data;
+            if($credentials->email){
+                $user_id = $this->getOrCreateUserId($credentials->name,$credentials->email);
             } else {
-                $user_id = $this->getOrCreateUserId($credentials['username'],$this->makeFakeEmail($credentials['username']));
+                $user_id = $this->getOrCreateUserId($credentials->name,$this->makeFakeEmail($credentials->name));
             }
 
             if($user_id !== null){
                 $user_role = array(
                     'user_id' => $user_id,
-                    'role_id' => $this->convertRole($member['memberType']),
+                    'role_id' => '2', //$this->convertRole($member['memberType']),
                     'project_id' => $pm_project_id,
                     'assigned_by' => '0',
                 );
@@ -298,18 +289,17 @@ class ImportTrello extends WP_Background_Process
     }
 
     /**
-     * @param $trello_card_members
+     * @param $asana_card_members
      * @param $pm_project_id
      * @param $pm_task_id
      */
-    public function migrateCardMembers($trello_card_members, $pm_project_id, $pm_task_id){
+    public function migrateCardMembers($asana_card_members, $pm_project_id, $pm_task_id){
         error_log('entered Card Members');
-        $trello_card_members = $this->repairStringArray($trello_card_members);
-        if(count($trello_card_members) > 0) {
-            foreach ($trello_card_members as $member) {
+        if(count($asana_card_members) > 0) {
+            foreach ($asana_card_members as $member) {
                 $user_id = null;
                 $assignee = array();
-                $credentials = $this->trello->getMemberInfo($member['id']);
+                $credentials = $this->asana->getMemberInfo($member['id']);
                 if ($credentials['email']) {
                     $user_id = $this->getOrCreateUserId($credentials['username'], $credentials['email']);
                 } else {
@@ -331,15 +321,14 @@ class ImportTrello extends WP_Background_Process
     }
 
     /**
-     * @param $trello_card_Comments
+     * @param $asana_card_Comments
      * @param $pm_project_id
      * @param $pm_task_id
      */
-    public function migrateCommentCards($trello_card_Comments, $pm_project_id, $pm_task_id){
-        $trello_card_Comments = $this->repairStringArray($trello_card_Comments);
+    public function migrateCommentCards($asana_card_Comments, $pm_project_id, $pm_task_id){
         error_log('entered Card Comments');
-        if(count($trello_card_Comments) > 0) {
-            foreach ($trello_card_Comments as $comment) {
+        if(count($asana_card_Comments) > 0) {
+            foreach ($asana_card_Comments as $comment) {
                 $user_id = null;
                 $comments = array();
                 $user_id = $this->getOrCreateUserId(
@@ -363,14 +352,14 @@ class ImportTrello extends WP_Background_Process
     }
 
     /**
-     * @param $trello_card_Checklists
+     * @param $asana_card_Checklists
      * @param $pm_project_id
      * @param $pm_task_id
      */
-    public function migrateCardChecklists($trello_card_Checklists,$pm_board_id, $pm_project_id, $pm_task_id){
+    public function migrateCardChecklists($asana_card_Checklists,$pm_project_id, $pm_project_id, $pm_task_id){
         error_log('entered Card Comments');
-        if(count($trello_card_Checklists) > 0) {
-            foreach ($trello_card_Checklists as $checklist) {
+        if(count($asana_card_Checklists) > 0) {
+            foreach ($asana_card_Checklists as $checklist) {
                 $list_item = $checklist['checkItems'];
                 if(count($list_item) > 0) {
                     foreach ($list_item as $item){
@@ -395,16 +384,16 @@ class ImportTrello extends WP_Background_Process
                         );
                         $__sub_task =Task::create($subtask);
 
-                        $boardable = array(
-                            'board_id' => $pm_board_id,
-                            'board_type' => "task_list",
-                            'boardable_id' => $__sub_task->id,
-                            'boardable_type' => "sub_task",
+                        $projectable = array(
+                            'project_id' => $pm_project_id,
+                            'project_type' => "task_list",
+                            'projectable_id' => $__sub_task->id,
+                            'projectable_type' => "sub_task",
                             'order' => "1",
                             'created_by' => get_current_user_id(),
                             'updated_by' => get_current_user_id(),
                         );
-                        Boardable::create($boardable);
+                        projectable::create($projectable);
                     }
                 }
             }
@@ -428,20 +417,13 @@ class ImportTrello extends WP_Background_Process
         $hostname = str_replace('://', '',$hostname);
         echo $hostname;
         if (strpos($hostname, ".")) {
-            $email = 'trello_'.$mailuser.'@'.$hostname;
+            $email = 'asana_'.$mailuser.'@'.$hostname;
         } else {
-            $email = 'trello_'.$mailuser.'@'.$hostname.'.com';
+            $email = 'asana_'.$mailuser.'@'.$hostname.'.com';
         }
         return $email;
     }
 
-    public function repairStringArray($stringArray){
-        if(is_string ($stringArray)){
-            return json_decode($stringArray, true);
-        } else {
-            return $stringArray;
-        }
-    }
 
 }
 

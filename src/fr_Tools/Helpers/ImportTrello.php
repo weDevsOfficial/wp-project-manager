@@ -42,7 +42,7 @@ class ImportTrello extends WP_Background_Process
     {
         parent::__construct();
 
-        $this->credentials = pm_get_setting('trello_credentials');
+        $this->credentials = pm_get_settings('trello_credentials');
         if(!$this->credentials){
             pm_set_settings('trello_credentials', array('api_key' => '', 'token' => ''));
         } else {
@@ -77,8 +77,7 @@ class ImportTrello extends WP_Background_Process
         if(!in_array($item, $this->imported)) {
             $this->fetchAndSaveTrello($item);
             array_push($this->imported, $item);
-            if (in_array($item, $this->importing)) {
-                $key = array_search($item, $this->importing);
+            if (($key = array_search($item, $this->importing)) !== false) {
                 unset($this->importing[$key]);
                 update_option('importing_from_trello', $this->importing);
             }
@@ -166,9 +165,9 @@ class ImportTrello extends WP_Background_Process
     public function fetchAndSaveLists( $board_id, $pm_project_id ){
         $lists = $this->trello->getLists( $board_id );
         error_log( print_r($lists, TRUE) );
-
-            $lists = $this->repairStringArray($lists);
-
+        if(is_string ($lists)){
+            $lists = json_decode($lists, true);
+        }
             foreach ( $lists as $list ) {
                 $pm_board = new Board();
                 $pm_board->title = $list['name'];
@@ -274,7 +273,6 @@ class ImportTrello extends WP_Background_Process
 
     public function migrateBoardsMembers($trello_board_members,$pm_project_id){
         error_log('entered Board Members');
-        $trello_board_members = $this->repairStringArray($trello_board_members);
         foreach ($trello_board_members as $member){
             $user_id = null;
             $user_role = array();
@@ -304,7 +302,6 @@ class ImportTrello extends WP_Background_Process
      */
     public function migrateCardMembers($trello_card_members, $pm_project_id, $pm_task_id){
         error_log('entered Card Members');
-        $trello_card_members = $this->repairStringArray($trello_card_members);
         if(count($trello_card_members) > 0) {
             foreach ($trello_card_members as $member) {
                 $user_id = null;
@@ -336,7 +333,6 @@ class ImportTrello extends WP_Background_Process
      * @param $pm_task_id
      */
     public function migrateCommentCards($trello_card_Comments, $pm_project_id, $pm_task_id){
-        $trello_card_Comments = $this->repairStringArray($trello_card_Comments);
         error_log('entered Card Comments');
         if(count($trello_card_Comments) > 0) {
             foreach ($trello_card_Comments as $comment) {
@@ -435,13 +431,6 @@ class ImportTrello extends WP_Background_Process
         return $email;
     }
 
-    public function repairStringArray($stringArray){
-        if(is_string ($stringArray)){
-            return json_decode($stringArray, true);
-        } else {
-            return $stringArray;
-        }
-    }
 
 }
 

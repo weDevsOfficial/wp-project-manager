@@ -8,7 +8,6 @@
 
 namespace WeDevs\PM\Tools\Controllers;
 
-use WeDevs\PM\Tools\Helpers\ImportAsana;
 use WP_REST_Request;
 
 class AsanaController
@@ -18,16 +17,15 @@ class AsanaController
     public function import(WP_REST_Request $request){
 
         $projects = $request->get_param('projects');
-        $importAsana = new ImportAsana();
-        update_option('importing_from_asana', $projects);
-        foreach ( $projects as $project ) {
-            $importAsana->push_to_queue($project);
-        }
-        $importAsana->save()->dispatch();
-        return array('msg' => 'Your Asana Projects are under process to import ... ');
+//        $importTrello = new ImportTrello();
+//        update_option('importing_from_asana', $boards);
+//        foreach ( $boards as $board ) {
+//            $importTrello->push_to_queue($board);
+//        }
+//        $importTrello->save()->dispatch();
 
-//        $project = $importAsana->asana->getAsana('projects/962565882603724');
-//        return $project->data->members[0]->id;
+        return  $projects;//array('msg' => 'Your asana items are under process to import ... ');
+
 
     }
 
