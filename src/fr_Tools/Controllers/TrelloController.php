@@ -44,6 +44,16 @@ class TrelloController
 //        return $importTrello->trello->getCardChecklists('5c2da9fd1215b37bb747b95a')[0]['checkItems'];
 //        $tt = $importTrello->trello->getLists('5c1bd10b46c4c60fa2fe623a');
 //
+//
+//
+//        if(!empty($tt)){
+//             foreach ($tt as $t){
+//                 echo $t;
+//             }
+//         } else {
+//            error_log( 'no' );
+//             return 'no';
+//         }
     }
 
     public function showSaved(){

@@ -4,9 +4,22 @@
 
 export default {
     state :{
+        workspaces: [],
         selectedAsanaProjects: [],
     },
     mutations:{
+        setWorkspaces(state, workspace) {
+            state.workspaces.push(workspace);
+        },
+
+        updateWorkspaceProject(state, workspaceIndex, projectIndex, project) {
+            state.workspaces[workspaceIndex].projects[projectIndex] = project;
+        },
+
+        emptyAsanaWorkspaces (state) {
+            state.workspaces = [];
+        },
+
         setAsanaProjects (state, AsanaProject) {
             state.selectedAsanaProjects.push(AsanaProject);
         },

@@ -14,23 +14,23 @@
                         <a target="_blank" href="https://api2task.com/faqs/how-can-i-find-my-asana-access-api-parameters/">Avail Your Personal Token</a></i></span>
                     </div>
 
-                    <div v-if="hasToken" class="asana-profile">
-                        <table >
-                            <tbody>
-                            <tr>
-                                <td>
-                                    <img class="asana-profile-image" :src="profileData.photo.image_128x128" alt="">
-                                </td>
-                                <td>
-                                    <span class="profile-name">Name : {{ profileData.name }}</span>
-                                    <span class="profile-email">Email : {{ profileData.email }}</span>
-                                    <span class="profile-workspace">Workspaces : {{ profileData.workspaces.length }}</span>
-                                </td>
-                            </tr>
-                            </tbody>
-                        </table>
-                        <!--{{ profileData }}-->
-                    </div>
+                    <!--<div v-if="hasToken" class="asana-profile">-->
+                        <!--<table >-->
+                            <!--<tbody>-->
+                            <!--<tr>-->
+                                <!--<td>-->
+                                    <!--<img class="asana-profile-image" :src="profileData.photo.image_128x128" alt="">-->
+                                <!--</td>-->
+                                <!--<td>-->
+                                    <!--<span class="profile-name">Name : {{ profileData.name }}</span>-->
+                                    <!--<span class="profile-email">Email : {{ profileData.email }}</span>-->
+                                    <!--<span class="profile-workspace">Workspaces : {{ profileData.workspaces.length }}</span>-->
+                                <!--</td>-->
+                            <!--</tr>-->
+                            <!--</tbody>-->
+                        <!--</table>-->
+                        <!--&lt;!&ndash;{{ profileData }}&ndash;&gt;-->
+                    <!--</div>-->
 
                 </div>
 
@@ -52,7 +52,7 @@
         <!--/>-->
         <asana-workspaces
                 ref="asanaws"
-                v-if="token"
+                v-if="hasToken"
                 :credentials="{ token:token }"
                 @allProjectSelected="allSelected()"
         />
@@ -101,8 +101,10 @@
                 var cred = {
                     'asana_credentials': { token: window.btoa(self.personalAccesstoken) },
                 }
+
                 this.saveSettings(cred, '', function (res) {
                     self.show_spinner = false;
+                    console.log(res)
                     self.token = res[0].value.token;
                 });
 
@@ -120,26 +122,6 @@
             profile(data){
                var self = this;
                this.cbData = data;
-               // this.profileData.workspaces.forEach(function (val, index) {
-               //     var url = "https://app.asana.com/api/1.0/workspaces/"+val.id+"/projects"
-               //     jQuery.ajax({
-               //         url: url,
-               //         async: false,
-               //         crossDomain: true,
-               //         type: 'GET',
-               //         headers: {
-               //             Authorization: "Bearer "+self.token
-               //         },
-               //         success: function(res){
-               //             res.data.map((obj) => {
-               //                 obj.clicked = false;
-               //                 return obj;
-               //             });
-               //             self.profileData.workspaces[index].projects = res.data;
-               //         },
-               //         error: function(){}
-               //     });
-               // });
             },
 
             allSelected(){
@@ -166,9 +148,9 @@
                     data: args.data,
                     url: self.base_url+"/pm/v2/tools/asana-import",
                     success (res) {
-                        self.requestSent = true;
+                        // self.requestSent = true;
                         console.log(res);
-                        toastr.info(res.msg);
+                        // toastr.info(res.msg);
                     }
                 };
 
@@ -207,9 +189,9 @@
             var enc_token = this.getSettings('token', '', 'asana_credentials')
             this.token = this.personalAccesstoken = window.atob(enc_token);
 
-            if(this.token){
-                this.getAsana(this.token,this.authUrl,this.profile, this.errorCB)
-            }
+            // if(this.token){
+            //     this.getAsana(this.token,this.authUrl,this.profile, this.errorCB)
+            // }
         }
     }
 </script>

@@ -13,6 +13,7 @@ use WeDevs\PM\Core\Promotions\Promotions;
 use WeDevs\PM\Core\Promotions\Offers;
 use PM_Create_Table;
 use WeDevs\PM\Tools\Helpers\ImportTrello;
+use WeDevs\PM\Tools\Helpers\ImportAsana;
 
 
 class Frontend {
@@ -167,6 +168,7 @@ function project_text_editor($config) {
         new Offers();
         //new Promotions();
         new ImportTrello();
+        new ImportAsana();
 	}
 
 	public function register_scripts() {

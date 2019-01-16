@@ -1,10 +1,10 @@
 <template>
     <div class="workspaces">
         <ul class="workspace">
-            <li class="list-item" v-for="(workspace, index) in workspaces">
+            <li class="list-item" v-for="(workspace, index) in workspaces" :key="index">
                 <h4 class="workspace-name">{{ workspace.name }}</h4>
                 <!--{{ workspace.projects }}-->
-                <asana-projects :asana-projects="workspace.projects" :credentials="{token:token}" ></asana-projects>
+                <asana-projects :asana-projects="workspace.projects" :workspace-index="index" :credentials="credentials"></asana-projects>
             </li>
         </ul>
     </div>
@@ -31,6 +31,7 @@
                 wspUrl:"https://app.asana.com/api/1.0/workspaces"
             }
         },
+
         mixins:[mix],
         components:{
             'asana-projects':asanaProjects
@@ -41,12 +42,12 @@
                 self.$store.commit('asana/emptyAsanaProjects')
                 this.workspaces.forEach(function(val){
                     val.projects.forEach(function(project){
-                        if(!self.checkImportStatus(self.imported, project.id) && !self.checkImportStatus(self.inProgress, project.id)){
+                        if(!self.checkImportStatus(self.imported, project.gid) && !self.checkImportStatus(self.inProgress, project.gid)){
                             project.clicked = status;//!project.clicked;
                             if(project.clicked){
-                                self.$store.commit('asana/setAsanaProjects', project.id);
+                                self.$store.commit('asana/setAsanaProjects', project.gid);
                             } else {
-                                self.$store.commit('asana/unsetAsanaProjects', project.id);
+                                self.$store.commit('asana/unsetAsanaProjects', project.gid);
                             }
                         }
                     })
@@ -74,6 +75,9 @@
                                 return obj;
                             });
                             self.workspaces[index].projects = res.data;
+
+                            self.$store.commit('asana/emptyAsanaWorkspaces');
+                            self.$store.commit('asana/setWorkspaces', self.workspaces[index]);
                         },
                         error: function(){}
                     });
@@ -82,6 +86,10 @@
 
         },
         computed:{
+            asanaWS() {
+                return this.$store.state.asana.workspaces;
+            },
+
             selectable(){
                 var totalAsanaProjects = parseInt(0)
                 var totalImported = parseInt(this.imported.length);
@@ -92,7 +100,7 @@
                 })
                 return totalAsanaProjects - totalImported;
             },
-            selectedAsanaProjects(){
+            selectedAsana_Projects(){
                 return this.$store.state.asana.selectedAsanaProjects.length;
             },
             isAllSelected(){
@@ -104,13 +112,15 @@
             }
         },
         watch: {
-            selectedAsanaProjects: function (val) {
+            selectedAsana_Projects: function (val) {
                 console.log(this.$store.state.asana.selectedAsanaProjects)
                 this.$emit('allProjectSelected')
             }
         },
         created(){
             this.getAsana(this.credentials.token, this.wspUrl, this.getWorkspaces, function(){});
+            this.getImportStatus(this.inProgress, 'asana-in-process');
+            this.getImportStatus(this.imported, 'asana-imported');
         }
 
 

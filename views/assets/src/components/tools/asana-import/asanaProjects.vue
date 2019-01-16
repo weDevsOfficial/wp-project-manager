@@ -1,14 +1,16 @@
 <template>
     <div class="projects-flex">
-        <div v-for="(project, index) in asanaProjects" class="project-box-column" @click="selectProject(project.id,index)">
-            <span v-if="!project.clicked" class="fa fa-2x fa-square-o btn"></span>
-            <span v-if="project.clicked" class="fa fa-2x fa-check btn"></span>
-            <span v-if="checkImportStatus(savedBefore, project.id)" class="pm-spinner"></span>
-            <span v-if="checkImportStatus(inProgress, project.id)" class="fa fa-2x fa-lock btn"></span>
+        <div v-for="(asana_project, index) in asanaProjects" @click="selectProject(asana_project, index)" :key="index" class="project-box-column" >
+            <span v-if="selectedProjectIds.indexOf(asana_project.id) < 0" class="fa fa-2x fa-square-o btn"></span>
+            <span v-if=" !checkImportStatus(savedBefore, asana_project.gid) && !asana_project.clicked " class="fa fa-2x fa-square-o btn"></span>
+            <span v-if=" !checkImportStatus(savedBefore, asana_project.gid) && asana_project.clicked   " class="fa fa-2x fa-check btn"></span>
+            <span v-if="checkImportStatus(savedBefore, asana_project.gid)" class="fa fa-2x fa-square btn"></span>
+            <span v-if="checkImportStatus(inProgress, asana_project.gid)" class="fa fa-2x fa-lock btn"></span>
             <div class="project-content">
-                <span class="project-title">{{ cutString(project.name, 21, true) }}</span>
-                <!--{{ checkImportStatus(savedBefore, project.id) }}-->
-                <!--{{ project.clicked }}-->
+                <span class="project-title">{{ cutString(asana_project.name, 21, true) }}</span>
+                {{ checkProject[index].clicked }}
+                {{ checkImportStatus(savedBefore, asana_project.gid) }}
+                {{ savedBefore }}
             </div>
         </div>
     </div>
@@ -19,8 +21,13 @@
     export default {
         props:{
             asanaProjects:{
-                type:Array
+                type: Array
             },
+
+            workspaceIndex: {
+                type: Number
+            },
+
             credentials: {
                 type:Object
             }
@@ -35,20 +42,38 @@
             }
         },
 
+        computed: {
+
+            selectedProjectIds() {
+                return this.$store.state.asana.selectedAsanaProjects;
+            },
+            asanaWS() {
+                return this.$store.state.asana.workspaces;
+            },
+
+            checkProject(){
+                return this.asanaProjects;
+            }
+        },
+
         methods:{
 
-            selectProject(projectId,index){
-                if(!this.checkImportStatus(this.savedBefore, projectId) && !this.checkImportStatus(this.inProgress, projectId)) {
-                    this.asanaProjects[index].clicked = !this.asanaProjects[index].clicked;
-                    if (this.asanaProjects[index].clicked) {
-                        this.$store.commit('asana/setAsanaProjects', projectId);
+            selectProject(project, index){
+                if(!this.checkImportStatus(this.savedBefore, project.gid) && !this.checkImportStatus(this.inProgress, project.gid)) {
+                    project.clicked = !project.clicked;
+
+                    if (project.clicked) {
+                        this.$store.commit('asana/setAsanaProjects', project.gid);
                     } else {
-                        this.$store.commit('asana/unsetAsanaProjects', projectId);
+                        this.$store.commit('asana/unsetAsanaProjects', project.gid);
                     }
+
+                    // this.$store.commit('asana/updateWorkspaceProject', this.workspaceIndex, index, project);
+
                 } else {
                     console.log("this project already imported")
                 }
-                console.log(this.asanaProjects[index].clicked);
+                console.log(this.asanaWS);
             },
 
             getProjects(res){
@@ -62,9 +87,8 @@
         },
 
         created(){
-            // this.getAsana(this.credentials.token,this.projectUrl,this.getProjects,function(){})
-            // this.getImportStatus(this.inProgress, 'trello-in-process');
-            // this.getImportStatus(this.savedBefore, 'trello-imported');
+            this.getImportStatus(this.inProgress, 'asana-in-process');
+            this.getImportStatus(this.savedBefore, 'asana-imported');
         }
     }
 </script>
