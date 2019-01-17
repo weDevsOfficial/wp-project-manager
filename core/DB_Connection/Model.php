@@ -72,16 +72,9 @@ class Model extends \WeDevs\ORM\Eloquent\Model {
             return true;
         }
 
-//        $user = wp_get_current_user();
-//        $fillable = $this->getFillable();
-
-        if(!function_exists('wp_get_current_user')) {
-            include(ABSPATH . "wp-includes/pluggable.php");
-        }
-        $user = get_current_user();
-//        var_dump($user);
-//        exit();
+        $user = wp_get_current_user();
         $fillable = $this->getFillable();
+
 
         switch ( $event ) {
             case 'creating':

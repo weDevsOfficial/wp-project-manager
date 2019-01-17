@@ -41,7 +41,11 @@ class ImportTrello extends WP_Background_Process
     public function __construct()
     {
         parent::__construct();
+        add_action('init', [$this, 'after_load_wp'] );
 
+    }
+
+    public function after_load_wp() {
         $this->credentials = pm_get_setting('trello_credentials');
         if(!$this->credentials){
             pm_set_settings('trello_credentials', array('api_key' => '', 'token' => ''));
@@ -256,14 +260,23 @@ class ImportTrello extends WP_Background_Process
      * @return int|\WP_Error
      */
     public function getOrCreateUserId($username, $email){
-       $hasUser = get_user_by( 'email', $email);
-       if(!$hasUser){
-           $newUser = wp_create_user( $username, wp_generate_password(10), $email);
-           wp_send_new_user_notifications($newUser);
-           return $newUser;
-       } else {
-           return $hasUser->ID;
-       }
+        $email = sanitize_email( $email );
+        error_log(print_r( 'username: ' . $username, true));
+        error_log(print_r( 'email: ' . $email, true));
+
+        $user = get_user_by( 'email', $email);
+
+        if( ! $user ){
+           $user_id = wp_create_user( $username, wp_generate_password(10), $email);
+
+           error_log(print_r($user_id, true));
+
+           wp_send_new_user_notifications( $user_id );
+
+           return $user_id;
+        } else {
+           return $user->ID;
+        }
     }
 
     /**
@@ -432,6 +445,7 @@ class ImportTrello extends WP_Background_Process
         } else {
             $email = 'trello_'.$mailuser.'@'.$hostname.'.com';
         }
+        $email = sanitize_email( $email );
         return $email;
     }
 
