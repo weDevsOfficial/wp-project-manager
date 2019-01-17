@@ -950,7 +950,7 @@ var PM_TaskList_Mixin = {
             if (typeof list.incomplete_tasks === 'undefined') {
                 return false;
             }
-
+            
             var count_tasks = list.meta.total_incomplete_tasks;
             var total_set_task = list.incomplete_tasks.data.length;
 

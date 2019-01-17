@@ -2,7 +2,7 @@
     <div class="pm-header-title-content" v-if="isProjectLoaded">
         <div class="project-title">
             <span class="title">{{ project.title }}</span>
-            <div class="pm-title-edit-settings">
+            <div class="pm-title-edit-settings" v-if="is_manager()">
                 <pm-popper trigger="click" :options="popperOptions">
                     <div class="pm-popper popper">
                         <edit-project v-if="is_manager()" class="project-edit-form" :project="project"></edit-project>
@@ -12,7 +12,7 @@
                     
                 </pm-popper>
             </div>
-            <div class="settings header-settings">
+            <div class="settings header-settings" v-if="is_manager()">
                 <pm-popper trigger="click" :options="popperOptions">
                     <div class="pm-popper popper">
                         <div v-if="is_manager()" class="pm-action-menu-container">

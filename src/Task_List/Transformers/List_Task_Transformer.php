@@ -1,0 +1,90 @@
+<?php
+
+namespace WeDevs\PM\Task_List\Transformers;
+
+use League\Fractal\TransformerAbstract;
+use WeDevs\PM\Task\Models\Task;
+
+class List_Task_Transformer extends TransformerAbstract {
+
+    /**
+     * Turn this item object into a generic array
+     *
+     * @return array
+     */
+    public function transform( Task $item ) {
+        
+        return [
+            'id'          => (int) $item->id,
+            'title'       => $item->title,
+            'description' => [ 'html' => pm_get_content( $item->description ), 'content' => $item->description ],
+            'estimation'  => $item->estimation,
+            'start_at'    => format_date( $item->start_at ),
+            'due_date'    => format_date( $item->due_date ),
+            'complexity'  => $item->complexity,
+            'priority'    => $item->priority,
+            //'order'       => (int) $order,
+            'payable'     => $item->payable,
+            'recurrent'   => $item->recurrent,
+            'parent_id'   => $item->parent_id,     
+            'status'      => $item->status,
+            'project_id'  => $item->project_id,
+            'category_id' => $item->category_id,
+            'created_at'  => format_date( $item->created_at ),
+            'completed_at' => format_date( $item->completed_at ),
+            'updated_at'  => format_date( $item->updated_at ),
+            'task_list_id' => $item->task_list,
+            'meta'        => $this->meta( $item ),
+            'assignees'   => $this->assignees( $item )
+        ];
+    }
+
+
+    public function meta( Task $item ) {
+        $metas = [
+            'can_complete_task' => pm_user_can_complete_task( $item ),
+        ];
+        
+	    return $metas;
+    }
+
+    public function assignees( $item ) {
+        $assignees = ['data'=>[]];
+        if( empty( $item->assignees ) ) {
+            return $assignees;
+        }
+
+       $users = explode( '|', $item->assignees );
+        
+        foreach ( $users as $key => $assign ) {
+            $assign = json_decode( $assign );
+            if ( empty( $assign->assigned_to ) ) continue;
+            $user = get_user_by( 'id', $assign->assigned_to );
+
+             $data = [
+                'id'                => (int) $user->ID,
+                'username'          => $user->user_login,
+                'nicename'          => $user->user_nicename,
+                'email'             => $user->user_email,
+                'profile_url'       => $user->user_url,
+                'display_name'      => $user->display_name,
+                'manage_capability' => (int) pm_has_manage_capability($user->ID),
+                'create_capability' => (int) pm_has_project_create_capability($user->ID),
+                'avatar_url'        => get_avatar_url( $user->user_email ),
+            ];
+
+            
+            $data['completed_at'] = empty( $assign->completed_at ) ? [] : format_date( $assign->completed_at );
+            $data['started_at'] = empty( $assign->started_at ) ? [] : format_date( $assign->started_at );
+            $data['assigned_at'] = empty( $assign->assigned_at ) ? [] : format_date( $assign->assigned_at );
+            $data['status'] = empty( $assign->status ) ? 0 : (int) $assign->status;
+
+            $assignees['data'][] = $data;
+            
+        }
+        
+        return $assignees;
+    }
+
+
+}

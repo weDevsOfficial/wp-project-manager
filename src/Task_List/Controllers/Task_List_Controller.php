@@ -13,12 +13,14 @@ use League\Fractal\Resource\Collection as Collection;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use WeDevs\PM\Common\Traits\Transformer_Manager;
 use WeDevs\PM\Task_List\Transformers\Task_List_Transformer;
+use WeDevs\PM\Task_List\Transformers\New_Task_List_Transformer;
 use WeDevs\PM\Task\Transformers\Task_Transformer;
 use WeDevs\PM\Common\Models\Boardable;
 use WeDevs\PM\Common\Traits\Request_Filter;
 use WeDevs\PM\Milestone\Models\Milestone;
 use Illuminate\Pagination\Paginator;
 use WeDevs\PM\Common\Models\Board;
+use WeDevs\PM\Task_List\Transformers\List_Task_Transformer;
 
 
 class Task_List_Controller {
@@ -26,6 +28,7 @@ class Task_List_Controller {
     use Transformer_Manager, Request_Filter;
 
     public function index( WP_REST_Request $request ) {
+
         global $wpdb;
         $task_tb                = $wpdb->prefix . 'pm_tasks';
         $list_tb                = $wpdb->prefix . 'pm_boardables';
@@ -47,35 +50,74 @@ class Task_List_Controller {
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
         }); 
+
+        $tb_tasks     = pm_tb_prefix() . 'pm_tasks';
+        $tb_lists     = pm_tb_prefix() . 'pm_boards';
+        $tb_boardable = pm_tb_prefix() . 'pm_boardables';
+        $tb_meta      = pm_tb_prefix() . 'pm_meta';
+
+        // GROUP_CONCAT(
+        //     DISTINCT
+        //     JSON_OBJECT(
+        //         'meta_key', $tb_meta.meta_key, 
+        //         'meta_value', $tb_meta.meta_value
+        //     ) SEPARATOR '|'
+        // ) as meta
       
-        $task_lists = Task_List::select(pm_tb_prefix().'pm_boards.*')
+        $task_lists = Task_List::select( $tb_lists . '.*' )
+            ->selectRaw( "
+                group_concat(
+                    DISTINCT
+                    if($tb_tasks.status=0, $tb_tasks.id, null)
+                    separator '|'
+                ) incompleted_task,
+                group_concat(
+                    DISTINCT
+                    if($tb_tasks.status=1, $tb_tasks.id, null) 
+                    separator '|'
+                ) completed_task"
+            )
+            ->leftJoin( $tb_boardable, function( $join ) use($tb_boardable, $tb_lists) {
+                $join->on( $tb_lists . '.id', '=', $tb_boardable . '.board_id' );
+            })
+             ->leftJoin( $tb_tasks, function( $join ) use($tb_boardable, $tb_tasks) {
+                $join->on( $tb_boardable . '.boardable_id', '=', $tb_tasks . '.id' );
+            })
+              ->leftJoin( $tb_meta, function( $join ) use($tb_meta, $tb_lists) {
+                $join->on( $tb_lists . '.id', '=', $tb_meta . '.entity_id' )
+                    ->where( 'entity_type', 'task_list' );
+            })
+            
             ->where( pm_tb_prefix() .'pm_boards.project_id', $project_id)
             ->where( pm_tb_prefix() .'pm_boards.status', $status )
-            ->where( pm_tb_prefix() .'pm_boards.project_id', $project_id );
+            ->where( pm_tb_prefix() .'pm_boards.project_id', $project_id )
+            
+            ->groupBy($tb_lists.'.id');
 
-
-        $task_lists = apply_filters( "pm_task_list_index_query", $task_lists, $project_id, $request );
         
+        $task_lists = apply_filters( "pm_task_list_index_query", $task_lists, $project_id, $request );
+         
         if ( $per_page == '-1' ) {
             $per_page = $task_lists->count();
         }
 
-        $task_lists = $task_lists->orderBy( 'order', 'DESC' )
+        $task_lists = $task_lists->orderBy( $tb_lists. '.order', 'DESC' )
             ->paginate( $per_page );
 
+        
         $task_list_collection = $task_lists->getCollection();
-        $resource = new Collection( $task_list_collection, new Task_List_Transformer );
+
+        $resource = new Collection( $task_list_collection, new New_Task_List_Transformer );
         $resource->setPaginator( new IlluminatePaginatorAdapter( $task_lists ) );
 
         $lists = $this->get_response( $resource );
         
         $list_ids = wp_list_pluck( $lists['data'], 'id' );
 
-
         if ( in_array( 'incomplete_tasks', $with ) ) {
             $incomplete_task_ids = $this->get_incomplete_task_ids( $list_ids, $project_id );
             $incomplete_tasks    = $this->get_tasks( $incomplete_task_ids );
-            
+
             $lists = $this->set_incomplete_task_in_lists( $lists, $incomplete_tasks );
         }
         
@@ -272,17 +314,50 @@ class Task_List_Controller {
     }
 
     public function get_tasks( $task_ids, $args=[] ) {
+        global $wpdb;
+        $task = pm_tb_prefix() . 'pm_tasks';
+        $list = pm_tb_prefix() . 'pm_boardables';
+        $comment = pm_tb_prefix() . 'pm_comments';
+        $assignees = pm_tb_prefix() . 'pm_assignees';
         
-        $tasks = Task::select( pm_tb_prefix() . 'pm_tasks.*' )
-            ->whereIn( pm_tb_prefix() . 'pm_tasks.id', $task_ids )
-            ->leftJoin( pm_tb_prefix() . 'pm_boardables', function( $join ) {
-                $join->on( pm_tb_prefix() . 'pm_tasks.id', '=', pm_tb_prefix() . 'pm_boardables.boardable_id' );
-            } )
-            ->orderBy( pm_tb_prefix() . 'pm_boardables.order', 'ASC' )
-            ->get();
+        $task_collection = Task::select( $task . '.*')
+            ->selectRaw(
+                "GROUP_CONCAT(
+                    DISTINCT
+                    JSON_OBJECT(
+                        'assigned_to', $assignees.assigned_to, 
+                        'assigned_at', $assignees.assigned_at,
+                        'completed_at', $assignees.completed_at, 
+                        'started_at', $assignees.started_at,
+                        'status', $assignees.status
+                    ) SEPARATOR '|'
+                ) as assignees"
+            )
+            //->selectRaw("SUBSTRING_INDEX(GROUP_CONCAT($assignees.assigned_to), ',', 10000) as assignees_first")
+            //->selectRaw("JSON_OBJECT('assign_to', JSON_ARRAY($assignees.assigned_to)) as assignees")
+            ->selectRaw( "count($comment.id) as total_comment" )
+            ->whereIn( $task . '.id', $task_ids )
+            
+            ->leftJoin( $list, function( $join ) use($task, $list) {
+                $join->on( $task . '.id', '=', $list . '.boardable_id' );
+            })
+            ->leftJoin( $comment, function( $join ) use($task, $comment) {
+                $join->on( $task . '.id', '=', $comment . '.commentable_id' )
+                    ->where($comment . '.commentable_type', 'task');
+            })
+            ->leftJoin( $assignees, function( $join ) use($task, $assignees) {
+                $join->on( $task . '.id', '=', $assignees . '.task_id' );
+            })
+            
+            ->groupBy($task . '.id')
+            ->orderBy( $list . '.order', 'ASC' );
 
-        $resource = new collection( $tasks, new Task_Transformer );
+        $task_collection = apply_filters( 'list_tasks_filter_query', $task_collection );
+        $task_collection = $task_collection->get();
+        
+        $resource = new collection( $task_collection, new List_Task_Transformer );
         $tasks    = $this->get_response( $resource );
+        $tasks = apply_filters( 'pm_after_transformer_list_tasks', $tasks );
 
         return $tasks;
     }
