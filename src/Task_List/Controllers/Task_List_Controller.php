@@ -81,7 +81,8 @@ class Task_List_Controller {
                 $join->on( $tb_lists . '.id', '=', $tb_boardable . '.board_id' );
             })
              ->leftJoin( $tb_tasks, function( $join ) use($tb_boardable, $tb_tasks) {
-                $join->on( $tb_boardable . '.boardable_id', '=', $tb_tasks . '.id' );
+                $join->on( $tb_boardable . '.boardable_id', '=', $tb_tasks . '.id' )
+                    ->where($tb_boardable . '.boardable_type', 'task');
             })
               ->leftJoin( $tb_meta, function( $join ) use($tb_meta, $tb_lists) {
                 $join->on( $tb_lists . '.id', '=', $tb_meta . '.entity_id' )
@@ -94,7 +95,7 @@ class Task_List_Controller {
             
             ->groupBy($tb_lists.'.id');
 
-        
+
         $task_lists = apply_filters( "pm_task_list_index_query", $task_lists, $project_id, $request );
          
         if ( $per_page == '-1' ) {
@@ -319,17 +320,26 @@ class Task_List_Controller {
         $list = pm_tb_prefix() . 'pm_boardables';
         $comment = pm_tb_prefix() . 'pm_comments';
         $assignees = pm_tb_prefix() . 'pm_assignees';
-        
+        // JSON_OBJECT(
+        //                 'assigned_to', $assignees.assigned_to, 
+        //                 'assigned_at', $assignees.assigned_at,
+        //                 'completed_at', $assignees.completed_at, 
+        //                 'started_at', $assignees.started_at,
+        //                 'status', $assignees.status
+        //             ) 
+        //'{', '\"', 'assigned_to', '\"', ':' , '\"', IFNULL($assignees.assigned_to, 'null') , '\"' ,'}' 
         $task_collection = Task::select( $task . '.*')
             ->selectRaw(
                 "GROUP_CONCAT(
                     DISTINCT
-                    JSON_OBJECT(
-                        'assigned_to', $assignees.assigned_to, 
-                        'assigned_at', $assignees.assigned_at,
-                        'completed_at', $assignees.completed_at, 
-                        'started_at', $assignees.started_at,
-                        'status', $assignees.status
+                    CONCAT(
+                        '{', 
+                            '\"', 'assigned_to', '\"', ':' , '\"', IFNULL($assignees.assigned_to, '') , '\"' , ',',
+                            '\"', 'assigned_at', '\"', ':' , '\"', IFNULL($assignees.assigned_at, '') , '\"' , ',',
+                            '\"', 'completed_at', '\"', ':' , '\"', IFNULL($assignees.completed_at, '') , '\"' , ',',
+                            '\"', 'started_at', '\"', ':' , '\"', IFNULL($assignees.started_at, '') , '\"' , ',',
+                            '\"', 'status', '\"', ':' , '\"', IFNULL($assignees.status, '') , '\"' 
+                        ,'}' 
                     ) SEPARATOR '|'
                 ) as assignees"
             )
@@ -351,7 +361,7 @@ class Task_List_Controller {
             
             ->groupBy($task . '.id')
             ->orderBy( $list . '.order', 'ASC' );
-
+        
         $task_collection = apply_filters( 'list_tasks_filter_query', $task_collection );
         $task_collection = $task_collection->get();
         

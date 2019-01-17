@@ -180,7 +180,7 @@ var PM_TaskList_Mixin = {
             var self = this,
             pre_define = {
                 condition: {
-                    with: 'incomplete_tasks,complete_tasks',
+                    with: 'incomplete_tasks',
                     per_page: this.getSettings('list_per_page', 10),
                     page: this.setCurrentPageNumber()
                 },
@@ -950,7 +950,7 @@ var PM_TaskList_Mixin = {
             if (typeof list.incomplete_tasks === 'undefined') {
                 return false;
             }
-            
+
             var count_tasks = list.meta.total_incomplete_tasks;
             var total_set_task = list.incomplete_tasks.data.length;
 
@@ -1013,7 +1013,7 @@ var PM_TaskList_Mixin = {
          * @param  {[Object]} list Task List
          * @return {[viod]}      [More Task]
          */
-        loadMoreCompleteTasks ( list ) {
+        loadMoreCompleteTasks ( list, callback ) {
 
             if ( list.task_loading_status ) {
                 return;
@@ -1021,7 +1021,7 @@ var PM_TaskList_Mixin = {
 
             list.task_loading_status = true;
 
-            var total_tasks = list.meta.total_complete_tasks;
+            
             var per_page = this.getSettings( 'complete_tasks_per_page', 10 );
             var current_page = Math.ceil ( list.complete_tasks.data.length/per_page );
 
@@ -1033,6 +1033,10 @@ var PM_TaskList_Mixin = {
                 list_id: list.id,
                 callback: function ( res ){
                     this.$store.commit( 'projectTaskLists/setTasks', res.data);
+
+                    if(typeof callback != 'undefined') {
+                        callback(res);
+                    }
                     list.task_loading_status = false;
                 }
             } ;
