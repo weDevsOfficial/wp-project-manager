@@ -1,5 +1,5 @@
-=== WP Project Manager - Project, Task Mangement & Team Collaboration Software ===
-Contributors: tareq1988, wedevs, asaquzzaman
+=== WP Project Manager - Project, Task Management & Team Collaboration Software ===
+Contributors: tareq1988, nizamuddinbabu, wedevs, asaquzzaman
 Donate Link: https://tareq.co/donate/
 Tags: web task manager, online collaboration tool, task tracker, productivity tool, open source project management software
 Requires at least: 4.4
