@@ -54,10 +54,12 @@ class List_Task_Transformer extends TransformerAbstract {
             return $assignees;
         }
 
-       $users = explode( '|', $item->assignees );
+        $users = explode( '|', $item->assignees );
         
         foreach ( $users as $key => $assign ) {
+            $assign = str_replace('`', '"', $assign);
             $assign = json_decode( $assign );
+            
             if ( empty( $assign->assigned_to ) ) continue;
             $user = get_user_by( 'id', $assign->assigned_to );
 

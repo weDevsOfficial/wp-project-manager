@@ -8,17 +8,15 @@
             </li>
         </ul> 
         
-        <div
-            v-if="isIncompleteLoadMoreActive(list) || getCompleteTasks.length"
-            class="nonsortable more-task-wrap">
+        <div class="nonsortable more-task-wrap">
             
             <div v-if="isIncompleteLoadMoreActive(list)" class="group-action-btn">
                 <a class="anchor-btn" @click.prevent="loadMoreIncompleteTasks(list)" href="#">{{ __( 'More Tasks', 'wedevs-project-manager') }}</a>
             </div>
 
-            <div class="group-action-btn show-completed-task" v-if="getCompleteTasks.length">
+            <div class="group-action-btn show-completed-task">
                 
-                <a v-if="!showCompletedTask" @click.prevent="showHideCompletedTask()" class="anchor-btn" href="#">
+                <a v-if="!showCompletedTask" @click.prevent="fetchCompleteTasks(list)" class="anchor-btn" href="#">
                     <span>{{ __('Show Completed Task', 'wedevs-project-manager') }}</span>
                 </a>
                 <a v-if="showCompletedTask" @click.prevent="showHideCompletedTask()" class="anchor-btn" href="#">    
@@ -523,6 +521,11 @@
             }
         },
 
+        created () {
+            //preventing multiple click for load more complete task
+            pm.Vue.set(this.list, 'task_loading_status', false);
+        },
+
         watch: {
             list: {
                 handler () {
@@ -625,7 +628,27 @@
             'single-task': pm.SingleTask
         },
 
-        methods: {
+        methods: { //loadMoreCompleteTasks
+            fetchCompleteTasks (list) {
+                var self = this;
+
+                if(list.complete_tasks.data.length) {
+                    this.showCompletedTask = true;
+                    return;
+                }
+                var args = {
+                    condition: {
+                        with: 'complete_tasks'
+                    },
+
+                    callback (res) {
+                        console.log(res);
+                    }
+                }
+                this.loadMoreCompleteTasks(list, function(res) {
+                    self.showCompletedTask = true;
+                });
+            },
             showHideCompletedTask() {
                 this.showCompletedTask = this.showCompletedTask ? false : true;
             },

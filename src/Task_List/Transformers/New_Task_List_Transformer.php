@@ -34,7 +34,9 @@ class New_Task_List_Transformer extends TransformerAbstract {
             'status'      => $item->status,
             'created_at'  => format_date( $item->created_at ),
             'meta'        => $this->meta( $item ),
-            'extra'       => true
+            'extra'       => true,
+            'incomplete_tasks' => ['data' => []],
+            'complete_tasks' => ['data' => []]
         ];
 
         return apply_filters( 'pm_task_list_transform', $data, $item );
