@@ -79,7 +79,7 @@ class Comment_Controller {
         $commentable_id = $request->get_param('commentable_id');
     
         $files      = array_key_exists( 'files', $media_data ) ? $media_data['files'] : null;
-
+        
         $comment = Comment::create( $data );
 
         if ( $type ) {

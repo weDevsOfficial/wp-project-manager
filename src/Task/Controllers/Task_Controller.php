@@ -479,7 +479,6 @@ class Task_Controller {
     }
 
     public function filter( WP_REST_Request $request ) {
-        global $wpdb;
         $per_page = 20;
         $page  = 1;
         $status    = $request->get_param('status');

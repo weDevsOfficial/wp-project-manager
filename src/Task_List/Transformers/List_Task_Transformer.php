@@ -35,17 +35,86 @@ class List_Task_Transformer extends TransformerAbstract {
             'updated_at'  => format_date( $item->updated_at ),
             'task_list_id' => $item->task_list,
             'meta'        => $this->meta( $item ),
-            'assignees'   => $this->assignees( $item )
+            'assignees'   => $this->assignees( $item ),
+            'creator'     => $this->get_creator( $item )
         ];
+    }
+
+    public function get_creator( $item ) {
+        $user = get_user_by( 'id', $item->created_by );
+
+        $data = [
+            'id'                => (int) $user->ID,
+            'username'          => $user->user_login,
+            'nicename'          => $user->user_nicename,
+            'email'             => $user->user_email,
+            'profile_url'       => $user->user_url,
+            'display_name'      => $user->display_name,
+            'manage_capability' => (int) pm_has_manage_capability($user->ID),
+            'create_capability' => (int) pm_has_project_create_capability($user->ID),
+            'avatar_url'        => get_avatar_url( $user->user_email ),
+        ];
+
+        return $user;
     }
 
 
     public function meta( Task $item ) {
         $metas = [
-            'can_complete_task' => pm_user_can_complete_task( $item ),
+            'can_complete_task' => $this->pm_user_can_complete_task( $item ),
         ];
         
 	    return $metas;
+    }
+
+    function pm_user_can_complete_task( $task ) {
+        
+        if(!$task) {
+            return false;
+        }
+        $user_id = get_current_user_id();
+
+        if ( pm_has_manage_capability( $user_id ) ) {
+            return true;
+        }
+
+        if ( pm_is_manager( $task->project_id, $user_id ) ) {
+            return true;
+        }
+
+        if ( $task->created_by == $user_id ) {
+            return true;
+        }
+
+        $assignees = $this->get_task_assignee_ids( $task ); //pluck( 'assigned_to' )->all();
+        $in_array = in_array( $user_id, $assignees );
+
+        if ( !empty( $in_array ) ) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function get_task_assignee_ids( $item ) {
+        $assigness = [];
+        if( empty( $item->assignees ) ) {
+            return [];
+        }
+
+        $users = explode( '|', $item->assignees );
+
+        foreach ( $users as $key => $assign ) {
+            $assign = str_replace('`', '"', $assign);
+            $assign = json_decode( $assign );
+            
+            if ( !empty( $assign->assigned_to ) ) {
+                $assigness[] = $assign->assigned_to;
+            }
+            
+        }
+
+        return $assigness;
     }
 
     public function assignees( $item ) {

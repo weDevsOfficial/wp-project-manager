@@ -36,10 +36,29 @@ class New_Task_List_Transformer extends TransformerAbstract {
             'meta'        => $this->meta( $item ),
             'extra'       => true,
             'incomplete_tasks' => ['data' => []],
-            'complete_tasks' => ['data' => []]
+            'complete_tasks' => ['data' => []],
+            'creator' => $this->get_creator( $item )
         ];
 
         return apply_filters( 'pm_task_list_transform', $data, $item );
+    }
+
+    public function get_creator( $item ) {
+        $user = get_user_by( 'id', $item->created_by );
+
+        $data = [
+            'id'                => (int) $user->ID,
+            'username'          => $user->user_login,
+            'nicename'          => $user->user_nicename,
+            'email'             => $user->user_email,
+            'profile_url'       => $user->user_url,
+            'display_name'      => $user->display_name,
+            'manage_capability' => (int) pm_has_manage_capability($user->ID),
+            'create_capability' => (int) pm_has_project_create_capability($user->ID),
+            'avatar_url'        => get_avatar_url( $user->user_email ),
+        ];
+
+        return $user;
     }
 
     public function meta( $item ) {

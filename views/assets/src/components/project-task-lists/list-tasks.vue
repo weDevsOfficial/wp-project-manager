@@ -13,8 +13,8 @@
             <div v-if="isIncompleteLoadMoreActive(list)" class="group-action-btn">
                 <a class="anchor-btn" @click.prevent="loadMoreIncompleteTasks(list)" href="#">{{ __( 'More Tasks', 'wedevs-project-manager') }}</a>
             </div>
-
-            <div class="group-action-btn show-completed-task">
+            
+            <div v-if="parseInt(list.meta.total_complete_tasks) > 0" class="group-action-btn show-completed-task">
                 
                 <a v-if="!showCompletedTask" @click.prevent="fetchCompleteTasks(list)" class="anchor-btn" href="#">
                     <span>{{ __('Show Completed Task', 'wedevs-project-manager') }}</span>
