@@ -73,7 +73,7 @@
                 } else {
                     console.log("this project already imported")
                 }
-                console.log(this.asanaWS);
+                // console.log(this.asanaWS);
             },
 
             getProjects(res){
