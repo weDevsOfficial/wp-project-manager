@@ -28,7 +28,6 @@ class Task_List_Controller {
     use Transformer_Manager, Request_Filter;
 
     public function index( WP_REST_Request $request ) {
-
         global $wpdb;
         $task_tb                = $wpdb->prefix . 'pm_tasks';
         $list_tb                = $wpdb->prefix . 'pm_boardables';
@@ -96,7 +95,7 @@ class Task_List_Controller {
             ->groupBy($tb_lists.'.id');
 
 
-        $task_lists = apply_filters( "pm_task_list_index_query", $task_lists, $project_id, $request );
+        $task_lists = apply_filters( "pm_task_list_check_privacy", $task_lists, $project_id, $request );
          
         if ( $per_page == '-1' ) {
             $per_page = $task_lists->count();
@@ -570,7 +569,7 @@ class Task_List_Controller {
     }
 
     public function list_search( WP_REST_Request $request ) {
-        global $wpdb;
+        
         $project_id  = $request->get_param( 'project_id' );
         $title       = $request->get_param( 'title' );
 

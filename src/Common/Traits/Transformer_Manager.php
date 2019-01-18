@@ -22,7 +22,7 @@ trait Transformer_Manager {
         } else {
             $response = [];
         }
-
+       
         return array_merge( $extra, $response );
     }
 
