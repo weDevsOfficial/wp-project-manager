@@ -5,6 +5,9 @@
             <div class="flex-box">
 
                 <div>
+                    <div v-if="hasToken">
+                        <button @click="auth()" class="button button-primary">{{ hasToken ? 'Remove Authorization' : 'Authorize Asana' }}</button>
+                    </div>
 
                     <div v-if="!hasToken" class="access-token-form">
                         <input type="text" class="asana-pa-token" v-model="personalAccesstoken" placeholder="Asana Personal access token">
@@ -53,7 +56,7 @@
         <asana-workspaces
                 ref="asanaws"
                 v-if="hasToken"
-                :credentials="{ token:token }"
+                :credentials="{ token:getToken }"
                 @allProjectSelected="allSelected()"
         />
 
@@ -128,12 +131,12 @@
                 this.selected = this.$refs.asanaws.isAllSelected
             },
 
-            checkAll: function(){
+            checkAll(){
                 this.selected = !this.selected;
                 this.$refs.asanaws.selectAll(this.selected);
             },
 
-            sendToProcess: function(){
+            sendToProcess(){
                 var self = this;
 
                 var args = {
@@ -148,9 +151,9 @@
                     data: args.data,
                     url: self.base_url+"/pm/v2/tools/asana-import",
                     success (res) {
-                        // self.requestSent = true;
+                        self.requestSent = true;
                         console.log(res);
-                        // toastr.info(res.msg);
+                        toastr.info(res.msg);
                     }
                 };
 
@@ -158,15 +161,34 @@
 
             },
 
+            auth() {
+                // token exists, going to remove
+                var self = this;
+                if (this.hasToken) {
+                    this.saveSettings({ 'asana_credentials': { token: '' }}, '', function (res) {
+                        self.show_spinner = false;
+                        toastr.info('Authorization Removed')
+                        self.token = res[0].value.token;
+                    });
+                } else {
+                    // auth
+                    
+                }
+            },
+
         },
 
         computed:{
-            hasToken:function(){
+            hasToken(){
                 if(this.token !== ''){
                     return true;
                 }else {
                     return false
                 }
+            },
+
+            getToken(){
+               return this.token
             },
 
             profileData(){

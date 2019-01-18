@@ -362,19 +362,27 @@ class ImportAsana extends WP_Background_Process
                     $credentials->data->name,
                     $credentials->data->email
                 );
-                error_log('comment__user__id: '.$user_id);
+                global $wpdb;
+                $com_id = $wpdb->insert($wpdb->prefix.'pm_comments', array(
+                    'content' => $comment->text,
+                    'mentioned_users' => null,
+                    'commentable_id' => $pm_task_id,
+                    'commentable_type' => 'task',
+                    'project_id' => $pm_project_id,
+                    'created_by' => $user_id,
+                    'updated_by' => $user_id
+                ));
+//                $textComment = new Comment();
+//                $textComment->content = $comment->text;
+//                $textComment->mentioned_users = null;
+//                $textComment->commentable_id = $pm_task_id;
+//                $textComment->commentable_type = 'task';
+//                $textComment->project_id = $pm_project_id;
+//                $textComment->created_by = $user_id;
+//                $textComment->updated_by = $user_id;
+//                $textComment->save();
+                error_log('comment_id : '.$com_id);
 
-                $textComment = new Comment();
-                $textComment->content = $comment->text;
-                $textComment->mentioned_users = null;
-                $textComment->commentable_id = $pm_task_id;
-                $textComment->commentable_type = 'task';
-                $textComment->project_id = $pm_project_id;
-                $textComment->created_by = (int) $user_id;
-                $textComment->updated_by = (int) $user_id;
-                $textComment->save();
-
-                error_log('comment_user_id_after_perform : '.$user_id);
 
             }
         }
