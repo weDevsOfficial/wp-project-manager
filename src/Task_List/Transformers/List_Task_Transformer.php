@@ -14,7 +14,7 @@ class List_Task_Transformer extends TransformerAbstract {
      */
     public function transform( Task $item ) {
         
-        return [
+        $task = [
             'id'          => (int) $item->id,
             'title'       => $item->title,
             'description' => [ 'html' => pm_get_content( $item->description ), 'content' => $item->description ],
@@ -38,6 +38,8 @@ class List_Task_Transformer extends TransformerAbstract {
             'assignees'   => $this->assignees( $item ),
             'creator'     => $this->get_creator( $item )
         ];
+        
+        return apply_filters( 'pm_list_task_transormer', $task, $item );
     }
 
     public function get_creator( $item ) {
