@@ -360,14 +360,14 @@ class Task_List_Controller {
             
             ->groupBy($task . '.id')
             ->orderBy( $list . '.order', 'ASC' );
-        
         $task_collection = apply_filters( 'list_tasks_filter_query', $task_collection );
+        
         $task_collection = $task_collection->get();
         
         $resource = new collection( $task_collection, new List_Task_Transformer );
         $tasks    = $this->get_response( $resource );
         $tasks = apply_filters( 'pm_after_transformer_list_tasks', $tasks );
-
+        
         return $tasks;
     }
 
