@@ -46,19 +46,12 @@
         </div>
 
 
-        <!--<asana-workspaces-->
-                <!--ref="asanaws"-->
-                <!--v-if="token"-->
-                <!--:credentials="{ token:token }"-->
-                <!--:workspaces="cbData.data.workspaces"-->
-                <!--@allProjectSelected="allSelected()"-->
-        <!--/>-->
         <asana-workspaces
                 ref="asanaws"
                 v-if="hasToken"
                 :credentials="{ token:getToken }"
                 @allProjectSelected="allSelected()"
-        />
+        ></asana-workspaces>
 
 
 
@@ -108,7 +101,7 @@
                 this.saveSettings(cred, '', function (res) {
                     self.show_spinner = false;
                     console.log(res)
-                    self.token = res[0].value.token;
+                    self.token = window.atob(res[0].value.token);
                 });
 
                 pm.NProgress.done();
