@@ -8,9 +8,9 @@
             <span v-if="checkImportStatus(inProgress, asana_project.gid)" class="fa fa-2x fa-lock btn"></span>
             <div class="project-content">
                 <span class="project-title">{{ cutString(asana_project.name, 21, true) }}</span>
-                {{ checkProject[index].clicked }}
-                {{ checkImportStatus(savedBefore, asana_project.gid) }}
-                {{ savedBefore }}
+                <!--{{ checkProject[index].clicked }}-->
+                <!--{{ checkImportStatus(savedBefore, asana_project.gid) }}-->
+                <!--{{ savedBefore }}-->
             </div>
         </div>
     </div>
