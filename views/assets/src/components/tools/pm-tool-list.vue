@@ -22,6 +22,15 @@
                     </router-link>
                 </div>
             </li>
+            <li class="list-item">
+                <div>
+                    <h3><i class="fa fa-adn"></i> Import Active Collab</h3>
+                    <p>Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.</p>
+                    <router-link class="button-primary" tag="a" :to="{ name: 'pm_tools_activecol'}">
+                        Import
+                    </router-link>
+                </div>
+            </li>
 
         </ul>
 
