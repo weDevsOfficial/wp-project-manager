@@ -42,7 +42,7 @@
                 var request = {
                     type: 'POST',
                     data: args.data,
-                    url: self.base_url+"/pm/v2/tools/activeCollab-auth", //tools/activeCollab-auth
+                    url: self.base_url+"/pm/v2/tools/active-collab-auth", //tools/activeCollab-auth
                     success (res) {
                         console.log(res);
                         // toastr.info(res);

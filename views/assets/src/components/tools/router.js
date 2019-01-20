@@ -1,6 +1,7 @@
 weDevsPmRegisterModule("pmTools", 'tools');
 weDevsPmRegisterModule("trello", 'tools/trello-import');
 weDevsPmRegisterModule("asana", 'tools/asana-import');
+weDevsPmRegisterModule("activecol", 'tools/activecollab-import');
 
 
 import mixin from './mixin';
@@ -10,11 +11,11 @@ PmProMixin.modulesLists = mixin;
 
 
 import PmTools from './pm-tools.vue';
-
 import PmToolList from './pm-tool-list.vue';
 
 import PMtrelloImport from './trello-import/trelloImport.vue'
 import PMasanaImport from './asana-import/asanaImport.vue'
+import PMactiveColImport from './activecollab-import/acImport.vue'
 
 weDevsPMRegisterChildrenRoute('project_root',
     [
@@ -46,6 +47,13 @@ weDevsPMRegisterChildrenRoute('project_root',
                     path: 'asana-import',
                     component: PMasanaImport,
                     name: 'pm_tools_asana',
+                    props: true
+
+                },
+                {
+                    path: 'activecollab-import',
+                    component: PMactiveColImport,
+                    name: 'pm_tools_activecol',
                     props: true
 
                 }
