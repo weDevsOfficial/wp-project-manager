@@ -14,6 +14,12 @@
                     </div>
                     <button type="button" class="button button-primary" @click="auth()">Authenticate Active Collab</button>
                 </div>
+                <div v-if="accounts">
+                    <h5>select account</h5>
+                    <ul>
+                        <li v-for="(account, index) in accounts" class="button" @click="tokenize(index)">#{{ index }}</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
@@ -23,13 +29,14 @@
     export default {
         data(){
             return {
-                ac_username : "",
-                ac_password : ""
+                ac_username : "kutsnalmas@gmail.com",
+                ac_password : "wedevstest",
+                accounts:{}
             }
         },
 
         methods:{
-            auth: function(){
+            auth(){
                 var self = this;
 
                 var args = {
@@ -44,7 +51,8 @@
                     data: args.data,
                     url: self.base_url+"/pm/v2/tools/active-collab-auth", //tools/activeCollab-auth
                     success (res) {
-                        console.log(res);
+                        self.accounts = res
+                        console.log(self.accounts);
                         // toastr.info(res);
                     }
                 };
@@ -55,33 +63,32 @@
 
             },
 
-            anotherTest(){
-                jQuery.ajax({
-                    url: "https://app.activecollab.com/189169/activecollab/api.php",
-                    beforeSend: function(xhr) {
-                        xhr.setRequestHeader("Authorization", "Basic " + btoa("abc:123"));
-                    },
-                    type: 'POST',
-                    dataType: 'jsonp',
-                    contentType: 'application/json',
-                    processData: false,
+            tokenize(account){
+                var self = this;
+
+                var args = {
                     data: {
-                        api_subscription:{
-                            email: "farazi@wedevs.com",
-                            password: "!!@@1122FFff",
-                            client_name: "SubscriptionTest",
-                            client_vendor: "A51"
-                        }
+                        user: self.ac_username, //"farazi@wedevs.com",
+                        pass: self.ac_password, //"!!@@1122FFff",
+                        accid:account
                     },
-                    success: function (data) {
-                        alert(JSON.stringify(data));
-                        console.log(data);
-                    },
-                    error: function(){
-                        alert("Cannot get data");
+                    callback: false,
+                };
+                var request = {
+                    type: 'POST',
+                    data: args.data,
+                    url: self.base_url+"/pm/v2/tools/active-collab-tokenize", //tools/activeCollab-auth
+                    success (res) {
+                        console.log(res)
+                        // toastr.info(res);
                     }
-                });
+                };
+
+                if(self.ac_username && self.ac_password){
+                    self.httpRequest(request);
+                }
             }
+
         },
 
 
