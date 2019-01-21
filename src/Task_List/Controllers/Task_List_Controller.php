@@ -79,24 +79,26 @@ class Task_List_Controller {
             ->leftJoin( $tb_boardable, function( $join ) use($tb_boardable, $tb_lists) {
                 $join->on( $tb_lists . '.id', '=', $tb_boardable . '.board_id' );
             })
-             ->leftJoin( $tb_tasks, function( $join ) use($tb_boardable, $tb_tasks) {
+            ->leftJoin( $tb_tasks, function( $join ) use($tb_boardable, $tb_tasks) {
                 $join->on( $tb_boardable . '.boardable_id', '=', $tb_tasks . '.id' )
                     ->where($tb_boardable . '.boardable_type', 'task');
             })
-              ->leftJoin( $tb_meta, function( $join ) use($tb_meta, $tb_lists) {
+            ->leftJoin( $tb_meta, function( $join ) use($tb_meta, $tb_lists) {
                 $join->on( $tb_lists . '.id', '=', $tb_meta . '.entity_id' )
-                    ->where( 'entity_type', 'task_list' );
+                    ->where( function($q) use($tb_meta) {
+                        $q->where($tb_meta . '.entity_type', 'task_list');
+                        $q->orWhereNull($tb_meta . '.entity_type');
+                    });
             })
             
             ->where( pm_tb_prefix() .'pm_boards.project_id', $project_id)
             ->where( pm_tb_prefix() .'pm_boards.status', $status )
-            ->where( pm_tb_prefix() .'pm_boards.project_id', $project_id )
             
             ->groupBy($tb_lists.'.id');
 
 
         $task_lists = apply_filters( "pm_task_list_check_privacy", $task_lists, $project_id, $request );
-         
+        //pmpr($task_lists->get()->toArray());
         if ( $per_page == '-1' ) {
             $per_page = $task_lists->count();
         }
@@ -111,8 +113,8 @@ class Task_List_Controller {
         $resource->setPaginator( new IlluminatePaginatorAdapter( $task_lists ) );
 
         $lists = $this->get_response( $resource );
-        
         $list_ids = wp_list_pluck( $lists['data'], 'id' );
+       // pmpr($list_ids, $lists); die();
 
         if ( in_array( 'incomplete_tasks', $with ) ) {
             $incomplete_task_ids = $this->get_incomplete_task_ids( $list_ids, $project_id );
