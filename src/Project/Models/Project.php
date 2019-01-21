@@ -62,9 +62,10 @@ class Project extends Eloquent {
     public function assignees() {
         $role_id = Role::where('status', 1)->get(['id'])->toArray();
         $role_id = wp_list_pluck($role_id, 'id');
+        
         return $this->belongsToMany( 'WeDevs\PM\User\Models\User', pm_tb_prefix() . 'pm_role_user', 'project_id', 'user_id' )
             ->whereIn( 'role_id', $role_id)
-            ->withPivot( 'project_id', 'role_id' );
+            ->withPivot( 'project_id', 'role_id' ); 
     }
 
     public function task_lists() {
@@ -81,6 +82,11 @@ class Project extends Eloquent {
 
     public function milestones() {
         return $this->hasMany( 'WeDevs\PM\Milestone\Models\Milestone', 'project_id' );
+    }
+
+    public function count_milestones() {
+        return $this->hasMany( 'WeDevs\PM\Milestone\Models\Milestone', 'project_id' )
+                    ->count();
     }
 
     public function files() {
