@@ -34,3 +34,6 @@ $router->get( 'tools/asana-in-process', 'WeDevs/PM/Tools/Controllers/AsanaContro
 //Active Collab Importing
 $router->post( 'tools/active-collab-auth', 'WeDevs/PM/Tools/Controllers/ActivecolController@authAc' )
     ->permission(['WeDevs\PM\Core\Permissions\Project_Manage_Capability']);
+
+$router->post( 'tools/active-collab-tokenize', 'WeDevs/PM/Tools/Controllers/ActivecolController@tokenAc' )
+    ->permission(['WeDevs\PM\Core\Permissions\Project_Manage_Capability']);
