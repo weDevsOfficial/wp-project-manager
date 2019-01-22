@@ -273,14 +273,22 @@ class ImportAsana extends WP_Background_Process
      */
     public function getOrCreateUserId($username, $email){
         $email = sanitize_email( $email );
-        error_log('entered create user email : '.$email);
-        $hasUser = get_user_by( 'email', $email);
-        if(!email_exists($email)){
+//        error_log('entered create user email : '.$email);
+//        $hasUser = get_user_by( 'email', $email);
+
+        $username_exists = username_exists( $username );
+        $email_exists = email_exists( $email );
+
+        if( ! $email_exists && ! $username_exists ){
             $newUser = wp_create_user( strtolower($username), wp_generate_password(10), $email);
-            wp_send_new_user_notifications($newUser);
+
+//            wp_send_new_user_notifications($newUser);
             return $newUser;
+
+        } else if ( $username_exists ) {
+            return $username_exists;
         } else {
-            return $hasUser->ID;
+            return $email_exists;
         }
     }
 
