@@ -15,7 +15,7 @@
                     <button type="button" class="button button-primary" @click="auth()">Authenticate Active Collab</button>
                 </div>
                 <div v-if="accounts">
-                    <h5>select account</h5>
+                    <h5>select an account</h5>
                     <ul>
                         <li v-for="(account, index) in accounts" class="button" @click="tokenize(index)">#{{ index }}</li>
                     </ul>
@@ -29,9 +29,13 @@
     export default {
         data(){
             return {
+                show_spinner:false,
                 ac_username : "kutsnalmas@gmail.com",
                 ac_password : "wedevstest",
-                accounts:{}
+                accounts :{},
+                account : '',
+                account_url : '',
+                account_token : ''
             }
         },
 
@@ -51,9 +55,11 @@
                     data: args.data,
                     url: self.base_url+"/pm/v2/tools/active-collab-auth", //tools/activeCollab-auth
                     success (res) {
-                        self.accounts = res
-                        console.log(self.accounts);
-                        // toastr.info(res);
+                        if ('error' in res){
+                            toastr.error(res.error);
+                        } else {
+                            self.accounts = res
+                        }
                     }
                 };
 
@@ -64,8 +70,8 @@
             },
 
             tokenize(account){
+                this.account = account;
                 var self = this;
-
                 var args = {
                     data: {
                         user: self.ac_username, //"farazi@wedevs.com",
@@ -79,15 +85,34 @@
                     data: args.data,
                     url: self.base_url+"/pm/v2/tools/active-collab-tokenize", //tools/activeCollab-auth
                     success (res) {
-                        console.log(res)
-                        // toastr.info(res);
+                        if ('error' in res){
+                            toastr.error(res.error);
+                        } else {
+                            self.saveCredentials(res.url, res.token, account)
+                        }
                     }
                 };
 
                 if(self.ac_username && self.ac_password){
                     self.httpRequest(request);
                 }
-            }
+            },
+
+            saveCredentials(url, token, accID){
+                var self = this;
+                var data = {
+                    'activecol_credentials': { url: url, token: token, accID:accID},
+                }
+
+                this.saveSettings(data, '', function (res) {
+                    self.show_spinner = false;
+                    self.account_url = res[0].value.url;
+                    self.account_token = res[0].value.token;
+                    self.account = res[0].value.accID;
+                    console.log(res[0].value)
+                });
+
+            },
 
         },
 
