@@ -131,6 +131,9 @@ class ImportAsana extends WP_Background_Process
 
         $project_data = $this->asana->getAsana('projects/'.$project_id);
         $project = $project_data->data;
+
+        error_log(print_r($project, true));
+
         $project_members = $project->members;
         // asana project to cpm project
         $pm_project = new Project();
@@ -153,7 +156,7 @@ class ImportAsana extends WP_Background_Process
         // asana lists to cpm projects
         $this->fetchAndSaveLists($project_id,$pm_project->id);
 
-        error_log($project->name);
+        error_log($pm_project->name);
 
     }
 
@@ -270,8 +273,9 @@ class ImportAsana extends WP_Background_Process
      */
     public function getOrCreateUserId($username, $email){
         $email = sanitize_email( $email );
+        error_log('entered create user email : '.$email);
         $hasUser = get_user_by( 'email', $email);
-        if(!$hasUser){
+        if(!email_exists($email)){
             $newUser = wp_create_user( strtolower($username), wp_generate_password(10), $email);
             wp_send_new_user_notifications($newUser);
             return $newUser;
@@ -288,14 +292,16 @@ class ImportAsana extends WP_Background_Process
 
     public function migrateprojectsMembers($asana_project_members,$pm_project_id){
         error_log('entered project Members');
+        error_log(print_r($asana_project_members, true));
         foreach ($asana_project_members as $member){
             $user_id = null;
             $user_role = array();
             $user_data = $this->asana->getAsana('users/'.$member->id);
-            sleep(5);
+            sleep(3);
             $credentials = $user_data->data;
             if($credentials->email){
                 $email = sanitize_email( $credentials->email );
+                error_log($email);
                 $user_id = $this->getOrCreateUserId($credentials->name, $email);
             } else {
                 $user_id = $this->getOrCreateUserId($credentials->name,$this->makeFakeEmail($credentials->name));

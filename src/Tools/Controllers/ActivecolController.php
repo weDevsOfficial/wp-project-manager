@@ -10,44 +10,46 @@ namespace WeDevs\PM\Tools\Controllers;
 
 use ActiveCollab\SDK\Authenticator\Cloud;
 use WP_REST_Request;
+use Exception;
 
 class ActivecolController
 {
     public function authAc(WP_REST_Request $request){
         $username = $request->get_param('user');
         $password = $request->get_param('pass');
-        $activeColAuth = new Cloud(
-            'weDevs LLC',
-            'WPPM',
-            $username,
-            $password
+        try {
+            $activeColAuth = new Cloud(
+                'weDevs LLC',
+                'WPPM',
+                $username,
+                $password
             );
 
-        return $activeColAuth->getAccounts();
+            return rest_ensure_response($activeColAuth->getAccounts());
+        } catch( Exception $e ) {
+            return rest_ensure_response(array('error'=>$e->getMessage()));
+        }
     }
 
     public function tokenAc(WP_REST_Request $request){
 
         $username = $request->get_param('user');
         $password = $request->get_param('pass');
-        $acount = $request->get_param('accid');
-        $activeColAuth = new Cloud(
-            'weDevs LLC',
-            'WPPM',
-            $username,
-            $password
-        );
-        $activeColAuth->getAccounts();
-        $token = $activeColAuth->issueToken($acount);
-
-        if ($token instanceof \ActiveCollab\SDK\TokenInterface) {
-            print $token->getUrl() . "\n";
-            print $token->getToken() . "\n";
-        } else {
-            print "Invalid response\n";
-            die();
+        $acID = $request->get_param('accid');
+        try {
+            $activeColAuth = new Cloud(
+                'weDevs LLC',
+                'WPPM',
+                $username,
+                $password
+            );
+            $token = $activeColAuth->issueToken((int) $acID);
+            $accountCred = array('url'=>$token->getUrl(), 'token'=>$token->getToken());
+            return rest_ensure_response($accountCred);
+        } catch( Exception $e ) {
+            return rest_ensure_response(array('error'=>$e->getMessage()));
         }
-//       return $acount.$username.$password;
+
     }
 
 
