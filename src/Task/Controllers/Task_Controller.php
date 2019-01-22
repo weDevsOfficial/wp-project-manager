@@ -25,6 +25,7 @@ use WeDevs\PM\Task_List\Transformers\Task_List_Transformer;
 use WeDevs\PM\Activity\Models\Activity;
 use WeDevs\PM\Activity\Transformers\Activity_Transformer;
 
+
 class Task_Controller {
 
     use Transformer_Manager, Request_Filter, Last_activity;
@@ -584,11 +585,15 @@ class Task_Controller {
         ->paginate( $per_page );
 
         $collection = $task_lists->getCollection();
+        $list_ids   = [];
 
         foreach ( $collection as $key => $task_list ) {
-            $task = new Collection( $task_list->tasks, new Task_Transformer );
-            $tasks[$task_list->id] = $this->get_response( $task );
+            $list_ids[] = $task_list->id;
+            // $task = new Collection( $task_list->tasks, new Task_Transformer );
+            // $tasks[$task_list->id] = $this->get_response( $task );
         }
+
+        $this->count_lists_complete_incomplete_tasks($list_ids, $project_id);
         
         $resource = new Collection( $collection, new Task_List_Transformer );
         $resource->setPaginator( new IlluminatePaginatorAdapter( $task_lists ) );
@@ -643,6 +648,59 @@ class Task_Controller {
         
 
         return $this->get_response( $resource );
+    }
+
+
+    public function count_lists_complete_incomplete_tasks( $list_ids = [], $project_id ) {
+        global $wpdb;
+
+        $tb_tasks     = pm_tb_prefix() . 'pm_tasks';
+        $tb_lists     = pm_tb_prefix() . 'pm_boards';
+        $tb_boardable = pm_tb_prefix() . 'pm_boardables';
+        $tb_meta      = pm_tb_prefix() . 'pm_meta';
+        $list_ids     = implode( ',', $list_ids ); 
+
+        $permission_join = apply_filters( 'pm_incomplete_task_query_join', '', $project_id );
+        $permission_where = apply_filters( 'pm_incomplete_task_query_where', '', $project_id );
+
+        $boardable = "SELECT bo.board_id,
+                group_concat(
+                    DISTINCT
+                    if(tk.status=0, tk.id, null)
+                    separator '|'
+                ) incompleted_task,
+                group_concat(
+                    DISTINCT
+                    if(tk.status=1, tk.id, null) 
+                    separator '|'
+                ) completed_task
+
+            FROM $tb_tasks as tk
+            LEFT JOIN $tb_boardable as bo ON bo.boardable_id=tk.id
+            $permission_join
+            WHERE 
+            bo.board_id IN ($list_ids)
+            $permission_where
+            GROUP BY bo.board_id";
+
+        
+        $results = $wpdb->get_results( $boardable );
+
+        foreach ( $results as $key => $result ) {
+            if ( empty( $result->incompleted_task ) ) {
+                $result->incompleted_task_count = 0;
+            } else {
+                $result->incompleted_task_count = count( explode( '|', $result->incompleted_task ) ); 
+            }
+
+            if ( empty( $result->completed_task ) ) {
+                $result->completed_task_count = 0;
+            } else {
+                $result->completed_task_count = count( explode( '|', $result->completed_task ) );
+            }
+        }
+        
+        return $results;
     }
 }
 
