@@ -348,8 +348,6 @@ class Task_List_Controller {
                     ) SEPARATOR '|'
                 ) as assignees"
             )
-            //->selectRaw("SUBSTRING_INDEX(GROUP_CONCAT($assignees.assigned_to), ',', 10000) as assignees_first")
-            //->selectRaw("JSON_OBJECT('assign_to', JSON_ARRAY($assignees.assigned_to)) as assignees")
             ->selectRaw( "count($comment.id) as total_comment" )
             ->whereIn( $task . '.id', $task_ids )
             
