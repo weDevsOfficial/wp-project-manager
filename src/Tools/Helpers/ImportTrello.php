@@ -259,23 +259,44 @@ class ImportTrello extends WP_Background_Process
      * @param $email
      * @return int|\WP_Error
      */
+//    public function getOrCreateUserId($username, $email){
+//        $email = sanitize_email( $email );
+//        error_log(print_r( 'username: ' . $username, true));
+//        error_log(print_r( 'email: ' . $email, true));
+//
+//        $user = get_user_by( 'email', $email);
+//
+//        if( ! $user ){
+//           $user_id = wp_create_user( $username, wp_generate_password(10), $email);
+//
+//           error_log(print_r($user_id, true));
+//
+//           wp_send_new_user_notifications( $user_id );
+//
+//           return $user_id;
+//        } else {
+//           return $user->ID;
+//        }
+//    }
+
     public function getOrCreateUserId($username, $email){
         $email = sanitize_email( $email );
-        error_log(print_r( 'username: ' . $username, true));
-        error_log(print_r( 'email: ' . $email, true));
+//        error_log('entered create user email : '.$email);
+//        $hasUser = get_user_by( 'email', $email);
 
-        $user = get_user_by( 'email', $email);
+        $username_exists = username_exists( $username );
+        $email_exists = email_exists( $email );
 
-        if( ! $user ){
-           $user_id = wp_create_user( $username, wp_generate_password(10), $email);
+        if( ! $email_exists && ! $username_exists ){
+            $newUser = wp_create_user( strtolower($username), wp_generate_password(10), $email);
 
-           error_log(print_r($user_id, true));
+//            wp_send_new_user_notifications($newUser);
+            return $newUser;
 
-           wp_send_new_user_notifications( $user_id );
-
-           return $user_id;
+        } else if ( $username_exists ) {
+            return $username_exists;
         } else {
-           return $user->ID;
+            return $email_exists;
         }
     }
 
