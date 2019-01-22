@@ -114,6 +114,9 @@ class Project_Controller {
 			$projects = $projects->where( 'status', $status );
 		}
 
+
+		
+
 		$projects = $projects->leftJoin( pm_tb_prefix() . 'pm_meta', function ( $join ) use( $user_id ) {
 			$join->on( pm_tb_prefix().'pm_projects.id', '=',  pm_tb_prefix().'pm_meta.project_id' )
 			->where('meta_key', '=', 'favourite_project')->where('entity_id', '=', $user_id);
@@ -121,7 +124,7 @@ class Project_Controller {
 		->selectRaw( pm_tb_prefix().'pm_projects.*' )
 		->groupBy( pm_tb_prefix().'pm_projects.id' )
 		->orderBy( pm_tb_prefix().'pm_meta.meta_value', 'DESC');
-		pmpr($projects->get()->toArray()); die();
+
 		return $projects;
     }
 
@@ -134,7 +137,7 @@ class Project_Controller {
 	    		->first();
 	    	
 	    	if ( $category ) {
-	    		$projects = $category->projects()->with(['assignees', 'count_milestones']);
+	    		$projects = $category->projects()->with('assignees');
 	    	} else {
 	    		$projects = Project::with('assignees');
 	    	}

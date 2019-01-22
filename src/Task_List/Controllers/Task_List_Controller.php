@@ -147,7 +147,8 @@ class Task_List_Controller {
         $limit      = $pagenum == 1 ? '' : "LIMIT $offset,$per_page";
         
         $list_ids   = implode(',', $list_ids );
-        $permission = apply_filters( 'pm_incomplete_task_query_permission', '', $project_id );
+        $permission_join = apply_filters( 'pm_incomplete_task_query_join', '', $project_id );
+        $permission_where = apply_filters( 'pm_incomplete_task_query_where', '', $project_id );
         
         $sql = "SELECT ibord_id, SUBSTRING_INDEX(GROUP_CONCAT(task.task_id order by task.iorder asc), ',', $per_page) as itasks_id
             FROM 
@@ -160,11 +161,12 @@ class Task_List_Controller {
                         $table_task as itasks 
                         inner join $table_ba as ibord on itasks.id = ibord.boardable_id 
                         AND ibord.board_id in ($list_ids)
-                        $permission
+                        $permission_join
                     WHERE
                         itasks.status=0
                         AND ibord.board_type='task_list'
                         AND ibord.boardable_type='task'
+                        $permission_where
                         order by iorder asc
                         $limit
                         
@@ -193,7 +195,8 @@ class Task_List_Controller {
         $limit      = $pagenum == 1 ? '' : "LIMIT $offset,$per_page";
         
         $list_ids   = implode(',', $list_ids );
-        $permission = apply_filters( 'pm_complete_task_query_permission', '', $project_id );
+        $permission_join = apply_filters( 'pm_complete_task_query_join', '', $project_id );
+        $permission_where = apply_filters( 'pm_complete_task_query_where', '', $project_id );
         
         $sql = "SELECT ibord_id, SUBSTRING_INDEX(GROUP_CONCAT(task.task_id order by task.iorder asc), ',', $per_page) as itasks_id
             FROM 
@@ -206,11 +209,12 @@ class Task_List_Controller {
                         $table_task as itasks 
                         inner join $table_ba as ibord on itasks.id = ibord.boardable_id 
                         AND ibord.board_id in ($list_ids)
-                        $permission
+                        $permission_join
                     WHERE
                         itasks.status=1
                         AND ibord.board_type='task_list'
                         AND ibord.boardable_type='task'
+                        $permission_where
                         order by iorder asc
                         $limit
                         
