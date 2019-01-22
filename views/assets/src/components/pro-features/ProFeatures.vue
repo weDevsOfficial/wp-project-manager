@@ -1,6 +1,6 @@
 <template>
     <!-- start features section -->
-    <section class="pm-section pm-section-wrapper pm-feature-section">
+    <section class="pm-section pm-section-wrapper pm-premium-feature-section">
         <div class="pm-section-content">
             <div class="pm--row pm-gutter-35">
                 <template v-for="feature in featureItems">
@@ -49,7 +49,7 @@
 </script>
 
 <style lang="less">
-    .pm-feature-section {
+    .pm-premium-feature-section {
         margin-bottom: 87px;
         margin-top: -170px;
         .pm-section-content {

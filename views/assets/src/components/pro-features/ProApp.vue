@@ -1,5 +1,5 @@
 <template>
-    <div class="pm-welcome-page-container">
+    <div class="pm-premium-page-container">
         <pro-banner></pro-banner>
         <pro-features></pro-features>
         <pro-modules></pro-modules>
@@ -109,7 +109,7 @@
     }
 }
 
-    .pm-welcome-page-container {
+    .pm-premium-page-container {
         font-weight: 300;
         line-height: 24px;  
         max-width: 1400px;

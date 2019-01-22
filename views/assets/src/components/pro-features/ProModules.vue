@@ -168,6 +168,10 @@
             color: #1A9ED4;
             font-size: 13px;
             font-weight: 400;
+            border: 1px solid transparent;
+            &:hover {
+                border: 1px solid #1A9ED4;
+            }
         }
     }
 
