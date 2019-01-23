@@ -13,7 +13,7 @@ class New_Task_Transformer extends TransformerAbstract {
      * @return array
      */
     public function transform( Task $item ) {
-        
+
         $task = [
             'id'          => (int) $item->id,
             'title'       => $item->title,
@@ -64,31 +64,33 @@ class New_Task_Transformer extends TransformerAbstract {
     public function meta( Task $item ) {
         $metas = [
             'can_complete_task' => $this->pm_user_can_complete_task( $item ),
+            'total_comment'  => $item->total_comment,
         ];
         
 	    return $metas;
     }
 
-    function pm_user_can_complete_task( $task ) {
+    function pm_user_can_complete_task( $item ) {
         
-        if(!$task) {
+        if( ! $item ) {
             return false;
         }
+
         $user_id = get_current_user_id();
 
         if ( pm_has_manage_capability( $user_id ) ) {
             return true;
         }
 
-        if ( pm_is_manager( $task->project_id, $user_id ) ) {
+        if ( pm_is_manager( $item->project_id, $user_id ) ) {
             return true;
         }
 
-        if ( $task->created_by == $user_id ) {
+        if ( $item->created_by == $user_id ) {
             return true;
         }
 
-        $assignees = $this->get_task_assignee_ids( $task ); //pluck( 'assigned_to' )->all();
+        $assignees = $this->get_task_assignee_ids( $item ); //pluck( 'assigned_to' )->all();
         $in_array = in_array( $user_id, $assignees );
 
         if ( !empty( $in_array ) ) {
@@ -104,14 +106,18 @@ class New_Task_Transformer extends TransformerAbstract {
             return [];
         }
 
-        $users = explode( '|', $item->assignees );
+        $users = $item->assignees;
 
         foreach ( $users as $key => $assign ) {
-            $assign = str_replace('`', '"', $assign);
-            $assign = json_decode( $assign );
             
-            if ( ! empty( $assign->assigned_to ) ) {
-                $assigness[] = $assign->assigned_to;
+            if ( is_object( $assign ) ) {
+                $user_id = $assign->assigned_to;
+            } else {
+                $user_id = $assign['assigned_to'];
+            }
+            
+            if ( ! empty( $user_id ) ) {
+                $assigness[] = $user_id;
             }
             
         }
@@ -121,18 +127,22 @@ class New_Task_Transformer extends TransformerAbstract {
 
     public function assignees( $item ) {
         $assignees = ['data'=>[]];
+
         if( empty( $item->assignees ) ) {
             return $assignees;
         }
-
-        $users = explode( '|', $item->assignees );
         
-        foreach ( $users as $key => $assign ) {
-            $assign = str_replace('`', '"', $assign);
-            $assign = json_decode( $assign );
+        foreach ( $item->assignees as $key => $assign ) {
             
-            if ( empty( $assign->assigned_to ) ) continue;
-            $user = get_user_by( 'id', $assign->assigned_to );
+            if ( is_object( $assign ) ) {
+                $user_id = $assign->assigned_to;
+            } else {
+                $user_id = $assign['assigned_to'];
+            }
+
+            if ( empty( $user_id ) ) continue;
+
+            $user = get_user_by( 'id', $user_id );
 
              $data = [
                 'id'                => (int) $user->ID,
@@ -158,6 +168,4 @@ class New_Task_Transformer extends TransformerAbstract {
         
         return $assignees;
     }
-
-
 }
