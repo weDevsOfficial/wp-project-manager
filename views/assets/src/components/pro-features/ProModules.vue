@@ -1,0 +1,193 @@
+<template>
+    <!-- start features section -->
+    <section class="pm-section pm-section-wrapper pm-module-section">
+        <div class="pm-section-title">
+            <h2>{{ __('Available Modules', 'wedevs-project-manager') }}</h2>
+        </div>
+        <div class="pm-section-content">
+            <div class="pm--row pm-gutter-35">
+                <div class="pm-col-sm-4 pm-col-xs-12" v-for="module in modules">
+                    <div :class="['pm-card', 'pm-card-default', 'pm-text-center', 'pm-module-infos', module.cardClass]">
+                        <div class="pm-feature-icon"><img :src="getAssetUrl( 'images/pro-feature/icons/' + module.icon )" :alt="module.title"></div>
+                        <h3>{{ module.title }}</h3>
+                        <p class="pm-module-description">{{ module.description }}</p>
+                        <a :href="module.buttonUrl" class="pm-btn pm-btn-link">See More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section><!-- end features section -->
+</template>
+<script>
+    export default {
+        data () {
+            return {
+                modules: [
+                    {
+                        'title': 'Recurring Task',
+                        'description': 'Get upgraded to Pro version to unlock endlless opppurtunities of managing your project better.',
+                        'buttonUrl': '#',
+                        'cardClass': 'recurring-task',
+                        'icon': 'recuring-task.svg'
+                    },
+                    {
+                        'title': 'BuddyPress',
+                        'description': 'Enhance your project management performance with its extended features in the pro version.',
+                        'buttonUrl': '#',
+                        'cardClass': 'buddypress',
+                        'icon': 'buddypress.svg'
+                    },
+                    {
+                        'title': 'Gantt Chart',
+                        'description': 'Check out all its useful modules that would take your project management experience to a whole new level.',
+                        'buttonUrl': '#',
+                        'cardClass': 'gantt-chart',
+                        'icon': 'gantt-chart.svg'
+                    },
+                    {
+                        'title': 'Kanban Board',
+                        'description': 'Check out all its useful modules that would take your project management experience to a whole new level.',
+                        'buttonUrl': '#',
+                        'cardClass': 'kanban-board',
+                        'icon': 'kanban-board.svg'
+                    },
+                    {
+                        'title': 'WooCommerce Order',
+                        'description': 'Check out all its useful modules that would take your project management experience to a whole new level.',
+                        'buttonUrl': '#',
+                        'cardClass': 'woocommerce',
+                        'icon': 'woocommerce.svg'
+                    },
+                    {
+                        'title': 'Sub Task',
+                        'description': 'Check out all its useful modules that would take your project management experience to a whole new level.',
+                        'buttonUrl': '#',
+                        'cardClass': 'sub-task',
+                        'icon': 'subtask.svg'
+                    },
+                    {
+                        'title': 'Time Tracker',
+                        'description': 'Check out all its useful modules that would take your project management experience to a whole new level.',
+                        'buttonUrl': '#',
+                        'cardClass': 'time-tracker',
+                        'icon': 'time-tracker.svg'
+                    },
+                    {
+                        'title': 'Invoice',
+                        'description': 'Check out all its useful modules that would take your project management experience to a whole new level.',
+                        'buttonUrl': '#',
+                        'cardClass': 'invoice',
+                        'icon': 'invoice.svg'
+                    },
+                    {
+                        'title': 'Stripe Gateway',
+                        'description': 'Check out all its useful modules that would take your project management experience to a whole new level.',
+                        'buttonUrl': '#',
+                        'cardClass': 'stripe-gateway',
+                        'icon': 'stripe.svg'
+                    }
+                ]
+            }
+        }
+    }
+</script>
+
+<style lang="less" scoped>
+    .pm-module-section {
+        padding: 0 40px 25px;
+        margin-bottom: 0;
+        .pm-section-title {
+            margin-bottom: 68px;
+            h2 {
+                margin: 0;
+            }
+        }
+        [class^='pm-col-'] {
+            margin-bottom: 35px;
+        }
+        @media (max-width: 767px) {
+            padding-left: 20px;
+            padding-right: 20px;
+            .pm-module-panel {
+                max-width: 400px;
+                margin: 20px auto;
+            }
+        }
+    }
+    // .recurring-task .pm-feature-icon {
+    //     background-image: linear-gradient(-180deg, #64E09C 0%, #51C1AD 100%);
+    // }
+    // &.buddypress .pm-feature-icon {
+    //     background-image: linear-gradient(-180deg, #FF6167 0%, #FF0E27 100%);
+    // }
+    // &.gantt-chart .pm-feature-icon {
+    //     background-image: linear-gradient(-180deg, #FAD961 0%, #F76B1C 100%);
+    // }
+    // &.kanban-board .pm-feature-icon {
+    //     background-image: linear-gradient(-180deg, #72D0FF 0%, #349EFA 100%);
+    // }
+    // &.woocommerce .pm-feature-icon {
+    //     background-image: linear-gradient(-180deg, #C95FF4 0%, #5527FD 100%);
+    // }
+    // &.sub-task .pm-feature-icon {
+    //     background-image: linear-gradient(-180deg, #8646DD 0%, #5D00FF 100%);
+    // }
+    // &.time-tracker .pm-feature-icon {
+    //     background-image: linear-gradient(-180deg, #FFA2AE 0%, #CE6CFB 100%);
+    // }
+    // &.invoice .pm-feature-icon {
+    //     background-image: linear-gradient(-180deg, #B4EC51 0%, #429321 100%);
+    // }
+    // &.stripe-gateway .pm-feature-icon {
+    //     background-image: linear-gradient(-180deg, #0ACEFE 0%, #6772E5 100%);
+    // }
+    // .pm-feature-icon {
+    //     box-shadow: 0 10px 40px 0 rgba(0,0,0,0.07);
+    // }
+    .pm-module-infos {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        padding-top: 0;
+        padding-bottom: 20px;
+        border-radius: 5px;
+        
+        h3 {
+            font-size: 23px;
+            margin-bottom: 12px;
+            margin-top: -35px;
+        }
+        p {
+            line-height: 24px;
+            font-size: 14px;
+        }
+        .pm-module-description {
+            margin: 0 0 10px;
+        }
+        .pm-btn {
+            color: #1A9ED4;
+            font-size: 13px;
+            font-weight: 400;
+            border: 1px solid transparent;
+            &:hover {
+                border: 1px solid #1A9ED4;
+            }
+        }
+    }
+
+    .pm-module-panel {
+        &.upgrade .pm-feature-icon {
+            background-image: linear-gradient(-147deg, #64E09C 0%, #51C1AD 100%);
+        }
+        &.pro-feature .pm-feature-icon {
+            background-image: linear-gradient(-180deg, #FAD961 0%, #F76B1C 100%);
+        }
+        &.module .pm-feature-icon {
+            background-image: linear-gradient(135deg, #907CFF 3%, #6EACFF 98%);
+        }
+    }
+
+
+    
+</style>

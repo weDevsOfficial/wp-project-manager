@@ -1136,6 +1136,10 @@ export default {
             }
 
             return PM_Vars.settings[key];
+        },
+
+        getAssetUrl(str) {
+            return PM_Vars.assets_url + str;
         }
     }
 };
