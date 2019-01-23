@@ -3,7 +3,7 @@
         <div class="nonsortable">
 
             <div v-if="loading" class="modal-mask half-modal pm-task-modal modal-transition">
-              
+
                 <div class="pm-data-load-before" >
                     <div class="loadmoreanimation">
                         <div class="load-spinner">
@@ -15,17 +15,17 @@
                         </div>
                     </div>
                 </div>
-                
+
             </div>
 
 
-            <div v-else class="popup-mask"> 
+            <div v-else class="popup-mask">
 
                 <div class="popup-container">
                     <span class="close-modal">
                         <a  @click.prevent="closePopup()"><span class="dashicons dashicons-no"></span></a>
                     </span>
-                    
+
                     <div v-activity-load-more class="popup-body">
                         <div class="pm-single-task-header">
 
@@ -35,14 +35,14 @@
                                     <span class="pm-spinner" v-if="show_spinner_status"></span>
                                     {{ __( 'Completed', 'pm' ) }}
                                 </a>
-                            
-                            
+
+
                                 <a  class="incomplete" v-if="!task.status" href="#" @click.prevent="singleTaskDoneUndone()">
                                     <span class="icon-pm-incomplete pm-font-size-16" v-if="!show_spinner_status"></span>
                                     <span class="pm-spinner" v-if="show_spinner_status"></span>
                                     {{ __( 'Mark Complete', 'pm' ) }}
                                 </a>
-                                
+
                             </div>
 
                             <div class="created-by">
@@ -62,7 +62,7 @@
                                             </a>
                                         </li>
                                         <li class="pm-dark-hover" v-if="PM_Vars.is_pro && can_edit_task(task) && user_can('view_private_task')">
-                                            
+
                                             <a class="pm-dark-hover title-anchor-menu-a icon-pm-private pm-font-size-13" v-if="task.meta.privacy=='1'" @click.prevent="singleTaskLockUnlock(task)" href="#">
                                                 <span class="action-menu-span title-anchor-menu">{{ __('Make Visible', 'wedevs-project-manager') }}</span>
                                             </a>
@@ -72,7 +72,7 @@
 
                                         </li>
                                         <li  v-if="can_edit_task(task) || isArchivedTaskList(task)">
-                                            
+
                                             <a class="pm-dark-hover title-anchor-menu-a icon-pm-delete pm-font-size-13" @click.prevent="selfDeleteTask({task: task, list: list})" href="#">
                                                 <span class="action-menu-span title-anchor-menu">{{ __('Delete', 'wedevs-project-manager') }}</span>
                                             </a>
@@ -80,9 +80,9 @@
                                     </ul>
                                 </div>
                             </div>
-                            
+
                         </div>
-                        
+
                         <div :class="singleTaskTitle(task) + ' task-title-wrap'">
                             <div class="task-title-text">
 
@@ -149,14 +149,14 @@
                                                 track-by="id"
                                                 :allow-empty="true">
 
-                                               
+
                                                 <template slot="option" slot-scope="props">
                                                     <img class="option__image" :src="props.option.avatar_url">
                                                     <div class="option__desc">
                                                         <span class="option__title">{{ props.option.display_name }}</span>
                                                     </div>
                                                 </template>
-   
+
 
                                             </multiselect>
 
@@ -164,24 +164,24 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
 
                             <div class="pm-flex option-icon-groups">
                                 <do-action :hook="'single_task_action'" :actionData="task"></do-action>
                                 <!--recurrent-->
                                 <span @click.prevent="singleTaskLockUnlock(task)" v-if="isTaskLock" :title="__('Task is visible for co-worker', 'wedevs-project-manager')" class="icon-pm-unlock pm-dark-hover pm-font-size-16"></span>
                                 <span @click.prevent="singleTaskLockUnlock(task)" v-if="isTaskUnlock" class="icon-pm-private pm-dark-hover pm-font-size-16"></span>
-                                
+
                                 <span id="pm-calendar-wrap" @click.prevent="isTaskDateEditMode()" class="individual-group-icon calendar-group icon-pm-calendar pm-font-size-16">
                                     <span v-if="(task.start_at.date || task.due_date.date )" :class="taskDateWrap(task.due_date.date) + ' pm-task-date-wrap pm-date-window'">
-                                            
+
                                         <span :title="getFullDate(task.start_at.datetime)" v-if="task_start_field">
                                             {{ dateFormat( task.start_at.date ) }}
                                         </span>
 
                                         <span v-if="task_start_field && task.start_at.date && task.due_date.date">&ndash;</span>
                                         <span :title="getFullDate(task.due_date.datetime)" v-if="task.due_date">
-                                            
+
                                             {{ dateFormat( task.due_date.date ) }}
                                         </span>
                                     </span>
@@ -478,9 +478,9 @@
                 if (e.keyCode === 27) {
                     var subtaskInput = jQuery(e.target).closest('.new-subtask-form').find('.input-area');
                     var mainBody = jQuery(e.target).closest('#pm-single-task-wrap');
-                    
+
                     if(!subtaskInput.length && !mainBody.length) {
-                        
+
                        self.closePopup();
                     }
                 }
@@ -892,8 +892,8 @@
 
                     return this.is_task_date_edit_mode;
                 }
-                
-                this.is_task_date_edit_mode = true; 
+
+                this.is_task_date_edit_mode = true;
             },
 
             windowActivity (el) {
@@ -906,7 +906,7 @@
                     datePickerBtn   = jQuery(el.target).closest('.ui-datepicker-buttonpane'),
                     hasCalendarArrowBtn = jQuery(el.target).hasClass('ui-icon'),
                     mainBody        = jQuery(el.target).closest('#pm-single-task-wrap');
-                    
+
                 if(datePicker.length || datePickerBtn.length || hasCalendarArrowBtn) {
                     return;
                 }
@@ -921,7 +921,7 @@
                 if ( ! title_blur ) {
                     this.is_task_title_edit_mode = false;
                 }
-                
+
                 if ( ! dscription_blur.length ) {
                     this.closeDescriptionEditor();
                     //this.is_task_details_edit_mode = false;
@@ -956,7 +956,7 @@
                     data: data,
                     success (res) {
                         task.meta.privacy = data.is_private;
-                        
+
                         if(data.is_private) {
                             pm.Toastr.success(self.__('Task marked as private', 'wedevs-project-manager'));
                         } else {
@@ -978,7 +978,7 @@
             cratedDateFormat (date) {
                 if ( date == '' ) {
                     return;
-                }      
+                }
 
                 date = new Date(date);
                 date = pm.Moment(date).format('YYYY-MM-DD');
