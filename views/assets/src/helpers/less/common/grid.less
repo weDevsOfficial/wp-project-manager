@@ -25,10 +25,26 @@
     flex-wrap: wrap;
     margin-right: -0.5rem;
     margin-left: -0.5rem;
+    &.@{theme-prefix}-gutter-35 {
+        margin-right: -17.5px;
+        margin-left: -17.5px;
+        [class*=pm-col-] {
+          padding-right: 17.5px;
+          padding-left: 17.5px;
+        }
+    }
+    &.@{theme-prefix}-gutter-30 {
+        margin-right: -15px;
+        margin-left: -15px;
+        [class*=pm-col-] {
+          padding-right: 15px;
+          padding-left: 15px;
+        }
+    }
     &.@{theme-prefix}-gutter-20 {
         margin-right: -10px;
         margin-left: -10px;
-        [class*=wperp-col-] {
+        [class*=pm-col-] {
           padding-right: 10px;
           padding-left: 10px;
         }
@@ -36,7 +52,7 @@
     &.@{theme-prefix}gutter-15 {
         margin-right: -7.5px;
         margin-left: -7.5px;
-        [class*=wperp-col-] {
+        [class*=pm-col-] {
           padding-right: 7.5px;
           padding-left: 7.5px;
         }

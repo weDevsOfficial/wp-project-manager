@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="141px" height="141px" viewBox="0 0 141 141" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.3 (67297) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 8</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="-22.9461739%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#FFA2AE" offset="0%"></stop>
+            <stop stop-color="#CE6CFB" offset="100%"></stop>
+        </linearGradient>
+        <rect id="path-2" x="0" y="0" width="61" height="61" rx="5"></rect>
+        <filter x="-106.6%" y="-90.2%" width="313.1%" height="313.1%" filterUnits="objectBoundingBox" id="filter-3">
+            <feOffset dx="0" dy="10" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="20" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feComposite in="shadowBlurOuter1" in2="SourceAlpha" operator="out" result="shadowBlurOuter1"></feComposite>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.07 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Primium-Page-Design-for-Project-Manager" transform="translate(-320.000000, -1450.000000)">
+            <g id="Group-8" transform="translate(360.000000, 1480.000000)">
+                <g id="Group-4">
+                    <g id="Rectangle">
+                        <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
+                        <rect stroke-opacity="0.03" stroke="#000000" stroke-width="1" stroke-linejoin="square" fill="url(#linearGradient-1)" fill-rule="evenodd" x="0.5" y="0.5" width="60" height="60" rx="5"></rect>
+                    </g>
+                </g>
+                <g id="clock" transform="translate(19.000000, 19.000000)" fill="#FFFFFF" fill-rule="nonzero" stroke="#FFFFFF">
+                    <path d="M11.9956399,0 C15.3081898,0 18.3073905,1.34644068 20.4845578,3.51399516 C22.6530049,5.69084746 24,8.68881356 24,12 C24,15.3111864 22.6530049,18.3091525 20.4845578,20.4860048 C18.3068091,22.6535593 15.3081898,24 11.9956399,24 C8.68308989,24 5.68447061,22.6535593 3.51602354,20.4860048 C1.33827483,18.3091525 0,15.3117676 0,12 C0,8.68881356 1.33769348,5.69084746 3.51544219,3.51399516 C5.68447061,1.34644068 8.68308989,0 11.9956399,0 Z M17.1137999,13.3450847 C17.4736574,13.3450847 17.7596832,13.6402906 17.7596832,14 C17.7596832,14.3597094 17.4736574,14.6549153 17.1137999,14.6549153 L11.0142432,14.6549153 L10.9956399,14.6549153 C10.755541,14.6549153 10.5433471,14.5166102 10.4328901,14.3230993 L10.4235884,14.3138015 L10.4142868,14.2952058 L10.4142868,14.285908 L10.4049851,14.2673123 L10.3956835,14.2487167 L10.3956835,14.2394189 L10.3863818,14.2208232 L10.3770802,14.2115254 L10.3770802,14.1929298 L10.3677785,14.1743341 L10.3677785,14.1650363 L10.3584769,14.1464407 L10.3584769,14.127845 L10.3584769,14.1185472 L10.3584769,14.1092494 L10.3491752,14.0999516 L10.3491752,14.0813559 L10.3491752,14.0627603 L10.3491752,14.0464891 L10.3491752,14.0371913 L10.3491752,14.0185956 L10.3491752,14 L10.3491752,6.18750605 C10.3491752,5.82779661 10.6352009,5.54188862 10.9950585,5.54188862 C11.3549161,5.54188862 11.6502434,5.82779661 11.6502434,6.18750605 L11.6502434,13.3450847 L17.1137999,13.3450847 Z M19.5619504,4.43680387 C17.6243006,2.49995157 14.9483322,1.30983051 11.9956399,1.30983051 C9.04294746,1.30983051 6.36697914,2.49937046 4.42932926,4.43680387 C2.50098103,6.37365617 1.30106824,9.048523 1.30106824,12 C1.30106824,14.951477 2.50039968,17.6263438 4.42932926,19.5637772 C6.36697914,21.5006295 9.04294746,22.6907506 11.9956399,22.6907506 C14.9483322,22.6907506 17.6243006,21.5006295 19.5619504,19.5637772 C21.4996003,17.6269249 22.6995131,14.9520581 22.6995131,12 C22.6995131,9.048523 21.5001817,6.37365617 19.5619504,4.43680387 Z" id="Shape"></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
