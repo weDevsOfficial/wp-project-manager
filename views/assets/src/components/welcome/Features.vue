@@ -2,7 +2,7 @@
     <!-- start features section -->
     <section class="pm-section pm-section-wrapper pm-feature-section">
         <div class="pm-section-title">
-            <h2>{{ __('Features Overview', 'wedevs-project-manager') }}</h2>
+            <h2>{{ __('Features you can use...', 'wedevs-project-manager') }}</h2>
         </div>
         <div class="pm-section-content">
             <div class="pm--row pm-gutter-20">
@@ -39,14 +39,14 @@
                         'cardClass': 'activities'
                     },
                     {
-                        'featureName': 'Discussion',
+                        'featureName': 'Team Discussion',
                         'featureDescription': 'Create with limitless possibilities. This Web Based Project Management System is packed with features & tools to boost your team productivity.',
                         'featureVideo': '668nUCeBHyY',
                         'featureThumb': 'discussion-thumb.jpg',
                         'cardClass': 'discussion'
                     },
                     {
-                        'featureName': 'Task',
+                        'featureName': 'To-do Lists',
                         'featureDescription': 'Create with limitless possibilities. This Web Based Project Management System is packed with features & tools to boost your team productivity.',
                         'featureVideo': '668nUCeBHyY',
                         'featureThumb': 'task-thumb.jpg',
@@ -60,7 +60,7 @@
                         'cardClass': 'milestone'
                     },
                     {
-                        'featureName': 'File',
+                        'featureName': 'Manage Files',
                         'featureDescription': 'Create with limitless possibilities. This Web Based Project Management System is packed with features & tools to boost your team productivity.',
                         'featureVideo': '668nUCeBHyY',
                         'featureThumb': 'file-thumb.jpg',
@@ -125,7 +125,8 @@
                 font-size: 18px;
                 color: #23282D;
                 margin: 0 0 10px;
-                font-weight: 400;
+                font-weight: 600;
+                text-align: center;
             }
             p {
                 color: #758598;
