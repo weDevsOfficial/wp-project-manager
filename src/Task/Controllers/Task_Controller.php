@@ -22,6 +22,8 @@ use WeDevs\PM\Common\Models\Assignee;
 use Illuminate\Pagination\Paginator;
 use WeDevs\PM\Comment\Models\Comment;
 use WeDevs\PM\Task_List\Transformers\Task_List_Transformer;
+use WeDevs\PM\Task_List\Transformers\New_Task_List_Transformer;
+use WeDevs\PM\Task_List\Transformers\List_Task_Transformer;
 use WeDevs\PM\Activity\Models\Activity;
 use WeDevs\PM\Activity\Transformers\Activity_Transformer;
 
@@ -583,19 +585,34 @@ class Task_Controller {
         ->where('project_id', $project_id)
         ->orderBy( 'order', 'DESC' )
         ->paginate( $per_page );
-
+        
         $collection = $task_lists->getCollection();
         $list_ids   = [];
-
+        $task_ids   = [];
+        
         foreach ( $collection as $key => $task_list ) {
             $list_ids[] = $task_list->id;
-            // $task = new Collection( $task_list->tasks, new Task_Transformer );
-            // $tasks[$task_list->id] = $this->get_response( $task );
+            
+            foreach ( $task_list->tasks as $key => $task_item ) {
+                $task_ids[] = $task_item->id;
+            }
+
+            //$task = new Collection( $task_list->tasks, new Task_Transformer );
+            //$tasks[$task_list->id] = $this->get_response( $task );
         }
 
-        $this->count_lists_complete_incomplete_tasks($list_ids, $project_id);
+        $tasks_meta = $this->get_tasks_meta( $task_ids );
+        $task_status_count = $this->count_lists_complete_incomplete_tasks($list_ids, $project_id);
         
-        $resource = new Collection( $collection, new Task_List_Transformer );
+        foreach ( $collection as $key => $task_list ) {
+            $completed = empty( $task_status_count[$task_list->id] ) ? $task_status_count[$task_list->id]->completed_task : '';
+            $incompleted = empty( $task_status_count[$task_list->id] ) ? $task_status_count[$task_list->id]->incompleted_task : '';
+
+            $task_list->completed_task = $completed;
+            $task_list->incompleted_task = $incompleted;
+        }
+        
+        $resource = new Collection( $collection, new New_Task_List_Transformer );
         $resource->setPaginator( new IlluminatePaginatorAdapter( $task_lists ) );
 
         $req_lists = $this->get_response( $resource );
@@ -685,22 +702,55 @@ class Task_Controller {
 
         
         $results = $wpdb->get_results( $boardable );
+        $returns = [];
 
         foreach ( $results as $key => $result ) {
-            if ( empty( $result->incompleted_task ) ) {
-                $result->incompleted_task_count = 0;
-            } else {
-                $result->incompleted_task_count = count( explode( '|', $result->incompleted_task ) ); 
-            }
 
-            if ( empty( $result->completed_task ) ) {
-                $result->completed_task_count = 0;
-            } else {
-                $result->completed_task_count = count( explode( '|', $result->completed_task ) );
-            }
+            $returns[$result->board_id] = $result;
         }
         
-        return $results;
+        return $returns;
+    }
+
+    public function get_tasks_meta( $tasks_ids = [] ) {
+        global $wpdb;
+
+        $comment      = pm_tb_prefix() . 'pm_comments';
+        $assignees    = pm_tb_prefix() . 'pm_assignees';
+        $tb_tasks     = pm_tb_prefix() . 'pm_tasks';
+        $tb_lists     = pm_tb_prefix() . 'pm_boards';
+        $tb_boardable = pm_tb_prefix() . 'pm_boardables';
+        $tb_meta      = pm_tb_prefix() . 'pm_meta';
+        $task_ids     = implode( ',', $tasks_ids ); 
+
+        $tasks = "SELECT tk.id,
+                GROUP_CONCAT(
+                    DISTINCT
+                    CONCAT(
+                        '{', 
+                            '\"', 'assigned_to', '\"', ':' , '\"', IFNULL(asgn.assigned_to, '') , '\"' , ',',
+                            '\"', 'assigned_at', '\"', ':' , '\"', IFNULL(asgn.assigned_at, '') , '\"' , ',',
+                            '\"', 'completed_at', '\"', ':' , '\"', IFNULL(asgn.completed_at, '') , '\"' , ',',
+                            '\"', 'started_at', '\"', ':' , '\"', IFNULL(asgn.started_at, '') , '\"' , ',',
+                            '\"', 'status', '\"', ':' , '\"', IFNULL(asgn.status, '') , '\"' 
+                        ,'}' 
+                    ) SEPARATOR '|'
+                ) as assignees,
+
+                count(cm.id) as total_comment
+
+            FROM $tb_tasks as tk
+            LEFT JOIN $comment as cm ON tk.id=cm.commentable_id AND cm.commentable_type = 'task'
+            LEFT JOIN $assignees as asgn ON tk.id=asgn.task_id AND cm.commentable_type = 'task'
+            where 
+            tk.id In ($task_ids)
+            GROUP BY tk.id";
+
+        
+        $results = $wpdb->get_results( $tasks );
+
+        pmpr($results); die();
+        
     }
 }
 
