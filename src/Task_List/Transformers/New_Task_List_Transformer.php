@@ -26,6 +26,7 @@ class New_Task_List_Transformer extends TransformerAbstract {
     ];
 
     public function transform( Task_List $item ) {
+        
         $data = [
             'id'          => (int) $item->id,
             'title'       => $item->title,
