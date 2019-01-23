@@ -154,12 +154,13 @@
         border-radius: 5px;
         
         h3 {
-            font-size: 18px;
+            font-size: 23px;
             margin-bottom: 12px;
             margin-top: -35px;
         }
         p {
             line-height: 24px;
+            font-size: 14px;
         }
         .pm-module-description {
             margin: 0 0 10px;

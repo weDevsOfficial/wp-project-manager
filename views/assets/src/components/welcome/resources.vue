@@ -91,11 +91,12 @@
             justify-content: center;
         }
         h3 {
-            font-size: 18px;
+            font-size: 23px;
             margin-bottom: 12px;
         }
         p {
             line-height: 24px;
+            font-size: 14px;
         }
         .pm-resource-description {
             margin: 0 0 10px;

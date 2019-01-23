@@ -119,7 +119,7 @@
             column-count: 2;
             li {
                 color: #72777C;
-                font-size: 13px;
+                font-size: 14px;
                 display: flex;
                 align-items: center;
                 margin-bottom: 9px;

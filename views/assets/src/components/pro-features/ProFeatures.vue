@@ -94,7 +94,7 @@
             border-top: 0;
             border-radius: 0 0 3px 3px;
             h3 {
-                font-size: 18px;
+                font-size: 23px;
                 color: #23282D;
                 margin: 0 0 10px;
                 font-weight: 400;
@@ -102,6 +102,7 @@
             p {
                 color: #758598;
                 line-height: 24px;
+                font-size: 14px;
             }
         }
     }
