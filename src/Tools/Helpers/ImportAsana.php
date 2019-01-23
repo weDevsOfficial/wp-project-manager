@@ -133,30 +133,32 @@ class ImportAsana extends WP_Background_Process
         if(isset($project_data->data)){
             $project = $project_data->data;
             error_log(print_r($project, true));
+//            $hasProject = Project::where('title', '=', trim($project->name))->get();
+//            if(isset($hasProject->title)) {
+                $project_members = $project->members;
+                // asana project to cpm project
+                $pm_project = new Project();
+                $pm_project->title = $project->name;
+                $pm_project->description = $project->notes;
+                $pm_project->status = $project->archived;
+                $pm_project->budget = null;
+                $pm_project->pay_rate = null;
+                $pm_project->est_completion_date = null;
+                $pm_project->color_code = null;
+                $pm_project->order = null;
+                $pm_project->projectable_type = null;
+                $pm_project->completed_at = null;
+                $pm_project->created_by = get_current_user_id();
+                $pm_project->updated_by = get_current_user_id();
+                $pm_project->save();
 
-            $project_members = $project->members;
-            // asana project to cpm project
-            $pm_project = new Project();
-            $pm_project->title = $project->name;
-            $pm_project->description = $project->notes;
-            $pm_project->status = $project->archived;
-            $pm_project->budget = null;
-            $pm_project->pay_rate = null;
-            $pm_project->est_completion_date = null;
-            $pm_project->color_code = null;
-            $pm_project->order = null;
-            $pm_project->projectable_type = null;
-            $pm_project->completed_at = null;
-            $pm_project->created_by = get_current_user_id();
-            $pm_project->updated_by = get_current_user_id();
-            $pm_project->save();
+                //migrating members to user
+                $this->migrateprojectsMembers($project_members, $pm_project->id);
+                // asana lists to cpm projects
+                $this->fetchAndSaveLists($project_id, $pm_project->id);
 
-            //migrating members to user
-            $this->migrateprojectsMembers($project_members, $pm_project->id);
-            // asana lists to cpm projects
-            $this->fetchAndSaveLists($project_id,$pm_project->id);
-
-            error_log($pm_project->name);
+                error_log($pm_project->name);
+//            }
         }
 
     }
