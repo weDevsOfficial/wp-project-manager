@@ -12,7 +12,9 @@
                 <div class="pm-col-sm-6 pm-col-xs-12">
                     <p class="pm-welcome-to">{{ __('Welcome to', 'wedevs-project-manager') }}</p>
                     <h1 class="pm-project-title">{{ __('WP Project Manager', 'wedevs-project-manager') }}</h1>
-                    <p>{{ __('Get month/week/day wise overview of your added task in your project manager. Filter, edit, update or take', 'wedevs-project-manager') }}</p>
+                    <p>{{ __('Get month/week/day wise overview of your added task in your project manager.', 'wedevs-project-manager') }}
+                        <br>{{ __('Filter, edit, update or take', 'wedevs-project-manager') }}
+                    </p>
                     <div class="pm-buttons-container">
                         <a href="#" class="pm-btn pm-btn-primary">{{ __('Create Your First Project', 'wedevs-project-manager') }}</a>
                         <a href="#" class="pm-btn pm-btn-white">{{ __('Read Full Guide', 'wedevs-project-manager') }}</a>
@@ -54,8 +56,8 @@
         color: #fff;
         font-weight: 300;
         p {
-            color: #fff;
-            font-size: 13px;
+            color: #dab1fd;
+            font-size: 16px;
             line-height: 25px;
             margin-bottom: 15px;
         }
