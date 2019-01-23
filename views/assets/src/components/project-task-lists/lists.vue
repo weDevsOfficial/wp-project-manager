@@ -200,9 +200,11 @@
                                 </div>
                             </div>
                             <div class="action">
-                                <input  type="submit" class="pm-button pm-primary filter-submit-btn" name="submit_todo" :value="__('Done', 'wedevs-project-manager')">
+                                <span v-if="taskFilterSpinner" class="pm-spinner"></span>
                                 <a @click.prevent="showFilter()" class="pm-button pm-secondary" href="#">{{__('Cancel', 'wedevs-project-manager')  }}</a>
+                                <input  type="submit" class="pm-button pm-primary filter-submit-btn" name="submit_todo" :value="__('Done', 'wedevs-project-manager')">
                             </div>
+                            <div class="pm-clearfix"></div>
                         </form>
                     </div>
                 </div>
@@ -830,9 +832,17 @@
                     display: flex;
                     align-items: center;
                     margin-top: 18px;
-                    
-                    .pm-primary {
+                    float: right;
+                    &:after {
+                        content: "";
+                        clear: both;
+                        display: block;
+                        height: 0;
+                    }
+                    .pm-secondary, .pm-spinner {
                         margin-right: 10px !important;
+                    }
+                    .pm-primary {
                         padding: 0 20px 1px !important;
                     }
                 }
@@ -1061,7 +1071,8 @@
                         title: this.__('All', 'wedevs-project-manager')
                     }
                 ],
-                asyncListLoading: false
+                asyncListLoading: false,
+                taskFilterSpinner: false
             }
         },
 
@@ -1536,6 +1547,10 @@
             },
 
             taskFilter () {
+                if(this.taskFilterSpinner) {
+                    return;
+                }
+                this.taskFilterSpinner = true;
                 var self = this;
                 var query = {
                     users: this.filterUsersId(this.defaultUser),
@@ -1551,10 +1566,12 @@
                     query: query
                 });
 
-                this.filterRequent();
+                this.filterRequent(function(res) {
+                    self.taskFilterSpinner = false;
+                });
             },
 
-            filterRequent () {
+            filterRequent (callback) {
                 var self = this;
                 
                 self.httpRequest({
@@ -1589,6 +1606,10 @@
 
                         self.$store.commit( 'projectTaskLists/balankTemplateStatus', false);
                         self.$store.commit( 'projectTaskLists/listTemplateStatus', true);
+
+                        if(typeof callback !== 'undefined') {
+                            callback(res);
+                        }
                     }
                 });
             },
