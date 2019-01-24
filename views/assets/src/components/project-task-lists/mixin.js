@@ -940,10 +940,10 @@ var PM_TaskList_Mixin = {
             
             if(typeof this.$route.query.filterTask != 'undefined') {
                 if(this.$route.query.filterTask == 'active') {
-                    //if(this.$route.query.status == 'complete') {
+                    if(this.$route.query.status == 'complete') {
                         
                         return false;
-                    //}
+                    }
                 }
             }
 

@@ -455,6 +455,10 @@ class Task_List_Controller {
             $permission_join
             WHERE 
             bo.board_id IN ($list_ids)
+            AND
+            bo.boardable_type = 'task'
+            AND
+            itasks.project_id=$project_id
             $permission_where
             GROUP BY bo.board_id";
 
