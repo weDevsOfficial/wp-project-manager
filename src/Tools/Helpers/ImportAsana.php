@@ -26,7 +26,7 @@ class ImportAsana extends WP_Background_Process
      * @var string
      */
     protected $action = 'asana_import';
-    private $credentials; //= pm_get_settings('asana_credentials');
+    public $credentials; //= pm_get_settings('asana_credentials');
     public $asana;
     private $imported;
     private $importing;

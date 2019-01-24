@@ -40,3 +40,12 @@ $router->post( 'tools/active-collab-tokenize', 'WeDevs/PM/Tools/Controllers/Acti
 
 $router->get( 'tools/active-collab-projects', 'WeDevs/PM/Tools/Controllers/ActivecolController@projectsAC' )
     ->permission(['WeDevs\PM\Core\Permissions\Project_Manage_Capability']);
+
+$router->post( 'tools/active-collab-import', 'WeDevs/PM/Tools/Controllers/ActivecolController@import' )
+    ->permission(['WeDevs\PM\Core\Permissions\Project_Manage_Capability']);
+
+$router->get( 'tools/active-collab-imported', 'WeDevs/PM/Tools/Controllers/ActivecolController@showSaved' )
+    ->permission(['WeDevs\PM\Core\Permissions\Project_Manage_Capability']);
+
+$router->get( 'tools/active-collab-in-process', 'WeDevs/PM/Tools/Controllers/ActivecolController@showInProcess' )
+    ->permission(['WeDevs\PM\Core\Permissions\Project_Manage_Capability']);

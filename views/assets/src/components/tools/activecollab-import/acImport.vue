@@ -17,7 +17,7 @@
                     </div>
                     <div v-else>
                         <h5>selected account : #{{ account }}</h5>
-                        <button type="button" class="button button-primary" >Remove Authorization</button>
+                        <button type="button" class="button button-primary" @click="removeAuth()">Remove Authorization</button>
                     </div>
                 </div>
                 <div id="ac-account">
@@ -28,28 +28,39 @@
                         </ul>
                     </div>
                 </div>
+                <div v-if="account !== ''">
+                    <input type='checkbox' @click='checkAll()' v-model='selected'> Select All &nbsp;
+                    <button type="button" class="button button-primary" :disabled="disableReqBtn" @click="sendToProcess()">Import Selected</button>
+                </div>
             </div>
         </div>
 
         <div id="acl-projects">
-
+            <ac-projects v-if="account !== ''" ref="aclp" :acl-projects="projects" :account="account" @allaclpSelected="allSelected()"></ac-projects>
         </div>
     </div>
 </template>
 
 <script>
+    import ac_projects from './acProjects.vue';
     export default {
         data(){
             return {
                 show_spinner:false,
-                ac_username : "kutsnalmas@gmail.com",
+                ac_username : "kutsnalma@gmail.com",
                 ac_password : "wedevstest",
                 accounts :{},
                 account : '',
                 account_url : '',
                 account_token : '',
-                projects : []
+                projects : [],
+                selected:false,
+                requestSent:false
             }
+        },
+
+        components:{
+            'ac-projects':ac_projects
         },
 
         methods:{
@@ -122,9 +133,14 @@
                     self.account_url = res[0].value.url;
                     self.account_token = res[0].value.token;
                     self.account = res[0].value.accID;
-                    console.log(res[0].value)
+                    // console.log(res[0].value)
                 });
 
+            },
+
+            removeAuth(){
+                this.saveCredentials("", "", "");
+                this.projects = [];
             },
 
             getItems(bag){
@@ -135,27 +151,77 @@
                     success (res) {
                         if(res.length > 0){
                             res.forEach(function(val){
-                                bag.push(val)
+                                bag.push({ name:val.name, id:val.id, clicked:false })
                             })
                         }
-                        console.log(res);
+                        // console.log(bag);
                         pm.NProgress.done();
                     }
                 };
                 self.httpRequest(request);
+            },
+
+            checkAll: function(){
+                this.selected = !this.selected;
+                this.$refs.aclp.selectAll(this.selected);
+            },
+
+            sendToProcess: function(){
+                var self = this;
+
+                var args = {
+                    data: {
+                        aclProjects : self.selectedProjects
+                    },
+                    user_id: this.current_user.ID,
+                    callback: false,
+                };
+                var request = {
+                    type: 'POST',
+                    data: args.data,
+                    url: self.base_url+"/pm/v2/tools/active-collab-import",
+                    success (res) {
+                        self.requestSent = true;
+                        console.log(res);
+                        // toastr.info(res);
+                    }
+                };
+
+                self.httpRequest(request);
 
             },
 
+            init(){
+                this.account = this.getSettings('accID', '', 'activecol_credentials');
+                this.account_url = this.getSettings('url', '', 'activecol_credentials');
+                this.account_token = this.getSettings('token', '', 'activecol_credentials');
+
+                if(this.account){
+                    this.getItems(this.projects);
+                }
+            },
+
+            allSelected() {
+                this.selected = this.$refs.aclp.isAllSelected;
+            }
+
+        },
+
+        computed:{
+            selectedProjects() {
+                return  this.$store.state.activecol.selectedAclProjects;
+            },
+             disableReqBtn(){
+                if(this.requestSent || this.selectedProjects.length === 0){
+                    return true;
+                } else {
+                    return false;
+                }
+            }
         },
 
         created(){
-            this.account = this.getSettings('accID', '', 'activecol_credentials');
-            this.account_url = this.getSettings('url', '', 'activecol_credentials');
-            this.account_token = this.getSettings('token', '', 'activecol_credentials');
-
-            if(this.account){
-                this.getItems(this.projects);
-            }
+            this.init()
         }
 
 

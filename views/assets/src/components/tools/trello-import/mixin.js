@@ -3,28 +3,9 @@ export default {
         return {
             api_url: 'https://api.trello.com/1/member/me/',
             api_url_all: 'https://api.trello.com/1/',
-            // result:[],
-            // selected_result:[],
-            // selected:false
         }
     },
     methods:{
-        // trelloGet(item, bag){
-        //     var self = this;
-        //     let url = this.api_url+item+'?key='+this.api_key+'&token='+this.token;
-        //     let fields = 'all';
-        //
-        //     jQuery.get(url, function(response){
-        //
-        //         response.forEach(function (val, index) {
-        //             bag.push(val)
-        //             jQuery.get(self.api_url_all+'boards/'+val.id+'/lists?cards=all&card_fields='+fields+'&filter=all&fields=all&key='+self.api_key+'&token='+self.token, function(listCards){
-        //                 bag.push({id:val.id, name:val.name, desc:val.desc, members:val.memberships, lists:listCards, clicked:false});
-        //             });
-        //
-        //         });
-        //     });
-        // },
 
         trelloGet(item, bag){
             var self = this;

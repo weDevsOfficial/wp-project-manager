@@ -31,19 +31,6 @@ class TrelloController
 
         return array('msg' => 'Your trello items are under process to import ... ');
 
-//        return $importTrello->trello->getCardMembers('56c56ae0abd3ab8cd1b7d953');
-//        return $importTrello->trello->getBoard('5bacac2dd2938a4ba1b9efb8');
-//        return $importTrello->trello->getLists('5bacac2dd2938a4ba1b9efb8');
-//        return $importTrello->trello->getCards('5bacac2dd2938a4ba1b9efb9');
-//        return $importTrello->getOrCreateUserId('dash','shamssadek@gmail.com');
-//        return $importTrello->trello->getMemberInfo('56c2c790e640640ecdbb7a92');
-//        return $importTrello->trello->getMemberInfo('56c2c7ecb0965c311015ea73');
-//        return $importTrello->trello->getCardActions('5c2da9fd1215b37bb747b95a')['1'];
-//        //['memberCreator']['username'];
-
-//        return $importTrello->trello->getCardChecklists('5c2da9fd1215b37bb747b95a')[0]['checkItems'];
-//        $tt = $importTrello->trello->getLists('5c1bd10b46c4c60fa2fe623a');
-//
     }
 
     public function showSaved(){
