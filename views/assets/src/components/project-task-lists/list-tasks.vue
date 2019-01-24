@@ -14,7 +14,7 @@
                 <a class="anchor-btn" @click.prevent="loadMoreIncompleteTasks(list)" href="#">{{ __( 'More Tasks', 'wedevs-project-manager') }}</a>
             </div>
             
-            <div v-if="parseInt(list.meta.total_complete_tasks) > 0" class="group-action-btn show-completed-task">
+            <div v-if="parseInt(list.meta.total_complete_tasks) > 0 && checkSearchStatus()" class="group-action-btn show-completed-task">
                 
                 <a v-if="!showCompletedTask" @click.prevent="fetchCompleteTasks(list)" class="anchor-btn" href="#">
                     <span>{{ __('Show Completed Task', 'wedevs-project-manager') }}</span>
@@ -30,14 +30,6 @@
                 <complete-tasks :task="task" :list="list"></complete-tasks>       
 
             </li>
-            
-            <!-- <li v-if="!hasList" class="nonsortable">{{ __( 'No tasks found.', 'wedevs-project-manager') }}</li> -->
-          <!--   <transition name="slide" v-if="can_create_task">
-                <li v-if="list.show_task_form" class="pm-todo-form nonsortable">
-                    <new-task-form :list="list"></new-task-form>
-                </li>
-            </transition> -->
-
         </ul>
         <div
             v-if="isCompleteLoadMoreActive(list) && showCompletedTask"
@@ -524,6 +516,7 @@
         created () {
             //preventing multiple click for load more complete task
             pm.Vue.set(this.list, 'task_loading_status', false);
+            this.isTaskFilterActive();
         },
 
         watch: {
@@ -618,6 +611,9 @@
                 }
 
                 return false;
+            },
+            taskFilterStatus () {
+                return this.$store.state.projectTaskLists.isActiveTaskFilter;
             }
         },
 
@@ -628,7 +624,20 @@
             'single-task': pm.SingleTask
         },
 
-        methods: { //loadMoreCompleteTasks
+        methods: { 
+            checkSearchStatus () {
+                if(this.$route.query.filterTask == 'active' && this.$route.query.status != 'complete') {
+                    return false;
+                }
+
+                return true;
+            },
+            isTaskFilterActive () {
+                if(this.$route.query.filterTask == 'active' && this.$route.query.status == 'complete') {
+                    this.showCompletedTask = true;
+                    
+                }
+            },
             fetchCompleteTasks (list) {
                 var self = this;
 

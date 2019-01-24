@@ -1419,7 +1419,7 @@ var PM_TaskList_Mixin = {
                         privacy: data.is_private,
                         project_id: self.project_id,
                         task_id: task.id,
-                        list_id: task.task_list.data.id
+                        list_id: task.task_list_id
 
                     });
                 },

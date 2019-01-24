@@ -605,12 +605,12 @@ class Task_Controller {
         $task_metas = $this->get_tasks_meta( $task_ids );
 
         //get task lists total complete and incomplete task count
-        $task_status_count = ( new Task_List_Controller )->get_lists_meta($list_ids, $project_id);
+        $lists_tasks_count = ( new Task_List_Controller )->get_lists_tasks_count($list_ids, $project_id);
 
-        
         //Set task assignees and comment count
         foreach ( $collection as $key => $task_list ) {
-
+            $task_list->lists_tasks_count = empty( $lists_tasks_count[$task_list->id] ) ? [] : $lists_tasks_count[$task_list->id];
+            
             foreach ( $task_list->tasks as $tkey => $task ) {
                 $task->assignees = empty( $task_metas[$task->id] ) ? [] : $task_metas[$task->id]->assignees;
                 $task->total_comment = empty( $task_metas[$task->id] ) ? [] : $task_metas[$task->id]->total_comment;
@@ -621,15 +621,7 @@ class Task_Controller {
         foreach ( $collection as $key => $task_list ) {
             $tasks[$task_list->id] = $this->transform_tasks( $task_list->tasks );
         }
-        
-        //set complete and incomplete tasks in individul lists
-        foreach ( $collection as $key => $task_list ) {
-            $completed = empty( $task_status_count[$task_list->id] ) ? $task_status_count[$task_list->id]->completed_task : '';
-            $incompleted = empty( $task_status_count[$task_list->id] ) ? $task_status_count[$task_list->id]->incompleted_task : '';
 
-            $task_list->completed_task = $completed;
-            $task_list->incompleted_task = $incompleted;
-        }
         
         $resource = new Collection( $collection, new New_Task_List_Transformer );
         $resource->setPaginator( new IlluminatePaginatorAdapter( $task_lists ) );
@@ -695,6 +687,10 @@ class Task_Controller {
     public function get_tasks_meta( $tasks_ids = [] ) {
         global $wpdb;
 
+        if ( empty( $tasks_ids ) ) {
+            $tasks_ids[] = 0;
+        }
+
         $comment      = pm_tb_prefix() . 'pm_comments';
         $assignees    = pm_tb_prefix() . 'pm_assignees';
         $tb_tasks     = pm_tb_prefix() . 'pm_tasks';
@@ -721,7 +717,7 @@ class Task_Controller {
 
             FROM $tb_tasks as tk
             LEFT JOIN $comment as cm ON tk.id=cm.commentable_id AND cm.commentable_type = 'task'
-            LEFT JOIN $assignees as asgn ON tk.id=asgn.task_id AND cm.commentable_type = 'task'
+            LEFT JOIN $assignees as asgn ON tk.id=asgn.task_id 
             where 
             tk.id In ($task_ids)
             GROUP BY tk.id";
@@ -751,6 +747,10 @@ class Task_Controller {
 
     public function get_incomplete_task_ids( $list_ids, $project_id ) {
         global $wpdb;
+
+        if ( empty( $list_ids ) ) {
+            $list_ids[] = 0;
+        }
 
         $pagenum    = isset( $_GET['incomplete_task_page'] ) ? intval( $_GET['incomplete_task_page'] ) : 1;
         
@@ -801,6 +801,10 @@ class Task_Controller {
     public function get_complete_task_ids( $list_ids, $project_id ) {
         global $wpdb;
 
+        if ( empty( $list_ids ) ) {
+            $list_ids[] = 0;
+        }
+
         $pagenum          = isset( $_GET['complete_task_page'] ) ? intval( $_GET['complete_task_page'] ) : 1;
         $table_ba         = $wpdb->prefix . 'pm_boardables';
         $table_task       = $wpdb->prefix . 'pm_tasks';
@@ -848,6 +852,10 @@ class Task_Controller {
 
     public function get_tasks( $task_ids, $args=[] ) {
         global $wpdb;
+        
+        if ( empty( $list_ids ) ) {
+            $task_ids[] = 0;
+        }
 
         $task      = pm_tb_prefix() . 'pm_tasks';
         $list      = pm_tb_prefix() . 'pm_boardables';
@@ -885,7 +893,7 @@ class Task_Controller {
             
             ->groupBy($task . '.id')
             ->orderBy( $list . '.order', 'ASC' );
-
+        
         $task_collection = apply_filters( 'list_tasks_filter_query', $task_collection );
         
         $task_collection = $task_collection->get();
