@@ -472,6 +472,9 @@
 
                                 .list-update-warp {
                                     width: 300px;
+                                    position: absolute;
+                                    z-index: 999999;
+                                    top: 18px;
 
                                     form {
                                         padding: 10px;
@@ -976,10 +979,6 @@
             }
         }
     }
-
-    
-
-
 </style>
 
 <script>

@@ -182,7 +182,7 @@
 
                 if(!is_update){
                     self.addList(args);
-                }else {
+                } else {
                     self.updateList(args);
                 }               
             },
