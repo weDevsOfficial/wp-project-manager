@@ -4,6 +4,18 @@ export default {
 
     },
 	methods: {
+        checkImportStatus:function(source, value){
+            return source.includes(value);
+        },
+
+        cutString(string, length, dot){
+            var output = "";
+            output = string.substring(0, parseInt(length));
+            if(dot && string.length > length){
+                output += "...";
+            }
+            return output;
+        },
         getImportStatus(bag, url){
             var self = this;
             var request = {
