@@ -10,7 +10,7 @@
                 url: PM_Global_Vars.rest_url + '/pm/v2/search',
                 data: {
                     query: term,
-                    model: 'project', 
+                    model: 'project',
                 },
                 success (res) {
                     if (typeof callback ==='function') {
@@ -21,9 +21,9 @@
         },
 
         pm_result_item_url ( item ) {
-            var url = null; 
-    
-    
+            var url = null;
+
+
             switch (item.type) {
                 case 'task':
                     url = '#/projects/'+ item.project_id + '/task-lists/tasks/' + item.id
@@ -37,9 +37,9 @@
                 case 'milestone':
                     url = '#/projects/'+ item.project_id + '/milestones/';
                     break;
-    
+
                 case 'discussion_board':
-                    
+
                     break;
                 case 'task_list':
                     url = '#/projects/'+ item.project_id + '/task-lists/'+ item.id;
@@ -89,24 +89,24 @@
         }
     }
 
-    
+
 
     $.widget( "custom.pmautocomplete", $.ui.autocomplete, {
         _create: function() {
           this._super();
           this.widget().menu( "option", "items", "> :not(.pm-search-type)" );
         }
-        
+
       });
 
       $(document).ready(function () {
         let ctrlDown = false, jpressed = false, otherkey = false ;
-        var ctrlKey = 17, 
+        var ctrlKey = 17,
             cmdKey = 91,
-            cmdKey2 = 93, 
+            cmdKey2 = 93,
             jKey = 74,
             escKey = 27;
-    
+
         var element = $('#pmswitchproject');
 
         function show_search_element () {
@@ -114,7 +114,7 @@
             element.find('input').focus();
             element.find('input').val('');
         }
-    
+
         $(document).bind ('keydown', function(e) {
             let keycode = e.keyCode || e.which;
 
@@ -140,10 +140,10 @@
                 ctrlDown = false;
                 otherkey = false;
                 element.css('display', 'none').removeClass('active');
-            } 
+            }
 
         });
-    
+
         $(document).bind('keyup', function (e) {
             let keycode = e.keyCode || e.which;
             otherkey = false;
@@ -151,7 +151,7 @@
                 ctrlDown = false;
             }
         });
-    
+
 
         $(document).bind('click', function (e) {
             if($(e.target).closest('#wp-admin-bar-pm_search').length) {
@@ -161,7 +161,7 @@
             if($(e.target).closest('#wp-admin-bar-pm_create_task').length) {
                 return;
             }
-            
+
             if ($(e.target).closest('.pmswitcharea').length) {
                 return;
             }
@@ -174,7 +174,7 @@
                 otherkey = false;
                 element.css('display', 'none').removeClass('active');
             }
-            if ($(this).find('#pmcteatetask').hasClass('active')) { 
+            if ($(this).find('#pmcteatetask').hasClass('active')) {
                 newTaskElement.css('display', 'none').removeClass('active');
             }
 
@@ -185,7 +185,7 @@
         })
 
         var availableTags = [];
-        
+
         element.find('input').pmautocomplete({
             autoFocus: true,
             appendTo: ".pm-spresult",
@@ -196,7 +196,7 @@
                     res( availableTags );
                     $( self ).removeClass( 'pm-sspinner' );
                     return;
-                } 
+                }
                 else if (!req.term.trim() && !availableTags.length) {
                     PM_Global.pm_search_request('', function (response) {
                         availableTags = response;
@@ -215,20 +215,21 @@
                         res( a );
                         $( self ).removeClass( 'pm-sspinner' );
                     }
-                    
+
                     PM_Global.pm_search_request(req.term, function (response) {
                         availableTags = response;
                         res(response);
+                        // console.log(response);
                         $( self ).removeClass( 'pm-sspinner' );
                     })
-                    
+
                 }
-                
+
             },
             search ( event, ui ) {
                 $( this ).addClass( 'pm-sspinner' );
             },
-            open () { 
+            open () {
                 $( this ).removeClass( 'pm-sspinner' );
                 $( this ).addClass( 'pm-open' );
                 $( this ).pmautocomplete( 'widget' ).css( {
@@ -245,8 +246,8 @@
                     element.css('display', 'none').removeClass('active');
                     jpressed = false;
                 }
-                 
-                
+
+
             }
         }).focus(function () {
             $(this).data('custom-pmautocomplete').search(' ');
@@ -263,7 +264,7 @@
                 .append("<span class='icon-pm-incomplete'></span>")
                 .append("<a href='"+PM_Global.pm_result_item_url(item)+"'>" + item.title + "</a>")
                 .appendTo(ul);
-     
+
         };
 
 
@@ -294,9 +295,9 @@
         $('#newtaskform').submit(function (event) {
             event.preventDefault();
 
-            
+
         })
-            
+
     })
-  
+
 })(jQuery);

@@ -3,24 +3,36 @@
         <div class="ac-credentials">
             <h3 class="title"><i class="fa fa-adn"></i> Import From Active Collab</h3>
             <div class="flex-box">
-                <div>
-                    <div>
-                        <label for="acEmail">Username/Email</label>
-                        <input type="email" id="acEmail" required v-model="ac_username" placeholder="email">
+                <div id="ac-auth">
+                    <div v-if="!account">
+                        <div>
+                            <label for="acEmail">Username/Email</label>
+                            <input type="email" id="acEmail" required v-model="ac_username" placeholder="email">
+                        </div>
+                        <div>
+                            <label for="acPass">Password</label>
+                            <input type="password" id="acPass" required v-model="ac_password" placeholder="password">
+                        </div>
+                        <button type="button" class="button button-primary" @click="auth()">Authenticate Active Collab</button>
                     </div>
-                    <div>
-                        <label for="acPass">Password</label>
-                        <input type="password" id="acPass" required v-model="ac_password" placeholder="password">
+                    <div v-else>
+                        <h5>selected account : #{{ account }}</h5>
+                        <button type="button" class="button button-primary" >Remove Authorization</button>
                     </div>
-                    <button type="button" class="button button-primary" @click="auth()">Authenticate Active Collab</button>
                 </div>
-                <div v-if="accounts">
-                    <h5>select an account</h5>
-                    <ul>
-                        <li v-for="(account, index) in accounts" class="button" @click="tokenize(index)">#{{ index }}</li>
-                    </ul>
+                <div id="ac-account">
+                    <div v-if="!account">
+                        <h5>select an account</h5>
+                        <ul>
+                            <li v-for="(account, index) in accounts" class="button" @click="tokenize(index)">#{{ index }}</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
+        </div>
+
+        <div id="acl-projects">
+
         </div>
     </div>
 </template>
@@ -35,7 +47,8 @@
                 accounts :{},
                 account : '',
                 account_url : '',
-                account_token : ''
+                account_token : '',
+                projects : []
             }
         },
 
@@ -114,7 +127,36 @@
 
             },
 
+            getItems(bag){
+                var self = this;
+                var request = {
+                    type: 'GET',
+                    url: self.base_url+"/pm/v2/tools/active-collab-projects",
+                    success (res) {
+                        if(res.length > 0){
+                            res.forEach(function(val){
+                                bag.push(val)
+                            })
+                        }
+                        console.log(res);
+                        pm.NProgress.done();
+                    }
+                };
+                self.httpRequest(request);
+
+            },
+
         },
+
+        created(){
+            this.account = this.getSettings('accID', '', 'activecol_credentials');
+            this.account_url = this.getSettings('url', '', 'activecol_credentials');
+            this.account_token = this.getSettings('token', '', 'activecol_credentials');
+
+            if(this.account){
+                this.getItems(this.projects);
+            }
+        }
 
 
 
@@ -154,6 +196,12 @@
 
         .ac-api-Key{
             width: 80%;
+        }
+
+        #ac-auth{
+            h5{
+                margin-top: 1px;
+            }
         }
     }
 

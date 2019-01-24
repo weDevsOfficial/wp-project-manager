@@ -17,24 +17,6 @@
                         <a target="_blank" href="https://api2task.com/faqs/how-can-i-find-my-asana-access-api-parameters/">Avail Your Personal Token</a></i></span>
                     </div>
 
-                    <!--<div v-if="hasToken" class="asana-profile">-->
-                        <!--<table >-->
-                            <!--<tbody>-->
-                            <!--<tr>-->
-                                <!--<td>-->
-                                    <!--<img class="asana-profile-image" :src="profileData.photo.image_128x128" alt="">-->
-                                <!--</td>-->
-                                <!--<td>-->
-                                    <!--<span class="profile-name">Name : {{ profileData.name }}</span>-->
-                                    <!--<span class="profile-email">Email : {{ profileData.email }}</span>-->
-                                    <!--<span class="profile-workspace">Workspaces : {{ profileData.workspaces.length }}</span>-->
-                                <!--</td>-->
-                            <!--</tr>-->
-                            <!--</tbody>-->
-                        <!--</table>-->
-                        <!--&lt;!&ndash;{{ profileData }}&ndash;&gt;-->
-                    <!--</div>-->
-
                 </div>
 
                 <div v-if="hasToken">
@@ -64,7 +46,6 @@
     export default {
         data(){
             return {
-                //   0/4464cb380fa65cf7d898eb7a70d442d2
                 authUrl:"https://app.asana.com/api/1.0/users/me",
                 personalAccesstoken : "",
                 token : "",

@@ -9,6 +9,8 @@
 namespace WeDevs\PM\Tools\Controllers;
 
 use ActiveCollab\SDK\Authenticator\Cloud;
+use ActiveCollab\SDK\Client;
+use ActiveCollab\SDK\Token;
 use WP_REST_Request;
 use Exception;
 
@@ -50,6 +52,18 @@ class ActivecolController
             return rest_ensure_response(array('error'=>$e->getMessage()));
         }
 
+    }
+
+    public function projectsAC(){
+        $credentials = pm_get_setting('activecol_credentials');
+        try{
+            $token = new Token($credentials['token'], $credentials['url']);
+            $client = new Client($token);
+            $response = $client->get('projects')->getJson();
+            return rest_ensure_response($response);
+        }catch (Exception $e){
+            return rest_ensure_response(array('error'=>$e->getMessage()));
+        }
     }
 
 
