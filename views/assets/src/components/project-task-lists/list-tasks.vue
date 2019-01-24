@@ -626,7 +626,8 @@
 
         methods: { 
             checkSearchStatus () {
-                if(this.$route.query.filterTask == 'active' && this.$route.query.status != 'complete') {
+                // && this.$route.query.status != 'complete'
+                if(this.$route.query.filterTask == 'active') {
                     return false;
                 }
 

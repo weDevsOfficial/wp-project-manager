@@ -1547,7 +1547,7 @@
 
             taskFilter () {
                 if(this.taskFilterSpinner) {
-                    return;
+                    //return;
                 }
                 this.taskFilterSpinner = true;
                 var self = this;
@@ -1616,8 +1616,10 @@
             filterUsersId (users) {
                 var ids = [];
 
-                ids.push(users.id);
-
+                if(users && typeof users != 'undefined') {
+                    ids.push(users.id);
+                }
+                
                 return ids;
             },
 

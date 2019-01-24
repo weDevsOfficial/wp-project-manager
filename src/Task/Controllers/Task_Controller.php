@@ -484,6 +484,7 @@ class Task_Controller {
     }
 
     public function filter( WP_REST_Request $request ) {
+        global $wpdb;
         $per_page = 20;
         $page  = 1;
         $status    = $request->get_param('status');
@@ -584,11 +585,13 @@ class Task_Controller {
                 }
             }
         })
+        ->where('status', 1)
         ->where('project_id', $project_id)
         ->orderBy( 'order', 'DESC' )
-        ->paginate( $per_page );
-        
-        $collection = $task_lists->getCollection();
+        ->paginate( $per_page ); 
+       // pmpr($task_lists->get()->toArray(), $wpdb->last_query); die();
+        $collection = $task_lists->getCollection(); 
+
         $list_ids   = [];
         $task_ids   = [];
         
@@ -601,9 +604,85 @@ class Task_Controller {
             }
         }
 
+
+
+
+        
+
+
+        //9261 task id
+        //list id 1026
+
+        //get total complete and incomplete tasks count
+        $lists_tasks_count = ( new Task_List_Controller )->get_lists_tasks_count( $list_ids, $project_id );
+
+        foreach ( $collection as $key => $collection_data ) {
+            $collection_data->lists_tasks_count = empty( $lists_tasks_count[$collection_data->id] ) ? [] : $lists_tasks_count[$collection_data->id];
+        }
+
+        $resource = new Collection( $collection, new New_Task_List_Transformer );
+        $resource->setPaginator( new IlluminatePaginatorAdapter( $task_lists ) );
+
+        $lists = $this->get_response( $resource );
+
+        $tasks = $this->get_tasks( $task_ids );
+
+        $merge = [];
+
+        foreach ( $tasks['data'] as $tk => $task ) {
+            $list_id = $task['task_list_id'];
+            
+            if ( $task['status'] == 'incomplete' ) {
+                $merge[$list_id]['incomplete_tasks'][] = $task;
+            }
+
+            if ( $task['status'] == 'complete' ) {
+                $merge[$list_id]['complete_tasks'][] = $task;
+            }
+        }
+
+
+
+        foreach ( $lists['data'] as $key => $list ) {
+            $id = $list['id'];
+
+            if ( ! empty( $merge[$id] ) ) {
+                $lists['data'][$key]['incomplete_tasks']['data'] = ! empty( $merge[$id]['incomplete_tasks'] ) ? $merge[$id]['incomplete_tasks'] : [];
+                $lists['data'][$key]['complete_tasks']['data'] = ! empty( $merge[$id]['complete_tasks'] ) ? $merge[$id]['complete_tasks'] : [];
+            }
+        }
+
+
+
+        return $lists;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         //get task assignees and comment count
         $task_metas = $this->get_tasks_meta( $task_ids );
-
+        
         //get task lists total complete and incomplete task count
         $lists_tasks_count = ( new Task_List_Controller )->get_lists_tasks_count($list_ids, $project_id);
 
@@ -621,7 +700,6 @@ class Task_Controller {
         foreach ( $collection as $key => $task_list ) {
             $tasks[$task_list->id] = $this->transform_tasks( $task_list->tasks );
         }
-
         
         $resource = new Collection( $collection, new New_Task_List_Transformer );
         $resource->setPaginator( new IlluminatePaginatorAdapter( $task_lists ) );
@@ -895,6 +973,8 @@ class Task_Controller {
             ->orderBy( $list . '.order', 'ASC' );
         
         $task_collection = apply_filters( 'list_tasks_filter_query', $task_collection );
+
+        //pmpr($task_collection->get()->toArray()); die();
         
         $task_collection = $task_collection->get();
         
