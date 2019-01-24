@@ -37,3 +37,6 @@ $router->post( 'tools/active-collab-auth', 'WeDevs/PM/Tools/Controllers/Activeco
 
 $router->post( 'tools/active-collab-tokenize', 'WeDevs/PM/Tools/Controllers/ActivecolController@tokenAc' )
     ->permission(['WeDevs\PM\Core\Permissions\Project_Manage_Capability']);
+
+$router->get( 'tools/active-collab-projects', 'WeDevs/PM/Tools/Controllers/ActivecolController@projectsAC' )
+    ->permission(['WeDevs\PM\Core\Permissions\Project_Manage_Capability']);
