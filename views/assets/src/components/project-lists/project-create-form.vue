@@ -273,7 +273,6 @@
                     }
 
                     this.newProject(args);
-                    console.log("close here : created");
                 }
             },
             setProjectUser () {
@@ -297,12 +296,6 @@
                     // jQuery( "#pm-project-dialog" ).dialog('close');
                 }
                 this.showHideProjectForm(false);
-            },
-
-            closePopper(){
-                let event = document.createEvent('HTMLEvents');
-                event.initEvent('click', true, false);
-                document.querySelector('.popper-ref').dispatchEvent(event);
             }
         }
     }
