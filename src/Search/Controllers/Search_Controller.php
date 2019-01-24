@@ -26,12 +26,25 @@ class Search_Controller {
 		if ( empty( trim( $string ) ) ) {
 			return $this->get_default_result();
 		}
-		
+
     	if ( $project_id || !empty( $model ) ) {
     		return $this->get_result_for_project( $string, $project_id, $model );
     	}
     	return $this->get_all_result( $string );
 	}
+
+    public function searchTopBar( WP_REST_Request $request ) {
+        $string     = $request->get_param( 'query' );
+        $type     = $request->get_param( 'type' );
+        $model      = $request->get_param( 'model' ); //[milestone, discussion_board, task_list, task]
+        $model 		= empty( $model ) ? '' : $model;
+
+        if ( empty( trim( $string ) ) ) {
+            return $this->get_default_result();
+        }
+
+        return $this->search_project_type( $string, 0 );
+    }
 
 	public function search_by_client( WP_REST_Request $request ) {
         $string = $request->get_param('query');
@@ -44,7 +57,7 @@ class Search_Controller {
 			$project_ids = $this->user_in_projects( $current_user_id );
 		}
 
-		
+
         $users = User::with( 'projects' )
                 ->where( 'display_name', 'like', '%'.$string.'%' )
                 ->orWhere( 'user_login',  'like', '%'.$string.'%' )
@@ -70,12 +83,12 @@ class Search_Controller {
         if ( empty( $projects ) ) {
             $projects = [ [ "no_result" => __( "No result found.", 'pm-pro' )] ];
         }
-        
+
         return $projects;
     }
 
 
-	
+
 	public function get_result_for_project ( $string, $project_id, $model ) {
 		if ( ! $string ) {
 			return [];
@@ -93,7 +106,7 @@ class Search_Controller {
 		} elseif ( 'project' === $model ) {
 			$items = array_merge( $items, $this->search_in_project( $string ) );
 		}
-        
+
         return $items;
 
 	}
@@ -105,7 +118,7 @@ class Search_Controller {
 		$items = [];
 
 		$items = array_merge( $items, $this->search_in_project( $string, $project_id ) );
-		
+
 		$items = array_merge( $items, $this->search_in_tasks( $string, $project_id ));
 
 		$items = array_merge( $items, $this->search_in_broad( $string, $project_id ));
@@ -113,10 +126,10 @@ class Search_Controller {
         if ( empty( $items ) ) {
             $items = [ [ "no_result" => __( "No result found.", 'pm-pro' ) ]];
 		}
-		
+
         return $items;
 	}
-	
+
 	function search_in_project ( $string, $user_id = false ) {
 		$user_id = empty($user_id) ? get_current_user_id() : $user_id;
 
@@ -128,35 +141,55 @@ class Search_Controller {
 				$q->where('user_id', $user_id );
 			});
 		}
-		
+
 		$projects = $projects->get(['id', 'title', 'description']);
 
 
 		return $this->get_items( $projects, 'project' );
 
 	}
+
+    function search_project_type ( $string, $type = 0, $user_id = false) {
+        $user_id = empty($user_id) ? get_current_user_id() : $user_id;
+
+        $projects = Project::where( 'title', 'like', '%'. $string.'%')
+            ->where( 'status', '=', $type);
+
+        // user is assigneed in project
+        if ( !pm_has_manage_capability( $user_id ) ){
+            $projects = $projects->whereHas('assignees', function( $q ) use ( $user_id ) {
+                $q->where('user_id', $user_id );
+            });
+        }
+
+        $projects = $projects->get(['id', 'title', 'description']);
+
+
+        return $this->get_items( $projects, 'project' );
+
+    }
 	/**
 	 * Search i tasks
-	 * 
+	 *
 	 * @param $string Query string
 	 * @param $project_id
-	 * 
+	 *
 	 * @return Array result items
 	 */
 	function search_in_tasks (  $string, $project_id = false ) {
 
-		$tasks = Task::with( [ 
+		$tasks = Task::with( [
 			'metas' =>  function( $q ) {
 				$q->where('meta_key', 'privacy')->where('meta_value', 1);
 			}
 		])
 			->where( 'title', 'like', '%'. $string.'%');
-			
+
 		if ( $project_id ) {
 
 			$tasks = $tasks->where( 'project_id', $project_id );
 			$tasks = $this->tasks_privacy( $tasks, $project_id );
-			
+
 		} else {
 			if (! pm_has_manage_capability() ) {
 				$tasks = $this->remove_private_task( $tasks );
@@ -170,11 +203,11 @@ class Search_Controller {
 
 	/**
 	 * Search i tasks
-	 * 
+	 *
 	 * @param $string Query string
 	 * @param $project_id
 	 * @param $type [  ]
-	 * 
+	 *
 	 * @return Array result items
 	 */
 
@@ -190,7 +223,7 @@ class Search_Controller {
 		if ( $project_id ) {
 			$board = $board->where( 'project_id', $project_id );
 			$board = $this->board_privacy( $board, $type, $project_id );
-			
+
 
 		} else {
 			if (! pm_has_manage_capability() ) {
@@ -215,7 +248,7 @@ class Search_Controller {
 		return $this->get_items( $board, 'board' );
 	}
 
-	
+
 	function board_privacy ( $board, $board_type, $project_id ) {
 
 		if ( pm_is_manager( $project_id ) ) {
@@ -244,10 +277,10 @@ class Search_Controller {
 	}
 	/**
 	 * Get Results of search
-	 * 
+	 *
 	 * @param $item search items
 	 * @param $type result type
-	 * 
+	 *
 	 * @return Array
 	 */
 	public function get_items( $items, $type ) {
@@ -266,44 +299,44 @@ class Search_Controller {
 
 
     		if ( $type == 'task' ) {
-    			
-    			
+
+
 
     			if ( $item->parent_id !== "0" ) {
 	    			$result['type'] = 'subtask';
 	    			$result['parent_id'] = $item->parent_id;
 	    		}
     		}
-    		
+
     		if ( $type == 'board' ) {
-    			if ( 
-    				isset( $item->metas[0] ) 
-    				&&  $item->type == 'milestone' 
-    				&& !pm_user_can( 'view_private_milestone', $item->project_id )  
+    			if (
+    				isset( $item->metas[0] )
+    				&&  $item->type == 'milestone'
+    				&& !pm_user_can( 'view_private_milestone', $item->project_id )
     			) {
     				continue ;
     			}
-    			if ( 
-    				isset( $item->metas[0] ) 
-    				&&  $item->type == 'discussion_board' 
-    				&& !pm_user_can( 'view_private_message', $item->project_id )  
+    			if (
+    				isset( $item->metas[0] )
+    				&&  $item->type == 'discussion_board'
+    				&& !pm_user_can( 'view_private_message', $item->project_id )
     			) {
     				continue ;
     			}
 
-    			if ( 
-    				isset( $item->metas[0] ) 
-    				&&  $item->type == 'task_list' 
-    				&& !pm_user_can( 'view_private_list', $item->project_id )  
+    			if (
+    				isset( $item->metas[0] )
+    				&&  $item->type == 'task_list'
+    				&& !pm_user_can( 'view_private_list', $item->project_id )
     			) {
     				continue ;
     			}
     			$result['type'] = $item->type;
     		}
-    		
+
 			$result['title'] = $item->title;
 			$result['id']    = $item->id;
-    		
+
     		$items_array[] = $result;
     	}
 
@@ -312,8 +345,8 @@ class Search_Controller {
 
 	/**
 	 * Here is a complex situation
-	 * you are searching in gloablly not in project, 
-	 * you Dosen't know have ability to view the project 
+	 * you are searching in gloablly not in project,
+	 * you Dosen't know have ability to view the project
 	 * 		&& have permissions to view tasks (task is private)
 	 * 		&& also task list is private
 	 */
@@ -336,10 +369,10 @@ class Search_Controller {
 
 	/**
 	 * task privacy query for tasks,
-	 * 
+	 *
 	 * @param $tasks QueryBuilder
-	 * @param $project_id initeger 
-	 * 
+	 * @param $project_id initeger
+	 *
 	 * @return QueryBuilder
 	 */
 	function tasks_privacy ( $tasks, $project_id ) {
@@ -354,7 +387,7 @@ class Search_Controller {
 					$query->where( 'meta_key', '=', 'privacy' )
 						->where( 'meta_value', '!=', '0' )
 						->where( 'project_id', '=', $project_id );
-							
+
 				});
 		}
 
@@ -365,7 +398,7 @@ class Search_Controller {
 					$query->where( 'meta_key', '=', 'privacy' )
 						->where( 'meta_value', '!=', '0' )
 						->where( 'project_id', '=', $project_id );
-						
+
 				});
 		}
 
