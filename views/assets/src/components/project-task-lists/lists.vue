@@ -3,7 +3,7 @@
         <pm-header></pm-header>
         <pm-menu></pm-menu>
 
-        <div v-if="listViewType" class="list-content-wrap">
+        <div v-if="isFetchProject" class="list-content-wrap">
             <div class="list-content-body">
                 <div class="content">
                     <div class="list-action-btn-wrap">
@@ -211,7 +211,8 @@
             </div>
         </div>
         <router-view name="single-task"></router-view> 
-        <pm-pagination 
+        <!-- @nextPage="nextPage" -->
+        <pm-pagination
             :total_pages="total_list_page" 
             :current_page_number="current_page_number" 
             :component_name="paginationComponent">
@@ -985,7 +986,6 @@
     import new_task_list_btn from './new-task-list-btn.vue';
     import new_task_list_form from './new-task-list-form.vue';
     import new_task_button from './new-task-btn.vue';
-    import pagination from '@components/common/pagination.vue';
     import header from '@components/common/header.vue';
     import tasks from './list-tasks.vue';
     import default_page from './default-list-page.vue';
@@ -1007,7 +1007,6 @@
             'new-task-list-btn': new_task_list_btn,
             'new-task-list-form': new_task_list_form,
             'new-task-button': new_task_button,
-            'pm-pagination': pagination,
             'pm-header': header,
             'list-tasks': tasks,
             'default-list-page': default_page,
@@ -1078,6 +1077,9 @@
         watch: {
             '$route' (route) {
                 if(route.query.filterTask == 'active') {
+                    if(typeof route.params.current_page_number == 'undefined') return;
+                    
+                    this.filterRequent();
                     return;
                 }
 
@@ -1151,41 +1153,41 @@
                 return this.$store.state.projectTaskLists.isListFetch; 
             },
 
-            listViewType () { 
-
-                if(this.$route.query.filterTask == 'active') {
-                    return true;
-                }
+            // listViewType () { 
+            //     return;
+            //     if(this.$route.query.filterTask == 'active') {
+            //         return true;
+            //     }
                 
-                let meta = this.$store.state.projectMeta; 
-                var self = this;
+            //     let meta = this.$store.state.projectMeta; 
+            //     var self = this;
                  
-                if(meta.hasOwnProperty('list_view_type') ) {
-                    if (
-                        !meta.list_view_type
-                            ||
-                        meta.list_view_type.meta_value == 'list'
-                    ) { 
-                        if (self.$store.state.projectTaskLists.is_single_task) { 
-                            return true;
-                        }
+            //     if(meta.hasOwnProperty('list_view_type') ) {
+            //         if (
+            //             !meta.list_view_type
+            //                 ||
+            //             meta.list_view_type.meta_value == 'list'
+            //         ) { 
+            //             if (self.$store.state.projectTaskLists.is_single_task) { 
+            //                 return true;
+            //             }
 
-                        self.$store.state.projectTaskLists.is_single_list = false;
-                        self.isSingleTask();
-                        self.getSelfLists();
-                    } else if(  meta.list_view_type.meta_value == "kanboard") {
-                        self.$router.push({
-                            name: 'kanboard'
-                        });
-                    } else if(  meta.list_view_type.meta_value == "archive") { 
-                        self.getSelfLists();
-                    }
+            //             self.$store.state.projectTaskLists.is_single_list = false;
+            //             self.isSingleTask();
+            //             self.getSelfLists();
+            //         } else if(  meta.list_view_type.meta_value == "kanboard") {
+            //             self.$router.push({
+            //                 name: 'kanboard'
+            //             });
+            //         } else if(  meta.list_view_type.meta_value == "archive") { 
+            //             self.getSelfLists();
+            //         }
 
-                    return true;
-                }
+            //         return true;
+            //     }
 
-                return false;
-            },
+            //     return false;
+            // },
             projectUsers () {
                 let project = this.$store.state.project;
 
@@ -1219,9 +1221,9 @@
                 return [];
             },
             filterResults () {
-                var lists = this.$store.state.projectTaskLists.lists;
+                var lists = this.$store.state.projectTaskLists.lists; 
 
-                if(lists.length) {
+                if(lists.length) { 
                     return true;
                 } else {
                     return false;
@@ -1238,13 +1240,43 @@
                 }
             },
 
+            //This is pro and free version code mixin. 
+            isFetchProject () {
+                var isLoaded = this.$store.state.projectLoaded;
+                
+                if(isLoaded) {
+                    var meta = this.$store.state.projectMeta;
+                    
+                    if( 
+                        PM_Vars.is_pro
+                            &&
+                        typeof meta != 'undefined' 
+                            &&
+                        meta.list_view_type.meta_value == 'kanboard'
+                    ) {
+                        this.$router.push({
+                            name: 'kanboard',
+                            params: {
+                                project_id: this.project_id
+                            }
+                        });
+                    } else {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
         },
 
-        created () {
+        created () { 
             this.getGlobalMilestones();
+            this.getSelfLists();
+
             pmBus.$on('pm_before_destroy_single_task', this.updateSingleTask);
             pmBus.$on('pm_generate_task_url', this.generateTaskUrl);
             pmBus.$on('pm_after_fetch_project', this.afterFetchProject);
+
             this.$store.state.projectTaskLists.isListFetch = false; 
             window.addEventListener('click', this.windowActivity);
             
@@ -1256,6 +1288,16 @@
         },
 
         methods: {
+            nextPage (pageNumber) {
+
+                this.$router.push({
+                    name: task_lists_pagination,
+                    params: {
+                        page: pageNumber
+                    }
+                });
+                this.getSelfLists();
+            },
             goToSigleList (list) {
                 this.$router.push({
                     name: 'single_list',
@@ -1546,16 +1588,27 @@
             },
 
             taskFilter () {
+                
                 if(this.taskFilterSpinner) {
-                    //return;
+                    return;
                 }
                 this.taskFilterSpinner = true;
                 var self = this;
+
+                if(typeof this.$route.params.current_page_number == 'undefined') {
+                    var page = 1;
+                } else {
+                    var page = this.$route.params.current_page_number;
+                }
+
                 var query = {
                     users: this.filterUsersId(this.defaultUser),
                     lists: this.filterListsId(this.defaultList),
                     dueDate: this.dueDate.id,
                     status: this.filterStatus,
+                    page: page,
+                    board_status: this.$route.name == 'task_lists_archive' 
+                        || this.$route.name == 'task_lists_archive_pagination' ? 0 : 1,
                     filterTask: 'active'
                 }
 
@@ -1572,6 +1625,12 @@
 
             filterRequent (callback) {
                 var self = this;
+
+                if(typeof this.$route.params.current_page_number == 'undefined') {
+                    self.$route.query.page = 1;
+                } else {
+                    self.$route.query.page = this.$route.params.current_page_number;
+                }
                 
                 self.httpRequest({
                     url: self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks/filter',

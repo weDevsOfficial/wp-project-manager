@@ -307,7 +307,10 @@
         watch: {
             '$route' (to, from) {
                 this.project_id = typeof to.params.project_id !== 'undefined' ? to.params.project_id : 0;
-                this.getGloabalProject(to.params.project_id);
+                if(!this.isProjectLoaded) {
+                    this.getGloabalProject(to.params.project_id);    
+                }
+                
                 this.getProjectCategories();
                 this.getRoles();
             }

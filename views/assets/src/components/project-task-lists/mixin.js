@@ -182,7 +182,9 @@ var PM_TaskList_Mixin = {
                 condition: {
                     with: 'incomplete_tasks',
                     per_page: this.getSettings('list_per_page', 10),
-                    page: this.setCurrentPageNumber()
+                    page: this.setCurrentPageNumber(),
+                    status: this.$route.name == 'task_lists_archive' 
+                        || this.$route.name == 'task_lists_archive_pagination' ? 0 : 1
                 },
                 callback: false,
             };
@@ -191,7 +193,7 @@ var PM_TaskList_Mixin = {
             
             var conditionobject = pm_apply_filters( 'before_get_task_list', args.condition );
             var condition = this.generateConditions(conditionobject);
-
+            
             var request = {
                 url: self.base_url + '/pm/v2/projects/'+self.$route.params.project_id+'/task-lists?'+condition,
                 success (res) {
@@ -227,7 +229,7 @@ var PM_TaskList_Mixin = {
                         pm.Toastr.error(value);
                     });
                 }
-            };
+            }; 
             self.httpRequest(request);
         },
 
