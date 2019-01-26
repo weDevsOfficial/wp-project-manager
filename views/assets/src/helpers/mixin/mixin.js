@@ -880,8 +880,8 @@ export default {
                 return ''
             }
 
-            jQuery.each(conditions, function(condition, key) {
-                if(key){
+            jQuery.each(conditions, function(condition, key) { 
+                if(condition){
                     query = query + condition +'='+ key +'&';
                 }
                 

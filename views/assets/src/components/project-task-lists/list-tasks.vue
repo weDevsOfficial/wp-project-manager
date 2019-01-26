@@ -652,7 +652,7 @@
                     },
 
                     callback (res) {
-                        console.log(res);
+                        
                     }
                 }
                 this.loadMoreCompleteTasks(list, function(res) {

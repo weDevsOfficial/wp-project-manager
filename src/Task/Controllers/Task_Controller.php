@@ -485,9 +485,10 @@ class Task_Controller {
 
     public function filter( WP_REST_Request $request ) {
         global $wpdb;
-        $per_page = 20;
-        $page  = 1;
+        $per_page = 2;
+        $page  = $request->get_param('page');
         $status    = $request->get_param('status');
+        $board_status  = $request->get_param('board_status');
         $due_date  = $request->get_param('dueDate');
         $assignees = $request->get_param('users');
         $lists     = $request->get_param('lists');
@@ -585,7 +586,7 @@ class Task_Controller {
                 }
             }
         })
-        ->where('status', 1)
+        ->where('status', $board_status)
         ->where('project_id', $project_id)
         ->orderBy( 'order', 'DESC' )
         ->paginate( $per_page ); 
