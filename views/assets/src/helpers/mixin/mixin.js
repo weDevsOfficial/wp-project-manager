@@ -453,6 +453,7 @@ export default {
                 url: self.base_url + '/pm/v2/projects?'+conditions,
                 data: args.conditions,
                 success (res) {
+                     
                     res.data.map(function(project) {
                         self.addProjectMeta(project);
                     });

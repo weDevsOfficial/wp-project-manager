@@ -1246,11 +1246,13 @@
                 
                 if(isLoaded) {
                     var meta = this.$store.state.projectMeta;
-                    
+                    console.log(meta);
                     if( 
                         PM_Vars.is_pro
                             &&
                         typeof meta != 'undefined' 
+                            &&
+                        meta.list_view_type != null
                             &&
                         meta.list_view_type.meta_value == 'kanboard'
                     ) {
