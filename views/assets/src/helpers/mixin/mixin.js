@@ -453,6 +453,7 @@ export default {
                 url: self.base_url + '/pm/v2/projects?'+conditions,
                 data: args.conditions,
                 success (res) {
+                     
                     res.data.map(function(project) {
                         self.addProjectMeta(project);
                     });
@@ -468,6 +469,43 @@ export default {
                     }
 
                     pmProjects = res.data;
+                }
+            };
+
+            self.httpRequest(request_data);
+        },
+
+        searchProjects ( args ) {
+
+            var self = this;
+            var pre_define ={
+                conditions : {
+                    status: '',
+                    project_transform: true,
+                    per_page: this.getSettings('project_per_page', 10),
+                    page : this.setCurrentPageNumber(),
+                    category: typeof this.$route.query.category !== 'undefined' ? this.$route.query.category : '',
+                }
+            }
+
+            var  args = jQuery.extend(true, pre_define, args );
+            
+            var conditions = pm_apply_filters( 'before_get_project', args.conditions );
+            conditions = self.generateConditions(conditions);
+            
+            var request_data = {
+                url: self.base_url + '/pm/v2/projects/search?'+conditions,
+                data: args.conditions,
+                success (res) {
+                     
+                    res.data.map(function(project) {
+                        self.addProjectMeta(project);
+                    });
+                    
+                    
+                    if(typeof args.callback != 'undefined'){
+                        args.callback(res.data);
+                    }
                 }
             };
 
@@ -880,8 +918,8 @@ export default {
                 return ''
             }
 
-            jQuery.each(conditions, function(condition, key) {
-                if(key){
+            jQuery.each(conditions, function(condition, key) { 
+                if(condition){
                     query = query + condition +'='+ key +'&';
                 }
                 

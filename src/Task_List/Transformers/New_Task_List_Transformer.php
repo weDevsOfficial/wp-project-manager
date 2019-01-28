@@ -65,9 +65,9 @@ class New_Task_List_Transformer extends TransformerAbstract {
     public function meta( $item ) {
         $meta = [];
 
-        $meta['total_tasks'] = $this->get_total_tasks( $item->incompleted_task, $item->completed_task );
-        $meta['total_complete_tasks'] = $this->get_total_complete_tasks( $item->completed_task );
-        $meta['total_incomplete_tasks'] = $this->get_total_incomplete_tasks( $item->incompleted_task );
+        $meta['total_tasks'] = $this->get_total_tasks( $item );
+        $meta['total_complete_tasks'] = $this->get_total_complete_tasks( $item );
+        $meta['total_incomplete_tasks'] = $this->get_total_incomplete_tasks( $item );
         $meta['total_comments'] = 0;
         $meta['total_assignees'] = 0;
         $meta['totla_files'] = 0;
@@ -75,22 +75,33 @@ class New_Task_List_Transformer extends TransformerAbstract {
         return $meta;
     }
 
-    public function get_total_tasks( $incompleted_task, $completed_task ) {
-        $c_tasks = $this->get_total_complete_tasks( $completed_task );
-        $ic_tasks = $this->get_total_incomplete_tasks( $incompleted_task );
+    public function get_total_tasks( $item ) {
+        
+        $c_tasks = $this->get_total_complete_tasks( $item );
+        $ic_tasks = $this->get_total_incomplete_tasks( $item );
 
         return $c_tasks + $ic_tasks;
     }
 
-    public function get_total_complete_tasks( $completed_task ) {
-        if ( empty( $completed_task ) ) return 0;
+    public function get_total_complete_tasks( $item ) { 
+        if ( empty( $item->lists_tasks_count ) ) return 0;
+        if ( empty( $item->lists_tasks_count->completed_task_ids ) ) return 0;
 
-        return count( explode( '|', $completed_task ) );
+        if ( is_array( $item->lists_tasks_count->completed_task_ids ) ) {
+            return count( $item->lists_tasks_count->completed_task_ids );
+        }
+
+        return 0;    
     }
 
-    public function get_total_incomplete_tasks( $incompleted_task ) {
-        if ( empty( $incompleted_task ) ) return 0;
-        
-        return count( explode( '|', $incompleted_task ) );
+    public function get_total_incomplete_tasks( $item ) {
+        if ( empty( $item->lists_tasks_count ) ) return 0;
+        if ( empty( $item->lists_tasks_count->incompleted_task_ids ) ) return 0;
+
+        if ( is_array( $item->lists_tasks_count->incompleted_task_ids ) ) {
+            return count( $item->lists_tasks_count->incompleted_task_ids );
+        }
+
+        return 0; 
     }
 }
