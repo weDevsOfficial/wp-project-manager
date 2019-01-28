@@ -57,24 +57,8 @@ class Task_List_Controller {
         $tb_meta      = pm_tb_prefix() . 'pm_meta';
 
         $task_lists = Task_List::select( $tb_lists . '.*' )
-            ->selectRaw( "
-                group_concat(
-                    DISTINCT
-                    if($tb_tasks.status=0, $tb_tasks.id, null)
-                    separator '|'
-                ) incompleted_task,
-                group_concat(
-                    DISTINCT
-                    if($tb_tasks.status=1, $tb_tasks.id, null) 
-                    separator '|'
-                ) completed_task"
-            )
             ->leftJoin( $tb_boardable, function( $join ) use($tb_boardable, $tb_lists) {
                 $join->on( $tb_lists . '.id', '=', $tb_boardable . '.board_id' );
-            })
-            ->leftJoin( $tb_tasks, function( $join ) use($tb_boardable, $tb_tasks) {
-                $join->on( $tb_boardable . '.boardable_id', '=', $tb_tasks . '.id' )
-                    ->where($tb_boardable . '.boardable_type', 'task');
             })
             ->leftJoin( $tb_meta, function( $join ) use($tb_meta, $tb_lists) {
                 $join->on( $tb_lists . '.id', '=', $tb_meta . '.entity_id' )
@@ -102,11 +86,21 @@ class Task_List_Controller {
         
         $task_list_collection = $task_lists->getCollection();
 
+        foreach ( $task_list_collection as $key => $collection ) {
+            $list_ids[] = $collection->id;
+        }
+
+        $lists_tasks_count = $this->get_lists_tasks_count( $list_ids, $project_id );
+
+        foreach ( $task_list_collection as $key => $collection ) {
+            $collection->lists_tasks_count = empty( $lists_tasks_count[$collection->id] ) ? [] : $lists_tasks_count[$collection->id];
+        }
+
         $resource = new Collection( $task_list_collection, new New_Task_List_Transformer );
         $resource->setPaginator( new IlluminatePaginatorAdapter( $task_lists ) );
 
         $lists = $this->get_response( $resource );
-        $list_ids = wp_list_pluck( $lists['data'], 'id' );
+
 
         if ( in_array( 'incomplete_tasks', $with ) ) {
             $incomplete_task_ids = ( new Task_Controller )->get_incomplete_task_ids( $list_ids, $project_id );
@@ -428,8 +422,12 @@ class Task_List_Controller {
         return $this->get_response( $resource );
     }
 
-    public function get_lists_meta( $list_ids = [], $project_id ) {
+    public function get_lists_tasks_count( $list_ids = [], $project_id ) {
         global $wpdb;
+
+        if ( empty( $list_ids ) ) {
+            $list_ids[] = 0;
+        }
 
         $tb_tasks     = pm_tb_prefix() . 'pm_tasks';
         $tb_lists     = pm_tb_prefix() . 'pm_boards';
@@ -443,20 +441,24 @@ class Task_List_Controller {
         $boardable = "SELECT bo.board_id,
                 group_concat(
                     DISTINCT
-                    if(tk.status=0, tk.id, null)
+                    if(itasks.status=0, itasks.id, null)
                     separator '|'
-                ) incompleted_task,
+                ) incompleted_task_ids,
                 group_concat(
                     DISTINCT
-                    if(tk.status=1, tk.id, null) 
+                    if(itasks.status=1, itasks.id, null) 
                     separator '|'
-                ) completed_task
+                ) completed_task_ids
 
-            FROM $tb_tasks as tk
-            LEFT JOIN $tb_boardable as bo ON bo.boardable_id=tk.id
+            FROM $tb_tasks as itasks
+            LEFT JOIN $tb_boardable as bo ON bo.boardable_id=itasks.id
             $permission_join
             WHERE 
             bo.board_id IN ($list_ids)
+            AND
+            bo.boardable_type = 'task'
+            AND
+            itasks.project_id=$project_id
             $permission_where
             GROUP BY bo.board_id";
 
@@ -465,7 +467,9 @@ class Task_List_Controller {
         $returns = [];
 
         foreach ( $results as $key => $result ) {
-
+            $result->incompleted_task_ids = empty( $result->incompleted_task_ids ) ? [] : explode( '|', $result->incompleted_task_ids );
+            $result->completed_task_ids   = empty( $result->completed_task_ids ) ? [] : explode( '|', $result->completed_task_ids );
+            
             $returns[$result->board_id] = $result;
         }
         

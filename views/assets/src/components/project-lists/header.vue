@@ -1,7 +1,7 @@
 <template>
 
         <!-- header -->
-        <div class="pm-header pm-clearfix">
+        <div class="pm-header">
             <div class="pm-container">
                 <div class="pm-header-row">
                     <!-- header-left -->
@@ -53,6 +53,10 @@
             return {
                 start_new_project: __( 'Start a new project', 'wedevs-project-manager'),
             }
+        },
+
+        created () {
+
         }
 
     }
