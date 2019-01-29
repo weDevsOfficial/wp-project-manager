@@ -28,13 +28,7 @@
             url: PM_Vars.plupload.url,
             flash_swf_url: PM_Vars.plupload.flash_swf_url,
             silverlight_xap_url: PM_Vars.plupload.silverlight_xap_url,
-            // filters: PM_Vars.plupload.filters,
-            filters: {
-                mime_types : [
-                    { title : "Image files", extensions : "jpg,gif,png,psd" },
-                    { title : "Zip files", extensions : "zip" }
-                ]
-            },
+            filters: PM_Vars.plupload.filters,
             resize: PM_Vars.plupload.resize,
         });
 
