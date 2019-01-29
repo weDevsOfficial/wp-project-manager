@@ -1,6 +1,6 @@
 <template>
     <div class="pm-task-comment-wrap">
-        
+
         <!-- <div class="discuss-text pm-h2">{{ __( 'Discussion', 'wedevs-project-manager') }}</div> -->
 
         <div  class="comment-content">
@@ -12,14 +12,14 @@
                                 <a :href="myTaskRedirect( comment.creator.data.id )" :title="comment.creator.data.display_name">
                                 <img :alt="comment.creator.data.display_name" :src="comment.creator.data.avatar_url" class="avatar avatar-96 photo" height="96" width="96"></a>
                             </div>
-                            
+
                             <div v-if="!comment.edit_mode" class="author-date">
                                 <span class="pm-author">
                                     <a :href="myTaskRedirect( comment.creator.data.id )" :title="comment.creator.data.display_name">
                                         {{ ucfirst(comment.creator.data.display_name) }}
                                     </a>
                                 </span>
-                                
+
                                 <span class="pm-date">
                                     <time :datetime="dateISO8601Format( comment.created_at.datetime )" :title="getFullDate( comment.created_at.datetime)">{{ relativeDate(comment.created_at.datetime) }}</time>
                                 </span>
@@ -42,12 +42,12 @@
                                     </ul>
                                 </div>
                             </div>
-                            
+
                         </div>
 
 
                         <div v-if="!comment.edit_mode" class="pm-comment-content">
-                            
+
                             <div v-html="comment.content"></div>
                             <ul class="pm-attachments" v-if="comment.files.data.length">
                                 <li v-for="file in comment.files.data" :key="file.id">
@@ -73,10 +73,10 @@
                 </div>
                 <div class="comment-field">
                     <div @click.prevent="showHideNewCommentField()" v-if="!commentFormMeta.activeNewCommentField" class="comment-field-text pm-light-font">{{ __( 'Add a comment', 'wedevs-project-manager' ) }}</div>
-                    <task-comment-form 
-                        v-if="commentFormMeta.activeNewCommentField"  
-                        :task="commentable" 
-                        :comment="{}" 
+                    <task-comment-form
+                        v-if="commentFormMeta.activeNewCommentField"
+                        :task="commentable"
+                        :comment="{}"
                         :comments="comments"
                         :commentFormMeta="commentFormMeta">
                     </task-comment-form>
@@ -148,7 +148,7 @@
                 }
             }
         }
-        
+
         .discuss-text {
             margin-bottom: 5px;
         }
@@ -227,11 +227,11 @@
                                 margin-left: 6px;
                             }
                         }
-                        
+
                     }
                 }
             }
-            
+
 
             .comment-content-ul {
                 .comment-li {
@@ -287,7 +287,7 @@
             margin-left: 44px;
             margin-top: -4px;
             color: #000 !important;
-            
+
         }
         .pm-comment-edit-form {
             flex: 1;
@@ -340,7 +340,7 @@
 <script>
     import comment_form from './list-comment-form.vue';
     import Mixins from './mixin';
-    
+
 
     export default {
         // Get passing data for this component.
@@ -367,7 +367,7 @@
                 currnet_user_id: PM_Vars.current_user.ID,
                 avatar_url: PM_Vars.avatar_url,
                 commentFormMeta: {
-                    activeNewCommentField: false   
+                    activeNewCommentField: false
                 }
             }
         },
@@ -398,9 +398,9 @@
                 if(typeof comment.actionMode == 'undefined') {
                     pm.Vue.set(comment, 'actionMode', true);
                 } else {
-                    comment.actionMode = comment.actionMode ? false : true; 
+                    comment.actionMode = comment.actionMode ? false : true;
                 }
-                
+
             },
             showHideNewCommentField () {
                 this.commentFormMeta.activeNewCommentField = this.commentFormMeta.activeNewCommentField ? false : true;

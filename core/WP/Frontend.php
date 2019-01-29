@@ -36,6 +36,8 @@ class Frontend {
 
         //Execute only plugin install time
         register_activation_hook( PM_FILE, array( $this, 'install' ) );
+
+        add_filter('upload_mimes', array($this, 'custom_upload_mimes'));
     }
 
     public function install() {
@@ -339,7 +341,7 @@ function project_text_editor($config) {
                 'meta'  => [
                     'title' => __('Create New Task', 'wedevs-project-manager'),
                 ]
-                
+
             ]
          );
 
@@ -352,14 +354,14 @@ function project_text_editor($config) {
                 'meta'  => [
                     'title' => __('Create New Task', 'wedevs-project-manager'),
                 ]
-                
+
             ]
          );
     }
 
 
     public function pm_toolbar_search_button($wp_admin_bar) {
-        $wp_admin_bar->add_node( 
+        $wp_admin_bar->add_node(
             [
                 'id'		=> 'pm_search',
                 'title'     => '<span class="ab-icon icon-pm-switch-project" style="padding: 6px 0;"></span>',
@@ -368,8 +370,13 @@ function project_text_editor($config) {
                 'meta'  => [
                     'title' => __('Jump to a project', 'wedevs-project-manager'),
                 ]
-                
+
             ]
         );
+    }
+
+    public function custom_upload_mimes ( $existing_mimes = array() ) {
+        $existing_mimes['psd'] = 'image/vnd.adobe.photoshop';
+        return $existing_mimes;
     }
 }
