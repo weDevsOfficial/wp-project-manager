@@ -37,7 +37,7 @@ class Frontend {
         //Execute only plugin install time
         register_activation_hook( PM_FILE, array( $this, 'install' ) );
 
-        add_filter('upload_mimes', array($this, 'custom_upload_mimes'));
+
     }
 
     public function install() {
@@ -118,6 +118,7 @@ class Frontend {
 		add_filter( 'upload_mimes', [$this, 'cc_mime_types'] );
 		add_filter( 'wp_mime_type_icon', [$this, 'change_mime_icon'], 10, 3 );
 		add_filter( 'todo_list_text_editor', [$this, 'project_text_editor'] );
+        add_filter('upload_mimes', [$this, 'custom_upload_mimes']);
 	}
 
 	function cc_mime_types( $mimes ) {
@@ -375,7 +376,7 @@ function project_text_editor($config) {
         );
     }
 
-    public function custom_upload_mimes ( $existing_mimes = array() ) {
+    public function custom_upload_mimes ( $existing_mimes ) {
         $existing_mimes['psd'] = 'image/vnd.adobe.photoshop';
         return $existing_mimes;
     }
