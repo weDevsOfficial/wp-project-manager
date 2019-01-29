@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Project Manager 2.0.10\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/cpm\n"
-"POT-Creation-Date: 2019-01-27 15:43:05+00:00\n"
+"POT-Creation-Date: 2019-01-29 06:47:54+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -904,7 +904,6 @@ msgstr ""
 #: views/assets/src/components/project-task-lists/list-comment-form.vue:15
 #: views/assets/src/components/project-task-lists/lists.vue:204
 #: views/assets/src/components/project-task-lists/new-task-list-form.vue:31
-#: views/assets/src/components/project-task-lists/new-task-list-form.vue:61
 #: views/assets/src/components/project-task-lists/single-task.vue:263
 #: views/assets/src/components/project-task-lists/task-comment-form.vue:15
 msgid "Cancel"
@@ -923,7 +922,7 @@ msgid "Are you sure?"
 msgstr ""
 
 #: views/assets/js/library.js:1 views/assets/js/pm.js:1
-#: views/assets/src/helpers/mixin/mixin.js:827
+#: views/assets/src/helpers/mixin/mixin.js:865
 #: views/assets/vendor/mixin/mixin.js:636
 msgid "Are you sure to delete this project?"
 msgstr ""
@@ -1093,14 +1092,14 @@ msgid "Copy Link"
 msgstr ""
 
 #: views/assets/js/library.js:1 views/assets/js/pm.js:1
-#: views/assets/src/components/project-task-lists/lists.vue:1397
+#: views/assets/src/components/project-task-lists/lists.vue:1398
 #: views/assets/src/components/project-task-lists/single-task.vue:67
 msgid "Make Visible"
 msgstr ""
 
 #: views/assets/js/library.js:1 views/assets/js/pm.js:1 views/assets/js/pm.js:9
 #: views/assets/src/components/project-task-lists/incompleted-tasks.vue:61
-#: views/assets/src/components/project-task-lists/lists.vue:1397
+#: views/assets/src/components/project-task-lists/lists.vue:1398
 #: views/assets/src/components/project-task-lists/single-task.vue:70
 msgid "Make Private"
 msgstr ""
@@ -1293,7 +1292,7 @@ msgstr ""
 
 #: views/assets/js/pm.js:9
 #: views/assets/src/components/project-files/files.vue:57
-#: views/assets/src/components/project-task-lists/lists.vue:1642
+#: views/assets/src/components/project-task-lists/lists.vue:1643
 msgid "No results found."
 msgstr ""
 
@@ -1305,7 +1304,6 @@ msgstr ""
 #: views/assets/js/pm.js:9
 #: views/assets/src/components/project-discussions/new-discuss-form.vue:16
 #: views/assets/src/components/project-task-lists/new-task-list-form.vue:17
-#: views/assets/src/components/project-task-lists/new-task-list-form.vue:50
 msgid "- Milestone -"
 msgstr ""
 
@@ -1409,7 +1407,7 @@ msgstr ""
 
 #: views/assets/js/pm.js:9
 #: views/assets/src/components/project-task-lists/lists.vue:146
-#: views/assets/src/components/project-task-lists/new-task-list-form.vue:105
+#: views/assets/src/components/project-task-lists/new-task-list-form.vue:76
 msgid "Task list name"
 msgstr ""
 
@@ -1462,7 +1460,6 @@ msgstr ""
 
 #: views/assets/js/pm.js:9
 #: views/assets/src/components/project-task-lists/single-list.vue:17
-#: views/assets/src/components/project-task-lists/single-list.vue:101
 msgid "Back to Task Lists"
 msgstr ""
 
@@ -1613,8 +1610,8 @@ msgstr ""
 #: views/assets/src/components/project-task-lists/lists.vue:1069
 #: views/assets/src/components/project-task-lists/lists.vue:1112
 #: views/assets/src/components/project-task-lists/lists.vue:1213
-#: views/assets/src/components/project-task-lists/lists.vue:1379
-#: views/assets/src/components/project-task-lists/lists.vue:1402
+#: views/assets/src/components/project-task-lists/lists.vue:1380
+#: views/assets/src/components/project-task-lists/lists.vue:1403
 msgid "All"
 msgstr ""
 
@@ -1838,7 +1835,7 @@ msgid "Add New Comment"
 msgstr ""
 
 #: views/assets/src/components/project-discussions/discussions.vue:17
-#: views/assets/src/components/project-task-lists/new-task-list-form.vue:108
+#: views/assets/src/components/project-task-lists/new-task-list-form.vue:79
 msgid "Add List"
 msgstr ""
 
@@ -1971,15 +1968,15 @@ msgstr ""
 msgid "Estimated hour to complete the task"
 msgstr ""
 
-#: views/assets/src/components/project-task-lists/new-task-list-form.vue:106
+#: views/assets/src/components/project-task-lists/new-task-list-form.vue:77
 msgid "Task list details"
 msgstr ""
 
-#: views/assets/src/components/project-task-lists/new-task-list-form.vue:107
+#: views/assets/src/components/project-task-lists/new-task-list-form.vue:78
 msgid "Update List"
 msgstr ""
 
-#: views/assets/src/components/project-task-lists/single-list.vue:544
+#: views/assets/src/components/project-task-lists/single-list.vue:459
 msgid "Delete List"
 msgstr ""
 

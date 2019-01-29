@@ -306,9 +306,8 @@ export default {
          * 
          * @return void        
          */
-        listNewComment: function( state, data ) {
+        listNewComment: function( state, data ) { 
             var list_index = state.getIndex( state.lists, data.list_id, 'id' );
-
             state.lists[list_index].comments.data.push(data.comment);
         },
 

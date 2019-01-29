@@ -57,6 +57,17 @@ class Task_List_Controller {
         $tb_meta      = pm_tb_prefix() . 'pm_meta';
 
         $task_lists = Task_List::select( $tb_lists . '.*' )
+            ->selectRaw(
+                "GROUP_CONCAT(
+                    DISTINCT
+                    CONCAT(
+                        '{',
+                            '\"', 'meta_key', '\"', ':' , '\"', IFNULL($tb_meta.meta_key, '') , '\"', ',',
+                            '\"', 'meta_value', '\"', ':' , '\"', IFNULL($tb_meta.meta_value, '') , '\"'
+                        ,'}'
+                    ) SEPARATOR '|'
+                ) as meta"
+            )
             ->leftJoin( $tb_boardable, function( $join ) use($tb_boardable, $tb_lists) {
                 $join->on( $tb_lists . '.id', '=', $tb_boardable . '.board_id' );
             })
@@ -90,10 +101,15 @@ class Task_List_Controller {
             $list_ids[] = $collection->id;
         }
 
+        $milestones        = $this->get_milestone_by_list_ids( $list_ids );
         $lists_tasks_count = $this->get_lists_tasks_count( $list_ids, $project_id );
 
         foreach ( $task_list_collection as $key => $collection ) {
             $collection->lists_tasks_count = empty( $lists_tasks_count[$collection->id] ) ? [] : $lists_tasks_count[$collection->id];
+            $milestone = empty( $milestones[$collection->id] ) ? [] : $milestones[$collection->id];
+            $collection->milestone = [
+                'data' => $milestone
+            ];
         }
 
         $resource = new Collection( $task_list_collection, new New_Task_List_Transformer );
@@ -473,6 +489,30 @@ class Task_List_Controller {
             $returns[$result->board_id] = $result;
         }
         
+        return $returns;
+    }
+
+    public function get_milestone_by_list_ids( $list_ids ) {
+        $tb_boardable = pm_tb_prefix() . 'pm_boardables';
+        $tb_milestone = pm_tb_prefix() . 'pm_boards';
+
+        $milestones = Milestone::select($tb_milestone. '.*', $tb_boardable . '.boardable_id as list_id')
+        
+        ->leftJoin($tb_boardable, function($join) use($tb_boardable, $tb_milestone) {
+            $join->on( $tb_milestone . '.id', $tb_boardable . '.board_id' );
+        })
+        ->where( $tb_boardable . '.board_type', 'milestone' )
+        ->whereIn( $tb_boardable . '.boardable_id', $list_ids )
+        ->where( $tb_boardable . '.boardable_type', 'task_list' );
+
+        $milestones = $milestones->get()->toArray();
+        $milestones = empty( $milestones ) ? [] : $milestones;
+        $returns = [];
+
+        foreach ( $milestones as $key => $milestone ) {
+            $returns[$milestone['list_id']] = $milestone;
+        }
+
         return $returns;
     }
 

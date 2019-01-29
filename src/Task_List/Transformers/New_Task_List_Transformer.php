@@ -36,6 +36,7 @@ class New_Task_List_Transformer extends TransformerAbstract {
             'created_at'  => format_date( $item->created_at ),
             'meta'        => $this->meta( $item ),
             'extra'       => true,
+            'milestone'   => $item->milestone,
             'incomplete_tasks' => ['data' => []],
             'complete_tasks' => ['data' => []],
             'creator' => $this->get_creator( $item )

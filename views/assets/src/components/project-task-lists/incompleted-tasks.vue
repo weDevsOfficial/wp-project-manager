@@ -280,8 +280,8 @@
             },
             getSingleTask (task) {
                 this.$store.commit('projectTaskLists/updateSingleTaskActiveMode', true);
-                this.taskId = task.id;
-                this.projectId = task.project_id;
+                this.taskId = parseInt(task.id);
+                this.projectId = parseInt(task.project_id);
             },
             doneUndone (){
                 var self = this,

@@ -365,7 +365,7 @@ var PM_TaskList_Mixin = {
             var args = jQuery.extend(true, pre_define, args );
             var data = pm_apply_filters( 'before_task_list_save', args.data );
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/task-lists/'+ data.id+'/update',
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/task-lists/'+ data.id+'/update?with=comments',
                 data: data,
                 type: 'POST',
                 success (res) {
