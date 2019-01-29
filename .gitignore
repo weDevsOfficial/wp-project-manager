@@ -18,4 +18,4 @@ package-lock.json
 /build/
 pm.sublime-project
 phpcs-report.txt
-
+/languages/wedevs-project-manager.pot
