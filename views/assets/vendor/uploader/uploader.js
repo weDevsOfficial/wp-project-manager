@@ -8,8 +8,8 @@
     window.PM_Uploader = function (browse_button, container, component) {
         this.container = container;
         this.browse_button = browse_button;
-        
-        
+
+
         this.component = component;
 
         //instantiate the uploader
@@ -47,7 +47,7 @@
     PM_Uploader.prototype = {
 
         init: function (up, params) {
-            
+
             jQuery('#pm-upload-container')
                 .find('input[type="file"]')
                 .attr({'tabindex': '-1'});
@@ -57,29 +57,29 @@
             var single = this.component.single ? true : false;
             var $container = $('#' + this.container).find('.pm-upload-filelist');
             self = this;
-            
+
             $.each(files, function(i, file) {
                 file.formatSize = plupload.formatSize(file.size);
                 let preloader   = new window.FileReader();
-                
+
                 preloader.readAsDataURL(file.getNative());
 
                 preloader.onload = function() {
-                    
+
                     file.thumb = preloader.result;
                     if(single) {
                         self.component.files.splice( 0, 1, JSON.parse( JSON.stringify( file ) ) );
                     } else {
                         self.component.files.push( JSON.parse( JSON.stringify( file ) ) );
                     }
-                    
+
                 };
             });
 
             //up.destroy();
         },
         BeforeUpload: function(uploader, file ) {
-            
+
         },
 
         upload: function (uploader) {
