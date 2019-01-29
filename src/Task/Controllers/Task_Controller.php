@@ -485,7 +485,8 @@ class Task_Controller {
 
     public function filter( WP_REST_Request $request ) {
         global $wpdb;
-        $per_page = 2;
+        $per_page = pm_get_setting( 'list_per_page' );
+        $per_page = empty( $per_page ) ? 20 : $per_page;
         $page  = $request->get_param('page');
         $status    = $request->get_param('status');
         $board_status  = $request->get_param('board_status');

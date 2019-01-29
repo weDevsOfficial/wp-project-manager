@@ -1076,10 +1076,12 @@
 
         watch: {
             '$route' (route) {
+                
                 if(route.query.filterTask == 'active') {
                     if(typeof route.params.current_page_number == 'undefined') return;
                     
                     this.filterRequent();
+                    this.current_page_number = route.params.current_page_number;
                     return;
                 }
 
@@ -1246,7 +1248,6 @@
                 
                 if(isLoaded) {
                     var meta = this.$store.state.projectMeta;
-                    console.log(meta);
                     if( 
                         PM_Vars.is_pro
                             &&
@@ -1271,7 +1272,7 @@
             }
         },
 
-        created () { 
+        created () {  
             this.getGlobalMilestones();
             this.getSelfLists();
 
@@ -1482,7 +1483,7 @@
                     params: {
                         task_id: task.id,
                         project_id: task.project_id,
-                        list_id: task.task_list.data.id
+                        list_id: task.task_list_id
                     }
                 }).href;
                 var url = PM_Vars.project_page + url;
@@ -1494,7 +1495,7 @@
                 this.$store.commit( 'projectTaskLists/afterTaskDoneUndone', {
                     status: task.status == 'complete' || task.status === true ? 1 : 0,
                     task: task,
-                    list_id: task.task_list.data.id,
+                    list_id: task.task_list_id,
                     task_id: task.id
                 });
             },
@@ -1506,7 +1507,7 @@
                     this.setTaskDefaultData(task);
                     this.$store.commit('projectTaskLists/afterUpdateTask', {
                         task: task,
-                        list_id: task.task_list.data.id
+                        list_id: task.task_list_id
                     });
                 }
 
@@ -1516,7 +1517,7 @@
 
             setTaskDefaultData (task) {
                 var lists = this.$store.state.projectTaskLists.lists;
-                var list_index = this.getIndex( lists, task.task_list.data.id, 'id' );
+                var list_index = this.getIndex( lists, task.task_list_id, 'id' );
             
                 if (list_index === false) {
                     return;
@@ -1617,6 +1618,11 @@
                 //var queryPaprams = this.setQuery(query);
                 
                 this.$router.push({
+                    name: 'task_lists_pagination',
+                    params: {
+                        current_page_number: 1,
+                        project_id: this.project_id
+                    },
                     query: query
                 });
 

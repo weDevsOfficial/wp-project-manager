@@ -49,7 +49,7 @@ class Project_Controller {
 			$per_page = $projects->get()->count();
 		}
 		
-		if( $project_transform == 'true' ) {
+		if( $project_transform == 'false' ) {
 			wp_send_json_success( $projects->get()->toArray() );
 		}
 		
@@ -64,7 +64,7 @@ class Project_Controller {
         
         return $this->get_response( $resource );
     }
-    
+
     private function projects_meta( $category ) {
 		$user_id = get_current_user_id();
 		$eloquent_sql     = $this->fetch_projects_by_category( $category );
