@@ -5,12 +5,14 @@
             <div class="flex-box">
                 <div id="ac-auth">
                     <div v-if="!account">
+
+                        <h5> Login with your activeCollab account to Authenticate</h5>
                         <div>
-                            <label for="acEmail">Username/Email</label>
+                            <!--<label for="acEmail">Username/Email</label>-->
                             <input type="email" id="acEmail" required v-model="ac_username" placeholder="email">
                         </div>
                         <div>
-                            <label for="acPass">Password</label>
+                            <!--<label for="acPass">Password</label>-->
                             <input type="password" id="acPass" required v-model="ac_password" placeholder="password">
                         </div>
                         <button type="button" class="button button-primary" @click="auth()">Authenticate Active Collab</button>
@@ -268,6 +270,11 @@
             h5{
                 margin-top: 1px;
             }
+        }
+
+        #acEmail, #acPass{
+            margin-bottom: 8px;
+            width:80%;
         }
     }
 
