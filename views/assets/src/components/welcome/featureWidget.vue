@@ -3,7 +3,7 @@
         
         <div class="pm-video-modal">
             <pm-modal :is-active="show" @close="show=false" :width="600">
-                <iframe width="600" height="315" :src="'https://www.youtube.com/embed/' + feature.featureVideo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe width="600" height="315" :src="'https://www.youtube.com/embed/' + feature.featureVideo + '/?rel=0'" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </pm-modal>
         </div>
         <div :class="['pm-feature-card', feature.cardClass]">
