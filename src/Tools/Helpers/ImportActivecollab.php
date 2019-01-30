@@ -54,6 +54,7 @@ class ImportActivecollab extends WP_Background_Process
         } else {
             if(array_key_exists('token', $this->credentials)) {
                 $this->activecol = new PM_ActiveCol($this->credentials['url'],$this->credentials['token']);
+
             }
             $this->imported = get_option('imported_from_activecol');
             $this->importing = get_option('importing_from_activecol');
@@ -64,6 +65,8 @@ class ImportActivecollab extends WP_Background_Process
                 add_option('importing_from_activecol', array());
             }
         }
+
+        new FormatActiveCollab();
     }
 
     /**

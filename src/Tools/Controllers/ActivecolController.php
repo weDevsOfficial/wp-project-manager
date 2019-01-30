@@ -11,6 +11,7 @@ namespace WeDevs\PM\Tools\Controllers;
 use ActiveCollab\SDK\Authenticator\Cloud;
 use ActiveCollab\SDK\Client;
 use ActiveCollab\SDK\Token;
+use WeDevs\PM\Tools\Helpers\FormatActiveCollab;
 use WeDevs\PM\Tools\Helpers\ImportActivecollab;
 use WP_REST_Request;
 use Exception;
@@ -35,7 +36,10 @@ class ActivecolController
     }
 
     public function tokenAc(WP_REST_Request $request){
-
+        $status = pm_get_setting('activecol_formatted');
+        if(empty($status)){
+            pm_set_settings('activecol_formatted', 0);
+        }
         $username = $request->get_param('user');
         $password = $request->get_param('pass');
         $acID = $request->get_param('accid');
@@ -48,6 +52,11 @@ class ActivecolController
             );
             $token = $activeColAuth->issueToken((int) $acID);
             $accountCred = array('url'=>$token->getUrl(), 'token'=>$token->getToken());
+            $aclFormatter = new FormatActiveCollab();
+            if($status == '0'){
+                $aclFormatter->push_to_queue('acl');
+                $aclFormatter->save()->dispatch();
+            }
             return rest_ensure_response($accountCred);
         } catch( Exception $e ) {
             return rest_ensure_response(array('error'=>$e->getMessage()));
@@ -56,6 +65,18 @@ class ActivecolController
     }
 
     public function projectsAC(){
+
+        $status = pm_get_setting('activecol_formatted');
+        if(empty($status)){
+            pm_set_settings('activecol_formatted', 0);
+        }
+
+        $aclFormatter = new FormatActiveCollab();
+        if($status == '0'){
+            $aclFormatter->push_to_queue('acl');
+            $aclFormatter->save()->dispatch();
+        }
+
         $credentials = pm_get_setting('activecol_credentials');
         try{
             $token = new Token($credentials['token'], $credentials['url']);
@@ -65,6 +86,7 @@ class ActivecolController
         }catch (Exception $e){
             return rest_ensure_response(array('error'=>$e->getMessage()));
         }
+
     }
 
     public function showSaved(){
