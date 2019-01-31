@@ -29,10 +29,10 @@
                                     <option v-for="role in roles" :value="role.id" :key="role.id" >{{ __(role.title, 'wedevs-project-manager') }}</option>
                                 </select>
                             </td>
-                          
+
                             <td>
                                 <a @click.prevent="deleteUser(projectUser)" v-if="canUserEdit(projectUser)" hraf="#" class="pm-del-proj-role pm-assign-del-user">
-                                    <span class="dashicons dashicons-trash"></span> 
+                                    <span class="dashicons dashicons-trash"></span>
                                     <!-- <span class="title">{{ __( 'Delete', 'wedevs-project-manager') }}</span> -->
                                 </a>
                             </td>
@@ -40,7 +40,7 @@
                     </table>
                 </div>
             </div>
-            
+
             <div class="pm-form-item item project-users" v-if="show_role_field">
                 <input v-pm-users class="pm-project-coworker" type="text" name="user" :placeholder="search_user" size="45">
             </div>
@@ -50,7 +50,7 @@
             <div class="pm-form-item item project-notify">
                 <label>
                     <input type="checkbox" v-model="project_notify" name="project_notify" id="project-notify" value="yes" />
-                    {{ __( 'Notify Co-Workers', 'wedevs-project-manager') }}            
+                    {{ __( 'Notify Co-Workers', 'wedevs-project-manager') }}
                 </label>
             </div>
 
@@ -140,7 +140,7 @@
             },
 
             selectedUsers () {
-                
+
                 if(!this.project.hasOwnProperty('assignees')) {
                     return this.$store.state.assignees;
                 } else {
@@ -155,14 +155,14 @@
             project_category: {
                 get () {
                     if ( this.project.hasOwnProperty('id') ) {
-                        if ( 
-                            typeof this.project.categories !== 'undefined' 
-                                && 
-                            this.project.categories.data.length 
+                        if (
+                            typeof this.project.categories !== 'undefined'
+                                &&
+                            this.project.categories.data.length
                         ) {
 
                             this.project_cat = this.project.categories.data[0].id;
-                            
+
                             return this.project.categories.data[0].id;
                         }
                     }
@@ -187,9 +187,9 @@
                 if ( !this.canUserEdit(del_user.id) ) {
                     return;
                 }
-                
+
                 this.$store.commit(
-                    'afterDeleteUserFromProject', 
+                    'afterDeleteUserFromProject',
                     {
                         project_id: this.project_id,
                         user_id: del_user.id
@@ -197,7 +197,7 @@
                 );
             },
             canUserEdit (user) {
-                
+
                 if (this.has_manage_capability()) {
                     return true;
                 }
@@ -205,7 +205,7 @@
                 if (user.manage_capability) {
                     return false;
                 }
-                                
+
                 if (this.current_user.data.ID == user.id) {
                     return false;
                 }
@@ -215,13 +215,13 @@
             },
             /**
              * Action after submit the form to save and update
-             * @return {[void]} 
+             * @return {[void]}
              */
             projectFormAction () {
                 if ( this.show_spinner ) {
                     return;
                 }
-                
+
                 if ( !this.project.title ) {
                     pm.Toastr.error(__('Project title is required!', 'wedevs-project-manager'));
                     return;
@@ -238,7 +238,7 @@
                         'assignees': this.formatUsers(this.selectedUsers),
                         'status': this.project.status,
                         'department_id': this.project.department_id
-                    }   
+                    }
                 }
 
                 var self = this;
@@ -246,8 +246,10 @@
                     args.data.id = this.project.id;
                     args.callback = function ( res ) {
                         self.show_spinner = false;
+                        self.closePopper();
                     }
                     this.updateProject ( args );
+                    console.log("close here : updated");
                 } else {
                     args.callback = function(res) {
                         // console.log(res.status);
@@ -261,15 +263,17 @@
                         self.project_notify = [];
                         self.project.status = '';
                         self.show_spinner = false;
+                        self.closePopper();
                         self.$router.push({
-                            name: 'pm_overview', 
-                            params: { 
-                                project_id: res.data.id 
+                            name: 'pm_overview',
+                            params: {
+                                project_id: res.data.id
                             }
                         });
                     }
 
                     this.newProject(args);
+                    console.log("close here : created");
                 }
             },
             setProjectUser () {
@@ -281,11 +285,8 @@
             },
 
             closeForm () {
-                
-                let event = document.createEvent('HTMLEvents');
-                event.initEvent('click', true, false);
-                document.querySelector('.popper-ref').dispatchEvent(event);
 
+                this.closePopper();
                 if(!this.project.hasOwnProperty('id')) {
                     this.project.title = '';
                     this.project_cat = 0;
@@ -293,10 +294,16 @@
                     this.project_notify = [];
                     this.project.status = '';
                     this.$store.commit('setSeletedUser', []);
-                    jQuery( "#pm-project-dialog" ).dialog('close'); 
+                    // jQuery( "#pm-project-dialog" ).dialog('close');
                 }
                 this.showHideProjectForm(false);
             },
+
+            closePopper(){
+                let event = document.createEvent('HTMLEvents');
+                event.initEvent('click', true, false);
+                document.querySelector('.popper-ref').dispatchEvent(event);
+            }
         }
     }
 
