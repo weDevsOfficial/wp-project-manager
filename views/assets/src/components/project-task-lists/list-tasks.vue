@@ -532,7 +532,9 @@
                         } else {
                             self.hasList = false;
                         }
-                    })
+                    });
+
+                    this.isTaskFilterActive();
                 },
 
                 deep: true
