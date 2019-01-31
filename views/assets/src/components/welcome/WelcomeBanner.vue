@@ -3,7 +3,7 @@
     <section class="pm-section pm-section-wrapper pm-banner-section">
         <div class="pm-video-modal">
             <pm-modal :is-active="show" @close="show=false" :width="600">
-                <iframe width="600" height="315" src="https://www.youtube.com/embed/668nUCeBHyY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe width="600" height="315" src="https://www.youtube.com/embed/668nUCeBHyY/?rel=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </pm-modal>
         </div>
 
@@ -38,18 +38,18 @@
         data () {
             return {
                show: false
-            }
-        },
-        components: {
-            'pm-modal': modal
-        }
+           }
+       },
+       components: {
+        'pm-modal': modal
     }
+}
 </script>
 
 <style lang="less" scoped>
 
-    .pm-banner-section {
-        background-image: linear-gradient(139deg, #C444FB 0%, #5B56D7 100%);
+.pm-banner-section {
+    background-image: linear-gradient(139deg, #C444FB 0%, #5B56D7 100%);
         // box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
         border-radius: 3px;
         padding: 30px 60px;
