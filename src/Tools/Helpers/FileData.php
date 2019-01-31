@@ -77,16 +77,16 @@ class FileData
         return $this;
     }
 
-    public function make_file( $filename ) {
+    public function make_file( $file) {
 
-        $file = PM_IMPORTER_CONTENTS_STORE . '/data/'.$filename;
         if ( $this->fs->is_file( $file ) ) {
             $this->fs->delete( $file );
         }
         return $this->fs->touch( $file );
     }
 
-    public function save_contents($file, $contents ) {
+    public function save_contents($filename, $contents ) {
+        $file = PM_IMPORTER_CONTENTS_STORE . '/data/'.$filename;
         $this->make_file( $file );
         $json = json_encode($contents, JSON_PRETTY_PRINT);
         return $this->fs->put_contents($file, $json, PM_IMPORTER_CONTENTS_FILE_PERMISSION );
