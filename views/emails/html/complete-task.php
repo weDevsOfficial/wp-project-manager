@@ -16,9 +16,13 @@ $tpbk = config('frontend.assets_url') .'images/tpbk.png';
     </div>
     <div style="padding: 0 50px; text-align: justify; background-repeat: no-repeat;">
         <div style="margin: 40px 0 20px;">
-            
+
             <p style="font-family: lato; color: #7e7e7e; padding-right: 10px;">
-                <?php esc_html_e( sprintf( '%1$s has updated the status of a task, %2$s, from <strong>%3$s</strong> to <strong>%4$s</strong>.', $changed_by, $title, $old_value, $new_value ), 'pm', 'wedevs-project-manager'); ?>
+                <?php
+//                esc_html_e( sprintf( '%1$s has updated the status of a task, %2$s, from <strong>%3$s</strong> to <strong>%4$s</strong>.', $changed_by, $title, $old_value, $new_value ), 'pm', 'wedevs-project-manager');
+                  echo sprintf( '%1$s has updated the status of a task, %2$s, from <strong>%3$s</strong> to <strong>%4$s</strong>.', $changed_by, $title, $old_value, $new_value );
+
+                ?>
             </p>
         </div>
         <div style="margin: 40px 0 20px;">

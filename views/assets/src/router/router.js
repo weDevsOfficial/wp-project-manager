@@ -8,6 +8,8 @@ if (!PM_Vars.is_pro) {
     require('@components/calendar/router');
     require('@components/reports/router');
     require('@components/progress/router'); 
+    require('@components/welcome/router'); 
+    require('@components/pro-features/router'); 
 }
 
 import {general, email} from '@components/settings/router';
