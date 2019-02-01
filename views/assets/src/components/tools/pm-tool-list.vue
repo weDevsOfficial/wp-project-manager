@@ -7,7 +7,7 @@
             <li class="list-item">
                 <div>
                     <h3><i class="fa fa-trello"></i> Import from Trello</h3>
-                    <p>Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.</p>
+                    <p>Import Your Trello Projects in WP-Project Manager.</p>
                     <router-link class="button-primary" tag="a" :to="{ name: 'pm_tools_trello'}">
                         Import
                     </router-link>
@@ -16,7 +16,7 @@
             <li class="list-item">
                 <div>
                     <h3><i class="fa fa-adn"></i> Import from Asana</h3>
-                    <p>Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.</p>
+                    <p>Import Your Asana Projects in WP-Project Manager</p>
                     <router-link class="button-primary" tag="a" :to="{ name: 'pm_tools_asana'}">
                         Import
                     </router-link>
@@ -25,7 +25,7 @@
             <li class="list-item">
                 <div>
                     <h3><i class="fa fa-adn"></i> Import Active Collab</h3>
-                    <p>Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.</p>
+                    <p>Import Your Active Collab Projects in WP-Project Manager</p>
                     <router-link class="button-primary" tag="a" :to="{ name: 'pm_tools_activecol'}">
                         Import
                     </router-link>

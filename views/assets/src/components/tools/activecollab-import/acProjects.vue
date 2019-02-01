@@ -12,6 +12,9 @@
                         <span v-if="checkImportStatus(inProgress, acl_project.id)" class="fa fa-2x fa-lock btn"></span>
                         <div class="project-content">
                             <span class="project-title">{{ cutString(acl_project.name, 21, true) }}</span>
+                            {{ savedBefore }}
+                            :: {{ acl_project.id }}
+                            :: {{ checkImportStatus(savedBefore, acl_project.id) }}
                         </div>
                     </div>
                 </div>

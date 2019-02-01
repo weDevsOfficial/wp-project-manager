@@ -38,13 +38,22 @@
         </div>
 
         <div id="acl-projects">
+
+            <div v-if="getFormatStatus() === 0">
+                <div class="infox">
+                    <h4>Your ActiveCollab Projects are Formatting in Background Please Come Back Later</h4>
+                </div>
+            </div>
+            <div v-else>
             <ac-projects v-if="account !== ''" ref="aclp" :acl-projects="projects" :account="account" @allaclpSelected="allSelected()"></ac-projects>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
     import ac_projects from './acProjects.vue';
+    import mix from './mixin.js'
     export default {
         data(){
             return {
@@ -64,7 +73,7 @@
         components:{
             'ac-projects':ac_projects
         },
-
+        mixins:[mix],
         methods:{
             auth(){
                 var self = this;
@@ -100,8 +109,8 @@
                 var self = this;
                 var args = {
                     data: {
-                        user: self.ac_username, //"farazi@wedevs.com",
-                        pass: self.ac_password, //"!!@@1122FFff",
+                        user: self.ac_username,
+                        pass: self.ac_password,
                         accid:account
                     },
                     callback: false,
@@ -113,8 +122,13 @@
                     success (res) {
                         if ('error' in res){
                             toastr.error(res.error);
+                        } else if ('info' in res) {
+                            toastr.info(res.info);
+                            self.saveCredentials(res.url, res.token, account)
+                            location.reload()
                         } else {
                             self.saveCredentials(res.url, res.token, account)
+                            location.reload()
                         }
                     }
                 };
@@ -205,7 +219,7 @@
 
             allSelected() {
                 this.selected = this.$refs.aclp.isAllSelected;
-            }
+            },
 
         },
 
@@ -275,6 +289,20 @@
         #acEmail, #acPass{
             margin-bottom: 8px;
             width:80%;
+        }
+    }
+    #acl-projects {
+        div.infox {
+            background: #fff;
+            margin: 5px 0 15px;
+            border-left: 4px solid #28a745;
+            padding: 1px 15px;
+            h4 {
+                margin: 0.5em 0;
+                padding: 2px;
+                font-weight: normal;
+            }
+
         }
     }
 
