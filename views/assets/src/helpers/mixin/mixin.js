@@ -91,37 +91,37 @@ export default {
         },
         pad2 (number) {
            return (number < 10 ? '0' : '') + number;
-        },
-        stringToTime (seconds) {
-            var numdays = Math.floor(seconds / 86400);
+       },
+       stringToTime (seconds) {
+        var numdays = Math.floor(seconds / 86400);
 
-            var numhours = Math.floor((seconds % 86400) / 3600);
+        var numhours = Math.floor((seconds % 86400) / 3600);
 
-            var numminutes = Math.floor(((seconds % 86400) % 3600) / 60);
+        var numminutes = Math.floor(((seconds % 86400) % 3600) / 60);
 
-            var numseconds = ((seconds % 86400) % 3600) % 60;
+        var numseconds = ((seconds % 86400) % 3600) % 60;
 
-            return {
-                'days': this.pad2(numdays),
-                'hours': this.pad2(numhours),
-                'minutes': this.pad2(numminutes),
-                'seconds': this.pad2(numseconds)
-            }
-        },
+        return {
+            'days': this.pad2(numdays),
+            'hours': this.pad2(numhours),
+            'minutes': this.pad2(numminutes),
+            'seconds': this.pad2(numseconds)
+        }
+    },
 
-        getFullDate (date) {
-            if ( !date ) {
-                return;
-            }
-            date = new Date(date.replace(/-/g, "/"));
+    getFullDate (date) {
+        if ( !date ) {
+            return;
+        }
+        date = new Date(date.replace(/-/g, "/"));
 
-            return pm.Moment(date).format('dddd, MMMM D YYYY, H:mm:ss');
-        },
+        return pm.Moment(date).format('dddd, MMMM D YYYY, H:mm:ss');
+    },
 
-        relativeDate (date) {
-            if ( !date ) {
-                return;
-            }
+    relativeDate (date) {
+        if ( !date ) {
+            return;
+        }
             //getTimezoneOffset
             date = new Date(date.replace(/-/g, "/"));
 
@@ -135,7 +135,7 @@ export default {
          *
          * @return string
          */
-        shortDateFormat ( date ) {
+         shortDateFormat ( date ) {
 
             if ( !date ) {
                 return;
@@ -186,7 +186,7 @@ export default {
          *
          * @return string
          */
-        dateFormat ( date, formate ) {
+         dateFormat ( date, formate ) {
             var formate = formate || 'MMM D';
             if ( !date ) {
                 return;
@@ -203,7 +203,7 @@ export default {
          *
          * @return string
          */
-        taskDateFormat ( date ) {
+         taskDateFormat ( date ) {
             if ( !date ) {
                 return;
             }
@@ -219,57 +219,57 @@ export default {
          *
          * @return string
          */
-        dateISO8601Format ( date ) {
+         dateISO8601Format ( date ) {
           return pm.Moment( date ).format();
-        },
+      },
 
-        getSettings (key, pre_define, objKey ) {
+      getSettings (key, pre_define, objKey ) {
 
-            var pre_define  = typeof pre_define == 'undefined' ? false : pre_define,
-                objKey = typeof objKey == 'undefined' ? false : objKey,
-                settings  = PM_Vars.settings;
-            if (objKey) {
-                if ( typeof PM_Vars.settings[objKey] === 'undefined' ) {
-                    return pre_define;
-                }
-                if ( typeof PM_Vars.settings[objKey][key] === 'undefined' ){
-                    return pre_define;
-                }
-
-
-                if ( PM_Vars.settings[objKey][key] === "true" ){
-                    return true;
-                } else if ( PM_Vars.settings[objKey][key] === "false" ){
-                    return false;
-                } else {
-                    return PM_Vars.settings[objKey][key];
-                }
+        var pre_define  = typeof pre_define == 'undefined' ? false : pre_define,
+        objKey = typeof objKey == 'undefined' ? false : objKey,
+        settings  = PM_Vars.settings;
+        if (objKey) {
+            if ( typeof PM_Vars.settings[objKey] === 'undefined' ) {
+                return pre_define;
             }
-
-
-            if ( typeof PM_Vars.settings[key] == 'undefined' ) {
+            if ( typeof PM_Vars.settings[objKey][key] === 'undefined' ){
                 return pre_define;
             }
 
-            if ( PM_Vars.settings[key] == "true" ){
+
+            if ( PM_Vars.settings[objKey][key] === "true" ){
                 return true;
-            } else if ( PM_Vars.settings[key] == "false" ){
+            } else if ( PM_Vars.settings[objKey][key] === "false" ){
                 return false;
             } else {
-                return PM_Vars.settings[key];
+                return PM_Vars.settings[objKey][key];
             }
+        }
 
-        },
-        dataURLtoFile (dataurl, filename) {
-            var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
-                bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-            while(n--){
-                u8arr[n] = bstr.charCodeAt(n);
-            }
-            return new File([u8arr], filename, {type:mime});
-        },
-        httpRequest (property) {
-            var before = function( xhr ) {
+
+        if ( typeof PM_Vars.settings[key] == 'undefined' ) {
+            return pre_define;
+        }
+
+        if ( PM_Vars.settings[key] == "true" ){
+            return true;
+        } else if ( PM_Vars.settings[key] == "false" ){
+            return false;
+        } else {
+            return PM_Vars.settings[key];
+        }
+
+    },
+    dataURLtoFile (dataurl, filename) {
+        var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+        while(n--){
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new File([u8arr], filename, {type:mime});
+    },
+    httpRequest (property) {
+        var before = function( xhr ) {
                 xhr.setRequestHeader("Authorization_name", btoa('mslweiew')); //btoa js encoding base64_encode
                 xhr.setRequestHeader("Authorization_password", btoa('1$%#$8sgf&*FBI')); //atob js decode base64_decode
 
@@ -313,7 +313,7 @@ export default {
          * @param  {[Object]} args data with callback
          * @return {viod}      [description]
          */
-        newProject (args) {
+         newProject (args) {
             var self = this,
             pre_define = {
                 data: {
@@ -384,83 +384,83 @@ export default {
             pre_define = {
               data: {
                 status: 'incomplete'
-              },
-              callback: false,
             },
-            args = jQuery.extend(true, pre_define, args );
-            args = pm_apply_filters( 'before_project_save', args );
-            var request = {
-                type: 'POST',
-                url: this.base_url + '/pm/v2/projects/'+ args.data.id+'/update',
-                data: args.data,
-                success (res) {
+            callback: false,
+        },
+        args = jQuery.extend(true, pre_define, args );
+        args = pm_apply_filters( 'before_project_save', args );
+        var request = {
+            type: 'POST',
+            url: this.base_url + '/pm/v2/projects/'+ args.data.id+'/update',
+            data: args.data,
+            success (res) {
 
-                    self.$root.$store.commit('updateProject', res.data);
-                    pm.Toastr.success(res.message);
-                    self.showHideProjectForm(false);
-                    jQuery( "#pm-project-dialog" ).dialog("close");
-                    self.resetSelectedUsers();
-                    self.$store.commit('updateProjectMeta', 'total_activities');
-                    if(typeof args.callback === 'function'){
-                        args.callback.call(self, res);
-                    }
-                },
+                self.$root.$store.commit('updateProject', res.data);
+                pm.Toastr.success(res.message);
+                self.showHideProjectForm(false);
+                jQuery( "#pm-project-dialog" ).dialog("close");
+                self.resetSelectedUsers();
+                self.$store.commit('updateProjectMeta', 'total_activities');
+                if(typeof args.callback === 'function'){
+                    args.callback.call(self, res);
+                }
+            },
 
-                error (res) {
-                    if ( res.status == 400 ) {
-                        var params = res.responseJSON.data.params;
-                        for ( var obj in params ){
-                            pm.Toastr.error(params[obj][0]);
-                        }
-                    }
-                    if (res.status == 500 ) {
-                        res.responseJSON.message.map( function( value, index ) {
-                            pm.Toastr.error(value);
-                        });
-                    }
-                    if(typeof args.callback === 'function'){
-                        args.callback.call(self, res);
+            error (res) {
+                if ( res.status == 400 ) {
+                    var params = res.responseJSON.data.params;
+                    for ( var obj in params ){
+                        pm.Toastr.error(params[obj][0]);
                     }
                 }
-            };
-
-            this.httpRequest(request);
-        },
-
-        resetSelectedUsers () {
-            this.$root.$store.commit('resetSelectedUsers');
-        },
-
-        getProjects ( args ) {
-
-            var self = this;
-            var pre_define ={
-                conditions : {
-                    status: '',
-                    project_transform: true,
-                    per_page: this.getSettings('project_per_page', 10),
-                    page : this.setCurrentPageNumber(),
-                    category: typeof this.$route.query.category !== 'undefined' ? this.$route.query.category : '',
+                if (res.status == 500 ) {
+                    res.responseJSON.message.map( function( value, index ) {
+                        pm.Toastr.error(value);
+                    });
+                }
+                if(typeof args.callback === 'function'){
+                    args.callback.call(self, res);
                 }
             }
+        };
 
-            var  args = jQuery.extend(true, pre_define, args );
+        this.httpRequest(request);
+    },
 
-            var conditions = pm_apply_filters( 'before_get_project', args.conditions );
-            conditions = self.generateConditions(conditions);
+    resetSelectedUsers () {
+        this.$root.$store.commit('resetSelectedUsers');
+    },
 
-            var request_data = {
-                url: self.base_url + '/pm/v2/projects?'+conditions,
-                data: args.conditions,
-                success (res) {
-                    res.data.map(function(project) {
-                        self.addProjectMeta(project);
-                    });
+    getProjects ( args ) {
 
-                    self.$store.commit('setProjects', {'projects': res.data});
-                    self.$store.commit('setProjectsMeta', res.meta );
+        var self = this;
+        var pre_define ={
+            conditions : {
+                status: '',
+                project_transform: true,
+                per_page: this.getSettings('project_per_page', 10),
+                page : this.setCurrentPageNumber(),
+                category: typeof this.$route.query.category !== 'undefined' ? this.$route.query.category : '',
+            }
+        }
 
-                    pm.NProgress.done();
+        var  args = jQuery.extend(true, pre_define, args );
+
+        var conditions = pm_apply_filters( 'before_get_project', args.conditions );
+        conditions = self.generateConditions(conditions);
+
+        var request_data = {
+            url: self.base_url + '/pm/v2/projects?'+conditions,
+            data: args.conditions,
+            success (res) {
+                res.data.map(function(project) {
+                    self.addProjectMeta(project);
+                });
+
+                self.$store.commit('setProjects', {'projects': res.data});
+                self.$store.commit('setProjectsMeta', res.meta );
+
+                pm.NProgress.done();
                     // self.loading = false;
 
                     if(typeof args.callback != 'undefined'){
@@ -698,7 +698,7 @@ export default {
          *
          * @return  int
          */
-        getIndex  ( itemList, id, slug) {
+         getIndex  ( itemList, id, slug) {
             var index = false;
 
             jQuery.each(itemList, function(key, item) {
@@ -739,12 +739,12 @@ export default {
         /**
          * Set extra element in httpRequest query
          */
-        getQueryParams (add_query) {
+         getQueryParams (add_query) {
 
             var self = this,
-                query_str = '';
+            query_str = '';
 
-             jQuery.each(add_query, function(key, val) {
+            jQuery.each(add_query, function(key, val) {
 
                 if (Array.isArray(val)) {
 
@@ -779,9 +779,9 @@ export default {
         /**
          * Set extra element in this.$route.query
          */
-        setQuery (add_query) {
+         setQuery (add_query) {
             var self = this,
-                route_query = {};
+            route_query = {};
 
 
             jQuery.each(self.$route.query, function(key, val) {
@@ -817,7 +817,7 @@ export default {
          *
          * @return string
          */
-        pmDateISO8601Format ( date, time ) {
+         pmDateISO8601Format ( date, time ) {
             var date = new Date(date +' '+ time);
 
             return pm.Moment( date).format();
@@ -846,10 +846,10 @@ export default {
                             total_page > 1
                             &&
                             typeof self.$route.params.current_page_number == 'undefined'
-                        ) {
+                            ) {
                             self.getProjects();
-                        }
-                    } else {
+                    }
+                } else {
                         //self.getProjects();
                     }
                 }
@@ -894,7 +894,7 @@ export default {
          * @param  {Function} callback [optional]
          * @return {[type]}            [milestone]
          */
-        getGlobalMilestones (callback) {
+         getGlobalMilestones (callback) {
           var self = this,
           milestones = this.$root.$store.state.milestones,
           milestones_load = self.$root.$store.state.milestones_load;
@@ -904,7 +904,7 @@ export default {
                 callback.call(self, milestones);
             }
             return milestones;
-          }else {
+        }else {
             var request = {
                 data: {
                     status: 1
@@ -914,16 +914,16 @@ export default {
                     self.$root.$store.commit( 'setMilestones', res.data );
 
                     if (typeof callback === 'function') {
-                    callback.call( self, res.data);
+                        callback.call( self, res.data);
                     }
                 }
             };
             self.httpRequest(request);
-          }
-        },
+        }
+    },
 
-        loadingStart (id, args) {
-            var pre_define = {
+    loadingStart (id, args) {
+        var pre_define = {
                 // loading text
                 text: '',
 
@@ -966,8 +966,8 @@ export default {
             id = id || false;
 
             var url = project_id
-                ? self.base_url + '/pm/v2/projects/'+project_id+'/settings'
-                : self.base_url + '/pm/v2/settings';
+            ? self.base_url + '/pm/v2/projects/'+project_id+'/settings'
+            : self.base_url + '/pm/v2/settings';
 
             var request = {
                 url: url,
@@ -1029,9 +1029,9 @@ export default {
 
             if ( !is_need_fetch_view_type ) {
                 callback(
-                    {
-                        'value': this.$store.state.listView
-                    }
+                {
+                    'value': this.$store.state.listView
+                }
                 );
                 return;
             }
@@ -1066,7 +1066,7 @@ export default {
         getClients () {
 
             var project = this.$store.state.project,
-                assignees = this.$store.state.project.assignees.data;
+            assignees = this.$store.state.project.assignees.data;
 
             return assignees.filter(function(user) {
 
@@ -1129,7 +1129,7 @@ export default {
 
         deleteSettings (key, pre_define ) {
             var pre_define   = pre_define || false,
-                settings  = PM_Vars.settings;
+            settings  = PM_Vars.settings;
 
             if ( typeof PM_Vars.settings[key] === 'undefined' ) {
                 return pre_define;
@@ -1145,11 +1145,9 @@ export default {
         /**
          * Close popup by checking popper
          */
-        closePopper(){
-            let event = document.createEvent('HTMLEvents');
-            event.initEvent('click', true, false);
+         closePopper(){
             if( jQuery('.popper-ref').length > 0 ){
-                jQuery('.popper-ref').dispatchEvent(event);
+                jQuery('.popper-ref').trigger('click');
             }else {
                 jQuery('.ui-dialog-titlebar-close').trigger('click');
             }
