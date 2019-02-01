@@ -13,24 +13,24 @@
                     </router-link>
                 </div>
             </li>
-            <li class="list-item">
-                <div>
-                    <h3><i class="fa fa-adn"></i> Import from Asana</h3>
-                    <p>Import Your Asana Projects in WP-Project Manager</p>
-                    <router-link class="button-primary" tag="a" :to="{ name: 'pm_tools_asana'}">
-                        Import
-                    </router-link>
-                </div>
-            </li>
-            <li class="list-item">
-                <div>
-                    <h3><i class="fa fa-adn"></i> Import Active Collab</h3>
-                    <p>Import Your Active Collab Projects in WP-Project Manager</p>
-                    <router-link class="button-primary" tag="a" :to="{ name: 'pm_tools_activecol'}">
-                        Import
-                    </router-link>
-                </div>
-            </li>
+            <!--<li class="list-item">-->
+                <!--<div>-->
+                    <!--<h3><i class="fa fa-adn"></i> Import from Asana</h3>-->
+                    <!--<p>Import Your Asana Projects in WP-Project Manager</p>-->
+                    <!--<router-link class="button-primary" tag="a" :to="{ name: 'pm_tools_asana'}">-->
+                        <!--Import-->
+                    <!--</router-link>-->
+                <!--</div>-->
+            <!--</li>-->
+            <!--<li class="list-item">-->
+                <!--<div>-->
+                    <!--<h3><i class="fa fa-adn"></i> Import Active Collab</h3>-->
+                    <!--<p>Import Your Active Collab Projects in WP-Project Manager</p>-->
+                    <!--<router-link class="button-primary" tag="a" :to="{ name: 'pm_tools_activecol'}">-->
+                        <!--Import-->
+                    <!--</router-link>-->
+                <!--</div>-->
+            <!--</li>-->
 
         </ul>
 
@@ -44,11 +44,6 @@
 
         data(){
             return{
-
-                    trello_credentials:{
-                        api_key: 'dsfdsfdsfsdf',//this.getSettings('api_key', '48bd6e943d3f5037d385e6c274d873bf', 'trello_credentials'),
-                        token: 'sdfdsfvcvbcvcv'//this.getSettings('token', 'test5000300', 'trello_credentials')
-                    }
 
             }
         }
