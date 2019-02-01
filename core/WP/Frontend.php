@@ -11,7 +11,8 @@ use WeDevs\PM\Core\File_System\File_System as File_System;
 use WeDevs\PM\Core\Cli\Commands;
 use WeDevs\PM\Core\Promotions\Promotions;
 use WeDevs\PM\Core\Promotions\Offers;
-use PM_Create_Table;
+use WeDevs\PM\Core\Installer\Installer;
+
 
 
 class Frontend {
@@ -36,13 +37,10 @@ class Frontend {
 
         //Execute only plugin install time
         register_activation_hook( PM_FILE, array( $this, 'install' ) );
-
-        add_filter('upload_mimes', array($this, 'custom_upload_mimes'));
     }
 
     public function install() {
-        new PM_Create_Table;
-        (new \RoleTableSeeder())->run();
+        ( new Installer )->do_install();
     }
 
 	/**
@@ -63,7 +61,7 @@ class Frontend {
         add_filter( 'plugin_action_links_' . PM_BASENAME , array( $this, 'plugin_action_links' ) );
         add_filter( 'in_plugin_update_message-' . PM_BASENAME , array( $this, 'upgrade_notice' ), 10, 2 );
         add_action( 'admin_footer', array( $this, 'switch_project_html' ) );
-        // add_action( 'admin_footer', array( $this, 'new_task_craeting' ) );
+        add_action( 'admin_init', array( $this, 'redirect_after_activate' ) );
         add_action('admin_bar_menu', array( $this, 'pm_toolbar_search_button' ), 999);
         // add_action('admin_bar_menu', array( $this, 'pm_toolbar_new_task_creating' ), 999);
 
@@ -118,6 +116,7 @@ class Frontend {
 		add_filter( 'upload_mimes', [$this, 'cc_mime_types'] );
 		add_filter( 'wp_mime_type_icon', [$this, 'change_mime_icon'], 10, 3 );
 		add_filter( 'todo_list_text_editor', [$this, 'project_text_editor'] );
+        add_filter('upload_mimes', [$this, 'custom_upload_mimes']);
 	}
 
 	function cc_mime_types( $mimes ) {
@@ -375,8 +374,21 @@ function project_text_editor($config) {
         );
     }
 
-    public function custom_upload_mimes ( $existing_mimes = array() ) {
+    public function custom_upload_mimes ( $existing_mimes ) {
         $existing_mimes['psd'] = 'image/vnd.adobe.photoshop';
+
         return $existing_mimes;
+    }
+
+    public function redirect_after_activate() {
+        if ( ! get_transient( '_pm_setup_page_redirect' ) ) {
+            return;
+        }
+
+        // Delete the redirect transient
+        delete_transient( '_pm_setup_page_redirect' );
+
+        wp_safe_redirect( add_query_arg( array( 'page' => 'pm_projects#/welcome' ), admin_url( 'index.php' ) ) );
+        exit;
     }
 }

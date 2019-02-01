@@ -63,19 +63,20 @@ class Project_Transformer extends TransformerAbstract {
     public function includeMeta (Project $item) {
 
         return $this->item($item, function ($item) {
-            $list = $item->task_lists();
-            $list = apply_filters( 'pm_task_list_query', $list, $item->id );
-            $task = $item->tasks();
-            $task = apply_filters( 'pm_task_query', $task, $item->id );
-            $task_count = $task->count();
-            $complete_tasks_count = $task->where( 'status', Task::COMPLETE)->count();
+            $list                   = $item->task_lists();
+            $list                   = apply_filters( 'pm_task_list_query', $list, $item->id );
+            $task                   = $item->tasks();
+            $task                   = apply_filters( 'pm_task_query', $task, $item->id );
+            $task_count             = $task->count();
+            $complete_tasks_count   = $task->where( 'status', Task::COMPLETE)->count();
             $incomplete_tasks_count = $task->where( 'status', Task::INCOMPLETE)->count();
-            $discussion = $item->discussion_boards();
-            $discussion = apply_filters( 'pm_discuss_query', $discussion, $item->id);
-            $milestones = $item->milestones();
-            $milestones = apply_filters( 'pm_milestone_index_query', $milestones, $item->id );
-            $files = $item->files();
-            $files = apply_filters( 'pm_file_query', $files, $item->id );
+            $discussion             = $item->discussion_boards();
+            $discussion             = apply_filters( 'pm_discuss_query', $discussion, $item->id);
+            $milestones             = $item->milestones();
+            $milestones             = apply_filters( 'pm_milestone_index_query', $milestones, $item->id );
+            $files                  = $item->files();
+            $files                  = apply_filters( 'pm_file_query', $files, $item->id );
+
             return[
                 'total_task_lists'        => $list->count(),
                 'total_tasks'             => $task_count,
@@ -83,7 +84,7 @@ class Project_Transformer extends TransformerAbstract {
                 'total_incomplete_tasks'  => $incomplete_tasks_count,
                 'total_discussion_boards' => $discussion->count(),
                 'total_milestones'        => $milestones->count(),
-                'total_comments'          => $item->comments()->count(),
+                'total_comments'          => $item->comments()->where('commentable_type', '!=', 'task_activity')->count(),
                 'total_files'             => $files->count(),
                 'total_activities'        => $item->activities()->count(),
             ];

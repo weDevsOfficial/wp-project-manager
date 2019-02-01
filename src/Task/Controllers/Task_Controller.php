@@ -43,7 +43,7 @@ class Task_Controller {
 
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
-        }); 
+        });
 
         if ( $search ) {
             $tasks = Task::where( 'project_id', $project_id )
@@ -58,11 +58,11 @@ class Task_Controller {
             $tasks = Task::where( 'project_id', $project_id )
                 ->parent();
             $tasks = apply_filters( 'pm_task_index_query', $tasks, $project_id, $request );
-            
+
             if ( $per_page == '-1' ) {
                 $per_page = $tasks->count();
             }
-            
+
             $tasks = $tasks->orderBy( 'created_at', 'DESC')
                 ->paginate( $per_page );
 
@@ -83,7 +83,7 @@ class Task_Controller {
             ->where( 'project_id', $project_id );
         $task = apply_filters( 'pm_task_show_query', $task, $project_id, $request );
         $task = $task->first();
-        
+
         if ( $task == NULL ) {
             return $this->get_response( null,  [
                 'message' => pm_get_text('success_messages.no_element')
@@ -100,8 +100,8 @@ class Task_Controller {
         $project_id    = $request->get_param( 'project_id' );
         $board_id      = $request->get_param( 'board_id' );
         $assignees     = $request->get_param( 'assignees' );
-        
-        
+
+
         if ( empty( $board_id ) ) {
             $inbox = pm_get_meta($project_id, $project_id, 'task_list', 'list-inbox');
             $board_id = $inbox->meta_value;
@@ -110,13 +110,13 @@ class Task_Controller {
 
         $project       = Project::find( $project_id );
         $board         = Board::find( $board_id );
-        
+
         if ( $project ) {
             $task = Task::create( $data );
         }
 
         do_action( 'cpm_task_new', $board_id, $task->id, $request->get_params() );
-        
+
         if ( $task && $board ) {
             $latest_order = Boardable::latest_order( $board->id, $board->type, 'task' );
             $boardable    = Boardable::create([
@@ -135,7 +135,7 @@ class Task_Controller {
         do_action('pm_after_create_task', $task, $request->get_params() );
 
         $resource = new Item( $task, new Task_Transformer );
-        
+
 
         $message = [
             'message' => pm_get_text('success_messages.task_created'),
@@ -143,7 +143,7 @@ class Task_Controller {
         ];
 
         $response = $this->get_response( $resource, $message );
-        
+
         do_action('pm_create_task_aftre_transformer', $response, $request->get_params() );
 
         return $response;
@@ -203,30 +203,33 @@ class Task_Controller {
         $task_id    = $request->get_param( 'task_id' );
         $assignees  = $request->get_param( 'assignees' );
         $assignees  = $assignees ? $assignees : [];
-        
+
         $task = Task::with('assignees')->find( $task_id );
 
-        if ( !empty( $assignees ) && is_array( $assignees ) && $task ) {
-            $task->assignees()->whereNotIn( 'assigned_to', $assignees )->delete();
-            $this->attach_assignees( $task, $assignees );
-        }
-                
+//        if ( !empty( $assignees ) && is_array( $assignees ) && $task ) {
+//            $task->assignees()->whereNotIn( 'assigned_to', $assignees )->delete();
+//            $this->attach_assignees( $task, $assignees );
+//        }
+        $task->assignees()->whereNotIn( 'assigned_to', $assignees )->delete();
+        $this->attach_assignees( $task, $assignees );
+
+
         do_action( 'cpm_task_update', $list_id, $task_id, $request->get_params() );
         $task->update_model( $data );
-        
+
 
         do_action( 'cpm_after_update_task', $task->id, $list_id, $project_id );
         do_action('pm_after_update_task', $task, $request->get_params() );
-        
+
         $resource = new Item( $task, new Task_Transformer );
-        
+
         $message = [
             'message' => pm_get_text('success_messages.task_updated'),
             'activity' => $this->last_activity( 'task', $task->id ),
         ];
-        
+
         $response = $this->get_response( $resource, $message );
-        
+
         do_action('pm_update_task_aftre_transformer', $response, $request->get_params() );
 
         return $response;
@@ -247,15 +250,15 @@ class Task_Controller {
             $task->completed_by = null;
             $task->completed_at = null;
         }
-        
+
         if ( $task->save() ) {
             $this->update_task_status( $task );
             $this->task_activity_comment($task, $status);
         }
-        
+
         do_action( 'mark_task_complete', $task->project_id, $task->id );
         do_action( 'pm_changed_task_status', $task, $old_value );
-        
+
         $resource = new Item( $task, new Task_Transformer );
 
         $message = [
@@ -293,29 +296,29 @@ class Task_Controller {
         $task = Task::where( 'id', $task_id )
             ->where( 'project_id', $project_id )
             ->first();
-        
+
         do_action("pm_before_delete_task", $task, $request->get_params() );
         do_action( 'cpm_delete_task_prev', $task_id, $project_id, $project_id, $task );
-        
+
         // Delete relations assoicated with the task
         $task->boardables()->delete();
         $task->files()->delete();
         $comments = $task->comments;
-        
+
         foreach ($comments as $comment) {
             $comment->replies()->delete();
             $comment->files()->delete();
         }
-        
+
         $task->comments()->delete();
         $task->assignees()->delete();
         $task->metas()->delete();
         Task::where('parent_id', $task->id)->delete();
         // Delete the task
         $task->delete();
-        
+
         do_action( 'cpm_delete_task_after', $task_id, $project_id, $project_id );
-        
+
         $message = [
             'message' => pm_get_text('success_messages.task_deleted'),
             'activity' => $this->last_activity( 'task', $task->id ),
@@ -435,7 +438,7 @@ class Task_Controller {
     }
 
     public function task_sorting( WP_REST_Request $request ) {
-        
+
         $project_id = $request->get_param( 'project_id' );
         $list_id    = $request->get_param( 'list_id' );
         $task_id    = $request->get_param( 'task_id' );
@@ -450,15 +453,15 @@ class Task_Controller {
             $boardable = Boardable::where( 'board_type', 'task_list' )
                 ->where( 'boardable_id', $task_id )
                 ->first();
-            
+
             if ( $boardable ) {
                 $boardable->board_id = $list_id;
                 $boardable->update();
-            } 
+            }
 
             $task = pm_get_task( $task_id );
         }
-        
+
         foreach ( $orders as $order ) {
             $index   = empty( $order['index'] ) ? 0 : intval( $order['index'] );
             $task_id = empty( $order['id'] ) ? '' : intval( $order['id'] );
@@ -485,26 +488,26 @@ class Task_Controller {
 
     public function filter( WP_REST_Request $request ) {
         global $wpdb;
-        $per_page = pm_get_setting( 'list_per_page' );
-        $per_page = empty( $per_page ) ? 20 : $per_page;
-        $page  = $request->get_param('page');
-        $status    = $request->get_param('status');
-        $board_status  = $request->get_param('board_status');
-        $due_date  = $request->get_param('dueDate');
-        $assignees = $request->get_param('users');
-        $lists     = $request->get_param('lists');
-        $project_id = $request->get_param('project_id');
+        $per_page     = pm_get_setting( 'list_per_page' );
+        $per_page     = empty( $per_page ) ? 20 : $per_page;
+        $page         = $request->get_param('page');
+        $status       = $request->get_param('status');
+        $board_status = $request->get_param('board_status');
+        $due_date     = $request->get_param('dueDate');
+        $assignees    = $request->get_param('users');
+        $lists        = $request->get_param('lists');
+        $project_id   = $request->get_param('project_id');
 
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
-        }); 
+        });
 
         $task_lists = Task_List::with(
             [
                 'tasks' => function($q) use( $status, $due_date, $assignees, $project_id ) {
-                    
+
                     $q->where('project_id', $project_id);
-                    
+
                     if ( ! empty(  $status ) ) {
                         $status = $status == 'complete' ? 1 : 0;
                         $q->where( 'status', $status );
@@ -541,7 +544,7 @@ class Task_Controller {
             ]
         )
         ->whereHas('tasks', function($q) use( $status, $due_date, $assignees, $project_id ) {
-                
+
                 $q->where('project_id', $project_id);
 
                 if ( ! empty(  $status ) ) {
@@ -591,7 +594,7 @@ class Task_Controller {
         ->where('project_id', $project_id)
         ->orderBy( 'order', 'DESC' )
         ->paginate( $per_page ); 
-       // pmpr($task_lists->get()->toArray(), $wpdb->last_query); die();
+       
         $collection = $task_lists->getCollection(); 
 
         $list_ids   = [];
@@ -606,15 +609,6 @@ class Task_Controller {
             }
         }
 
-
-
-
-        
-
-
-        //9261 task id
-        //list id 1026
-
         //get total complete and incomplete tasks count
         $lists_tasks_count = ( new Task_List_Controller )->get_lists_tasks_count( $list_ids, $project_id );
 
@@ -626,7 +620,6 @@ class Task_Controller {
         $resource->setPaginator( new IlluminatePaginatorAdapter( $task_lists ) );
 
         $lists = $this->get_response( $resource );
-
         $tasks = $this->get_tasks( $task_ids );
 
         $merge = [];
@@ -643,8 +636,6 @@ class Task_Controller {
             }
         }
 
-
-
         foreach ( $lists['data'] as $key => $list ) {
             $id = $list['id'];
 
@@ -654,84 +645,7 @@ class Task_Controller {
             }
         }
 
-
-
         return $lists;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        //get task assignees and comment count
-        $task_metas = $this->get_tasks_meta( $task_ids );
-        
-        //get task lists total complete and incomplete task count
-        $lists_tasks_count = ( new Task_List_Controller )->get_lists_tasks_count($list_ids, $project_id);
-
-        //Set task assignees and comment count
-        foreach ( $collection as $key => $task_list ) {
-            $task_list->lists_tasks_count = empty( $lists_tasks_count[$task_list->id] ) ? [] : $lists_tasks_count[$task_list->id];
-            
-            foreach ( $task_list->tasks as $tkey => $task ) {
-                $task->assignees = empty( $task_metas[$task->id] ) ? [] : $task_metas[$task->id]->assignees;
-                $task->total_comment = empty( $task_metas[$task->id] ) ? [] : $task_metas[$task->id]->total_comment;
-            }
-        }
-
-        //Transform all tasks and set it array according array key list id 
-        foreach ( $collection as $key => $task_list ) {
-            $tasks[$task_list->id] = $this->transform_tasks( $task_list->tasks );
-        }
-        
-        $resource = new Collection( $collection, new New_Task_List_Transformer );
-        $resource->setPaginator( new IlluminatePaginatorAdapter( $task_lists ) );
-
-        $req_lists = $this->get_response( $resource );
-
-        foreach ( $req_lists['data'] as $key => $req_list ) {
-            if (! isset( $tasks[$req_list['id']] ) ) {
-                continue;
-            }
-
-            $list_tasks = $tasks[$req_list['id']];
-            $incomplete = [];
-            $complete   = [];
-
-            foreach ( $list_tasks['data'] as $task) {
-                
-                if ( $task['status'] == 'incomplete' ) {
-                    $incomplete[] = $task;
-                } else {
-                    $complete[] = $task;
-                }
-            }
-            
-            $req_lists['data'][$key]['incomplete_tasks']['data'] = $incomplete;
-            $req_lists['data'][$key]['complete_tasks']['data']   = $complete;
-            
-        }
-        
-        return $req_lists;
     }
 
     public function activities( WP_REST_Request $request ) {
@@ -750,10 +664,10 @@ class Task_Controller {
             ->paginate( $per_page );
 
         $activity_collection = $activities->getCollection();
-        
+
         $resource = new Collection( $activity_collection, new Activity_Transformer );
         $resource->setPaginator( new IlluminatePaginatorAdapter( $activities ) );
-        
+
 
         return $this->get_response( $resource );
     }
