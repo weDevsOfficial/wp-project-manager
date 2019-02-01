@@ -82,6 +82,7 @@ class FormatActiveCollab extends WP_Background_Process
 //            error_log(print_r($project_details['tasks'], true));
             $pm_project['tasks'] = $this->getProjectTasks($project_details['tasks']);
 
+
             $this->fd->save_contents('acl/active_collab_project_'.$project['id'].'.wppm', $pm_project);
 
             error_log($pm_project['title']);
@@ -129,12 +130,51 @@ class FormatActiveCollab extends WP_Background_Process
             $task['created_by_name'] = $acTask['created_by_email'];
             $task['start_at'] = empty($acTask['start_on']) ? null : Carbon::createFromTimestamp($acTask['start_on'])->toDateTimeString();
             $task['due_date'] = empty($acTask['due_on']) ? null : Carbon::createFromTimestamp($acTask['due_on'])->toDateTimeString();
-            $task['created_at'] = empty($acTask['created_on']) ? null : Carbon::createFromTimestamp($acTask['created_on'])->toDateTimeString();
+            $task['created_at'] = Carbon::createFromTimestamp($acTask['created_on'])->toDateTimeString();
             $task['updated_at'] = empty($acTask['updated_on']) ? null : Carbon::createFromTimestamp($acTask['updated_on'])->toDateTimeString();
+            $task['comments'] = $this->getTasksComments($acTask['id']);
+            $task['subtasks'] = $this->getProjectTasksSubs($acTask['project_id'] ,$acTask['id']);
             array_push($tasks, $task);
         }
         return $tasks;
     }
+
+
+    public function getProjectTasksSubs($projectid,$taskid){
+        $subs = $this->client->get('projects/'.$projectid.'/tasks/'.$taskid.'/subtasks')->getJson();
+        $subtasks = [];
+        foreach ($subs as $sub){
+            $subtask['id'] = $sub['id'];
+            $subtask['title'] = $sub['name'];
+            $subtask['assignee_id'] = $sub['assignee_id'];
+            $subtask['status'] = $sub['is_completed'];
+            $subtask['created_at'] = empty($sub['created_on']) ? null : Carbon::createFromTimestamp($sub['created_on'])->toDateTimeString();
+            $subtask['updated_at'] = empty($sub['updated_on']) ? null : Carbon::createFromTimestamp($sub['updated_on'])->toDateTimeString();
+            array_push($subtasks, $subtask);
+        }
+        return $subtasks;
+    }
+
+    public function getTasksComments($taskid){
+        $taskcomments = $this->client->get('comments/task/'.$taskid)->getJson();
+
+        $comments = [];
+        foreach ($taskcomments as $taskscomment){
+            $name = explode(" ", $taskscomment['created_by_name']);
+            $comment['id'] = $taskscomment['id'];
+            $comment['content'] = $taskscomment['body'];
+            $comment['commentable_type'] = 'task';
+            $comment['user_name'] = strtolower($name[0]);
+            $comment['user_email'] =  $taskscomment['created_by_email'];
+            $comment['created_at'] = empty($taskscomment['created_on']) ? null : Carbon::createFromTimestamp($taskscomment['created_on'])->toDateTimeString();
+            $comment['updated_at'] = empty($taskscomment['updated_on']) ? null : Carbon::createFromTimestamp($taskscomment['updated_on'])->toDateTimeString();
+            array_push($comments, $comment);
+        }
+        return $comments;
+
+    }
+
+
 
     /**
      * Task

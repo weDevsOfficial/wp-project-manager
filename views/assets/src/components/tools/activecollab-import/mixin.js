@@ -34,6 +34,10 @@ export default {
 
         },
 
+        getFormatStatus(){
+            return this.getSettings('activecol_formatted');
+        }
+
     },
 
 }

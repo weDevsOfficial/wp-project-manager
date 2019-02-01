@@ -3,8 +3,9 @@
         <div v-for="(board, index) in boards" class="board-box-column" @click="selectBoard(board.id,index)">
             <span v-if="!checkImportStatus(savedBefore, board.id) && !board.clicked" class="fa fa-2x fa-square-o btn"></span>
             <span v-if="!checkImportStatus(savedBefore, board.id) && board.clicked" class="fa fa-2x fa-check btn"></span>
-            <span v-if="checkImportStatus(savedBefore, board.id)" class="fa fa-2x fa-square btn"></span>
-            <span v-if="checkImportStatus(inProgress, board.id)" class="fa fa-2x fa-lock btn"></span>
+            <span v-if="checkImportStatus(savedBefore, board.id)" class="done fa fa-2x fa-check btn"></span>
+            <span v-if="checkImportStatus(inProgress, board.id)" class="pm-spinner importing"></span>
+            <!--<span v-if="checkImportStatus(inProgress, board.id)" class="fa fa-2x fa-lock btn"></span>-->
             <div class="board-content">
                 <span class="board-title">{{ cutString(board.name, 21, true) }}</span>
                 <board-lists :board-id="board.id" :credentials="{ api_key:api_key, token:token }" ></board-lists>
@@ -64,5 +65,16 @@
 </script>
 
 <style lang="less">
+
+    .boards-flex{
+        .done{
+            color:#559911;
+        }
+        .importing{
+            position: absolute;
+            right: 10px;
+            top: 10px;
+        }
+    }
 
 </style>

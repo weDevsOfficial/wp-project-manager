@@ -38,7 +38,9 @@ class ImportActivecollab extends WP_Background_Process
     private $activecol;
     private $imported;
     private $importing;
+    private $projectDetails;
     private $taskLists;
+    private $members;
 
     public function __construct()
     {
@@ -67,6 +69,7 @@ class ImportActivecollab extends WP_Background_Process
         }
 
         new FormatActiveCollab();
+
     }
 
     /**
@@ -136,31 +139,28 @@ class ImportActivecollab extends WP_Background_Process
      */
 
     public function fetchAndSaveactivecol($project_id) {
-
-        $project = $this->activecol->getProject($project_id);
-//        $project_members = $this->activecol->getBoardMemberships($project_id);
-        // activecol board to cpm project
+        $fr = new FileData();
+        $this->projectDetails = $fr->get_content('acl/active_collab_project_'.$project_id.'.wppm');
+        $this->migrateProjectMembers($this->projectDetails['members'], $project_id);
         $pm_project = new Project();
-        $pm_project->title = $project['single']['name'];
-        $pm_project->description = $project['single']['body'];
-        $pm_project->status = $project['single']['is_completed'];
-        $pm_project->budget = null;
-        $pm_project->pay_rate = null;
-        $pm_project->est_completion_date = null;
-        $pm_project->color_code = null;
-        $pm_project->order = null;
-        $pm_project->projectable_type = null;
-        $pm_project->completed_at = null;
-        $pm_project->created_by = get_current_user_id();
-        $pm_project->updated_by = get_current_user_id();
+        $pm_project->title = $this->projectDetails['title'];
+        $pm_project->description = $this->projectDetails['description'];
+        $pm_project->status = $this->projectDetails['status'];
+        $pm_project->budget = $this->projectDetails['budget'];
+        $pm_project->pay_rate = $this->projectDetails['pay_rate'];
+        $pm_project->est_completion_date = $this->projectDetails['est_completion_date'];
+        $pm_project->color_code = $this->projectDetails['color_code'];
+        $pm_project->order = $this->projectDetails['order'];
+        $pm_project->projectable_type = $this->projectDetails['projectable_type'];
+        $pm_project->completed_at = $this->projectDetails['completed_at'];
+        $pm_project->created_by = $this->getOrCreateUserId($this->makeUname($this->projectDetails['created_by']), $this->projectDetails['created_by']);
+        $pm_project->updated_by = $this->getOrCreateUserId('xyz123', $this->projectDetails['created_by']);
+        $pm_project->created_at = $this->projectDetails['created_at'];
+        $pm_project->updated_at = $this->projectDetails['updated_at'];
         $pm_project->save();
+        $this->fetchAndSaveLists($this->projectDetails['tasks_lists'], $project_id, $pm_project->id);
 
-        //migrating members to user
-//        $this->migrateBoardsMembers($project_members, $pm_project->id);
-        // activecol lists to cpm boards
-        $this->fetchAndSaveLists($project['task_lists'], $project_id, $pm_project->id);
-
-        error_log($project['single']['name']);
+        error_log($this->projectDetails['title']);
 
     }
 
@@ -189,20 +189,19 @@ class ImportActivecollab extends WP_Background_Process
 
             foreach ($taskLists as $taskList) {
                 $pm_board_pre = new Board();
-                $pm_board_pre->title = $taskList['name'];
+                $pm_board_pre->title = $taskList['title'];
                 $pm_board_pre->description = "";
                 $pm_board_pre->order = "1";
                 $pm_board_pre->type = "task_list";
                 $pm_board_pre->status = 1;//$list['closed'];
                 $pm_board_pre->project_id = $pm_project_id;
-                $pm_board_pre->created_by = get_current_user_id();
-                $pm_board_pre->updated_by = get_current_user_id();
+                $pm_board_pre->created_by = $this->getOrCreateUserId($this->makeUname($taskList['created_by']),$taskList['created_by']);
+                $pm_board_pre->updated_by = $this->getOrCreateUserId($this->makeUname($taskList['created_by']),$taskList['created_by']);
                 $pm_board_pre->save();
                 $this->taskLists[$taskList['id']] = $pm_board_pre->id;
             }
 
-            $this->fetchAndSaveTasks($aclPID, $pm_project_id);
-
+            $this->fetchAndSaveTasks($this->projectDetails['tasks'], $pm_project_id);
 
     }
 
@@ -211,57 +210,79 @@ class ImportActivecollab extends WP_Background_Process
      * @param $list_id
      * @param $pm_board_id
      */
-    public function fetchAndSaveTasks($aclPID, $pm_project_id){
-        $tasks = $this->activecol->getItem('/projects/'.$aclPID.'/tasks');
+    public function fetchAndSaveTasks($tasks, $pm_project_id){
 
-        foreach ($tasks['tasks'] as $task) {
+        foreach ($tasks as $task) {
             $pm_taks = new Task();
-            $pm_taks->title = $task['name'];
-            $pm_taks->description = $task['body'];
+            $pm_taks->title = $task['title'];
+            $pm_taks->description = $task['description'];
             $pm_taks->estimation = 0;
-            $pm_taks->start_at = Carbon::createFromTimestamp($task['start_on'])->toDateString();
-            $pm_taks->due_date = Carbon::createFromTimestamp($task['due_on'])->toDateString();;
+            $pm_taks->start_at = $task['start_at'];
+            $pm_taks->due_date = $task['due_date'];
             $pm_taks->complexity = 0;
             $pm_taks->priority = 1;
             $pm_taks->payable = null;
-            $pm_taks->recurrent = NULL;
+            $pm_taks->recurrent = 0;
             $pm_taks->status = 0;
             $pm_taks->project_id = $pm_project_id;
             $pm_taks->completed_by = null;
             $pm_taks->completed_at = null;
             $pm_taks->parent_id = 0;
-            $pm_taks->created_by = get_current_user_id();
-            $pm_taks->updated_by = get_current_user_id();
+            $pm_taks->created_at = $task['created_at'];
+            $pm_taks->updated_at = $task['updated_at'];
             $pm_taks->save();
 
             $boardid = $this->makeBoardable(
                 $this->taskLists[$task['task_list_id']],
                 $pm_taks->id
             );
+            $this->setAssignee($task['assignee_id'], $pm_taks->id, $pm_project_id);
 
-//                    if (is_array($task->followers)) {
-//                        $this->migrateTaskFollowers($task->followers, $pm_project_id, $pm_taks->id);
-//                    }
-//                    $subtasks = $this->asana->getAsana('tasks/'.$task->id.'/subtasks');
-//                    sleep(3);
-//                    error_log('subtask imported : '.print_r($subtasks, true));
-//                    //migrating checklists to sub_task
-//                    if (is_array($subtasks->data)) {
-//                        $this->migrateSubTasks($subtasks->data, $boardid, $pm_project_id, $pm_taks->id);
-//                    }
-//
-//                    $task_stories = $this->asana->getAsana('tasks/'.$task->gid.'/stories');
-//                    sleep(3);
-//                    error_log('subtask detailed to import : '.print_r($subtasks, true));
-//                    //migrating comments to discussion
-//                    if (is_array($task_stories->data)) {
-//                        $this->migrateTaskStories($task_stories->data, $pm_project_id, $pm_taks->id);
-//                    }
+            $this->migrateTaskComments($task['comments'], $pm_project_id, $pm_taks->id);
 
-
-
+            $this->migrateTaskSubs($task['subtasks'], $boardid, $pm_project_id, $pm_taks->id);
 
         }
+    }
+
+    public function migrateTaskSubs($tasksubs,$pm_board_id, $pm_project_id, $pm_task_id){
+
+        foreach ($tasksubs as $tasksub) {
+
+            $subtask = array(
+                'title' => $tasksub['title'],
+                'description' => "",
+                'estimation' => "0",
+                'start_at' => null,
+                'due_date' => null,
+                'complexity' => 0,
+                'priority' => 1,
+                'payable' => 0,
+                'recurrent' => 9,
+                'status' => $tasksub['status'] == false ? '0' : '1' ,
+                'project_id' => $pm_project_id,
+                'completed_by' => null,
+                'completed_at' => null,
+                'parent_id' => $pm_task_id,
+                'created_at' => $tasksub['created_at'],
+                'updated_at' => $tasksub['updated_at']
+            );
+            $__sub_task =Task::create($subtask);
+
+            $boardable = array(
+                'board_id' => $pm_board_id,
+                'board_type' => "task_list",
+                'boardable_id' => $__sub_task->id,
+                'boardable_type' => "sub_task",
+                'order' => "1",
+                'created_by' => 0,
+                'updated_by' => 0,
+            );
+            Boardable::create($boardable);
+
+            $this->setAssignee($tasksub['assignee_id'], $__sub_task->id, $pm_project_id);
+        }
+
     }
 
     public function makeBoardable($board_id, $pm_task_id){
@@ -272,36 +293,28 @@ class ImportActivecollab extends WP_Background_Process
         $boardable->boardable_id = $pm_task_id;
         $boardable->boardable_type = "task";
         $boardable->order = 1;
-        $boardable->created_by = get_current_user_id();
-        $boardable->updated_by = get_current_user_id();
+        $boardable->created_by = 0;
+        $boardable->updated_by = 0;
         $boardable->save();
         return $board_id;
+    }
+
+    public function setAssignee($user_id,$pm_task_id,$pm_project_id){
+        if(array_key_exists($user_id, $this->members)){
+            $assignee = array(
+                'task_id' => $pm_task_id,
+                'assigned_to' => $this->members[$user_id],
+                'status' => '0',
+                'project_id' => $pm_project_id
+            );
+            Assignee::create($assignee);
+        }
     }
     /**
      * @param $username
      * @param $email
      * @return int|\WP_Error
      */
-//    public function getOrCreateUserId($username, $email){
-//        $email = sanitize_email( $email );
-//        error_log(print_r( 'username: ' . $username, true));
-//        error_log(print_r( 'email: ' . $email, true));
-//
-//        $user = get_user_by( 'email', $email);
-//
-//        if( ! $user ){
-//           $user_id = wp_create_user( $username, wp_generate_password(10), $email);
-//
-//           error_log(print_r($user_id, true));
-//
-//           wp_send_new_user_notifications( $user_id );
-//
-//           return $user_id;
-//        } else {
-//           return $user->ID;
-//        }
-//    }
-
     public function getOrCreateUserId($username, $email){
         $email = sanitize_email( $email );
 //        error_log('entered create user email : '.$email);
@@ -329,28 +342,29 @@ class ImportActivecollab extends WP_Background_Process
      * @param $project_id
      */
 
-    public function migrateBoardsMembers($activecol_board_members,$pm_project_id){
-        error_log('entered Board Members');
+    public function migrateProjectMembers($activecol_board_members,$pm_project_id){
+        error_log('entered ACP Members');
         $activecol_board_members = $this->repairStringArray($activecol_board_members);
         foreach ($activecol_board_members as $member){
             $user_id = null;
             $user_role = array();
-            $credentials = $this->activecol->getMemberInfo($member['idMember']);
-            if($credentials['email']){
-                $user_id = $this->getOrCreateUserId($credentials['username'],$credentials['email']);
+            if($member['email']){
+                $user_id = $this->getOrCreateUserId($member['name'],$member['email']);
             } else {
-                $user_id = $this->getOrCreateUserId($credentials['username'],$this->makeFakeEmail($credentials['username']));
+                $user_id = $this->getOrCreateUserId($member['name'],$this->makeFakeEmail($member['name']));
             }
 
             if($user_id !== null){
                 $user_role = array(
                     'user_id' => $user_id,
-                    'role_id' => $this->convertRole($member['memberType']),
+                    'role_id' => $this->convertRole($member['role']),
                     'project_id' => $pm_project_id,
                     'assigned_by' => '0',
                 );
                 User_Role::create($user_role);
             }
+            $this->members[$member['id']] = $user_id;
+
         }
     }
 
@@ -388,36 +402,48 @@ class ImportActivecollab extends WP_Background_Process
     }
 
     /**
+     * @return string
+     */
+    public function makeUname($email)
+    {
+        $email = sanitize_email($email);
+        $uname = explode("@", $email);
+
+        return $uname[0];
+    }
+
+    /**
      * @param $activecol_card_Comments
      * @param $pm_project_id
      * @param $pm_task_id
      */
-    public function migrateCommentCards($activecol_card_Comments, $pm_project_id, $pm_task_id){
-        $activecol_card_Comments = $this->repairStringArray($activecol_card_Comments);
-        error_log('entered Card Comments');
-        if(count($activecol_card_Comments) > 0) {
-            foreach ($activecol_card_Comments as $comment) {
-                $user_id = null;
-                $comments = array();
-                $user_id = $this->getOrCreateUserId(
-                    $comment['memberCreator']['username'],
-                    $this->makeFakeEmail($comment['memberCreator']['username'])
-                );
+    public function migrateTaskComments($task_comments, $pm_project_id, $pm_task_id){
+        error_log('entered Tasks Comments');
 
-                if($user_id !== null && $comment['type'] == 'commentCard'){
-                    $textComment = array(
-                        'content' => $comment['data']['text'],
-                        'mentioned_users' => null,
-                        'commentable_id' => $pm_task_id,
-                        'commentable_type' => 'task',
-                        'project_id' => $pm_project_id
-                    );
-                    Comment::create($textComment);
-                }
+    foreach ($task_comments as $comment) {
+
+                $user_id = $this->getOrCreateUserId(
+                    $comment['user_name'],
+                    $comment['user_email']
+                );
+                global $wpdb;
+                $com_id = $wpdb->insert($wpdb->prefix . 'pm_comments', array(
+                    'content' => $comment['content'],
+                    'mentioned_users' => null,
+                    'commentable_id' => $pm_task_id,
+                    'commentable_type' => 'task',
+                    'project_id' => $pm_project_id,
+                    'created_by' => $user_id,
+                    'updated_by' => $user_id
+                ));
+                error_log('comment_id : ' . $com_id);
             }
+
         }
 
-    }
+
+
+
 
     /**
      * @param $activecol_card_Checklists
@@ -470,7 +496,7 @@ class ImportActivecollab extends WP_Background_Process
     }
 
     public function convertRole($role){
-        if($role == 'admin'){
+        if($role == 'Owner'){
             return '1';
         } else {
             return '2';

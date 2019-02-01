@@ -98,7 +98,8 @@ class FileData
         return $this->fs->copy( $from, $to, true, PM_IMPORTER_CONTENTS_FILE_PERMISSION );
     }
 
-    public function get_content( $file ) {
+    public function get_content( $filename ) {
+        $file = PM_IMPORTER_CONTENTS_STORE . '/data/'.$filename;
         $json = $this->fs->get_contents( $file );
 
         return $json ? json_decode( $json, true ) : [];

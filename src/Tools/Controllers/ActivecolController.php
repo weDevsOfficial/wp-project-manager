@@ -56,8 +56,10 @@ class ActivecolController
             if($status == '0'){
                 $aclFormatter->push_to_queue('acl');
                 $aclFormatter->save()->dispatch();
+                return rest_ensure_response(array('info' => "Your ActiveCollab Projects are Formatting in Background Please Come Back Later"));
+            } else{
+                return rest_ensure_response($accountCred);
             }
-            return rest_ensure_response($accountCred);
         } catch( Exception $e ) {
             return rest_ensure_response(array('error'=>$e->getMessage()));
         }
