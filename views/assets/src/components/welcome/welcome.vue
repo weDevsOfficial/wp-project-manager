@@ -110,6 +110,7 @@
         line-height: 24px;  
         max-width: 925px;
         margin: 0 auto;
+        margin-top: 45px;
         img {
             max-width: 100%;
         } 

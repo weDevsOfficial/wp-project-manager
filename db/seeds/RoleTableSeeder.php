@@ -14,7 +14,7 @@ class RoleTableSeeder extends Seeder
      * @return void
      */
     public function run()
-    {
+    {   
         $user = wp_get_current_user();
 
         if (!Role::count()) {

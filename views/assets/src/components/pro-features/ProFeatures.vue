@@ -23,21 +23,24 @@
                         'featureDescription': 'Create with limitless possibilities. This Web Based Project Management System is packed with features & tools to boost your team productivity.',
                         'featureVideo': '668nUCeBHyY',
                         'featureThumb': 'calendar-thumb.jpg',
-                        'cardClass': 'calendar'
+                        'cardClass': 'calendar',
+                        'url': 'https://wedevs.com/wp-project-manager-pro/features/'
                     },
                     {
                         'featureName': 'Report',
                         'featureDescription': 'Create with limitless possibilities. This Web Based Project Management System is packed with features & tools to boost your team productivity.',
                         'featureVideo': '#',
                         'featureThumb': 'report-thumb.jpg',
-                        'cardClass': 'report'
+                        'cardClass': 'report',
+                        'url': 'https://wedevs.com/wp-project-manager-pro/features/'
                     },
                     {
                         'featureName': 'Progress',
                         'featureDescription': 'Create with limitless possibilities. This Web Based Project Management System is packed with features & tools to boost your team productivity.',
                         'featureVideo': '668nUCeBHyY',
                         'featureThumb': 'progress-thumb.jpg',
-                        'cardClass': 'progress'
+                        'cardClass': 'progress',
+                        'url': 'https://wedevs.com/wp-project-manager-pro/features/'
                     }
                 ]
             }
@@ -94,7 +97,7 @@
             border-top: 0;
             border-radius: 0 0 3px 3px;
             h3 {
-                font-size: 18px;
+                font-size: 23px;
                 color: #23282D;
                 margin: 0 0 10px;
                 font-weight: 400;
@@ -102,6 +105,7 @@
             p {
                 color: #758598;
                 line-height: 24px;
+                font-size: 14px;
             }
         }
     }

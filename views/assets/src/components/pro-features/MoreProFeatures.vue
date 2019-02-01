@@ -20,7 +20,7 @@
                         <div class="pm-start-price">
                             <small><sup>$</sup></small>00
                         </div>
-                        <div class="pm-start-block-content">Per Year<br><a href="#" class="pm-btn pm-btn-lg pm-btn-primary">Get Started Now</a></div>
+                        <div class="pm-start-block-content">Per Year<br><a href="https://wedevs.com/wp-project-manager-pro/pricing/" target="_blank" rel="noopener" class="pm-btn pm-btn-lg pm-btn-primary">Get Started Now</a></div>
                     </div>
                 </div>
             </div>
@@ -119,7 +119,7 @@
             column-count: 2;
             li {
                 color: #72777C;
-                font-size: 13px;
+                font-size: 14px;
                 display: flex;
                 align-items: center;
                 margin-bottom: 9px;

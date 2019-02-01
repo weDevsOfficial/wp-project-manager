@@ -11,7 +11,7 @@
                 </template>
             </div>
             <div class="pm-text-center view-all-feature">
-                <a href="#" class="pm-btn pm-btn-primary">View All Features</a>
+                <a href="https://wedevs.com/wp-project-manager-pro/features/" target="_blank" rel="noopener" class="pm-btn pm-btn-primary">View All Features</a>
             </div>
         </div>
     </section><!-- end features section -->
@@ -27,42 +27,42 @@
                     {
                         'featureName': 'Overview',
                         'featureDescription': 'Create with limitless possibilities. This Web Based Project Management System is packed with features & tools to boost your team productivity.',
-                        'featureVideo': '668nUCeBHyY',
+                        'featureVideo': 'rliDPp4sIyM',
                         'featureThumb': 'overview-thumb.jpg',
                         'cardClass': 'overview'
                     },
                     {
                         'featureName': 'Activities',
                         'featureDescription': 'Create with limitless possibilities. This Web Based Project Management System is packed with features & tools to boost your team productivity.',
-                        'featureVideo': '#',
+                        'featureVideo': 'KarLsZ8FPQQ',
                         'featureThumb': 'activities-thumb.jpg',
                         'cardClass': 'activities'
                     },
                     {
                         'featureName': 'Team Discussion',
                         'featureDescription': 'Create with limitless possibilities. This Web Based Project Management System is packed with features & tools to boost your team productivity.',
-                        'featureVideo': '668nUCeBHyY',
+                        'featureVideo': 'uCXHBIa-1Eg',
                         'featureThumb': 'discussion-thumb.jpg',
                         'cardClass': 'discussion'
                     },
                     {
                         'featureName': 'To-do Lists',
                         'featureDescription': 'Create with limitless possibilities. This Web Based Project Management System is packed with features & tools to boost your team productivity.',
-                        'featureVideo': '668nUCeBHyY',
+                        'featureVideo': 'mZS-GWiB1WQ',
                         'featureThumb': 'task-thumb.jpg',
                         'cardClass': 'task'
                     },
                     {
                         'featureName': 'Milestone',
                         'featureDescription': 'Create with limitless possibilities. This Web Based Project Management System is packed with features & tools to boost your team productivity.',
-                        'featureVideo': '668nUCeBHyY',
+                        'featureVideo': 'umJozhMjkho',
                         'featureThumb': 'milestone-thumb.jpg',
                         'cardClass': 'milestone'
                     },
                     {
                         'featureName': 'Manage Files',
                         'featureDescription': 'Create with limitless possibilities. This Web Based Project Management System is packed with features & tools to boost your team productivity.',
-                        'featureVideo': '668nUCeBHyY',
+                        'featureVideo': 'i1F3MNwrJbM',
                         'featureThumb': 'file-thumb.jpg',
                         'cardClass': 'files'
                     }
@@ -122,7 +122,7 @@
             border-top: 0;
             border-radius: 0 0 3px 3px;
             h3 {
-                font-size: 18px;
+                font-size: 23px;
                 color: #23282D;
                 margin: 0 0 10px;
                 font-weight: 600;
@@ -131,6 +131,7 @@
             p {
                 color: #758598;
                 line-height: 24px;
+                font-size: 14px;
             }
         }
     }

@@ -7,9 +7,9 @@ import Welcome from './ProApp.vue'
 weDevsPMRegisterChildrenRoute('project_root', 
     [
         { 
-            path: '/pro-feature',
+            path: '/premium',
             component: Welcome,
-            name: 'pro-feature',
+            name: 'premium',
         }
 
     ]

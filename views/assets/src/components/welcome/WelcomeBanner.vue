@@ -3,7 +3,7 @@
     <section class="pm-section pm-section-wrapper pm-banner-section">
         <div class="pm-video-modal">
             <pm-modal :is-active="show" @close="show=false" :width="600">
-                <iframe width="600" height="315" src="https://www.youtube.com/embed/668nUCeBHyY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe width="600" height="315" src="https://www.youtube.com/embed/rliDPp4sIyM/?VQ=HD1080&autoplay=1&rel=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </pm-modal>
         </div>
 
@@ -12,10 +12,18 @@
                 <div class="pm-col-sm-6 pm-col-xs-12">
                     <p class="pm-welcome-to">{{ __('Welcome to', 'wedevs-project-manager') }}</p>
                     <h1 class="pm-project-title">{{ __('WP Project Manager', 'wedevs-project-manager') }}</h1>
-                    <p>{{ __('Get month/week/day wise overview of your added task in your project manager. Filter, edit, update or take', 'wedevs-project-manager') }}</p>
+                    <p>{{ __('Get month/week/day wise overview of your added task in your project manager.', 'wedevs-project-manager') }}
+                        <br>{{ __('Filter, edit, update or take', 'wedevs-project-manager') }}
+                    </p>
                     <div class="pm-buttons-container">
-                        <a href="#" class="pm-btn pm-btn-primary">{{ __('Create Your First Project', 'wedevs-project-manager') }}</a>
-                        <a href="#" class="pm-btn pm-btn-white">{{ __('Read Full Guide', 'wedevs-project-manager') }}</a>
+                        <router-link 
+                            :to="{ name: 'project_lists' }" 
+                            class="pm-btn pm-btn-primary">
+
+                            {{ __('Create Your First Project', 'wedevs-project-manager') }}
+                        </router-link>
+                        
+                        <a href="https://wedevs.com/docs/wp-project-manager/" rel="noopener" target="_blank" class="pm-btn pm-btn-white">{{ __('Read Full Guide', 'wedevs-project-manager') }}</a>
                     </div>
                 </div>
                 <div class="pm-col-sm-6 pm-col-xs-12">
@@ -36,26 +44,26 @@
         data () {
             return {
                show: false
-            }
-        },
-        components: {
-            'pm-modal': modal
-        }
+           }
+       },
+       components: {
+        'pm-modal': modal
     }
+}
 </script>
 
 <style lang="less" scoped>
 
-    .pm-banner-section {
-        background-image: linear-gradient(139deg, #C444FB 0%, #5B56D7 100%);
+.pm-banner-section {
+    background-image: linear-gradient(139deg, #C444FB 0%, #5B56D7 100%);
         // box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
         border-radius: 3px;
         padding: 30px 60px;
         color: #fff;
         font-weight: 300;
         p {
-            color: #fff;
-            font-size: 13px;
+            color: #dab1fd;
+            font-size: 16px;
             line-height: 25px;
             margin-bottom: 15px;
         }
