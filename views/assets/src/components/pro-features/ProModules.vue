@@ -11,7 +11,7 @@
                         <div class="pm-feature-icon"><img :src="getAssetUrl( 'images/pro-feature/icons/' + module.icon )" :alt="module.title"></div>
                         <h3>{{ module.title }}</h3>
                         <p class="pm-module-description">{{ module.description }}</p>
-                        <a :href="module.buttonUrl" class="pm-btn pm-btn-link">See More</a>
+                        <a :href="module.buttonUrl" target="_blank" ref="noopener" class="pm-btn pm-btn-link">{{__( 'See More', 'wedevs-project-manager'}}</a>
                     </div>
                 </div>
             </div>

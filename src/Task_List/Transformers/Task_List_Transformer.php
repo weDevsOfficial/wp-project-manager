@@ -28,8 +28,8 @@ class Task_List_Transformer extends TransformerAbstract {
     protected $availableIncludes = [
         'assignees',
         'tasks',
-        //'complete_tasks',
-        //'incomplete_tasks',
+        'complete_tasks',
+        'incomplete_tasks',
         'comments',
         'files',
     ];

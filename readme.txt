@@ -210,6 +210,19 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= v2.0.11 - Feb 04, 2019 =
+
+* **New** Import porojects from trello.
+* **New** Integrate with popper js.
+* **New** Welcome page.
+* **New** Premium page.
+* **Fix** Change task list fetch query.
+* **Fix** Change task fetch query.
+* **Fix** File upload problem from discussion section.
+* **Fix** After close single task the list page is refreshing.
+* **Fix** Remove html tag from email content.
+* **Fix** Color picker does not work.
+
 = v2.0.10 - Dec 19, 2018 =
 
 * **Hotfix** Fatal error at page and post edit time.
