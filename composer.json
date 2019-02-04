@@ -18,14 +18,13 @@
             "name": "asikur",
             "email": "md.asikurislam@gmail.com"
         }
-    ],
+    ], 
     "require": {
         "php": ">=5.6.37",
         "league/fractal": "^0.17.0",
         "a5hleyrich/wp-background-processing": "^1.0",
         "tareq1988/wp-eloquent": "dev-master",
-        "appsero/client": "dev-master",
-        "activecollab/activecollab-feather-sdk": "^3.0"
+        "appsero/client": "dev-master"
     },
     "autoload": {
         "classmap": [
