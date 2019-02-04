@@ -8,7 +8,7 @@
                         <edit-project v-if="is_manager()" class="project-edit-form" :project="project"></edit-project>
                     </div>
                     <!-- popper trigger element -->
-                    <a href="#"  slot="reference" title="action" class="pm-popper-ref popper-ref icon-pm-pencil project-update-btn"></a>
+                    <a href="#" @click.prevent="" slot="reference" title="action" class="pm-project-update-wrap pm-popper-ref popper-ref icon-pm-pencil project-update-btn"></a>
                     
                 </pm-popper>
             </div>
