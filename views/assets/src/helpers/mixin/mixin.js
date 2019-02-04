@@ -1142,17 +1142,13 @@ export default {
             return PM_Vars.assets_url + str;
         },
 
-        /**
+         /**
          * Close popup by checking popper
          */
          closePopper(){
-            if( jQuery('.popper-ref').length > 0 ){
-                jQuery('.popper-ref').trigger('click');
-            }else {
-                jQuery('.ui-dialog-titlebar-close').trigger('click');
-            }
-
+            jQuery('body').trigger('click');
         }
+
     }
 };
 
