@@ -246,7 +246,7 @@
                     args.data.id = this.project.id;
                     args.callback = function ( res ) {
                         self.show_spinner = false;
-                        self.closePopper();
+                        self.closePopper('pm-project-update-wrap');
                     }
                     this.updateProject ( args );
                     
@@ -263,7 +263,7 @@
                         self.project_notify = [];
                         self.project.status = '';
                         self.show_spinner = false;
-                        self.closePopper();
+                        self.closePopper('pm-project-update-wrap');
                         self.$router.push({
                             name: 'pm_overview',
                             params: {

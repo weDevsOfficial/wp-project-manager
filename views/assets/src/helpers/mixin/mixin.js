@@ -1184,14 +1184,15 @@ export default {
         /**
          * Close popup by checking popper
          */
-        closePopper(){
-            let event = document.createEvent('HTMLEvents');
-            event.initEvent('click', true, false);
+        closePopper(event) {
+            event = event || false;
             
-            if( jQuery('.popper-ref').length > 0 ){
-                jQuery('.popper-ref').dispatchEvent(event);
-            }else {
-                jQuery('.ui-dialog-titlebar-close').trigger('click');
+            if ( event ) {
+                jQuery('.'+event).trigger('click');
+            } else {
+                 jQuery('.popper-ref').each(function(index, event) {
+                    jQuery(event).trigger('click');
+                });
             }
 
         }
