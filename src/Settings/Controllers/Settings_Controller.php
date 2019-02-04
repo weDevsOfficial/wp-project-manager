@@ -54,18 +54,19 @@ class Settings_Controller {
         $data       = $this->extract_non_empty_values( $request );
         $project_id = $request->get_param( 'project_id' );
         $settings   = $request->get_param( 'settings' );
+        $id   = $request->get_param( 'id' );
         
         if ( is_array( $settings ) ) {
             $settings_collection = [];
 
             foreach ( $settings as $settings_data ) {
-                $settings_collection[] = $this->save_settings( $settings_data, $project_id );
+                $settings_collection[] = $this->save_settings( $settings_data, $project_id, $id );
             }
 
             $resource = new Collection( $settings_collection, new Settings_Transformer );
         } else {
 
-            $settings = $this->save_settings( $data, $project_id );
+            $settings = $this->save_settings( $data, $project_id, $id );
             $resource = new Item( $settings, new Settings_Transformer );
         }
         do_action( 'pm_after_save_settings', $settings );
@@ -75,7 +76,7 @@ class Settings_Controller {
         return $this->get_response( $resource, $message );
     }
 
-    public static function save_settings( $data, $project_id = 0 ) {
+    public static function save_settings( $data, $project_id = 0, $id = 0 ) {
         $add_more = ! empty( $data['value']['settings_add_more_value'] ) && ( $data['value']['settings_add_more_value'] == 'data_continue' ) ? true : false; 
         
         if ( $add_more ) {
@@ -86,7 +87,12 @@ class Settings_Controller {
             ]);
         }
 
-        if ( $project_id ) {
+        if ( intval( $id ) ) {
+            $settings = Settings::firstOrCreate([
+                'key' => $data['key'],
+                'id' => $id
+            ]);
+        } else if ( $project_id ) {
             $settings = Settings::firstOrCreate([
                 'key' => $data['key'],
                 'project_id' => $project_id
@@ -100,6 +106,21 @@ class Settings_Controller {
         $settings->update_model( $data );
         
         return $settings;
+    }
+
+    public function destroy( WP_REST_Request $request ) {
+        $id = $request->get_param( 'id' );
+
+        $settings = Settings::where( 'id', $id )
+            ->first();
+
+        $settings->delete();
+
+        $message = [
+            'message' => __('Delete settings record', 'pm-pro')
+        ];
+
+        return $this->get_response(false, $message);
     }
 
     public function pluck_without_project(WP_REST_Request $request) {
