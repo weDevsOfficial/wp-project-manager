@@ -8,10 +8,14 @@
             <div class="pm--row pm-gutter-35">
                 <div class="pm-col-sm-4 pm-col-xs-12" v-for="module in modules">
                     <div :class="['pm-card', 'pm-card-default', 'pm-text-center', 'pm-module-infos', module.cardClass]">
-                        <div class="pm-feature-icon"><img :src="getAssetUrl( 'images/pro-feature/icons/' + module.icon )" :alt="module.title"></div>
+                        <div class="pm-feature-icon">
+                            <img :src="getAssetUrl( 'images/pro-feature/icons/' + module.icon )" :alt="module.title">
+                        </div>
                         <h3>{{ module.title }}</h3>
                         <p class="pm-module-description">{{ module.description }}</p>
-                        <a :href="module.buttonUrl" target="_blank" ref="noopener" class="pm-btn pm-btn-link">{{__( 'See More', 'wedevs-project-manager'}}</a>
+                        <a :href="module.buttonUrl" target="_blank" ref="noopener" class="pm-btn pm-btn-link">
+                            {{ __( 'See More', 'wedevs-project-manager') }}
+                        </a>
                     </div>
                 </div>
             </div>
