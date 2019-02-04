@@ -218,6 +218,8 @@ return [
 	__( 'Available Modules', 'wedevs-project-manager' ),
 	__( 'More features to unveil while', 'wedevs-project-manager' ),
 	__( 'Managing Your Project', 'wedevs-project-manager' ),
+	__( 'Useful & fascinating features for WP Project Manager that can be', 'wedevs-project-manager' ),
+	__( 'unlocked with the Pro Version.', 'wedevs-project-manager' ),
 	__( 'Select Color', 'wedevs-project-manager' ),
 	__( 'Clear', 'wedevs-project-manager' ),
 	__( 'Close', 'wedevs-project-manager' ),
