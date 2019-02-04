@@ -13,9 +13,8 @@ npm-debug.log
 phpcs.ruleset.xml
 phpunit.xml.dist
 composer.phar
-package-lock.json
 /tmp
 /build/
 pm.sublime-project
 phpcs-report.txt
-
+/languages/wedevs-project-manager.pot

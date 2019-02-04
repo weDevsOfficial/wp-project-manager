@@ -265,6 +265,21 @@
 font-style: normal;
 margin-left: 20px;
 }
+.fi:before{
+  display: inline-block;
+  font-family: "Flaticon";
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  line-height: 1;
+  text-decoration: inherit;
+  text-rendering: optimizeLegibility;
+  text-transform: none;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+}
+
 
 .flaticon-document:before { content: "\f100"; }
 .flaticon-arrow:before { content: "\f101"; }
@@ -294,6 +309,14 @@ margin-left: 20px;
 .flaticon-bookmark-star:before { content: "\f119"; }
 .flaticon-pm-archive:before { content: "\f11a"; }
 .flaticon-pm-discussions:before { content: "\f11b"; }
-.flaticon-pm-overview:before { content: "\f11c"; }
-.flaticon-planning:before { content: "\f11d"; }
-.flaticon-planning-1:before { content: "\f11e"; }
+.flaticon-planning:before { content: "\f11c"; }
+.flaticon-planning-1:before { content: "\f11d"; }
+.flaticon-eye:before { content: "\f11e"; }
+.flaticon-filter-tool-black-shape:before { content: "\f11f"; }
+.flaticon-export:before { content: "\f120"; }
+.flaticon-data-export-symbol-of-a-window-with-an-arrow:before { content: "\f121"; }
+.flaticon-pdf:before { content: "\f122"; }
+.flaticon-resume:before { content: "\f123"; }
+.flaticon-test:before { content: "\f124"; }
+.flaticon-arrow-down-sign-to-navigate:before { content: "\f125"; }
+.flaticon-up-arrow:before { content: "\f126"; }

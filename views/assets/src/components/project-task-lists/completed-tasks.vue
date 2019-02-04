@@ -1,5 +1,5 @@
 <template>
-<div class="pm-todo-wrap">                    
+    <div class="pm-todo-wrap">                    
         <div v-if="!task.edit_mode" class="pm-todo-item">
             
             <div class="todo-content">
@@ -12,7 +12,7 @@
                 <div class="title-wrap">
 
                     <div class="task-title">
-                        <a class="title" href="#" @click.prevent="getSingleTask(task)">{{ task.title }}</a>
+                        <a class="title" href="#" @click.prevent="getSingleTask(task)">{{ ucfirst(task.title) }}</a>
                     </div>  
                 </div> 
 
@@ -37,21 +37,25 @@
                     </a>  
                 </div>   
                 <div v-if="can_edit_task(task) && !isArchivedTaskList(task)" @click.prevent="showHideTaskMoreMenu(task, list)" class="more-menu task-more-menu">
-                    <span class="icon-pm-more-options"></span>
-                    <div v-if="task.moreMenu" class="more-menu-ul-wrap">
-                        <ul>
-                            <li>
-                                <a @click.prevent="deleteTask({task: task, list: list})" class="li-a" href="#">
-                                    <span class="icon-pm-delete"></span>
-                                    <span>{{ __('Delete', 'wedevs-project-manager') }}</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                    <pm-popper trigger="click" :options="popperOptions">
+                        <div class="pm-popper popper">
+                            <div class="more-menu-ul-wrap">
+                                <ul>
+                                    <li>
+                                        <a @click.prevent="deleteTask({task: task, list: list})" class="li-a" href="#">
+                                            <span class="icon-pm-delete"></span>
+                                            <span>{{ __('Delete', 'wedevs-project-manager') }}</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- popper trigger element -->
+                        <span slot="reference" title="Action" class="pm-popper-ref popper-ref icon-pm-more-options"></span>
+                    </pm-popper>
                 </div>               
             </div>
         </div>
-        
         
         <div v-if="parseInt(taskId) && parseInt(projectId)">
             <single-task :taskId="taskId" :projectId="projectId"></single-task>
@@ -85,6 +89,13 @@
                 }
 
                 return 'lists_single_task'
+            },
+            // popper options
+            popperOptions () {
+                return {
+                    placement: 'bottom-end',
+                    modifiers: { offset: { offset: '0, 5px' } }
+                }
             }
         },
         created () {
@@ -116,8 +127,8 @@
             },
             getSingleTask (task) {
                 this.$store.commit('projectTaskLists/updateSingleTaskActiveMode', true);
-                this.taskId = task.id;
-                this.projectId = task.project_id;
+                this.taskId = parseInt(task.id);
+                this.projectId = parseInt(task.project_id);
             },
             is_assigned: function(task) {
                 return true;

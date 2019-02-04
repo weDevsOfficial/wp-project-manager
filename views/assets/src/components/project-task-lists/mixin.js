@@ -180,9 +180,11 @@ var PM_TaskList_Mixin = {
             var self = this,
             pre_define = {
                 condition: {
-                    with: 'incomplete_tasks,complete_tasks',
+                    with: 'incomplete_tasks',
                     per_page: this.getSettings('list_per_page', 10),
-                    page: this.setCurrentPageNumber()
+                    page: this.setCurrentPageNumber(),
+                    status: this.$route.name == 'task_lists_archive' 
+                        || this.$route.name == 'task_lists_archive_pagination' ? 0 : 1
                 },
                 callback: false,
             };
@@ -191,11 +193,11 @@ var PM_TaskList_Mixin = {
             
             var conditionobject = pm_apply_filters( 'before_get_task_list', args.condition );
             var condition = this.generateConditions(conditionobject);
-
+            
             var request = {
                 url: self.base_url + '/pm/v2/projects/'+self.$route.params.project_id+'/task-lists?'+condition,
                 success (res) {
-
+                    
                     res.data.map(function(list,index) {
                         self.addMetaList(list);
 
@@ -227,7 +229,7 @@ var PM_TaskList_Mixin = {
                         pm.Toastr.error(value);
                     });
                 }
-            };
+            }; 
             self.httpRequest(request);
         },
 
@@ -254,6 +256,7 @@ var PM_TaskList_Mixin = {
                 type: 'GET',
                 url: self.base_url + '/pm/v2/projects/'+self.project_id+'/task-lists/'+ args.list_id +'?'+condition,
                 success (res) {
+
                     self.addMetaList(res.data);
                       
                     if ( typeof res.data.comments !== 'undefined' ) {
@@ -362,7 +365,7 @@ var PM_TaskList_Mixin = {
             var args = jQuery.extend(true, pre_define, args );
             var data = pm_apply_filters( 'before_task_list_save', args.data );
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/task-lists/'+ data.id+'/update',
+                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/task-lists/'+ data.id+'/update?with=comments,incomplete_tasks',
                 data: data,
                 type: 'POST',
                 success (res) {
@@ -520,7 +523,8 @@ var PM_TaskList_Mixin = {
                 args.data.list_id = this.getInboxId();
             }
             
-            var data = pm_apply_filters( 'before_task_save', args.data );
+            var data = pm_apply_filters( 'before_task_save', args.data ),
+                data = wp.hooks.applyFilters( 'before_task_save', data );
             
             var request_data = {
                 url: self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks',
@@ -938,10 +942,10 @@ var PM_TaskList_Mixin = {
             
             if(typeof this.$route.query.filterTask != 'undefined') {
                 if(this.$route.query.filterTask == 'active') {
-                    //if(this.$route.query.status == 'complete') {
+                    if(this.$route.query.status == 'complete') {
                         
                         return false;
-                    //}
+                    }
                 }
             }
 
@@ -1011,7 +1015,7 @@ var PM_TaskList_Mixin = {
          * @param  {[Object]} list Task List
          * @return {[viod]}      [More Task]
          */
-        loadMoreCompleteTasks ( list ) {
+        loadMoreCompleteTasks ( list, callback ) {
 
             if ( list.task_loading_status ) {
                 return;
@@ -1019,7 +1023,7 @@ var PM_TaskList_Mixin = {
 
             list.task_loading_status = true;
 
-            var total_tasks = list.meta.total_complete_tasks;
+            
             var per_page = this.getSettings( 'complete_tasks_per_page', 10 );
             var current_page = Math.ceil ( list.complete_tasks.data.length/per_page );
 
@@ -1031,6 +1035,10 @@ var PM_TaskList_Mixin = {
                 list_id: list.id,
                 callback: function ( res ){
                     this.$store.commit( 'projectTaskLists/setTasks', res.data);
+
+                    if(typeof callback != 'undefined') {
+                        callback(res);
+                    }
                     list.task_loading_status = false;
                 }
             } ;
@@ -1413,7 +1421,7 @@ var PM_TaskList_Mixin = {
                         privacy: data.is_private,
                         project_id: self.project_id,
                         task_id: task.id,
-                        list_id: task.task_list.data.id
+                        list_id: task.task_list_id
 
                     });
                 },

@@ -104,7 +104,7 @@ function pm_get_wp_roles() {
     return $wp_roles->get_names();
 }
 
-function pm_get_settings( $key = null, $project_id = false ) {
+function pm_get_setting( $key = null, $project_id = false ) {
     $settings     = null;
     $all_settings = null;
 
@@ -117,7 +117,8 @@ function pm_get_settings( $key = null, $project_id = false ) {
         $settings = \WeDevs\PM\Settings\Models\Settings::where( 'key', $key )
             ->first();
     } else {
-        $all_settings = \WeDevs\PM\Settings\Models\Settings::all();
+        $hide = \WeDevs\PM\Settings\Models\Settings::$hideSettings;
+        $all_settings = \WeDevs\PM\Settings\Models\Settings::whereNotIn( 'key', $hide )->get();
     }
 
     if ( $settings ) {
@@ -130,6 +131,29 @@ function pm_get_settings( $key = null, $project_id = false ) {
     }
 
     return null;
+}
+
+function pm_get_settings( $key = null, $project_id = false ) {
+    $settings = null;
+
+    if ( $key && $project_id ) {
+        $settings = \WeDevs\PM\Settings\Models\Settings::where( 'key', $key )
+            ->where('project_id', $project_id)
+            ->get()
+            ->toArray();
+    
+    } else if ( $key ) {
+        $settings = \WeDevs\PM\Settings\Models\Settings::where( 'key', $key )
+            ->get()
+            ->toArray();
+
+    } else if ( $project_id ) {
+        $settings = \WeDevs\PM\Settings\Models\Settings::where( 'project_id', $project_id )
+            ->get()
+            ->toArray();
+    }
+
+    return $settings;
 }
 
 function pm_delete_settings( $key, $project_id = false ) {
@@ -398,7 +422,7 @@ function pm_has_manage_capability( $user_id = false ) {
         return false;
     }
     
-    $manage_roles = (array) pm_get_settings( 'managing_capability' );
+    $manage_roles = (array) pm_get_setting( 'managing_capability' );
     
     $common_role  = array_intersect( $manage_roles, $user->roles );
 
@@ -414,7 +438,7 @@ function pm_has_project_create_capability( $user_id = false ) {
     $user_id = $user_id ? $user_id : get_current_user_id();
     $user    = get_user_by( 'id', $user_id );
 
-    $manage_roles = (array) pm_get_settings( 'project_create_capability' );
+    $manage_roles = (array) pm_get_setting( 'project_create_capability' );
     $common_role  = array_intersect( $manage_roles, $user->roles );
 
     if ( empty( $common_role ) ) {
@@ -689,4 +713,5 @@ function pm_total_message() {
     $message = Discussion_Board::count();
     return $message;
 }
+
 

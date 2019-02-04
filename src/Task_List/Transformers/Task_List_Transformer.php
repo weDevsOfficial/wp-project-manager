@@ -43,6 +43,7 @@ class Task_List_Transformer extends TransformerAbstract {
             'status'      => $item->status,
             'created_at'  => format_date( $item->created_at ),
             'meta'        => $this->meta( $item ),
+            'extra'       => true
         ];
 
         return apply_filters( 'pm_task_list_transform', $data, $item );
@@ -63,9 +64,9 @@ class Task_List_Transformer extends TransformerAbstract {
         $meta = wp_list_pluck( $meta, 'meta_value', 'meta_key' );
 
         return array_merge( $meta, [
-            'total_tasks'            => $item->tasks()->count(),
-            'total_complete_tasks'   => $item->tasks()->where( 'status', Task::COMPLETE )->count(),
-            'total_incomplete_tasks' => $item->tasks()->where( 'status', Task::INCOMPLETE )->count(),
+            'total_tasks'            => $item->tasks( $item->project_id )->count(),
+            'total_complete_tasks'   => $item->tasks( $item->project_id )->where( 'status', Task::COMPLETE )->count(),
+            'total_incomplete_tasks' => $item->tasks( $item->project_id )->where( 'status', Task::INCOMPLETE )->count(),
             'total_comments'         => $item->comments()->count(),
             'totla_files'            => $item->files()->count(),
             'total_assignees'        => $item->assignees()->count(),
@@ -132,7 +133,7 @@ class Task_List_Transformer extends TransformerAbstract {
 
     public function includeCompleteTasks( Task_List $item ) {
         $page = isset( $_GET['complete_task_page'] ) ? intval($_GET['complete_task_page']) : 1;
-        $per_page = pm_get_settings( 'complete_tasks_per_page' );
+        $per_page = pm_get_setting( 'complete_tasks_per_page' );
         $per_page = $per_page ? $per_page : 5;
 
         Paginator::currentPageResolver(function () use ($page) {
@@ -159,7 +160,7 @@ class Task_List_Transformer extends TransformerAbstract {
             return $page;
         }); 
 
-        $per_page = pm_get_settings( 'incomplete_tasks_per_page' );
+        $per_page = pm_get_setting( 'incomplete_tasks_per_page' );
         $per_page = $per_page ? $per_page : 5;
         $tasks = $item->tasks()
             ->where( 'status', 0 );

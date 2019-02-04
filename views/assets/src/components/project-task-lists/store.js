@@ -9,6 +9,7 @@ export default {
      * @type Object
      */
     state: {
+        isActiveTaskFilter: false,
         isListFetch: false,
         lists: [],
         list: {},
@@ -305,9 +306,8 @@ export default {
          * 
          * @return void        
          */
-        listNewComment: function( state, data ) {
+        listNewComment: function( state, data ) { 
             var list_index = state.getIndex( state.lists, data.list_id, 'id' );
-
             state.lists[list_index].comments.data.push(data.comment);
         },
 
@@ -528,7 +528,8 @@ export default {
         },
         afterUpdateList (state, list) {
             var list_index = state.getIndex(state.lists, list.id, 'id');
-            var merge_list = jQuery.extend(true, list, state.lists[list_index]);
+            //var merge_list = jQuery.extend(true, state.lists[list_index], list );
+            
             state.lists.splice(list_index,1,list);
         },
         afterNewListupdateListsMeta (state) {
@@ -701,6 +702,10 @@ export default {
             }else {
                 state.expandListIds.push(listId);
             }
+        },
+
+        isActiveTaskFilter (state, status) {
+            state.isActiveTaskFilter = status;
         }
     }
 };

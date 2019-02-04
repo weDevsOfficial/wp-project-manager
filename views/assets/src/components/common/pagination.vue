@@ -12,7 +12,7 @@
                     },
                     query: route_query
                 }">
-                &laquo;
+                &larr;
             </router-link>
             
             <router-link 
@@ -39,7 +39,7 @@
                     },
                     query: route_query
                 }">
-                &raquo;
+                &rarr;
             </router-link> 
 
         </div>

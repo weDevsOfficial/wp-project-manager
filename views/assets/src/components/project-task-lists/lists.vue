@@ -3,7 +3,7 @@
         <pm-header></pm-header>
         <pm-menu></pm-menu>
 
-        <div v-if="listViewType" class="list-content-wrap">
+        <div v-if="isFetchProject" class="list-content-wrap">
             <div class="list-content-body">
                 <div class="content">
                     <div class="list-action-btn-wrap">
@@ -57,7 +57,7 @@
                                         </div>
 
                                         <div class="list-title">
-                                            <span @click.prevent="listExpand(list)" class="list-title-anchor">{{ list.title }}</span>
+                                            <span @click.prevent="listExpand(list)" class="list-title-anchor">{{ ucfirst( list.title ) }}</span>
                                         </div>
                                         <div class="after-title">
                                                 <!-- v-pm-tooltip -->
@@ -82,25 +82,32 @@
 
                                         <div v-if="!isInbox(list.id) && can_edit_task_list(list)" :data-list_id="list.id" class="more-menu list-more-menu">
 
-                                            <span @click="showHideMoreMenu(list)" class="icon-pm-more-options"></span>
-                                            <div v-if="list.moreMenu && !list.edit_mode"  class="more-menu-ul-wrap">
-                                                <ul>
-                                                    <li class="first-li" v-if="!isArchivedList(list)">
-                                                        <a @click.prevent="showEditForm(list)" class="li-a" href="#">
-                                                            <span class="icon-pm-pencil"></span>
-                                                            <span>{{ __('Edit', 'wedevs-project-manager') }}</span>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a @click.prevent="deleteSelfList( list )" class="li-a" href="#">
-                                                            <span class="icon-pm-delete"></span>
-                                                            <span>{{ __('Delete', 'wedevs-project-manager') }}</span>
-                                                        </a>
-                                                    </li>
-                                                    <pm-do-action hook="list-action-menu" :actionData="list"></pm-do-action>
+                                            <!-- popper -->
+                                            <pm-popper trigger="click" :options="popperOptions">
+                                                <div class="pm-popper popper">
+                                                    <div class="more-menu-ul-wrap">
+                                                        <ul>
+                                                            <li class="first-li" v-if="!isArchivedList(list)">
+                                                                <a @click.prevent="showEditForm(list)" class="li-a" href="#">
+                                                                    <span class="icon-pm-pencil"></span>
+                                                                    <span>{{ __('Edit', 'wedevs-project-manager') }}</span>
+                                                                </a>
+                                                            </li>
+                                                            <li>
+                                                                <a @click.prevent="deleteSelfList( list )" class="li-a" href="#">
+                                                                    <span class="icon-pm-delete"></span>
+                                                                    <span>{{ __('Delete', 'wedevs-project-manager') }}</span>
+                                                                </a>
+                                                            </li>
+                                                            <pm-do-action hook="list-action-menu" :actionData="list"></pm-do-action>
 
-                                                </ul>
-                                            </div>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                
+                                                <!-- popper trigger element -->
+                                                <span slot="reference" title="Assign user" class="pm-popper-ref popper-ref icon-pm-more-options"></span>
+                                            </pm-popper>
 
                                             <div v-if="list.edit_mode" class="list-update-warp">
                                                 <new-task-list-form section="lists" :list="list" ></new-task-list-form>
@@ -193,16 +200,19 @@
                                 </div>
                             </div>
                             <div class="action">
-                                <input  type="submit" class="pm-button pm-primary filter-submit-btn" name="submit_todo" :value="__('Done', 'wedevs-project-manager')">
+                                <span v-if="taskFilterSpinner" class="pm-spinner"></span>
                                 <a @click.prevent="showFilter()" class="pm-button pm-secondary" href="#">{{__('Cancel', 'wedevs-project-manager')  }}</a>
+                                <input  type="submit" class="pm-button pm-primary filter-submit-btn" name="submit_todo" :value="__('Done', 'wedevs-project-manager')">
                             </div>
+                            <div class="pm-clearfix"></div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
         <router-view name="single-task"></router-view> 
-        <pm-pagination 
+        <!-- @nextPage="nextPage" -->
+        <pm-pagination
             :total_pages="total_list_page" 
             :current_page_number="current_page_number" 
             :component_name="paginationComponent">
@@ -434,38 +444,13 @@
                                 }
 
                                 .more-menu-ul-wrap, .list-update-warp {
-                                    position: absolute;
-                                    top: 31px;
-                                    left: auto;
-                                    right: -6px;
-                                    z-index: 9999;
                                     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
                                     border: 1px solid #DDDDDD;
                                     background: #fff;
                                     border-radius: 3px;
                                     box-shadow: 0px 2px 40px 0px rgba(214, 214, 214, 0.6);
-                                    padding: 7px 0;    
-                                    &:before {
-                                        border-color: transparent transparent #DDDDDD transparent;
-                                        position: absolute;
-                                        border-style: solid;
-                                        top: -9px;
-                                        right: 11px;
-                                        content: "";
-                                        z-index: 9999;
-                                        border-width: 0px 8px 8px 8px;
-                                    }
-
-                                    &:after {
-                                        border-color: transparent transparent #ffffff transparent;
-                                        position: absolute;
-                                        border-style: solid;
-                                        top: -7px;
-                                        right: 11px;
-                                        content: "";
-                                        z-index: 9999;
-                                        border-width: 0 8px 7px 8px;
-                                    }
+                                    padding: 7px 0; 
+                                    text-align: left;
                                     .first-li {
                                         // margin-top: 6px;
                                     }
@@ -486,12 +471,11 @@
                                     }
                                 }
 
-                                .more-menu-ul-wrap {
-                                    right: 3px;
-                                }
-
                                 .list-update-warp {
                                     width: 300px;
+                                    position: absolute;
+                                    z-index: 999999;
+                                    top: 18px;
 
                                     form {
                                         padding: 10px;
@@ -852,9 +836,17 @@
                     display: flex;
                     align-items: center;
                     margin-top: 18px;
-                    
-                    .pm-primary {
+                    float: right;
+                    &:after {
+                        content: "";
+                        clear: both;
+                        display: block;
+                        height: 0;
+                    }
+                    .pm-secondary, .pm-spinner {
                         margin-right: 10px !important;
+                    }
+                    .pm-primary {
                         padding: 0 20px 1px !important;
                     }
                 }
@@ -988,17 +980,12 @@
             }
         }
     }
-
-    
-
-
 </style>
 
 <script>
     import new_task_list_btn from './new-task-list-btn.vue';
     import new_task_list_form from './new-task-list-form.vue';
     import new_task_button from './new-task-btn.vue';
-    import pagination from '@components/common/pagination.vue';
     import header from '@components/common/header.vue';
     import tasks from './list-tasks.vue';
     import default_page from './default-list-page.vue';
@@ -1020,14 +1007,13 @@
             'new-task-list-btn': new_task_list_btn,
             'new-task-list-form': new_task_list_form,
             'new-task-button': new_task_button,
-            'pm-pagination': pagination,
             'pm-header': header,
             'list-tasks': tasks,
             'default-list-page': default_page,
             'multiselect': pm.Multiselect.Multiselect,
             'pm-datepickter': date_picker,
             'pm-menu': Menu,
-            'new-task-form': new_task_form,
+            'new-task-form': new_task_form
         },
 
         mixins: [Mixins],
@@ -1083,13 +1069,19 @@
                         title: this.__('All', 'wedevs-project-manager')
                     }
                 ],
-                asyncListLoading: false
+                asyncListLoading: false,
+                taskFilterSpinner: false
             }
         },
 
         watch: {
             '$route' (route) {
+                
                 if(route.query.filterTask == 'active') {
+                    if(typeof route.params.current_page_number == 'undefined') return;
+                    
+                    this.filterRequent();
+                    this.current_page_number = route.params.current_page_number;
                     return;
                 }
 
@@ -1097,7 +1089,7 @@
                     route.name != 'lists_single_task'
                     &&
                     this.current_page_number != route.params.current_page_number
-                ) {
+                ) { 
                     this.getSelfLists();
                 }
                 
@@ -1163,41 +1155,41 @@
                 return this.$store.state.projectTaskLists.isListFetch; 
             },
 
-            listViewType () { 
-                if(this.$route.query.filterTask == 'active') {
-                    return true;
-                }
+            // listViewType () { 
+            //     return;
+            //     if(this.$route.query.filterTask == 'active') {
+            //         return true;
+            //     }
                 
-                let meta = this.$store.state.projectMeta; 
-                var self = this;
-               
-                if(meta.hasOwnProperty('list_view_type') ) {
-                    if (
-                        !meta.list_view_type
-                            ||
-                        meta.list_view_type.meta_value == 'list'
-                    ) {
-                        if (self.$store.state.projectTaskLists.is_single_task) {
-                            return true;
-                        }
+            //     let meta = this.$store.state.projectMeta; 
+            //     var self = this;
+                 
+            //     if(meta.hasOwnProperty('list_view_type') ) {
+            //         if (
+            //             !meta.list_view_type
+            //                 ||
+            //             meta.list_view_type.meta_value == 'list'
+            //         ) { 
+            //             if (self.$store.state.projectTaskLists.is_single_task) { 
+            //                 return true;
+            //             }
 
-                        self.$store.state.projectTaskLists.is_single_list = false;
-                        self.isSingleTask();
-                        self.getSelfLists();
-                        self.getGlobalMilestones();
-                    } else if(  meta.list_view_type.meta_value == "kanboard") {
-                        self.$router.push({
-                            name: 'kanboard'
-                        });
-                    } else if(  meta.list_view_type.meta_value == "archive") {
-                        self.getSelfLists();
-                    }
+            //             self.$store.state.projectTaskLists.is_single_list = false;
+            //             self.isSingleTask();
+            //             self.getSelfLists();
+            //         } else if(  meta.list_view_type.meta_value == "kanboard") {
+            //             self.$router.push({
+            //                 name: 'kanboard'
+            //             });
+            //         } else if(  meta.list_view_type.meta_value == "archive") { 
+            //             self.getSelfLists();
+            //         }
 
-                    return true;
-                }
+            //         return true;
+            //     }
 
-                return false;
-            },
+            //     return false;
+            // },
             projectUsers () {
                 let project = this.$store.state.project;
 
@@ -1231,9 +1223,9 @@
                 return [];
             },
             filterResults () {
-                var lists = this.$store.state.projectTaskLists.lists;
+                var lists = this.$store.state.projectTaskLists.lists; 
 
-                if(lists.length) {
+                if(lists.length) { 
                     return true;
                 } else {
                     return false;
@@ -1241,14 +1233,53 @@
             },
             paginationComponent () {
                 return this.$route.name.indexOf('pagination') === -1 ? this.$route.name + '_pagination' : this.$route.name ;
-            }
+            },
+            // popper options
+            popperOptions () {
+                return {
+                    placement: 'bottom-end',
+                    modifiers: { offset: { offset: '0, 3px' } }
+                }
+            },
 
+            //This is pro and free version code mixin. 
+            isFetchProject () {
+                var isLoaded = this.$store.state.projectLoaded;
+                
+                if(isLoaded) {
+                    var meta = this.$store.state.projectMeta;
+                    if( 
+                        PM_Vars.is_pro
+                            &&
+                        typeof meta != 'undefined' 
+                            &&
+                        meta.list_view_type != null
+                            &&
+                        meta.list_view_type.meta_value == 'kanboard'
+                    ) {
+                        this.$router.push({
+                            name: 'kanboard',
+                            params: {
+                                project_id: this.project_id
+                            }
+                        });
+                    } else {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
         },
 
-        created () {
+        created () {  
+            this.getGlobalMilestones();
+            this.getSelfLists();
+
             pmBus.$on('pm_before_destroy_single_task', this.updateSingleTask);
             pmBus.$on('pm_generate_task_url', this.generateTaskUrl);
             pmBus.$on('pm_after_fetch_project', this.afterFetchProject);
+
             this.$store.state.projectTaskLists.isListFetch = false; 
             window.addEventListener('click', this.windowActivity);
             
@@ -1260,6 +1291,16 @@
         },
 
         methods: {
+            nextPage (pageNumber) {
+
+                this.$router.push({
+                    name: task_lists_pagination,
+                    params: {
+                        page: pageNumber
+                    }
+                });
+                this.getSelfLists();
+            },
             goToSigleList (list) {
                 this.$router.push({
                     name: 'single_list',
@@ -1381,7 +1422,7 @@
                 timer;
 
                 if(evt == '') {
-                    //return;
+                    return;
                 }
 
                 clearTimeout(timer);
@@ -1442,7 +1483,7 @@
                     params: {
                         task_id: task.id,
                         project_id: task.project_id,
-                        list_id: task.task_list.data.id
+                        list_id: task.task_list_id
                     }
                 }).href;
                 var url = PM_Vars.project_page + url;
@@ -1454,30 +1495,29 @@
                 this.$store.commit( 'projectTaskLists/afterTaskDoneUndone', {
                     status: task.status == 'complete' || task.status === true ? 1 : 0,
                     task: task,
-                    list_id: task.task_list.data.id,
+                    list_id: task.task_list_id,
                     task_id: task.id
                 });
             },
           
             updateSingleTask (task) {
-
                 if(task.status == 'complete' || task.status === true) {
                     this.afterTaskDoneUndone(task);
                 } else {
                     this.setTaskDefaultData(task);
                     this.$store.commit('projectTaskLists/afterUpdateTask', {
                         task: task,
-                        list_id: task.task_list.data.id
+                        list_id: task.task_list_id
                     });
                 }
 
-                this.$store.commit('projectTaskLists/updateSingleTaskActiveMode', false);
+                //this.$store.commit('projectTaskLists/updateSingleTaskActiveMode', false);
                 
             },
 
             setTaskDefaultData (task) {
                 var lists = this.$store.state.projectTaskLists.lists;
-                var list_index = this.getIndex( lists, task.task_list.data.id, 'id' );
+                var list_index = this.getIndex( lists, task.task_list_id, 'id' );
             
                 if (list_index === false) {
                     return;
@@ -1519,6 +1559,7 @@
                         self.setSearchLists( this.$store.state.projectTaskLists.lists );
                     }
                 }
+
                 this.getLists(args);
             },
 
@@ -1550,26 +1591,54 @@
             },
 
             taskFilter () {
+                
+                if(this.taskFilterSpinner) {
+                    return;
+                }
+                this.taskFilterSpinner = true;
                 var self = this;
+
+                if(typeof this.$route.params.current_page_number == 'undefined') {
+                    var page = 1;
+                } else {
+                    var page = this.$route.params.current_page_number;
+                }
+
                 var query = {
                     users: this.filterUsersId(this.defaultUser),
                     lists: this.filterListsId(this.defaultList),
                     dueDate: this.dueDate.id,
                     status: this.filterStatus,
+                    page: page,
+                    board_status: this.$route.name == 'task_lists_archive' 
+                        || this.$route.name == 'task_lists_archive_pagination' ? 0 : 1,
                     filterTask: 'active'
                 }
 
                 //var queryPaprams = this.setQuery(query);
                 
                 this.$router.push({
+                    name: 'task_lists_pagination',
+                    params: {
+                        current_page_number: 1,
+                        project_id: this.project_id
+                    },
                     query: query
                 });
 
-                this.filterRequent();
+                this.filterRequent(function(res) {
+                    self.taskFilterSpinner = false;
+                });
             },
 
-            filterRequent () {
+            filterRequent (callback) {
                 var self = this;
+
+                if(typeof this.$route.params.current_page_number == 'undefined') {
+                    self.$route.query.page = 1;
+                } else {
+                    self.$route.query.page = this.$route.params.current_page_number;
+                }
                 
                 self.httpRequest({
                     url: self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks/filter',
@@ -1603,6 +1672,10 @@
 
                         self.$store.commit( 'projectTaskLists/balankTemplateStatus', false);
                         self.$store.commit( 'projectTaskLists/listTemplateStatus', true);
+
+                        if(typeof callback !== 'undefined') {
+                            callback(res);
+                        }
                     }
                 });
             },
@@ -1610,8 +1683,10 @@
             filterUsersId (users) {
                 var ids = [];
 
-                ids.push(users.id);
-
+                if(users && typeof users != 'undefined') {
+                    ids.push(users.id);
+                }
+                
                 return ids;
             },
 

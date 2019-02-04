@@ -178,9 +178,10 @@ class WP_Router {
         $headers = array();
 
         $copy_server = array(
-            'CONTENT_TYPE'   => 'Content-Type',
-            'CONTENT_LENGTH' => 'Content-Length',
-            'CONTENT_MD5'    => 'Content-Md5',
+			'CONTENT_TYPE'    => 'Content-Type',
+			'CONTENT_LENGTH'  => 'Content-Length',
+			'CONTENT_MD5'     => 'Content-Md5',
+			'HTTP_X_WP_NONCE' => 'HTTP_X_WP_NONCE'
         );
 
         foreach ( $_SERVER as $key => $value ) {
@@ -234,24 +235,25 @@ class WP_Router {
     }
 
 	protected function append_params( WP_REST_Request $request ) {
+		$nonce = $request->get_header( 'x_wp_nonce' );
 		
-		if ( !isset(  $_SERVER['HTTP_X_WP_NONCE'] ) ) {
-			return $request;
-		}; 
+		// if ( ! isset(  $_SERVER['HTTP_X_WP_NONCE'] ) ) {
+		// 	return $request;
+		// }; 
 
-		$nonce = sanitize_text_field( $_SERVER['HTTP_X_WP_NONCE'] );
+		// $nonce = sanitize_text_field( $_SERVER['HTTP_X_WP_NONCE'] );
 		
-		if (  ! wp_verify_nonce( $nonce, 'wp_rest' ) ) {
-			return false;
+		if ( ! wp_verify_nonce( $nonce, 'wp_rest' ) ) {
+			return $request;
 		}
 		
 		$get_data = wp_unslash( $_GET );
 		$post_data = wp_unslash( $_POST );
 		$file_data = wp_unslash( $_FILES );
 
-		$request->set_query_params( $_GET );
-		$request->set_body_params( $_POST );
-		$request->set_file_params( $_FILES );
+		$request->set_query_params( $get_data );
+		$request->set_body_params( $post_data );
+		$request->set_file_params( $file_data );
 
 		return $request;
 	}

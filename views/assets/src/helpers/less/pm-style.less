@@ -1,3 +1,101 @@
+/*
+ * File: Master less;
+ */
+
+// import all common styles
+@import "./common/common.less";
+.pm-clearfix {
+  height: 1%;
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+}
+
+// popper styles
+.pm-popper-ref {
+    margin-right: 0 !important;
+    cursor: pointer;
+}
+.pm-popper {
+    padding: 0 !important;
+    background: #fff !important;
+    box-shadow: none !important;
+    border: 0 !important;
+    text-align: left !important;
+    &:parent span {
+        margin-right: 0;
+    }
+    .popper__arrow:after {
+        content: '';
+        position: absolute;
+        margin-top: 0;
+        margin-bottom: 0;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        margin: 5px;
+    }
+    &[x-placement^="bottom"] .popper__arrow {
+        border-color: transparent transparent #ddd transparent !important;
+        border-width: 0 7px 7px 7px !important;
+        top: -7px !important; 
+        &:after {
+            border-width: 0 7px 7px 7px;
+            border-color: transparent transparent #fff transparent;
+            top: -3px;
+            left: calc(50% - 12px);
+        }
+    }
+    &[x-placement^="top"] .popper__arrow {
+        border-color: #ddd transparent transparent transparent !important;
+        border-width: 7px 7px 0 7px !important;
+        bottom: -7px !important; 
+        &:after {
+            border-width: 7px 7px 0 7px;
+            border-color: #fff transparent transparent transparent;
+            bottom: -3px;
+            left: calc(50% - 12px);
+        }
+    }
+    &[x-placement^="left"] .popper__arrow {
+        border-color: transparent transparent transparent #ddd !important;
+        border-width: 7px 0 7px 7px !important;
+        right: -7px !important; 
+        &:after {
+            border-width: 7px 0 7px 7px;
+            border-color: transparent transparent transparent #fff;
+            top: calc(50% - 12px);
+            right: -3px;
+        }
+    }
+    &[x-placement^="right"] .popper__arrow {
+        border-color: transparent #ddd transparent transparent !important;
+        border-width: 7px 7px 7px 0 !important;
+        left: -7px !important; 
+        &:after {
+            border-width: 7px 7px 7px 0;
+            border-color: transparent #fff transparent transparent;
+            top: calc(50% - 12px);
+            left: -3px;
+        }
+    }
+
+    
+    .pm-multiselect-top {
+        position: static !important;
+        background: transparent;
+        border: 0;
+        &:after, &:before {
+            display: none;
+        }
+        .assign-to {
+            text-align: left;
+        }
+    }
+}
+
 .pm-image-position(@url) {
 	content: "";
     display: inline-block;
@@ -1240,8 +1338,4 @@
 			
 		}
 	}
-
-
 }
-
-
