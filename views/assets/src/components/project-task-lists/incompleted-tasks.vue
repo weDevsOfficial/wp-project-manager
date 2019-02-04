@@ -5,7 +5,7 @@
             <div class="todo-content">
                 <div class="task-left">
                     <div class="move pm-task-drag-handle">
-                        <span class="icon-pm-drag-drop"></span>
+                        <span :class="is_manager (project) ? 'icon-pm-drag-drop' : 'blank-drag-drop'"></span>
                     </div> 
                     <div class="checkbox">
                         <input v-if="!show_spinner" :disabled="can_complete_task(task)" v-model="task.status"  @change="doneUndone()" type="checkbox"  value="" name="" >
@@ -15,7 +15,7 @@
                 <div class="title-wrap">
 
                     <div class="task-title">
-                        <a class="title" href="#" @click.prevent="getSingleTask(task)">{{ task.title }}</a>
+                        <a class="title" href="#" @click.prevent="getSingleTask(task)">{{ ucfirst(task.title)}}</a>
                     </div>  
                 </div> 
                 
@@ -51,42 +51,47 @@
                 </div>  
 
                 <div v-if="can_edit_task(task) && !isArchivedTaskList(task)" class="nonsortable more-menu task-more-menu">
-                    <span class="icon-pm-more-options" @click.prevent="showHideTaskMoreMenu(task, list)"></span>
-                    <div v-if="task.moreMenu" class="more-menu-ul-wrap">
-                        <ul>
-                            <li v-if="PM_Vars.is_pro && user_can('view_private_task') && !isPrivateTask(task.meta.privacy)"  class="first-li">
-                                <a @click.prevent="TaskLockUnlock(task)" class="li-a" href="#">
-                                    <span  class="icon-pm-private"></span>
-                                    <span>{{ __('Make Private', 'wedevs-project-manager') }}</span>
-                                </a>
-                            </li>
-                            <li v-if="PM_Vars.is_pro && user_can('view_private_task') && isPrivateTask(task.meta.privacy)"  class="first-li">
-                                <a @click.prevent="TaskLockUnlock(task)" class="li-a" href="#">
-                                    <span class="icon-pm-unlock"></span>
-                                    <span>{{ __('Make Public', 'wedevs-project-manager') }}</span>
-                                </a>
-                            </li>
-                            <li class="edit-task-btn">
-                                <a @click.prevent="taskFormActivity('toggle', false, task, $event)" class="li-a" href="#">
-                                    <span class="icon-pm-pencil"></span>
-                                    <span>{{ __('Edit', 'wedevs-project-manager') }}</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a @click.prevent="deleteTask({task: task, list: list})" class="li-a" href="#">
-                                    <span class="icon-pm-delete"></span>
-                                    <span>{{ __('Delete', 'wedevs-project-manager') }}</span>
-                                </a>
-                            </li>
+                    <pm-popper trigger="click" :options="popperOptions">
+                        <div class="pm-popper popper">
+                            <div class="more-menu-ul-wrap">
+                                <ul>
+                                    <li v-if="PM_Vars.is_pro && user_can('view_private_task') && !isPrivateTask(task.meta.privacy)"  class="first-li">
+                                        <a @click.prevent="TaskLockUnlock(task)" class="li-a" href="#">
+                                            <span  class="icon-pm-private"></span>
+                                            <span>{{ __('Make Private', 'wedevs-project-manager') }}</span>
+                                        </a>
+                                    </li>
+                                    <li v-if="PM_Vars.is_pro && user_can('view_private_task') && isPrivateTask(task.meta.privacy)"  class="first-li">
+                                        <a @click.prevent="TaskLockUnlock(task)" class="li-a" href="#">
+                                            <span class="icon-pm-unlock"></span>
+                                            <span>{{ __('Make Public', 'wedevs-project-manager') }}</span>
+                                        </a>
+                                    </li>
+                                    <li class="edit-task-btn">
+                                        <a @click.prevent="taskFormActivity('toggle', false, task, $event)" class="li-a" href="#">
+                                            <span class="icon-pm-pencil"></span>
+                                            <span>{{ __('Edit', 'wedevs-project-manager') }}</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a @click.prevent="deleteTask({task: task, list: list})" class="li-a" href="#">
+                                            <span class="icon-pm-delete"></span>
+                                            <span>{{ __('Delete', 'wedevs-project-manager') }}</span>
+                                        </a>
+                                    </li>
 
-                            <li>
-                                <a @click.prevent="move({task: task, list: list})" class="li-a" href="#">
-                                    <span class="icon-pm-move"></span>
-                                    <span>{{ __('Move', 'wedevs-project-manager') }}</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
+                                    <li>
+                                        <a @click.prevent="move({task: task, list: list})" class="li-a" href="#">
+                                            <span class="icon-pm-move"></span>
+                                            <span>{{ __('Move', 'wedevs-project-manager') }}</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- popper trigger element -->
+                        <span slot="reference" title="action" class="pm-popper-ref popper-ref icon-pm-more-options"></span>
+                    </pm-popper>
                 </div>                
             </div>
         </div>
@@ -114,9 +119,9 @@
             margin-right: 15px;
         }
     }
-    .task-group .pm-todo-wrap .todo-content .more-menu {
-
-    }
+    .more-menu-ul-wrap {
+        text-align: left;        
+    }    
 </style>
 <script>
     import new_task_form from './new-task-form.vue';
@@ -194,6 +199,16 @@
                     task: this.task,
                     list: this.list
                 }
+            },
+            // popper options
+            popperOptions () {
+                return {
+                    placement: 'bottom-end',
+                    modifiers: { offset: { offset: '0, 5px' } }
+                }
+            },
+            project () {
+                return this.$store.state.project;
             }
         },
         
@@ -250,7 +265,6 @@
                 }
             },
             afterCloseSingleTaskModal () {
-
                 if(this.$route.name == 'lists_single_task') {
                     this.$router.push({
                         name: 'task_lists'
@@ -266,8 +280,8 @@
             },
             getSingleTask (task) {
                 this.$store.commit('projectTaskLists/updateSingleTaskActiveMode', true);
-                this.taskId = task.id;
-                this.projectId = task.project_id;
+                this.taskId = parseInt(task.id);
+                this.projectId = parseInt(task.project_id);
             },
             doneUndone (){
                 var self = this,

@@ -48,6 +48,11 @@
 /* start commented backslash hack \*/
 .pm-clearfix {
   height: 1%;
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
 }
 .pm-clearfix {
   display: block;
@@ -219,7 +224,7 @@ a:active {
 .pm input[type="color"],
 .pm .uneditable-input {
   display: inline-block;
-  height: 28px;
+  height: 30px;
   padding: 3px 8px;
   margin-bottom: 0 0 10px;
   font-size: 12px;
@@ -312,24 +317,25 @@ a:active {
 }
 .pm .pm-pagination-wrap .pm-pagination-btn {
   border: 1px solid #ddd;
-  padding: 4px 10px;
+  padding: 5px 12px;
   margin-left: 2px;
   font-size: 12px;
   background: #fff;
   color: #000;
   display: inline-block;
   line-height: 1.5;
+  border-radius: 3px;
 }
 .pm .pm-pagination-wrap .pm-pagination-btn:first-child{
     margin-left: 0px;
 }
 .pm .pm-pagination-wrap .current {
-  background: #32373c;
+  background: #027eb3;
   border-color: #ddd;
   color: #fff;
 }
 .pm .pm-pagination-wrap .pm-pagination-btn:hover {
-  background: #32373c;
+  background: #027eb3;
   border-color: #d6d6d6;
   color: #fff;
 }
@@ -4647,7 +4653,7 @@ a.pm-icon-tick.grey {
   .pm #pm-report ul {
     text-align: center;
   }
-  .pm #pm-report ul li {
+  /*.pm #pm-report ul li {
     padding: 40px;
     background: #fff;
     border: solid 1px #ccc;
@@ -4655,7 +4661,7 @@ a.pm-icon-tick.grey {
     margin-left: 0;
     text-align: center;
     float: none ;
-  }
+  }*/
   .pm #pm-report ul li a {
     padding: 15px;
   }

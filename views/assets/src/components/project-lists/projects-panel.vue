@@ -7,7 +7,7 @@
                 <div class="pm-grid-row">
                     <!-- project page header menu -->
                     <project-header-menu></project-header-menu>
-
+                    
                     <!-- pm header right column -->
                     <div class="pm-col-6-sm">
                         <!-- pm view stayle container -->

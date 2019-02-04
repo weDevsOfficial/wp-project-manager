@@ -11,7 +11,12 @@ use WeDevs\PM\Core\File_System\File_System as File_System;
 use WeDevs\PM\Core\Cli\Commands;
 use WeDevs\PM\Core\Promotions\Promotions;
 use WeDevs\PM\Core\Promotions\Offers;
+
+use WeDevs\PM\Core\Installer\Installer;
 use PM_Create_Table;
+//use WeDevs\PM\Tools\Helpers\ImportActivecollab;
+use WeDevs\PM\Tools\Helpers\ImportTrello;
+//use WeDevs\PM\Tools\Helpers\ImportAsana;
 
 
 class Frontend {
@@ -39,8 +44,7 @@ class Frontend {
     }
 
     public function install() {
-        new PM_Create_Table;
-        (new \RoleTableSeeder())->run();
+        ( new Installer )->do_install();
     }
 
 	/**
@@ -61,7 +65,7 @@ class Frontend {
         add_filter( 'plugin_action_links_' . PM_BASENAME , array( $this, 'plugin_action_links' ) );
         add_filter( 'in_plugin_update_message-' . PM_BASENAME , array( $this, 'upgrade_notice' ), 10, 2 );
         add_action( 'admin_footer', array( $this, 'switch_project_html' ) );
-        // add_action( 'admin_footer', array( $this, 'new_task_craeting' ) );
+        add_action( 'admin_init', array( $this, 'redirect_after_activate' ) );
         add_action('admin_bar_menu', array( $this, 'pm_toolbar_search_button' ), 999);
         // add_action('admin_bar_menu', array( $this, 'pm_toolbar_new_task_creating' ), 999);
 
@@ -116,6 +120,7 @@ class Frontend {
 		add_filter( 'upload_mimes', [$this, 'cc_mime_types'] );
 		add_filter( 'wp_mime_type_icon', [$this, 'change_mime_icon'], 10, 3 );
 		add_filter( 'todo_list_text_editor', [$this, 'project_text_editor'] );
+        add_filter('upload_mimes', [$this, 'custom_upload_mimes']);
 	}
 
 	function cc_mime_types( $mimes ) {
@@ -165,6 +170,9 @@ function project_text_editor($config) {
         new Upgrade();
         new Offers();
         //new Promotions();
+        new ImportTrello();
+        //new ImportAsana();
+        //new ImportActivecollab();
 	}
 
 	public function register_scripts() {
@@ -339,7 +347,7 @@ function project_text_editor($config) {
                 'meta'  => [
                     'title' => __('Create New Task', 'wedevs-project-manager'),
                 ]
-                
+
             ]
          );
 
@@ -352,14 +360,14 @@ function project_text_editor($config) {
                 'meta'  => [
                     'title' => __('Create New Task', 'wedevs-project-manager'),
                 ]
-                
+
             ]
          );
     }
 
 
     public function pm_toolbar_search_button($wp_admin_bar) {
-        $wp_admin_bar->add_node( 
+        $wp_admin_bar->add_node(
             [
                 'id'		=> 'pm_search',
                 'title'     => '<span class="ab-icon icon-pm-switch-project" style="padding: 6px 0;"></span>',
@@ -368,8 +376,26 @@ function project_text_editor($config) {
                 'meta'  => [
                     'title' => __('Jump to a project', 'wedevs-project-manager'),
                 ]
-                
+
             ]
         );
+    }
+
+    public function custom_upload_mimes ( $existing_mimes ) {
+        $existing_mimes['psd'] = 'image/vnd.adobe.photoshop';
+
+        return $existing_mimes;
+    }
+
+    public function redirect_after_activate() {
+        if ( ! get_transient( '_pm_setup_page_redirect' ) ) {
+            return;
+        }
+
+        // Delete the redirect transient
+        delete_transient( '_pm_setup_page_redirect' );
+
+        wp_safe_redirect( add_query_arg( array( 'page' => 'pm_projects#/welcome' ), admin_url( 'index.php' ) ) );
+        exit;
     }
 }

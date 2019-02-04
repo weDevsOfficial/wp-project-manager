@@ -35,7 +35,7 @@ $tpbk = config('frontend.assets_url') .'images/tpbk.png';
 
             <div style="font-family: arial; font-size: 14px; line-height: 24px;">
                 <p ><?php echo esc_html($title); ?></p>
-                <p ><?php echo esc_html($description); ?></p>
+                <p ><?php echo $description; ?></p>
                 <div style="clear: both;"></div>
             </div>
         </div>

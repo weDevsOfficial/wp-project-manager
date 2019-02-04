@@ -8,15 +8,15 @@
             </li>
         </ul> 
         
-        <div
-        v-if="isIncompleteLoadMoreActive(list) || getCompleteTasks.length"
-        class="nonsortable more-task-wrap">
+        <div class="nonsortable more-task-wrap">
+            
             <div v-if="isIncompleteLoadMoreActive(list)" class="group-action-btn">
                 <a class="anchor-btn" @click.prevent="loadMoreIncompleteTasks(list)" href="#">{{ __( 'More Tasks', 'wedevs-project-manager') }}</a>
             </div>
-            <div class="group-action-btn show-completed-task" v-if="getCompleteTasks.length">
+            
+            <div v-if="parseInt(list.meta.total_complete_tasks) > 0 && checkSearchStatus()" class="group-action-btn show-completed-task">
                 
-                <a v-if="!showCompletedTask" @click.prevent="showHideCompletedTask()" class="anchor-btn" href="#">
+                <a v-if="!showCompletedTask" @click.prevent="fetchCompleteTasks(list)" class="anchor-btn" href="#">
                     <span>{{ __('Show Completed Task', 'wedevs-project-manager') }}</span>
                 </a>
                 <a v-if="showCompletedTask" @click.prevent="showHideCompletedTask()" class="anchor-btn" href="#">    
@@ -30,19 +30,12 @@
                 <complete-tasks :task="task" :list="list"></complete-tasks>       
 
             </li>
-            
-            <!-- <li v-if="!hasList" class="nonsortable">{{ __( 'No tasks found.', 'wedevs-project-manager') }}</li> -->
-          <!--   <transition name="slide" v-if="can_create_task">
-                <li v-if="list.show_task_form" class="pm-todo-form nonsortable">
-                    <new-task-form :list="list"></new-task-form>
-                </li>
-            </transition> -->
-
         </ul>
         <div
-        v-if="isCompleteLoadMoreActive(list) && showCompletedTask"
-        class="nonsortable more-task-wrap">
-            <div v-if="isIncompleteLoadMoreActive(list)" class="group-action-btn">
+            v-if="isCompleteLoadMoreActive(list) && showCompletedTask"
+            class="nonsortable more-task-wrap">
+
+            <div v-if="isCompleteLoadMoreActive(list)" class="group-action-btn">
                 <a class="anchor-btn" @click.prevent="loadMoreCompleteTasks(list)" href="#">{{ __( 'More Tasks', 'wedevs-project-manager') }}</a>
             </div>
         </div>
@@ -212,6 +205,9 @@
                     .move {
                         cursor: grab;
                         padding-right: 8px;
+                        .blank-drag-drop {
+                            margin-left: 8px;
+                        }
 
                         .icon-pm-drag-drop {
 
@@ -261,42 +257,13 @@
                     
 
                     .more-menu-ul-wrap, .list-update-warp {
-                        position: absolute;
-                        white-space: nowrap;
-                        top: 31px;
-                        left: auto;
-                        right: -18px;
                         z-index: 9999;
                         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
                         border: 1px solid #DDDDDD;
                         background: #fff;
                         border-radius: 3px;
                         box-shadow: 0px 2px 40px 0px rgba(214, 214, 214, 0.6);
-                        padding: 7px 0; 
-                        &:before {
-                            border-color: transparent transparent #DDDDDD transparent;
-                            position: absolute;
-                            border-style: solid;
-                            top: -9px;
-                            right: 11px;
-                            content: "";
-                            z-index: 9999;
-                            border-width: 0px 8px 8px 8px;
-                        }
-
-                        &:after {
-                            border-color: transparent transparent #ffffff transparent;
-                            position: absolute;
-                            border-style: solid;
-                            top: -7px;
-                            right: 11px;
-                            content: "";
-                            z-index: 9999;
-                            border-width: 0 8px 7px 8px;
-                        }
-                        .first-li {
-                            // margin-top: 6px;
-                        }
+                        padding: 7px 0;
 
                         .li-a {
                             display: inline-block;
@@ -546,6 +513,12 @@
             }
         },
 
+        created () {
+            //preventing multiple click for load more complete task
+            pm.Vue.set(this.list, 'task_loading_status', false);
+            this.isTaskFilterActive();
+        },
+
         watch: {
             list: {
                 handler () {
@@ -559,7 +532,9 @@
                         } else {
                             self.hasList = false;
                         }
-                    })
+                    });
+
+                    this.isTaskFilterActive();
                 },
 
                 deep: true
@@ -638,6 +613,9 @@
                 }
 
                 return false;
+            },
+            taskFilterStatus () {
+                return this.$store.state.projectTaskLists.isActiveTaskFilter;
             }
         },
 
@@ -648,7 +626,41 @@
             'single-task': pm.SingleTask
         },
 
-        methods: {
+        methods: { 
+            checkSearchStatus () {
+                // && this.$route.query.status != 'complete'
+                if(this.$route.query.filterTask == 'active') {
+                    return false;
+                }
+
+                return true;
+            },
+            isTaskFilterActive () {
+                if(this.$route.query.filterTask == 'active' && this.$route.query.status == 'complete') {
+                    this.showCompletedTask = true;
+                    
+                }
+            },
+            fetchCompleteTasks (list) {
+                var self = this;
+
+                if(list.complete_tasks.data.length) {
+                    this.showCompletedTask = true;
+                    return;
+                }
+                var args = {
+                    condition: {
+                        with: 'complete_tasks'
+                    },
+
+                    callback (res) {
+                        
+                    }
+                }
+                this.loadMoreCompleteTasks(list, function(res) {
+                    self.showCompletedTask = true;
+                });
+            },
             showHideCompletedTask() {
                 this.showCompletedTask = this.showCompletedTask ? false : true;
             },

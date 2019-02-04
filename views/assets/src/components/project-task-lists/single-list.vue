@@ -29,7 +29,7 @@
                     <div class="list-title-action task-count">
                         <span>{{ list.meta.total_complete_tasks }}</span>/<span>{{ getTotalTask(list.meta.total_complete_tasks, list.meta.total_incomplete_tasks) }}</span>
                     </div>
-                    <div v-if="!isInbox(list.id)" class="list-title-action">
+                    <div v-if="!isInbox(list.id) && PM_Vars.is_pro" class="list-title-action">
                         <span  v-if="!parseInt(list.meta.privacy) && user_can('view_private_task')" class="icon-pm-unlock"></span>
                         <span  v-if="parseInt(list.meta.privacy) && user_can('view_private_task')" class="icon-pm-private"></span>
                     </div>
@@ -74,91 +74,6 @@
             </div>
             
         </div>
-        
-        <!-- <div v-if="loading" class="pm-data-load-before" >
-            <div class="loadmoreanimation">
-                <div class="load-spinner">
-                    <div class="rect1"></div>
-                    <div class="rect2"></div>
-                    <div class="rect3"></div>
-                    <div class="rect4"></div>
-                    <div class="rect5"></div>
-                </div>
-            </div>
-        </div>
- 
-        <div v-else>
-
-            <router-link  
-                class="pm-btn pm-btn-blue pm-margin-bottom add-tasklist"
-                :to="{ 
-                    name: 'task_lists', 
-                    params: { 
-                        project_id: project_id,
-                    }
-                }">
-
-                <i class="fa fa-arrow-circle-o-left mr-5"></i>{{ __( 'Back to Task Lists', 'wedevs-project-manager') }}
-            </router-link>
-            
-            <div>
-                <ul class="pm-todolists">
-
-                    <li :class="'pm-fade-out-'+list_id">
-
-                        <article class="pm-todolist">
-                            <header class="pm-list-header">
-                                <h3>
-                                    {{ list.title }}
-                                   
-                                    <div class="pm-right" v-if="can_edit_task_list(list)">
-                                        <a href="#" v-if="!isArchivedListComponent" @click.prevent="showHideListForm('toggle', list)" class="pm-icon-edit"><span class="dashicons dashicons-edit"></span></a>
-                                        <a href="#"  class="pm-btn pm-btn-xs" @click.prevent="deleteSelfList()" :title="delete_task_list" ><span class="dashicons dashicons-trash"></span></a>
-                                        <a href="#" @click.prevent="listLockUnlock(list)"  v-if="PM_Vars.is_pro && user_can('view_private_list')"><span :class="privateClass(list.meta.privacy)"></span> </a>
-                                    </div>
-                                </h3>
-
-                                <div class="pm-entry-detail">
-                                    {{ list.description }}
-                                </div>
-
-                               <transition name="slide" v-if="can_create_list || !isArchivedListComponent">
-                                    <div class="pm-update-todolist-form" v-if="list.edit_mode">
-                                        
-                                        <new-task-list-form :list="list" section="single"></new-task-list-form>
-                                    </div>
-                                </transition>
-                            </header>
-
-
-                            <single-list-tasks :list="list" index="0"></single-list-tasks>
-
-                            <footer class="pm-row pm-list-footer">
-                                <div class="pm-col-6">
-
-                                    <div v-if="can_create_task && !isArchivedList(list)">
-                                        <new-task-button :task="{}" :list="list" list_index="0"></new-task-button>
-                                    </div>
-
-                                </div>
-
-                                <div class="pm-col-4">
-                                    <div class="pm-todo-progress-bar">
-                                        <div :style="getProgressStyle( list )" class="bar completed"></div>
-                                    </div>
-                                </div>
-                                <div class=" pm-col-1 no-percent">{{ getProgressPercent(list) }}%</div>
-                                <div class="clearfix"></div>
-                            </footer>
-                        </article>
-                    </li>
-                </ul>
-
-
-                <list-comments :comments="comments" :list="list"></list-comments>
-                <router-view name="single-task"></router-view>
-            </div>
-        </div> -->
     </div>
 
 </template>
@@ -602,9 +517,13 @@
 
             comments () {
                 if( this.$store.state.projectTaskLists.lists.length ) {
-                    return this.$store.state.projectTaskLists.lists[0].comments.data;
+                    
+                    if( typeof this.$store.state.projectTaskLists.lists[0].comments != 'undefined') {
+                        return this.$store.state.projectTaskLists.lists[0].comments.data;
+                    }
+                    
+                    return [];
                 }
-                
             },
 
             /**
@@ -642,12 +561,12 @@
                     params: {
                         task_id: task.id,
                         project_id: task.project_id,
-                        list_id: task.task_list.data.id
+                        list_id: task.task_list_id
                     }
                 }).href;
                 var url = PM_Vars.project_page + url;
                 
-                //var url = PM_Vars.project_page + '#/projects/' + task.project_id + '/task-lists/' +task.task_list.data.id+ '/tasks/' + task.id; 
+                //var url = PM_Vars.project_page + '#/projects/' + task.project_id + '/task-lists/' +task.task_list_id+ '/tasks/' + task.id; 
                 this.copy(url);
             },
 
@@ -655,7 +574,7 @@
                 this.$store.commit( 'projectTaskLists/afterTaskDoneUndone', {
                     status: task.status == 'complete' || task.status === true ? 1 : 0,
                     task: task,
-                    list_id: task.task_list.data.id,
+                    list_id: task.task_list_id,
                     task_id: task.id
                 });
             },
@@ -665,7 +584,7 @@
                 this.setTaskDefaultData(task);
                 this.$store.commit('projectTaskLists/afterUpdateTask', {
                     task: task,
-                    list_id: task.task_list.data.id
+                    list_id: task.task_list_id
                 });
              
                 this.$store.commit('projectTaskLists/updateSingleTaskActiveMode', false);
@@ -673,7 +592,7 @@
 
             setTaskDefaultData (task) {
                 var lists = this.$store.state.projectTaskLists.lists;
-                var list_index = this.getIndex( lists, task.task_list.data.id, 'id' );
+                var list_index = this.getIndex( lists, task.task_list_id, 'id' );
             
                 if (list_index === false) {
                     return;
@@ -688,7 +607,7 @@
 
                     if(task_index === false ) {
                         this.$store.commit('projectTaskLists/afterTaskDoneUndone', {
-                            list_id: task.task_list.data.id,
+                            list_id: task.task_list_id,
                             task_id: task.id,
                             status: 0
                         });
@@ -711,7 +630,7 @@
 
                     if(task_index === false) {
                         this.$store.commit('projectTaskLists/afterTaskDoneUndone', {
-                            list_id: task.task_list.data.id,
+                            list_id: task.task_list_id,
                             task_id: task.id,
                             status: 1
                         });

@@ -211,7 +211,7 @@
             }
             
         },
-        taskCommentAction () {
+        taskCommentAction () { 
             var regEx = /data-pm-user-id=":(.+?):"/g;
             this.mentioned_user_ids = this.getMatches(this.comment.content, regEx, 1);
 
@@ -262,10 +262,14 @@
                 }
 
                 self.updateComment( args );
-            }else{
+            } else {
 
                 args.callback = function ( res ) {
-                    self.comments.push(res.data);
+                    let comment = {
+                        list_id: res.data.commentable_id,
+                        comment: res.data
+                    }
+                    self.$store.commit( 'projectTaskLists/listNewComment',  comment);
                     self.submit_disabled = false;
                     self.show_spinner    = false;
                     self.content.html    = '';
@@ -273,7 +277,6 @@
                     self.notify_users    = [];
                     self.files           = []; 
                     self.deleted_files   = [];
-
                     if ( typeof self.task.activities !== 'undefined' ) {
                         self.task.activities.data.unshift(res.activity.data);
                     } else {

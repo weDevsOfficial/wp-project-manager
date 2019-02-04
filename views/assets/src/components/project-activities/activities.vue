@@ -218,7 +218,7 @@
                 }).href;
                 var url = PM_Vars.project_page + url;
 
-                //var url = PM_Vars.project_page + '#/projects/' + task.project_id + '/task-lists/' +task.task_list.data.id+ '/tasks/' + task.id;
+                //var url = PM_Vars.project_page + '#/projects/' + task.project_id + '/task-lists/' +task.task_list_id+ '/tasks/' + task.id;
                 this.copy(url);
             },
 

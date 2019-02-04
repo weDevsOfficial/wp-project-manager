@@ -47,12 +47,12 @@ class Upgrade_2_1 extends WP_Background_Process {
         $table = $wpdb->prefix . 'pm_tasks';
         $result = $wpdb->get_results ( $wpdb->prepare( "SHOW COLUMNS FROM {$table} LIKE %s ", 'completed_by' ) );
         if( empty( $result ) ) {
-            $wpdb->query( $wpdb->prepare( "ALTER TABLE {$table} ADD `completed_by` int(11) unsigned NULL AFTER `parent_id`" ) );
+            $wpdb->query( "ALTER TABLE {$table} ADD `completed_by` int(11) unsigned NULL AFTER `parent_id`" );
         }
 
         $result = $wpdb->get_results ( $wpdb->prepare( "SHOW COLUMNS FROM {$table} LIKE %s", 'completed_at' ) );
         if( !$result ) {
-            $wpdb->query( $wpdb->prepare( "ALTER TABLE {$table} ADD `completed_at` timestamp NULL AFTER `completed_by`" ) );
+            $wpdb->query( "ALTER TABLE {$table} ADD `completed_at` timestamp NULL AFTER `completed_by`" );
         }
     }
 
@@ -81,7 +81,7 @@ class Upgrade_2_1 extends WP_Background_Process {
         $table = $wpdb->prefix . 'pm_boards';
         $result = $wpdb->get_results ( $wpdb->prepare( "SHOW COLUMNS FROM {$table} LIKE %s", 'status' ) );
         if( empty( $result ) ) {
-            $wpdb->query( $wpdb->prepare( "ALTER TABLE {$table} ADD `status` TINYINT(2) NOT NULL DEFAULT '1'" ) );
+            $wpdb->query( "ALTER TABLE {$table} ADD `status` TINYINT(2) NOT NULL DEFAULT '1'");
         }
     }
 }

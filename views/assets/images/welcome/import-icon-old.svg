@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="138px" height="138px" viewBox="0 0 138 138" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.3 (67297) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 12</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="166.472148%" id="linearGradient-1">
+            <stop stop-color="#FF9137" offset="0%"></stop>
+            <stop stop-color="#FB435C" offset="100%"></stop>
+        </linearGradient>
+        <circle id="path-2" cx="44" cy="44" r="44"></circle>
+        <filter x="-43.8%" y="-40.3%" width="196.6%" height="196.6%" filterUnits="objectBoundingBox" id="filter-3">
+            <feOffset dx="4" dy="7" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="13" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0.992156863   0 0 0 0 0.42745098   0 0 0 0 0.282352941  0 0 0 0.495471014 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <linearGradient x1="-25.0663519%" y1="-25.4401102%" x2="98.4721027%" y2="94.6925868%" id="linearGradient-4">
+            <stop stop-color="#C444FB" offset="0%"></stop>
+            <stop stop-color="#5B56D7" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Get-Started-Page-Design-for-PM" transform="translate(-276.000000, -1375.000000)">
+            <g id="Group-11" transform="translate(258.000000, 1358.000000)">
+                <g id="Group-12" transform="translate(39.000000, 35.000000)">
+                    <g id="Oval">
+                        <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
+                        <use fill="url(#linearGradient-1)" fill-rule="evenodd" xlink:href="#path-2"></use>
+                    </g>
+                    <g id="import" transform="translate(31.000000, 29.000000)" fill="#FFFFFF">
+                        <g id="Group-4" transform="translate(14.000000, 15.000000) rotate(-270.000000) translate(-14.000000, -15.000000) translate(-1.000000, 1.000000)">
+                            <path d="M22.1673913,13.6340591 L16.623913,9.22659693 C16.348587,9.00798681 15.9642391,8.96038621 15.6408696,9.10495097 C15.3156522,9.24951573 15.1086957,9.56156406 15.1086957,9.90358313 L15.1086957,12.5480605 L1.25,12.5480605 C0.74,12.5480605 0.326086957,12.9429691 0.326086957,13.4295529 L0.326086957,15.1925378 C0.326086957,15.6791216 0.74,16.0740302 1.25,16.0740302 L15.1086957,16.0740302 L15.1086957,18.7185076 C15.1086957,19.0605266 15.3156522,19.370812 15.6408696,19.5171397 C15.7646739,19.5717922 15.8995652,19.6 16.0326087,19.6 C16.2451087,19.6 16.4557609,19.5312436 16.623913,19.3954938 L22.1673913,14.9880315 C22.3798913,14.820548 22.5,14.5719671 22.5,14.3110453 C22.5,14.0501236 22.3798913,13.8015427 22.1673913,13.6340591 Z" id="Path"></path>
+                            <path d="M28.1657609,0 L2.48641304,0 C1.47391304,0 0.652173913,0.784 0.652173913,1.75 L0.652173913,10.5 L4.32065217,10.5 L4.32065217,3.5 L26.3315217,3.5 L26.3315217,24.5 L4.32065217,24.5 L4.32065217,17.5 L0.652173913,17.5 L0.652173913,26.25 C0.652173913,27.21775 1.47391304,28 2.48641304,28 L28.1657609,28 C29.1800951,28 30,27.21775 30,26.25 L30,1.75 C30,0.784 29.1800951,0 28.1657609,0 Z" id="Path"></path>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
