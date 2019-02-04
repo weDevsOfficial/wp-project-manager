@@ -219,6 +219,7 @@
                     PM_Global.pm_search_request(req.term, function (response) {
                         availableTags = response;
                         res(response);
+                        // console.log(response);
                         $( self ).removeClass( 'pm-sspinner' );
                     })
 

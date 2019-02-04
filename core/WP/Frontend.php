@@ -11,8 +11,12 @@ use WeDevs\PM\Core\File_System\File_System as File_System;
 use WeDevs\PM\Core\Cli\Commands;
 use WeDevs\PM\Core\Promotions\Promotions;
 use WeDevs\PM\Core\Promotions\Offers;
-use WeDevs\PM\Core\Installer\Installer;
 
+use WeDevs\PM\Core\Installer\Installer;
+use PM_Create_Table;
+//use WeDevs\PM\Tools\Helpers\ImportActivecollab;
+use WeDevs\PM\Tools\Helpers\ImportTrello;
+//use WeDevs\PM\Tools\Helpers\ImportAsana;
 
 
 class Frontend {
@@ -166,6 +170,9 @@ function project_text_editor($config) {
         new Upgrade();
         new Offers();
         //new Promotions();
+        new ImportTrello();
+        //new ImportAsana();
+        //new ImportActivecollab();
 	}
 
 	public function register_scripts() {
