@@ -5,7 +5,7 @@
             <p>{{ __('More features to unveil while', 'wedevs-project-manager') }}</p>
             <h2>{{ __('Managing Your Project', 'wedevs-project-manager') }}</h2>
             <p class="text-muted">
-                Useful & fascinating features for WP Project Manager that can be<br> unlocked with the Pro Version.
+                {{ __('Useful & fascinating features for WP Project Manager that can be', 'wedevs-project-manager') }}<br> {{ __('unlocked with the Pro Version.', 'wedevs-project-manager')}}
             </p>
         </div>
         <div class="pm-section-content">

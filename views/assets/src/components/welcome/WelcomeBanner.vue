@@ -2,7 +2,7 @@
     <!-- start banner section -->
     <section class="pm-section pm-section-wrapper pm-banner-section">
         <div class="pm-video-modal">
-            <pm-modal :is-active="show" @close="show=false" :width="600">
+            <pm-modal v-if="show" :is-active="show" @close="show=false" :width="600">
                 <iframe width="600" height="315" src="https://www.youtube.com/embed/rliDPp4sIyM/?VQ=HD1080&autoplay=1&rel=0" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </pm-modal>
         </div>

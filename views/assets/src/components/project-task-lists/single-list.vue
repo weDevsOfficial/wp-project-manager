@@ -29,7 +29,7 @@
                     <div class="list-title-action task-count">
                         <span>{{ list.meta.total_complete_tasks }}</span>/<span>{{ getTotalTask(list.meta.total_complete_tasks, list.meta.total_incomplete_tasks) }}</span>
                     </div>
-                    <div v-if="!isInbox(list.id)" class="list-title-action">
+                    <div v-if="!isInbox(list.id) && PM_Vars.is_pro" class="list-title-action">
                         <span  v-if="!parseInt(list.meta.privacy) && user_can('view_private_task')" class="icon-pm-unlock"></span>
                         <span  v-if="parseInt(list.meta.privacy) && user_can('view_private_task')" class="icon-pm-private"></span>
                     </div>

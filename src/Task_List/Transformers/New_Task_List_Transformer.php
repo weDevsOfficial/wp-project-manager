@@ -46,7 +46,13 @@ class New_Task_List_Transformer extends TransformerAbstract {
     }
 
     public function get_creator( $item ) {
+        if(empty($item->created_by)) {
+            return [];
+        } 
         $user = get_user_by( 'id', $item->created_by );
+        if ( ! $user ) {
+            return [];
+        }
 
         $data = [
             'id'                => (int) $user->ID,

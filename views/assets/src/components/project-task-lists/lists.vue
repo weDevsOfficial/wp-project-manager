@@ -1422,7 +1422,7 @@
                 timer;
 
                 if(evt == '') {
-                    //return;
+                    return;
                 }
 
                 clearTimeout(timer);
