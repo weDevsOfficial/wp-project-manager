@@ -26,63 +26,63 @@
                     {
                         'title': 'Recurring Task',
                         'description': 'Get upgraded to Pro version to unlock endlless opppurtunities of managing your project better.',
-                        'buttonUrl': '#',
+                        'buttonUrl': 'https://wedevs.com/products/plugins/wp-project-manager-pro/recurring-task/',
                         'cardClass': 'recurring-task',
                         'icon': 'recuring-task.svg'
                     },
                     {
                         'title': 'BuddyPress',
                         'description': 'Enhance your project management performance with its extended features in the pro version.',
-                        'buttonUrl': '#',
+                        'buttonUrl': 'https://wedevs.com/products/plugins/wp-project-manager-pro/buddypress/',
                         'cardClass': 'buddypress',
                         'icon': 'buddypress.svg'
                     },
                     {
                         'title': 'Gantt Chart',
                         'description': 'Check out all its useful modules that would take your project management experience to a whole new level.',
-                        'buttonUrl': '#',
+                        'buttonUrl': 'https://wedevs.com/products/plugins/wp-project-manager-pro/gantt-chart/',
                         'cardClass': 'gantt-chart',
                         'icon': 'gantt-chart.svg'
                     },
                     {
                         'title': 'Kanban Board',
                         'description': 'Check out all its useful modules that would take your project management experience to a whole new level.',
-                        'buttonUrl': '#',
+                        'buttonUrl': 'https://wedevs.com/products/plugins/wp-project-manager-pro/kanban-board/',
                         'cardClass': 'kanban-board',
                         'icon': 'kanban-board.svg'
                     },
                     {
                         'title': 'WooCommerce Order',
                         'description': 'Check out all its useful modules that would take your project management experience to a whole new level.',
-                        'buttonUrl': '#',
+                        'buttonUrl': 'https://wedevs.com/products/plugins/wp-project-manager-pro/woocommerce-order/',
                         'cardClass': 'woocommerce',
                         'icon': 'woocommerce.svg'
                     },
                     {
                         'title': 'Sub Task',
                         'description': 'Check out all its useful modules that would take your project management experience to a whole new level.',
-                        'buttonUrl': '#',
+                        'buttonUrl': 'https://wedevs.com/products/plugins/wp-project-manager-pro/sub-task/',
                         'cardClass': 'sub-task',
                         'icon': 'subtask.svg'
                     },
                     {
                         'title': 'Time Tracker',
                         'description': 'Check out all its useful modules that would take your project management experience to a whole new level.',
-                        'buttonUrl': '#',
+                        'buttonUrl': 'https://wedevs.com/products/plugins/wp-project-manager-pro/time-tracker/',
                         'cardClass': 'time-tracker',
                         'icon': 'time-tracker.svg'
                     },
                     {
                         'title': 'Invoice',
                         'description': 'Check out all its useful modules that would take your project management experience to a whole new level.',
-                        'buttonUrl': '#',
+                        'buttonUrl': 'https://wedevs.com/products/plugins/wp-project-manager-pro/invoice/',
                         'cardClass': 'invoice',
                         'icon': 'invoice.svg'
                     },
                     {
                         'title': 'Stripe Gateway',
                         'description': 'Check out all its useful modules that would take your project management experience to a whole new level.',
-                        'buttonUrl': '#',
+                        'buttonUrl': 'https://wedevs.com/products/plugins/wp-project-manager-pro/invoice-stripe-gateway/',
                         'cardClass': 'stripe-gateway',
                         'icon': 'stripe.svg'
                     }

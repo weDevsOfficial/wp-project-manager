@@ -26,42 +26,42 @@
                 featureItems: [
                     {
                         'featureName': 'Overview',
-                        'featureDescription': 'Create with limitless possibilities. This Web Based Project Management System is packed with features & tools to boost your team productivity.',
+                        'featureDescription': 'In the overview section you will get a complete picture of your proejct. A chart for what has been done in the last 30 days, no of discussion, task lists, milestones and more.',
                         'featureVideo': 'rliDPp4sIyM',
                         'featureThumb': 'overview-thumb.jpg',
                         'cardClass': 'overview'
                     },
                     {
                         'featureName': 'Activities',
-                        'featureDescription': 'Create with limitless possibilities. This Web Based Project Management System is packed with features & tools to boost your team productivity.',
+                        'featureDescription': 'You will also get a complete activity log history from the activities section of your project. All the activity will also be divided by date so it is easier to keep track.',
                         'featureVideo': 'KarLsZ8FPQQ',
                         'featureThumb': 'activities-thumb.jpg',
                         'cardClass': 'activities'
                     },
                     {
                         'featureName': 'Team Discussion',
-                        'featureDescription': 'Create with limitless possibilities. This Web Based Project Management System is packed with features & tools to boost your team productivity.',
+                        'featureDescription': 'There is a built-in discussion panel right inside your projects. Consisting open, group discussion feature. Making team collaboration much more effective.',
                         'featureVideo': 'uCXHBIa-1Eg',
                         'featureThumb': 'discussion-thumb.jpg',
                         'cardClass': 'discussion'
                     },
                     {
                         'featureName': 'To-do Lists',
-                        'featureDescription': 'Create with limitless possibilities. This Web Based Project Management System is packed with features & tools to boost your team productivity.',
+                        'featureDescription': 'In your projects you get a separate Task List tab to divide your work. You will be able to set due date for a task, set milestone, categorize and more.',
                         'featureVideo': 'mZS-GWiB1WQ',
                         'featureThumb': 'task-thumb.jpg',
                         'cardClass': 'task'
                     },
                     {
                         'featureName': 'Milestone',
-                        'featureDescription': 'Create with limitless possibilities. This Web Based Project Management System is packed with features & tools to boost your team productivity.',
+                        'featureDescription': 'In the Milestones tab you will be able to set a specific milestone you want to reach. Set the name, due date, details. You will also see tasks set under each milestone.',
                         'featureVideo': 'umJozhMjkho',
                         'featureThumb': 'milestone-thumb.jpg',
                         'cardClass': 'milestone'
                     },
                     {
                         'featureName': 'Manage Files',
-                        'featureDescription': 'Create with limitless possibilities. This Web Based Project Management System is packed with features & tools to boost your team productivity.',
+                        'featureDescription': "You don't need to rely on a separate file manager. WP Project Manager's Files feature will let you store all your files and see it in one place.",
                         'featureVideo': 'i1F3MNwrJbM',
                         'featureThumb': 'file-thumb.jpg',
                         'cardClass': 'files'

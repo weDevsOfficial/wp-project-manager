@@ -1184,17 +1184,8 @@ export default {
         /**
          * Close popup by checking popper
          */
-        closePopper(event) {
-            event = event || false;
-            
-            if ( event ) {
-                jQuery('.'+event).trigger('click');
-            } else {
-                 jQuery('.popper-ref').each(function(index, event) {
-                    jQuery(event).trigger('click');
-                });
-            }
-
+         closePopper(){
+            jQuery('body').trigger('click');
         }
     }
 };

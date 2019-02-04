@@ -43,7 +43,7 @@
                 resources: [
                     {
                         'title': 'Upgrade',
-                        'description': __( 'Get upgraded to Pro version to unlock endlless opppurtunities of managing your project better.', 'wedevs-project-manager'),
+                        'description': __( 'Get upgraded to Pro version to unlock endless opportunities of managing your project better.', 'wedevs-project-manager'),
                         'buttonLabel': __( 'Upgrade to Pro', 'wedevs-project-manager' ),
                         'buttonUrl': 'https://wedevs.com/wp-project-manager-pro/pricing/',
                         'cardClass': 'upgrade',
@@ -51,7 +51,7 @@
                     },
                     {
                         'title': 'Pro Features',
-                        'description': __( 'Enhance your project management performance with its extended features in the pro version.', 'wedevs-project-manager' ),
+                        'description': __( 'Enhance your project management performance with extended features in the pro version.', 'wedevs-project-manager' ),
                         'buttonLabel': __( 'View Pro features', 'wedevs-project-manager' ),
                         'buttonUrl': 'https://wedevs.com/wp-project-manager-pro/extensions/',
                         'cardClass': 'pro-feature',
@@ -59,7 +59,7 @@
                     },
                     {
                         'title': 'Module',
-                        'description': __( 'Check out all its useful modules that would take your project management experience to a whole new level.', 'wedevs-project-manager' ),
+                        'description': __( 'Check out all the useful modules that would take your project management experience to a whole new level.', 'wedevs-project-manager' ),
                         'buttonLabel': __( 'Go to Modules', 'wedevs-project-manager' ),
                         'buttonUrl': 'https://wedevs.com/wp-project-manager-pro/extensions/',
                         'cardClass': 'module',
