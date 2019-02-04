@@ -17,8 +17,8 @@
                     {{ __("Premium Features", "wedevs-project-manager") }}
                 </h1>
                 <p>
-                    Lorem Ipsum is simply dummy text of the printing and<br />typesetting
-                    industry. Lorem Ipsum has been.
+                    {{ __('Advanced project management tools to ensure your', 'wedevs-project-manager') }}
+                    <br>{{ __('efficiency and productivity reach the peak.', 'wedevs-project-manager') }}
                 </p>
             </div>
         </div>

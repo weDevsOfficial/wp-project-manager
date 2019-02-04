@@ -19,24 +19,24 @@
                 show: false,
                 featureItems: [
                     {
-                        'featureName': 'Calendar',
-                        'featureDescription': 'Create with limitless possibilities. This Web Based Project Management System is packed with features & tools to boost your team productivity.',
+                        'featureName': __( 'Calendar', 'wedevs-project-manager' ),
+                        'featureDescription': __( 'Get the Birdseye view of all tasks from an interactive calendar.', 'wedevs-project-manager' ),
                         'featureVideo': '668nUCeBHyY',
                         'featureThumb': 'calendar-thumb.jpg',
                         'cardClass': 'calendar',
                         'url': 'https://wedevs.com/wp-project-manager-pro/features/'
                     },
                     {
-                        'featureName': 'Report',
-                        'featureDescription': 'Create with limitless possibilities. This Web Based Project Management System is packed with features & tools to boost your team productivity.',
+                        'featureName': __( 'Report', 'wedevs-project-manager' ),
+                        'featureDescription': __( 'Generate actionable insights with built-in reporting system.', 'wedevs-project-manager' ),
                         'featureVideo': '#',
                         'featureThumb': 'report-thumb.jpg',
                         'cardClass': 'report',
                         'url': 'https://wedevs.com/wp-project-manager-pro/features/'
                     },
                     {
-                        'featureName': 'Progress',
-                        'featureDescription': 'Create with limitless possibilities. This Web Based Project Management System is packed with features & tools to boost your team productivity.',
+                        'featureName': __( 'Progress', 'wedevs-project-manager' ),
+                        'featureDescription': __( 'Stay updated with the live progress of your projects. Plan ahead of deadline.', 'wedevs-project-manager' ),
                         'featureVideo': '668nUCeBHyY',
                         'featureThumb': 'progress-thumb.jpg',
                         'cardClass': 'progress',
