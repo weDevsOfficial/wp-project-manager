@@ -12,7 +12,7 @@
                 <div class="title-wrap">
 
                     <div class="task-title">
-                        <a class="title" href="#" @click.prevent="getSingleTask(task)">{{ task.title }}</a>
+                        <a class="title" href="#" @click.prevent="getSingleTask(task)">{{ ucfirst(task.title) }}</a>
                     </div>  
                 </div> 
 

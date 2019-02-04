@@ -7,7 +7,7 @@
                 beforeSend (xhr) {
                     xhr.setRequestHeader("X-WP-Nonce", PM_Global_Vars.permission);
                 },
-                url: PM_Global_Vars.rest_url + '/pm/v2/search',
+                url: PM_Global_Vars.rest_url + '/pm/v2/admin-topbar-search',
                 data: {
                     query: term,
                     model: 'project',

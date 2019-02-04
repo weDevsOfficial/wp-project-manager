@@ -57,7 +57,7 @@
                                         </div>
 
                                         <div class="list-title">
-                                            <span @click.prevent="listExpand(list)" class="list-title-anchor">{{ list.title }}</span>
+                                            <span @click.prevent="listExpand(list)" class="list-title-anchor">{{ ucfirst( list.title ) }}</span>
                                         </div>
                                         <div class="after-title">
                                                 <!-- v-pm-tooltip -->

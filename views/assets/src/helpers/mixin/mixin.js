@@ -12,7 +12,8 @@ export default {
             PM_Vars: PM_Vars,
             pm: pm,
             taskLists: TaskLists,
-            currentDate: pm.Moment(new Date()).format('YYYY-MM-DD')
+            currentDate: pm.Moment(new Date()).format('YYYY-MM-DD'),
+            randomNumber: []
         }
     },
 
@@ -21,6 +22,18 @@ export default {
     },
 
     methods: {
+        getUniqueRandomNumber() {
+            var r = Math.floor(Math.random()*100000) + 1;
+
+            if(this.randomNumber.indexOf(r) === -1) {
+                this.randomNumber.push(r);
+
+                return r;
+            }
+
+            this.getUniqueRandomNumber();
+
+        },
         enableDisable (key, status) {
             status = status || '';
 
@@ -57,7 +70,7 @@ export default {
                 d[b[i]] = true;
             }
             for (var j = 0; j < a.length; j++) {
-                if (d[a[j]]) 
+                if (d[a[j]])
                     results.push(a[j]);
             }
             return results;
@@ -78,37 +91,37 @@ export default {
         },
         pad2 (number) {
            return (number < 10 ? '0' : '') + number;
-        },
-        stringToTime (seconds) {
-            var numdays = Math.floor(seconds / 86400);
+       },
+       stringToTime (seconds) {
+        var numdays = Math.floor(seconds / 86400);
 
-            var numhours = Math.floor((seconds % 86400) / 3600);
+        var numhours = Math.floor((seconds % 86400) / 3600);
 
-            var numminutes = Math.floor(((seconds % 86400) % 3600) / 60);
+        var numminutes = Math.floor(((seconds % 86400) % 3600) / 60);
 
-            var numseconds = ((seconds % 86400) % 3600) % 60;
+        var numseconds = ((seconds % 86400) % 3600) % 60;
 
-            return {
-                'days': this.pad2(numdays),
-                'hours': this.pad2(numhours),
-                'minutes': this.pad2(numminutes),
-                'seconds': this.pad2(numseconds)
-            }
-        },
+        return {
+            'days': this.pad2(numdays),
+            'hours': this.pad2(numhours),
+            'minutes': this.pad2(numminutes),
+            'seconds': this.pad2(numseconds)
+        }
+    },
 
-        getFullDate (date) {
-            if ( !date ) {
-                return;
-            } 
-            date = new Date(date.replace(/-/g, "/"));
-            
-            return pm.Moment(date).format('dddd, MMMM D YYYY, H:mm:ss');
-        },
+    getFullDate (date) {
+        if ( !date ) {
+            return;
+        }
+        date = new Date(date.replace(/-/g, "/"));
 
-        relativeDate (date) {
-            if ( !date ) {
-                return;
-            }
+        return pm.Moment(date).format('dddd, MMMM D YYYY, H:mm:ss');
+    },
+
+    relativeDate (date) {
+        if ( !date ) {
+            return;
+        }
             //getTimezoneOffset
             date = new Date(date.replace(/-/g, "/"));
 
@@ -117,16 +130,16 @@ export default {
 
         /**
          * WP settings date format convert to pm.Moment date format with time zone
-         * 
-         * @param  string date 
-         * 
-         * @return string      
+         *
+         * @param  string date
+         *
+         * @return string
          */
-        shortDateFormat ( date ) {
+         shortDateFormat ( date ) {
 
             if ( !date ) {
                 return;
-            }      
+            }
 
             date = new Date(date.replace(/-/g, "/"));
             date = pm.Moment(date).format('YYYY-MM-DD');
@@ -139,7 +152,7 @@ export default {
         shortTimeFormat ( date ) {
             if ( !date ) {
                 return;
-            }      
+            }
 
             date = new Date(date.replace(/-/g, "/"));
             var format = 'hh:mm a';
@@ -151,16 +164,16 @@ export default {
             if(word == '' || typeof word == 'undefined') {
                 return '';
             }
-            
+
             return word.replace(/\w/, c => c.toUpperCase())
         },
 
-        
+
         dateTimeFormat(date) {
             if ( !date ) {
                 return;
             }
-            
+
             date = new Date(date.replace(/-/g, "/"));
             return pm.Moment(date).format('hh:mm a');
         },
@@ -168,12 +181,12 @@ export default {
 
         /**
          * WP settings date format convert to pm.Moment date format with time zone
-         * 
-         * @param  string date 
-         * 
-         * @return string      
+         *
+         * @param  string date
+         *
+         * @return string
          */
-        dateFormat ( date, formate ) {
+         dateFormat ( date, formate ) {
             var formate = formate || 'MMM D';
             if ( !date ) {
                 return;
@@ -185,12 +198,12 @@ export default {
 
                 /**
          * WP settings date format convert to pm.Moment date format with time zone
-         * 
-         * @param  string date 
-         * 
-         * @return string      
+         *
+         * @param  string date
+         *
+         * @return string
          */
-        taskDateFormat ( date ) {
+         taskDateFormat ( date ) {
             if ( !date ) {
                 return;
             }
@@ -198,65 +211,65 @@ export default {
             date = new Date(date.replace(/-/g, "/"));
             return pm.Moment(date).format('MMM D');
         },
-        
+
         /**
          * ISO_8601 Date format convert to pm.Moment date format
-         * 
-         * @param  string date 
-         * 
-         * @return string      
+         *
+         * @param  string date
+         *
+         * @return string
          */
-        dateISO8601Format ( date ) {
+         dateISO8601Format ( date ) {
           return pm.Moment( date ).format();
-        },
+      },
 
-        getSettings (key, pre_define, objKey ) {
+      getSettings (key, pre_define, objKey ) {
 
-            var pre_define  = typeof pre_define == 'undefined' ? false : pre_define,
-                objKey = typeof objKey == 'undefined' ? false : objKey,
-                settings  = PM_Vars.settings;
-            if (objKey) {
-                if ( typeof PM_Vars.settings[objKey] === 'undefined' ) {
-                    return pre_define;
-                }
-                if ( typeof PM_Vars.settings[objKey][key] === 'undefined' ){
-                    return pre_define;
-                }
-                        
-                
-                if ( PM_Vars.settings[objKey][key] === "true" ){
-                    return true;
-                } else if ( PM_Vars.settings[objKey][key] === "false" ){
-                    return false;
-                } else {
-                    return PM_Vars.settings[objKey][key];
-                }
+        var pre_define  = typeof pre_define == 'undefined' ? false : pre_define,
+        objKey = typeof objKey == 'undefined' ? false : objKey,
+        settings  = PM_Vars.settings;
+        if (objKey) {
+            if ( typeof PM_Vars.settings[objKey] === 'undefined' ) {
+                return pre_define;
             }
-
-
-            if ( typeof PM_Vars.settings[key] == 'undefined' ) {
+            if ( typeof PM_Vars.settings[objKey][key] === 'undefined' ){
                 return pre_define;
             }
 
-            if ( PM_Vars.settings[key] == "true" ){
+
+            if ( PM_Vars.settings[objKey][key] === "true" ){
                 return true;
-            } else if ( PM_Vars.settings[key] == "false" ){
+            } else if ( PM_Vars.settings[objKey][key] === "false" ){
                 return false;
             } else {
-                return PM_Vars.settings[key];
+                return PM_Vars.settings[objKey][key];
             }
-            
-        },
-        dataURLtoFile (dataurl, filename) {
-            var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
-                bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
-            while(n--){
-                u8arr[n] = bstr.charCodeAt(n);
-            }
-            return new File([u8arr], filename, {type:mime});
-        },
-        httpRequest (property) {
-            var before = function( xhr ) {
+        }
+
+
+        if ( typeof PM_Vars.settings[key] == 'undefined' ) {
+            return pre_define;
+        }
+
+        if ( PM_Vars.settings[key] == "true" ){
+            return true;
+        } else if ( PM_Vars.settings[key] == "false" ){
+            return false;
+        } else {
+            return PM_Vars.settings[key];
+        }
+
+    },
+    dataURLtoFile (dataurl, filename) {
+        var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]), n = bstr.length, u8arr = new Uint8Array(n);
+        while(n--){
+            u8arr[n] = bstr.charCodeAt(n);
+        }
+        return new File([u8arr], filename, {type:mime});
+    },
+    httpRequest (property) {
+        var before = function( xhr ) {
                 xhr.setRequestHeader("Authorization_name", btoa('mslweiew')); //btoa js encoding base64_encode
                 xhr.setRequestHeader("Authorization_password", btoa('1$%#$8sgf&*FBI')); //atob js decode base64_decode
 
@@ -271,7 +284,7 @@ export default {
 
             property.data.is_admin = typeof property.data.is_admin == 'undefined' ? PM_Vars.is_admin : property.data.is_admin;
             property.beforeSend = typeof property.beforeSend === 'undefined' ? before : property.beforeSend;
-            
+
             return jQuery.ajax(property);
         },
 
@@ -279,13 +292,13 @@ export default {
             if (typeof store === 'undefined') {
                 return false;
             }
-            
+
             var self = this;
             if( typeof store !== 'undefined' ) {
                 var mutations = store.mutations || {}; //self.$options.mutations;
                 var state = store.state || {}; //self.$options.state;
             }
-            
+
             // register a module `myModule`
 
             self.$store.registerModule(module_name, {
@@ -296,11 +309,11 @@ export default {
         },
 
         /**
-         * Create a new project 
+         * Create a new project
          * @param  {[Object]} args data with callback
          * @return {viod}      [description]
          */
-        newProject (args) {
+         newProject (args) {
             var self = this,
             pre_define = {
                 data: {
@@ -319,12 +332,12 @@ export default {
                 url: this.base_url + '/pm/v2/projects/',
                 data: args.data,
                 success (res) {
-                    jQuery( "#pm-project-dialog" ).dialog('destroy'); 
+                    jQuery( "#pm-project-dialog" ).dialog('destroy');
                     self.$root.$store.commit('newProject', res.data);
                     self.showHideProjectForm(false);
                     self.resetSelectedUsers();
                     pm.Toastr.success(res.message);
-                    
+
                     if(typeof args.callback === 'function'){
                         args.callback(res);
                     }
@@ -342,11 +355,11 @@ export default {
                             pm.Toastr.error(value);
                         });
                     }
-                    
+
                     if(typeof args.callback === 'function'){
                         args.callback(res);
                     }
-                    
+
                 }
             };
 
@@ -355,7 +368,7 @@ export default {
 
         formatUsers (users) {
             var format_users = [];
-            
+
             users.map(function(user, index) {
                 format_users.push({
                     'user_id': user.id,
@@ -371,85 +384,85 @@ export default {
             pre_define = {
               data: {
                 status: 'incomplete'
-              },
-              callback: false,
             },
-            args = jQuery.extend(true, pre_define, args );
-            args = pm_apply_filters( 'before_project_save', args );
-            var request = {
-                type: 'POST',
-                url: this.base_url + '/pm/v2/projects/'+ args.data.id+'/update',
-                data: args.data,
-                success (res) {
-                    
-                    self.$root.$store.commit('updateProject', res.data);
-                    pm.Toastr.success(res.message);
-                    self.showHideProjectForm(false);
-                    jQuery( "#pm-project-dialog" ).dialog("close");
-                    self.resetSelectedUsers();
-                    self.$store.commit('updateProjectMeta', 'total_activities');
-                    if(typeof args.callback === 'function'){
-                        args.callback.call(self, res);
-                    }
-                },
+            callback: false,
+        },
+        args = jQuery.extend(true, pre_define, args );
+        args = pm_apply_filters( 'before_project_save', args );
+        var request = {
+            type: 'POST',
+            url: this.base_url + '/pm/v2/projects/'+ args.data.id+'/update',
+            data: args.data,
+            success (res) {
 
-                error (res) {
-                    if ( res.status == 400 ) {
-                        var params = res.responseJSON.data.params;
-                        for ( var obj in params ){
-                            pm.Toastr.error(params[obj][0]);
-                        }
-                    }
-                    if (res.status == 500 ) {
-                        res.responseJSON.message.map( function( value, index ) {
-                            pm.Toastr.error(value);
-                        });
-                    }
-                    if(typeof args.callback === 'function'){
-                        args.callback.call(self, res);
-                    }                    
+                self.$root.$store.commit('updateProject', res.data);
+                pm.Toastr.success(res.message);
+                self.showHideProjectForm(false);
+                jQuery( "#pm-project-dialog" ).dialog("close");
+                self.resetSelectedUsers();
+                self.$store.commit('updateProjectMeta', 'total_activities');
+                if(typeof args.callback === 'function'){
+                    args.callback.call(self, res);
                 }
-            };
-            
-            this.httpRequest(request);
-        },
+            },
 
-        resetSelectedUsers () {
-            this.$root.$store.commit('resetSelectedUsers');
-        },
-
-        getProjects ( args ) {
-
-            var self = this;
-            var pre_define ={
-                conditions : {
-                    status: '',
-                    project_transform: true,
-                    per_page: this.getSettings('project_per_page', 10),
-                    page : this.setCurrentPageNumber(),
-                    category: typeof this.$route.query.category !== 'undefined' ? this.$route.query.category : '',
+            error (res) {
+                if ( res.status == 400 ) {
+                    var params = res.responseJSON.data.params;
+                    for ( var obj in params ){
+                        pm.Toastr.error(params[obj][0]);
+                    }
+                }
+                if (res.status == 500 ) {
+                    res.responseJSON.message.map( function( value, index ) {
+                        pm.Toastr.error(value);
+                    });
+                }
+                if(typeof args.callback === 'function'){
+                    args.callback.call(self, res);
                 }
             }
+        };
 
-            var  args = jQuery.extend(true, pre_define, args );
-            
-            var conditions = pm_apply_filters( 'before_get_project', args.conditions );
-            conditions = self.generateConditions(conditions);
-            
-            var request_data = {
-                url: self.base_url + '/pm/v2/projects?'+conditions,
-                data: args.conditions,
-                success (res) {
-                    res.data.map(function(project) {
-                        self.addProjectMeta(project);
-                    });
-                    
-                    self.$store.commit('setProjects', {'projects': res.data});
-                    self.$store.commit('setProjectsMeta', res.meta );
-                    
-                    pm.NProgress.done();
+        this.httpRequest(request);
+    },
+
+    resetSelectedUsers () {
+        this.$root.$store.commit('resetSelectedUsers');
+    },
+
+    getProjects ( args ) {
+
+        var self = this;
+        var pre_define ={
+            conditions : {
+                status: '',
+                project_transform: true,
+                per_page: this.getSettings('project_per_page', 10),
+                page : this.setCurrentPageNumber(),
+                category: typeof this.$route.query.category !== 'undefined' ? this.$route.query.category : '',
+            }
+        }
+
+        var  args = jQuery.extend(true, pre_define, args );
+
+        var conditions = pm_apply_filters( 'before_get_project', args.conditions );
+        conditions = self.generateConditions(conditions);
+
+        var request_data = {
+            url: self.base_url + '/pm/v2/projects?'+conditions,
+            data: args.conditions,
+            success (res) {
+                res.data.map(function(project) {
+                    self.addProjectMeta(project);
+                });
+
+                self.$store.commit('setProjects', {'projects': res.data});
+                self.$store.commit('setProjectsMeta', res.meta );
+
+                pm.NProgress.done();
                     // self.loading = false;
-                    
+
                     if(typeof args.callback != 'undefined'){
                         args.callback(res.data);
                     }
@@ -604,13 +617,13 @@ export default {
             }
             this.$root.$store.state.project_switch = false;
             var project = this.$root.$store.state.project;
-            
+
             if ( ! project.hasOwnProperty('id') || project.id !== this.project_id ) {
                 this.$root.$store.commit('setDefaultLoaded');
                 this.getProject(args);
             } else {
                 pmBus.$emit('pm_after_fetch_project', project);
-            } 
+            }
 
         },
 
@@ -685,11 +698,11 @@ export default {
          *
          * @return  int
          */
-        getIndex  ( itemList, id, slug) {
+         getIndex  ( itemList, id, slug) {
             var index = false;
 
             jQuery.each(itemList, function(key, item) {
-        
+
                 if (item[slug] == id) {
                     index = key;
                 }
@@ -709,7 +722,7 @@ export default {
                 url: self.base_url + '/pm/v2/projects/'+self.project_id+'/files/' + file_id+'/delete',
                 type: 'POST',
                 success (res) {
-                    
+
 
                     if (typeof callback !== 'undefined') {
                         callback(res.data);
@@ -726,36 +739,36 @@ export default {
         /**
          * Set extra element in httpRequest query
          */
-        getQueryParams (add_query) {
+         getQueryParams (add_query) {
 
             var self = this,
-                query_str = '';
+            query_str = '';
 
-             jQuery.each(add_query, function(key, val) {
-                
+            jQuery.each(add_query, function(key, val) {
+
                 if (Array.isArray(val)) {
 
                     val.map(function(el, index) {
-                        query_str = query_str + key +'='+ el + '&'; 
+                        query_str = query_str + key +'='+ el + '&';
                     });
                 } else {
-                    query_str = query_str + key +'='+ val + '&'; 
+                    query_str = query_str + key +'='+ val + '&';
                 }
-                
+
             });
-                
+
 
             jQuery.each(this.$route.query, function(key, val) {
-                
+
                 if (Array.isArray(val)) {
 
                     val.map(function(el, index) {
-                        query_str = query_str + key +'='+ el + '&'; 
+                        query_str = query_str + key +'='+ el + '&';
                     });
                 } else {
-                    query_str = query_str + key +'='+ val + '&'; 
+                    query_str = query_str + key +'='+ val + '&';
                 }
-                
+
             });
 
             var query_str = query_str.slice(0, -1);
@@ -766,23 +779,23 @@ export default {
         /**
          * Set extra element in this.$route.query
          */
-        setQuery (add_query) {
+         setQuery (add_query) {
             var self = this,
-                route_query = {};
+            route_query = {};
 
 
             jQuery.each(self.$route.query, function(key, val) {
                 if (Array.isArray(val)) {
                     route_query[key] = [];
-                    
+
                     val.map(function(el, index) {
                         route_query[key].push(el);
                     });
-                
+
                 } else if (val) {
                     route_query[key] = [val];
                 }
-                
+
             });
 
             jQuery.each(add_query, function(key, val) {
@@ -791,22 +804,22 @@ export default {
                 } else {
                     delete route_query[key];
                 }
-                
+
             });
-            
+
             return route_query;
         },
 
         /**
          * ISO_8601 Date format convert to moment date format
-         * 
-         * @param  string date 
-         * 
-         * @return string      
+         *
+         * @param  string date
+         *
+         * @return string
          */
-        pmDateISO8601Format ( date, time ) {
+         pmDateISO8601Format ( date, time ) {
             var date = new Date(date +' '+ time);
-            
+
             return pm.Moment( date).format();
         },
 
@@ -823,20 +836,20 @@ export default {
                     self.$store.commit('afterDeleteProjectCount', {project: project});
                     pm.Toastr.success(res.message);
                     var total_page = self.$store.state.pagination.total_pages;
-                    
+
                     if (self.project_id || !self.$store.state.projects.length) {
                         self.$router.push({
-                            name: 'project_lists', 
+                            name: 'project_lists',
                         });
 
                         if (
                             total_page > 1
                             &&
                             typeof self.$route.params.current_page_number == 'undefined'
-                        ) {
+                            ) {
                             self.getProjects();
-                        }
-                    } else {
+                    }
+                } else {
                         //self.getProjects();
                     }
                 }
@@ -854,7 +867,7 @@ export default {
                         title:"Co-Worker"
                     }]
                 }
-            } 
+            }
         },
         projects_view_class (){
             return this.$store.state.projects_view === 'grid_view' ? 'pm-project-grid': 'pm-project-list'
@@ -871,7 +884,7 @@ export default {
                 if(key){
                     query = query + condition +'='+ key +'&';
                 }
-                
+
             });
 
             return query.slice(0, -1);
@@ -881,7 +894,7 @@ export default {
          * @param  {Function} callback [optional]
          * @return {[type]}            [milestone]
          */
-        getGlobalMilestones (callback) {
+         getGlobalMilestones (callback) {
           var self = this,
           milestones = this.$root.$store.state.milestones,
           milestones_load = self.$root.$store.state.milestones_load;
@@ -891,7 +904,7 @@ export default {
                 callback.call(self, milestones);
             }
             return milestones;
-          }else {
+        }else {
             var request = {
                 data: {
                     status: 1
@@ -901,34 +914,34 @@ export default {
                     self.$root.$store.commit( 'setMilestones', res.data );
 
                     if (typeof callback === 'function') {
-                    callback.call( self, res.data);
+                        callback.call( self, res.data);
                     }
                 }
             };
             self.httpRequest(request);
-          }    
-        },
+        }
+    },
 
-        loadingStart (id, args) {
-            var pre_define = {
+    loadingStart (id, args) {
+        var pre_define = {
                 // loading text
-                text: '', 
+                text: '',
 
-                // from 0 to 100 
-                percent: '', 
+                // from 0 to 100
+                percent: '',
 
                 // duration in ms
-                duration: '', 
+                duration: '',
 
                 // z-index property
-                zIndex: '', 
+                zIndex: '',
 
                 // sets relative position to preloader's parent
-                setRelative: false 
+                setRelative: false
 
             };
             var args = jQuery.extend(true, pre_define, args);
-            
+
             jQuery('#'+id).preloader(args);
         },
 
@@ -946,19 +959,21 @@ export default {
             return diff;
         },
 
-        saveSettings (settings, project_id, callback) {
+        saveSettings (settings, project_id, callback, id) {
             var settings   = this.formatSettings(settings);
             var project_id = project_id || false;
             var self       = this;
-            
-            var url = project_id 
-                ? self.base_url + '/pm/v2/projects/'+project_id+'/settings' 
-                : self.base_url + '/pm/v2/settings';
+            id = id || false;
+
+            var url = project_id
+            ? self.base_url + '/pm/v2/projects/'+project_id+'/settings'
+            : self.base_url + '/pm/v2/settings';
 
             var request = {
                 url: url,
                 data: {
-                    settings: settings
+                    settings: settings,
+                    id: id
                 },
                 type: 'POST',
                 success (res) {
@@ -968,7 +983,31 @@ export default {
                     }
                 }
             };
-            
+
+            self.httpRequest(request);
+        },
+
+        deleteProjectSettings (id, args) {
+            var self  = this;
+
+            args = args || {};
+
+            var url = self.base_url + '/pm/v2/projects/'+this.project_id+'/delete/'+id+'/settings'
+
+            var request = {
+                url: url,
+                data: {
+                    id: id
+                },
+                type: 'POST',
+                success (res) {
+                    //pm.Toastr.success(res.message);
+                    if (typeof args.callback !== 'undefined') {
+                        args.callback(res.data);
+                    }
+                }
+            };
+
             self.httpRequest(request);
         },
 
@@ -990,9 +1029,9 @@ export default {
 
             if ( !is_need_fetch_view_type ) {
                 callback(
-                    {
-                        'value': this.$store.state.listView
-                    }
+                {
+                    'value': this.$store.state.listView
+                }
                 );
                 return;
             }
@@ -1009,7 +1048,7 @@ export default {
                     }else {
                         self.setViewType('list');
                     }
-                    
+
 
                     if (typeof callback !== 'undefined') {
                         callback(res.data);
@@ -1025,9 +1064,9 @@ export default {
         },
 
         getClients () {
-            
+
             var project = this.$store.state.project,
-                assignees = this.$store.state.project.assignees.data;
+            assignees = this.$store.state.project.assignees.data;
 
             return assignees.filter(function(user) {
 
@@ -1090,19 +1129,31 @@ export default {
 
         deleteSettings (key, pre_define ) {
             var pre_define   = pre_define || false,
-                settings  = PM_Vars.settings;
+            settings  = PM_Vars.settings;
 
             if ( typeof PM_Vars.settings[key] === 'undefined' ) {
                 return pre_define;
             }
 
             return PM_Vars.settings[key];
+        },
+
+        getAssetUrl(str) {
+            return PM_Vars.assets_url + str;
+        },
+
+         /**
+         * Close popup by checking popper
+         */
+         closePopper(){
+            jQuery('body').trigger('click');
         }
+
     }
 };
 
 
- 
+
 
 
 
