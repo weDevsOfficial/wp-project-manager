@@ -12,8 +12,8 @@
                 <div class="pm-col-sm-6 pm-col-xs-12">
                     <p class="pm-welcome-to">{{ __('Welcome to', 'wedevs-project-manager') }}</p>
                     <h1 class="pm-project-title">{{ __('WP Project Manager', 'wedevs-project-manager') }}</h1>
-                    <p>{{ __('Get month/week/day wise overview of your added task in your project manager.', 'wedevs-project-manager') }}
-                        <br>{{ __('Filter, edit, update or take', 'wedevs-project-manager') }}
+                    <p>{{ __('The best project management tool for WordPress to get things done with your team.', 'wedevs-project-manager') }}
+                        <!-- <br>{{ __('Filter, edit, update or take', 'wedevs-project-manager') }} -->
                     </p>
                     <div class="pm-buttons-container">
                         <router-link 

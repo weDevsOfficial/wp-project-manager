@@ -8,7 +8,9 @@
         </div>
         <div :class="['pm-feature-card', feature.cardClass]">
             <div class="pm-feature-thumb">
-                <img :src="getAssetUrl('images/pro-feature/'+feature.featureThumb)" :alt="feature.featureName">
+                <a target="_blank" rel="noopener" :href="feature.url" class="pm-btn pm-btn-link">
+                    <img :src="getAssetUrl('images/pro-feature/'+feature.featureThumb)" :alt="feature.featureName">
+                </a>
                 <!-- <div class="pm-video-icon" @click="show=true"></div> -->
             </div>
             <div class="pm-feature-infos">
