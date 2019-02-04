@@ -33,7 +33,7 @@ class ImportTrello extends WP_Background_Process
      * @var string
      */
     protected $action = 'trello_import';
-    private $credentials; //= pm_get_settings('trello_credentials');
+    private $credentials;
     public $trello;
     private $imported;
     private $importing;
@@ -169,7 +169,6 @@ class ImportTrello extends WP_Background_Process
 
     public function fetchAndSaveLists( $board_id, $pm_project_id ){
         $lists = $this->trello->getLists( $board_id );
-        error_log( print_r($lists, TRUE) );
 
             $lists = $this->repairStringArray($lists);
 
@@ -259,38 +258,15 @@ class ImportTrello extends WP_Background_Process
      * @param $email
      * @return int|\WP_Error
      */
-//    public function getOrCreateUserId($username, $email){
-//        $email = sanitize_email( $email );
-//        error_log(print_r( 'username: ' . $username, true));
-//        error_log(print_r( 'email: ' . $email, true));
-//
-//        $user = get_user_by( 'email', $email);
-//
-//        if( ! $user ){
-//           $user_id = wp_create_user( $username, wp_generate_password(10), $email);
-//
-//           error_log(print_r($user_id, true));
-//
-//           wp_send_new_user_notifications( $user_id );
-//
-//           return $user_id;
-//        } else {
-//           return $user->ID;
-//        }
-//    }
 
     public function getOrCreateUserId($username, $email){
         $email = sanitize_email( $email );
-//        error_log('entered create user email : '.$email);
-//        $hasUser = get_user_by( 'email', $email);
 
         $username_exists = username_exists( $username );
         $email_exists = email_exists( $email );
 
         if( ! $email_exists && ! $username_exists ){
             $newUser = wp_create_user( strtolower($username), wp_generate_password(10), $email);
-
-//            wp_send_new_user_notifications($newUser);
             return $newUser;
 
         } else if ( $username_exists ) {
@@ -307,7 +283,6 @@ class ImportTrello extends WP_Background_Process
      */
 
     public function migrateBoardsMembers($trello_board_members,$pm_project_id){
-        error_log('entered Board Members');
         $trello_board_members = $this->repairStringArray($trello_board_members);
         foreach ($trello_board_members as $member){
             $user_id = null;
@@ -337,7 +312,6 @@ class ImportTrello extends WP_Background_Process
      * @param $pm_task_id
      */
     public function migrateCardMembers($trello_card_members, $pm_project_id, $pm_task_id){
-        error_log('entered Card Members');
         $trello_card_members = $this->repairStringArray($trello_card_members);
         if(count($trello_card_members) > 0) {
             foreach ($trello_card_members as $member) {
@@ -371,7 +345,6 @@ class ImportTrello extends WP_Background_Process
      */
     public function migrateCommentCards($trello_card_Comments, $pm_project_id, $pm_task_id){
         $trello_card_Comments = $this->repairStringArray($trello_card_Comments);
-        error_log('entered Card Comments');
         if(count($trello_card_Comments) > 0) {
             foreach ($trello_card_Comments as $comment) {
                 $user_id = null;
@@ -402,7 +375,6 @@ class ImportTrello extends WP_Background_Process
      * @param $pm_task_id
      */
     public function migrateCardChecklists($trello_card_Checklists,$pm_board_id, $pm_project_id, $pm_task_id){
-        error_log('entered Card Comments');
         if(count($trello_card_Checklists) > 0) {
             foreach ($trello_card_Checklists as $checklist) {
                 $list_item = $checklist['checkItems'];
