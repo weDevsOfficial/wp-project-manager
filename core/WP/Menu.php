@@ -17,6 +17,7 @@ class Menu {
 		$home = add_menu_page( __( 'Project Manager', 'wedevs-project-manager' ), __( 'Project Manager', 'wedevs-project-manager' ), self::$capability, 'pm_projects', array( new Output, 'home_page' ), self::pm_svg(), 3 );
 
 		$submenu['pm_projects'][] = [ __( 'Projects', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/' ];
+		
 		if ( $ismanager ) {
 			$submenu['pm_projects'][] = [ __( 'Categories', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/categories' ];
 		}
@@ -35,10 +36,13 @@ class Menu {
 		if ( ! $wedevs_pm_pro ) {
 			$submenu['pm_projects'][] = [ __( 'Premium', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/premium' ];
 		}
+        
         $submenu['pm_projects'][] = [ __( 'Tools', 'pm' ), 'administrator', 'admin.php?page=pm_projects#/tools' ];
+		
 		do_action( 'pm_menu_before_load_scripts', $home );
 
 		add_action( 'admin_print_styles-' . $home, array( 'WeDevs\\PM\\Core\\WP\\Menu', 'scripts' ) );
+		
 		do_action( 'cpm_admin_menu', self::$capability, $home );
 
 		if ( $ismanager ) {
