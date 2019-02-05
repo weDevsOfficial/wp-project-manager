@@ -23,7 +23,7 @@ class Project_Controller {
 
 	use Transformer_Manager, Request_Filter, File_Attachment;
 
-	public function index( WP_REST_Request $request ) {
+	public function index( WP_REST_Request $request ) { 
 		$per_page = $request->get_param( 'per_page' );
 		$page     = $request->get_param( 'page' );
 		$status   = $request->get_param( 'status' );
