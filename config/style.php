@@ -74,6 +74,12 @@ return [
 		'dependency' => false,
 		'path'       => $view_path . '/assets/css/daterangepicker/daterangepicker.css',
 	],
+	'pm-scheduler' => [
+		'id'         => 'pm-scheduler',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/css/scheduler/scheduler.min.css',
+		'dependency' => false,
+		'path'       => $view_path . '/assets/css/scheduler/scheduler.min.css',
+	],
 	'pm-new-style' => [
 		'id'         => 'pm-new-style',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/css/pm-style.css',
@@ -116,6 +122,7 @@ return [
 			'pm-loaautocompleteding',
 			'pm-pretty-photo',
 			'pm-tiptip',
+			'pm-scheduler',
 			'pm-daterangepicker',
 			'pm-const-style',
 			'pm-new-style',

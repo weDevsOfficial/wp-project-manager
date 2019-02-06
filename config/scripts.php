@@ -102,11 +102,19 @@ return [
 		'in_footer'  => true
 	],
 
+	'pm-fullcalendar-scheduler' => [
+		'id'         => 'pm-fullcalendar-scheduler',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/scheduler/scheduler.min.js',
+		'path'       => $view_path . '/assets/vendor/scheduler/scheduler.min.js',
+		'dependency' => ['pm-fullcalendar'],
+		'in_footer'  => true
+	],
+
 	'pm-nprogress' => [
 		'id'         => 'pm-nprogress',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/nprogress/nprogress'.$suffix.'.js',
 		'path'       => $view_path . '/assets/vendor/nprogress/nprogress'.$suffix.'.js',
-		'dependency' => ['pm-fullcalendar', 'pm-locale'],
+		'dependency' => ['pm-fullcalendar-scheduler', 'pm-locale'],
 		'in_footer'  => true
 	],
 

@@ -49,8 +49,8 @@ class Project_Controller {
 			$per_page = $projects->get()->count();
 		}
 		
-		if( $project_transform == 'false' ) {
-			wp_send_json_success( $projects->get()->toArray() );
+		if( $project_transform == 'false' ) { 
+ 			wp_send_json_success( $projects->get()->toArray() );
 		}
 		
 		$projects = $projects->paginate( $per_page );
