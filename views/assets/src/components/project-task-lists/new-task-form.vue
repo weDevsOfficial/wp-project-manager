@@ -586,6 +586,7 @@ export default {
             this.submit_disabled = true;
             // Showing loading option 
             this.show_spinner = true;
+
             var args = {
                 data: {
                     task_id: this.task.id,
@@ -598,9 +599,10 @@ export default {
                     list_id: this.list.id,
                     order: this.task.order,
                     estimation: this.task.estimation,
-                    recurrent: this.task.recurrent
+                    recurrent: this.task.recurrent,
+                    project_id: typeof this.list.project_id !== 'undefined' ? this.list.project_id : this.project_id
                 },
-                callback: function( res ) {
+                callback: function( res ) { 
                     self.show_spinner = false;
                     self.submit_disabled = false;
                     self.task_description = res.data.description.content;

@@ -28,6 +28,8 @@ export default new pm.Vuex.Store({
         getIndex: function ( itemList, id, slug) {
             var index = false;
 
+            if(typeof itemList === 'undefined') return index;
+
             itemList.forEach(function(item, key) {
                 if (item[slug] == id) {
                     index = key;
@@ -261,6 +263,7 @@ export default new pm.Vuex.Store({
         },
 
         setListInProject (state, data) {
+
             var index = state.getIndex(state.projects, data.project_id, 'id');
 
             if(index === false) return;

@@ -39,7 +39,8 @@ class New_Task_List_Transformer extends TransformerAbstract {
             'milestone'   => $item->milestone,
             'incomplete_tasks' => ['data' => []],
             'complete_tasks' => ['data' => []],
-            'creator' => $this->get_creator( $item )
+            'creator' => $this->get_creator( $item ),
+            'project_id' => $item->project_id
         ];
 
         return apply_filters( 'pm_task_list_transform', $data, $item );
