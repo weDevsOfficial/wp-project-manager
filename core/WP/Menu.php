@@ -37,7 +37,7 @@ class Menu {
 			$submenu['pm_projects'][] = [ __( 'Premium', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/premium' ];
 		}
         
-        $submenu['pm_projects'][] = [ __( 'Tools', 'pm' ), 'administrator', 'admin.php?page=pm_projects#/tools' ];
+        //$submenu['pm_projects'][] = [ __( 'Tools', 'pm' ), 'administrator', 'admin.php?page=pm_projects#/tools' ];
 		
 		do_action( 'pm_menu_before_load_scripts', $home );
 

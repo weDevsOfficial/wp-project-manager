@@ -168,7 +168,7 @@ function project_text_editor($config) {
         new Upgrade();
         new Offers();
         //new Promotions();
-        new ImportTrello();
+        //new ImportTrello();
         //new ImportAsana();
         //new ImportActivecollab();
         new Admin_Notice();

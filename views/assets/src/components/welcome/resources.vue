@@ -2,7 +2,7 @@
    <div>
         <!-- start features section -->
         <section class="pm-section pm-section-wrapper pm-resource-section">
-            <div class="pm-import-section">
+            <!-- <div class="pm-import-section">
                 <div class="pm-import-icon">
                     <img :src="getAssetUrl( 'images/welcome/import-icon.svg')" alt="Import">
                 </div>
@@ -15,7 +15,7 @@
                 <div class="pm-import-button">
                     <a href="#" class="pm-btn pm-btn-primary">{{ __('Import Now', 'wedevs-project-manager') }}</a>
                 </div>
-            </div>
+            </div> -->
             <div class="pm-section-title">
                 <h2>{{ __('Resources of Project Manager', 'wedevs-project-manager') }}</h2>
             </div>
