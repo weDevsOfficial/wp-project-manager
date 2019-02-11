@@ -23,7 +23,7 @@
 </template>
 
 <script>
-    import pmModal from '@components/common/Modal.vue';
+    import pmModal from '@components/common/modal.vue';
     export default {
         data(){
             return {
