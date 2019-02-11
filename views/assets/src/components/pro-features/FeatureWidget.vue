@@ -23,7 +23,7 @@
 </template>
 
 <script>
-    import pmModal from '@components/common/modal.vue';
+    
     export default {
         data(){
             return {
@@ -36,9 +36,6 @@
                 required: true
             }
         },
-        components: {
-            pmModal
-        }
     }
 </script>
 
