@@ -114,9 +114,6 @@ class Project_Controller {
 			$projects = $projects->where( 'status', $status );
 		}
 
-
-		
-
 		$projects = $projects->leftJoin( pm_tb_prefix() . 'pm_meta', function ( $join ) use( $user_id ) {
 			$join->on( pm_tb_prefix().'pm_projects.id', '=',  pm_tb_prefix().'pm_meta.project_id' )
 			->where('meta_key', '=', 'favourite_project')->where('entity_id', '=', $user_id);
