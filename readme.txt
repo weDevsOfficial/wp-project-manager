@@ -210,9 +210,8 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
-= v2.1.0 - Feb 04, 2019 =
+= v2.0.11 - Feb 08, 2019 =
 
-* **New** Import porojects from trello.
 * **New** Integrate with popper js.
 * **New** Welcome page.
 * **New** Premium page.
