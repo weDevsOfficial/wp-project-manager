@@ -1,4 +1,4 @@
-export default new pm.Vuex.Store({
+export default new pm.Vuex.Store({ 
     state: {
         manageCapability:[],
         is_need_fetch_view_type: true,

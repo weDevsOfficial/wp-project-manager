@@ -1,3 +1,15 @@
+= v2.0.11 - Feb 08, 2019 =
+
+* **New** Integrate with popper js.
+* **New** Welcome page.
+* **New** Premium page.
+* **Fix** Change task list fetch query.
+* **Fix** Change task fetch query.
+* **Fix** File upload problem from discussion section.
+* **Fix** After close single task the list page is refreshing.
+* **Fix** Remove html tag from email content.
+* **Fix** Color picker does not work.
+
 = v2.0.10 - Dec 19, 2018 =
 
 * **Hotfix** Fatal error at page and post edit time.

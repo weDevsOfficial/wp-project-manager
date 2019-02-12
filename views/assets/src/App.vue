@@ -26,14 +26,6 @@
             this.registerModule();
         },
 
-        // watch: {
-        //     $route(to, from) {
-        //         this.$store.commit('recordHistory', {
-        //             to, from
-        //         });
-        //     }
-        // },
-
         methods: {
             registerModule () {
                 let self = this;
