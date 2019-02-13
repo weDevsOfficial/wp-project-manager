@@ -293,7 +293,7 @@
                     this.project_notify = [];
                     this.project.status = '';
                     this.$store.commit('setSeletedUser', []);
-                    // jQuery( "#pm-project-dialog" ).dialog('close');
+                    jQuery( "#pm-project-dialog" ).dialog('close');
                 }
                 this.showHideProjectForm(false);
             }
