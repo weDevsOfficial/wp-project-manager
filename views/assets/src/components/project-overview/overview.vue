@@ -130,7 +130,7 @@
                             </a>
                             <span v-for="role in user.roles.data" :key="role.id">{{ __( role.title, 'wedevs-project-manager') }}</span>
                         </div>
-                        <div class="list-right" v-if="is_manager() || has_manage_capability()">
+                        <div class="list-right"   v-if="(is_manager() || has_manage_capability()) && !is_current_user(user.id)">
                             <a href="#" v-if="canUserEdit(user.id)" class="pm-delte-user pm-delete-user" @click.prevent="deleteUser(user)"> <i class="icon-pm-delete"></i></a>
 
                         </div>
