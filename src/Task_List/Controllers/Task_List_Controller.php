@@ -120,14 +120,14 @@ class Task_List_Controller {
 
         if ( in_array( 'incomplete_tasks', $with ) ) {
             $incomplete_task_ids = ( new Task_Controller )->get_incomplete_task_ids( $list_ids, $project_id );
-            $incomplete_tasks    = ( new Task_Controller )->get_tasks( $incomplete_task_ids );
+            $incomplete_tasks    = ( new Task_Controller )->get_tasks( $incomplete_task_ids, ['project_id' => $project_id] );
 
             $lists = $this->set_incomplete_task_in_lists( $lists, $incomplete_tasks );
         }
         
         if ( in_array( 'complete_tasks', $with ) ) {
             $complete_task_ids = ( new Task_Controller )->get_complete_task_ids( $list_ids, $project_id );
-            $complete_tasks    = ( new Task_Controller )->get_tasks( $complete_task_ids );
+            $complete_tasks    = ( new Task_Controller )->get_tasks( $complete_task_ids, ['project_id' => $project_id] );
             
             $lists = $this->set_complete_task_in_lists( $lists, $complete_tasks );
         }
