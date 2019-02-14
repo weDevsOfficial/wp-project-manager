@@ -98,7 +98,7 @@ class Milestone_Controller {
             'entity_id'   => $milestone->id,
             'entity_type' => 'milestone',
             'meta_key'    => 'achieve_date',
-            'meta_value'  => $achieve_date ? make_carbon_date( $achieve_date ) : null,
+            'meta_value'  => $achieve_date ? date( 'Y-m-d H:i:s', strtotime( $achieve_date ) ) : null,
             'project_id'  => $milestone->project_id,
         ]);
 
@@ -145,7 +145,7 @@ class Milestone_Controller {
                 'project_id'  => $milestone->project_id,
             ]);
 
-            $meta->meta_value = make_carbon_date( $achieve_date );
+            $meta->meta_value = date( 'Y-m-d H:i:s', strtotime( $achieve_date ) );
             $meta->save();
         }
 
