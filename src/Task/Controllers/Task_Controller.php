@@ -888,7 +888,7 @@ class Task_Controller {
             ->groupBy($task . '.id')
             ->orderBy( $list . '.order', 'ASC' );
         
-        $task_collection = apply_filters( 'list_tasks_filter_query', $task_collection );
+        $task_collection = apply_filters( 'list_tasks_filter_query', $task_collection, $args );
 
         //pmpr($task_collection->get()->toArray()); die();
         
