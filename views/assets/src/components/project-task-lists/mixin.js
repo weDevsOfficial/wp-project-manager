@@ -517,7 +517,7 @@ var PM_TaskList_Mixin = {
                 callback: false
             },
             args = jQuery.extend(true, pre_define, args);
-            
+
             if(typeof args.data.board_id == 'undefined') {
                 args.data.board_id = this.getInboxId();
                 args.data.list_id = this.getInboxId();
@@ -527,7 +527,7 @@ var PM_TaskList_Mixin = {
                 data = wp.hooks.applyFilters( 'before_task_save', data );
             
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks',
+                url: self.base_url + '/pm/v2/projects/'+args.data.project_id+'/tasks',
                 type: 'POST',
                 data: data,
                 success (res) {

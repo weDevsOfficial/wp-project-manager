@@ -24,7 +24,7 @@ class Project_Transformer extends TransformerAbstract {
         'overview_graph', 'task_lists', 'tasks'
     ];
 
-    public function transform( Project $item ) {
+    public function transform( Project $item ) { 
         $listmeta = pm_get_meta($item->id, $item->id, 'task_list', 'list-inbox');
         if($listmeta) {
             $listmeta = $listmeta->meta_value;
