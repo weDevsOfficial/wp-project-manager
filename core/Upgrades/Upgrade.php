@@ -7,10 +7,10 @@ class Upgrade {
 
     /** @var array DB updates that need to be run */
     private static $updates = [
-        '2.0'    => 'Upgrade_2_0',
-        '2.1'    => 'Upgrade_2_1',
-        '2.2'    => 'Upgrade_2_2',
-        '2.0.12' => 'Upgrade_2_0_12',
+        '2.0'   => 'Upgrade_2_0',
+        '2.1'   => 'Upgrade_2_1',
+        '2.2'   => 'Upgrade_2_2',
+        '2.2.1' => 'Upgrade_2_2_1',
     ];
 
     public static $instance = null;
@@ -208,7 +208,7 @@ class Upgrade {
 
 
             if ( version_compare( $installed_version, $version, '<' ) ) {
-
+                
                 if ( method_exists( $object, 'upgrade_init' ) ){
                     $object->upgrade_init();
                     update_option( 'pm_db_version', $version );
