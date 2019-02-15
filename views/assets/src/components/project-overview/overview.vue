@@ -114,7 +114,7 @@
             <div class="pm-col-2 pm-sm-col-12 pm-right-part pm-last-col">
                 <div class="users-header">
                     <h3> {{ __( 'Users', 'wedevs-project-manager') }} </h3>
-                    <span v-if="canUserEdit()">
+                    <span>
                         <a @click="addUser()" class="add-user">
                             <i class="fa fa-plus"></i> Add
                         </a>
@@ -130,8 +130,8 @@
                             </a>
                             <span v-for="role in user.roles.data" :key="role.id">{{ __( role.title, 'wedevs-project-manager') }}</span>
                         </div>
-                        <div v-if="canUserEdit(user.id)" class="list-right">
-                            <a href="#" class="pm-delte-user pm-delete-user" @click.prevent="deleteUser(user)"> <i class="icon-pm-delete"></i></a>
+                        <div class="list-right">
+                            <a href="#" v-if="canUserEdit(user.id)" class="pm-delte-user pm-delete-user" @click.prevent="deleteUser(user)"> <i class="icon-pm-delete"></i></a>
 
                         </div>
                     </li>
