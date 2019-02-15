@@ -23,7 +23,7 @@ class Project_Controller {
 
 	use Transformer_Manager, Request_Filter, File_Attachment;
 
-	public function index( WP_REST_Request $request ) {
+	public function index( WP_REST_Request $request ) { 
 		$per_page = $request->get_param( 'per_page' );
 		$page     = $request->get_param( 'page' );
 		$status   = $request->get_param( 'status' );
@@ -49,8 +49,8 @@ class Project_Controller {
 			$per_page = $projects->get()->count();
 		}
 		
-		if( $project_transform == 'false' ) {
-			wp_send_json_success( $projects->get()->toArray() );
+		if( $project_transform == 'false' ) { 
+ 			wp_send_json_success( $projects->get()->toArray() );
 		}
 		
 		$projects = $projects->paginate( $per_page );
@@ -113,9 +113,6 @@ class Project_Controller {
 			$status   = array_search( $status, Project::$status );
 			$projects = $projects->where( 'status', $status );
 		}
-
-
-		
 
 		$projects = $projects->leftJoin( pm_tb_prefix() . 'pm_meta', function ( $join ) use( $user_id ) {
 			$join->on( pm_tb_prefix().'pm_projects.id', '=',  pm_tb_prefix().'pm_meta.project_id' )

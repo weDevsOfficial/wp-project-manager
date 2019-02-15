@@ -34,7 +34,7 @@ class Task_List_Transformer extends TransformerAbstract {
         'files',
     ];
 
-    public function transform( Task_List $item ) {
+    public function transform( Task_List $item ) { 
         $data = [
             'id'          => (int) $item->id,
             'title'       => $item->title,
@@ -43,7 +43,9 @@ class Task_List_Transformer extends TransformerAbstract {
             'status'      => $item->status,
             'created_at'  => format_date( $item->created_at ),
             'meta'        => $this->meta( $item ),
-            'extra'       => true
+            'extra'       => true,
+            'project_id' => $item->project_id
+
         ];
 
         return apply_filters( 'pm_task_list_transform', $data, $item );

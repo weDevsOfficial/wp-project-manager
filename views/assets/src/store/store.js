@@ -1,4 +1,4 @@
-export default new pm.Vuex.Store({
+export default new pm.Vuex.Store({ 
     state: {
         manageCapability:[],
         is_need_fetch_view_type: true,
@@ -27,6 +27,8 @@ export default new pm.Vuex.Store({
         listView: 'list',
         getIndex: function ( itemList, id, slug) {
             var index = false;
+
+            if(typeof itemList === 'undefined') return index;
 
             itemList.forEach(function(item, key) {
                 if (item[slug] == id) {
@@ -258,6 +260,34 @@ export default new pm.Vuex.Store({
         },
         resetCreatedUser (state){
             state.newlyCreated = {};
+        },
+
+        setListInProject (state, data) {
+
+            var index = state.getIndex(state.projects, data.project_id, 'id');
+
+            if(index === false) return;
+
+            //var project = state.projects[index];
+          
+            if( typeof state.projects[index].task_lists !== 'undefined') {
+                
+                data.lists.forEach(function(list, index) {
+                    var listIndex = state.getIndex(state.projects[index].task_lists, list.id, 'id');
+                    
+                    if(index === false) {
+                        state.projects[index].task_lists.push(list);
+                    }
+                });
+            } 
+
+            if( typeof state.projects[index].task_lists === 'undefined') {
+                pm.Vue.set(state.projects[index], 'task_lists', {
+                    'data': data.lists
+                });
+            }
+
+            
         }
     }
 

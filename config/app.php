@@ -3,9 +3,9 @@
 return [
     'name'        => 'Project Manager',
     'slug'        => 'pm',
-    'version'     => '2.1.0',
+    'version'     => '2.0.12',
     'api'     	  => '2',
-    'db_version'  => '2.2',
+    'db_version'  => '2.2.1',
     'text_domain' => 'pm',
     'comment_per_page' => 200,
     'allowed_html' => [
