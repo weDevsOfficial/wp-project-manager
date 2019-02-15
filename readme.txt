@@ -5,7 +5,7 @@ Tags: web task manager, online collaboration tool, task tracker, productivity to
 Requires at least: 4.4
 Tested up to: 5.0.3
 Requires PHP: 5.6
-Stable tag: 2.0.10
+Stable tag: 2.0.12
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
