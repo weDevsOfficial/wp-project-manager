@@ -210,6 +210,14 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= v2.0.12 - Feb 15, 2019 =
+
+* **New** New filter welcome page redirect.
+* **Fix** Task pagination did not work.
+* **Fix** Close button did not work in new project form.
+* **Fix** Milestone due date did not update.
+* **Update** Set permission at user create time from project overview page. 
+
 = v2.0.11 - Feb 08, 2019 =
 
 * **New** Integrate with popper js.
