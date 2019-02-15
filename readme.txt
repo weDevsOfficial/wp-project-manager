@@ -5,7 +5,7 @@ Tags: web task manager, online collaboration tool, task tracker, productivity to
 Requires at least: 4.4
 Tested up to: 5.0.3
 Requires PHP: 5.6
-Stable tag: 2.0.10
+Stable tag: 2.0.12
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -210,9 +210,16 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
-= v2.1.0 - Feb 04, 2019 =
+= v2.0.12 - Feb 15, 2019 =
 
-* **New** Import porojects from trello.
+* **New** New filter welcome page redirect.
+* **Fix** Task pagination did not work.
+* **Fix** Close button did not work in new project form.
+* **Fix** Milestone due date did not update.
+* **Update** Set permission at user create time from project overview page. 
+
+= v2.0.11 - Feb 08, 2019 =
+
 * **New** Integrate with popper js.
 * **New** Welcome page.
 * **New** Premium page.

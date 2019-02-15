@@ -11,7 +11,7 @@
     </section><!-- end features section -->
 </template>
 <script>
-    import featureWidget from "./featureWidget.vue";
+    import featureWidget from "./FeatureWidget.vue";
 
     export default {
         data () {
