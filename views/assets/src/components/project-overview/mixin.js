@@ -63,16 +63,22 @@ export default {
             }
         },
 
-        canUserEdit (user_id) {
-            if (this.has_manage_capability()) {
-                return true;
-            }
+        canUserEdit(user_id) {
+            user_id = user_id || false;
 
-            if (this.current_user.data.ID == user_id) {
+            if ( user_id && this.current_user.data.ID == user_id ) {
                 return false;
             }
 
-            return true
+            if ( this.has_manage_capability() ) {
+                return true;
+            }
+
+            if ( this.is_manager() ) {
+                return true;
+            }
+            
+            return false;
 
         },
 
