@@ -77,8 +77,14 @@ export default {
         },
 
         is_current_user(user_id){
-            if (this.current_user.data.ID == user_id) {
+            if ((this.is_manager() || this.has_manage_capability()) && this.current_user.data.ID != user_id) {
                 return true;
+            }
+        },
+
+        check_user_capability(){
+            if(this.is_manager() || this.has_manage_capability()){
+                return true ;
             }
         },
 
