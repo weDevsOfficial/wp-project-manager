@@ -76,6 +76,12 @@ export default {
 
         },
 
+        is_current_user(user_id){
+            if (this.current_user.data.ID == user_id) {
+                return true;
+            }
+        },
+
         deleteUser (del_user) {
             if(!confirm(__('Are you sure!', 'wedevs-project-manager'))) {
                 return;
