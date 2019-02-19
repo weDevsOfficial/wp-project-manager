@@ -31,7 +31,7 @@ class Project_Transformer extends TransformerAbstract {
         }else {
             $listmeta = 0;
         }
-
+        
         $data = [
             'id'                  => (int) $item->id,
             'title'               => (string) $item->title,

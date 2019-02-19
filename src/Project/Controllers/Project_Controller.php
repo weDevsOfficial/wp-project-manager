@@ -43,6 +43,7 @@ class Project_Controller {
 		$projects = $this->fetch_projects( $category, $status );
 
 		$projects = apply_filters( 'pm_project_query', $projects, $request->get_params() );
+
 		$projects = $projects->orderBy(  pm_tb_prefix().'pm_projects.created_at', 'DESC' );
 
 		if ( -1 === intval( $per_page ) || $per_page == 'all' ) {
@@ -154,8 +155,8 @@ class Project_Controller {
 	public function show( WP_REST_Request $request ) {
 		$id 	  = $request->get_param('id');
 		$user_id  = get_current_user_id();
-		$project  =  Project::find( $id );
-
+		$project  = Project::find($id);
+		
 		if ( !$project  ) {
 			return new \WP_Error( 'project', pm_get_text('success_messages.no_project'), array( 'status'=> 404 ) );
 		}

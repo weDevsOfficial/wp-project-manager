@@ -128,4 +128,8 @@ class Project extends Eloquent {
 
         return empty($favourite) ? null: $favourite;
     }
+
+    public function labels() {
+        return  apply_filters( 'pm_task_label', $this );
+    }
 }
