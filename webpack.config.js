@@ -9,6 +9,7 @@ const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
 
 //Remove all webpack build file
 shell.rm('-rf', outputPath)
+shell.rm('-rf', path.resolve( __dirname, 'views/assets/vendor/wp-hooks/pm-hooks.js'))
 
 function resolve (dir) {
   return path.join(__dirname, './views/assets/src', dir)
@@ -29,13 +30,14 @@ plugins.push( extractCss );
 
 module.exports = {
     entry: {
-        pm: './views/assets/src/start.js',
-        library: './views/assets/src/helpers/library.js',
-        pmglobal: './views/assets/src/helpers/pmglobal.js',
+        'assets/js/pm': './views/assets/src/start.js',
+        'assets/js/library': './views/assets/src/helpers/library.js',
+        'assets/js/pmglobal': './views/assets/src/helpers/pmglobal.js',
+        'assets/vendor/wp-hooks/pm-hooks': './views/assets/vendor/wp-hooks/wp-hooks.js',
     },
 
     output: {
-        path: outputPath,
+        path: path.resolve(__dirname, 'views'),
         filename: '[name].js',
         publicPath: '',
         //chunkFilename: 'chunk/[chunkhash].chunk-bundle.js',

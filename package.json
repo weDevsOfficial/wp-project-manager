@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/weDevsOfficial/wp-project-manager#readme",
   "devDependencies": {
+    "@wordpress/hooks": "^2.0.5",
     "ajv": "^5.2.2",
     "ajv-keywords": "^2.1.0",
     "babel-cli": "^6.26.0",
