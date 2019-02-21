@@ -112,11 +112,19 @@ $pm_scripts = [
 		'in_footer'  => true
 	],
 
+	'pm-v-tooltip' => [
+		'id'         => 'pm-v-tooltip',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/v-tooltip/v-tooltip.min.js',
+		'path'       => $view_path . '/assets/vendor/v-tooltip/v-tooltip.min.js',
+		'dependency' => ['pm-fullcalendar-scheduler'],
+		'in_footer'  => true
+	],
+
 	'pm-nprogress' => [
 		'id'         => 'pm-nprogress',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/nprogress/nprogress'.$suffix.'.js',
 		'path'       => $view_path . '/assets/vendor/nprogress/nprogress'.$suffix.'.js',
-		'dependency' => ['pm-fullcalendar-scheduler', 'pm-locale'],
+		'dependency' => ['pm-v-tooltip', 'pm-locale'],
 		'in_footer'  => true
 	],
 
