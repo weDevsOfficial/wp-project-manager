@@ -9,7 +9,7 @@ pm.Multiselect      = require('vue-multiselect');
 var commonComp      = require('./global-common-components');
 pm.commonComponents = commonComp.default;
 
-
+Vue.use(VTooltip);
 
 import Lists from '@components/project-task-lists/mixin'
 import Mixins from '@helpers/mixin/mixin'

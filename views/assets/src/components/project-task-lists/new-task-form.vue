@@ -370,6 +370,12 @@ export default {
     created: function() {
         this.$on( 'pm_date_picker', this.getDatePicker );
         window.addEventListener('click', this.windowActivity);
+
+        if(jQuery.isEmptyObject(this.list)) {
+            this.task.listId = this.getInboxId();
+        } else {
+            this.task.listId = this.list.id;
+        }
     },
 
     watch: {
