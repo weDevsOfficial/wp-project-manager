@@ -896,7 +896,7 @@ class Task_Controller {
         
         $resource = new collection( $task_collection, new List_Task_Transformer );
         $tasks    = $this->get_response( $resource );
-        $tasks    = apply_filters( 'pm_after_transformer_list_tasks', $tasks );
+        $tasks    = apply_filters( 'pm_after_transformer_list_tasks', $tasks, $task_ids );
         
         return $tasks;
     }
