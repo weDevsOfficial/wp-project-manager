@@ -317,7 +317,8 @@ class Task_Controller {
         // Delete the task
         $task->delete();
 
-        do_action( 'cpm_delete_task_after', $task_id, $project_id, $project_id );
+        do_action( 'cpm_delete_task_after', $task_id, $project_id );
+        do_action( 'pm_after_delete_task', $task_id, $project_id );
 
         $message = [
             'message' => pm_get_text('success_messages.task_deleted'),
