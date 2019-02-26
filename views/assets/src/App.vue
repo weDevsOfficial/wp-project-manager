@@ -24,6 +24,11 @@
 
         created () {
             this.registerModule();
+            jQuery( document ).ajaxComplete(function(event, request, settings) {
+                setTimeout(function(){
+                    jQuery('a[rel=nofollow]').attr('target','_blank');
+                },2000)
+            });
         },
 
         // watch: {
