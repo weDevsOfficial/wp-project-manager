@@ -180,9 +180,15 @@
             },
 
             getProjectDetails(){
-                var project = this.$store.state.project ;
-                this.project_description = project.description.content ;
-                return project ;
+                try {
+                    var project = this.$store.state.project ;
+                    if(this.$router.currentRoute.fullPath == '/projects/active'){
+                        this.project_description = '' ;
+                    }else{
+                        this.project_description = project.description.content ;
+                        return project ;
+                    }
+                }catch (e) {}
             }
 
         },
