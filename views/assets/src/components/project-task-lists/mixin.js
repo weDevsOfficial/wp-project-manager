@@ -964,7 +964,8 @@ var PM_TaskList_Mixin = {
          * @param  {[Object]} list Task List
          * @return {[viod]}      [More Task]
          */
-        loadMoreIncompleteTasks ( list ) {
+        loadMoreIncompleteTasks ( list, callback ) {
+            callback = callback || false;
             if ( list.task_loading_status ) {
                 return;
             }
@@ -984,6 +985,10 @@ var PM_TaskList_Mixin = {
                 callback: function ( res ){
                     self.$store.commit( 'projectTaskLists/setTasks', res.data );
                     list.task_loading_status = false;
+
+                    if(typeof callback === 'function') {
+                        callback(res);
+                    }
                 }
             } ;
 
@@ -1167,7 +1172,7 @@ var PM_TaskList_Mixin = {
          * 
          * @return array     
          */
-        get_porject_users_by_role ( role ) {
+        get_project_users_by_role ( role ) {
             return this.$store.state.projectTaskLists.project_users.filter(function( user ) {
                 return ( user.role == role ) ? true : false;
             });
@@ -1180,7 +1185,7 @@ var PM_TaskList_Mixin = {
          * 
          * @return array     
          */
-        get_porject_users_id_by_role ( role ) {
+        get_project_users_id_by_role ( role ) {
             var ids = [];
 
             this.$store.state.projectTaskLists.projectTaskLists.project_users.map(function(user) {

@@ -207,7 +207,7 @@
  * [fix] Unable to complete task.
  * [fix] When complete a task then this completed task shown double in the to-do list.
  * [fix] Double "New To-Do" button shown.
- * [update] 'Get porject id' function always return false.
+ * [update] 'Get project id' function always return false.
  * [update] Design change for single task page. 
  
 = 1.6.5 - July 6, 2017 =
