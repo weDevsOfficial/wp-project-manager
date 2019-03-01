@@ -35,6 +35,7 @@
                         <span class="icon-pm-comment"></span>
                         <span>{{ task.meta.total_comment }}</span>
                     </a>  
+                    <pm-do-action :hook="'completed-task_inline'" :actionData="doActionData"></pm-do-action>
                 </div>   
                 <div v-if="can_edit_task(task) && !isArchivedTaskList(task)" @click.prevent="showHideTaskMoreMenu(task, list)" class="more-menu task-more-menu">
                     <pm-popper trigger="click" :options="popperOptions">
@@ -83,6 +84,12 @@
             'single-task': pm.SingleTask
         },
         computed: {
+            doActionData () {
+                return {
+                    task: this.task,
+                    list: this.list
+                }
+            },
             route_name (){
                 if( this.$route.name === 'single_list' ){
                     return 'single_task'
