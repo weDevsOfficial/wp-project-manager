@@ -39,7 +39,7 @@
     </section><!-- end banner section -->
 </template>
 <script>
-    import modal from '@components/common/Modal.vue';
+    import modal from '@components/common/modal.vue';
     export default {
         data () {
             return {
