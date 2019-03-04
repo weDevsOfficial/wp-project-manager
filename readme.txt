@@ -210,7 +210,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
-= v2.0.13 - March 1, 2019 =
+= v2.0.13 - March 04, 2019 =
 
 * **New** Set loading effect for 'Load more' task.
 * **New** Set loading effect at task list page and list archive page nevigation.
