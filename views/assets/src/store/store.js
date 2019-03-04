@@ -286,8 +286,6 @@ export default new pm.Vuex.Store({
                     'data': data.lists
                 });
             }
-
-            
         }
     }
 

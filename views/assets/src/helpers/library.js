@@ -1,5 +1,6 @@
 __webpack_public_path__ = PM_Vars.dir_url + 'views/assets/js/';
 
+pm.hooks = (wp && wp.hooks) ? wp.hooks : wedevsPMWPHook;
 
 var color           = require('vue-color/src/components/Sketch.vue');
 pm.color            = color.default;
@@ -8,6 +9,7 @@ pm.Multiselect      = require('vue-multiselect');
 var commonComp      = require('./global-common-components');
 pm.commonComponents = commonComp.default;
 
+Vue.use(VTooltip);
 
 import Lists from '@components/project-task-lists/mixin'
 import Mixins from '@helpers/mixin/mixin'

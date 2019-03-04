@@ -121,4 +121,8 @@ class Task extends Eloquent {
         return $this->belongsTo( 'WeDevs\PM\User\Models\User', 'completed_by' );
     }
 
+    public function labels() {
+        return apply_filters( 'pm_task_model_labels', $this );
+    }
+
 }

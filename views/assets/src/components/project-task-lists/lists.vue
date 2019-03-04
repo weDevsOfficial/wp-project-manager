@@ -1,8 +1,19 @@
 <template>
     <div  class="pm-task-list-wrap">
+        
+        <div v-if="!isFetchProject" class="loadmoreanimation" style="display: block;">
+            <div class="load-spinner">
+                <div class="rect1"></div>
+                <div class="rect2"></div>
+                <div class="rect3"></div>
+                <div class="rect4"></div>
+                <div class="rect5"></div>
+            </div>
+        </div>
+        
         <pm-header></pm-header>
         <pm-menu></pm-menu>
-
+        
         <div v-if="isFetchProject" class="list-content-wrap">
             <div class="list-content-body">
                 <div class="content">
@@ -26,104 +37,126 @@
                         </div>
                     </div>
 
-                    <div class="task-field" v-if="can_create_task && !isArchivedPage">
-                        <new-task-form  :list="list" :focus="true"></new-task-form>
-                    </div>
-
-                    <div class="list-items">
-
-                        <div v-if="!isListFetch" class="pm-data-load-before" >
-                            <div class="loadmoreanimation">
-                                <div class="load-spinner">
-                                    <div class="rect1"></div>
-                                    <div class="rect2"></div>
-                                    <div class="rect3"></div>
-                                    <div class="rect4"></div>
-                                    <div class="rect5"></div>
-                                </div>
+                    <div class="lists-content">
+                         <div v-if="!isListFetch" class="loadmoreanimation">
+                            <div class="load-spinner">
+                                <div class="rect1"></div>
+                                <div class="rect2"></div>
+                                <div class="rect3"></div>
+                                <div class="rect4"></div>
+                                <div class="rect5"></div>
                             </div>
                         </div>
+                        <div :class="!isListFetch ? 'lists-wrap' : ''">
+                            <div class="task-field" v-if="can_create_task && !isArchivedPage">
+                                <new-task-form  :list="list" :focus="true"></new-task-form>
+                            </div>
 
-                        <ul v-if="hasSearchContent() && isListFetch" v-pm-list-sortable :class="filterActiveClass()+ ' pm-todolists'">
-                        
-                            <li v-for="list in lists" :key="list.id" :data-id="list.id" :class="taskListClass(list.id)">
+                            <div class="list-items">
 
-                                <div class="list-content">
-                                    <div class="list-item-content">
-                                        <div class="before-title">
-                                            <span v-if="!isInbox(list.id)" class="pm-list-drag-handle icon-pm-drag-drop"></span>
-                                            <span v-if="!list.expand" @click.prevent="listExpand(list)" :class="inboxClass(list) + ' icon-pm-down-arrow'"></span>
-                                            <span v-if="list.expand" @click.prevent="listExpand(list)" :class="inboxClass(list) + ' icon-pm-up-arrow'"></span>
-                                        </div>
-
-                                        <div class="list-title">
-                                            <span @click.prevent="listExpand(list)" class="list-title-anchor">{{ ucfirst( list.title ) }}</span>
-                                        </div>
-                                        <div class="after-title">
-                                                <!-- v-pm-tooltip -->
-                                                <div class="view-single-list"  :title="__('Single List', 'wedevs-project-manager')">
-                                                    <span @click.prevent="goToSigleList(list)" class="icon-pm-eye"></span>
-                                                </div>
-                                                <div class="list-title-action progress-bar">
-                                                    <div :style="getProgressStyle( list )" class="bar completed"></div>
-                                                </div>
-                                                   
-                                                <!-- never remove <div class="pm-progress-percent">{{ getProgressPercent( list ) }}%</div> -->
-                                                <div class="list-title-action task-count">
-                                                    <span>{{ list.meta.total_complete_tasks }}</span>/<span>{{ getTotalTask(list.meta.total_complete_tasks, list.meta.total_incomplete_tasks) }}</span>
-                                                </div>
-
-                                                <div v-if="!isInbox(list.id) && PM_Vars.is_pro" class="list-title-action">
-                                                    <span  v-if="!parseInt(list.meta.privacy)" class="icon-pm-unlock"></span>
-                                                    <span  v-if="parseInt(list.meta.privacy)" class="icon-pm-private"></span>
-                                                </div>
-                                            
-                                        </div>
-
-                                        <div v-if="!isInbox(list.id) && can_edit_task_list(list)" :data-list_id="list.id" class="more-menu list-more-menu">
-
-                                            <!-- popper -->
-                                            <pm-popper trigger="click" :options="popperOptions">
-                                                <div class="pm-popper popper">
-                                                    <div class="more-menu-ul-wrap">
-                                                        <ul>
-                                                            <li class="first-li" v-if="!isArchivedList(list)">
-                                                                <a @click.prevent="showEditForm(list)" class="li-a" href="#">
-                                                                    <span class="icon-pm-pencil"></span>
-                                                                    <span>{{ __('Edit', 'wedevs-project-manager') }}</span>
-                                                                </a>
-                                                            </li>
-                                                            <li>
-                                                                <a @click.prevent="deleteSelfList( list )" class="li-a" href="#">
-                                                                    <span class="icon-pm-delete"></span>
-                                                                    <span>{{ __('Delete', 'wedevs-project-manager') }}</span>
-                                                                </a>
-                                                            </li>
-                                                            <pm-do-action hook="list-action-menu" :actionData="list"></pm-do-action>
-
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                
-                                                <!-- popper trigger element -->
-                                                <span slot="reference" title="Assign user" class="pm-popper-ref popper-ref icon-pm-more-options"></span>
-                                            </pm-popper>
-
-                                            <div v-if="list.edit_mode" class="list-update-warp">
-                                                <new-task-list-form section="lists" :list="list" ></new-task-list-form>
-                                            </div>
+                                <!-- <div v-if="!isListFetch" class="pm-data-load-before" >
+                                    <div class="loadmoreanimation">
+                                        <div class="load-spinner">
+                                            <div class="rect1"></div>
+                                            <div class="rect2"></div>
+                                            <div class="rect3"></div>
+                                            <div class="rect4"></div>
+                                            <div class="rect5"></div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
+                            
+                                
+                                <ul v-if="hasSearchContent()" v-pm-list-sortable :class="filterActiveClass()+ ' pm-todolists'">
+                                
+                                    <li v-for="list in lists" :key="list.id" :data-id="list.id" :class="taskListClass(list.id)">
 
-                                <div v-if="list.expand" class="list-description">
-                                    <span v-if="!isInbox(list.id)" v-html="list.description"></span>
-                                    <span v-if="isInbox(list.id)">{{ __('This is a system default task list. Any task without an assigned tasklist will appear here.', 'wedevs-project-manager') }}</span>
-                                </div>
+                                        <div class="list-content">
+                                            <div class="list-item-content">
+                                                <div class="before-title">
+                                                    <span v-if="!isInbox(list.id)" class="pm-list-drag-handle icon-pm-drag-drop"></span>
+                                                    <span v-if="!list.expand" @click.prevent="listExpand(list)" :class="inboxClass(list) + ' icon-pm-down-arrow'"></span>
+                                                    <span v-if="list.expand" @click.prevent="listExpand(list)" :class="inboxClass(list) + ' icon-pm-up-arrow'"></span>
+                                                </div>
 
-                                <list-tasks v-if="list.expand" :list="list"></list-tasks>
-                            </li>
-                        </ul>
+                                                <div class="list-title">
+                                                    <span @click.prevent="listExpand(list)" class="list-title-anchor">{{ ucfirst( list.title ) }}</span>
+                                                </div>
+                                                <div class="after-title">
+                                                        <!-- v-pm-tooltip -->
+                                                        <div class="view-single-list"  :title="__('Single List', 'wedevs-project-manager')">
+                                                            <span @click.prevent="goToSigleList(list)" class="icon-pm-eye"></span>
+                                                        </div>
+                                                        <div class="list-title-action progress-bar">
+                                                            <div :style="getProgressStyle( list )" class="bar completed"></div>
+                                                        </div>
+                                                           
+                                                        <!-- never remove <div class="pm-progress-percent">{{ getProgressPercent( list ) }}%</div> -->
+                                                        <div class="list-title-action task-count">
+                                                            <span>{{ list.meta.total_complete_tasks }}</span>/<span>{{ getTotalTask(list.meta.total_complete_tasks, list.meta.total_incomplete_tasks) }}</span>
+                                                        </div>
+
+                                                        <div v-if="!isInbox(list.id) && PM_Vars.is_pro" class="list-title-action">
+                                                            <span  v-if="!parseInt(list.meta.privacy)" class="icon-pm-unlock"></span>
+                                                            <span  v-if="parseInt(list.meta.privacy)" class="icon-pm-private"></span>
+                                                        </div>
+                                                    
+                                                </div>
+
+                                                <div v-if="!isInbox(list.id) && can_edit_task_list(list)" :data-list_id="list.id" class="more-menu list-more-menu">
+
+                                                    <!-- popper -->
+                                                    <pm-popper trigger="click" :options="popperOptions">
+                                                        <div class="pm-popper popper">
+                                                            <div class="more-menu-ul-wrap">
+                                                                <ul>
+                                                                    <li class="first-li" v-if="!isArchivedList(list)">
+                                                                        <a @click.prevent="showEditForm(list)" class="li-a" href="#">
+                                                                            <span class="icon-pm-pencil"></span>
+                                                                            <span>{{ __('Edit', 'wedevs-project-manager') }}</span>
+                                                                        </a>
+                                                                    </li>
+                                                                    <li>
+                                                                        <a @click.prevent="deleteSelfList( list )" class="li-a" href="#">
+                                                                            <span class="icon-pm-delete"></span>
+                                                                            <span>{{ __('Delete', 'wedevs-project-manager') }}</span>
+                                                                        </a>
+                                                                    </li>
+                                                                    <pm-do-action hook="list-action-menu" :actionData="list"></pm-do-action>
+
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <!-- popper trigger element -->
+                                                        <span slot="reference" title="Assign user" class="pm-popper-ref popper-ref icon-pm-more-options"></span>
+                                                    </pm-popper>
+
+                                                    <div v-if="list.edit_mode" class="list-update-warp">
+                                                        <new-task-list-form section="lists" :list="list" ></new-task-list-form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div v-if="list.expand" class="list-description">
+                                            <span v-if="!isInbox(list.id)" v-html="list.description"></span>
+                                            <span v-if="isInbox(list.id)">{{ __('This is a system default task list. Any task without an assigned tasklist will appear here.', 'wedevs-project-manager') }}</span>
+                                        </div>
+
+                                        <list-tasks v-if="list.expand" :list="list"></list-tasks>
+                                    </li>
+
+                                    <li v-if="!lists.length">
+                                        <div class="todos-wrap no-task">
+                                            <center><span v-if="isListFetch">{{ __( 'No result Found', 'wedevs-project-manager') }}</span></center>
+
+                                        </div> 
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                       
                     </div>
                     
                     <!-- <div class="todos-wrap no-task">
@@ -213,6 +246,7 @@
         <router-view name="single-task"></router-view> 
         <!-- @nextPage="nextPage" -->
         <pm-pagination
+            v-if="isFetchProject"
             :total_pages="total_list_page" 
             :current_page_number="current_page_number" 
             :component_name="paginationComponent">
@@ -238,6 +272,20 @@
                 flex: 5;
                 border: 1px solid #E5E4E4;
                 border-top: none;
+
+                .lists-content {
+                    position: relative;
+                    .lists-wrap {
+                        background: #fff;
+                        opacity: 0.1;
+                    }
+                    .loadmoreanimation {
+                        position: absolute;
+                        left: 45%;
+                        top: 40%;
+                        display: block;
+                    }
+                }
                 
                 .pm-task-form {
                     .new-task-description {
@@ -291,6 +339,8 @@
                 .list-items {
                     margin-top: 15px;
                     margin-bottom: 20px;
+                    
+                    
                     .list-description {
                         margin-left: 50px;
                         margin-right: 20px;
@@ -819,6 +869,7 @@
                     margin: auto;
                     font-size: 15px;
                     color: #000;
+                    min-height: 50px;
                 }
             }
 
@@ -1155,41 +1206,6 @@
                 return this.$store.state.projectTaskLists.isListFetch; 
             },
 
-            // listViewType () { 
-            //     return;
-            //     if(this.$route.query.filterTask == 'active') {
-            //         return true;
-            //     }
-                
-            //     let meta = this.$store.state.projectMeta; 
-            //     var self = this;
-                 
-            //     if(meta.hasOwnProperty('list_view_type') ) {
-            //         if (
-            //             !meta.list_view_type
-            //                 ||
-            //             meta.list_view_type.meta_value == 'list'
-            //         ) { 
-            //             if (self.$store.state.projectTaskLists.is_single_task) { 
-            //                 return true;
-            //             }
-
-            //             self.$store.state.projectTaskLists.is_single_list = false;
-            //             self.isSingleTask();
-            //             self.getSelfLists();
-            //         } else if(  meta.list_view_type.meta_value == "kanboard") {
-            //             self.$router.push({
-            //                 name: 'kanboard'
-            //             });
-            //         } else if(  meta.list_view_type.meta_value == "archive") { 
-            //             self.getSelfLists();
-            //         }
-
-            //         return true;
-            //     }
-
-            //     return false;
-            // },
             projectUsers () {
                 let project = this.$store.state.project;
 
@@ -1557,9 +1573,10 @@
                     callback: function(res) {
                         pm.NProgress.done();
                         self.setSearchLists( this.$store.state.projectTaskLists.lists );
+                        self.$store.state.projectTaskLists.isListFetch = true;
                     }
                 }
-
+                this.$store.state.projectTaskLists.isListFetch = false;
                 this.getLists(args);
             },
 
@@ -1625,7 +1642,7 @@
                     },
                     query: query
                 });
-
+                
                 this.filterRequent(function(res) {
                     self.taskFilterSpinner = false;
                 });
@@ -1639,13 +1656,15 @@
                 } else {
                     self.$route.query.page = this.$route.params.current_page_number;
                 }
+
+                self.$store.state.projectTaskLists.isListFetch = false;
                 
                 self.httpRequest({
                     url: self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks/filter',
                     type: 'POST',
                     data: self.$route.query,
                     success (res) {
-
+                        self.$store.state.projectTaskLists.isListFetch = true;
                         if(!res.data.length) {
                             pm.Toastr.success(self.__('No results found.', 'wedevs-project-manager'));
                             //return;

@@ -114,10 +114,6 @@ var PM_TaskList_Mixin = {
             return this.$store.state.project.list_inbox == id & 1;  
         },
 
-        getInboxId () {
-            return this.$store.state.project.list_inbox;
-        },
-
         isArchivedList (list) {
             if (list.status === 'archived' ) {
                 return true;
@@ -524,8 +520,8 @@ var PM_TaskList_Mixin = {
             }
             
             var data = pm_apply_filters( 'before_task_save', args.data );
-                //data = wp.hooks.applyFilters( 'before_task_save', data );
-            
+                data = pm.hooks.applyFilters( 'before_task_save', data );
+
             var request_data = {
                 url: self.base_url + '/pm/v2/projects/'+args.data.project_id+'/tasks',
                 type: 'POST',
@@ -590,7 +586,8 @@ var PM_TaskList_Mixin = {
                 callback: false
             };
             var args = jQuery.extend(true, pre_define, args);
-            var data = pm_apply_filters( 'before_task_save', args.data );
+            var data = pm_apply_filters( 'before_task_save', args.data ),
+                data = pm.hooks.applyFilters( 'before_task_save', data );
             
             var request_data = {
                 url: self.base_url + '/pm/v2/projects/'+args.data.project_id+'/tasks/'+args.data.task_id+'/update',
@@ -633,7 +630,7 @@ var PM_TaskList_Mixin = {
                     }
                 }
             }
-
+            
             self.httpRequest(request_data);
         },
 
@@ -967,7 +964,8 @@ var PM_TaskList_Mixin = {
          * @param  {[Object]} list Task List
          * @return {[viod]}      [More Task]
          */
-        loadMoreIncompleteTasks ( list ) {
+        loadMoreIncompleteTasks ( list, callback ) {
+            callback = callback || false;
             if ( list.task_loading_status ) {
                 return;
             }
@@ -987,6 +985,10 @@ var PM_TaskList_Mixin = {
                 callback: function ( res ){
                     self.$store.commit( 'projectTaskLists/setTasks', res.data );
                     list.task_loading_status = false;
+
+                    if(typeof callback === 'function') {
+                        callback(res);
+                    }
                 }
             } ;
 
@@ -1170,7 +1172,7 @@ var PM_TaskList_Mixin = {
          * 
          * @return array     
          */
-        get_porject_users_by_role ( role ) {
+        get_project_users_by_role ( role ) {
             return this.$store.state.projectTaskLists.project_users.filter(function( user ) {
                 return ( user.role == role ) ? true : false;
             });
@@ -1183,7 +1185,7 @@ var PM_TaskList_Mixin = {
          * 
          * @return array     
          */
-        get_porject_users_id_by_role ( role ) {
+        get_project_users_id_by_role ( role ) {
             var ids = [];
 
             this.$store.state.projectTaskLists.projectTaskLists.project_users.map(function(user) {

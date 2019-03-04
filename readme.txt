@@ -3,9 +3,9 @@ Contributors: tareq1988, nizamuddinbabu, wedevs, asaquzzaman
 Donate Link: https://tareq.co/donate/
 Tags: web task manager, online collaboration tool, task tracker, productivity tool, open source project management software
 Requires at least: 4.4
-Tested up to: 5.0.3
+Tested up to: 5.1
 Requires PHP: 5.6
-Stable tag: 2.0.12
+Stable tag: 2.0.13
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -209,6 +209,17 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 13. Project Settings -> Email Settings Tab
 
 == Changelog ==
+
+= v2.0.13 - March 04, 2019 =
+
+* **New** Set loading effect for 'Load more' task.
+* **New** Set loading effect at task list page and list archive page nevigation.
+* **New** Set loading effect at task list pagination. 
+* **New** New library v-tooltip
+* **Fix** Any kinds of url added extra &nbsp from tinymce text filed.
+* **Fix** After project edit, the description is not updated real time.
+* **Fix** Less file is not built to css file.
+* **Update** Set target blank in tinymce posted url.
 
 = v2.0.12 - Feb 15, 2019 =
 
@@ -420,7 +431,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
  * [fix] Unable to complete task.
  * [fix] When complete a task then this completed task shown double in the to-do list.
  * [fix] Double "New To-Do" button shown.
- * [update] 'Get porject id' function always return false.
+ * [update] 'Get project id' function always return false.
  * [update] Design change for single task page.
 
 = 1.6.5 - July 6, 2017 =
