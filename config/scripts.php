@@ -1,8 +1,10 @@
 <?php
+
+global $wp_version;
 $suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 $view_path = dirname (__FILE__) . '/../views/';
 
-return [
+$pm_scripts = [
 	
 	'pm-config' => [
 		'id'         => 'pm-config',
@@ -110,11 +112,19 @@ return [
 		'in_footer'  => true
 	],
 
+	'pm-v-tooltip' => [
+		'id'         => 'pm-v-tooltip',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/v-tooltip/v-tooltip.min.js',
+		'path'       => $view_path . '/assets/vendor/v-tooltip/v-tooltip.min.js',
+		'dependency' => ['pm-fullcalendar-scheduler'],
+		'in_footer'  => true
+	],
+
 	'pm-nprogress' => [
 		'id'         => 'pm-nprogress',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/nprogress/nprogress'.$suffix.'.js',
 		'path'       => $view_path . '/assets/vendor/nprogress/nprogress'.$suffix.'.js',
-		'dependency' => ['pm-fullcalendar-scheduler', 'pm-locale'],
+		'dependency' => ['pm-v-tooltip', 'pm-locale'],
 		'in_footer'  => true
 	],
 
@@ -215,3 +225,24 @@ return [
 		'in_footer'  => true
 	]
 ];
+
+if ( version_compare( $wp_version, '5.0', '<' ) ) {
+    $pm_hooks = [
+	    'pm-hooks' => [
+			'id'         => 'pm-hooks',
+			'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/wp-hooks/pm-hooks.js',
+			'path'       => $view_path . '/assets/vendor/wp-hooks/pm-hooks.js',
+			'dependency' => [],
+			'in_footer'  => true
+		]
+	];
+
+	$pm_scripts['pm-vue-library']['dependency'] = array_merge( [$pm_hooks['pm-hooks']['id']], $pm_scripts['pm-vue-library']['dependency'] );
+
+	$pm_scripts = array_merge( $pm_scripts, $pm_hooks );
+}
+
+return $pm_scripts;
+
+
+

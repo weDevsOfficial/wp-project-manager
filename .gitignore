@@ -18,3 +18,5 @@ composer.phar
 pm.sublime-project
 phpcs-report.txt
 /languages/wedevs-project-manager.pot
+/views/assets/vendor/wp-hooks/pm-hooks.js
+

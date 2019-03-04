@@ -11,7 +11,10 @@
         <div class="nonsortable more-task-wrap">
             
             <div v-if="isIncompleteLoadMoreActive(list)" class="group-action-btn">
-                <a class="anchor-btn" @click.prevent="loadMoreIncompleteTasks(list)" href="#">{{ __( 'More Tasks', 'wedevs-project-manager') }}</a>
+                <a :class="loadMoreCircle ? 'anchor-btn white-text' : 'anchor-btn'" @click.prevent="selfLoadMoreIncompleteTasks(list)" href="#">
+                    {{ __( 'More Tasks', 'wedevs-project-manager') }}
+                </a>
+                <span v-if="loadMoreCircle" class="pm-circle-spinner"></span>
             </div>
             
             <div v-if="parseInt(list.meta.total_complete_tasks) > 0 && checkSearchStatus()" class="group-action-btn show-completed-task">
@@ -36,7 +39,8 @@
             class="nonsortable more-task-wrap">
 
             <div v-if="isCompleteLoadMoreActive(list)" class="group-action-btn">
-                <a class="anchor-btn" @click.prevent="loadMoreCompleteTasks(list)" href="#">{{ __( 'More Tasks', 'wedevs-project-manager') }}</a>
+                <a :class="completedLoadMore ? 'anchor-btn white-text' : 'anchor-btn'" @click.prevent="selfLoadMoreCompleteTasks(list)" href="#">{{ __( 'More Tasks', 'wedevs-project-manager') }}</a>
+                <span v-if="completedLoadMore" class="pm-circle-spinner"></span>
             </div>
         </div>
 
@@ -69,6 +73,15 @@
 
             .group-action-btn {
                 margin-right: 15px;
+                position: relative;
+
+                .pm-circle-spinner {
+                    position: absolute;
+                    left: 50%;
+                    top: 50%;
+                    margin-left: -16px;
+                    margin-top: -11px;
+                }
 
                 .anchor-btn {
                     height: 30px;
@@ -83,6 +96,13 @@
                     &:hover {
                         border-color: #1A9ED4;
                         color: #1A9ED4;
+                    }
+                }
+
+                .white-text {
+                    color: #fff;
+                    &:hover {
+                        color: #fff;
                     }
                 }
             }
@@ -509,7 +529,9 @@
                 loading_completed_tasks: true,
                 loading_incomplete_tasks: true,
                 completed_tasks_next_page_number:null,
-                hasList: false
+                hasList: false,
+                loadMoreCircle: false,
+                completedLoadMore: false
             }
         },
 
@@ -627,6 +649,22 @@
         },
 
         methods: { 
+            selfLoadMoreCompleteTasks(list) {
+                var self = this;
+                this.completedLoadMore = true;
+
+                this.loadMoreCompleteTasks(list, function() {
+                    self.completedLoadMore = false;
+                });
+            },
+            selfLoadMoreIncompleteTasks(list) {
+                var self = this;
+                this.loadMoreCircle = true;
+
+                this.loadMoreIncompleteTasks(list, function() {
+                    self.loadMoreCircle = false;
+                });
+            },
             checkSearchStatus () {
                 // && this.$route.query.status != 'complete'
                 if(this.$route.query.filterTask == 'active') {

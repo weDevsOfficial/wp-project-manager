@@ -157,7 +157,7 @@
                     if ( this.project.hasOwnProperty('id') ) {
                         if (
                             typeof this.project.categories !== 'undefined'
-                                &&
+                            &&
                             this.project.categories.data.length
                         ) {
 
@@ -177,6 +177,18 @@
 
             show_role_field () {
                 return typeof PM_BP_Vars !== 'undefined' ? PM_BP_Vars.show_role_field : true;
+            },
+
+            getProjectDetails(){
+                try {
+                    var project = this.$store.state.project ;
+                    if(this.$router.currentRoute.fullPath == '/projects/active'){
+                        this.project_description = '' ;
+                    }else{
+                        this.project_description = project.description.content ;
+                        return project ;
+                    }
+                }catch (e) {}
             }
 
         },
@@ -249,7 +261,7 @@
                         self.closePopper('pm-project-update-wrap');
                     }
                     this.updateProject ( args );
-                    
+
                 } else {
                     args.callback = function(res) {
                         // console.log(res.status);
@@ -297,6 +309,9 @@
                 }
                 this.showHideProjectForm(false);
             }
+        },
+        updated () {
+            this.getProjectDetails ;
         }
     }
 

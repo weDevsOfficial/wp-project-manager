@@ -22,6 +22,9 @@ export default {
     },
 
     methods: {
+        getInboxId () {
+            return this.$store.state.project.list_inbox;
+        },
         getUniqueRandomNumber() {
             var r = Math.floor(Math.random()*100000) + 1;
 

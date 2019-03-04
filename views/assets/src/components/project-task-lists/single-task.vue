@@ -18,7 +18,6 @@
 
             </div>
 
-
             <div v-else class="popup-mask">
 
                 <div class="popup-container">
@@ -112,7 +111,7 @@
                                 <span >
                                     {{ __("Task List: ", 'wedevs-project-manager' ) }}
                                 </span>
-                                <strong>
+                                <strong class="list-title">
                                     {{ task.task_list.data.title }}
                                 </strong>
                             </div>
@@ -319,7 +318,12 @@
 </template>
 
 <style lang="less">
-
+    .task-list-title-wrap {
+        .list-title {
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+    }
 
 </style>
 

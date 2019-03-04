@@ -1,6 +1,6 @@
 {
   "name": "pmapi",
-  "version": "2.0.12",
+  "version": "2.0.13",
   "description": "Front-end package manager for project manager",
   "main": "index.js",
   "directories": {
@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/weDevsOfficial/wp-project-manager#readme",
   "devDependencies": {
+    "@wordpress/hooks": "^2.0.5",
     "ajv": "^5.2.2",
     "ajv-keywords": "^2.1.0",
     "babel-cli": "^6.26.0",

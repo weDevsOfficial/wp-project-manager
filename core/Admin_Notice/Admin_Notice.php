@@ -32,21 +32,21 @@ class Admin_Notice {
 				                    <strong class="highlight-text" style="font-size: 18px; display:block; margin-bottom:8px">
 				                    	<?php _e( 'UPDATE REQUIRED', 'wedevs-project-manager' ); ?> 
 				                    </strong>
-				                    <?php _e( 'WP Porject Manager Pro is not working because you are using an old version of WP Porject Manager Pro. Please update', 'wedevs-project-manager'); ?>
+				                    <?php _e( 'WP Project Manager Pro is not working because you are using an old version of WP Project Manager Pro. Please update', 'wedevs-project-manager'); ?>
 				                    <strong>
 					                    <?php _e( 'WP Project Manager Pro', 'wedevs-project-manager'); ?>
 					                    		
 					                    <?php _e( 'to >= v2.0.12', 'wedevs-project-manager') ?> 
 				                	</strong> 
 
-				                    <?php _e( 'to work with the latest version of WP Porject Manager', 'wedevs-project-manager'); ?>
+				                    <?php _e( 'to work with the latest version of WP Project Manager', 'wedevs-project-manager'); ?>
 				                </p>
                             </td>
-                            <td><a href="https://wedevs.com/account/downloads/" class="button button-primary promo-btn" target="_blank"><?php _e( 'Update WP Porject Manager Pro Now', 'wedevs-project-manager' ); ?></a></td>
+                            <td><a href="https://wedevs.com/account/downloads/" class="button button-primary promo-btn" target="_blank"><?php _e( 'Update WP Project Manager Pro Now', 'wedevs-project-manager' ); ?></a></td>
                         </tr>
                     </tbody>
                 </table>
-                <!-- <a href="https://wedevs.com/account/downloads/" class="button button-primary promo-btn" target="_blank"><?php _e( 'Update WP Porject Manager Pro NOW', 'wedevs-project-manager' ); ?></a> -->
+                <!-- <a href="https://wedevs.com/account/downloads/" class="button button-primary promo-btn" target="_blank"><?php _e( 'Update WP Project Manager Pro NOW', 'wedevs-project-manager' ); ?></a> -->
             </div><!-- #wpuf-update-offer-notice -->
 
             <style>

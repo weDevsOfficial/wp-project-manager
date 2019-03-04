@@ -165,6 +165,60 @@
     }
 }
 
+.pm-circle-spinner {
+	&:after {
+        content: "";
+	    border: 2px solid #1a9ed4;
+	    border-radius: 50%;
+	    display: inline-block;
+	    height: 1em;
+	    width: 1em;
+	    margin-left: 5px;
+	    border-color: #1a9ed4 #1a9ed4 #1a9ed4 transparent;
+	    -webkit-animation: pm-circle-spinner 1s infinite;
+	    animation: pm-circle-spinner 1s infinite;
+	    vertical-align: middle;
+    }
+}
+
+@keyframes pm-circle-spinner {
+    0% {
+        -webkit-transform: rotate(0);
+        transform: rotate(0);
+        animation-timing-function: cubic-bezier(.55,.055,.675,.19)
+    }
+
+    50% {
+        -webkit-transform: rotate(180deg);
+        transform: rotate(180deg);
+        animation-timing-function: cubic-bezier(.215,.61,.355,1)
+    }
+
+    to {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg)
+    }
+}
+
+@-webkit-keyframes pm-circle-spinner {
+    0% {
+        -webkit-transform: rotate(0);
+        transform: rotate(0);
+        animation-timing-function: cubic-bezier(.55,.055,.675,.19)
+    }
+
+    50% {
+        -webkit-transform: rotate(180deg);
+        transform: rotate(180deg);
+        animation-timing-function: cubic-bezier(.215,.61,.355,1)
+    }
+
+    to {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg)
+    }
+}
+
 #wedevs-project-manager {
 	.daterangepicker {
 		z-index: 99999;

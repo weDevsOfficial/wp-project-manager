@@ -39,10 +39,10 @@
                 auto_focus : self.editor_id,
                 setup: function (editor) {
                     editor.on('change', function () {
-                        self.content.html = editor.getContent();
+                        self.content.html = editor.getContent().replace(/&nbsp;/gi,'');
                     });
                     editor.on('keyup', function (event) {
-                        self.content.html = editor.getContent();
+                        self.content.html = editor.getContent().replace(/&nbsp;/gi,'');
                     });
                     editor.on('NodeChange', function () {
                         self.content.html = editor.getContent();

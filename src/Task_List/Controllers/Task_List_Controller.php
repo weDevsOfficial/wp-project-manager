@@ -94,7 +94,7 @@ class Task_List_Controller {
         $task_lists = $task_lists->orderBy( $tb_lists. '.order', 'DESC' )
             ->paginate( $per_page );
 
-        
+        $list_ids = [];
         $task_list_collection = $task_lists->getCollection();
 
         foreach ( $task_list_collection as $key => $collection ) {

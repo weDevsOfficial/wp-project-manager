@@ -253,17 +253,30 @@
             windowActivity (el) {
                 var updateField  = jQuery(el.target).closest('.task-update-wrap'),
                     updateBtn = jQuery(el.target).closest('.edit-task-btn'),
-                    taskActionWrap = jQuery(el.target).closest('.task-more-menu');
+                    taskActionWrap = jQuery(el.target).closest('.task-more-menu'),
+                    hasLabelPopup = this.hasLabelPopup(el);
                 
                 if(!taskActionWrap.length) {
                     this.task.moreMenu = false;
                 }
                 
-                if ( !updateBtn.length && !updateField.length ) {
-
+                if ( !updateBtn.length && !updateField.length && !hasLabelPopup) {
                     this.task.edit_mode = false;
                 }
             },
+
+            hasLabelPopup (el) {
+                var toltip = jQuery(el.target).closest('.tooltip'),
+                    toltip = toltip.attr('id');
+
+                if(typeof toltip !== 'undefined' && toltip.length) {
+                    return true;
+                }
+
+                return false;
+                
+            },
+
             afterCloseSingleTaskModal () {
                 if(this.$route.name == 'lists_single_task') {
                     this.$router.push({
