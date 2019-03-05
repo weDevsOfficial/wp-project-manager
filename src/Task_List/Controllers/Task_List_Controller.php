@@ -28,7 +28,7 @@ class Task_List_Controller {
 
     use Transformer_Manager, Request_Filter;
 
-    public function index( WP_REST_Request $request ) {
+    public function index( WP_REST_Request $request ) { 
         global $wpdb;
         $task_tb                = $wpdb->prefix . 'pm_tasks';
         $list_tb                = $wpdb->prefix . 'pm_boardables';
