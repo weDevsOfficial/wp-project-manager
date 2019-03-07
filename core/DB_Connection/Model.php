@@ -84,7 +84,7 @@ class Model extends \WeDevs\ORM\Eloquent\Model {
                 }
                 break;
 
-            case 'created':
+            case 'created': 
                 do_action( 'pm_created', $this );
                 Activity_Log::entry( $this, 'created' );
                 break;
