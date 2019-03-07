@@ -8,12 +8,65 @@
     {
       "selection": [
         {
+          "order": 132,
+          "id": 0,
+          "name": "pm-automation",
+          "prevSize": 32,
+          "code": 59701,
+          "tempChar": ""
+        }
+      ],
+      "id": 7,
+      "metadata": {
+        "name": "Untitled Set 3",
+        "importSize": {
+          "width": 512,
+          "height": 512
+        }
+      },
+      "height": 1024,
+      "prevSize": 32,
+      "icons": [
+        {
+          "id": 0,
+          "paths": [
+            "M550.945 793.025c-12.152-12.152-31.857-12.152-44.011 0s-12.154 31.857 0 44.011l26.627 26.627h-118.251c-17.187 0-31.121 13.934-31.121 31.121s13.934 31.121 31.121 31.121h118.251l-26.627 26.627c-12.154 12.152-12.154 31.857 0 44.011s31.857 12.154 44.011 0l79.752-79.752c12.154-12.152 12.154-31.857 0-44.011l-79.752-79.754z",
+            "M608.682 462.559h-118.259l26.639-26.639c12.158-12.137 12.158-31.847 0-44.005s-31.847-12.158-44.005 0l-79.752 79.752c-12.158 12.158-12.158 31.868 0 44.005l79.752 79.752c12.154 12.156 31.822 12.185 44.005 0 12.158-12.137 12.158-31.847 0-44.005l-26.619-26.619h118.238c17.199 0 31.121-13.942 31.121-31.121 0-17.199-13.921-31.121-31.121-31.121z",
+            "M828.333 687.667c17.307 0 31.121-14.060 31.121-31.121v-294.714c0-17.179-13.942-31.121-31.121-31.121s-31.121 13.942-31.121 31.121v294.714c0 17.098 13.851 31.121 31.121 31.121z",
+            "M193.675 330.711c-17.179 0-31.121 13.942-31.121 31.121v294.714c0 17.096 13.849 31.121 31.121 31.121 17.307 0 31.121-14.060 31.121-31.121v-294.714c0-17.179-13.942-31.121-31.121-31.121z",
+            "M992.879 18.341h-961.758c-17.179 0-31.121 13.942-31.121 31.121v189.235c0 17.179 13.942 31.121 31.121 31.121h19.668c0 58.866 0 599.398 0 616.006 0 26.069 30.196 40.567 50.582 24.295l92.304-74.005 92.304 74.005c20.343 16.231 50.602 1.793 50.602-24.295v-148.363h348.844v148.363c0 25.996 30.173 40.602 50.602 24.295l92.304-74.005 92.304 74.005c20.316 16.206 50.582 1.907 50.582-24.295 0-20.125 0-551.096 0-616.006h21.66c17.179 0 31.121-13.942 31.121-31.121v-189.235c0-17.179-13.942-31.121-31.121-31.121zM62.242 80.582h899.517c0 15.567 0 112.662 0 126.994-28.098 0-863.323 0-899.517 0 0-15.092 0-111.94 0-126.994zM274.341 820.988l-61.204-49.046c-11.367-9.127-27.552-9.129-38.922 0l-61.184 49.046c0-22 0-521.17 0-551.171h161.31c0 21.54 0 529.533 0 551.171zM336.582 675.218v-405.401h348.844v405.401h-348.844zM908.977 820.988l-61.184-49.046c-11.365-9.127-27.552-9.129-38.922 0l-61.204 49.046c0-21.154 0-527.355 0-551.171h161.31c0 29.741 0 526.959 0 551.171z",
+            "M865.74 175.19h25.934c17.148 0 31.121-13.896 31.121-31.121 0-17.179-13.942-31.121-31.121-31.121h-25.934c-17.179 0-31.121 13.942-31.121 31.121 0 17.22 13.965 31.121 31.121 31.121z",
+            "M716.547 175.19h25.934c17.262 0 31.121-13.963 31.121-31.121 0-17.179-13.921-31.121-31.121-31.121h-25.934c-17.179 0-31.121 13.942-31.121 31.121 0 17.297 14.017 31.121 31.121 31.121z"
+          ],
+          "attrs": [
+            {},
+            {},
+            {},
+            {},
+            {},
+            {},
+            {}
+          ],
+          "isMulticolor": false,
+          "isMulticolor2": false,
+          "grid": 0,
+          "tags": [
+            "automation"
+          ]
+        }
+      ],
+      "invisible": false,
+      "colorThemes": []
+    },
+    {
+      "selection": [
+        {
           "order": 131,
           "id": 0,
           "name": "pm-fullscreen",
           "prevSize": 32,
           "code": 59700,
-          "tempChar": ""
+          "tempChar": ""
         }
       ],
       "id": 6,
@@ -60,7 +113,7 @@
           "prevSize": 24,
           "code": 59699,
           "name": "label_outline",
-          "tempChar": ""
+          "tempChar": ""
         }
       ],
       "id": 5,
@@ -107,7 +160,7 @@
           "prevSize": 28,
           "code": 59660,
           "name": "pm-unlock",
-          "tempChar": ""
+          "tempChar": ""
         }
       ],
       "id": 4,
@@ -163,7 +216,7 @@
           "prevSize": 24,
           "code": 59673,
           "name": "pm-check-circle",
-          "tempChar": ""
+          "tempChar": ""
         }
       ],
       "id": 3,
@@ -227,7 +280,7 @@
           "name": "pm-capability",
           "prevSize": 32,
           "code": 59676,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 128,
@@ -235,7 +288,7 @@
           "name": "pm-integration",
           "prevSize": 32,
           "code": 59698,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 125,
@@ -243,7 +296,7 @@
           "name": "pm-switch-project",
           "prevSize": 32,
           "code": 59697,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 122,
@@ -251,7 +304,7 @@
           "name": "pm-enter",
           "prevSize": 32,
           "code": 59694,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 123,
@@ -259,7 +312,7 @@
           "name": "pm-navigation",
           "prevSize": 32,
           "code": 59695,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 120,
@@ -267,7 +320,7 @@
           "name": "pm-invoice",
           "prevSize": 32,
           "code": 59693,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 119,
@@ -275,7 +328,7 @@
           "name": "pm-gantchart",
           "prevSize": 32,
           "code": 59696,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 118,
@@ -283,7 +336,7 @@
           "name": "pm-activity",
           "prevSize": 32,
           "code": 59692,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 116,
@@ -291,7 +344,7 @@
           "name": "pm-search",
           "prevSize": 32,
           "code": 59691,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 115,
@@ -299,7 +352,7 @@
           "name": "pm-settings",
           "prevSize": 32,
           "code": 59690,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 114,
@@ -307,7 +360,7 @@
           "name": "pm-task-count",
           "prevSize": 32,
           "code": 59686,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 113,
@@ -315,7 +368,7 @@
           "name": "pm-comment",
           "prevSize": 32,
           "code": 59687,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 112,
@@ -323,7 +376,7 @@
           "name": "pm-left-arrow",
           "prevSize": 32,
           "code": 59688,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 111,
@@ -331,7 +384,7 @@
           "name": "pm-move",
           "prevSize": 32,
           "code": 59689,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 108,
@@ -339,7 +392,7 @@
           "name": "pm-drag-drop",
           "prevSize": 32,
           "code": 59683,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 107,
@@ -347,7 +400,7 @@
           "name": "pm-kanboard-view",
           "prevSize": 32,
           "code": 59684,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 106,
@@ -355,7 +408,7 @@
           "name": "pm-list-view",
           "prevSize": 32,
           "code": 59685,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 105,
@@ -363,7 +416,7 @@
           "name": "pm-task-filter",
           "prevSize": 32,
           "code": 59682,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 103,
@@ -371,7 +424,7 @@
           "name": "pm-file",
           "prevSize": 32,
           "code": 59678,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 102,
@@ -379,7 +432,7 @@
           "name": "pm-mileston",
           "prevSize": 32,
           "code": 59679,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 101,
@@ -387,7 +440,7 @@
           "name": "pm-discussion",
           "prevSize": 32,
           "code": 59680,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 100,
@@ -395,7 +448,7 @@
           "name": "pm-task-list",
           "prevSize": 32,
           "code": 59681,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 98,
@@ -403,7 +456,7 @@
           "name": "pm-overview",
           "prevSize": 32,
           "code": 59677,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 97,
@@ -411,7 +464,7 @@
           "name": "pm-archive",
           "prevSize": 32,
           "code": 59675,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 96,
@@ -419,7 +472,7 @@
           "name": "pm-copy-files",
           "prevSize": 32,
           "code": 59672,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 94,
@@ -427,7 +480,7 @@
           "name": "pm-undo-arrow",
           "prevSize": 32,
           "code": 59674,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 90,
@@ -435,7 +488,7 @@
           "name": "pm-cross",
           "prevSize": 32,
           "code": 59671,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 88,
@@ -443,7 +496,7 @@
           "name": "pm-single-user",
           "prevSize": 32,
           "code": 59670,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 87,
@@ -451,7 +504,7 @@
           "name": "pm-up-arrow",
           "prevSize": 32,
           "code": 59669,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 85,
@@ -459,7 +512,7 @@
           "name": "pm-stop",
           "prevSize": 32,
           "code": 59668,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 78,
@@ -467,7 +520,7 @@
           "name": "pm-rigth-arrow",
           "prevSize": 32,
           "code": 59666,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 77,
@@ -475,7 +528,7 @@
           "name": "pm-play",
           "prevSize": 32,
           "code": 59667,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 69,
@@ -483,7 +536,7 @@
           "name": "pm-copy",
           "prevSize": 32,
           "code": 59651,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 68,
@@ -491,7 +544,7 @@
           "name": "pm-private",
           "prevSize": 32,
           "code": 59650,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 67,
@@ -499,7 +552,7 @@
           "name": "pm-delete",
           "prevSize": 32,
           "code": 59649,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 66,
@@ -507,7 +560,7 @@
           "name": "pm-user",
           "prevSize": 32,
           "code": 59648,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 65,
@@ -515,7 +568,7 @@
           "name": "pm-align-left",
           "prevSize": 32,
           "code": 59652,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 64,
@@ -523,7 +576,7 @@
           "name": "pm-calendar",
           "prevSize": 32,
           "code": 59653,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 63,
@@ -531,7 +584,7 @@
           "name": "pm-clip",
           "prevSize": 32,
           "code": 59654,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 62,
@@ -539,7 +592,7 @@
           "name": "pm-completed",
           "prevSize": 32,
           "code": 59655,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 61,
@@ -547,7 +600,7 @@
           "name": "pm-down-arrow",
           "prevSize": 32,
           "code": 59656,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 130,
@@ -555,7 +608,7 @@
           "name": "pm-incomplete",
           "prevSize": 32,
           "code": 59657,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 59,
@@ -563,7 +616,7 @@
           "name": "pm-more-options",
           "prevSize": 32,
           "code": 59658,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 70,
@@ -571,7 +624,7 @@
           "name": "pm-pencil",
           "prevSize": 32,
           "code": 59659,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 0,
@@ -587,7 +640,7 @@
           "name": "pm-smile",
           "prevSize": 32,
           "code": 59661,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 73,
@@ -595,7 +648,7 @@
           "name": "pm-sorting",
           "prevSize": 32,
           "code": 59662,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 74,
@@ -603,7 +656,7 @@
           "name": "pm-star",
           "prevSize": 32,
           "code": 59663,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 75,
@@ -611,7 +664,7 @@
           "name": "pm-tag",
           "prevSize": 32,
           "code": 59664,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "order": 76,
@@ -619,7 +672,7 @@
           "name": "pm-watch",
           "prevSize": 32,
           "code": 59665,
-          "tempChar": ""
+          "tempChar": ""
         }
       ],
       "id": 2,
@@ -3030,7 +3083,7 @@
           "id": 207,
           "prevSize": 32,
           "code": 59854,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "ligatures": "eye-plus, views2",
@@ -3612,7 +3665,7 @@
           "id": 303,
           "prevSize": 32,
           "code": 59950,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "ligatures": "infinite",
@@ -3888,7 +3941,7 @@
           "id": 348,
           "prevSize": 32,
           "code": 59995,
-          "tempChar": ""
+          "tempChar": ""
         },
         {
           "ligatures": "font, typeface",
