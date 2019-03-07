@@ -210,6 +210,11 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= v2.0.14 - March 04, 2019 =
+
+* **New** Filter 'pm_after_get_files'.
+
+
 = v2.0.13 - March 04, 2019 =
 
 * **New** Set loading effect for 'Load more' task.
