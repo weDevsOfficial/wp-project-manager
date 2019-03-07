@@ -34,6 +34,7 @@ module.exports = {
         'assets/js/library': './views/assets/src/helpers/library.js',
         'assets/js/pmglobal': './views/assets/src/helpers/pmglobal.js',
         'assets/vendor/wp-hooks/pm-hooks': './views/assets/vendor/wp-hooks/wp-hooks.js',
+        'assets/vendor/vue-fullscreen/vue-fullscreen.min': './views/assets/vendor/vue-fullscreen/vue-fullscreen.js',
     },
 
     output: {
