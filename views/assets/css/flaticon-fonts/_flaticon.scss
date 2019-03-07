@@ -1,12 +1,13 @@
     /*
     Flaticon icon font: Flaticon
-    Creation date: 20/12/2018 06:03
+    Creation date: 07/03/2019 04:34
     */
 
     @font-face {
   font-family: "Flaticon";
   src: url("./Flaticon.eot");
   src: url("./Flaticon.eot?#iefix") format("embedded-opentype"),
+       url("./Flaticon.woff2") format("woff2"),
        url("./Flaticon.woff") format("woff"),
        url("./Flaticon.ttf") format("truetype"),
        url("./Flaticon.svg#Flaticon") format("svg");
@@ -64,16 +65,76 @@
 .flaticon-bookmark-star:before { content: "\f119"; }
 .flaticon-pm-archive:before { content: "\f11a"; }
 .flaticon-pm-discussions:before { content: "\f11b"; }
-.flaticon-pm-overview:before { content: "\f11c"; }
-.flaticon-planning:before { content: "\f11d"; }
-.flaticon-planning-1:before { content: "\f11e"; }
-.flaticon-eye:before { content: "\f11f"; }
-.flaticon-filter-tool-black-shape:before { content: "\f120"; }
-.flaticon-export:before { content: "\f121"; }
-.flaticon-data-export-symbol-of-a-window-with-an-arrow:before { content: "\f122"; }
-.flaticon-pdf:before { content: "\f123"; }
-.flaticon-resume:before { content: "\f124"; }
-.flaticon-test:before { content: "\f125"; }
+.flaticon-planning:before { content: "\f11c"; }
+.flaticon-planning-1:before { content: "\f11d"; }
+.flaticon-eye:before { content: "\f11e"; }
+.flaticon-filter-tool-black-shape:before { content: "\f11f"; }
+.flaticon-export:before { content: "\f120"; }
+.flaticon-data-export-symbol-of-a-window-with-an-arrow:before { content: "\f121"; }
+.flaticon-pdf:before { content: "\f122"; }
+.flaticon-resume:before { content: "\f123"; }
+.flaticon-test:before { content: "\f124"; }
+.flaticon-arrow-down-sign-to-navigate:before { content: "\f125"; }
+.flaticon-up-arrow:before { content: "\f126"; }
+.flaticon-task:before { content: "\f127"; }
+.flaticon-pm-archive-1:before { content: "\f128"; }
+.flaticon-pm-automation:before { content: "\f129"; }
+.flaticon-move-1:before { content: "\f12a"; }
+.flaticon-label-outline:before { content: "\f12b"; }
+.flaticon-pm-gantchart:before { content: "\f12c"; }
+.flaticon-pm-activity:before { content: "\f12d"; }
+.flaticon-pm-completed:before { content: "\f12e"; }
+.flaticon-pm-delete:before { content: "\f12f"; }
+.flaticon-pm-task-filter:before { content: "\f130"; }
+.flaticon-pm-align-left:before { content: "\f131"; }
+.flaticon-pm-unlock:before { content: "\f132"; }
+.flaticon-pm-capability:before { content: "\f133"; }
+.flaticon-pm-eye:before { content: "\f134"; }
+.flaticon-pm-comment:before { content: "\f135"; }
+.flaticon-pm-move:before { content: "\f136"; }
+.flaticon-pm-star:before { content: "\f137"; }
+.flaticon-pm-calendar:before { content: "\f138"; }
+.flaticon-pm-clip:before { content: "\f139"; }
+.flaticon-pm-down-arrow:before { content: "\f13a"; }
+.flaticon-pm-left-arrow:before { content: "\f13b"; }
+.flaticon-pm-discussion:before { content: "\f13c"; }
+.flaticon-pm-copy-files:before { content: "\f13d"; }
+.flaticon-pm-invoice:before { content: "\f13e"; }
+.flaticon-pm-pencil:before { content: "\f13f"; }
+.flaticon-pm-cross:before { content: "\f140"; }
+.flaticon-pm-search:before { content: "\f141"; }
+.flaticon-pm-drag-drop:before { content: "\f142"; }
+.flaticon-pm-check-circle:before { content: "\f143"; }
+.flaticon-pm-copy:before { content: "\f144"; }
+.flaticon-pm-enter:before { content: "\f145"; }
+.flaticon-pm-incomplete:before { content: "\f146"; }
+.flaticon-pm-file:before { content: "\f147"; }
+.flaticon-pm-fullscreen:before { content: "\f148"; }
+.flaticon-pm-loop:before { content: "\f149"; }
+.flaticon-pm-filter:before { content: "\f14a"; }
+.flaticon-pm-integration:before { content: "\f14b"; }
+.flaticon-pm-kanboard-view:before { content: "\f14c"; }
+.flaticon-pm-mileston:before { content: "\f14d"; }
+.flaticon-pm-list-view:before { content: "\f14e"; }
+.flaticon-pm-settings:before { content: "\f14f"; }
+.flaticon-pm-smile:before { content: "\f150"; }
+.flaticon-pm-sorting:before { content: "\f151"; }
+.flaticon-pm-play:before { content: "\f152"; }
+.flaticon-pm-stop:before { content: "\f153"; }
+.flaticon-pm-rigth-arrow:before { content: "\f154"; }
+.flaticon-pm-tag:before { content: "\f155"; }
+.flaticon-pm-overview:before { content: "\f156"; }
+.flaticon-pm-user:before { content: "\f157"; }
+.flaticon-pm-more-options:before { content: "\f158"; }
+.flaticon-pm-navigation:before { content: "\f159"; }
+.flaticon-pm-private:before { content: "\f15a"; }
+.flaticon-pm-single-user:before { content: "\f15b"; }
+.flaticon-pm-switch-project:before { content: "\f15c"; }
+.flaticon-pm-task-count:before { content: "\f15d"; }
+.flaticon-pm-task-list:before { content: "\f15e"; }
+.flaticon-pm-undo-arrow:before { content: "\f15f"; }
+.flaticon-pm-watch:before { content: "\f160"; }
+.flaticon-pm-up-arrow:before { content: "\f161"; }
     
     $font-Flaticon-document: "\f100";
     $font-Flaticon-arrow: "\f101";
@@ -103,13 +164,73 @@
     $font-Flaticon-bookmark-star: "\f119";
     $font-Flaticon-pm-archive: "\f11a";
     $font-Flaticon-pm-discussions: "\f11b";
-    $font-Flaticon-pm-overview: "\f11c";
-    $font-Flaticon-planning: "\f11d";
-    $font-Flaticon-planning-1: "\f11e";
-    $font-Flaticon-eye: "\f11f";
-    $font-Flaticon-filter-tool-black-shape: "\f120";
-    $font-Flaticon-export: "\f121";
-    $font-Flaticon-data-export-symbol-of-a-window-with-an-arrow: "\f122";
-    $font-Flaticon-pdf: "\f123";
-    $font-Flaticon-resume: "\f124";
-    $font-Flaticon-test: "\f125";
+    $font-Flaticon-planning: "\f11c";
+    $font-Flaticon-planning-1: "\f11d";
+    $font-Flaticon-eye: "\f11e";
+    $font-Flaticon-filter-tool-black-shape: "\f11f";
+    $font-Flaticon-export: "\f120";
+    $font-Flaticon-data-export-symbol-of-a-window-with-an-arrow: "\f121";
+    $font-Flaticon-pdf: "\f122";
+    $font-Flaticon-resume: "\f123";
+    $font-Flaticon-test: "\f124";
+    $font-Flaticon-arrow-down-sign-to-navigate: "\f125";
+    $font-Flaticon-up-arrow: "\f126";
+    $font-Flaticon-task: "\f127";
+    $font-Flaticon-pm-archive-1: "\f128";
+    $font-Flaticon-pm-automation: "\f129";
+    $font-Flaticon-move-1: "\f12a";
+    $font-Flaticon-label-outline: "\f12b";
+    $font-Flaticon-pm-gantchart: "\f12c";
+    $font-Flaticon-pm-activity: "\f12d";
+    $font-Flaticon-pm-completed: "\f12e";
+    $font-Flaticon-pm-delete: "\f12f";
+    $font-Flaticon-pm-task-filter: "\f130";
+    $font-Flaticon-pm-align-left: "\f131";
+    $font-Flaticon-pm-unlock: "\f132";
+    $font-Flaticon-pm-capability: "\f133";
+    $font-Flaticon-pm-eye: "\f134";
+    $font-Flaticon-pm-comment: "\f135";
+    $font-Flaticon-pm-move: "\f136";
+    $font-Flaticon-pm-star: "\f137";
+    $font-Flaticon-pm-calendar: "\f138";
+    $font-Flaticon-pm-clip: "\f139";
+    $font-Flaticon-pm-down-arrow: "\f13a";
+    $font-Flaticon-pm-left-arrow: "\f13b";
+    $font-Flaticon-pm-discussion: "\f13c";
+    $font-Flaticon-pm-copy-files: "\f13d";
+    $font-Flaticon-pm-invoice: "\f13e";
+    $font-Flaticon-pm-pencil: "\f13f";
+    $font-Flaticon-pm-cross: "\f140";
+    $font-Flaticon-pm-search: "\f141";
+    $font-Flaticon-pm-drag-drop: "\f142";
+    $font-Flaticon-pm-check-circle: "\f143";
+    $font-Flaticon-pm-copy: "\f144";
+    $font-Flaticon-pm-enter: "\f145";
+    $font-Flaticon-pm-incomplete: "\f146";
+    $font-Flaticon-pm-file: "\f147";
+    $font-Flaticon-pm-fullscreen: "\f148";
+    $font-Flaticon-pm-loop: "\f149";
+    $font-Flaticon-pm-filter: "\f14a";
+    $font-Flaticon-pm-integration: "\f14b";
+    $font-Flaticon-pm-kanboard-view: "\f14c";
+    $font-Flaticon-pm-mileston: "\f14d";
+    $font-Flaticon-pm-list-view: "\f14e";
+    $font-Flaticon-pm-settings: "\f14f";
+    $font-Flaticon-pm-smile: "\f150";
+    $font-Flaticon-pm-sorting: "\f151";
+    $font-Flaticon-pm-play: "\f152";
+    $font-Flaticon-pm-stop: "\f153";
+    $font-Flaticon-pm-rigth-arrow: "\f154";
+    $font-Flaticon-pm-tag: "\f155";
+    $font-Flaticon-pm-overview: "\f156";
+    $font-Flaticon-pm-user: "\f157";
+    $font-Flaticon-pm-more-options: "\f158";
+    $font-Flaticon-pm-navigation: "\f159";
+    $font-Flaticon-pm-private: "\f15a";
+    $font-Flaticon-pm-single-user: "\f15b";
+    $font-Flaticon-pm-switch-project: "\f15c";
+    $font-Flaticon-pm-task-count: "\f15d";
+    $font-Flaticon-pm-task-list: "\f15e";
+    $font-Flaticon-pm-undo-arrow: "\f15f";
+    $font-Flaticon-pm-watch: "\f160";
+    $font-Flaticon-pm-up-arrow: "\f161";
