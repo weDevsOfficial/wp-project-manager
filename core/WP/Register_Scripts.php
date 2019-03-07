@@ -6,7 +6,7 @@ class Register_Scripts {
 	
 	public static function scripts() {
 		$scripts = config('scripts');
-
+		
 		foreach ( $scripts as $script ) {
 			$path = config( 'app.version' );
 			
