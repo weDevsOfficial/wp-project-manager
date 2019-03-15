@@ -28,6 +28,7 @@ use WeDevs\PM\Task_List\Transformers\List_Task_Transformer;
 use WeDevs\PM\Activity\Models\Activity;
 use WeDevs\PM\Activity\Transformers\Activity_Transformer;
 use WeDevs\PM\Task_List\Controllers\Task_List_Controller as Task_List_Controller;
+use WeDevs\PM_Pro\Integrations\Helpers\Intg_helper as Intg_helper;
 
 
 class Task_Controller {
@@ -89,10 +90,14 @@ class Task_Controller {
                 'message' => pm_get_text('success_messages.no_element')
             ] );
         }
-
         $resource = new Item( $task, new Task_Transformer );
+        $response = $this->get_response( $resource );
 
-        return $this->get_response( $resource );
+        if(class_exists('Intg_helper')){
+            $response['data']['activities']= Intg_helper::modify_activity_response($response['data']['activities']);
+            $response['data']['comments']['data']= Intg_helper::set_integrated_creator($response);
+        }
+        return $response ;
     }
 
     public function store( WP_REST_Request $request ) {
