@@ -12,6 +12,7 @@ use WeDevs\PM\Activity\Models\Activity;
 use WeDevs\PM\Activity\Transformers\Activity_Transformer;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Database\Capsule\Manager as DB;
+use WeDevs\PM_Pro\Integrations\Helpers\Intg_helper as Intg_helper;
 
 class Activity_Controller {
 
@@ -45,7 +46,11 @@ class Activity_Controller {
 
         $resource->setPaginator( new IlluminatePaginatorAdapter( $activities ) );
 
-        return $this->get_response( $resource );
+        $response = $this->get_response( $resource );
+        if(class_exists('Intg_helper')){
+            return Intg_helper::modify_activity_response($response);
+        }
+        return $response ;
     }
 }
 
