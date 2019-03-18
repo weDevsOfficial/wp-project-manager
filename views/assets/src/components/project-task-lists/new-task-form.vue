@@ -61,13 +61,13 @@
                 <div v-if="datePicker" class="subtask-date new-task-caledar-wrap">
                     <pm-content-datepicker  
                         v-if="task_start_field"
-                        v-model="task.start_at.date"  
+                        v-model="task.start_at.datetime"
                         class="pm-date-picker-from pm-inline-date-picker-from"
                         :callback="callBackDatePickerForm">
                         
                     </pm-content-datepicker>
                     <pm-content-datepicker 
-                        v-model="task.due_date.date"  
+                        v-model="task.due_date.datetime"
                         class="pm-date-picker-to pm-inline-date-picker-to"
                         :callback="callBackDatePickerTo">
                             
@@ -484,11 +484,14 @@ export default {
             }
         },
         callBackDatePickerForm (date) {
-            this.task.start_at.date = date;
+            console.log('callbackdatepicketform');
+            console.log(date);
+            this.task.start_at.datetime = date;
         },
         callBackDatePickerTo (date) {
-            
-            this.task.due_date.date = date;
+            console.log('callbackdatepicketto');
+            console.log(date);
+            this.task.due_date.datetime = date;
         },
         enableDisable (key, status) {
             status = status || '';
@@ -510,13 +513,13 @@ export default {
 
     		if (typeof this.task.start_at === 'undefined') {
     			this.task.start_at = {
-    				date: ''
+                    datetime: ''
     			};
     		}
 
     		if (typeof this.task.due_date === 'undefined') {
     			this.task.due_date = {
-    				date: ''
+                    datetime: ''
     			};
     		}
     	},
@@ -576,10 +579,13 @@ export default {
                 return false;
             }
 
-            var start = new Date(this.task.start_at.date);
+            var start = new Date(this.task.start_at.datetime);
 
-            if(this.task.due_date.date) {
-                var end  = new Date(this.task.due_date.date);
+            console.log('taskFormAction');
+            console.log(start);
+
+            if(this.task.due_date.datetime) {
+                var end  = new Date(this.task.due_date.datetime);
                 var compare = pm.Moment(end).isBefore(start);
 
                 if(this.task_start_field && compare) {
@@ -600,8 +606,8 @@ export default {
                     assignees: this.filterUserId(this.task.assignees.data),//this.assigned_to,
                     title: this.task.title,
                     description: this.content.html ? this.content.html.trim() : '',
-                    start_at: this.task.start_at.date,
-                    due_date: this.task.due_date.date,
+                    start_at: this.task.start_at.datetime,
+                    due_date: this.task.due_date.datetime,
                     list_id: this.list.id,
                     order: this.task.order,
                     estimation: this.task.estimation,
@@ -615,15 +621,15 @@ export default {
 
                     self.task.title = '';
                     self.content.html = '';
-                    self.task.start_at.date = '';
-                    self.task.due_date.date = '';
+                    self.task.start_at.datetime = '';
+                    self.task.due_date.datetime = '';
                     self.task.assignees.data = [];
                 }
             }
 
-            if (this.task.due_date.date) {
-                var start = new Date(this.task.start_at.date);
-                var end  = new Date(this.task.due_date.date);
+            if (this.task.due_date.datetime) {
+                var start = new Date(this.task.start_at.datetime);
+                var end  = new Date(this.task.due_date.datetime);
                 var compare = pm.Moment(end).isBefore(start);
 
                 if(this.task_start_field && compare) {

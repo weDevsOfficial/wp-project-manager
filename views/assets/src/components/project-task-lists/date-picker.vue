@@ -15,8 +15,10 @@
                 return '';
             }
             var date = new Date(this.value);
-            date = pm.Moment(date).format('YYYY-MM-DD');
+            date = pm.Moment(date).format('YYYY-MM-DD HH:mm:ss');
             this.dateValue = date;
+
+
         },
         mounted: function() {
             var self = this,

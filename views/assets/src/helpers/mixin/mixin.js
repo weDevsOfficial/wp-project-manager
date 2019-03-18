@@ -145,7 +145,7 @@ export default {
             }
 
             date = new Date(date.replace(/-/g, "/"));
-            date = pm.Moment(date).format('YYYY-MM-DD');
+            date = pm.Moment(date).format('YYYY-MM-DD HH:mm:ss');
 
             var format = 'DD MMM';
 

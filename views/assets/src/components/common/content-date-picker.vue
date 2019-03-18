@@ -15,7 +15,7 @@
                 return '';
             }
             var date = new Date(this.value);
-            date = pm.Moment(date).format('YYYY-MM-DD');
+            date = pm.Moment(date).format('YYYY-MM-DD HH:mm:ss');
             this.dateValue = date;
         },
         mounted: function() {
@@ -31,7 +31,8 @@
                     jQuery( "."+ self.dependency ).datepicker( "option", limit_date, selectedDate );
                 },
                 onSelect: function(dateText) {
-                    
+                    console.log('onSelect content-date-picker');
+                    console.log(dateText);
                     if( typeof self.callback === 'function') {
                         self.callback(dateText);
                     }

@@ -48,7 +48,7 @@
                                 <span class="pm-light-color">{{ __('Created by', 'wedevs-project-manager') }}</span>
                                 <span class="pm-dark-color">{{ ucfirst( task.creator.data.display_name ) }}</span>
                                 <span class="pm-light-color">{{ __('on', 'wedevs-project-manager') }}</span>
-                                <span class="pm-dark-color" :title="getFullDate(task.created_at.datetime)">{{ cratedDateFormat( task.created_at.date ) }}</span>
+                                <span class="pm-dark-color" :title="getFullDate(task.created_at.datetime)">{{ cratedDateFormat( task.created_at.datetime ) }}</span>
                             </div>
 
                             <div id="pm-action-menu" class="task-action">
@@ -172,36 +172,36 @@
                                 <span @click.prevent="singleTaskLockUnlock(task)" v-if="isTaskUnlock" class="icon-pm-private pm-dark-hover pm-font-size-16"></span>
 
                                 <span id="pm-calendar-wrap" @click.prevent="isTaskDateEditMode()" class="individual-group-icon calendar-group icon-pm-calendar pm-font-size-16">
-                                    <span v-if="(task.start_at.date || task.due_date.date )" :class="taskDateWrap(task.due_date.date) + ' pm-task-date-wrap pm-date-window'">
+                                    <span v-if="(task.start_at.datetime || task.due_date.datetime )" :class="taskDateWrap(task.due_date.datetime) + ' pm-task-date-wrap pm-date-window'">
 
                                         <span :title="getFullDate(task.start_at.datetime)" v-if="task_start_field">
-                                            {{ dateFormat( task.start_at.date ) }}
+                                            {{ dateFormat( task.start_at.datetime ) }}
                                         </span>
 
-                                        <span v-if="task_start_field && task.start_at.date && task.due_date.date">&ndash;</span>
+                                        <span v-if="task_start_field && task.start_at.datetime && task.due_date.datetime">&ndash;</span>
                                         <span :title="getFullDate(task.due_date.datetime)" v-if="task.due_date">
 
-                                            {{ dateFormat( task.due_date.date ) }}
+                                            {{ dateFormat( task.due_date.datetime ) }}
                                         </span>
                                     </span>
 
-                                    <span v-if="(!task.start_at.date && !task.due_date.date)" class="pm-task-date-wrap pm-date-window">
+                                    <span v-if="(!task.start_at.datetime && !task.due_date.datetime)" class="pm-task-date-wrap pm-date-window">
                                         <span
                                             @click.prevent="isTaskDateEditMode()"
-                                            v-bind:class="task.status ? completedTaskWrap(task.start_at.date, task.due_date.date) : taskDateWrap( task.start_at.date, task.due_date.date)">
+                                            v-bind:class="task.status ? completedTaskWrap(task.start_at.datetime, task.due_date.datetime) : taskDateWrap( task.start_at.datetime, task.due_date.datetime)">
                                         </span>
                                     </span>
                                     <div v-if="is_task_date_edit_mode && can_edit_task(task)" class="task-date">
                                         <pm-content-datepicker
                                             v-if="task_start_field"
-                                            v-model="task.start_at.date"
+                                            v-model="task.start_at.datetime"
                                             :callback="callBackDatePickerForm"
                                             dependency="pm-datepickter-to"
                                             class="pm-datepicker-from pm-inline-date-picker-from">
 
                                         </pm-content-datepicker>
                                         <pm-content-datepicker
-                                            v-model="task.due_date.date"
+                                            v-model="task.due_date.datetime"
                                             dependency="pm-datepickter-from"
                                             :callback="callBackDatePickerTo"
                                             class="pm-datepicker-to pm-inline-date-picker-to">
@@ -500,21 +500,23 @@
                 //console.log(index);
             },
             callBackDatePickerForm (date) {
-
+                console.log("callBackDatePickerForm");
+                console.log(date);
                 let dateFrom = {
                     id: 'singleTask',
                     field: 'datepicker_from',
-                    date: date
+                    datetime: date
                 }
 
                 this.fromDate(dateFrom);
             },
             callBackDatePickerTo (date) {
-
+                console.log("callBackDatePickerTo");
+                console.log(date);
                 let dateTo = {
                     id: 'singleTask',
                     field: 'datepicker_to',
-                    date: date
+                    datetime: date
                 }
 
                 this.fromDate(dateTo);
@@ -703,11 +705,13 @@
             },
 
             fromDate (date) {
+                console.log('fromDate');
+                console.log(date);
                 if ( date.id == 'singleTask' && date.field == 'datepicker_from' ) {
 
-                    if (this.task.due_date.date) {
-                        var start = new Date(date.date);
-                        var end  = new Date(this.task.due_date.date);
+                    if (this.task.due_date.datetime) {
+                        var start = new Date(date.datetime);
+                        var end  = new Date(this.task.due_date.datetime);
                         var compare = pm.Moment(end).isBefore(start);
 
                         if(this.task_start_field && compare) {
@@ -716,16 +720,16 @@
                         }
                     }
 
-                    this.task.start_at.date = date.date;
+                    this.task.start_at.datetime = date.datetime;
 
                     this.updateTaskElement(this.task);
                 }
 
                 if ( date.id == 'singleTask' && date.field == 'datepicker_to' ) {
 
-                    if(this.task.start_at.date) {
-                        var start = new Date(this.task.start_at.date);
-                        var end  = new Date(date.date);
+                    if(this.task.start_at.datetime) {
+                        var start = new Date(this.task.start_at.datetime);
+                        var end  = new Date(date.datetime);
                         var compare = pm.Moment(end).isBefore(start);
 
                         if(this.task_start_field && compare) {
@@ -737,13 +741,13 @@
                     var task = this.task;
 
                     var start = new Date( task.start_at ),
-                        due = new Date( date.date );
+                        due = new Date( date.datetime );
 
                     if ( !this.$store.state.projectTaskLists.permissions.task_start_field ) {
-                        task.due_date.date = date.date;
+                        task.due_date.datetime = date.datetime;
                         this.updateTaskElement(task);
                     } else if ( start <= due ) {
-                        task.due_date.date = date.date;
+                        task.due_date.datetime = date.datetime;
                         this.updateTaskElement(task);
                     }
                 }
@@ -809,15 +813,15 @@
                 if (this.isArchivedTaskList(this.task)) {
                     return;
                 }
-                var start = new Date(task.start_at.date);
-                var end  = new Date(task.due_date.date);
+                var start = new Date(task.start_at.datetime );
+                var end  = new Date(task.due_date.datetime);
                 var compare = pm.Moment(end).isBefore(start);
                 var project_id = this.project_id ? this.project_id : task.project_id;
 
                 if(
-                    task.start_at.date
+                    task.start_at.datetime
                         &&
-                    task.due_date.date
+                    task.due_date.datetime
                         &&
                     this.task_start_field
                         &&
@@ -828,12 +832,13 @@
                 }
                 this.show_spinner = true;
 
+
                 var update_data  = {
                         'title': task.title,
                         'description': task.description.content,
                         'estimation': task.estimation,
-                        'start_at': task.start_at ? task.start_at.date : '',
-                        'due_date': task.due_date ? task.due_date.date : '',
+                        'start_at': task.start_at ? task.start_at.datetime : '',
+                        'due_date': task.due_date ? task.due_date.datetime : '',
                         'complexity': task.complexity,
                         'priority': task.priority,
                         'order': task.order,
@@ -845,7 +850,8 @@
                     },
                     self = this,
                     url = this.base_url + '/pm/v2/projects/'+project_id+'/tasks/'+task.id+'/update';
-
+                console.log('actualizando data');
+                console.log(update_data);
                 var request_data = {
                     url: url,
                     data: update_data,
@@ -939,6 +945,8 @@
             },
 
             datePickerDispaly (el) {
+                console.log('datePickerDisplay');
+                console.log(el);
                 var date_picker_blur = jQuery(el.target).closest('#pm-calendar-wrap');
 
                 if ( ! date_picker_blur.length ) {
@@ -980,12 +988,14 @@
             },
 
             cratedDateFormat (date) {
+                console.log('cratedDateFormat');
+                console.log (date);
                 if ( date == '' ) {
                     return;
                 }
 
                 date = new Date(date);
-                date = pm.Moment(date).format('YYYY-MM-DD');
+                date = pm.Moment(date).format('YYYY-MM-DD HH:mm:ss');
 
                 var format = 'MMM D, YYYY';
 
