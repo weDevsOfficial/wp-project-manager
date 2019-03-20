@@ -426,9 +426,10 @@ class Task_List_Controller {
         $project_id  = $request->get_param( 'project_id' );
         $title       = $request->get_param( 'title' );
 
-        $task_lists = Task_List::where( function($q) use( $title ) {
+        $task_lists = Task_List::where( function($q) use( $title, $project_id ) {
             if ( !empty( $title ) ) {
-                $q->where('title', 'like', '%'.$title.'%');
+                $q->where('title', 'like', '%'.$title.'%')
+                    ->where( 'project_id', $project_id );
             } 
         })
         ->get();

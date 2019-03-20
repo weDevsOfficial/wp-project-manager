@@ -46,7 +46,6 @@ class Task_Transformer extends TransformerAbstract {
      * @return array
      */
     public function transform( Task $item ) {
-        
         if ( $item->pivot ) {
             $order = $item->pivot->order;
         } else {
@@ -57,6 +56,7 @@ class Task_Transformer extends TransformerAbstract {
                 $order = 0;
             }
         }
+        
         return apply_filters( 
             'pm_task_transform', 
             [
