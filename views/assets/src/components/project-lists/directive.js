@@ -7,7 +7,7 @@ var Project = {
         var context = vnode.context;
 
         $( ".pm-project-coworker" ).autocomplete( {
-            minLength: 3,
+            minLength: 1,
             
             source: function( request, response ) {
                 var args = {

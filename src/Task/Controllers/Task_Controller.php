@@ -34,6 +34,16 @@ class Task_Controller {
 
     use Transformer_Manager, Request_Filter, Last_activity;
 
+    private static $_instance;
+
+    public static function getInstance() {
+        if ( !self::$_instance ) {
+            self::$_instance = new self();
+        }
+
+        return self::$_instance;
+    }
+
     public function index( WP_REST_Request $request ) {
         $project_id = $request->get_param( 'project_id' );
         $per_page   = $request->get_param( 'per_page' );
@@ -78,6 +88,27 @@ class Task_Controller {
         $project_id = $request->get_param( 'project_id' );
         $task_id    = $request->get_param( 'task_id' );
 
+        return $this->get_task( $task_id, $project_id, $request->get_params() );
+
+        // $task = Task::with('task_lists')->where( 'id', $task_id )
+        //     ->parent()
+        //     ->where( 'project_id', $project_id );
+        // $task = apply_filters( 'pm_task_show_query', $task, $project_id, $request );
+        // $task = $task->first();
+
+        // if ( $task == NULL ) {
+        //     return $this->get_response( null,  [
+        //         'message' => pm_get_text('success_messages.no_element')
+        //     ] );
+        // }
+
+        // $resource = new Item( $task, new Task_Transformer );
+
+        // return $this->get_response( $resource );
+    }
+
+    public static function get_task( $task_id, $project_id, $request=[] ) {
+
         $task = Task::with('task_lists')->where( 'id', $task_id )
             ->parent()
             ->where( 'project_id', $project_id );
@@ -92,7 +123,7 @@ class Task_Controller {
 
         $resource = new Item( $task, new Task_Transformer );
 
-        return $this->get_response( $resource );
+        return self::getInstance()->get_response( $resource );
     }
 
     public function store( WP_REST_Request $request ) {
@@ -149,7 +180,7 @@ class Task_Controller {
         return $response;
     }
 
-    private function attach_assignees( Task $task, $assignees = [] ) {
+    public function attach_assignees( Task $task, $assignees = [] ) {
         foreach ( $assignees as $user_id ) {
             if ( ! intval( $user_id ) ) {
                 continue ;
@@ -162,7 +193,7 @@ class Task_Controller {
 
             $assignee = Assignee::firstOrCreate( $data );
 
-            if ( !$assignee->assigned_at ) {
+            if ( ! $assignee->assigned_at ) {
                 $assignee->assigned_at = Carbon::now();
                 $assignee->save();
             }
@@ -182,7 +213,7 @@ class Task_Controller {
         if ( !$assignee) {
             return false;
         }
-
+        
         if(  $task->status == 'complete' && !$assignee->completed_at ){
             $assignee->completed_at = Carbon::now();
             $assignee->status = 2;
@@ -197,43 +228,80 @@ class Task_Controller {
     }
 
     public function update( WP_REST_Request $request ) {
-        $data       = $request->get_params();
-        $project_id = $request->get_param( 'project_id' );
-        $list_id    = $request->get_param( 'list_id' );
-        $task_id    = $request->get_param( 'task_id' );
-        $assignees  = $request->get_param( 'assignees' );
-        $assignees  = $assignees ? $assignees : [];
+        // $data       = $request->get_params();
+        // $project_id = $request->get_param( 'project_id' );
+        // $list_id    = $request->get_param( 'list_id' );
+        // $task_id    = $request->get_param( 'task_id' );
+        // $assignees  = $request->get_param( 'assignees' );
+        // $assignees  = $assignees ? $assignees : [];
+
+        return $this->task_update( $request->get_params() );
+
+        // $task = Task::with('assignees')->find( $task_id );
+
+        // $task->assignees()->whereNotIn( 'assigned_to', $assignees )->delete();
+        // $this->attach_assignees( $task, $assignees );
+
+
+        // do_action( 'cpm_task_update', $list_id, $task_id, $request->get_params() );
+        // $task->update_model( $data );
+
+
+        // do_action( 'cpm_after_update_task', $task->id, $list_id, $project_id );
+        // do_action('pm_after_update_task', $task, $request->get_params() );
+
+        // $resource = new Item( $task, new Task_Transformer );
+
+        // $message = [
+        //     'message' => pm_get_text('success_messages.task_updated'),
+        //     'activity' => $this->last_activity( 'task', $task->id ),
+        // ];
+
+        // $response = $this->get_response( $resource, $message );
+
+        // do_action('pm_update_task_aftre_transformer', $response, $request->get_params() );
+
+        // return $response;
+
+    }
+
+    public static function task_update( $params ) {
+        $task_id    = $params['task_id'];
 
         $task = Task::with('assignees')->find( $task_id );
-
-//        if ( !empty( $assignees ) && is_array( $assignees ) && $task ) {
-//            $task->assignees()->whereNotIn( 'assigned_to', $assignees )->delete();
-//            $this->attach_assignees( $task, $assignees );
-//        }
+        
+        if ( ! isset( $params['assignees'] ) ) {
+            $assignees  = wp_list_pluck( $task->assignees->toArray(), 'assigned_to' );
+        } else {
+            $assignees  = empty( $params['assignees'] ) ? [] : $params['assignees'];
+        }
+        
+        $list_id              = $task->task_list;
+        $project_id           = $task->project_id;
+        $params['project_id'] = $task->project_id;
+        $params['list_id']    = $task->task_list;
+        
         $task->assignees()->whereNotIn( 'assigned_to', $assignees )->delete();
-        $this->attach_assignees( $task, $assignees );
+        self::getInstance()->attach_assignees( $task, $assignees );
 
-
-        do_action( 'cpm_task_update', $list_id, $task_id, $request->get_params() );
-        $task->update_model( $data );
-
+        do_action( 'cpm_task_update', $list_id, $task_id, $params );
+        $task->update_model( $params );
 
         do_action( 'cpm_after_update_task', $task->id, $list_id, $project_id );
-        do_action('pm_after_update_task', $task, $request->get_params() );
+        do_action('pm_after_update_task', $task, $params );
 
         $resource = new Item( $task, new Task_Transformer );
 
         $message = [
             'message' => pm_get_text('success_messages.task_updated'),
-            'activity' => $this->last_activity( 'task', $task->id ),
+            'activity' => self::getInstance()->last_activity( 'task', $task->id ),
         ];
 
-        $response = $this->get_response( $resource, $message );
+        $response = self::getInstance()->get_response( $resource, $message );
 
-        do_action('pm_update_task_aftre_transformer', $response, $request->get_params() );
+        do_action('pm_update_task_aftre_transformer', $response, $params );
 
         return $response;
-
     }
 
     public function change_status( WP_REST_Request $request ) {
@@ -250,6 +318,8 @@ class Task_Controller {
             $task->completed_by = null;
             $task->completed_at = null;
         }
+
+        do_action( 'pm_before_change_task_status', $task );
 
         if ( $task->save() ) {
             $this->update_task_status( $task );
@@ -274,8 +344,8 @@ class Task_Controller {
     }
 
     private function task_activity_comment ($task, $status) {
-         $activity = ( (bool) $status) ? pm_get_text('success_messages.task_activity_done_comment') : pm_get_text('success_messages.task_activity_undone_comment');
-         $user_id = get_current_user_id();
+        $activity = ( (bool) $status) ? pm_get_text('success_messages.task_activity_done_comment') : pm_get_text('success_messages.task_activity_undone_comment');
+        $user_id = get_current_user_id();
         $comment                   = new Comment;
         $comment->content          = $activity;
         $comment->commentable_id   = $task->id;
