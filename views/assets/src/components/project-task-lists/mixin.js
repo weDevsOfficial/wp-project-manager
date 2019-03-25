@@ -526,7 +526,7 @@ var PM_TaskList_Mixin = {
                 url: self.base_url + '/pm/v2/projects/'+args.data.project_id+'/tasks',
                 type: 'POST',
                 data: data,
-                success (res) {
+                success (res) { 
                     self.addTaskMeta(res.data);
                     self.$store.commit( 'projectTaskLists/afterNewTask',
                         {
@@ -541,14 +541,14 @@ var PM_TaskList_Mixin = {
                     pm.Toastr.success(res.message);                    
                     self.showHideTaskFrom(false, self.list, self.task );
                     if ( typeof args.callback === 'function' ) {
-                        args.callback.call ( self, res );
+                        args.callback( self, res );
                     }
 
                     pmBus.$emit('pm_after_create_task', res, args);
 
                 },
 
-                error (res) {
+                error (res) { 
                     // Showing error
                     if (res.status == 500 ) {
                         res.responseJSON.message.map( function( value, index ) {

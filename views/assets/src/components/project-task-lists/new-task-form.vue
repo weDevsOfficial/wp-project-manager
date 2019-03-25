@@ -608,10 +608,10 @@ export default {
                     recurrent: this.task.recurrent,
                     project_id: typeof this.list.project_id !== 'undefined' ? this.list.project_id : this.project_id
                 },
-                callback: function( res ) { 
+                callback: function( self, res ) { 
                     self.show_spinner = false;
                     self.submit_disabled = false;
-                    self.task_description = res.data.description.content;
+                    self.task_description = typeof res.data.description === 'undefined' ? '' : res.data.description.content;
 
                     self.task.title = '';
                     self.content.html = '';
