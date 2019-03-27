@@ -12,9 +12,9 @@
                     <table class="wp-list-table widefat fixed striped posts">
                         <thead>
                         <tr>
-                            <th scope="col" class="manage-column column-author">Users</th>
-                            <th scope="col"  class="manage-column column-categories">Github Username</th>
-                            <th scope="col"  class="manage-column column-categories">Bitbucket Username</th>
+                            <th scope="col" class="manage manage-column column-author">Users</th>
+                            <th scope="col"  class="manage manage-column column-categories">Github Username</th>
+                            <th scope="col"  class="manage manage-column column-categories">Bitbucket Username</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -31,6 +31,7 @@
                     <div style="padding-left: 10px">
                         <p class="submit">
                             <input type="submit" name="submit" id="submit" class="button button-primary" :value="save_changes">
+                            <span v-show="show_spinner" class="pm-spinner"></span>
                         </p>
                     </div>
                 </form>
@@ -45,6 +46,7 @@
         data () {
             return {
                 save_changes: __( 'Save Changes', 'wedevs-project-manager'),
+                show_spinner: false,
                 users : [],
                 projects : [],
                 github_name : 'github_',
@@ -60,11 +62,12 @@
         },
         methods: {
             saveUsers(){
+                var self = this ;
+                self.show_spinner = true;
                 let formData = jQuery('#'+event.target.id).serialize();
                 let formDataObj = JSON.parse('{"' + decodeURI(formData).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
-                console.log(formDataObj);
                 this.save_map_users(formDataObj,function(data){
-                    console.log(data);
+                    self.show_spinner = false;
                 });
             },
             getProjectUser(){
@@ -76,3 +79,9 @@
         }
     }
 </script>
+
+<style scoped>
+    .manage {
+        font-weight: bold;
+    }
+</style>
