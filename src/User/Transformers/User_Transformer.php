@@ -52,6 +52,8 @@ class User_Transformer extends TransformerAbstract {
             'manage_capability' => (int) pm_has_manage_capability($user->ID),
             'create_capability' => (int) pm_has_project_create_capability($user->ID),
             'avatar_url'        => get_avatar_url( $user->user_email ),
+            'github' => get_user_meta($user->ID,'github' ,true),
+            'bitbucket' => get_user_meta($user->ID,'bitbucket', true)
         ];
 
         if ( $user->pivot && $user->pivot->assigned_at ) {

@@ -47,7 +47,7 @@ class Activity_Controller {
         $resource->setPaginator( new IlluminatePaginatorAdapter( $activities ) );
 
         $response = $this->get_response( $resource );
-        if(class_exists('Intg_helper')){
+        if(class_exists('WeDevs\PM_Pro\Integrations\Helpers\Intg_helper')){
             return Intg_helper::modify_activity_response($response);
         }
         return $response ;
