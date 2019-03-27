@@ -134,8 +134,8 @@ class Task_Controller {
 
 
         if ( empty( $board_id ) ) {
-            $inbox = pm_get_meta($project_id, $project_id, 'task_list', 'list-inbox');
-            $board_id = $inbox->meta_value;
+            $inbox            = pm_get_meta($project_id, $project_id, 'task_list', 'list-inbox');
+            $board_id         = $inbox->meta_value;
             $data['board_id'] = $inbox->meta_value;
         }
 
