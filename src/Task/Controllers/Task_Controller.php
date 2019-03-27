@@ -93,7 +93,7 @@ class Task_Controller {
         $resource = new Item( $task, new Task_Transformer );
         $response = $this->get_response( $resource );
 
-        if(class_exists('Intg_helper')){
+        if(class_exists('WeDevs\PM_Pro\Integrations\Helpers\Intg_helper')){
             $response['data']['activities']= Intg_helper::modify_activity_response($response['data']['activities']);
             $response['data']['comments']['data']= Intg_helper::set_integrated_creator($response);
         }
