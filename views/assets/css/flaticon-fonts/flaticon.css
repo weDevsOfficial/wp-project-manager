@@ -1,6 +1,6 @@
 	/*
   	Flaticon icon font: Flaticon
-  	Creation date: 21/03/2019 06:28
+  	Creation date: 28/03/2019 05:35
   	*/
 
 @font-face {
@@ -130,4 +130,7 @@ margin-left: 20px;
 .flaticon-pm-up-arrow:before { content: "\f161"; }
 .flaticon-move-2:before { content: "\f162"; }
 .flaticon-edit-tools:before { content: "\f163"; }
+.flaticon-cat:before { content: "\f164"; }
+.flaticon-camera:before { content: "\f165"; }
+
 
