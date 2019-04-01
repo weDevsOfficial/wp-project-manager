@@ -327,7 +327,7 @@ class Task_Controller {
         }
 
         do_action( 'mark_task_complete', $task->project_id, $task->id );
-        do_action( 'pm_changed_task_status', $task, $old_value );
+        do_action( 'pm_changed_task_status', $task, $old_value, $request->get_params() );
 
         $resource = new Item( $task, new Task_Transformer );
 
