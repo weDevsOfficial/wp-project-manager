@@ -714,4 +714,14 @@ function pm_total_message() {
     return $message;
 }
 
+add_filter('pm_modify_activity','pm_modify_activity');
+function pm_modify_activity($response){
+    for($i=0; $i < count($response['data']);$i++){
+        if(isset($response['data'][$i]['meta']['int_source']) && empty($response['data'][$i]['actor']['data']) ){
+            $response['data'][$i]['actor']['data']['display_name'] = '['.ucfirst($response['data'][$i]['meta']['int_source']).'] '. $response['data'][$i]['meta']['username']  ;
+            $response['data'][$i]['actor']['data']['avatar_url'] = "http://2.gravatar.com/avatar/2ce274bc61d00731e73c033d90cb0d73?s=96&d=mm&r=g";
+        }
+    }
+    return $response;
+}
 

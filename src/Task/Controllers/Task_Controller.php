@@ -28,7 +28,6 @@ use WeDevs\PM\Task_List\Transformers\List_Task_Transformer;
 use WeDevs\PM\Activity\Models\Activity;
 use WeDevs\PM\Activity\Transformers\Activity_Transformer;
 use WeDevs\PM\Task_List\Controllers\Task_List_Controller as Task_List_Controller;
-use WeDevs\PM_Pro\Integrations\Helpers\Intg_helper as Intg_helper;
 
 
 class Task_Controller {
@@ -92,10 +91,9 @@ class Task_Controller {
         }
         $resource = new Item( $task, new Task_Transformer );
         $response = $this->get_response( $resource );
-
-        if(class_exists('WeDevs\PM_Pro\Integrations\Helpers\Intg_helper')){
-            $response['data']['activities']= Intg_helper::modify_activity_response($response['data']['activities']);
-            $response['data']['comments']['data']= Intg_helper::set_integrated_creator($response);
+        $response['data']['activities']= apply_filters('pm_modify_activity', $response['data']['activities']);
+        if(has_filter('pm_set_integrated_creator')){
+            $response['data']['comments']['data']= apply_filters('pm_set_integrated_creator', $response);
         }
         return $response ;
     }
