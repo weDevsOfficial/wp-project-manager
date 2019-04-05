@@ -91,10 +91,7 @@ class Task_Controller {
         }
         $resource = new Item( $task, new Task_Transformer );
         $response = $this->get_response( $resource );
-        $response['data']['activities']= apply_filters('pm_modify_activity', $response['data']['activities']);
-        if(has_filter('pm_set_integrated_creator')){
-            $response['data']['comments']['data']= apply_filters('pm_set_integrated_creator', $response);
-        }
+        $response = apply_filters('pm_modify_task_response', $response , $request);
         return $response ;
     }
 
