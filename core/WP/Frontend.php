@@ -18,6 +18,7 @@ use PM_Create_Table;
 use WeDevs\PM\Tools\Helpers\ImportTrello;
 //use WeDevs\PM\Tools\Helpers\ImportAsana;
 use WeDevs\PM\Core\Admin_Notice\Admin_Notice;
+use WeDevs\PM_Pro\Integrations\Models\Integrations ;
 
 
 class Frontend {
@@ -119,6 +120,7 @@ class Frontend {
 		add_filter( 'wp_mime_type_icon', [$this, 'change_mime_icon'], 10, 3 );
 		add_filter( 'todo_list_text_editor', [$this, 'project_text_editor'] );
         add_filter('upload_mimes', [$this, 'custom_upload_mimes']);
+        add_filter('pm_modify_task_response', [$this, 'pm_modify_task_response'], 10, 2);
 	}
 
 	function cc_mime_types( $mimes ) {
@@ -152,7 +154,7 @@ class Frontend {
 		return $schedules;
 	}
 
-function project_text_editor($config) {
+    function project_text_editor($config) {
 	$config['external_plugins']['placeholder'] = config('frontend.assets_url') . 'vendor/tinymce/plugins/placeholder/plugin.min.js';
 	$config['plugins'] = 'placeholder textcolor colorpicker wplink wordpress';
 	return $config;
@@ -290,5 +292,56 @@ function project_text_editor($config) {
 
         wp_safe_redirect( add_query_arg( array( 'page' => 'pm_projects#/welcome' ), admin_url( 'index.php' ) ) );
         exit;
+    }
+
+    public function pm_modify_task_response($response,$request){
+        if(array_key_exists('activities',$response['data']) && array_key_exists('comments',$response['data'])){
+            $response['data']['activities'] = $this->pm_modify_activities($response['data']['activities'] , $request) ;
+            if(class_exists('WeDevs\PM_Pro\Integrations\Models\Integrations')){
+                $response['data']['comments']['data']= $this->pm_modify_comments($response,$request);
+            }
+        }else{
+            $response = $this->pm_modify_activities($response,$request) ;
+        }
+        return $response;
+    }
+
+    public function pm_modify_activities($response,$request){
+        for($i=0; $i < count($response['data']);$i++){
+            if(isset($response['data'][$i]['meta']['int_source']) && empty($response['data'][$i]['actor']['data']) ){
+                $response['data'][$i]['actor']['data']['display_name'] = '['.ucfirst($response['data'][$i]['meta']['int_source']).'] '. $response['data'][$i]['meta']['username']  ;
+                $response['data'][$i]['actor']['data']['avatar_url'] = "http://2.gravatar.com/avatar/2ce274bc61d00731e73c033d90cb0d73?s=96&d=mm&r=g";
+            }
+        }
+        return $response ;
+    }
+
+    public function pm_modify_comments($response,$request){
+        $project_id = $response['data']['project_id'] ;
+        $intg_comments = Integrations::where('project_id', $project_id)
+            ->where('type','issues_comments')
+            ->get();
+        $intg_comments_blank = [];
+        foreach($intg_comments as $intgc){
+            $intg_comments_blank[$intgc['foreign_key']] = $intgc ;
+        }
+        $project_comments = $response['data']['comments']['data'] ;
+        $comments_blank = [];
+        foreach($project_comments as $cmnt){
+            if(empty($cmnt['creator']['data'])){
+                $cmnt['creator']['data']['username'] = $intg_comments_blank[$cmnt['id']]['source'];
+                $cmnt['creator']['data']['nicename'] = $intg_comments_blank[$cmnt['id']]['source'];
+                $cmnt['creator']['data']['email'] = '';
+                $cmnt['creator']['data']['display_name'] = '['.$intg_comments_blank[$cmnt['id']]['source'].'] ' . $intg_comments_blank[$cmnt['id']]['username'];
+                $cmnt['creator']['data']['manage_capability'] = 1;
+                $cmnt['creator']['data']['create_capability'] = 1;
+                $cmnt['creator']['data']['avatar_url'] = "http://2.gravatar.com/avatar/2ce274bc61d00731e73c033d90cb0d73?s=96&d=mm&r=g";
+                $cmnt['creator']['data']['roles'] = [];
+                $comments_blank[] = $cmnt ;
+            }else{
+                $comments_blank[] = $cmnt ;
+            }
+        }
+        return  $comments_blank ;
     }
 }
