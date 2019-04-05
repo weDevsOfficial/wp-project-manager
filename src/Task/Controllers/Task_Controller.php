@@ -91,7 +91,7 @@ class Task_Controller {
         }
         $resource = new Item( $task, new Task_Transformer );
         $response = $this->get_response( $resource );
-        $response = apply_filters('pm_modify_task_response', $response , $request);
+        $response = apply_filters('pm_get_task', $response , $request);
         return $response ;
     }
 
