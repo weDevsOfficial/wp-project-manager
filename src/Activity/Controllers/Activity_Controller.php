@@ -46,7 +46,7 @@ class Activity_Controller {
         $resource->setPaginator( new IlluminatePaginatorAdapter( $activities ) );
 
         $response = $this->get_response( $resource );
-        $response = apply_filters('pm_modify_activity', $response);
+        $response = apply_filters('pm_modify_task_response', $response , $request);
         return $response ;
     }
 }
