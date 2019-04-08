@@ -34,6 +34,16 @@ class Task_Controller {
 
     use Transformer_Manager, Request_Filter, Last_activity;
 
+	private static $_instance;
+
+	public static function getInstance() {
+		if ( !self::$_instance ) {
+			self::$_instance = new self();
+		}
+
+		return self::$_instance;
+	}
+
     public function index( WP_REST_Request $request ) {
         $project_id = $request->get_param( 'project_id' );
         $per_page   = $request->get_param( 'per_page' );
@@ -77,8 +87,9 @@ class Task_Controller {
     public function show( WP_REST_Request $request ) {
         $project_id = $request->get_param( 'project_id' );
         $task_id    = $request->get_param( 'task_id' );
+	    return $this->get_task( $task_id, $project_id, $request->get_params() );
 
-        $task = Task::with('task_lists')->where( 'id', $task_id )
+        /*$task = Task::with('task_lists')->where( 'id', $task_id )
             ->parent()
             ->where( 'project_id', $project_id );
         $task = apply_filters( 'pm_task_show_query', $task, $project_id, $request );
@@ -92,8 +103,30 @@ class Task_Controller {
         $resource = new Item( $task, new Task_Transformer );
         $response = $this->get_response( $resource );
         $response = apply_filters('pm_get_task', $response , $request);
-        return $response ;
+        return $response ;*/
     }
+
+
+	public static function get_task( $task_id, $project_id, $request=[] ) {
+
+		$task = Task::with('task_lists')->where( 'id', $task_id )
+		            ->parent()
+		            ->where( 'project_id', $project_id );
+		$task = apply_filters( 'pm_task_show_query', $task, $project_id, $request );
+		$task = $task->first();
+
+		if ( $task == NULL ) {
+			return $this->get_response( null,  [
+				'message' => pm_get_text('success_messages.no_element')
+			] );
+		}
+		$resource = new Item( $task, new Task_Transformer );
+		$response =self::getInstance()->get_response( $resource );
+		$response = apply_filters('pm_get_task', $response , $request);
+		return $response ;
+    }
+
+
 
     public function store( WP_REST_Request $request ) {
         $data          = $this->extract_non_empty_values( $request );
