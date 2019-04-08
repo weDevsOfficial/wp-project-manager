@@ -49,6 +49,7 @@ $pm_scripts = [
 		'id'         => 'pm-vue',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/vue/vue'.$suffix.'.js',
 		'path'       => $view_path . '/assets/vendor/vue/vue'.$suffix.'.js',
+		'path' => 'https://cdn.jsdelivr.net/npm/vue',
 		'dependency' => ['pm-i18n'],
 		'in_footer'  => true
 	],
@@ -56,6 +57,7 @@ $pm_scripts = [
 		'id'         => 'pm-vuex',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/vue/vuex'.$suffix.'.js',
 		'path'       => $view_path . '/assets/vendor/vue/vuex'.$suffix.'.js',
+		'path' => 'https://unpkg.com/vuex',
 		'dependency' => ['pm-vue'],
 		'in_footer'  => true
 	],

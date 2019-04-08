@@ -32,11 +32,11 @@ class Activity_Controller {
 
         if ( empty( $project_id ) ) {
             $activities = Activity::orderBy( 'created_at', 'DESC' )
-            ->paginate( $per_page );
+                ->paginate( $per_page );
         } else {
             $activities = Activity::where( pm_tb_prefix() .'pm_activities.project_id', $project_id )
-            ->orderBy( pm_tb_prefix() .'pm_activities.created_at', 'desc' )
-            ->paginate( $per_page );
+                ->orderBy( pm_tb_prefix() .'pm_activities.created_at', 'desc' )
+                ->paginate( $per_page );
             
         }
         

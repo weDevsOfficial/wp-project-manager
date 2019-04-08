@@ -302,7 +302,6 @@ export default {
                     assignees: {
                         data: []
                     },
-                    estimation: 0
                 }
             }
         },
@@ -603,8 +602,9 @@ export default {
                     start_at: this.task.start_at.date,
                     due_date: this.task.due_date.date,
                     list_id: this.list.id,
+                    estimated_hours: this.task.estimated_hours || '',
+                    estimated_minutes: this.task.estimated_minutes || '',
                     order: this.task.order,
-                    estimation: this.task.estimation,
                     recurrent: this.task.recurrent,
                     project_id: typeof this.list.project_id !== 'undefined' ? this.list.project_id : this.project_id
                 },

@@ -26,7 +26,7 @@ if ( version_compare( phpversion(), '5.6.0', '<' ) ) {
 }
 
 
-define('PM_FILE', __FILE__);
-define ('PM_BASENAME', plugin_basename(__FILE__));
+define( 'PM_FILE', __FILE__ );
+define ( 'PM_BASENAME', plugin_basename(__FILE__) );
 
 require __DIR__.'/bootstrap/start.php';

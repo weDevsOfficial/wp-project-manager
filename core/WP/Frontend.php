@@ -95,10 +95,6 @@ class Frontend {
 	}
 
 	public function includes() {
-		//if ( ! wp_next_scheduled( 'pm_test_schedule' ) ) {
-			//wp_schedule_event(time(), 'pm_schedule', 'pm_test_schedule');
-		//}
-
 		// cli command
         if ( defined('WP_CLI') && WP_CLI ) {
         	$file = config( 'frontend.patch' ) . '/core/cli/Commands.php';
@@ -281,6 +277,7 @@ function project_text_editor($config) {
     }
 
     public function redirect_after_activate() {
+        
         if ( ! apply_filters( 'pm_welcome_page_redirect', get_transient( '_pm_setup_page_redirect' ) ) ) {
             return;
         }

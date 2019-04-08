@@ -108,7 +108,7 @@ class Task_Controller {
     }
 
     public static function get_task( $task_id, $project_id, $request=[] ) {
-
+ 
         $task = Task::with('task_lists')->where( 'id', $task_id )
             ->parent()
             ->where( 'project_id', $project_id );
@@ -816,17 +816,24 @@ class Task_Controller {
         if ( empty( $list_ids ) ) {
             $list_ids[] = 0;
         }
-
-        $pagenum    = isset( $_GET['incomplete_task_page'] ) ? intval( $_GET['incomplete_task_page'] ) : 1;
+        
+        $per_page_count    = isset( $_GET['incomplete_task_per_page'] ) ? intval( $_GET['incomplete_task_per_page'] ) : false;
+        //$per_page_count = isset( $_GET['per_page'] ) ? $_GET['per_page'] : false;
         
         $table_ba   = $wpdb->prefix . 'pm_boardables';
         $table_task = $wpdb->prefix . 'pm_tasks';
         
         $per_page   = pm_get_setting( 'incomplete_tasks_per_page' );
-        $per_page   = $per_page ? $per_page : 5;
-        $offset     = ( $pagenum - 1 ) * $per_page;
-        $limit      = $pagenum == 1 ? '' : "LIMIT $offset,$per_page";
+        $per_page   = empty( $per_page ) ? 20 : intval( $per_page );
         
+        if ( intval( $per_page_count ) ) {
+            $per_page = $per_page_count == -1 ? 99999999 : $per_page_count;
+        } 
+
+        //$per_page   = $per_page ? $per_page : 5;
+        //var_dump( $per_page ); die();
+        //$offset     = ( $pagenum - 1 ) * $per_page;
+       // $limit      = $pagenum == 1 ? '' : "LIMIT $offset,$per_page";
         $list_ids   = implode(',', $list_ids );
         $permission_join = apply_filters( 'pm_incomplete_task_query_join', '', $project_id );
         $permission_where = apply_filters( 'pm_incomplete_task_query_where', '', $project_id );
@@ -849,7 +856,6 @@ class Task_Controller {
                         AND ibord.boardable_type='task'
                         $permission_where
                         order by iorder asc
-                        $limit
                         
                 ) as task
       
@@ -870,14 +876,20 @@ class Task_Controller {
             $list_ids[] = 0;
         }
 
-        $pagenum          = isset( $_GET['complete_task_page'] ) ? intval( $_GET['complete_task_page'] ) : 1;
+        $per_page_count    = isset( $_GET['complete_task_per_page'] ) ? intval( $_GET['complete_task_per_page'] ) : false;
+        //$pagenum          = isset( $_GET['complete_task_page'] ) ? intval( $_GET['complete_task_page'] ) : 1;
         $table_ba         = $wpdb->prefix . 'pm_boardables';
         $table_task       = $wpdb->prefix . 'pm_tasks';
         
         $per_page         = pm_get_setting( 'complete_tasks_per_page' );
-        $per_page         = $per_page ? $per_page : 5;
-        $offset           = ( $pagenum - 1 ) * $per_page;
-        $limit            = $pagenum == 1 ? '' : "LIMIT $offset,$per_page";
+        $per_page   = empty( $per_page ) ? 20 : intval( $per_page );
+
+        if ( intval( $per_page_count ) ) {
+            $per_page = $per_page_count == -1 ? 99999999 : $per_page_count;
+        } 
+        //$per_page         = $per_page ? $per_page : 5;
+        //$offset           = ( $pagenum - 1 ) * $per_page;
+        //$limit            = $pagenum == 1 ? '' : "LIMIT $offset,$per_page";
         
         $list_ids         = implode(',', $list_ids );
         $permission_join  = apply_filters( 'pm_complete_task_query_join', '', $project_id );
@@ -901,7 +913,6 @@ class Task_Controller {
                         AND ibord.boardable_type='task'
                         $permission_where
                         order by iorder asc
-                        $limit
                         
                 ) as task
       

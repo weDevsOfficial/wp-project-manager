@@ -1,4 +1,4 @@
-<template>
+ <template>
     <div class="pm-msg-edit-form">
         <div class="pm-message-form-wrap" >
             <form class="pm-form pm-message-form" @submit.prevent="formAction()" enctype='multipart/form-data'>

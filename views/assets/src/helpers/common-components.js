@@ -16,6 +16,7 @@ import TaskList from '@components/project-task-lists/lists.vue';
 import HeaderMenu from '@components/common/menu.vue';
 import Comments from '@components/common/comments.vue';
 import Popper from 'vue-popperjs';
+import ListDropDown from '@components/common/list-drop-down.vue';
 
 pm.Vue.component('pm-pagination', pagination);
 pm.Vue.component('pm-date-picker', datePicker);
@@ -35,6 +36,7 @@ pm.Vue.component('pm-task-list', TaskList);
 pm.Vue.component('pm-heder-menu', HeaderMenu);
 pm.Vue.component('pm-comments', Comments);
 pm.Vue.component('pm-popper', Popper);
+pm.Vue.component('pm-list-drop-down', ListDropDown);
 
 
 
