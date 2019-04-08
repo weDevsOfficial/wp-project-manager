@@ -219,6 +219,63 @@
     }
 }
 
+.pm-circle-spinner-white {
+    &:after {
+        position: absolute;
+        content: "";
+        border: 2px solid #fff;
+        border-radius: 50%;
+        display: inline-block;
+        height: 8px;
+        width: 8px;
+        border-color: #fff #fff #fff transparent;
+        -webkit-animation: pm-circle-spinner 1s infinite;
+        animation: pm-circle-spinner 1s infinite;
+        vertical-align: middle;
+        position: absolute;
+        top: 32%;
+    	left: 43%;
+    }
+}
+
+@keyframes pm-circle-spinner-white {
+    0% {
+        -webkit-transform: rotate(0);
+        transform: rotate(0);
+        animation-timing-function: cubic-bezier(.55,.055,.675,.19)
+    }
+
+    50% {
+        -webkit-transform: rotate(180deg);
+        transform: rotate(180deg);
+        animation-timing-function: cubic-bezier(.215,.61,.355,1)
+    }
+
+    to {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg)
+    }
+}
+
+@-webkit-keyframes pm-circle-spinner-white {
+    0% {
+        -webkit-transform: rotate(0);
+        transform: rotate(0);
+        animation-timing-function: cubic-bezier(.55,.055,.675,.19)
+    }
+
+    50% {
+        -webkit-transform: rotate(180deg);
+        transform: rotate(180deg);
+        animation-timing-function: cubic-bezier(.215,.61,.355,1)
+    }
+
+    to {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg)
+    }
+}
+
 #wedevs-project-manager {
 	.daterangepicker {
 		z-index: 99999;
