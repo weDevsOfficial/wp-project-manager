@@ -34,15 +34,17 @@ class Task_Controller {
 
     use Transformer_Manager, Request_Filter, Last_activity;
 
-    private static $_instance;
 
-    public static function getInstance() {
-        if ( !self::$_instance ) {
-            self::$_instance = new self();
-        }
+	private static $_instance;
 
-        return self::$_instance;
-    }
+	public static function getInstance() {
+		if ( !self::$_instance ) {
+			self::$_instance = new self();
+		}
+
+		return self::$_instance;
+	}
+
 
     public function index( WP_REST_Request $request ) {
         $project_id = $request->get_param( 'project_id' );
@@ -87,8 +89,8 @@ class Task_Controller {
     public function show( WP_REST_Request $request ) {
         $project_id = $request->get_param( 'project_id' );
         $task_id    = $request->get_param( 'task_id' );
+	    return $this->get_task( $task_id, $project_id, $request->get_params() );
 
-        return $this->get_task( $task_id, $project_id, $request->get_params() );
 
         // $task = Task::with('task_lists')->where( 'id', $task_id )
         //     ->parent()
@@ -120,11 +122,12 @@ class Task_Controller {
                 'message' => pm_get_text('success_messages.no_element')
             ] );
         }
-
         $resource = new Item( $task, new Task_Transformer );
-
-        return self::getInstance()->get_response( $resource );
+	    $response =self::getInstance()->get_response( $resource );
+        $response = apply_filters('pm_get_task', $response , $request);
+        return $response ;
     }
+
 
     public function store( WP_REST_Request $request ) {
         $data          = $this->extract_non_empty_values( $request );
