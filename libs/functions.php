@@ -714,4 +714,3 @@ function pm_total_message() {
     return $message;
 }
 
-

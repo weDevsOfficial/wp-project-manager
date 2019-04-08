@@ -161,6 +161,11 @@ class Project_Controller {
 			return new \WP_Error( 'project', pm_get_text('success_messages.no_project'), array( 'status'=> 404 ) );
 		}
 
+        $projectId_git_bit_hash = get_option('projectId_git_bit_hash_'.$project->id);
+		if(!$projectId_git_bit_hash){
+            add_option('projectId_git_bit_hash_'.$project->id , sha1(strtotime("now").$project->id));
+        }
+
 		$resource = new Item( $project, new Project_Transformer );
 		$list_view = pm_get_meta( $user_id, $id, 'list_view', 'list_view_type' );
 		$resource->setMeta([
@@ -174,7 +179,7 @@ class Project_Controller {
 		// Extraction of no empty inputs and create project
 		$data    = $this->extract_non_empty_values( $request );
 		$project = Project::create( $data );
-
+		add_option('projectId_git_bit_hash_'.$project->id , sha1(strtotime("now").$project->id));
 		// Establishing relationships
 		$category_ids = $request->get_param( 'categories' );
 		if ( $category_ids ) {

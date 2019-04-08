@@ -152,7 +152,7 @@ class Frontend {
 		return $schedules;
 	}
 
-function project_text_editor($config) {
+    function project_text_editor($config) {
 	$config['external_plugins']['placeholder'] = config('frontend.assets_url') . 'vendor/tinymce/plugins/placeholder/plugin.min.js';
 	$config['plugins'] = 'placeholder textcolor colorpicker wplink wordpress';
 	return $config;
@@ -291,4 +291,6 @@ function project_text_editor($config) {
         wp_safe_redirect( add_query_arg( array( 'page' => 'pm_projects#/welcome' ), admin_url( 'index.php' ) ) );
         exit;
     }
+
+
 }

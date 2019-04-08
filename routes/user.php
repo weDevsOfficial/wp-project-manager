@@ -16,3 +16,6 @@ $router->get( 'users/search', 'WeDevs/PM/User/Controllers/User_Controller@search
     ->permission(['WeDevs\PM\Core\Permissions\Authentic']);
 $router->put( 'users/{user_id}/roles', 'WeDevs/PM/User/Controllers/User_Controller@update_role' )
     ->permission(['WeDevs\PM\Core\Permissions\Authentic']);
+
+$router->post( 'save_users_map_name', 'WeDevs/PM/User/Controllers/User_Controller@save_users_map_name' )
+    ->permission(['WeDevs\PM\Core\Permissions\Authentic']);
