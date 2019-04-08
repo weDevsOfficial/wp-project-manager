@@ -521,7 +521,7 @@ var PM_TaskList_Mixin = {
             
             var data = pm_apply_filters( 'before_task_save', args.data );
                 data = pm.hooks.applyFilters( 'before_task_save', data );
-
+            
             var request_data = {
                 url: self.base_url + '/pm/v2/projects/'+args.data.project_id+'/tasks',
                 type: 'POST',

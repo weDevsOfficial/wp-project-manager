@@ -4,7 +4,7 @@
  *
  * Requires jQuery
  */
-export var PMmenuFix = function (slug) {
+var menuFix = function (slug) {
     var $ = jQuery;
 
     let menuRoot = $('#toplevel_page_' + slug);
@@ -31,4 +31,4 @@ export var PMmenuFix = function (slug) {
     });
 }
 
-// export default menuFix;
+export default menuFix;
