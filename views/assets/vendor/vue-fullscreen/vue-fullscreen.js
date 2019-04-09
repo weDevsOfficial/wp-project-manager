@@ -1,3 +1,3 @@
-import fullscreen from 'vue-fullscreen'
+ import fullscreen from 'vue-fullscreen'
 
 Vue.use(fullscreen)
