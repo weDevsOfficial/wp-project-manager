@@ -32,7 +32,7 @@
 
     Vue.directive('pm-upload-container', {
         inserted: function (el, binding, vnode) { 
-            console.log(jQuery('#pm-upload-container').find('.moxie-shim'));
+            //console.log(jQuery('#pm-upload-container').find('.moxie-shim'));
         },
     });
 
