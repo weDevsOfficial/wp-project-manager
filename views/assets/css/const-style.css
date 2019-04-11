@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'icomoon';
-  src:  url('fonts/icomoon.eot?5gajjh');
-  src:  url('fonts/icomoon.eot?5gajjh#iefix') format('embedded-opentype'),
-    url('fonts/icomoon.ttf?5gajjh') format('truetype'),
-    url('fonts/icomoon.woff?5gajjh') format('woff'),
-    url('fonts/icomoon.svg?5gajjh#icomoon') format('svg');
+  src:  url('icomoon-fonts/icomoon.eot?o5sv3v');
+  src:  url('icomoon-fonts/icomoon.eot?o5sv3v#iefix') format('embedded-opentype'),
+    url('icomoon-fonts/icomoon.ttf?o5sv3v') format('truetype'),
+    url('icomoon-fonts/icomoon.woff?o5sv3v') format('woff'),
+    url('icomoon-fonts/icomoon.svg?o5sv3v#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -24,11 +24,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-pm-unlock:before {
-  content: "\e90c";
+.icon-pm-automation:before {
+  content: "\e935";
 }
-.icon-pm-check-circle:before {
-  content: "\e919";
+.icon-pm-fullscreen:before {
+  content: "\e934";
 }
 .icon-pm-capability:before {
   content: "\e91c";
@@ -221,6 +221,15 @@
   content: "\e911";
   color: #d4d6d6;
 }
+.icon-label_outline:before {
+  content: "\e933";
+}
+.icon-pm-check-circle:before {
+  content: "\e919";
+}
+.icon-pm-unlock:before {
+  content: "\e90c";
+}
 .icon-pm-eye:before {
   content: "\e9ce";
 }
@@ -233,17 +242,16 @@
 
 
 
-
-
-/*
- * Flaticon icon font: Flaticon
- * Creation date: 14/11/2018 09:12
- */
+  /*
+    Flaticon icon font: Flaticon
+    Creation date: 21/03/2019 06:22
+    */
 
 @font-face {
   font-family: "Flaticon";
   src: url("flaticon-fonts/Flaticon.eot");
   src: url("flaticon-fonts/Flaticon.eot?#iefix") format("embedded-opentype"),
+       url("flaticon-fonts/Flaticon.woff2") format("woff2"),
        url("flaticon-fonts/Flaticon.woff") format("woff"),
        url("flaticon-fonts/Flaticon.ttf") format("truetype"),
        url("flaticon-fonts/Flaticon.svg#Flaticon") format("svg");
@@ -254,7 +262,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: "Flaticon";
-    src: url("./Flaticon.svg#Flaticon") format("svg");
+    src: url("flaticon-fonts/Flaticon.svg#Flaticon") format("svg");
   }
 }
 
@@ -265,21 +273,6 @@
 font-style: normal;
 margin-left: 20px;
 }
-.fi:before{
-  display: inline-block;
-  font-family: "Flaticon";
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  line-height: 1;
-  text-decoration: inherit;
-  text-rendering: optimizeLegibility;
-  text-transform: none;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-font-smoothing: antialiased;
-  font-smoothing: antialiased;
-}
-
 
 .flaticon-document:before { content: "\f100"; }
 .flaticon-arrow:before { content: "\f101"; }
@@ -320,3 +313,71 @@ margin-left: 20px;
 .flaticon-test:before { content: "\f124"; }
 .flaticon-arrow-down-sign-to-navigate:before { content: "\f125"; }
 .flaticon-up-arrow:before { content: "\f126"; }
+.flaticon-task:before { content: "\f127"; }
+.flaticon-pm-unlock:before { content: "\f128"; }
+.flaticon-pm-task-filter:before { content: "\f129"; }
+.flaticon-pm-star:before { content: "\f12a"; }
+.flaticon-pm-pencil:before { content: "\f12b"; }
+.flaticon-pm-move:before { content: "\f12c"; }
+.flaticon-pm-left-arrow:before { content: "\f12d"; }
+.flaticon-pm-invoice:before { content: "\f12e"; }
+.flaticon-pm-gantchart:before { content: "\f12f"; }
+.flaticon-pm-eye:before { content: "\f130"; }
+.flaticon-pm-clip:before { content: "\f131"; }
+.flaticon-pm-down-arrow:before { content: "\f132"; }
+.flaticon-pm-discussion:before { content: "\f133"; }
+.flaticon-pm-delete:before { content: "\f134"; }
+.flaticon-pm-cross:before { content: "\f135"; }
+.flaticon-move-1:before { content: "\f136"; }
+.flaticon-pm-archive-1:before { content: "\f137"; }
+.flaticon-label-outline:before { content: "\f138"; }
+.flaticon-pm-automation:before { content: "\f139"; }
+.flaticon-pm-calendar:before { content: "\f13a"; }
+.flaticon-pm-align-left:before { content: "\f13b"; }
+.flaticon-pm-capability:before { content: "\f13c"; }
+.flaticon-pm-activity:before { content: "\f13d"; }
+.flaticon-pm-comment:before { content: "\f13e"; }
+.flaticon-pm-completed:before { content: "\f13f"; }
+.flaticon-pm-copy-files:before { content: "\f140"; }
+.flaticon-pm-settings:before { content: "\f141"; }
+.flaticon-pm-search:before { content: "\f142"; }
+.flaticon-pm-stop:before { content: "\f143"; }
+.flaticon-pm-smile:before { content: "\f144"; }
+.flaticon-pm-play:before { content: "\f145"; }
+.flaticon-pm-sorting:before { content: "\f146"; }
+.flaticon-pm-copy:before { content: "\f147"; }
+.flaticon-pm-mileston:before { content: "\f148"; }
+.flaticon-pm-loop:before { content: "\f149"; }
+.flaticon-pm-list-view:before { content: "\f14a"; }
+.flaticon-pm-kanboard-view:before { content: "\f14b"; }
+.flaticon-pm-integration:before { content: "\f14c"; }
+.flaticon-pm-incomplete:before { content: "\f14d"; }
+.flaticon-pm-fullscreen:before { content: "\f14e"; }
+.flaticon-pm-filter:before { content: "\f14f"; }
+.flaticon-pm-file:before { content: "\f150"; }
+.flaticon-pm-check-circle:before { content: "\f151"; }
+.flaticon-pm-enter:before { content: "\f152"; }
+.flaticon-pm-drag-drop:before { content: "\f153"; }
+.flaticon-pm-user:before { content: "\f154"; }
+.flaticon-pm-tag:before { content: "\f155"; }
+.flaticon-pm-switch-project:before { content: "\f156"; }
+.flaticon-pm-overview:before { content: "\f157"; }
+.flaticon-pm-single-user:before { content: "\f158"; }
+.flaticon-pm-rigth-arrow:before { content: "\f159"; }
+.flaticon-pm-private:before { content: "\f15a"; }
+.flaticon-pm-navigation:before { content: "\f15b"; }
+.flaticon-pm-more-options:before { content: "\f15c"; }
+.flaticon-pm-task-count:before { content: "\f15d"; }
+.flaticon-pm-task-list:before { content: "\f15e"; }
+.flaticon-pm-undo-arrow:before { content: "\f15f"; }
+.flaticon-pm-watch:before { content: "\f160"; }
+.flaticon-pm-up-arrow:before { content: "\f161"; }
+.flaticon-move-2:before { content: "\f162"; }
+.flaticon-edit-tools:before { content: "\f163"; }
+.flaticon-cat:before { content: "\f164"; }
+.flaticon-camera:before { content: "\f165"; }
+.flaticon-import:before { content: "\f166"; }
+
+
+
+

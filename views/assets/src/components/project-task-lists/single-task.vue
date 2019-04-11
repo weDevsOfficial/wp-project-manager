@@ -396,6 +396,7 @@
             doActionData () {
                 return {
                     task: this.task,
+                    assignees : this.project_users ,
                     list: this.list,
                     is_single_task_open: true,
                 }

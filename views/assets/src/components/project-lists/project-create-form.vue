@@ -117,7 +117,7 @@
                 show_spinner: false,
                 name_of_the_project: __('Name of the project', 'wedevs-project-manager'),
                 details_of_project: __( 'Some details about the project (optional)', 'wedevs-project-manager'),
-                search_user: __( 'Type 3 or more characters to search users...', 'wedevs-project-manager'),
+                search_user: __( 'Search users...', 'wedevs-project-manager'),
                 create_new_user: __( 'Create a new user', 'wedevs-project-manager'),
                 add_new_project: __( 'Add New Project', 'wedevs-project-manager'),
                 update_project: __( 'Update Project', 'wedevs-project-manager'),

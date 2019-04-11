@@ -135,9 +135,9 @@ export default {
         },
 
         removeSelected(){
-            console.log(this.selected.length)
+            //console.log(this.selected.length)
             if(this.searched_users.length > 0){
-                console.log('hit');
+                //console.log('hit');
                 let i = 0;
                 for(i = 0; i < this.searched_users.length; i++){
                     let user = this.searched_users[i];

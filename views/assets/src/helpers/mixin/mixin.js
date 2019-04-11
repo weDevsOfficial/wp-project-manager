@@ -22,6 +22,43 @@ export default {
     },
 
     methods: {
+        hexToRgb(hex) {
+            // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+            var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+            hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+                return r + r + g + g + b + b;
+            });
+
+            var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+            return result ? {
+                0: parseInt(result[1], 16),
+                1: parseInt(result[2], 16),
+                2: parseInt(result[3], 16)
+            } : null;
+        },
+        getTextColor (rgb) {
+
+            if(typeof rgb !== 'object') {
+                rgb = this.hexToRgb(rgb);
+            }
+            if(rgb === null) {
+                return '';
+            }
+            var c = 'rgb('+rgb[0]+','+rgb[1]+','+rgb[2]+')';
+            
+            //http://www.w3.org/TR/AERT#color-contrast
+            
+            var o = Math.round(((parseInt(rgb[0]) * 299) + (parseInt(rgb[1]) * 587) + (parseInt(rgb[2]) * 114)) /1000);
+            
+            //console.log(o);
+            
+            if(o > 185) {
+                return '#848484';
+            } else { 
+                return 'white';
+            }
+
+        },
         getInboxId () {
             return this.$store.state.project.list_inbox;
         },
@@ -57,7 +94,7 @@ export default {
             return pmIsUserInProject( this.$store.state.project );
         },
         is_manager (project) {
-            var project = project || this.$store.state.project
+            var project = project || this.$store.state.project;
             return pmIsManager(project);
         },
         has_manage_capability () {

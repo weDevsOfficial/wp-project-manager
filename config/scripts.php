@@ -49,6 +49,7 @@ $pm_scripts = [
 		'id'         => 'pm-vue',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/vue/vue'.$suffix.'.js',
 		'path'       => $view_path . '/assets/vendor/vue/vue'.$suffix.'.js',
+		'path' => 'https://cdn.jsdelivr.net/npm/vue',
 		'dependency' => ['pm-i18n'],
 		'in_footer'  => true
 	],
@@ -56,6 +57,7 @@ $pm_scripts = [
 		'id'         => 'pm-vuex',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/vue/vuex'.$suffix.'.js',
 		'path'       => $view_path . '/assets/vendor/vue/vuex'.$suffix.'.js',
+		'path' => 'https://unpkg.com/vuex',
 		'dependency' => ['pm-vue'],
 		'in_footer'  => true
 	],
@@ -120,11 +122,19 @@ $pm_scripts = [
 		'in_footer'  => true
 	],
 
+	'pm-v-fullscreen' => [
+		'id'         => 'pm-v-fullscreen',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/vue-fullscreen/vue-fullscreen.min.js',
+		'path'       => $view_path . '/assets/vendor/vue-fullscreen/vue-fullscreen.min.js',
+		'dependency' => ['pm-v-tooltip'],
+		'in_footer'  => true
+	],
+
 	'pm-nprogress' => [
 		'id'         => 'pm-nprogress',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/nprogress/nprogress'.$suffix.'.js',
 		'path'       => $view_path . '/assets/vendor/nprogress/nprogress'.$suffix.'.js',
-		'dependency' => ['pm-v-tooltip', 'pm-locale'],
+		'dependency' => ['pm-v-tooltip', 'pm-locale', 'pm-v-fullscreen'],
 		'in_footer'  => true
 	],
 
@@ -226,7 +236,7 @@ $pm_scripts = [
 	]
 ];
 
-if ( version_compare( $wp_version, '5.0', '<' ) ) {
+if ( ( version_compare( $wp_version, '5.0', '<' ) ) || ! is_admin() ) {
     $pm_hooks = [
 	    'pm-hooks' => [
 			'id'         => 'pm-hooks',

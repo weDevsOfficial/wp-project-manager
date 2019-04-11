@@ -95,10 +95,6 @@ class Frontend {
 	}
 
 	public function includes() {
-		//if ( ! wp_next_scheduled( 'pm_test_schedule' ) ) {
-			//wp_schedule_event(time(), 'pm_schedule', 'pm_test_schedule');
-		//}
-
 		// cli command
         if ( defined('WP_CLI') && WP_CLI ) {
         	$file = config( 'frontend.patch' ) . '/core/cli/Commands.php';
@@ -152,7 +148,7 @@ class Frontend {
 		return $schedules;
 	}
 
-function project_text_editor($config) {
+    function project_text_editor($config) {
 	$config['external_plugins']['placeholder'] = config('frontend.assets_url') . 'vendor/tinymce/plugins/placeholder/plugin.min.js';
 	$config['plugins'] = 'placeholder textcolor colorpicker wplink wordpress';
 	return $config;
@@ -281,6 +277,7 @@ function project_text_editor($config) {
     }
 
     public function redirect_after_activate() {
+        
         if ( ! apply_filters( 'pm_welcome_page_redirect', get_transient( '_pm_setup_page_redirect' ) ) ) {
             return;
         }
@@ -291,4 +288,6 @@ function project_text_editor($config) {
         wp_safe_redirect( add_query_arg( array( 'page' => 'pm_projects#/welcome' ), admin_url( 'index.php' ) ) );
         exit;
     }
+
+
 }

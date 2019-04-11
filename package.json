@@ -1,6 +1,6 @@
 {
   "name": "pmapi",
-  "version": "2.0.13",
+  "version": "2.0.14",
   "description": "Front-end package manager for project manager",
   "main": "index.js",
   "directories": {
@@ -94,6 +94,7 @@
     "v-autocomplete": "^1.8.2",
     "vue": "^2.5.2",
     "vue-color": "^2.4.5",
+    "vue-fullscreen": "^2.1.5",
     "vue-multiselect": "^2.0.3",
     "vue-popperjs": "^1.6.3",
     "vue-router": "^3.0.1",
