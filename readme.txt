@@ -210,7 +210,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
-= v2.0.14 - April 10, 2019 =
+= v2.0.14 - April 11, 2019 =
 
 * **New** Included filter at task activity and after create comment.
 * **Update** Remove search user minimum 3 character condition.
