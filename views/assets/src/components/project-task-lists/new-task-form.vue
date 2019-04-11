@@ -86,198 +86,6 @@
 
 </template>
 
-<style lang="less">
-    span.pm-estimate-icon {
-        cursor: pointer;
-        &::before {
-            font-size: 14px !important;
-            color: #d9dbdb;
-        }
-        &:hover:before {
-            color: #000;
-        }
-    }
-    .pm-task-form {
-        span.pm-spinner {
-            position: absolute;
-            top: 8px;
-            left: 7px;
-        }
-        .create-area {
-            &:hover {
-                .icon-plus {
-                    color: #444;
-                }
-            }
-            border: 1px solid #ECECEC;
-            width: 100%;
-            padding: 5px 10px;
-            color: #B0BABC;
-            .icon-plus {
-                line-height: 0;
-                margin-right: 10px;
-                font-size: 25px;
-                color: #D7DEE2;
-            }
-        }
-        .input-area {
-            .input-action-wrap {
-                position: relative;
-                .update-button {
-                    position: absolute;
-                    right: 0;
-                    top: 0px;
-                    background: #019dd6;
-                    color: #fff;
-                    font-size: 12px;
-                    padding: 6px 8px;
-                    
-                    &:hover {
-                        background: #008ec2;
-                    }
-                }
-                .plus-text {
-                    position: absolute;
-                    top: 4px;
-                    margin-left: 9px;
-                    font-size: 25px;
-                    color: #B5C0C3;
-                    font-weight: 200;
-                }
-
-                .subtask-date {
-                    position: absolute;
-                    top: 33px;
-                    right: 0px;
-                    display: flex;
-                    border: 1px solid #DDDDDD;
-                    border-top: none;
-                    box-shadow: 0px 6px 20px 0px rgba(214, 214, 214, 0.6);
-                    flex-wrap: wrap;
-                    z-index: 9;
-                    font-size: 12px;
-
-                    .pm-date-picker-from {
-                        .ui-datepicker {
-                            border: none;
-                        }
-                    }
-
-                    .pm-date-picker-to {
-                        .ui-datepicker {
-                            border: none;
-                        }
-                    }
-                }
-            }
-            .description-field {
-                border: none;
-                border-bottom: 1px solid #1A9ED4;
-                height: 30px;
-                padding: 10px;
-                width: 100%;
-                margin-bottom: 15px;
-                box-shadow: none;
-                line-height: 1.5;
-            }
-            .icon-pm-single-user {
-                position: relative;
-                .pm-multiselect-top {
-                    top: 23px !important;
-                    border-top: none !important;
-                    border-top-right-radius: 0 !important;
-                    border-top-left-radius: 0 !important;
-
-                }
-            }
-            .input-field {
-                width: 100%;
-                height: 33px;
-                padding-left: 28px;
-                padding-right: 131px;
-                box-shadow: none !important;
-                &::placeholder {
-                    color: #B5C0C3;
-                    font-weight: 300;
-                    font-size: 12px;
-                }
-            }
-            .action-icons {
-                position: absolute;
-                right: 18px;
-                top: 6px;
-                margin-right: 11px;
-                display: flex;
-                align-items: center;
-
-                .pm-action-wrap {
-                    display: flex;
-                    align-items: center;
-                    line-height: 0;
-
-                    .pm-task-recurrent {
-                        margin-right: 10px;
-                        .icon-pm-loop {
-                            &:before {
-                                vertical-align: middle;
-                                color: #d4d6d6;
-                                font-weight: 600;
-                                cursor: pointer;
-                            }
-
-                            &:hover {
-                                &:before {
-                                    color: #000;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                .new-task-description-btn {
-                    cursor: pointer;
-
-                    &:hover {
-                        &:before {
-                            color: #000;
-                        }
-                    }
-                }
-
-                .pm-make-privacy {
-                    .icon-pm-unlock, .icon-pm-private {
-                        margin-right: 0;
-                        vertical-align: middle;
-                        cursor: pointer;
-
-                        &:before {
-                            color: #d4d6d6;
-                        }
-
-                        &:hover {
-                            &:before {
-                                color: #444;
-                            }
-                        }
-                    }
-                }
-
-                .task-estimation-arae {
-                    margin-right: 10px;
-                }
-
-                & > span {
-                    margin-right: 10px;
-                }
-                .date-picker {
-                    position: absolute;
-                }
-            }
-        }
-    }
-
-</style>
-
 <script>
 import date_picker from './date-picker.vue';
 import Mixins from './mixin';
@@ -602,8 +410,8 @@ export default {
                     start_at: this.task.start_at.date,
                     due_date: this.task.due_date.date,
                     list_id: this.list.id,
-                    estimated_hours: this.task.meta.estimated_hours || '',
-                    estimated_minutes: this.task.meta.estimated_minutes || '',
+                    estimated_hours: this.getEstimatedHours(this.task),
+                    estimated_minutes: this.getEstimatedMinutes(this.task),
                     order: this.task.order,
                     recurrent: this.task.recurrent,
                     project_id: typeof this.list.project_id !== 'undefined' ? this.list.project_id : this.project_id
@@ -639,6 +447,28 @@ export default {
             }
         },
 
+        getEstimatedHours (task) {
+            if(typeof task.meta == 'undefined') {
+                return '';
+            }
+            if(typeof task.meta.estimated_hours == 'undefined') {
+                return '';
+            }
+
+            return task.meta.estimated_hours;
+        },
+
+        getEstimatedMinutes (task) {
+            if(typeof task.meta == 'undefined') {
+                return ''
+            }
+            if(typeof task.meta.estimated_minutes == 'undefined') {
+                return ''
+            }
+
+            return task.meta.estimated_minutes;
+        },
+
         filterUserId (users) {
             let cuser = [];
             cuser = users.map(function (user) {
@@ -654,3 +484,196 @@ export default {
     }
 }
 </script>
+
+
+<style lang="less">
+    span.pm-estimate-icon {
+        cursor: pointer;
+        &::before {
+            font-size: 14px !important;
+            color: #d9dbdb;
+        }
+        &:hover:before {
+            color: #000;
+        }
+    }
+    .pm-task-form {
+        span.pm-spinner {
+            position: absolute;
+            top: 8px;
+            left: 7px;
+        }
+        .create-area {
+            &:hover {
+                .icon-plus {
+                    color: #444;
+                }
+            }
+            border: 1px solid #ECECEC;
+            width: 100%;
+            padding: 5px 10px;
+            color: #B0BABC;
+            .icon-plus {
+                line-height: 0;
+                margin-right: 10px;
+                font-size: 25px;
+                color: #D7DEE2;
+            }
+        }
+        .input-area {
+            .input-action-wrap {
+                position: relative;
+                .update-button {
+                    position: absolute;
+                    right: 0;
+                    top: 0px;
+                    background: #019dd6;
+                    color: #fff;
+                    font-size: 12px;
+                    padding: 6px 8px;
+                    
+                    &:hover {
+                        background: #008ec2;
+                    }
+                }
+                .plus-text {
+                    position: absolute;
+                    top: 4px;
+                    margin-left: 9px;
+                    font-size: 25px;
+                    color: #B5C0C3;
+                    font-weight: 200;
+                }
+
+                .subtask-date {
+                    position: absolute;
+                    top: 33px;
+                    right: 0px;
+                    display: flex;
+                    border: 1px solid #DDDDDD;
+                    border-top: none;
+                    box-shadow: 0px 6px 20px 0px rgba(214, 214, 214, 0.6);
+                    flex-wrap: wrap;
+                    z-index: 9;
+                    font-size: 12px;
+
+                    .pm-date-picker-from {
+                        .ui-datepicker {
+                            border: none;
+                        }
+                    }
+
+                    .pm-date-picker-to {
+                        .ui-datepicker {
+                            border: none;
+                        }
+                    }
+                }
+            }
+            .description-field {
+                border: none;
+                border-bottom: 1px solid #1A9ED4;
+                height: 30px;
+                padding: 10px;
+                width: 100%;
+                margin-bottom: 15px;
+                box-shadow: none;
+                line-height: 1.5;
+            }
+            .icon-pm-single-user {
+                position: relative;
+                .pm-multiselect-top {
+                    top: 23px !important;
+                    border-top: none !important;
+                    border-top-right-radius: 0 !important;
+                    border-top-left-radius: 0 !important;
+
+                }
+            }
+            .input-field {
+                width: 100%;
+                height: 33px;
+                padding-left: 28px;
+                padding-right: 131px;
+                box-shadow: none !important;
+                &::placeholder {
+                    color: #B5C0C3;
+                    font-weight: 300;
+                    font-size: 12px;
+                }
+            }
+            .action-icons {
+                position: absolute;
+                right: 18px;
+                top: 6px;
+                margin-right: 11px;
+                display: flex;
+                align-items: center;
+
+                .pm-action-wrap {
+                    display: flex;
+                    align-items: center;
+                    line-height: 0;
+
+                    .pm-task-recurrent {
+                        margin-right: 10px;
+                        .icon-pm-loop {
+                            &:before {
+                                vertical-align: middle;
+                                color: #d4d6d6;
+                                font-weight: 600;
+                                cursor: pointer;
+                            }
+
+                            &:hover {
+                                &:before {
+                                    color: #000;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .new-task-description-btn {
+                    cursor: pointer;
+
+                    &:hover {
+                        &:before {
+                            color: #000;
+                        }
+                    }
+                }
+
+                .pm-make-privacy {
+                    .icon-pm-unlock, .icon-pm-private {
+                        margin-right: 0;
+                        vertical-align: middle;
+                        cursor: pointer;
+
+                        &:before {
+                            color: #d4d6d6;
+                        }
+
+                        &:hover {
+                            &:before {
+                                color: #444;
+                            }
+                        }
+                    }
+                }
+
+                .task-estimation-arae {
+                    margin-right: 10px;
+                }
+
+                & > span {
+                    margin-right: 10px;
+                }
+                .date-picker {
+                    position: absolute;
+                }
+            }
+        }
+    }
+
+</style>

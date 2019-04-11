@@ -79,7 +79,7 @@
                         },
                         callback: function (res) {
                             this.users = res.data;
-                            console.log(this.users);
+                            //console.log(this.users);
                         }
                     }
 

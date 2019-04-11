@@ -198,7 +198,7 @@
                     url: self.base_url+"/pm/v2/tools/active-collab-import",
                     success (res) {
                         self.requestSent = true;
-                        console.log(res);
+                        //console.log(res);
                         // toastr.info(res);
                     }
                 };

@@ -210,10 +210,14 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
-= v2.0.14 - March 04, 2019 =
+= v2.0.14 - April 10, 2019 =
 
-* **New** Filter 'pm_after_get_files'.
-* **Update** Remove search user minimum 3 character condition
+* **New** Included filter at task activity and after create comment.
+* **Update** Remove search user minimum 3 character condition.
+* **Update** Remove tooltip from list view and kanboard view button.
+* **Update** Migrated from icomoon to Flaticon.
+* **Fix** API authentication problem.
+* **Fix** Some textdomain.
 
 = v2.0.13 - March 04, 2019 =
 

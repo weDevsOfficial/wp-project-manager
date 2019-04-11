@@ -1,6 +1,6 @@
 <template>
     <transition name="modal">
-        <div class="modal-mask" :class="classes"  v-show="isActive" >
+        <div class="modal-mask pm-common-modal-wrap" :class="classes"  v-show="isActive" >
             <div class="modal-wrapper">
                 <div class="modal-container" :style="styles">
                     <div class="modal-header">
@@ -71,4 +71,27 @@
 
 
 </script>
+
+<style lang="less">
+    .pm-common-modal-wrap {
+        .pm-filter-modal-header {
+            padding: 12px !important;
+        }
+
+        .modal-header {
+            margin-bottom: 0 !important;
+            border-bottom: none !important;
+        }
+        .modal-footer {
+            padding: 0 !important;
+        }
+        .modal-wrapper {
+            vertical-align: baseline !important;
+
+            .modal-container {
+                top: 80px !important;
+            }
+        }
+    }
+</style>
     
