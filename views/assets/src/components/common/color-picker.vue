@@ -51,6 +51,14 @@
         },
 
         props: {
+            showHide: {
+                type: [Object],
+                default () {
+                    return {
+                        status: false
+                    }
+                }
+            },
             value: {
                 type: String,
                 required: true,
@@ -100,6 +108,10 @@
             return {
                 showColorPicker: false
             };
+        },
+
+        created () {
+            this.showColorPicker = this.showHide.status;
         },
 
         methods: {

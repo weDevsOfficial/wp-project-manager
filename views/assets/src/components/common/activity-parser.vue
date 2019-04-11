@@ -172,7 +172,10 @@
 
                 if (userid == current_user ) {
                     return this.$router.resolve({name: 'mytask-tasks'}).href;
-                    
+                }
+
+                if(userid == null){
+                    return 'javascript:void(0)';
                 }
 
                 return this.$router.resolve({name: 'mytask-tasks', params: {user_id: userid}}).href;

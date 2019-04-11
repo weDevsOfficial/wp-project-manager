@@ -414,7 +414,7 @@ function pm_user_can( $cap, $project_id, $user_id = false ) {
     return false;
 }
 
-function pm_has_manage_capability( $user_id = false ) {
+function pm_has_manage_capability( $user_id = false ) { 
     $user_id = $user_id ? intval( $user_id ) : get_current_user_id();
     $user    = get_user_by( 'id', $user_id );
     
@@ -713,5 +713,4 @@ function pm_total_message() {
     $message = Discussion_Board::count();
     return $message;
 }
-
 

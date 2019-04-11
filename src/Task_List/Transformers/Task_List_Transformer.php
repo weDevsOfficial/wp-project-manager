@@ -135,8 +135,14 @@ class Task_List_Transformer extends TransformerAbstract {
 
     public function includeCompleteTasks( Task_List $item ) {
         $page = isset( $_GET['complete_task_page'] ) ? intval($_GET['complete_task_page']) : 1;
+        $per_page_count = isset( $_GET['complete_task_per_page'] ) ? intval($_GET['complete_task_per_page']) : false;
+
         $per_page = pm_get_setting( 'complete_tasks_per_page' );
         $per_page = $per_page ? $per_page : 5;
+
+        if ( intval( $per_page_count ) ) {
+            $per_page = $per_page_count;
+        } 
 
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
@@ -157,6 +163,7 @@ class Task_List_Transformer extends TransformerAbstract {
 
     public function includeIncompleteTasks( Task_List $item ) {
         $page = isset( $_GET['incomplete_task_page'] ) ? intval( $_GET['incomplete_task_page'] ) : 1;
+        $per_page_count = isset( $_GET['incomplete_task_per_page'] ) ? intval($_GET['incomplete_task_per_page']) : false;
 
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
@@ -164,6 +171,11 @@ class Task_List_Transformer extends TransformerAbstract {
 
         $per_page = pm_get_setting( 'incomplete_tasks_per_page' );
         $per_page = $per_page ? $per_page : 5;
+        
+        if ( intval( $per_page_count ) ) {
+            $per_page = $per_page_count;
+        } 
+        
         $tasks = $item->tasks()
             ->where( 'status', 0 );
         $tasks = apply_filters( 'pm_incomplete_task_query', $tasks,  $item->project_id, $item );

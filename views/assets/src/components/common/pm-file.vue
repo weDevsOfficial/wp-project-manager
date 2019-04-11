@@ -83,7 +83,7 @@ export default {
     },
     methods: {
         check(){
-            console.log(this.file.mime_type);
+            //console.log(this.file.mime_type);
         }
     }
 }

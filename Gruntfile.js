@@ -135,7 +135,7 @@ module.exports = function(grunt) {
         'run',
     ]);
 
-    grunt.registerTask( 'zip', [
+    grunt.registerTask( 'release', [
         'clean',
         'run',
         'replace',

@@ -38,7 +38,9 @@ class File_Controller {
         $resource = new Collection( $file_collection, new File_Transformer );
         $resource->setPaginator( new IlluminatePaginatorAdapter( $files ) );
 
-        return $this->get_response( $resource );
+        $response = $this->get_response( $resource );
+
+        return apply_filters( 'pm_after_get_files', $response, $files, $resource, $request->get_params() );
     }
 
     public function show( WP_REST_Request $request ) {

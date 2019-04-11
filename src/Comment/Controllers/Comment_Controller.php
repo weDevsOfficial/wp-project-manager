@@ -102,6 +102,7 @@ class Comment_Controller {
         $response = $this->get_response( $resource, $message );
         
         do_action( 'pm_after_new_comment', $response, $request->get_params());
+        
         return $response;
     }
 

@@ -88,7 +88,7 @@
                     }
 
                 } else {
-                    console.log("this project already imported")
+                    //console.log("this project already imported")
                 }
                 this.$emit('allaclpSelected');
                 // console.log(this.$store.state.activecol.selectedAclProjects);
