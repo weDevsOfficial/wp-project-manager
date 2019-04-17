@@ -20,7 +20,7 @@
         <ul v-if="activities.length" class="pm-activity-list">
             <li v-for="group in activities" :key="group.id" class="pm-row"> 
                 <div class="pm-activity-date pm-col-1 pm-sm-col-12">
-                    <span>{{ actiivtyGroupDate(group.date, 'DD') }}</span> 
+                    <span>{{ actiivtyGroupDate(group.date, 'DD') }}</span>
                     <br>
                     {{ actiivtyGroupDate(group.date, 'MMMM') }}
                      
@@ -33,7 +33,7 @@
                             </div>
                             <div class="date pm-col-4 pm-sm-col-12">
                                 <time :datetime="pmDateISO8601Format(activity.committed_at.date, activity.committed_at.time)" :title="pmDateISO8601Format(activity.committed_at.date, activity.committed_at.time)">
-                                    <i>{{ taskDateFormat(activity.committed_at.date) }}, {{ dateTimeFormat(activity.committed_at.datetime) }}</i>
+                                    <i>{{ taskDateFormat(activity.committed_at.datetime) }}, {{ dateTimeFormat(activity.committed_at.datetime) }}</i>
                                 </time>
                             </div> 
                             <div class="clear"></div> 
@@ -146,10 +146,10 @@
 
         methods: {
             occurrenceDay (occurrence){
-                var date = new Date(occurrence.committed_at.date);
-                var date = pm.Moment(date).format('YYYY-MM-DD');
+                var date = new Date(occurrence.committed_at.datetime);
+                var date = pm.Moment(date).format('YYYY-MM-DD HH:mm:ss');
 
-                return pm.Moment(date).startOf('day').format('YYYY-MM-DD');
+                return pm.Moment(date).startOf('day').format('YYYY-MM-DD HH:mm:ss');
             },
 
             groupToDay(group, day){
