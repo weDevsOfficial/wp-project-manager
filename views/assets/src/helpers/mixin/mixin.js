@@ -158,6 +158,15 @@ export default {
             return pm.Moment(date).format('dddd, MMMM D YYYY, H:mm:ss');
         },
 
+         getFullDateCustom (date) {
+            if ( !date ) {
+                return;
+            }
+            date = new Date(date.replace(/-/g, "/"));
+
+            return pm.Moment(date).format('dddd, MMMM D YYYY');
+        },
+
         relativeDate (date) {
             if ( !date ) {
                 return;
