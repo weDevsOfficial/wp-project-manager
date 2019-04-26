@@ -157,4 +157,36 @@ class User_Controller {
             }
         }
     }
+
+    public function get_user_all_projects(WP_REST_Request $request) {
+        global $wpdb;
+        $type = $request->get_param('user_type');
+
+        $role = '';
+
+        if( $type == 'manager' ) {
+            $role = ' AND rus.role_id=1';
+        } else if ( $type == 'co_worker') {
+            $role = ' AND rus.role_id=2';
+        } else if ( $type == 'client' ) {
+            $role = ' AND rus.role_id=3';
+        }
+
+        $tb_role_users = pm_tb_prefix() . 'pm_role_user';
+        $tb_users = pm_tb_prefix() . 'users';
+
+        $sql = "SELECT DISTINCT us.ID as user_id, us.user_email as user_email, us.display_name as display_name
+        FROM $tb_role_users as rus
+        LEFT JOIN $tb_users as us ON us.ID=rus.user_id
+
+        WHERE 1=1 $role";
+
+        $users = $wpdb->get_results( $sql );
+
+        foreach ( $users as $key => $user ) {
+            $user->avatar_url = get_avatar_url( $user->user_email );
+        }
+
+        wp_send_json_success( $users );
+    }
 }

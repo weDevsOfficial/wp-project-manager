@@ -22,6 +22,18 @@ export default {
     },
 
     methods: {
+        secondsToHms (d) {
+            d = Number(d);
+            var h = Math.floor(d / 3600);
+            var m = Math.floor(d % 3600 / 60);
+            var s = Math.floor(d % 3600 % 60);
+
+            return {
+                'hour': h,
+                'minute': m,
+                'second': s
+            } 
+        },
         hexToRgb(hex) {
             // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
             var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
