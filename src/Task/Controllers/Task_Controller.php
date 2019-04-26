@@ -820,8 +820,7 @@ class Task_Controller {
             $list_ids[] = 0;
         }
         
-        $per_page_count    = isset( $_GET['incomplete_task_per_page'] ) ? intval( $_GET['incomplete_task_per_page'] ) : false;
-        //$per_page_count = isset( $_GET['per_page'] ) ? $_GET['per_page'] : false;
+        $per_page_count    = isset( $_GET['incomplete_task_page'] ) ? intval( $_GET['incomplete_task_page'] ) : false;
         
         $table_ba   = $wpdb->prefix . 'pm_boardables';
         $table_task = $wpdb->prefix . 'pm_tasks';
@@ -830,18 +829,16 @@ class Task_Controller {
         $per_page   = empty( $per_page ) ? 20 : intval( $per_page );
         
         if ( intval( $per_page_count ) ) {
-            $per_page = $per_page_count == -1 ? 99999999 : $per_page_count;
-        } 
-
-        //$per_page   = $per_page ? $per_page : 5;
-        //var_dump( $per_page ); die();
-        //$offset     = ( $pagenum - 1 ) * $per_page;
-       // $limit      = $pagenum == 1 ? '' : "LIMIT $offset,$per_page";
+            $start = $per_page_count-1;
+        } else {
+            $start = 0;
+        }
+        
         $list_ids   = implode(',', $list_ids );
         $permission_join = apply_filters( 'pm_incomplete_task_query_join', '', $project_id );
         $permission_where = apply_filters( 'pm_incomplete_task_query_where', '', $project_id );
         
-        $sql = "SELECT ibord_id, SUBSTRING_INDEX(GROUP_CONCAT(task.task_id order by task.iorder asc), ',', $per_page) as itasks_id
+        $sql = "SELECT ibord_id, GROUP_CONCAT( DISTINCT task.task_id order by task.iorder asc) as itasks_id
             FROM 
                 (
                     SELECT 
@@ -866,10 +863,31 @@ class Task_Controller {
         
         $results = $wpdb->get_results( $sql );
         
+        if ( $per_page_count != -1 ) {
+            $results = $this->set_pagination( $results, $start, $per_page );
+        }
+        
         $task_ids = wp_list_pluck( $results, 'itasks_id' );
         $task_ids = implode( ',', $task_ids );
 
         return explode(',', $task_ids);
+    }
+
+    private function set_pagination( $results, $start, $per_page ) {
+        
+        foreach ( $results as $key => $result ) {
+            $ids = explode( ',', $result->itasks_id );
+            $ids = array_chunk( $ids, $per_page );
+            $chunk = '';
+            
+            if ( isset( $ids[$start] ) ) {
+                $chunk = implode( ',', $ids[$start] );
+            }
+           
+            $result->itasks_id = empty( $chunk ) ? '' : $chunk;
+        }
+
+        return $results;
     }
 
     public function get_complete_task_ids( $list_ids, $project_id ) {
