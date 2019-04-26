@@ -860,13 +860,16 @@ class Task_Controller {
                 ) as task
       
             group by ibord_id";
+
+        //pmpr($sql);
+        //die();
         
         $results = $wpdb->get_results( $sql );
         
         if ( $per_page_count != -1 ) {
             $results = $this->set_pagination( $results, $start, $per_page );
         }
-        
+
         $task_ids = wp_list_pluck( $results, 'itasks_id' );
         $task_ids = implode( ',', $task_ids );
 
@@ -897,8 +900,8 @@ class Task_Controller {
             $list_ids[] = 0;
         }
 
-        $per_page_count    = isset( $_GET['complete_task_per_page'] ) ? intval( $_GET['complete_task_per_page'] ) : false;
-        //$pagenum          = isset( $_GET['complete_task_page'] ) ? intval( $_GET['complete_task_page'] ) : 1;
+        $per_page_count    = isset( $_GET['complete_task_page'] ) ? intval( $_GET['complete_task_page'] ) : false;
+
         $table_ba         = $wpdb->prefix . 'pm_boardables';
         $table_task       = $wpdb->prefix . 'pm_tasks';
         
@@ -906,17 +909,16 @@ class Task_Controller {
         $per_page   = empty( $per_page ) ? 20 : intval( $per_page );
 
         if ( intval( $per_page_count ) ) {
-            $per_page = $per_page_count == -1 ? 99999999 : $per_page_count;
-        } 
-        //$per_page         = $per_page ? $per_page : 5;
-        //$offset           = ( $pagenum - 1 ) * $per_page;
-        //$limit            = $pagenum == 1 ? '' : "LIMIT $offset,$per_page";
+            $start = $per_page_count-1;
+        } else {
+            $start = 0;
+        }
         
         $list_ids         = implode(',', $list_ids );
         $permission_join  = apply_filters( 'pm_complete_task_query_join', '', $project_id );
         $permission_where = apply_filters( 'pm_complete_task_query_where', '', $project_id );
         
-        $sql = "SELECT ibord_id, SUBSTRING_INDEX(GROUP_CONCAT(task.task_id order by task.iorder asc), ',', $per_page) as itasks_id
+        $sql = "SELECT ibord_id, GROUP_CONCAT( DISTINCT task.task_id order by task.iorder asc) as itasks_id
             FROM 
                 (
                     SELECT 
@@ -940,11 +942,16 @@ class Task_Controller {
             group by ibord_id";
 
         $results = $wpdb->get_results( $sql );
+
+        if ( $per_page_count != -1 ) {
+            $results = $this->set_pagination( $results, $start, $per_page );
+        }
         
         $task_ids = wp_list_pluck( $results, 'itasks_id' );
         $task_ids = implode( ',', $task_ids );
 
         return explode(',', $task_ids);
+
     }
 
     public function get_tasks( $task_ids, $args=[] ) {
