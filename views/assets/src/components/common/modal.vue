@@ -4,7 +4,8 @@
             <div class="modal-wrapper">
                 <div class="modal-container" :style="styles">
                     <div class="modal-header">
-                        <span class="pm-right close-vue-modal"> <a class=""  @click="$emit('close')">X</a> </span>
+                        <span class="pm-right close-vue-modal"> 
+                            <a href="#" class=""  @click.prevent="$emit('close')">X</a> </span>
                         <slot name="header"></slot>
                     </div>
                     <div class="modal-body">

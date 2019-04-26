@@ -19,3 +19,6 @@ $router->put( 'users/{user_id}/roles', 'WeDevs/PM/User/Controllers/User_Controll
 
 $router->post( 'save_users_map_name', 'WeDevs/PM/User/Controllers/User_Controller@save_users_map_name' )
     ->permission(['WeDevs\PM\Core\Permissions\Authentic']);
+
+$router->get( 'user-all-projects', 'WeDevs/PM/User/Controllers/User_Controller@get_user_all_projects' )
+    ->permission(['WeDevs\PM\Core\Permissions\Authentic']);
