@@ -1075,6 +1075,37 @@ export default {
             self.httpRequest(request);
         },
 
+        saveTrelloImportedData (formDataObj,cred,urlString,callback) {
+            var self = this;
+            var url = self.base_url + '/pm/v2/'+ urlString;
+
+            var request = {
+                url: url,
+                xhr: function() {
+                    var xhr = new window.XMLHttpRequest();
+                    xhr.addEventListener("progress", function(evt) {
+                        if (evt.lengthComputable) {
+                            var percentComplete = evt.loaded / evt.total;
+                            window.totalVal += evt.loaded;
+                            window.prevVal = window.totalVal -  evt.loaded;
+                            window.toPerc = Math.ceil((100 - (evt.loaded / window.totalVal) * 100) + 5);
+                        }
+                    }, false);
+                    return xhr;
+                },
+                data: formDataObj,
+                type: 'POST',
+                success (res) {
+                    if (typeof callback !== 'undefined') {
+                        callback(res,cred);
+                    }
+                }
+            };
+
+            self.httpRequest(request);
+        },
+        
+
         deleteProjectSettings (id, args) {
             var self  = this;
 
