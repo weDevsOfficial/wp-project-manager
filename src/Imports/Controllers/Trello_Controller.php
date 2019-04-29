@@ -30,7 +30,7 @@ class Trello_Controller {
 
         $trello_boards = $trello_helper->get_trello_boards($trello_user);
 
-        $trello_tree['user_boards'] = $trello_boards;
+        $trello_tree['user_boards'] = array_chunk($trello_boards,5);
 
         $trello_lists = $trello_helper->get_trello_lists($trello_boards);
         $trello_tree['user_boards_lists'] = $trello_lists;
