@@ -44,22 +44,27 @@
 				let formDataObj = JSON.parse('{"' + decodeURI(formData).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
 				self.trello.import_loader = "Trello data is importing now ... "; //
 				this.saveTrelloImportedData(formDataObj,formDataObj,'trello/get_user',function(user_data,formDataObj){
+					if(user_data == null){
+						self.trello.import_loader = "Sorry ! No user found . Try valid key & token to be completed the process";
+						jQuery('#trello_submit').css('display','block');
+						return ;
+					}
 					user_data.formData = formDataObj;
-					console.log('User - ',user_data);
+					//console.log('User - ',user_data);
 					self.trello.import_loader = "Trello user data is imported . Getting boards data ... " + window.toPerc + '%';
 					self.trello.import_perc = window.toPerc;
 					self.saveTrelloImportedData(user_data,formDataObj,'trello/get_boards',function(brd_data,formDataObj){
 						var boards_data = {} ;
 						boards_data.formData = formDataObj;
 						boards_data.boards_data = brd_data;
-						console.log('Boards - ',boards_data);
+						//console.log('Boards - ',boards_data);
 						self.trello.import_loader = "Trello board data is imported . Getting lists data ... " + window.toPerc + '%';
 						self.trello.import_perc = window.toPerc;
 						self.saveTrelloImportedData(boards_data,formDataObj,'trello/get_lists',function(lst_data,formDataObj){
 							var lists_data = {};
 							lists_data.formData = formDataObj;
 							lists_data.lists_data = lst_data;
-							console.log('Lists - ',lists_data);
+							//console.log('Lists - ',lists_data);
 							self.trello.import_loader = "Trello list data is imported . Getting cards data ... " + window.toPerc + '%';
 							self.trello.import_perc = window.toPerc;
 							self.saveTrelloImportedData(lists_data,formDataObj,'trello/get_cards',function(crd_data,formDataObj){
@@ -69,13 +74,13 @@
 								self.trello.import_loader = "Trello cards data is imported. Getting users data ... " + window.toPerc + '%';
 								self.trello.import_perc = window.toPerc;
 								self.saveTrelloImportedData(cards_data,formDataObj,'trello/get_users',function(usrs_data,formDataObj){
-									console.log('Users -' , usrs_data);
+									//console.log('Users -' , usrs_data);
 									self.trello.import_loader = "Trello data importing is completed 100%";
 									window.toPerc = '' ;
 									self.trello.import_perc = 100;
 								});
 								self.saveTrelloImportedData(cards_data,formDataObj,'trello/get_subcards',function(get_subcards,formDataObj){
-									console.log('Users -' , get_subcards);
+									//console.log('Users -' , get_subcards);
 									self.trello.import_loader = "Trello data importing is completed 100%";
 									window.toPerc = '' ;
 									self.trello.import_perc = 100;
