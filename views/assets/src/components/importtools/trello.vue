@@ -176,6 +176,7 @@
 
     .regular-text {
         width: 49% ;
+        border-radius: 5px;
     }
 
     .pm-pro-settings-action{
