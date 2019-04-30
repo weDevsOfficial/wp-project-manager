@@ -8,7 +8,6 @@
         mounted: function() {
             var self = this,
                 limit_date = ( self.dependency == 'pm-datepickter-from' ) ? "maxDate" : "minDate";
-
             jQuery( self.$el ).datetimepicker({
                 dateFormat: 'yy-mm-dd',
                 changeYear: true,
@@ -18,7 +17,7 @@
                     jQuery( "."+ self.dependency ).datetimepicker( "option", limit_date, selectedDate );
                 },
                 onSelect: function(dateText) {
-                   self.$emit('input', dateText);
+                    self.$emit('input', dateText);
                 }
             });
         },
