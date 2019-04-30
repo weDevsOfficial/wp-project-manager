@@ -47,3 +47,36 @@
         },
     }
 </script>
+
+
+----------------------------------------------------------------
+
+
+
+
+
+<template>
+    <input type="text" :value="value">
+</template>
+
+<script>
+    export default {
+        props: ['value', 'dependency'],
+        mounted: function() {
+            var self = this,
+                limit_date = ( self.dependency == 'pm-datepickter-from' ) ? "maxDate" : "minDate";
+            jQuery( self.$el ).datetimepicker({
+                dateFormat: 'yy-mm-dd',
+                changeYear: true,
+                changeMonth: true,
+                numberOfMonths: 1,
+                onClose: function( selectedDate ) {
+                    jQuery( "."+ self.dependency ).datetimepicker( "option", limit_date, selectedDate );
+                },
+                onSelect: function(dateText) {
+                    self.$emit('input', dateText);
+                }
+            });
+        },
+    }
+</script>
