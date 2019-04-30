@@ -43,16 +43,6 @@ weDevsPMRegisterChildrenRoute('settings_root',
                     return pmHasManageCapability()
                 }
             }
-        },
-        {
-            path: 'usersmap',
-            component: usersmap,
-            name: 'usersmap',
-            meta: {
-                permission: function(project) {
-                    return pmHasManageCapability()
-                }
-            }
         }
     ]
 );
