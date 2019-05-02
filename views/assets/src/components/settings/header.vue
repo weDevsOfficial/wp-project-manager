@@ -9,9 +9,9 @@
                 {{ __( 'E-Mail Settings', 'wedevs-project-manager') }}
             </router-link>
 
-            <router-link class="nav-tab" :to="{name: 'usersmap'}">
+           <!--  <router-link class="nav-tab" :to="{name: 'usersmap'}">
                 {{ __( 'Usersmap', 'wedevs-project-manager') }}
-            </router-link>
+            </router-link> -->
 
             <pm-do-action :hook="'pm-settings-tab'"></pm-do-action>
         </h2>
