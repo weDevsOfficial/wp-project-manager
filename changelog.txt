@@ -1,3 +1,10 @@
+= v2.0.15 - May 02, 2019 =
+
+* **Fix** Load more Completed & Incompleted task.
+* **Fix** Pagination slug of completed task.
+* **Fix** Optimize task queries for retrieving task ids.
+* **Fix** The naming of variable "$milestones" to "$milestone" at filter 'pm_milestone_show_query'
+
 = v2.0.14 - April 11, 2019 =
 
 * **New** Included filter at task activity and after create comment.
