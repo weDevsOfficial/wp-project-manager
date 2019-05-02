@@ -9,6 +9,13 @@
                 {{ __( 'E-Mail Settings', 'wedevs-project-manager') }}
             </router-link>
 
+<<<<<<< HEAD
+=======
+           <!--  <router-link class="nav-tab" :to="{name: 'usersmap'}">
+                {{ __( 'Usersmap', 'wedevs-project-manager') }}
+            </router-link> -->
+
+>>>>>>> b4d3042de0bd9a2dbcd3c8deb0a60b28c1a849fa
             <pm-do-action :hook="'pm-settings-tab'"></pm-do-action>
         </h2>
         <div class="settingswrapper">

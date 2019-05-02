@@ -5,7 +5,7 @@ Tags: web task manager, online collaboration tool, task tracker, productivity to
 Requires at least: 4.4
 Tested up to: 5.1
 Requires PHP: 5.6
-Stable tag: 2.0.13
+Stable tag: 2.0.15
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -209,6 +209,13 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 13. Project Settings -> Email Settings Tab
 
 == Changelog ==
+
+= v2.0.15 - May 02, 2019 =
+
+* **Fix** Load more Completed & Incompleted task.
+* **Fix** Pagination slug of completed task.
+* **Fix** Optimize task queries for retrieving task ids.
+* **Fix** The naming of variable "$milestones" to "$milestone" at filter 'pm_milestone_show_query'
 
 = v2.0.14 - April 11, 2019 =
 
