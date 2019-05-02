@@ -110,6 +110,7 @@ class Milestone_Controller {
             'message' => pm_get_text('success_messages.milestone_created')
         ];
         $response = $this->get_response( $resource, $message );
+        
         do_action( 'cpm_milestone_new', $milestone->id, $request->get_param( 'project_id' ), $request->get_params() );
         do_action("pm_after_new_milestone", $response, $request->get_params() );
 
