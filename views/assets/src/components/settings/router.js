@@ -20,7 +20,7 @@ import settingsGeneral from './general.vue'
 
 import settingsEmail from './email.vue'
 
-import usersmap from './usersmap.vue'
+//import usersmap from './usersmap.vue'
 
 weDevsPMRegisterChildrenRoute('settings_root',
     [
@@ -44,16 +44,16 @@ weDevsPMRegisterChildrenRoute('settings_root',
                 }
             }
         },
-        {
-            path: 'usersmap',
-            component: usersmap,
-            name: 'usersmap',
-            meta: {
-                permission: function(project) {
-                    return pmHasManageCapability()
-                }
-            }
-        }
+        // {
+        //     path: 'usersmap',
+        //     component: usersmap,
+        //     name: 'usersmap',
+        //     meta: {
+        //         permission: function(project) {
+        //             return pmHasManageCapability()
+        //         }
+        //     }
+        // }
     ]
 );
 

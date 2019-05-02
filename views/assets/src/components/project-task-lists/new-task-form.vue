@@ -411,7 +411,7 @@ export default {
                     due_date: this.task.due_date.date,
                     list_id: this.list.id,
                     estimated_hours: this.getEstimatedHours(this.task),
-                    estimated_minutes: this.getEstimatedMinutes(this.task),
+                    //estimated_minutes: this.getEstimatedMinutes(this.task),
                     order: this.task.order,
                     recurrent: this.task.recurrent,
                     project_id: typeof this.list.project_id !== 'undefined' ? this.list.project_id : this.project_id
