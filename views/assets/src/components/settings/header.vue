@@ -8,7 +8,7 @@
             <router-link class="nav-tab" :to="{name: 'email'}">
                 {{ __( 'E-Mail Settings', 'wedevs-project-manager') }}
             </router-link>
-            
+
             <pm-do-action :hook="'pm-settings-tab'"></pm-do-action>
         </h2>
         <div class="settingswrapper">
