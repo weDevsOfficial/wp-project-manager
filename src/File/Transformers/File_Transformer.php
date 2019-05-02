@@ -27,7 +27,8 @@ class File_Transformer extends TransformerAbstract {
             'directory'     => $item->directory,
             'attachment_id' => $item->attachment_id,
             'attached_at'   => format_date( $item->created_at ),
-            'fileable'      => $this->get_fileabel($item)
+            'fileable'      => $this->get_fileabel($item),
+            'meta'      => $this->get_file_meta($item)
         ];
 
         return array_merge( $model_data, $file );
@@ -49,5 +50,13 @@ class File_Transformer extends TransformerAbstract {
             $result = $item->comment()->get()->first();
             return $result->getAttributes();
         }
+    }
+
+    public function get_file_meta($item){
+        $itemArr = [] ;
+        foreach($item->meta as $meta){
+            $itemArr[$meta->meta_key] = $meta->meta_value ;
+        }
+        return $itemArr ;
     }
 }
