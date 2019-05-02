@@ -22,6 +22,18 @@ export default {
     },
 
     methods: {
+        secondsToHms (d) {
+            d = Number(d);
+            var h = Math.floor(d / 3600);
+            var m = Math.floor(d % 3600 / 60);
+            var s = Math.floor(d % 3600 % 60);
+
+            return {
+                'hour': h,
+                'minute': m,
+                'second': s
+            } 
+        },
         hexToRgb(hex) {
             // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
             var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
@@ -156,6 +168,15 @@ export default {
             date = new Date(date.replace(/-/g, "/"));
 
             return pm.Moment(date).format('dddd, MMMM D YYYY, H:mm:ss');
+        },
+
+         getFullDateCustom (date) {
+            if ( !date ) {
+                return;
+            }
+            date = new Date(date.replace(/-/g, "/"));
+
+            return pm.Moment(date).format('dddd, MMMM D YYYY');
         },
 
         relativeDate (date) {
@@ -1065,6 +1086,37 @@ export default {
 
             self.httpRequest(request);
         },
+
+        saveTrelloImportedData (formDataObj,cred,urlString,callback) {
+            var self = this;
+            var url = self.base_url + '/pm/v2/'+ urlString;
+
+            var request = {
+                url: url,
+                xhr: function() {
+                    var xhr = new window.XMLHttpRequest();
+                    xhr.addEventListener("progress", function(evt) {
+                        if (evt.lengthComputable) {
+                            var percentComplete = evt.loaded / evt.total;
+                            window.totalVal += evt.loaded;
+                            window.prevVal = window.totalVal -  evt.loaded;
+                            window.toPerc = Math.ceil((100 - (evt.loaded / window.totalVal) * 100) + 5);
+                        }
+                    }, false);
+                    return xhr;
+                },
+                data: formDataObj,
+                type: 'POST',
+                success (res) {
+                    if (typeof callback !== 'undefined') {
+                        callback(res,cred);
+                    }
+                }
+            };
+
+            self.httpRequest(request);
+        },
+        
 
         deleteProjectSettings (id, args) {
             var self  = this;
