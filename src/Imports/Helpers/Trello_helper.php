@@ -121,7 +121,19 @@ class Trello_helper {
                             return json_decode($data);
                         });
                     if(!empty($checklists_res)){
-                        $trello_checklists_arr[$tc->id] = $checklists_res ;
+                        $checkItem = [];
+                        foreach($checklists_res as $checklists_re){
+                            foreach($checklists_re->checkItems as $checkItems){
+                                $curcheckItems = new \stdClass();
+                                $curcheckItems->id = $checkItems->id ;
+                                $curcheckItems->idBoard = $checklists_re->idBoard ;
+                                $curcheckItems->idCard = $checklists_re->idCard ;
+                                $curcheckItems->name = $checkItems->name ;
+                                $checkItem[] = $curcheckItems ;
+                            }
+                        }
+                        //$trello_checklists_arr[$tc->id] = $checklists_res ;
+                        $trello_checklists_arr[$tc->id] = array_merge($checklists_res,$checkItem) ;
                     }
                 }
             }

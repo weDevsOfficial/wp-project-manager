@@ -74,6 +74,7 @@
 										var lists_data = {};
 										lists_data.formData = formDataObj;
 										lists_data.lists_data = lst_data;
+										//console.log('Lists - ',lists_data);
 										self.trello.import_loader = "Trello list data is imported . Getting cards data ... " + window.toPerc + '%';
 										self.trello.import_perc = window.toPerc;
 										self.saveTrelloImportedData(lists_data,formDataObj,'trello/get_cards',function(crd_data,formDataObj){
@@ -83,21 +84,27 @@
 											self.trello.import_loader = "Trello cards data is imported. Getting users data ... " + window.toPerc + '%';
 											self.trello.import_perc = window.toPerc;
 											self.saveTrelloImportedData(cards_data,formDataObj,'trello/get_users',function(usrs_data,formDataObj){
+												//console.log('Users -' , usrs_data);
 												self.trello.import_loader = "Trello assignee data is importing ..." + window.toPerc + '%';
+												//window.toPerc = '' ;
+												//self.trello.import_perc = 100;
 											});
 											self.saveTrelloImportedData(cards_data,formDataObj,'trello/get_subcards',function(get_subcards,formDataObj){
+												//console.log('Users -' , get_subcards);
 												self.trello.import_loader = "Trello subcard data is importing ...." + window.toPerc + '%';
+												/*window.toPerc = '' ;
+												self.trello.import_perc = 100;
+												jQuery('#trello_submit').css('display','block');*/
 											});
 										});
 									});
 									if(brd_data.length == (index + 1)){
-										window.toPerc = '' ;
-										self.trello.import_loader = "Trello board data import is completed 100%";
+										window.toPerc = 0 ;
+										self.trello.import_loader = "Trello board data is imported 100%";
 										self.trello.import_perc = 100;
 										jQuery('#trello_submit').css('display','block');
 									}
-									console.log('Time out set',index * brd_data.length * 4000);
-								}, index * brd_data.length * 4000);
+								}, index * 60000);
 							}(index,item));
 						});
 					});
