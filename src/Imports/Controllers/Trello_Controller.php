@@ -22,7 +22,7 @@ class Trello_Controller {
 
         $app_key = trim($request->get_param('app_key'));
         $app_token = trim($request->get_param('app_token'));
-        $trello_helper = new Trello_helper($app_key,$app_token,'test');
+        $trello_helper = new Trello_helper($app_key,$app_token,'dev');
 
         $trello_tree = [];
         $trello_user = $trello_helper->get_trello_user();

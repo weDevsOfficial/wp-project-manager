@@ -1100,7 +1100,7 @@ export default {
                             var percentComplete = evt.loaded / evt.total;
                             window.totalVal += evt.loaded;
                             window.prevVal = window.totalVal -  evt.loaded;
-                            window.toPerc = Math.ceil((100 - (evt.loaded / window.totalVal) * 100) + 5);
+                            //window.toPerc = Math.ceil((100 - (evt.loaded / window.totalVal) * 100) + 5);
                         }
                     }, false);
                     return xhr;
