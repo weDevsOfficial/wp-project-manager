@@ -34,16 +34,14 @@
 		methods: {
 			saveTrelloData(){
 				var self = this ;
-				window.currentVal = 0;
-				window.totalVal = 0;
-				window.prevVal = 0;
-				window.osVal = 0;
 				window.toPerc = 0 ;
+				window.trellostart = false ;
 				let formData = jQuery('#'+event.target.id).serialize();
 				jQuery('#trello_submit').css('display','none');
 				let formDataObj = JSON.parse('{"' + decodeURI(formData).replace(/"/g, '\\"').replace(/&/g, '","').replace(/=/g,'":"') + '"}');
 				self.trello.import_loader = "Trello data is importing now ... "; //
 				this.saveTrelloImportedData(formDataObj,formDataObj,'trello/get_user',function(user_data,formDataObj){
+					window.trellostart = true ;
 					if(user_data == null){
 						self.trello.import_loader = "Sorry ! No user found . Try valid key & token to be completed the process";
 						jQuery('#trello_submit').css('display','block');
@@ -74,27 +72,38 @@
 										var lists_data = {};
 										lists_data.formData = formDataObj;
 										lists_data.lists_data = lst_data;
-										self.trello.import_loader = "Trello list data is imported . Getting cards data ... " + window.toPerc + '%';
+										if(window.trellostart == true) {
+											self.trello.import_loader = "Trello list data is imported . Getting cards data ... " + window.toPerc + '%';
+										}
 										self.trello.import_perc = window.toPerc;
 										self.saveTrelloImportedData(lists_data,formDataObj,'trello/get_cards',function(crd_data,formDataObj){
 											var cards_data = {};
 											cards_data.formData = formDataObj;
 											cards_data.cards_data = crd_data;
-											self.trello.import_loader = "Trello cards data is imported. Getting users data ... " + window.toPerc + '%';
+											if(window.trellostart == true) {
+												self.trello.import_loader = "Trello cards data is imported. Getting users data ... " + window.toPerc + '%';
+											}
 											self.trello.import_perc = window.toPerc;
 											self.saveTrelloImportedData(cards_data,formDataObj,'trello/get_users',function(usrs_data,formDataObj){
-												self.trello.import_loader = "Trello assignee data is importing ..." + window.toPerc + '%';
+												if(window.trellostart == true){
+													self.trello.import_loader = "Trello assignee data is importing ..." + window.toPerc + '%';
+												}
+
 											});
 											self.saveTrelloImportedData(cards_data,formDataObj,'trello/get_subcards',function(get_subcards,formDataObj){
-												self.trello.import_loader = "Trello subcard data is importing ...." + window.toPerc + '%';
+												if(window.trellostart == true){
+													self.trello.import_loader = "Trello subcard data is importing ...." + window.toPerc + '%';
+												}
 											});
 										});
 									});
-									if(brd_data.length == (index + 1)){
+									if(brd_data.length == (index + 1) && window.trellostart == true){
 										window.toPerc = '' ;
 										self.trello.import_loader = "Trello board data import is completed 100%";
 										self.trello.import_perc = 100;
 										jQuery('#trello_submit').css('display','block');
+										window.trellostart = false ;
+										console.log(window.trellostart);
 									}
 									console.log('Time out set',index * brd_data.length * 4000);
 								}, index * brd_data.length * 4000);
