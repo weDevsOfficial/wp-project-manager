@@ -259,8 +259,10 @@
                     args.callback = function ( res ) {
                         self.show_spinner = false;
                         self.closePopper('pm-project-update-wrap');
+                        self.$emit('makeFromClose', false);
                     }
                     this.updateProject ( args );
+
 
                 } else {
                     args.callback = function(res) {
