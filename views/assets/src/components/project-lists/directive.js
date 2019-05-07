@@ -24,7 +24,7 @@ var Project = {
                         }
                     }
                 }
-                
+
                 if ( pm_abort ) {
                     pm_abort.abort();
                 }

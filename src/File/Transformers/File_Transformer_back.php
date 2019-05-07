@@ -19,7 +19,7 @@ class File_Transformer extends TransformerAbstract {
     public function transform( File $item ) {
         $file = File_System::get_file( $item->attachment_id );
         $file = is_array( $file ) ? $file : [];
-
+        
         $model_data = [
             'id'            => (int) $item->id,
             'fileable_id'   => $item->fileable_id,
@@ -48,7 +48,7 @@ class File_Transformer extends TransformerAbstract {
 
         if ( $item->fileable_type == 'comment') {
             $result = $item->comment()->get()->first();
-            return $result->getAttributes();
+            return $result->getAttributes(); 
         }
     }
 
