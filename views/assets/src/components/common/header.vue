@@ -3,12 +3,12 @@
         <div class="project-title">
             <span class="title">{{ project.title }}</span>
             <div class="pm-title-edit-settings" v-if="is_manager()">
-                <pm-popper trigger="click" :options="popperOptions">
+                <pm-popper trigger="click" :options="popperOptions" :force-show="projectFormStatus">
                     <div class="pm-popper popper">
-                        <edit-project v-if="is_manager()" class="project-edit-form" :project="project"></edit-project>
+                        <edit-project v-if="is_manager()" class="project-edit-form" :project="project" @makeFromClose="makeFromClose"></edit-project>
                     </div>
                     <!-- popper trigger element -->
-                    <a href="#" @click.prevent="" slot="reference" title="action" class="pm-project-update-wrap pm-popper-ref popper-ref icon-pm-pencil project-update-btn"></a>
+                    <a href="#" @click.prevent="checkFormStatus" slot="reference" title="action" class="pm-project-update-wrap pm-popper-ref popper-ref icon-pm-pencil project-update-btn"></a>
                     
                 </pm-popper>
             </div>
@@ -300,7 +300,8 @@
                             offset: '0, 10px' 
                         } 
                     }
-                }
+                },
+                projectFormStatus : false
             }
 
         },
@@ -419,6 +420,20 @@
             //         modifiers: { offset: { offset: '0, 10px' } }
             //     }
             // }
+
+            checkFormStatus(){
+                 if(this.projectFormStatus){
+                     this.projectFormStatus = false ;
+                 }else{
+                     this.projectFormStatus = true ;
+                 }
+            },
+
+            makeFromClose(value){
+                this.projectFormStatus = value ;
+            }
+
+
         }
     }
 </script>
