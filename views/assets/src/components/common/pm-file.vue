@@ -54,7 +54,7 @@ export default {
             if (typeof this.file.mime_type !== 'undefined' ) {
                 return this.file.mime_type.split("/").indexOf('video') !== -1;
             } else {
-                return this.file.type.split("/").indexOf('video') !== -1;
+                //return this.file.type.split("/").indexOf('video') !== -1;
             }
         },
 
