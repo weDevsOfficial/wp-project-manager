@@ -150,6 +150,7 @@ class Task_Controller {
         }
 
         do_action( 'cpm_task_new', $board_id, $task->id, $request->get_params() );
+        do_action('pm_after_update_task', $task, $request->get_params() );
 
         if ( $task && $board ) {
             $latest_order = Boardable::latest_order( $board->id, $board->type, 'task' );
