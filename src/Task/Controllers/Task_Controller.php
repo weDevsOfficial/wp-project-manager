@@ -185,6 +185,9 @@ class Task_Controller {
     }
 
     public function attach_assignees( Task $task, $assignees = [] ) {
+
+        do_action('pm_before_assignees', $task, $assignees );
+
         foreach ( $assignees as $user_id ) {
             if ( ! intval( $user_id ) ) {
                 continue ;
@@ -202,6 +205,8 @@ class Task_Controller {
                 $assignee->save();
             }
         }
+
+        do_action('pm_after_assignees', $task, $assignees );
     }
 
     private function update_task_status( Task $task ){
@@ -238,7 +243,7 @@ class Task_Controller {
 
     public static function task_update( $params ) {
         $task_id    = $params['task_id'];
-
+        
         $task = Task::with('assignees')->find( $task_id );
         
         if ( ! isset( $params['assignees'] ) ) {
