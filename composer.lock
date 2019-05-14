@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3e11e199e4a5689583001debf44b5b08",
+    "content-hash": "0da5262fe894b24fd2981cb9a0684f95",
     "packages": [
         {
             "name": "a5hleyrich/wp-background-processing",
@@ -44,22 +44,25 @@
         },
         {
             "name": "appsero/client",
-            "version": "dev-master",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/AppSero/client.git",
-                "reference": "acadc685f56ba8d84fa2661a5a2b5d9e606d80e4"
+                "reference": "dedab5a4813b113ce901b2670bb8b00cd12063e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/AppSero/client/zipball/acadc685f56ba8d84fa2661a5a2b5d9e606d80e4",
-                "reference": "acadc685f56ba8d84fa2661a5a2b5d9e606d80e4",
+                "url": "https://api.github.com/repos/AppSero/client/zipball/dedab5a4813b113ce901b2670bb8b00cd12063e9",
+                "reference": "dedab5a4813b113ce901b2670bb8b00cd12063e9",
                 "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "AppSero\\": "src/"
+                    "Appsero\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -72,8 +75,14 @@
                     "email": "tareq@appsero.com"
                 }
             ],
-            "description": "AppSero Client",
-            "time": "2018-09-20T06:49:45+00:00"
+            "description": "Appsero Client",
+            "keywords": [
+                "analytics",
+                "plugin",
+                "theme",
+                "wordpress"
+            ],
+            "time": "2019-05-14T08:54:07+00:00"
         },
         {
             "name": "doctrine/inflector",
@@ -736,8 +745,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "tareq1988/wp-eloquent": 20,
-        "appsero/client": 20
+        "tareq1988/wp-eloquent": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
