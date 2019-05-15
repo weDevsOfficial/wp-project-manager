@@ -30,8 +30,8 @@ class Menu {
 		//$submenu['pm_projects'][] = [ __( 'Add-ons', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/add-ons' ];
 		//if ( $ismanager && $wedevs_pm_pro ) {
 			// $submenu['pm_projects'][] = [ __( 'Reports', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/reports' ];
-			// $submenu['pm_projects'][] = [ __( 'Progress', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/progress' ];
-		//}
+			$submenu['pm_projects'][] = [ __( 'Progress', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/progress' ];
+		}
 
 		if ( ! $wedevs_pm_pro ) {
 			$submenu['pm_projects'][] = [ __( 'Premium', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/premium' ];
