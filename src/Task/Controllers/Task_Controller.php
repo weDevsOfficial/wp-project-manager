@@ -118,7 +118,7 @@ class Task_Controller {
         $task = $task->first();
 
         if ( $task == NULL ) {
-            return $this->get_response( null,  [
+            return pm_get_response( null,  [
                 'message' => pm_get_text('success_messages.no_element')
             ] );
         }
