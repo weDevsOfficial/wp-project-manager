@@ -31,7 +31,6 @@ class Menu {
 		//if ( $ismanager && $wedevs_pm_pro ) {
 			// $submenu['pm_projects'][] = [ __( 'Reports', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/reports' ];
 			$submenu['pm_projects'][] = [ __( 'progress', 'pm' ), self::$capability, 'admin.php?page=pm_projects#/progress' ];
-		//}
 
 		if ( ! $wedevs_pm_pro ) {
 			$submenu['pm_projects'][] = [ __( 'Premium', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/premium' ];
