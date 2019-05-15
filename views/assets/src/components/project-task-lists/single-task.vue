@@ -125,7 +125,7 @@
                                         <img :alt="user.display_name" :src="user.avatar_url" class="avatar avatar-48 photo" height="48" width="48">
                                     </a>
                                 </div>
-                                <div id="pm-multiselect-single-task" >
+                                <div v-if="has_task_permission()" id="pm-multiselect-single-task" >
                                     <span @click.prevent="isEnableMultiSelect()" class="icon-pm-user"></span>
                                     <div v-show="is_enable_multi_select"  class="pm-multiselect pm-multiselect-single-task">
                                         <div class="pm-multiselect-content">
@@ -171,7 +171,7 @@
                                 <span @click.prevent="singleTaskLockUnlock(task)" v-if="isTaskLock" :title="__('Task is visible for co-worker', 'wedevs-project-manager')" class="icon-pm-unlock pm-dark-hover pm-font-size-16"></span>
                                 <span @click.prevent="singleTaskLockUnlock(task)" v-if="isTaskUnlock" class="icon-pm-private pm-dark-hover pm-font-size-16"></span>
 
-                                <span id="pm-calendar-wrap" @click.prevent="isTaskDateEditMode()" class="individual-group-icon calendar-group icon-pm-calendar pm-font-size-16">
+                                <span v-if="has_task_permission()" id="pm-calendar-wrap" @click.prevent="isTaskDateEditMode()" class="individual-group-icon calendar-group icon-pm-calendar pm-font-size-16">
                                     <span v-if="(task.start_at.date || task.due_date.date )" :class="taskDateWrap(task.due_date.date) + ' pm-task-date-wrap pm-date-window'">
 
                                         <span :title="getFullDate(task.start_at.datetime)" v-if="task_start_field">
@@ -214,7 +214,7 @@
                             </div>
                         </div>
 
-                        <div id="description-wrap" class="description-wrap">
+                        <div v-if="has_task_permission()" id="description-wrap" class="description-wrap">
                             <div v-if="showdescriptionfield" @click.prevent="isTaskDetailsEditMode()"  class="action-content pm-flex">
                                 <span>
                                     <span class="icon-pm-align-left"></span>
@@ -679,6 +679,12 @@
                 task.comments.data.map(function(comment) {
                     comment.edit_mode = false;
                 });
+            },
+
+
+            has_task_permission(){
+               var permission =  this.can_edit_task(this.task) ;
+               return permission ;
             },
 
             isEnableMultiSelect () {

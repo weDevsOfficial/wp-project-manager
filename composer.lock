@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3e11e199e4a5689583001debf44b5b08",
+    "content-hash": "0da5262fe894b24fd2981cb9a0684f95",
     "packages": [
         {
             "name": "a5hleyrich/wp-background-processing",
@@ -44,7 +44,7 @@
         },
         {
             "name": "appsero/client",
-            "version": "dev-master",
+            "version": "v1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/AppSero/client.git",
@@ -747,8 +747,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "tareq1988/wp-eloquent": 20,
-        "appsero/client": 20
+        "tareq1988/wp-eloquent": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

@@ -71,7 +71,7 @@ class Milestone_Controller {
 
         $milestone = Milestone::where( 'id', $milestone_id )
             ->where( 'project_id', $project_id );
-        $milestone = apply_filters( "pm_milestone_show_query", $milestones, $project_id, $request );
+        $milestone = apply_filters( "pm_milestone_show_query", $milestone, $project_id, $request );
         $milestone = $milestone->first();
         if ( $milestone == NULL ) {
             return $this->get_response( null,  [
