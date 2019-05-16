@@ -72,9 +72,7 @@
         computed: {
             upComingMileStones () {
                 
-                
-
-                return this.$store.state.projectMilestones.milestones.filter(function(milestone) {
+                var milestones = this.$store.state.projectMilestones.milestones.filter(function(milestone) {
 
                     if ( milestone.status === 'complete' ) {
                         return false;
@@ -97,8 +95,10 @@
 
                     return pm.Moment(due_day).isSameOrAfter(today) ? milestone : false;
                 });
-
-
+                
+                milestones = _.sortBy(milestones, function(milestone) { return milestone.achieve_date.date; });
+                
+                return milestones;
             },
         }
     }
