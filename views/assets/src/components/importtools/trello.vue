@@ -64,7 +64,7 @@
         },
 
         created () {
-
+            pm.NProgress.done();
         },
 
         methods: {
