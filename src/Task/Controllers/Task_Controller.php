@@ -114,6 +114,7 @@ class Task_Controller {
         $task = Task::with('task_lists')->where( 'id', $task_id )
             ->parent()
             ->where( 'project_id', $project_id );
+        
         $task = apply_filters( 'pm_task_show_query', $task, $project_id, $request );
         $task = $task->first();
 
