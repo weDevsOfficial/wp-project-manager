@@ -1,3 +1,12 @@
+= v2.1.0 - May 18, 2019 =
+
+* **New** Trello Integration.
+* **Fix** Fixed co-worker & client create task activities.
+* **Fix** Removed usermap from global setting.
+* **Fix** Removed unnecessary dashicons and added title to files.
+* **Fix** Resolved conflict from setting header.
+* **Fix** Fixed project edit form get closed when user click out side.
+
 = v2.0.15 - May 02, 2019 =
 
 * **Fix** Load more Completed & Incompleted task.
