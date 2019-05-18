@@ -26,7 +26,7 @@
                                 <div class="image-content">
                                     
                                     <pm-file :file="file" />
-                                    <div class="item-title" v-if="file.name">{{ file.name.slice(0, 20) }}</div>
+                                    <div class="item-title" v-if="file.meta.title">{{ file.meta.title.slice(0, 20) }}</div>
                                     <span class="text">
                                         {{ __('Attached to', 'wedevs-project-manager') }} 
                                         <a :href="contentURL(file)">{{ attachTo(file) }}</a>  
@@ -39,9 +39,9 @@
 
                                 <div class="footer-section">
                                     
-                                    <a :href="getDownloadUrl(file.attachment_id)"><span class="dashicons dashicons-download"></span></a>
-                                    <a :href="contentURL(file)"><span class="dashicons dashicons-admin-links"></span></a>
-                                    <a :href="contentURL(file)" class="pm-comments-count"><span class="pm-btn pm-btn-blue pm-comment-count"></span></a>
+                                    <a v-if="file.attachment_id" :href="getDownloadUrl(file.attachment_id)"><span class="dashicons dashicons-download"></span></a>
+                                    <a v-if="contentURL(file)" :href="contentURL(file)"><span class="dashicons dashicons-admin-links"></span></a>
+                                    <a v-if="contentURL(file)" :href="contentURL(file)" class="pm-comments-count"><span class="pm-btn pm-btn-blue pm-comment-count"></span></a>
                                 
                                 </div>
                             </div>

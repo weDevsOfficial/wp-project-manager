@@ -1,6 +1,7 @@
 import projects from '@components/project-lists/router';
 import categories from '@components/categories/router';
 import add_ons from '@components/add-ons/router';
+import '@components/importtools/router';
 //import '@components/tools/router';
 
 if (!PM_Vars.is_pro) {

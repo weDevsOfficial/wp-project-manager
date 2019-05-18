@@ -134,23 +134,27 @@ function pm_user_tracking() {
 }
 
 function pm_after_load_pro() {
-    add_action( 'init', 'pm_init_tracker' );
+    // add_action( 'init', 'pm_init_tracker' ); // No need after v1.1
 }
 
 function pm_init_tracker() {
-    $insights = new AppSero\Insights( 'd6e3df28-610b-4315-840d-df0b2b02f4fe', 'WP Project Manager', PM_FILE );
-    $insights->add_extra( [
+    $client = new Appsero\Client( 'd6e3df28-610b-4315-840d-df0b2b02f4fe', 'WP Project Manager', PM_FILE );
 
-        'projects'  => pm_total_projects(),
-        'tasklist'  => pm_total_task(),
-        'tasks'     => pm_total_task_list(),
-        'message'   => pm_total_message(),
-        'milestone' => pm_total_milestone(),
-        'is_pro'    => class_exists('WeDevs\PM_Pro\Core\WP\Frontend') ? 'yes' : 'no'
-    ] );
+    $insights = $client->insights();
+
+    // If client version is upper then or equal to 1.1.1
+    if ( version_compare( $client->version, '1.1.1', '>=' ) ) {
+        $insights->add_extra( function() {
+            return [
+                'projects'  => pm_total_projects(),
+                'tasklist'  => pm_total_task(),
+                'tasks'     => pm_total_task_list(),
+                'message'   => pm_total_message(),
+                'milestone' => pm_total_milestone(),
+                'is_pro'    => class_exists('WeDevs\PM_Pro\Core\WP\Frontend') ? 'yes' : 'no'
+            ];
+        } );
+    }
 
     $insights->init_plugin();
 }
-
-
-
