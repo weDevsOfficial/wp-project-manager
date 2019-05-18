@@ -1,5 +1,6 @@
 <template>
     <div class="pm-welcome-page-container">
+        <h1></h1>
         <welcome-banner />
         <welcome-features />
         <welcome-resources />
