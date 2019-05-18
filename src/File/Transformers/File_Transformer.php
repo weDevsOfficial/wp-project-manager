@@ -19,7 +19,7 @@ class File_Transformer extends TransformerAbstract {
     public function transform( File $item ) {
         $file = File_System::get_file( $item->attachment_id );
         $file = is_array( $file ) ? $file : [];
-        
+
         $model_data = [
             'id'            => (int) $item->id,
             'fileable_id'   => $item->fileable_id,
@@ -27,7 +27,8 @@ class File_Transformer extends TransformerAbstract {
             'directory'     => $item->directory,
             'attachment_id' => $item->attachment_id,
             'attached_at'   => format_date( $item->created_at ),
-            'fileable'      => $this->get_fileabel($item)
+            'fileable'      => $this->get_fileabel($item),
+            'meta'      => $this->get_file_meta($item)
         ];
 
         return array_merge( $model_data, $file );
@@ -47,7 +48,15 @@ class File_Transformer extends TransformerAbstract {
 
         if ( $item->fileable_type == 'comment') {
             $result = $item->comment()->get()->first();
-            return $result->getAttributes(); 
+            return $result->getAttributes();
         }
+    }
+
+    public function get_file_meta($item){
+        $itemArr = [] ;
+        foreach($item->meta as $meta){
+            $itemArr[$meta->meta_key] = $meta->meta_value ;
+        }
+        return $itemArr ;
     }
 }

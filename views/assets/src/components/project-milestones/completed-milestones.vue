@@ -64,9 +64,13 @@
         },
         computed: {
             completedMilestones () {
-                return this.$store.state.projectMilestones.milestones.filter(function(milestone) {
+                var milestones = this.$store.state.projectMilestones.milestones.filter(function(milestone) {
                     return milestone.status === 'complete' ? milestone : false;
                 });
+
+                milestones = _.sortBy(milestones, function(milestone) { return milestone.achieved_at.date; });
+                
+                return milestones.reverse();
             },
         }
     }

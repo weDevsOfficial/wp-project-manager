@@ -3,9 +3,9 @@ Contributors: tareq1988, nizamuddinbabu, wedevs, asaquzzaman
 Donate Link: https://tareq.co/donate/
 Tags: web task manager, online collaboration tool, task tracker, productivity tool, open source project management software
 Requires at least: 4.4
-Tested up to: 5.1
+Tested up to: 5.2
 Requires PHP: 5.6
-Stable tag: 2.0.15
+Stable tag: 2.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -209,6 +209,15 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 13. Project Settings -> Email Settings Tab
 
 == Changelog ==
+
+= v2.1.0 - May 18, 2019 =
+
+* **New** Trello Integration.
+* **Fix** Fixed co-worker & client create task activities.
+* **Fix** Removed usermap from global setting.
+* **Fix** Removed unnecessary dashicons and added title to files.
+* **Fix** Resolved conflict from setting header.
+* **Fix** Fixed project edit form get closed when user click out side.
 
 = v2.0.15 - May 02, 2019 =
 
