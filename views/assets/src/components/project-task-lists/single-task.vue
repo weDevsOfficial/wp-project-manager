@@ -225,7 +225,7 @@
 
                             <div v-else class="task-details">
 
-                                <div class="pm-des-area pm-desc-content" v-if="!is_task_details_edit_mode"  >
+                                <div class="pm-des-area pm-desc-content" v-if="!is_task_details_edit_mode">
 
                                     <div v-if="task.description.content != ''" class="pm-task-description" v-html="task.description.html"></div>
 

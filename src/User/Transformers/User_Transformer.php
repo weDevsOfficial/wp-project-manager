@@ -71,8 +71,7 @@ class User_Transformer extends TransformerAbstract {
      *
      * @return array
      */
-    public function getDefaultIncludes()
-    {
+    public function getDefaultIncludes() {
         return apply_filters( "pm_user_transformer_default_includes", $this->defaultIncludes );
     }
 

@@ -209,8 +209,8 @@ class Email {
                 $charset,
                 $from,
             );
-
-           return wp_mail( $to, $subject, $message, $headers, $attachments );
+            
+            return wp_mail( $to, $subject, $message, $headers, $attachments );
         }
     }
 }

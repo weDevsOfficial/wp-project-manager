@@ -84,7 +84,6 @@ class Task_List_Controller {
             
             ->groupBy($tb_lists.'.id');
 
-
         $task_lists = apply_filters( "pm_task_list_check_privacy", $task_lists, $project_id, $request );
         
         if ( $per_page == '-1' ) {
