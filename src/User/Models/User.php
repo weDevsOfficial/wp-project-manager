@@ -38,4 +38,16 @@ class User extends Eloquent {
     public function projects() {
         return $this->belongsToMany( 'WeDevs\PM\Project\Models\Project', pm_tb_prefix() . 'pm_role_user', 'user_id', 'project_id' );
     }
+
+    public function tasks() {
+        return $this->belongsToMany( 'WeDevs\PM\Task\Models\Task', pm_tb_prefix() . 'pm_assignees','assigned_to', 'task_id' );
+    }
+
+    public function activities () {
+        return $this->hasMany( 'WeDevs\PM\Activity\Models\Activity', 'actor_id' );
+    }
+
+    public function assignees() {
+        return $this->hasMany( 'WeDevs\PM\Common\Models\Assignee', 'assigned_to' );
+    }
 }

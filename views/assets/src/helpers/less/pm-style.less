@@ -40,7 +40,7 @@
     &[x-placement^="bottom"] .popper__arrow {
         border-color: transparent transparent #ddd transparent !important;
         border-width: 0 7px 7px 7px !important;
-        top: -7px !important; 
+        top: -7px !important;
         &:after {
             border-width: 0 7px 7px 7px;
             border-color: transparent transparent #fff transparent;
@@ -51,7 +51,7 @@
     &[x-placement^="top"] .popper__arrow {
         border-color: #ddd transparent transparent transparent !important;
         border-width: 7px 7px 0 7px !important;
-        bottom: -7px !important; 
+        bottom: -7px !important;
         &:after {
             border-width: 7px 7px 0 7px;
             border-color: #fff transparent transparent transparent;
@@ -62,7 +62,7 @@
     &[x-placement^="left"] .popper__arrow {
         border-color: transparent transparent transparent #ddd !important;
         border-width: 7px 0 7px 7px !important;
-        right: -7px !important; 
+        right: -7px !important;
         &:after {
             border-width: 7px 0 7px 7px;
             border-color: transparent transparent transparent #fff;
@@ -73,7 +73,7 @@
     &[x-placement^="right"] .popper__arrow {
         border-color: transparent #ddd transparent transparent !important;
         border-width: 7px 7px 7px 0 !important;
-        left: -7px !important; 
+        left: -7px !important;
         &:after {
             border-width: 7px 7px 7px 0;
             border-color: transparent #fff transparent transparent;
@@ -82,7 +82,7 @@
         }
     }
 
-    
+
     .pm-multiselect-top {
         position: static !important;
         background: transparent;
@@ -293,7 +293,7 @@
 		}
 	}
 
-	ul { 
+	ul {
 		margin: 0;
 		padding: 0;
 	}
@@ -624,7 +624,7 @@
 	    		max-height: 148px;
 
 	    		li {
-	    			
+
 	    			.multiselect__option {
 	    				padding: 2px 0 0 6px;
 	    				display: flex;
@@ -722,7 +722,7 @@
 		.pm-single-task-header {
 			display: flex;
 			align-items: center;
-			
+
 			.task-action{
 				.icon-pm-more-options {
 					cursor: pointer;
@@ -747,7 +747,7 @@
 				    top: 31px;
 				    left: -97px;
 
-				    
+
 				    .action-menu-ul {
 				    	margin: 8px 0;
 
@@ -788,7 +788,7 @@
 				    }
 				}
 			}
-		
+
 
 			.incomplete {
 				display: flex;
@@ -803,11 +803,11 @@
 					margin-right: 8px;
 				}
 
-				
+
 				&:hover {
-					
+
 					color: #444 !important;
-					
+
 					.icon-pm-incomplete {
 
 						&:before {
@@ -828,11 +828,11 @@
 			    .icon-pm-completed, .pm-spinner {
 			    	margin-right: 8px;
 			    }
-			    
+
 			    &:hover {
-					
+
 					color: #444 !important;
-					
+
 					.icon-pm-completed {
 
 						&:before {
@@ -841,7 +841,7 @@
 					}
 				}
 			}
-			
+
 			.created-by {
 				font-size: 12px;
 				margin-left: auto;
@@ -882,7 +882,7 @@
 				border-radius: 12px;
 				display: inline-block;
 			}
-			
+
 		}
 		.assigne-users {
 
@@ -985,7 +985,7 @@
 			.individual-group-icon, .pm-action-wrap {
 				margin-left: 5px;
 			}
-		}  
+		}
 		.description-wrap {
 			margin-bottom: 20px;
 			.mce-tinymce {
@@ -1083,7 +1083,7 @@
 							}
 						}
 					}
-					
+
 				}
 				.activity-author-image {
 					height: 24px;
@@ -1232,7 +1232,7 @@
 					    			margin-left: 6px;
 					    		}
 					    	}
-					    	
+
 					    }
 				    }
 			    }
@@ -1271,7 +1271,7 @@
 				word-wrap: break-word;
 				word-break: break-all;
 				hyphens: auto;
-				
+
 			}
 			.pm-comment-edit-form {
 				flex: 1;
@@ -1444,9 +1444,172 @@
 						margin-left: 0;
     					padding: 10px 0 10px 10px;
 					}
-				} 
+				}
 			}
-			
+
 		}
 	}
+
+
+	.pm-my-tasks{
+	    .avatar {
+	        border: 1px solid #ccc;
+	        border-radius: 50%;
+	        height: auto;
+	        vertical-align: middle;
+	        margin-right: 10px;
+	    }
+
+
+	    a.pm-my-taskoverview {
+	        background-image: url('./images/activity.svg');
+	        padding-left: 50px !important;
+	        background-position: 20% 30% !important;
+	    }
+	    .active{
+	        border-bottom: 2px solid #019dd6 !important;
+	    }
+
+
+	    .active .pm-my-taskoverview,
+	    a.pm-my-taskoverview:hover {
+	        background-image : url('./images/activity_hover.svg') ;
+	    }
+
+	    a.pm-my-taskactivity {
+	        background-image : url('./images/activity.svg') ;
+	    }
+
+	    .active .pm-my-taskactivity,
+	    a.pm-my-taskactivity:hover {
+	        background-image : url('./images/activity_hover.svg');
+	    }
+
+	    a.pm-my-currenttask {
+	        background-image: url('./images/activity.svg') ;
+	    }
+
+	    .active .pm-my-currenttask,
+	    a.pm-my-currenttask:hover {
+	        background-image: url('./images/activity_hover.svg') ;
+	    }
+
+	    a.pm-my-outstandigntask {
+	        background-image: url('./images/overview.svg') ;
+	    }
+
+	    .active .cpm-my-outstandigntask,
+	    a.pm-my-outstandigntask:hover {
+	        background-image: url('./images/overview_hover.svg') ;
+	    }
+
+	    a.pm-my-completetask {
+	        background-image: url('./images/completed.svg') ;
+	    }
+
+	    .active .pm-my-completetask,
+	    a.pm-my-completetask:hover {
+	        background-image: url('./images/completed_hover.svg') ;
+	    }
+
+	    .pm-user-select select{
+	        margin-top: 20px ;
+	        width: 100%;
+	    }
+
+	    #pm-mytask-page-content{
+	        padding: 0px;
+
+	        .pm-mytask-overview-page{
+
+	            .pm-mytask-chart-overview{
+	                height: auto;
+	                background: #fff;
+	                padding: 0px;
+	                margin-right : 25px;
+	                padding-bottom : 25px;
+	                border: 1px solid #e5e5e5;
+	                box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+
+	                .cpm-box-title {
+	                    margin-bottom: 15px;
+	                }
+
+	                #cart-at-glance{
+	                    padding: 0px;
+	                    margin: 0px;
+	                    width: 100%;
+	                    height: auto;
+	                }
+
+	                ul li{
+	                    margin: 10px;
+	                    .color-plate{
+	                        width: 10px;
+	                        padding: 0px 10px;
+	                        margin-right: 10px;
+	                    }
+	                    .task-count{
+	                        border :@gray solid 1px;
+	                        padding :1px 10px;
+	                        margin-right: 20px;
+	                        text-align: center;
+	                    }
+	                }
+	            }
+
+	            .pm-mytask-chart-statistics {
+	                background: #fff;
+	                margin: 0px;
+	                padding : 0px;
+	                height: auto !important;
+	                font-size: 12px;
+	                border: 1px solid #e5e5e5;
+	                box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+
+	                .color-plate{
+	                    width: 10px;
+	                    padding: 0px 10px;
+	                    margin-right: 5px;
+	                    margin-left: 10px;
+	                }
+
+	                .pm-right{
+	                    text-align: right;
+	                    margin-top: 10px;
+	                    padding-right: 20px;
+	                }
+
+	                canvas{
+	                    padding: 20px;
+	                }
+
+	                .pm-error{
+	                    text-align: center;
+	                    padding: 50px 10px;
+	                    color: red;
+	                    padding-bottom: 0px !important;
+	                }
+
+	            }
+	        }
+	    }
+
+	    .pm-mycalender{
+	        margin-top: 10px;
+	        border: 1px solid #e5e5e5;
+	        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
+
+	        .pm-col-12 {
+	            background: #fff;
+	        }
+	        .pm-calender-content{
+	            padding: 20px;
+	        }
+	    }
+	}
+
+
+
+
 }
