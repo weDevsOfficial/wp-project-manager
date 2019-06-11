@@ -3,8 +3,15 @@
 namespace WeDevs\PM\User\Transformers;
 
 use League\Fractal\TransformerAbstract;
+
 use WeDevs\PM\User\Models\User;
+use WeDevs\PM\User\Models\User_Role;
+
+
+use WeDevs\PM\My_Task\Transformers\Project_Transformer;
 use WeDevs\PM\Role\Transformers\Role_Transformer;
+use WeDevs\PM\Task\Transformers\Task_Transformer;
+use Carbon\Carbon;
 
 class User_Transformer extends TransformerAbstract {
     /**
@@ -16,6 +23,16 @@ class User_Transformer extends TransformerAbstract {
         'roles'
     ];
 
+    /**
+     * List of resources possible to include
+     *
+     * @var array
+     */
+
+    protected $availableIncludes = [
+        'tasks', 'projects', 'activities', 'graph', 'meta'
+    ];
+
     protected $project_id = null;
 
     public function __construct( $project_id = null )
@@ -24,13 +41,13 @@ class User_Transformer extends TransformerAbstract {
         if ( !$project_id ) {
             $request_uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ): '';
             $project_uri = preg_match_all('/projects\/[0-9]+/', $request_uri, $matches, PREG_SET_ORDER);
-            
+
             if ( !empty( $matches ) ) {
                 $this->project_id = (int) str_replace('projects/', '', $matches[0][0]);
             } else {
                 $this->project_id = null;
             }
-        
+
         } else {
             $this->project_id = $project_id;
 
@@ -80,7 +97,7 @@ class User_Transformer extends TransformerAbstract {
             return null;
         }
 
-        
+
         //pmpr( $request_uri ); die();
         $project_id = $this->project_id;
         if ( !$project_id ) {
@@ -92,5 +109,162 @@ class User_Transformer extends TransformerAbstract {
         }
 
         return $this->collection( $roles, new Role_Transformer );
+    }
+
+    public function includeMeta ( User $user ) {
+        return $this->item ('', function () use ( $user ) {
+            $today = date( 'Y-m-d', strtotime( current_time( 'mysql' ) ) );
+
+            $project_ids = User_Role::where( 'user_id', $user->ID )->get(['project_id'])->toArray();
+            $project_ids = wp_list_pluck( $project_ids, 'project_id' );
+
+            if ( pm_has_manage_capability() ){
+                $tasks = $user->tasks()->whereHas('boards')
+                    ->whereIn( pm_tb_prefix() . 'pm_tasks.project_id', $project_ids)
+                    ->parent()
+                    ->get();
+            }else{
+                $tasks = $user->tasks()->whereHas('boards')
+                    ->whereIn( pm_tb_prefix() . 'pm_tasks.project_id', $project_ids)
+                    ->parent()
+                    ->doesntHave( 'metas', 'and', function ($query) {
+                        $query->where( 'meta_key', '=', 'privacy' )
+                            ->where( 'meta_value', '!=', '0' );
+
+                    });
+                $tasks = $tasks->doesntHave( 'task_lists.metas', 'and', function ($query) {
+                    $query->where( 'meta_key', '=', 'privacy' )
+                            ->where( 'meta_value', '!=', '0' );
+
+                    })->get();
+            }
+
+            $total_current_tasks = $tasks->where( 'status', 'incomplete' )->filter( function( $item ) use ( $today ) {
+                if ( empty( $item['due_date'] ) ) {
+                    return true;
+                }
+                return date( 'Y-m-d', strtotime( $item['due_date'] ) ) >=  $today;
+            });
+
+            $total_outstanding_tasks = $tasks->where( 'status', 'incomplete' )->filter( function( $item ) use ( $today ) {
+                if ( !empty( $item['due_date'] ) ){
+                    return date( 'Y-m-d', strtotime( $item['due_date'] ) ) <  $today;
+                }
+            });
+
+            return [
+                'total_project'           => $user->projects()->count(),
+                'total_task'              => $tasks->count(),
+                'total_complete_tasks'    => $tasks->toBase()->where( 'status', 'complete' )->count(),
+                'total_current_tasks'     => $total_current_tasks->count(),
+                'total_outstanding_tasks' => $total_outstanding_tasks->count(),
+                'total_activity'          => $user->activities->count()
+            ];
+        } );
+    }
+
+    public function includeTasks( User $item ) {
+        $project_ids = User_Role::where( 'user_id', $item->ID)->get(['project_id'])->toArray();
+        $project_ids = wp_list_pluck( $project_ids, 'project_id' );
+
+        if ( !pm_has_manage_capability() ){
+
+            $tasks = $item->tasks()
+                ->whereIn( pm_tb_prefix() . 'pm_tasks.project_id', $project_ids)
+                ->parent()
+                ->doesntHave( 'metas', 'and', function ($query) {
+                    $query->where( 'meta_key', '=', 'privacy' )
+                        ->where( 'meta_value', '!=', '0' );
+
+                });
+
+            $tasks = $tasks->doesntHave( 'task_lists.metas', 'and', function ($query) {
+                $query->where( 'meta_key', '=', 'privacy' )
+                    ->where( 'meta_value', '!=', '0' );
+
+                })
+                ->get();
+        }else {
+            $tasks = $item->tasks()->parent()->whereIn( pm_tb_prefix() . 'pm_tasks.project_id', $project_ids)->get();
+        }
+
+
+        return $this->collection( $tasks, new Task_Transformer );
+    }
+
+    public function includeProjects( User $item ) {
+        $projects = $item->projects;
+
+        return $this->collection( $projects, new Project_Transformer );
+    }
+
+    public function includeActivities( User $item ) {
+
+        $project_ids = User_Role::where( 'user_id', $item->ID )->get(['project_id'])->toArray();
+        $project_ids = wp_list_pluck( $project_ids, 'project_id' );
+
+        $page = isset( $_GET['mytask_activities_page'] ) ? $_GET['mytask_activities_page'] : 1;
+        $per_page = isset( $_GET['mytask_activities_per_page'] ) ? $_GET['mytask_activities_per_page'] : 15;
+
+        Paginator::currentPageResolver(function () use ($page) {
+            return $page;
+        });
+
+        $activities = $item->activities()
+            ->whereIn( 'project_id', $project_ids )
+            ->orderBy( 'created_at', 'DESC' )
+            ->paginate( $per_page, ['*'] );
+
+        $activities_collection = $activities->getCollection();
+        $resource = $this->collection( $activities_collection, new Activity_Transformer );
+
+        $resource->setPaginator( new IlluminatePaginatorAdapter( $activities ) );
+
+        return $resource;
+    }
+
+    public function includeGraph ( User $item ) {
+        $today           = date( 'Y-m-d', strtotime( current_time( 'mysql' ) ) );
+        $first_day       =  date( 'Y-m-d', strtotime('-1 month') );
+        $graph_data      = [];
+
+        $completed_tasks = $item->tasks
+            ->toBase()
+            ->where('status', 'complete');
+
+        $assigned_tasks  = $item->assignees->toBase();
+
+        $activities      = $item->activities->toBase();
+
+        for (  $dt = $first_day; $dt<=$today; $dt = date('Y-m-d', strtotime( $dt . '+1 day' ) ) ) {
+
+            $dt_activities = $activities->filter( function($item) use ( $dt ) {
+                return date( 'Y-m-d', strtotime( $item['created_at'] ) ) == $dt;
+            } );
+
+            $dt_assigned_tasks = $assigned_tasks->filter( function ( $item ) use ( $dt ) {
+                return date( 'Y-m-d', strtotime( $item['assigned_at'] ) ) == $dt;
+            });
+
+            $dt_completed_tasks = $completed_tasks->filter( function ( $item ) use ( $dt ) {
+                return date( 'Y-m-d', strtotime( $item['updated_at'] ) ) == $dt;
+            });
+
+            $graph_data[] = [
+                'date_time'             => format_date( $dt ),
+                'completed_tasks'       => $dt_completed_tasks->count(),
+                'assigned_tasks'        => $dt_assigned_tasks->count(),
+                'activities'            => $dt_activities->count()
+            ];
+        }
+
+        return $this->collection( $graph_data, function ( $item ) {
+            return [
+                'date_time'             => $item['date_time'],
+                'completed_tasks'       => $item['completed_tasks'],
+                'assigned_tasks'        => $item['assigned_tasks'],
+                'activities'            => $item['activities'],
+            ];
+        } );
     }
 }
