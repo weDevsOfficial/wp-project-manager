@@ -207,16 +207,9 @@
                                             class="pm-datepicker-to pm-inline-date-picker-to">
 
                                         </pm-content-datepicker>
-                                      <!--   <div v-if="task_start_field" v-pm-datepicker="'singleTask'" class="pm-date-picker-from pm-inline-date-picker-from"></div>
-                                        <div v-pm-datepicker="'singleTask'" class="pm-date-picker-to pm-inline-date-picker-to"></div> -->
+
                                     </div>
                                 </span>
-
-                                <!-- <span class="icon-pm-watch pm-font-size-16"></span>
-                                <span class="icon-pm-tag pm-font-size-16"></span>
-                                <span class="icon-pm-sorting pm-font-size-16"></span>
-                                <span class="icon-pm-clip pm-font-size-16"></span>
-                                <span class="icon-pm-star pm-font-size-16"></span> -->
                                 <do-action :hook="'single_task_inline'" :actionData="doActionData"></do-action>
                             </div>
                         </div>
@@ -232,7 +225,7 @@
 
                             <div v-else class="task-details">
 
-                                <div class="pm-des-area pm-desc-content" v-if="!is_task_details_edit_mode"  >
+                                <div class="pm-des-area pm-desc-content" v-if="!is_task_details_edit_mode">
 
                                     <div v-if="task.description.content != ''" class="pm-task-description" v-html="task.description.html"></div>
 
@@ -848,7 +841,7 @@
                         'recurrent': task.recurrent,
                         'status': task.status ? 1 : 0,
                         'category_id': task.category_id,
-                        'assignees': this.assigned_to
+                        'assignees': this.assigned_to.length == 0 ? [0] : this.assigned_to
                     },
                     self = this,
                     url = this.base_url + '/pm/v2/projects/'+project_id+'/tasks/'+task.id+'/update';
@@ -857,6 +850,7 @@
                     url: url,
                     data: update_data,
                     type: 'POST',
+                    
                     success (res) {
                         pmBus.$emit('pm_after_update_single_task', res);
                         self.is_task_title_edit_mode = false;
@@ -878,7 +872,7 @@
                         });
                     }
                 }
-
+                
                 this.httpRequest(request_data);
             },
 

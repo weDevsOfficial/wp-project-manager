@@ -173,7 +173,7 @@ class Task_Transformer extends TransformerAbstract {
 
     public function includeAssignees( Task $item ) {
         $users = $item->user;
-
+        //pmpr(pm_get_response($this->collection( $users, new User_Transformer ))); die();
         return $this->collection( $users, new User_Transformer );
     }
 
