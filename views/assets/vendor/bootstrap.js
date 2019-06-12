@@ -171,7 +171,6 @@ function pmUserCan(cap, project, user) {
     }
 
     var role_caps = pmGetRoleCaps( project, role );
-
     if ( !Object.keys(role_caps).length  ) {
         return true;
     }

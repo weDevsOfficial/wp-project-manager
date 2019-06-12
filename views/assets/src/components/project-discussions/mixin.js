@@ -57,7 +57,7 @@ export default {
 
             var args       = jQuery.extend(true, pre_define, args );
             var conditions = self.generateConditions(args.conditions);
-            
+
             var request = {
                 url: self.base_url + '/pm/v2/projects/'+self.project_id+'/discussion-boards?'+ conditions,
                 success (res) {
@@ -69,7 +69,7 @@ export default {
 
                     if (typeof args.callback === 'function') {
                         args.callback(res.data);
-                    } 
+                    }
                 }
             };
             self.httpRequest(request);
@@ -121,32 +121,32 @@ export default {
 
         /**
          * Insert and edit task
-         * 
+         *
          * @return void
          */
         newDiscuss: function(args) {
-            // Exit from this function, If submit button disabled 
+            // Exit from this function, If submit button disabled
             if ( this.submit_disabled ) {
                 //return;
             }
             // Disable submit button for preventing multiple click
             this.submit_disabled = true;
-            
+
             var self = this;
             var pre_define = {};
             var args = jQuery.extend(true, pre_define, args );
             var data = new FormData();
-                
+
             data.append('title', args.title);
             data.append('description', args.description);
             data.append('milestone', args.milestone_id);
             data.append('notify_users', args.notify_users);
             data.append('order', 0);
-            
+
             args.deleted_files.map(function(del_file) {
                 data.append('files_to_delete[]', del_file);
             });
-           
+
             args.files.map(function(file) {
                 if ( typeof file.attachment_id === 'undefined' ) {
                     var decode = self.dataURLtoFile(file.thumb, file.name);
@@ -154,7 +154,7 @@ export default {
                 }
             });
 
-            // Showing loading option 
+            // Showing loading option
             this.show_spinner = true;
             data = pm_apply_filters( 'before_discuss_save', data );
             var request_data = {
@@ -186,7 +186,7 @@ export default {
 
                 error (res) {
                     self.show_spinner = false;
-                    
+
                     // Showing error
                     if (res.status == 500 ) {
                         res.responseJSON.message.map( function( value, index ) {
@@ -206,7 +206,7 @@ export default {
         },
 
         updateDiscuss (args) {
-            // Exit from this function, If submit button disabled 
+            // Exit from this function, If submit button disabled
             if ( this.submit_disabled ) {
                 return;
             }
@@ -215,7 +215,7 @@ export default {
             var pre_define = {};
             var args = jQuery.extend(true, pre_define, args );
             var data = new FormData();
-            
+
             // Disable submit button for preventing multiple click
             this.submit_disabled = true;
 
@@ -224,11 +224,11 @@ export default {
             data.append('milestone', args.milestone_id);
             data.append('notify_users', args.notify_users);
             data.append('order', 0);
-            
+
             args.deleted_files.map(function(del_file) {
                 data.append('files_to_delete[]', del_file);
             });
-            
+
 
             args.files.map(function(file) {
                 if ( typeof file.attachment_id === 'undefined' ) {
@@ -237,9 +237,10 @@ export default {
                 }
             });
 
-            // Showing loading option 
+            // Showing loading option
             this.show_spinner = true;
             data = pm_apply_filters( 'before_discuss_save', data );
+            console.log(data);
             var request_data = {
                 url: self.base_url + '/pm/v2/projects/'+self.project_id+'/discussion-boards/'+this.discuss.id,
                 type: 'POST',
@@ -259,7 +260,7 @@ export default {
                     self.$store.commit( 'projectDiscussions/updateDiscuss', res.data );
                     self.$root.$emit( 'after_comment' );
                     self.$store.commit('updateProjectMeta', 'total_activities');
-                    
+
                     if (typeof args.callback === 'function') {
                         args.callback(res.data);
                     }
@@ -295,7 +296,7 @@ export default {
                 type: 'POST',
                 data: data,
                 success (res) {
-                  
+
                     if (typeof discuss.callback === 'function') {
                         discuss.callback(res.data);
                     }
@@ -314,21 +315,21 @@ export default {
                             pm.Toastr.error(value);
                         });
                     }
-                  
+
                 }
             }
             self.httpRequest(request_data);
         },
 
         newComment (args) {
-            // Exit from this function, If submit button disabled 
+            // Exit from this function, If submit button disabled
             if ( this.submit_disabled ) {
                 return;
             }
-            
+
             // Disable submit button for preventing multiple click
             this.submit_disabled = true;
-            
+
             var self = this;
             var pre_define = {};
             var args = jQuery.extend(true, pre_define, args );
@@ -346,8 +347,8 @@ export default {
                     data.append( 'files[]', decode );
                 }
             });
-                        
-            // Showing loading option 
+
+            // Showing loading option
             this.show_spinner = true;
 
             var request_data = {
@@ -364,16 +365,16 @@ export default {
                     self.show_spinner = false;
                     // Display a success toast, with a title
                     pm.Toastr.success(res.message);
-               
+
                     self.submit_disabled = false;
 
                     self.showHideDiscussCommentForm(false, self.comment);
-                    
+
                     //self.$root.$emit('after_comment');
-                    
-                    self.$store.commit( 'projectDiscussions/afterNewComment', 
+
+                    self.$store.commit( 'projectDiscussions/afterNewComment',
                         {
-                            'comment': res.data, 
+                            'comment': res.data,
                             'commentable_id': args.commentable_id
                         }
                     );
@@ -387,7 +388,7 @@ export default {
 
                 error (res) {
                     self.show_spinner = false;
-                    
+
                     // Showing error
                     if (res.status == 500 ) {
                         res.responseJSON.message.map( function( value, index ) {
@@ -408,14 +409,14 @@ export default {
         },
 
         updateComment (args) {
-            // Exit from this function, If submit button disabled 
+            // Exit from this function, If submit button disabled
             if ( this.submit_disabled ) {
                 return;
             }
-            
+
             // Disable submit button for preventing multiple click
             this.submit_disabled = true;
-            
+
             var self = this;
             var pre_define = {};
             var args = jQuery.extend(true, pre_define, args );
@@ -426,19 +427,19 @@ export default {
             data.append('commentable_id', args.commentable_id );
             data.append('commentable_type', args.commentable_type); //'discussion-board'
             data.append('notify_users', args.notify_users);
-            
+
             args.deleted_files.map(function(del_file) {
                 data.append('files_to_delete[]', del_file);
             });
-            
+
             args.files.map(function(file) {
                 if ( typeof file.attachment_id === 'undefined' ) {
                     var decode = self.dataURLtoFile(file.thumb, file.name);
                     data.append( 'files[]', decode );
                 }
             });
-                        
-            // Showing loading option 
+
+            // Showing loading option
             this.show_spinner = true;
 
             var request_data = {
@@ -455,17 +456,17 @@ export default {
                     self.show_spinner = false;
                     // Display a success toast, with a title
                     pm.Toastr.success(res.message);
-               
+
                     self.submit_disabled = false;
 
                     self.showHideDiscussCommentForm(false, self.comment);
-                    
+
                     //self.$root.$emit('after_comment', true);
-                    
+
                     self.$store.commit(
-                        'projectDiscussions/afterUpdateComment', 
+                        'projectDiscussions/afterUpdateComment',
                         {
-                            'comment': res.data, 
+                            'comment': res.data,
                             'commentable_id': args.commentable_id,
                             'comment_id': args.comment_id
                         }
@@ -479,7 +480,7 @@ export default {
 
                 error (res) {
                     self.show_spinner = false;
-                    
+
                     // Showing error
                     if (res.status == 500 ) {
                         res.responseJSON.message.map( function( value, index ) {
@@ -523,9 +524,9 @@ export default {
 
                     if (!self.$store.state.projectDiscussions.discussion.length) {
                         self.$router.push({
-                            name: 'discussions', 
-                            params: { 
-                                project_id: self.project_id 
+                            name: 'discussions',
+                            params: {
+                                project_id: self.project_id
                             }
                         });
                     } else {
@@ -533,11 +534,11 @@ export default {
                     }
                     self.$store.commit('decrementProjectMeta', 'total_discussion_boards');
                     self.$store.commit('updateProjectMeta', 'total_activities');
-                
+
                     pm.Toastr.success(res.message);
                     if (typeof args.callback === 'function') {
                         args.callback();
-                    } 
+                    }
                 },
 
                 error ( res ) {
@@ -546,7 +547,7 @@ export default {
                     });
                 }
             }
-            
+
             self.httpRequest(request_data);
         },
 
@@ -583,7 +584,7 @@ export default {
                     }
                 }
             }
-            
+
             self.httpRequest(request_data);
         },
 
@@ -597,7 +598,7 @@ export default {
 
         lazyAction() {
             var discussion = this.$store.state.projectDiscussions.discussion;
-            
+
             if(discussion.length){
                 this.viewAction(false, true);
             }

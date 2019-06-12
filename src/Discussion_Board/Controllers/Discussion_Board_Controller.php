@@ -52,11 +52,9 @@ class Discussion_Board_Controller {
     public function show( WP_REST_Request $request ) {
         $project_id = $request->get_param( 'project_id' );
         $discussion_board_id = $request->get_param( 'discussion_board_id' );
-
-        $discussion_board  = Discussion_Board::with('metas')->where( 'id', $discussion_board_id )->where( 'project_id', $project_id );
+        $discussion_board  = Discussion_Board::with('metas')->where( 'project_id', $project_id )->where( 'id', $discussion_board_id );
         $discussion_board = apply_filters( 'pm_discuss_show_query', $discussion_board, $project_id, $request );
         $discussion_board = $discussion_board->first();
-
         if ( $discussion_board == NULL ) {
             return $this->get_response( null,  [
                 'message' => pm_get_text('success_messages.no_element')
@@ -73,7 +71,6 @@ class Discussion_Board_Controller {
         $media_data = $request->get_file_params();
         $milestone_id = $request->get_param( 'milestone' );
         $files = array_key_exists( 'files', $media_data ) ? $media_data['files'] : null;
-        
         $milestone = Milestone::find( $milestone_id );
         $discussion_board = Discussion_Board::create( $data );
 
@@ -129,7 +126,7 @@ class Discussion_Board_Controller {
         $message = [
             'message' => pm_get_text('success_messages.discuss_updated')
         ];
-        
+
         $resource = apply_filters( 'pm_ater_new_message',  $resource,  $request );
         $response = $this->get_response( $resource, $message );
         do_action( 'cpm_message_update', $discussion_board_id, $project_id, $request->get_params() );
