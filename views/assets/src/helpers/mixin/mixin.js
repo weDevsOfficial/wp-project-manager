@@ -32,7 +32,7 @@ export default {
                 'hour': h,
                 'minute': m,
                 'second': s
-            } 
+            }
         },
         hexToRgb(hex) {
             // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
@@ -57,16 +57,16 @@ export default {
                 return '';
             }
             var c = 'rgb('+rgb[0]+','+rgb[1]+','+rgb[2]+')';
-            
+
             //http://www.w3.org/TR/AERT#color-contrast
-            
+
             var o = Math.round(((parseInt(rgb[0]) * 299) + (parseInt(rgb[1]) * 587) + (parseInt(rgb[2]) * 114)) /1000);
-            
+
             //console.log(o);
-            
+
             if(o > 185) {
                 return '#848484';
-            } else { 
+            } else {
                 return 'white';
             }
 
@@ -144,17 +144,31 @@ export default {
         pad2 (number) {
            return (number < 10 ? '0' : '') + number;
         },
+        // stringToTime (seconds) {
+        //     var numdays = Math.floor(seconds / 86400);
+
+        //     var numhours = Math.floor((seconds % 86400) / 3600);
+
+        //     var numminutes = Math.floor(((seconds % 86400) % 3600) / 60);
+
+        //     var numseconds = ((seconds % 86400) % 3600) % 60;
+
+        //     return {
+        //         'days': this.pad2(numdays),
+        //         'hours': this.pad2(numhours),
+        //         'minutes': this.pad2(numminutes),
+        //         'seconds': this.pad2(numseconds)
+        //     }
+        // },
+
         stringToTime (seconds) {
-            var numdays = Math.floor(seconds / 86400);
+            var numhours = Math.floor(seconds /  3600);
 
-            var numhours = Math.floor((seconds % 86400) / 3600);
+            var numminutes = Math.floor((seconds  % 3600) / 60);
 
-            var numminutes = Math.floor(((seconds % 86400) % 3600) / 60);
-
-            var numseconds = ((seconds % 86400) % 3600) % 60;
+            var numseconds = (seconds  % 3600) % 60;
 
             return {
-                'days': this.pad2(numdays),
                 'hours': this.pad2(numhours),
                 'minutes': this.pad2(numminutes),
                 'seconds': this.pad2(numseconds)
@@ -289,7 +303,7 @@ export default {
             var pre_define  = typeof pre_define == 'undefined' ? false : pre_define,
                 objKey = typeof objKey == 'undefined' ? false : objKey,
                 settings  = PM_Vars.settings;
-            
+
             if (objKey) {
                 if ( typeof PM_Vars.settings[objKey] === 'undefined' ) {
                     return pre_define;
@@ -515,7 +529,7 @@ export default {
                 url: self.base_url + '/pm/v2/projects?'+conditions,
                 data: args.conditions,
                 success (res) {
-                     
+
                     res.data.map(function(project) {
                         self.addProjectMeta(project);
                     });
@@ -551,20 +565,20 @@ export default {
             }
 
             var  args = jQuery.extend(true, pre_define, args );
-            
+
             var conditions = pm_apply_filters( 'before_get_project', args.conditions );
             conditions = self.generateConditions(conditions);
-            
+
             var request_data = {
                 url: self.base_url + '/pm/v2/projects/search?'+conditions,
                 data: args.conditions,
                 success (res) {
-                     
+
                     res.data.map(function(project) {
                         self.addProjectMeta(project);
                     });
-                    
-                    
+
+
                     if(typeof args.callback != 'undefined'){
                         args.callback(res.data);
                     }
@@ -800,7 +814,7 @@ export default {
          */
         getIndex  ( itemList, id, slug) {
             var index = false;
-            
+
             jQuery.each(itemList, function(key, item) {
 
                 if (item[slug] === id) {
@@ -980,7 +994,7 @@ export default {
                 return ''
             }
 
-            jQuery.each(conditions, function(condition, key) { 
+            jQuery.each(conditions, function(condition, key) {
                 if(condition){
                     query = query + condition +'='+ key +'&';
                 }
@@ -1113,7 +1127,7 @@ export default {
 
             self.httpRequest(request);
         },
-        
+
 
         deleteProjectSettings (id, args) {
             var self  = this;
