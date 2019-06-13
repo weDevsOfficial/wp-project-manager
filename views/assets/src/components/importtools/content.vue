@@ -103,9 +103,9 @@
 										self.trello.import_perc = 100;
 										jQuery('#trello_submit').css('display','block');
 										window.trellostart = false ;
-										console.log(window.trellostart);
+										
 									}
-									console.log('Time out set',index * brd_data.length * 4000);
+									
 								}, index * brd_data.length * 4000);
 							}(index,item));
 						});

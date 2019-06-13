@@ -213,9 +213,9 @@
                                 <do-action :hook="'single_task_inline'" :actionData="doActionData"></do-action>
                             </div>
                         </div>
-
-                        <div v-if="has_task_permission()" id="description-wrap" class="description-wrap">
-                            <div v-if="showdescriptionfield" @click.prevent="isTaskDetailsEditMode()"  class="action-content pm-flex">
+                         <!-- v-if="has_task_permission()" -->
+                        <div id="description-wrap" class="description-wrap">
+                            <div v-if="showdescriptionfield && has_task_permission()" @click.prevent="isTaskDetailsEditMode()"  class="action-content pm-flex">
                                 <span>
                                     <span class="icon-pm-align-left"></span>
                                     <span class="task-description">{{ __( 'Description', 'wedevs-project-manager' ) }}</span>

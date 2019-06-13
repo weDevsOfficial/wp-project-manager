@@ -236,7 +236,7 @@ $pm_scripts = [
 	]
 ];
 
-if ( ( version_compare( $wp_version, '5.0', '<' ) ) || ! is_admin() ) {
+//if ( ( version_compare( $wp_version, '5.0', '<' ) ) || ! is_admin() ) {
     $pm_hooks = [
 	    'pm-hooks' => [
 			'id'         => 'pm-hooks',
@@ -250,7 +250,7 @@ if ( ( version_compare( $wp_version, '5.0', '<' ) ) || ! is_admin() ) {
 	$pm_scripts['pm-vue-library']['dependency'] = array_merge( [$pm_hooks['pm-hooks']['id']], $pm_scripts['pm-vue-library']['dependency'] );
 
 	$pm_scripts = array_merge( $pm_scripts, $pm_hooks );
-}
+//}
 
 return $pm_scripts;
 
