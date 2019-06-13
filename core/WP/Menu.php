@@ -10,7 +10,7 @@ class Menu {
 	private static $capability = 'read';
 
 	public static function admin_menu() {
-		global $submenu, $wedevs_pm_pro;
+		global $submenu, $wedevs_pm_pro, $wedevs_license_progress;
 
 		$ismanager = pm_has_manage_capability();
 
@@ -33,7 +33,7 @@ class Menu {
 			// $submenu['pm_projects'][] = [ __( 'Progress', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/progress' ];
 		//}
 
-		if ( ! $wedevs_pm_pro ) {
+		if ( ! $wedevs_pm_pro && ! $wedevs_license_progress ) {
 			$submenu['pm_projects'][] = [ __( 'Premium', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/premium' ];
 		}
         

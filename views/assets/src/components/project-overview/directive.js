@@ -85,7 +85,7 @@ var PM_Overview = {
         tasks.map(function(task) {
             set_tasks.push(task.tasks);
         });
-console.log(set_tasks);
+
         return set_tasks;
     }
 }
