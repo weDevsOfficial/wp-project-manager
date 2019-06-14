@@ -3,6 +3,10 @@
  */
 
 // theme prefix
+@gray: #eee;
+@blueColor : #0073aa ;
+@box-shadow: 0 1px 1px rgba(0,0,0,.04);
+@modal-line-gap : 18px;
 @theme-prefix: pm;
 // common variables
 @pm-border-color: #E5E5E5;
@@ -45,11 +49,11 @@
 }
 
 .@{theme-prefix}-report-export-block {
-	
+
 	.@{theme-prefix}-dropdown-menu {
 		font-weight: 300;
 		white-space: nowrap;
-		box-shadow: 0 4px 10px 0 rgba(0,0,0,0.09); 
+		box-shadow: 0 4px 10px 0 rgba(0,0,0,0.09);
 		span[class*=flaticon]{
 			margin-right: 5px;
 			&:before {
@@ -145,10 +149,10 @@
 				display: flex;
 				font-size: 12px;
 				color: #000;
-			}	
+			}
 		}
 		input {
-			
+
 			::-webkit-input-placeholder { /* Chrome/Opera/Safari */
 			  color: #788383;
 			}
@@ -161,7 +165,7 @@
 			:-moz-placeholder { /* Firefox 18- */
 			  color: #788383;
 			}
-		}  
+		}
 		input.pm-datepicker {
 			margin-bottom: 19px !important;
 		}
@@ -271,7 +275,7 @@
 		}
 		.multiselect__option--selected.multiselect__option--highlight {
 			background: #FF2C5E !important;
-			
+
 			span {
 				color: #fff !important;
 			}
@@ -320,7 +324,7 @@
         i:before {
             font-size: 16px !important;
         }
-    } 
+    }
     h4 {
         margin: 0 0 5px 0;
         font-size: 20px;
@@ -342,15 +346,15 @@
 .pm-report-worker-panel {
     .pm-report-panel-icon {
         background: #4152CB;
-    }  
+    }
     h4 {
         color: #4152CB;
-    }  
+    }
 }
 .pm-report-result-panel {
     .pm-report-panel-icon {
         background: #2ECC71;
-    } 
+    }
     h4 {
         color: #2ECC71;
     }

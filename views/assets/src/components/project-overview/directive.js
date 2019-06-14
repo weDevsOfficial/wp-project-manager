@@ -74,7 +74,7 @@ var PM_Overview = {
         activities.map(function(activity) {
             set_activities.push(activity.activities);
         });
-
+        
         return set_activities;
     },
 

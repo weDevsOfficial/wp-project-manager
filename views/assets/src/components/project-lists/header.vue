@@ -2,6 +2,7 @@
 
         <!-- header -->
         <div class="pm-header">
+            <h1 style="display: none;"></h1>
             <div class="pm-container">
                 <div class="pm-header-row">
                     <!-- header-left -->

@@ -22,3 +22,18 @@ $router->post( 'save_users_map_name', 'WeDevs/PM/User/Controllers/User_Controlle
 
 $router->get( 'user-all-projects', 'WeDevs/PM/User/Controllers/User_Controller@get_user_all_projects' )
     ->permission(['WeDevs\PM\Core\Permissions\Authentic']);
+
+$router->get( 'users/{id}/user-activities', 'WeDevs/PM/User/Controllers/User_Controller@user_activities' )
+    ->permission(['WeDevs\PM\Core\Permissions\Authentic']);
+
+$router->get( 'users/{id}/tasks', 'WeDevs/PM/User/Controllers/User_Controller@user_tasks_by_type' )
+    ->permission(['WeDevs\PM\Core\Permissions\Authentic']);
+
+$router->get( 'users/{id}/tasks/calender', 'WeDevs/PM/User/Controllers/User_Controller@user_calender_tasks' )
+    ->permission(['WeDevs\PM\Core\Permissions\Authentic']);
+
+$router->get( 'assigned_users', 'WeDevs/PM/User/Controllers/User_Controller@assigned_users' )
+    ->permission(['WeDevs\PM\Core\Permissions\Authentic']);
+
+$router->get( 'users/{id}/tasks', 'WeDevs/PM/User/Controllers/User_Controller@user_tasks_by_type' )
+    ->permission(['WeDevs\PM\Core\Permissions\Authentic']);
