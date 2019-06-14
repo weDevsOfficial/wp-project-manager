@@ -208,7 +208,9 @@ class User_Controller {
                             $assignees->where( 'assigned_to', $id );
                         } );
 
-                        $task->whereHas('boards');
+                        $task->whereHas('boards',function( $query ) {
+                            $query->where('status', '1');
+                        });
 
                         /* get current task */
                         if ( $taskType == 'current' ) {
