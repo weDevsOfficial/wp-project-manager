@@ -3,21 +3,21 @@ import categories from '@components/categories/router';
 import add_ons from '@components/add-ons/router';
 import '@components/importtools/router';
 //import '@components/tools/router';
+import '@components/my-tasks/router';
 
-if (!PM_Vars.is_pro) {
-    require( '@components/my-tasks/router');
-    require('@components/calendar/router');
+if ( !PM_Vars.is_pro ) {
+    // require('@components/calendar/router');
     require('@components/reports/router');
-    require('@components/progress/router'); 
-    require('@components/welcome/router'); 
-    require('@components/pro-features/router'); 
+    require('@components/progress/router');
+    require('@components/welcome/router');
+    require('@components/pro-features/router');
 }
 
 import {general, email} from '@components/settings/router';
 import Empty from '@components/root/init.vue';
 
 weDevs_PM_Routers.push({
-	path: '/', 
+	path: '/',
     component:  Empty,
     name: 'project_root',
 

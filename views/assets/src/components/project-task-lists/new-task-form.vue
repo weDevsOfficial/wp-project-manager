@@ -220,7 +220,15 @@ export default {
         },
 
     	project_users () {
-    		return this.$store.state.project_users;
+           
+            var projects = this.$store.state.projects;
+            var index = projects.findIndex(i => i.id == this.project_id);
+            if (index !== -1) {
+                return projects[index].assignees.data;
+            }
+            
+            return [];
+    		//return this.$store.state.project_users;
     	},
         /**
          * Check current user can view the todo or not
@@ -410,8 +418,8 @@ export default {
                     start_at: this.task.start_at.date,
                     due_date: this.task.due_date.date,
                     list_id: this.list.id,
-                    estimated_hours: this.getEstimatedHours(this.task),
-                    //estimated_minutes: this.getEstimatedMinutes(this.task),
+                    estimation: this.task.estimation,
+                    //estimated_hours: this.task.estimation,
                     order: this.task.order,
                     recurrent: this.task.recurrent,
                     project_id: typeof this.list.project_id !== 'undefined' ? this.list.project_id : this.project_id
@@ -445,28 +453,6 @@ export default {
             } else {
                 self.addTask ( args, this.list );
             }
-        },
-
-        getEstimatedHours (task) {
-            if(typeof task.meta == 'undefined') {
-                return '';
-            }
-            if(typeof task.meta.estimated_hours == 'undefined') {
-                return '';
-            }
-
-            return task.meta.estimated_hours;
-        },
-
-        getEstimatedMinutes (task) {
-            if(typeof task.meta == 'undefined') {
-                return ''
-            }
-            if(typeof task.meta.estimated_minutes == 'undefined') {
-                return ''
-            }
-
-            return task.meta.estimated_minutes;
         },
 
         filterUserId (users) {

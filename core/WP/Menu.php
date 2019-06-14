@@ -4,20 +4,26 @@ namespace WeDevs\PM\Core\WP;
 
 use WeDevs\PM\Core\WP\Output as Output;
 use WeDevs\PM\Core\WP\Enqueue_Scripts as Enqueue_Scripts;
+use WeDevs\PM\User\Models\User;
+use WeDevs\PM\User\Models\User_Role;
 
 class Menu {
 
 	private static $capability = 'read';
 
 	public static function admin_menu() {
-		global $submenu, $wedevs_pm_pro;
+		global $submenu, $wedevs_pm_pro, $wedevs_license_progress;
 
 		$ismanager = pm_has_manage_capability();
 
 		$home = add_menu_page( __( 'Project Manager', 'wedevs-project-manager' ), __( 'Project Manager', 'wedevs-project-manager' ), self::$capability, 'pm_projects', array( new Output, 'home_page' ), self::pm_svg(), 3 );
 
 		$submenu['pm_projects'][] = [ __( 'Projects', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/' ];
-		
+
+		$active_task = self::my_task_count();
+		$mytask_text = sprintf( __( 'My Tasks %s', 'cpm-pro' ), '<span class="awaiting-mod count-1"><span class="pending-count">' . $active_task . '</span></span>' );
+		$submenu['pm_projects']['my_task'] = [ $mytask_text , self::$capability, 'admin.php?page=pm_projects#/my-tasks' ];
+
 		if ( $ismanager ) {
 			$submenu['pm_projects'][] = [ __( 'Categories', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/categories' ];
 		}
@@ -33,16 +39,16 @@ class Menu {
 			// $submenu['pm_projects'][] = [ __( 'Progress', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/progress' ];
 		//}
 
-		if ( ! $wedevs_pm_pro ) {
+		if ( ! $wedevs_pm_pro && ! $wedevs_license_progress ) {
 			$submenu['pm_projects'][] = [ __( 'Premium', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/premium' ];
 		}
-        
+
         //$submenu['pm_projects'][] = [ __( 'Tools', 'pm' ), 'administrator', 'admin.php?page=pm_projects#/tools' ];
-		
+
 		do_action( 'pm_menu_before_load_scripts', $home );
 
 		add_action( 'admin_print_styles-' . $home, array( 'WeDevs\\PM\\Core\\WP\\Menu', 'scripts' ) );
-		
+
 		do_action( 'cpm_admin_menu', self::$capability, $home );
 
 		if ( $ismanager ) {
@@ -50,6 +56,8 @@ class Menu {
 		}
 
         $submenu['pm_projects']['importtools'] = [ __( 'Tools', 'pm' ), self::$capability, 'admin.php?page=pm_projects#/importtools' ];
+
+
 
 		do_action( 'pm_menu_after_load_scripts', $home );
 	}
@@ -61,5 +69,41 @@ class Menu {
 	public static function scripts() {
 		Enqueue_Scripts::scripts();
 		Enqueue_Scripts::styles();
+	}
+
+	public static function my_task_count () {
+		$today = date( 'Y-m-d', strtotime( current_time( 'mysql' ) ) );
+		$user_id = get_current_user_id();
+
+		$project_ids = User_Role::where( 'user_id', $user_id)->get(['project_id'])->toArray();
+        $project_ids = wp_list_pluck( $project_ids, 'project_id' );
+
+        if ( pm_has_manage_capability() ){
+            $tasks = User::find( $user_id )
+            	->tasks()
+                ->whereHas('boards')
+                ->parent()
+                ->where( pm_tb_prefix() . 'pm_tasks.status', 0)
+            	->whereIn( pm_tb_prefix() . 'pm_tasks.project_id', $project_ids)
+                ->get();
+        }else{
+            $tasks = User::find( $user_id )->tasks()
+                ->parent()
+                ->where( pm_tb_prefix() . 'pm_tasks.status', 0)
+                ->whereIn( pm_tb_prefix() . 'pm_tasks.project_id', $project_ids)
+                ->doesntHave( 'metas', 'and', function ($query) {
+                    $query->where( 'meta_key', '=', 'privacy' )
+                        ->where( 'meta_value', '!=', '0' );
+
+                });
+
+            $tasks = $tasks->doesntHave( 'task_lists.metas', 'and', function ($query) {
+                $query->where( 'meta_key', '=', 'privacy' )
+                        ->where( 'meta_value', '!=', '0' );
+
+                })->get();
+        }
+
+        return $tasks->count();
 	}
 }

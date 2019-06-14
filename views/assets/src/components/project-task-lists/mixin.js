@@ -706,6 +706,7 @@ var PM_TaskList_Mixin = {
             data.append( 'commentable_id', args.data.commentable_id );
             data.append( 'commentable_type', args.data.commentable_type );
             data.append( 'notify_users', args.data.notify_users );
+            data.append( 'is_admin', PM_Vars.is_admin );
 
             args.data.deleted_files.map(function(del_file) {
                 data.append('files_to_delete[]', del_file);

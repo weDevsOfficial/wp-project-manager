@@ -140,7 +140,6 @@
             },
 
             selectedUsers () {
-
                 if(!this.project.hasOwnProperty('assignees')) {
                     return this.$store.state.assignees;
                 } else {

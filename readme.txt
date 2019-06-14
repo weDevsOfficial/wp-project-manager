@@ -3,9 +3,9 @@ Contributors: tareq1988, nizamuddinbabu, wedevs, asaquzzaman
 Donate Link: https://tareq.co/donate/
 Tags: web task manager, online collaboration tool, task tracker, productivity tool, open source project management software
 Requires at least: 4.4
-Tested up to: 5.2
+Tested up to: 5.2.1
 Requires PHP: 5.6
-Stable tag: 2.1.0
+Stable tag: 2.2.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -209,6 +209,15 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 13. Project Settings -> Email Settings Tab
 
 == Changelog ==
+
+= v2.2.0 - Jun 14, 2019 =
+
+* **New** Added my task menu from where individual users can check their completed, current and outstanding tasks.
+* **Fix** Assigned users can not find the task description.
+* **Fix** Add new user in project does not appear in task users dropdown at task create or edit time.
+* **Fix** A newly added user in a project did not appear in the dropdown i.e in the list of users while adding, creating or editing a task.
+* **Fix** User can not udpate task comment from single task popup.
+* **Fix** A newly added user does not appear in project update form.
 
 = v2.1.0 - May 18, 2019 =
 
