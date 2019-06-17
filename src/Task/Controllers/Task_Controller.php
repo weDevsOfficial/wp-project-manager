@@ -258,7 +258,14 @@ class Task_Controller {
         $params['project_id'] = $task->project_id;
         $params['list_id']    = $task->task_list;
 
-        $task->assignees()->whereNotIn( 'assigned_to', $assignees )->delete();
+        $deleted_users = $task->assignees()->whereNotIn( 'assigned_to', $assignees )->get()->toArray(); //->delete();
+        $deleted_users = apply_filters( 'pm_task_deleted_users', $deleted_users, $task );
+        $deleted_users = wp_list_pluck( $deleted_users, 'id' );
+        
+        if ( $deleted_users ) {
+            Assignee::destroy( $deleted_users );
+        }
+
         self::getInstance()->attach_assignees( $task, $assignees );
 
         do_action( 'cpm_task_update', $list_id, $task_id, $params );
