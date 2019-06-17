@@ -607,7 +607,7 @@ var PM_TaskList_Mixin = {
                     if ( typeof args.callback === 'function' ) {
                         args.callback( self, res );
                     }
-
+                    
                     pmBus.$emit('pm_after_update_task', res, args);
                 },
 

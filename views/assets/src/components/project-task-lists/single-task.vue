@@ -381,6 +381,7 @@
                 description_show_spinner: false,
                 show_spinner_status: false,
                 show_spinner: false,
+                taskUpdating: false
             }
         },
 
@@ -430,13 +431,25 @@
                  * @param array selected_users
                  */
                 set ( selected_users ) {
+                    if(this.show_spinner) {
+                        return;
+                    }
+                    var self = this;
                     this.assigned_to = selected_users.map(function (user) {
                         return user.id;
                     });
 
                     this.task.assignees.data = selected_users;
 
-                    this.updateTaskElement(this.task);
+                    this.updateTaskElement(this.task, function(res) {
+                        
+                        pmBus.$emit('after_update_singel_task_user', {
+                            beforeUpdate: self.task, 
+                            afterUpdate: res.data
+                        });
+
+                        self.task.assignees.data = res.data.assignees.data; 
+                    });
                 }
             },
             isTaskLock () {
@@ -805,7 +818,7 @@
                 return task.completed ? 'pm-task-complete' : 'pm-task-incomplete';
             },
 
-            updateTaskElement (task) {
+            updateTaskElement (task, callback) {
                 if (this.isArchivedTaskList(this.task)) {
                     return;
                 }
@@ -826,7 +839,7 @@
                     pm.Toastr.error(__('Invalid date range!', 'wedevs-project-manager'));
                     return;
                 }
-                this.show_spinner = true;
+                
 
                 var update_data  = {
                         'title': task.title,
@@ -864,6 +877,10 @@
                         }
                         self.show_spinner = false;
 
+                        if(typeof callback != 'undefined') {
+                            callback(res);
+                        }
+
 
                     },
                     error (res) {
@@ -872,7 +889,7 @@
                         });
                     }
                 }
-                
+                this.show_spinner = true;
                 this.httpRequest(request_data);
             },
 
