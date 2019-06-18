@@ -230,21 +230,6 @@ class User_Controller {
                         if ( $taskType == 'outstanding' ) {
                             $task = $task->where( 'due_date', '<', $today );
                         }
-
-                        if ( ! pm_has_manage_capability() ) {
-
-                            /*exclude private tasks*/
-                            $task = $task->doesntHave( 'metas', 'and', function ($query) {
-                                    $query->where( 'meta_key', '=', 'privacy' )
-                                        ->where( 'meta_value', '!=', '0' );
-                                });
-                            /*exclude task private list*/
-                            $task = $task->doesntHave( 'task_lists.metas', 'and', function ($query) {
-                                $query->where( 'meta_key', '=', 'privacy' )
-                                        ->where( 'meta_value', '!=', '0' );
-                                });
-                        }
-
                     }
                 ])
                 ->whereHas('tasks', function ( $task )  use ( $id, $taskType, $today ) {
@@ -252,44 +237,12 @@ class User_Controller {
                     ->whereHas( 'assignees', function ( $assignees )  use ( $id ) {
                         $assignees->where( 'assigned_to', $id );
                     } );
-                    $task->whereHas('boards');
-                    /* get current task */
-                    if ( $taskType == 'current' ) {
-                        $task = $task->where( function( $q ) use ( $today ) {
-                            $q->where( 'due_date', '>=', $today )
-                                ->orWhereNull( 'due_date' );
-                        });
-                    }
-                     /* get complete task*/
-                    if ( $taskType == 'complete' ) {
-                        $task = $task->where( 'status', 1);
-                    } else {
-                        $task = $task->where( 'status', '!=', 1);
-                    }
-
-                    /* get outstanding task */
-                    if ( $taskType == 'outstanding' ) {
-                        $task = $task->where( 'due_date', '<', $today );
-                    }
-
-                    if ( ! pm_has_manage_capability() ) {
-
-                        /*exclude private tasks*/
-                        $task = $task->doesntHave( 'metas', 'and', function ($query) {
-                                $query->where( 'meta_key', '=', 'privacy' )
-                                    ->where( 'meta_value', '!=', '0' );
-                            });
-                        /*exclude task private list*/
-                        $task = $task->doesntHave( 'task_lists.metas', 'and', function ($query) {
-                            $query->where( 'meta_key', '=', 'privacy' )
-                                    ->where( 'meta_value', '!=', '0' );
-                            });
-                    }
+                    $task->whereHas('boards',function( $query ) {
+                        $query->where('status', '1');
+                    });
                 } );
             }
         ] )->find( $id );
-
-        error_log(print_r( $user->toArray(),true));
 
         $resource = new Item( $user, new User_Transformer );
         $resource = $this->get_response( $resource );
