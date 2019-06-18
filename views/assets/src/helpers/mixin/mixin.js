@@ -826,7 +826,7 @@ export default {
         },
 
         showHideProjectForm (status) {
-            this.$root.$store.commit('showHideProjectForm', status);
+            this.$store.commit('showHideProjectForm', status);
         },
 
         deleteFile (file_id, callback) {

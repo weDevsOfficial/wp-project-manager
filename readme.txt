@@ -212,6 +212,12 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 = v2.2.1 - Jun 14, 2019 =
 
+* **New** Content action for task list page  'pm_after_task_content'
+* **New** Set new event after update single task user 'after_update_singel_task_user'
+* **Update** User get task update mail even task is not updated
+
+= v2.2.1 - Jun 14, 2019 =
+
 * **Fix** Fatal error undefined function.
 
 = v2.2.0 - Jun 14, 2019 =
