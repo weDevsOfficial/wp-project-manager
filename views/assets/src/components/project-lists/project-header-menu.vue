@@ -2,9 +2,7 @@
     <!-- panel header left column -->
     <div :class="headerMenuToggler">
         <div class="pm-tabs-collapse pm-visible-sm">
-            <span class="menu-toggle dashicons dashicons-arrow-down-alt2" @click.prevent="headerMenuToggle()">
-                <!-- <i :class="headerMenuTriggerClass"></i> -->
-            </span>
+            <span class="menu-toggle dashicons dashicons-arrow-down-alt2" @click.prevent="headerMenuToggle()"></span>
         </div>
         <ul v-if="isFetchProjects" class="pm-tabs pm-list-inline">
             <li class="pm-tab-item pm-item-active">

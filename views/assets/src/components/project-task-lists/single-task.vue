@@ -88,8 +88,8 @@
                                 <span v-if="is_task_title_edit_mode && can_edit_task(task)">
                                     <input
                                         v-model="task.title"
-                                        @blur="updateTaskElement(task)"
-                                        @keyup.enter="updateTaskElement(task)"
+                                        @blur="updateTaskTitle(task)"
+                                        @keyup.enter="updateTaskTitle(task)"
 
                                         class="pm-task-title-activity pm-task-title-field"
                                         type="text">
@@ -381,7 +381,8 @@
                 description_show_spinner: false,
                 show_spinner_status: false,
                 show_spinner: false,
-                taskUpdating: false
+                taskUpdating: false,
+                truckTitleUpdate: ''
             }
         },
 
@@ -503,8 +504,11 @@
         },
 
         methods: {
-            test (index) {
-                //console.log(index);
+            updateTaskTitle (task) {
+                if(this.truckTitleUpdate == task.title) {
+                    return;
+                }
+                this.updateTaskElement(task);
             },
             callBackDatePickerForm (date) {
 
@@ -670,6 +674,7 @@
                             self.content.html = res.data.description.html;
                             self.addMeta(res.data);
                             self.task = res.data;
+                            self.truckTitleUpdate = res.data.title;
 
                             self.loading = false;
                         }

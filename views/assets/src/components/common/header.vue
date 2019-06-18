@@ -44,8 +44,6 @@
                 </pm-popper>
 
                 <!-- <a href="#" v-if="is_manager()" @click.prevent="showHideSettings()" class="icon-pm-settings header-settings-btn"></a> -->
-
-                
             </div>
 
         </div>
@@ -54,10 +52,6 @@
             <pm-do-action hook="pm_project_header" ></pm-do-action>
         </div>
 
-       <!--  <div class="project-status">
-            <div v-if="project.status === 'complete'" class="complete">{{ __( 'Completed', 'wedevs-project-manager')}}</div>
-            <div v-if="project.status === 'incomplete'" class="incomplete">{{ __( 'Incomplete', 'wedevs-project-manager') }}</div>
-        </div>  -->
     </div> 
     
 </template>
@@ -366,7 +360,7 @@
                 if ( !settingsBtn && !settingsWrap.length ) {
                     this.settingStatus = false;
                 }
-
+             
                 if ( 
                     !projectUpdatebtn 
                     && !projectUdpateWrap.length 
@@ -377,6 +371,7 @@
                     && !dialogClose
                 ) {
                     this.showHideProjectForm(false);
+                    this.projectFormStatus = false;
                 }
             },
 
@@ -413,27 +408,17 @@
                 this.updateProject( args );
             },
 
-            // popper options
-            // popperOptions () {
-            //     return {
-            //         placement: 'top-end',
-            //         modifiers: { offset: { offset: '0, 10px' } }
-            //     }
-            // }
-
             checkFormStatus(){
-                 if(this.projectFormStatus){
-                     this.projectFormStatus = false ;
-                 }else{
-                     this.projectFormStatus = true ;
-                 }
+                if(this.projectFormStatus){
+                    this.projectFormStatus = false ;
+                } else {
+                    this.projectFormStatus = true ;
+                }
             },
 
             makeFromClose(value){
                 this.projectFormStatus = value ;
             }
-
-
         }
     }
 </script>
