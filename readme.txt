@@ -215,6 +215,8 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 * **New** Content action for task list page  'pm_after_task_content'
 * **New** Set new event after update single task user 'after_update_singel_task_user'
 * **Update** User get task update mail even task is not updated
+In the project, global settings project managing capability and project creation capability Administration checkbox will hide
+Premium menu will show when project manager pro active
 
 = v2.2.1 - Jun 14, 2019 =
 

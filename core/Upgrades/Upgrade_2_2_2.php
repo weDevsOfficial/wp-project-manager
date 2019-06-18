@@ -10,6 +10,7 @@ class Upgrade_2_2_2 {
     /*initialize */
     public function upgrade_init() {
         $this->create_import_table();
+        $this->set_inbox_list_order();
     }
 
     public function create_import_table()
@@ -30,6 +31,15 @@ class Upgrade_2_2_2 {
 			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
 
         dbDelta($sql);
+    }
+
+    private function set_inbox_list_order() {
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'pm_boards';
+
+        $sql = "UPDATE $table_name SET `order`=9999999 WHERE `title`='Inbox' AND `type`='task_list'";
+
+        $wpdb->query( $sql );
     }
 
 }
