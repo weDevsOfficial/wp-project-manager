@@ -39,7 +39,7 @@ class Menu {
 			// $submenu['pm_projects'][] = [ __( 'Progress', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/progress' ];
 		//}
 
-		if ( ! $wedevs_pm_pro && ! $wedevs_license_progress ) {
+		if ( ! $wedevs_pm_pro ) {
 			$submenu['pm_projects'][] = [ __( 'Premium', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/premium' ];
 		}
 
