@@ -38,7 +38,7 @@
                     </li>
                 </ul>
                 <div class="no-task" v-if="!projects.length">
-                    <p>{{ __("No Task Found", 'pm-pro') }}</p>
+                    <p>{{ __("No tasks found.", 'pm-pro') }}</p>
                 </div>
             </div>
         </div>

@@ -8,7 +8,7 @@
                     <span class="plus-text" v-if="!show_spinner">+</span>
                     <span class="pm-spinner" v-if="show_spinner"></span>
                 </div>
-                <input @keyup.enter="taskFormAction()" v-model="task.title"  class="input-field" :placeholder="__('Add new task', 'wedevs-project-manager')" type="text" ref="taskForm">
+                <input @keyup.enter="taskFormAction()" v-model="task.title"  class="input-field" :placeholder="__('Add New Task', 'wedevs-project-manager')" type="text" ref="taskForm">
                 <a @click.prevent="taskFormAction()"  class="update-button" href="#"><span class="icon-pm-check-circle"></span></a>
                 <div class="action-icons">
                     <pm-do-action hook="pm_task_form" :actionData="task"></pm-do-action>
