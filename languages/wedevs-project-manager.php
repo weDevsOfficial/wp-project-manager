@@ -131,7 +131,7 @@ return [
 	__( 'My Task', 'wedevs-project-manager' ),
 	__( 'No tasks found.', 'wedevs-project-manager' ),
 	__( 'Load More', 'wedevs-project-manager' ),
-	__( 'My Calender', 'wedevs-project-manager' ),
+	__( 'My Calendar', 'wedevs-project-manager' ),
 	__( 'At a glance', 'wedevs-project-manager' ),
 	__( 'Current', 'wedevs-project-manager' ),
 	__( 'Tasks', 'wedevs-project-manager' ),
