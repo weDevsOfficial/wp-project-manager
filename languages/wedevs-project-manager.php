@@ -263,7 +263,7 @@ return [
 	__( 'Mark Complete', 'pm' ),
 	__( 'Created by', 'wedevs-project-manager' ),
 	__( 'Copy Link', 'wedevs-project-manager' ),
-	__( 'Task List: ', 'wedevs-project-manager' ),
+	__( 'Task List:', 'wedevs-project-manager' ),
 	__( 'Shift+Enter for line break', 'wedevs-project-manager' ),
 	__( 'Update', 'wedevs-project-manager' ),
 	__( 'Update Description', 'wedevs-project-manager' ),
