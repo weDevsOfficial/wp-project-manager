@@ -43,7 +43,7 @@ class Menu {
 			$submenu['pm_projects'][] = [ __( 'Premium', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/premium' ];
 		}
 
-        //$submenu['pm_projects'][] = [ __( 'Tools', 'pm' ), 'administrator', 'admin.php?page=pm_projects#/tools' ];
+        //$submenu['pm_projects'][] = [ __( 'Tools', 'wedevs-project-manager' ), 'administrator', 'admin.php?page=pm_projects#/tools' ];
 
 		do_action( 'pm_menu_before_load_scripts', $home );
 
@@ -55,7 +55,7 @@ class Menu {
 			$submenu['pm_projects'][] = [ __( 'Settings', 'wedevs-project-manager' ), 'administrator', 'admin.php?page=pm_projects#/settings' ];
 		}
 
-        $submenu['pm_projects']['importtools'] = [ __( 'Tools', 'pm' ), self::$capability, 'admin.php?page=pm_projects#/importtools' ];
+        $submenu['pm_projects']['importtools'] = [ __( 'Tools', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/importtools' ];
 
 
 
