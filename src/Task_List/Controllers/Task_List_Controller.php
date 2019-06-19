@@ -290,6 +290,8 @@ class Task_List_Controller {
         $task_list = Task_List::where( 'id', $task_list_id )
             ->where( 'project_id', $project_id )
             ->first();
+
+        do_action( 'pm_before_delete_task_list', $task_list_id, $project_id );
         do_action( 'cpm_delete_tasklist_prev', $task_list_id );
         // Delete relations
         $this->detach_all_relations( $task_list );
