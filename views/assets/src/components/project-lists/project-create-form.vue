@@ -234,7 +234,7 @@
                 }
 
                 if ( !this.project.title ) {
-                    pm.Toastr.error(__('Project title is required!', 'wedevs-project-manager'));
+                    pm.Toastr.error(__('Project title is required.', 'wedevs-project-manager'));
                     return;
                 }
 
@@ -319,6 +319,3 @@
 
     export default new_project_form;
 </script>
-
-
-
