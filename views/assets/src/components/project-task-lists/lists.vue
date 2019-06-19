@@ -188,7 +188,7 @@
                                         @search-change="asyncFind($event)"
                                         label="title"
                                         track-by="id">
-                                        <span slot="noResult">{{ __( 'No task lists found.', 'pm-pro' ) }}</span>
+                                        <span slot="noResult">{{ __( 'No task lists found.', 'wedevs-project-manager' ) }}</span>
                                             
                                     </multiselect> 
                                 </div>

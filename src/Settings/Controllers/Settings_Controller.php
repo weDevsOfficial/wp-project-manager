@@ -117,7 +117,7 @@ class Settings_Controller {
         $settings->delete();
 
         $message = [
-            'message' => __('Delete settings record', 'pm-pro')
+            'message' => __('Delete settings record', 'wedevs-project-manager')
         ];
 
         return $this->get_response(false, $message);

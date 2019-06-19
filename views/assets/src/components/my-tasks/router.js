@@ -82,7 +82,7 @@ weDevsPMRegisterChildrenRoute('project_root',
                 }
             ],
             meta: {
-                label: __('My Task', 'pm-pro'),
+                label: __('My Task', 'wedevs-project-manager'),
                 order: 3
             }
         }

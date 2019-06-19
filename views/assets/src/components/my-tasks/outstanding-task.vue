@@ -42,7 +42,7 @@
                     </li>
                 </ul>
                 <div class="no-task" v-if="!hasOutstandingTask">
-                    <p>{{ __("No tasks found.", 'pm-pro') }}</p>
+                    <p>{{ __("No tasks found.", 'wedevs-project-manager') }}</p>
                 </div>
             </div>
         </div>
