@@ -5,7 +5,7 @@
             <div class="pm-project-detail ">
                 <img :alt="display_name" :src="user_avatar_url" :srcset="user_avatar_url" class="avatar avatar-64 photo" width="64" height="64">
                 <div class="pm-my-task-header">
-                    <h3>{{  __('My Tasks', 'pm-pro' ) }}</h3>
+                    <h3>{{  __('My Tasks', 'wedevs-project-manager' ) }}</h3>
                     <p>{{display_name}}</p>
                     <p>{{email}}</p>
                 </div>
@@ -18,14 +18,14 @@
 
                 <li class="">
                     <router-link :to="routeLink('tasks')" class="pm-my-taskoverview">
-                        {{ __('Overview', 'pm-pro' )}}
+                        {{ __('Overview', 'wedevs-project-manager' )}}
 
                     </router-link>
 
                 </li>
                 <li class="">
                     <router-link :to="routeLink('activities')" class="pm-my-taskactivity">
-                        {{ __('Activities', 'pm-pro' )}}
+                        {{ __('Activities', 'wedevs-project-manager' )}}
 
                     </router-link>
 
@@ -33,7 +33,7 @@
 
                 <li class="">
                      <router-link :to="routeLink('current')" class="pm-my-currenttask">
-                        {{ __('Current Task', 'pm-pro' ) }} <span class="count">{{ total_current_tasks }}</span>
+                        {{ __('Current Task', 'wedevs-project-manager' ) }} <span class="count">{{ total_current_tasks }}</span>
 
                     </router-link>
 
@@ -41,14 +41,14 @@
 
                 <li class="">
                     <router-link :to="routeLink('outstanding')" class="pm-my-outstandigntask">
-                       {{ __('Outstanding Task', 'pm-pro' ) }}<span class="count">{{ total_outstanding_tasks }}</span>
+                       {{ __('Outstanding Task', 'wedevs-project-manager' ) }}<span class="count">{{ total_outstanding_tasks }}</span>
 
                     </router-link>
 
                 </li>
                 <li>
                     <router-link :to="routeLink('complete')" class="pm-my-completetask">
-                       {{ __('Completed Task', 'pm-pro' ) }} <span class="count">{{ total_completed_tasks }}</span>
+                       {{ __('Completed Task', 'wedevs-project-manager' ) }} <span class="count">{{ total_completed_tasks }}</span>
 
                     </router-link>
                 </li>
@@ -88,7 +88,7 @@
         data () {
             return {
                 selected_user: null,
-                select_user_text: __('Select an User', 'pm-pro' ),
+                select_user_text: __('Select an User', 'wedevs-project-manager' ),
             }
 
         },
