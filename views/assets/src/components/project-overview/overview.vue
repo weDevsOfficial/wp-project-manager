@@ -116,7 +116,7 @@
                     <h3> {{ __( 'Users', 'wedevs-project-manager') }} </h3>
                     <span v-if="canUserEdit()">
                         <a @click="addUser()" class="add-user">
-                            <i class="fa fa-plus"></i> Add
+                            <i class="fa fa-plus"></i> {{ __( 'Add', 'wedevs-project-manager') }}
                         </a>
                     </span>
                 </div>
