@@ -37,7 +37,7 @@ class Upgrade_2_2_2 {
         global $wpdb;
         $table_name = $wpdb->prefix . 'pm_boards';
 
-        $sql = "UPDATE $table_name SET `order`=9999999 WHERE `title`='Inbox' AND `type`='task_list'";
+        $sql = "UPDATE $table_name SET `order`=99999999 WHERE `title`='Inbox' AND `type`='task_list' AND `description`='This is a system default task list. Any task without an assigned tasklist will appear here.'";
 
         $wpdb->query( $sql );
     }
