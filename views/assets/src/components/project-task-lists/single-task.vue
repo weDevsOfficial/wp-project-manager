@@ -109,7 +109,7 @@
                         <div class="task-list-title-wrap" v-if="task.task_list.data">
                             <div class="task-list-title-text">
                                 <span >
-                                    {{ __("Task List: ", 'wedevs-project-manager' ) }}
+                                    {{ __("Task List:", 'wedevs-project-manager' ) }}
                                 </span>
                                 <strong class="list-title">
                                     {{ task.task_list.data.title }}
@@ -1032,6 +1032,3 @@
         overflow: hidden;
     }
 </style>
-
-
-
