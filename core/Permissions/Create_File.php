@@ -9,8 +9,10 @@ class Create_File extends Abstract_Permission {
     public function check() {
         $project_id = $this->request->get_param( 'project_id' );
 
-        if ( pm_user_can( 'create_file', $project_id) ){
-            return true;
+        $pm_file_create_permission = apply_filters( 'pm_check_permission', true, $project_id, 'create_file' );
+
+        if ( $pm_file_create_permission ) {
+        	return true;
         }
 
         return new \WP_Error( 'project', __( "You have no permission to create message.", "wedevs-project-manager" ) );
