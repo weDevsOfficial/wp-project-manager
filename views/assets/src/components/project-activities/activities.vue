@@ -46,7 +46,7 @@
 
         <a v-if="total_activity>loaded_activities" href="#" @click.prevent="loadMore()" class="button pm-load-more">{{ __( 'Load More ...', 'wedevs-project-manager') }}</a>
         <span v-show="show_spinner" class="pm-spinner"></span>
-        <div v-if="!activities.length" class="no-activity" > {{ __( 'No activity found.', 'wedevs-project-manager') }} </div>
+        <div v-if="!activities.length" class="no-activity" > {{ __( 'No activities found.', 'wedevs-project-manager') }} </div>
     </div>
 
     <router-view name="singleTask"></router-view>

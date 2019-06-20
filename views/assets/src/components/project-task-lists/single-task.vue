@@ -32,14 +32,14 @@
                                 <a class="completed" v-if="task.status" href="#" @click.prevent="singleTaskDoneUndone()">
                                     <span class="icon-pm-completed pm-font-size-16" v-if="!show_spinner_status"></span>
                                     <span class="pm-spinner" v-if="show_spinner_status"></span>
-                                    {{ __( 'Completed', 'pm' ) }}
+                                    {{ __( 'Completed', 'wedevs-project-manager' ) }}
                                 </a>
 
 
                                 <a  class="incomplete" v-if="!task.status" href="#" @click.prevent="singleTaskDoneUndone()">
                                     <span class="icon-pm-incomplete pm-font-size-16" v-if="!show_spinner_status"></span>
                                     <span class="pm-spinner" v-if="show_spinner_status"></span>
-                                    {{ __( 'Mark Complete', 'pm' ) }}
+                                    {{ __( 'Mark Complete', 'wedevs-project-manager' ) }}
                                 </a>
 
                             </div>
@@ -109,7 +109,7 @@
                         <div class="task-list-title-wrap" v-if="task.task_list.data">
                             <div class="task-list-title-text">
                                 <span >
-                                    {{ __("Task List: ", 'wedevs-project-manager' ) }}
+                                    {{ __("Task List:", 'wedevs-project-manager' ) }}
                                 </span>
                                 <strong class="list-title">
                                     {{ task.task_list.data.title }}
@@ -1032,6 +1032,3 @@
         overflow: hidden;
     }
 </style>
-
-
-

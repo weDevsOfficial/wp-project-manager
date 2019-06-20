@@ -1,7 +1,7 @@
 <template>
 	<div class="pm-mycalender">
 	    <div class="pm-col-12 ">
-	        <h3 class="pm-box-title">{{ __('My Calender', 'pm-pro' ) }}</h3>
+	        <h3 class="pm-box-title">{{ __('My Calendar', 'wedevs-project-manager' ) }}</h3>
 	        <div class="pm-calender-content">
 	            <div class="icon32" id="icon-themes"><br>
 
