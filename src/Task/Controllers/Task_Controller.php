@@ -114,7 +114,7 @@ class Task_Controller {
         $task = Task::with('task_lists')->where( 'id', $task_id )
             ->parent()
             ->where( 'project_id', $project_id );
-        
+
         $task = apply_filters( 'pm_task_show_query', $task, $project_id, $request );
         $task = $task->first();
 
@@ -245,7 +245,7 @@ class Task_Controller {
 
     public static function task_update( $params ) {
         $task_id    = $params['task_id'];
-        
+
         $task = Task::with('assignees')->find( $task_id );
 
         if ( ! isset( $params['assignees'] ) ) {
@@ -262,7 +262,7 @@ class Task_Controller {
         $deleted_users = $task->assignees()->whereNotIn( 'assigned_to', $assignees )->get()->toArray(); //->delete();
         $deleted_users = apply_filters( 'pm_task_deleted_users', $deleted_users, $task );
         $deleted_users = wp_list_pluck( $deleted_users, 'id' );
-        
+
         if ( $deleted_users ) {
             Assignee::destroy( $deleted_users );
         }
@@ -270,7 +270,7 @@ class Task_Controller {
         self::getInstance()->attach_assignees( $task, $assignees );
 
         do_action( 'cpm_task_update', $list_id, $task_id, $params );
-        
+
         $params = apply_filters( 'pm_before_update_task', $params, $list_id, $task_id, $task );
         $task->update_model( $params );
 
@@ -755,13 +755,13 @@ class Task_Controller {
                 GROUP_CONCAT(
                     DISTINCT
                     CONCAT(
-                        '{', 
+                        '{',
                             '\"', 'assigned_to', '\"', ':' , '\"', IFNULL(asgn.assigned_to, '') , '\"' , ',',
                             '\"', 'assigned_at', '\"', ':' , '\"', IFNULL(asgn.assigned_at, '') , '\"' , ',',
                             '\"', 'completed_at', '\"', ':' , '\"', IFNULL(asgn.completed_at, '') , '\"' , ',',
                             '\"', 'started_at', '\"', ':' , '\"', IFNULL(asgn.started_at, '') , '\"' , ',',
-                            '\"', 'status', '\"', ':' , '\"', IFNULL(asgn.status, '') , '\"' 
-                        ,'}' 
+                            '\"', 'status', '\"', ':' , '\"', IFNULL(asgn.status, '') , '\"'
+                        ,'}'
                     ) SEPARATOR '|'
                 ) as assignees,
 
@@ -769,8 +769,8 @@ class Task_Controller {
 
             FROM $tb_tasks as tk
             LEFT JOIN $comment as cm ON tk.id=cm.commentable_id AND cm.commentable_type = 'task'
-            LEFT JOIN $assignees as asgn ON tk.id=asgn.task_id 
-            where 
+            LEFT JOIN $assignees as asgn ON tk.id=asgn.task_id
+            where
             tk.id In ($task_ids)
             GROUP BY tk.id";
 
@@ -823,15 +823,15 @@ class Task_Controller {
         $permission_where = apply_filters( 'pm_incomplete_task_query_where', '', $project_id );
 
         $sql = "SELECT ibord_id, GROUP_CONCAT( DISTINCT task.task_id order by task.iorder asc) as itasks_id
-            FROM 
+            FROM
                 (
-                    SELECT 
-                        itasks.id as task_id,  
+                    SELECT
+                        itasks.id as task_id,
                         ibord.board_id as ibord_id,
-                        ibord.order as iorder 
-                    FROM 
-                        $table_task as itasks 
-                        inner join $table_ba as ibord on itasks.id = ibord.boardable_id 
+                        ibord.order as iorder
+                    FROM
+                        $table_task as itasks
+                        inner join $table_ba as ibord on itasks.id = ibord.boardable_id
                         AND ibord.board_id in ($list_ids)
                         $permission_join
                     WHERE
@@ -840,9 +840,9 @@ class Task_Controller {
                         AND ibord.boardable_type='task'
                         $permission_where
                         order by iorder asc
-                        
+
                 ) as task
-      
+
             group by ibord_id";
 
         //pmpr($sql);
@@ -903,15 +903,15 @@ class Task_Controller {
         $permission_where = apply_filters( 'pm_complete_task_query_where', '', $project_id );
 
         $sql = "SELECT ibord_id, GROUP_CONCAT( DISTINCT task.task_id order by task.iorder asc) as itasks_id
-            FROM 
+            FROM
                 (
-                    SELECT 
-                        itasks.id as task_id,  
+                    SELECT
+                        itasks.id as task_id,
                         ibord.board_id as ibord_id,
                         ibord.order as iorder
-                    FROM 
-                        $table_task as itasks 
-                        inner join $table_ba as ibord on itasks.id = ibord.boardable_id 
+                    FROM
+                        $table_task as itasks
+                        inner join $table_ba as ibord on itasks.id = ibord.boardable_id
                         AND ibord.board_id in ($list_ids)
                         $permission_join
                     WHERE
@@ -920,9 +920,9 @@ class Task_Controller {
                         AND ibord.boardable_type='task'
                         $permission_where
                         order by iorder asc
-                        
+
                 ) as task
-      
+
             group by ibord_id";
 
         $results = $wpdb->get_results( $sql );
@@ -955,13 +955,13 @@ class Task_Controller {
                 "GROUP_CONCAT(
                     DISTINCT
                     CONCAT(
-                        '{', 
+                        '{',
                             '\"', 'assigned_to', '\"', ':' , '\"', IFNULL($assignees.assigned_to, '') , '\"' , ',',
                             '\"', 'assigned_at', '\"', ':' , '\"', IFNULL($assignees.assigned_at, '') , '\"' , ',',
                             '\"', 'completed_at', '\"', ':' , '\"', IFNULL($assignees.completed_at, '') , '\"' , ',',
                             '\"', 'started_at', '\"', ':' , '\"', IFNULL($assignees.started_at, '') , '\"' , ',',
-                            '\"', 'status', '\"', ':' , '\"', IFNULL($assignees.status, '') , '\"' 
-                        ,'}' 
+                            '\"', 'status', '\"', ':' , '\"', IFNULL($assignees.status, '') , '\"'
+                        ,'}'
                     ) SEPARATOR '|'
                 ) as assignees"
             )
@@ -980,7 +980,7 @@ class Task_Controller {
             })
 
             ->groupBy($task . '.id')
-            ->orderBy( $list . '.order', 'ASC' );
+            ->orderBy( $list . '.order', 'DESC' );
 
         $task_collection = apply_filters( 'list_tasks_filter_query', $task_collection, $args );
 

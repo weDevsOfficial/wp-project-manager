@@ -5,7 +5,7 @@
 export default {
     /**
      * Assign global property
-     * 
+     *
      * @type Object
      */
     state: {
@@ -66,9 +66,9 @@ export default {
 
         /**
          * Store todo lists page initial property
-         * 
-         * @param object state     
-         * @param object task_init 
+         *
+         * @param object state
+         * @param object task_init
          *
          * @return void
          */
@@ -82,7 +82,7 @@ export default {
 
             state.loading        = true;
             state.is_single_list = false,
-            
+
             pm.Vue.nextTick(function () {
                 state.lists         = task_init.data.lists;
                 state.milestones    = task_init.data.milestones;
@@ -103,10 +103,10 @@ export default {
 
         /**
          * New todo list form showing or hiding
-         * 
-         * @param  object state 
-         * 
-         * @return void       
+         *
+         * @param  object state
+         *
+         * @return void
          */
         newTodoListForm: function( state ) {
             state.show_list_form = state.show_list_form ? false : true;;
@@ -114,40 +114,40 @@ export default {
 
         /**
          * Update todo list form showing or hiding
-         * 
-         * @param  object state 
-         * @param  object list  
-         * 
-         * @return void       
+         *
+         * @param  object state
+         * @param  object list
+         *
+         * @return void
          */
         showHideUpdatelistForm: function( state, list ) {
-            state.lists[list.list_index].edit_mode = state.lists[list.list_index].edit_mode ? false : true; 
+            state.lists[list.list_index].edit_mode = state.lists[list.list_index].edit_mode ? false : true;
         },
 
         /**
          * Showing and hiding task insert and edit form
-         * 
-         * @param  object state 
-         * @param  int index 
-         * 
-         * @return void       
+         *
+         * @param  object state
+         * @param  int index
+         *
+         * @return void
          */
         showHideTaskForm: function( state, index ) {
-            
+
             if ( ( typeof index.task_index == 'undefined' ) || ( index.task_index === false ) ) {
-                state.lists[index.list_index].show_task_form = state.lists[index.list_index].show_task_form ? false : true; 
+                state.lists[index.list_index].show_task_form = state.lists[index.list_index].show_task_form ? false : true;
             } else {
-                state.lists[index.list_index].tasks[index.task_index].edit_mode = state.lists[index.list_index].tasks[index.task_index].edit_mode ? false : true; 
+                state.lists[index.list_index].tasks[index.task_index].edit_mode = state.lists[index.list_index].tasks[index.task_index].edit_mode ? false : true;
             }
         },
 
         /**
          * Update state lists property after insert new todo list or update todo list
-         * 
-         * @param  object state 
-         * @param  object res   
-         * 
-         * @return void       
+         *
+         * @param  object state
+         * @param  object res
+         *
+         * @return void
          */
         update_todo_list: function( state, res ) {
 
@@ -160,11 +160,11 @@ export default {
         },
 
         /**
-         * Insert new task to state lists.tasks property. 
-         *  
-         * @param  object state 
-         * @param  object data  
-         * 
+         * Insert new task to state lists.tasks property.
+         *
+         * @param  object state
+         * @param  object data
+         *
          * @return void
          */
         afterUpdateTask: function( state, data ) {
@@ -174,24 +174,24 @@ export default {
             if (list_index === false) {
                 return;
             }
-            
+
             if ( data.task.status === 'incomplete' || data.task.status === false ) {
-                var task_index = state.getIndex( 
-                        state.lists[list_index].incomplete_tasks.data, 
-                        data.task.id, 
-                        'id' 
+                var task_index = state.getIndex(
+                        state.lists[list_index].incomplete_tasks.data,
+                        data.task.id,
+                        'id'
                 );
-                
+
                 state.lists[list_index].incomplete_tasks.data.splice( task_index, 1, data.task );
             }
 
             if ( data.task.status === 'complete' || data.task.status === true ) {
-                var task_index = state.getIndex( 
-                        state.lists[list_index].complete_tasks.data, 
-                        data.task.id, 
-                        'id' 
+                var task_index = state.getIndex(
+                        state.lists[list_index].complete_tasks.data,
+                        data.task.id,
+                        'id'
                 );
-                
+
                 state.lists[list_index].complete_tasks.data.splice( task_index, 1, data.task );
             }
         },
@@ -209,28 +209,29 @@ export default {
 
                     if( typeof data.task.task_list === 'undefined') {
                         data.task.task_list = {
-                            data: data.list 
+                            data: data.list
                         };
                     }
-                    state.lists[list_index].incomplete_tasks.data.push(data.task);
+                    // state.lists[list_index].incomplete_tasks.data.push(data.task);
+                    state.lists[list_index].incomplete_tasks.data.unshift(data.task);
                 }else{
                     state.lists[list_index].incomplete_tasks = { data: data.task };
-                }                
+                }
             }
 
             state.lists[list_index].meta.total_incomplete_tasks = state.lists[list_index].meta.total_incomplete_tasks + 1;
         },
 
         /**
-         * When goto single todo list page. Empty the state lists array and insert single todo list. 
-         * 
-         * @param  object state 
-         * @param  object data  
-         * 
-         * @return void       
+         * When goto single todo list page. Empty the state lists array and insert single todo list.
+         *
+         * @param  object state
+         * @param  object data
+         *
+         * @return void
          */
         update_todo_list_single: function( state, data ) {
-            
+
             state.lists          = [];
             state.milestones     = [];
             state.project_users  = [];
@@ -246,15 +247,15 @@ export default {
 
         /**
          * Make single task complete and incomplete
-         * 
-         * @param  object state 
-         * @param  object data  
-         * 
-         * @return void        
+         *
+         * @param  object state
+         * @param  object data
+         *
+         * @return void
          */
         afterTaskDoneUndone: function( state, data ) {
             var list_index = state.getIndex( state.lists, data.list_id, 'id' );
-            
+
             if (data.status === 1) {
                 if (typeof state.lists[list_index].incomplete_tasks == 'undefined') {
                     return;
@@ -265,7 +266,7 @@ export default {
                 }
                 var task = state.lists[list_index].incomplete_tasks.data[task_index];
                 task.status = true;
-                
+
                 if (typeof state.lists[list_index].complete_tasks !== 'undefined') {
                     state.lists[list_index].complete_tasks.data.splice(0,0,task);
                 } else {
@@ -285,7 +286,7 @@ export default {
 
                 var task = state.lists[list_index].complete_tasks.data[task_index];
                 task.status = false;
-                
+
                 if (typeof state.lists[list_index].incomplete_tasks !== 'undefined') {
                     state.lists[list_index].incomplete_tasks.data.splice(0,0,task);
                 } else {
@@ -300,24 +301,24 @@ export default {
 
         /**
          * After update list-comment store it in state lists
-         * 
-         * @param  object state 
-         * @param  object data  
-         * 
-         * @return void        
+         *
+         * @param  object state
+         * @param  object data
+         *
+         * @return void
          */
-        listNewComment: function( state, data ) { 
+        listNewComment: function( state, data ) {
             var list_index = state.getIndex( state.lists, data.list_id, 'id' );
             state.lists[list_index].comments.data.push(data.comment);
         },
 
         /**
          * After update list-comment store it in state lists
-         * 
-         * @param  object state 
-         * @param  object data  
-         * 
-         * @return void        
+         *
+         * @param  object state
+         * @param  object data
+         *
+         * @return void
          */
         listUpdateComment: function( state, data ) {
             var list_index = state.getIndex( state.lists, data.list_id, 'id' ),
@@ -328,11 +329,11 @@ export default {
 
         /**
          * Remove comment from list
-         * 
-         * @param  object state 
-         * @param  object data  
-         * 
-         * @return void       
+         *
+         * @param  object state
+         * @param  object data
+         *
+         * @return void
          */
         after_delete_comment: function( state, data ) {
             state.lists[data.list_index].comments.splice( data.comment_index, 1 );
@@ -340,11 +341,11 @@ export default {
 
         /**
          * Remove comment from task
-         * 
-         * @param  object state 
-         * @param  object data  
-         * 
-         * @return void       
+         *
+         * @param  object state
+         * @param  object data
+         *
+         * @return void
          */
         after_delete_task_comment: function( state, data ) {
             state.lists[data.list_index].tasks[data.task_index].comments.splice( data.comment_index, 1 );
@@ -352,10 +353,10 @@ export default {
 
         /**
          * Showing todo-list comment edit form
-         * 
-         * @param  object state 
-         * @param  object data  
-         * 
+         *
+         * @param  object state
+         * @param  object data
+         *
          * @return void
          */
         showHideListCommentEditForm: function( state, data ) {
@@ -367,10 +368,10 @@ export default {
 
         /**
          * Showing task comment edit form
-         * 
-         * @param  object state 
-         * @param  object data  
-         * 
+         *
+         * @param  object state
+         * @param  object data
+         *
          * @return void
          */
         showHideTaskCommentEditForm: function( state, data ) {
@@ -381,11 +382,11 @@ export default {
 
         /**
          * Set single task popup data to vuex store
-         * 
-         * @param  object state 
-         * @param  object task  
-         * 
-         * @return void       
+         *
+         * @param  object state
+         * @param  object task
+         *
+         * @return void
          */
         single_task_popup: function( state ) {
             state.task = task.task;
@@ -393,10 +394,10 @@ export default {
 
         /**
          * Make empty store task and make false is_single_task
-         * 
-         * @param  object state 
-         * 
-         * @return void       
+         *
+         * @param  object state
+         *
+         * @return void
          */
         updateSingleTaskActiveMode: function( state, status ) {
             state.is_single_task = status;
@@ -408,11 +409,11 @@ export default {
         },
 
         /**
-         * Remove todo list 
-         * 
-         * @param  object state 
-         * @param  object list  
-         * 
+         * Remove todo list
+         *
+         * @param  object state
+         * @param  object list
+         *
          * @return return
          */
         after_delete_todo_list: function( state, list ) {
@@ -421,11 +422,11 @@ export default {
 
         /**
          * After delete task
-         * 
-         * @param  object state 
-         * @param  object task  
-         * 
-         * @return void       
+         *
+         * @param  object state
+         * @param  object task
+         *
+         * @return void
          */
         afterDeleteTask: function( state, data ) {
             var list_index = state.getIndex(state.lists, data.list.id, 'id');
@@ -439,19 +440,19 @@ export default {
                 state.lists[list_index].complete_tasks.data.splice(task_index, 1);
                 state.lists[list_index].meta.total_incomplete_tasks = state.lists[list_index].meta.total_complete_tasks - 1;
             }
-            
+
         },
 
         /**
          * After get tasks from list id
-         * 
-         * @param  object state 
-         * @param  object task  
-         * 
-         * @return void       
+         *
+         * @param  object state
+         * @param  object task
+         *
+         * @return void
          */
         insert_tasks: function( state, task ) {
-            
+
             task.tasks.tasks.forEach(function(task_obj) {
                state.lists[task.list_index].tasks.push(task_obj);
             });
@@ -465,9 +466,9 @@ export default {
         /**
          * Chanage view active mode
          *
-         * @param  object state 
-         * @param  object mode 
-         * 
+         * @param  object state
+         * @param  object mode
+         *
          * @return void
          */
         change_active_mode: function(state, mode) {
@@ -508,7 +509,7 @@ export default {
         },
 
         setLists (state, lists) {
-            state.lists = lists; 
+            state.lists = lists;
             state.isListFetch = true;
         },
         setList(state, list){
@@ -529,7 +530,7 @@ export default {
         afterUpdateList (state, list) {
             var list_index = state.getIndex(state.lists, list.id, 'id');
             //var merge_list = jQuery.extend(true, state.lists[list_index], list );
-            
+
             state.lists.splice(list_index,1,list);
         },
         afterNewListupdateListsMeta (state) {
@@ -563,9 +564,9 @@ export default {
                     state.is_active_list_form = state.is_active_list_form ? false : true;
                 } else {
                     state.is_active_list_form = data.status;
-                } 
+                }
             }
-  
+
         },
 
         setTotalListPage (state, total) {
@@ -577,11 +578,11 @@ export default {
         },
         setSingleTask (state, data) {
             state.task = data;
- 
+
         },
         setTasks(state, data){
             var list_index = state.getIndex(state.lists, data.id, 'id');
-            
+
             if(typeof data.incomplete_tasks !== 'undefined' ){
                 data.incomplete_tasks.data.forEach(function(task){
                     state.lists[list_index].incomplete_tasks.data.push(task)
@@ -593,24 +594,24 @@ export default {
                 });
                 state.lists[list_index].complete_tasks.meta = data.complete_tasks.meta;
             }
-            
+
         },
 
         updateTaskEditMode (state, data) {
             var list_index = state.getIndex(state.lists, data.list_id, 'id');
-            
-            
+
+
             if(typeof state.lists[list_index].incomplete_tasks !== 'undefined' ){
                 var task_index = state.getIndex(state.lists[list_index].incomplete_tasks.data, data.task.id, 'id');
                 state.lists[list_index].incomplete_tasks.data[task_index].edit_mode = true;
 
-                //state.lists[list_index].incomplete_tasks.data.splice(task_index, 1); 
+                //state.lists[list_index].incomplete_tasks.data.splice(task_index, 1);
 
                 //state.lists[list_index].incomplete_tasks.data.splice(task_index, 1, data.task);
 
                 //jQuery.extend(true, data.task, state.lists[list_index].incomplete_tasks.data[task_index] );
 
-            } 
+            }
 
             if(typeof state.lists[list_index].complete_tasks !== 'undefined' ){
                 var task_index = state.getIndex(state.lists[list_index].complete_tasks.data, data.task.id, 'id');
@@ -618,7 +619,7 @@ export default {
             }
         },
         balankTemplateStatus(state, status){
-            state.balankTemplateStatus = status; 
+            state.balankTemplateStatus = status;
         },
         listTemplateStatus(state, status){
             state.listTemplateStatus = status;
@@ -641,8 +642,8 @@ export default {
             if(typeof state.lists[list_index].incomplete_tasks !== 'undefined' ){
                 var task_index = state.getIndex(state.lists[list_index].incomplete_tasks.data, data.task_id, 'id');
                 state.lists[list_index].incomplete_tasks.data[task_index].meta.privacy = data.privacy;
-            } 
-            
+            }
+
             if(typeof state.task.meta != 'undefined') {
                 state.task.meta.privacy = data.privacy;
             }
@@ -654,7 +655,7 @@ export default {
         receiveTask (state, data) {
             var receive = data.receive;
             var res = data.res;
-            
+
             var setListindex = state.getIndex(state.lists, receive.list_id, 'id');
             var senderListindex = state.getIndex(state.lists, res.sender_list_id, 'id');
             var setIndex = false;
@@ -666,23 +667,23 @@ export default {
             });
 
             if(
-                setListindex !== false 
-                    && 
-                typeof state.lists[setListindex].incomplete_tasks != 'undefined' 
+                setListindex !== false
+                    &&
+                typeof state.lists[setListindex].incomplete_tasks != 'undefined'
             ){
                 state.lists[setListindex].incomplete_tasks.data.splice(setIndex, 0, res.task.data);
                 state.lists[setListindex].meta.total_incomplete_tasks = state.lists[setListindex].meta.total_incomplete_tasks + 1;
-            } 
+            }
 
             if(
-                senderListindex !== false 
-                    && 
-                typeof state.lists[senderListindex].incomplete_tasks != 'undefined' 
+                senderListindex !== false
+                    &&
+                typeof state.lists[senderListindex].incomplete_tasks != 'undefined'
             ){
                 let task_index = state.getIndex(state.lists[senderListindex].incomplete_tasks.data, receive.task_id, 'id');
                 state.lists[senderListindex].incomplete_tasks.data.splice(task_index, 1);
                 state.lists[senderListindex].meta.total_incomplete_tasks = state.lists[senderListindex].meta.total_incomplete_tasks - 1;
-            } 
+            }
         },
 
         listOrdering (state, orders) {
