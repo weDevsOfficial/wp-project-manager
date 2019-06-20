@@ -980,7 +980,7 @@ class Task_Controller {
             })
 
             ->groupBy($task . '.id')
-            ->orderBy( $list . '.order', 'ASC' );
+            ->orderBy( $list . '.order', 'DESC' );
 
         $task_collection = apply_filters( 'list_tasks_filter_query', $task_collection, $args );
 
