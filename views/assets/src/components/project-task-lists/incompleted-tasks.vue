@@ -90,7 +90,7 @@
                             </div>
                         </div>
                         <!-- popper trigger element -->
-                        <span slot="reference" title="{{ __( 'action', 'wedevs-project-manager') }}" class="pm-popper-ref popper-ref icon-pm-more-options"></span>
+                        <span slot="reference" :title="__( 'action', 'wedevs-project-manager')" class="pm-popper-ref popper-ref icon-pm-more-options"></span>
                     </pm-popper>
                 </div>                
             </div>
