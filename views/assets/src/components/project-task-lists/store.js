@@ -212,7 +212,7 @@ export default {
                             data: data.list 
                         };
                     }
-                    state.lists[list_index].incomplete_tasks.data.push(data.task);
+                    state.lists[list_index].incomplete_tasks.data.unshift(data.task);
                 }else{
                     state.lists[list_index].incomplete_tasks = { data: data.task };
                 }                
