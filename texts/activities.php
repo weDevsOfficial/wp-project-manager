@@ -67,7 +67,7 @@ return [
         ['actor.data.display_name', 'meta.task_list_title']
     ],
     'delete_task_list'             => [
-        __( '%1$s has Deleted a task list titled as %2$s.', 'wedevs-project-manager' ),
+        __( '%1$s has deleted a task list titled as %2$s.', 'wedevs-project-manager' ),
         ['actor.data.display_name', 'meta.deleted_task_list_title']
     ],
     'update_task_list_title'       => [
@@ -87,7 +87,7 @@ return [
         ['actor.data.display_name', 'meta.task_list_title']
     ],
     'restore_task_list'       => [
-        __( '%1$s has restore a task list, %2$s.', 'wedevs-project-manager' ),
+        __( '%1$s has restored a task list, %2$s.', 'wedevs-project-manager' ),
         ['actor.data.display_name', 'meta.task_list_title']
     ],
 
@@ -97,7 +97,7 @@ return [
         ['actor.data.display_name', 'meta.milestone_title']
     ],
     'delete_milestone'             => [
-        __( '%1$s has Deleted a milestone, %2$s.', 'wedevs-project-manager' ),
+        __( '%1$s has deleted a milestone, %2$s.', 'wedevs-project-manager' ),
         ['actor.data.display_name', 'meta.deleted_milestone_title']
     ],
     'update_milestone_title'       => [
@@ -159,7 +159,7 @@ return [
         ['actor.data.display_name', 'meta.task_title', 'meta.task_payable_old', 'meta.task_payable_new']
     ],
     'update_task_recurrent'   => [
-        __( '%1$s has updated the recurrency of a task, %2$s, %3$s to %4$s.', 'wedevs-project-manager' ),
+        __( '%1$s has updated the recurrency of a task, %2$s, from %3$s to %4$s.', 'wedevs-project-manager' ),
         ['actor.data.display_name', 'meta.task_title', 'meta.task_recurrent_old', 'meta.task_recurrent_new']
     ],
     'update_task_status'      => [
@@ -325,11 +325,11 @@ return [
 
     // duplicate project 
     'duplicate_project' => [
-        __( '%1$s has duplicated project from , %2$s.', 'wedevs-project-manager'),
+        __( '%1$s has duplicated project from, %2$s.', 'wedevs-project-manager'),
         ['actor.data.display_name', 'meta.old_project_title']
     ],
     'duplicate_list' => [
-        __( '%1$s has duplicated list from , %2$s.', 'wedevs-project-manager'),
+        __( '%1$s has duplicated list from, %2$s.', 'wedevs-project-manager'),
         ['actor.data.display_name', 'meta.old_task_list_title']
     ],
 ];

@@ -149,7 +149,7 @@
 
                                     <li v-if="!lists.length">
                                         <div class="todos-wrap no-task">
-                                            <center><span v-if="isListFetch">{{ __( 'No result Found', 'wedevs-project-manager') }}</span></center>
+                                            <center><span v-if="isListFetch">{{ __( 'No results found.', 'wedevs-project-manager') }}</span></center>
 
                                         </div> 
                                     </li>
@@ -160,7 +160,7 @@
                     </div>
                     
                     <!-- <div class="todos-wrap no-task">
-                        <span>{{ __( 'No result Found', 'wedevs-project-manager') }}</span>
+                        <span>{{ __( 'No results found.', 'wedevs-project-manager') }}</span>
 
                     </div> -->
                 </div>
@@ -188,7 +188,7 @@
                                         @search-change="asyncFind($event)"
                                         label="title"
                                         track-by="id">
-                                        <span slot="noResult">{{ __( 'No task list found.', 'pm-pro' ) }}</span>
+                                        <span slot="noResult">{{ __( 'No task lists found.', 'wedevs-project-manager' ) }}</span>
                                             
                                     </multiselect> 
                                 </div>

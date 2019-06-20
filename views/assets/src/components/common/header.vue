@@ -8,7 +8,7 @@
                         <edit-project v-if="is_manager()" class="project-edit-form" :project="project" @makeFromClose="makeFromClose"></edit-project>
                     </div>
                     <!-- popper trigger element -->
-                    <a href="#" @click.prevent="checkFormStatus" slot="reference" title="action" class="pm-project-update-wrap pm-popper-ref popper-ref icon-pm-pencil project-update-btn"></a>
+                    <a href="#" @click.prevent="checkFormStatus" slot="reference" title="{{ __( 'action', 'wedevs-project-manager') }}" class="pm-project-update-wrap pm-popper-ref popper-ref icon-pm-pencil project-update-btn"></a>
                     
                 </pm-popper>
             </div>
@@ -40,7 +40,7 @@
                         </div>
                     </div>
                     <!-- popper trigger element -->
-                    <span  slot="reference" title="action" class="pm-popper-ref popper-ref icon-pm-settings header-settings-btn"></span>
+                    <span  slot="reference" title="{{ __( 'action', 'wedevs-project-manager') }}" class="pm-popper-ref popper-ref icon-pm-settings header-settings-btn"></span>
                 </pm-popper>
 
                 <!-- <a href="#" v-if="is_manager()" @click.prevent="showHideSettings()" class="icon-pm-settings header-settings-btn"></a> -->
@@ -422,4 +422,3 @@
         }
     }
 </script>
-
