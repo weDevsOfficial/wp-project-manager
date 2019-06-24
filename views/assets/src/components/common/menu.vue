@@ -265,18 +265,14 @@
 
 			setActiveMenu (item) {
 				var name = this.$route.name;
-
-                if(item.route.name == 'task_lists' && name == 'single_list' ) {
-                    return 'active';
-                }
-
-                if(item.route.name == 'discussions' && name == 'individual_discussions' ) {
-                    return 'active';
-                }
-                
-				if(name == item.route.name || this.current == item.route.name) {
+                if( ( item.route.name == 'task_lists' 
+                        && ( name == 'single_list' || name == "task_lists_pagination" ) 
+                    )
+                    || ( item.route.name == 'discussions' && name == 'individual_discussions' )
+                    || ( name == item.route.name || this.current == item.route.name ) 
+                ) {
 					return 'active';
-				} 
+                } 
 			},
 			setMenuIcon (item) {
                 switch(item.route.name) {
