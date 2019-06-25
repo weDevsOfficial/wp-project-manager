@@ -210,15 +210,23 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
-= v2.2.1 - Jun 14, 2019 =
+= next - Jun 14, 2019 =
 
 * **New** Content action for task list page  'pm_after_task_content'
 * **New** Set new event after update single task user 'after_update_singel_task_user'
 * **Update** User get task update mail even task is not updated
-*In the project, global settings project managing capability and project creation capability Administration checkbox will hide
-*Premium menu will show when project manager pro active
-*new do action pm_before_delete_task_list
+* In the project, global settings project managing capability and project creation capability Administration checkbox will hide
+* Premium menu will show when project manager pro active
+* new do action pm_before_delete_task_list
 * Inbox sorting
+* compact(): undefined index variable problem for php 7.3
+* Update text domain 'pm' to 'wedevs-project-manager'
+Update: Add Tooltip on icon
+Fix: Task lists menu is not activating when clicking pagination
+Fix: Archive tasks are showing in the MyTask Calendar
+Fix: New tasks are listing in the descending order in the task lists
+Fix: Archive tasks are showing on My task
+Fix: remove delete icon from kanban board if has no permission
 
 = v2.2.1 - Jun 14, 2019 =
 
