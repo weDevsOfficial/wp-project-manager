@@ -126,6 +126,9 @@ class MyTask_Controller {
         $end        = $request->get_param( 'end' );
 
         $tasks = User::find( $id )->tasks()
+                ->whereHas('boards',function( $query ) {
+                    $query->where('status', '1');
+                })
                 ->with('assignees')
                 ->parent()
                 ->where( function( $query ) use ($start, $end) {
