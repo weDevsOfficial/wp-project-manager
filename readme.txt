@@ -212,21 +212,17 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 = next - Jun 14, 2019 =
 
-* **New** Content action for task list page  'pm_after_task_content'
-* **New** Set new event after update single task user 'after_update_singel_task_user'
-* **Update** User get task update mail even task is not updated
-* In the project, global settings project managing capability and project creation capability Administration checkbox will hide
-* Premium menu will show when project manager pro active
-* new do action pm_before_delete_task_list
-* Inbox sorting
-* compact(): undefined index variable problem for php 7.3
-* Update text domain 'pm' to 'wedevs-project-manager'
-Update: Add Tooltip on icon
-Fix: Task lists menu is not activating when clicking pagination
-Fix: Archive tasks are showing in the MyTask Calendar
-Fix: New tasks are listing in the descending order in the task lists
-Fix: Archive tasks are showing on My task
-Fix: remove delete icon from kanban board if has no permission
+* **New** Action hook in task list page 'pm_after_task_content'.
+* **New** Event initiation after task user update 'after_update_single_task_user'.
+* **New** Action hook before delete task list 'pm_before_delete_task_list'.
+* **Update** User gets mail at task updating time even the task is not updated.
+* **Update** Archived tasks will not appear on MyTask calendar.
+* **Update** New tasks are listing in the descending order in the task lists.
+* **Fix** User can remove administrator from manage capability permission.
+* **Fix** Inbox task list does not appear at the top of the task lists.
+* **Fix** compact(): undefined index variable problem for php 7.3
+* **Fix** Text domain 'pm' to 'wedevs-project-manager'.
+* **Fix** Task lists menu is not activating while clicking pagination.
 
 = v2.2.1 - Jun 14, 2019 =
 
