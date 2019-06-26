@@ -257,6 +257,7 @@
                     args.data.id = this.project.id;
                     args.callback = function ( res ) {
                         self.show_spinner = false;
+                        self.$store.commit('setProjectUsers', res.data.assignees.data);
                         self.closePopper('pm-project-update-wrap');
                         self.$emit('makeFromClose', false);
                     }
