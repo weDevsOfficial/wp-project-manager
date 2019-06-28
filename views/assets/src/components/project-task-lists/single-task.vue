@@ -444,7 +444,7 @@
 
                     this.updateTaskElement(this.task, function(res) {
                         
-                        pmBus.$emit('after_update_singel_task_user', {
+                        pmBus.$emit('after_update_single_task_user', {
                             beforeUpdate: self.task, 
                             afterUpdate: res.data
                         });

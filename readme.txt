@@ -3,9 +3,9 @@ Contributors: tareq1988, nizamuddinbabu, wedevs, asaquzzaman
 Donate Link: https://tareq.co/donate/
 Tags: web task manager, online collaboration tool, task tracker, productivity tool, open source project management software
 Requires at least: 4.4
-Tested up to: 5.2.1
+Tested up to: 5.2.2
 Requires PHP: 5.6
-Stable tag: 2.2.1
+Stable tag: 2.2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -210,7 +210,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
-= next - Jun 14, 2019 =
+= v2.2.2 - Jun 28, 2019 =
 
 * **New** Action hook in task list page 'pm_after_task_content'.
 * **New** Event initiation after task user update 'after_update_single_task_user'.
