@@ -81,7 +81,7 @@ class Search_Controller {
         });
 
         if ( empty( $projects ) ) {
-            $projects = [ [ "no_result" => __( "No result found.", 'pm-pro' )] ];
+            $projects = [ [ "no_result" => __( "No results found.", 'wedevs-project-manager' )] ];
         }
 
         return $projects;
@@ -124,7 +124,7 @@ class Search_Controller {
 		$items = array_merge( $items, $this->search_in_broad( $string, $project_id ));
 
         if ( empty( $items ) ) {
-            $items = [ [ "no_result" => __( "No result found.", 'pm-pro' ) ]];
+            $items = [ [ "no_result" => __( "No results found.", 'wedevs-project-manager' ) ]];
 		}
 
         return $items;

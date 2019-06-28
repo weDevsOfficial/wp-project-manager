@@ -58,7 +58,10 @@
 
                                     <fieldset>
                                         <label v-for="(role_display_name, role) in roles" :key="role">
-                                            <input type="checkbox" class="checkbox" v-model="managing_capability" :value="role">
+
+                                            <input type="checkbox" disabled="disabled"  v-if="role == 'administrator'" checked="checked" class="checkbox">
+                                            <input type="checkbox" v-if="role != 'administrator'" class="checkbox" v-model="managing_capability" :value="role">
+
                                             {{ role_display_name }}
                                         </label>
                                         
@@ -74,7 +77,8 @@
 
                                     <fieldset>
                                         <label v-for="(role_display_name, role) in roles" :key="role">
-                                            <input type="checkbox" class="checkbox" v-model="project_create_capability" :value="role">
+                                            <input v-if="role == 'administrator'" type="checkbox" disabled="disabled" checked="checked" class="checkbox">
+                                            <input v-if="role != 'administrator'" type="checkbox" class="checkbox" v-model="project_create_capability" :value="role">
                                             {{ role_display_name }}
                                         </label>
                                         

@@ -32,14 +32,14 @@
                                 <a class="completed" v-if="task.status" href="#" @click.prevent="singleTaskDoneUndone()">
                                     <span class="icon-pm-completed pm-font-size-16" v-if="!show_spinner_status"></span>
                                     <span class="pm-spinner" v-if="show_spinner_status"></span>
-                                    {{ __( 'Completed', 'pm' ) }}
+                                    {{ __( 'Completed', 'wedevs-project-manager' ) }}
                                 </a>
 
 
                                 <a  class="incomplete" v-if="!task.status" href="#" @click.prevent="singleTaskDoneUndone()">
                                     <span class="icon-pm-incomplete pm-font-size-16" v-if="!show_spinner_status"></span>
                                     <span class="pm-spinner" v-if="show_spinner_status"></span>
-                                    {{ __( 'Mark Complete', 'pm' ) }}
+                                    {{ __( 'Mark Complete', 'wedevs-project-manager' ) }}
                                 </a>
 
                             </div>
@@ -88,8 +88,8 @@
                                 <span v-if="is_task_title_edit_mode && can_edit_task(task)">
                                     <input
                                         v-model="task.title"
-                                        @blur="updateTaskElement(task)"
-                                        @keyup.enter="updateTaskElement(task)"
+                                        @blur="updateTaskTitle(task)"
+                                        @keyup.enter="updateTaskTitle(task)"
 
                                         class="pm-task-title-activity pm-task-title-field"
                                         type="text">
@@ -109,7 +109,7 @@
                         <div class="task-list-title-wrap" v-if="task.task_list.data">
                             <div class="task-list-title-text">
                                 <span >
-                                    {{ __("Task List: ", 'wedevs-project-manager' ) }}
+                                    {{ __("Task List:", 'wedevs-project-manager' ) }}
                                 </span>
                                 <strong class="list-title">
                                     {{ task.task_list.data.title }}
@@ -171,7 +171,7 @@
                                 <span @click.prevent="singleTaskLockUnlock(task)" v-if="isTaskLock" :title="__('Task is visible for co-worker', 'wedevs-project-manager')" class="icon-pm-unlock pm-dark-hover pm-font-size-16"></span>
                                 <span @click.prevent="singleTaskLockUnlock(task)" v-if="isTaskUnlock" class="icon-pm-private pm-dark-hover pm-font-size-16"></span>
 
-                                <span v-if="has_task_permission()" id="pm-calendar-wrap" @click.prevent="isTaskDateEditMode()" class="individual-group-icon calendar-group icon-pm-calendar pm-font-size-16">
+                                <span v-if="has_task_permission()" id="pm-calendar-wrap"  v-pm-tooltip :title="__('Date', 'wedevs-project-manager')" @click.prevent="isTaskDateEditMode()" class="individual-group-icon calendar-group icon-pm-calendar pm-font-size-16">
                                     <span v-if="(task.start_at.date || task.due_date.date )" :class="taskDateWrap(task.due_date.date) + ' pm-task-date-wrap pm-date-window'">
 
                                         <span :title="getFullDate(task.start_at.datetime)" v-if="task_start_field">
@@ -381,6 +381,8 @@
                 description_show_spinner: false,
                 show_spinner_status: false,
                 show_spinner: false,
+                taskUpdating: false,
+                truckTitleUpdate: ''
             }
         },
 
@@ -430,13 +432,25 @@
                  * @param array selected_users
                  */
                 set ( selected_users ) {
+                    if(this.show_spinner) {
+                        return;
+                    }
+                    var self = this;
                     this.assigned_to = selected_users.map(function (user) {
                         return user.id;
                     });
 
                     this.task.assignees.data = selected_users;
 
-                    this.updateTaskElement(this.task);
+                    this.updateTaskElement(this.task, function(res) {
+                        
+                        pmBus.$emit('after_update_single_task_user', {
+                            beforeUpdate: self.task, 
+                            afterUpdate: res.data
+                        });
+
+                        self.task.assignees.data = res.data.assignees.data; 
+                    });
                 }
             },
             isTaskLock () {
@@ -490,8 +504,11 @@
         },
 
         methods: {
-            test (index) {
-                //console.log(index);
+            updateTaskTitle (task) {
+                if(this.truckTitleUpdate == task.title) {
+                    return;
+                }
+                this.updateTaskElement(task);
             },
             callBackDatePickerForm (date) {
 
@@ -657,6 +674,7 @@
                             self.content.html = res.data.description.html;
                             self.addMeta(res.data);
                             self.task = res.data;
+                            self.truckTitleUpdate = res.data.title;
 
                             self.loading = false;
                         }
@@ -805,7 +823,7 @@
                 return task.completed ? 'pm-task-complete' : 'pm-task-incomplete';
             },
 
-            updateTaskElement (task) {
+            updateTaskElement (task, callback) {
                 if (this.isArchivedTaskList(this.task)) {
                     return;
                 }
@@ -826,7 +844,7 @@
                     pm.Toastr.error(__('Invalid date range!', 'wedevs-project-manager'));
                     return;
                 }
-                this.show_spinner = true;
+                
 
                 var update_data  = {
                         'title': task.title,
@@ -864,6 +882,10 @@
                         }
                         self.show_spinner = false;
 
+                        if(typeof callback != 'undefined') {
+                            callback(res);
+                        }
+
 
                     },
                     error (res) {
@@ -872,7 +894,7 @@
                         });
                     }
                 }
-                
+                this.show_spinner = true;
                 this.httpRequest(request_data);
             },
 
@@ -1010,6 +1032,3 @@
         overflow: hidden;
     }
 </style>
-
-
-

@@ -40,7 +40,7 @@
 
         </ul>
 
-        <a v-if="total_activity>loaded_activities" href="#" @click.prevent="getSelfUserActivities()" class="button pm-load-more">{{__("Load More", 'pm-pro')}}</a>
+        <a v-if="total_activity>loaded_activities" href="#" @click.prevent="getSelfUserActivities()" class="button pm-load-more">{{__("Load More", 'wedevs-project-manager')}}</a>
         <span v-show="show_spinner" class="pm-spinner"></span>
     </div>
 </div>
