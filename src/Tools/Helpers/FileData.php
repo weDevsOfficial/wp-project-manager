@@ -67,7 +67,7 @@
 //                 $created = $this->fs->mkdir( $dir, PM_IMPORTER_CONTENTS_DIR_PERMISSION );
 //                 if ( ! $created ) {
 //                     throw new Exception(
-//                         sprintf( __( 'File permission error. Cannot create "%s" directory', 'pm' ), $dir )
+//                         sprintf( __( 'File permission error. Cannot create "%s" directory', 'wedevs-project-manager' ), $dir )
 //                     );
 //                 }
 //             }

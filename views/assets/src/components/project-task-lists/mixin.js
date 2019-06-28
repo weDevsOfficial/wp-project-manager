@@ -588,7 +588,7 @@ var PM_TaskList_Mixin = {
             var args = jQuery.extend(true, pre_define, args);
             var data = pm_apply_filters( 'before_task_save', args.data ),
                 data = pm.hooks.applyFilters( 'before_task_save', data );
-            
+
             var request_data = {
                 url: self.base_url + '/pm/v2/projects/'+args.data.project_id+'/tasks/'+args.data.task_id+'/update',
                 type: 'POST',
@@ -607,7 +607,7 @@ var PM_TaskList_Mixin = {
                     if ( typeof args.callback === 'function' ) {
                         args.callback( self, res );
                     }
-
+                    
                     pmBus.$emit('pm_after_update_task', res, args);
                 },
 

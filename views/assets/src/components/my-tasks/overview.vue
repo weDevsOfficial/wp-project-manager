@@ -15,37 +15,37 @@
         <div v-if="isloaded" id="pm-mytask-page-content">
             <div class="pm-mytask-overview-page">
                 <div class="pm-col-3 pm-sm-col-12 pm-mytask-chart-overview">
-                    <h3 class="pm-box-title">{{ __('At a glance', 'pm-pro' ) }}</h3>
+                    <h3 class="pm-box-title">{{ __('At a glance', 'wedevs-project-manager' ) }}</h3>
                     <canvas v-pm-mytask-pichart id="cart-at-glance" width="404" height="202" style="width: 404px; height: 202px;"></canvas>
                     <ul>
                         <li>
                             <span class="color-plate" style="background-color: #61BD4F"></span>
-                            {{ __('Current', 'pm-pro' ) }}
+                            {{ __('Current', 'wedevs-project-manager' ) }}
                             <span class="pm-right task-count">
-                                {{total_current_tasks}} {{ __('Tasks', 'pm-pro' ) }}
+                                {{total_current_tasks}} {{ __('Tasks', 'wedevs-project-manager' ) }}
                             </span>
                             <span class="clearfix"></span>
                         </li>
                         <li>
                             <span class="color-plate" style="background-color: #EB5A46"></span>
-                                {{ __('Outstanding', 'pm-pro' ) }}
+                                {{ __('Outstanding', 'wedevs-project-manager' ) }}
                                 <span class="pm-right task-count">
-                                    {{total_outstanding_tasks}} {{ __('Tasks', 'pm-pro' ) }}
+                                    {{total_outstanding_tasks}} {{ __('Tasks', 'wedevs-project-manager' ) }}
                                 </span>
                         <span class="clearfix"></span>
                         </li>
                         <li>
                             <span class="color-plate" style="background-color: #0090D9"></span>
-                                {{__('Completed', 'pm-pro' )}}
+                                {{__('Completed', 'wedevs-project-manager' )}}
                                 <span class="pm-right task-count">
-                                    {{total_completed_tasks}} {{ __('Tasks', 'pm-pro' ) }}
+                                    {{total_completed_tasks}} {{ __('Tasks', 'wedevs-project-manager' ) }}
                                 </span>
                             <span class="clearfix"></span>
                         </li>
                     </ul>
                 </div>
                 <div class="pm-mytask-chart-statistics pm-col-9 pm-sm-col-12 ">
-                    <h3 class="pm-box-title">{{ __('Activities', 'pm-pro' ) }}</h3>
+                    <h3 class="pm-box-title">{{ __('Activities', 'wedevs-project-manager' ) }}</h3>
 
                     <div class="">
                         <div class="pm-right">

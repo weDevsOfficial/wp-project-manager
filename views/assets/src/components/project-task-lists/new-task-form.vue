@@ -8,13 +8,13 @@
                     <span class="plus-text" v-if="!show_spinner">+</span>
                     <span class="pm-spinner" v-if="show_spinner"></span>
                 </div>
-                <input @keyup.enter="taskFormAction()" v-model="task.title"  class="input-field" :placeholder="__('Add new task', 'wedevs-project-manager')" type="text" ref="taskForm">
+                <input @keyup.enter="taskFormAction()" v-model="task.title"  class="input-field" :placeholder="__('Add New Task', 'wedevs-project-manager')" type="text" ref="taskForm">
                 <a @click.prevent="taskFormAction()"  class="update-button" href="#"><span class="icon-pm-check-circle"></span></a>
                 <div class="action-icons">
                     <pm-do-action hook="pm_task_form" :actionData="task"></pm-do-action>
                     <!-- time estimation -->
                     <!-- <span title="Estimate time" class="pm-icon flaticon-clock pm-estimate-icon"></span> -->
-                    <span title="Description" @click.self.prevent="enableDisable('descriptionField')" class="icon-pm-align-left new-task-description-btn"></span>
+                    <span v-pm-tooltip :title="__('Description','wedevs-project-manager')" @click.self.prevent="enableDisable('descriptionField')" class="icon-pm-align-left new-task-description-btn"></span>
                     <!-- popper -->
                     <pm-popper trigger="click" :options="popperOptions">
                         <div class="pm-popper popper">
@@ -50,12 +50,12 @@
                         </div>
                         
                         <!-- popper trigger element -->
-                        <span slot="reference" title="Assign user" class="pm-popper-ref popper-ref task-user-multiselect icon-pm-single-user pm-dark-hover"></span>
+                        <span slot="reference" v-pm-tooltip :title="__('Assign user', 'wedevs-project-manager')"  class="pm-popper-ref popper-ref task-user-multiselect icon-pm-single-user pm-dark-hover"></span>
                     </pm-popper>
 
                     <!-- <span @click.prevent="showHideDescription()" class="icon-pm-pencil pm-dark-hover"></span> -->
 
-                    <span title="Date" @click.self.prevent="enableDisable('datePicker')" class="icon-pm-calendar new-task-calendar pm-dark-hover"></span>
+                    <span v-pm-tooltip :title="__('Date', 'wedevs-project-manager')" @click.self.prevent="enableDisable('datePicker')" class="icon-pm-calendar new-task-calendar pm-dark-hover"></span>
                     
                 </div>
                 <div v-if="datePicker" class="subtask-date new-task-caledar-wrap">
@@ -220,15 +220,15 @@ export default {
         },
 
     	project_users () {
-           
-            var projects = this.$store.state.projects;
-            var index = projects.findIndex(i => i.id == this.project_id);
-            if (index !== -1) {
-                return projects[index].assignees.data;
-            }
+            // var projects = this.$store.state.projects;
+
+            // var index = projects.findIndex(i => i.id == this.project_id);
+            // if (index !== -1) {
+            //     return projects[index].assignees.data;
+            // }
             
-            return [];
-    		//return this.$store.state.project_users;
+            // return [];
+    		return this.$store.state.project_users;
     	},
         /**
          * Check current user can view the todo or not

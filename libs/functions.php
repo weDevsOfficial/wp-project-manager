@@ -421,6 +421,10 @@ function pm_has_manage_capability( $user_id = false ) {
     if ( !$user->roles || !is_array($user->roles) ) {
         return false;
     }
+
+    if ( in_array( 'administrator', $user->roles ) ) {
+        return true;
+    }
     
     $manage_roles = (array) pm_get_setting( 'managing_capability' );
     
