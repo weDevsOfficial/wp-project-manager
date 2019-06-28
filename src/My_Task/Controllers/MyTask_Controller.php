@@ -127,7 +127,7 @@ class MyTask_Controller {
 
         $tasks = User::find( $id )->tasks()
                 ->whereHas('boards',function( $query ) {
-                    $query->where('status', '1');
+                    $query->where( pm_tb_prefix() . 'pm_boards.status', '1');
                 })
                 ->with('assignees')
                 ->parent()
