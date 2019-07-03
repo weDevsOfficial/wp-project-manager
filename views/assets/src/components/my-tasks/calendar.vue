@@ -8,13 +8,13 @@
 	            </div>
 
 				    <pm-calendar
-					:locale="locale"
-		            @events="selfGetEvents"
-		            @event-render="eventRender"
-		            @event-resize="eventResize"
-		            @event-drop="eventDrop"
-					@event-selected="clickEvent"
-		            >
+						:locale="locale"
+			            @events="selfGetEvents"
+			            @event-render="eventRender"
+			            @event-resize="eventResize"
+			            @event-drop="eventDrop"
+						@event-selected="clickEvent">
+					
 		            </pm-calendar>
 
 	        </div>

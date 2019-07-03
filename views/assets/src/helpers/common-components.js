@@ -18,6 +18,7 @@ import Comments from '@components/common/comments.vue';
 import Popper from 'vue-popperjs';
 import ListDropDown from '@components/common/list-drop-down.vue';
 import Modal from '@components/common/modal.vue';
+import ListSearch from '@components/common/list-filter.vue';
 
 pm.Vue.component('pm-pagination', pagination);
 pm.Vue.component('pm-date-picker', datePicker);
@@ -39,6 +40,7 @@ pm.Vue.component('pm-comments', Comments);
 pm.Vue.component('pm-popper', Popper);
 pm.Vue.component('pm-list-drop-down', ListDropDown);
 pm.Vue.component('pm-modal', Modal);
+pm.Vue.component('pm-list-search', ListSearch);
 
 
 
