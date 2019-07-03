@@ -210,6 +210,10 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= Next - Jun 14, 2019 =
+
+* **Fix** After drag and drop task is not updating from my-task calendar.
+
 = v2.2.2 - Jun 28, 2019 =
 
 * **New** Action hook in task list page 'pm_after_task_content'.
