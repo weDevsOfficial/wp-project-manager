@@ -8,12 +8,12 @@
         </div>
 
         <div class="search-content">
-            <form>
+            <form @submit.prevent="actionSearch()">
                 <div class="margin-top">
                     <div class="margin-title">{{__('Task list name', 'wedevs-project-manager')}}</div>
                     <div>
                         <multiselect
-                            v-model="defaultList"
+                            v-model="searchFields.list"
                             :options="searchLists"
                             :show-labels="false"
                             :searchable="true"
@@ -42,7 +42,7 @@
                     <div class="margin-title">{{__('Assigned to', 'wedevs-project-manager')}}</div>
                     <div>
                         <multiselect
-                            v-model="defaultUser"
+                            v-model="searchFields.user"
                             :options="searchProjectUsers()"
                             :show-labels="false"
                             :placeholder="'Type task list name'"
@@ -56,7 +56,7 @@
                     <div class="margin-title">{{__('Due Date', 'wedevs-project-manager')}}</div>
                     <div>
                         <multiselect
-                            v-model="dueDate"
+                            v-model="searchFields.dueDate"
                             :options="dueDates"
                             :show-labels="false"
                             :placeholder="'Type task list name'"
@@ -201,13 +201,20 @@
     export default {
         data () {
             return {
-                defaultUser: {
-                    id: 0,
-                    display_name: this.__('Any', 'wedevs-project-manager')
-                },
-                defaultList: {
-                    id: 0,
-                    title: this.__('Any', 'wedevs-project-manager')
+                searchFields: {
+                    user: {
+                        id: 0,
+                        display_name: this.__('Any', 'wedevs-project-manager')
+                    },
+                    list: {
+                        id: 0,
+                        title: this.__('Any', 'wedevs-project-manager')
+                    },
+                    dueDate: {
+                        'id': '0',
+                        'title': this.__('Any', 'wedevs-project-manager'),
+                    },
+                    status: '',
                 },
                 searchLists: [
                     {
@@ -215,10 +222,6 @@
                         title: this.__('All', 'wedevs-project-manager')
                     }
                 ],
-                dueDate: {
-                    'id': '0',
-                    'title': this.__('Any', 'wedevs-project-manager'),
-                },
                 dueDates: [
                     {
                         'id': '0',
@@ -238,7 +241,7 @@
                     }
                 ],
                 asyncListLoading: false,
-                filterStatus: '',
+                
                 taskFilterSpinner: false,
             }
         },
@@ -261,17 +264,17 @@
                     });
                 });
 
-                this.defaultList = newLists[0];
+                this.searchFields.list = newLists[0];
                 this.searchLists = newLists;
             },
             changeFilterStatus (status) {
-                this.filterStatus = status;
+                this.searchFields.status = status;
             },
             completeBoder () {
-                return this.filterStatus == 'complete' ? 'complete-status' : '';
+                return this.searchFields.status == 'complete' ? 'complete-status' : '';
             },
             onGoingBorder () {
-                return this.filterStatus == 'incomplete' ? 'incomplete-status' : '';
+                return this.searchFields.status == 'incomplete' ? 'incomplete-status' : '';
             },
             asyncFind (evt) {
                 var self = this,
@@ -328,6 +331,10 @@
 
                 return [];
             },
+
+            actionSearch () {
+                this.$emit('listSearch', this.searchFields);
+            }
 
         }
     }
