@@ -81,7 +81,7 @@ class Search_Controller {
         });
 
         if ( empty( $projects ) ) {
-            $projects = [ [ "no_result" => __( "No result found.", 'pm-pro' )] ];
+            $projects = [ [ "no_result" => __( "No results found.", 'wedevs-project-manager' )] ];
         }
 
         return $projects;
@@ -124,7 +124,7 @@ class Search_Controller {
 		$items = array_merge( $items, $this->search_in_broad( $string, $project_id ));
 
         if ( empty( $items ) ) {
-            $items = [ [ "no_result" => __( "No result found.", 'pm-pro' ) ]];
+            $items = [ [ "no_result" => __( "No results found.", 'wedevs-project-manager' ) ]];
 		}
 
         return $items;
@@ -133,7 +133,7 @@ class Search_Controller {
 	function search_in_project ( $string, $user_id = false ) {
 		$user_id = empty($user_id) ? get_current_user_id() : $user_id;
 
-		$projects = Project::where( 'title', 'like', '%'. $string.'%');
+		$projects = Project::where( 'title', 'like', '%'. $string.'%')->orderBy( 'created_at', 'DESC' );;
 
 		// user is assigneed in project
 		if ( !pm_has_manage_capability( $user_id ) ){
@@ -183,7 +183,8 @@ class Search_Controller {
 				$q->where('meta_key', 'privacy')->where('meta_value', 1);
 			}
 		])
-			->where( 'title', 'like', '%'. $string.'%');
+		->where( 'title', 'like', '%'. $string.'%')
+		->orderBy( 'created_at', 'DESC' );
 
 		if ( $project_id ) {
 
@@ -218,7 +219,8 @@ class Search_Controller {
 				$q->where( 'meta_key', 'privacy' )->where( 'meta_value', 1);
 			}
 		])
-		->where( 'title', 'like', '%'. $string.'%');
+		->where( 'title', 'like', '%'. $string.'%')
+		->orderBy( 'created_at', 'DESC' );
 
 		if ( $project_id ) {
 			$board = $board->where( 'project_id', $project_id );

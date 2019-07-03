@@ -3,9 +3,9 @@ Contributors: tareq1988, nizamuddinbabu, wedevs, asaquzzaman
 Donate Link: https://tareq.co/donate/
 Tags: web task manager, online collaboration tool, task tracker, productivity tool, open source project management software
 Requires at least: 4.4
-Tested up to: 5.1
+Tested up to: 5.2.2
 Requires PHP: 5.6
-Stable tag: 2.0.15
+Stable tag: 2.2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -209,6 +209,46 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 13. Project Settings -> Email Settings Tab
 
 == Changelog ==
+
+= Next - Jun 14, 2019 =
+
+* **Fix** After drag and drop task is not updating from my-task calendar.
+
+= v2.2.2 - Jun 28, 2019 =
+
+* **New** Action hook in task list page 'pm_after_task_content'.
+* **New** Event initiation after task user update 'after_update_single_task_user'.
+* **New** Action hook before delete task list 'pm_before_delete_task_list'.
+* **Update** User gets mail at task updating time even the task is not updated.
+* **Update** Archived tasks will not appear on MyTask calendar.
+* **Update** New tasks are listing in the descending order in the task lists.
+* **Fix** User can remove administrator from manage capability permission.
+* **Fix** Inbox task list does not appear at the top of the task lists.
+* **Fix** compact(): undefined index variable problem for php 7.3
+* **Fix** Text domain 'pm' to 'wedevs-project-manager'.
+* **Fix** Task lists menu is not activating while clicking pagination.
+
+= v2.2.1 - Jun 14, 2019 =
+
+* **Fix** Fatal error undefined function.
+
+= v2.2.0 - Jun 14, 2019 =
+
+* **New** Added my task menu from where individual users can check their completed, current and outstanding tasks.
+* **Fix** Assigned users can not find the task description.
+* **Fix** Add new user in project does not appear in task users dropdown at task create or edit time.
+* **Fix** A newly added user in a project did not appear in the dropdown i.e in the list of users while adding, creating or editing a task.
+* **Fix** User can not udpate task comment from single task popup.
+* **Fix** A newly added user does not appear in project update form.
+
+= v2.1.0 - May 18, 2019 =
+
+* **New** Trello Integration.
+* **Fix** Fixed co-worker & client create task activities.
+* **Fix** Removed usermap from global setting.
+* **Fix** Removed unnecessary dashicons and added title to files.
+* **Fix** Resolved conflict from setting header.
+* **Fix** Fixed project edit form get closed when user click out side.
 
 = v2.0.15 - May 02, 2019 =
 

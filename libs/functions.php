@@ -421,6 +421,10 @@ function pm_has_manage_capability( $user_id = false ) {
     if ( !$user->roles || !is_array($user->roles) ) {
         return false;
     }
+
+    if ( in_array( 'administrator', $user->roles ) ) {
+        return true;
+    }
     
     $manage_roles = (array) pm_get_setting( 'managing_capability' );
     
@@ -712,5 +716,33 @@ function pm_total_milestone() {
 function pm_total_message() {
     $message = Discussion_Board::count();
     return $message;
+}
+/**
+* Get current IP
+*
+* @since 1.0.0
+*
+* @return void
+**/
+function pm_get_ip() {
+    $ipaddress = '';
+
+    if ( isset($_SERVER['HTTP_CLIENT_IP'] ) ) {
+        $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+    } else if ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
+        $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    } else if ( isset( $_SERVER['HTTP_X_FORWARDED'] ) ) {
+        $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+    } else if ( isset( $_SERVER['HTTP_FORWARDED_FOR'] ) ) {
+        $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+    } else if ( isset( $_SERVER['HTTP_FORWARDED'] ) ) {
+        $ipaddress = $_SERVER['HTTP_FORWARDED'];
+    } else if ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
+        $ipaddress = $_SERVER['REMOTE_ADDR'];
+    } else {
+        $ipaddress = 'UNKNOWN';
+    }
+
+    return $ipaddress;
 }
 

@@ -32,7 +32,7 @@
                             </div>
                             <div class="wpuf-int-field">
                                 <div class="pm-pro-settings-action">
-                                    <input id="trello_submit" type="submit" class="button button-primary"  :value="__('Imports', 'pm-pro' )">
+                                    <input id="trello_submit" type="submit" class="button button-primary"  :value="__('Imports', 'wedevs-project-manager' )">
                                 </div>
                             </div>
                         </div>
@@ -64,7 +64,7 @@
         },
 
         created () {
-
+            pm.NProgress.done();
         },
 
         methods: {

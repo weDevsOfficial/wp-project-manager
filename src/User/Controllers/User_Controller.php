@@ -13,6 +13,9 @@ use WeDevs\PM\User\Models\User;
 use WeDevs\PM\User\Transformers\User_Transformer;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Pagination\Paginator;
+use WeDevs\PM\Calendar\Transformers\Calendar_Transformer;
+use WeDevs\PM\User\Models\User_Role;
+use WeDevs\PM\Activity\Transformers\Activity_Transformer;
 
 class User_Controller {
     use Transformer_Manager, Request_Filter;

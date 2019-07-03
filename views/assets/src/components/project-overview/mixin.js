@@ -23,7 +23,7 @@ export default {
         saveUsers () {
 
             if (!this.project.title) {
-                pm.Toastr.error(__('Project title is required!', 'wedevs-project-manager'));
+                pm.Toastr.error(__('Project title is required.', 'wedevs-project-manager'));
                 return;
             }
 
@@ -95,7 +95,7 @@ export default {
         },
 
         deleteUser (del_user) {
-            if(!confirm(__('Are you sure!', 'wedevs-project-manager'))) {
+            if(!confirm(__('Are you sure?', 'wedevs-project-manager'))) {
                 return;
             }
             if ( !this.canUserEdit(del_user.id) ) {

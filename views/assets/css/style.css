@@ -5342,9 +5342,6 @@ a.pm-icon-tick.grey {
 }
 
 .pm-milestone .pm-milestone-form {
-    width: 90%;
-    padding-left: 10px;
-    border-left: 2px solid #0073aa;
     max-width: 600px;
 }
 

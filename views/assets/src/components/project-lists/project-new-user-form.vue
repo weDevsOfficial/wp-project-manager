@@ -63,7 +63,7 @@
                     success: function(res) {
                         self.addUserMeta(res.data);
                         self.show_spinner = false;
-                 
+
                         self.$store.commit('updateSeletedUser', 
                             {
                                 project_id: self.project_id,

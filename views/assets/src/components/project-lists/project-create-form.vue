@@ -140,7 +140,6 @@
             },
 
             selectedUsers () {
-
                 if(!this.project.hasOwnProperty('assignees')) {
                     return this.$store.state.assignees;
                 } else {
@@ -235,7 +234,7 @@
                 }
 
                 if ( !this.project.title ) {
-                    pm.Toastr.error(__('Project title is required!', 'wedevs-project-manager'));
+                    pm.Toastr.error(__('Project title is required.', 'wedevs-project-manager'));
                     return;
                 }
 
@@ -258,6 +257,7 @@
                     args.data.id = this.project.id;
                     args.callback = function ( res ) {
                         self.show_spinner = false;
+                        self.$store.commit('setProjectUsers', res.data.assignees.data);
                         self.closePopper('pm-project-update-wrap');
                         self.$emit('makeFromClose', false);
                     }
@@ -320,6 +320,3 @@
 
     export default new_project_form;
 </script>
-
-
-
