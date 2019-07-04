@@ -11,6 +11,7 @@
             <form @submit.prevent="actionSearch()">
                 <div class="margin-top">
                     <div class="margin-title">{{__('Task list name', 'wedevs-project-manager')}}</div>
+                    
                     <div>
                         <multiselect
                             v-model="searchFields.list"
@@ -68,7 +69,7 @@
                 </div>
                 <div class="action">
                     <span v-if="taskFilterSpinner" class="pm-spinner"></span>
-                    <a class="pm-button pm-secondary" href="#">{{__('Cancel', 'wedevs-project-manager')  }}</a>
+                    <a @click.prevent="cancel()" class="pm-button pm-secondary" href="#">{{__('Cancel', 'wedevs-project-manager')  }}</a>
                     <input  type="submit" class="pm-button pm-primary filter-submit-btn" name="submit_todo" :value="__('Done', 'wedevs-project-manager')">
                 </div>
                 <div class="pm-clearfix"></div> 
@@ -334,6 +335,10 @@
 
             actionSearch () {
                 this.$emit('listSearch', this.searchFields);
+            },
+
+            cancel () {
+                this.$emit('listSearchCancel', this.searchFields);
             }
 
         }
