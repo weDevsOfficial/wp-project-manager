@@ -2,7 +2,7 @@
     <div class="list-search-menu">
         <div class="filter-title">
             <div>
-                <a href="#" class="icon-pm-cross"></a>
+                <a href="#" @click.prevent="cancel()" class="icon-pm-cross"></a>
                 <span class="active-task-filter">{{__('Task Filter', 'wedevs-project-manager')}}</span>
             </div>
         </div>
@@ -69,8 +69,15 @@
                 </div>
                 <div class="action">
                     <span v-if="taskFilterSpinner" class="pm-spinner"></span>
+                    <a @click.prevent="clearFilter()" class="pm-button pm-secondary" href="#">{{__('Clear Filtel', 'wedevs-project-manager')  }}</a>
                     <a @click.prevent="cancel()" class="pm-button pm-secondary" href="#">{{__('Cancel', 'wedevs-project-manager')  }}</a>
-                    <input  type="submit" class="pm-button pm-primary filter-submit-btn" name="submit_todo" :value="__('Done', 'wedevs-project-manager')">
+                    <input  
+                        type="submit" 
+                        :class=" runningQuery ? 'submit-btn-color pm-button pm-primary filter-submit-btn' : 'pm-button pm-primary filter-submit-btn'" 
+                        name="submit_todo" 
+                        :value="__('Done', 'wedevs-project-manager')">
+                    
+                    <div v-if="runningQuery"  class="pm-circle-spinner"></div>
                 </div>
                 <div class="pm-clearfix"></div> 
             </form>
@@ -194,6 +201,19 @@
 
         .search-content {
             padding: 0 15px 15px 15px;
+            .submit-btn-color {
+                color: #1A9ED4 !important;
+            }
+
+            .pm-circle-spinner {
+                &:after {
+                    z-index: 999;
+                    margin-top: -8px;
+                    margin-left: -45.5px;
+                    border-color: #f9f9f9 #f9f9f9 #f9f9f9 transparent;
+                    position: absolute;
+                }
+            }
         }
     }
 </style>
@@ -242,8 +262,14 @@
                     }
                 ],
                 asyncListLoading: false,
-                
                 taskFilterSpinner: false,
+                runningQuery: false
+            }
+        },
+
+        created () {
+            if(this.$route.query.filterTask == 'active') {
+                this.setDefaultFormData();
             }
         },
 
@@ -252,6 +278,27 @@
         },
 
         methods: {
+            setDefaultFormData () {
+                let users = this.searchProjectUsers();
+                let userIndex = this.getIndex( users, parseInt(this.$route.query.users), 'id' );
+                let dateIndex = this.getIndex( this.dueDates, this.$route.query.dueDate, 'id' );
+
+                if(userIndex != -1) {
+                    this.searchFields.user = {
+                        id: users[userIndex].id,
+                        display_name: users[userIndex].display_name,
+                    }
+                }
+
+                if(userIndex != -1) {
+                    this.searchFields.dueDate = {
+                        id: this.dueDates[dateIndex].id,
+                        title: this.dueDates[dateIndex].title,
+                    }
+                }
+
+                this.searchFields.status = this.$route.query.status;
+            },
             setSearchLists (lists) {
                 var newLists = [{
                     id: 0,
@@ -334,11 +381,22 @@
             },
 
             actionSearch () {
-                this.$emit('listSearch', this.searchFields);
+                if(this.runningQuery) {
+                    return;
+                }
+                var self = this;
+                this.runningQuery = true;
+                this.$emit('listSearch', this.searchFields, function() {
+                    self.runningQuery = false;
+                });
             },
 
             cancel () {
                 this.$emit('listSearchCancel', this.searchFields);
+            },
+
+            clearFilter () {
+                this.$emit('clearFilter', this.searchFields);
             }
 
         }
