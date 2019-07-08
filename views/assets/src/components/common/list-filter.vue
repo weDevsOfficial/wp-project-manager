@@ -10,6 +10,12 @@
         <div class="search-content">
             <form @submit.prevent="actionSearch()">
                 <div class="margin-top">
+                    <div class="margin-title">{{__('Task title', 'wedevs-project-manager')}}</div>
+                    <div>
+                        <input class="title-field" type="text" v-model="searchFields.title">
+                    </div>
+                </div>
+                <div class="margin-top">
                     <div class="margin-title">{{__('Task list name', 'wedevs-project-manager')}}</div>
                     
                     <div>
@@ -69,13 +75,13 @@
                 </div>
                 <div class="action">
                     <span v-if="taskFilterSpinner" class="pm-spinner"></span>
-                    <a @click.prevent="clearFilter()" class="pm-button pm-secondary" href="#">{{__('Clear Filtel', 'wedevs-project-manager')  }}</a>
+                    <a @click.prevent="clearFilter()" class="pm-button pm-secondary" href="#">{{__('Clear Filter', 'wedevs-project-manager')  }}</a>
                     <a @click.prevent="cancel()" class="pm-button pm-secondary" href="#">{{__('Cancel', 'wedevs-project-manager')  }}</a>
                     <input  
                         type="submit" 
                         :class=" runningQuery ? 'submit-btn-color pm-button pm-primary filter-submit-btn' : 'pm-button pm-primary filter-submit-btn'" 
                         name="submit_todo" 
-                        :value="__('Done', 'wedevs-project-manager')">
+                        :value="__('Apply Filter', 'wedevs-project-manager')">
                     
                     <div v-if="runningQuery"  class="pm-circle-spinner"></div>
                 </div>
@@ -204,6 +210,9 @@
             .submit-btn-color {
                 color: #1A9ED4 !important;
             }
+            .title-field {
+                width: 100%;
+            }
 
             .pm-circle-spinner {
                 &:after {
@@ -223,13 +232,14 @@
         data () {
             return {
                 searchFields: {
+                    title: '',
                     user: {
                         id: 0,
-                        display_name: this.__('Any', 'wedevs-project-manager')
+                        display_name: this.__('All', 'wedevs-project-manager')
                     },
                     list: {
                         id: 0,
-                        title: this.__('Any', 'wedevs-project-manager')
+                        title: this.__('All', 'wedevs-project-manager')
                     },
                     dueDate: {
                         'id': '0',
@@ -296,7 +306,7 @@
                         title: this.dueDates[dateIndex].title,
                     }
                 }
-
+                this.searchFields.title = this.$route.query.title;
                 this.searchFields.status = this.$route.query.status;
             },
             setSearchLists (lists) {
