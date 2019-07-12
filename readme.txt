@@ -212,7 +212,9 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 = Next - Jun 14, 2019 =
 
+* **Update** Task list search query. 
 * **Fix** After drag and drop task is not updating from my-task calendar.
+* **Fix** Milestone disapear after reloding the page.
 
 = v2.2.2 - Jun 28, 2019 =
 
