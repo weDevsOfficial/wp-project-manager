@@ -5,7 +5,7 @@ Tags: web task manager, online collaboration tool, task tracker, productivity to
 Requires at least: 4.4
 Tested up to: 5.2.2
 Requires PHP: 5.6
-Stable tag: 2.2.2
+Stable tag: 2.2.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -209,6 +209,12 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 13. Project Settings -> Email Settings Tab
 
 == Changelog ==
+
+= v2.2.3 - Jun 15, 2019 =
+
+* **Update** Task list search query. 
+* **Fix** After drag and drop task is not updating from my-task calendar.
+* **Fix** Milestone disapear after reloding the page.
 
 = v2.2.2 - Jun 28, 2019 =
 
