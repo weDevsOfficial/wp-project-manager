@@ -6,7 +6,7 @@ use League\Fractal\TransformerAbstract;
 use WeDevs\PM\Task\Models\Task;
 
 class List_Task_Transformer extends TransformerAbstract {
-
+    public $list_task_transormer_filter = true;
     /**
      * Turn this item object into a generic array
      *
@@ -39,7 +39,11 @@ class List_Task_Transformer extends TransformerAbstract {
             'creator'     => $this->get_creator( $item )
         ];
         
-        return apply_filters( 'pm_list_task_transormer', $task, $item );
+        if ( $this->list_task_transormer_filter ) {
+            return apply_filters( 'pm_list_task_transormer', $task, $item );  
+        }
+        
+        return $task;
     }
 
     public function get_creator( $item ) {

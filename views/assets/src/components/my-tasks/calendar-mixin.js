@@ -340,16 +340,18 @@ export default {
 
                 if(toIds.length) {
                     toIds.forEach(function(id, index) {
-                        if(assignees.indexOf(id) === -1) {
-                            assignees.push(id);
+                        if(id) {
+                            if(assignees.indexOf(id) === -1) {
+                                assignees.push(id);
 
-                            var resource = jQuery('#pm-calendar').fullCalendar('getResourceById', id);
+                                var resource = jQuery('#pm-calendar').fullCalendar('getResourceById', id);
 
-                            event.assignees.push({
-                                avatar_url: resource.avatar_url,
-                                display_name: resource.title,
-                                id: resource.id
-                            })
+                                event.assignees.push({
+                                    avatar_url: resource.avatar_url,
+                                    display_name: resource.title,
+                                    id: resource.id
+                                })
+                            }
                         }
                     })
                 }

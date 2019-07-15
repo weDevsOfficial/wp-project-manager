@@ -544,25 +544,26 @@ class Task_Controller {
         ] );
     }
 
-    public function filter( WP_REST_Request $request ) {
+    function filter_query( $request ) {
+        
         global $wpdb;
-        $per_page     = pm_get_setting( 'list_per_page' );
-        $per_page     = empty( $per_page ) ? 20 : $per_page;
-        $page         = $request->get_param('page');
+        
         $status       = $request->get_param('status');
-        $board_status = $request->get_param('board_status');
+        //$board_status = $request->get_param('board_status');
         $due_date     = $request->get_param('dueDate');
         $assignees    = $request->get_param('users');
         $lists        = $request->get_param('lists');
         $project_id   = $request->get_param('project_id');
+        $title        = $request->get_param('title');
+        $tb_lists     = pm_tb_prefix() . 'pm_boards';
 
-        Paginator::currentPageResolver(function () use ($page) {
-            return $page;
-        });
 
-        $task_lists = Task_List::with(
+        $task_lists = Task_List::select( $tb_lists.'.*' )->with(
             [
-                'tasks' => function($q) use( $status, $due_date, $assignees, $project_id ) {
+                'tasks' => function($q) use( $status, $due_date, $assignees, $project_id, $title ) {
+                    if ( ! empty( $title ) ) {
+                        $q->where('title', 'like', "%{$title}%");
+                    }
 
                     $q->where('project_id', $project_id);
 
@@ -597,12 +598,14 @@ class Task_Controller {
                         });
                     }
 
-                    $q = apply_filters( 'pm_task_query', $q, $project_id );
+                    $q = apply_filters( 'pm_task_filter_query', $q, $project_id );
                 }
             ]
         )
-            ->whereHas('tasks', function($q) use( $status, $due_date, $assignees, $project_id ) {
-
+        ->whereHas('tasks', function($q) use( $status, $due_date, $assignees, $project_id, $title ) {
+                if ( ! empty( $title ) ) {
+                    $q->where('title', 'like', "%{$title}%");
+                }
                 $q->where('project_id', $project_id);
 
                 if ( ! empty(  $status ) ) {
@@ -636,23 +639,39 @@ class Task_Controller {
                     });
                 }
 
-                $q = apply_filters( 'pm_task_query', $q, $project_id );
-            }
-            )
-            ->where(function($q) use( $lists ) {
-                if( !empty( $lists ) && !empty( $lists[0] ) ) {
-                    if( is_array( $lists ) && $lists[0] != 0 ) {
-                        $q->whereIn( 'id', $lists );
-                    } else if ( !is_array( $lists ) &&  $lists != 0 ) {
-                        $q->where( 'id', $lists );
-                    }
-                }
-            })
-            ->where('status', $board_status)
-            ->where('project_id', $project_id)
-            ->orderBy( 'order', 'DESC' )
-            ->paginate( $per_page );
+                $q = apply_filters( 'pm_task_filter_query', $q, $project_id );
 
+            }
+        )
+        ->where(function($q) use( $lists ) {
+            if( !empty( $lists ) && !empty( $lists[0] ) ) {
+                if( is_array( $lists ) && $lists[0] != 0 ) {
+                    $q->whereIn( pm_tb_prefix() . 'pm_boards.id', $lists );
+                } else if ( !is_array( $lists ) &&  $lists != 0 ) {
+                    $q->where( pm_tb_prefix() . 'pm_boards.id', $lists );
+                }
+            }
+        })
+        ->where( pm_tb_prefix() . 'pm_boards.status', 1 )
+        ->where( pm_tb_prefix() . 'pm_boards.project_id', $project_id)
+        ->orderBy( pm_tb_prefix() . 'pm_boards.order', 'DESC' );
+
+        return apply_filters( 'pm_check_task_filter_list_permission', $task_lists, $request );
+    }
+
+    public function filter( WP_REST_Request $request ) {
+        $per_page     = pm_get_setting( 'list_per_page' );
+        $per_page     = empty( $per_page ) ? 20 : $per_page;
+        $page         = $request->get_param('page');
+        $project_id   = $request->get_param('project_id');
+
+        Paginator::currentPageResolver(function () use ($page) {
+            return $page;
+        });
+
+        $task_lists = $this->filter_query( $request );
+        
+        $task_lists = $task_lists->paginate( $per_page );
         $collection = $task_lists->getCollection();
 
         $list_ids   = [];
@@ -941,6 +960,12 @@ class Task_Controller {
     public function get_tasks( $task_ids, $args=[] ) {
         global $wpdb;
 
+        $default = [
+            'list_task_transormer_filter' => true
+        ];
+
+        $args = wp_parse_args( $args, $default );  
+
         if ( empty( $list_ids ) ) {
             $task_ids[] = 0;
         }
@@ -984,11 +1009,12 @@ class Task_Controller {
 
         $task_collection = apply_filters( 'list_tasks_filter_query', $task_collection, $args );
 
-        //pmpr($task_collection->get()->toArray()); die();
-
         $task_collection = $task_collection->get();
 
-        $resource = new collection( $task_collection, new List_Task_Transformer );
+        $task_transformer = new List_Task_Transformer();
+        $task_transformer->list_task_transormer_filter = $args['list_task_transormer_filter'];
+
+        $resource = new collection( $task_collection, $task_transformer );
         $tasks    = $this->get_response( $resource );
         $tasks    = apply_filters( 'pm_after_transformer_list_tasks', $tasks, $task_ids );
 
