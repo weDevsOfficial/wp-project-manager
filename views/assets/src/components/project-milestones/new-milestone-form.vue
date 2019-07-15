@@ -97,7 +97,7 @@
                     return;
                 }
                 if(!this.milestone.title) {
-                    pm.Toastr.error('Milestone title required!');
+                    pm.Toastr.error(__( 'Milestone title required!', 'wedevs-project-manager' ) );
                     return false;
                 }
                 // Disable submit button for preventing multiple click

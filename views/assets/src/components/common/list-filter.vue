@@ -218,7 +218,7 @@
                 &:after {
                     z-index: 999;
                     margin-top: -8px;
-                    margin-left: -45.5px;
+                    margin-left: -66.5px;
                     border-color: #f9f9f9 #f9f9f9 #f9f9f9 transparent;
                     position: absolute;
                 }
