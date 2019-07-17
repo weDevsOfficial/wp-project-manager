@@ -654,12 +654,22 @@ export default {
         receiveTask (state, data) {
             var receive = data.receive;
             var res = data.res;
-            
             var setListindex = state.getIndex(state.lists, receive.list_id, 'id');
             var senderListindex = state.getIndex(state.lists, res.sender_list_id, 'id');
             var setIndex = false;
-
-            receive.orders.forEach(function(val) {
+            var reverseIndex = 0;
+            var receiveOrders = [];
+            
+            for (var i = receive.orders.length - 1; i >= 0; i--) {
+                
+                receiveOrders.push({
+                    index: receive.orders[reverseIndex].index,
+                    id: receive.orders[i].id
+                });
+                reverseIndex++;
+            }
+            
+            receiveOrders.forEach(function(val) {
                 if(val.id == receive.task_id) {
                     setIndex = val.index;
                 }
@@ -687,6 +697,12 @@ export default {
 
         listOrdering (state, orders) {
             var lists = [];
+            var self = this;
+            state.lists.forEach(function(list) {
+                if(self.state.project.list_inbox == list.id) {
+                    lists.push(list);
+                }
+            });
             orders.orders.forEach(function(order) {
                 let index = state.getIndex( state.lists, order.id, 'id');
 

@@ -65,11 +65,49 @@
                                         </div>
                                     </div>
                                 </div> -->
-                            
+                                
+                                <ul v-if="hasSearchContent() && inboxList" :class="filterActiveClass()+ ' pm-todolists'">
+                                    <li :data-id="inboxList.id" :class="taskListClass(inboxList.id)">
+
+                                        <div class="list-content">
+                                            <div class="list-item-content">
+                                                <div class="before-title">
+                                                    <span v-if="!inboxList.expand" @click.prevent="listExpand(inboxList)" :class="inboxClass(inboxList) + ' icon-pm-down-arrow'"></span>
+                                                    <span v-if="inboxList.expand" @click.prevent="listExpand(inboxList)" :class="inboxClass(inboxList) + ' icon-pm-up-arrow'"></span>
+                                                </div>
+
+                                                <div class="list-title">
+                                                    <span @click.prevent="listExpand(inboxList)" class="list-title-anchor">{{ ucfirst( inboxList.title ) }}</span>
+                                                </div>
+                                                <div class="after-title">
+                                                       
+                                                        <div class="view-single-list"  :title="__('Single List', 'wedevs-project-manager')">
+                                                            <span @click.prevent="goToSigleList(inboxList)" class="icon-pm-eye"></span>
+                                                        </div>
+                                                        <div class="list-title-action progress-bar">
+                                                            <div :style="getProgressStyle( inboxList )" class="bar completed"></div>
+                                                        </div>
+                                                           
+                                                        <!-- never remove <div class="pm-progress-percent">{{ getProgressPercent( list ) }}%</div> -->
+                                                        <div class="list-title-action task-count">
+                                                            <span>{{ inboxList.meta.total_complete_tasks }}</span>/<span>{{ getTotalTask(inboxList.meta.total_complete_tasks, inboxList.meta.total_incomplete_tasks) }}</span>
+                                                        </div>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div v-if="inboxList.expand" class="list-description">
+                                            <span>{{ __('This is a system default task list. Any task without an assigned tasklist will appear here.', 'wedevs-project-manager') }}</span>
+                                        </div>
+
+                                        <list-tasks v-if="inboxList.expand" :list="inboxList"></list-tasks>
+                                    </li>
+                                </ul>
                                 
                                 <ul v-if="hasSearchContent()" v-pm-list-sortable :class="filterActiveClass()+ ' pm-todolists'">
                                 
-                                    <li v-for="list in lists" :key="list.id" :data-id="list.id" :class="taskListClass(list.id)">
+                                    <li v-if="!isInbox(list.id)" v-for="list in lists" :key="list.id" :data-id="list.id" :class="taskListClass(list.id)">
 
                                         <div class="list-content">
                                             <div class="list-item-content">
@@ -1286,6 +1324,22 @@
                 }
 
                 return false;
+            },
+            inboxList () {
+                var self = this;
+                var list = {};
+
+                this.$store.state.projectTaskLists.lists.forEach(function(listData) {
+                    if(self.isInbox(listData.id)) {
+                        list = listData;
+                    }
+                });
+
+                if(jQuery.isEmptyObject(list)) {
+                    return false;
+                }
+                
+                return list;
             }
         },
 
@@ -1369,7 +1423,7 @@
                 let listcalss = 'pm-list-sortable list-li pm-fade-out-' + list_id;
 
                 if ( this.isInboxList( list_id ) ) {
-                    listcalss += ' listindex'
+                    listcalss += ' nonsortable listindex'
                 }
                 return listcalss;
             },
