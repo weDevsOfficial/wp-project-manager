@@ -20,13 +20,12 @@ var PM_Task = {
             handle: '.pm-list-drag-handle',
             disabled: !component.is_manager(),
             
-            
             update: function(event, ui) {
                 if(ui.sender) {
                     
                 } else {
                     let todos  = $(ui.item).closest('ul.pm-todolists').find('li.pm-list-sortable');
-                    let orders = PM_Task.sorting(todos);
+                    let orders = PM_Task.listSorting(todos);
                     
                     component.listOrder({
                         orders: orders
@@ -81,16 +80,11 @@ var PM_Task = {
         });
     },
 
-    sorting: function(todos) {
+    listSorting (todos) {
         todos = todos || [];
         var $ = jQuery,
             orders = [];
-
-        // var newOrder = {},
-        //     orders = [],
-        //     ids = [],
-        //     send_data = [];
-            
+ 
         // finding new order sequence and old orders
         todos.each( function(index, e) {
             let task_id = $(e).data('id');
@@ -101,6 +95,34 @@ var PM_Task = {
             });
         }); 
 
+        return orders;
+    },
+
+    sorting: function(todos) {
+        todos = todos || [];
+        var $ = jQuery,
+            orders = [],
+            preOrder = [];
+
+        // finding new order sequence and old orders
+        todos.each( function(index, e) {
+            let task_id = $(e).data('id');
+            
+            preOrder.push({
+                task_id: task_id
+            });
+        }); 
+
+        preOrder = preOrder.reverse();
+
+        preOrder.forEach( function(task, index) {
+            
+            orders.push({
+                index: index,
+                id: task.task_id
+            });
+        }); 
+        
         return orders;
     },
 

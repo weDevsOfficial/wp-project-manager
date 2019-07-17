@@ -210,7 +210,13 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
-= v2.2.3 - Jun 15, 2019 =
+= next - next, 2019 =
+
+* **Fix** Task sorting is not working. 
+* **Fix** Prevent sorting for default task list (Inbox).
+
+
+= v2.2.3 - Jul 15, 2019 =
 
 * **Update** Task list search query. 
 * **Fix** After drag and drop task is not updating from my-task calendar.
