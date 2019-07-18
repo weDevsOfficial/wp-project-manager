@@ -38,10 +38,11 @@ var PM_Task = {
     sortable: function (el, binding, vnode) {
         var $ = jQuery;
         var component = vnode.context;
-        
+
+        console.log(el);
 
         $(el).sortable({
-            cancel: '.nonsortable,form',
+            cancel: '.nonSortableTag,form',
             connectWith: '.pm-connected-sortable',
             placeholder: "pm-ui-state-highlight",
             handle: '.pm-task-drag-handle',
