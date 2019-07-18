@@ -214,7 +214,13 @@
                     <div class="search-content">
                         <form @submit.prevent="taskFilter()">
                             <div class="margin-top">
-                                <div class="margin-title">{{__('Task list name', 'wedevs-project-manager')}}</div>
+                                <div class="margin-title">{{__('Task Title', 'wedevs-project-manager')}}</div>
+                                <div>
+                                    <input class="title-field" type="text" v-model="searchTasktitle">
+                                </div>
+                            </div>
+                            <div class="margin-top">
+                                <div class="margin-title">{{__('Task List', 'wedevs-project-manager')}}</div>
                                 <div>
                                     <multiselect 
                                         v-model="defaultList" 
@@ -222,7 +228,7 @@
                                         :show-labels="false"
                                         :searchable="true"
                                         :loading="asyncListLoading"
-                                        :placeholder="'Type task list name'"
+                                        :placeholder="__('Type task list name', 'wedevs-project-manager')"
                                         @search-change="asyncFind($event)"
                                         label="title"
                                         track-by="id">
@@ -249,7 +255,7 @@
                                         v-model="defaultUser" 
                                         :options="searchProjectUsers" 
                                         :show-labels="false"
-                                        :placeholder="'Type task list name'"
+                                        :placeholder="__('Type task list name', 'wedevs-project-manager')"
                                         label="display_name"
                                         track-by="id">
                                             
@@ -263,7 +269,7 @@
                                         v-model="dueDate" 
                                         :options="dueDates" 
                                         :show-labels="false"
-                                        :placeholder="'Type task list name'"
+                                        :placeholder="__('Type task list name', 'wedevs-project-manager')"
                                         label="title"
                                         track-by="id">
                                             
@@ -295,6 +301,729 @@
     </div>
 </template>
     
+
+<script>
+    import new_task_list_btn from './new-task-list-btn.vue';
+    import new_task_list_form from './new-task-list-form.vue';
+    import new_task_button from './new-task-btn.vue';
+    import header from '@components/common/header.vue';
+    import tasks from './list-tasks.vue';
+    import default_page from './default-list-page.vue';
+    import Mixins from './mixin';
+    import date_picker from './date-picker.vue';
+    import Menu from '@components/common/menu.vue';
+    import new_task_form from './new-task-form.vue';
+
+    export default {
+
+        beforeRouteEnter (to, from, next) {
+            next(vm => {
+                var self = vm;
+                
+               
+            });
+        }, 
+        components: {
+            'new-task-list-btn': new_task_list_btn,
+            'new-task-list-form': new_task_list_form,
+            'new-task-button': new_task_button,
+            'pm-header': header,
+            'list-tasks': tasks,
+            'default-list-page': default_page,
+            'multiselect': pm.Multiselect.Multiselect,
+            'pm-datepickter': date_picker,
+            'pm-menu': Menu,
+            'new-task-form': new_task_form
+        },
+
+        mixins: [Mixins],
+
+        /**
+         * Initial data for this component
+         * 
+         * @return obj
+         */
+        data () {
+            return {
+                isActiveListForm: false,
+                list: {},
+                index: false,
+                project_id: this.$route.params.project_id,
+                current_page_number: this.$route.params.current_page_number || 1,
+                isActiveFilter: false,
+                defaultList: {
+                    id: 0,
+                    title: this.__('Any', 'wedevs-project-manager')
+                },
+                defaultUser: {
+                    id: 0,
+                    display_name: this.__('Any', 'wedevs-project-manager')
+                },
+                filterDueDate: '',
+                filterStatus: '',
+                dueDates: [
+                    {
+                        'id': '0',
+                        'title': this.__('Any', 'wedevs-project-manager'),
+                    },
+                    {
+                        'id': 'overdue',
+                        'title': this.__('Over Due', 'wedevs-project-manager'),
+                    },
+                    {
+                        'id': 'today',
+                        'title': this.__('Today', 'wedevs-project-manager'),
+                    },
+                    {
+                        'id': 'week',
+                        'title': this.__('Less Than 1 week', 'wedevs-project-manager'),
+                    }
+                ],
+                dueDate: {
+                    'id': '0',
+                    'title': this.__('Any', 'wedevs-project-manager'),
+                },
+                searchLists: [
+                    {
+                        id: 0,
+                        title: this.__('All', 'wedevs-project-manager')
+                    }
+                ],
+                asyncListLoading: false,
+                taskFilterSpinner: false,
+                searchTasktitle: '',
+                isfilterQueryRunning: false
+            }
+        },
+
+        watch: {
+            '$route' (route) {
+                
+                if(route.query.filterTask == 'active') {
+                    if(typeof route.params.current_page_number == 'undefined') return;
+                    this.filterRequent();
+                    this.current_page_number = route.params.current_page_number;
+                    return;
+                }
+
+                if(
+                    route.name != 'lists_single_task'
+                    &&
+                    this.current_page_number != route.params.current_page_number
+                ) { 
+                    this.getSelfLists();
+                }
+                
+                this.isSingleTask();
+            }
+        },
+
+        computed: {
+            /**
+             * Get lists from vuex store
+             * 
+             * @return array
+             */
+            lists () {
+                return this.$store.state.projectTaskLists.lists;
+            },
+
+            listsForFilters () {
+                var lists = this.$store.state.projectTaskLists.lists;
+                var newLists = [{
+                    id: 0,
+                    title: this.__('All', 'wedevs-project-manager')
+                }];
+
+                lists.forEach(function(list) {
+                    newLists.push({
+                        id: list.id,
+                        title: list.title
+                    });
+                });
+
+                this.defaultList = newLists[0];
+                return newLists;
+            },
+
+            /**
+             * Get milestones from vuex store
+             * 
+             * @return array
+             */
+            milestones () {
+                return this.$store.state.projectTaskLists.milestones;
+            },
+
+            is_active_list_form () {
+                return this.$store.state.projectTaskLists.is_active_list_form;
+            },
+
+            total_list_page () {
+                return this.$store.state.projectTaskLists.lists_meta.total_pages;
+            },
+
+            is_blank_Template(){
+                return this.$store.state.projectTaskLists.balankTemplateStatus;
+            },
+            is_list_Template() {
+                if(this.isActiveFilter) {
+                    return true;
+                }
+                return this.$store.state.projectTaskLists.listTemplateStatus; 
+            },
+            isListFetch () {
+                return this.$store.state.projectTaskLists.isListFetch; 
+            },
+
+            projectUsers () {
+                let project = this.$store.state.project;
+
+                if(project.assignees) {
+
+                    return project.assignees.data;
+                }
+
+                return [];
+            },
+            searchProjectUsers () {
+                let project = this.$store.state.project;
+                
+
+                if(project.assignees) {
+                    let assignees = project.assignees.data.slice();
+
+                    if(assignees[0].display_name != 'All' ) {
+
+                        assignees.unshift(
+                            {
+                                id: 0,
+                                display_name: this.__('All', 'wedevs-project-manager')
+                            }
+                        );
+                    }
+
+                    return assignees;
+                }
+
+                return [];
+            },
+            filterResults () {
+                var lists = this.$store.state.projectTaskLists.lists; 
+
+                if(lists.length) { 
+                    return true;
+                } else {
+                    return false;
+                }
+            },
+            paginationComponent () {
+                return this.$route.name.indexOf('pagination') === -1 ? this.$route.name + '_pagination' : this.$route.name ;
+            },
+            // popper options
+            popperOptions () {
+                return {
+                    placement: 'bottom-end',
+                    modifiers: { offset: { offset: '0, 3px' } }
+                }
+            },
+
+            //This is pro and free version code mixin. 
+            isFetchProject () {
+                var isLoaded = this.$store.state.projectLoaded;
+                
+                if(isLoaded) {
+                    var meta = this.$store.state.projectMeta;
+                    if( 
+                        PM_Vars.is_pro
+                            &&
+                        typeof meta != 'undefined' 
+                            &&
+                        meta.list_view_type != null
+                            &&
+                        meta.list_view_type.meta_value == 'kanboard'
+                    ) {
+                        this.$router.push({
+                            name: 'kanboard',
+                            params: {
+                                project_id: this.project_id
+                            }
+                        });
+                    } else {
+                        return true;
+                    }
+                }
+
+                return false;
+            },
+            inboxList () {
+                var self = this;
+                var list = {};
+
+                this.$store.state.projectTaskLists.lists.forEach(function(listData) {
+                    if(self.isInbox(listData.id)) {
+                        list = listData;
+                    }
+                });
+
+                if(jQuery.isEmptyObject(list)) {
+                    return false;
+                }
+                
+                return list;
+            }
+        },
+
+        created () {  
+            this.getGlobalMilestones();
+            this.getSelfLists();
+
+            pmBus.$on('pm_before_destroy_single_task', this.updateSingleTask);
+            pmBus.$on('pm_generate_task_url', this.generateTaskUrl);
+            pmBus.$on('pm_after_fetch_project', this.afterFetchProject);
+
+            this.$store.state.projectTaskLists.isListFetch = false; 
+            window.addEventListener('click', this.windowActivity);
+            
+            if(this.$route.query.filterTask == 'active') {
+                this.setSearchData();
+                this.isActiveFilter = true;
+                this.filterRequent();
+            } 
+        },
+
+        methods: {
+            nextPage (pageNumber) {
+
+                this.$router.push({
+                    name: task_lists_pagination,
+                    params: {
+                        page: pageNumber
+                    }
+                });
+                this.getSelfLists();
+            },
+            goToSigleList (list) {
+                this.$router.push({
+                    name: 'single_list',
+                    params: { 
+                        project_id: this.project_id,
+                        list_id: list.id
+                    }
+                });
+            },
+
+            inboxClass (list) {
+                return this.isInbox(list.id) ? 'inbox-list' : '';
+            },
+            isActiveTaskFilter () {
+                return this.isActiveFilter ? 'active-task-filter' : 'task-filter';
+            },
+            showHideMoreMenu (list) {
+
+                this.lists.forEach(function(taskList) {
+                    if(taskList.id != list.id) {
+                        taskList.moreMenu = false;
+                    }
+                });
+                
+                list.moreMenu = list.moreMenu ? false : true; 
+            },
+            windowActivity (el) {
+                var listForm = jQuery(el.target).closest('.new-list-btn'),
+                    listActionWrap = jQuery(el.target).closest('.list-more-menu');
+                
+                if(!listActionWrap.length) {
+                    this.lists.forEach(function(list) {
+                        list.moreMenu = false;
+                    });
+                }
+
+                if(!listForm.length) {
+                    this.showHideListForm(false);
+                }
+            },
+            listExpand (list) {
+                list.expand = list.expand ? false : true;
+                this.$store.commit('projectTaskLists/expandList', list.id);
+            },
+            getTotalTask (incomplete, complete) {
+                return parseInt(incomplete)+parseInt(complete);
+            },
+            taskListClass (list_id) {
+                let listcalss = 'pm-list-sortable list-li pm-fade-out-' + list_id;
+
+                if ( this.isInboxList( list_id ) ) {
+                    listcalss += ' nonsortable listindex'
+                }
+                return listcalss;
+            },
+            afterFetchProject (project) {
+
+                //set filter search user
+                if(this.$route.query.filterTask == 'active') {
+                    let index = this.getIndex(this.projectUsers, this.$route.query.users, 'id');
+                    if ( index  ) {
+                        this.defaultUser = project.assignees.data[index];
+                    }
+                } 
+            },
+            setSearchData () {
+                var self = this;
+                this.filterStatus = this.$route.query.status;
+                this.searchTasktitle = this.$route.query.title;
+                var request = {
+                    data: {
+
+                    },
+                    url: this.base_url + '/pm/v2/projects/'+this.project_id+'/task-lists',
+                 
+                    success (res) {
+                        self.searchLists = res.data;
+                        self.searchLists.splice(0, 1,    {
+                            id: 0,
+                            title: self.__('All', 'wedevs-project-manager')
+                        });
+                        let index = self.getIndex(self.searchLists, self.$route.query.lists, 'id');
+                        self.defaultList = self.searchLists[index];
+                    }
+                }
+                
+                this.httpRequest(request);
+                let duDateIndex = this.getIndex(this.dueDates, self.$route.query.dueDate, 'id');
+                this.dueDate = this.dueDates[duDateIndex];
+            },
+            completeBoder () {
+                return this.filterStatus == 'complete' ? 'complete-status' : '';
+            },
+            onGoingBorder () {
+                return this.filterStatus == 'incomplete' ? 'incomplete-status' : '';
+            },
+            helpTextPrivate (privateList) {
+                return privateList ? __('Make Visible', 'wedevs-project-manager') : __('Make Private', 'wedevs-project-manager');
+            },
+            setSearchLists (lists) {
+                var newLists = [{
+                    id: 0,
+                    title: this.__('All', 'wedevs-project-manager')
+                }];
+
+                lists.forEach(function(list) {
+                    newLists.push({
+                        id: list.id,
+                        title: list.title
+                    });
+                });
+
+                this.defaultList = newLists[0];
+                this.searchLists = newLists;
+            },
+
+            asyncFind (evt) {
+                var self = this,
+                timeout = 2000,
+                isArchive = 'no',
+                timer;
+
+                if(evt == '') {
+                    return;
+                }
+
+                clearTimeout(timer);
+                self.asyncListLoading = true;
+
+                if ( 
+                    self.$route.name == 'task_lists_archive' 
+                        || 
+                    self.$route.name == 'task_lists_archive_pagination' 
+                ) {
+                    isArchive = 'yes';
+                }
+
+                timer = setTimeout(function () {
+                    if (self.abort) {
+                        self.abort.abort();
+                    }
+
+                    var requestData = {
+                        type: 'GET',
+                        url: self.base_url + '/pm/v2/projects/' + self.project_id + '/lists/search',
+                        data: {
+                            title: evt,
+                            is_archive: isArchive
+                        },
+
+                        success: function success(res) {
+                            self.asyncListLoading = false;
+                            self.setSearchLists( res.data );
+                        }
+                    };
+
+                    self.abort = self.httpRequest(requestData);
+                }, timeout);
+            },
+            hasSearchContent () {
+                if( !this.isActiveFilter ) {
+                    return true;
+                } 
+
+                if( !this.filterResults ) {
+                    return false;
+                }
+
+                return true;
+            },
+            filterActiveClass () {
+                return this.isActiveFilter ? 'optimizeWidth' : '';
+            },
+            showFilter () {
+                this.isActiveFilter = this.isActiveFilter ? false : true;
+
+                this.$store.commit( 'projectTaskLists/balankTemplateStatus', false);
+
+                if(this.isActiveFilter == false && this.$route.query.hasOwnProperty('filterTask')) {
+                    
+                    this.$router.push({
+                        query: {}
+                    });
+
+                    this.getLists();
+                }
+            },
+            generateTaskUrl (task) {
+                var url = this.$router.resolve({
+                    name: 'lists_single_task',
+                    params: {
+                        task_id: task.id,
+                        project_id: task.project_id,
+                        list_id: task.task_list_id
+                    }
+                }).href;
+                var url = PM_Vars.project_page + url;
+                //var url = PM_Vars.project_page + '#/projects/' + task.project_id + '/task-lists/tasks/' + task.id; 
+                this.copy(url);
+            },
+            afterTaskDoneUndone (task) {
+
+                this.$store.commit( 'projectTaskLists/afterTaskDoneUndone', {
+                    status: task.status == 'complete' || task.status === true ? 1 : 0,
+                    task: task,
+                    list_id: task.task_list_id,
+                    task_id: task.id
+                });
+            },
+          
+            updateSingleTask (task) {
+                if(task.status == 'complete' || task.status === true) {
+                    this.afterTaskDoneUndone(task);
+                } else {
+                    this.setTaskDefaultData(task);
+                    this.$store.commit('projectTaskLists/afterUpdateTask', {
+                        task: task,
+                        list_id: task.task_list_id
+                    });
+                }
+
+                //this.$store.commit('projectTaskLists/updateSingleTaskActiveMode', false);
+                
+            },
+
+            setTaskDefaultData (task) {
+                var lists = this.$store.state.projectTaskLists.lists;
+                var list_index = this.getIndex( lists, task.task_list_id, 'id' );
+            
+                if (list_index === false) {
+                    return;
+                }
+                
+                if ( task.status === 'incomplete' || task.status === false ) {
+                    var task_index = this.getIndex( 
+                            lists[list_index].incomplete_tasks.data, 
+                            task.id, 
+                            'id' 
+                    );
+
+                    var prevTask = lists[list_index].incomplete_tasks.data[task_index];
+                    
+                    if(prevTask) {
+                        task.sub_task_content = prevTask.sub_task_content;
+                        task.edit_mode = prevTask.edit_mode;
+                    }
+                }
+            },
+           
+            isSingleTask () {
+                if ( this.$route.name == 'lists_single_task' ) {
+                    this.$store.commit('isSigleTask', true);
+                } else {
+                    this.$store.commit('isSigleTask', false);
+                }
+            },
+
+            showEditForm (list, index) {
+                list.edit_mode = list.edit_mode ? false : true;
+            },
+            
+            getSelfLists () {
+                var self = this;
+                var args = {
+                    callback: function(res) {
+                        pm.NProgress.done();
+                        self.setSearchLists( this.$store.state.projectTaskLists.lists );
+                        self.$store.state.projectTaskLists.isListFetch = true;
+                    }
+                }
+                this.$store.state.projectTaskLists.isListFetch = false;
+                this.getLists(args);
+            },
+
+            deleteSelfList ( list ) {
+                var self = this;
+                var hasCurrentPage = self.$route.params.current_page_number;
+                var args = {
+                    list_id: list.id,
+                    callback: function ( res ) {
+                        if (!self.$store.state.projectTaskLists.lists.length) {
+                            self.$router.push({
+                                name: 'task_lists', 
+                                params: { 
+                                    project_id: self.project_id 
+                                }
+                            });
+                            if(hasCurrentPage) {
+                               self.$store.commit( 'projectTaskLists/fetchListStatus', false ); 
+                            }
+                        } else {
+                            self.getLists();
+                        }   
+                    }
+                }
+                this.deleteList(args);
+            },
+            changeFilterStatus (status) {
+                this.filterStatus = status;
+            },
+
+            taskFilter () {
+                
+                if(this.taskFilterSpinner) {
+                    return;
+                }
+                this.taskFilterSpinner = true;
+                var self = this;
+
+                if(typeof this.$route.params.current_page_number == 'undefined') {
+                    var page = 1;
+                } else {
+                    var page = this.$route.params.current_page_number;
+                }
+
+                var query = {
+                    title: this.searchTasktitle,
+                    users: this.filterUsersId(this.defaultUser),
+                    lists: this.filterListsId(this.defaultList),
+                    dueDate: this.dueDate.id,
+                    status: this.filterStatus,
+                    page: page,
+                    board_status: this.$route.name == 'task_lists_archive' 
+                        || this.$route.name == 'task_lists_archive_pagination' ? 0 : 1,
+                    filterTask: 'active'
+                }
+
+                this.$router.push({
+                    name: 'task_lists_pagination',
+                    params: {
+                        current_page_number: 1,
+                        project_id: this.project_id
+                    },
+                    query: query
+                });
+                
+                this.filterRequent(function(res) {
+                    self.taskFilterSpinner = false;
+                });
+            },
+
+            filterRequent (callback) {
+                if(this.isfilterQueryRunning) {
+                    return;
+                }
+                var self = this;
+
+                if(typeof this.$route.params.current_page_number == 'undefined') {
+                    self.$route.query.page = 1;
+                } else {
+                    self.$route.query.page = this.$route.params.current_page_number;
+                }
+
+                self.$store.state.projectTaskLists.isListFetch = false;
+
+                this.isfilterQueryRunning = true;
+                
+                self.httpRequest({
+                    url: self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks/filter',
+                    type: 'POST',
+                    data: self.$route.query,
+                    success (res) {
+                        self.isfilterQueryRunning = false;
+                        self.$store.state.projectTaskLists.isListFetch = true;
+                        if(!res.data.length) {
+                            pm.Toastr.success(self.__('No results found.', 'wedevs-project-manager'));
+                            //return;
+                        }
+                        
+                        res.data.map(function(list,index) {
+                        self.addMetaList(list);
+
+                        if ( typeof list.incomplete_tasks !== 'undefined' ) {
+                            list.incomplete_tasks.data.map(function(task) {
+                                self.addTaskMeta(task);
+                            });
+                        }
+
+                        if ( typeof list.complete_tasks !== 'undefined' ) {
+                                list.complete_tasks.data.map(function(task) {
+                                    self.addTaskMeta(task);
+                                });
+                            }
+                        });
+                        self.$root.$store.state.projectTaskListLoaded = true;
+                        self.$store.commit('projectTaskLists/setLists', res.data);
+                        self.$store.commit('projectTaskLists/setListsMeta', res.meta.pagination);
+
+                        self.$store.commit( 'projectTaskLists/balankTemplateStatus', false);
+                        self.$store.commit( 'projectTaskLists/listTemplateStatus', true);
+                        pm.NProgress.done();
+                        if(typeof callback !== 'undefined') {
+                            callback(res);
+                        }
+                    }
+                });
+            },
+
+            filterUsersId (users) {
+                var ids = [];
+
+                if(users && typeof users != 'undefined') {
+                    ids.push(users.id);
+                }
+                
+                return ids;
+            },
+
+            filterListsId (lists) {
+                var ids = [];
+
+                ids.push(lists.id);
+
+                return ids;
+            }
+
+        },
+
+    }
+</script>
+
 <style lang="less">
     .pm-task-list-wrap {
         .pm-ui-state-highlight {
@@ -1025,6 +1754,9 @@
 
                 .search-content {
                     padding: 0 15px 15px 15px;
+                    .title-field {
+                        width: 100%;
+                    }
                 }
             }
         }
@@ -1071,708 +1803,3 @@
         }
     }
 </style>
-
-<script>
-    import new_task_list_btn from './new-task-list-btn.vue';
-    import new_task_list_form from './new-task-list-form.vue';
-    import new_task_button from './new-task-btn.vue';
-    import header from '@components/common/header.vue';
-    import tasks from './list-tasks.vue';
-    import default_page from './default-list-page.vue';
-    import Mixins from './mixin';
-    import date_picker from './date-picker.vue';
-    import Menu from '@components/common/menu.vue';
-    import new_task_form from './new-task-form.vue';
-
-    export default {
-
-        beforeRouteEnter (to, from, next) {
-            next(vm => {
-                var self = vm;
-                
-               
-            });
-        }, 
-        components: {
-            'new-task-list-btn': new_task_list_btn,
-            'new-task-list-form': new_task_list_form,
-            'new-task-button': new_task_button,
-            'pm-header': header,
-            'list-tasks': tasks,
-            'default-list-page': default_page,
-            'multiselect': pm.Multiselect.Multiselect,
-            'pm-datepickter': date_picker,
-            'pm-menu': Menu,
-            'new-task-form': new_task_form
-        },
-
-        mixins: [Mixins],
-
-        /**
-         * Initial data for this component
-         * 
-         * @return obj
-         */
-        data () {
-            return {
-                isActiveListForm: false,
-                list: {},
-                index: false,
-                project_id: this.$route.params.project_id,
-                current_page_number: this.$route.params.current_page_number || 1,
-                isActiveFilter: false,
-                defaultList: {
-                    id: 0,
-                    title: this.__('Any', 'wedevs-project-manager')
-                },
-                defaultUser: {
-                    id: 0,
-                    display_name: this.__('Any', 'wedevs-project-manager')
-                },
-                filterDueDate: '',
-                filterStatus: '',
-                dueDates: [
-                    {
-                        'id': '0',
-                        'title': this.__('Any', 'wedevs-project-manager'),
-                    },
-                    {
-                        'id': 'overdue',
-                        'title': this.__('Over Due', 'wedevs-project-manager'),
-                    },
-                    {
-                        'id': 'today',
-                        'title': this.__('Today', 'wedevs-project-manager'),
-                    },
-                    {
-                        'id': 'week',
-                        'title': this.__('Less Than 1 week', 'wedevs-project-manager'),
-                    }
-                ],
-                dueDate: {
-                    'id': '0',
-                    'title': this.__('Any', 'wedevs-project-manager'),
-                },
-                searchLists: [
-                    {
-                        id: 0,
-                        title: this.__('All', 'wedevs-project-manager')
-                    }
-                ],
-                asyncListLoading: false,
-                taskFilterSpinner: false
-            }
-        },
-
-        watch: {
-            '$route' (route) {
-                
-                if(route.query.filterTask == 'active') {
-                    if(typeof route.params.current_page_number == 'undefined') return;
-                    
-                    this.filterRequent();
-                    this.current_page_number = route.params.current_page_number;
-                    return;
-                }
-
-                if(
-                    route.name != 'lists_single_task'
-                    &&
-                    this.current_page_number != route.params.current_page_number
-                ) { 
-                    this.getSelfLists();
-                }
-                
-                this.isSingleTask();
-            }
-        },
-
-        computed: {
-            /**
-             * Get lists from vuex store
-             * 
-             * @return array
-             */
-            lists () {
-                return this.$store.state.projectTaskLists.lists;
-            },
-
-            listsForFilters () {
-                var lists = this.$store.state.projectTaskLists.lists;
-                var newLists = [{
-                    id: 0,
-                    title: this.__('All', 'wedevs-project-manager')
-                }];
-
-                lists.forEach(function(list) {
-                    newLists.push({
-                        id: list.id,
-                        title: list.title
-                    });
-                });
-
-                this.defaultList = newLists[0];
-                return newLists;
-            },
-
-            /**
-             * Get milestones from vuex store
-             * 
-             * @return array
-             */
-            milestones () {
-                return this.$store.state.projectTaskLists.milestones;
-            },
-
-            is_active_list_form () {
-                return this.$store.state.projectTaskLists.is_active_list_form;
-            },
-
-            total_list_page () {
-                return this.$store.state.projectTaskLists.lists_meta.total_pages;
-            },
-
-            is_blank_Template(){
-                return this.$store.state.projectTaskLists.balankTemplateStatus;
-            },
-            is_list_Template() {
-                if(this.isActiveFilter) {
-                    return true;
-                }
-                return this.$store.state.projectTaskLists.listTemplateStatus; 
-            },
-            isListFetch () {
-                return this.$store.state.projectTaskLists.isListFetch; 
-            },
-
-            projectUsers () {
-                let project = this.$store.state.project;
-
-                if(project.assignees) {
-
-                    return project.assignees.data;
-                }
-
-                return [];
-            },
-            searchProjectUsers () {
-                let project = this.$store.state.project;
-                
-
-                if(project.assignees) {
-                    let assignees = project.assignees.data.slice();
-
-                    if(assignees[0].display_name != 'All' ) {
-
-                        assignees.unshift(
-                            {
-                                id: 0,
-                                display_name: this.__('All', 'wedevs-project-manager')
-                            }
-                        );
-                    }
-
-                    return assignees;
-                }
-
-                return [];
-            },
-            filterResults () {
-                var lists = this.$store.state.projectTaskLists.lists; 
-
-                if(lists.length) { 
-                    return true;
-                } else {
-                    return false;
-                }
-            },
-            paginationComponent () {
-                return this.$route.name.indexOf('pagination') === -1 ? this.$route.name + '_pagination' : this.$route.name ;
-            },
-            // popper options
-            popperOptions () {
-                return {
-                    placement: 'bottom-end',
-                    modifiers: { offset: { offset: '0, 3px' } }
-                }
-            },
-
-            //This is pro and free version code mixin. 
-            isFetchProject () {
-                var isLoaded = this.$store.state.projectLoaded;
-                
-                if(isLoaded) {
-                    var meta = this.$store.state.projectMeta;
-                    if( 
-                        PM_Vars.is_pro
-                            &&
-                        typeof meta != 'undefined' 
-                            &&
-                        meta.list_view_type != null
-                            &&
-                        meta.list_view_type.meta_value == 'kanboard'
-                    ) {
-                        this.$router.push({
-                            name: 'kanboard',
-                            params: {
-                                project_id: this.project_id
-                            }
-                        });
-                    } else {
-                        return true;
-                    }
-                }
-
-                return false;
-            },
-            inboxList () {
-                var self = this;
-                var list = {};
-
-                this.$store.state.projectTaskLists.lists.forEach(function(listData) {
-                    if(self.isInbox(listData.id)) {
-                        list = listData;
-                    }
-                });
-
-                if(jQuery.isEmptyObject(list)) {
-                    return false;
-                }
-                
-                return list;
-            }
-        },
-
-        created () {  
-            this.getGlobalMilestones();
-            this.getSelfLists();
-
-            pmBus.$on('pm_before_destroy_single_task', this.updateSingleTask);
-            pmBus.$on('pm_generate_task_url', this.generateTaskUrl);
-            pmBus.$on('pm_after_fetch_project', this.afterFetchProject);
-
-            this.$store.state.projectTaskLists.isListFetch = false; 
-            window.addEventListener('click', this.windowActivity);
-            
-            if(this.$route.query.filterTask == 'active') {
-                this.setSearchData();
-                this.isActiveFilter = true;
-                this.filterRequent();
-            } 
-        },
-
-        methods: {
-            nextPage (pageNumber) {
-
-                this.$router.push({
-                    name: task_lists_pagination,
-                    params: {
-                        page: pageNumber
-                    }
-                });
-                this.getSelfLists();
-            },
-            goToSigleList (list) {
-                this.$router.push({
-                    name: 'single_list',
-                    params: { 
-                        project_id: this.project_id,
-                        list_id: list.id
-                    }
-                });
-            },
-
-            inboxClass (list) {
-                return this.isInbox(list.id) ? 'inbox-list' : '';
-            },
-            isActiveTaskFilter () {
-                return this.isActiveFilter ? 'active-task-filter' : 'task-filter';
-            },
-            showHideMoreMenu (list) {
-
-                this.lists.forEach(function(taskList) {
-                    if(taskList.id != list.id) {
-                        taskList.moreMenu = false;
-                    }
-                });
-                
-                list.moreMenu = list.moreMenu ? false : true; 
-            },
-            windowActivity (el) {
-                var listForm = jQuery(el.target).closest('.new-list-btn'),
-                    listActionWrap = jQuery(el.target).closest('.list-more-menu');
-                
-                if(!listActionWrap.length) {
-                    this.lists.forEach(function(list) {
-                        list.moreMenu = false;
-                    });
-                }
-
-                if(!listForm.length) {
-                    this.showHideListForm(false);
-                }
-            },
-            listExpand (list) {
-                list.expand = list.expand ? false : true;
-                this.$store.commit('projectTaskLists/expandList', list.id);
-            },
-            getTotalTask (incomplete, complete) {
-                return parseInt(incomplete)+parseInt(complete);
-            },
-            taskListClass (list_id) {
-                let listcalss = 'pm-list-sortable list-li pm-fade-out-' + list_id;
-
-                if ( this.isInboxList( list_id ) ) {
-                    listcalss += ' nonsortable listindex'
-                }
-                return listcalss;
-            },
-            afterFetchProject (project) {
-
-                //set filter search user
-                if(this.$route.query.filterTask == 'active') {
-                    let index = this.getIndex(this.projectUsers, this.$route.query.users, 'id');
-                    if ( index  ) {
-                        this.defaultUser = project.assignees.data[index];
-                    }
-                } 
-            },
-            setSearchData () {
-                var self = this;
-                this.filterStatus = this.$route.query.status;
-                var request = {
-                    data: {
-
-                    },
-                    url: this.base_url + '/pm/v2/projects/'+this.project_id+'/task-lists',
-                 
-                    success (res) {
-                        self.searchLists = res.data;
-                        self.searchLists.splice(0, 1,    {
-                            id: 0,
-                            title: self.__('All', 'wedevs-project-manager')
-                        });
-                        let index = self.getIndex(self.searchLists, self.$route.query.lists, 'id');
-                        self.defaultList = self.searchLists[index];
-                    }
-                }
-                
-                this.httpRequest(request);
-                let duDateIndex = this.getIndex(this.dueDates, self.$route.query.dueDate, 'id');
-                this.dueDate = this.dueDates[duDateIndex];
-            },
-            completeBoder () {
-                return this.filterStatus == 'complete' ? 'complete-status' : '';
-            },
-            onGoingBorder () {
-                return this.filterStatus == 'incomplete' ? 'incomplete-status' : '';
-            },
-            helpTextPrivate (privateList) {
-                return privateList ? __('Make Visible', 'wedevs-project-manager') : __('Make Private', 'wedevs-project-manager');
-            },
-            setSearchLists (lists) {
-                var newLists = [{
-                    id: 0,
-                    title: this.__('All', 'wedevs-project-manager')
-                }];
-
-                lists.forEach(function(list) {
-                    newLists.push({
-                        id: list.id,
-                        title: list.title
-                    });
-                });
-
-                this.defaultList = newLists[0];
-                this.searchLists = newLists;
-            },
-
-            asyncFind (evt) {
-                var self = this,
-                timeout = 2000,
-                timer;
-
-                if(evt == '') {
-                    return;
-                }
-
-                clearTimeout(timer);
-                self.asyncListLoading = true;
-
-                timer = setTimeout(function () {
-                    if (self.abort) {
-                        self.abort.abort();
-                    }
-
-                    var requestData = {
-                        type: 'GET',
-                        url: self.base_url + '/pm/v2/projects/' + self.project_id + '/lists/search',
-                        data: {
-                            title: evt
-                        },
-
-                        success: function success(res) {
-                            self.asyncListLoading = false;
-                            self.setSearchLists( res.data );
-                        }
-                    };
-
-                    self.abort = self.httpRequest(requestData);
-                }, timeout);
-            },
-            hasSearchContent () {
-                if( !this.isActiveFilter ) {
-                    return true;
-                } 
-
-                if( !this.filterResults ) {
-                    return false;
-                }
-
-                return true;
-            },
-            filterActiveClass () {
-                return this.isActiveFilter ? 'optimizeWidth' : '';
-            },
-            showFilter () {
-                this.isActiveFilter = this.isActiveFilter ? false : true;
-
-                this.$store.commit( 'projectTaskLists/balankTemplateStatus', false);
-
-                if(this.isActiveFilter == false && this.$route.query.hasOwnProperty('filterTask')) {
-                    
-                    this.$router.push({
-                        query: {}
-                    });
-
-                    this.getLists();
-                }
-            },
-            generateTaskUrl (task) {
-                var url = this.$router.resolve({
-                    name: 'lists_single_task',
-                    params: {
-                        task_id: task.id,
-                        project_id: task.project_id,
-                        list_id: task.task_list_id
-                    }
-                }).href;
-                var url = PM_Vars.project_page + url;
-                //var url = PM_Vars.project_page + '#/projects/' + task.project_id + '/task-lists/tasks/' + task.id; 
-                this.copy(url);
-            },
-            afterTaskDoneUndone (task) {
-
-                this.$store.commit( 'projectTaskLists/afterTaskDoneUndone', {
-                    status: task.status == 'complete' || task.status === true ? 1 : 0,
-                    task: task,
-                    list_id: task.task_list_id,
-                    task_id: task.id
-                });
-            },
-          
-            updateSingleTask (task) {
-                if(task.status == 'complete' || task.status === true) {
-                    this.afterTaskDoneUndone(task);
-                } else {
-                    this.setTaskDefaultData(task);
-                    this.$store.commit('projectTaskLists/afterUpdateTask', {
-                        task: task,
-                        list_id: task.task_list_id
-                    });
-                }
-
-                //this.$store.commit('projectTaskLists/updateSingleTaskActiveMode', false);
-                
-            },
-
-            setTaskDefaultData (task) {
-                var lists = this.$store.state.projectTaskLists.lists;
-                var list_index = this.getIndex( lists, task.task_list_id, 'id' );
-            
-                if (list_index === false) {
-                    return;
-                }
-                
-                if ( task.status === 'incomplete' || task.status === false ) {
-                    var task_index = this.getIndex( 
-                            lists[list_index].incomplete_tasks.data, 
-                            task.id, 
-                            'id' 
-                    );
-
-                    var prevTask = lists[list_index].incomplete_tasks.data[task_index];
-                    
-                    if(prevTask) {
-                        task.sub_task_content = prevTask.sub_task_content;
-                        task.edit_mode = prevTask.edit_mode;
-                    }
-                }
-            },
-           
-            isSingleTask () {
-                if ( this.$route.name == 'lists_single_task' ) {
-                    this.$store.commit('isSigleTask', true);
-                } else {
-                    this.$store.commit('isSigleTask', false);
-                }
-            },
-
-            showEditForm (list, index) {
-                list.edit_mode = list.edit_mode ? false : true;
-            },
-            
-            getSelfLists () {
-                var self = this;
-                var args = {
-                    callback: function(res) {
-                        pm.NProgress.done();
-                        self.setSearchLists( this.$store.state.projectTaskLists.lists );
-                        self.$store.state.projectTaskLists.isListFetch = true;
-                    }
-                }
-                this.$store.state.projectTaskLists.isListFetch = false;
-                this.getLists(args);
-            },
-
-            deleteSelfList ( list ) {
-                var self = this;
-                var hasCurrentPage = self.$route.params.current_page_number;
-                var args = {
-                    list_id: list.id,
-                    callback: function ( res ) {
-                        if (!self.$store.state.projectTaskLists.lists.length) {
-                            self.$router.push({
-                                name: 'task_lists', 
-                                params: { 
-                                    project_id: self.project_id 
-                                }
-                            });
-                            if(hasCurrentPage) {
-                               self.$store.commit( 'projectTaskLists/fetchListStatus', false ); 
-                            }
-                        } else {
-                            self.getLists();
-                        }   
-                    }
-                }
-                this.deleteList(args);
-            },
-            changeFilterStatus (status) {
-                this.filterStatus = status;
-            },
-
-            taskFilter () {
-                
-                if(this.taskFilterSpinner) {
-                    return;
-                }
-                this.taskFilterSpinner = true;
-                var self = this;
-
-                if(typeof this.$route.params.current_page_number == 'undefined') {
-                    var page = 1;
-                } else {
-                    var page = this.$route.params.current_page_number;
-                }
-
-                var query = {
-                    users: this.filterUsersId(this.defaultUser),
-                    lists: this.filterListsId(this.defaultList),
-                    dueDate: this.dueDate.id,
-                    status: this.filterStatus,
-                    page: page,
-                    board_status: this.$route.name == 'task_lists_archive' 
-                        || this.$route.name == 'task_lists_archive_pagination' ? 0 : 1,
-                    filterTask: 'active'
-                }
-
-                //var queryPaprams = this.setQuery(query);
-                
-                this.$router.push({
-                    name: 'task_lists_pagination',
-                    params: {
-                        current_page_number: 1,
-                        project_id: this.project_id
-                    },
-                    query: query
-                });
-                
-                this.filterRequent(function(res) {
-                    self.taskFilterSpinner = false;
-                });
-            },
-
-            filterRequent (callback) {
-                var self = this;
-
-                if(typeof this.$route.params.current_page_number == 'undefined') {
-                    self.$route.query.page = 1;
-                } else {
-                    self.$route.query.page = this.$route.params.current_page_number;
-                }
-
-                self.$store.state.projectTaskLists.isListFetch = false;
-                
-                self.httpRequest({
-                    url: self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks/filter',
-                    type: 'POST',
-                    data: self.$route.query,
-                    success (res) {
-                        self.$store.state.projectTaskLists.isListFetch = true;
-                        if(!res.data.length) {
-                            pm.Toastr.success(self.__('No results found.', 'wedevs-project-manager'));
-                            //return;
-                        }
-                        
-                        res.data.map(function(list,index) {
-                        self.addMetaList(list);
-
-                        if ( typeof list.incomplete_tasks !== 'undefined' ) {
-                            list.incomplete_tasks.data.map(function(task) {
-                                self.addTaskMeta(task);
-                            });
-                        }
-
-                        if ( typeof list.complete_tasks !== 'undefined' ) {
-                                list.complete_tasks.data.map(function(task) {
-                                    self.addTaskMeta(task);
-                                });
-                            }
-                        });
-                        self.$root.$store.state.projectTaskListLoaded = true;
-                        self.$store.commit('projectTaskLists/setLists', res.data);
-                        self.$store.commit('projectTaskLists/setListsMeta', res.meta.pagination);
-
-                        self.$store.commit( 'projectTaskLists/balankTemplateStatus', false);
-                        self.$store.commit( 'projectTaskLists/listTemplateStatus', true);
-
-                        if(typeof callback !== 'undefined') {
-                            callback(res);
-                        }
-                    }
-                });
-            },
-
-            filterUsersId (users) {
-                var ids = [];
-
-                if(users && typeof users != 'undefined') {
-                    ids.push(users.id);
-                }
-                
-                return ids;
-            },
-
-            filterListsId (lists) {
-                var ids = [];
-
-                ids.push(lists.id);
-
-                return ids;
-            }
-
-        },
-
-    }
-</script>

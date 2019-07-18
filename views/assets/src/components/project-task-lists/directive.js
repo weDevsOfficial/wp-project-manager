@@ -39,8 +39,6 @@ var PM_Task = {
         var $ = jQuery;
         var component = vnode.context;
 
-        console.log(el);
-
         $(el).sortable({
             cancel: '.nonSortableTag,form',
             connectWith: '.pm-connected-sortable',
