@@ -13,7 +13,7 @@ class List_Task_Transformer extends TransformerAbstract {
      * @return array
      */
     public function transform( Task $item ) {
-        
+
         $task = [
             'id'          => (int) $item->id,
             'title'       => $item->title,
@@ -23,7 +23,6 @@ class List_Task_Transformer extends TransformerAbstract {
             'due_date'    => format_date( $item->due_date ),
             'complexity'  => $item->complexity,
             'priority'    => $item->priority,
-            //'order'       => (int) $order,
             'payable'     => $item->payable,
             'recurrent'   => $item->recurrent,
             'parent_id'   => $item->parent_id,     

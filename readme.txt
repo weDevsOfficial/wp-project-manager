@@ -5,7 +5,7 @@ Tags: web task manager, online collaboration tool, task tracker, productivity to
 Requires at least: 4.4
 Tested up to: 5.2.2
 Requires PHP: 5.6
-Stable tag: 2.2.3
+Stable tag: 2.2.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -210,7 +210,14 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
-= v2.2.3 - Jun 15, 2019 =
+= v2.2.4 - Jul 22, 2019 =
+
+* **New** Task title field in task list search form.
+* **Fix** Task sorting is not working. 
+* **Fix** Prevent sorting for default task list (Inbox).
+* **Update** Showing 'more task' button even there is not task.
+
+= v2.2.3 - Jul 15, 2019 =
 
 * **Update** Task list search query. 
 * **Fix** After drag and drop task is not updating from my-task calendar.
