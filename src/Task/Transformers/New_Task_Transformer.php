@@ -7,6 +7,8 @@ use WeDevs\PM\Task\Models\Task;
 
 class New_Task_Transformer extends TransformerAbstract {
 
+    public $list_task_transormer_filter = true;
+
     /**
      * Turn this item object into a generic array
      *
@@ -39,11 +41,23 @@ class New_Task_Transformer extends TransformerAbstract {
             'creator'     => $this->get_creator( $item )
         ];
         
-        return apply_filters( 'pm_list_task_transormer', $task, $item );
+        if ( $this->list_task_transormer_filter ) {
+            return apply_filters( 'pm_list_task_transormer', $task, $item );  
+        }
+        
+        return $task;
     }
 
     public function get_creator( $item ) {
+        if(empty($item->created_by)) {
+            return [];
+        } 
+
         $user = get_user_by( 'id', $item->created_by );
+
+        if ( ! $user ) {
+            return [];
+        }
 
         $data = [
             'id'                => (int) $user->ID,

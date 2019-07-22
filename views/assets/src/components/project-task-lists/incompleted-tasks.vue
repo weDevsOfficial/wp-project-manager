@@ -50,7 +50,7 @@
                      
                 </div>  
 
-                <div v-if="can_edit_task(task) && !isArchivedTaskList(task)" class="nonsortable more-menu task-more-menu">
+                <div v-if="can_edit_task(task) && !isArchivedTaskList(task)" class="nonSortableTag more-menu task-more-menu">
                     <pm-popper trigger="click" :options="popperOptions">
                         <div class="pm-popper popper">
                             <div class="more-menu-ul-wrap">
@@ -96,7 +96,7 @@
             </div>
         </div>
         
-        <div v-if="task.edit_mode && can_create_task" class="task-update-wrap nonsortable">
+        <div v-if="task.edit_mode && can_create_task" class="task-update-wrap nonSortableTag">
             <new-task-form  :task="task" :list="list"></new-task-form>
         </div>
         

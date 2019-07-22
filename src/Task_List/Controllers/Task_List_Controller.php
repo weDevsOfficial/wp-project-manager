@@ -426,11 +426,17 @@ class Task_List_Controller {
         
         $project_id  = $request->get_param( 'project_id' );
         $title       = $request->get_param( 'title' );
+        $is_archive  = $request->get_param( 'is_archive' );
 
-        $task_lists = Task_List::where( function($q) use( $title, $project_id ) {
+        $task_lists = Task_List::where( function($q) use( $title, $project_id, $is_archive ) {
             if ( !empty( $title ) ) {
                 $q->where('title', 'like', '%'.$title.'%')
                     ->where( 'project_id', $project_id );
+
+                if ( ! empty( $is_archive ) ) {
+                    $status = $is_archive == 'yes' ? 0 : 1;
+                    $q->where( 'status', $status );
+                } 
             } 
         })
         ->get();
@@ -440,9 +446,9 @@ class Task_List_Controller {
         return $this->get_response( $resource );
     }
 
-    public function get_lists_tasks_count( $list_ids = [], $project_id ) {
+    public function get_lists_tasks_count( $list_ids = [], $project_id, $filter_params = [] ) {
         global $wpdb;
-
+        
         if ( empty( $list_ids ) ) {
             $list_ids[] = 0;
         }
@@ -451,10 +457,60 @@ class Task_List_Controller {
         $tb_lists     = pm_tb_prefix() . 'pm_boards';
         $tb_boardable = pm_tb_prefix() . 'pm_boardables';
         $tb_meta      = pm_tb_prefix() . 'pm_meta';
-        $list_ids     = implode( ',', $list_ids ); 
+        $tb_assigned  = pm_tb_prefix() . 'pm_assignees';
 
-        $permission_join = apply_filters( 'pm_incomplete_task_query_join', '', $project_id );
-        $permission_where = apply_filters( 'pm_incomplete_task_query_where', '', $project_id );
+        $list_ids     = implode( ',', $list_ids ); 
+        $filter       = '';
+        $join         = '';
+
+        $status       = isset( $filter_params['status'] ) ? intval( $filter_params['status'] ) : false;
+        $due_date     = empty( $filter_params['due_date'] ) ? false : date( 'Y-m-d', strtotime( $filter_params['due_date'] ) );
+        $assignees    = empty( $filter_params['users'] ) ? [] : $filter_params['users'];
+        $title        = empty( $filter_params['title'] ) ? '' : $filter_params['title'];
+
+        if ( $status !== false ) {
+            if ( gettype( $status ) == 'string'  ) {
+                $status = $status == 'complete' ? 1 : 0;
+            }
+            
+            $filter .= ' AND itasks.status = ' . $status;
+        }
+
+        if ( ! empty( $due_date ) ) {
+            if( $due_date == 'overdue' ) {
+                $today = date( 'Y-m-d', strtotime( current_time('mysql') ) );
+                $filter .= ' AND itasks.due_date < ' . $today;
+            
+            } else if ( $due_date == 'today' ) {
+                $today = date('Y-m-d', strtotime( current_time('mysql') ) );
+                $filter .= ' AND itasks.due_date = ' . $today;
+            
+            } else if ( $due_date == 'week' ) {
+                $today = date('Y-m-d', strtotime( current_time('mysql') ) );
+                $last = date('Y-m-d', strtotime( current_time('mysql') . '-1 week' ) );
+
+                $filter .= ' AND itasks.due_date >= ' . $last;
+                $filter .= ' AND itasks.due_date <= ' . $today;
+            }
+        }
+
+        if ( ! empty( $title ) ) {
+            $filter .= " AND itasks.title like '%$title%'";
+        }
+
+        if ( ! empty( $assignees ) ) {
+            $join .= " LEFT JOIN $tb_assigned as asign ON asign.task_id=itasks.id";
+
+            if ( is_array( $assignees ) && $assignees[0] != 0 ) {
+                $filter .= ' AND asign.assigned_to IN(' . implode(',', $assignees) . ')';
+                
+            } else if ( !is_array( $assignees ) && $assignees != 0) {
+                $filter .= ' AND asign.assigned_to = ' . $assignees;
+            }
+        }
+
+        $join .= apply_filters( 'pm_incomplete_task_query_join', '', $project_id );
+        $filter .= apply_filters( 'pm_incomplete_task_query_where', '', $project_id );
 
         $boardable = "SELECT bo.board_id,
                 group_concat(
@@ -470,14 +526,14 @@ class Task_List_Controller {
 
             FROM $tb_tasks as itasks
             LEFT JOIN $tb_boardable as bo ON bo.boardable_id=itasks.id
-            $permission_join
+            $join
             WHERE 
             bo.board_id IN ($list_ids)
             AND
             bo.boardable_type = 'task'
             AND
             itasks.project_id=$project_id
-            $permission_where
+            $filter
             GROUP BY bo.board_id";
 
         

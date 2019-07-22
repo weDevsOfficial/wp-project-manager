@@ -686,8 +686,15 @@ class Task_Controller {
             }
         }
 
+        $filter = [
+            'status' => $request->get_param('status'),
+            'due_date' =>  $request->get_param('dueDate'),
+            'users' => $request->get_param('users'),
+            'title' => $request->get_param('title')
+        ];
+        
         //get total complete and incomplete tasks count
-        $lists_tasks_count = ( new Task_List_Controller )->get_lists_tasks_count( $list_ids, $project_id );
+        $lists_tasks_count = ( new Task_List_Controller )->get_lists_tasks_count( $list_ids, $project_id, $filter );
 
         foreach ( $collection as $key => $collection_data ) {
             $collection_data->lists_tasks_count = empty( $lists_tasks_count[$collection_data->id] ) ? [] : $lists_tasks_count[$collection_data->id];
