@@ -34,5 +34,9 @@
             "WeDevs\\PM\\Core\\": "core/",
             "WeDevs\\PM\\": "src/"
         }
+    },
+    "require-dev": {
+        "codeception/codeception": "^3.0",
+        "lucatume/wp-browser": "^2.2"
     }
 }
