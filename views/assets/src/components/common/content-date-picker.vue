@@ -40,10 +40,6 @@
             });
     
             jQuery( self.$el ).datepicker('setDate', self.dateValue);
-            // jQuery(self.$el).on("change", function() {
-            //     var date = jQuery(self.$el).val();
-            //     self.$emit('input', date);
-            // });
         },
     }
 </script>

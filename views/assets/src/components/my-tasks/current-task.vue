@@ -1,6 +1,6 @@
 <template>
     <div class="mytask-current">
-
+        <search-task></search-task>
         <div v-if="!isloaded" class="pm-data-load-before" >
             <div class="loadmoreanimation">
                 <div class="load-spinner">
@@ -47,6 +47,7 @@
 </template>
 <script>
     import myTask from "./task.vue";
+    import SearchTask from './search-task.vue'
     import Mixins from './mixin';
 
     export default {
@@ -56,7 +57,8 @@
             }
         },
         components: {
-            'myTask' : myTask
+            'myTask' : myTask,
+            'search-task': SearchTask
         },
         watch:{
             '$route' (route) {
