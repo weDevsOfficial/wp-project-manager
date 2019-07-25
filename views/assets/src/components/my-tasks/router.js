@@ -20,25 +20,6 @@ weDevsPMRegisterChildrenRoute('project_root',
             children: [
                 {
                     path: '/',
-                    component: overview,
-                    name: 'mytask-tasks',
-                    children: [
-                        {
-                            path: 'projects/:project_id/tasks/:task_id',
-                            components: {
-                                'mytask-calendar-single-task': pm.SingleTask
-                            },
-                            name: 'mytask_calendar_single_task'
-                        }
-                    ]
-                },
-                {
-                    path: 'activities',
-                    component: activities,
-                    name: 'mytask-activities',
-                },
-                {
-                    path: 'current-task',
                     component: current_task,
                     name: 'mytask-current',
 
@@ -49,6 +30,26 @@ weDevsPMRegisterChildrenRoute('project_root',
                                 'mytask-current-single-task': pm.SingleTask
                             },
                             name: 'mytask_current_single_task'
+                        }
+                    ]
+                    
+                },
+                {
+                    path: 'activities',
+                    component: activities,
+                    name: 'mytask-activities',
+                },
+                {
+                    path: 'current-task',
+                    component: overview,
+                    name: 'mytask-tasks',
+                    children: [
+                        {
+                            path: 'projects/:project_id/tasks/:task_id',
+                            components: {
+                                'mytask-calendar-single-task': pm.SingleTask
+                            },
+                            name: 'mytask_calendar_single_task'
                         }
                     ]
                 },

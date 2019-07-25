@@ -170,11 +170,19 @@ $pm_scripts = [
 		'in_footer'  => true
 	],
 
+	'pm-date-range-picker' => [
+		'id'         => 'pm-date-range-picker',
+		'path'       => $view_path . '/assets/vendor/daterangepicker/daterangepicker.js',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/daterangepicker/daterangepicker.js',
+		'dependency' => ['pm-touch-punch'],
+		'in_footer'  => true
+	],
+
 	'pm-tiptip' => [
 		'id'         => 'pm-tiptip',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/tiptip/jquery.tipTip.min.js',
 		'path'       => $view_path . '/assets/vendor/tiptip/jquery.tipTip.min.js',
-		'dependency' => ['pm-touch-punch'],
+		'dependency' => ['pm-date-range-picker'],
 		'in_footer'  => true
 	],
 
