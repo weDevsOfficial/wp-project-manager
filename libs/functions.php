@@ -746,3 +746,19 @@ function pm_get_ip() {
     return $ipaddress;
 }
 
+function pm_get_capabilities() {
+
+    return [
+        'Message Create',
+        'Message Private',
+        'Task List Create',
+        'Task List Private',
+        'Milestone Create',
+        'Milestone Private',
+        'Task Create',
+        'Task Private',
+        'File Create',
+        'File Private',
+    ];
+}
+
