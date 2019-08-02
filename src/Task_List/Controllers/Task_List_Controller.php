@@ -116,7 +116,6 @@ class Task_List_Controller {
 
         $lists = $this->get_response( $resource );
 
-
         if ( in_array( 'incomplete_tasks', $with ) ) {
             $incomplete_task_ids = ( new Task_Controller )->get_incomplete_task_ids( $list_ids, $project_id );
             $incomplete_tasks    = ( new Task_Controller )->get_tasks( $incomplete_task_ids, ['project_id' => $project_id] );
