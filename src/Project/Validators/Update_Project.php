@@ -20,7 +20,7 @@ class Update_Project extends Abstract_Validator {
             return [];
         }
         return [
-            'title' => 'required|pmm_unique:Project,title,'.$id,
+            'title' => 'required|pm_unique:Project,title,'.$id,
             'id'    => 'required|gtz', //Greater than zero (gtz)
         ];
     }

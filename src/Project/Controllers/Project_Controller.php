@@ -207,7 +207,7 @@ class Project_Controller {
 		do_action( 'cpm_project_new', $project->id, $project->toArray(), $request->get_params() ); // will deprecated 
 		do_action( 'pm_after_new_project', $response, $request->get_params() );
 
-		( new Project_Role_Relation )->set_relation( $response['data'] );
+		( new Project_Role_Relation )->set_relation_after_create_project( $response['data'] );
 
         return $response;
 	}
@@ -237,6 +237,8 @@ class Project_Controller {
 		$response['message'] = pm_get_text('success_messages.project_updated');
 		do_action( 'cpm_project_update', $project->id, $project->toArray(), $request->get_params() );
 		do_action( 'pm_after_update_project', $response, $request->get_params() );
+
+		( new Project_Role_Relation )->set_relation_after_update_project( $response['data'] );
 		
         return $response;
 	}
