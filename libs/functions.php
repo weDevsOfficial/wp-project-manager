@@ -762,3 +762,19 @@ function pm_get_capabilities() {
     ];
 }
 
+function pm_get_capabilities_relation( $role ) {
+
+    return [
+        'create_message'         => 1,
+        'view_private_message'   => 2,
+        'create_list'            => 3,
+        'view_private_list'      => 4,
+        'create_milestone'       => 5,
+        'view_private_milestone' => 6,
+        'create_task'            => 7,
+        'view_private_task'      => 8,
+        'create_file'            => 9,
+        'view_private_file'      => 10
+    ];
+}
+

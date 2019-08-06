@@ -6,7 +6,7 @@ class Project_Role_Relation {
 
 	private $role_project_id;
 
-	public function set_relation( $project ) {
+	public function set_relation_after_create_project( $project ) {
 		if ( empty( $project['id'] ) ) {
 			return;
 		}
@@ -21,9 +21,33 @@ class Project_Role_Relation {
 
 	}
 
+	public function set_relation_after_update_project( $project ) {
+		if ( empty( $project['id'] ) ) {
+			return;
+		}
+
+		$this->update_role_project_user( $project );
+
+	}
+
+	private function update_role_project_user( $project ) {
+		global $wpdb;
+
+		$table      = $wpdb->prefix . 'pm_role_project_users';
+		$tb_role_project      = $wpdb->prefix . 'pm_role_project';
+		$project_id = $project['id'];
+
+		$wpdb->get_results( $wpdb->prepare( "DELETE FROM $table as rpu 
+			LEFT JOIN $tb_role_project as rp ON rp.id=rpu.role_project_id
+			WHERE rp.project_id=%d", $project_id ) );
+
+		$this->role_project_user( $project, 2 );
+		$this->role_project_user( $project, 3 );
+	}
+
 	private function role_project( $project, $role_id ) {
 		global $wpdb;
-		$table = $wpdb->prefix . 'pm_role_projects';
+		$table = $wpdb->prefix . 'pm_role_project';
 
 		$wpdb->insert( $table, [ 'project_id' => $project['id'], 'role_id' => $role_id ] );
 		$this->role_project_id = $wpdb->insert_id;
