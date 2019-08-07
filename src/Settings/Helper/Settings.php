@@ -33,13 +33,14 @@ class Settings {
 	private function set_cap( $caps, $rol_project_id ) {
 		global $wpdb;
 		$tb_cap = $wpdb->prefix . 'pm_role_project_capabilities';
+		
+		foreach ( $caps as $cap_key => $cap ) {
 
-		foreach ( $caps as $key => $cap ) {
-			if ( ! $cap ) {
+			if ( ! $cap || $cap == 'false' || $cap === false ) {
 				continue;
 			}
 
-			$cap_id = pm_get_capabilities_relation( $cap );
+			$cap_id = pm_get_capabilities_relation( $cap_key );
 
 			$wpdb->insert( 
 				$tb_cap, 
@@ -47,7 +48,7 @@ class Settings {
 					'role_project_id' => $rol_project_id, 
 					'capability_id' => $cap_id
 				],
-				['%d', '%d'] 
+				['%d', '%d']
 			);
 		}
 	}
@@ -57,10 +58,10 @@ class Settings {
 		$tb_rol = $wpdb->prefix . 'pm_role_project';
 
 		$query = "SELECT id FROM $tb_rol
-			WHERE project_id=$project_id and role_id=%d";
+			WHERE project_id=%d and role_id=%d";
 
-		$this->co_worker_role_project_id = $wpdb->get_var( $wpdb->parepare( $query, $project_id, 2  ) );
-
+		$this->co_worker_role_project_id = $wpdb->get_var( $wpdb->prepare( $query, $project_id, 2  ) );
+		
 		return $this;
 	}
 
@@ -69,9 +70,9 @@ class Settings {
 		$tb_rol = $wpdb->prefix . 'pm_role_project';
 
 		$query = "SELECT id FROM $tb_rol
-			WHERE project_id=$project_id and role_id=%d";
+			WHERE project_id=%d and role_id=%d";
 
-		$this->client_role_project_id = $wpdb->get_var( $wpdb->parepare( $query, $project_id, 3  ) );
+		$this->client_role_project_id = $wpdb->get_var( $wpdb->prepare( $query, $project_id, 3  ) );
 
 		return $this;
 	}
@@ -81,8 +82,8 @@ class Settings {
 		$tb_rol = $wpdb->prefix . 'pm_role_project';
 		$tb_cap = $wpdb->prefix . 'pm_role_project_capabilities';
 
-		$query = "DELETE FROM $tb_cap as cp
-			LEFT JOIN $tb_rol as rp ON rp.id=cp.id
+		$query = "DELETE cp FROM $tb_cap as cp
+			LEFT JOIN $tb_rol as rp ON rp.id=cp.role_project_id
 			WHERE rp.project_id=%d";
 
 		$wpdb->query( $wpdb->prepare( $query, $project_id ) );
