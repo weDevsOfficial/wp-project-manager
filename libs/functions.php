@@ -764,7 +764,7 @@ function pm_get_capabilities() {
 
 function pm_get_capabilities_relation( $role ) {
 
-    return [
+    $caps = [
         'create_message'         => 1,
         'view_private_message'   => 2,
         'create_list'            => 3,
@@ -776,5 +776,7 @@ function pm_get_capabilities_relation( $role ) {
         'create_file'            => 9,
         'view_private_file'      => 10
     ];
+
+    return $caps[$role];
 }
 
