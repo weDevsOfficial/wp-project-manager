@@ -43,7 +43,6 @@ class Upgrade_2_2 {
             
             
         } );
-
         
     }
 }
