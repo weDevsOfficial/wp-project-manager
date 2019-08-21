@@ -1,8 +1,7 @@
 <?php
-namespace WeDevs\PM\Project\Helper;
+namespace WeDevs\PM\task\Helper;
 
 use WP_REST_Request;
-use WeDevs\PM\Task_List\Helper\Task_List;
 
 // data: {
 // 	with: 'assignees,categories',
@@ -20,24 +19,20 @@ use WeDevs\PM\Task_List\Helper\Task_List;
 // 	page: 1
 // },
 
-class Project {
+class Task {
 
 	private static $_instance;
-	private $tb_project;
-	private $tb_list;
-	private $tb_task;
-	private $tb_projectuser;
-	private $tb_task_user;
-	private $tb_categories;
-	private $tb_category_project;
+	private $tb_projects;
+	private $tb_lists;
+	private $tb_tasks;
 	private $query_params;
 	private $select;
 	private $join;
 	private $where;
 	private $limit;
 	private $with;
-	private $projects;
-	private $project_ids;
+	private $tasks;
+	private $task_ids;
 	private $is_single_query = false;
 
 	/**
@@ -61,21 +56,21 @@ class Project {
     }
 
     /**
-     * AJAX Get projects
+     * AJAX Get tasks
      * 
      * @param  array $request
      * 
      * @return Object
      */
-	public static function get_projects( WP_REST_Request $request ) {
+	public static function get_tasks( WP_REST_Request $request ) {
 		$self = self::getInstance();
-		$projects = self::get_results( $request->get_params() );
+		$tasks = self::get_results( $request->get_params() );
 		
-		wp_send_json( $projects );
+		wp_send_json( $tasks );
 	}
 
 	/**
-	 * Get projects
+	 * Get tasks
 	 * 
 	 * @param  array $params
 	 * 
@@ -94,49 +89,49 @@ class Project {
 			->get()
 			->with();
 
-		return $self->format_projects( $self->projects );
+		return $self->format_tasks( $self->tasks );
 	}
 
 	/**
-	 * Format projects data
+	 * Format tasks data
 	 * 
-	 * @param array $projects
+	 * @param array $tasks
 	 * 
 	 * @return array
 	 */
-	public function format_projects( $projects ) {
+	public function format_tasks( $tasks ) {
 
 		$response = [
 			'data' => [],
 			'meta' => []
 		];
 
-		if ( ! is_array( $projects ) ) {
-			$response['data'] = $this->fromat_project( $projects );
+		if ( ! is_array( $tasks ) ) {
+			$response['data'] = $this->fromat_task( $tasks );
 
 			return $response;
 		}
 
-		foreach ( $projects as $key => $project ) {
-			$projects[$key] = $this->fromat_project( $project );
+		foreach ( $tasks as $key => $task ) {
+			$tasks[$key] = $this->fromat_task( $task );
 		}
 		
-		$response['data'] = $projects;
+		$response['data'] = $tasks;
 
 		return $response;
 	}
 
 	/**
-	 * Format project data
+	 * Format task data
 	 * 
-	 * @param  Object $project 
+	 * @param  Object $task 
 	 * 
 	 * @return array          
 	 */
-	public function fromat_project( $project ) {
+	public function fromat_task( $task ) {
 		$items = [
-            'id'      => (int) $project->id,
-            'title'   => (string) $project->title,
+            'id'      => (int) $task->id,
+            'title'   => (string) $task->title,
         ];
 
         $select_items = $this->query_params['select'];
@@ -166,8 +161,7 @@ class Project {
 	 * @return Object
 	 */
 	private function with() {
-		$this->include_assignees()
-			->include_categories();
+		
 
 		return $this;
 	}
@@ -198,98 +192,11 @@ class Project {
 		return substr( $select, 0, -1 );
 	}
 
-	/**
-	 * Set project categories
-	 * 
-	 * @return class object
-	 */
-	private function include_categories() {
-		global $wpdb;
-		$with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
-		
-		if ( ! is_array( $with ) ) {
-			$with = explode( ',', $with );
-		}
-
-		$category = [];
-
-		if ( ! in_array( 'categories', $with ) || empty( $this->project_ids ) ) {
-			return $this;
-		}
-
-		$tb_categories = pm_tb_prefix() . 'pm_categories';
-		$tb_relation   = pm_tb_prefix() . 'pm_category_project';
-		$project_ids   = implode( ',', $this->project_ids );
-
-		$query = "SELECT cats.id as id, cats.title, cats.description, rel.project_id 
-			FROM $tb_categories as cats
-			LEFT JOIN $tb_relation as rel ON rel.category_id = cats.id 
-			where rel.project_id IN ($project_ids) AND cats.categorible_type='project'";
-		
-		$results = $wpdb->get_results( $query );
-
-		foreach ( $results as $key => $result ) {
-			$project_id = $result->project_id;
-			unset( $result->project_id );
-			$category[$project_id] = $result;
-		}
-		
-		foreach ( $this->projects as $key => $project ) {
-			$project->category = empty( $category[$project->id] ) ? '' : $category[$project->id]; 
-		}
-
-		return $this;
-	}
-
-	/**
-	 * Set project ssignees
-	 * 
-	 * @return class object
-	 */
-	private function include_assignees() {
-		global $wpdb;
-		$with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
-		
-		if ( ! is_array( $with ) ) {
-			$with = explode( ',', $with );
-		}
-		
-		$users = [];
-		
-		if ( ! in_array( 'assignees', $with ) || empty( $this->project_ids ) ) {
-			return $this;
-		}
-
-		$tb_assignees = pm_tb_prefix() . 'pm_role_user';
-		$tb_users     = pm_tb_prefix() . 'users';
-		$project_ids  = implode( ',', $this->project_ids );
-
-		$query = "SELECT usr.ID as id, usr.display_name, usr.user_email as email, asin.project_id
-			FROM $tb_users as usr
-			LEFT JOIN $tb_assignees as asin ON usr.ID = asin.user_id 
-			where asin.project_id IN ($project_ids)";
-
-
-		$results = $wpdb->get_results( $query );
-
-		foreach ( $results as $key => $result ) {
-			$project_id = $result->project_id;
-			unset( $result->project_id );
-			$users[$project_id][] = $result;
-		}
-		
-		foreach ( $this->projects as $key => $project ) {
-			$project->users = empty( $users[$project->id] ) ? [] : $users[$project->id]; 
-		}
-
-		return $this;
-	}
-
 	private function select() {
 		$select = '';
 		
 		if ( empty( $this->query_params['select'] ) ) {
-			$this->select = $this->tb_project . '.*';
+			$this->select = $this->tb_task . '.*';
 
 			return $this;
 		}
@@ -303,7 +210,7 @@ class Project {
 
 		foreach ( $select_items as $key => $item ) {
 			$item = str_replace( ' ', '', $item );
-			$select .= $this->tb_project . '.' . $item . ',';
+			$select .= $this->tb_task . '.' . $item . ',';
 		}
 		
 		$this->select = substr( $select, 0, -1 );
@@ -316,15 +223,13 @@ class Project {
 	}
 
 	/**
-	 * Set project where condition
+	 * Set task where condition
 	 * 
 	 * @return class object
 	 */
 	private function where() {
 		
 		$this->where_id()
-			->where_category()
-			->where_users()
 			->where_title()
 			->where_status();
 
@@ -332,7 +237,7 @@ class Project {
 	}
 
 	/**
-	 * Filter project by ID
+	 * Filter task by ID
 	 * 
 	 * @return class object
 	 */
@@ -346,11 +251,11 @@ class Project {
 
 		if ( is_array( $id ) ) {
 			$query_id = implode( ',', $id );
-			$this->where .= " AND {$this->tb_project}.id IN ($query_id)";
+			$this->where .= " AND {$this->tb_task}.id IN ($query_id)";
 		}
 
 		if ( !is_array( $id ) ) {
-			$this->where .= " AND {$this->tb_project}.id IN ($id)";
+			$this->where .= " AND {$this->tb_task}.id IN ($id)";
 
 			$explode = explode( ',', $id );
 
@@ -375,13 +280,13 @@ class Project {
 			return $this;
 		}
 
-		$this->where .= " AND {$this->tb_project}.status='$status'";
+		$this->where .= " AND {$this->tb_task}.status='$status'";
 
 		return $this;
 	}
 
 	/**
-	 * Filter project by title
+	 * Filter task by title
 	 * 
 	 * @return class object
 	 */
@@ -393,56 +298,13 @@ class Project {
 			return $this;
 		}
 
-		$this->where .= " AND {$this->tb_project}.title LIKE '%$title%'";
+		$this->where .= " AND {$this->tb_task}.title LIKE '%$title%'";
 
 		return $this;
 	}
 
 	/**
-	 * Filter project by users
-	 * 
-	 * @return class object
-	 */
-	private function where_users() {
-
-		$assignees = isset( $this->query_params['assignees'] ) ? $this->query_params['assignees'] : false;
-		
-		if ( empty( $assignees ) ) {
-			return $this;
-		}
-
-		$assignees = is_array( $assignees ) ? implode( ',', $assignees ) : $assignees;
-
-		$this->join .= " LEFT JOIN {$this->tb_project_user} ON {$this->tb_project_user}.project_id={$this->tb_project}.id";
-		
-		$this->where .= " AND {$this->tb_project_user}.user_id IN ({$assignees})";
-
-		return $this;
-	}
-
-	/**
-	 * Filter project by category
-	 * 
-	 * @return class object
-	 */
-	private function where_category() {
-
-		$categories = isset( $this->query_params['categories'] ) ? $this->query_params['categories'] : false;
-
-		if ( empty( $categories ) ) {
-			return $this;
-		}
-		$categories = is_array( $categories ) ? implode( ',', $categories ) : $categories;
-
-		$this->join .= " LEFT JOIN {$this->tb_category_project} ON {$this->tb_category_project}.project_id={$this->tb_project}.id";
-		
-		$this->where .= " AND {$this->tb_category_project}.project_id IN ({$categories})";
-
-		return $this;
-	}
-
-	/**
-	 * Generate project query limit
+	 * Generate task query limit
 	 * 
 	 * @return class object
 	 */
@@ -475,7 +337,7 @@ class Project {
 	}
 
 	/**
-	 * Get the number for projects per page
+	 * Get the number for tasks per page
 	 * 
 	 * @return class instance
 	 */
@@ -491,7 +353,7 @@ class Project {
 	}
 
 	/**
-	 * Execute the projects query
+	 * Execute the tasks query
 	 * 
 	 * @return class instance
 	 */
@@ -500,7 +362,7 @@ class Project {
 		$id = isset( $this->query_params['id'] ) ? $this->query_params['id'] : false;
 
 		$query = "SELECT DISTINCT {$this->select} 
-			FROM {$this->tb_project}
+			FROM {$this->tb_task}
 			{$this->join}
 			WHERE 1=1 {$this->where}
 			{$this->limit}";
@@ -511,14 +373,14 @@ class Project {
 			$results = $wpdb->get_results( $query );
 		} 
 
-		$this->projects = $results;
+		$this->tasks = $results;
 
 		if ( ! empty( $results ) && is_array( $results ) ) {
-			$this->project_ids = wp_list_pluck( $results, 'id' );
+			$this->task_ids = wp_list_pluck( $results, 'id' );
 		} 
 
 		if ( ! empty( $results ) && !is_array( $results ) ) {
-			$this->project_ids = [$results->id];
+			$this->task_ids = [$results->id];
 		} 
 
 		return $this;
@@ -528,12 +390,8 @@ class Project {
 	 * Set table name as class object
 	 */
 	private function set_table_name() {
-		$this->tb_project      = pm_tb_prefix() . 'pm_projects';
-		$this->tb_list         = pm_tb_prefix() . 'pm_boards';
-		$this->tb_task         = pm_tb_prefix() . 'pm_tasks';
-		$this->tb_project_user = pm_tb_prefix() . 'pm_role_user';
-		$this->tb_task_user    = pm_tb_prefix() . 'pm_assignees';
-		$this->tb_categories   = pm_tb_prefix() . 'pm_categories';
-		$this->tb_category_project   = pm_tb_prefix() . 'pm_category_project';
+		$this->tb_tasks    = pm_tb_prefix() . 'pm_tasks';
+		$this->tb_lists    = pm_tb_prefix() . 'pm_boards';
+		$this->tb_projects = pm_tb_prefix() . 'pm_projects';
 	}
 }

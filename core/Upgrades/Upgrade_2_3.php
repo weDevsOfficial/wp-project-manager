@@ -36,10 +36,6 @@ class Upgrade_2_3 extends WP_Background_Process {
     
 
     public function upgrade_init ( ) {
-        // delete_option('pm_capabilities');
-        // delete_option('update_role_project_table');
-        // delete_option('update_role_project_capabilities');
-        // delete_option('update_role_project_users');
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
         $this->crate_capabilities_table();
@@ -56,10 +52,27 @@ class Upgrade_2_3 extends WP_Background_Process {
 
         //$this->delete_queue_batch();
         $this->set_queue();
+
+        update_option( 'pm_migration_start_2_3', 'yes' );
     }
 
     public function notification() {
+        // delete_option( 'pm_migration_start_2_3' );
+        // delete_option( 'pm_migration_notice_2_3' );
+        // delete_option( 'pm_db_migration_2_3' );
+        // delete_option( 'pm_total_queue_2_3' );
+        // delete_option( 'pm_queue_complete_2_3' );
+        // update_option( 'pm_db_version', '2.2.2' );
+        // delete_option('pm_capabilities');
+        // delete_option('update_role_project_table');
+        // delete_option('update_role_project_capabilities');
+        // delete_option('update_role_project_users');
 
+        $is_migrating  = get_option( 'pm_migration_start_2_3' );
+        
+        if( $is_migrating != 'yes' ) {
+            return;
+        }
 
         $home                   = home_url();
         $url_prefix             = rest_get_url_prefix();
@@ -68,22 +81,29 @@ class Upgrade_2_3 extends WP_Background_Process {
         $total_queue            = get_option( 'pm_total_queue_2_3' );
         $total_queue            = empty( $total_queue ) ? 1 : $total_queue;
         $completed_queue        = get_option( 'pm_queue_complete_2_3' );
-        $percentage             = (100*$completed_queue)/$total_queue;
+        $percentage             = intval( (100*$completed_queue)/$total_queue );
+        
+        if( $completed_queue < 1 && $percentage < 1 && $total_queue > 0 ) {
+            $percentage  = 20;
+        } 
 
-        if($is_complete == 'complete') {
+        if( $is_complete == 'complete' ) {
             return;
         }
-
+        
         echo '<div class="wrap">
             <div class="pm-db-migration-2-3 updated pm-update-progress-notice"></div>
         </div>';
         ?>
         <script type="text/javascript">
 
-            var home = "<?php echo $home; ?>";
-            var url_prefix = "<?php echo $url_prefix; ?>";
-            var bg_complete = "<?php echo $is_background_compelte; ?>";
-            var percentage = "<?php echo $percentage; ?>";
+            var home          = "<?php echo $home; ?>";
+            var url_prefix    = "<?php echo $url_prefix; ?>";
+            var bg_complete   = "<?php echo $is_background_compelte; ?>";
+            var percentage    = "<?php echo $percentage; ?>";
+            var perctnage_txt = "<?php echo $percentage; ?>";
+
+            perctnage_txt = percentage == 0 ? '' : percentage+'%';
 
             var cross_btn = bg_complete == 'complete' ? '<span class="cancel">&#10006;</span>' : '';
             
@@ -95,13 +115,19 @@ class Upgrade_2_3 extends WP_Background_Process {
             });
 
             jQuery( document ).on( 'heartbeat-tick', function ( event, data ) {
-
+                var complete = data.is_complete;
                 var bg_complete = data.is_background_compelte;
                 var percentage = data.percentage;
 
+                if(complete == 'complete') {
+                    return;
+                }
+
+                perctnage_txt = percentage == 0 ? '' : percentage+'%';
+
                 var cross_btn = bg_complete == 'complete' ? '<span class="cancel">&#10006;</span>' : '';
-                console.log(percentage);
-                pmRemoveNotice();
+                
+                //pmRemoveNotice();
                 pmProgressStatus(percentage, cross_btn);
 
             });
@@ -111,9 +137,8 @@ class Upgrade_2_3 extends WP_Background_Process {
                 var tmpl = '<div class="progress-wrap">'+
                     cross_btn+
                     '<div class="progress-bar" style="width:'+percentage+'%">'+
-                        '<span class="percentage">'+percentage+'%</span>'+
+                        '<span class="percentage">'+perctnage_txt+'</span>'+
                     '</div></div>';
-                
                 jQuery('.pm-update-progress-notice').html(tmpl);
 
                 if (typeof callBack !== 'undefined') {
@@ -123,11 +148,11 @@ class Upgrade_2_3 extends WP_Background_Process {
 
             function pmRemoveNotice () {
                 jQuery( document ).ready(function() {
-                    jQuery('.pm-db-migration-2-3 .cancel').click(function() {
+                    jQuery('.pm-db-migration-2-3').on( 'click', '.emoji', function() {
                         jQuery('.progress-wrap').slideUp( 300, function() {
                             jQuery('.progress-wrap').remove();
                         });
-                    
+                        
                         jQuery.ajax({
                             type: 'POST',
                             url: home +'/'+ url_prefix +'/pm/v2/settings/notice',
@@ -210,7 +235,7 @@ class Upgrade_2_3 extends WP_Background_Process {
         $query_completed = $query_completed+1;
 
         update_option( 'pm_queue_complete_2_3', $query_completed );
-        
+       
         return false;
     }
 

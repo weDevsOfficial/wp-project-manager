@@ -22,6 +22,16 @@ export default {
     },
 
     methods: {
+        is_array(items) {
+            if(Object.prototype.toString.call(items) == '[object Array]' ) {
+                return true;
+            }
+        },
+        is_object(items) {
+            if(Object.prototype.toString.call(items) == '[object Object]' ) {
+                return true;
+            }
+        },
         secondsToHms (d) {
             d = Number(d);
             var h = Math.floor(d / 3600);

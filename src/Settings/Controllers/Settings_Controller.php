@@ -144,7 +144,7 @@ class Settings_Controller {
 
     public function notice(WP_REST_Request $request) {
         $action = $request->get_param('action');
-
+        
         update_option( $action, 'complete' );
     }
 }

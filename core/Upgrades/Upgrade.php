@@ -54,7 +54,7 @@ class Upgrade {
 
     public function receive_heartbeat($response, $data) {
         $pm_migration = empty( $data['pm_migration'] ) ? false : $data['pm_migration'];
-        
+
         if ( $pm_migration ) {
             $db_observe = get_option( 'pm_observe_migration' );
             $db_observe['count'] = empty( $db_observe['count'] ) ? [] : $db_observe['count'];
@@ -213,7 +213,7 @@ class Upgrade {
                 
                 if ( method_exists( $object, 'upgrade_init' ) ){
                     $object->upgrade_init();
-                    //update_option( 'pm_db_version', $version );
+                    update_option( 'pm_db_version', $version );
                 }
             }
         }

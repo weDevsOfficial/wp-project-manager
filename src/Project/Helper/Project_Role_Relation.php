@@ -31,17 +31,41 @@ class Project_Role_Relation {
 	}
 
 	private function update_role_project_user( $project ) {
+		// global $wpdb;
+
+		// $table      = $wpdb->prefix . 'pm_role_project_users';
+		// $tb_role_project      = $wpdb->prefix . 'pm_role_project';
+		// $project_id = $project['id'];
+
+		// $wpdb->get_results( $wpdb->prepare( "DELETE FROM $table as rpu 
+		// 	LEFT JOIN $tb_role_project as rp ON rp.id=rpu.role_project_id
+		// 	WHERE rp.project_id=%d", $project_id ) );
+
+		// $this->role_project_user( $project, 2 );
+		// $this->role_project_user( $project, 3 );
+
 		global $wpdb;
 
-		$table      = $wpdb->prefix . 'pm_role_project_users';
-		$tb_role_project      = $wpdb->prefix . 'pm_role_project';
+		$table = $wpdb->prefix . 'pm_role_project_users';
+		$tb_role_project = $wpdb->prefix . 'pm_role_project';
 		$project_id = $project['id'];
 
-		$wpdb->get_results( $wpdb->prepare( "DELETE FROM $table as rpu 
+		$role_project_ids = $wpdb->get_results( $wpdb->prepare( "SELECT rpu.role_project_id FROM $table as rpu 
 			LEFT JOIN $tb_role_project as rp ON rp.id=rpu.role_project_id
 			WHERE rp.project_id=%d", $project_id ) );
+		
+		$role_project_ids = wp_list_pluck( $role_project_ids, 'role_project_id' );
 
+		foreach ( $role_project_ids as $key => $role_project_id ) {
+			$wpdb->query(
+				$wpdb->prepare( "DELETE FROM $table WHERE role_project_id=%d", $role_project_id ) 
+			);
+		}
+
+		$this->role_project_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM $tb_role_project WHERE project_id=%d AND role_id=%d", $project_id, 2 ) );
 		$this->role_project_user( $project, 2 );
+		
+		$this->role_project_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM $tb_role_project WHERE project_id=%d AND role_id=%d", $project_id, 3 ) );
 		$this->role_project_user( $project, 3 );
 	}
 
