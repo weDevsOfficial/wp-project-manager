@@ -9,7 +9,7 @@
                     v-model="search.projects"
                     :options="projects"
                     :show-labels="false"
-                    :multiple="true"
+                    :multiple="false"
                     :searchable="true"
                     :loading="asyncProjectLoading"
                     :placeholder="__('All Projects', 'pm-pro')"
@@ -75,14 +75,14 @@
 				search: {
 					title: '',
 					projects: [],
-					lists: [],
-					startDate: '',
-					endDate: '',
+					startDate: pm.Moment().format('YYYY-MM-01'),
+					endDate: pm.Moment().format('YYYY-MM-DD'),
 					status: 'current'
 				},
 				asyncProjectLoading: false,
 				asyncListLoading: true,
 				projects: [],
+
 				lists: [],
 				calendarOptions: {
 					ranges: {
@@ -92,6 +92,9 @@
 				        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
 				        'This Month': [moment().startOf('month'), moment().endOf('month')],
 				        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+				    },
+				    locale: {
+				      format: 'YYYY-MM-DD'
 				    },
 				    "showCustomRangeLabel": false,
 				    "alwaysShowCalendars": true,
@@ -104,8 +107,13 @@
 		},
 		created () {
 			this.getProjects();
+			this.setQuery();
 		},
 		methods: {
+			setQuery () {
+				this.search = Object.assign({}, this.search, this.$route.query);
+				this.search.projects = [];
+			},
 			asyncProjectFind (val) {
 
 			},
@@ -113,10 +121,12 @@
 			asyncListFind (val) {
 
 			},
+
 			calendarOnChange (start, end, label) {
 				this.search.startDate = start.format('YYYY-MM-DD');
 				this.search.endDate = end.format('YYYY-MM-DD');
 			},
+
 			getProjects () {
 				var self = this;
 				var request_data = {
@@ -127,6 +137,7 @@
 	                type: 'GET',
 	                success (res) {
 	                    self.projects = res.data;
+	                    self.setProjectsField();
 	                },
 	                error (res) {
 	                    
@@ -136,25 +147,48 @@
 	            self.httpRequest(request_data);
 			},
 
+			setProjectsField () {
+				var projects = [];
+				var self = this;
+				
+				if(typeof this.$route.query.projects == 'undefined') {
+					return;
+				}
+				
+				if(this.is_array(this.$route.query.projects)) {
+					this.$route.query.projects.forEach(function(projectId) {
+						let index = self.getIndex( self.projects, parseInt(projectId), 'id' );
+						projects.push( self.projects[index] );
+					});
+
+				} else {
+					let index = self.getIndex( self.projects, parseInt(this.$route.query.projects), 'id' );
+					projects.push( self.projects[index] );
+				}
+
+				self.search.projects = projects;
+				
+			},
+
 			find () {
 				var request = {
 					title: this.search.title,
 					projects: this.setProjects(),
-					start_date: this.search.startDate,
-					end_date: this.search.endDate,
+					startDate: this.search.startDate,
+					endDate: this.search.endDate,
 					assignees: this.setAssignees(),
 					status: this.search.status
 				}
 
-				console.log(request);
+				this.$router.push({query: request});
 			},
 
 			setAssignees () {
-				if(typeof this.$route.params.user_id == 'undefined') {
+				if(typeof this.$route.query.assignees == 'undefined') {
 					return PM_Vars.current_user.ID;
 				}
 
-				return this.$route.params.user_id;
+				return this.$route.query.assignees;
 			},
 
 			setProjects () {

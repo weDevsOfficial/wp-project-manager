@@ -11,11 +11,13 @@ import activities from './activities.vue';
 import overview from './overview.vue';
 import mytaskTemplete from './my-tasks.vue';
 
+//'/my-tasks/:user_id(\\d+)?',
 
 weDevsPMRegisterChildrenRoute('project_root',
     [
         {
-            path: '/my-tasks/:user_id(\\d+)?',
+            path: '/my-tasks/',
+            name: 'my_tasks',
             component: mytaskTemplete,
             children: [
                 {
