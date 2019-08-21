@@ -92,8 +92,14 @@
             }
 
         },
+        created () {
+           
+        },
         watch: {
             selected_user (newValue) {
+                if(typeof newValue == 'undefined') {
+                    return;
+                }
                 this.changeUser(newValue.id);
             }
         },
@@ -124,22 +130,39 @@
             },
 
             users () {
-                if( typeof this.$store.state.myTask.users !== 'undefined' ){
+                if( 
+                    typeof this.$store.state.myTask.users != 'undefined' 
+                        &&
+                    this.$store.state.myTask.users.length
+                 ) {
+                    this.setUser();
                     return this.$store.state.myTask.users;
                 }
+
+                return [];
             }
         },
         components: {
             multiselect: pm.Multiselect.Multiselect,
         },
         methods: {
-            changeUser(usetId) {
-                var route = { name: this.$route.name }
-
-                if (this.current_user.ID != usetId) {
-                    route.params = { user_id: usetId }
+            setUser () {
+                var users = this.$store.state.myTask.users;
+                
+                if(typeof this.$route.query.assignees != 'undefined') {
+                    let index = this.getIndex(users, parseInt(this.$route.query.assignees), 'id');
+                    this.selected_user = users[index];
+                } else {
+                    let index = this.getIndex(users, PM_Vars.current_user.ID, 'id');
+                    this.selected_user = users[index];
                 }
-                this.$router.push(route);
+            },
+
+            changeUser(usetId) {
+
+                var query_params = Object.assign({}, this.$route.query, { assignees: usetId });
+
+                this.$router.push({query: query_params});
             },
 
             routeLink( name ) {
