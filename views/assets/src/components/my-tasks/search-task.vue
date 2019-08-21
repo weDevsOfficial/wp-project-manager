@@ -1,12 +1,15 @@
 <template>
-	<div>
-		<form action="">
-			<input type="text" name="task_title" v-model="search.title">
+	<div class="my-task-filter-wrap">
+		<form class="form" action="" @submit.prevent="find()">
+			<div>
+				<input type="text" name="task_title" v-model="search.title">
+			</div>
 			<div>
                 <multiselect
                     v-model="search.projects"
                     :options="projects"
                     :show-labels="false"
+                    :multiple="true"
                     :searchable="true"
                     :loading="asyncProjectLoading"
                     :placeholder="__('All Projects', 'pm-pro')"
@@ -17,7 +20,7 @@
 
                 </multiselect>
             </div>
-            <div>
+            <!-- <div>
                 <multiselect
                     v-model="search.lists"
                     :options="lists"
@@ -31,17 +34,38 @@
                     <span slot="noResult">{{ __( 'No project found.', 'wedevs-project-manager' ) }}</span>
 
                 </multiselect>
+            </div> -->
+
+             <div>
+                <select v-model="search.status">
+                	<option value="current">{{ __( 'Current Task', 'wedevs-project-manager' ) }}</option>
+                	<option value="outstanding">{{ __( 'Outstanding Task', 'wedevs-project-manager' ) }}</option>
+                	<option value="overdue">{{ __( 'Overdue Task', 'wedevs-project-manager' ) }}</option>
+                </select>
             </div>
-            <pm-date-range-picker 
-            	:startDate="search.startDate"
-            	:endDate="search.endDate"
-            	:options="calendarOptions"
-            	@onChange="calendarOnChange">
-            	
-            </pm-date-range-picker>
+            <div>
+	            <pm-date-range-picker 
+	            	:startDate="search.startDate"
+	            	:endDate="search.endDate"
+	            	:options="calendarOptions"
+	            	@onChange="calendarOnChange">
+	            	
+	            </pm-date-range-picker>
+	        </div>
+	        <div>
+            	<input class="button button-primary" type="submit" :value="__('Filter', 'wedevs-project-manager')">
+            </div>
 		</form>
 	</div>
 </template>
+
+<style lang="less">
+	.my-task-filter-wrap {
+		.form {
+			display: flex;
+		}
+	}
+</style>
 
 
 <script>
@@ -53,9 +77,10 @@
 					projects: [],
 					lists: [],
 					startDate: '',
-					endDate: ''
+					endDate: '',
+					status: 'current'
 				},
-				asyncProjectLoading: true,
+				asyncProjectLoading: false,
 				asyncListLoading: true,
 				projects: [],
 				lists: [],
@@ -89,31 +114,19 @@
 
 			},
 			calendarOnChange (start, end, label) {
-				console.log(start, end, label);
+				this.search.startDate = start.format('YYYY-MM-DD');
+				this.search.endDate = end.format('YYYY-MM-DD');
 			},
 			getProjects () {
 				var self = this;
 				var request_data = {
 	                url: self.base_url + '/pm/v2/advanced/projects/?',
 	                data: {
-	                	with: 'task_lists,tasks,assignees,categories',
-	                	lists_per_page: '10',
-	                	tasks_per_page: '10',
-	                	per_page: '10',
 	                	select: ['id', 'title'],
-	                	task_lists_select_items: 'id, title',
-	                	task_select_items: 'id, title',
-	                	task_lists_per_page: 1,
-	                	//categories: [2, 4],
-	                	//assignees: [1,2],
-	                	id: [1,4,2],
-	                	// title: 'Rocket',
-	                	// status: '0',
-	                	page: 1
 	                },
 	                type: 'GET',
 	                success (res) {
-	                    
+	                    self.projects = res.data;
 	                },
 	                error (res) {
 	                    
@@ -121,6 +134,43 @@
 	            }
 
 	            self.httpRequest(request_data);
+			},
+
+			find () {
+				var request = {
+					title: this.search.title,
+					projects: this.setProjects(),
+					start_date: this.search.startDate,
+					end_date: this.search.endDate,
+					assignees: this.setAssignees(),
+					status: this.search.status
+				}
+
+				console.log(request);
+			},
+
+			setAssignees () {
+				if(typeof this.$route.params.user_id == 'undefined') {
+					return PM_Vars.current_user.ID;
+				}
+
+				return this.$route.params.user_id;
+			},
+
+			setProjects () {
+				var ids = [];
+
+				if(this.is_array(this.search.projects)) {
+					this.search.projects.forEach(function(project) {
+						ids.push(project.id);
+					});
+				}
+
+				if( this.is_object(this.search.projects) ) {
+					ids.push(this.search.projects.id);
+				}
+				
+				return ids;
 			}
 		}
 
