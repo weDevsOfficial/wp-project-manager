@@ -9,8 +9,6 @@ use WP_REST_Request;
 // 	tasks_per_page: '10',
 // 	per_page: '10',
 // 	select: 'id, title',
-// 	task_lists_select_items: 'id, title',
-// 	task_select_items: 'id, title',
 // 	categories: [2, 4],
 // 	assignees: [1,2],
 // 	id: [1,2],
@@ -77,8 +75,7 @@ class Task {
 	 * @return array
 	 */
 	public static function get_results( $params ) {
-		//global $wpdb;
-
+		
 		$self = self::getInstance();
 		$self->query_params = $params;
 
@@ -161,8 +158,94 @@ class Task {
 	 * @return Object
 	 */
 	private function with() {
-		
+		$this->include_project()
+			->include_list();
+		return $this;
+	}
 
+	/**
+	 * Set project ssignees
+	 * 
+	 * @return class object
+	 */
+	private function include_list() {
+		global $wpdb;
+		$with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
+		
+		if ( ! is_array( $with ) ) {
+			$with = explode( ',', $with );
+		}
+
+		if ( ! in_array( 'task-list', $with ) || empty( $this->task_ids ) ) {
+			return $this;
+		}
+
+		$tb_list = pm_tb_prefix() . 'pm_boards';
+		$tb_boardable = pm_tb_prefix() . 'pm_boardables';
+		$task_ids = implode( ',', $this->task_ids );
+
+		$query = "SELECT DISTINCT bo.id as board_id, bo.title, tk.id as task_id
+			FROM $tb_list as bo
+			LEFT JOIN $tb_boardable as bor ON bor.board_id = bo.id AND bor.board_type='task_list'
+			LEFT JOIN $this->tb_tasks as tk ON tk.id = bor.boardable_id AND bor.boardable_type='task'
+			where tk.id IN ($task_ids)";
+
+
+		$results = $wpdb->get_results( $query );
+		$lists = [];
+
+		foreach ( $results as $key => $result ) {
+			$task_id = $result->task_id;
+			unset( $result->task_id );
+			$lists[$task_id] = $result;
+		}
+		
+		foreach ( $this->tasks as $key => $task ) {
+			$task->task_list = empty( $lists[$task->id] ) ? '' : $lists[$task->id]; 
+		}
+		
+		return $this;
+	}
+
+	/**
+	 * Set project ssignees
+	 * 
+	 * @return class object
+	 */
+	private function include_project() {
+		global $wpdb;
+		$with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
+		
+		if ( ! is_array( $with ) ) {
+			$with = explode( ',', $with );
+		}
+
+		if ( ! in_array( 'project', $with ) || empty( $this->task_ids ) ) {
+			return $this;
+		}
+
+		$tb_project = pm_tb_prefix() . 'pm_projects';
+		$task_ids = implode( ',', $this->task_ids );
+
+		$query = "SELECT DISTINCT pr.id as project_id, pr.title, tk.id as task_id
+			FROM $tb_project as pr
+			LEFT JOIN $this->tb_tasks as tk ON tk.project_id = pr.id 
+			where tk.id IN ($task_ids)";
+
+
+		$results = $wpdb->get_results( $query );
+		$projects = [];
+
+		foreach ( $results as $key => $result ) {
+			$task_id = $result->task_id;
+			unset( $result->task_id );
+			$projects[$task_id] = $result;
+		}
+		
+		foreach ( $this->tasks as $key => $task ) {
+			$task->project = empty( $projects[$task->id] ) ? '' : $projects[$task->id]; 
+		}
+		
 		return $this;
 	}
 
@@ -196,7 +279,7 @@ class Task {
 		$select = '';
 		
 		if ( empty( $this->query_params['select'] ) ) {
-			$this->select = $this->tb_task . '.*';
+			$this->select = $this->tb_tasks . '.*';
 
 			return $this;
 		}
@@ -210,7 +293,7 @@ class Task {
 
 		foreach ( $select_items as $key => $item ) {
 			$item = str_replace( ' ', '', $item );
-			$select .= $this->tb_task . '.' . $item . ',';
+			$select .= $this->tb_tasks . '.' . $item . ',';
 		}
 		
 		$this->select = substr( $select, 0, -1 );
@@ -231,7 +314,52 @@ class Task {
 		
 		$this->where_id()
 			->where_title()
-			->where_status();
+			->where_status()
+			->where_due_date()
+			->where_start_at()
+			->where_project_id();
+
+		return $this;
+	}
+
+	private function where_project_id() {
+		$project_id = isset( $this->query_params['project_id'] ) ? $this->query_params['project_id'] : false;
+
+		if ( $project_id === false ) {
+			return $this;
+		}
+
+		if ( is_array( $project_id ) ) {
+			$project_id = implode( ',', $project_id );
+		}
+
+		$this->where .= " AND {$this->tb_tasks}.project_id IN ($project_id)";
+
+		return $this;
+	}
+
+	private function where_start_at() {
+		$start_at = isset( $this->query_params['start_at'] ) ? $this->query_params['start_at'] : false;
+
+		if ( $start_at === false ) {
+			return $this;
+		}
+
+		$this->where .= " AND {$this->tb_tasks}.start_at>'$start_at'";
+
+		return $this;
+	}
+
+	private function where_due_date() {
+		$due_date = isset( $this->query_params['due_date'] ) ? $this->query_params['due_date'] : false;
+
+		if ( $due_date === false ) {
+			return $this;
+		}
+
+		$current_date = date( 'Y-m-d', strtotime( current_time( 'mysql' ) ) );
+
+		$this->where .= " AND {$this->tb_tasks}.due_date<'$current_date'";
 
 		return $this;
 	}
@@ -251,11 +379,11 @@ class Task {
 
 		if ( is_array( $id ) ) {
 			$query_id = implode( ',', $id );
-			$this->where .= " AND {$this->tb_task}.id IN ($query_id)";
+			$this->where .= " AND {$this->tb_tasks}.id IN ($query_id)";
 		}
 
 		if ( !is_array( $id ) ) {
-			$this->where .= " AND {$this->tb_task}.id IN ($id)";
+			$this->where .= " AND {$this->tb_tasks}.id IN ($id)";
 
 			$explode = explode( ',', $id );
 
@@ -280,7 +408,7 @@ class Task {
 			return $this;
 		}
 
-		$this->where .= " AND {$this->tb_task}.status='$status'";
+		$this->where .= " AND {$this->tb_tasks}.status='$status'";
 
 		return $this;
 	}
@@ -298,7 +426,7 @@ class Task {
 			return $this;
 		}
 
-		$this->where .= " AND {$this->tb_task}.title LIKE '%$title%'";
+		$this->where .= " AND {$this->tb_tasks}.title LIKE '%$title%'";
 
 		return $this;
 	}
@@ -362,7 +490,7 @@ class Task {
 		$id = isset( $this->query_params['id'] ) ? $this->query_params['id'] : false;
 
 		$query = "SELECT DISTINCT {$this->select} 
-			FROM {$this->tb_task}
+			FROM {$this->tb_tasks}
 			{$this->join}
 			WHERE 1=1 {$this->where}
 			{$this->limit}";
