@@ -40,13 +40,13 @@
                 <select v-model="search.status">
                 	<option value="current">{{ __( 'Current Task', 'wedevs-project-manager' ) }}</option>
                 	<option value="outstanding">{{ __( 'Outstanding Task', 'wedevs-project-manager' ) }}</option>
-                	<option value="overdue">{{ __( 'Overdue Task', 'wedevs-project-manager' ) }}</option>
+                	<option value="completed">{{ __( 'Completed', 'wedevs-project-manager' ) }}</option>
                 </select>
             </div>
             <div>
 	            <pm-date-range-picker 
-	            	:startDate="search.startDate"
-	            	:endDate="search.endDate"
+	            	:startDate="search.start_at"
+	            	:endDate="search.due_date"
 	            	:options="calendarOptions"
 	            	@onChange="calendarOnChange">
 	            	
@@ -75,8 +75,8 @@
 				search: {
 					title: '',
 					projects: [],
-					startDate: pm.Moment().format('YYYY-MM-01'),
-					endDate: pm.Moment().format('YYYY-MM-DD'),
+					start_at: pm.Moment().format('YYYY-MM-01'),
+					due_date: pm.Moment().format('YYYY-MM-DD'),
 					status: 'current'
 				},
 				asyncProjectLoading: false,
@@ -123,8 +123,8 @@
 			},
 
 			calendarOnChange (start, end, label) {
-				this.search.startDate = start.format('YYYY-MM-DD');
-				this.search.endDate = end.format('YYYY-MM-DD');
+				this.search.start_at = start.format('YYYY-MM-DD');
+				this.search.due_date = end.format('YYYY-MM-DD');
 			},
 
 			getProjects () {
@@ -174,13 +174,50 @@
 				var request = {
 					title: this.search.title,
 					projects: this.setProjects(),
-					startDate: this.search.startDate,
-					endDate: this.search.endDate,
+					start_at: this.search.start_at,
+					due_date: this.search.due_date,
 					assignees: this.setAssignees(),
 					status: this.search.status
 				}
 
 				this.$router.push({query: request});
+				this.sendRequest();
+			},
+
+			sendRequest () {
+				var self = this;
+				var data = this.$route.query;
+
+				if(data.status == 'current') {
+					data.status = 0;
+				} else if (data.status == 'completed') {
+					data.status = 1;
+				} else if (data.status == 'outstanding') {
+					delete data.status;
+					data.due_date = pm.Moment().format('YYYY-MM-DD');
+				}
+
+				if(typeof data.projects != 'undefined') {
+					data.project_id = data.projects;
+					delete data.projects;
+				}
+
+				data.with = 'task_list,project';
+				data.select = 'id, title';
+				
+				var request_data = {
+	                url: self.base_url + '/pm/v2/advanced/tasks',
+	                data: data,
+	                type: 'GET',
+	                success (res) {
+	                    
+	                },
+	                error (res) {
+	                    
+	                },
+	            }
+
+	            self.httpRequest(request_data);
 			},
 
 			setAssignees () {
