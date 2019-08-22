@@ -28,7 +28,7 @@ class Task {
 	private $join;
 	private $where;
 	private $limit;
-	private $with;
+	private $with = ['task_list','project'];
 	private $tasks;
 	private $task_ids;
 	private $is_single_query = false;
@@ -85,7 +85,7 @@ class Task {
 			->limit()
 			->get()
 			->with();
-
+		
 		return $self->format_tasks( $self->tasks );
 	}
 
@@ -131,14 +131,16 @@ class Task {
             'title'   => (string) $task->title,
         ];
 
-        $select_items = $this->query_params['select'];
+        $select_items = empty( $this->query_params['select'] ) ? false : $this->query_params['select'];
 
-		if ( ! is_array( $select_items ) ) {
+		if ( $select_items && ! is_array( $select_items ) ) {
 			$select_items = str_replace( ' ', '', $select_items );
 			$select_items = explode( ',', $select_items );
 		}
-
+		
 		if ( empty( $select_items ) ) {
+			$items = $this->set_with_items( $items, $task );
+			$items = $this->set_fixed_items( $items, $task );
 			return $items;
 		}
 
@@ -147,9 +149,35 @@ class Task {
 				unset( $items[$item_key] );
 			}
 		}
+
+		$items = $this->set_with_items( $items, $task );
+		$items = $this->set_fixed_items( $items, $task );
 		
 		return $items;
 
+	}
+
+	private function set_with_items( $items, $task ) {
+		$request_with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
+		
+		if ( ! is_array( $request_with ) ) {
+			$request_with = explode( ',', $request_with );
+		}
+
+		foreach ( $this->with as $default_with ) {
+			if ( in_array( $default_with, $request_with ) && isset( $task->$default_with ) ) {
+				$items[$default_with] = $task->$default_with;
+			}
+		}
+
+		return $items;
+	}
+
+	private function set_fixed_items( $items, $task ) {
+		$items['task_list_id'] = (int) $task->task_list_id;
+		$items['project_id'] = (int) $task->project_id;
+
+		return $items;
 	}
 
 	/**
@@ -160,6 +188,7 @@ class Task {
 	private function with() {
 		$this->include_project()
 			->include_list();
+
 		return $this;
 	}
 
@@ -176,7 +205,7 @@ class Task {
 			$with = explode( ',', $with );
 		}
 
-		if ( ! in_array( 'task-list', $with ) || empty( $this->task_ids ) ) {
+		if ( ! in_array( 'task_list', $with ) || empty( $this->task_ids ) ) {
 			return $this;
 		}
 
@@ -184,10 +213,10 @@ class Task {
 		$tb_boardable = pm_tb_prefix() . 'pm_boardables';
 		$task_ids = implode( ',', $this->task_ids );
 
-		$query = "SELECT DISTINCT bo.id as board_id, bo.title, tk.id as task_id
+		$query = "SELECT DISTINCT bo.id as task_list_id, bo.title, tk.id as task_id
 			FROM $tb_list as bo
-			LEFT JOIN $tb_boardable as bor ON bor.board_id = bo.id AND bor.board_type='task_list'
-			LEFT JOIN $this->tb_tasks as tk ON tk.id = bor.boardable_id AND bor.boardable_type='task'
+			LEFT JOIN $tb_boardable as bor ON bor.board_id = bo.id 
+			LEFT JOIN $this->tb_tasks as tk ON tk.id = bor.boardable_id 
 			where tk.id IN ($task_ids)";
 
 
@@ -488,10 +517,13 @@ class Task {
 	private function get() {
 		global $wpdb;
 		$id = isset( $this->query_params['id'] ) ? $this->query_params['id'] : false;
+		$boardable = pm_tb_prefix() . 'pm_boardables';
 
-		$query = "SELECT DISTINCT {$this->select} 
+		$query = "SELECT DISTINCT {$this->select}, list.id as task_list_id, $this->tb_tasks.project_id
 			FROM {$this->tb_tasks}
 			{$this->join}
+			Left join $boardable as boardable ON boardable.boardable_id = {$this->tb_tasks}.id
+			Left join {$this->tb_lists} as list ON list.id = boardable.board_id
 			WHERE 1=1 {$this->where}
 			{$this->limit}";
 		
@@ -501,6 +533,13 @@ class Task {
 			$results = $wpdb->get_results( $query );
 		} 
 
+		// If task has not boardable_id mean no list
+		foreach ( $results as $key => $result ) {
+			if( empty( $result->task_list_id ) ) {
+				unset( $results[$key] );
+			}
+		}
+		
 		$this->tasks = $results;
 
 		if ( ! empty( $results ) && is_array( $results ) ) {
