@@ -19,6 +19,10 @@ class Project_Role_Relation {
 			->role_project_capabilities_client()
 			->role_project_user( $project, 3 );
 
+		$this->role_project( $project, 1 )
+			->role_project_capabilities_manager()
+			->role_project_user( $project, 1 );
+
 	}
 
 	public function set_relation_after_update_project( $project ) {
@@ -31,24 +35,12 @@ class Project_Role_Relation {
 	}
 
 	private function update_role_project_user( $project ) {
-		// global $wpdb;
-
-		// $table      = $wpdb->prefix . 'pm_role_project_users';
-		// $tb_role_project      = $wpdb->prefix . 'pm_role_project';
-		// $project_id = $project['id'];
-
-		// $wpdb->get_results( $wpdb->prepare( "DELETE FROM $table as rpu 
-		// 	LEFT JOIN $tb_role_project as rp ON rp.id=rpu.role_project_id
-		// 	WHERE rp.project_id=%d", $project_id ) );
-
-		// $this->role_project_user( $project, 2 );
-		// $this->role_project_user( $project, 3 );
 
 		global $wpdb;
 
-		$table = $wpdb->prefix . 'pm_role_project_users';
+		$table           = $wpdb->prefix . 'pm_role_project_users';
 		$tb_role_project = $wpdb->prefix . 'pm_role_project';
-		$project_id = $project['id'];
+		$project_id      = $project['id'];
 
 		$role_project_ids = $wpdb->get_results( $wpdb->prepare( "SELECT rpu.role_project_id FROM $table as rpu 
 			LEFT JOIN $tb_role_project as rp ON rp.id=rpu.role_project_id
@@ -67,6 +59,9 @@ class Project_Role_Relation {
 		
 		$this->role_project_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM $tb_role_project WHERE project_id=%d AND role_id=%d", $project_id, 3 ) );
 		$this->role_project_user( $project, 3 );
+
+		$this->role_project_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM $tb_role_project WHERE project_id=%d AND role_id=%d", $project_id, 1 ) );
+		$this->role_project_user( $project, 1 );
 	}
 
 	private function role_project( $project, $role_id ) {
@@ -76,6 +71,17 @@ class Project_Role_Relation {
 		$wpdb->insert( $table, [ 'project_id' => $project['id'], 'role_id' => $role_id ] );
 		$this->role_project_id = $wpdb->insert_id;
 		
+		return $this;
+	}
+
+	private function role_project_capabilities_manager() {
+		global $wpdb;
+		$rol_project_cap = $wpdb->prefix . 'pm_role_project_capabilities';
+
+		for ( $i=1; $i <= 10; $i++ ) { 
+			$wpdb->insert( $rol_project_cap, ['role_project_id' => $this->role_project_id, 'capability_id' => $i] );	
+		}
+
 		return $this;
 	}
 
@@ -120,6 +126,25 @@ class Project_Role_Relation {
 		}
 
 		return $this;
+	}
+
+	public function after_delete_project( $project_id ) {
+		global $wpdb;
+		
+		$tb_rp = $wpdb->prefix . 'pm_role_project';
+		$tb_rpu = $wpdb->prefix . 'pm_role_project_users';
+		$tb_rpc = $wpdb->prefix . 'pm_role_project_capabilities';
+
+		$rpids = $wpdb->get_results( $wpdb->prepare("SELECT id FROM $tb_rp WHERE project_id=%d", $project_id) );
+		$rpids = wp_list_pluck( $rpids, 'id' );
+		
+		foreach ( $rpids as $key => $rpid ) {
+			$wpdb->query( $wpdb->prepare( "DELETE FROM $tb_rpu WHERE role_project_id=%d", $rpid ) );
+			$wpdb->query( $wpdb->prepare( "DELETE FROM $tb_rpc WHERE role_project_id=%d", $rpid ) );
+		}
+
+		$wpdb->query( $wpdb->prepare( "DELETE FROM $tb_rp WHERE project_id=%d", $project_id ) );
+		
 	}
 
 }

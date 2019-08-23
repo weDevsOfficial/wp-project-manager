@@ -331,6 +331,8 @@ class Task {
 	}
 
 	private function join() {
+
+		$this->join .= apply_filters( 'pm_task_join', $this->join );
 		return $this;
 	}
 
@@ -526,6 +528,8 @@ class Task {
 			Left join {$this->tb_lists} as list ON list.id = boardable.board_id
 			WHERE 1=1 {$this->where}
 			{$this->limit}";
+
+		echo $query; die();
 		
 		if ( $this->is_single_query ) {
 			$results = $wpdb->get_row( $query );

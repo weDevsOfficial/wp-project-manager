@@ -278,6 +278,7 @@ class Project_Controller {
 		$project->settings()->delete();
 		$project->activities()->delete();
 		$project->meta()->delete();
+		(new Project_Role_Relation)->after_delete_project( $id );
 
 		// Delete the main resource
 		$project->delete();

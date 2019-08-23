@@ -18,7 +18,65 @@ class PM_Create_Table {
         $this->create_role_user_table();
         $this->create_settings_table();
         $this->create_import_table();
+        $this->crate_capabilities_table();
+        $this->crate_role_projects_table();
+        $this->crate_role_project_capabilities_table();
+        $this->crate_role_project_users_table();
         $this->update_version();
+    }
+
+    private function crate_capabilities_table() {
+
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'pm_capabilities';
+
+        $sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
+              `id` int(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+              `name` varchar(100) NOT NULL,
+              PRIMARY KEY (`id`)
+            ) DEFAULT CHARSET=utf8";
+
+        dbDelta($sql);
+    }
+
+   	private function crate_role_projects_table() {
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'pm_role_project';
+
+        $sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
+              `id` int(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+              `project_id` int(20) UNSIGNED NOT NULL,
+              `role_id` int(20) UNSIGNED NOT NULL,
+              PRIMARY KEY (`id`)
+            ) DEFAULT CHARSET=utf8";
+
+
+        dbDelta($sql);
+    }
+
+    private function crate_role_project_capabilities_table() {
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'pm_role_project_capabilities';
+
+        $sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
+              `role_project_id` int(20) UNSIGNED NOT NULL,
+              `capability_id` int(20) UNSIGNED NOT NULL
+            ) DEFAULT CHARSET=utf8";
+
+
+        dbDelta($sql);
+    }
+
+    private function crate_role_project_users_table() {
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'pm_role_project_users';
+
+        $sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
+              `role_project_id` int(20) UNSIGNED NOT NULL,
+              `user_id` int(20) UNSIGNED NOT NULL
+            ) DEFAULT CHARSET=utf8";
+
+        dbDelta($sql);
     }
 
     public function create_project_table()

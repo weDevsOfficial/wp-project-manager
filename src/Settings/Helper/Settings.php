@@ -5,6 +5,7 @@ namespace WeDevs\PM\Settings\Helper;
 class Settings {
 	private $co_worker_role_project_id;
 	private $client_role_project_id;
+	private $manager_role_project_id;
 
 	public function update_project_permission( $pmison_setts, $project_id  ) {
 
@@ -24,10 +25,27 @@ class Settings {
 	private function update( $settings, $project_id ) {
 		$this->delete_cap( $project_id )
 			->set_co_worker_role_project_id( $project_id )
-			->set_client_role_project_id( $project_id );
+			->set_client_role_project_id( $project_id )
+			->set_manager_role_project_id( $project_id );
 
 		$this->set_cap( $settings['value']['co_worker'],  $this->co_worker_role_project_id );
 		$this->set_cap( $settings['value']['client'], $this->client_role_project_id );
+		$this->set_cap( $this->manager_cap(), $this->manager_role_project_id );
+	}
+
+	private function manager_cap() {
+		return [
+	        'create_message'         => 1,
+	        'view_private_message'   => 1,
+	        'create_list'            => 1,
+	        'view_private_list'      => 1,
+	        'create_milestone'       => 1,
+	        'view_private_milestone' => 1,
+	        'create_task'            => 1,
+	        'view_private_task'      => 1,
+	        'create_file'            => 1,
+	        'view_private_file'      => 1
+	    ];
 	}
 
 	private function set_cap( $caps, $rol_project_id ) {
@@ -35,8 +53,8 @@ class Settings {
 		$tb_cap = $wpdb->prefix . 'pm_role_project_capabilities';
 		
 		foreach ( $caps as $cap_key => $cap ) {
-
-			if ( ! $cap || $cap == 'false' || $cap === false ) {
+			
+			if ( ! $cap || ( $cap == 'false' || $cap === false ) ) {
 				continue;
 			}
 
@@ -73,6 +91,18 @@ class Settings {
 			WHERE project_id=%d and role_id=%d";
 
 		$this->client_role_project_id = $wpdb->get_var( $wpdb->prepare( $query, $project_id, 3  ) );
+
+		return $this;
+	}
+
+	private function set_manager_role_project_id( $project_id ) {
+		global $wpdb;
+		$tb_rol = $wpdb->prefix . 'pm_role_project';
+
+		$query = "SELECT id FROM $tb_rol
+			WHERE project_id=%d and role_id=%d";
+
+		$this->manager_role_project_id = $wpdb->get_var( $wpdb->prepare( $query, $project_id, 1  ) );
 
 		return $this;
 	}
