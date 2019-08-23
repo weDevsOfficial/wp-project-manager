@@ -469,6 +469,7 @@ class Upgrade_2_3 extends WP_Background_Process {
         $value = '';
 
         foreach ( $projects as $id ) {
+            $value .= "($id, 1),";
             $value .= "($id, 2),";
             $value .= "($id, 3),";
         }
@@ -558,6 +559,10 @@ class Upgrade_2_3 extends WP_Background_Process {
                     $role_project->caps = [1,3,7,5,9];
                 }
             }
+
+            if ( $role_project->role_id == 1 ) {
+                $role_project->caps = [1,2,3,4,5,6,7,8,9,10];
+            }
         }
 
         $query_string = '';
@@ -617,7 +622,14 @@ class Upgrade_2_3 extends WP_Background_Process {
 
         $co_worker_projects = $wpdb->get_results($query);
 
-        $role_projects = array_merge( $client_projects, $co_worker_projects );
+        $query = "SELECT DISTINCT rp.id as role_project_id, ru.user_id as user_id, ru.project_id as project_id
+            FROM $tb_role_users as ru
+            LEFT JOIN $tb_role_projects as rp ON rp.project_id=ru.project_id
+            WHERE ru.role_id=1 AND rp.role_id=1";
+
+        $manager_projects = $wpdb->get_results($query);
+
+        $role_projects = array_merge( $client_projects, $co_worker_projects, $manager_projects );
 
         $query_string = '';
 
