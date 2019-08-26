@@ -149,8 +149,8 @@
             setUser () {
                 var users = this.$store.state.myTask.users;
                 
-                if(typeof this.$route.query.assignees != 'undefined') {
-                    let index = this.getIndex(users, parseInt(this.$route.query.assignees), 'id');
+                if(typeof this.$route.query.login_user != 'undefined') {
+                    let index = this.getIndex(users, parseInt(this.$route.query.login_user), 'id');
                     this.selected_user = users[index];
                 } else {
                     let index = this.getIndex(users, PM_Vars.current_user.ID, 'id');
@@ -160,7 +160,7 @@
 
             changeUser(usetId) {
 
-                var query_params = Object.assign({}, this.$route.query, { assignees: usetId });
+                var query_params = Object.assign({}, this.$route.query, { login_user: usetId });
 
                 this.$router.push({query: query_params});
             },

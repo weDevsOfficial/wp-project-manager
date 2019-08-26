@@ -1,5 +1,5 @@
 <template>
-	<input type="text" class="pm-daterangepicker" :value="dateValue">
+	<input type="text" :placeholder="options.placeholder" class="pm-daterangepicker" :value="dateValue">
 </template>
 
 <script>
@@ -44,10 +44,15 @@
 				self.options.endDate = self.endDate;
 			}
 			
-            jQuery('.pm-daterangepicker')
-            	.daterangepicker( self.options, function(start, end, label) {
-					self.$emit('onChange', start, end, label);
-				});
+            jQuery('.pm-daterangepicker').daterangepicker( self.options);
+
+			jQuery('.pm-daterangepicker').on('apply.daterangepicker', function(ev, picker) {
+				self.$emit('apply', picker.startDate, picker.endDate, 'pm-daterangepicker');
+			});
+
+			jQuery('.pm-daterangepicker').on('cancel.daterangepicker', function(ev, picker) {
+			    self.$emit('cancel', 'pm-daterangepicker');
+			});
         }
 	}
 </script>

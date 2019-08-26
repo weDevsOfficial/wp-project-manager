@@ -6,7 +6,7 @@ import mixin from './mixin';
 
 import complete_task from './complete-task.vue';
 import outstanding_task from './outstanding-task.vue';
-import current_task from './current-task.vue';
+import current_task from './search-task.vue';
 import activities from './activities.vue';
 import overview from './overview.vue';
 import mytaskTemplete from './my-tasks.vue';
@@ -32,7 +32,12 @@ weDevsPMRegisterChildrenRoute('project_root',
                                 'mytask-current-single-task': pm.SingleTask
                             },
                             name: 'mytask_current_single_task'
-                        }
+                        },
+                        {
+                            path: 'pages/:current_page_number', 
+                            component: current_task,
+                            name: 'my_task_pagination',
+                        },
                     ]
                     
                 },

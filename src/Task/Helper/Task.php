@@ -32,6 +32,7 @@ class Task {
 	private $tasks;
 	private $task_ids;
 	private $is_single_query = false;
+	private $user_id = false;
 
 	/**
 	 * Class instance
@@ -51,6 +52,13 @@ class Task {
      */
     public function __construct() {
     	$this->set_table_name();
+    	$this->set_login_user();
+    }
+
+    private function set_login_user() {
+
+    	$this->user_id = empty( $this->query_params['login_user'] ) ? 
+    		get_current_user_id() : (int) $user_id;
     }
 
     /**
@@ -127,8 +135,12 @@ class Task {
 	 */
 	public function fromat_task( $task ) {
 		$items = [
-            'id'      => (int) $task->id,
-            'title'   => (string) $task->title,
+			'id'         => (int) $task->id,
+			'title'      => (string) $task->title,
+			'created_at' => $task->created_at,
+			'start_at'   => $task->start_at,
+			'due_date'   => $task->due_date,
+			'completed_at' => $task->completed_at
         ];
 
         $select_items = empty( $this->query_params['select'] ) ? false : $this->query_params['select'];
@@ -145,11 +157,12 @@ class Task {
 		}
 
 		foreach ( $items as $item_key => $item ) {
+			
 			if ( ! in_array( $item_key, $select_items ) ) {
 				unset( $items[$item_key] );
 			}
 		}
-
+		
 		$items = $this->set_with_items( $items, $task );
 		$items = $this->set_fixed_items( $items, $task );
 		
@@ -218,7 +231,6 @@ class Task {
 			LEFT JOIN $tb_boardable as bor ON bor.board_id = bo.id 
 			LEFT JOIN $this->tb_tasks as tk ON tk.id = bor.boardable_id 
 			where tk.id IN ($task_ids)";
-
 
 		$results = $wpdb->get_results( $query );
 		$lists = [];
@@ -332,7 +344,7 @@ class Task {
 
 	private function join() {
 
-		$this->join .= apply_filters( 'pm_task_join', $this->join );
+		$this->join = apply_filters( 'pm_task_join', $this->join );
 		return $this;
 	}
 
@@ -348,9 +360,31 @@ class Task {
 			->where_status()
 			->where_due_date()
 			->where_start_at()
-			->where_project_id();
+			->where_project_id()
+			->where_assignees();
+
+		$this->where = apply_filters( 'pm_task_where', $this->where, $this->user_id );
 
 		return $this;
+	}
+
+	private function where_assignees() {
+		$assignees = isset( $this->query_params['assignees'] ) ? $this->query_params['assignees'] : false;
+
+		if ( $assignees === false ) {
+			return $this;
+		}
+
+		if ( $assignees && is_array( $assignees ) ) {
+			$assignees = implode( ',', $assignees );
+		}
+
+		global $wpdb;
+		$tb_asin = pm_tb_prefix() . 'pm_assignees';
+
+		$this->join .= " LEFT JOIN {$tb_asin} ON $tb_asin.task_id={$this->tb_tasks}.id";
+		
+		$this->where .= " AND $tb_asin.assigned_to IN ($assignees)";
 	}
 
 	private function where_project_id() {
@@ -370,7 +404,7 @@ class Task {
 	}
 
 	private function where_start_at() {
-		$start_at = isset( $this->query_params['start_at'] ) ? $this->query_params['start_at'] : false;
+		$start_at = !empty( $this->query_params['start_at'] ) ? $this->query_params['start_at'] : false;
 
 		if ( $start_at === false ) {
 			return $this;
@@ -382,13 +416,13 @@ class Task {
 	}
 
 	private function where_due_date() {
-		$due_date = isset( $this->query_params['due_date'] ) ? $this->query_params['due_date'] : false;
+		$due_date = !empty( $this->query_params['due_date'] ) ? $this->query_params['due_date'] : false;
 
 		if ( $due_date === false ) {
 			return $this;
 		}
 
-		$current_date = date( 'Y-m-d', strtotime( current_time( 'mysql' ) ) );
+		$current_date = $due_date ? date( 'Y-m-d', strtotime( $due_date ) ) : date( 'Y-m-d', strtotime( current_time( 'mysql' ) ) );
 
 		$this->where .= " AND {$this->tb_tasks}.due_date<'$current_date'";
 
@@ -528,8 +562,6 @@ class Task {
 			Left join {$this->tb_lists} as list ON list.id = boardable.board_id
 			WHERE 1=1 {$this->where}
 			{$this->limit}";
-
-		echo $query; die();
 		
 		if ( $this->is_single_query ) {
 			$results = $wpdb->get_row( $query );

@@ -154,22 +154,6 @@ export default {
         pad2 (number) {
            return (number < 10 ? '0' : '') + number;
         },
-        // stringToTime (seconds) {
-        //     var numdays = Math.floor(seconds / 86400);
-
-        //     var numhours = Math.floor((seconds % 86400) / 3600);
-
-        //     var numminutes = Math.floor(((seconds % 86400) % 3600) / 60);
-
-        //     var numseconds = ((seconds % 86400) % 3600) % 60;
-
-        //     return {
-        //         'days': this.pad2(numdays),
-        //         'hours': this.pad2(numhours),
-        //         'minutes': this.pad2(numminutes),
-        //         'seconds': this.pad2(numseconds)
-        //     }
-        // },
 
         stringToTime (seconds) {
             var numhours = Math.floor(seconds /  3600);
@@ -194,7 +178,7 @@ export default {
             return pm.Moment(date).format('dddd, MMMM D YYYY, H:mm:ss');
         },
 
-         getFullDateCustom (date) {
+        getFullDateCustom (date) {
             if ( !date ) {
                 return;
             }
