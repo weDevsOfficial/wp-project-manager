@@ -48,7 +48,8 @@
 	            	:startDate="search.start_at"
 	            	:endDate="search.due_date"
 	            	:options="calendarOptions"
-	            	@onChange="calendarOnChange">
+	            	@apply="calendarOnChange"
+	            	@cancel="calendarCancel">
 	            	
 	            </pm-date-range-picker>
 	        </div>
@@ -56,6 +57,17 @@
             	<input class="button button-primary" type="submit" :value="__('Filter', 'wedevs-project-manager')">
             </div>
 		</form>
+		
+		<current-task v-if="search.status == 'current'" :tasks="tasks"></current-task>
+		<outstanding-task v-if="search.status == 'outstanding'" :tasks="tasks"></outstanding-task>
+		<completed-task v-if="search.status == 'completed'" :tasks="tasks"></completed-task>
+
+		<pm-pagination 
+            :total_pages="total_task_page" 
+            :current_page_number="current_page_number" 
+            component_name='my_task_pagination'>
+            
+        </pm-pagination> 
 	</div>
 </template>
 
@@ -69,20 +81,27 @@
 
 
 <script>
+	import CurrentTask from './current-task.vue'
+	import Outstanding from './outstanding-task.vue'
+	import Completed from './complete-task.vue'
+	import Pagination from '@components/common/pagination.vue';
+
 	export default {
 		data () {
 			return {
+				total_task_page: 10,
+				current_page_number: 1,
 				search: {
 					title: '',
 					projects: [],
-					start_at: pm.Moment().format('YYYY-MM-01'),
-					due_date: pm.Moment().format('YYYY-MM-DD'),
+					start_at: '',
+					due_date: '',
 					status: 'current'
 				},
 				asyncProjectLoading: false,
 				asyncListLoading: true,
 				projects: [],
-
+				tasks: [],
 				lists: [],
 				calendarOptions: {
 					ranges: {
@@ -91,19 +110,26 @@
 				        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
 				        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
 				        'This Month': [moment().startOf('month'), moment().endOf('month')],
-				        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+				        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
 				    },
 				    locale: {
-				      format: 'YYYY-MM-DD'
+				      format: 'YYYY-MM-DD',
+				      cancelLabel: __( 'Clear', 'wedevs-project-manager' )
 				    },
 				    "showCustomRangeLabel": false,
 				    "alwaysShowCalendars": true,
 				    "showDropdowns": true,
+				    'autoUpdateInput': true,
+				    'placeholder': __('Start at - Due date', 'wedevs-project-manager')
 				}
 			}
 		},
 		components: {
 			'multiselect': pm.Multiselect.Multiselect,
+			'current-task': CurrentTask,
+			'outstanding-task': Outstanding,
+			'completed-task': Completed,
+			'pm-pagination': Pagination
 		},
 		created () {
 			this.getProjects();
@@ -113,6 +139,12 @@
 			setQuery () {
 				this.search = Object.assign({}, this.search, this.$route.query);
 				this.search.projects = [];
+
+				if(this.search.start_at == '' || this.search.due_date == '') {
+					this.calendarOptions.autoUpdateInput = false;
+				}
+
+				this.sendRequest();
 			},
 			asyncProjectFind (val) {
 
@@ -122,9 +154,18 @@
 
 			},
 
-			calendarOnChange (start, end, label) {
+			calendarOnChange (start, end, className) {
 				this.search.start_at = start.format('YYYY-MM-DD');
 				this.search.due_date = end.format('YYYY-MM-DD');
+				
+				jQuery('.'+className).val(this.search.start_at +'-'+this.search.due_date);
+			},
+
+			calendarCancel (className) {
+				this.search.start_at = '';
+				this.search.due_date = '';
+
+				jQuery('.'+className).val('');
 			},
 
 			getProjects () {
@@ -176,8 +217,11 @@
 					projects: this.setProjects(),
 					start_at: this.search.start_at,
 					due_date: this.search.due_date,
-					assignees: this.setAssignees(),
-					status: this.search.status
+					login_user: this.setLoginUser(),
+					status: this.search.status,
+					assignees: this.setLoginUser(),
+					per_page: 20,
+					page: 1
 				}
 
 				this.$router.push({query: request});
@@ -203,14 +247,14 @@
 				}
 
 				data.with = 'task_list,project';
-				data.select = 'id, title';
+				data.select = 'id, title, created_at, start_at, due_date, completed_at';
 				
 				var request_data = {
 	                url: self.base_url + '/pm/v2/advanced/tasks',
 	                data: data,
 	                type: 'GET',
 	                success (res) {
-	                    
+	                    self.tasks = res.data
 	                },
 	                error (res) {
 	                    
@@ -220,12 +264,12 @@
 	            self.httpRequest(request_data);
 			},
 
-			setAssignees () {
-				if(typeof this.$route.query.assignees == 'undefined') {
+			setLoginUser () {
+				if(typeof this.$route.query.login_user == 'undefined') {
 					return PM_Vars.current_user.ID;
 				}
 
-				return this.$route.query.assignees;
+				return this.$route.query.login_user;
 			},
 
 			setProjects () {
