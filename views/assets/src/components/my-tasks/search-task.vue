@@ -1,10 +1,10 @@
 <template>
 	<div class="my-task-filter-wrap">
 		<form class="form" action="" @submit.prevent="find()">
-			<div>
+			<div class="field">
 				<input type="text" name="task_title" v-model="search.title">
 			</div>
-			<div>
+			<div class="field project-dropdown-wrap">
                 <multiselect
                     v-model="search.projects"
                     :options="projects"
@@ -36,14 +36,14 @@
                 </multiselect>
             </div> -->
 
-             <div>
+             <div class="field">
                 <select v-model="search.status">
                 	<option value="current">{{ __( 'Current Task', 'wedevs-project-manager' ) }}</option>
                 	<option value="outstanding">{{ __( 'Outstanding Task', 'wedevs-project-manager' ) }}</option>
                 	<option value="completed">{{ __( 'Completed', 'wedevs-project-manager' ) }}</option>
                 </select>
             </div>
-            <div>
+            <div class="field">
 	            <pm-date-range-picker 
 	            	:startDate="search.start_at"
 	            	:endDate="search.due_date"
@@ -54,13 +54,26 @@
 	            </pm-date-range-picker>
 	        </div>
 	        <div>
-            	<input class="button button-primary" type="submit" :value="__('Filter', 'wedevs-project-manager')">
+            	<input class="button button-primary submit-button" type="submit" :value="__('Filter', 'wedevs-project-manager')">
             </div>
 		</form>
-		
-		<current-task v-if="search.status == 'current'" :tasks="tasks"></current-task>
-		<outstanding-task v-if="search.status == 'outstanding'" :tasks="tasks"></outstanding-task>
-		<completed-task v-if="search.status == 'completed'" :tasks="tasks"></completed-task>
+
+		<div :class="getContentClass()">
+			<div class="loadmoreanimation">
+	            <div class="load-spinner">
+	                <div class="rect1"></div>
+	                <div class="rect2"></div>
+	                <div class="rect3"></div>
+	                <div class="rect4"></div>
+	                <div class="rect5"></div>
+	            </div>
+	        </div>
+			<div class="tasks-wrap">
+				<current-task v-if="component == 'current'" :tasks="tasks"></current-task>
+				<outstanding-task v-if="component == 'outstanding'" :tasks="tasks"></outstanding-task>
+				<completed-task v-if="component == 'completed'" :tasks="tasks"></completed-task>
+			</div>
+		</div>
 
 		<pm-pagination 
             :total_pages="total_task_page" 
@@ -75,6 +88,76 @@
 	.my-task-filter-wrap {
 		.form {
 			display: flex;
+
+			.pm-daterangepicker {
+				width: 220px;
+			}
+			.project-dropdown-wrap {
+				width: 220px;
+	            min-height: auto;
+
+	            .multiselect__single {
+	                margin-bottom: 0;
+	            }
+	            .multiselect__select {
+	                display: none;
+	            }
+	            .multiselect__input {
+	                border: none;
+	                box-shadow: none;
+	                margin: 0;
+	                font-size: 14px;
+	                vertical-align: baseline;
+	                height: 0;
+	            }
+	            .multiselect__element {
+	                .multiselect__option {
+	                    font-weight: normal;
+	                    white-space: normal;
+	                    padding: 6px 12px;
+	                    line-height: 25px;
+	                    font-size: 14px;
+	                }
+
+	            }
+	            .multiselect__tags {
+	                min-height: auto;
+	                padding: 4px;
+	                border-color: #ddd;
+	                border-radius: 3px;
+	                white-space: normal;
+
+	                .multiselect__tag {
+	                    margin-bottom: 0;
+	                    overflow: visible;
+	                    border-radius: 3px;
+	                    margin-top: 2px;
+	                }
+	            }
+			}
+
+			.field {
+				margin-right: 5px;
+			}
+		}
+		.content-wrap {
+			.loadmoreanimation {
+				display: none;
+			}
+		}
+
+		.task-loading {
+			position: relative;
+			background: #fff;
+			.loadmoreanimation {
+                position: absolute;
+                left: 45%;
+                top: 16%;
+                display: block;
+            }
+            .tasks-wrap {
+            	opacity: 0.1;
+            }
 		}
 	}
 </style>
@@ -89,8 +172,10 @@
 	export default {
 		data () {
 			return {
-				total_task_page: 10,
-				current_page_number: 1,
+				isLoading: false,
+				current_page_number: typeof this.$route.params.current_page_number == 'undefined' ? 
+					1 : this.$route.params.current_page_number,
+				total_task_page: 0,
 				search: {
 					title: '',
 					projects: [],
@@ -98,6 +183,7 @@
 					due_date: '',
 					status: 'current'
 				},
+				component: 'current',
 				asyncProjectLoading: false,
 				asyncListLoading: true,
 				projects: [],
@@ -131,11 +217,31 @@
 			'completed-task': Completed,
 			'pm-pagination': Pagination
 		},
+		watch: {
+			'$route' (route, prvRoute) {
+				this.current_page_number = route.params.current_page_number;
+
+				if(route.params.current_page_number != prvRoute.params.current_page_number) {
+					this.sendRequest();
+				}
+			}
+		},
 		created () {
 			this.getProjects();
 			this.setQuery();
+
+			pmBus.$on('after_change_user', this.afterChangeUser);
 		},
+
 		methods: {
+			getContentClass () {
+				return this.isLoading ? 'content-wrap task-loading' : 'content-wrap';
+			},
+
+			afterChangeUser () {
+				this.find();
+			},
+
 			setQuery () {
 				this.search = Object.assign({}, this.search, this.$route.query);
 				this.search.projects = [];
@@ -144,7 +250,7 @@
 					this.calendarOptions.autoUpdateInput = false;
 				}
 
-				this.sendRequest();
+				this.find();
 			},
 			asyncProjectFind (val) {
 
@@ -220,17 +326,22 @@
 					login_user: this.setLoginUser(),
 					status: this.search.status,
 					assignees: this.setLoginUser(),
-					per_page: 20,
-					page: 1
 				}
 
+				this.$router.push({
+					params: {
+						current_page_number: 1
+					}
+				});
+
 				this.$router.push({query: request});
+
 				this.sendRequest();
 			},
 
 			sendRequest () {
 				var self = this;
-				var data = this.$route.query;
+				var data = Object.assign({}, this.$route.query);
 
 				if(data.status == 'current') {
 					data.status = 0;
@@ -248,19 +359,26 @@
 
 				data.with = 'task_list,project';
 				data.select = 'id, title, created_at, start_at, due_date, completed_at';
+				data.per_page = 2;
+				data.pages = typeof this.$route.params.current_page_number == 'undefined' ? 
+						1 : this.$route.params.current_page_number;
 				
 				var request_data = {
 	                url: self.base_url + '/pm/v2/advanced/tasks',
 	                data: data,
 	                type: 'GET',
 	                success (res) {
-	                    self.tasks = res.data
+	                    self.tasks = res.data;
+	                    self.total_task_page = res.meta.total_page;
+	                    self.component = self.search.status;
+	                    self.isLoading = false;
 	                },
 	                error (res) {
 	                    
 	                },
 	            }
 
+	            self.isLoading = true;
 	            self.httpRequest(request_data);
 			},
 
@@ -287,7 +405,10 @@
 				
 				return ids;
 			}
-		}
+		},
 
+		destroyed () {
+			pmBus.$off('after_change_user', this.afterChangeUser);
+		}
 	}
 </script>
