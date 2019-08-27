@@ -33,6 +33,7 @@ class Task {
 	private $task_ids;
 	private $is_single_query = false;
 	private $user_id = false;
+	private $found_rows = 0;
 
 	/**
 	 * Class instance
@@ -113,7 +114,7 @@ class Task {
 
 		if ( ! is_array( $tasks ) ) {
 			$response['data'] = $this->fromat_task( $tasks );
-
+			$response['meta'] = $this->set_meta();
 			return $response;
 		}
 
@@ -122,8 +123,23 @@ class Task {
 		}
 		
 		$response['data'] = $tasks;
-
+		$response['meta'] = $this->set_meta();
+		
 		return $response;
+	}
+
+	/**
+	 * Set meta data
+	 */
+	private function set_meta() {
+		return [
+			'total_tasks'  => $this->found_rows,
+			'total_page'   => ceil( $this->found_rows/$this->get_per_page() ),
+			// 'total_comments'         => 0,
+			// 'total_complete_tasks'   => 0,
+			// 'total_incomplete_tasks' => 0,
+			// 'totla_files'            => 0
+		];
 	}
 
 	/**
@@ -435,7 +451,6 @@ class Task {
 	 * @return class object
 	 */
 	private function where_id() {
-
 		$id = isset( $this->query_params['id'] ) ? $this->query_params['id'] : false; 
 
 		if ( empty( $id ) ) {
@@ -466,7 +481,6 @@ class Task {
 	 * @return class object
 	 */
 	private function where_status() {
-
 		$status = isset( $this->query_params['status'] ) ? $this->query_params['status'] : false;
 
 		if ( $status === false ) {
@@ -484,7 +498,6 @@ class Task {
 	 * @return class object
 	 */
 	private function where_title() {
-
 		$title = isset( $this->query_params['title'] ) ? $this->query_params['title'] : false;
 
 		if ( empty( $title ) ) {
@@ -502,7 +515,6 @@ class Task {
 	 * @return class object
 	 */
 	private function limit() {
-
 		$per_page = isset( $this->query_params['per_page'] ) ? $this->query_params['per_page'] : false;
 		
 		if ( $per_page === false || $per_page == '-1' ) {
@@ -520,7 +532,7 @@ class Task {
 	 * @return int
 	 */
 	private function get_offset() {
-		$page = isset( $this->query_params['page'] ) ? $this->query_params['page'] : false;
+		$page = isset( $this->query_params['pages'] ) ? $this->query_params['pages'] : false;
 
 		$page   = empty( $page ) ? 1 : absint( $page );
 		$limit  = $this->get_per_page();
@@ -535,7 +547,6 @@ class Task {
 	 * @return class instance
 	 */
 	private function get_per_page() {
-
 		$per_page = isset( $this->query_params['per_page'] ) ? $this->query_params['per_page'] : false;
 		
 		if ( ! empty( $per_page ) && intval( $per_page ) ) {
@@ -552,30 +563,40 @@ class Task {
 	 */
 	private function get() {
 		global $wpdb;
-		$id = isset( $this->query_params['id'] ) ? $this->query_params['id'] : false;
+		
+		$id        = isset( $this->query_params['id'] ) ? $this->query_params['id'] : false;
 		$boardable = pm_tb_prefix() . 'pm_boardables';
 
-		$query = "SELECT DISTINCT {$this->select}, list.id as task_list_id, $this->tb_tasks.project_id
+		$query = "SELECT SQL_CALC_FOUND_ROWS DISTINCT {$this->select}, 
+			list.id as task_list_id, 
+			$this->tb_tasks.project_id
+			
 			FROM {$this->tb_tasks}
+			
 			{$this->join}
+			
 			Left join $boardable as boardable ON boardable.boardable_id = {$this->tb_tasks}.id
 			Left join {$this->tb_lists} as list ON list.id = boardable.board_id
+			
 			WHERE 1=1 {$this->where}
+			
 			{$this->limit}";
-		
+
 		if ( $this->is_single_query ) {
 			$results = $wpdb->get_row( $query );
 		} else { 
 			$results = $wpdb->get_results( $query );
-		} 
 
-		// If task has not boardable_id mean no list
-		foreach ( $results as $key => $result ) {
-			if( empty( $result->task_list_id ) ) {
-				unset( $results[$key] );
+			// If task has not boardable_id mean no list
+			foreach ( $results as $key => $result ) {
+				if( empty( $result->task_list_id ) ) {
+					unset( $results[$key] );
+				}
 			}
-		}
+		} 
 		
+		$this->found_rows = $wpdb->get_var( "SELECT FOUND_ROWS()" );
+	
 		$this->tasks = $results;
 
 		if ( ! empty( $results ) && is_array( $results ) ) {

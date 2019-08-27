@@ -10,11 +10,14 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="task in tasks">
+                <tr v-if="tasks.length" v-for="task in tasks">
                     <td>{{ task.title }}</td>
                     <td>{{ task.task_list.title }}</td>
                     <td>{{ task.project.title }}</td>
                     <td>{{ getCreatedAtValue(task) }}</td>
+                </tr>
+                <tr v-if="!tasks.length">
+                    <td colspan="4">{{ __('No task found!', 'wedevs-project-manager') }}</td>
                 </tr>
             </tbody>
         </table>
@@ -37,6 +40,10 @@
 
         methods: {
             getCreatedAtValue (task) {
+                if(typeof this.$route.query.start_at == 'undefined' || typeof this.$route.query.due_date == 'undefined') {
+                    return this.shortDateFormat(task.created_at);
+                }
+
                 if(this.$route.query.start_at == '' || this.$route.query.due_date == '') {
                     return this.shortDateFormat(task.created_at);
                 }
@@ -46,6 +53,10 @@
                 }
             },
             getCreatedAtLabel () {
+
+                if(typeof this.$route.query.start_at == 'undefined' || typeof this.$route.query.due_date == 'undefined') {
+                    return __('Created at', 'wedevs-project-manager');
+                }
 
                 if(this.$route.query.start_at == '' || this.$route.query.due_date == '') {
                     return __('Created at', 'wedevs-project-manager');

@@ -10,11 +10,14 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="task in tasks">
+                <tr v-if="tasks.length" v-for="task in tasks">
                     <td>{{ task.title }}</td>
                     <td>{{ task.task_list.title }}</td>
                     <td>{{ task.project.title }}</td>
                     <td>{{ getOverdueValue(task) }}</td>
+                </tr>
+                 <tr v-if="!tasks.length">
+                    <td colspan="4">{{ __('No task found!', 'wedevs-project-manager') }}</td>
                 </tr>
             </tbody>
         </table>

@@ -2,11 +2,11 @@
 
     <div class="pm-top-bar pm-no-padding pm-project-header pm-project-head">
         <div class="pm-row pm-no-padding pm-border-bottom">
-            <div class="pm-project-detail ">
+            <div class="pm-project-detail">
                 <img :alt="display_name" :src="user_avatar_url" :srcset="user_avatar_url" class="avatar avatar-64 photo" width="64" height="64">
                 <div class="pm-my-task-header">
-                    <h3>{{  __('My Tasks', 'wedevs-project-manager' ) }}</h3>
-                    <p>{{display_name}}</p>
+                    <p class="my-task-title">{{  __('My Tasks', 'wedevs-project-manager' ) }}</p>
+                    <div>{{display_name}}</div>
                     <p>{{email}}</p>
                 </div>
 
@@ -15,6 +15,13 @@
 
         <div class="pm-row pm-project-group">
             <ul class="pm-col-9 pm-my-task-menu">
+                 <li class="">
+                     <router-link :to="routeLink('current')" class="pm-my-outstandigntask">
+                        {{ __('Tasks', 'wedevs-project-manager' ) }}
+
+                    </router-link>
+
+                </li>
 
                 <li class="">
                     <router-link :to="routeLink('tasks')" class="pm-my-taskoverview">
@@ -24,33 +31,11 @@
 
                 </li>
                 <li class="">
-                    <router-link :to="routeLink('activities')" class="pm-my-taskactivity">
+                    <router-link :to="routeLink('activities')" class="pm-my-completetask">
                         {{ __('Activities', 'wedevs-project-manager' )}}
 
                     </router-link>
 
-                </li>
-
-                <li class="">
-                     <router-link :to="routeLink('current')" class="pm-my-currenttask">
-                        {{ __('Current Task', 'wedevs-project-manager' ) }} <span class="count">{{ total_current_tasks }}</span>
-
-                    </router-link>
-
-                </li>
-
-                <li class="">
-                    <router-link :to="routeLink('outstanding')" class="pm-my-outstandigntask">
-                       {{ __('Outstanding Task', 'wedevs-project-manager' ) }}<span class="count">{{ total_outstanding_tasks }}</span>
-
-                    </router-link>
-
-                </li>
-                <li>
-                    <router-link :to="routeLink('complete')" class="pm-my-completetask">
-                       {{ __('Completed Task', 'wedevs-project-manager' ) }} <span class="count">{{ total_completed_tasks }}</span>
-
-                    </router-link>
                 </li>
             </ul>
             <div class="pm-col-3 pm-sm-col-12 pm-user-select" v-if="has_manage_capability()">
@@ -64,7 +49,7 @@
                         :show-labels="false"
                         select-label=""
                         :searchable="true"
-                        :allow-empty="true"
+                        :allow-empty="false"
                         :placeholder="select_user_text"
                         label="display_name"
                         track-by="id">
@@ -163,6 +148,7 @@
                 var query_params = Object.assign({}, this.$route.query, { login_user: usetId });
 
                 this.$router.push({query: query_params});
+                pmBus.$emit('after_change_user');
             },
 
             routeLink( name ) {
@@ -175,10 +161,33 @@
 
                 return route;
             }
+        },
+
+        destroyed () {
+            pmBud.$off('after_change_user');
         }
     }
 </script>
-<style lang="css">
+<style lang="less">
+    .pm-project-head {
+        .pm-border-bottom {
+            margin-top: 10px;
+            padding-bottom: 10px !important;
+
+        
+            .pm-project-detail {
+                display: flex;
+                .avatar {
+                    height: 64px !important;
+                    width: 64px;
+                }
+                .my-task-title {
+                    font-weight: 600;
+                }
+            }
+        }
+    }
+
     .pm .pm-project-header .user-switch {
         margin: 5px 0px;
     }
@@ -196,6 +205,7 @@
     }
     .pm .pm-project-header  .pm-user-select {
         float: right;
+        margin-top: 8px;
     }
     .pm .pm-project-header .pm-user-select .option__desc {
         display: flex;

@@ -60,7 +60,7 @@
         watch: {
             '$route' (url) {
                 this.route_query = url.query;
-            }
+            },
         },
 
         methods: {

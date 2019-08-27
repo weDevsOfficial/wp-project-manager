@@ -47,7 +47,7 @@ weDevsPMRegisterChildrenRoute('project_root',
                     name: 'mytask-activities',
                 },
                 {
-                    path: 'current-task',
+                    path: 'overview',
                     component: overview,
                     name: 'mytask-tasks',
                     children: [
@@ -89,10 +89,7 @@ weDevsPMRegisterChildrenRoute('project_root',
                     ]
                 }
             ],
-            meta: {
-                label: __('My Task', 'wedevs-project-manager'),
-                order: 3
-            }
+           
         }
     ]
 );
