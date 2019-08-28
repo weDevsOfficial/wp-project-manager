@@ -85,7 +85,7 @@
                 if(typeof newValue == 'undefined') {
                     return;
                 }
-                this.changeUser(newValue.id);
+                this.changeUser(newValue);
             }
         },
         computed: {
@@ -97,7 +97,7 @@
                 return this.$store.state.myTask.user.display_name;
             },
             email (){
-                 return this.$store.state.myTask.user.email;
+                return this.$store.state.myTask.user.email;
             },
 
             total_current_tasks () {
@@ -134,8 +134,8 @@
             setUser () {
                 var users = this.$store.state.myTask.users;
                 
-                if(typeof this.$route.query.login_user != 'undefined') {
-                    let index = this.getIndex(users, parseInt(this.$route.query.login_user), 'id');
+                if(typeof this.$route.params.user_id != 'undefined') {
+                    let index = this.getIndex(users, parseInt(this.$route.params.user_id), 'id');
                     this.selected_user = users[index];
                 } else {
                     let index = this.getIndex(users, PM_Vars.current_user.ID, 'id');
@@ -143,16 +143,18 @@
                 }
             },
 
-            changeUser(usetId) {
-
+            changeUser(user) {
+                var usetId = user.id;
                 var query_params = Object.assign({}, this.$route.query, { login_user: usetId });
 
+                this.$router.push({params: {user_id: user.id}});
                 this.$router.push({query: query_params});
+                this.$store.commit('myTask/setUserTask', user);
+                
                 pmBus.$emit('after_change_user');
             },
 
             routeLink( name ) {
-
                 var route = { name : 'mytask-'+ name };
 
                 if( typeof this.$route.params.user_id !== 'undefined' ){

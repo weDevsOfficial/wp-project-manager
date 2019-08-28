@@ -43,7 +43,7 @@
                 	<option value="completed">{{ __( 'Completed', 'wedevs-project-manager' ) }}</option>
                 </select>
             </div>
-            <div class="field">
+            <!-- <div class="field">
 	            <pm-date-range-picker 
 	            	:startDate="search.start_at"
 	            	:endDate="search.due_date"
@@ -52,7 +52,7 @@
 	            	@cancel="calendarCancel">
 	            	
 	            </pm-date-range-picker>
-	        </div>
+	        </div> -->
 	        <div>
             	<input class="button button-primary submit-button" type="submit" :value="__('Filter', 'wedevs-project-manager')">
             </div>
@@ -75,7 +75,7 @@
 			</div>
 		</div>
 
-		<pm-pagination 
+		<pm-pagination v-if="parseInt($route.params.user_id)"
             :total_pages="total_task_page" 
             :current_page_number="current_page_number" 
             component_name='my_task_pagination'>
@@ -172,6 +172,8 @@
 	export default {
 		data () {
 			return {
+				individualTaskId: 0,
+				individualProjectId: 0,
 				isLoading: false,
 				current_page_number: typeof this.$route.params.current_page_number == 'undefined' ? 
 					1 : this.$route.params.current_page_number,
@@ -215,7 +217,7 @@
 			'current-task': CurrentTask,
 			'outstanding-task': Outstanding,
 			'completed-task': Completed,
-			'pm-pagination': Pagination
+			'pm-pagination': Pagination,
 		},
 		watch: {
 			'$route' (route, prvRoute) {
@@ -345,11 +347,14 @@
 
 				if(data.status == 'current') {
 					data.status = 0;
+					data.due_date = pm.Moment().format('YYYY-MM-DD');
+					data.due_date_operator = ['greater_than_equal', 'null'];
 				} else if (data.status == 'completed') {
 					data.status = 1;
 				} else if (data.status == 'outstanding') {
 					delete data.status;
 					data.due_date = pm.Moment().format('YYYY-MM-DD');
+					data.due_date_operator = ['less_than_equal'];
 				}
 
 				if(typeof data.projects != 'undefined') {
@@ -383,11 +388,15 @@
 			},
 
 			setLoginUser () {
-				if(typeof this.$route.query.login_user == 'undefined') {
+				if(typeof this.$route.params.user_id == 'undefined') {
 					return PM_Vars.current_user.ID;
 				}
 
-				return this.$route.query.login_user;
+				if( parseInt(this.$route.params.user_id) <= 0) {
+					return PM_Vars.current_user.ID;
+				}
+
+				return this.$route.params.user_id;
 			},
 
 			setProjects () {

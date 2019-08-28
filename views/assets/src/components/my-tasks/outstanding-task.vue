@@ -21,6 +21,10 @@
                 </tr>
             </tbody>
         </table>
+        <div v-if="parseInt(individualTaskId) && parseInt(individualProjectId)">
+            <single-task :taskId="parseInt(individualTaskId)" :projectId="parseInt(individualProjectId)"></single-task>
+        </div>
+        <router-view name="singleTask"></router-view>
     </div>
 </template>
 <script>
@@ -34,11 +38,31 @@
             }
         },
 
+        data () {
+            return {
+                individualTaskId: 0,
+                individualProjectId: 0
+            }
+        },
+
+        components: {
+            'single-task': pm.SingleTask,
+        },
+
         created () {
-            
+            pmBus.$on('pm_after_close_single_task_modal', this.afterCloseSingleTaskModal);
+            pmBus.$on('pm_generate_task_url', this.generateTaskUrl);
         },
 
         methods: {
+            afterCloseSingleTaskModal () {
+                this.individualTaskId = false;
+                this.individualProjectId = false;
+            },
+            popuSilgleTask (task) {
+                this.individualTaskId = task.id;
+                this.individualProjectId = task.project_id;
+            },
             getOverdueValue (task) {
                 var dueDate = pm.Moment(task.due_date).add(1, "days").format('YYYY-MM-DD');
                 

@@ -7,9 +7,7 @@
                 class="pm-pagination-btn prev page-numbers" 
                 :to="{ 
                     name: component_name,  
-                    params: { 
-                        current_page_number: ( current_page_number - 1 ) 
-                    },
+                    params: setParams(parseInt(current_page_number) - 1),
                     query: route_query
                 }">
                 &larr;
@@ -21,9 +19,10 @@
                 :class="pageClass(page) + ' pm-pagination-btn'" 
                 :to="{ 
                     name: component_name,  
-                    params: { 
-                        current_page_number: page 
-                    },
+                    // params: { 
+                    //     current_page_number: page 
+                    // },
+                    params: setParams(page),
                     query: route_query
                 }">
                 {{ page }}
@@ -34,9 +33,7 @@
                 class="pm-pagination-btn next page-numbers" 
                 :to="{ 
                     name: component_name,  
-                    params: { 
-                        current_page_number: ( current_page_number + 1 ) 
-                    },
+                    params: setParams(parseInt(current_page_number) + 1),
                     query: route_query
                 }">
                 &rarr;
@@ -64,6 +61,12 @@
         },
 
         methods: {
+            setParams ( current_page_number ) {
+                var params = Object.assign({}, this.$route.params);
+                params.current_page_number = current_page_number;
+                
+                return params;
+            },
             pageClass: function( page ) {
                 if ( page == this.current_page_number ) {
                     return 'page-numbers current'

@@ -25,13 +25,13 @@ export default {
         }
     },
     created () {
-        if (!this.canShowMyTask()) {
-            this.$router.push({name:'project_lists'});
-        }
+        // if (!this.canShowMyTask()) {
+        //     this.$router.push({name:'project_lists'});
+        // }
         this.getUserMeta();
         this.getAllusers();
-        pmBus.$on('pm_generate_task_url', this.generateTaskUrl);
-        //pmBus.$on('pm_after_close_single_task_modal', this.afterCloseSingleTaskModal);
+        // pmBus.$on('pm_generate_task_url', this.generateTaskUrl);
+        
     },
     components: {
         'myTaskHeader': myTaskHeader
@@ -39,66 +39,66 @@ export default {
 
     methods: {
         afterCloseSingleTaskModal () {
-            var params = {}, route = null;
-            if (typeof this.$route.params.user_id !== 'undefined') {
-                params.user_id = parseInt(this.$route.params.user_id)
-            }
+            // var params = {}, route = null;
+            // if (typeof this.$route.params.user_id !== 'undefined') {
+            //     params.user_id = parseInt(this.$route.params.user_id)
+            // }
 
-            if(this.$route.name == 'mytask_current_single_task') {
-                route = 'mytask-current';
-            }
+            // if(this.$route.name == 'mytask_current_single_task') {
+            //     route = 'mytask-current';
+            // }
 
-            if(this.$route.name == 'mytask_complete_single_task') {
-                route = 'mytask-complete';
-            }
+            // if(this.$route.name == 'mytask_complete_single_task') {
+            //     route = 'mytask-complete';
+            // }
 
-            if(this.$route.name == 'mytask_outstanding_single_task') {
-                route = 'outstanding-task';
-            }
+            // if(this.$route.name == 'mytask_outstanding_single_task') {
+            //     route = 'outstanding-task';
+            // }
 
-            this.taskId = false;
-            this.projectId = false;
+            // this.taskId = false;
+            // this.projectId = false;
         },
 
-        generateTaskUrl (task) {
-            var params = {}, route = null;
+        // generateTaskUrl (task) {
+        //     var params = {}, route = null;
 
-            params.task_id = task.id;
-            params.project_id = task.project_id;
+        //     params.task_id = task.id;
+        //     params.project_id = task.project_id;
 
-            if (typeof this.$route.params.user_id !== 'undefined') {
-                params.user_id = parseInt(this.$route.params.user_id)
-            }
+        //     if (typeof this.$route.params.user_id !== 'undefined') {
+        //         params.user_id = parseInt(this.$route.params.user_id)
+        //     }
 
-            if(this.$route.name == 'mytask-current') {
-                route = 'mytask_current_single_task';
-            }
+        //     if(this.$route.name == 'mytask-current') {
+        //         route = 'mytask_current_single_task';
+        //     }
 
-            if(this.$route.name == 'mytask-complete' ) {
-                route = 'mytask_complete_single_task';
-            }
+        //     if(this.$route.name == 'mytask-complete' ) {
+        //         route = 'mytask_complete_single_task';
+        //     }
 
-            if(this.$route.name == 'outstanding-task') {
-                route = 'mytask_outstanding_single_task';
-            }
+        //     if(this.$route.name == 'outstanding-task') {
+        //         route = 'mytask_outstanding_single_task';
+        //     }
 
-            if (typeof this.$route.params.user_id !== 'undefined') {
-                params.user_id = parseInt(this.$route.params.user_id)
-            }
+        //     if (typeof this.$route.params.user_id !== 'undefined') {
+        //         params.user_id = parseInt(this.$route.params.user_id)
+        //     }
 
-            var url = this.$router.resolve({
-                name: route,
-                params: params
-            }).href;
+        //     var url = this.$router.resolve({
+        //         name: route,
+        //         params: params
+        //     }).href;
 
-            var url = PM_Vars.project_page + url;
-            this.copy(url);
-        }
+        //     var url = PM_Vars.project_page + url;
+        //     this.copy(url);
+        // }
     },
     destroyed () {
-        this.$store.state.myTask.isFetchMyTaskOverview = false;
-        this.$store.state.myTask.isFetchMyTaskActivities = false;
-        this.$store.state.myTask.isFetchMyTaskProjects = false;
+        // this.$store.state.myTask.isFetchMyTaskOverview = false;
+        // this.$store.state.myTask.isFetchMyTaskActivities = false;
+        // this.$store.state.myTask.isFetchMyTaskProjects = false;
 
     }
 }

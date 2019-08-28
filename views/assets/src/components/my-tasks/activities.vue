@@ -40,6 +40,8 @@
 
         </ul>
 
+        <div v-if="!activities.length">{{ __('No activities found!', 'wedevs-project-manager') }}</div>
+
         <a v-if="total_activity>loaded_activities" href="#" @click.prevent="getSelfUserActivities()" class="button pm-load-more">{{__("Load More", 'wedevs-project-manager')}}</a>
         <span v-show="show_spinner" class="pm-spinner"></span>
     </div>
@@ -73,10 +75,8 @@
             if (!this.canShowMyTask()) {
                 this.$router.push({name:'project_lists'});
             }
-            // load Activities if not loaded
-          //  if (!this.isloaded) {
-                this.getSelfUserActivities();
-           // }
+
+            this.getSelfUserActivities();
         },
         computed: {
             activities () {
