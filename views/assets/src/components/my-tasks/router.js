@@ -16,7 +16,7 @@ import mytaskTemplete from './my-tasks.vue';
 weDevsPMRegisterChildrenRoute('project_root',
     [
         {
-            path: '/my-tasks/',
+            path: '/my-tasks/:user_id(\\d+)?',
             name: 'my_tasks',
             component: mytaskTemplete,
             children: [
@@ -33,13 +33,13 @@ weDevsPMRegisterChildrenRoute('project_root',
                             },
                             name: 'mytask_current_single_task'
                         },
-                        {
-                            path: 'pages/:current_page_number', 
-                            component: current_task,
-                            name: 'my_task_pagination',
-                        },
                     ]
                     
+                },
+                {
+                    path: 'pages/:current_page_number', 
+                    component: current_task,
+                    name: 'my_task_pagination',
                 },
                 {
                     path: 'activities',
@@ -60,34 +60,34 @@ weDevsPMRegisterChildrenRoute('project_root',
                         }
                     ]
                 },
-                {
-                    path: 'outstanding-task',
-                    component: outstanding_task,
-                    name: 'mytask-outstanding',
-                    children: [
-                        {
-                            path: 'projects/:project_id/tasks/:task_id',
-                            components: {
-                                'mytask-outstanding-single-task': pm.SingleTask
-                            },
-                            name: 'mytask_outstanding_single_task'
-                        }
-                    ]
-                },
-                {
-                    path: 'complete-task',
-                    component: complete_task,
-                    name: 'mytask-complete',
-                    children: [
-                        {
-                            path: 'projects/:project_id/tasks/:task_id',
-                            components: {
-                                'mytask-complete-single-task': pm.SingleTask
-                            },
-                            name: 'mytask_complete_single_task'
-                        }
-                    ]
-                }
+                // {
+                //     path: 'outstanding-task',
+                //     component: outstanding_task,
+                //     name: 'mytask-outstanding',
+                //     children: [
+                //         {
+                //             path: 'projects/:project_id/tasks/:task_id',
+                //             components: {
+                //                 'mytask-outstanding-single-task': pm.SingleTask
+                //             },
+                //             name: 'mytask_outstanding_single_task'
+                //         }
+                //     ]
+                // },
+                // {
+                //     path: 'complete-task',
+                //     component: complete_task,
+                //     name: 'mytask-complete',
+                //     children: [
+                //         {
+                //             path: 'projects/:project_id/tasks/:task_id',
+                //             components: {
+                //                 'mytask-complete-single-task': pm.SingleTask
+                //             },
+                //             name: 'mytask_complete_single_task'
+                //         }
+                //     ]
+                // }
             ],
            
         }

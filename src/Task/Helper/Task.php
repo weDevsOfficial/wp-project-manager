@@ -15,6 +15,7 @@ use WP_REST_Request;
 // 	title: 'Rocket',
 // 	status: '0',
 // 	page: 1
+// 	due_date_operator = ['less_than','greater_than'];
 // },
 
 class Task {
@@ -433,16 +434,57 @@ class Task {
 
 	private function where_due_date() {
 		$due_date = !empty( $this->query_params['due_date'] ) ? $this->query_params['due_date'] : false;
+		$ope_params = !empty( $this->query_params['due_date_operator'] ) ? $this->query_params['due_date_operator'] : false;
 
 		if ( $due_date === false ) {
 			return $this;
 		}
 
-		$current_date = $due_date ? date( 'Y-m-d', strtotime( $due_date ) ) : date( 'Y-m-d', strtotime( current_time( 'mysql' ) ) );
+		$q = [];
+		$null_query = '';
 
-		$this->where .= " AND {$this->tb_tasks}.due_date<'$current_date'";
+		foreach ( $ope_params as $key => $ope_param ) {
+			if ( $ope_param == 'null' ) continue;
+
+			$operator = $this->get_operator( $ope_param );
+			$due_date = date( 'Y-m-d', strtotime( $due_date ) );
+			$q[] = " {$this->tb_tasks}.due_date $operator '$due_date'";
+		}
+
+		$q = empty( $q ) ? '' : implode( ' AND ', $q );
+
+		if ( in_array( 'null', $ope_params ) ) {
+			$null_query = " {$this->tb_tasks}.due_date is null";
+		}
+
+		if ( ! empty( $null_query ) ) {
+
+			if ( ! empty( $q ) ) {
+				$this->where .= " AND ( ( $q ) OR ( $null_query ) )";
+			} 
+
+			if ( empty( $q ) ) {
+				$this->where .= " OR ( $null_query )";
+			} 
+		}
+
+		if ( empty( $null_query ) ) {
+			$this->where .= " AND ( $q )";
+		}
 
 		return $this;
+	}
+
+	private function get_operator( $param ) {
+
+		$default = [
+			'less_than'          => '<',
+			'less_than_equal'    => '<=',
+			'greater_than'       => '>',
+			'greater_than_equal' => '>=',
+		];
+
+		return empty( $default[$param] ) ? '' : $default[$param]; 
 	}
 
 	/**
@@ -581,7 +623,7 @@ class Task {
 			WHERE 1=1 {$this->where}
 			
 			{$this->limit}";
-
+		
 		if ( $this->is_single_query ) {
 			$results = $wpdb->get_row( $query );
 		} else { 

@@ -11,7 +11,7 @@
             </thead>
             <tbody>
                 <tr v-if="tasks.length" v-for="task in tasks">
-                    <td>{{ task.title }}</td>
+                    <td><a href="#" @click.prevent="popuSilgleTask(task)">{{ task.title }}</a></td>
                     <td>{{ task.task_list.title }}</td>
                     <td>{{ task.project.title }}</td>
                     <td>{{ getCreatedAtValue(task) }}</td>
@@ -21,6 +21,11 @@
                 </tr>
             </tbody>
         </table>
+
+        <div v-if="parseInt(individualTaskId) && parseInt(individualProjectId)">
+            <single-task :taskId="parseInt(individualTaskId)" :projectId="parseInt(individualProjectId)"></single-task>
+        </div>
+        <router-view name="singleTask"></router-view>
     </div>
 </template>
 <script>
@@ -34,11 +39,31 @@
             }
         },
 
+        data () {
+            return {
+                individualTaskId: 0,
+                individualProjectId: 0
+            }
+        },
+
+        components: {
+            'single-task': pm.SingleTask,
+        },
+
         created () {
-            
+            pmBus.$on('pm_after_close_single_task_modal', this.afterCloseSingleTaskModal);
+            pmBus.$on('pm_generate_task_url', this.generateTaskUrl);
         },
 
         methods: {
+            afterCloseSingleTaskModal () {
+                this.individualTaskId = false;
+                this.individualProjectId = false;
+            },
+            popuSilgleTask (task) {
+                this.individualTaskId = task.id;
+                this.individualProjectId = task.project_id;
+            },
             getCreatedAtValue (task) {
                 if(typeof this.$route.query.start_at == 'undefined' || typeof this.$route.query.due_date == 'undefined') {
                     return this.shortDateFormat(task.created_at);
