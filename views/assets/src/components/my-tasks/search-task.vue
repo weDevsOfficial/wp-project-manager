@@ -252,7 +252,7 @@
 					this.calendarOptions.autoUpdateInput = false;
 				}
 
-				this.find();
+				//this.find();
 			},
 			asyncProjectFind (val) {
 
@@ -342,6 +342,9 @@
 			},
 
 			sendRequest () {
+				if(this.isLoading === true) {
+					return;
+				}
 				var self = this;
 				var data = Object.assign({}, this.$route.query);
 
@@ -377,6 +380,7 @@
 	                    self.total_task_page = res.meta.total_page;
 	                    self.component = self.search.status;
 	                    self.isLoading = false;
+	                    pm.NProgress.done();
 	                },
 	                error (res) {
 	                    

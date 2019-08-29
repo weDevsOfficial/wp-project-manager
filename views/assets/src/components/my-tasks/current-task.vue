@@ -12,8 +12,30 @@
             <tbody>
                 <tr v-if="tasks.length" v-for="task in tasks">
                     <td><a href="#" @click.prevent="popuSilgleTask(task)">{{ task.title }}</a></td>
-                    <td>{{ task.task_list.title }}</td>
-                    <td>{{ task.project.title }}</td>
+                    <td>
+                        <router-link
+                          :to="{
+                            name: 'single_list',
+                            params: {
+                                project_id: task.project_id,
+                                list_id: task.task_list_id
+                            }
+                        }">
+                            {{ task.task_list.title }}
+                        </router-link>
+
+                    </td>
+                    <td>
+                        <router-link
+                          :to="{
+                            name: 'task_lists',
+                            params: {
+                                project_id: task.project_id,
+                            }
+                        }">
+                            {{ task.project.title }}
+                        </router-link>
+                    </td>
                     <td>{{ getCreatedAtValue(task) }}</td>
                 </tr>
                 <tr v-if="!tasks.length">
@@ -56,6 +78,23 @@
         },
 
         methods: {
+            goToSigleList (task) {
+                this.$router.push({
+                    name: 'single_list',
+                    params: { 
+                        project_id: task.project_id,
+                        list_id: task.task_list_id
+                    }
+                });
+            },
+            goToProject(task) {
+                this.$router.push({
+                    name: 'task_lists',
+                    params: { 
+                        project_id: task.project_id,
+                    }
+                });
+            },
             afterCloseSingleTaskModal () {
                 this.individualTaskId = false;
                 this.individualProjectId = false;

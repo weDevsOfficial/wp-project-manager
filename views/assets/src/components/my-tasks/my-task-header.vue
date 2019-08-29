@@ -166,7 +166,7 @@
         },
 
         destroyed () {
-            pmBud.$off('after_change_user');
+            pmBus.$off('after_change_user');
         }
     }
 </script>
