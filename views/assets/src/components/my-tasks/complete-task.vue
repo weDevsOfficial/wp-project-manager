@@ -11,9 +11,31 @@
             </thead>
             <tbody>
                 <tr v-if="tasks.length" v-for="task in tasks">
-                    <td>{{ task.title }}</td>
-                    <td>{{ task.task_list.title }}</td>
-                    <td>{{ task.project.title }}</td>
+                    <td><a href="#" @click.prevent="popuSilgleTask(task)">{{ task.title }}</a></td>
+                    <td>
+                        <router-link
+                          :to="{
+                            name: 'single_list',
+                            params: {
+                                project_id: task.project_id,
+                                list_id: task.task_list_id
+                            }
+                        }">
+                            {{ task.task_list.title }}
+                        </router-link>
+
+                    </td>
+                    <td>
+                        <router-link
+                          :to="{
+                            name: 'task_lists',
+                            params: {
+                                project_id: task.project_id,
+                            }
+                        }">
+                            {{ task.project.title }}
+                        </router-link>
+                    </td>
                     <td>{{ shortDateFormat(task.completed_at) }}</td>
                 </tr>
                 <tr v-if="!tasks.length">
@@ -56,6 +78,23 @@
         },
 
         methods: {
+            goToProject(task) {
+                this.$router.push({
+                    name: 'task_lists',
+                    params: { 
+                        project_id: task.project_id,
+                    }
+                });
+            },
+            goToSigleList (task) {
+                this.$router.push({
+                    name: 'single_list',
+                    params: { 
+                        project_id: task.project_id,
+                        list_id: task.task_list_id
+                    }
+                });
+            },
             afterCloseSingleTaskModal () {
                 this.individualTaskId = false;
                 this.individualProjectId = false;
