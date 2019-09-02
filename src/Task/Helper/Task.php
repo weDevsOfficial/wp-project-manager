@@ -608,6 +608,7 @@ class Task {
 		
 		$id        = isset( $this->query_params['id'] ) ? $this->query_params['id'] : false;
 		$boardable = pm_tb_prefix() . 'pm_boardables';
+		$tasks = [];
 
 		$query = "SELECT SQL_CALC_FOUND_ROWS DISTINCT {$this->select}, 
 			list.id as task_list_id, 
@@ -620,7 +621,7 @@ class Task {
 			Left join $boardable as boardable ON boardable.boardable_id = {$this->tb_tasks}.id
 			Left join {$this->tb_lists} as list ON list.id = boardable.board_id
 			
-			WHERE 1=1 {$this->where}
+			WHERE 1=1 {$this->where} AND boardable.board_type='task_list' AND boardable.boardable_type='task'
 			
 			{$this->limit}";
 		
@@ -632,14 +633,16 @@ class Task {
 			// If task has not boardable_id mean no list
 			foreach ( $results as $key => $result ) {
 				if( empty( $result->task_list_id ) ) {
-					unset( $results[$key] );
+					continue;
 				}
+
+				$tasks[] = $result;
 			}
 		} 
 		
 		$this->found_rows = $wpdb->get_var( "SELECT FOUND_ROWS()" );
-	
-		$this->tasks = $results;
+		
+		$this->tasks = $tasks;
 
 		if ( ! empty( $results ) && is_array( $results ) ) {
 			$this->task_ids = wp_list_pluck( $results, 'id' );

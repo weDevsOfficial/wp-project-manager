@@ -16,8 +16,10 @@ class Upgrade_2_3 extends WP_Background_Process {
 
     function __construct() {
         parent::__construct();
+        
         add_action('admin_notices', array( $this, 'notification' ) );
         add_filter( 'heartbeat_received', array( $this, 'receive_heartbeat' ), 10, 2 );
+        add_filter( $this->identifier . '_memory_exceeded', array( $this, 'memory_exceeded' ) );
     }
 
     function receive_heartbeat($response, $data) {
@@ -103,7 +105,7 @@ class Upgrade_2_3 extends WP_Background_Process {
             var percentage    = "<?php echo $percentage; ?>";
             var perctnage_txt = "<?php echo $percentage; ?>";
 
-            perctnage_txt = percentage == 0 ? '' : percentage+'%';
+            perctnage_txt = percentage == 0 ? '' : Math.ceil(percentage)+'%';
 
             var cross_btn = bg_complete == 'complete' ? '<span class="cancel">&#10006;</span>' : '';
             
@@ -123,7 +125,7 @@ class Upgrade_2_3 extends WP_Background_Process {
                     return;
                 }
 
-                perctnage_txt = percentage == 0 ? '' : percentage+'%';
+                perctnage_txt = percentage == 0 ? '' : Math.ceil(percentage)+'%';
 
                 var cross_btn = bg_complete == 'complete' ? '<span class="cancel">&#10006;</span>' : '';
                 
@@ -207,6 +209,18 @@ class Upgrade_2_3 extends WP_Background_Process {
         <?php
     }
 
+    function memory_exceeded() {
+        $memory_limit   = $this->get_memory_limit() * 0.5; // 90% of max memory
+        $current_memory = memory_get_usage( true );
+        $return         = false;
+
+        if ( $current_memory >= $memory_limit ) {
+            $return = true;
+        }
+
+        return $return;
+    }
+
     /**
      * task funciotn run on background over time
      * comes form WP_Background_Process abstruct    
@@ -214,6 +228,7 @@ class Upgrade_2_3 extends WP_Background_Process {
      * @return 
      */
     function task( $item ) {
+        
 
         if ( $item['type'] == 'task' ) {
             $is_private = $this->set_task_is_private( $item['id'] );
@@ -235,7 +250,14 @@ class Upgrade_2_3 extends WP_Background_Process {
         $query_completed = $query_completed+1;
 
         update_option( 'pm_queue_complete_2_3', $query_completed );
+
+        // $memory_limit   = ($this->get_memory_limit() * 0.6); // 90% of max memory
+        // $current_memory = memory_get_usage( true );
        
+        // if ( $memory_limit < $current_memory ) {
+        //     $batch->data[ $key ] = $task;
+        // }
+        
         return false;
     }
 
@@ -372,10 +394,10 @@ class Upgrade_2_3 extends WP_Background_Process {
         }
 
         $key = $wpdb->esc_like( $this->identifier . '_batch_' ) . '%';
-
-        $query = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$table} WHERE {$column} LIKE %s ", $key ) );
-        //pmpr($wpdb->prepare( "SELECT * FROM {$table} WHERE {$column} LIKE %s ", $key )); die();
-        //$query = $wpdb->query( $wpdb->prepare( "DELETE FROM {$table} WHERE {$column} LIKE %s ", $key ) );
+        echo  "DELETE FROM {$table} WHERE {$column} LIKE $key"; die();
+        //$query = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$table} WHERE {$column} LIKE %s ", $key ) );
+        $query = $wpdb->query( $wpdb->prepare( "DELETE FROM {$table} WHERE {$column} LIKE %s ", $key ) );
+        //pmpr($wpdb->get_results($wpdb->prepare( "SELECT * FROM {$table} WHERE {$column} LIKE %s ", $key ))); die();
     }
 
     private function crate_task_private_column() {
@@ -491,7 +513,8 @@ class Upgrade_2_3 extends WP_Background_Process {
 
         $sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
               `role_project_id` int(20) UNSIGNED NOT NULL,
-              `capability_id` int(20) UNSIGNED NOT NULL
+              `capability_id` int(20) UNSIGNED NOT NULL,
+              KEY `role_project_id` (`role_project_id`)
             ) DEFAULT CHARSET=utf8";
 
 
@@ -592,7 +615,8 @@ class Upgrade_2_3 extends WP_Background_Process {
 
         $sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
               `role_project_id` int(20) UNSIGNED NOT NULL,
-              `user_id` int(20) UNSIGNED NOT NULL
+              `user_id` int(20) UNSIGNED NOT NULL,
+              KEY `role_project_id` (`role_project_id`)
             ) DEFAULT CHARSET=utf8";
 
         dbDelta($sql);

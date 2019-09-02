@@ -60,7 +60,8 @@ class PM_Create_Table {
 
         $sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
               `role_project_id` int(20) UNSIGNED NOT NULL,
-              `capability_id` int(20) UNSIGNED NOT NULL
+              `capability_id` int(20) UNSIGNED NOT NULL,
+              KEY `role_project_id` (`role_project_id`)
             ) DEFAULT CHARSET=utf8";
 
 
@@ -73,7 +74,8 @@ class PM_Create_Table {
 
         $sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
               `role_project_id` int(20) UNSIGNED NOT NULL,
-              `user_id` int(20) UNSIGNED NOT NULL
+              `user_id` int(20) UNSIGNED NOT NULL,
+              KEY `role_project_id` (`role_project_id`)
             ) DEFAULT CHARSET=utf8";
 
         dbDelta($sql);
