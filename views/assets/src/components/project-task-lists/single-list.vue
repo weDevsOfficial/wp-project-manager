@@ -58,7 +58,7 @@
                     </div>
 
                     <div v-if="list.edit_mode" class="list-update-warp">
-                         <new-task-list-form section="lists" :list="list" ></new-task-list-form>
+                        <new-task-list-form section="lists" :list="list" ></new-task-list-form>
                     </div>
                 </div>
             </div>
@@ -73,6 +73,10 @@
                 <list-comments :comments="comments" :commentable="list"></list-comments>
             </div>
             
+        </div>
+
+        <div v-if="parseInt(listTaskId) && parseInt(listProjectId)">
+            <single-task :taskId="listTaskId" :projectId="listProjectId"></single-task>
         </div>
     </div>
 
@@ -451,6 +455,8 @@
          */
         data: function() {
             return {
+                listTaskId: false,
+                listProjectId: false,
                 list_id: this.$route.params.list_id,
                 //list: {},
                 render_tmpl: false,
@@ -480,8 +486,10 @@
             this.getGlobalMilestones();
             this.$store.state.projectTaskLists.is_single_list = true; 
             pmBus.$on('pm_before_destroy_single_task', this.afterDestroySingleTask);
+            pmBus.$on('pm_after_close_single_task_modal', this.closePopup);
             pmBus.$on('pm_generate_task_url', this.generateTaskUrl);
             window.addEventListener('click', this.windowActivity);
+            this.hasSingleTask();
         },
 
         components: {
@@ -491,6 +499,7 @@
             'new-task-button': new_task_button,
             'pm-header': header,
             'list-tasks': tasks,
+            'single-task': pm.SingleTask,
             pmMenu: Menu,
         },
 
@@ -542,6 +551,16 @@
         },
 
         methods: {
+            closePopup () {
+                this.listTaskId = false;
+                this.listProjectId = false;
+            },
+            hasSingleTask () {
+                if(this.$route.name == 'single_task') {
+                    this.listTaskId = parseInt( this.$route.params.task_id );
+                    this.listProjectId = parseInt( this.$route.params.project_id );
+                }
+            },
             windowActivity (el) {
                 var listActionWrap = jQuery(el.target).closest('.list-more-menu');
 

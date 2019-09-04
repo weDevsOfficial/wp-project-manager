@@ -74,10 +74,18 @@
 
         created () {
             pmBus.$on('pm_after_close_single_task_modal', this.afterCloseSingleTaskModal);
-            pmBus.$on('pm_generate_task_url', this.generateTaskUrl);
+            //pmBus.$on('pm_generate_task_url', this.generateTaskUrl);
         },
 
         methods: {
+            getDate(task) {
+                if(typeof task.completed_at != 'undefined' && task.completed_at != '') {
+                    return pm.Moment( task.completed_at ).format( 'MMM DD, YYYY' );
+                }
+
+                return '';
+                
+            },
             goToSigleList (task) {
                 this.$router.push({
                     name: 'single_list',
@@ -105,16 +113,24 @@
             },
             getCreatedAtValue (task) {
                 if(typeof this.$route.query.start_at == 'undefined' || typeof this.$route.query.due_date == 'undefined') {
-                    return this.shortDateFormat(task.created_at);
+                    return this.getDate(task.created_at);
                 }
 
                 if(this.$route.query.start_at == '' || this.$route.query.due_date == '') {
-                    return this.shortDateFormat(task.created_at);
+                    return this.getDate(task.created_at);
                 }
 
                 if(this.$route.query.start_at != '' && this.$route.query.due_date != '') {
-                    return this.shortDateFormat(task.start_at) +'-'+ this.shortDateFormat(task.due_date);
+                    return this.getDate(task.start_at) +'-'+ this.getDate(task.due_date);
                 }
+            },
+            getDate(date) {
+                if(typeof date != 'undefined' && date != '') {
+                    return pm.Moment( date ).format( 'MMM DD, YYYY' );
+                }
+
+                return '';
+                
             },
             getCreatedAtLabel () {
 

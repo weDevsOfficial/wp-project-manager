@@ -2,7 +2,7 @@
 	<div class="my-task-filter-wrap">
 		<form class="form" action="" @submit.prevent="find()">
 			<div class="field">
-				<input type="text" name="task_title" v-model="search.title">
+				<input type="text" :placeholder="__('Task title', 'wedevs-project-manager')" name="task_title" v-model="search.title">
 			</div>
 			<div class="field project-dropdown-wrap">
                 <multiselect
@@ -59,7 +59,7 @@
 		</form>
 
 		<div :class="getContentClass()">
-			<div class="loadmoreanimation">
+			<div class="loadmoreanimation-mytask">
 	            <div class="load-spinner">
 	                <div class="rect1"></div>
 	                <div class="rect2"></div>
@@ -141,7 +141,7 @@
 			}
 		}
 		.content-wrap {
-			.loadmoreanimation {
+			.loadmoreanimation-mytask {
 				display: none;
 			}
 		}
@@ -149,7 +149,7 @@
 		.task-loading {
 			position: relative;
 			background: #fff;
-			.loadmoreanimation {
+			.loadmoreanimation-mytask {
                 position: absolute;
                 left: 45%;
                 top: 16%;
@@ -233,9 +233,23 @@
 			this.setQuery();
 
 			pmBus.$on('after_change_user', this.afterChangeUser);
+			pmBus.$on('pm_generate_task_url', this.generateSinglTaskUrl);
 		},
 
 		methods: {
+			generateSinglTaskUrl(task) {
+				var url = this.$router.resolve({
+                    name: 'single_task',
+                    params: {
+                        task_id: task.id,
+                        project_id: task.project_id,
+                        list_id: task.task_list_id
+                    }
+                }).href;
+                var url = PM_Vars.project_page + url;
+                //var url = PM_Vars.project_page + '#/projects/' + task.project_id + '/task-lists/tasks/' + task.id; 
+                this.copy(url);
+			},
 			getContentClass () {
 				return this.isLoading ? 'content-wrap task-loading' : 'content-wrap';
 			},
@@ -355,7 +369,7 @@
 				} else if (data.status == 'completed') {
 					data.status = 1;
 				} else if (data.status == 'outstanding') {
-					delete data.status;
+					data.status = 0;
 					data.due_date = pm.Moment().format('YYYY-MM-DD');
 					data.due_date_operator = ['less_than_equal'];
 				}

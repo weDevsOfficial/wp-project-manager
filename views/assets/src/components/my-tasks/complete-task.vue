@@ -36,7 +36,7 @@
                             {{ task.project.title }}
                         </router-link>
                     </td>
-                    <td>{{ shortDateFormat(task.completed_at) }}</td>
+                    <td>{{ getDate(task) }}</td>
                 </tr>
                 <tr v-if="!tasks.length">
                     <td colspan="4">{{ __('No task found!', 'wedevs-project-manager') }}</td>
@@ -78,6 +78,14 @@
         },
 
         methods: {
+            getDate(task) {
+                if(typeof task.completed_at != 'undefined' && task.completed_at != '') {
+                    return pm.Moment( task.completed_at ).format( 'MMM DD, YYYY' );
+                }
+
+                return '';
+                
+            },
             goToProject(task) {
                 this.$router.push({
                     name: 'task_lists',
