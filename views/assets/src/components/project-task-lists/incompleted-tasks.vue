@@ -99,7 +99,7 @@
         <div v-if="task.edit_mode && can_create_task" class="task-update-wrap nonSortableTag">
             <new-task-form  :task="task" :list="list"></new-task-form>
         </div>
-        
+
         <div v-if="parseInt(taskId) && parseInt(projectId)">
             <single-task :taskId="taskId" :projectId="projectId"></single-task>
         </div>

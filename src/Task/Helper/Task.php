@@ -5,10 +5,8 @@ use WP_REST_Request;
 
 // data: {
 // 	with: 'assignees,categories',
-// 	task_lists_per_page: '10',
-// 	tasks_per_page: '10',
 // 	per_page: '10',
-// 	select: 'id, title',
+// 	select: ['id, title']
 // 	categories: [2, 4],
 // 	assignees: [1,2],
 // 	id: [1,2],

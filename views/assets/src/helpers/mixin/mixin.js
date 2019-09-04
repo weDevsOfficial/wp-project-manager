@@ -105,7 +105,7 @@ export default {
                 this[key] = status;
             }
         },
-        __ (text, domain) {
+        __(text, domain) {
             return __(text, domain);
         },
         sprintf: sprintf,
