@@ -20,6 +20,7 @@ class Discussion_Board extends Eloquent {
         'title',
         'description',
         'order',
+        'is_private',
         'project_id',
         'created_by',
         'updated_by',

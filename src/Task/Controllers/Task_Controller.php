@@ -90,23 +90,6 @@ class Task_Controller {
         $project_id = $request->get_param( 'project_id' );
         $task_id    = $request->get_param( 'task_id' );
         return $this->get_task( $task_id, $project_id, $request->get_params() );
-
-
-        // $task = Task::with('task_lists')->where( 'id', $task_id )
-        //     ->parent()
-        //     ->where( 'project_id', $project_id );
-        // $task = apply_filters( 'pm_task_show_query', $task, $project_id, $request );
-        // $task = $task->first();
-
-        // if ( $task == NULL ) {
-        //     return $this->get_response( null,  [
-        //         'message' => pm_get_text('success_messages.no_element')
-        //     ] );
-        // }
-
-        // $resource = new Item( $task, new Task_Transformer );
-
-        // return $this->get_response( $resource );
     }
 
     public static function get_task( $task_id, $project_id, $request=[] ) {
@@ -135,7 +118,8 @@ class Task_Controller {
         $project_id    = $request->get_param( 'project_id' );
         $board_id      = $request->get_param( 'board_id' );
         $assignees     = $request->get_param( 'assignees' );
-
+        $is_private    = $request->get_param( 'privacy' );
+        $data['is_private']    = $is_private == 'true' || $is_private === true ? 1 : 0;
 
         if ( empty( $board_id ) ) {
             $inbox            = pm_get_meta($project_id, $project_id, 'task_list', 'list-inbox');
@@ -258,6 +242,8 @@ class Task_Controller {
         $project_id           = $task->project_id;
         $params['project_id'] = $task->project_id;
         $params['list_id']    = $task->task_list;
+        $is_private           = isset( $params['privacy'] ) ? $params['privacy'] : false;
+        $params['is_private'] = $is_private == 'true' || $is_private === true ? 1 : 0;
 
         $deleted_users = $task->assignees()->whereNotIn( 'assigned_to', $assignees )->get()->toArray(); //->delete();
         $deleted_users = apply_filters( 'pm_task_deleted_users', $deleted_users, $task );
@@ -491,6 +477,10 @@ class Task_Controller {
         $project_id = $request->get_param( 'project_id' );
         $task_id = $request->get_param( 'task_id' );
         $privacy = $request->get_param( 'is_private' );
+        $task = Task::find( $task_id );
+        $task->update_model( [
+            'is_private' => $privacy
+        ] );
         pm_update_meta( $task_id, $project_id, 'task', 'privacy', $privacy );
         return $this->get_response( NULL);
     }
