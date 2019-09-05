@@ -86,6 +86,8 @@ class Milestone_Controller {
     public function store( WP_REST_Request $request ) {
         // Grab non empty user input
         $data = $this->extract_non_empty_values( $request );
+        $is_private    = $request->get_param( 'privacy' );
+        $data['is_private']    = $is_private == 'true' || $is_private === true ? 1 : 0;
 
         // Milestone achieve date
         $achieve_date = $request->get_param( 'achieve_date' );
@@ -122,6 +124,9 @@ class Milestone_Controller {
         $data         = $this->extract_non_empty_values( $request );
         $achieve_date = $request->get_param( 'achieve_date' );
         $status       = $request->get_param( 'status' );
+
+        $is_private    = $request->get_param( 'privacy' );
+        $data['is_private']    = $is_private == 'true' || $is_private === true ? 1 : 0;
 
         // Set project id from url parameter
         $project_id   = $request->get_param( 'project_id' );
@@ -187,6 +192,10 @@ class Milestone_Controller {
         $project_id = $request->get_param( 'project_id' );
         $milestone_id = $request->get_param( 'milestone_id' );
         $privacy = $request->get_param( 'is_private' );
+        $milestone = Milestone::find( $milestone_id );
+        $milestone->update_model( [
+            'is_private' => $privacy
+        ] );
         pm_update_meta( $milestone_id, $project_id, 'milestone', 'privacy', $privacy );
         return $this->get_response( NULL);
     }

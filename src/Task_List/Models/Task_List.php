@@ -23,6 +23,7 @@ class Task_List extends Eloquent {
         'description',
         'order',
         'status',
+        'is_private',
         'project_id',
         'created_by',
         'updated_by',
