@@ -292,9 +292,21 @@ class Upgrade_2_3 extends WP_Background_Process {
     }
 
     private function set_board_is_private( $id ) {
-        $private = $this->get_meta_value( $id, 'task_list' );
+        $private = $this->get_board_meta_value( $id );
 
         return $private == 1 ? true : false;
+    }
+
+    private function get_board_meta_value( $id ) {
+        global $wpdb;
+        $tb_meta = $wpdb->prefix . 'pm_meta';
+
+        $query = "SELECT meta_value FROM {$tb_meta} 
+            WHERE entity_id=%d 
+            AND entity_type IN ('task_list', 'milestone', 'discussion_board')
+            AND meta_key=%s";
+
+        return $wpdb->get_var( $wpdb->prepare( $query, $id, 'privacy'  ) );
     }
 
     private function get_meta_value( $id, $type ) {
