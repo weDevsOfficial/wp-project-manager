@@ -6,6 +6,7 @@
                     <td>{{ __('Tasks', 'wedevs-project-manager') }}</td>
                     <td>{{ __('Task List', 'wedevs-project-manager') }}</td>
                     <td>{{ __('Projects', 'wedevs-project-manager') }}</td>
+                    <td>{{ __('Due Date', 'wedevs-project-manager') }}</td>
                     <td>{{ getCreatedAtLabel() }}</td>
                 </tr>
             </thead>
@@ -36,6 +37,7 @@
                             {{ task.project.title }}
                         </router-link>
                     </td>
+                    <td v-html="getRelativeDueDate(task)"></td>
                     <td>{{ getCreatedAtValue(task) }}</td>
                 </tr>
                 <tr v-if="!tasks.length">
@@ -78,6 +80,14 @@
         },
 
         methods: {
+            getRelativeDueDate (task) {
+                if(typeof task.due_date != 'undefined' && task.due_date != '' && task.due_date) {
+                    let dueDate = pm.Moment( task.due_date ).format( 'MMM DD, YYYY' );
+                    return this.relativeDate(dueDate);
+                }
+
+                return '&ndash; &ndash;';
+            },
             getDate(task) {
                 if(typeof task.completed_at != 'undefined' && task.completed_at != '') {
                     return pm.Moment( task.completed_at ).format( 'MMM DD, YYYY' );
