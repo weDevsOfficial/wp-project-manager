@@ -210,6 +210,14 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= v2.3.0 - Jul 22, 2019 =
+
+* **New** Remove current task, outstanding task and completed task tabs from my tasks.
+* **New** Advanced task filtering option according to current task, outstanding task and completed task in my tasks section.
+* **New** pm_capabilities, pm_role_project, pm_role_project_capabilities, pm_role_project_users table for permission management.
+* **Update** Change single task popup url from my-task to single task lists.
+* **Fix** Progress load more is not working.
+
 = v2.2.4 - Jul 22, 2019 =
 
 * **New** Task title field in task list search form.

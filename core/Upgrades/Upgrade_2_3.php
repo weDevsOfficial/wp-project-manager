@@ -250,13 +250,6 @@ class Upgrade_2_3 extends WP_Background_Process {
         $query_completed = $query_completed+1;
 
         update_option( 'pm_queue_complete_2_3', $query_completed );
-
-        // $memory_limit   = ($this->get_memory_limit() * 0.6); // 90% of max memory
-        // $current_memory = memory_get_usage( true );
-       
-        // if ( $memory_limit < $current_memory ) {
-        //     $batch->data[ $key ] = $task;
-        // }
         
         return false;
     }
