@@ -179,7 +179,7 @@ class Upgrade_2_3 extends WP_Background_Process {
             }
             /*linear-gradient(to bottom, #ffa238, #e8912d, #d06f00)*/
             .progress-wrap .progress-bar {
-                background: linear-gradient(to bottom, #ffa238, #e8912d, #d06f00);
+                background: #1a9ed5; /*linear-gradient(to bottom, #acd3f7, #8ab5dc, #6b9ac3);*/
                 left: 0;
                 position: absolute;
                 top: 0;
