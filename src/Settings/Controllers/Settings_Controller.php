@@ -11,6 +11,7 @@ use WeDevs\PM\Settings\Models\Settings;
 use WeDevs\PM\Settings\Transformers\Settings_Transformer;
 use WeDevs\PM\Common\Traits\Transformer_Manager;
 use WeDevs\PM\Core\File_System\File_System;
+use WeDevs\PM\Settings\Helper\Settings as Helper;
 
 class Settings_Controller {
 
@@ -54,7 +55,7 @@ class Settings_Controller {
         $data       = $this->extract_non_empty_values( $request );
         $project_id = $request->get_param( 'project_id' );
         $settings   = $request->get_param( 'settings' );
-        $id   = $request->get_param( 'id' );
+        $id         = $request->get_param( 'id' );
         
         if ( is_array( $settings ) ) {
             $settings_collection = [];
@@ -64,12 +65,17 @@ class Settings_Controller {
             }
 
             $resource = new Collection( $settings_collection, new Settings_Transformer );
+            ( new Helper )->update_project_permission( $settings, $project_id );
         } else {
 
             $settings = $this->save_settings( $data, $project_id, $id );
             $resource = new Item( $settings, new Settings_Transformer );
+            ( new Helper )->update_project_permission( $data, $project_id );
         }
         do_action( 'pm_after_save_settings', $settings );
+
+        
+
         $message = [
             'message' => pm_get_text('success_messages.setting_saved')
         ];
@@ -138,7 +144,7 @@ class Settings_Controller {
 
     public function notice(WP_REST_Request $request) {
         $action = $request->get_param('action');
-
+        
         update_option( $action, 'complete' );
     }
 }

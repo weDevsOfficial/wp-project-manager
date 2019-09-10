@@ -73,6 +73,9 @@ class Discussion_Board_Controller {
         $media_data = $request->get_file_params();
         $milestone_id = $request->get_param( 'milestone' );
         $files = array_key_exists( 'files', $media_data ) ? $media_data['files'] : null;
+
+        $is_private    = $request->get_param( 'privacy' );
+        $data['is_private']    = $is_private == 'true' || $is_private === true ? 1 : 0;
         
         $milestone = Milestone::find( $milestone_id );
         $discussion_board = Discussion_Board::create( $data );
@@ -104,6 +107,9 @@ class Discussion_Board_Controller {
         $milestone_id        = $request->get_param( 'milestone' );
         $files               = array_key_exists( 'files', $media_data ) ? $media_data['files'] : null;
         $files_to_delete     = $request->get_param( 'files_to_delete' );
+
+        $is_private    = $request->get_param( 'privacy' );
+        $data['is_private']    = $is_private == 'true' || $is_private === true ? 1 : 0;
 
         $milestone = Milestone::find( $milestone_id );
         $discussion_board = Discussion_Board::with('metas')->where( 'id', $discussion_board_id )
@@ -234,6 +240,10 @@ class Discussion_Board_Controller {
         $project_id = $request->get_param( 'project_id' );
         $discussion_board_id = $request->get_param( 'discussion_board_id' );
         $privacy = $request->get_param( 'is_private' );
+        $discuss = Discussion_Board::find( $discussion_board_id );
+        $discuss->update_model( [
+            'is_private' => $privacy
+        ] );
         pm_update_meta( $discussion_board_id, $project_id, 'discussion_board', 'privacy', $privacy );
         return $this->get_response( NULL);
     }

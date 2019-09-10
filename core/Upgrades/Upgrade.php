@@ -12,6 +12,7 @@ class Upgrade {
         '2.2'   => 'Upgrade_2_2',
         '2.2.1' => 'Upgrade_2_2_1',
         '2.2.2' => 'Upgrade_2_2_2',
+        '2.3'   => 'Upgrade_2_3',
     ];
 
     public static $instance = null;
@@ -120,7 +121,7 @@ class Upgrade {
             }
             return false;
         }
-
+        
         if ( version_compare( $installed_version, $updatable_versions , '<' ) ) {
             return true;
         }

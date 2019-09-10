@@ -1,112 +1,116 @@
 <template>
-    <div class="mytask-complete">
+    <div class="mytask-current">
+        <table class="wp-list-table widefat fixed striped posts">
+            <thead>
+                <tr>
+                    <td>{{ __('Tasks', 'wedevs-project-manager') }}</td>
+                    <td>{{ __('Task List', 'wedevs-project-manager') }}</td>
+                    <td>{{ __('Projects', 'wedevs-project-manager') }}</td>
+                    <td>{{ __('Completed at', 'wedevs-project-manager') }}</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-if="tasks.length" v-for="task in tasks">
+                    <td><a href="#" @click.prevent="popuSilgleTask(task)">{{ task.title }}</a></td>
+                    <td>
+                        <router-link
+                          :to="{
+                            name: 'single_list',
+                            params: {
+                                project_id: task.project_id,
+                                list_id: task.task_list_id
+                            }
+                        }">
+                            {{ task.task_list.title }}
+                        </router-link>
 
-        <div v-if="!isloaded" class="pm-data-load-before" >
-            <div class="loadmoreanimation">
-                <div class="load-spinner">
-                    <div class="rect1"></div>
-                    <div class="rect2"></div>
-                    <div class="rect3"></div>
-                    <div class="rect4"></div>
-                    <div class="rect5"></div>
-                </div>
-            </div>
+                    </td>
+                    <td>
+                        <router-link
+                          :to="{
+                            name: 'task_lists',
+                            params: {
+                                project_id: task.project_id,
+                            }
+                        }">
+                            {{ task.project.title }}
+                        </router-link>
+                    </td>
+                    <td>{{ getDate(task) }}</td>
+                </tr>
+                <tr v-if="!tasks.length">
+                    <td colspan="4">{{ __('No task found!', 'wedevs-project-manager') }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div v-if="parseInt(individualTaskId) && parseInt(individualProjectId)">
+            <single-task :taskId="parseInt(individualTaskId)" :projectId="parseInt(individualProjectId)"></single-task>
         </div>
-
-        <div v-else>
-            <div id="pm-mytask-page-content">
-                <ul class="pm-todolists">
-                    <li class="pm-fade-out-15">
-                        <article class="pm-todolist" v-for="project in projects" :key="project.id">
-                            <header class="pm-list-header">
-                                <h3>
-                                    <router-link :to="{name: 'pm_overview', params: {
-                                        project_id: project.id
-                                    }}" >
-                                        {{project.title}}
-                                    </router-link>
-                                </h3>
-                            </header>
-
-                            <div class="pm-incomplete-tasks">
-
-                                <ul class="pm-todos pm-todolist-content pm-incomplete-task ">
-
-                                    <li class="pm-todo pm-fade-out-15" v-for="task in project.tasks.data" :key="task.id">
-                                        <my-task :task="task"></my-task>
-                                    </li>
-                                </ul>
-                            </div>
-                        </article>
-                    </li>
-                </ul>
-                <div class="no-task" v-if="!projects.length">
-                    <p>{{ __("No tasks found.", 'wedevs-project-manager') }}</p>
-                </div>
-            </div>
-        </div>
+        <router-view name="singleTask"></router-view>
     </div>
 </template>
 <script>
-    import myTask from "./task.vue";
-    import Mixins from './mixin';
-
     export default {
-        data () {
-            return {
-                hasCompletedTask: true,
-            }
-        },
-        watch:{
-            '$route' (route) {
-                if (route.params.user_id !== this.user_id) {
-                    this.$store.commit('myTask/setLoadFalse');
-                    this.getSelfcompleteTask();
-                    this.getUserMeta();
-                    this.user_id = route.params.user_id;
-                } else {
-                    pm.NProgress.done();
+        props: {
+            tasks: {
+                type: [Array],
+                default () {
+                    return [];
                 }
             }
         },
-        created () {
-            if (!this.canShowMyTask()) {
-                this.$router.push({name:'project_lists'});
+
+        data () {
+            return {
+                individualTaskId: 0,
+                individualProjectId: 0
             }
-           // if (!this.isloaded) {
-                this.getSelfcompleteTask();
-          //  }
         },
+
         components: {
-            'myTask' : myTask
+            'single-task': pm.SingleTask,
         },
-        mixins: [PmMixin.projectTaskLists, Mixins],
-        computed: {
-            projects () {
-                return this.$store.state.myTask.completeTasks;
-            },
-            isloaded () {
-                return this.$store.state.myTask.isFetchCompleteTasks;
-            }
+
+        created () {
+            pmBus.$on('pm_after_close_single_task_modal', this.afterCloseSingleTaskModal);
+            pmBus.$on('pm_generate_task_url', this.generateTaskUrl);
         },
 
         methods: {
-            getSelfcompleteTask () {
-                var user_id = typeof this.$route.params.user_id !== 'undefined' ? this.$route.params.user_id : this.current_user.ID;
-                var args = {
-                    user_id: user_id,
-                    data: {
-                        task_type: 'complete'
-                    },
-                    callback (res) {
-                        this.$store.commit('myTask/setCompleteTasks', res.data.projects.data);
-                        this.$store.state.myTask.isFetchCompleteTasks = true;
-
-                        pm.NProgress.done();
-                    }
+            getDate(task) {
+                if(typeof task.completed_at != 'undefined' && task.completed_at != '') {
+                    return pm.Moment( task.completed_at ).format( 'MMM DD, YYYY' );
                 }
-                this.getUserTaskByType(args);
-            }
+
+                return '';
+                
+            },
+            goToProject(task) {
+                this.$router.push({
+                    name: 'task_lists',
+                    params: { 
+                        project_id: task.project_id,
+                    }
+                });
+            },
+            goToSigleList (task) {
+                this.$router.push({
+                    name: 'single_list',
+                    params: { 
+                        project_id: task.project_id,
+                        list_id: task.task_list_id
+                    }
+                });
+            },
+            afterCloseSingleTaskModal () {
+                this.individualTaskId = false;
+                this.individualProjectId = false;
+            },
+            popuSilgleTask (task) {
+                this.individualTaskId = task.id;
+                this.individualProjectId = task.project_id;
+            },
         }
     }
 </script>

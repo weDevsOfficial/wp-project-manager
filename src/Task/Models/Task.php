@@ -37,6 +37,7 @@ class Task extends Eloquent {
         'payable',
         'recurrent',
         'status',
+        'is_private',
         'project_id',
         'completed_by',
         'completed_at',

@@ -3,9 +3,9 @@ Contributors: tareq1988, nizamuddinbabu, wedevs, asaquzzaman
 Donate Link: https://tareq.co/donate/
 Tags: web task manager, online collaboration tool, task tracker, productivity tool, open source project management software
 Requires at least: 4.4
-Tested up to: 5.2.2
+Tested up to: 5.2.3
 Requires PHP: 5.6
-Stable tag: 2.2.4
+Stable tag: 2.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -209,6 +209,14 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 13. Project Settings -> Email Settings Tab
 
 == Changelog ==
+
+= v2.3.0 - Sep 09, 2019 =
+
+* **New** Remove current task, outstanding task and completed task tabs from my tasks.
+* **New** Advanced task filtering option according to current task, outstanding task and completed task in my tasks section.
+* **New** pm_capabilities, pm_role_project, pm_role_project_capabilities, pm_role_project_users table for permission management.
+* **Update** Change single task popup url from my-task to single task lists.
+* **Fix** Progress load more is not working.
 
 = v2.2.4 - Jul 22, 2019 =
 

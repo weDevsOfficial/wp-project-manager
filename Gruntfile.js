@@ -26,6 +26,7 @@ module.exports = function(grunt) {
                     '**',
                     '!node_modules/**',
                     '!build/**',
+                    '!tests/**',
                     '!bin/**',
                     '!.git/**',
                     '!Gruntfile.js',
@@ -48,6 +49,7 @@ module.exports = function(grunt) {
                     '!composer.lock',
                     '!composer.phar',
                     '!secret.json',
+                    '!codeception.yml',
                     '!assets/less/**',
                     '!tests/**',
                     '!**/Gruntfile.js',
@@ -109,9 +111,19 @@ module.exports = function(grunt) {
                 args: ['run', 'makepot']
             },
 
+            removeDev:{
+                cmd: 'composer',
+                args: ['install', '--no-dev']
+            },
+
             dumpautoload:{
                 cmd: 'composer',
                 args: ['dumpautoload', '-o']
+            },
+
+            composerInstall:{
+                cmd: 'composer',
+                args: ['install']
             },
 
         }
@@ -138,9 +150,14 @@ module.exports = function(grunt) {
 
     grunt.registerTask( 'release', [
         'clean',
-        'run',
+        'run:reset',
+        'run:makepot',
+        'run:removeDev',
+        'run:dumpautoload',
         'replace',
         'copy',
-        'compress'
+        'compress',
+        'run:composerInstall',
+        'run:dumpautoload',
     ]);
 };
