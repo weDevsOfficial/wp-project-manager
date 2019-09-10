@@ -116,7 +116,6 @@ class Task_List_Controller {
 
         $lists = $this->get_response( $resource );
 
-
         if ( in_array( 'incomplete_tasks', $with ) ) {
             $incomplete_task_ids = ( new Task_Controller )->get_incomplete_task_ids( $list_ids, $project_id );
             $incomplete_tasks    = ( new Task_Controller )->get_tasks( $incomplete_task_ids, ['project_id' => $project_id] );
@@ -227,6 +226,8 @@ class Task_List_Controller {
         $data = $this->extract_non_empty_values( $request );
         $milestone_id = $request->get_param( 'milestone' );
         $project_id = $request->get_param( 'project_id' );
+        $is_private    = $request->get_param( 'privacy' );
+        $data['is_private']    = $is_private == 'true' || $is_private === true ? 1 : 0;
 
         $milestone     = Milestone::find( $milestone_id );
         $latest_order  = Task_List::latest_order($project_id);
@@ -254,6 +255,9 @@ class Task_List_Controller {
         $project_id   = $request->get_param( 'project_id' );
         $task_list_id = $request->get_param( 'task_list_id' );
         $milestone_id = $request->get_param( 'milestone' );
+
+        $is_private    = $request->get_param( 'privacy' );
+        $data['is_private']    = $is_private == 'true' || $is_private === true ? 1 : 0;
 
         $milestone = Milestone::find( $milestone_id );
         $task_list = Task_List::where( 'id', $task_list_id )

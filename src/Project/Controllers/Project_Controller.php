@@ -18,6 +18,7 @@ use WeDevs\PM\Common\Traits\File_Attachment;
 use Illuminate\Pagination\Paginator;
 use WeDevs\PM\Common\Models\Meta;
 use WeDevs\PM\Task_List\Models\Task_List;
+use WeDevs\PM\Project\Helper\Project_Role_Relation;
 
 class Project_Controller {
 
@@ -179,6 +180,7 @@ class Project_Controller {
 		// Extraction of no empty inputs and create project
 		$data    = $this->extract_non_empty_values( $request );
 		$project = Project::create( $data );
+		
 		add_option('projectId_git_bit_hash_'.$project->id , sha1(strtotime("now").$project->id));
 		// Establishing relationships
 		$category_ids = $request->get_param( 'categories' );
@@ -204,6 +206,8 @@ class Project_Controller {
 		$response['message'] = pm_get_text('success_messages.project_created');
 		do_action( 'cpm_project_new', $project->id, $project->toArray(), $request->get_params() ); // will deprecated 
 		do_action( 'pm_after_new_project', $response, $request->get_params() );
+
+		( new Project_Role_Relation )->set_relation_after_create_project( $response['data'] );
 
         return $response;
 	}
@@ -233,6 +237,8 @@ class Project_Controller {
 		$response['message'] = pm_get_text('success_messages.project_updated');
 		do_action( 'cpm_project_update', $project->id, $project->toArray(), $request->get_params() );
 		do_action( 'pm_after_update_project', $response, $request->get_params() );
+
+		( new Project_Role_Relation )->set_relation_after_update_project( $response['data'] );
 		
         return $response;
 	}
@@ -272,6 +278,7 @@ class Project_Controller {
 		$project->settings()->delete();
 		$project->activities()->delete();
 		$project->meta()->delete();
+		(new Project_Role_Relation)->after_delete_project( $id );
 
 		// Delete the main resource
 		$project->delete();

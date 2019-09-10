@@ -746,3 +746,37 @@ function pm_get_ip() {
     return $ipaddress;
 }
 
+function pm_get_capabilities() {
+
+    return [
+        'Message Create',
+        'Message Private',
+        'Task List Create',
+        'Task List Private',
+        'Milestone Create',
+        'Milestone Private',
+        'Task Create',
+        'Task Private',
+        'File Create',
+        'File Private',
+    ];
+}
+
+function pm_get_capabilities_relation( $role ) {
+
+    $caps = [
+        'create_message'         => 1,
+        'view_private_message'   => 2,
+        'create_list'            => 3,
+        'view_private_list'      => 4,
+        'create_milestone'       => 5,
+        'view_private_milestone' => 6,
+        'create_task'            => 7,
+        'view_private_task'      => 8,
+        'create_file'            => 9,
+        'view_private_file'      => 10
+    ];
+
+    return $caps[$role];
+}
+

@@ -9,10 +9,14 @@ use WeDevs\PM\Project\Sanitizers\Project_Sanitizer;
 use WeDevs\PM\Project\Validators\Create_Project;
 use WeDevs\PM\Project\Validators\Update_Project;
 use WeDevs\PM\Project\Sanitizers\Delete_Sanitizer;
+use WeDevs\PM\Helper\Project;
 
 $router = Router::singleton();
 
 $router->get( 'projects', 'WeDevs/PM/Project/Controllers/Project_Controller@index' )
+    ->permission(['WeDevs\PM\Core\Permissions\Authentic']);
+
+$router->get( 'advanced/projects', 'WeDevs/PM/Project/Helper/Project@get_projects' )
     ->permission(['WeDevs\PM\Core\Permissions\Authentic']);
 
 $router->get( 'projects/{id}', 'WeDevs/PM/Project/Controllers/Project_Controller@show' )
