@@ -33,8 +33,8 @@ class Task_List {
     }
 
     public static function get_task_lists( WP_REST_Request $request ) {
-		self::get_results( $request->get_params() );
-		
+		$lists = self::get_results( $request->get_params() );
+		wp_send_json( $lists );
 	}
 
 	public static function get_results( $params ) {
@@ -113,8 +113,25 @@ class Task_List {
 
 	private function where() {
 		
-		$this->where_project_id();
-		
+		$this->where_project_id()
+			->where_title();
+	
+		return $this;
+	}
+
+	/**
+	 * Filter task by title
+	 * 
+	 * @return class object
+	 */
+	private function where_title() {
+		$title = isset( $this->query_params['title'] ) ? $this->query_params['title'] : false;
+
+		if ( empty( $title ) ) {
+			return $this;
+		}
+
+		$this->where .= " AND {$this->tb_list}.title LIKE '%$title%'";
 
 		return $this;
 	}
@@ -181,7 +198,7 @@ class Task_List {
 		$query = "SELECT DISTINCT {$this->select} 
 			FROM {$this->tb_list}
 			{$this->join}
-			WHERE 1=1 {$this->where}
+			WHERE 1=1 {$this->where} AND $this->tb_list.type='task_list'
 			{$this->limit}";
 		
 		if ( $id && ( ! is_array( $id ) ) ) {
