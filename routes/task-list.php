@@ -10,6 +10,9 @@ $router = Router::singleton();
 $router->get( 'projects/{project_id}/task-lists', 'WeDevs/PM/Task_List/Controllers/Task_List_Controller@index' )
 	->permission(['WeDevs\PM\Core\Permissions\Access_Project']);
 
+$router->get( 'advanced/{project_id}/task-lists', 'WeDevs\PM\Task_List\Helper\Task_List@get_task_lists' )
+    ->permission(['WeDevs\PM\Core\Permissions\Access_Project']);
+
 $router->post( 'projects/{project_id}/task-lists', 'WeDevs/PM/Task_List/Controllers/Task_List_Controller@store' )
 	->permission(['WeDevs\PM\Core\Permissions\Create_Task_List'])
 	->validator( 'WeDevs\PM\Task_List\Validators\Create_Task_List' )
