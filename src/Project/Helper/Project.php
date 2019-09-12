@@ -9,7 +9,7 @@ use WeDevs\PM\Task_List\Helper\Task_List;
 // 	per_page: '10',
 // 	select: 'id, title',
 // 	categories: [2, 4],
-// 	assignees: [1,2],
+// 	inUsers: [1,2],
 // 	id: [1,2],
 // 	title: 'Rocket', 'test'
 // 	status: '0',
@@ -94,7 +94,15 @@ class Project {
 			->with()
 			->meta();
 
-		return $self->format_projects( $self->projects );
+		$response = $self->format_projects( $self->projects );
+
+		//pmpr($response); die();
+
+		if( $self->is_single_query && count( $response['data'] ) ) {
+			return ['data' => $response['data'][0]] ;
+		}
+
+		return $response;
 	}
 
 	/**
@@ -268,6 +276,7 @@ class Project {
 	private function with() {
 		$this->include_assignees()
 			->include_categories();
+		$this->projects = apply_filters( 'pm_project_with',$this->projects, $this->project_ids, $this->query_params );
 
 		return $this;
 	}
@@ -700,7 +709,7 @@ class Project {
 		$tb_users     = pm_tb_prefix() . 'users';
 		$project_ids  = implode( ',', $this->project_ids );
 
-		$query = "SELECT usr.ID as id, usr.display_name, usr.user_email as email, asin.project_id
+		$query = "SELECT DISTINCT usr.ID as id, usr.display_name, usr.user_email as email, asin.project_id
 			FROM $tb_users as usr
 			LEFT JOIN $tb_assignees as asin ON usr.ID = asin.user_id
 			where asin.project_id IN (%s)";
@@ -711,6 +720,7 @@ class Project {
 		foreach ( $results as $key => $result ) {
 			$project_id = $result->project_id;
 			unset( $result->project_id );
+			$result->avatar_url = get_avatar_url( $result->id );
 			$users[$project_id][] = $result;
 		}
 
@@ -841,17 +851,17 @@ class Project {
 	 */
 	private function where_users() {
 
-		$assignees = isset( $this->query_params['assignees'] ) ? $this->query_params['assignees'] : false;
+		$inUsers = isset( $this->query_params['inUsers'] ) ? $this->query_params['inUsers'] : false;
 
-		if ( empty( $assignees ) ) {
+		if ( empty( $inUsers ) ) {
 			return $this;
 		}
 
-		$assignees = is_array( $assignees ) ? implode( ',', $assignees ) : $assignees;
+		$inUsers = is_array( $inUsers ) ? implode( ',', $inUsers ) : $inUsers;
 
 		$this->join .= " LEFT JOIN {$this->tb_project_user} ON {$this->tb_project_user}.project_id={$this->tb_project}.id";
 
-		$this->where .= " AND {$this->tb_project_user}.user_id IN ({$assignees})";
+		$this->where .= " AND {$this->tb_project_user}.user_id IN ({$inUsers})";
 
 		return $this;
 	}
@@ -960,11 +970,11 @@ class Project {
 			{$this->limit}
 			{$this->orderby}";
 
-		if ( $this->is_single_query ) {
-			$results = $wpdb->get_row( $query );
-		} else {
+		// if ( $this->is_single_query ) {
+		// 	$results = $wpdb->get_row( $query );
+		// } else {
 			$results = $wpdb->get_results( $query );
-		}
+		//}
 
 		$this->found_rows = $wpdb->get_var( "SELECT FOUND_ROWS()" );
 
