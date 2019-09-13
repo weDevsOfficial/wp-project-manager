@@ -9,7 +9,7 @@ use WeDevs\PM\Task_List\Helper\Task_List;
 // 	per_page: '10',
 // 	select: 'id, title',
 // 	categories: [2, 4],
-// 	assignees: [1,2],
+// 	inUsers: [1,2],
 // 	id: [1,2],
 // 	title: 'Rocket', 'test'
 // 	status: '0',
@@ -700,14 +700,13 @@ class Project {
 		$tb_users     = pm_tb_prefix() . 'users';
 		$project_ids  = implode( ',', $this->project_ids );
 
-		$query = "SELECT usr.ID as id, usr.display_name, usr.user_email as email, asin.project_id
+		$query = "SELECT DISTINCT usr.ID as id, usr.display_name, usr.user_email as email, asin.project_id
 			FROM $tb_users as usr
 			LEFT JOIN $tb_assignees as asin ON usr.ID = asin.user_id
-			where asin.project_id IN (%s)";
+			where asin.project_id IN ($project_ids)";
 
-
-		$results = $wpdb->get_results( $wpdb->prepare( $query, $project_ids ) );
-
+		$results = $wpdb->get_results( $query );
+		
 		foreach ( $results as $key => $result ) {
 			$project_id = $result->project_id;
 			unset( $result->project_id );
@@ -841,17 +840,17 @@ class Project {
 	 */
 	private function where_users() {
 
-		$assignees = isset( $this->query_params['assignees'] ) ? $this->query_params['assignees'] : false;
+		$inUsers = isset( $this->query_params['inUsers'] ) ? $this->query_params['inUsers'] : false;
 
-		if ( empty( $assignees ) ) {
+		if ( empty( $inUsers ) ) {
 			return $this;
 		}
 
-		$assignees = is_array( $assignees ) ? implode( ',', $assignees ) : $assignees;
+		$inUsers = is_array( $inUsers ) ? implode( ',', $inUsers ) : $inUsers;
 
 		$this->join .= " LEFT JOIN {$this->tb_project_user} ON {$this->tb_project_user}.project_id={$this->tb_project}.id";
 
-		$this->where .= " AND {$this->tb_project_user}.user_id IN ({$assignees})";
+		$this->where .= " AND {$this->tb_project_user}.user_id IN ({$inUsers})";
 
 		return $this;
 	}

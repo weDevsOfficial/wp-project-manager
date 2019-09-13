@@ -262,6 +262,8 @@ function pmpr() {
     foreach ( $args as $arg ) {
         echo '<pre>'; print_r( $arg ); '</pre>';
     }
+
+    die();
 }
 
 function pm_default_co_caps() {

@@ -144,9 +144,9 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks( 'grunt-run' );
 
 
-    grunt.registerTask( 'release', [
-        'run',
-    ]);
+    // grunt.registerTask( 'release', [
+    //     'run',
+    // ]);
 
     grunt.registerTask( 'release', [
         'clean',

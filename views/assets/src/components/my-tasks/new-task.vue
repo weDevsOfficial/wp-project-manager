@@ -178,7 +178,12 @@
     
     export default {
         props: {
-
+            users: {
+                type: [Array],
+                default () {
+                    return []
+                }
+            },
         },
 
         data () {
@@ -208,7 +213,8 @@
                     assignees: {
                         data: []
                     }
-                }
+                },
+                storeLists: []
             }
         },
 
@@ -234,14 +240,44 @@
 
             changeProject (project) {
                 this.getLists(project.id);
+                this.setUsers();
+                
             },
+
+            setUsers () {
+                var self = this;
+                let index = this.getIndex( this.projects, this.project.id, 'id' );
+                var users = this.projects[index].assignees.data;
+                var setUsers = [];
+
+
+                if(this.users.length) {
+                    this.users.forEach(function(user_id) {
+                        let index = self.getIndex(users, user_id, 'id');
+                        setUsers.push(users[index]);
+                    });
+                    
+                    this.$store.commit('setProjectUsers', users);
+                } else {
+                    this.$store.commit('setProjectUsers', users);
+                }
+            },
+
             getProjects () {
                 var self = this;
+
+                var data = {
+                    select: 'id, title',
+                    with: 'assignees'
+                }
+
+                if(this.users.length) {
+                    data.inUsers = this.users;
+                }
+
                 var request = {
                     url: self.base_url + '/pm/v2/advanced/projects',
-                    data: {
-                        select: 'id, title',
-                    },
+                    data: data,
                     success (res) {
                         self.projects = res.data;
                         self.fetchProjects = true;
@@ -249,6 +285,7 @@
                         if(res.data.length) {
                             self.project = res.data[0];
                             self.getLists(res.data[0].id);
+                            self.setUsers();
                         }
                     },
 
@@ -297,11 +334,15 @@
             setList (lists) {
                 var self = this;
                 var newLists = [];
+                
                 lists.forEach(function(list) {
                     let index = self.getIndex(self.lists, list.id, 'id');
                 
                     if(index === false) {
                         newLists.push(list);
+
+                        let storeIndex = self.getIndex(self.storeLists, self.project.id, 'project_id');
+                        self.storeLists[storeIndex].lists.push(list);
                     }
                 })
 
@@ -312,6 +353,12 @@
 
             getLists (project_id) {
                 var self = this;
+                
+                if(self.listHasInStore(project_id)) {
+                    self.setListInlocal(project_id);
+                    return;
+                }
+                
                 var request = {
                     url: self.base_url + '/pm/v2/advanced/'+project_id+'/task-lists',
                     data: {
@@ -320,12 +367,16 @@
                         per_page: 300
                     },
                     success (res) {
-                        self.lists = [res.data[0]];
+                        self.lists = res.data;
                         self.loadingLists = false;
 
                         if(res.data.length) {
                             self.list = res.data[0];
                         }
+                        self.storeLists.push({
+                            'project_id': project_id,
+                            'lists': res.data  
+                        });
                     },
 
                     error (res) {
@@ -337,8 +388,24 @@
                 self.httpRequest(request);
             },
 
-            closePopup () {
+            listHasInStore (project_id) {
+                let index = this.getIndex(this.storeLists, project_id, 'project_id');
 
+                if(index === false) {
+                    return false;
+                }
+
+                return true;
+            },
+
+            setListInlocal (project_id) {
+                let index  = this.getIndex(this.storeLists, project_id, 'project_id');
+                this.lists = this.storeLists[index].lists;
+                this.list  = this.lists[0];
+            },
+
+            closePopup () {
+                this.$emit('disableTaskForm');
             }
         }
     }
