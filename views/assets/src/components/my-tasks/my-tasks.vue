@@ -4,10 +4,10 @@
             <h1 class="wp-heading-inline">
                 {{ __( 'Tasks', 'wedevs-project-manger') }}
             </h1>
-            <a href="#" @click.prevent="selfNewTask()" class="page-title-action">{{ __( 'Add New', 'wedevs-project-manger') }}</a>
+            <a href="#" @click.prevent="openTaskForm()" class="page-title-action">{{ __( 'Add New', 'wedevs-project-manger') }}</a>
             <my-task-header></my-task-header>
             <router-view></router-view>
-            <new-task-form></new-task-form>
+            <new-task-form v-if="taskForm" @disableTaskForm="closeTaskForm" :users="[$route.params.user_id]"></new-task-form>
         </div>
     </div>
 </template>
@@ -27,17 +27,13 @@ export default {
     mixins: [Mixins],
     data() {
         return {
-
+            users: [],
+            taskForm: true
         }
     },
     created () {
-        // if (!this.canShowMyTask()) {
-        //     this.$router.push({name:'project_lists'});
-        // }
         this.getUserMeta();
         this.getAllusers();
-        // pmBus.$on('pm_generate_task_url', this.generateTaskUrl);
-        
     },
     components: {
         'myTaskHeader': myTaskHeader,
@@ -45,8 +41,11 @@ export default {
     },
 
     methods: {
-        selfNewTask () {
-
+        closeTaskForm () {
+            this.taskForm = false;
+        },
+        openTaskForm () {
+            this.taskForm = true;
         }
     },
 }
