@@ -94,7 +94,15 @@ class Project {
 			->with()
 			->meta();
 
-		return $self->format_projects( $self->projects );
+		$response = $self->format_projects( $self->projects );
+
+		//pmpr($response); die();
+
+		if( $self->is_single_query && count( $response['data'] ) ) {
+			return ['data' => $response['data'][0]] ;
+		}
+
+		return $response;
 	}
 
 	/**
@@ -268,6 +276,7 @@ class Project {
 	private function with() {
 		$this->include_assignees()
 			->include_categories();
+		$this->projects = apply_filters( 'pm_project_with',$this->projects, $this->project_ids, $this->query_params );
 
 		return $this;
 	}
@@ -710,6 +719,7 @@ class Project {
 		foreach ( $results as $key => $result ) {
 			$project_id = $result->project_id;
 			unset( $result->project_id );
+			$result->avatar_url = get_avatar_url( $result->id );
 			$users[$project_id][] = $result;
 		}
 
@@ -959,11 +969,11 @@ class Project {
 			{$this->limit}
 			{$this->orderby}";
 
-		if ( $this->is_single_query ) {
-			$results = $wpdb->get_row( $query );
-		} else {
+		// if ( $this->is_single_query ) {
+		// 	$results = $wpdb->get_row( $query );
+		// } else {
 			$results = $wpdb->get_results( $query );
-		}
+		//}
 
 		$this->found_rows = $wpdb->get_var( "SELECT FOUND_ROWS()" );
 

@@ -9,6 +9,19 @@ use League\Fractal\Serializer\DataArraySerializer;
 use League\Fractal\Resource\Collection as Collection;
 use WeDevs\PM\Task_List\Transformers\Generate_List_Transformer;
 
+// data: {
+// 	with: 'milestone',
+// 	per_page: '10',
+// 	select: 'id, title',
+// 	categories: [2, 4],
+// 	assignees: [1,2],
+// 	id: [1,2],
+// 	title: 'Rocket', 'test'
+// 	status: '0',
+// 	page: 1,
+//  orderby: [title=>'asc', 'id'=>desc]
+// },
+
 class Task_List {
 	private static $_instance;
 	private $query_params;
@@ -54,14 +67,38 @@ class Task_List {
 	}
 
 	private function with() {
-		// $this->include_assignees()
-		// 	->include_categories()
-		// 	->include_task_lists();
-			// ->include_tasks();
-
+		$this->include_milestone();
 		return $this;
 	}
 
+	private function include_milestone() {
+		global $wpdb;
+		$with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
+
+		if ( ! is_array( $with ) ) {
+			$with = explode( ',', $with );
+		}
+
+		$category = [];
+
+		if ( ! in_array( 'milestone', $with ) ) {
+			return $this;
+		}
+
+		$tb_boards = pm_tb_prefix() . 'pm_boards';
+		$tb_boardable  = pm_tb_prefix() . 'pm_boardables';
+		$list_ids  = implode( ',', $this->list_ids );
+
+		$query ="SELECT DISTINCT * FROM $tb_boards 
+				LEFT JOIN $tb_boardable  ON $tb_boardable.board_id = $tb_boards.id
+				WHERE $tb_boards.type='milestone' AND $tb_boardable.board_id IN (%s)" ;
+
+		$results = $wpdb->get_results( $wpdb->prepare( $query, $list_ids ) );
+
+
+
+		return $this;
+	}
 
 	private function get_selectable_items( $tb, $key ) {
 		$select = '';
