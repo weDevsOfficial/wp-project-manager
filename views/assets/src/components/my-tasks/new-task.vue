@@ -81,7 +81,12 @@
                             </div>
                             <div v-if="hasLists">
                                 <label class="label">{{__('Task', 'wedevs-project-manager')}}</label>
-                                <pm-new-task-form  :task="task" :list="list"></pm-new-task-form>
+                                <pm-new-task-form  
+                                    :task="task" 
+                                    :list="list"
+                                    @pm_after_create_task="afterCreateTask">
+                                        
+                                </pm-new-task-form>
                             </div>
                         </div>
                     
@@ -173,7 +178,6 @@
     }
 </style>
 
-
 <script>
     
     export default {
@@ -229,7 +233,7 @@
         },
 
         created () {
-           this.getProjects();
+            this.getProjects();
         },
 
         components: {
@@ -237,11 +241,26 @@
         },
 
         methods: {
-
+            afterCreateTask () {
+                this.closePopup();
+                // this.$router.push({
+                //     name: 'mytask-current',
+                //     params: {
+                //         user_id: this.$route.params.user_id    
+                //     },
+                //     query: this.$route.query
+                    
+                // });
+            },
             changeProject (project) {
                 this.getLists(project.id);
                 this.setUsers();
+                this.setProjectId();
                 
+            },
+
+            setProjectId () {
+                this.project_id = this.project.id;
             },
 
             setUsers () {
@@ -257,7 +276,11 @@
                         setUsers.push(users[index]);
                     });
                     
-                    this.$store.commit('setProjectUsers', users);
+                    if(setUsers) {
+                        this.$store.commit('setProjectUsers', setUsers);
+                        this.task.assignees.data = setUsers;
+                    }
+                    
                 } else {
                     this.$store.commit('setProjectUsers', users);
                 }
@@ -286,6 +309,7 @@
                             self.project = res.data[0];
                             self.getLists(res.data[0].id);
                             self.setUsers();
+                            self.setProjectId();
                         }
                     },
 

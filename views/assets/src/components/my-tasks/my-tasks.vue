@@ -28,7 +28,7 @@ export default {
     data() {
         return {
             users: [],
-            taskForm: true
+            taskForm: false
         }
     },
     created () {
