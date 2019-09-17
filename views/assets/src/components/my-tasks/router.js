@@ -24,10 +24,6 @@ weDevsPMRegisterChildrenRoute('project_root',
                     path: '/',
                     component: current_task,
                     name: 'mytask-current',
-                    meta: {
-                        label: __('My tasks', 'wedevs-project-manager'),
-                        order: 3,
-                    },
 
                     children: [
                         {
