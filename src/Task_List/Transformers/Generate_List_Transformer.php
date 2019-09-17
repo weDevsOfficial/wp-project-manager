@@ -34,6 +34,7 @@ class Generate_List_Transformer {
        $data = [
             'id'          => (int) $item->id,
             'title'       => $item->title,
+            'project_id' => $item->project_id
             // 'description' => pm_filter_content_url( $item->description ),
             // 'order'       => (int) $item->order,
             // 'status'      => $item->status,
