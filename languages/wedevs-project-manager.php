@@ -133,6 +133,7 @@ return [
 	__( 'Select all', 'wedevs-project-manager' ),
 	__( 'Provide your App key & Token', 'wedevs-project-manager' ),
 	__( 'Imports', 'wedevs-project-manager' ),
+	__( 'My tasks', 'wedevs-project-manager' ),
 	__( 'Completed at', 'wedevs-project-manager' ),
 	__( 'No task found!', 'wedevs-project-manager' ),
 	__( 'Overdue', 'wedevs-project-manager' ),
