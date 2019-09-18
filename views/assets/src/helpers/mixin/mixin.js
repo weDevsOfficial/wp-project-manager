@@ -736,7 +736,7 @@ export default {
         },
 
         addProjectMeta (project) {
-            project.edit_mode = false;
+            project.edit_mode     = false;
             project.settings_hide = false;
         },
 
