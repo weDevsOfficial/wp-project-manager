@@ -68,7 +68,6 @@ function format_date( $date ) {
     if ( $date && !is_object($date) ) {
         $date =  \Carbon\Carbon::parse($date);
     }
-    
     $date_format = get_option( 'date_format' );
     $time_format = get_option( 'time_format' );
     $timezone    = get_wp_timezone();
@@ -112,7 +111,6 @@ function pm_get_setting( $key = null, $project_id = false ) {
         $settings = \WeDevs\PM\Settings\Models\Settings::where( 'key', $key )
             ->where('project_id', $project_id)
             ->first();
-    
     } else if ($key) {
         $settings = \WeDevs\PM\Settings\Models\Settings::where( 'key', $key )
             ->first();
@@ -141,7 +139,6 @@ function pm_get_settings( $key = null, $project_id = false ) {
             ->where('project_id', $project_id)
             ->get()
             ->toArray();
-    
     } else if ( $key ) {
         $settings = \WeDevs\PM\Settings\Models\Settings::where( 'key', $key )
             ->get()
@@ -166,7 +163,7 @@ function pm_delete_settings( $key, $project_id = false ) {
         $settings = \WeDevs\PM\Settings\Models\Settings::where( 'key', $key )
             ->first();
     }
-    
+
     if ( $settings ) {
         $settings->delete();
 
@@ -281,6 +278,23 @@ function pm_default_co_caps() {
     ];
 }
 
+function pm_default_cap() {
+    $pm_caps =  [
+        '1'  => 'create_message',
+        '2'  => 'view_private_message',
+        '3'  => 'create_list',
+        '4'  => 'create_task',
+        '5'  => 'create_milestone',
+        '6'  => 'view_private_milestone',
+        '7'  => 'create_task',
+        '8'  => 'view_private_task',
+        '9'  => 'create_file',
+        '10' => 'view_private_file'
+    ];
+
+    return $pm_caps;
+}
+
 function pm_default_client_caps() {
     return [
         'create_message'         => true,
@@ -300,7 +314,7 @@ function pm_pro_get_project_capabilities( $project_id ) {
     $caps = WeDevs\PM\Settings\Models\Settings::where('key', 'capabilities')
         ->where('project_id', $project_id)
         ->first();
-    
+
     if ( ! $caps ) {
         return [
             'co_worker' => pm_default_co_caps(),
@@ -309,20 +323,20 @@ function pm_pro_get_project_capabilities( $project_id ) {
     }
 
     $formatedCaps = [];
-    
+
     foreach ( $caps->value as $key => $value ) {
         $formatedCaps[$key] = array_map( function($val) {
             return $val === 'true' ? true : false;
         }, $value );
     }
-    
+
     return $formatedCaps;
 }
 
 function pm_is_user_in_project( $project_id, $user_id = false ) {
     $user_id = $user_id ? $user_id : get_current_user_id();
 
-    $user_in_project = WeDevs\PM\User\Models\User_Role::where( 'project_id', $project_id ) 
+    $user_in_project = WeDevs\PM\User\Models\User_Role::where( 'project_id', $project_id )
         ->where( 'user_id', $user_id )
         ->first();
 
@@ -332,7 +346,7 @@ function pm_is_user_in_project( $project_id, $user_id = false ) {
 function pm_is_user_in_task( $project_id, $user_id = false ) {
     $user_id = $user_id ? $user_id : get_current_user_id();
 
-    $user_in_task = WeDevs\PM\Common\Models\Assignee::where( 'project_id', $project_id ) 
+    $user_in_task = WeDevs\PM\Common\Models\Assignee::where( 'project_id', $project_id )
         ->where( 'assigned_to', $user_id )
         ->first();
 
@@ -374,7 +388,7 @@ function pm_get_role_caps( $project_id, $role ) {
 
 function pm_user_can( $cap, $project_id, $user_id = false ) {
     $user_id = $user_id ? $user_id : get_current_user_id();
-    
+
     $cache_key  = 'pm_user_can-' . md5( serialize( [
      'cap'        => $cap,
      'project_id' => $project_id,
@@ -403,7 +417,7 @@ function pm_user_can( $cap, $project_id, $user_id = false ) {
         if ( $cap === 'view_project' ) {
             return true;
         }
-        
+
         $role_caps = pm_get_role_caps( $project_id, $role );
 
         if ( isset( $role_caps[$cap] ) ) {
@@ -416,10 +430,10 @@ function pm_user_can( $cap, $project_id, $user_id = false ) {
     return false;
 }
 
-function pm_has_manage_capability( $user_id = false ) { 
+function pm_has_manage_capability( $user_id = false ) {
     $user_id = $user_id ? intval( $user_id ) : get_current_user_id();
     $user    = get_user_by( 'id', $user_id );
-    
+
     if ( !$user->roles || !is_array($user->roles) ) {
         return false;
     }
@@ -427,9 +441,9 @@ function pm_has_manage_capability( $user_id = false ) {
     if ( in_array( 'administrator', $user->roles ) ) {
         return true;
     }
-    
+
     $manage_roles = (array) pm_get_setting( 'managing_capability' );
-    
+
     $common_role  = array_intersect( $manage_roles, $user->roles );
 
     if ( empty( $common_role ) ) {
@@ -440,7 +454,7 @@ function pm_has_manage_capability( $user_id = false ) {
 }
 
 function pm_has_project_create_capability( $user_id = false ) {
-    
+
     $user_id = $user_id ? $user_id : get_current_user_id();
     $user    = get_user_by( 'id', $user_id );
 
@@ -533,13 +547,13 @@ function pm_get_translations_for_plugin_domain( $domain, $language_dir = null ) 
     if ( $language_dir == null ) {
         $language_dir  = config('frontend.patch') . '/languages/';
     }
-    
+
     $languages     = get_available_languages( $language_dir );
     $get_site_lang = is_admin() ? get_user_locale() : get_locale();
     $mo_file_name  = $domain .'-'. $get_site_lang;
     $translations  = [];
-    
-    if ( 
+
+    if (
         in_array( $mo_file_name, $languages )
             &&
         file_exists( $language_dir . $mo_file_name . '.mo' )
@@ -614,7 +628,7 @@ function pm_get_content( $content ) {
 
 function pm_filter_content_url( $content ) {
     $content = apply_filters( 'pm_get_content_url', $content );
-    
+
     return $content;
 }
 
@@ -640,7 +654,7 @@ function pm_get_task( $task_id ) {
     $task = Task::with('task_lists')
         ->where( 'id', $task_id )
         ->first();
-    
+
     if ( $task == NULL ) {
         return pm_get_response( null,  [
             'message' => pm_get_text('success_messages.no_element')
@@ -668,10 +682,10 @@ function pm_get_list_url( $project_id, $list_id, $is_admin ) {
 function pm_get_front_end_project_page() {
     $pages   = get_option( 'pm_pages', [] );
     $project = empty( $pages['project'] ) ? '' : absint( $pages['project'] );
-    
+
     if ( $project ) {
         return get_permalink( $project );
-    } 
+    }
 
     return '';
 }
@@ -680,7 +694,7 @@ function pm_get_project_page( $type = false ) {
 
     if ( $type == 'admin' ) {
         return admin_url( 'admin.php?page=pm_projects' );
-    } 
+    }
 
     if ( $type == 'frontend' ) {
         return pm_get_front_end_project_page();
@@ -782,3 +796,22 @@ function pm_get_capabilities_relation( $role ) {
     return $caps[$role];
 }
 
+
+function pm_get_prepare_format( $ids, $is_string = false  ) {
+    // how many entries will we select?
+    $how_many = count( $ids );
+
+    // prepare the right amount of placeholders
+    // if you're looing for strings, use '%s' instead
+    if( $is_string ) {
+        $placeholders = array_fill( 0, $how_many, '%s' );
+    } else {
+        $placeholders = array_fill( 0, $how_many, '%d' );
+    }
+
+    // glue together all the placeholders...
+    // $format = '%d, %d, %d, %d, %d, [...]'
+    $format = implode( ', ', $placeholders );
+
+    return $format;
+}
