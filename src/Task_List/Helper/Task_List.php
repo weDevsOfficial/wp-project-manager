@@ -654,7 +654,7 @@ class Task_List {
 		global $wpdb;
 		$id = isset( $this->query_params['id'] ) ? $this->query_params['id'] : false;
 
-		$query = "SELECT DISTINCT {$this->select}
+		$query = "SELECT DISTINCT {$this->select},  $this->tb_list.project_id
 			FROM {$this->tb_list}
 			{$this->join}
 			WHERE 1=1 {$this->where} AND $this->tb_list.type='task_list'

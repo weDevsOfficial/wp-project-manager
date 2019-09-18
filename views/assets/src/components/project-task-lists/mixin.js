@@ -546,6 +546,9 @@ var PM_TaskList_Mixin = {
 
                     pmBus.$emit('pm_after_create_task', res, args);
 
+                    //For component trigger <component @pm_after_create_task="your_function"></component>
+                    self.$emit('pm_after_create_task', res, args);
+
                 },
 
                 error (res) { 

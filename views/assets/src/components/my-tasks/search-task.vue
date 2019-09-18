@@ -69,7 +69,12 @@
 	            </div>
 	        </div>
 			<div class="tasks-wrap">
-				<current-task v-if="component == 'current'" :tasks="tasks"></current-task>
+				<current-task 
+					@columnSorting="sortQuery"
+					v-if="component == 'current'" 
+					:tasks="tasks">
+						
+				</current-task>
 				<outstanding-task v-if="component == 'outstanding'" :tasks="tasks"></outstanding-task>
 				<completed-task v-if="component == 'completed'" :tasks="tasks"></completed-task>
 			</div>
@@ -183,7 +188,8 @@
 					projects: [],
 					start_at: '',
 					due_date: '',
-					status: 'current'
+					status: 'current',
+					orderby: 'id:asc'
 				},
 				component: 'current',
 				asyncProjectLoading: false,
@@ -234,9 +240,18 @@
 
 			pmBus.$on('after_change_user', this.afterChangeUser);
 			pmBus.$on('pm_generate_task_url', this.generateSinglTaskUrl);
+			pmBus.$on('pm_after_create_task', this.relode);
 		},
 
 		methods: {
+			sortQuery (odrPram) {
+				this.search.orderby = odrPram.orderby+':'+odrPram.order;
+				this.find();
+			},
+			relode () {
+				this.search.orderby = 'id:desc';
+				this.find();
+			},
 			generateSinglTaskUrl(task) {
 				var url = this.$router.resolve({
                     name: 'single_task',
@@ -265,7 +280,7 @@
 				if(this.search.start_at == '' || this.search.due_date == '') {
 					this.calendarOptions.autoUpdateInput = false;
 				}
-
+				
 				this.find();
 			},
 			asyncProjectFind (val) {
@@ -342,6 +357,7 @@
 					login_user: this.setLoginUser(),
 					status: this.search.status,
 					assignees: this.setLoginUser(),
+					orderby: this.search.orderby
 				}
 
 				this.$router.push({
@@ -349,7 +365,7 @@
 						current_page_number: 1
 					}
 				});
-
+				
 				this.$router.push({query: request});
 
 				this.sendRequest();

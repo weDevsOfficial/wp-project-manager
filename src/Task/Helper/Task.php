@@ -14,6 +14,7 @@ use WP_REST_Request;
 // 	status: '0',
 // 	page: 1
 // 	due_date_operator = ['less_than','greater_than'];
+// 	orderby:'id:desc,created_at:asc
 // },
 
 class Task {
@@ -26,6 +27,7 @@ class Task {
 	private $select;
 	private $join;
 	private $where;
+	private $orderby;
 	private $limit;
 	private $with = ['task_list','project'];
 	private $tasks;
@@ -91,6 +93,7 @@ class Task {
 			->join()
 			->where()
 			->limit()
+			->orderby()
 			->get()
 			->with();
 		
@@ -239,15 +242,15 @@ class Task {
 
 		$tb_list = pm_tb_prefix() . 'pm_boards';
 		$tb_boardable = pm_tb_prefix() . 'pm_boardables';
-		$task_ids = implode( ',', $this->task_ids );
+		$tk_ids_format = $this->get_prepare_format( $this->task_ids );
 
 		$query = "SELECT DISTINCT bo.id as task_list_id, bo.title, tk.id as task_id
 			FROM $tb_list as bo
 			LEFT JOIN $tb_boardable as bor ON bor.board_id = bo.id 
 			LEFT JOIN $this->tb_tasks as tk ON tk.id = bor.boardable_id 
-			where tk.id IN ($task_ids)";
+			where tk.id IN ($tk_ids_format)";
 
-		$results = $wpdb->get_results( $query );
+		$results = $wpdb->get_results( $wpdb->prepare( $query, $this->task_ids ) );
 		$lists = [];
 
 		foreach ( $results as $key => $result ) {
@@ -261,6 +264,25 @@ class Task {
 		}
 		
 		return $this;
+	}
+
+	public function get_prepare_format( $ids, $is_string = false ) {
+		// how many entries will we select?
+		$how_many = count( $ids );
+
+		// prepare the right amount of placeholders
+		// if you're looing for strings, use '%s' instead
+		if( $is_string ) {
+			$placeholders = array_fill( 0, $how_many, '%s' );
+		} else {
+			$placeholders = array_fill( 0, $how_many, '%d' );
+		}
+		
+		// glue together all the placeholders...
+		// $format = '%d, %d, %d, %d, %d, [...]'
+		$format = implode( ', ', $placeholders );
+
+		return $format;
 	}
 
 	/**
@@ -281,15 +303,15 @@ class Task {
 		}
 
 		$tb_project = pm_tb_prefix() . 'pm_projects';
-		$task_ids = implode( ',', $this->task_ids );
+		$tk_ids_format = $this->get_prepare_format( $this->task_ids );
 
 		$query = "SELECT DISTINCT pr.id as project_id, pr.title, tk.id as task_id
 			FROM $tb_project as pr
 			LEFT JOIN $this->tb_tasks as tk ON tk.project_id = pr.id 
-			where tk.id IN ($task_ids)";
+			where tk.id IN ($tk_ids_format)";
 
 
-		$results = $wpdb->get_results( $query );
+		$results = $wpdb->get_results( $wpdb->prepare( $query, $this->task_ids ) );
 		$projects = [];
 
 		foreach ( $results as $key => $result ) {
@@ -620,7 +642,7 @@ class Task {
 			Left join {$this->tb_lists} as list ON list.id = boardable.board_id
 			
 			WHERE 1=1 {$this->where} AND boardable.board_type='task_list' AND boardable.boardable_type='task'
-			
+			{$this->orderby}
 			{$this->limit}";
 		
 		if ( $this->is_single_query ) {
@@ -649,6 +671,42 @@ class Task {
 		if ( ! empty( $results ) && !is_array( $results ) ) {
 			$this->task_ids = [$results->id];
 		} 
+
+		return $this;
+	}
+
+	private function orderby() {
+		global $wpdb;
+
+		$tb_pj   = $wpdb->prefix . 'pm_tasks';
+		$odr_prms = isset( $this->query_params['orderby'] ) ? $this->query_params['orderby'] : false;
+		
+		if ( $odr_prms === false && !is_array( $odr_prms ) ) {
+			return $this;
+		}
+
+		$orders = [];
+
+		$odr_prms = str_replace( ' ', '', $odr_prms );
+		$odr_prms = explode( ',', $odr_prms );
+
+		foreach ( $odr_prms as $key => $orderStr ) {
+			$orderStr = str_replace( ' ', '', $orderStr );
+			$orderStr = explode( ':', $orderStr );
+
+			$orderby = $orderStr[0];
+			$order = empty( $orderStr[1] ) ? 'asc' : $orderStr[1];
+
+			$orders[$orderby] = $order;
+		}
+
+		$order = [];
+
+	    foreach ( $orders as $key => $value ) {
+	    	$order[] =  $tb_pj .'.'. $key . ' ' . $value;
+	    }
+
+	    $this->orderby = "ORDER BY " . implode( ', ', $order);
 
 		return $this;
 	}

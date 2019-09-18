@@ -109,7 +109,7 @@ return [
         'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/css/pmglobal.css',
         'path'       => $view_path . '/assets/css/pmglobal.css',
         'dependency' => [
-			'pm-const-style'
+			//'pm-const-style'
         ],
     ],
 	'pm-style' => [
