@@ -15,6 +15,7 @@ use WeDevs\PM\Task_List\Helper\Task_List;
 // 	status: '0',
 // 	page: 1,
 //  orderby: 'title:asc,id:desc'
+//  project_meta: 'otal_task_lists,total_tasks,total_complete_tasks,total_incomplete_tasks,total_discussion_boards,total_milestones,total_comments,total_files,total_activities'
 // },
 
 class Project {
@@ -137,15 +138,53 @@ class Project {
 	 * Set meta data
 	 */
 	private function set_projects_meta() {
+
+		$t_incomplete     = $this->count_project_by_type(0);
+		$t_complete       = $this->count_project_by_type(1);
+		$t_pending        = $this->count_project_by_type(2);
+		$t_archived       = $this->count_project_by_type(3);
+		$pagination_total = $this->get_pagination_total( $t_incomplete, $t_complete, $t_pending, $t_archived );
+
 		return [
 			'total_projects'   => $this->found_rows,
 			'total_page'       => ceil( $this->found_rows/$this->get_per_page() ),
-			'total_incomplete' => $this->count_project_by_type(0),
-			'total_complete'   =>  $this->count_project_by_type(1),
-			'total_pending'    =>   $this->count_project_by_type(2),
-			'total_archived'   =>  $this->count_project_by_type(3),
-			'total_favourite'  => $this->favourite_project_count()
+			'total_incomplete' => $t_incomplete,
+			'total_complete'   => $t_complete,
+			'total_pending'    => $t_pending,
+			'total_archived'   => $t_archived,
+			'total_favourite'  => $this->favourite_project_count(),
+			'pagination'    => [
+				"total"       => $pagination_total,
+				"per_page"    => $this->get_per_page(),
+				"total_pages" => ceil( $this->found_rows/$this->get_per_page() ),
+			]
 		];
+	}
+
+	private function get_pagination_total( $incomplete, $complete, $pending, $archived ) {
+		$status = isset( $this->query_params['status'] ) ? $this->query_params['status'] : false;
+
+		if ( ! $status ) {
+			return (int) $incomplete + (int) $complete + (int) $pending + (int) $archived;
+		}
+
+		if ( $status == 'incomplete' ) {
+			return (int) $incomplete;
+		}
+
+		if ( $status == 'complete' ) {
+			return (int) $complete;
+		}
+
+		if ( $status == 'pending' ) {
+			return (int) $pending;
+		}
+
+		if ( $status == 'archived' ) {
+			return (int) $archived;
+		}
+
+		return 0;
 	}
 
 	private function count_project_by_type( $type) {
@@ -201,7 +240,7 @@ class Project {
 			'est_completion_date' => isset( $project->est_completion_date ) ? format_date( $project->est_completion_date ) : null,
 			'order'				  => isset( $project->order ) ? $project->order : null,
 			'projectable_type'	  => isset( $project->projectable_type ) ? $project->projectable_type : null,
-			'favourite'	  		  => !empty( $project->favourite ) ? (boolean) $project->favourite->meta_value: false,
+			'favourite'	  		  => $project->favourite,
 			'created_at'		  => isset( $project->created_at ) ? format_date( $project->created_at ) : null,
 			'list_inbox'		  => $listmeta,
         ];
@@ -213,15 +252,12 @@ class Project {
 			$select_items = explode( ',', $select_items );
 		}
 
-
 		if ( empty( $select_items ) ) {
 			$this->item_with($items,$project);
-			$this->item_meta( $items,$project );
-
+			$items = $this->item_meta( $items,$project );
+			
 			return $items;
 		}
-
-
 
 		foreach ( $items as $item_key => $item ) {
 			if ( ! in_array( $item_key, $select_items ) ) {
@@ -230,8 +266,8 @@ class Project {
 		}
 
 		$this->item_with( $items,$project );
-		$this->item_meta( $items,$project );
-
+		$items = $this->item_meta( $items,$project );
+		
 		return $items;
 
 	}
@@ -250,17 +286,14 @@ class Project {
 		return $items;
 	}
 
-	private function item_meta( &$items, $project ) {
-		$meta = empty( $this->query_params['meta'] ) ? [] : $this->query_params['meta'];
+	private function item_meta( $items, $project ) {
+		$meta = empty( $this->query_params['project_meta'] ) ? false : $this->query_params['project_meta'];
 
-		if ( ! is_array( $meta ) ) {
-			$meta = explode( ',', $meta );
+		if ( ! $meta ) {
+			return $items;
 		}
 
-		if( isset( $project->meta ) ) {
-			$project_with_items =  array_intersect_key( (array) $project->meta['data'], array_flip( $meta ) );
-			$items['meta']['data'] = $project_with_items;
-		}
+		$items['meta'] = empty( $project->meta ) ? ['data' => []] : ['data' => $project->meta];
 
 		return $items;
 	}
@@ -280,51 +313,136 @@ class Project {
 	}
 
 	private function meta() {
-		$meta = empty( $this->query_params['meta'] ) ? [] : $this->query_params['meta'];
+		$meta = empty( $this->query_params['project_meta'] ) ? false : $this->query_params['project_meta'];
+		
+		if ( ! $meta ) {
+			return $this;
+		}
 
-		if ( ! is_array( $meta ) ) {
+		if ( $meta && !is_array( $meta ) && $meta != 'all' ) {
 			$meta = explode( ',', $meta );
 		}
 
-		if ( in_array( 'total_task_lists', $meta ) || empty( $this->project_ids ) ) {
+		if ( $meta == 'all' ) {
+			$this->project_task_list_count();
+			$this->project_task_count();
+			$this->project_task_complete();
+			$this->project_incomplete_tasks();
+			$this->project_discussion_board_count();
+			$this->project_milestones_count();
+			$this->project_comments_count();
+			$this->project_files_count();
+			$this->project_activities_count();
+			$this->get_meta_tb_data();
+			$this->get_favourite_project();
+
+			return $this;
+		}
+
+		if ( in_array( 'total_task_lists', $meta ) ) {
 			$this->project_task_list_count();
 		}
 
-		if ( in_array( 'total_tasks', $meta ) || empty( $this->project_ids ) ) {
-			$this->project_task__count();
+		if ( in_array( 'total_tasks', $meta ) ) {
+			$this->project_task_count();
 		}
 
-		if ( in_array( 'total_complete_tasks', $meta ) || empty( $this->project_ids ) ) {
+		if ( in_array( 'total_complete_tasks', $meta ) ) {
 			$this->project_task_complete();
 		}
 
-		if ( in_array( 'total_incomplete_tasks', $meta ) || empty( $this->project_ids ) ) {
+		if ( in_array( 'total_incomplete_tasks', $meta ) ) {
 			$this->project_incomplete_tasks();
 		}
 
-		if ( in_array( 'total_discussion_boards', $meta ) || empty( $this->project_ids ) ) {
+		if ( in_array( 'total_discussion_boards', $meta ) ) {
 			$this->project_discussion_board_count();
 		}
 
-		if ( in_array( 'total_milestones', $meta ) || empty( $this->project_ids ) ) {
+		if ( in_array( 'total_milestones', $meta ) ) {
 			$this->project_milestones_count();
 		}
 
-		if ( in_array( 'total_comments', $meta ) || empty( $this->project_ids ) ) {
+		if ( in_array( 'total_comments', $meta ) ) {
 			$this->project_comments_count();
 		}
 
-		if ( in_array('total_files', $meta ) || empty( $this->project_ids ) ) {
+		if ( in_array('total_files', $meta ) ) {
 			$this->project_files_count();
 		}
 
-		if ( in_array('total_activities', $meta) || empty( $this->project_ids ) ) {
+		if ( in_array('total_activities', $meta) ) {
 			$this->project_activities_count();
 		}
+
+		//if ( in_array('favourite', $meta) ) {
+			$this->get_meta_tb_data();
+		//}
 
 		return $this;
 	}
 
+	private function get_favourite_project() {
+		global $wpdb;
+		$metas       = [];
+		$tb_projects = pm_tb_prefix() . 'pm_projects';
+		$tb_meta     = pm_tb_prefix() . 'pm_meta';
+		$current_user_id = get_current_user_id();
+
+		$project_format = pm_get_prepare_format( $this->project_ids );
+
+		$query = "SELECT DISTINCT $tb_meta.meta_key, $tb_meta.meta_value, $tb_meta.project_id
+			FROM $tb_meta
+			WHERE $tb_meta.project_id IN ($project_format)  
+			AND $tb_meta.entity_type = 'project'
+			AND $tb_meta.meta_key = 'favourite_project'
+			AND $tb_meta.entity_id = $current_user_id";
+		
+		$results = $wpdb->get_results( $wpdb->prepare( $query, $this->project_ids ) );
+		
+		foreach ( $results as $key => $result ) {
+			$project_id = $result->project_id;
+			unset( $result->project_id );
+			$metas[$project_id] = $result;
+		}
+
+		foreach ( $this->projects as $key => $project ) {
+			$project->favourite = isset( $metas[$project->id] ) ? true : false;
+		}
+		
+		return $this;
+	}
+
+	private function get_meta_tb_data() {
+		global $wpdb;
+		$metas       = [];
+		$tb_projects = pm_tb_prefix() . 'pm_projects';
+		$tb_meta     = pm_tb_prefix() . 'pm_meta';
+
+		$project_format = pm_get_prepare_format( $this->project_ids );
+
+		$query = "SELECT DISTINCT $tb_meta.meta_key, $tb_meta.meta_value, $tb_meta.project_id, $tb_meta.entity_id
+			FROM $tb_meta
+			WHERE $tb_meta.project_id IN ($project_format)  
+			AND $tb_meta.entity_type = 'project'";
+		
+		$results = $wpdb->get_results( $wpdb->prepare( $query, $this->project_ids ) );
+		
+		foreach ( $results as $key => $result ) {
+			$project_id = $result->project_id;
+			unset( $result->project_id );
+			$metas[$project_id][] = $result;
+		}
+
+		foreach ( $this->projects as $key => $project ) {
+			$filter_metas = empty( $metas[$project->id] ) ? [] : $metas[$project->id];
+			foreach ( $filter_metas as $key => $filter_meta ) {
+				$project->meta[$filter_meta->meta_key] = $filter_meta->meta_value;
+			}
+		}
+		
+		return $this;
+	}
 
 	private function project_incomplete_tasks() {
 		global $wpdb;
@@ -335,7 +453,6 @@ class Project {
 		$project_format = pm_get_prepare_format( $this->project_ids );
 
 		$query = "SELECT DISTINCT COUNT($tb_task.id) as task_count, $tb_task.project_id FROM $tb_task
-		LEFT JOIN $tb_projects on $tb_projects.id = $tb_task.project_id
 		WHERE $tb_task.project_id IN ($project_format)  AND $tb_task.status = 0
 		GROUP by $tb_task.project_id";
 
@@ -348,7 +465,7 @@ class Project {
 		}
 
 		foreach ( $this->projects as $key => $project ) {
-			$project->meta['data']['total_incomplete_tasks'] = empty( $metas[$project->id] ) ? 0 : $metas[$project->id];
+			$project->meta['total_incomplete_tasks'] = empty( $metas[$project->id] ) ? 0 : $metas[$project->id];
 		}
 
 		return $this;
@@ -361,10 +478,10 @@ class Project {
 		$tb_task        = pm_tb_prefix() . 'pm_tasks';
 		$project_format = pm_get_prepare_format( $this->project_ids );
 
-		$query = "SELECT DISTINCT COUNT($tb_task.id) as task_count, $tb_task.project_id FROM $tb_task
-		LEFT JOIN $tb_projects on $tb_projects.id = $tb_task.project_id
-		WHERE $tb_task.project_id IN ($project_format)  AND $tb_task.status = 1
-		GROUP by $tb_task.project_id";
+		$query = "SELECT DISTINCT COUNT($tb_task.id) as task_count, $tb_task.project_id 
+			FROM $tb_task
+			WHERE $tb_task.project_id IN ($project_format)  AND $tb_task.status = 1
+			GROUP by $tb_task.project_id";
 
 		$results = $wpdb->get_results( $wpdb->prepare($query,$this->project_ids) );
 
@@ -375,7 +492,7 @@ class Project {
 		}
 
 		foreach ( $this->projects as $key => $project ) {
-			$project->meta['data']['total_complete_tasks'] = empty( $metas[$project->id] ) ? 0 : $metas[$project->id];
+			$project->meta['total_complete_tasks'] = empty( $metas[$project->id] ) ? 0 : $metas[$project->id];
 		}
 
 		return $this;
@@ -400,7 +517,7 @@ class Project {
         return $format;
     }
 
-	private function project_task__count() {
+	private function project_task_count() {
 		global $wpdb;
 		$metas       = [];
 		$tb_projects = pm_tb_prefix() . 'pm_projects';
@@ -410,8 +527,6 @@ class Project {
 		$project_format = pm_get_prepare_format( $this->project_ids );
 
 		$query = "SELECT DISTINCT COUNT(pt.id) as task_count, pt.project_id FROM $tb_task as pt
-
-		LEFT JOIN $tb_projects as pm on pm.id = pt.project_id
 
 		WHERE pt.project_id IN ($project_format)
 
@@ -427,7 +542,7 @@ class Project {
 		}
 
 		foreach ( $this->projects as $key => $project ) {
-			$project->meta['data']['total_tasks'] = empty( $metas[$project->id] ) ? 0 : $metas[$project->id];
+			$project->meta['total_tasks'] = empty( $metas[$project->id] ) ? 0 : $metas[$project->id];
 		}
 
 		return $this;
@@ -442,7 +557,6 @@ class Project {
 
 		$query = "SELECT DISTINCT COUNT(pb.id) as task_list_count ,  project_id
 				FROM $tb_boards as pb
-				LEFT JOIN $tb_projects as pm on pm.id = pb.project_id
 				WHERE pb.project_id IN ($project_format)
 				AND pb.type='task_list'
 				GROUP BY pb.project_id";
@@ -457,7 +571,7 @@ class Project {
 		}
 
 		foreach ( $this->projects as $key => $project ) {
-			$project->meta['data']['total_task_lists'] = empty( $metas[$project->id] ) ? 0 : $metas[$project->id];
+			$project->meta['total_task_lists'] = empty( $metas[$project->id] ) ? 0 : $metas[$project->id];
 		}
 
 		return $this;
@@ -472,7 +586,6 @@ class Project {
 
 		$query = "SELECT DISTINCT COUNT(pb.id) as discussion_count ,  project_id
 				FROM $tb_boards as pb
-				LEFT JOIN $tb_projects as pm on pm.id = pb.project_id
 				WHERE pb.project_id IN ($project_format)
 				AND pb.type='discussion_board'
 				GROUP BY pb.project_id";
@@ -487,7 +600,7 @@ class Project {
 		}
 
 		foreach ( $this->projects as $key => $project ) {
-			$project->meta['data']['total_discussion_boards'] = empty( $metas[$project->id] ) ? 0 : $metas[$project->id];
+			$project->meta['total_discussion_boards'] = empty( $metas[$project->id] ) ? 0 : $metas[$project->id];
 		}
 
 		return $this;
@@ -503,7 +616,6 @@ class Project {
 
 		$query = "SELECT DISTINCT COUNT(pcm.id) as comment_count , project_id
 		FROM $tb_comments as pcm
-		LEFT JOIN $tb_projects  as pm  on pm.id = pcm.project_id
 		WHERE pcm.project_id IN ($project_format)
 		GROUP BY pcm.project_id";
 
@@ -516,7 +628,7 @@ class Project {
 		}
 
 		foreach ( $this->projects as $key => $project ) {
-			$project->meta['data']['total_comments'] = empty( $metas[$project->id] ) ? 0 : $metas[$project->id];
+			$project->meta['total_comments'] = empty( $metas[$project->id] ) ? 0 : $metas[$project->id];
 		}
 
 		return $this;
@@ -537,7 +649,6 @@ class Project {
 
 		$query = "SELECT DISTINCT COUNT(pb.id) as milestones_count ,  project_id
 				FROM $tb_boards as pb
-				LEFT JOIN $tb_projects as pm on pm.id = pb.project_id
 				WHERE pb.project_id IN ($project_format)
 				AND pb.type='milestone'
 				GROUP BY pb.project_id";
@@ -551,7 +662,7 @@ class Project {
 		}
 
 		foreach ( $this->projects as $key => $project ) {
-			$project->meta['data']['total_milestones'] = empty( $metas[$project->id] ) ? 0 : $metas[$project->id];
+			$project->meta['total_milestones'] = empty( $metas[$project->id] ) ? 0 : $metas[$project->id];
 		}
 
 		return $this;
@@ -571,7 +682,6 @@ class Project {
 
 		$query = "SELECT DISTINCT COUNT(pf.id) as file_count , project_id
 		FROM $tb_files as pf
-		LEFT JOIN $tb_projects  as pm  on pm.id = pf.project_id
 		WHERE pf.project_id IN ($project_format)
 		GROUP BY pf.project_id";
 
@@ -584,7 +694,7 @@ class Project {
 		}
 
 		foreach ( $this->projects as $key => $project ) {
-			$project->meta['data']['total_files'] = empty( $metas[$project->id] ) ? 0 : $metas[$project->id];
+			$project->meta['total_files'] = empty( $metas[$project->id] ) ? 0 : $metas[$project->id];
 		}
 
 		return $this;
@@ -605,7 +715,6 @@ class Project {
 
 		$query = "SELECT DISTINCT COUNT(pma.id) as activity_count , project_id
 		FROM $tb_activites as pma
-		LEFT JOIN $tb_projects  as pm  on pm.id = pma.project_id
 		WHERE pma.project_id IN ($project_format)
 		GROUP BY pma.project_id";
 
@@ -619,7 +728,7 @@ class Project {
 		}
 
 		foreach ( $this->projects as $key => $project ) {
-			$project->meta['data']['total_activities'] = empty( $metas[$project->id] ) ? 0 : $metas[$project->id];
+			$project->meta['total_activities'] = empty( $metas[$project->id] ) ? 0 : $metas[$project->id];
 		}
 
 		return $this;
@@ -740,10 +849,12 @@ class Project {
 	}
 
 	private function select() {
+		global $wpdb;
+
 		$select = '';
 
 		if ( empty( $this->query_params['select'] ) ) {
-			$this->select = $this->tb_project . '.*';
+			$this->select = $this->tb_project . ".*, {$wpdb->prefix}pm_meta.meta_value";
 
 			return $this;
 		}
@@ -760,12 +871,22 @@ class Project {
 			$select .= $this->tb_project . '.' . $item . ',';
 		}
 
-		$this->select = substr( $select, 0, -1 );
+		$this->select = "{$wpdb->prefix}pm_meta.meta_value, " . substr( $select, 0, -1 );
 
 		return $this;
 	}
 
 	private function join() {
+		global $wpdb;
+		$current_user_id = get_current_user_id();
+
+		$this->join .= " LEFT JOIN {$wpdb->prefix}pm_meta ON {$wpdb->prefix}pm_meta.project_id={$wpdb->prefix}pm_projects.id
+			AND {$wpdb->prefix}pm_meta.meta_key='favourite_project' 
+			AND {$wpdb->prefix}pm_meta.entity_id=$current_user_id";
+
+		$this->join .= " LEFT JOIN {$wpdb->prefix}pm_role_user ON {$wpdb->prefix}pm_role_user.project_id={$wpdb->prefix}pm_projects.id";
+		
+
 		return $this;
 	}
 
@@ -784,6 +905,16 @@ class Project {
 
 		return $this;
 	}
+
+	// private function where_favourite() {
+	// 	global $wpdb;
+	// 	$user_id = get_current_user_id();
+		
+	// 	$this->where .= " AND {$wpdb->prefix}pm_meta.meta_key='favourite_project' 
+	// 		AND {$wpdb->prefix}pm_meta.entity_id=$user_id";
+
+	// 	return $this;
+	// }
 
 	/**
 	 * Filter project by ID
@@ -821,13 +952,30 @@ class Project {
 	 * @return class object
 	 */
 	private function where_status() {
+		global $wpdb;
 		$status = isset( $this->query_params['status'] ) ? $this->query_params['status'] : false;
 
-		if ( $status === false ) {
+		if ( empty( $status ) ) {
 			return $this;
 		}
 
-		$this->where .= " AND {$this->tb_project}.status='$status'";
+		if ( $status == 'favourite' ) {
+			$current_user_id = get_current_user_id();
+			$this->where .= " AND {$wpdb->prefix}pm_meta.entity_id=$current_user_id
+				AND {$wpdb->prefix}pm_meta.meta_key='favourite_project'";
+		} else {
+			$attr = [
+				'incomplete' => 0,
+				'complete'   => 1,
+				'pending'    => 2,
+				'archived'   => 3
+			];
+
+			if ( gettype( $status ) == 'string' ) {
+				$status = $attr[$status];
+			}
+			$this->where .= " AND {$this->tb_project}.status='$status'";
+		}
 
 		return $this;
 	}
@@ -858,7 +1006,12 @@ class Project {
 		$inUsers = isset( $this->query_params['inUsers'] ) ? $this->query_params['inUsers'] : false;
 
 		if ( empty( $inUsers ) ) {
-			return $this;
+			
+			if ( pm_has_manage_capability( get_current_user_id() ) ) {
+				return $this;
+			}
+
+			$inUsers = get_current_user_id();
 		}
 
 		$inUsers = is_array( $inUsers ) ? implode( ',', $inUsers ) : $inUsers;
@@ -939,7 +1092,7 @@ class Project {
             $order[] =  $tb_pj .'.'. $key . ' ' . $value;
         }
 
-        $this->orderby = "ORDER BY " . implode( ', ', $order);
+        $this->orderby = "ORDER BY {$wpdb->prefix}pm_meta.meta_value DESC, " . implode( ', ', $order);
 
         return $this;
     }
@@ -981,16 +1134,20 @@ class Project {
 	private function get() {
 		global $wpdb;
 		$id = isset( $this->query_params['id'] ) ? $this->query_params['id'] : false;
+		
 		$query = "SELECT SQL_CALC_FOUND_ROWS DISTINCT {$this->select}
-			FROM {$this->tb_project}
-			{$this->join}
-			WHERE 1=1 {$this->where}
-			{$this->limit}
-			{$this->orderby}";
-
-		$results = $wpdb->get_results( $query );
-
+			FROM 
+				{$this->tb_project}
+				{$this->join}
+			WHERE %d=%d 
+				{$this->where}
+				{$this->orderby}
+				{$this->limit}";
+		
+		$results = $wpdb->get_results( $wpdb->prepare( $query, 1, 1 ) );
+		
 		$this->found_rows = $wpdb->get_var( "SELECT FOUND_ROWS()" );
+
 		$this->projects   = $results;
 
 		if ( ! empty( $results ) && is_array( $results ) ) {

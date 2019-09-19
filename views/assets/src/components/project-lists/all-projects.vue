@@ -99,6 +99,11 @@
                 var self = this;
                 this.loading = true;
                 this.getProjects({
+                    conditions: {
+                       with: 'assignees',
+                       project_meta: 'all',
+                       orderby: 'id:desc'
+                    },
                     callback (res) {
                         self.projectFetchStatus(true);
                         self.loading = false;
