@@ -2,13 +2,6 @@
 namespace WeDevs\PM\Task_List\Helper;
 
 use WP_REST_Request;
-use League\Fractal;
-use League\Fractal\Manager as Manager;
-use League\Fractal\Resource\Item as Item;
-use League\Fractal\Serializer\DataArraySerializer;
-use League\Fractal\Resource\Collection as Collection;
-use WeDevs\PM\Task_List\Transformers\Generate_List_Transformer;
-
 // data: {
 // 	with: 'milestone',
 // 	per_page: '10',
@@ -48,12 +41,11 @@ class Task_List {
 
     public static function get_task_lists( WP_REST_Request $request ) {
 		$lists = self::get_results( $request->get_params() );
+
 		wp_send_json( $lists );
 	}
 
 	public static function get_results( $params ) {
-		//global $wpdb;
-
 		$self = self::getInstance();
 		$self->query_params = $params;
 
@@ -73,7 +65,6 @@ class Task_List {
 		}
 
 		return $response;
-		// return (new Generate_List_Transformer)->generate_transform( $self->lists );
 	}
 
 	/**
@@ -99,7 +90,6 @@ class Task_List {
 			$tasklists[$key] = $this->fromat_tasklist( $tasklist );
 		}
 
-
 		$response['data']  = $tasklists;
 		$response ['meta'] = $this->set_tasklist_meta();
 
@@ -111,8 +101,10 @@ class Task_List {
 	 */
 	private function set_tasklist_meta() {
 		return [
-			'total_projects'   => $this->found_rows,
-			'total_page'       => ceil( $this->found_rows/$this->get_per_page() )
+			'pagination' => [
+				'total'   => $this->found_rows,
+				'per_page'       => ceil( $this->found_rows/$this->get_per_page() )
+			]
 		];
 	}
 
@@ -134,7 +126,6 @@ class Task_List {
 			$select_items = str_replace( ' ', '', $select_items );
 			$select_items = explode( ',', $select_items );
 		}
-
 
 		if ( empty( $select_items ) ) {
 			$items = $this->item_with( $items,$tasklist );
@@ -169,21 +160,13 @@ class Task_List {
 	}
 
 	private function item_meta( $items, $tasklist ) {
-		$meta = empty( $this->query_params['meta'] ) ? [] : $this->query_params['meta'];
+		$meta = empty( $this->query_params['list_meta'] ) ? [] : $this->query_params['list_meta'];
 
-		if ( ! is_array( $meta ) && $meta != 'all' ) {
-			$meta = explode( ',', $meta );
+		if( ! $meta ) {
+			return $items;
 		}
 
-		if( isset( $tasklist->meta ) ) {
-			if( $meta == 'all' ) {
-				$items['meta']['data'] = $tasklist->meta['data'];
-				return $items;
-			}
-
-			$tasklist_with_items =  array_intersect_key( (array) $tasklist->meta['data'], array_flip( $meta ) );
-			$items['meta']['data'] = $tasklist_with_items;
-		}
+		$items['meta'] = empty( $tasklist->meta ) ? [ 'data' => [] ] : [ 'data' => $tasklist->meta];
 
 		return $items;
 	}
@@ -196,20 +179,18 @@ class Task_List {
 	}
 
 	private function meta() {
-		$meta = empty( $this->query_params['meta'] ) ? [] : $this->query_params['meta'];
+		$meta = empty( $this->query_params['list_meta'] ) ? [] : $this->query_params['list_meta'];
 
 		if ( ! is_array( $meta ) && $meta != 'all' ) {
 			$meta = explode( ',', $meta );
 		}
-		error_log(print_r($meta,true));
+
 		if ( $meta == 'all' ) {
 			$this->total_tasks_count();
 			$this->total_complete_tasks_count();
 			$this->total_incomplete_tasks_count();
 			$this->total_comments_count();
 			$this->total_assignees_count();
-
-			return $this;
 		}
 
 		if ( in_array( 'total_tasks', $meta ) ) {
@@ -232,8 +213,48 @@ class Task_List {
 			$this->total_assignees_count();
 		}
 
+		$this->get_meta_tb_data();
+
 		return $this;
 	}
+
+	private function get_meta_tb_data() {
+        global $wpdb;
+        $metas       = [];
+        $tb_projects = pm_tb_prefix() . 'pm_projects';
+        $tb_meta     = pm_tb_prefix() . 'pm_meta';
+
+        $tasklist_format = pm_get_prepare_format( $this->list_ids );
+
+        $query = "SELECT DISTINCT $tb_meta.meta_key, $tb_meta.meta_value, $tb_meta.entity_id
+            FROM $tb_meta
+            WHERE $tb_meta.entity_id IN ($tasklist_format)
+            AND $tb_meta.entity_type = 'task_list'";
+
+        $results = $wpdb->get_results( $wpdb->prepare( $query, $this->list_ids ) );
+
+        foreach ( $results as $key => $result ) {
+            $list_id = $result->entity_id;
+            unset( $result->entity_id );
+            $metas[$list_id][] = $result;
+        }
+
+        error_log(print_r($metas,true));
+        error_log(print_r($this->lists,true));
+
+        foreach ( $this->lists as $key => $list ) {
+            $filter_metas = empty( $metas[$list->id] ) ? [] : $metas[$list->id];
+            	error_log( print_r( $metas,true ) );
+            	error_log( print_r( $list,true ) );
+
+            foreach ( $filter_metas as $key => $filter_meta ) {
+            	error_log( print_r( $filter_meta,true ) );
+                $list->meta[$filter_meta->meta_key] = $filter_meta->meta_value;
+            }
+        }
+
+        return $this;
+    }
 
 	private function total_tasks_count() {
 		global $wpdb;
@@ -259,7 +280,7 @@ class Task_List {
 		}
 
 		foreach ( $this->lists as $key => $list ) {
-			$list->meta['data']['total_tasks'] = empty( $metas[$list->id] ) ? 0 : $metas[$list->id];
+			$list->meta['total_tasks'] = empty( $metas[$list->id] ) ? 0 : $metas[$list->id];
 		}
 
 		return $this;
@@ -290,7 +311,7 @@ class Task_List {
 		}
 
 		foreach ( $this->lists as $key => $list ) {
-			$list->meta['data']['total_complete_tasks'] = empty( $metas[$list->id] ) ? 0 : $metas[$list->id];
+			$list->meta['total_complete_tasks'] = empty( $metas[$list->id] ) ? 0 : $metas[$list->id];
 		}
 
 		return $this;
@@ -321,7 +342,7 @@ class Task_List {
 		}
 
 		foreach ( $this->lists as $key => $list ) {
-			$list->meta['data']['total_incomplete_tasks'] = empty( $metas[$list->id] ) ? 0 : $metas[$list->id];
+			$list->meta['total_incomplete_tasks'] = empty( $metas[$list->id] ) ? 0 : $metas[$list->id];
 		}
 
 		return $this;
@@ -351,7 +372,7 @@ class Task_List {
 		}
 
 		foreach ( $this->lists as $key => $list ) {
-			$list->meta['data']['total_comments'] = empty( $metas[$list->id] ) ? 0 : $metas[$list->id];
+			$list->meta['total_comments'] = empty( $metas[$list->id] ) ? 0 : $metas[$list->id];
 		}
 
 		return $this;
@@ -382,7 +403,7 @@ class Task_List {
 		}
 
 		foreach ( $this->lists as $key => $list ) {
-			$list->meta['data']['total_assignees'] = empty( $metas[$list->id] ) ? 0 : $metas[$list->id];
+			$list->meta['total_assignees'] = empty( $metas[$list->id] ) ? 0 : $metas[$list->id];
 		}
 
 		return $this;
@@ -557,8 +578,38 @@ class Task_List {
 
 	private function where() {
 
-		$this->where_project_id()
+		$this->where_id()->where_project_id()
 			->where_title();
+
+		return $this;
+	}
+
+	/**
+	 * Filter list by ID
+	 *
+	 * @return class object
+	 */
+	private function where_id() {
+		$id = isset( $this->query_params['id'] ) ? $this->query_params['id'] : false;
+
+		if ( empty( $id ) ) {
+			return $this;
+		}
+
+		if ( is_array( $id ) ) {
+			$query_id = implode( ',', $id );
+			$this->where .= " AND {$this->tb_list}.id IN ($query_id)";
+		}
+
+		if ( !is_array( $id ) ) {
+			$this->where .= " AND {$this->tb_list}.id IN ($id)";
+
+			$explode = explode( ',', $id );
+
+			if ( count( $explode ) == 1 ) {
+				$this->is_single_query = true;
+			}
+		}
 
 		return $this;
 	}
@@ -680,11 +731,12 @@ class Task_List {
 			{$this->orderby} {$this->limit} ";
 
 
-		if ( $id && ( ! is_array( $id ) ) ) {
-			$results = $wpdb->get_row( $query );
-		} else {
-			$results = $wpdb->get_results( $query );
-		}
+		// if ( $id && ( ! is_array( $id ) ) ) {
+		// 	$results = $wpdb->get_row( $wpdb->prepare( $query,1,1 ) );
+		// } else {
+		// 	$results = $wpdb->get_results( $wpdb->prepare( $query,1,1 ) );
+		// }
+		$results = $wpdb->get_results( $query );
 
 		$this->found_rows = $wpdb->get_var( "SELECT FOUND_ROWS()" );
 		$this->lists = $results;

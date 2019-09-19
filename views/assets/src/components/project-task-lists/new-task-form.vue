@@ -220,14 +220,6 @@ export default {
         },
 
     	project_users () {
-            // var projects = this.$store.state.projects;
-
-            // var index = projects.findIndex(i => i.id == this.project_id);
-            // if (index !== -1) {
-            //     return projects[index].assignees.data;
-            // }
-            
-            // return [];
     		return this.$store.state.project_users;
     	},
         /**
