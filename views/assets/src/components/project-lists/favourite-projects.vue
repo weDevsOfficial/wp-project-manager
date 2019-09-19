@@ -138,6 +138,9 @@
                 var args = {
                     conditions: {
                        status: 'favourite',
+                       with: 'assignees',
+                       project_meta: 'all',
+                       orderby: 'id:desc'
                     },
 
                     callback (res) {

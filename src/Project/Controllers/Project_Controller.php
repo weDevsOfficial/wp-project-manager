@@ -93,7 +93,7 @@ class Project_Controller {
 			'total_complete'   => $total_complete,
 			'total_pending'    => $total_pending,
 			'total_archived'   => $total_archived,
-			'total_favourite'   => $favourite,
+			'total_favourite'  => $favourite,
 		];
 
 		return $meta;
@@ -123,7 +123,7 @@ class Project_Controller {
 		->selectRaw( pm_tb_prefix().'pm_projects.*' )
 		->groupBy( pm_tb_prefix().'pm_projects.id' )
 		->orderBy( pm_tb_prefix().'pm_meta.meta_value', 'DESC');
-
+		
 		return $projects;
     }
 
