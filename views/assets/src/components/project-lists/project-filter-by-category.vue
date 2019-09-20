@@ -28,7 +28,10 @@
             categoryFilter () {
                 var self = this;
                 var extra_ele = {
-                    'category': self.categorie_id === '-1' ? false : self.categorie_id
+                    category: self.categorie_id === '-1' ? false : self.categorie_id,
+                    with: 'assignees',
+                    project_meta: 'all',
+                    orderby: 'id:desc',
                 }
 
                 // var setQuery = this.setQuery(extra_ele);
