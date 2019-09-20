@@ -13,10 +13,10 @@ use WeDevs\PM\Helper\Project;
 
 $router = Router::singleton();
 
-$router->get( 'advanced/projects', 'WeDevs/PM/Project/Controllers/Project_Controller@index' )
+$router->get( 'projects', 'WeDevs/PM/Project/Controllers/Project_Controller@index' )
     ->permission(['WeDevs\PM\Core\Permissions\Authentic']);
 
-$router->get( 'projects', 'WeDevs/PM/Project/Helper/Project@get_projects' )
+$router->get( 'advanced/projects', 'WeDevs/PM/Project/Helper/Project@get_projects' )
     ->permission(['WeDevs\PM\Core\Permissions\Authentic']);
 
 $router->get( 'projects/{id}', 'WeDevs/PM/Project/Controllers/Project_Controller@show' )
