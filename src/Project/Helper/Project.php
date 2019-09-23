@@ -536,6 +536,14 @@ class Project {
 	}
 
 	public function get_prepare_format( $ids, $is_string = false ) {
+
+		if ( ! is_array( $ids ) ) {
+			if ( strpos( $ids, ',' ) !== false ) {
+				$ids = str_replace( ' ', '', $ids );
+				$ids = explode( ',', $ids );
+			}
+		}
+		
         // how many entries will we select?
         $how_many = count( $ids );
 
