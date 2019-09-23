@@ -1,12 +1,40 @@
 <template>
     <div class="mytask-outstanding">
-        <table class="wp-list-table widefat fixed striped posts">
+        <table class="wp-list-table widefat fixed striped posts outstanding-task-table">
             <thead>
                 <tr>
-                    <td>{{ __('Tasks', 'wedevs-project-manager') }}</td>
+                    <td @click.prevent="activeSorting('title')" class="pointer">
+                        {{ __('Tasks', 'wedevs-project-manager') }}
+                        <span class="sort-wrap">
+                            <i 
+                                :class="sorting.title.asc ? 'active-sorting pm-icon flaticon-caret-down' : 'pm-icon flaticon-caret-down'" 
+                                aria-hidden="true">
+                                
+                            </i>
+                            <i 
+                                :class="sorting.title.desc ? 'active-sorting pm-icon flaticon-sort' : 'pm-icon flaticon-sort'" 
+                                aria-hidden="true">
+                                    
+                            </i>
+                        </span>
+                    </td>
                     <td>{{ __('Task List', 'wedevs-project-manager') }}</td>
                     <td>{{ __('Projects', 'wedevs-project-manager') }}</td>
-                    <td>{{ __('Overdue', 'wedevs-project-manager') }}</td>
+                    <td @click.prevent="activeSorting('due_date')" class="pointer">
+                        {{ __('Overdue', 'wedevs-project-manager') }}
+                        <span class="sort-wrap">
+                            <i 
+                                :class="sorting.due_date.asc ? 'active-sorting pm-icon flaticon-caret-down' : 'pm-icon flaticon-caret-down'" 
+                                aria-hidden="true">
+                                    
+                            </i>
+                            <i 
+                                :class="sorting.due_date.desc ? 'active-sorting pm-icon flaticon-sort' : 'pm-icon flaticon-sort'" 
+                                aria-hidden="true">
+                                    
+                            </i>
+                        </span>
+                    </td>
                 </tr>
             </thead>
             <tbody>
@@ -48,6 +76,41 @@
         <router-view name="singleTask"></router-view>
     </div>
 </template>
+<style lang="less">
+    .mytask-outstanding {
+        .outstanding-task-table {
+            .id-td {
+                width: 85px;
+            }
+            .pointer {
+                cursor: pointer;
+            }
+            thead td {
+                position: relative;
+            }
+            .sort-wrap {
+                position: absolute;
+                right: 25px;
+                display: flex;
+                top: 50%;
+                flex-direction: column;
+                transform: translate(10px, -50%);
+                i {
+                    line-height: 0;
+                    transform: rotate(180deg);
+                    &:not(.active-sorting) {
+                        color: #b5b5b5;
+                    }
+                    &:before {
+                        font-size: 8px !important;
+
+                    }
+
+                }
+            }   
+        }
+    }
+</style>
 <script>
     export default {
         props: {
@@ -62,7 +125,21 @@
         data () {
             return {
                 individualTaskId: 0,
-                individualProjectId: 0
+                individualProjectId: 0,
+                sorting: {
+                    // id: {
+                    //     asc: true,
+                    //     desc: false
+                    // },
+                    title: {
+                        asc: false,
+                        desc: false
+                    },
+                    due_date: {
+                        asc: false,
+                        desc: false
+                    },
+                }
             }
         },
 
@@ -76,6 +153,52 @@
         },
 
         methods: {
+            activeSorting(key) {
+                var self = this;
+                
+                jQuery.each(this.sorting, function( index, val ) {
+                    if(index != key) {
+                        self.sorting[index].asc = false;
+                        self.sorting[index].desc = false;
+                    }
+                })
+
+                if( !self.sorting[key].asc && !self.sorting[key].desc) {
+                    self.sorting[key].asc = true;
+                } else {
+                    self.sorting[key].asc = self.sorting[key].asc ? false : true;
+                    self.sorting[key].desc = self.sorting[key].desc ? false : true;
+                } 
+
+                if(self.sorting[key].asc === true) {
+                    
+                    if(key=='due_date') {
+                        var order = 'desc'
+                    } else {
+                        var order = 'asc'
+                    }
+
+                    self.$emit('columnSorting', {
+                        orderby: key,
+                        order: order
+                    });
+                }
+
+                if(self.sorting[key].desc === true) {
+                    
+                    if(key=='due_date') {
+                        var order = 'asc'
+                    } else {
+                        var order = 'desc'
+                    }
+
+                    self.$emit('columnSorting', {
+                        orderby: key,
+                        order: order
+                    });
+                }
+            },
+
             goToProject(task) {
                 this.$router.push({
                     name: 'task_lists',

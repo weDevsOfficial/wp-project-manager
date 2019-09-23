@@ -75,8 +75,18 @@
 					:tasks="tasks">
 						
 				</current-task>
-				<outstanding-task v-if="component == 'outstanding'" :tasks="tasks"></outstanding-task>
-				<completed-task v-if="component == 'completed'" :tasks="tasks"></completed-task>
+				<outstanding-task 
+					@columnSorting="sortQuery"
+					v-if="component == 'outstanding'" 
+					:tasks="tasks">
+						
+				</outstanding-task>
+				<completed-task 
+					@columnSorting="sortQuery"
+					v-if="component == 'completed'" 
+					:tasks="tasks">
+						
+				</completed-task>
 			</div>
 		</div>
 

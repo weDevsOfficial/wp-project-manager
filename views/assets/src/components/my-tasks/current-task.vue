@@ -3,21 +3,6 @@
         <table class="wp-list-table widefat fixed striped posts current-task-table">
             <thead>
                 <tr>
-                   <!--  <td @click.prevent="activeSorting('id')" class="pointer id-td">
-                        {{ __('ID', 'wedevs-project-manager') }}
-                        <span class="sort-wrap">
-                            <i 
-                                :class="sorting.id.asc ? 'active-sorting pm-icon flaticon-caret-down' : 'pm-icon flaticon-caret-down'" 
-                                aria-hidden="true">
-                                
-                            </i>
-                            <i 
-                                :class="sorting.id.desc ? 'active-sorting pm-icon flaticon-sort' : 'pm-icon flaticon-sort'" 
-                                aria-hidden="true">
-                                    
-                            </i>
-                        </span>
-                    </td> -->
                     <td @click.prevent="activeSorting('title')" class="pointer">
                         {{ __('Tasks', 'wedevs-project-manager') }}
                         <span class="sort-wrap">
