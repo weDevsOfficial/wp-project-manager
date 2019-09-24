@@ -62,6 +62,7 @@ module.exports = function(grunt) {
                     '!phpcs.xml.dist',
                     '!pm.sublime-project',
                     '!pm.sublime-workspace',
+                    '!postman_collection.json',
                     '!views/assets/css/Single Task Page.json',
                     '!views/assets/vendor/wp-hooks/wp-hooks.js',
                     '!**/*~'
