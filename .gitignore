@@ -6,7 +6,6 @@
 .env
 .DS_Store
 .travis.yml
-postman_collection.json
 npm-debug.log
 /bin/
 /tests/bootstrap.php
