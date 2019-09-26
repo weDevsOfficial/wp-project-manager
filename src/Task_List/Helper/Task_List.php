@@ -110,13 +110,14 @@ class Task_List {
 	public function fromat_tasklist( $tasklist ) {
 		$items = [
 			'id'          => (int) $tasklist->id,
-			'title'       => (string) $tasklist->title,
-			'description' => pm_filter_content_url( $tasklist->description ),
-			'order'       => (int) $tasklist->order,
-			'status'      => $tasklist->status,
-			'created_at'  => format_date( $tasklist->created_at ),
+			'title'       => isset( $tasklist->title ) ? (string) $tasklist->title : null,
+			'description' => isset( $tasklist->description ) ?
+			 pm_filter_content_url( $tasklist->description ) : null,
+			'order'       => isset( $tasklist->order ) ? (int) $tasklist->order : null,
+			'status'      => isset( $tasklist->status ) ? $tasklist->status : null,
+			'created_at'  => isset( $tasklist->status ) ?  format_date( $tasklist->created_at ) : null,
 			'extra'       => true,
-			'project_id'  => $tasklist->project_id
+			'project_id'  => isset( $tasklist->project_id ) ?  $tasklist->project_id : null
         ];
 
 		$select_items = empty( $this->query_params['select'] ) ? null : $this->query_params['select'];
@@ -264,9 +265,9 @@ class Task_List {
 
 		$query ="SELECT DISTINCT count($tb_tasks.id) as task_count, $tb_boardable.board_id as list_id FROM $tb_tasks
 			LEFT JOIN $tb_boardable  ON $tb_boardable.boardable_id = $tb_tasks.id
-			WHERE $tb_boardable.boardable_type=%s
+			WHERE $tb_boardable.board_id IN ($tasklist_format)
+			AND $tb_boardable.boardable_type=%s
 			AND $tb_boardable.board_type=%s
-			AND $tb_boardable.board_id IN ($tasklist_format)
 			group by $tb_boardable.board_id
 		";
 
@@ -297,10 +298,10 @@ class Task_List {
 
 		$query ="SELECT DISTINCT count($tb_tasks.id) as task_count, $tb_boardable.board_id as list_id FROM $tb_tasks
 			LEFT JOIN $tb_boardable  ON $tb_boardable.boardable_id = $tb_tasks.id
-			WHERE $tb_boardable.boardable_type=%s
+			WHERE $tb_boardable.board_id IN ($tasklist_format)
+			AND $tb_boardable.boardable_type=%s
 			AND $tb_boardable.board_type=%s
 			AND $tb_tasks.status = %d
-			AND $tb_boardable.board_id IN ($tasklist_format)
 			group by $tb_boardable.board_id
 		";
 
@@ -331,10 +332,10 @@ class Task_List {
 
 		$query ="SELECT DISTINCT count($tb_tasks.id) as task_count, $tb_boardable.board_id as list_id FROM $tb_tasks
 			LEFT JOIN $tb_boardable  ON $tb_boardable.boardable_id = $tb_tasks.id
-			WHERE $tb_boardable.boardable_type=%s
+			WHERE $tb_boardable.board_id IN ($tasklist_format)
+			AND $tb_boardable.boardable_type=%s
 			AND $tb_boardable.board_type=%s
 			AND $tb_tasks.status = %d
-			AND $tb_boardable.board_id IN ($tasklist_format)
 			group by $tb_boardable.board_id
 		";
 
@@ -366,8 +367,8 @@ class Task_List {
 		$query ="SELECT DISTINCT count($tb_pm_comments.id) as comment_count,
 		$tb_boards.id as list_id FROM $tb_pm_comments
 			LEFT JOIN $tb_boards  ON $tb_boards.id = $tb_pm_comments.commentable_id
-			WHERE $tb_pm_comments.commentable_type = %s
-			AND $tb_boards.id IN ($tasklist_format)
+			WHERE $tb_boards.id IN ($tasklist_format)
+			AND $tb_pm_comments.commentable_type = %s
 			group by $tb_boards.id
 		";
 
@@ -399,9 +400,9 @@ class Task_List {
 		$query ="SELECT DISTINCT count($tb_users.id) as user_count,
 		$tb_boardable.board_id as list_id FROM $tb_users
 			LEFT JOIN $tb_boardable  ON $tb_boardable.boardable_id = $tb_users.id
-			WHERE $tb_boardable.board_type = %s
+			WHERE $tb_boardable.board_id IN ( $tasklist_format )
+			AND $tb_boardable.board_type = %s
 			AND $tb_boardable.boardable_type = %s
-			AND $tb_boardable.board_id IN ( $tasklist_format )
 			group by $tb_boardable.board_id
 		";
 

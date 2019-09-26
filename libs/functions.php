@@ -813,3 +813,18 @@ function pm_get_prepare_format( $ids, $is_string = false  ) {
 
     return $format;
 }
+
+/**
+ * Clean variables using pm_clean. Arrays are cleaned recursively.
+ * Non-scalar values are ignored.
+ *
+ * @param string|array $var Data to sanitize.
+ * @return string|array
+ */
+function pm_clean( $var ) {
+    if ( is_array( $var ) ) {
+        return array_map( 'pm_clean', $var );
+    } else {
+        return is_scalar( $var ) ? sanitize_text_field( wp_unslash( $var ) ) : $var;
+    }
+}

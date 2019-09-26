@@ -210,6 +210,14 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= v2.3.1 - Sep 25, 2019 =
+
+* **New** User can create new task from my-task section.
+* **New** Sorting my-task table column.
+* **Update** My-tasks menu is not appear in front-end.
+* **Update** Reduce loading executing time for project home page. 
+* **Update** Refactoring code for getting projects data.
+
 = v2.3.0 - Sep 09, 2019 =
 
 * **New** Remove current task, outstanding task and completed task tabs from my tasks.
