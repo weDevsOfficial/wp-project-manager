@@ -210,7 +210,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
-= v2.3.1 - Sep 25, 2019 =
+= v2.3.1 - Sep 26, 2019 =
 
 * **New** User can create new task from my-task section.
 * **New** Sorting my-task table column.
