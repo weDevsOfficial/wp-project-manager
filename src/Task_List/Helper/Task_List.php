@@ -222,6 +222,9 @@ class Task_List {
 	}
 
 	private function get_meta_tb_data() {
+		if ( empty( $this->list_ids ) ) {
+			return $this;
+		}
         global $wpdb;
 		$metas           = [];
 		$tb_projects     = pm_tb_prefix() . 'pm_projects';

@@ -80,6 +80,7 @@
                                 </div>
                             </div>
                             <div v-if="hasLists">
+
                                 <label class="label">{{__('Task', 'wedevs-project-manager')}}</label>
                                 <pm-new-task-form  
                                     :task="task" 
@@ -268,15 +269,16 @@
                 let index = this.getIndex( this.projects, this.project.id, 'id' );
                 var users = this.projects[index].assignees.data;
                 var setUsers = [];
-
-
+                
                 if(this.users.length) {
                     this.users.forEach(function(user_id) {
-                        let index = self.getIndex(users, user_id, 'id');
-                        setUsers.push(users[index]);
+                        let index = self.getIndex(users, parseInt(user_id), 'id');
+                        if(index !== false) {
+                            setUsers.push(users[index]);
+                        }
                     });
                     
-                    if(setUsers) {
+                    if(setUsers.length) {
                         this.$store.commit('setProjectUsers', setUsers);
                         this.task.assignees.data = setUsers;
                     }

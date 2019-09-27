@@ -12,7 +12,7 @@
 
             </div>
         </div>
-
+        <data style="display: none;" :fake-data="users"></data>
         <div class="pm-row pm-project-group">
             <ul class="pm-col-9 pm-my-task-menu">
                  <li class="">

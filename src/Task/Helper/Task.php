@@ -393,6 +393,7 @@ class Task {
 	}
 
 	public function get_prepare_format( $ids, $is_string = false ) {
+
 		
 		$ids = $this->get_prepare_data( $ids );
 
@@ -416,6 +417,10 @@ class Task {
 
     public function get_prepare_data( $args ) {
 
+    	if ( empty( $args ) ) {
+    		return [];
+    	}
+
     	if ( ! is_array( $args ) ) {
 			if ( strpos( $args, ',' ) !== false ) {
 				$args = str_replace( ' ', '', $args );
@@ -423,7 +428,7 @@ class Task {
 			}
 		}
 
-		return $args;
+		return is_array( $args ) ? $args : [$args];
     }
 
 	private function where_assignees() {
