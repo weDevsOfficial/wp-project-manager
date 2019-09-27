@@ -58,7 +58,7 @@
         },  
 
         created () {
-            this.projectQuery();
+            //this.projectQuery();
             this.getRoles();
             this.getProjectCategories();
         },

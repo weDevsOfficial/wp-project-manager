@@ -133,7 +133,10 @@
                 var self = this;
                 var args = {
                     conditions: {
-                       status: 'complete' 
+                       status: 'complete',
+                       with: 'assignees',
+                       project_meta: 'all',
+                       orderby: 'id:desc' 
                     },
                     callback (res) {
                         self.projectFetchStatus(true);

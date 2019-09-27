@@ -43,6 +43,7 @@ export default {
                     if ( typeof args.callback === 'function' ) {
                         args.callback.call ( self, res );
                     }
+                    pm.NProgress.done();
                 }
             };
 
@@ -85,6 +86,8 @@ export default {
                     if ( typeof args.callback === 'function' ) {
                         args.callback.call ( self, res );
                     }
+                    pm.NProgress.done();
+
                 }
             };
 
@@ -115,6 +118,7 @@ export default {
                     if ( typeof args.callback === 'function' ) {
                         args.callback.call ( self, res );
                     }
+                    pm.NProgress.done();
                 }
             };
 

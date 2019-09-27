@@ -1,0 +1,3879 @@
+{
+	"info": {
+		"_postman_id": "cf343303-ab6d-446e-9e82-ce59b0b08c49",
+		"name": "ProjectManager Free",
+		"description": "# Introduction\nWhat does your API do?\n\n# Overview\nThings that the developers should know about\n\n# Authentication\nWhat is the preferred way of using the API?\n\n# Error Codes\nWhat errors and status codes can a user expect?\n\n# Rate limit\nIs there a limit to the number of requests an user can send?",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Project",
+			"item": [
+				{
+					"name": "Project List",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/projects/?per_page=20&status=incomplete&project_transform=true&page=1&page",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								""
+							],
+							"query": [
+								{
+									"key": "per_page",
+									"value": "20"
+								},
+								{
+									"key": "status",
+									"value": "incomplete"
+								},
+								{
+									"key": "project_transform",
+									"value": "true"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "category",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "project_transform",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": null
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project Details",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/projects/7",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"7"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project Create",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"Testing Project rokib hdsajfbsasdfdsd  fdssadf gsdfgdf\",\n\t\"categories\":[\n\t\t1,\n\t\t2,\n\t\t3\n\t],\n\t\"description\":\"\",\n\t\"notify_users\": true,\n\t\"status\": \"incomplete\"\n}"
+						},
+						"url": {
+							"raw": "{{site_url}}/projects/",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project Delete",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{site_url}}/projects/15/delete/",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"15",
+								"delete",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project Update",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\":\"hahah testing project fadsahsd sdaf\"\n}"
+						},
+						"url": {
+							"raw": "{{site_url}}/projects/16/update/",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"16",
+								"update",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project Favourite",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{site_url}}/projects/2/favourite",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"favourite"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project Activities",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/projects/2/activities",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"activities"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Project Comments",
+			"item": [
+				{
+					"name": "Project Comment List have some problem",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/projects/7/comments/",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"7",
+								"comments",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project Comment Create have some problem",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"content\": \"hahah\"\n}"
+						},
+						"url": {
+							"raw": "{{site_url}}/projects/2/comments/",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"comments",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project Comment Details",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/projects/2/comments/1",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"comments",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Project Millestones",
+			"item": [
+				{
+					"name": "Project Milestones List",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "user_login241",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/projects/7/milestones?with=discussion_boards",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"7",
+								"milestones"
+							],
+							"query": [
+								{
+									"key": "with",
+									"value": "discussion_boards"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project MIllestones Create",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\":\"testing millestone\",\n\t\"description\": \" hahahahahaha project\"\n}"
+						},
+						"url": {
+							"raw": "{{site_url}}/projects/2/milestones/",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"milestones",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project Milestones Delete",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{site_url}}/projects/2/milestones/46/delete",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"milestones",
+								"46",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project Milestones Update",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\":\"testing millestone hahah\",\n\t\"description\": \" hahahahahaha project\"\n}"
+						},
+						"url": {
+							"raw": "{{site_url}}/projects/2/milestones/48/update",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"milestones",
+								"48",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project Millestones Details . have  problem",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{site_url}}projects/2/milestones/9",
+							"host": [
+								"{{site_url}}projects"
+							],
+							"path": [
+								"2",
+								"milestones",
+								"9"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Millestone Privacy have some problem",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\n}"
+						},
+						"url": {
+							"raw": "{{site_url}}projects/2/milestones/privacy/9",
+							"host": [
+								"{{site_url}}projects"
+							],
+							"path": [
+								"2",
+								"milestones",
+								"privacy",
+								"9"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Project Discussion Boards",
+			"item": [
+				{
+					"name": "Project Discussion Boards List",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "user_login241",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/projects/7/discussion-boards",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"7",
+								"discussion-boards"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project Discussion Create",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "be706183-82c0-4744-88e3-970a7ca870ce",
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{site_url}}/projects/2/discussion-boards",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"discussion-boards"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project Discussion Boards Details",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/projects/2/discussion-boards/8",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"discussion-boards",
+								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project Discussion Boards Privacy",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{site_url}}/projects/2/discussion-boards/privacy/8",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"discussion-boards",
+								"privacy",
+								"8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project Discussion Boards Delete have some problem",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{site_url}}/projects/2/discussion-boards/38/delete",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"discussion-boards",
+								"38",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project Discussion Boards Update",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\": \"reports is not working why\"    \n}"
+						},
+						"url": {
+							"raw": "{{site_url}}/projects/2/discussion-boards/49/",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"discussion-boards",
+								"49",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project Discussion Boards Attache users",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\n}"
+						},
+						"url": {
+							"raw": "{{site_url}}/projects/2/discussion-boards/49/attach-users",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"discussion-boards",
+								"49",
+								"attach-users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project Discussion Boards deAttache users",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\n}"
+						},
+						"url": {
+							"raw": "{{site_url}}/projects/2/discussion-boards/49/detach-users",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"discussion-boards",
+								"49",
+								"detach-users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TaskLists",
+			"item": [
+				{
+					"name": "TaskLists",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/projects/8/task-lists/?with=incomplete_tasks",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"8",
+								"task-lists",
+								""
+							],
+							"query": [
+								{
+									"key": "with",
+									"value": "incomplete_tasks"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TaskList Create",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"testingtask\"\n}"
+						},
+						"url": {
+							"raw": "{{site_url}}/projects/2/task-lists/",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"task-lists",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TaskList Details",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/projects/2/task-lists/2",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"task-lists",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TaskList Update",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"hahaha\",\n\t\"id\": 2\n}"
+						},
+						"url": {
+							"raw": "{{site_url}}/projects/2/task-lists/2/update",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"task-lists",
+								"2",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "TaskList Delete",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"title\": \"hahaha\",\n\t\"id\": 2\n}"
+						},
+						"url": {
+							"raw": "{{site_url}}/projects/2/task-lists/2/delete",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"task-lists",
+								"2",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Task List Privacy",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/projects/2/task-lists/privacy/20",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"task-lists",
+								"privacy",
+								"20"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Task List Attach User have Some problem",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\n\t\n}"
+						},
+						"url": {
+							"raw": "{{site_url}}/projects/2/task-lists/20/attach-users",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"task-lists",
+								"20",
+								"attach-users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Task List DeAttach User have Some problem Copy",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\n\t\n}"
+						},
+						"url": {
+							"raw": "{{site_url}}/projects/2/task-lists/20/detach-users",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"task-lists",
+								"20",
+								"detach-users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Task",
+			"item": [
+				{
+					"name": "Project Tasks",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/projects/2/tasks/",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"tasks",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project Tasks Create",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/projects/2/tasks/",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"tasks",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project Task Details",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/projects/2/tasks/100",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"tasks",
+								"100"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project Task Update",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{site_url}}/projects/2/tasks/20/update",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"tasks",
+								"20",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project Task Delete",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{site_url}}/projects/2/tasks/20/delete",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"tasks",
+								"20",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Task Chanage Status Have Some Problem",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{site_url}}/projects/2/tasks/20/delete",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"tasks",
+								"20",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Task Privacy",
+					"request": {
+						"auth": {
+							"type": "basic"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\n}"
+						},
+						"url": {
+							"raw": "{{site_url}}/projects/2/tasks/privacy/20",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"tasks",
+								"privacy",
+								"20"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Task Activity",
+					"request": {
+						"auth": {
+							"type": "basic"
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/projects/2/tasks/20/activity",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"tasks",
+								"20",
+								"activity"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Task Activity",
+					"request": {
+						"auth": {
+							"type": "basic"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/projects/2/tasks/20/activity",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"tasks",
+								"20",
+								"activity"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Task Filter",
+					"request": {
+						"auth": {
+							"type": "basic"
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\" : \"admin\",\n\t\"password\" : \"admin\"\n}"
+						},
+						"url": {
+							"raw": "{{site_url}}/projects/2/tasks/filter",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"tasks",
+								"filter"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Task Reorder",
+					"request": {
+						"auth": {
+							"type": "basic"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n}"
+						},
+						"url": {
+							"raw": "{{site_url}}/projects/2/tasks/reorder/",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"tasks",
+								"reorder",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Task Board",
+					"request": {
+						"auth": {
+							"type": "basic"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\n\t\n}"
+						},
+						"url": {
+							"raw": "{{site_url}}/projects/2/tasks/20/boards/",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"tasks",
+								"20",
+								"boards",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Task Board",
+					"request": {
+						"auth": {
+							"type": "basic"
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\n\t\n}"
+						},
+						"url": {
+							"raw": "{{site_url}}/projects/2/tasks/20/boards/",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"tasks",
+								"20",
+								"boards",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Attach User",
+					"request": {
+						"auth": {
+							"type": "basic"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\n\t\n}"
+						},
+						"url": {
+							"raw": "{{site_url}}/projects/2/tasks/20/attach-users/",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"tasks",
+								"20",
+								"attach-users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DeAttach User",
+					"request": {
+						"auth": {
+							"type": "basic"
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\n}"
+						},
+						"url": {
+							"raw": "{{site_url}}/projects/2/tasks/20/detach-users/",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"tasks",
+								"20",
+								"detach-users",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Task Sorting",
+					"request": {
+						"auth": {
+							"type": "basic"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n}"
+						},
+						"url": {
+							"raw": "{{site_url}}/projects/2/tasks/sorting",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"tasks",
+								"sorting"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "User List",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/users",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Details",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/users/1?with=graph",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"users",
+								"1"
+							],
+							"query": [
+								{
+									"key": "with",
+									"value": "graph"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user search",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/users/search",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"users",
+								"search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Create",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Task",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{site_url}}/pm/v2/users/1/tasks/?with=projects&task_type=current",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"pm",
+								"v2",
+								"users",
+								"1",
+								"tasks",
+								""
+							],
+							"query": [
+								{
+									"key": "with",
+									"value": "projects"
+								},
+								{
+									"key": "task_type",
+									"value": "current"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Details ",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/users/1?with=meta&is_admin=1",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"users",
+								"1"
+							],
+							"query": [
+								{
+									"key": "with",
+									"value": "meta"
+								},
+								{
+									"key": "is_admin",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Task Project",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/users/1/tasks/?is_admin=1&task_type=outstanding",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"users",
+								"1",
+								"tasks",
+								""
+							],
+							"query": [
+								{
+									"key": "with",
+									"value": "projects",
+									"disabled": true
+								},
+								{
+									"key": "task_type",
+									"value": "current",
+									"disabled": true
+								},
+								{
+									"key": "is_admin",
+									"value": "1"
+								},
+								{
+									"key": "task_type",
+									"value": "outstanding"
+								},
+								{
+									"key": "task_type",
+									"value": "complete",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Task calendar has Problem",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/users/1/tasks/calender",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"users",
+								"1",
+								"tasks",
+								"calender"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user details with meta",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/users/1?is_admin=1&with=graph",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"users",
+								"1"
+							],
+							"query": [
+								{
+									"key": "with",
+									"value": "meta",
+									"disabled": true
+								},
+								{
+									"key": "is_admin",
+									"value": "1"
+								},
+								{
+									"key": "with",
+									"value": "graph"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Current Task",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/users/1/tasks/?with=projects&task_type=current",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"users",
+								"1",
+								"tasks",
+								""
+							],
+							"query": [
+								{
+									"key": "with",
+									"value": "projects"
+								},
+								{
+									"key": "task_type",
+									"value": "current"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Project Categories",
+			"item": [
+				{
+					"name": "Project Categories List",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/categories",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project Categories Details",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/categories/3",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"categories",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project Categories Update",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{site_url}}/categories/7/update",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"categories",
+								"7",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project Categories Delete",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{site_url}}/categories/7/delete",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"categories",
+								"7",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project Categories Bulk Delete",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{site_url}}/categories/bulk-delete",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"categories",
+								"bulk-delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project Categories Create",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{site_url}}/categories",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"categories"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Project Settings",
+			"item": [
+				{
+					"name": "Settings Update",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\n\t\"key\" : {\n\t\t\n\t}\n}"
+						},
+						"url": {
+							"raw": "{{site_url}}/pm/v2/projects/3/settings",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"pm",
+								"v2",
+								"projects",
+								"3",
+								"settings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Settings List",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8888/wp-pm/wp-json/pm/v2/projects/1/settings",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"wp-pm",
+								"wp-json",
+								"pm",
+								"v2",
+								"projects",
+								"1",
+								"settings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project Setting Delete",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/projects/2/delete/3/settings",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"delete",
+								"3",
+								"settings"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Project Files",
+			"item": [
+				{
+					"name": "Project FIle List",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "user_login241",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/pm/v2/projects/7/files/",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"pm",
+								"v2",
+								"projects",
+								"7",
+								"files",
+								""
+							],
+							"query": [
+								{
+									"key": "file_meta",
+									"value": "",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project FIle Create",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{site_url}}/projects/2/files/",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"files",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project FIle Details",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/projects/2/files/1",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"files",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project FIle Delete",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/projects/2/files/1/delete",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"files",
+								"1",
+								"delete"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Project FIle Update",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"attachment_id\": 5\n}"
+						},
+						"url": {
+							"raw": "{{site_url}}/projects/2/files/1/update",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"files",
+								"1",
+								"update"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Roles",
+			"item": [
+				{
+					"name": "Roles",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/roles",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"roles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Roles Copy",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/permissions",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"permissions"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Roles Details",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/roles/1",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"roles",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Settings",
+			"item": [
+				{
+					"name": "Settings",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/settings",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"settings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Settings Notice have Problem",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n}"
+						},
+						"url": {
+							"raw": "{{site_url}}/settings/notice",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"settings",
+								"notice"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Project Lists",
+			"item": [
+				{
+					"name": "Lists Have Problem",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\n}"
+						},
+						"url": {
+							"raw": "{{site_url}}/projects/2/lists/sorting",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								"2",
+								"lists",
+								"sorting"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Lists Search have problem",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/lists/search",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"lists",
+								"search"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Trello",
+			"item": [
+				{
+					"name": "Trello List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/trello",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"trello"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Trello Get User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/trello/get_user",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"trello",
+								"get_user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Trello Get Board",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/trello/get_boards",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"trello",
+								"get_boards"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Trello Get List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/trello/get_lists",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"trello",
+								"get_lists"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Trello Get Cards",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/trello/get_cards",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"trello",
+								"get_cards"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Trello Get Subcards",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/trello/get_subcards",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"trello",
+								"get_subcards"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Trello Get Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/trello/get_users",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"trello",
+								"get_users"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MyTask",
+			"item": [
+				{
+					"name": "User Task",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/pm/v2/users/1/tasks?",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"pm",
+								"v2",
+								"users",
+								"1",
+								"tasks"
+							],
+							"query": [
+								{
+									"key": "with",
+									"value": "projects",
+									"disabled": true
+								},
+								{
+									"key": "task_type",
+									"value": "current",
+									"disabled": true
+								},
+								{
+									"key": "start_date",
+									"value": "2019-06-27",
+									"disabled": true
+								},
+								{
+									"key": "end_date",
+									"value": "2019-06-30",
+									"disabled": true
+								},
+								{
+									"key": "with ",
+									"value": "incomplete_tasks",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Task Copy",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "user_login2",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/users/1/tasks/?with=projects&task_type=current",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"users",
+								"1",
+								"tasks",
+								""
+							],
+							"query": [
+								{
+									"key": "with",
+									"value": "projects"
+								},
+								{
+									"key": "task_type",
+									"value": "current"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "myproject",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "user_login2",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{site_url}}/projects/?per_page=-1&status=incomplete",
+							"host": [
+								"{{site_url}}"
+							],
+							"path": [
+								"projects",
+								""
+							],
+							"query": [
+								{
+									"key": "per_page",
+									"value": "-1"
+								},
+								{
+									"key": "status",
+									"value": "incomplete"
+								},
+								{
+									"key": "project_transform",
+									"value": "true",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Task Calendar",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "assign users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User Activitites",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "search",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{site_url}}/search",
+					"host": [
+						"{{site_url}}"
+					],
+					"path": [
+						"search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "admin-topbar-search",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{site_url}}/admin-topbar-search",
+					"host": [
+						"{{site_url}}"
+					],
+					"path": [
+						"admin-topbar-search"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User All Projects",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{site_url}}/user-all-projects",
+					"host": [
+						"{{site_url}}"
+					],
+					"path": [
+						"user-all-projects"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "save_users_map_name have same problem",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{site_url}}/save_users_map_name",
+					"host": [
+						"{{site_url}}"
+					],
+					"path": [
+						"save_users_map_name"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "testproject",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{jwt_token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{site_url}}/pm/v2/advanced/projects?select=id, title, description,status,budget&with=categories,assignees,labels,capabilities&orderby=id:desc&meta=all",
+					"host": [
+						"{{site_url}}"
+					],
+					"path": [
+						"pm",
+						"v2",
+						"advanced",
+						"projects"
+					],
+					"query": [
+						{
+							"key": "select",
+							"value": "id, title, description,status,budget"
+						},
+						{
+							"key": "with",
+							"value": "categories,assignees,labels,capabilities"
+						},
+						{
+							"key": "id",
+							"value": "7",
+							"disabled": true
+						},
+						{
+							"key": "meta",
+							"value": "total_task_lists,total_tasks,total_complete_tasks,total_incomplete_tasks,total_discussion_boards,total_milestones,total_comments,total_files,total_activities",
+							"disabled": true
+						},
+						{
+							"key": "orderby",
+							"value": "id:desc"
+						},
+						{
+							"key": "meta",
+							"value": "all"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "testproject Copy",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{site_url}}/pm/v2/advanced/tasks?select =id,title",
+					"host": [
+						"{{site_url}}"
+					],
+					"path": [
+						"pm",
+						"v2",
+						"advanced",
+						"tasks"
+					],
+					"query": [
+						{
+							"key": "select ",
+							"value": "id,title"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "test tasklist",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{site_url}}/pm/v2/advanced/7/task-lists",
+					"host": [
+						"{{site_url}}"
+					],
+					"path": [
+						"pm",
+						"v2",
+						"advanced",
+						"7",
+						"task-lists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "test millestone",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{site_url}}/pm/v2/advanced/7/milestones?with=discussions,task_lists&millestone_meta=total_task_list,total_discussion_board",
+					"host": [
+						"{{site_url}}"
+					],
+					"path": [
+						"pm",
+						"v2",
+						"advanced",
+						"7",
+						"milestones"
+					],
+					"query": [
+						{
+							"key": "with",
+							"value": "discussions,task_lists"
+						},
+						{
+							"key": "millestone_meta",
+							"value": "total_task_list,total_discussion_board"
+						},
+						{
+							"key": "millestone_meta",
+							"value": "all",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "test discussion",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{site_url}}/pm/v2/advanced/7/task-lists",
+					"host": [
+						"{{site_url}}"
+					],
+					"path": [
+						"pm",
+						"v2",
+						"advanced",
+						"7",
+						"task-lists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "test File",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "admin",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "admin",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{site_url}}/pm/v2/advanced/7/task-lists",
+					"host": [
+						"{{site_url}}"
+					],
+					"path": [
+						"pm",
+						"v2",
+						"advanced",
+						"7",
+						"task-lists"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "jwt test",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		}
+	]
+}
