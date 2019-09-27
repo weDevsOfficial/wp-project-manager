@@ -8,12 +8,13 @@ use WP_REST_Request;
 // 	per_page: '10',
 // 	select: ['id, title']
 // 	categories: [2, 4],
-// 	assignees: [1,2],
+// 	users: [1,2],
 // 	id: [1,2],
 // 	title: 'Rocket',
 // 	status: '0',
 // 	page: 1
 // 	due_date_operator = ['less_than','greater_than'];
+// 	orderby:'id:desc,created_at:asc
 // },
 
 class Task {
@@ -26,6 +27,7 @@ class Task {
 	private $select;
 	private $join;
 	private $where;
+	private $orderby;
 	private $limit;
 	private $with = ['task_list','project'];
 	private $tasks;
@@ -91,10 +93,17 @@ class Task {
 			->join()
 			->where()
 			->limit()
+			->orderby()
 			->get()
 			->with();
 		
-		return $self->format_tasks( $self->tasks );
+		$response = $self->format_tasks( $self->tasks );
+
+		if( $self->is_single_query && count( $response['data'] ) ) {
+			return ['data' => $response['data'][0]] ;
+		}
+
+		return $response;
 	}
 
 	/**
@@ -237,17 +246,17 @@ class Task {
 			return $this;
 		}
 
-		$tb_list = pm_tb_prefix() . 'pm_boards';
-		$tb_boardable = pm_tb_prefix() . 'pm_boardables';
-		$task_ids = implode( ',', $this->task_ids );
+		$tb_list       = pm_tb_prefix() . 'pm_boards';
+		$tb_boardable  = pm_tb_prefix() . 'pm_boardables';
+		$tk_ids_format = $this->get_prepare_format( $this->task_ids );
 
 		$query = "SELECT DISTINCT bo.id as task_list_id, bo.title, tk.id as task_id
 			FROM $tb_list as bo
 			LEFT JOIN $tb_boardable as bor ON bor.board_id = bo.id 
 			LEFT JOIN $this->tb_tasks as tk ON tk.id = bor.boardable_id 
-			where tk.id IN ($task_ids)";
+			where tk.id IN ($tk_ids_format)";
 
-		$results = $wpdb->get_results( $query );
+		$results = $wpdb->get_results( $wpdb->prepare( $query, $this->task_ids ) );
 		$lists = [];
 
 		foreach ( $results as $key => $result ) {
@@ -281,15 +290,15 @@ class Task {
 		}
 
 		$tb_project = pm_tb_prefix() . 'pm_projects';
-		$task_ids = implode( ',', $this->task_ids );
+		$tk_ids_format = $this->get_prepare_format( $this->task_ids );
 
 		$query = "SELECT DISTINCT pr.id as project_id, pr.title, tk.id as task_id
 			FROM $tb_project as pr
 			LEFT JOIN $this->tb_tasks as tk ON tk.project_id = pr.id 
-			where tk.id IN ($task_ids)";
+			where tk.id IN ($tk_ids_format)";
 
 
-		$results = $wpdb->get_results( $query );
+		$results = $wpdb->get_results( $wpdb->prepare( $query, $this->task_ids ) );
 		$projects = [];
 
 		foreach ( $results as $key => $result ) {
@@ -383,37 +392,75 @@ class Task {
 		return $this;
 	}
 
-	private function where_assignees() {
-		$assignees = isset( $this->query_params['assignees'] ) ? $this->query_params['assignees'] : false;
+	public function get_prepare_format( $ids, $is_string = false ) {
 
-		if ( $assignees === false ) {
+		
+		$ids = $this->get_prepare_data( $ids );
+
+        // how many entries will we select?
+        $how_many = count( $ids );
+
+        // prepare the right amount of placeholders
+        // if you're looing for strings, use '%s' instead
+        if( $is_string ) {
+            $placeholders = array_fill( 0, $how_many, '%s' );
+        } else {
+            $placeholders = array_fill( 0, $how_many, '%d' );
+        }
+
+        // glue together all the placeholders...
+        // $format = '%d, %d, %d, %d, %d, [...]'
+        $format = implode( ', ', $placeholders );
+
+        return $format;
+    }
+
+    public function get_prepare_data( $args ) {
+
+    	if ( empty( $args ) ) {
+    		return [];
+    	}
+
+    	if ( ! is_array( $args ) ) {
+			if ( strpos( $args, ',' ) !== false ) {
+				$args = str_replace( ' ', '', $args );
+				$args = explode( ',', $args );
+			}
+		}
+
+		return is_array( $args ) ? $args : [$args];
+    }
+
+	private function where_assignees() {
+		$users = isset( $this->query_params['users'] ) ? $this->query_params['users'] : false;
+
+		if ( empty( $users ) ) {
 			return $this;
 		}
 
-		if ( $assignees && is_array( $assignees ) ) {
-			$assignees = implode( ',', $assignees );
-		}
-
+		$format = $this->get_prepare_format( $users );
+		$users = $this->get_prepare_data( $users );
+			
 		global $wpdb;
 		$tb_asin = pm_tb_prefix() . 'pm_assignees';
 
 		$this->join .= " LEFT JOIN {$tb_asin} ON $tb_asin.task_id={$this->tb_tasks}.id";
 		
-		$this->where .= " AND $tb_asin.assigned_to IN ($assignees)";
+		$this->where .= $wpdb->prepare( " AND $tb_asin.assigned_to IN ($format)", $users );
 	}
 
 	private function where_project_id() {
 		$project_id = isset( $this->query_params['project_id'] ) ? $this->query_params['project_id'] : false;
 
-		if ( $project_id === false ) {
+		if ( empty( $project_id ) ) {
 			return $this;
 		}
 
-		if ( is_array( $project_id ) ) {
-			$project_id = implode( ',', $project_id );
-		}
+		global $wpdb;
+		$format     = $this->get_prepare_format( $project_id );
+		$project_id = $this->get_prepare_data( $project_id );
 
-		$this->where .= " AND {$this->tb_tasks}.project_id IN ($project_id)";
+		$this->where .= $wpdb->prepare( " AND {$this->tb_tasks}.project_id IN ($format)", $project_id );
 
 		return $this;
 	}
@@ -425,7 +472,9 @@ class Task {
 			return $this;
 		}
 
-		$this->where .= " AND {$this->tb_tasks}.start_at>'$start_at'";
+		global $wpdb;
+
+		$this->where .= $wpdb->prepare( " AND {$this->tb_tasks}.start_at>%s", $start_at );
 
 		return $this;
 	}
@@ -437,7 +486,9 @@ class Task {
 		if ( $due_date === false ) {
 			return $this;
 		}
-
+		
+		global $wpdb;
+		
 		$q = [];
 		$null_query = '';
 
@@ -446,7 +497,7 @@ class Task {
 
 			$operator = $this->get_operator( $ope_param );
 			$due_date = date( 'Y-m-d', strtotime( $due_date ) );
-			$q[] = " {$this->tb_tasks}.due_date $operator '$due_date'";
+			$q[]      = $wpdb->prepare( " {$this->tb_tasks}.due_date $operator %s", $due_date );
 		}
 
 		$q = empty( $q ) ? '' : implode( ' AND ', $q );
@@ -497,21 +548,16 @@ class Task {
 			return $this;
 		}
 
-		if ( is_array( $id ) ) {
-			$query_id = implode( ',', $id );
-			$this->where .= " AND {$this->tb_tasks}.id IN ($query_id)";
+		global $wpdb;
+		$format     = $this->get_prepare_format( $id );
+		$format_ids = $this->get_prepare_data( $id );
+
+		$this->where .= $wpdb->prepare( " AND {$this->tb_tasks}.id IN ($format)", $format_ids );
+
+		if ( count( $format_ids ) == 1 ) {
+			$this->is_single_query = true;
 		}
-
-		if ( !is_array( $id ) ) {
-			$this->where .= " AND {$this->tb_tasks}.id IN ($id)";
-
-			$explode = explode( ',', $id );
-
-			if ( count( $explode ) == 1 ) {
-				$this->is_single_query = true;
-			}
-		}
-
+		
 		return $this;
 	}
 
@@ -527,7 +573,9 @@ class Task {
 			return $this;
 		}
 
-		$this->where .= " AND {$this->tb_tasks}.status='$status'";
+		global $wpdb;
+
+		$this->where .= $wpdb->prepare( " AND {$this->tb_tasks}.status=%s", $status );
 
 		return $this;
 	}
@@ -544,7 +592,9 @@ class Task {
 			return $this;
 		}
 
-		$this->where .= " AND {$this->tb_tasks}.title LIKE '%$title%'";
+		global $wpdb;
+
+		$this->where .= $wpdb->prepare( " AND {$this->tb_tasks}.title LIKE %s", '%' . $title . '%'  );
 
 		return $this;
 	}
@@ -561,7 +611,9 @@ class Task {
 			return $this;
 		}
 
-		$this->limit = " LIMIT {$this->get_offset()},{$this->get_per_page()}";
+		global $wpdb;
+
+		$this->limit = $wpdb->prepare( " LIMIT %d,%d", $this->get_offset(), $this->get_per_page() );
 
 		return $this;
 	}
@@ -608,7 +660,7 @@ class Task {
 		$boardable = pm_tb_prefix() . 'pm_boardables';
 		$tasks = [];
 
-		$query = "SELECT SQL_CALC_FOUND_ROWS DISTINCT {$this->select}, 
+		$query = $wpdb->prepare( "SELECT SQL_CALC_FOUND_ROWS DISTINCT {$this->select}, 
 			list.id as task_list_id, 
 			$this->tb_tasks.project_id
 			
@@ -619,24 +671,28 @@ class Task {
 			Left join $boardable as boardable ON boardable.boardable_id = {$this->tb_tasks}.id
 			Left join {$this->tb_lists} as list ON list.id = boardable.board_id
 			
-			WHERE 1=1 {$this->where} AND boardable.board_type='task_list' AND boardable.boardable_type='task'
+			WHERE %d=%d {$this->where} 
+			AND boardable.board_type=%s 
+			AND boardable.boardable_type=%s
 			
-			{$this->limit}";
+			{$this->orderby}
+			
+			{$this->limit}", 
+
+			1, 1, 'task_list', 'task'
+		);
 		
-		if ( $this->is_single_query ) {
-			$results = $wpdb->get_row( $query );
-		} else { 
-			$results = $wpdb->get_results( $query );
+		$results = $wpdb->get_results( $query );
 
-			// If task has not boardable_id mean no list
-			foreach ( $results as $key => $result ) {
-				if( empty( $result->task_list_id ) ) {
-					continue;
-				}
-
-				$tasks[] = $result;
+		// If task has not boardable_id mean no list
+		foreach ( $results as $key => $result ) {
+			if( empty( $result->task_list_id ) ) {
+				continue;
 			}
-		} 
+
+			$tasks[] = $result;
+		}
+		
 		
 		$this->found_rows = $wpdb->get_var( "SELECT FOUND_ROWS()" );
 		
@@ -649,6 +705,42 @@ class Task {
 		if ( ! empty( $results ) && !is_array( $results ) ) {
 			$this->task_ids = [$results->id];
 		} 
+
+		return $this;
+	}
+
+	private function orderby() {
+		global $wpdb;
+
+		$tb_pj   = $wpdb->prefix . 'pm_tasks';
+		$odr_prms = isset( $this->query_params['orderby'] ) ? $this->query_params['orderby'] : false;
+		
+		if ( $odr_prms === false && !is_array( $odr_prms ) ) {
+			return $this;
+		}
+
+		$orders = [];
+
+		$odr_prms = str_replace( ' ', '', $odr_prms );
+		$odr_prms = explode( ',', $odr_prms );
+
+		foreach ( $odr_prms as $key => $orderStr ) {
+			$orderStr = str_replace( ' ', '', $orderStr );
+			$orderStr = explode( ':', $orderStr );
+
+			$orderby = $orderStr[0];
+			$order = empty( $orderStr[1] ) ? 'asc' : $orderStr[1];
+
+			$orders[$orderby] = $order;
+		}
+
+		$order = [];
+
+	    foreach ( $orders as $key => $value ) {
+	    	$order[] =  $tb_pj .'.'. $key . ' ' . $value;
+	    }
+
+	    $this->orderby = "ORDER BY " . implode( ', ', $order);
 
 		return $this;
 	}

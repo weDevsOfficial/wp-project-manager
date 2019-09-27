@@ -286,7 +286,13 @@
                             
                             case 'complete':
                                 self.getProjects({
-                                    conditions:{status: 'incomplete'},
+                                    conditions:{
+                                        status: 'incomplete',
+                                        with: 'assignees',
+                                        project_meta: 'all',
+                                        orderby: 'id:desc'
+                                        
+                                    },
                                     callback () {
                                         if(!self.$store.state.projects.length) {
                                             self.$router.push({
@@ -300,7 +306,13 @@
                             case 'incomplete':
                                 
                                 self.getProjects({
-                                    conditions:{status: 'complete'},
+                                    conditions:{
+                                        status: 'complete',
+                                        with: 'assignees',
+                                        project_meta: 'all',
+                                        orderby: 'id:desc'
+                                            
+                                        },
                                     callback () {
                                         if(!self.$store.state.projects.length) {
                                             self.$router.push({
@@ -312,7 +324,13 @@
                                 break;
 
                             default:
-                                self.getProjects();
+                                self.getProjects({
+
+                                   with: 'assignees',
+                                   project_meta: 'all',
+                                   orderby: 'id:desc'
+                                    
+                                });
                                 break;
                         }
                     }

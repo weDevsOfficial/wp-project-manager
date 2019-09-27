@@ -5,7 +5,7 @@ Tags: web task manager, online collaboration tool, task tracker, productivity to
 Requires at least: 4.4
 Tested up to: 5.2.3
 Requires PHP: 5.6
-Stable tag: 2.3.0
+Stable tag: 2.3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -209,6 +209,14 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 13. Project Settings -> Email Settings Tab
 
 == Changelog ==
+
+= v2.3.1 - Sep 26, 2019 =
+
+* **New** User can create new task from my-task section.
+* **New** Sorting my-task table column.
+* **Update** My-tasks menu is not appear in front-end.
+* **Update** Reduce loading executing time for project home page. 
+* **Update** Refactoring code for getting projects data.
 
 = v2.3.0 - Sep 09, 2019 =
 

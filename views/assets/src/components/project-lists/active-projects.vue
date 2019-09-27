@@ -104,7 +104,7 @@
 
         computed: {
             total_pages () {
-                return this.$root.$store.state.pagination.total_pages;
+                return this.$store.state.pagination.total_pages;
             },
             project () {
                 
@@ -137,6 +137,9 @@
                 var args = {
                     conditions: {
                        status: 'incomplete',
+                       with: 'assignees',
+                       project_meta: 'all',
+                       orderby: 'id:desc',
                     },
 
                     callback (res) {
