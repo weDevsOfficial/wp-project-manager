@@ -213,7 +213,7 @@
                     return this.relativeDate(dueDate);
                 }
 
-                return '&ndash; &ndash;';
+                return '&ndash;';
             },
             getDate(task) {
                 if(typeof task.completed_at != 'undefined' && task.completed_at != '') {
