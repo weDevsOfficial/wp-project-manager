@@ -91,7 +91,6 @@ class Enqueue_Scripts {
 	public static function filter( $localize ) {
 		unset( $localize['current_user']->user_pass );
 		unset( $localize['current_user']->user_activation_key );
-		unset( $localize['current_user']->allcaps );
 		
 		return $localize;
 	}
