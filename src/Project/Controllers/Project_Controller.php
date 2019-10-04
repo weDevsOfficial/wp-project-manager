@@ -24,7 +24,7 @@ class Project_Controller {
 
 	use Transformer_Manager, Request_Filter, File_Attachment;
 
-	public function index( WP_REST_Request $request ) { 
+	public function index( WP_REST_Request $request ) {
 		$per_page = $request->get_param( 'per_page' );
 		$page     = $request->get_param( 'page' );
 		$status   = $request->get_param( 'status' );
@@ -39,7 +39,7 @@ class Project_Controller {
 
 		Paginator::currentPageResolver(function () use ($page) {
             return $page;
-        }); 
+        });
 
 		$projects = $this->fetch_projects( $category, $status );
 
@@ -50,11 +50,11 @@ class Project_Controller {
 		if ( -1 === intval( $per_page ) || $per_page == 'all' ) {
 			$per_page = $projects->get()->count();
 		}
-		
-		if( $project_transform == 'false' ) { 
+
+		if( $project_transform == 'false' ) {
  			wp_send_json_success( $projects->get()->toArray() );
 		}
-		
+
 		$projects = $projects->paginate( $per_page );
 
 		$project_collection = $projects->getCollection();
@@ -63,7 +63,7 @@ class Project_Controller {
 		$resource->setMeta( $this->projects_meta( $category ) );
 
         $resource->setPaginator( new IlluminatePaginatorAdapter( $projects ) );
-        
+
         return $this->get_response( $resource );
     }
 
@@ -102,7 +102,7 @@ class Project_Controller {
     private function fetch_projects( $category, $status ) {
 		$projects = $this->fetch_projects_by_category( $category );
 		$user_id = get_current_user_id();
-		
+
 		if ($status == 'favourite' ) {
 			$projects = $projects->whereHas( 'meta', function ( $query ) use( $user_id ) {
 				$query->where('meta_key', '=', 'favourite_project')
@@ -123,7 +123,7 @@ class Project_Controller {
 		->selectRaw( pm_tb_prefix().'pm_projects.*' )
 		->groupBy( pm_tb_prefix().'pm_projects.id' )
 		->orderBy( pm_tb_prefix().'pm_meta.meta_value', 'DESC');
-		
+
 		return $projects;
     }
 
@@ -134,13 +134,13 @@ class Project_Controller {
     		$category = Category::where( 'categorible_type', 'project' )
 	    		->where( 'id', $category )
 	    		->first();
-	    	
+
 	    	if ( $category ) {
 	    		$projects = $category->projects()->with('assignees');
 	    	} else {
 	    		$projects = Project::with('assignees');
 	    	}
-    		
+
     	} else {
     		$projects = Project::with('assignees');
     	}
@@ -149,7 +149,7 @@ class Project_Controller {
     					$q->where('user_id', $user_id );
     				});
     	}
-    	
+
     	return $projects;
     }
 
@@ -157,7 +157,7 @@ class Project_Controller {
 		$id 	  = $request->get_param('id');
 		$user_id  = get_current_user_id();
 		$project  = Project::find($id);
-		
+
 		if ( !$project  ) {
 			return new \WP_Error( 'project', pm_get_text('success_messages.no_project'), array( 'status'=> 404 ) );
 		}
@@ -176,11 +176,43 @@ class Project_Controller {
         return $this->get_response( $resource );
 	}
 
+	public function create_project(  $data ) {
+		$project = Project::create( $data );
+		add_option('projectId_git_bit_hash_'.$project->id , sha1(strtotime("now").$project->id));
+		// Establishing relationships
+		$category_ids = isset( $data[ 'categories' ] ) ? $data[ 'categories' ]  : [];
+		if ( $category_ids ) {
+			$project->categories()->sync( $category_ids );
+		}
+
+		$assignees = isset( $data[ 'assignees' ] ) ? $data['assignees'] : [];
+		$assignees[] = [
+			'user_id' => wp_get_current_user()->ID,
+			'role_id' => 1, // 1 for manager
+		];
+		//craeate list inbox when create project
+		$this->create_list_inbox($project->id);
+
+		if ( is_array( $assignees ) ) {
+			$this->assign_users( $project, $assignees );
+		}
+		do_action( 'pm_project_new', $project, $data );
+		// Transforming database model instance
+		$resource = new Item( $project, new Project_Transformer );
+		$response = $this->get_response( $resource );
+		$response['message'] = pm_get_text('success_messages.project_created');
+		do_action( 'cpm_project_new', $project->id, $project->toArray(), $data ); // will deprecated
+		do_action( 'pm_after_new_project', $response, $data );
+
+		( new Project_Role_Relation )->set_relation_after_create_project( $response['data'] );
+
+        return $response;
+	}
+
 	public function store( WP_REST_Request $request ) {
 		// Extraction of no empty inputs and create project
 		$data    = $this->extract_non_empty_values( $request );
 		$project = Project::create( $data );
-		
 		add_option('projectId_git_bit_hash_'.$project->id , sha1(strtotime("now").$project->id));
 		// Establishing relationships
 		$category_ids = $request->get_param( 'categories' );
@@ -188,14 +220,13 @@ class Project_Controller {
 			$project->categories()->sync( $category_ids );
 		}
 
-		$assignees = $request->get_param( 'assignees' );
+		$assignees =  $request->get_param( 'assignees' );
 		$assignees[] = [
 			'user_id' => wp_get_current_user()->ID,
 			'role_id' => 1, // 1 for manager
 		];
 		//craeate list inbox when create project
 		$this->create_list_inbox($project->id);
-		
 		if ( is_array( $assignees ) ) {
 			$this->assign_users( $project, $assignees );
 		}
@@ -204,7 +235,7 @@ class Project_Controller {
 		$resource = new Item( $project, new Project_Transformer );
 		$response = $this->get_response( $resource );
 		$response['message'] = pm_get_text('success_messages.project_created');
-		do_action( 'cpm_project_new', $project->id, $project->toArray(), $request->get_params() ); // will deprecated 
+		do_action( 'cpm_project_new', $project->id, $project->toArray(), $request->get_params() ); // will deprecated
 		do_action( 'pm_after_new_project', $response, $request->get_params() );
 
 		( new Project_Role_Relation )->set_relation_after_create_project( $response['data'] );
@@ -239,8 +270,54 @@ class Project_Controller {
 		do_action( 'pm_after_update_project', $response, $request->get_params() );
 
 		( new Project_Role_Relation )->set_relation_after_update_project( $response['data'] );
-		
+
         return $response;
+	}
+
+	public function delete_projects_all() {
+		$projects = Project::all();
+		foreach ($projects as  $project ) {
+
+			do_action( 'cpm_delete_project_prev', $project->id ); // will be deprecated
+			do_action( 'cpm_project_delete', $project, true );
+			do_action( 'pm_before_delete_project', $project, $project->id );
+			// Delete related resourcess
+			$project->categories()->detach();
+
+			$tasks = $project->tasks;
+	        foreach ( $tasks as $task ) {
+	            $task->files()->delete();
+	            $task->assignees()->delete();
+	            $task->metas()->delete();
+	        }
+			$project->tasks()->delete();
+
+			$task_lists = $project->task_lists;
+			foreach ( $task_lists as $task_list ) {
+				$task_list->boardables()->delete();
+		        $task_list->metas()->delete();
+		        $task_list->files()->delete();
+			}
+			$project->task_lists()->delete();
+
+			$project->discussion_boards()->delete();
+			$project->milestones()->delete();
+			$project->comments()->delete();
+			$project->assignees()->detach();
+			$this->detach_files( $project );
+			$project->settings()->delete();
+			$project->activities()->delete();
+			$project->meta()->delete();
+			(new Project_Role_Relation)->after_delete_project( $project->id );
+
+			// Delete the main resource
+			$project->delete();
+			do_action( 'pm_after_delete_project', $project );
+			do_action( 'cpm_delete_project_after', $project->id );
+		}
+			return [
+				'message' => pm_get_text('success_messages.project_deleted')
+			];
 	}
 
 	public function destroy( WP_REST_Request $request ) {
@@ -248,7 +325,7 @@ class Project_Controller {
 
 		// Find the requested resource
 		$project =  Project::find( $id );
-		do_action( 'cpm_delete_project_prev', $id ); // will be deprecated 
+		do_action( 'cpm_delete_project_prev', $id ); // will be deprecated
 		do_action( 'cpm_project_delete', $id, true );
 		do_action( 'pm_before_delete_project', $project, $request->get_params() );
 		// Delete related resourcess
@@ -264,7 +341,7 @@ class Project_Controller {
 
 		$task_lists = $project->task_lists;
 		foreach ( $task_lists as $task_list ) {
-			$task_list->boardables()->delete();	        
+			$task_list->boardables()->delete();
 	        $task_list->metas()->delete();
 	        $task_list->files()->delete();
 		}
@@ -290,8 +367,8 @@ class Project_Controller {
 	}
 
 	private function assign_users( Project $project, $assignees = [] ) {
-		$assignees = is_array( $assignees ) ? $assignees : []; 
-		
+		$assignees = is_array( $assignees ) ? $assignees : [];
+
 		foreach ( $assignees as $assignee ) {
 			User_Role::firstOrCreate([
 				'user_id'    => $assignee['user_id'],
@@ -319,14 +396,14 @@ class Project_Controller {
         } else {
             pm_update_meta( $user_id, $project_id, 'project', 'favourite_project', null );
 		}
-		
+
 		do_action( "pm_after_favaurite_project", $request );
 
 		$response = $this->get_response( null, [ 'message' =>  __( "The project has been marked as favourite", 'wedevs-project-manager' ) ] );
 
         return $response;
 	}
-	
+
 	function create_list_inbox($project_id) {
 
 		$meta = Meta::firstOrCreate([
