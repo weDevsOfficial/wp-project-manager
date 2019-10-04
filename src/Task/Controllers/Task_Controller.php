@@ -45,6 +45,61 @@ class Task_Controller {
         return self::$_instance;
     }
 
+    public static function add_task( $task ) {
+        $self = self::getInstance();
+        $project_id    = $request->get_param( 'project_id' );
+        $board_id      = $request->get_param( 'board_id' );
+        $assignees     = $request->get_param( 'assignees' );
+        $is_private    = $request->get_param( 'privacy' );
+        $data['is_private']    = $is_private == 'true' || $is_private === true ? 1 : 0;
+
+        if ( empty( $board_id ) ) {
+            $inbox            = pm_get_meta($project_id, $project_id, 'task_list', 'list-inbox');
+            $board_id         = $inbox->meta_value;
+            $data['board_id'] = $inbox->meta_value;
+        }
+
+        $project       = Project::find( $project_id );
+        $board         = Board::find( $board_id );
+
+        if ( $project ) {
+            $data = apply_filters( 'pm_before_create_task', $data, $board_id, $request );
+            $task = Task::create( $data );
+        }
+
+        do_action( 'cpm_task_new', $board_id, $task->id, $request->get_params() );
+        do_action('pm_after_update_task', $task, $request->get_params() );
+
+        if ( $task && $board ) {
+            $latest_order = Boardable::latest_order( $board->id, $board->type, 'task' );
+            $boardable    = Boardable::create([
+                'board_id'       => $board->id,
+                'board_type'     => $board->type,
+                'boardable_id'   => $task->id,
+                'boardable_type' => 'task',
+                'order'          => $latest_order + 1,
+            ]);
+        }
+
+        if ( is_array( $assignees ) && $task ) {
+            $this->attach_assignees( $task, $assignees );
+        }
+        do_action( 'cpm_after_new_task', $task->id, $board_id, $project_id );
+        do_action('pm_after_create_task', $task, $request->get_params() );
+
+        $resource = new Item( $task, new Task_Transformer );
+
+
+        $message = [
+            'message' => pm_get_text('success_messages.task_created'),
+            'activity' => $this->last_activity( 'task', $task->id ),
+        ];
+
+        $response = $this->get_response( $resource, $message );
+
+        do_action('pm_create_task_aftre_transformer', $response, $request->get_params() );
+    }
+
 
     public function index( WP_REST_Request $request ) {
         $project_id = $request->get_param( 'project_id' );
@@ -97,7 +152,7 @@ class Task_Controller {
         $task = Task::with('task_lists')->where( 'id', $task_id )
             ->parent()
             ->where( 'project_id', $project_id );
-        
+
         $task = apply_filters( 'pm_task_show_query', $task, $project_id, $request );
         $task = $task->first();
 
@@ -229,7 +284,7 @@ class Task_Controller {
 
     public static function task_update( $params ) {
         $task_id    = $params['task_id'];
-        
+
         $task = Task::with('assignees')->find( $task_id );
 
         if ( ! isset( $params['assignees'] ) ) {
@@ -248,7 +303,7 @@ class Task_Controller {
         $deleted_users = $task->assignees()->whereNotIn( 'assigned_to', $assignees )->get()->toArray(); //->delete();
         $deleted_users = apply_filters( 'pm_task_deleted_users', $deleted_users, $task );
         $deleted_users = wp_list_pluck( $deleted_users, 'id' );
-        
+
         if ( $deleted_users ) {
             Assignee::destroy( $deleted_users );
         }
@@ -256,7 +311,7 @@ class Task_Controller {
         self::getInstance()->attach_assignees( $task, $assignees );
 
         do_action( 'cpm_task_update', $list_id, $task_id, $params );
-        
+
         $params = apply_filters( 'pm_before_update_task', $params, $list_id, $task_id, $task );
         $task->update_model( $params );
 
@@ -535,9 +590,9 @@ class Task_Controller {
     }
 
     function filter_query( $request ) {
-        
+
         global $wpdb;
-        
+
         $status       = $request->get_param('status');
         //$board_status = $request->get_param('board_status');
         $due_date     = $request->get_param('dueDate');
@@ -660,7 +715,7 @@ class Task_Controller {
         });
 
         $task_lists = $this->filter_query( $request );
-        
+
         $task_lists = $task_lists->paginate( $per_page );
         $collection = $task_lists->getCollection();
 
@@ -682,7 +737,7 @@ class Task_Controller {
             'users' => $request->get_param('users'),
             'title' => $request->get_param('title')
         ];
-        
+
         //get total complete and incomplete tasks count
         $lists_tasks_count = ( new Task_List_Controller )->get_lists_tasks_count( $list_ids, $project_id, $filter );
 
@@ -771,13 +826,13 @@ class Task_Controller {
                 GROUP_CONCAT(
                     DISTINCT
                     CONCAT(
-                        '{', 
+                        '{',
                             '\"', 'assigned_to', '\"', ':' , '\"', IFNULL(asgn.assigned_to, '') , '\"' , ',',
                             '\"', 'assigned_at', '\"', ':' , '\"', IFNULL(asgn.assigned_at, '') , '\"' , ',',
                             '\"', 'completed_at', '\"', ':' , '\"', IFNULL(asgn.completed_at, '') , '\"' , ',',
                             '\"', 'started_at', '\"', ':' , '\"', IFNULL(asgn.started_at, '') , '\"' , ',',
-                            '\"', 'status', '\"', ':' , '\"', IFNULL(asgn.status, '') , '\"' 
-                        ,'}' 
+                            '\"', 'status', '\"', ':' , '\"', IFNULL(asgn.status, '') , '\"'
+                        ,'}'
                     ) SEPARATOR '|'
                 ) as assignees,
 
@@ -785,8 +840,8 @@ class Task_Controller {
 
             FROM $tb_tasks as tk
             LEFT JOIN $comment as cm ON tk.id=cm.commentable_id AND cm.commentable_type = 'task'
-            LEFT JOIN $assignees as asgn ON tk.id=asgn.task_id 
-            where 
+            LEFT JOIN $assignees as asgn ON tk.id=asgn.task_id
+            where
             tk.id In ($task_ids)
             GROUP BY tk.id";
 
@@ -839,15 +894,15 @@ class Task_Controller {
         $permission_where = apply_filters( 'pm_incomplete_task_query_where', '', $project_id );
 
         $sql = "SELECT ibord_id, GROUP_CONCAT( DISTINCT task.task_id order by task.iorder asc) as itasks_id
-            FROM 
+            FROM
                 (
-                    SELECT 
-                        itasks.id as task_id,  
+                    SELECT
+                        itasks.id as task_id,
                         ibord.board_id as ibord_id,
-                        ibord.order as iorder 
-                    FROM 
-                        $table_task as itasks 
-                        inner join $table_ba as ibord on itasks.id = ibord.boardable_id 
+                        ibord.order as iorder
+                    FROM
+                        $table_task as itasks
+                        inner join $table_ba as ibord on itasks.id = ibord.boardable_id
                         AND ibord.board_id in ($list_ids)
                         $permission_join
                     WHERE
@@ -856,9 +911,9 @@ class Task_Controller {
                         AND ibord.boardable_type='task'
                         $permission_where
                         order by iorder asc
-                        
+
                 ) as task
-      
+
             group by ibord_id";
 
         //pmpr($sql);
@@ -919,15 +974,15 @@ class Task_Controller {
         $permission_where = apply_filters( 'pm_complete_task_query_where', '', $project_id );
 
         $sql = "SELECT ibord_id, GROUP_CONCAT( DISTINCT task.task_id order by task.iorder asc) as itasks_id
-            FROM 
+            FROM
                 (
-                    SELECT 
-                        itasks.id as task_id,  
+                    SELECT
+                        itasks.id as task_id,
                         ibord.board_id as ibord_id,
                         ibord.order as iorder
-                    FROM 
-                        $table_task as itasks 
-                        inner join $table_ba as ibord on itasks.id = ibord.boardable_id 
+                    FROM
+                        $table_task as itasks
+                        inner join $table_ba as ibord on itasks.id = ibord.boardable_id
                         AND ibord.board_id in ($list_ids)
                         $permission_join
                     WHERE
@@ -936,9 +991,9 @@ class Task_Controller {
                         AND ibord.boardable_type='task'
                         $permission_where
                         order by iorder asc
-                        
+
                 ) as task
-      
+
             group by ibord_id";
 
         $results = $wpdb->get_results( $sql );
@@ -961,7 +1016,7 @@ class Task_Controller {
             'list_task_transormer_filter' => true
         ];
 
-        $args = wp_parse_args( $args, $default );  
+        $args = wp_parse_args( $args, $default );
 
         if ( empty( $list_ids ) ) {
             $task_ids[] = 0;
@@ -977,13 +1032,13 @@ class Task_Controller {
                 "GROUP_CONCAT(
                     DISTINCT
                     CONCAT(
-                        '{', 
+                        '{',
                             '\"', 'assigned_to', '\"', ':' , '\"', IFNULL($assignees.assigned_to, '') , '\"' , ',',
                             '\"', 'assigned_at', '\"', ':' , '\"', IFNULL($assignees.assigned_at, '') , '\"' , ',',
                             '\"', 'completed_at', '\"', ':' , '\"', IFNULL($assignees.completed_at, '') , '\"' , ',',
                             '\"', 'started_at', '\"', ':' , '\"', IFNULL($assignees.started_at, '') , '\"' , ',',
-                            '\"', 'status', '\"', ':' , '\"', IFNULL($assignees.status, '') , '\"' 
-                        ,'}' 
+                            '\"', 'status', '\"', ':' , '\"', IFNULL($assignees.status, '') , '\"'
+                        ,'}'
                     ) SEPARATOR '|'
                 ) as assignees"
             )
