@@ -82,9 +82,17 @@ class Enqueue_Scripts {
 			'time_format' => get_option( 'time_format' )
         ];
 
-
-		$localize = apply_filters( 'pm_localize', $localize )
+        $localize = self::filter( $localize );
+		$localize = apply_filters( 'pm_localize', $localize );
 
 		wp_localize_script( 'pm-config', 'PM_Vars', $localize );
+	}
+
+	public static function filter( $localize ) {
+		unset( $localize['current_user']->user_pass );
+		unset( $localize['current_user']->user_activation_key );
+		unset( $localize['current_user']->allcaps );
+		
+		return $localize;
 	}
 }
