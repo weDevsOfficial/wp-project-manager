@@ -28,6 +28,16 @@ class Task_List_Controller {
 
     use Transformer_Manager, Request_Filter;
 
+    private static $_instance;
+
+    public static function getInstance() {
+        if ( !self::$_instance ) {
+            self::$_instance = new self();
+        }
+
+        return self::$_instance;
+    }
+
     public function index( WP_REST_Request $request ) {
         global $wpdb;
         $task_tb                = $wpdb->prefix . 'pm_tasks';
@@ -222,7 +232,8 @@ class Task_List_Controller {
         return $list;
     }
 
-    public function create_tasklist( $data ) {
+    public static function create_tasklist( $data ) {
+        $self = self::getInstance();
         $milestone_id       = $data[ 'milestone' ];
         $project_id         = $data[ 'project_id' ];
         $is_private         = $data[ 'privacy' ];
@@ -234,7 +245,7 @@ class Task_List_Controller {
         $task_list     = Task_List::create( $data );
 
         if ( $milestone ) {
-            $this->attach_milestone( $task_list, $milestone );
+            $self->attach_milestone( $task_list, $milestone );
         }
 
         do_action( 'pm_new_task_list_before_response', $task_list, $data );
@@ -243,7 +254,7 @@ class Task_List_Controller {
         $message = [
             'message' => pm_get_text('success_messages.task_list_created')
         ];
-        $response = $this->get_response( $resource, $message );
+        $response = $self->get_response( $resource, $message );
         do_action( 'cpm_tasklist_new', $task_list->id, $project_id, $data );
         do_action( 'pm_after_new_task_list', $response, $data );
         return $response;
@@ -312,7 +323,8 @@ class Task_List_Controller {
         return $response;
     }
 
-    public function delete_tasklist_all( $data ) {
+    public static function delete_tasklist( $data ) {
+        $self = self::getInstance();
         $project_id   = $data[ 'project_id' ];
         $task_list_id = $data[ 'task_list_id' ];
         $task_list = Task_List::where( 'id', $task_list_id )
@@ -322,7 +334,7 @@ class Task_List_Controller {
         do_action( 'pm_before_delete_task_list', $task_list_id, $project_id );
         do_action( 'cpm_delete_tasklist_prev', $task_list_id );
         // Delete relations
-        $this->detach_all_relations( $task_list );
+        $self->detach_all_relations( $task_list );
 
         // Delete the task list
         $task_list->delete();
