@@ -20,18 +20,28 @@ class Milestone_Controller {
 
     use Transformer_Manager, Request_Filter;
 
+    private static $_instance;
+
+    public static function getInstance() {
+        if ( !self::$_instance ) {
+            self::$_instance = new self();
+        }
+
+        return self::$_instance;
+    }
+
     public function index( WP_REST_Request $request ) {
         $project_id = $request->get_param( 'project_id' );
         $per_page   = $request->get_param( 'per_page' );
         $status     = $request->get_param( 'status' );
         $per_page   = $per_page ? $per_page : 15;
-        
+
         $page       = $request->get_param( 'page' );
         $page       = $page ? $page : 1;
 
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
-        }); 
+        });
 
         $milestones = Milestone::with('metas')
             ->where( 'project_id', $project_id );
@@ -41,7 +51,7 @@ class Milestone_Controller {
         }
 
         $milestones = apply_filters("pm_milestone_index_query", $milestones, $project_id, $request );
-        
+
         if ( $per_page == '-1' ) {
             $per_page = $milestones->count();
         }
@@ -61,7 +71,7 @@ class Milestone_Controller {
         foreach ($metas as $meta) {
             $milestones[] = $meta->milestone;
         }
-        
+
         return $milestones;
     }
 
@@ -81,6 +91,40 @@ class Milestone_Controller {
         $resource = new Item( $milestone, new Milestone_Transformer );
 
         return $this->get_response( $resource );
+    }
+
+    public static function create_milestone( $data ) {
+        $self = self::getInstance();
+        $is_private    = $data[ 'privacy' ];
+        $data['is_private']    = $is_private == 'true' || $is_private === true ? 1 : 0;
+        // Milestone achieve date
+        $achieve_date = $data['achieve_date'];
+
+        // Create a milestone
+        $milestone    = Milestone::create( $data );
+
+        // Set 'achieve_date' as milestone meta data
+        Meta::create([
+            'entity_id'   => $milestone->id,
+            'entity_type' => 'milestone',
+            'meta_key'    => 'achieve_date',
+            'meta_value'  => $achieve_date ? date( 'Y-m-d H:i:s', strtotime( $achieve_date ) ) : null,
+            'project_id'  => $milestone->project_id,
+        ]);
+
+        do_action("pm_new_milestone_before_response", $milestone, $data );
+        // Transform milestone data
+        $resource  = new Item( $milestone, new Milestone_Transformer );
+
+        $message = [
+            'message' => pm_get_text('success_messages.milestone_created')
+        ];
+        $response = $self->get_response( $resource, $message );
+
+        do_action( 'cpm_milestone_new', $milestone->id, $data[ 'project_id' ], $data );
+        do_action("pm_after_new_milestone", $response, $data );
+
+        return $response;
     }
 
     public function store( WP_REST_Request $request ) {
@@ -112,7 +156,7 @@ class Milestone_Controller {
             'message' => pm_get_text('success_messages.milestone_created')
         ];
         $response = $this->get_response( $resource, $message );
-        
+
         do_action( 'cpm_milestone_new', $milestone->id, $request->get_param( 'project_id' ), $request->get_params() );
         do_action("pm_after_new_milestone", $response, $request->get_params() );
 

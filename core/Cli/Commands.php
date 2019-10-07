@@ -4,12 +4,14 @@ namespace WeDevs\PM\Core\Cli;
 use WeDevs\PM\Core\Cli\Cli;
 use WeDevs\PM\Project\Models\Project;
 use WeDevs\PM\Task_List\Models\Task_List;
-//use WeDevs\PM\Task\Models\Task
+use WeDevs\PM\Task\Models\Task;
 use WeDevs\PM\Common\Models\Boardable;
 use WeDevs\PM\Activity\Models\Activity;
 use WeDevs\PM\Project\Controllers\Project_Controller;
 use WeDevs\PM\Category\Controllers\Category_Controller as Category;
 use WeDevs\PM\Task_List\Controllers\Task_List_Controller;
+use WeDevs\PM\Task\Controllers\Task_Controller;
+use WeDevs\PM\Milestone\Controllers\Milestone_Controller;
 /**
  * Accounting CLI class
  */
@@ -23,8 +25,15 @@ class Commands extends Cli {
         $this->add_command( 'create_users', 'create_users' );
         $this->add_command( 'background', 'background' );
         $this->add_command( 'create_project', 'create_project' );
+        $this->add_command( 'delete_project', 'delete_project' );
         $this->add_command( 'create_tasklist', 'create_tasklist' );
+        $this->add_command( 'delete_tasklist', 'delete_tasklist' );
         $this->add_command( 'create_task', 'create_task' );
+        $this->add_command( 'delete_task', 'delete_task' );
+        $this->add_command( 'create_discussion', 'create_discussion' );
+        $this->add_command( 'delete_discussion', 'delete_discussion' );
+        $this->add_command( 'create_milestone', 'create_milestone' );
+        $this->add_command( 'delete_milestone', 'delete_milestone' );
     }
 
     public function generate_random_string($length = 10) {
@@ -158,38 +167,17 @@ class Commands extends Cli {
 
     public function create_project( $args, $assoc_args ) {
         $arguments = wp_parse_args( $assoc_args, array(
-            'count_generate' => 0,
-            'delete_project' => false
+            'count_generate' => 1
         ) );
-
-        if( $arguments['delete_project'] == 'true' ) {
-            $projects = Project::all();
-            $proejcts = $projects->pluck('id');
-            $project_controller = new Project_Controller();
-            $project_controller->delete_projects_all( );
-            //$Project_Controller->destroy_projects();
-            \WP_CLI::success( "Project Deleted successfully!" );
-            exit();
-        }
-
         if( $arguments['count_generate'] > 0 ) {
             $faker = \Faker\Factory::create();
-
-            // $category_data = array(
-            //     'title' => $faker->name,
-            //     'description' => $faker->text,
-            //     'categorible_type' => 'project'
-            // );
-
-            // $category = Category::add_category( $category_data );
             $count = $arguments['count_generate'];
+
             for ( $i=0; $i<$count; $i++  ) {
                 $project_data = array( "title" => $faker->name, "description" => $faker->text,
                     "notify_users" => true, "status" => "incomplete"
                 );
-
                 $project_controller = new Project_Controller();
-
                 $response = $project_controller->create_project( $project_data );
             }
 
@@ -201,44 +189,39 @@ class Commands extends Cli {
 
     }
 
+    public function delete_project( $args, $assoc_args ) {
+        $projects           = Project::all();
+        $proejcts           = $projects->pluck('id');
+        $project_controller = new Project_Controller();
+        $project_controller->delete_projects_all( );
+        \WP_CLI::success( "Project Deleted successfully!" );
+    }
+
     public function create_tasklist( $args, $assoc_args ) {
         $faker = \Faker\Factory::create();
 
         $arguments = wp_parse_args( $assoc_args, array(
-            'count_generate' => 0,
-            'delete_task' => false
+            'count_generate' => 1,
         ) );
 
-        if( $arguments['delete_task'] == 'true' ) {
-                $project_id =  $arguments['project_id'];
-                $lists = Task_List::where( 'project_id', $project_id )->get();
-                $listobj = new Task_List_Controller();
-                foreach ($lists as $list) {
-                    $data = array( 'project_id' => $list->project_id, 'task_list_id' => $list->id  );
-                    $tasklist = $listobj->delete_tasklist_all( $data );
-                }
-
-                \WP_CLI::success( "Task List Deleted successfully!" );
-        }
-
-        if( $arguments['count_generate'] > 0 && !empty( $arguments['project_id'] )  ) {
+        if( !empty( $arguments['project_id'] ) && $arguments['count_generate'] > 0  ) {
             $count      = $arguments['count_generate'];
             $project_id = $arguments['project_id'];
             $project    =  Project::find( $project_id );
 
             if( $project ) {
-                $task_list_data = array(
-                    'title' => $faker->name,
-                    'type' => 'task_list',
-                    'project_id' => $project->id,
-                    'order' => 0,
-                    'milestone' => -1,
-                    'privacy' => false
-                );
+                for ( $i=0; $i< $count; $i++  ) {
+                    $task_list_data = array(
+                        'title' => $faker->name,
+                        'type' => 'task_list',
+                        'project_id' => $project->id,
+                        'order' => 0,
+                        'milestone' => -1,
+                        'privacy' => false
+                    );
 
-                $listobj = new TaskList();
-                for ( $i=0; $i<$count; $i++  ) {
-                    $tasklist = $listobj->create_tasklist( $task_list_data );
+                   // $listobj = new Task_List_Controller();
+                    $tasklist = Task_List_Controller::create_tasklist( $task_list_data );
                 }
 
                 \WP_CLI::success( "Task List Created successfully!" );
@@ -248,53 +231,141 @@ class Commands extends Cli {
         }
     }
 
-    public function create_task() {
+    public function delete_tasklist( $args, $assoc_args ) {
+        $arguments = wp_parse_args( $assoc_args, array(
+            'project_id' => 0,
+        ) );
+
+        if(  !empty( $arguments['project_id'] )  ) {
+            $project_id =  $arguments['project_id'];
+            $lists = Task_List::where( 'project_id', $project_id )->get();
+            foreach ($lists as $list) {
+                $data = array( 'project_id' => $list->project_id, 'task_list_id' => $list->id  );
+                //$listobj = new Task_List_Controller();
+                $tasklist = Task_List_Controller::delete_tasklist( $data );
+            }
+            \WP_CLI::success( "Task List Deleted successfully!" );
+        } else {
+            \WP_CLI::error( 'Invalid arguments.' );
+        }
+    }
+
+    public function create_task( $args, $assoc_args ) {
         $faker = \Faker\Factory::create();
 
-        $project_data = array( 'title' => $faker->name );
+        $arguments = wp_parse_args( $assoc_args, array(
+            'project_id'     => 0,
+            'board_id'       => 0,
+            'assignees'      => 0,
+            'privacy'        => true,
+            'count_generate' => 1,
+            'assignees' => array( 0 )
+        ) );
 
-        $project_controller = Project_Controller::create( $project_data );
+        if(  !empty( $arguments['project_id'] ) &&  !empty( $arguments['board_id'] )   ) {
 
-        $task_list_data = array(
-            'title' => $faker->name,
-            'type' => 'task_list',
-            'project_id' => $project_controller->id
-        );
+            $project  = Project::find( $arguments['project_id'] );
+            $tasklist = Task_List::find( $arguments['board_id'] );
+            $count    = $arguments['count_generate'];
 
-        $tasklist = Task_List::create( $task_list_data);
+            for ( $i=0; $i<$count; $i++  ) {
 
-        $task_data = array(
-            'title' => $faker->name,
-            'project_id' => $project_controller->id,
-            'created_by' => 1,
-            'updated_by' => 1
-        );
+                $task_data = array(
+                    'title' => $faker->name,
+                    'project_id' => $project->id,
+                    'board_id'   => $tasklist->id,
+                    'assignees'  => array( 1 ),
+                    'privacy'    => true,
+                    'created_by' => 1,
+                    'updated_by' => 1
+                );
 
-       $task = Task::create( $task_data );
+                Task_Controller::create_task( $task_data );
+            }
 
-        Activity::create([
-            'actor_id'      => 1,
-            'action'        => 'create_task',
-            'action_type'   => 'create',
-            'resource_id'   => $task->id,
-            'resource_type' => 'task',
-            'meta'          => $task_data,
-            'project_id'    => $project_controller->id,
-        ]);
-
-        if ( $task && $tasklist ) {
-            $latest_order = Boardable::latest_order( $tasklist->id, $tasklist->type, 'task' );
-            $boardable    = Boardable::create([
-                'board_id'       => $tasklist->id,
-                'board_type'     => $tasklist->type,
-                'boardable_id'   => $task->id,
-                'boardable_type' => 'task',
-                'order'          => $latest_order + 1,
-            ]);
+            \WP_CLI::success( "Task  Created successfully!" . $project->title );
+        } else {
+            \WP_CLI::error( 'Invalid arguments.' );
         }
 
-        \WP_CLI::success( "Task  Created successfully!" . $project_controller->title );
+    }
 
+    public function delete_task(  $args, $assoc_args ) {
+        $arguments = wp_parse_args( $assoc_args, array(
+            'project_id' => 0,
+            'task_id'    => 0
+        ) );
+
+        if(  !empty( $arguments['project_id'] ) && !empty( $arguments['task_id'] )  ) {
+            Task_Controller::delete_task( $arguments );
+            \WP_CLI::success( "Task  deleted successfully!");
+        } else {
+            \WP_CLI::error( 'Invalid arguments.' );
+        }
+    }
+
+    public function create_discussion( $args, $assoc_args ) {
+        $arguments = wp_parse_args( $assoc_args, array(
+            'project_id' => 0
+        ) );
+
+        // if() {
+
+        // } else {
+        //     \WP_CLI::error( 'Invalid arguments.' );
+        // }
+    }
+
+    public function delete_discussion( $args, $assoc_args ) {
+        $arguments = wp_parse_args( $assoc_args, array(
+            'project_id' => 0
+        ) );
+
+        // if() {
+        // } else {
+        //     \WP_CLI::error( 'Invalid arguments.' );
+        // }
+    }
+
+    public function create_milestone( $args, $assoc_args ) {
+        $faker = \Faker\Factory::create();
+        $arguments = wp_parse_args( $assoc_args, array(
+            'project_id' => 0,
+            'count_generate' => 1,
+        ) );
+
+        if(  !empty( $arguments['project_id'] ) && $arguments['project_id'] > 0  ) {
+            $count = $arguments['count_generate'];
+            $date = strtotime("+7 day");
+            $milestone_data = array(
+                'order'        => 0,
+                'status'       => 'incomplete',
+                'title'        => $faker->name,
+                'description'  => $faker->text,
+                'achieve_date' => date('Y M, d', $date ),
+                'privacy'      => false,
+                'project_id'   => $arguments['project_id']
+            );
+
+            for( $i=0; $i< $count; $i++ ) {
+                Milestone_Controller::create_milestone( $milestone_data );
+            }
+
+            \WP_CLI::success( " Milestone  Created successfully!");
+        } else {
+            \WP_CLI::error( 'Invalid arguments.' );
+        }
+    }
+
+    public function delete_milestone( $args, $assoc_args ) {
+        $arguments = wp_parse_args( $assoc_args, array(
+            'project_id' => 0
+        ) );
+
+        // if() {
+        // } else {
+        //     \WP_CLI::error( 'Invalid arguments.' );
+        // }
     }
 }
 

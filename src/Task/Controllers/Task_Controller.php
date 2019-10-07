@@ -45,62 +45,6 @@ class Task_Controller {
         return self::$_instance;
     }
 
-    public static function add_task( $task ) {
-        $self = self::getInstance();
-        $project_id    = $request->get_param( 'project_id' );
-        $board_id      = $request->get_param( 'board_id' );
-        $assignees     = $request->get_param( 'assignees' );
-        $is_private    = $request->get_param( 'privacy' );
-        $data['is_private']    = $is_private == 'true' || $is_private === true ? 1 : 0;
-
-        if ( empty( $board_id ) ) {
-            $inbox            = pm_get_meta($project_id, $project_id, 'task_list', 'list-inbox');
-            $board_id         = $inbox->meta_value;
-            $data['board_id'] = $inbox->meta_value;
-        }
-
-        $project       = Project::find( $project_id );
-        $board         = Board::find( $board_id );
-
-        if ( $project ) {
-            $data = apply_filters( 'pm_before_create_task', $data, $board_id, $request );
-            $task = Task::create( $data );
-        }
-
-        do_action( 'cpm_task_new', $board_id, $task->id, $request->get_params() );
-        do_action('pm_after_update_task', $task, $request->get_params() );
-
-        if ( $task && $board ) {
-            $latest_order = Boardable::latest_order( $board->id, $board->type, 'task' );
-            $boardable    = Boardable::create([
-                'board_id'       => $board->id,
-                'board_type'     => $board->type,
-                'boardable_id'   => $task->id,
-                'boardable_type' => 'task',
-                'order'          => $latest_order + 1,
-            ]);
-        }
-
-        if ( is_array( $assignees ) && $task ) {
-            $this->attach_assignees( $task, $assignees );
-        }
-        do_action( 'cpm_after_new_task', $task->id, $board_id, $project_id );
-        do_action('pm_after_create_task', $task, $request->get_params() );
-
-        $resource = new Item( $task, new Task_Transformer );
-
-
-        $message = [
-            'message' => pm_get_text('success_messages.task_created'),
-            'activity' => $this->last_activity( 'task', $task->id ),
-        ];
-
-        $response = $this->get_response( $resource, $message );
-
-        do_action('pm_create_task_aftre_transformer', $response, $request->get_params() );
-    }
-
-
     public function index( WP_REST_Request $request ) {
         $project_id = $request->get_param( 'project_id' );
         $per_page   = $request->get_param( 'per_page' );
@@ -167,6 +111,62 @@ class Task_Controller {
         return $response ;
     }
 
+    public static function create_task( $data ) {
+        $self = self::getInstance();
+        $project_id = $data[ 'project_id' ];
+        $board_id   = $data[ 'board_id' ];
+        $assignees  = $data[ 'assignees' ];
+        $is_private = $data[ 'privacy' ];
+        $data['is_private']    = $is_private == 'true' || $is_private === true ? 1 : 0;
+
+        if ( empty( $board_id ) ) {
+            $inbox            = pm_get_meta($project_id, $project_id, 'task_list', 'list-inbox');
+            $board_id         = $inbox->meta_value;
+            $data['board_id'] = $inbox->meta_value;
+        }
+
+        $project       = Project::find( $project_id );
+        $board         = Board::find( $board_id );
+
+        if ( $project ) {
+            $data = apply_filters( 'pm_before_create_task', $data, $board_id, $data );
+            $task = Task::create( $data );
+        }
+
+        do_action( 'cpm_task_new', $board_id, $task->id, $data );
+        do_action('pm_after_update_task', $task, $data );
+
+        if ( $task && $board ) {
+            $latest_order = Boardable::latest_order( $board->id, $board->type, 'task' );
+            $boardable    = Boardable::create([
+                'board_id'       => $board->id,
+                'board_type'     => $board->type,
+                'boardable_id'   => $task->id,
+                'boardable_type' => 'task',
+                'order'          => $latest_order + 1,
+            ]);
+        }
+
+        if ( is_array( $assignees ) && $task ) {
+            $self->attach_assignees( $task, $assignees );
+        }
+        do_action( 'cpm_after_new_task', $task->id, $board_id, $project_id );
+        do_action('pm_after_create_task', $task, $data );
+
+        $resource = new Item( $task, new Task_Transformer );
+
+
+        $message = [
+            'message' => pm_get_text('success_messages.task_created'),
+            'activity' => $self->last_activity( 'task', $task->id ),
+        ];
+
+        $response = $self->get_response( $resource, $message );
+
+        do_action('pm_create_task_aftre_transformer', $response, $data );
+
+        return $response;
+    }
 
     public function store( WP_REST_Request $request ) {
         $data          = $this->extract_non_empty_values( $request );
@@ -385,6 +385,44 @@ class Task_Controller {
         $comment->save();
     }
 
+    public static function delete_task( $data ) {
+        $self = self::getInstance();
+        $project_id = $data['project_id'];
+        $task_id    = $data['task_id'];
+
+        // Select the task
+        $task = Task::where( 'id', $task_id )
+            ->where( 'project_id', $project_id )
+            ->first();
+
+        do_action( "pm_before_delete_task", $task, $data );
+        do_action( 'cpm_delete_task_prev', $task_id, $project_id, $project_id, $task );
+
+        // Delete relations assoicated with the task
+        $task->boardables()->delete();
+        $task->files()->delete();
+        $comments = $task->comments;
+
+        foreach ($comments as $comment) {
+            $comment->replies()->delete();
+            $comment->files()->delete();
+        }
+
+        $task->comments()->delete();
+        $task->assignees()->delete();
+        $task->metas()->delete();
+        Task::where('parent_id', $task->id)->delete();
+        // Delete the task
+        $task->delete();
+
+        do_action( 'cpm_delete_task_after', $task_id, $project_id );
+        do_action( 'pm_after_delete_task', $task_id, $project_id );
+
+        return $message = [
+            'message' => pm_get_text('success_messages.task_deleted'),
+            'activity' => $self->last_activity( 'task', $task->id ),
+        ];
+    }
     public function destroy( WP_REST_Request $request ) {
         // Grab user inputs
         $project_id = $request->get_param( 'project_id' );
