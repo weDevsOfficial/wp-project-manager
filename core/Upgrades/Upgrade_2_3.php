@@ -24,7 +24,7 @@ class Upgrade_2_3 extends WP_Background_Process {
 
     function receive_heartbeat($response, $data) {
         if( !isset($data['pm_migration_notice_2_3']) ) {
-            return;
+            return $response;
         }
         $response['is_complete']            = get_option( 'pm_migration_notice_2_3' );
         $response['is_background_compelte'] = get_option( 'pm_db_migration_2_3' );

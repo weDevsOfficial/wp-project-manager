@@ -37,6 +37,7 @@
     },
     "require-dev": {
         "codeception/codeception": "^3.0",
-        "lucatume/wp-browser": "^2.2"
+        "lucatume/wp-browser": "^2.2",
+        "fzaninotto/faker": "^1.8"
     }
 }
