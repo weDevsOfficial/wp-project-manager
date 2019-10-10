@@ -1,3 +1,8 @@
+= v2.3.2 - Oct 10, 2019 =
+
+* **Fix** Conflict with elementor.
+* **Update** Toastr library. 
+
 = v2.3.1 - Sep 26, 2019 =
 
 * **New** User can create new task from my-task section.
