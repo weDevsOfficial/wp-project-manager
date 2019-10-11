@@ -42,6 +42,7 @@ module.exports = function(grunt) {
                     '!export.sh',
                     '!.gitignore',
                     '!.gitmodules',
+                    '!.env',
                     '!npm-debug.log',
                     '!plugin-deploy.sh',
                     '!readme.md',

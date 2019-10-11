@@ -140,8 +140,8 @@ $pm_scripts = [
 
 	'pm-toastr' => [
 		'id'         => 'pm-toastr',
-		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/toastr/toastr'.$suffix.'.js',
-		'path'       => $view_path . '/assets/vendor/toastr/toastr'.$suffix.'.js',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/toastr/toastr.min.js',
+		'path'       => $view_path . '/assets/vendor/toastr/toastr.min.js',
 		'dependency' => ['pm-nprogress'],
 		'in_footer'  => true
 	],
