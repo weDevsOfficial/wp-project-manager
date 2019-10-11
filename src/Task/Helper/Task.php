@@ -91,16 +91,16 @@ class Task {
         header('Content-Disposition: attachment; filename=data.csv');
         $output = fopen("php://output", "w");
 
-        fputcsv( $output, [__('Tasks', 'pm-pro' ), __( 'Task List', 'pm-pro' ), __( 'Project Name', 'pm-pro' ),
-        	__('Due Date', 'pm-pro'),__( 'Created At', 'pm-pro' )
+        fputcsv( $output, [ __( 'Project Name', 'pm-pro' ),  __( 'Task List', 'pm-pro' ), __('Tasks', 'pm-pro' ),
+        	__('start_at','pm-pro'), __('completed_at','pm-pro'), __('Due Date', 'pm-pro'), __( 'Created At', 'pm-pro' )
         ] );
 
         foreach ( $tasks['data'] as $key => $result ) {
         	error_log(print_r($result,true));
 	        fputcsv( $output,
                 [
-                    $result['title'], $result['task_list']->title, $result['project']->title,$result['due_date'],
-                    $result['created_at'],
+                    $result['project']->title,  $result['task_list']->title, $result['title'], $result['start_at'], $result['completed_at'], $result['due_date'],
+                    $result['created_at']
                 ]
             );
         }

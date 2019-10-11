@@ -383,7 +383,8 @@
 					due_date: this.search.due_date,
 					login_user: this.setLoginUser(),
 					status: this.search.status,
-					assignees: this.setLoginUser(),
+					//assignees: this.setLoginUser(),
+					users: this.setLoginUser(),
 					orderby: this.search.orderby
 				}
 

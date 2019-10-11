@@ -1006,12 +1006,14 @@ export default {
 
             jQuery.each(conditions, function(condition, key) {
                 if( condition ){
-                    if( typeof key == 'string' )
-                        query = query + condition +'='+ key +'&';
+                    //if( typeof key == 'string' )
+                       // query = query + condition +'='+ key +'&';
                     if ( typeof key == 'object' ) {
                         jQuery.each(key, function(index, el) {
                              query = query + condition +'[]='+ el +'&';
                         });
+                    } else {
+                        query = query + condition +'='+ key +'&';
                     }
                 }
             });
