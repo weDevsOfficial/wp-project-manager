@@ -18,7 +18,8 @@
                 <div class="pm-col-sm-4 pm-col-xs-12">
                     <div class="pm-get-started-block">
                         <div class="pm-start-price">
-                            <small><sup>$</sup></small>00
+                            <small> starts from</small> <br/>
+                            <small><sup>$</sup></small>79
                         </div>
                         <div class="pm-start-block-content">Per Year<br><a href="https://wedevs.com/wp-project-manager-pro/pricing/" target="_blank" rel="noopener" class="pm-btn pm-btn-lg pm-btn-primary">Get Started Now</a></div>
                     </div>
@@ -66,7 +67,6 @@
             }
         }
         .pm-start-price {
-            display: flex;
             align-items: center;
             justify-content: center;
             font-size: 33px;
@@ -87,6 +87,9 @@
                 font-size: 18px;
                 display: inline-flex;
                 margin-top: -3px;
+                line-height: 1.0em;
+                margin-bottom: 10px;
+                text-transform: capitalize;
             }
         }
     }
@@ -148,8 +151,8 @@
                 column-count: 1;
                 margin-bottom: 80px !important;
             }
-            
+
         }
     }
-    
+
 </style>

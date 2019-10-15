@@ -992,7 +992,30 @@ export default {
                 if(condition){
                     query = query + condition +'='+ key +'&';
                 }
+            });
 
+            return query.slice(0, -1);
+        },
+
+        generatequeryString (conditions) {
+            var query = '';
+
+            if (jQuery.isEmptyObject(conditions)) {
+                return ''
+            }
+
+            jQuery.each(conditions, function(condition, key) {
+                if( condition ){
+                    //if( typeof key == 'string' )
+                       // query = query + condition +'='+ key +'&';
+                    if ( typeof key == 'object' ) {
+                        jQuery.each(key, function(index, el) {
+                             query = query + condition +'[]='+ el +'&';
+                        });
+                    } else {
+                        query = query + condition +'='+ key +'&';
+                    }
+                }
             });
 
             return query.slice(0, -1);
