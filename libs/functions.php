@@ -648,6 +648,14 @@ function pm_get_task_url( $project_id, $list_id, $task_id, $is_admin ) {
     return $task_url;
 }
 
+function pm_get_discuss_url( $project_id, $discuss_id, $is_admin ) {
+    $is_admin = $is_admin ? 'admin' : 'frontend';
+    $pm_base  = pm_get_project_page( $is_admin );
+    $task_url = $pm_base . '#/projects/' . $project_id . '/discussions/' . $discuss_id;
+
+    return $task_url;
+}
+
 function pm_get_task( $task_id ) {
     $task = Task::with('task_lists')
         ->where( 'id', $task_id )
