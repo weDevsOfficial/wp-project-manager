@@ -500,9 +500,9 @@
 
 				data.with = 'task_list,project';
 				data.select = 'id, title, created_at, start_at, due_date, completed_at';
-				data.per_page = 20;
-				data.pages = typeof this.$route.params.current_page_number == 'undefined' ?
-							1 : this.$route.params.current_page_number;
+				//data.per_page = 20;
+				// data.pages = typeof this.$route.params.current_page_number == 'undefined' ?
+				// 			1 : this.$route.params.current_page_number;
 
 	           var args = {
 	           		url: self.base_url + '/pm/v2/advanced/taskscsv/?',
