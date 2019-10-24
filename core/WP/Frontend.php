@@ -69,7 +69,6 @@ class Frontend {
         add_action( 'admin_init', array( $this, 'redirect_after_activate' ) );
         add_action('admin_bar_menu', array( $this, 'pm_toolbar_search_button' ), 999);
         // add_action('admin_bar_menu', array( $this, 'pm_toolbar_new_task_creating' ), 999);
-
 	}
 
     function seed() {

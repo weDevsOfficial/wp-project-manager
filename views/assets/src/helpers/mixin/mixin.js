@@ -22,6 +22,16 @@ export default {
     },
 
     methods: {
+        hasTaskStartField () {
+            if (!PM_Vars.is_pro) {
+                return false;
+            }
+
+           let status = this.getSettings('task_start_field', false);
+           
+           return status == 'on' || status === true ? true : false;
+        },
+
         is_array(items) {
             if(Object.prototype.toString.call(items) == '[object Array]' ) {
                 return true;

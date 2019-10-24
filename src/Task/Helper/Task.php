@@ -467,14 +467,45 @@ class Task {
 
 	private function where_start_at() {
 		$start_at = !empty( $this->query_params['start_at'] ) ? $this->query_params['start_at'] : false;
+		$ope_params = !empty( $this->query_params['start_at_operator'] ) ? $this->query_params['start_at_operator'] : false;
 
 		if ( $start_at === false ) {
 			return $this;
 		}
 
 		global $wpdb;
+		
+		$q = [];
+		$null_query = '';
 
-		$this->where .= $wpdb->prepare( " AND {$this->tb_tasks}.start_at>%s", $start_at );
+		foreach ( $ope_params as $key => $ope_param ) {
+			if ( $ope_param == 'null' ) continue;
+
+			$operator = $this->get_operator( $ope_param );
+			$start_at = date( 'Y-m-d', strtotime( $start_at ) );
+			$q[]      = $wpdb->prepare( " {$this->tb_tasks}.start_at $operator %s", $start_at );
+		}
+
+		$q = empty( $q ) ? '' : implode( ' AND ', $q );
+
+		if ( in_array( 'null', $ope_params ) ) {
+			$null_query = " {$this->tb_tasks}.start_at is null";
+		}
+
+		if ( ! empty( $null_query ) ) {
+
+			if ( ! empty( $q ) ) {
+				$this->where .= " AND ( ( $q ) OR ( $null_query ) )";
+			} 
+
+			if ( empty( $q ) ) {
+				$this->where .= " OR ( $null_query )";
+			} 
+		}
+
+		if ( empty( $null_query ) ) {
+			$this->where .= " AND ( $q )";
+		}
 
 		return $this;
 	}

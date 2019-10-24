@@ -256,7 +256,7 @@
                 if(this.$route.query.start_at == '' || this.$route.query.due_date == '') {
                     return this.getDate(task.created_at);
                 }
-
+                
                 if(this.$route.query.start_at != '' && this.$route.query.due_date != '') {
                     return this.getDate(task.start_at) +'-'+ this.getDate(task.due_date);
                 }
