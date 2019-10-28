@@ -258,7 +258,8 @@
                 }
                 
                 if(this.$route.query.start_at != '' && this.$route.query.due_date != '') {
-                    return this.getDate(task.start_at) +'-'+ this.getDate(task.due_date);
+                    let start_at = task.start_at ? task.start_at : task.created_at;
+                    return this.getDate(start_at) +' - '+ this.getDate(task.due_date);
                 }
             },
             getDate(date) {

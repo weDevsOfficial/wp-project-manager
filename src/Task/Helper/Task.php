@@ -483,7 +483,14 @@ class Task {
 
 			$operator = $this->get_operator( $ope_param );
 			$start_at = date( 'Y-m-d', strtotime( $start_at ) );
-			$q[]      = $wpdb->prepare( " {$this->tb_tasks}.start_at $operator %s", $start_at );
+			$q[]      = $wpdb->prepare( " ( 
+							({$this->tb_tasks}.start_at $operator %s) 
+								OR 
+							({$this->tb_tasks}.start_at is null AND {$this->tb_tasks}.created_at $operator %s)
+								OR
+							({$this->tb_tasks}.start_at='' AND {$this->tb_tasks}.created_at $operator %s) 
+
+						) ", $start_at, $start_at, $start_at );
 		}
 
 		$q = empty( $q ) ? '' : implode( ' AND ', $q );

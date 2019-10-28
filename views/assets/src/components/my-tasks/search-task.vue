@@ -37,14 +37,7 @@
                 </multiselect>
             </div> -->
 
-             <div class="field">
-                <select v-model="search.status" @change="changeStatus()">
-                	<option value="current">{{ __( 'Current Task', 'wedevs-project-manager' ) }}</option>
-                	<option value="outstanding">{{ __( 'Outstanding Task', 'wedevs-project-manager' ) }}</option>
-                	<option value="completed">{{ __( 'Completed', 'wedevs-project-manager' ) }}</option>
-                </select>
-            </div>
-            <div class="field">
+            <div class="field" v-if="parseInt(PM_Vars.is_pro)==1">
 	            <pm-date-range-picker 
 	            	:startDate="search.start_at"
 	            	:endDate="search.due_date"
@@ -54,6 +47,15 @@
 	            	
 	            </pm-date-range-picker>
 	        </div>
+
+            <div class="field">
+                <select v-model="search.status" @change="changeStatus()">
+                	<option value="current">{{ __( 'Current Task', 'wedevs-project-manager' ) }}</option>
+                	<option value="outstanding">{{ __( 'Outstanding Task', 'wedevs-project-manager' ) }}</option>
+                	<option value="completed">{{ __( 'Completed', 'wedevs-project-manager' ) }}</option>
+                </select>
+            </div>
+
 	        <div>
             	<input class="button button-primary submit-button" type="submit" :value="__('Filter', 'wedevs-project-manager')">
             </div>
@@ -226,6 +228,7 @@
 				    "alwaysShowCalendars": true,
 				    "showDropdowns": true,
 				    'autoUpdateInput': true,
+				    "autoApply": true,
 				    'placeholder': this.hasTaskStartField() ? __('Start at - Due date', 'wedevs-project-manager') : __('Due date', 'wedevs-project-manager')
 				}
 			}
@@ -318,10 +321,10 @@
 
 			calendarOnChange (start, end, className) {
 				this.search.due_date = end.format('YYYY-MM-DD');
-				
 				//if(this.hasTaskStartField()) {
 					this.search.start_at = start.format('YYYY-MM-DD');
-					jQuery('.'+className).val(this.search.start_at +'-'+this.search.due_date);
+				
+					jQuery('.'+className).val(this.search.start_at +' - '+this.search.due_date); 
 				// } else {
 				// 	jQuery('.'+className).val(this.search.due_date);
 				// }
