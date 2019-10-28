@@ -1,6 +1,24 @@
 <template>
-	<input type="text" :placeholder="options.placeholder" class="pm-daterangepicker" :value="dateValue">
+	<div class="pm-date-range-picker-wrap">
+		<input type="text" @keyup.self="keyUp" :placeholder="options.placeholder" class="pm-daterangepicker" value="">
+		<span :class="getClass()" @click.prevent="clearField()"></span>
+	</div>
 </template>
+
+<style lang="less">
+	.pm-date-range-picker-wrap {
+		position: relative;
+		.flaticon-pm-cross {
+			position: absolute;
+			cursor: pointer;
+		    right: 4%;
+		    top: 2px;
+			&::before {
+				font-size: 8px !important;
+			}
+		}
+	}
+</style>
 
 <script>
 	export default {
@@ -44,15 +62,18 @@
 				self.options.endDate = self.endDate;
 			}
 			
-            jQuery('.pm-daterangepicker').daterangepicker(self.options);
+			jQuery( document ).ready(function() {
+			    jQuery('.pm-daterangepicker').daterangepicker(self.options);
 
-			jQuery('.pm-daterangepicker').on('apply.daterangepicker', function(ev, picker) {
-				self.$emit('apply', picker.startDate, picker.endDate, 'pm-daterangepicker');
-			});
+				jQuery('.pm-daterangepicker').on('apply.daterangepicker', function(ev, picker) {
+					self.$emit('apply', picker.startDate, picker.endDate, 'pm-daterangepicker');
+				});
 
-			jQuery('.pm-daterangepicker').on('cancel.daterangepicker', function(ev, picker) {
-			    self.$emit('cancel', 'pm-daterangepicker');
+				jQuery('.pm-daterangepicker').on('cancel.daterangepicker', function(ev, picker) {
+				    self.clearField();
+				});
 			});
+            
 
 			// if(self.options.startDate && self.options.endDate) {
 			// 	jQuery('.pm-daterangepicker').val(self.options.startDate +'-'+self.options.endDate);
@@ -66,6 +87,24 @@
 			// 	jQuery('.pm-daterangepicker').val('');
 			// }
 			
+        },
+
+        methods: {
+        	keyUp (e) {
+        		var self = this;
+        		if(e.target.value == '') {
+        			jQuery('.pm-daterangepicker').on('cancel.daterangepicker', function(ev, picker) {
+				    	self.clearField();
+					});
+        		}
+        	},
+        	clearField () {
+        		this.$emit('cancel', 'pm-daterangepicker');
+        	},
+
+        	getClass() {
+        		return this.startDate == '' && this.endDate == '' ? '' : 'flaticon-pm-cross';
+        	}
         }
 	}
 </script>
