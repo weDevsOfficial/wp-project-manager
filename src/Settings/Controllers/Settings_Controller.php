@@ -72,10 +72,9 @@ class Settings_Controller {
             $resource = new Item( $settings, new Settings_Transformer );
             ( new Helper )->update_project_permission( $data, $project_id );
         }
+
         do_action( 'pm_after_save_settings', $settings );
-
         
-
         $message = [
             'message' => pm_get_text('success_messages.setting_saved')
         ];
