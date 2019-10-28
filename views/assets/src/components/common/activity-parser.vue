@@ -87,8 +87,8 @@
                     'meta.project_status_old': "<strong>" + obj.meta.project_status_old + "</strong>",
                     'meta.task_start_at_new': obj.meta.task_start_at_new !== null ? "<strong>" + pm.Moment(obj.meta.task_start_at_new).format('MMMM Do YYYY') + "</strong>" : "<strong>...</strong>",
                     'meta.task_start_at_old': obj.meta.task_start_at_old !== null ?  "<strong>" + pm.Moment(obj.meta.task_start_at_old).format('MMMM Do YYYY') + "</strong>": "<strong>...</strong>",
-                    'meta.task_due_date_new': obj.meta.task_due_date_new !== null ? "<strong>" + pm.Moment(obj.meta.task_due_date_new).format('MMMM Do YYYY') + "</strong>": "<strong>...</strong>",
-                    'meta.task_due_date_old': obj.meta.task_due_date_old !== null ?  "<strong>" + pm.Moment(obj.meta.task_due_date_old).format('MMMM Do YYYY') + "</strong>": "<strong>...</strong>",
+                    'meta.task_due_date_old': obj.meta.task_due_date_new !== null ? "<strong>" + pm.Moment(obj.meta.task_due_date_new).format('MMMM Do YYYY') + "</strong>": "<strong>...</strong>",
+                    'meta.task_due_date_new': obj.meta.task_due_date_old !== null ?  "<strong>" + pm.Moment(obj.meta.task_due_date_old).format('MMMM Do YYYY') + "</strong>": "<strong>...</strong>",
                 };
             },
             isLinkable: function(identifier) {

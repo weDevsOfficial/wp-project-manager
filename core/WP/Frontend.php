@@ -30,7 +30,7 @@ class Frontend {
      */
 	public function __construct() {
 		$this->includes();
-
+        
 		// instantiate classes
         $this->instantiate();
 
