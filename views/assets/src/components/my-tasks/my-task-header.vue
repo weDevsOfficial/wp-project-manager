@@ -16,7 +16,7 @@
         <div class="pm-row pm-project-group">
             <ul class="pm-col-9 pm-my-task-menu">
                  <li class="">
-                     <router-link :to="routeLink('current')" class="pm-my-outstandigntask">
+                    <router-link :to="routeLink('current')" class="pm-my-outstandigntask">
                         {{ __('Tasks', 'wedevs-project-manager' ) }}
 
                     </router-link>
@@ -149,7 +149,7 @@
 
                 this.$router.push({params: {user_id: user.id}});
                 this.$router.push({query: query_params});
-                this.$store.commit('myTask/setUserTask', user);
+                //this.$store.commit('myTask/setUserTask', user);
                 
                 pmBus.$emit('after_change_user');
             },
