@@ -73,31 +73,17 @@
 				    self.clearField();
 				});
 			});
-            
-
-			// if(self.options.startDate && self.options.endDate) {
-			// 	jQuery('.pm-daterangepicker').val(self.options.startDate +'-'+self.options.endDate);
-			
-			// } else if (self.options.startDate && !self.options.endDate) {
-			// 	jQuery('.pm-daterangepicker').val(self.options.startDate);
-			
-			// } else if (!self.options.startDate && self.options.endDate) {
-			// 	jQuery('.pm-daterangepicker').val(self.options.endDate);
-			// } else {
-			// 	jQuery('.pm-daterangepicker').val('');
-			// }
-			
         },
 
         methods: {
         	keyUp (e) {
         		var self = this;
+        		
         		if(e.target.value == '') {
-        			jQuery('.pm-daterangepicker').on('cancel.daterangepicker', function(ev, picker) {
-				    	self.clearField();
-					});
+				    self.clearField();
         		}
         	},
+
         	clearField () {
         		this.$emit('cancel', 'pm-daterangepicker');
         	},

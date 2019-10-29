@@ -116,7 +116,8 @@ var PM_PI = {
         var self = this;
         var context = vnode.context;
         var meta = context.$store.state.myTask.user.meta;
-        if( typeof meta !== 'undefined' ){
+        
+        if( typeof meta !== 'undefined' ) {
             var config = {
                 type: 'doughnut',
                 data: {

@@ -123,7 +123,7 @@ class User_Transformer extends TransformerAbstract {
                     ->whereIn( pm_tb_prefix() . 'pm_tasks.project_id', $project_ids)
                     ->parent()
                     ->get();
-            }else{
+            } else {
                 $tasks = $user->tasks()->whereHas('boards')
                     ->whereIn( pm_tb_prefix() . 'pm_tasks.project_id', $project_ids)
                     ->parent()
@@ -147,18 +147,84 @@ class User_Transformer extends TransformerAbstract {
             });
 
             $total_outstanding_tasks = $tasks->where( 'status', 'incomplete' )->filter( function( $item ) use ( $today ) {
-                if ( !empty( $item['due_date'] ) ){
+                if ( ! empty( $item['due_date'] ) ) {
                     return date( 'Y-m-d', strtotime( $item['due_date'] ) ) <  $today;
                 }
             });
 
+            $start_at = empty( $_GET['start_at'] ) ? false : pm_clean( $_GET['start_at'] );
+            $due_date = empty( $_GET['due_date'] ) ? false : pm_clean( $_GET['due_date'] );
+            
+
+            if ( ! empty( $start_at ) && ! empty( $due_date ) ) {
+                
+                $total_current_tasks = $tasks->where( 'status', 'incomplete' )->filter( function( $item ) use ( $start_at, $due_date, &$total ) {
+                        
+                    $today         = date( 'Y-m-d', strtotime( current_time('mysql') ) );
+                    $item_start_at = date( 'Y-m-d', strtotime( current_time('mysql') ) );
+                    $item_due_date = empty( $item['due_date'] ) ? '' : date( 'Y-m-d', strtotime( $item['due_date'] ) );
+    
+                    if ( 
+                        $today <= $item_due_date 
+                            && 
+                        $item_start_at >= $start_at 
+                            && 
+                        $item_due_date <= $due_date 
+                    ) {
+                        return true;
+                    } else if ( empty( $item_due_date ) ) {
+                        return true;
+                    }
+
+                });
+
+                $total_outstanding_tasks = $tasks->where( 'status', 'incomplete' )->filter( function( $item ) use ( $start_at, $due_date, &$total ) {
+
+                    $today         = date( 'Y-m-d', strtotime( current_time('mysql') ) );
+                    $item_due_date = empty( $item['due_date'] ) ? '' : date( 'Y-m-d', strtotime( $item['due_date'] ) );
+                    $item_start_at = empty( $item['start_at'] ) ? date( 'Y-m-d', strtotime( $item['created_at'] ) ) : date( 'Y-m-d', strtotime( $item['start_at'] ) );
+    
+                    if ( 
+                        $today > $item_due_date 
+                            && 
+                        $item_start_at >= $start_at 
+                            && 
+                        $item_due_date < $due_date 
+                    ) {
+                        return true;
+                    } 
+
+                });
+
+                $total_complete_tasks = $tasks->where( 'status', 'complete' )->filter( function( $item ) use ( $start_at, $due_date, &$total ) {
+
+                    $item_due_date = empty( $item['due_date'] ) ? '' : date( 'Y-m-d', strtotime( $item['due_date'] ) );
+                    $item_start_at = empty( $item['start_at'] ) ? date( 'Y-m-d', strtotime( $item['created_at'] ) ) : date( 'Y-m-d', strtotime( $item['start_at'] ) );
+    
+                    if ( 
+                        $item_start_at >= $start_at 
+                            && 
+                        $item_due_date <= $due_date 
+                    ) {
+                        return true;
+                    } 
+
+                });
+
+                $total_complete_tasks = $total_complete_tasks->count();
+                $total_activity = $user->activities->where('created_at', '>=', $start_at )->where('created_at', '<=', $due_date )->count();
+            } else {
+                $total_complete_tasks = $tasks->toBase()->where( 'status', 'complete' )->count();
+                $total_activity = $user->activities->count();
+            }
+
             return [
                 'total_project'           => $user->projects()->count(),
                 'total_task'              => $tasks->count(),
-                'total_complete_tasks'    => $tasks->toBase()->where( 'status', 'complete' )->count(),
+                'total_complete_tasks'    => $total_complete_tasks,
                 'total_current_tasks'     => $total_current_tasks->count(),
                 'total_outstanding_tasks' => $total_outstanding_tasks->count(),
-                'total_activity'          => $user->activities->count()
+                'total_activity'          => $total_activity
             ];
         } );
     }

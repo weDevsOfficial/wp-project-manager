@@ -13,6 +13,18 @@
         </div>
 
         <div v-if="isloaded" id="pm-mytask-page-content">
+
+            <div class="field" v-if="parseInt(PM_Vars.is_pro)==1">
+                <pm-date-range-picker 
+                    :startDate="search.start_at"
+                    :endDate="search.due_date"
+                    :options="calendarOptions"
+                    @apply="calendarOnChange"
+                    @cancel="calendarCancel">
+                    
+                </pm-date-range-picker>
+            </div>
+
             <div class="pm-mytask-overview-page">
                 <div class="pm-col-3 pm-sm-col-12 pm-mytask-chart-overview">
                     <h3 class="pm-box-title">{{ __('At a glance', 'wedevs-project-manager' ) }}</h3>
@@ -75,7 +87,31 @@
     export default{
         data () {
             return {
-
+                search: {
+                    start_at: '',
+                    due_date: ''
+                },
+                calendarOptions: {
+                    //'singleDatePicker': this.hasTaskStartField() ? false : true,
+                    ranges: {
+                        'Today': [moment(), moment()],
+                        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+                        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                        'This Month': [moment().startOf('month'), moment().endOf('month')],
+                        'Last Month': [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')],
+                    },
+                    locale: {
+                      format: 'YYYY-MM-DD',
+                      cancelLabel: __( 'Clear', 'wedevs-project-manager' ),
+                    },
+                    "showCustomRangeLabel": false,
+                    "alwaysShowCalendars": true,
+                    "showDropdowns": true,
+                    'autoUpdateInput': true,
+                    "autoApply": true,
+                    'placeholder': this.hasTaskStartField() ? __('Start at - Due date', 'wedevs-project-manager') : __('Due date', 'wedevs-project-manager')
+                }
             }
         },
         watch:{
@@ -92,7 +128,7 @@
             }
         },
         created () {
-            if (!this.canShowMyTask()) {
+            if(!this.canShowMyTask()) {
                 this.$router.push({name:'project_lists'});
             }
 
@@ -126,6 +162,42 @@
             }
         },
         methods: {
+            calendarOnChange (start, end, className) {
+                
+                this.search.due_date = end.format('YYYY-MM-DD');
+                this.search.start_at = start.format('YYYY-MM-DD');
+                
+                jQuery('.'+className).val(this.search.start_at +' - '+this.search.due_date); 
+
+                this.$router.push(
+                    {
+                        query: {
+                            start_at: this.search.start_at,
+                            due_date: this.search.due_date,
+                            login_user: this.setLoginUser(),
+                        }
+                    }
+                );
+
+            },
+
+            setLoginUser () {
+                if(typeof this.$route.params.user_id == 'undefined') {
+                    return PM_Vars.current_user.ID;
+                }
+
+                if( parseInt(this.$route.params.user_id) <= 0) {
+                    return PM_Vars.current_user.ID;
+                }
+
+                return this.$route.params.user_id;
+            },
+            calendarCancel () {
+                this.search.start_at = '';
+                this.search.due_date = '';
+
+                jQuery('.'+className).val('');
+            },
             getSelfUser () {
                 var user_id = typeof this.$route.params.user_id !== 'undefined' ? this.$route.params.user_id : this.current_user.ID;
                 var args = {
