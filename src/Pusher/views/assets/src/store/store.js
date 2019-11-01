@@ -1,0 +1,10 @@
+export default {
+    state: {
+
+    },
+
+    mutations: {
+
+    }
+
+};
