@@ -210,6 +210,12 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= next - Oct 10, 2019 =
+* **** Add Seeder.
+* **** Filter For Buddypress https://github.com/weDevsOfficial/wp-project-manager/pull/316/commits/8b8791745553a449a4dd2875d2cd8a12dbf82165.
+* **** Action Broken for Task when text long https://github.com/weDevsOfficial/wp-project-manager/pull/316/commits/6ed91bb1cb42e43ecb1947ec879af60d0e6e59b3
+* **** Clear List Search Field
+
 = v2.3.2 - Oct 10, 2019 =
 
 * **Fix** Conflict with elementor.
@@ -220,7 +226,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 * **New** User can create new task from my-task section.
 * **New** Sorting my-task table column.
 * **Update** My-tasks menu is not appear in front-end.
-* **Update** Reduce loading executing time for project home page. 
+* **Update** Reduce loading executing time for project home page.
 * **Update** Refactoring code for getting projects data.
 
 = v2.3.0 - Sep 09, 2019 =
@@ -234,13 +240,13 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 = v2.2.4 - Jul 22, 2019 =
 
 * **New** Task title field in task list search form.
-* **Fix** Task sorting is not working. 
+* **Fix** Task sorting is not working.
 * **Fix** Prevent sorting for default task list (Inbox).
 * **Update** Showing 'more task' button even there is not task.
 
 = v2.2.3 - Jul 15, 2019 =
 
-* **Update** Task list search query. 
+* **Update** Task list search query.
 * **Fix** After drag and drop task is not updating from my-task calendar.
 * **Fix** Milestone disapear after reloding the page.
 
@@ -300,7 +306,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 * **New** Set loading effect for 'Load more' task.
 * **New** Set loading effect at task list page and list archive page nevigation.
-* **New** Set loading effect at task list pagination. 
+* **New** Set loading effect at task list pagination.
 * **New** New library v-tooltip
 * **Fix** Any kinds of url added extra &nbsp from tinymce text filed.
 * **Fix** After project edit, the description is not updated real time.
@@ -313,7 +319,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 * **Fix** Task pagination did not work.
 * **Fix** Close button did not work in new project form.
 * **Fix** Milestone due date did not update.
-* **Update** Set permission at user create time from project overview page. 
+* **Update** Set permission at user create time from project overview page.
 
 = v2.0.11 - Feb 08, 2019 =
 
