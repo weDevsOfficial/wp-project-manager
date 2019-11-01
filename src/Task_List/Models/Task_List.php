@@ -40,7 +40,7 @@ class Task_List extends Eloquent {
     public function board() {
         return $this->hasMany( 'WeDevs\PM\Common\Models\Boardable', 'boardable_id' )->where( 'boardable_type', 'task_list' );
     }
-    
+
     public function boardables() {
         return $this->hasMany( 'WeDevs\PM\Common\Models\Boardable', 'board_id' )->where( 'board_type', 'task_list' );
     }
@@ -50,11 +50,11 @@ class Task_List extends Eloquent {
             ->where( pm_tb_prefix() . 'pm_boardables.boardable_type', 'task' )
             ->where( pm_tb_prefix() . 'pm_boardables.board_type', 'task_list' )
             ->withPivot( 'order' );
-        
+
         if ( $project_id ) {
             $tasks = apply_filters( 'pm_filter_task_permission', $tasks,  $project_id );
         }
-        
+
         return $tasks;
     }
 

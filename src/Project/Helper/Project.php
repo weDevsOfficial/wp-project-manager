@@ -1017,6 +1017,8 @@ class Project {
 		
 		$this->join .= " LEFT JOIN {$wpdb->prefix}pm_role_user ON {$wpdb->prefix}pm_role_user.project_id={$wpdb->prefix}pm_projects.id";
 		
+		$this->join = apply_filters( 'pm_project_join_query', $this->join, $this->query_params );
+
 		return $this;
 	}
 
@@ -1032,6 +1034,8 @@ class Project {
 			->where_users()
 			->where_title()
 			->where_status();
+		
+		$this->where = apply_filters( 'pm_project_where_query', $this->where, $this->query_params );
 
 		return $this;
 	}

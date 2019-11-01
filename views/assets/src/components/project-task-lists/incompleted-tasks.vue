@@ -120,7 +120,10 @@
         }
     }
     .more-menu-ul-wrap {
-        text-align: left;        
+        text-align: left; 
+        min-width: 150px;
+        right: -20px;
+        position: absolute;       
     }    
 </style>
 <script>
