@@ -18,6 +18,7 @@ use PM_Create_Table;
 use WeDevs\PM\Tools\Helpers\ImportTrello;
 //use WeDevs\PM\Tools\Helpers\ImportAsana;
 use WeDevs\PM\Core\Admin_Notice\Admin_Notice;
+use WeDevs\PM\Pusher\Pusher;
 
 
 class Frontend {
@@ -167,6 +168,7 @@ class Frontend {
         //new ImportAsana();
         //new ImportActivecollab();
         new Admin_Notice();
+        new Pusher();
 	}
 
 	public function register_scripts() {
