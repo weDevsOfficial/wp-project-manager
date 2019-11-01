@@ -28,95 +28,100 @@ const extractCss = new ExtractTextPlugin({
 
 plugins.push( extractCss );
 
-module.exports = {
-    entry: {
-        'assets/js/pm': './views/assets/src/start.js',
-        'assets/js/library': './views/assets/src/helpers/library.js',
-        'assets/js/pmglobal': './views/assets/src/helpers/pmglobal.js',
-        'assets/vendor/wp-hooks/pm-hooks': './views/assets/vendor/wp-hooks/wp-hooks.js',
-        'assets/vendor/vue-fullscreen/vue-fullscreen.min': './views/assets/vendor/vue-fullscreen/vue-fullscreen.js',
-    },
+const pusher = require('./src/pusher/webpack.config.js');
 
-    output: {
-        path: path.resolve(__dirname, 'views'),
-        filename: '[name].js',
-        publicPath: '',
-        //chunkFilename: 'chunk/[chunkhash].chunk-bundle.js',
-        //jsonpFunction: 'wedevsPmWebpack',
-        // hotUpdateFunction: 'wedevsPmWebpacks',
-    },
+module.exports =[ 
+    {
+        entry: {
+            'assets/js/pm': './views/assets/src/start.js',
+            'assets/js/library': './views/assets/src/helpers/library.js',
+            'assets/js/pmglobal': './views/assets/src/helpers/pmglobal.js',
+            'assets/vendor/wp-hooks/pm-hooks': './views/assets/vendor/wp-hooks/wp-hooks.js',
+            'assets/vendor/vue-fullscreen/vue-fullscreen.min': './views/assets/vendor/vue-fullscreen/vue-fullscreen.js',
+        },
 
-    resolve: {
-        extensions: ['.js', '.vue', '.json'],
-        alias: {
-          '@components': resolve('components'),
-          '@directives': resolve('directives'),
-          '@helpers': resolve('helpers'),
-          '@router': resolve('router'),
-          '@store': resolve('store'),
-          '@src': resolve('')
-        }
-    },
+        output: {
+            path: path.resolve(__dirname, 'views'),
+            filename: '[name].js',
+            publicPath: '',
+            //chunkFilename: 'chunk/[chunkhash].chunk-bundle.js',
+            //jsonpFunction: 'wedevsPmWebpack',
+            // hotUpdateFunction: 'wedevsPmWebpacks',
+        },
 
-    module: {
-        rules: [
-            // doc url https://vue-loader.vuejs.org/en/options.html#loaders
-            {   
-                test: /\.vue$/,
-                loader: 'vue-loader',
-                options: {
-                    loaders: {
-                        js: 'babel-loader',
+        resolve: {
+            extensions: ['.js', '.vue', '.json'],
+            alias: {
+              '@components': resolve('components'),
+              '@directives': resolve('directives'),
+              '@helpers': resolve('helpers'),
+              '@router': resolve('router'),
+              '@store': resolve('store'),
+              '@src': resolve('')
+            }
+        },
+
+        module: {
+            rules: [
+                // doc url https://vue-loader.vuejs.org/en/options.html#loaders
+                {   
+                    test: /\.vue$/,
+                    loader: 'vue-loader',
+                    options: {
+                        loaders: {
+                            js: 'babel-loader',
+                        }
+                    },
+                },
+                {   
+                    test: /\.js$/,
+                    loader: 'babel-loader',
+                    include: [
+                        resolve(''),
+                        path.resolve('node_modules/vue-color'),
+                        path.resolve('node_modules/vue-multiselect')
+                    ],
+                    query: {
+                        presets:[ "env", "stage-3" , "es2015" ]
+                    }
+                 
+                },
+                {
+                    test: /\.(png|jpg|gif|svg)$/,
+                    loader: 'file-loader',
+                    exclude: /node_modules/,
+                    options: {
+                        name: '[name].[ext]?[hash]',
+                        outputPath: '../css/images/'
                     }
                 },
-            },
-            {   
-                test: /\.js$/,
-                loader: 'babel-loader',
-                include: [
-                    resolve(''),
-                    path.resolve('node_modules/vue-color'),
-                    path.resolve('node_modules/vue-multiselect')
-                ],
-                query: {
-                    presets:[ "env", "stage-3" , "es2015" ]
+                {
+                    test: /\.less$/,
+                    use: extractCss.extract({
+                        use: [
+                            {
+                                loader: "css-loader"
+                            }, 
+                            {
+                                loader: "less-loader"
+                            }
+                        ]
+                    })
+                },
+                {
+                    test: /\.css$/,
+                    loader: "style-loader!css-loader"
+                },
+                {
+                    test: /\.(png|woff|woff2|eot|ttf|svg)$/,
+                    use: ['url-loader?limit=100000']
                 }
-             
-            },
-            {
-                test: /\.(png|jpg|gif|svg)$/,
-                loader: 'file-loader',
-                exclude: /node_modules/,
-                options: {
-                    name: '[name].[ext]?[hash]',
-                    outputPath: '../css/images/'
-                }
-            },
-            {
-                test: /\.less$/,
-                use: extractCss.extract({
-                    use: [
-                        {
-                            loader: "css-loader"
-                        }, 
-                        {
-                            loader: "less-loader"
-                        }
-                    ]
-                })
-            },
-            {
-                test: /\.css$/,
-                loader: "style-loader!css-loader"
-            },
-            {
-                test: /\.(png|woff|woff2|eot|ttf|svg)$/,
-                use: ['url-loader?limit=100000']
-            }
-        ]
+            ]
+        },
+        plugins: plugins
     },
-    plugins: plugins
-}
+    pusher
+]
 
 
 
