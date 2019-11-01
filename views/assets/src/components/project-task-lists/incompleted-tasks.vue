@@ -67,16 +67,16 @@
                                             <span>{{ __('Make Public', 'wedevs-project-manager') }}</span>
                                         </a>
                                     </li>
+                                    <li>
+                                        <a @click.prevent="taskDuplicate(task.id)" class="li-a" href="#">
+                                            <span class="icon-pm-move"></span>
+                                            <span>{{ __('Duplicate', 'wedevs-project-manager') }}</span>
+                                        </a>
+                                    </li>
                                     <li class="edit-task-btn">
                                         <a @click.prevent="taskFormActivity('toggle', false, task, $event)" class="li-a" href="#">
                                             <span class="icon-pm-pencil"></span>
                                             <span>{{ __('Edit', 'wedevs-project-manager') }}</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a @click.prevent="deleteTask({task: task, list: list})" class="li-a" href="#">
-                                            <span class="icon-pm-delete"></span>
-                                            <span>{{ __('Delete', 'wedevs-project-manager') }}</span>
                                         </a>
                                     </li>
 
@@ -84,6 +84,13 @@
                                         <a @click.prevent="move({task: task, list: list})" class="li-a" href="#">
                                             <span class="icon-pm-move"></span>
                                             <span>{{ __('Move', 'wedevs-project-manager') }}</span>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a @click.prevent="deleteTask({task: task, list: list})" class="li-a" href="#">
+                                            <span class="icon-pm-delete"></span>
+                                            <span>{{ __('Delete', 'wedevs-project-manager') }}</span>
                                         </a>
                                     </li>
                                 </ul>

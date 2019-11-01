@@ -179,6 +179,8 @@
                     }
                 );
 
+                this.getUserMeta();
+                this.getSelfUser();
             },
 
             setLoginUser () {
@@ -203,7 +205,9 @@
                 var args = {
                     user_id: user_id,
                     conditions: {
-                        with: 'graph'
+                        with: 'graph',
+                        start_at: this.$route.query.start_at,
+                        due_date: this.$route.query.due_date
                     },
                     callback (res){
                         this.$store.commit('myTask/setGraph', res.data.graph.data);

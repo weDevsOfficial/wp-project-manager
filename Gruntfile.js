@@ -37,6 +37,8 @@ module.exports = function(grunt) {
                     '!webpack.config.js',
                     '!tmp/**',
                     '!views/assets/src/**',
+                    '!src/pusher/views/assets/src/**',
+                    '!src/pusher/webpack.config.js',
                     '!debug.log',
                     '!phpunit.xml',
                     '!export.sh',
