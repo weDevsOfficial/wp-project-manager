@@ -61,6 +61,12 @@ class Category_Controller {
         return $this->get_response( $resource );
     }
 
+    public static function add_category( $category ) {
+        $category = Category::create( $category );
+
+        return $category;
+    }
+
     public function store( WP_REST_Request $request ) {
         $data = [
             'title' => $request->get_param( 'title' ),
@@ -118,7 +124,7 @@ class Category_Controller {
 
     public function bulk_destroy( WP_REST_Request $request ) {
         $category_ids = $request->get_param( 'category_ids' );
-        
+
         if ( is_array( $category_ids ) ) {
             DB::table( 'pm_category_project' )->whereIn( 'category_id', $category_ids )->delete();
             Category::whereIn( 'id', $category_ids )->delete();
