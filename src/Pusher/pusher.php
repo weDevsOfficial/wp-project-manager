@@ -60,15 +60,15 @@ class Pusher {
         wp_enqueue_script( 'pm-pusher-library', pm_config('define.url') . '/src/pusher/views/assets/vendor/pusher-v5.0.2.min.js', array('jquery'), $path, true );
 
         if ( !isset( $_GET['page'] ) || ( isset( $_GET['page'] ) && $_GET['page'] != 'pm_projects' ) ) {
-            wp_enqueue_script( 'pm-toastr', plugins_url( 'views/assets/vendor/toastr/toastr.min.js', __FILE__ ), array('jquery'), $path, true );
-            wp_enqueue_style( 'pm-toastr', plugins_url( 'views/assets/css/toastr/toastr.min.css', __FILE__ ), false, 'v2.1.3', 'all' );
+            wp_enqueue_script( 'pm-toastr-pusher', plugins_url( 'views/assets/vendor/toastr/toastr.min.js', __FILE__ ), array('jquery'), $path, true );
+            wp_enqueue_style( 'pm-toastr-pusher', plugins_url( 'views/assets/css/toastr/toastr.min.css', __FILE__ ), false, 'v2.1.3', 'all' );
         }
 
         wp_enqueue_script( 'pm-pusher-jquery', pm_config('define.url') . 'src/pusher/views/assets/vendor/pusher-jquery.js', array('jquery', 'pm-pusher-library', 'pm-toastr'), time(), true );
 
-        if ( isset( $_GET['page'] ) && $_GET['page'] == 'pm_projects') {
-            wp_enqueue_script( 'pm-pro-pusher-vue', plugins_url( 'views/assets/js/pusher-vue.js', __FILE__ ), array('pm-const'), $path, true );
-        }
+        // if ( isset( $_GET['page'] ) && $_GET['page'] == 'pm_projects') {
+        //     wp_enqueue_script( 'pm-pro-pusher-vue', plugins_url( 'views/assets/js/pusher-vue.js', __FILE__ ), array('pm-const'), $path, true );
+        // }
 
         $localize = [
             'base_url'       => home_url(),
