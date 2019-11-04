@@ -212,7 +212,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 = next - Oct 10, 2019 =
 * **** Add Seeder.
-* **** Filter For Buddypress https://github.com/weDevsOfficial/wp-project-manager/pull/316/commits/8b8791745553a449a4dd2875d2cd8a12dbf82165.
+* **** Filter For  Buddypress https://github.com/weDevsOfficial/wp-project-manager/pull/316/commits/8b8791745553a449a4dd2875d2cd8a12dbf82165.
 * **** Action Broken for Task when text long https://github.com/weDevsOfficial/wp-project-manager/pull/316/commits/6ed91bb1cb42e43ecb1947ec879af60d0e6e59b3
 * **** Clear List Search Field
 
