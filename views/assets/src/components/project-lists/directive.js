@@ -16,7 +16,14 @@ var Project = {
                     },
                     callback: function (res) {
                         if ( res.data.length ) {
-                            response( res.data );
+                            const assignes = this.$store.state.assignees;
+                            if ( assignes.length == 0 ) {
+                                response( res.data );
+                                return;
+                            }
+                            const users = assignes.map( item => item.id );
+                            const result  = res.data.filter( item => !users.includes( item.id ) );
+                            response( result );
                         } else {
                             response({
                                 value: '0',
