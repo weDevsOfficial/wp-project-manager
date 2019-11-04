@@ -23,17 +23,17 @@ class Commands extends Cli {
     function __construct() {
         $this->add_command( 'truncate', 'truncate' );
         $this->add_command( 'create_users', 'create_users' );
-        $this->add_command( 'background', 'background' );
+        //$this->add_command( 'background', 'background' );
         $this->add_command( 'create_project', 'create_project' );
         $this->add_command( 'delete_project', 'delete_project' );
         $this->add_command( 'create_tasklist', 'create_tasklist' );
         $this->add_command( 'delete_tasklist', 'delete_tasklist' );
         $this->add_command( 'create_task', 'create_task' );
         $this->add_command( 'delete_task', 'delete_task' );
-        $this->add_command( 'create_discussion', 'create_discussion' );
-        $this->add_command( 'delete_discussion', 'delete_discussion' );
-        $this->add_command( 'create_milestone', 'create_milestone' );
-        $this->add_command( 'delete_milestone', 'delete_milestone' );
+        //$this->add_command( 'create_discussion', 'create_discussion' );
+        //$this->add_command( 'delete_discussion', 'delete_discussion' );
+        //$this->add_command( 'create_milestone', 'create_milestone' );
+        //$this->add_command( 'delete_milestone', 'delete_milestone' );
     }
 
     public function generate_random_string($length = 10) {

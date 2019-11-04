@@ -210,11 +210,13 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
-= next - Oct 10, 2019 =
-* **** Add Seeder.
-* **** Filter For  Buddypress https://github.com/weDevsOfficial/wp-project-manager/pull/316/commits/8b8791745553a449a4dd2875d2cd8a12dbf82165.
-* **** Action Broken for Task when text long https://github.com/weDevsOfficial/wp-project-manager/pull/316/commits/6ed91bb1cb42e43ecb1947ec879af60d0e6e59b3
-* **** Clear List Search Field
+= v2.3.3 - Nov 04, 2019 =
+
+* **New** Integrate with Pusher for real time notification.
+* **New** Include seeder for project, task-list and task.
+* **New** Set filter in project fetch 'join' and 'where' query.
+* **Fix** Task update popover menu used to break when task title was long.
+* **Update** Reset button on task-list search.
 
 = v2.3.2 - Oct 10, 2019 =
 
