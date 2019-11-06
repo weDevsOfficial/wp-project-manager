@@ -9,6 +9,7 @@ use WP_REST_Request;
 // 	select: ['id, title']
 // 	categories: [2, 4],
 // 	users: [1,2],
+// 	lists: [1,2]
 // 	id: [1,2],
 // 	title: 'Rocket',
 // 	status: '0',
@@ -385,7 +386,8 @@ class Task {
 			->where_due_date()
 			->where_start_at()
 			->where_project_id()
-			->where_assignees();
+			->where_assignees()
+			->where_lists();
 
 		$this->where = apply_filters( 'pm_task_where', $this->where, $this->user_id );
 
@@ -429,6 +431,10 @@ class Task {
 		}
 
 		return is_array( $args ) ? $args : [$args];
+    }
+
+    public function where_lists() {
+    	
     }
 
 	private function where_assignees() {

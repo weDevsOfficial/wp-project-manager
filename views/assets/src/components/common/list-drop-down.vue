@@ -148,7 +148,25 @@
             },
 			onChange (val, el) {
 				this.$emit('onChange', val);
+
+                this.fetchTasks(val);
 			},
+
+            fetchTasks (val) {
+                var self = this;
+
+                var request = {
+                    url: self.base_url + '/pm/v2/projects/'+this.project_id+'/tasks',
+                    success: function(res) {
+                        
+                        self.loadingListSearch = false;
+                        self.formatLists(res.data);
+                    }
+                }
+                
+                self.httpRequest(request);
+            },
+
 			setLists () {
 				var lists = [],
 					self = this;
