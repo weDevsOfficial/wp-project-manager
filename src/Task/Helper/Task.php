@@ -11,6 +11,7 @@ use WP_REST_Request;
 // 	users: [1,2],
 // 	lists: [1,2]
 // 	id: [1,2],
+// 	project_id: [1,2]
 // 	title: 'Rocket',
 // 	status: '0',
 // 	page: 1
@@ -162,10 +163,10 @@ class Task {
 		$items = [
 			'id'         => (int) $task->id,
 			'title'      => (string) $task->title,
-			'created_at' => $task->created_at,
-			'start_at'   => $task->start_at,
-			'due_date'   => $task->due_date,
-			'completed_at' => $task->completed_at
+			'created_at' => empty( $task->created_at ) ? '' : $task->created_at,
+			'start_at'   => empty( $task->start_at ) ? '' : $task->start_at,
+			'due_date'   => empty( $task->due_date ) ? '' : $task->due_date,
+			'completed_at' => empty( $task->completed_at ) ? '' : $task->completed_at
         ];
 
         $select_items = empty( $this->query_params['select'] ) ? false : $this->query_params['select'];
@@ -434,7 +435,20 @@ class Task {
     }
 
     public function where_lists() {
-    	
+    	$lists = isset( $this->query_params['lists'] ) ? $this->query_params['lists'] : false;
+
+		if ( empty( $lists ) ) {
+			return $this;
+		}
+
+		$format = $this->get_prepare_format( $lists );
+		$lists  = $this->get_prepare_data( $lists );
+			
+		global $wpdb;
+		
+		$this->where .= $wpdb->prepare( " AND list.id IN ($format)", $lists );
+
+		return $this;
     }
 
 	private function where_assignees() {
