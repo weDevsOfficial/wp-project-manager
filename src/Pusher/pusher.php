@@ -2,7 +2,7 @@
 
 namespace WeDevs\PM\Pusher;
 
-use WeDevs\PM\pusher\core\Auth\Auth;
+use WeDevs\PM\Pusher\core\Auth\Auth;
 
 class Pusher {
 

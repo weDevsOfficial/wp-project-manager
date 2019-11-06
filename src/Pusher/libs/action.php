@@ -1,6 +1,6 @@
 <?php
 
-use WeDevs\PM\pusher\core\Pusher\Pusher;
+use WeDevs\PM\Pusher\core\Pusher\Pusher;
 use WeDevs\PM\File\Models\File;
 
 function PM_pusher_has_task_update_content( $model ) {
