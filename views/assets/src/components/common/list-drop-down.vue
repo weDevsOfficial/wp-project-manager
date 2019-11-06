@@ -156,7 +156,13 @@
                 var self = this;
 
                 var request = {
-                    url: self.base_url + '/pm/v2/projects/'+this.project_id+'/tasks',
+                    data: {
+
+                        select: 'id, title',
+                        lists: [val.id],
+                        project_id: this.project_id
+                    },
+                    url: self.base_url + '/pm/v2/tasks',
                     success: function(res) {
                         
                         self.loadingListSearch = false;
