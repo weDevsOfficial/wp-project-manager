@@ -1,7 +1,7 @@
 <?php
 
 use WeDevs\PM\Pusher\core\Pusher\Pusher;
-use WeDevs\PM\File\Models\File;
+//use WeDevs\PM\File\Models\File;
 
 function PM_pusher_has_task_update_content( $model ) {
 
@@ -290,21 +290,22 @@ function PM_pusher_task_url( $project_id, $list_id, $task_id ) {
 }
 
 function PM_pusher_file_url( $project_id, $file_id ) {
-    $file = File::find( $file_id );
-    $is_admin = empty( intval( pm_clean( $_POST['is_admin'] ) ) ) ? 'frontend' : 'admin';
+    return;
+    // $file = File::find( $file_id );
+    // $is_admin = empty( intval( pm_clean( $_POST['is_admin'] ) ) ) ? 'frontend' : 'admin';
 
-    if ( $file->type == 'doc' ) {
-        return pm_get_project_page( $is_admin ) . '#/projects/' . $project_id . '/files/' . $file->parent . '/doc/' . $file_id;
-    }
+    // if ( $file->type == 'doc' ) {
+    //     return pm_get_project_page( $is_admin ) . '#/projects/' . $project_id . '/files/' . $file->parent . '/doc/' . $file_id;
+    // }
 
-    if ( $file->type == 'link' ) {
-        return pm_get_project_page( $is_admin ) . '#/projects/' . $project_id . '/files/' . $file->parent . '/link/' . $file_id;
-    }
+    // if ( $file->type == 'link' ) {
+    //     return pm_get_project_page( $is_admin ) . '#/projects/' . $project_id . '/files/' . $file->parent . '/link/' . $file_id;
+    // }
 
-    if ( $file->type == 'pro_file' || $file->type == 'file' ) {
-        //pmpr(pm_get_project_page( $is_admin ) . '#/projects/' . $project_id . '/files/' . $file->parent . '/files/' . $file_id  )); die();
-        return pm_get_project_page( $is_admin ) . '#/projects/' . $project_id . '/files/' . $file->parent . '/files/' . $file_id;
-    }
+    // if ( $file->type == 'pro_file' || $file->type == 'file' ) {
+        
+    //     return pm_get_project_page( $is_admin ) . '#/projects/' . $project_id . '/files/' . $file->parent . '/files/' . $file_id;
+    // }
 }
 
 function PM_pusher_after_new_message( $message, $params, $discussion_board ) {
