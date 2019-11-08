@@ -58,12 +58,15 @@ class Pusher {
         $path = filemtime( pm_config('define.path') . '/src/Pusher/views/assets/vendor/pusher-v5.0.2.min.js' );
         wp_enqueue_script( 'pm-pusher-library', pm_config('define.url') . 'src/Pusher/views/assets/vendor/pusher-v5.0.2.min.js', array('jquery'), $path, true );
         
-        //if ( !isset( $_GET['page'] ) || ( isset( $_GET['page'] ) && $_GET['page'] != 'pm_projects' ) ) {
+        if ( isset( $_GET['page'] ) && $_GET['page'] == 'pm_projects' ) {
+            wp_enqueue_script( 'pm-pusher-jquery', pm_config('define.url') . 'src/Pusher/views/assets/vendor/pusher-jquery.js', array('jquery', 'pm-pusher-library', 'pm-toastr'), time(), true );
+        } else {
             wp_enqueue_script( 'pm-toastr-pusher', plugins_url( 'views/assets/vendor/toastr/toastr.min.js', __FILE__ ), array('jquery'), $path, true );
+            wp_enqueue_script( 'pm-pusher-jquery', pm_config('define.url') . 'src/Pusher/views/assets/vendor/pusher-jquery.js', array('jquery', 'pm-pusher-library', 'pm-toastr-pusher'), time(), true );
             wp_enqueue_style( 'pm-toastr-pusher', plugins_url( 'views/assets/css/toastr/toastr.min.css', __FILE__ ), false, 'v2.1.3', 'all' );
-        //}
+        }
 
-        wp_enqueue_script( 'pm-pusher-jquery', pm_config('define.url') . 'src/Pusher/views/assets/vendor/pusher-jquery.js', array('jquery', 'pm-pusher-library'), time(), true );
+        
 
         $localize = [
             'base_url'       => home_url(),
