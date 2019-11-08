@@ -163,6 +163,7 @@ class Task {
 		$items = [
 			'id'         => (int) $task->id,
 			'title'      => (string) $task->title,
+			'status'      => isset( $task->status ) ? $task->status : '',
 			'created_at' => empty( $task->created_at ) ? '' : $task->created_at,
 			'start_at'   => empty( $task->start_at ) ? '' : $task->start_at,
 			'due_date'   => empty( $task->due_date ) ? '' : $task->due_date,
