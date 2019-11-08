@@ -5,7 +5,7 @@
         :options="lists"
         :multiple="multiple"
         :show-labels="true"
-        :placeholder="''"
+        :placeholder="options.placeholder"
         select-label=""
         selected-label="selected"
         deselect-label=""
@@ -95,7 +95,6 @@
     }
 </style>
 
-
 <script>
 	export default {
 		props: {
@@ -110,7 +109,15 @@
 				default () {
 					return false
 				}
-			}
+			},
+            options: {
+                type: [Object],
+                default () {
+                    return {
+                        placeholder: ''
+                    }
+                }
+            }
 		},
 		data () {
 			return {
