@@ -810,7 +810,6 @@ export default {
             var index = false;
 
             jQuery.each(itemList, function(key, item) {
-
                 if (item[slug] === id) {
                     index = key;
                 }
