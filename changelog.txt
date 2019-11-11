@@ -1,3 +1,11 @@
+= v2.3.3 - Nov 10, 2019 =
+
+* **New** Integrate with Pusher for real time notification.
+* **New** Include seeder for project, task-list and task.
+* **New** Set filter in project fetch 'join' and 'where' query.
+* **Fix** Task update popover menu used to break when task title was long.
+* **Update** Reset button on task-list search.
+
 = v2.3.2 - Oct 10, 2019 =
 
 * **Fix** Conflict with elementor.

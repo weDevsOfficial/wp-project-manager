@@ -1,0 +1,42 @@
+.pm-pro-pusher-notification-wrap .toast-info {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+    padding: 16px 24px !important;
+    border-radius: 4px !important;
+
+    background-image: none !important;
+    background: #fff !important;
+    color: #777 !important;
+    opacity: 1 !important;
+}
+
+.pm-pro-pusher-notification-wrap .toast-title {
+    display: inline-block;
+    color: rgba(0, 0, 0, 0.85) !important;
+    font-size: 16px !important;
+    line-height: 24px !important;
+    font-weight: normal !important;
+}
+
+.pm-pro-pusher-notification-wrap .toast-message {
+    color: rgba(0, 0, 0, 0.65) !important;
+    font-size: 14px !important;
+    line-height: 1.4em !important;
+}
+.pm-pro-pusher-notification-wrap .toast-close-button {
+    position: absolute !important;
+    right: 12px !important;
+    float: right !important;
+    font-size: 20px !important;
+    font-weight: 400 !important;
+    color: #8c8c8c !important;
+    -webkit-text-shadow: 0 1px 0 #fff !important;
+    text-shadow: 0 1px 0 #fff !important;
+    line-height: 1 !important;
+    top: auto !important;
+}
+
+.pm-pro-pusher-notification-wrap .pm-pro-pusher-anchor {
+    color: rgb(15, 122, 174) !important;
+    text-decoration: underline;
+    text-decoration-color: rgb(15, 122, 174) !important;
+}

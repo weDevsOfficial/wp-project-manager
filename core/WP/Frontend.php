@@ -18,23 +18,24 @@ use PM_Create_Table;
 use WeDevs\PM\Tools\Helpers\ImportTrello;
 //use WeDevs\PM\Tools\Helpers\ImportAsana;
 use WeDevs\PM\Core\Admin_Notice\Admin_Notice;
+use WeDevs\PM\Pusher\Pusher;
 
 
 class Frontend {
 
-	/**
+    /**
      * Constructor for the PM class
      *
      * Sets up all the appropriate hooks and actions
      * within our plugin.
      */
-	public function __construct() {
-		$this->includes();
+    public function __construct() {
+        $this->includes();
         
-		// instantiate classes
+        // instantiate classes
         $this->instantiate();
 
-		// Initialize the action hooks
+        // Initialize the action hooks
         $this->init_actions();
 
         // Initialize the action hooks
@@ -48,118 +49,117 @@ class Frontend {
         ( new Installer )->do_install();
     }
 
-	/**
-	 * All actions
-	 *
-	 * @return void
-	 */
-	public function init_actions() {
+    /**
+     * All actions
+     *
+     * @return void
+     */
+    public function init_actions() {
         add_action( 'plugins_loaded', array( $this, 'seed' ), 10 );
-		add_action( 'admin_menu', array( new Menu, 'admin_menu' ) );
+        add_action( 'admin_menu', array( new Menu, 'admin_menu' ) );
         add_action( 'wp_ajax_pm_ajax_upload', array ( new File_System, 'ajax_upload_file' ) );
-		add_action( 'init', array ( 'WeDevs\PM\Core\Notifications\Notification' , 'init_transactional_emails' ) );
-		add_action( 'admin_enqueue_scripts', array ( $this, 'register_scripts' ) );
-		add_action( 'wp_enqueue_scripts', array ( $this, 'register_scripts' ) );
-		add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain' ) );
-		add_action( 'plugins_loaded', array( $this, 'pm_content_filter' ) );
-		add_action( 'plugins_loaded', array( $this, 'pm_content_filter_url' ) );
+        add_action( 'init', array ( 'WeDevs\PM\Core\Notifications\Notification' , 'init_transactional_emails' ) );
+        add_action( 'admin_enqueue_scripts', array ( $this, 'register_scripts' ) );
+        add_action( 'wp_enqueue_scripts', array ( $this, 'register_scripts' ) );
+        add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain' ) );
+        add_action( 'plugins_loaded', array( $this, 'pm_content_filter' ) );
+        add_action( 'plugins_loaded', array( $this, 'pm_content_filter_url' ) );
         add_filter( 'plugin_action_links_' . PM_BASENAME , array( $this, 'plugin_action_links' ) );
         add_filter( 'in_plugin_update_message-' . PM_BASENAME , array( $this, 'upgrade_notice' ), 10, 2 );
         add_action( 'admin_footer', array( $this, 'switch_project_html' ) );
         add_action( 'admin_init', array( $this, 'redirect_after_activate' ) );
         add_action('admin_bar_menu', array( $this, 'pm_toolbar_search_button' ), 999);
         // add_action('admin_bar_menu', array( $this, 'pm_toolbar_new_task_creating' ), 999);
-
-	}
+    }
 
     function seed() {
         Upgrade::create_tables();
     }
 
-	function pm_content_filter() {
-		add_filter( 'pm_get_content', 'wptexturize' );
+    function pm_content_filter() {
+        add_filter( 'pm_get_content', 'wptexturize' );
         add_filter( 'pm_get_content', 'convert_smilies' );
         add_filter( 'pm_get_content', 'convert_chars' );
         add_filter( 'pm_get_content', 'wpautop' );
         add_filter( 'pm_get_content', 'shortcode_unautop' );
         add_filter( 'pm_get_content', 'prepend_attachment' );
         add_filter( 'pm_get_content', 'make_clickable' );
-	}
+    }
 
-	function pm_content_filter_url() {
-		add_filter( 'pm_get_content_url', 'make_clickable' );
-	}
+    function pm_content_filter_url() {
+        add_filter( 'pm_get_content_url', 'make_clickable' );
+    }
 
-	function load_plugin_textdomain() {
-		load_plugin_textdomain( 'wedevs-project-manager', false, config('frontend.basename') . '/languages/' );
-	}
+    function load_plugin_textdomain() {
+        load_plugin_textdomain( 'wedevs-project-manager', false, config('frontend.basename') . '/languages/' );
+    }
 
-	public function includes() {
-		// cli command
+    public function includes() {
+        // cli command
         if ( defined('WP_CLI') && WP_CLI ) {
-        	$file = config( 'frontend.patch' ) . '/core/cli/Commands.php';
+            $file = config( 'frontend.patch' ) . '/core/cli/Commands.php';
 
-        	//if ( file_exists( $file ) ) {
-        		new Commands();
-        	//}
+            //if ( file_exists( $file ) ) {
+                new Commands();
+            //}
         }
-	}
+    }
 
-	/**
-	 * All filters
-	 *
-	 * @return void
-	 */
-	public function init_filters() {
-		add_filter( 'upload_mimes', [$this, 'cc_mime_types'] );
-		add_filter( 'wp_mime_type_icon', [$this, 'change_mime_icon'], 10, 3 );
-		add_filter( 'todo_list_text_editor', [$this, 'project_text_editor'] );
+    /**
+     * All filters
+     *
+     * @return void
+     */
+    public function init_filters() {
+        add_filter( 'upload_mimes', [$this, 'cc_mime_types'] );
+        add_filter( 'wp_mime_type_icon', [$this, 'change_mime_icon'], 10, 3 );
+        add_filter( 'todo_list_text_editor', [$this, 'project_text_editor'] );
         add_filter('upload_mimes', [$this, 'custom_upload_mimes']);
-	}
+    }
 
-	function cc_mime_types( $mimes ) {
-	    $mimes['svg'] = 'image/svg+xml';
-	    return $mimes;
-	}
+    function cc_mime_types( $mimes ) {
+        $mimes['svg'] = 'image/svg+xml';
+        return $mimes;
+    }
 
-	function change_mime_icon( $icon, $mime = null, $post_id = null ) {
-		$assets_url = config('frontend.assets_url');
-	    $folder 	= $assets_url . 'images/icons/';
-	    $exist_mime = [
-	    	'application/pdf' => 'pdf.png'
-	    ];
+    function change_mime_icon( $icon, $mime = null, $post_id = null ) {
+        $assets_url = config('frontend.assets_url');
+        $folder     = $assets_url . 'images/icons/';
+        $exist_mime = [
+            'application/pdf' => 'pdf.png'
+        ];
 
         if ( array_key_exists( $mime, $exist_mime ) ) {
             return  $icon = $folder . $exist_mime[$mime];
         }
 
-	    $icon = str_replace( get_bloginfo( 'wpurl' ) . '/wp-includes/images/media/', $folder, $icon );
+        $icon = str_replace( get_bloginfo( 'wpurl' ) . '/wp-includes/images/media/', $folder, $icon );
 
-	    return $icon;
-	}
+        return $icon;
+    }
 
-	function cron_interval( $schedules ) {
-		// Adds every 5 minutes to the existing schedules.
-		$schedules[ 'pm_schedule' ] = array(
-			'interval' => MINUTE_IN_SECONDS * 1,
-			'display'  => sprintf( __( 'Every %d Minutes PM schedule', 'wedevs-project-manager' ), 1 ),
-		);
+    function cron_interval( $schedules ) {
+        // Adds every 5 minutes to the existing schedules.
+        $schedules[ 'pm_schedule' ] = array(
+            'interval' => MINUTE_IN_SECONDS * 1,
+            'display'  => sprintf( __( 'Every %d Minutes PM schedule', 'wedevs-project-manager' ), 1 ),
+        );
 
-		return $schedules;
-	}
+        return $schedules;
+    }
 
     function project_text_editor($config) {
-	$config['external_plugins']['placeholder'] = config('frontend.assets_url') . 'vendor/tinymce/plugins/placeholder/plugin.min.js';
-	$config['plugins'] = 'placeholder textcolor colorpicker wplink wordpress';
-	return $config;
+    $config['external_plugins']['placeholder'] = config('frontend.assets_url') . 'vendor/tinymce/plugins/placeholder/plugin.min.js';
+    $config['plugins'] = 'placeholder textcolor colorpicker wplink wordpress';
+    return $config;
 }
 
-	/**
-	 * instantiate classes
-	 *
-	 * @return void
-	 */
-	public function instantiate() {
+    /**
+     * instantiate classes
+     *
+     * @return void
+     */
+    public function instantiate() {
         Notification::init_transactional_emails();
         new Upgrade();
         new Offers();
@@ -168,14 +168,15 @@ class Frontend {
         //new ImportAsana();
         //new ImportActivecollab();
         new Admin_Notice();
-	}
+        new Pusher();
+    }
 
-	public function register_scripts() {
-		Register_Scripts::scripts();
-		Register_Scripts::styles();
-	}
+    public function register_scripts() {
+        Register_Scripts::scripts();
+        Register_Scripts::styles();
+    }
 
-	/**
+    /**
      * Plugin action links
      *
      * @param  array  $links
@@ -183,7 +184,7 @@ class Frontend {
      * @return array
      */
     function plugin_action_links( $links ) {
-    	global $wedevs_pm_pro;
+        global $wedevs_pm_pro;
 
         if ( !$wedevs_pm_pro  ) {
             $links[] = '<a href="https://wedevs.com/wp-project-manager-pro/pricing/?utm_source=freeplugin&utm_medium=pm-action-link&utm_campaign=pm-pro-prompt" style="color: #389e38;font-weight: bold;" target="_blank">' . __( 'Get Pro', 'wedevs-project-manager' ) . '</a>';
@@ -229,7 +230,7 @@ class Frontend {
     public function pm_toolbar_new_task_creating ($wp_admin_bar) {
         $wp_admin_bar->add_node(
             [
-                'id'		=> 'pm_create_task',
+                'id'        => 'pm_create_task',
                 'title'     => '<span class="ab-icon dashicons dashicons-welcome-add-page"></span>',
                 'href'      => '#',
                 'parent' => 'top-secondary',
@@ -242,7 +243,7 @@ class Frontend {
 
          $wp_admin_bar->add_node(
             [
-                'id'		=> 'pm_new_create_task',
+                'id'        => 'pm_new_create_task',
                 'title'     => 'Task',
                 'href'      => '#',
                 'parent' => 'new-content',
@@ -258,7 +259,7 @@ class Frontend {
     public function pm_toolbar_search_button($wp_admin_bar) {
         $wp_admin_bar->add_node(
             [
-                'id'		=> 'pm_search',
+                'id'        => 'pm_search',
                 'title'     => '<span class="ab-icon icon-pm-switch-project" style="padding: 6px 0;"></span>',
                 'href'      => '#',
                 'parent' => 'top-secondary',
