@@ -30,7 +30,10 @@ pm.Vue.directive('pm-pretty-photo', {
 
 pm.Vue.directive('pm-tooltip', {
 	inserted: function(el) {
-		jQuery(el).tipTip();
+		jQuery(el).tipTip({
+			maxWidth:"auto",
+			edgeOffset: 10,
+		});
 	},
 });
 
