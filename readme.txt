@@ -210,7 +210,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
-= v2.3.3 - Nov 04, 2019 =
+= v2.3.3 - Nov 10, 2019 =
 
 * **New** Integrate with Pusher for real time notification.
 * **New** Include seeder for project, task-list and task.
