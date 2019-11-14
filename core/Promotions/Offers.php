@@ -25,7 +25,7 @@ class Offers {
             return;
         }
 
-        if ( date( 'Y-m-d', current_time( 'timestamp') ) > '2019-12-04' ) {
+        if ( date( 'Y-m-d', current_time( 'timestamp') ) > '2019-12-04' || date( 'Y-m-d', current_time( 'timestamp') ) < '2019-11-20' ) {
             return;
         }
 
@@ -35,8 +35,7 @@ class Offers {
         $offer_key   = 'pm_christmas_notice';
         $hide_notice =  get_option( $offer_key, 'show' );
 
-        // if ( $hide_notice == 'hide' || $wedevs_pm_pro ) {
-        if ( $hide_notice == 'hide' ) {
+        if ( $hide_notice == 'hide' || $wedevs_pm_pro ) {
             return false;
         }
 
@@ -49,19 +48,17 @@ class Offers {
                     <img src="<?php echo PM_PLUGIN_ASSEST  .'/images/promo-logo.png'; ?>" alt="wedevs-project-manager">
                 </div>
                 <div class="content">
-                    <h3><span class="highlight-red">Black Friday</span> & <span class="highlight-blue">Cyber Monday</span></h3>
-                    <p>Don't miss out on the biggest sale of the year on <span class="highlight-red">WP Project Manager Pro</span></p>
-                    <p style="margin-top:12px">
-                        <span class="highlight-red">Use this coupon</span> <input type="text" class="highlight-code" id="coupon-code" value="BFCM2019" readonly>
-                        <button id="coupon-btn"> <img src="<?php echo PM_PLUGIN_ASSEST  .'/images/copy.png'; ?>"/></button>
-                    </p>
+                    <p>Biggest Sale of the year on this</p>
+                    <h3> Black Friday & <span class="highlight-blue">Cyber Monday</span></h3>
+                    <p>Claim your discount on
+                        <span class="highlight-red">WP Project Manager </span>
+                        till 4th December</p>
                 </div>
                 <div class="call-to-action">
                     <a href="https://wedevs.com/wp-project-manager-pro/pricing?utm_campaign=black_friday_&_cyber_monday&utm_medium=banner&utm_source=plugin_dashboard"
                     target="_blank">Save 33%</a>
-                    <p>Valid till 4th December</p>
+                    <p> <span> Coupon: </span> &nbsp; BFCM2019</p>
                 </div>
-                <?php // printf( $content, esc_url( $offer_link ) ); ?>
             </div>
 
             <style>
@@ -71,7 +68,7 @@ class Offers {
                 #pm-christmas-notice {
                     font-size: 14px;
                     border-left: none;
-                    background: #000;
+                    background-image: linear-gradient(90deg, #6900CF, #8915FF);
                     color: #fff;
                     display: flex
                 }
@@ -84,7 +81,7 @@ class Offers {
                     width: 80%;
                 }
                 #pm-christmas-notice .highlight-red {
-                    color: #FF0000;
+                    color: #FF76EA;
                 }
                 #pm-christmas-notice .highlight-blue {
                     color: #48ABFF;
@@ -99,7 +96,9 @@ class Offers {
                 #pm-christmas-notice .content p{
                     margin: 0px 0px;
                     padding: 0px;
-                    letter-spacing: 0.4px;
+                    letter-spacing: 0.14px;
+                    font-size: 15px;
+                    margin-top: 5px;
                 }
                 #pm-christmas-notice .content p span.highlight-code{
                     margin: 0 0 0 10px;
@@ -110,17 +109,24 @@ class Offers {
                 #pm-christmas-notice .call-to-action {
                     margin-left: 8%;
                     margin-top: 25px;
+                    text-align: center;
                 }
                 #pm-christmas-notice .call-to-action a {
                     border: none;
-                    background: #FF0000;
-                    padding: 8px 15px;
-                    font-size: 15px;
+                    background: #FF53E5;
+                    padding: 10px 15px;
+                    font-size: 24px;
                     color: #fff;
                     border-radius: 20px;
                     text-decoration: none;
                     display: block;
                     text-align: center;
+                    margin-bottom: 10px;
+                    width:217px;
+                    height: 40px;
+                    box-sizing: border-box;
+                    box-shadow: 0 5px 11px 0 rgba(66,0,132,0.37);
+                    letter-spacing: 0.21px;
                 }
                 #pm-christmas-notice .call-to-action p {
                     font-size: 12px;
@@ -137,13 +143,24 @@ class Offers {
                     cursor: pointer;
                     cursor: pointer;
                 }
+                #pm-christmas-notice .call-to-action p {
+                    font-size: 15px;
+                }
 
+                #pm-christmas-notice .call-to-action p span {
+                    color: #FF85A3;
+                    font-size: 16px;
+                }
                 input#coupon-code {
                     background: none;
                     border: 2px dotted #f9f9f9;
                     text-align: center;
                     border-radius: 10px;
                     color: white;
+                }
+
+                .notice-dismiss:before {
+                    color: #000 !important;
                 }
             </style>
 
