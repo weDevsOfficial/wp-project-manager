@@ -210,6 +210,9 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 **** next****
    * **Fix** double label attach in task if select a label
+   * **Update** Task updates buttons are can not be selected for tooltip.
+   * **Update** Project assigned users are remove from user search results. 
+   * **Update** Add Text Limit on Task Title
    * **New** Add Shortcut for task create
 
 

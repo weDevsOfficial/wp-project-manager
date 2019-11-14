@@ -25,8 +25,12 @@ class Offers {
             return;
         }
 
-        if ( date( 'Y-m-d', current_time( 'timestamp') ) > '2019-12-04' || date( 'Y-m-d', current_time( 'timestamp') ) < '2019-11-20' ) {
-            return;
+        if ( 
+            date( 'Y-m-d', strtotime( current_time( 'mysql') ) ) < '2019-11-20' 
+                ||
+            date( 'Y-m-d', strtotime( current_time( 'mysql') ) ) > '2019-12-04' 
+        ) {
+            //return;
         }
 
         global $wedevs_pm_pro;
@@ -62,9 +66,6 @@ class Offers {
             </div>
 
             <style>
-                #pm-christmas-notice p {
-                    /*font-size: 15px;*/
-                }
                 #pm-christmas-notice {
                     font-size: 14px;
                     border-left: none;
@@ -87,18 +88,20 @@ class Offers {
                     color: #48ABFF;
                 }
                 #pm-christmas-notice .content {
-                    margin-top: 5px;
+                    display: flex;
+                    justify-content: center;
+                    flex-direction: column;
                 }
                 #pm-christmas-notice .content h3{
                     color: #FFF;
-                    margin: 12px 0px 5px;
+                    margin: 12px 0px;
+                    font-size: 30px;
                 }
                 #pm-christmas-notice .content p{
                     margin: 0px 0px;
                     padding: 0px;
                     letter-spacing: 0.14px;
                     font-size: 15px;
-                    margin-top: 5px;
                 }
                 #pm-christmas-notice .content p span.highlight-code{
                     margin: 0 0 0 10px;
