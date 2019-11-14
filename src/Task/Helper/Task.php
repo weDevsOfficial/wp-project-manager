@@ -163,11 +163,11 @@ class Task {
 		$items = [
 			'id'           => (int) $task->id,
 			'title'        => (string) $task->title,
-			'status'       => isset( $task->status ) ? $task->status : '',
+			'status'       => isset( $task->status ) ? $this->format_status( $task->status ) : '',
 			'created_at'   => empty( $task->created_at ) ? '' : $task->created_at,
-			'start_at'     => empty( $task->start_at ) ? '' : $task->start_at,
-			'due_date'     => empty( $task->due_date ) ? '' : $task->due_date,
-			'completed_at' => empty( $task->completed_at ) ? '' : $task->completed_at
+			'start_at'     => empty( $task->start_at ) ? '' : format_date( $task->start_at ),
+			'due_date'     => empty( $task->due_date ) ? '' : format_date( $task->due_date ),
+			'completed_at' => empty( $task->completed_at ) ? '' : format_date( $task->completed_at )
         ];
 
         $select_items = empty( $this->query_params['select'] ) ? false : $this->query_params['select'];
@@ -198,6 +198,10 @@ class Task {
 		
 		return $items;
 
+	}
+
+	private function format_status( $status ) {
+		return $status == 0 ? __( 'incomplete', 'wedevs-project-manger' ) : __( 'complete', 'wedevs-project-manger' );
 	}
 
 	private function set_item_meta( $item, $task ) {
