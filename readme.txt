@@ -208,6 +208,11 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 12. Project settings -> General Tab
 13. Project Settings -> Email Settings Tab
 
+**** next****
+   * **Fix** double label attach in task if select a label
+   * **New** Add Shortcut for task create
+
+
 == Changelog ==
 
 = v2.3.3 - Nov 10, 2019 =
