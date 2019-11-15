@@ -1,3 +1,6 @@
+**** new ***
+* **Fix** In Single Task coworker can show due date
+
 = v2.3.4 - Nov 15, 2019 =
 
 * **Fix** Task label are inserted two times while updating task.
