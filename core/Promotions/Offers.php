@@ -30,7 +30,7 @@ class Offers {
                 ||
             date( 'Y-m-d', strtotime( current_time( 'mysql') ) ) > '2019-12-04' 
         ) {
-            //return;
+            return;
         }
 
         global $wedevs_pm_pro;
