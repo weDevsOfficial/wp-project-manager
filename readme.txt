@@ -208,15 +208,15 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 12. Project settings -> General Tab
 13. Project Settings -> Email Settings Tab
 
-**** next****
-   * **Fix** double label attach in task if select a label
-   * **Update** Task updates buttons are can not be selected for tooltip.
-   * **Update** Project assigned users are remove from user search results. 
-   * **Update** Add Text Limit on Task Title
-   * **New** Add Shortcut for task create
-
 
 == Changelog ==
+
+= v2.3.4 - Nov 15, 2019 =
+
+* **Fix** Task label are inserted two times while updating task.
+* **Fix** Task update buttons can not be selected for tooltip.
+* **Update** Project assigned users has been removed from user search results. 
+* **Update** Add text limit on task title.
 
 = v2.3.3 - Nov 10, 2019 =
 
