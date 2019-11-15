@@ -66,8 +66,6 @@ class Pusher {
             wp_enqueue_style( 'pm-toastr-pusher', plugins_url( 'views/assets/css/toastr/toastr.min.css', __FILE__ ), false, 'v2.1.3', 'all' );
         }
 
-        
-
         $localize = [
             'base_url'       => home_url(),
             'pusher_app_key' => Auth::app_key(),

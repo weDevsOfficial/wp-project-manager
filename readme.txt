@@ -3,9 +3,9 @@ Contributors: tareq1988, nizamuddinbabu, wedevs, asaquzzaman
 Donate Link: https://tareq.co/donate/
 Tags: web task manager, online collaboration tool, task tracker, productivity tool, open source project management software
 Requires at least: 4.4
-Tested up to: 5.2.4
+Tested up to: 5.3
 Requires PHP: 5.6
-Stable tag: 2.3.3
+Stable tag: 2.3.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -208,7 +208,15 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 12. Project settings -> General Tab
 13. Project Settings -> Email Settings Tab
 
+
 == Changelog ==
+
+= v2.3.4 - Nov 15, 2019 =
+
+* **Fix** Task label are inserted two times while updating task.
+* **Fix** Task update buttons can not be selected for tooltip.
+* **Update** Project assigned users has been removed from user search results. 
+* **Update** Add text limit on task title.
 
 = v2.3.3 - Nov 10, 2019 =
 
