@@ -2,7 +2,7 @@
 
 namespace WeDevs\PM\Pusher;
 
-use WeDevs\PM\pusher\core\Auth\Auth;
+use WeDevs\PM\Pusher\core\Auth\Auth;
 
 class Pusher {
 
@@ -36,11 +36,9 @@ class Pusher {
     }
 
     public function actions() {
-
         add_action( 'admin_enqueue_scripts', [$this, 'scripts'] );
         add_action( 'wp_enqueue_scripts', [$this, 'scripts'] );
         add_action( 'PM_load_router_files', [$this, 'router'] );
-        //add_action( 'pm_create_task_aftre_transformer', 'PM_pusher_create_task_aftre_transformer', 10, 2 );
         add_action( 'pm_update_task_status', 'PM_pusher_update_task_status', 10, 3 );
         add_action( 'pm_updated', 'PM_pusher_update_task' );
         add_action( 'pm_before_assignees', 'PM_pusher_before_assignees', 10, 2 );
@@ -57,19 +55,16 @@ class Pusher {
     }
 
     public function scripts() {
-        $path = filemtime( pm_config('define.path') . '/src/pusher/views/assets/vendor/pusher-v5.0.2.min.js' );
-        wp_enqueue_script( 'pm-pusher-library', pm_config('define.url') . '/src/pusher/views/assets/vendor/pusher-v5.0.2.min.js', array('jquery'), $path, true );
-
-        //if ( !isset( $_GET['page'] ) || ( isset( $_GET['page'] ) && $_GET['page'] != 'pm_projects' ) ) {
+        $path = filemtime( pm_config('define.path') . '/src/Pusher/views/assets/vendor/pusher-v5.0.2.min.js' );
+        wp_enqueue_script( 'pm-pusher-library', pm_config('define.url') . 'src/Pusher/views/assets/vendor/pusher-v5.0.2.min.js', array('jquery'), $path, true );
+        
+        if ( isset( $_GET['page'] ) && $_GET['page'] == 'pm_projects' ) {
+            wp_enqueue_script( 'pm-pusher-jquery', pm_config('define.url') . 'src/Pusher/views/assets/vendor/pusher-jquery.js', array('jquery', 'pm-pusher-library', 'pm-toastr'), time(), true );
+        } else {
             wp_enqueue_script( 'pm-toastr-pusher', plugins_url( 'views/assets/vendor/toastr/toastr.min.js', __FILE__ ), array('jquery'), $path, true );
+            wp_enqueue_script( 'pm-pusher-jquery', pm_config('define.url') . 'src/Pusher/views/assets/vendor/pusher-jquery.js', array('jquery', 'pm-pusher-library', 'pm-toastr-pusher'), time(), true );
             wp_enqueue_style( 'pm-toastr-pusher', plugins_url( 'views/assets/css/toastr/toastr.min.css', __FILE__ ), false, 'v2.1.3', 'all' );
-        //}
-
-        wp_enqueue_script( 'pm-pusher-jquery', pm_config('define.url') . 'src/pusher/views/assets/vendor/pusher-jquery.js', array('jquery', 'pm-pusher-library', 'pm-toastr-pusher'), time(), true );
-
-        // if ( isset( $_GET['page'] ) && $_GET['page'] == 'pm_projects') {
-        //     wp_enqueue_script( 'pm-pro-pusher-vue', plugins_url( 'views/assets/js/pusher-vue.js', __FILE__ ), array('pm-const'), $path, true );
-        // }
+        }
 
         $localize = [
             'base_url'       => home_url(),
@@ -87,7 +82,6 @@ class Pusher {
         wp_enqueue_style( 'pm-pro-pusher-notification', plugins_url( 'views/assets/css/pusher.css', __FILE__ ), false, time(), 'all' );
     }
 }
-
 
 
 

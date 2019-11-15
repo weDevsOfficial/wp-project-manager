@@ -1,7 +1,7 @@
 <?php
 namespace WeDevs\PM\Pusher\core\Pusher;
 
-use WeDevs\PM\pusher\core\Auth\Auth;
+use WeDevs\PM\Pusher\core\Auth\Auth;
 
 class Pusher {
 
