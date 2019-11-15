@@ -3,9 +3,9 @@ Contributors: tareq1988, nizamuddinbabu, wedevs, asaquzzaman
 Donate Link: https://tareq.co/donate/
 Tags: web task manager, online collaboration tool, task tracker, productivity tool, open source project management software
 Requires at least: 4.4
-Tested up to: 5.2.4
+Tested up to: 5.3
 Requires PHP: 5.6
-Stable tag: 2.3.3
+Stable tag: 2.3.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
