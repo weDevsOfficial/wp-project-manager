@@ -136,7 +136,6 @@
 		},
 
 		created() {
-            console.log(this.options.placeholder);
 			this.setLists();
 		},
 		methods: {
@@ -153,6 +152,8 @@
                         });
                     }
                 });
+
+                self.$emit('afterGetLists', lists);
             },
 			onChange (val, el) {
 				this.$emit('onChange', val);
@@ -186,8 +187,6 @@
 	                    if ( typeof args.callback != 'undefined' ) {
 	                        args.callback (res);
 	                    }
-
-                        self.$emit('afterGetLists', res);
 	                },
 	                error (res) {
 
