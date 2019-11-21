@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="pm-overview-wrap">
         <div v-if="!isloaded" class="pm-data-load-before" >
             <div class="loadmoreanimation">
                 <div class="load-spinner">
@@ -13,64 +13,79 @@
         </div>
 
         <div v-if="isloaded" id="pm-mytask-page-content">
-
-            <div class="field" v-if="parseInt(PM_Vars.is_pro)==1">
-                <pm-date-range-picker 
-                    :startDate="search.start_at"
-                    :endDate="search.due_date"
-                    :options="calendarOptions"
-                    @apply="calendarOnChange"
-                    @cancel="calendarCancel">
-                    
-                </pm-date-range-picker>
-            </div>
-
             <div class="pm-mytask-overview-page">
-                <div class="pm-col-3 pm-sm-col-12 pm-mytask-chart-overview">
-                    <h3 class="pm-box-title">{{ __('At a glance', 'wedevs-project-manager' ) }}</h3>
-                    <canvas v-pm-mytask-pichart id="cart-at-glance" width="404" height="202" style="width: 404px; height: 202px;"></canvas>
-                    <ul>
-                        <li>
-                            <span class="color-plate" style="background-color: #61BD4F"></span>
-                            {{ __('Current', 'wedevs-project-manager' ) }}
-                            <span class="pm-right task-count">
-                                {{total_current_tasks}} {{ __('Tasks', 'wedevs-project-manager' ) }}
-                            </span>
-                            <span class="clearfix"></span>
-                        </li>
-                        <li>
-                            <span class="color-plate" style="background-color: #EB5A46"></span>
-                                {{ __('Outstanding', 'wedevs-project-manager' ) }}
-                                <span class="pm-right task-count">
-                                    {{total_outstanding_tasks}} {{ __('Tasks', 'wedevs-project-manager' ) }}
-                                </span>
-                        <span class="clearfix"></span>
-                        </li>
-                        <li>
-                            <span class="color-plate" style="background-color: #0090D9"></span>
-                                {{__('Completed', 'wedevs-project-manager' )}}
-                                <span class="pm-right task-count">
-                                    {{total_completed_tasks}} {{ __('Tasks', 'wedevs-project-manager' ) }}
-                                </span>
-                            <span class="clearfix"></span>
-                        </li>
-                    </ul>
+                <div class="field date-range-picker" v-if="parseInt(PM_Vars.is_pro)==1">
+                    <pm-date-range-picker 
+                        :startDate="search.start_at"
+                        :endDate="search.due_date"
+                        :options="calendarOptions"
+                        @apply="calendarOnChange"
+                        @cancel="calendarCancel">
+                        
+                    </pm-date-range-picker>
                 </div>
-                <div class="pm-mytask-chart-statistics pm-col-9 pm-sm-col-12 ">
-                    <h3 class="pm-box-title">{{ __('Activities', 'wedevs-project-manager' ) }}</h3>
 
-                    <div class="">
-                        <div class="pm-right">
+                <div :style="loadingProUser ? 'position: relative; background: #fff' : ''">
+                    <div 
+                        v-if="loadingProUser"
+                        style="display: block; left: 42%; position: absolute;"
+                        class="loadmoreanimation">
+                        <div class="load-spinner">
+                            <div class="rect1"></div>
+                            <div class="rect2"></div>
+                            <div class="rect3"></div>
+                            <div class="rect4"></div>
+                            <div class="rect5"></div>
+                        </div>
+                    </div>
+                    <div :class="loadingProUser ? 'graph-meta-wrap loading-pro-user' : 'graph-meta-wrap'">
+                        <div class="pm-mytask-chart-overview">
+                            <h3 class="pm-box-title">{{ __('At a glance', 'wedevs-project-manager' ) }}</h3>
+                            <canvas v-pm-mytask-pichart id="cart-at-glance" width="404" height="202" style="width: 404px; height: 202px;"></canvas>
+                            <ul>
+                                <li>
+                                    <span class="color-plate" style="background-color: #61BD4F"></span>
+                                    {{ __('Current', 'wedevs-project-manager' ) }}
+                                    <span class="pm-right task-count">
+                                        {{total_current_tasks}} {{ __('Tasks', 'wedevs-project-manager' ) }}
+                                    </span>
+                                    <span class="clearfix"></span>
+                                </li>
+                                <li>
+                                    <span class="color-plate" style="background-color: #EB5A46"></span>
+                                        {{ __('Outstanding', 'wedevs-project-manager' ) }}
+                                        <span class="pm-right task-count">
+                                            {{total_outstanding_tasks}} {{ __('Tasks', 'wedevs-project-manager' ) }}
+                                        </span>
+                                <span class="clearfix"></span>
+                                </li>
+                                <li>
+                                    <span class="color-plate" style="background-color: #0090D9"></span>
+                                        {{__('Completed', 'wedevs-project-manager' )}}
+                                        <span class="pm-right task-count">
+                                            {{total_completed_tasks}} {{ __('Tasks', 'wedevs-project-manager' ) }}
+                                        </span>
+                                    <span class="clearfix"></span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="pm-mytask-chart-statistics">
+                            <h3 class="pm-box-title">{{ __('Activities', 'wedevs-project-manager' ) }}</h3>
+
+                            <div class="">
+                                <div class="pm-right">
+
+                                </div>
+                            <div class="clearfix"></div>
+                            </div>
+                            <div id="mytask-line-graph">
+                                <canvas v-pm-mytask-chart id="chart-details" height="430" width="1225"></canvas>
+                            </div>
 
                         </div>
-                    <div class="clearfix"></div>
                     </div>
-                    <div id="mytask-line-graph">
-                        <canvas v-pm-mytask-chart id="chart-details" height="430" width="1225"></canvas>
-                    </div>
-
+                    
                 </div>
-                <div class="clearfix"></div>
             </div>
             <my-task-calender></my-task-calender>
         </div>
@@ -78,6 +93,62 @@
     </div>
 
 </template>
+
+<style lang="less">
+    .pm-overview-wrap {
+        .loading-pro-user {
+            background-color: #fff;
+            opacity: 0.1;
+        }
+        .pm-mytask-overview-page {
+            margin-bottom: 20px;
+            .graph-meta-wrap {
+                display: flex;
+                .pm-mytask-chart-overview {
+                    width: 30%;
+                    margin-right: 21px;
+                }
+                .pm-mytask-chart-statistics {
+                    width: 68%;
+                }
+            }
+            .date-range-picker {
+                width: 230px;
+                margin-bottom: 20px;
+                input {
+                    width: 100%;
+                }
+            }
+        }
+    }
+
+    @media screen and (max-width: 768px) {
+        .pm-overview-wrap {
+            .pm-mytask-overview-page {
+                margin-bottom: 20px;
+                .graph-meta-wrap {
+                    display: block;
+                    .pm-mytask-chart-overview {
+                        width: 100%;
+                        margin-right: 0;
+                        margin-bottom: 20px;
+                    }
+                    .pm-mytask-chart-statistics {
+                        width: 100%;
+                    }
+                }
+                .date-range-picker {
+                    width: 230px;
+                    margin-bottom: 20px;
+                    input {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+
+</style>
 
 <script>
     import directives from './directives';
@@ -87,6 +158,7 @@
     export default{
         data () {
             return {
+                loadingProUser: false,
                 search: {
                     start_at: '',
                     due_date: ''
@@ -135,6 +207,8 @@
             if(!this.isloaded) {
                 this.getSelfUser();
             }
+
+            this.setOverviewDate();
         },
         mixins: [Mixins],
         components: {
@@ -162,6 +236,13 @@
             }
         },
         methods: {
+            setOverviewDate () {
+                var start = this.$route.query.start_at ? this.$route.query.start_at : pm.Moment(new Date()).format('YYYY-MM-01');
+                var end = this.$route.query.due_date ? this.$route.query.due_date : pm.Moment(new Date()).format('YYYY-MM-DD');
+
+                this.search.start_at = start;
+                this.search.due_date = end;
+            },
             calendarOnChange (start, end, className) {
                 
                 this.search.due_date = end.format('YYYY-MM-DD');
@@ -194,27 +275,31 @@
 
                 return this.$route.params.user_id;
             },
-            calendarCancel () {
+            calendarCancel (className) {
                 this.search.start_at = '';
                 this.search.due_date = '';
 
                 jQuery('.'+className).val('');
             },
             getSelfUser () {
+                var self = this;
                 var user_id = typeof this.$route.params.user_id !== 'undefined' ? this.$route.params.user_id : this.current_user.ID;
                 var args = {
                     user_id: user_id,
                     conditions: {
                         with: 'graph',
-                        start_at: this.$route.query.start_at,
-                        due_date: this.$route.query.due_date
+                        start_at: this.$route.query.start_at ? this.$route.query.start_at : pm.Moment(new Date()).format('YYYY-MM-01'),
+                        due_date: this.$route.query.due_date ? this.$route.query.due_date : pm.Moment(new Date()).format('YYYY-MM-DD')
                     },
                     callback (res){
                         this.$store.commit('myTask/setGraph', res.data.graph.data);
                         this.$store.state.myTask.isFetchMyTaskOverview = true;
+                        self.loadingProUser = false;
+                        console.log(self.loadingProUser);
                         pm.NProgress.inc();
                     }
                 }
+                this.loadingProUser = true;
                 this.getProUser(args);
             }
         }
