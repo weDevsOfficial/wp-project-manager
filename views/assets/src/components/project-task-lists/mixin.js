@@ -793,6 +793,8 @@ var PM_TaskList_Mixin = {
                 }
             });
 
+            data.append('is_admin', PM_Vars.is_admin);
+
 
             var request_data = {
                 url: self.base_url + '/pm/v2/projects/'+project_id+'/comments/'+args.data.id,

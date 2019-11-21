@@ -3,9 +3,9 @@ Contributors: tareq1988, nizamuddinbabu, wedevs, asaquzzaman
 Donate Link: https://tareq.co/donate/
 Tags: web task manager, online collaboration tool, task tracker, productivity tool, open source project management software
 Requires at least: 4.4
-Tested up to: 5.2.3
+Tested up to: 5.3
 Requires PHP: 5.6
-Stable tag: 2.3.2
+Stable tag: 2.3.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -208,7 +208,23 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 12. Project settings -> General Tab
 13. Project Settings -> Email Settings Tab
 
+
 == Changelog ==
+
+= v2.3.4 - Nov 15, 2019 =
+
+* **Fix** Task label are inserted two times while updating task.
+* **Fix** Task update buttons can not be selected for tooltip.
+* **Update** Project assigned users has been removed from user search results. 
+* **Update** Add text limit on task title.
+
+= v2.3.3 - Nov 10, 2019 =
+
+* **New** Integrate with Pusher for real time notification.
+* **New** Include seeder for project, task-list and task.
+* **New** Set filter in project fetch 'join' and 'where' query.
+* **Fix** Task update popover menu used to break when task title was long.
+* **Update** Reset button on task-list search.
 
 = v2.3.2 - Oct 10, 2019 =
 
@@ -220,7 +236,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 * **New** User can create new task from my-task section.
 * **New** Sorting my-task table column.
 * **Update** My-tasks menu is not appear in front-end.
-* **Update** Reduce loading executing time for project home page. 
+* **Update** Reduce loading executing time for project home page.
 * **Update** Refactoring code for getting projects data.
 
 = v2.3.0 - Sep 09, 2019 =
@@ -234,13 +250,13 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 = v2.2.4 - Jul 22, 2019 =
 
 * **New** Task title field in task list search form.
-* **Fix** Task sorting is not working. 
+* **Fix** Task sorting is not working.
 * **Fix** Prevent sorting for default task list (Inbox).
 * **Update** Showing 'more task' button even there is not task.
 
 = v2.2.3 - Jul 15, 2019 =
 
-* **Update** Task list search query. 
+* **Update** Task list search query.
 * **Fix** After drag and drop task is not updating from my-task calendar.
 * **Fix** Milestone disapear after reloding the page.
 
@@ -300,7 +316,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 * **New** Set loading effect for 'Load more' task.
 * **New** Set loading effect at task list page and list archive page nevigation.
-* **New** Set loading effect at task list pagination. 
+* **New** Set loading effect at task list pagination.
 * **New** New library v-tooltip
 * **Fix** Any kinds of url added extra &nbsp from tinymce text filed.
 * **Fix** After project edit, the description is not updated real time.
@@ -313,7 +329,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 * **Fix** Task pagination did not work.
 * **Fix** Close button did not work in new project form.
 * **Fix** Milestone due date did not update.
-* **Update** Set permission at user create time from project overview page. 
+* **Update** Set permission at user create time from project overview page.
 
 = v2.0.11 - Feb 08, 2019 =
 

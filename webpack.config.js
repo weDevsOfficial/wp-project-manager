@@ -28,6 +28,7 @@ const extractCss = new ExtractTextPlugin({
 
 plugins.push( extractCss );
 
+//const pusher = require('./src/pusher/webpack.config.js');
 
 module.exports =[ 
     {
@@ -118,8 +119,8 @@ module.exports =[
             ]
         },
         plugins: plugins
-    }
+    },
+    //pusher
 ]
-
 
 

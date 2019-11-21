@@ -1,3 +1,23 @@
+**** new ***
+* **Fix** In Single Task coworker can show due date
+* **Fix** In MyTask New Task from show complete Project
+* **Fix** In single task if task completed remove timelog & calendar
+
+= v2.3.4 - Nov 15, 2019 =
+
+* **Fix** Task label are inserted two times while updating task.
+* **Fix** Task update buttons can not be selected for tooltip.
+* **Update** Project assigned users has been removed from user search results. 
+* **Update** Add text limit on task title.
+
+= v2.3.3 - Nov 10, 2019 =
+
+* **New** Integrate with Pusher for real time notification.
+* **New** Include seeder for project, task-list and task.
+* **New** Set filter in project fetch 'join' and 'where' query.
+* **Fix** Task update popover menu used to break when task title was long.
+* **Update** Reset button on task-list search.
+
 = v2.3.2 - Oct 10, 2019 =
 
 * **Fix** Conflict with elementor.
