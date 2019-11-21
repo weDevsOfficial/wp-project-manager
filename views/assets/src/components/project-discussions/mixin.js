@@ -346,6 +346,8 @@ export default {
                     data.append( 'files[]', decode );
                 }
             });
+
+            data.append('is_admin', PM_Vars.is_admin);
                         
             // Showing loading option 
             this.show_spinner = true;
@@ -437,6 +439,8 @@ export default {
                     data.append( 'files[]', decode );
                 }
             });
+
+            data.append('is_admin', PM_Vars.is_admin);
                         
             // Showing loading option 
             this.show_spinner = true;

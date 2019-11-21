@@ -20,6 +20,8 @@ import settingsGeneral from './general.vue'
 
 import settingsEmail from './email.vue'
 
+import Pusher from './pusher.vue'
+
 
 weDevsPMRegisterChildrenRoute('settings_root',
     [
@@ -37,6 +39,16 @@ weDevsPMRegisterChildrenRoute('settings_root',
             path: 'email', 
             component: settingsEmail, 
             name: 'email',
+            meta: {
+                permission: function(project) {
+                    return pmHasManageCapability()
+                }
+            }
+        },
+        { 
+            path: 'pusher', 
+            component: Pusher, 
+            name: 'pusher_settings_tab',
             meta: {
                 permission: function(project) {
                     return pmHasManageCapability()

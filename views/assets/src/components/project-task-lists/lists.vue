@@ -278,7 +278,7 @@
                             </div>
                             <div class="action">
                                 <span v-if="taskFilterSpinner" class="pm-spinner"></span>
-                                <a @click.prevent="showFilter()" class="pm-button pm-secondary" href="#">{{__('Cancel', 'wedevs-project-manager')  }}</a>
+                                <a @click.prevent="clearFilter()" class="pm-button pm-secondary" href="#">{{__('Clear', 'wedevs-project-manager')  }}</a>
                                 <input  type="submit" class="pm-button pm-primary filter-submit-btn" name="submit_todo" :value="__('Done', 'wedevs-project-manager')">
                             </div>
                             <div class="pm-clearfix"></div>
@@ -780,6 +780,12 @@
                 this.isActiveFilter = this.isActiveFilter ? false : true;
 
                 this.$store.commit( 'projectTaskLists/balankTemplateStatus', false);
+            },
+
+            clearFilter() {
+                this.isActiveFilter = this.isActiveFilter ? false : true;
+
+                this.$store.commit( 'projectTaskLists/balankTemplateStatus', false);
 
                 if(this.isActiveFilter == false && this.$route.query.hasOwnProperty('filterTask')) {
                     
@@ -788,8 +794,9 @@
                     });
 
                     this.getLists();
-                }
+                } 
             },
+
             generateTaskUrl (task) {
                 var url = this.$router.resolve({
                     name: 'lists_single_task',
