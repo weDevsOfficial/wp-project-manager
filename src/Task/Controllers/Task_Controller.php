@@ -91,12 +91,17 @@ class Task_Controller {
         return $this->get_task( $task_id, $project_id, $request->get_params() );
     }
 
-    public static function get_task( $task_id, $project_id, $request=[] ) {
+    public static function get_task( $task_id, $project_id = false, $request=[] ) {
 
-        $task = Task::with('task_lists')->where( 'id', $task_id )
-            ->parent()
-            ->where( 'project_id', $project_id );
+        $task = Task::with( 'task_lists' )
+            ->where( 'id', $task_id )
+            ->parent();
 
+        if ( $project_id ) {
+            $task = $task->where( 'project_id', $project_id );
+            
+        }
+        
         $task = apply_filters( 'pm_task_show_query', $task, $project_id, $request );
         $task = $task->first();
 
@@ -1109,6 +1114,88 @@ class Task_Controller {
         $tasks    = apply_filters( 'pm_after_transformer_list_tasks', $tasks, $task_ids );
 
         return $tasks;
+    }
+
+    public function duplicate( WP_REST_Request $request ) {
+        $task_id    = $request->get_param( 'task_id' );
+        
+        $task       = $this->get_task( $task_id );
+        $list_id    = $task['data']['task_list_id'];
+        $task       = Task::find( $task_id );
+        $task->title       = __( 'Copy ', 'wedevs-project-manager' ) . $task->title;
+        $project_id = $task->project_id;
+        $task       = $this->task_duplicate( $task, $list_id, $project_id );
+        $new_task   = $this->get_task( $task->id );
+
+        wp_send_json_success( 
+            [
+                'task'       => $new_task['data'],
+                'list_id'    => $list_id,
+                'project_id' => $project_id,
+
+            ] 
+        );
+    }
+
+    public function task_duplicate ( Task $task, $list_id = false, $project_id = false  ) {
+        $task_data      = [];
+        $boardable_data = [];
+        $assignee_data  = [];
+        $meta_data      = [];
+
+        if ( $project_id ) {
+            $task_data    ['project_id'] = $project_id;
+            $assignee_data['project_id'] = $project_id;
+            $meta_data    ['project_id'] = $project_id;
+        }
+
+        $newTask = $this->replicate( $task, $task_data );
+
+        // Include task and task list
+        $boardable_data['boardable_id'] = $newTask->id;
+        $assignee_data ['task_id']      = $newTask->id;
+        $meta_data     ['entity_id']    = $newTask->id;
+
+        if ( $list_id ) {
+            $boardable_data['board_id'] = $list_id;
+        }
+
+        foreach ( $task->boardables as $boardable ) {
+            $newBoardables = $this->replicate( $boardable, $boardable_data );
+        }
+
+        // Duplicate Assignee in this task
+
+        foreach ( $task->assignees as $assignee ) {
+            $newAssignee = $this->replicate( $assignee, $assignee_data );
+        }
+
+        foreach ( $task->metas as $meta ) {
+            $newMeta = $this->replicate( $meta, $meta_data );
+        }
+
+        do_action( 'cpm_task_duplicate_after', $newTask->id, $list_id, $project_id );
+        do_action( 'pm_task_duplicate_after', $newTask->id, $list_id, $project_id, $task );
+
+        return $newTask;
+    }
+
+    private function replicate( $model, $newValues=null, $fireEvents=false) {
+        $newModel = $model->replicate()->setRelations([]);
+
+        if ( $newValues !== null && is_array( $newValues ) ) {
+            foreach ($newValues as $key => $value) {
+                $newModel->{$key} = $value;
+            }
+        }
+
+        if ( !$fireEvents ) {
+            $newModel->unsetEventDispatcher();
+        }
+
+        if ( $newModel->save() ) {
+            return $newModel;
+        }
     }
 }
 
