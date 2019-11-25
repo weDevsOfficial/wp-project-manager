@@ -15,14 +15,18 @@
         <div v-if="isloaded" id="pm-mytask-page-content">
             <div class="pm-mytask-overview-page">
                 <div class="field date-range-picker" v-if="parseInt(PM_Vars.is_pro)==1">
-                    <pm-date-range-picker 
-                        :startDate="search.start_at"
-                        :endDate="search.due_date"
-                        :options="calendarOptions"
-                        @apply="calendarOnChange"
-                        @cancel="calendarCancel">
-                        
-                    </pm-date-range-picker>
+                    <div class="my-task-overview">{{ __( 'My Task Overview', 'wedevs-project-manager' ) }}</div>
+                    <div class="filter-form-wrap">
+                        <div class="title">{{ __( 'Activity Filter', 'wedevs-project-manager' ) }}</div>
+                        <pm-date-range-picker 
+                            :startDate="search.start_at"
+                            :endDate="search.due_date"
+                            :options="calendarOptions"
+                            @apply="calendarOnChange"
+                            @cancel="calendarCancel">
+                            
+                        </pm-date-range-picker>
+                    </div>
                 </div>
 
                 <div :style="loadingProUser ? 'position: relative; background: #fff' : ''">
@@ -87,7 +91,9 @@
                     
                 </div>
             </div>
-            <my-task-calender></my-task-calender>
+            <div class="calendar-wrap">
+                <my-task-calender></my-task-calender>
+            </div>
         </div>
 
     </div>
@@ -95,13 +101,19 @@
 </template>
 
 <style lang="less">
+    .content-margin-button () {
+        margin-bottom: 12px;
+    }
     .pm-overview-wrap {
         .loading-pro-user {
             background-color: #fff;
             opacity: 0.1;
         }
+        .calendar-wrap {
+            margin-top: 0 !important;
+        }
         .pm-mytask-overview-page {
-            margin-bottom: 20px;
+            margin-bottom: 12px;
             .graph-meta-wrap {
                 display: flex;
                 .pm-mytask-chart-overview {
@@ -112,12 +124,42 @@
                     width: 68%;
                 }
             }
+
             .date-range-picker {
-                width: 230px;
-                margin-bottom: 20px;
-                input {
-                    width: 100%;
+                width: 100%;
+                .content-margin-button();
+                display: flex;
+                align-items: center;
+
+                .my-task-overview {
+                    color: #23282d;
+                    font-weight: 600;
                 }
+                
+                .filter-form-wrap {
+                    display: flex;
+                    margin-left: auto;
+                    .title {
+                        padding: 4px 6px;
+                        background: #f9f9f9;
+                        border-style: solid;
+                        border-color: #DDDDDD;
+                        border-width: 1px 0 1px 1px;
+                        color: #555;
+                        font-size: 14px;
+                    }
+
+                    input {
+                        width: 260px;
+                        border-radius: 0;
+                        height: 31px;
+                    }
+                    .flaticon-pm-cross {
+                        right: 6%;
+                    }
+                }
+
+                
             }
         }
     }
@@ -177,6 +219,7 @@
                       format: 'YYYY-MM-DD',
                       cancelLabel: __( 'Clear', 'wedevs-project-manager' ),
                     },
+                    "opens": 'left',
                     "showCustomRangeLabel": false,
                     "alwaysShowCalendars": true,
                     "showDropdowns": true,
@@ -280,6 +323,15 @@
                 this.search.due_date = '';
 
                 jQuery('.'+className).val('');
+                this.$router.push({
+                    'query': {
+                        start_at: '',
+                        due_date: ''
+                    }
+                })
+
+                this.getUserMeta();
+                this.getSelfUser();
             },
             getSelfUser () {
                 var self = this;
@@ -295,7 +347,6 @@
                         this.$store.commit('myTask/setGraph', res.data.graph.data);
                         this.$store.state.myTask.isFetchMyTaskOverview = true;
                         self.loadingProUser = false;
-                        console.log(self.loadingProUser);
                         pm.NProgress.inc();
                     }
                 }
