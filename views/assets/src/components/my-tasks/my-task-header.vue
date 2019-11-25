@@ -67,6 +67,13 @@
     </div>
 </template>
 
+<style lang="less">
+    .pm-project-head {
+        margin-bottom: 12px !important;
+        margin-top: 6px !important;
+    }
+</style>
+
 <script>
 
     export default {
