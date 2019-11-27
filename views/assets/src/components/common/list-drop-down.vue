@@ -138,7 +138,7 @@
 		},
 
 		created() {
-            this.projectId = this.project_id && typeof this.project_id != 'undefined' ? perseInt(this.project_id) : parseInt(this.options.projectId);
+            this.projectId = this.project_id && typeof this.project_id != 'undefined' ? parseInt(this.project_id) : parseInt(this.options.projectId);
 			this.setLists();
 		},
 		methods: {
