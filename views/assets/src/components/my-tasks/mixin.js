@@ -152,6 +152,19 @@ export default {
                 }
             };
             self.httpRequest(request);
+        },
+
+        mytaskdownloadCSV ( args ) {
+            var self = this,
+            pre_define = {
+                data :  {
+                    page: -1,
+                },
+                callbakc: false
+            }
+            var args = jQuery.extend(true, pre_define, args );
+            var conditions = this.generatequeryString(args.data);
+            window.location.href = args.url + conditions;
         }
 	}
 };
