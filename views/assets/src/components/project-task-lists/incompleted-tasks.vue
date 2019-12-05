@@ -28,26 +28,24 @@
                     </div> 
 
                     <div v-if="taskTimeWrap(task)" :title="getTaskFullDate(task)" :class="'task-activity task-time '+taskDateWrap(task.due_date.date)">
-                        <span class="icon-pm-calendar"></span>
-                        <span v-if="task_start_field">{{ taskDateFormat( task.start_at.date ) }}</span>
+                        <span v-if="task.due_date.date" class="icon-pm-calendar"></span>
+                        <span v-if="task_start_field && task.due_date.date">{{ taskDateFormat( task.start_at.date ) }}</span>
                         <span v-if="isBetweenDate( task_start_field, task.start_at.date, task.due_date.date )">&ndash;</span>
                         <span>{{ taskDateFormat(task.due_date.date) }}</span>
                     </div>
 
-                    <div class="task-activity" v-if="isPrivateTask(task.meta.privacy)">
+                   <!--  <div class="task-activity" v-if="isPrivateTask(task.meta.privacy)">
                         <span  class="icon-pm-private"></span>
                     </div>
 
-                    <!-- v-if="parseInt(task.meta.total_comment) > 0" -->
+                    
                     <a href="#" @click.prevent="getSingleTask(task)" v-if="parseInt(task.meta.total_comment) > 0" class="task-activity comment">
                         <span class="icon-pm-comment"></span>
                         <span>{{ task.meta.total_comment }}</span>
                     </a> 
                     <div class="task-activity">
                         <do-action :hook="'task_inline'" :actionData="doActionData"></do-action>
-
-                    </div>
-                     
+                    </div> -->
                 </div>  
 
                 <div v-if="can_edit_task(task) && !isArchivedTaskList(task)" class="nonSortableTag more-menu task-more-menu">
