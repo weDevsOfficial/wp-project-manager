@@ -20,6 +20,7 @@ import ListDropDown from '@components/common/list-drop-down.vue';
 import Modal from '@components/common/modal.vue';
 import ListSearch from '@components/common/list-filter.vue';
 import DateRangePicker from '@components/common/date-range-picker.vue';
+import ClickWrap from '@components/common/click-wrap.vue';
 
 pm.Vue.component('pm-pagination', pagination);
 pm.Vue.component('pm-date-picker', datePicker);
@@ -43,6 +44,7 @@ pm.Vue.component('pm-list-drop-down', ListDropDown);
 pm.Vue.component('pm-modal', Modal);
 pm.Vue.component('pm-list-search', ListSearch);
 pm.Vue.component('pm-date-range-picker', DateRangePicker);
+pm.Vue.component('pm-click-wrap', ClickWrap);
 
 
 
