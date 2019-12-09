@@ -2,16 +2,6 @@
     <div :class="'pm-task-form pm-slide-'+task.id">
        
         <div class="input-area">
-            <!-- <pm-click-warp
-                @afterClick="afterClick"
-            >
-                <div>
-                <h2>Hello World!</h2>
-                <article>nested Hello World!</article>
-            </div>
-                
-            </pm-click-warp> -->
-
             <div class="input-action-wrap">
                 <pm-click-wrap
                     @afterClick="afterClick"
@@ -23,12 +13,12 @@
                             </div>
         
                             <input 
-                                tabindex="1"
                                 v-model="task.title"  
                                 :maxlength="lengthtitle" 
-                                :placeholder="__('Add New Task', 'wedevs-project-manager')" 
+                                :placeholder="__('Add New Task (Character limit 200)', 'wedevs-project-manager')" 
                                 type="text" 
                                 ref="taskForm"
+                                @keyup="warningTitleCharacterLimit()"
                                 :class="focusField ? 'input-field active' : 'input-field'" 
                             >
 
@@ -72,7 +62,6 @@
                                     
                                     <!-- popper trigger element -->
                                     <span 
-                                        tabindex="1"
                                         slot="reference" 
                                         v-if="!task.assignees.data.length" 
                                         v-pm-tooltip 
@@ -80,7 +69,7 @@
                                         class="pm-popper-ref popper-ref task-user-multiselect icon-pm-single-user pm-dark-hover">
                                             
                                     </span>
-                                    <span tabindex="1" slot="reference" class="pm-popper-ref popper-ref">
+                                    <span  slot="reference" class="pm-popper-ref popper-ref">
                                         <img 
                                             :title="user.display_name"
                                             slot="reference" 
@@ -94,11 +83,10 @@
                                 </pm-popper>
 
                                 <span 
-                                    tabindex="1"
                                     v-pm-tooltip 
                                     @focus="enableDisable('datePicker')"
                                     :title="__('Date', 'wedevs-project-manager')" 
-                                    @click.self.prevent="enableDisable('datePicker')" 
+                                    @click.prevent="enableDisable('datePicker')" 
                                     :class="isActiveDate()"
                                 ></span>
 
@@ -298,14 +286,11 @@ export default {
         
     },
     mounted () {
-        // if (this.focusField) {
-        //     this.$nextTick(() => {
-        //         if (typeof this.$refs.taskForm !== 'undefined'){
-        //             this.$refs.taskForm.focus();
-        //         }
-        //     })
-            
-        // }
+        if (this.focusField) {
+            if (typeof this.$refs.taskForm !== 'undefined'){
+                this.$refs.taskForm.focus();
+            }
+        }
     },
 
     // Initial action for this component
@@ -403,6 +388,11 @@ export default {
     },
 
     methods: {
+        warningTitleCharacterLimit () {
+            if(this.task.title.length >= 200) {
+                pm.Toastr.warning(__('Maxmim character limit 200', 'wedevs-project-manager'));
+            }
+        },
         afterClick (clickInside) {
             this.focusField = clickInside;
         },
@@ -636,6 +626,9 @@ export default {
 
 
 <style lang="less">
+    .daterangepicker {
+        z-index: 99999;
+    }
     span.pm-estimate-icon {
         cursor: pointer;
         &::before {
@@ -778,6 +771,7 @@ export default {
             }
             .icon-pm-single-user {
                 position: relative;
+                vertical-align: middle;
                 .pm-multiselect-top {
                     top: 23px !important;
                     border-top: none !important;
@@ -790,10 +784,13 @@ export default {
             .action-icons {
                 position: absolute;
                 right: 0;
-                top: 5px;
+                top: 50%;
                 margin-right: 11px;
                 display: flex;
                 align-items: center;
+                line-height: 0;
+                transform: translate(0, -50%);
+                z-index: 9;
                 .active-date {
                     &:before {
                         color: #444;

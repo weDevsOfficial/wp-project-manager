@@ -9,11 +9,20 @@
 	export default {
 		
 		mounted () {
-			var self = this,
-				clickInside = false;
+			var self = this;
+				
 
-			document.body.addEventListener('click', function(ele) {
-		        var hasEl = jQuery(ele.target).closest(self.$el);
+			jQuery('body').on('click', function(ele) {
+		        self.eventTrigger(ele);
+		    });
+
+			
+		},
+
+		methods: {
+			eventTrigger(ele) {
+				var clickInside = false;
+				var hasEl = jQuery(ele.target).closest(this.$el);
 		        
 		        if(hasEl.length) {
 		            clickInside = true;
@@ -21,8 +30,8 @@
 		        	clickInside = false;
 		        }
 
-		        self.$emit('afterClick', clickInside)
-		    });
+		        this.$emit('afterClick', clickInside)
+			}
 		}
 	}
 </script>
