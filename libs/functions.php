@@ -836,3 +836,106 @@ function pm_clean( $var ) {
         return is_scalar( $var ) ? sanitize_text_field( wp_unslash( $var ) ) : $var;
     }
 }
+
+/**
+ * Get Dashboard slug
+ *
+ * @since 1.0.0
+ * @return string
+ */
+function pm_frontend_slug() {
+    $slug = get_option( 'pm_frontend_slug' );
+    if ( ! $slug ) {
+        $slug = 'pm';
+    }
+
+    return apply_filters( 'pm_frontend_slug', sanitize_title( $slug ) );
+}
+
+/**
+ * Get dashboard url
+ *
+ * @return string
+ */
+function pm_frontend_url() {
+    $site_url       = get_site_url();
+    $dashboard_slug = ltrim( get_pm_frontend_slug(), '/' );
+
+    return trailingslashit( $site_url ) . $dashboard_slug;
+}
+
+/**
+ * Get dashboard title
+ *
+ * @return string
+ */
+function pm_dashboard_title() {
+    $dashboard_title = get_option( 'pm_frontend_dashboard_title' );
+
+    if ( ! $dashboard_title ) {
+        $dashboard_title = __( 'Project Manager', 'wedevs-project-manager' );
+    }
+
+    return apply_filters( 'pm_dashboard_title', $dashboard_title );
+}
+
+/**
+ * Get frontend query var
+ *
+ * @return string
+ */
+function pm_register_query_var() {
+    return apply_filters( 'pm_frontend_query_var', 'pm_dashboard' );
+}
+
+/**
+ * Get HTML wrap
+ *
+ * @return string
+ */
+function pm_root_element() {
+    $id = pm_root_element_id();
+    return apply_filters( 'pm_root_element', '<div id="'. $id .'"></div>' );
+}
+
+/**
+ * Get HTML wrap id
+ *
+ * @return string
+ */
+function pm_root_element_id() {
+    return apply_filters( 'pm_root_element_id', 'wedevs-pm' );
+}
+
+/**
+ * Get admin slug
+ *
+ * @return string
+ */
+function pm_admin_slug() {
+    return apply_filters( 'pm_admin_slug', 'pm_projects' );
+}
+
+/**
+ * Get admin url
+ *
+ * @return string
+ */
+function pm_admin_url() {
+    $slug = pm_admin_slug();
+    return apply_filters( 'pm_admin_url', admin_url( "admin.php?page={$slug}" ) );
+}
+
+/**
+ * Dashboard Logo
+ *
+ * @return void
+ */
+function pm_dashboard_logo() {
+    // $logo = get_option( 'pm_frontend_logo' );
+    // if ( $logo ) {
+    //     return wp_get_attachment_url( $logo );
+    // }
+
+    // return ERP_DASHBOARD_ASSETS . '/images/pm-logo.png';
+}
