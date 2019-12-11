@@ -95,7 +95,7 @@
     }
     
     .pm-nav-menu-toggle {
-        display: none;
+        display: none !important;
     }
     .pm-header-title-content .project-title .title {
         white-space: initial;
@@ -106,7 +106,7 @@
             display: flex;
             flex-wrap: wrap;
             .pm-nav-menu-toggle {
-                display: block;
+                display: block !important;
                 width: 100%;
                 padding: 10px 15px;
                 min-height: 45px;

@@ -507,10 +507,15 @@ export default {
                     position: absolute;
                     right: 0;
                     top: 0px;
-                    background: #019dd6;
+                    background: #fafafa;
                     color: #fff;
                     font-size: 12px;
-                    padding: 6px 8px;
+                    padding: 0 8px;
+                    height: 100%;
+                    border: 1px solid #ddd;
+                    line-height: 0;
+                    display: flex;
+                    align-items: center;
                     
                     &:hover {
                         background: #008ec2;

@@ -1071,15 +1071,6 @@
                         box-shadow: none;
                     }
                     .update-button {
-                        position: absolute;
-                        right: 0;
-                        top: 0px;
-                        background: #fafafa !important;
-                        color: #fff !important;
-                        font-size: 12px;
-                        font-weight: bolder;
-                        padding: 5px 8px !important;
-                        border: 1px solid #ddd;
 
                         &:hover {
                             background: #d7dee2 !important;
