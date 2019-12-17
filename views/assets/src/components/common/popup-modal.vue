@@ -1,96 +1,34 @@
 <template>
     <div class="pm-popup-mask">
         <div class="popup-container">
-         
+        	<form @submit.prevent="submit()">
             
                 <div class="head">
-                    <span>{{ __('Manage Automation', 'pm-pro') }}</span>
+                    <span>{{ options.title }}</span>
                 </div>
+
                 <div class="content">
-                    sdgfsfd sfidahlskjdfhakls djh lakjshd
-                    <br>
-                    asdkfasdk
-                    <br>
-                     sdgfsfd sfidahlskjdfhakls djh lakjshd
-                    <br>
-                    asdkfasdk
-                    <br>
-                     sdgfsfd sfidahlskjdfhakls djh lakjshd
-                    <br>
-                    asdkfasdk
-                    <br>
-
-                     sdgfsfd sfidahlskjdfhakls djh lakjshd
-                    <br>
-                    asdkfasdk
-                    <br>
-                     sdgfsfd sfidahlskjdfhakls djh lakjshd
-                    <br>
-                    asdkfasdk
-                    <br>
-
-                     sdgfsfd sfidahlskjdfhakls djh lakjshd
-                    <br>
-                    asdkfasdk
-                    <br>
-                     sdgfsfd sfidahlskjdfhakls djh lakjshd
-                    <br>
-                    asdkfasdk
-                    <br>
-                     sdgfsfd sfidahlskjdfhakls djh lakjshd
-                    <br>
-                    asdkfasdk
-                    <br>
-
-                     sdgfsfd sfidahlskjdfhakls djh lakjshd
-                    <br>
-                    asdkfasdk
-                    <br>
-                     sdgfsfd sfidahlskjdfhakls djh lakjshd
-                    <br>
-                    asdkfasdk
-                    <br>
-
-                     sdgfsfd sfidahlskjdfhakls djh lakjshd
-                    <br>
-                    asdkfasdk
-                    <br>
-                     sdgfsfd sfidahlskjdfhakls djh lakjshd
-                    <br>
-                    asdkfasdk
-                    <br>
-
-                     sdgfsfd sfidahlskjdfhakls djh lakjshd
-                    <br>
-                    asdkfasdk
-                    <br>
-                     sdgfsfd sfidahlskjdfhakls djh lakjshd
-                    <br>
-                    asdkfasdk
-                    <br>
-                     sdgfsfd sfidahlskjdfhakls djh lakjshd
-                    <br>
-                    asdkfasdk
-                    <br>
-                     sdgfsfd sfidahlskjdfhakls djh lakjshd
-                    <br>
-                    asdkfasdk
-                    <br>
+              		<slot></slot>
 
                 </div>
 
                 <div class="pm-button-group">
                     <div class="button-group-inside">
                         <div class="cancel-btn-wrap">
-                            <a href="#"  class="pm-button pm-secondary">{{ __('Cancel', 'pm-pro') }}</a>
+                            <a href="#" @click.prevent="close()"  class="pm-button pm-secondary">{{ options.cancelButton }}</a>
                         </div>
                         <div class="update-btn-wrap">
-                            <a class="pm-button pm-primary" href="#">{{ __('Update Automation', 'pm-pro') }}</a>
-                            <div class="pm-circle-spinner"></div>
+                            <input 
+                            	type="submit"
+                            	:class="options.loading ? 'submit-btn-text pm-button pm-primary' : 'pm-button pm-primary'"
+                            	:value="options.submitButton"
+                            />
+                            	
+                            <div v-if="options.loading" class="pm-circle-spinner"></div>
                         </div>
                     </div>
                 </div>
-            
+            </form>
         </div>
 
     </div>
@@ -176,6 +114,37 @@
 
 <script>
 	export default {
+		porps: {
+			options: {
+				type: [Object]
+			}
+		},
 
+		data () {
+			return {
+				default: {
+					title: __( 'Title', 'pm' ),
+					cancelButton: __( 'Cancel', 'pm' ),
+					submitButton: __( 'Add New', 'pm' ),
+					loading: false,
+					isForm: true
+				}
+			}
+		},
+
+		created () {
+			this.options = Object.assign( this.default, this.options )
+		},
+
+		methods: {
+			submit () {
+				this.$emit('submit');
+				this.options.loading = true;
+			},
+
+			close () {
+				this.$emit('close');
+			}
+		}
 	}
 </script>
