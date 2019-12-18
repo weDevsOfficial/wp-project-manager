@@ -267,7 +267,7 @@ class Upgrade_2_3 extends WP_Background_Process {
         $tb_boards = $wpdb->prefix . 'pm_boards';
 
         $query = "UPDATE $tb_boards SET `is_private` = %d WHERE $tb_boards.`id` = %d";
-        $wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}pm_boards SET `is_private` = %d WHERE $tb_boards.`id` = %d", 1, $id ) );
+        $wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}pm_boards SET `is_private` = %d WHERE {$wpdb->prefix}pm_boards.`id` = %d", 1, $id ) );
     }
 
     private function update_task_privacy( $id ) {
@@ -275,7 +275,7 @@ class Upgrade_2_3 extends WP_Background_Process {
         $tb_tasks = $wpdb->prefix . 'pm_tasks';
 
         $query = "UPDATE $tb_tasks SET `is_private` = %d WHERE $tb_tasks.`id` = %d";
-        $wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}pm_tasks SET `is_private` = %d WHERE $tb_tasks.`id` = %d", 1, $id ) );
+        $wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}pm_tasks SET `is_private` = %d WHERE {$wpdb->prefix}pm_tasks.`id` = %d", 1, $id ) );
     }
 
     private function set_task_is_private( $id ) {
@@ -402,13 +402,14 @@ class Upgrade_2_3 extends WP_Background_Process {
         if ( is_multisite() ) {
             $table        = $wpdb->sitemeta;
             $column       = 'meta_key';
-        }
 
-        $key = $wpdb->esc_like( $this->identifier . '_batch_' ) . '%';
-        echo  "DELETE FROM {$table} WHERE {$column} LIKE $key"; die();
-        //$query = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$table} WHERE {$column} LIKE %s ", $key ) );
-        $query = $wpdb->query( $wpdb->prepare( "DELETE FROM {$table} WHERE {$column} LIKE %s ", $key ) );
-        //pmpr($wpdb->get_results($wpdb->prepare( "SELECT * FROM {$table} WHERE {$column} LIKE %s ", $key ))); die();
+            $key   = $wpdb->esc_like( $this->identifier . '_batch_' ) . '%';
+            $query = $wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->sitemeta WHERE meta_key LIKE %s ", $key ) );   
+        } else {
+            $key   = $wpdb->esc_like( $this->identifier . '_batch_' ) . '%';
+            $query = $wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->options WHERE option_name LIKE %s ", $key ) );
+        }
+        
     }
 
     private function crate_task_private_column() {
