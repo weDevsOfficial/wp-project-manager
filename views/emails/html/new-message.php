@@ -37,7 +37,7 @@ $tpbk = config('frontend.assets_url') .'images/tpbk.png';
             </span>
             <div style="clear: both;"></div>
             <span style="float: left;  width: 70px;"><em style="font-family: lato; color: #B3B3B3; "><?php esc_html_e( 'Message', 'wedevs-project-manager' ); ?></em></span>
-            <span style="float: left; width: 430px;"><?php echo $description; ?></span>
+            <span style="float: left; width: 430px;"><?php echo esc_html( $description ); ?></span>
             <div style="clear: both;"></div>
         </div>
 
