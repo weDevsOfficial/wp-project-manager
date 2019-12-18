@@ -181,24 +181,33 @@ abstract class WeDevs_Promotion {
      * @return void
      */
     public function dismiss_upgrade_promo() {
-        $post_data = wp_unslash( $_POST );
+
+        if ( 
+            isset( $_POST['nonce'] ) 
+                && 
+            ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) ), 'pm_christmas_offer' ) 
+        ) {
+            wp_send_json_error( __( 'Invalid nonce', 'wedevs-project-manager' ) );
+        }
 
         if ( ! current_user_can( 'manage_options' ) ) {
             wp_send_json_error( __( 'You have no permission to do that', 'wedevs-project-manager' ) );
         }
 
-        if ( ! wp_verify_nonce( $post_data['nonce'], 'pm_admin' ) ) {
+        if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) ), 'pm_admin' ) ) {
             wp_send_json_error( __( 'Invalid nonce', 'wedevs-project-manager' ) );
         }
 
-        if ( isset( $post_data['pm_upgrade_promotion_dismissed'] ) && $post_data['pm_upgrade_promotion_dismissed'] ) {
-            $promo_option_key        = $post_data['promo_key'];
-            $promo_last_display_time = $post_data['promo_key'] . '_displayed_time';
+        if ( isset( $_POST['pm_upgrade_promotion_dismissed'] ) && isset( $_POST['pm_upgrade_promotion_dismissed'] ) ) {
+            $promo_option_key        = isset( $_POST['promo_key'] ) ? sanitize_text_field( wp_unslash( $_POST['promo_key'] ) ) : '';
+            $promo_last_display_time = isset( $_POST['promo_key'] ) ? sanitize_text_field( wp_unslash( $_POST['promo_key'] ) ) . '_displayed_time' : '';
 
             $already_displayed_promo = get_option( $promo_option_key, array() );
 
-            if ( ! isset( $already_displayed_promo[ $post_data['key'] ] ) ) {
-                $already_displayed_promo[ $post_data['key'] ] = array(
+            $post_key = isset( $_POST['key'] ) ? sanitize_text_field( wp_unslash( $_POST['key'] ) ) : '';
+
+            if ( ! isset( $already_displayed_promo[ $post_key ] ) ) {
+                $already_displayed_promo[ $post_key ] = array(
                     'display'        => 0,
                     'last_displayed' => current_time( 'mysql' )
                 );
