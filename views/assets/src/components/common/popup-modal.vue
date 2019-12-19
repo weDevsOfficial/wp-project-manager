@@ -1,13 +1,17 @@
 <template>
     <div class="pm-popup-mask">
-        <div class="popup-container">
+        <div class="popup-container" :style="{
+        	width: data.width
+        }">
         	<form @submit.prevent="submit()">
             
                 <div class="head">
-                    <span>{{ options.title }}</span>
+                    <span>{{ data.title }}</span>
                 </div>
 
-                <div class="content">
+                <div class="content" :style="{
+                	height: data.height
+                }">
               		<slot></slot>
 
                 </div>
@@ -15,16 +19,16 @@
                 <div class="pm-button-group">
                     <div class="button-group-inside">
                         <div class="cancel-btn-wrap">
-                            <a href="#" @click.prevent="close()"  class="pm-button pm-secondary">{{ options.cancelButton }}</a>
+                            <a href="#" @click.prevent="close()"  class="pm-button pm-secondary">{{ data.cancelButton }}</a>
                         </div>
                         <div class="update-btn-wrap">
                             <input 
                             	type="submit"
-                            	:class="options.loading ? 'submit-btn-text pm-button pm-primary' : 'pm-button pm-primary'"
-                            	:value="options.submitButton"
+                            	:class="data.loading ? 'submit-btn-text pm-button pm-primary' : 'pm-button pm-primary'"
+                            	:value="data.submitButton"
                             />
                             	
-                            <div v-if="options.loading" class="pm-circle-spinner"></div>
+                            <div v-if="data.loading" class="pm-circle-spinner"></div>
                         </div>
                     </div>
                 </div>
@@ -64,48 +68,64 @@
 	            color: #24292e;
 	        }
 	        
-	            .content {
-	                padding: 16px;
-				    overflow: scroll;
-				    overflow-x: hidden;
-				    width: auto;
-				    height: 60vh;
-	            }
+            .content {
+                padding: 16px;
+			    overflow: scroll;
+			    overflow-x: hidden;
+			    width: auto;
+			    height: 60vh;
 
-	            .pm-button-group {
-	                
-	                background: #f6f8fa;
-	                border-top: 1px solid #eee;
-	                padding: 12px;
+			    input[type="text"], select, textarea {
+			    	padding: 0 8px;
+				    line-height: 2;
+				    min-height: 30px;
+				    box-shadow: 0 0 0 transparent;
+				    border: 1px solid #7e8993;
+				    background-color: #fff;
+				    color: #32373c;
 
-	                .button-group-inside {
-	                    display: flex;
-	                    .cancel-btn-wrap {
-	                        margin-right: 10px;
-	                        margin-left: auto;
-	                    }
-	                    .submit-btn-text {
-	                        color: #199ed4 !important;
-	                    }
-	                    .update-btn-wrap {
-	                        position: relative;
-	                        .pm-circle-spinner {
-	                            position: absolute;
-	                            left: 50%;
-	                            top: 50%;
-	                            margin-left: -16px;
-	                            margin-top: -11px;
+				    &:focus {
+				    	border-color: #007cba;
+					    box-shadow: 0 0 0 1px #007cba;
+					    outline: 2px solid transparent;
+				    }
+			    }
+            }
 
-	                            &:after {
-	                                height: 10px;
-	                                width: 10px;
-	                                border-color: #fff #fff #fff transparent;
-	                            }
-	                        }
-	                    }
-	                }
+            .pm-button-group {
+                
+                background: #f6f8fa;
+                border-top: 1px solid #eee;
+                padding: 12px;
 
-	            }
+                .button-group-inside {
+                    display: flex;
+                    .cancel-btn-wrap {
+                        margin-right: 10px;
+                        margin-left: auto;
+                    }
+                    .submit-btn-text {
+                        color: #199ed4 !important;
+                    }
+                    .update-btn-wrap {
+                        position: relative;
+                        .pm-circle-spinner {
+                            position: absolute;
+                            left: 50%;
+                            top: 50%;
+                            margin-left: -16px;
+                            margin-top: -11px;
+
+                            &:after {
+                                height: 10px;
+                                width: 10px;
+                                border-color: #fff #fff #fff transparent;
+                            }
+                        }
+                    }
+                }
+
+            }
 	        
 	    }
     }
@@ -114,7 +134,7 @@
 
 <script>
 	export default {
-		porps: {
+		props: {
 			options: {
 				type: [Object]
 			}
@@ -127,19 +147,28 @@
 					cancelButton: __( 'Cancel', 'pm' ),
 					submitButton: __( 'Add New', 'pm' ),
 					loading: false,
-					isForm: true
-				}
+					isForm: true,
+					manageLoading: false,
+					height: '60vh',
+					width: '545px'
+				},
+
+				data: {}
 			}
 		},
 
 		created () {
-			this.options = Object.assign( this.default, this.options )
+			this.data = Object.assign(this.default, this.options);
 		},
 
 		methods: {
 			submit () {
-				this.$emit('submit');
-				this.options.loading = true;
+				if(!this.data.manageLoading) {
+					this.data.loading = true;
+				}
+
+				this.$emit('submit', this.data);
+
 			},
 
 			close () {
