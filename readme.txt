@@ -211,6 +211,12 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= v2.3.5 - Dec 18, 2019 =
+
+* **New** Add privacy policy in product description.
+* **Fix** Sanitize data while updating task.
+* **Fix** Add extra data validation on database query.
+
 = v2.3.4 - Nov 15, 2019 =
 
 * **Fix** Task label are inserted two times while updating task.
@@ -813,6 +819,18 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 = 0.1 =
 Initial version released
+
+== Privacy Policy ==
+
+WP Project Manager uses [Appsero](https://appsero.com) SDK to collect some telemetry data upon user's confirmation. This helps us to troubleshoot problems faster & make product improvements.
+
+Appsero SDK **does not gather any data by default.** The SDK only starts gathering basic telemetry data **when a user allows it via the admin notice**. We collect the data to ensure great user experience for all our users. 
+
+Integrating Appsero SDK **DOES NOT IMMEDIATELY** start gathering data, **without confirmation from users in any case.**
+
+Learn more how [Appsero collects and uses this data](https://appsero.com/privacy-policy/).
+
+Additionally, read weDevs [privacy policy](https://wedevs.com/privacy-policy/) for more.
 
 
 == Upgrade Notice ==
