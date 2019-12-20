@@ -27,7 +27,7 @@ $tpbk = config('frontend.assets_url') .'images/tpbk.png';
         </div>
 
         <div style="font-family: arial; font-size: 14px; line-height: 24px; color: #7e7e7e;">
-           <?php echo $content; ?>
+           <?php echo esc_html( $content ); ?>
         </div>
 
     </div>
