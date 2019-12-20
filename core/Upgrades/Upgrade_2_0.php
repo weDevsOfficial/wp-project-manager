@@ -125,7 +125,7 @@ class Upgrade_2_0 extends WP_Background_Process
 
         $key = $wpdb->esc_like( $this->identifier . '_batch_' ) . '%';
 
-        $query = $wpdb->query( $wpdb->prepare( "DELETE FROM {$table} WHERE {$column} LIKE %s ", $key ) );
+        $query = $wpdb->query( $wpdb->prepare( "DELETE FROM {$wpdb->options} WHERE option_name LIKE %s ", $key ) );
     }
 
 
@@ -160,7 +160,7 @@ class Upgrade_2_0 extends WP_Background_Process
                 });
 
                 jQuery(document).ready(function() {
-                    var migrateData = <?php echo $observe; ?>;
+                    var migrateData = <?php esc_attr( $observe ); ?>;
                     
                     
                     pmProgressStatus(migrateData, pm_is_all_migrated, function() {
@@ -602,7 +602,7 @@ class Upgrade_2_0 extends WP_Background_Process
         }
         global $wpdb;
         $table    = $wpdb->prefix . 'cpm_user_role';
-        $oldroles = $wpdb->get_results( $wpdb->prepare ( "SELECT * FROM {$table} WHERE project_id=%d", $oldProjectId ), ARRAY_A );
+        $oldroles = $wpdb->get_results( $wpdb->prepare ( "SELECT * FROM {$wpdb->prefix}'cpm_user_role' WHERE project_id=%d", $oldProjectId ), ARRAY_A );
 
         if ( is_wp_error( $oldroles ) ) {
             return;
@@ -1033,7 +1033,7 @@ class Upgrade_2_0 extends WP_Background_Process
         }
         global $wpdb;
         $table   = $wpdb->prefix . 'cpm_file_relationship';
-        $files   = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$table} WHERE project_id=%d ORDER BY `id` ASC", $OldProjectId ), ARRAY_A );
+        $files   = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}'cpm_file_relationship' WHERE project_id=%d ORDER BY `id` ASC", $OldProjectId ), ARRAY_A );
         $fileArr = [];
         $comments = [];
         
@@ -1587,7 +1587,7 @@ class Upgrade_2_0 extends WP_Background_Process
 
         global $wpdb;
         $table = $wpdb->prefix. 'cpm_time_tracker';
-        $timetracker = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$table} WHERE  project_id=%d", $oldProjectId ), ARRAY_A );
+        $timetracker = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix} 'cpm_time_tracker' WHERE  project_id=%d", $oldProjectId ), ARRAY_A );
         if ( is_wp_error( $timetracker ) ) {
             return;
         }
