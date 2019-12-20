@@ -1,3 +1,8 @@
+**** upcomming ***
+* **Fix** In Single Task coworker can show due date
+* **Fix** In MyTask New Task from show complete Project
+* **Fix** In single task if task completed remove timelog & calendar
+
 = v2.3.5 - Dec 19, 2019 =
 
 * **New** Add privacy policy in product description.
