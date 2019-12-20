@@ -177,11 +177,11 @@ class Upgrade {
      */
     public function do_updates() {
 
-        if ( ! isset( $_POST['pm_update'] ) ) {
+        if ( isset( $_POST['pm_nonce'] ) && ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['pm_nonce'] ) ), '_nonce' ) ) {
             return;
         }
 
-        if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['pm_nonce'] ) ), '_nonce' ) ) {
+        if ( ! isset( $_POST['pm_update'] ) ) {
             return;
         }
 
