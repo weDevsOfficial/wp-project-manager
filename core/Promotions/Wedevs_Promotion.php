@@ -194,10 +194,6 @@ abstract class WeDevs_Promotion {
             wp_send_json_error( __( 'You have no permission to do that', 'wedevs-project-manager' ) );
         }
 
-        if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) ), 'pm_admin' ) {
-            wp_send_json_error( __( 'Invalid nonce', 'wedevs-project-manager' ) );
-        }
-
         if ( isset( $_POST['pm_upgrade_promotion_dismissed'] ) && isset( $_POST['pm_upgrade_promotion_dismissed'] ) ) {
             $promo_option_key        = isset( $_POST['promo_key'] ) ? sanitize_text_field( wp_unslash( $_POST['promo_key'] ) ) : '';
             $promo_last_display_time = isset( $_POST['promo_key'] ) ? sanitize_text_field( wp_unslash( $_POST['promo_key'] ) ) . '_displayed_time' : '';
