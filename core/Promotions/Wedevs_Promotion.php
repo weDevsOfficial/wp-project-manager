@@ -185,7 +185,7 @@ abstract class WeDevs_Promotion {
         if ( 
             isset( $_POST['nonce'] ) 
                 && 
-            ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) ), 'pm_christmas_offer' ) 
+            ! wp_verify_nonce( ( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) ), 'pm_christmas_offer' ) 
         ) {
             wp_send_json_error( __( 'Invalid nonce', 'wedevs-project-manager' ) );
         }
@@ -194,7 +194,7 @@ abstract class WeDevs_Promotion {
             wp_send_json_error( __( 'You have no permission to do that', 'wedevs-project-manager' ) );
         }
 
-        if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) ), 'pm_admin' ) ) {
+        if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) ), 'pm_admin' ) {
             wp_send_json_error( __( 'Invalid nonce', 'wedevs-project-manager' ) );
         }
 

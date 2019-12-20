@@ -211,7 +211,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
-= v2.3.5 - Dec 18, 2019 =
+= v2.3.5 - Dec 19, 2019 =
 
 * **New** Add privacy policy in product description.
 * **Fix** Sanitize data while updating task.
