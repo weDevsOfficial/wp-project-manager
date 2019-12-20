@@ -45,11 +45,11 @@ class Offers {
 
         $offer_link  = 'https://wedevs.com/wp-project-manager-pro/?add-to-cart=16273&variation_id=16274&attribute_pa_license=professional&coupon_code=BFCM2019';
         $content = __( '<p>In this Christmas, stay on top of budgets. Spend <strong>30%% LESS</strong> on <strong>WP Project Manager Pro</strong> and increase productivity for you and your organization. [Limited time ⏳😎]</p> <p><a target="_blank" class="button button-primary" href="%s">Grab The Deal</a></p>', 'wedevs-project-manager' );
-
+        $img_url = PM_PLUGIN_ASSEST  . '/images/promo-logo.png';
         ?>
             <div class="notice notice-success is-dismissible" id="pm-christmas-notice">
                 <div class="logo">
-                    <img src="<?php echo PM_PLUGIN_ASSEST  .'/images/promo-logo.png'; ?>" alt="wedevs-project-manager">
+                    <img src="<?php esc_html_e( $img_url ); ?>" alt="wedevs-project-manager">
                 </div>
                 <div class="content">
                     <p>Biggest Sale of the year on this</p>
@@ -195,15 +195,15 @@ class Offers {
      */
     public function dismiss_christmas_offer() {
 
-        if ( ! current_user_can( 'manage_options' ) ) {
-            wp_send_json_error( __( 'You have no permission to do that', 'wedevs-project-manager' ) );
-        }
-        $nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
-        if ( ! wp_verify_nonce( $nonce, 'pm_christmas_offer' ) ) {
+        if ( isset( $_POST['nonce'] ) && ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'pm_christmas_offer' ) ) {
             wp_send_json_error( __( 'Invalid nonce', 'wedevs-project-manager' ) );
         }
 
-        if ( ! empty( $_POST['pm_christmas_dismissed'] ) ) {
+        if ( ! current_user_can( 'manage_options' ) ) {
+            wp_send_json_error( __( 'You have no permission to do that', 'wedevs-project-manager' ) );
+        }
+
+        if ( isset( $_POST['pm_christmas_dismissed'] ) && ! empty( sanitize_text_field( wp_unslash( $_POST['pm_christmas_dismissed'] ) ) ) ) {
             $offer_key = 'pm_christmas_notice';
             update_option( $offer_key, 'hide' );
         }

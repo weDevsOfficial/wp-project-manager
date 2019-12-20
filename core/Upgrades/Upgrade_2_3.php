@@ -99,11 +99,11 @@ class Upgrade_2_3 extends WP_Background_Process {
         ?>
         <script type="text/javascript">
 
-            var home          = "<?php echo $home; ?>";
-            var url_prefix    = "<?php echo $url_prefix; ?>";
-            var bg_complete   = "<?php echo $is_background_compelte; ?>";
-            var percentage    = "<?php echo $percentage; ?>";
-            var perctnage_txt = "<?php echo $percentage; ?>";
+            var home          = "<?php echo esc_html_e( $home ); ?>";
+            var url_prefix    = "<?php echo esc_html_e( $url_prefix ); ?>";
+            var bg_complete   = "<?php echo esc_html_e( $is_background_compelte ); ?>";
+            var percentage    = "<?php echo esc_html_e( $percentage ); ?>";
+            var perctnage_txt = "<?php echo esc_html_e( $percentage ); ?>";
 
             perctnage_txt = percentage == 0 ? '' : Math.ceil(percentage)+'%';
 
@@ -267,7 +267,7 @@ class Upgrade_2_3 extends WP_Background_Process {
         $tb_boards = $wpdb->prefix . 'pm_boards';
 
         $query = "UPDATE $tb_boards SET `is_private` = %d WHERE $tb_boards.`id` = %d";
-        $wpdb->query( $wpdb->prepare( $query, 1, $id ) );
+        $wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}pm_boards SET `is_private` = %d WHERE {$wpdb->prefix}pm_boards.`id` = %d", 1, $id ) );
     }
 
     private function update_task_privacy( $id ) {
@@ -275,7 +275,7 @@ class Upgrade_2_3 extends WP_Background_Process {
         $tb_tasks = $wpdb->prefix . 'pm_tasks';
 
         $query = "UPDATE $tb_tasks SET `is_private` = %d WHERE $tb_tasks.`id` = %d";
-        $wpdb->query( $wpdb->prepare( $query, 1, $id ) );
+        $wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}pm_tasks SET `is_private` = %d WHERE {$wpdb->prefix}pm_tasks.`id` = %d", 1, $id ) );
     }
 
     private function set_task_is_private( $id ) {
@@ -294,24 +294,30 @@ class Upgrade_2_3 extends WP_Background_Process {
         global $wpdb;
         $tb_meta = $wpdb->prefix . 'pm_meta';
 
-        $query = "SELECT meta_value FROM {$tb_meta} 
+        $query = "SELECT meta_value FROM {$wpdb->prefix}pm_meta 
             WHERE entity_id=%d 
             AND entity_type IN ('task_list', 'milestone', 'discussion_board')
             AND meta_key=%s";
 
-        return $wpdb->get_var( $wpdb->prepare( $query, $id, 'privacy'  ) );
+        return $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM {$wpdb->prefix}pm_meta 
+            WHERE entity_id=%d 
+            AND entity_type IN ('task_list', 'milestone', 'discussion_board')
+            AND meta_key=%s", $id, 'privacy'  ) );
     }
 
     private function get_meta_value( $id, $type ) {
         global $wpdb;
         $tb_meta = $wpdb->prefix . 'pm_meta';
 
-        $query = "SELECT meta_value FROM {$tb_meta} 
+        $query = "SELECT meta_value FROM {$wpdb->prefix}pm_meta 
             WHERE entity_id=%d 
             AND entity_type=%s 
             AND meta_key=%s";
 
-        return $wpdb->get_var( $wpdb->prepare( $query, $id, $type, 'privacy'  ) );
+        return $wpdb->get_var( $wpdb->prepare( "SELECT meta_value FROM {$wpdb->prefix}pm_meta 
+            WHERE entity_id=%d 
+            AND entity_type=%s 
+            AND meta_key=%s", $id, $type, 'privacy'  ) );
     }
 
     private function set_queue() {
@@ -334,7 +340,7 @@ class Upgrade_2_3 extends WP_Background_Process {
         $queue = [];
         $tb_tasks = $wpdb->prefix . 'pm_boards';
 
-        $ids = $wpdb->get_results( "SELECT id FROM {$tb_tasks}", ARRAY_A );
+        $ids = $wpdb->get_results( "SELECT id FROM {$wpdb->prefix}pm_boards}", ARRAY_A );
 
         if ( is_wp_error( $ids ) ) {
             return;
@@ -359,7 +365,7 @@ class Upgrade_2_3 extends WP_Background_Process {
         global $wpdb;
         $queue = [];
         $tb_tasks = $wpdb->prefix . 'pm_tasks';
-        $ids = $wpdb->get_results( "SELECT id FROM {$tb_tasks}", ARRAY_A );
+        $ids = $wpdb->get_results( "SELECT id FROM {$wpdb->prefix}pm_tasks", ARRAY_A );
 
         if ( is_wp_error( $ids ) ) {
             return;
@@ -396,32 +402,33 @@ class Upgrade_2_3 extends WP_Background_Process {
         if ( is_multisite() ) {
             $table        = $wpdb->sitemeta;
             $column       = 'meta_key';
-        }
 
-        $key = $wpdb->esc_like( $this->identifier . '_batch_' ) . '%';
-        echo  "DELETE FROM {$table} WHERE {$column} LIKE $key"; die();
-        //$query = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$table} WHERE {$column} LIKE %s ", $key ) );
-        $query = $wpdb->query( $wpdb->prepare( "DELETE FROM {$table} WHERE {$column} LIKE %s ", $key ) );
-        //pmpr($wpdb->get_results($wpdb->prepare( "SELECT * FROM {$table} WHERE {$column} LIKE %s ", $key ))); die();
+            $key   = $wpdb->esc_like( $this->identifier . '_batch_' ) . '%';
+            $query = $wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->sitemeta WHERE meta_key LIKE %s ", $key ) );   
+        } else {
+            $key   = $wpdb->esc_like( $this->identifier . '_batch_' ) . '%';
+            $query = $wpdb->query( $wpdb->prepare( "DELETE FROM $wpdb->options WHERE option_name LIKE %s ", $key ) );
+        }
+        
     }
 
     private function crate_task_private_column() {
         global $wpdb;
         $table = $wpdb->prefix . 'pm_tasks';
-        $result = $wpdb->get_results ( $wpdb->prepare( "SHOW COLUMNS FROM {$table} LIKE %s", 'is_private' ) );
+        $result = $wpdb->get_results ( $wpdb->prepare( "SHOW COLUMNS FROM {$wpdb->prefix}pm_tasks LIKE %s", 'is_private' ) );
         
         if( !$result ) {
-            $wpdb->query( "ALTER TABLE {$table} ADD `is_private` tinyint(2) unsigned default 0 AFTER `status`" );
+            $wpdb->query( "ALTER TABLE {$wpdb->prefix}pm_tasks ADD `is_private` tinyint(2) unsigned default 0 AFTER `status`" );
         }
     }
 
     private function crate_board_private_column() {
         global $wpdb;
         $table = $wpdb->prefix . 'pm_boards';
-        $result = $wpdb->get_results ( $wpdb->prepare( "SHOW COLUMNS FROM {$table} LIKE %s", 'is_private' ) );
+        $result = $wpdb->get_results ( $wpdb->prepare( "SHOW COLUMNS FROM {$wpdb->prefix}pm_boards LIKE %s", 'is_private' ) );
         
         if( !$result ) {
-            $wpdb->query( "ALTER TABLE {$table} ADD `is_private` tinyint(2) unsigned default 0 AFTER `status`" );
+            $wpdb->query( "ALTER TABLE {$wpdb->prefix}pm_boards ADD `is_private` tinyint(2) unsigned default 0 AFTER `status`" );
         }
     }
 
@@ -430,7 +437,7 @@ class Upgrade_2_3 extends WP_Background_Process {
         global $wpdb;
         $table_name = $wpdb->prefix . 'pm_capabilities';
 
-        $sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
+        $sql = "CREATE TABLE IF NOT EXISTS {$wpdb->prefix}pm_capabilities (
               `id` int(20) UNSIGNED NOT NULL AUTO_INCREMENT,
               `name` varchar(100) NOT NULL,
               PRIMARY KEY (`id`)
@@ -446,7 +453,7 @@ class Upgrade_2_3 extends WP_Background_Process {
             return;
         }
         $table_name = $wpdb->prefix . 'pm_capabilities';
-        $sql = "INSERT INTO {$table_name} (name)
+        $sql = "INSERT INTO {$wpdb->prefix}pm_capabilities (name)
                VALUES
                 ('Message Create'),
                 ('Message Private'),
@@ -459,7 +466,18 @@ class Upgrade_2_3 extends WP_Background_Process {
                 ('File Create'),
                 ('File Private')";
 
-        $wpdb->query( $sql );
+        $wpdb->query( $wpdb->prepare( "INSERT INTO {$wpdb->prefix}pm_capabilities (name)
+               VALUES
+                ('Message Create'),
+                ('Message Private'),
+                ('Task List Create'),
+                ('Task List Private'),
+                ('Milestone Create'),
+                ('Milestone Private'),
+                ('Task Create'),
+                ('Task Private'),
+                ('File Create'),
+                ('File Private')" ) );
 
         update_option( 'pm_capabilities', 'done' );
     }
@@ -468,7 +486,7 @@ class Upgrade_2_3 extends WP_Background_Process {
         global $wpdb;
         $table_name = $wpdb->prefix . 'pm_role_project';
 
-        $sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
+        $sql = "CREATE TABLE IF NOT EXISTS {$wpdb->prefix}pm_role_project (
               `id` int(20) UNSIGNED NOT NULL AUTO_INCREMENT,
               `project_id` int(20) UNSIGNED NOT NULL,
               `role_id` int(20) UNSIGNED NOT NULL,
@@ -488,9 +506,9 @@ class Upgrade_2_3 extends WP_Background_Process {
 
         $table = $wpdb->prefix . 'pm_projects';
 
-        $sql = "SELECT DISTINCT pj.id FROM {$table} as pj";
+        $sql = "SELECT DISTINCT pj.id FROM {$wpdb->prefix}pm_projects as pj";
 
-        $projects = $wpdb->get_results( $sql );
+        $projects = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT pj.id FROM {$wpdb->prefix}pm_projects as pj" ) );
         $projects = wp_list_pluck( $projects, 'id' );
 
         $value = '';
@@ -504,10 +522,11 @@ class Upgrade_2_3 extends WP_Background_Process {
         $value = rtrim( $value, ',' );
         $table = $wpdb->prefix . 'pm_role_project';
 
-        $insert_query = "INSERT INTO {$table} (project_id, role_id)
+        $insert_query = "INSERT INTO {$wpdb->prefix}pm_role_project (project_id, role_id)
             VALUES {$value}";
 
-        $wpdb->query( $insert_query );
+        $wpdb->query( $wpdb->prepare( "INSERT INTO {$wpdb->prefix}pm_role_project (project_id, role_id)
+            VALUES %s", $value ) );
 
         update_option( 'update_role_project_table', 'done' );
     }
@@ -516,7 +535,7 @@ class Upgrade_2_3 extends WP_Background_Process {
         global $wpdb;
         $table_name = $wpdb->prefix . 'pm_role_project_capabilities';
 
-        $sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
+        $sql = "CREATE TABLE IF NOT EXISTS {$wpdb->prefix}pm_role_project_capabilities (
               `role_project_id` int(20) UNSIGNED NOT NULL,
               `capability_id` int(20) UNSIGNED NOT NULL,
               KEY `role_project_id` (`role_project_id`)
@@ -538,20 +557,23 @@ class Upgrade_2_3 extends WP_Background_Process {
         $tb_role_projects = $wpdb->prefix . 'pm_role_project';
         $tb_role_project_cap = $wpdb->prefix . 'pm_role_project_capabilities';
 
-        $query = "SELECT pj.id, st.value FROM $tb_projects as pj
-            LEFT JOIN $tb_settings as st ON st.project_id=pj.id
+        $query = "SELECT pj.id, st.value FROM {$wpdb->prefix}pm_projects as pj
+            LEFT JOIN {$wpdb->prefix}pm_settings as st ON st.project_id=pj.id
             WHERE st.key='capabilities'";
 
-        $results = $wpdb->get_results( $query );
+        $results = $wpdb->get_results( $wpdb->prepare( "SELECT pj.id, st.value FROM {$wpdb->prefix}pm_projects as pj
+            LEFT JOIN {$wpdb->prefix}pm_settings as st ON st.project_id=pj.id
+            WHERE st.key='capabilities'" ) );
+        
         $new_reslts = [];
 
         foreach ( $results as $key => $result ) {
             $new_reslts[$result->id] = maybe_unserialize( $result->value );
         }
 
-        $query = "SELECT * FROM $tb_role_projects";
+        $query = "SELECT * FROM {$wpdb->prefix}pm_role_project";
 
-        $role_projects = $wpdb->get_results($query);
+        $role_projects = $wpdb->get_results($wpdb->prepare( "SELECT * FROM {$wpdb->prefix}pm_role_project" ) );
 
         foreach ( $role_projects as $key => $role_project ) {
             $project_id = $role_project->project_id;
@@ -605,10 +627,11 @@ class Upgrade_2_3 extends WP_Background_Process {
 
         $value = rtrim( $query_string, ',' );
 
-        $insert_query = "INSERT INTO {$tb_role_project_cap} (role_project_id, capability_id)
+        $insert_query = "INSERT INTO {$wpdb->prefix}pm_role_project_capabilities (role_project_id, capability_id)
             VALUES {$value}";
 
-        $wpdb->query( $insert_query );
+        $wpdb->query( $wpdb->prepare("INSERT INTO {$wpdb->prefix}pm_role_project_capabilities (role_project_id, capability_id)
+            VALUES %s", $value ) );
 
         update_option( 'update_role_project_capabilities', 'done' );
 
@@ -618,7 +641,7 @@ class Upgrade_2_3 extends WP_Background_Process {
         global $wpdb;
         $table_name = $wpdb->prefix . 'pm_role_project_users';
 
-        $sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
+        $sql = "CREATE TABLE IF NOT EXISTS {$wpdb->prefix}pm_role_project_users (
               `role_project_id` int(20) UNSIGNED NOT NULL,
               `user_id` int(20) UNSIGNED NOT NULL,
               KEY `role_project_id` (`role_project_id`)
@@ -638,25 +661,34 @@ class Upgrade_2_3 extends WP_Background_Process {
         $tb_new_role_user = $wpdb->prefix . 'pm_role_project_users';
 
         $query = "SELECT DISTINCT rp.id as role_project_id, ru.user_id as user_id, ru.project_id as project_id
-            FROM $tb_role_users as ru
-            LEFT JOIN $tb_role_projects as rp ON rp.project_id=ru.project_id
+            FROM {$wpdb->prefix}pm_role_user as ru
+            LEFT JOIN {$wpdb->prefix}pm_role_project as rp ON rp.project_id=ru.project_id
             WHERE ru.role_id=2 AND rp.role_id=2";
 
-        $client_projects = $wpdb->get_results($query);
+        $client_projects = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT rp.id as role_project_id, ru.user_id as user_id, ru.project_id as project_id
+            FROM {$wpdb->prefix}pm_role_user as ru
+            LEFT JOIN {$wpdb->prefix}pm_role_project as rp ON rp.project_id=ru.project_id
+            WHERE ru.role_id=2 AND rp.role_id=2" ) );
 
         $query = "SELECT DISTINCT rp.id as role_project_id, ru.user_id as user_id, ru.project_id as project_id
-            FROM $tb_role_users as ru
-            LEFT JOIN $tb_role_projects as rp ON rp.project_id=ru.project_id
+            FROM {$wpdb->prefix}pm_role_user as ru
+            LEFT JOIN {$wpdb->prefix}pm_role_project as rp ON rp.project_id=ru.project_id
             WHERE ru.role_id=3 AND rp.role_id=3";
 
-        $co_worker_projects = $wpdb->get_results($query);
+        $co_worker_projects = $wpdb->get_results($wpdb->prepare( "SELECT DISTINCT rp.id as role_project_id, ru.user_id as user_id, ru.project_id as project_id
+            FROM {$wpdb->prefix}pm_role_user as ru
+            LEFT JOIN {$wpdb->prefix}pm_role_project as rp ON rp.project_id=ru.project_id
+            WHERE ru.role_id=3 AND rp.role_id=3" ) );
 
         $query = "SELECT DISTINCT rp.id as role_project_id, ru.user_id as user_id, ru.project_id as project_id
-            FROM $tb_role_users as ru
-            LEFT JOIN $tb_role_projects as rp ON rp.project_id=ru.project_id
+            FROM {$wpdb->prefix}pm_role_user as ru
+            LEFT JOIN {$wpdb->prefix}pm_role_project as rp ON rp.project_id=ru.project_id
             WHERE ru.role_id=1 AND rp.role_id=1";
 
-        $manager_projects = $wpdb->get_results($query);
+        $manager_projects = $wpdb->get_results($wpdb->prepare( "SELECT DISTINCT rp.id as role_project_id, ru.user_id as user_id, ru.project_id as project_id
+            FROM {$wpdb->prefix}pm_role_user as ru
+            LEFT JOIN {$wpdb->prefix}pm_role_project as rp ON rp.project_id=ru.project_id
+            WHERE ru.role_id=1 AND rp.role_id=1" ));
 
         $role_projects = array_merge( $client_projects, $co_worker_projects, $manager_projects );
 
@@ -668,10 +700,11 @@ class Upgrade_2_3 extends WP_Background_Process {
 
         $value = rtrim( $query_string, ',' );
 
-        $insert_query = "INSERT INTO {$tb_new_role_user} (role_project_id, user_id)
+        $insert_query = "INSERT INTO {$wpdb->prefix}pm_role_project_users (role_project_id, user_id)
             VALUES {$value}";
 
-        $wpdb->query( $insert_query );
+        $wpdb->query( $wpdb->prepare( "INSERT INTO {$wpdb->prefix}pm_role_project_users (role_project_id, user_id)
+            VALUES %s", $value ) );
 
         update_option( 'update_role_project_users', 'done' );
     }

@@ -134,36 +134,36 @@ class Commands extends Cli {
         \WP_CLI::success( "Table truncate successfully!" );
     }
 
-    public function background() {
+    // public function background() {
 
-        global $wpdb;
-        // truncate table
-        $tables = [
-            'pm_capabilities',
-            'pm_role_project',
-            'pm_role_project_capabilities',
-            'pm_role_project_users',
-        ];
-        foreach ($tables as $table) {
-            $del_tb = $wpdb->prefix . $table;
-            $wpdb->query( "DROP TABLE $del_tb" );
-        }
+    //     global $wpdb;
+    //     // truncate table
+    //     $tables = [
+    //         'pm_capabilities',
+    //         'pm_role_project',
+    //         'pm_role_project_capabilities',
+    //         'pm_role_project_users',
+    //     ];
+    //     foreach ($tables as $table) {
+    //         $del_tb = $wpdb->prefix . $table;
+    //         $wpdb->query( "DROP TABLE $del_tb" );
+    //     }
 
-        $wpdb->query("DELETE FROM wp_options WHERE option_name LIKE 'wp\_pm\_tasks\_boards\_update\_2\_3\_batch\_%'");
+    //     $wpdb->query("DELETE FROM wp_options WHERE option_name LIKE 'wp\_pm\_tasks\_boards\_update\_2\_3\_batch\_%'");
 
-        delete_option( 'pm_migration_start_2_3' );
-        delete_option( 'pm_migration_notice_2_3' );
-        delete_option( 'pm_db_migration_2_3' );
-        delete_option( 'pm_total_queue_2_3' );
-        delete_option( 'pm_queue_complete_2_3' );
-        update_option( 'pm_db_version', '2.2.2' );
-        delete_option('pm_capabilities');
-        delete_option('update_role_project_table');
-        delete_option('update_role_project_capabilities');
-        delete_option('update_role_project_users');
+    //     delete_option( 'pm_migration_start_2_3' );
+    //     delete_option( 'pm_migration_notice_2_3' );
+    //     delete_option( 'pm_db_migration_2_3' );
+    //     delete_option( 'pm_total_queue_2_3' );
+    //     delete_option( 'pm_queue_complete_2_3' );
+    //     update_option( 'pm_db_version', '2.2.2' );
+    //     delete_option('pm_capabilities');
+    //     delete_option('update_role_project_table');
+    //     delete_option('update_role_project_capabilities');
+    //     delete_option('update_role_project_users');
 
-        \WP_CLI::success( "Table truncate successfully!" );
-    }
+    //     \WP_CLI::success( "Table truncate successfully!" );
+    // }
 
     public function create_project( $args, $assoc_args ) {
         $arguments = wp_parse_args( $assoc_args, array(

@@ -24,4 +24,5 @@
     <!-- <rule ref="WordPress.Security.ValidatedSanitizedInput" /> -->
     <rule ref="WordPress.DB" />
     <rule ref="WordPress.Security" />
+    <rule ref="WordPress.CodeAnalysis" />
 </ruleset>
