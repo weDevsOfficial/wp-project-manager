@@ -1,5 +1,11 @@
 <template>
-	<input type="text" :placeholder="options.placeholder" class="pm-daterangepicker" :value="dateValue">
+	<div v-if="options.input" class="pm-daterangepicker"></div>
+	<input 
+		v-else
+		type="text" 
+		:placeholder="options.placeholder" 
+		class="pm-daterangepicker" 
+		:value="dateValue">
 </template>
 
 <script>
@@ -53,6 +59,22 @@
 			jQuery('.pm-daterangepicker').on('cancel.daterangepicker', function(ev, picker) {
 			    self.$emit('cancel', 'pm-daterangepicker');
 			});
+
+			this.open();
+        },
+
+        created() {
+        	
+        },
+
+        methods: {
+        	open () {
+        		if(!this.options.autoOpen) {
+        			return;
+        		}
+
+        		jQuery('.pm-daterangepicker').trigger('click');
+        	}
         }
 	}
 </script>

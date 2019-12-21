@@ -30,12 +30,12 @@
                         <span v-if="isBetweenDate( task_start_field, task.start_at.date, task.due_date.date )">&ndash;</span>
                         <span>{{ taskDateFormat(task.due_date.date) }}</span>
                     </div>
-                    <!-- v-if="parseInt(task.meta.total_comment) > 0" -->
-                    <a  href="#" @click.prevent="getSingleTask(task)" class="task-activity comment">
+                   
+                  <!--   <a  href="#" @click.prevent="getSingleTask(task)" class="task-activity comment">
                         <span class="icon-pm-comment"></span>
                         <span>{{ task.meta.total_comment }}</span>
                     </a>  
-                    <pm-do-action :hook="'completed-task_inline'" :actionData="doActionData"></pm-do-action>
+                    <pm-do-action :hook="'completed-task_inline'" :actionData="doActionData"></pm-do-action> -->
                 </div>   
                 <div v-if="can_edit_task(task) && !isArchivedTaskList(task)" @click.prevent="showHideTaskMoreMenu(task, list)" class="more-menu task-more-menu">
                     <pm-popper trigger="click" :options="popperOptions">

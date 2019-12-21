@@ -1,16 +1,16 @@
 <template>
     <div class="pm-popup-mask">
         <div class="popup-container" :style="{
-        	width: data.width
+        	width: options.width
         }">
         	<form @submit.prevent="submit()">
             
                 <div class="head">
-                    <span>{{ data.title }}</span>
+                    <span>{{ options.title }}</span>
                 </div>
 
                 <div class="content" :style="{
-                	height: data.height
+                	height: options.height
                 }">
               		<slot></slot>
 
@@ -19,16 +19,17 @@
                 <div class="pm-button-group">
                     <div class="button-group-inside">
                         <div class="cancel-btn-wrap">
-                            <a href="#" @click.prevent="close()"  class="pm-button pm-secondary">{{ data.cancelButton }}</a>
+                            <a href="#" @click.prevent="close()"  class="pm-button pm-secondary">{{ options.cancelButton }}</a>
                         </div>
                         <div class="update-btn-wrap">
                             <input 
                             	type="submit"
-                            	:class="data.loading ? 'submit-btn-text pm-button pm-primary' : 'pm-button pm-primary'"
-                            	:value="data.submitButton"
+                            	:class="options.loading ? 'submit-btn-text pm-button pm-primary' : 'pm-button pm-primary'"
+                            	:value="options.submitButton"
+                            	:disabled="options.submitButtonDisabled"
                             />
                             	
-                            <div v-if="data.loading" class="pm-circle-spinner"></div>
+                            <div v-if="options.loading" class="pm-circle-spinner"></div>
                         </div>
                     </div>
                 </div>
@@ -77,12 +78,12 @@
 
 			    input[type="text"], select, textarea {
 			    	padding: 0 8px;
-				    line-height: 2;
 				    min-height: 30px;
 				    box-shadow: 0 0 0 transparent;
 				    border: 1px solid #7e8993;
 				    background-color: #fff;
 				    color: #32373c;
+				    margin: 0;
 
 				    &:focus {
 				    	border-color: #007cba;
@@ -149,25 +150,33 @@
 					loading: false,
 					isForm: true,
 					manageLoading: false,
+					submitButtonDisabled: false,
 					height: '60vh',
 					width: '545px'
-				},
-
-				data: {}
+				}
 			}
 		},
 
 		created () {
-			this.data = Object.assign(this.default, this.options);
+			var self = this;
+
+			 Object.entries(this.default).forEach(function(obj) {
+			 	let key = obj[0];
+			 	let val = obj[1];
+
+			 	if(!self.options[key]) {
+			 		Vue.set( self.options, key, val );
+			 	}
+			 });
 		},
 
 		methods: {
 			submit () {
-				if(!this.data.manageLoading) {
-					this.data.loading = true;
+				if(!this.options.manageLoading) {
+					this.options.loading = true;
 				}
 
-				this.$emit('submit', this.data);
+				this.$emit('submit', this.options);
 
 			},
 
