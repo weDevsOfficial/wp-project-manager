@@ -77,7 +77,7 @@
 			    height: 60vh;
 
 			    input[type="text"], select, textarea {
-			    	padding: 0 8px;
+			    	padding: 5px;
 				    min-height: 30px;
 				    box-shadow: 0 0 0 transparent;
 				    border: 1px solid #7e8993;
