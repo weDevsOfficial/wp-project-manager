@@ -1,8 +1,11 @@
 <template>
     <div class="pm-popup-mask">
-        <div class="popup-container" :style="{
-        	width: options.width
-        }">
+        <div 
+        	class="popup-container" 
+        	:style="{
+        		width: options.width
+        	}"
+        >
         	<form @submit.prevent="submit()">
             
                 <div class="head">
@@ -181,7 +184,7 @@
 			},
 
 			close () {
-				this.$emit('close');
+				this.$emit('close', this.options);
 			}
 		}
 	}
