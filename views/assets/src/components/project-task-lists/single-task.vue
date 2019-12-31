@@ -214,7 +214,8 @@
                                 <do-action :hook="'single_task_inline'" :actionData="doActionData"></do-action>
                             </div>
                         </div>
-                         <!-- v-if="has_task_permission()" -->
+                        <do-action :hook="'before_single_task_description'" :actionData="doActionData"></do-action>
+                        <!-- v-if="has_task_permission()" -->
                         <div id="description-wrap" class="description-wrap">
                             <div v-if="showdescriptionfield && has_task_permission()" @click.prevent="isTaskDetailsEditMode()"  class="action-content pm-flex">
                                 <span>
