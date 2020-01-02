@@ -9,7 +9,8 @@
         	<form @submit.prevent="submit()">
             
                 <div class="head">
-                    <span>{{ options.title }}</span>
+                    <div class="title">{{ options.title }}</div>
+                    <div class="cross" @click.prevent="close()"><span class="flaticon-cross"></span></div>
                 </div>
 
                 <div class="content" :style="{
@@ -66,10 +67,21 @@
         	.head {
 	            background-color: #f6f8fa;
 	            border-bottom: 1px solid #eee;
-	            padding: 16px;
-	            font-size: 14px;
-	            font-weight: 600;
-	            color: #24292e;
+	            display: flex;
+	            align-items: center;
+
+	            .title {
+	            	padding: 16px;
+		            font-size: 14px;
+		            font-weight: 600;
+		            color: #24292e;
+		            flex: 1;
+	            }
+	            .cross {
+	            	padding: 16px;
+	            	cursor: pointer;
+	            	border-left: 1px solid #e5e5e5;
+	            }
 	        }
 	        
             .content {
