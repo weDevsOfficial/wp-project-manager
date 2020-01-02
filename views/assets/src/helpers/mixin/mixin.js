@@ -22,6 +22,14 @@ export default {
     },
 
     methods: {
+        cutString(string, length, dot){
+            var output = "";
+            output = string.substring(0, parseInt(length));
+            if(dot && string.length > length){
+                output += "...";
+            }
+            return output;
+        },
         is_array(items) {
             if(Object.prototype.toString.call(items) == '[object Array]' ) {
                 return true;
