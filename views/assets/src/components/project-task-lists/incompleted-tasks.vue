@@ -69,7 +69,7 @@
                                     </li>
                                     <li>
                                         <a @click.prevent="taskDuplicate(task.id)" class="li-a" href="#">
-                                            <span class="icon-pm-move"></span>
+                                            <span class="flaticon-pm-copy-files"></span>
                                             <span>{{ __('Duplicate', 'wedevs-project-manager') }}</span>
                                         </a>
                                     </li>
