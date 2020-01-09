@@ -5,7 +5,7 @@
         :options="lists"
         :multiple="multiple"
         :show-labels="true"
-        :placeholder="''"
+        :placeholder="options.placeholder"
         select-label=""
         selected-label="selected"
         deselect-label=""
@@ -95,7 +95,6 @@
     }
 </style>
 
-
 <script>
 	export default {
 		props: {
@@ -110,7 +109,15 @@
 				default () {
 					return false
 				}
-			}
+			},
+            options: {
+                type: [Object],
+                default () {
+                    return {
+                        placeholder: ''
+                    }
+                }
+            }
 		},
 		data () {
 			return {
@@ -129,6 +136,7 @@
 		},
 
 		created() {
+            console.log(this.options.placeholder);
 			this.setLists();
 		},
 		methods: {
@@ -149,6 +157,7 @@
 			onChange (val, el) {
 				this.$emit('onChange', val);
 			},
+
 			setLists () {
 				var lists = [],
 					self = this;
@@ -170,7 +179,6 @@
 			},
 			getLists (args) {
 	            var self = this;
-
 	            var request = {
 	                url: self.base_url + '/pm/v2/projects/'+args.data.project_id+'/task-lists?with=incomplete_tasks,complete_tasks&incomplete_task_per_page=-1&complete_task_per_page=-1',
 	                success (res) {
@@ -178,6 +186,8 @@
 	                    if ( typeof args.callback != 'undefined' ) {
 	                        args.callback (res);
 	                    }
+
+                        self.$emit('afterGetLists', res);
 	                },
 	                error (res) {
 

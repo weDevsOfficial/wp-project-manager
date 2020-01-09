@@ -4,12 +4,14 @@ namespace WeDevs\PM\task\Helper;
 use WP_REST_Request;
 
 // data: {
-// 	with: 'assignees,categories',
+// 	with: 'assignees,categories, total_comments',
 // 	per_page: '10',
 // 	select: ['id, title']
 // 	categories: [2, 4],
 // 	users: [1,2],
+// 	lists: [1,2]
 // 	id: [1,2],
+// 	project_id: [1,2]
 // 	title: 'Rocket',
 // 	status: '0',
 // 	page: 1
@@ -143,7 +145,7 @@ class Task {
 		return [
 			'total_tasks'  => $this->found_rows,
 			'total_page'   => ceil( $this->found_rows/$this->get_per_page() ),
-			// 'total_comments'         => 0,
+			//'total_comments'         => 0,
 			// 'total_complete_tasks'   => 0,
 			// 'total_incomplete_tasks' => 0,
 			// 'totla_files'            => 0
@@ -159,12 +161,13 @@ class Task {
 	 */
 	public function fromat_task( $task ) {
 		$items = [
-			'id'         => (int) $task->id,
-			'title'      => (string) $task->title,
-			'created_at' => $task->created_at,
-			'start_at'   => $task->start_at,
-			'due_date'   => $task->due_date,
-			'completed_at' => $task->completed_at
+			'id'           => (int) $task->id,
+			'title'        => (string) $task->title,
+			'status'       => isset( $task->status ) ? $this->format_status( $task->status ) : '',
+			'created_at'   => empty( $task->created_at ) ? '' : $task->created_at,
+			'start_at'     => empty( $task->start_at ) ? '' : format_date( $task->start_at ),
+			'due_date'     => empty( $task->due_date ) ? '' : format_date( $task->due_date ),
+			'completed_at' => empty( $task->completed_at ) ? '' : format_date( $task->completed_at )
         ];
 
         $select_items = empty( $this->query_params['select'] ) ? false : $this->query_params['select'];
@@ -177,6 +180,8 @@ class Task {
 		if ( empty( $select_items ) ) {
 			$items = $this->set_with_items( $items, $task );
 			$items = $this->set_fixed_items( $items, $task );
+			$items = $this->set_item_meta( $items, $task );
+			
 			return $items;
 		}
 
@@ -189,23 +194,35 @@ class Task {
 		
 		$items = $this->set_with_items( $items, $task );
 		$items = $this->set_fixed_items( $items, $task );
+		$items = $this->set_item_meta( $items, $task );
 		
 		return $items;
 
 	}
 
-	private function set_with_items( $items, $task ) {
-		$request_with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
-		
-		if ( ! is_array( $request_with ) ) {
-			$request_with = explode( ',', $request_with );
+	private function format_status( $status ) {
+		return $status == 0 ? __( 'incomplete', 'wedevs-project-manger' ) : __( 'complete', 'wedevs-project-manger' );
+	}
+
+	private function set_item_meta( $item, $task ) {
+		if( isset( $task->total_comments ) ) {
+			$item['meta']['total_comments'] = $task->total_comments;
+			unset( $item['total_comments'] );
 		}
 
-		foreach ( $this->with as $default_with ) {
-			if ( in_array( $default_with, $request_with ) && isset( $task->$default_with ) ) {
-				$items[$default_with] = $task->$default_with;
-			}
+		return $item;
+	}
+
+	private function set_with_items( $items, $task ) {
+
+		$with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
+
+		if ( ! is_array( $with ) ) {
+			$with = explode( ',', str_replace( ' ', '', $with ) );
 		}
+
+		$task_with_items =  array_intersect_key( (array) $task, array_flip( $with ) );
+		$items = array_merge($items,$task_with_items);
 
 		return $items;
 	}
@@ -224,7 +241,9 @@ class Task {
 	 */
 	private function with() {
 		$this->include_project()
-			->include_list();
+			->include_list()
+			->include_assignees()
+			->include_total_comments();
 
 		return $this;
 	}
@@ -239,7 +258,7 @@ class Task {
 		$with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
 		
 		if ( ! is_array( $with ) ) {
-			$with = explode( ',', $with );
+			$with = explode( ',', str_replace(' ', '', $with ) );
 		}
 
 		if ( ! in_array( 'task_list', $with ) || empty( $this->task_ids ) ) {
@@ -257,7 +276,7 @@ class Task {
 			where tk.id IN ($tk_ids_format)";
 
 		$results = $wpdb->get_results( $wpdb->prepare( $query, $this->task_ids ) );
-		$lists = [];
+		$lists   = [];
 
 		foreach ( $results as $key => $result ) {
 			$task_id = $result->task_id;
@@ -282,7 +301,7 @@ class Task {
 		$with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
 		
 		if ( ! is_array( $with ) ) {
-			$with = explode( ',', $with );
+			$with = explode( ',', str_replace(' ', '', $with ) );
 		}
 
 		if ( ! in_array( 'project', $with ) || empty( $this->task_ids ) ) {
@@ -311,6 +330,93 @@ class Task {
 			$task->project = empty( $projects[$task->id] ) ? '' : $projects[$task->id]; 
 		}
 		
+		return $this;
+	}
+
+	private function include_assignees() {
+		global $wpdb;
+		$with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
+		
+		if ( ! is_array( $with ) ) {
+			$with = explode( ',', $with );
+		}
+
+		if ( ! in_array( 'assignees', $with ) || empty( $this->task_ids ) ) {
+			return $this;
+		}
+
+		$tb_assignees   = pm_tb_prefix() . 'pm_assignees';
+		$tb_users       = pm_tb_prefix() . 'users';
+		$task_format 	= pm_get_prepare_format( $this->task_ids );
+		$query_data     = $this->task_ids;
+
+		$query = "SELECT DISTINCT usr.ID as id, usr.display_name, usr.user_email as email, asin.task_id
+			FROM $tb_users as usr
+			LEFT JOIN $tb_assignees as asin ON usr.ID = asin.assigned_to
+			where asin.task_id IN ($task_format)";
+
+		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
+		
+		foreach ( $results as $key => $result ) {
+			$task_id = $result->task_id;
+			unset( $result->task_id );
+			
+			$result->avatar_url = get_avatar_url( $result->id );
+			// $result->roles = [
+			// 	'data' => [$this->roles($result->role_id)] 
+			// ];
+
+			$users[$task_id][] = $result;
+		}
+		
+		foreach ( $this->tasks as $key => $task ) {
+			$task->assignees['data'] = empty( $users[$task->id] ) ? [] : $users[$task->id];
+		}
+
+		return $this;
+	}
+
+	private function include_total_comments() {
+		global $wpdb;
+		$with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
+		
+		if ( ! is_array( $with ) ) {
+			$with = explode( ',', str_replace(' ', '', $with ) );
+		}
+		
+		if ( ! in_array( 'total_comments', $with ) || empty( $this->task_ids ) ) {
+			return $this;
+		}
+
+		$metas           = [];
+		$tb_pm_comments  = pm_tb_prefix() . 'pm_comments';
+		$tb_tasks       = pm_tb_prefix() . 'pm_tasks';
+		$task_format = pm_get_prepare_format( $this->task_ids );
+		$query_data = $this->task_ids;
+
+		$query ="SELECT DISTINCT count($tb_pm_comments.id) as comment_count,
+			$tb_tasks.id as task_id
+			FROM $tb_pm_comments
+			LEFT JOIN $tb_tasks  ON $tb_tasks.id = $tb_pm_comments.commentable_id
+			WHERE $tb_tasks.id IN ($task_format)
+			AND $tb_pm_comments.commentable_type = %s
+			group by $tb_tasks.id
+		";
+
+		array_push( $query_data, 'task' );
+
+		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
+		
+		foreach ( $results as $key => $result ) {
+			$task_id = $result->task_id;
+			unset($result->task_id);
+			$metas[$task_id] = $result->comment_count;
+		}
+
+		foreach ( $this->tasks as $key => $task ) {
+			$task->total_comments = empty( $metas[$task->id] ) ? 0 : $metas[$task->id];
+		}
+
 		return $this;
 	}
 
@@ -385,7 +491,8 @@ class Task {
 			->where_due_date()
 			->where_start_at()
 			->where_project_id()
-			->where_assignees();
+			->where_users()
+			->where_lists();
 
 		$this->where = apply_filters( 'pm_task_where', $this->where, $this->user_id );
 
@@ -431,7 +538,24 @@ class Task {
 		return is_array( $args ) ? $args : [$args];
     }
 
-	private function where_assignees() {
+    public function where_lists() {
+    	$lists = isset( $this->query_params['lists'] ) ? $this->query_params['lists'] : false;
+
+		if ( empty( $lists ) ) {
+			return $this;
+		}
+
+		$format = $this->get_prepare_format( $lists );
+		$lists  = $this->get_prepare_data( $lists );
+			
+		global $wpdb;
+		
+		$this->where .= $wpdb->prepare( " AND list.id IN ($format)", $lists );
+
+		return $this;
+    }
+
+	private function where_users() {
 		$users = isset( $this->query_params['users'] ) ? $this->query_params['users'] : false;
 
 		if ( empty( $users ) ) {
