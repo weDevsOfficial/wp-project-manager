@@ -129,7 +129,7 @@ class Project {
 
 
 		$response['data']  = $projects;
-		$response ['meta'] = $this->set_projects_meta();
+		$response['meta'] = $this->set_projects_meta();
 
 		return $response;
 	}
