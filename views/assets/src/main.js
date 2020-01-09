@@ -16,7 +16,7 @@ Vue.config.devtools = true;
  * Project template render
  */
 var PM_Vue = {
-    el: '#wedevs-pm',
+    el: `#${PM_Vars.id}`,
     store,
     router,
     render: t => t(App),
