@@ -114,7 +114,8 @@
                 type: [Object],
                 default () {
                     return {
-                        placeholder: ''
+                        placeholder: __('Task Lists', 'wedevs-project-manager'),
+                        projectId: false
                     }
                 }
             }
@@ -125,7 +126,8 @@
 				timeout: '',
 				loadingListSearch: false,
                 listAbort: '',
-                list: ''
+                list: '',
+                projectId: false
 			}
 		},
 		components: {
@@ -136,7 +138,7 @@
 		},
 
 		created() {
-            console.log(this.options.placeholder);
+            this.projectId = this.project_id && typeof this.project_id != 'undefined' ? parseInt(this.project_id) : parseInt(this.options.projectId);
 			this.setLists();
 		},
 		methods: {
@@ -153,6 +155,8 @@
                         });
                     }
                 });
+
+                self.$emit('afterGetLists', lists);
             },
 			onChange (val, el) {
 				this.$emit('onChange', val);
@@ -165,7 +169,7 @@
 				if( !this.$store.state.projectTaskLists.lists.length) {
 					var args = {
 						data: {
-							project_id: this.project_id,
+							project_id: this.projectId,
 						},
 
 						callback (res) {
@@ -186,8 +190,6 @@
 	                    if ( typeof args.callback != 'undefined' ) {
 	                        args.callback (res);
 	                    }
-
-                        self.$emit('afterGetLists', res);
 	                },
 	                error (res) {
 
@@ -215,7 +217,7 @@
                 }
 
                 var request = {
-                    url: self.base_url + '/pm/v2/projects/'+this.project_id+'/lists/search?title='+title+'&with=incomplete_tasks,complete_tasks&incomplete_task_per_page=-1&complete_task_per_page=-1',
+                    url: self.base_url + '/pm/v2/projects/'+this.projectId+'/lists/search?title='+title+'&with=incomplete_tasks,complete_tasks&incomplete_task_per_page=-1&complete_task_per_page=-1',
                     success: function(res) {
                         
                         self.loadingListSearch = false;
