@@ -10,7 +10,9 @@
             
                 <div class="head">
                     <div class="title">{{ options.title }}</div>
-                    <div class="cross" @click.prevent="close()"><span class="flaticon-cross"></span></div>
+                    <div class="cross" @click.prevent="close()">
+                    	<span class="flaticon-cross"></span>
+                    </div>
                 </div>
 
                 <div class="content" :style="{
@@ -23,7 +25,13 @@
                 <div class="pm-button-group">
                     <div class="button-group-inside">
                         <div class="cancel-btn-wrap">
-                            <a href="#" @click.prevent="close()"  class="pm-button pm-secondary">{{ options.cancelButton }}</a>
+                            <a 
+                            	href="#" 
+                            	@click.prevent="close()"  
+                            	class="pm-button pm-secondary"
+                            >
+                        		{{ options.cancelButton }}
+                        	</a>
                         </div>
                         <div class="update-btn-wrap">
                             <input 
@@ -152,7 +160,10 @@
 	export default {
 		props: {
 			options: {
-				type: [Object]
+				type: [Object],
+				default () {
+					return {}
+				}
 			}
 		},
 
