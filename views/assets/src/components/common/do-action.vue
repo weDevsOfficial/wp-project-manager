@@ -1,5 +1,4 @@
 <script>
-
     import mixin from './../../helpers/mixin/mixin';
     
     function PMGetComponents() {
@@ -11,37 +10,30 @@
             } else {
                 obj.property.mixins = [mixin];
             }
-
             components[obj.component] = obj.property;
         });
 
         return components;
     }
-
     var action = {
         props: {
             hook: {
                 type: String,
                 required: true
             },
-
             actionData: {
                 type: [Object, Array, String, Number],
-
                 default: function () {
                     return {}
                 }
             }
         },
-
         components: PMGetComponents(),
-
-        render (h) {
-            this.$options.components = PMGetComponents();
-
+        render (crateElement) {
+            //this.$options.components = PMGetComponents();
+            
             var components = [],
                 self = this;
-
             weDevs_PM_Components.map(function(obj, key) {
                 if (obj.hook == self.hook) {
                     components.push(
@@ -50,12 +42,16 @@
                 }
             });
 
-            return h('span', {class: 'pm-action-wrap'}, components);
+            if(components.length) {
+                return crateElement('span', {class: 'pm-action-wrap'}, components);
+            }
+            
         }
     }
-
     export default action;
-    
+
 </script>
+
+
 
 

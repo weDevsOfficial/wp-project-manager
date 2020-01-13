@@ -11,12 +11,9 @@
 		mounted () {
 			var self = this;
 				
-
 			jQuery('body').on('click', function(ele) {
 		        self.eventTrigger(ele);
 		    });
-
-			
 		},
 
 		methods: {

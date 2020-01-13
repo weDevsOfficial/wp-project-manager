@@ -6,9 +6,9 @@
         <router-view></router-view>
         <do-action hook="addons-component"></do-action>
         
-        <!-- <div class="pm-global-projects-wrap">
+        <div class="pm-global-projects-wrap">
             <new-task-form v-if="taskForm" @disableTaskForm="closeTaskForm"></new-task-form>
-        </div> -->
+        </div>
 
     </div>
 </template>
