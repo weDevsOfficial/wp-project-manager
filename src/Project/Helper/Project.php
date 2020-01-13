@@ -11,7 +11,7 @@ use WeDevs\PM\Task_List\Helper\Task_List;
 // 	category: [2, 4],
 // 	inUsers: [1,2],
 // 	id: [1,2],
-// 	title: 'Rocket', 'test'
+// 	title: 'Rocket',
 // 	status: '0',
 // 	page: 1,
 //  orderby: 'title:asc,id:desc'
