@@ -112,9 +112,8 @@
                                         showDropdowns: true,
                                         startDate: getStartDate(),
                                         endDate: getEndDate()
-                                    }">
-                                    
-                                </pm-date-range-picker>
+                                    }"
+                                />
                             </div>
                         </div>
                         <div class="task-submit-wrap">
