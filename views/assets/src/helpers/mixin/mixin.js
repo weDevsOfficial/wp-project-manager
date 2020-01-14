@@ -40,6 +40,11 @@ export default {
                 return true;
             }
         },
+        isValidDate(date) {
+            date = pm.Moment(new Date(date));
+
+            return date.isValid()
+        },
         secondsToHms (d) {
             d = Number(d);
             var h = Math.floor(d / 3600);
