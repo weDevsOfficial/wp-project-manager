@@ -117,6 +117,12 @@
                         placeholder: __( 'Select a project', 'wedevs-project-manager' )
                     }
                 }
+            },
+            selectedProjects: {
+                type: [Object, Array, String],
+                default () {
+                    return ''
+                }
             }
 		},
 		data () {
@@ -125,7 +131,7 @@
 				timeout: '',
 				loadingProjectSearch: false,
                 projectAbort: '',
-                project: '',
+                project: ''
 			}
 		},
 		components: {
@@ -137,9 +143,24 @@
 
 		created() {
 			this.setProjects();
+            this.formatSelectedProjectsId();
+            
 		},
 
 		methods: {
+            formatSelectedProjectsId () {
+                if( this.is_object(this.selectedProjects) ) {
+                    this.project = Object.Assign({}, this.selectedProjects)
+                }
+                
+                if( this.is_array( this.selectedProjects ) ) {
+                    this.project = [];
+                    this.selectedProjects.forEach( (project) => {
+                        project.id = parseInt( project.id );
+                        this.project.push(project);
+                    } )
+                }
+            },
             formatProjects(projects) {
                 var self = this;
 
