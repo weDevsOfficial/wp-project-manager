@@ -1,14 +1,50 @@
 <template>
-	<div v-if="options.input" class="pm-daterangepicker"></div>
+	<div v-if="options.input" v-date-field class="pm-daterangepicker"></div>
 	<input 
 		v-else
 		type="text" 
 		:placeholder="options.placeholder" 
 		class="pm-daterangepicker" 
-		:value="dateValue">
+		:value="dateValue"
+		v-date-field
+	/>
 </template>
 
 <script>
+
+	const datePicker = (el, binding, vnode) => {
+		var self = vnode.context;
+
+		if(self.startDate != '') {
+			self.options.startDate = new Date( self.startDate );
+		}
+
+		if(self.endDate != '') {
+			self.options.endDate = new Date( self.endDate );
+		}
+
+        jQuery('.pm-daterangepicker').daterangepicker( self.options);
+
+		jQuery('.pm-daterangepicker').on('apply.daterangepicker', function(ev, picker) {
+			self.$emit('apply', picker.startDate, picker.endDate, 'pm-daterangepicker');
+		});
+
+		jQuery('.pm-daterangepicker').on('cancel.daterangepicker', function(ev, picker) {
+		    self.$emit('cancel', 'pm-daterangepicker');
+		});
+
+		self.open();
+	}
+
+	pm.Vue.directive('date-field', {
+	    inserted (el, binding, vnode) {
+	        datePicker(el, binding, vnode)
+	    },
+	    update (el, binding, vnode) {
+	    	datePicker(el, binding, vnode)
+	    }
+	});
+
 	export default {
 		props: {
 			options: {
@@ -22,13 +58,13 @@
 				}
 			},
 			startDate: {
-				type: [String],
+				type: [String, Date],
 				default () {
 					return ''
 				}
 			},
 			endDate: {
-				type: [String],
+				type: [String, Date],
 				default () {
 					return ''
 				}
@@ -39,33 +75,6 @@
 				dateValue: ''
 			}
 		},
-		mounted: function() {
-			var self = this;
-
-			if(self.startDate != '') {
-				self.options.startDate = self.startDate;
-			}
-
-			if(self.endDate != '') {
-				self.options.endDate = self.endDate;
-			}
-			
-            jQuery('.pm-daterangepicker').daterangepicker( self.options);
-
-			jQuery('.pm-daterangepicker').on('apply.daterangepicker', function(ev, picker) {
-				self.$emit('apply', picker.startDate, picker.endDate, 'pm-daterangepicker');
-			});
-
-			jQuery('.pm-daterangepicker').on('cancel.daterangepicker', function(ev, picker) {
-			    self.$emit('cancel', 'pm-daterangepicker');
-			});
-
-			this.open();
-        },
-
-        created() {
-        	
-        },
 
         methods: {
         	open () {
