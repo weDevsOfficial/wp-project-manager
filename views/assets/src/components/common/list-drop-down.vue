@@ -20,81 +20,6 @@
 
 </template>
 
-<style lang="less">
-	.pm-common-multiselect {
-	    min-height: auto;
-        margin-right: 8px;
-
-        .multiselect__single {
-            margin-bottom: 0;
-        }
-        .multiselect__select {
-            display: none;
-        }
-        .multiselect__input {
-            border: none !important;
-            box-shadow: none !important;
-            margin: 0;
-            font-size: 14px;
-            vertical-align: baseline;
-            height: 0;
-        }
-        .multiselect__element {
-            .multiselect__option {
-                font-weight: normal;
-                white-space: normal;
-                padding: 6px 12px;
-                line-height: 25px;
-                font-size: 14px;
-                display: flex;
-
-                .option-image-wrap {
-                    .option__image {
-                        border-radius: 100%;
-                        height: 16px;
-                        width: 16px;
-                    }
-                }
-                .option__desc {
-                    line-height: 20px;
-                    font-size: 13px;
-                    margin-left: 5px;
-                }
-            }
-
-        }
-        .multiselect__tags {
-            min-height: auto;
-            padding: 4px;
-            border-color: #ddd;
-            border-radius: 3px;
-            white-space: normal;
-            .multiselect__single {
-                font-size: 12px;
-            }
-            .multiselect__tags-wrap {
-                font-size: 12px;
-            }
-
-            .multiselect__spinner {
-                position: absolute;
-                right: 24px;
-                top: 14px;
-                width: auto;
-                height: auto;
-                z-index: 99;
-            }
-
-            .multiselect__tag {
-                margin-bottom: 0;
-                overflow: visible;
-                border-radius: 3px;
-                margin-top: 2px;
-            }
-        }
-    }
-</style>
-
 <script>
 	export default {
 		props: {
@@ -118,6 +43,18 @@
                         projectId: false
                     }
                 }
+            },
+            selectedLists: {
+                type: [Object, Array, String],
+                default () {
+                    return ''
+                }
+            },
+            projectId: {
+                type: [Number],
+                default () {
+                    return false
+                }
             }
 		},
 		data () {
@@ -127,23 +64,52 @@
 				loadingListSearch: false,
                 listAbort: '',
                 list: '',
-                projectId: false
+                //projectId: false
 			}
 		},
 		components: {
 			'multiselect': pm.Multiselect.Multiselect
 		},
-		computed: {
-			
-		},
+		watch: {
+            selectedLists () {
+                this.formatSelectedListsId();
+            },
+            projectId () {
+                this.setProjectId();
+                this.setLists();
+            }
+        },
 
 		created() {
-            this.projectId = this.project_id && typeof this.project_id != 'undefined' ? parseInt(this.project_id) : parseInt(this.options.projectId);
+            this.setProjectId();
 			this.setLists();
 		},
 		methods: {
+            setProjectId () {
+                if(this.projectId) {
+                    this.projectId = parseInt( this.projectId );
+                } else if(this.options.projectId) {
+                    this.projectId = parseInt( this.options.projectId );
+                }
+            },
+
+            formatSelectedListsId () {
+                var self = this;
+                if( this.is_object(this.selectedLists) ) {
+                    this.list = Object.assign({}, this.selectedLists)
+                }
+                
+                if( this.is_array( this.selectedLists ) ) {
+                    this.list = [];
+                    this.selectedLists.forEach( (list) => {
+                        list.id = parseInt( list.id );
+                        self.list.push(list);
+                    } )
+                }
+            },
             formatLists(lists) {
                 var self = this;
+                self.lists = [];
 
                 lists.forEach(function(list) {
                     let index = self.getIndex( self.lists, list.id, 'id' );
@@ -156,7 +122,7 @@
                     }
                 });
 
-                self.$emit('afterGetLists', lists);
+                self.$emit('afterGetLists', self.lists);
             },
 			onChange (val, el) {
 				this.$emit('onChange', val);
@@ -231,3 +197,78 @@
 		}
 	}
 </script>
+
+<style lang="less">
+    .pm-common-multiselect {
+        min-height: auto;
+        margin-right: 8px;
+
+        .multiselect__single {
+            margin-bottom: 0;
+        }
+        .multiselect__select {
+            display: none;
+        }
+        .multiselect__input {
+            border: none !important;
+            box-shadow: none !important;
+            margin: 0;
+            font-size: 14px;
+            vertical-align: baseline;
+            height: 0;
+        }
+        .multiselect__element {
+            .multiselect__option {
+                font-weight: normal;
+                white-space: normal;
+                padding: 6px 12px;
+                line-height: 25px;
+                font-size: 14px;
+                display: flex;
+
+                .option-image-wrap {
+                    .option__image {
+                        border-radius: 100%;
+                        height: 16px;
+                        width: 16px;
+                    }
+                }
+                .option__desc {
+                    line-height: 20px;
+                    font-size: 13px;
+                    margin-left: 5px;
+                }
+            }
+
+        }
+        .multiselect__tags {
+            min-height: auto;
+            padding: 4px;
+            border-color: #ddd;
+            border-radius: 3px;
+            white-space: normal;
+            .multiselect__single {
+                font-size: 12px;
+            }
+            .multiselect__tags-wrap {
+                font-size: 12px;
+            }
+
+            .multiselect__spinner {
+                position: absolute;
+                right: 24px;
+                top: 14px;
+                width: auto;
+                height: auto;
+                z-index: 99;
+            }
+
+            .multiselect__tag {
+                margin-bottom: 0;
+                overflow: visible;
+                border-radius: 3px;
+                margin-top: 2px;
+            }
+        }
+    }
+</style>
