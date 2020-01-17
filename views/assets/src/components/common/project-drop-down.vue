@@ -137,9 +137,12 @@
 		components: {
 			'multiselect': pm.Multiselect.Multiselect
 		},
-		computed: {
-			
-		},
+
+        watch: {
+            selectedProjects () {
+                this.formatSelectedProjectsId();
+            }
+        },
 
 		created() {
 			this.setProjects();
@@ -149,15 +152,16 @@
 
 		methods: {
             formatSelectedProjectsId () {
+                var self = this;
                 if( this.is_object(this.selectedProjects) ) {
-                    this.project = Object.Assign({}, this.selectedProjects)
+                    this.project = Object.assign({}, this.selectedProjects)
                 }
                 
                 if( this.is_array( this.selectedProjects ) ) {
                     this.project = [];
                     this.selectedProjects.forEach( (project) => {
                         project.id = parseInt( project.id );
-                        this.project.push(project);
+                        self.project.push(project);
                     } )
                 }
             },

@@ -237,6 +237,12 @@ export default {
                     focus: false
                 }
             }
+        },
+        projectId: {
+            type: [Number, Boolean],
+            default () {
+                return false;
+            }
         }
     },
 
@@ -574,7 +580,7 @@ export default {
                     //estimated_hours: this.task.estimation,
                     order: this.task.order,
                     recurrent: this.task.recurrent,
-                    project_id: typeof this.list.project_id !== 'undefined' ? this.list.project_id : this.project_id
+                    project_id: this.projectId ? parseInt( this.projectId ) : parseInt(this.list.project_id) 
                 },
                 callback: function( self, res ) { 
                     self.show_spinner = false;
