@@ -175,6 +175,7 @@
                         self.projects.push({
                             id: project.id,
                             title: project.title,
+                            assignees: project.assignees
                         });
                     }
                 });
@@ -249,6 +250,7 @@
                     url: `${self.base_url}/pm/v2/projects/?title=${title}`,
                     data: {
                         select: 'id, title',
+                        with: 'assignees',
                         per_page: 100
                     },
                     success: function(res) {

@@ -243,12 +243,6 @@ export default {
             default () {
                 return false;
             }
-        },
-        assignees: {
-            type: [Array],
-            default () {
-                return []
-            }
         }
     },
 
@@ -317,8 +311,6 @@ export default {
         }
 
         this.focusField = this.options.focus ? true : false;
-
-        this.setUsersFromProps();
     },
 
     watch: {
@@ -402,11 +394,6 @@ export default {
     },
 
     methods: {
-        setUsersFromProps () {
-            if(this.assignees.length) {
-                this.$store.commit( 'setProjectUsers', this.assignees );
-            }
-        },
         warningTitleCharacterLimit () {
             if(this.task.title.length >= 200) {
                 pm.Toastr.warning(__('Maxmim character limit 200', 'wedevs-project-manager'));

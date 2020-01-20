@@ -51,7 +51,6 @@
                 :task="task" 
                 :list="list"
                 :projectId="parseInt(projectId)"
-                :assignees="assignees"
                 @pm_after_create_task="afterCreateTask"
             />
                     
@@ -89,8 +88,7 @@
                 selectedProjects: '',
                 selectedLists: '',
                 listId: false,
-                list: {},
-                assignees: []
+                list: {}
             }
         },
 
@@ -99,12 +97,19 @@
             afterGetProjects (projects) {
                 if(projects.length) {
                     this.projectId = projects[0].id;
-                    this.assignees = projects[0].assignees.data;
+                    this.setTaskFormUsers(projects[0].assignees);
                     this.selectedProjects = Object.assign({},projects[0]);
                 }
             },
+            setTaskFormUsers (assignees) {
+                let users = typeof assignees == 'undefined' ? 
+                        [] : assignees.data;
+                
+                this.$store.commit( 'setProjectUsers', users );
+            },
             changeProject (project) {
-                this.assignees = project.assignees.data;
+                console.log(project);
+                this.setTaskFormUsers(project.assignees);
                 this.projectId = parseInt( project.id )
             },
             afterGetLists (lists) {
