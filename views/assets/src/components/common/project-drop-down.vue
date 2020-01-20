@@ -211,6 +211,7 @@
 	                url: self.base_url + '/pm/v2/projects',
                     data: {
                         select: 'id, title',
+                        with: 'assignees',
                         per_page: 100
                     },
 	                success (res) {
