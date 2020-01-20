@@ -51,6 +51,7 @@
                 :task="task" 
                 :list="list"
                 :projectId="parseInt(projectId)"
+                :assignees="assignees"
                 @pm_after_create_task="afterCreateTask"
             />
                     
@@ -88,7 +89,8 @@
                 selectedProjects: '',
                 selectedLists: '',
                 listId: false,
-                list: {}
+                list: {},
+                assignees: []
             }
         },
 
@@ -97,10 +99,12 @@
             afterGetProjects (projects) {
                 if(projects.length) {
                     this.projectId = projects[0].id;
+                    this.assignees = projects[0].assignees.data;
                     this.selectedProjects = Object.assign({},projects[0]);
                 }
             },
             changeProject (project) {
+                this.assignees = project.assignees.data;
                 this.projectId = parseInt( project.id )
             },
             afterGetLists (lists) {
