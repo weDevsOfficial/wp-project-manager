@@ -377,17 +377,21 @@ export default {
             }
 
             var self = this;
-            if( typeof store !== 'undefined' ) {
-                var mutations = store.mutations || {}; //self.$options.mutations;
-                var state = store.state || {}; //self.$options.state;
-            }
+            //if( typeof store !== 'undefined' ) {
+            var mutations = store.mutations || {}; //self.$options.mutations;
+            var state = store.state || {}; //self.$options.state;
+            var getters = store.getters || {}; //self.$options.getters;
+            var actions = store.actions || {}; //self.$options.actions;
+            //}
 
             // register a module `myModule`
 
             self.$store.registerModule(module_name, {
                 namespaced: true,
                 state,
+                getters,
                 mutations,
+                actions
             });
         },
 

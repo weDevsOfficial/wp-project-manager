@@ -45,11 +45,11 @@ class Project {
 	 * @return Object
 	 */
 	public static function getInstance() {
-        if ( !self::$_instance ) {
-            self::$_instance = new self();
-        }
+        // if ( !self::$_instance ) {
+        //     self::$_instance = new self();
+        // }
 
-        return self::$_instance;
+        return new self();
     }
 
     /**
