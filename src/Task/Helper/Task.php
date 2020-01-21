@@ -44,11 +44,11 @@ class Task {
 	 * @return Object
 	 */
 	public static function getInstance() {
-        if ( !self::$_instance ) {
-            self::$_instance = new self();
-        }
+        // if ( !self::$_instance ) {
+        //     self::$_instance = new self();
+        // }
 
-        return self::$_instance;
+        return new self();
     }
 
     /**
@@ -73,7 +73,7 @@ class Task {
      * @return Object
      */
 	public static function get_tasks( WP_REST_Request $request ) {
-		$self = self::getInstance();
+		$self  = self::getInstance();
 		$tasks = self::get_results( $request->get_params() );
 		
 		wp_send_json( $tasks );
@@ -475,6 +475,7 @@ class Task {
 	private function join() {
 
 		$this->join = apply_filters( 'pm_task_join', $this->join );
+
 		return $this;
 	}
 
