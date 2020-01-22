@@ -174,17 +174,17 @@
             formatProjects(projects) {
                 var self = this;
 
-                projects.forEach(function(project) {
-                    let index = self.getIndex( self.projects, project.id, 'id' );
+                // projects.forEach(function(project) {
+                //     let index = self.getIndex( self.projects, project.id, 'id' );
 
-                    if(index === false) {
-                        self.projects.push({
-                            id: project.id,
-                            title: project.title,
-                            assignees: project.assignees
-                        });
-                    }
-                });
+                //     if(index === false) {
+                //         self.projects.push({
+                //             id: project.id,
+                //             title: project.title,
+                //             assignees: project.assignees
+                //         });
+                //     }
+                // });
 
                 self.afterGetProjects( projects );
             },
