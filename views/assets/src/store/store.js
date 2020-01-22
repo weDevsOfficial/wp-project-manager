@@ -25,6 +25,8 @@ export default new pm.Vuex.Store({
         projects_meta: {},
         pagination: {},
         listView: 'list',
+        dropDownProjects: [],
+
         getIndex: function ( itemList, id, slug) {
             var index = false;
 
@@ -286,6 +288,20 @@ export default new pm.Vuex.Store({
                     'data': data.lists
                 });
             }
+        },
+        setDropDownProjects (state, projects) {
+            state.dropDownProjects = projects;
+        },
+
+        setDropDownProject (state, projects) {
+            projects.forEach( project => {
+                let index = state.getIndex( state.dropDownProjects, project.id, 'id' );
+                
+                if(index === false) {
+                    state.dropDownProjects.push(project);
+                }
+
+            })
         }
     }
 
