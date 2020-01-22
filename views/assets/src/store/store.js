@@ -26,7 +26,7 @@ export default new pm.Vuex.Store({
         pagination: {},
         listView: 'list',
         dropDownProjects: [],
-
+        
         getIndex: function ( itemList, id, slug) {
             var index = false;
 
