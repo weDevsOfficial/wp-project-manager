@@ -127,7 +127,7 @@
 		},
 		data () {
 			return {
-				projects: [],
+				//projects: [],
 				timeout: '',
 				loadingProjectSearch: false,
                 projectAbort: '',
@@ -149,6 +149,12 @@
             this.formatSelectedProjectsId();
             
 		},
+
+        computed: {
+            projects () {
+                return this.$store.state.dropDownProjects;
+            }
+        },
 
 		methods: {
             formatSelectedProjectsId () {
@@ -180,7 +186,11 @@
                     }
                 });
 
-                self.$emit('afterGetProjects', projects);
+                self.afterGetProjects( projects );
+            },
+
+            afterGetProjects( projects ) {
+                this.$emit('afterGetProjects', projects);
             },
 
 			onChange (val, el) {
@@ -188,23 +198,29 @@
 			},
 
 			setProjects () {
+                if( this.$store.state.dropDownProjects.length) {
+                    this.afterGetProjects( this.$store.state.dropDownProjects );
+                    return;
+                }
+
 				var projects = [],
 					self = this;
 
-				if( !this.$store.state.projects.length) {
-					var args = {
-						data: {
-							project_id: this.projectId,
-						},
+				var args = {
+					data: {
+						project_id: this.projectId,
+					},
 
-						callback (res) {
-                            self.formatProjects(res.data);
-						}
+					callback (res) {
+                        self.formatProjects(res.data);
+                        self.$store.commit( 'setDropDownProjects', res.data );
 					}
-					this.getProjects( args );
-				} else {
-                    self.formatProjects( this.$store.state.projects );
-				} 
+				}
+				this.getProjects( args );
+				
+    //             else {
+    //                 self.formatProjects( this.$store.state.projects );
+				// } 
 			},
 			getProjects (args) {
 	            var self = this;
@@ -257,6 +273,7 @@
                         
                         self.loadingProjectSearch = false;
                         self.formatProjects(res.data);
+                        self.$store.commit('setDropDownProject', res.data);
                     }
                 }
                 self.loadingProjectSearch = true;
