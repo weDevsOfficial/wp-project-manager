@@ -14,7 +14,8 @@
         :allow-empty="allowEmpty"
         :loading="loadingProjectSearch"
         @search-change="asyncProjectsFind"
-        @input="onChange">
+        @input="onChange"
+        @remove="afterRemove">
      
     </multiselect>
 
@@ -279,6 +280,11 @@
                 self.loadingProjectSearch = true;
                 self.projectAbort = self.httpRequest(request);
             },
+
+            afterRemove (project) {
+                
+                this.$emit( 'afterRemove', project );
+            }
 
 		}
 	}
