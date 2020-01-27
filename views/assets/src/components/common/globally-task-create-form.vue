@@ -9,6 +9,9 @@
                     @onChange="changeProject"
                     :selectedProjects="selectedProjects"
                     :class="selectedProjects ? 'display-block' : 'display-none'"
+                    :optionProjects="projects"
+                    :options="options"
+                    
                 />
             
 
@@ -27,7 +30,7 @@
         <div v-if="projectId">
             <label v-if="selectedLists" class="label">{{__('In List', 'wedevs-project-manager')}}</label>
             <pm-list-drop-down 
-                :projectId="projectId"
+                :projectId="parseInt(projectId)"
                 @afterGetLists="afterGetLists"
                 :selectedLists="selectedLists"
                 @onChange="changeList"
@@ -64,6 +67,20 @@
 <script>
     
     export default {
+        props: {
+            projects: {
+                type: [Array],
+                default () {
+                    return []
+                }
+            },
+            findProjects: {
+                type: [Boolean],
+                default () {
+                    return true
+                }
+            }
+        },
 
         data () {
             return {
@@ -88,10 +105,13 @@
                 selectedProjects: '',
                 selectedLists: '',
                 listId: false,
-                list: {}
+                list: {},
+                options: {
+                    placeholder: __( 'Select a project', 'wedevs-project-manager' ),
+                    searchProjects: this.findProjects
+                }
             }
         },
-
 
         methods: {
             afterGetProjects (projects) {
