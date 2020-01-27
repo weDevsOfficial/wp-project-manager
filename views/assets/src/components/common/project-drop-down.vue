@@ -115,7 +115,8 @@
                 type: [Object],
                 default () {
                     return {
-                        placeholder: __( 'Select a project', 'wedevs-project-manager' )
+                        placeholder: __( 'Select a project', 'wedevs-project-manager' ),
+                        searchProjects: true
                     }
                 }
             },
@@ -123,6 +124,12 @@
                 type: [Object, Array, String],
                 default () {
                     return ''
+                }
+            },
+            optionProjects: {
+                type: [Array],
+                default () {
+                    return []
                 }
             }
 		},
@@ -146,9 +153,9 @@
         },
 
 		created() {
+            this.hasPropsProjects()
 			this.setProjects();
             this.formatSelectedProjectsId();
-            
 		},
 
         computed: {
@@ -158,6 +165,11 @@
         },
 
 		methods: {
+            hasPropsProjects () {
+                 if ( this.optionProjects.length ) {
+                    this.$store.commit( 'setDropDownProjects', this.optionProjects );
+                }
+            },
             formatSelectedProjectsId () {
                 var self = this;
                 if( this.is_object(this.selectedProjects) ) {
@@ -199,7 +211,8 @@
 			},
 
 			setProjects () {
-                if( this.$store.state.dropDownProjects.length) {
+
+                if ( this.$store.state.dropDownProjects.length) {
                     this.afterGetProjects( this.$store.state.dropDownProjects );
                     return;
                 }
@@ -257,6 +270,9 @@
             },
 
             findProjects (title) {
+                if(!this.options.searchProjects) {
+                    return;
+                }
                 var self = this;
 
                 if(self.projectAbort) {
