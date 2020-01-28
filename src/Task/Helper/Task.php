@@ -603,6 +603,8 @@ class Task {
 		$this->join .= " LEFT JOIN {$tb_asin} ON $tb_asin.task_id={$this->tb_tasks}.id";
 		
 		$this->where .= $wpdb->prepare( " AND $tb_asin.assigned_to IN ($format)", $users );
+
+		return $this;
 	}
 
 	private function where_project_id() {
