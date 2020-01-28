@@ -1557,6 +1557,37 @@ var PM_TaskList_Mixin = {
                 }
             });
         },
+
+        taskDuplicate (taskId, callback) {
+            var self = this;
+
+            var request = {
+                type: 'POST',
+                url: self.base_url + '/pm/v2/tasks/'+taskId+'/duplicate',
+                success (res) {
+                    self.addTaskMeta(res.data.task);
+                    self.$store.commit( 'projectTaskLists/afterNewTask',
+                        {
+                            list_id: res.data.list_id,
+                            task: res.data.task,
+                            list: ''
+                        }
+                    );
+
+                    self.$store.commit('updateProjectMeta', 'total_activities');
+
+                    if(typeof callback != 'undefined') {
+                        callback(res.data);
+                    }
+                  
+                },
+                error (res) {
+                    
+                }
+            }; 
+
+            this.httpRequest(request);
+        }
     }
 }
 

@@ -56,3 +56,10 @@ $router->post( 'projects/{project_id}/tasks/filter', 'WeDevs/PM/Task/Controllers
 $router->post( 'projects/{project_id}/tasks/{task_id}/activity', 'WeDevs/PM/Task/Controllers/Task_Controller@activities' )
     ->permission(['WeDevs\PM\Core\Permissions\Access_Project']);
 
+$router->post( 'tasks/{task_id}/duplicate', 'WeDevs/PM/Task/Controllers/Task_Controller@duplicate' )
+    ->permission(['WeDevs\PM\Core\Permissions\Edit_Task']);
+
+
+
+
+
