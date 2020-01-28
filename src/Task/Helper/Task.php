@@ -79,6 +79,38 @@ class Task {
 		wp_send_json( $tasks );
 	}
 
+
+	/**
+     * AJAX Get tasks Csv
+     * 
+     * @param  array $request
+     * 
+     */
+	public static function get_taskscsv( WP_REST_Request $request ) {
+		$self = self::getInstance();
+		$tasks = self::get_results( $request->get_params() );
+		header('Content-Type: text/csv; charset=utf-8');
+        header('Content-Disposition: attachment; filename=data.csv');
+        $output = fopen("php://output", "w");
+
+        fputcsv( $output, [__('Tasks', 'pm-pro' ), __( 'Task List', 'pm-pro' ), __( 'Project Name', 'pm-pro' ),
+        	__('Due Date', 'pm-pro'),__( 'Created At', 'pm-pro' )
+        ] );
+
+        foreach ( $tasks['data'] as $key => $result ) {
+        	error_log(print_r($result,true));
+	        fputcsv( $output,
+                [
+                    $result['title'], $result['task_list']->title, $result['project']->title,$result['due_date'],
+                    $result['created_at'],
+                ]
+            );
+        }
+
+        fclose($output);
+        exit();
+	}
+
 	/**
 	 * Get tasks
 	 * 
