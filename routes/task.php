@@ -11,6 +11,8 @@ $router->get( 'projects/{project_id}/tasks', 'WeDevs/PM/Task/Controllers/Task_Co
     ->permission(['WeDevs\PM\Core\Permissions\Access_Project']);
 
 $router->get( 'tasks', 'WeDevs/PM/Task/Helper/Task@get_tasks' );
+$router->get( 'advanced/tasks', 'WeDevs/PM/Task/Helper/Task@get_tasks' );
+$router->get( 'advanced/taskscsv', 'WeDevs/PM/Task/Helper/Task@get_taskscsv' );
 
 $router->post( 'projects/{project_id}/tasks', 'WeDevs/PM/Task/Controllers/Task_Controller@store' )
     ->permission(['WeDevs\PM\Core\Permissions\Create_Task'])
