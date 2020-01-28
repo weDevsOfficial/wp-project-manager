@@ -37,14 +37,7 @@
                 </multiselect>
             </div> -->
 
-             <div class="field">
-                <select v-model="search.status" @change="changeStatus()">
-                	<option value="current">{{ __( 'Current Task', 'wedevs-project-manager' ) }}</option>
-                	<option value="outstanding">{{ __( 'Outstanding Task', 'wedevs-project-manager' ) }}</option>
-                	<option value="completed">{{ __( 'Completed', 'wedevs-project-manager' ) }}</option>
-                </select>
-            </div>
-            <!-- <div class="field">
+            <div class="field" v-if="parseInt(PM_Vars.is_pro)==1">
 	            <pm-date-range-picker 
 	            	:startDate="search.start_at"
 	            	:endDate="search.due_date"
@@ -53,7 +46,16 @@
 	            	@cancel="calendarCancel">
 	            	
 	            </pm-date-range-picker>
-	        </div> -->
+	        </div>
+
+            <div class="field">
+                <select v-model="search.status" @change="changeStatus()">
+                	<option value="current">{{ __( 'Current Task', 'wedevs-project-manager' ) }}</option>
+                	<option value="outstanding">{{ __( 'Outstanding Task', 'wedevs-project-manager' ) }}</option>
+                	<option value="completed">{{ __( 'Completed', 'wedevs-project-manager' ) }}</option>
+                </select>
+            </div>
+
 	        <div>
             	<input class="button button-primary submit-button" type="submit" :value="__('Filter', 'wedevs-project-manager')">
             </div>
@@ -209,6 +211,7 @@
 				tasks: [],
 				lists: [],
 				calendarOptions: {
+					//'singleDatePicker': this.hasTaskStartField() ? false : true,
 					ranges: {
 				        'Today': [moment(), moment()],
 				        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
@@ -219,13 +222,14 @@
 				    },
 				    locale: {
 				      format: 'YYYY-MM-DD',
-				      cancelLabel: __( 'Clear', 'wedevs-project-manager' )
+				      cancelLabel: __( 'Clear', 'wedevs-project-manager' ),
 				    },
 				    "showCustomRangeLabel": false,
 				    "alwaysShowCalendars": true,
 				    "showDropdowns": true,
 				    'autoUpdateInput': true,
-				    'placeholder': __('Start at - Due date', 'wedevs-project-manager')
+				    "autoApply": true,
+				    'placeholder': this.hasTaskStartField() ? __('Start at - Due date', 'wedevs-project-manager') : __('Due date', 'wedevs-project-manager')
 				}
 			}
 		},
@@ -295,10 +299,16 @@
 				this.search = Object.assign({}, this.search, this.$route.query);
 				this.search.projects = [];
 
-				if(this.search.start_at == '' || this.search.due_date == '') {
-					this.calendarOptions.autoUpdateInput = false;
+				if(this.hasTaskStartField()) {
+					if(this.search.start_at == '' || this.search.due_date == '') {
+						this.calendarOptions.autoUpdateInput = false;
+					}
+				} else {
+					if(this.search.due_date == '') {
+						this.calendarOptions.autoUpdateInput = false;
+					}
 				}
-				
+
 				this.find();
 			},
 			asyncProjectFind (val) {
@@ -310,10 +320,15 @@
 			},
 
 			calendarOnChange (start, end, className) {
-				this.search.start_at = start.format('YYYY-MM-DD');
 				this.search.due_date = end.format('YYYY-MM-DD');
+				//if(this.hasTaskStartField()) {
+					this.search.start_at = start.format('YYYY-MM-DD');
 				
-				jQuery('.'+className).val(this.search.start_at +'-'+this.search.due_date);
+					jQuery('.'+className).val(this.search.start_at +' - '+this.search.due_date); 
+				// } else {
+				// 	jQuery('.'+className).val(this.search.due_date);
+				// }
+				
 			},
 
 			calendarCancel (className) {
@@ -387,7 +402,94 @@
 				
 				this.$router.push({query: request});
 
+				if(!this.isValidDateRange()) {
+
+					return;
+				}
+
 				this.sendRequest();
+			},
+
+			isValidDateRange() {
+				var today = pm.Moment().format('YYYY-MM-DD');
+				var isValidStart = true;
+				var isValidEnd = true;
+				
+				if(this.search.status == 'current') {
+					
+					if(this.hasTaskStartField()) {
+						let start = pm.Moment( new Date(this.search.start_at) ).format('YYYY-MM-DD');
+
+						if(start != 'Invalid date') {
+							isValidStart = moment(today).isSameOrBefore(start);
+						}
+					}
+					
+					let end   = pm.Moment( new Date(this.search.due_date) ).format('YYYY-MM-DD');
+
+					if(end != 'Invalid date') {
+						var isValidEnd = moment(today).isSameOrBefore(end);
+					}
+
+					if(!isValidStart && !isValidEnd) {
+						pm.Toastr.error(__('Start date and due date should be greater than or equal today', 'wedevs-project-manager'));
+						return false;
+					}
+
+					if(!isValidStart) {
+						pm.Toastr.error(__('Start date should be greater than or equal today', 'wedevs-project-manager'));
+						return false;
+					}
+
+					if(!isValidEnd) {
+						pm.Toastr.error(__('Due date should be greater than today', 'wedevs-project-manager'));
+						return false;
+					}
+
+					if(isValidStart && isValidEnd) {
+						return true;
+					}
+
+					return false;
+
+				} else if (this.search.status == 'outstanding') {
+
+					if(this.hasTaskStartField()) {
+						let start = pm.Moment( new Date(this.search.start_at) ).format('YYYY-MM-DD');
+
+						if(start != 'Invalid date') {
+							isValidStart = moment(today).isAfter(start);
+						}
+					}
+
+					let end   = pm.Moment( new Date(this.search.due_date) ).format('YYYY-MM-DD');
+					
+					if(end != 'Invalid date') {
+						var isValidEnd = moment(today).isAfter(end);
+					}
+
+					if(!isValidStart && !isValidEnd) {
+						pm.Toastr.error(__('Start date and due date should be less than today', 'wedevs-project-manager'));
+						return false;
+					}
+
+					if(!isValidStart) {
+						pm.Toastr.error(__('Start date should be less than today', 'wedevs-project-manager'));
+						return false;
+					}
+
+					if(!isValidEnd) {
+						pm.Toastr.error(__('Due date should be less than today', 'wedevs-project-manager'));
+						return false;
+					}
+
+					if(isValidStart && isValidEnd) {
+						return true;
+					}
+
+					return false;
+					
+				}
 			},
 
 			sendRequest () {
@@ -399,14 +501,39 @@
 
 				if(data.status == 'current') {
 					data.status = 0;
-					data.due_date = pm.Moment().format('YYYY-MM-DD');
-					data.due_date_operator = ['greater_than_equal', 'null'];
+					
+					if(data.due_date) {
+						data.due_date_operator = ['less_than_equal'];
+						data.due_date = pm.Moment(data.due_date).format('YYYY-MM-DD');
+					} else {
+						data.due_date_operator = ['less_than_equal', 'null'];
+					}
+					
+					if(data.start_at && this.hasTaskStartField()) {
+						data.start_at_operator = ['greater_than_equal'];
+						data.start_at = pm.Moment(data.start_at).format('YYYY-MM-DD');
+					} else {
+						data.start_at_operator = ['greater_than_equal'];
+						data.start_at = pm.Moment().format('YYYY-MM-DD');
+					}
+
 				} else if (data.status == 'completed') {
 					data.status = 1;
 				} else if (data.status == 'outstanding') {
 					data.status = 0;
-					data.due_date = pm.Moment().format('YYYY-MM-DD');
-					data.due_date_operator = ['less_than_equal'];
+					
+					if(data.due_date) {
+						data.due_date = pm.Moment(data.due_date).format('YYYY-MM-DD');
+					} else {
+						data.due_date = pm.Moment().format('YYYY-MM-DD');
+					}
+					
+					data.due_date_operator = ['less_than'];
+
+					if(data.start_at && this.hasTaskStartField()) {
+						data.start_at_operator = ['greater_than_equal'];
+						data.start_at = pm.Moment(data.start_at).format('YYYY-MM-DD');
+					}
 				}
 
 				if(typeof data.projects != 'undefined') {
