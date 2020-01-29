@@ -22,6 +22,8 @@ import ListSearch from '@components/common/list-filter.vue';
 import DateRangePicker from '@components/common/date-range-picker.vue';
 import PopupModal from '@components/common/popup-modal.vue';
 import ClickWrap from '@components/common/click-wrap.vue';
+import Triangle from '@components/common/triangle-box.vue';
+import DropDownMenu from '@components/common/dropdown-menu.vue';
 
 pm.Vue.component('pm-pagination', pagination);
 pm.Vue.component('pm-date-picker', datePicker);
@@ -47,6 +49,8 @@ pm.Vue.component('pm-list-search', ListSearch);
 pm.Vue.component('pm-date-range-picker', DateRangePicker);
 pm.Vue.component('pm-popup-modal', PopupModal);
 pm.Vue.component('pm-click-wrap', ClickWrap);
+pm.Vue.component('pm-triangle-box', Triangle);
+pm.Vue.component('pm-dropdown-menu', DropDownMenu);
 
 
 
