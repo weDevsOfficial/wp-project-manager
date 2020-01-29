@@ -1,6 +1,6 @@
     /*
     Flaticon icon font: Flaticon
-    Creation date: 02/01/2020 05:08
+    Creation date: 29/01/2020 03:48
     */
 
     @font-face {
@@ -135,6 +135,7 @@
 .flaticon-sort:before { content: "\f15f"; }
 .flaticon-custom-field-icon:before { content: "\f160"; }
 .flaticon-check-mark-1:before { content: "\f161"; }
+.flaticon-color-picker:before { content: "\f162"; }
     
     $font-Flaticon-document: "\f100";
     $font-Flaticon-arrow: "\f101";
@@ -234,3 +235,4 @@
     $font-Flaticon-sort: "\f15f";
     $font-Flaticon-custom-field-icon: "\f160";
     $font-Flaticon-check-mark-1: "\f161";
+    $font-Flaticon-color-picker: "\f162";
