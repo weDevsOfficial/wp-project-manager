@@ -47,7 +47,7 @@
                         <do-action :hook="'task_inline'" :actionData="doActionData"></do-action>
                     </div> -->
                 </div>  
-
+                {{ can_edit_task(task) }} 
                 <div v-if="can_edit_task(task) && !isArchivedTaskList(task)" class="nonSortableTag more-menu task-more-menu">
                     <pm-popper trigger="click" :options="popperOptions">
                         <div class="pm-popper popper">

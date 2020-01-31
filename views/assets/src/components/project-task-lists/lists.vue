@@ -48,13 +48,16 @@
                             </div>
                         </div>
                         <div :class="!isListFetch ? 'lists-wrap' : ''">
-                            <div class="task-field" v-if="can_create_task && !isArchivedPage">
+                            <div 
+                                class="task-field" 
+                                v-if="can_create_task && !isArchivedPage && parseInt(current_page_number)<=1"
+                            >
                                 <new-task-form  
                                     :list="list" 
                                     :options="{
                                         focus: true
                                     }"
-                                ></new-task-form>
+                                />
                             </div>
 
                             <div class="list-items">
