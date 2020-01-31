@@ -1,5 +1,4 @@
-<!--
-Usage for this component
+<!--Usage for this component
 <pm-button
     :label="__( 'Click Me', 'wedevs-project-manager')"
     isPrimary

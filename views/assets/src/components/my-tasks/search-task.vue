@@ -490,6 +490,8 @@
 					return false;
 					
 				}
+
+				return true;
 			},
 
 			sendRequest () {
@@ -519,6 +521,9 @@
 
 				} else if (data.status == 'completed') {
 					data.status = 1;
+					data.due_date_operator = ['less_than_equal', 'null'];
+					data.start_at_operator = ['greater_than_equal'];
+				
 				} else if (data.status == 'outstanding') {
 					data.status = 0;
 					
@@ -529,9 +534,9 @@
 					}
 					
 					data.due_date_operator = ['less_than'];
-
+					data.start_at_operator = ['greater_than_equal'];
+					
 					if(data.start_at && this.hasTaskStartField()) {
-						data.start_at_operator = ['greater_than_equal'];
 						data.start_at = pm.Moment(data.start_at).format('YYYY-MM-DD');
 					}
 				}
