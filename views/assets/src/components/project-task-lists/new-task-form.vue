@@ -89,7 +89,7 @@
                                     :title="__('Date', 'wedevs-project-manager')" 
                                     @click.prevent="enableDisable('datePicker')" 
                                     :class="isActiveDate()"
-                                ></span>
+                                />
 
 
                                 <span class="date-field">
@@ -101,10 +101,9 @@
                             </div>
                             <div v-if="datePicker" class="subtask-date new-task-caledar-wrap">
                                 <pm-date-range-picker 
-                                    v-if="datePicker" 
                                     @apply="onChangeDate"
                                     :options="{
-                                        input: true,
+                                        input: false,
                                         autoOpen: true,
                                         autoApply: true,
                                         opens: 'left',

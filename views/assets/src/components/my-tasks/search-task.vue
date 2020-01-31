@@ -43,9 +43,9 @@
 	            	:endDate="search.due_date"
 	            	:options="calendarOptions"
 	            	@apply="calendarOnChange"
-	            	@cancel="calendarCancel">
-	            	
-	            </pm-date-range-picker>
+	            	@cancel="calendarCancel"
+	            />
+
 	        </div>
 
             <div class="field">
@@ -211,7 +211,7 @@
 				tasks: [],
 				lists: [],
 				calendarOptions: {
-					//'singleDatePicker': this.hasTaskStartField() ? false : true,
+					input: true,
 					ranges: {
 				        'Today': [moment(), moment()],
 				        'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
