@@ -687,7 +687,7 @@ class Task {
 		
 		$q = [];
 		$null_query = '';
-
+		
 		foreach ( $ope_params as $key => $ope_param ) {
 			if ( $ope_param == 'null' ) continue;
 

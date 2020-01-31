@@ -111,6 +111,9 @@
                     }
 
                 }
+                .flaticon-sort {
+                    margin-top: 6px;
+                }
             }   
         }
     }
