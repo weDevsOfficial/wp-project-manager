@@ -1,5 +1,5 @@
 <template>
-    <div id="pm-single-task-wrap">
+    <div id="pm-single-task-wrap" class="pm-single-task-wrap">
         <div class="nonsortable">
 
             <div v-if="loading" class="modal-mask half-modal pm-task-modal modal-transition">
@@ -317,6 +317,14 @@
         .list-title {
             font-size: 12px;
             text-transform: uppercase;
+        }
+    }
+    .pm-single-task-wrap {
+        .option-icon-groups {
+            .pm-action-wrap {
+                display: flex;
+                align-items: center;
+            }
         }
     }
 
