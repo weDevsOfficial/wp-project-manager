@@ -94,7 +94,7 @@ export default {
             if(o > 185) {
                 return '#848484';
             } else {
-                return 'white';
+                return '#fff';
             }
 
         },

@@ -55,9 +55,9 @@
             </div>
 
             <div class="submit">
-                <input v-if="project.id" type="submit" name="update_project" id="update_project" class="button-primary" :value="update_project">
-                <input v-if="!project.id" type="submit" name="add_project" id="add_project" class="button-primary" :value="add_new_project">
-                <a @click.prevent="closeForm()" class="button project-cancel" href="#">{{ __( 'Close', 'wedevs-project-manager') }}</a>
+                <input v-if="project.id" type="submit" name="update_project" id="update_project" class="pm-button pm-primary" :value="update_project">
+                <input v-if="!project.id" type="submit" name="add_project" id="add_project" class="pm-button pm-primary" :value="add_new_project">
+                <a @click.prevent="closeForm()" class="pm-button pm-secondary project-cancel" href="#">{{ __( 'Close', 'wedevs-project-manager') }}</a>
                 <span v-show="show_spinner" class="pm-loading"></span>
 
             </div>
