@@ -80,7 +80,7 @@
                             </div>
 
                         </div>
-
+                        
                         <div :class="singleTaskTitle(task) + ' task-title-wrap'">
                             <div class="task-title-text">
 
@@ -163,13 +163,22 @@
                                 </div>
                             </div>
 
-
+                            
                             <div class="pm-flex option-icon-groups">
                                 <do-action :hook="'single_task_action'" :actionData="task"></do-action>
                                 
                                 <span v-if="PM_Vars.is_pro && can_edit_task(task) && user_can('view_private_task')">
-                                    <span v-if="task.meta.privacy=='0'" @click.prevent="singleTaskLockUnlock(task)" :title="__('Task is visible for co-worker', 'wedevs-project-manager')" class="icon-pm-unlock pm-dark-hover pm-font-size-16"></span>
-                                    <span v-if="task.meta.privacy=='1'" @click.prevent="singleTaskLockUnlock(task)" class="icon-pm-private pm-dark-hover pm-font-size-16"></span>
+                                    <span 
+                                        v-if="typeof task.meta.privacy === 'undefined' || parseInt(task.meta.privacy)==0" 
+                                        @click.prevent="singleTaskLockUnlock(task)" 
+                                        :title="__('Task is visible for co-worker', 'wedevs-project-manager')" 
+                                        class="icon-pm-unlock pm-dark-hover pm-font-size-16"
+                                    />
+                                    <span 
+                                        v-if="parseInt(task.meta.privacy)==1" 
+                                        @click.prevent="singleTaskLockUnlock(task)" 
+                                        class="icon-pm-private pm-dark-hover pm-font-size-16"
+                                    />
                                 </span>
 
                                 <span  v-if="!task.status" id="pm-calendar-wrap"  v-pm-tooltip :title="__('Date', 'wedevs-project-manager')" @click.prevent="isTaskDateEditMode()" class="individual-group-icon calendar-group icon-pm-calendar pm-font-size-16">
@@ -985,14 +994,15 @@
                 }
                 var self = this;
                 var data = {
-                    is_private: task.meta.privacy == '0' ? 1 : 0
+                    is_private: typeof task.meta.privacy === 'undefined' || task.meta.privacy == '0' ? 1 : 0
                 }
                 var request_data = {
                     url: self.base_url + '/pm/v2/projects/'+task.project_id+'/tasks/privacy/'+task.id,
                     type: 'POST',
                     data: data,
                     success (res) {
-                        task.meta.privacy = data.is_private;
+                        //task.meta.privacy = data.is_private;
+                        pm.Vue.set( task.meta, 'privacy', data.is_private );
 
                         if(data.is_private) {
                             pm.Toastr.success(self.__('Task marked as private', 'wedevs-project-manager'));

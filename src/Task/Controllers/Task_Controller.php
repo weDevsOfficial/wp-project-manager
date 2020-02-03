@@ -60,7 +60,9 @@ class Task_Controller {
             $tasks = Task::where( 'project_id', $project_id )
                 ->parent()
                 ->where('title', 'LIKE', '%'.$search.'%');
+            
             $tasks = apply_filters( 'pm_task_index_query', $tasks, $project_id, $request );
+            
             $tasks = $tasks->orderBy( 'created_at', 'DESC')
                 ->get();
 
@@ -110,9 +112,11 @@ class Task_Controller {
                 'message' => pm_get_text('success_messages.no_element')
             ] );
         }
+        
         $resource = new Item( $task, new Task_Transformer );
-        $response =self::getInstance()->get_response( $resource );
+        $response = self::getInstance()->get_response( $resource );
         $response = apply_filters('pm_get_task', $response , $request);
+        
         return $response ;
     }
 
