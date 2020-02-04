@@ -44,6 +44,7 @@
 	            	:options="calendarOptions"
 	            	@apply="calendarOnChange"
 	            	@cancel="calendarCancel"
+	            	:autoUpdateInput="false"
 	            />
 
 	        </div>
@@ -228,7 +229,7 @@
 				    "alwaysShowCalendars": true,
 				    "showDropdowns": true,
 				    'autoUpdateInput': true,
-				    "autoApply": true,
+				    "autoApply": false,
 				    'placeholder': this.hasTaskStartField() ? __('Start at - Due date', 'wedevs-project-manager') : __('Due date', 'wedevs-project-manager')
 				}
 			}
@@ -324,7 +325,7 @@
 				//if(this.hasTaskStartField()) {
 					this.search.start_at = start.format('YYYY-MM-DD');
 				
-					jQuery('.'+className).val(this.search.start_at +' - '+this.search.due_date); 
+					//jQuery('.'+className).val(this.search.start_at +' - '+this.search.due_date); 
 				// } else {
 				// 	jQuery('.'+className).val(this.search.due_date);
 				// }
@@ -508,20 +509,19 @@
 						data.due_date_operator = ['less_than_equal'];
 						data.due_date = pm.Moment(data.due_date).format('YYYY-MM-DD');
 					} else {
-						data.due_date_operator = ['less_than_equal', 'null'];
+						data.due_date_operator = ['greater_than_equal|or', 'null|or', 'empty'];
+						data.due_date = pm.Moment().format('YYYY-MM-DD');
 					}
 					
 					if(data.start_at && this.hasTaskStartField()) {
 						data.start_at_operator = ['greater_than_equal'];
 						data.start_at = pm.Moment(data.start_at).format('YYYY-MM-DD');
-					} else {
-						data.start_at_operator = ['greater_than_equal'];
-						data.start_at = pm.Moment().format('YYYY-MM-DD');
-					}
+					} 
+					
 
 				} else if (data.status == 'completed') {
 					data.status = 1;
-					data.due_date_operator = ['less_than_equal', 'null'];
+					data.due_date_operator = ['less_than_equal'];
 					data.start_at_operator = ['greater_than_equal'];
 				
 				} else if (data.status == 'outstanding') {
