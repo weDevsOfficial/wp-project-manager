@@ -211,8 +211,9 @@
             },
 
             getRelativeDueDate (task) {
-                if(typeof task.due_date != 'undefined' && task.due_date != '' && task.due_date) {
-                    let dueDate = pm.Moment( task.due_date ).format( 'MMM DD, YYYY' );
+                
+                if(typeof task.due_date.date != 'undefined' && task.due_date.date != '' && task.due_date.date) {
+                    let dueDate = pm.Moment( task.due_date.date ).format( 'MMM DD, YYYY' );
                     return this.relativeDate(dueDate);
                 }
 
@@ -261,8 +262,8 @@
                 }
                 
                 if(this.$route.query.start_at != '' && this.$route.query.due_date != '') {
-                    let start_at = task.start_at ? task.start_at : task.created_at;
-                    return this.getDate(start_at) +' - '+ this.getDate(task.due_date);
+                    let start_at = task.start_at.date ? task.start_at.date : task.created_at;
+                    return this.getDate(start_at) +' - '+ this.getDate(task.due_date.date);
                 }
             },
             getDate(date) {

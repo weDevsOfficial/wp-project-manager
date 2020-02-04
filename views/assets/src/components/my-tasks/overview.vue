@@ -206,7 +206,7 @@
                     due_date: ''
                 },
                 calendarOptions: {
-                    //'singleDatePicker': this.hasTaskStartField() ? false : true,
+                    input: true,
                     ranges: {
                         'Today': [moment(), moment()],
                         'Yesterday': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
