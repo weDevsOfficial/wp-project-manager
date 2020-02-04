@@ -323,9 +323,9 @@
 			calendarOnChange (start, end, className) {
 				this.search.due_date = end.format('YYYY-MM-DD');
 				//if(this.hasTaskStartField()) {
-					this.search.start_at = start.format('YYYY-MM-DD');
+				this.search.start_at = start.format('YYYY-MM-DD');
 				
-					//jQuery('.'+className).val(this.search.start_at +' - '+this.search.due_date); 
+				jQuery('.'+className).val(this.search.start_at +' - '+this.search.due_date); 
 				// } else {
 				// 	jQuery('.'+className).val(this.search.due_date);
 				// }
