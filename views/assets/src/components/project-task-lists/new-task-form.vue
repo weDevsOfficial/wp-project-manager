@@ -21,6 +21,7 @@
                                 ref="taskForm"
                                 @keyup="warningTitleCharacterLimit()"
                                 :class="focusField ? 'input-field active' : 'input-field'" 
+                                data-lpignore="true"
                             >
 
                               <!-- <a @click.prevent="taskFormAction()"  class="update-button" href="#"><span class="icon-pm-check-circle"></span></a> -->
@@ -83,13 +84,33 @@
 
                                 </pm-popper>
 
-                                <span 
+
+                                <pm-date-range-picker 
+                                    @apply="onChangeDate"
+                                    @cancel="dateRangePickerClose"
+                                    :contentClass="isActiveDate()"
+                                    :options="{
+                                        input: false,
+                                        autoOpen: false,
+                                        autoApply: false,
+                                        opens: 'left',
+                                        singleDatePicker: task_start_field ? false : true,
+                                        showDropdowns: true,
+                                        startDate: getStartDate(),
+                                        endDate: getEndDate(),
+                                        locale: {
+                                            cancelLabel: __( 'Clear', 'wedevs-project-manager' )
+                                        }
+                                    }">
+                                    
+                                </pm-date-range-picker>
+                               <!--  <span 
                                     v-pm-tooltip 
                                     @focus="enableDisable('datePicker')"
                                     :title="__('Date', 'wedevs-project-manager')" 
                                     @click.prevent="enableDisable('datePicker')" 
                                     :class="isActiveDate()"
-                                />
+                                /> -->
 
 
                                 <span class="date-field">
@@ -97,24 +118,11 @@
                                     <span v-if="isBetweenDate( task_start_field, task.start_at.date, task.due_date.date )">&ndash;</span>
                                     <span>{{ taskDateFormat(task.due_date.date) }}</span>
                                 </span>
+                            </div>
+                            
                                 
-                            </div>
-                            <div v-if="datePicker" class="subtask-date new-task-caledar-wrap">
-                                <pm-date-range-picker 
-                                    @apply="onChangeDate"
-                                    :options="{
-                                        input: false,
-                                        autoOpen: true,
-                                        autoApply: true,
-                                        opens: 'left',
-                                        singleDatePicker: task_start_field ? false : true,
-                                        showDropdowns: true,
-                                        startDate: getStartDate(),
-                                        endDate: getEndDate()
-                                    }">
-                                    
-                                </pm-date-range-picker>
-                            </div>
+
+                            
                         </div>
                         <div class="task-submit-wrap">
                             <!-- <a :class="focus ? 'pm-button pm-primary submit' : 'pm-button submit pm-secondary'" href="#"><i class="flaticon-pm-enter"></i></a> -->
@@ -296,7 +304,7 @@ export default {
     // Initial action for this component
     created: function() {
         this.$on( 'pm_date_picker', this.getDatePicker );
-        window.addEventListener('click', this.windowActivity);
+        //window.addEventListener('click', this.windowActivity);
 
         if(jQuery.isEmptyObject(this.list)) {
             this.task.listId = this.getInboxId();
@@ -388,6 +396,10 @@ export default {
     },
 
     methods: {
+        dateRangePickerClose () {
+            this.task.start_at.date = '';
+            this.task.due_date.date = '';
+        },
         warningTitleCharacterLimit () {
             if(this.task.title.length >= 200) {
                 pm.Toastr.warning(__('Maxmim character limit 200', 'wedevs-project-manager'));
@@ -398,7 +410,23 @@ export default {
         },
 
         clickOutSide () {
-            this.focusField = false;
+            var self = this;
+
+            if(this.focusField) {
+                window.addEventListener('click', (el) => {
+                    var datePicker = jQuery(el.target).closest('.table-condensed');
+                    var taskForm   = jQuery(el.target).closest('.pm-task-form');
+                    var clenderBtn = jQuery(el.target).closest('.drp-buttons');
+                    
+                    if(!datePicker.length && !taskForm.length && !clenderBtn.length) {
+                        self.focusField = false;
+                    }
+                });
+            }
+
+            if(!self.focusField) {
+                self.$emit('closeTaskForm');
+            }
         },
 
         isActiveDate () {
@@ -439,7 +467,6 @@ export default {
             }
         },
         onChangeDate (start, end, className) {
-
             if(this.task_start_field) {
                 this.task.start_at.date = start.format('YYYY-MM-DD');
                 this.task.due_date.date = end.format('YYYY-MM-DD');
@@ -807,7 +834,7 @@ export default {
                 }
                 .date-field {
                     font-size: 12px;
-                    margin-left: -5px;
+                    margin-left: 5px;
                     color: #4a90e2;
                 }
                 .user-image {
