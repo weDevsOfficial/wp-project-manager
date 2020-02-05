@@ -102,7 +102,11 @@
         </div>
         
         <div v-if="task.edit_mode && can_create_task" class="task-update-wrap nonSortableTag">
-            <new-task-form  :task="task" :list="list"></new-task-form>
+            <new-task-form  
+                :task="task" 
+                :list="list"
+                @closeTaskForm="closeTaskForm"
+            />
         </div>
 
         <div v-if="parseInt(taskId) && parseInt(projectId)">
@@ -221,12 +225,17 @@
         },
         
         methods: {
+            closeTaskForm () {
+                this.task.edit_mode = false;
+            },
+
             move (items) {
                 this.moveTaskItems.popupModal = true;
                 this.moveTaskItems.task = items.task;
                 this.moveTaskItems.list = items.list;
                 this.moveTaskItems.projectId = this.project_id;
             },
+
             taskFormActivity (toggle, status, task, el) {
                 var li = jQuery(el.target).closest('.incomplete-task-li');
                 
@@ -237,6 +246,7 @@
                 });
 
             },
+
             getTaskFullDate (task) {
                 var date = '';
                 
@@ -254,6 +264,7 @@
                 
                 return date;
             },
+            
             isPrivateTask (isPrivate) {
                 return isPrivate == '1' ? true : false;
             },
@@ -269,7 +280,7 @@
                 }
                 
                 if ( !updateBtn.length && !updateField.length && !hasLabelPopup) {
-                    this.task.edit_mode = false;
+                    //this.task.edit_mode = false;
                 }
             },
 
