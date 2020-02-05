@@ -264,24 +264,24 @@
                 
                 return date;
             },
-            
+
             isPrivateTask (isPrivate) {
                 return isPrivate == '1' ? true : false;
             },
 
             windowActivity (el) {
-                var updateField  = jQuery(el.target).closest('.task-update-wrap'),
-                    updateBtn = jQuery(el.target).closest('.edit-task-btn'),
-                    taskActionWrap = jQuery(el.target).closest('.task-more-menu'),
-                    hasLabelPopup = this.hasLabelPopup(el);
+                 //updateField  = jQuery(el.target).closest('.task-update-wrap'),
+                    //updateBtn = jQuery(el.target).closest('.edit-task-btn'),
+                var taskActionWrap = jQuery(el.target).closest('.task-more-menu');
+                    //hasLabelPopup = this.hasLabelPopup(el);
                 
                 if(!taskActionWrap.length) {
                     this.task.moreMenu = false;
                 }
                 
-                if ( !updateBtn.length && !updateField.length && !hasLabelPopup) {
+                //if ( !updateBtn.length && !updateField.length && !hasLabelPopup) {
                     //this.task.edit_mode = false;
-                }
+                //}
             },
 
             hasLabelPopup (el) {
