@@ -196,8 +196,8 @@
                 }
             },
             getDate(task) {
-                if(typeof task.date.completed_at != 'undefined' && task.date.completed_at != '') {
-                    return pm.Moment( task.date.completed_at ).format( 'MMM DD, YYYY' );
+                if(typeof task.completed_at.date != 'undefined' && task.completed_at.date != '') {
+                    return pm.Moment( task.completed_at.date ).format( 'MMM DD, YYYY' );
                 }
 
                 return '';
