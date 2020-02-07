@@ -99,13 +99,14 @@ class User_Controller {
 
     public function search( WP_REST_Request $request ) {
         $query_string = $request->get_param( 'query' );
-        $limit = $request->get_param( 'limit' );
+        $limit        = $request->get_param( 'limit' );
         $term         = $request->get_param( 'term');
 
         $users = User::where( 'user_login', 'LIKE', '%' . $query_string . '%' )
             ->orWhere( 'user_nicename', 'LIKE', '%' . $query_string . '%' )
             ->orWhere( 'user_email', 'LIKE', '%' . $query_string . '%' )
             ->orWhere( 'user_url', 'LIKE', '%' . $query_string . '%');
+        
 //        var_dump($limit);
         if ( $limit ) {
             $users =  $users->limit( intval( $limit ) )->get();

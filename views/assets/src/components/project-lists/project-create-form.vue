@@ -24,7 +24,7 @@
                     <table>
                         <tr v-for="projectUser in selectedUsers" :key="projectUser.id">
                             <td>{{ projectUser.display_name }}</td>
-                            <td>
+                            <td class="user-td">
                                 <select  v-model="projectUser.roles.data[0].id" :disabled="!canUserEdit(projectUser)">
                                     <option v-for="role in roles" :value="role.id" :key="role.id" >{{ __(role.title, 'wedevs-project-manager') }}</option>
                                 </select>
@@ -86,6 +86,13 @@
             .pm-project-role {
                 max-height: 150px;
                 overflow: auto;
+
+                .user-td {
+                	width: 115px;
+                	select {
+                		padding-left: 10px !important;
+                	}
+                }
             }
         }
     }
