@@ -15,36 +15,25 @@ class Menu {
 		global $submenu, $wedevs_pm_pro, $wedevs_license_progress;
 
 		$ismanager = pm_has_manage_capability();
+		$slug = pm_admin_slug();
 
-		$home = add_menu_page( __( 'Project Manager', 'wedevs-project-manager' ), __( 'Project Manager', 'wedevs-project-manager' ), self::$capability, 'pm_projects', array( new Output, 'home_page' ), self::pm_svg(), 3 );
+		$home = add_menu_page( __( 'Project Manager', 'wedevs-project-manager' ), __( 'Project Manager', 'wedevs-project-manager' ), self::$capability, $slug, array( new Output, 'home_page' ), self::pm_svg(), 3 );
 
-		$submenu['pm_projects'][] = [ __( 'Projects', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/' ];
+		$submenu[$slug][] = [ __( 'Projects', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/" ];
 
 		$active_task = self::my_task_count();
 		$mytask_text = sprintf( __( 'My Tasks %s', 'cpm-pro' ), '<span class="awaiting-mod count-1"><span class="pending-count">' . $active_task . '</span></span>' );
-		$submenu['pm_projects']['my_task'] = [ $mytask_text , self::$capability, 'admin.php?page=pm_projects#/my-tasks' ];
+		$submenu[$slug][] = [ $mytask_text , self::$capability, "admin.php?page={$slug}#/my-tasks" ];
 
 		if ( $ismanager ) {
-			$submenu['pm_projects'][] = [ __( 'Categories', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/categories' ];
+			$submenu[$slug][] = [ __( 'Categories', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/categories" ];
 		}
-
-		//if ( $wedevs_pm_pro ) {
-			//$submenu['pm_projects']['my_task'] = [ __( 'My Tasks', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/my-tasks' ];
-			//$submenu['pm_projects']['calendar'] = [ __( 'Calendar', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/calendar' ];
-		//}
-
-		//$submenu['pm_projects'][] = [ __( 'Add-ons', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/add-ons' ];
-		//if ( $ismanager && $wedevs_pm_pro ) {
-			// $submenu['pm_projects'][] = [ __( 'Reports', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/reports' ];
-			// $submenu['pm_projects'][] = [ __( 'Progress', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/progress' ];
-		//}
 
 		if ( ! $wedevs_pm_pro ) {
-			$submenu['pm_projects'][] = [ __( 'Premium', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/premium' ];
+			$submenu[$slug][] = [ __( 'Premium', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/premium" ];
 		}
 
-        //$submenu['pm_projects'][] = [ __( 'Tools', 'wedevs-project-manager' ), 'administrator', 'admin.php?page=pm_projects#/tools' ];
-
+        
 		do_action( 'pm_menu_before_load_scripts', $home );
 
 		add_action( 'admin_print_styles-' . $home, array( 'WeDevs\\PM\\Core\\WP\\Menu', 'scripts' ) );
@@ -52,11 +41,12 @@ class Menu {
 		do_action( 'cpm_admin_menu', self::$capability, $home );
 
 		if ( $ismanager ) {
-			$submenu['pm_projects'][] = [ __( 'Settings', 'wedevs-project-manager' ), 'administrator', 'admin.php?page=pm_projects#/settings' ];
+			$submenu[$slug][] = [ __( 'Settings', 'wedevs-project-manager' ), 'administrator', "admin.php?page={$slug}#/settings" ];
 		}
 
-        $submenu['pm_projects']['importtools'] = [ __( 'Tools', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/importtools' ];
-
+		if ( $ismanager ) {
+        	$submenu[$slug]['importtools'] = [ __( 'Tools', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/importtools" ];
+    	}
 
 
 		do_action( 'pm_menu_after_load_scripts', $home );

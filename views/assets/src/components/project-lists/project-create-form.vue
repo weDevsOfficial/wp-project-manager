@@ -24,7 +24,7 @@
                     <table>
                         <tr v-for="projectUser in selectedUsers" :key="projectUser.id">
                             <td>{{ projectUser.display_name }}</td>
-                            <td>
+                            <td class="user-td">
                                 <select  v-model="projectUser.roles.data[0].id" :disabled="!canUserEdit(projectUser)">
                                     <option v-for="role in roles" :value="role.id" :key="role.id" >{{ __(role.title, 'wedevs-project-manager') }}</option>
                                 </select>
@@ -55,9 +55,9 @@
             </div>
 
             <div class="submit">
-                <input v-if="project.id" type="submit" name="update_project" id="update_project" class="button-primary" :value="update_project">
-                <input v-if="!project.id" type="submit" name="add_project" id="add_project" class="button-primary" :value="add_new_project">
-                <a @click.prevent="closeForm()" class="button project-cancel" href="#">{{ __( 'Close', 'wedevs-project-manager') }}</a>
+                <input v-if="project.id" type="submit" name="update_project" id="update_project" class="pm-button pm-primary" :value="update_project">
+                <input v-if="!project.id" type="submit" name="add_project" id="add_project" class="pm-button pm-primary" :value="add_new_project">
+                <a @click.prevent="closeForm()" class="pm-button pm-secondary project-cancel" href="#">{{ __( 'Close', 'wedevs-project-manager') }}</a>
                 <span v-show="show_spinner" class="pm-loading"></span>
 
             </div>
@@ -86,6 +86,13 @@
             .pm-project-role {
                 max-height: 150px;
                 overflow: auto;
+
+                .user-td {
+                	width: 115px;
+                	select {
+                		padding-left: 10px !important;
+                	}
+                }
             }
         }
     }

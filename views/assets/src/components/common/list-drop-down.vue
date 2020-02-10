@@ -5,7 +5,7 @@
         :options="lists"
         :multiple="multiple"
         :show-labels="true"
-        :placeholder="''"
+        :placeholder="options.placeholder"
         select-label=""
         selected-label="selected"
         deselect-label=""
@@ -95,7 +95,6 @@
     }
 </style>
 
-
 <script>
 	export default {
 		props: {
@@ -110,7 +109,16 @@
 				default () {
 					return false
 				}
-			}
+			},
+            options: {
+                type: [Object],
+                default () {
+                    return {
+                        placeholder: __('Task Lists', 'wedevs-project-manager'),
+                        projectId: false
+                    }
+                }
+            }
 		},
 		data () {
 			return {
@@ -118,7 +126,8 @@
 				timeout: '',
 				loadingListSearch: false,
                 listAbort: '',
-                list: ''
+                list: '',
+                projectId: false
 			}
 		},
 		components: {
@@ -129,6 +138,7 @@
 		},
 
 		created() {
+            this.projectId = this.project_id && typeof this.project_id != 'undefined' ? parseInt(this.project_id) : parseInt(this.options.projectId);
 			this.setLists();
 		},
 		methods: {
@@ -145,10 +155,13 @@
                         });
                     }
                 });
+
+                self.$emit('afterGetLists', lists);
             },
 			onChange (val, el) {
 				this.$emit('onChange', val);
 			},
+
 			setLists () {
 				var lists = [],
 					self = this;
@@ -156,7 +169,7 @@
 				if( !this.$store.state.projectTaskLists.lists.length) {
 					var args = {
 						data: {
-							project_id: this.project_id,
+							project_id: this.projectId,
 						},
 
 						callback (res) {
@@ -170,7 +183,6 @@
 			},
 			getLists (args) {
 	            var self = this;
-
 	            var request = {
 	                url: self.base_url + '/pm/v2/projects/'+args.data.project_id+'/task-lists?with=incomplete_tasks,complete_tasks&incomplete_task_per_page=-1&complete_task_per_page=-1',
 	                success (res) {
@@ -205,7 +217,7 @@
                 }
 
                 var request = {
-                    url: self.base_url + '/pm/v2/projects/'+this.project_id+'/lists/search?title='+title+'&with=incomplete_tasks,complete_tasks&incomplete_task_per_page=-1&complete_task_per_page=-1',
+                    url: self.base_url + '/pm/v2/projects/'+this.projectId+'/lists/search?title='+title+'&with=incomplete_tasks,complete_tasks&incomplete_task_per_page=-1&complete_task_per_page=-1',
                     success: function(res) {
                         
                         self.loadingListSearch = false;

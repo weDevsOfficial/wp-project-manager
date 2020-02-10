@@ -3,13 +3,13 @@
 	<div 
 		v-if="!options.input" 
 		v-date-field 
-		:class="`${id} ${contentClass} nonsortable`"
+		:class="id"
 	/>
 	<input 
 		v-else
 		type="text" 
 		:placeholder="options.placeholder" 
-		:class="`${id} ${contentClass} nonsortable`"
+		:class="id" 
 		:value="dateValue"
 		v-date-field
 	/>
@@ -71,12 +71,6 @@
 			},
 			endDate: {
 				type: [String, Date],
-				default () {
-					return ''
-				}
-			},
-			contentClass: {
-				type: [String],
 				default () {
 					return ''
 				}

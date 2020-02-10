@@ -22,6 +22,23 @@ export default {
     },
 
     methods: {
+        cutString(string, length, dot){
+            var output = "";
+            output = string.substring(0, parseInt(length));
+            if(dot && string.length > length){
+                output += "...";
+            }
+            return output;
+        },
+        hasTaskStartField () {
+            if (!PM_Vars.is_pro) {
+                return false;
+            }
+
+           let status = this.getSettings('task_start_field', false);
+           
+           return status == 'on' || status === true ? true : false;
+        },
         is_array(items) {
             if(Object.prototype.toString.call(items) == '[object Array]' ) {
                 return true;
@@ -77,7 +94,7 @@ export default {
             if(o > 185) {
                 return '#848484';
             } else {
-                return 'white';
+                return '#fff';
             }
 
         },
@@ -85,12 +102,15 @@ export default {
             return this.$store.state.project.list_inbox;
         },
         getUniqueRandomNumber() {
-            var r = Math.floor(Math.random()*100000) + 1;
+            var random = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            })
+            
+            if(this.randomNumber.indexOf(random) === -1) {
+                this.randomNumber.push(random);
 
-            if(this.randomNumber.indexOf(r) === -1) {
-                this.randomNumber.push(r);
-
-                return r;
+                return random;
             }
 
             this.getUniqueRandomNumber();
@@ -810,7 +830,6 @@ export default {
             var index = false;
 
             jQuery.each(itemList, function(key, item) {
-
                 if (item[slug] === id) {
                     index = key;
                 }
@@ -992,7 +1011,28 @@ export default {
                 if(condition){
                     query = query + condition +'='+ key +'&';
                 }
+            });
 
+            return query.slice(0, -1);
+        },
+
+        generatequeryString (conditions) {
+            var query = '';
+
+            if (jQuery.isEmptyObject(conditions)) {
+                return ''
+            }
+
+            jQuery.each(conditions, function(condition, key) {
+                if( condition ){
+                    if( typeof key == 'string' )
+                        query = query + condition +'='+ key +'&';
+                    if ( typeof key == 'object' ) {
+                        jQuery.each(key, function(index, el) {
+                             query = query + condition +'[]='+ el +'&';
+                        });
+                    }
+                }
             });
 
             return query.slice(0, -1);

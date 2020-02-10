@@ -2,6 +2,42 @@
  * File: Master less;
  */
 
+.pm-button {
+    display: inline-block;
+    text-decoration: none;
+    font-size: 13px;
+    line-height: 26px;
+    height: 28px;
+    margin: 0;
+    padding: 0 10px 1px;
+    cursor: pointer;
+    -webkit-appearance: none;
+    border-radius: 3px;
+    white-space: nowrap;
+    box-sizing: border-box;
+    border: none;
+}
+
+.pm-primary {
+	background: #1A9ED4;
+    color: #fff;
+
+    &:hover {
+    	color: #fff;
+    }
+}
+
+.pm-secondary {
+	background: #f7f7f7;
+    color: #555;
+    border: 1px solid #e6e6e6;
+}
+
+.pm-secondary {
+	background: #f7f7f7;
+    color: #555;
+}
+
 // import all common styles
 @import "./common/common.less";
 .pm-clearfix {
@@ -12,7 +48,6 @@
   content: " ";
   clear: both;
 }
-
 // popper styles
 .pm-popper-ref {
     margin-right: 0 !important;
@@ -325,39 +360,6 @@
 	.pm-dark-color {
 		.pm-dark-color-fun();
 	}
-
-	.pm-button {
-	    display: inline-block;
-	    text-decoration: none;
-	    font-size: 13px;
-	    line-height: 26px;
-	    height: 28px;
-	    margin: 0;
-	    padding: 0 10px 1px;
-	    cursor: pointer;
-	    -webkit-appearance: none;
-	    border-radius: 3px;
-	    white-space: nowrap;
-	    box-sizing: border-box;
-	    border: none;
-	}
-
-	.pm-primary {
-		background: #1A9ED4;
-	    color: #fff;
-	}
-
-	.pm-secondary {
-		background: #f7f7f7;
-	    color: #555;
-	    border: 1px solid #e6e6e6;
-	}
-
-	.pm-secondary {
-		background: #f7f7f7;
-	    color: #555;
-	}
-
 
 	.pm-h2 {
 		font-size: 13px;
@@ -1523,11 +1525,8 @@
 	        .pm-mytask-overview-page{
 
 	            .pm-mytask-chart-overview{
-	                height: auto;
 	                background: #fff;
 	                padding: 0px;
-	                margin-right : 25px;
-	                padding-bottom : 25px;
 	                border: 1px solid #e5e5e5;
 	                box-shadow: 0 1px 1px rgba(0, 0, 0, 0.04);
 

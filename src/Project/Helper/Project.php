@@ -45,11 +45,11 @@ class Project {
 	 * @return Object
 	 */
 	public static function getInstance() {
-        if ( !self::$_instance ) {
-            self::$_instance = new self();
-        }
+        // if ( !self::$_instance ) {
+        //     self::$_instance = new self();
+        // }
 
-        return self::$_instance;
+        return new self();
     }
 
     /**
@@ -129,7 +129,7 @@ class Project {
 
 
 		$response['data']  = $projects;
-		$response ['meta'] = $this->set_projects_meta();
+		$response['meta'] = $this->set_projects_meta();
 
 		return $response;
 	}
@@ -415,9 +415,14 @@ class Project {
 			unset( $result->project_id );
 			$metas[$project_id] = $result;
 		}
-
+		
 		foreach ( $this->projects as $key => $project ) {
-			$project->favourite = isset( $metas[$project->id] ) ? true : false;
+			if ( ! isset( $metas[$project->id] ) ) {
+				$project->favourite = false;
+				continue;
+			}
+			$project_meta = $metas[$project->id]; 
+			$project->favourite = empty( $project_meta->meta_value ) ? false : true;
 		}
 		
 		return $this;

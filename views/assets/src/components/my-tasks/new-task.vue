@@ -293,7 +293,8 @@
 
                 var data = {
                     select: 'id, title',
-                    with: 'assignees'
+                    with: 'assignees',
+                    status: 'incomplete'
                 }
 
                 if(this.users.length) {
