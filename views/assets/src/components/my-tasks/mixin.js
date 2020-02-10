@@ -56,7 +56,9 @@ export default {
             var args = {
                 user_id: user_id,
                 conditions: {
-                    with: 'meta'
+                    with: 'meta',
+                    start_at: this.$route.query.start_at,
+                    due_date: this.$route.query.due_date
                 },
                 callback: function (res){
                     this.$store.commit('myTask/setUserTask', res.data);
@@ -152,6 +154,19 @@ export default {
                 }
             };
             self.httpRequest(request);
+        },
+
+        mytaskdownloadCSV ( args ) {
+            var self = this,
+            pre_define = {
+                data :  {
+                    page: -1,
+                },
+                callbakc: false
+            }
+            var args = jQuery.extend(true, pre_define, args );
+            var conditions = this.generatequeryString(args.data);
+            window.location.href = args.url + conditions;
         }
 	}
 };

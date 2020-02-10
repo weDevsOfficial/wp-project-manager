@@ -10,7 +10,9 @@ $router = Router::singleton();
 $router->get( 'projects/{project_id}/tasks', 'WeDevs/PM/Task/Controllers/Task_Controller@index' )
     ->permission(['WeDevs\PM\Core\Permissions\Access_Project']);
 
+$router->get( 'tasks', 'WeDevs/PM/Task/Helper/Task@get_tasks' );
 $router->get( 'advanced/tasks', 'WeDevs/PM/Task/Helper/Task@get_tasks' );
+$router->get( 'advanced/taskscsv', 'WeDevs/PM/Task/Helper/Task@get_taskscsv' );
 
 $router->post( 'projects/{project_id}/tasks', 'WeDevs/PM/Task/Controllers/Task_Controller@store' )
     ->permission(['WeDevs\PM\Core\Permissions\Create_Task'])
@@ -55,4 +57,11 @@ $router->post( 'projects/{project_id}/tasks/filter', 'WeDevs/PM/Task/Controllers
     ->permission(['WeDevs\PM\Core\Permissions\Access_Project']);
 $router->post( 'projects/{project_id}/tasks/{task_id}/activity', 'WeDevs/PM/Task/Controllers/Task_Controller@activities' )
     ->permission(['WeDevs\PM\Core\Permissions\Access_Project']);
+
+$router->post( 'tasks/{task_id}/duplicate', 'WeDevs/PM/Task/Controllers/Task_Controller@duplicate' )
+    ->permission(['WeDevs\PM\Core\Permissions\Edit_Task']);
+
+
+
+
 

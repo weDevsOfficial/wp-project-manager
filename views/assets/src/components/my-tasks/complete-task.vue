@@ -111,6 +111,9 @@
                     }
 
                 }
+                .flaticon-sort {
+                    margin-top: 6px;
+                }
             }   
         }
     }
@@ -193,8 +196,8 @@
                 }
             },
             getDate(task) {
-                if(typeof task.completed_at != 'undefined' && task.completed_at != '') {
-                    return pm.Moment( task.completed_at ).format( 'MMM DD, YYYY' );
+                if(typeof task.completed_at.date != 'undefined' && task.completed_at.date != '') {
+                    return pm.Moment( task.completed_at.date ).format( 'MMM DD, YYYY' );
                 }
 
                 return '';

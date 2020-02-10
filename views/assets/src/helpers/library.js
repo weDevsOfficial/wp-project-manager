@@ -1,5 +1,8 @@
 __webpack_public_path__ = PM_Vars.dir_url + 'views/assets/js/';
 
+import Fragment from 'vue-fragment'
+Vue.use(Fragment.Plugin)
+
 pm.hooks = (wp && wp.hooks) ? wp.hooks : wedevsPMWPHook;
 
 var color           = require('vue-color/src/components/Sketch.vue');

@@ -1,14 +1,14 @@
 <template>
-    <div class="wedevs-pm-wrap wrap pm pm-page-wrapper" id="wedevs-project-manager">
+    <div class="wedevs-pm-wrap wrap wp-core-ui pm pm-page-wrapper" id="wedevs-project-manager">
         <h1 style="display: none;"></h1>
         
         <do-action hook="pm-before-router-view"></do-action>
         <router-view></router-view>
         <do-action hook="addons-component"></do-action>
         
-        <!-- <div class="pm-global-projects-wrap">
+        <div class="pm-global-projects-wrap">
             <new-task-form v-if="taskForm" @disableTaskForm="closeTaskForm"></new-task-form>
-        </div> -->
+        </div>
 
     </div>
 </template>

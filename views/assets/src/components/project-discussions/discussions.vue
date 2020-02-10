@@ -2,7 +2,6 @@
     <div class="pm-wrap pm-front-end">
         <pm-header></pm-header>
         <pm-heder-menu></pm-heder-menu>
-
         <div v-if="!isFetchDiscussion" class="pm-data-load-before" >
             <div class="loadmoreanimation">
                 <div class="load-spinner">
@@ -180,7 +179,7 @@
         components: {
             'pm-header': header,
             'new-discuss-form': new_discuss_form,
-            'pm-pagination': pagination
+            'pm-pagination': pagination,
         },
         computed: {
             discussTemplate () {

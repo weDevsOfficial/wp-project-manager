@@ -1,5 +1,5 @@
 <template>
-    <a href="" :class="favoutireclass" @click.prevent="favouriteUnfavourite()"><i class="pm-icon flaticon-bookmark-star"></i></a>
+    <a href="#" :class="favoutireclass" @click.prevent="favouriteUnfavourite()"><i class="pm-icon flaticon-bookmark-star"></i></a>
 </template>
 
 
@@ -35,10 +35,12 @@
 
                     }
                 }
-
+                
+                var data = pm_apply_filters( 'before_project_favorite', args.data );
+                
                 var request = {
                     type: 'POST',
-                    data: args.data,
+                    data: data,
                     url: self.base_url + '/pm/v2/projects/'+ args.data.project_id + '/favourite',
                     success (res) {
                         pm.Toastr.success(res.message);
