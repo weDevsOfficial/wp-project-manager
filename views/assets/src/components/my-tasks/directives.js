@@ -16,7 +16,7 @@ var PM_mytask = {
             labels: PM_mytask.getLabels(graph), //["Oct 05", "Oct 09", "Oct 15"],
             datasets: [
                 {
-                    label: 'activity',
+                    label: __( 'activity', 'wedevs-proejct-manager' ),
                     fillColor: "rgba(120,200, 223, 0.4)",
                     strokeColor: "#79C7DF",
                     pointColor: "#79C7DF",
@@ -27,7 +27,7 @@ var PM_mytask = {
                     backgroundColor: "rgba(120,200, 223, 0.4)",
                 },
                 {
-                    label: 'Completed Task',
+                    label: __( 'Completed Task', 'wedevs-proejct-manager' ),
                     fillColor: "rgba(0, 144, 217, 1)",
                     strokeColor: "#0090D9",
                     pointColor: "#0090D9",
@@ -38,7 +38,7 @@ var PM_mytask = {
                     backgroundColor: "rgba(0, 144, 217, 0.5)",
                 },
                 {
-                    label: 'Assigned Task',
+                    label: __( 'Assigned Task', 'wedevs-proejct-manager' ),
                     fillColor: "#590340",
                     strokeColor: "#590340",
                     pointColor: "#590340",
@@ -116,7 +116,8 @@ var PM_PI = {
         var self = this;
         var context = vnode.context;
         var meta = context.$store.state.myTask.user.meta;
-        if( typeof meta !== 'undefined' ){
+        
+        if( typeof meta !== 'undefined' ) {
             var config = {
                 type: 'doughnut',
                 data: {

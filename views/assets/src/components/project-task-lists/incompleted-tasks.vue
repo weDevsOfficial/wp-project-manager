@@ -65,16 +65,16 @@
                                             <span>{{ __('Make Public', 'wedevs-project-manager') }}</span>
                                         </a>
                                     </li>
+                                    <li>
+                                        <a @click.prevent="taskDuplicate(task.id)" class="li-a" href="#">
+                                            <span class="flaticon-pm-copy-files"></span>
+                                            <span>{{ __('Duplicate', 'wedevs-project-manager') }}</span>
+                                        </a>
+                                    </li>
                                     <li class="edit-task-btn">
                                         <a @click.prevent="taskFormActivity('toggle', false, task, $event)" class="li-a" href="#">
                                             <span class="icon-pm-pencil"></span>
                                             <span>{{ __('Edit', 'wedevs-project-manager') }}</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a @click.prevent="deleteTask({task: task, list: list})" class="li-a" href="#">
-                                            <span class="icon-pm-delete"></span>
-                                            <span>{{ __('Delete', 'wedevs-project-manager') }}</span>
                                         </a>
                                     </li>
 
@@ -82,6 +82,13 @@
                                         <a @click.prevent="move({task: task, list: list})" class="li-a" href="#">
                                             <span class="icon-pm-move"></span>
                                             <span>{{ __('Move', 'wedevs-project-manager') }}</span>
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a @click.prevent="deleteTask({task: task, list: list})" class="li-a" href="#">
+                                            <span class="icon-pm-delete"></span>
+                                            <span>{{ __('Delete', 'wedevs-project-manager') }}</span>
                                         </a>
                                     </li>
                                 </ul>
@@ -95,7 +102,11 @@
         </div>
         
         <div v-if="task.edit_mode && can_create_task" class="task-update-wrap nonSortableTag">
-            <new-task-form  :task="task" :list="list"></new-task-form>
+            <new-task-form  
+                :task="task" 
+                :list="list"
+                @closeTaskForm="closeTaskForm"
+            />
         </div>
 
         <div v-if="parseInt(taskId) && parseInt(projectId)">
@@ -214,12 +225,17 @@
         },
         
         methods: {
+            closeTaskForm () {
+                this.task.edit_mode = false;
+            },
+
             move (items) {
                 this.moveTaskItems.popupModal = true;
                 this.moveTaskItems.task = items.task;
                 this.moveTaskItems.list = items.list;
                 this.moveTaskItems.projectId = this.project_id;
             },
+
             taskFormActivity (toggle, status, task, el) {
                 var li = jQuery(el.target).closest('.incomplete-task-li');
                 
@@ -230,6 +246,7 @@
                 });
 
             },
+
             getTaskFullDate (task) {
                 var date = '';
                 
@@ -247,23 +264,24 @@
                 
                 return date;
             },
+
             isPrivateTask (isPrivate) {
                 return isPrivate == '1' ? true : false;
             },
 
             windowActivity (el) {
-                var updateField  = jQuery(el.target).closest('.task-update-wrap'),
-                    updateBtn = jQuery(el.target).closest('.edit-task-btn'),
-                    taskActionWrap = jQuery(el.target).closest('.task-more-menu'),
-                    hasLabelPopup = this.hasLabelPopup(el);
+                 //updateField  = jQuery(el.target).closest('.task-update-wrap'),
+                    //updateBtn = jQuery(el.target).closest('.edit-task-btn'),
+                var taskActionWrap = jQuery(el.target).closest('.task-more-menu');
+                    //hasLabelPopup = this.hasLabelPopup(el);
                 
                 if(!taskActionWrap.length) {
                     this.task.moreMenu = false;
                 }
                 
-                if ( !updateBtn.length && !updateField.length && !hasLabelPopup) {
-                    this.task.edit_mode = false;
-                }
+                //if ( !updateBtn.length && !updateField.length && !hasLabelPopup) {
+                    //this.task.edit_mode = false;
+                //}
             },
 
             hasLabelPopup (el) {

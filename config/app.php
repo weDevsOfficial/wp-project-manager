@@ -3,7 +3,7 @@
 return [
     'name'        => 'Project Manager',
     'slug'        => 'pm',
-    'version'     => '2.3.5',
+    'version'     => '2.3.6',
     'api'     	  => '2',
     'db_version'  => '2.3',
     'text_domain' => 'pm',

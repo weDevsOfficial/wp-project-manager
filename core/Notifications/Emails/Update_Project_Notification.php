@@ -27,18 +27,32 @@ class Update_Project_Notification extends Email {
 
 
         foreach ($assignees as $assignee ) {
-            if( $this->is_enable_user_notification( $assignee['id'] ) ) {
-                if (  !$this->notify_manager()  && $assignee['roles']['data'][0]['slug'] == 'manager' ) {
-                    if( $this->is_enable_user_notification_for_notification_type( $assignee['id'] , '_cpm_email_notification_update_project' ) ){
-                        continue;
-                    }
-                }
+            // if( $this->is_enable_user_notification( $assignee['id'] ) ) {
+            //     if (  !$this->notify_manager()  && $assignee['roles']['data'][0]['slug'] == 'manager' ) {
+            //         if( $this->is_enable_user_notification_for_notification_type( $assignee['id'] , '_cpm_email_notification_update_project' ) ){
+            //             continue;
+            //         }
+            //     }
 
-                $users[] = $assignee['email'];
+            //     $users[] = $assignee['email'];
+            // }
+
+            if ( ! $this->is_enable_user_notification( $assignee['id'] ) ) {
+                continue;
             }
+
+            if ( $assignee['id'] == get_current_user_id() ) {
+                continue;
+            }
+
+            if ( ! $this->is_enable_user_notification_for_notification_type( $assignee['id'] , '_cpm_email_notification_new_project' ) ) {
+                continue;
+            }
+
+            $users[] = $assignee['email'];
         }
 
-        if( !$users ){
+        if ( ! $users ) {
             return ; 
         }
         

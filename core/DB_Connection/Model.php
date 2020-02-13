@@ -2,6 +2,7 @@
 
 namespace WeDevs\PM\Core\DB_Connection;
 use WeDevs\PM\Activity\Activity_Log;
+use WeDevs\ORM\Eloquent\Database;
 
 /**
  * Class Model
@@ -13,6 +14,18 @@ class Model extends \WeDevs\ORM\Eloquent\Model {
     protected static $pmFireEvent = true;
 
     protected $prefixed_table = null;
+
+    /**
+     * Get the database connection for the model.
+     *
+     * @return Database
+     */
+    // public function getConnection() {
+    //     $kk = Database::instance();
+    
+    //     return Database::instance();
+
+    // }
 
     /**
      * Set the table associated with the model.

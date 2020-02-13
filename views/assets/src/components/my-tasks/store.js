@@ -34,7 +34,7 @@ export default {
 
 	mutations: {
 
-        setUserTask (state, user){
+        setUserTask (state, user){ 
             state.user = user;
             state.isFetchMyTask = true;
         },

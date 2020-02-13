@@ -27,7 +27,7 @@ class New_Task_Notification extends Email {
             }
         }
 
-        if( $this->notify_manager() ){
+        if ( $this->notify_manager() ){
             foreach ( $task->projects->managers->toArray() as $u ) {
                 if( !in_array($u['user_email'], $users )){
                     $users[] = $u['user_email'];
@@ -35,7 +35,7 @@ class New_Task_Notification extends Email {
             }
         }
 
-        if( !$users ){
+        if ( ! $users ) {
             return ; 
         }
 

@@ -5,7 +5,7 @@ Tags: web task manager, online collaboration tool, task tracker, productivity to
 Requires at least: 4.4
 Tested up to: 5.3.2
 Requires PHP: 5.6
-Stable tag: 2.3.5
+Stable tag: 2.3.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -210,6 +210,23 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 
 == Changelog ==
+
+= v2.3.6 - Feb 10, 2020 =
+
+* **New** Set date range picker in my-task section to filter tasks.
+* **New** Set date range picker in my-task overview to filter activities.
+* **New** Duplicate a task from task-list.
+* **New** New components are, pm-button, pm-dropdown-menu, pm-triangle-box, pm-click-wrap, pm-popup-modal, pm-date-range-picker.
+* **Update** Redesigned task-create form.
+* **Update** Replace jQuery date picker to date range picker.
+* **Update** Some features are moved from task create form to single task page.
+* **Fix** Assigned manager in a project was not getting mail at project create time.
+* **Fix** Make Multi-site compatible for fetching co-worker.
+* **Fix** Invisible tools menu for co-worker.
+* **Fix** Co-workers could not edit their created task.  
+* **Fix** 'Inbox' task create form was showing for all pagination page.
+* **Fix** Showing invalid date after search outstanding task.
+* **Fix** Favorite project was not working.
 
 = v2.3.5 - Dec 19, 2019 =
 

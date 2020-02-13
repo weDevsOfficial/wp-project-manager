@@ -26,9 +26,9 @@ class User extends Eloquent {
 
     protected $dates = ['user_registered'];
 
-    public function getTable() {
-        return $this->getConnection()->db->users;
-    }
+    // public function getTable() {
+    //     return $this->getConnection()->db->users;
+    // }
 
     public function roles() {
         return $this->belongsToMany( 'WeDevs\PM\Role\Models\Role', pm_tb_prefix() . 'pm_role_user', 'user_id', 'role_id' )
