@@ -15,7 +15,7 @@ use WP_REST_Request;
 // 	title: 'Rocket',
 // 	status: '0',
 // 	page: 1
-// 	due_date_operator = ['less_than','greater_than'];
+// 	due_date_operator = ['less_than|or','greater_than|or', 'null|or', 'empty|or'];
 // 	orderby:'id:desc,created_at:asc
 // },
 
@@ -77,6 +77,38 @@ class Task {
 		$tasks = self::get_results( $request->get_params() );
 		
 		wp_send_json( $tasks );
+	}
+
+
+	/**
+     * AJAX Get tasks Csv
+     * 
+     * @param  array $request
+     * 
+     */
+	public static function get_taskscsv( WP_REST_Request $request ) {
+		$self = self::getInstance();
+		$tasks = self::get_results( $request->get_params() );
+		header('Content-Type: text/csv; charset=utf-8');
+        header('Content-Disposition: attachment; filename=data.csv');
+        $output = fopen("php://output", "w");
+
+        fputcsv( $output, [__('Tasks', 'pm-pro' ), __( 'Task List', 'pm-pro' ), __( 'Project Name', 'pm-pro' ),
+        	__('Due Date', 'pm-pro'),__( 'Created At', 'pm-pro' )
+        ] );
+
+        foreach ( $tasks['data'] as $key => $result ) {
+        	error_log(print_r($result,true));
+	        fputcsv( $output,
+                [
+                    $result['title'], $result['task_list']->title, $result['project']->title,$result['due_date'],
+                    $result['created_at'],
+                ]
+            );
+        }
+
+        fclose($output);
+        exit();
 	}
 
 	/**
@@ -489,8 +521,8 @@ class Task {
 		$this->where_id()
 			->where_title()
 			->where_status()
-			->where_due_date()
 			->where_start_at()
+			->where_due_date()
 			->where_project_id()
 			->where_users()
 			->where_lists();
@@ -523,20 +555,25 @@ class Task {
         return $format;
     }
 
-    public function get_prepare_data( $args ) {
+    public function get_prepare_data( $args, $delimiter = ',' ) {
 
-    	if ( empty( $args ) ) {
-    		return [];
+    	$new = [];
+
+    	if ( is_array( $args ) ) {
+    		foreach ( $args as $date_key => $value ) {
+    			$new[trim($date_key)] = trim( $value );
+    		}
     	}
 
     	if ( ! is_array( $args ) ) {
-			if ( strpos( $args, ',' ) !== false ) {
-				$args = str_replace( ' ', '', $args );
-				$args = explode( ',', $args );
-			}
+			$args = explode( $delimiter, $args );
+
+			foreach ( $args as $date_key => $value ) {
+    			$new[trim($date_key)] = trim( $value );
+    		}
 		}
 
-		return is_array( $args ) ? $args : [$args];
+		return $new;
     }
 
     public function where_lists() {
@@ -572,6 +609,8 @@ class Task {
 		$this->join .= " LEFT JOIN {$tb_asin} ON $tb_asin.task_id={$this->tb_tasks}.id";
 		
 		$this->where .= $wpdb->prepare( " AND $tb_asin.assigned_to IN ($format)", $users );
+
+		return $this;
 	}
 
 	private function where_project_id() {
@@ -591,22 +630,66 @@ class Task {
 	}
 
 	private function where_start_at() {
-		$start_at = !empty( $this->query_params['start_at'] ) ? $this->query_params['start_at'] : false;
-
+		$start_at   = !empty( $this->query_params['start_at'] ) ? $this->query_params['start_at'] : false;
+		$ope_params = !empty( $this->query_params['start_at_operator'] ) ? $this->query_params['start_at_operator'] : false;
+		$ope_params = $this->get_prepare_data( $ope_params );
+		
 		if ( $start_at === false ) {
 			return $this;
 		}
 
 		global $wpdb;
+		
+		$q = [];
 
-		$this->where .= $wpdb->prepare( " AND {$this->tb_tasks}.start_at>%s", $start_at );
+		$keys = array_keys( $ope_params );
+		$last_key = end( $keys );
+		
+		foreach ( $ope_params as $key => $ope_param ) {
+			$explode = explode( '|', str_replace( ' ', '', $ope_param ) );
+
+			if ( ! empty( $explode[1] ) ) {
+				$relation = $explode[1];
+			} else {
+				$relation = 'AND';
+			}
+			
+			if ( $last_key == $key ) {
+				$relation = '';
+			}
+
+			$operator = $this->get_operator( $explode[0] );
+			$start_at = date( 'Y-m-d', strtotime( $start_at ) );
+			
+			if( $explode[0] == 'null' || $explode[0] == 'empty' ) {
+				$q[]      = "({$this->tb_tasks}.start_at $operator) $relation";
+			} else {
+				$q[]      = $wpdb->prepare( "({$this->tb_tasks}.start_at $operator %s)", $start_at ) .' '. $relation;
+			}
+		}
+
+		$q = implode( ' ', $q );
+			
+		if ( ! empty( $q ) ) {
+			$this->where .= " AND ( $q ) ";
+		}
 
 		return $this;
 	}
 
+	function explode( $data, $delimiter ) {
+
+		if ( is_array( $data ) ) {
+			return $data;
+		}
+
+		$data = explode( $delimiter, $data );
+	}
+
 	private function where_due_date() {
-		$due_date = !empty( $this->query_params['due_date'] ) ? $this->query_params['due_date'] : false;
+		$due_date   = !empty( $this->query_params['due_date'] ) ? $this->query_params['due_date'] : false;
 		$ope_params = !empty( $this->query_params['due_date_operator'] ) ? $this->query_params['due_date_operator'] : false;
+		$ope_params = $this->get_prepare_data( $ope_params );
 
 		if ( $due_date === false ) {
 			return $this;
@@ -615,35 +698,37 @@ class Task {
 		global $wpdb;
 		
 		$q = [];
-		$null_query = '';
-
+		
+		$keys = array_keys( $ope_params );
+		$last_key = end( $keys );
+		
 		foreach ( $ope_params as $key => $ope_param ) {
-			if ( $ope_param == 'null' ) continue;
+			$explode = explode( '|', str_replace( ' ', '', $ope_param ) );
 
-			$operator = $this->get_operator( $ope_param );
+			if ( ! empty( $explode[1] ) ) {
+				$relation = $explode[1];
+			} else {
+				$relation = 'AND';
+			}
+			
+			if ( $last_key == $key ) {
+				$relation = '';
+			}
+
+			$operator = $this->get_operator( $explode[0] );
 			$due_date = date( 'Y-m-d', strtotime( $due_date ) );
-			$q[]      = $wpdb->prepare( " {$this->tb_tasks}.due_date $operator %s", $due_date );
+			
+			if( $explode[0] == 'null' || $explode[0] == 'empty' ) {
+				$q[]      = "({$this->tb_tasks}.due_date $operator) $relation";
+			} else {
+				$q[]      = $wpdb->prepare( "({$this->tb_tasks}.due_date $operator %s)", $due_date ) .' '. $relation;
+			}
 		}
 
-		$q = empty( $q ) ? '' : implode( ' AND ', $q );
-
-		if ( in_array( 'null', $ope_params ) ) {
-			$null_query = " {$this->tb_tasks}.due_date is null";
-		}
-
-		if ( ! empty( $null_query ) ) {
-
-			if ( ! empty( $q ) ) {
-				$this->where .= " AND ( ( $q ) OR ( $null_query ) )";
-			} 
-
-			if ( empty( $q ) ) {
-				$this->where .= " OR ( $null_query )";
-			} 
-		}
-
-		if ( empty( $null_query ) ) {
-			$this->where .= " AND ( $q )";
+		$q = implode( ' ', $q );
+			
+		if ( ! empty( $q ) ) {
+			$this->where .= " AND ( $q ) ";
 		}
 
 		return $this;
@@ -656,6 +741,8 @@ class Task {
 			'less_than_equal'    => '<=',
 			'greater_than'       => '>',
 			'greater_than_equal' => '>=',
+			'null'               => 'is null',
+			'empty'              => "= ''",
 		];
 
 		return empty( $default[$param] ) ? '' : $default[$param]; 

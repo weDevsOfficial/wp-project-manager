@@ -1,33 +1,33 @@
 <template>
     <div class="pm-task-create-fields">
         
-        <div>
+        <div class="fields">
             
-                <label v-if="selectedProjects"  class="label">{{__('Project', 'wedevs-project-manager')}}</label>
-                <pm-project-drop-down 
-                    @afterGetProjects="afterGetProjects"
-                    @onChange="changeProject"
-                    :selectedProjects="selectedProjects"
-                    :class="selectedProjects ? 'display-block' : 'display-none'"
-                    :optionProjects="projects"
-                    :options="options"
-                    
-                />
-            
+            <label v-if="selectedProjects"  class="label">{{__('Project', 'wedevs-project-manager')}}</label>
+            <pm-project-drop-down 
+                @afterGetProjects="afterGetProjects"
+                @onChange="changeProject"
+                :selectedProjects="selectedProjects"
+                :class="selectedProjects ? 'display-block' : 'display-none'"
+                :optionProjects="projects"
+                :options="options"
+                
+            />
+        
 
-                <div v-if="selectedProjects == ''" class="loading-animation">
-                    <div class="loading-projects-title">{{ __( 'Loading projects', 'wedevs-project-manager') }}</div>
-                    <div class="load-spinner">
-                        <div class="rect1"></div>
-                        <div class="rect2"></div>
-                        <div class="rect3"></div>
-                        <div class="rect4"></div>
-                    </div>
+            <div v-if="selectedProjects == ''" class="loading-animation">
+                <div class="loading-projects-title">{{ __( 'Loading projects', 'wedevs-project-manager') }}</div>
+                <div class="load-spinner">
+                    <div class="rect1"></div>
+                    <div class="rect2"></div>
+                    <div class="rect3"></div>
+                    <div class="rect4"></div>
                 </div>
+            </div>
         </div>
 
         
-        <div v-if="projectId">
+        <div class="fields" v-if="projectId">
             <label v-if="selectedLists" class="label">{{__('In List', 'wedevs-project-manager')}}</label>
             <pm-list-drop-down 
                 :projectId="parseInt(projectId)"
@@ -48,7 +48,7 @@
             </div>
         </div>
         
-        <div v-if="listId">
+        <div class="fields" v-if="listId">
             <label class="label">{{__('Task', 'wedevs-project-manager')}}</label>
             <pm-new-task-form  
                 :task="task" 
@@ -116,22 +116,24 @@
         methods: {
             afterGetProjects (projects) {
                 if(projects.length) {
-                    this.projectId = projects[0].id;
+                    this.projectId = projects[0].project_id;
                     this.setTaskFormUsers(projects[0].assignees);
                     this.selectedProjects = Object.assign({},projects[0]);
                 }
             },
+
             setTaskFormUsers (assignees) {
                 let users = typeof assignees == 'undefined' ? 
                         [] : assignees.data;
                 
                 this.$store.commit( 'setProjectUsers', users );
             },
+
             changeProject (project) {
-                console.log(project);
                 this.setTaskFormUsers(project.assignees);
-                this.projectId = parseInt( project.id )
+                this.projectId = parseInt( project.project_id )
             },
+
             afterGetLists (lists) {
                 if(lists.length) {
                     this.listId = lists[0].id;
@@ -139,10 +141,12 @@
                     this.list = lists[0];
                 }
             },
+
             changeList (list) {
                 this.listId = parseInt( list.id )
                 this.list = Object.assign({}, list);
             },
+
             afterCreateTask (task) {
                 this.$emit( 'afterCreateTask', task.data, task.activity );
             }
@@ -153,9 +157,17 @@
 <style lang="less">
 
     .pm-task-create-fields {
+        .fields {
+            margin-bottom: 10px;
+            .label {
+                margin-bottom: 3px;
+            }
+        }
+
         .display-none {
             display: none;
         }
+
         .display-block {
             display: block;
         }

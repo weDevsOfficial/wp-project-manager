@@ -30,6 +30,15 @@ export default {
             }
             return output;
         },
+        hasTaskStartField () {
+            if (!PM_Vars.is_pro) {
+                return false;
+            }
+
+           let status = this.getSettings('task_start_field', false);
+           
+           return status == 'on' || status === true ? true : false;
+        },
         is_array(items) {
             if(Object.prototype.toString.call(items) == '[object Array]' ) {
                 return true;
@@ -90,7 +99,7 @@ export default {
             if(o > 185) {
                 return '#848484';
             } else {
-                return 'white';
+                return '#fff';
             }
 
         },
@@ -98,12 +107,15 @@ export default {
             return this.$store.state.project.list_inbox;
         },
         getUniqueRandomNumber() {
-            var r = Math.floor(Math.random()*100000) + 1;
+            var random = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            })
+            
+            if(this.randomNumber.indexOf(random) === -1) {
+                this.randomNumber.push(random);
 
-            if(this.randomNumber.indexOf(r) === -1) {
-                this.randomNumber.push(r);
-
-                return r;
+                return random;
             }
 
             this.getUniqueRandomNumber();
@@ -276,6 +288,38 @@ export default {
 
             date = new Date(date.replace(/-/g, "/"));
             return pm.Moment(date).format(formate);
+        },
+        isEmpty (mixedVar) {
+
+            var undef
+            var key
+            var i
+            var len
+            var emptyValues = [undef, null, false, 0, '', '0']
+
+            if( mixedVar === '' ) {
+                return true;
+            }
+
+            if ( isNaN( mixedVar ) ) {
+                return true;
+            }
+
+            for (i = 0, len = emptyValues.length; i < len; i++) {
+                if (mixedVar === emptyValues[i]) {
+                    return true
+                }
+            }
+
+            if (typeof mixedVar === 'object') {
+                for (key in mixedVar) {
+                    if ( mixedVar.hasOwnProperty(key) ) {
+                        return false
+                    }
+                }
+                return true
+            }
+            return false
         },
 
                 /**
@@ -1008,7 +1052,28 @@ export default {
                 if(condition){
                     query = query + condition +'='+ key +'&';
                 }
+            });
 
+            return query.slice(0, -1);
+        },
+
+        generatequeryString (conditions) {
+            var query = '';
+
+            if (jQuery.isEmptyObject(conditions)) {
+                return ''
+            }
+
+            jQuery.each(conditions, function(condition, key) {
+                if( condition ){
+                    if( typeof key == 'string' )
+                        query = query + condition +'='+ key +'&';
+                    if ( typeof key == 'object' ) {
+                        jQuery.each(key, function(index, el) {
+                             query = query + condition +'[]='+ el +'&';
+                        });
+                    }
+                }
             });
 
             return query.slice(0, -1);
@@ -1340,7 +1405,7 @@ export default {
                     }, 100); // cleanup
                 }
             }
-        }
+        },
     }
 };
 

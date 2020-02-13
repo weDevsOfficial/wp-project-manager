@@ -44,8 +44,9 @@ class Menu {
 			$submenu[$slug][] = [ __( 'Settings', 'wedevs-project-manager' ), 'administrator', "admin.php?page={$slug}#/settings" ];
 		}
 
-        $submenu[$slug]['importtools'] = [ __( 'Tools', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/importtools" ];
-
+		if ( $ismanager ) {
+        	$submenu[$slug]['importtools'] = [ __( 'Tools', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/importtools" ];
+    	}
 
 
 		do_action( 'pm_menu_after_load_scripts', $home );
