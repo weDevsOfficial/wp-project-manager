@@ -23,6 +23,11 @@ Usage for this component
 
 
 <style lang="less">
+    .pm-popover {
+        padding: 0;
+        border: 0;
+        width: auto;
+    }
     .tooltip.popover .popover-inner {
         padding: .5rem .75rem;
         color: #212529;
