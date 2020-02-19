@@ -306,10 +306,10 @@ export default {
     },
 
     // Initial action for this component
-    created: function() {
+    created: function() { 
         this.$on( 'pm_date_picker', this.getDatePicker );
         //window.addEventListener('click', this.windowActivity);
-
+        console.log(this.task.assignees.data, this.project_users);
         if(jQuery.isEmptyObject(this.list)) {
             this.task.listId = this.getInboxId();
         } else {
@@ -622,6 +622,7 @@ export default {
                        self.focusField = false; 
                     })
                     
+                    self.$emit('afterTaskUpdated', res, args);
                 }
             }
 
