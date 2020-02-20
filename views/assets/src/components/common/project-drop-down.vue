@@ -10,7 +10,7 @@
         selected-label="selected"
         deselect-label=""
         label="title"
-        track-by="id"
+        :track-by="trackBy"
         :allow-empty="allowEmpty"
         :loading="loadingProjectSearch"
         @search-change="asyncProjectsFind"
@@ -131,7 +131,14 @@
                 default () {
                     return []
                 }
-            }
+            },
+
+            trackBy: {
+                type: [String],
+                default () {
+                    return 'id'
+                }
+            },
 		},
 		data () {
 			return {
