@@ -28,13 +28,13 @@ Usage for this component
         border: 0;
         width: auto;
     }
-    .tooltip.popover .popover-inner {
+    .pm-popover .popover-inner {
         padding: .5rem .75rem;
         color: #212529;
         border: 1px solid rgba(0,0,0,.2);
     }
 
-    .tooltip {
+    .pm-popover {
         .tooltip-arrow {
             border: 0 !important;
             margin: 0 !important;

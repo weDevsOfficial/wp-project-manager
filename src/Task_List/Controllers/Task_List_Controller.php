@@ -338,7 +338,10 @@ class Task_List_Controller {
 
         // Delete the task list
         $task_list->delete();
+        
         do_action( 'cpm_delete_tasklist_after', $task_list_id );
+        do_action( 'pm_after_delete_task_list', $task_list );
+
         $message = [
             'message' => pm_get_text('success_messages.task_list_deleted')
         ];
@@ -363,7 +366,10 @@ class Task_List_Controller {
 
         // Delete the task list
         $task_list->delete();
+        
         do_action( 'cpm_delete_tasklist_after', $task_list_id );
+        do_action( 'pm_after_delete_task_list', $task_list );
+
         $message = [
             'message' => pm_get_text('success_messages.task_list_deleted')
         ];

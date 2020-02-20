@@ -359,7 +359,7 @@ class Project_Controller {
 
 		// Delete the main resource
 		$project->delete();
-		do_action( 'pm_after_delete_project', $request->get_params() );
+		do_action( 'pm_after_delete_project', $project );
 		do_action( 'cpm_delete_project_after', $id );
 		return [
 			'message' => pm_get_text('success_messages.project_deleted')
