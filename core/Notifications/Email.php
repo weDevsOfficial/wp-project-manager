@@ -199,7 +199,7 @@ class Email {
                 $from_email
             );
 
-            return wp_mail( $from_email, $subject, $message, $headers, $attachments );
+            return wp_mail( $from_email, $subject, wp_kses_post( htmlspecialchars_decode( $message ) ), $headers, $attachments );
             
         } else {
 
@@ -210,7 +210,7 @@ class Email {
                 $from,
             );
             
-            return wp_mail( $to, $subject, $message, $headers, $attachments );
+            return wp_mail( $to, $subject, wp_kses_post( htmlspecialchars_decode( $message ) ), $headers, $attachments );
         }
     }
 }
