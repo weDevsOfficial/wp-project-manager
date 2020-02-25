@@ -87,12 +87,14 @@
                                 <span v-if="is_task_title_edit_mode && can_edit_task(task)">
                                     <input
                                         v-model="task.title"
+                                        maxlength="200" 
                                         @blur="updateTaskTitle(task)"
                                         @keyup.enter="updateTaskTitle(task)"
-
+                                        @keyup="warningTitleCharacterLimit()"
                                         class="pm-task-title-activity pm-task-title-field"
-                                        type="text">
-                                        <span class="pm-spinner" v-if="show_spinner"></span>
+                                        type="text" 
+                                    />
+                                    <span class="pm-spinner" v-if="show_spinner"></span>
                                 </span>
 
                                 <span
@@ -523,12 +525,23 @@
         },
 
         methods: {
+            warningTitleCharacterLimit () {
+                if(this.task.title.length >= 200) {
+                    pm.Toastr.warning(__('Maxmim character limit 200', 'wedevs-project-manager'));
+                }
+            },
+
             updateTaskTitle (task) {
+                if(task.title.length >= 200) {
+                    pm.Toastr.warning(__('Maxmim character limit 200', 'wedevs-project-manager'));
+                    return;
+                }
                 if(this.truckTitleUpdate == task.title) {
                     return;
                 }
                 this.updateTaskElement(task);
             },
+
             callBackDatePickerForm (date) {
 
                 let dateFrom = {
@@ -539,6 +552,7 @@
 
                 this.fromDate(dateFrom);
             },
+
             callBackDatePickerTo (date) {
 
                 let dateTo = {
@@ -549,6 +563,7 @@
 
                 this.fromDate(dateTo);
             },
+
             submitDescription (task) {
                 task.description.content = this.content.html.trim();
                 this.description_show_spinner = true;

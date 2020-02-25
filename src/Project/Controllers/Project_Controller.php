@@ -384,7 +384,7 @@ class Project_Controller {
         $user_id    = get_current_user_id();
 
 
-        if ( $favourite == 'true' ) {
+        if ( $favourite == 'true' || $favourite === true ) {
             $lastFavourite = Meta::where([
 				'entity_id'   => $user_id,
 				'entity_type' => 'project',
