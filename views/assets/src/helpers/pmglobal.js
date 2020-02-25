@@ -63,7 +63,6 @@
                 data: {
                 },
                 success (res) {
-                    console.log(res);
                     if (typeof callback ==='function') {
                         callback(res)
                     }
@@ -80,7 +79,6 @@
                 url: PM_Global_Vars.rest_url + '/pm/v2/projects/' + data.project_id + '/tasks',
                 data: data,
                 success (res) {
-                    console.log(res);
                     if (typeof callback ==='function') {
                         callback(res)
                     }

@@ -309,7 +309,7 @@ export default {
     created: function() { 
         this.$on( 'pm_date_picker', this.getDatePicker );
         //window.addEventListener('click', this.windowActivity);
-        console.log(this.task.assignees.data, this.project_users);
+        
         if(jQuery.isEmptyObject(this.list)) {
             this.task.listId = this.getInboxId();
         } else {
