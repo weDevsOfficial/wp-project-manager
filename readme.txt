@@ -215,6 +215,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 * In fevourite project section showing all projects
 * Task notification mails contain raw html
+* Set 200 character limit when adding a new task
 
 = v2.3.6 - Feb 10, 2020 =
 
