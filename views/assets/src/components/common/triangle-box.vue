@@ -1,10 +1,10 @@
 <!--
 Usage for this component
-<triangle-box>
+<pm-triangle-box>
     this is my content
 
     <button slot="popoverButton">click me</button>
-</triangle-box>
+</pm-triangle-box>
 -->
 <template>
 
@@ -29,7 +29,7 @@ Usage for this component
         width: auto;
     }
     .pm-popover .popover-inner {
-        padding: .5rem .75rem;
+        padding: .5rem .75rem !important;
         color: #212529;
         border: 1px solid rgba(0,0,0,.2);
     }

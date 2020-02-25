@@ -54,8 +54,6 @@
 					self.trello.import_perc = window.toPerc;
 					self.saveTrelloImportedData(user_data,formDataObj,'trello/get_boards',function(brd_data,formDataObj){
 
-						console.log(brd_data.length);
-
 						brd_data.forEach(function(item, index){
 
 
