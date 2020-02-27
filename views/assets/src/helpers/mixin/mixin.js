@@ -289,6 +289,7 @@ export default {
             date = new Date(date.replace(/-/g, "/"));
             return pm.Moment(date).format(formate);
         },
+
         isEmpty (mixedVar) {
 
             var undef
@@ -301,9 +302,12 @@ export default {
                 return true;
             }
 
-            if ( isNaN( mixedVar ) ) {
-                return true;
+            if( ! this.is_object( mixedVar ) && !this.is_array( mixedVar ) ) {
+                if ( isNaN( mixedVar ) ) {
+                    return true;
+                }
             }
+           
 
             for (i = 0, len = emptyValues.length; i < len; i++) {
                 if (mixedVar === emptyValues[i]) {
@@ -322,7 +326,7 @@ export default {
             return false
         },
 
-                /**
+        /**
          * WP settings date format convert to pm.Moment date format with time zone
          *
          * @param  string date
