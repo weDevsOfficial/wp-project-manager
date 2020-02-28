@@ -1,3 +1,9 @@
+= v2.3.7 - Feb 27, 2020 =
+
+* **Fix** In favorite project section 'all projects' were showing.
+* **Fix** Task notification mails contains raw html.
+* **Fix** Set 200 character limit when adding a new task.
+
 = v2.3.6 - Feb 10, 2020 =
 
 * **New** Set date range picker in my-task section to filter tasks.
