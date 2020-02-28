@@ -1,11 +1,11 @@
 === WP Project Manager - Project, Task Management & Team Collaboration Software ===
 Contributors: tareq1988, nizamuddinbabu, wedevs, asaquzzaman
 Donate Link: https://tareq.co/donate/
-Tags: web task manager, online collaboration tool, task tracker, productivity tool, open source project management software
+Tags: project, project manager, project management, web project management, task manager, online collaboration tool,
 Requires at least: 4.4
 Tested up to: 5.3.2
 Requires PHP: 5.6
-Stable tag: 2.3.6
+Stable tag: 2.3.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -13,53 +13,34 @@ WP Project Manager - Task scheduling, Project management, Team collaboration is 
 
 == Description ==
 
-Best Project Management Tool for WordPress
+**Best Project Management Tool for WordPress**
 
+Being one of the most advanced project management and task management tools for WordPress, [WP Project Manager comes](https://wedevs.com/wp-project-manager-pro) with some of the exceptional features that turn your project management experience of your teammates a joyful ride. Super-charge your productivity creating, organizing and assigning tasks within a few clicks. 
+Its user-friendly interface and web-based task management feature enable the user to complete their to-dos quicker than ever. 
 [youtube https://www.youtube.com/watch?v=GI4u8wXOxHg]
+Effortlessly get your team to complete all the projects timely with its time tracking tool and generate an advanced performance report with its built-in reporting feature absolutely hassle-free. This cutting edge innovative project management solution is termed as one of the more reliable open source Project Manager software for WordPress. 
+So now you can through your headache of being able to manage the project efficiently out of the window with this super-efficient project management application.
 
-👉 Official Free Demo Link: [Official Demo](https://pmdemo.wedevs.com/)
+Want to give it a try? Then try its 👉 [FREE OFFICIAL DEMO](https://pm.wedevsdemos.com)
 
-👉 Learn More About Project Manager(PRO): [All The Features of Project Manager](https://wedevs.com/wp-project-manager-pro/)
-
-WP Project Manager is one of the most sophisticated project and task management tools in WordPress. With all the advanced features of this task organizer, you can [create](https://wedevs.com/docs/wp-project-manager/getting-started/creating-a-project/), organize, and assign projects, tasks, to-dos, faster than ever within minutes. User-friendly interface and web based task management feature have turned it into the best open source project management software. Boost the productivity of your team with time tracking tool and measure the performance variation with the built-in reports with this simple yet effective project management plugin.
-
-= Efficient Task Manager with Intuitive Interface =
-Manage all types of tasks and projects with the least time possible. The interactive user-friendly interface will not only give you a smooth experience but also assist you to boost the overall efficiency.
-
-= Team Collaboration made easy =
-With built-in discussion thread and file sharing option, make the most out of a teamwork without any hassle. Easily work simultaneously with remote teams with this team collaboration tool for WordPress.
-
-= Best fit for any kind of teams =
-No matter which team or organization you are running, WP Project Manager ensures the best outcome from all kinds of teams. This is why this plugin has become the favorite open source project management software for every team and individuals.
-
-= Full control over privacy and security =
-
-No compromise with privacy and permission among the tasks or projects. With user role customization and team permission feature ([Pro](https://wedevs.com/wp-project-manager-pro/features/)), manage who can see or who can manage which project very easily.
-
-= Personal board for users =
-
-Everyone gets their own dashboard to stay updated about tasks in the most organized way. From this personal board, a user will be able to access only the projects and tasks he is allowed to see.
-
-Why WP Project Manager should be your first choice in task management plugins? [Compare WP Project Manager with other popular project management solutions](https://wedevs.com/wp-project-manager-pro/compare/).
-
-= Core Features: =
+**Key Features**
 
 **To-do List**
 
-* Add as many to-do list as you want with title and description
-* Add tasks, assign users, assign due date
+* Add as many to-do lists as you want with title and description
+* Add tasks, assign users, assign a due date
 * See progress bar on the list
 * Add comments on individual to-do lists and to-do’s
 * Mark to-do as complete/incomplete
 
 **Milestone**
 
-* 3 types of milestones are there, a) upcoming, b) completed and c) late milstone
+* 3 types of milestones are there, a) upcoming, b) completed and c) late milestone
 * Assign messages and to-do list on milestone
 
 **Messages**
 
-* Messages are used for discussing about the project with co-workers of that project
+* Messages are used for discussing the project with co-workers of that project
 * You can add attachments on messages
 * Comments can be made for discussion
 
@@ -76,7 +57,7 @@ Why WP Project Manager should be your first choice in task management plugins? [
 
 👉 [Learn more about all the functions and features from our documentation](https://wedevs.com/docs/wp-project-manager/).
 
-= Pro Features =
+**Pro Features**
 
 **[Kanban Board for WordPress](https://wedevs.com/products/plugins/wp-project-manager-pro/kanban-board/)**
 
@@ -121,23 +102,52 @@ Why WP Project Manager should be your first choice in task management plugins? [
    * Control which product will create what type of project and task.
    * Add and manage user roles like co-workers, managers, and clients to the Projects and Tasks.
 
-**[Slack Integration](https://wedevs.com/docs/wp-project-manager/pm-slack-integration/)**
+**[Slack Integration](https://wedevs.com/docs/wp-project-manager/integrations/slack/)**
 
    * Integrate your WP Project Manager Pro with the best workspace communication tool - Slack
    * Get instant notifications on your Slack channels when a new task, subtask, comment is created or an existing one is modified. And also when a task is completed or a new co-worker is added.
 
-[**Managing projects from frontend**](https://wedevs.com/docs/wp-project-manager/managing-projects-from-frontend/)
+[**Managing projects from frontend**](https://wedevs.com/docs/wp-project-manager/managing-projects-from-wp-project-manager-frontend/)
 
    * Let your users be able to view your projects from the frontend
    * Manage projects without going to backend interface.
 
-= See How WP Project Manager has been Recognized by the Top Sites =
+👉 [GET WP PROJECT MANAGER PRO](https://wedevs.com/wp-project-manager-pro/pricing)
+
+**STANDOUT FUNCTIONALITIES OF WP PROJECT MANAGER**
+
+= EFFICIENT TASK MANAGER WITH INTUITIVE INTERFACE =
+
+Manage all types of tasks and projects with the least time possible. The interactive user-friendly interface will not only give you a smooth experience but also assist you to boost the overall efficiency.
+
+= TEAM COLLABORATION MADE EASY =
+
+With built-in discussion thread and file sharing option, make the most out of teamwork without any hassle. Easily work simultaneously with remote teams with this team collaboration tool for WordPress.
+
+= BEST FIT FOR ANY KIND OF TEAMS =
+
+No matter which team or organization you are running, WP Project Manager ensures the best outcome from all kinds of teams. This is why this plugin has become the favorite open source project management software for every team and individuals.
+
+= FULL CONTROL OVER PRIVACY AND SECURITY =
+
+No compromise with privacy and permission among the tasks or projects. With user role customization and team permission feature (Pro), manage who can see or who can manage which project very easily.
+ 
+= PERSONAL DASHBOARD FOR USERS =
+
+Everyone gets their own dashboard to stay updated about tasks in the most organized way. From this personal board, a user will be able to access only the projects and tasks he is allowed to see.
+
+**So still wondering why WP Project Manager should be your first choice in task management plugins?**
+
+👉 [Check out this complete comparison of WP Project Manager with other popular project management solutions.](https://wedevs.com/wp-project-manager-pro/compare/)
+👉 [Learn more about all the functions and features from our documentation.](https://wedevs.com/docs/wp-project-manager/)
+
+= SEE HOW WP PROJECT MANAGER HAS BEEN RECOGNIZED BY THE TOP SITES =
    1. [Top 6 WordPress Project Management Plugins](https://kinsta.com/blog/wordpress-project-management-plugins/)
    2. [Top 23 WordPress Plugins for Freelancers to Improve Their Workflow](https://colorlib.com/wp/freelance-plugins-wordpress/)
    3. [Top 8 Project Management Plugins For WordPress](https://www.elegantthemes.com/blog/tips-tricks/top-8-project-management-plugins-for-wordpress)
    4. [Project Management Tools for WordPress to Help You Stay on Track](https://premium.wpmudev.org/blog/project-management-tools/)
 
-= Learn How You Can Leverage Your Productivity Tool to the Fullest =
+= LEARN HOW YOU CAN LEVERAGE YOUR PRODUCTIVITY TOOL TO THE FULLEST =
 
    1. [How weDevs Has Been Using WP Project Manager Successfully For Collaboration](https://wedevs.com/145814/how-wedevs-has-been-using-wp-project-manager-successfully-for-collaboration/)
 
@@ -149,17 +159,12 @@ Why WP Project Manager should be your first choice in task management plugins? [
 
    5. [Create Project Automatically for Your WooCommerce Order & Save Time](https://wedevs.com/100764/create-projects-automatically-woocommerce-order/)
 
+**CONTRIBUTE**
 
-= Contribute =
-This may have bugs and lack of many features. If you want to contribute on this project, you are more than welcome. Please fork the repository from [Github](https://github.com/weDevsOfficial/wp-project-manager).
+If you think you can help develop this plugin even better then you can always more than welcome to contribute to this project. Please fork the repository from [Github](https://github.com/weDevsOfficial/wp-project-manager).
 
-= Checkout Our Other Products =
-* [Dokan - Multivendor Plugin](https://wedevs.com/dokan/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=Dokan+Multivendor+Marketplace)
-* [weForms](https://wedevs.com/weforms/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=weForms)
-* [WP User Frontend Pro](https://wedevs.com/wp-user-frontend-pro/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=WP+User+Frontend+Pro)
-* [WordPress ERP](https://wperp.com/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=WPERP)
+**OUR VALUABLE CONTRIBUTORS**
 
-= Contribution =
 * French translation by Corentin allard
 * Dutch translation by eskamedia
 * Brazilian Portuguese translation by Anderson
@@ -167,6 +172,29 @@ This may have bugs and lack of many features. If you want to contribute on this 
 * Spanish translation by Luigi Libet
 * Indonesian translation by hirizh
 * Polish translation by Jacek Synowiec
+
+**CHECKOUT OUR OTHER AWESOME PRODUCTS**
+
+* [Dokan – Multivendor Marketplace Plugin](https://wedevs.com/dokan/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=Dokan+Multivendor+Marketplace)
+* [WP User Frontend Pro](https://wedevs.com/wp-user-frontend-pro/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=WP+User+Frontend+Pro)
+* [WordPress ERP](https://wperp.com/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=WPERP)
+* [WooCommerce Conversion Tracking](https://wedevs.com/woocommerce-conversion-tracking/)
+* [weMail](https://getwemail.io/)
+* [AppSero](https://appsero.com/)
+* [Happy Addons](https://happyaddons.com/?utm_source=wedevs&utm_medium=menu)
+* [wePos](https://wedevs.com/wepos)
+
+== Privacy Policy ==
+
+WP Project Manager uses [Appsero](https://appsero.com) SDK to collect some telemetry data upon user's confirmation. This helps us to troubleshoot problems faster & make product improvements.
+
+Appsero SDK **does not gather any data by default.** The SDK only starts gathering basic telemetry data **when a user allows it via the admin notice**. We collect the data to ensure great user experience for all our users. 
+
+Integrating Appsero SDK **DOES NOT IMMEDIATELY** start gathering data, **without confirmation from users in any case.**
+
+Learn more how [Appsero collects and uses this data](https://appsero.com/privacy-policy/).
+
+Additionally, read weDevs [privacy policy](https://wedevs.com/privacy-policy/) for a better idea.
 
 == Installation ==
 
@@ -210,6 +238,12 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 
 == Changelog ==
+
+= v2.3.7 - Feb 27, 2020 =
+
+* **Fix** In favorite project section 'all projects' were showing.
+* **Fix** Task notification mails contains raw html.
+* **Fix** Set 200 character limit when adding a new task.
 
 = v2.3.6 - Feb 10, 2020 =
 
@@ -836,19 +870,6 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 = 0.1 =
 Initial version released
-
-== Privacy Policy ==
-
-WP Project Manager uses [Appsero](https://appsero.com) SDK to collect some telemetry data upon user's confirmation. This helps us to troubleshoot problems faster & make product improvements.
-
-Appsero SDK **does not gather any data by default.** The SDK only starts gathering basic telemetry data **when a user allows it via the admin notice**. We collect the data to ensure great user experience for all our users. 
-
-Integrating Appsero SDK **DOES NOT IMMEDIATELY** start gathering data, **without confirmation from users in any case.**
-
-Learn more how [Appsero collects and uses this data](https://appsero.com/privacy-policy/).
-
-Additionally, read weDevs [privacy policy](https://wedevs.com/privacy-policy/) for more.
-
 
 == Upgrade Notice ==
 

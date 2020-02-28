@@ -203,13 +203,16 @@ class Project {
 		global $wpdb;
 		$tb_projects = pm_tb_prefix() . 'pm_projects';
 		$tb_meta     = pm_tb_prefix() . 'pm_meta';
+		$current_user_id = get_current_user_id();
 
 		$query = "SELECT COUNT($tb_projects.id) as favourite_project 
 			FROM  $tb_projects
 			LEFT JOIN $tb_meta ON $tb_meta.project_id = $tb_projects.id
-			WHERE $tb_meta.meta_key = %s";
+			WHERE $tb_meta.meta_key = %s 
+			AND $tb_meta.entity_id = %d
+			AND $tb_meta.meta_value is not null";
 
-		$favourite_project_count = $wpdb->get_var( $wpdb->prepare( $query, 'favourite_project' ) );
+		$favourite_project_count = $wpdb->get_var( $wpdb->prepare( $query, 'favourite_project', $current_user_id ) );
 
 		return $favourite_project_count;
 
@@ -1094,6 +1097,7 @@ class Project {
 			
 			$this->where .= $wpdb->prepare( " 
 				AND {$wpdb->prefix}pm_meta.entity_id=%d
+				AND {$wpdb->prefix}pm_meta.meta_value IS NOT NULL
 				AND {$wpdb->prefix}pm_meta.meta_key=%s", 
 				$current_user_id, 'favourite_project'
 			);
