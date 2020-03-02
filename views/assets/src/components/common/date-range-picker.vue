@@ -10,7 +10,6 @@
 		type="text" 
 		:placeholder="options.placeholder" 
 		:class="`${id} ${contentClass} nonsortable`"
-		:value="dateValue"
 		v-date-field
 	/>
 	

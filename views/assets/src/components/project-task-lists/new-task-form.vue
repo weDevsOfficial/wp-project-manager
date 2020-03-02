@@ -441,10 +441,12 @@ export default {
             return 'icon-pm-calendar new-task-calendar pm-dark-hover';
         },
         getStartDate () {
-            return this.task.start_at.date ? new Date(this.task.start_at.date ) : pm.Moment()
+            let startDate = this.task.start_at.date ? new Date(this.task.start_at.date ) : pm.Moment();
+            return startDate;
         },
         getEndDate () {
-            return this.task.due_date.date ? new Date(this.task.due_date.date) : pm.Moment()
+            let endDate = this.task.due_date.date ? new Date(this.task.due_date.date) : pm.Moment();
+            return endDate;
         },
         windowActivity (el) {
             var self = this;
@@ -472,10 +474,16 @@ export default {
         },
         onChangeDate (start, end, className) {
             if(this.task_start_field) {
-                this.task.start_at.date = start.format('YYYY-MM-DD');
-                this.task.due_date.date = end.format('YYYY-MM-DD');
+                this.task.start_at = {
+                    'date': start.format('YYYY-MM-DD')
+                } 
+                this.task.due_date = {
+                    'date': end.format('YYYY-MM-DD')
+                } 
             } else {
-                this.task.due_date.date = end.format('YYYY-MM-DD');
+                this.task.due_date = {
+                    'date': end.format('YYYY-MM-DD')
+                }
             }
         },
         callBackDatePickerForm (date) {
