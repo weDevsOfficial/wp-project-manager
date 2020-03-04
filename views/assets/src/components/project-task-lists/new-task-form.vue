@@ -622,8 +622,8 @@ export default {
 
                     self.task.title = '';
                     self.content.html = '';
-                    self.task.start_at.date = '';
-                    self.task.due_date.date = '';
+                    self.task.start_at = { date: '' };
+                    self.task.due_date = { date: '' };
                     self.task.assignees.data = [];
 
                     Vue.nextTick(function() {
