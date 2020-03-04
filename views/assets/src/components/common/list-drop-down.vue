@@ -183,7 +183,10 @@
                 }
 
                 var request = {
-                    url: self.base_url + '/pm/v2/projects/'+this.projectId+'/lists/search?title='+title+'&with=incomplete_tasks,complete_tasks&incomplete_task_per_page=-1&complete_task_per_page=-1',
+                    url: self.base_url + '/pm/v2/projects/'+this.projectId+'/task-lists?title='+title+'&with=incomplete_tasks,complete_tasks&incomplete_task_per_page=-1&complete_task_per_page=-1',
+                    data: {
+                        status: [1,0]
+                    },
                     success: function(res) {
                         
                         self.loadingListSearch = false;

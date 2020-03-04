@@ -22,6 +22,10 @@ export default {
     },
 
     methods: {
+        isArchivePage () {
+            return this.$route.name == 'task_lists_archive' || this.$route.name == 'task_lists_archive_pagination'
+        },
+
         cutString(string, length, dot){
             var output = "";
             output = string.substring(0, parseInt(length));
