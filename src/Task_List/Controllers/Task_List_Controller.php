@@ -55,8 +55,18 @@ class Task_List_Controller {
 
         $page = $request->get_param( 'page' );
         $page = $page ? $page : 1;
-        $status = isset( $status ) ? intval( $status ) : 1;
 
+        if ( ! is_array( $status ) ) {
+            if ( strpos( $status, ',' ) !== false ) {
+                $status = str_replace( ' ', '', $status );
+                $status = explode( ',', $status );
+            }
+        }
+
+        if ( ! empty( $status ) ) {
+            $status = is_array( $status ) ? $status : [$status];
+        }
+        
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
         });
@@ -65,6 +75,8 @@ class Task_List_Controller {
         $tb_lists     = pm_tb_prefix() . 'pm_boards';
         $tb_boardable = pm_tb_prefix() . 'pm_boardables';
         $tb_meta      = pm_tb_prefix() . 'pm_meta';
+        $title       = $request->get_param( 'title' );
+        $is_archive  = $request->get_param( 'is_archive' );
 
         $task_lists = Task_List::select( $tb_lists . '.*' )
             ->selectRaw(
@@ -88,11 +100,18 @@ class Task_List_Controller {
                         $q->orWhereNull($tb_meta . '.entity_type');
                     });
             })
-
             ->where( pm_tb_prefix() .'pm_boards.project_id', $project_id)
-            ->where( pm_tb_prefix() .'pm_boards.status', $status )
-
             ->groupBy($tb_lists.'.id');
+
+        if ( ! empty( $status ) ) {
+            $task_lists->whereIn( pm_tb_prefix() .'pm_boards.status', $status );
+        } else {
+            $task_lists->where( pm_tb_prefix() .'pm_boards.status', $status );
+        }
+
+        if ( ! empty( $title ) ) {
+            $task_lists->where( pm_tb_prefix() .'pm_boards.title', 'like', '%'.$title.'%');
+        }
 
         $task_lists = apply_filters( "pm_task_list_check_privacy", $task_lists, $project_id, $request );
 
