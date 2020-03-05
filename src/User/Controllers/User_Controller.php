@@ -88,6 +88,12 @@ class User_Controller {
 
         // User creation
         $user_id = wp_insert_user( $user_data );
+
+        if ( is_multisite() ) {
+            $blog_id = get_current_blog_id();
+            add_user_to_blog( $blog_id, $blog_id, 'subscriber' );
+        }
+
         wp_send_new_user_notifications( $user_id );
         $user    = User::find( $user_id );
 
@@ -101,13 +107,13 @@ class User_Controller {
         $query_string = $request->get_param( 'query' );
         $limit        = $request->get_param( 'limit' );
         $term         = $request->get_param( 'term');
-
+        
         $users = User::where( 'user_login', 'LIKE', '%' . $query_string . '%' )
             ->orWhere( 'user_nicename', 'LIKE', '%' . $query_string . '%' )
             ->orWhere( 'user_email', 'LIKE', '%' . $query_string . '%' )
-            ->orWhere( 'user_url', 'LIKE', '%' . $query_string . '%');
+            ->orWhere( 'user_url', 'LIKE', '%' . $query_string . '%')
+            ->multisite();
         
-//        var_dump($limit);
         if ( $limit ) {
             $users =  $users->limit( intval( $limit ) )->get();
         } else {

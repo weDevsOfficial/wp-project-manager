@@ -84,6 +84,23 @@ class Frontend {
         add_filter( 'pm_get_content', 'shortcode_unautop' );
         add_filter( 'pm_get_content', 'prepend_attachment' );
         add_filter( 'pm_get_content', 'make_clickable' );
+        add_filter('all_plugins', [ $this, 'hide_plugin_form_admin_network' ] );
+    }
+
+    function hide_plugin_form_admin_network( $plugins ) {
+        if ( is_network_admin() ) {
+            foreach ( $plugins as $key => $plugin ) {
+                if ( $plugin['TextDomain'] == 'wedevs-project-manager' ) {
+                    unset( $plugins[$key] );
+                }
+
+                if ( $plugin['TextDomain'] == 'pm-pro' ) {
+                    unset( $plugins[$key] );
+                }
+            }
+        }
+        
+        return $plugins;
     }
 
     function pm_content_filter_url() {

@@ -952,7 +952,7 @@ class Project {
 		}
 
 		$tb_assignees   = pm_tb_prefix() . 'pm_role_user';
-		$tb_users       = pm_tb_prefix() . 'users';
+		$tb_users       = $wpdb->base_prefix . 'users';
 		$project_format = pm_get_prepare_format( $this->project_ids );
 		$query_data     = $this->project_ids;
 
