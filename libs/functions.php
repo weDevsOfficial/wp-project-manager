@@ -939,3 +939,25 @@ function pm_dashboard_logo() {
 
     // return ERP_DASHBOARD_ASSETS . '/images/pm-logo.png';
 }
+
+function pm_active_for_network() {
+    
+    $plugins     = get_plugins();
+    $plugin_path = false;
+    
+    foreach ( $plugins as $path => $plugin ) {
+        if ( $plugin['TextDomain'] == 'wedevs-project-manager' ) {
+            $plugin_path = $path;
+        }
+    }
+
+    if ( empty( $plugin_path ) ) {
+        return false;
+    }
+
+    if ( is_plugin_active_for_network( $plugin_path ) ) {
+        return true;
+    }
+
+    return false;
+}
