@@ -55,8 +55,7 @@ class User extends Eloquent {
         global $wpdb;
 
         if ( is_multisite() ) {
-            $blog_id       = get_current_blog_id();
-            $user_meta_key = $wpdb->prefix . 'capabilities';
+            $user_meta_key = pm_user_meta_key();
             $usermeta_tb   = $wpdb->base_prefix . 'usermeta';
             $users_tb      = $wpdb->base_prefix . 'users';
             

@@ -183,13 +183,25 @@ class User_Controller {
         }
 
         $tb_role_users = pm_tb_prefix() . 'pm_role_user';
-        $tb_users = pm_tb_prefix() . 'users';
+        $tb_users       = $wpdb->base_prefix . 'users';
+        $tb_user_meta   = $wpdb->base_prefix . 'usermeta';
 
-        $sql = "SELECT DISTINCT us.ID as user_id, us.user_email as user_email, us.display_name as display_name
-        FROM $tb_role_users as rus
-        LEFT JOIN $tb_users as us ON us.ID=rus.user_id
+        if ( is_multisite() ) {
+            $meta_key = pm_user_meta_key();
 
-        WHERE 1=1 $role";
+            $sql = "SELECT DISTINCT us.ID as user_id, us.user_email as user_email, us.display_name as display_name
+                FROM $tb_role_users as rus
+                LEFT JOIN $tb_users as us ON us.ID=rus.user_id
+                LEFT JOIN $tb_user_meta as umeta ON umeta.user_id = us.ID
+                WHERE 1=1 
+                AND umeta.meta_key='$meta_key'
+                $role";
+        } else {
+             $sql = "SELECT DISTINCT us.ID as user_id, us.user_email as user_email, us.display_name as display_name
+                FROM $tb_role_users as rus
+                LEFT JOIN $tb_users as us ON us.ID=rus.user_id
+                WHERE 1=1 $role";
+        } 
 
         $users = $wpdb->get_results( $sql );
 

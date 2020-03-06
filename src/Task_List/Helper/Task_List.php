@@ -395,19 +395,39 @@ class Task_List {
 	private function total_assignees_count() {
 		global $wpdb;
 		$metas           = [];
-		$tb_users        = pm_tb_prefix() . 'Users';
+		$tb_users       = $wpdb->base_prefix . 'users';
+		$tb_user_meta   = $wpdb->base_prefix . 'usermeta';
 		$tb_boardable    = pm_tb_prefix() . 'pm_boardables';
 		$tasklist_format = pm_get_prepare_format( $this->list_ids );
 		$query_data      = $this->list_ids;
 
-		$query ="SELECT DISTINCT count($tb_users.id) as user_count,
-		$tb_boardable.board_id as list_id FROM $tb_users
-			LEFT JOIN $tb_boardable  ON $tb_boardable.boardable_id = $tb_users.id
-			WHERE $tb_boardable.board_id IN ( $tasklist_format )
-			AND $tb_boardable.board_type = %s
-			AND $tb_boardable.boardable_type = %s
-			group by $tb_boardable.board_id
-		";
+
+
+		if ( is_multisite() ) {
+			$meta_key = pm_user_meta_key();
+
+			$query ="SELECT DISTINCT count($tb_users.id) as user_count,
+				$tb_boardable.board_id as list_id 
+				FROM $tb_users
+					LEFT JOIN $tb_boardable  ON $tb_boardable.boardable_id = $tb_users.ID
+					LEFT JOIN $tb_user_meta as umeta ON umeta.user_id = $tb_users.ID
+					WHERE $tb_boardable.board_id IN ( $tasklist_format )
+					AND $tb_boardable.board_type = %s
+					AND $tb_boardable.boardable_type = %s
+					AND umeta.meta_key='$meta_key'
+					group by $tb_boardable.board_id
+				";
+		} else {
+			$query ="SELECT DISTINCT count($tb_users.id) as user_count,
+				$tb_boardable.board_id as list_id 
+				FROM $tb_users
+					LEFT JOIN $tb_boardable  ON $tb_boardable.boardable_id = $tb_users.id
+					WHERE $tb_boardable.board_id IN ( $tasklist_format )
+					AND $tb_boardable.board_type = %s
+					AND $tb_boardable.boardable_type = %s
+					group by $tb_boardable.board_id
+				";
+		} 
 
 		array_push( $query_data, 'task_list', 'user' );
 
