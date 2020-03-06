@@ -81,7 +81,6 @@ class Project {
 	 * @return array
 	 */
 	public static function get_results( $params ) {
-		//global $wpdb;
 
 		$self = self::getInstance();
 		$self->query_params = $params;
