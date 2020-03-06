@@ -961,3 +961,11 @@ function pm_active_for_network() {
 
     return false;
 }
+
+function pm_user_meta_key() {
+    global $wpdb;
+
+    return $wpdb->prefix . 'capabilities';
+}
+
+
