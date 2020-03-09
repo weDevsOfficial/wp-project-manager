@@ -81,7 +81,7 @@ class Frontend {
         add_action( 'admin_footer', array( $this, 'switch_project_html' ) );
         add_action( 'admin_init', array( $this, 'redirect_after_activate' ) );
         add_action( 'admin_bar_menu', array( $this, 'pm_toolbar_search_button' ), 999);
-        add_action( 'wp_insert_site', [ $this, 'after_insert_site' ] );
+        add_action( 'wp_insert_site', [ $this, 'after_insert_site' ], 10 );
         
     }
 
