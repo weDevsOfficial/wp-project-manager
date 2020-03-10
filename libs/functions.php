@@ -968,4 +968,8 @@ function pm_user_meta_key() {
     return $wpdb->prefix . 'capabilities';
 }
 
+function pm_can_create_user_at_project_create_time() {
+    return apply_filters( 'pm_can_create_user_at_project_create_time', true );
+}
+
 
