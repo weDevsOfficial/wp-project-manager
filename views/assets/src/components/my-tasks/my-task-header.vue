@@ -15,7 +15,7 @@
         <data style="display: none;" :fake-data="users"></data>
         <div class="pm-row pm-project-group">
             <ul class="pm-col-9 pm-my-task-menu">
-                 <li class="">
+                 <li>
                     <router-link :to="routeLink('current')" class="pm-my-outstandigntask">
                         {{ __('Tasks', 'wedevs-project-manager' ) }}
 
@@ -23,14 +23,14 @@
 
                 </li>
 
-                <li class="">
+                <li>
                     <router-link :to="routeLink('tasks')" class="pm-my-taskoverview">
                         {{ __('Overview', 'wedevs-project-manager' )}}
 
                     </router-link>
 
                 </li>
-                <li class="">
+                <li>
                     <router-link :to="routeLink('activities')" class="pm-my-completetask">
                         {{ __('Activities', 'wedevs-project-manager' )}}
 
@@ -71,6 +71,29 @@
     .pm-project-head {
         margin-bottom: 12px !important;
         margin-top: 6px !important;
+    }
+    .pm-project-group {
+        display: flex;
+
+        .pm-my-task-menu {
+            display: flex;
+
+            li {
+                width: auto !important;
+                a {
+                    background-position: 20% 30% !important;
+                }
+            }
+        }
+
+        .pm-user-select {
+            width: 100%;
+
+            .user-switch {
+                width: 50%;
+                margin-left: auto !important;
+            }
+        }
     }
 </style>
 

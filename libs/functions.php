@@ -431,7 +431,7 @@ function pm_user_can( $cap, $project_id, $user_id = false ) {
 function pm_has_manage_capability( $user_id = false ) {
     $user_id = $user_id ? intval( $user_id ) : get_current_user_id();
     $user    = get_user_by( 'id', $user_id );
-
+    
     if ( !$user->roles || !is_array($user->roles) ) {
         return false;
     }
@@ -939,3 +939,37 @@ function pm_dashboard_logo() {
 
     // return ERP_DASHBOARD_ASSETS . '/images/pm-logo.png';
 }
+
+function pm_active_for_network() {
+    
+    $plugins     = get_plugins();
+    $plugin_path = false;
+    
+    foreach ( $plugins as $path => $plugin ) {
+        if ( $plugin['TextDomain'] == 'wedevs-project-manager' ) {
+            $plugin_path = $path;
+        }
+    }
+
+    if ( empty( $plugin_path ) ) {
+        return false;
+    }
+
+    if ( is_plugin_active_for_network( $plugin_path ) ) {
+        return true;
+    }
+
+    return false;
+}
+
+function pm_user_meta_key() {
+    global $wpdb;
+
+    return $wpdb->prefix . 'capabilities';
+}
+
+function pm_can_create_user_at_project_create_time() {
+    return apply_filters( 'pm_can_create_user_at_project_create_time', true );
+}
+
+

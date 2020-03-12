@@ -46,6 +46,18 @@ class Frontend {
     }
 
     public function install() {
+        if ( is_multisite() && is_network_admin() ) {
+            $sites = get_sites();
+            
+            foreach ( $sites as $key => $site ) {
+                $this->after_insert_site( $site );
+            }
+        } else {
+            $this->run_install();
+        }
+    }
+
+    public function run_install() {
         ( new Installer )->do_install();
     }
 
@@ -68,8 +80,17 @@ class Frontend {
         add_filter( 'in_plugin_update_message-' . PM_BASENAME , array( $this, 'upgrade_notice' ), 10, 2 );
         add_action( 'admin_footer', array( $this, 'switch_project_html' ) );
         add_action( 'admin_init', array( $this, 'redirect_after_activate' ) );
-        add_action('admin_bar_menu', array( $this, 'pm_toolbar_search_button' ), 999);
-        // add_action('admin_bar_menu', array( $this, 'pm_toolbar_new_task_creating' ), 999);
+        add_action( 'admin_bar_menu', array( $this, 'pm_toolbar_search_button' ), 999);
+        add_action( 'wp_initialize_site', [ $this, 'after_insert_site' ], 10 );
+        
+    }
+
+    function after_insert_site( $new_sites ) {
+        switch_to_blog( $new_sites->blog_id );
+
+        $this->run_install();
+
+        restore_current_blog();
     }
 
     function seed() {
@@ -84,6 +105,23 @@ class Frontend {
         add_filter( 'pm_get_content', 'shortcode_unautop' );
         add_filter( 'pm_get_content', 'prepend_attachment' );
         add_filter( 'pm_get_content', 'make_clickable' );
+        //add_filter('all_plugins', [ $this, 'hide_plugin_form_admin_network' ] );
+    }
+
+    function hide_plugin_form_admin_network( $plugins ) {
+        if ( is_network_admin() ) {
+            foreach ( $plugins as $key => $plugin ) {
+                if ( $plugin['TextDomain'] == 'wedevs-project-manager' ) {
+                    unset( $plugins[$key] );
+                }
+
+                if ( $plugin['TextDomain'] == 'pm-pro' ) {
+                    unset( $plugins[$key] );
+                }
+            }
+        }
+        
+        return $plugins;
     }
 
     function pm_content_filter_url() {
@@ -278,6 +316,7 @@ class Frontend {
     }
 
     public function redirect_after_activate() {
+
         if ( ! apply_filters( 'pm_welcome_page_redirect', get_transient( '_pm_setup_page_redirect' ) ) ) {
             return;
         }
