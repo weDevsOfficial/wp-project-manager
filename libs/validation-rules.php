@@ -26,7 +26,7 @@ function gtz( $value ) {
 	return false;
 }
 
-function pm_unique ($value, $args){
+function pm_unique ($value, $args) {
 	// Listing all the variables
 	list($model, $collumn) = $args;
 	if ( empty( $collumn ) ) {

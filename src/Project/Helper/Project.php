@@ -81,7 +81,6 @@ class Project {
 	 * @return array
 	 */
 	public static function get_results( $params ) {
-		//global $wpdb;
 
 		$self = self::getInstance();
 		$self->query_params = $params;
@@ -952,14 +951,26 @@ class Project {
 		}
 
 		$tb_assignees   = pm_tb_prefix() . 'pm_role_user';
-		$tb_users       = pm_tb_prefix() . 'users';
+		$tb_users       = $wpdb->base_prefix . 'users';
+		$tb_user_meta   = $wpdb->base_prefix . 'usermeta';
 		$project_format = pm_get_prepare_format( $this->project_ids );
 		$query_data     = $this->project_ids;
 
-		$query = "SELECT DISTINCT usr.ID as id, usr.display_name, usr.user_email as email, asin.project_id, asin.role_id
-			FROM $tb_users as usr
-			LEFT JOIN $tb_assignees as asin ON usr.ID = asin.user_id
-			where asin.project_id IN ($project_format)";
+		if ( is_multisite() ) {
+			$meta_key = pm_user_meta_key();
+
+			$query = "SELECT DISTINCT usr.ID as id, usr.display_name, usr.user_email as email, asin.project_id, asin.role_id
+				FROM $tb_users as usr
+				LEFT JOIN $tb_assignees as asin ON usr.ID = asin.user_id
+				LEFT JOIN $tb_user_meta as umeta ON umeta.user_id = usr.ID
+				where asin.project_id IN ($project_format) 
+				AND umeta.meta_key='$meta_key'";
+		} else {
+			$query = "SELECT DISTINCT usr.ID as id, usr.display_name, usr.user_email as email, asin.project_id, asin.role_id
+				FROM $tb_users as usr
+				LEFT JOIN $tb_assignees as asin ON usr.ID = asin.user_id
+				where asin.project_id IN ($project_format)";
+		} 
 
 		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 		

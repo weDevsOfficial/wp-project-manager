@@ -1,3 +1,9 @@
+= v2.3.8 - Mar 12, 2020 =
+
+* **New** Add fileter for removing project unique title.
+* **Fix** Fixing Multiside completable issues.
+* **Update** Update query for fetching users to make Multi-site compatible.
+
 = v2.3.7 - Feb 27, 2020 =
 
 * **Fix** In favorite project section 'all projects' were showing.

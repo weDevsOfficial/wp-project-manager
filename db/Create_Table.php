@@ -1,7 +1,9 @@
 <?php
 
 class PM_Create_Table {
+
     public function __construct() {
+
         require_once ABSPATH . 'wp-admin/includes/upgrade.php';
         $this->create_project_table();
         $this->create_tasks_table();
@@ -25,10 +27,16 @@ class PM_Create_Table {
         $this->update_version();
     }
 
+    private function prefix() {
+    	global $wpdb;
+
+    	return $wpdb->prefix;
+    }
+
     private function crate_capabilities_table() {
 
         global $wpdb;
-        $table_name = $wpdb->prefix . 'pm_capabilities';
+        $table_name = $this->prefix() . 'pm_capabilities';
 
         $sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
               `id` int(20) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -41,7 +49,7 @@ class PM_Create_Table {
 
    	private function crate_role_projects_table() {
         global $wpdb;
-        $table_name = $wpdb->prefix . 'pm_role_project';
+        $table_name = $this->prefix() . 'pm_role_project';
 
         $sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
               `id` int(20) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -56,7 +64,7 @@ class PM_Create_Table {
 
     private function crate_role_project_capabilities_table() {
         global $wpdb;
-        $table_name = $wpdb->prefix . 'pm_role_project_capabilities';
+        $table_name = $this->prefix() . 'pm_role_project_capabilities';
 
         $sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
               `role_project_id` int(20) UNSIGNED NOT NULL,
@@ -70,7 +78,7 @@ class PM_Create_Table {
 
     private function crate_role_project_users_table() {
         global $wpdb;
-        $table_name = $wpdb->prefix . 'pm_role_project_users';
+        $table_name = $this->prefix() . 'pm_role_project_users';
 
         $sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
               `role_project_id` int(20) UNSIGNED NOT NULL,
@@ -83,8 +91,9 @@ class PM_Create_Table {
 
     public function create_project_table()
     {
+
         global $wpdb;
-        $table_name = $wpdb->prefix . 'pm_projects';
+        $table_name = $this->prefix() . 'pm_projects';
 
         // `status` COMMENT '0: incomplete; 1: complete; 2: pending; 3: archived'
 
@@ -113,7 +122,7 @@ class PM_Create_Table {
     public function create_tasks_table()
     {
         global $wpdb;
-        $table_name = $wpdb->prefix . 'pm_tasks';
+        $table_name = $this->prefix() . 'pm_tasks';
 
         // `priority` tinyint(4) NOT NULL DEFAULT '1' COMMENT '1: High; 2: Medium; 3: Low',
         //  `payable` tinyint(1) NOT NULL DEFAULT 0 COMMENT '0: Not payable; 1: Payable',
@@ -151,7 +160,7 @@ class PM_Create_Table {
     public function create_activity_table()
     {
         global $wpdb;
-        $table_name = $wpdb->prefix . 'pm_activities';
+        $table_name = $this->prefix() . 'pm_activities';
 
         $sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
 			  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -176,7 +185,7 @@ class PM_Create_Table {
     public function create_assignees_table()
     {
         global $wpdb;
-        $table_name = $wpdb->prefix . 'pm_assignees';
+        $table_name = $this->prefix() . 'pm_assignees';
 
         //`status` tinyint(4) NOT NULL DEFAULT 0 COMMENT '0: Not started; 1: Working; 2: Accomplished',
 
@@ -205,7 +214,7 @@ class PM_Create_Table {
     public function create_boardables_table()
     {
         global $wpdb;
-        $table_name = $wpdb->prefix . 'pm_boardables';
+        $table_name = $this->prefix() . 'pm_boardables';
 
         $sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
 			  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -230,7 +239,7 @@ class PM_Create_Table {
     public function create_boards_table()
     {
         global $wpdb;
-        $table_name = $wpdb->prefix . 'pm_boards';
+        $table_name = $this->prefix() . 'pm_boards';
 
         $sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
 			  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -255,7 +264,7 @@ class PM_Create_Table {
     public function create_categories_table()
     {
         global $wpdb;
-        $table_name = $wpdb->prefix . 'pm_categories';
+        $table_name = $this->prefix() . 'pm_categories';
 
         $sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
 			  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -275,7 +284,7 @@ class PM_Create_Table {
     public function create_category_project_table()
     {
         global $wpdb;
-        $table_name = $wpdb->prefix . 'pm_category_project';
+        $table_name = $this->prefix() . 'pm_category_project';
 
         $sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
 			  `project_id` int(11) UNSIGNED NOT NULL,
@@ -290,7 +299,7 @@ class PM_Create_Table {
     public function create_comments_table()
     {
         global $wpdb;
-        $table_name = $wpdb->prefix . 'pm_comments';
+        $table_name = $this->prefix() . 'pm_comments';
 
         $sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
 			  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -314,7 +323,7 @@ class PM_Create_Table {
     public function create_files_table()
     {
         global $wpdb;
-        $table_name = $wpdb->prefix . 'pm_files';
+        $table_name = $this->prefix() . 'pm_files';
 
         $sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
 			  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -339,7 +348,7 @@ class PM_Create_Table {
     public function create_meta_table()
     {
         global $wpdb;
-        $table_name = $wpdb->prefix . 'pm_meta';
+        $table_name = $this->prefix() . 'pm_meta';
 
         $sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
 		  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -363,7 +372,7 @@ class PM_Create_Table {
     public function create_roles_table()
     {
         global $wpdb;
-        $table_name = $wpdb->prefix . 'pm_roles';
+        $table_name = $this->prefix() . 'pm_roles';
 
         $sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
 			  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -384,7 +393,7 @@ class PM_Create_Table {
     public function create_role_user_table()
     {
         global $wpdb;
-        $table_name = $wpdb->prefix . 'pm_role_user';
+        $table_name = $this->prefix() . 'pm_role_user';
 
         $sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
 			  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -405,7 +414,7 @@ class PM_Create_Table {
     public function create_settings_table()
     {
         global $wpdb;
-        $table_name = $wpdb->prefix . 'pm_settings';
+        $table_name = $this->prefix() . 'pm_settings';
 
         $sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
 			  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -427,7 +436,7 @@ class PM_Create_Table {
     public function create_import_table()
     {
         global $wpdb;
-        $table_name = $wpdb->prefix . 'pm_imports';
+        $table_name = $this->prefix() . 'pm_imports';
 
         $sql = "CREATE TABLE IF NOT EXISTS {$table_name} (
 			  `id` int(20) UNSIGNED NOT NULL AUTO_INCREMENT,

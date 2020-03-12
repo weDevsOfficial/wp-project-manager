@@ -88,6 +88,12 @@ class User_Controller {
 
         // User creation
         $user_id = wp_insert_user( $user_data );
+
+        if ( is_multisite() ) {
+            $blog_id = get_current_blog_id();
+            add_user_to_blog( $blog_id, $blog_id, 'subscriber' );
+        }
+
         wp_send_new_user_notifications( $user_id );
         $user    = User::find( $user_id );
 
@@ -101,13 +107,13 @@ class User_Controller {
         $query_string = $request->get_param( 'query' );
         $limit        = $request->get_param( 'limit' );
         $term         = $request->get_param( 'term');
-
+        
         $users = User::where( 'user_login', 'LIKE', '%' . $query_string . '%' )
             ->orWhere( 'user_nicename', 'LIKE', '%' . $query_string . '%' )
             ->orWhere( 'user_email', 'LIKE', '%' . $query_string . '%' )
-            ->orWhere( 'user_url', 'LIKE', '%' . $query_string . '%');
+            ->orWhere( 'user_url', 'LIKE', '%' . $query_string . '%')
+            ->multisite();
         
-//        var_dump($limit);
         if ( $limit ) {
             $users =  $users->limit( intval( $limit ) )->get();
         } else {
@@ -177,13 +183,25 @@ class User_Controller {
         }
 
         $tb_role_users = pm_tb_prefix() . 'pm_role_user';
-        $tb_users = pm_tb_prefix() . 'users';
+        $tb_users       = $wpdb->base_prefix . 'users';
+        $tb_user_meta   = $wpdb->base_prefix . 'usermeta';
 
-        $sql = "SELECT DISTINCT us.ID as user_id, us.user_email as user_email, us.display_name as display_name
-        FROM $tb_role_users as rus
-        LEFT JOIN $tb_users as us ON us.ID=rus.user_id
+        if ( is_multisite() ) {
+            $meta_key = pm_user_meta_key();
 
-        WHERE 1=1 $role";
+            $sql = "SELECT DISTINCT us.ID as user_id, us.user_email as user_email, us.display_name as display_name
+                FROM $tb_role_users as rus
+                LEFT JOIN $tb_users as us ON us.ID=rus.user_id
+                LEFT JOIN $tb_user_meta as umeta ON umeta.user_id = us.ID
+                WHERE 1=1 
+                AND umeta.meta_key='$meta_key'
+                $role";
+        } else {
+             $sql = "SELECT DISTINCT us.ID as user_id, us.user_email as user_email, us.display_name as display_name
+                FROM $tb_role_users as rus
+                LEFT JOIN $tb_users as us ON us.ID=rus.user_id
+                WHERE 1=1 $role";
+        } 
 
         $users = $wpdb->get_results( $sql );
 
