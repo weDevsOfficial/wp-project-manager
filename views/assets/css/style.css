@@ -4629,8 +4629,8 @@ a.pm-icon-tick.grey {
     width: 100%;
   }
   .pm .pm-top-bar ul.pm-project-group-ul li a {
-    padding-left: 50px !important;
-    background-position: 5% 50% !important;
+    padding-left: 50px;
+    background-position: 5% 50%;
   }
   .pm .project-overview .overview-menu ul li a {
     display: block;
@@ -4764,7 +4764,7 @@ a.pm-icon-tick.grey {
     float: none;
   }
   .pm .pm-project-group ul li a {
-    background-position: 2% 50% !important;
+    background-position: 2% 50%;
     /*border-bottom: solid 2px #eee;*/
   }
   .pm .pm-project-grid,
