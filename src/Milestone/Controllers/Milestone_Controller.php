@@ -34,7 +34,7 @@ class Milestone_Controller {
         $project_id = $request->get_param( 'project_id' );
         $per_page   = $request->get_param( 'per_page' );
         $status     = $request->get_param( 'status' );
-        $per_page   = $per_page ? $per_page : 15;
+        $per_page   = $per_page ? $per_page : -1;
 
         $page       = $request->get_param( 'page' );
         $page       = $page ? $page : 1;
