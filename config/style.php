@@ -134,7 +134,7 @@ return [
 			'pm-const-style',
 			'pm-new-style',
 			'pm-slicknav'
-		],
+		]
 	],
 
 

@@ -2,10 +2,10 @@
 Contributors: tareq1988, nizamuddinbabu, wedevs, asaquzzaman
 Donate Link: https://tareq.co/donate/
 Tags: project, project manager, project management, web project management, task manager, online collaboration tool,
-Requires at least: 4.4
+Requires at least: 4.4 or higher
 Tested up to: 5.3.2
 Requires PHP: 5.6
-Stable tag: 2.3.7
+Stable tag: 2.3.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -238,6 +238,12 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 
 == Changelog ==
+
+= v2.3.8 - Mar 12, 2020 =
+
+* **New** Add fileter for removing project unique title.
+* **Fix** Fixing Multiside completable issues.
+* **Update** Update query for fetching users to make Multi-site compatible.
 
 = v2.3.7 - Feb 27, 2020 =
 
