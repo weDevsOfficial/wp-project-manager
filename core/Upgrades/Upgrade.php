@@ -204,6 +204,7 @@ class Upgrade {
         if ( ! $this->is_needs_update() ) {
             return;
         }
+
         $installed_version = get_option( 'pm_db_version' );
 
         foreach (self::$updates as $version => $object ) {

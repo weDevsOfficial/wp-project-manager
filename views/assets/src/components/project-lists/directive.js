@@ -51,8 +51,13 @@ var Project = {
 
             select: function( event, ui ) {
                 if ( ui.item.value === '0' ) {
+                    
                     $( "form.pm-user-create-form" ).find( 'input[type=text]' ).val( '' );
-                    $( "#pm-create-user-wrap" ).dialog( "open" );
+                    
+                    if ( parseInt(PM_Vars.can_add_user_project_create_time) == 1 ) {
+                        $( "#pm-create-user-wrap" ).dialog( "open" );
+                    }
+                    
                 } else {
 
                     var has_user = context.selectedUsers.find(function(user) {
@@ -78,16 +83,24 @@ var Project = {
         } ).data( "ui-autocomplete" )._renderItem = function( ul, item ) {
             var no_user = context.__( 'No users found.', 'wedevs-project-manager'),
                 create_new_user = context.__( 'Create a new user', 'wedevs-project-manager');
+            
             if ( item.email ) {
                 return $( "<li>" )
-                .append( '<a>'+item.display_name+'</a>' )
-                .appendTo( ul );
-            } else {
-                return $( "<li>" )
-                .append( '<a><div class="no-user-wrap"><p>'+no_user+'</p> <span class="pm-more-user-form-btn button-primary">'+create_new_user+'</span></div></a>' )
-                .appendTo( ul );
-            }
+                    .append( '<a>'+item.display_name+'</a>' )
+                    .appendTo( ul );
             
+            } else {
+
+                if ( parseInt(PM_Vars.can_add_user_project_create_time) == 1 ) {
+                    return $( "<li>" )
+                        .append( '<a><div class="no-user-wrap"><p>'+no_user+'</p> <span class="pm-more-user-form-btn button-primary">'+create_new_user+'</span></div></a>' )
+                        .appendTo( ul );
+                } else {
+                    return $( "<li>" )
+                        .append( '<a><div class="no-user-wrap"><p>'+no_user+'</p></div></a>' )
+                        .appendTo( ul ); 
+                }
+            }
         };
     }
 }
