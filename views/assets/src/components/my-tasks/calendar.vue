@@ -87,7 +87,7 @@
 	            var request = {
 	                type: 'GET',
 	                data: args.data,
-	                url: self.base_url + '/pm/v2/users/'+ args.user_id +'/tasks/calender',
+	                url: self.base_url + 'pm/v2/users/'+ args.user_id +'/tasks/calender',
 	                success (res) {
 	                	var events=[];
 	                    res.data.map((event) => {

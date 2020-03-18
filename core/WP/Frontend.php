@@ -316,7 +316,6 @@ class Frontend {
     }
 
     public function redirect_after_activate() {
-
         if ( ! apply_filters( 'pm_welcome_page_redirect', get_transient( '_pm_setup_page_redirect' ) ) ) {
             return;
         }

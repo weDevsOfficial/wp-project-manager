@@ -212,7 +212,7 @@
                 var self = this;
 
                 var request_data = {
-                    url: self.base_url + '/pm/v2/projects/'+self.project_id+'/comments/' + id + '/delete',
+                    url: self.base_url + 'pm/v2/projects/'+self.project_id+'/comments/' + id + '/delete',
                     type: 'POST',
                     success (res) {
                         var index = self.getIndex(self.comments, id, 'id');

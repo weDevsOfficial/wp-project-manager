@@ -41,7 +41,7 @@
                 var request = {
                     type: 'POST',
                     data: data,
-                    url: self.base_url + '/pm/v2/projects/'+ args.data.project_id + '/favourite',
+                    url: self.base_url + 'pm/v2/projects/'+ args.data.project_id + '/favourite',
                     success (res) {
                         pm.Toastr.success(res.message);
                         var projects = self.$store.state.projects.slice();

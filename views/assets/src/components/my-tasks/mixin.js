@@ -38,7 +38,7 @@ export default {
             var request = {
                 type: 'GET',
                 data: args.data,
-                url: self.base_url + '/pm/v2/users/'+ args.user_id +'?'+conditions,
+                url: self.base_url + 'pm/v2/users/'+ args.user_id +'?'+conditions,
                 success (res) {
                     if ( typeof args.callback === 'function' ) {
                         args.callback.call ( self, res );
@@ -83,7 +83,7 @@ export default {
             var request = {
                 type: 'GET',
                 data: args.data,
-                url: self.base_url + '/pm/v2/users/'+ args.user_id +'/user-activities',
+                url: self.base_url + 'pm/v2/users/'+ args.user_id +'/user-activities',
                 success (res) {
                     if ( typeof args.callback === 'function' ) {
                         args.callback.call ( self, res );
@@ -115,7 +115,7 @@ export default {
             var request = {
                 type: 'GET',
                 data: args.data,
-                url: self.base_url + '/pm/v2/users/'+ args.user_id +'/tasks',
+                url: self.base_url + 'pm/v2/users/'+ args.user_id +'/tasks',
                 success (res) {
                     if ( typeof args.callback === 'function' ) {
                         args.callback.call ( self, res );
@@ -143,7 +143,7 @@ export default {
 
             var request = {
                 type: 'GET',
-                url: self.base_url + '/pm/v2/assigned_users/',
+                url: self.base_url + 'pm/v2/assigned_users/',
                 success (res) {
                     //console.log(res.data);
                     self.$store.commit('myTask/setUsers', res.data);

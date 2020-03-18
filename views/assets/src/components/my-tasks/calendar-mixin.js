@@ -53,7 +53,7 @@ export default {
             var self = this;
 
             var request = {
-                url: self.base_url + '/pm/v2/projects/'+args.data.project_id+'/task-lists?per_page=-1',
+                url: self.base_url + 'pm/v2/projects/'+args.data.project_id+'/task-lists?per_page=-1',
                 success (res) {
 
                     if ( typeof args.callback !== 'undefined' ) {
@@ -78,7 +78,7 @@ export default {
             };
             var args = jQuery.extend(true, pre_define, args );
             var request = {
-                url: self.base_url + '/pm-pro/v2/calendar-events',
+                url: self.base_url + 'pm-pro/v2/calendar-events',
                 type: 'GET',
                 data: args.data,
                 success (res) {
@@ -101,7 +101,7 @@ export default {
             var args = jQuery.extend(true, pre_define, args);
 
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+args.data.project_id+'/tasks/'+args.data.task_id+'/update',
+                url: self.base_url + 'pm/v2/projects/'+args.data.project_id+'/tasks/'+args.data.task_id+'/update',
                 type: 'POST',
                 data: args.data,
                 success (res) {
@@ -147,7 +147,7 @@ export default {
             var args = jQuery.extend(true, pre_define, args );
 
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+args.data.project_id+'/milestones/'+args.data.id+'/update',
+                url: self.base_url + 'pm/v2/projects/'+args.data.project_id+'/milestones/'+args.data.id+'/update',
                 type: 'POST',
                 data: args.data,
                 success (res) {
@@ -448,7 +448,7 @@ export default {
 
 
             var request_data = {
-                url: self.base_url + '/pm-pro/v2/calendar-projects?'+conditions,
+                url: self.base_url + 'pm-pro/v2/calendar-projects?'+conditions,
                 data: args.conditions,
                 success (res) {
 

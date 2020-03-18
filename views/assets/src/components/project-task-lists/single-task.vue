@@ -587,7 +587,7 @@
                 }
 
                 var request_data = {
-                    url: self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks/'+self.task.id+ '/activity',
+                    url: self.base_url + 'pm/v2/projects/'+self.project_id+'/tasks/'+self.task.id+ '/activity',
                     type: 'POST',
                     data: {
                         activityPage: this.activityPage
@@ -896,7 +896,7 @@
                         'assignees': this.assigned_to.length == 0 ? [0] : this.assigned_to
                     },
                     self = this,
-                    url = this.base_url + '/pm/v2/projects/'+project_id+'/tasks/'+task.id+'/update';
+                    url = this.base_url + 'pm/v2/projects/'+project_id+'/tasks/'+task.id+'/update';
 
                 var request_data = {
                     url: url,
@@ -1012,7 +1012,7 @@
                     is_private: typeof task.meta.privacy === 'undefined' || task.meta.privacy == '0' ? 1 : 0
                 }
                 var request_data = {
-                    url: self.base_url + '/pm/v2/projects/'+task.project_id+'/tasks/privacy/'+task.id,
+                    url: self.base_url + 'pm/v2/projects/'+task.project_id+'/tasks/privacy/'+task.id,
                     type: 'POST',
                     data: data,
                     success (res) {

@@ -17,7 +17,7 @@
 
             this.pusher = new Pusher( PM_Pusher_Vars.pusher_app_key , {
                 cluster: PM_Pusher_Vars.pusher_cluster,
-                authEndpoint: PM_Pusher_Vars.base_url + '/wp-json/pm/v2/user/1/pusher/auth'
+                authEndpoint: PM_Pusher_Vars.base_url + 'pm/v2/user/1/pusher/auth'
             });
 
             return this;

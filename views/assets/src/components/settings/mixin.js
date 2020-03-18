@@ -9,7 +9,7 @@ export default{
         getProgects (callback) {
             var self = this;
             var request = {
-                url: self.base_url + '/pm/v2/projects',
+                url: self.base_url + 'pm/v2/projects',
                 type: 'GET',
                 success (res) {
                     if (typeof callback !== 'undefined') {
@@ -22,7 +22,7 @@ export default{
         save_map_users(usernames,callback){
             var self = this;
             var request = {
-                url: self.base_url + '/pm/v2/save_users_map_name',
+                url: self.base_url + 'pm/v2/save_users_map_name',
                 data: {
                     usernames: usernames
                 },
