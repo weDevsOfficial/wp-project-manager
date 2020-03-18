@@ -342,7 +342,7 @@
 			getProjects () {
 				var self = this;
 				var request_data = {
-	                url: self.base_url + '/pm/v2/advanced/projects/?',
+	                url: self.base_url + 'pm/v2/advanced/projects/?',
 	                data: {
 	                	select: ['id', 'title'],
 	                },
@@ -553,7 +553,7 @@
 						1 : this.$route.params.current_page_number;
 				
 				var request_data = {
-	                url: self.base_url + '/pm/v2/tasks',
+	                url: self.base_url + 'pm/v2/tasks',
 	                data: data,
 	                type: 'GET',
 	                success (res) {

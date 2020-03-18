@@ -353,7 +353,7 @@
 
                     var requestData = {
                         type: 'GET',
-                        url: self.base_url + '/pm/v2/projects/' + self.project_id + '/lists/search',
+                        url: self.base_url + 'pm/v2/projects/' + self.project_id + '/lists/search',
                         data: {
                             title: evt
                         },

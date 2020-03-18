@@ -38,7 +38,7 @@ class Task_List_Controller {
         return self::$_instance;
     }
 
-    public function index( WP_REST_Request $request ) {
+    public function index( WP_REST_Request $request ) { 
         global $wpdb;
         $task_tb                = $wpdb->prefix . 'pm_tasks';
         $list_tb                = $wpdb->prefix . 'pm_boardables';
@@ -102,10 +102,11 @@ class Task_List_Controller {
             })
             ->where( pm_tb_prefix() .'pm_boards.project_id', $project_id)
             ->groupBy($tb_lists.'.id');
-
+        
         if ( ! empty( $status ) ) {
             $task_lists->whereIn( pm_tb_prefix() .'pm_boards.status', $status );
         } else {
+            //for archive task-list
             $task_lists->where( pm_tb_prefix() .'pm_boards.status', $status );
         }
 

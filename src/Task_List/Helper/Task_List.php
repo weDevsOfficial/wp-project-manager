@@ -786,7 +786,7 @@ class Task_List {
 			{$this->join}
 			WHERE %d=%d {$this->where} AND $this->tb_list.type=%s
 			{$this->orderby} {$this->limit} ";
-
+		
 		$results = $wpdb->get_results( $wpdb->prepare( $query, 1, 1, 'task_list' ) );
 
 		$this->found_rows = $wpdb->get_var( "SELECT FOUND_ROWS()" );

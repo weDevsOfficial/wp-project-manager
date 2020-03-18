@@ -7,7 +7,7 @@
                 beforeSend (xhr) {
                     xhr.setRequestHeader("X-WP-Nonce", PM_Global_Vars.permission);
                 },
-                url: PM_Global_Vars.rest_url + '/pm/v2/admin-topbar-search',
+                url: PM_Global_Vars.rest_url + 'pm/v2/admin-topbar-search',
                 data: {
                     query: term,
                     model: 'project',
@@ -59,7 +59,7 @@
                 beforeSend (xhr) {
                     xhr.setRequestHeader("X-WP-Nonce", PM_Global_Vars.permission);
                 },
-                url: PM_Global_Vars.rest_url + '/pm/v2/projects?project_transform=false&per_page=all',
+                url: PM_Global_Vars.rest_url + 'pm/v2/projects?project_transform=false&per_page=all',
                 data: {
                 },
                 success (res) {
@@ -76,7 +76,7 @@
                     xhr.setRequestHeader("X-WP-Nonce", PM_Global_Vars.permission);
                 },
                 method: 'POST',
-                url: PM_Global_Vars.rest_url + '/pm/v2/projects/' + data.project_id + '/tasks',
+                url: PM_Global_Vars.rest_url + 'pm/v2/projects/' + data.project_id + '/tasks',
                 data: data,
                 success (res) {
                     if (typeof callback ==='function') {

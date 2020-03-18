@@ -246,7 +246,7 @@
 			getProjects (args) {
 	            var self = this;
 	            var request = {
-	                url: self.base_url + '/pm/v2/projects',
+	                url: self.base_url + 'pm/v2/projects',
                     data: {
                         select: 'id, title',
                         with: 'assignees',
@@ -287,7 +287,7 @@
                 }
 
                 var request = {
-                    url: `${self.base_url}/pm/v2/projects/?title=${title}`,
+                    url: `${self.base_url}pm/v2/projects/?title=${title}`,
                     data: {
                         select: 'id, title',
                         with: 'assignees',

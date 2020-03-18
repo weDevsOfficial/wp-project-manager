@@ -46,6 +46,7 @@ class Enqueue_Scripts {
 			'permission'               => wp_create_nonce('wp_rest'),
 			'nonce'                    => wp_create_nonce( 'pm_nonce' ),
 			'base_url'                 => home_url(),
+			'api_base_url'             => esc_url_raw( get_rest_url() ),
 			'project_page'             => pm_get_project_page(),
 			'rest_api_prefix'          => rest_get_url_prefix(),
 			'todo_list_form'           => apply_filters( 'todo_list_form', array( 'PM_Task_Mixin' ) ),

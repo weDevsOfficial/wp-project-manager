@@ -64,7 +64,7 @@ export default {
             var conditions = self.generateConditions(args.conditions);
 
             var request = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones/'+self.$route.params.discussion_id+'?'+conditions,
+                url: self.base_url + 'pm/v2/projects/'+self.project_id+'/milestones/'+self.$route.params.discussion_id+'?'+conditions,
                 success (res) {
                     self.addMeta(res.data);
                     self.$store.commit( 'projectMilestones/setMilestone', res.data );
@@ -97,7 +97,7 @@ export default {
             var conditions = self.generateConditions(args.conditions);
 
             var request = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones?'+ conditions,
+                url: self.base_url + 'pm/v2/projects/'+self.project_id+'/milestones?'+ conditions,
                 success (res) {
                     res.data.map(function(milestone, index) {
                         self.addMeta(milestone, index);
@@ -191,7 +191,7 @@ export default {
             var args = jQuery.extend(true, pre_define, args );
             var data = pm_apply_filters( 'before_milestone_save', args.data );
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones',
+                url: self.base_url + 'pm/v2/projects/'+self.project_id+'/milestones',
                 type: 'POST',
                 data: data,
                 success (res) {
@@ -259,7 +259,7 @@ export default {
             var args = jQuery.extend(true, pre_define, args );
             var data = pm_apply_filters( 'before_milestone_save', args.data );
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+args.data.project_id+'/milestones/'+args.data.id+'/update',
+                url: self.base_url + 'pm/v2/projects/'+args.data.project_id+'/milestones/'+args.data.id+'/update',
                 type: 'POST',
                 data: data,
                 success (res) {
@@ -325,7 +325,7 @@ export default {
             var self = this;
             
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones/' + args.milestone_id + '/delete',
+                url: self.base_url + 'pm/v2/projects/'+self.project_id+'/milestones/' + args.milestone_id + '/delete',
                 type: 'POST',
                 success: function(res) {
                     self.$store.commit('projectMilestones/afterDeleteMilestone', args.milestone_id);
@@ -443,7 +443,7 @@ export default {
                 is_private: milestone.meta.privacy == '0' ? 1 : 0
             }
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones/privacy/'+milestone.id,
+                url: self.base_url + 'pm/v2/projects/'+self.project_id+'/milestones/privacy/'+milestone.id,
                 type: 'POST',
                 data: data,
                 success (res) {

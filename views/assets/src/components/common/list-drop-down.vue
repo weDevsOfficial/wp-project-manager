@@ -150,7 +150,10 @@
 			getLists (args) {
 	            var self = this;
 	            var request = {
-	                url: self.base_url + '/pm/v2/projects/'+args.data.project_id+'/task-lists?with=incomplete_tasks,complete_tasks&incomplete_task_per_page=-1&complete_task_per_page=-1',
+	                url: self.base_url + 'pm/v2/projects/'+args.data.project_id+'/task-lists?with=incomplete_tasks,complete_tasks&incomplete_task_per_page=-1&complete_task_per_page=-1',
+                    data: {
+                        status: [1,0]
+                    },
 	                success (res) {
 
 	                    if ( typeof args.callback != 'undefined' ) {
@@ -183,7 +186,7 @@
                 }
 
                 var request = {
-                    url: self.base_url + '/pm/v2/projects/'+this.projectId+'/task-lists?title='+title+'&with=incomplete_tasks,complete_tasks&incomplete_task_per_page=-1&complete_task_per_page=-1',
+                    url: self.base_url + 'pm/v2/projects/'+this.projectId+'/task-lists?title='+title+'&with=incomplete_tasks,complete_tasks&incomplete_task_per_page=-1&complete_task_per_page=-1',
                     data: {
                         status: [1,0]
                     },

@@ -191,7 +191,7 @@ var PM_TaskList_Mixin = {
             var condition = this.generateConditions(conditionobject);
             
             var request = {
-                url: self.base_url + '/pm/v2/projects/'+self.$route.params.project_id+'/task-lists?'+condition,
+                url: self.base_url + 'pm/v2/projects/'+self.$route.params.project_id+'/task-lists?'+condition,
                 success (res) {
                     
                     res.data.map(function(list,index) {
@@ -250,7 +250,7 @@ var PM_TaskList_Mixin = {
 
             var request = {
                 type: 'GET',
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/task-lists/'+ args.list_id +'?'+condition,
+                url: self.base_url + 'pm/v2/projects/'+self.project_id+'/task-lists/'+ args.list_id +'?'+condition,
                 success (res) {
 
                     self.addMetaList(res.data);
@@ -301,7 +301,7 @@ var PM_TaskList_Mixin = {
             args = jQuery.extend(true, pre_define, args );
             var data = pm_apply_filters( 'before_task_list_save', args.data );
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/task-lists',
+                url: self.base_url + 'pm/v2/projects/'+self.project_id+'/task-lists',
                 data: data,
                 type: 'POST',
                 success (res) {
@@ -361,7 +361,7 @@ var PM_TaskList_Mixin = {
             var args = jQuery.extend(true, pre_define, args );
             var data = pm_apply_filters( 'before_task_list_save', args.data );
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/task-lists/'+ data.id+'/update?with=comments,incomplete_tasks',
+                url: self.base_url + 'pm/v2/projects/'+self.project_id+'/task-lists/'+ data.id+'/update?with=comments,incomplete_tasks',
                 data: data,
                 type: 'POST',
                 success (res) {
@@ -434,7 +434,7 @@ var PM_TaskList_Mixin = {
 
 
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/task-lists/' + args.list_id +'/delete',
+                url: self.base_url + 'pm/v2/projects/'+self.project_id+'/task-lists/' + args.list_id +'/delete',
                 type: 'POST',
                 success: function(res) {
                     self.$store.commit( 'projectTaskLists/afterDeleteList', args.list_id );
@@ -483,7 +483,7 @@ var PM_TaskList_Mixin = {
 
             var request = {
                 type: 'GET',
-                url: self.base_url + '/pm/v2/projects/'+args.project_id+'/tasks/'+args.task_id+'?'+condition,
+                url: self.base_url + 'pm/v2/projects/'+args.project_id+'/tasks/'+args.task_id+'?'+condition,
                 success (res) {
                     if ( typeof args.callback === 'function' ) {
                         args.callback.call ( self, res );
@@ -523,7 +523,7 @@ var PM_TaskList_Mixin = {
                 data = pm.hooks.applyFilters( 'before_task_save', data );
             
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+args.data.project_id+'/tasks',
+                url: self.base_url + 'pm/v2/projects/'+args.data.project_id+'/tasks',
                 type: 'POST',
                 data: data,
                 success (res) { 
@@ -593,7 +593,7 @@ var PM_TaskList_Mixin = {
                 data = pm.hooks.applyFilters( 'before_task_save', data );
 
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+args.data.project_id+'/tasks/'+args.data.task_id+'/update',
+                url: self.base_url + 'pm/v2/projects/'+args.data.project_id+'/tasks/'+args.data.task_id+'/update',
                 type: 'POST',
                 data: data,
                 success (res) {
@@ -665,7 +665,7 @@ var PM_TaskList_Mixin = {
             var args = jQuery.extend(true, pre_define, args);
 
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks/' + args.task.id + '/delete',
+                url: self.base_url + 'pm/v2/projects/'+self.project_id+'/tasks/' + args.task.id + '/delete',
                 type: 'POST',
                 success (res) {
                     self.$store.commit( 'projectTaskLists/afterDeleteTask', {
@@ -723,7 +723,7 @@ var PM_TaskList_Mixin = {
             });
 
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+ project_id +'/comments',
+                url: self.base_url + 'pm/v2/projects/'+ project_id +'/comments',
                 type: "POST",
                 data: data,
                 cache: false,
@@ -797,7 +797,7 @@ var PM_TaskList_Mixin = {
 
 
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+project_id+'/comments/'+args.data.id,
+                url: self.base_url + 'pm/v2/projects/'+project_id+'/comments/'+args.data.id,
                 type: "POST",
                 data: data,
                 cache: false,
@@ -1317,7 +1317,7 @@ var PM_TaskList_Mixin = {
             args = jQuery.extend(true, pre_define, args );
             
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+args.data.project_id+'/tasks/'+args.data.task_id +'/change-status',
+                url: self.base_url + 'pm/v2/projects/'+args.data.project_id+'/tasks/'+args.data.task_id +'/change-status',
                 type: 'POST',
                 data: args.data,
                 success ( res ) {
@@ -1393,7 +1393,7 @@ var PM_TaskList_Mixin = {
                 is_private: list.meta.privacy == '0' ? 1 : 0
             }
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/task-lists/privacy/'+list.id,
+                url: self.base_url + 'pm/v2/projects/'+self.project_id+'/task-lists/privacy/'+list.id,
                 type: 'POST',
                 data: data,
                 success (res) {
@@ -1421,7 +1421,7 @@ var PM_TaskList_Mixin = {
                 is_private: task.meta.privacy == '0' ? 1 : 0
             }
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks/privacy/'+task.id,
+                url: self.base_url + 'pm/v2/projects/'+self.project_id+'/tasks/privacy/'+task.id,
                 type: 'POST',
                 data: data,
                 success (res) {
@@ -1490,7 +1490,7 @@ var PM_TaskList_Mixin = {
             var self = this;
             
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks/sorting',
+                url: self.base_url + 'pm/v2/projects/'+self.project_id+'/tasks/sorting',
                 type: 'POST',
                 data: receive,
                 success (res) {
@@ -1521,7 +1521,7 @@ var PM_TaskList_Mixin = {
             self.$store.commit('projectTaskLists/listOrdering', orders);
             
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/lists/sorting',
+                url: self.base_url + 'pm/v2/projects/'+self.project_id+'/lists/sorting',
                 type: 'POST',
                 data: orders,
                 success (res) {
@@ -1563,7 +1563,7 @@ var PM_TaskList_Mixin = {
 
             var request = {
                 type: 'POST',
-                url: self.base_url + '/pm/v2/tasks/'+taskId+'/duplicate',
+                url: self.base_url + 'pm/v2/tasks/'+taskId+'/duplicate',
                 success (res) {
                     self.addTaskMeta(res.data.task);
                     self.$store.commit( 'projectTaskLists/afterNewTask',

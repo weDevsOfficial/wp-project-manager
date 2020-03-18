@@ -61,7 +61,7 @@
                 this.show_spinner = true;
 
                 self.httpRequest({
-                    url: self.base_url + '/pm/v2/users',
+                    url: self.base_url + 'pm/v2/users',
                     method: 'POST',
                     data: {
                         username: this.username,
