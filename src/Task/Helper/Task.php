@@ -192,10 +192,12 @@ class Task {
 	 * @return array          
 	 */
 	public function fromat_task( $task ) {
+		
 		$items = [
 			'id'           => (int) $task->id,
 			'title'        => (string) $task->title,
 			'status'       => isset( $task->status ) ? $this->format_status( $task->status ) : '',
+			'estimation'   => $task->estimation*60,
 			'created_at'   => empty( $task->created_at ) ? '' : $task->created_at,
 			'start_at'     => empty( $task->start_at ) ? '' : format_date( $task->start_at ),
 			'due_date'     => empty( $task->due_date ) ? '' : format_date( $task->due_date ),
