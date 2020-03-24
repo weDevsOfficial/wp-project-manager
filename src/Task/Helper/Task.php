@@ -275,10 +275,47 @@ class Task {
 	 */
 	private function with() {
 		$this->include_project()
+			->include_subtasks()
 			->include_list()
 			->include_assignees()
 			->include_total_comments();
 
+		return $this;
+	}
+
+	private function include_subtasks() {
+		global $wpdb;
+		$with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
+		
+		if ( ! is_array( $with ) ) {
+			$with = explode( ',', str_replace(' ', '', $with ) );
+		}
+
+		if ( ! in_array( 'subtasks', $with ) || empty( $this->task_ids ) ) {
+			return $this;
+		}
+
+		$tb_tasks = pm_tb_prefix() . 'pm_tasks';
+		$tk_ids_format = $this->get_prepare_format( $this->task_ids );
+
+		$query = "SELECT DISTINCT *
+			FROM $tb_tasks 
+			where parent_id IN ($tk_ids_format)";
+
+
+		$results = $wpdb->get_results( $wpdb->prepare( $query, $this->task_ids ) );
+		$subtasks = [];
+
+		foreach ( $results as $key => $result ) {
+			$task_id = $result->parent_id;
+			unset( $result->task_id );
+			$subtasks[$task_id][] = $result;
+		}
+		
+		foreach ( $this->tasks as $key => $task ) {
+			$task->subtasks = empty( $subtasks[$task->id] ) ? [] : $subtasks[$task->id]; 
+		}
+		
 		return $this;
 	}
 
