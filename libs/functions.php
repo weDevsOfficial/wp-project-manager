@@ -804,6 +804,7 @@ function pm_get_capabilities_relation( $role ) {
 
 
 function pm_get_prepare_format( $ids, $is_string = false  ) {
+    $ids = pm_get_prepare_data( $ids );
     // how many entries will we select?
     $how_many = count( $ids );
 
@@ -820,6 +821,27 @@ function pm_get_prepare_format( $ids, $is_string = false  ) {
     $format = implode( ', ', $placeholders );
 
     return $format;
+}
+
+function pm_get_prepare_data( $args, $delimiter = ',' ) {
+
+    $new = [];
+
+    if ( is_array( $args ) ) {
+        foreach ( $args as $date_key => $value ) {
+            $new[trim($date_key)] = trim( $value );
+        }
+    }
+
+    if ( ! is_array( $args ) ) {
+        $args = explode( $delimiter, $args );
+
+        foreach ( $args as $date_key => $value ) {
+            $new[trim($date_key)] = trim( $value );
+        }
+    }
+
+    return $new;
 }
 
 /**
@@ -970,6 +992,20 @@ function pm_user_meta_key() {
 
 function pm_can_create_user_at_project_create_time() {
     return apply_filters( 'pm_can_create_user_at_project_create_time', true );
+}
+
+function pm_get_estimation_type() { 
+    if( ! pm_pro_is_module_active( 'sub_tasks/sub_tasks.php' ) ) {
+        return 'task';
+    }
+
+    $db_est_type = pm_get_setting( 'estimation_type' );
+
+    if ( empty( $db_est_type ) ) {
+        return 'task';
+    }
+
+    return $db_est_type;
 }
 
 
