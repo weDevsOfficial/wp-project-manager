@@ -6,7 +6,7 @@
                     <type>{{ __('Type Name', 'pm-pro') }}</type>
                 </div>
                 <div>
-                    <input v-model="taskType.title" class="form-control" :placeholder="__( 'Type name...', 'pm-pro' )" type="text">
+                    <input v-model="formData.title" class="form-control" :placeholder="__( 'Type name...', 'pm-pro' )" type="text">
                 </div>
             </div>
 
@@ -15,14 +15,14 @@
                     <type>{{ __('Description', 'pm-pro') }}</type>
                 </div>
                 <div>
-                    <input v-model="taskType.description" class="form-control description-control" :placeholder="__( 'Description (optional)', 'pm-pro' )" type="text">
+                    <input v-model="formData.description" class="form-control description-control" :placeholder="__( 'Description (optional)', 'pm-pro' )" type="text">
                 </div>
             </div>
         </div>
 
         <div>
 
-            <div class="type-action" v-if="taskType.id">
+            <div class="type-action" v-if="formData.id">
                 <a  @click.prevent="closeEditForm()" class="pm-button pm-secondary" href="#">{{ __('Cancel', 'pm-pro') }}</a>
                 <div class="update-button-wrap">
                     <input :class="getUpdateButtonClass()" type="submit" :value="__('Update', 'pm-pro')">
@@ -34,7 +34,7 @@
             <div class="type-action" v-else>
                 <a @click.prevent="closeNewTypeForm()" v-if="formVisibility.isClickNewForm" class="pm-button pm-secondary" href="#">{{ __('Cancel', 'pm-pro') }}</a>
                 <div class="add-button-wrap">
-                    <input v-if="!id" :class="getNewTypeButtonClass()" type="submit" :value="__('Create type', 'pm-pro')">
+                    <input v-if="!formData.id" :class="getNewTypeButtonClass()" type="submit" :value="__('Create type', 'pm-pro')">
                     <div v-if="adding" class="pm-spinner-circle"></div>
                 </div>
             </div>
@@ -142,11 +142,20 @@
             return {
                 preventDoubleClick: false,
                 updating: false,
-                adding: false
+                adding: false,
+                formData: {
+                    id: '',
+                    title: '',
+                    description: '',
+                    status: 1,
+                    type: 'task'
+                }
             }
         },
         created () {
-            
+            if ( parseInt( this.taskType.id ) ) {
+                this.formData = { ...this.taskType }
+            }
         },
         methods: {
             getNewTypeButtonClass () {
@@ -188,7 +197,7 @@
                     return;
                 }
 
-                if( ! this.checkValidation( self.taskType ) ) {
+                if( ! this.checkValidation( self.formData ) ) {
                     return false;
                 }
 
@@ -196,22 +205,14 @@
 
                 var args = {
                     data: {
-                        id: self.taskType.id,
-                        title: self.taskType.title,
-                        description: self.taskType.description,
-                        type: self.taskType.type,
+                        id: self.formData.id,
+                        title: self.formData.title,
+                        description: self.formData.description,
+                        type: self.formData.type,
                         status: 1,
                     },
                     callback(res) {
-                        self.preventDoubleClick = false;
-                        self.updating = false;
-                        self.adding = false;
-
-                        if(self.id) {
-                            self.setUpdateType(res);
-                        } else {
-                            self.setNewType(res);
-                        }
+                        
                     }
                 }
 
@@ -235,6 +236,8 @@
                     success (res) {
                         self.$store.commit( 'settings/updateTaskType', res.data );
                         self.closeEditForm();
+                        self.preventDoubleClick = false;
+                        self.updating = false;
                     }
                 };
 
@@ -251,12 +254,13 @@
                     success (res) {
                         self.$store.commit( 'settings/setTaskType', res.data );
 
-                        self.taskType.id = '';
-                        self.taskType.title = '';
-                        self.taskType.description = '';
-                        self.taskType.type = 'task';
+                        self.formData.id = '';
+                        self.formData.title = '';
+                        self.formData.description = '';
+                        self.formData.type = 'task';
 
                         self.adding = false;
+                        self.preventDoubleClick = false;
                     }
                 };
 
