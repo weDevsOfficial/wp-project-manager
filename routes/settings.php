@@ -22,3 +22,17 @@ $router->post( 'projects/{project_id}/settings', 'WeDevs/PM/Settings/Controllers
 
 $router->post( 'projects/{project_id}/delete/{id}/settings', 'WeDevs/PM/Settings/Controllers/Settings_Controller@destroy' )
     ->permission(['WeDevs\PM\Core\Permissions\Project_Manage_Capability']);
+
+$router->post( 'settings/task-types', 'WeDevs/PM/Settings/Controllers/Task_Types_Controller@store' )
+    ->permission(['WeDevs\PM\Core\Permissions\Project_Manage_Capability']);
+
+$router->get( 'settings/task-types', 'WeDevs/PM/Settings/Controllers/Task_Types_Controller@index' )
+    ->permission(['WeDevs\PM\Core\Permissions\Project_Manage_Capability']);
+
+$router->post( 'settings/task-types/{id}', 'WeDevs/PM/Settings/Controllers/Task_Types_Controller@update_task_type' )
+    ->permission(['WeDevs\PM\Core\Permissions\Project_Manage_Capability']);
+
+$router->post( 'settings/task-types/{id}/delete', 'WeDevs/PM/Settings/Controllers/Task_Types_Controller@destroy_task_type' )
+    ->permission(['WeDevs\PM\Core\Permissions\Project_Manage_Capability']);
+
+    
