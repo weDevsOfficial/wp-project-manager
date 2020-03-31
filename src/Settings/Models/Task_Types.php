@@ -10,6 +10,7 @@ class Task_Types extends Eloquent {
     use Model_Events;
 
     protected $table = 'pm_task_types';
+    public $timestamps = false;
 
     protected $fillable = [
         'title',

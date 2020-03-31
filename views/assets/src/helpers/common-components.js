@@ -27,6 +27,7 @@ import GloballyTaskCrateForm from '@components/common/globally-task-create-form.
 import Triangle from '@components/common/triangle-box.vue';
 import DropDownMenu from '@components/common/dropdown-menu.vue';
 import Button from '@components/common/button.vue';
+import TaskTypeDropdown from '@components/common/task-type-dropdown.vue';
 
 
 pm.Vue.component('pm-pagination', pagination);
@@ -58,6 +59,7 @@ pm.Vue.component('pm-globally-task-create-form', GloballyTaskCrateForm);
 pm.Vue.component('pm-triangle-box', Triangle);
 pm.Vue.component('pm-dropdown-menu', DropDownMenu);
 pm.Vue.component('pm-button', Button);
+pm.Vue.component('pm-task-type-dropdown', TaskTypeDropdown);
 
 
 

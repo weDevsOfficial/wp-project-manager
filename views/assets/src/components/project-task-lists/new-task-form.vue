@@ -7,6 +7,7 @@
                     @clickOutSide="clickOutSide"
                     @clickInSide="clickInSide"
                 >
+                     
                     <form class="task-create-form" @submit.prevent="taskFormAction()" action="">
                         <div class="field">
                             <div>
@@ -104,13 +105,18 @@
                                     }">
                                     
                                 </pm-date-range-picker>
-                               <!--  <span 
-                                    v-pm-tooltip 
-                                    @focus="enableDisable('datePicker')"
-                                    :title="__('Date', 'wedevs-project-manager')" 
-                                    @click.prevent="enableDisable('datePicker')" 
-                                    :class="isActiveDate()"
-                                /> -->
+                               
+
+                                <div v-if="hasTaskType" class="task-type-wrap">
+                                    <pm-triangle-box>
+                                        <pm-task-type-dropdown 
+                                            @onChange="onChangeTaskType"
+                                            :selectedTaskTypes="task.type"
+                                        />
+
+                                        <span class="icon-pm-single-user" slot="popoverButton" />
+                                    </pm-triangle-box>
+                                </div>
 
 
                                 <span class="date-field">
@@ -119,11 +125,9 @@
                                     <span>{{ taskDateFormat(task.due_date.date) }}</span>
                                 </span>
                             </div>
-                            
-                                
 
-                            
                         </div>
+                        
                         <div class="task-submit-wrap">
                             <!-- <a :class="focus ? 'pm-button pm-primary submit' : 'pm-button submit pm-secondary'" href="#"><i class="flaticon-pm-enter"></i></a> -->
                             <input  
@@ -235,9 +239,13 @@ export default {
                     assignees: {
                         data: []
                     },
+                    type: {
+                        id: false
+                    }
                 }
             }
         },
+
         options: {
             type: [Object],
             default () {
@@ -246,10 +254,19 @@ export default {
                 }
             }
         },
+
         projectId: {
             type: [Number],
             default: 0
+        },
+
+        hasTaskType: {
+            type: [Boolean],
+            default () {
+                return false
+            }
         }
+
     },
 
     /**
@@ -282,7 +299,7 @@ export default {
                 html: this.task.description.html
             },
             lengthtitle: 200,
-            focusField: false
+            focusField: false,
         }
     },
     mixins: [Mixins],
@@ -400,15 +417,25 @@ export default {
     },
 
     methods: {
+        onChangeTaskType (value) {
+            if ( this.task.type ) {
+                this.task.type.id = value.id;
+            } else {
+                this.task.type = { id: value.id };
+            }
+        },
+
         dateRangePickerClose () {
             this.task.start_at.date = '';
             this.task.due_date.date = '';
         },
+
         warningTitleCharacterLimit () {
             if(this.task.title.length >= 200) {
                 pm.Toastr.warning(__('Maxmim character limit 200', 'wedevs-project-manager'));
             }
         },
+
         clickInSide () {
             this.focusField = true;
         },
@@ -610,11 +637,13 @@ export default {
                     due_date: this.task.due_date.date,
                     list_id: this.list.id,
                     estimation: this.task.estimation,
+                    type_id: this.task.type.id,
                     //estimated_hours: this.task.estimation,
                     order: this.task.order,
                     recurrent: this.task.recurrent,
                     project_id: typeof this.list.project_id !== 'undefined' ? this.list.project_id : this.project_id
                 },
+
                 callback: function( self, res ) { 
                     self.show_spinner = false;
                     self.submit_disabled = false;
