@@ -4,7 +4,7 @@ namespace WeDevs\PM\task\Helper;
 use WP_REST_Request;
 
 // data: {
-// 	with: 'assignees,categories, total_comments',
+// 	with: 'assignees,categories, total_comments, task_type',
 // 	per_page: '10',
 // 	select: ['id, title']
 // 	categories: [2, 4],
@@ -119,7 +119,6 @@ class Task {
 	 * @return array
 	 */
 	public static function get_results( $params ) {
-		
 		$self = self::getInstance();
 		$self->query_params = $params;
 
@@ -264,6 +263,7 @@ class Task {
 	private function set_fixed_items( $items, $task ) {
 		$items['task_list_id'] = (int) $task->task_list_id;
 		$items['project_id'] = (int) $task->project_id;
+		$items['type'] = $task->type;
 
 		return $items;
 	}
@@ -278,7 +278,8 @@ class Task {
 			->include_subtasks()
 			->include_list()
 			->include_assignees()
-			->include_total_comments();
+			->include_total_comments()
+			->include_task_type();
 
 		return $this;
 	}
@@ -314,6 +315,44 @@ class Task {
 		
 		foreach ( $this->tasks as $key => $task ) {
 			$task->subtasks = empty( $subtasks[$task->id] ) ? [] : $subtasks[$task->id]; 
+		}
+		
+		return $this;
+	}
+
+	private function include_task_type() {
+		global $wpdb;
+		// $with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
+		
+		// if ( ! is_array( $with ) ) {
+		// 	$with = explode( ',', str_replace(' ', '', $with ) );
+		// }
+
+		// if ( ! in_array( 'task_type', $with ) || empty( $this->task_ids ) ) {
+		// 	return $this;
+		// }
+
+		$tb_task_types     = pm_tb_prefix() . 'pm_task_types';
+		$tb_task_type_task = pm_tb_prefix() . 'pm_task_type_task';
+		$tk_ids_format     = $this->get_prepare_format( $this->task_ids );
+
+		$query = "SELECT DISTINCT typ.id as type_id, typ.title, typ.description, tk.id as task_id
+			FROM $tb_task_types as typ
+			LEFT JOIN $tb_task_type_task as typt ON typ.id = typt.type_id 
+			LEFT JOIN $this->tb_tasks as tk ON tk.id = typt.task_id 
+			where tk.id IN ($tk_ids_format)";
+
+		$results = $wpdb->get_results( $wpdb->prepare( $query, $this->task_ids ) );
+		$types   = [];
+
+		foreach ( $results as $key => $result ) {
+			$task_id = $result->task_id;
+			unset( $result->task_id );
+			$types[$task_id] = $result;
+		}
+		
+		foreach ( $this->tasks as $key => $task ) {
+			$task->type = empty( $types[$task->id] ) ? [] : (array) $types[$task->id]; 
 		}
 		
 		return $this;

@@ -14,7 +14,6 @@
                 
             />
         
-
             <div v-if="selectedProjects == ''" class="loading-animation">
                 <div class="loading-projects-title">{{ __( 'Loading projects', 'wedevs-project-manager') }}</div>
                 <div class="load-spinner">
@@ -54,6 +53,7 @@
                 :task="task" 
                 :list="list"
                 :projectId="parseInt(projectId)"
+                :hasTaskType="hasTaskType"
                 @pm_after_create_task="afterCreateTask"
             />
                     
@@ -74,10 +74,18 @@
                     return []
                 }
             },
+
             findProjects: {
                 type: [Boolean],
                 default () {
                     return true
+                }
+            },
+
+            hasTaskType: {
+                type: [Boolean],
+                default () {
+                    return false
                 }
             }
         },

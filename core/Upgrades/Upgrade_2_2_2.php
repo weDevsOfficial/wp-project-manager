@@ -28,7 +28,7 @@ class Upgrade_2_2_2 {
 			  `created_at` timestamp NULL DEFAULT NULL,
 			  `updated_at` timestamp NULL DEFAULT NULL,
 			  PRIMARY KEY (`id`)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
+			) DEFAULT CHARSET=utf8";
 
         dbDelta($sql);
     }

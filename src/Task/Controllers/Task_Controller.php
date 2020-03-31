@@ -28,6 +28,8 @@ use WeDevs\PM\Task_List\Transformers\List_Task_Transformer;
 use WeDevs\PM\Activity\Models\Activity;
 use WeDevs\PM\Activity\Transformers\Activity_Transformer;
 use WeDevs\PM\Task_List\Controllers\Task_List_Controller as Task_List_Controller;
+use WeDevs\PM\Settings\Controllers\Task_Types_Controller;
+use WeDevs\PM\Settings\Models\Task_Type_Task;
 
 
 class Task_Controller {
@@ -183,6 +185,7 @@ class Task_Controller {
         $board_id      = $request->get_param( 'board_id' );
         $assignees     = $request->get_param( 'assignees' );
         $is_private    = $request->get_param( 'privacy' );
+        $type_id          = $request->get_param( 'type_id' );
         $data['is_private']    = $is_private == 'true' || $is_private === true ? 1 : 0;
 
         if ( empty( $board_id ) ) {
@@ -216,6 +219,11 @@ class Task_Controller {
         if ( is_array( $assignees ) && $task ) {
             $this->attach_assignees( $task, $assignees );
         }
+
+        if ( ! empty( intval( $type_id ) ) ) {
+            $this->update_type( $task->id, $type_id, $project_id, $board_id );
+        }
+
         do_action( 'cpm_after_new_task', $task->id, $board_id, $project_id );
         do_action('pm_after_create_task', $task, $request->get_params() );
 
@@ -232,6 +240,30 @@ class Task_Controller {
         do_action('pm_create_task_aftre_transformer', $response, $request->get_params() );
 
         return $response;
+    }
+
+    public function update_type( $task_id, $type_id, $project_id, $list_id ) {
+        
+        if ( empty( intval( $task_id ) || empty( intval( $type_id ) ) ) ) {
+            return;
+        }
+
+        $has_task_type_task = Task_Type_Task::find( $task_id );
+
+        if ( empty( $has_task_type_task ) ) {
+            Task_Type_Task::create([
+                'type_id'    => $type_id,
+                'task_id'    => $task_id,
+                'list_id'    => $list_id,
+                'project_id' => $project_id
+            ]);
+        } else {
+            $has_task_type_task->update_model( [ 
+                'type_id' => $type_id,
+                'list_id'    => $list_id,
+                'project_id' => $project_id 
+            ] );
+        }
     }
 
     public function attach_assignees( Task $task, $assignees = [] ) {
@@ -308,6 +340,7 @@ class Task_Controller {
         $params['list_id']    = $task->task_list;
         $is_private           = isset( $params['privacy'] ) ? $params['privacy'] : false;
         $params['is_private'] = $is_private == 'true' || $is_private === true ? 1 : 0;
+        $type_id              = $params['type_id'];
 
         $deleted_users = $task->assignees()->whereNotIn( 'assigned_to', $assignees )->get()->toArray(); //->delete();
         $deleted_users = apply_filters( 'pm_task_deleted_users', $deleted_users, $task );
@@ -318,6 +351,7 @@ class Task_Controller {
         }
 
         self::getInstance()->attach_assignees( $task, $assignees );
+        self::getInstance()->update_type( $task->id, $type_id, $project_id, $task->task_list );
 
         do_action( 'cpm_task_update', $list_id, $task_id, $params );
 
@@ -417,9 +451,13 @@ class Task_Controller {
             $comment->files()->delete();
         }
 
+        //remove task type
+        Task_Types_Controller::destroy_task_type_task_relation_task( $task->id );
+
         $task->comments()->delete();
         $task->assignees()->delete();
         $task->metas()->delete();
+
         Task::where('parent_id', $task->id)->delete();
         // Delete the task
         $task->delete();
@@ -432,6 +470,7 @@ class Task_Controller {
             'activity' => $self->last_activity( 'task', $task->id ),
         ];
     }
+
     public function destroy( WP_REST_Request $request ) {
         // Grab user inputs
         $project_id = $request->get_param( 'project_id' );
@@ -454,6 +493,9 @@ class Task_Controller {
             $comment->replies()->delete();
             $comment->files()->delete();
         }
+
+        //remove task type
+        Task_Types_Controller::destroy_task_type_task_relation_task( $task->id );
 
         $task->comments()->delete();
         $task->assignees()->delete();

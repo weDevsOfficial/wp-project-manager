@@ -111,7 +111,7 @@ class Task_Types_Controller {
         Task_Type_Task::whereIn( 'type_id', $id )->delete();
     }
 
-    public function destroy_task_type_task_relation_task( $id ) {
+    public static function destroy_task_type_task_relation_task( $id ) {
         if ( ! is_array( $id ) ) {
             $id = [$id];
         }
