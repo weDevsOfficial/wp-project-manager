@@ -389,7 +389,7 @@ class Task_Controller {
 
         $get_task = Task_Helper::get_results([ 
             'id' => $task->id,
-            'with' => 'time' 
+            'with' => 'time, labels, task_list' 
         ]);
 
         $message = [

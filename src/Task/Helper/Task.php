@@ -211,6 +211,8 @@ class Task {
 			'created_by'   => (int) $task->created_by,
 			'completed_at' => format_date( $task->completed_at ),
 			'updated_at'   => format_date( $task->updated_at ),
+			'creator'      => [ 'data' => $this->user_info( $task->created_by ) ],
+			'updater'      => [ 'data' => $this->user_info( $task->updated_by ) ]
         ];
 
         $select_items = empty( $this->query_params['select'] ) ? false : $this->query_params['select'];
@@ -297,13 +299,33 @@ class Task {
 	}
 
 	private function set_fixed_items( $items, $task ) {
-		$items['task_list_id'] = (int) $task->task_list_id;
+		$items['id'] = (int) $task->id;
 		$items['project_id'] = (int) $task->project_id;
 		$items['type'] = $task->type;
 		$items['order'] = $task->order;
 		$items['assignees'] = $task->assignees;
 
 		return $items;
+	}
+
+	public function user_info( $user_id ) {
+		$user = get_user_by( 'id', $user_id );
+
+		$data = [
+			'id'                => (int) $user->ID,
+			'username'          => $user->user_login,
+			'nicename'          => $user->user_nicename,
+			'email'             => $user->user_email,
+			'profile_url'       => $user->user_url,
+			'display_name'      => $user->display_name,
+			'manage_capability' => (int) pm_has_manage_capability($user->ID),
+			'create_capability' => (int) pm_has_project_create_capability($user->ID),
+			'avatar_url'        => get_avatar_url( $user->user_email ),
+			'github'            => get_user_meta($user->ID,'github' ,true),
+			'bitbucket'         => get_user_meta($user->ID,'bitbucket', true)
+        ];
+
+        return $data;
 	}
 
 	public static function complexity( $complexity ) {
@@ -521,7 +543,7 @@ class Task {
 		$tb_boardable  = pm_tb_prefix() . 'pm_boardables';
 		$tk_ids_format = $this->get_prepare_format( $this->task_ids );
 
-		$query = "SELECT DISTINCT bo.id as task_list_id, bo.title, tk.id as task_id
+		$query = "SELECT DISTINCT bo.id as id, bo.title, tk.id as task_id
 			FROM $tb_list as bo
 			LEFT JOIN $tb_boardable as bor ON bor.board_id = bo.id 
 			LEFT JOIN $this->tb_tasks as tk ON tk.id = bor.boardable_id 
@@ -537,7 +559,7 @@ class Task {
 		}
 		
 		foreach ( $this->tasks as $key => $task ) {
-			$task->task_list = empty( $lists[$task->id] ) ? '' : $lists[$task->id]; 
+			$task->task_list = empty( $lists[$task->id] ) ? ['data' => []] : [ 'data' => $lists[$task->id] ]; 
 		}
 		
 		return $this;
