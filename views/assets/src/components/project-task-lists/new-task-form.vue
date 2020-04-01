@@ -637,7 +637,7 @@ export default {
                     due_date: this.task.due_date.date,
                     list_id: this.list.id,
                     estimation: this.task.estimation,
-                    type_id: this.task.type.id,
+                    type_id: typeof this.task.type == 'undefined' ? false : this.task.type.id,
                     //estimated_hours: this.task.estimation,
                     order: this.task.order,
                     recurrent: this.task.recurrent,
