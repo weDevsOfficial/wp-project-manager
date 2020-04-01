@@ -195,12 +195,22 @@ class Task {
 		$items = [
 			'id'           => (int) $task->id,
 			'title'        => (string) $task->title,
-			'status'       => isset( $task->status ) ? $this->format_status( $task->status ) : '',
+			'description'  => [ 'html' => pm_get_content( $task->description ), 'content' => $task->description ],
 			'estimation'   => $task->estimation*60,
-			'created_at'   => empty( $task->created_at ) ? '' : $task->created_at,
-			'start_at'     => empty( $task->start_at ) ? '' : format_date( $task->start_at ),
-			'due_date'     => empty( $task->due_date ) ? '' : format_date( $task->due_date ),
-			'completed_at' => empty( $task->completed_at ) ? '' : format_date( $task->completed_at )
+			'start_at'     => format_date( $task->start_at ),
+			'due_date'     => format_date( $task->due_date ),
+			'complexity'   => $this->complexity( $task->complexity ),
+            'priority'     => $this->priorities( $task->priority ),
+            'order'        => empty( $task->order ) ? 0 : intval($task->order), 
+            'payable'      => $this->payability( $task->payable ),
+			'recurrent'    => $this->recurrency( $task->recurrent ),
+			'parent_id'    => (int) $task->parent_id,
+			'status'       => $this->status( $task->status ),
+			'category_id'  => empty( $task->type['id'] ) ? '' : (int) $task->type['id'],
+			'created_at'   => format_date( $task->created_at ),
+			'created_by'   => (int) $task->created_by,
+			'completed_at' => format_date( $task->completed_at ),
+			'updated_at'   => format_date( $task->updated_at ),
         ];
 
         $select_items = empty( $this->query_params['select'] ) ? false : $this->query_params['select'];
@@ -230,20 +240,46 @@ class Task {
 		$items = $this->set_item_meta( $items, $task );
 		
 		return $items;
-
-	}
-
-	private function format_status( $status ) {
-		return $status == 0 ? __( 'incomplete', 'wedevs-project-manger' ) : __( 'complete', 'wedevs-project-manger' );
 	}
 
 	private function set_item_meta( $item, $task ) {
-		if( isset( $task->total_comments ) ) {
-			$item['meta']['total_comments'] = $task->total_comments;
-			unset( $item['total_comments'] );
-		}
-
+		$item['meta'] = [];
+		
+		$item['meta']['total_comment']     = $task->total_comments;
+		$item['meta']['can_complete_task'] = pm_user_can_complete_task( $task );
+		$item['meta']['total_files']       = $task->total_files;
+		$item['meta']['total_assignee']    = count( $task->assignees['data'] );
+		
 		return $item;
+	}
+
+	function pm_user_can_complete_task( $task, $user_id = false ) {
+	    if(!$task) {
+	        return false;
+	    }
+	    $user_id = $user_id ? $user_id: get_current_user_id();
+
+	    if ( pm_has_manage_capability( $user_id ) ) {
+	        return true;
+	    }
+
+	    if ( pm_is_manager( $task['project_id'], $user_id ) ) {
+	        return true;
+	    }
+
+	    if ( (int) $task['reated_by'] == $user_id ) {
+	        return true;
+	    }
+
+	    $assignees = $task['assignees']['data']; //pluck( 'assigned_to' )->all();
+	    $assignees = wp_list_pluck( $assignees, 'assigned_to' );
+	    $in_array = in_array( $user_id, $assignees );
+
+	    if ( !empty( $in_array ) ) {
+	        return true;
+	    }
+
+	    return false;
 	}
 
 	private function set_with_items( $items, $task ) {
@@ -264,9 +300,72 @@ class Task {
 		$items['task_list_id'] = (int) $task->task_list_id;
 		$items['project_id'] = (int) $task->project_id;
 		$items['type'] = $task->type;
+		$items['order'] = $task->order;
+		$items['assignees'] = $task->assignees;
 
 		return $items;
 	}
+
+	public static function complexity( $complexity ) {
+		$complexity = empty( intval( $complexity ) ) ? 0 : intval( $complexity );
+
+        $items = [
+        	0 => 'basic',
+	        1 => 'intermediate',
+	        2 => 'advance'
+	    ];
+
+	    return $items[$complexity];
+    }
+
+    public static function priorities( $priorities ) {
+		$priorities = empty( intval( $priorities ) ) ? 0 : intval( $priorities );
+
+        $items = [
+        	0 => 'low',
+	        1 => 'medium',
+	        2 => 'high',
+	    ];
+
+	    return $items[$priorities];
+    }
+
+    public static function status( $status ) {
+		$status = empty( intval( $status ) ) ? 0 : intval( $status );
+
+        $items = [
+        	0 => 'incomplete',
+	        1 => 'complete',
+	        2 => 'pending',
+	    ];
+
+	    return $items[$status];
+    }
+
+    public static function recurrency( $recurrency ) {
+		$recurrency = empty( intval( $recurrency ) ) ? 0 : intval( $recurrency );
+
+        $items = [
+        	0 => '0', // no repeat
+	        1 => '1', // weekly
+	        2 => '2', // Monthly
+	        3 => '3', // Annually
+	        9 => '9', // never
+	    ];
+
+	    return $items[$recurrency];
+    }
+
+    public static function payability( $payability ) {
+		$payability = empty( intval( $payability ) ) ? 0 : intval( $payability );
+
+        $items = [
+        	0 => 'no',
+        	1 => 'yes'
+	    ];
+
+	    return $items[$payability];
+    }
 
 	/**
 	 * Join others table information
@@ -279,8 +378,51 @@ class Task {
 			->include_list()
 			->include_assignees()
 			->include_total_comments()
-			->include_task_type();
+			->include_total_files()
+			->include_task_type()
+			->include_task_order();
 
+		$this->tasks = apply_filters( 'pm_task_with',$this->tasks, $this->task_ids, $this->query_params );
+
+		return $this;
+	}
+
+	private function include_task_order() {
+		global $wpdb;
+		// $with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
+		
+		// if ( ! is_array( $with ) ) {
+		// 	$with = explode( ',', str_replace(' ', '', $with ) );
+		// }
+
+		// if ( ! in_array( 'task_type', $with ) || empty( $this->task_ids ) ) {
+		// 	return $this;
+		// }
+
+		$tb_boardable  = pm_tb_prefix() . 'pm_boardables';
+		$tk_ids_format = $this->get_prepare_format( $this->task_ids );
+		$query_data     = $this->task_ids;
+
+		$query = "SELECT DISTINCT bor.order, bor.boardable_id as task_id
+			FROM $tb_boardable as bor
+			where bor.boardable_id IN ($tk_ids_format)
+			AND bor.boardable_type=%s";
+
+		array_push( $query_data, 'task' );
+		
+		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
+		$orders   = [];
+		
+		foreach ( $results as $key => $result ) {
+			$task_id = $result->task_id;
+			unset( $result->task_id );
+			$orders[$task_id] = $result;
+		}
+		
+		foreach ( $this->tasks as $key => $task ) {
+			$task->order = empty( $orders[$task->id] ) ? 0 : intval( $orders[$task->id]->order ); 
+		}
+		
 		return $this;
 	}
 
@@ -341,7 +483,7 @@ class Task {
 			LEFT JOIN $tb_task_type_task as typt ON typ.id = typt.type_id 
 			LEFT JOIN $this->tb_tasks as tk ON tk.id = typt.task_id 
 			where tk.id IN ($tk_ids_format)";
-
+		
 		$results = $wpdb->get_results( $wpdb->prepare( $query, $this->task_ids ) );
 		$types   = [];
 
@@ -445,15 +587,15 @@ class Task {
 
 	private function include_assignees() {
 		global $wpdb;
-		$with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
+		// $with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
 		
-		if ( ! is_array( $with ) ) {
-			$with = explode( ',', $with );
-		}
+		// if ( ! is_array( $with ) ) {
+		// 	$with = explode( ',', $with );
+		// }
 
-		if ( ! in_array( 'assignees', $with ) || empty( $this->task_ids ) ) {
-			return $this;
-		}
+		// if ( ! in_array( 'assignees', $with ) || empty( $this->task_ids ) ) {
+		// 	return $this;
+		// }
 
 		$tb_assignees   = pm_tb_prefix() . 'pm_assignees';
 		$tb_users       = $wpdb->base_prefix . 'users';
@@ -500,21 +642,21 @@ class Task {
 
 	private function include_total_comments() {
 		global $wpdb;
-		$with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
+		// $with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
 		
-		if ( ! is_array( $with ) ) {
-			$with = explode( ',', str_replace(' ', '', $with ) );
-		}
+		// if ( ! is_array( $with ) ) {
+		// 	$with = explode( ',', str_replace(' ', '', $with ) );
+		// }
 		
-		if ( ! in_array( 'total_comments', $with ) || empty( $this->task_ids ) ) {
-			return $this;
-		}
+		// if ( ! in_array( 'total_comments', $with ) || empty( $this->task_ids ) ) {
+		// 	return $this;
+		// }
 
-		$metas           = [];
-		$tb_pm_comments  = pm_tb_prefix() . 'pm_comments';
+		$metas          = [];
+		$tb_pm_comments = pm_tb_prefix() . 'pm_comments';
 		$tb_tasks       = pm_tb_prefix() . 'pm_tasks';
-		$task_format = pm_get_prepare_format( $this->task_ids );
-		$query_data = $this->task_ids;
+		$task_format    = pm_get_prepare_format( $this->task_ids );
+		$query_data     = $this->task_ids;
 
 		$query ="SELECT DISTINCT count($tb_pm_comments.id) as comment_count,
 			$tb_tasks.id as task_id
@@ -540,6 +682,39 @@ class Task {
 		}
 
 		return $this;
+	}
+
+	private function include_total_files() {
+		global $wpdb;
+
+		$tb_pm_files  = pm_tb_prefix() . 'pm_files';
+		$tb_tasks     = pm_tb_prefix() . 'pm_tasks';
+		
+		$task_format  = pm_get_prepare_format( $this->task_ids );
+		$query_data   = $this->task_ids;
+
+		$query = "SELECT DISTINCT count(fl.id) as count,  fl.fileable_id as task_id
+			from $tb_pm_files as fl
+			where fl.fileable_id IN ($task_format)
+			AND fl.fileable_type = %s
+			group by fl.fileable_id";
+		
+		array_push( $query_data, 'task' );
+
+		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
+		
+		foreach ( $results as $key => $result ) {
+			$task_id = $result->task_id;
+			unset($result->task_id);
+			$metas[$task_id] = (int) $result->count;
+		}
+
+		foreach ( $this->tasks as $key => $task ) {
+			$task->total_files = empty( $metas[$task->id] ) ? 0 : $metas[$task->id];
+		}
+
+		return $this;
+		
 	}
 
 	/**

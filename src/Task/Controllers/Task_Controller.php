@@ -30,6 +30,7 @@ use WeDevs\PM\Activity\Transformers\Activity_Transformer;
 use WeDevs\PM\Task_List\Controllers\Task_List_Controller as Task_List_Controller;
 use WeDevs\PM\Settings\Controllers\Task_Types_Controller;
 use WeDevs\PM\Settings\Models\Task_Type_Task;
+use WeDevs\PM\task\Helper\Task as Task_Helper;
 
 
 class Task_Controller {
@@ -220,9 +221,7 @@ class Task_Controller {
             $this->attach_assignees( $task, $assignees );
         }
 
-        if ( ! empty( intval( $type_id ) ) ) {
-            $this->update_type( $task->id, $type_id, $project_id, $board_id );
-        }
+        $this->insert_type( $task->id, $type_id, $project_id, $board_id );
 
         do_action( 'cpm_after_new_task', $task->id, $board_id, $project_id );
         do_action('pm_after_create_task', $task, $request->get_params() );
@@ -242,8 +241,7 @@ class Task_Controller {
         return $response;
     }
 
-    public function update_type( $task_id, $type_id, $project_id, $list_id ) {
-        
+    public function insert_type ( $task_id, $type_id, $project_id, $list_id ) {
         if ( empty( intval( $task_id ) || empty( intval( $type_id ) ) ) ) {
             return;
         }
@@ -256,14 +254,39 @@ class Task_Controller {
                 'task_id'    => $task_id,
                 'list_id'    => $list_id,
                 'project_id' => $project_id
-            ]);
-        } else {
-            $has_task_type_task->update_model( [ 
-                'type_id' => $type_id,
-                'list_id'    => $list_id,
-                'project_id' => $project_id 
-            ] );
+            ]);    
         }
+    }
+
+    public function update_type( $task_id, $type_id, $project_id, $list_id ) {
+        
+        if ( empty( intval( $task_id ) ) ) {
+            return;
+        }
+
+        $has_task_type_task = Task_Type_Task::find( $task_id );
+
+        if ( empty( $has_task_type_task ) && empty( intval( $type_id ) ) ) {
+            return;
+        }
+
+        if ( ! empty( $has_task_type_task ) && empty( intval( $type_id ) ) ) {
+            Task_Types_Controller::destroy_task_type_task_relation_task( $task_id );
+
+            return;
+        }
+
+        if ( empty( $has_task_type_task ) && ! empty( intval( $type_id ) ) ) {
+            $this->insert_type( $task_id, $type_id, $project_id, $list_id );
+
+            return;
+        }
+
+        $has_task_type_task->update_model( [ 
+            'type_id' => $type_id,
+            'list_id'    => $list_id,
+            'project_id' => $project_id 
+        ] ); 
     }
 
     public function attach_assignees( Task $task, $assignees = [] ) {
@@ -340,7 +363,7 @@ class Task_Controller {
         $params['list_id']    = $task->task_list;
         $is_private           = isset( $params['privacy'] ) ? $params['privacy'] : false;
         $params['is_private'] = $is_private == 'true' || $is_private === true ? 1 : 0;
-        $type_id              = $params['type_id'];
+        $type_id              = empty( $params['type_id'] ) ? false : intval( $params['type_id'] );
 
         $deleted_users = $task->assignees()->whereNotIn( 'assigned_to', $assignees )->get()->toArray(); //->delete();
         $deleted_users = apply_filters( 'pm_task_deleted_users', $deleted_users, $task );
@@ -351,8 +374,8 @@ class Task_Controller {
         }
 
         self::getInstance()->attach_assignees( $task, $assignees );
-        self::getInstance()->update_type( $task->id, $type_id, $project_id, $task->task_list );
-
+        self::getInstance()->update_type( $task->id, $type_id, $project_id, $task->task_list );    
+        
         do_action( 'cpm_task_update', $list_id, $task_id, $params );
 
         $params = apply_filters( 'pm_before_update_task', $params, $list_id, $task_id, $task );
@@ -361,17 +384,24 @@ class Task_Controller {
         do_action( 'cpm_after_update_task', $task->id, $list_id, $project_id );
         do_action('pm_after_update_task', $task, $params );
 
+        //Depricated 
         $resource = new Item( $task, new Task_Transformer );
+
+        $get_task = Task_Helper::get_results([ 
+            'id' => $task->id,
+            'with' => 'time' 
+        ]);
 
         $message = [
             'message' => pm_get_text('success_messages.task_updated'),
             'activity' => self::getInstance()->last_activity( 'task', $task->id ),
+            'task' => $get_task
         ];
 
         $response = self::getInstance()->get_response( $resource, $message );
 
         do_action('pm_update_task_aftre_transformer', $response, $params );
-
+        
         return $response;
     }
 
