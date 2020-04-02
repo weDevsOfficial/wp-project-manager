@@ -215,27 +215,27 @@ class Task {
 			'updater'      => [ 'data' => $this->user_info( $task->updated_by ) ]
         ];
 
-        $select_items = empty( $this->query_params['select'] ) ? false : $this->query_params['select'];
+  //       $select_items = empty( $this->query_params['select'] ) ? false : $this->query_params['select'];
 
-		if ( $select_items && ! is_array( $select_items ) ) {
-			$select_items = str_replace( ' ', '', $select_items );
-			$select_items = explode( ',', $select_items );
-		}
+		// if ( $select_items && ! is_array( $select_items ) ) {
+		// 	$select_items = str_replace( ' ', '', $select_items );
+		// 	$select_items = explode( ',', $select_items );
+		// }
 		
-		if ( empty( $select_items ) ) {
-			$items = $this->set_with_items( $items, $task );
-			$items = $this->set_fixed_items( $items, $task );
-			$items = $this->set_item_meta( $items, $task );
+		// if ( empty( $select_items ) ) {
+		// 	$items = $this->set_with_items( $items, $task );
+		// 	$items = $this->set_fixed_items( $items, $task );
+		// 	$items = $this->set_item_meta( $items, $task );
 			
-			return $items;
-		}
+		// 	return $items;
+		// }
 
-		foreach ( $items as $item_key => $item ) {
+		// foreach ( $items as $item_key => $item ) {
 			
-			if ( ! in_array( $item_key, $select_items ) ) {
-				unset( $items[$item_key] );
-			}
-		}
+		// 	if ( ! in_array( $item_key, $select_items ) ) {
+		// 		unset( $items[$item_key] );
+		// 	}
+		// }
 		
 		$items = $this->set_with_items( $items, $task );
 		$items = $this->set_fixed_items( $items, $task );
@@ -293,17 +293,27 @@ class Task {
 		}
 
 		$task_with_items =  array_intersect_key( (array) $task, array_flip( $with ) );
-		$items = array_merge($items,$task_with_items);
+		$items = array_merge( $items, $task_with_items );
 
 		return $items;
 	}
 
 	private function set_fixed_items( $items, $task ) {
-		$items['id'] = (int) $task->id;
-		$items['project_id'] = (int) $task->project_id;
-		$items['type'] = $task->type;
-		$items['order'] = $task->order;
-		$items['assignees'] = $task->assignees;
+		
+		$items['id']           = (int) $task->id;
+		$items['project_id']   = (int) $task->project_id;
+		$items['type']         = $task->type;
+		$items['order']        = $task->order;
+		$items['assignees']    = $task->assignees;
+		$items['task_list_id'] = (int) $task->task_list_id;
+
+		if ( isset( $task->is_stop_watch_visible ) ) {
+			$items['is_stop_watch_visible'] = $task->is_stop_watch_visible;
+		}
+
+		if ( isset( $task->custom_time_form ) ) {
+			$items['custom_time_form'] = $task->custom_time_form;
+		}
 
 		return $items;
 	}
