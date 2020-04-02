@@ -385,21 +385,21 @@ class Task_Controller {
         do_action('pm_after_update_task', $task, $params );
 
         //Depricated 
-        $resource = new Item( $task, new Task_Transformer );
+        //$resource = new Item( $task, new Task_Transformer );
 
-        $get_task = Task_Helper::get_results([ 
+        $task_response = Task_Helper::get_results([ 
             'id' => $task->id,
             'with' => 'time, labels, task_list' 
         ]);
 
-        $message = [
-            'message' => pm_get_text('success_messages.task_updated'),
+        $response = [
+            'message'  => pm_get_text('success_messages.task_updated'),
             'activity' => self::getInstance()->last_activity( 'task', $task->id ),
-            'task' => $get_task
+            'data'     => $task_response['data']
         ];
 
-        $response = self::getInstance()->get_response( $resource, $message );
-
+        // $response = self::getInstance()->get_response( $resource, $message );
+        // pmpr($response); die;
         do_action('pm_update_task_aftre_transformer', $response, $params );
         
         return $response;
