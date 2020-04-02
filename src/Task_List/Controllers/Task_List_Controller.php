@@ -66,6 +66,10 @@ class Task_List_Controller {
         if ( ! empty( $status ) ) {
             $status = is_array( $status ) ? $status : [$status];
         }
+
+        if ( empty( $status ) ) {
+            $status = [1];
+        }
         
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
