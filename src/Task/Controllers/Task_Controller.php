@@ -1131,13 +1131,19 @@ class Task_Controller {
     public function get_tasks( $task_ids, $args=[] ) {
         global $wpdb;
 
+        foreach ( (array) $task_ids as $key => $task_id ) {
+            if ( empty( intval( $task_id ) ) ) {
+                unset( $task_ids[$key] );
+            }
+        }
+
         $default = [
             'list_task_transormer_filter' => true
         ];
 
         $args = wp_parse_args( $args, $default );
 
-        if ( empty( $list_ids ) ) {
+        if ( empty( $task_ids ) ) {
             $task_ids[] = 0;
         }
 
