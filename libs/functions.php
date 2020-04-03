@@ -1008,4 +1008,28 @@ function pm_get_estimation_type() {
     return $db_est_type;
 }
 
+function pm_second_to_time( $seconds ) {
+    $total_second = $seconds;
+    // extract hours
+    $hours = floor( $seconds / (60 * 60) );
+
+    // extract minutes
+    $divisor_for_minutes = $seconds % (60 * 60);
+    $minutes = floor( $divisor_for_minutes / 60 );
+
+    // extract the remaining seconds
+    $divisor_for_seconds = $divisor_for_minutes % 60;
+    $seconds = ceil( $divisor_for_seconds );
+
+    // return the final array
+    $obj = array(
+        'hour' => str_pad( (int) $hours, 2, '0', STR_PAD_LEFT ),
+        'minute' => str_pad( (int) $minutes, 2, '0', STR_PAD_LEFT ),
+        'second' => str_pad( (int) $seconds, 2, '0', STR_PAD_LEFT ),
+        'total_second' => $total_second
+    );
+
+    return $obj;
+}
+
 

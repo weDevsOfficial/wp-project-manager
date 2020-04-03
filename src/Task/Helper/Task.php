@@ -197,6 +197,7 @@ class Task {
 			'title'        => (string) $task->title,
 			'description'  => [ 'html' => pm_get_content( $task->description ), 'content' => $task->description ],
 			'estimation'   => $task->estimation*60,
+			'formated_estimation'   => pm_second_to_time( $task->estimation*60 ),
 			'start_at'     => format_date( $task->start_at ),
 			'due_date'     => format_date( $task->due_date ),
 			'complexity'   => $this->complexity( $task->complexity ),
@@ -430,6 +431,10 @@ class Task {
 		// if ( ! in_array( 'task_type', $with ) || empty( $this->task_ids ) ) {
 		// 	return $this;
 		// }
+		
+		if ( empty( $this->task_ids ) ) {
+			return $this;
+		}
 
 		$tb_boardable  = pm_tb_prefix() . 'pm_boardables';
 		$tk_ids_format = $this->get_prepare_format( $this->task_ids );
@@ -505,6 +510,10 @@ class Task {
 		// if ( ! in_array( 'task_type', $with ) || empty( $this->task_ids ) ) {
 		// 	return $this;
 		// }
+		
+		if ( empty( $this->task_ids ) ) {
+			return $this;
+		}
 
 		$tb_task_types     = pm_tb_prefix() . 'pm_task_types';
 		$tb_task_type_task = pm_tb_prefix() . 'pm_task_type_task';
@@ -628,6 +637,10 @@ class Task {
 		// if ( ! in_array( 'assignees', $with ) || empty( $this->task_ids ) ) {
 		// 	return $this;
 		// }
+		
+		if ( empty( $this->task_ids ) ) {
+			return $this;
+		}
 
 		$tb_assignees   = pm_tb_prefix() . 'pm_assignees';
 		$tb_users       = $wpdb->base_prefix . 'users';
@@ -683,6 +696,10 @@ class Task {
 		// if ( ! in_array( 'total_comments', $with ) || empty( $this->task_ids ) ) {
 		// 	return $this;
 		// }
+		
+		if ( empty( $this->task_ids ) ) {
+			return $this;
+		}
 
 		$metas          = [];
 		$tb_pm_comments = pm_tb_prefix() . 'pm_comments';
@@ -718,6 +735,10 @@ class Task {
 
 	private function include_total_files() {
 		global $wpdb;
+
+		if ( empty( $this->task_ids ) ) {
+			return $this;
+		}
 
 		$tb_pm_files  = pm_tb_prefix() . 'pm_files';
 		$tb_tasks     = pm_tb_prefix() . 'pm_tasks';
