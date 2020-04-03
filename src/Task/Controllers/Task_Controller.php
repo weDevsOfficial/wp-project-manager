@@ -374,8 +374,11 @@ class Task_Controller {
         }
 
         self::getInstance()->attach_assignees( $task, $assignees );
-        self::getInstance()->update_type( $task->id, $type_id, $project_id, $task->task_list );    
         
+        if ( isset( $params['type_id'] ) ) {
+            self::getInstance()->update_type( $task->id, $type_id, $project_id, $task->task_list );  
+        }
+            
         do_action( 'cpm_task_update', $list_id, $task_id, $params );
 
         $params = apply_filters( 'pm_before_update_task', $params, $list_id, $task_id, $task );
@@ -430,14 +433,24 @@ class Task_Controller {
         do_action( 'mark_task_complete', $task->project_id, $task->id );
         do_action( 'pm_changed_task_status', $task, $old_value, $request->get_params() );
 
-        $resource = new Item( $task, new Task_Transformer );
+        //$resource = new Item( $task, new Task_Transformer );
+        $task_response = Task_Helper::get_results([ 
+            'id' => $task->id,
+            'with' => 'time, labels, task_list' 
+        ]);
 
-        $message = [
-            'message' => pm_get_text('success_messages.task_updated'),
-            'activity' => $this->last_activity( 'task', $task->id ),
+        $response = [
+            'message'  => pm_get_text( 'success_messages.task_updated' ),
+            'activity' => self::getInstance()->last_activity( 'task', $task->id ),
+            'data'     => $task_response['data']
         ];
 
-        $response = $this->get_response( $resource, $message );
+        // $message = [
+        //     'message' => pm_get_text('success_messages.task_updated'),
+        //     'activity' => $this->last_activity( 'task', $task->id ),
+        // ];
+
+        // $response = $this->get_response( $resource, $message );
 
         do_action('pm_changed_task_status_aftre_transformer', $response, $request->get_params() );
 
