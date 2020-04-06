@@ -191,7 +191,7 @@ class Task {
 	 * @return array          
 	 */
 	public function fromat_task( $task ) {
-		
+
 		$items = [
 			'id'           => (int) $task->id,
 			'title'        => (string) $task->title,
@@ -422,9 +422,44 @@ class Task {
 	}
 
 	private function include_estimation_time() {
+		global $wpdb; 
+
+		if ( empty( $this->task_ids ) ) {
+			return $this;
+		}
+
 		if ( pm_get_estimation_type() == 'task' ) {
 			return $this;
 		}
+
+		$tb_tasks  = pm_tb_prefix() . 'pm_tasks';
+		$tk_ids_format = $this->get_prepare_format( $this->task_ids );
+		$query_data    = $this->task_ids;
+
+        $query ="SELECT sum(estimation) as estimation, parent_id
+            FROM $tb_tasks
+            WHERE parent_id IN ( $tk_ids_format )
+            AND status=0
+            GROUP BY parent_id";
+
+        $results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
+        //$results = wp_list_pluck( $results, 'estimation', 'parent_id' );
+        $estimations   = [];
+
+        
+
+        foreach ( $results as $key => $result ) {
+			$parent_id = $result->parent_id;
+			unset( $result->parent_id );
+			$estimations[$parent_id] = $result;
+		}
+		
+		foreach ( $this->tasks as $key => $task ) {
+
+			$task->estimation = empty( $estimations[$task->id] ) ? 0 : $estimations[$task->id]->estimation; 
+		}
+
+		return $this->tasks;
 	}
 
 	private function include_task_order() {
@@ -445,7 +480,7 @@ class Task {
 
 		$tb_boardable  = pm_tb_prefix() . 'pm_boardables';
 		$tk_ids_format = $this->get_prepare_format( $this->task_ids );
-		$query_data     = $this->task_ids;
+		$query_data    = $this->task_ids;
 
 		$query = "SELECT DISTINCT bor.order, bor.boardable_id as task_id
 			FROM $tb_boardable as bor
