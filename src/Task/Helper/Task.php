@@ -413,11 +413,18 @@ class Task {
 			->include_total_comments()
 			->include_total_files()
 			->include_task_type()
-			->include_task_order();
+			->include_task_order()
+			->include_estimation_time();
 
 		$this->tasks = apply_filters( 'pm_task_with',$this->tasks, $this->task_ids, $this->query_params );
 
 		return $this;
+	}
+
+	private function include_estimation_time() {
+		if ( pm_get_estimation_type() == 'task' ) {
+			return $this;
+		}
 	}
 
 	private function include_task_order() {
