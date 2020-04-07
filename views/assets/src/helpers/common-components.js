@@ -29,6 +29,7 @@ import DropDownMenu from '@components/common/dropdown-menu.vue';
 import Button from '@components/common/button.vue';
 import TaskTypeDropdown from '@components/common/task-type-dropdown.vue';
 import LoadingAnimation from '@components/common/loading-animation.vue';
+import RoundProgressBar from '@components/common/round-progress-bar.vue';
 
 
 pm.Vue.component('pm-pagination', pagination);
@@ -62,6 +63,7 @@ pm.Vue.component('pm-dropdown-menu', DropDownMenu);
 pm.Vue.component('pm-button', Button);
 pm.Vue.component('pm-task-type-dropdown', TaskTypeDropdown);
 pm.Vue.component('pm-loading-animation', LoadingAnimation);
+pm.Vue.component('pm-round-progress-bar', RoundProgressBar);
 
 
 
