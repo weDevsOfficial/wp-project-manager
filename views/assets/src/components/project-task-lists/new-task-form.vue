@@ -112,6 +112,7 @@
                                         <pm-task-type-dropdown 
                                             @onChange="onChangeTaskType"
                                             :selectedTaskTypes="task.type"
+                                            :allowEmpty="true"
                                         />
 
                                         <span class="icon-pm-single-user" slot="popoverButton" />
@@ -138,46 +139,11 @@
                             >
                             <span v-if="show_spinner" class="pm-spinner"></span>
                         </div>
-
-                      
-
-                       <!--  <div v-if="datePicker" class="subtask-date new-task-caledar-wrap">
-                            <pm-content-datepicker  
-                                v-if="task_start_field"
-                                v-model="task.start_at.date"  
-                                class="pm-date-picker-from pm-inline-date-picker-from"
-                                :callback="callBackDatePickerForm">
-                                
-                            </pm-content-datepicker>
-                            <pm-content-datepicker 
-                                v-model="task.due_date.date"  
-                                class="pm-date-picker-to pm-inline-date-picker-to"
-                                :callback="callBackDatePickerTo">
-                                    
-                            </pm-content-datepicker>
-
-                        </div> -->
-
-                        <!-- <div v-if="descriptionField" class="new-task-description">
-                            <text-editor  :editor_id="'new-task-description-editor-' + list.id" :content="content"></text-editor>
-                        </div> -->
                         
                     </form>
 
                 </pm-click-wrap>
             </div>
-            <!-- <div>
-                <div v-if="task.title"> {{ lengthtitle - task.title.length }} {{ __( 'characters remaining', 'wedevs-project-manager' ) }}</div>
-                <div>{{ task.assignees.data }}</div>
-                
-                <div>
-                    <span class="icon-pm-calendar"></span>
-                    <span>{{ task.start_at.date }}</span>
-                    <span>&ndash;</span>
-                    <span>{{ task.due_date.date }}</span>
-                </div>
-                
-            </div> -->
         </div>
     </div>
 
@@ -300,6 +266,7 @@ export default {
             },
             lengthtitle: 200,
             focusField: false,
+            typeId: false
         }
     },
     mixins: [Mixins],
@@ -334,6 +301,7 @@ export default {
         }
         
         this.focusField = this.options.focus ? true : false;
+        this.typeId = this.task.type ? this.task.type.id : false;
     },
 
     watch: {
@@ -418,10 +386,11 @@ export default {
 
     methods: {
         onChangeTaskType (value) {
-            if ( this.task.type ) {
-                this.task.type.id = value.id;
+
+            if ( value ) {
+                this.typeId = value.id;
             } else {
-                this.task.type = { id: value.id };
+                this.typeId = false;
             }
         },
 
@@ -637,7 +606,7 @@ export default {
                     due_date: this.task.due_date.date,
                     list_id: this.list.id,
                     estimation: this.task.estimation,
-                    type_id: typeof this.task.type == 'undefined' ? false : this.task.type.id,
+                    type_id: this.typeId,
                     //estimated_hours: this.task.estimation,
                     order: this.task.order,
                     recurrent: this.task.recurrent,

@@ -80,9 +80,35 @@ class Task_Transformer extends TransformerAbstract {
                 'updated_at'   => format_date( $item->updated_at ),
                 'task_list_id' => $item->task_list,
                 'meta'         => $this->meta( $item ),
+                'type'         => $this->get_type( $item->id )
             ], 
             $item
         );
+    }
+
+    public function get_type( $item_id ) {
+        global $wpdb;
+
+        $tb_task_types     = pm_tb_prefix() . 'pm_task_types';
+        $tb_task_type_task = pm_tb_prefix() . 'pm_task_type_task';
+        $tb_tasks          = pm_tb_prefix() . 'pm_tasks';
+
+        $query = "SELECT DISTINCT typ.id as type_id, typ.title, typ.description, tk.id as task_id
+            FROM $tb_task_types as typ
+            LEFT JOIN $tb_task_type_task as typt ON typ.id = typt.type_id 
+            LEFT JOIN $tb_tasks as tk ON tk.id = typt.task_id 
+            where tk.id IN ($item_id)";
+
+        $result = $wpdb->get_row( $query );
+
+        if ( $result ) {
+            $result->id = (int) $result->type_id;
+
+            unset( $result->type_id );
+        }
+
+        return $result;
+
     }
 
 
