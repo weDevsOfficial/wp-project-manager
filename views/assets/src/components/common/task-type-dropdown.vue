@@ -1,5 +1,6 @@
 <template>
 	<multiselect
+        v-if="taskTypes.length"
 		class="pm-common-multiselect"
 		v-model="taskType"
         :options="taskTypes"
@@ -255,7 +256,6 @@
 	            var request = {
 	                url: self.base_url + 'pm/v2/settings/task-types',
 	                success (res) {
-	                	console.log(res);
 	                    if ( typeof args.callback != 'undefined' ) {
 	                        args.callback (res);
 	                    }

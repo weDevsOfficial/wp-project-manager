@@ -571,13 +571,17 @@ class Task {
 		$types   = [];
 
 		foreach ( $results as $key => $result ) {
-			$task_id = $result->task_id;
+			$task_id    = $result->task_id;
+			$result->id = (int) $result->type_id;
+			
 			unset( $result->task_id );
+			unset( $result->type_id );
+			
 			$types[$task_id] = $result;
 		}
 		
 		foreach ( $this->tasks as $key => $task ) {
-			$task->type = empty( $types[$task->id] ) ? [] : (array) $types[$task->id]; 
+			$task->type = empty( $types[$task->id] ) ? '' : (array) $types[$task->id]; 
 		}
 		
 		return $this;
