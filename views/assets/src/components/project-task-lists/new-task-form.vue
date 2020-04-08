@@ -72,6 +72,7 @@
                                         class="pm-popper-ref popper-ref task-user-multiselect icon-pm-single-user pm-dark-hover">
                                             
                                     </span>
+                                    
                                     <span  slot="reference" class="pm-popper-ref popper-ref">
                                         <img 
                                             :title="user.display_name"
@@ -106,25 +107,38 @@
                                     
                                 </pm-date-range-picker>
                                
-
-                                <div v-if="hasTaskType" class="task-type-wrap">
-                                    <pm-triangle-box>
-                                        <pm-task-type-dropdown 
-                                            @onChange="onChangeTaskType"
-                                            :selectedTaskTypes="task.type"
-                                            :allowEmpty="true"
-                                        />
-
-                                        <span class="icon-pm-single-user" slot="popoverButton" />
-                                    </pm-triangle-box>
-                                </div>
-
-
                                 <span class="date-field">
                                     <span v-if="task_start_field && task.due_date.date">{{ taskDateFormat(task.start_at.date) }}</span>
                                     <span v-if="isBetweenDate( task_start_field, task.start_at.date, task.due_date.date )">&ndash;</span>
                                     <span>{{ taskDateFormat(task.due_date.date) }}</span>
                                 </span>
+
+                                <div v-if="hasTaskType" class="task-type-wrap">
+                                    <pm-popper trigger="click" :options="popperOptions">
+                                        <div class="pm-popper popper">
+                                            <div class="pm-multiselect-top pm-multiselect-subtask-task">
+                                                <div class="pm-multiselect-content">
+                                                    <div class="assign-to">{{ __('Task Type', 'wedevs-project-manager') }}</div>
+
+                                                    <pm-task-type-dropdown 
+                                                        @onChange="onChangeTaskType"
+                                                        :selectedTaskTypes="task.type"
+                                                        :allowEmpty="true"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <span 
+                                            slot="reference" 
+                                            
+                                            v-pm-tooltip 
+                                            :title="__('Task Type', 'wedevs-project-manager')"  
+                                            class="pm-popper-ref popper-ref task-user-multiselect flaticon-test pm-dark-hover">
+                                                
+                                        </span>
+                                    </pm-popper>
+                                </div>
                             </div>
 
                         </div>
@@ -852,6 +866,18 @@ export default {
                     margin-left: 5px;
                     color: #4a90e2;
                 }
+
+                .task-type-wrap {
+                    .flaticon-test {
+                        &:before {
+                            font-size: 14px !important;
+                            color: #444;
+                            font-weight: 600;
+                            margin-left: 0;
+                        }
+                    }
+                }
+
                 .user-image {
                     height: 16px;
                     width: 16px;
