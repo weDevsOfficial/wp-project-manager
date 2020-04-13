@@ -55,7 +55,7 @@
                         </li>
                     </ul> -->
                     <div class="pm-project-info">
-                        <div class="pm-project-description">
+                        <div :title="project.description.content" class="pm-project-description">
                             <p v-text="project.description.content"></p>
                         </div>
                         <ul class="pm-project-meta-counters pm-list-inline">

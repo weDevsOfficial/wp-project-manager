@@ -2,6 +2,7 @@
     <div class="pm-header-title-content" v-if="isProjectLoaded">
         <div class="project-title">
             <span class="title">{{ project.title }}</span>
+            
             <div class="pm-title-edit-settings" v-if="is_manager()">
                 <pm-popper trigger="click" :options="popperOptions" :force-show="projectFormStatus">
                     <div class="pm-popper popper">
@@ -52,6 +53,12 @@
             <pm-do-action hook="pm_project_header" ></pm-do-action>
         </div>
 
+        <div 
+            class="description"
+            v-if="project.description.content"
+            v-text="project.description.content"
+        />
+
     </div> 
     
 </template>
@@ -62,9 +69,20 @@
         display: flex;
         flex-wrap: wrap;
         align-items: center;
+
+        .description {
+            background: #ffffff;
+            margin-top: 16px;
+            padding: 10px;
+            border: 1px solid #E5E4E4;
+            color: #666;
+            text-align: justify;
+        }
+
         .pm-title-edit-settings {
             border-right: 1px solid #E5E4E4;
             position: relative;
+            
             .project-edit-form {
                 left: 0;
                 white-space: nowrap;
@@ -74,6 +92,7 @@
                     left: inherit;
                     right: 0px;
                 }
+                
                 .pm-form {
                     .item {
                         margin-right: 0;
@@ -88,9 +107,11 @@
                     .pm-del-proj-role {
                         cursor: pointer;
                     }
+                    
                     #project-notify {
                         margin-right: 5px;
                     }
+                    
                     table {
                         width: 100%;
                         td:nth-child(2){
@@ -103,10 +124,12 @@
                             text-align: right;
                         }
                     }
+                    
                     .submit {
                         .project-cancel {
                             box-shadow: 0 1px 0 #c5c5c5;
                         }
+                        
                         .pm-loading:after {
                             margin: 6px 0 0 10px;
                         }
@@ -116,6 +139,7 @@
         }
 
         .project-status {
+            
             .incomplete, .complete {
                 border: 1px solid #E5E4E4;
                 background: #fff;
@@ -132,6 +156,7 @@
                 }
             }
         }
+        
         .project-title {
             flex: 1;
             display: flex;
@@ -155,6 +180,7 @@
                 margin-right: 20px;
                 white-space: nowrap;
             }
+            
             .icon-pm-pencil {
                 border: 1px solid #E5E4E4;
                 background: #fff;
