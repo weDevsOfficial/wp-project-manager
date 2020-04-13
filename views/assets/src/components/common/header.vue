@@ -71,11 +71,11 @@
         align-items: center;
 
         .description {
-            background: #ffffff;
+            background: #f9f9f9;
             margin-top: 16px;
             padding: 10px;
-            border: 1px solid #E5E4E4;
-            color: #666;
+            border: 1px solid #d7d7d7;
+            color: #47525d;
             text-align: justify;
         }
 
