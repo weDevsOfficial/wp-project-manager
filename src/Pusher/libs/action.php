@@ -285,23 +285,32 @@ function PM_pusher_after_update_comment( $comment, $params ) {
 
     switch ( $type ) {
         case 'task_list':
-            $url = PM_pusher_task_list_url( $params['project_id'], $params['commentable_id'] );
-            $on = __( 'task list', 'wedevs-project-manager' );
+
+            $task_list = Task_List::get_results([ 'id' =>  $params['commentable_id']]);
+            $title     = $task_list['data']['title'];
+            $url       = PM_pusher_task_list_url( $params['project_id'], $params['commentable_id'] );
+            $on        = __( 'task list', 'wedevs-project-manager' );
             break;
 
         case 'task':
-            $url = PM_pusher_task_url( $params['project_id'], false, $params['commentable_id'] );
-            $on = __( 'task', 'wedevs-project-manager' );
+
+            $task  = Task::get_results([ 'id' =>  $params['commentable_id']]);
+            $title = $task['data']['title'];
+            $url   = PM_pusher_task_url( $params['project_id'], false, $params['commentable_id'] );
+            $on    = __( 'task', 'wedevs-project-manager' );
             break;
 
         case 'file':
-            $url = PM_pusher_file_url( $params['project_id'], $params['commentable_id'] );
-            $on = __( 'file', 'wedevs-project-manager' );
+            $url   = PM_pusher_file_url( $params['project_id'], $params['commentable_id'] );
+            $title = $on = __( 'file', 'wedevs-project-manager' );
             break;
 
         case 'discussion_board':
-            $url = PM_pusher_message_url( $params['project_id'], $params['commentable_id'] );
-            $on = __( 'discussion board', 'wedevs-project-manager' );
+
+            $discuss = Discussion_Board::find( $params['commentable_id'] );
+            $title   = $discuss->title;
+            $url     = PM_pusher_message_url( $params['project_id'], $params['commentable_id'] );
+            $on      = __( 'discussion board', 'wedevs-project-manager' );
             break;
     }
 
@@ -310,11 +319,26 @@ function PM_pusher_after_update_comment( $comment, $params ) {
 
     $users = empty( $params['notify_users'] ) ? [] : explode( ',', $params['notify_users'] );
 
+    $nc_message = sprintf(
+        '<strong>%1$s</strong> %2$s <strong>%3$s</strong>',
+        ucfirst( $creator ),
+        __( 'updated comment on a', 'wedevs-project-manager' ),
+        $title
+    );
+
     foreach ( $users as $user_id ) {
         if ( get_current_user_id() ==  $user_id ) {
             continue;
         }
+
         $channels[] = $channel . '-' . $user_id;
+
+        pm_wp_notification_center( 
+            get_current_user_id(), 
+            $user_id, 
+            wp_kses_post( htmlspecialchars_decode( $nc_message ) ),
+            $url 
+        );
     }
 
     if ( empty( $channels ) ) {
@@ -373,21 +397,38 @@ function PM_pusher_file_url( $project_id, $file_id ) {
 function PM_pusher_after_new_message( $message, $params, $discussion_board ) {
     $channel = PM_pusher_channel();
     $event   = PM_pusher_get_event( 'message_create' );
-
+    $creator = $discussion_board->creator->display_name;
+    $title   = $discussion_board->title;
+    
     $users = empty( $params['notify_users'] ) ? [] : explode( ',', $params['notify_users'] );
+    $url     = PM_pusher_message_url( $params['project_id'], $message['data']['id'] );
+    $nc_message = sprintf(
+        '<strong>%1$s</strong> %2$s <strong>%3$s</strong>',
+        ucfirst( $creator ),
+        __( 'started a new discussion on', 'wedevs-project-manager' ),
+        $title
+    );
 
     foreach ( $users as $user_id ) {
         if ( get_current_user_id() ==  $user_id ) {
             continue;
         }
+
         $channels[] = $channel . '-' . $user_id;
+
+        pm_wp_notification_center( 
+            get_current_user_id(), 
+            $user_id, 
+            wp_kses_post( htmlspecialchars_decode( $nc_message ) ),
+            $url 
+        );
     }
 
     if ( empty( $channels ) ) {
         return;
     }
 
-    $url = PM_pusher_message_url( $params['project_id'], $message['data']['id'] );
+    
     $message = sprintf( '%s <a class="pm-pro-pusher-anchor" target="_blank" style="color: #fff; text-decoration: underline;" href="'.$url.'">%s</a>', __( "You've got a new", 'wedevs-project-manager' ), __( 'messsage', 'wedevs-project-manager' ) );
 
     Pusher::trigger( $channels, $event, array(
@@ -399,21 +440,39 @@ function PM_pusher_after_new_message( $message, $params, $discussion_board ) {
 function PM_pusher_after_update_message( $mesage, $params, $discussion_board ) {
     $channel = PM_pusher_channel();
     $event   = PM_pusher_get_event( 'message_update' );
+    
+    $updater = $discussion_board->updater->display_name;
+    $title   = $discussion_board->title;
 
     $users = empty( $params['notify_users'] ) ? [] : explode( ',', $params['notify_users'] );
+    $url = PM_pusher_message_url( $params['project_id'], $mesage['data']['id'] );
+
+    $nc_message = sprintf(
+        '<strong>%1$s</strong> %2$s <strong>%3$s</strong>',
+        ucfirst( $updater ),
+        __( 'updated discussion on a', 'wedevs-project-manager' ),
+        $title
+    );
 
     foreach ( $users as $user_id ) {
         if ( get_current_user_id() ==  $user_id ) {
             continue;
         }
+
         $channels[] = $channel . '-' . $user_id;
+
+        pm_wp_notification_center( 
+            get_current_user_id(), 
+            $user_id, 
+            wp_kses_post( htmlspecialchars_decode( $nc_message ) ),
+            $url 
+        );
     }
 
     if ( empty( $channels ) ) {
         return;
     }
 
-    $url = PM_pusher_message_url( $params['project_id'], $mesage['data']['id'] );
     $message = sprintf( '<a class="pm-pro-pusher-anchor" target="_blank" style="color: #fff; text-decoration: underline;" href="'.$url.'">%s</a> %s', __( 'Message', 'wedevs-project-manager' ), __( 'has been updated', 'wedevs-project-manager' ) );
 
     Pusher::trigger( $channels, $event, array(
@@ -423,7 +482,7 @@ function PM_pusher_after_update_message( $mesage, $params, $discussion_board ) {
 }
 
 function PM_pusher_message_url( $project_id, $message_id ) {
-    $is_admin = empty( intval( pm_clean( $_POST['is_admin'] ) ) ) ? false : true;
+    $is_admin = empty( $_POST['is_admin'] ) ? false : true;
     return pm_get_discuss_url( $project_id, $message_id, $is_admin );
 }
 
