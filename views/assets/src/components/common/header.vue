@@ -3,7 +3,7 @@
         <div class="project-title">
             <span class="title">{{ project.title }}</span>
             
-            <div class="pm-title-edit-settings" v-if="is_manager()">
+            <div class="settings first header-settings" v-if="is_manager()">
                 <pm-popper trigger="click" :options="popperOptions" :force-show="projectFormStatus">
                     <div class="pm-popper popper">
                         <edit-project v-if="is_manager()" class="project-edit-form" :project="project" @makeFromClose="makeFromClose"></edit-project>
@@ -13,7 +13,7 @@
                     
                 </pm-popper>
             </div>
-            <div class="settings header-settings" v-if="is_manager()">
+            <div class="action-settings settings header-settings" v-if="is_manager()">
                 <pm-popper trigger="click" :options="popperOptions">
                     <div class="pm-popper popper">
                         <div v-if="is_manager()" class="pm-action-menu-container">
@@ -41,10 +41,18 @@
                         </div>
                     </div>
                     <!-- popper trigger element -->
-                    <span  slot="reference" :title="__( 'action', 'wedevs-project-manager')" class="pm-popper-ref popper-ref icon-pm-settings header-settings-btn"></span>
+                    <a href="#" @click.prevent="" slot="reference" :title="__( 'action', 'wedevs-project-manager')" class="pm-popper-ref popper-ref icon-pm-settings header-settings-btn"></a>
                 </pm-popper>
 
                 <!-- <a href="#" v-if="is_manager()" @click.prevent="showHideSettings()" class="icon-pm-settings header-settings-btn"></a> -->
+            </div>
+            <div class="settings last header-settings">
+                <a 
+                    v-tooltip.top-center="__( 'Project Description', 'wedevs-project-manager' )"
+                    href="#" 
+                    class="flaticon-text-document"
+                    @click.prevent="updateDescriptionVisibility()"
+                />
             </div>
 
         </div>
@@ -55,10 +63,9 @@
 
         <div 
             class="description"
-            v-if="project.description.content"
+            v-if="project.description.content && showDescription"
             v-text="project.description.content"
         />
-
     </div> 
     
 </template>
@@ -79,10 +86,9 @@
             text-align: justify;
         }
 
-        .pm-title-edit-settings {
-            border-right: 1px solid #E5E4E4;
+        .settings.header-settings {
             position: relative;
-            
+
             .project-edit-form {
                 left: 0;
                 white-space: nowrap;
@@ -181,29 +187,6 @@
                 white-space: nowrap;
             }
             
-            .icon-pm-pencil {
-                border: 1px solid #E5E4E4;
-                background: #fff;
-                color: #95A5A6;
-                padding: 0px 10px;
-                border-radius: 3px;
-                cursor: pointer;
-                border-top-right-radius: 0px;
-                border-bottom-right-radius: 0px;
-                height: 30px;
-                display: flex;
-                align-items: center;
-                z-index: 9;
-
-                &:hover {
-                    border: 1px solid #1A9ED4;
-                    color: #1A9ED4;
-                    
-                    &:before {
-                        color: #1A9ED4;
-                    }
-                }
-            }
         }
 
         .settings {
@@ -211,24 +194,32 @@
             display: flex;
             align-items: center;
             border: 1px solid #E5E4E4;
+            border-right-color: #fff;
             background: #fff;
             color: #95A5A6;
-            border-radius: 3px;
             cursor: pointer;
-            border-left-color: #fff;
-            border-top-left-radius: 0px;
-            border-bottom-left-radius: 0px;
-            margin-left: -1px;
+
             &:hover {
-                border: 1px solid #1A9ED4;
-                color: #1A9ED4;
-                z-index: 99;
-                
-                .icon-pm-settings {
+                border-color: #1A9ED4;
+
+                .icon-pm-settings, .flaticon-text-document, .icon-pm-pencil {
                     &:before {
                         color: #1A9ED4;
 
                     }
+                }
+            }
+
+            .flaticon-text-document {
+                height: 28px;
+                padding: 0 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #95A5A6;
+
+                &:before {
+                    font-size: 1rem;
                 }
             }
 
@@ -237,6 +228,17 @@
                 padding: 0 10px;
                 display: flex;
                 align-items: center;
+            }
+
+            .icon-pm-pencil {
+                height: 28px;
+                color: #95A5A6;
+                padding: 0px 10px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 9;
             }
 
             .pm-action-menu-container {
@@ -282,6 +284,21 @@
                 }
             }
         }
+
+        .settings.first {
+            border-top-left-radius: 3px;
+            border-bottom-left-radius: 3px;
+        }
+
+        .settings.last {
+            border-top-right-radius: 3px;
+            border-bottom-right-radius: 3px;
+            border-right: 1px solid #E5E4E4;
+
+            &:hover {
+                border-right-color: #1A9ED4;
+            }
+        }
     }
     
     @media (max-width: 767px){
@@ -321,7 +338,7 @@
                         } 
                     }
                 },
-                projectFormStatus : false
+                projectFormStatus : false,
             }
 
         },
@@ -343,6 +360,7 @@
                 
                 return jQuery.isEmptyObject(project) ? false : true;
             },
+
             is_project_edit_mode () {
                 return this.$store.state.is_project_form_active;
             },
@@ -350,10 +368,15 @@
             project () {
                 return  this.$store.state.project;
             },
+
             hasProject () {
 
                 return this.$store.state.project.hasOwnProperty('id');
             },
+
+            showDescription () {
+                return this.$store.state.showDescription;
+            }
 
         },
         
@@ -370,6 +393,11 @@
         },
 
         methods: {
+            updateDescriptionVisibility () {
+                let status = this.showDescription ? false : true;
+                this.$store.commit( 'updateShowDescription', status );
+            },
+
             windowActivity (el) {
                 
                 var settingsWrap  = jQuery(el.target).closest('.header-settings'),
