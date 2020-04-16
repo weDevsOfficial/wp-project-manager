@@ -28,6 +28,7 @@ use WeDevs\PM\Task_List\Transformers\List_Task_Transformer;
 use WeDevs\PM\Activity\Models\Activity;
 use WeDevs\PM\Activity\Transformers\Activity_Transformer;
 use WeDevs\PM\Task_List\Controllers\Task_List_Controller as Task_List_Controller;
+use WeDevs\PM\Task\Observers\Task_Observer;
 
 
 class Task_Controller {
@@ -1160,6 +1161,12 @@ class Task_Controller {
         }
 
         $newTask = $this->replicate( $task, $task_data );
+
+        $meta = [
+            'task_title' => $newTask->title,
+        ];
+
+        Task_Observer::log_activity( $newTask, 'create_task', 'create', $meta );
 
         // Include task and task list
         $boardable_data['boardable_id'] = $newTask->id;
