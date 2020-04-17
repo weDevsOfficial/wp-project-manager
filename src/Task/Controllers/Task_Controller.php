@@ -755,6 +755,13 @@ class Task_Controller {
     public function filter( WP_REST_Request $request ) {
         $per_page     = pm_get_setting( 'list_per_page' );
         $per_page     = empty( $per_page ) ? 20 : $per_page;
+
+        $it_per_page   = pm_get_setting( 'incomplete_tasks_per_page' );
+        $it_per_page   = empty( $per_page ) ? 20 : intval( $per_page );
+
+        $ct_per_page   = pm_get_setting( 'complete_tasks_per_page' );
+        $ct_per_page   = empty( $per_page ) ? 20 : intval( $per_page );
+
         $page         = $request->get_param('page');
         $project_id   = $request->get_param('project_id');
 

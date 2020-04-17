@@ -955,11 +955,33 @@ var PM_TaskList_Mixin = {
             if (typeof list.incomplete_tasks === 'undefined') {
                 return false;
             }
+            // let lists     = this.$store.state.projectTaskLists.lists; 
+            // let listIndex = this.getIndex( lists, pareseInt( listId ), 'id' );
+            // let list      = lists[listIndex];
 
-            var count_tasks = list.meta.total_incomplete_tasks;
-            var total_set_task = list.incomplete_tasks.data.length;
+            var totalIncompleteTasks = list.meta.total_incomplete_tasks;
+            var countLocalStore      = list.incomplete_tasks.data.length;
 
-            if (total_set_task === count_tasks) {
+            if ( parseInt(countLocalStore) >= parseInt(totalIncompleteTasks) ) {
+                return false;
+            }
+
+            return true;
+        },
+
+        /**
+         * Complete task load more Button
+         * @param  {[Object]}  list [Task List object]
+         * @return {Boolean}      [description]
+         */
+        isCompleteLoadMoreActive ( list ) {
+
+            if (typeof list.complete_tasks === 'undefined') {
+                return false;
+            }
+            var count_tasks = list.meta.total_complete_tasks;
+            var total_set_task = list.complete_tasks.data.length;
+            if ( total_set_task === count_tasks ) {
                 return false;
             }
             return true;
@@ -999,23 +1021,6 @@ var PM_TaskList_Mixin = {
             } ;
 
             this.getList( args );
-        },
-
-        /**
-         * Complete task load more Button
-         * @param  {[Object]}  list [Task List object]
-         * @return {Boolean}      [description]
-         */
-        isCompleteLoadMoreActive ( list ) {
-            if (typeof list.complete_tasks === 'undefined') {
-                return false;
-            }
-            var count_tasks = list.meta.total_complete_tasks;
-            var total_set_task = list.complete_tasks.data.length;
-            if ( total_set_task === count_tasks ) {
-                return false;
-            }
-            return true;
         },
 
         /**
