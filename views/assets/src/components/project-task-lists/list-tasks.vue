@@ -38,7 +38,7 @@
             v-if="isCompleteLoadMoreActive(list) && showCompletedTask"
             class="nonsortable more-task-wrap">
 
-            <div v-if="isCompleteLoadMoreActive(list)" class="group-action-btn">
+            <div class="group-action-btn">
                 <a :class="completedLoadMore ? 'anchor-btn white-text' : 'anchor-btn'" @click.prevent="selfLoadMoreCompleteTasks(list)" href="#">{{ __( 'More Tasks', 'wedevs-project-manager') }}</a>
                 <span v-if="completedLoadMore" class="pm-circle-spinner"></span>
             </div>
