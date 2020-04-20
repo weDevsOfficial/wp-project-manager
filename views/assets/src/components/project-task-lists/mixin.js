@@ -670,7 +670,8 @@ var PM_TaskList_Mixin = {
                 success (res) {
                     self.$store.commit( 'projectTaskLists/afterDeleteTask', {
                         'task': args.task,
-                        'list': args.list 
+                        'list': args.list,
+                        'dbList': res.list 
                     });
                     pm.Toastr.success(res.message);
                     self.$store.commit('updateProjectMeta', 'total_activities');
