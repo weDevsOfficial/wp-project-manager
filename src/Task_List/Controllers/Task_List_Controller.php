@@ -192,15 +192,27 @@ class Task_List_Controller {
     public function show( WP_REST_Request $request ) {
         $project_id   = $request->get_param( 'project_id' );
         $task_list_id = $request->get_param( 'task_list_id' );
-        $with = $request->get_param( 'with' );
-        $with = explode( ',', $with );
+        $with         = $request->get_param( 'with' );
+        
+        return $this->get_list( [
+            'project_id'   => $request->get_param( 'project_id' ),
+            'task_list_id' => $request->get_param( 'task_list_id' ),
+            'with'         => $request->get_param( 'with' )
+        ] );
+    }
+
+    public function get_list( $params ) {
+        $project_id   = $params['project_id'];
+        $task_list_id = $params['task_list_id'];
+        $with         = empty( $params['with'] ) ? false : $params['with']; 
+        $with         = is_array( $with ) ? explode( ',', $with ) : [];
 
         $task_list = Task_List::select(pm_tb_prefix().'pm_boards.*')
             //->with( 'tasks' )
             ->where( pm_tb_prefix().'pm_boards.id', $task_list_id )
             ->where( pm_tb_prefix().'pm_boards.project_id', $project_id );
 
-            $task_list = apply_filters("pm_task_list_show_query", $task_list, $project_id, $request );
+            $task_list = apply_filters("pm_task_list_show_query", $task_list, $project_id, $params );
 
             $task_list = $task_list->first();
 
