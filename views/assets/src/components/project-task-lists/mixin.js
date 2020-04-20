@@ -976,14 +976,26 @@ var PM_TaskList_Mixin = {
          */
         isCompleteLoadMoreActive ( list ) {
 
+            if(typeof this.$route.query.filterTask != 'undefined') {
+                if(this.$route.query.filterTask == 'active') {
+                    if(this.$route.query.status == 'incomplete') {
+                        
+                        return false;
+                    }
+                }
+            }
+
             if (typeof list.complete_tasks === 'undefined') {
                 return false;
             }
-            var count_tasks = list.meta.total_complete_tasks;
-            var total_set_task = list.complete_tasks.data.length;
-            if ( total_set_task === count_tasks ) {
+
+            var totalCompleteTasks = list.meta.total_complete_tasks;
+            var countLocalStore = list.complete_tasks.data.length;
+            
+            if ( parseInt(countLocalStore) >= parseInt(totalCompleteTasks) ) {
                 return false;
             }
+
             return true;
         },
 

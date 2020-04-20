@@ -254,7 +254,7 @@ export default {
          */
         afterTaskDoneUndone: function( state, data ) {
             var list_index = state.getIndex( state.lists, data.list_id, 'id' );
-            
+            console.log(data);
             if (data.status === 1) {
                 if (typeof state.lists[list_index].incomplete_tasks == 'undefined') {
                     return;
