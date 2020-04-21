@@ -45,10 +45,17 @@ export default new pm.Vuex.Store({
         history: {
             to: {},
             from: {}
-        }
+        },
+        showDescription: false
     },
 
     mutations: {
+        updateShowDescription( state, status ) {
+            status = status || false;
+
+            state.showDescription = status;
+        },
+
         afterDeleteProjectCount (state, project) {
             if (typeof project.project === 'undefined') {
                 return;

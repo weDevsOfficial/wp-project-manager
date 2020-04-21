@@ -145,7 +145,7 @@ class Task_Observer extends Model_Observer {
         $this->log_activity( $item, 'update_task_status', 'update', $meta );
     }
 
-    private function log_activity( Task $item, $action, $action_type, $meta = null ) {
+    public static function log_activity( Task $item, $action, $action_type, $meta = null ) {
         Activity::create([
             'actor_id'      => get_current_user_id(),
             'action'        => $action,

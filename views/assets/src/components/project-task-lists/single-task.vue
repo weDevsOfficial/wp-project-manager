@@ -183,7 +183,7 @@
                                     />
                                 </span>
 
-                                <span  v-if="!task.status" id="pm-calendar-wrap"  v-pm-tooltip :title="__('Date', 'wedevs-project-manager')" @click.prevent="isTaskDateEditMode()" class="individual-group-icon calendar-group icon-pm-calendar pm-font-size-16">
+                                <span id="pm-calendar-wrap"  v-pm-tooltip :title="__('Date', 'wedevs-project-manager')" @click.prevent="isTaskDateEditMode()" class="individual-group-icon calendar-group icon-pm-calendar pm-font-size-16">
                                     <span v-if="(task.start_at.date || task.due_date.date )" :class="taskDateWrap(task.due_date.date) + ' pm-task-date-wrap pm-date-window'">
 
                                         <span :title="getFullDate(task.start_at.datetime)" v-if="task_start_field">
@@ -945,6 +945,10 @@
 
             isTaskDateEditMode () {
                 if (this.isArchivedTaskList(this.task)) {
+                    return this.is_task_date_edit_mode = false;
+                }
+                
+                if( this.task.status ) {
                     return this.is_task_date_edit_mode = false;
                 }
 

@@ -31,7 +31,7 @@ use WeDevs\PM\Task_List\Controllers\Task_List_Controller as Task_List_Controller
 use WeDevs\PM\Settings\Controllers\Task_Types_Controller;
 use WeDevs\PM\Settings\Models\Task_Type_Task;
 use WeDevs\PM\task\Helper\Task as Task_Helper;
-
+use WeDevs\PM\Task\Observers\Task_Observer;
 
 class Task_Controller {
 
@@ -481,6 +481,10 @@ class Task_Controller {
             ->where( 'project_id', $project_id )
             ->first();
 
+        $resource = new Item( $task, new Task_Transformer );
+        $resource = $this->get_response( $resource );
+        $list_id  = $resource['data']['task_list_id'];
+
         do_action( "pm_before_delete_task", $task, $data );
         do_action( 'cpm_delete_task_prev', $task_id, $project_id, $project_id, $task );
 
@@ -505,13 +509,22 @@ class Task_Controller {
         // Delete the task
         $task->delete();
 
+        $list = ( new Task_List_Controller )->get_list( [
+            'project_id'   => $project_id,
+            'task_list_id' => $list_id
+        ] );
+
         do_action( 'cpm_delete_task_after', $task_id, $project_id );
         do_action( 'pm_after_delete_task', $task_id, $project_id );
 
-        return $message = [
+        $message = [
             'message' => pm_get_text('success_messages.task_deleted'),
             'activity' => $self->last_activity( 'task', $task->id ),
+            'task'     => $resource,
+            'list'     => $list
         ];
+
+        return $this->get_response( $resource, $message ); 
     }
 
     public function destroy( WP_REST_Request $request ) {
@@ -524,6 +537,10 @@ class Task_Controller {
             ->where( 'project_id', $project_id )
             ->first();
 
+        $resource = new Item( $task, new Task_Transformer );
+        $resource = $this->get_response( $resource );
+        $list_id  = $resource['data']['task_list_id'];
+        
         do_action("pm_before_delete_task", $task, $request->get_params() );
         do_action( 'cpm_delete_task_prev', $task_id, $project_id, $project_id, $task );
 
@@ -547,15 +564,22 @@ class Task_Controller {
         // Delete the task
         $task->delete();
 
+        $list = ( new Task_List_Controller )->get_list( [
+            'project_id'   => $project_id,
+            'task_list_id' => $list_id
+        ] );
+
         do_action( 'cpm_delete_task_after', $task_id, $project_id );
         do_action( 'pm_after_delete_task', $task_id, $project_id );
 
         $message = [
-            'message' => pm_get_text('success_messages.task_deleted'),
+            'message'  => pm_get_text('success_messages.task_deleted'),
             'activity' => $this->last_activity( 'task', $task->id ),
+            'task'     => $resource,
+            'list'     => $list
         ];
 
-        return $this->get_response(false, $message);
+        return array_merge( $resource, $message );
     }
 
     public function attach_to_board( WP_REST_Request $request ) {
@@ -713,11 +737,23 @@ class Task_Controller {
             }
         }
 
+        $list = ( new Task_List_Controller )->get_list( [
+            'project_id'   => $project_id,
+            'task_list_id' => $list_id
+        ] );
+
+        $sender_list = ( new Task_List_Controller )->get_list( [
+            'project_id'   => $project_id,
+            'task_list_id' => $sender_list_id
+        ] );
+
         wp_send_json_success( [
             'task'           => $task,
             'sender_list_id' => $sender_list_id,
             'list_id'        => $list_id,
-            'project_id'     => $project_id
+            'project_id'     => $project_id,
+            'receive_list'           => $list,
+            'sender_list'    => $sender_list
         ] );
     }
 
@@ -839,6 +875,13 @@ class Task_Controller {
     public function filter( WP_REST_Request $request ) {
         $per_page     = pm_get_setting( 'list_per_page' );
         $per_page     = empty( $per_page ) ? 20 : $per_page;
+
+        $it_per_page   = pm_get_setting( 'incomplete_tasks_per_page' );
+        $it_per_page   = empty( $per_page ) ? 20 : intval( $per_page );
+
+        $ct_per_page   = pm_get_setting( 'complete_tasks_per_page' );
+        $ct_per_page   = empty( $per_page ) ? 20 : intval( $per_page );
+
         $page         = $request->get_param('page');
         $project_id   = $request->get_param('project_id');
 
@@ -1245,6 +1288,12 @@ class Task_Controller {
         }
 
         $newTask = $this->replicate( $task, $task_data );
+
+        $meta = [
+            'task_title' => $newTask->title,
+        ];
+
+        Task_Observer::log_activity( $newTask, 'create_task', 'create', $meta );
 
         // Include task and task list
         $boardable_data['boardable_id'] = $newTask->id;
