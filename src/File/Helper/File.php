@@ -211,7 +211,7 @@ class File {
 		}
 
 		foreach ( $this->files as $key => $file ) {
-			$c_updater = empty( $items[$file->created_by] ) ? [] : $items[$file->created_by];
+			$c_updater = empty( $items[$file->updated_by] ) ? [] : $items[$file->updated_by];
 
 			$file->updater = [ 'data' => $c_updater ];
 		}
