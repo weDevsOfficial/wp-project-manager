@@ -972,4 +972,42 @@ function pm_can_create_user_at_project_create_time() {
     return apply_filters( 'pm_can_create_user_at_project_create_time', true );
 }
 
+function pm_get_estimation_type() { 
+    if( ! pm_pro_is_module_active( 'sub_tasks/sub_tasks.php' ) ) {
+        return 'task';
+    }
+
+    $db_est_type = pm_get_setting( 'estimation_type' );
+
+    if ( empty( $db_est_type ) ) {
+        return 'task';
+    }
+
+    return $db_est_type;
+}
+
+function pm_second_to_time( $seconds ) {
+    $total_second = $seconds;
+    // extract hours
+    $hours = floor( $seconds / (60 * 60) );
+
+    // extract minutes
+    $divisor_for_minutes = $seconds % (60 * 60);
+    $minutes = floor( $divisor_for_minutes / 60 );
+
+    // extract the remaining seconds
+    $divisor_for_seconds = $divisor_for_minutes % 60;
+    $seconds = ceil( $divisor_for_seconds );
+
+    // return the final array
+    $obj = array(
+        'hour' => str_pad( (int) $hours, 2, '0', STR_PAD_LEFT ),
+        'minute' => str_pad( (int) $minutes, 2, '0', STR_PAD_LEFT ),
+        'second' => str_pad( (int) $seconds, 2, '0', STR_PAD_LEFT ),
+        'total_second' => $total_second
+    );
+
+    return $obj;
+}
+
 

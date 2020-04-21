@@ -707,9 +707,9 @@
                         
                     }
                 }
-                this.loadMoreCompleteTasks(list, function(res) {
+                this.loadMoreCompleteTasks( list, function(res) {
                     self.showCompletedTask = true;
-                });
+                } );
             },
             showHideCompletedTask() {
                 this.showCompletedTask = this.showCompletedTask ? false : true;

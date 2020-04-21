@@ -22,6 +22,8 @@ use Illuminate\Pagination\Paginator;
 use WeDevs\PM\Common\Models\Board;
 use WeDevs\PM\Task_List\Transformers\List_Task_Transformer;
 use WeDevs\PM\Task\Controllers\Task_Controller as Task_Controller;
+use WeDevs\PM\task\Helper\Task as Helper_Task;
+
 
 
 class Task_List_Controller {
@@ -202,11 +204,16 @@ class Task_List_Controller {
     }
 
     public function get_list( $params ) {
+
+        $with = empty( $params['with'] ) ? [] : $params['with'];
+        
+        if ( ! is_array( $with ) ) {
+            $with = explode( ',', str_replace(' ', '', $with ) );
+        }
+
         $project_id   = $params['project_id'];
         $task_list_id = $params['task_list_id'];
-        $with         = empty( $params['with'] ) ? false : $params['with']; 
-        $with         = is_array( $with ) ? explode( ',', $with ) : [];
-
+        
         $task_list = Task_List::select(pm_tb_prefix().'pm_boards.*')
             //->with( 'tasks' )
             ->where( pm_tb_prefix().'pm_boards.id', $task_list_id )
@@ -222,15 +229,15 @@ class Task_List_Controller {
             ] );
         }
 
-        $resource = new Item( $task_list, new Task_List_Transformer );
+        $resource = new Item( $task_list, new New_Task_List_Transformer );
 
         $list =  $this->get_response( $resource );
         $list_id = [$task_list_id];
 
         if ( in_array( 'incomplete_tasks', $with ) ) {
             $incomplete_task_ids = ( new Task_Controller )->get_incomplete_task_ids( $list_id, $project_id );
-            $incomplete_tasks    = ( new Task_Controller )->get_tasks( $incomplete_task_ids );
-
+            $incomplete_tasks    = Helper_Task::get_results( ['id' => $incomplete_task_ids] );
+            
             $list['data']['incomplete_tasks']['data'] = $incomplete_tasks['data'];
         }
 
