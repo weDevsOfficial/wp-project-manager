@@ -1008,7 +1008,7 @@ var PM_TaskList_Mixin = {
         loadMoreIncompleteTasks ( list, callback ) {
             callback = callback || false;
             if ( list.task_loading_status ) {
-                return;
+                //return;
             }
             var self = this;
             list.task_loading_status = true;
