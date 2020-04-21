@@ -459,31 +459,22 @@ class Milestone {
 	 * @return class object
 	 */
 	private function where_id() {
-		global $wpdb;
-		$id = isset( $this->query_params['id'] ) ? $this->query_params['id'] : false;
+		$id = isset( $this->query_params['id'] ) ? $this->query_params['id'] : false; 
 
 		if ( empty( $id ) ) {
 			return $this;
 		}
 
-		if ( is_array( $id ) ) {
-			//$query_id = implode( ',', $id );
-			$query_format = pm_get_prepare_format( $id );
-			$this->where .= $wpdb->prepare( " AND {$this->tb_milestone}.id IN ($query_format)", $id );
-			// $this->where .= " AND {$this->tb_milestone}.id IN ($query_id)";
+		global $wpdb;
+		$format     = pm_get_prepare_format( $id );
+		$format_ids = pm_get_prepare_data( $id );
+
+		$this->where .= $wpdb->prepare( " AND {$this->tb_milestone}.id IN ($format)", $format_ids );
+
+		if ( count( $format_ids ) == 1 ) {
+			$this->is_single_query = true;
 		}
-
-		if ( !is_array( $id ) ) {
-			// $this->where .= " AND {$this->tb_milestone}.id IN ($id)";
-			$this->where .= $wpdb->prepare( " AND {$this->tb_milestone}.id IN (%d)", $id );
-
-			$explode = explode( ',', $id );
-
-			if ( count( $explode ) == 1 ) {
-				$this->is_single_query = true;
-			}
-		}
-
+		
 		return $this;
 	}
 
