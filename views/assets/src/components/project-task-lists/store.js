@@ -218,7 +218,7 @@ export default {
                 }                
             }
 
-            state.lists[list_index].meta.total_incomplete_tasks = state.lists[list_index].meta.total_incomplete_tasks + 1;
+            state.lists[list_index].meta = Object.assign( state.lists[list_index].meta, data.task.task_list.data.meta );
         },
 
         /**
@@ -255,7 +255,7 @@ export default {
         afterTaskDoneUndone: function( state, data ) {
             var list_index = state.getIndex( state.lists, data.list_id, 'id' );
             
-            if (data.status === 1) {
+            if (data.status == 1) {
                 if (typeof state.lists[list_index].incomplete_tasks == 'undefined') {
                     return;
                 }
@@ -273,11 +273,11 @@ export default {
                 }
 
                 state.lists[list_index].incomplete_tasks.data.splice(task_index, 1);
-                state.lists[list_index].meta.total_complete_tasks = state.lists[list_index].meta.total_complete_tasks + 1;
-                state.lists[list_index].meta.total_incomplete_tasks = state.lists[list_index].meta.total_incomplete_tasks - 1;
+                //state.lists[list_index].meta.total_complete_tasks = state.lists[list_index].meta.total_complete_tasks + 1;
+                //state.lists[list_index].meta.total_incomplete_tasks = state.lists[list_index].meta.total_incomplete_tasks - 1;
             }
 
-            if (data.status === 0) {
+            if (data.status == 0) {
                 if (typeof state.lists[list_index].complete_tasks == 'undefined') {
                     return;
                 }
@@ -293,9 +293,11 @@ export default {
                 }
 
                 state.lists[list_index].complete_tasks.data.splice(task_index, 1);
-                state.lists[list_index].meta.total_complete_tasks = state.lists[list_index].meta.total_complete_tasks - 1;
-                state.lists[list_index].meta.total_incomplete_tasks = state.lists[list_index].meta.total_incomplete_tasks + 1;
+                //state.lists[list_index].meta.total_complete_tasks = state.lists[list_index].meta.total_complete_tasks - 1;
+                //state.lists[list_index].meta.total_incomplete_tasks = state.lists[list_index].meta.total_incomplete_tasks + 1;
             }
+
+            state.lists[list_index].meta = Object.assign( state.lists[list_index].meta, data.task.task_list.data.meta );
         },
 
         /**
@@ -429,17 +431,18 @@ export default {
          */
         afterDeleteTask: function( state, data ) {
             var list_index = state.getIndex(state.lists, data.list.id, 'id');
-
+            
             if ( data.task.status === false || data.task.status === 'incomplete' ) {
                 var task_index = state.getIndex(state.lists[list_index].incomplete_tasks.data, data.task.id, 'id');
                 state.lists[list_index].incomplete_tasks.data.splice(task_index, 1);
-                state.lists[list_index].meta.total_incomplete_tasks = state.lists[list_index].meta.total_incomplete_tasks - 1;
+                //state.lists[list_index].meta.total_incomplete_tasks = state.lists[list_index].meta.total_incomplete_tasks - 1;
             } else {
                 var task_index = state.getIndex(state.lists[list_index].complete_tasks.data, data.task.id, 'id');
                 state.lists[list_index].complete_tasks.data.splice(task_index, 1);
-                state.lists[list_index].meta.total_incomplete_tasks = state.lists[list_index].meta.total_complete_tasks - 1;
+                //state.lists[list_index].meta.total_incomplete_tasks = state.lists[list_index].meta.total_complete_tasks - 1;
             }
-            
+
+            state.lists[list_index].meta = state.lists[list_index].meta = Object.assign( state.lists[list_index].meta, data.dbList.data.meta );
         },
 
         /**
@@ -652,13 +655,14 @@ export default {
         },
 
         receiveTask (state, data) {
-            var receive = data.receive;
-            var res = data.res;
-            var setListindex = state.getIndex(state.lists, receive.list_id, 'id');
+
+            var receive         = data.receive;
+            var res             = data.res;
+            var setListindex    = state.getIndex(state.lists, receive.list_id, 'id');
             var senderListindex = state.getIndex(state.lists, res.sender_list_id, 'id');
-            var setIndex = false;
-            var reverseIndex = 0;
-            var receiveOrders = [];
+            var setIndex        = false;
+            var reverseIndex    = 0;
+            var receiveOrders   = [];
             
             for (var i = receive.orders.length - 1; i >= 0; i--) {
                 
@@ -681,7 +685,9 @@ export default {
                 typeof state.lists[setListindex].incomplete_tasks != 'undefined' 
             ){
                 state.lists[setListindex].incomplete_tasks.data.splice(setIndex, 0, res.task.data);
-                state.lists[setListindex].meta.total_incomplete_tasks = state.lists[setListindex].meta.total_incomplete_tasks + 1;
+                //state.lists[setListindex].meta.total_incomplete_tasks = state.lists[setListindex].meta.total_incomplete_tasks + 1;
+                state.lists[setListindex].meta =  Object.assign( state.lists[setListindex].meta, data.res.receive_list.data.meta );
+
             } 
 
             if(
@@ -691,7 +697,8 @@ export default {
             ){
                 let task_index = state.getIndex(state.lists[senderListindex].incomplete_tasks.data, receive.task_id, 'id');
                 state.lists[senderListindex].incomplete_tasks.data.splice(task_index, 1);
-                state.lists[senderListindex].meta.total_incomplete_tasks = state.lists[senderListindex].meta.total_incomplete_tasks - 1;
+                //state.lists[senderListindex].meta.total_incomplete_tasks = state.lists[senderListindex].meta.total_incomplete_tasks - 1;
+                state.lists[senderListindex].meta =  Object.assign( state.lists[senderListindex].meta, data.res.sender_list.data.meta );
             } 
         },
 

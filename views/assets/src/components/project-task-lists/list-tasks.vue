@@ -27,18 +27,19 @@
                 </a>
             </div>
         </div>
-        
+     
         <ul v-if="showCompletedTask" :data-list_id="list.id"  class="complete-task-ul nonsortable pm-connected-sortable">
             <li :data-id="task.id" :data-order="task.order"  v-for="task in getCompleteTasks" :key="task.id" :class="'complete-task-li pm-fade-out-'+task.id">
                 <complete-tasks :task="task" :list="list"></complete-tasks>       
 
             </li>
         </ul>
+
         <div
             v-if="isCompleteLoadMoreActive(list) && showCompletedTask"
             class="nonsortable more-task-wrap">
 
-            <div v-if="isCompleteLoadMoreActive(list)" class="group-action-btn">
+            <div class="group-action-btn">
                 <a :class="completedLoadMore ? 'anchor-btn white-text' : 'anchor-btn'" @click.prevent="selfLoadMoreCompleteTasks(list)" href="#">{{ __( 'More Tasks', 'wedevs-project-manager') }}</a>
                 <span v-if="completedLoadMore" class="pm-circle-spinner"></span>
             </div>
@@ -505,7 +506,7 @@
     export default {
         
         // Get passing data for this component. Remember only array and objects are
-        props: ['list'],
+        props: ['list', 'isActiveFilter'],
 
         mixins: [Mixins],
 
@@ -560,6 +561,15 @@
                 },
 
                 deep: true
+            },
+            
+            //Open task filter form. search with complete task and close the form and close complete task wrap
+            "$route" (route, prev) {
+                if ( prev.query.filterTask == 'active' ) {
+                    if ( !this.isActiveFilter ) {
+                        this.showCompletedTask = false;
+                    }
+                } 
             }
         },
 
@@ -649,6 +659,7 @@
         },
 
         methods: { 
+
             selfLoadMoreCompleteTasks(list) {
                 var self = this;
                 this.completedLoadMore = true;
@@ -677,8 +688,9 @@
                 if(this.$route.query.filterTask == 'active' && this.$route.query.status == 'complete') {
                     this.showCompletedTask = true;
                     
-                }
+                } 
             },
+
             fetchCompleteTasks (list) {
                 var self = this;
 
