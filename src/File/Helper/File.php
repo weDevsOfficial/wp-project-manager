@@ -1,10 +1,10 @@
 <?php
 
-namespace WeDevs\PM\Comment\Helper;
+namespace WeDevs\PM\File\Helper;
 
-use WeDevs\PM\File\Helper\File;
+use WeDevs\PM\Core\File_System\File_System;
 
-class Comment {
+class File {
 
 	private static $_instance;
 	private $query_params;
@@ -14,8 +14,8 @@ class Comment {
 	private $limit;
 	private $orderby;
 	private $with = ['creator', 'updater'];
-	private $comments;
-	private $comment_ids;
+	private $files;
+	private $file_ids;
 	private $is_single_query = false;
 
 	public static function getInstance() {
@@ -30,10 +30,10 @@ class Comment {
     	$this->set_table_name();
     }
 
-    public static function get_task_comments( WP_REST_Request $request ) {
-		$comments = self::get_results( $request->get_params() );
+    public static function get_task_files( WP_REST_Request $request ) {
+		$files = self::get_results( $request->get_params() );
 
-		wp_send_json( $comments );
+		wp_send_json( $files );
 	}
 
 	public static function get_results( $params = [] ) {
@@ -48,7 +48,7 @@ class Comment {
 			->with()
 			->meta();
 
-		$response = $self->format_comments( $self->comments );
+		$response = $self->format_files( $self->files );
 
 		if( $self->is_single_query && count( $response['data'] ) ) {
 			return ['data' => $response['data'][0]] ;
@@ -60,28 +60,28 @@ class Comment {
 	/**
 	 * Format TaskMilestone data
 	 *
-	 * @param array $comments
+	 * @param array $files
 	 *
 	 * @return array
 	 */
-	public function format_comments( $comments ) {
+	public function format_files( $files ) {
 		$response = [
 			'data' => [],
 			'meta' => []
 		];
 
-		// if ( ! is_array( $comments ) ) {
-		// 	$response['data'] = $this->fromat_comment( $comments );
+		// if ( ! is_array( $files ) ) {
+		// 	$response['data'] = $this->fromat_file( $files );
 
 		// 	return $response;
 		// }
 
-		foreach ( $comments as $key => $comment ) {
-			$comments[$key] = $this->fromat_comment( $comment );
+		foreach ( $files as $key => $file ) {
+			$files[$key] = $this->fromat_file( $file );
 		}
 
-		$response['data']  = $comments;
-		$response ['meta'] = $this->set_comments_meta();
+		$response['data']  = $files;
+		$response ['meta'] = $this->set_files_meta();
 
 		return $response;
 	}
@@ -89,7 +89,7 @@ class Comment {
 	/**
 	 * Set meta data
 	 */
-	private function set_comments_meta() {
+	private function set_files_meta() {
 		return [
 			'pagination' => [
 				'total'   => $this->found_rows,
@@ -98,44 +98,30 @@ class Comment {
 		];
 	}
 
-	public function fromat_comment( $comment ) {
+	public function fromat_file( $file ) {
 		
-		$items =  [
-			'id'               => (int) $comment->id,
-            'content'          => pm_get_content( $comment->content ),
-            'commentable_type' => $comment->commentable_type,
-            'commentable_id'   => $comment->commentable_id,
-            'created_at'       => format_date( $comment->created_at ),
-            'meta'       => [
-                //'total_replies' => $comment->replies->count(),
-           	]
+        $items = [
+            'id'            => (int) $file->id,
+            'fileable_id'   => $file->fileable_id,
+            'fileable_type' => $file->fileable_type,
+            'directory'     => empty( $file->directory ) ? '' : $file->directory,
+            'attachment_id' => $file->attachment_id,
+            'attached_at'   => format_date( $file->created_at ),
+            //'fileable'      => $this->get_fileabel($file),
+            //'meta'          => $this->get_file_meta($file)
         ];
 
-        //$items = apply_filters( 'pm_comment_transform', $items, $comment );
+        $items = $this->set_attach_file( $items, $file ); 
+		$items = $this->item_with( $items, $file );
 
-		// $select_items = empty( $this->query_params['select'] ) ? null : $this->query_params['select'];
+		return apply_filters( 'pm_file_transform', $items, $file );
+	}
 
-		// if ( ! is_array( $select_items ) && !is_null( $select_items ) ) {
-		// 	$select_items = str_replace( ' ', '', $select_items );
-		// 	$select_items = explode( ',', $select_items );
-		// }
+	private function set_attach_file( $items, $file ) {
+		$attach_file = File_System::get_file( $file->attachment_id );
+        $attach_file = is_array( $attach_file ) ? $attach_file : [];
 
-		// if ( empty( $select_items ) ) {
-		// 	$items = $this->item_with( $items,$comment );
-		// 	$items = $this->item_meta( $items,$comment );
-		// 	return $items;
-		// }
-
-		// foreach ( $items as $item_key => $item ) {
-		// 	if ( ! in_array( $item_key, $select_items ) ) {
-		// 		unset( $items[$item_key] );
-		// 	}
-		// }
-
-		$items = $this->item_with( $items, $comment );
-		//$items = $this->item_meta( $items, $comment );
-
-		return apply_filters( 'pm_comment_transform', $items, $comment );
+        return array_merge( $items, $attach_file );
 	}
 
 	private function join() {
@@ -144,8 +130,7 @@ class Comment {
 
 	private function with() {
 		$this->creator()
-			->updater()
-			->files();
+			->updater();
 
 		return $this;
 	}
@@ -156,8 +141,8 @@ class Comment {
 		return $this;
 	}
 
-		/**
-	 * Filter comment by ID
+	/**
+	 * Filter file by ID
 	 *
 	 * @return class object
 	 */
@@ -172,7 +157,7 @@ class Comment {
 		$format     = pm_get_prepare_format( $id );
 		$format_ids = pm_get_prepare_data( $id );
 
-		$this->where .= $wpdb->prepare( " AND {$this->tb_comment}.id IN ($format)", $format_ids );
+		$this->where .= $wpdb->prepare( " AND {$this->tb_file}.id IN ($format)", $format_ids );
 
 		if ( count( $format_ids ) == 1 ) {
 			$this->is_single_query = true;
@@ -181,67 +166,13 @@ class Comment {
 		return $this;
 	}
 
-	private function files() {
-		global $wpdb;
-
-		if ( empty( $this->comment_ids ) ) {
-			return $this;
-		}
-
-		$with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
-		
-		if ( ! is_array( $with ) ) {
-			$with = explode( ',', str_replace(' ', '', $with ) );
-		}
-
-		if ( ! in_array( 'files', $with ) || empty( $this->comment_ids ) ) {
-			return $this;
-		}
-
-		$tb_files       = pm_tb_prefix() . 'pm_files';
-		$comment_format = pm_get_prepare_format( $this->comment_ids );
-		$query_data     = $this->comment_ids;
-
-		$query = "SELECT DISTINCT fil.id as file_id,
-			fil.fileable_id as comment_id
-			FROM $tb_files as fil
-			where fil.fileable_id IN ($comment_format)
-			AND fil.fileable_type=%s";
-
-		array_push( $query_data, 'comment' );
-		
-		$results  = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
-		$file_ids = wp_list_pluck( $results, 'file_id' );
-		
-		$files = File::get_results([
-			'id' => $file_ids
-		]);
-
-		$key_files = [];
-        $files['data'] = count( $file_ids ) == 1 && ! empty( $files ) ? [$files['data']] : $files['data'];
-
-        foreach ( $files['data'] as $key => $file ) {
-            $key_files[$file['id']] = $file;
-        }
-
-        foreach ( $results as $key => $result ) {
-            $files[$result->comment_id][] = $key_files[$result->file_id];
-        }
-
-        foreach ( $this->comments as $key => $comment ) {
-            $comment->files['data'] = empty( $files[$comment->id] ) ? [] : $files[$comment->id];
-        }
-        
-        return $this;
-	}
-
 	private function creator() {
 		
-		if ( empty( $this->comments ) ) {
+		if ( empty( $this->files ) ) {
 			return $this;
 		}
 
-		$creator_ids = wp_list_pluck( $this->comments, 'created_by' );
+		$creator_ids = wp_list_pluck( $this->files, 'created_by' );
 		$creator_ids = array_unique( $creator_ids );
 
 		$creators = pm_get_user( $creator_ids );
@@ -253,21 +184,21 @@ class Comment {
 			$items[$creator['id']] = $creator;
 		}
 
-		foreach ( $this->comments as $key => $comment ) {
-			$c_creator = empty( $items[$comment->created_by] ) ? [] : $items[$comment->created_by];
+		foreach ( $this->files as $key => $file ) {
+			$c_creator = empty( $items[$file->created_by] ) ? [] : $items[$file->created_by];
 
-			$comment->creator = [ 'data' => $c_creator ];
+			$file->creator = [ 'data' => $c_creator ];
 		}
 
 		return $this;
 	}
 
 	private function updater() {
-		if ( empty( $this->comments ) ) {
+		if ( empty( $this->files ) ) {
 			return $this;
 		}
 
-		$updater_ids = wp_list_pluck( $this->comments, 'updated_by' );
+		$updater_ids = wp_list_pluck( $this->files, 'updated_by' );
 		$updater_ids = array_unique( $updater_ids );
 
 		$updaters = pm_get_user( $updater_ids );
@@ -279,10 +210,10 @@ class Comment {
 			$items[$updater['id']] = $updater;
 		}
 
-		foreach ( $this->comments as $key => $comment ) {
-			$c_updater = empty( $items[$comment->created_by] ) ? [] : $items[$comment->created_by];
+		foreach ( $this->files as $key => $file ) {
+			$c_updater = empty( $items[$file->created_by] ) ? [] : $items[$file->created_by];
 
-			$comment->updater = [ 'data' => $c_updater ];
+			$file->updater = [ 'data' => $c_updater ];
 		}
 
 		return $this;
@@ -292,7 +223,7 @@ class Comment {
 		return $this;
 	}
 
-	private function item_with( $items, $comment ) {
+	private function item_with( $items, $file ) {
         $with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
 
         if ( ! is_array( $with ) ) {
@@ -301,14 +232,14 @@ class Comment {
 
         $with = array_merge( $this->with, $with );
         
-        $comment_with_items =  array_intersect_key( (array) $comment, array_flip( $with ) );
+        $file_with_items =  array_intersect_key( (array) $file, array_flip( $with ) );
 
-        $items = array_merge( $items, $comment_with_items );
+        $items = array_merge( $items, $file_with_items );
 
         return $items;
     }
 
-    	private function limit() {
+    private function limit() {
 		global $wpdb;
 		$per_page = isset( $this->query_params['per_page'] ) ? $this->query_params['per_page'] : false;
 
@@ -374,15 +305,15 @@ class Comment {
 			return intval( $per_page );
 		}
 
-		return 10;
+		return 20;
 	}
 
     private function get() {
 		global $wpdb;
 		$id = isset( $this->query_params['id'] ) ? $this->query_params['id'] : false;
 
-		$query = "SELECT SQL_CALC_FOUND_ROWS DISTINCT {$this->tb_comment}.*
-			FROM {$this->tb_comment}
+		$query = "SELECT SQL_CALC_FOUND_ROWS DISTINCT {$this->tb_file}.*
+			FROM {$this->tb_file}
 			{$this->join}
 			WHERE %d=%d {$this->where} 
 			{$this->orderby} {$this->limit}";
@@ -390,21 +321,22 @@ class Comment {
 		$results = $wpdb->get_results( $wpdb->prepare( $query, 1, 1 ) );
 
 		$this->found_rows = $wpdb->get_var( "SELECT FOUND_ROWS()" );
-		$this->comments = $results;
+		$this->files = $results;
 
 		if ( ! empty( $results ) && is_array( $results ) ) {
-			$this->comment_ids = wp_list_pluck( $results, 'id' );
+			$this->file_ids = wp_list_pluck( $results, 'id' );
 		}
 
 		if ( ! empty( $results ) && !is_array( $results ) ) {
-			$this->comment_ids = [$results->id];
+			$this->file_ids = [$results->id];
 		}
 
 		return $this;
 	}
 
     private function set_table_name() {
-		$this->tb_comment = pm_tb_prefix() . 'pm_comments';
+		$this->tb_file = pm_tb_prefix() . 'pm_files';
 	}
 
 }
+
