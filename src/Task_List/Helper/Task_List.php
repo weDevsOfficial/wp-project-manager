@@ -1,6 +1,7 @@
 <?php
 namespace WeDevs\PM\Task_List\Helper;
 
+use WeDevs\PM\Milestone\Helper\Milestone;
 use WP_REST_Request;
 // data: {
 // 	with: '',
@@ -79,18 +80,18 @@ class Task_List {
 			'meta' => []
 		];
 
-		if ( ! is_array( $tasklists ) ) {
-			$response['data'] = $this->fromat_tasklist( $tasklists );
+		// if ( ! is_array( $tasklists ) ) {
+		// 	$response['data'] = $this->fromat_tasklist( $tasklists );
 
-			return $response;
-		}
+		// 	return $response;
+		// }
 
 		foreach ( $tasklists as $key => $tasklist ) {
 			$tasklists[$key] = $this->fromat_tasklist( $tasklist );
 		}
 
 		$response['data']  = $tasklists;
-		$response ['meta'] = $this->set_tasklist_meta();
+		// $response ['meta'] = $this->set_tasklist_meta();
 
 		return $response;
 	}
@@ -111,8 +112,7 @@ class Task_List {
 		$items = [
 			'id'          => (int) $tasklist->id,
 			'title'       => isset( $tasklist->title ) ? (string) $tasklist->title : null,
-			'description' => isset( $tasklist->description ) ?
-			 pm_filter_content_url( $tasklist->description ) : null,
+			'description' => isset( $tasklist->description ) ? pm_filter_content_url( $tasklist->description ) : null,
 			'order'       => isset( $tasklist->order ) ? (int) $tasklist->order : null,
 			'status'      => isset( $tasklist->status ) ? $tasklist->status : null,
 			'created_at'  => isset( $tasklist->status ) ?  format_date( $tasklist->created_at ) : null,
@@ -172,7 +172,10 @@ class Task_List {
 	}
 
 	private function with() {
-		//$this->include_milestone()->include_complete_tasks()->include_incomplete_tasks();
+		$this->include_milestone()
+			->include_complete_tasks()
+			->include_incomplete_tasks();
+			
 		$this->lists = apply_filters( 'pm_tasklist_with',$this->lists, $this->list_ids, $this->query_params );
 
 		return $this;
@@ -536,6 +539,11 @@ class Task_List {
 
 	private function include_milestone() {
 		global $wpdb;
+
+		if ( empty( $this->list_ids ) ) {
+			return $this;
+		}
+		
 		$with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
 
 		if ( ! is_array( $with ) ) {
@@ -553,11 +561,26 @@ class Task_List {
 		$tasklist_format = pm_get_prepare_format( $this->list_ids );
 		$query_data      = $this->list_ids;
 
-		$query ="SELECT DISTINCT $tb_boards.*,$tb_boardable.boardable_id as list_id  FROM $tb_boards
-				LEFT JOIN $tb_boardable  ON $tb_boardable.board_id = $tb_boards.id
-				WHERE $tb_boardable.boardable_id IN ($tasklist_format) AND $tb_boards.type=%s " ;
+		$query = "SELECT DISTINCT bor.boardable_id as list_id, bor.board_id as milestone_id
+			FROM $tb_boardable as bor
+			where bor.boardable_id IN ($tasklist_format)
+			AND bor.boardable_type=%s";
 
-		array_push( $query_data, 'milestone' );
+		array_push( $query_data, 'task_list' );
+		
+		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
+
+		if ( empty( $results ) ) {
+			$list->milestone['data'] = [];
+			return $this;
+		}
+		
+		$milestone_ids = wp_list_pluck( $results, 'milestone_id' );
+
+		$results = Milestone::get_results([
+			'id' => $milestone_ids
+		]);
+
 
 		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 
@@ -624,7 +647,8 @@ class Task_List {
 
 	private function where() {
 
-		$this->where_id()->where_project_id()
+		$this->where_id()
+			->where_project_id()
 			->where_title();
 
 		return $this;
@@ -636,31 +660,23 @@ class Task_List {
 	 * @return class object
 	 */
 	private function where_id() {
-		global $wpdb;
-		$id = isset( $this->query_params['id'] ) ? $this->query_params['id'] : false;
+
+		$id = isset( $this->query_params['id'] ) ? $this->query_params['id'] : false; 
 
 		if ( empty( $id ) ) {
 			return $this;
 		}
 
-		if ( is_array( $id ) ) {
-			//$query_id = implode( ',', $id );
-			$query_format = pm_get_prepare_format( $id );
-			$this->where .= $wpdb->prepare( " AND {$this->tb_list}.id IN ($query_format)", $id );
-			// $this->where .= " AND {$this->tb_list}.id IN ($query_id)";
+		global $wpdb;
+		$format     = pm_get_prepare_format( $id );
+		$format_ids = pm_get_prepare_data( $id );
+		
+		$this->where .= $wpdb->prepare( " AND {$this->tb_list}.id IN ($format)", $format_ids );
+
+		if ( count( $format_ids ) == 1 ) {
+			$this->is_single_query = true;
 		}
-
-		if ( !is_array( $id ) ) {
-			// $this->where .= " AND {$this->tb_list}.id IN ($id)";
-			$this->where .= $wpdb->prepare( " AND {$this->tb_list}.id IN (%d)", $id );
-
-			$explode = explode( ',', $id );
-
-			if ( count( $explode ) == 1 ) {
-				$this->is_single_query = true;
-			}
-		}
-
+		
 		return $this;
 	}
 

@@ -803,7 +803,30 @@ function pm_get_capabilities_relation( $role ) {
 }
 
 
-function pm_get_prepare_format( $ids, $is_string = false  ) {
+// function pm_get_prepare_format( $ids, $is_string = false  ) {
+//     // how many entries will we select?
+//     $how_many = count( $ids );
+
+//     // prepare the right amount of placeholders
+//     // if you're looing for strings, use '%s' instead
+//     if( $is_string ) {
+//         $placeholders = array_fill( 0, $how_many, '%s' );
+//     } else {
+//         $placeholders = array_fill( 0, $how_many, '%d' );
+//     }
+
+//     // glue together all the placeholders...
+//     // $format = '%d, %d, %d, %d, %d, [...]'
+//     $format = implode( ', ', $placeholders );
+
+//     return $format;
+// }
+
+function pm_get_prepare_format( $ids, $is_string = false ) {
+
+    
+    $ids = pm_get_prepare_data( $ids );
+
     // how many entries will we select?
     $how_many = count( $ids );
 
@@ -820,6 +843,27 @@ function pm_get_prepare_format( $ids, $is_string = false  ) {
     $format = implode( ', ', $placeholders );
 
     return $format;
+}
+
+function pm_get_prepare_data( $args, $delimiter = ',' ) {
+
+    $new = [];
+
+    if ( is_array( $args ) ) {
+        foreach ( $args as $date_key => $value ) {
+            $new[trim($date_key)] = trim( $value );
+        }
+    }
+
+    if ( ! is_array( $args ) ) {
+        $args = explode( $delimiter, $args );
+
+        foreach ( $args as $date_key => $value ) {
+            $new[trim($date_key)] = trim( $value );
+        }
+    }
+
+    return $new;
 }
 
 /**

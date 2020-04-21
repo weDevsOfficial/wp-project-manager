@@ -23,8 +23,9 @@ use WeDevs\PM\Common\Models\Board;
 use WeDevs\PM\Task_List\Transformers\List_Task_Transformer;
 use WeDevs\PM\Task\Controllers\Task_Controller as Task_Controller;
 use WeDevs\PM\task\Helper\Task as Helper_Task;
+use WeDevs\PM\Task_List\Helper\Task_List as Helper_List;
 
-
+use WeDevs\PM\Milestone\Helper\Milestone as Helper_Milestone;
 
 class Task_List_Controller {
 
@@ -214,22 +215,51 @@ class Task_List_Controller {
         $project_id   = $params['project_id'];
         $task_list_id = $params['task_list_id'];
         
-        $task_list = Task_List::select(pm_tb_prefix().'pm_boards.*')
-            //->with( 'tasks' )
-            ->where( pm_tb_prefix().'pm_boards.id', $task_list_id )
-            ->where( pm_tb_prefix().'pm_boards.project_id', $project_id );
+        // $task_list = Task_List::select(pm_tb_prefix().'pm_boards.*')
+        //     //->with( 'tasks' )
+        //     ->where( pm_tb_prefix().'pm_boards.id', $task_list_id )
+        //     ->where( pm_tb_prefix().'pm_boards.project_id', $project_id );
 
-            $task_list = apply_filters("pm_task_list_show_query", $task_list, $project_id, $params );
+        //     $task_list = apply_filters("pm_task_list_show_query", $task_list, $project_id, $params );
 
-            $task_list = $task_list->first();
+        //     $task_list = $task_list->first();
 
-        if ( $task_list == NULL ) {
-            return $this->get_response( null,  [
-                'message' => pm_get_text('success_messages.no_element')
-            ] );
-        }
+        // if ( $task_list == NULL ) {
+        //     return $this->get_response( null,  [
+        //         'message' => pm_get_text('success_messages.no_element')
+        //     ] );
+        // }
+        // 
+        // 
+        // 
+        
 
-        $resource = new Item( $task_list, new New_Task_List_Transformer );
+        $results = Helper_Milestone::get_results([
+            'id' => 40,
+            'with' => 'task_lists, discussion_boards'
+        ]);
+
+        pmpr($results); die();
+        
+        $task_list = Helper_List::get_results([
+            'id'         => $task_list_id,
+            'project_id' => $project_id,
+            'with'       => ['milestone']
+        ]);
+
+        pmpr($task_list); die();
+
+
+
+
+
+
+
+
+
+
+
+        $resource = new Item( $task_list, new Task_List_Transformer );
 
         $list =  $this->get_response( $resource );
         $list_id = [$task_list_id];
