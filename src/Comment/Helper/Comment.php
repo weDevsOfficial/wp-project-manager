@@ -280,7 +280,7 @@ class Comment {
 		}
 
 		foreach ( $this->comments as $key => $comment ) {
-			$c_updater = empty( $items[$comment->created_by] ) ? [] : $items[$comment->created_by];
+			$c_updater = empty( $items[$comment->updated_by] ) ? [] : $items[$comment->updated_by];
 
 			$comment->updater = [ 'data' => $c_updater ];
 		}

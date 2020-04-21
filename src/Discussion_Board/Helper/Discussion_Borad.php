@@ -2,6 +2,8 @@
 namespace WeDevs\PM\Discussion_Board\Helper;
 
 use WeDevs\PM\Milestone\Helper\Milestone;
+use WeDevs\PM\Comment\Helper\Comment;
+use WeDevs\PM\File\Helper\File;
 
 
 use WP_REST_Request;
@@ -169,7 +171,6 @@ class Discussion_Board {
 		
 		$this->creator()
 			->updater()
-			->users()
 			->milestone()
 			->files()
 			->comments();
@@ -180,22 +181,58 @@ class Discussion_Board {
 	}
 
 	private function creator() {
+		if ( empty( $this->discussion_boards ) ) {
+			return $this;
+		}
 
-        
-        return $this;
+		$creator_ids = wp_list_pluck( $this->discussion_boards, 'created_by' );
+		$creator_ids = array_unique( $creator_ids );
+
+		$creators = pm_get_user( $creator_ids );
+		$creators = count( $creator_ids ) == 1  && ! empty( $creators ) ? [$creators['data']] : $creators['data'];
+		
+		$items = []; 
+		
+		foreach ( $creators as $key => $creator ) {
+			$items[$creator['id']] = $creator;
+		}
+
+		foreach ( $this->discussion_boards as $key => $discussion_board ) {
+			$c_creator = empty( $items[$discussion_board->created_by] ) ? [] : $items[$discussion_board->created_by];
+
+			$discussion_board->creator = [ 'data' => $c_creator ];
+		}
+
+		return $this;
 	}
 
 	private function updater() {
 
-        
-        return $this;
+        if ( empty( $this->discussion_boards ) ) {
+			return $this;
+		}
+
+		$creator_ids = wp_list_pluck( $this->discussion_boards, 'updated_by' );
+		$creator_ids = array_unique( $creator_ids );
+
+		$creators = pm_get_user( $creator_ids );
+		$creators = count( $creator_ids ) == 1  && ! empty( $creators ) ? [$creators['data']] : $creators['data'];
+		
+		$items = []; 
+		
+		foreach ( $creators as $key => $creator ) {
+			$items[$creator['id']] = $creator;
+		}
+
+		foreach ( $this->discussion_boards as $key => $discussion_board ) {
+			$c_creator = empty( $items[$discussion_board->updated_by] ) ? [] : $items[$discussion_board->updated_by];
+
+			$discussion_board->creator = [ 'data' => $c_creator ];
+		}
+
+		return $this;
 	}
 
-	private function users() {
-
-        
-        return $this;
-	}
 
 	private function milestone() {
 		global $wpdb;
@@ -210,7 +247,7 @@ class Discussion_Board {
 			$with = explode( ',', str_replace(' ', '', $with ) );
 		}
 
-		if ( ! in_array( 'discussion_boards', $with ) || empty( $this->discussion_board_ids ) ) {
+		if ( ! in_array( 'milestone', $with ) || empty( $this->discussion_board_ids ) ) {
 			return $this;
 		}
 
@@ -266,7 +303,7 @@ class Discussion_Board {
 			$with = explode( ',', str_replace(' ', '', $with ) );
 		}
 
-		if ( ! in_array( 'milestone', $with ) || empty( $this->discussion_board_ids ) ) {
+		if ( ! in_array( 'comments', $with ) || empty( $this->discussion_board_ids ) ) {
 			return $this;
 		}
 
@@ -288,7 +325,7 @@ class Discussion_Board {
 		$results  = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 		$list_ids = wp_list_pluck( $results, 'list_id' );
 		
-		$lists = Task_List::get_results([
+		$lists = Comment::get_results([
 			'id' => $list_ids
 		]);
 	
@@ -314,8 +351,59 @@ class Discussion_Board {
 	private function files() {
 		global $wpdb;
 
+		if ( empty( $this->discussion_board_ids ) ) {
+			return $this;
+		}
 
-		return $this;
+		$with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
+		
+		if ( ! is_array( $with ) ) {
+			$with = explode( ',', str_replace(' ', '', $with ) );
+		}
+
+		if ( ! in_array( 'comments', $with ) || empty( $this->discussion_board_ids ) ) {
+			return $this;
+		}
+
+		$tb_discussion_boards    = pm_tb_prefix() . 'pm_boardables';
+		$tb_pm_comments = pm_tb_prefix() . 'pm_comments';
+		$tb_boards = pm_tb_prefix() . 'pm_boards';
+		$discussion_board_format = pm_get_prepare_format( $this->discussion_board_ids );
+		$query_data       = $this->discussion_board_ids;
+
+		$query ="SELECT DISTINCT $tb_pm_comments.'*'
+			FROM $tb_pm_comments 
+			LEFT JOIN $tb_boards  ON $tb_boards.id = $tb_pm_comments.commentable_id
+			WHERE $tb_boards.id IN ($discussion_board_format)
+			AND $tb_pm_comments.commentable_type = %s
+		";
+
+		array_push( $query_data, 'discussion_board' );
+		
+		$results  = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
+		$list_ids = wp_list_pluck( $results, 'list_id' );
+		
+		$lists = File::get_results([
+			'id' => $list_ids
+		]);
+	
+
+        $key_lists = [];
+        $lists['data'] = count( $list_ids ) == 1 && ! empty( $lists ) ? [$lists['data']] : $lists['data'];
+
+        foreach ( $lists['data'] as $key => $list ) {
+            $key_lists[$list['id']] = $list;
+        }
+
+        foreach ( $results as $key => $result ) {
+            $lists[$result->discussion_board_id][] = $key_lists[$result->list_id];
+        }
+
+        foreach ( $this->discussion_boards as $key => $discussion_board ) {
+            $discussion_board->task_lists['data'] = empty( $lists[$discussion_board->id] ) ? [] : $lists[$discussion_board->id];
+        }
+        
+        return $this;
 	}
 
 	private function meta() {
