@@ -1054,8 +1054,77 @@ function pm_second_to_time( $seconds ) {
     return $obj;
 }
 
-function pm_get_users( $args ) {
-     return \WeDevs\PM\User\helper\User::get_results( $args );
+/**
+ * [pm_get_projects description]
+ * @param  array|string $params
+ * @return [type]
+ */
+function pm_get_projects( $params ) {
+     return WeDevs\PM\Project\Helper\Project::get_results( $params );
 }
+
+/**
+ * [pm_get_task_lists description]
+ * @param  array|string $params
+ * @return [type]
+ */
+function pm_get_task_lists( $params ) {
+     return \WeDevs\PM\Task_List\Helper\Task_List::get_results( $params );
+}
+
+/**
+ * [pm_get_tasks description]
+ * @param  array|string $params
+ * @return [type]
+ */
+function pm_get_tasks( $params ) {
+     return \WeDevs\PM\task\Helper\Task::get_results( $params );
+}
+
+/**
+ * [pm_get_milestones description]
+ * @param  array|string $params
+ * @return [type]
+ */
+function pm_get_milestones( $params ) {
+     return \WeDevs\PM\Milestone\Helper\Milestone::get_results( $params );
+}
+
+/**
+ * [pm_get_discussions description]
+ * @param  array|string $params
+ * @return [type]
+ */
+function pm_get_discussions( $params ) {
+     return \WeDevs\PM\Discussion_Board\Helper\Discussion_Board::get_results( $params );
+}
+
+/**
+ * [pm_get_comments description]
+ * @param  array|string $params
+ * @return [type]
+ */
+function pm_get_comments( $params ) {
+     return \WeDevs\PM\Comment\Helper\Comment::get_results( $params );
+}
+
+/**
+ * [pm_get_files description]
+ * @param  array|string $params
+ * @return [type]
+ */
+function pm_get_files( $params ) {
+     return \WeDevs\PM\File\Helper\File::get_results( $params );
+}
+
+/**
+ * [pm_get_users description]
+ * @param  array|string $params
+ * @return [type]
+ */
+function pm_get_users( $params ) {
+     return \WeDevs\PM\User\helper\User::get_results( $params );
+}
+
 
 

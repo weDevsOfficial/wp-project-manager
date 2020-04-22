@@ -236,11 +236,15 @@ class Discussion_Board {
 			'id' => array_unique( $milestone_ids )
 		]);
 
-		$milestones     = count( $milestone_ids ) == 1  && ! empty( $milestones ) ? [$milestones['data']] : $milestones['data'];
+		$milestones     = empty( $milestones['data']['id'] ) ? $milestones['data'] : [$milestones['data']];
 		$key_milestones = [];
 		$items          = [];
 
         foreach ( $milestones as $key => $milestone ) {
+        	if ( empty( $milestone['id'] ) ) {
+        		continue;
+        	}
+        	
             $key_milestones[$milestone['id']] = $milestone;
         }
 
@@ -296,6 +300,10 @@ class Discussion_Board {
 		$items        = [];
 
         foreach ( $comments as $key => $comment ) {
+        	if ( empty( $comment['id'] ) ) {
+        		continue;
+        	}
+
             $key_comments[$comment['id']] = $comment;
         }
 
@@ -346,11 +354,15 @@ class Discussion_Board {
 			'id' => $file_ids
 		]);
 	
-		$files     = count( $file_ids ) == 1  && ! empty( $files ) ? [$files['data']] : $files['data'];
+		$files     = empty( $files['data']['id'] ) ? $files['data'] : [$files['data']];
 		$key_files = [];
 		$items     = [];
 
         foreach ( $files as $key => $file ) {
+        	if ( empty( $file['id'] ) ) {
+        		continue;
+        	}
+
             $key_files[$file['id']] = $file;
         }
 
