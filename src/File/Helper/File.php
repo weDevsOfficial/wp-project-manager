@@ -19,11 +19,7 @@ class File {
 	private $is_single_query = false;
 
 	public static function getInstance() {
-        if ( !self::$_instance ) {
-            self::$_instance = new self();
-        }
-
-        return self::$_instance;
+        return new self();
     }
 
     function __construct() {
@@ -175,7 +171,7 @@ class File {
 		$creator_ids = wp_list_pluck( $this->files, 'created_by' );
 		$creator_ids = array_unique( $creator_ids );
 
-		$creators = pm_get_user( $creator_ids );
+		$creators = pm_get_users( [ 'id' => $creator_ids ] );
 		$creators = count( $creator_ids ) == 1  && ! empty( $creators ) ? [$creators['data']] : $creators['data'];
 		
 		$items = []; 
@@ -201,7 +197,7 @@ class File {
 		$updater_ids = wp_list_pluck( $this->files, 'updated_by' );
 		$updater_ids = array_unique( $updater_ids );
 
-		$updaters = pm_get_user( $updater_ids );
+		$updaters = pm_get_users( [ 'id' => $updater_ids ] );
 		$updaters = count( $updater_ids ) == 1  && ! empty( $updaters ) ? [$updaters['data']] : $updaters['data'];
 		
 		$items = []; 

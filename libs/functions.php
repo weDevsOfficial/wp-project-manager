@@ -1054,8 +1054,8 @@ function pm_second_to_time( $seconds ) {
     return $obj;
 }
 
-function pm_get_user( $user_id ) {
-     return \WeDevs\PM\User\helper\User::get_results(['id' => $user_id]);
+function pm_get_users( $args ) {
+     return \WeDevs\PM\User\helper\User::get_results( $args );
 }
 
 

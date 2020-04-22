@@ -25,7 +25,7 @@ use WeDevs\PM\Task\Controllers\Task_Controller as Task_Controller;
 use WeDevs\PM\task\Helper\Task as Helper_Task;
 use WeDevs\PM\Task_List\Helper\Task_List as Helper_List;
 
-use WeDevs\PM\Comment\Helper\Comment;
+use WeDevs\PM\Discussion_Board\Helper\Discussion_Board;
 
 class Task_List_Controller {
 
@@ -233,9 +233,9 @@ class Task_List_Controller {
         // 
         // 
         
-        $comments = Comment::get_results([
-            'id'=> [221, 222],
-            'with' => 'files'
+        $comments = Discussion_Board::get_results([
+            'id'=> [43, 45],
+            //'with' => 'milestone, comments, files'
         ]);
 
         pmpr($comments);

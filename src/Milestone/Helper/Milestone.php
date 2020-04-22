@@ -30,11 +30,7 @@ class Milestone {
 	private $is_single_query = false;
 
 	public static function getInstance() {
-        if ( !self::$_instance ) {
-            self::$_instance = new self();
-        }
-
-        return self::$_instance;
+        return new self();
     }
 
     function __construct() {
@@ -60,7 +56,7 @@ class Milestone {
 			->meta();
 
 		$response = $self->format_milestones( $self->milestones );
-
+		
 		if( $self->is_single_query && count( $response['data'] ) ) {
 			return ['data' => $response['data'][0]] ;
 		}
