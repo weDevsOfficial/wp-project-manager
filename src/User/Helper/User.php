@@ -16,11 +16,8 @@ class User {
 	private $is_single_query = false;
 
 	public static function getInstance() {
-        if ( !self::$_instance ) {
-            self::$_instance = new self();
-        }
 
-        return self::$_instance;
+        return new self();
     }
 
     function __construct() {

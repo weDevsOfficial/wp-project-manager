@@ -45,10 +45,6 @@ class Project {
 	 * @return Object
 	 */
 	public static function getInstance() {
-        // if ( !self::$_instance ) {
-        //     self::$_instance = new self();
-        // }
-
         return new self();
     }
 
