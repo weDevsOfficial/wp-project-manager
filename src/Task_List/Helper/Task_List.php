@@ -932,7 +932,9 @@ class Task_List {
 			return intval( $per_page );
 		}
 
-		return 10;
+		$per_page = pm_get_setting( 'list_per_page' );
+
+		return empty( $per_page ) ? 10 : (int) $per_page;
 	}
 
 	private function get() {
