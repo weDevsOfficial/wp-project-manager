@@ -851,6 +851,10 @@ function pm_get_prepare_data( $args, $delimiter = ',' ) {
 
     if ( is_array( $args ) ) {
         foreach ( $args as $date_key => $value ) {
+            if ( empty( $value ) ) {
+                continue;
+            }
+
             $new[trim($date_key)] = trim( $value );
         }
     }
@@ -859,6 +863,10 @@ function pm_get_prepare_data( $args, $delimiter = ',' ) {
         $args = explode( $delimiter, $args );
 
         foreach ( $args as $date_key => $value ) {
+            if ( empty( $value ) ) {
+                continue;
+            }
+
             $new[trim($date_key)] = trim( $value );
         }
     }
@@ -1017,6 +1025,10 @@ function pm_can_create_user_at_project_create_time() {
 }
 
 function pm_get_estimation_type() { 
+    if ( ! function_exists( 'pm_pro_is_module_active' ) ) {
+        return 'task';
+    }
+
     if( ! pm_pro_is_module_active( 'sub_tasks/sub_tasks.php' ) ) {
         return 'task';
     }
@@ -1124,6 +1136,29 @@ function pm_get_files( $params ) {
  */
 function pm_get_users( $params ) {
      return \WeDevs\PM\User\helper\User::get_results( $params );
+}
+
+/**
+ * check the query is single data or not
+ * @param  array|string $params
+ * @return [type]
+ */
+function pm_is_single_query( $params ) {
+    if ( empty( $params['id'] ) ) {
+        return false;
+    }
+
+    if ( is_array( $params['id'] ) ) {
+        return false;
+    }
+
+    $id = pm_get_prepare_data( $params['id'] );
+
+    if ( count( $id ) == 1 ) {
+        return true;
+    }
+
+    return false;
 }
 
 

@@ -34,9 +34,9 @@ class Task {
 	private $with = ['task_list','project'];
 	private $tasks;
 	private $task_ids;
-	private $is_single_query = false;
 	private $user_id = false;
 	private $found_rows = 0;
+	private $per_page;
 
 	/**
 	 * Class instance
@@ -131,8 +131,8 @@ class Task {
 			->with();
 		
 		$response = $self->format_tasks( $self->tasks );
-
-		if( $self->is_single_query && count( $response['data'] ) ) {
+		
+		if ( pm_is_single_query( $params ) ) {
 			return ['data' => $response['data'][0]] ;
 		}
 
@@ -153,11 +153,11 @@ class Task {
 			'meta' => []
 		];
 
-		if ( ! is_array( $tasks ) ) {
-			$response['data'] = $this->fromat_task( $tasks );
-			$response['meta'] = $this->set_meta();
-			return $response;
-		}
+		// if ( ! is_array( $tasks ) ) {
+		// 	$response['data'] = $this->fromat_task( $tasks );
+		// 	$response['meta'] = $this->set_meta();
+		// 	return $response;
+		// }
 
 		foreach ( $tasks as $key => $task ) {
 			$tasks[$key] = $this->fromat_task( $task );
@@ -174,12 +174,9 @@ class Task {
 	 */
 	private function set_meta() {
 		return [
-			'total_tasks'  => $this->found_rows,
+			'total_tasks'  => (int) $this->found_rows,
 			'total_page'   => ceil( $this->found_rows/$this->get_per_page() ),
-			//'total_comments'         => 0,
-			// 'total_complete_tasks'   => 0,
-			// 'total_incomplete_tasks' => 0,
-			// 'totla_files'            => 0
+			'per_page'     => $this->get_per_page()
 		];
 	}
 
@@ -292,6 +289,8 @@ class Task {
 		if ( ! is_array( $with ) ) {
 			$with = explode( ',', str_replace( ' ', '', $with ) );
 		}
+
+		$with = array_merge( $this->with, $with );
 
 		$task_with_items =  array_intersect_key( (array) $task, array_flip( $with ) );
 		$items = array_merge( $items, $task_with_items );
@@ -1130,10 +1129,6 @@ class Task {
 
 		$this->where .= $wpdb->prepare( " AND {$this->tb_tasks}.id IN ($format)", $format_ids );
 
-		if ( count( $format_ids ) == 1 ) {
-			$this->is_single_query = true;
-		}
-		
 		return $this;
 	}
 
@@ -1218,10 +1213,24 @@ class Task {
 		$per_page = isset( $this->query_params['per_page'] ) ? $this->query_params['per_page'] : false;
 		
 		if ( ! empty( $per_page ) && intval( $per_page ) ) {
-			return intval( $per_page );
+			return (int) $per_page;
 		}
 
-		return 10;
+		$with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
+		
+		if ( ! is_array( $with ) ) {
+			$with = explode( ',', str_replace(' ', '', $with ) );
+		}
+
+		if ( in_array( 'incomplete_tasks_per_page', $with ) ) {
+			$per_page = pm_get_setting( 'incomplete_tasks_per_page' );
+		}
+
+		if ( in_array( 'complete_tasks_per_page', $with ) ) {
+			$per_page = pm_get_setting( 'complete_tasks_per_page' );
+		}
+
+		return empty( $per_page ) ? 10 : (int) $per_page;
 	}
 
 	/**
@@ -1236,7 +1245,7 @@ class Task {
 		$boardable = pm_tb_prefix() . 'pm_boardables';
 		$tasks = [];
 
-		$query = $wpdb->prepare( "SELECT SQL_CALC_FOUND_ROWS DISTINCT {$this->select}, 
+		$query = $wpdb->prepare( "SELECT SQL_CALC_FOUND_ROWS DISTINCT {$this->tb_tasks}.*, 
 			list.id as task_list_id, 
 			$this->tb_tasks.project_id
 			

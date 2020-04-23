@@ -205,32 +205,33 @@ class Task_List_Controller {
 
     public function get_list( $params ) {
 
-        $with = empty( $params['with'] ) ? [] : $params['with'];
-        
-        if ( ! is_array( $with ) ) {
-            $with = explode( ',', str_replace(' ', '', $with ) );
-        }
-
         $project_id   = $params['project_id'];
         $task_list_id = $params['task_list_id'];
+        $with         = $params['with'];
+        $with         = explode( ',', $with );
 
-        $resource = new Item( $task_list, new Task_List_Transformer );
-
-        $list =  $this->get_response( $resource );
+        $list = pm_get_task_lists([
+            'id'         => $task_list_id,
+            'project_id' => $project_id,
+            'with'       => 'comments'
+        ]);
+       
         $list_id = [$task_list_id];
 
         if ( in_array( 'incomplete_tasks', $with ) ) {
             $incomplete_task_ids = ( new Task_Controller )->get_incomplete_task_ids( $list_id, $project_id );
-            $incomplete_tasks    = Helper_Task::get_results( ['id' => $incomplete_task_ids] );
-            
+            $incomplete_tasks    = pm_get_tasks( [ 'id' => $incomplete_task_ids ] );
+
             $list['data']['incomplete_tasks']['data'] = $incomplete_tasks['data'];
+            $list['data']['incomplete_tasks']['meta'] = $incomplete_tasks['meta'];
         }
 
         if ( in_array( 'complete_tasks', $with ) ) {
             $complete_task_ids = ( new Task_Controller )->get_complete_task_ids( $list_id, $project_id );
-            $complete_tasks    = ( new Task_Controller )->get_tasks( $complete_task_ids );
+            $complete_tasks    = pm_get_tasks( [ 'id' => $complete_task_ids ] );
 
             $list['data']['complete_tasks']['data'] = $complete_tasks['data'];
+            $list['data']['complete_tasks']['meta'] = $complete_tasks['meta'];
         }
 
         return $list;
