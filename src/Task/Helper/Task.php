@@ -1260,15 +1260,15 @@ class Task {
 			AND boardable.board_type=%s 
 			AND boardable.boardable_type=%s
 			
-			{$this->orderby}
+			{$this->orderby} 
 			
 			{$this->limit}", 
 
 			1, 1, 'task_list', 'task'
 		);
-		
-		$results = $wpdb->get_results( $query );
 
+		$results = $wpdb->get_results( $query );
+		
 		// If task has not boardable_id mean no list
 		foreach ( $results as $key => $result ) {
 			if( empty( $result->task_list_id ) ) {
@@ -1301,6 +1301,8 @@ class Task {
 		$odr_prms = isset( $this->query_params['orderby'] ) ? $this->query_params['orderby'] : false;
 		
 		if ( $odr_prms === false && !is_array( $odr_prms ) ) {
+			$this->orderby = ' ORDER BY boardable.order DESC';
+
 			return $this;
 		}
 
@@ -1326,7 +1328,7 @@ class Task {
 	    }
 
 	    $this->orderby = "ORDER BY " . implode( ', ', $order);
-
+	    
 		return $this;
 	}
 

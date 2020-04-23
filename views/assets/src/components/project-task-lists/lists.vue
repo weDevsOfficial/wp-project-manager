@@ -624,7 +624,8 @@
                     name: 'single_list',
                     params: { 
                         project_id: this.project_id,
-                        list_id: list.id
+                        list_id: list.id,
+                        with: 'incomplete_tasks,complete_tasks,comments'
                     }
                 });
             },

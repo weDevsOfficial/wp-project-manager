@@ -207,17 +207,17 @@ class Task_List_Controller {
 
         $project_id   = $params['project_id'];
         $task_list_id = $params['task_list_id'];
-        $with         = $params['with'];
-        $with         = explode( ',', $with );
-
+        $with         = empty( $params['with'] ) ? [] : $params['with'];
+        $with         = pm_get_prepare_data( $with );
+        
         $list = pm_get_task_lists([
             'id'         => $task_list_id,
             'project_id' => $project_id,
-            'with'       => 'comments'
+            'with'       => $with
         ]);
        
         $list_id = [$task_list_id];
-
+        
         if ( in_array( 'incomplete_tasks', $with ) ) {
             $incomplete_task_ids = ( new Task_Controller )->get_incomplete_task_ids( $list_id, $project_id );
             $incomplete_tasks    = pm_get_tasks( [ 'id' => $incomplete_task_ids ] );
@@ -266,11 +266,11 @@ class Task_List_Controller {
     }
 
     public function store( WP_REST_Request $request ) {
-        $data = $this->extract_non_empty_values( $request );
-        $milestone_id = $request->get_param( 'milestone' );
-        $project_id = $request->get_param( 'project_id' );
-        $is_private    = $request->get_param( 'privacy' );
-        $data['is_private']    = $is_private == 'true' || $is_private === true ? 1 : 0;
+        $data               = $this->extract_non_empty_values( $request );
+        $milestone_id       = $request->get_param( 'milestone' );
+        $project_id         = $request->get_param( 'project_id' );
+        $is_private         = $request->get_param( 'privacy' );
+        $data['is_private'] = $is_private == 'true' || $is_private === true ? 1 : 0;
 
         $milestone     = Milestone::find( $milestone_id );
         $latest_order  = Task_List::latest_order($project_id);
