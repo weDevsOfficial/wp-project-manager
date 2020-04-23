@@ -13,7 +13,7 @@ class Comment {
 	private $where;
 	private $limit;
 	private $orderby;
-	private $with = ['creator', 'updater'];
+	private $with = ['creator', 'updater', 'files'];
 	private $comments;
 	private $comment_ids;
 	private $is_single_query = false;
@@ -159,16 +159,6 @@ class Comment {
 		global $wpdb;
 
 		if ( empty( $this->comment_ids ) ) {
-			return $this;
-		}
-
-		$with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
-		
-		if ( ! is_array( $with ) ) {
-			$with = explode( ',', str_replace(' ', '', $with ) );
-		}
-
-		if ( ! in_array( 'files', $with ) || empty( $this->comment_ids ) ) {
 			return $this;
 		}
 

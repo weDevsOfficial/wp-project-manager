@@ -980,11 +980,11 @@ class Task_Controller {
             $start = 0;
         }
 
-        $list_ids   = implode(',', $list_ids );
-        $permission_join = apply_filters( 'pm_incomplete_task_query_join', '', $project_id );
+        $list_ids         = implode(',', $list_ids );
+        $permission_join  = apply_filters( 'pm_incomplete_task_query_join', '', $project_id );
         $permission_where = apply_filters( 'pm_incomplete_task_query_where', '', $project_id );
 
-        $sql = "SELECT ibord_id, GROUP_CONCAT( DISTINCT task.task_id order by task.iorder asc) as itasks_id
+        $sql = "SELECT ibord_id, GROUP_CONCAT( DISTINCT task.task_id order by task.iorder DESC) as itasks_id
             FROM
                 (
                     SELECT
@@ -1006,9 +1006,6 @@ class Task_Controller {
                 ) as task
 
             group by ibord_id";
-
-        //pmpr($sql);
-        //die();
 
         $results = $wpdb->get_results( $sql );
 
@@ -1153,7 +1150,7 @@ class Task_Controller {
                 $join->on( $task . '.id', '=', $assignees . '.task_id' );
             })
 
-            ->groupBy($task . '.id')
+            ->groupBy( $task . '.id' )
             ->orderBy( $list . '.order', 'DESC' );
 
         $task_collection = apply_filters( 'list_tasks_filter_query', $task_collection, $args );
