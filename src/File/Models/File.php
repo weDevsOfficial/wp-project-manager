@@ -33,4 +33,13 @@ class File extends Eloquent {
     public function meta() {
         return $this->hasMany( 'WeDevs\PM\Common\Models\Meta', 'entity_id' )->where('entity_type', 'file');
     }
+
+    public function children() {
+        return $this->hasMany( $this, 'parent' );
+    }
+
+
+
+
+
 }
