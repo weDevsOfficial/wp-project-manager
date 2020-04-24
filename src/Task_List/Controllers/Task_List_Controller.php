@@ -204,38 +204,82 @@ class Task_List_Controller {
     }
 
     public function get_list( $params ) {
-
         $project_id   = $params['project_id'];
         $task_list_id = $params['task_list_id'];
         $with         = empty( $params['with'] ) ? [] : $params['with'];
         $with         = pm_get_prepare_data( $with );
-        
-        $list = pm_get_task_lists([
-            'id'         => $task_list_id,
-            'project_id' => $project_id,
-            'with'       => $with
-        ]);
-       
+
+        $task_list = Task_List::select(pm_tb_prefix().'pm_boards.*')
+            //->with( 'tasks' )
+            ->where( pm_tb_prefix().'pm_boards.id', $task_list_id )
+            ->where( pm_tb_prefix().'pm_boards.project_id', $project_id );
+
+            $task_list = apply_filters("pm_task_list_show_query", $task_list, $project_id, $params );
+
+            $task_list = $task_list->first();
+
+        if ( $task_list == NULL ) {
+            return $this->get_response( null,  [
+                'message' => pm_get_text('success_messages.no_element')
+            ] );
+        }
+
+        $resource = new Item( $task_list, new Task_List_Transformer );
+
+        $list =  $this->get_response( $resource );
         $list_id = [$task_list_id];
-        
+
         if ( in_array( 'incomplete_tasks', $with ) ) {
             $incomplete_task_ids = ( new Task_Controller )->get_incomplete_task_ids( $list_id, $project_id );
-            $incomplete_tasks    = pm_get_tasks( [ 'id' => $incomplete_task_ids ] );
+            $incomplete_tasks    = ( new Task_Controller )->get_tasks( $incomplete_task_ids );
 
             $list['data']['incomplete_tasks']['data'] = $incomplete_tasks['data'];
-            $list['data']['incomplete_tasks']['meta'] = $incomplete_tasks['meta'];
         }
 
         if ( in_array( 'complete_tasks', $with ) ) {
             $complete_task_ids = ( new Task_Controller )->get_complete_task_ids( $list_id, $project_id );
-            $complete_tasks    = pm_get_tasks( [ 'id' => $complete_task_ids ] );
+            $complete_tasks    = ( new Task_Controller )->get_tasks( $complete_task_ids );
 
             $list['data']['complete_tasks']['data'] = $complete_tasks['data'];
-            $list['data']['complete_tasks']['meta'] = $complete_tasks['meta'];
         }
 
         return $list;
     }
+
+    //updated query but not filter updated 
+    // public function get_list( $params ) {
+
+    //     $project_id   = $params['project_id'];
+    //     $task_list_id = $params['task_list_id'];
+    //     $with         = empty( $params['with'] ) ? [] : $params['with'];
+    //     $with         = pm_get_prepare_data( $with );
+        
+    //     $list = pm_get_task_lists([
+    //         'id'         => $task_list_id,
+    //         'project_id' => $project_id,
+    //         'with'       => $with
+    //     ]);
+       
+    //     $list_id = [$task_list_id];
+        
+    //     if ( in_array( 'incomplete_tasks', $with ) ) {
+    //         $incomplete_task_ids = ( new Task_Controller )->get_incomplete_task_ids( $list_id, $project_id );
+    //         $incomplete_tasks    = pm_get_tasks( [ 'id' => $incomplete_task_ids ] );
+
+    //         $list['data']['incomplete_tasks']['data'] = $incomplete_tasks['data'];
+    //         $list['data']['incomplete_tasks']['meta'] = $incomplete_tasks['meta'];
+    //     }
+
+    //     if ( in_array( 'complete_tasks', $with ) ) {
+    //         $complete_task_ids = ( new Task_Controller )->get_complete_task_ids( $list_id, $project_id );
+    //         $complete_tasks    = pm_get_tasks( [ 'id' => $complete_task_ids ] );
+
+    //         $list['data']['complete_tasks']['data'] = $complete_tasks['data'];
+    //         $list['data']['complete_tasks']['meta'] = $complete_tasks['meta'];
+    //     }
+
+    //     return $list;
+    // }
 
     public static function create_tasklist( $data ) {
         $self = self::getInstance();
