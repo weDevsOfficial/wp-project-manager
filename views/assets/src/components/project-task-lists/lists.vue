@@ -809,8 +809,12 @@
                     this.$router.push({
                         query: {}
                     });
-
-                    this.getLists();
+                    
+                    this.getLists({
+                        callback () {
+                            pm.NProgress.done();
+                        }
+                    });
                 } 
             },
 
