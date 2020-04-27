@@ -246,7 +246,7 @@ class Task {
 		$item['meta'] = [];
 		
 		$item['meta']['total_comment']     = $task->total_comments;
-		$item['meta']['can_complete_task'] = pm_user_can_complete_task( $task );
+		$item['meta']['can_complete_task'] = $this->pm_user_can_complete_task( $task );
 		$item['meta']['total_files']       = $task->total_files;
 		$item['meta']['total_assignee']    = count( $task->assignees['data'] );
 		
@@ -263,16 +263,16 @@ class Task {
 	        return true;
 	    }
 
-	    if ( pm_is_manager( $task['project_id'], $user_id ) ) {
+	    if ( pm_is_manager( $task->project_id, $user_id ) ) {
 	        return true;
 	    }
 
-	    if ( (int) $task['reated_by'] == $user_id ) {
+	    if ( (int) $task->created_by == $user_id ) {
 	        return true;
 	    }
-
-	    $assignees = $task['assignees']['data']; //pluck( 'assigned_to' )->all();
-	    $assignees = wp_list_pluck( $assignees, 'assigned_to' );
+	    //pmpr($task); die();
+	    $assignees = $task->assignees['data']; //pluck( 'assigned_to' )->all();
+	    $assignees = wp_list_pluck( $assignees, 'id' );
 	    $in_array = in_array( $user_id, $assignees );
 
 	    if ( !empty( $in_array ) ) {
@@ -993,6 +993,15 @@ class Task {
 	}
 
 	private function where_start_at() {
+
+		if ( 
+			empty( pm_get_setting( 'task_start_field' ) ) 
+				||
+			pm_get_setting( 'task_start_field' ) == 'false'
+		 ) {
+			return $this;
+		}
+		
 		$start_at   = !empty( $this->query_params['start_at'] ) ? $this->query_params['start_at'] : false;
 		$ope_params = !empty( $this->query_params['start_at_operator'] ) ? $this->query_params['start_at_operator'] : false;
 		$ope_params = $this->get_prepare_data( $ope_params );
@@ -1001,6 +1010,10 @@ class Task {
 			return $this;
 		}
 
+		if ( empty( $ope_params ) ) {
+			return $this;
+		}
+ 
 		global $wpdb;
 		
 		$q = [];
@@ -1010,6 +1023,11 @@ class Task {
 		
 		foreach ( $ope_params as $key => $ope_param ) {
 			$explode = explode( '|', str_replace( ' ', '', $ope_param ) );
+			$operator = $this->get_operator( $explode[0] );
+
+			if ( empty( $operator ) ) {
+				continue;
+			}
 
 			if ( ! empty( $explode[1] ) ) {
 				$relation = $explode[1];
@@ -1021,7 +1039,7 @@ class Task {
 				$relation = '';
 			}
 
-			$operator = $this->get_operator( $explode[0] );
+			
 			$start_at = date( 'Y-m-d', strtotime( $start_at ) );
 			
 			if( $explode[0] == 'null' || $explode[0] == 'empty' ) {
