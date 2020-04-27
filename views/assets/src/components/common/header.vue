@@ -68,6 +68,11 @@
             v-if="project.description.content && showDescription"
             v-text="project.description.content"
         />
+        <div 
+            class="description"
+            v-if="!project.description.content && showDescription"
+            v-text="__( 'No Description Found!', 'wedevs-project-manager' )"
+        />
     </div> 
     
 </template>
