@@ -582,6 +582,7 @@ export default {
             state.task = data;
  
         },
+        
         setTasks(state, data){
             var list_index = state.getIndex(state.lists, data.id, 'id');
             
