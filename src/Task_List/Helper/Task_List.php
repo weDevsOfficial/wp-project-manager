@@ -58,7 +58,7 @@ class Task_List {
 
 		$response = $self->format_tasklists( $self->lists );
 
-		if( $self->is_single_query && count( $response['data'] ) ) {
+		if ( pm_is_single_query( $params ) ) {
 			return ['data' => $response['data'][0]] ;
 		}
 

@@ -59,7 +59,7 @@ class Discussion_Board {
 
 		$response = $self->format_discussion_boards( $self->discussion_boards );
 
-		if( $self->is_single_query && count( $response['data'] ) ) {
+		if ( pm_is_single_query( $params ) ) {
 			return ['data' => $response['data'][0]] ;
 		}
 

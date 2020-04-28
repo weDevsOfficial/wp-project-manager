@@ -36,7 +36,7 @@ class User {
 
 		$response = $self->format_users( $self->users );
 
-		if( $self->is_single_query && count( $response['data'] ) ) {
+		if ( pm_is_single_query( $params ) ) {
 			return ['data' => $response['data'][0]] ;
 		}
 
