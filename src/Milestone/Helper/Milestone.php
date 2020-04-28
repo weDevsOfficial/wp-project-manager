@@ -57,7 +57,7 @@ class Milestone {
 
 		$response = $self->format_milestones( $self->milestones );
 		
-		if( $self->is_single_query && count( $response['data'] ) ) {
+		if ( pm_is_single_query( $params ) ) {
 			return ['data' => $response['data'][0]] ;
 		}
 

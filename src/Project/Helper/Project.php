@@ -92,8 +92,8 @@ class Project {
 
 		$response = $self->format_projects( $self->projects );
 
-		if( $self->is_single_query && count( $response['data'] ) ) {
-			return ['data' => $response['data'][0]] ;
+		if( pm_is_single_query( $params ) ) {
+			return ['data' => $response['data'][0]];
 		}
 
 		return $response;
