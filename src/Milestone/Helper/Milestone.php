@@ -210,7 +210,7 @@ class Milestone {
 	
 
         $key_discussion_boards = [];
-        $discussion_boards['data'] = count( $discussion_board_ids ) == 1 && ! empty( $discussion_boards ) ? [$discussion_boards['data']] : $discussion_boards['data'];
+        $discussion_boards['data'] = $discussion_boards['data'];
 
         foreach ( $discussion_boards['data'] as $key => $discussion_board ) {
             $key_discussion_boards[$discussion_board['id']] = $discussion_board;
@@ -266,7 +266,6 @@ class Milestone {
 	
 
         $key_lists = [];
-        $lists['data'] = count( $list_ids ) == 1 && ! empty( $lists ) ? [$lists['data']] : $lists['data'];
 
         foreach ( $lists['data'] as $key => $list ) {
             $key_lists[$list['id']] = $list;
