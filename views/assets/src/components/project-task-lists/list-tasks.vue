@@ -662,19 +662,76 @@
 
             selfLoadMoreCompleteTasks(list) {
                 var self = this;
-                this.completedLoadMore = true;
 
-                this.loadMoreCompleteTasks(list, function() {
-                    self.completedLoadMore = false;
-                });
+                if ( self.completedLoadMore ) {
+                    return;
+                }
+                
+                let task_ids = list.complete_tasks.data.map( task => task.id );
+
+                var request = {
+                    type: 'GET',
+                    url: `${self.base_url}/pm/v2/projects/${self.project_id}/task-lists/${list.id}/more/tasks`,
+                    data: {
+                        task_ids: task_ids,
+                        status: 1
+                    },
+                    success (res) {
+                        res.data.tasks.data.forEach( task => {
+                            self.addTaskMeta(task);
+                        } );
+
+                        self.$store.commit( 'projectTaskLists/setTasks', {
+                            id: list.id,
+                            complete_tasks: res.data.tasks
+                        });
+
+                        self.completedLoadMore = false;
+                    }
+                };
+                self.completedLoadMore = true;
+                self.httpRequest(request);
+
+                // this.loadMoreCompleteTasks(list, task_ids, function() {
+                //     self.completedLoadMore = false;
+                // });
             },
+
             selfLoadMoreIncompleteTasks(list) {
                 var self = this;
-                this.loadMoreCircle = true;
 
-                this.loadMoreIncompleteTasks(list, function() {
-                    self.loadMoreCircle = false;
-                });
+                if ( self.loadMoreCircle ) {
+                    return;
+                }
+                
+                let task_ids = list.incomplete_tasks.data.map( task => task.id );
+
+                var request = {
+                    type: 'GET',
+                    url: `${self.base_url}/pm/v2/projects/${self.project_id}/task-lists/${list.id}/more/tasks`,
+                    data: {
+                        task_ids: task_ids,
+                        status: 0
+                    },
+                    success (res) {
+                        res.data.tasks.data.forEach( task => {
+                            self.addTaskMeta(task);
+                        } );
+
+                        self.$store.commit( 'projectTaskLists/setTasks', {
+                            id: list.id,
+                            incomplete_tasks: res.data.tasks
+                        });
+
+                        self.loadMoreCircle = false;
+                    }
+                };
+                self.loadMoreCircle = true;
+                self.httpRequest(request);
+
+                // this.loadMoreIncompleteTasks(list, function() {
+                //     self.loadMoreCircle = false;
+                // });
             },
             checkSearchStatus () {
                 // && this.$route.query.status != 'complete'
@@ -707,9 +764,9 @@
                         
                     }
                 }
-                this.loadMoreCompleteTasks(list, function(res) {
+                this.loadMoreCompleteTasks( list, function(res) {
                     self.showCompletedTask = true;
-                });
+                } );
             },
             showHideCompletedTask() {
                 this.showCompletedTask = this.showCompletedTask ? false : true;

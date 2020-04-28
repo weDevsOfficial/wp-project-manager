@@ -582,18 +582,31 @@ export default {
             state.task = data;
  
         },
+        
         setTasks(state, data){
             var list_index = state.getIndex(state.lists, data.id, 'id');
             
             if(typeof data.incomplete_tasks !== 'undefined' ){
                 data.incomplete_tasks.data.forEach(function(task){
-                    state.lists[list_index].incomplete_tasks.data.push(task)
+                    let has_task = state.getIndex(state.lists[list_index].incomplete_tasks.data, parseInt(task.id), 'id');
+                    
+                    if ( has_task === false ) {
+                        state.lists[list_index].incomplete_tasks.data.push(task)    
+                    }
+                    
                 });
+
                 state.lists[list_index].incomplete_tasks.meta = data.incomplete_tasks.meta;
             } else {
                 data.complete_tasks.data.forEach(function(task){
-                    state.lists[list_index].complete_tasks.data.push(task)
+                    let has_task = state.getIndex(state.lists[list_index].complete_tasks.data, parseInt(task.id), 'id');
+                    
+                    if ( has_task === false ) {
+                        state.lists[list_index].complete_tasks.data.push(task);
+                    }
+                    
                 });
+
                 state.lists[list_index].complete_tasks.meta = data.complete_tasks.meta;
             }
             

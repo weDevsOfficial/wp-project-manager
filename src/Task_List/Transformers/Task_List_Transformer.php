@@ -44,7 +44,7 @@ class Task_List_Transformer extends TransformerAbstract {
             'created_at'  => format_date( $item->created_at ),
             'meta'        => $this->meta( $item ),
             'extra'       => true,
-            'project_id' => $item->project_id
+            'project_id'  => $item->project_id
 
         ];
 

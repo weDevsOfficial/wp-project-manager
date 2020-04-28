@@ -34,9 +34,9 @@ class Task {
 	private $with = ['task_list','project'];
 	private $tasks;
 	private $task_ids;
-	private $is_single_query = false;
 	private $user_id = false;
 	private $found_rows = 0;
+	private $per_page;
 
 	/**
 	 * Class instance
@@ -131,8 +131,8 @@ class Task {
 			->with();
 		
 		$response = $self->format_tasks( $self->tasks );
-
-		if( $self->is_single_query && count( $response['data'] ) ) {
+		
+		if ( pm_is_single_query( $params ) ) {
 			return ['data' => $response['data'][0]] ;
 		}
 
@@ -153,11 +153,11 @@ class Task {
 			'meta' => []
 		];
 
-		if ( ! is_array( $tasks ) ) {
-			$response['data'] = $this->fromat_task( $tasks );
-			$response['meta'] = $this->set_meta();
-			return $response;
-		}
+		// if ( ! is_array( $tasks ) ) {
+		// 	$response['data'] = $this->fromat_task( $tasks );
+		// 	$response['meta'] = $this->set_meta();
+		// 	return $response;
+		// }
 
 		foreach ( $tasks as $key => $task ) {
 			$tasks[$key] = $this->fromat_task( $task );
@@ -174,12 +174,9 @@ class Task {
 	 */
 	private function set_meta() {
 		return [
-			'total_tasks'  => $this->found_rows,
+			'total_tasks'  => (int) $this->found_rows,
 			'total_page'   => ceil( $this->found_rows/$this->get_per_page() ),
-			//'total_comments'         => 0,
-			// 'total_complete_tasks'   => 0,
-			// 'total_incomplete_tasks' => 0,
-			// 'totla_files'            => 0
+			'per_page'     => $this->get_per_page()
 		];
 	}
 
@@ -249,7 +246,7 @@ class Task {
 		$item['meta'] = [];
 		
 		$item['meta']['total_comment']     = $task->total_comments;
-		$item['meta']['can_complete_task'] = pm_user_can_complete_task( $task );
+		$item['meta']['can_complete_task'] = $this->pm_user_can_complete_task( $task );
 		$item['meta']['total_files']       = $task->total_files;
 		$item['meta']['total_assignee']    = count( $task->assignees['data'] );
 		
@@ -266,16 +263,16 @@ class Task {
 	        return true;
 	    }
 
-	    if ( pm_is_manager( $task['project_id'], $user_id ) ) {
+	    if ( pm_is_manager( $task->project_id, $user_id ) ) {
 	        return true;
 	    }
 
-	    if ( (int) $task['reated_by'] == $user_id ) {
+	    if ( (int) $task->created_by == $user_id ) {
 	        return true;
 	    }
-
-	    $assignees = $task['assignees']['data']; //pluck( 'assigned_to' )->all();
-	    $assignees = wp_list_pluck( $assignees, 'assigned_to' );
+	    //pmpr($task); die();
+	    $assignees = $task->assignees['data']; //pluck( 'assigned_to' )->all();
+	    $assignees = wp_list_pluck( $assignees, 'id' );
 	    $in_array = in_array( $user_id, $assignees );
 
 	    if ( !empty( $in_array ) ) {
@@ -292,6 +289,8 @@ class Task {
 		if ( ! is_array( $with ) ) {
 			$with = explode( ',', str_replace( ' ', '', $with ) );
 		}
+
+		$with = array_merge( $this->with, $with );
 
 		$task_with_items =  array_intersect_key( (array) $task, array_flip( $with ) );
 		$items = array_merge( $items, $task_with_items );
@@ -994,6 +993,15 @@ class Task {
 	}
 
 	private function where_start_at() {
+
+		if ( 
+			empty( pm_get_setting( 'task_start_field' ) ) 
+				||
+			pm_get_setting( 'task_start_field' ) == 'false'
+		 ) {
+			return $this;
+		}
+		
 		$start_at   = !empty( $this->query_params['start_at'] ) ? $this->query_params['start_at'] : false;
 		$ope_params = !empty( $this->query_params['start_at_operator'] ) ? $this->query_params['start_at_operator'] : false;
 		$ope_params = $this->get_prepare_data( $ope_params );
@@ -1002,6 +1010,10 @@ class Task {
 			return $this;
 		}
 
+		if ( empty( $ope_params ) ) {
+			return $this;
+		}
+ 
 		global $wpdb;
 		
 		$q = [];
@@ -1011,6 +1023,11 @@ class Task {
 		
 		foreach ( $ope_params as $key => $ope_param ) {
 			$explode = explode( '|', str_replace( ' ', '', $ope_param ) );
+			$operator = $this->get_operator( $explode[0] );
+
+			if ( empty( $operator ) ) {
+				continue;
+			}
 
 			if ( ! empty( $explode[1] ) ) {
 				$relation = $explode[1];
@@ -1022,7 +1039,7 @@ class Task {
 				$relation = '';
 			}
 
-			$operator = $this->get_operator( $explode[0] );
+			
 			$start_at = date( 'Y-m-d', strtotime( $start_at ) );
 			
 			if( $explode[0] == 'null' || $explode[0] == 'empty' ) {
@@ -1130,10 +1147,6 @@ class Task {
 
 		$this->where .= $wpdb->prepare( " AND {$this->tb_tasks}.id IN ($format)", $format_ids );
 
-		if ( count( $format_ids ) == 1 ) {
-			$this->is_single_query = true;
-		}
-		
 		return $this;
 	}
 
@@ -1218,10 +1231,24 @@ class Task {
 		$per_page = isset( $this->query_params['per_page'] ) ? $this->query_params['per_page'] : false;
 		
 		if ( ! empty( $per_page ) && intval( $per_page ) ) {
-			return intval( $per_page );
+			return (int) $per_page;
 		}
 
-		return 10;
+		$with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
+		
+		if ( ! is_array( $with ) ) {
+			$with = explode( ',', str_replace(' ', '', $with ) );
+		}
+
+		if ( in_array( 'incomplete_tasks_per_page', $with ) ) {
+			$per_page = pm_get_setting( 'incomplete_tasks_per_page' );
+		}
+
+		if ( in_array( 'complete_tasks_per_page', $with ) ) {
+			$per_page = pm_get_setting( 'complete_tasks_per_page' );
+		}
+
+		return empty( $per_page ) ? 10 : (int) $per_page;
 	}
 
 	/**
@@ -1236,7 +1263,7 @@ class Task {
 		$boardable = pm_tb_prefix() . 'pm_boardables';
 		$tasks = [];
 
-		$query = $wpdb->prepare( "SELECT SQL_CALC_FOUND_ROWS DISTINCT {$this->select}, 
+		$query = $wpdb->prepare( "SELECT SQL_CALC_FOUND_ROWS DISTINCT {$this->tb_tasks}.*, 
 			list.id as task_list_id, 
 			$this->tb_tasks.project_id
 			
@@ -1251,15 +1278,15 @@ class Task {
 			AND boardable.board_type=%s 
 			AND boardable.boardable_type=%s
 			
-			{$this->orderby}
+			{$this->orderby} 
 			
 			{$this->limit}", 
 
 			1, 1, 'task_list', 'task'
 		);
-		
-		$results = $wpdb->get_results( $query );
 
+		$results = $wpdb->get_results( $query );
+		
 		// If task has not boardable_id mean no list
 		foreach ( $results as $key => $result ) {
 			if( empty( $result->task_list_id ) ) {
@@ -1292,6 +1319,8 @@ class Task {
 		$odr_prms = isset( $this->query_params['orderby'] ) ? $this->query_params['orderby'] : false;
 		
 		if ( $odr_prms === false && !is_array( $odr_prms ) ) {
+			$this->orderby = ' ORDER BY boardable.order DESC';
+
 			return $this;
 		}
 
@@ -1317,7 +1346,7 @@ class Task {
 	    }
 
 	    $this->orderby = "ORDER BY " . implode( ', ', $order);
-
+	    
 		return $this;
 	}
 

@@ -1043,7 +1043,7 @@ class Task_Controller {
         return $returns;
     }
 
-    public function get_incomplete_task_ids( $list_ids, $project_id ) {
+    public function get_incomplete_task_ids( $list_ids, $project_id, $not_in_tasks = [] ) {
         global $wpdb;
 
         if ( empty( $list_ids ) ) {
@@ -1064,11 +1064,16 @@ class Task_Controller {
             $start = 0;
         }
 
-        $list_ids   = implode(',', $list_ids );
-        $permission_join = apply_filters( 'pm_incomplete_task_query_join', '', $project_id );
-        $permission_where = apply_filters( 'pm_incomplete_task_query_where', '', $project_id );
+        $list_ids         = implode(',', $list_ids );
+        $permission_join  = apply_filters( 'pm_incomplete_task_query_join', '', $project_id );
+        $where = apply_filters( 'pm_incomplete_task_query_where', '', $project_id );
 
-        $sql = "SELECT ibord_id, GROUP_CONCAT( DISTINCT task.task_id order by task.iorder asc) as itasks_id
+        if ( ! empty( $not_in_tasks ) ) {
+            $not_in_tasks = implode( ',', $not_in_tasks );
+            $where .= " AND itasks.id NOT IN ({$not_in_tasks})";
+        }
+
+        $sql = "SELECT ibord_id, GROUP_CONCAT( DISTINCT task.task_id order by task.iorder DESC) as itasks_id
             FROM
                 (
                     SELECT
@@ -1084,15 +1089,12 @@ class Task_Controller {
                         itasks.status=0
                         AND ibord.board_type='task_list'
                         AND ibord.boardable_type='task'
-                        $permission_where
+                        $where
                         order by iorder asc
 
                 ) as task
 
             group by ibord_id";
-
-        //pmpr($sql);
-        //die();
 
         $results = $wpdb->get_results( $sql );
 
@@ -1123,7 +1125,7 @@ class Task_Controller {
         return $results;
     }
 
-    public function get_complete_task_ids( $list_ids, $project_id ) {
+    public function get_complete_task_ids( $list_ids, $project_id, $not_in_tasks = [] ) {
         global $wpdb;
 
         if ( empty( $list_ids ) ) {
@@ -1146,9 +1148,14 @@ class Task_Controller {
 
         $list_ids         = implode(',', $list_ids );
         $permission_join  = apply_filters( 'pm_complete_task_query_join', '', $project_id );
-        $permission_where = apply_filters( 'pm_complete_task_query_where', '', $project_id );
+        $where = apply_filters( 'pm_complete_task_query_where', '', $project_id );
 
-        $sql = "SELECT ibord_id, GROUP_CONCAT( DISTINCT task.task_id order by task.iorder asc) as itasks_id
+        if ( ! empty( $not_in_tasks ) ) {
+            $not_in_tasks = implode( ',', $not_in_tasks );
+            $where .= " AND itasks.id NOT IN ({$not_in_tasks})";
+        }
+
+        $sql = "SELECT ibord_id, GROUP_CONCAT( DISTINCT task.task_id order by task.iorder DESC) as itasks_id
             FROM
                 (
                     SELECT
@@ -1164,7 +1171,7 @@ class Task_Controller {
                         itasks.status=1
                         AND ibord.board_type='task_list'
                         AND ibord.boardable_type='task'
-                        $permission_where
+                        $where
                         order by iorder asc
 
                 ) as task
@@ -1237,7 +1244,7 @@ class Task_Controller {
                 $join->on( $task . '.id', '=', $assignees . '.task_id' );
             })
 
-            ->groupBy($task . '.id')
+            ->groupBy( $task . '.id' )
             ->orderBy( $list . '.order', 'DESC' );
 
         $task_collection = apply_filters( 'list_tasks_filter_query', $task_collection, $args );
@@ -1340,6 +1347,30 @@ class Task_Controller {
         if ( $newModel->save() ) {
             return $newModel;
         }
+    }
+
+    public function load_more_tasks( WP_REST_Request $request ) {
+        $list_id    = $request->get_param( 'list_id' );
+        $task_ids   = $request->get_param( 'task_ids' );
+        $project_id = $request->get_param( 'project_id' );
+        $status     = $request->get_param( 'status' );
+
+        if ( (int) $status ) {
+            $task_ids = $this->get_complete_task_ids( [$list_id], $project_id, $task_ids );   
+        } else {
+            $task_ids = $this->get_incomplete_task_ids( [$list_id], $project_id, $task_ids );   
+        }
+        
+        $tasks = pm_get_tasks( [ 'id' => $task_ids ] );
+
+        wp_send_json_success(
+            [
+                'project_id' => $project_id,
+                'list_id'    => $list_id,
+                'tasks'      => $tasks,
+                'status'     => (int) $status
+            ]
+        );
     }
 }
 

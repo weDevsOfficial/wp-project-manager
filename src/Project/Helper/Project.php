@@ -45,10 +45,6 @@ class Project {
 	 * @return Object
 	 */
 	public static function getInstance() {
-        // if ( !self::$_instance ) {
-        //     self::$_instance = new self();
-        // }
-
         return new self();
     }
 
@@ -1280,8 +1276,12 @@ class Project {
 		$per_page = isset( $this->query_params['per_page'] ) ? $this->query_params['per_page'] : false;
 
 		if ( ! empty( $per_page ) && intval( $per_page ) ) {
-			return intval( $per_page );
+			return (int) $per_page;
 		}
+
+		$per_page = pm_get_setting( 'project_per_page' );
+
+		return empty( $per_page ) ? 10 : (int) $per_page;
 
 		return 10;
 	}

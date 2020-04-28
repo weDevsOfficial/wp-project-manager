@@ -803,8 +803,30 @@ function pm_get_capabilities_relation( $role ) {
 }
 
 
-function pm_get_prepare_format( $ids, $is_string = false  ) {
+// function pm_get_prepare_format( $ids, $is_string = false  ) {
+//     // how many entries will we select?
+//     $how_many = count( $ids );
+
+//     // prepare the right amount of placeholders
+//     // if you're looing for strings, use '%s' instead
+//     if( $is_string ) {
+//         $placeholders = array_fill( 0, $how_many, '%s' );
+//     } else {
+//         $placeholders = array_fill( 0, $how_many, '%d' );
+//     }
+
+//     // glue together all the placeholders...
+//     // $format = '%d, %d, %d, %d, %d, [...]'
+//     $format = implode( ', ', $placeholders );
+
+//     return $format;
+// }
+
+function pm_get_prepare_format( $ids, $is_string = false ) {
+
+    
     $ids = pm_get_prepare_data( $ids );
+
     // how many entries will we select?
     $how_many = count( $ids );
 
@@ -829,6 +851,10 @@ function pm_get_prepare_data( $args, $delimiter = ',' ) {
 
     if ( is_array( $args ) ) {
         foreach ( $args as $date_key => $value ) {
+            if ( empty( $value ) ) {
+                continue;
+            }
+
             $new[trim($date_key)] = trim( $value );
         }
     }
@@ -837,6 +863,10 @@ function pm_get_prepare_data( $args, $delimiter = ',' ) {
         $args = explode( $delimiter, $args );
 
         foreach ( $args as $date_key => $value ) {
+            if ( empty( $value ) ) {
+                continue;
+            }
+
             $new[trim($date_key)] = trim( $value );
         }
     }
@@ -995,6 +1025,10 @@ function pm_can_create_user_at_project_create_time() {
 }
 
 function pm_get_estimation_type() { 
+    if ( ! function_exists( 'pm_pro_is_module_active' ) ) {
+        return 'task';
+    }
+
     if( ! pm_pro_is_module_active( 'sub_tasks/sub_tasks.php' ) ) {
         return 'task';
     }
@@ -1030,6 +1064,101 @@ function pm_second_to_time( $seconds ) {
     );
 
     return $obj;
+}
+
+/**
+ * [pm_get_projects description]
+ * @param  array|string $params
+ * @return [type]
+ */
+function pm_get_projects( $params ) {
+     return WeDevs\PM\Project\Helper\Project::get_results( $params );
+}
+
+/**
+ * [pm_get_task_lists description]
+ * @param  array|string $params
+ * @return [type]
+ */
+function pm_get_task_lists( $params ) {
+     return \WeDevs\PM\Task_List\Helper\Task_List::get_results( $params );
+}
+
+/**
+ * [pm_get_tasks description]
+ * @param  array|string $params
+ * @return [type]
+ */
+function pm_get_tasks( $params ) {
+     return \WeDevs\PM\task\Helper\Task::get_results( $params );
+}
+
+/**
+ * [pm_get_milestones description]
+ * @param  array|string $params
+ * @return [type]
+ */
+function pm_get_milestones( $params ) {
+     return \WeDevs\PM\Milestone\Helper\Milestone::get_results( $params );
+}
+
+/**
+ * [pm_get_discussions description]
+ * @param  array|string $params
+ * @return [type]
+ */
+function pm_get_discussions( $params ) {
+     return \WeDevs\PM\Discussion_Board\Helper\Discussion_Board::get_results( $params );
+}
+
+/**
+ * [pm_get_comments description]
+ * @param  array|string $params
+ * @return [type]
+ */
+function pm_get_comments( $params ) {
+     return \WeDevs\PM\Comment\Helper\Comment::get_results( $params );
+}
+
+/**
+ * [pm_get_files description]
+ * @param  array|string $params
+ * @return [type]
+ */
+function pm_get_files( $params ) {
+     return \WeDevs\PM\File\Helper\File::get_results( $params );
+}
+
+/**
+ * [pm_get_users description]
+ * @param  array|string $params
+ * @return [type]
+ */
+function pm_get_users( $params ) {
+     return \WeDevs\PM\User\helper\User::get_results( $params );
+}
+
+/**
+ * check the query is single data or not
+ * @param  array|string $params
+ * @return [type]
+ */
+function pm_is_single_query( $params ) {
+    if ( empty( $params['id'] ) ) {
+        return false;
+    }
+
+    if ( is_array( $params['id'] ) ) {
+        return false;
+    }
+
+    $id = pm_get_prepare_data( $params['id'] );
+
+    if ( count( $id ) == 1 ) {
+        return true;
+    }
+
+    return false;
 }
 
 
