@@ -113,7 +113,7 @@
                                     <span>{{ taskDateFormat(task.due_date.date) }}</span>
                                 </span>
 
-                                <div v-if="hasTaskType" class="task-type-wrap">
+                                <div v-if="taskTypeField" class="task-type-wrap">
                                     <pm-popper trigger="click" :options="popperOptions">
                                         <div class="pm-popper popper">
                                             <div class="pm-multiselect-top pm-multiselect-subtask-task">
@@ -240,7 +240,14 @@ export default {
             default: 0
         },
 
-        hasTaskType: {
+        taskTypeField: {
+            type: [Boolean],
+            default () {
+                return false
+            }
+        },
+
+        estimationField: {
             type: [Boolean],
             default () {
                 return false

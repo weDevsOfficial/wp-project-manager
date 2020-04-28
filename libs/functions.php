@@ -1029,17 +1029,17 @@ function pm_get_estimation_type() {
         return 'task';
     }
 
-    if( ! pm_pro_is_module_active( 'sub_tasks/sub_tasks.php' ) ) {
-        return 'task';
+    if( pm_pro_is_module_active( 'sub_tasks/sub_tasks.php' ) ) {
+        return 'subtask';
     }
 
-    $db_est_type = pm_get_setting( 'estimation_type' );
+    // $db_est_type = pm_get_setting( 'estimation_type' );
 
-    if ( empty( $db_est_type ) ) {
-        return 'task';
-    }
+    // if ( empty( $db_est_type ) ) {
+    //     return 'task';
+    // }
 
-    return $db_est_type;
+    return 'task';
 }
 
 function pm_second_to_time( $seconds ) {
