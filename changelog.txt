@@ -1,5 +1,15 @@
 = v2.3.8 - Mar 12, 2020 =
 
+* **New** New function for getting tasks, messages, milestones, discussions, projects, comments, files, users.
+* **New** Toggle Project description.
+* **Fix** Overview graph showing error when there is no task. 
+* **Fix** Task assigned date is not showing in single task popup.
+* **Fix** Progress bar continue loading when clearing the task filter.
+* **Update** The unnecessary load more button is showing when delete completed task.
+
+
+= v2.3.8 - Mar 12, 2020 =
+
 * **New** Add fileter for removing project unique title.
 * **Fix** Fixing Multiside completable issues.
 * **Update** Update query for fetching users to make Multi-site compatible.

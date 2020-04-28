@@ -246,7 +246,7 @@ class Project_Controller {
 
 	public function update( WP_REST_Request $request ) {
 		// Extract non empty inputs and update project
-		$data    = $this->extract_non_empty_values( $request );
+		$data    = $request->get_params();//$this->extract_non_empty_values( $request );
 		$project = Project::find( $data['id'] );
 
 		$project->update_model( $data );

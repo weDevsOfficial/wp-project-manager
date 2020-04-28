@@ -513,7 +513,7 @@
 						data.due_date = pm.Moment().format('YYYY-MM-DD');
 					}
 					
-					if(data.start_at && this.hasTaskStartField()) {
+					if( data.start_at && this.hasTaskStartField()) {
 						data.start_at_operator = ['greater_than_equal'];
 						data.start_at = pm.Moment(data.start_at).format('YYYY-MM-DD');
 					} 
