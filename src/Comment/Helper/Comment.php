@@ -46,7 +46,7 @@ class Comment {
 
 		$response = $self->format_comments( $self->comments );
 
-		if( $self->is_single_query && count( $response['data'] ) ) {
+		if ( pm_is_single_query( $params ) ) {
 			return ['data' => $response['data'][0]] ;
 		}
 
