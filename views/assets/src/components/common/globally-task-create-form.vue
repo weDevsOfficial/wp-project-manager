@@ -53,7 +53,8 @@
                 :task="task" 
                 :list="list"
                 :projectId="parseInt(projectId)"
-                :hasTaskType="hasTaskType"
+                :taskTypeField="taskTypeField"
+                :estimationField="estimationField"
                 @pm_after_create_task="afterCreateTask"
             />
                     
@@ -82,7 +83,14 @@
                 }
             },
 
-            hasTaskType: {
+            taskTypeField: {
+                type: [Boolean],
+                default () {
+                    return false
+                }
+            },
+
+            estimationField: {
                 type: [Boolean],
                 default () {
                     return false
