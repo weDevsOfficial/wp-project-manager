@@ -132,7 +132,20 @@
         text-align: left; 
         min-width: 150px;
         right: -20px;
-        position: absolute;       
+        position: absolute;
+
+        .flaticon-pm-copy-files {
+            display: inline-block;
+            width: 20px;
+            &:before {
+                color: #b5b4b4;
+            }
+            &:hover {
+                &:before {
+                    color: #000;
+                }
+            }
+        }       
     }    
 </style>
 <script>
