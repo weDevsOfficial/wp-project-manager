@@ -3,9 +3,9 @@ Contributors: tareq1988, nizamuddinbabu, wedevs, asaquzzaman
 Donate Link: https://tareq.co/donate/
 Tags: project, project manager, project management, web project management, task manager, online collaboration tool,
 Requires at least: 4.4 or higher
-Tested up to: 5.3.2
+Tested up to: 5.4
 Requires PHP: 5.6
-Stable tag: 2.3.8
+Stable tag: 2.3.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -238,6 +238,15 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 
 == Changelog ==
+
+= v2.3.9 - Apr 29, 2020 =
+
+* **New** New function for getting tasks, messages, milestones, discussions, projects, comments, files, users.
+* **New** Project description shows upon clicking on the description button.
+* **Update** Load more buttons showing twice after deleting completed task.
+* **Fix** On My task overview graph showing error when there are no task.
+* **Fix** Task assigned date is not showing in a single task popup. 
+* **Fix** Progress bar continue loading after clicking on Clear button on the task filter. 
 
 = v2.3.8 - Mar 12, 2020 =
 
