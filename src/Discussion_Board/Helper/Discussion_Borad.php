@@ -154,7 +154,7 @@ class Discussion_Board {
 		$creator_ids = array_unique( $creator_ids );
 
 		$creators = pm_get_users( [ 'id' => $creator_ids ] );
-		$creators = count( $creator_ids ) == 1  && ! empty( $creators ) ? [$creators['data']] : $creators['data'];
+		$creators = $creators['data'];
 		
 		$items = []; 
 		
@@ -181,7 +181,7 @@ class Discussion_Board {
 		$updater_ids = array_unique( $updater_ids );
 
 		$updaters = pm_get_users( [ 'id' => $updater_ids ] );
-		$updaters = count( $updater_ids ) == 1  && ! empty( $updaters ) ? [$updaters['data']] : $updaters['data'];
+		$updaters = $updaters['data'];
 		
 		$items = []; 
 		
@@ -236,7 +236,7 @@ class Discussion_Board {
 			'id' => array_unique( $milestone_ids )
 		]);
 
-		$milestones     = empty( $milestones['data']['id'] ) ? $milestones['data'] : [$milestones['data']];
+		$milestones     = $milestones['data'];
 		$key_milestones = [];
 		$items          = [];
 
@@ -295,7 +295,7 @@ class Discussion_Board {
 			'id' => array_unique( $comment_ids )
 		]);
 
-		$comments     = count( $comment_ids ) == 1  && ! empty( $comments ) ? [$comments['data']] : $comments['data'];
+		$comments     = $comments['data'];
 		$key_comments = [];
 		$items        = [];
 
@@ -354,7 +354,7 @@ class Discussion_Board {
 			'id' => $file_ids
 		]);
 	
-		$files     = empty( $files['data']['id'] ) ? $files['data'] : [$files['data']];
+		$files     = $files['data'];
 		$key_files = [];
 		$items     = [];
 

@@ -459,7 +459,7 @@ class Task_List {
 		$creator_ids = array_unique( $creator_ids );
 
 		$creators = pm_get_users( [ 'id' => $creator_ids ] );
-		$creators = count( $creator_ids ) == 1  && ! empty( $creators ) ? [$creators['data']] : $creators['data'];
+		$creators = $creators['data'];
 		
 		$items = []; 
 		
@@ -486,7 +486,7 @@ class Task_List {
 		$updater_ids = array_unique( $updater_ids );
 
 		$updaters = pm_get_users( [ 'id' => $updater_ids ] );
-		$updaters = count( $updater_ids ) == 1  && ! empty( $updaters ) ? [$updaters['data']] : $updaters['data'];
+		$updaters = $updaters['data'];
 		
 		$items = []; 
 		

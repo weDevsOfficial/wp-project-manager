@@ -50,7 +50,7 @@
                                 list_id: task.task_list_id
                             }
                         }">
-                            {{ task.task_list.title }}
+                            {{ task.task_list.data.title }}
                         </router-link>
 
                     </td>
