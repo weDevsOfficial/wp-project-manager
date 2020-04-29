@@ -1,57 +1,78 @@
 <template>
     <div class="pm-header-title-content" v-if="isProjectLoaded">
-        <div class="project-title">
-            <span class="title">{{ project.title }}</span>
-            <div class="pm-title-edit-settings" v-if="is_manager()">
-                <pm-popper trigger="click" :options="popperOptions" :force-show="projectFormStatus">
-                    <div class="pm-popper popper">
-                        <edit-project v-if="is_manager()" class="project-edit-form" :project="project" @makeFromClose="makeFromClose"></edit-project>
-                    </div>
-                    <!-- popper trigger element -->
-                    <a href="#" @click.prevent="checkFormStatus" slot="reference" :title="__( 'action', 'wedevs-project-manager')" class="pm-project-update-wrap pm-popper-ref popper-ref icon-pm-pencil project-update-btn"></a>
-                    
-                </pm-popper>
-            </div>
-            <div class="settings header-settings" v-if="is_manager()">
-                <pm-popper trigger="click" :options="popperOptions">
-                    <div class="pm-popper popper">
-                        <div v-if="is_manager()" class="pm-action-menu-container">
-                            <ul class="action-ul">
-                                <li>
-                                    <a @click.prevent="selfProjectMarkDone(project)" href="#">
-                                        <span v-if="project.status === 'incomplete'" class="icon-pm-completed"></span>
-                                        <span v-if="project.status === 'incomplete'">{{ __( 'Complete', 'wedevs-project-manager') }}</span>
-
-                                        <span v-if="project.status === 'complete'" class="icon-pm-undo-arrow"></span>
-                                        <span v-if="project.status === 'complete'">{{ __( 'Restore', 'wedevs-project-manager') }}</span>
-                                    </a>
-                                </li>
-                            
-                                <li>
-                                    <a href="#" @click.prevent="deleteProject(project.id)" :title="__( 'Delete project', 'wedevs-project-manager')">
-
-                                        <span class="icon-pm-delete"></span>
-                                        <span class="">{{ __( 'Delete', 'wedevs-project-manager') }}</span>
-                                    </a>
-                                </li>
-                                <!-- <do-action :hook="'pm-header-menu'" :actionData="menu"></do-action>  -->
-                            </ul>
-
+        <div class="header-row-1">
+            <div class="project-title">
+                <span class="title">{{ project.title }}</span>
+                
+                <div class="settings first header-settings" v-if="is_manager()">
+                    <pm-popper trigger="click" :options="popperOptions" :force-show="projectFormStatus">
+                        <div class="pm-popper popper">
+                            <edit-project v-if="is_manager()" class="project-edit-form" :project="project" @makeFromClose="makeFromClose"></edit-project>
                         </div>
-                    </div>
-                    <!-- popper trigger element -->
-                    <span  slot="reference" :title="__( 'action', 'wedevs-project-manager')" class="pm-popper-ref popper-ref icon-pm-settings header-settings-btn"></span>
-                </pm-popper>
+                        <!-- popper trigger element -->
+                        <a href="#" @click.prevent="checkFormStatus" slot="reference" :title="__( 'action', 'wedevs-project-manager')" class="pm-project-update-wrap pm-popper-ref popper-ref icon-pm-pencil project-update-btn"></a>
+                        
+                    </pm-popper>
+                </div>
+                <div class="action-settings settings header-settings" v-if="is_manager()">
+                    <pm-popper trigger="click" :options="popperOptions">
+                        <div class="pm-popper popper">
+                            <div v-if="is_manager()" class="pm-action-menu-container">
+                                <ul class="action-ul">
+                                    <li>
+                                        <a @click.prevent="selfProjectMarkDone(project)" href="#">
+                                            <span v-if="project.status === 'incomplete'" class="icon-pm-completed"></span>
+                                            <span v-if="project.status === 'incomplete'">{{ __( 'Complete', 'wedevs-project-manager') }}</span>
 
-                <!-- <a href="#" v-if="is_manager()" @click.prevent="showHideSettings()" class="icon-pm-settings header-settings-btn"></a> -->
+                                            <span v-if="project.status === 'complete'" class="icon-pm-undo-arrow"></span>
+                                            <span v-if="project.status === 'complete'">{{ __( 'Restore', 'wedevs-project-manager') }}</span>
+                                        </a>
+                                    </li>
+                                
+                                    <li>
+                                        <a href="#" @click.prevent="deleteProject(project.id)" :title="__( 'Delete project', 'wedevs-project-manager')">
+
+                                            <span class="icon-pm-delete"></span>
+                                            <span class="">{{ __( 'Delete', 'wedevs-project-manager') }}</span>
+                                        </a>
+                                    </li>
+                                    <!-- <do-action :hook="'pm-header-menu'" :actionData="menu"></do-action>  -->
+                                </ul>
+
+                            </div>
+                        </div>
+                        <!-- popper trigger element -->
+                        <a href="#" @click.prevent="" slot="reference" :title="__( 'action', 'wedevs-project-manager')" class="pm-popper-ref popper-ref icon-pm-settings header-settings-btn"></a>
+                    </pm-popper>
+
+                    <!-- <a href="#" v-if="is_manager()" @click.prevent="showHideSettings()" class="icon-pm-settings header-settings-btn"></a> -->
+                </div>
+                <div class="settings last header-settings">
+                    <a 
+                        v-tooltip.top-center="__( 'Project Description', 'wedevs-project-manager' )"
+                        href="#" 
+                        class="flaticon-text-document"
+                        @click.prevent="updateDescriptionVisibility()"
+                    />
+                </div>
+
             </div>
 
+            <div class="project-search-box-container">
+                <pm-do-action hook="pm_project_header" ></pm-do-action>
+            </div>
         </div>
 
-        <div class="project-search-box-container">
-            <pm-do-action hook="pm_project_header" ></pm-do-action>
-        </div>
-
+        <div 
+            class="description"
+            v-if="project.description.content && showDescription"
+            v-text="project.description.content"
+        />
+        <div 
+            class="description"
+            v-if="!project.description.content && showDescription"
+            v-text="__( 'No Description Found!', 'wedevs-project-manager' )"
+        />
     </div> 
     
 </template>
@@ -59,12 +80,24 @@
 <style lang="less">
     
     .pm-header-title-content {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        .pm-title-edit-settings {
-            border-right: 1px solid #E5E4E4;
+        .header-row-1 {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .description {
+            background: #f9f9f9;
+            margin-top: 16px;
+            padding: 10px;
+            border: 1px solid #d7d7d7;
+            color: #47525d;
+            text-align: justify;
+        }
+
+        .settings.header-settings {
             position: relative;
+
             .project-edit-form {
                 left: 0;
                 white-space: nowrap;
@@ -74,6 +107,7 @@
                     left: inherit;
                     right: 0px;
                 }
+                
                 .pm-form {
                     .item {
                         margin-right: 0;
@@ -88,9 +122,11 @@
                     .pm-del-proj-role {
                         cursor: pointer;
                     }
+                    
                     #project-notify {
                         margin-right: 5px;
                     }
+                    
                     table {
                         width: 100%;
                         td:nth-child(2){
@@ -103,10 +139,12 @@
                             text-align: right;
                         }
                     }
+                    
                     .submit {
                         .project-cancel {
                             box-shadow: 0 1px 0 #c5c5c5;
                         }
+                        
                         .pm-loading:after {
                             margin: 6px 0 0 10px;
                         }
@@ -116,6 +154,7 @@
         }
 
         .project-status {
+            
             .incomplete, .complete {
                 border: 1px solid #E5E4E4;
                 background: #fff;
@@ -132,6 +171,7 @@
                 }
             }
         }
+        
         .project-title {
             flex: 1;
             display: flex;
@@ -155,29 +195,7 @@
                 margin-right: 20px;
                 white-space: nowrap;
             }
-            .icon-pm-pencil {
-                border: 1px solid #E5E4E4;
-                background: #fff;
-                color: #95A5A6;
-                padding: 0px 10px;
-                border-radius: 3px;
-                cursor: pointer;
-                border-top-right-radius: 0px;
-                border-bottom-right-radius: 0px;
-                height: 30px;
-                display: flex;
-                align-items: center;
-                z-index: 9;
-
-                &:hover {
-                    border: 1px solid #1A9ED4;
-                    color: #1A9ED4;
-                    
-                    &:before {
-                        color: #1A9ED4;
-                    }
-                }
-            }
+            
         }
 
         .settings {
@@ -185,24 +203,32 @@
             display: flex;
             align-items: center;
             border: 1px solid #E5E4E4;
+            border-right-color: #fff;
             background: #fff;
             color: #95A5A6;
-            border-radius: 3px;
             cursor: pointer;
-            border-left-color: #fff;
-            border-top-left-radius: 0px;
-            border-bottom-left-radius: 0px;
-            margin-left: -1px;
+
             &:hover {
-                border: 1px solid #1A9ED4;
-                color: #1A9ED4;
-                z-index: 99;
-                
-                .icon-pm-settings {
+                border-color: #1A9ED4;
+
+                .icon-pm-settings, .flaticon-text-document, .icon-pm-pencil {
                     &:before {
                         color: #1A9ED4;
 
                     }
+                }
+            }
+
+            .flaticon-text-document {
+                height: 28px;
+                padding: 0 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #95A5A6;
+
+                &:before {
+                    font-size: 1rem;
                 }
             }
 
@@ -211,6 +237,17 @@
                 padding: 0 10px;
                 display: flex;
                 align-items: center;
+            }
+
+            .icon-pm-pencil {
+                height: 28px;
+                color: #95A5A6;
+                padding: 0px 10px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                z-index: 9;
             }
 
             .pm-action-menu-container {
@@ -256,6 +293,21 @@
                 }
             }
         }
+
+        .settings.first {
+            border-top-left-radius: 3px;
+            border-bottom-left-radius: 3px;
+        }
+
+        .settings.last {
+            border-top-right-radius: 3px;
+            border-bottom-right-radius: 3px;
+            border-right: 1px solid #E5E4E4;
+
+            &:hover {
+                border-right-color: #1A9ED4;
+            }
+        }
     }
     
     @media (max-width: 767px){
@@ -295,7 +347,7 @@
                         } 
                     }
                 },
-                projectFormStatus : false
+                projectFormStatus : false,
             }
 
         },
@@ -317,6 +369,7 @@
                 
                 return jQuery.isEmptyObject(project) ? false : true;
             },
+
             is_project_edit_mode () {
                 return this.$store.state.is_project_form_active;
             },
@@ -324,10 +377,15 @@
             project () {
                 return  this.$store.state.project;
             },
+
             hasProject () {
 
                 return this.$store.state.project.hasOwnProperty('id');
             },
+
+            showDescription () {
+                return this.$store.state.showDescription;
+            }
 
         },
         
@@ -344,6 +402,11 @@
         },
 
         methods: {
+            updateDescriptionVisibility () {
+                let status = this.showDescription ? false : true;
+                this.$store.commit( 'updateShowDescription', status );
+            },
+
             windowActivity (el) {
                 
                 var settingsWrap  = jQuery(el.target).closest('.header-settings'),

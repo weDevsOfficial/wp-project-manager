@@ -1,6 +1,6 @@
     /*
     Flaticon icon font: Flaticon
-    Creation date: 29/01/2020 03:48
+    Creation date: 16/04/2020 04:18
     */
 
     @font-face {
@@ -136,6 +136,11 @@
 .flaticon-custom-field-icon:before { content: "\f160"; }
 .flaticon-check-mark-1:before { content: "\f161"; }
 .flaticon-color-picker:before { content: "\f162"; }
+.flaticon-plus:before { content: "\f163"; }
+.flaticon-more-1:before { content: "\f164"; }
+.flaticon-minus:before { content: "\f165"; }
+.flaticon-minus-1:before { content: "\f166"; }
+.flaticon-text-document:before { content: "\f167"; }
     
     $font-Flaticon-document: "\f100";
     $font-Flaticon-arrow: "\f101";
@@ -236,3 +241,8 @@
     $font-Flaticon-custom-field-icon: "\f160";
     $font-Flaticon-check-mark-1: "\f161";
     $font-Flaticon-color-picker: "\f162";
+    $font-Flaticon-plus: "\f163";
+    $font-Flaticon-more-1: "\f164";
+    $font-Flaticon-minus: "\f165";
+    $font-Flaticon-minus-1: "\f166";
+    $font-Flaticon-text-document: "\f167";
