@@ -411,7 +411,7 @@ class Task {
 			->include_assignees()
 			->include_total_comments()
 			->include_total_files()
-			->include_task_type()
+			//->include_task_type()
 			->include_task_order()
 			->include_estimation_time();
 
@@ -541,6 +541,7 @@ class Task {
 	}
 
 	private function include_task_type() {
+
 		global $wpdb;
 		// $with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
 		
