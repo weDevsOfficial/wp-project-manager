@@ -312,7 +312,7 @@
                         .icon-pm-pencil, 
                         .icon-pm-delete, 
                         .icon-pm-move, 
-                        .icon-pm-private, 
+                        .icon-pm-private,
                         .icon-pm-unlock {
                             display: inline-block;
                             width: 20px;

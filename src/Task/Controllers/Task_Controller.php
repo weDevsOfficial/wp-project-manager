@@ -1264,13 +1264,15 @@ class Task_Controller {
     public function duplicate( WP_REST_Request $request ) {
         $task_id    = $request->get_param( 'task_id' );
         
-        $task       = $this->get_task( $task_id );
-        $list_id    = $task['data']['task_list_id'];
-        $task       = Task::find( $task_id );
-        $task->title       = __( 'Copy ', 'wedevs-project-manager' ) . $task->title;
-        $project_id = $task->project_id;
-        $task       = $this->task_duplicate( $task, $list_id, $project_id );
-        $new_task   = $this->get_task( $task->id );
+        $task           = $this->get_task( $task_id );
+        $list_id        = $task['data']['task_list_id'];
+        $task           = Task::find( $task_id );
+        $task->title    = __( 'Copy ', 'wedevs-project-manager' ) . $task->title;
+        $project_id     = $task->project_id;
+        $duplicate_task = $this->task_duplicate( $task, $list_id, $project_id );
+        $new_task       = $this->get_task( $duplicate_task->id );
+
+        do_action( 'pm_after_task_duplicate', $new_task, $task  );
 
         wp_send_json_success( 
             [
