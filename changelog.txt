@@ -1,3 +1,12 @@
+= v2.3.9 - Apr 29, 2020 =
+
+* **New** New function for getting tasks, messages, milestones, discussions, projects, comments, files, users.
+* **New** Project description shows upon clicking on the description button.
+* **Update** Load more buttons showing twice after deleting completed task.
+* **Fix** On My task overview graph showing error when there are no task.
+* **Fix** Task assigned date is not showing in a single task popup. 
+* **Fix** Progress bar continue loading after clicking on Clear button on the task filter. 
+
 = v2.3.8 - Mar 12, 2020 =
 
 * **New** Add fileter for removing project unique title.
