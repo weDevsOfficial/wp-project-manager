@@ -302,7 +302,7 @@ class Task {
 		
 		$items['id']           = (int) $task->id;
 		$items['project_id']   = (int) $task->project_id;
-		$items['type']         = $task->type;
+		//$items['type']         = $task->type;
 		$items['order']        = $task->order;
 		$items['assignees']    = $task->assignees;
 		$items['task_list_id'] = (int) $task->task_list_id;
