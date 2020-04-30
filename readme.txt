@@ -239,7 +239,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
-= v2.3.9 - Apr 29, 2020 =
+= v2.3.9 - Apr 30, 2020 =
 
 * **New** New function for getting tasks, messages, milestones, discussions, projects, comments, files, users.
 * **New** Project description shows upon clicking on the description button.
