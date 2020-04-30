@@ -258,7 +258,7 @@
                         'department_id': this.project.department_id
                     }
                 }
-
+                
                 var self = this;
                 if (this.project.hasOwnProperty('id')) {
                     args.data.id = this.project.id;

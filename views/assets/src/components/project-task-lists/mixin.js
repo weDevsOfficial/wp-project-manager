@@ -670,7 +670,8 @@ var PM_TaskList_Mixin = {
                 success (res) {
                     self.$store.commit( 'projectTaskLists/afterDeleteTask', {
                         'task': args.task,
-                        'list': args.list 
+                        'list': args.list,
+                        'dbList': res.list 
                     });
                     pm.Toastr.success(res.message);
                     self.$store.commit('updateProjectMeta', 'total_activities');
@@ -955,13 +956,47 @@ var PM_TaskList_Mixin = {
             if (typeof list.incomplete_tasks === 'undefined') {
                 return false;
             }
+            // let lists     = this.$store.state.projectTaskLists.lists; 
+            // let listIndex = this.getIndex( lists, pareseInt( listId ), 'id' );
+            // let list      = lists[listIndex];
 
-            var count_tasks = list.meta.total_incomplete_tasks;
-            var total_set_task = list.incomplete_tasks.data.length;
+            var totalIncompleteTasks = list.meta.total_incomplete_tasks;
+            var countLocalStore      = list.incomplete_tasks.data.length;
 
-            if (total_set_task === count_tasks) {
+            if ( parseInt(countLocalStore) >= parseInt(totalIncompleteTasks) ) {
                 return false;
             }
+
+            return true;
+        },
+
+        /**
+         * Complete task load more Button
+         * @param  {[Object]}  list [Task List object]
+         * @return {Boolean}      [description]
+         */
+        isCompleteLoadMoreActive ( list ) {
+
+            if(typeof this.$route.query.filterTask != 'undefined') {
+                if(this.$route.query.filterTask == 'active') {
+                    if(this.$route.query.status == 'incomplete') {
+                        
+                        return false;
+                    }
+                }
+            }
+
+            if (typeof list.complete_tasks === 'undefined') {
+                return false;
+            }
+
+            var totalCompleteTasks = list.meta.total_complete_tasks;
+            var countLocalStore = list.complete_tasks.data.length;
+            
+            if ( parseInt(countLocalStore) >= parseInt(totalCompleteTasks) ) {
+                return false;
+            }
+
             return true;
         },
 
@@ -973,14 +1008,14 @@ var PM_TaskList_Mixin = {
         loadMoreIncompleteTasks ( list, callback ) {
             callback = callback || false;
             if ( list.task_loading_status ) {
-                return;
+                //return;
             }
             var self = this;
             list.task_loading_status = true;
 
             var total_tasks = list.meta.total_incomplete_tasks;
             var per_page = this.getSettings ( 'incomplete_tasks_per_page', 10 );
-            var current_page = Math.ceil ( list.incomplete_tasks.data.length/per_page );
+            var current_page = Math.floor( list.incomplete_tasks.data.length/per_page );
 
             var args ={
                 condition: {
@@ -1002,39 +1037,22 @@ var PM_TaskList_Mixin = {
         },
 
         /**
-         * Complete task load more Button
-         * @param  {[Object]}  list [Task List object]
-         * @return {Boolean}      [description]
-         */
-        isCompleteLoadMoreActive ( list ) {
-            if (typeof list.complete_tasks === 'undefined') {
-                return false;
-            }
-            var count_tasks = list.meta.total_complete_tasks;
-            var total_set_task = list.complete_tasks.data.length;
-            if ( total_set_task === count_tasks ) {
-                return false;
-            }
-            return true;
-        },
-
-        /**
          * Load More Incomplete task
          * @param  {[Object]} list Task List
          * @return {[viod]}      [More Task]
          */
-        loadMoreCompleteTasks ( list, callback ) {
+        loadMoreCompleteTasks ( list, callback, current_page ) {
 
             if ( list.task_loading_status ) {
                 return;
             }
 
             list.task_loading_status = true;
-
             
             var per_page = this.getSettings( 'complete_tasks_per_page', 10 );
-            var current_page = Math.ceil ( list.complete_tasks.data.length/per_page );
-
+            
+            var current_page = Math.floor( list.complete_tasks.data.length/per_page );  
+            
             var args ={
                 condition: {
                     with: 'complete_tasks',
@@ -1047,6 +1065,7 @@ var PM_TaskList_Mixin = {
                     if(typeof callback != 'undefined') {
                         callback(res);
                     }
+
                     list.task_loading_status = false;
                 }
             } ;

@@ -109,7 +109,11 @@
                                             <span>{{ __('This is a system default task list. Any task without an assigned tasklist will appear here.', 'wedevs-project-manager') }}</span>
                                         </div>
 
-                                        <list-tasks v-if="inboxList.expand" :list="inboxList"></list-tasks>
+                                        <list-tasks 
+                                            v-if="inboxList.expand" 
+                                            :list="inboxList"
+                                            :isActiveFilter="isActiveFilter"
+                                        />
                                     </li>
                                 </ul>
                                 
@@ -190,7 +194,11 @@
                                             <span v-if="isInbox(list.id)">{{ __('This is a system default task list. Any task without an assigned tasklist will appear here.', 'wedevs-project-manager') }}</span>
                                         </div>
 
-                                        <list-tasks v-if="list.expand" :list="list"></list-tasks>
+                                        <list-tasks 
+                                            v-if="list.expand" 
+                                            :list="list"
+                                            :isActiveFilter="isActiveFilter"
+                                        />
                                     </li>
 
                                     <li v-if="!lists.length">
@@ -400,7 +408,7 @@
                 asyncListLoading: false,
                 taskFilterSpinner: false,
                 searchTasktitle: '',
-                isfilterQueryRunning: false
+                isfilterQueryRunning: false,
             }
         },
 
@@ -597,7 +605,7 @@
                 this.setSearchData();
                 this.isActiveFilter = true;
                 this.filterRequent();
-            } 
+            }
         },
 
         methods: {
@@ -616,7 +624,8 @@
                     name: 'single_list',
                     params: { 
                         project_id: this.project_id,
-                        list_id: list.id
+                        list_id: list.id,
+                        with: 'incomplete_tasks,complete_tasks,comments'
                     }
                 });
             },
@@ -800,8 +809,12 @@
                     this.$router.push({
                         query: {}
                     });
-
-                    this.getLists();
+                    
+                    this.getLists({
+                        callback () {
+                            pm.NProgress.done();
+                        }
+                    });
                 } 
             },
 
