@@ -26,22 +26,25 @@
                             <!-- prev condition v-if="project.settings_hide && is_manager(project)" -->
                             <ul :class="dropdownToggleClass(project)">
                                 <li>
+                                    <a href="#" @click.prevent="projectMarkAsDoneUndone(project)" class="pm-archive" >
+                                        <span v-if="project.status == 'incomplete' ||  project.status == '0'" class="dashicons dashicons-yes"></span>
+                                        <span v-if="project.status == 'incomplete' ||  project.status == '0'">{{ __( 'Complete', 'wedevs-project-manager') }}</span>
+
+                                        <span v-if="project.status == 'complete' ||  project.status == '1'" class="dashicons dashicons-undo"></span>
+                                        <span v-if="project.status == 'complete' ||  project.status == '1'">{{ __( 'Restore', 'wedevs-project-manager') }}</span>
+                                        
+                                    </a>
+                                </li>
+                                <li>
+                                    <pm-do-action :hook="'project_action_menu'" :actionData="project" ></pm-do-action>
+                                </li>
+
+                                <li>
                                     <a href="#" @click.prevent="deleteProject(project.id, project)" class="pm-project-delete-link" :title="__( 'Delete project', 'wedevs-project-manager')">
                                         <span class="dashicons dashicons-trash"></span>
                                         <span>{{ __( 'Delete', 'wedevs-project-manager') }}</span>
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="#" @click.prevent="projectMarkAsDoneUndone(project)" class="pm-archive" >
-                                        <span v-if="project.status == 'incomplete'" class="dashicons dashicons-yes"></span>
-                                        <span v-if="project.status == 'incomplete'">{{ __( 'Complete', 'wedevs-project-manager') }}</span>
-
-                                        <span v-if="project.status == 'complete'" class="dashicons dashicons-undo"></span>
-                                        <span v-if="project.status == 'complete'">{{ __( 'Restore', 'wedevs-project-manager') }}</span>
-                                        
-                                    </a>
-                                </li>
-                                <pm-do-action :hook="'project_action_menu'" :actionData="project" ></pm-do-action>
                             </ul>
                         </li>
                     </ul>
@@ -55,7 +58,7 @@
                         </li>
                     </ul> -->
                     <div class="pm-project-info">
-                        <div class="pm-project-description">
+                        <div :title="project.description.content" class="pm-project-description">
                             <p v-text="project.description.content"></p>
                         </div>
                         <ul class="pm-project-meta-counters pm-list-inline">
@@ -343,7 +346,16 @@
 
 </script>
 
-<style>
+<style lang="less">
+    .pm-project-item {
+        .dashicons-trash {
+            &:before {
+                font-size: 16px;
+                color: #eb5c70;
+            }
+        }
+    }
+
     .fa-circle {
         margin-right: 6%;
     }

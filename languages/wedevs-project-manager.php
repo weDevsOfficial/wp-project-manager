@@ -17,6 +17,8 @@ return [
 	__( 'Restore', 'wedevs-project-manager' ),
 	__( 'Delete project', 'wedevs-project-manager' ),
 	__( 'Delete', 'wedevs-project-manager' ),
+	__( 'Project Description', 'wedevs-project-manager' ),
+	__( 'No Description Found!', 'wedevs-project-manager' ),
 	__( 'Activity', 'wedevs-project-manager' ),
 	__( 'Task', 'wedevs-project-manager' ),
 	__( 'Discussions', 'wedevs-project-manager' ),

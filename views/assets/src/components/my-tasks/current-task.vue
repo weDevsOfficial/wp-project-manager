@@ -65,7 +65,7 @@
                                 list_id: task.task_list_id
                             }
                         }">
-                            {{ task.task_list.title }}
+                            {{ task.task_list.data.title }}
                         </router-link>
 
                     </td>
@@ -95,6 +95,7 @@
         <router-view name="singleTask"></router-view>
     </div>
 </template>
+
 <style lang="less">
     .mytask-current {
         .current-task-table {
@@ -254,16 +255,20 @@
             },
             getCreatedAtValue (task) {
                 if(typeof this.$route.query.start_at == 'undefined' || typeof this.$route.query.due_date == 'undefined') {
-                    return this.getDate(task.created_at);
+                    let created_at = task.created_at.date ? task.created_at.date : task.created_at;
+                    return this.getDate(created_at);
                 }
 
                 if(this.$route.query.start_at == '' || this.$route.query.due_date == '') {
-                    return this.getDate(task.created_at);
+                    let created_at = task.created_at.date ? task.created_at.date : task.created_at;
+                    return this.getDate(created_at);
                 }
                 
                 if(this.$route.query.start_at != '' && this.$route.query.due_date != '') {
-                    let start_at = task.start_at.date ? task.start_at.date : task.created_at;
-                    return this.getDate(start_at) +' - '+ this.getDate(task.due_date.date);
+                    let start_at = task.start_at.date ? task.start_at.date : task.start_at;
+                    let due_date = task.due_date.date ? task.due_date.date : task.due_date;
+                    
+                    return this.getDate(start_at) +' - '+ this.getDate(due_date);
                 }
             },
             getDate(date) {

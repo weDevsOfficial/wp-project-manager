@@ -27,18 +27,19 @@
                 </a>
             </div>
         </div>
-        
+     
         <ul v-if="showCompletedTask" :data-list_id="list.id"  class="complete-task-ul nonsortable pm-connected-sortable">
             <li :data-id="task.id" :data-order="task.order"  v-for="task in getCompleteTasks" :key="task.id" :class="'complete-task-li pm-fade-out-'+task.id">
                 <complete-tasks :task="task" :list="list"></complete-tasks>       
 
             </li>
         </ul>
+
         <div
             v-if="isCompleteLoadMoreActive(list) && showCompletedTask"
             class="nonsortable more-task-wrap">
 
-            <div v-if="isCompleteLoadMoreActive(list)" class="group-action-btn">
+            <div class="group-action-btn">
                 <a :class="completedLoadMore ? 'anchor-btn white-text' : 'anchor-btn'" @click.prevent="selfLoadMoreCompleteTasks(list)" href="#">{{ __( 'More Tasks', 'wedevs-project-manager') }}</a>
                 <span v-if="completedLoadMore" class="pm-circle-spinner"></span>
             </div>
@@ -311,7 +312,7 @@
                         .icon-pm-pencil, 
                         .icon-pm-delete, 
                         .icon-pm-move, 
-                        .icon-pm-private, 
+                        .icon-pm-private,
                         .icon-pm-unlock {
                             display: inline-block;
                             width: 20px;
@@ -505,7 +506,7 @@
     export default {
         
         // Get passing data for this component. Remember only array and objects are
-        props: ['list'],
+        props: ['list', 'isActiveFilter'],
 
         mixins: [Mixins],
 
@@ -560,6 +561,15 @@
                 },
 
                 deep: true
+            },
+            
+            //Open task filter form. search with complete task and close the form and close complete task wrap
+            "$route" (route, prev) {
+                if ( prev.query.filterTask == 'active' ) {
+                    if ( !this.isActiveFilter ) {
+                        this.showCompletedTask = false;
+                    }
+                } 
             }
         },
 
@@ -649,21 +659,79 @@
         },
 
         methods: { 
+
             selfLoadMoreCompleteTasks(list) {
                 var self = this;
-                this.completedLoadMore = true;
 
-                this.loadMoreCompleteTasks(list, function() {
-                    self.completedLoadMore = false;
-                });
+                if ( self.completedLoadMore ) {
+                    return;
+                }
+                
+                let task_ids = list.complete_tasks.data.map( task => task.id );
+
+                var request = {
+                    type: 'GET',
+                    url: `${self.base_url}/pm/v2/projects/${self.project_id}/task-lists/${list.id}/more/tasks`,
+                    data: {
+                        task_ids: task_ids,
+                        status: 1
+                    },
+                    success (res) {
+                        res.data.tasks.data.forEach( task => {
+                            self.addTaskMeta(task);
+                        } );
+
+                        self.$store.commit( 'projectTaskLists/setTasks', {
+                            id: list.id,
+                            complete_tasks: res.data.tasks
+                        });
+
+                        self.completedLoadMore = false;
+                    }
+                };
+                self.completedLoadMore = true;
+                self.httpRequest(request);
+
+                // this.loadMoreCompleteTasks(list, task_ids, function() {
+                //     self.completedLoadMore = false;
+                // });
             },
+
             selfLoadMoreIncompleteTasks(list) {
                 var self = this;
-                this.loadMoreCircle = true;
 
-                this.loadMoreIncompleteTasks(list, function() {
-                    self.loadMoreCircle = false;
-                });
+                if ( self.loadMoreCircle ) {
+                    return;
+                }
+                
+                let task_ids = list.incomplete_tasks.data.map( task => task.id );
+
+                var request = {
+                    type: 'GET',
+                    url: `${self.base_url}/pm/v2/projects/${self.project_id}/task-lists/${list.id}/more/tasks`,
+                    data: {
+                        task_ids: task_ids,
+                        status: 0
+                    },
+                    success (res) {
+                        res.data.tasks.data.forEach( task => {
+                            self.addTaskMeta(task);
+                        } );
+
+                        self.$store.commit( 'projectTaskLists/setTasks', {
+                            id: list.id,
+                            incomplete_tasks: res.data.tasks
+                        });
+
+                        self.loadMoreCircle = false;
+                    }
+                };
+                self.loadMoreCircle = true;
+                self.httpRequest(request);
+
+                // this.loadMoreIncompleteTasks(list, function() {
+                //     self.loadMoreCircle = false;
+                // });
             },
             checkSearchStatus () {
                 // && this.$route.query.status != 'complete'
@@ -677,8 +745,9 @@
                 if(this.$route.query.filterTask == 'active' && this.$route.query.status == 'complete') {
                     this.showCompletedTask = true;
                     
-                }
+                } 
             },
+
             fetchCompleteTasks (list) {
                 var self = this;
 
@@ -695,9 +764,9 @@
                         
                     }
                 }
-                this.loadMoreCompleteTasks(list, function(res) {
+                this.loadMoreCompleteTasks( list, function(res) {
                     self.showCompletedTask = true;
-                });
+                } );
             },
             showHideCompletedTask() {
                 this.showCompletedTask = this.showCompletedTask ? false : true;
