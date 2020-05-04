@@ -1286,6 +1286,8 @@ class Task {
 			1, 1, 'task_list', 'task'
 		);
 
+		//echo $query; die();
+
 		$results = $wpdb->get_results( $query );
 		
 		// If task has not boardable_id mean no list

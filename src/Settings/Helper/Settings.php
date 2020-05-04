@@ -8,7 +8,7 @@ class Settings {
 	private $manager_role_project_id;
 
 	public function update_project_permission( $pmison_setts, $project_id  ) {
-
+		
 		if ( is_array( $pmison_setts ) ) { 
 			foreach ( $pmison_setts as $key => $pmison_sett ) {
 				if ( $pmison_sett['key'] == 'capabilities' ) {
