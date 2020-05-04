@@ -281,7 +281,7 @@ function pm_default_cap() {
         '1'  => 'create_message',
         '2'  => 'view_private_message',
         '3'  => 'create_list',
-        '4'  => 'create_task',
+        '4'  => 'view_private_list',
         '5'  => 'create_milestone',
         '6'  => 'view_private_milestone',
         '7'  => 'create_task',
