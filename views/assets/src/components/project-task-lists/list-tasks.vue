@@ -671,7 +671,7 @@
 
                 var request = {
                     type: 'GET',
-                    url: `${self.base_url}/pm/v2/projects/${self.project_id}/task-lists/${list.id}/more/tasks`,
+                    url: `${self.base_url}pm/v2/projects/${self.project_id}/task-lists/${list.id}/more/tasks`,
                     data: {
                         task_ids: task_ids,
                         status: 1
@@ -708,7 +708,7 @@
 
                 var request = {
                     type: 'GET',
-                    url: `${self.base_url}/pm/v2/projects/${self.project_id}/task-lists/${list.id}/more/tasks`,
+                    url: `${self.base_url}pm/v2/projects/${self.project_id}/task-lists/${list.id}/more/tasks`,
                     data: {
                         task_ids: task_ids,
                         status: 0

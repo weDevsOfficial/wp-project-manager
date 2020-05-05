@@ -361,13 +361,19 @@ class Task_Controller {
         $project_id           = $task->project_id;
         $params['project_id'] = $task->project_id;
         $params['list_id']    = $task->task_list;
-        $is_private           = isset( $params['privacy'] ) ? $params['privacy'] : false;
-        $params['is_private'] = $is_private == 'true' || $is_private === true ? 1 : 0;
+        $is_private           = isset( $params['privacy'] ) ? $params['privacy'] : $task->is_private;
         $type_id              = empty( $params['type_id'] ) ? false : intval( $params['type_id'] );
+        $deleted_users        = $task->assignees()->whereNotIn( 'assigned_to', $assignees )->get()->toArray(); //->delete();
+        $deleted_users        = apply_filters( 'pm_task_deleted_users', $deleted_users, $task );
+        $deleted_users        = wp_list_pluck( $deleted_users, 'id' );
 
-        $deleted_users = $task->assignees()->whereNotIn( 'assigned_to', $assignees )->get()->toArray(); //->delete();
-        $deleted_users = apply_filters( 'pm_task_deleted_users', $deleted_users, $task );
-        $deleted_users = wp_list_pluck( $deleted_users, 'id' );
+        if ( $is_private == 'true' || $is_private === true ) {
+            $params['is_private'] = 1;
+        } else if ( $is_private == 'false' || $is_private === false ) {
+            $params['is_private'] = 0;
+        } else {
+            $params['is_private'] = $is_private;
+        }
 
         if ( $deleted_users ) {
             Assignee::destroy( $deleted_users );

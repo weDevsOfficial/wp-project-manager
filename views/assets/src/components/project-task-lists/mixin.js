@@ -1435,6 +1435,7 @@ var PM_TaskList_Mixin = {
             if (this.isArchivedTaskList(task)) {
                 return ;
             }
+          
             var self = this;
             var data = {
                 is_private: task.meta.privacy == '0' ? 1 : 0
