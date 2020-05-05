@@ -307,7 +307,7 @@ class Task {
 		$items['order']        = $task->order;
 		$items['assignees']    = $task->assignees;
 		$items['task_list_id'] = (int) $task->task_list_id;
-
+		
 		if ( isset( $task->is_stop_watch_visible ) ) {
 			$items['is_stop_watch_visible'] = $task->is_stop_watch_visible;
 		}
@@ -718,9 +718,6 @@ class Task {
 			unset( $result->task_id );
 			
 			$result->avatar_url = get_avatar_url( $result->id );
-			// $result->roles = [
-			// 	'data' => [$this->roles($result->role_id)] 
-			// ];
 
 			$users[$task_id][] = $result;
 		}
