@@ -66,7 +66,7 @@ class List_Task_Transformer extends TransformerAbstract {
             'avatar_url'        => get_avatar_url( $user->user_email ),
         ];
 
-        return $user;
+        return [ 'data' => $data ];
     }
 
 

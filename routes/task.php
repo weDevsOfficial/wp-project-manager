@@ -63,7 +63,7 @@ $router->post( 'tasks/{task_id}/duplicate', 'WeDevs/PM/Task/Controllers/Task_Con
     ->permission(['WeDevs\PM\Core\Permissions\Edit_Task']);
 
 $router->get( 'projects/{project_id}/task-lists/{list_id}/more/tasks', 'WeDevs/PM/Task/Controllers/Task_Controller@load_more_tasks' )
-    ->permission(['WeDevs\PM\Core\Permissions\Edit_Task']);
+    ->permission(['WeDevs\PM\Core\Permissions\Access_Project']);
 
 
 
