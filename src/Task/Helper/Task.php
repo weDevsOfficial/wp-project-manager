@@ -249,6 +249,7 @@ class Task {
 		$item['meta']['can_complete_task'] = $this->pm_user_can_complete_task( $task );
 		$item['meta']['total_files']       = $task->total_files;
 		$item['meta']['total_assignee']    = count( $task->assignees['data'] );
+		$item['meta']['privacy']           = $task->is_private;
 		
 		return $item;
 	}
