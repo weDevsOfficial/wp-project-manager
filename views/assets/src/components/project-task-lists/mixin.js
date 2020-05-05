@@ -98,7 +98,9 @@ var PM_TaskList_Mixin = {
             if (typeof task.id  === 'undefined' && this.can_create_task) {
                 return true;
             }
+
             let creatorId = task.creator.data.id ? task.creator.data.id : task.creator.data.ID;
+            
             if ( parseInt(creatorId) === parseInt(user.ID) ){
                 return true;
             }
