@@ -407,8 +407,6 @@ class Task_Controller {
             'data'     => $task_response['data']
         ];
 
-        // $response = self::getInstance()->get_response( $resource, $message );
-        // pmpr($response); die;
         do_action('pm_update_task_aftre_transformer', $response, $params );
         
         return $response;

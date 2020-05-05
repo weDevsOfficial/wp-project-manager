@@ -312,6 +312,8 @@ export default {
 
     // Initial action for this component
     created: function() { 
+        this.formatDefaultData();
+
         this.$on( 'pm_date_picker', this.getDatePicker );
         //window.addEventListener('click', this.windowActivity);
         
@@ -360,6 +362,7 @@ export default {
         },
 
         project_users () {
+            console.log(this.$store.state.project_users);
             return this.$store.state.project_users;
         },
         /**
@@ -406,6 +409,13 @@ export default {
     },
 
     methods: {
+        formatDefaultData () {
+            this.task.assignees.data.map( assignees => { 
+                assignees.id = parseInt(assignees.id);
+                return assignees; 
+            });
+        },
+
         onChangeTaskType (value) {
 
             if ( value ) {
