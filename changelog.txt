@@ -1,3 +1,7 @@
+= v2.3.10 - May 05, 2020 =
+
+* **Fix** Task load more is not working for co-worker.
+
 = v2.3.9 - Apr 30, 2020 =
 
 * **New** New function for getting tasks, messages, milestones, discussions, projects, comments, files, users.
