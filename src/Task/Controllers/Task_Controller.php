@@ -186,7 +186,7 @@ class Task_Controller {
         $board_id      = $request->get_param( 'board_id' );
         $assignees     = $request->get_param( 'assignees' );
         $is_private    = $request->get_param( 'privacy' );
-        $type_id          = $request->get_param( 'type_id' );
+        $type_id       = $request->get_param( 'type_id' );
         $data['is_private']    = $is_private == 'true' || $is_private === true ? 1 : 0;
 
         if ( empty( $board_id ) ) {
@@ -199,7 +199,7 @@ class Task_Controller {
         $board         = Board::find( $board_id );
 
         if ( $project ) {
-            $data = apply_filters( 'pm_before_create_task', $data, $board_id, $request );
+            $data = apply_filters( 'pm_before_create_task', $data, $board_id, $request->get_params() );
             $task = Task::create( $data );
         }
 
