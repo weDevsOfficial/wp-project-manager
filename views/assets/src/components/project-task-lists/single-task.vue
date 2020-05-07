@@ -883,7 +883,7 @@
                 var update_data  = {
                         'title': task.title,
                         'description': task.description.content,
-                        'estimation': task.estimation,
+                        'estimation': this.setMinuteToTime( task.estimation ),
                         'start_at': task.start_at ? task.start_at.date : '',
                         'due_date': task.due_date ? task.due_date.date : '',
                         'complexity': task.complexity,
@@ -930,6 +930,13 @@
                 }
                 this.show_spinner = true;
                 this.httpRequest(request_data);
+            },
+
+            setMinuteToTime (minute) {
+                minute = minute ? parseInt( minute ) : 0;
+                let time = this.stringToTime( minute*60 );
+
+                return `${time.hours}:${time.minutes}`;
             },
 
             isTaskTitleEditMode () {
