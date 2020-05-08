@@ -964,7 +964,7 @@ class Task {
 
 		$format = $this->get_prepare_format( $users );
 		$users = $this->get_prepare_data( $users );
-			
+		
 		global $wpdb;
 		$tb_asin = pm_tb_prefix() . 'pm_assignees';
 
@@ -1042,9 +1042,14 @@ class Task {
 			$start_at = date( 'Y-m-d', strtotime( $start_at ) );
 			
 			if( $explode[0] == 'null' || $explode[0] == 'empty' ) {
-				$q[]      = "({$this->tb_tasks}.start_at $operator) $relation";
+				$q[] = "({$this->tb_tasks}.start_at $operator) $relation";
 			} else {
-				$q[]      = $wpdb->prepare( "({$this->tb_tasks}.start_at $operator %s)", $start_at ) .' '. $relation;
+				$q[] = $wpdb->prepare( "
+					( {$this->tb_tasks}.start_at $operator %s ) 
+						OR 
+					( {$this->tb_tasks}.start_at is null AND {$this->tb_tasks}.created_at $operator %s ) ", 
+					$start_at, $start_at 
+				) .' '. $relation;
 			}
 		}
 
@@ -1099,9 +1104,14 @@ class Task {
 			$due_date = date( 'Y-m-d', strtotime( $due_date ) );
 			
 			if( $explode[0] == 'null' || $explode[0] == 'empty' ) {
-				$q[]      = "({$this->tb_tasks}.due_date $operator) $relation";
+				$q[] = "({$this->tb_tasks}.due_date $operator) $relation";
 			} else {
-				$q[]      = $wpdb->prepare( "({$this->tb_tasks}.due_date $operator %s)", $due_date ) .' '. $relation;
+				$q[] = $wpdb->prepare( "
+					( {$this->tb_tasks}.due_date $operator %s )
+						OR
+					( {$this->tb_tasks}.due_date is null AND {$this->tb_tasks}.completed_at $operator %s ) ", 
+					$due_date, $due_date 
+				) .' '. $relation;
 			}
 		}
 
@@ -1283,8 +1293,6 @@ class Task {
 
 			1, 1, 'task_list', 'task'
 		);
-
-		//echo $query; die();
 
 		$results = $wpdb->get_results( $query );
 		
