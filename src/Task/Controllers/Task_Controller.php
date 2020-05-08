@@ -379,6 +379,7 @@ class Task_Controller {
             Assignee::destroy( $deleted_users );
         }
 
+        //task user cant be deleted if the user exist in subtask
         self::getInstance()->attach_assignees( $task, $assignees );
         
         if ( isset( $params['type_id'] ) ) {
