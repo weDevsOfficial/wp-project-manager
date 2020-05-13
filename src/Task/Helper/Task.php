@@ -439,7 +439,6 @@ class Task {
         $query ="SELECT sum(estimation) as estimation, parent_id
             FROM $tb_tasks
             WHERE parent_id IN ( $tk_ids_format )
-            AND status=0
             GROUP BY parent_id";
 
         $results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
