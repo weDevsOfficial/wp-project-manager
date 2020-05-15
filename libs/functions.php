@@ -1071,7 +1071,7 @@ function pm_second_to_time( $seconds ) {
  * @param  array|string $params
  * @return [type]
  */
-function pm_get_projects( $params ) {
+function pm_get_projects( $params = [] ) {
      return WeDevs\PM\Project\Helper\Project::get_results( $params );
 }
 
@@ -1080,7 +1080,7 @@ function pm_get_projects( $params ) {
  * @param  array|string $params
  * @return [type]
  */
-function pm_get_task_lists( $params ) {
+function pm_get_task_lists( $params = [] ) {
      return \WeDevs\PM\Task_List\Helper\Task_List::get_results( $params );
 }
 
@@ -1089,7 +1089,7 @@ function pm_get_task_lists( $params ) {
  * @param  array|string $params
  * @return [type]
  */
-function pm_get_tasks( $params ) {
+function pm_get_tasks( $params = [] ) {
      return \WeDevs\PM\task\Helper\Task::get_results( $params );
 }
 
@@ -1098,7 +1098,7 @@ function pm_get_tasks( $params ) {
  * @param  array|string $params
  * @return [type]
  */
-function pm_get_milestones( $params ) {
+function pm_get_milestones( $params = [] ) {
      return \WeDevs\PM\Milestone\Helper\Milestone::get_results( $params );
 }
 
@@ -1107,7 +1107,7 @@ function pm_get_milestones( $params ) {
  * @param  array|string $params
  * @return [type]
  */
-function pm_get_discussions( $params ) {
+function pm_get_discussions( $params = [] ) {
      return \WeDevs\PM\Discussion_Board\Helper\Discussion_Board::get_results( $params );
 }
 
@@ -1116,7 +1116,7 @@ function pm_get_discussions( $params ) {
  * @param  array|string $params
  * @return [type]
  */
-function pm_get_comments( $params ) {
+function pm_get_comments( $params = [] ) {
      return \WeDevs\PM\Comment\Helper\Comment::get_results( $params );
 }
 
@@ -1125,7 +1125,7 @@ function pm_get_comments( $params ) {
  * @param  array|string $params
  * @return [type]
  */
-function pm_get_files( $params ) {
+function pm_get_files( $params = [] ) {
      return \WeDevs\PM\File\Helper\File::get_results( $params );
 }
 
@@ -1134,7 +1134,7 @@ function pm_get_files( $params ) {
  * @param  array|string $params
  * @return [type]
  */
-function pm_get_users( $params ) {
+function pm_get_users( $params = [] ) {
      return \WeDevs\PM\User\helper\User::get_results( $params );
 }
 
