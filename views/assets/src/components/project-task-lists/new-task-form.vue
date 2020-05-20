@@ -362,7 +362,6 @@ export default {
         },
 
         project_users () {
-            console.log(this.$store.state.project_users);
             return this.$store.state.project_users;
         },
         /**
