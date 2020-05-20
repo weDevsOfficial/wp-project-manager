@@ -77,11 +77,20 @@ $pm_scripts = [
 		'dependency' => ['pm-vue-router'],
 		'in_footer'  => true
 	],
+
+	'pm-chart-datalabels' => [
+		'id'         => 'pm-chart-datalabels',
+		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/chart/chart-datalabels.min.js',
+		'path'       => $view_path . '/assets/vendor/chart/chart-datalabels.min.js',
+		'dependency' => ['pm-chart'],
+		'in_footer'  => true
+	],
+
 	'pm-preloader' => [
 		'id'         => 'pm-preloader',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/Elegant-Loading-Indicator/jquery.preloader'.$suffix.'.js',
 		'path'       => $view_path . '/assets/vendor/Elegant-Loading-Indicator/jquery.preloader'.$suffix.'.js',
-		'dependency' => ['pm-chart'],
+		'dependency' => ['pm-chart-datalabels'],
 		'in_footer'  => true
 	],
 	'pm-moment' => [
