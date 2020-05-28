@@ -1153,7 +1153,7 @@ function pm_is_single_query( $params ) {
     }
 
     $id = pm_get_prepare_data( $params['id'] );
-
+    
     if ( count( $id ) == 1 ) {
         return true;
     }
