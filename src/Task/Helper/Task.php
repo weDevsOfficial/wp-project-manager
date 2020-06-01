@@ -637,11 +637,9 @@ class Task {
 	 */
 	private function include_project() {
 		global $wpdb;
-		$with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
 		
-		if ( ! is_array( $with ) ) {
-			$with = explode( ',', str_replace(' ', '', $with ) );
-		}
+		$with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
+		$with = pm_get_prepare_data( $this->query_params['with'] );
 
 		if ( ! in_array( 'project', $with ) || empty( $this->task_ids ) ) {
 			return $this;
