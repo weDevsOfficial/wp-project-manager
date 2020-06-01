@@ -26,7 +26,7 @@ class Discussion_Board {
 	private $where;
 	private $limit;
 	private $orderby;
-	private $with;
+	private $with = [];
 	private $discussion_boards;
 	private $discussion_board_ids;
 	private $is_single_query = false;
@@ -123,7 +123,9 @@ class Discussion_Board {
         if ( ! is_array( $with ) ) {
             $with = explode( ',', str_replace(' ', '', $with ) );
         }
-        
+
+        $with = array_merge( $this->with, $with );
+
         $discussion_board_with_items =  array_intersect_key( (array) $discussion_board, array_flip( $with ) );
 
         $items = array_merge( $items, $discussion_board_with_items );
