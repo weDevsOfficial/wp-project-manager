@@ -82,8 +82,10 @@ var PM_TaskList_Mixin = {
             if (this.is_manager()) {
                 return true;
             }
-
-            if ( list.creator.data.id == user.ID ){
+            
+            let creatorId = list.creator.data.id ? list.creator.data.id : list.creator.data.ID;
+            
+            if ( creatorId == user.ID ){
                 return true;
             }
 
