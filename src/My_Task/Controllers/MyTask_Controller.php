@@ -16,7 +16,7 @@ use Illuminate\Pagination\Paginator;
 use WeDevs\PM\Calendar\Transformers\Calendar_Transformer;
 use WeDevs\PM\User\Models\User_Role;
 use WeDevs\PM\Activity\Transformers\Activity_Transformer;
-use WeDevs\PM_Pro\Calendar\Controllers\Calendar_Controller;
+
 
 class MyTask_Controller {
     use Transformer_Manager, Request_Filter;
@@ -391,7 +391,7 @@ class MyTask_Controller {
 
                 GROUP BY(tsk.id)";
         }
-        
+
         $events = $wpdb->get_results( $event_query );
 
         $user_roles = $wpdb->prepare("SELECT DISTINCT user_id, project_id, role_id FROM $tb_role_user WHERE user_id=%d", $current_user_id);
@@ -409,7 +409,6 @@ class MyTask_Controller {
         $has_manage_cap = pm_has_manage_capability();
         $roles = [];
         $tasks = [];
-        $calendar = new Calendar_Controller();
 
         foreach ( $user_roles as $key => $user_role ) {
             $roles[$user_role->project_id][$user_role->user_id] = $user_role->role_id;
@@ -423,15 +422,15 @@ class MyTask_Controller {
                 $role = $roles[$event->project_id][$current_user_id];
             }
 
-            $event->list_id       = $calendar->get_list_id( $event->boardable );
-            $event->task_privacy  = $calendar->get_privacy_meta_value( $event->task_meta );
-            $event->list_privacy  = $calendar->get_privacy_meta_value( $event->list_meta );
-            $event->assignees     = $calendar->get_assignees_value( $event->assignees, $event->users );
-            $event->settings      = $calendar->get_settings_value( $event->settings );
-            $event->project_title = $calendar->get_project_title( $event->project );
+            $event->list_id       = $this->get_list_id( $event->boardable );
+            $event->task_privacy  = $this->get_privacy_meta_value( $event->task_meta );
+            $event->list_privacy  = $this->get_privacy_meta_value( $event->list_meta );
+            $event->assignees     = $this->get_assignees_value( $event->assignees, $event->users );
+            $event->settings      = $this->get_settings_value( $event->settings );
+            $event->project_title = $this->get_project_title( $event->project );
 
 
-            if ( ! $calendar->has_view_permission(
+            if ( ! $this->has_view_permission(
                     $has_manage_cap,
                     $role,
                     $event->list_privacy,
@@ -445,8 +444,8 @@ class MyTask_Controller {
             $tasks[] = [
                 'id'            => (int) $event->id,
                 'title'         =>  $event->title,
-                'start'         =>  $calendar->get_start( $event ),
-                'end'           =>  $calendar->get_end( $event ),
+                'start'         =>  $this->get_start( $event ),
+                'end'           =>  $this->get_end( $event ),
                 'status'        =>  $event->status ? 'complete' : 'incomplete',
                 'type'          =>  'task',
                 'project_id'    => $event->project_id,
@@ -476,62 +475,234 @@ class MyTask_Controller {
         return $project_ids;
     }
 
-    public function user_calender_tasks_x( WP_REST_Request $request ) {
-        $id = $request->get_param( 'id' );
-        $start      = $request->get_param( 'start' );
-        $end        = $request->get_param( 'end' );
+    public function get_end( $event ) {
 
-        $tasks = User::find( $id )->tasks()
-                ->whereHas('boards',function( $query ) {
-                    $query->where( pm_tb_prefix() . 'pm_boards.status', '1');
-                })
-                ->with('assignees')
-                ->parent()
-                ->where( function( $query ) use ($start, $end) {
-
-                    $query->where( function ( $q2 ) use ($start, $end) {
-                        $q2->where( 'start_at', '>=', $start)
-                            ->where( 'due_date', '<=', $end );
-                    })
-
-                    ->orWhere( function ( $q3 ) use ($start, $end) {
-                        $q3->whereNull( 'due_date' )
-                            ->where( function ( $qsub ) use ($start, $end) {
-                                $qsub->where( 'start_at', '>=', $start )
-                                    ->where(  pm_tb_prefix() . 'pm_tasks.created_at', '<=', $end );
-                            });
-                    } )
-
-                    ->orWhere( function ($q4) use ($start, $end) {
-                        $q4->whereNull( 'start_at' )
-                            ->where( function ( $qsub ) use ($start, $end) {
-                                $qsub->where( 'due_date', '>=', $start )
-                                    ->where(  pm_tb_prefix() . 'pm_tasks.created_at', '<=', $end );
-                            });
-                    } )
-
-                    ->orWhere( function( $q5 ) use ($start, $end) {
-                        $q5->whereNull( 'start_at' )
-                            ->orWhereNull( 'due_date' )
-                            ->whereBetween( pm_tb_prefix() . 'pm_tasks.created_at', array($start, $end) );
-                    } );
-                } );
-
-        if ( !pm_has_manage_capability() ){
-            $tasks = $tasks->doesntHave( 'metas', 'and', function ($query) {
-                        $query->where( 'meta_key', '=', 'privacy' )
-                            ->where( 'meta_value', '!=', '0' );
-                    });
-
-            $tasks = $tasks->doesntHave( 'task_lists.metas', 'and', function ($query) {
-                $query->where( 'meta_key', '=', 'privacy' )
-                    ->where( 'meta_value', '!=', '0' );
-                });
+        if ( ! empty( $event->due_date ) ) {
+            return format_date( $event->due_date );
+        } else if ( ! empty( $event->start_at )) {
+            return format_date( $event->start_at);
+        } else {
+            return format_date( $event->created_at );
         }
-        $tasks = $tasks->get()->toArray();
-        $resource = New Collection( $tasks, new Calendar_Transformer );
-        return $this->get_response( $resource );
     }
+
+    public function get_start( $event ) {
+
+        if ( !empty( $event->start_at ) ) {
+            return format_date( $event->start_at);
+        } else if ( isset( $event->due_date ) ) {
+            return format_date( $event->due_date );
+        } else {
+            return format_date( $event->created_at );
+        }
+    }
+
+    public function has_view_permission(
+        $has_manage_cap,
+        $role,
+        $list_privacy,
+        $task_privacy,
+        $settings
+    ) {
+
+        if ( $has_manage_cap ||  $role == 1 ) {
+            return true;
+        }
+
+        if ( $list_privacy == 1 ) {
+            if ( $role == 2 ) {
+                if (
+                    ! empty( $settings['co_worker'] )
+                    &&
+                    ! $settings['co_worker']['view_private_list']
+                ) {
+                    return false;
+                }
+            }
+
+            if ( $role == 3 ) {
+                if (
+                    ! empty( $settings['client'] )
+                    &&
+                    ! $settings['client']['view_private_list']
+                ) {
+                    return false;
+                }
+            }
+        }
+
+        if ( $task_privacy == 1 ) {
+            if ( $role == 2 ) {
+                if (
+                    ! empty( $settings['co_worker'] )
+                    &&
+                    ! $settings['co_worker']['view_private_task']
+                ) {
+                    return false;
+                }
+            }
+
+            if ( $role == 3 ) {
+                if (
+                    ! empty( $settings['client'] )
+                    &&
+                    ! $settings['client']['view_private_task']
+                ) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    public function get_list_id( $boardables ) {
+        $boardables = explode( '|', $boardables );
+
+        foreach ( $boardables as $key => $boardable ) {
+            $boardable = str_replace('`', '"', $boardable);
+            $boardable = json_decode( $boardable );
+
+            if ( ! empty( $boardable->board_id ) ) {
+                return $boardable->board_id;
+            }
+        }
+
+        return '';
+    }
+
+    public function get_project_title( $projects ) {
+        $projects = explode( '|', $projects );
+
+        foreach ( $projects as $key => $project ) {
+            $project = str_replace('`', '"', $project);
+            $project = json_decode( $project );
+
+            if ( ! empty( $project->title ) ) {
+                return $project->title;
+            }
+        }
+
+        return '';
+    }
+
+    public function get_settings_value( $settings ) {
+        $settings = explode( '|', $settings );
+
+        foreach ( $settings as $key => $setting ) {
+            return !empty( $setting ) ? maybe_unserialize( $setting ) : '';
+        }
+
+        return [];
+    }
+
+    public function get_assignees_value( $assignees, $users ) {
+        $expand_users = [];
+
+        // $assignees = explode( '|', $assignees );
+
+        // foreach ( $assignees as $key => $assignee ) {
+        //     $assignee = str_replace('`', '"', $assignee);
+        //     $assignee = json_decode( $assignee );
+
+        //     if ( ! empty( $assignee->assigned_to ) ) {
+        //         $return[] = $assignee->assigned_to;
+        //     }
+        // }
+
+        $users = explode( '|', $users );
+
+        foreach ( $users as $key => $user ) {
+            $user = str_replace('`', '"', $user);
+            $user = json_decode( $user );
+
+            if ( ! empty( $user->id ) ) {
+                $expand_users[] = [
+                    'id'           => $user->id,
+                    'display_name' => $user->display_name,
+                    'avatar_url'   => get_avatar_url( $user->id )
+                ];
+            }
+        }
+
+        return [
+            'data' => $expand_users
+        ];
+
+    }
+
+    public function get_privacy_meta_value( $event_meta ) {
+        $metas = explode( '|', $event_meta );
+
+        foreach ( $metas as $key => $meta ) {
+            $meta = str_replace('`', '"', $meta);
+            $meta = json_decode( $meta );
+
+            if ( ! empty( $meta->meta_key ) && $meta->meta_key == 'privacy' ) {
+                return $meta->meta_value;
+            }
+
+        }
+
+        return '';
+    }
+
+    // public function user_calender_tasks_x( WP_REST_Request $request ) {
+    //     $id = $request->get_param( 'id' );
+    //     $start      = $request->get_param( 'start' );
+    //     $end        = $request->get_param( 'end' );
+
+    //     $tasks = User::find( $id )->tasks()
+    //             ->whereHas('boards',function( $query ) {
+    //                 $query->where( pm_tb_prefix() . 'pm_boards.status', '1');
+    //             })
+    //             ->with('assignees')
+    //             ->parent()
+    //             ->where( function( $query ) use ($start, $end) {
+
+    //                 $query->where( function ( $q2 ) use ($start, $end) {
+    //                     $q2->where( 'start_at', '>=', $start)
+    //                         ->where( 'due_date', '<=', $end );
+    //                 })
+
+    //                 ->orWhere( function ( $q3 ) use ($start, $end) {
+    //                     $q3->whereNull( 'due_date' )
+    //                         ->where( function ( $qsub ) use ($start, $end) {
+    //                             $qsub->where( 'start_at', '>=', $start )
+    //                                 ->where(  pm_tb_prefix() . 'pm_tasks.created_at', '<=', $end );
+    //                         });
+    //                 } )
+
+    //                 ->orWhere( function ($q4) use ($start, $end) {
+    //                     $q4->whereNull( 'start_at' )
+    //                         ->where( function ( $qsub ) use ($start, $end) {
+    //                             $qsub->where( 'due_date', '>=', $start )
+    //                                 ->where(  pm_tb_prefix() . 'pm_tasks.created_at', '<=', $end );
+    //                         });
+    //                 } )
+
+    //                 ->orWhere( function( $q5 ) use ($start, $end) {
+    //                     $q5->whereNull( 'start_at' )
+    //                         ->orWhereNull( 'due_date' )
+    //                         ->whereBetween( pm_tb_prefix() . 'pm_tasks.created_at', array($start, $end) );
+    //                 } );
+    //             } );
+
+    //     if ( !pm_has_manage_capability() ){
+    //         $tasks = $tasks->doesntHave( 'metas', 'and', function ($query) {
+    //                     $query->where( 'meta_key', '=', 'privacy' )
+    //                         ->where( 'meta_value', '!=', '0' );
+    //                 });
+
+    //         $tasks = $tasks->doesntHave( 'task_lists.metas', 'and', function ($query) {
+    //             $query->where( 'meta_key', '=', 'privacy' )
+    //                 ->where( 'meta_value', '!=', '0' );
+    //             });
+    //     }
+    //     $tasks = $tasks->get()->toArray();
+    //     $resource = New Collection( $tasks, new Calendar_Transformer );
+    //     return $this->get_response( $resource );
+    // }
 
     public function assigned_users () {
         $roles      =  User_Role::select('user_id')->get()->toArray();
