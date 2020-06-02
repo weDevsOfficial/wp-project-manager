@@ -16,6 +16,7 @@ use Illuminate\Pagination\Paginator;
 use WeDevs\PM\Calendar\Transformers\Calendar_Transformer;
 use WeDevs\PM\User\Models\User_Role;
 use WeDevs\PM\Activity\Transformers\Activity_Transformer;
+use WeDevs\PM_Pro\Calendar\Controllers\Calendar_Controller;
 
 class MyTask_Controller {
     use Transformer_Manager, Request_Filter;
@@ -120,7 +121,362 @@ class MyTask_Controller {
         return $resource;
     }
 
-    public function user_calender_tasks ( WP_REST_Request $request ) {
+    public function user_calender_tasks( WP_REST_Request $request ) {
+        global $wpdb;
+
+        $user_id    = $request->get_param( 'id' );
+        $start      = $request->get_param( 'start' );
+        $end        = $request->get_param( 'end' );
+        $events        = [];
+        $users         = $request->get_param( 'users' );
+        $user_id       = get_current_user_id();
+        $tb_tasks      = pm_tb_prefix() . 'pm_tasks';
+        $tb_boards     = pm_tb_prefix() . 'pm_boards';
+        $tb_boardables = pm_tb_prefix() . 'pm_boardables';
+        $tb_assignees  = pm_tb_prefix() . 'pm_assignees';
+        $tb_meta       = pm_tb_prefix() . 'pm_meta';
+        $tb_projects   = pm_tb_prefix() . 'pm_projects';
+        $tb_settings   = pm_tb_prefix() . 'pm_settings';
+
+        $tb_users     = $wpdb->base_prefix . 'users';
+        $tb_user_meta = $wpdb->base_prefix . 'usermeta';
+
+        $tb_role_user  = pm_tb_prefix() . 'pm_role_user';
+        $current_user_id = get_current_user_id();
+
+        $user_id = empty( $user_id ) ? (int)$current_user_id : (int)$user_id;
+
+        $project_ids = $this->get_current_user_project_ids( $user_id );
+        
+        $boards     = "SELECT id FROM $tb_boards WHERE type='task_list' and status=1";
+        $get_boards = $wpdb->get_results( $boards );
+        $boards_id  = wp_list_pluck( $get_boards, 'id' );
+        $boards_id  = implode( ',', $boards_id );
+
+        if ( empty( $project_ids ) ) {
+            $where_projec_ids = "AND pj.id IN (0)";;
+        } else {
+            $project_ids = implode( ',', $project_ids );
+            $where_projec_ids = "AND pj.id IN ( $project_ids )";
+        }
+
+        $where_users = " AND asin.assigned_to IN ( $user_id )";
+
+        if ( is_multisite() ) {
+            $meta_key = pm_user_meta_key();
+
+            $event_query = "SELECT tsk.*,
+                GROUP_CONCAT(
+                    DISTINCT
+                    CONCAT(
+                        '{',
+                            '\"', 'meta_key', '\"', ':' , '\"', IFNULL(tskmt.meta_key, '') , '\"', ',',
+                            '\"', 'meta_value', '\"', ':' , '\"', IFNULL(tskmt.meta_value, '') , '\"'
+                        ,'}'
+                    ) SEPARATOR '|'
+                ) as task_meta,
+
+                GROUP_CONCAT(
+                    DISTINCT
+                    CONCAT(
+                        '{',
+                            '\"', 'meta_key', '\"', ':' , '\"', IFNULL(boablmt.meta_key, '') , '\"', ',',
+                            '\"', 'meta_value', '\"', ':' , '\"', IFNULL(boablmt.meta_value, '') , '\"'
+                        ,'}'
+                    ) SEPARATOR '|'
+                ) as list_meta,
+
+                GROUP_CONCAT(
+                    DISTINCT
+                    CONCAT(
+                        '{',
+                            '\"', 'assigned_to', '\"', ':' , '\"', IFNULL(asins.assigned_to, '') , '\"'
+                        ,'}'
+                    ) SEPARATOR '|'
+                ) as assignees,
+
+                GROUP_CONCAT(
+                    DISTINCT
+                    CONCAT(
+                        IFNULL(sett.value, '')
+                    ) SEPARATOR '|'
+                ) as settings,
+
+                GROUP_CONCAT(
+                    DISTINCT
+                    CONCAT(
+                        '{',
+                            '\"', 'title', '\"', ':' , '\"', IFNULL(pj.title, '') , '\"'
+                        ,'}'
+                    ) SEPARATOR '|'
+                ) as project,
+
+                GROUP_CONCAT(
+                    DISTINCT
+                    CONCAT(
+                        '{',
+                            '\"', 'board_id', '\"', ':' , '\"', IFNULL(boabl.board_id, '') , '\"'
+                        ,'}'
+                    ) SEPARATOR '|'
+                ) as boardable,
+
+                GROUP_CONCAT(
+                    DISTINCT
+                    CONCAT(
+                        '{',
+                            '\"', 'id', '\"', ':' , '\"', IFNULL(usr.ID, '') , '\"', ',',
+                            '\"', 'display_name', '\"', ':' , '\"', IFNULL(usr.display_name, '') , '\"'
+                        ,'}'
+                    ) SEPARATOR '|'
+                ) as users
+
+                FROM $tb_tasks as tsk
+
+                LEFT JOIN $tb_boardables as boabl
+                    ON (tsk.id=boabl.boardable_id AND boabl.board_type='task_list' AND boabl.boardable_type='task')
+
+                LEFT JOIN $tb_boards as board
+                    ON (boabl.board_id=board.id AND board.type='task_list')
+
+                LEFT JOIN $tb_projects as pj ON (tsk.project_id=pj.id)
+
+                -- For getting multipule assignee users in individual task
+                LEFT JOIN $tb_assignees as asins ON tsk.id=asins.task_id
+
+                -- For filter user
+                LEFT JOIN $tb_assignees as asin ON tsk.id=asin.task_id
+
+                -- For getting all users information
+                LEFT JOIN $tb_users as usr ON asins.assigned_to=usr.ID
+                LEFT JOIN $tb_user_meta as umeta ON umeta.user_id = usr.ID
+
+                LEFT JOIN $tb_meta as tskmt
+                    ON (tsk.id=tskmt.entity_id AND tskmt.entity_type='task')
+
+                LEFT JOIN $tb_meta as boablmt
+                    ON ( boabl.board_id=boablmt.entity_id AND boablmt.entity_type='task_list')
+
+                LEFT JOIN $tb_settings as sett ON pj.id=sett.project_id AND sett.key='capabilities'
+
+                WHERE 1=1
+                    AND umeta.meta_key='$meta_key'
+                    AND
+                    (
+                        (tsk.due_date >= '$start')
+                            or
+                        (tsk.due_date is null and tsk.start_at >= '$start')
+                            or
+                        (tsk.start_at is null and tsk.due_date >= '$start' )
+                            or
+                        ((tsk.start_at is null AND tsk.due_date is null) and tsk.created_at >= '$start')
+                    )
+                    AND
+                    board.id IN ($boards_id)
+                    $where_projec_ids
+
+                    $where_users
+
+                GROUP BY(tsk.id)";
+
+        } else {
+
+            $event_query = "SELECT tsk.*,
+                GROUP_CONCAT(
+                    DISTINCT
+                    CONCAT(
+                        '{',
+                            '\"', 'meta_key', '\"', ':' , '\"', IFNULL(tskmt.meta_key, '') , '\"', ',',
+                            '\"', 'meta_value', '\"', ':' , '\"', IFNULL(tskmt.meta_value, '') , '\"'
+                        ,'}'
+                    ) SEPARATOR '|'
+                ) as task_meta,
+
+                GROUP_CONCAT(
+                    DISTINCT
+                    CONCAT(
+                        '{',
+                            '\"', 'meta_key', '\"', ':' , '\"', IFNULL(boablmt.meta_key, '') , '\"', ',',
+                            '\"', 'meta_value', '\"', ':' , '\"', IFNULL(boablmt.meta_value, '') , '\"'
+                        ,'}'
+                    ) SEPARATOR '|'
+                ) as list_meta,
+
+                GROUP_CONCAT(
+                    DISTINCT
+                    CONCAT(
+                        '{',
+                            '\"', 'assigned_to', '\"', ':' , '\"', IFNULL(asins.assigned_to, '') , '\"'
+                        ,'}'
+                    ) SEPARATOR '|'
+                ) as assignees,
+
+                GROUP_CONCAT(
+                    DISTINCT
+                    CONCAT(
+                        IFNULL(sett.value, '')
+                    ) SEPARATOR '|'
+                ) as settings,
+
+                GROUP_CONCAT(
+                    DISTINCT
+                    CONCAT(
+                        '{',
+                            '\"', 'title', '\"', ':' , '\"', IFNULL(pj.title, '') , '\"'
+                        ,'}'
+                    ) SEPARATOR '|'
+                ) as project,
+
+                GROUP_CONCAT(
+                    DISTINCT
+                    CONCAT(
+                        '{',
+                            '\"', 'board_id', '\"', ':' , '\"', IFNULL(boabl.board_id, '') , '\"'
+                        ,'}'
+                    ) SEPARATOR '|'
+                ) as boardable,
+
+                GROUP_CONCAT(
+                    DISTINCT
+                    CONCAT(
+                        '{',
+                            '\"', 'id', '\"', ':' , '\"', IFNULL(usr.ID, '') , '\"', ',',
+                            '\"', 'display_name', '\"', ':' , '\"', IFNULL(usr.display_name, '') , '\"'
+                        ,'}'
+                    ) SEPARATOR '|'
+                ) as users
+
+                FROM $tb_tasks as tsk
+
+                LEFT JOIN $tb_boardables as boabl
+                    ON (tsk.id=boabl.boardable_id AND boabl.board_type='task_list' AND boabl.boardable_type='task')
+
+                LEFT JOIN $tb_boards as board
+                    ON (boabl.board_id=board.id AND board.type='task_list')
+
+                LEFT JOIN $tb_projects as pj ON (tsk.project_id=pj.id)
+
+                -- For getting multipule assignee users in individual task
+                LEFT JOIN $tb_assignees as asins ON tsk.id=asins.task_id
+
+                -- For filter user
+                LEFT JOIN $tb_assignees as asin ON tsk.id=asin.task_id
+
+                -- For getting all users information
+                LEFT JOIN $tb_users as usr ON asins.assigned_to=usr.ID
+
+                LEFT JOIN $tb_meta as tskmt
+                    ON (tsk.id=tskmt.entity_id AND tskmt.entity_type='task')
+
+                LEFT JOIN $tb_meta as boablmt
+                    ON ( boabl.board_id=boablmt.entity_id AND boablmt.entity_type='task_list')
+
+                LEFT JOIN $tb_settings as sett ON pj.id=sett.project_id AND sett.key='capabilities'
+
+                WHERE 1=1
+                    AND
+                    (
+                        (tsk.due_date >= '$start')
+                            or
+                        (tsk.due_date is null and tsk.start_at >= '$start')
+                            or
+                        (tsk.start_at is null and tsk.due_date >= '$start' )
+                            or
+                        ((tsk.start_at is null AND tsk.due_date is null) and tsk.created_at >= '$start')
+                    )
+                    AND
+                    board.id IN ($boards_id)
+                    $where_projec_ids
+
+                    $where_users
+
+                GROUP BY(tsk.id)";
+        }
+        
+        $events = $wpdb->get_results( $event_query );
+
+        $user_roles = $wpdb->prepare("SELECT DISTINCT user_id, project_id, role_id FROM $tb_role_user WHERE user_id=%d", $current_user_id);
+        $user_roles = $wpdb->get_results( $user_roles );
+
+
+        $tasks   = $this->Calendar_Transformer( $events, $user_roles );
+   
+       
+        wp_send_json_success( $tasks );
+    }
+
+    public function Calendar_Transformer( $events, $user_roles ) {
+        $current_user_id = get_current_user_id();
+        $has_manage_cap = pm_has_manage_capability();
+        $roles = [];
+        $tasks = [];
+        $calendar = new Calendar_Controller();
+
+        foreach ( $user_roles as $key => $user_role ) {
+            $roles[$user_role->project_id][$user_role->user_id] = $user_role->role_id;
+        }
+
+        foreach ( $events as $key => $event ) {
+
+            $role = 0;
+
+            if ( ! empty( $roles[$event->project_id][$current_user_id] ) ) {
+                $role = $roles[$event->project_id][$current_user_id];
+            }
+
+            $event->list_id       = $calendar->get_list_id( $event->boardable );
+            $event->task_privacy  = $calendar->get_privacy_meta_value( $event->task_meta );
+            $event->list_privacy  = $calendar->get_privacy_meta_value( $event->list_meta );
+            $event->assignees     = $calendar->get_assignees_value( $event->assignees, $event->users );
+            $event->settings      = $calendar->get_settings_value( $event->settings );
+            $event->project_title = $calendar->get_project_title( $event->project );
+
+
+            if ( ! $calendar->has_view_permission(
+                    $has_manage_cap,
+                    $role,
+                    $event->list_privacy,
+                    $event->task_privacy,
+                    $event->settings
+                )
+            ) {
+                continue;
+            }
+
+            $tasks[] = [
+                'id'            => (int) $event->id,
+                'title'         =>  $event->title,
+                'start'         =>  $calendar->get_start( $event ),
+                'end'           =>  $calendar->get_end( $event ),
+                'status'        =>  $event->status ? 'complete' : 'incomplete',
+                'type'          =>  'task',
+                'project_id'    => $event->project_id,
+                'created_at'    => format_date( $event->created_at ),
+                'updated_at'    => format_date( $event->updated_at ),
+                'assignees'     => $event->assignees
+            ];
+        }
+
+        return $tasks;
+    }
+
+    public function get_current_user_project_ids( $user_id, $project_id = false ) {
+        global $wpdb;
+
+        $tb_role_user  = pm_tb_prefix() . 'pm_role_user';
+        $user_id = $user_id;
+
+        $project_ids = [];
+
+        // IF empty project id
+        $project_query = $wpdb->prepare( "SELECT DISTINCT project_id FROM $tb_role_user WHERE user_id=%d", $user_id );
+
+        $project_ids = $wpdb->get_results( $project_query );
+        $project_ids = wp_list_pluck( $project_ids, 'project_id' );
+        
+        return $project_ids;
+    }
+
+    public function user_calender_tasks_x( WP_REST_Request $request ) {
         $id = $request->get_param( 'id' );
         $start      = $request->get_param( 'start' );
         $end        = $request->get_param( 'end' );
