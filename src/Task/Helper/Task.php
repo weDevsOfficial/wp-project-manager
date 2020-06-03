@@ -639,7 +639,7 @@ class Task {
 		global $wpdb;
 		
 		$with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
-		$with = pm_get_prepare_data( $this->query_params['with'] );
+		$with = pm_get_prepare_data( $with );
 
 		if ( ! in_array( 'project', $with ) || empty( $this->task_ids ) ) {
 			return $this;
