@@ -261,53 +261,6 @@ function pmpr() {
     }
 }
 
-function pm_default_co_caps() {
-    return [
-        'create_message'         => true,
-        'view_private_message'   => true,
-        'create_list'            => true,
-        'view_private_list'      => true,
-        'create_task'            => true,
-        'view_private_task'      => true,
-        'create_milestone'       => true,
-        'view_private_milestone' => true,
-        'create_file'            => true,
-        'view_private_file'      => true
-    ];
-}
-
-function pm_default_cap() {
-    $pm_caps =  [
-        '1'  => 'create_message',
-        '2'  => 'view_private_message',
-        '3'  => 'create_list',
-        '4'  => 'view_private_list',
-        '5'  => 'create_milestone',
-        '6'  => 'view_private_milestone',
-        '7'  => 'create_task',
-        '8'  => 'view_private_task',
-        '9'  => 'create_file',
-        '10' => 'view_private_file'
-    ];
-
-    return $pm_caps;
-}
-
-function pm_default_client_caps() {
-    return [
-        'create_message'         => true,
-        'view_private_message'   => false,
-        'create_list'            => true,
-        'view_private_list'      => false,
-        'create_task'            => true,
-        'view_private_task'      => false,
-        'create_milestone'       => true,
-        'view_private_milestone' => false,
-        'create_file'            => true,
-        'view_private_file'      => false
-    ];
-}
-
 function pm_pro_get_project_capabilities( $project_id ) {
     $caps = WeDevs\PM\Settings\Models\Settings::where('key', 'capabilities')
         ->where('project_id', $project_id)
@@ -802,25 +755,71 @@ function pm_get_capabilities_relation( $role ) {
     return $caps[$role];
 }
 
+function pm_default_cap( $cap_id = false ) {
+    $pm_caps =  [
+        '1'  => 'create_message',
+        '2'  => 'view_private_message',
+        '3'  => 'create_list',
+        '4'  => 'view_private_list',
+        '5'  => 'create_milestone',
+        '6'  => 'view_private_milestone',
+        '7'  => 'create_task',
+        '8'  => 'view_private_task',
+        '9'  => 'create_file',
+        '10' => 'view_private_file'
+    ];
 
-// function pm_get_prepare_format( $ids, $is_string = false  ) {
-//     // how many entries will we select?
-//     $how_many = count( $ids );
+    if ( $cap_id ) {
+        return $pm_caps[$cap_id];
+    }
 
-//     // prepare the right amount of placeholders
-//     // if you're looing for strings, use '%s' instead
-//     if( $is_string ) {
-//         $placeholders = array_fill( 0, $how_many, '%s' );
-//     } else {
-//         $placeholders = array_fill( 0, $how_many, '%d' );
-//     }
+    return $pm_caps;
+}
 
-//     // glue together all the placeholders...
-//     // $format = '%d, %d, %d, %d, %d, [...]'
-//     $format = implode( ', ', $placeholders );
+function pm_default_manager_caps() {
+    return [
+        'create_message'         => true,
+        'view_private_message'   => true,
+        'create_list'            => true,
+        'view_private_list'      => true,
+        'create_task'            => true,
+        'view_private_task'      => true,
+        'create_milestone'       => true,
+        'view_private_milestone' => true,
+        'create_file'            => true,
+        'view_private_file'      => true
+    ];
+}
 
-//     return $format;
-// }
+function pm_default_co_caps() {
+    return [
+        'create_message'         => true,
+        'view_private_message'   => true,
+        'create_list'            => true,
+        'view_private_list'      => true,
+        'create_task'            => true,
+        'view_private_task'      => true,
+        'create_milestone'       => true,
+        'view_private_milestone' => true,
+        'create_file'            => true,
+        'view_private_file'      => true
+    ];
+}
+
+function pm_default_client_caps() {
+    return [
+        'create_message'         => true,
+        'view_private_message'   => false,
+        'create_list'            => true,
+        'view_private_list'      => false,
+        'create_task'            => true,
+        'view_private_task'      => false,
+        'create_milestone'       => true,
+        'view_private_milestone' => false,
+        'create_file'            => true,
+        'view_private_file'      => false
+    ];
+}
 
 function pm_get_prepare_format( $ids, $is_string = false ) {
 
