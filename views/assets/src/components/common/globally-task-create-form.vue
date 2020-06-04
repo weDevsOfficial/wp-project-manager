@@ -4,6 +4,7 @@
         <div class="fields">
             
             <label v-if="selectedProjects"  class="label">{{__('Project', 'wedevs-project-manager')}}</label>
+            
             <pm-project-drop-down 
                 @afterGetProjects="afterGetProjects"
                 @onChange="changeProject"
@@ -11,7 +12,6 @@
                 :class="selectedProjects ? 'display-block' : 'display-none'"
                 :optionProjects="projects"
                 :options="options"
-                
             />
         
             <div v-if="selectedProjects == ''" class="loading-animation">
@@ -47,7 +47,7 @@
             </div>
         </div>
         
-        <div class="fields" v-if="listId">
+        <div class="fields" v-if="listId && hasPermissionToCreateTask(selectedProjects)">
             <label class="label">{{__('Task', 'wedevs-project-manager')}}</label>
             <pm-new-task-form  
                 :task="task" 
@@ -58,6 +58,9 @@
                 @pm_after_create_task="afterCreateTask"
             />
                     
+        </div>
+        <div v-if="!hasPermissionToCreateTask(selectedProjects)">
+            {{ __( 'You have no permission to create task for this project', 'wedevs-project-manager' ) }}
         </div>
         
     </div>
@@ -130,9 +133,54 @@
         },
 
         methods: {
+
+            hasPermissionToCreateTask ( project ) {
+                if ( ! project ) {
+                    return false;
+                }
+
+                if ( this.has_manage_capability() ) {
+                    return true;
+                }
+                
+                if ( this.is_manager( project ) ) {
+                    return true;
+                }
+
+                let current_user_id = PM_Vars.current_user.ID;
+                
+                var index = this.getIndex( project.assignees.data, current_user_id, 'id' );
+
+                if ( index === false ) {
+                    return false;
+                }
+
+                var project_user = project.assignees.data[index],
+                    role = project_user.roles.data[0].slug;
+                
+                if ( role == 'client' ) {
+                    if ( project.role_capabilities.client.create_task ) {
+                        return true;
+                    }
+
+                    return false;
+                }
+                
+                if ( role == 'co_worker' ) {
+                    if ( project.role_capabilities.co_worker.create_task ) {
+                        return true;
+                    }
+
+                    return false;
+                }
+
+                return false;
+            },
+
             afterGetProjects (projects) {
+
                 if(projects.length) {
-                    this.projectId = projects[0].project_id;
+                    this.projectId = projects[0].id ? projects[0].id : projects[0].project_id;
                     this.setTaskFormUsers(projects[0].assignees);
                     this.selectedProjects = Object.assign({},projects[0]);
                 }
