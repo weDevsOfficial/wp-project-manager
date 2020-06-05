@@ -27,7 +27,7 @@
 	export default {
 		props: {
 			height: {
-				type: [Number],
+				type: [String],
 				default () {
 					return 100
 				}
