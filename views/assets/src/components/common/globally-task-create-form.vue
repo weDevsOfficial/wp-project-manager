@@ -227,7 +227,9 @@
     .pm-task-create-fields {
         .list-dropdown {
             .multiselect {
-                z-index: 9999;
+                .multiselect__content {
+                    z-index: 9999;
+                }
             }
         }
 
