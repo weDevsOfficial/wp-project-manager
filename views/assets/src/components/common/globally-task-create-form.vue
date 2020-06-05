@@ -26,7 +26,7 @@
         </div>
 
         
-        <div class="fields" v-if="projectId">
+        <div class="fields list-dropdown" v-if="projectId">
             <label v-if="selectedLists" class="label">{{__('In List', 'wedevs-project-manager')}}</label>
             <pm-list-drop-down 
                 :projectId="parseInt(projectId)"
@@ -225,6 +225,12 @@
 <style lang="less">
 
     .pm-task-create-fields {
+        .list-dropdown {
+            .multiselect {
+                z-index: 9999;
+            }
+        }
+
         .fields {
             margin-bottom: 10px;
             .label {
