@@ -234,6 +234,7 @@ return [
 	__( 'Type task list name', 'pm-pro' ),
 	__( 'Clear Filter', 'wedevs-project-manager' ),
 	__( 'Apply Filter', 'wedevs-project-manager' ),
+	__( 'You have no permission to create task for this project', 'wedevs-project-manager' ),
 	__( 'Update Category', 'wedevs-project-manager' ),
 	__( 'Submit', 'wedevs-project-manager' ),
 	__( 'Post Comment', 'wedevs-project-manager' ),
