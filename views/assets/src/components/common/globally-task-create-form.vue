@@ -135,6 +135,10 @@
         methods: {
 
             hasPermissionToCreateTask ( project ) {
+                if( PM_Vars.is_pro != 1 ) {
+                    return true;
+                }
+
                 if ( ! project ) {
                     return false;
                 }
