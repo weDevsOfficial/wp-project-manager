@@ -51,6 +51,10 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="less">
+    .pm-my-tasks {
+        .multiselect {
+            z-index: 9999;
+        }
+    }
 </style>
