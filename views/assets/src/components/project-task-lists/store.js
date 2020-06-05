@@ -254,6 +254,10 @@ export default {
          */
         afterTaskDoneUndone: function( state, data ) {
             var list_index = state.getIndex( state.lists, data.list_id, 'id' );
+
+            if ( list_index === false ) {
+                return;
+            }
             
             if (data.status == 1) {
                 if (typeof state.lists[list_index].incomplete_tasks == 'undefined') {
@@ -431,15 +435,22 @@ export default {
          */
         afterDeleteTask: function( state, data ) {
             var list_index = state.getIndex(state.lists, data.list.id, 'id');
+
+            if ( list_index === false ) {
+                return;
+            }
             
             if ( data.task.status === false || data.task.status === 'incomplete' ) {
-                var task_index = state.getIndex(state.lists[list_index].incomplete_tasks.data, data.task.id, 'id');
-                state.lists[list_index].incomplete_tasks.data.splice(task_index, 1);
-                //state.lists[list_index].meta.total_incomplete_tasks = state.lists[list_index].meta.total_incomplete_tasks - 1;
+                if ( state.lists[list_index].incomplete_tasks ) {
+                    var task_index = state.getIndex(state.lists[list_index].incomplete_tasks.data, data.task.id, 'id');
+                    state.lists[list_index].incomplete_tasks.data.splice(task_index, 1);   
+                }
+
             } else {
-                var task_index = state.getIndex(state.lists[list_index].complete_tasks.data, data.task.id, 'id');
-                state.lists[list_index].complete_tasks.data.splice(task_index, 1);
-                //state.lists[list_index].meta.total_incomplete_tasks = state.lists[list_index].meta.total_complete_tasks - 1;
+                if ( state.lists[list_index].complete_tasks ) {
+                    var task_index = state.getIndex(state.lists[list_index].complete_tasks.data, data.task.id, 'id');
+                    state.lists[list_index].complete_tasks.data.splice(task_index, 1); 
+                }
             }
 
             state.lists[list_index].meta = state.lists[list_index].meta = Object.assign( state.lists[list_index].meta, data.dbList.data.meta );
