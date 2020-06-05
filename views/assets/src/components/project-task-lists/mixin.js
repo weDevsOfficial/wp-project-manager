@@ -677,8 +677,10 @@ var PM_TaskList_Mixin = {
                         'list': args.list,
                         'dbList': res.list 
                     });
+                    
                     pm.Toastr.success(res.message);
                     self.$store.commit('updateProjectMeta', 'total_activities');
+                    
                     if ( typeof args.callback === 'function' ){
                         args.callback.call(self, res);
                     }

@@ -71,7 +71,11 @@
             </tbody>
         </table>
         <div v-if="parseInt(individualTaskId) && parseInt(individualProjectId)">
-            <single-task :taskId="parseInt(individualTaskId)" :projectId="parseInt(individualProjectId)"></single-task>
+            <single-task 
+                :taskId="parseInt(individualTaskId)" 
+                :projectId="parseInt(individualProjectId)"
+                @closeTaskModal="closeTaskModal">
+            />
         </div>
         <router-view name="singleTask"></router-view>
     </div>
@@ -156,6 +160,10 @@
         },
 
         methods: {
+            closeTaskModal (task) {
+                this.$emit('afterCloseTaskModal', task);
+            },
+
             activeSorting(key) {
                 var self = this;
                 
@@ -210,6 +218,7 @@
                     }
                 });
             },
+
             goToSigleList (task) {
                 this.$router.push({
                     name: 'single_list',
@@ -219,14 +228,17 @@
                     }
                 });
             },
+
             afterCloseSingleTaskModal () {
                 this.individualTaskId = false;
                 this.individualProjectId = false;
             },
+
             popuSilgleTask (task) {
                 this.individualTaskId = task.id;
                 this.individualProjectId = task.project_id;
             },
+
             getOverdueValue (task) {
                 let date = new Date(task.due_date.date);
                 var dueDate = pm.Moment(date).add(1, "days").format('YYYY-MM-DD');
@@ -234,6 +246,7 @@
                 return this.relativeDate(dueDate);
     
             },
+
             getCreatedAtValue (task) {
                 if(this.$route.query.start_at == '' || this.$route.query.due_date == '') {
                     return task.created_at;
@@ -243,6 +256,7 @@
                     return task.start_at +'-'+ task.due_date;
                 }
             },
+
             getCreatedAtLabel () {
 
                 if(this.$route.query.start_at == '' || this.$route.query.due_date == '') {
