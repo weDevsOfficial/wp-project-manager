@@ -27,14 +27,14 @@
 	export default {
 		props: {
 			height: {
-				type: [String],
+				type: [String, Number],
 				default () {
 					return 100
 				}
 			},
 
 			progress: {
-				type: [Number],
+				type: [String, Number],
 				default () {
 					return 90
 				}
