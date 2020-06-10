@@ -74,7 +74,7 @@
             <single-task 
                 :taskId="parseInt(individualTaskId)" 
                 :projectId="parseInt(individualProjectId)"
-                @closeTaskModal="closeTaskModal">
+                @closeTaskModal="closeTaskModal"
             />
         </div>
         <router-view name="singleTask"></router-view>

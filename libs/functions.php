@@ -1161,5 +1161,9 @@ function pm_is_single_query( $params ) {
     return false;
 }
 
+function pm_api_namespace() {
+    return config( 'app.slug' ) . '/v' . config( 'app.api' );
+}
+
 
 
