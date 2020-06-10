@@ -36,7 +36,7 @@ class WP_Router {
 	 */
     public function make_wp_rest_route() {
 		$routes = static::$routes;
-
+		
 		foreach ( $routes as $route ) {
 			$uri         = '/' . $route['uri'];
 			$http_verb   = $route['http_verb'];
@@ -45,8 +45,8 @@ class WP_Router {
 			$permissions = $route['permission'];
 			$validator   = $route['validator'];
 			$sanitizer   = $route['sanitizer'];
-			$namespace   = config( 'app.slug' ) . '/v' . config( 'app.api' );
-
+			$namespace   = pm_api_namespace();
+			
 			register_rest_route( $namespace, $uri, array(
 				'methods'  => $http_verb,
 				'callback' => array( $controller, $method ),
