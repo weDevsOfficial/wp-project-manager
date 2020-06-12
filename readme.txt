@@ -239,6 +239,15 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= Next Release - May coming soon, 2020 =
+
+* **Update** API end point is now working for all permalink.
+* **Update** My-task calendar missing current date task.
+* **Fix** From my-task, The task is not update after closing the single task popup.
+* **Fix** User can not select the date range at task create time form my-task.
+* **Fix** User can not delete self created task-list
+* **Fix** Content text style brak-all to break-word
+
 = v2.3.10 - May 05, 2020 =
 
 * **Fix** Task load more is not working for co-worker.
