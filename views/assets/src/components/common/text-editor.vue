@@ -33,7 +33,7 @@
             var settings = {
                 selector: 'textarea#' + self.editor_id,
                 menubar: false,
-                placeholder: self.__( 'Write a comment...', 'wedevs-project-manager'),
+                placeholder: __( 'Write a comment...', 'wedevs-project-manager'),
                 branding: false,
                 menubar: false,
                 auto_focus : self.editor_id,
