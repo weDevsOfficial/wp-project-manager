@@ -12,7 +12,7 @@
                     :multiple="false"
                     :searchable="true"
                     :loading="asyncProjectLoading"
-                    :placeholder="__('All Projects', 'pm-pro')"
+                    :placeholder="__('All Projects', 'wedevs-project-manager')"
                     @search-change="asyncProjectFind($event)"
                     @input="changeCountry($event)"
                     label="title"
