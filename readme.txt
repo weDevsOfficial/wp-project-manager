@@ -3,9 +3,9 @@ Contributors: tareq1988, nizamuddinbabu, wedevs, asaquzzaman
 Donate Link: https://tareq.co/donate/
 Tags: project, project manager, project management, web project management, task manager, online collaboration tool,
 Requires at least: 4.4 or higher
-Tested up to: 5.4.1
+Tested up to: 5.4.2
 Requires PHP: 5.6
-Stable tag: 2.3.10
+Stable tag: 2.3.11
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -239,14 +239,14 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
-= Next Release - May coming soon, 2020 =
+= v2.3.11 - Jun 16, 2020 =
 
-* **Update** API end point is now working for all permalink.
-* **Update** My-task calendar missing current date task.
-* **Fix** From my-task, The task is not update after closing the single task popup.
-* **Fix** User can not select the date range at task create time form my-task.
-* **Fix** User can not delete self created task-list
-* **Fix** Content text style brak-all to break-word
+* **Fix** API end point is now working for all permalink.
+* **Fix** My-task calendar missing current date task.
+* **Fix** In my-task, The task is not updating after user closing the single task popup.
+* **Fix** In My- task user can not select the date range during task create time.
+* **Fix** User can not delete self created task-list.
+* **Fix** In content text should not break in middle of the word (style change break-all to break-word).
 
 = v2.3.10 - May 05, 2020 =
 

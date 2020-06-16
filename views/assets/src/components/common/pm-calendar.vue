@@ -30,7 +30,7 @@
             },
             locale: {
                 default() {
-                    return 'en'
+                    return ''
                 }
             },
             selectable: {
@@ -76,11 +76,24 @@
             defaultConfig() {
                 const self = this;
 
+                var hasUnderscore = PM_Vars.locale.indexOf('_');
+                var locale = '';
+
+                if( hasUnderscore != -1 ) {
+                    locale = PM_Vars.locale.substr(0, PM_Vars.locale.indexOf('_'));
+                } else {
+                    locale = PM_Vars.locale;
+                }
+
+                if( !locale ) {
+                    locale = 'en';
+                }
+
                 return {
                     header: this.header,
                     defaultView: this.defaultView,
                     editable: this.editable,
-                    locale: this.locale,
+                    locale: this.locale ? this.locale : locale,
                     selectable: this.selectable,
                     selectHelper: this.selectHelper,
                     aspectRatio: 2,
