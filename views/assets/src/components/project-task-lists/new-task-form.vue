@@ -9,10 +9,7 @@
                 >
                     <form class="task-create-form" @submit.prevent="taskFormAction()" action="">
                         <div class="field">
-                            <div>
-                                <span class="plus-text" v-if="!show_spinner">+</span>
-                            </div>
-        
+                            
                             <input 
                                 v-model="task.title"  
                                 :maxlength="lengthtitle" 
@@ -24,100 +21,99 @@
                                 data-lpignore="true"
                             >
 
-                              <!-- <a @click.prevent="taskFormAction()"  class="update-button" href="#"><span class="icon-pm-check-circle"></span></a> -->
-                            <div v-user-dropdown class="action-icons">
-                                <!-- <pm-do-action hook="pm_task_form" :actionData="task"></pm-do-action> -->
-                                <!-- <span v-pm-tooltip :title="__('Description','wedevs-project-manager')" @click.self.prevent="enableDisable('descriptionField')" class="icon-pm-align-left new-task-description-btn"></span> -->
-                                
-                                <pm-popper trigger="click" :options="popperOptions">
-                                    <div class="pm-popper popper">
-                                        <div class="pm-multiselect-top pm-multiselect-subtask-task">
-                                            <div class="pm-multiselect-content">
-                                                <div class="assign-to">{{ __('Assign to', 'wedevs-project-manager') }}</div>
-                                                <multiselect
-                                                    v-model="task.assignees.data"
-                                                    :options="project_users"
-                                                    :multiple="true"
-                                                    :close-on-select="false"
-                                                    :clear-on-select="true"
-                                                    :show-labels="true"
-                                                    :searchable="true"
-                                                    placeholder="Select User"
-                                                    select-label=""
-                                                    selected-label="selected"
-                                                    deselect-label=""
-                                                    label="display_name"
-                                                    track-by="id"
-                                                    :allow-empty="true">
+                            <!-- <a @click.prevent="taskFormAction()"  class="update-button" href="#"><span class="icon-pm-check-circle"></span></a> -->
+                            <div class="action-icons">
+                                <div class="task-users">
+                                    <pm-popper trigger="click" :options="popperOptions">
+                                        <div class="pm-popper popper">
+                                            <div class="pm-multiselect-top pm-multiselect-subtask-task">
+                                                <div class="pm-multiselect-content">
+                                                    <multiselect
+                                                        v-model="task.assignees.data"
+                                                        :options="project_users"
+                                                        :multiple="true"
+                                                        :close-on-select="false"
+                                                        :clear-on-select="true"
+                                                        :show-labels="true"
+                                                        :searchable="true"
+                                                        :placeholder="__( 'Type User Name', 'wedevs-project-manager' )"
+                                                        select-label=""
+                                                        selected-label="selected"
+                                                        deselect-label=""
+                                                        label="display_name"
+                                                        track-by="id"
+                                                        :allow-empty="true">
 
-                                                   <template slot="option" slot-scope="props">
-                                                        <img class="option__image" :src="props.option.avatar_url">
-                                                        <div class="option__desc">
-                                                            <span class="option__title">{{ props.option.display_name }}</span>
-                                                        </div>
-                                                    </template>
+                                                       <template slot="option" slot-scope="props">
+                                                            <img class="option__image" :src="props.option.avatar_url">
+                                                            <div class="option__desc">
+                                                                <span class="option__title">{{ props.option.display_name }}</span>
+                                                            </div>
+                                                        </template>
 
-                                                </multiselect>
+                                                    </multiselect>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    
-                                    <!-- popper trigger element -->
-                                    <span 
-                                        slot="reference" 
-                                        v-if="!task.assignees.data.length" 
-                                        v-pm-tooltip 
-                                        :title="__('Assign user', 'wedevs-project-manager')"  
-                                        class="pm-popper-ref popper-ref task-user-multiselect icon-pm-single-user pm-dark-hover">
-                                            
-                                    </span>
-                                    <span  slot="reference" class="pm-popper-ref popper-ref">
-                                        <img 
-                                            :title="user.display_name"
+                                        
+                                        <!-- popper trigger element -->
+                                        
+                                        <div 
                                             slot="reference" 
-                                            class="user-image" 
-                                            v-if="task.assignees.data.length" 
-                                            v-for="user in task.assignees.data"
-                                            :src="user.avatar_url"
-                                        />
-                                    </span>
+                                            v-pm-tooltip 
+                                            :title="__('Assign user', 'wedevs-project-manager')"  
+                                            class="pm-popper-ref popper-ref task-user-multiselect icon-pm-single-user pm-dark-hover">
+                                                
+                                        </div>
+                                    </pm-popper>
 
-                                </pm-popper>
+                                    <div 
+                                        class="user-images" 
+                                        v-if="task.assignees.data.length">
 
+                                        <div 
+                                            v-pm-tooltip 
+                                            :title="user.display_name" 
+                                            class="image" 
+                                            v-for="user in task.assignees.data">
 
-                                <pm-date-range-picker 
-                                    @apply="onChangeDate"
-                                    @cancel="dateRangePickerClose"
-                                    :contentClass="isActiveDate()"
-                                    :options="{
-                                        input: false,
-                                        autoOpen: false,
-                                        autoApply: false,
-                                        opens: 'left',
-                                        singleDatePicker: task_start_field ? false : true,
-                                        showDropdowns: true,
-                                        startDate: getStartDate(),
-                                        endDate: getEndDate(),
-                                        locale: {
-                                            cancelLabel: __( 'Clear', 'wedevs-project-manager' )
-                                        }
-                                    }">
-                                    
-                                </pm-date-range-picker>
-                               <!--  <span 
-                                    v-pm-tooltip 
-                                    @focus="enableDisable('datePicker')"
-                                    :title="__('Date', 'wedevs-project-manager')" 
-                                    @click.prevent="enableDisable('datePicker')" 
-                                    :class="isActiveDate()"
-                                /> -->
+                                            <span class="cross"><i><svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 241.171 241.171" style="enable-background:new 0 0 241.171 241.171;" xml:space="preserve"><path id="Close" d="M138.138,120.754l99.118-98.576c4.752-4.704,4.752-12.319,0-17.011c-4.74-4.704-12.439-4.704-17.179,0 l-99.033,98.492L21.095,3.699c-4.74-4.752-12.439-4.752-17.179,0c-4.74,4.764-4.74,12.475,0,17.227l99.876,99.888L3.555,220.497 c-4.74,4.704-4.74,12.319,0,17.011c4.74,4.704,12.439,4.704,17.179,0l100.152-99.599l99.551,99.563 c4.74,4.752,12.439,4.752,17.179,0c4.74-4.764,4.74-12.475,0-17.227L138.138,120.754z"/></svg></i></span>
+                                            
+                                            <img 
+                                                :title="user.display_name"
+                                                :src="user.avatar_url"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
 
-
-                                <span class="date-field">
-                                    <span v-if="task_start_field && task.due_date.date">{{ taskDateFormat(task.start_at.date) }}</span>
-                                    <span v-if="isBetweenDate( task_start_field, task.start_at.date, task.due_date.date )">&ndash;</span>
-                                    <span>{{ taskDateFormat(task.due_date.date) }}</span>
-                                </span>
+                                <div class="task-date">
+                                    <pm-date-range-picker 
+                                        @apply="onChangeDate"
+                                        @cancel="dateRangePickerClose"
+                                        :contentClass="isActiveDate()"
+                                        :options="{
+                                            input: false,
+                                            autoOpen: false,
+                                            autoApply: false,
+                                            opens: 'left',
+                                            singleDatePicker: task_start_field ? false : true,
+                                            showDropdowns: true,
+                                            startDate: getStartDate(),
+                                            endDate: getEndDate(),
+                                            locale: {
+                                                cancelLabel: __( 'Clear', 'wedevs-project-manager' )
+                                            }
+                                        }">
+                                        
+                                    </pm-date-range-picker>
+         
+                                    <div class="date-field">
+                                        <span v-if="task_start_field && task.due_date.date">{{ taskDateFormat(task.start_at.date) }}</span>
+                                        <span v-if="isBetweenDate( task_start_field, task.start_at.date, task.due_date.date )">&ndash;</span>
+                                        <span>{{ taskDateFormat(task.due_date.date) }}</span>
+                                    </div>
+                                </div>
                             </div>
                             
                                 
@@ -185,31 +181,15 @@ import date_picker from './date-picker.vue';
 import Mixins from './mixin';
 import editor from '@components/common/text-editor.vue';
 
-// Vue.directive('task-form', {
-//   bind (el, binding, vnode) {
 
-//     el.addEventListener('click', function () {
-//         vnode.context.focusField = true;
-//     })
+// Vue.directive('user-dropdown', {
+//     bind (el, binding, vnode) {
 
-//     document.body.addEventListener('click', function(ele) {
-//         var form = jQuery(ele.target).closest(el);
-
-//         if(!form.length) {
-//             vnode.context.focusField = false;
-//         } 
-//     });
-//   }
+//         jQuery(el).find('.pm-popper-ref').on('focus', function() {
+//             jQuery(this).trigger('click');
+//         }) 
+//     }
 // })
-
-Vue.directive('user-dropdown', {
-    bind (el, binding, vnode) {
-
-        jQuery(el).find('.pm-popper-ref').on('focus', function() {
-            jQuery(this).trigger('click');
-        }) 
-    }
-})
 
 export default {
     // Get passing data for this component. Remember only array and objects are
@@ -818,32 +798,78 @@ export default {
             }
             
             .action-icons {
-                position: absolute;
-                right: 0;
-                top: 50%;
                 margin-right: 11px;
                 display: flex;
                 align-items: center;
                 line-height: 0;
-                transform: translate(0, -50%);
                 z-index: 9;
+
                 .active-date {
                     &:before {
                         color: #444;
                     }
                 }
+
                 .date-field {
                     font-size: 12px;
                     margin-left: 5px;
                     color: #4a90e2;
                 }
-                .user-image {
-                    height: 16px;
-                    width: 16px;
-                    border-radius: 16px;
-                    vertical-align: middle;
-                    margin-right: 3px;
+
+                .task-users {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    flex-wrap: wrap;
+
+                    .user-images {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        flex-wrap: wrap;
+
+                        .image {
+                            position: relative;
+                            height: 20px;
+                            width: 20px;
+                            margin-left: 5px;
+                            cursor: pointer;
+
+                            &:hover {
+                               > .cross {
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                } 
+                            }
+                            
+                            .cross {
+                                display: none;
+                                position: absolute;
+                                top: 0;
+                                left: 0;
+                                height: 100%;
+                                width: 100%;
+                                background-color: #e46c6c;
+                                border-radius: 50%;
+
+                                svg {
+                                    height: 8px;
+                                    width: 8px;
+                                    fill: #fff;
+                                }
+                            }
+
+                            img {
+                                height: 100%;
+                                width: 100%;
+                                border-radius: 50%;
+                                margin-right: 3px;
+                            }
+                        }
+                    }
                 }
+                
                 span:last-child {
                     margin-right: 0;
                 }
@@ -855,6 +881,7 @@ export default {
 
                     .pm-task-recurrent {
                         margin-right: 10px;
+                        
                         .icon-pm-loop {
                             &:before {
                                 vertical-align: middle;
