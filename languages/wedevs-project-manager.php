@@ -115,6 +115,7 @@ return [
 	__( 'All', 'wedevs-project-manager' ),
 	__( 'Grid View', 'wedevs-project-manager' ),
 	__( 'List View', 'wedevs-project-manager' ),
+	__( '- All Categories -', 'wedevs-project-manager' ),
 	__( 'No projects found.', 'wedevs-project-manager' ),
 	__( ' Tasks', 'wedevs-project-manager' ),
 	__( ' Discussions', 'wedevs-project-manager' ),
