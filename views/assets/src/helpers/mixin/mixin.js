@@ -1,10 +1,13 @@
 import TaskLists from '@components/project-task-lists/mixin';
+import Url from '@wordpress/url';
 
 export default {
 
     data () {
         return {
-            base_url: PM_Vars.base_url +'/'+ PM_Vars.rest_api_prefix,
+            //base_url: PM_Vars.base_url +'/'+ PM_Vars.rest_api_prefix,
+            base_url: PM_Vars.api_base_url,
+            permalinkStructure: PM_Vars.permalinkStructure,
             project_id: typeof this.$route === 'undefined'? false : parseInt( this.$route.params.project_id ),
             current_user: PM_Vars.current_user,
             avatar_url: PM_Vars.avatar_url,
@@ -359,6 +362,11 @@ export default {
             return new File([u8arr], filename, {type:mime});
         },
         httpRequest (property) {
+
+            if ( property.url ) {
+                property.url = this.setPermalink( property.url );
+            }
+            
             var before = function( xhr ) {
                 xhr.setRequestHeader("Authorization_name", btoa('mslweiew')); //btoa js encoding base64_encode
                 xhr.setRequestHeader("Authorization_password", btoa('1$%#$8sgf&*FBI')); //atob js decode base64_decode
@@ -376,6 +384,21 @@ export default {
             property.beforeSend = typeof property.beforeSend === 'undefined' ? before : property.beforeSend;
 
             return jQuery.ajax(property);
+        },
+
+        setPermalink (url) {
+            url = url.replace(/([^:]\/)\/+/g, "$1");
+
+            if ( !this.permalinkStructure ) {
+                var matchCount = 0;
+                
+                url = url.replace(/\?/g, function (match) {
+                    matchCount++;
+                    return matchCount>1 ? "&" : match; 
+                });
+            }
+
+            return url;
         },
 
         registerStore (module_name, store) {
@@ -540,7 +563,7 @@ export default {
             conditions = self.generateConditions(conditions);
 
             var request_data = {
-                url: self.base_url + '/pm/v2/projects?'+conditions,
+                url: self.base_url + 'pm/v2/projects?'+conditions,
                 data: args.conditions,
                 success (res) {
 

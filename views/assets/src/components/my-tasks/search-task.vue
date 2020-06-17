@@ -12,7 +12,7 @@
                     :multiple="false"
                     :searchable="true"
                     :loading="asyncProjectLoading"
-                    :placeholder="__('All Projects', 'pm-pro')"
+                    :placeholder="__('All Projects', 'wedevs-project-manager')"
                     @search-change="asyncProjectFind($event)"
                     @input="changeCountry($event)"
                     label="title"
@@ -75,18 +75,21 @@
 			<div class="tasks-wrap">
 				<current-task 
 					@columnSorting="sortQuery"
+					@afterCloseTaskModal="afterCloseTaskModal"
 					v-if="component == 'current'" 
 					:tasks="tasks">
 						
 				</current-task>
 				<outstanding-task 
 					@columnSorting="sortQuery"
+					@afterCloseTaskModal="afterCloseTaskModal"
 					v-if="component == 'outstanding'" 
 					:tasks="tasks">
 						
 				</outstanding-task>
 				<completed-task 
 					@columnSorting="sortQuery"
+					@afterCloseTaskModal="afterCloseTaskModal"
 					v-if="component == 'completed'" 
 					:tasks="tasks">
 						
@@ -260,21 +263,29 @@
 		},
 
 		methods: {
+			afterCloseTaskModal (task) {
+				this.find();
+			},
+
 			changeStatus () {
 				this.find();
 			},
+
 			changeCountry (project) {
 				//if(!project) return;
 				this.find();
 			},
+
 			sortQuery (odrPram) {
 				this.search.orderby = odrPram.orderby+':'+odrPram.order;
 				this.find();
 			},
+
 			relode () {
 				this.search.orderby = 'id:desc';
 				this.find();
 			},
+
 			generateSinglTaskUrl(task) {
 				var url = this.$router.resolve({
                     name: 'single_task',
@@ -288,6 +299,7 @@
                 //var url = PM_Vars.project_page + '#/projects/' + task.project_id + '/task-lists/tasks/' + task.id; 
                 this.copy(url);
 			},
+
 			getContentClass () {
 				return this.isLoading ? 'content-wrap task-loading' : 'content-wrap';
 			},
@@ -312,6 +324,7 @@
 
 				this.find();
 			},
+
 			asyncProjectFind (val) {
 
 			},

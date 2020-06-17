@@ -126,9 +126,9 @@ var PM_PI = {
                         backgroundColor: [ "#61BD4F", "#0090D9", "#EB5A46"],
                     }],
                     labels: [
-                        "Current Task",
-                        "Completed Task",
-                        "Outstanding Task"
+                        __( "Current Task", 'wedevs-proejct-manager' ),
+                        __( "Completed Task", 'wedevs-proejct-manager' ),
+                        __( "Outstanding Task", 'wedevs-proejct-manager' )
                     ]
                 },
                 options: {

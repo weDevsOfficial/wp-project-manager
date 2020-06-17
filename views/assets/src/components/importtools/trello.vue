@@ -53,7 +53,7 @@
             return {
                 isActiveMoreOption: false,
                 showContent: true,
-                url : PM_Vars.base_url,
+                url : PM_Vars.api_base_url,
                 import_loader : '',
                 import_perc : 0
             }
