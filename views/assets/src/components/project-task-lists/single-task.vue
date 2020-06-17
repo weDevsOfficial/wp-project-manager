@@ -616,6 +616,7 @@
                 this.activityLoading = true;
                 self.httpRequest(request_data);
             },
+
             showMenu (status) {
 
                 if(typeof status != 'undefined') {
@@ -625,6 +626,7 @@
                 }
 
             },
+
             selfDeleteTask() {
                 var self = this;
                 this.deleteTask({
@@ -641,6 +643,7 @@
                     }
                 });
             },
+
             copyUrl (task) {
                 pmBus.$emit('pm_generate_task_url', task);
                 pm.Toastr.success(this.__('Copied!', 'wedevs-project-manager'));
@@ -652,6 +655,7 @@
                     return 'pm-line-through';
                 }
             },
+
             singleTaskDoneUndone () {
                 if (this.isArchivedTaskList(this.task)) {
                     return;
@@ -691,6 +695,7 @@
                 this.taskDoneUndone( args );
 
             },
+
             getSelfTask (){
                 var self = this;
                 var args = {
@@ -800,10 +805,12 @@
                     }
                 }
             },
+
             updateTaskPrivacy (task, status) {
                 task.task_privacy = status;
                 this.updateTaskElement(task);
             },
+
             isTaskDetailsEditMode () {
                 if (this.isArchivedTaskList(this.task)) {
                      this.is_task_details_edit_mode = false;
@@ -883,7 +890,7 @@
                 var update_data  = {
                         'title': task.title,
                         'description': task.description.content,
-                        'estimation': task.estimation,
+                        'estimation': this.setMinuteToTime( task.estimation ),
                         'start_at': task.start_at ? task.start_at.date : '',
                         'due_date': task.due_date ? task.due_date.date : '',
                         'complexity': task.complexity,
@@ -930,6 +937,13 @@
                 }
                 this.show_spinner = true;
                 this.httpRequest(request_data);
+            },
+
+            setMinuteToTime (minute) {
+                minute = minute ? parseInt( minute ) : 0;
+                let time = this.stringToTime( minute*60 );
+
+                return `${time.hours}:${time.minutes}`;
             },
 
             isTaskTitleEditMode () {
@@ -1056,7 +1070,7 @@
         },
 
         destroyed () {
-            //this.$store.commit('isSigleTask', false);
+            this.$emit( 'closeTaskModal', this.task );
             pmBus.$emit('pm_before_destroy_single_task', this.task);
             jQuery('body').removeClass('pm-block-content');
         }
