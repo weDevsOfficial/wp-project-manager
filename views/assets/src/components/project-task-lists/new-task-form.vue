@@ -74,7 +74,6 @@
                                                 class="pm-popper-ref popper-ref task-user-multiselect icon-pm-single-user pm-dark-hover"
                                                 @click.prevent="focusAssignUserInput()"
                                             />
-                                            
                                         </pm-popper>
 
                                         <div 
