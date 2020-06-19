@@ -210,9 +210,6 @@
                                 </div>
                             </div>
 
-
-
-
                             <div class="due-date context">
                                 <h3 class="label">{{ __( 'Due Date', 'wedevs-project-manager' ) }}</h3>
 
@@ -296,7 +293,59 @@
                                 </div>
                             </div>
 
-                            
+
+                            <div class="task-privacy-wrap context" v-if="PM_Vars.is_pro && can_edit_task(task) && user_can('view_private_task')">
+                                <h3 class="label">{{ __( 'Privacy Status', 'wedevs-project-manager' ) }}</h3>
+
+                                <div 
+                                    :class="classnames({
+                                        ['data-active']: true
+                                    })"
+                                >
+                                    <div class="process-results task-privacy">
+                                        
+                                        <div class="status">
+                                            <span class="private"
+                                                v-if="task.meta.privacy == '1'"
+                                            >{{ __( 'Private', 'wedevs-project-manager' ) }}</span>
+
+                                            <span v-else class="public">
+                                                {{ __( 'Public', 'wedevs-project-manager' ) }}
+                                            </span>
+                                        </div>
+                                        
+                                    </div>
+                                    <div 
+                                        class="process-text-wrap"
+                                        @click.prevent="singleTaskLockUnlock(task)"
+                                    >
+                                        <span class="privacy-action-label" v-if="task.meta.privacy == '0' || typeof task.meta.privacy == 'undefined'">{{ __( 'Mark as private', 'wedevs-project-manager' ) }}</span>
+                                        <span class="privacy-action-label" v-if="task.meta.privacy == '1'">{{ __( 'Mark as public', 'wedevs-project-manager' ) }}</span>
+                                        
+                                        <a 
+                                            class="display-flex process-btn"
+                                            href="#"
+                                            @click.prevent=""  
+                                        >
+                                            
+                                            <i 
+                                                v-if="task.meta.privacy == '0' || typeof task.meta.privacy == 'undefined'"
+                                                :title="__('Make Public', 'wedevs-project-manager')"
+                                                class="icon-pm-unlock pm-font-size-16"
+                                            />
+
+                                            <i 
+                                                v-if="task.meta.privacy == '1'"
+                                                :title="__('Make Private', 'wedevs-project-manager')"
+                                                class="icon-pm-private pm-font-size-16"
+                                            />
+                                                
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+
                             <div class="pm-flex option-icon-groups">
                                 <do-action :hook="'single_task_action'" :actionData="task"></do-action>
                                 
@@ -449,10 +498,14 @@
         .label {
             font-size: 13px;
             font-weight: bold;
+            margin: 0;
+            padding: 0;
         }
 
         .context {
             margin-right: 40px;
+            margin-bottom: 20px;
+            margin-top: 10px;
 
             .display-flex {
                 display: flex;
@@ -462,7 +515,7 @@
             .process-1 {
                 display: flex;
                 align-items: center;
-                margin-top: 18px;
+                margin-top: 4px;
 
                 .process-text-wrap {
                     display: flex;
@@ -522,14 +575,14 @@
             .data-active {
                 display: flex;
                 align-items: center;
-                margin-top: 10px;
+                margin-top: 4px;
 
                 .process-text-wrap {
                     display: flex;
                     align-items: center;
                     cursor: pointer;
 
-                     &:hover {
+                    &:hover {
                         //background: #f7f7f7;
                         color: #000;
 
@@ -636,6 +689,41 @@
                     }
                 }
             }
+
+            .process-results.task-privacy {
+                .status {
+                    border-radius: 3px;
+
+                    .public {
+                        background: #61be4f;
+                        padding: 2px 5px;
+                        color: #fff;
+                        font-size: 13px;
+                        border-radius: 3px;
+                        font-weight: 300;
+                        margin-right: 10px;
+                    }
+
+                    .private {
+                        background: #cf513d;
+                        padding: 2px 5px;
+                        color: #fff;
+                        font-size: 13px;
+                        border-radius: 3px;
+                        font-weight: 300;
+                        margin-right: 10px;
+                    }
+                }
+            }
+
+            
+            .process-text-wrap {
+                .privacy-action-label {
+                    margin-right: 5px;
+                    
+                }
+            }
+            
 
             .process-results.task-date {
                 display: flex;
