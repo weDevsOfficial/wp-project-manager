@@ -495,12 +495,15 @@ export default {
             
             return 'icon-pm-calendar new-task-calendar pm-dark-hover';
         },
+
         getStartDate () {
             return this.task.start_at.date ? new Date(this.task.start_at.date ) : pm.Moment()
         },
+        
         getEndDate () {
             return this.task.due_date.date ? new Date(this.task.due_date.date) : pm.Moment()
         },
+        
         windowActivity (el) {
             var self = this;
             
