@@ -4,7 +4,10 @@
 		v-if="!options.input" 
 		v-date-field 
 		:class="`${id} ${contentClass} nonsortable`"
-	/>
+	>
+		<slot></slot>
+	</div>
+
 	<input 
 		v-else
 		type="text" 
