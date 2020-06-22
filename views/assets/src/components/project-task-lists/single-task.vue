@@ -112,17 +112,6 @@
                         <div class="options-wrap actions-wrap">
                             <div class="assigne-users context">
                                 <h3 class="label">{{ __( 'Members', 'wedevs-project-manager' ) }}</h3>
-                               <!--  <div 
-                                    v-if="task.assignees.data.length" 
-                                    class='pm-assigned-user' 
-                                    v-for="user in task.assignees.data" 
-                                    :key="user.id"
-                                >
-
-                                    <a :href="userTaskProfileUrl(user.id)" :title="user.display_name">
-                                        <img :alt="user.display_name" :src="user.avatar_url" class="avatar avatar-48 photo" height="48" width="48">
-                                    </a>
-                                </div> -->
                                 
                                 <div 
                                     :class="classnames({
@@ -224,23 +213,34 @@
                                         v-if="task.start_at.date || task.due_date.date"
                                     >
                                         
-                                        <div class="start" v-if="task_start_field && task.start_at.date">
-                                            <label>{{ __( 'Start', 'wedevs-project-manager' ) }}</label>
-                                            <span :title="getFullDate(task.start_at.datetime)">
+                                        <div class="date-wrapper">
+                                            
+                                            <span 
+                                                class="start" 
+                                                :title="getFullDate(task.start_at.datetime)" 
+                                                v-if="task_start_field && task.start_at.date"
+                                            >
                                                 {{ dateFormat( task.start_at.date ) }}
                                             </span>
-                                        </div>
 
-                                        <div class="due">
-                                            <label>{{ __( 'Due', 'wedevs-project-manager' ) }}</label>
-                                            <span v-if="task.due_date.date" :title="getFullDate(task.due_date.datetime)">
+                                            <span 
+                                                class="seperator" 
+                                                v-if="task.start_at.date && task.due_date.date"
+                                            >
+                                                &ndash;
+                                            </span>
+
+                                            <span 
+                                                class="due" 
+                                                v-if="task.due_date.date" 
+                                                :title="getFullDate(task.due_date.datetime)" 
+                                            >
                                                 {{ dateFormat( task.due_date.date  ) }}
                                             </span>
-                                            <spna v-else>
-                                                &#x02010; &#x02010;
-                                            </spna>
-                                        </div>
 
+                                            <span class="relative">{{ relativeDate(task.due_date.date) }}</span>
+                                        </div>
+                                        
                                         <div class="status ">
                                             <span class="overdue"
                                                 v-if="taskDateWrap(task.due_date.date) == 'pm-due-date'"
@@ -319,9 +319,9 @@
                                         class="process-text-wrap"
                                         @click.prevent="singleTaskLockUnlock(task)"
                                     >
-                                        <span class="privacy-action-label" v-if="task.meta.privacy == '0' || typeof task.meta.privacy == 'undefined'">{{ __( 'Mark as private', 'wedevs-project-manager' ) }}</span>
+                                       <!--  <span class="privacy-action-label" v-if="task.meta.privacy == '0' || typeof task.meta.privacy == 'undefined'">{{ __( 'Mark as private', 'wedevs-project-manager' ) }}</span>
                                         <span class="privacy-action-label" v-if="task.meta.privacy == '1'">{{ __( 'Mark as public', 'wedevs-project-manager' ) }}</span>
-                                        
+                                         -->
                                         <a 
                                             class="display-flex process-btn"
                                             href="#"
@@ -344,6 +344,9 @@
                                     </div>
                                 </div>
                             </div>
+
+
+                            <do-action :hook="'single_task_inline'" :actionData="doActionData"></do-action>
 
 
                             <div class="pm-flex option-icon-groups">
@@ -402,7 +405,7 @@
 
                                     </div>
                                 </span>
-                                <do-action :hook="'single_task_inline'" :actionData="doActionData"></do-action>
+                                
                             </div>
                         </div>
                         <do-action :hook="'before_single_task_description'" :actionData="doActionData"></do-action>
@@ -729,26 +732,36 @@
                 display: flex;
                 align-items: center;
 
-                .start, .due {
+                .date-wrapper {
                     display: flex;
                     align-items: center;
-                }
-
-                .start, .due {
+                    justify-content: flex-start;
                     margin-right: 10px;
                     background-color: rgba(9,30,66,.04);
-                    border-radius: 3px;
-                    padding: 2px 5px;
+                    border-radius: 2px;
+                    padding: 0px 5px;
+                    padding-right: 0;
+                    font-size: 12px;
 
-                    label {
-                        color: #40516e;
+                    .start, 
+                    .seperator, 
+                    .due {
+                        margin-right: 5px;
+                        font-weight: 500;
+                    }
+
+                    .relative {
+                        background: #e5e5e5;
+                        padding: 1px 5px;
                         font-weight: 400;
-                        padding-right: 5px;
+                        border-radius: 2px;
+                        color: #71767c;
                     }
                 }
 
                 .status {
                     border-radius: 3px;
+                    font-size: 12px;
 
                     .current {
                         background: #61be4f;
