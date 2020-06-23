@@ -1310,12 +1310,18 @@ export default {
         },
 
         fileDownload (fileId) {
-            window.location.href = this.base_url + '/pm/v2/projects/'+this.project_id+'/files/'+fileId+'/users/'+PM_Vars.current_user.ID+'/download';
+            let url = this.base_url + '/pm/v2/projects/'+this.project_id+'/files/'+fileId+'/users/'+PM_Vars.current_user.ID+'/download';
+                url = this.setPermalink( url );
+            
+            window.location.href = url;
         },
 
         getDownloadUrl(fileId, project_id) {
             project_id = project_id || this.project_id;
-            return this.base_url + '/pm/v2/projects/'+ project_id +'/files/'+fileId+'/users/'+PM_Vars.current_user.ID+'/download';
+            let url = this.base_url + '/pm/v2/projects/'+ project_id +'/files/'+fileId+'/users/'+PM_Vars.current_user.ID+'/download';
+            url = this.setPermalink( url );
+
+            return url;
         },
 
         copy (text) {
