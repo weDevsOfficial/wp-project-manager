@@ -347,6 +347,7 @@
 
 
                             <do-action :hook="'single_task_inline'" :actionData="doActionData"></do-action>
+                            <do-action :hook="'single_task_tools'" :actionData="doActionData"></do-action>
 
 
                             <div class="pm-flex option-icon-groups">
@@ -530,7 +531,6 @@
                 .process-text-wrap {
                     display: flex;
                     align-items: center;
-                    cursor: pointer;
 
                     .process-btn {
                         background: #f1f1f1;
