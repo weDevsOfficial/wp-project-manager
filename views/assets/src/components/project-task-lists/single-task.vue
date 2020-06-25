@@ -346,11 +346,11 @@
                             </div>
 
 
-                            <do-action :hook="'single_task_inline'" :actionData="doActionData"></do-action>
-                            <do-action :hook="'single_task_tools'" :actionData="doActionData"></do-action>
+                            <!-- <do-action :hook="'single_task_inline'" :actionData="doActionData"></do-action> -->
+                            <pm-do-slot :hook="'single_task_tools'" :actionData="doActionData"></pm-do-slot>
 
 
-                            <div class="pm-flex option-icon-groups">
+                            <!-- <div class="pm-flex option-icon-groups">
                                 <do-action :hook="'single_task_action'" :actionData="task"></do-action>
                                 
                                 <span v-if="PM_Vars.is_pro && can_edit_task(task) && user_can('view_private_task')">
@@ -407,7 +407,7 @@
                                     </div>
                                 </span>
                                 
-                            </div>
+                            </div> -->
                         </div>
                         <do-action :hook="'before_single_task_description'" :actionData="doActionData"></do-action>
                         <!-- v-if="has_task_permission()" -->
