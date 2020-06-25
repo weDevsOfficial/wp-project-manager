@@ -25,6 +25,7 @@ import ClickWrap from '@components/common/click-wrap.vue';
 import Triangle from '@components/common/triangle-box.vue';
 import DropDownMenu from '@components/common/dropdown-menu.vue';
 import Button from '@components/common/button.vue';
+import DoSlot from '@components/common/do-slot.vue';
 
 pm.Vue.component('pm-pagination', pagination);
 pm.Vue.component('pm-date-picker', datePicker);
@@ -53,6 +54,8 @@ pm.Vue.component('pm-click-wrap', ClickWrap);
 pm.Vue.component('pm-triangle-box', Triangle);
 pm.Vue.component('pm-dropdown-menu', DropDownMenu);
 pm.Vue.component('pm-button', Button);
+pm.Vue.component('pm-do-slot', DoSlot);
+
 
 
 
