@@ -197,6 +197,14 @@
                                         </div>
                                     </pm-popper>
                                 </div>
+                                
+                                <div class="spinner-wrap" v-if="memberLoading">
+                                    <div class="task-tool-spinner">
+                                        <div class="bounce1"></div>
+                                        <div class="bounce2"></div>
+                                        <div class="bounce3"></div>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="due-date context">
@@ -209,7 +217,11 @@
                                     })"
                                 >
                                     <div 
-                                        class="process-results task-date" 
+                                        :class="classnames( {
+                                            ['process-results']: true,
+                                            ['task-date']: true,
+                                            ['due-date']: taskDateWrap(task.due_date.date) == 'pm-due-date'
+                                        } )" 
                                         v-if="task.start_at.date || task.due_date.date"
                                     >
                                         
@@ -241,7 +253,7 @@
                                             <span class="relative">{{ relativeDate(task.due_date.date) }}</span>
                                         </div>
                                         
-                                        <div class="status ">
+                                        <!-- <div class="status ">
                                             <span class="overdue"
                                                 v-if="taskDateWrap(task.due_date.date) == 'pm-due-date'"
                                             >{{ __( 'Overdue', 'wedevs-project-manager' ) }}</span>
@@ -249,6 +261,12 @@
                                             <span v-else class="current">
                                                 {{ __( 'Current', 'wedevs-project-manager' ) }}
                                             </span>
+                                        </div> -->
+
+                                        <div class="delete-date-wrap">
+                                            <a class="btn" href="#" @click.prevent="deleteDate()">
+                                                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 241.171 241.171" style="enable-background:new 0 0 241.171 241.171;" xml:space="preserve"><path id="Close" d="M138.138,120.754l99.118-98.576c4.752-4.704,4.752-12.319,0-17.011c-4.74-4.704-12.439-4.704-17.179,0 l-99.033,98.492L21.095,3.699c-4.74-4.752-12.439-4.752-17.179,0c-4.74,4.764-4.74,12.475,0,17.227l99.876,99.888L3.555,220.497 c-4.74,4.704-4.74,12.319,0,17.011c4.74,4.704,12.439,4.704,17.179,0l100.152-99.599l99.551,99.563 c4.74,4.752,12.439,4.752,17.179,0c4.74-4.764,4.74-12.475,0-17.227L138.138,120.754z"/></svg>
+                                            </a>
                                         </div>
                                         
                                     </div>
@@ -290,6 +308,14 @@
                                             
                                         </pm-date-range-picker>
                                     
+                                </div>
+
+                                <div class="spinner-wrap" v-if="dateLoading">
+                                    <div class="task-tool-spinner">
+                                        <div class="bounce1"></div>
+                                        <div class="bounce2"></div>
+                                        <div class="bounce3"></div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -341,6 +367,14 @@
                                             />
                                                 
                                         </a>
+                                    </div>
+                                </div>
+
+                                <div class="spinner-wrap" v-if="privacyLoading">
+                                    <div class="task-tool-spinner">
+                                        <div class="bounce1"></div>
+                                        <div class="bounce2"></div>
+                                        <div class="bounce3"></div>
                                     </div>
                                 </div>
                             </div>
@@ -517,6 +551,61 @@
             margin-right: 40px;
             margin-bottom: 20px;
             margin-top: 10px;
+            position: relative;
+
+            .spinner-wrap {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: absolute;
+                left: -5px;
+                right: -5px;
+                top: -5px;
+                bottom: -5px;
+                background-color: rgba(241,241,241,0.65);
+                border-radius: 3px;
+
+                .task-tool-spinner {
+                  
+                  
+                }
+
+                .task-tool-spinner > div {
+                  width: 9px;
+                    height: 9px;
+                    background-color: #72777c;
+                  border-radius: 100%;
+                  display: inline-block;
+                  -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+                  animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+                }
+
+                .task-tool-spinner .bounce1 {
+                  -webkit-animation-delay: -0.32s;
+                  animation-delay: -0.32s;
+                }
+
+                .task-tool-spinner .bounce2 {
+                  -webkit-animation-delay: -0.16s;
+                  animation-delay: -0.16s;
+                }
+
+                @-webkit-keyframes sk-bouncedelay {
+                  0%, 80%, 100% { -webkit-transform: scale(0) }
+                  40% { -webkit-transform: scale(1.0) }
+                }
+
+                @keyframes sk-bouncedelay {
+                  0%, 80%, 100% { 
+                    -webkit-transform: scale(0);
+                    transform: scale(0);
+                  } 40% { 
+                    -webkit-transform: scale(1.0);
+                    transform: scale(1.0);
+                  }
+                }
+            }
+
 
             .display-flex {
                 display: flex;
@@ -734,16 +823,51 @@
                 }
             }
             
+            .task-date.due-date {
+                background: #EB5A46;
+                color: #fff;
+            }
 
             .process-results.task-date {
                 display: flex;
                 align-items: center;
+                border-radius: 2px;
+                margin-right: 6px;
+                position: relative;
+
+                &:hover {
+                    .delete-date-wrap {
+                        display: flex;
+                    } 
+                }
+
+                .delete-date-wrap {
+                    display: none;
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    left: 0;
+                    bottom: 0;
+                    background: #cf513d;
+                    border-radius: 2px;
+                    cursor: pointer;
+                    align-items: center;
+                    justify-content: center;
+
+                    .btn {
+
+                        svg {
+                            height: 10px;
+                            width: 10px;
+                            fill: #fff;
+                        }
+                    }
+                }
 
                 .date-wrapper {
                     display: flex;
                     align-items: center;
                     justify-content: flex-start;
-                    margin-right: 10px;
                     background-color: rgba(9,30,66,.04);
                     border-radius: 2px;
                     padding: 0px 5px;
@@ -754,15 +878,16 @@
                     .seperator, 
                     .due {
                         margin-right: 5px;
-                        font-weight: 500;
+                        font-weight: 400;
                     }
 
                     .relative {
                         background: #e5e5e5;
                         padding: 1px 5px;
                         font-weight: 400;
-                        border-radius: 2px;
+                        border-top-right-radius: 2px;
                         color: #71767c;
+                        border-bottom-right-radius: 2px;
                     }
                 }
 
@@ -875,7 +1000,10 @@
                 show_spinner_status: false,
                 show_spinner: false,
                 taskUpdating: false,
-                truckTitleUpdate: ''
+                truckTitleUpdate: '',
+                memberLoading: false,
+                dateLoading: false,
+                privacyLoading: false
             }
         },
 
@@ -1030,9 +1158,9 @@
                 });
 
                 this.task.assignees.data = selected_users;
-
+                self.memberLoading = true;
                 this.updateTaskElement(this.task, function(res) {
-                        
+                    self.memberLoading = false;
                     pmBus.$emit('after_update_single_task_user', {
                         beforeUpdate: self.task, 
                         afterUpdate: res.data
@@ -1065,6 +1193,20 @@
                     return;
                 }
                 this.updateTaskElement(task);
+            },
+
+            deleteDate () {
+                this.fromDate( {
+                    id: 'singleTask',
+                    field: 'datepicker_from',
+                    date: '' 
+                } );
+
+                this.fromDate( {
+                    id: 'singleTask',
+                    field: 'datepicker_to',
+                    date: ''
+                } );
             },
 
             onChangeDate (start, end, className) {
@@ -1316,6 +1458,8 @@
             },
 
             fromDate (date) {
+                var self = this;
+
                 if ( date.id == 'singleTask' && date.field == 'datepicker_from' ) {
 
                     if (this.task.due_date.date) {
@@ -1330,8 +1474,12 @@
                     }
 
                     this.task.start_at.date = date.date;
-
-                    this.updateTaskElement(this.task);
+                    
+                    self.dateLoading = true;
+                    
+                    this.updateTaskElement(this.task, () => {
+                        self.dateLoading = false;
+                    });
                 }
 
                 if ( date.id == 'singleTask' && date.field == 'datepicker_to' ) {
@@ -1591,6 +1739,7 @@
                     type: 'POST',
                     data: data,
                     success (res) {
+                        self.privacyLoading = false;
                         //task.meta.privacy = data.is_private;
                         pm.Vue.set( task.meta, 'privacy', data.is_private );
 
@@ -1609,6 +1758,8 @@
                         });
                     }
                 }
+
+                self.privacyLoading = true;
                 self.httpRequest(request_data);
             },
 
