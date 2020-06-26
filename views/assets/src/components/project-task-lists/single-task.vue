@@ -533,6 +533,7 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: flex-start;
+        width: 100%;
 
         .pm-action-wrap {
             display: flex;
@@ -552,6 +553,7 @@
             margin-bottom: 20px;
             margin-top: 10px;
             position: relative;
+            width: 40%;
 
             .spinner-wrap {
                 display: flex;
@@ -808,7 +810,7 @@
                         padding: 2px 5px;
                         color: #fff;
                         font-size: 13px;
-                        border-radius: 3px;
+                        border-radius: 2px;
                         font-weight: 300;
                         margin-right: 10px;
                     }
