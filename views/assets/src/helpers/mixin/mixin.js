@@ -303,6 +303,7 @@ export default {
          * @return string
          */
         dateFormat ( date, formate ) {
+            return date;
             var formate = formate || 'MMM D';
             if ( !date ) {
                 return;

@@ -20,7 +20,6 @@ import Settings from '@components/settings/mixin'
 import SingleTask from '@components/project-task-lists/single-task.vue';
 // import listpage from '@components/project-task-lists/lists.vue';
 
-
 pm.SingleTask = SingleTask;
 
 PmMixin.projectTaskLists = Lists;
