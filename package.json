@@ -102,6 +102,7 @@
     "vue-multiselect": "^2.0.3",
     "vue-popperjs": "^1.6.3",
     "vue-router": "^3.0.1",
+    "vue2-daterange-picker": "^0.5.1",
     "vuex": "^3.0.0"
   }
 }
