@@ -99,7 +99,7 @@
                                     </div>
 
                                     <div class="task-date process-field">
-                                        <pm-date-range-picker 
+                                        <!-- <pm-date-range-picker 
                                             @apply="onChangeDate"
                                             @cancel="dateRangePickerClose"
                                             :contentClass="isActiveDate()"
@@ -117,13 +117,25 @@
                                                 }
                                             }">
                                             
-                                        </pm-date-range-picker>
+                                        </pm-date-range-picker> -->
+
+                                        <pm-vue2-daterange-picker
+                                            :opens="'right'"
+                                            :singleDatePicker="task_start_field ? false : true"
+                                            :startDate="getStartDate()"
+                                            :endDate="getEndDate()"
+                                            :showDropdowns="true"
+                                            :autoApply="true"
+                                            @update="onChangeDate"
+                                        />
+                                           
+                                      
              
-                                        <div class="date-field">
+                                        <!-- <div class="date-field">
                                             <span v-if="task_start_field && task.due_date.date">{{ taskDateFormat(task.start_at.date) }}</span>
                                             <span v-if="isBetweenDate( task_start_field, task.start_at.date, task.due_date.date )">&ndash;</span>
                                             <span>{{ taskDateFormat(task.due_date.date) }}</span>
-                                        </div>
+                                        </div> -->
                                     </div>
                                 </div>
                                 
@@ -528,14 +540,24 @@ export default {
                 this.isEnableMultiselect = false;
             }
         },
-        onChangeDate (start, end, className) {
+        // onChangeDate (start, end, className) {
+        //     if(this.task_start_field) {
+        //         this.task.start_at.date = start.format('YYYY-MM-DD');
+        //         this.task.due_date.date = end.format('YYYY-MM-DD');
+        //     } else {
+        //         this.task.due_date.date = end.format('YYYY-MM-DD');
+        //     }
+        // },
+        onChangeDate (date) {
+            
             if(this.task_start_field) {
-                this.task.start_at.date = start.format('YYYY-MM-DD');
-                this.task.due_date.date = end.format('YYYY-MM-DD');
+                this.task.start_at.date = pm.Moment(date.startDate).format('YYYY-MM-DD');
+                this.task.due_date.date = pm.Moment(date.endDate).format('YYYY-MM-DD');
             } else {
-                this.task.due_date.date = end.format('YYYY-MM-DD');
+                this.task.due_date.date = pm.Moment(date.endDate).format('YYYY-MM-DD');
             }
         },
+
         callBackDatePickerForm (date) {
             this.task.start_at.date = date;
         },
@@ -841,6 +863,11 @@ export default {
                                 align-items: center;
                                 justify-content: center;
 
+                                .reportrange-text {
+                                    background: none !important;
+                                    border: 0;
+                                }
+
                                 .icon-pm-calendar {
                                     &:before {
                                         font-size: 15px;
@@ -890,7 +917,7 @@ export default {
                                         cursor: pointer;
 
                                         &:last-child {
-                                            margin-right: 15px;
+                                            //margin-right: 15px;
                                         }
 
                                         &:hover {

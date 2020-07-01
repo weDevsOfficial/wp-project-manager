@@ -2,7 +2,7 @@
 	<date-range-picker
         ref="picker"
         :opens="opens"
-        :locale-data="{ format: 'yyyy-mm-dd' }"
+        :locale-data="localeData"
         :minDate="minDate" 
         :maxDate="maxDate"
         :singleDatePicker="singleDatePicker"
@@ -15,7 +15,18 @@
         v-model="date"
         @update="updateValues"
         :linkedCalendars="linkedCalendars"
-	/>
+	>
+
+	    <!--    input slot (new slot syntax)-->
+	    <template slot="input" scop="date" style="min-width: 350px;">
+	    	<div>
+	    		<i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+	    		<span>{{ getDate( date ) }}</span>
+	    	</div>
+	      
+	    </template>
+
+	</date-range-picker>
 
 </template>
 
@@ -120,13 +131,6 @@
 				}
 			},
 
-			dateFormat: {
-				type: [String],
-				default () {
-					return 'YYYY-MM-DD'
-				}
-			},
-
 			startDate: {
 				type: [String, Object],
 				default () {
@@ -146,6 +150,15 @@
 				default () {
 					return false
 				}
+			},
+
+			localeData: {
+				type: [Object],
+				default () {
+					return {
+						format: 'mmm dd'
+					}
+				}
 			}
 		},
 
@@ -155,6 +168,10 @@
 					startDate: this.startDate,
 					endDate: this.endDate
 				},
+				picker: {
+					startDate: '2020-03-03',
+					endDate: '2020-03-03',
+				}
 			}
 		},
 			
@@ -167,6 +184,29 @@
 		},
 
         methods: {
+        	getDate ( date ) {
+
+        		if( 
+        			(
+        				!this.isEmpty(date.startDate)
+        					&&
+        				this.hasTaskStartField()
+        			)
+        				&& 
+        			!this.isEmpty(date.endDate) 
+        		) {
+        			return date.startDate.format('MMM DD') +' - '+ date.endDate.format('MMM DD');
+        		}
+
+        		if( !this.isEmpty(date.startDate) ) {
+        			return date.startDate.format('MMM DD');
+        		}
+        		
+        		if( !this.isEmpty(date.endDate) && this.hasTaskStartField() ) {
+        			return date.endDate.format('MMM DD');
+        		}
+        	},
+
         	updateValues(date) {
         		this.$emit('update', date);
         	}

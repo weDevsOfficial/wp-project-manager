@@ -1443,12 +1443,9 @@ export default {
             }
 
             if (this.is_object(mixedVar)) {
-                for (key in mixedVar) {
-                    if ( mixedVar.hasOwnProperty(key) ) {
-                        return false
-                    }
+                if( jQuery.isEmptyObject(mixedVar) ) {
+                    return true;
                 }
-                return true
             }
 
             return false
