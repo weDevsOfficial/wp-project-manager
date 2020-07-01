@@ -926,18 +926,24 @@
 
     .task-title-wrap {
         &:hover {
-            .pm-task-title-activity { 
-                background: #f9f9f9;
+            .pm-task-title-span { 
                 padding: 6px;
                 cursor: pointer;
+                border-style: solid;
+                border-width: 1px;
+                border-top-color: #cecece;
+                border-left-color: #cecece;
+                border-right-color: #f1f1f1;
+                border-bottom-color: #f1f1f1;
             } 
         }
 
-        .pm-task-title-activity {
+        .pm-task-title-span {
             display: block;
             padding: 6px 0;
             transition: all 0.5s ease-out;
             border-radius: 3px;
+            border: 1px solid #fff;
         }
     }
 
