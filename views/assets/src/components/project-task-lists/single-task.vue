@@ -103,9 +103,9 @@
                                 <span >
                                     {{ __("Task List:", 'wedevs-project-manager' ) }}
                                 </span>
-                                <strong class="list-title">
+                                <span class="list-title">
                                     {{ task.task_list.data.title }}
-                                </strong>
+                                </span>
                             </div>
                         </div>
 
@@ -232,12 +232,12 @@
                                                 :title="getFullDate(task.start_at.datetime)" 
                                                 v-if="task_start_field && task.start_at.date"
                                             >
-                                                {{ dateFormat( task.start_at.date ) }}
+                                                {{ pmDateFormat( task.start_at.date, 'MMM DD' ) }}
                                             </span>
 
                                             <span 
                                                 class="seperator" 
-                                                v-if="task.start_at.date && task.due_date.date"
+                                                v-if="!isEmpty(task.start_at.date) && !isEmpty(task.due_date.date)"
                                             >
                                                 &ndash;
                                             </span>
@@ -247,10 +247,10 @@
                                                 v-if="task.due_date.date" 
                                                 :title="getFullDate(task.due_date.datetime)" 
                                             >
-                                                {{ dateFormat( task.due_date.date  ) }}
+                                                {{ pmDateFormat( task.due_date.date, 'MMM DD'  ) }}
                                             </span>
 
-                                            <span class="relative">{{ relativeDate(task.due_date.date) }}</span>
+                                            <span class="relative" v-if="!isEmpty(task.due_date.date)">{{ relativeDate(task.due_date.date) }}</span>
                                         </div>
                                         
                                         <!-- <div class="status ">
@@ -405,13 +405,13 @@
                                     <span v-if="(task.start_at.date || task.due_date.date )" :class="taskDateWrap(task.due_date.date) + ' pm-task-date-wrap pm-date-window'">
 
                                         <span :title="getFullDate(task.start_at.datetime)" v-if="task_start_field">
-                                            {{ dateFormat( task.start_at.date ) }}
+                                            {{ pmDateFormat( task.start_at.date ) }}
                                         </span>
 
                                         <span v-if="task_start_field && task.start_at.date && task.due_date.date">&ndash;</span>
                                         <span :title="getFullDate(task.due_date.datetime)" v-if="task.due_date">
 
-                                            {{ dateFormat( task.due_date.date ) }}
+                                            {{ pmDateFormat( task.due_date.date ) }}
                                         </span>
                                     </span>
 
@@ -550,8 +550,8 @@
 
         .context {
             margin-right: 40px;
-            margin-bottom: 20px;
-            margin-top: 10px;
+            margin-bottom: 7px;
+            margin-top: 7px;
             position: relative;
             width: 40%;
 
@@ -650,6 +650,7 @@
                         font-size: 13px;
                         margin-left: 5px;
                         font-weight: 300;
+                        cursor: pointer;
                     }
                 }
 
@@ -922,10 +923,35 @@
         
     }
 
+
+    .task-title-wrap {
+        &:hover {
+            .pm-task-title-activity { 
+                background: #f9f9f9;
+                padding: 6px;
+                cursor: pointer;
+            } 
+        }
+
+        .pm-task-title-activity {
+            display: block;
+            padding: 6px 0;
+            transition: all 0.5s ease-out;
+            border-radius: 3px;
+        }
+    }
+
     .task-list-title-wrap {
+        .task-list-title-text {
+            font-size: 13px;
+            font-weight: bold;
+            color: #23282d;
+        }
         .list-title {
             font-size: 12px;
-            text-transform: uppercase;
+            color: #202020;
+            font-weight: 400;
+
         }
     }
 
@@ -1123,6 +1149,7 @@
                 }
             });
         },
+        
         destroyed () {
             this.task = {};
             this.list = {};
@@ -1399,7 +1426,7 @@
                 var self = this;
                 var args = {
                     condition : {
-                        with: 'boards,comments,activities',
+                        with: 'boards,comments,activities,project',
                     },
                     task_id : self.task_id ? self.task_id : this.taskId,
                     project_id: self.projectId ? self.projectId : self.project_id,

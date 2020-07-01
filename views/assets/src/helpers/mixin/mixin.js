@@ -302,8 +302,7 @@ export default {
          *
          * @return string
          */
-        dateFormat ( date, formate ) {
-            return date;
+        pmDateFormat( date, formate ) {
             var formate = formate || 'MMM D';
             if ( !date ) {
                 return;
@@ -1416,6 +1415,43 @@ export default {
                     }, 100); // cleanup
                 }
             }
+        },
+
+        isEmpty (mixedVar) {
+
+
+            if( 
+                mixedVar === false 
+                    ||
+                mixedVar == 0
+                    || 
+                mixedVar == '0'
+                    ||
+                mixedVar == null
+                    ||
+                mixedVar == ''
+                    ||
+                typeof mixedVar == 'undefined'
+            ) {
+                return true;
+            }
+
+            if(this.is_array(mixedVar)) {
+                if(!mixedVar.length) {
+                    return true;
+                }
+            }
+
+            if (this.is_object(mixedVar)) {
+                for (key in mixedVar) {
+                    if ( mixedVar.hasOwnProperty(key) ) {
+                        return false
+                    }
+                }
+                return true
+            }
+
+            return false
         }
     }
 };
