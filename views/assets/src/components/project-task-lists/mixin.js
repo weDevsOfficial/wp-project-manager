@@ -633,7 +633,7 @@ var PM_TaskList_Mixin = {
                     }
 
                     if ( typeof args.callback === 'function' ) {
-                        args.callback.call ( self,  res );
+                        args.callback( self,  res );
                     }
                 }
             }

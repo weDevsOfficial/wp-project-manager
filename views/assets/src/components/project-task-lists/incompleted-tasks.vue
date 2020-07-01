@@ -240,7 +240,6 @@
         methods: {
             closeTaskForm () {
                 this.task.edit_mode = false;
-                console.log(this.task.edit_mode);
             },
 
             move (items) {

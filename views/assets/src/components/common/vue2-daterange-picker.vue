@@ -1,21 +1,20 @@
 <template>
 	<date-range-picker
-	        ref="picker"
-	        :opens="opens"
-	        :locale-data="{ format: 'yyyy-mm-dd' }"
-	        :minDate="minDate" 
-	        :maxDate="maxDate"
-	        :singleDatePicker="singleDatePicker"
-	        :timePicker="timePicker"
-	        :timePicker24Hour="timePicker24Hour"
-	        :showWeekNumbers="showWeekNumbers"
-	        :showDropdowns="showDropdowns"
-	        :autoApply="autoApply"
-	        :ranges="ranges"
-	        v-model="date"
-	        @update="updateValues"
-	        @toggle="checkOpen"
-	        :linkedCalendars="linkedCalendars"
+        ref="picker"
+        :opens="opens"
+        :locale-data="{ format: 'yyyy-mm-dd' }"
+        :minDate="minDate" 
+        :maxDate="maxDate"
+        :singleDatePicker="singleDatePicker"
+        :timePicker="timePicker"
+        :timePicker24Hour="timePicker24Hour"
+        :showWeekNumbers="showWeekNumbers"
+        :showDropdowns="showDropdowns"
+        :autoApply="autoApply"
+        :ranges="ranges"
+        v-model="date"
+        @update="updateValues"
+        :linkedCalendars="linkedCalendars"
 	/>
 
 </template>
@@ -160,7 +159,7 @@
 		},
 			
 		created () {
-			console.log(this.date);
+			
 		},
 
 		components: {
@@ -168,7 +167,9 @@
 		},
 
         methods: {
-
+        	updateValues(date) {
+        		this.$emit('update', date);
+        	}
         }
 	}
 </script>
