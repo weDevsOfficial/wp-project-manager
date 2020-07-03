@@ -1,37 +1,83 @@
 <template>
-	<date-range-picker
-        ref="picker"
-        :opens="opens"
-        :locale-data="localeData"
-        :minDate="minDate" 
-        :maxDate="maxDate"
-        :singleDatePicker="singleDatePicker"
-        :timePicker="timePicker"
-        :timePicker24Hour="timePicker24Hour"
-        :showWeekNumbers="showWeekNumbers"
-        :showDropdowns="showDropdowns"
-        :autoApply="autoApply"
-        :ranges="ranges"
-        v-model="date"
-        @update="updateValues"
-        :linkedCalendars="linkedCalendars"
-	>
+	<div class="pm-vue2-daterange-picker">
+		<date-range-picker
+	        ref="picker"
+	        :opens="opens"
+	        :locale-data="localeData"
+	        :minDate="minDate" 
+	        :maxDate="maxDate"
+	        :singleDatePicker="singleDatePicker"
+	        :timePicker="timePicker"
+	        :timePicker24Hour="timePicker24Hour"
+	        :showWeekNumbers="showWeekNumbers"
+	        :showDropdowns="showDropdowns"
+	        :autoApply="autoApply"
+	        :ranges="ranges"
+	        v-model="date"
+	        @update="updateValues"
+	        :linkedCalendars="linkedCalendars"
+		>
 
-	    <!--    input slot (new slot syntax)-->
-	    <template slot="input" scop="date" style="min-width: 350px;">
-	    	<div>
-	    		<i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
-	    		<span>{{ getDate( date ) }}</span>
-	    	</div>
-	      
-	    </template>
+		    <!--    input slot (new slot syntax)-->
+		    <template slot="input" scop="date" style="min-width: 350px;">
+		    	<div class="pm-daterange-view">
+		    		<i class="glyphicon glyphicon-calendar fa fa-calendar item"></i>
+		    		<span class="item date-text">{{ getDate( date ) }}</span>
+		    	</div>
+		      
+		    </template>
 
-	</date-range-picker>
+		</date-range-picker>
+
+		<a v-if="hasDate( date )" class="btn item" href="#" @click.prevent="deleteDate(date)">
+	        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 241.171 241.171" style="enable-background:new 0 0 241.171 241.171;" xml:space="preserve"><path id="Close" d="M138.138,120.754l99.118-98.576c4.752-4.704,4.752-12.319,0-17.011c-4.74-4.704-12.439-4.704-17.179,0 l-99.033,98.492L21.095,3.699c-4.74-4.752-12.439-4.752-17.179,0c-4.74,4.764-4.74,12.475,0,17.227l99.876,99.888L3.555,220.497 c-4.74,4.704-4.74,12.319,0,17.011c4.74,4.704,12.439,4.704,17.179,0l100.152-99.599l99.551,99.563 c4.74,4.752,12.439,4.752,17.179,0c4.74-4.764,4.74-12.475,0-17.227L138.138,120.754z"/></svg>
+	    </a>
+	</div>
 
 </template>
 
 <style lang="less">
+	.pm-vue2-daterange-picker {
+		display: flex;
+		align-items: center;
+
+		.reportrange-text {
+			padding-right: 1px;
+		}
+
+		.btn {
+			padding: 0 10px;
+
+			&:hover {
+				svg {
+					fill: #e46c6c;
+				    stroke-width: 30px;
+				    stroke: #e46c6c;
+				}
+			}
+
+			svg {
+				height: 8px;
+				width: 8px;
+				fill: #000;
+			}
+		}
+	}
+
 	.vue-daterange-picker {
+		.pm-daterange-view {
+			display: flex;
+			align-items: center;
+
+			.item {
+				margin-right: 5px;
+			}
+
+			.date-text {
+				margin-right: 0;
+			}
+		}
+
 		.reportrange-text {
 			line-height: 1rem;
 		}
@@ -184,8 +230,14 @@
 		},
 
         methods: {
-        	getDate ( date ) {
+        	deleteDate (date) {
+        		date.startDate = '';
+        		date.endDate = '';
 
+        		this.updateValues(date);
+        	},
+
+        	getDate ( date ) {
         		if( 
         			(
         				!this.isEmpty(date.startDate)
@@ -195,16 +247,27 @@
         				&& 
         			!this.isEmpty(date.endDate) 
         		) {
-        			return date.startDate.format('MMM DD') +' - '+ date.endDate.format('MMM DD');
+        			return pm.Moment(date.startDate).format('MMM DD') +' - '+ pm.Moment(date.endDate).format('MMM DD');
         		}
 
-        		if( !this.isEmpty(date.startDate) ) {
-        			return date.startDate.format('MMM DD');
+        		if( !this.isEmpty(date.startDate) && this.hasTaskStartField() ) {
+        			return pm.Moment(date.startDate).format('MMM DD');
         		}
         		
-        		if( !this.isEmpty(date.endDate) && this.hasTaskStartField() ) {
-        			return date.endDate.format('MMM DD');
+        		if( !this.isEmpty(date.endDate) ) {
+        			return pm.Moment(date.endDate).format('MMM DD');
         		}
+
+        		return '';
+        	},
+
+        	hasDate (date) {
+
+        		if(this.getDate(date)) {
+        			return true;
+        		}
+
+        		return false;
         	},
 
         	updateValues(date) {

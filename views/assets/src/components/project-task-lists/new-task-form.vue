@@ -509,11 +509,11 @@ export default {
         },
 
         getStartDate () {
-            return this.task.start_at.date ? new Date(this.task.start_at.date ) : pm.Moment()
+            return this.task.start_at.date ? new Date(this.task.start_at.date ) : '';//pm.Moment()
         },
         
         getEndDate () {
-            return this.task.due_date.date ? new Date(this.task.due_date.date) : pm.Moment()
+            return this.task.due_date.date ? new Date(this.task.due_date.date) : ''//pm.Moment()
         },
         
         windowActivity (el) {
@@ -549,7 +549,6 @@ export default {
         //     }
         // },
         onChangeDate (date) {
-            
             if(this.task_start_field) {
                 this.task.start_at.date = pm.Moment(date.startDate).format('YYYY-MM-DD');
                 this.task.due_date.date = pm.Moment(date.endDate).format('YYYY-MM-DD');
