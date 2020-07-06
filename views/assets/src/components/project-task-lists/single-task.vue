@@ -109,6 +109,41 @@
                             </div>
                         </div>
 
+                        <div id="description-wrap" class="description-wrap">
+                            <div v-if="showdescriptionfield && has_task_permission()" @click.prevent="isTaskDetailsEditMode()"  class="action-content pm-flex">
+                                <span>
+                                    <span class="icon-pm-align-left"></span>
+                                    <span class="task-description">{{ __( 'Description', 'wedevs-project-manager' ) }}</span>
+                                </span>
+                                <span class="icon-pm-pencil"></span>
+                            </div>
+
+                            <div v-else class="task-details">
+
+                                <div class="pm-des-area pm-desc-content" v-if="!is_task_details_edit_mode">
+
+                                    <div v-if="task.description.content != ''" class="pm-task-description" v-html="task.description.html"></div>
+
+                                    <a class="task-description-edit-icon" @click.prevent="isTaskDetailsEditMode()" :title="update_description" v-if="can_edit_task(task) && !isArchivedTaskList(task)">
+                                        <i style="font-size: 16px;"  class="fa fa-pencil" aria-hidden="true"></i>
+
+                                    </a>
+                                </div>
+
+                                <div v-if="is_task_details_edit_mode && can_edit_task(task) && !isArchivedTaskList(task)" class="item detail">
+                                    <text-editor v-if="is_task_details_edit_mode" :editor_id="'task-description-editor'" :content="content"></text-editor>
+                                    <div class="task-description-action">
+                                        <a @click.prevent="submitDescription(task)" href="#" class="pm-button pm-primary">{{ __( 'Update', 'wedevs-project-manager' ) }}</a>
+                                        <a @click.prevent="closeDescriptionEditor(task)" href="#" class="pm-button pm-secondary">{{ __( 'Cancel', 'wedevs-project-manager' ) }}</a>
+                                        <span v-if="description_show_spinner" class="pm-spinner"></span>
+                                    </div>
+                                </div>
+
+                                <div class="clearfix pm-clear"></div>
+                                <do-action :hook="'aftre_single_task_details'" :actionData="doActionData"></do-action>
+                            </div>
+                        </div>
+
                         <div class="options-wrap actions-wrap">
                             <div class="assigne-users context">
                                 <h3 class="label">{{ __( 'Members', 'wedevs-project-manager' ) }}</h3>
@@ -294,8 +329,10 @@
                                             >
                                                 <i 
                                                     :title="__('Add Due Date', 'wedevs-project-manager')"
-                                                    class="icon-pm-calendar pm-font-size-16"
-                                                />
+                                                    class=""
+                                                >
+                                                    <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="488.152px" height="488.152px" viewBox="0 0 488.152 488.152" style="enable-background:new 0 0 488.152 488.152;" xml:space="preserve"> <g> <g> <path d="M177.854,269.311c0-6.115-4.96-11.069-11.08-11.069h-38.665c-6.113,0-11.074,4.954-11.074,11.069v38.66 c0,6.123,4.961,11.079,11.074,11.079h38.665c6.12,0,11.08-4.956,11.08-11.079V269.311L177.854,269.311z"/> <path d="M274.483,269.311c0-6.115-4.961-11.069-11.069-11.069h-38.67c-6.113,0-11.074,4.954-11.074,11.069v38.66 c0,6.123,4.961,11.079,11.074,11.079h38.67c6.108,0,11.069-4.956,11.069-11.079V269.311z"/> <path d="M371.117,269.311c0-6.115-4.961-11.069-11.074-11.069h-38.665c-6.12,0-11.08,4.954-11.08,11.069v38.66 c0,6.123,4.96,11.079,11.08,11.079h38.665c6.113,0,11.074-4.956,11.074-11.079V269.311z"/> <path d="M177.854,365.95c0-6.125-4.96-11.075-11.08-11.075h-38.665c-6.113,0-11.074,4.95-11.074,11.075v38.653 c0,6.119,4.961,11.074,11.074,11.074h38.665c6.12,0,11.08-4.956,11.08-11.074V365.95L177.854,365.95z"/> <path d="M274.483,365.95c0-6.125-4.961-11.075-11.069-11.075h-38.67c-6.113,0-11.074,4.95-11.074,11.075v38.653 c0,6.119,4.961,11.074,11.074,11.074h38.67c6.108,0,11.069-4.956,11.069-11.074V365.95z"/> <path d="M371.117,365.95c0-6.125-4.961-11.075-11.069-11.075h-38.67c-6.12,0-11.08,4.95-11.08,11.075v38.653 c0,6.119,4.96,11.074,11.08,11.074h38.67c6.108,0,11.069-4.956,11.069-11.074V365.95L371.117,365.95z"/> <path d="M440.254,54.354v59.05c0,26.69-21.652,48.198-48.338,48.198h-30.493c-26.688,0-48.627-21.508-48.627-48.198V54.142 h-137.44v59.262c0,26.69-21.938,48.198-48.622,48.198H96.235c-26.685,0-48.336-21.508-48.336-48.198v-59.05 C24.576,55.057,5.411,74.356,5.411,98.077v346.061c0,24.167,19.588,44.015,43.755,44.015h389.82 c24.131,0,43.755-19.889,43.755-44.015V98.077C482.741,74.356,463.577,55.057,440.254,54.354z M426.091,422.588 c0,10.444-8.468,18.917-18.916,18.917H80.144c-10.448,0-18.916-8.473-18.916-18.917V243.835c0-10.448,8.467-18.921,18.916-18.921 h327.03c10.448,0,18.916,8.473,18.916,18.921L426.091,422.588L426.091,422.588z"/> <path d="M96.128,129.945h30.162c9.155,0,16.578-7.412,16.578-16.567V16.573C142.868,7.417,135.445,0,126.29,0H96.128 C86.972,0,79.55,7.417,79.55,16.573v96.805C79.55,122.533,86.972,129.945,96.128,129.945z"/> <path d="M361.035,129.945h30.162c9.149,0,16.572-7.412,16.572-16.567V16.573C407.77,7.417,400.347,0,391.197,0h-30.162 c-9.154,0-16.577,7.417-16.577,16.573v96.805C344.458,122.533,351.881,129.945,361.035,129.945z"/> </g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> </svg>
+                                                </i>
                                                     
                                             </a>
 
@@ -357,14 +394,18 @@
                                             <i 
                                                 v-if="task.meta.privacy == '0' || typeof task.meta.privacy == 'undefined'"
                                                 :title="__('Make Public', 'wedevs-project-manager')"
-                                                class="icon-pm-unlock pm-font-size-16"
-                                            />
+                                                class=""
+                                            >
+                                                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 379.794 379.794" style="enable-background:new 0 0 379.794 379.794;" xml:space="preserve"> <path d="M294.107,161.375H113.893v-45.371c0-41.908,34.096-76.004,76.004-76.004c37.278,0,68.801,26.629,74.953,63.316 c1.827,10.894,12.144,18.238,23.032,16.417c10.894-1.827,18.244-12.139,16.417-23.032C299.813,69.95,285.931,45.47,265.21,27.77 C244.247,9.862,217.5,0,189.897,0C125.932,0,73.893,52.039,73.893,116.004v47.236c-7.213,2.751-14.35,8.96-14.35,21.258v64.942 c0,71.877,58.477,130.354,130.354,130.354S320.25,321.317,320.25,249.44v-64.942C320.25,166.208,303.15,161.375,294.107,161.375z M214.673,303.232c0.408,2.162-1.058,3.931-3.258,3.931H168.87c-2.2,0-3.666-1.769-3.258-3.931l6.814-36.114 c-5.201-4.743-8.465-11.574-8.465-19.167c0-14.324,11.612-25.936,25.936-25.936s25.936,11.612,25.936,25.936 c0,7.387-3.093,14.047-8.049,18.771L214.673,303.232z"/> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> </svg>
+                                            </i>
 
                                             <i 
                                                 v-if="task.meta.privacy == '1'"
                                                 :title="__('Make Private', 'wedevs-project-manager')"
-                                                class="icon-pm-private pm-font-size-16"
-                                            />
+                                                class=""
+                                            >
+                                                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 379.794 379.794" style="enable-background:new 0 0 379.794 379.794;" xml:space="preserve"> <path d="M305.901,163.69v-47.686C305.901,52.039,253.862,0,189.897,0S73.893,52.039,73.893,116.004v47.236 c-7.213,2.752-14.349,8.96-14.349,21.258v64.942c0,71.877,58.477,130.354,130.354,130.354S320.25,321.317,320.25,249.44v-64.942 C320.25,172.829,313.289,166.643,305.901,163.69z M214.673,303.232c0.408,2.162-1.058,3.931-3.258,3.931H168.87 c-2.2,0-3.666-1.769-3.258-3.931l6.814-36.114c-5.201-4.743-8.465-11.574-8.465-19.167c0-14.324,11.612-25.936,25.936-25.936 s25.936,11.612,25.936,25.936c0,7.387-3.093,14.047-8.049,18.771L214.673,303.232z M265.901,161.375H113.893v-45.371 c0-41.908,34.095-76.004,76.004-76.004c41.908,0,76.004,34.096,76.004,76.004V161.375z"/> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> </svg>
+                                            </i>
                                                 
                                         </a>
                                     </div>
@@ -383,69 +424,10 @@
                             <!-- <do-action :hook="'single_task_inline'" :actionData="doActionData"></do-action> -->
                             <pm-do-slot :hook="'single_task_tools'" :actionData="doActionData"></pm-do-slot>
 
-
-                            <!-- <div class="pm-flex option-icon-groups">
-                                <do-action :hook="'single_task_action'" :actionData="task"></do-action>
-                                
-                                <span v-if="PM_Vars.is_pro && can_edit_task(task) && user_can('view_private_task')">
-                                    <span 
-                                        v-if="typeof task.meta.privacy === 'undefined' || parseInt(task.meta.privacy)==0" 
-                                        @click.prevent="singleTaskLockUnlock(task)" 
-                                        :title="__('Task is visible for co-worker', 'wedevs-project-manager')" 
-                                        class="icon-pm-unlock pm-dark-hover pm-font-size-16"
-                                    />
-                                    <span 
-                                        v-if="parseInt(task.meta.privacy)==1" 
-                                        @click.prevent="singleTaskLockUnlock(task)" 
-                                        class="icon-pm-private pm-dark-hover pm-font-size-16"
-                                    />
-                                </span>
-
-                                <span id="pm-calendar-wrap"  v-pm-tooltip :title="__('Date', 'wedevs-project-manager')" @click.prevent="isTaskDateEditMode()" class="individual-group-icon calendar-group icon-pm-calendar pm-font-size-16">
-                                    <span v-if="(task.start_at.date || task.due_date.date )" :class="taskDateWrap(task.due_date.date) + ' pm-task-date-wrap pm-date-window'">
-
-                                        <span :title="getFullDate(task.start_at.datetime)" v-if="task_start_field">
-                                            {{ pmDateFormat( task.start_at.date ) }}
-                                        </span>
-
-                                        <span v-if="task_start_field && task.start_at.date && task.due_date.date">&ndash;</span>
-                                        <span :title="getFullDate(task.due_date.datetime)" v-if="task.due_date">
-
-                                            {{ pmDateFormat( task.due_date.date ) }}
-                                        </span>
-                                    </span>
-
-                                    <span v-if="(!task.start_at.date && !task.due_date.date)" class="pm-task-date-wrap pm-date-window">
-                                        <span
-                                            @click.prevent="isTaskDateEditMode()"
-                                            v-bind:class="task.status ? completedTaskWrap(task.start_at.date, task.due_date.date) : taskDateWrap( task.start_at.date, task.due_date.date)">
-                                        </span>
-                                    </span>
-                                    <div v-if="is_task_date_edit_mode && can_edit_task(task)" class="task-date">
-                                        <pm-content-datepicker
-                                            v-if="task_start_field"
-                                            v-model="task.start_at.date"
-                                            :callback="callBackDatePickerForm"
-                                            dependency="pm-datepickter-to"
-                                            class="pm-datepicker-from pm-inline-date-picker-from">
-
-                                        </pm-content-datepicker>
-                                        <pm-content-datepicker
-                                            v-model="task.due_date.date"
-                                            dependency="pm-datepickter-from"
-                                            :callback="callBackDatePickerTo"
-                                            class="pm-datepicker-to pm-inline-date-picker-to">
-
-                                        </pm-content-datepicker>
-
-                                    </div>
-                                </span>
-                                
-                            </div> -->
                         </div>
                         <do-action :hook="'before_single_task_description'" :actionData="doActionData"></do-action>
                         <!-- v-if="has_task_permission()" -->
-                        <div id="description-wrap" class="description-wrap">
+                        <!-- <div id="description-wrap" class="description-wrap">
                             <div v-if="showdescriptionfield && has_task_permission()" @click.prevent="isTaskDetailsEditMode()"  class="action-content pm-flex">
                                 <span>
                                     <span class="icon-pm-align-left"></span>
@@ -478,7 +460,7 @@
                                 <div class="clearfix pm-clear"></div>
                                 <do-action :hook="'aftre_single_task_details'" :actionData="doActionData"></do-action>
                             </div>
-                        </div>
+                        </div> -->
 
                         <do-action :hook="'aftre_single_task_content'" :actionData="doActionData"></do-action>
 
@@ -546,6 +528,7 @@
             font-weight: bold;
             margin: 0;
             padding: 0;
+            margin-bottom: 2px;
         }
 
         .context {
@@ -614,44 +597,39 @@
                 align-items: center;
             }
 
-            .process-1 {
+
+            .process-text-wrap {
                 display: flex;
                 align-items: center;
-                margin-top: 4px;
 
-                .process-text-wrap {
-                    display: flex;
-                    align-items: center;
+                .process-btn {
+                    background: #f1f1f1;
+                    height: 22px;
+                    width: 22px;
+                    border-radius: 50%;
+                    justify-content: center;
+                    
+                    i {
+                        line-height: 0;
 
-                    .process-btn {
-                        background: #f1f1f1;
-                        height: 28px;
-                        width: 28px;
-                        border-radius: 50%;
-                        justify-content: center;
-                        
-                        i {
-                            line-height: 0;
-
-                            &:before {
-                                color: #72777c;
-                                font-size: 14px;
-                            }
-                        }
-
-                        svg {
-                            height: 16px;
-                            width: 16px; 
-                            fill: #7f7f7f;   
+                        &:before {
+                            color: #72777c;
+                            font-size: 14px;
                         }
                     }
 
-                    .helper-text {
-                        font-size: 13px;
-                        margin-left: 5px;
-                        font-weight: 300;
-                        cursor: pointer;
+                    svg {
+                        height: 12px;
+                        width: 12px; 
+                        fill: #7f7f7f;   
                     }
+                }
+
+                .helper-text {
+                    font-size: 13px;
+                    margin-left: 5px;
+                    font-weight: 300;
+                    cursor: pointer;
                 }
 
                 &:hover {
@@ -673,63 +651,11 @@
                     }
                 }
             }
+            
 
             .data-active {
                 display: flex;
                 align-items: center;
-                margin-top: 4px;
-
-                .process-text-wrap {
-                    display: flex;
-                    align-items: center;
-                    cursor: pointer;
-
-                    &:hover {
-                        //background: #f7f7f7;
-                        color: #000;
-
-                        .process-btn {
-                            background: #007cba;
-
-                            i {
-                                line-height: 0;
-
-                                &:before {
-                                    color: #fff;
-                                    font-size: 14px;
-                                }
-                            }
-
-                            svg {
-                                fill: #fff;   
-                            }
-                        }
-                    }
-
-                    .process-btn {
-                        background: transparent;
-                        height: 28px;
-                        width: 28px;
-                        border-radius: 50%;
-                        justify-content: center;
-                        // transition: all 1s ease-out;
-                        // 
-                        i {
-                            line-height: 0;
-
-                            &:before {
-                                color: #72777c;
-                                font-size: 14px;
-                            }
-                        }
-
-                        svg {
-                            height: 16px;
-                            width: 16px; 
-                            fill: #7f7f7f;   
-                        }
-                    }
-                }
                 
                 &:hover {
                     background: transparent;
@@ -756,7 +682,7 @@
                     margin-right: 3px;
 
                     &:last-child {
-                        margin-right: 6px;
+                        margin-right: 0;
                     }
 
                     &:hover {
@@ -797,13 +723,12 @@
                     border-radius: 3px;
 
                     .public {
-                        background: #61be4f;
+                        background: #f5f6f8;
                         padding: 2px 5px;
-                        color: #fff;
+                        color: #8b8c8b;
                         font-size: 13px;
-                        border-radius: 3px;
-                        font-weight: 300;
-                        margin-right: 10px;
+                        border-radius: 2px;
+                        font-weight: 400;
                     }
 
                     .private {
@@ -812,8 +737,7 @@
                         color: #fff;
                         font-size: 13px;
                         border-radius: 2px;
-                        font-weight: 300;
-                        margin-right: 10px;
+                        font-weight: 400;
                     }
                 }
             }
@@ -831,11 +755,14 @@
                 color: #fff;
             }
 
+            .process-results {
+                margin-right: 10px;
+            }
+
             .process-results.task-date {
                 display: flex;
                 align-items: center;
                 border-radius: 2px;
-                margin-right: 6px;
                 position: relative;
 
                 &:hover {
