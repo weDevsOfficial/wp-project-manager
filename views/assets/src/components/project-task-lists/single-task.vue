@@ -119,27 +119,7 @@
                                         ['data-active']: task.assignees.data.length
                                     })"
                                 >
-                                    <div 
-                                        class="process-results user-images" 
-                                        v-if="task.assignees.data.length"
-                                    >
-                                        <div 
-                                            v-pm-tooltip 
-                                            :title="user.display_name" 
-                                            class="image" 
-                                            v-for="user in task.assignees.data"
-                                            @click.prevent="deleteUser(user)"
-                                        >
-
-                                            <span class="cross"><svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 241.171 241.171" style="enable-background:new 0 0 241.171 241.171;" xml:space="preserve"><path id="Close" d="M138.138,120.754l99.118-98.576c4.752-4.704,4.752-12.319,0-17.011c-4.74-4.704-12.439-4.704-17.179,0 l-99.033,98.492L21.095,3.699c-4.74-4.752-12.439-4.752-17.179,0c-4.74,4.764-4.74,12.475,0,17.227l99.876,99.888L3.555,220.497 c-4.74,4.704-4.74,12.319,0,17.011c4.74,4.704,12.439,4.704,17.179,0l100.152-99.599l99.551,99.563 c4.74,4.752,12.439,4.752,17.179,0c4.74-4.764,4.74-12.475,0-17.227L138.138,120.754z"/></svg></span>
-                                            
-                                            <img 
-                                                :title="user.display_name"
-                                                :src="user.avatar_url"
-                                            />
-                                        </div>
-                                    </div>
-
+                                    
                                     <pm-popper 
                                         trigger="click" 
                                         :options="popperOptions()"
@@ -193,7 +173,25 @@
                                                 </i>
                                                 
                                             </a>
-                                            <div v-if="!task.assignees.data.length" class="helper-text">{{ __( 'Add New Member +', 'wedevs-project-manager' ) }}</div>
+                                            <div 
+                                                class="process-results user-images" 
+                                                v-if="task.assignees.data.length"
+                                            >
+                                                <div 
+                                                    :title="user.display_name" 
+                                                    class="image" 
+                                                    v-for="user in task.assignees.data"
+                                                    :key="user.id"
+                                                >
+
+                                                    <!-- <span class="cross"><svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 241.171 241.171" style="enable-background:new 0 0 241.171 241.171;" xml:space="preserve"><path id="Close" d="M138.138,120.754l99.118-98.576c4.752-4.704,4.752-12.319,0-17.011c-4.74-4.704-12.439-4.704-17.179,0 l-99.033,98.492L21.095,3.699c-4.74-4.752-12.439-4.752-17.179,0c-4.74,4.764-4.74,12.475,0,17.227l99.876,99.888L3.555,220.497 c-4.74,4.704-4.74,12.319,0,17.011c4.74,4.704,12.439,4.704,17.179,0l100.152-99.599l99.551,99.563 c4.74,4.752,12.439,4.752,17.179,0c4.74-4.764,4.74-12.475,0-17.227L138.138,120.754z"/></svg></span> -->
+                                                    <img 
+                                                        :title="user.display_name"
+                                                        :src="user.avatar_url"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div v-if="!task.assignees.data.length" class="helper-text">{{ __( 'Add New Member', 'wedevs-project-manager' ) }}</div>
                                         </div>
                                     </pm-popper>
                                 </div>
@@ -207,7 +205,7 @@
                                 </div>
                             </div>
 
-                            <div class="due-date context">
+                            <div class="task-due-date-wrap context">
                                 <h3 class="label">{{ __( 'Due Date', 'wedevs-project-manager' ) }}</h3>
 
                                 <div 
@@ -216,100 +214,106 @@
                                         ['data-active']: task.start_at.date || task.due_date.date
                                     })"
                                 >
-                                    <div 
-                                        :class="classnames( {
-                                            ['process-results']: true,
-                                            ['task-date']: true,
-                                            ['due-date']: taskDateWrap(task.due_date.date) == 'pm-due-date'
-                                        } )" 
-                                        v-if="task.start_at.date || task.due_date.date"
+                                    <pm-vue2-daterange-picker
+                                        :opens="'center'"
+                                        :singleDatePicker="task_start_field ? false : true"
+                                        :startDate="getStartDate()"
+                                        :endDate="getEndDate()"
+                                        :showDropdowns="true"
+                                        :autoApply="false"
+                                        :customTemplate="true"
+                                        :disabledCancelBtn="true"
+                                        @select="onChangeDate"
                                     >
-                                        
-                                        <div class="date-wrapper">
-                                            
-                                            <span 
-                                                class="start" 
-                                                :title="getFullDate(task.start_at.datetime)" 
-                                                v-if="task_start_field && task.start_at.date"
-                                            >
-                                                {{ pmDateFormat( task.start_at.date, 'MMM DD' ) }}
-                                            </span>
-
-                                            <span 
-                                                class="seperator" 
-                                                v-if="!isEmpty(task.start_at.date) && !isEmpty(task.due_date.date)"
-                                            >
-                                                &ndash;
-                                            </span>
-
-                                            <span 
-                                                class="due" 
-                                                v-if="task.due_date.date" 
-                                                :title="getFullDate(task.due_date.datetime)" 
-                                            >
-                                                {{ pmDateFormat( task.due_date.date, 'MMM DD'  ) }}
-                                            </span>
-
-                                            <span class="relative" v-if="!isEmpty(task.due_date.date)">{{ relativeDate(task.due_date.date) }}</span>
-                                        </div>
-                                        
-                                        <!-- <div class="status ">
-                                            <span class="overdue"
-                                                v-if="taskDateWrap(task.due_date.date) == 'pm-due-date'"
-                                            >{{ __( 'Overdue', 'wedevs-project-manager' ) }}</span>
-
-                                            <span v-else class="current">
-                                                {{ __( 'Current', 'wedevs-project-manager' ) }}
-                                            </span>
-                                        </div> -->
-
-                                        <div class="delete-date-wrap">
-                                            <a class="btn" href="#" @click.prevent="deleteDate()">
-                                                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 241.171 241.171" style="enable-background:new 0 0 241.171 241.171;" xml:space="preserve"><path id="Close" d="M138.138,120.754l99.118-98.576c4.752-4.704,4.752-12.319,0-17.011c-4.74-4.704-12.439-4.704-17.179,0 l-99.033,98.492L21.095,3.699c-4.74-4.752-12.439-4.752-17.179,0c-4.74,4.764-4.74,12.475,0,17.227l99.876,99.888L3.555,220.497 c-4.74,4.704-4.74,12.319,0,17.011c4.74,4.704,12.439,4.704,17.179,0l100.152-99.599l99.551,99.563 c4.74,4.752,12.439,4.752,17.179,0c4.74-4.764,4.74-12.475,0-17.227L138.138,120.754z"/></svg>
-                                            </a>
-                                        </div>
-                                        
-                                    </div>
-                                        <pm-date-range-picker 
-                                            @apply="onChangeDate"
-                                            contentClass="process-text-wrap"
-                                            :options="{
-                                                input: false,
-                                                autoOpen: false,
-                                                autoApply: false,
-                                                opens: 'center',
-                                                singleDatePicker: task_start_field ? false : true,
-                                                showDropdowns: true,
-                                                startDate: getStartDate(),
-                                                endDate: getEndDate(),
-                                                locale: {
-                                                    cancelLabel: __( 'Clear', 'wedevs-project-manager' )
-                                                }
-                                            }">
-
-                                            <a 
-                                                class="display-flex process-btn"
-                                                href="#"
-                                                @click.prevent="isTaskDateEditMode()"  
-                                            >
-                                                <i 
-                                                    :title="__('Add Due Date', 'wedevs-project-manager')"
-                                                    class=""
+                                        <template slot="insert" slot-scope="task">
+                                            <div class="process-text-wrap">
+                                                <a 
+                                                    class="display-flex process-btn"
+                                                    href="#"
+                                                    @click.prevent="isTaskDateEditMode()"  
                                                 >
-                                                    <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="488.152px" height="488.152px" viewBox="0 0 488.152 488.152" style="enable-background:new 0 0 488.152 488.152;" xml:space="preserve"> <g> <g> <path d="M177.854,269.311c0-6.115-4.96-11.069-11.08-11.069h-38.665c-6.113,0-11.074,4.954-11.074,11.069v38.66 c0,6.123,4.961,11.079,11.074,11.079h38.665c6.12,0,11.08-4.956,11.08-11.079V269.311L177.854,269.311z"/> <path d="M274.483,269.311c0-6.115-4.961-11.069-11.069-11.069h-38.67c-6.113,0-11.074,4.954-11.074,11.069v38.66 c0,6.123,4.961,11.079,11.074,11.079h38.67c6.108,0,11.069-4.956,11.069-11.079V269.311z"/> <path d="M371.117,269.311c0-6.115-4.961-11.069-11.074-11.069h-38.665c-6.12,0-11.08,4.954-11.08,11.069v38.66 c0,6.123,4.96,11.079,11.08,11.079h38.665c6.113,0,11.074-4.956,11.074-11.079V269.311z"/> <path d="M177.854,365.95c0-6.125-4.96-11.075-11.08-11.075h-38.665c-6.113,0-11.074,4.95-11.074,11.075v38.653 c0,6.119,4.961,11.074,11.074,11.074h38.665c6.12,0,11.08-4.956,11.08-11.074V365.95L177.854,365.95z"/> <path d="M274.483,365.95c0-6.125-4.961-11.075-11.069-11.075h-38.67c-6.113,0-11.074,4.95-11.074,11.075v38.653 c0,6.119,4.961,11.074,11.074,11.074h38.67c6.108,0,11.069-4.956,11.069-11.074V365.95z"/> <path d="M371.117,365.95c0-6.125-4.961-11.075-11.069-11.075h-38.67c-6.12,0-11.08,4.95-11.08,11.075v38.653 c0,6.119,4.96,11.074,11.08,11.074h38.67c6.108,0,11.069-4.956,11.069-11.074V365.95L371.117,365.95z"/> <path d="M440.254,54.354v59.05c0,26.69-21.652,48.198-48.338,48.198h-30.493c-26.688,0-48.627-21.508-48.627-48.198V54.142 h-137.44v59.262c0,26.69-21.938,48.198-48.622,48.198H96.235c-26.685,0-48.336-21.508-48.336-48.198v-59.05 C24.576,55.057,5.411,74.356,5.411,98.077v346.061c0,24.167,19.588,44.015,43.755,44.015h389.82 c24.131,0,43.755-19.889,43.755-44.015V98.077C482.741,74.356,463.577,55.057,440.254,54.354z M426.091,422.588 c0,10.444-8.468,18.917-18.916,18.917H80.144c-10.448,0-18.916-8.473-18.916-18.917V243.835c0-10.448,8.467-18.921,18.916-18.921 h327.03c10.448,0,18.916,8.473,18.916,18.921L426.091,422.588L426.091,422.588z"/> <path d="M96.128,129.945h30.162c9.155,0,16.578-7.412,16.578-16.567V16.573C142.868,7.417,135.445,0,126.29,0H96.128 C86.972,0,79.55,7.417,79.55,16.573v96.805C79.55,122.533,86.972,129.945,96.128,129.945z"/> <path d="M361.035,129.945h30.162c9.149,0,16.572-7.412,16.572-16.567V16.573C407.77,7.417,400.347,0,391.197,0h-30.162 c-9.154,0-16.577,7.417-16.577,16.573v96.805C344.458,122.533,351.881,129.945,361.035,129.945z"/> </g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> </svg>
-                                                </i>
-                                                    
-                                            </a>
+                                                    <i 
+                                                        :title="__('Add Due Date', 'wedevs-project-manager')"
+                                                        class=""
+                                                    >
+                                                        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="488.152px" height="488.152px" viewBox="0 0 488.152 488.152" style="enable-background:new 0 0 488.152 488.152;" xml:space="preserve"> <g> <g> <path d="M177.854,269.311c0-6.115-4.96-11.069-11.08-11.069h-38.665c-6.113,0-11.074,4.954-11.074,11.069v38.66 c0,6.123,4.961,11.079,11.074,11.079h38.665c6.12,0,11.08-4.956,11.08-11.079V269.311L177.854,269.311z"/> <path d="M274.483,269.311c0-6.115-4.961-11.069-11.069-11.069h-38.67c-6.113,0-11.074,4.954-11.074,11.069v38.66 c0,6.123,4.961,11.079,11.074,11.079h38.67c6.108,0,11.069-4.956,11.069-11.079V269.311z"/> <path d="M371.117,269.311c0-6.115-4.961-11.069-11.074-11.069h-38.665c-6.12,0-11.08,4.954-11.08,11.069v38.66 c0,6.123,4.96,11.079,11.08,11.079h38.665c6.113,0,11.074-4.956,11.074-11.079V269.311z"/> <path d="M177.854,365.95c0-6.125-4.96-11.075-11.08-11.075h-38.665c-6.113,0-11.074,4.95-11.074,11.075v38.653 c0,6.119,4.961,11.074,11.074,11.074h38.665c6.12,0,11.08-4.956,11.08-11.074V365.95L177.854,365.95z"/> <path d="M274.483,365.95c0-6.125-4.961-11.075-11.069-11.075h-38.67c-6.113,0-11.074,4.95-11.074,11.075v38.653 c0,6.119,4.961,11.074,11.074,11.074h38.67c6.108,0,11.069-4.956,11.069-11.074V365.95z"/> <path d="M371.117,365.95c0-6.125-4.961-11.075-11.069-11.075h-38.67c-6.12,0-11.08,4.95-11.08,11.075v38.653 c0,6.119,4.96,11.074,11.08,11.074h38.67c6.108,0,11.069-4.956,11.069-11.074V365.95L371.117,365.95z"/> <path d="M440.254,54.354v59.05c0,26.69-21.652,48.198-48.338,48.198h-30.493c-26.688,0-48.627-21.508-48.627-48.198V54.142 h-137.44v59.262c0,26.69-21.938,48.198-48.622,48.198H96.235c-26.685,0-48.336-21.508-48.336-48.198v-59.05 C24.576,55.057,5.411,74.356,5.411,98.077v346.061c0,24.167,19.588,44.015,43.755,44.015h389.82 c24.131,0,43.755-19.889,43.755-44.015V98.077C482.741,74.356,463.577,55.057,440.254,54.354z M426.091,422.588 c0,10.444-8.468,18.917-18.916,18.917H80.144c-10.448,0-18.916-8.473-18.916-18.917V243.835c0-10.448,8.467-18.921,18.916-18.921 h327.03c10.448,0,18.916,8.473,18.916,18.921L426.091,422.588L426.091,422.588z"/> <path d="M96.128,129.945h30.162c9.155,0,16.578-7.412,16.578-16.567V16.573C142.868,7.417,135.445,0,126.29,0H96.128 C86.972,0,79.55,7.417,79.55,16.573v96.805C79.55,122.533,86.972,129.945,96.128,129.945z"/> <path d="M361.035,129.945h30.162c9.149,0,16.572-7.412,16.572-16.567V16.573C407.77,7.417,400.347,0,391.197,0h-30.162 c-9.154,0-16.577,7.417-16.577,16.573v96.805C344.458,122.533,351.881,129.945,361.035,129.945z"/> </g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> </svg>
+                                                    </i>
+                                                        
+                                                </a>
 
-                                            <div 
-                                                v-if="!task.start_at.date && !task.due_date.date" 
-                                                class="helper-text"
-                                            >
-                                                {{ __( 'Add Due Date +', 'wedevs-project-manager' ) }}
+                                                <div 
+                                                    :class="classnames( {
+                                                        ['process-results']: true,
+                                                        ['task-date']: true,
+                                                        ['due-date']: taskDateWrap(task.due_date.date) == 'pm-due-date'
+                                                    } )" 
+                                                    v-if="task.start_at.date || task.due_date.date"
+                                                >
+                                                    
+                                                    <div class="date-wrapper">
+                                                        
+                                                        <span 
+                                                            class="start" 
+                                                            :title="getFullDate(task.start_at.datetime)" 
+                                                            v-if="task_start_field && task.start_at.date"
+                                                        >
+                                                            {{ pmDateFormat( task.start_at.date, 'MMM DD' ) }}
+                                                        </span>
+
+                                                        <span 
+                                                            class="seperator" 
+                                                            v-if="!isEmpty(task.start_at.date) && !isEmpty(task.due_date.date)"
+                                                        >
+                                                            &ndash;
+                                                        </span>
+
+                                                        <span 
+                                                            class="due" 
+                                                            v-if="task.due_date.date" 
+                                                            :title="getFullDate(task.due_date.datetime)" 
+                                                        >
+                                                            {{ pmDateFormat( task.due_date.date, 'MMM DD'  ) }}
+                                                        </span>
+
+                                                        <span class="relative" v-if="!isEmpty(task.due_date.date)">{{ relativeDate(task.due_date.date) }}</span>
+                                                    </div>
+                                                    
+                                                </div>
+
+                                                <div 
+                                                    v-if="!task.start_at.date && !task.due_date.date" 
+                                                    class="helper-text"
+                                                >
+                                                    {{ __( 'Add Due Date', 'wedevs-project-manager' ) }}
+                                                </div>
                                             </div>
-                                            
-                                        </pm-date-range-picker>
-                                    
+                                          
+                                        </template>
+
+                                        <template slot="footer-content" slot-scope="task">
+                                            <div class="date-footer">
+                                                <pm-button
+                                                    :label="__( 'Clear', 'pm-pro' )"
+                                                    :isPrimary="false"
+                                                    type="button"
+                                                    @onClick="deleteDate()"
+                                                />
+
+                                                <div class="action">
+                                                    <a class="cross" href="#" @click.prevent="closeDatePopUp()">
+                                                        <svg version="1.1" id="Capa_1" xmlns="hjQuery(this.$refs.)ttp://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 241.171 241.171" xml:space="preserve"><path id="Close" d="M138.138,120.754l99.118-98.576c4.752-4.704,4.752-12.319,0-17.011c-4.74-4.704-12.439-4.704-17.179,0 l-99.033,98.492L21.095,3.699c-4.74-4.752-12.439-4.752-17.179,0c-4.74,4.764-4.74,12.475,0,17.227l99.876,99.888L3.555,220.497 c-4.74,4.704-4.74,12.319,0,17.011c4.74,4.704,12.439,4.704,17.179,0l100.152-99.599l99.551,99.563 c4.74,4.752,12.439,4.752,17.179,0c4.74-4.764,4.74-12.475,0-17.227L138.138,120.754z"></path></svg>
+                                                    </a>
+                                                    <pm-button
+                                                        :label="__( 'Save', 'pm-pro' )"
+                                                        isPrimary
+                                                        :spinner="dateLoading"
+                                                        type="button"
+                                                        @onClick="saveDate(task)"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </pm-vue2-daterange-picker>
                                 </div>
 
                                 <div class="spinner-wrap" v-if="dateLoading">
@@ -525,6 +529,38 @@
             margin-bottom: 2px;
         }
 
+        .task-due-date-wrap {
+            .reportrange-text {
+                border: none;
+                padding: 0;
+            }
+
+            .date-footer {
+                background: #aaa;
+                padding: 0.5rem;
+                display: flex;
+                align-items: center;
+
+                .action {
+                    flex: 1;
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-end;
+
+                    .cross {
+                        margin-right: 10px;
+                        padding: 0 0 0 14px;
+
+                        svg {
+                            fill: #e9e9e9;
+                            height: 12px;
+                            width: 12px;
+                        }
+                    }
+                }
+            }
+        }
+
         .context {
             margin-right: 40px;
             margin-bottom: 7px;
@@ -661,6 +697,7 @@
                 align-items: center;
                 justify-content: center;
                 flex-wrap: wrap;
+                margin-left: 5px;
 
                 .image {
                     height: 30px;
@@ -736,17 +773,16 @@
                 }
             }
 
+            .process-results.task-date {
+                margin-left: 5px;
+            }
+
             
             .process-text-wrap {
                 .privacy-action-label {
                     margin-right: 5px;
                     
                 }
-            }
-            
-            .task-date.due-date {
-                background: #EB5A46;
-                color: #fff;
             }
 
             .process-results {
@@ -886,7 +922,7 @@
         .discuss-wrap {
             margin-top: 20px;
         }
-        
+
         .option-icon-groups {
             .pm-action-wrap {
                 display: flex;
@@ -1155,7 +1191,17 @@
                 this.updateTaskElement(task);
             },
 
+            closeDatePopUp() {
+                jQuery('.task-due-date-wrap').trigger('click');
+            },
+
             deleteDate () {
+                this.closeDatePopUp();
+
+                if(!this.task.start_at.date && !this.task.due_date.date) {
+                    return;
+                }
+
                 this.fromDate( {
                     id: 'singleTask',
                     field: 'datepicker_from',
@@ -1169,12 +1215,38 @@
                 } );
             },
 
-            onChangeDate (start, end, className) {
+            onChangeDate (date) {
 
                 if(this.task_start_field) {
                     
-                    this.task.start_at.date = start.format('YYYY-MM-DD');
-                    this.task.due_date.date = end.format('YYYY-MM-DD');
+                    this.task.start_at.date = pm.Moment(date.startDate).format('YYYY-MM-DD');
+                    this.task.due_date.date = pm.Moment(date.endDate).format('YYYY-MM-DD');
+                    
+                    // this.fromDate( {
+                    //     id: 'singleTask',
+                    //     field: 'datepicker_from',
+                    //     date: this.task.start_at.date 
+                    // } );
+
+                    // this.fromDate( {
+                    //     id: 'singleTask',
+                    //     field: 'datepicker_to',
+                    //     date: this.task.due_date.date 
+                    // } );
+                
+                } else {
+                    this.task.due_date.date = pm.Moment(date.endDate).format('YYYY-MM-DD');
+                    
+                    // this.fromDate( {
+                    //     id: 'singleTask',
+                    //     field: 'datepicker_to',
+                    //     date: this.task.due_date.date 
+                    // } );
+                }
+            },
+
+            saveDate () {
+                if(this.task_start_field) {
                     
                     this.fromDate( {
                         id: 'singleTask',
@@ -1189,8 +1261,6 @@
                     } );
                 
                 } else {
-                    this.task.due_date.date = end.format('YYYY-MM-DD');
-                    
                     this.fromDate( {
                         id: 'singleTask',
                         field: 'datepicker_to',
@@ -1198,28 +1268,6 @@
                     } );
                 }
             },
-
-            // callBackDatePickerForm (date) {
-
-            //     let dateFrom = {
-            //         id: 'singleTask',
-            //         field: 'datepicker_from',
-            //         date: date
-            //     }
-
-            //     this.fromDate(dateFrom);
-            // },
-
-            // callBackDatePickerTo (date) {
-
-            //     let dateTo = {
-            //         id: 'singleTask',
-            //         field: 'datepicker_to',
-            //         date: date
-            //     }
-
-            //     this.fromDate(dateTo);
-            // },
 
             submitDescription (task) {
                 task.description.content = this.content.html.trim();
@@ -1439,6 +1487,7 @@
                     
                     this.updateTaskElement(this.task, () => {
                         self.dateLoading = false;
+                        self.closeDatePopUp();
                     });
                 }
 
