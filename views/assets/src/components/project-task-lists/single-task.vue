@@ -214,18 +214,19 @@
                                         ['data-active']: task.start_at.date || task.due_date.date
                                     })"
                                 >
+                                   
                                     <pm-vue2-daterange-picker
                                         :opens="'center'"
                                         :singleDatePicker="task_start_field ? false : true"
                                         :startDate="getStartDate()"
                                         :endDate="getEndDate()"
                                         :showDropdowns="true"
-                                        :autoApply="false"
+                                        :autoApply="true"
                                         :customTemplate="true"
                                         :disabledCancelBtn="true"
-                                        @select="onChangeDate"
+                                        @update="onChangeDate"
                                     >
-                                        <template slot="insert" slot-scope="task">
+                                        <template slot="insert" scop="task">
                                             <div class="process-text-wrap">
                                                 <a 
                                                     class="display-flex process-btn"
@@ -290,16 +291,17 @@
                                           
                                         </template>
 
-                                        <template slot="footer-content" slot-scope="task">
+                                        <template slot="footer-content" scope="task">
                                             <div class="date-footer">
                                                 <pm-button
                                                     :label="__( 'Clear', 'pm-pro' )"
                                                     :isPrimary="false"
+                                                    :spinner="dateLoading"
                                                     type="button"
                                                     @onClick="deleteDate()"
                                                 />
 
-                                                <div class="action">
+                                                <!-- <div class="action">
                                                     <a class="cross" href="#" @click.prevent="closeDatePopUp()">
                                                         <svg version="1.1" id="Capa_1" xmlns="hjQuery(this.$refs.)ttp://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 241.171 241.171" xml:space="preserve"><path id="Close" d="M138.138,120.754l99.118-98.576c4.752-4.704,4.752-12.319,0-17.011c-4.74-4.704-12.439-4.704-17.179,0 l-99.033,98.492L21.095,3.699c-4.74-4.752-12.439-4.752-17.179,0c-4.74,4.764-4.74,12.475,0,17.227l99.876,99.888L3.555,220.497 c-4.74,4.704-4.74,12.319,0,17.011c4.74,4.704,12.439,4.704,17.179,0l100.152-99.599l99.551,99.563 c4.74,4.752,12.439,4.752,17.179,0c4.74-4.764,4.74-12.475,0-17.227L138.138,120.754z"></path></svg>
                                                     </a>
@@ -310,7 +312,7 @@
                                                         type="button"
                                                         @onClick="saveDate(task)"
                                                     />
-                                                </div>
+                                                </div> -->
                                             </div>
                                         </template>
                                     </pm-vue2-daterange-picker>
@@ -1196,7 +1198,6 @@
             },
 
             deleteDate () {
-                this.closeDatePopUp();
 
                 if(!this.task.start_at.date && !this.task.due_date.date) {
                     return;
@@ -1222,29 +1223,30 @@
                     this.task.start_at.date = pm.Moment(date.startDate).format('YYYY-MM-DD');
                     this.task.due_date.date = pm.Moment(date.endDate).format('YYYY-MM-DD');
                     
-                    // this.fromDate( {
-                    //     id: 'singleTask',
-                    //     field: 'datepicker_from',
-                    //     date: this.task.start_at.date 
-                    // } );
+                    this.fromDate( {
+                        id: 'singleTask',
+                        field: 'datepicker_from',
+                        date: this.task.start_at.date 
+                    } );
 
-                    // this.fromDate( {
-                    //     id: 'singleTask',
-                    //     field: 'datepicker_to',
-                    //     date: this.task.due_date.date 
-                    // } );
+                    this.fromDate( {
+                        id: 'singleTask',
+                        field: 'datepicker_to',
+                        date: this.task.due_date.date 
+                    } );
                 
                 } else {
                     this.task.due_date.date = pm.Moment(date.endDate).format('YYYY-MM-DD');
                     
-                    // this.fromDate( {
-                    //     id: 'singleTask',
-                    //     field: 'datepicker_to',
-                    //     date: this.task.due_date.date 
-                    // } );
+                    this.fromDate( {
+                        id: 'singleTask',
+                        field: 'datepicker_to',
+                        date: this.task.due_date.date 
+                    } );
                 }
             },
 
+            //currently no need this method, but set save button in datepicker then its occure
             saveDate () {
                 if(this.task_start_field) {
                     
