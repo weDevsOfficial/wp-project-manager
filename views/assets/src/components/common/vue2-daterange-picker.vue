@@ -16,16 +16,23 @@
 	        v-model="date"
 	        @update="updateValues"
 	        :linkedCalendars="linkedCalendars"
+	        @select="select"
 		>
 
-		    <!--    input slot (new slot syntax)-->
-		    <template slot="input" scop="date" style="min-width: 350px;">
+
+		    <template v-if="!customTemplate" slot="input" scop="date" style="min-width: 350px;">
 		    	<div class="pm-daterange-view">
 		    		<i class="glyphicon glyphicon-calendar fa fa-calendar item"></i>
 		    		<span class="item date-text">{{ getDate( date ) }}</span>
 		    	</div>
 		      
 		    </template>
+
+		    <template v-if="customTemplate" slot="input">
+		    	<slot name="insert"></slot>
+		    </template>
+
+		    <template v-if="customTemplate" slot="footer"><slot name="footer-content"></slot></template>
 
 		</date-range-picker>
 
@@ -198,6 +205,13 @@
 				}
 			},
 
+			customTemplate: {
+				type: [Boolean],
+				default () {
+					return false
+				}
+			},
+
 			localeData: {
 				type: [Object],
 				default () {
@@ -287,6 +301,10 @@
 
         	updateValues(date) {
         		this.$emit('update', date);
+        	},
+
+        	select (date) {
+        		this.$emit('select', date);
         	}
         }
 	}
