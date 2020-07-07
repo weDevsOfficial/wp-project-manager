@@ -109,41 +109,6 @@
                             </div>
                         </div>
 
-                        <div id="description-wrap" class="description-wrap">
-                            <div v-if="showdescriptionfield && has_task_permission()" @click.prevent="isTaskDetailsEditMode()"  class="action-content pm-flex">
-                                <span>
-                                    <span class="icon-pm-align-left"></span>
-                                    <span class="task-description">{{ __( 'Description', 'wedevs-project-manager' ) }}</span>
-                                </span>
-                                <span class="icon-pm-pencil"></span>
-                            </div>
-
-                            <div v-else class="task-details">
-
-                                <div class="pm-des-area pm-desc-content" v-if="!is_task_details_edit_mode">
-
-                                    <div v-if="task.description.content != ''" class="pm-task-description" v-html="task.description.html"></div>
-
-                                    <a class="task-description-edit-icon" @click.prevent="isTaskDetailsEditMode()" :title="update_description" v-if="can_edit_task(task) && !isArchivedTaskList(task)">
-                                        <i style="font-size: 16px;"  class="fa fa-pencil" aria-hidden="true"></i>
-
-                                    </a>
-                                </div>
-
-                                <div v-if="is_task_details_edit_mode && can_edit_task(task) && !isArchivedTaskList(task)" class="item detail">
-                                    <text-editor v-if="is_task_details_edit_mode" :editor_id="'task-description-editor'" :content="content"></text-editor>
-                                    <div class="task-description-action">
-                                        <a @click.prevent="submitDescription(task)" href="#" class="pm-button pm-primary">{{ __( 'Update', 'wedevs-project-manager' ) }}</a>
-                                        <a @click.prevent="closeDescriptionEditor(task)" href="#" class="pm-button pm-secondary">{{ __( 'Cancel', 'wedevs-project-manager' ) }}</a>
-                                        <span v-if="description_show_spinner" class="pm-spinner"></span>
-                                    </div>
-                                </div>
-
-                                <div class="clearfix pm-clear"></div>
-                                <do-action :hook="'aftre_single_task_details'" :actionData="doActionData"></do-action>
-                            </div>
-                        </div>
-
                         <div class="options-wrap actions-wrap">
                             <div class="assigne-users context">
                                 <h3 class="label">{{ __( 'Members', 'wedevs-project-manager' ) }}</h3>
@@ -425,10 +390,16 @@
                             <pm-do-slot :hook="'single_task_tools'" :actionData="doActionData"></pm-do-slot>
 
                         </div>
-                        <do-action :hook="'before_single_task_description'" :actionData="doActionData"></do-action>
-                        <!-- v-if="has_task_permission()" -->
-                        <!-- <div id="description-wrap" class="description-wrap">
-                            <div v-if="showdescriptionfield && has_task_permission()" @click.prevent="isTaskDetailsEditMode()"  class="action-content pm-flex">
+
+                        <pm-do-slot :hook="'after_single_task_tools'" :actionData="doActionData"></pm-do-slot>
+                        <!-- <do-action :hook="'before_single_task_description'" :actionData="doActionData"></do-action> -->
+                  
+                        <div class="description-wrap">
+                            <div 
+                                v-if="showdescriptionfield && has_task_permission()" 
+                                @click.prevent="isTaskDetailsEditMode()"  
+                                class="action-content pm-flex"
+                            >
                                 <span>
                                     <span class="icon-pm-align-left"></span>
                                     <span class="task-description">{{ __( 'Description', 'wedevs-project-manager' ) }}</span>
@@ -438,18 +409,19 @@
 
                             <div v-else class="task-details">
 
-                                <div class="pm-des-area pm-desc-content" v-if="!is_task_details_edit_mode">
+                                <div class="pm-des-area" v-if="!is_task_details_edit_mode">
+                                    <h3 class="label">{{ __('Description', 'pm-pro' ) }}</h3>
+                                    <div class="pm-desc-content">
+                                        <div v-if="task.description.content != ''" class="pm-task-description" v-html="task.description.html"></div>
+                                        <a class="task-description-edit-icon" @click.prevent="isTaskDetailsEditMode()" :title="update_description" v-if="can_edit_task(task) && !isArchivedTaskList(task)">
+                                            <i style="font-size: 16px;"  class="fa fa-pencil" aria-hidden="true"></i>
 
-                                    <div v-if="task.description.content != ''" class="pm-task-description" v-html="task.description.html"></div>
-
-                                    <a class="task-description-edit-icon" @click.prevent="isTaskDetailsEditMode()" :title="update_description" v-if="can_edit_task(task) && !isArchivedTaskList(task)">
-                                        <i style="font-size: 16px;"  class="fa fa-pencil" aria-hidden="true"></i>
-
-                                    </a>
+                                        </a>
+                                    </div>
                                 </div>
 
                                 <div v-if="is_task_details_edit_mode && can_edit_task(task) && !isArchivedTaskList(task)" class="item detail">
-                                    <text-editor v-if="is_task_details_edit_mode" :editor_id="'task-description-editor'" :content="content"></text-editor>
+                                    <text-editor :editor_id="'task-description-editor'" :content="content"></text-editor>
                                     <div class="task-description-action">
                                         <a @click.prevent="submitDescription(task)" href="#" class="pm-button pm-primary">{{ __( 'Update', 'wedevs-project-manager' ) }}</a>
                                         <a @click.prevent="closeDescriptionEditor(task)" href="#" class="pm-button pm-secondary">{{ __( 'Cancel', 'wedevs-project-manager' ) }}</a>
@@ -458,11 +430,11 @@
                                 </div>
 
                                 <div class="clearfix pm-clear"></div>
-                                <do-action :hook="'aftre_single_task_details'" :actionData="doActionData"></do-action>
+                                <!-- <do-action :hook="'aftre_single_task_details'" :actionData="doActionData"></do-action> -->
                             </div>
-                        </div> -->
+                        </div>
 
-                        <do-action :hook="'aftre_single_task_content'" :actionData="doActionData"></do-action>
+                        <pm-do-slot :hook="'aftre_single_task_content'" :actionData="doActionData"></pm-do-slot> 
 
                         <div class="discuss-wrap">
                             <task-comments :task="task" :comments="task.comments.data"></task-comments>
@@ -511,6 +483,28 @@
 </template>
 
 <style lang="less">
+    .description-wrap {
+        margin-top: 20px;
+
+        .task-details {
+            .pm-des-area {
+                .label {
+                    font-size: 13px;
+                    font-weight: bold;
+                    margin: 0;
+                    padding: 0;
+                    margin-bottom: 5px;
+                }
+
+                .pm-task-description {
+                    p {
+                        margin: 0;
+                    }
+                }
+            }
+        }
+    }
+
     .actions-wrap {
         display: flex;
         flex-wrap: wrap;
@@ -889,6 +883,10 @@
     }
 
     .pm-single-task-wrap {
+        .discuss-wrap {
+            margin-top: 20px;
+        }
+        
         .option-icon-groups {
             .pm-action-wrap {
                 display: flex;
@@ -1484,7 +1482,7 @@
 
                 if ( !this.can_edit_task(this.task) ) {
                     this.is_task_details_edit_mode = false;
-                }else {
+                } else {
                     this.task_description  = this.task.description.content;
                     this.is_task_details_edit_mode = true;
                 }
@@ -1644,7 +1642,7 @@
 
             windowActivity (el) {
                 var title_blur      = jQuery(el.target).hasClass('pm-task-title-activity'),
-                    dscription_blur = jQuery(el.target).closest('#description-wrap'),
+                    dscription_blur = jQuery(el.target).closest('.description-wrap'),
                     assign_user     = jQuery(el.target).closest( '#pm-multiselect-single-task' ),
                     actionMenu      = jQuery(el.target).closest( '#pm-action-menu' ),
                     modal           = jQuery(el.target).closest( '.popup-container' ),
