@@ -227,7 +227,10 @@
                                         @update="onChangeDate"
                                     >
                                         <template slot="insert" scop="task">
-                                            <div class="process-text-wrap">
+                                            <div :class="classnames({
+                                                ['process-text-wrap']: true,
+                                                ['due-date']: taskDateWrap(task.due_date.date) == 'pm-due-date'
+                                            })">
                                                 <a 
                                                     class="display-flex process-btn"
                                                     href="#"
@@ -246,7 +249,6 @@
                                                     :class="classnames( {
                                                         ['process-results']: true,
                                                         ['task-date']: true,
-                                                        ['due-date']: taskDateWrap(task.due_date.date) == 'pm-due-date'
                                                     } )" 
                                                     v-if="task.start_at.date || task.due_date.date"
                                                 >
@@ -336,19 +338,7 @@
                                         ['data-active']: true
                                     })"
                                 >
-                                    <div class="process-results task-privacy">
-                                        
-                                        <div class="status">
-                                            <span class="private"
-                                                v-if="task.meta.privacy == '1'"
-                                            >{{ __( 'Private', 'wedevs-project-manager' ) }}</span>
-
-                                            <span v-else class="public">
-                                                {{ __( 'Public', 'wedevs-project-manager' ) }}
-                                            </span>
-                                        </div>
-                                        
-                                    </div>
+                                    
                                     <div 
                                         class="process-text-wrap"
                                         @click.prevent="singleTaskLockUnlock(task)"
@@ -377,8 +367,22 @@
                                             >
                                                 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 379.794 379.794" style="enable-background:new 0 0 379.794 379.794;" xml:space="preserve"> <path d="M305.901,163.69v-47.686C305.901,52.039,253.862,0,189.897,0S73.893,52.039,73.893,116.004v47.236 c-7.213,2.752-14.349,8.96-14.349,21.258v64.942c0,71.877,58.477,130.354,130.354,130.354S320.25,321.317,320.25,249.44v-64.942 C320.25,172.829,313.289,166.643,305.901,163.69z M214.673,303.232c0.408,2.162-1.058,3.931-3.258,3.931H168.87 c-2.2,0-3.666-1.769-3.258-3.931l6.814-36.114c-5.201-4.743-8.465-11.574-8.465-19.167c0-14.324,11.612-25.936,25.936-25.936 s25.936,11.612,25.936,25.936c0,7.387-3.093,14.047-8.049,18.771L214.673,303.232z M265.901,161.375H113.893v-45.371 c0-41.908,34.095-76.004,76.004-76.004c41.908,0,76.004,34.096,76.004,76.004V161.375z"/> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> </svg>
                                             </i>
-                                                
+
                                         </a>
+
+                                        <div class="process-results task-privacy">
+                                        
+                                            <div class="status">
+                                                <span class="private"
+                                                    v-if="task.meta.privacy == '1'"
+                                                >{{ __( 'Private', 'wedevs-project-manager' ) }}</span>
+
+                                                <span v-else class="public">
+                                                    {{ __( 'Public', 'wedevs-project-manager' ) }}
+                                                </span>
+                                            </div>
+                                            
+                                        </div>
                                     </div>
                                 </div>
 
@@ -683,7 +687,6 @@
                     }
                 }
             }
-            
 
             .data-active {
                 display: flex;
@@ -752,6 +755,9 @@
             }
 
             .process-results.task-privacy {
+                margin-left: 5px;
+                cursor: pointer;
+                
                 .status {
                     border-radius: 3px;
 
@@ -878,8 +884,29 @@
                     }
                 }
             }
+
+            .process-text-wrap.due-date {
+                color: #cf513d;
+
+                .process-btn {
+                    svg {
+                        fill: #cf513d;
+                    }
+                }
+
+                .relative {
+                    color: #cf513d !important;
+                }
+
+                &:hover {
+                    .process-btn {
+                        svg {
+                            fill: #fff;
+                        }
+                    }
+                }
+            }
         }
-        
     }
 
 
