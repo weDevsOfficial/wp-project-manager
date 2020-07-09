@@ -250,12 +250,6 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 * **Update** UI/UX for task due date from single task popup.
 * **Fix** Could not download files from the project.
 
-* **Fix** My-task calendar missing current date task.
-* **Fix** In my-task, The task is not updating after user closing the single task popup.
-* **Fix** In My- task user can not select the date range during task create time.
-* **Fix** User can not delete self created task-list.
-* **Fix** In content text should not break in middle of the word (style change break-all to break-word).
-
 = v2.3.11 - Jun 16, 2020 =
 
 * **Fix** API end point is now working for all permalink.
