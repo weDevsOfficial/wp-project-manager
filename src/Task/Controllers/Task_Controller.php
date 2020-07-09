@@ -97,7 +97,7 @@ class Task_Controller {
     }
 
     public static function get_task( $task_id, $project_id = false, $request=[] ) {
-
+        
         $task = Task::with( 'task_lists' )
             ->where( 'id', $task_id )
             ->parent();

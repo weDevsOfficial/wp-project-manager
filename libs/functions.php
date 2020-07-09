@@ -1161,4 +1161,24 @@ function pm_is_single_query( $params ) {
     return false;
 }
 
+function pm_api_namespace() {
+    return config( 'app.slug' ) . '/v' . config( 'app.api' );
+}
+
+function pm_current_user_can_update_core() {
+    if ( is_multisite() ) {
+        if ( is_main_site() && current_user_can( 'activate_plugins' ) ) {
+            return true;
+        } else { 
+            return false; 
+        }
+    }
+
+    if ( current_user_can( 'activate_plugins' ) ) {
+        return true;
+    }
+
+    return false;
+}
+
 

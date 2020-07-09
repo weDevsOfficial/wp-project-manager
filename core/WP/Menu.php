@@ -22,7 +22,7 @@ class Menu {
 		$submenu[$slug][] = [ __( 'Projects', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/" ];
 
 		$active_task = self::my_task_count();
-		$mytask_text = sprintf( __( 'My Tasks %s', 'cpm-pro' ), '<span class="awaiting-mod count-1"><span class="pending-count">' . $active_task . '</span></span>' );
+		$mytask_text = sprintf( __( 'My Tasks %s', 'wedevs-project-manager' ), '<span class="awaiting-mod count-1"><span class="pending-count">' . $active_task . '</span></span>' );
 		$submenu[$slug][] = [ $mytask_text , self::$capability, "admin.php?page={$slug}#/my-tasks" ];
 
 		if ( $ismanager ) {

@@ -74,7 +74,12 @@
         </table>
 
         <div v-if="parseInt(individualTaskId) && parseInt(individualProjectId)">
-            <single-task :taskId="parseInt(individualTaskId)" :projectId="parseInt(individualProjectId)"></single-task>
+            <single-task 
+                :taskId="parseInt(individualTaskId)" 
+                :projectId="parseInt(individualProjectId)"
+                @closeTaskModal="closeTaskModal"
+            />
+            
         </div>
         <router-view name="singleTask"></router-view>
     </div>
@@ -164,6 +169,10 @@
         },
 
         methods: {
+            closeTaskModal (task) {
+                this.$emit('afterCloseTaskModal', task);
+            },
+
             activeSorting(key) {
                 var self = this;
                 

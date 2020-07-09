@@ -253,9 +253,12 @@ class Frontend {
         wp_enqueue_script( 'pmglobal' );
         wp_enqueue_style( 'pmglobal' );
         wp_localize_script( 'pmglobal', 'PM_Global_Vars',[
-            'rest_url'                 => home_url() .'/'.rest_get_url_prefix(),
-            'project_page'             => pm_get_project_page(),
-            'permission'               => wp_create_nonce('wp_rest'),
+            'rest_url'           => home_url() .'/'.rest_get_url_prefix(),
+            'project_page'       => pm_get_project_page(),
+            'permission'         => wp_create_nonce('wp_rest'),
+            'api_base_url'       => esc_url_raw( get_rest_url() ),
+            'api_namespace'      => pm_api_namespace(),
+            'permalinkStructure' => get_option( 'permalink_structure' ),
         ]);
 
         require_once pm_config('frontend.view_path') . '/project-switch/project-switch.php';

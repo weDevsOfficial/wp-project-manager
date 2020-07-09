@@ -61,18 +61,6 @@
                             </div>
 
                             <div class="list-items">
-
-                                <!-- <div v-if="!isListFetch" class="pm-data-load-before" >
-                                    <div class="loadmoreanimation">
-                                        <div class="load-spinner">
-                                            <div class="rect1"></div>
-                                            <div class="rect2"></div>
-                                            <div class="rect3"></div>
-                                            <div class="rect4"></div>
-                                            <div class="rect5"></div>
-                                        </div>
-                                    </div>
-                                </div> -->
                                 
                                 <ul v-pm-list-sortable v-if="hasSearchContent() && inboxList" :class="filterActiveClass()+ ' pm-todolists'">
                                     <li :data-id="inboxList.id" :class="taskListClass(inboxList.id)">
@@ -153,36 +141,38 @@
                                                     
                                                 </div>
 
-                                                <div v-if="!isInbox(list.id) && can_edit_task_list(list)" :data-list_id="list.id" class="more-menu list-more-menu">
+                                                <div :data-list_id="list.id" class="more-menu list-more-menu">
+                                                    
+                                                    <div v-if="!isInbox(list.id) && can_edit_task_list(list)">
+                                                        <!-- popper -->
+                                                        <pm-popper trigger="click" :options="popperOptions">
+                                                            <div class="pm-popper popper">
+                                                                <div class="more-menu-ul-wrap">
+                                                                    <ul>
+                                                                        <li class="first-li" v-if="!isArchivedList(list)">
+                                                                            <a @click.prevent="showEditForm(list)" class="li-a" href="#">
+                                                                                <span class="icon-pm-pencil"></span>
+                                                                                <span>{{ __('Edit', 'wedevs-project-manager') }}</span>
+                                                                            </a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a @click.prevent="deleteSelfList( list )" class="li-a" href="#">
+                                                                                <span class="icon-pm-delete"></span>
+                                                                                <span>{{ __('Delete', 'wedevs-project-manager') }}</span>
+                                                                            </a>
+                                                                        </li>
+                                                                        <pm-do-action hook="list-action-menu" :actionData="list"></pm-do-action>
 
-                                                    <!-- popper -->
-                                                    <pm-popper trigger="click" :options="popperOptions">
-                                                        <div class="pm-popper popper">
-                                                            <div class="more-menu-ul-wrap">
-                                                                <ul>
-                                                                    <li class="first-li" v-if="!isArchivedList(list)">
-                                                                        <a @click.prevent="showEditForm(list)" class="li-a" href="#">
-                                                                            <span class="icon-pm-pencil"></span>
-                                                                            <span>{{ __('Edit', 'wedevs-project-manager') }}</span>
-                                                                        </a>
-                                                                    </li>
-                                                                    <li>
-                                                                        <a @click.prevent="deleteSelfList( list )" class="li-a" href="#">
-                                                                            <span class="icon-pm-delete"></span>
-                                                                            <span>{{ __('Delete', 'wedevs-project-manager') }}</span>
-                                                                        </a>
-                                                                    </li>
-                                                                    <pm-do-action hook="list-action-menu" :actionData="list"></pm-do-action>
-
-                                                                </ul>
+                                                                    </ul>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        
-                                                        <!-- popper trigger element -->
-                                                        <span slot="reference" title="Assign user" class="pm-popper-ref popper-ref icon-pm-more-options"></span>
-                                                    </pm-popper>
+                                                            
+                                                            <!-- popper trigger element -->
+                                                            <span slot="reference" title="Assign user" class="pm-popper-ref popper-ref icon-pm-more-options"></span>
+                                                        </pm-popper>
+                                                    </div>
 
-                                                    <div v-if="list.edit_mode" class="list-update-warp">
+                                                    <div v-if="list.edit_mode && !isInbox(list.id) && can_edit_task_list(list)" class="list-update-warp">
                                                         <new-task-list-form section="lists" :list="list" ></new-task-list-form>
                                                     </div>
                                                 </div>

@@ -4,7 +4,7 @@
             <h1 class="wp-heading-inline">
                 {{ __( 'Tasks', 'wedevs-project-manger') }}
             </h1>
-            <a href="#" @click.prevent="openTaskForm()" class="page-title-action">{{ __( 'Add New', 'wedevs-project-manger') }}</a>
+            <a href="#" @click.prevent="openTaskForm()" class="page-title-action">{{ __( 'Add New', 'wedevs-project-manager') }}</a>
             <my-task-header></my-task-header>
             <router-view></router-view>
             <new-task-form v-if="taskForm" @disableTaskForm="closeTaskForm" :users="[$route.params.user_id]"></new-task-form>
@@ -51,6 +51,10 @@ export default {
 }
 </script>
 
-<style>
-
+<style lang="less">
+    .pm-my-tasks {
+        .multiselect__content {
+            z-index: 9999;
+        }
+    }
 </style>

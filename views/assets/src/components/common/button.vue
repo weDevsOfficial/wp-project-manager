@@ -21,6 +21,7 @@
 	    		'active': spinner
 	    	}"
 	    	:value="label"
+	    	:disabled="disabled"
 	    />
 
 	    <a 
@@ -46,6 +47,7 @@
 	    		'pm-button-primary': isPrimary,
 	    		'active': spinner
 	    	}"
+	    	:disabled="disabled"
 	    >
 			{{ label }}
 		</button>
@@ -188,6 +190,11 @@
 			},
 
 			spinner: {
+				type: Boolean,
+				default: false
+			},
+
+			disabled: {
 				type: Boolean,
 				default: false
 			}
