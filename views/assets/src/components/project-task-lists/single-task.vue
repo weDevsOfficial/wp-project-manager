@@ -331,7 +331,7 @@
 
 
                             <div class="task-privacy-wrap context" v-if="PM_Vars.is_pro && can_edit_task(task) && user_can('view_private_task')">
-                                <h3 class="label">{{ __( 'Privacy Status', 'wedevs-project-manager' ) }}</h3>
+                                <h3 class="label">{{ __( 'Privacy', 'wedevs-project-manager' ) }}</h3>
 
                                 <div 
                                     :class="classnames({
@@ -340,19 +340,23 @@
                                 >
                                     
                                     <div 
-                                        class="process-text-wrap"
+                                        class="process-privacy-text-wrap"
                                         @click.prevent="singleTaskLockUnlock(task)"
                                     >
                                        <!--  <span class="privacy-action-label" v-if="task.meta.privacy == '0' || typeof task.meta.privacy == 'undefined'">{{ __( 'Mark as private', 'wedevs-project-manager' ) }}</span>
                                         <span class="privacy-action-label" v-if="task.meta.privacy == '1'">{{ __( 'Mark as public', 'wedevs-project-manager' ) }}</span>
                                          -->
                                         <a 
-                                            class="display-flex process-btn"
+                                            class="display-flex privacy-anchor"
                                             href="#"
                                             @click.prevent=""  
                                         >
-                                            
-                                            <i 
+                                            <span :class="classnames({
+                                                ['pm-toggle-switch']: true,
+                                                ['big']: task.meta.privacy == '0',
+                                                ['checked']: task.meta.privacy == '1'
+                                            })"></span>
+                                            <!-- <i 
                                                 v-if="task.meta.privacy == '0' || typeof task.meta.privacy == 'undefined'"
                                                 :title="__('Make Public', 'wedevs-project-manager')"
                                                 class=""
@@ -366,7 +370,7 @@
                                                 class=""
                                             >
                                                 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 379.794 379.794" style="enable-background:new 0 0 379.794 379.794;" xml:space="preserve"> <path d="M305.901,163.69v-47.686C305.901,52.039,253.862,0,189.897,0S73.893,52.039,73.893,116.004v47.236 c-7.213,2.752-14.349,8.96-14.349,21.258v64.942c0,71.877,58.477,130.354,130.354,130.354S320.25,321.317,320.25,249.44v-64.942 C320.25,172.829,313.289,166.643,305.901,163.69z M214.673,303.232c0.408,2.162-1.058,3.931-3.258,3.931H168.87 c-2.2,0-3.666-1.769-3.258-3.931l6.814-36.114c-5.201-4.743-8.465-11.574-8.465-19.167c0-14.324,11.612-25.936,25.936-25.936 s25.936,11.612,25.936,25.936c0,7.387-3.093,14.047-8.049,18.771L214.673,303.232z M265.901,161.375H113.893v-45.371 c0-41.908,34.095-76.004,76.004-76.004c41.908,0,76.004,34.096,76.004,76.004V161.375z"/> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> </svg>
-                                            </i>
+                                            </i> -->
 
                                         </a>
 
@@ -375,10 +379,10 @@
                                             <div class="status">
                                                 <span class="private"
                                                     v-if="task.meta.privacy == '1'"
-                                                >{{ __( 'Private', 'wedevs-project-manager' ) }}</span>
+                                                >{{ __( 'Hide for co-worker & client', 'wedevs-project-manager' ) }}</span>
 
                                                 <span v-else class="public">
-                                                    {{ __( 'Public', 'wedevs-project-manager' ) }}
+                                                    {{ __( 'Visible for co-worker & client', 'wedevs-project-manager' ) }}
                                                 </span>
                                             </div>
                                             
@@ -533,6 +537,24 @@
             margin: 0;
             padding: 0;
             margin-bottom: 2px;
+        }
+
+        .task-privacy-wrap {
+            .privacy-anchor {
+                padding: 2px 5px;
+                margin-bottom: 3px;
+
+                .pm-toggle-switch {
+                    height: 18px;
+                    width: 36px;
+
+                    &:after {
+                        top: 3px;
+                        width: 12px;
+                        height: 12px;
+                    }
+                }
+            }
         }
 
         .task-due-date-wrap {
@@ -761,19 +783,10 @@
                 .status {
                     border-radius: 3px;
 
-                    .public {
+                    .public, .private {
                         background: #f5f6f8;
                         padding: 2px 5px;
-                        color: #8b8c8b;
-                        font-size: 13px;
-                        border-radius: 2px;
-                        font-weight: 400;
-                    }
-
-                    .private {
-                        background: #cf513d;
-                        padding: 2px 5px;
-                        color: #fff;
+                        color: #858587;
                         font-size: 13px;
                         border-radius: 2px;
                         font-weight: 400;
