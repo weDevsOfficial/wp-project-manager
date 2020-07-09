@@ -47,6 +47,8 @@ class Enqueue_Scripts {
 			'nonce'                    => wp_create_nonce( 'pm_nonce' ),
 			'base_url'                 => home_url(),
 			'api_base_url'             => esc_url_raw( get_rest_url() ),
+			'api_namespace'            => pm_api_namespace(),
+			'permalinkStructure'       => get_option( 'permalink_structure' ),
 			'project_page'             => pm_get_project_page(),
 			'rest_api_prefix'          => rest_get_url_prefix(),
 			'todo_list_form'           => apply_filters( 'todo_list_form', array( 'PM_Task_Mixin' ) ),
@@ -72,18 +74,19 @@ class Enqueue_Scripts {
 					'quality' => 100 
 				)
 			),
-			'roles'       => pm_get_wp_roles(),
-			'settings'    => pm_get_setting(),
-			'text'        => pm_get_text('common'),
-			'dir_url'     => config('frontend.url'),
-			'is_pro'      => $wedevs_pm_pro,
-			'is_admin'    => is_admin(),
-			'language'    => apply_filters( 'pm_get_jed_locale_data', [ 'pm' => pm_get_jed_locale_data( 'wedevs-project-manager' ) ] ),
-			'date_format' => get_option( 'date_format' ),
-			'time_format' => get_option( 'time_format' ),
-			'id'          => pm_root_element_id(),
+			'roles'                            => pm_get_wp_roles(),
+			'settings'                         => pm_get_setting(),
+			'text'                             => pm_get_text('common'),
+			'dir_url'                          => config('frontend.url'),
+			'is_pro'                           => $wedevs_pm_pro,
+			'is_admin'                         => is_admin(),
+			'language'                         => apply_filters( 'pm_get_jed_locale_data', [ 'pm' => pm_get_jed_locale_data( 'wedevs-project-manager' ) ] ),
+			'date_format'                      => get_option( 'date_format' ),
+			'time_format'                      => get_option( 'time_format' ),
+			'id'                               => pm_root_element_id(),
 			'can_add_user_project_create_time' => pm_can_create_user_at_project_create_time(),
-			'estimationType' => pm_get_estimation_type()
+			'locale'                           => get_locale(),
+			'estimationType' 				   => pm_get_estimation_type()
         ];
 
         $localize = self::filter( $localize );

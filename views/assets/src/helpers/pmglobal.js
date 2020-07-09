@@ -7,7 +7,7 @@
                 beforeSend (xhr) {
                     xhr.setRequestHeader("X-WP-Nonce", PM_Global_Vars.permission);
                 },
-                url: PM_Global_Vars.rest_url + 'pm/v2/admin-topbar-search',
+                url: `${PM_Global_Vars.api_base_url}${PM_Global_Vars.api_namespace}/admin-topbar-search`,
                 data: {
                     query: term,
                     model: 'project',
@@ -18,6 +18,21 @@
                     }
                 }
             });
+        },
+
+        setPermalink (url) {
+            url = url.replace(/([^:]\/)\/+/g, "$1");
+
+            if ( !PM_Global_Vars.permalinkStructure ) {
+                var matchCount = 0;
+                
+                url = url.replace(/\?/g, function (match) {
+                    matchCount++;
+                    return matchCount>1 ? "&" : match; 
+                });
+            }
+
+            return url;
         },
 
         pm_result_item_url ( item ) {
@@ -59,10 +74,11 @@
                 beforeSend (xhr) {
                     xhr.setRequestHeader("X-WP-Nonce", PM_Global_Vars.permission);
                 },
-                url: PM_Global_Vars.rest_url + 'pm/v2/projects?project_transform=false&per_page=all',
+                url: PM_Global.setPermalink( `${PM_Global_Vars.api_base_url}${PM_Global_Vars.api_namespace}/projects?project_transform=false&per_page=all` ),
                 data: {
                 },
                 success (res) {
+
                     if (typeof callback ==='function') {
                         callback(res)
                     }
@@ -76,9 +92,10 @@
                     xhr.setRequestHeader("X-WP-Nonce", PM_Global_Vars.permission);
                 },
                 method: 'POST',
-                url: PM_Global_Vars.rest_url + 'pm/v2/projects/' + data.project_id + '/tasks',
+                url: PM_Global.setPermalink( `${PM_Global_Vars.api_base_url}${PM_Global_Vars.api_namespace}/projects/${data.project_id}/tasks` ),
                 data: data,
                 success (res) {
+
                     if (typeof callback ==='function') {
                         callback(res)
                     }

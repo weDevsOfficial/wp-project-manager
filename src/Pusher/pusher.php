@@ -74,7 +74,9 @@ class Pusher {
             'user_id'        => get_current_user_id(),
             'is_admin'       => is_admin(),
             'channel'        => pm_pusher_channel(),
-            'events'         => pm_pusher_events()
+            'events'         => pm_pusher_events(),
+            'api_base_url'   => esc_url_raw( get_rest_url() ),
+            'api_namespace'  => pm_api_namespace(),
         ];
 
         wp_localize_script( 'pm-pusher-jquery', 'PM_Pusher_Vars', $localize );

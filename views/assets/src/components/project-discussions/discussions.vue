@@ -13,6 +13,11 @@
                 </div>
             </div>
         </div>
+        <test>
+            <template slot="header">
+                sdfhsli fgslifh 
+            </template>
+        </test>
         <!-- {{ pm.i18n.__('Add List', 'cpm') }} -->
         <div class="pm-discussion pm-discussion-container" v-if="isFetchDiscussion">
             <div class="pm-blank-template discussion" v-if="blankTemplate">
@@ -153,6 +158,8 @@
     import pagination from './../common/pagination.vue';
     import Mixins from './mixin';
 
+    import Test from './test.vue';
+
     export default {
         beforeRouteEnter (to, from, next) {
             next(vm => {
@@ -169,6 +176,7 @@
                 delete_this_message: __('Delete this message', 'wedevs-project-manager'),
                 make_it_private: __('Make it private', 'wedevs-project-manager'),
                 current_page_number: 1,
+                header: 'this is custom header'
             }
         },
         watch: {
@@ -180,6 +188,7 @@
             'pm-header': header,
             'new-discuss-form': new_discuss_form,
             'pm-pagination': pagination,
+            'test': Test
         },
         computed: {
             discussTemplate () {

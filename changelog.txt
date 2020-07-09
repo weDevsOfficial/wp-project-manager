@@ -1,3 +1,12 @@
+= v2.3.11 - Jun 16, 2020 =
+
+* **Fix** API end point is now working for all permalink.
+* **Fix** My-task calendar missing current date task.
+* **Fix** In my-task, The task is not updating after user closing the single task popup.
+* **Fix** In My- task user can not select the date range during the task create time.
+* **Fix** User can not delete self created task-list.
+* **Fix** In content text should not break in middle of the word (style change break-all to break-word).
+
 = v2.3.10 - May 05, 2020 =
 
 * **Fix** Task load more is not working for co-worker.
