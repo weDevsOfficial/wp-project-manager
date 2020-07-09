@@ -7,133 +7,161 @@
                     @clickOutSide="clickOutSide"
                     @clickInSide="clickInSide"
                 >
-                    <form class="task-create-form" @submit.prevent="taskFormAction()" action="">
-                        <div class="field">
-                            <div>
-                                <span class="plus-text" v-if="!show_spinner">+</span>
-                            </div>
-        
+                    <form 
+                        ref="taskForm" 
+                        :class="classnames( {
+                            ['task-create-form']: true,
+                            ['focus']: focusField
+                        })" 
+                        @submit.prevent="taskFormAction()" 
+                        action=""
+                    >
+                        <div class="fields">
+                            
                             <input 
                                 v-model="task.title"  
                                 :maxlength="lengthtitle" 
                                 :placeholder="__('Add New Task (Character limit 200)', 'wedevs-project-manager')" 
                                 type="text" 
-                                ref="taskForm"
+                                ref="taskInput"
                                 @keyup="warningTitleCharacterLimit()"
-                                :class="focusField ? 'input-field active' : 'input-field'" 
+                                class="input-field" 
                                 data-lpignore="true"
                             >
 
-                              <!-- <a @click.prevent="taskFormAction()"  class="update-button" href="#"><span class="icon-pm-check-circle"></span></a> -->
-                            <div v-user-dropdown class="action-icons">
-                                <!-- <pm-do-action hook="pm_task_form" :actionData="task"></pm-do-action> -->
-                                <!-- <span v-pm-tooltip :title="__('Description','wedevs-project-manager')" @click.self.prevent="enableDisable('descriptionField')" class="icon-pm-align-left new-task-description-btn"></span> -->
-                                
-                                <pm-popper trigger="click" :options="popperOptions">
-                                    <div class="pm-popper popper">
-                                        <div class="pm-multiselect-top pm-multiselect-subtask-task">
-                                            <div class="pm-multiselect-content">
-                                                <div class="assign-to">{{ __('Assign to', 'wedevs-project-manager') }}</div>
-                                                <multiselect
-                                                    v-model="task.assignees.data"
-                                                    :options="project_users"
-                                                    :multiple="true"
-                                                    :close-on-select="false"
-                                                    :clear-on-select="true"
-                                                    :show-labels="true"
-                                                    :searchable="true"
-                                                    placeholder="Select User"
-                                                    select-label=""
-                                                    selected-label="selected"
-                                                    deselect-label=""
-                                                    label="display_name"
-                                                    track-by="id"
-                                                    :allow-empty="true">
+                            <div class="action-icons process-fields" v-if="focusField">
+                                <div class="process-content-1">
+                                    <div class="task-users process-field">
+                                        <pm-popper trigger="click" :options="popperOptions">
+                                            <div class="pm-popper popper">
+                                                <div class="pm-multiselect-top pm-multiselect-subtask-task">
+                                                    <div class="pm-multiselect-content">
+                                                        <multiselect
+                                                            v-model="task.assignees.data"
+                                                            :options="project_users"
+                                                            :multiple="true"
+                                                            :close-on-select="false"
+                                                            :clear-on-select="true"
+                                                            :show-labels="true"
+                                                            :searchable="true"
+                                                            :placeholder="__( 'Type User Name', 'wedevs-project-manager' )"
+                                                            select-label=""
+                                                            selected-label="selected"
+                                                            deselect-label=""
+                                                            label="display_name"
+                                                            track-by="id"
+                                                            :allow-empty="true">
 
-                                                   <template slot="option" slot-scope="props">
-                                                        <img class="option__image" :src="props.option.avatar_url">
-                                                        <div class="option__desc">
-                                                            <span class="option__title">{{ props.option.display_name }}</span>
-                                                        </div>
-                                                    </template>
+                                                           <template slot="option" slot-scope="props">
+                                                                <img class="option__image" :src="props.option.avatar_url">
+                                                                <div class="option__desc">
+                                                                    <span class="option__title">{{ props.option.display_name }}</span>
+                                                                </div>
+                                                            </template>
 
-                                                </multiselect>
+                                                        </multiselect>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- popper trigger element -->
+                                            
+                                            <div 
+                                                ref="userBtn"
+                                                slot="reference" 
+                                                v-pm-tooltip 
+                                                :title="__('Assign user', 'wedevs-project-manager')"  
+                                                class="pm-popper-ref popper-ref task-user-multiselect icon-pm-single-user pm-dark-hover"
+                                                @click.prevent="focusAssignUserInput()"
+                                            />
+                                        </pm-popper>
+
+                                        <div 
+                                            class="user-images" 
+                                            v-if="task.assignees.data.length"
+                                        >
+                                            <div 
+                                                v-pm-tooltip 
+                                                :title="user.display_name" 
+                                                class="image" 
+                                                v-for="user in task.assignees.data"
+                                                @click.prevent="deleteUser(user)"
+                                            >
+                                                <span class="cross"><i><svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 241.171 241.171" style="enable-background:new 0 0 241.171 241.171;" xml:space="preserve"><path id="Close" d="M138.138,120.754l99.118-98.576c4.752-4.704,4.752-12.319,0-17.011c-4.74-4.704-12.439-4.704-17.179,0 l-99.033,98.492L21.095,3.699c-4.74-4.752-12.439-4.752-17.179,0c-4.74,4.764-4.74,12.475,0,17.227l99.876,99.888L3.555,220.497 c-4.74,4.704-4.74,12.319,0,17.011c4.74,4.704,12.439,4.704,17.179,0l100.152-99.599l99.551,99.563 c4.74,4.752,12.439,4.752,17.179,0c4.74-4.764,4.74-12.475,0-17.227L138.138,120.754z"/></svg></i></span>
+                                                <img 
+                                                    :title="user.display_name"
+                                                    :src="user.avatar_url"
+                                                />
                                             </div>
                                         </div>
                                     </div>
-                                    
-                                    <!-- popper trigger element -->
-                                    <span 
-                                        slot="reference" 
-                                        v-if="!task.assignees.data.length" 
-                                        v-pm-tooltip 
-                                        :title="__('Assign user', 'wedevs-project-manager')"  
-                                        class="pm-popper-ref popper-ref task-user-multiselect icon-pm-single-user pm-dark-hover">
+
+                                    <div class="task-date process-field task-date-field-wrap">
+                                        <!-- <pm-date-range-picker 
+                                            @apply="onChangeDate"
+                                            @cancel="dateRangePickerClose"
+                                            :contentClass="isActiveDate()"
+                                            :options="{
+                                                input: false,
+                                                autoOpen: false,
+                                                autoApply: false,
+                                                opens: 'right',
+                                                singleDatePicker: task_start_field ? false : true,
+                                                showDropdowns: true,
+                                                startDate: getStartDate(),
+                                                endDate: getEndDate(),
+                                                locale: {
+                                                    cancelLabel: __( 'Clear', 'wedevs-project-manager' )
+                                                }
+                                            }">
                                             
-                                    </span>
-                                    <span  slot="reference" class="pm-popper-ref popper-ref">
-                                        <img 
-                                            :title="user.display_name"
-                                            slot="reference" 
-                                            class="user-image" 
-                                            v-if="task.assignees.data.length" 
-                                            v-for="user in task.assignees.data"
-                                            :src="user.avatar_url"
+                                        </pm-date-range-picker> -->
+
+                                        <pm-vue2-daterange-picker
+                                            :opens="'right'"
+                                            :singleDatePicker="task_start_field ? false : true"
+                                            :startDate="getStartDate()"
+                                            :endDate="getEndDate()"
+                                            :showDropdowns="true"
+                                            :autoApply="true"
+                                            @update="onChangeDate"
                                         />
-                                    </span>
-
-                                </pm-popper>
-
-
-                                <pm-date-range-picker 
-                                    @apply="onChangeDate"
-                                    @cancel="dateRangePickerClose"
-                                    :contentClass="isActiveDate()"
-                                    :options="{
-                                        input: false,
-                                        autoOpen: false,
-                                        autoApply: false,
-                                        opens: 'left',
-                                        singleDatePicker: task_start_field ? false : true,
-                                        showDropdowns: true,
-                                        startDate: getStartDate(),
-                                        endDate: getEndDate(),
-                                        locale: {
-                                            cancelLabel: __( 'Clear', 'wedevs-project-manager' )
-                                        }
-                                    }">
-                                    
-                                </pm-date-range-picker>
-                               <!--  <span 
-                                    v-pm-tooltip 
-                                    @focus="enableDisable('datePicker')"
-                                    :title="__('Date', 'wedevs-project-manager')" 
-                                    @click.prevent="enableDisable('datePicker')" 
-                                    :class="isActiveDate()"
-                                /> -->
-
-
-                                <span class="date-field">
-                                    <span v-if="task_start_field && task.due_date.date">{{ taskDateFormat(task.start_at.date) }}</span>
-                                    <span v-if="isBetweenDate( task_start_field, task.start_at.date, task.due_date.date )">&ndash;</span>
-                                    <span>{{ taskDateFormat(task.due_date.date) }}</span>
-                                </span>
-                            </div>
-                            
+                                           
+                                      
+             
+                                        <!-- <div class="date-field">
+                                            <span v-if="task_start_field && task.due_date.date">{{ taskDateFormat(task.start_at.date) }}</span>
+                                            <span v-if="isBetweenDate( task_start_field, task.start_at.date, task.due_date.date )">&ndash;</span>
+                                            <span>{{ taskDateFormat(task.due_date.date) }}</span>
+                                        </div> -->
+                                    </div>
+                                </div>
                                 
 
-                            
+                                <div class="task-submit-wrap process-content-2">
+                                    <a href="#" class="pm-button pm-secondary cancel-button" @click.prevent="closeForm()">
+                                        <i><svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 241.171 241.171" style="enable-background:new 0 0 241.171 241.171;" xml:space="preserve"><path id="Close" d="M138.138,120.754l99.118-98.576c4.752-4.704,4.752-12.319,0-17.011c-4.74-4.704-12.439-4.704-17.179,0 l-99.033,98.492L21.095,3.699c-4.74-4.752-12.439-4.752-17.179,0c-4.74,4.764-4.74,12.475,0,17.227l99.876,99.888L3.555,220.497 c-4.74,4.704-4.74,12.319,0,17.011c4.74,4.704,12.439,4.704,17.179,0l100.152-99.599l99.551,99.563 c4.74,4.752,12.439,4.752,17.179,0c4.74-4.764,4.74-12.475,0-17.227L138.138,120.754z"/></svg></i>
+                                    </a>
+                                    <!-- <input  
+                                        :style="show_spinner ? 'color: #1A9ED4' : ''" 
+                                        :class="focusField ? 'pm-button submit pm-primary' : 'pm-button submit pm-secondary'" 
+                                        :value="__( 'Add New', 'wedevs-project-manager' )"
+                                        type="submit" 
+                                    > -->
+                                    <pm-button
+                                        :label="isEmpty(task.id) 
+                                            ? __( 'Add New', 'wedevs-project-manager') 
+                                            : __( 'Update', 'wedevs-project-manager')"
+                                        isPrimary
+                                        :spinner="show_spinner"
+                                        type="submit"
+                                        @onClick="submitTask()"
+                                    />
+                                    <!-- <span v-if="show_spinner" class="pm-spinner"></span> -->
+                                </div>
+                            </div>
                         </div>
-                        <div class="task-submit-wrap">
-                            <!-- <a :class="focus ? 'pm-button pm-primary submit' : 'pm-button submit pm-secondary'" href="#"><i class="flaticon-pm-enter"></i></a> -->
-                            <input  
-                                :style="show_spinner ? 'color: #1A9ED4' : ''" 
-                                :class="focusField ? 'pm-button submit pm-primary' : 'pm-button submit pm-secondary'" 
-                                :value="__( 'Add New', 'wedevs-project-manager' )"
-                                type="submit" 
-                            >
-                            <span v-if="show_spinner" class="pm-spinner"></span>
-                        </div>
+                        
 
                       
 
@@ -184,32 +212,17 @@
 import date_picker from './date-picker.vue';
 import Mixins from './mixin';
 import editor from '@components/common/text-editor.vue';
+ 
 
-// Vue.directive('task-form', {
-//   bind (el, binding, vnode) {
 
-//     el.addEventListener('click', function () {
-//         vnode.context.focusField = true;
-//     })
+// Vue.directive('user-dropdown', {
+//     bind (el, binding, vnode) {
 
-//     document.body.addEventListener('click', function(ele) {
-//         var form = jQuery(ele.target).closest(el);
-
-//         if(!form.length) {
-//             vnode.context.focusField = false;
-//         } 
-//     });
-//   }
+//         jQuery(el).find('.pm-popper-ref').on('focus', function() {
+//             jQuery(this).trigger('click');
+//         }) 
+//     }
 // })
-
-Vue.directive('user-dropdown', {
-    bind (el, binding, vnode) {
-
-        jQuery(el).find('.pm-popper-ref').on('focus', function() {
-            jQuery(this).trigger('click');
-        }) 
-    }
-})
 
 export default {
     // Get passing data for this component. Remember only array and objects are
@@ -272,7 +285,6 @@ export default {
             task_due_date: __( 'Due Date', 'wedevs-project-manager'),
             select_user_text: __( 'Select User', 'wedevs-project-manager'),
             update_task: __( 'Update Task', 'wedevs-project-manager'),
-            add_task: __( 'Add Task', 'wedevs-project-manager'),
             estimation_placheholder: __('Estimated hour to complete the task', 'wedevs-project-manager'),
             content: {
                 html: this.task.description.html
@@ -293,12 +305,13 @@ export default {
         this.setDefaultValue();
         
     },
+
     mounted () {
-        if (this.focusField) {
-            if (typeof this.$refs.taskForm !== 'undefined'){
-                this.$refs.taskForm.focus();
-            }
-        }
+        // if (this.focusField) {
+        //     if (typeof this.$refs.taskForm !== 'undefined'){
+        //         this.$refs.taskForm.focus();
+        //     }
+        // }
     },
 
     // Initial action for this component
@@ -313,6 +326,8 @@ export default {
         }
 
         this.focusField = this.options.focus ? true : false;
+
+        this.focustInputForEdit()
     },
 
     watch: {
@@ -396,15 +411,59 @@ export default {
     },
 
     methods: {
+        focustInputForEdit () {
+            var self = this;
+            setTimeout(() => {
+                if( self.task.id || self.focusField ) {
+                    jQuery(this.$refs.taskInput)
+                        .focus()
+                        .trigger('click');
+                }
+                
+            }, 200)
+        },
+
+        focusAssignUserInput () {
+            setTimeout(() => {
+                jQuery(this.$refs.userBtn)
+                    .closest('.task-users')
+                    .find('.multiselect__input')
+                    .focus();
+            }, 300)
+        },
+
+        submitTask () {
+            this.taskFormAction();
+        },
+
+        closeForm () {
+            var self = this;
+
+            setTimeout(() => {
+                jQuery('body').trigger('click');
+                self.$emit('closeTaskForm');
+            }, 100)
+        },
+
+        deleteUser (user) {
+            let index = this.getIndex( this.task.assignees.data, user.id, 'id' );
+
+            if( index !== false ) {
+                this.task.assignees.data.splice( index, 1 );
+            }
+        },
+
         dateRangePickerClose () {
             this.task.start_at.date = '';
             this.task.due_date.date = '';
         },
+
         warningTitleCharacterLimit () {
             if(this.task.title.length >= 200) {
                 pm.Toastr.warning(__('Maxmim character limit 200', 'wedevs-project-manager'));
             }
         },
+
         clickInSide () {
             this.focusField = true;
         },
@@ -413,12 +472,19 @@ export default {
             var self = this;
 
             if(this.focusField) {
+
                 window.addEventListener('click', (el) => {
                     var datePicker = jQuery(el.target).closest('.table-condensed');
                     var taskForm   = jQuery(el.target).closest('.pm-task-form');
                     var clenderBtn = jQuery(el.target).closest('.drp-buttons');
                     
-                    if(!datePicker.length && !taskForm.length && !clenderBtn.length) {
+                    if(
+                        !datePicker.length 
+                            && 
+                        !taskForm.length 
+                            && 
+                        !clenderBtn.length
+                    ) {
                         self.focusField = false;
                     }
                 });
@@ -436,12 +502,15 @@ export default {
             
             return 'icon-pm-calendar new-task-calendar pm-dark-hover';
         },
+
         getStartDate () {
-            return this.task.start_at.date ? new Date(this.task.start_at.date ) : pm.Moment()
+            return this.task.start_at.date ? new Date(this.task.start_at.date ) : '';//pm.Moment()
         },
+        
         getEndDate () {
-            return this.task.due_date.date ? new Date(this.task.due_date.date) : pm.Moment()
+            return this.task.due_date.date ? new Date(this.task.due_date.date) : ''//pm.Moment()
         },
+        
         windowActivity (el) {
             var self = this;
             
@@ -466,14 +535,23 @@ export default {
                 this.isEnableMultiselect = false;
             }
         },
-        onChangeDate (start, end, className) {
+        // onChangeDate (start, end, className) {
+        //     if(this.task_start_field) {
+        //         this.task.start_at.date = start.format('YYYY-MM-DD');
+        //         this.task.due_date.date = end.format('YYYY-MM-DD');
+        //     } else {
+        //         this.task.due_date.date = end.format('YYYY-MM-DD');
+        //     }
+        // },
+        onChangeDate (date) {
             if(this.task_start_field) {
-                this.task.start_at.date = start.format('YYYY-MM-DD');
-                this.task.due_date.date = end.format('YYYY-MM-DD');
+                this.task.start_at.date = pm.Moment(date.startDate).format('YYYY-MM-DD');
+                this.task.due_date.date = pm.Moment(date.endDate).format('YYYY-MM-DD');
             } else {
-                this.task.due_date.date = end.format('YYYY-MM-DD');
+                this.task.due_date.date = pm.Moment(date.endDate).format('YYYY-MM-DD');
             }
         },
+
         callBackDatePickerForm (date) {
             this.task.start_at.date = date;
         },
@@ -604,20 +682,8 @@ export default {
                     project_id: typeof this.list.project_id !== 'undefined' ? this.list.project_id : this.project_id
                 },
                 callback: function( self, res ) { 
-                    self.show_spinner = false;
-                    self.submit_disabled = false;
+                    self.clearFormData();
                     self.task_description = typeof res.data.description === 'undefined' ? '' : res.data.description.content;
-
-                    self.task.title = '';
-                    self.content.html = '';
-                    self.task.start_at.date = '';
-                    self.task.due_date.date = '';
-                    self.task.assignees.data = [];
-
-                    Vue.nextTick(function() {
-                       self.focusField = false; 
-                    })
-                    
                 }
             }
 
@@ -637,6 +703,22 @@ export default {
             } else {
                 self.addTask ( args, this.list );
             }
+        },
+
+        clearFormData () {
+            var self = this;
+
+            self.show_spinner = false;
+            self.submit_disabled = false;
+            self.task.title = '';
+            self.content.html = '';
+            self.task.start_at.date = '';
+            self.task.due_date.date = '';
+            self.task.assignees.data = [];
+
+            Vue.nextTick(function() {
+               self.focusField = false; 
+            })
         },
 
         filterUserId (users) {
@@ -659,6 +741,10 @@ export default {
 <style lang="less">
     .daterangepicker {
         z-index: 99999;
+
+        .monthselect, .yearselect {
+            text-align-last: center;
+        }
     }
     span.pm-estimate-icon {
         cursor: pointer;
@@ -698,47 +784,263 @@ export default {
             }
         }
         .input-area {
+            
             .input-action-wrap {
                 position: relative;
+
+                .task-create-form.focus {
+                    .fields {
+                        border-radius: 3px;
+                        border: 1px solid #e5e4e4;
+
+                        .input-field {
+                            border: none;
+                            border-radius: none;
+                        }
+                    }
+                }
+                
                 .task-create-form {
                     display: flex;
-                    .field {
+
+                    .fields {
                         flex: 1;
                         position: relative;
+                        border: 1px solid transparent;
+                        
                         .input-field {
                             width: 100%;
-                            height: 33px;
-                            padding-left: 28px;
-                            padding-right: 131px;
+                            height: 36px;
+                            padding: 0 10px;
                             box-shadow: none !important;
+                            border: 1px solid #e5e4e4;
+                            border-radius: 3px;
+                            outline: none;
+                            
                             &::placeholder {
                                 color: #B5C0C3;
                                 font-weight: 300;
                                 font-size: 12px;
                             }
-                            border-radius: 4px 0 0 4px;
+
+                            border-radius: 3px;
                         }
 
-                        .active {
-                            border-color: #007cba;
-                            border-right-color: #1A9ED4 !important;
-                            box-shadow: 0 0 0 1px #007cba;
-                            outline: 2px solid transparent; 
+                        .process-fields {
+                            display: flex;
+                            align-items: center;
+                            justify-content: space-between;
+                            line-height: 0;
+                            z-index: 9;
+                            padding: 6px 12px;
+                            transition: all 1s ease-out;
+                            background: #fafafa;
+
+                            .process-content-1 {
+                                display: flex;
+                                align-items: center;
+                                justify-content: flex-start;
+
+                                .task-date-field-wrap {
+                                    .reportrange-text {
+                                        padding-right: 1px;
+                                    }
+                                }
+                            }
+
+                            .process-field {
+                                margin-right: 10px;
+                            }
+
+                            .active-date {
+                                &:before {
+                                    color: #444;
+                                }
+                            }
+
+                            .task-date {
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+
+                                .reportrange-text {
+                                    background: none !important;
+                                    border: 0;
+                                }
+
+                                .icon-pm-calendar {
+                                    &:before {
+                                        font-size: 15px;
+                                        color: #c5c5c5;
+                                    }
+                                }
+
+                                .date-field {
+                                    font-size: 12px;
+                                    margin-left: 5px;
+                                    color: #4a90e2;
+                                }
+                            }
                             
-                        }
-                    }
-                    .task-submit-wrap {
-                        .submit {
-                            border-radius: 0 4px 4px 0 !important;
-                            height: 33px !important;
-                        }
+                            .task-users {
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                flex-wrap: wrap;
 
-                        .submit.pm-secondary {
-                            border-left-color: #f7f7f7 !important;
-                        }
+                                .icon-pm-single-user {
+                                    &:before {
+                                        font-size: 16px;
+                                        color: #c5c5c5;
+                                    }
 
-                        .submit.pm-primary {
-                            border: 1px solid #1A9ED4 !important;
+                                    .pm-multiselect-top {
+                                        top: 23px !important;
+                                        border-top: none !important;
+                                        border-top-right-radius: 0 !important;
+                                        border-top-left-radius: 0 !important;
+
+                                    }
+                                }
+
+                                .user-images {
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    flex-wrap: wrap;
+
+                                    .image {
+                                        position: relative;
+                                        height: 20px;
+                                        width: 20px;
+                                        margin-left: 5px;
+                                        cursor: pointer;
+
+                                        &:last-child {
+                                            //margin-right: 15px;
+                                        }
+
+                                        &:hover {
+                                           > .cross {
+                                                display: flex;
+                                                align-items: center;
+                                                justify-content: center;
+                                            } 
+                                        }
+                                        
+                                        .cross {
+                                            display: none;
+                                            position: absolute;
+                                            top: 0;
+                                            left: 0;
+                                            height: 100%;
+                                            width: 100%;
+                                            background-color: #e46c6c;
+                                            border-radius: 50%;
+
+                                            svg {
+                                                height: 8px;
+                                                width: 8px;
+                                                fill: #fff;
+                                            }
+                                        }
+
+                                        img {
+                                            height: 100%;
+                                            width: 100%;
+                                            border-radius: 50%;
+                                        }
+                                    }
+                                }
+                            }
+
+                            .task-submit-wrap {
+                                .submit {
+                                    padding: 7px 14px;
+                                    height: auto;
+                                }
+
+                                .cancel-button {
+                                    background: transparent;
+                                    border: none;
+                                    outline: none;
+                                    box-shadow: none;
+                                    margin-right: 5px;
+
+                                    svg {
+                                        height: 12px;
+                                        width: 12px;
+                                    }
+                                }
+                            }
+                            
+                            span:last-child {
+                                margin-right: 0;
+                            }
+
+                            .pm-action-wrap {
+                                display: flex;
+                                align-items: center;
+                                line-height: 0;
+
+                                .pm-task-recurrent {
+                                    margin-right: 10px;
+                                    
+                                    .icon-pm-loop {
+                                        &:before {
+                                            vertical-align: middle;
+                                            color: #d4d6d6;
+                                            font-weight: 600;
+                                            cursor: pointer;
+                                        }
+
+                                        &:hover {
+                                            &:before {
+                                                color: #000;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            .new-task-description-btn {
+                                cursor: pointer;
+
+                                &:hover {
+                                    &:before {
+                                        color: #000;
+                                    }
+                                }
+                            }
+
+                            .pm-make-privacy {
+                                .icon-pm-unlock, .icon-pm-private {
+                                    margin-right: 0;
+                                    vertical-align: middle;
+                                    cursor: pointer;
+
+                                    &:before {
+                                        color: #d4d6d6;
+                                    }
+
+                                    &:hover {
+                                        &:before {
+                                            color: #444;
+                                        }
+                                    }
+                                }
+                            }
+
+                            .task-estimation-arae {
+                                margin-right: 10px;
+                            }
+
+                            & > span {
+                                margin-right: 10px;
+                            }
+                            .date-picker {
+                                position: absolute;
+                            }
                         }
                     }
                 }
@@ -805,112 +1107,7 @@ export default {
                 box-shadow: none;
                 line-height: 1.5;
             }
-            .icon-pm-single-user {
-                position: relative;
-                vertical-align: middle;
-                .pm-multiselect-top {
-                    top: 23px !important;
-                    border-top: none !important;
-                    border-top-right-radius: 0 !important;
-                    border-top-left-radius: 0 !important;
-
-                }
-            }
             
-            .action-icons {
-                position: absolute;
-                right: 0;
-                top: 50%;
-                margin-right: 11px;
-                display: flex;
-                align-items: center;
-                line-height: 0;
-                transform: translate(0, -50%);
-                z-index: 9;
-                .active-date {
-                    &:before {
-                        color: #444;
-                    }
-                }
-                .date-field {
-                    font-size: 12px;
-                    margin-left: 5px;
-                    color: #4a90e2;
-                }
-                .user-image {
-                    height: 16px;
-                    width: 16px;
-                    border-radius: 16px;
-                    vertical-align: middle;
-                    margin-right: 3px;
-                }
-                span:last-child {
-                    margin-right: 0;
-                }
-
-                .pm-action-wrap {
-                    display: flex;
-                    align-items: center;
-                    line-height: 0;
-
-                    .pm-task-recurrent {
-                        margin-right: 10px;
-                        .icon-pm-loop {
-                            &:before {
-                                vertical-align: middle;
-                                color: #d4d6d6;
-                                font-weight: 600;
-                                cursor: pointer;
-                            }
-
-                            &:hover {
-                                &:before {
-                                    color: #000;
-                                }
-                            }
-                        }
-                    }
-                }
-
-                .new-task-description-btn {
-                    cursor: pointer;
-
-                    &:hover {
-                        &:before {
-                            color: #000;
-                        }
-                    }
-                }
-
-                .pm-make-privacy {
-                    .icon-pm-unlock, .icon-pm-private {
-                        margin-right: 0;
-                        vertical-align: middle;
-                        cursor: pointer;
-
-                        &:before {
-                            color: #d4d6d6;
-                        }
-
-                        &:hover {
-                            &:before {
-                                color: #444;
-                            }
-                        }
-                    }
-                }
-
-                .task-estimation-arae {
-                    margin-right: 10px;
-                }
-
-                & > span {
-                    margin-right: 10px;
-                }
-                .date-picker {
-                    position: absolute;
-                }
-            }
         }
     }
 
