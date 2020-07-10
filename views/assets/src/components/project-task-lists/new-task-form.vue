@@ -135,6 +135,8 @@
                                             <span>{{ taskDateFormat(task.due_date.date) }}</span>
                                         </div> -->
                                     </div>
+
+                                    <pm-do-slot hook="task_tools" :actionData="taskTools"></pm-do-slot>
                                 </div>
                                 
 
@@ -258,7 +260,11 @@ export default {
                     focus: false
                 }
             }
-        }
+        },
+        projectId: {
+            type: [Number],
+            default: 0
+        },
     },
 
     /**
@@ -290,7 +296,11 @@ export default {
                 html: this.task.description.html
             },
             lengthtitle: 200,
-            focusField: false
+            focusField: false,
+            taskTools: {
+                task: this.task,
+                projectId: this.projectId
+            }
         }
     },
     mixins: [Mixins],
