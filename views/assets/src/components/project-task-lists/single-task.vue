@@ -194,6 +194,33 @@
                                             <div v-if="!task.assignees.data.length" class="helper-text">{{ __( 'Add New Member', 'wedevs-project-manager' ) }}</div>
                                         </div>
                                     </pm-popper>
+                                    
+                                    <div v-if="!has_task_permission()">
+                                        <div 
+                                            class="process-results user-images" 
+                                            v-if="task.assignees.data.length"
+                                        >
+                                            <div 
+                                                :title="user.display_name" 
+                                                class="image" 
+                                                v-for="user in task.assignees.data"
+                                                :key="user.id"
+                                            >
+
+                                                <!-- <span class="cross"><svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 241.171 241.171" style="enable-background:new 0 0 241.171 241.171;" xml:space="preserve"><path id="Close" d="M138.138,120.754l99.118-98.576c4.752-4.704,4.752-12.319,0-17.011c-4.74-4.704-12.439-4.704-17.179,0 l-99.033,98.492L21.095,3.699c-4.74-4.752-12.439-4.752-17.179,0c-4.74,4.764-4.74,12.475,0,17.227l99.876,99.888L3.555,220.497 c-4.74,4.704-4.74,12.319,0,17.011c4.74,4.704,12.439,4.704,17.179,0l100.152-99.599l99.551,99.563 c4.74,4.752,12.439,4.752,17.179,0c4.74-4.764,4.74-12.475,0-17.227L138.138,120.754z"/></svg></span> -->
+                                                <img 
+                                                    :title="user.display_name"
+                                                    :src="user.avatar_url"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div 
+                                            class="process-results user-images" 
+                                            v-if="!task.assignees.data.length"
+                                        >
+                                            <span>{{ __( 'No user found!', 'pm-pro' ) }}</span>
+                                        </div>
+                                    </div>
                                 </div>
                                 
                                 <div class="spinner-wrap" v-if="memberLoading">
@@ -307,6 +334,7 @@
                                     </pm-vue2-daterange-picker> -->
 
                                     <pm-date-range-picker 
+                                        v-if="has_task_permission()"
                                         @apply="onChangeDate"
                                         @cancel="deleteDate()"
                                         :options="{
@@ -389,6 +417,63 @@
                                         </div>
                                         
                                     </pm-date-range-picker>
+
+
+                                    <div 
+                                        v-if="!has_task_permission()"
+                                        :class="classnames({
+                                            ['process-text-wrap']: true,
+                                            ['due-date']: taskDateWrap(task.due_date.date) == 'pm-due-date'
+                                        })"
+                                    >
+
+                                        <div 
+                                            :class="classnames( {
+                                                ['process-results']: true,
+                                                ['task-date']: true,
+                                            } )" 
+                                            v-if="task.start_at.date || task.due_date.date"
+                                        >
+                                            
+                                            <div class="date-wrapper">
+                                                
+                                                <span 
+                                                    class="start" 
+                                                    :title="getFullDate(task.start_at.datetime)" 
+                                                    v-if="task_start_field && task.start_at.date"
+                                                >
+                                                    {{ pmDateFormat( task.start_at.date, 'MMM DD' ) }}
+                                                </span>
+
+                                                <span 
+                                                    class="seperator" 
+                                                    v-if="!isEmpty(task.start_at.date) && !isEmpty(task.due_date.date)"
+                                                >
+                                                    &ndash;
+                                                </span>
+
+                                                <span 
+                                                    class="due" 
+                                                    v-if="task.due_date.date" 
+                                                    :title="getFullDate(task.due_date.datetime)" 
+                                                >
+                                                    {{ pmDateFormat( task.due_date.date, 'MMM DD'  ) }}
+                                                </span>
+
+                                                <span class="relative" v-if="!isEmpty(task.due_date.date)">{{ relativeDate(task.due_date.date) }}</span>
+                                            </div>
+                                        </div>
+
+                                        <div 
+                                            :class="classnames( {
+                                                ['process-results']: true,
+                                                ['task-date']: true,
+                                            } )" 
+                                            v-if="!task.start_at.date && !task.due_date.date"
+                                        >
+                                            <span>{{ 'No date found!', 'pm-pro' }}</span>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div class="spinner-wrap" v-if="dateLoading">
@@ -451,7 +536,7 @@
                                                 <span class="private">{{ __( 'Hide from others', 'wedevs-project-manager' ) }}</span>
                                                 <i
                                                     v-pm-tooltip 
-                                                    :title="__('It will hide the task from co-workers and clients', 'wedevs-project-manager')"
+                                                    :title="__('It will hide the task from co-workers and clients.</br>According project settings capability.', 'wedevs-project-manager')"
                                                     class="info-icon"
                                                 ><svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 111.577 111.577" style="enable-background:new 0 0 111.577 111.577;" xml:space="preserve"> <g> <path d="M78.962,99.536l-1.559,6.373c-4.677,1.846-8.413,3.251-11.195,4.217c-2.785,0.969-6.021,1.451-9.708,1.451 c-5.662,0-10.066-1.387-13.207-4.142c-3.141-2.766-4.712-6.271-4.712-10.523c0-1.646,0.114-3.339,0.351-5.064 c0.239-1.727,0.619-3.672,1.139-5.846l5.845-20.688c0.52-1.981,0.962-3.858,1.316-5.633c0.359-1.764,0.532-3.387,0.532-4.848 c0-2.642-0.547-4.49-1.636-5.529c-1.089-1.036-3.167-1.562-6.252-1.562c-1.511,0-3.064,0.242-4.647,0.71 c-1.59,0.47-2.949,0.924-4.09,1.346l1.563-6.378c3.829-1.559,7.489-2.894,10.99-4.002c3.501-1.111,6.809-1.667,9.938-1.667 c5.623,0,9.962,1.359,13.009,4.077c3.047,2.72,4.57,6.246,4.57,10.591c0,0.899-0.1,2.483-0.315,4.747 c-0.21,2.269-0.601,4.348-1.171,6.239l-5.82,20.605c-0.477,1.655-0.906,3.547-1.279,5.676c-0.385,2.115-0.569,3.731-0.569,4.815 c0,2.736,0.61,4.604,1.833,5.597c1.232,0.993,3.354,1.487,6.368,1.487c1.415,0,3.025-0.251,4.814-0.744 C76.854,100.348,78.155,99.915,78.962,99.536z M80.438,13.03c0,3.59-1.353,6.656-4.072,9.177c-2.712,2.53-5.98,3.796-9.803,3.796 c-3.835,0-7.111-1.266-9.854-3.796c-2.738-2.522-4.11-5.587-4.11-9.177c0-3.583,1.372-6.654,4.11-9.207 C59.447,1.274,62.729,0,66.563,0c3.822,0,7.091,1.277,9.803,3.823C79.087,6.376,80.438,9.448,80.438,13.03z"/> </g></svg></i>
 
@@ -522,6 +607,7 @@
                             </div>
                         </div>
 
+                        <pm-do-slot :hook="'aftre_single_task_time_log'" :actionData="doActionData"></pm-do-slot> 
                         <pm-do-slot :hook="'aftre_single_task_content'" :actionData="doActionData"></pm-do-slot> 
 
                         <div class="discuss-wrap">
@@ -803,7 +889,6 @@
             .process-results.user-images {
                 display: flex;
                 align-items: center;
-                justify-content: center;
                 flex-wrap: wrap;
                 margin-left: 5px;
 
@@ -1612,7 +1697,7 @@
             },
 
 
-            has_task_permission(){
+            has_task_permission() {
                var permission =  this.can_edit_task(this.task) ;
                return permission ;
             },
@@ -1793,29 +1878,36 @@
                     
                     success (res) {
                         pmBus.$emit('pm_after_update_single_task', res);
+                        
                         self.is_task_title_edit_mode = false;
                         self.closeDescriptionEditor();
                         self.task.description = res.data.description;
                         self.$store.commit('updateProjectMeta', 'total_activities');
+                        
                         if ( typeof self.task.activities !== 'undefined' ) {
                             self.task.activities.data.unshift(res.activity.data);
                         } else {
                             self.task.activities = { data: [res.activity.data] };
                         }
+                        
                         self.show_spinner = false;
 
                         if(typeof callback != 'undefined') {
-                            callback(res);
+                            callback(res, true);
                         }
-
-
                     },
+
                     error (res) {
                         res.responseJSON.message.map( function( value, index ) {
                             pm.Toastr.error(value);
                         });
+
+                        if(typeof callback != 'undefined') {
+                            callback(res, false);
+                        }
                     }
                 }
+
                 this.show_spinner = true;
                 this.httpRequest(request_data);
             },
