@@ -19,6 +19,12 @@
 	
 </template>
 
+<style lang="less">
+	.daterangepicker {
+		z-index: 99999;
+	}
+</style>
+
 <script>
 
 	const datePicker = (el, binding, vnode) => {
