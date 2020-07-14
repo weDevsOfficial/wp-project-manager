@@ -69,6 +69,10 @@
 				fill: #000;
 			}
 		}
+
+		.vue-daterange-picker {
+			min-width: auto !important
+		}
 	}
 
 	.vue-daterange-picker {
