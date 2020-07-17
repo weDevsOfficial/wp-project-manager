@@ -21,6 +21,7 @@
 	    		'active': spinner
 	    	}"
 	    	:value="label"
+	    	:disabled="disabled"
 	    />
 
 	    <a 
@@ -38,7 +39,7 @@
 		</a>
 
 	    <button
-	    	@click.prevent="onClick()"
+	    	@click.self.prevent="onClick()"
 	    	v-if="type=='button'"
 	    	:class="{
 	    		'pm-single-button': true,
@@ -46,6 +47,7 @@
 	    		'pm-button-primary': isPrimary,
 	    		'active': spinner
 	    	}"
+	    	:disabled="disabled"
 	    >
 			{{ label }}
 		</button>
@@ -188,6 +190,11 @@
 			},
 
 			spinner: {
+				type: Boolean,
+				default: false
+			},
+
+			disabled: {
 				type: Boolean,
 				default: false
 			}

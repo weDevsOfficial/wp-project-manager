@@ -29,3 +29,8 @@ new Vue(PM_Vue);
 
 // fix the admin menu for the slug "vue-app"
 menuFix('pm_projects');
+
+//Always load in the bottom of the code
+import '@helpers/underscore'
+
+

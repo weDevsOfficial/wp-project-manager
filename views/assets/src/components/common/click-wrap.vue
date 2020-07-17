@@ -1,3 +1,11 @@
+<!-- 
+<pm-click-wrap
+	@clickInSide="clickInSide"
+	@clickOutSide="clickOutSide"
+>
+	content
+</pm-click-wrap> 
+-->
 <template>
 	<fragment>
     	<slot></slot>
@@ -22,9 +30,9 @@
 				var hasEl = jQuery(ele.target).closest(this.$el);
 				
 		        if(hasEl.length) {
-		            this.$emit('clickInSide')
+		            this.$emit('clickInSide', ele)
 		        } else {
-		        	this.$emit('clickOutSide')
+		        	this.$emit('clickOutSide', ele)
 		        }
 			}
 		}

@@ -59,17 +59,8 @@
                                                 <span class="title-anchor-menu">{{ __('Copy Link', 'wedevs-project-manager') }}</span>
                                             </a>
                                         </li>
-                                     <!--    <li class="pm-dark-hover" v-if="PM_Vars.is_pro && can_edit_task(task) && user_can('view_private_task')">
 
-                                            <a class="pm-dark-hover title-anchor-menu-a icon-pm-private pm-font-size-13" v-if="task.meta.privacy=='1'" @click.prevent="singleTaskLockUnlock(task)" href="#">
-                                                <span class="action-menu-span title-anchor-menu">{{ __('Make Visible', 'wedevs-project-manager') }}</span>
-                                            </a>
-                                            <a class="pm-dark-hover title-anchor-menu-a icon-pm-unlock pm-font-size-13" v-if="task.meta.privacy=='0'" @click.prevent="singleTaskLockUnlock(task)" href="#">
-                                                <span class="action-menu-span title-anchor-menu">{{ __('Make Private', 'wedevs-project-manager') }}</span>
-                                            </a>
-
-                                        </li> -->
-                                        <li  v-if="can_edit_task(task) || isArchivedTaskList(task)">
+                                        <li v-if="can_edit_task(task) || isArchivedTaskList(task)">
 
                                             <a class="pm-dark-hover title-anchor-menu-a icon-pm-delete pm-font-size-13" @click.prevent="selfDeleteTask({task: task, list: list})" href="#">
                                                 <span class="action-menu-span title-anchor-menu">{{ __('Delete', 'wedevs-project-manager') }}</span>
@@ -112,123 +103,476 @@
                                 <span >
                                     {{ __("Task List:", 'wedevs-project-manager' ) }}
                                 </span>
-                                <strong class="list-title">
+                                <span class="list-title">
                                     {{ task.task_list.data.title }}
-                                </strong>
+                                </span>
                             </div>
                         </div>
 
-                        <div class="pm-flex options-wrap">
-                            <div class="pm-flex assigne-users">
-                                <div v-if="task.assignees.data.length" class='pm-assigned-user' v-for="user in task.assignees.data" :key="user.id">
-
-                                    <a :href="userTaskProfileUrl(user.id)" :title="user.display_name">
-                                        <img :alt="user.display_name" :src="user.avatar_url" class="avatar avatar-48 photo" height="48" width="48">
-                                    </a>
-                                </div>
-                                <div v-if="has_task_permission()" id="pm-multiselect-single-task" >
-                                    <span @click.prevent="isEnableMultiSelect()" class="icon-pm-user"></span>
-                                    <div v-show="is_enable_multi_select"  class="pm-multiselect pm-multiselect-single-task">
-                                        <div class="pm-multiselect-content">
-                                            <div class="assign-to">{{ __('Assign to', 'wedevs-project-manager') }}</div>
-                                            <multiselect
-                                                ref="assingTask"
-                                                id="assingTask"
-                                                v-model="task_assign"
-                                                :options="project_users"
-                                                :multiple="true"
-                                                :close-on-select="false"
-                                                :clear-on-select="true"
-                                                :show-labels="true"
-                                                :searchable="true"
-                                                :placeholder="__('Search User', 'wedevs-project-manager')"
-                                                select-label=""
-                                                selected-label="selected"
-                                                deselect-label=""
-                                                label="display_name"
-                                                track-by="id"
-                                                :allow-empty="true">
-
-
-                                                <template slot="option" slot-scope="props">
-                                                    <img class="option__image" :src="props.option.avatar_url">
-                                                    <div class="option__desc">
-                                                        <span class="option__title">{{ props.option.display_name }}</span>
-                                                    </div>
-                                                </template>
+                        <div class="options-wrap actions-wrap">
+                            <div class="assigne-users context">
+                                <h3 class="label">{{ __( 'Members', 'wedevs-project-manager' ) }}</h3>
+                                
+                                <div 
+                                    :class="classnames({
+                                        ['process-1']: !task.assignees.data.length,
+                                        ['data-active']: task.assignees.data.length
+                                    })"
+                                >
+                                    
+                                    <pm-popper 
+                                        trigger="click" 
+                                        :options="popperOptions()"
+                                        v-if="has_task_permission()"
+                                    >
+                                        <div class="pm-popper popper">
+                                            <div class="pm-multiselect-top pm-multiselect-subtask-task">
+                                                <div class="pm-multiselect-content">
+                                                    <multiselect
+                                                        ref="assingTask"
+                                                        id="assingTask"
+                                                        v-model="task_assign"
+                                                        :options="project_users"
+                                                        :multiple="true"
+                                                        :close-on-select="false"
+                                                        :clear-on-select="true"
+                                                        :show-labels="true"
+                                                        :searchable="true"
+                                                        :placeholder="__('Search User', 'wedevs-project-manager')"
+                                                        select-label=""
+                                                        selected-label="selected"
+                                                        deselect-label=""
+                                                        label="display_name"
+                                                        track-by="id"
+                                                        :allow-empty="true">
 
 
-                                            </multiselect>
+                                                        <template slot="option" slot-scope="props">
+                                                            <img class="option__image" :src="props.option.avatar_url">
+                                                            <div class="option__desc">
+                                                                <span class="option__title">{{ props.option.display_name }}</span>
+                                                            </div>
+                                                        </template>
+                                                    </multiselect>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- popper trigger element -->
+                                        <div class="process-text-wrap" slot="reference"> 
+                                            <a 
+                                                class="display-flex process-btn"
+                                                href="#"  
+                                                @click.prevent="isEnableMultiSelect()"
+                                            >
+                                                <i 
+                                                    v-pm-tooltip 
+                                                    :title="__('Add new member', 'wedevs-project-manager')"
+                                                >
+                                                    <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="598.769px" height="598.77px" viewBox="0 0 598.769 598.77" style="enable-background:new 0 0 598.769 598.77;" xml:space="preserve"> <g> <g> <path d="M161.196,253.695c16.274,6.884,33.538,10.374,51.31,10.374s35.035-3.49,51.31-10.374 c15.698-6.64,29.787-16.136,41.876-28.225c12.089-12.089,21.585-26.179,28.225-41.876c6.884-16.275,10.374-33.538,10.374-51.309 c0-17.772-3.49-35.035-10.374-51.31c-6.64-15.698-16.136-29.787-28.225-41.876c-12.089-12.089-26.178-21.585-41.876-28.225 C247.541,3.99,230.278,0.5,212.506,0.5s-35.035,3.49-51.31,10.374c-15.698,6.64-29.787,16.136-41.876,28.225 c-12.089,12.089-21.585,26.178-28.224,41.876c-6.884,16.275-10.374,33.538-10.374,51.31c0,17.771,3.49,35.035,10.374,51.309 c6.639,15.698,16.135,29.788,28.224,41.876C131.409,237.559,145.499,247.055,161.196,253.695z M212.506,43.34 c49.123,0,88.945,39.822,88.945,88.945c0,49.123-39.822,88.944-88.945,88.944s-88.944-39.822-88.944-88.944 C123.562,83.162,163.383,43.34,212.506,43.34z"/> <path d="M212.506,264.569c-17.84,0-35.168-3.503-51.504-10.414c-15.757-6.665-29.9-16.197-42.035-28.332 c-12.135-12.134-21.667-26.277-28.331-42.035c-6.91-16.336-10.414-33.664-10.414-51.504c0-17.839,3.503-35.167,10.414-51.504 c6.664-15.757,16.195-29.899,28.331-42.035c12.135-12.135,26.278-21.667,42.035-28.332C177.338,3.503,194.667,0,212.506,0 s35.168,3.503,51.504,10.414c15.757,6.664,29.899,16.197,42.035,28.332c12.135,12.134,21.667,26.277,28.332,42.035 c6.909,16.336,10.413,33.665,10.413,51.504c0,17.839-3.504,35.167-10.413,51.504c-6.666,15.758-16.198,29.901-28.332,42.035 c-12.135,12.135-26.278,21.667-42.035,28.332C247.674,261.065,230.346,264.569,212.506,264.569z M212.506,1 c-17.705,0-34.902,3.477-51.115,10.334c-15.638,6.614-29.674,16.075-41.718,28.118c-12.044,12.044-21.504,26.08-28.117,41.717 c-6.857,16.213-10.334,33.41-10.334,51.115c0,17.705,3.477,34.902,10.334,51.114c6.614,15.639,16.074,29.675,28.117,41.718 c12.043,12.043,26.08,21.503,41.718,28.118c16.212,6.857,33.41,10.334,51.115,10.334s34.902-3.477,51.115-10.334 c15.638-6.615,29.674-16.075,41.718-28.118c12.043-12.042,21.503-26.079,28.117-41.718c6.858-16.213,10.335-33.41,10.335-51.114 c0-17.705-3.477-34.902-10.335-51.115c-6.614-15.639-16.074-29.674-28.117-41.717c-12.044-12.044-26.08-21.504-41.718-28.118 C247.408,4.477,230.211,1,212.506,1z M212.506,221.729c-49.32,0-89.444-40.125-89.444-89.444s40.125-89.445,89.444-89.445 s89.445,40.125,89.445,89.445S261.826,221.729,212.506,221.729z M212.506,43.84c-48.769,0-88.444,39.676-88.444,88.445 s39.676,88.444,88.444,88.444s88.445-39.676,88.445-88.444S261.274,43.84,212.506,43.84z"/> </g> <g> <path d="M586.081,404.607c-7.023-16.604-17.067-31.506-29.855-44.293c-12.787-12.789-27.689-22.834-44.294-29.855 c-17.213-7.281-35.472-10.973-54.271-10.973s-37.059,3.693-54.271,10.973c-6.161,2.605-12.086,5.629-17.758,9.053 c-2.294-2.627-4.679-5.186-7.162-7.67c-14.042-14.043-30.405-25.072-48.636-32.782c-18.896-7.993-38.944-12.045-59.586-12.045 H154.764c-20.642,0-40.69,4.053-59.586,12.045c-18.23,7.71-34.593,18.739-48.635,32.782 c-14.042,14.041-25.071,30.404-32.781,48.635C5.769,399.373,1.716,419.42,1.716,440.062v73.625 c0,34.471,28.044,62.516,62.514,62.516h296.552c6.157,0,12.108-0.9,17.733-2.566c7.775,5.369,16.084,9.943,24.874,13.662 c17.213,7.279,35.473,10.971,54.271,10.971s37.059-3.691,54.271-10.971c16.604-7.023,31.507-17.068,44.294-29.855 c12.789-12.789,22.833-27.691,29.855-44.295c7.28-17.213,10.972-35.473,10.972-54.271S593.362,421.82,586.081,404.607z M457.661,555.43c-15.448,0-30.046-3.633-42.993-10.084c-6.449-3.213-12.487-7.123-18.017-11.637 c-6.143-5.014-11.659-10.766-16.408-17.127c-12.019-16.098-19.135-36.068-19.135-57.703c0-18.727,5.338-36.205,14.566-51.008 c4.422-7.092,9.737-13.57,15.791-19.273c5.317-5.01,11.202-9.422,17.55-13.133c14.285-8.348,30.905-13.137,48.646-13.137 c53.324,0,96.552,43.227,96.552,96.551S510.985,555.43,457.661,555.43z M64.23,533.363c-10.866,0-19.674-8.809-19.674-19.674 v-73.627c0-60.865,49.342-110.207,110.208-110.207h115.484c32.859,0,62.354,14.385,82.545,37.195 c-9.821,11.193-17.729,23.789-23.553,37.557c-7.28,17.213-10.972,35.473-10.972,54.271s3.69,37.059,10.972,54.271 c2.984,7.057,6.521,13.803,10.576,20.213H64.23z"/> <path d="M457.662,598.77c-18.865,0-37.19-3.704-54.466-11.01c-8.677-3.671-17.008-8.237-24.768-13.576 c-5.725,1.672-11.66,2.52-17.646,2.52H64.23c-34.746,0-63.014-28.269-63.014-63.016v-73.625c0-20.709,4.066-40.822,12.085-59.78 c7.735-18.29,18.8-34.706,32.888-48.794c14.088-14.089,30.505-25.154,48.794-32.889c18.958-8.019,39.072-12.084,59.781-12.084 h115.483c20.712,0,40.825,4.066,59.78,12.084c18.291,7.735,34.707,18.8,48.795,32.889c2.35,2.351,4.672,4.831,6.909,7.38 c5.578-3.345,11.451-6.328,17.463-8.87c17.278-7.307,35.604-11.012,54.466-11.012c18.866,0,37.191,3.705,54.465,11.012 c16.664,7.047,31.62,17.128,44.453,29.963c12.832,12.831,22.913,27.787,29.962,44.452c7.308,17.273,11.013,35.598,11.013,54.464 s-3.705,37.191-11.011,54.466c-7.048,16.664-17.129,31.62-29.963,44.454c-12.833,12.833-27.789,22.914-44.453,29.962 C494.852,595.065,476.528,598.77,457.662,598.77z M378.603,573.09l0.197,0.136c7.759,5.357,16.098,9.938,24.785,13.612 c17.151,7.254,35.345,10.932,54.076,10.932s36.925-3.678,54.076-10.932c16.544-6.997,31.393-17.007,44.135-29.748 c12.742-12.742,22.751-27.592,29.748-44.136c7.255-17.151,10.933-35.346,10.933-54.077s-3.679-36.925-10.934-54.075 c-6.998-16.545-17.007-31.394-29.748-44.134c-12.742-12.743-27.591-22.752-44.135-29.748 c-17.15-7.255-35.345-10.934-54.076-10.934c-18.728,0-36.922,3.679-54.077,10.934c-6.096,2.578-12.049,5.612-17.693,9.02 l-0.359,0.217l-0.276-0.315c-2.307-2.642-4.709-5.214-7.139-7.646c-13.996-13.997-30.306-24.99-48.477-32.675 c-18.832-7.966-38.814-12.005-59.392-12.005H154.764c-20.575,0-40.557,4.039-59.391,12.005 c-18.17,7.684-34.48,18.678-48.477,32.675c-13.997,13.996-24.99,30.306-32.674,48.476c-7.966,18.835-12.006,38.817-12.006,59.392 v73.625c0,34.195,27.819,62.016,62.014,62.016h296.552c5.97,0,11.888-0.856,17.592-2.546L378.603,573.09z M457.661,555.93 c-15.177,0-29.717-3.41-43.216-10.137c-6.438-3.207-12.531-7.143-18.11-11.696c-6.184-5.048-11.732-10.84-16.492-17.216 c-12.583-16.854-19.234-36.91-19.234-58.002c0-18.178,5.063-35.907,14.642-51.272c4.433-7.107,9.772-13.626,15.873-19.373 c5.359-5.049,11.294-9.49,17.641-13.2c14.783-8.639,31.691-13.205,48.897-13.205c53.515,0,97.052,43.537,97.052,97.051 S511.175,555.93,457.661,555.93z M457.661,362.828c-17.028,0-33.763,4.519-48.394,13.068c-6.28,3.672-12.154,8.067-17.459,13.065 c-6.038,5.688-11.323,12.139-15.71,19.174c-9.479,15.206-14.49,32.753-14.49,50.743c0,20.874,6.582,40.725,19.035,57.404 c4.711,6.31,10.203,12.043,16.324,17.038c5.521,4.508,11.552,8.402,17.923,11.577c13.359,6.656,27.749,10.031,42.771,10.031 c52.963,0,96.052-43.088,96.052-96.051S510.624,362.828,457.661,362.828z M340.725,533.863H64.23 c-11.124,0-20.174-9.05-20.174-20.174v-73.627c0-61.044,49.663-110.707,110.708-110.707h115.484 c31.678,0,61.901,13.618,82.919,37.364l0.292,0.33l-0.29,0.331c-9.788,11.154-17.684,23.745-23.468,37.421 c-7.255,17.151-10.933,35.346-10.933,54.077c0,18.734,3.678,36.928,10.932,54.077c2.949,6.973,6.495,13.749,10.539,20.14 L340.725,533.863z M154.764,330.355c-60.493,0-109.708,49.215-109.708,109.707v73.627c0,10.572,8.602,19.174,19.174,19.174 h274.682c-3.873-6.212-7.28-12.773-10.133-19.519c-7.306-17.272-11.011-35.597-11.011-54.466c0-18.866,3.705-37.191,11.011-54.466 c5.77-13.64,13.623-26.206,23.347-37.359c-20.816-23.329-50.632-36.698-81.878-36.698H154.764z"/> </g> <g> <path d="M504.745,437.459h-25.664v-25.664c0-11.83-9.591-21.42-21.42-21.42c-11.83,0-21.42,9.59-21.42,21.42v25.664h-12.977 h-12.688c-3.103,0-6.048,0.664-8.709,1.852c-7.487,3.338-12.711,10.84-12.711,19.568c0,8.73,5.227,16.236,12.72,19.572 c2.659,1.184,5.601,1.848,8.7,1.848h12.72h12.944v25.664c0,11.83,9.59,21.42,21.42,21.42c11.829,0,21.42-9.59,21.42-21.42v-25.664 h25.664c11.83,0,21.42-9.59,21.42-21.42S516.575,437.459,504.745,437.459z"/> <path d="M457.661,527.883c-12.087,0-21.92-9.833-21.92-21.92v-25.164h-25.164c-3.089,0-6.085-0.636-8.903-1.891 c-7.907-3.521-13.017-11.383-13.017-20.029c0-8.643,5.105-16.502,13.008-20.025c2.817-1.257,5.815-1.895,8.912-1.895h25.164 v-25.164c0-12.087,9.833-21.92,21.92-21.92s21.92,9.833,21.92,21.92v25.164h25.164c12.087,0,21.92,9.833,21.92,21.92 s-9.833,21.92-21.92,21.92h-25.164v25.164C479.581,518.05,469.748,527.883,457.661,527.883z M410.577,437.959 c-2.955,0-5.816,0.608-8.505,1.809c-7.542,3.361-12.415,10.863-12.415,19.111c0,8.252,4.876,15.756,12.423,19.115 c2.69,1.197,5.549,1.805,8.497,1.805h26.164v26.164c0,11.535,9.385,20.92,20.92,20.92s20.92-9.385,20.92-20.92v-26.164h26.164 c11.535,0,20.92-9.385,20.92-20.92s-9.385-20.92-20.92-20.92h-26.164v-26.164c0-11.535-9.385-20.92-20.92-20.92 s-20.92,9.385-20.92,20.92v26.164H410.577z"/> </g> </g> </svg>
+                                                </i>
+                                                
+                                            </a>
+                                            <div 
+                                                class="process-results user-images" 
+                                                v-if="task.assignees.data.length"
+                                            >
+                                                <div 
+                                                    :title="user.display_name" 
+                                                    class="image" 
+                                                    v-for="user in task.assignees.data"
+                                                    :key="user.id"
+                                                >
 
+                                                    <!-- <span class="cross"><svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 241.171 241.171" style="enable-background:new 0 0 241.171 241.171;" xml:space="preserve"><path id="Close" d="M138.138,120.754l99.118-98.576c4.752-4.704,4.752-12.319,0-17.011c-4.74-4.704-12.439-4.704-17.179,0 l-99.033,98.492L21.095,3.699c-4.74-4.752-12.439-4.752-17.179,0c-4.74,4.764-4.74,12.475,0,17.227l99.876,99.888L3.555,220.497 c-4.74,4.704-4.74,12.319,0,17.011c4.74,4.704,12.439,4.704,17.179,0l100.152-99.599l99.551,99.563 c4.74,4.752,12.439,4.752,17.179,0c4.74-4.764,4.74-12.475,0-17.227L138.138,120.754z"/></svg></span> -->
+                                                    <img 
+                                                        :title="user.display_name"
+                                                        :src="user.avatar_url"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div v-if="!task.assignees.data.length" class="helper-text">{{ __( 'Add New Member', 'wedevs-project-manager' ) }}</div>
+                                        </div>
+                                    </pm-popper>
+                                    
+                                    <div v-if="!has_task_permission()">
+                                        <div 
+                                            class="process-results user-images" 
+                                            v-if="task.assignees.data.length"
+                                        >
+                                            <div 
+                                                :title="user.display_name" 
+                                                class="image" 
+                                                v-for="user in task.assignees.data"
+                                                :key="user.id"
+                                            >
+
+                                                <!-- <span class="cross"><svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 241.171 241.171" style="enable-background:new 0 0 241.171 241.171;" xml:space="preserve"><path id="Close" d="M138.138,120.754l99.118-98.576c4.752-4.704,4.752-12.319,0-17.011c-4.74-4.704-12.439-4.704-17.179,0 l-99.033,98.492L21.095,3.699c-4.74-4.752-12.439-4.752-17.179,0c-4.74,4.764-4.74,12.475,0,17.227l99.876,99.888L3.555,220.497 c-4.74,4.704-4.74,12.319,0,17.011c4.74,4.704,12.439,4.704,17.179,0l100.152-99.599l99.551,99.563 c4.74,4.752,12.439,4.752,17.179,0c4.74-4.764,4.74-12.475,0-17.227L138.138,120.754z"/></svg></span> -->
+                                                <img 
+                                                    :title="user.display_name"
+                                                    :src="user.avatar_url"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div 
+                                            class="process-results user-images" 
+                                            v-if="!task.assignees.data.length"
+                                        >
+                                            <span>{{ __( 'No user found!', 'pm-pro' ) }}</span>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            
-                            <div class="pm-flex option-icon-groups">
-                                <do-action :hook="'single_task_action'" :actionData="task"></do-action>
                                 
-                                <span v-if="PM_Vars.is_pro && can_edit_task(task) && user_can('view_private_task')">
-                                    <span 
-                                        v-if="typeof task.meta.privacy === 'undefined' || parseInt(task.meta.privacy)==0" 
-                                        @click.prevent="singleTaskLockUnlock(task)" 
-                                        :title="__('Task is visible for co-worker', 'wedevs-project-manager')" 
-                                        class="icon-pm-unlock pm-dark-hover pm-font-size-16"
-                                    />
-                                    <span 
-                                        v-if="parseInt(task.meta.privacy)==1" 
-                                        @click.prevent="singleTaskLockUnlock(task)" 
-                                        class="icon-pm-private pm-dark-hover pm-font-size-16"
-                                    />
-                                </span>
-
-                                <span id="pm-calendar-wrap"  v-pm-tooltip :title="__('Date', 'wedevs-project-manager')" @click.prevent="isTaskDateEditMode()" class="individual-group-icon calendar-group icon-pm-calendar pm-font-size-16">
-                                    <span v-if="(task.start_at.date || task.due_date.date )" :class="taskDateWrap(task.due_date.date) + ' pm-task-date-wrap pm-date-window'">
-
-                                        <span :title="getFullDate(task.start_at.datetime)" v-if="task_start_field">
-                                            {{ dateFormat( task.start_at.date ) }}
-                                        </span>
-
-                                        <span v-if="task_start_field && task.start_at.date && task.due_date.date">&ndash;</span>
-                                        <span :title="getFullDate(task.due_date.datetime)" v-if="task.due_date">
-
-                                            {{ dateFormat( task.due_date.date ) }}
-                                        </span>
-                                    </span>
-
-                                    <span v-if="(!task.start_at.date && !task.due_date.date)" class="pm-task-date-wrap pm-date-window">
-                                        <span
-                                            @click.prevent="isTaskDateEditMode()"
-                                            v-bind:class="task.status ? completedTaskWrap(task.start_at.date, task.due_date.date) : taskDateWrap( task.start_at.date, task.due_date.date)">
-                                        </span>
-                                    </span>
-                                    <div v-if="is_task_date_edit_mode && can_edit_task(task)" class="task-date">
-                                        <pm-content-datepicker
-                                            v-if="task_start_field"
-                                            v-model="task.start_at.date"
-                                            :callback="callBackDatePickerForm"
-                                            dependency="pm-datepickter-to"
-                                            class="pm-datepicker-from pm-inline-date-picker-from">
-
-                                        </pm-content-datepicker>
-                                        <pm-content-datepicker
-                                            v-model="task.due_date.date"
-                                            dependency="pm-datepickter-from"
-                                            :callback="callBackDatePickerTo"
-                                            class="pm-datepicker-to pm-inline-date-picker-to">
-
-                                        </pm-content-datepicker>
-
+                                <div class="spinner-wrap" v-if="memberLoading">
+                                    <div class="task-tool-spinner">
+                                        <div class="bounce1"></div>
+                                        <div class="bounce2"></div>
+                                        <div class="bounce3"></div>
                                     </div>
-                                </span>
-                                <do-action :hook="'single_task_inline'" :actionData="doActionData"></do-action>
+                                </div>
                             </div>
+
+                            <div class="task-due-date-wrap context">
+                                <h3 class="label">{{ __( 'Due Date', 'wedevs-project-manager' ) }}</h3>
+
+                                <div 
+                                    :class="classnames({
+                                        ['process-1']: !task.start_at.date && !task.due_date.date,
+                                        ['data-active']: task.start_at.date || task.due_date.date
+                                    })"
+                                >
+                                   
+                                   <!--  <pm-vue2-daterange-picker
+                                        :opens="'center'"
+                                        :singleDatePicker="task_start_field ? false : true"
+                                        :startDate="getStartDate()"
+                                        :endDate="getEndDate()"
+                                        :showDropdowns="true"
+                                        :autoApply="true"
+                                        :customTemplate="true"
+                                        :disabledCancelBtn="true"
+                                        @update="onChangeDate"
+                                    >
+                                        <template slot="insert" scop="task">
+                                            <div :class="classnames({
+                                                ['process-text-wrap']: true,
+                                                ['due-date']: taskDateWrap(task.due_date.date) == 'pm-due-date'
+                                            })">
+                                                <a 
+                                                    class="display-flex process-btn"
+                                                    href="#"
+                                                    @click.prevent="isTaskDateEditMode()"  
+                                                >
+                                                    <i 
+                                                        :title="__('Add Due Date', 'wedevs-project-manager')"
+                                                        class=""
+                                                    >
+                                                        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="488.152px" height="488.152px" viewBox="0 0 488.152 488.152" style="enable-background:new 0 0 488.152 488.152;" xml:space="preserve"> <g> <g> <path d="M177.854,269.311c0-6.115-4.96-11.069-11.08-11.069h-38.665c-6.113,0-11.074,4.954-11.074,11.069v38.66 c0,6.123,4.961,11.079,11.074,11.079h38.665c6.12,0,11.08-4.956,11.08-11.079V269.311L177.854,269.311z"/> <path d="M274.483,269.311c0-6.115-4.961-11.069-11.069-11.069h-38.67c-6.113,0-11.074,4.954-11.074,11.069v38.66 c0,6.123,4.961,11.079,11.074,11.079h38.67c6.108,0,11.069-4.956,11.069-11.079V269.311z"/> <path d="M371.117,269.311c0-6.115-4.961-11.069-11.074-11.069h-38.665c-6.12,0-11.08,4.954-11.08,11.069v38.66 c0,6.123,4.96,11.079,11.08,11.079h38.665c6.113,0,11.074-4.956,11.074-11.079V269.311z"/> <path d="M177.854,365.95c0-6.125-4.96-11.075-11.08-11.075h-38.665c-6.113,0-11.074,4.95-11.074,11.075v38.653 c0,6.119,4.961,11.074,11.074,11.074h38.665c6.12,0,11.08-4.956,11.08-11.074V365.95L177.854,365.95z"/> <path d="M274.483,365.95c0-6.125-4.961-11.075-11.069-11.075h-38.67c-6.113,0-11.074,4.95-11.074,11.075v38.653 c0,6.119,4.961,11.074,11.074,11.074h38.67c6.108,0,11.069-4.956,11.069-11.074V365.95z"/> <path d="M371.117,365.95c0-6.125-4.961-11.075-11.069-11.075h-38.67c-6.12,0-11.08,4.95-11.08,11.075v38.653 c0,6.119,4.96,11.074,11.08,11.074h38.67c6.108,0,11.069-4.956,11.069-11.074V365.95L371.117,365.95z"/> <path d="M440.254,54.354v59.05c0,26.69-21.652,48.198-48.338,48.198h-30.493c-26.688,0-48.627-21.508-48.627-48.198V54.142 h-137.44v59.262c0,26.69-21.938,48.198-48.622,48.198H96.235c-26.685,0-48.336-21.508-48.336-48.198v-59.05 C24.576,55.057,5.411,74.356,5.411,98.077v346.061c0,24.167,19.588,44.015,43.755,44.015h389.82 c24.131,0,43.755-19.889,43.755-44.015V98.077C482.741,74.356,463.577,55.057,440.254,54.354z M426.091,422.588 c0,10.444-8.468,18.917-18.916,18.917H80.144c-10.448,0-18.916-8.473-18.916-18.917V243.835c0-10.448,8.467-18.921,18.916-18.921 h327.03c10.448,0,18.916,8.473,18.916,18.921L426.091,422.588L426.091,422.588z"/> <path d="M96.128,129.945h30.162c9.155,0,16.578-7.412,16.578-16.567V16.573C142.868,7.417,135.445,0,126.29,0H96.128 C86.972,0,79.55,7.417,79.55,16.573v96.805C79.55,122.533,86.972,129.945,96.128,129.945z"/> <path d="M361.035,129.945h30.162c9.149,0,16.572-7.412,16.572-16.567V16.573C407.77,7.417,400.347,0,391.197,0h-30.162 c-9.154,0-16.577,7.417-16.577,16.573v96.805C344.458,122.533,351.881,129.945,361.035,129.945z"/> </g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> </svg>
+                                                    </i>
+                                                        
+                                                </a>
+
+                                                <div 
+                                                    :class="classnames( {
+                                                        ['process-results']: true,
+                                                        ['task-date']: true,
+                                                    } )" 
+                                                    v-if="task.start_at.date || task.due_date.date"
+                                                >
+                                                    
+                                                    <div class="date-wrapper">
+                                                        
+                                                        <span 
+                                                            class="start" 
+                                                            :title="getFullDate(task.start_at.datetime)" 
+                                                            v-if="task_start_field && task.start_at.date"
+                                                        >
+                                                            {{ pmDateFormat( task.start_at.date, 'MMM DD' ) }}
+                                                        </span>
+
+                                                        <span 
+                                                            class="seperator" 
+                                                            v-if="!isEmpty(task.start_at.date) && !isEmpty(task.due_date.date)"
+                                                        >
+                                                            &ndash;
+                                                        </span>
+
+                                                        <span 
+                                                            class="due" 
+                                                            v-if="task.due_date.date" 
+                                                            :title="getFullDate(task.due_date.datetime)" 
+                                                        >
+                                                            {{ pmDateFormat( task.due_date.date, 'MMM DD'  ) }}
+                                                        </span>
+
+                                                        <span class="relative" v-if="!isEmpty(task.due_date.date)">{{ relativeDate(task.due_date.date) }}</span>
+                                                    </div>
+                                                    
+                                                </div>
+
+                                                <div 
+                                                    v-if="!task.start_at.date && !task.due_date.date" 
+                                                    class="helper-text"
+                                                >
+                                                    {{ __( 'Add Due Date', 'wedevs-project-manager' ) }}
+                                                </div>
+                                            </div>
+                                          
+                                        </template>
+
+                                        <template slot="footer-content" scope="task">
+                                            <div class="date-footer">
+                                                <pm-button
+                                                    :label="__( 'Clear', 'pm-pro' )"
+                                                    :isPrimary="false"
+                                                    :spinner="dateLoading"
+                                                    type="button"
+                                                    @onClick="deleteDate()"
+                                                />
+                                            </div>
+                                        </template>
+                                    </pm-vue2-daterange-picker> -->
+
+                                    <pm-date-range-picker 
+                                        v-if="has_task_permission()"
+                                        @apply="onChangeDate"
+                                        @cancel="deleteDate()"
+                                        :options="{
+                                            input: false,
+                                            autoOpen: false,
+                                            autoApply: false,
+                                            opens: 'center',
+                                            singleDatePicker: task_start_field ? false : true,
+                                            showDropdowns: true,
+                                            startDate: getStartDate(),
+                                            endDate: getEndDate(),
+                                            locale: {
+                                                cancelLabel: __( 'Clear', 'wedevs-project-manager' )
+                                            }
+                                        }">
+
+                                        <div :class="classnames({
+                                            ['process-text-wrap']: true,
+                                            ['due-date']: taskDateWrap(task.due_date.date) == 'pm-due-date'
+                                        })">
+
+                                            <a 
+                                                class="display-flex process-btn"
+                                                href="#"
+                                                @click.prevent="isTaskDateEditMode()"  
+                                            >
+                                                <i 
+                                                    :title="__('Add Due Date', 'wedevs-project-manager')"
+                                                    class=""
+                                                >
+                                                    <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="488.152px" height="488.152px" viewBox="0 0 488.152 488.152" style="enable-background:new 0 0 488.152 488.152;" xml:space="preserve"> <g> <g> <path d="M177.854,269.311c0-6.115-4.96-11.069-11.08-11.069h-38.665c-6.113,0-11.074,4.954-11.074,11.069v38.66 c0,6.123,4.961,11.079,11.074,11.079h38.665c6.12,0,11.08-4.956,11.08-11.079V269.311L177.854,269.311z"/> <path d="M274.483,269.311c0-6.115-4.961-11.069-11.069-11.069h-38.67c-6.113,0-11.074,4.954-11.074,11.069v38.66 c0,6.123,4.961,11.079,11.074,11.079h38.67c6.108,0,11.069-4.956,11.069-11.079V269.311z"/> <path d="M371.117,269.311c0-6.115-4.961-11.069-11.074-11.069h-38.665c-6.12,0-11.08,4.954-11.08,11.069v38.66 c0,6.123,4.96,11.079,11.08,11.079h38.665c6.113,0,11.074-4.956,11.074-11.079V269.311z"/> <path d="M177.854,365.95c0-6.125-4.96-11.075-11.08-11.075h-38.665c-6.113,0-11.074,4.95-11.074,11.075v38.653 c0,6.119,4.961,11.074,11.074,11.074h38.665c6.12,0,11.08-4.956,11.08-11.074V365.95L177.854,365.95z"/> <path d="M274.483,365.95c0-6.125-4.961-11.075-11.069-11.075h-38.67c-6.113,0-11.074,4.95-11.074,11.075v38.653 c0,6.119,4.961,11.074,11.074,11.074h38.67c6.108,0,11.069-4.956,11.069-11.074V365.95z"/> <path d="M371.117,365.95c0-6.125-4.961-11.075-11.069-11.075h-38.67c-6.12,0-11.08,4.95-11.08,11.075v38.653 c0,6.119,4.96,11.074,11.08,11.074h38.67c6.108,0,11.069-4.956,11.069-11.074V365.95L371.117,365.95z"/> <path d="M440.254,54.354v59.05c0,26.69-21.652,48.198-48.338,48.198h-30.493c-26.688,0-48.627-21.508-48.627-48.198V54.142 h-137.44v59.262c0,26.69-21.938,48.198-48.622,48.198H96.235c-26.685,0-48.336-21.508-48.336-48.198v-59.05 C24.576,55.057,5.411,74.356,5.411,98.077v346.061c0,24.167,19.588,44.015,43.755,44.015h389.82 c24.131,0,43.755-19.889,43.755-44.015V98.077C482.741,74.356,463.577,55.057,440.254,54.354z M426.091,422.588 c0,10.444-8.468,18.917-18.916,18.917H80.144c-10.448,0-18.916-8.473-18.916-18.917V243.835c0-10.448,8.467-18.921,18.916-18.921 h327.03c10.448,0,18.916,8.473,18.916,18.921L426.091,422.588L426.091,422.588z"/> <path d="M96.128,129.945h30.162c9.155,0,16.578-7.412,16.578-16.567V16.573C142.868,7.417,135.445,0,126.29,0H96.128 C86.972,0,79.55,7.417,79.55,16.573v96.805C79.55,122.533,86.972,129.945,96.128,129.945z"/> <path d="M361.035,129.945h30.162c9.149,0,16.572-7.412,16.572-16.567V16.573C407.77,7.417,400.347,0,391.197,0h-30.162 c-9.154,0-16.577,7.417-16.577,16.573v96.805C344.458,122.533,351.881,129.945,361.035,129.945z"/> </g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> </svg>
+                                                </i>
+                                                    
+                                            </a>
+
+                                            <div 
+                                                :class="classnames( {
+                                                    ['process-results']: true,
+                                                    ['task-date']: true,
+                                                } )" 
+                                                v-if="task.start_at.date || task.due_date.date"
+                                            >
+                                                
+                                                <div class="date-wrapper">
+                                                    
+                                                    <span 
+                                                        class="start" 
+                                                        :title="getFullDate(task.start_at.datetime)" 
+                                                        v-if="task_start_field && task.start_at.date"
+                                                    >
+                                                        {{ pmDateFormat( task.start_at.date, 'MMM DD' ) }}
+                                                    </span>
+
+                                                    <span 
+                                                        class="seperator" 
+                                                        v-if="!isEmpty(task.start_at.date) && !isEmpty(task.due_date.date)"
+                                                    >
+                                                        &ndash;
+                                                    </span>
+
+                                                    <span 
+                                                        class="due" 
+                                                        v-if="task.due_date.date" 
+                                                        :title="getFullDate(task.due_date.datetime)" 
+                                                    >
+                                                        {{ pmDateFormat( task.due_date.date, 'MMM DD'  ) }}
+                                                    </span>
+
+                                                    <span class="relative" v-if="!isEmpty(task.due_date.date)">{{ relativeDate(task.due_date.date) }}</span>
+                                                </div>
+                                                
+                                            </div>
+
+                                            <div 
+                                                v-if="!task.start_at.date && !task.due_date.date" 
+                                                class="helper-text"
+                                            >
+                                                {{ __( 'Add Due Date +', 'wedevs-project-manager' ) }}
+                                            </div>
+                                        </div>
+                                        
+                                    </pm-date-range-picker>
+
+
+                                    <div 
+                                        v-if="!has_task_permission()"
+                                        :class="classnames({
+                                            ['process-text-wrap']: true,
+                                            ['due-date']: taskDateWrap(task.due_date.date) == 'pm-due-date'
+                                        })"
+                                    >
+
+                                        <div 
+                                            :class="classnames( {
+                                                ['process-results']: true,
+                                                ['task-date']: true,
+                                            } )" 
+                                            v-if="task.start_at.date || task.due_date.date"
+                                        >
+                                            
+                                            <div class="date-wrapper">
+                                                
+                                                <span 
+                                                    class="start" 
+                                                    :title="getFullDate(task.start_at.datetime)" 
+                                                    v-if="task_start_field && task.start_at.date"
+                                                >
+                                                    {{ pmDateFormat( task.start_at.date, 'MMM DD' ) }}
+                                                </span>
+
+                                                <span 
+                                                    class="seperator" 
+                                                    v-if="!isEmpty(task.start_at.date) && !isEmpty(task.due_date.date)"
+                                                >
+                                                    &ndash;
+                                                </span>
+
+                                                <span 
+                                                    class="due" 
+                                                    v-if="task.due_date.date" 
+                                                    :title="getFullDate(task.due_date.datetime)" 
+                                                >
+                                                    {{ pmDateFormat( task.due_date.date, 'MMM DD'  ) }}
+                                                </span>
+
+                                                <span class="relative" v-if="!isEmpty(task.due_date.date)">{{ relativeDate(task.due_date.date) }}</span>
+                                            </div>
+                                        </div>
+
+                                        <div 
+                                            :class="classnames( {
+                                                ['process-results']: true,
+                                                ['task-date']: true,
+                                            } )" 
+                                            v-if="!task.start_at.date && !task.due_date.date"
+                                        >
+                                            <span>{{ 'No date found!', 'pm-pro' }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="spinner-wrap" v-if="dateLoading">
+                                    <div class="task-tool-spinner">
+                                        <div class="bounce1"></div>
+                                        <div class="bounce2"></div>
+                                        <div class="bounce3"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="task-privacy-wrap context" v-if="PM_Vars.is_pro && can_edit_task(task) && user_can('view_private_task')">
+                                <h3 class="label">{{ __( 'Privacy', 'wedevs-project-manager' ) }}</h3>
+
+                                <div 
+                                    :class="classnames({
+                                        ['data-active']: true
+                                    })"
+                                >
+                                    
+                                    <div 
+                                        class="process-privacy-text-wrap"
+                                        @click.prevent="singleTaskLockUnlock(task)"
+                                    >
+                                       <!--  <span class="privacy-action-label" v-if="task.meta.privacy == '0' || typeof task.meta.privacy == 'undefined'">{{ __( 'Mark as private', 'wedevs-project-manager' ) }}</span>
+                                        <span class="privacy-action-label" v-if="task.meta.privacy == '1'">{{ __( 'Mark as public', 'wedevs-project-manager' ) }}</span>
+                                         -->
+                                        <a 
+                                            class="display-flex privacy-anchor"
+                                            href="#"
+                                            @click.prevent=""  
+                                        >
+                                            <span :class="classnames({
+                                                ['pm-toggle-switch']: true,
+                                                ['big']: task.meta.privacy == '0',
+                                                ['checked']: task.meta.privacy == '1'
+                                            })"></span>
+                                            <!-- <i 
+                                                v-if="task.meta.privacy == '0' || typeof task.meta.privacy == 'undefined'"
+                                                :title="__('Make Public', 'wedevs-project-manager')"
+                                                class=""
+                                            >
+                                                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 379.794 379.794" style="enable-background:new 0 0 379.794 379.794;" xml:space="preserve"> <path d="M294.107,161.375H113.893v-45.371c0-41.908,34.096-76.004,76.004-76.004c37.278,0,68.801,26.629,74.953,63.316 c1.827,10.894,12.144,18.238,23.032,16.417c10.894-1.827,18.244-12.139,16.417-23.032C299.813,69.95,285.931,45.47,265.21,27.77 C244.247,9.862,217.5,0,189.897,0C125.932,0,73.893,52.039,73.893,116.004v47.236c-7.213,2.751-14.35,8.96-14.35,21.258v64.942 c0,71.877,58.477,130.354,130.354,130.354S320.25,321.317,320.25,249.44v-64.942C320.25,166.208,303.15,161.375,294.107,161.375z M214.673,303.232c0.408,2.162-1.058,3.931-3.258,3.931H168.87c-2.2,0-3.666-1.769-3.258-3.931l6.814-36.114 c-5.201-4.743-8.465-11.574-8.465-19.167c0-14.324,11.612-25.936,25.936-25.936s25.936,11.612,25.936,25.936 c0,7.387-3.093,14.047-8.049,18.771L214.673,303.232z"/> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> </svg>
+                                            </i>
+
+                                            <i 
+                                                v-if="task.meta.privacy == '1'"
+                                                :title="__('Make Private', 'wedevs-project-manager')"
+                                                class=""
+                                            >
+                                                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 379.794 379.794" style="enable-background:new 0 0 379.794 379.794;" xml:space="preserve"> <path d="M305.901,163.69v-47.686C305.901,52.039,253.862,0,189.897,0S73.893,52.039,73.893,116.004v47.236 c-7.213,2.752-14.349,8.96-14.349,21.258v64.942c0,71.877,58.477,130.354,130.354,130.354S320.25,321.317,320.25,249.44v-64.942 C320.25,172.829,313.289,166.643,305.901,163.69z M214.673,303.232c0.408,2.162-1.058,3.931-3.258,3.931H168.87 c-2.2,0-3.666-1.769-3.258-3.931l6.814-36.114c-5.201-4.743-8.465-11.574-8.465-19.167c0-14.324,11.612-25.936,25.936-25.936 s25.936,11.612,25.936,25.936c0,7.387-3.093,14.047-8.049,18.771L214.673,303.232z M265.901,161.375H113.893v-45.371 c0-41.908,34.095-76.004,76.004-76.004c41.908,0,76.004,34.096,76.004,76.004V161.375z"/> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> <g> </g> </svg>
+                                            </i> -->
+
+                                        </a>
+
+                                        <div class="process-results task-privacy">
+                                        
+                                            <div class="status">
+                                                <span class="private">{{ __( 'Hide from others', 'wedevs-project-manager' ) }}</span>
+                                                <i
+                                                    v-pm-tooltip 
+                                                    :title="__('It will hide the task from co-workers and clients.</br>According project settings capability.', 'wedevs-project-manager')"
+                                                    class="info-icon"
+                                                ><svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 111.577 111.577" style="enable-background:new 0 0 111.577 111.577;" xml:space="preserve"> <g> <path d="M78.962,99.536l-1.559,6.373c-4.677,1.846-8.413,3.251-11.195,4.217c-2.785,0.969-6.021,1.451-9.708,1.451 c-5.662,0-10.066-1.387-13.207-4.142c-3.141-2.766-4.712-6.271-4.712-10.523c0-1.646,0.114-3.339,0.351-5.064 c0.239-1.727,0.619-3.672,1.139-5.846l5.845-20.688c0.52-1.981,0.962-3.858,1.316-5.633c0.359-1.764,0.532-3.387,0.532-4.848 c0-2.642-0.547-4.49-1.636-5.529c-1.089-1.036-3.167-1.562-6.252-1.562c-1.511,0-3.064,0.242-4.647,0.71 c-1.59,0.47-2.949,0.924-4.09,1.346l1.563-6.378c3.829-1.559,7.489-2.894,10.99-4.002c3.501-1.111,6.809-1.667,9.938-1.667 c5.623,0,9.962,1.359,13.009,4.077c3.047,2.72,4.57,6.246,4.57,10.591c0,0.899-0.1,2.483-0.315,4.747 c-0.21,2.269-0.601,4.348-1.171,6.239l-5.82,20.605c-0.477,1.655-0.906,3.547-1.279,5.676c-0.385,2.115-0.569,3.731-0.569,4.815 c0,2.736,0.61,4.604,1.833,5.597c1.232,0.993,3.354,1.487,6.368,1.487c1.415,0,3.025-0.251,4.814-0.744 C76.854,100.348,78.155,99.915,78.962,99.536z M80.438,13.03c0,3.59-1.353,6.656-4.072,9.177c-2.712,2.53-5.98,3.796-9.803,3.796 c-3.835,0-7.111-1.266-9.854-3.796c-2.738-2.522-4.11-5.587-4.11-9.177c0-3.583,1.372-6.654,4.11-9.207 C59.447,1.274,62.729,0,66.563,0c3.822,0,7.091,1.277,9.803,3.823C79.087,6.376,80.438,9.448,80.438,13.03z"/> </g></svg></i>
+
+                                                <!-- <span v-else class="public">
+                                                    {{ __( 'Visible for co-worker & client', 'wedevs-project-manager' ) }}
+                                                </span> -->
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="spinner-wrap" v-if="privacyLoading">
+                                    <div class="task-tool-spinner">
+                                        <div class="bounce1"></div>
+                                        <div class="bounce2"></div>
+                                        <div class="bounce3"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- <do-action :hook="'single_task_inline'" :actionData="doActionData"></do-action> -->
+                            <pm-do-slot :hook="'single_task_tools'" :actionData="doActionData"></pm-do-slot>
+
                         </div>
-                        <do-action :hook="'before_single_task_description'" :actionData="doActionData"></do-action>
-                        <!-- v-if="has_task_permission()" -->
-                        <div id="description-wrap" class="description-wrap">
-                            <div v-if="showdescriptionfield && has_task_permission()" @click.prevent="isTaskDetailsEditMode()"  class="action-content pm-flex">
+
+                        <pm-do-slot :hook="'after_single_task_tools'" :actionData="doActionData"></pm-do-slot>
+                        <!-- <do-action :hook="'before_single_task_description'" :actionData="doActionData"></do-action> -->
+                  
+                        <div class="description-wrap">
+                            <div 
+                                v-if="showdescriptionfield && has_task_permission()" 
+                                @click.prevent="isTaskDetailsEditMode()"  
+                                class="action-content pm-flex"
+                            >
                                 <span>
                                     <span class="icon-pm-align-left"></span>
                                     <span class="task-description">{{ __( 'Description', 'wedevs-project-manager' ) }}</span>
@@ -238,31 +582,19 @@
 
                             <div v-else class="task-details">
 
-                                <div class="pm-des-area pm-desc-content" v-if="!is_task_details_edit_mode">
+                                <div class="pm-des-area" v-if="!is_task_details_edit_mode">
+                                    <h3 class="label">{{ __('Description', 'pm-pro' ) }}</h3>
+                                    <div class="pm-desc-content">
+                                        <div v-if="task.description.content != ''" class="pm-task-description" v-html="task.description.html"></div>
+                                        <a class="task-description-edit-icon" @click.prevent="isTaskDetailsEditMode()" :title="update_description" v-if="can_edit_task(task) && !isArchivedTaskList(task)">
+                                            <i style="font-size: 16px;"  class="fa fa-pencil" aria-hidden="true"></i>
 
-                                    <div v-if="task.description.content != ''" class="pm-task-description" v-html="task.description.html"></div>
-
-                                    <a class="task-description-edit-icon" @click.prevent="isTaskDetailsEditMode()" :title="update_description" v-if="can_edit_task(task) && !isArchivedTaskList(task)">
-                                        <i style="font-size: 16px;"  class="fa fa-pencil" aria-hidden="true"></i>
-
-                                    </a>
+                                        </a>
+                                    </div>
                                 </div>
 
-                                <!-- <textarea
-                                    v-prevent-line-break
-                                    @blur="updateDescription(task, $event)"
-                                    @keyup.enter="updateDescription(task, $event)"
-                                    class="pm-des-area pm-desc-field"
-                                    v-if="is_task_details_edit_mode && can_edit_task(task)"
-                                    v-model="task_description">
-
-                                </textarea>
-                                <div v-if="is_task_details_edit_mode && can_edit_task(task)" class="pm-help-text">
-                                    <span>{{ __( 'Shift+Enter for line break', 'wedevs-project-manager') }}</span>
-                                </div> -->
-
                                 <div v-if="is_task_details_edit_mode && can_edit_task(task) && !isArchivedTaskList(task)" class="item detail">
-                                    <text-editor v-if="is_task_details_edit_mode" :editor_id="'task-description-editor'" :content="content"></text-editor>
+                                    <text-editor :editor_id="'task-description-editor'" :content="content"></text-editor>
                                     <div class="task-description-action">
                                         <a @click.prevent="submitDescription(task)" href="#" class="pm-button pm-primary">{{ __( 'Update', 'wedevs-project-manager' ) }}</a>
                                         <a @click.prevent="closeDescriptionEditor(task)" href="#" class="pm-button pm-secondary">{{ __( 'Cancel', 'wedevs-project-manager' ) }}</a>
@@ -271,11 +603,12 @@
                                 </div>
 
                                 <div class="clearfix pm-clear"></div>
-                                <do-action :hook="'aftre_single_task_details'" :actionData="doActionData"></do-action>
+                                <!-- <do-action :hook="'aftre_single_task_details'" :actionData="doActionData"></do-action> -->
                             </div>
                         </div>
 
-                        <do-action :hook="'aftre_single_task_content'" :actionData="doActionData"></do-action>
+                        <pm-do-slot :hook="'aftre_single_task_time_log'" :actionData="doActionData"></pm-do-slot> 
+                        <pm-do-slot :hook="'aftre_single_task_content'" :actionData="doActionData"></pm-do-slot> 
 
                         <div class="discuss-wrap">
                             <task-comments :task="task" :comments="task.comments.data"></task-comments>
@@ -324,13 +657,495 @@
 </template>
 
 <style lang="less">
-    .task-list-title-wrap {
-        .list-title {
-            font-size: 12px;
-            text-transform: uppercase;
+    .description-wrap {
+        margin-top: 20px;
+
+        .task-details {
+            .pm-des-area {
+                .label {
+                    font-size: 13px;
+                    font-weight: bold;
+                    margin: 0;
+                    padding: 0;
+                    margin-bottom: 5px;
+                }
+
+                .pm-task-description {
+                    p {
+                        margin: 0;
+                    }
+                }
+            }
         }
     }
+
+    .actions-wrap {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        width: 100%;
+
+        .pm-action-wrap {
+            display: flex;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .label {
+            font-size: 13px;
+            font-weight: bold;
+            margin: 0;
+            padding: 0;
+            margin-bottom: 2px;
+        }
+
+        .task-privacy-wrap {
+            .process-privacy-text-wrap {
+                display: flex;
+                align-items: center;
+            }
+
+            .privacy-anchor {
+
+                .pm-toggle-switch {
+                    height: 12px;
+                    width: 20px;
+
+                    &:after {
+                        top: 2px;
+                        width: 8px;
+                        height: 8px;
+                    }
+                }
+            }
+        }
+
+        .task-due-date-wrap {
+            .reportrange-text {
+                border: none;
+                padding: 0;
+            }
+
+            .date-footer {
+                padding: 0.5rem;
+                display: flex;
+                align-items: center;
+
+                .action {
+                    flex: 1;
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-end;
+
+                    .cross {
+                        margin-right: 10px;
+                        padding: 0 0 0 14px;
+
+                        svg {
+                            fill: #e9e9e9;
+                            height: 12px;
+                            width: 12px;
+                        }
+                    }
+                }
+            }
+        }
+
+        .context {
+            margin-bottom: 7px;
+            margin-top: 7px;
+            position: relative;
+            width: 50%;
+            padding-right: 10px;
+
+            .spinner-wrap {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: absolute;
+                left: -5px;
+                right: -5px;
+                top: -5px;
+                bottom: -5px;
+                background-color: rgba(241,241,241,0.65);
+                border-radius: 3px;
+                margin-right: 15px;
+
+                .task-tool-spinner {
+                  
+                  
+                }
+
+                .task-tool-spinner > div {
+                  width: 9px;
+                    height: 9px;
+                    background-color: #72777c;
+                  border-radius: 100%;
+                  display: inline-block;
+                  -webkit-animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+                  animation: sk-bouncedelay 1.4s infinite ease-in-out both;
+                }
+
+                .task-tool-spinner .bounce1 {
+                  -webkit-animation-delay: -0.32s;
+                  animation-delay: -0.32s;
+                }
+
+                .task-tool-spinner .bounce2 {
+                  -webkit-animation-delay: -0.16s;
+                  animation-delay: -0.16s;
+                }
+
+                @-webkit-keyframes sk-bouncedelay {
+                  0%, 80%, 100% { -webkit-transform: scale(0) }
+                  40% { -webkit-transform: scale(1.0) }
+                }
+
+                @keyframes sk-bouncedelay {
+                  0%, 80%, 100% { 
+                    -webkit-transform: scale(0);
+                    transform: scale(0);
+                  } 40% { 
+                    -webkit-transform: scale(1.0);
+                    transform: scale(1.0);
+                  }
+                }
+            }
+
+
+            .display-flex {
+                display: flex;
+                align-items: center;
+            }
+
+
+            .process-text-wrap {
+                display: flex;
+                align-items: center;
+
+                .process-btn {
+                    background: #f1f1f1;
+                    height: 22px;
+                    width: 22px;
+                    border-radius: 50%;
+                    justify-content: center;
+                    
+                    i {
+                        line-height: 0;
+
+                        &:before {
+                            color: #72777c;
+                            font-size: 14px;
+                        }
+                    }
+
+                    svg {
+                        height: 12px;
+                        width: 12px; 
+                        fill: #7f7f7f;   
+                    }
+                }
+
+                .helper-text {
+                    font-size: 13px;
+                    margin-left: 5px;
+                    font-weight: 300;
+                    cursor: pointer;
+                }
+
+                &:hover {
+                    //background: #f7f7f7;
+                    color: #000;
+
+                    .process-btn {
+                        background: #007cba;
+
+                        i {
+                            &:before {
+                                color: #fff;
+                            }
+                        }
+
+                        svg {
+                            fill: #fff;   
+                        }
+                    }
+                }
+            }
+
+            .data-active {
+                display: flex;
+                align-items: center;
+                
+                &:hover {
+                    background: transparent;
+                }
+
+                .process-text-wrap {
+                    cursor: pointer;
+                }
+            }
+
+            .process-results.user-images {
+                display: flex;
+                align-items: center;
+                flex-wrap: wrap;
+                margin-left: 5px;
+
+                .image {
+                    height: 30px;
+                    width: 30px;
+                    border-radius: 50%;
+                    background: #f1f1f1;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border: 1px solid #e5e5e5;
+                    cursor: pointer;
+                    position: relative;
+                    margin-right: 3px;
+
+                    &:last-child {
+                        margin-right: 0;
+                    }
+
+                    &:hover {
+                       > .cross {
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                        } 
+                    }
+                    
+                    .cross {
+                        display: none;
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        height: 100%;
+                        width: 100%;
+                        background-color: #e46c6c;
+                        border-radius: 50%;
+
+                        svg {
+                            height: 8px;
+                            width: 8px;
+                            fill: #fff;
+                        }
+                    }
+
+                    img {
+                        height: 20px;
+                        width: 20px;
+                        border-radius: 50%;
+                    }
+                }
+            }
+
+            .process-results.task-privacy {
+                margin-left: 5px;
+                cursor: pointer;
+                
+                .status {
+                    border-radius: 3px;
+                    display: flex;
+                    align-items: center;
+                    line-height: 1;
+
+                    .info-icon {
+                        line-height: 0;
+                        padding: 0 10px;
+
+                        svg {
+                            height: 12px;
+                            width: 12px;
+                            fill: #858587;
+                        }
+                    }
+                    
+
+                    .public, .private {
+                        background: #f5f6f8;
+                        padding: 2px 5px;
+                        color: #858587;
+                        font-size: 13px;
+                        border-radius: 2px;
+                        font-weight: 400;
+                    }
+                }
+            }
+
+            .process-results.task-date {
+                margin-left: 5px;
+            }
+
+            
+            .process-text-wrap {
+                .privacy-action-label {
+                    margin-right: 5px;
+                    
+                }
+            }
+
+            .process-results {
+                margin-right: 10px;
+            }
+
+            .process-results.task-date {
+                display: flex;
+                align-items: center;
+                border-radius: 2px;
+                position: relative;
+
+                &:hover {
+                    .delete-date-wrap {
+                        display: flex;
+                    } 
+                }
+
+                .delete-date-wrap {
+                    display: none;
+                    position: absolute;
+                    top: 0;
+                    right: 0;
+                    left: 0;
+                    bottom: 0;
+                    background: #cf513d;
+                    border-radius: 2px;
+                    cursor: pointer;
+                    align-items: center;
+                    justify-content: center;
+
+                    .btn {
+
+                        svg {
+                            height: 10px;
+                            width: 10px;
+                            fill: #fff;
+                        }
+                    }
+                }
+
+                .date-wrapper {
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-start;
+                    background-color: rgba(9,30,66,.04);
+                    border-radius: 2px;
+                    padding: 0px 5px;
+                    padding-right: 0;
+                    font-size: 12px;
+
+                    .start, 
+                    .seperator, 
+                    .due {
+                        margin-right: 5px;
+                        font-weight: 400;
+                    }
+
+                    .relative {
+                        background: #e5e5e5;
+                        padding: 1px 5px;
+                        font-weight: 400;
+                        border-top-right-radius: 2px;
+                        color: #71767c;
+                        border-bottom-right-radius: 2px;
+                    }
+                }
+
+                .status {
+                    border-radius: 3px;
+                    font-size: 12px;
+
+                    .current {
+                        background: #61be4f;
+                        padding: 2px 5px;
+                        color: #fff;
+                        font-size: 13px;
+                        border-radius: 3px;
+                        font-weight: 300;
+                        margin-right: 10px;
+                    }
+
+                    .overdue {
+                        background: #cf513d;
+                        padding: 2px 5px;
+                        color: #fff;
+                        font-size: 13px;
+                        border-radius: 3px;
+                        font-weight: 300;
+                        margin-right: 10px;
+                    }
+                }
+            }
+
+            .process-text-wrap.due-date {
+                color: #cf513d;
+
+                .process-btn {
+                    svg {
+                        fill: #cf513d;
+                    }
+                }
+
+                .relative {
+                    color: #cf513d !important;
+                }
+
+                &:hover {
+                    .process-btn {
+                        svg {
+                            fill: #fff;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+    .task-title-wrap {
+        &:hover {
+            .pm-task-title-span { 
+                padding: 6px;
+                cursor: pointer;
+                border-style: solid;
+                border-width: 1px;
+                border-top-color: #cecece;
+                border-left-color: #cecece;
+                border-right-color: #f1f1f1;
+                border-bottom-color: #f1f1f1;
+            } 
+        }
+
+        .pm-task-title-span {
+            display: block;
+            padding: 6px 0;
+            transition: all 0.5s ease-out;
+            border-radius: 3px;
+            border: 1px solid #fff;
+        }
+    }
+
+    .task-list-title-wrap {
+        .task-list-title-text {
+            font-size: 13px;
+            font-weight: bold;
+            color: #23282d;
+        }
+        .list-title {
+            font-size: 12px;
+            color: #202020;
+            font-weight: 400;
+
+        }
+    }
+
     .pm-single-task-wrap {
+        .discuss-wrap {
+            margin-top: 20px;
+        }
+
         .option-icon-groups {
             .pm-action-wrap {
                 display: flex;
@@ -403,7 +1218,10 @@
                 show_spinner_status: false,
                 show_spinner: false,
                 taskUpdating: false,
-                truckTitleUpdate: ''
+                truckTitleUpdate: '',
+                memberLoading: false,
+                dateLoading: false,
+                privacyLoading: false
             }
         },
 
@@ -453,25 +1271,27 @@
                  * @param array selected_users
                  */
                 set ( selected_users ) {
-                    if(this.show_spinner) {
-                        return;
-                    }
-                    var self = this;
-                    this.assigned_to = selected_users.map(function (user) {
-                        return user.id;
-                    });
+                    // if(this.show_spinner) {
+                    //     return;
+                    // }
+                    // var self = this;
+                    // this.assigned_to = selected_users.map(function (user) {
+                    //     return user.id;
+                    // });
 
-                    this.task.assignees.data = selected_users;
+                    // this.task.assignees.data = selected_users;
 
-                    this.updateTaskElement(this.task, function(res) {
+                    this.updateUserRequest( selected_users );
+
+                    // this.updateTaskElement(this.task, function(res) {
                         
-                        pmBus.$emit('after_update_single_task_user', {
-                            beforeUpdate: self.task, 
-                            afterUpdate: res.data
-                        });
+                    //     pmBus.$emit('after_update_single_task_user', {
+                    //         beforeUpdate: self.task, 
+                    //         afterUpdate: res.data
+                    //     });
 
-                        self.task.assignees.data = res.data.assignees.data; 
-                    });
+                    //     self.task.assignees.data = res.data.assignees.data; 
+                    // });
                 }
             },
             isTaskLock () {
@@ -519,12 +1339,64 @@
                 }
             });
         },
+        
         destroyed () {
             this.task = {};
             this.list = {};
         },
 
         methods: {
+            getStartDate () {
+                return this.task.start_at.date ? new Date(this.task.start_at.date ) : pm.Moment()
+            },
+
+            getEndDate () {
+                return this.task.due_date.date ? new Date(this.task.due_date.date) : pm.Moment()
+            },
+
+            deleteUser (user) {
+                let index = this.getIndex( this.task.assignees.data, user.id, 'id' );
+
+                if( index !== false ) {
+                    this.task.assignees.data.splice( index, 1 );
+
+                    this.updateUserRequest( this.task.assignees.data );
+                }
+
+                
+            },
+
+            updateUserRequest (selected_users) {
+
+                if(this.show_spinner) {
+                    return;
+                }
+                var self = this;
+                this.assigned_to = selected_users.map(function (user) {
+                    return user.id;
+                });
+
+                this.task.assignees.data = selected_users;
+                self.memberLoading = true;
+                this.updateTaskElement(this.task, function(res) {
+                    self.memberLoading = false;
+                    pmBus.$emit('after_update_single_task_user', {
+                        beforeUpdate: self.task, 
+                        afterUpdate: res.data
+                    });
+
+                    self.task.assignees.data = res.data.assignees.data; 
+                });
+            },
+
+            // popper options
+            popperOptions () {
+                return {
+                    placement: 'bottom-end',
+                    modifiers: { offset: { offset: '0, 3px' } },
+                }
+            },
+
             warningTitleCharacterLimit () {
                 if(this.task.title.length >= 200) {
                     pm.Toastr.warning(__('Maxmim character limit 200', 'wedevs-project-manager'));
@@ -542,26 +1414,112 @@
                 this.updateTaskElement(task);
             },
 
-            callBackDatePickerForm (date) {
-
-                let dateFrom = {
-                    id: 'singleTask',
-                    field: 'datepicker_from',
-                    date: date
-                }
-
-                this.fromDate(dateFrom);
+            closeDatePopUp() {
+                jQuery('.task-due-date-wrap').trigger('click');
             },
 
-            callBackDatePickerTo (date) {
+            deleteDate () {
 
-                let dateTo = {
-                    id: 'singleTask',
-                    field: 'datepicker_to',
-                    date: date
+                if(!this.task.start_at.date && !this.task.due_date.date) {
+                    return;
                 }
 
-                this.fromDate(dateTo);
+                this.fromDate( {
+                    id: 'singleTask',
+                    field: 'datepicker_from',
+                    date: '' 
+                } );
+
+                this.fromDate( {
+                    id: 'singleTask',
+                    field: 'datepicker_to',
+                    date: ''
+                } );
+            },
+
+            onChangeDate (star, end) {
+
+                if(this.task_start_field) {
+                    
+                    this.task.start_at.date = pm.Moment(star).format('YYYY-MM-DD');
+                    this.task.due_date.date = pm.Moment(end).format('YYYY-MM-DD');
+                    
+                    this.fromDate( {
+                        id: 'singleTask',
+                        field: 'datepicker_from',
+                        date: this.task.start_at.date 
+                    } );
+
+                    this.fromDate( {
+                        id: 'singleTask',
+                        field: 'datepicker_to',
+                        date: this.task.due_date.date 
+                    } );
+                
+                } else {
+                    this.task.due_date.date = pm.Moment(end).format('YYYY-MM-DD');
+                    
+                    this.fromDate( {
+                        id: 'singleTask',
+                        field: 'datepicker_to',
+                        date: this.task.due_date.date 
+                    } );
+                }
+            },
+
+            // onChangeDate (date) {
+
+            //     if(this.task_start_field) {
+                    
+            //         this.task.start_at.date = pm.Moment(date.startDate).format('YYYY-MM-DD');
+            //         this.task.due_date.date = pm.Moment(date.endDate).format('YYYY-MM-DD');
+                    
+            //         this.fromDate( {
+            //             id: 'singleTask',
+            //             field: 'datepicker_from',
+            //             date: this.task.start_at.date 
+            //         } );
+
+            //         this.fromDate( {
+            //             id: 'singleTask',
+            //             field: 'datepicker_to',
+            //             date: this.task.due_date.date 
+            //         } );
+                
+            //     } else {
+            //         this.task.due_date.date = pm.Moment(date.endDate).format('YYYY-MM-DD');
+                    
+            //         this.fromDate( {
+            //             id: 'singleTask',
+            //             field: 'datepicker_to',
+            //             date: this.task.due_date.date 
+            //         } );
+            //     }
+            // },
+
+            //currently no need this method, but set save button in datepicker then its occure
+            saveDate () {
+                if(this.task_start_field) {
+                    
+                    this.fromDate( {
+                        id: 'singleTask',
+                        field: 'datepicker_from',
+                        date: this.task.start_at.date 
+                    } );
+
+                    this.fromDate( {
+                        id: 'singleTask',
+                        field: 'datepicker_to',
+                        date: this.task.due_date.date 
+                    } );
+                
+                } else {
+                    this.fromDate( {
+                        id: 'singleTask',
+                        field: 'datepicker_to',
+                        date: this.task.due_date.date 
+                    } );
+                }
             },
 
             submitDescription (task) {
@@ -700,7 +1658,7 @@
                 var self = this;
                 var args = {
                     condition : {
-                        with: 'boards,comments,activities',
+                        with: 'boards,comments,activities,project',
                     },
                     task_id : self.task_id ? self.task_id : this.taskId,
                     project_id: self.projectId ? self.projectId : self.project_id,
@@ -739,8 +1697,9 @@
             },
 
 
-            has_task_permission(){
-               var permission =  this.can_edit_task(this.task) ;
+            has_task_permission() {
+               var permission =  this.can_edit_task(this.task);
+
                return permission ;
             },
 
@@ -752,7 +1711,8 @@
                     return false;
                 }
 
-                this.is_enable_multi_select = ! this.is_enable_multi_select;
+                this.is_enable_multi_select = this.is_enable_multi_select ? false : true;
+                
                 pm.Vue.nextTick(() => {
                     this.$refs.assingTask.$el.focus();
 
@@ -760,6 +1720,8 @@
             },
 
             fromDate (date) {
+                var self = this;
+
                 if ( date.id == 'singleTask' && date.field == 'datepicker_from' ) {
 
                     if (this.task.due_date.date) {
@@ -774,8 +1736,13 @@
                     }
 
                     this.task.start_at.date = date.date;
-
-                    this.updateTaskElement(this.task);
+                    
+                    self.dateLoading = true;
+                    
+                    this.updateTaskElement(this.task, () => {
+                        self.dateLoading = false;
+                        self.closeDatePopUp();
+                    });
                 }
 
                 if ( date.id == 'singleTask' && date.field == 'datepicker_to' ) {
@@ -818,7 +1785,7 @@
 
                 if ( !this.can_edit_task(this.task) ) {
                     this.is_task_details_edit_mode = false;
-                }else {
+                } else {
                     this.task_description  = this.task.description.content;
                     this.is_task_details_edit_mode = true;
                 }
@@ -868,9 +1835,9 @@
                 if (this.isArchivedTaskList(this.task)) {
                     return;
                 }
-                var start = new Date(task.start_at.date);
-                var end  = new Date(task.due_date.date);
-                var compare = pm.Moment(end).isBefore(start);
+                var start      = new Date(task.start_at.date);
+                var end        = new Date(task.due_date.date);
+                var compare    = pm.Moment(end).isBefore(start);
                 var project_id = this.project_id ? this.project_id : task.project_id;
 
                 if(
@@ -912,29 +1879,36 @@
                     
                     success (res) {
                         pmBus.$emit('pm_after_update_single_task', res);
+                        
                         self.is_task_title_edit_mode = false;
                         self.closeDescriptionEditor();
                         self.task.description = res.data.description;
                         self.$store.commit('updateProjectMeta', 'total_activities');
+                        
                         if ( typeof self.task.activities !== 'undefined' ) {
                             self.task.activities.data.unshift(res.activity.data);
                         } else {
                             self.task.activities = { data: [res.activity.data] };
                         }
+                        
                         self.show_spinner = false;
 
                         if(typeof callback != 'undefined') {
-                            callback(res);
+                            callback(res, true);
                         }
-
-
                     },
+
                     error (res) {
                         res.responseJSON.message.map( function( value, index ) {
                             pm.Toastr.error(value);
                         });
+
+                        if(typeof callback != 'undefined') {
+                            callback(res, false);
+                        }
                     }
                 }
+
                 this.show_spinner = true;
                 this.httpRequest(request_data);
             },
@@ -958,6 +1932,7 @@
             },
 
             isTaskDateEditMode () {
+
                 if (this.isArchivedTaskList(this.task)) {
                     return this.is_task_date_edit_mode = false;
                 }
@@ -977,7 +1952,7 @@
 
             windowActivity (el) {
                 var title_blur      = jQuery(el.target).hasClass('pm-task-title-activity'),
-                    dscription_blur = jQuery(el.target).closest('#description-wrap'),
+                    dscription_blur = jQuery(el.target).closest('.description-wrap'),
                     assign_user     = jQuery(el.target).closest( '#pm-multiselect-single-task' ),
                     actionMenu      = jQuery(el.target).closest( '#pm-action-menu' ),
                     modal           = jQuery(el.target).closest( '.popup-container' ),
@@ -1006,7 +1981,7 @@
                     //this.is_task_details_edit_mode = false;
                 }
                 if ( ! assign_user.length ) {
-                    this.is_enable_multi_select = false;
+                    //this.is_enable_multi_select = false;
                 }
 
                 this.datePickerDispaly(el);
@@ -1034,6 +2009,7 @@
                     type: 'POST',
                     data: data,
                     success (res) {
+                        self.privacyLoading = false;
                         //task.meta.privacy = data.is_private;
                         pm.Vue.set( task.meta, 'privacy', data.is_private );
 
@@ -1052,6 +2028,8 @@
                         });
                     }
                 }
+
+                self.privacyLoading = true;
                 self.httpRequest(request_data);
             },
 
