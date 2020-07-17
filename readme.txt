@@ -5,7 +5,7 @@ Tags: project, project manager, project management, web project management, task
 Requires at least: 4.4 or higher
 Tested up to: 5.4.2
 Requires PHP: 5.6
-Stable tag: 2.3.11
+Stable tag: 2.4.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -238,6 +238,17 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 
 == Changelog ==
+
+= v2.4.0 - Jul 17, 2020 =
+
+* **New** Component for pm-vue2-daterange-picker, pm-button, pm-do-slot.
+* **New** Change all date picker from all forms.
+* **New** Manage do-action content without any wrapper.
+* **New** API end point is now working for all permalink.
+* **Update** UI/UX for creating new task.
+* **Update** UI/UX for add new members from single task popup.
+* **Update** UI/UX for task due date from single task popup.
+* **Fix** Could not download files from the project.
 
 = v2.3.11 - Jun 16, 2020 =
 

@@ -1,3 +1,14 @@
+= v2.4.0 - Jul 17, 2020 =
+
+* **New** Component for pm-vue2-daterange-picker, pm-button, pm-do-slot.
+* **New** Change all date picker from all forms.
+* **New** Manage do-action content without any wrapper.
+* **New** API end point is now working for all permalink.
+* **Update** UI/UX for creating new task.
+* **Update** UI/UX for add new members from single task popup.
+* **Update** UI/UX for task due date from single task popup.
+* **Fix** Could not download files from the project.
+
 = v2.3.11 - Jun 16, 2020 =
 
 * **Fix** API end point is now working for all permalink.

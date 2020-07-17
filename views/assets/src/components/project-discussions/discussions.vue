@@ -13,6 +13,7 @@
                 </div>
             </div>
         </div>
+
         <!-- {{ pm.i18n.__('Add List', 'cpm') }} -->
         <div class="pm-discussion pm-discussion-container" v-if="isFetchDiscussion">
             <div class="pm-blank-template discussion" v-if="blankTemplate">
@@ -169,18 +170,22 @@
                 delete_this_message: __('Delete this message', 'wedevs-project-manager'),
                 make_it_private: __('Make it private', 'wedevs-project-manager'),
                 current_page_number: 1,
+                header: 'this is custom header'
             }
         },
+
         watch: {
             '$route' (route) {
                 this.discussQuery();
             }
         },
+
         components: {
             'pm-header': header,
             'new-discuss-form': new_discuss_form,
             'pm-pagination': pagination,
         },
+
         computed: {
             discussTemplate () {
                 return this.$store.state.projectDiscussions.discuss_template;
@@ -204,6 +209,7 @@
                 return this.$root.$store.state.projectDiscussLoaded;
             }
         },
+        
         methods: {
             discussQuery () {
                 var self = this;
