@@ -6,6 +6,7 @@ const plugins = [];
 const isProduction = (process.env.NODE_ENV == 'production');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin');
+const DependencyExtractionWebpackPlugin = require( '@wordpress/dependency-extraction-webpack-plugin' );
 
 //Remove all webpack build file
 shell.rm('-rf', outputPath)
@@ -60,7 +61,7 @@ module.exports =[
               '@src': resolve('')
             }
         },
-
+        
         module: {
             rules: [
                 // doc url https://vue-loader.vuejs.org/en/options.html#loaders

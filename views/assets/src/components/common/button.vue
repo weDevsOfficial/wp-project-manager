@@ -39,7 +39,7 @@
 		</a>
 
 	    <button
-	    	@click.prevent="onClick()"
+	    	@click.self.prevent="onClick()"
 	    	v-if="type=='button'"
 	    	:class="{
 	    		'pm-single-button': true,

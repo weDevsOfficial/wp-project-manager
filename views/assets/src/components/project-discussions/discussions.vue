@@ -13,11 +13,7 @@
                 </div>
             </div>
         </div>
-        <test>
-            <template slot="header">
-                sdfhsli fgslifh 
-            </template>
-        </test>
+
         <!-- {{ pm.i18n.__('Add List', 'cpm') }} -->
         <div class="pm-discussion pm-discussion-container" v-if="isFetchDiscussion">
             <div class="pm-blank-template discussion" v-if="blankTemplate">
@@ -158,8 +154,6 @@
     import pagination from './../common/pagination.vue';
     import Mixins from './mixin';
 
-    import Test from './test.vue';
-
     export default {
         beforeRouteEnter (to, from, next) {
             next(vm => {
@@ -179,17 +173,19 @@
                 header: 'this is custom header'
             }
         },
+
         watch: {
             '$route' (route) {
                 this.discussQuery();
             }
         },
+
         components: {
             'pm-header': header,
             'new-discuss-form': new_discuss_form,
             'pm-pagination': pagination,
-            'test': Test
         },
+
         computed: {
             discussTemplate () {
                 return this.$store.state.projectDiscussions.discuss_template;
@@ -213,6 +209,7 @@
                 return this.$root.$store.state.projectDiscussLoaded;
             }
         },
+        
         methods: {
             discussQuery () {
                 var self = this;

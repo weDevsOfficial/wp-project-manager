@@ -6,6 +6,8 @@ use WP_REST;
 class Enqueue_Scripts {
 
 	public static function scripts() {
+		
+		wp_enqueue_media();
 
 		$scripts_id = [
 			'pm-config',

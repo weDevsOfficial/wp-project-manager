@@ -1,7 +1,6 @@
 <template>
 	<div class="pm-vue2-daterange-picker">
 		<date-range-picker
-	        ref="picker"
 	        :opens="opens"
 	        :locale-data="localeData"
 	        :minDate="minDate" 
@@ -69,6 +68,10 @@
 				fill: #000;
 			}
 		}
+
+		.vue-daterange-picker {
+			min-width: auto !important
+		}
 	}
 
 	.vue-daterange-picker {
@@ -114,22 +117,15 @@
 				}
 			},
 
-			ref: {
-				type: [String],
-				default () {
-					return 'picker'
-				}
-			},
-
 			minDate: {
-				type: [String],
+				type: [String, Date],
 				default () {
 					return new Date('01-01-1970')
 				}
 			},
 
 			maxDate: {
-				type: [String],
+				type: [String, Date],
 				default () {
 					return new Date('01-01-2040')
 				}
@@ -185,14 +181,14 @@
 			},
 
 			startDate: {
-				type: [String, Object],
+				type: [String, Object, Date],
 				default () {
 					return new Date()
 				}
 			},
 
 			endDate: {
-				type: [String, Object],
+				type: [String, Object, Date],
 				default () {
 					return new Date()
 				}
@@ -222,7 +218,7 @@
 			},
 
 			disabledCancelBtn: {
-				type: [Object],
+				type: [Boolean],
 				default () {
 					return false
 				}
