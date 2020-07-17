@@ -1459,13 +1459,14 @@ export default {
 
         can_edit_task (task) {
             var user = PM_Vars.current_user;
+            
             if (this.is_manager()) {
                 return true;
             }
             
-            if (typeof task.id  === 'undefined' && this.can_create_task) {
-                return true;
-            }
+            // if (typeof task.id  === 'undefined' && this.user_can("create_task")) {
+            //     return true;
+            // }
 
             let creatorId = task.creator.data.id ? task.creator.data.id : task.creator.data.ID;
             
