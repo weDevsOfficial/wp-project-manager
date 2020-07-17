@@ -1698,7 +1698,8 @@
 
 
             has_task_permission() {
-               var permission =  this.can_edit_task(this.task) ;
+               var permission =  this.can_edit_task(this.task);
+
                return permission ;
             },
 
