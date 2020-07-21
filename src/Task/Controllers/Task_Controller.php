@@ -1166,7 +1166,7 @@ class Task_Controller {
         $task_collection = apply_filters( 'list_tasks_filter_query', $task_collection, $args );
 
         $task_collection = $task_collection->get();
-
+        
         $task_transformer = new List_Task_Transformer();
         $task_transformer->list_task_transormer_filter = $args['list_task_transormer_filter'];
 
