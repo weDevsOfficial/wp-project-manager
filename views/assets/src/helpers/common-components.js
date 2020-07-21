@@ -27,6 +27,7 @@ import DropDownMenu from '@components/common/dropdown-menu.vue';
 import Button from '@components/common/button.vue';
 import DoSlot from '@components/common/do-slot.vue';
 import Vue2DateRangePicker from '@components/common/vue2-daterange-picker.vue'
+import FullCalendar from '@components/common/fullcalendar.vue'
 
 pm.Vue.component('pm-pagination', pagination);
 pm.Vue.component('pm-date-picker', datePicker);
@@ -57,6 +58,7 @@ pm.Vue.component('pm-triangle-box', Triangle);
 pm.Vue.component('pm-dropdown-menu', DropDownMenu);
 pm.Vue.component('pm-button', Button);
 pm.Vue.component('pm-do-slot', DoSlot);
+pm.Vue.component('pm-calendar', FullCalendar);
 
 
 
