@@ -1,66 +1,72 @@
 <template>
     <div class="pm-task-create-fields">
-        
-        <div class="fields">
+        <div v-if="hasProjects()">
+            <div class="fields">
+                
+                <label v-if="selectedProjects"  class="label">{{__('Project', 'wedevs-project-manager')}}</label>
+                
+                <pm-project-drop-down 
+                    @afterGetProjects="afterGetProjects"
+                    @onChange="changeProject"
+                    :selectedProjects="selectedProjects"
+                    :class="selectedProjects ? 'display-block' : 'display-none'"
+                    :optionProjects="projects"
+                    :options="options"
+                    :defaultProjects="defaultProjects"
+                />
             
-            <label v-if="selectedProjects"  class="label">{{__('Project', 'wedevs-project-manager')}}</label>
-            
-            <pm-project-drop-down 
-                @afterGetProjects="afterGetProjects"
-                @onChange="changeProject"
-                :selectedProjects="selectedProjects"
-                :class="selectedProjects ? 'display-block' : 'display-none'"
-                :optionProjects="projects"
-                :options="options"
-            />
-        
-            <div v-if="selectedProjects == ''" class="loading-animation">
-                <div class="loading-projects-title">{{ __( 'Loading projects', 'wedevs-project-manager') }}</div>
-                <div class="load-spinner">
-                    <div class="rect1"></div>
-                    <div class="rect2"></div>
-                    <div class="rect3"></div>
-                    <div class="rect4"></div>
+                <div v-if="selectedProjects == ''" class="loading-animation">
+                    <div class="loading-projects-title">{{ __( 'Loading projects', 'wedevs-project-manager') }}</div>
+                    <div class="load-spinner">
+                        <div class="rect1"></div>
+                        <div class="rect2"></div>
+                        <div class="rect3"></div>
+                        <div class="rect4"></div>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        
-        <div class="fields list-dropdown" v-if="projectId">
-            <label v-if="selectedLists" class="label">{{__('In List', 'wedevs-project-manager')}}</label>
-            <pm-list-drop-down 
-                :projectId="parseInt(projectId)"
-                @afterGetLists="afterGetLists"
-                :selectedLists="selectedLists"
-                @onChange="changeList"
-                :class="selectedLists ? 'display-block' : 'display-none'"
-            />
+            
+            <div class="fields list-dropdown" v-if="projectId">
+                <label v-if="selectedLists" class="label">{{__('In List', 'wedevs-project-manager')}}</label>
+                <pm-list-drop-down 
+                    :projectId="parseInt(projectId)"
+                    @afterGetLists="afterGetLists"
+                    :selectedLists="selectedLists"
+                    @onChange="changeList"
+                    :class="selectedLists ? 'display-block' : 'display-none'"
+                />
 
-            <div v-if="selectedLists == ''" class="loading-animation">
-                <div class="loading-projects-title">{{ __( 'Loading task lists', 'wedevs-project-manager') }}</div>
-                <div class="load-spinner">
-                    <div class="rect1"></div>
-                    <div class="rect2"></div>
-                    <div class="rect3"></div>
-                    <div class="rect4"></div>
+                <div v-if="selectedLists == ''" class="loading-animation">
+                    <div class="loading-projects-title">{{ __( 'Loading task lists', 'wedevs-project-manager') }}</div>
+                    <div class="load-spinner">
+                        <div class="rect1"></div>
+                        <div class="rect2"></div>
+                        <div class="rect3"></div>
+                        <div class="rect4"></div>
+                    </div>
                 </div>
             </div>
+            
+            <div class="fields" v-if="listId && hasPermissionToCreateTask(selectedProjects)">
+                <label class="label">{{__('Task', 'wedevs-project-manager')}}</label>
+                <pm-new-task-form  
+                    :task="task" 
+                    :list="list"
+                    :projectId="parseInt(projectId)"
+                    :taskTypeField="taskTypeField"
+                    :estimationField="estimationField"
+                    @pm_after_create_task="afterCreateTask"
+                />
+                        
+            </div>
+            <div v-if="!hasPermissionToCreateTask(selectedProjects)">
+                {{ __( 'You have no permission to create task for this project', 'wedevs-project-manager' ) }}
+            </div>  
         </div>
-        
-        <div class="fields" v-if="listId && hasPermissionToCreateTask(selectedProjects)">
-            <label class="label">{{__('Task', 'wedevs-project-manager')}}</label>
-            <pm-new-task-form  
-                :task="task" 
-                :list="list"
-                :projectId="parseInt(projectId)"
-                :taskTypeField="taskTypeField"
-                :estimationField="estimationField"
-                @pm_after_create_task="afterCreateTask"
-            />
-                    
-        </div>
-        <div v-if="!hasPermissionToCreateTask(selectedProjects)">
-            {{ __( 'You have no permission to create task for this project', 'wedevs-project-manager' ) }}
+
+        <div v-else>
+            <span>{{ 'No project found!', 'pm-pro' }}</span>
         </div>
         
     </div>
@@ -76,6 +82,13 @@
                 type: [Array],
                 default () {
                     return []
+                }
+            },
+
+            defaultProjects: {
+                type: [Boolean],
+                default () {
+                    return true
                 }
             },
 
@@ -132,7 +145,23 @@
             }
         },
 
+        created () {
+            
+        },
+
         methods: {
+
+            hasProjects () {
+                if ( this.defaultProjects ) {
+                    return true;
+                }
+
+                if ( this.projects.length ) {
+                    return true;
+                }
+
+                return false;
+            },
 
             hasPermissionToCreateTask ( project ) {
                 if( PM_Vars.is_pro != 1 ) {
