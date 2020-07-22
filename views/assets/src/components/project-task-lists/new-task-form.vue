@@ -308,13 +308,13 @@ export default {
 
         estimationField: {
             type: [Boolean],
-            default: true
+            default: false
         },
 
         taskTypeField: {
             type: [Boolean],
             default () {
-                return true
+                return false
             }
         },
     },
