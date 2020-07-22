@@ -242,7 +242,11 @@ class Task_Controller {
     }
 
     public function insert_type ( $task_id, $type_id, $project_id, $list_id ) {
-        if ( empty( intval( $task_id ) || empty( intval( $type_id ) ) ) ) {
+        if ( empty( (int) $task_id ) ) {
+            return;
+        }
+
+        if ( empty( (int) $type_id  ) ) {
             return;
         }
 

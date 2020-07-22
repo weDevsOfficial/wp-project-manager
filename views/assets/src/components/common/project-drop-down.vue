@@ -2,7 +2,7 @@
 	<multiselect
 		class="pm-common-multiselect"
 		v-model="project"
-        :options="projects"
+        :options="filterProjectsByStatus(projects)"
         :multiple="multiple"
         :show-labels="true"
         :placeholder="options.placeholder"
@@ -138,9 +138,9 @@
             },
 
             status: {
-                type: [Array],
+                type: [String],
                 default () {
-                    return []
+                    return 'incomplete'
                 }
             },
 
@@ -158,6 +158,7 @@
                 }
             },
 		},
+
 		data () {
 			return {
 				//projects: [],
@@ -167,6 +168,7 @@
                 project: ''
 			}
 		},
+
 		components: {
 			'multiselect': pm.Multiselect.Multiselect
 		},
@@ -190,13 +192,47 @@
         },
 
 		methods: {
+            filterProjectsByStatus (projects) {
+                var returnData = [];
+                var status = {
+                    'incomplete': 0,
+                    'complete': 1,
+                    'pending': 2,
+                    'archived': 3
+                }
+
+                if(this.status) {
+                    var numeric =  status[this.status];
+
+                    projects.forEach( project => {
+
+                        //if db project status get as string 
+                        if ( project.status == this.status ) {
+                            returnData.push(project);
+                        }
+
+                        //if db project status get as number 
+                        if ( project.status == numeric ) {
+                            returnData.push(project);
+                        }
+
+                    } )
+                } else {
+                    return projects;
+                }
+                
+                return returnData;
+            },
+
             hasPropsProjects () {
                  if ( this.optionProjects.length ) {
                     this.$store.commit( 'setDropDownProjects', this.optionProjects );
                 }
             },
+
             formatSelectedProjectsId () {
                 var self = this;
+                
                 if( this.is_object(this.selectedProjects) ) {
                     this.project = Object.assign({}, this.selectedProjects)
                 }
@@ -209,6 +245,7 @@
                     } )
                 }
             },
+
             formatProjects(projects) {
                 var self = this;
                 self.afterGetProjects( projects );
@@ -252,18 +289,17 @@
 					}
 				}
 				this.getProjects( args );
-				
-    //             else {
-    //                 self.formatProjects( this.$store.state.projects );
-				// } 
 			},
+
 			getProjects (args) {
 	            var self = this;
+
 	            var request = {
 	                url: self.base_url + 'pm/v2/projects',
                     data: {
-                        select: 'id, title',
+                        select: 'id, title, status',
                         with: 'assignees',
+                        status: this.status,
                         per_page: 100
                     },
 	                success (res) {
@@ -279,6 +315,7 @@
 
 	            self.httpRequest(request);
 	        },
+
 	        asyncProjectsFind (title) {
                 if(title == '') return;
                 var self = this;
@@ -305,6 +342,7 @@
                     data: {
                         select: 'id, title',
                         with: 'assignees',
+                        status: self.status,
                         per_page: 100
                     },
                     success: function(res) {
