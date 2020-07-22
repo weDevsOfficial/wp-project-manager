@@ -386,6 +386,7 @@ export default {
     created: function() {
         this.$on( 'pm_date_picker', this.getDatePicker );
 
+        this.setProjectId();
         this.setTaskType();
         this.formatTaskUsers();
 
@@ -477,6 +478,18 @@ export default {
     },
 
     methods: {
+        setProjectId() {
+            if ( parseInt(this.projectId) ) {
+                return;
+            }
+
+            if ( typeof this.list.project_id != 'undefined' ) {
+                this.projectId = this.list.project_id;
+            } else {
+                this.projectId = this.project_id;
+            }
+        },
+
         formatTaskUsers () {
             return this.task.assignees.data.map( user => {
                 user.id = parseInt( user.id );
@@ -769,6 +782,7 @@ export default {
             }
             
             var self = this;
+            
             this.submit_disabled = true;
             // Showing loading option 
             this.show_spinner = true;
@@ -788,7 +802,7 @@ export default {
                     type_id: this.typeId,
                     order: this.task.order,
                     recurrent: this.task.recurrent,
-                    project_id: typeof this.list.project_id != 'undefined' ? this.list.project_id : this.projectId
+                    project_id: this.projectId
                 },
 
                 callback: function( self, res ) { 
