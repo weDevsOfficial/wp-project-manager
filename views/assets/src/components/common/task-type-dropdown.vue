@@ -185,6 +185,7 @@
                     this.$store.commit( 'setDropDownTaskTypes', this.options );
                 }
             },
+
             formatSelectedTaskTypesId () {
                 var self = this;
                 if( this.is_object(this.selectedTaskTypes) ) {
@@ -199,6 +200,7 @@
                     } )
                 }
             },
+            
             formatTaskTypes(taskTypes) {
                 var self = this;
 

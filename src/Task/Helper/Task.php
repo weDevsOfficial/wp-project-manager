@@ -190,27 +190,28 @@ class Task {
 	public function fromat_task( $task ) {
 
 		$items = [
-			'id'           => (int) $task->id,
-			'title'        => (string) $task->title,
-			'description'  => [ 'html' => pm_get_content( $task->description ), 'content' => $task->description ],
-			'estimation'   => $task->estimation*60,
-			'formated_estimation'   => pm_second_to_time( $task->estimation*60 ),
-			'start_at'     => format_date( $task->start_at ),
-			'due_date'     => format_date( $task->due_date ),
-			'complexity'   => $this->complexity( $task->complexity ),
-            'priority'     => $this->priorities( $task->priority ),
-            'order'        => empty( $task->order ) ? 0 : intval($task->order), 
-            'payable'      => $this->payability( $task->payable ),
-			'recurrent'    => $this->recurrency( $task->recurrent ),
-			'parent_id'    => (int) $task->parent_id,
-			'status'       => $this->status( $task->status ),
-			'category_id'  => empty( $task->type['id'] ) ? '' : (int) $task->type['id'],
-			'created_at'   => format_date( $task->created_at ),
-			'created_by'   => (int) $task->created_by,
-			'completed_at' => format_date( $task->completed_at ),
-			'updated_at'   => format_date( $task->updated_at ),
-			'creator'      => [ 'data' => $this->user_info( $task->created_by ) ],
-			'updater'      => [ 'data' => $this->user_info( $task->updated_by ) ]
+			'id'                  => (int) $task->id,
+			'title'               => (string) $task->title,
+			'description'         => [ 'html' => pm_get_content( $task->description ), 'content' => $task->description ],
+			'estimation'          => $task->estimation,
+			'comparable_estimation'   => $task->comparable_estimation,
+			'formated_com_est' => pm_second_to_time( $task->comparable_estimation*60 ),
+			'start_at'            => format_date( $task->start_at ),
+			'due_date'            => format_date( $task->due_date ),
+			'complexity'          => $this->complexity( $task->complexity ),
+			'priority'            => $this->priorities( $task->priority ),
+			'order'               => empty( $task->order ) ? 0 : intval($task->order), 
+			'payable'             => $this->payability( $task->payable ),
+			'recurrent'           => $this->recurrency( $task->recurrent ),
+			'parent_id'           => (int) $task->parent_id,
+			'status'              => $this->status( $task->status ),
+			'category_id'         => empty( $task->type['id'] ) ? '' : (int) $task->type['id'],
+			'created_at'          => format_date( $task->created_at ),
+			'created_by'          => (int) $task->created_by,
+			'completed_at'        => format_date( $task->completed_at ),
+			'updated_at'          => format_date( $task->updated_at ),
+			'creator'             => [ 'data' => $this->user_info( $task->created_by ) ],
+			'updater'             => [ 'data' => $this->user_info( $task->updated_by ) ]
         ];
 
   //       $select_items = empty( $this->query_params['select'] ) ? false : $this->query_params['select'];
@@ -429,6 +430,11 @@ class Task {
 		}
 
 		if ( pm_get_estimation_type() == 'task' ) {
+			
+			foreach ( $this->tasks as $key => $task ) {
+				$task->comparable_estimation = $task->estimation;
+			}
+
 			return $this;
 		}
 
@@ -454,8 +460,7 @@ class Task {
 		}
 		
 		foreach ( $this->tasks as $key => $task ) {
-
-			$task->estimation = empty( $estimations[$task->id] ) ? 0 : $estimations[$task->id]->estimation; 
+			$task->comparable_estimation = empty( $estimations[$task->id] ) ? 0 : $estimations[$task->id]->estimation; 
 		}
 
 		return $this->tasks;
