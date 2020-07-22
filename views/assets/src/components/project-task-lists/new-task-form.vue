@@ -33,7 +33,7 @@
                             <div class="action-icons process-fields" v-if="focusField">
                                 <div class="process-content-1">
                                     <div class="task-users process-field">
-                                        <pm-popper trigger="click" :options="popperOptions">
+                                        <pm-popper trigger="click" :options="popperOptions()">
                                             <div class="pm-popper popper">
                                                 <div class="pm-multiselect-top pm-multiselect-subtask-task">
                                                     <div class="pm-multiselect-content">
@@ -137,7 +137,7 @@
                                     </div>
 
 <div v-if="taskTypeField" class="task-type-wrap process-field">
-    <pm-popper trigger="click" :options="popperOptions">
+    <pm-popper trigger="click" :options="popperOptions()">
         <div class="pm-popper popper">
             <div class="pm-multiselect-top">
                 <div class="pm-multiselect-content">
@@ -425,14 +425,6 @@ export default {
     },
 
     computed: {
-
-        // popper options
-        popperOptions () {
-            return {
-                placement: 'bottom-end',
-                modifiers: { offset: { offset: '0, 3px' } },
-            }
-        },
 
         project_users () {
             return this.$store.state.project_users.map( user => {
