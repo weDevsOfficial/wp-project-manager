@@ -1,7 +1,4 @@
 /node_modules/
-/vendor/
-/views/assets/js/
-/views/assets/css/pm-style.css
 /.idea
 .env
 .DS_Store
@@ -17,7 +14,5 @@ composer.phar
 /build/
 pm.sublime-project
 phpcs-report.txt
-/languages/wedevs-project-manager.pot
-/views/assets/vendor/wp-hooks/pm-hooks.js
-/views/assets/vendor/vue-fullscreen/vue-fullscreen.min.js
+
 
