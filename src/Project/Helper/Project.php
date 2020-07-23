@@ -34,7 +34,7 @@ class Project {
 	private $where;
 	private $limit;
 	private $orderby;
-	private $with;
+	private $with = ['role_capabilities', 'meta'];
 	private $projects;
 	private $project_ids;
 	private $is_single_query = false;
@@ -306,9 +306,59 @@ class Project {
 	 */
 	private function with() {
 		$this->include_assignees()
-			->include_categories();
+			->include_categories()
+			->role_capabilities();
 
 		$this->projects = apply_filters( 'pm_project_with',$this->projects, $this->project_ids, $this->query_params );
+
+		return $this;
+	}
+
+	private function role_capabilities() {
+		global $wpdb;
+
+		$tb_role_project = pm_tb_prefix() . 'pm_role_project';
+		$tb_role_project_capabilities = pm_tb_prefix() . 'pm_role_project_capabilities';
+
+		$project_format = pm_get_prepare_format( $this->project_ids );
+		$query_data     = $this->project_ids;
+
+		$query = "SELECT DISTINCT rp.project_id, rp.role_id, rpc.capability_id
+				FROM $tb_role_project_capabilities as rpc
+				LEFT JOIN $tb_role_project as rp ON rp.id = rpc.role_project_id
+				where rp.project_id IN ($project_format)";
+		
+		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
+
+		$caps = [];
+
+		foreach ( $results as $key => $result ) {
+			if ( $result->role_id == 1 ) {
+				$role_slug = 'manager';
+			}
+
+			if ( $result->role_id == 2 ) {
+				$role_slug = 'co_worker';
+			}
+
+			if ( $result->role_id == 3 ) {
+				$role_slug = 'client';
+			}
+
+			$cap_slug = pm_default_cap( $result->capability_id );
+
+			$caps[$result->project_id][$role_slug][$cap_slug] = true;
+		}
+
+		foreach ( $this->projects as $key => $project ) {
+			if ( empty( $caps[$project->id] ) ) {
+				$caps[$project->id]['manager'] = pm_default_manager_caps();
+				$caps[$project->id]['co_worker'] = pm_default_co_caps();
+				$caps[$project->id]['client'] = pm_default_client_caps();
+			}
+
+			$project->role_capabilities = empty( $caps[$project->id] ) ? [] : $caps[$project->id];
+		}
 
 		return $this;
 	}
