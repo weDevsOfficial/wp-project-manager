@@ -220,14 +220,13 @@ class Task_Controller {
         if ( is_array( $assignees ) && $task ) {
             $this->attach_assignees( $task, $assignees );
         }
-        pmpr('i m here ');
+
         $this->insert_type( $task->id, $type_id, $project_id, $board_id );
 
         do_action( 'cpm_after_new_task', $task->id, $board_id, $project_id );
         do_action('pm_after_create_task', $task, $request->get_params() );
-
+        pmpr('i m here ');
         $resource = new Item( $task, new Task_Transformer );
-
 
         $message = [
             'message' => pm_get_text('success_messages.task_created'),
