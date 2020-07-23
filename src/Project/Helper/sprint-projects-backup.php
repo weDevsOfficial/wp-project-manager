@@ -929,6 +929,10 @@ class Project_x {
 	private function role_capabilities() {
 		global $wpdb;
 
+		if ( empty( $this->project_ids ) ) {
+			return $this;
+		}
+
 		$tb_role_project = pm_tb_prefix() . 'pm_role_project';
 		$tb_role_project_capabilities = pm_tb_prefix() . 'pm_role_project_capabilities';
 
