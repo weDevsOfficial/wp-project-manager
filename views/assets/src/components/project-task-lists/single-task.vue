@@ -1240,7 +1240,11 @@
                 this.$root.$store.state.project_users.forEach(function(user) {
                     pm.Vue.set(user, 'img');
                 });
-                return this.$root.$store.state.project_users;
+
+                return this.$root.$store.state.project_users.map( user => {
+                    user.id = parseInt( user.id );
+                    return user;
+                } );
             },
             task_users () {
                 if (jQuery.isEmptyObject(this.$store.state.projectTaskLists.task)) {
@@ -1260,9 +1264,17 @@
                  */
                 get () {
                     this.assigned_to = this.task.assignees.data.map(function (user) {
-                        return user.id;
+                        return parseInt(user.id);
                     });
-                    return typeof this.task.assignees === 'undefined' ? [] : this.task.assignees.data;
+
+                    if( typeof this.task.assignees === 'undefined' ) {
+                        return [];
+                    } else {
+                        return this.task.assignees.data.map( user => {
+                            user.id = parseInt(user.id);
+                            return user;
+                        } )
+                    }
                 },
 
                 /**
@@ -1373,7 +1385,7 @@
                 }
                 var self = this;
                 this.assigned_to = selected_users.map(function (user) {
-                    return user.id;
+                    return parseInt(user.id);
                 });
 
                 this.task.assignees.data = selected_users;

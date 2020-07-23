@@ -302,13 +302,13 @@ export default {
         },
 
         projectId: {
-            type: [Number],
+            type: [Number, String],
             default: 0
         },
 
         estimationField: {
             type: [Boolean],
-            default: false
+            default: true
         },
 
         taskTypeField: {
@@ -351,7 +351,7 @@ export default {
             focusField: false,
             taskTools: {
                 task: this.task,
-                projectId: this.projectId,
+                projectId: this.getProjectId(),
             },
             typeId: false,
             taskTypeLoading: true,
@@ -386,7 +386,7 @@ export default {
     created: function() {
         this.$on( 'pm_date_picker', this.getDatePicker );
 
-        this.setProjectId();
+        //this.setProjectId();
         this.setTaskType();
         this.formatTaskUsers();
 
@@ -478,16 +478,19 @@ export default {
     },
 
     methods: {
-        setProjectId() {
+        getProjectId() {
+
             if ( parseInt(this.projectId) ) {
-                return;
+                return this.projectId;
             }
 
             if ( typeof this.list.project_id != 'undefined' ) {
-                this.projectId = this.list.project_id;
-            } else {
-                this.projectId = this.project_id;
+                return parseInt(this.list.project_id);
+            } else if ( this.$route.params.project_id ) {
+                return parseInt(this.$route.params.project_id);
             }
+
+            return false;
         },
 
         formatTaskUsers () {
@@ -802,7 +805,7 @@ export default {
                     type_id: this.typeId,
                     order: this.task.order,
                     recurrent: this.task.recurrent,
-                    project_id: this.projectId
+                    project_id: this.getProjectId()
                 },
 
                 callback: function( self, res ) { 
