@@ -224,7 +224,7 @@ class Task_Controller {
         $this->insert_type( $task->id, $type_id, $project_id, $board_id );
 
         do_action( 'cpm_after_new_task', $task->id, $board_id, $project_id );
-        do_action('pm_after_create_task', $task, $request->get_params() );
+        //do_action('pm_after_create_task', $task, $request->get_params() );
 
         $resource = new Item( $task, new Task_Transformer );
 
@@ -384,7 +384,7 @@ class Task_Controller {
         $task->update_model( $params );
 
         do_action( 'cpm_after_update_task', $task->id, $list_id, $project_id );
-        //do_action('pm_after_update_task', $task, $params );
+        do_action('pm_after_update_task', $task, $params );
 
         $resource = new Item( $task, new Task_Transformer );
 
