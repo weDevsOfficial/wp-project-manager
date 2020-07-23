@@ -45136,7 +45136,7 @@ if (false) {(function () {
 
         estimationField: {
             type: [Boolean],
-            default: true
+            default: false
         },
 
         taskTypeField: {
