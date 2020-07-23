@@ -60689,7 +60689,7 @@ pm.Vue.directive('date-field', {
 
             var project_user = project.assignees.data[index],
                 role = project_user.roles.data[0].slug;
-            console.log(project);
+
             if (role == 'client') {
                 if (project.role_capabilities.client.create_task) {
                     return true;
