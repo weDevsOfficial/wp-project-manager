@@ -384,6 +384,7 @@ export default {
 
     // Initial action for this component
     created: function() {
+        console.log('working');
         this.$on( 'pm_date_picker', this.getDatePicker );
 
         //this.setProjectId();
