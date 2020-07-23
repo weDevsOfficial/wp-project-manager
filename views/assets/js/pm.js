@@ -45211,7 +45211,6 @@ if (false) {(function () {
 
     // Initial action for this component
     created: function created() {
-        console.log('working');
         this.$on('pm_date_picker', this.getDatePicker);
 
         //this.setProjectId();

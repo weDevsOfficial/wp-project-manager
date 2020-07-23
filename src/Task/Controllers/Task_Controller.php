@@ -235,7 +235,7 @@ class Task_Controller {
         ];
 
         $response = $this->get_response( $resource, $message );
-
+        pmpr($response);
         do_action('pm_create_task_aftre_transformer', $response, $request->get_params() );
 
         return $response;
