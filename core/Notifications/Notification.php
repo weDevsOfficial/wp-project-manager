@@ -41,7 +41,7 @@ use WeDevs\PM\Core\Notifications\Emails\Complete_Task_Notification;
             'pm_after_update_project',
             'pm_after_new_message',
             'pm_after_update_message',
-            'pm_after_create_task',
+            //'pm_after_create_task',
             'pm_after_update_task',
             'pm_changed_task_status',
             'pm_after_new_comment',
