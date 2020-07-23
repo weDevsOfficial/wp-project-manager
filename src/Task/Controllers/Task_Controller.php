@@ -222,8 +222,9 @@ class Task_Controller {
         }
 
         $this->insert_type( $task->id, $type_id, $project_id, $board_id );
-        pmpr('i m here too');
+
         do_action( 'cpm_after_new_task', $task->id, $board_id, $project_id );
+        pmpr('i m here again');
         do_action('pm_after_create_task', $task, $request->get_params() );
 
         $resource = new Item( $task, new Task_Transformer );
