@@ -18,7 +18,7 @@ use WeDevs\PM\Task_List\Helper\Task_List;
 //  project_meta: 'otal_task_lists,total_tasks,total_complete_tasks,total_incomplete_tasks,total_discussion_boards,total_milestones,total_comments,total_files,total_activities'
 // },
 
-class Project {
+class Project_x {
 
 	private static $_instance;
 	private $tb_project;

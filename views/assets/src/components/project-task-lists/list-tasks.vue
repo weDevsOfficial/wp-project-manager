@@ -46,7 +46,7 @@
         </div>
 
         <div v-if="createNewTask && !isArchivePage()" class="list-task-form nonsortable">
-            <new-task-form  :list="list"></new-task-form>
+            <new-task-form :list="list"></new-task-form>
         </div>
         
     </div>
