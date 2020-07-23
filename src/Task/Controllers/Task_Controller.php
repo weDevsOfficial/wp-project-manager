@@ -188,7 +188,7 @@ class Task_Controller {
         $is_private    = $request->get_param( 'privacy' );
         $type_id       = $request->get_param( 'type_id' );
         $data['is_private']    = $is_private == 'true' || $is_private === true ? 1 : 0;
-        pmpr($request);
+
         if ( empty( $board_id ) ) {
             $inbox            = pm_get_meta($project_id, $project_id, 'task_list', 'list-inbox');
             $board_id         = $inbox->meta_value;
@@ -220,7 +220,7 @@ class Task_Controller {
         if ( is_array( $assignees ) && $task ) {
             $this->attach_assignees( $task, $assignees );
         }
-
+        pmpr('i m here ');
         $this->insert_type( $task->id, $type_id, $project_id, $board_id );
 
         do_action( 'cpm_after_new_task', $task->id, $board_id, $project_id );
