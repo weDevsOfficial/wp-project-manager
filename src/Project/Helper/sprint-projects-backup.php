@@ -264,32 +264,6 @@ class Project_x {
 
         return apply_filters( 'pm_project_transform', $items, $project );
 
-
-		// $select_items = empty( $this->query_params['select'] ) ? null : $this->query_params['select'];
-
-		// if ( ! is_array( $select_items ) && !is_null( $select_items ) ) {
-		// 	$select_items = str_replace( ' ', '', $select_items );
-		// 	$select_items = explode( ',', $select_items );
-		// }
-
-		// if ( empty( $select_items ) ) {
-		// 	$this->item_with($items,$project);
-		// 	$items = $this->item_meta( $items,$project );
-			
-		// 	return $items;
-		// }
-
-		// foreach ( $items as $item_key => $item ) {
-		// 	if ( ! in_array( $item_key, $select_items ) ) {
-		// 		unset( $items[$item_key] );
-		// 	}
-		// }
-
-		// $this->item_with( $items,$project );
-		// $items = $this->item_meta( $items,$project );
-		
-		// return $items;
-
 	}
 
 
