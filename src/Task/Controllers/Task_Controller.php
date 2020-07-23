@@ -350,6 +350,56 @@ class Task_Controller {
         return $this->task_update( $request->get_params() );
     }
 
+    // public static function task_update( $params ) {
+    //     $task_id    = $params['task_id'];
+
+    //     $task = Task::with('assignees')->find( $task_id );
+
+    //     if ( ! isset( $params['assignees'] ) ) {
+    //         $assignees  = wp_list_pluck( $task->assignees->toArray(), 'assigned_to' );
+    //     } else {
+    //         $assignees  = empty( $params['assignees'] ) ? [] : $params['assignees'];
+    //     }
+
+    //     $list_id              = $task->task_list;
+    //     $project_id           = $task->project_id;
+    //     $params['project_id'] = $task->project_id;
+    //     $params['list_id']    = $task->task_list;
+    //     $is_private           = isset( $params['privacy'] ) ? $params['privacy'] : false;
+    //     $params['is_private'] = $is_private == 'true' || $is_private === true ? 1 : 0;
+
+    //     $deleted_users = $task->assignees()->whereNotIn( 'assigned_to', $assignees )->get()->toArray(); //->delete();
+    //     $deleted_users = apply_filters( 'pm_task_deleted_users', $deleted_users, $task );
+    //     $deleted_users = wp_list_pluck( $deleted_users, 'id' );
+
+    //     if ( $deleted_users ) {
+    //         Assignee::destroy( $deleted_users );
+    //     }
+
+    //     self::getInstance()->attach_assignees( $task, $assignees );
+
+    //     do_action( 'cpm_task_update', $list_id, $task_id, $params );
+
+    //     $params = apply_filters( 'pm_before_update_task', $params, $list_id, $task_id, $task );
+    //     $task->update_model( $params );
+
+    //     do_action( 'cpm_after_update_task', $task->id, $list_id, $project_id );
+    //     do_action('pm_after_update_task', $task, $params );
+
+    //     $resource = new Item( $task, new Task_Transformer );
+
+    //     $message = [
+    //         'message' => pm_get_text('success_messages.task_updated'),
+    //         'activity' => self::getInstance()->last_activity( 'task', $task->id ),
+    //     ];
+
+    //     $response = self::getInstance()->get_response( $resource, $message );
+     
+    //     do_action('pm_update_task_aftre_transformer', $response, $params );
+
+    //     return $response;
+    // }
+
     public static function task_update( $params ) {
         $task_id    = $params['task_id'];
 
@@ -383,7 +433,6 @@ class Task_Controller {
             Assignee::destroy( $deleted_users );
         }
 
-        //task user cant be deleted if the user exist in subtask
         self::getInstance()->attach_assignees( $task, $assignees );
         
         if ( isset( $params['type_id'] ) ) {
@@ -397,9 +446,6 @@ class Task_Controller {
 
         do_action( 'cpm_after_update_task', $task->id, $list_id, $project_id );
         do_action('pm_after_update_task', $task, $params );
-
-        //Depricated 
-        //$resource = new Item( $task, new Task_Transformer );
 
         $task_response = Task_Helper::get_results([ 
             'id' => $task->id,
