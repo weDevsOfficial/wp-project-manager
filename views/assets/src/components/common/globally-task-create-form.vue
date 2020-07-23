@@ -198,7 +198,7 @@
 
                     return false;
                 }
-                console.log(project);
+                
                 if ( role == 'co_worker' ) {
                     if ( project.role_capabilities.co_worker.create_task ) {
                         return true;
