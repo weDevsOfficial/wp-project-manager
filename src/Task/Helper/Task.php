@@ -244,7 +244,7 @@ class Task {
 	}
 
 	private function set_item_meta( $item, $task ) {
-		$item['meta'] = [];
+		$item['meta'] = empty( $task->meta ) ? [] : $task->meta;
 		
 		$item['meta']['total_comment']     = $task->total_comments;
 		$item['meta']['can_complete_task'] = $this->pm_user_can_complete_task( $task );
@@ -415,10 +415,55 @@ class Task {
 			->include_total_files()
 			->include_task_type()
 			->include_task_order()
-			->include_estimation_time();
+			->include_estimation_time()
+			->include_default_meta();
 
 		$this->tasks = apply_filters( 'pm_task_with',$this->tasks, $this->task_ids, $this->query_params );
 
+		return $this;
+	}
+
+	private function include_default_meta() {
+		if ( empty( $this->task_ids ) ) {
+			return $this;
+		}
+
+		global $wpdb;
+
+		$metas          = [];
+		$tb_tasks    = pm_tb_prefix() . 'pm_tasks';
+		$tb_meta        = pm_tb_prefix() . 'pm_meta';
+		$task_format = pm_get_prepare_format( $this->task_ids );
+		$query_data     = $this->task_ids;
+
+		$query = "SELECT DISTINCT $tb_meta.meta_key, $tb_meta.meta_value, $tb_meta.entity_id as task_id
+			FROM $tb_meta
+			WHERE $tb_meta.entity_id IN ($task_format)  
+			AND $tb_meta.entity_type = %s";
+
+		array_push( $query_data, 'task' );
+		
+		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
+		
+		foreach ( $results as $key => $result ) {
+			$task_id = $result->task_id;
+			unset( $result->task_id );
+			$metas[$task_id][] = $result;
+		}
+
+		foreach ( $this->tasks as $key => $task ) {
+			$filter_metas = empty( $metas[$task->id] ) ? [] : $metas[$task->id];
+			foreach ( $filter_metas as $key => $filter_meta ) {
+				$meta_value = @unserialize( $filter_meta->meta_value );
+				
+				if ($meta_value === false && $filter_meta->meta_value !== 'b:0;') {
+				    $task->meta[$filter_meta->meta_key] = $filter_meta->meta_value;
+				} else {
+					$task->meta[$filter_meta->meta_key] = maybe_unserialize( $filter_meta->meta_value );
+				}
+			}
+		}
+		
 		return $this;
 	}
 
@@ -463,7 +508,7 @@ class Task {
 			$task->comparable_estimation = empty( $estimations[$task->id] ) ? 0 : $estimations[$task->id]->estimation; 
 		}
 
-		return $this->tasks;
+		return $this;
 	}
 
 	private function include_task_order() {
