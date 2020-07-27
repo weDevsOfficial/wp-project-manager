@@ -1029,7 +1029,7 @@ function pm_get_estimation_type() {
         return 'task';
     }
 
-    if( pm_pro_is_module_active( 'sub_tasks/sub_tasks.php' ) ) {
+    if ( pm_pro_is_module_active( 'sub_tasks/sub_tasks.php' ) ) {
         return 'subtask';
     }
 
@@ -1040,6 +1040,18 @@ function pm_get_estimation_type() {
     // }
 
     return 'task';
+}
+
+function pm_is_active_time_tracker_module() { 
+    if ( ! function_exists( 'pm_pro_is_module_active' ) ) {
+        return false;
+    }
+
+    if ( pm_pro_is_module_active( 'time_tracker/time_tracker.php' ) ) {
+        return true;
+    }
+
+    return false;
 }
 
 function pm_second_to_time( $seconds ) {
@@ -1091,6 +1103,15 @@ function pm_get_task_lists( $params = [] ) {
  */
 function pm_get_tasks( $params = [] ) {
      return \WeDevs\PM\task\Helper\Task::get_results( $params );
+}
+
+/**
+ * [pm_get_tasks description]
+ * @param  array|string $params
+ * @return [type]
+ */
+function pm_get_activities( $params = [] ) {
+     return \WeDevs\PM\Activity\Helper\Activity::get_results( $params );
 }
 
 /**
