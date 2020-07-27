@@ -125,12 +125,63 @@ class Comment {
 	}
 
 	private function where() {
-		$this->where_id();
+		$this->where_id()
+			->where_commentable_id()
+			->where_commentable_type();
 
 		return $this;
 	}
 
-		/**
+	private function where_commentable_id() {
+		global $wpdb;
+		$commentable_id = isset( $this->query_params['commentable_id'] ) ? $this->query_params['commentable_id'] : false;
+
+		if ( empty( $commentable_id ) ) {
+			return $this;
+		}
+
+		$commentable_id = pm_get_prepare_data( $commentable_id );
+
+		if ( is_array( $commentable_id ) ) {
+			$query_format = pm_get_prepare_format( $commentable_id );
+			$this->where .= $wpdb->prepare( " AND {$this->tb_comment}.commentable_id IN ($query_format)", $commentable_id );
+		}
+
+		if ( !is_array( $commentable_id ) ) {
+			$this->where .= $wpdb->prepare( " AND {$this->tb_comment}.commentable_id IN (%d)", $commentable_id );
+		}
+
+		return $this;
+	}
+
+	/**
+	 * Filter activity by ID
+	 *
+	 * @return class object
+	 */
+	private function where_commentable_type() {
+		global $wpdb;
+		$commentable_type = isset( $this->query_params['commentable_type'] ) ? $this->query_params['commentable_type'] : false;
+
+		if ( empty( $commentable_type ) ) {
+			return $this;
+		}
+
+		$commentable_type = pm_get_prepare_data( $commentable_type );
+
+		if ( is_array( $commentable_type ) ) {
+			$query_format = pm_get_prepare_format( $commentable_type, true );
+			$this->where .= $wpdb->prepare( " AND {$this->tb_comment}.commentable_type IN ($query_format)", $commentable_type );
+		}
+
+		if ( !is_array( $commentable_type ) ) {
+			$this->where .= $wpdb->prepare( " AND {$this->tb_comment}.commentable_type IN (%s)", $commentable_type );
+		}
+
+		return $this;
+	}
+
+	/**
 	 * Filter comment by ID
 	 *
 	 * @return class object

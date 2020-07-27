@@ -416,10 +416,124 @@ class Task {
 			->include_task_type()
 			->include_task_order()
 			->include_estimation_time()
-			->include_default_meta();
+			->include_default_meta()
+			->include_activities()
+			->include_comments()
+			->include_time();
 
 		$this->tasks = apply_filters( 'pm_task_with',$this->tasks, $this->task_ids, $this->query_params );
 
+		return $this;
+	}
+
+	private function include_time() {
+		global $wpdb;
+		$with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
+		
+		$with = pm_get_prepare_data( $with );
+
+		if ( ! in_array( 'time', $with ) || empty( $this->task_ids ) ) {
+			return $this;
+		}
+
+		if ( ! pm_is_active_time_tracker_module() ) {
+			return $this;
+		}
+
+		$results = pm_pro_get_times([
+			'task_id' => $this->task_ids
+		]);
+		
+		$times = [];
+		$user_times = [];
+		$meta = [];
+
+		foreach ( $results['data'] as $key => $result ) {
+			if ( empty( $result['task_id'] ) ) {
+				continue;
+			}
+
+			$task_id = $result['task_id'];
+			$times[$task_id][] = $result;
+		}
+
+		foreach ( $results['user_data'] as $task_id => $result ) {
+			$user_times[$task_id] = $result;
+		}
+
+		foreach ( $results['meta']['tasks_total_time'] as $task_id => $result ) {
+			$meta[$task_id] = $result;
+		}
+		
+		foreach ( $this->tasks as $key => $task ) {
+			$task->time['data'] = empty( $times[$task->id] ) ? [] : $times[$task->id]; 
+			$task->time['user_data'] = empty( $user_times[$task->id] ) ? [] : $user_times[$task->id]; 
+			$task->time['meta'] = empty( $meta[$task->id] ) ? [] : $meta[$task->id]; 
+		}
+		
+		return $this;
+	}
+
+	private function include_comments() {
+		global $wpdb;
+		
+		$with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
+		
+		$with = pm_get_prepare_data( $with );
+
+		if ( ! in_array( 'comments', $with ) || empty( $this->task_ids ) ) {
+			return $this;
+		}
+		
+		$comments = pm_get_comments([
+			'commentable_id' => array_unique( $this->task_ids ),
+			'commentable_type' => 'task'
+		]);
+
+		$items  = [];
+
+        foreach ( $comments['data'] as $key => $comment ) {
+        	if ( empty( $comment['id'] ) ) {
+        		continue;
+        	}
+
+        	$task_id = $comment['commentable_id'];
+            $items[$task_id][] = $comment;
+        }
+       
+        foreach ( $this->tasks as $key => $task ) {
+            $task->comments['data'] = empty( $items[$task->id] ) ? [] : $items[$task->id];
+        }
+
+        return $this;
+	}
+
+	private function include_activities() {
+		global $wpdb;
+		$with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
+		
+		$with = pm_get_prepare_data( $with );
+
+		if ( ! in_array( 'activities', $with ) || empty( $this->task_ids ) ) {
+			return $this;
+		}
+
+		$results = pm_get_activities([
+			'resource_id' => $this->task_ids,
+			'resource_type' => 'task'
+		]);
+
+		$activities = [];
+
+		foreach ( $results['data'] as $key => $result ) {
+			$task_id = $result['resource_id'];
+			$activities[$task_id][] = $result;
+		}
+		
+		foreach ( $this->tasks as $key => $task ) {
+			$task->activities['data'] = empty( $activities[$task->id] ) ? [] : $activities[$task->id]; 
+		}
+		
 		return $this;
 	}
 
