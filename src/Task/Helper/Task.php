@@ -211,7 +211,7 @@ class Task {
 			'completed_at'        => format_date( $task->completed_at ),
 			'updated_at'          => format_date( $task->updated_at ),
 			'creator'             => [ 'data' => $this->user_info( $task->created_by ) ],
-			'updater'             => [ 'data' => $this->user_info( $task->updated_by ) ]
+			'updater'             => [ 'data' => $this->user_info( $task->updated_by ) ],
         ];
 
   //       $select_items = empty( $this->query_params['select'] ) ? false : $this->query_params['select'];
@@ -419,9 +419,42 @@ class Task {
 			->include_default_meta()
 			->include_activities()
 			->include_comments()
-			->include_time();
+			->include_time()
+			->include_label();
 
 		$this->tasks = apply_filters( 'pm_task_with',$this->tasks, $this->task_ids, $this->query_params );
+
+		return $this;
+	}
+
+	private function include_label() {
+		global $wpdb;
+		$with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
+		
+		$with = pm_get_prepare_data( $with );
+
+		if ( ! in_array( 'labels', $with ) || empty( $this->task_ids ) ) {
+			return $this;
+		}
+
+		if ( ! function_exists( 'pm_pro_get_labels' ) ) {
+			return $this;
+		}
+
+		$results = pm_pro_get_labels([ 
+			'task_id' => $this->task_ids
+		]);
+
+		$labels = [];
+
+		foreach ( $results['data'] as $key => $result ) {
+			$task_id = $result['task_id'];
+			$labels[$task_id][] = $result;
+		}
+		
+		foreach ( $this->tasks as $key => $task ) {
+			$task->labels['data'] = empty( $labels[$task->id] ) ? [] : $labels[$task->id]; 
+		}
 
 		return $this;
 	}
