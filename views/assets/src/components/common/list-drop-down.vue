@@ -29,12 +29,14 @@
 					return false
 				}
 			},
+
 			multiple: {
 				type: [Boolean],
 				default () {
 					return false
 				}
 			},
+
             options: {
                 type: [Object],
                 default () {
@@ -44,19 +46,22 @@
                     }
                 }
             },
+
             selectedLists: {
                 type: [Object, Array, String],
                 default () {
                     return ''
                 }
             },
+
             projectId: {
-                type: [Number],
+                type: [Number, String, Boolean],
                 default () {
                     return false
                 }
             }
 		},
+
 		data () {
 			return {
 				lists: [],
@@ -64,17 +69,20 @@
 				loadingListSearch: false,
                 listAbort: '',
                 list: '',
-                //projectId: false
+                defaultProjectId: false
 			}
 		},
+
 		components: {
 			'multiselect': pm.Multiselect.Multiselect
 		},
+
 		watch: {
             selectedLists () {
                 this.formatSelectedListsId();
             },
-            projectId () {
+
+            defaultProjectId () {
                 this.setProjectId();
                 this.setLists();
             }
@@ -84,12 +92,13 @@
             this.setProjectId();
 			this.setLists();
 		},
+
 		methods: {
             setProjectId () {
                 if(this.projectId) {
-                    this.projectId = parseInt( this.projectId );
+                    this.defaultProjectId = parseInt( this.projectId );
                 } else if(this.options.projectId) {
-                    this.projectId = parseInt( this.options.projectId );
+                    this.defaultProjectId = parseInt( this.options.projectId );
                 }
             },
 
@@ -107,6 +116,7 @@
                     } )
                 }
             },
+
             formatLists(lists) {
                 var self = this;
                 self.lists = [];
@@ -124,6 +134,7 @@
 
                 self.$emit('afterGetLists', self.lists);
             },
+
 			onChange (val, el) {
 				this.$emit('onChange', val);
 			},
@@ -135,7 +146,7 @@
 				if( !this.$store.state.projectTaskLists.lists.length) {
 					var args = {
 						data: {
-							project_id: this.projectId,
+							project_id: this.defaultProjectId,
 						},
 
 						callback (res) {
@@ -147,6 +158,7 @@
                     self.formatLists( this.$store.state.projectTaskLists.lists );
 				} 
 			},
+
 			getLists (args) {
 	            var self = this;
 	            var request = {
@@ -167,6 +179,7 @@
 
 	            self.httpRequest(request);
 	        },
+
 	        asyncListsFind (title) {
                 if(title == '') return;
                 var self = this;
@@ -186,7 +199,7 @@
                 }
 
                 var request = {
-                    url: self.base_url + 'pm/v2/projects/'+this.projectId+'/task-lists?title='+title+'&with=incomplete_tasks,complete_tasks&incomplete_task_per_page=-1&complete_task_per_page=-1',
+                    url: self.base_url + 'pm/v2/projects/'+this.defaultProjectId+'/task-lists?title='+title+'&with=incomplete_tasks,complete_tasks&incomplete_task_per_page=-1&complete_task_per_page=-1',
                     data: {
                         status: [1,0]
                     },
@@ -198,8 +211,7 @@
                 }
                 self.loadingListSearch = true;
                 self.listAbort = self.httpRequest(request);
-            },
-
+            }
 		}
 	}
 </script>

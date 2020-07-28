@@ -100,7 +100,7 @@ class Task_Controller {
         
         return pm_get_tasks( [ 
             'id' => $task_id,
-            'with' => 'project, activities, comments, task_list, time' 
+            'with' => 'project, activities, comments, task_list, time, labels' 
         ] );
         // $task = Task::with( 'task_lists' )
         //     ->where( 'id', $task_id )
