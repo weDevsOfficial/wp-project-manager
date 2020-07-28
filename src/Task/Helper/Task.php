@@ -447,6 +447,7 @@ class Task {
 		$times = [];
 		$user_times = [];
 		$meta = [];
+		$all_data = [];
 
 		foreach ( $results['data'] as $key => $result ) {
 			if ( empty( $result['task_id'] ) ) {
@@ -457,7 +458,16 @@ class Task {
 			$times[$task_id][] = $result;
 		}
 
-		foreach ( $results['user_data'] as $task_id => $result ) {
+		foreach ( $results['all_data'] as $key => $result ) {
+			if ( empty( $result['task_id'] ) ) {
+				continue;
+			}
+
+			$task_id = $result['task_id'];
+			$all_data[$task_id][] = $result;
+		}
+
+		foreach ( $results['users_data'] as $task_id => $result ) {
 			$user_times[$task_id] = $result;
 		}
 
@@ -467,9 +477,14 @@ class Task {
 		
 		foreach ( $this->tasks as $key => $task ) {
 			$task->time['data'] = empty( $times[$task->id] ) ? [] : $times[$task->id]; 
-			$task->time['user_data'] = empty( $user_times[$task->id] ) ? [] : $user_times[$task->id]; 
+			$task->time['all_data'] = empty( $all_data[$task->id] ) ? [] : $all_data[$task->id]; 
+			$task->time['users_data'] = empty( $user_times[$task->id] ) ? [] : $user_times[$task->id]; 
 			$task->time['meta'] = empty( $meta[$task->id] ) ? [] : $meta[$task->id]; 
 		}
+
+		$task->time['meta']['running'] = $results['meta']['running'];
+		$task->time['meta']['totalTaskTime'] = $results['meta']['totalTaskTime'];
+		$task->time['meta']['totalTime'] = $results['meta']['totalTime'];
 		
 		return $this;
 	}
