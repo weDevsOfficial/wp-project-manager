@@ -1240,7 +1240,7 @@ class Project {
 			$inUsers = get_current_user_id();
 		}
 
-		//$this->join  .= " LEFT JOIN {$this->tb_project_user} ON {$this->tb_project_user}.project_id={$this->tb_project}.id";
+		$inUsers = pm_get_prepare_data( $inUsers );
 
 		if ( is_array( $inUsers ) ) {
 			$query_format = pm_get_prepare_format( $inUsers );
