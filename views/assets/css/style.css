@@ -1860,11 +1860,11 @@ ul.pm-activity ul li:before {
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
-  background: #EB5A46;
+  background: #aa5340;
   font-size: 12px;
   line-height: 12px;
   padding: 1px 7px;
-  color: #fff;
+  color: #e9e9e9;
 }
 .pm-current-date {
   -webkit-border-radius: 3px;
