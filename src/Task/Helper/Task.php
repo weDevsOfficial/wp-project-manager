@@ -304,10 +304,12 @@ class Task {
 		
 		$items['id']           = (int) $task->id;
 		$items['project_id']   = (int) $task->project_id;
+		$items['project_title']   = $task->project_title;
 		$items['type']         = $task->type;
 		$items['order']        = $task->order;
 		$items['assignees']    = $task->assignees;
 		$items['task_list_id'] = (int) $task->task_list_id;
+		$items['task_list_title'] = $task->task_list_title;
 		
 		if ( isset( $task->is_stop_watch_visible ) ) {
 			$items['is_stop_watch_visible'] = $task->is_stop_watch_visible;
@@ -853,7 +855,7 @@ class Task {
 		$with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
 		$with = pm_get_prepare_data( $with );
 
-		if ( ! in_array( 'project', $with ) || empty( $this->task_ids ) ) {
+		if ( empty( $this->task_ids ) ) {
 			return $this;
 		}
 
@@ -875,8 +877,14 @@ class Task {
 			$projects[$task_id] = $result;
 		}
 		
+		if ( in_array( 'project', $with ) ) {
+			foreach ( $this->tasks as $key => $task ) {
+				$task->project = empty( $projects[$task->id] ) ? ['data' => []] : [ 'data' => $projects[$task->id] ]; 
+			}
+		}
+		
 		foreach ( $this->tasks as $key => $task ) {
-			$task->project = empty( $projects[$task->id] ) ? '' : $projects[$task->id]; 
+			$task->project_title = empty( $projects[$task->id] ) ? '' : $projects[$task->id]->title; 
 		}
 		
 		return $this;
@@ -1282,6 +1290,7 @@ class Task {
 
 	private function where_due_date() {
 		$due_date   = !empty( $this->query_params['due_date'] ) ? $this->query_params['due_date'] : false;
+		$due_date_start   = !empty( $this->query_params['due_date_start'] ) ? $this->query_params['due_date_start'] : false;
 		$ope_params = !empty( $this->query_params['due_date_operator'] ) ? $this->query_params['due_date_operator'] : false;
 		$ope_params = $this->get_prepare_data( $ope_params );
 
@@ -1313,19 +1322,33 @@ class Task {
 			$due_date = date( 'Y-m-d', strtotime( $due_date ) );
 			
 			if( $explode[0] == 'null' || $explode[0] == 'empty' ) {
-				$q[] = "({$this->tb_tasks}.due_date $operator) $relation";
+				$due_q = '';
+
+				if ( ! empty( $due_date_start ) ) {
+					$due_q .=  $wpdb->prepare( "{$this->tb_tasks}.due_date >= %s AND ", $due_date_start );
+				}
+				
+				$due_q .= "{$this->tb_tasks}.due_date $operator";
+
+				$q[] = "($due_q) $relation";
 			} else {
-				$q[] = $wpdb->prepare( "
-					( {$this->tb_tasks}.due_date $operator %s )
-						OR
-					( {$this->tb_tasks}.due_date is null AND {$this->tb_tasks}.completed_at $operator %s ) ", 
-					$due_date, $due_date 
-				) .' '. $relation;
+				$due_q = '';
+				//$com_q = '';
+
+				if ( ! empty( $due_date_start ) ) {
+					$due_q .=  $wpdb->prepare( " {$this->tb_tasks}.due_date >= %s AND ", $due_date_start );
+					//$com_q .= $wpdb->prepare( " {$this->tb_tasks}.completed_at >= %s AND ", $due_date_start );
+				}
+
+				//$com_q .= $wpdb->prepare( " {$this->tb_tasks}.due_date is null AND {$this->tb_tasks}.completed_at $operator %s ", $due_date );
+				$due_q .= $wpdb->prepare( " {$this->tb_tasks}.due_date $operator %s", $due_date );
+
+				$q[] = " ( {$due_q} ) {$relation} ";
 			}
 		}
 
 		$q = implode( ' ', $q );
-			
+	
 		if ( ! empty( $q ) ) {
 			$this->where .= " AND ( $q ) ";
 		}
@@ -1482,8 +1505,8 @@ class Task {
 		$tasks = [];
 
 		$query = $wpdb->prepare( "SELECT SQL_CALC_FOUND_ROWS DISTINCT {$this->tb_tasks}.*, 
-			list.id as task_list_id, 
-			$this->tb_tasks.project_id
+			list.id as task_list_id,
+			list.title as task_list_title
 			
 			FROM {$this->tb_tasks}
 			
@@ -1502,7 +1525,7 @@ class Task {
 
 			1, 1, 'task_list', 'task'
 		);
-
+		
 		$results = $wpdb->get_results( $query );
 		
 		// If task has not boardable_id mean no list
