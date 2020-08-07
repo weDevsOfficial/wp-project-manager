@@ -296,11 +296,12 @@
             ),
             getOverViews () {
                 var args = {
-                    conditions :{
+                    conditions : {
                         with : 'overview_graph'
                     },
                     project_id: this.$route.params.project_id,
-                    callback  (res){
+                    callback  (res) {
+                        
                         this.setOverViews( res.data );
                         this.$root.$store.state.projectOverviewLoaded = true;
                         pm.NProgress.done();

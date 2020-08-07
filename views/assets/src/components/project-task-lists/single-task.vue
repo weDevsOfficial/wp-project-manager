@@ -1807,6 +1807,7 @@
 
             closePopup () {
                 pmBus.$emit('pm_after_close_single_task_modal');
+                this.onClickClose();
                 return;
                 this.$router.go(-1);
                 return;
@@ -2043,7 +2044,13 @@
 
                 return pm.Moment( date ).format( String( format ) );
             },
+
+            onClickClose() {
+                this.$emit( 'onClickClose', this.task );
+            }
         },
+
+
 
         destroyed () {
             //this.$store.commit('isSigleTask', false);

@@ -229,6 +229,7 @@
 
                 return '&ndash;';
             },
+            
             getDate(task) {
                 if(typeof task.completed_at != 'undefined' && task.completed_at != '') {
                     return pm.Moment( task.completed_at ).format( 'MMM DD, YYYY' );
@@ -237,6 +238,7 @@
                 return '';
                 
             },
+
             goToSigleList (task) {
                 this.$router.push({
                     name: 'single_list',
@@ -246,6 +248,7 @@
                     }
                 });
             },
+
             goToProject(task) {
                 this.$router.push({
                     name: 'task_lists',
@@ -254,14 +257,17 @@
                     }
                 });
             },
+
             afterCloseSingleTaskModal () {
                 this.individualTaskId = false;
                 this.individualProjectId = false;
             },
+
             popuSilgleTask (task) {
                 this.individualTaskId = task.id;
                 this.individualProjectId = task.project_id;
             },
+
             getCreatedAtValue (task) {
                 if(typeof this.$route.query.start_at == 'undefined' || typeof this.$route.query.due_date == 'undefined') {
                     let created_at = task.created_at.date ? task.created_at.date : task.created_at;
@@ -280,6 +286,7 @@
                     return this.getDate(start_at) +' - '+ this.getDate(due_date);
                 }
             },
+
             getDate(date) {
                 if(typeof date != 'undefined' && date != '') {
                     return pm.Moment( date ).format( 'MMM DD, YYYY' );
@@ -288,6 +295,7 @@
                 return '';
                 
             },
+
             getCreatedAtLabel () {
 
                 if(typeof this.$route.query.start_at == 'undefined' || typeof this.$route.query.due_date == 'undefined') {
