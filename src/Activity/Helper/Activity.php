@@ -92,7 +92,7 @@ class Activity {
 		return [
 			'pagination' => [
 				'total'   => $this->found_rows,
-				'per_page'  => ceil( $this->found_rows/$this->get_per_page() )
+				'total_pages'  => ceil( $this->found_rows/$this->get_per_page() )
 			]
 		];
 	}
@@ -106,6 +106,7 @@ class Activity {
             'message'       => pm_get_text( "activities.{$activity->action}" ),
             'action'        => $activity->action,
             'action_type'   => $activity->action_type,
+            'project_id'    => $activity->project_id,
             'meta'          => empty( $meta ) ? [] : $meta,
             'committed_at'  => format_date( $activity->created_at ),
             'resource_id'   => $activity->resource_id,
@@ -322,11 +323,69 @@ class Activity {
 	private function where() {
 
 		$this->where_id()
+			->where_actor_id()
 			->where_project_id()
 			->where_resource_id()
-			->where_resource_type();
+			->where_resource_type()
+			->where_updated_at();
 
 		return $this;
+	}
+
+	private function where_updated_at() {
+		global $wpdb;
+
+		$updated_at         = !empty( $this->query_params['updated_at'] ) ? $this->query_params['updated_at'] : false;
+		$updated_at_start   = !empty( $this->query_params['updated_at_start'] ) ? $this->query_params['updated_at_start'] : false;
+		$updated_at_between = !isset( $this->query_params['updated_at_between'] ) ? true : pm_is_true( $this->query_params['updated_at_between'] );
+		$operator_key       = !empty( $this->query_params['updated_at_operator'] ) ? $this->query_params['updated_at_operator'] : 'equal';
+		
+
+		if ( $updated_at === false ) {
+			return $this;
+		}
+
+		if ( $updated_at_start ) {
+			$com_start_reduce = date('Y-m-d',(strtotime ( '-1 day' , strtotime ( $updated_at_start) ) ));
+			$com_add          = date('Y-m-d',(strtotime ( '+1 day' , strtotime ( $updated_at) ) ));
+		}
+
+		//If its contain between condition
+		if ( $updated_at_start ) {
+
+			if ( $updated_at_between ) {
+				$query = $wpdb->prepare( " {$this->tb_activity}.updated_at BETWEEN %s AND %s ", $com_start_reduce, $com_add );
+			} else {
+				$query = $wpdb->prepare( " {$this->tb_activity}.updated_at NOT BETWEEN %s AND %s ", $com_start_reduce, $com_add );
+			}
+			
+			$this->where .= " AND ( $query ) ";
+
+			return $this;
+		}
+		//close between condition
+		
+
+		$operator = $this->get_operator( $operator_key );
+		$this->where .=  $wpdb->prepare( " AND {$this->tb_activity}.updated_at $operator %s", $updated_at );
+
+
+		return $this;
+	}
+
+	private function get_operator( $param ) {
+
+		$default = [
+			'equal'              => '=',
+			'less_than'          => '<',
+			'less_than_equal'    => '<=',
+			'greater_than'       => '>',
+			'greater_than_equal' => '>=',
+			'null'               => 'is null',
+			'empty'              => "= ''",
+		];
+
+		return empty( $default[$param] ) ? '' : $default[$param]; 
 	}
 
 	/**
@@ -378,6 +437,28 @@ class Activity {
 
 		if ( !is_array( $id ) ) {
 			$this->where .= $wpdb->prepare( " AND {$this->tb_activity}.id IN (%d)", $id );
+		}
+
+		return $this;
+	}
+
+	private function where_actor_id() {
+		global $wpdb;
+		$actor_id = isset( $this->query_params['users'] ) ? $this->query_params['users'] : false;
+
+		if ( empty( $actor_id ) ) {
+			return $this;
+		}
+
+		$actor_id = pm_get_prepare_data( $actor_id );
+
+		if ( is_array( $actor_id ) ) {
+			$query_format = pm_get_prepare_format( $actor_id );
+			$this->where .= $wpdb->prepare( " AND {$this->tb_activity}.actor_id IN ($query_format)", $actor_id );
+		}
+
+		if ( !is_array( $actor_id ) ) {
+			$this->where .= $wpdb->prepare( " AND {$this->tb_activity}.actor_id IN (%d)", $actor_id );
 		}
 
 		return $this;

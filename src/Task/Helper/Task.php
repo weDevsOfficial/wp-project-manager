@@ -1102,6 +1102,7 @@ class Task {
 			->where_status()
 			->where_start_at()
 			->where_due_date()
+			->where_completed_at()
 			->where_project_id()
 			->where_users()
 			->where_lists();
@@ -1288,17 +1289,114 @@ class Task {
 		$data = explode( $delimiter, $data );
 	}
 
+	private function where_completed_at() {
+		global $wpdb;
+
+		$completed_at         = !empty( $this->query_params['completed_at'] ) ? $this->query_params['completed_at'] : false;
+		$completed_at_start   = !empty( $this->query_params['completed_at_start'] ) ? $this->query_params['completed_at_start'] : false;
+		$completed_at_between = !isset( $this->query_params['completed_at_between'] ) ? true : pm_is_true( $this->query_params['completed_at_between'] );
+		$ope_params           = !empty( $this->query_params['completed_at_operator'] ) ? $this->query_params['completed_at_operator'] : false;
+		$ope_params           = $this->get_prepare_data( $ope_params );
+
+		if ( $completed_at === false ) {
+			return $this;
+		}
+
+		if ( $completed_at_start ) {
+			$com_start_reduce = date('Y-m-d',(strtotime ( '-1 day' , strtotime ( $completed_at_start) ) ));
+			$com_add          = date('Y-m-d',(strtotime ( '+1 day' , strtotime ( $completed_at) ) ));
+		}
+
+		//If its contain between condition
+		if ( $completed_at_start ) {
+
+			if ( $completed_at_between ) {
+				$query = $wpdb->prepare( " {$this->tb_tasks}.completed_at BETWEEN %s AND %s ", $com_start_reduce, $com_add );
+			} else {
+				$query = $wpdb->prepare( " {$this->tb_tasks}.completed_at NOT BETWEEN %s AND %s ", $com_start_reduce, $com_add );
+			}
+			
+			$this->where .= " AND ( $query ) ";
+
+			return $this;
+		}
+		//close between condition
+
+		$q = [];
+		
+		$keys = array_keys( $ope_params );
+		$last_key = end( $keys );
+		
+		foreach ( $ope_params as $key => $ope_param ) {
+			$explode = explode( '|', str_replace( ' ', '', $ope_param ) );
+
+			if ( ! empty( $explode[1] ) ) {
+				$relation = $explode[1];
+			} else {
+				$relation = 'AND';
+			}
+			
+			if ( $last_key == $key ) {
+				$relation = '';
+			}
+
+			$operator = $this->get_operator( $explode[0] );
+			$completed_at = date( 'Y-m-d', strtotime( $completed_at ) );
+			
+			if( $explode[0] == 'null' || $explode[0] == 'empty' ) {
+
+				$due_q = "{$this->tb_tasks}.completed_at $operator";
+
+				$q[] = "($due_q) {$relation}";
+			} else {
+
+				$due_q = $wpdb->prepare( " {$this->tb_tasks}.completed_at $operator %s", $completed_at );
+
+				$q[] = " ( {$due_q} ) {$relation} ";
+			}
+		}
+
+		$q = implode( ' ', $q );
+	
+		if ( ! empty( $q ) ) {
+			$this->where .= " AND ( $q ) ";
+		}
+
+		return $this;
+	}
+
 	private function where_due_date() {
-		$due_date   = !empty( $this->query_params['due_date'] ) ? $this->query_params['due_date'] : false;
+		global $wpdb;
+
+		$due_date         = !empty( $this->query_params['due_date'] ) ? $this->query_params['due_date'] : false;
 		$due_date_start   = !empty( $this->query_params['due_date_start'] ) ? $this->query_params['due_date_start'] : false;
-		$ope_params = !empty( $this->query_params['due_date_operator'] ) ? $this->query_params['due_date_operator'] : false;
-		$ope_params = $this->get_prepare_data( $ope_params );
+		$due_date_between = !isset( $this->query_params['due_date_between'] ) ? true : pm_is_true( $this->query_params['due_date_between'] );
+		$ope_params       = !empty( $this->query_params['due_date_operator'] ) ? $this->query_params['due_date_operator'] : false;
+		$ope_params       = $this->get_prepare_data( $ope_params );
 
 		if ( $due_date === false ) {
 			return $this;
 		}
-		
-		global $wpdb;
+
+		if ( $due_date_start ) {
+			$due_start_reduce = date('Y-m-d',(strtotime ( '-1 day' , strtotime ( $due_date_start) ) ));
+			$due_add          = date('Y-m-d',(strtotime ( '+1 day' , strtotime ( $due_date) ) ));
+		}
+
+		//If its contain between condition
+		if ( $due_date_start ) {
+
+			if ( $due_date_between ) {
+				$query = $wpdb->prepare( " {$this->tb_tasks}.due_date BETWEEN %s AND %s ", $due_start_reduce, $due_add );
+			} else {
+				$query = $wpdb->prepare( " {$this->tb_tasks}.due_date NOT BETWEEN %s AND %s ", $due_start_reduce, $due_add );
+			}
+			
+			$this->where .= " AND ( $query ) ";
+
+			return $this;
+		}
+		//close between condition
 		
 		$q = [];
 		
@@ -1322,26 +1420,13 @@ class Task {
 			$due_date = date( 'Y-m-d', strtotime( $due_date ) );
 			
 			if( $explode[0] == 'null' || $explode[0] == 'empty' ) {
-				$due_q = '';
 
-				if ( ! empty( $due_date_start ) ) {
-					$due_q .=  $wpdb->prepare( "{$this->tb_tasks}.due_date >= %s AND ", $due_date_start );
-				}
-				
-				$due_q .= "{$this->tb_tasks}.due_date $operator";
+				$due_q = "{$this->tb_tasks}.due_date $operator";
 
 				$q[] = "($due_q) $relation";
 			} else {
-				$due_q = '';
-				//$com_q = '';
 
-				if ( ! empty( $due_date_start ) ) {
-					$due_q .=  $wpdb->prepare( " {$this->tb_tasks}.due_date >= %s AND ", $due_date_start );
-					//$com_q .= $wpdb->prepare( " {$this->tb_tasks}.completed_at >= %s AND ", $due_date_start );
-				}
-
-				//$com_q .= $wpdb->prepare( " {$this->tb_tasks}.due_date is null AND {$this->tb_tasks}.completed_at $operator %s ", $due_date );
-				$due_q .= $wpdb->prepare( " {$this->tb_tasks}.due_date $operator %s", $due_date );
+				$due_q = $wpdb->prepare( " {$this->tb_tasks}.due_date $operator %s", $due_date );
 
 				$q[] = " ( {$due_q} ) {$relation} ";
 			}
@@ -1509,13 +1594,14 @@ class Task {
 			list.title as task_list_title
 			
 			FROM {$this->tb_tasks}
-			
-			{$this->join}
-			
+
 			Left join $boardable as boardable ON boardable.boardable_id = {$this->tb_tasks}.id
 			Left join {$this->tb_lists} as list ON list.id = boardable.board_id
 			
+			{$this->join}
+			
 			WHERE %d=%d {$this->where} 
+
 			AND boardable.board_type=%s 
 			AND boardable.boardable_type=%s
 			

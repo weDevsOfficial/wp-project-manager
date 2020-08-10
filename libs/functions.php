@@ -1202,4 +1202,20 @@ function pm_current_user_can_update_core() {
     return false;
 }
 
+/**
+ * check value for boolean
+ * 
+ * @param  string|boolean $val
+ * 
+ * @return [type]
+ */
+function pm_is_true ( $val ) {
+    
+    if ( is_string( $val ) ) {
+        return $val == 'true' || $val == '1' ? true : false;
+    }
+
+    return (int) $val ? true : false;
+}
+
 
