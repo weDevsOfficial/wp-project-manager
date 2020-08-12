@@ -190,28 +190,28 @@ class Task {
 	public function fromat_task( $task ) {
 
 		$items = [
-			'id'                  => (int) $task->id,
-			'title'               => (string) $task->title,
-			'description'         => [ 'html' => pm_get_content( $task->description ), 'content' => $task->description ],
-			'estimation'          => $task->estimation,
-			'comparable_estimation'   => $task->comparable_estimation,
-			'formated_com_est' => pm_second_to_time( $task->comparable_estimation*60 ),
-			'start_at'            => format_date( $task->start_at ),
-			'due_date'            => format_date( $task->due_date ),
-			'complexity'          => $this->complexity( $task->complexity ),
-			'priority'            => $this->priorities( $task->priority ),
-			'order'               => empty( $task->order ) ? 0 : intval($task->order), 
-			'payable'             => $this->payability( $task->payable ),
-			'recurrent'           => $this->recurrency( $task->recurrent ),
-			'parent_id'           => (int) $task->parent_id,
-			'status'              => $this->status( $task->status ),
-			'category_id'         => empty( $task->type['id'] ) ? '' : (int) $task->type['id'],
-			'created_at'          => format_date( $task->created_at ),
-			'created_by'          => (int) $task->created_by,
-			'completed_at'        => format_date( $task->completed_at ),
-			'updated_at'          => format_date( $task->updated_at ),
-			'creator'             => [ 'data' => $this->user_info( $task->created_by ) ],
-			'updater'             => [ 'data' => $this->user_info( $task->updated_by ) ],
+			'id'                    => (int) $task->id,
+			'title'                 => (string) $task->title,
+			'description'           => [ 'html' => pm_get_content( $task->description ), 'content' => $task->description ],
+			'estimation'            => $task->estimation,
+			'comparable_estimation' => $task->comparable_estimation,
+			'formated_com_est'      => pm_second_to_time( $task->comparable_estimation*60 ),
+			'start_at'              => format_date( $task->start_at ),
+			'due_date'              => format_date( $task->due_date ),
+			'complexity'            => $this->complexity( $task->complexity ),
+			'priority'              => $this->priorities( $task->priority ),
+			'order'                 => empty( $task->order ) ? 0 : intval($task->order), 
+			'payable'               => $this->payability( $task->payable ),
+			'recurrent'             => $this->recurrency( $task->recurrent ),
+			'parent_id'             => (int) $task->parent_id,
+			'status'                => $this->status( $task->status ),
+			'category_id'           => empty( $task->type['id'] ) ? '' : (int) $task->type['id'],
+			'created_at'            => format_date( $task->created_at ),
+			'created_by'            => (int) $task->created_by,
+			'completed_at'          => format_date( $task->completed_at ),
+			'updated_at'            => format_date( $task->updated_at ),
+			'creator'               => [ 'data' => $this->user_info( $task->created_by ) ],
+			'updater'               => [ 'data' => $this->user_info( $task->updated_by ) ],
         ];
 
   //       $select_items = empty( $this->query_params['select'] ) ? false : $this->query_params['select'];
@@ -422,9 +422,77 @@ class Task {
 			->include_activities()
 			->include_comments()
 			->include_time()
-			->include_label();
+			->include_label()
+			->include_milestone();
 
 		$this->tasks = apply_filters( 'pm_task_with',$this->tasks, $this->task_ids, $this->query_params );
+
+		return $this;
+	}
+
+	private function include_milestone() {
+		global $wpdb;
+
+		$with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
+		$with = pm_get_prepare_data( $with );
+
+		if ( ! in_array( 'milestone', $with ) || empty( $this->task_ids ) ) {
+			return $this;
+		}
+
+		$list_ids = wp_list_pluck( $this->tasks, 'task_list_id' );
+		$tb_boardable = pm_tb_prefix() . 'pm_boardables';
+
+		if ( empty( $list_ids ) ) {
+			foreach ( $this->tasks as $key => $task ) {
+				$task->milestone['data'] = [];
+			}
+
+			return $this;
+		}
+
+		$list_format = pm_get_prepare_format( $list_ids );
+		$format_data = array_merge( $list_ids, ['task_list', 'milestone'] );
+
+		$query = $wpdb->prepare( "SELECT board_id as milestone_id, boardable_id as list_id
+			FROM $tb_boardable
+			WHERE $tb_boardable.boardable_id IN ($list_format)  
+			AND $tb_boardable.boardable_type = %s
+			AND $tb_boardable.board_type = %s", 
+			$format_data 
+		);
+
+		$results       = $wpdb->get_results( $query );
+		$milestone_ids = wp_list_pluck( $results, 'milestone_id' );
+		$milestone_ids = empty( $milestone_ids ) ? [0] : $milestone_ids;
+		$milestones    = pm_get_milestones([ 'id' => $milestone_ids]);
+
+		$mis_key_id = [];
+		$list_mils  = [];
+
+		foreach ( $milestones['data'] as $key => $milestone ) {
+			$id              = $milestone['id'];
+			$mis_key_id[$id] = $milestone;
+		}
+		
+		foreach ( $results as $key => $result ) {
+			$milestone_id = $result->milestone_id;
+			$list_id      = $result->list_id;
+
+			if( empty( $mis_key_id[$milestone_id] ) ) {
+				continue;
+			}
+
+			$list_mils[$list_id] = $mis_key_id[$milestone_id];
+		}
+		
+		foreach ( $this->tasks as $key => $task ) {
+			if ( empty( $list_mils[$task->task_list_id] ) ) {
+				$task->milestone['data'] = [];
+			} else {
+				$task->milestone['data'] = $list_mils[$task->task_list_id];
+			}
+		}
 
 		return $this;
 	}
@@ -1105,7 +1173,8 @@ class Task {
 			->where_completed_at()
 			->where_project_id()
 			->where_users()
-			->where_lists();
+			->where_lists()
+			->where_milestone();
 
 		$this->where = apply_filters( 'pm_task_where', $this->where, $this->user_id );
 
@@ -1180,6 +1249,10 @@ class Task {
 			return $this;
 		}
 
+		if ( is_null( $users ) || $users == 'null' ) {
+			$users = 0;
+		}
+
 		$format = $this->get_prepare_format( $users );
 		$users = $this->get_prepare_data( $users );
 		
@@ -1187,8 +1260,52 @@ class Task {
 		$tb_asin = pm_tb_prefix() . 'pm_assignees';
 
 		$this->join .= " LEFT JOIN {$tb_asin} ON $tb_asin.task_id={$this->tb_tasks}.id";
-		
 		$this->where .= $wpdb->prepare( " AND $tb_asin.assigned_to IN ($format)", $users );
+
+		return $this;
+	}
+
+	private function where_milestone() {
+		if ( !isset( $this->query_params['milestone'] ) ) {
+			return $this;
+		}
+
+		global $wpdb;
+
+		$milestone = $this->query_params['milestone'];
+		$tb_milestone   = pm_tb_prefix() . 'pm_boards';
+		$tb_boardables   = pm_tb_prefix() . 'pm_boardables';
+
+		if ( empty( $milestone ) ) {
+			$data_milestone = $wpdb->get_results( $wpdb->prepare( "SELECT id FROM {$tb_milestone} WHERE %d=%d AND type='milestone'", 1, 1 ) );
+			$milestone_ids = wp_list_pluck( $data_milestone, 'id' );
+
+		} else {
+			$milestone_ids = pm_get_prepare_data( $milestone );
+		}
+
+		$milestone_ids = empty( $milestone_ids ) ? [0] : $milestone_ids;
+
+		$format      = pm_get_prepare_format( $milestone_ids );
+		$format_data = array_merge( $milestone_ids, ['milestone', 'task_list']  );
+		
+		$milestone_lists = $wpdb->get_results( 
+			$wpdb->prepare( "SELECT boardable_id as list_id 
+				FROM {$tb_boardables} 
+				WHERE board_id IN ($format) 
+				
+				AND board_type=%s 
+				AND boardable_type=%s", 
+
+				$format_data
+			) 
+		);
+
+		$list_ids = wp_list_pluck( $milestone_lists, 'list_id' );
+		$list_ids = empty( $list_ids ) ? [0] : $list_ids;
+		$format   = pm_get_prepare_format( $list_ids );
+
+		$this->where .= $wpdb->prepare( " AND list.id IN ($format)", $list_ids );
 
 		return $this;
 	}
@@ -1611,7 +1728,7 @@ class Task {
 
 			1, 1, 'task_list', 'task'
 		);
-		
+		echo $query; die();
 		$results = $wpdb->get_results( $query );
 		
 		// If task has not boardable_id mean no list
