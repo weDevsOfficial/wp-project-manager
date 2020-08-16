@@ -1244,6 +1244,7 @@ class Task {
 
 	private function where_users() {
 		$users = isset( $this->query_params['users'] ) ? $this->query_params['users'] : false;
+		$is_user_null = false;
 
 		if ( empty( $users ) ) {
 			return $this;
@@ -1251,6 +1252,7 @@ class Task {
 
 		if ( is_null( $users ) || $users == 'null' ) {
 			$users = 0;
+			$is_user_null = true;
 		}
 
 		$format = $this->get_prepare_format( $users );
@@ -1259,8 +1261,13 @@ class Task {
 		global $wpdb;
 		$tb_asin = pm_tb_prefix() . 'pm_assignees';
 
-		$this->join .= " LEFT JOIN {$tb_asin} ON $tb_asin.task_id={$this->tb_tasks}.id";
-		$this->where .= $wpdb->prepare( " AND $tb_asin.assigned_to IN ($format)", $users );
+		if ( $is_user_null ) {
+			$this->join .= " LEFT JOIN {$tb_asin} ON $tb_asin.task_id={$this->tb_tasks}.id";
+			$this->where .= $wpdb->prepare( " AND ( $tb_asin.assigned_to IN ($format) OR $tb_asin.assigned_to is null )", $users );
+		} else {
+			$this->join .= " LEFT JOIN {$tb_asin} ON $tb_asin.task_id={$this->tb_tasks}.id";
+			$this->where .= $wpdb->prepare( " AND $tb_asin.assigned_to IN ($format)", $users );
+		}
 
 		return $this;
 	}
@@ -1728,7 +1735,7 @@ class Task {
 
 			1, 1, 'task_list', 'task'
 		);
-		echo $query; die();
+		
 		$results = $wpdb->get_results( $query );
 		
 		// If task has not boardable_id mean no list
