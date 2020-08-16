@@ -81,6 +81,13 @@ function format_date( $date ) {
     ];
 }
 
+function pm_date_format( $date ) {
+
+    $date_format = get_option( 'date_format' );
+
+    return $date ? Date( $date_format, strtotime( $date ) ) : '';
+}
+
 function make_carbon_date( $date ) {
     $timezone = get_wp_timezone();
     $timezone = tzcode_to_tzstring( $timezone );

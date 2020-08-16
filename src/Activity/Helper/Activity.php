@@ -10,7 +10,7 @@ use WP_REST_Request;
 // 	id: [1,2],
 // 	title: 'Rocket', 'test'
 // 	page: 1,
-//  orderby: [title=>'asc', 'id'=>desc]
+//  orderby: [title=>'asc', 'id'=>desc] OR created_at|ASC,id|DESC
 //  activity_meta: 'total_task_activities,total_tasks,total_complete_tasks,total_incomplete_tasks,total_activities,total_activities,total_comments,total_files,total_activities'
 // },
 
@@ -530,32 +530,35 @@ class Activity {
 	private function orderby() {
         global $wpdb;
 
-		$tb_pj    = $wpdb->prefix . 'pm_boards';
 		$odr_prms = isset( $this->query_params['orderby'] ) ? $this->query_params['orderby'] : false;
-
-        if ( $odr_prms === false && !is_array( $odr_prms ) ) {
+		
+        if ( $odr_prms === false ) {
             return $this;
         }
 
-        $orders = [];
+        if ( is_string( $odr_prms ) ) {
+        	$orders = [];
+        	$odr_prms = str_replace( ' ', '', trim( $odr_prms ) );
+        	$odr_prms = explode( ',', $odr_prms );
 
-        $odr_prms = str_replace( ' ', '', $odr_prms );
-        $odr_prms = explode( ',', $odr_prms );
-
-        foreach ( $odr_prms as $key => $orderStr ) {
-			$orderStr         = str_replace( ' ', '', $orderStr );
-			$orderStr         = explode( ':', $orderStr );
-			$orderby          = $orderStr[0];
-			$order            = empty( $orderStr[1] ) ? 'asc' : $orderStr[1];
-			$orders[$orderby] = $order;
+        	foreach ( $odr_prms as $key => $param ) {
+        		$pair = explode( '|', $param );
+        		$tb_col = $pair[0];
+        		$value = $pair[1];
+        		$orders[$tb_col] = $value;
+        	}
+        } else if ( is_array( $odr_prms ) ) {
+        	$orders = $odr_prms;
+        } else {
+        	$ordes = [];
         }
 
         $order = [];
-
+        
         foreach ( $orders as $key => $value ) {
-            $order[] =  $tb_pj .'.'. $key . ' ' . $value;
+            $order[] =  $this->tb_activity .'.'. $key . ' ' . $value;
         }
-
+        
         $this->orderby = "ORDER BY " . implode( ', ', $order);
 
         return $this;
@@ -591,7 +594,7 @@ class Activity {
 			{$this->join}
 			WHERE %d=%d {$this->where}
 			{$this->orderby} {$this->limit} ";
-
+		
 		$results = $wpdb->get_results( $wpdb->prepare( $query, 1, 1 ) );
 		
 		$this->found_rows = $wpdb->get_var( "SELECT FOUND_ROWS()" );
