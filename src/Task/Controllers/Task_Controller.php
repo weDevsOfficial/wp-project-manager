@@ -192,7 +192,7 @@ class Task_Controller {
         $is_private    = $request->get_param( 'privacy' );
         $type_id       = $request->get_param( 'type_id' );
         $data['is_private']    = $is_private == 'true' || $is_private === true ? 1 : 0;
-        
+        pmpr($assignees);
         if ( empty( $board_id ) ) {
             $inbox            = pm_get_meta($project_id, $project_id, 'task_list', 'list-inbox');
             $board_id         = $inbox->meta_value;
