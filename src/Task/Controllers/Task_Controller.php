@@ -220,7 +220,7 @@ class Task_Controller {
                 'order'          => $latest_order + 1,
             ]);
         }
-        pmpr($assignees); die();
+
         if ( is_array( $assignees ) && $task ) {
             $this->attach_assignees( $task, $assignees );
         }
@@ -300,7 +300,7 @@ class Task_Controller {
     public function attach_assignees( Task $task, $assignees = [] ) {
 
         do_action('pm_before_assignees', $task, $assignees );
-
+        pmpr($assignees); die();
         foreach ( $assignees as $user_id ) {
             if ( ! intval( $user_id ) ) {
                 continue ;
