@@ -300,7 +300,7 @@ class Task_Controller {
     public function attach_assignees( Task $task, $assignees = [] ) {
 
         do_action('pm_before_assignees', $task, $assignees );
-        return;
+        pmpr($assignees);
         foreach ( $assignees as $user_id ) {
             if ( ! intval( $user_id ) ) {
                 continue ;
@@ -310,7 +310,7 @@ class Task_Controller {
                 'assigned_to' => $user_id,
                 'project_id'  => $task->project_id,
             ];
-
+            pmpr($data);
             $assignee = Assignee::firstOrCreate( $data );
 
             if ( ! $assignee->assigned_at ) {
