@@ -64,7 +64,9 @@
 
     export default{
         props: ['task'],
+        
         mixins: [PmMixin.projectTaskLists],
+        
         data () {
             return{
                 task_status : this.task.status == 'complete' ? 1 : 0,
@@ -72,20 +74,25 @@
                 projectId: false
             }
         },
+        
         components: {
         	'single-task': pm.SingleTask
         },
+        
         created () {
             pmBus.$on('pm_after_close_single_task_modal', this.afterCloseSingleTaskModal);
         },
+
         methods: {
             getLabels (task) {
                 return typeof task.labels == 'undefined' ? [] : task.labels.data;
             },
+
             afterCloseSingleTaskModal () {
                 this.taskId = false;
                 this.projectId = false;
             },
+            
             doneUndone (){
                 var self = this,
                 task_status = this.task.status === 'complete' ? 0 : 1;
@@ -109,6 +116,7 @@
                 this.taskId = task.id;
                 this.projectId = task.project_id;
             },
+            
             afterCloseSingleTaskModal () {
                 var params = {}, route = null;
                 if (typeof this.$route.params.user_id !== 'undefined') {

@@ -81,6 +81,13 @@ function format_date( $date ) {
     ];
 }
 
+function pm_date_format( $date ) {
+
+    $date_format = get_option( 'date_format' );
+
+    return $date ? Date( $date_format, strtotime( $date ) ) : '';
+}
+
 function make_carbon_date( $date ) {
     $timezone = get_wp_timezone();
     $timezone = tzcode_to_tzstring( $timezone );
@@ -1029,7 +1036,7 @@ function pm_get_estimation_type() {
         return 'task';
     }
 
-    if( pm_pro_is_module_active( 'sub_tasks/sub_tasks.php' ) ) {
+    if ( pm_pro_is_module_active( 'sub_tasks/sub_tasks.php' ) ) {
         return 'subtask';
     }
 
@@ -1040,6 +1047,18 @@ function pm_get_estimation_type() {
     // }
 
     return 'task';
+}
+
+function pm_is_active_time_tracker_module() { 
+    if ( ! function_exists( 'pm_pro_is_module_active' ) ) {
+        return false;
+    }
+
+    if ( pm_pro_is_module_active( 'time_tracker/time_tracker.php' ) ) {
+        return true;
+    }
+
+    return false;
 }
 
 function pm_second_to_time( $seconds ) {
@@ -1091,6 +1110,15 @@ function pm_get_task_lists( $params = [] ) {
  */
 function pm_get_tasks( $params = [] ) {
      return \WeDevs\PM\task\Helper\Task::get_results( $params );
+}
+
+/**
+ * [pm_get_tasks description]
+ * @param  array|string $params
+ * @return [type]
+ */
+function pm_get_activities( $params = [] ) {
+     return \WeDevs\PM\Activity\Helper\Activity::get_results( $params );
 }
 
 /**
@@ -1179,6 +1207,22 @@ function pm_current_user_can_update_core() {
     }
 
     return false;
+}
+
+/**
+ * check value for boolean
+ * 
+ * @param  string|boolean $val
+ * 
+ * @return [type]
+ */
+function pm_is_true ( $val ) {
+    
+    if ( is_string( $val ) ) {
+        return $val == 'true' || $val == '1' ? true : false;
+    }
+
+    return (int) $val ? true : false;
 }
 
 
