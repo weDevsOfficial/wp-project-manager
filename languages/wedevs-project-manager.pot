@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Project Manager 2.4.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/cpm\n"
-"POT-Creation-Date: 2020-07-23 05:58:08+00:00\n"
+"POT-Creation-Date: 2020-08-17 16:30:18+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -272,7 +272,7 @@ msgstr ""
 msgid "Jump to a project"
 msgstr ""
 
-#: core/WP/Menu.php:20 libs/functions.php:928 views/assets/js/pm.js:28
+#: core/WP/Menu.php:20 libs/functions.php:935 views/assets/js/pm.js:28
 #: views/assets/src/components/project-lists/header.vue:10
 msgid "Project Manager"
 msgstr ""
@@ -518,7 +518,7 @@ msgstr ""
 msgid "Delete settings record"
 msgstr ""
 
-#: src/Task/Controllers/Task_Controller.php:1279
+#: src/Task/Controllers/Task_Controller.php:1329
 msgid "Copy "
 msgstr ""
 
@@ -1054,7 +1054,7 @@ msgstr ""
 #: views/assets/src/components/project-overview/addNewUser.vue:52
 #: views/assets/src/components/project-task-lists/list-comment-form.vue:15
 #: views/assets/src/components/project-task-lists/new-task-list-form.vue:28
-#: views/assets/src/components/project-task-lists/single-task.vue:600
+#: views/assets/src/components/project-task-lists/single-task.vue:585
 #: views/assets/src/components/project-task-lists/task-comment-form.vue:15
 #: views/assets/src/components/settings/new-task-type-form.vue:26
 #: views/assets/src/components/settings/new-task-type-form.vue:35
@@ -1170,6 +1170,34 @@ msgid "Add a comment"
 msgstr ""
 
 #: views/assets/js/library.js:20 views/assets/js/pm.js:20
+#: views/assets/src/components/project-task-lists/single-task-type.vue:4
+msgid "Type"
+msgstr ""
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20
+#: views/assets/js/pm.js:28
+#: views/assets/src/components/project-task-lists/new-task-form.vue:145
+#: views/assets/src/components/project-task-lists/single-task-type.vue:23
+msgid "Loading"
+msgstr ""
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20
+#: views/assets/js/pm.js:28
+#: views/assets/src/components/project-task-lists/new-task-form.vue:149
+#: views/assets/src/components/project-task-lists/single-task-type.vue:27
+msgid "Task type not found!"
+msgstr ""
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20
+msgid "Add new task type"
+msgstr ""
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20
+#: views/assets/src/components/project-task-lists/single-task-type.vue:63
+msgid "Add Task Type"
+msgstr ""
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20
 #: views/assets/js/pm.js:28 views/assets/js/pm.js:53
 #: views/assets/src/components/common/list-filter.vue:41
 #: views/assets/src/components/my-tasks/overview.vue:68
@@ -1248,12 +1276,12 @@ msgid "Add Due Date +"
 msgstr ""
 
 #: views/assets/js/library.js:20 views/assets/js/pm.js:20
-#: views/assets/src/components/project-task-lists/single-task.vue:490
+#: views/assets/src/components/project-task-lists/single-task.vue:489
 msgid "Privacy"
 msgstr ""
 
 #: views/assets/js/library.js:20 views/assets/js/pm.js:20
-#: views/assets/src/components/project-task-lists/single-task.vue:536
+#: views/assets/src/components/project-task-lists/single-task.vue:520
 msgid "Hide from others"
 msgstr ""
 
@@ -1269,8 +1297,8 @@ msgstr ""
 #: views/assets/src/components/categories/categories.vue:85
 #: views/assets/src/components/categories/categories.vue:143
 #: views/assets/src/components/categories/edit-category-form.vue:14
-#: views/assets/src/components/project-task-lists/single-task.vue:578
-#: views/assets/src/components/project-task-lists/single-task.vue:586
+#: views/assets/src/components/project-task-lists/single-task.vue:563
+#: views/assets/src/components/project-task-lists/single-task.vue:571
 #: views/assets/src/components/settings/new-task-type-form.vue:15
 #: views/assets/src/components/settings/task-types.vue:23
 msgid "Description"
@@ -1278,14 +1306,14 @@ msgstr ""
 
 #: views/assets/js/library.js:20 views/assets/js/pm.js:20
 #: views/assets/js/pm.js:28
-#: views/assets/src/components/project-task-lists/single-task.vue:599
+#: views/assets/src/components/project-task-lists/single-task.vue:584
 msgid "Update"
 msgstr ""
 
 #: views/assets/js/library.js:20 views/assets/js/pm.js:20
 #: views/assets/js/pm.js:28
 #: views/assets/src/components/project-overview/directive.js:9
-#: views/assets/src/components/project-task-lists/single-task.vue:618
+#: views/assets/src/components/project-task-lists/single-task.vue:603
 msgid "Activity"
 msgstr ""
 
@@ -1381,7 +1409,7 @@ msgid "Discussions"
 msgstr ""
 
 #: views/assets/js/pm.js:28
-#: views/assets/src/components/common/list-drop-down.vue:42
+#: views/assets/src/components/common/list-drop-down.vue:44
 #: views/assets/src/components/common/menu.vue:230
 #: views/assets/src/components/project-milestones/completed-milestones.vue:23
 #: views/assets/src/components/project-milestones/late-milestones.vue:30
@@ -1475,16 +1503,6 @@ msgstr ""
 
 #: views/assets/js/pm.js:28
 msgid "Assign user"
-msgstr ""
-
-#: views/assets/js/pm.js:28
-#: views/assets/src/components/project-task-lists/new-task-form.vue:145
-msgid "Loading"
-msgstr ""
-
-#: views/assets/js/pm.js:28
-#: views/assets/src/components/project-task-lists/new-task-form.vue:149
-msgid "Task type not found!"
 msgstr ""
 
 #: views/assets/js/pm.js:28 views/assets/src/components/settings/header.vue:16
@@ -2422,13 +2440,13 @@ msgstr ""
 msgid "Write a comment..."
 msgstr ""
 
-#: views/assets/src/components/my-tasks/current-task.vue:294
-#: views/assets/src/components/my-tasks/current-task.vue:298
+#: views/assets/src/components/my-tasks/current-task.vue:302
+#: views/assets/src/components/my-tasks/current-task.vue:306
 #: views/assets/src/components/my-tasks/outstanding-task.vue:263
 msgid "Created at"
 msgstr ""
 
-#: views/assets/src/components/my-tasks/current-task.vue:302
+#: views/assets/src/components/my-tasks/current-task.vue:310
 #: views/assets/src/components/my-tasks/outstanding-task.vue:267
 msgid "Date Between"
 msgstr ""
@@ -2715,8 +2733,8 @@ msgid "Estimated hour to complete the task"
 msgstr ""
 
 #: views/assets/src/components/project-task-lists/new-task-form.vue:586
-#: views/assets/src/components/project-task-lists/single-task.vue:1414
-#: views/assets/src/components/project-task-lists/single-task.vue:1420
+#: views/assets/src/components/project-task-lists/single-task.vue:1399
+#: views/assets/src/components/project-task-lists/single-task.vue:1405
 msgid "Maxmim character limit 200"
 msgstr ""
 
@@ -2732,35 +2750,31 @@ msgstr ""
 msgid "Delete List"
 msgstr ""
 
-#: views/assets/src/components/project-task-lists/single-task.vue:502
+#: views/assets/src/components/project-task-lists/single-task.vue:501
 msgid "Mark as private"
 msgstr ""
 
-#: views/assets/src/components/project-task-lists/single-task.vue:503
+#: views/assets/src/components/project-task-lists/single-task.vue:502
 msgid "Mark as public"
 msgstr ""
 
-#: views/assets/src/components/project-task-lists/single-task.vue:544
-msgid "Visible for co-worker & client"
-msgstr ""
-
-#: views/assets/src/components/project-task-lists/single-task.vue:1205
+#: views/assets/src/components/project-task-lists/single-task.vue:1191
 msgid "Update Description"
 msgstr ""
 
-#: views/assets/src/components/project-task-lists/single-task.vue:1619
+#: views/assets/src/components/project-task-lists/single-task.vue:1604
 msgid "Copied!"
 msgstr ""
 
-#: views/assets/src/components/project-task-lists/single-task.vue:1864
+#: views/assets/src/components/project-task-lists/single-task.vue:1850
 msgid "Invalid date range!"
 msgstr ""
 
-#: views/assets/src/components/project-task-lists/single-task.vue:2029
+#: views/assets/src/components/project-task-lists/single-task.vue:2016
 msgid "Task marked as private"
 msgstr ""
 
-#: views/assets/src/components/project-task-lists/single-task.vue:2031
+#: views/assets/src/components/project-task-lists/single-task.vue:2018
 msgid "Task visible for co-worker"
 msgstr ""
 

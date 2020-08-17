@@ -955,6 +955,7 @@ class ComposerStaticInitbeb7297736e72c226b83de92eea034dd
         'WeDevs\\ORM\\WP\\UserMeta' => __DIR__ . '/..' . '/tareq1988/wp-eloquent/src/WP/UserMeta.php',
         'WeDevs\\PM\\Activity\\Activity_Log' => __DIR__ . '/../..' . '/src/Activity/Activity_Log.php',
         'WeDevs\\PM\\Activity\\Controllers\\Activity_Controller' => __DIR__ . '/../..' . '/src/Activity/Controllers/Activity_Controller.php',
+        'WeDevs\\PM\\Activity\\Helper\\Activity' => __DIR__ . '/../..' . '/src/Activity/Helper/Activity.php',
         'WeDevs\\PM\\Activity\\Models\\Activity' => __DIR__ . '/../..' . '/src/Activity/Models/Activity.php',
         'WeDevs\\PM\\Activity\\Transformers\\Activity_Transformer' => __DIR__ . '/../..' . '/src/Activity/Transformers/Activity_Transformer.php',
         'WeDevs\\PM\\Calendar\\Transformers\\Calendar_Transformer' => __DIR__ . '/../..' . '/src/Calendar/Transformers/Calendar_Transformer.php',

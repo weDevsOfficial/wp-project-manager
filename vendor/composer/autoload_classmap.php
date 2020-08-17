@@ -830,6 +830,7 @@ return array(
     'WeDevs\\ORM\\WP\\UserMeta' => $vendorDir . '/tareq1988/wp-eloquent/src/WP/UserMeta.php',
     'WeDevs\\PM\\Activity\\Activity_Log' => $baseDir . '/src/Activity/Activity_Log.php',
     'WeDevs\\PM\\Activity\\Controllers\\Activity_Controller' => $baseDir . '/src/Activity/Controllers/Activity_Controller.php',
+    'WeDevs\\PM\\Activity\\Helper\\Activity' => $baseDir . '/src/Activity/Helper/Activity.php',
     'WeDevs\\PM\\Activity\\Models\\Activity' => $baseDir . '/src/Activity/Models/Activity.php',
     'WeDevs\\PM\\Activity\\Transformers\\Activity_Transformer' => $baseDir . '/src/Activity/Transformers/Activity_Transformer.php',
     'WeDevs\\PM\\Calendar\\Transformers\\Calendar_Transformer' => $baseDir . '/src/Calendar/Transformers/Calendar_Transformer.php',
