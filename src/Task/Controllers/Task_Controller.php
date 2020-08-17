@@ -98,29 +98,33 @@ class Task_Controller {
 
     public static function get_task( $task_id, $project_id = false, $request=[] ) {
         
-        $task = Task::with( 'task_lists' )
-            ->where( 'id', $task_id )
-            ->parent();
+        return pm_get_tasks( [ 
+            'id' => $task_id,
+            'with' => 'project, activities, comments, task_list, time, labels' 
+        ] );
+        // $task = Task::with( 'task_lists' )
+        //     ->where( 'id', $task_id )
+        //     ->parent();
 
-        if ( $project_id ) {
-            $task = $task->where( 'project_id', $project_id );
+        // if ( $project_id ) {
+        //     $task = $task->where( 'project_id', $project_id );
             
-        }
+        // }
         
-        $task = apply_filters( 'pm_task_show_query', $task, $project_id, $request );
-        $task = $task->first();
+        // $task = apply_filters( 'pm_task_show_query', $task, $project_id, $request );
+        // $task = $task->first();
 
-        if ( $task == NULL ) {
-            return pm_get_response( null,  [
-                'message' => pm_get_text('success_messages.no_element')
-            ] );
-        }
+        // if ( $task == NULL ) {
+        //     return pm_get_response( null,  [
+        //         'message' => pm_get_text('success_messages.no_element')
+        //     ] );
+        // }
         
-        $resource = new Item( $task, new Task_Transformer );
-        $response = self::getInstance()->get_response( $resource );
-        $response = apply_filters('pm_get_task', $response , $request);
+        // $resource = new Item( $task, new Task_Transformer );
+        // $response = self::getInstance()->get_response( $resource );
+        // $response = apply_filters('pm_get_task', $response , $request);
         
-        return $response ;
+        // return $response ;
     }
 
     public static function create_task( $data ) {
@@ -334,7 +338,7 @@ class Task_Controller {
 
         if(  $task->status == 'complete' && !$assignee->completed_at ){
             $assignee->completed_at = Carbon::now();
-            $assignee->status = 2;
+            $assignee->status = 1;
             $assignee->save();
         }
 

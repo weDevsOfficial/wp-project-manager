@@ -275,13 +275,29 @@
             },
             projectMarkAsDoneUndone (project) {
                 var self = this;
-                project.status = project.status === 'complete' ? 'incomplete' : 'complete';
-                
+                var status = '';
+
+                if(
+                    project.status=='complete'
+                        ||
+                    project.status=='1'
+                ) {
+                    status = 'incomplete';
+                }
+
+                if(
+                    project.status=='incomplete'
+                        ||
+                    project.status=='0'
+                ) {
+                    status = 'complete';
+                }
+           
                 var args ={
                     data:{
                         'id': project.id,
                         'title': project.title,
-                        'status': project.status,
+                        'status': status,
                     },
                     callback: function(project) {
 
