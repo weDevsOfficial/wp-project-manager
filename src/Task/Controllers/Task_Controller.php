@@ -319,7 +319,7 @@ class Task_Controller {
             }
         }
 
-        do_action('pm_after_assignees', $task, $assignees );
+        //do_action('pm_after_assignees', $task, $assignees );
     }
 
     private function update_task_status( Task $task ){
