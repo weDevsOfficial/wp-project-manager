@@ -192,7 +192,7 @@ class Task_Controller {
         $is_private    = $request->get_param( 'privacy' );
         $type_id       = $request->get_param( 'type_id' );
         $data['is_private']    = $is_private == 'true' || $is_private === true ? 1 : 0;
-
+        
         if ( empty( $board_id ) ) {
             $inbox            = pm_get_meta($project_id, $project_id, 'task_list', 'list-inbox');
             $board_id         = $inbox->meta_value;
@@ -300,7 +300,7 @@ class Task_Controller {
     public function attach_assignees( Task $task, $assignees = [] ) {
 
         do_action('pm_before_assignees', $task, $assignees );
-        pmpr($assignees);
+
         foreach ( $assignees as $user_id ) {
             if ( ! intval( $user_id ) ) {
                 continue ;
@@ -310,7 +310,7 @@ class Task_Controller {
                 'assigned_to' => $user_id,
                 'project_id'  => $task->project_id,
             ];
-            pmpr($data);
+            
             $assignee = Assignee::firstOrCreate( $data );
 
             if ( ! $assignee->assigned_at ) {
