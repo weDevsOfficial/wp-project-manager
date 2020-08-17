@@ -220,7 +220,7 @@ class Task_Controller {
                 'order'          => $latest_order + 1,
             ]);
         }
-
+        pmpr($assignees); die();
         if ( is_array( $assignees ) && $task ) {
             $this->attach_assignees( $task, $assignees );
         }
@@ -319,7 +319,7 @@ class Task_Controller {
             }
         }
 
-        //do_action('pm_after_assignees', $task, $assignees );
+        do_action('pm_after_assignees', $task, $assignees );
     }
 
     private function update_task_status( Task $task ){
