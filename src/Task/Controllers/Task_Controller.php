@@ -300,7 +300,7 @@ class Task_Controller {
     public function attach_assignees( Task $task, $assignees = [] ) {
 
         do_action('pm_before_assignees', $task, $assignees );
-        pmpr($assignees); die();
+        return;
         foreach ( $assignees as $user_id ) {
             if ( ! intval( $user_id ) ) {
                 continue ;
