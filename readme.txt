@@ -239,6 +239,13 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= v2.4.1 - Jul Upcoming, 2020 =
+
+* **New** Task type.
+* **Fix** Date picker is not showing at task update time.
+* **Fix** Could not delete the description of a task list.
+* **Fix** Project can not restore from projects completed section.
+
 = v2.4.0 - Jul 17, 2020 =
 
 * **New** Component for pm-vue2-daterange-picker, pm-button, pm-do-slot.
