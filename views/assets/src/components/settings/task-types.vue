@@ -214,7 +214,6 @@
             .type-form {
                 display: inline-flex;
                 align-items: flex-end;
-                justify-content: space-between;
                 width: 100%;
 
                 .form-group-wrap {
