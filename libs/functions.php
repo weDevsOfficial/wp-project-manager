@@ -426,6 +426,7 @@ function pm_has_project_create_capability( $user_id = false ) {
 
     return true;
 }
+
 function pm_has_project_managing_capability( $project_id, $user_id = false ) {
     if ( pm_has_manage_capability( $user_id ) ) {
         return true;
@@ -436,6 +437,7 @@ function pm_has_project_managing_capability( $project_id, $user_id = false ) {
 
     return false;
 }
+
 function pm_user_can_complete_task( $task, $user_id = false ) {
     if(!$task) {
         return false;
