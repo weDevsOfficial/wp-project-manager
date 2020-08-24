@@ -193,7 +193,7 @@ class Task {
 			'id'                    => (int) $task->id,
 			'title'                 => (string) $task->title,
 			'description'           => [ 'html' => pm_get_content( $task->description ), 'content' => $task->description ],
-			'estimation'            => $task->estimation,
+			'estimation'            => $task->estimation*60,
 			'comparable_estimation' => $task->comparable_estimation,
 			'formated_com_est'      => pm_second_to_time( $task->comparable_estimation*60 ),
 			'start_at'              => format_date( $task->start_at ),
