@@ -1,3 +1,12 @@
+= v2.4.1 - Aug 25, 2020 =
+
+* **New** Add new task type for individual task.
+* **Fix** During task update the date picker was not showing.
+* **Fix** Was not able to delete the task list description.
+* **Fix** Optimize code for security issue.
+* **Fix** Task list title was not able to update.
+* **Fix** Completed project was not able to restore.
+
 = v2.4.0 - Jul 17, 2020 =
 
 * **New** Component for pm-vue2-daterange-picker, pm-button, pm-do-slot.
