@@ -186,6 +186,10 @@ class Upgrade {
             return;
         }
 
+        if ( ! isset( $_POST['pm_update'] ) ) {
+            return;
+        }
+
         if ( ! current_user_can( 'manage_options' ) ) {
             return;
         }
