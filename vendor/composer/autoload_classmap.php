@@ -925,7 +925,7 @@ return array(
     'WeDevs\\PM\\Core\\Upgrades\\Upgrade_2_2_1' => $baseDir . '/core/Upgrades/Upgrade_2_2_1.php',
     'WeDevs\\PM\\Core\\Upgrades\\Upgrade_2_2_2' => $baseDir . '/core/Upgrades/Upgrade_2_2_2.php',
     'WeDevs\\PM\\Core\\Upgrades\\Upgrade_2_3' => $baseDir . '/core/Upgrades/Upgrade_2_3.php',
-    'WeDevs\\PM\\Core\\Upgrades\\Upgrade_2_4' => $baseDir . '/core/Upgrades/Upgrade_2_4.php',
+    'WeDevs\\PM\\Core\\Upgrades\\Upgrade_2_4_1' => $baseDir . '/core/Upgrades/Upgrade_2_4_1.php',
     'WeDevs\\PM\\Core\\Validator\\Abstract_Validator' => $baseDir . '/core/Validator/Abstract_Validator.php',
     'WeDevs\\PM\\Core\\Validator\\Validator' => $baseDir . '/core/Validator/Validator.php',
     'WeDevs\\PM\\Core\\WP\\Enqueue_Scripts' => $baseDir . '/core/WP/Enqueue_Scripts.php',

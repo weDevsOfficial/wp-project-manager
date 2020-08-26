@@ -1050,7 +1050,7 @@ class ComposerStaticInitbeb7297736e72c226b83de92eea034dd
         'WeDevs\\PM\\Core\\Upgrades\\Upgrade_2_2_1' => __DIR__ . '/../..' . '/core/Upgrades/Upgrade_2_2_1.php',
         'WeDevs\\PM\\Core\\Upgrades\\Upgrade_2_2_2' => __DIR__ . '/../..' . '/core/Upgrades/Upgrade_2_2_2.php',
         'WeDevs\\PM\\Core\\Upgrades\\Upgrade_2_3' => __DIR__ . '/../..' . '/core/Upgrades/Upgrade_2_3.php',
-        'WeDevs\\PM\\Core\\Upgrades\\Upgrade_2_4' => __DIR__ . '/../..' . '/core/Upgrades/Upgrade_2_4.php',
+        'WeDevs\\PM\\Core\\Upgrades\\Upgrade_2_4_1' => __DIR__ . '/../..' . '/core/Upgrades/Upgrade_2_4_1.php',
         'WeDevs\\PM\\Core\\Validator\\Abstract_Validator' => __DIR__ . '/../..' . '/core/Validator/Abstract_Validator.php',
         'WeDevs\\PM\\Core\\Validator\\Validator' => __DIR__ . '/../..' . '/core/Validator/Validator.php',
         'WeDevs\\PM\\Core\\WP\\Enqueue_Scripts' => __DIR__ . '/../..' . '/core/WP/Enqueue_Scripts.php',
