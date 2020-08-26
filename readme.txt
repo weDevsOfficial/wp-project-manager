@@ -241,7 +241,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 = v2.4.2 - Aug 26, 2020 =
 
-* **Fix** Single task popup is not appear.
+* **Fix** Single task popup is not appearing.
 
 = v2.4.1 - Aug 25, 2020 =
 
