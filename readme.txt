@@ -5,7 +5,7 @@ Tags: project, project manager, project management, web project management, task
 Requires at least: 4.4 or higher
 Tested up to: 5.5
 Requires PHP: 5.6
-Stable tag: 2.4.1
+Stable tag: 2.4.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -238,6 +238,10 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 
 == Changelog ==
+
+= v2.4.2 - Aug 26, 2020 =
+
+* **Fix** Single task popup is not appear.
 
 = v2.4.1 - Aug 25, 2020 =
 

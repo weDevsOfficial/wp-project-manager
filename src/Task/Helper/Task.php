@@ -543,6 +543,10 @@ class Task {
 			return $this;
 		}
 
+		if ( ! function_exists( 'pm_pro_get_times' ) ) {
+			return $this;
+		}
+
 		$results = pm_pro_get_times([
 			'task_id' => $this->task_ids
 		]);
