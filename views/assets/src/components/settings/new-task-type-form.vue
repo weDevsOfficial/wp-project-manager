@@ -3,7 +3,7 @@
         <div class="form-group-wrap">
             <div class="form-group">
                 <div class="type-wrap">
-                    <type>{{ __('Type Name', 'pm-pro') }}</type>
+                    <h3>{{ __('Type Name', 'pm-pro') }}</h3>
                 </div>
                 <div>
                     <input v-model="formData.title" class="form-control" :placeholder="__( 'Type name...', 'pm-pro' )" type="text">
@@ -12,7 +12,7 @@
 
             <div class="form-group">
                 <div class="type-wrap">
-                    <type>{{ __('Description', 'pm-pro') }}</type>
+                    <h3>{{ __('Description', 'pm-pro') }}</h3>
                 </div>
                 <div>
                     <input v-model="formData.description" class="form-control description-control" :placeholder="__( 'Description (optional)', 'pm-pro' )" type="text">
