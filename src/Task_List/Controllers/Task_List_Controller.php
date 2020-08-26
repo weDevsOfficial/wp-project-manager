@@ -367,15 +367,15 @@ class Task_List_Controller {
         $project_id          = $request->get_param( 'project_id' );
         $task_list_id        = $request->get_param( 'task_list_id' );
         $milestone_id        = $request->get_param( 'milestone' );
-        $data['description'] = $request->get_params('description'); 
+        $data['description'] = $request->get_param('description'); 
         $is_private          = $request->get_param( 'privacy' );
         $data['is_private']  = $is_private == 'true' || $is_private === true ? 1 : 0;
-
+        
         $milestone = Milestone::find( $milestone_id );
         $task_list = Task_List::where( 'id', $task_list_id )
             ->where( 'project_id', $project_id )
             ->first();
-
+        
         $task_list->update_model( $data );
 
         if ( $milestone ) {

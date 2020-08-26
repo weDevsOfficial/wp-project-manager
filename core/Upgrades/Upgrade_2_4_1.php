@@ -2,9 +2,9 @@
 namespace WeDevs\PM\Core\Upgrades;
 
 /**
- *   Upgrade project manager 2.4
+ *   Upgrade project manager 2.4.1
  */
-class Upgrade_2_4 {
+class Upgrade_2_4_1 {
     
 
     /*initialize */

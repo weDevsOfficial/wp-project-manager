@@ -175,18 +175,19 @@
 
         watch: {
             selectedProjects () {
-                this.formatSelectedProjectsId();
+                //this.formatSelectedProjectsId();
             }
         },
 
 		created() {
             this.hasPropsProjects()
 			this.setProjects();
-            this.formatSelectedProjectsId();
+            //this.formatSelectedProjectsId();
 		},
 
         computed: {
             projects () {
+                this.formatSelectedProjectsId(this.$store.state.dropDownProjects);
                 return this.$store.state.dropDownProjects;
             }
         },
@@ -230,8 +231,10 @@
                 }
             },
 
-            formatSelectedProjectsId () {
+            formatSelectedProjectsId (projects) {
                 var self = this;
+
+                projects = projects || [];
                 
                 if( this.is_object(this.selectedProjects) ) {
                     this.project = Object.assign({}, this.selectedProjects)
@@ -239,10 +242,31 @@
                 
                 if( this.is_array( this.selectedProjects ) ) {
                     this.project = [];
+
                     this.selectedProjects.forEach( (project) => {
-                        project.id = parseInt( project.id );
-                        self.project.push(project);
+                        if( !this.is_object(project) ) {
+                            let index = self.getIndex( projects, parseInt(project), 'id' );
+
+                            if(index !== false) {
+                                let project = projects[index];
+                                project.id = parseInt( project.id );
+                                self.project.push(project);
+                            }
+                        } else {
+                            project.id = parseInt( project.id );
+                            self.project.push(project);
+                        }
                     } )
+                }
+
+                if( typeof this.selectedProjects === 'string' ) {
+                    let index = this.getIndex( projects, parseInt(this.selectedProjects), 'id' );
+
+                    if(index !== false) {
+                        let project = projects[index];
+                        project.id = parseInt( project.id );
+                        self.project = { ...project };
+                    }
                 }
             },
 

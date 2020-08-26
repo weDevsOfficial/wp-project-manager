@@ -193,7 +193,7 @@ class Task {
 			'id'                    => (int) $task->id,
 			'title'                 => (string) $task->title,
 			'description'           => [ 'html' => pm_get_content( $task->description ), 'content' => $task->description ],
-			'estimation'            => $task->estimation,
+			'estimation'            => $task->estimation*60,
 			'comparable_estimation' => $task->comparable_estimation,
 			'formated_com_est'      => pm_second_to_time( $task->comparable_estimation*60 ),
 			'start_at'              => format_date( $task->start_at ),
@@ -540,6 +540,10 @@ class Task {
 		}
 
 		if ( ! pm_is_active_time_tracker_module() ) {
+			return $this;
+		}
+
+		if ( ! function_exists( 'pm_pro_get_times' ) ) {
 			return $this;
 		}
 
@@ -1291,7 +1295,7 @@ class Task {
 			$milestone_ids = pm_get_prepare_data( $milestone );
 		}
 
-		$milestone_ids = empty( $milestone_ids ) ? [0] : $milestone_ids;
+		$milestone_ids = empty( $milestone_ids ) ? [-1] : $milestone_ids;
 
 		$format      = pm_get_prepare_format( $milestone_ids );
 		$format_data = array_merge( $milestone_ids, ['milestone', 'task_list']  );
@@ -1309,7 +1313,7 @@ class Task {
 		);
 
 		$list_ids = wp_list_pluck( $milestone_lists, 'list_id' );
-		$list_ids = empty( $list_ids ) ? [0] : $list_ids;
+		$list_ids = empty( $list_ids ) ? [-1] : $list_ids;
 		$format   = pm_get_prepare_format( $list_ids );
 
 		$this->where .= $wpdb->prepare( " AND list.id IN ($format)", $list_ids );
@@ -1735,7 +1739,7 @@ class Task {
 
 			1, 1, 'task_list', 'task'
 		);
-		
+		//echo $query; die();
 		$results = $wpdb->get_results( $query );
 		
 		// If task has not boardable_id mean no list

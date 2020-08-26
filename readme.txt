@@ -3,9 +3,9 @@ Contributors: tareq1988, nizamuddinbabu, wedevs, asaquzzaman
 Donate Link: https://tareq.co/donate/
 Tags: project, project manager, project management, web project management, task manager, online collaboration tool,
 Requires at least: 4.4 or higher
-Tested up to: 5.4.2
+Tested up to: 5.5
 Requires PHP: 5.6
-Stable tag: 2.4.0
+Stable tag: 2.4.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -238,6 +238,19 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 
 == Changelog ==
+
+= v2.4.2 - Aug 26, 2020 =
+
+* **Fix** Single task popup is not appearing.
+
+= v2.4.1 - Aug 25, 2020 =
+
+* **New** Add new task type for individual task.
+* **Fix** During task update the date picker was not showing.
+* **Fix** Was not able to delete the task list description.
+* **Fix** Optimize code for security issue.
+* **Fix** Task list title was not able to update.
+* **Fix** Completed project was not able to restore.
 
 = v2.4.0 - Jul 17, 2020 =
 
