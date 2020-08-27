@@ -13,6 +13,7 @@ class Upgrade {
         '2.2.1' => 'Upgrade_2_2_1',
         '2.2.2' => 'Upgrade_2_2_2',
         '2.3'   => 'Upgrade_2_3',
+        '2.4.1' => 'Upgrade_2_4_1',
     ];
 
     public static $instance = null;
@@ -177,7 +178,11 @@ class Upgrade {
      */
     public function do_updates() {
 
-        if ( isset( $_POST['pm_nonce'] ) && ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['pm_nonce'] ) ), '_nonce' ) ) {
+        if ( empty( $_POST['pm_nonce'] ) ) {
+            return;
+        }
+
+        if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['pm_nonce'] ) ), '_nonce' ) ) {
             return;
         }
 

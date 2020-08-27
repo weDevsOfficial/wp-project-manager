@@ -81,6 +81,13 @@ function format_date( $date ) {
     ];
 }
 
+function pm_date_format( $date ) {
+
+    $date_format = get_option( 'date_format' );
+
+    return $date ? Date( $date_format, strtotime( $date ) ) : '';
+}
+
 function make_carbon_date( $date ) {
     $timezone = get_wp_timezone();
     $timezone = tzcode_to_tzstring( $timezone );
@@ -261,53 +268,6 @@ function pmpr() {
     }
 }
 
-function pm_default_co_caps() {
-    return [
-        'create_message'         => true,
-        'view_private_message'   => true,
-        'create_list'            => true,
-        'view_private_list'      => true,
-        'create_task'            => true,
-        'view_private_task'      => true,
-        'create_milestone'       => true,
-        'view_private_milestone' => true,
-        'create_file'            => true,
-        'view_private_file'      => true
-    ];
-}
-
-function pm_default_cap() {
-    $pm_caps =  [
-        '1'  => 'create_message',
-        '2'  => 'view_private_message',
-        '3'  => 'create_list',
-        '4'  => 'create_task',
-        '5'  => 'create_milestone',
-        '6'  => 'view_private_milestone',
-        '7'  => 'create_task',
-        '8'  => 'view_private_task',
-        '9'  => 'create_file',
-        '10' => 'view_private_file'
-    ];
-
-    return $pm_caps;
-}
-
-function pm_default_client_caps() {
-    return [
-        'create_message'         => true,
-        'view_private_message'   => false,
-        'create_list'            => true,
-        'view_private_list'      => false,
-        'create_task'            => true,
-        'view_private_task'      => false,
-        'create_milestone'       => true,
-        'view_private_milestone' => false,
-        'create_file'            => true,
-        'view_private_file'      => false
-    ];
-}
-
 function pm_pro_get_project_capabilities( $project_id ) {
     $caps = WeDevs\PM\Settings\Models\Settings::where('key', 'capabilities')
         ->where('project_id', $project_id)
@@ -429,6 +389,7 @@ function pm_user_can( $cap, $project_id, $user_id = false ) {
 }
 
 function pm_has_manage_capability( $user_id = false ) {
+
     $user_id = $user_id ? intval( $user_id ) : get_current_user_id();
     $user    = get_user_by( 'id', $user_id );
     
@@ -465,6 +426,7 @@ function pm_has_project_create_capability( $user_id = false ) {
 
     return true;
 }
+
 function pm_has_project_managing_capability( $project_id, $user_id = false ) {
     if ( pm_has_manage_capability( $user_id ) ) {
         return true;
@@ -475,6 +437,7 @@ function pm_has_project_managing_capability( $project_id, $user_id = false ) {
 
     return false;
 }
+
 function pm_user_can_complete_task( $task, $user_id = false ) {
     if(!$task) {
         return false;
@@ -802,25 +765,71 @@ function pm_get_capabilities_relation( $role ) {
     return $caps[$role];
 }
 
+function pm_default_cap( $cap_id = false ) {
+    $pm_caps =  [
+        '1'  => 'create_message',
+        '2'  => 'view_private_message',
+        '3'  => 'create_list',
+        '4'  => 'view_private_list',
+        '5'  => 'create_milestone',
+        '6'  => 'view_private_milestone',
+        '7'  => 'create_task',
+        '8'  => 'view_private_task',
+        '9'  => 'create_file',
+        '10' => 'view_private_file'
+    ];
 
-// function pm_get_prepare_format( $ids, $is_string = false  ) {
-//     // how many entries will we select?
-//     $how_many = count( $ids );
+    if ( $cap_id ) {
+        return $pm_caps[$cap_id];
+    }
 
-//     // prepare the right amount of placeholders
-//     // if you're looing for strings, use '%s' instead
-//     if( $is_string ) {
-//         $placeholders = array_fill( 0, $how_many, '%s' );
-//     } else {
-//         $placeholders = array_fill( 0, $how_many, '%d' );
-//     }
+    return $pm_caps;
+}
 
-//     // glue together all the placeholders...
-//     // $format = '%d, %d, %d, %d, %d, [...]'
-//     $format = implode( ', ', $placeholders );
+function pm_default_manager_caps() {
+    return [
+        'create_message'         => true,
+        'view_private_message'   => true,
+        'create_list'            => true,
+        'view_private_list'      => true,
+        'create_task'            => true,
+        'view_private_task'      => true,
+        'create_milestone'       => true,
+        'view_private_milestone' => true,
+        'create_file'            => true,
+        'view_private_file'      => true
+    ];
+}
 
-//     return $format;
-// }
+function pm_default_co_caps() {
+    return [
+        'create_message'         => true,
+        'view_private_message'   => true,
+        'create_list'            => true,
+        'view_private_list'      => true,
+        'create_task'            => true,
+        'view_private_task'      => true,
+        'create_milestone'       => true,
+        'view_private_milestone' => true,
+        'create_file'            => true,
+        'view_private_file'      => true
+    ];
+}
+
+function pm_default_client_caps() {
+    return [
+        'create_message'         => true,
+        'view_private_message'   => false,
+        'create_list'            => true,
+        'view_private_list'      => false,
+        'create_task'            => true,
+        'view_private_task'      => false,
+        'create_milestone'       => true,
+        'view_private_milestone' => false,
+        'create_file'            => true,
+        'view_private_file'      => false
+    ];
+}
 
 function pm_get_prepare_format( $ids, $is_string = false ) {
 
@@ -1029,17 +1038,29 @@ function pm_get_estimation_type() {
         return 'task';
     }
 
-    if( ! pm_pro_is_module_active( 'sub_tasks/sub_tasks.php' ) ) {
-        return 'task';
+    if ( pm_pro_is_module_active( 'sub_tasks/sub_tasks.php' ) ) {
+        return 'subtask';
     }
 
-    $db_est_type = pm_get_setting( 'estimation_type' );
+    // $db_est_type = pm_get_setting( 'estimation_type' );
 
-    if ( empty( $db_est_type ) ) {
-        return 'task';
+    // if ( empty( $db_est_type ) ) {
+    //     return 'task';
+    // }
+
+    return 'task';
+}
+
+function pm_is_active_time_tracker_module() { 
+    if ( ! function_exists( 'pm_pro_is_module_active' ) ) {
+        return false;
     }
 
-    return $db_est_type;
+    if ( pm_pro_is_module_active( 'time_tracker/time_tracker.php' ) ) {
+        return true;
+    }
+
+    return false;
 }
 
 function pm_second_to_time( $seconds ) {
@@ -1071,7 +1092,7 @@ function pm_second_to_time( $seconds ) {
  * @param  array|string $params
  * @return [type]
  */
-function pm_get_projects( $params ) {
+function pm_get_projects( $params = [] ) {
      return WeDevs\PM\Project\Helper\Project::get_results( $params );
 }
 
@@ -1080,7 +1101,7 @@ function pm_get_projects( $params ) {
  * @param  array|string $params
  * @return [type]
  */
-function pm_get_task_lists( $params ) {
+function pm_get_task_lists( $params = [] ) {
      return \WeDevs\PM\Task_List\Helper\Task_List::get_results( $params );
 }
 
@@ -1089,8 +1110,17 @@ function pm_get_task_lists( $params ) {
  * @param  array|string $params
  * @return [type]
  */
-function pm_get_tasks( $params ) {
+function pm_get_tasks( $params = [] ) {
      return \WeDevs\PM\task\Helper\Task::get_results( $params );
+}
+
+/**
+ * [pm_get_tasks description]
+ * @param  array|string $params
+ * @return [type]
+ */
+function pm_get_activities( $params = [] ) {
+     return \WeDevs\PM\Activity\Helper\Activity::get_results( $params );
 }
 
 /**
@@ -1098,7 +1128,7 @@ function pm_get_tasks( $params ) {
  * @param  array|string $params
  * @return [type]
  */
-function pm_get_milestones( $params ) {
+function pm_get_milestones( $params = [] ) {
      return \WeDevs\PM\Milestone\Helper\Milestone::get_results( $params );
 }
 
@@ -1107,7 +1137,7 @@ function pm_get_milestones( $params ) {
  * @param  array|string $params
  * @return [type]
  */
-function pm_get_discussions( $params ) {
+function pm_get_discussions( $params = [] ) {
      return \WeDevs\PM\Discussion_Board\Helper\Discussion_Board::get_results( $params );
 }
 
@@ -1116,7 +1146,7 @@ function pm_get_discussions( $params ) {
  * @param  array|string $params
  * @return [type]
  */
-function pm_get_comments( $params ) {
+function pm_get_comments( $params = [] ) {
      return \WeDevs\PM\Comment\Helper\Comment::get_results( $params );
 }
 
@@ -1125,7 +1155,7 @@ function pm_get_comments( $params ) {
  * @param  array|string $params
  * @return [type]
  */
-function pm_get_files( $params ) {
+function pm_get_files( $params = [] ) {
      return \WeDevs\PM\File\Helper\File::get_results( $params );
 }
 
@@ -1134,7 +1164,7 @@ function pm_get_files( $params ) {
  * @param  array|string $params
  * @return [type]
  */
-function pm_get_users( $params ) {
+function pm_get_users( $params = [] ) {
      return \WeDevs\PM\User\helper\User::get_results( $params );
 }
 
@@ -1153,7 +1183,7 @@ function pm_is_single_query( $params ) {
     }
 
     $id = pm_get_prepare_data( $params['id'] );
-
+    
     if ( count( $id ) == 1 ) {
         return true;
     }
@@ -1181,5 +1211,20 @@ function pm_current_user_can_update_core() {
     return false;
 }
 
+/**
+ * check value for boolean
+ * 
+ * @param  string|boolean $val
+ * 
+ * @return [type]
+ */
+function pm_is_true ( $val ) {
+    
+    if ( is_string( $val ) ) {
+        return $val == 'true' || $val == '1' ? true : false;
+    }
+
+    return (int) $val ? true : false;
+}
 
 

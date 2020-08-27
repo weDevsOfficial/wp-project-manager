@@ -17,16 +17,23 @@ import HeaderMenu from '@components/common/menu.vue';
 import Comments from '@components/common/comments.vue';
 import Popper from 'vue-popperjs';
 import ListDropDown from '@components/common/list-drop-down.vue';
+import ProjectDropDown from '@components/common/project-drop-down.vue';
 import Modal from '@components/common/modal.vue';
 import ListSearch from '@components/common/list-filter.vue';
 import DateRangePicker from '@components/common/date-range-picker.vue';
 import PopupModal from '@components/common/popup-modal.vue';
 import ClickWrap from '@components/common/click-wrap.vue';
+import GloballyTaskCrateForm from '@components/common/globally-task-create-form.vue';
 import Triangle from '@components/common/triangle-box.vue';
 import DropDownMenu from '@components/common/dropdown-menu.vue';
 import Button from '@components/common/button.vue';
+import TaskTypeDropdown from '@components/common/task-type-dropdown.vue';
+import LoadingAnimation from '@components/common/loading-animation.vue';
+import RoundProgressBar from '@components/common/round-progress-bar.vue';
 import DoSlot from '@components/common/do-slot.vue';
 import Vue2DateRangePicker from '@components/common/vue2-daterange-picker.vue'
+import FullCalendar from '@components/common/fullcalendar.vue'
+import SingleTask from '@components/project-task-lists/single-task.vue';
 
 pm.Vue.component('pm-pagination', pagination);
 pm.Vue.component('pm-date-picker', datePicker);
@@ -47,19 +54,21 @@ pm.Vue.component('pm-heder-menu', HeaderMenu);
 pm.Vue.component('pm-comments', Comments);
 pm.Vue.component('pm-popper', Popper);
 pm.Vue.component('pm-list-drop-down', ListDropDown);
+pm.Vue.component('pm-project-drop-down', ProjectDropDown);
 pm.Vue.component('pm-modal', Modal);
 pm.Vue.component('pm-list-search', ListSearch);
 pm.Vue.component('pm-date-range-picker', DateRangePicker);
 pm.Vue.component('pm-vue2-daterange-picker', Vue2DateRangePicker);
 pm.Vue.component('pm-popup-modal', PopupModal);
 pm.Vue.component('pm-click-wrap', ClickWrap);
+pm.Vue.component('pm-globally-task-create-form', GloballyTaskCrateForm);
 pm.Vue.component('pm-triangle-box', Triangle);
 pm.Vue.component('pm-dropdown-menu', DropDownMenu);
 pm.Vue.component('pm-button', Button);
+pm.Vue.component('pm-task-type-dropdown', TaskTypeDropdown);
+pm.Vue.component('pm-loading-animation', LoadingAnimation);
+pm.Vue.component('pm-round-progress-bar', RoundProgressBar);
 pm.Vue.component('pm-do-slot', DoSlot);
-
-
-
-
-
+pm.Vue.component('pm-calendar', FullCalendar);
+pm.Vue.component('pm-single-task', SingleTask);
 

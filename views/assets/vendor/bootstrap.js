@@ -261,7 +261,7 @@ function pmIsManager (project, user) {
     project = jQuery.extend(true, default_project, project );
 
     var index = pmGetIndex( project.assignees.data, user.ID, 'id' );
-    ( project.assignees.data, user.ID, 'id' );
+    //( project.assignees.data, user.ID, 'id' );
 
     if ( index === false ) {
         return false;

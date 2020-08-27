@@ -157,7 +157,7 @@ class Upgrade_2_3 extends WP_Background_Process {
                         
                         jQuery.ajax({
                             type: 'POST',
-                            url: home +'/'+ url_prefix +'/pm/v2/settings/notice',
+                            url: PM_Vars.api_base_url +'pm/v2/settings/notice',
                             data: {
                                 action: 'pm_migration_notice_2_3',
                             }

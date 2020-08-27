@@ -683,7 +683,7 @@
                     data: {
 
                     },
-                    url: this.base_url + '/pm/v2/projects/'+this.project_id+'/task-lists',
+                    url: this.base_url + 'pm/v2/projects/'+this.project_id+'/task-lists',
                  
                     success (res) {
                         self.searchLists = res.data;
@@ -754,7 +754,7 @@
 
                     var requestData = {
                         type: 'GET',
-                        url: self.base_url + '/pm/v2/projects/' + self.project_id + '/lists/search',
+                        url: self.base_url + 'pm/v2/projects/' + self.project_id + '/lists/search',
                         data: {
                             title: evt,
                             is_archive: isArchive
@@ -979,7 +979,7 @@
                 this.isfilterQueryRunning = true;
                 
                 self.httpRequest({
-                    url: self.base_url + '/pm/v2/projects/'+self.project_id+'/tasks/filter',
+                    url: self.base_url + 'pm/v2/projects/'+self.project_id+'/tasks/filter',
                     type: 'POST',
                     data: self.$route.query,
                     success (res) {

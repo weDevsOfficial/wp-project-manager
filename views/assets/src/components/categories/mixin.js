@@ -23,7 +23,7 @@ export default {
             args = jQuery.extend(true, pre_define, args );
 
             var request_data = {
-                url: self.base_url + '/pm/v2/categories',
+                url: self.base_url + 'pm/v2/categories',
                 type: 'POST',
                 data: args.data,
                 
@@ -82,7 +82,7 @@ export default {
             var conditions = self.generateConditions(args.conditions);
 
             var request_data = {
-                url: self.base_url + '/pm/v2/categories?' + conditions,
+                url: self.base_url + 'pm/v2/categories?' + conditions,
                 success: function(res) {
                     res.data.map(function(category, index) {
                         self.addCategoryMeta(category);
@@ -138,7 +138,7 @@ export default {
             this.show_spinner = true;
 
             var request_data = {
-                url: self.base_url + '/pm/v2/categories/' + args.data.id + '/update',
+                url: self.base_url + 'pm/v2/categories/' + args.data.id + '/update',
                 type: 'POST',
                 data: args.data,
                 
@@ -191,7 +191,7 @@ export default {
             var args = jQuery.extend(true, pre_define, args );
 
             var request_data = {
-                url: self.base_url + '/pm/v2/categories/'+args.id+'/delete',
+                url: self.base_url + 'pm/v2/categories/'+args.id+'/delete',
                 type: 'POST',
                 success (res) {
                     self.$store.commit('projectDiscussions/afterDeleteDiscuss', args.discuss_id);
@@ -234,7 +234,7 @@ export default {
             args = jQuery.extend(true, pre_define, args );
 
             var request_data = {
-                url: self.base_url + '/pm/v2/categories/bulk-delete/',
+                url: self.base_url + 'pm/v2/categories/bulk-delete/',
                 data: {
                     'category_ids': args.category_ids
                 },

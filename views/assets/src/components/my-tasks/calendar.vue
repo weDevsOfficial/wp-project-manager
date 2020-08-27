@@ -28,7 +28,7 @@
 <script>
 	import Mixin from './mixin';
 	import CalendarMixin from './calendar-mixin';
-	import pmCalendar from '@components/common/pm-calendar.vue';
+
 	export default {
 		data () {
 			return {
@@ -37,11 +37,13 @@
 				projectId: false
 			}
 		},
+
 		mixins: [Mixin, CalendarMixin],
+		
 		components: {
-			pmCalendar: pmCalendar,
 			singleTask: pm.SingleTask
 		},
+		
 		watch: {
 			'$route' (route) {
 				if ('mytask_calendar_single_task' == route.name) {
@@ -50,6 +52,7 @@
 				}
 			}
 		},
+		
 		created () {
 			if ('mytask_calendar_single_task' == this.$route.name) {
 				this.taskId = this.$route.params.task_id;
@@ -57,6 +60,7 @@
 			}
             pmBus.$on('pm_after_close_single_task_modal', this.afterCloseSingleTaskModal);
         },
+	    
 	    methods: {
 			clickEvent (...args) { //individualProjectId individualTaskId
 				var args = {...args}
@@ -64,6 +68,7 @@
 				this.projectId = parseInt(args[0].project_id);
 				this.taskId = parseInt(args[0].id);
 			},
+			
 			afterCloseSingleTaskModal () {
 				if ('mytask-tasks' !== this.$route.name) {
 					return;
@@ -74,6 +79,7 @@
 					name: 'mytask-tasks'
 				})
             },
+		    
 		    selfGetEvents ( start, end, timezone, callback ) {
 	            var self = this;
 	            var user_id = typeof this.$route.params.user_id !== 'undefined' ? this.$route.params.user_id : this.current_user.ID;
@@ -87,7 +93,7 @@
 	            var request = {
 	                type: 'GET',
 	                data: args.data,
-	                url: self.base_url + '/pm/v2/users/'+ args.user_id +'/tasks/calender',
+	                url: self.base_url + 'pm/v2/users/'+ args.user_id +'/tasks/calender',
 	                success (res) {
 	                	var events=[];
 	                    res.data.map((event) => {
@@ -102,8 +108,7 @@
 	            if(args.user_id){
 	                self.httpRequest(request);
 	            }
-	        },
-
+	        }
 	    }
 	}
 </script>

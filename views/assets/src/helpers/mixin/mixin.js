@@ -26,8 +26,14 @@ export default {
     },
 
     methods: {
+
+        isArchivePage () {
+            return this.$route.name == 'task_lists_archive' || this.$route.name == 'task_lists_archive_pagination'
+        },
+
         classnames ( classAttrs ) {
             return classnames( classAttrs );
+
         },
 
         cutString(string, length, dot){
@@ -59,6 +65,12 @@ export default {
             if(Object.prototype.toString.call(items) == '[object Object]' ) {
                 return true;
             }
+        },
+
+        isValidDate(date) {
+            date = pm.Moment(new Date(date));
+
+            return date.isValid()
         },
 
         secondsToHms (d) {
@@ -312,7 +324,43 @@ export default {
             return pm.Moment(date).format(formate);
         },
 
-                /**
+        isEmpty (mixedVar) {
+
+            var undef
+            var key
+            var i
+            var len
+            var emptyValues = [undef, null, false, 0, '', '0']
+
+            if( mixedVar === '' ) {
+                return true;
+            }
+
+            if( ! this.is_object( mixedVar ) && !this.is_array( mixedVar ) ) {
+                if ( isNaN( mixedVar ) ) {
+                    return true;
+                }
+            }
+           
+
+            for (i = 0, len = emptyValues.length; i < len; i++) {
+                if (mixedVar === emptyValues[i]) {
+                    return true
+                }
+            }
+
+            if (typeof mixedVar === 'object') {
+                for (key in mixedVar) {
+                    if ( mixedVar.hasOwnProperty(key) ) {
+                        return false
+                    }
+                }
+                return true
+            }
+            return false
+        },
+
+        /**
          * WP settings date format convert to pm.Moment date format with time zone
          *
          * @param  string date
@@ -433,17 +481,21 @@ export default {
             }
 
             var self = this;
-            if( typeof store !== 'undefined' ) {
-                var mutations = store.mutations || {}; //self.$options.mutations;
-                var state = store.state || {}; //self.$options.state;
-            }
+            //if( typeof store !== 'undefined' ) {
+            var mutations = store.mutations || {}; //self.$options.mutations;
+            var state = store.state || {}; //self.$options.state;
+            var getters = store.getters || {}; //self.$options.getters;
+            var actions = store.actions || {}; //self.$options.actions;
+            //}
 
             // register a module `myModule`
 
             self.$store.registerModule(module_name, {
                 namespaced: true,
                 state,
+                getters,
                 mutations,
+                actions
             });
         },
 
@@ -468,7 +520,7 @@ export default {
             args = pm_apply_filters( 'before_project_save', args );
             var request = {
                 type: 'POST',
-                url: this.base_url + '/pm/v2/projects/',
+                url: this.base_url + 'pm/v2/projects/',
                 data: args.data,
                 success (res) {
                     jQuery( "#pm-project-dialog" ).dialog('destroy');
@@ -530,7 +582,7 @@ export default {
             args = pm_apply_filters( 'before_project_save', args );
             var request = {
                 type: 'POST',
-                url: this.base_url + '/pm/v2/projects/'+ args.data.id+'/update',
+                url: this.base_url + 'pm/v2/projects/'+ args.data.id+'/update',
                 data: args.data,
                 success (res) {
 
@@ -633,7 +685,7 @@ export default {
             conditions = self.generateConditions(conditions);
 
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/search?'+conditions,
+                url: self.base_url + 'pm/v2/projects/search?'+conditions,
                 data: args.conditions,
                 success (res) {
 
@@ -675,7 +727,7 @@ export default {
             }
 
             self.httpRequest({
-                url:self.base_url + '/pm/v2/projects/'+ args.project_id + '?' + conditions ,
+                url:self.base_url + 'pm/v2/projects/'+ args.project_id + '?' + conditions ,
                 success (res) {
                     if (typeof args.callback === 'function' ) {
                         args.callback.call(self, res);
@@ -714,7 +766,7 @@ export default {
             }
 
             self.httpRequest({
-                url: self.base_url + '/pm/v2/users/?' + conditions ,
+                url: self.base_url + 'pm/v2/users/?' + conditions ,
                 data: args.data,
                 success (res) {
                     if (typeof args.callback === 'function' ) {
@@ -743,7 +795,7 @@ export default {
             }
 
             self.httpRequest({
-                url: self.base_url + '/pm/v2/users/'+ args.data.user_id + '?' + conditions ,
+                url: self.base_url + 'pm/v2/users/'+ args.data.user_id + '?' + conditions ,
                 success (res) {
                     if (typeof args.callback === 'function' ) {
                         args.callback.call(self, res);
@@ -767,7 +819,7 @@ export default {
             var conditions = self.generateConditions(args.conditions);
 
             var request = {
-                url: self.base_url + '/pm/v2/users/search?' + conditions ,
+                url: self.base_url + 'pm/v2/users/search?' + conditions ,
                 success (res) {
                     if (typeof args.callback === 'function' ) {
                         args.callback.call(self, res);
@@ -831,7 +883,7 @@ export default {
             var conditions = self.generateConditions(conditions);
 
             this.httpRequest({
-                url: self.base_url + '/pm/v2/categories?' + conditions,
+                url: self.base_url + 'pm/v2/categories?' + conditions,
                 success (res) {
                     self.$root.$store.commit('setCategories', res.data);
                     self.$root.$store.commit('setCategoryMeta', res.meta);
@@ -857,7 +909,7 @@ export default {
             }
 
             self.httpRequest({
-                url: self.base_url + '/pm/v2/roles',
+                url: self.base_url + 'pm/v2/roles',
                 success (res) {
                     self.$root.$store.commit('setRoles', res.data);
 
@@ -880,7 +932,7 @@ export default {
             var index = false;
 
             jQuery.each(itemList, function(key, item) {
-                if (item[slug] === id) {
+                if (item[slug] == id) {
                     index = key;
                 }
             });
@@ -896,7 +948,7 @@ export default {
             var self = this;
 
             self.httpRequest({
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/files/' + file_id+'/delete',
+                url: self.base_url + 'pm/v2/projects/'+self.project_id+'/files/' + file_id+'/delete',
                 type: 'POST',
                 success (res) {
 
@@ -1006,7 +1058,7 @@ export default {
             }
             var self = this;
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/' + id+'/delete',
+                url: self.base_url + 'pm/v2/projects/' + id+'/delete',
                 type: 'POST',
                 success (res) {
                     self.$store.commit('afterDeleteProject', id);
@@ -1109,7 +1161,7 @@ export default {
                 data: {
                     status: 1
                 },
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/milestones',
+                url: self.base_url + 'pm/v2/projects/'+self.project_id+'/milestones',
                 success (res) {
                     self.$root.$store.commit( 'setMilestones', res.data );
 
@@ -1166,8 +1218,8 @@ export default {
             id = id || false;
 
             var url = project_id
-                ? self.base_url + '/pm/v2/projects/'+project_id+'/settings'
-                : self.base_url + '/pm/v2/settings';
+                ? self.base_url + 'pm/v2/projects/'+project_id+'/settings'
+                : self.base_url + 'pm/v2/settings';
 
             var request = {
                 url: url,
@@ -1189,7 +1241,7 @@ export default {
 
         saveTrelloImportedData (formDataObj,cred,urlString,callback) {
             var self = this;
-            var url = self.base_url + '/pm/v2/'+ urlString;
+            var url = self.base_url + 'pm/v2/'+ urlString;
 
             var request = {
                 url: url,
@@ -1219,7 +1271,7 @@ export default {
 
             args = args || {};
 
-            var url = self.base_url + '/pm/v2/projects/'+this.project_id+'/delete/'+id+'/settings'
+            var url = self.base_url + 'pm/v2/projects/'+this.project_id+'/delete/'+id+'/settings'
 
             var request = {
                 url: url,
@@ -1265,7 +1317,7 @@ export default {
 
             var self = this;
             var request = {
-                url: self.base_url + '/pm/v2/projects/'+this.project_id+'/settings?key=list_view_type',
+                url: self.base_url + 'pm/v2/projects/'+this.project_id+'/settings?key=list_view_type',
                 data: {},
                 type: 'GET',
                 success (res) {

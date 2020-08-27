@@ -46,10 +46,19 @@ class List_Task_Transformer extends TransformerAbstract {
     }
 
     public function get_creator( $item ) {
-        if(empty($item->created_by)) {
-            return [];
+        
+        if ( empty( $item->created_by ) ) {
+            $project = pm_get_projects( [ 'id' => $item->project_id ] );
+
+            if ( empty( $project['data']['created_by'] ) ) {
+                $item->created_by = get_current_user_id();
+            } else {
+                $item->created_by = $project['data']['created_by'];
+            }  
         } 
+
         $user = get_user_by( 'id', $item->created_by );
+        
         if ( ! $user ) {
             return [];
         }
@@ -68,8 +77,7 @@ class List_Task_Transformer extends TransformerAbstract {
 
         return [ 'data' => $data ];
     }
-
-
+    
     public function meta( Task $item ) {
         $metas = [
             'can_complete_task' => $this->pm_user_can_complete_task( $item ),
@@ -169,6 +177,4 @@ class List_Task_Transformer extends TransformerAbstract {
         
         return $assignees;
     }
-
-
 }

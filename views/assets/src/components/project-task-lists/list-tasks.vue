@@ -45,8 +45,8 @@
             </div>
         </div>
 
-        <div v-if="createNewTask" class="list-task-form nonsortable">
-            <new-task-form  :list="list"></new-task-form>
+        <div v-if="createNewTask && !isArchivePage()" class="list-task-form nonsortable">
+            <new-task-form :list="list"></new-task-form>
         </div>
         
     </div>
@@ -671,7 +671,7 @@
 
                 var request = {
                     type: 'GET',
-                    url: `${self.base_url}/pm/v2/projects/${self.project_id}/task-lists/${list.id}/more/tasks`,
+                    url: `${self.base_url}pm/v2/projects/${self.project_id}/task-lists/${list.id}/more/tasks`,
                     data: {
                         task_ids: task_ids,
                         status: 1
@@ -708,7 +708,7 @@
 
                 var request = {
                     type: 'GET',
-                    url: `${self.base_url}/pm/v2/projects/${self.project_id}/task-lists/${list.id}/more/tasks`,
+                    url: `${self.base_url}pm/v2/projects/${self.project_id}/task-lists/${list.id}/more/tasks`,
                     data: {
                         task_ids: task_ids,
                         status: 0

@@ -791,6 +791,7 @@ class Task_List {
 
 		$this->where_id()
 			->where_project_id()
+			->where_task_id()
 			->where_title();
 
 		return $this;
@@ -864,7 +865,45 @@ class Task_List {
 		return $this;
 	}
 
+	private function where_task_id() {
+		$task_ids = isset( $this->query_params['task_id'] ) ? $this->query_params['task_id'] : false;
 
+        if ( empty( $tasks ) ) {
+            return $this;
+        }
+
+        $format = pm_get_prepare_format( $task_ids );
+        $task_ids = pm_get_prepare_data( $task_ids );
+
+        global $wpdb;
+        $tb_boardables = pm_tb_prefix() . 'pm_boardables';
+
+        $this->join .= " LEFT JOIN {$tb_boardables} ON $tb_boardables.board_id={$this->tb_list}.id";
+
+        $this->where .= $wpdb->prepare( " AND $tb_boardables.boardable_id IN ($format) AND boardable_type=%s", $task_ids, 'task' );
+
+        return $this;
+	}
+
+	private function where_sub_task_id() {
+		$sub_task_ids = isset( $this->query_params['sub_task_id'] ) ? $this->query_params['sub_task_id'] : false;
+
+        if ( empty( $sub_tasks ) ) {
+            return $this;
+        }
+
+        $format = pm_get_prepare_format( $sub_task_ids );
+        $sub_task_ids = pm_get_prepare_data( $sub_task_ids );
+
+        global $wpdb;
+        $tb_boardables = pm_tb_prefix() . 'pm_boardables';
+
+        $this->join .= " LEFT JOIN {$tb_boardables} ON $tb_boardables.board_id={$this->tb_list}.id";
+
+        $this->where .= $wpdb->prepare( " AND $tb_boardables.boardable_id IN ($format) AND boardable_type=%s", $sub_task_ids, 'sub_task' );
+
+        return $this;
+	}
 
 	private function limit() {
 		global $wpdb;

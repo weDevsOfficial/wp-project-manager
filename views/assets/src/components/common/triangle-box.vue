@@ -1,10 +1,10 @@
 <!--
 Usage for this component
-<triangle-box>
+<pm-triangle-box>
     this is my content
 
     <button slot="popoverButton">click me</button>
-</triangle-box>
+</pm-triangle-box>
 -->
 <template>
 
@@ -23,13 +23,18 @@ Usage for this component
 
 
 <style lang="less">
-    .tooltip.popover .popover-inner {
-        padding: .5rem .75rem;
+    .pm-popover {
+        padding: 0;
+        border: 0;
+        width: auto;
+    }
+    .pm-popover .popover-inner {
+        padding: .5rem .75rem !important;
         color: #212529;
         border: 1px solid rgba(0,0,0,.2);
     }
 
-    .tooltip {
+    .pm-popover {
         .tooltip-arrow {
             border: 0 !important;
             margin: 0 !important;

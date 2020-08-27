@@ -50,7 +50,7 @@ class Enqueue_Scripts {
 			'base_url'                 => home_url(),
 			'api_base_url'             => esc_url_raw( get_rest_url() ),
 			'api_namespace'            => pm_api_namespace(),
-			'permalinkStructure'      => get_option( 'permalink_structure' ),
+			'permalinkStructure'       => get_option( 'permalink_structure' ),
 			'project_page'             => pm_get_project_page(),
 			'rest_api_prefix'          => rest_get_url_prefix(),
 			'todo_list_form'           => apply_filters( 'todo_list_form', array( 'PM_Task_Mixin' ) ),
@@ -87,7 +87,8 @@ class Enqueue_Scripts {
 			'time_format'                      => get_option( 'time_format' ),
 			'id'                               => pm_root_element_id(),
 			'can_add_user_project_create_time' => pm_can_create_user_at_project_create_time(),
-			'locale'                           => get_locale()
+			'locale'                           => get_locale(),
+			'estimationType' 				   => pm_get_estimation_type()
         ];
 
         $localize = self::filter( $localize );

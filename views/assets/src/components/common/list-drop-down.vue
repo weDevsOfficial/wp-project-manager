@@ -20,9 +20,205 @@
 
 </template>
 
+<script>
+	export default {
+		props: {
+			allowEmpty: {
+				type: [Boolean],
+				default () {
+					return false
+				}
+			},
+
+			multiple: {
+				type: [Boolean],
+				default () {
+					return false
+				}
+			},
+
+            options: {
+                type: [Object],
+                default () {
+                    return {
+                        placeholder: __('Task Lists', 'wedevs-project-manager'),
+                        projectId: false
+                    }
+                }
+            },
+
+            selectedLists: {
+                type: [Object, Array, String],
+                default () {
+                    return ''
+                }
+            },
+
+            projectId: {
+                type: [Number, String, Boolean],
+                default () {
+                    return false
+                }
+            }
+		},
+
+		data () {
+			return {
+				lists: [],
+				timeout: '',
+				loadingListSearch: false,
+                listAbort: '',
+                list: '',
+                defaultProjectId: false
+			}
+		},
+
+		components: {
+			'multiselect': pm.Multiselect.Multiselect
+		},
+
+		watch: {
+            selectedLists () {
+                this.formatSelectedListsId();
+            },
+
+            defaultProjectId () {
+                this.setProjectId();
+                this.setLists();
+            }
+        },
+
+		created() {
+            this.setProjectId();
+			this.setLists();
+		},
+
+		methods: {
+            setProjectId () {
+                if(this.projectId) {
+                    this.defaultProjectId = parseInt( this.projectId );
+                } else if(this.options.projectId) {
+                    this.defaultProjectId = parseInt( this.options.projectId );
+                }
+            },
+
+            formatSelectedListsId () {
+                var self = this;
+                if( this.is_object(this.selectedLists) ) {
+                    this.list = Object.assign({}, this.selectedLists)
+                }
+                
+                if( this.is_array( this.selectedLists ) ) {
+                    this.list = [];
+                    this.selectedLists.forEach( (list) => {
+                        list.id = parseInt( list.id );
+                        self.list.push(list);
+                    } )
+                }
+            },
+
+            formatLists(lists) {
+                var self = this;
+                self.lists = [];
+
+                lists.forEach(function(list) {
+                    let index = self.getIndex( self.lists, list.id, 'id' );
+
+                    if(index === false) {
+                        self.lists.push({
+                            id: list.id,
+                            title: list.title,
+                        });
+                    }
+                });
+
+                self.$emit('afterGetLists', self.lists);
+            },
+
+			onChange (val, el) {
+				this.$emit('onChange', val);
+			},
+
+			setLists () {
+				var lists = [],
+					self = this;
+
+				if( !this.$store.state.projectTaskLists.lists.length) {
+					var args = {
+						data: {
+							project_id: this.defaultProjectId,
+						},
+
+						callback (res) {
+                            self.formatLists(res.data);
+						}
+					}
+					this.getLists(args);
+				} else {
+                    self.formatLists( this.$store.state.projectTaskLists.lists );
+				} 
+			},
+
+			getLists (args) {
+	            var self = this;
+	            var request = {
+	                url: self.base_url + 'pm/v2/projects/'+args.data.project_id+'/task-lists?with=incomplete_tasks,complete_tasks&incomplete_task_per_page=-1&complete_task_per_page=-1',
+                    data: {
+                        status: [1,0]
+                    },
+	                success (res) {
+
+	                    if ( typeof args.callback != 'undefined' ) {
+	                        args.callback (res);
+	                    }
+	                },
+	                error (res) {
+
+	                }
+	            }
+
+	            self.httpRequest(request);
+	        },
+
+	        asyncListsFind (title) {
+                if(title == '') return;
+                var self = this;
+                clearTimeout(this.timeout);
+
+                // Make a new timeout set to go off in 800ms
+                this.timeout = setTimeout(function () {
+                    self.findLists(title);
+                }, 500);
+            },
+
+            findLists (title) {
+                var self = this;
+
+                if(self.listAbort) {
+                    self.listAbort.abort();
+                }
+
+                var request = {
+                    url: self.base_url + 'pm/v2/projects/'+this.defaultProjectId+'/task-lists?title='+title+'&with=incomplete_tasks,complete_tasks&incomplete_task_per_page=-1&complete_task_per_page=-1',
+                    data: {
+                        status: [1,0]
+                    },
+                    success: function(res) {
+                        
+                        self.loadingListSearch = false;
+                        self.formatLists(res.data);
+                    }
+                }
+                self.loadingListSearch = true;
+                self.listAbort = self.httpRequest(request);
+            }
+		}
+	}
+</script>
+
 <style lang="less">
-	.pm-common-multiselect {
-	    min-height: auto;
+    .pm-common-multiselect {
+        min-height: auto;
         margin-right: 8px;
 
         .multiselect__single {
@@ -94,140 +290,3 @@
         }
     }
 </style>
-
-<script>
-	export default {
-		props: {
-			allowEmpty: {
-				type: [Boolean],
-				default () {
-					return false
-				}
-			},
-			multiple: {
-				type: [Boolean],
-				default () {
-					return false
-				}
-			},
-            options: {
-                type: [Object],
-                default () {
-                    return {
-                        placeholder: __('Task Lists', 'wedevs-project-manager'),
-                        projectId: false
-                    }
-                }
-            }
-		},
-		data () {
-			return {
-				lists: [],
-				timeout: '',
-				loadingListSearch: false,
-                listAbort: '',
-                list: '',
-                projectId: false
-			}
-		},
-		components: {
-			'multiselect': pm.Multiselect.Multiselect
-		},
-		computed: {
-			
-		},
-
-		created() {
-            this.projectId = this.project_id && typeof this.project_id != 'undefined' ? parseInt(this.project_id) : parseInt(this.options.projectId);
-			this.setLists();
-		},
-		methods: {
-            formatLists(lists) {
-                var self = this;
-
-                lists.forEach(function(list) {
-                    let index = self.getIndex( self.lists, list.id, 'id' );
-
-                    if(index === false) {
-                        self.lists.push({
-                            id: list.id,
-                            title: list.title,
-                        });
-                    }
-                });
-
-                self.$emit('afterGetLists', lists);
-            },
-			onChange (val, el) {
-				this.$emit('onChange', val);
-			},
-
-			setLists () {
-				var lists = [],
-					self = this;
-
-				if( !this.$store.state.projectTaskLists.lists.length) {
-					var args = {
-						data: {
-							project_id: this.projectId,
-						},
-
-						callback (res) {
-                            self.formatLists(res.data);
-						}
-					}
-					this.getLists(args);
-				} else {
-                    self.formatLists( this.$store.state.projectTaskLists.lists );
-				} 
-			},
-			getLists (args) {
-	            var self = this;
-	            var request = {
-	                url: self.base_url + '/pm/v2/projects/'+args.data.project_id+'/task-lists?with=incomplete_tasks,complete_tasks&incomplete_task_per_page=-1&complete_task_per_page=-1',
-	                success (res) {
-
-	                    if ( typeof args.callback != 'undefined' ) {
-	                        args.callback (res);
-	                    }
-	                },
-	                error (res) {
-
-	                }
-	            }
-
-	            self.httpRequest(request);
-	        },
-	        asyncListsFind (title) {
-                if(title == '') return;
-                var self = this;
-                clearTimeout(this.timeout);
-
-                // Make a new timeout set to go off in 800ms
-                this.timeout = setTimeout(function () {
-                    self.findLists(title);
-                }, 500);
-            },
-
-            findLists (title) {
-                var self = this;
-
-                if(self.listAbort) {
-                    self.listAbort.abort();
-                }
-
-                var request = {
-                    url: self.base_url + '/pm/v2/projects/'+this.projectId+'/lists/search?title='+title+'&with=incomplete_tasks,complete_tasks&incomplete_task_per_page=-1&complete_task_per_page=-1',
-                    success: function(res) {
-                        
-                        self.loadingListSearch = false;
-                        self.formatLists(res.data);
-                    }
-                }
-                self.loadingListSearch = true;
-                self.listAbort = self.httpRequest(request);
-            },
-
-		}
-	}
-</script>
