@@ -18,6 +18,8 @@ import settingsGeneral from './general.vue'
 //     });
 // }
 
+import taskType from './task-types.vue'
+
 import settingsEmail from './email.vue'
 
 import Pusher from './pusher.vue'
@@ -49,6 +51,16 @@ weDevsPMRegisterChildrenRoute('settings_root',
             path: 'pusher', 
             component: Pusher, 
             name: 'pusher_settings_tab',
+            meta: {
+                permission: function(project) {
+                    return pmHasManageCapability()
+                }
+            }
+        },
+        { 
+            path: 'task-type', 
+            component: taskType, 
+            name: 'task_type_settings_tab',
             meta: {
                 permission: function(project) {
                     return pmHasManageCapability()

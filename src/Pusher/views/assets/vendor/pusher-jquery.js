@@ -14,7 +14,7 @@
             if(!PM_Pusher_Vars.pusher_app_key) {
                 return this;
             }
-            console.log(`${PM_Pusher_Vars.api_base_url}${PM_Pusher_Vars.api_namespace}/user/1/pusher/auth`);
+            
             this.pusher = new Pusher( PM_Pusher_Vars.pusher_app_key , {
                 cluster: PM_Pusher_Vars.pusher_cluster,
                 authEndpoint: `${PM_Pusher_Vars.api_base_url}${PM_Pusher_Vars.api_namespace}/user/1/pusher/auth`

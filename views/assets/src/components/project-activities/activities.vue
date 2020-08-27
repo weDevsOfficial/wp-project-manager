@@ -110,7 +110,7 @@
                     .map(self.groupToDay)
                     .sortBy('day')
                     .value();
-
+                
                 return activities;
             },
 

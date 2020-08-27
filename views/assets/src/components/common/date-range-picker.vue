@@ -13,7 +13,6 @@
 		type="text" 
 		:placeholder="options.placeholder" 
 		:class="`${id} ${contentClass} nonsortable`"
-		:value="dateValue"
 		v-date-field
 	/>
 	
@@ -21,7 +20,7 @@
 
 <style lang="less">
 	.daterangepicker {
-		z-index: 99999;
+		z-index: 99999 !important;
 	}
 </style>
 

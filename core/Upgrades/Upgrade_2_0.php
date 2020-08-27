@@ -261,7 +261,7 @@ class Upgrade_2_0 extends WP_Background_Process
                     
                         jQuery.ajax({
                             type: 'POST',
-                            url: PM_Vars.base_url +'/'+ PM_Vars.rest_api_prefix +'/pm/v2/settings/notice',
+                            url: PM_Vars.api_base_url + 'pm/v2/settings/notice',
                             data: {
                                 action: 'pm_migration_notice',
                             }
@@ -1854,7 +1854,7 @@ class Upgrade_2_0 extends WP_Background_Process
           PRIMARY KEY (`id`),
           KEY `project_id` (`project_id`),
           KEY `client_id` (`client_id`)
-        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
+        ) DEFAULT CHARSET=utf8";
 
         
         dbDelta( $sql );
@@ -1874,7 +1874,7 @@ class Upgrade_2_0 extends WP_Background_Process
               `created_at` timestamp NULL DEFAULT NULL,
               `updated_at` timestamp NULL DEFAULT NULL,
               PRIMARY KEY (`id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
+            ) DEFAULT CHARSET=utf8";
 
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
         dbDelta( $sql );
@@ -1905,7 +1905,7 @@ class Upgrade_2_0 extends WP_Background_Process
               PRIMARY KEY (`id`),
               KEY `task_id` (`task_id`),
               KEY `project_id` (`project_id`)
-            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
+            ) DEFAULT CHARSET=utf8";
 
         require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
         dbDelta( $sql );

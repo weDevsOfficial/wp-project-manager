@@ -59,7 +59,7 @@ export default {
             var conditions = self.generateConditions(args.conditions);
             
             var request = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/discussion-boards?'+ conditions,
+                url: self.base_url + 'pm/v2/projects/'+self.project_id+'/discussion-boards?'+ conditions,
                 success (res) {
                     res.data.map(function(discuss, index) {
                         self.addDiscussMeta(discuss);
@@ -88,7 +88,7 @@ export default {
             var conditions = self.generateConditions(args.conditions);
 
             var request = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/discussion-boards/'+self.$route.params.discussion_id+'?'+conditions, ///with=comments',
+                url: self.base_url + 'pm/v2/projects/'+self.project_id+'/discussion-boards/'+self.$route.params.discussion_id+'?'+conditions, ///with=comments',
                 success (res) {
                     self.addDiscussMeta(res.data);
                     self.$store.commit( 'projectDiscussions/setDiscuss', res.data );
@@ -158,7 +158,7 @@ export default {
             this.show_spinner = true;
             data = pm_apply_filters( 'before_discuss_save', data );
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/discussion-boards',
+                url: self.base_url + 'pm/v2/projects/'+self.project_id+'/discussion-boards',
                 type: 'POST',
                 data: data,
                 cache: false,
@@ -241,7 +241,7 @@ export default {
             this.show_spinner = true;
             data = pm_apply_filters( 'before_discuss_save', data );
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/discussion-boards/'+this.discuss.id,
+                url: self.base_url + 'pm/v2/projects/'+self.project_id+'/discussion-boards/'+this.discuss.id,
                 type: 'POST',
                 data: data,
                 cache: false,
@@ -291,7 +291,7 @@ export default {
                 is_private: discuss.meta.privacy == '0' ? 1 : 0
             }
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/discussion-boards/privacy/'+discuss.id,
+                url: self.base_url + 'pm/v2/projects/'+self.project_id+'/discussion-boards/privacy/'+discuss.id,
                 type: 'POST',
                 data: data,
                 success (res) {
@@ -353,7 +353,7 @@ export default {
             this.show_spinner = true;
 
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/comments',
+                url: self.base_url + 'pm/v2/projects/'+self.project_id+'/comments',
                 type: 'POST',
                 data: data,
                 cache: false,
@@ -446,7 +446,7 @@ export default {
             this.show_spinner = true;
 
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/comments/'+args.comment_id,
+                url: self.base_url + 'pm/v2/projects/'+self.project_id+'/comments/'+args.comment_id,
                 type: 'POST',
                 data: data,
                 cache: false,
@@ -520,7 +520,7 @@ export default {
             var args = jQuery.extend(true, pre_define, args );
 
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/discussion-boards/' + args.discuss_id+'/delete',
+                url: self.base_url + 'pm/v2/projects/'+self.project_id+'/discussion-boards/' + args.discuss_id+'/delete',
                 type: 'POST',
                 success (res) {
                     self.$store.commit('projectDiscussions/afterDeleteDiscuss', args.discuss_id);
@@ -569,7 +569,7 @@ export default {
             var args = jQuery.extend(true, pre_define, args);
 
             var request_data = {
-                url: self.base_url + '/pm/v2/projects/'+self.project_id+'/comments/'+ args.comment_id+'/delete',
+                url: self.base_url + 'pm/v2/projects/'+self.project_id+'/comments/'+ args.comment_id+'/delete',
                 type: 'POST',
                 success: function(res) {
                     pm.Toastr.success(res.message);

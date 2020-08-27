@@ -6,7 +6,7 @@
 
 <script>
     export default {
-    	name: 'pm-calendar',
+        name: 'pm-calendar',
         props: {
             // events: {
             //     default() {
@@ -150,6 +150,7 @@
         created () {
 
         },
+        
         mounted() {
             const cal = jQuery(this.$el),
                 self = this

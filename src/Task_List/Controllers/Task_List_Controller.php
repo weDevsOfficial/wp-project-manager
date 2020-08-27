@@ -40,7 +40,7 @@ class Task_List_Controller {
         return self::$_instance;
     }
 
-    public function index( WP_REST_Request $request ) {
+    public function index( WP_REST_Request $request ) { 
         global $wpdb;
         $task_tb                = $wpdb->prefix . 'pm_tasks';
         $list_tb                = $wpdb->prefix . 'pm_boardables';
@@ -57,8 +57,22 @@ class Task_List_Controller {
 
         $page = $request->get_param( 'page' );
         $page = $page ? $page : 1;
-        $status = isset( $status ) ? intval( $status ) : 1;
 
+        if ( ! is_array( $status ) ) {
+            if ( strpos( $status, ',' ) !== false ) {
+                $status = str_replace( ' ', '', $status );
+                $status = explode( ',', $status );
+            }
+        }
+
+        if ( ! empty( $status ) ) {
+            $status = is_array( $status ) ? $status : [$status];
+        }
+
+        if ( empty( $status ) ) {
+            $status = [1];
+        }
+        
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
         });
@@ -67,6 +81,8 @@ class Task_List_Controller {
         $tb_lists     = pm_tb_prefix() . 'pm_boards';
         $tb_boardable = pm_tb_prefix() . 'pm_boardables';
         $tb_meta      = pm_tb_prefix() . 'pm_meta';
+        $title       = $request->get_param( 'title' );
+        $is_archive  = $request->get_param( 'is_archive' );
 
         $task_lists = Task_List::select( $tb_lists . '.*' )
             ->selectRaw(
@@ -90,11 +106,19 @@ class Task_List_Controller {
                         $q->orWhereNull($tb_meta . '.entity_type');
                     });
             })
-
             ->where( pm_tb_prefix() .'pm_boards.project_id', $project_id)
-            ->where( pm_tb_prefix() .'pm_boards.status', $status )
-
             ->groupBy($tb_lists.'.id');
+        
+        if ( ! empty( $status ) ) {
+            $task_lists->whereIn( pm_tb_prefix() .'pm_boards.status', $status );
+        } else {
+            //for archive task-list
+            $task_lists->where( pm_tb_prefix() .'pm_boards.status', $status );
+        }
+
+        if ( ! empty( $title ) ) {
+            $task_lists->where( pm_tb_prefix() .'pm_boards.title', 'like', '%'.$title.'%');
+        }
 
         $task_lists = apply_filters( "pm_task_list_check_privacy", $task_lists, $project_id, $request );
 
@@ -339,18 +363,19 @@ class Task_List_Controller {
 
     public function update( WP_REST_Request $request ) {
         $data = $this->extract_non_empty_values( $request );
-        $project_id   = $request->get_param( 'project_id' );
-        $task_list_id = $request->get_param( 'task_list_id' );
-        $milestone_id = $request->get_param( 'milestone' );
-
-        $is_private    = $request->get_param( 'privacy' );
-        $data['is_private']    = $is_private == 'true' || $is_private === true ? 1 : 0;
-
+        
+        $project_id          = $request->get_param( 'project_id' );
+        $task_list_id        = $request->get_param( 'task_list_id' );
+        $milestone_id        = $request->get_param( 'milestone' );
+        $data['description'] = $request->get_param('description'); 
+        $is_private          = $request->get_param( 'privacy' );
+        $data['is_private']  = $is_private == 'true' || $is_private === true ? 1 : 0;
+        
         $milestone = Milestone::find( $milestone_id );
         $task_list = Task_List::where( 'id', $task_list_id )
             ->where( 'project_id', $project_id )
             ->first();
-
+        
         $task_list->update_model( $data );
 
         if ( $milestone ) {
@@ -387,7 +412,10 @@ class Task_List_Controller {
 
         // Delete the task list
         $task_list->delete();
+        
         do_action( 'cpm_delete_tasklist_after', $task_list_id );
+        do_action( 'pm_after_delete_task_list', $task_list );
+
         $message = [
             'message' => pm_get_text('success_messages.task_list_deleted')
         ];
@@ -412,7 +440,10 @@ class Task_List_Controller {
 
         // Delete the task list
         $task_list->delete();
+        
         do_action( 'cpm_delete_tasklist_after', $task_list_id );
+        do_action( 'pm_after_delete_task_list', $task_list );
+
         $message = [
             'message' => pm_get_text('success_messages.task_list_deleted')
         ];

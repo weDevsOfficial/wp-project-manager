@@ -11,7 +11,7 @@ use WeDevs\PM\Task_List\Helper\Task_List;
 // 	category: [2, 4],
 // 	inUsers: [1,2],
 // 	id: [1,2],
-// 	title: 'Rocket', 'test'
+// 	title: 'Rocket',
 // 	status: '0',
 // 	page: 1,
 //  orderby: 'title:asc,id:desc'
@@ -34,10 +34,11 @@ class Project {
 	private $where;
 	private $limit;
 	private $orderby;
-	private $with;
+	private $with = ['role_capabilities', 'meta'];
 	private $projects;
 	private $project_ids;
 	private $is_single_query = false;
+
 
 	/**
 	 * Class instance
@@ -112,21 +113,33 @@ class Project {
 			'meta' => []
 		];
 
-		if ( ! is_array( $projects ) ) {
-			$response['data'] = $this->fromat_project( $projects );
-
-			return $response;
-		}
-
 		foreach ( $projects as $key => $project ) {
 			$projects[$key] = $this->fromat_project( $project );
 		}
 
-
 		$response['data']  = $projects;
-		$response['meta'] = $this->set_projects_meta();
+		$response ['meta'] = $this->set_projects_meta();
 
 		return $response;
+
+
+
+
+		// if ( ! is_array( $projects ) ) {
+		// 	$response['data'] = $this->fromat_project( $projects );
+
+		// 	return $response;
+		// }
+
+		// foreach ( $projects as $key => $project ) {
+		// 	$projects[$key] = $this->fromat_project( $project );
+		// }
+
+
+		// $response['data']  = $projects;
+		// $response['meta'] = $this->set_projects_meta();
+
+		// return $response;
 	}
 
 	/**
@@ -241,33 +254,41 @@ class Project {
 			'projectable_type'	  => isset( $project->projectable_type ) ? $project->projectable_type : null,
 			'favourite'	  		  => isset( $project->favourite ) ? $project->favourite : false,
 			'created_at'		  => isset( $project->created_at ) ? format_date( $project->created_at ) : null,
+			'created_by'		  => isset( $project->created_by ) ? (int) $project->created_by : false,
 			'list_inbox'		  => $listmeta,
         ];
 
-		$select_items = empty( $this->query_params['select'] ) ? null : $this->query_params['select'];
 
-		if ( ! is_array( $select_items ) && !is_null( $select_items ) ) {
-			$select_items = str_replace( ' ', '', $select_items );
-			$select_items = explode( ',', $select_items );
-		}
+        $items = $this->item_with( $items, $project );
+        //$items = $this->item_meta( $items, $project );
 
-		if ( empty( $select_items ) ) {
-			$this->item_with($items,$project);
-			$items = $this->item_meta( $items,$project );
+        return apply_filters( 'pm_project_transform', $items, $project );
+
+
+		// $select_items = empty( $this->query_params['select'] ) ? null : $this->query_params['select'];
+
+		// if ( ! is_array( $select_items ) && !is_null( $select_items ) ) {
+		// 	$select_items = str_replace( ' ', '', $select_items );
+		// 	$select_items = explode( ',', $select_items );
+		// }
+
+		// if ( empty( $select_items ) ) {
+		// 	$this->item_with($items,$project);
+		// 	$items = $this->item_meta( $items,$project );
 			
-			return $items;
-		}
+		// 	return $items;
+		// }
 
-		foreach ( $items as $item_key => $item ) {
-			if ( ! in_array( $item_key, $select_items ) ) {
-				unset( $items[$item_key] );
-			}
-		}
+		// foreach ( $items as $item_key => $item ) {
+		// 	if ( ! in_array( $item_key, $select_items ) ) {
+		// 		unset( $items[$item_key] );
+		// 	}
+		// }
 
-		$this->item_with( $items,$project );
-		$items = $this->item_meta( $items,$project );
+		// $this->item_with( $items,$project );
+		// $items = $this->item_meta( $items,$project );
 		
-		return $items;
+		// return $items;
 
 	}
 
@@ -275,27 +296,30 @@ class Project {
 	private function item_with( &$items, $project ) {
 		$with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
 
-		if ( ! is_array( $with ) ) {
-			$with = explode( ',', $with );
-		}
+        if ( ! is_array( $with ) ) {
+            $with = explode( ',', str_replace(' ', '', $with ) );
+        }
 
-		$project_with_items =  array_intersect_key( (array) $project, array_flip( $with ) );
-		$items = array_merge($items,$project_with_items);
+        $with = array_merge( $this->with, $with );
 
-		return $items;
+        $project_with_items =  array_intersect_key( (array) $project, array_flip( $with ) );
+
+        $items = array_merge( $items, $project_with_items );
+
+        return $items;
 	}
 
-	private function item_meta( $items, $project ) {
-		$meta = empty( $this->query_params['project_meta'] ) ? false : $this->query_params['project_meta'];
+	// private function item_meta( $items, $project ) {
+	// 	$meta = empty( $this->query_params['project_meta'] ) ? false : $this->query_params['project_meta'];
 
-		if ( ! $meta ) {
-			return $items;
-		}
+	// 	if ( ! $meta ) {
+	// 		return $items;
+	// 	}
 
-		$items['meta'] = empty( $project->meta ) ? ['data' => []] : ['data' => $project->meta];
+	// 	$items['meta'] = empty( $project->meta ) ? ['data' => []] : ['data' => $project->meta];
 
-		return $items;
-	}
+	// 	return $items;
+	// }
 
 
 	/**
@@ -305,7 +329,8 @@ class Project {
 	 */
 	private function with() {
 		$this->include_assignees()
-			->include_categories();
+			->include_categories()
+			->role_capabilities();
 
 		$this->projects = apply_filters( 'pm_project_with',$this->projects, $this->project_ids, $this->query_params );
 
@@ -313,73 +338,73 @@ class Project {
 	}
 
 	private function meta() {
-		$meta = empty( $this->query_params['project_meta'] ) ? false : $this->query_params['project_meta'];
+		// $meta = empty( $this->query_params['project_meta'] ) ? false : $this->query_params['project_meta'];
 		
-		if ( ! $meta ) {
-			return $this;
-		}
+		// if ( ! $meta ) {
+		// 	return $this;
+		// }
 
-		if ( $meta && !is_array( $meta ) && $meta != 'all' ) {
-			$meta = explode( ',', $meta );
-		}
+		// if ( $meta && !is_array( $meta ) && $meta != 'all' ) {
+		// 	$meta = explode( ',', $meta );
+		// }
 
-		if ( $meta == 'all' ) {
-			$this->project_task_list_count();
-			$this->project_task_count();
-			$this->project_task_complete();
-			$this->project_incomplete_tasks();
-			$this->project_discussion_board_count();
-			$this->project_milestones_count();
-			$this->project_comments_count();
-			$this->project_files_count();
-			$this->project_activities_count();
-			$this->get_meta_tb_data();
-			$this->set_project_favourite_status();
-
-			return $this;
-		}
-
-		if ( in_array( 'total_task_lists', $meta ) ) {
-			$this->project_task_list_count();
-		}
-
-		if ( in_array( 'total_tasks', $meta ) ) {
-			$this->project_task_count();
-		}
-
-		if ( in_array( 'total_complete_tasks', $meta ) ) {
-			$this->project_task_complete();
-		}
-
-		if ( in_array( 'total_incomplete_tasks', $meta ) ) {
-			$this->project_incomplete_tasks();
-		}
-
-		if ( in_array( 'total_discussion_boards', $meta ) ) {
-			$this->project_discussion_board_count();
-		}
-
-		if ( in_array( 'total_milestones', $meta ) ) {
-			$this->project_milestones_count();
-		}
-
-		if ( in_array( 'total_comments', $meta ) ) {
-			$this->project_comments_count();
-		}
-
-		if ( in_array('total_files', $meta ) ) {
-			$this->project_files_count();
-		}
-
-		if ( in_array('total_activities', $meta) ) {
-			$this->project_activities_count();
-		}
-
-		//if ( in_array('favourite', $meta) ) {
-			$this->get_meta_tb_data();
-		//}
+		// if ( $meta == 'all' ) {
+		$this->project_task_list_count();
+		$this->project_task_count();
+		$this->project_task_complete();
+		$this->project_incomplete_tasks();
+		$this->project_discussion_board_count();
+		$this->project_milestones_count();
+		$this->project_comments_count();
+		$this->project_files_count();
+		$this->project_activities_count();
+		$this->get_meta_tb_data();
+		$this->set_project_favourite_status();
 
 		return $this;
+		//}
+
+		// if ( in_array( 'total_task_lists', $meta ) ) {
+		// 	$this->project_task_list_count();
+		// }
+
+		// if ( in_array( 'total_tasks', $meta ) ) {
+		// 	$this->project_task_count();
+		// }
+
+		// if ( in_array( 'total_complete_tasks', $meta ) ) {
+		// 	$this->project_task_complete();
+		// }
+
+		// if ( in_array( 'total_incomplete_tasks', $meta ) ) {
+		// 	$this->project_incomplete_tasks();
+		// }
+
+		// if ( in_array( 'total_discussion_boards', $meta ) ) {
+		// 	$this->project_discussion_board_count();
+		// }
+
+		// if ( in_array( 'total_milestones', $meta ) ) {
+		// 	$this->project_milestones_count();
+		// }
+
+		// if ( in_array( 'total_comments', $meta ) ) {
+		// 	$this->project_comments_count();
+		// }
+
+		// if ( in_array('total_files', $meta ) ) {
+		// 	$this->project_files_count();
+		// }
+
+		// if ( in_array('total_activities', $meta) ) {
+		// 	$this->project_activities_count();
+		// }
+
+		//if ( in_array('favourite', $meta) ) {
+			//$this->get_meta_tb_data();
+		//}
+
+		//return $this;
 	}
 
 	private function set_project_favourite_status() {
@@ -496,7 +521,7 @@ class Project {
 		}
 
 		foreach ( $this->projects as $key => $project ) {
-			$project->meta['total_incomplete_tasks'] = empty( $metas[$project->id] ) ? 0 : $metas[$project->id];
+			$project->meta['data']['total_incomplete_tasks'] = empty( $metas[$project->id] ) ? 0 : $metas[$project->id];
 		}
 
 		return $this;
@@ -532,7 +557,7 @@ class Project {
 		}
 
 		foreach ( $this->projects as $key => $project ) {
-			$project->meta['total_complete_tasks'] = empty( $metas[$project->id] ) ? 0 : $metas[$project->id];
+			$project->meta['data']['total_complete_tasks'] = empty( $metas[$project->id] ) ? 0 : $metas[$project->id];
 		}
 
 		return $this;
@@ -593,7 +618,7 @@ class Project {
 		}
 
 		foreach ( $this->projects as $key => $project ) {
-			$project->meta['total_tasks'] = empty( $metas[$project->id] ) ? 0 : $metas[$project->id];
+			$project->meta['data']['total_tasks'] = empty( $metas[$project->id] ) ? 0 : $metas[$project->id];
 		}
 
 		return $this;
@@ -630,7 +655,7 @@ class Project {
 		}
 
 		foreach ( $this->projects as $key => $project ) {
-			$project->meta['total_task_lists'] = empty( $metas[$project->id] ) ? 0 : $metas[$project->id];
+			$project->meta['data']['total_task_lists'] = empty( $metas[$project->id] ) ? 0 : $metas[$project->id];
 		}
 
 		return $this;
@@ -667,7 +692,7 @@ class Project {
 		}
 
 		foreach ( $this->projects as $key => $project ) {
-			$project->meta['total_discussion_boards'] = empty( $metas[$project->id] ) ? 0 : $metas[$project->id];
+			$project->meta['data']['total_discussion_boards'] = empty( $metas[$project->id] ) ? 0 : $metas[$project->id];
 		}
 
 		return $this;
@@ -702,7 +727,7 @@ class Project {
 		}
 
 		foreach ( $this->projects as $key => $project ) {
-			$project->meta['total_comments'] = empty( $metas[$project->id] ) ? 0 : $metas[$project->id];
+			$project->meta['data']['total_comments'] = empty( $metas[$project->id] ) ? 0 : $metas[$project->id];
 		}
 
 		return $this;
@@ -744,7 +769,7 @@ class Project {
 		}
 
 		foreach ( $this->projects as $key => $project ) {
-			$project->meta['total_milestones'] = empty( $metas[$project->id] ) ? 0 : $metas[$project->id];
+			$project->meta['data']['total_milestones'] = empty( $metas[$project->id] ) ? 0 : $metas[$project->id];
 		}
 
 		return $this;
@@ -783,7 +808,7 @@ class Project {
 		}
 
 		foreach ( $this->projects as $key => $project ) {
-			$project->meta['total_files'] = empty( $metas[$project->id] ) ? 0 : $metas[$project->id];
+			$project->meta['data']['total_files'] = empty( $metas[$project->id] ) ? 0 : $metas[$project->id];
 		}
 
 		return $this;
@@ -823,7 +848,7 @@ class Project {
 		}
 
 		foreach ( $this->projects as $key => $project ) {
-			$project->meta['total_activities'] = empty( $metas[$project->id] ) ? 0 : $metas[$project->id];
+			$project->meta['data']['total_activities'] = empty( $metas[$project->id] ) ? 0 : $metas[$project->id];
 		}
 
 		return $this;
@@ -925,6 +950,59 @@ class Project {
 		];
 
 		return isset( $roles[$id] ) ? $roles[$id] : false;
+	}
+
+	private function role_capabilities() {
+		global $wpdb;
+
+		if ( empty( $this->project_ids ) ) {
+			return $this;
+		}
+
+		$tb_role_project = pm_tb_prefix() . 'pm_role_project';
+		$tb_role_project_capabilities = pm_tb_prefix() . 'pm_role_project_capabilities';
+
+		$project_format = pm_get_prepare_format( $this->project_ids );
+		$query_data     = $this->project_ids;
+
+		$query = "SELECT DISTINCT rp.project_id, rp.role_id, rpc.capability_id
+				FROM $tb_role_project_capabilities as rpc
+				LEFT JOIN $tb_role_project as rp ON rp.id = rpc.role_project_id
+				where rp.project_id IN ($project_format)";
+		
+		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
+
+		$caps = [];
+
+		foreach ( $results as $key => $result ) {
+			if ( $result->role_id == 1 ) {
+				$role_slug = 'manager';
+			}
+
+			if ( $result->role_id == 2 ) {
+				$role_slug = 'co_worker';
+			}
+
+			if ( $result->role_id == 3 ) {
+				$role_slug = 'client';
+			}
+
+			$cap_slug = pm_default_cap( $result->capability_id );
+
+			$caps[$result->project_id][$role_slug][$cap_slug] = true;
+		}
+
+		foreach ( $this->projects as $key => $project ) {
+			if ( empty( $caps[$project->id] ) ) {
+				$caps[$project->id]['manager'] = pm_default_manager_caps();
+				$caps[$project->id]['co_worker'] = pm_default_co_caps();
+				$caps[$project->id]['client'] = pm_default_client_caps();
+			}
+
+			$project->role_capabilities = empty( $caps[$project->id] ) ? [] : $caps[$project->id];
+		}
+
+		return $this;
 	}
 
 	/**
@@ -1162,7 +1240,7 @@ class Project {
 			$inUsers = get_current_user_id();
 		}
 
-		//$this->join  .= " LEFT JOIN {$this->tb_project_user} ON {$this->tb_project_user}.project_id={$this->tb_project}.id";
+		$inUsers = pm_get_prepare_data( $inUsers );
 
 		if ( is_array( $inUsers ) ) {
 			$query_format = pm_get_prepare_format( $inUsers );
@@ -1295,7 +1373,7 @@ class Project {
 		global $wpdb;
 		$id = isset( $this->query_params['id'] ) ? $this->query_params['id'] : false;
 		
-		$query = "SELECT SQL_CALC_FOUND_ROWS DISTINCT {$this->select}
+		$query = "SELECT SQL_CALC_FOUND_ROWS DISTINCT {$this->tb_project}.*
 			FROM 
 				{$this->tb_project}
 				{$this->join}

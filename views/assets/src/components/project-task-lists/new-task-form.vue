@@ -33,7 +33,7 @@
                             <div class="action-icons process-fields" v-if="focusField">
                                 <div class="process-content-1">
                                     <div class="task-users process-field">
-                                        <pm-popper trigger="click" :options="popperOptions">
+                                        <pm-popper trigger="click" :options="popperOptions()">
                                             <div class="pm-popper popper">
                                                 <div class="pm-multiselect-top pm-multiselect-subtask-task">
                                                     <div class="pm-multiselect-content">
@@ -136,6 +136,48 @@
                                         </div> -->
                                     </div>
 
+<div v-if="taskTypeField" class="task-type-wrap process-field">
+    <pm-popper trigger="click" :options="popperOptions()">
+        <div class="pm-popper popper">
+            <div class="pm-multiselect-top">
+                <div class="pm-multiselect-content">
+                    <div v-if="taskTypeLoading">
+                        <span>{{ __( 'Loading', 'wedevs-project-manager' ) }}...</span>
+                    </div>
+
+                    <div v-if="!taskTypeLoading && !hasTaskType">
+                        <span>{{ __( 'Task type not found!', 'wedevs-project-manager' ) }}</span>
+                    </div>
+
+                    <pm-task-type-dropdown 
+                        @onChange="onChangeTaskType"
+                        :selectedTaskTypes="task.type"
+                        :allowEmpty="true"
+                        @afterGetTaskTypes="afterGetTaskTypes"
+                    />
+                </div>
+            </div>
+        </div>
+
+        <div 
+            slot="reference" 
+            v-pm-tooltip 
+            :title="__('Task Type', 'wedevs-project-manager')"  
+            class="pm-popper-ref popper-ref task-type-btn pm-dark-hover"
+        >
+            <i>
+                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="330.34px" height="330.34px" viewBox="0 0 330.34 330.34" style="enable-background:new 0 0 330.34 330.34;" xml:space="preserve"> <g> <g> <path d="M306.756,165.93c-1.54-4.211-6.201-6.371-10.389-4.826L220.482,188.9l61.341-61.293c1.519-1.511,2.367-3.576,2.367-5.729 c0-2.144-0.849-4.206-2.367-5.73l-47.45-47.477c-3.164-3.164-8.29-3.164-11.454,0l-60.162,60.12l33.742-80.04 c0.833-1.98,0.844-4.211,0.042-6.199c-0.812-1.988-2.378-3.575-4.361-4.406l-61.844-26.077c-4.127-1.759-8.878,0.201-10.613,4.316 L86.4,95.434V11.27c0-4.472-3.628-8.1-8.1-8.1H8.1c-4.472,0-8.1,3.628-8.1,8.1V319.07c0,4.472,3.628,8.1,8.1,8.1h70.2 c0.989,0,1.928-0.206,2.803-0.527c0.876,0.316,1.788,0.527,2.737,0.527c0.931,0,1.869-0.158,2.787-0.496l238.396-87.338 c4.197-1.54,6.359-6.191,4.819-10.389L306.756,165.93z M47.883,310.97H16.2v-13.362v-8.786v-6.012v-20.846V19.37h54v114.491 v20.849v20.854v45.727v11.443v11.222v0.232v50.182v8.427v2.579v0.453v5.142h-1.464h-4.854H47.883z M178.427,49.924 l-46.045,109.224l-8.343,19.786l-8.345,19.786l-14.244,33.786l-8.604,20.403L86.4,268.218v-12.946v-17.249v-10.024v-11.454 v-11.443v-67.962l45.106-106.99L178.427,49.924z M113.643,245.289l8.604-20.402l23.828-56.526l82.561-82.506l36.002,36.018 l-80.335,80.286l-27.253,27.231L93.63,292.766L113.643,245.289z M107.552,301.757l85.672-85.614l101.108-37.04l17.513,47.809 L107.552,301.757z"/> <path d="M43.2,277.668c-0.356,0-0.691,0.079-1.036,0.101c-3.035,0.274-5.719,1.672-7.642,3.817 c-1.268,1.414-2.204,3.133-2.668,5.042c-0.211,0.886-0.356,1.793-0.356,2.742c0,2.573,0.854,4.925,2.257,6.855 c2.127,2.921,5.55,4.841,9.445,4.841c0.566,0,1.107-0.084,1.653-0.169c2.336-0.332,4.442-1.345,6.117-2.848 c0.809-0.728,1.523-1.55,2.106-2.479c0.96-1.519,1.545-3.28,1.711-5.168c0.032-0.348,0.103-0.686,0.103-1.039 C54.902,282.904,49.663,277.668,43.2,277.668z"/> </g> </g> </svg>
+            </i>    
+            <div 
+                class="type-title" 
+                v-if="taskType.title"
+            >
+                <span>{{ taskType.title }}</span>
+            </div>
+        </div>
+    </pm-popper>
+</div>
+
                                     <pm-do-slot v-if="estimationField" hook="estimation_task_tools" :actionData="taskTools"></pm-do-slot>
                                     <pm-do-slot hook="task_tools" :actionData="taskTools"></pm-do-slot>
                                 </div>
@@ -216,17 +258,6 @@ import date_picker from './date-picker.vue';
 import Mixins from './mixin';
 import editor from '@components/common/text-editor.vue';
  
-
-
-// Vue.directive('user-dropdown', {
-//     bind (el, binding, vnode) {
-
-//         jQuery(el).find('.pm-popper-ref').on('focus', function() {
-//             jQuery(this).trigger('click');
-//         }) 
-//     }
-// })
-
 export default {
     // Get passing data for this component. Remember only array and objects are
     props: {
@@ -251,6 +282,12 @@ export default {
                     assignees: {
                         data: []
                     },
+
+                    type: {
+                        id: false,
+                        title: '',
+                        description: ''
+                    }
                 }
             }
         },
@@ -265,14 +302,21 @@ export default {
         },
 
         projectId: {
-            type: [Number],
+            type: [Number, String],
             default: 0
         },
 
         estimationField: {
             type: [Boolean],
             default: false
-        }
+        },
+
+        taskTypeField: {
+            type: [Boolean],
+            default () {
+                return false
+            }
+        },
     },
 
     /**
@@ -307,15 +351,21 @@ export default {
             focusField: false,
             taskTools: {
                 task: this.task,
-                projectId: this.projectId,
+                projectId: this.getProjectId(),
+            },
+            typeId: false,
+            taskTypeLoading: true,
+            hasTaskType: false,
+            taskType: {
+                title: ''
             }
         }
     },
     mixins: [Mixins],
 
     components: {
-    	'multiselect': pm.Multiselect.Multiselect,
-    	'pm-datepickter': date_picker,
+        'multiselect': pm.Multiselect.Multiselect,
+        'pm-datepickter': date_picker,
         'text-editor': editor
     },
 
@@ -335,7 +385,10 @@ export default {
     // Initial action for this component
     created: function() {
         this.$on( 'pm_date_picker', this.getDatePicker );
-        //window.addEventListener('click', this.windowActivity);
+
+        //this.setProjectId();
+        this.setTaskType();
+        this.formatTaskUsers();
 
         if(jQuery.isEmptyObject(this.list)) {
             this.task.listId = this.getInboxId();
@@ -345,7 +398,7 @@ export default {
 
         this.focusField = this.options.focus ? true : false;
 
-        this.focustInputForEdit()
+        this.focustInputForEdit();
     },
 
     watch: {
@@ -374,17 +427,13 @@ export default {
 
     computed: {
 
-        // popper options
-        popperOptions () {
-            return {
-                placement: 'bottom-end',
-                modifiers: { offset: { offset: '0, 3px' } },
-            }
-        },
+        project_users () {
+            return this.$store.state.project_users.map( user => {
+                user.id = parseInt( user.id );
 
-    	project_users () {
-    		return this.$store.state.project_users;
-    	},
+                return user;
+            } );
+        },
         /**
          * Check current user can view the todo or not
          * 
@@ -429,6 +478,62 @@ export default {
     },
 
     methods: {
+        getProjectId() {
+
+            if ( parseInt(this.projectId) ) {
+                return this.projectId;
+            }
+
+            if ( typeof this.list.project_id != 'undefined' ) {
+                return parseInt(this.list.project_id);
+            } else if ( this.$route.params.project_id ) {
+                return parseInt(this.$route.params.project_id);
+            }
+
+            return false;
+        },
+
+        formatTaskUsers () {
+            return this.task.assignees.data.map( user => {
+                user.id = parseInt( user.id );
+
+                return user;
+            } )
+        },
+
+        setTaskType () {
+            this.typeId =  this.task.type ? this.task.type.id : false;
+            this.taskType.title = this.task.type ? this.task.type.title : '';
+        },
+
+        afterGetTaskTypes ( taskTypes ) {
+            this.taskTypeLoading = false;
+            
+            if( taskTypes.length ) {
+                this.hasTaskType = true;
+            }
+        },
+
+        popperOptions () {
+            return {
+                placement: 'bottom-end',
+                modifiers: { offset: { offset: '0, 3px' } },
+            }
+        },
+
+        onChangeTaskType (value) {
+
+            if ( value ) {
+                this.typeId = value.id;
+                this.taskType = value;
+            } else {
+                this.typeId = false;
+                this.taskType = {
+                    title: ''
+                }
+            }
+        },
+
         focustInputForEdit () {
             var self = this;
             setTimeout(() => {
@@ -573,10 +678,12 @@ export default {
         callBackDatePickerForm (date) {
             this.task.start_at.date = date;
         },
+
         callBackDatePickerTo (date) {
             
             this.task.due_date.date = date;
         },
+
         enableDisable (key, status) {
             status = status || '';
 
@@ -586,27 +693,29 @@ export default {
                 this[key] = status;
             }
         },
-    	setDefaultValue () {
-    		if (typeof this.task.assignees !== 'undefined') {
-    			var self = this;
-	    		this.task.assignees.data.map(function(user) {
-	    			self.assigned_to.push(user.id);
-	    		});
-    		}
-    		
 
-    		if (typeof this.task.start_at === 'undefined') {
-    			this.task.start_at = {
-    				date: ''
-    			};
-    		}
+        setDefaultValue () {
+            if (typeof this.task.assignees !== 'undefined') {
+                var self = this;
+                this.task.assignees.data.map(function(user) {
+                    self.assigned_to.push(user.id);
+                });
+            }
+            
 
-    		if (typeof this.task.due_date === 'undefined') {
-    			this.task.due_date = {
-    				date: ''
-    			};
-    		}
-    	},
+            if (typeof this.task.start_at === 'undefined') {
+                this.task.start_at = {
+                    date: ''
+                };
+            }
+
+            if (typeof this.task.due_date === 'undefined') {
+                this.task.due_date = {
+                    date: ''
+                };
+            }
+        },
+
         /**
          * Set tast start and end date at task insert or edit time
          * 
@@ -676,12 +785,10 @@ export default {
             }
             
             var self = this;
+            
             this.submit_disabled = true;
             // Showing loading option 
             this.show_spinner = true;
-
-            //Vue.set(self.options, 'focus', false);
-
 
             var args = {
                 data: {
@@ -695,13 +802,17 @@ export default {
                     list_id: this.list.id,
                     estimation: this.task.estimation,
                     //estimated_hours: this.task.estimation,
+                    type_id: this.typeId,
                     order: this.task.order,
                     recurrent: this.task.recurrent,
-                    project_id: typeof this.list.project_id !== 'undefined' ? this.list.project_id : this.project_id
+                    project_id: this.getProjectId()
                 },
+
                 callback: function( self, res ) { 
                     self.clearFormData();
                     self.task_description = typeof res.data.description === 'undefined' ? '' : res.data.description.content;
+
+                    self.$emit('afterTaskUpdated', res, args);
                 }
             }
 
@@ -855,8 +966,26 @@ export default {
                             background: #fafafa;
 
                             .pm-vue2-daterange-picker {
+                                .btn {
+                                    padding: 0 5px 0 10px;
+                                }
+
                                 .reportrange-text {
-                                    padding-left: 0 !important;
+                                    padding: 0 !important;
+                                    margin: 0 !important;
+
+                                    .date-text {
+                                        margin-left: 6px;
+                                    }
+
+                                    .glyphicon {
+                                        margin: 0;
+                                        padding: 0;
+
+                                        &:before {
+                                            font-size: 14px;
+                                        }
+                                    }
                                 }
                             }
 
@@ -872,8 +1001,34 @@ export default {
                                 }
                             }
 
+                            .task-type-wrap {
+                                margin-left: -5px;
+
+                                .pm-common-multiselect {
+                                    .multiselect__input {
+                                        border: 1px solid #ECECEC !important;
+                                    }
+                                }
+
+                                .task-type-btn {
+                                    display: flex;
+                                    align-items: center;
+
+                                    .type-title {
+                                        margin-left: 6px;
+                                    }
+
+                                    svg {
+                                        height: 14px;
+                                        width: 14px;
+                                        fill: #505050;
+                                    }
+                                }
+                            }
+
                             .process-field {
                                 margin-right: 16px;
+                                font-size: 13px;
                             }
 
                             .active-date {

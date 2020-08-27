@@ -25,16 +25,22 @@
             <pm-do-action hook="pm_task_list_form" :actionData="list" ></pm-do-action>
 
             <div class="item submit">
+                <a @click.prevent="showHideListForm(false, list)" class="pm-button pm-secondary cancel-btn" href="#">{{__( 'Cancel', 'wedevs-project-manager')}}</a>
                 <span v-show="show_spinner" class="pm-spinner"></span>
-                <input @click.prevent="listFormAction()" v-if="list.id" type="submit" class="pm-button pm-primary" :disabled="submit_disabled" name="submit_todo" :value="task_list_update">
                 <input v-if="!list.id" type="submit" class="pm-button pm-primary" :disabled="submit_disabled" name="submit_todo" :value="add_list">
-                <a @click.prevent="showHideListForm(false, list)" class="pm-button pm-secondary" href="#">{{__( 'Cancel', 'wedevs-project-manager')}}</a>
+                <input @click.prevent="listFormAction()" v-if="list.id" type="submit" class="pm-button pm-primary" :disabled="submit_disabled" name="submit_todo" :value="task_list_update">
                 
             </div>
         </form>
     </div>  
 
 </template>
+
+<style lang="less">
+    .cancel-btn {
+        margin-right: 10px;
+    }
+</style> 
 
 <script>
     import Mixins from './mixin';

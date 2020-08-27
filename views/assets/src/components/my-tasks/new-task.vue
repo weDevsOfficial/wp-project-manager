@@ -302,7 +302,7 @@
                 }
 
                 var request = {
-                    url: self.base_url + '/pm/v2/advanced/projects',
+                    url: self.base_url + 'pm/v2/advanced/projects',
                     data: data,
                     success (res) {
                         self.projects = res.data;
@@ -343,7 +343,7 @@
                 }
 
                 var request = {
-                    url: self.base_url + '/pm/v2/advanced/'+self.project.id+'/task-lists',
+                    url: self.base_url + 'pm/v2/advanced/'+self.project.id+'/task-lists',
                     data: {
                         select: 'id, title, project_id',
                         project_id: self.project.id,
@@ -387,7 +387,7 @@
                 }
                 
                 var request = {
-                    url: self.base_url + '/pm/v2/advanced/'+project_id+'/task-lists',
+                    url: self.base_url + 'pm/v2/advanced/'+project_id+'/task-lists',
                     data: {
                         select: 'id, title, project_id',
                         project_id: project_id,

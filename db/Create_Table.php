@@ -25,12 +25,51 @@ class PM_Create_Table {
         $this->crate_role_project_capabilities_table();
         $this->crate_role_project_users_table();
         $this->update_version();
+        $this->task_types();
     }
 
     private function prefix() {
     	global $wpdb;
 
     	return $wpdb->prefix;
+    }
+
+   	private function task_types() {
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'pm_task_types';
+
+        //`status` inactive: 0, active: 1
+
+        $sql = "CREATE TABLE IF NOT EXISTS  {$table_name} (
+          `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+          `title` varchar(255) NOT NULL,
+          `description` text,
+          `type` varchar(255) NOT NULL,
+          `status` tinyint(4) NOT NULL DEFAULT 0,
+          `created_by` int(11) UNSIGNED DEFAULT NULL,
+          `updated_by` int(11) UNSIGNED DEFAULT NULL,
+          PRIMARY KEY (`id`)
+        ) DEFAULT CHARSET=utf8";
+        
+        dbDelta($sql);
+
+        $this->task_type_task();
+    }
+
+    private function task_type_task() {
+        global $wpdb;
+        $table_name = $wpdb->prefix . 'pm_task_type_task';
+
+        $sql = "CREATE TABLE IF NOT EXISTS  {$table_name} (
+          `type_id` int(11) UNSIGNED NOT NULL,
+          `task_id` int(11) UNSIGNED NOT NULL,
+          `project_id` int(11) UNSIGNED NOT NULL,
+          `list_id` int(11) UNSIGNED NOT NULL,
+          UNIQUE KEY `task_id` (`task_id`),
+          KEY `type_id` (`type_id`)
+        ) DEFAULT CHARSET=utf8";
+        
+        dbDelta($sql);
     }
 
     private function crate_capabilities_table() {
@@ -89,7 +128,7 @@ class PM_Create_Table {
         dbDelta($sql);
     }
 
-    public function create_project_table()
+    private function create_project_table()
     {
 
         global $wpdb;
@@ -114,7 +153,7 @@ class PM_Create_Table {
 		  `created_at` timestamp NULL DEFAULT NULL,
 		  `updated_at` timestamp NULL DEFAULT NULL,
 		  PRIMARY KEY (`id`)
-		) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
+		) DEFAULT CHARSET=utf8";
 
         dbDelta($sql);
     }
@@ -152,7 +191,7 @@ class PM_Create_Table {
 			  `updated_at` timestamp NULL DEFAULT NULL,
 			  PRIMARY KEY (`id`),
 			  KEY `project_id` (`project_id`)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
+			) DEFAULT CHARSET=utf8";
 
         dbDelta($sql);
     }
@@ -177,7 +216,7 @@ class PM_Create_Table {
 			  KEY `project_id` (`project_id`),
 			  KEY `actor_id` (`actor_id`),
 			  KEY `resource_id` (`resource_id`)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
+			) DEFAULT CHARSET=utf8";
 
         dbDelta($sql);
     }
@@ -206,7 +245,7 @@ class PM_Create_Table {
 			  KEY `task_id` (`task_id`),
 			  KEY `assigned_to` (`assigned_to`),
 			  KEY `project_id` (`project_id`)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
+			) DEFAULT CHARSET=utf8";
 
         dbDelta($sql);
     }
@@ -230,7 +269,7 @@ class PM_Create_Table {
 			  PRIMARY KEY (`id`),
 			  KEY `board_id` (`board_id`),
 			  KEY `boardable_id` (`boardable_id`)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
+			) DEFAULT CHARSET=utf8";
 
         dbDelta($sql);
 
@@ -256,7 +295,7 @@ class PM_Create_Table {
 			  `updated_at` timestamp NULL DEFAULT NULL,
 			  PRIMARY KEY (`id`),
 			  KEY `project_id` (`project_id`)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
+			) DEFAULT CHARSET=utf8";
 
         dbDelta($sql);
     }
@@ -276,7 +315,7 @@ class PM_Create_Table {
 			  `created_at` timestamp NULL DEFAULT NULL,
 			  `updated_at` timestamp NULL DEFAULT NULL,
 			  PRIMARY KEY (`id`)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
+			) DEFAULT CHARSET=utf8";
 
         dbDelta($sql);
     }
@@ -291,7 +330,7 @@ class PM_Create_Table {
 			  `category_id` int(11) UNSIGNED NOT NULL,
 			  KEY `project_id` (`project_id`),
 			  KEY `category_id` (`category_id`)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
+			) DEFAULT CHARSET=utf8";
 
         dbDelta($sql);
     }
@@ -315,7 +354,7 @@ class PM_Create_Table {
 			  PRIMARY KEY (`id`),
 			  KEY `project_id` (`project_id`),
 			  KEY `commentable_id` (`commentable_id`)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
+			) DEFAULT CHARSET=utf8";
 
         dbDelta($sql);
     }
@@ -340,7 +379,7 @@ class PM_Create_Table {
 			  PRIMARY KEY (`id`),
 			  KEY `project_id` (`project_id`),
 			  KEY `fileable_id` (`fileable_id`)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
+			) DEFAULT CHARSET=utf8";
 
         dbDelta($sql);
     }
@@ -364,7 +403,7 @@ class PM_Create_Table {
 		  PRIMARY KEY (`id`),
 		  KEY `entity_id` (`entity_id`),
 		  KEY `project_id` (`project_id`)
-		) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
+		) DEFAULT CHARSET=utf8";
 
         dbDelta($sql);
     }
@@ -385,7 +424,7 @@ class PM_Create_Table {
 			  `created_at` timestamp NULL DEFAULT NULL,
 			  `updated_at` timestamp NULL DEFAULT NULL,
 			  PRIMARY KEY (`id`)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
+			) DEFAULT CHARSET=utf8";
 
         dbDelta($sql);
     }
@@ -406,7 +445,7 @@ class PM_Create_Table {
 			  KEY `role_id` (`role_id`),
 			  KEY `user_id` (`user_id`),
 			  KEY `assigned_by` (`assigned_by`)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
+			) DEFAULT CHARSET=utf8";
 
         dbDelta($sql);
     }
@@ -427,7 +466,7 @@ class PM_Create_Table {
 			  `updated_at` timestamp NULL DEFAULT NULL,
 			  PRIMARY KEY (`id`),
 			  KEY `project_id` (`project_id`)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
+			) DEFAULT CHARSET=utf8";
 
         dbDelta($sql);
     }
@@ -448,7 +487,7 @@ class PM_Create_Table {
 			  `created_at` timestamp NULL DEFAULT NULL,
 			  `updated_at` timestamp NULL DEFAULT NULL,
 			  PRIMARY KEY (`id`)
-			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;";
+			) DEFAULT CHARSET=utf8";
 
         dbDelta($sql);
     }
