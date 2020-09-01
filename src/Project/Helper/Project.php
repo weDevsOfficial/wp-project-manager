@@ -94,7 +94,8 @@ class Project {
 		$response = $self->format_projects( $self->projects );
 
 		if( pm_is_single_query( $params ) ) {
-			return ['data' => $response['data'][0]];
+			$project = empty( $response['data'][0] ) ? [] : $response['data'][0];
+			return ['data' => $project];
 		}
 
 		return $response;
@@ -1231,6 +1232,10 @@ class Project {
 		global $wpdb;
 		$inUsers = isset( $this->query_params['inUsers'] ) ? $this->query_params['inUsers'] : false;
 
+		// if ( $inUsers === false ) {
+		// 	$inUsers = isset( $this->query_params['users'] ) ? $this->query_params['users'] : false;
+		// }
+		
 		if ( empty( $inUsers ) ) {
 			
 			if ( pm_has_manage_capability( get_current_user_id() ) ) {
