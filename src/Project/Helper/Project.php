@@ -245,6 +245,7 @@ class Project {
 
 		$items = [
             'id'      	      	  => (int) $project->id,
+            'project_id'      	  => (int) $project->id, //need for calendar task create form
 			'title'   	  		  => isset( $project->title ) ? (string) $project->title : '',
 			'description' 		  => isset( $project->description ) ? [ 'html' => pm_get_content( $project->description ), 'content' => $project->description ] : '',
 			'status'	  		  => isset( $project->status ) ? $project->status : null,

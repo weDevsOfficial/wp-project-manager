@@ -64,7 +64,7 @@
 
 		data () {
 			return {
-				lists: [],
+				//lists: [],
 				timeout: '',
 				loadingListSearch: false,
                 listAbort: '',
@@ -77,12 +77,22 @@
 			'multiselect': pm.Multiselect.Multiselect
 		},
 
+        computed: {
+            lists () {
+                var storeList = this.$store.state.taskCreateFormLists;
+                
+                const response = storeList.filter( list => parseInt(list.project_id) == parseInt(this.defaultProjectId) );
+
+                return response;
+            }
+        },
+
 		watch: {
             selectedLists () {
                 this.formatSelectedListsId();
             },
 
-            defaultProjectId () {
+            projectId () {
                 this.setProjectId();
                 this.setLists();
             }
@@ -94,6 +104,20 @@
 		},
 
 		methods: {
+            // setSelectedList () {
+            //     if(this.isEmpty(this.projectId)) {
+            //         this.selectedLists =  '';
+            //         return;
+            //     }
+
+            //     if(this.isEmpty(this.$store.state.taskCreateFormLists[this.projectId])) {
+            //         this.selectedLists =  '';
+            //         return;
+            //     }
+                
+            //     this.selectedLists = this.$store.state.taskCreateFormLists[this.projectId].lists[0];
+            // },
+
             setProjectId () {
                 if(this.projectId) {
                     this.defaultProjectId = parseInt( this.projectId );
@@ -119,18 +143,32 @@
 
             formatLists(lists) {
                 var self = this;
-                self.lists = [];
+                // self.lists = [];
 
-                lists.forEach(function(list) {
-                    let index = self.getIndex( self.lists, list.id, 'id' );
+                // lists.forEach(function(list) {
+                //     let index = self.getIndex( self.lists, list.id, 'id' );
 
-                    if(index === false) {
-                        self.lists.push({
-                            id: list.id,
-                            title: list.title,
-                        });
-                    }
-                });
+                //     if(index === false) {
+                //         self.lists.push({
+                //             id: list.id,
+                //             title: list.title,
+                //         });
+                //     }
+                // });
+                // 
+                
+                if(this.isEmpty(lists)) {
+                    return;
+                }
+                
+                if(!this.is_array(lists)) {
+                    lists = [lists];
+                }
+                
+                self.$store.commit( 'updateTaskCreateFormLists', {
+                    projectId: self.projectId,
+                    lists: lists
+                } )
 
                 self.$emit('afterGetLists', self.lists);
             },
@@ -143,20 +181,27 @@
 				var lists = [],
 					self = this;
 
-				if( !this.$store.state.projectTaskLists.lists.length) {
-					var args = {
-						data: {
-							project_id: this.defaultProjectId,
-						},
+				if ( self.lists.length ) {
+                    self.$emit('afterGetLists', self.lists);
+                }
 
-						callback (res) {
-                            self.formatLists(res.data);
-						}
+				var args = {
+					data: {
+						project_id: this.defaultProjectId,
+					},
+
+					callback (res) {
+                        self.$store.commit( 'updateTaskCreateFormLists', {
+                            projectId: self.defaultProjectId,
+                            lists: res.data
+                        } )
+
+                        //It will check new added list
+                        self.$emit('afterRefreshLists', self.lists);
 					}
-					this.getLists(args);
-				} else {
-                    self.formatLists( this.$store.state.projectTaskLists.lists );
-				} 
+				}
+
+				this.getLists(args);
 			},
 
 			getLists (args) {
