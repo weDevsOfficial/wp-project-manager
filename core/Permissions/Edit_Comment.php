@@ -18,10 +18,14 @@ class Edit_Comment extends Abstract_Permission {
         	if ( $project_id && pm_has_project_managing_capability( $project_id, $user_id ) ) {
 	            return true;
 	        }
-	        if ( Comment::find( $id )->created_by == $user_id  ){
-	        	return true;
-	        }
 
+            $comment = Comment::find( $id );
+            
+            if ( !empty( $comment->created_by ) ) {
+                if ( $comment->created_by == $user_id  ){
+                    return true;
+                }
+            }
         }
 
         return new \WP_Error( 'Comment', __( "You have no permission.", "wedevs-project-manager" ) );
