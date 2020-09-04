@@ -101,10 +101,20 @@
                         <div class="task-list-title-wrap" v-if="task.task_list.data">
                             <div class="task-list-title-text">
                                 <span >
+                                    {{ __("Project:", 'wedevs-project-manager' ) }}
+                                </span>
+                                <span class="list-title">
+
+                                    <a :href="`#/projects/${task.project_id}/task-lists`"> {{ task.project_title }}</a>
+                                </span>
+                            </div>
+
+                            <div class="task-list-title-text">
+                                <span >
                                     {{ __("Task List:", 'wedevs-project-manager' ) }}
                                 </span>
                                 <span class="list-title">
-                                    {{ task.task_list.data.title }}
+                                    <a :href="`#/projects/${task.project_id}/task-lists/${task.task_list_id}`"> {{ task.task_list_title }}</a>
                                 </span>
                             </div>
                         </div>
@@ -1119,6 +1129,11 @@
             color: #23282d;
         }
         .list-title {
+            a {
+                color: #347493; 
+                font-size: 12px;
+                font-weight: 600;
+            }
             font-size: 12px;
             color: #202020;
             font-weight: 400;
