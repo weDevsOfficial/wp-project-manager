@@ -1,3 +1,11 @@
+= v2.4.3 - Sep Upcoming , 2020 =
+
+* **Update** Projects menu rearrange.
+* **Update** You will get project and task list's title with link form single task.
+* **Fix** Co-Worker was not delete the self created task comment.
+* **Fix** Date picker is not showing on single task from project manager frontend.
+* **Fix** Task list not changing according project change from my-task in task create form.
+
 = v2.4.2 - Aug 26, 2020 =
 
 * **Fix** Single task popup is not appearing.
