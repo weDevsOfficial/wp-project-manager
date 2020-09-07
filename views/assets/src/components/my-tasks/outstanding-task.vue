@@ -60,7 +60,7 @@
                                 project_id: task.project_id,
                             }
                         }">
-                            {{ task.project.title }}
+                            {{ task.project_title }}
                         </router-link>
                     </td>
                     <td>{{ getOverdueValue(task) }}</td>
