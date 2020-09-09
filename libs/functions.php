@@ -216,12 +216,23 @@ function pm_update_meta( $id, $project_id, $type, $key, $value ) {
     }
 }
 
-function pm_get_meta( $entity_id, $project_id, $type, $key ) {
-    $meta = WeDevs\PM\Common\Models\Meta::where( 'entity_id', $entity_id )
-        ->where( 'project_id', $project_id )
+function pm_get_meta( $entity_id, $project_id, $type, $key, $single = true ) {
+    $entity_id = pm_get_prepare_data( $entity_id );
+
+    $meta = WeDevs\PM\Common\Models\Meta::where( function($q) use($project_id) {
+            if ( !empty( $project_id ) ) {
+                $q->where( 'project_id', $project_id );
+            }
+        } )
+        ->whereIn( 'entity_id', $entity_id )
         ->where( 'entity_type',  $type )
-        ->where( 'meta_key', $key )
-        ->first();
+        ->where( 'meta_key', $key );
+
+    if ( $single ) {
+        $meta = $meta->first();
+    } else {
+        $meta = $meta->get()->toArray();
+    }
 
     return $meta;
 }
