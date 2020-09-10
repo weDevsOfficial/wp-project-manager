@@ -68,7 +68,7 @@
                             {{ task.task_list.data.title }}
                         </router-link> -->
 
-                        //For ERP Integration
+                        <!-- For ERP Integration -->
                         <a :href="`${PM_Vars.project_page}#/projects/${task.project_id}/task-lists/${task.task_list_id}`">
                             {{ task.task_list.data.title }}
                         </a>
@@ -85,7 +85,7 @@
                             {{ task.project_title }}
                         </router-link> -->
                         
-                        //For ERP Integration
+                        <!-- For ERP Integration -->
                         <a :href="`${PM_Vars.project_page}#/projects/${task.project_id}/task-lists`">
                             {{ task.project_title }}
                         </a>
