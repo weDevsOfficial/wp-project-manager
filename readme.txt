@@ -3,9 +3,9 @@ Contributors: tareq1988, nizamuddinbabu, wedevs, asaquzzaman
 Donate Link: https://tareq.co/donate/
 Tags: project, project manager, project management, web project management, task manager, online collaboration tool,
 Requires at least: 4.4 or higher
-Tested up to: 5.5
+Tested up to: 5.5.1
 Requires PHP: 5.6
-Stable tag: 2.4.2
+Stable tag: 2.4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,9 +55,19 @@ Want to give it a try? Then try its 👉 [FREE OFFICIAL DEMO](https://pm.wedevsd
 * Email notification to keep the users updated about their assigned, upcoming or outdated tasks.
 * Control who will receive which notification from settings (Pro).
 
+**Pusher Integration**
+
+* Get a real-time notification for your project management activities with push notifications. 
+* You will receive notifications for assigning team members, mentioning in comments, creating tasks, and updating task status. 
+
 👉 [Learn more about all the functions and features from our documentation](https://wedevs.com/docs/wp-project-manager/).
 
 **Pro Features**
+
+[**Managing projects from frontend**](https://wedevs.com/docs/wp-project-manager/managing-projects-from-wp-project-manager-frontend/)
+
+   * Let your users be able to view your projects from the frontend
+   * Manage projects without going to backend interface.
 
 **[Kanban Board for WordPress](https://wedevs.com/products/plugins/wp-project-manager-pro/kanban-board/)**
 
@@ -107,10 +117,23 @@ Want to give it a try? Then try its 👉 [FREE OFFICIAL DEMO](https://pm.wedevsd
    * Integrate your WP Project Manager Pro with the best workspace communication tool - Slack
    * Get instant notifications on your Slack channels when a new task, subtask, comment is created or an existing one is modified. And also when a task is completed or a new co-worker is added.
 
-[**Managing projects from frontend**](https://wedevs.com/docs/wp-project-manager/managing-projects-from-wp-project-manager-frontend/)
+**[GitHub and Bitbucket Integration](https://wedevs.com/docs/wp-project-manager/integrations/github-bitbucket/)**
 
-   * Let your users be able to view your projects from the frontend
-   * Manage projects without going to backend interface.
+   * Connect your GitHub and Bitbucket account with WP Project Manager easily.
+   * When issues will be created on your GitHub and Bitbucket account, it will be added to your task list. So, your developer team can take action in time.
+
+**[Reports](https://wedevs.com/docs/wp-project-manager/reports/view-reports/)**
+   
+   * To make your project management efficient, you need to have reports for tasks and user activities. It will help you to make the right decisions for your projects and team.
+   * You will get several predefined report cases depending on the user activities. The reports are very much self-explanatory. The reports are very much self-explanatory. You will get,
+      
+      **1. Overdue Tasks**
+      **2. Completed Task**
+      **3. User Activities**
+      **4. Task by Milestone**
+      **5. Unassigned Tasks**
+      **6. Summary**
+
 
 👉 [GET WP PROJECT MANAGER PRO](https://wedevs.com/wp-project-manager-pro/pricing)
 
@@ -238,6 +261,15 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 
 == Changelog ==
+
+= v2.4.3 - Sep 10, 2020 =
+
+**Update** In dashboard project menu bar has been rearranged. 
+**Update** In single task now user can navigate to project and task list.   
+**Fix** Co-worker can not be deleted in self created task comment. 
+**Fix** In frontend project manager date picker was not showing in single task. 
+**Fix** In my task, task create form did not change the list even the project has been change.
+**Fix** Project title was missing from my-task.
 
 = v2.4.2 - Aug 26, 2020 =
 
@@ -427,7 +459,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 * **New** Set loading effect at task list page and list archive page nevigation.
 * **New** Set loading effect at task list pagination.
 * **New** New library v-tooltip
-* **Fix** Any kinds of url added extra &nbsp from tinymce text filed.
+* **Fix** Any kinds of url added extra   from tinymce text filed.
 * **Fix** After project edit, the description is not updated real time.
 * **Fix** Less file is not built to css file.
 * **Update** Set target blank in tinymce posted url.

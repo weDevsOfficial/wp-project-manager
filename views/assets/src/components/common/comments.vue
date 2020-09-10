@@ -34,7 +34,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="#" @click.prevent="deleteTaskComment( comment.id )">
+                                            <a href="#" @click.prevent="deleteTaskComment( comment )">
                                                 <span class="icon-pm-delete"></span>
                                                 <span class="comment-action-delete">{{ __('Delete', 'wedevs-project-manager') }}</span>
                                             </a>
@@ -432,17 +432,17 @@
                 return false;
             },
 
-            deleteTaskComment (id) {
+            deleteTaskComment (comment) {
                 if ( !confirm( this.__( 'Are you sure?', 'wedevs-project-manager') ) ) {
                     return;
                 }
                 var self = this;
 
                 var request_data = {
-                    url: self.base_url + 'pm/v2/projects/'+self.project_id+'/comments/' + id + '/delete',
+                    url: self.base_url + 'pm/v2/projects/'+comment.project_id+'/comments/' + comment.id + '/delete',
                     type: 'POST',
                     success (res) {
-                        var index = self.getIndex(self.comments, id, 'id');
+                        var index = self.getIndex(self.comments, comment.id, 'id');
                         pm.Toastr.success(res.message);
                         self.comments.splice(index, 1);
                         self.$store.commit('updateProjectMeta', 'total_activities');

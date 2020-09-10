@@ -41,7 +41,7 @@
                 <tr v-if="tasks.length" v-for="task in tasks">
                     <td><a href="#" @click.prevent="popuSilgleTask(task)">{{ task.title }}</a></td>
                     <td>
-                        <router-link
+                        <!-- <router-link
                           :to="{
                             name: 'single_list',
                             params: {
@@ -50,18 +50,29 @@
                             }
                         }">
                             {{ task.task_list.data.title }}
-                        </router-link>
+                        </router-link> -->
+
+                        <!-- For ERP Integration -->
+                        <a :href="`${PM_Vars.project_page}#/projects/${task.project_id}/task-lists/${task.task_list_id}`">
+                            {{ task.task_list.data.title }}
+                        </a>
+
                     </td>
                     <td>
-                        <router-link
+                       <!--  <router-link
                           :to="{
                             name: 'task_lists',
                             params: {
                                 project_id: task.project_id,
                             }
                         }">
-                            {{ task.project.title }}
-                        </router-link>
+                            {{ task.project_title }}
+                        </router-link> -->
+                        
+                        <!-- For ERP Integration -->
+                        <a :href="`${PM_Vars.project_page}#/projects/${task.project_id}/task-lists`">
+                            {{ task.project_title }}
+                        </a>
                     </td>
                     <td>{{ getOverdueValue(task) }}</td>
                 </tr>

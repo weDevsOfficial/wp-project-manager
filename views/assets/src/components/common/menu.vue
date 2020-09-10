@@ -26,15 +26,39 @@
 
                     <router-link 
                         :class="item.class +' '+ setActiveMenu(item)"
-                        :to="item.route">
-                        <!-- <div class="menu-text-wrap"> -->
-                            <span :class="'logo '+setMenuIcon(item)"></span>
-                            <span>{{ item.name }}</span>
-                        <!-- </div> -->
-                        <!-- <div>{{ item.count }}</div> -->
+                        :to="{
+                            name: item.route.name,
+                            project_id: project_id
+                        }"
+                    >
+                        <span :class="'logo '+setMenuIcon(item)"></span>
+                        <span class="title">{{ item.name }}</span>
                     </router-link>
-                </div>      
-                <pm-do-action :hook="'pm-header-menu'"></pm-do-action> 
+                </div> 
+
+                <div class="menu-item more-menu-wrap" v-if="moreMenu.length">
+                    <a @click.prevent="" href="#" :class="`message pm-sm-col-12 ${isMoreMenuActive(moreMenu)}`">
+                        <span class="logo donw-arrow-svg"><svg viewBox="0 0 150 109" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"> <g id="Page-1" stroke="none" stroke-width="1"  fill-rule="evenodd"> <g id="elevator"> <path d="M135.923,0 L14.618,0 C9.378,0 4.576,2.926 2.175,7.584 C-0.227,12.24 0.173,17.85 3.211,22.119 L58.595,99.941 C62.435,105.336 68.649,108.541 75.271,108.541 C81.893,108.541 88.107,105.336 91.947,99.941 L147.331,22.119 C150.369,17.849 150.769,12.24 148.367,7.584 C145.965,2.926 141.163,0 135.923,0 Z" id="Path"></path> </g> </g> </svg></span> 
+                        
+                        <span>{{ __('More', 'wedevs-project-manager') }}</span>
+                    </a>
+
+                    <ul class="child-menu-wrap">
+                        <li class="child-item" v-for="child in moreMenu" :key="child.name">
+                            <router-link 
+                                :class="`${child.class} ${setActiveMenu(child)}`"
+                                :to="{
+                                    name: child.route.name,
+                                    project_id: project_id
+                                }"
+                            >
+                                <span :class="`logo ${setMenuIcon(child)}`"></span>
+                                <span class="title">{{ child.name }}</span>
+                            </router-link>
+                        </li>
+                    </ul>
+                </div>    
+                <!-- <pm-do-action :hook="'pm-header-menu'"></pm-do-action>  -->
             </nav>
         </div>
     </div>
@@ -63,9 +87,14 @@
 			    font-size: 13px;
 			    color: #000;
                 white-space: nowrap;
-                display: flex;
-                align-items: center;
+                // display: flex;
+                // align-items: center;
                 border: none;
+
+                .title {
+                    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+                    line-height: 21px;
+                }
 
                 .logo {
                     margin-right: 5px;
@@ -91,6 +120,60 @@
         margin-top: 20px;
         .slicknav_menu {
             display: none;
+        }
+
+        .more-menu-wrap {
+            position: relative;
+            -webkit-transition: all 0.5s ease-out;
+            -moz-transition: all 0.5s ease-out;
+            -ms-transition: all 0.5s ease-out;
+            -o-transition: all 0.5s ease-out;
+            transition: all 0.5s ease-out;
+
+            .donw-arrow-svg {
+                svg {
+                   height: 8px;
+                    width: 8px;
+                    fill: #767676; 
+                    transition: all 0.5s ease-out;
+                }
+            }
+
+            &:hover {
+                .child-menu-wrap {
+                    display: block;
+                }
+
+                .donw-arrow-svg {
+                    svg {
+                        transform: rotate(180deg);  
+                    }
+                }
+            }
+
+            .child-menu-wrap {
+                display: none;
+                position: absolute;
+                z-index: 999;
+                border: 1px solid #DDDDDD;
+                background: #fff;
+                border-radius: 3px;
+                box-shadow: 0px 2px 40px 0px rgba(214, 214, 214, 0.6);
+
+                .child-item a {
+                    margin: 0;
+                    padding: 10px;
+                    border: none;
+                    display: block;
+
+                    .title {
+                        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif
+                    }
+                }
+                .child-item a.active {
+                    background: #f4f4f4;
+                }
+            }
         }
     }
     
@@ -167,6 +250,8 @@
 </style>
 
 <script>
+    import { sortBy } from 'lodash';
+
 	export default {
         props: {
             current: {
@@ -177,83 +262,99 @@
         data () {
             return {
                 isNavCollapse: false,
+                moreMenu: []
             }
         },
 		computed: {
 			menu () {
-                var project = this.$root.$store.state.project;
+                var project = this.$store.state.project;
                 
                 if( typeof project.meta === 'undefined' ){
                     return [];
                 }
 
-                return [
-                    {
-                        route: {
-                            name: 'pm_overview',
-                            project_id: this.project_id,
+                let items = pm_apply_filters(
+                    'pm-project-menu',
+                    [
+                        {
+                            route: {
+                                name: 'task_lists',
+                                project_id: this.project_id,
+                            },
+
+                            name: this.__( 'Task Lists', 'wedevs-project-manager'),
+                            count: project.meta.data.total_task_lists,
+                            class: 'to-do-list pm-sm-col-12',
+                            order: 1
                         },
 
-                        name: this.__( 'Overview', 'wedevs-project-manager'),
-                        count: '',
-                        class: 'overview pm-sm-col-12'
-                    },
+                        {
+                            route: {
+                                name: 'pm_overview',
+                                project_id: this.project_id,
+                            },
 
-                    {
-                        route: {
-                            name: 'activities',
-                            project_id: this.project_id,
+                            name: this.__( 'Overview', 'wedevs-project-manager'),
+                            count: '',
+                            class: 'overview pm-sm-col-12',
+                            order: 2
                         },
 
-                        name: this.__( 'Activities', 'wedevs-project-manager'),
-                        count: project.meta.data.total_activities,
-                        class: 'activity pm-sm-col-12'
-                    },
+                        {
+                            route: {
+                                name: 'activities',
+                                project_id: this.project_id,
+                            },
 
-                    {
-                        route: {
-                            name: 'discussions',
-                            project_id: this.project_id,
+                            name: this.__( 'Activities', 'wedevs-project-manager'),
+                            count: project.meta.data.total_activities,
+                            class: 'activity pm-sm-col-12',
+                            order: 21
                         },
 
-                        name: this.__( 'Discussions', 'wedevs-project-manager'),
-                        count: project.meta.data.total_discussion_boards,
-                        class: 'message pm-sm-col-12'
-                    },
+                        {
+                            route: {
+                                name: 'discussions',
+                                project_id: this.project_id,
+                            },
 
-                    {
-                        route: {
-                            name: 'task_lists',
-                            project_id: this.project_id,
+                            name: this.__( 'Discussions', 'wedevs-project-manager'),
+                            count: project.meta.data.total_discussion_boards,
+                            class: 'message pm-sm-col-12',
+                            order: 4
                         },
 
-                        name: this.__( 'Task Lists', 'wedevs-project-manager'),
-                        count: project.meta.data.total_task_lists,
-                        class: 'to-do-list pm-sm-col-12'
-                    },
+                        {
+                            route: {
+                                name: 'milestones',
+                                project_id: this.project_id,
+                            },
 
-                    {
-                        route: {
-                            name: 'milestones',
-                            project_id: this.project_id,
+                            name: this.__( 'Milestones', 'wedevs-project-manager'),
+                            count: project.meta.data.total_milestones,
+                            class: 'milestone pm-sm-col-12',
+                            order: 5
                         },
 
-                        name: this.__( 'Milestones', 'wedevs-project-manager'),
-                        count: project.meta.data.total_milestones,
-                        class: 'milestone pm-sm-col-12'
-                    },
+                        {
+                            route: {
+                                name: 'pm_files',
+                                project_id: this.project_id,
+                            },
 
-                    {
-                        route: {
-                            name: 'pm_files',
-                            project_id: this.project_id,
-                        },
+                            name: this.__( 'Files', 'wedevs-project-manager'),
+                            count: project.meta.data.total_files,
+                            class: 'files pm-sm-col-12',
+                            order: 6
+                        }
+                    ]
+                )
 
-                        name: this.__( 'Files', 'wedevs-project-manager'),
-                        count: project.meta.data.total_files,
-                        class: 'files pm-sm-col-12'
-                    }
-                ];
+                items = sortBy( items, ['order'] );
+
+                this.moreMenu = [...items.slice(7,items.length)];
+                
+                return items.slice(0,7);
             }
 		},
 
@@ -263,13 +364,29 @@
                 this.isNavCollapse = ! this.isNavCollapse;
             },
 
+            isMoreMenuActive (menus) {
+
+                var name = this.$route.name;
+                var active = '';
+
+                menus.forEach( menu => {
+                    if( name == menu.route.name ) {
+                        active = 'active';
+                    }
+                } )
+
+                return active;
+            },
+
 			setActiveMenu (item) {
 				var name = this.$route.name;
-                if( ( item.route.name == 'task_lists' 
-                        && ( name == 'single_list' || name == "task_lists_pagination" ) 
-                    )
-                    || ( item.route.name == 'discussions' && name == 'individual_discussions' )
-                    || ( name == item.route.name || this.current == item.route.name ) 
+                
+                if( 
+                    ( item.route.name == 'task_lists' && ( name == 'single_list' || name == "task_lists_pagination" ) )
+                    || 
+                    ( item.route.name == 'discussions' && name == 'individual_discussions' )
+                    || 
+                    ( name == item.route.name ) 
                 ) {
 					return 'active';
                 } 
@@ -298,6 +415,10 @@
 
                     case 'pm_files':
                         return 'icon-pm-file';
+                        break;
+                        
+                    case 'kanboard':
+                        return 'icon-pm-discussion';
                         break;
                 }
                 
