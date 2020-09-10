@@ -27,6 +27,7 @@ export default new pm.Vuex.Store({
         listView: 'list',
         dropDownProjects: [],
         dropDownTaskTypes: [],
+        taskCreateFormLists: [],
         
         getIndex: function ( itemList, id, slug) {
             var index = false;
@@ -324,6 +325,26 @@ export default new pm.Vuex.Store({
                     state.dropDownTaskTypes.push(taskType);
                 }
             })
+        },
+
+        updateTaskCreateFormLists (state, data) {
+
+            if ( !Array.isArray(data.lists) ) {
+                return;
+            }
+
+            if ( !parseInt(data.projectId) ) {
+                return;
+            }
+
+            data.lists.forEach( list => {
+                let index = state.getIndex( state.taskCreateFormLists, list.id, 'id' );
+                
+                if(index === false) {
+                    state.taskCreateFormLists.push(list);
+                }
+            } )
+            
         }
     }
 

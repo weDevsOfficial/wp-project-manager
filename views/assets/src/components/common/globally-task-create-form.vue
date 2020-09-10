@@ -1,9 +1,9 @@
 <template>
     <div class="pm-task-create-fields">
-        <div v-if="hasProjects()">
+        <div>
             <div class="fields">
                 
-                <label v-if="selectedProjects"  class="label">{{__('Project', 'wedevs-project-manager')}}</label>
+                <label v-if="!projectRequestProcessing"  class="label">{{__('Project', 'wedevs-project-manager')}}</label>
                 
                 <pm-project-drop-down 
                     @afterGetProjects="afterGetProjects"
@@ -15,7 +15,7 @@
                     :defaultProjects="defaultProjects"
                 />
             
-                <div v-if="selectedProjects == ''" class="loading-animation">
+                <div v-if="projectRequestProcessing" class="loading-animation">
                     <div class="loading-projects-title">{{ __( 'Loading projects', 'wedevs-project-manager') }}</div>
                     <div class="load-spinner">
                         <div class="rect1"></div>
@@ -32,6 +32,7 @@
                 <pm-list-drop-down 
                     :projectId="parseInt(projectId)"
                     @afterGetLists="afterGetLists"
+                    @afterRefreshLists="afterRefreshLists"
                     :selectedLists="selectedLists"
                     @onChange="changeList"
                     :class="selectedLists ? 'display-block' : 'display-none'"
@@ -60,12 +61,12 @@
                 />
                         
             </div>
-            <div v-if="!hasPermissionToCreateTask(selectedProjects)">
+            <div v-if="selectedProjects && !hasPermissionToCreateTask(selectedProjects)">
                 {{ __( 'You have no permission to create task for this project', 'wedevs-project-manager' ) }}
             </div>  
         </div>
 
-        <div v-else>
+        <div v-if="!projectRequestProcessing && !hasProjects">
             <span>{{ 'No project found!', 'pm-pro' }}</span>
         </div>
         
@@ -84,7 +85,7 @@
                     return []
                 }
             },
-
+            
             defaultProjects: {
                 type: [Boolean],
                 default () {
@@ -111,29 +112,44 @@
                 default () {
                     return false
                 }
+            },
+
+            setSelectedProjects: {
+                type: [Object, String],
+                default () {
+                    return ''
+                }
+            },
+
+            task: {
+                type: [Object],
+                default () {
+                    return {
+                        start_at: {
+                            date: ''
+                        },
+
+                        due_date: {
+                            date: ''
+                        },
+
+                        description: {
+                            content: ''
+                        },
+
+                        assignees: {
+                            data: []
+                        }
+                    }
+                }
             }
         },
 
         data () {
             return {
-                task: {
-                    start_at: {
-                        date: ''
-                    },
-
-                    due_date: {
-                        date: ''
-                    },
-
-                    description: {
-                        content: ''
-                    },
-
-                    assignees: {
-                        data: []
-                    }
-                },
                 projectId: false,
+                hasProjects: false,
+                projectRequestProcessing: true,
                 selectedProjects: '',
                 selectedLists: '',
                 listId: false,
@@ -151,17 +167,17 @@
 
         methods: {
 
-            hasProjects () {
-                if ( this.defaultProjects ) {
-                    return true;
-                }
+            // hasProjects () {
+            //     if ( this.defaultProjects ) {
+            //         return true;
+            //     }
 
-                if ( this.projects.length ) {
-                    return true;
-                }
+            //     if ( this.projects.length ) {
+            //         return true;
+            //     }
 
-                return false;
-            },
+            //     return false;
+            // },
 
             hasPermissionToCreateTask ( project ) {
                 if( PM_Vars.is_pro != 1 ) {
@@ -212,10 +228,29 @@
 
             afterGetProjects (projects) {
 
-                if(projects.length) {
-                    this.projectId = projects[0].id ? projects[0].id : projects[0].project_id;
-                    this.setTaskFormUsers(projects[0].assignees);
-                    this.selectedProjects = Object.assign({},projects[0]);
+                this.projectRequestProcessing = false;
+                
+                if ( !this.projectId ) {
+                
+                    if(projects.length) {
+                        this.hasProjects = true;
+                    } else {
+                        this.hasProjects = false;
+                    }
+                }
+
+                if( this.isEmpty( this.setSelectedProjects ) ) {
+                   if(projects.length) {
+                        this.projectId = projects[0].id ? projects[0].id : projects[0].project_id;
+                        this.setTaskFormUsers(projects[0].assignees);
+                        this.selectedProjects = Object.assign({},projects[0]);
+                    } 
+                } else {
+                    
+                    this.projectId = this.setSelectedProjects.id ? this.setSelectedProjects.id : this.setSelectedProjects.project_id;
+                    this.setTaskFormUsers(this.setSelectedProjects.assignees);
+                    this.selectedProjects = Object.assign({},this.setSelectedProjects);
+                    
                 }
             },
 
@@ -228,10 +263,25 @@
 
             changeProject (project) {
                 this.setTaskFormUsers(project.assignees);
-                this.projectId = parseInt( project.project_id )
+                this.projectId = parseInt( project.project_id );
+
+                this.selectedLists = '';
+                this.listId = false;
             },
 
             afterGetLists (lists) {
+                if(lists.length) {
+                    this.listId = lists[0].id;
+                    this.selectedLists = lists[0];
+                    this.list = lists[0];
+                }
+            },
+
+            afterRefreshLists (lists) {
+                if(this.listId !== false) {
+                    return;
+                }
+
                 if(lists.length) {
                     this.listId = lists[0].id;
                     this.selectedLists = lists[0];

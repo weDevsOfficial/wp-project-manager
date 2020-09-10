@@ -285,12 +285,16 @@
 
 			setProjects () {
 
-                if(!this.defaultProjects) {
+                // if(!this.defaultProjects) {
                     
-                    if ( this.optionProjects.length) {
-                        this.afterGetProjects( this.optionProjects );
-                    }
+                //     if ( this.optionProjects.length) {
+                //         this.afterGetProjects( this.optionProjects );
+                //     }
 
+                //     return;
+                // }
+                if(this.optionProjects.length) {
+                    this.afterGetProjects( this.optionProjects );
                     return;
                 }
 

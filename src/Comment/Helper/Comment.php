@@ -102,6 +102,7 @@ class Comment {
             'commentable_type' => $comment->commentable_type,
             'commentable_id'   => $comment->commentable_id,
             'created_at'       => format_date( $comment->created_at ),
+            'project_id'       => (int) $comment->project_id,
             'meta'       => [
                 //'total_replies' => $comment->replies->count(),
            	]
