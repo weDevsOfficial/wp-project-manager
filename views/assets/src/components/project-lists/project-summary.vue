@@ -10,7 +10,8 @@
                     <h3 class="pm-project-title pm-d-inline pm-pull-left">
                         <router-link 
                             :title="project.title"
-                            :to="{ name: 'pm_overview',  params: { project_id: project.id }}">
+                            :to="{ name: 'task_lists',  params: { project_id: project.id }}"
+                        >
                             {{ project.title }}
                         </router-link>
                     </h3>
