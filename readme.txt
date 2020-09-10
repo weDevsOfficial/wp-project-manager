@@ -3,9 +3,9 @@ Contributors: tareq1988, nizamuddinbabu, wedevs, asaquzzaman
 Donate Link: https://tareq.co/donate/
 Tags: project, project manager, project management, web project management, task manager, online collaboration tool,
 Requires at least: 4.4 or higher
-Tested up to: 5.5
+Tested up to: 5.5.1
 Requires PHP: 5.6
-Stable tag: 2.4.2
+Stable tag: 2.4.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -261,6 +261,15 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 
 == Changelog ==
+
+= v2.4.3 - Sep 10, 2020 =
+
+**Update** In dashboard project menu bar has been rearranged. 
+**Update** In single task now user can navigate to project and task list.   
+**Fix** Co-worker can not be deleted in self created task comment. 
+**Fix** In frontend project manager date picker was not showing in single task. 
+**Fix** In my task, task create form did not change the list even the project has been change.
+**Fix** Project title was missing from my-task.
 
 = v2.4.2 - Aug 26, 2020 =
 

@@ -1,4 +1,4 @@
-= v2.4.3 - Sep Upcoming, 2020 =
+= v2.4.3 - Sep 10, 2020 =
 
 **Update** In dashboard project menu bar has been rearranged. 
 **Update** In single task now user can navigate to project and task list.   
