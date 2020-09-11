@@ -386,6 +386,7 @@ class Task {
 	        1 => '1', // weekly
 	        2 => '2', // Monthly
 	        3 => '3', // Annually
+	        4 => '4', // daily
 	        9 => '9', // never
 	    ];
 
