@@ -198,6 +198,8 @@ function pm_add_meta( $id, $project_id, $type, $key, $value ) {
         'meta_key'    => $key,
         'meta_value'  => $value,
         'project_id'  => $project_id,
+        'created_by'  => get_current_user_id(),
+        'created_by'  => get_current_user_id()
     ]);
 }
 
