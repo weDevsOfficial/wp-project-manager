@@ -9,7 +9,7 @@ class Authentic extends Abstract_Permission {
     public function check() {
         $user = wp_get_current_user();
 
-        if (!$user->ID) {
+        if ( empty( (int)$user->ID ) ) {
             return false;
         }
 

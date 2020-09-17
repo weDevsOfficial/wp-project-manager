@@ -27,7 +27,7 @@
 <script>
 export default{
     beforeRouteEnter (to, from, next) {
-        next(pmHasManageCapability());
+        next( pmUserCanAccessPage(PM_Vars.settings_page_slug) );
     },
     data () {
         return {
