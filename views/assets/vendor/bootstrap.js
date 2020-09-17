@@ -292,3 +292,19 @@ function pmHasCreateCapability () {
     }
     return false;
 }
+
+function pmUserCanAccessPage( pagSlug ) {
+    let user = PM_Vars.current_user;
+    
+    if ( user.caps[pagSlug] === true ) {
+        return true;
+    }
+
+    if ( user.allcaps[pagSlug] === true ) {
+        return true;
+    }
+
+    return false;
+}
+
+
