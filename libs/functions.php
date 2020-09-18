@@ -198,6 +198,8 @@ function pm_add_meta( $id, $project_id, $type, $key, $value ) {
         'meta_key'    => $key,
         'meta_value'  => $value,
         'project_id'  => $project_id,
+        'created_by'  => get_current_user_id(),
+        'created_by'  => get_current_user_id()
     ]);
 }
 
@@ -216,12 +218,23 @@ function pm_update_meta( $id, $project_id, $type, $key, $value ) {
     }
 }
 
-function pm_get_meta( $entity_id, $project_id, $type, $key ) {
-    $meta = WeDevs\PM\Common\Models\Meta::where( 'entity_id', $entity_id )
-        ->where( 'project_id', $project_id )
+function pm_get_meta( $entity_id, $project_id, $type, $key, $single = true ) {
+    $entity_id = pm_get_prepare_data( $entity_id );
+
+    $meta = WeDevs\PM\Common\Models\Meta::where( function($q) use($project_id) {
+            if ( !empty( $project_id ) ) {
+                $q->where( 'project_id', $project_id );
+            }
+        } )
+        ->whereIn( 'entity_id', $entity_id )
         ->where( 'entity_type',  $type )
-        ->where( 'meta_key', $key )
-        ->first();
+        ->where( 'meta_key', $key );
+
+    if ( $single ) {
+        $meta = $meta->first();
+    } else {
+        $meta = $meta->get()->toArray();
+    }
 
     return $meta;
 }
@@ -1225,6 +1238,75 @@ function pm_is_true ( $val ) {
     }
 
     return (int) $val ? true : false;
+}
+
+/**
+ * [pm_categories_page_slug description]
+ * @return [type]
+ */
+function pm_categories_page_slug() {
+    return apply_filters( 'pm_categories_page_slug', 'pm_categories_page' );
+}
+
+/**
+ * [pm_categories_page_slug description]
+ * @return [type]
+ */
+function pm_settings_page_slug() {
+    return apply_filters( 'pm_settings_page_slug', 'pm_settings_page' );
+}
+
+/**
+ * [pm_categories_page_slug description]
+ * @return [type]
+ */
+function pm_tools_page_slug() {
+    return apply_filters( 'pm_tools_page_slug', 'pm_tools_page' );
+}
+
+/**
+ * [pm_pro_menu_access_capabilities description]
+ * @param  boolean $cap
+ * @return [type]
+ */
+function pm_menu_access_capabilities( $cap = false ) {
+    $caps = [
+        pm_categories_page_slug() => __( 'Categories', 'pm-pro' ),
+        pm_settings_page_slug()   => __( 'Settings', 'pm-pro' ),
+        pm_tools_page_slug()      => __( 'Tools', 'pm-pro' )
+    ];
+
+    $caps = apply_filters( 'pm_menu_access_capabilities', $caps );
+
+    return empty( $cap ) ? $caps : $caps[$cap];
+}
+
+/**
+ * [pm_user_can_access_menu description]
+ * @param  [type]  $page_slug
+ * @param  boolean $user_id
+ * @return [type]
+ */
+function pm_user_can_access_page( $page_slug, $user_id = false ) {
+    global $wedevs_pm_pro;
+    
+    $user_id = empty( $user_id ) ? get_current_user_id() : (int)$user_id;
+    
+    if ( user_can( $user_id, 'manage_options' ) ) {
+        return true;
+    }
+
+    if ( pm_has_manage_capability( $user_id ) ) {
+        return true;
+    }
+
+    if ( $wedevs_pm_pro === true ) {
+        if ( user_can( $user_id, $page_slug ) ) {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 

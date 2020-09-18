@@ -386,6 +386,7 @@ class Task {
 	        1 => '1', // weekly
 	        2 => '2', // Monthly
 	        3 => '3', // Annually
+	        4 => '4', // daily
 	        9 => '9', // never
 	    ];
 
@@ -950,8 +951,18 @@ class Task {
 		}
 		
 		if ( in_array( 'project', $with ) ) {
+
+			$pjs_by_id = [];
+			$project_ids = wp_list_pluck( $results, 'project_id' );
+			$db_projects = pm_get_projects( [ 'id' => array_unique( $project_ids ) ] );
+
+			foreach ( $db_projects['data'] as $key => $db_project ) {
+				$pjs_by_id[$db_project['id']] = $db_project;
+			}
+
+
 			foreach ( $this->tasks as $key => $task ) {
-				$task->project = empty( $projects[$task->id] ) ? ['data' => []] : [ 'data' => $projects[$task->id] ]; 
+				$task->project = empty( $pjs_by_id[$task->project_id] ) ? ['data' => []] : [ 'data' => $pjs_by_id[$task->project_id] ]; 
 			}
 		}
 		
@@ -1178,7 +1189,8 @@ class Task {
 			->where_project_id()
 			->where_users()
 			->where_lists()
-			->where_milestone();
+			->where_milestone()
+			->where_recurrent();
 
 		$this->where = apply_filters( 'pm_task_where', $this->where, $this->user_id );
 
@@ -1600,6 +1612,27 @@ class Task {
 		$format_ids = $this->get_prepare_data( $id );
 
 		$this->where .= $wpdb->prepare( " AND {$this->tb_tasks}.id IN ($format)", $format_ids );
+
+		return $this;
+	}
+
+	/**
+	 * Filter task by recurrent
+	 * 
+	 * @return class object
+	 */
+	private function where_recurrent() {
+		$recurrent = isset( $this->query_params['recurrent'] ) ? $this->query_params['recurrent'] : false; 
+
+		if ( empty( $recurrent ) ) {
+			return $this;
+		}
+
+		global $wpdb;
+		$format     = $this->get_prepare_format( $recurrent );
+		$format_recurrents = $this->get_prepare_data( $recurrent );
+
+		$this->where .= $wpdb->prepare( " AND {$this->tb_tasks}.recurrent IN ($format)", $format_recurrents );
 
 		return $this;
 	}
