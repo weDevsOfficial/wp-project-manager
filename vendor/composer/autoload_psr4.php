@@ -11,6 +11,7 @@ return array(
     'WeDevs\\ORM\\' => array($vendorDir . '/tareq1988/wp-eloquent/src'),
     'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
     'Symfony\\Component\\Translation\\' => array($vendorDir . '/symfony/translation'),
+    'Recurr\\' => array($vendorDir . '/simshaun/recurr/src/Recurr'),
     'League\\Fractal\\' => array($vendorDir . '/league/fractal/src'),
     'Illuminate\\Support\\' => array($vendorDir . '/illuminate/support'),
     'Illuminate\\Pagination\\' => array($vendorDir . '/illuminate/pagination'),
