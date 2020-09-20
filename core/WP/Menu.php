@@ -25,9 +25,9 @@ class Menu {
 		$mytask_text = sprintf( __( 'My Tasks %s', 'wedevs-project-manager' ), '<span class="awaiting-mod count-1"><span class="pending-count">' . $active_task . '</span></span>' );
 		$submenu[$slug][] = [ $mytask_text , self::$capability, "admin.php?page={$slug}#/my-tasks" ];
 
-		if ( pm_user_can_access_page( pm_categories_page_slug() ) ) {
+		//if ( pm_user_can_access_page( pm_categories_page_slug() ) ) {
 			$submenu[$slug][] = [ __( 'Categories', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/categories" ];
-		}
+		//}
 
 		if ( ! $wedevs_pm_pro ) {
 			$submenu[$slug][] = [ __( 'Premium', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/premium" ];
@@ -40,13 +40,13 @@ class Menu {
 
 		do_action( 'cpm_admin_menu', self::$capability, $home );
 
-		if ( pm_user_can_access_page( pm_settings_page_slug() ) ) {
+		//if ( pm_user_can_access_page( pm_settings_page_slug() ) ) {
 			$submenu[$slug][] = [ __( 'Settings', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/settings" ];
-		}
+		//}
 
-		if ( pm_user_can_access_page( pm_tools_page_slug() ) ) {
+		//if ( pm_user_can_access_page( pm_tools_page_slug() ) ) {
         	$submenu[$slug]['importtools'] = [ __( 'Tools', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/importtools" ];
-    	}
+    	//}
 
 
 		do_action( 'pm_menu_after_load_scripts', $home );
