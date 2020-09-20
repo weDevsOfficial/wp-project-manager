@@ -1241,40 +1241,12 @@ function pm_is_true ( $val ) {
 }
 
 /**
- * [pm_categories_page_slug description]
- * @return [type]
- */
-function pm_categories_page_slug() {
-    return apply_filters( 'pm_categories_page_slug', 'pm_categories_page' );
-}
-
-/**
- * [pm_categories_page_slug description]
- * @return [type]
- */
-function pm_settings_page_slug() {
-    return apply_filters( 'pm_settings_page_slug', 'pm_settings_page' );
-}
-
-/**
- * [pm_categories_page_slug description]
- * @return [type]
- */
-function pm_tools_page_slug() {
-    return apply_filters( 'pm_tools_page_slug', 'pm_tools_page' );
-}
-
-/**
  * [pm_pro_menu_access_capabilities description]
  * @param  boolean $cap
  * @return [type]
  */
 function pm_menu_access_capabilities( $cap = false ) {
-    $caps = [
-        pm_categories_page_slug() => __( 'Categories', 'pm-pro' ),
-        pm_settings_page_slug()   => __( 'Settings', 'pm-pro' ),
-        pm_tools_page_slug()      => __( 'Tools', 'pm-pro' )
-    ];
+    $caps = [];
 
     $caps = apply_filters( 'pm_menu_access_capabilities', $caps );
 
