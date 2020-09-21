@@ -88,7 +88,7 @@ class Profile_Update {
                                     <?php echo __( '— No capability for this user —', 'wedevs-project-manager' ); ?>
                                 </option>
                                 <?php
-                                    foreach ( pm_menu_access_capabilities() as $cap_key => $label ) {
+                                    foreach ( pm_access_capabilities() as $cap_key => $label ) {
                                         ?>
                                             <option <?php selected( $meta_value, $cap_key ); ?> value="<?php echo $cap_key; ?>">
                                                 <?php echo $label; ?>
@@ -142,7 +142,7 @@ class Profile_Update {
     function remove_capability( $user_id ) {
         $user = get_user_by( 'id', $user_id );
 
-        foreach ( pm_menu_access_capabilities() as $meta_key => $label ) {
+        foreach ( pm_access_capabilities() as $meta_key => $label ) {
             $user->remove_cap( $meta_key );
         }
     }
