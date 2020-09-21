@@ -14,7 +14,6 @@ class Menu {
 	public static function admin_menu() {
 		global $submenu, $wedevs_pm_pro, $wedevs_license_progress;
 
-		$ismanager = pm_user_can_access();
 		$slug = pm_admin_slug();
 
 		$home = add_menu_page( __( 'Project Manager', 'wedevs-project-manager' ), __( 'Project Manager', 'wedevs-project-manager' ), self::$capability, $slug, array( new Output, 'home_page' ), self::pm_svg(), 3 );
@@ -25,7 +24,7 @@ class Menu {
 		$mytask_text = sprintf( __( 'My Tasks %s', 'wedevs-project-manager' ), '<span class="awaiting-mod count-1"><span class="pending-count">' . $active_task . '</span></span>' );
 		$submenu[$slug][] = [ $mytask_text , self::$capability, "admin.php?page={$slug}#/my-tasks" ];
 
-		if ( $ismanager ) {
+		if ( pm_user_can_access( pm_manager_cap_slug() ) ) {
 			$submenu[$slug][] = [ __( 'Categories', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/categories" ];
 		}
 
@@ -39,14 +38,13 @@ class Menu {
 
 		do_action( 'cpm_admin_menu', self::$capability, $home );
 
-		if ( pm_user_can_access() ) {
-			$submenu[$slug][] = [ __( 'Settings', 'wedevs-project-manager' ), 'administrator', "admin.php?page={$slug}#/settings" ];
+		if ( pm_user_can_access( pm_admin_cap_slug() ) ) {
+			$submenu[$slug][] = [ __( 'Settings', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/settings" ];
 		}
 
-		if ( $ismanager ) {
+		if ( pm_user_can_access( pm_manager_cap_slug() ) ) {
         	$submenu[$slug]['importtools'] = [ __( 'Tools', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/importtools" ];
     	}
-
 
 		do_action( 'pm_menu_after_load_scripts', $home );
 	}

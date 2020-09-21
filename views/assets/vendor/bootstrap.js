@@ -293,14 +293,10 @@ function pmHasCreateCapability () {
     return false;
 }
 
-function pmUserCanAccessPage( pagSlug ) {
+function pmUserCanAccess( pagSlug ) {
     let user = PM_Vars.current_user;
 
     if ( user.caps['manage_options'] === true ) {
-        return true;
-    }
-
-    if ( pmHasManageCapability() ) {
         return true;
     }
     

@@ -366,11 +366,7 @@ function pm_user_can_access( $cap = false, $user_id = false ) {
 
     if ( empty( $cap ) ) {
         //check the lowest capability
-        if ( function_exists( 'pm_pro_manager_cap_slug' ) ) {
-            return user_can( $user_id, pm_pro_manager_cap_slug() );
-        }
-
-        return false;
+        return user_can( $user_id, pm_manager_cap_slug() );
     }
 
     if ( user_can( $user_id, $cap ) ) {
@@ -1281,7 +1277,7 @@ function pm_admin_cap_slug() {
  * [pm_pro_reports_page_slug description]
  * @return [type]
  */
-function pm_pro_manager_cap_slug() {
+function pm_manager_cap_slug() {
     return apply_filters( 'pm_manager_capability_slug', 'pm_manager' );
 }
 
@@ -1293,7 +1289,7 @@ function pm_pro_manager_cap_slug() {
 function pm_menu_access_capabilities( $cap = false ) {
     $caps = [
         pm_admin_cap_slug() => __( 'PM Admin', 'pm-pro' ),
-        pm_pro_manager_cap_slug() => __( 'PM Manager', 'pm-pro' )
+        pm_manager_cap_slug() => __( 'PM Manager', 'pm-pro' )
     ];
 
     $caps = apply_filters( 'pm_menu_access_capabilities', $caps );
