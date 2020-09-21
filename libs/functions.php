@@ -357,13 +357,36 @@ function pm_get_role_caps( $project_id, $role ) {
     return [];
 }
 
+function pm_user_can_access( $cap = false, $user_id = false ) {
+    $user_id = $user_id ? $user_id : get_current_user_id();
+
+    if ( pm_has_manage_capability() ) {
+        return true;
+    }
+
+    if ( empty( $cap ) ) {
+        //check the lowest capability
+        if ( function_exists( 'pm_pro_manager_cap_slug' ) ) {
+            return user_can( $user_id, pm_pro_manager_cap_slug() );
+        }
+
+        return false;
+    }
+
+    if ( user_can( $user_id, $cap ) ) {
+        return true;
+    }
+
+    return false;
+}
+
 function pm_user_can( $cap, $project_id, $user_id = false ) {
     $user_id = $user_id ? $user_id : get_current_user_id();
 
     $cache_key  = 'pm_user_can-' . md5( serialize( [
-     'cap'        => $cap,
-     'project_id' => $project_id,
-     'user_id'    => $user_id
+        'cap'        => $cap,
+        'project_id' => $project_id,
+        'user_id'    => $user_id
     ] ) );
 
     $items  = wp_cache_get( $cache_key, 'pm' );
@@ -405,7 +428,7 @@ function pm_has_manage_capability( $user_id = false ) {
 
     $user_id = $user_id ? intval( $user_id ) : get_current_user_id();
     $user    = get_user_by( 'id', $user_id );
-    
+
     if ( !$user->roles || !is_array($user->roles) ) {
         return false;
     }
@@ -414,8 +437,14 @@ function pm_has_manage_capability( $user_id = false ) {
         return true;
     }
 
+    if ( function_exists( 'pm_admin_cap_slug' ) ) {
+        if ( user_can( $user_id, pm_admin_cap_slug() ) ) {
+            return true;
+        }    
+    }
+    
     $manage_roles = (array) pm_get_setting( 'managing_capability' );
-
+    
     $common_role  = array_intersect( $manage_roles, $user->roles );
 
     if ( empty( $common_role ) ) {
@@ -1241,12 +1270,31 @@ function pm_is_true ( $val ) {
 }
 
 /**
+ * [pm_pro_progress_page_slug description]
+ * @return [type]
+ */
+function pm_admin_cap_slug() {
+    return apply_filters( 'pm_admin_capability_slug', 'pm_admin' );
+}
+
+/**
+ * [pm_pro_reports_page_slug description]
+ * @return [type]
+ */
+function pm_pro_manager_cap_slug() {
+    return apply_filters( 'pm_manager_capability_slug', 'pm_manager' );
+}
+
+/**
  * [pm_pro_menu_access_capabilities description]
  * @param  boolean $cap
  * @return [type]
  */
 function pm_menu_access_capabilities( $cap = false ) {
-    $caps = [];
+    $caps = [
+        pm_admin_cap_slug() => __( 'PM Admin', 'pm-pro' ),
+        pm_pro_manager_cap_slug() => __( 'PM Manager', 'pm-pro' )
+    ];
 
     $caps = apply_filters( 'pm_menu_access_capabilities', $caps );
 

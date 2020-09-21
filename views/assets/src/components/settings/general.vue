@@ -50,7 +50,7 @@
                                     <input v-model="complete_tasks_per_page" type="text" class="regular-text" id="pm_general[show_completed_tasks]" name="pm_general[show_completed_tasks]" value="2">
                                 </td>
                             </tr>
-                            <tr>
+                            <!-- <tr>
                                 <th scope="row">
                                     <label for="pm_general[project_manage_role]">{{__( 'Project Managing Capability', 'wedevs-project-manager')}}</label>
                                 </th>
@@ -68,8 +68,8 @@
                                         <p class="description">{{ __( 'Select the user roles who can see and manage all projects.', 'wedevs-project-manager') }}</p>
                                     </fieldset>
                                 </td>
-                            </tr>
-                            <tr>
+                            </tr> -->
+                            <!-- <tr>
                                 <th scope="row">
                                     <label for="pm_general[project_create_role]">{{ __( 'Project Creation Capability', 'wedevs-project-manager') }}</label>
                                 </th>
@@ -85,7 +85,7 @@
                                         <p class="description">{{ __( 'Select the user roles who can create projects.', 'wedevs-project-manager') }}</p>
                                     </fieldset>
                                 </td>
-                            </tr>
+                            </tr> -->
                         </tbody>
                     </table> 
 
