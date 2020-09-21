@@ -89,9 +89,9 @@ class Enqueue_Scripts {
 			'can_add_user_project_create_time' => pm_can_create_user_at_project_create_time(),
 			'locale'                           => get_locale(),
 			'estimationType'                   => pm_get_estimation_type(),
-			'settings_page_slug'               => pm_settings_page_slug(),
-			'tools_page_slug'                  => pm_tools_page_slug(),
-			'categories_page_slug'             => pm_categories_page_slug()
+			// 'settings_page_slug'               => pm_settings_page_slug(),
+			// 'tools_page_slug'                  => pm_tools_page_slug(),
+			// 'categories_page_slug'             => pm_categories_page_slug()
         ];
 
         $localize = self::filter( $localize );
