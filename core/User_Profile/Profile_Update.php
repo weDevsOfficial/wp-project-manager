@@ -66,6 +66,13 @@ class Profile_Update {
     }
 
     protected function capbility_form( $user ) {
+        if ( user_can( $user->ID, 'manage_options' ) ) {
+            return;
+        }
+
+        if ( $user->ID == get_current_user_id() ) {
+            return;
+        }
 
         $meta_value = get_user_meta( $user->ID, 'pm_capability', true );
 
@@ -76,22 +83,20 @@ class Profile_Update {
                     <th><?php _e( 'Capability', 'pm-pro' ); ?> </th>
                     <td>
                         <fieldset>
-                            <?php
-                                foreach ( pm_menu_access_capabilities() as $cap_key => $label ) {
-                                    ?>
-                                        <label for="<?php echo $cap_key; ?>">
-                                            <input
-                                                type="radio"
-                                                value="<?php echo $cap_key; ?>"
-                                                <?php checked(  $meta_value, $cap_key ); ?>
-                                                id="<?php echo $cap_key; ?>"
-                                                name="pm_capability"
-                                            />
-                                            <span class="description"><?php echo $label; ?></span></em>
-                                        </label><br>
-                                    <?php
-                                }
-                            ?>
+                            <select name="pm_capability">
+                                <option value="">
+                                    <?php echo __( '— No capability for this user —', 'wedevs-project-manager' ); ?>
+                                </option>
+                                <?php
+                                    foreach ( pm_menu_access_capabilities() as $cap_key => $label ) {
+                                        ?>
+                                            <option <?php selected( $meta_value, $cap_key ); ?> value="<?php echo $cap_key; ?>">
+                                                <?php echo $label; ?>
+                                            </option>
+                                        <?php
+                                    }
+                                ?>
+                            </select>
                         </fieldset>
                     </td>
                 </tr>
@@ -108,8 +113,8 @@ class Profile_Update {
         ) {
             return;
         }
-
-        $cap_key = sanitize_text_field( $_POST['pm_capability'] );
+        
+        $cap_key = empty( $_POST['pm_capability'] ) ? '' : sanitize_text_field( $_POST['pm_capability'] );
 
         if ( !current_user_can( 'manage_options' ) ) {
             return;
@@ -121,28 +126,35 @@ class Profile_Update {
     }
 
     function update_user_capability( $user_id, $cap_key ) {
+        if ( empty( $cap_key ) ) {
+            update_user_meta( $user_id, 'pm_capability', '' );
+            $this->remove_capability( $user_id );
+            return;
+        }
+
+        update_user_meta( $user_id, 'pm_capability', $cap_key );
+        
+        $this->remove_capability( $user_id );
+        $this->add_capability( $user_id, $cap_key );
+
+    }
+
+    function remove_capability( $user_id ) {
+        $user = get_user_by( 'id', $user_id );
+
         foreach ( pm_menu_access_capabilities() as $meta_key => $label ) {
-            if (
-                ! empty( $cap_key )
-                    &&
-                $cap_key == $meta_key
-            ) {
-                update_user_meta( $user_id, 'pm_capability', $meta_key );
-                $this->update_user_menu_assess_capability( $user_id, $meta_key );
-            } else {
-                $this->update_user_menu_assess_capability( $user_id, $meta_key, true );
-            }
+            $user->remove_cap( $meta_key );
         }
     }
 
-    function update_user_menu_assess_capability( $user_id, $meta_key, $remove_cap = false ) {
+    function add_capability( $user_id, $cap_key ) {
 
         $user = get_user_by( 'id', $user_id );
 
-        if ( $remove_cap ) {
-            $user->remove_cap( $meta_key );
-        } else {
-            $user->add_cap( $meta_key );
+        if ( $cap_key == pm_admin_cap_slug() ) {
+            $user->add_cap( pm_manager_cap_slug() );
         }
+        
+        $user->add_cap( $cap_key );
     }
 }
