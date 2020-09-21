@@ -1286,43 +1286,17 @@ function pm_manager_cap_slug() {
  * @param  boolean $cap
  * @return [type]
  */
-function pm_menu_access_capabilities( $cap = false ) {
+function pm_access_capabilities( $cap = false ) {
     $caps = [
         pm_admin_cap_slug() => __( 'PM Admin', 'pm-pro' ),
         pm_manager_cap_slug() => __( 'PM Manager', 'pm-pro' )
     ];
 
-    $caps = apply_filters( 'pm_menu_access_capabilities', $caps );
+    $caps = apply_filters( 'pm_access_capabilities', $caps );
 
     return empty( $cap ) ? $caps : $caps[$cap];
 }
 
-/**
- * [pm_user_can_access_menu description]
- * @param  [type]  $page_slug
- * @param  boolean $user_id
- * @return [type]
- */
-function pm_user_can_access_page( $page_slug, $user_id = false ) {
-    global $wedevs_pm_pro;
-    
-    $user_id = empty( $user_id ) ? get_current_user_id() : (int)$user_id;
-    
-    if ( user_can( $user_id, 'manage_options' ) ) {
-        return true;
-    }
 
-    if ( pm_has_manage_capability( $user_id ) ) {
-        return true;
-    }
-
-    if ( $wedevs_pm_pro === true ) {
-        if ( user_can( $user_id, $page_slug ) ) {
-            return true;
-        }
-    }
-
-    return false;
-}
 
 
