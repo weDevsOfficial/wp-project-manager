@@ -165,6 +165,10 @@ export default {
             return pmUserCan( cap, this.$store.state.project );
         },
 
+        userCanAccess (slug) {
+            return pmUserCanAccess(slug);
+        },
+
         is_user_in_project () {
             return pmIsUserInProject( this.$store.state.project );
         },
