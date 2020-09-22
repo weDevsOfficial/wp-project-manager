@@ -295,8 +295,8 @@ function pmHasCreateCapability () {
 
 function pmUserCanAccess( pagSlug ) {
     let user = PM_Vars.current_user;
-
-    if ( user.caps['manage_options'] === true ) {
+    
+    if ( user.allcaps['manage_options'] === true ) {
         return true;
     }
     

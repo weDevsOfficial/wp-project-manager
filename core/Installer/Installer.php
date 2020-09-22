@@ -15,6 +15,18 @@ class Installer {
         if ( ! $was_installed_before ) {
        		set_transient( '_pm_setup_page_redirect', true, 30 );
     	}
+
+    	$this->set_admin_capability();
  	}
 
+ 	function set_admin_capability() {
+
+        $admin_users   = get_users( [ 'role' => 'Administrator' ] );
+
+        if ( $admin_users ) {
+            foreach ( $admin_users as $admin_user ) {
+                $admin_user->add_cap( pm_admin_cap_slug() );
+            }
+        }
+ 	}
  }
