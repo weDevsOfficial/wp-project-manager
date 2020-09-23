@@ -452,17 +452,7 @@ function pm_has_manage_capability( $user_id = false ) {
 
 function pm_has_project_create_capability( $user_id = false ) {
 
-    $user_id = $user_id ? $user_id : get_current_user_id();
-    $user    = get_user_by( 'id', $user_id );
-
-    $manage_roles = (array) pm_get_setting( 'project_create_capability' );
-    $common_role  = array_intersect( $manage_roles, $user->roles );
-
-    if ( empty( $common_role ) ) {
-        return false;
-    }
-
-    return true;
+    return pm_user_can_access( pm_manager_cap_slug() );
 }
 
 function pm_has_project_managing_capability( $project_id, $user_id = false ) {
