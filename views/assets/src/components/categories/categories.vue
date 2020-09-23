@@ -209,7 +209,7 @@
     import Mixins from './mixin';
 
     export default {
-         beforeRouteEnter (to, from, next) {
+        beforeRouteEnter (to, from, next) {
             if ( pmUserCanAccess( PM_Vars.manager_cap_slug ) ) {
                 next();
             } else {

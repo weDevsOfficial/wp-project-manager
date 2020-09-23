@@ -18,22 +18,27 @@
             <div class="list-content-body">
                 <div class="content">
                     <div class="list-action-btn-wrap">
-                        <div class="new-list-btn" >
-                            <a v-if="can_create_list  && !isArchivedPage" @click.prevent="showHideListForm('toggle')" href="#" class="list-action-group add-list">
-                                <span class="plus">+</span>
-                                <span>{{ __('Add Task List', 'wedevs-project-manager') }}</span>
-                            </a>
+                        <div class="left-side">
+                            <div class="new-list-btn" >
+                                <a v-if="can_create_list  && !isArchivedPage" @click.prevent="showHideListForm('toggle')" href="#" class="list-action-group add-list">
+                                    <span class="plus">+</span>
+                                    <span>{{ __('Add Task List', 'wedevs-project-manager') }}</span>
+                                </a>
 
-                            <new-task-list-form v-if="is_active_list_form && can_create_list  && !isArchivedPage"></new-task-list-form>
-                            
+                                <new-task-list-form v-if="is_active_list_form && can_create_list  && !isArchivedPage"></new-task-list-form>
+                                
+                            </div>
+                            <pm-do-slot :hook="'pm-inline-left-side-list-button'"></pm-do-slot>
                         </div>
                         
-                        <pm-do-action :hook="'pm-inline-list-button'"></pm-do-action>
-                        <div>
-                            <a :class="isActiveTaskFilter() + ' list-action-group task-filter-btn'" v-pm-tooltip :title="__('Task Filter', 'wedevs-project-manager')" @click.prevent="showFilter()" href="#">
-                                <span class="icon-pm-filter"></span>
-                                <span>{{__('Filter', 'wedevs-project-manager')}}</span>
-                            </a>
+                        <div class="right-side">
+                            <pm-do-slot :hook="'pm-inline-list-button'"></pm-do-slot>
+                            <div>
+                                <a :class="isActiveTaskFilter() + ' list-action-group task-filter-btn'" v-pm-tooltip :title="__('Task Filter', 'wedevs-project-manager')" @click.prevent="showFilter()" href="#">
+                                    <span class="icon-pm-filter"></span>
+                                    <span>{{__('Filter', 'wedevs-project-manager')}}</span>
+                                </a>
+                            </div>
                         </div>
                     </div>
 
@@ -1383,8 +1388,15 @@
                 .list-action-btn-wrap {
                     display: flex;
                     align-items: center;
+                    justify-content: space-between;
                     padding: 20px;
                     flex-wrap: wrap;
+
+                    .right-side {
+                        display: flex;
+                        align-items: center;
+                        flex-wrap: wrap;
+                    }
 
                     .list-action-group {
                         height: 30px;
