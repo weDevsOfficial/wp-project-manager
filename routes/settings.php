@@ -17,10 +17,10 @@ $router->get( 'projects/{project_id}/settings', 'WeDevs/PM/Settings/Controllers/
     ->permission(['WeDevs\PM\Core\Permissions\Authentic']);
 
 $router->post( 'projects/{project_id}/settings', 'WeDevs/PM/Settings/Controllers/Settings_Controller@store' )
-    ->permission(['WeDevs\PM\Core\Permissions\Settings_Page_Access']);
+    ->permission(['WeDevs\PM\Core\Permissions\Project_Settings_Page_Access']);
 
 $router->post( 'projects/{project_id}/delete/{id}/settings', 'WeDevs/PM/Settings/Controllers/Settings_Controller@destroy' )
-    ->permission(['WeDevs\PM\Core\Permissions\Settings_Page_Access']);
+    ->permission(['WeDevs\PM\Core\Permissions\Project_Settings_Page_Access']);
 
 $router->post( 'settings/task-types', 'WeDevs/PM/Settings/Controllers/Task_Types_Controller@store' )
     ->permission(['WeDevs\PM\Core\Permissions\Settings_Page_Access']);
