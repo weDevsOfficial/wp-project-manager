@@ -543,30 +543,31 @@
             isFetchProject () {
                 var isLoaded = this.$store.state.projectLoaded;
                 
-                if(isLoaded) {
-                    var meta = this.$store.state.projectMeta;
-                    if( 
-                        PM_Vars.is_pro
-                            &&
-                        typeof meta != 'undefined' 
-                            &&
-                        meta.list_view_type != null
-                            &&
-                        meta.list_view_type.meta_value == 'kanboard'
-                    ) {
-                        this.$router.push({
-                            name: 'kanboard',
-                            params: {
-                                project_id: this.project_id
-                            }
-                        });
-                    } else {
+                if( isLoaded ) {
+                    // var meta = this.$store.state.projectMeta;
+                    // if( 
+                    //     PM_Vars.is_pro
+                    //         &&
+                    //     typeof meta != 'undefined' 
+                    //         &&
+                    //     meta.list_view_type != null
+                    //         &&
+                    //     meta.list_view_type.meta_value == 'kanboard'
+                    // ) {
+                    //     this.$router.push({
+                    //         name: 'kanboard',
+                    //         params: {
+                    //             project_id: this.project_id
+                    //         }
+                    //     });
+                    // } else {
                         return true;
-                    }
+                    //}
                 }
 
                 return false;
             },
+            
             inboxList () {
                 var self = this;
                 var list = {};
@@ -614,6 +615,7 @@
                 });
                 this.getSelfLists();
             },
+
             goToSigleList (list) {
                 this.$router.push({
                     name: 'single_list',
@@ -628,9 +630,11 @@
             inboxClass (list) {
                 return this.isInbox(list.id) ? 'inbox-list' : '';
             },
+
             isActiveTaskFilter () {
                 return this.isActiveFilter ? 'active-task-filter' : 'task-filter';
             },
+
             showHideMoreMenu (list) {
 
                 this.lists.forEach(function(taskList) {
@@ -641,6 +645,7 @@
                 
                 list.moreMenu = list.moreMenu ? false : true; 
             },
+
             windowActivity (el) {
                 var listForm = jQuery(el.target).closest('.new-list-btn'),
                     listActionWrap = jQuery(el.target).closest('.list-more-menu');
@@ -655,13 +660,16 @@
                     this.showHideListForm(false);
                 }
             },
+
             listExpand (list) {
                 list.expand = list.expand ? false : true;
                 this.$store.commit('projectTaskLists/expandList', list.id);
             },
+
             getTotalTask (incomplete, complete) {
                 return parseInt(incomplete)+parseInt(complete);
             },
+
             taskListClass (list_id) {
                 let listcalss = 'pm-list-sortable list-li pm-fade-out-' + list_id;
 
@@ -670,6 +678,7 @@
                 }
                 return listcalss;
             },
+
             afterFetchProject (project) {
 
                 //set filter search user
@@ -680,6 +689,7 @@
                     }
                 } 
             },
+
             setSearchData () {
                 var self = this;
                 this.filterStatus = this.$route.query.status;
@@ -705,15 +715,19 @@
                 let duDateIndex = this.getIndex(this.dueDates, self.$route.query.dueDate, 'id');
                 this.dueDate = this.dueDates[duDateIndex];
             },
+
             completeBoder () {
                 return this.filterStatus == 'complete' ? 'complete-status' : '';
             },
+
             onGoingBorder () {
                 return this.filterStatus == 'incomplete' ? 'incomplete-status' : '';
             },
+
             helpTextPrivate (privateList) {
                 return privateList ? __('Make Visible', 'wedevs-project-manager') : __('Make Private', 'wedevs-project-manager');
             },
+
             setSearchLists (lists) {
                 var newLists = [{
                     id: 0,
@@ -774,6 +788,7 @@
                     self.abort = self.httpRequest(requestData);
                 }, timeout);
             },
+
             hasSearchContent () {
                 if( !this.isActiveFilter ) {
                     return true;
@@ -785,9 +800,11 @@
 
                 return true;
             },
+
             filterActiveClass () {
                 return this.isActiveFilter ? 'optimizeWidth' : '';
             },
+
             showFilter () {
                 this.isActiveFilter = this.isActiveFilter ? false : true;
 
@@ -826,6 +843,7 @@
                 //var url = PM_Vars.project_page + '#/projects/' + task.project_id + '/task-lists/tasks/' + task.id; 
                 this.copy(url);
             },
+
             afterTaskDoneUndone (task) {
 
                 this.$store.commit( 'projectTaskLists/afterTaskDoneUndone', {
@@ -923,6 +941,7 @@
                 }
                 this.deleteList(args);
             },
+
             changeFilterStatus (status) {
                 this.filterStatus = status;
             },
