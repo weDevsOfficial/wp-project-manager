@@ -8,7 +8,11 @@ use WP_REST_Request;
 class Project_Manage_Capability extends Abstract_Permission {
     public function check() {
         $user_id    = get_current_user_id();
-        $project_id = $this->request->get_param( 'project_id' );
+        $project_id = $this->request->get_param( 'id' );
+
+        if ( empty( $project_id ) ) {
+            $project_id = $this->request->get_param( 'project_id' );
+        }
         
         if ( empty( $user_id ) || empty( $project_id ) ) {
             return new \WP_Error( 'project', __( "You have no permission.", "wedevs-project-manager" ) );
