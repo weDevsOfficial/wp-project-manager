@@ -788,7 +788,6 @@ class Task_List {
 	}
 
 	private function where() {
-
 		$this->where_id()
 			->where_project_id()
 			->where_task_id()
