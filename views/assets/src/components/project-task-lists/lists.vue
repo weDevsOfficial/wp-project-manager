@@ -1534,7 +1534,7 @@
                         .list-form {
                             position: absolute;
                             top: 40px;
-                            width: 50%;
+                            width: 350px;
                             left: auto;
                             z-index: 9999;
                             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
