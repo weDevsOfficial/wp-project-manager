@@ -69,7 +69,7 @@
                 // valid_elements : 'a[href|target=_blank],strong,i,em,b,br,p,span[style],code,pre',
                 // extended_valid_elements:'span[class|style|id|name|title|pm-user-id|pm-user]',
                 // paste_word_valid_elements: "a[href|target=_blank],b,strong,i,em,p,span[style],br,code,pre",
-                toolbar1: 'shortcodes bold italic strikethrough bullist numlist alignleft aligncenter alignjustify alignright link textcolor blockquote underline forecolor',
+                toolbar1: 'shortcodes bold italic strikethrough bullist numlist alignleft aligncenter alignjustify alignright link textcolor blockquote underline forecolor removeformat',
                 toolbar2: 'formatselect forecolor backcolor underline blockquote hr code',
                 toolbar3: 'fontselect fontsizeselect removeformat undo redo',
             };
