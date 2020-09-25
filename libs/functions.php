@@ -339,14 +339,6 @@ function pm_get_role( $project_id, $user_id = false ) {
     return false;
 }
 
-function pm_is_manager( $project_id, $user_id = false ) {
-    $user_id = $user_id ? $user_id : get_current_user_id();
-
-    $role = pm_get_role( $project_id, $user_id );
-
-    return $role == 'manager' ? true : false;
-}
-
 function pm_get_role_caps( $project_id, $role ) {
     $caps = pm_pro_get_project_capabilities( $project_id );
 
@@ -357,16 +349,67 @@ function pm_get_role_caps( $project_id, $role ) {
     return [];
 }
 
+function pm_is_manager( $project_id, $user_id = false ) {
+    $user_id = $user_id ? $user_id : get_current_user_id();
+
+    $role = pm_get_role( $project_id, $user_id );
+
+    return $role == 'manager' ? true : false;
+}
+
+/**
+ * Checking for PM_Admin capability
+ * @param  boolean $user_id
+ * @return [type]
+ */
+function pm_has_admin_capability( $user_id = false ) {
+
+    $user_id = $user_id ? intval( $user_id ) : get_current_user_id();
+    
+    if ( user_can( $user_id, 'manage_options' ) ) {
+        return true;
+    }
+    
+    if ( user_can( $user_id, pm_admin_cap_slug() ) ) {
+        return true;
+    }     
+    
+    return false;
+}
+
+/**
+ * Checking for PM_Managre capability
+ * @param  boolean $user_id
+ * @return [type]
+ */
+function pm_has_manage_capability( $user_id = false ) {
+
+    $user_id = $user_id ? intval( $user_id ) : get_current_user_id();
+    $user    = get_user_by( 'id', $user_id );
+
+    if ( pm_has_admin_capability() ) {
+        return true;
+    }
+    
+    if ( user_can( $user_id, pm_manager_cap_slug() ) ) {
+        return true;
+    }    
+
+    return false;
+}
+
+/**
+ * Permission checking for outside of projects
+ * @param  boolean $cap
+ * @param  boolean $user_id
+ * @return [type]
+ */
 function pm_user_can_access( $cap = false, $user_id = false ) {
     $user_id = $user_id ? $user_id : get_current_user_id();
+    $cap = empty( $cap ) ? pm_manager_cap_slug() : $cap;
 
     if ( pm_has_manage_capability() ) {
         return true;
-    }
-
-    if ( empty( $cap ) ) {
-        //check the lowest capability
-        return user_can( $user_id, pm_manager_cap_slug() );
     }
 
     if ( user_can( $user_id, $cap ) ) {
@@ -375,7 +418,13 @@ function pm_user_can_access( $cap = false, $user_id = false ) {
 
     return false;
 }
-
+/**
+ * Permission checking for inside a project
+ * @param  [type]  $cap
+ * @param  [type]  $project_id
+ * @param  boolean $user_id
+ * @return [type]
+ */
 function pm_user_can( $cap, $project_id, $user_id = false ) {
     $user_id = $user_id ? $user_id : get_current_user_id();
 
@@ -391,6 +440,7 @@ function pm_user_can( $cap, $project_id, $user_id = false ) {
         if ( pm_has_manage_capability( $user_id ) ) {
             return true;
         }
+
         if ( ! pm_is_user_in_project( $project_id, $user_id ) ) {
             return false;
         }
@@ -400,6 +450,7 @@ function pm_user_can( $cap, $project_id, $user_id = false ) {
         }
 
         $role = pm_get_role( $project_id, $user_id );
+        
         if ( !$role ) {
             return false;
         }
@@ -420,36 +471,7 @@ function pm_user_can( $cap, $project_id, $user_id = false ) {
     return false;
 }
 
-function pm_has_manage_capability( $user_id = false ) {
-
-    $user_id = $user_id ? intval( $user_id ) : get_current_user_id();
-    $user    = get_user_by( 'id', $user_id );
-
-    if ( !$user->roles || !is_array($user->roles) ) {
-        return false;
-    }
-
-    if ( in_array( 'administrator', $user->roles ) ) {
-        return true;
-    }
-    
-    if ( user_can( $user_id, pm_manager_cap_slug() ) ) {
-        return true;
-    }    
-    
-    // $manage_roles = (array) pm_get_setting( 'managing_capability' );
-    
-    // $common_role  = array_intersect( $manage_roles, $user->roles );
-
-    // if ( empty( $common_role ) ) {
-    //     return false;
-    // }
-
-    return false;
-}
-
 function pm_has_project_create_capability( $user_id = false ) {
-
     return pm_user_can_access( pm_manager_cap_slug() );
 }
 

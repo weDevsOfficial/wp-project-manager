@@ -37,8 +37,8 @@ class Menu {
 		add_action( 'admin_print_styles-' . $home, array( 'WeDevs\\PM\\Core\\WP\\Menu', 'scripts' ) );
 
 		do_action( 'cpm_admin_menu', self::$capability, $home );
-
-		if ( pm_user_can_access( pm_admin_cap_slug() ) ) {
+		
+		if ( pm_has_admin_capability() ) {
 			$submenu[$slug][] = [ __( 'Settings', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/settings" ];
 		}
 
