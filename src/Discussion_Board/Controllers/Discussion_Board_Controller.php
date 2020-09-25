@@ -69,10 +69,10 @@ class Discussion_Board_Controller {
 
     public function store( WP_REST_Request $request ) {
 
-        $data = $this->extract_non_empty_values( $request );
-        $media_data = $request->get_file_params();
+        $data         = $this->extract_non_empty_values( $request );
+        $media_data   = $request->get_file_params();
         $milestone_id = $request->get_param( 'milestone' );
-        $files = array_key_exists( 'files', $media_data ) ? $media_data['files'] : null;
+        $files        = array_key_exists( 'files', $media_data ) ? $media_data['files'] : null;
 
         $is_private    = $request->get_param( 'privacy' );
         $data['is_private']    = $is_private == 'true' || $is_private === true ? 1 : 0;
