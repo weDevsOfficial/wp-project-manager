@@ -14,9 +14,8 @@
         :allow-empty="allowEmpty"
         :loading="loadingListSearch"
         @search-change="asyncListsFind"
-        @input="onChange">
-     
-    </multiselect>
+        @input="onChange"
+    />
 
 </template>
 
@@ -169,7 +168,7 @@
                     projectId: self.projectId,
                     lists: lists
                 } )
-
+                
                 self.$emit('afterGetLists', self.lists);
             },
 
@@ -212,7 +211,6 @@
                         status: [1,0]
                     },
 	                success (res) {
-
 	                    if ( typeof args.callback != 'undefined' ) {
 	                        args.callback (res);
 	                    }
