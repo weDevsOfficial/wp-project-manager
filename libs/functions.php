@@ -414,7 +414,7 @@ function pm_user_can( $cap, $project_id, $user_id = false ) {
             return $role_caps[$cap];
         }
 
-        wp_cache_set( $cache_key, $items, 'erp' );
+        wp_cache_set( $cache_key, $items, 'pm' );
     }
 
     return false;
@@ -432,22 +432,20 @@ function pm_has_manage_capability( $user_id = false ) {
     if ( in_array( 'administrator', $user->roles ) ) {
         return true;
     }
-
-    if ( function_exists( 'pm_admin_cap_slug' ) ) {
-        if ( user_can( $user_id, pm_admin_cap_slug() ) ) {
-            return true;
-        }    
-    }
     
-    $manage_roles = (array) pm_get_setting( 'managing_capability' );
+    if ( user_can( $user_id, pm_manager_cap_slug() ) ) {
+        return true;
+    }    
     
-    $common_role  = array_intersect( $manage_roles, $user->roles );
+    // $manage_roles = (array) pm_get_setting( 'managing_capability' );
+    
+    // $common_role  = array_intersect( $manage_roles, $user->roles );
 
-    if ( empty( $common_role ) ) {
-        return false;
-    }
+    // if ( empty( $common_role ) ) {
+    //     return false;
+    // }
 
-    return true;
+    return false;
 }
 
 function pm_has_project_create_capability( $user_id = false ) {
