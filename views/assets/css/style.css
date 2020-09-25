@@ -5206,12 +5206,7 @@ a.pm-icon-tick.grey {
   background-color: #fff;
   -webkit-background-clip: padding-box;
   background-clip: padding-box;
-  border: 1px solid rgba(0, 0, 0, 0.2);
-  border-radius: .3rem;
   margin-left: 10px;
-  opacity: 1;
-  padding: 10px;
-  width: 270px;
 }
 .pm-popover .pm-arrow {
   top: 74px;
