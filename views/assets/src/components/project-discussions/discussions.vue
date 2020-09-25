@@ -77,9 +77,7 @@
                                         <a :href="myTaskRedirect(discuss.creator.data.id)" :title="discuss.creator.data.display_name" >
                                             <img :alt="discuss.creator.data.display_name" :src="discuss.creator.data.avatar_url" class="avatar avatar-48 photo" height="48" width="48">
                                         </a>
-                                        <div>
-                                           {{ discuss.title }}                    
-                                        </div>
+                                        <div v-html="discuss.title" />
                                         
                                         <div class="dicussion-meta">
                                             {{ __( 'By', 'wedevs-project-manager') }}
