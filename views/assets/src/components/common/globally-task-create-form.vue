@@ -180,9 +180,9 @@
             // },
 
             hasPermissionToCreateTask ( project ) {
-                if( PM_Vars.is_pro != 1 ) {
-                    return true;
-                }
+                // if( PM_Vars.is_pro != 1 ) {
+                //     return true;
+                // }
 
                 if ( ! project ) {
                     return false;
@@ -264,7 +264,7 @@
             changeProject (project) {
                 this.setTaskFormUsers(project.assignees);
                 this.projectId = parseInt( project.project_id );
-
+                this.selectedProjects = project;
                 this.selectedLists = '';
                 this.listId = false;
             },
