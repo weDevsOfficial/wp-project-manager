@@ -1520,16 +1520,16 @@ export default {
                 return true;
             }
             
-            // if (typeof task.id  === 'undefined' && this.user_can("create_task")) {
-            //     return true;
-            // }
-
-            let creatorId = task.creator.data.id ? task.creator.data.id : task.creator.data.ID;
-            
-            if ( parseInt(creatorId) === parseInt(user.ID) ){
+            if ( this.userCanAccess(PM_Vars.manager_cap_slug) ) {
                 return true;
             }
 
+            let creatorId = task.creator.data.id ? task.creator.data.id : 0;
+            
+            if ( parseInt(creatorId) == parseInt(user.ID) ){
+                return true;
+            }
+            
             return false;
         },
     }
