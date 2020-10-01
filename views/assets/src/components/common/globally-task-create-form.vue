@@ -208,7 +208,11 @@
                     role = project_user.roles.data[0].slug;
                 
                 if ( role == 'client' ) {
-                    if ( project.role_capabilities.client.create_task ) {
+                    if ( 
+                        typeof project.role_capabilities.client.create_task != 'undefined' 
+                            &&
+                        project.role_capabilities.client.create_task
+                    ) {
                         return true;
                     }
 
@@ -216,7 +220,11 @@
                 }
                 
                 if ( role == 'co_worker' ) {
-                    if ( project.role_capabilities.co_worker.create_task ) {
+                    if ( 
+                        typeof project.role_capabilities.co_worker.create_task != 'undefined'
+                            && 
+                        project.role_capabilities.co_worker.create_task
+                    ) {
                         return true;
                     }
 
