@@ -262,6 +262,15 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= v2.4.4 - upcoming, 2020 =
+
+**New** Introduce new library simshaun/recurr.
+**New** Added the remove format option in project manager text editor.
+**Fixed** When trying to add a user to a comment by typing '@' it displays the list of users outside of the modal.
+**Fix** Task assigned all users can change the task type.
+**Fix** User can not delete their self created task comments.
+**Fix** Remove the HTML tag from milestone title.
+
 = v2.4.3 - Sep 10, 2020 =
 
 **Update** In dashboard project menu bar has been rearranged. 
