@@ -321,6 +321,7 @@ class Frontend {
     }
 
     public function redirect_after_activate() {
+
         if ( ! apply_filters( 'pm_welcome_page_redirect', get_transient( '_pm_setup_page_redirect' ) ) ) {
             return;
         }
@@ -331,6 +332,4 @@ class Frontend {
         wp_safe_redirect( add_query_arg( array( 'page' => 'pm_projects#/welcome' ), admin_url( 'index.php' ) ) );
         exit;
     }
-
-
 }
