@@ -5405,3 +5405,284 @@ a.pm-icon-tick.grey {
   background: #FAFAFA;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* RTL */
+/*body {
+  direction: rtl;
+  font-family:"IRANSans",Arial,sans-serif !important;
+}
+.pm-page-wrapper .pm-project-item .pm-project-item-body .pm-project-info .pm-project-meta-counters li {
+  float: right;
+}
+.pm-page-wrapper .pm-project-item .pm-project-item-body .pm-project-info .pm-project-meta-counters li:not(:last-child) {
+  margin: 0 0 10px 10px;
+}
+.pm-page-wrapper .pm-project-item .pm-project-item-body .pm-project-progress .pm-project-status {
+  right: 0;
+  left:unset;
+}
+.pm-pull-left {
+  float: right;
+}
+.pm-pull-right {
+  float: left;
+}
+.pm-page-wrapper .pm-view-style-container .pm-view-style-group {
+  margin-right: 15px !important;
+  margin-left:unset !important;
+}
+.pm .pm-filter-selection{
+  margin-bottom: 0px;
+}
+.pm-page-wrapper .pm-header .pm-header-left h2 {
+  margin-left: 15px;
+  margin-right:unset !important;
+}
+.pm-has-dropdown .pm-dropdown-menu {
+  position: absolute;
+  right:unset !important;
+  left: 0;
+}
+.pm-page-wrapper .pm-overview-panel .pm-panel-header .pm-tab-item a i {
+  margin-right: unset !important;
+  margin-left: 7px;
+}
+.pm-kanboard .pm-pro-multiselect-wrap {
+ right:-60px;
+ left:unset !important;
+}
+.multiselect {
+ text-align:right;
+}
+.pm-kanboard .kanboard-menu-wrap .fullscreen-view-btn .icon-pm-fullscreen-text {
+ margin-right:8px;
+ margin-left: unset;
+}
+.pm-header-title-content .project-title .title {
+ margin-left:20px;
+ margin-right:unset;
+}
+.pm .project-overview .overview-menu ul li .count {
+  text-align: right !important;
+}
+.pm-header-title-content .settings.first {
+ border-top-right-radius:3px;
+ border-bottom-right-radius:3px;
+ border-top-left-radius: unset;
+ border-bottom-left-radius:unset;
+}
+.pm-header-title-content .settings.last {
+ border-top-left-radius: 3px;
+ border-bottom-left-radius:3px;
+ border-top-right-radius:unset;
+ border-bottom-right-radius:unset;
+}
+.pm .project-overview .pm-right-part .user_list li img {
+  float: right;
+  margin-left: 10px;
+  margin-right: unset !important;
+}
+.pm .pm-message-page .pm-message-list li img {
+  float: right !important;
+}
+.pm .pm-col-1 {
+  float: right !important;
+  margin-left: 10px;
+  margin-right: unset !important;
+}
+.pm .pm-col-2 {
+  float: right !important;
+  margin-left: 10px;
+  margin-right: unset !important;
+}
+.pm .pm-col-3 {
+  float: right !important;
+  margin-left: 10px;
+  margin-right: unset !important;
+}
+.pm .pm-col-4 {
+  float: right !important;
+  margin-left: 10px;
+  margin-right: unset !important;
+}
+.pm .pm-col-5 {
+  float: right !important;
+  margin-left: 10px;
+  margin-right: unset !important;
+}
+.pm .pm-col-6 {
+  float: right !important;
+  margin-left: 10px;
+  margin-right: unset !important;
+}
+.pm .pm-col-7 {
+  float: right !important;
+  margin-left: 10px;
+  margin-right: unset !important;
+}
+.pm .pm-col-8 {
+  float: right !important;
+  margin-left: 10px;
+  margin-right: unset !important;
+}
+.pm .pm-col-9 {
+  float: right !important;
+  margin-left: 10px;
+  margin-right: unset !important;
+}
+.pm .pm-col-10 {
+  float: right !important;
+  margin-left: 10px;
+  margin-right: unset !important;
+}
+.pm .pm-col-11 {
+  float: right !important;
+  margin-left: 10px;
+  margin-right: unset !important;
+}
+.pm .modal-header span.close-vue-modal {
+    left: 0;
+    right:unset !important;
+}
+.gantt_layout_cell_border_right {
+ border-left:1px solid #cecece;
+ border-right:unset !important;
+}
+.gantt_layout_cell_border_left {
+ border-right:1px solid #cecece;
+ border-left:unset !important;
+}
+.grunt-color-plate {
+ margin:0 0 8px 5px;
+ float:left;
+}
+.dashicons, .dashicons-before::before {
+    margin-top: 5px;
+}
+.pm-page-wrapper .pm-header .pm-form-has-addon .pm-submit-btn {
+  left: 0;
+  right:unset !important;
+}
+.pm-project-group .pm-user-select .user-switch {
+ margin-right:auto!important;
+ margin-left:unset!important;
+}
+.my-task-filter-wrap .form .field {
+ margin-right:unset !important;
+ margin-left:5px;
+}
+.pm .pm-project-header .pm-user-select img.option__image {
+ margin-right:unset !important;
+ margin-left:5px;
+}
+#wedevs-project-manager .pm-my-tasks .avatar {
+ margin-right:unset !important;
+ margin-left: 10px;
+}
+.mytask-current .current-task-table .sort-wrap {
+ left:25px;
+  right:unset !important;
+}
+.pm-task-form .input-area .input-action-wrap .task-create-form .fields .process-fields .process-field {
+ margin-left:16px;
+ margin-right:unset !important;
+}
+.pm-task-form .input-area .input-action-wrap .task-create-form .fields .process-fields .task-users .user-images .image {
+ margin-right:5px;
+ margin-left:unset !important;
+}
+.project-select-area .form-content-wrap .drop-down-wrap .projects-drop-down,
+.project-select-area .form-content-wrap .drop-down-wrap .users-drop-down {
+ width:250px;
+ min-height:auto;
+ margin-left:8px;
+ margin-right:unset !important;
+}
+.ui-dialog .ui-dialog-title {
+  float: right;
+}
+.ui-dialog .ui-dialog-titlebar-close {
+  left: .3em;
+  right:unset !important;
+  font-family: "IRANSans",Arial,sans-serif !important;
+}
+.ui-widget input,
+.ui-widget select,
+.ui-widget textarea,
+.ui-widget button {
+  font-family: "IRANSans",Arial,sans-serif !important;
+}
+.pm-task-list-wrap .list-content-body .content .list-action-btn-wrap .new-list-btn .plus {
+ margin-left:5px;
+ margin-right:unset !important;
+}
+.pm-task-list-wrap .list-content-body .content .list-action-btn-wrap .new-list-btn a {
+ width:max-content;
+}
+.pm-project-menu .menu-item a .logo {
+ margin-left:5px
+ margin-right:unset !important;
+}
+.pm .table th,
+.pm .table td {
+  text-align: right !important;
+}
+.pm-table th,
+.pm-table td {
+  text-align: right;
+}
+.pm-invoice .pm-invoice-wrap .pm-invoice-total-box table.pm-invoice-totals th {
+  text-align: right;
+  padding: 5px 25px 10px 5px;
+}
+.pm-pro-archive-anchor .archive {
+ margin-right: 5px;
+ margin-left:unset !important;
+}
+.pm-task-list-wrap .list-content-body .content .list-action-btn-wrap .task-filter .icon-pm-filter {
+ margin-left: 5px;
+ margin-right:unset !important;
+}
+.pm-task-list-wrap .list-content-body .content .list-items .list-content .list-item-content .after-title .list-title-action {
+    margin-right: 12px;
+ margin-left:unset !important;
+}
+.pm-task-list-wrap .list-content-body .content .list-items .list-content .list-title-anchor {
+    margin-left: 40px;
+    margin-right:unset !important;
+}
+.pm-list-header-menu .task-filter .icon-pm-filter {
+    margin-left: 5px;
+    margin-right:unset !important;
+}
+.pm-kanboard .fullscreen-view-btn {
+ margin-left:10px;
+  margin-left:unset !important;
+}
+.pm-list-header-menu {
+    float: left;
+}
+
+@media only screen and (min-width: 768px) {
+  .project-list-view .pm-project-item-header .pm-project-settings {
+    right:unset !important;
+    left: 15px;
+  }
+}*/
+
+
