@@ -26,16 +26,18 @@ class Upgrade_2_4_4 {
 
         $admin_users   = get_users( [ 'role__in' => $manage_roles ] );
         $manager_users = get_users( [ 'role__in' => $pj_create_roles ] );
-        
-        if ( $admin_users ) {
-            foreach ( $admin_users as $admin_user ) {
-                $admin_user->add_cap( pm_admin_cap_slug() );
-            }
-        }
 
         if ( $manager_users ) {
             foreach ( $manager_users as $manger_user ) {
                 $manger_user->add_cap( pm_manager_cap_slug() );
+                update_user_meta( $manger_user->ID, 'pm_capability', pm_manager_cap_slug() );
+            }
+        }
+        
+        if ( $admin_users ) {
+            foreach ( $admin_users as $admin_user ) {
+                $admin_user->add_cap( pm_admin_cap_slug() );
+                update_user_meta( $admin_user->ID, 'pm_capability', pm_admin_cap_slug() );
             }
         }
     }

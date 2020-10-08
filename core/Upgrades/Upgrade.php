@@ -86,6 +86,7 @@ class Upgrade {
     }
 
     public function init_upgrades() {
+        (new \WeDevs\PM\Core\Upgrades\Upgrade_2_4_4() )->upgrade_init();
         if( ! current_user_can( 'update_plugins' ) ){
             return ;
         }
