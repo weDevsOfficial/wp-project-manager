@@ -8,6 +8,10 @@ use WP_REST_Request;
 class Access_Project extends Abstract_Permission {
    
     public function check() { 
+        if ( pm_user_can_access( pm_manager_cap_slug() ) )  {
+            return true;
+        }
+        
         $project_id = $this->request->get_param( 'project_id' );
 
         if ( empty($project_id) ) {

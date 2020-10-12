@@ -348,8 +348,16 @@
                             order: 6
                         }
                     ]
-                )
+                );
 
+                items = items.filter( item => {
+                    if ( item.meta != undefined && item.meta.permission != undefined ) {
+                        return item.meta.permission( project );
+                    }
+
+                    return true;
+                } );
+                
                 items = sortBy( items, ['order'] );
 
                 this.moreMenu = [...items.slice(7,items.length)];
