@@ -174,6 +174,7 @@ var PM_TaskList_Mixin = {
             var args = jQuery.extend(true, pre_define, args );
             
             var conditionobject = pm_apply_filters( 'before_get_task_list', args.condition );
+            
             var condition = this.generateConditions(conditionobject);
             
             var request = {

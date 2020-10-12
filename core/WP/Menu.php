@@ -14,9 +14,8 @@ class Menu {
 	public static function admin_menu() {
 		global $submenu, $wedevs_pm_pro, $wedevs_license_progress;
 
-		$ismanager = pm_has_manage_capability();
 		$slug = pm_admin_slug();
-		
+
 		$home = add_menu_page( __( 'Project Manager', 'wedevs-project-manager' ), __( 'Project Manager', 'wedevs-project-manager' ), self::$capability, $slug, array( new Output, 'home_page' ), self::pm_svg(), 3 );
 
 		$submenu[$slug][] = [ __( 'Projects', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/" ];
@@ -25,29 +24,27 @@ class Menu {
 		$mytask_text = sprintf( __( 'My Tasks %s', 'wedevs-project-manager' ), '<span class="awaiting-mod count-1"><span class="pending-count">' . $active_task . '</span></span>' );
 		$submenu[$slug][] = [ $mytask_text , self::$capability, "admin.php?page={$slug}#/my-tasks" ];
 
-		if ( pm_user_can_access_page( pm_categories_page_slug() ) ) {
+		if ( pm_user_can_access( pm_manager_cap_slug() ) ) {
 			$submenu[$slug][] = [ __( 'Categories', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/categories" ];
 		}
 
 		if ( ! $wedevs_pm_pro ) {
 			$submenu[$slug][] = [ __( 'Premium', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/premium" ];
 		}
-
-        
+ 
 		do_action( 'pm_menu_before_load_scripts', $home );
 
 		add_action( 'admin_print_styles-' . $home, array( 'WeDevs\\PM\\Core\\WP\\Menu', 'scripts' ) );
 
 		do_action( 'cpm_admin_menu', self::$capability, $home );
-
-		if ( pm_user_can_access_page( pm_settings_page_slug() ) ) {
+		
+		if ( pm_has_admin_capability() ) {
 			$submenu[$slug][] = [ __( 'Settings', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/settings" ];
 		}
 
-		if ( pm_user_can_access_page( pm_tools_page_slug() ) ) {
+		if ( pm_user_can_access( pm_manager_cap_slug() ) ) {
         	$submenu[$slug]['importtools'] = [ __( 'Tools', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/importtools" ];
     	}
-
 
 		do_action( 'pm_menu_after_load_scripts', $home );
 	}

@@ -12,7 +12,13 @@
 	import Trello from './trello' ;
 
 	export default {
-
+		beforeRouteEnter (to, from, next) {
+            if ( pmUserCanAccess( PM_Vars.manager_cap_slug ) ) {
+                next();
+            } else {
+                next( '/' );
+            }
+        },
 		components: {
 			'trello' : Trello
 		},

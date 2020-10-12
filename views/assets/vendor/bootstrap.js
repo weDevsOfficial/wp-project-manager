@@ -244,12 +244,14 @@ function pmIsUserInProject (project, user) {
 
     return true;
 }
-function pmIsManager (project, user) {
-    user    = user || PM_Vars.current_user;
 
-    if (pmHasManageCapability()){
+function pmIsManager (project, user) {
+    user = user || PM_Vars.current_user;
+
+    if( pmHasManageCapability() ) {
         return true;
     }
+
     if ( !project ){
         return false;
     }
@@ -278,29 +280,25 @@ function pmIsManager (project, user) {
 }
 
 function pmHasManageCapability () {
-    if ( PM_Vars.manage_capability === '1' ){
+    if( pmUserCanAccess(PM_Vars.manager_cap_slug) ) {
         return true;
     }
+   
     return false;
 }
+
 function pmHasCreateCapability () {
-    if ( PM_Vars.manage_capability === '1' ){
+    if( pmHasManageCapability() ) {
         return true;
     }
-    if ( PM_Vars.create_capability === '1' ){
-        return true;
-    }
+
     return false;
 }
 
-function pmUserCanAccessPage( pagSlug ) {
+function pmUserCanAccess( pagSlug ) {
     let user = PM_Vars.current_user;
-
-    if ( user.caps['manage_options'] === true ) {
-        return true;
-    }
-
-    if ( pmHasManageCapability() ) {
+    
+    if ( user.allcaps['manage_options'] === true ) {
         return true;
     }
     
