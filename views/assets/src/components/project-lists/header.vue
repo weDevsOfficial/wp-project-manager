@@ -8,7 +8,7 @@
                     <!-- header-left -->
                     <div class="pm-header-left">
                         <h2 class="pm-d-inline"> {{ __('Project Manager', 'wedevs-project-manager') }}</h2>
-                        <project-new-project-btn v-if="has_create_capability()"></project-new-project-btn>
+                        <project-new-project-btn v-if="userCanAccess( PM_Vars.manager_cap_slug )"></project-new-project-btn>
 
                     </div> <!-- end header-left -->
 

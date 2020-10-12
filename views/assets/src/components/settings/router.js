@@ -33,7 +33,7 @@ weDevsPMRegisterChildrenRoute('settings_root',
             name: 'general',
             meta: {
                 permission: function(project) {
-                    return pmHasManageCapability()
+                    return pmUserCanAccessPage(PM_Vars.admin_cap_slug)
                 }
             }
         },
@@ -43,7 +43,7 @@ weDevsPMRegisterChildrenRoute('settings_root',
             name: 'email',
             meta: {
                 permission: function(project) {
-                    return pmHasManageCapability()
+                    return pmUserCanAccessPage(PM_Vars.admin_cap_slug)
                 }
             }
         },
@@ -53,7 +53,7 @@ weDevsPMRegisterChildrenRoute('settings_root',
             name: 'pusher_settings_tab',
             meta: {
                 permission: function(project) {
-                    return pmHasManageCapability()
+                    return pmUserCanAccessPage(PM_Vars.admin_cap_slug)
                 }
             }
         },
@@ -63,7 +63,7 @@ weDevsPMRegisterChildrenRoute('settings_root',
             name: 'task_type_settings_tab',
             meta: {
                 permission: function(project) {
-                    return pmHasManageCapability()
+                    return pmUserCanAccessPage(PM_Vars.admin_cap_slug)
                 }
             }
         }
@@ -77,7 +77,7 @@ weDevsPMRegisterChildrenRoute('project_root',
             component: settingsHeader,
             meta: {
                 permission: function(project) {
-                    return pmHasManageCapability()
+                    return pmUserCanAccessPage(PM_Vars.admin_cap_slug)
                 },
                 lebel: 'Settings',
                 order: 7,

@@ -28,7 +28,7 @@ Usage for this component
 
 <template>
     <fragment>
-        <pm-triangle-box popoverClass="pm-dorpdown-menu">
+        <pm-triangle-box popoverClass="pm-dorpdown-menu pm-popover">
             <slot></slot>
             <fragment slot="popoverButton">
                 <slot name="clickButton"></slot>
