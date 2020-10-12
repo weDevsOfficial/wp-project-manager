@@ -273,11 +273,13 @@ function pm_get_response( $resource, $extra = [] ) {
     return array_merge( $extra, $response );
 }
 
-function pmpr() {
-    $args = func_get_args();
+if( ! function_exists( 'pmpr' ) ) {
+    function pmpr() {
+        $args = func_get_args();
 
-    foreach ( $args as $arg ) {
-        echo '<pre>'; print_r( $arg ); '</pre>';
+        foreach ( $args as $arg ) {
+            echo '<pre>'; print_r( $arg ); '</pre>';
+        }
     }
 }
 
