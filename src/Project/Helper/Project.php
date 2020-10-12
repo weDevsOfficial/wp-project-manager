@@ -977,6 +977,13 @@ class Project {
 		$caps = [];
 
 		foreach ( $results as $key => $result ) {
+
+			$caps[$result->project_id]['co_worker'] = [];
+			$caps[$result->project_id]['client'] = [];
+			$caps[$result->project_id]['manager'] = [];
+		}
+
+		foreach ( $results as $key => $result ) {
 			if ( $result->role_id == 1 ) {
 				$role_slug = 'manager';
 			}

@@ -27,7 +27,11 @@
 <script>
 export default{
     beforeRouteEnter (to, from, next) {
-        next(pmHasManageCapability());
+        if ( pmUserCanAccess( PM_Vars.admin_cap_slug ) ) {
+            next();
+        } else {
+            next( '/' );
+        }
     },
     data () {
         return {

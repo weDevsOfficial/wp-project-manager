@@ -211,9 +211,7 @@
 			localeData: {
 				type: [Object],
 				default () {
-					return {
-						format: 'mmm dd'
-					}
+					return {}
 				}
 			},
 
@@ -221,6 +219,13 @@
 				type: [Boolean],
 				default () {
 					return false
+				}
+			},
+
+			clientFormat: {
+				type: [String],
+				default () {
+					return 'MMM DD'
 				}
 			}
 		},
@@ -266,7 +271,7 @@
         				&&
         			!this.singleDatePicker 
         		) {
-        			return pm.Moment(date.startDate).format('MMM DD') +' - '+ pm.Moment(date.endDate).format('MMM DD');
+        			return pm.Moment(date.startDate).format(this.clientFormat) +' - '+ pm.Moment(date.endDate).format(this.clientFormat);
         		}
 
         		if( 
@@ -276,11 +281,11 @@
         				&&
         			!this.singleDatePicker
         		) {
-        			return pm.Moment(date.startDate).format('MMM DD');
+        			return pm.Moment(date.startDate).format(this.clientFormat);
         		}
         		
         		if( !this.isEmpty(date.endDate) ) {
-        			return pm.Moment(date.endDate).format('MMM DD');
+        			return pm.Moment(date.endDate).format(this.clientFormat);
         		}
 
         		return '';
