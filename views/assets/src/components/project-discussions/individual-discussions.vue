@@ -20,7 +20,7 @@
             <div v-if="discuss" id="pm-signle-message"> 
                 <div class="pm-single">
                     <h3 class="pm-box-title">
-                        {{discuss.title}}          
+                        <span v-html="discuss.title"></span>         
                         <span class="pm-right pm-edit-link">
                             <span v-if="can_edit_message(discuss)" >
                                 <a @click.prevent="showHideDiscussForm('toggle', discuss)" href="#"  class="pm-msg-edit dashicons dashicons-edit"></a>

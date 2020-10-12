@@ -69,8 +69,12 @@ class Task_List_Controller {
             $status = is_array( $status ) ? $status : [$status];
         }
 
-        if ( empty( $status ) ) {
+        if ( !isset($status) ) {
             $status = [1];
+        }
+
+        if ( isset( $status ) && $status == 0 ) {
+            $status = [0];
         }
         
         Paginator::currentPageResolver(function () use ($page) {

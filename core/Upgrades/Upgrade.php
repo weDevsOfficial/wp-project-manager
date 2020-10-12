@@ -14,6 +14,7 @@ class Upgrade {
         '2.2.2' => 'Upgrade_2_2_2',
         '2.3'   => 'Upgrade_2_3',
         '2.4.1' => 'Upgrade_2_4_1',
+        '2.5'   => 'Upgrade_2_4_4',
     ];
 
     public static $instance = null;
@@ -85,6 +86,7 @@ class Upgrade {
     }
 
     public function init_upgrades() {
+        (new \WeDevs\PM\Core\Upgrades\Upgrade_2_4_4() )->upgrade_init();
         if( ! current_user_can( 'update_plugins' ) ){
             return ;
         }

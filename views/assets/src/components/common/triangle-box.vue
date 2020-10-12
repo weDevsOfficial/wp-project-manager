@@ -55,12 +55,12 @@ Usage for this component
         }
         &[x-placement="top"] .tooltip-arrow {
             &:before {
-                top: 0;
+                top: -1px;
                 border-top: 7px solid #c7c7c7;
             }
 
             &:after {
-                top: -1px;
+                top: -2px;
                 border-top: 6px solid #f9f9f9;
             }
         }
@@ -68,12 +68,12 @@ Usage for this component
         &[x-placement="bottom"] .tooltip-arrow {
             bottom: 100% !important;
             &:before {
-                bottom: 0;
+                bottom: -1px;
                 border-bottom: 7px solid #c7c7c7;
             }
 
             &:after {
-                bottom: -1px;
+                bottom: -2px;
                 border-bottom: 6px solid #f9f9f9;
             }
         }

@@ -120,6 +120,7 @@ class Task_Observer extends Model_Observer {
             1 => 'weekly recurrent',
             2 => 'Monthly recurrent',
             3 => 'Annually recurrent',
+            4 => 'Daily recurrent',
             9 => 'never recurrent'
         ];
 

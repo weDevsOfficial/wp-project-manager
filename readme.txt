@@ -5,7 +5,7 @@ Tags: project, project manager, project management, web project management, task
 Requires at least: 4.4 or higher
 Tested up to: 5.5.1
 Requires PHP: 5.6
-Stable tag: 2.4.3
+Stable tag: 2.4.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -261,6 +261,15 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 
 == Changelog ==
+
+= v2.4.4 - Oct 08, 2020 =
+
+**New** Introduce new library simshaun/recurr.
+**New** Added the remove format option in project manager text editor.
+**Fixed** In text editor, after type '@' the list of users exceeds outside of the modal.
+**Fix** Task assigned all users can change the task type.
+**Fix** User can not delete their own created task comments.
+**Fix** Remove the HTML tag from milestone title.
 
 = v2.4.3 - Sep 10, 2020 =
 

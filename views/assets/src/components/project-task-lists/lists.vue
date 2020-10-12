@@ -18,22 +18,27 @@
             <div class="list-content-body">
                 <div class="content">
                     <div class="list-action-btn-wrap">
-                        <div class="new-list-btn" >
-                            <a v-if="can_create_list  && !isArchivedPage" @click.prevent="showHideListForm('toggle')" href="#" class="list-action-group add-list">
-                                <span class="plus">+</span>
-                                <span>{{ __('Add Task List', 'wedevs-project-manager') }}</span>
-                            </a>
+                        <div class="left-side">
+                            <div class="new-list-btn" >
+                                <a v-if="can_create_list  && !isArchivedPage" @click.prevent="showHideListForm('toggle')" href="#" class="list-action-group add-list">
+                                    <span class="plus">+</span>
+                                    <span>{{ __('Add Task List', 'wedevs-project-manager') }}</span>
+                                </a>
 
-                            <new-task-list-form v-if="is_active_list_form && can_create_list  && !isArchivedPage"></new-task-list-form>
-                            
+                                <new-task-list-form v-if="is_active_list_form && can_create_list  && !isArchivedPage"></new-task-list-form>
+                                
+                            </div>
+                            <pm-do-slot :hook="'pm-inline-left-side-list-button'"></pm-do-slot>
                         </div>
                         
-                        <pm-do-action :hook="'pm-inline-list-button'"></pm-do-action>
-                        <div>
-                            <a :class="isActiveTaskFilter() + ' list-action-group task-filter-btn'" v-pm-tooltip :title="__('Task Filter', 'wedevs-project-manager')" @click.prevent="showFilter()" href="#">
-                                <span class="icon-pm-filter"></span>
-                                <span>{{__('Filter', 'wedevs-project-manager')}}</span>
-                            </a>
+                        <div class="right-side">
+                            <pm-do-slot :hook="'pm-inline-list-button'"></pm-do-slot>
+                            <div>
+                                <a :class="isActiveTaskFilter() + ' list-action-group task-filter-btn'" v-pm-tooltip :title="__('Task Filter', 'wedevs-project-manager')" @click.prevent="showFilter()" href="#">
+                                    <span class="icon-pm-filter"></span>
+                                    <span>{{__('Filter', 'wedevs-project-manager')}}</span>
+                                </a>
+                            </div>
                         </div>
                     </div>
 
@@ -538,30 +543,31 @@
             isFetchProject () {
                 var isLoaded = this.$store.state.projectLoaded;
                 
-                if(isLoaded) {
-                    var meta = this.$store.state.projectMeta;
-                    if( 
-                        PM_Vars.is_pro
-                            &&
-                        typeof meta != 'undefined' 
-                            &&
-                        meta.list_view_type != null
-                            &&
-                        meta.list_view_type.meta_value == 'kanboard'
-                    ) {
-                        this.$router.push({
-                            name: 'kanboard',
-                            params: {
-                                project_id: this.project_id
-                            }
-                        });
-                    } else {
+                if( isLoaded ) {
+                    // var meta = this.$store.state.projectMeta;
+                    // if( 
+                    //     PM_Vars.is_pro
+                    //         &&
+                    //     typeof meta != 'undefined' 
+                    //         &&
+                    //     meta.list_view_type != null
+                    //         &&
+                    //     meta.list_view_type.meta_value == 'kanboard'
+                    // ) {
+                    //     this.$router.push({
+                    //         name: 'kanboard',
+                    //         params: {
+                    //             project_id: this.project_id
+                    //         }
+                    //     });
+                    // } else {
                         return true;
-                    }
+                    //}
                 }
 
                 return false;
             },
+            
             inboxList () {
                 var self = this;
                 var list = {};
@@ -609,6 +615,7 @@
                 });
                 this.getSelfLists();
             },
+
             goToSigleList (list) {
                 this.$router.push({
                     name: 'single_list',
@@ -623,9 +630,11 @@
             inboxClass (list) {
                 return this.isInbox(list.id) ? 'inbox-list' : '';
             },
+
             isActiveTaskFilter () {
                 return this.isActiveFilter ? 'active-task-filter' : 'task-filter';
             },
+
             showHideMoreMenu (list) {
 
                 this.lists.forEach(function(taskList) {
@@ -636,6 +645,7 @@
                 
                 list.moreMenu = list.moreMenu ? false : true; 
             },
+
             windowActivity (el) {
                 var listForm = jQuery(el.target).closest('.new-list-btn'),
                     listActionWrap = jQuery(el.target).closest('.list-more-menu');
@@ -650,13 +660,16 @@
                     this.showHideListForm(false);
                 }
             },
+
             listExpand (list) {
                 list.expand = list.expand ? false : true;
                 this.$store.commit('projectTaskLists/expandList', list.id);
             },
+
             getTotalTask (incomplete, complete) {
                 return parseInt(incomplete)+parseInt(complete);
             },
+
             taskListClass (list_id) {
                 let listcalss = 'pm-list-sortable list-li pm-fade-out-' + list_id;
 
@@ -665,6 +678,7 @@
                 }
                 return listcalss;
             },
+
             afterFetchProject (project) {
 
                 //set filter search user
@@ -675,6 +689,7 @@
                     }
                 } 
             },
+
             setSearchData () {
                 var self = this;
                 this.filterStatus = this.$route.query.status;
@@ -700,15 +715,19 @@
                 let duDateIndex = this.getIndex(this.dueDates, self.$route.query.dueDate, 'id');
                 this.dueDate = this.dueDates[duDateIndex];
             },
+
             completeBoder () {
                 return this.filterStatus == 'complete' ? 'complete-status' : '';
             },
+
             onGoingBorder () {
                 return this.filterStatus == 'incomplete' ? 'incomplete-status' : '';
             },
+
             helpTextPrivate (privateList) {
                 return privateList ? __('Make Visible', 'wedevs-project-manager') : __('Make Private', 'wedevs-project-manager');
             },
+
             setSearchLists (lists) {
                 var newLists = [{
                     id: 0,
@@ -769,6 +788,7 @@
                     self.abort = self.httpRequest(requestData);
                 }, timeout);
             },
+
             hasSearchContent () {
                 if( !this.isActiveFilter ) {
                     return true;
@@ -780,9 +800,11 @@
 
                 return true;
             },
+
             filterActiveClass () {
                 return this.isActiveFilter ? 'optimizeWidth' : '';
             },
+
             showFilter () {
                 this.isActiveFilter = this.isActiveFilter ? false : true;
 
@@ -821,6 +843,7 @@
                 //var url = PM_Vars.project_page + '#/projects/' + task.project_id + '/task-lists/tasks/' + task.id; 
                 this.copy(url);
             },
+
             afterTaskDoneUndone (task) {
 
                 this.$store.commit( 'projectTaskLists/afterTaskDoneUndone', {
@@ -918,6 +941,7 @@
                 }
                 this.deleteList(args);
             },
+
             changeFilterStatus (status) {
                 this.filterStatus = status;
             },
@@ -1383,8 +1407,15 @@
                 .list-action-btn-wrap {
                     display: flex;
                     align-items: center;
+                    justify-content: space-between;
                     padding: 20px;
                     flex-wrap: wrap;
+
+                    .right-side {
+                        display: flex;
+                        align-items: center;
+                        flex-wrap: wrap;
+                    }
 
                     .list-action-group {
                         height: 30px;
@@ -1503,7 +1534,7 @@
                         .list-form {
                             position: absolute;
                             top: 40px;
-                            width: 50%;
+                            width: 350px;
                             left: auto;
                             z-index: 9999;
                             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
