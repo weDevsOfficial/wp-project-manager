@@ -64,6 +64,21 @@
                     </div>
                 </pm-popper>
 
+                <div v-if="!has_task_permission()">
+                    <div
+                        class="process-results task-type"
+                        v-if="hasTaskType"
+                    >
+                        <span>{{ task.type.title }}</span>
+
+                    </div>
+                    <div 
+                        class="process-results user-images" 
+                        v-if="!hasTaskType"
+                    >
+                        <span>{{ __( 'No type found!', 'pm-pro' ) }}</span>
+                    </div>
+                </div>
 
             </div>
         </div>
@@ -239,6 +254,12 @@
         },
 
         methods: {
+            has_task_permission() {
+               var permission =  this.can_edit_task(this.task);
+
+               return permission ;
+            },
+
             setTypeId () {
                 if ( !this.isEmpty(this.task.type) ) {
                     this.typeId = parseInt( this.task.type.id );
@@ -256,10 +277,6 @@
                     placement: 'bottom-end',
                     modifiers: { offset: { offset: '0, 3px' } },
                 }
-            },
-
-            has_task_permission () {
-                return true;
             },
 
             afterGetTaskTypes ( taskTypes ) {

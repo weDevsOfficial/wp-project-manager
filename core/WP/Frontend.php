@@ -19,6 +19,7 @@ use WeDevs\PM\Tools\Helpers\ImportTrello;
 //use WeDevs\PM\Tools\Helpers\ImportAsana;
 use WeDevs\PM\Core\Admin_Notice\Admin_Notice;
 use WeDevs\PM\Pusher\Pusher;
+use WeDevs\PM\Core\User_Profile\Profile_Update;
 
 
 class Frontend {
@@ -201,6 +202,7 @@ class Frontend {
         Notification::init_transactional_emails();
         new Upgrade();
         new Offers();
+        new Profile_Update();
         //new Promotions();
         //new ImportTrello();
         //new ImportAsana();
@@ -319,6 +321,7 @@ class Frontend {
     }
 
     public function redirect_after_activate() {
+
         if ( ! apply_filters( 'pm_welcome_page_redirect', get_transient( '_pm_setup_page_redirect' ) ) ) {
             return;
         }
@@ -329,6 +332,4 @@ class Frontend {
         wp_safe_redirect( add_query_arg( array( 'page' => 'pm_projects#/welcome' ), admin_url( 'index.php' ) ) );
         exit;
     }
-
-
 }

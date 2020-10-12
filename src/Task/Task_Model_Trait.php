@@ -23,6 +23,7 @@ trait Task_Model_Trait {
         1 => '1', // weekly
         2 => '2', // Monthly
         3 => '3', // Annually
+        4 => '4', // Daily
         9 => '9', // never
     ];
 
