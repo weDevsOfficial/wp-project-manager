@@ -1,3 +1,4 @@
+<!-- if you provide the selectd projects then you have to manually handle the remove option -->
 <template>
 	<multiselect
 		class="pm-common-multiselect"
@@ -15,10 +16,8 @@
         :loading="loadingProjectSearch"
         @search-change="asyncProjectsFind"
         @input="onChange"
-        @remove="afterRemove">
-     
-    </multiselect>
-
+        @remove="afterRemove"
+    />
 </template>
 
 <style lang="less">
