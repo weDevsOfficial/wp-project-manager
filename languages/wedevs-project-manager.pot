@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Project Manager 2.4.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/cpm\n"
-"POT-Creation-Date: 2020-10-12 03:02:45+00:00\n"
+"POT-Creation-Date: 2020-10-14 15:47:25+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -288,7 +288,7 @@ msgstr ""
 msgid "Jump to a project"
 msgstr ""
 
-#: core/WP/Menu.php:19 libs/functions.php:985
+#: core/WP/Menu.php:19 libs/functions.php:987
 #: views/assets/src/components/project-lists/header.vue:10
 msgid "Project Manager"
 msgstr ""
@@ -334,11 +334,11 @@ msgstr ""
 msgid "Co-worker is person who works under a project."
 msgstr ""
 
-#: libs/functions.php:1301
+#: libs/functions.php:1303
 msgid "PM Admin"
 msgstr ""
 
-#: libs/functions.php:1302
+#: libs/functions.php:1304
 msgid "PM Manager"
 msgstr ""
 
@@ -1779,7 +1779,7 @@ msgid "select files"
 msgstr ""
 
 #: views/assets/src/components/common/globally-task-create-form.vue:158
-#: views/assets/src/components/common/project-drop-down.vue:120
+#: views/assets/src/components/common/project-drop-down.vue:119
 msgid "Select a project"
 msgstr ""
 
