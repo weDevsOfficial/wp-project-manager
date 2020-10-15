@@ -58,7 +58,7 @@
         },
 
         created () {
-            
+            console.log('Free is also woakefa');
         }
 
     }
