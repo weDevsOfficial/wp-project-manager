@@ -21,7 +21,7 @@ class Email {
      * @return string
      */
     public function get_content_html( $template, $args ) {
-        pm_log('task', $args);
+        
         ob_start();
         //$this->email_header();
         $this->load_templae( $template, $args );
