@@ -87,7 +87,7 @@
                         <td colspan="2">
                             &nbsp;
                             <p style="font-size: 16px; line-height: 30px; margin: 0; color: #7E8690;"><?php _e( 'Task description', 'wedevs-project-manager' ); ?></p>
-                            <div style="padding: 24px 30px; background: #edeef45e; border: 1px solid #f2f2f2; border-radius: 5px; margin-bottom: 30px; line-height: 26px; margin-top: 10px;">
+                            <div style="padding: 5px 15px; background: #edeef45e; border: 1px solid #f2f2f2; border-radius: 5px; margin-bottom: 30px; line-height: 26px; margin-top: 10px;">
                                 <?php echo empty( $description['html'] ) ? __( 'No description found!', 'wedevs-project-manager' ) : $description['html']; ?>
                             </div>
                         </td>

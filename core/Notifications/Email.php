@@ -203,7 +203,7 @@ class Email {
             return wp_mail( $from_email, $subject, wp_kses_post( htmlspecialchars_decode( $message ) ), $headers, $attachments );
             
         } else {
-
+            
             $headers = array(
                 $reply_to,
                 $content_type,
