@@ -1,40 +1,124 @@
-<?php
-$tpbk = config('frontend.assets_url') .'images/tpbk.png';
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
-?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title><?php echo esc_html( $title ); ?></title>
+</head>
+<body style="margin: 0; padding: 0; background: #ccc; font-family: 'Roboto', sans-serif; font-weight: 300; box-sizing: border-box;">
+    <center style="width: 100%;">
+        <table  align="center" border="1" cellpadding="0" cellspacing="0" width="600" style="border-collapse: collapse; background: #fff; border:1px solid #f2f2f2;">
+            <tr style="border-bottom: 1px solid #f2f2f2;">
+                <td style="padding: 30px 50px;">
+                    
+                    <table  style="margin-right: 20px;">
+                        <tr>
+                            <td>
+                                <img 
+                                    style="
+                                        outline: none; 
+                                        text-decoration: none; 
+                                        height: 48px; 
+                                        width: 48px; 
+                                        border-radius: 50%; 
+                                        outline: none;
+                                    " 
+                                    src="<?php echo esc_url( $creator['data']['avatar_url'] ); ?>" 
+                                    alt="User Name" 
+                                    title="User Name"
+                                />
+                            </td>
+                            <td>
+                                <div style="margin-left: 10px;">
+                                    <h1 style="margin: 0 0 7px; font-weight: bold; font-size: 18px; color: #000000; letter-spacing: 0.16px; line-height: 22px;">
+                                        <?php echo esc_html( $creator['data']['display_name'] ); ?> <?php _e( 'assigned a project to you', 'wedevs-project-manager' ); ?>
+                                    </h1>
+                                    <a style="text-decoration: none; font-size: 15px; color: #0676D4; letter-spacing: 0.14px; line-height: 22px;" href="<?php echo esc_url( $link . '#/projects/' . $id . '/task-lists/' ); ?>" target="_blank"><?php _e( 'View this project', 'wedevs-project-manger' ); ?></a> 
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    
+                </td>
+            </tr>
+            <tr>
+                <td style="padding: 50px;">
+                    <table>
+                        <tr>
+                            <td>
+                                <p style="font-size: 16px; line-height: 30px; margin: 0; color: #7E8690;"><?php _e( 'Project', 'wedevs-project-manager' ); ?></p>
+                                <h2 style="font-size: 18px; color: #000; margin: 0;"><?php echo esc_html( $title ); ?></h2>
+                            </td>
+                        </tr>
 
-<div style="width:600px;  background: #fff;">
-    <div style="width: 600px;">
-        <div style="background-image: url('<?php echo esc_url($tpbk); ?>'); background-repeat: no-repeat; height: 174px; width: 600px;">
-            <div style="font-family: 'Lato', sans-serif; font-wight: bold; color: #fff; font-size: 30px; padding-top: 26px; text-align: center; text-transform: uppercase;">
-                <?php esc_html_e( 'New Project', 'wedevs-project-manager' ); ?>
-            </div>
-        </div>
-    </div>
-    <div style="padding: 0 50px; text-align: justify; background-repeat: no-repeat;">
-        <div style="margin: 40px 0 10px; margin-bottom: 20px;">
-            <em style="font-family: lato; color: #B3B3B3;padding-right: 5px;"><?php esc_html_e( 'Project Created By', 'wedevs-project-manager' ); ?></em>
-            <strong style="font-family: lato; color: #7e7e7e; padding-right: 10px;">
-                <?php echo esc_html( $data['updater']['data']['display_name'] ); ?>
-            </strong>
-        </div>
+                         <tr>
+                            <td>
+                                <div style="font-size: 16px; color: #000000; padding: 5px 15px; background: #edeef45e; border: 1px solid #f2f2f2; border-radius: 5px; margin-bottom: 30px; line-height: 30px; margin-top: 22px;">
+                                    <div>
+                                        <span>Hello,</span>
+                                    </div>
+                                    <div>
+                                        <?php
+                                            printf( 
+                                                '%s "%s" %s %s', 
+                                                __( 'You are assigned a project', 'wedevs-project-manager'  ),
+                                                $title,
+                                                __( 'by', 'wedevs-project-manager' ),
+                                                $creator['data']['display_name']
+                                            );
+                                        ?>
+                                    </div>
+                                    <div>
+                                        <?php
+                                            
+                                            _e( 'You can see the project by going here: ', 'wedevs-project-manager'  );
+                                             
+                                        ?>
+                                        <a style="text-decoration: none; font-size: 15px; color: #0676D4; letter-spacing: 0.14px; line-height: 22px;" href="<?php echo esc_url( $link . '#/projects/' . $id . '/task-lists/' ); ?>" target="_blank"><?php echo $title; ?></a> 
+                                    </div>
 
-        <div style="font-family: arial; font-size: 14px; line-height: 24px; color: #7e7e7e;">
-            <p><?php esc_html_e( 'Hello', 'wedevs-project-manager' ); ?></p>
+                                </div>
+                            </td>
+                        </tr>
 
-            <div><?php printf( esc_html__( 'You are assigned to a new project "%s" by %s.', 'wedevs-project-manager' ), '<b>'.esc_html($data['title']).'</b>', esc_html( $data['updater']['data']['display_name'])  ) ?></div>
-            <div><?php esc_html_e( 'You can see the project by going here:', 'wedevs-project-manager' ); ?>
-                <a style="text-decoration: none; color: #00b1e7;" href="<?php echo esc_url($link . '#/projects/'.$data["id"].'/overview'); ?>"></a>
-            </div>
-        </div>
+                        <tr>
+                            <td>
+                                <a style="text-decoration: none; color: #0676D4; display: inline-block; padding: 9px 24px; font-size: 15px; color: #FFFFFF; letter-spacing: 0.14px; line-height: 30px; transition: opacity .2s; background: #7D60FF; border-radius: 3px;" href="<?php echo esc_url($link.'#/projects/'.$id . '/task-lists/' . $id); ?>" target="_blank">
+                                    <?php _e( 'View Project', 'wedevs-project-manager'); ?>
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
 
-        <div style="padding: 18px; margin: 30px auto 45px; border-radius: 30px; background: #00b1e7; width: 171px; text-align: center;">
+            <tr>
+                <td style="padding: 0 50px 50px;">
+                    <div>
+                        <h2 style="font-size: 20px; color: #000000; letter-spacing: 0.18px; line-height: 30px; margin-bottom: 15px;">
+                            <?php _e( 'Project Assignes', 'wedevs-project-manager'); ?>
+                        </h2>
+                        <span style="margin: 0; padding: 0; list-style: none; display: inline-block;">
 
-            <a href="<?php echo esc_url($link . '#/projects/'.$data["id"].'/overview'); ?>" style="font-family: lato; font-size: 16px; text-decoration: none; color: #fff;">
-                <?php esc_html_e( 'View Project', 'wedevs-project-manager' ); ?>
-            </a>
+                             <?php
 
-        </div>
+                                foreach( $assignees['data'] as $assign ) {
+                                    ?>
 
-    </div>
-</div>
+                                        <img style="outline:none; margin-right: 4px; text-decoration:none; height: 33px; width: 33px; border-radius: 50%;" src="<?php echo esc_url( $assign['avatar_url'] ); ?>" alt="User Name" title="User Name" width="33" height="33" />
+                                    <?php
+                                }
+
+                            ?>
+                    
+                        </span>
+                    </div>
+                </td>
+            </tr>
+            
+        </table>
+    </center>
+    <?php require_once dirname(__FILE__) . '/footer.php'; ?>
+</body>
+</html>

@@ -15,17 +15,25 @@ class New_Project_Notification extends Email {
     }
 
     public function trigger( $project, $data ) {
+
+        $project = empty( $project['data'] ) ? [] : $project['data'];
         
-        if ( isset( $data['notify_users'] ) && 'false' === $data['notify_users'] ){
+        if ( empty( $data['notify_users'] ) ) {
+            pm_log('notify', $data['notify_users']);
+            return;
+        }
+
+        if ( 'false' == $data['notify_users'] || false === $data['notify_users'] ) {
             return ;
         }
 
+
         $template_name = apply_filters( 'pm_new_project_email_template_path', $this->get_template_path( '/html/new-project.php' ) );
-        $subject       = sprintf( __( '[%s] New Project Invitation: %s', 'wedevs-project-manager' ), $this->get_blogname(), $project['data']['title'] );
-        $assignees     = $project['data']['assignees']['data'];
+        $subject       = sprintf( __( '[%s] New Project Create: %s', 'wedevs-project-manager' ), $this->get_blogname(), $project['title'] );
+        $assignees     = $project['assignees']['data'];
         $users         = array();
 
-        foreach ($assignees as $assignee ) {
+        foreach ( $assignees as $assignee ) {
             if( ! $this->is_enable_user_notification( $assignee['id'] ) ) {
                 // if (  !$this->notify_manager()  && $assignee['roles']['data'][0]['slug'] == 'manager' ) {
                 //     if( $this->is_enable_user_notification_for_notification_type( $assignee['id'] , '_cpm_email_notification_new_project' ) ) {
@@ -38,7 +46,7 @@ class New_Project_Notification extends Email {
             }
 
             if ( $assignee['id'] == get_current_user_id() ) {
-                continue;
+                //continue;
             }
 
             if ( ! $this->is_enable_user_notification_for_notification_type( $assignee['id'] , '_cpm_email_notification_new_project' ) ) {
@@ -48,12 +56,12 @@ class New_Project_Notification extends Email {
             $users[] = $assignee['email'];
         }
         
-        if( !$users ){
+        if( !$users ) {
             return ; 
         }
         
         $message = $this->get_content_html( $template_name, $project );
-
+        
         $this->send( $users, $subject, $message );
 
     }
