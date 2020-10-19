@@ -26,7 +26,7 @@ class Discussion_Board {
 	private $where;
 	private $limit;
 	private $orderby;
-	private $with = [];
+	private $with = ['creator', 'updater'];
 	private $discussion_boards;
 	private $discussion_board_ids;
 	private $is_single_query = false;
@@ -107,6 +107,7 @@ class Discussion_Board {
             'id'          => (int) $discussion_board->id,
             'title'       => $discussion_board->title,
             'description' => pm_get_content( $discussion_board->description ),
+            'project_id'  => $discussion_board->project_id,
             'order'       => $discussion_board->order,
             'created_at'  => format_date( $discussion_board->created_at ),
             'meta'        => $discussion_board->meta,
@@ -140,6 +141,7 @@ class Discussion_Board {
 			->updater()
 			->milestone()
 			->files()
+			->project()
 			->comments();
 
 		$this->discussion_boards = apply_filters( 'pm_discussion_board_with',$this->discussion_boards, $this->discussion_board_ids, $this->query_params );
@@ -256,6 +258,39 @@ class Discussion_Board {
         
         foreach ( $this->discussion_boards as $key => $discussion_board ) {
             $discussion_board->milestone['data'] = empty( $items[$discussion_board->id] ) ? [] : $items[$discussion_board->id];
+        }
+
+        return $this;
+	}
+
+	private function project() {
+
+		if ( empty( $this->discussion_board_ids ) ) {
+			return $this;
+		}
+
+		$with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
+		
+		if ( ! is_array( $with ) ) {
+			$with = explode( ',', str_replace(' ', '', $with ) );
+		}
+
+		if ( ! in_array( 'project', $with ) || empty( $this->discussion_board_ids ) ) {
+			return $this;
+		}
+
+		$project_ids = wp_list_pluck( $this->discussion_boards, 'project_id' );
+		$project_ids = array_unique( $project_ids );
+		
+		$projects = pm_get_projects( [ 'id' => $project_ids ] );
+		$projects_map = [];
+
+		foreach ( $projects['data'] as $key => $project ) {
+			$projects_map[$project['id']] = $project;
+		}
+
+        foreach ( $this->discussion_boards as $key => $discussion_board ) {
+            $discussion_board->project['data'] = empty( $projects_map[$discussion_board->project_id] ) ? [] : $projects_map[$discussion_board->project_id];
         }
 
         return $this;
