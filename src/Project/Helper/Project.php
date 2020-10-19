@@ -92,7 +92,7 @@ class Project {
 			->meta();
 
 		$response = $self->format_projects( $self->projects );
-
+		
 		if( pm_is_single_query( $params ) ) {
 			$project = empty( $response['data'][0] ) ? [] : $response['data'][0];
 			return ['data' => $project];
