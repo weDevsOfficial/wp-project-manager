@@ -25,14 +25,14 @@
                                         outline: none;
                                     " 
                                     src="<?php echo esc_url( $creator['data']['avatar_url'] ); ?>" 
-                                    alt="User Name" 
-                                    title="User Name"
+                                    alt="<?php echo esc_attr( $creator['data']['display_name'] ); ?>" 
+                                    title="<?php echo esc_attr( $creator['data']['display_name'] ); ?>"
                                 />
                             </td>
                             <td>
                                 <div style="margin-left: 10px;">
                                     <h1 style="margin: 0 0 7px; font-weight: bold; font-size: 18px; color: #000000; letter-spacing: 0.16px; line-height: 22px;">
-                                        <?php echo esc_html( $creator['data']['display_name'] ); ?> <?php _e( 'update the discussion', 'wedevs-project-manager' ); ?>
+                                        <?php echo ucfirst( esc_html( $creator['data']['display_name'] ) ); ?> <?php _e( 'update the discussion', 'wedevs-project-manager' ); ?>
                                     </h1>
                                     <a 
                                         style="
@@ -62,47 +62,30 @@
                             <td>
                                 <p style="font-size: 16px; line-height: 30px; margin: 0; color: #7E8690;"><?php _e( 'Discussion', 'wedevs-project-manager' ); ?></p>
                                 <h2 style="font-size: 18px; color: #000; margin: 0;"><?php echo esc_html( $title ); ?></h2>
+                                &nbsp;
                             </td>
                         </tr>
 
-                         <tr>
+                        <tr>
                             <td>
-                                <div style="font-size: 16px; color: #000000; padding: 5px 15px; background: #edeef45e; border: 1px solid #f2f2f2; border-radius: 5px; margin-bottom: 30px; line-height: 30px; margin-top: 22px;">
-                                    <div>
-                                        <span>Hello,</span>
-                                    </div>
-                                    <div>
-                                        <?php
-                                            printf( 
-                                                '%s "%s" %s %s', 
-                                                __( 'The discussion', 'wedevs-project-manager'  ),
-                                                $title,
-                                                __( 'has been updated by', 'wedevs-project-manager' ),
-                                                $creator['data']['display_name']
-                                            );
-                                        ?>
-                                    </div>
-                                    <div>
-                                        <?php
-                                            
-                                            _e( 'You can see the discussion by going here: ', 'wedevs-project-manager'  );
-                                             
-                                        ?>
-                                        <a 
-                                            style="
-                                                text-decoration: none; 
-                                                font-size: 15px; 
-                                                color: #0676D4; 
-                                                letter-spacing: 0.14px; 
-                                                line-height: 22px;" 
+                                <p style="font-size: 16px; line-height: 30px; margin: 0; color: #7E8690;">
+                                    <?php _e( 'Updated at', 'wedevs-project-manger' ) ?>
+                                </p>
+                                <h2 style="font-size: 16px; color: #000; margin: 0; font-weight: 400;">
+                                     <?php $discussion_date = empty( $updated_at['date'] ) ? '&#x02013;&#x02013;' : pm_date_format( esc_html( $updated_at['date'] ) ); ?>
+                                    <?php echo esc_html( $discussion_date ); ?>
+                                </h2>
+                                &nbsp;
+                            </td>
+                        </tr>
 
-                                            href="<?php echo esc_url( $link . '#/projects/' . $project_id . '/discussions/' . $id ); ?>"  
-                                            target="_blank"
-                                        >
-                                            <?php echo $title; ?>
-                                        </a> 
-                                    </div>
-
+                        <tr>
+                            <td>
+                                <p style="font-size: 16px; line-height: 30px; margin: 0; color: #7E8690;">
+                                    <span><?php _e( 'Details', 'wedevs-project-manager' ); ?></span>
+                                </p>
+                                <div style="padding: 5px 15px; background: #edeef45e; border: 1px solid #f2f2f2; border-radius: 5px; margin-bottom: 30px; line-height: 26px; margin-top: 10px;">
+                                    <?php echo $description; ?>
                                 </div>
                             </td>
                         </tr>

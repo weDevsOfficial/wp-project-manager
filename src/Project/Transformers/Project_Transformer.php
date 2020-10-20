@@ -45,6 +45,7 @@ class Project_Transformer extends TransformerAbstract {
             'projectable_type'    => $item->projectable_type,
             'favourite'           => !empty($item->favourite) ? (boolean) $item->favourite->meta_value: false,
             'created_at'          => format_date( $item->created_at ),
+            'updated_at'          => format_date( $item->updated_at ),
             'list_inbox'          => (int) $listmeta,
         ];
         return apply_filters( "pm_project_transformer", $data, $item );

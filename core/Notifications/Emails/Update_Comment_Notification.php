@@ -61,7 +61,6 @@ class Update_Comment_Notification extends Email {
             $comment_link = $this->pm_link() . '#projects/'.$project->id. '/task-lists/tasks/' . $request['commentable_id'];
         }
 
-       
         
         $message = $this->get_content_html( $template_name, [
             'id'                => $commentData['data']['id'],
@@ -69,7 +68,9 @@ class Update_Comment_Notification extends Email {
             'updater'           => $commentData['data']['updater']['data']['display_name'],
             'commnetable_title' => $title,
             'commnetable_type'  => $type,
-            'comment_link'      => $comment_link
+            'comment_link'      => $comment_link,
+            'updated_at'        => $commentData['data']['updated_at']['date'],
+            'updater'           => $commentData['data']['updater'],
         ] );
 
         $this->send( $users, $subject, $message );

