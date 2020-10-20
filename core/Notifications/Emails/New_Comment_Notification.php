@@ -26,7 +26,7 @@ class New_Comment_Notification extends Email {
         if ( empty( $request['notify_users'] ) ){
             return ;
         }
-
+        
         $project      = Project::with('assignees', 'managers')->find( $request['project_id'] );
         $users        = array();
         $notify_users = explode( ',',  $request['notify_users'] );
@@ -76,7 +76,6 @@ class New_Comment_Notification extends Email {
                             ->where( 'meta_key', 'title' )
                             ->first();
             $title = $filemeta->meta_value;
-
         }
 
         $template_name = apply_filters( 'pm_new_comment_email_template_path', $this->get_template_path( '/html/new-comment.php' ) );
@@ -88,10 +87,12 @@ class New_Comment_Notification extends Email {
             'updater'           => $commentData['data']['updater']['data']['display_name'],
             'commnetable_title' => $title,
             'commnetable_type'  => $type,
-            'comment_link'      => $comment_link
+            'comment_link'      => $comment_link,
+            'created_at'        => $commentData['data']['created_at']['date'],
+            'creator'           => $commentData['data']['creator'],
         ] );
 
-        $this->send( $users, $subject, $message );
+        $this->send( 'joy.mishu@gmail.com', $subject, $message );
     }
 
 }

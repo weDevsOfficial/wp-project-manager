@@ -25,14 +25,14 @@
                                         outline: none;
                                     " 
                                     src="<?php echo esc_url( $creator['data']['avatar_url'] ); ?>" 
-                                    alt="User Name" 
-                                    title="User Name"
+                                    alt="<?php echo esc_attr( $creator['data']['display_name'] ); ?>" 
+                                    title="<?php echo esc_attr( $creator['data']['display_name'] ); ?>"
                                 />
                             </td>
                             <td>
                                 <div style="margin-left: 10px;">
                                     <h1 style="margin: 0 0 7px; font-weight: bold; font-size: 18px; color: #000000; letter-spacing: 0.16px; line-height: 22px;">
-                                        <?php echo esc_html( $creator['data']['display_name'] ); ?> <?php _e( 'assigned a project to you', 'wedevs-project-manager' ); ?>
+                                        <?php echo ucfirst( esc_html( $creator['data']['display_name'] ) ); ?> <?php _e( 'assigned a project to you', 'wedevs-project-manager' ); ?>
                                     </h1>
                                     <a style="text-decoration: none; font-size: 15px; color: #0676D4; letter-spacing: 0.14px; line-height: 22px;" href="<?php echo esc_url( $link . '#/projects/' . $id . '/task-lists/' ); ?>" target="_blank"><?php _e( 'View this project', 'wedevs-project-manger' ); ?></a> 
                                 </div>
@@ -42,6 +42,7 @@
                     
                 </td>
             </tr>
+             
             <tr>
                 <td style="padding: 50px;">
                     <table>
@@ -49,10 +50,24 @@
                             <td>
                                 <p style="font-size: 16px; line-height: 30px; margin: 0; color: #7E8690;"><?php _e( 'Project', 'wedevs-project-manager' ); ?></p>
                                 <h2 style="font-size: 18px; color: #000; margin: 0;"><?php echo esc_html( $title ); ?></h2>
+                                &nbsp;
                             </td>
                         </tr>
 
-                         <tr>
+                        <tr>
+                            <td>
+                                <p style="font-size: 16px; line-height: 30px; margin: 0; color: #7E8690;">
+                                    <?php _e( 'Created at', 'wedevs-project-manger' ) ?>
+                                </p>
+                                <h2 style="font-size: 16px; color: #000; margin: 0; font-weight: 400;">
+                                     <?php $project_date = empty( $created_at['date'] ) ? '&#x02013;&#x02013;' : pm_date_format( esc_html( $created_at['date'] ) ); ?>
+                                    <?php echo esc_html( $project_date ); ?>
+                                </h2>
+                                &nbsp;
+                            </td>
+                        </tr>
+
+                        <tr>
                             <td>
                                 <div style="font-size: 16px; color: #000000; padding: 5px 15px; background: #edeef45e; border: 1px solid #f2f2f2; border-radius: 5px; margin-bottom: 30px; line-height: 30px; margin-top: 22px;">
                                     <div>

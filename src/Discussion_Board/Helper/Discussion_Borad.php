@@ -110,6 +110,7 @@ class Discussion_Board {
             'project_id'  => $discussion_board->project_id,
             'order'       => $discussion_board->order,
             'created_at'  => format_date( $discussion_board->created_at ),
+            'updated_at'  => format_date( $discussion_board->updated_at ),
             'meta'        => $discussion_board->meta,
         ];
 

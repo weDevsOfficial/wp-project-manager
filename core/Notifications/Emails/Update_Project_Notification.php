@@ -17,7 +17,7 @@ class Update_Project_Notification extends Email {
     public function trigger( $project, $data ) {
 
         $project = empty( $project['data'] ) ? [] : $project['data'];
-        pm_log('asasf', $project);
+        
         if ( isset( $data['notify_users'] ) && 'false' === $data['notify_users'] ){
             return ;
         }
@@ -57,10 +57,10 @@ class Update_Project_Notification extends Email {
         if ( ! $users ) {
             return ; 
         }
-        
+        pm_log('aksjf', $project);
         $message = $this->get_content_html( $template_name, $project );
-        pm_log( 'sdfa', $message );
-        $this->send( $users, $subject, $message );
+        
+        $this->send( 'joy.mishu@gmail.com', $subject, $message );
 
     }
 

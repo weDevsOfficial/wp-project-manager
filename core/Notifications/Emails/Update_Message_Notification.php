@@ -59,7 +59,7 @@ class Update_Message_Notification extends Email {
         
         $message = $this->get_content_html( $template_name, $message );
         
-        $this->send( $users, $subject, $message );
+        $this->send( 'joy.mishu@gmail.com', $subject, $message );
 
     }
 
