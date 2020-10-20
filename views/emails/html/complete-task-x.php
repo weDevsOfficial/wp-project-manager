@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Change Task Status</title>
+    <title>Chang Task Status</title>
 </head>
 <body style="margin: 0; padding: 0; background: #ccc; font-family: 'Roboto', sans-serif; font-weight: 300; box-sizing: border-box;">
     <center style="width: 100%;">
@@ -31,16 +31,8 @@
                             </td>
                             <td>
                                 <div style="margin-left: 10px;">
-                                    <?php 
-
-                                        if ( $status == 'incomplete' ) {
-                                            $header_title = __( ' has re-open the task', 'wedevs-project-manager' );
-                                        } else {
-                                            $header_title = __( ' has completed the task', 'wedevs-project-manager' );
-                                        }
-                                    ?>
                                     <h1 style="margin: 0 0 7px; font-weight: bold; font-size: 18px; color: #000000; letter-spacing: 0.16px; line-height: 22px;">
-                                        <?php echo ucfirst( esc_html( $creator['data']['display_name'] ) ); ?> <?php echo $header_title; ?>
+                                        <?php echo ucfirst( esc_html( $creator['data']['display_name'] ) ); ?> <?php _e( 'assigned a task to you', 'wedevs-project-manager' ); ?>
                                     </h1>
                                     <a style="text-decoration: none; font-size: 15px; color: #0676D4; letter-spacing: 0.14px; line-height: 22px;" href="<?php echo esc_url($link.'#/projects/'.$project_id . '/task-lists/tasks/' . $id); ?>" target="_blank"><?php _e( 'View this task', 'wedevs-project-manger' ); ?></a> 
                                 </div>
@@ -75,11 +67,11 @@
                                 </p>
                             </td>
                             <td style="padding-left: 80px;">
-                                <p style="font-size: 16px; line-height: 30px; margin: 0; color: #7E8690;"><?php _e( 'Date', 'wedevs-project-manager' ); ?></p>
+                                <p style="font-size: 16px; line-height: 30px; margin: 0; color: #7E8690;"><?php _e( 'Due Date', 'wedevs-project-manager' ); ?></p>
                                 <p style="font-size: 16px; color: #000000; line-height: 30px; margin: 0;">
                                     <?php
 
-                                        echo  pm_date_format( esc_html( current_time( 'mysql' ) ) );
+                                        echo empty( $due_date['date'] ) ? '&#x02013;&#x02013;' : pm_date_format( esc_html( $due_date['date'] ) );
                                     ?>
                                 </p>
                             </td>
@@ -94,13 +86,12 @@
 
                         <tr>
                             <td colspan="2">
-                                &nbsp;
-                                <p style="font-size: 16px; line-height: 30px; margin: 0; color: #7E8690;"><?php _e( 'Description', 'wedevs-project-manager' ); ?></p>
-                                <div style="padding: 5px 15px; background: #edeef45e; border: 1px solid #f2f2f2; border-radius: 5px; margin-bottom: 30px; line-height: 26px; margin-top: 10px;">
-                                    <?php echo empty( $description['html'] ) ? __( 'No description found!', 'wedevs-project-manager' ) : $description['html']; ?>
+                                
+                                <div style="margin-bottom: 30px; line-height: 26px; margin-top: 10px;">
+                                    
                                 </div>
                             </td>
-                        </tr>
+                        </tr> 
 
                         <tr>
                             <td colspan="2">
