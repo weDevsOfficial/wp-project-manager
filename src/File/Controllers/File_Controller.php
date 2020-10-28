@@ -86,6 +86,8 @@ class File_Controller {
         $file = File::find( $file_id );
         File_System::delete( $file->attachment_id );
         $file->delete();
+
+        wp_send_json_success();
     }
 
     public function download( WP_REST_Request $request ) {
