@@ -99,7 +99,7 @@
 
                         <tr>
                             <td>
-                                <a style="text-decoration: none; color: #0676D4; display: inline-block; padding: 9px 24px; font-size: 15px; color: #FFFFFF; letter-spacing: 0.14px; line-height: 30px; transition: opacity .2s; background: #7D60FF; border-radius: 3px;" href="<?php echo esc_url($link.'#/projects/'.$id . '/task-lists/' . $id); ?>" target="_blank">
+                                <a style="text-decoration: none; color: #0676D4; display: inline-block; padding: 9px 24px; font-size: 15px; color: #FFFFFF; letter-spacing: 0.14px; line-height: 30px; transition: opacity .2s; background: #7D60FF; border-radius: 3px;" href="<?php echo esc_url($link.'#/projects/'.$id . '/task-lists/' ); ?>" target="_blank">
                                     <?php _e( 'View Project', 'wedevs-project-manager'); ?>
                                 </a>
                             </td>
