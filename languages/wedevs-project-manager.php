@@ -17,6 +17,7 @@ return [
 	__( 'Task type not found!', 'wedevs-project-manager' ),
 	__( 'Add new task type', 'wedevs-project-manager' ),
 	__( 'Add Task Type', 'pm-pro' ),
+	__( 'No type found!', 'pm-pro' ),
 	__( 'Completed', 'wedevs-project-manager' ),
 	__( 'Mark Complete', 'wedevs-project-manager' ),
 	__( 'Created by', 'wedevs-project-manager' ),
