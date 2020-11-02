@@ -58,6 +58,13 @@
                 default () {
                     return false
                 }
+            },
+
+            withArchive: {
+                type: [Boolean],
+                default () {
+                    return false
+                }
             }
 		},
 
@@ -205,10 +212,16 @@
 
 			getLists (args) {
 	            var self = this;
+                var status = [1];
+
+                if( self.withArchive ) {
+                    status = [1,0];
+                }
+
 	            var request = {
 	                url: self.base_url + 'pm/v2/projects/'+args.data.project_id+'/task-lists?with=incomplete_tasks,complete_tasks&incomplete_task_per_page=-1&complete_task_per_page=-1',
                     data: {
-                        status: [1,0]
+                        status: status
                     },
 	                success (res) {
 	                    if ( typeof args.callback != 'undefined' ) {
@@ -241,10 +254,16 @@
                     self.listAbort.abort();
                 }
 
+                var status = [1];
+
+                if( self.withArchive ) {
+                    status = [1,0];
+                }
+
                 var request = {
                     url: self.base_url + 'pm/v2/projects/'+this.defaultProjectId+'/task-lists?title='+title+'&with=incomplete_tasks,complete_tasks&incomplete_task_per_page=-1&complete_task_per_page=-1',
                     data: {
-                        status: [1,0]
+                        status: status
                     },
                     success: function(res) {
                         
