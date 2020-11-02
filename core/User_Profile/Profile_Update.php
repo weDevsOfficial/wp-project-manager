@@ -2,17 +2,17 @@
 namespace WeDevs\PM\Core\User_Profile;
 
 /**
- * Loads HR users admin area
+ * Loads PM users admin area
  *
- * @package WP-ERP\HR
+ * @package WeDevs\PM
  * @subpackage Administration
  */
 class Profile_Update {
 
     /**
-     * The HR users admin loader
+     * The PM users admin loader
      *
-     * @package WP-ERP\HR
+     * @package WeDevs\PM
      * @subpackage Administration
      */
     public function __construct() {
@@ -53,7 +53,7 @@ class Profile_Update {
 
         ?>
 
-        <h3><?php esc_html_e( 'WP Project Manager', 'erp' ); ?></h3>
+        <h3><?php esc_html_e( 'WP Project Manager', 'wedevs-project-manager' ); ?></h3>
 
         <?php 
 
