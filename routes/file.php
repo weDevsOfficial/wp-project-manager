@@ -3,6 +3,7 @@
 use WeDevs\PM\Core\Router\Router;
 use WeDevs\PM\Core\Permissions\Access_Project;
 use WeDevs\PM\Core\Permissions\Create_File;
+use WeDevs\PM\Core\Permissions\Edit_File;
 use WeDevs\PM\Core\Permissions\Administrator;
 
 $router = Router::singleton();
