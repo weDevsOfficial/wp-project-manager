@@ -165,6 +165,7 @@
         computed: {
             discuss () {
                 if ( this.$store.state.projectDiscussions.discussion.length ) {
+                    //console.log(this.$store.state.projectDiscussions.discussion[0]);
                     return this.$store.state.projectDiscussions.discussion[0];
                 }
 
