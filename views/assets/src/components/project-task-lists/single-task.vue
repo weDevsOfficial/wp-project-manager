@@ -3,7 +3,6 @@
         <div class="nonsortable">
 
             <div v-if="loading" class="modal-mask half-modal pm-task-modal modal-transition">
-
                 <div class="pm-data-load-before" >
                     <div class="loadmoreanimation">
                         <div class="load-spinner">
