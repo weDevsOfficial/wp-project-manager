@@ -607,6 +607,11 @@
                     margin-bottom: 5px;
                 }
 
+                .pm-task-description * {
+                    white-space: pre-wrap;
+                    line-height: 1.7;
+                }
+
                 .pm-task-description {
                     p {
                         margin: 0;
