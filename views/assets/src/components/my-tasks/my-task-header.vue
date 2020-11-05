@@ -37,6 +37,7 @@
                     </router-link>
 
                 </li>
+                <pm-do-slot :hook="'pm-my-task-menu'" />
             </ul>
             <div class="pm-col-3 pm-sm-col-12 pm-user-select" v-if="has_manage_capability()">
                 <div class="user-switch">
@@ -187,7 +188,7 @@
             routeLink( name ) {
                 var route = { name : 'mytask-'+ name };
 
-                if( typeof this.$route.params.user_id !== 'undefined' ){
+                if( typeof this.$route.params.user_id !== 'undefined' ) {
                     route.params = { user_id : this.$route.params.user_id }
                 }
 
