@@ -61,8 +61,9 @@ export default {
         },
         updateDiscuss (state, data) {
             var discuss_index = state.getIndex(state.discussion, data.id, 'id');
-            jQuery.extend(true, state.discussion[discuss_index], data);
-            //state.discussion.splice(discuss_index, 1, data);
+            //console.log(discuss_index);
+            //jQuery.extend(true, state.discussion[discuss_index], data);
+            state.discussion.splice(discuss_index, 1, data);
         },
 
         newDiscuss (state, discuss) {

@@ -126,6 +126,14 @@ class File_Controller {
 
         exit;
     }
+
+    function get_mime_type_icon( WP_REST_Request $request ) {
+        $type = $request->get_param( 'type' );
+
+        wp_send_json_success([
+            'icon' => wp_mime_type_icon( $type )
+        ]);
+    }
 }
 
 
