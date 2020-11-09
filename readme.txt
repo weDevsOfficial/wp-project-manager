@@ -262,6 +262,12 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= v2.4.5 - Nov Upcoming, 2020 =
+
+**New** Help tooltip in single task.
+**Update** Rewrite email template.
+**Fixed** Pagination back button is not working for project page
+
 = v2.4.4 - Oct 08, 2020 =
 
 **New** Introduce new library simshaun/recurr.
