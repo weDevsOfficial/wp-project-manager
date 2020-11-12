@@ -7,7 +7,6 @@ class Enqueue_Scripts {
 
 	public static function scripts() {
 		
-		wp_enqueue_media();
 
 		$scripts_id = [
 			'pm-config',
@@ -19,6 +18,8 @@ class Enqueue_Scripts {
 			wp_enqueue_script( $script_id );
 			do_action( 'after_loaded' . $script_id );
 		}
+
+		wp_enqueue_media();
 
 		self::localize_scripts();
 	}

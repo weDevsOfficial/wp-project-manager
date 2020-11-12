@@ -165,7 +165,16 @@ class Frontend {
         $assets_url = config('frontend.assets_url');
         $folder     = $assets_url . 'images/icons/';
         $exist_mime = [
-            'application/pdf' => 'pdf.png'
+            'application/pdf'                                                         => 'pdf.png',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document' => 'document.png',
+            'application/msword'                                                      => 'document.png',
+            'application/application/vnd.ms-excel'                                    => 'spreadsheet.png',
+            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'       => 'spreadsheet.png',
+            'text/plain'                                                              => 'text.png',
+            'application/zip' => 'archive.svg',
+            'text/csv' => 'csv.svg',
+            'application/vnd.ms-powerpoint' => 'ppt.png',
+            'application/vnd.rar' => 'archive.svg'
         ];
 
         if ( array_key_exists( $mime, $exist_mime ) ) {

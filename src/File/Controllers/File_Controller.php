@@ -86,6 +86,8 @@ class File_Controller {
         $file = File::find( $file_id );
         File_System::delete( $file->attachment_id );
         $file->delete();
+
+        wp_send_json_success();
     }
 
     public function download( WP_REST_Request $request ) {
@@ -123,6 +125,14 @@ class File_Controller {
         }
 
         exit;
+    }
+
+    function get_mime_type_icon( WP_REST_Request $request ) {
+        $type = $request->get_param( 'type' );
+
+        wp_send_json_success([
+            'icon' => wp_mime_type_icon( $type )
+        ]);
     }
 }
 

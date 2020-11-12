@@ -49,12 +49,18 @@
             weDevs_PM_Components.map(function(obj, key) {
                 if (obj.hook == self.hook) {
                     components.push(
-                       Vue.compile('<'+obj.component+' :actionData="actionData"></'+obj.component+'>').render.call(self)
+                       Vue.compile('<'+obj.component+' @componentUpdate="updateState" :actionData="actionData"></'+obj.component+'>').render.call(self)
                     );
                 }
             });
 
             return h( 'fragment', {}, components );
+        },
+
+        methods: {
+            updateState (data) {
+                this.$emit( 'componentUpdate', data );
+            }
         }
     }
 
