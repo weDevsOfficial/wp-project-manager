@@ -262,6 +262,11 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= v2.4.5 - Nov Upcoming, 2020 =
+
+**New** Capability user meta is not updating.
+**Update** User can not access their reports from my-task
+
 = v2.4.5 - Nov 11, 2020 =
 
 **New** Help tooltip in single task.
