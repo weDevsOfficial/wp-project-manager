@@ -20,41 +20,45 @@ class Update_Message_Notification extends Email {
         if ( empty( $request['notify_users'] ) ){
             return ;
         }
+        $message            = pm_get_discussions( [ 'id' => $message['data']['id'] ] );
+        $message            = $message['data'];
+        $project_id         = $message['project_id'];
+        $project            = pm_get_projects( ['id' => $project_id, 'with' => 'assignees'] );
+        $project            = $project['data']; //Project::with('assignees', 'managers')->find( $request['project_id'] );
+        $message['project'] = $project;
+        $users              = [];
+        $notify_users       = explode( ',',  $request['notify_users'] );
+        $project_users = [];
 
-        $project      = Project::with('assignees', 'managers')->find( $request['project_id'] );
-        $users        = array();
-        $notify_users = explode( ',',  $request['notify_users'] );
+        foreach ( $project['assignees']['data'] as $key => $project_user ) {
+            $project_users[$project_user->id] = $project_user;
+        }
 
         foreach ($notify_users as $u ) {
             if( $this->is_enable_user_notification( $u ) ){
-                $users[] = $project->assignees->where('ID', $u)->first()->user_email;
-            }
-        }
-
-        if( $this->notify_manager() ){
-            foreach ($project->managers->toArray() as $u) {
-                if(!in_array($u['user_email'], $users)){
-                    $users[] = $u['user_email'];
+                if( $this->is_enable_user_notification_for_notification_type( $u, '_cpm_email_notification_new_message' ) ){
+                    $users[] = $project_users[$u]->email;
                 }
             }
         }
+        
+        // if ( $this->notify_manager() ){
+        //     foreach ( $project->managers->toArray() as $u ) {
+        //         if(!in_array($u['user_email'], $users)){
+        //             $users[] = $u['user_email'];
+        //         }
+        //     }
+        // }
 
         if( !$users ){
             return ; 
         }
 
-        $template_name = apply_filters( 'pm_update_message_email_template_path', $this->get_template_path( '/html/update-message.php' ) );
-        $subject = sprintf( __( '[%s][%s] Update Message: %s', 'wedevs-project-manager' ), $this->get_blogname(), $project->title , $request['title'] );
+        $template_name = apply_filters( 'pm_new_message_email_template_path', $this->get_template_path( '/html/update-message.php' ) );
+        $subject = sprintf( __( '[%s][%s] Update Message: %s', 'wedevs-project-manager' ), $this->get_blogname(), $project['title'] , $request['title'] );
         
+        $message = $this->get_content_html( $template_name, $message );
         
-        $message = $this->get_content_html( $template_name, [
-            'id'          => $message['data']['id'],
-            'title'       => $request['title'],
-            'description' => $request['description'],
-            'updater'     => $message['data']['updater']['data']['display_name'],
-            'project_id'  => $project->id,
-        ] );
-
         $this->send( $users, $subject, $message );
 
     }

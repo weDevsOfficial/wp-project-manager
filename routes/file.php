@@ -3,6 +3,7 @@
 use WeDevs\PM\Core\Router\Router;
 use WeDevs\PM\Core\Permissions\Access_Project;
 use WeDevs\PM\Core\Permissions\Create_File;
+use WeDevs\PM\Core\Permissions\Edit_File;
 use WeDevs\PM\Core\Permissions\Administrator;
 
 $router = Router::singleton();
@@ -24,3 +25,5 @@ $router->post( 'projects/{project_id}/files/{file_id}/delete', 'WeDevs/PM/File/C
 
 $router->get( 'projects/{project_id}/files/{file_id}/users/{user_id}/download', 'WeDevs/PM/File/Controllers/File_Controller@download' )
 ->permission(['WeDevs\PM\Core\Permissions\Access_Project']);
+
+$router->get( 'get-mime-type-icon', 'WeDevs/PM/File/Controllers/File_Controller@get_mime_type_icon' );

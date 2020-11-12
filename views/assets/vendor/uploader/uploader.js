@@ -66,13 +66,40 @@
 
                 preloader.onload = function() {
 
-                    file.thumb = preloader.result;
-                    if(single) {
-                        self.component.files.splice( 0, 1, JSON.parse( JSON.stringify( file ) ) );
-                    } else {
-                        self.component.files.push( JSON.parse( JSON.stringify( file ) ) );
-                    }
+                    //file.thumb = preloader.result;
+                    var parseFile = JSON.parse( JSON.stringify( file ) );
+                    var splitMime = parseFile.type.split('/');
 
+                    if ( splitMime[0] == 'image' ) {
+                        parseFile.thumb = preloader.result;
+                        parseFile.absoluteUrl = false;
+
+                        if(single) {
+                            self.component.files.splice( 0, 1, parseFile );
+                        } else {
+                            self.component.files.push( parseFile );
+                        }
+                    } else {
+                        $.ajax({
+                            type: 'GET',
+                            url: PM_Vars.api_base_url + 'pm/v2/get-mime-type-icon',
+                            data: {
+                                type: parseFile.type
+                            },
+                            success (res) {
+
+                                parseFile.thumb = preloader.result;
+                                parseFile.absoluteUrl = res.data.icon;
+
+                                if(single) {
+                                    self.component.files.splice( 0, 1, parseFile );
+                                } else {
+                                    self.component.files.push( parseFile );
+                                }
+                            }
+                        })
+                    }
+                    
                 };
             });
 

@@ -74,7 +74,7 @@ msgstr "Mettre à jour Projet"
 #, fuzzy
 #| msgid "[%s] New task assigned to you"
 msgid "[%s][%s] Update Task Assigned: %s"
-msgstr "[%s] Nouvelle tâche vous sont assignée"
+msgstr "[%s] Nouvelle tâche vous est assignée"
 
 #: core/Permissions/Access_Project.php:22
 #: core/Permissions/Create_Discuss.php:17
@@ -1706,7 +1706,7 @@ msgstr "Vous êtes sollicité pour un nouveau projet \"%s\" sur %s"
 #, fuzzy
 #| msgid "[%s] New task assigned to you"
 msgid "Update task has been assigned to you"
-msgstr "[%s] Nouvelle tâche vous sont assignée"
+msgstr "Une tâche mise à jour vous a été assignée"
 
 #: views/emails/html/update-task.php:18
 #, fuzzy

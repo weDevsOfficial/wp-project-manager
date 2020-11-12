@@ -21,11 +21,12 @@ class Email {
      * @return string
      */
     public function get_content_html( $template, $args ) {
+        
         ob_start();
-        $this->email_header();
+        //$this->email_header();
         $this->load_templae( $template, $args );
-        $this->email_footer();
-        return ob_get_clean();
+        //$this->email_footer();
+        return ob_get_clean(); 
     }
 
 
@@ -36,7 +37,7 @@ class Email {
 
         $link = $this->pm_link();
 
-        if ( file_exists( $file ) ){
+        if ( file_exists( $file ) ) {
             include( $file );
         }
     }
@@ -202,7 +203,7 @@ class Email {
             return wp_mail( $from_email, $subject, wp_kses_post( htmlspecialchars_decode( $message ) ), $headers, $attachments );
             
         } else {
-
+            
             $headers = array(
                 $reply_to,
                 $content_type,
