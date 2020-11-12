@@ -309,6 +309,7 @@
                 this.searchFields.title = this.$route.query.title;
                 this.searchFields.status = this.$route.query.status;
             },
+            
             setSearchLists (lists) {
                 var newLists = [{
                     id: 0,
@@ -325,15 +326,19 @@
                 this.searchFields.list = newLists[0];
                 this.searchLists = newLists;
             },
+
             changeFilterStatus (status) {
                 this.searchFields.status = status;
             },
+
             completeBoder () {
                 return this.searchFields.status == 'complete' ? 'complete-status' : '';
             },
+
             onGoingBorder () {
                 return this.searchFields.status == 'incomplete' ? 'incomplete-status' : '';
             },
+
             asyncFind (evt) {
                 var self = this,
                 timeout = 2000,
@@ -367,6 +372,7 @@
                     self.abort = self.httpRequest(requestData);
                 }, timeout);
             },
+
             searchProjectUsers() {
                 let project = this.$store.state.project;
                 

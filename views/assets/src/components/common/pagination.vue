@@ -46,7 +46,17 @@
 
 <script>
     export default {
-        props: ['total_pages', 'current_page_number', 'component_name'],
+        props: {
+            total_pages: {
+                type: [String, Number]
+            },
+            current_page_number: {
+                type: [String, Number]
+            },
+            component_name: {
+                type: [String]
+            }
+        },
 
         data () {
             return {

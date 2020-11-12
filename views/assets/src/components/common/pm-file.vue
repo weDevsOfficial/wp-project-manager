@@ -2,20 +2,21 @@
 
     <div class="pm-file">
         <a v-if="isVideo" v-pm-pretty-photo class="pm-colorbox-img pm-video" :href="file.url + '?iframe=true'" :title="file.name" target="_blank" rel="prettyPhoto">
-            <img class="pm-content-img-size" :src="file.thumb" :alt="file.name">
+            <img class="pm-content-img-size" :src="file.thumb" :alt="file.name" :title="file.name">
         </a>
 
         <a v-else-if="isPrettyPhoto" v-pm-pretty-photo class="pm-colorbox-img" :href="file.url" :title="file.name" target="_blank" rel="prettyPhoto">
-            <img class="pm-content-img-size" :src="file.thumb" :alt="file.name">
+            <img class="pm-content-img-size" :src="file.thumb" :alt="file.name" :title="file.name">
         </a>
 
         <a v-else-if="isPsd" class="pm-colorbox-img" :href="getDownloadUrl(file.attachment_id, projectId)" :title="file.name" target="_blank" rel="prettyPhoto">
             <!--<img class="pm-content-img-size" :src="file.thumb" :alt="file.name">-->
-            <img class="pm-content-img-size" :src="getAssetUrl('/images/icons/icon-psd.png')" :alt="file.name">
+            <img class="pm-content-img-size" :src="getAssetUrl('/images/icons/icon-psd.png')" :alt="file.name" :title="file.name">
         </a>
 
         <a v-else class="pm-colorbox-img" :href="getDownloadUrl(file.attachment_id, projectId)" :title="file.name" target="_blank">
-            <img class="pm-content-img-size" :src="file.thumb" :alt="file.name">
+            <img v-if="file.absoluteUrl" class="pm-content-img-size" :src="file.absoluteUrl" :alt="file.name" :title="file.name">
+            <img v-if="!file.absoluteUrl" class="pm-content-img-size" :src="file.thumb" :alt="file.name" :title="file.name">
         </a>
     </div>
 
@@ -50,6 +51,7 @@ export default {
                 return false;
             }
         },
+        
         isVideo () {
             if (typeof this.file.mime_type !== 'undefined' ) {
                 return this.file.mime_type.split("/").indexOf('video') !== -1;

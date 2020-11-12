@@ -92,7 +92,7 @@ class Project {
 			->meta();
 
 		$response = $self->format_projects( $self->projects );
-
+		
 		if( pm_is_single_query( $params ) ) {
 			$project = empty( $response['data'][0] ) ? [] : $response['data'][0];
 			return ['data' => $project];
@@ -256,6 +256,7 @@ class Project {
 			'projectable_type'	  => isset( $project->projectable_type ) ? $project->projectable_type : null,
 			'favourite'	  		  => isset( $project->favourite ) ? $project->favourite : false,
 			'created_at'		  => isset( $project->created_at ) ? format_date( $project->created_at ) : null,
+			'updated_at'		  => isset( $project->updated_at ) ? format_date( $project->updated_at ) : null,
 			'created_by'		  => isset( $project->created_by ) ? (int) $project->created_by : false,
 			'list_inbox'		  => $listmeta,
         ];
