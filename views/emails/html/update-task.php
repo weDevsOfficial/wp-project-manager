@@ -117,7 +117,7 @@
                             foreach( $assignees['data'] as $assign ) {
                                 ?>
 
-                                    <img style="outline:none; margin-right: 4px; text-decoration:none; height: 33px; width: 33px; border-radius: 50%;" src="<?php echo esc_url( $assign->avatar_url ); ?>" alt="User Name" title="User Name" width="33" height="33" />
+                                    <img style="outline:none; margin-right: 4px; text-decoration:none; height: 33px; width: 33px; border-radius: 50%;" src="<?php echo esc_url( $assign->avatar_url ); ?>" alt="<?php echo esc_attr( $assign->display_name ); ?>" title="<?php echo esc_attr( $assign->display_name ); ?>" width="33" height="33" />
                                 <?php
                             }
 

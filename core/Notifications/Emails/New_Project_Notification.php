@@ -60,7 +60,7 @@ class New_Project_Notification extends Email {
         
         $message = $this->get_content_html( $template_name, $project );
         
-        $this->send( 'joy.mishu@gmail.com', $subject, $message );
+        $this->send( $users, $subject, $message );
 
     }
 

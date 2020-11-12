@@ -92,7 +92,7 @@ class New_Comment_Notification extends Email {
             'creator'           => $commentData['data']['creator'],
         ] );
 
-        $this->send( 'joy.mishu@gmail.com', $subject, $message );
+        $this->send( $users, $subject, $message );
     }
 
 }
