@@ -16,13 +16,15 @@ class Update_Project_Notification extends Email {
 
     public function trigger( $project, $data ) {
 
+        $project = empty( $project['data'] ) ? [] : $project['data'];
+        
         if ( isset( $data['notify_users'] ) && 'false' === $data['notify_users'] ){
             return ;
         }
 
         $template_name = apply_filters( 'pm_new_project_email_template_path', $this->get_template_path( '/html/update-project.php' ) );
-        $subject       = sprintf( __( '[%s] Updated Project: %s', 'wedevs-project-manager' ), $this->get_blogname(), $project['data']['title'] );
-        $assignees     = $project['data']['assignees']['data'];
+        $subject       = sprintf( __( '[%s] Updated Project: %s', 'wedevs-project-manager' ), $this->get_blogname(), $project['title'] );
+        $assignees     = $project['assignees']['data'];
         $users         = array();
 
 
@@ -42,7 +44,7 @@ class Update_Project_Notification extends Email {
             }
 
             if ( $assignee['id'] == get_current_user_id() ) {
-                continue;
+                //continue;
             }
 
             if ( ! $this->is_enable_user_notification_for_notification_type( $assignee['id'] , '_cpm_email_notification_new_project' ) ) {
@@ -57,7 +59,7 @@ class Update_Project_Notification extends Email {
         }
         
         $message = $this->get_content_html( $template_name, $project );
-
+        
         $this->send( $users, $subject, $message );
 
     }

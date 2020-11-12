@@ -16,6 +16,9 @@ class New_Task_Notification extends Email {
 
     public function trigger( $task, $data ) {
 
+        $task_raw = pm_get_tasks( [ 'id' => $task->id ] );
+        $task_raw = $task_raw['data'];
+        
         $task->load('assignees.assigned_user', 'projects.managers', 'updater');
         $users = array();
 
@@ -40,18 +43,10 @@ class New_Task_Notification extends Email {
         }
 
         $template_name = apply_filters( 'pm_new_task_email_template_path', $this->get_template_path( '/html/new-task.php' ) );
-        $subject = sprintf( __( '[%s][%s] New Task Assigned: %s', 'wedevs-project-manager' ), $this->get_blogname(), $task->projects->title, $task->title );
+        $subject = sprintf( __( '[%s][%s] New Task Assigned: %s', 'wedevs-project-manager' ), $this->get_blogname(), $task_raw['project_title'], $task_raw['title'] );
 
 
-        $message = $this->get_content_html( $template_name, [
-            'id'          => $task->id,
-            'title'       => $task->title,
-            'description' => $task->description,
-            'project_id'  => $task->project_id,
-            'due_date'    => format_date( $task->due_date ),
-            'start_at'    => empty( $task->start_at ) ? null: format_date( $task->start ),
-            'updater'     => $task->updater->display_name,
-        ] );
+        $message = $this->get_content_html( $template_name, $task_raw );
 
         $this->send( $users, $subject, $message );
 

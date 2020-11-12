@@ -1,6 +1,8 @@
 'use strict';
+
 module.exports = function(grunt) {
     var pkg = grunt.file.readJSON('package.json');
+    
     var stringReplace = {
         download_link: {
             src: ['config/app.php'],             // source files array (supports minimatch)
@@ -13,6 +15,7 @@ module.exports = function(grunt) {
             ]
         }
     };
+
     grunt.initConfig({
         // Clean up build directory
         clean: {
@@ -133,7 +136,6 @@ module.exports = function(grunt) {
         }
     });
 
-
     // Load NPM tasks to be used here
     grunt.loadNpmTasks( 'grunt-contrib-less' );
     grunt.loadNpmTasks( 'grunt-contrib-concat' );
@@ -146,11 +148,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks( 'grunt-contrib-copy' );
     grunt.loadNpmTasks( 'grunt-contrib-compress' );
     grunt.loadNpmTasks( 'grunt-run' );
-
-
-    // grunt.registerTask( 'release', [
-    //     'run',
-    // ]);
 
     grunt.registerTask( 'release', [
         'clean',

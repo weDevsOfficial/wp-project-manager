@@ -145,13 +145,12 @@ Class File_System {
                 $response['type']  = 'image';
             } else {
                 $response['thumb'] = wp_mime_type_icon( $file->post_mime_type );
-                
                 $response['type']  = 'file';
             }
 
             $response['file_extension'] = $file_type['ext'];
             $response['mime_type'] = $file_type['type'];
-
+            
             return $response;
         }
 

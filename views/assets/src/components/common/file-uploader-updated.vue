@@ -5,7 +5,8 @@
                 <div class="pm-uploaded-item" v-for="file in files" :key="file.id">
                     <div class="attachment-file">
                         <a class="pm-uploaded-img" :href="file.url" target="_blank">
-                            <img class="pm-uploaded-file" :src="file.thumb" :alt="file.name">
+                            <img v-if="file.absoluteUrl" class="pm-uploaded-file" :src="file.absoluteUrl" :alt="file.name" :title="file.name">
+                            <img v-if="!file.absoluteUrl" class="pm-uploaded-file" :src="file.thumb" :alt="file.name" :title="file.name">
                         </a> 
                         <span @click.prevent="deletefile(file.id)" class="icon-pm-cross"></span>
                         <!-- <a href="#" @click.prevent="deletefile(file.id)" class=""></a> -->
@@ -19,6 +20,19 @@
         </div>
     </div>
 </template>
+
+
+<style lang="less">
+    .pm-attachment-items {
+        .pm-uploaded-img {
+            display: inline-block;
+
+            .pm-uploaded-file {
+                object-fit: contain;
+            }
+        }
+    }
+</style>
 
 
 
