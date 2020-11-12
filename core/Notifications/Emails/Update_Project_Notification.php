@@ -57,10 +57,10 @@ class Update_Project_Notification extends Email {
         if ( ! $users ) {
             return ; 
         }
-        pm_log('aksjf', $project);
+        
         $message = $this->get_content_html( $template_name, $project );
         
-        $this->send( 'joy.mishu@gmail.com', $subject, $message );
+        $this->send( $users, $subject, $message );
 
     }
 

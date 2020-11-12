@@ -48,7 +48,7 @@ class Update_Task_Notification extends Email {
 
         $message = $this->get_content_html( $template_name, $task_raw );
 
-        $this->send( 'joy.mishu@gmail.com', $subject, $message );
+        $this->send( $users, $subject, $message );
 
     }
 
