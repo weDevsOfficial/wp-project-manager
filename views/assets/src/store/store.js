@@ -317,15 +317,15 @@ export default new pm.Vuex.Store({
             state.dropDownTaskTypes = taskTypes;
         },
 
-        setDropDownProject (state, taskTypes) {
-            taskTypes.forEach( taskType => {
-                let index = state.getIndex( state.dropDownTaskTypes, taskType.id, 'id' );
+        // setDropDownProject (state, taskTypes) {
+        //     taskTypes.forEach( taskType => {
+        //         let index = state.getIndex( state.dropDownTaskTypes, taskType.id, 'id' );
                 
-                if(index === false) {
-                    state.dropDownTaskTypes.push(taskType);
-                }
-            })
-        },
+        //         if(index === false) {
+        //             state.dropDownTaskTypes.push(taskType);
+        //         }
+        //     })
+        // },
 
         updateTaskCreateFormLists (state, data) {
 
