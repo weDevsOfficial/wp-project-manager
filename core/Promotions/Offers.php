@@ -13,6 +13,53 @@ class Offers {
         add_action( 'wp_ajax_pm-dismiss-christmas-offer-notice', array( $this, 'dismiss_christmas_offer' ) );
     }
 
+    public function get_offer() {
+        $offer        = new \stdClass;
+        
+        $current_time = new \DateTimeImmutable( 'now', new \DateTimeZone('America/New_York') );
+        $disabled_key = get_option( 'pm_christmas_notice' );
+
+        $promotion1_start = $current_time->setDate( 2020, 11, 23 )->setTime( 9,0,0 );
+        $promotion1_end   = $promotion1_start->setTime( 14, 0, 0 );
+
+        if ( $current_time >= $promotion1_start && $current_time <= $promotion1_end ) {
+            $offer->status  = $disabled_key == 'pm_offer_1' ? false : true;
+            $offer->message = __( 'Enjoy Flat 50% OFF on WP Project Manager Pro. Get Your Early Bird Black Friday', 'wedevs-project-manager' );
+            $offer->link    = 'https://wedevs.com/wp-project-manager-pro/pricing?utm_medium=text&utm_source=wordpress-wppm';
+            $offer->key     = 'pm_offer_1';
+
+            return $offer;
+        }
+
+        $promotion2_start = $promotion1_end->setTime( 14, 0, 1 );
+        $promotion2_end = $promotion2_start->modify( '+4 days' )->setTime( 23, 59, 59 );
+
+        if ( $current_time >= $promotion2_start && $current_time <= $promotion2_end ) {
+            $offer->status  = $disabled_key == 'pm_offer_2' ? false : true;
+            $offer->message = __( 'Enjoy Up To 50% OFF on WP Project Manager Pro. Get Your Black Friday', 'wedevs-project-manager' );
+            $offer->link    = 'https://wedevs.com/wp-project-manager-pro/pricing?utm_medium=text&utm_source=wordpress-wppm';
+            $offer->key     = 'pm_offer_2';
+
+            return $offer;
+        }
+        
+        $promotion3_start = $promotion2_end->modify( 'next day' )->setTime( 0, 0, 0);
+        $promotion3_end   = $current_time->setDate( 2020, 12, 4 )->setTime( 23, 59, 59 );
+
+        if ( $current_time >= $promotion3_start && $current_time <= $promotion3_end ) {
+            $offer->status  = $disabled_key == 'pm_offer_3' ? false : true;
+            $offer->message = __( 'Enjoy Up To 50% OFF on WP Project Manager Pro. Get Your Cyber Monday', 'wedevs-project-manager' );
+            $offer->link    = 'https://wedevs.com/wp-project-manager-pro/pricing?utm_medium=text&utm_source=wordpress-wppm';
+            $offer->key     = 'pm_offer_3';
+
+            return $offer;
+        }
+        
+        $offer->status = false;
+
+        return $offer;
+    }
+
     /**
      * Get prmotion data
      *
@@ -22,14 +69,6 @@ class Offers {
      */
     public function promotional_offer() {
         if ( ! current_user_can( 'manage_options' ) ) {
-            return;
-        }
-
-        if ( 
-            date( 'Y-m-d', strtotime( current_time( 'mysql') ) ) < '2019-11-20' 
-                ||
-            date( 'Y-m-d', strtotime( current_time( 'mysql') ) ) > '2019-12-04' 
-        ) {
             return;
         }
 
@@ -43,143 +82,48 @@ class Offers {
             return false;
         }
 
-        $offer_link  = 'https://wedevs.com/wp-project-manager-pro/?add-to-cart=16273&variation_id=16274&attribute_pa_license=professional&coupon_code=BFCM2019';
-        $content = __( '<p>In this Christmas, stay on top of budgets. Spend <strong>30%% LESS</strong> on <strong>WP Project Manager Pro</strong> and increase productivity for you and your organization. [Limited time ⏳😎]</p> <p><a target="_blank" class="button button-primary" href="%s">Grab The Deal</a></p>', 'wedevs-project-manager' );
-        $img_url = PM_PLUGIN_ASSEST  . '/images/promo-logo.png';
+        $offer = $this->get_offer();
+
+        if ( ! $offer->status ) {
+            return;
+        }
+
         ?>
             <div class="notice notice-success is-dismissible" id="pm-christmas-notice">
-                <div class="logo">
-                    <img src="<?php esc_html_e( $img_url ); ?>" alt="wedevs-project-manager">
-                </div>
                 <div class="content">
-                    <p>Biggest Sale of the year on this</p>
-                    <h3> Black Friday & <span class="highlight-blue">Cyber Monday</span></h3>
-                    <p>Claim your discount on
-                        <span class="highlight-red">WP Project Manager </span>
-                        till 4th December</p>
+                    <p><?php echo $offer->message; ?></p>
+                    <a class="link" target="_blank" href="<?php echo $offer->link; ?>"><strong><?php _e( 'Deals Now', 'wedevs-project-manager' ) ; ?></strong></a>
                 </div>
-                <div class="call-to-action">
-                    <a href="https://wedevs.com/wp-project-manager-pro/pricing?utm_campaign=black_friday_&_cyber_monday&utm_medium=banner&utm_source=plugin_dashboard"
-                    target="_blank">Save 33%</a>
-                    <p> <span> Coupon: </span> &nbsp; BFCM2019</p>
-                </div>
+                
             </div>
 
             <style>
-                #pm-christmas-notice {
-                    font-size: 14px;
-                    border-left: none;
-                    background-image: linear-gradient(90deg, #6900CF, #8915FF);
-                    color: #fff;
-                    display: flex
-                }
-                #pm-christmas-notice .logo{
-                    text-align: center;
-                    text-align: center;
-                    margin: 13px 30px 5px 15px;
-                }
-                #pm-christmas-notice .logo img{
-                    width: 80%;
-                }
-                #pm-christmas-notice .highlight-red {
-                    color: #FF76EA;
-                }
-                #pm-christmas-notice .highlight-blue {
-                    color: #48ABFF;
-                }
                 #pm-christmas-notice .content {
                     display: flex;
-                    justify-content: center;
-                    flex-direction: column;
-                }
-                #pm-christmas-notice .content h3{
-                    color: #FFF;
-                    margin: 12px 0px;
-                    font-size: 30px;
-                }
-                #pm-christmas-notice .content p{
-                    margin: 0px 0px;
-                    padding: 0px;
-                    letter-spacing: 0.14px;
-                    font-size: 15px;
-                }
-                #pm-christmas-notice .content p span.highlight-code{
-                    margin: 0 0 0 10px;
-                    border: 1px dotted #fff;
-                    padding: 5px 10px;
-                    border-radius: 15px;
-                }
-                #pm-christmas-notice .call-to-action {
-                    margin-left: 8%;
-                    margin-top: 25px;
-                    text-align: center;
-                }
-                #pm-christmas-notice .call-to-action a {
-                    border: none;
-                    background: #FF53E5;
-                    padding: 10px 15px;
-                    font-size: 24px;
-                    color: #fff;
-                    border-radius: 20px;
-                    text-decoration: none;
-                    display: block;
-                    text-align: center;
-                    margin-bottom: 10px;
-                    width:217px;
-                    height: 40px;
-                    box-sizing: border-box;
-                    box-shadow: 0 5px 11px 0 rgba(66,0,132,0.37);
-                    letter-spacing: 0.21px;
-                }
-                #pm-christmas-notice .call-to-action p {
-                    font-size: 12px;
-                    margin-top: 1px;
+                    align-items: center;
                 }
 
-                #pm-christmas-notice  #coupon-btn {
-                    background: #FF0000;
-                    border: none;
-                    text-align: center;
-                    padding: 6px 4px;
-                    width: 30px;
-                    border-radius: 100%;
-                    cursor: pointer;
-                    cursor: pointer;
-                }
-                #pm-christmas-notice .call-to-action p {
-                    font-size: 15px;
-                }
+                #pm-christmas-notice .content .link {
 
-                #pm-christmas-notice .call-to-action p span {
-                    color: #FF85A3;
-                    font-size: 16px;
-                }
-                input#coupon-code {
-                    background: none;
-                    border: 2px dotted #f9f9f9;
-                    text-align: center;
-                    border-radius: 10px;
-                    color: white;
-                }
-
-                .notice-dismiss:before {
-                    color: #000 !important;
                 }
             </style>
 
             <script type='text/javascript'>
-                jQuery(document).on('click','#coupon-btn',function(e) {
-                    e.preventDefault();
-                    jQuery('#coupon-code').select();
-                    document.execCommand("copy");
-                });
 
                 jQuery('body').on('click', '#pm-christmas-notice .notice-dismiss', function(e) {
                     e.preventDefault();
+                    
+                    jQuery.ajax({
+                        type: 'POST',
+                        data: {
+                            action: 'pm-dismiss-christmas-offer-notice',
+                            nonce: '<?php echo esc_attr( wp_create_nonce( 'pm_christmas_offer' ) ); ?>',
+                            pm_christmas_key: '<?php echo $offer->key; ?>'
+                        },
+                        url: '<?php echo admin_url( "admin-ajax.php" ); ?>',
+                        success: function (res) {
 
-                    wp.ajax.post( 'pm-dismiss-christmas-offer-notice', {
-                        pm_christmas_dismissed: true,
-                        nonce: '<?php echo esc_attr( wp_create_nonce( 'pm_christmas_offer' ) ); ?>'
+                        }
                     });
                 });
             </script>
@@ -203,9 +147,9 @@ class Offers {
             wp_send_json_error( __( 'You have no permission to do that', 'wedevs-project-manager' ) );
         }
 
-        if ( isset( $_POST['pm_christmas_dismissed'] ) && ! empty( sanitize_text_field( wp_unslash( $_POST['pm_christmas_dismissed'] ) ) ) ) {
-            $offer_key = 'pm_christmas_notice';
-            update_option( $offer_key, 'hide' );
-        }
+        $offer_key    = 'pm_christmas_notice';
+        $disabled_key = sanitize_text_field( $_POST['pm_christmas_key'] );
+
+        update_option( $offer_key, $disabled_key );
     }
 }
