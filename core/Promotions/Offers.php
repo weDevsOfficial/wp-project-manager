@@ -16,7 +16,7 @@ class Offers {
     public function get_offer() {
         $offer        = new \stdClass;
         
-        $current_time = new \DateTimeImmutable( 'now', new \DateTimeZone('America/New_York') );
+        $current_time = new \DateTimeImmutable( '2020-11-23 9:0:0', new \DateTimeZone('America/New_York') );
         $disabled_key = get_option( 'pm_christmas_notice' );
 
         $promotion1_start = $current_time->setDate( 2020, 11, 23 )->setTime( 9,0,0 );
@@ -24,7 +24,7 @@ class Offers {
 
         if ( $current_time >= $promotion1_start && $current_time <= $promotion1_end ) {
             $offer->status  = $disabled_key == 'pm_offer_1' ? false : true;
-            $offer->message = __( 'Enjoy Flat 50% OFF on WP Project Manager Pro. Get Your Early Bird Black Friday', 'wedevs-project-manager' );
+            $offer->message = __( 'Enjoy Flat <strong>50% OFF</strong> on <strong>WP Project Manager Pro</strong>. Get Your Early Bird Black Friday', 'wedevs-project-manager' );
             $offer->link    = 'https://wedevs.com/wp-project-manager-pro/pricing?utm_medium=text&utm_source=wordpress-wppm';
             $offer->key     = 'pm_offer_1';
 
@@ -36,7 +36,7 @@ class Offers {
 
         if ( $current_time >= $promotion2_start && $current_time <= $promotion2_end ) {
             $offer->status  = $disabled_key == 'pm_offer_2' ? false : true;
-            $offer->message = __( 'Enjoy Up To 50% OFF on WP Project Manager Pro. Get Your Black Friday', 'wedevs-project-manager' );
+            $offer->message = __( 'Enjoy Up To <strong>50% OFF</strong> on <strong>WP Project Manager Pro</strong>. Get Your Black Friday', 'wedevs-project-manager' );
             $offer->link    = 'https://wedevs.com/wp-project-manager-pro/pricing?utm_medium=text&utm_source=wordpress-wppm';
             $offer->key     = 'pm_offer_2';
 
@@ -48,7 +48,7 @@ class Offers {
 
         if ( $current_time >= $promotion3_start && $current_time <= $promotion3_end ) {
             $offer->status  = $disabled_key == 'pm_offer_3' ? false : true;
-            $offer->message = __( 'Enjoy Up To 50% OFF on WP Project Manager Pro. Get Your Cyber Monday', 'wedevs-project-manager' );
+            $offer->message = __( 'Enjoy Up To <strong>50% OFF</strong> on <strong>WP Project Manager Pro</strong>. Get Your Cyber Monday', 'wedevs-project-manager' );
             $offer->link    = 'https://wedevs.com/wp-project-manager-pro/pricing?utm_medium=text&utm_source=wordpress-wppm';
             $offer->key     = 'pm_offer_3';
 
@@ -74,11 +74,7 @@ class Offers {
 
         global $wedevs_pm_pro;
 
-        // check if it has already been dismissed
-        $offer_key   = 'pm_christmas_notice';
-        $hide_notice =  get_option( $offer_key, 'show' );
-
-        if ( $hide_notice == 'hide' || $wedevs_pm_pro ) {
+        if ( $wedevs_pm_pro ) {
             return false;
         }
 
