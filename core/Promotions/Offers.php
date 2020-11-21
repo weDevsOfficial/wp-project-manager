@@ -16,7 +16,7 @@ class Offers {
     public function get_offer() {
         $offer        = new \stdClass;
         
-        $current_time = new \DateTimeImmutable( '2020-11-23 9:0:0', new \DateTimeZone('America/New_York') );
+        $current_time = new \DateTimeImmutable( 'now', new \DateTimeZone('America/New_York') );
         $disabled_key = get_option( 'pm_christmas_notice' );
 
         $promotion1_start = $current_time->setDate( 2020, 11, 23 )->setTime( 9,0,0 );
@@ -72,11 +72,11 @@ class Offers {
             return;
         }
 
-        global $wedevs_pm_pro;
+        // global $wedevs_pm_pro;
 
-        if ( $wedevs_pm_pro ) {
-            return false;
-        }
+        // if ( $wedevs_pm_pro ) {
+        //     return false;
+        // }
 
         $offer = $this->get_offer();
 
