@@ -945,14 +945,17 @@ var PM_TaskList_Mixin = {
             if (typeof list.incomplete_tasks === 'undefined') {
                 return false;
             }
-            // let lists     = this.$store.state.projectTaskLists.lists; 
-            // let listIndex = this.getIndex( lists, pareseInt( listId ), 'id' );
-            // let list      = lists[listIndex];
 
             var totalIncompleteTasks = list.meta.total_incomplete_tasks;
             var countLocalStore      = list.incomplete_tasks.data.length;
 
             if ( parseInt(countLocalStore) >= parseInt(totalIncompleteTasks) ) {
+                return false;
+            }
+
+            let per_page = this.isEmpty( this.getSettings( 'incomplete_tasks_per_page' ) ) ? 10 : this.getSettings( 'incomplete_tasks_per_page' );
+            
+            if ( parseInt(per_page) >  parseInt(countLocalStore) ) {
                 return false;
             }
 
@@ -983,6 +986,12 @@ var PM_TaskList_Mixin = {
             var countLocalStore = list.complete_tasks.data.length;
             
             if ( parseInt(countLocalStore) >= parseInt(totalCompleteTasks) ) {
+                return false;
+            }
+
+            let per_page = this.isEmpty( this.getSettings( 'complete_tasks_per_page' ) ) ? 10 : this.getSettings( 'incomplete_tasks_per_page' );
+
+            if ( parseInt(per_page) > parseInt(countLocalStore) ) {
                 return false;
             }
 
