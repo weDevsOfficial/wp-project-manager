@@ -277,8 +277,10 @@ export default {
                 }
 
                 state.lists[list_index].incomplete_tasks.data.splice(task_index, 1);
-                //state.lists[list_index].meta.total_complete_tasks = state.lists[list_index].meta.total_complete_tasks + 1;
-                //state.lists[list_index].meta.total_incomplete_tasks = state.lists[list_index].meta.total_incomplete_tasks - 1;
+                
+                //For pagination load more 
+                state.lists[list_index].meta.total_complete_tasks = state.lists[list_index].meta.total_complete_tasks + 1;
+                state.lists[list_index].meta.total_incomplete_tasks = state.lists[list_index].meta.total_incomplete_tasks - 1;
             }
 
             if (data.status == 0) {
@@ -297,8 +299,10 @@ export default {
                 }
 
                 state.lists[list_index].complete_tasks.data.splice(task_index, 1);
-                //state.lists[list_index].meta.total_complete_tasks = state.lists[list_index].meta.total_complete_tasks - 1;
-                //state.lists[list_index].meta.total_incomplete_tasks = state.lists[list_index].meta.total_incomplete_tasks + 1;
+
+                //For pagination load more 
+                state.lists[list_index].meta.total_complete_tasks = state.lists[list_index].meta.total_complete_tasks - 1;
+                state.lists[list_index].meta.total_incomplete_tasks = state.lists[list_index].meta.total_incomplete_tasks + 1;
             }
 
             state.lists[list_index].meta = Object.assign( state.lists[list_index].meta, data.task.task_list.data.meta );
