@@ -5,7 +5,7 @@ Tags: project, project manager, project management, web project management, task
 Requires at least: 4.4 or higher
 Tested up to: 5.5.3
 Requires PHP: 5.6
-Stable tag: 2.4.5
+Stable tag: 2.4.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -261,6 +261,12 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 
 == Changelog ==
+
+= v2.4.6 - Nov 21, 2020 =
+
+**Fix** User capability is not chanting after save it.
+**Fix** User can not access their reports from my-task.
+**Fix** Email footer logo is not appearing.
 
 = v2.4.5 - Nov 11, 2020 =
 
