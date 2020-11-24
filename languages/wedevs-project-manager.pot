@@ -2,9 +2,9 @@
 # This file is distributed under the GPL2.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Project Manager 2.4.5\n"
+"Project-Id-Version: WP Project Manager 2.4.6\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/cpm\n"
-"POT-Creation-Date: 2020-11-12 03:25:06+00:00\n"
+"POT-Creation-Date: 2020-11-24 06:07:34+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -151,20 +151,33 @@ msgstr ""
 msgid "You have no permission to create project."
 msgstr ""
 
-#: core/Promotions/Offers.php:47
+#: core/Promotions/Offers.php:27
 msgid ""
-"<p>In this Christmas, stay on top of budgets. Spend <strong>30%% "
-"LESS</strong> on <strong>WP Project Manager Pro</strong> and increase "
-"productivity for you and your organization. [Limited time ⏳😎]</p> <p><a "
-"target=\"_blank\" class=\"button button-primary\" href=\"%s\">Grab The "
-"Deal</a></p>"
+"Enjoy Flat <strong>50% OFF</strong> on <strong>WP Project Manager "
+"Pro</strong>. Get Your Early Bird Black Friday"
 msgstr ""
 
-#: core/Promotions/Offers.php:199 core/Promotions/Wedevs_Promotion.php:190
+#: core/Promotions/Offers.php:39
+msgid ""
+"Enjoy Up To <strong>50% OFF</strong> on <strong>WP Project Manager "
+"Pro</strong>. Get Your Black Friday"
+msgstr ""
+
+#: core/Promotions/Offers.php:51
+msgid ""
+"Enjoy Up To <strong>50% OFF</strong> on <strong>WP Project Manager "
+"Pro</strong>. Get Your Cyber Monday"
+msgstr ""
+
+#: core/Promotions/Offers.php:91
+msgid "Deals Now"
+msgstr ""
+
+#: core/Promotions/Offers.php:139 core/Promotions/Wedevs_Promotion.php:190
 msgid "Invalid nonce"
 msgstr ""
 
-#: core/Promotions/Offers.php:203 core/Promotions/Wedevs_Promotion.php:194
+#: core/Promotions/Offers.php:143 core/Promotions/Wedevs_Promotion.php:194
 msgid "You have no permission to do that"
 msgstr ""
 
@@ -265,27 +278,27 @@ msgstr ""
 msgid "Allowed Files"
 msgstr ""
 
-#: core/WP/Frontend.php:193
+#: core/WP/Frontend.php:192
 msgid "Every %d Minutes PM schedule"
 msgstr ""
 
-#: core/WP/Frontend.php:239
+#: core/WP/Frontend.php:238
 msgid "Get Pro"
 msgstr ""
 
-#: core/WP/Frontend.php:242 core/WP/Menu.php:42
+#: core/WP/Frontend.php:241 core/WP/Menu.php:42
 msgid "Settings"
 msgstr ""
 
-#: core/WP/Frontend.php:243
+#: core/WP/Frontend.php:242
 msgid "Documentation"
 msgstr ""
 
-#: core/WP/Frontend.php:290 core/WP/Frontend.php:303
+#: core/WP/Frontend.php:289 core/WP/Frontend.php:302
 msgid "Create New Task"
 msgstr ""
 
-#: core/WP/Frontend.php:319
+#: core/WP/Frontend.php:318
 msgid "Jump to a project"
 msgstr ""
 
