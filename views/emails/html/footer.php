@@ -19,7 +19,7 @@ if ( function_exists( 'pm_pro_get_logo' ) ) {
 
                                 href="<?php echo esc_url( home_url() ); ?>"
                             >
-                                <img style="width: 100px;"  src="<?php echo esc_url( 'https://i.ibb.co/dpr63ch/pm.png'); ?>" alt="<?php echo esc_html( get_bloginfo( 'name' ) ); ?>" title="<?php echo esc_html( get_bloginfo( 'name' ) ); ?>"  />
+                                <img style="width: 100px;"  src="<?php echo esc_url( $logo_path ); ?>" alt="<?php echo esc_html( get_bloginfo( 'name' ) ); ?>" title="<?php echo esc_html( get_bloginfo( 'name' ) ); ?>"  />
                             </a>
                         </td>
                     </tr>

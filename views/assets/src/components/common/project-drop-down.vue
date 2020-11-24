@@ -173,15 +173,12 @@
 		},
 
         watch: {
-            selectedProjects () {
-                //this.formatSelectedProjectsId();
-            }
+
         },
 
 		created() {
             this.hasPropsProjects()
 			this.setProjects();
-            //this.formatSelectedProjectsId();
 		},
 
         computed: {
@@ -384,10 +381,13 @@
             },
 
             afterRemove (project) {
-                
                 this.$emit( 'afterRemove', project );
             }
 
-		}
+		},
+
+        destroyed () {
+            this.selectedProjects.length = 0;
+        }
 	}
 </script>

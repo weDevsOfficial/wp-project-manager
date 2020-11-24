@@ -1,3 +1,9 @@
+= v2.4.6 - Nov 21, 2020 =
+
+**Fix** User capability is not chanting after save it.
+**Fix** User can not access their reports from my-task.
+**Fix** Email footer logo is not appearing.
+
 = v2.4.5 - Nov 11, 2020 =
 
 **New** Help tooltip in single task.
