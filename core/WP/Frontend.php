@@ -83,6 +83,14 @@ class Frontend {
         add_action( 'admin_init', array( $this, 'redirect_after_activate' ) );
         add_action( 'admin_bar_menu', array( $this, 'pm_toolbar_search_button' ), 999);
         add_action( 'wp_initialize_site', [ $this, 'after_insert_site' ], 10 );
+
+        add_action( 'admin_init', array( $this, 'test' ) );
+    }
+
+    function test() {  
+        
+        $current_time = new \DateTimeImmutable( 'now', new \DateTimeZone('America/New_York') );
+        
     }
 
     function after_insert_site( $new_sites ) {
