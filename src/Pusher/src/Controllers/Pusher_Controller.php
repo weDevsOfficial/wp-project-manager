@@ -1,5 +1,5 @@
 <?php
-namespace WeDevs\PM\Pusher\src\Controllers;
+namespace WeDevs\PM\Pusher\Src\Controllers;
 
 use Reflection;
 use WP_REST_Request;
