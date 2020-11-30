@@ -6,7 +6,7 @@ namespace WeDevs\PM\Core\Cli;
  *
  * @since 1.0.0
  */
-class CLI extends \WP_CLI_Command {
+class Cli extends \WP_CLI_Command {
 
     /**
      * Register a command to WP-CLI
