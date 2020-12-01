@@ -9,7 +9,7 @@ use League\Fractal\Resource\Collection as Collection;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use WeDevs\PM\Common\Traits\Transformer_Manager;
 use WeDevs\PM\Common\Traits\Request_Filter;
-use WeDevs\PM\Pusher\core\Auth\Auth;
+use WeDevs\PM\Pusher\Core\Auth\Auth;
 
 
 class Pusher_Controller {
