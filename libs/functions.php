@@ -1234,7 +1234,7 @@ function pm_get_files( $params = [] ) {
  * @return [type]
  */
 function pm_get_users( $params = [] ) {
-     return \WeDevs\PM\User\helper\User::get_results( $params );
+     return \WeDevs\PM\User\Helper\User::get_results( $params );
 }
 
 /**
