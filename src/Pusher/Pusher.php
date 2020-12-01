@@ -21,7 +21,7 @@ class Pusher {
     }
 
     public function libs() {
-        $files = glob( __DIR__ . "/libs/*.php" );
+        $files = glob( __DIR__ . "/Libs/*.php" );
 
         if ( $files === false ) {
             throw new RuntimeException( "Failed to glob for lib files" );
