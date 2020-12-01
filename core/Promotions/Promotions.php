@@ -1,7 +1,7 @@
 <?php
 namespace WeDevs\PM\Core\Promotions;
 
-use WeDevs\PM\Core\Promotions\WeDevs_Promotion;
+use WeDevs\PM\Core\Promotions\Wedevs_Promotion;
 
 // if ( ! class_exists( 'WeDevs_Promotion' ) ) {
 //     require_once DOKAN_LIB_DIR . '/promotions.php';
