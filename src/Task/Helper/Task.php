@@ -539,7 +539,7 @@ class Task {
 		if ( ! in_array( 'time', $with ) || empty( $this->task_ids ) ) {
 			return $this;
 		}
-
+		
 		if ( ! pm_is_active_time_tracker_module() ) {
 			return $this;
 		}
