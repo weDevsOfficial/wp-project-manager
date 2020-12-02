@@ -1107,7 +1107,7 @@ function pm_get_estimation_type() {
         return 'task';
     }
 
-    if ( pm_pro_is_module_active( 'sub_tasks/sub_tasks.php' ) ) {
+    if ( pm_pro_is_module_active( 'Sub_Tasks/Sub_Tasks.php' ) ) {
         return 'subtask';
     }
 
@@ -1125,7 +1125,7 @@ function pm_is_active_time_tracker_module() {
         return false;
     }
 
-    if ( pm_pro_is_module_active( 'time_tracker/time_tracker.php' ) ) {
+    if ( pm_pro_is_module_active( 'Time_Tracker/Time_Tracker.php' ) ) {
         return true;
     }
 
