@@ -8,9 +8,6 @@ use WeDevs\PM\Core\Permissions\Authentic;
 $router = Router::singleton();
 
 
-// $router->get( 'projects/{project_id}/kanboard', 'WeDevs\PM\kanboard\src\Controllers\Kanboard_Controller@index' )
-//     ->permission( ['WeDevs\PM\Core\Permissions\Access_Project'] );
-
 $router->post( 'user/{user_id}/pusher/auth', 'WeDevs\PM\Pusher\Src\Controllers\Pusher_Controller@authentication' )
     ->permission(['WeDevs\PM\Core\Permissions\Authentic']);
 
