@@ -161,6 +161,32 @@ class Frontend {
         add_filter( 'wp_mime_type_icon', [$this, 'change_mime_icon'], 10, 3 );
         add_filter( 'todo_list_text_editor', [$this, 'project_text_editor'] );
         add_filter('upload_mimes', [$this, 'custom_upload_mimes']);
+        add_filter( 'appsero_custom_deactivation_reasons', [ $this, 'custom_deactivation_reason' ] );
+    }
+
+    function custom_deactivation_reason( $reasons ) {
+        $reasons[] = array(
+            'id'          => 'temporary_deactivation',
+            'text'        => __( 'Temporary deactivation', 'wedevs-project-manager' ),
+            'placeholder' => __( 'Are you facing any problem?', 'wedevs-project-manager' ),
+            'icon'        => '<svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 512 512" width="23" height="23" viewBox="0 0 512 512"><path fill="#3B86FF"  stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="30" d="M192.75,385.15C119.47,359.14,67,289.2,67,207c0-104.38,84.62-189,189-189s189,84.62,189,189c0,82.2-52.47,152.14-125.75,178.15"/><polyline fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="30" points="252 216 252 495 315 432 252 495 189 432"/></svg>'
+        );
+        
+        $reasons[] = array(
+            'id'          => 'found-error',
+            'text'        => __( 'Found an Error', 'wedevs-project-manager' ),
+            'placeholder' => __( 'Please tell us more about the error. We\'ll reach you with the possible solution.', 'wedevs-project-manager' ),
+            'icon'        => '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="23" height="23" viewBox="0 0 32 32" fill="#3B86FF"><path d="M16 0C7.164 0 0 7.164 0 16s7.164 16 16 16 16-7.164 16-16S24.836 0 16 0zm0 30C8.28 30 2 23.72 2 16S8.28 2 16 2s14 6.28 14 14-6.28 14-14 14zm0-24a2 2 0 0 0-2 2v10a2 2 0 0 0 4 0V8a2 2 0 0 0-2-2zm-2 17.968a2 2 1080 1 0 4 0 2 2 1080 1 0-4 0z"/></svg>',
+        );
+        
+        $reasons[] = array(
+            'id'          => 'not-documented',
+            'text'        => __( 'No proper documentation', 'wedevs-project-manager' ),
+            'placeholder' => __( 'Could you tell us a bit more?', 'wedevs-project-manager' ),
+            'icon'        => '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="17" viewBox="0 0 24 17"><g fill="none"><g fill="#3B86FF"><path d="M19.4 0C19.7 0.6 19.8 1.3 19.8 2 19.8 3.2 19.4 4.4 18.5 5.3 17.6 6.2 16.5 6.7 15.2 6.7 15.2 6.7 15.2 6.7 15.2 6.7 14 6.7 12.9 6.2 12 5.3 11.2 4.4 10.7 3.3 10.7 2 10.7 1.3 10.8 0.6 11.1 0L7.6 0 7 0 6.5 0 6.5 5.7C6.3 5.6 5.9 5.3 5.6 5.1 5 4.6 4.3 4.3 3.5 4.3 3.5 4.3 3.5 4.3 3.4 4.3 1.6 4.4 0 5.9 0 7.9 0 8.6 0.2 9.2 0.5 9.7 1.1 10.8 2.2 11.5 3.5 11.5 4.3 11.5 5 11.2 5.6 10.8 6 10.5 6.3 10.3 6.5 10.2L6.5 10.2 6.5 17 6.5 17 7 17 7.6 17 22.5 17C23.3 17 24 16.3 24 15.5L24 0 19.4 0Z"/></g></g></svg>',
+        );
+
+        return $reasons;
     }
 
     function cc_mime_types( $mimes ) {
