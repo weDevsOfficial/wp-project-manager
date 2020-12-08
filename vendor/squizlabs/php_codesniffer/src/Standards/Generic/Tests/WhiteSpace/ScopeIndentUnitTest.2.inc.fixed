@@ -1445,6 +1445,24 @@ $a = $a === true ? [
 	'a' => 100,
 ];
 
+return [
+	Url::make('View Song', fn($song) => $song->url())
+		->onlyOnDetail(),
+
+	new Panel('Information', [
+		Text::make('Title')
+	]),
+];
+
+echo $string?->append('foo')
+			?->outputUsing();
+
+// phpcs:set Generic.WhiteSpace.ScopeIndent exact true
+echo $string?->append('foo')
+			?->outputUsing();
+// phpcs:set Generic.WhiteSpace.ScopeIndent exact false
+
+/* ADD NEW TESTS ABOVE THIS LINE AND MAKE SURE THAT THE 1 (space-based) AND 2 (tab-based) FILES ARE IN SYNC! */
 ?>
 
 	 <?php if (true) : ?>
@@ -1463,5 +1481,21 @@ $a = 1;
 $a = array(
 	*/
 );
+
+return [
+	'lor' =>
+		<<<'INTRO'
+		lorem ipsum
+		INTRO,
+	'em' => [
+		[
+			'',
+		],
+	],
+	'abc' => [
+		'a' => 'wop wop',
+		'b' => 'ola ola.',
+	],
+];
 
 echo ""

@@ -2,7 +2,7 @@
 /**
  * Detects unconditional if- and elseif-statements.
  *
- * This rule is based on the PMD rule catalog. The Unconditional If Statement
+ * This rule is based on the PMD rule catalogue. The Unconditional If Statement
  * sniff detects statement conditions that are only set to one of the constant
  * values <b>true</b> or <b>false</b>
  *
@@ -63,7 +63,7 @@ class UnconditionalIfStatementSniff implements Sniff
         $tokens = $phpcsFile->getTokens();
         $token  = $tokens[$stackPtr];
 
-        // Skip for-loop without body.
+        // Skip if statement without body.
         if (isset($token['parenthesis_opener']) === false) {
             return;
         }

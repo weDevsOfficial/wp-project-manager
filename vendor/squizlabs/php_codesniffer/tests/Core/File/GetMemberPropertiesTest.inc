@@ -6,7 +6,7 @@ class TestMemberProperties
     var $varA = true;
 
     /* testVarType */
-    var int $varA = true;
+    var ?int $varA = true;
 
     /* testPublic */
     public $varB = true;
@@ -30,7 +30,7 @@ class TestMemberProperties
     static $varE = true;
 
     /* testStaticType */
-    static string $varE = true;
+    static ?string $varE = true;
 
     /* testStaticVar */
     static var $varF = true;
@@ -179,3 +179,17 @@ function_call( 'param', new class {
     /* testNestedMethodParam 2 */
     public function __construct( $open, $post_id ) {}
 }, 10, 2 );
+
+class PHP8Mixed {
+    /* testPHP8MixedTypeHint */
+    public static miXed $mixed;
+
+    /* testPHP8MixedTypeHintNullable */
+    // Intentional fatal error - nullability is not allowed with mixed, but that's not the concern of the method.
+    private ?mixed $nullableMixed;
+}
+
+class NSOperatorInType {
+    /* testNamespaceOperatorTypeHint */
+    public ?namespace\Name $prop;
+}

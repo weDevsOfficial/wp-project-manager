@@ -61,8 +61,8 @@ class GetMemberPropertiesTest extends AbstractMethodUnitTest
                     'scope'           => 'public',
                     'scope_specified' => false,
                     'is_static'       => false,
-                    'type'            => 'int',
-                    'nullable_type'   => false,
+                    'type'            => '?int',
+                    'nullable_type'   => true,
                 ],
             ],
             [
@@ -141,8 +141,8 @@ class GetMemberPropertiesTest extends AbstractMethodUnitTest
                     'scope'           => 'public',
                     'scope_specified' => false,
                     'is_static'       => true,
-                    'type'            => 'string',
-                    'nullable_type'   => false,
+                    'type'            => '?string',
+                    'nullable_type'   => true,
                 ],
             ],
             [
@@ -457,6 +457,36 @@ class GetMemberPropertiesTest extends AbstractMethodUnitTest
                     'is_static'       => false,
                     'type'            => '',
                     'nullable_type'   => false,
+                ],
+            ],
+            [
+                '/* testPHP8MixedTypeHint */',
+                [
+                    'scope'           => 'public',
+                    'scope_specified' => true,
+                    'is_static'       => true,
+                    'type'            => 'miXed',
+                    'nullable_type'   => false,
+                ],
+            ],
+            [
+                '/* testPHP8MixedTypeHintNullable */',
+                [
+                    'scope'           => 'private',
+                    'scope_specified' => true,
+                    'is_static'       => false,
+                    'type'            => '?mixed',
+                    'nullable_type'   => true,
+                ],
+            ],
+            [
+                '/* testNamespaceOperatorTypeHint */',
+                [
+                    'scope'           => 'public',
+                    'scope_specified' => true,
+                    'is_static'       => false,
+                    'type'            => '?namespace\Name',
+                    'nullable_type'   => true,
                 ],
             ],
         ];

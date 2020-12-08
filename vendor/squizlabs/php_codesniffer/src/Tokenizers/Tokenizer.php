@@ -332,6 +332,7 @@ abstract class Tokenizer
                             }
 
                             if ($this->tokens[$prev]['code'] === T_WHITESPACE
+                                || $this->tokens[$prev]['code'] === T_DOC_COMMENT_WHITESPACE
                                 || ($this->tokens[$prev]['code'] === T_INLINE_HTML
                                 && trim($this->tokens[$prev]['content']) === '')
                             ) {
@@ -340,7 +341,9 @@ abstract class Tokenizer
 
                             $lineHasOtherTokens = true;
 
-                            if ($this->tokens[$prev]['code'] === T_OPEN_TAG) {
+                            if ($this->tokens[$prev]['code'] === T_OPEN_TAG
+                                || $this->tokens[$prev]['code'] === T_DOC_COMMENT_STAR
+                            ) {
                                 continue;
                             }
 
@@ -367,6 +370,7 @@ abstract class Tokenizer
                             }
 
                             if ($this->tokens[$next]['code'] === T_WHITESPACE
+                                || $this->tokens[$next]['code'] === T_DOC_COMMENT_WHITESPACE
                                 || ($this->tokens[$next]['code'] === T_INLINE_HTML
                                 && trim($this->tokens[$next]['content']) === '')
                             ) {
@@ -420,10 +424,10 @@ abstract class Tokenizer
                         $disabledSniffs = [];
 
                         $additionalText = substr($commentText, 14);
-                        if ($additionalText === false) {
+                        if (empty($additionalText) === true) {
                             $ignoring = ['.all' => true];
                         } else {
-                            $parts = explode(',', substr($commentText, 13));
+                            $parts = explode(',', $additionalText);
                             foreach ($parts as $sniffCode) {
                                 $sniffCode = trim($sniffCode);
                                 $disabledSniffs[$sniffCode] = true;
@@ -455,10 +459,10 @@ abstract class Tokenizer
                             $enabledSniffs = [];
 
                             $additionalText = substr($commentText, 13);
-                            if ($additionalText === false) {
+                            if (empty($additionalText) === true) {
                                 $ignoring = null;
                             } else {
-                                $parts = explode(',', substr($commentText, 13));
+                                $parts = explode(',', $additionalText);
                                 foreach ($parts as $sniffCode) {
                                     $sniffCode = trim($sniffCode);
                                     $enabledSniffs[$sniffCode] = true;
@@ -516,10 +520,10 @@ abstract class Tokenizer
                         $ignoreRules = [];
 
                         $additionalText = substr($commentText, 13);
-                        if ($additionalText === false) {
+                        if (empty($additionalText) === true) {
                             $ignoreRules = ['.all' => true];
                         } else {
-                            $parts = explode(',', substr($commentText, 13));
+                            $parts = explode(',', $additionalText);
                             foreach ($parts as $sniffCode) {
                                 $ignoreRules[trim($sniffCode)] = true;
                             }
@@ -1107,6 +1111,13 @@ abstract class Tokenizer
                         continue;
                     }
 
+                    if ($tokenType === T_NAMESPACE) {
+                        // PHP namespace keywords are special because they can be
+                        // used as blocks but also inline as operators.
+                        // So if we find them nested inside another opener, just skip them.
+                        continue;
+                    }
+
                     if ($tokenType === T_FUNCTION
                         && $this->tokens[$stackPtr]['code'] !== T_FUNCTION
                     ) {
@@ -1287,11 +1298,12 @@ abstract class Tokenizer
                                 // a new statement, it isn't a scope opener.
                                 $disallowed  = Util\Tokens::$assignmentTokens;
                                 $disallowed += [
-                                    T_DOLLAR           => true,
-                                    T_VARIABLE         => true,
-                                    T_OBJECT_OPERATOR  => true,
-                                    T_COMMA            => true,
-                                    T_OPEN_PARENTHESIS => true,
+                                    T_DOLLAR                   => true,
+                                    T_VARIABLE                 => true,
+                                    T_OBJECT_OPERATOR          => true,
+                                    T_NULLSAFE_OBJECT_OPERATOR => true,
+                                    T_COMMA                    => true,
+                                    T_OPEN_PARENTHESIS         => true,
                                 ];
 
                                 if (isset($disallowed[$this->tokens[$x]['code']]) === true) {
@@ -1310,15 +1322,31 @@ abstract class Tokenizer
                 }//end if
 
                 if ($ignore === 0 || $tokenType !== T_OPEN_CURLY_BRACKET) {
-                    // We found the opening scope token for $currType.
-                    if (PHP_CODESNIFFER_VERBOSITY > 1) {
-                        $type = $this->tokens[$stackPtr]['type'];
-                        echo str_repeat("\t", $depth);
-                        echo "=> Found scope opener for $stackPtr:$type".PHP_EOL;
-                    }
+                    $openerNested = isset($this->tokens[$i]['nested_parenthesis']);
+                    $ownerNested  = isset($this->tokens[$stackPtr]['nested_parenthesis']);
 
-                    $opener = $i;
-                }
+                    if (($openerNested === true && $ownerNested === false)
+                        || ($openerNested === false && $ownerNested === true)
+                        || ($openerNested === true
+                        && $this->tokens[$i]['nested_parenthesis'] !== $this->tokens[$stackPtr]['nested_parenthesis'])
+                    ) {
+                        // We found the a token that looks like the opener, but it's nested differently.
+                        if (PHP_CODESNIFFER_VERBOSITY > 1) {
+                            $type = $this->tokens[$i]['type'];
+                            echo str_repeat("\t", $depth);
+                            echo "* ignoring possible opener $i:$type as nested parenthesis don't match *".PHP_EOL;
+                        }
+                    } else {
+                        // We found the opening scope token for $currType.
+                        if (PHP_CODESNIFFER_VERBOSITY > 1) {
+                            $type = $this->tokens[$stackPtr]['type'];
+                            echo str_repeat("\t", $depth);
+                            echo "=> Found scope opener for $stackPtr:$type".PHP_EOL;
+                        }
+
+                        $opener = $i;
+                    }
+                }//end if
             } else if ($tokenType === T_SEMICOLON
                 && $opener === null
                 && (isset($this->tokens[$stackPtr]['parenthesis_closer']) === false
@@ -1469,12 +1497,12 @@ abstract class Tokenizer
                 echo str_repeat("\t", ($level + 1));
                 echo "Process token $i on line $line [col:$col;len:$len;lvl:$level;";
                 if (empty($conditions) !== true) {
-                    $condString = 'conds;';
+                    $conditionString = 'conds;';
                     foreach ($conditions as $condition) {
-                        $condString .= Util\Tokens::tokenName($condition).',';
+                        $conditionString .= Util\Tokens::tokenName($condition).',';
                     }
 
-                    echo rtrim($condString, ',').';';
+                    echo rtrim($conditionString, ',').';';
                 }
 
                 echo "]: $type => $content".PHP_EOL;

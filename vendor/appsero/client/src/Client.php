@@ -13,7 +13,7 @@ class Client {
      *
      * @var string
      */
-    public $version = '1.1.9';
+    public $version = '1.2.0';
 
     /**
      * Hash identifier of the plugin
@@ -150,7 +150,6 @@ class Client {
     protected function set_basename_and_slug() {
 
         if ( strpos( $this->file, WP_CONTENT_DIR . '/themes/' ) === false ) {
-
             $this->basename = plugin_basename( $this->file );
 
             list( $this->slug, $mainfile) = explode( '/', $this->basename );
@@ -161,10 +160,7 @@ class Client {
 
             $this->project_version = $plugin_data['Version'];
             $this->type = 'plugin';
-            $this->textdomain = $this->slug;
-
         } else {
-
             $this->basename = str_replace( WP_CONTENT_DIR . '/themes/', '', $this->file );
 
             list( $this->slug, $mainfile) = explode( '/', $this->basename );
@@ -173,8 +169,9 @@ class Client {
 
             $this->project_version = $theme->version;
             $this->type = 'theme';
-
         }
+
+        $this->textdomain = $this->slug;
     }
 
     /**
@@ -207,4 +204,35 @@ class Client {
         return $response;
     }
 
+    /**
+     * Check if the current server is localhost
+     *
+     * @return boolean
+     */
+    public function is_local_server() {
+        $is_local = in_array( $_SERVER['REMOTE_ADDR'], array( '127.0.0.1', '::1' ) );
+
+        return apply_filters( 'appsero_is_local', $is_local );
+    }
+
+    /**
+     * Translate function _e()
+     */
+    public function _etrans( $text ) {
+        call_user_func( '_e', $text, $this->textdomain );
+    }
+
+    /**
+     * Translate function __()
+     */
+    public function __trans( $text ) {
+        return call_user_func( '__', $text, $this->textdomain );
+    }
+
+    /**
+     * Set project textdomain
+     */
+    public function set_textdomain( $textdomain ) {
+        $this->textdomain = $textdomain;
+    }
 }

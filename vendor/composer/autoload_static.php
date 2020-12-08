@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitbeb7297736e72c226b83de92eea034dd
+class ComposerStaticInitb487c587081518ed06643b68b132981b
 {
     public static $files = array (
         '5255c38a0faeba867671b61dfda6d864' => __DIR__ . '/..' . '/paragonie/random_compat/lib/random.php',
@@ -154,6 +154,7 @@ class ComposerStaticInitbeb7297736e72c226b83de92eea034dd
         'Carbon\\Laravel\\ServiceProvider' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Laravel/ServiceProvider.php',
         'Carbon\\Translator' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Translator.php',
         'Carbon\\Upgrade' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Upgrade.php',
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin' => __DIR__ . '/..' . '/dealerdirect/phpcodesniffer-composer-installer/src/Plugin.php',
         'Doctrine\\Common\\Collections\\AbstractLazyCollection' => __DIR__ . '/..' . '/doctrine/collections/lib/Doctrine/Common/Collections/AbstractLazyCollection.php',
         'Doctrine\\Common\\Collections\\ArrayCollection' => __DIR__ . '/..' . '/doctrine/collections/lib/Doctrine/Common/Collections/ArrayCollection.php',
@@ -1028,7 +1029,6 @@ class ComposerStaticInitbeb7297736e72c226b83de92eea034dd
         'WeDevs\\PM\\Common\\Traits\\Assignee_Filter' => __DIR__ . '/../..' . '/src/Common/Traits/Assignee_Filter.php',
         'WeDevs\\PM\\Common\\Traits\\Board_Status' => __DIR__ . '/../..' . '/src/Common/Traits/Board_Status.php',
         'WeDevs\\PM\\Common\\Traits\\File_Attachment' => __DIR__ . '/../..' . '/src/Common/Traits/File_Attachment.php',
-        'WeDevs\\PM\\Common\\Traits\\Last_activity' => __DIR__ . '/../..' . '/src/Common/Traits/Last_Activity.php',
         'WeDevs\\PM\\Common\\Traits\\Model_Events' => __DIR__ . '/../..' . '/src/Common/Traits/Model_Events.php',
         'WeDevs\\PM\\Common\\Traits\\Request_Filter' => __DIR__ . '/../..' . '/src/Common/Traits/Request_Filter.php',
         'WeDevs\\PM\\Common\\Traits\\Resource_Editors' => __DIR__ . '/../..' . '/src/Common/Traits/Resource_Editors.php',
@@ -1036,7 +1036,6 @@ class ComposerStaticInitbeb7297736e72c226b83de92eea034dd
         'WeDevs\\PM\\Common\\Transformers\\Assignee_Transformer' => __DIR__ . '/../..' . '/src/Common/Transformers/Assignee_Transformer.php',
         'WeDevs\\PM\\Common\\Transformers\\Board_Transformer' => __DIR__ . '/../..' . '/src/Common/Transformers/Board_Transformer.php',
         'WeDevs\\PM\\Core\\Admin_Notice\\Admin_Notice' => __DIR__ . '/../..' . '/core/Admin_Notice/Admin_Notice.php',
-        'WeDevs\\PM\\Core\\Cli\\CLI' => __DIR__ . '/../..' . '/core/Cli/Cli.php',
         'WeDevs\\PM\\Core\\Cli\\Commands' => __DIR__ . '/../..' . '/core/Cli/Commands.php',
         'WeDevs\\PM\\Core\\Config\\Config' => __DIR__ . '/../..' . '/core/Config/Config.php',
         'WeDevs\\PM\\Core\\DB_Connection\\Model' => __DIR__ . '/../..' . '/core/DB_Connection/Model.php',
@@ -1067,7 +1066,6 @@ class ComposerStaticInitbeb7297736e72c226b83de92eea034dd
         'WeDevs\\PM\\Core\\Permissions\\Admin' => __DIR__ . '/../..' . '/core/Permissions/Admin.php',
         'WeDevs\\PM\\Core\\Permissions\\Administrator' => __DIR__ . '/../..' . '/core/Permissions/Administrator.php',
         'WeDevs\\PM\\Core\\Permissions\\Authentic' => __DIR__ . '/../..' . '/core/Permissions/Authentic.php',
-        'WeDevs\\PM\\Core\\Permissions\\Categories_Page_Access' => __DIR__ . '/../..' . '/core/Permissions/categories_Page_Access.php',
         'WeDevs\\PM\\Core\\Permissions\\Complete_Task' => __DIR__ . '/../..' . '/core/Permissions/Complete_Task.php',
         'WeDevs\\PM\\Core\\Permissions\\Create_Discuss' => __DIR__ . '/../..' . '/core/Permissions/Create_Discuss.php',
         'WeDevs\\PM\\Core\\Permissions\\Create_File' => __DIR__ . '/../..' . '/core/Permissions/Create_File.php',
@@ -1089,7 +1087,6 @@ class ComposerStaticInitbeb7297736e72c226b83de92eea034dd
         'WeDevs\\PM\\Core\\Permissions\\Settings_Page_Access' => __DIR__ . '/../..' . '/core/Permissions/Settings_Page_Access.php',
         'WeDevs\\PM\\Core\\Promotions\\Offers' => __DIR__ . '/../..' . '/core/Promotions/Offers.php',
         'WeDevs\\PM\\Core\\Promotions\\Promotions' => __DIR__ . '/../..' . '/core/Promotions/Promotions.php',
-        'WeDevs\\PM\\Core\\Promotions\\WeDevs_Promotion' => __DIR__ . '/../..' . '/core/Promotions/Wedevs_Promotion.php',
         'WeDevs\\PM\\Core\\Router\\Router' => __DIR__ . '/../..' . '/core/Router/Router.php',
         'WeDevs\\PM\\Core\\Router\\Uri_Parser' => __DIR__ . '/../..' . '/core/Router/Uri_Parser.php',
         'WeDevs\\PM\\Core\\Router\\WP_Router' => __DIR__ . '/../..' . '/core/Router/WP_Router.php',
@@ -1115,7 +1112,6 @@ class ComposerStaticInitbeb7297736e72c226b83de92eea034dd
         'WeDevs\\PM\\Core\\WP\\Output' => __DIR__ . '/../..' . '/core/WP/Output.php',
         'WeDevs\\PM\\Core\\WP\\Register_Scripts' => __DIR__ . '/../..' . '/core/WP/Register_Scripts.php',
         'WeDevs\\PM\\Discussion_Board\\Controllers\\Discussion_Board_Controller' => __DIR__ . '/../..' . '/src/Discussion_Board/Controllers/Discussion_Board_Controller.php',
-        'WeDevs\\PM\\Discussion_Board\\Helper\\Discussion_Board' => __DIR__ . '/../..' . '/src/Discussion_Board/Helper/Discussion_Borad.php',
         'WeDevs\\PM\\Discussion_Board\\Models\\Discussion_Board' => __DIR__ . '/../..' . '/src/Discussion_Board/Models/Discussion_Board.php',
         'WeDevs\\PM\\Discussion_Board\\Observers\\Discussion_Board_Observer' => __DIR__ . '/../..' . '/src/Discussion_Board/Observers/Discussion_Board_Observer.php',
         'WeDevs\\PM\\Discussion_Board\\Transformers\\Discussion_Board_Transformer' => __DIR__ . '/../..' . '/src/Discussion_Board/Transformers/Discussion_Board_Transformer.php',
@@ -1143,7 +1139,6 @@ class ComposerStaticInitbeb7297736e72c226b83de92eea034dd
         'WeDevs\\PM\\Project\\Controllers\\Project_Controller' => __DIR__ . '/../..' . '/src/Project/Controllers/Project_Controller.php',
         'WeDevs\\PM\\Project\\Helper\\Project' => __DIR__ . '/../..' . '/src/Project/Helper/Project.php',
         'WeDevs\\PM\\Project\\Helper\\Project_Role_Relation' => __DIR__ . '/../..' . '/src/Project/Helper/Project_Role_Relation.php',
-        'WeDevs\\PM\\Project\\Helper\\Project_x' => __DIR__ . '/../..' . '/src/Project/Helper/sprint-projects-backup.php',
         'WeDevs\\PM\\Project\\Models\\Project' => __DIR__ . '/../..' . '/src/Project/Models/Project.php',
         'WeDevs\\PM\\Project\\Observers\\Project_Observer' => __DIR__ . '/../..' . '/src/Project/Observers/Project_Observer.php',
         'WeDevs\\PM\\Project\\Project_Status' => __DIR__ . '/../..' . '/src/Project/Project_Status.php',
@@ -1153,7 +1148,6 @@ class ComposerStaticInitbeb7297736e72c226b83de92eea034dd
         'WeDevs\\PM\\Project\\Transformers\\Project_Transformer' => __DIR__ . '/../..' . '/src/Project/Transformers/Project_Transformer.php',
         'WeDevs\\PM\\Project\\Validators\\Create_Project' => __DIR__ . '/../..' . '/src/Project/Validators/Create_Project.php',
         'WeDevs\\PM\\Project\\Validators\\Update_Project' => __DIR__ . '/../..' . '/src/Project/Validators/Update_Project.php',
-        'WeDevs\\PM\\Pusher\\Pusher' => __DIR__ . '/../..' . '/src/Pusher/pusher.php',
         'WeDevs\\PM\\Pusher\\core\\Auth\\Auth' => __DIR__ . '/../..' . '/src/Pusher/core/Auth/Auth.php',
         'WeDevs\\PM\\Pusher\\core\\Auth\\Pusher_Crypto' => __DIR__ . '/../..' . '/src/Pusher/core/Auth/Pusher_Crypto.php',
         'WeDevs\\PM\\Pusher\\core\\Pusher\\Pusher' => __DIR__ . '/../..' . '/src/Pusher/core/Pusher/Pusher.php',
@@ -1202,18 +1196,16 @@ class ComposerStaticInitbeb7297736e72c226b83de92eea034dd
         'WeDevs\\PM\\User\\Models\\User' => __DIR__ . '/../..' . '/src/User/Models/User.php',
         'WeDevs\\PM\\User\\Models\\User_Role' => __DIR__ . '/../..' . '/src/User/Models/User_Role.php',
         'WeDevs\\PM\\User\\Transformers\\User_Transformer' => __DIR__ . '/../..' . '/src/User/Transformers/User_Transformer.php',
-        'WeDevs\\PM\\User\\helper\\User' => __DIR__ . '/../..' . '/src/User/Helper/User.php',
-        'WeDevs\\PM\\task\\Helper\\Task' => __DIR__ . '/../..' . '/src/Task/Helper/Task.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitbeb7297736e72c226b83de92eea034dd::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitbeb7297736e72c226b83de92eea034dd::$prefixDirsPsr4;
-            $loader->fallbackDirsPsr4 = ComposerStaticInitbeb7297736e72c226b83de92eea034dd::$fallbackDirsPsr4;
-            $loader->prefixesPsr0 = ComposerStaticInitbeb7297736e72c226b83de92eea034dd::$prefixesPsr0;
-            $loader->classMap = ComposerStaticInitbeb7297736e72c226b83de92eea034dd::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitb487c587081518ed06643b68b132981b::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitb487c587081518ed06643b68b132981b::$prefixDirsPsr4;
+            $loader->fallbackDirsPsr4 = ComposerStaticInitb487c587081518ed06643b68b132981b::$fallbackDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInitb487c587081518ed06643b68b132981b::$prefixesPsr0;
+            $loader->classMap = ComposerStaticInitb487c587081518ed06643b68b132981b::$classMap;
 
         }, null, ClassLoader::class);
     }
