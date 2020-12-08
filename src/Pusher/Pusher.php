@@ -2,7 +2,7 @@
 
 namespace WeDevs\PM\Pusher;
 
-use WeDevs\PM\Pusher\core\Auth\Auth;
+use WeDevs\PM\Pusher\Core\Auth\Auth;
 
 class Pusher {
 
@@ -21,7 +21,7 @@ class Pusher {
     }
 
     public function libs() {
-        $files = glob( __DIR__ . "/libs/*.php" );
+        $files = glob( __DIR__ . "/Libs/*.php" );
 
         if ( $files === false ) {
             throw new RuntimeException( "Failed to glob for lib files" );

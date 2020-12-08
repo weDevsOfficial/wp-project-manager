@@ -262,6 +262,12 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= v2.4.7 - Dec 7, 2020 =
+
+**Update** PSR-4 standard.
+**Update** Project pagination is not working when all projects are deleted form cuurnt page. 
+**Fix** Task pagination is not working when deleted the task.
+
 = v2.4.6 - Nov 21, 2020 =
 
 **Fix** User capability is not chanting after save it.

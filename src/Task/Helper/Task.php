@@ -1,5 +1,5 @@
 <?php
-namespace WeDevs\PM\task\Helper;
+namespace WeDevs\PM\Task\Helper;
 
 use WP_REST_Request;
 
@@ -539,7 +539,7 @@ class Task {
 		if ( ! in_array( 'time', $with ) || empty( $this->task_ids ) ) {
 			return $this;
 		}
-
+		
 		if ( ! pm_is_active_time_tracker_module() ) {
 			return $this;
 		}

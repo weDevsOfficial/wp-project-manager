@@ -1,6 +1,6 @@
 <?php
 
-use WeDevs\PM\Pusher\core\Pusher\Pusher;
+use WeDevs\PM\Pusher\Core\Pusher\Pusher;
 use WeDevs\PM\task\Helper\Task;
 use WeDevs\PM\Task_List\Helper\Task_List;
 use WeDevs\PM\Project\Helper\Project;
