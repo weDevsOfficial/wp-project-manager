@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Project Manager 2.4.6\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/cpm\n"
-"POT-Creation-Date: 2020-11-28 06:49:11+00:00\n"
+"POT-Creation-Date: 2020-12-08 16:31:00+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -61,7 +61,7 @@ msgstr ""
 
 #: core/Notifications/Emails/New_Comment_Notification.php:55
 #: core/Notifications/Emails/Update_Comment_Notification.php:54
-#: src/Pusher/libs/action.php:476
+#: src/Pusher/Libs/action.php:476
 msgid "Message"
 msgstr ""
 
@@ -77,8 +77,8 @@ msgstr ""
 
 #: core/Notifications/Emails/New_Comment_Notification.php:65
 #: core/Notifications/Emails/Update_Comment_Notification.php:60
-#: src/Pusher/libs/action.php:92 src/Pusher/libs/action.php:97
-#: src/Pusher/libs/action.php:165 src/Pusher/libs/action.php:168
+#: src/Pusher/Libs/action.php:92 src/Pusher/Libs/action.php:97
+#: src/Pusher/Libs/action.php:165 src/Pusher/Libs/action.php:168
 #: views/assets/js/pm.js:28 views/assets/js/pm.js:61
 #: views/assets/src/components/common/globally-task-create-form.vue:53
 #: views/assets/src/components/my-tasks/new-task.vue:84
@@ -278,27 +278,53 @@ msgstr ""
 msgid "Allowed Files"
 msgstr ""
 
-#: core/WP/Frontend.php:200
+#: core/WP/Frontend.php:170
+msgid "Temporary deactivation"
+msgstr ""
+
+#: core/WP/Frontend.php:171
+msgid "Are you facing any problem?"
+msgstr ""
+
+#: core/WP/Frontend.php:177
+msgid "Found an Error"
+msgstr ""
+
+#: core/WP/Frontend.php:178
+msgid ""
+"Please tell us more about the error. We'll reach you with the possible "
+"solution."
+msgstr ""
+
+#: core/WP/Frontend.php:184
+msgid "No proper documentation"
+msgstr ""
+
+#: core/WP/Frontend.php:185
+msgid "Could you tell us a bit more?"
+msgstr ""
+
+#: core/WP/Frontend.php:226
 msgid "Every %d Minutes PM schedule"
 msgstr ""
 
-#: core/WP/Frontend.php:246
+#: core/WP/Frontend.php:272
 msgid "Get Pro"
 msgstr ""
 
-#: core/WP/Frontend.php:249 core/WP/Menu.php:42
+#: core/WP/Frontend.php:275 core/WP/Menu.php:42
 msgid "Settings"
 msgstr ""
 
-#: core/WP/Frontend.php:250
+#: core/WP/Frontend.php:276
 msgid "Documentation"
 msgstr ""
 
-#: core/WP/Frontend.php:297 core/WP/Frontend.php:310
+#: core/WP/Frontend.php:323 core/WP/Frontend.php:336
 msgid "Create New Task"
 msgstr ""
 
-#: core/WP/Frontend.php:326
+#: core/WP/Frontend.php:352
 msgid "Jump to a project"
 msgstr ""
 
@@ -445,86 +471,86 @@ msgstr ""
 msgid "Project ID must be greater than zero"
 msgstr ""
 
-#: src/Pusher/libs/action.php:50
+#: src/Pusher/Libs/action.php:50
 msgid "You've been assigned a new"
 msgstr ""
 
-#: src/Pusher/libs/action.php:50 src/Pusher/libs/action.php:51
-#: src/Pusher/libs/action.php:219 src/Pusher/libs/action.php:300
+#: src/Pusher/Libs/action.php:50 src/Pusher/Libs/action.php:51
+#: src/Pusher/Libs/action.php:219 src/Pusher/Libs/action.php:300
 #: texts/resource_types.php:14
 msgid "task"
 msgstr ""
 
-#: src/Pusher/libs/action.php:51
+#: src/Pusher/Libs/action.php:51
 msgid "You've assigned in"
 msgstr ""
 
-#: src/Pusher/libs/action.php:92 src/Pusher/libs/action.php:93
+#: src/Pusher/Libs/action.php:92 src/Pusher/Libs/action.php:93
 msgid "has been completed"
 msgstr ""
 
-#: src/Pusher/libs/action.php:97 src/Pusher/libs/action.php:98
+#: src/Pusher/Libs/action.php:97 src/Pusher/Libs/action.php:98
 msgid "has been re-opened"
 msgstr ""
 
-#: src/Pusher/libs/action.php:158
+#: src/Pusher/Libs/action.php:158
 msgid "title"
 msgstr ""
 
-#: src/Pusher/libs/action.php:160
+#: src/Pusher/Libs/action.php:160
 msgid "description"
 msgstr ""
 
-#: src/Pusher/libs/action.php:162
+#: src/Pusher/Libs/action.php:162
 msgid "due date"
 msgstr ""
 
-#: src/Pusher/libs/action.php:165 src/Pusher/libs/action.php:166
-#: src/Pusher/libs/action.php:168 src/Pusher/libs/action.php:169
-#: src/Pusher/libs/action.php:476
+#: src/Pusher/Libs/action.php:165 src/Pusher/Libs/action.php:166
+#: src/Pusher/Libs/action.php:168 src/Pusher/Libs/action.php:169
+#: src/Pusher/Libs/action.php:476
 msgid "has been updated"
 msgstr ""
 
-#: src/Pusher/libs/action.php:211 src/Pusher/libs/action.php:292
+#: src/Pusher/Libs/action.php:211 src/Pusher/Libs/action.php:292
 #: texts/resource_types.php:11
 msgid "task list"
 msgstr ""
 
-#: src/Pusher/libs/action.php:225 src/Pusher/libs/action.php:305
+#: src/Pusher/Libs/action.php:225 src/Pusher/Libs/action.php:305
 #: texts/resource_types.php:23
 msgid "file"
 msgstr ""
 
-#: src/Pusher/libs/action.php:233 src/Pusher/libs/action.php:313
+#: src/Pusher/Libs/action.php:233 src/Pusher/Libs/action.php:313
 #: texts/resource_types.php:8
 msgid "discussion board"
 msgstr ""
 
-#: src/Pusher/libs/action.php:245 src/Pusher/libs/action.php:253
+#: src/Pusher/Libs/action.php:245 src/Pusher/Libs/action.php:253
 msgid "commented on a"
 msgstr ""
 
-#: src/Pusher/libs/action.php:325
+#: src/Pusher/Libs/action.php:325
 msgid "updated comment on a"
 msgstr ""
 
-#: src/Pusher/libs/action.php:351
+#: src/Pusher/Libs/action.php:351
 msgid "updated his comment on a"
 msgstr ""
 
-#: src/Pusher/libs/action.php:408
+#: src/Pusher/Libs/action.php:408
 msgid "started a new discussion on"
 msgstr ""
 
-#: src/Pusher/libs/action.php:432
+#: src/Pusher/Libs/action.php:432
 msgid "You've got a new"
 msgstr ""
 
-#: src/Pusher/libs/action.php:432
+#: src/Pusher/Libs/action.php:432
 msgid "messsage"
 msgstr ""
 
-#: src/Pusher/libs/action.php:453
+#: src/Pusher/Libs/action.php:453
 msgid "updated discussion on a"
 msgstr ""
 
@@ -1050,54 +1076,6 @@ msgstr ""
 msgid "Every %d Minutes"
 msgstr ""
 
-#: vendor/appsero/client/src/Insights.php:369
-msgid ""
-"Want to help make <strong>%1$s</strong> even more awesome? Allow %1$s to "
-"collect non-sensitive diagnostic data and usage information."
-msgstr ""
-
-#: vendor/appsero/client/src/Insights.php:374
-msgid "what we collect"
-msgstr ""
-
-#: vendor/appsero/client/src/Insights.php:381
-msgid "Allow"
-msgstr ""
-
-#: vendor/appsero/client/src/Insights.php:382
-msgid "No thanks"
-msgstr ""
-
-#: vendor/appsero/client/src/Insights.php:747
-msgid "If you have a moment, please let us know why you are deactivating:"
-msgstr ""
-
-#: vendor/appsero/client/src/Insights.php:762
-msgid "I rather wouldn't say"
-msgstr ""
-
-#: vendor/appsero/client/src/Insights.php:763
-msgid "Submit & Deactivate"
-msgstr ""
-
-#: vendor/appsero/client/src/Insights.php:764 views/assets/js/library.js:20
-#: views/assets/js/pm.js:20 views/assets/js/pm.js:28 views/assets/js/pm.js:61
-#: views/assets/src/components/categories/edit-category-form.vue:23
-#: views/assets/src/components/common/comment-form.vue:15
-#: views/assets/src/components/common/list-filter.vue:79
-#: views/assets/src/components/common/popup-modal.vue:174
-#: views/assets/src/components/project-discussions/new-discuss-form.vue:32
-#: views/assets/src/components/project-milestones/new-milestone-form.vue:18
-#: views/assets/src/components/project-overview/addNewUser.vue:52
-#: views/assets/src/components/project-task-lists/list-comment-form.vue:15
-#: views/assets/src/components/project-task-lists/new-task-list-form.vue:28
-#: views/assets/src/components/project-task-lists/single-task.vue:536
-#: views/assets/src/components/project-task-lists/task-comment-form.vue:15
-#: views/assets/src/components/settings/new-task-type-form.vue:26
-#: views/assets/src/components/settings/new-task-type-form.vue:35
-msgid "Cancel"
-msgstr ""
-
 #: views/assets/js/library.js:1 views/assets/js/pm.js:1
 #: views/assets/js/pm.js:20
 #: views/assets/src/components/categories/categories.vue:288
@@ -1121,6 +1099,24 @@ msgstr ""
 #: views/assets/src/components/categories/categories.vue:75
 #: views/assets/src/components/common/notify-user.vue:7
 msgid "Select all"
+msgstr ""
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20
+#: views/assets/js/pm.js:28 views/assets/js/pm.js:61
+#: views/assets/src/components/categories/edit-category-form.vue:23
+#: views/assets/src/components/common/comment-form.vue:15
+#: views/assets/src/components/common/list-filter.vue:79
+#: views/assets/src/components/common/popup-modal.vue:174
+#: views/assets/src/components/project-discussions/new-discuss-form.vue:32
+#: views/assets/src/components/project-milestones/new-milestone-form.vue:18
+#: views/assets/src/components/project-overview/addNewUser.vue:52
+#: views/assets/src/components/project-task-lists/list-comment-form.vue:15
+#: views/assets/src/components/project-task-lists/new-task-list-form.vue:28
+#: views/assets/src/components/project-task-lists/single-task.vue:536
+#: views/assets/src/components/project-task-lists/task-comment-form.vue:15
+#: views/assets/src/components/settings/new-task-type-form.vue:26
+#: views/assets/src/components/settings/new-task-type-form.vue:35
+msgid "Cancel"
 msgstr ""
 
 #: views/assets/js/library.js:20 views/assets/js/pm.js:20
