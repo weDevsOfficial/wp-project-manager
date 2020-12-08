@@ -6,7 +6,7 @@ use WeDevs\PM\Activity\Models\Activity;
 use WeDevs\PM\Activity\Transformers\Activity_Transformer;
 use \League\Fractal\Resource\Item;
 
-trait Last_activity {
+trait Last_Activity {
 
     function last_activity ( $resource, $resource_id ) {
         
