@@ -87,7 +87,7 @@ class Translator implements TranslatorInterface, TranslatorBagInterface
 
         if ($formatter instanceof MessageSelector) {
             $formatter = new MessageFormatter($formatter);
-            @trigger_error(sprintf('Passing a "%s" instance into the "%s()" method as a second argument is deprecated since Symfony 3.4 and will be removed in 4.0. Inject a "%s" implementation instead.', MessageSelector::class, __METHOD__, MessageFormatterInterface::class), E_USER_DEPRECATED);
+            @trigger_error(sprintf('Passing a "%s" instance into the "%s()" method as a second argument is deprecated since Symfony 3.4 and will be removed in 4.0. Inject a "%s" implementation instead.', MessageSelector::class, __METHOD__, MessageFormatterInterface::class), \E_USER_DEPRECATED);
         } elseif (null === $formatter) {
             $formatter = new MessageFormatter();
         }
@@ -376,7 +376,11 @@ EOF
         if (isset($this->resources[$locale])) {
             foreach ($this->resources[$locale] as $resource) {
                 if (!isset($this->loaders[$resource[0]])) {
-                    throw new RuntimeException(sprintf('The "%s" translation loader is not registered.', $resource[0]));
+                    if (\is_string($resource[1])) {
+                        throw new RuntimeException(sprintf('No loader is registered for the "%s" format when loading the "%s" resource.', $resource[0], $resource[1]));
+                    }
+
+                    throw new RuntimeException(sprintf('No loader is registered for the "%s" format.', $resource[0]));
                 }
                 $this->catalogues[$locale]->addCatalogue($this->loaders[$resource[0]]->load($resource[1], $locale, $resource[2]));
             }
@@ -412,8 +416,19 @@ EOF
             $locales[] = $fallback;
         }
 
-        if (false !== strrchr($locale, '_')) {
+        if (\function_exists('locale_parse')) {
+            $localeSubTags = locale_parse($locale);
+            if (1 < \count($localeSubTags)) {
+                array_pop($localeSubTags);
+                $fallback = locale_compose($localeSubTags);
+                if (false !== $fallback) {
+                    array_unshift($locales, $fallback);
+                }
+            }
+        } elseif (false !== strrchr($locale, '_')) {
             array_unshift($locales, substr($locale, 0, -\strlen(strrchr($locale, '_'))));
+        } elseif (false !== strrchr($locale, '-')) {
+            array_unshift($locales, substr($locale, 0, -\strlen(strrchr($locale, '-'))));
         }
 
         return array_unique($locales);

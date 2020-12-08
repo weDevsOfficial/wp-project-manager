@@ -34,12 +34,34 @@ class AcceptTest extends TestCase
 
 
     /**
+     * Initialize the test.
+     *
+     * @return void
+     */
+    public function setUp()
+    {
+        if ($GLOBALS['PHP_CODESNIFFER_PEAR'] === true) {
+            // PEAR installs test and sniff files into different locations
+            // so these tests will not pass as they directly reference files
+            // by relative location.
+            $this->markTestSkipped('Test cannot run from a PEAR install');
+        }
+
+    }//end setUp()
+
+
+    /**
      * Initialize the config and ruleset objects based on the `AcceptTest.xml` ruleset file.
      *
      * @return void
      */
     public static function setUpBeforeClass()
     {
+        if ($GLOBALS['PHP_CODESNIFFER_PEAR'] === true) {
+            // This test will be skipped.
+            return;
+        }
+
         $standard      = __DIR__.'/'.basename(__FILE__, '.php').'.xml';
         self::$config  = new Config(["--standard=$standard", "--ignore=*/somethingelse/*"]);
         self::$ruleset = new Ruleset(self::$config);
@@ -89,9 +111,13 @@ class AcceptTest extends TestCase
                     '/path/to/src/Main.php',
                     '/path/to/src/Something/Main.php',
                     '/path/to/src/Somethingelse/Main.php',
+                    '/path/to/src/SomethingelseEvenLonger/Main.php',
                     '/path/to/src/Other/Main.php',
                 ],
-                ['/path/to/src/Main.php'],
+                [
+                    '/path/to/src/Main.php',
+                    '/path/to/src/SomethingelseEvenLonger/Main.php',
+                ],
             ],
 
             // Test ignoring standard/sniff specific exclude patterns.

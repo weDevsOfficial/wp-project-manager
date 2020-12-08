@@ -121,6 +121,7 @@ class License {
         $params = array(
             'license_key' => $license_key,
             'url'         => esc_url( home_url() ),
+            'is_local'    => $this->client->is_local_server(),
         );
 
         $response = $this->client->send_request( $params, $route, true );
@@ -183,15 +184,15 @@ class License {
     public function admin_menu() {
         switch ( $this->menu_args['type'] ) {
             case 'menu':
-                $this->add_menu_page();
+                $this->create_menu_page();
                 break;
 
             case 'submenu':
-                $this->add_submenu_page();
+                $this->create_submenu_page();
                 break;
 
             case 'options':
-                $this->add_options_page();
+                $this->create_options_page();
                 break;
         }
     }
@@ -222,7 +223,7 @@ class License {
                 <?php $this->show_license_page_card_header(); ?>
 
                 <div class="appsero-license-details">
-                    <p>Active <strong><?php echo $this->client->name; ?></strong> by your license key to get professional support and automatic update from your WordPress dashboard.</p>
+                    <p>Activate <strong><?php echo $this->client->name; ?></strong> by your license key to get professional support and automatic update from your WordPress dashboard.</p>
                     <form method="post" action="<?php $this->formActionUrl(); ?>" novalidate="novalidate" spellcheck="false">
                         <input type="hidden" name="_action" value="<?php echo $action; ?>">
                         <input type="hidden" name="_nonce" value="<?php echo wp_create_nonce( $this->client->name ); ?>">
@@ -591,8 +592,9 @@ class License {
     /**
      * Add license menu page
      */
-    private function add_menu_page() {
-        add_menu_page(
+    private function create_menu_page() {
+        call_user_func(
+            'add_' . 'menu' . '_page',
             $this->menu_args['page_title'],
             $this->menu_args['menu_title'],
             $this->menu_args['capability'],
@@ -606,8 +608,9 @@ class License {
     /**
      * Add submenu page
      */
-    private function add_submenu_page() {
-        add_submenu_page(
+    private function create_submenu_page() {
+        call_user_func(
+            'add_' . 'submenu' . '_page',
             $this->menu_args['parent_slug'],
             $this->menu_args['page_title'],
             $this->menu_args['menu_title'],
@@ -621,8 +624,9 @@ class License {
     /**
      * Add submenu page
      */
-    private function add_options_page() {
-        add_options_page(
+    private function create_options_page() {
+        call_user_func(
+            'add_' . 'options' . '_page',
             $this->menu_args['page_title'],
             $this->menu_args['menu_title'],
             $this->menu_args['capability'],

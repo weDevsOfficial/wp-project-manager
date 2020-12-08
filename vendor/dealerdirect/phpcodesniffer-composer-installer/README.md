@@ -10,6 +10,8 @@
 [![Latest Version on Packagist][packagist-version-shield]][packagist-version]
 [![Packagist][packagist-shield]][packagist]
 
+[![Contributor Covenant][code-of-conduct-shield]][code-of-conduct]
+
 This composer installer plugin allows for easy installation of [PHP_CodeSniffer][codesniffer] coding standards (rulesets).
 
 No more symbolic linking of directories, checking out repositories on specific locations or changing
@@ -19,7 +21,7 @@ _Note: This plugin is compatible with both version 2.x and 3.x of_ [PHP_CodeSnif
 
 ## Usage
 
-Installation can be done with [composer], by requiring this package as a development dependency:
+Installation can be done with [Composer][composer], by requiring this package as a development dependency:
 
 ```bash
 composer require --dev dealerdirect/phpcodesniffer-composer-installer
@@ -31,7 +33,7 @@ That's it.
 
 Basically, this plugin executes the following steps:
 
-- This plugin search for `phpcodesniffer-standard` packages in all of your currently installed Composer packages.
+- This plugin searches for `phpcodesniffer-standard` packages in all of your currently installed Composer packages.
 - Matching packages and the project itself are scanned for PHP_CodeSniffer rulesets.
 - The plugin will call PHP_CodeSniffer and configure the `installed_paths` option.
 
@@ -149,6 +151,36 @@ Requirements:
 * Each standard can have a separate directory no deeper than 3 levels from the repository root.
 * The package `type` must be `phpcodesniffer-standard`. Without this, the plugin will not trigger.
 
+### Requiring the plugin from within your coding standard
+
+If your coding standard itself depends on additional external PHPCS standards, this plugin can
+make life easier on your end-users by taking care of the installation of all standards - yours
+and your dependencies - for them.
+
+This can help reduce the number of support questions about setting the `installed_paths`, as well
+as simplify your standard's installation instructions.
+
+For this to work, make sure your external standard adds this plugin to the `composer.json` config
+via `require`, **not** `require-dev`.
+
+> :warning: Your end-user may already `require-dev` this plugin and/or other external standards used
+> by your end-users may require this plugin as well.
+>
+> To prevent your end-users getting into "_dependency hell_", make sure to make the version requirement
+> for this plugin flexible.
+>
+> As, for now, this plugin is still regarded as "unstable" (version < 1.0), remember that Composer
+> treats unstable minors as majors and will not be able to resolve one config requiring this plugin
+> at version `^0.5`, while another requires it at version `^0.6`.
+> Either allow multiple minors or use `*` as the version requirement.
+>
+> Some examples of flexible requirements which can be used:
+> ```bash
+> composer require dealerdirect/phpcodesniffer-composer-installer:"*"
+> composer require dealerdirect/phpcodesniffer-composer-installer:"0.*"
+> composer require dealerdirect/phpcodesniffer-composer-installer:"^0.4 || ^0.5 || ^0.6"
+> ```
+
 ## Changelog
 
 This repository does not contain a `CHANGELOG.md` file, however, we do publish a changelog on each release
@@ -173,7 +205,7 @@ For a full list of all author and/or contributors, check [the contributors page]
 
 The MIT License (MIT)
 
-Copyright (c) 2016-2018 Dealerdirect B.V.
+Copyright (c) 2016-2020 Dealerdirect B.V.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -195,17 +227,17 @@ THE SOFTWARE.
 
 [awesome-shield]: https://img.shields.io/badge/awesome%3F-yes-brightgreen.svg
 [changelog]: https://github.com/Dealerdirect/phpcodesniffer-composer-installer/releases
+[code-of-conduct-shield]: https://img.shields.io/badge/Contributor%20Covenant-v2.0-ff69b4.svg
+[code-of-conduct]: CODE_OF_CONDUCT.md
 [codesniffer]: https://github.com/squizlabs/PHP_CodeSniffer
 [composer-manual-scripts]: https://getcomposer.org/doc/articles/scripts.md
 [composer]: https://getcomposer.org/
 [contributing-guidelines]: CONTRIBUTING.md
 [contributors]: https://github.com/Dealerdirect/phpcodesniffer-composer-installer/graphs/contributors
-[dealerdirectcom]: http://www.dealerdirect.com/en
 [definition-ci]: https://en.wikipedia.org/wiki/Continuous_integration
 [frenck]: https://github.com/frenck
-[get-in-touch]: https://www.dealerdirect.com/en/contact
-[license-shield]: https://img.shields.io/github/license/dealerdirect/phpcodesniffer-composer-installer.svg
 [last-updated-shield]: https://img.shields.io/github/last-commit/Dealerdirect/phpcodesniffer-composer-installer.svg
+[license-shield]: https://img.shields.io/github/license/dealerdirect/phpcodesniffer-composer-installer.svg
 [packagist-shield]: https://img.shields.io/packagist/dt/dealerdirect/phpcodesniffer-composer-installer.svg
 [packagist-version-shield]: https://img.shields.io/packagist/v/dealerdirect/phpcodesniffer-composer-installer.svg
 [packagist-version]: https://packagist.org/packages/dealerdirect/phpcodesniffer-composer-installer
@@ -217,4 +249,3 @@ THE SOFTWARE.
 [travis]: https://travis-ci.org/Dealerdirect/phpcodesniffer-composer-installer
 [tutorial]: https://github.com/squizlabs/PHP_CodeSniffer/wiki/Coding-Standard-Tutorial
 [using-composer-plugins]: https://getcomposer.org/doc/articles/plugins.md#using-plugins
-[vacancies]: https://www.dealerdirect.com/en/vacancies

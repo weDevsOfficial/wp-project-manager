@@ -17,6 +17,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Translation\Exception\InvalidArgumentException;
 
 /**
  * Validates XLIFF files syntax and outputs encountered errors.
@@ -179,7 +180,7 @@ EOF
             }
         });
 
-        $io->writeln(json_encode($filesInfo, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES));
+        $io->writeln(json_encode($filesInfo, \JSON_PRETTY_PRINT | \JSON_UNESCAPED_SLASHES));
 
         return min($errors, 1);
     }
@@ -206,13 +207,13 @@ EOF
      */
     private function getStdin()
     {
-        if (0 !== ftell(STDIN)) {
+        if (0 !== ftell(\STDIN)) {
             return null;
         }
 
         $inputs = '';
-        while (!feof(STDIN)) {
-            $inputs .= fread(STDIN, 1024);
+        while (!feof(\STDIN)) {
+            $inputs .= fread(\STDIN, 1024);
         }
 
         return $inputs;

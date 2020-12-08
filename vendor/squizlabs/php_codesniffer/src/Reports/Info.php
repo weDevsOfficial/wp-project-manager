@@ -114,9 +114,11 @@ class Info implements Report
                     $valueWidth  = max($valueWidth, strlen($value));
                 }
 
-                $countWidth       = strlen($totalCount);
-                $nrOfThousandSeps = floor($countWidth / 3);
-                $countWidth      += $nrOfThousandSeps;
+                // Length of the total string, plus however many
+                // thousands separators there are.
+                $countWidth = strlen($totalCount);
+                $thousandSeparatorCount = floor($countWidth / 3);
+                $countWidth            += $thousandSeparatorCount;
 
                 // Account for 'total' line.
                 $valueWidth = max(5, $valueWidth);

@@ -1,5 +1,5 @@
 {
-    "name": "weDevsOfficial/wp-project-manager",
+    "name": "wedevsofficial/wp-project-manager",
     "description": "A project management plugin for WordPress",
     "type": "wordpress-plugin",
     "license": "GPL-2.0+",
@@ -38,8 +38,9 @@
     },
     "require-dev": {
         "fzaninotto/faker": "^1.8",
-        "squizlabs/php_codesniffer": "^3.5",
-        "wp-coding-standards/wpcs": "^2.2",
-        "dealerdirect/phpcodesniffer-composer-installer": "^0.5.0"
+        "squizlabs/php_codesniffer": "^3.5.8",
+        "dealerdirect/phpcodesniffer-composer-installer": "^0.7.0",
+        "phpcompatibility/phpcompatibility-wp": "2.1.0",
+        "wp-coding-standards/wpcs": "^2.3.0"
     }
 }
