@@ -19,7 +19,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => '6260a2de50f7032847bb19cfa2a576c5e7c57509',
+    'reference' => 'd2626a88511f9de536225e945ed5852de0698b8b',
     'name' => 'wedevsofficial/wp-project-manager',
   ),
   'versions' => 
@@ -246,7 +246,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => '6260a2de50f7032847bb19cfa2a576c5e7c57509',
+      'reference' => 'd2626a88511f9de536225e945ed5852de0698b8b',
     ),
     'wp-coding-standards/wpcs' => 
     array (
