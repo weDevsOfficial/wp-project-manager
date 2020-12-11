@@ -10,7 +10,7 @@ namespace WeDevs\PM\Core\Promotions;
 *
 * @package pm
 */
-abstract class WeDevs_Promotion {
+abstract class Wedevs_Promotion {
 
     /**
      * Time Interval displaying between two promo

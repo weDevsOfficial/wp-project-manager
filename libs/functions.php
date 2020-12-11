@@ -16,7 +16,13 @@ function pm_get_text( $key ) {
     return Textdomain::get_text( $key);
 }
 
-function get_wp_timezone() {
+if ( !function_exists( 'get_wp_timezone' ) ) {
+    function get_wp_timezone() {
+        return pm_get_wp_timezone();
+    }
+}
+
+function pm_get_wp_timezone() {
     $current_offset = get_option('gmt_offset');
     $wp_timezone = get_option('timezone_string');
 
@@ -39,7 +45,13 @@ function get_wp_timezone() {
     return $wp_timezone;
 }
 
-function tzcode_to_tzstring( $tzcode ) {
+if ( ! function_exists( 'tzcode_to_tzstring' ) ) {
+    function tzcode_to_tzstring( $tzcode ) {
+        return pm_tzcode_to_tzstring( $tzcode );
+    }
+}
+
+function pm_tzcode_to_tzstring( $tzcode ) {
     $timezones = config( 'timezones' );
     $timezone = $tzcode;
 
@@ -50,7 +62,13 @@ function tzcode_to_tzstring( $tzcode ) {
     return $timezone;
 }
 
-function tzstring_to_tzcode( $tzstr ) {
+if ( ! function_exists( 'tzstring_to_tzcode' ) ) {
+    function tzstring_to_tzcode( $tzstr ) {
+        pm_tzstring_to_tzcode( $tzstr );
+    }
+}
+
+function pm_tzstring_to_tzcode( $tzstr ) {
     $timezones = config( 'timezones' );
     $default = '';
 
@@ -63,23 +81,26 @@ function tzstring_to_tzcode( $tzstr ) {
     return $default;
 }
 
-function format_date( $date ) {
+if ( ! function_exists( 'format_date' ) ) {
+    function format_date( $date ) {
 
-    if ( $date && !is_object($date) ) {
-        $date =  \Carbon\Carbon::parse($date);
-    }
-    $date_format = get_option( 'date_format' );
-    $time_format = get_option( 'time_format' );
-    $timezone    = get_wp_timezone();
+        if ( $date && !is_object($date) ) {
+            $date =  \Carbon\Carbon::parse($date);
+        }
+        $date_format = get_option( 'date_format' );
+        $time_format = get_option( 'time_format' );
+        $timezone    = get_wp_timezone();
 
-    return [
-        'date'      => $date ? $date->format( 'Y-m-d' ) : null,
-        'time'      => $date ? $date->format( 'H:i:s' ) : null,
-        'datetime'      => $date ? $date->format( 'Y-m-d H:i:s' ) : null,
-        'timezone'  => tzcode_to_tzstring( $timezone ),
-        'timestamp' => $date ?  $date->toATOMString() : null
-    ];
+        return [
+            'date'      => $date ? $date->format( 'Y-m-d' ) : null,
+            'time'      => $date ? $date->format( 'H:i:s' ) : null,
+            'datetime'      => $date ? $date->format( 'Y-m-d H:i:s' ) : null,
+            'timezone'  => tzcode_to_tzstring( $timezone ),
+            'timestamp' => $date ?  $date->toATOMString() : null
+        ];
+    } 
 }
+
 
 function pm_date_format( $date ) {
 
@@ -1086,7 +1107,7 @@ function pm_get_estimation_type() {
         return 'task';
     }
 
-    if ( pm_pro_is_module_active( 'sub_tasks/sub_tasks.php' ) ) {
+    if ( pm_pro_is_module_active( 'Sub_Tasks/Sub_Tasks.php' ) ) {
         return 'subtask';
     }
 
@@ -1104,7 +1125,7 @@ function pm_is_active_time_tracker_module() {
         return false;
     }
 
-    if ( pm_pro_is_module_active( 'time_tracker/time_tracker.php' ) ) {
+    if ( pm_pro_is_module_active( 'Time_Tracker/Time_Tracker.php' ) ) {
         return true;
     }
 
@@ -1213,7 +1234,7 @@ function pm_get_files( $params = [] ) {
  * @return [type]
  */
 function pm_get_users( $params = [] ) {
-     return \WeDevs\PM\User\helper\User::get_results( $params );
+     return \WeDevs\PM\User\Helper\User::get_results( $params );
 }
 
 /**

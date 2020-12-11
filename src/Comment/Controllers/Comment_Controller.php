@@ -8,7 +8,7 @@ use League\Fractal\Resource\Item as Item;
 use League\Fractal\Resource\Collection as Collection;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use WeDevs\PM\Common\Traits\Transformer_Manager;
-use WeDevs\PM\Common\Traits\Last_activity;
+use WeDevs\PM\Common\Traits\Last_Activity;
 use WeDevs\PM\Comment\Transformers\Comment_Transformer;
 use WeDevs\PM\Common\Traits\Request_Filter;
 use WeDevs\PM\Comment\Models\Comment;
@@ -18,7 +18,7 @@ use WeDevs\PM\Common\Traits\File_Attachment;
 
 class Comment_Controller {
 
-    use Transformer_Manager, Request_Filter, File_Attachment, Last_activity;
+    use Transformer_Manager, Request_Filter, File_Attachment, Last_Activity;
 
     public function index( WP_REST_Request $request ) {
         $project_id = $request->get_param( 'project_id' );
