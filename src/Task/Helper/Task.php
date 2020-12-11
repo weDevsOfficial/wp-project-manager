@@ -1,5 +1,5 @@
 <?php
-namespace WeDevs\PM\task\Helper;
+namespace WeDevs\PM\Task\Helper;
 
 use WP_REST_Request;
 
@@ -539,7 +539,7 @@ class Task {
 		if ( ! in_array( 'time', $with ) || empty( $this->task_ids ) ) {
 			return $this;
 		}
-
+		
 		if ( ! pm_is_active_time_tracker_module() ) {
 			return $this;
 		}
@@ -1436,11 +1436,13 @@ class Task {
 		$completed_at_start   = !empty( $this->query_params['completed_at_start'] ) ? $this->query_params['completed_at_start'] : false;
 		$completed_at_between = !isset( $this->query_params['completed_at_between'] ) ? true : pm_is_true( $this->query_params['completed_at_between'] );
 		$ope_params           = !empty( $this->query_params['completed_at_operator'] ) ? $this->query_params['completed_at_operator'] : false;
-		$ope_params           = $this->get_prepare_data( $ope_params );
+		$ope_params           = pm_get_prepare_data( $ope_params );
 
-		if ( $completed_at === false ) {
-			return $this;
-		}
+		if ( empty( $ope_params ) ) {
+            if ( empty( $completed_at ) ) {
+                return $this;
+            }
+        }
 
 		if ( $completed_at_start ) {
 			$com_start_reduce = date('Y-m-d',(strtotime ( '-1 day' , strtotime ( $completed_at_start) ) ));
@@ -1512,11 +1514,13 @@ class Task {
 		$due_date_start   = !empty( $this->query_params['due_date_start'] ) ? $this->query_params['due_date_start'] : false;
 		$due_date_between = !isset( $this->query_params['due_date_between'] ) ? true : pm_is_true( $this->query_params['due_date_between'] );
 		$ope_params       = !empty( $this->query_params['due_date_operator'] ) ? $this->query_params['due_date_operator'] : false;
-		$ope_params       = $this->get_prepare_data( $ope_params );
+		$ope_params       = pm_get_prepare_data( $ope_params );
 
-		if ( $due_date === false ) {
-			return $this;
-		}
+		if ( empty( $ope_params ) ) {
+            if ( empty( $due_date ) ) {
+                return $this;
+            }
+        }
 
 		if ( $due_date_start ) {
 			$due_start_reduce = date('Y-m-d',(strtotime ( '-1 day' , strtotime ( $due_date_start) ) ));
