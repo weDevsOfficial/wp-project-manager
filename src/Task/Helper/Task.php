@@ -1516,11 +1516,11 @@ class Task {
 		$ope_params       = !empty( $this->query_params['due_date_operator'] ) ? $this->query_params['due_date_operator'] : false;
 		$ope_params       = pm_get_prepare_data( $ope_params );
 
-		if ( empty( $ope_params ) ) {
-            if ( empty( $due_date ) ) {
-                return $this;
-            }
+		
+        if ( empty( $due_date ) ) {
+            return;
         }
+        
 
 		if ( $due_date_start ) {
 			$due_start_reduce = date('Y-m-d',(strtotime ( '-1 day' , strtotime ( $due_date_start) ) ));
