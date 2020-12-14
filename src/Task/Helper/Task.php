@@ -1518,7 +1518,7 @@ class Task {
 
 		
         if ( empty( $due_date ) ) {
-            return;
+            return $this;
         }
         
 
