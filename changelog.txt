@@ -1,3 +1,9 @@
+= v2.4.7 - Dec 10, 2020 =
+
+**Update** PSR-4 standard
+**Fix** Project pagination was not working when all projects are deleted from the current page. 
+**Fix** Fixed the task pagination problem. It was not working when a task is deleted.
+
 = v2.4.6 - Nov 21, 2020 =
 
 **Fix** User capability is not chanting after save it.

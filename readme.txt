@@ -3,9 +3,9 @@ Contributors: tareq1988, nizamuddinbabu, wedevs, asaquzzaman
 Donate Link: https://tareq.co/donate/
 Tags: project, project manager, project management, web project management, task manager, online collaboration tool,
 Requires at least: 4.4 or higher
-Tested up to: 5.5.3
+Tested up to: 5.6
 Requires PHP: 5.6
-Stable tag: 2.4.6
+Stable tag: 2.4.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -262,11 +262,11 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
-= v2.4.7 - Dec 7, 2020 =
+= v2.4.7 - Dec 10, 2020 =
 
 **Update** PSR-4 standard.
-**Update** Project pagination is not working when all projects are deleted form cuurnt page. 
-**Fix** Task pagination is not working when deleted the task.
+**Fix** Project pagination was not working when all projects are deleted from the current page. 
+**Fix** Fixed the task pagination problem. It was not working when a task is deleted.
 
 = v2.4.6 - Nov 21, 2020 =
 
