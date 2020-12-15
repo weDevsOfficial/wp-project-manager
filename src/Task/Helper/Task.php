@@ -1445,17 +1445,17 @@ class Task {
         }
 
 		if ( $completed_at_start ) {
-			$com_start_reduce = date('Y-m-d',(strtotime ( '-1 day' , strtotime ( $completed_at_start) ) ));
-			$com_add          = date('Y-m-d',(strtotime ( '+1 day' , strtotime ( $completed_at) ) ));
+			$com_start_reduce = date('Y-m-d', strtotime ( $completed_at_start) );
+			$com_add          = date('Y-m-d', strtotime ( $completed_at) );
 		}
-
+	
 		//If its contain between condition
 		if ( $completed_at_start ) {
 
 			if ( $completed_at_between ) {
-				$query = $wpdb->prepare( " {$this->tb_tasks}.completed_at BETWEEN %s AND %s ", $com_start_reduce, $com_add );
+				$query = $wpdb->prepare( " DATE({$this->tb_tasks}.completed_at) BETWEEN %s AND %s ", $com_start_reduce, $com_add );
 			} else {
-				$query = $wpdb->prepare( " {$this->tb_tasks}.completed_at NOT BETWEEN %s AND %s ", $com_start_reduce, $com_add );
+				$query = $wpdb->prepare( " DATE({$this->tb_tasks}.completed_at) NOT BETWEEN %s AND %s ", $com_start_reduce, $com_add );
 			}
 			
 			$this->where .= " AND ( $query ) ";
@@ -1523,17 +1523,17 @@ class Task {
         
 
 		if ( $due_date_start ) {
-			$due_start_reduce = date('Y-m-d',(strtotime ( '-1 day' , strtotime ( $due_date_start) ) ));
-			$due_add          = date('Y-m-d',(strtotime ( '+1 day' , strtotime ( $due_date) ) ));
+			$due_start_reduce = date('Y-m-d', strtotime ( $due_date_start) );
+			$due_add          = date('Y-m-d', strtotime ( $due_date ) );
 		}
 
 		//If its contain between condition
 		if ( $due_date_start ) {
 
 			if ( $due_date_between ) {
-				$query = $wpdb->prepare( " {$this->tb_tasks}.due_date BETWEEN %s AND %s ", $due_start_reduce, $due_add );
+				$query = $wpdb->prepare( " DATE({$this->tb_tasks}.due_date) BETWEEN %s AND %s ", $due_start_reduce, $due_add );
 			} else {
-				$query = $wpdb->prepare( " {$this->tb_tasks}.due_date NOT BETWEEN %s AND %s ", $due_start_reduce, $due_add );
+				$query = $wpdb->prepare( " DATE({$this->tb_tasks}.due_date) NOT BETWEEN %s AND %s ", $due_start_reduce, $due_add );
 			}
 			
 			$this->where .= " AND ( $query ) ";
