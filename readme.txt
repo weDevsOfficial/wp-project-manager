@@ -266,7 +266,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 **Update** Task query updated for filtering tasks by complete_at date range.
 **Fix** Completed tasks were not showing on my-task.
-**Fix** Made the icons inline alignment on the subtask create form.  
+**Fix** Made the icons inline alignment on the subtask create form. 
 
 = v2.4.7 - Dec 10, 2020 =
 
@@ -492,7 +492,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 * **New** Set loading effect at task list page and list archive page nevigation.
 * **New** Set loading effect at task list pagination.
 * **New** New library v-tooltip
-* **Fix** Any kinds of url added extra   from tinymce text filed.
+* **Fix** Any kinds of url added extra   from tinymce text filed.
 * **Fix** After project edit, the description is not updated real time.
 * **Fix** Less file is not built to css file.
 * **Update** Set target blank in tinymce posted url.
