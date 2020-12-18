@@ -262,6 +262,12 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= v2.4.8 - Dec 18, 2020 =
+
+**Update** Task query updated for filtering tasks by complete_at date range.
+**Fix** Completed tasks were not showing on my-task.
+**Fix** Made the icons inline alignment on the subtask create form.  
+
 = v2.4.7 - Dec 10, 2020 =
 
 **Update** PSR-4 standard.
