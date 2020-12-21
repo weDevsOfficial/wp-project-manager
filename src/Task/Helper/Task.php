@@ -1183,6 +1183,7 @@ class Task {
 		$this->where_id()
 			->where_title()
 			->where_status()
+			->where_estimation()
 			->where_start_at()
 			->where_due_date()
 			->where_completed_at()
@@ -1196,6 +1197,20 @@ class Task {
 
 		return $this;
 	}
+
+	private function where_estimation() {
+        global $wpdb;
+
+        $estimation = !empty( $this->query_params['estimation_query'] ) ? $this->query_params['estimation_query'] : false;
+
+        if ( empty( $estimation ) ) {
+            return $this;
+        }
+
+        $this->where .=  " AND {$this->tb_tasks}.estimation $estimation ";
+
+        return $this;
+    }
 
 	public function get_prepare_format( $ids, $is_string = false ) {
 
