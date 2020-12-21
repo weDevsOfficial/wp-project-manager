@@ -16,7 +16,7 @@ class Offers {
     public function get_offer() {
         $offer        = new \stdClass;
         
-        $current_time = new \DateTime( 'now', new \DateTimeZone('America/New_York') );
+        $current_time = new \DateTimeImmutable( 'now', new \DateTimeZone('America/New_York') );
         $disabled_key = get_option( 'pm_offer_notice' );
 
         $promotion1_start = $current_time->setDate( '2020', '12', '22' )->setTime( '09', '0', '0' );
