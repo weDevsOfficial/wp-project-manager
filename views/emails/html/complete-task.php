@@ -24,9 +24,9 @@
                                         border-radius: 50%; 
                                         outline: none;
                                     " 
-                                    src="<?php echo esc_url( $creator['data']['avatar_url'] ); ?>" 
-                                    alt="<?php echo esc_attr( $creator['data']['display_name'] ) ?>" 
-                                    title="<?php echo esc_attr( $creator['data']['display_name'] ) ?>"
+                                    src="<?php echo esc_url( get_avatar_url( $completed_by->user_email ) ); ?>" 
+                                    alt="<?php echo esc_attr( $completed_by->display_name ) ?>" 
+                                    title="<?php echo esc_attr( $completed_by->display_name ) ?>"
                                 />
                             </td>
                             <td>
@@ -40,7 +40,7 @@
                                         }
                                     ?>
                                     <h1 style="margin: 0 0 7px; font-weight: bold; font-size: 18px; color: #000000; letter-spacing: 0.16px; line-height: 22px;">
-                                        <?php echo ucfirst( esc_html( $creator['data']['display_name'] ) ); ?> <?php echo $header_title; ?>
+                                        <?php echo ucfirst( esc_html( $completed_by->display_name ) ); ?> <?php echo $header_title; ?>
                                     </h1>
                                     <a style="text-decoration: none; font-size: 15px; color: #0676D4; letter-spacing: 0.14px; line-height: 22px;" href="<?php echo esc_url($link.'#/projects/'.$project_id . '/task-lists/tasks/' . $id); ?>" target="_blank"><?php _e( 'View this task', 'wedevs-project-manger' ); ?></a> 
                                 </div>
