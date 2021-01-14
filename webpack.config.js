@@ -41,6 +41,11 @@ module.exports =[
             'assets/vendor/vue-fullscreen/vue-fullscreen.min': './views/assets/vendor/vue-fullscreen/vue-fullscreen.js',
         },
 
+        devServer: {
+            contentBase: './views/assets/js',
+            hot: true,
+        },
+
         output: {
             path: path.resolve(__dirname, 'views'),
             filename: '[name].js',
