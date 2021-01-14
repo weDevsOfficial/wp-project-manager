@@ -293,10 +293,10 @@ export default {
         },
 
         ucfirst (word) {
-            if(word == '' || typeof word == 'undefined') {
+            if ( isEmpty( word ) ) {
                 return '';
             }
-
+            
             return word.replace(/\w/, c => c.toUpperCase())
         },
 
