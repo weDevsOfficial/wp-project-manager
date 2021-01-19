@@ -45,7 +45,7 @@
                                         href="<?php echo esc_url( $link . '#/projects/' . $project_id . '/discussions/' . $id ); ?>" 
                                         target="_blank"
                                     >
-                                        <?php _e( 'View this discussion', 'wedevs-project-manger' ); ?>
+                                        <?php _e( 'View this discussion', 'wedevs-project-manager' ); ?>
                                         
                                     </a> 
                                 </div>
@@ -69,7 +69,7 @@
                         <tr>
                             <td>
                                 <p style="font-size: 16px; line-height: 30px; margin: 0; color: #7E8690;">
-                                    <?php _e( 'Created at', 'wedevs-project-manger' ) ?>
+                                    <?php _e( 'Created at', 'wedevs-project-manager' ) ?>
                                 </p>
                                 <h2 style="font-size: 16px; color: #000; margin: 0; font-weight: 400;">
                                      <?php $discussion_date = empty( $created_at['date'] ) ? '&#x02013;&#x02013;' : pm_date_format( esc_html( $created_at['date'] ) ); ?>
