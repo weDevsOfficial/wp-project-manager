@@ -110,11 +110,14 @@
         </div>
 
         <div v-if="parseInt(taskId) && parseInt(projectId)">
-            <single-task :taskId="taskId" :projectId="projectId"></single-task>
+            <single-task 
+                :taskId="parseInt(taskId)" 
+                :projectId="parseInt(projectId)" 
+            />
         </div>
 
         <div v-if="moveTaskItems.popupModal">
-            <move-task :items="moveTaskItems"></move-task>
+            <move-task :items="moveTaskItems" />
         </div>
     </div>
 

@@ -78,6 +78,8 @@
         <div v-if="parseInt(listTaskId) && parseInt(listProjectId)">
             <single-task :taskId="listTaskId" :projectId="listProjectId"></single-task>
         </div>
+
+        <router-view name="single-task"></router-view> 
     </div>
 
 </template>
