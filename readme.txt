@@ -5,7 +5,7 @@ Tags: project, project manager, project management, web project management, task
 Requires at least: 4.4 or higher
 Tested up to: 5.6
 Requires PHP: 5.6
-Stable tag: 2.4.8
+Stable tag: 2.4.9
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -261,6 +261,13 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 
 == Changelog ==
+
+= v2.4.9 - Jan 26, 2021 =
+
+**Fix** Email notification was showing the wrong task completed user name.
+**Fix** Every member can see every project.
+**Fix** First-time task lists were not loading from the notification email.
+**Update** Alignment problem when creating the new project.
 
 = v2.4.8 - Dec 18, 2020 =
 
