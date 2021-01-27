@@ -48,7 +48,6 @@ class Complete_Task_Notification extends Email {
         $subject = sprintf( __( '[%s] %s Task mark as %s in %s', 'wedevs-project-manager' ), $this->get_blogname(), $task->title, $task->status, $task->projects->title );
         $message = $this->get_content_html( $template_name, $task_raw );
 
-        pm_log('asdfd', $message);
         $this->send( $users, $subject, $message );
 
     }
