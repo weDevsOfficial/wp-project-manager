@@ -299,7 +299,7 @@
             </div>
             <pm-do-action :hook="'pm_after_task_content'"></pm-do-action>
         </div>
-        <router-view name="single-task"></router-view> 
+        <router-view name="single_task"></router-view> 
         <!-- @nextPage="nextPage" -->
         <pm-pagination
             v-if="isFetchProject"

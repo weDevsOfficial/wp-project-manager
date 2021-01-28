@@ -55,7 +55,7 @@
 
         methods: {
             selfRemove (id) {
-                if(!confirm(__('Are you sure!', 'pm-pro') )) {
+                if(!confirm(__('Are you sure!', 'wedevs-project-manager') )) {
                     return false;
                 }
                 
