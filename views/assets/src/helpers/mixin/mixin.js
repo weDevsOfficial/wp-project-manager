@@ -666,7 +666,7 @@ export default {
                     pmProjects = res.data;
                 }
             };
-
+            
             self.httpRequest(request_data);
         },
 

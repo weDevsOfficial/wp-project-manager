@@ -3,7 +3,7 @@
 return [
     'name'        => 'Project Manager',
     'slug'        => 'pm',
-    'version'     => '2.4.7',
+    'version'     => '2.4.9',
     'api'     	  => '2',
     'db_version'  => '2.5',
     'text_domain' => 'pm',
@@ -13,7 +13,15 @@ return [
         'br'     => [],
         'em'     => [],
         'strong' => [],
-        'span'   => ['style' =>[], 'class' => [], 'id' =>[], 'data-pm-user-id' => [], 'data-pm-user' => [], 'name' => [], 'title' => []],
+        'span'   => [
+            'style'           => [], 
+            'class'           => [], 
+            'id'              => [], 
+            'data-pm-user-id' => [], 
+            'data-pm-user'    => [], 
+            'name'            => [], 
+            'title'           => []
+        ],
         'b'      => [],
         'em'     => [],
         'p'      => [],
