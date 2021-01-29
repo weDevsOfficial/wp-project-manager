@@ -805,6 +805,11 @@ ul.pm-nav li a {
 .pm-ui-dialog .pm-form-item textarea,
 .pm-ui-dialog .pm-form-item select {
   width: 100%;
+  max-width: none;
+  color: #9e9e9e;
+}
+.pm-ui-dialog .pm-form-item select {
+  background: transparent;
 }
 .pm-ui-dialog .pm-form-item input[type="checkbox"],
 .pm-ui-dialog .pm-form-item input[type="radio"] {

@@ -497,7 +497,6 @@
 
                             <!-- <do-action :hook="'single_task_inline'" :actionData="doActionData"></do-action> -->
                             <pm-do-slot :hook="'single_task_tools'" :actionData="doActionData"></pm-do-slot>
-
                         </div>
 
                         <pm-do-slot :hook="'after_single_task_tools'" :actionData="doActionData"></pm-do-slot>
