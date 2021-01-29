@@ -34,12 +34,12 @@
                         <span>{{ taskDateFormat(task.due_date.date) }}</span>
                     </div>
 
-                   <!--  <div class="task-activity" v-if="isPrivateTask(task.meta.privacy)">
+                   <div class="task-activity" v-if="isPrivateTask(task.meta.privacy)">
                         <span  class="icon-pm-private"></span>
                     </div>
 
                     
-                    <a href="#" @click.prevent="getSingleTask(task)" v-if="parseInt(task.meta.total_comment) > 0" class="task-activity comment">
+                    <!--  <a href="#" @click.prevent="getSingleTask(task)" v-if="parseInt(task.meta.total_comment) > 0" class="task-activity comment">
                         <span class="icon-pm-comment"></span>
                         <span>{{ task.meta.total_comment }}</span>
                     </a> 
@@ -110,11 +110,14 @@
         </div>
 
         <div v-if="parseInt(taskId) && parseInt(projectId)">
-            <single-task :taskId="taskId" :projectId="projectId"></single-task>
+            <single-task 
+                :taskId="parseInt(taskId)" 
+                :projectId="parseInt(projectId)" 
+            />
         </div>
 
         <div v-if="moveTaskItems.popupModal">
-            <move-task :items="moveTaskItems"></move-task>
+            <move-task :items="moveTaskItems" />
         </div>
     </div>
 

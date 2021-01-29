@@ -2,7 +2,7 @@
     <div>
         <div class="pm-wrap pm my-tasks pm-my-tasks">
             <h1 class="wp-heading-inline">
-                {{ __( 'Tasks', 'wedevs-project-manger') }}
+                {{ __( 'Tasks', 'wedevs-project-manager') }}
             </h1>
             <a href="#" @click.prevent="openTaskForm()" class="page-title-action">{{ __( 'Add New', 'wedevs-project-manager') }}</a>
             <my-task-header></my-task-header>

@@ -19,7 +19,7 @@
                 <!-- v-model="project_description" -->
                 <textarea v-model="project_description"  class="pm-project-description" id="" rows="5" :placeholder="details_of_project"></textarea>
             </div>
-            <div class="pm-project-form-users-wrap">
+            <div class="pm-project-form-users-wrap" v-if="selectedUsers.length">
                 <div class="pm-form-item pm-project-role" v-if="show_role_field">
                     <table>
                         <tr v-for="projectUser in selectedUsers" :key="projectUser.id">

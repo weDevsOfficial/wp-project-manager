@@ -1,3 +1,16 @@
+= v2.4.9 - Jan 26, 2021 =
+
+**Fix** Email notification was showing the wrong task completed user name.
+**Fix** Every member can see every project.
+**Fix** First-time task lists were not loading from the notification email.
+**Update** Alignment problem when creating the new project.
+
+= v2.4.8 - Dec 18, 2020 =
+
+**Update** Task query updated for filtering tasks by complete_at date range.
+**Fix** Completed tasks were not showing on my-task.
+**Fix** Made the icons inline alignment on the subtask create form. 
+
 = v2.4.7 - Dec 10, 2020 =
 
 **Update** PSR-4 standard
