@@ -33,30 +33,6 @@ class Offers {
 
             return $offer;
         }
-
-        // $promotion2_start = $promotion1_end->setTime( 14, 0, 1 );
-        // $promotion2_end = $promotion2_start->modify( '+4 days' )->setTime( 23, 59, 59 );
-
-        // if ( $current_time >= $promotion2_start && $current_time <= $promotion2_end ) {
-        //     $offer->status  = $disabled_key == 'pm_offer_2' ? false : true;
-        //     $offer->message = __( 'Enjoy Up To <strong>50% OFF</strong> on <strong>WP Project Manager Pro</strong>. Get Your Black Friday', 'wedevs-project-manager' );
-        //     $offer->link    = 'https://wedevs.com/wp-project-manager-pro/pricing?utm_medium=text&utm_source=wordpress-wppm';
-        //     $offer->key     = 'pm_offer_2';
-
-        //     return $offer;
-        // }
-        
-        // $promotion3_start = $promotion2_end->modify( 'next day' )->setTime( 0, 0, 0);
-        // $promotion3_end   = $current_time->setDate( 2020, 12, 4 )->setTime( 23, 59, 59 );
-
-        // if ( $current_time >= $promotion3_start && $current_time <= $promotion3_end ) {
-        //     $offer->status  = $disabled_key == 'pm_offer_3' ? false : true;
-        //     $offer->message = __( 'Enjoy Up To <strong>50% OFF</strong> on <strong>WP Project Manager Pro</strong>. Get Your Cyber Monday', 'wedevs-project-manager' );
-        //     $offer->link    = 'https://wedevs.com/wp-project-manager-pro/pricing?utm_medium=text&utm_source=wordpress-wppm';
-        //     $offer->key     = 'pm_offer_3';
-
-        //     return $offer;
-        // }
         
         $offer->status = false;
 
@@ -74,12 +50,6 @@ class Offers {
         if ( ! current_user_can( 'manage_options' ) ) {
             return;
         }
-
-        // global $wedevs_pm_pro;
-
-        // if ( $wedevs_pm_pro ) {
-        //     return false;
-        // }
 
         $offer = $this->get_offer();
 
@@ -134,12 +104,18 @@ class Offers {
      */
     public function dismiss_offer() {
 
-        if ( isset( $_POST['nonce'] ) && ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'pm_dismiss_offer' ) ) {
+        if ( empty( $_POST['nonce'] ) ) {
+            return;
+        }
+
+        if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'pm_dismiss_offer' ) ) {
             wp_send_json_error( __( 'Invalid nonce', 'wedevs-project-manager' ) );
+            return;
         }
 
         if ( ! current_user_can( 'manage_options' ) ) {
             wp_send_json_error( __( 'You have no permission to do that', 'wedevs-project-manager' ) );
+            return;
         }
 
         $offer_key  = 'pm_offer_notice';
