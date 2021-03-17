@@ -1,3 +1,7 @@
+= v2.4.11 - March 17, 2021 =
+
+**notice** Limited time promotion for weDevs’ birthday.
+
 = v2.4.10 - Feb 13, 2021 =
 
 **Fix** Vulnerable security issue.
