@@ -1,3 +1,11 @@
+= v2.4.11 - March 17, 2021 =
+
+**notice** Limited time promotion for weDevs’ birthday.
+
+= v2.4.10 - Feb 13, 2021 =
+
+**Fix** Vulnerable security issue.
+
 = v2.4.9 - Jan 26, 2021 =
 
 **Fix** Email notification was showing the wrong task completed user name.
