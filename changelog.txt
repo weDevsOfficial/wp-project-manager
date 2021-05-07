@@ -1,6 +1,10 @@
+= v2.4.12 - May 07, 2021 =
+
+**Notice** Limited time promotion on account of Eid.
+
 = v2.4.11 - March 17, 2021 =
 
-**notice** Limited time promotion for weDevs’ birthday.
+**Notice** Limited time promotion for weDevs’ birthday.
 
 = v2.4.10 - Feb 13, 2021 =
 
