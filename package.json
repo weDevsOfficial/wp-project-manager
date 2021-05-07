@@ -1,6 +1,6 @@
 {
   "name": "pmapi",
-  "version": "2.4.9",
+  "version": "2.4.11",
   "description": "Front-end package manager for project manager",
   "main": "index.js",
   "directories": {
@@ -89,7 +89,6 @@
   },
   "dependencies": {
     "@wordpress/url": "^2.15.0",
-    "underscore": "^1.10.2",
     "babel-preset-stage-2": "^6.24.1",
     "chart.js": "^2.7.1",
     "classnames": "^2.2.6",
@@ -100,6 +99,7 @@
     "moment-timezone": "^0.5.13",
     "nprogress": "^0.2.0",
     "toastr": "^2.1.2",
+    "underscore": "^1.10.2",
     "v-autocomplete": "^1.8.2",
     "vue": "^2.5.2",
     "vue-color": "^2.4.5",
