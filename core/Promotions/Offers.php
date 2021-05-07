@@ -19,7 +19,7 @@ class Offers {
         $current_time = new \DateTimeImmutable( 'now', new \DateTimeZone('America/New_York') );
         $disabled_key = get_option( 'pm_offer_notice' );
 
-        $promotion1_start = $current_time->setDate( '2021', '05', '06' )->setTime( '09', '00', '00' );
+        $promotion1_start = $current_time->setDate( '2021', '05', '11' )->setTime( '09', '00', '00' );
         $promotion1_end   = $current_time->setDate( '2021', '05', '24' )->setTime( '23', '59', '59' );
 
         if ( $current_time >= $promotion1_start && $current_time <= $promotion1_end ) {
