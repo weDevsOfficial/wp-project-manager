@@ -24,7 +24,7 @@
                     </span>
 
                     <span class="task-label task-activity">
-                        <span class="label-block" v-for="label in getLabels(task)">
+                        <span class="label-block" v-for="(label, labelIndex) in getLabels(task)" :key="labelIndex">
                             <span class="label-color" :style="'background-color:'+ label.color ">{{ label.title }}</span>
                         </span>
                     </span>
