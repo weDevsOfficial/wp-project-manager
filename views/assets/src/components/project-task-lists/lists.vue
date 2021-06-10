@@ -308,6 +308,13 @@
             :component_name="paginationComponent">
             
         </pm-pagination> 
+
+        <div v-if="parseInt(taskId) && parseInt(projectId)">
+            <single-task
+                :taskId="parseInt(taskId)" 
+                :projectId="parseInt(projectId)" 
+            />
+        </div>
         
     </div>
 </template>
@@ -344,7 +351,8 @@
             'multiselect': pm.Multiselect.Multiselect,
             'pm-datepickter': date_picker,
             'pm-menu': Menu,
-            'new-task-form': new_task_form
+            'new-task-form': new_task_form,
+            'single-task': pm.SingleTask,
         },
 
         mixins: [Mixins],
@@ -404,6 +412,8 @@
                 taskFilterSpinner: false,
                 searchTasktitle: '',
                 isfilterQueryRunning: false,
+                taskId: null,
+                projectId: null
             }
         },
 
@@ -602,6 +612,8 @@
                 this.isActiveFilter = true;
                 this.filterRequent();
             }
+
+            pmBus.$on('pm_after_close_single_task_modal', this.closeSingleTaskModal);
         },
 
         methods: {
@@ -1059,10 +1071,31 @@
                 ids.push(lists.id);
 
                 return ids;
-            }
+            },
 
+            openSingleModalFromParams() {
+                // Get route and open modal if specific task is open
+                var params = this.$route.params;
+
+                if ( typeof params.task_id !== 'undefined' && typeof params.project_id !== 'undefined' ) {
+                    this.$store.commit('projectTaskLists/updateSingleTaskActiveMode', true);
+                    this.taskId    = parseInt( params.task_id );
+                    this.projectId = parseInt( params.project_id );
+                } else {
+                    this.taskId    = null;
+                    this.projectId = null;
+                }
+            },
+
+            closeSingleTaskModal() {
+                this.taskId    = null;
+                this.projectId = null;
+            }
         },
 
+        mounted() {
+            this.openSingleModalFromParams();
+        }
     }
 </script>
 
