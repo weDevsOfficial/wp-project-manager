@@ -25,7 +25,8 @@ $router->post( 'projects/{project_id}/delete/{id}/settings', 'WeDevs/PM/Settings
 $router->post( 'settings/task-types', 'WeDevs/PM/Settings/Controllers/Task_Types_Controller@store' )
     ->permission(['WeDevs\PM\Core\Permissions\Settings_Page_Access']);
 
-$router->get( 'settings/task-types', 'WeDevs/PM/Settings/Controllers/Task_Types_Controller@index' );
+$router->get( 'settings/task-types', 'WeDevs/PM/Settings/Controllers/Task_Types_Controller@index' )
+    ->permission(['WeDevs\PM\Core\Permissions\Settings_Page_Access']);
 
 $router->post( 'settings/task-types/{id}', 'WeDevs/PM/Settings/Controllers/Task_Types_Controller@update_task_type' )
     ->permission(['WeDevs\PM\Core\Permissions\Settings_Page_Access']);
