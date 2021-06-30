@@ -1452,13 +1452,13 @@ class Task {
 		//If its contain between condition
 		if ( $completed_at_start ) {
 
-			// if ( $completed_at_between ) {
-			// 	$query = $wpdb->prepare( " DATE({$this->tb_tasks}.completed_at) BETWEEN %s AND %s ", $com_start_reduce, $com_add );
-			// } else {
-			// 	$query = $wpdb->prepare( " DATE({$this->tb_tasks}.completed_at) NOT BETWEEN %s AND %s ", $com_start_reduce, $com_add );
-			// }
+			if ( $completed_at_between ) {
+				$query = $wpdb->prepare( " DATE({$this->tb_tasks}.completed_at) BETWEEN %s AND %s ", $com_start_reduce, $com_add );
+			} else {
+				$query = $wpdb->prepare( " DATE({$this->tb_tasks}.completed_at) NOT BETWEEN %s AND %s ", $com_start_reduce, $com_add );
+			}
 			
-			// $this->where .= " AND ( $query ) ";
+			$this->where .= " AND ( $query ) ";
 
 			return $this;
 		}
