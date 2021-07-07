@@ -248,7 +248,9 @@
                 // Refresh the pm-calendar data
                 $('#pm-calendar').fullCalendar('removeEvents');
     			$('#pm-calendar').fullCalendar('refetchEvents');
-                
+
+                // Refresh Task overview at a glance data
+                this.$store.commit("myTask/afterCreateTask", {task: task.data, route: this.$route.name});
             },
             changeProject (project) {
                 this.getLists(project.id);
