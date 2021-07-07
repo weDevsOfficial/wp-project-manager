@@ -242,16 +242,13 @@
         },
 
         methods: {
-            afterCreateTask () {
+            afterCreateTask ( task ) {
                 this.closePopup();
-                // this.$router.push({
-                //     name: 'mytask-current',
-                //     params: {
-                //         user_id: this.$route.params.user_id    
-                //     },
-                //     query: this.$route.query
-                    
-                // });
+
+                // Refresh the pm-calendar data
+                $('#pm-calendar').fullCalendar('removeEvents');
+    			$('#pm-calendar').fullCalendar('refetchEvents');
+                
             },
             changeProject (project) {
                 this.getLists(project.id);
