@@ -23,7 +23,7 @@ class Offers {
         $promotion1_end   = $current_time->setDate( '2021', '07', '26' )->setTime( '23', '59', '59' );
 
         if ( $current_time >= $promotion1_start && $current_time <= $promotion1_end ) {
-            $offer->status  = $disabled_key == 'pm_eid_offer_2021' ? false : true;
+            $offer->status  = $disabled_key == 'pm_summer_sale_offer_2021' ? false : true;
             $offer->message = __( '<strong>Summer Sale!</strong></br>Chill out with <strong>weDevs</strong>.</br>Enjoy up to <strong>40% OFF</strong> on <strong>WP Project Manager Pro</strong>.', 'wedevs-project-manager' );
             $offer->link    = 'https://wedevs.com/wp-project-manager-pro/pricing?utm_medium=text&utm_source=wordpress-wppm-summer-sale2021';
             $offer->key     = 'pm_summer_sale_offer_2021';
