@@ -19,14 +19,14 @@ class Offers {
         $current_time = new \DateTimeImmutable( 'now', new \DateTimeZone('America/New_York') );
         $disabled_key = get_option( 'pm_offer_notice' );
 
-        $promotion1_start = $current_time->setDate( '2021', '05', '11' )->setTime( '09', '00', '00' );
-        $promotion1_end   = $current_time->setDate( '2021', '05', '24' )->setTime( '23', '59', '59' );
+        $promotion1_start = $current_time->setDate( '2021', '07', '16' )->setTime( '09', '00', '00' );
+        $promotion1_end   = $current_time->setDate( '2021', '07', '26' )->setTime( '23', '59', '59' );
 
         if ( $current_time >= $promotion1_start && $current_time <= $promotion1_end ) {
-            $offer->status  = $disabled_key == 'pm_eid_offer_2021' ? false : true;
-            $offer->message = __( '<strong>Eid Mubarak!</strong></br>Stay Safe & Spread Happiness.</br>Enjoy up to <strong>45% OFF</strong> on <strong>WP Project Manager Pro</strong>.', 'wedevs-project-manager' );
-            $offer->link    = 'https://wedevs.com/wp-project-manager-pro/pricing?utm_medium=text&utm_source=wordpress-wppm-eidoffer2021';
-            $offer->key     = 'pm_eid_offer_2021';
+            $offer->status  = $disabled_key == 'pm_summer_sale_offer_2021' ? false : true;
+            $offer->message = __( '<strong>Summer Sale!</strong></br>Chill out with <strong>weDevs</strong>.</br>Enjoy up to <strong>40% OFF</strong> on <strong>WP Project Manager Pro</strong>.', 'wedevs-project-manager' );
+            $offer->link    = 'https://wedevs.com/wp-project-manager-pro/pricing?utm_medium=text&utm_source=wordpress-wppm-summer-sale2021';
+            $offer->key     = 'pm_summer_sale_offer_2021';
 
             return $offer;
         }
