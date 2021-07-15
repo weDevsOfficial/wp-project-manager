@@ -1516,11 +1516,9 @@ class Task {
 		$ope_params       = !empty( $this->query_params['due_date_operator'] ) ? $this->query_params['due_date_operator'] : false;
 		$ope_params       = pm_get_prepare_data( $ope_params );
 
-		
         if ( empty( $due_date ) ) {
             return $this;
         }
-        
 
 		if ( $due_date_start ) {
 			$due_start_reduce = date('Y-m-d', strtotime ( $due_date_start) );
@@ -1562,22 +1560,23 @@ class Task {
 
 			$operator = $this->get_operator( $explode[0] );
 			$due_date = date( 'Y-m-d', strtotime( $due_date ) );
-			
-			if( $explode[0] == 'null' || $explode[0] == 'empty' ) {
 
-				$due_q = "{$this->tb_tasks}.due_date $operator";
-
-				$q[] = "($due_q) $relation";
-			} else {
-
-				$due_q = $wpdb->prepare( " {$this->tb_tasks}.due_date $operator %s", $due_date );
-
-				$q[] = " ( {$due_q} ) {$relation} ";
+			if ( $operator !== "= ''" ) {
+				if( $explode[0] == 'null' || $explode[0] == 'empty' ) {
+					$due_q = "{$this->tb_tasks}.due_date $operator";
+	
+					$q[] = "($due_q) $relation";
+				} else {
+					$due_q = $wpdb->prepare( " {$this->tb_tasks}.due_date $operator %s", $due_date );
+	
+					$q[] = " ( {$due_q} ) {$relation} ";
+				}
 			}
 		}
 
 		$q = implode( ' ', $q );
-	
+		$q = substr( $q, 0, -2 ); // Remove `or` text from last sql string
+		
 		if ( ! empty( $q ) ) {
 			$this->where .= " AND ( $q ) ";
 		}
