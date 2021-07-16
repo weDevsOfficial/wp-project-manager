@@ -3,9 +3,9 @@ Contributors: tareq1988, nizamuddinbabu, wedevs, asaquzzaman
 Donate Link: https://tareq.co/donate/
 Tags: project, project manager, project management, web project management, task manager, online collaboration tool,
 Requires at least: 4.4 or higher
-Tested up to: 5.7.1
+Tested up to: 5.7.2
 Requires PHP: 5.6
-Stable tag: 2.4.12
+Stable tag: 2.4.13
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -261,6 +261,16 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 
 == Changelog ==
+
+= v2.4.13 - July 16, 2021 =
+
+**Notice** Limited time promotional offer regarding summer sale
+**Update** Calendar event content styles
+**Update** Some library upgrade for better performance
+**Fix** My Task report was not getting accurate result in some cases
+**Fix** My Calendar single task was unable to be moved
+**Fix** After creating a task, it was not updating instantly in ‘My Calendar’ and ‘My Task at a Glance’ section
+**Fix** Authentication issues on some un-authenticated API endpoints like tasks, task types, activities
 
 = v2.4.12 - May 07, 2021 =
 
