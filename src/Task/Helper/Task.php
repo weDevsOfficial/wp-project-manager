@@ -182,10 +182,10 @@ class Task {
 
 	/**
 	 * Format task data
-	 * 
-	 * @param  Object $task 
-	 * 
-	 * @return array          
+	 *
+	 * @param  Object $task
+	 *
+	 * @return array
 	 */
 	public function fromat_task( $task ) {
 
@@ -193,14 +193,14 @@ class Task {
 			'id'                    => (int) $task->id,
 			'title'                 => (string) $task->title,
 			'description'           => [ 'html' => pm_get_content( $task->description ), 'content' => $task->description ],
-			'estimation'            => $task->estimation*60,
+			'estimation'            => $task->estimation * 60,
 			'comparable_estimation' => $task->comparable_estimation,
-			'formated_com_est'      => pm_second_to_time( $task->comparable_estimation*60 ),
+			'formated_com_est'      => pm_second_to_time( $task->comparable_estimation * 60 ),
 			'start_at'              => format_date( $task->start_at ),
 			'due_date'              => format_date( $task->due_date ),
 			'complexity'            => $this->complexity( $task->complexity ),
 			'priority'              => $this->priorities( $task->priority ),
-			'order'                 => empty( $task->order ) ? 0 : intval($task->order), 
+			'order'                 => empty( $task->order ) ? 0 : intval( $task->order ),
 			'payable'               => $this->payability( $task->payable ),
 			'recurrent'             => $this->recurrency( $task->recurrent ),
 			'parent_id'             => (int) $task->parent_id,
