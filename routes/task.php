@@ -23,7 +23,7 @@ $router->get( 'advanced/taskscsv', 'WeDevs/PM/Task/Helper/Task@get_taskscsv' )
 $router->post( 'projects/{project_id}/tasks', 'WeDevs/PM/Task/Controllers/Task_Controller@store' )
     ->permission(['WeDevs\PM\Core\Permissions\Create_Task'])
     ->validator( 'WeDevs\PM\Task\Validators\Create_Task' )
-    ->sanitizer( 'WeDevs\PM\Task\Validators\Task_Sanitizer' );
+    ->sanitizer( 'WeDevs\PM\Task\Sanitizers\Task_Sanitizer' );
 
 $router->post( 'projects/{project_id}/tasks/sorting', 'WeDevs/PM/Task/Controllers/Task_Controller@task_sorting' )
     ->permission( [ $authentic ] );
@@ -34,7 +34,7 @@ $router->get( 'projects/{project_id}/tasks/{task_id}', 'WeDevs/PM/Task/Controlle
 $router->post( 'projects/{project_id}/tasks/{task_id}/update', 'WeDevs/PM/Task/Controllers/Task_Controller@update' )
     ->permission(['WeDevs\PM\Core\Permissions\Edit_Task'])
     ->validator( 'WeDevs\PM\Task\Validators\Create_Task' )
-    ->sanitizer( 'WeDevs\PM\Task\Validators\Task_Sanitizer' );
+    ->sanitizer( 'WeDevs\PM\Task\Sanitizers\Task_Sanitizer' );
 
 $router->post( 'projects/{project_id}/tasks/{task_id}/change-status', 'WeDevs/PM/Task/Controllers/Task_Controller@change_status' )
     ->permission(['WeDevs\PM\Core\Permissions\Complete_Task']);
