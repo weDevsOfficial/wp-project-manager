@@ -1,5 +1,4 @@
 <template>
-
     <div class="pm-file">
         <a v-if="isVideo" v-pm-pretty-photo class="pm-colorbox-img pm-video" :href="file.url + '?iframe=true'" :title="file.name" target="_blank" rel="prettyPhoto">
             <img class="pm-content-img-size" :src="file.thumb" :alt="file.name" :title="file.name">
@@ -19,7 +18,6 @@
             <img v-if="!file.absoluteUrl" class="pm-content-img-size" :src="file.thumb" :alt="file.name" :title="file.name">
         </a>
     </div>
-
 </template>
 
 
@@ -31,11 +29,7 @@ export default {
             type: Object,
         }
     },
-    data() {
-        return {
 
-        }
-    },
     computed: {
         isPrettyPhoto () {
             var photo = [];
@@ -51,7 +45,7 @@ export default {
                 return false;
             }
         },
-        
+
         isVideo () {
             if (typeof this.file.mime_type !== 'undefined' ) {
                 return this.file.mime_type.split("/").indexOf('video') !== -1;
@@ -75,23 +69,12 @@ export default {
         },
 
         projectId () {
-           if ( this.file.fileable ) {
-               return this.file.fileable.project_id;
+           if ( this.file.fileable_id ) {
+               return this.file.fileable_id;
            }
 
            return this.project_id;
         }
-
-    },
-    methods: {
-        check(){
-            //console.log(this.file.mime_type);
-        }
     }
 }
 </script>
-
-
-<style lang="css">
-
-</style>
