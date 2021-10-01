@@ -7,7 +7,8 @@ use WeDevs\PM\Core\Sanitizer\Abstract_Sanitizer;
 class Task_List_Sanitizer extends Abstract_Sanitizer {
 	public function filters() {
         return [
-            'description' => 'pm_kses',
+            'title'       => 'trimer|pm_kses',
+            'description' => 'trimer|pm_kses',
         ];
     }
 }
