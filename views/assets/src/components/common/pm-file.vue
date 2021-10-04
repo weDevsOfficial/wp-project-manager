@@ -69,8 +69,8 @@ export default {
         },
 
         projectId () {
-           if ( this.file.fileable_id ) {
-               return this.file.fileable_id;
+           if ( typeof this.file.fileable !== 'undefined' && this.file.fileable.project_id !== null ) {
+               return this.file.fileable.project_id;
            }
 
            return this.project_id;
