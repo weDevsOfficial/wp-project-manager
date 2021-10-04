@@ -40,7 +40,7 @@ class Task_List_Controller {
         return self::$_instance;
     }
 
-    public function index( WP_REST_Request $request ) { 
+    public function index( WP_REST_Request $request ) {
         global $wpdb;
         $task_tb                = $wpdb->prefix . 'pm_tasks';
         $list_tb                = $wpdb->prefix . 'pm_boardables';
@@ -76,7 +76,7 @@ class Task_List_Controller {
         if ( isset( $status ) && $status == 0 ) {
             $status = [0];
         }
-        
+
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
         });
@@ -112,7 +112,7 @@ class Task_List_Controller {
             })
             ->where( pm_tb_prefix() .'pm_boards.project_id', $project_id)
             ->groupBy($tb_lists.'.id');
-        
+
         if ( ! empty( $status ) ) {
             $task_lists->whereIn( pm_tb_prefix() .'pm_boards.status', $status );
         } else {
@@ -184,7 +184,7 @@ class Task_List_Controller {
            // $lists['data'][$key]['incomplete_tasks']['meta'] = $incomplete_tasks['meta'];
             $lists['data'][$key]['incomplete_tasks']['data'] = [];
             if ( ! empty( $filter_tasks[$list['id']] ) ) {
-                $lists['data'][$key]['incomplete_tasks']['data'] = $filter_tasks[$list['id']];
+                $lists['data'][$key]['incomplete_tasks']['data'] = $filter_tasks[ $list['id'] ];
             }
         }
 
