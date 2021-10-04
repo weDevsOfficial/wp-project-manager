@@ -56,13 +56,13 @@ class Task_Transformer extends TransformerAbstract {
                 $order = 0;
             }
         }
-        
-        return apply_filters( 
-            'pm_task_transform', 
+
+        return apply_filters(
+            'pm_task_transform',
             [
                 'id'           => (int) $item->id,
-                'title'        => $item->title,
-                'description'  => [ 'html' => pm_get_content( $item->description ), 'content' => $item->description ],
+                'title'        => pm_kses( $item->title ),
+                'description'  => [ 'html' => pm_get_content( pm_kses( $item->description ) ), 'content' => pm_kses( $item->description ) ],
                 'estimation'   => $item->estimation,
                 'start_at'     => format_date( $item->start_at ),
                 'due_date'     => format_date( $item->due_date ),
@@ -71,7 +71,7 @@ class Task_Transformer extends TransformerAbstract {
                 'order'        => (int) $order,
                 'payable'      => $item->payable,
                 'recurrent'    => $item->recurrent,
-                'parent_id'    => $item->parent_id,     
+                'parent_id'    => $item->parent_id,
                 'status'       => $item->status,
                 'project_id'   => $item->project_id,
                 'category_id'  => $item->category_id,
@@ -81,7 +81,7 @@ class Task_Transformer extends TransformerAbstract {
                 'task_list_id' => $item->task_list,
                 'meta'         => $this->meta( $item ),
                 'type'         => $this->get_type( $item->id )
-            ], 
+            ],
             $item
         );
     }
