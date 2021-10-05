@@ -23,10 +23,16 @@
 
 <script>
 export default {
+
     props: {
         file: {
-            required: true,
-            type: Object,
+            required : true,
+            type     : Object,
+        },
+
+        file_project_id: {
+            required : false,
+            type     : Number
         }
     },
 
@@ -73,7 +79,7 @@ export default {
                return this.file.fileable.project_id;
            }
 
-           return this.project_id;
+           return this.project_id > 0 ? this.project_id : this.file_project_id;
         }
     }
 }
