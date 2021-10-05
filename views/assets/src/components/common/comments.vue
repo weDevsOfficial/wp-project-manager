@@ -42,19 +42,16 @@
                                     </ul>
                                 </div>
                             </div>
-                            
                         </div>
 
 
                         <div v-if="!comment.edit_mode" class="pm-comment-content">
-                            
                             <div v-html="comment.content"></div>
                             <ul class="pm-attachments" v-if="comment.files.data.length">
                                 <li v-for="file in comment.files.data" :key="file.id">
-                                    <pm-file :file="file" />
+                                    <pm-file :file="file" :file_project_id="comment.project_id" />
                                 </li>
                             </ul>
-
                         </div>
 
                         <transition name="slide" v-if="can_edit_comment(comment)" >
@@ -372,6 +369,8 @@
             // this.comments.forEach(function(comment) {
             //     pm.Vue.set(comment, 'actionMode', false);
             // });
+
+            console.log('comments', this.comments);
 
             window.addEventListener('click', this.windowActivity);
         },
