@@ -1,6 +1,5 @@
 <template>
     <div class="pm-task-comment-wrap">
-        
         <!-- <div class="discuss-text pm-h2">{{ __( 'Discussion', 'wedevs-project-manager') }}</div> -->
 
         <div  class="comment-content">
@@ -12,14 +11,14 @@
                                 <a :href="myTaskRedirect( comment.creator.data.id )" :title="comment.creator.data.display_name">
                                 <img :alt="comment.creator.data.display_name" :src="comment.creator.data.avatar_url" class="avatar avatar-96 photo" height="96" width="96"></a>
                             </div>
-                            
+
                             <div v-if="!comment.edit_mode" class="author-date">
                                 <span class="pm-author">
                                     <a :href="myTaskRedirect( comment.creator.data.id )" :title="comment.creator.data.display_name">
                                         {{ ucfirst(comment.creator.data.display_name) }}
                                     </a>
                                 </span>
-                                
+
                                 <span class="pm-date">
                                     <time :datetime="dateISO8601Format( comment.created_at.datetime )" :title="getFullDate( comment.created_at.date+' '+comment.created_at.time )">{{ relativeDate(comment.created_at.datetime) }}</time>
                                 </span>
@@ -70,10 +69,10 @@
                 </div>
                 <div class="comment-field">
                     <div @click.prevent="showHideNewCommentField()" v-if="!commentFormMeta.activeNewCommentField" class="comment-field-text pm-light-font">{{ __( 'Add a comment', 'wedevs-project-manager' ) }}</div>
-                    <task-comment-form 
-                        v-if="commentFormMeta.activeNewCommentField"  
-                        :task="commentable" 
-                        :comment="{}" 
+                    <task-comment-form
+                        v-if="commentFormMeta.activeNewCommentField"
+                        :task="commentable"
+                        :comment="{}"
                         :comments="comments"
                         :commentFormMeta="commentFormMeta">
                     </task-comment-form>
@@ -336,7 +335,7 @@
 
 <script>
     import comment_form from './comment-form.vue';
-    
+
     export default {
         // Get passing data for this component.
         props: {
@@ -366,12 +365,6 @@
         },
 
         created () {
-            // this.comments.forEach(function(comment) {
-            //     pm.Vue.set(comment, 'actionMode', false);
-            // });
-
-            console.log('comments', this.comments);
-
             window.addEventListener('click', this.windowActivity);
         },
 
