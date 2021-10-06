@@ -177,6 +177,9 @@ export default {
                 event['start'] = {
                     date: event.start_at.date
                 }
+                event['timezone'] = {
+                    date: event.start_at.timezone
+                }
             }
 
             if(typeof event.end === 'undefined') {
@@ -193,10 +196,9 @@ export default {
                 'type': event.type,
                 'url': this.url(event ),
                 'project_id': event.project_id,
-                'timezone': 'local',
+                'timezone': event.start.timezone,
                 'assignees': this.assignees(event),
             }
-
 
             var className, color;
             if( event.type == 'milestone' ){
@@ -241,21 +243,35 @@ export default {
 
             return className;
         },
+
+        convertDateByTimezone(date, timezone) {
+            if( typeof date !== 'undefined' && date !== '' ) {
+                
+                if( typeof timezone !== 'undefined' && timezone !== '') {
+                    return date.toLocaleString( 'en-US', { timeZone: timezone } );
+                }
+
+                return date;
+            }
+        },
+
         end ( event ) {
-            var end = new Date(event.end.date);
-            var created_at = new Date(event.created_at.date);
+            var end        = this.convertDateByTimezone(event.end.date, event.end.timezone);
+            var created_at = this.convertDateByTimezone(event.created_at.date, event.created_at.timezone);
+            
             if( pm.Moment(end ).isValid() ){
                 return pm.Moment(end).add(1, 'day').format('YYYY-MM-DD');
             }
 
             return pm.Moment(created_at).add(1, 'day').format('YYYY-MM-DD');
         },
-        start ( event ){
 
-            var end = new Date(event.end.date);
-            var created_at = new Date(event.created_at.date);
+        start ( event ){
+            var end        = this.convertDateByTimezone(event.end.date, event.end.timezone);
+            var created_at = this.convertDateByTimezone(event.created_at.date, event.created_at.timezone);
+
             if(event.start.date !== null){
-                var start = new Date(event.start.date );
+                var start = this.convertDateByTimezone(event.start.date, event.start.timezone);
                 if( pm.Moment( start ).isValid() ){
                     return pm.Moment(start).format('YYYY-MM-DD');
                 }
@@ -267,6 +283,7 @@ export default {
 
             return pm.Moment(created_at).format('YYYY-MM-DD');
         },
+
         url ( event ) {
 
             //return '#/calendar';
