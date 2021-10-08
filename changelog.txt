@@ -1,3 +1,13 @@
+= v2.4.14 - October 16, 2021 =
+
+**Notice** Limited time promotional offer for Halloween
+**Fix** Sanitization and data validation issues
+**Fix** Timezone issues in My Calendar
+**Fix** Task file downloading issue by other member of project assignee list
+**Fix** After Task Create Email - `undefined offset` issue in template footer
+**Fix** User assign from Project Overview page
+**Fix** Unassigned Reports was not loading
+
 = v2.4.13 - July 16, 2021 =
 
 **Notice** Limited time promotional offer regarding summer sale
