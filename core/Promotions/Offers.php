@@ -15,22 +15,22 @@ class Offers {
 
     public function get_offer() {
         $offer        = new \stdClass;
-        
+
         $current_time = new \DateTimeImmutable( 'now', new \DateTimeZone('America/New_York') );
         $disabled_key = get_option( 'pm_offer_notice' );
 
-        $promotion1_start = $current_time->setDate( '2021', '07', '16' )->setTime( '09', '00', '00' );
-        $promotion1_end   = $current_time->setDate( '2021', '07', '26' )->setTime( '23', '59', '59' );
+        $promotion1_start = $current_time->setDate( '2021', '10', '21' )->setTime( '09', '00', '00' );
+        $promotion1_end   = $current_time->setDate( '2021', '10', '31' )->setTime( '23', '59', '59' );
 
         if ( $current_time >= $promotion1_start && $current_time <= $promotion1_end ) {
-            $offer->status  = $disabled_key == 'pm_summer_sale_offer_2021' ? false : true;
-            $offer->message = __( '<strong>Summer Sale!</strong></br>Chill out with <strong>weDevs</strong>.</br>Enjoy up to <strong>40% OFF</strong> on <strong>WP Project Manager Pro</strong>.', 'wedevs-project-manager' );
-            $offer->link    = 'https://wedevs.com/wp-project-manager-pro/pricing?utm_medium=text&utm_source=wordpress-wppm-summer-sale2021';
-            $offer->key     = 'pm_summer_sale_offer_2021';
+            $offer->status  = $disabled_key == 'pm_halloween_offer_2021' ? false : true;
+            $offer->message = __( '<strong>Get Yourself a Spooky Delight !</strong></br>Get Up To <strong>40% OFF</strong> on <strong>WP Project Manager Pro</strong>.', 'wedevs-project-manager' );
+            $offer->link    = 'https://wedevs.com/wp-project-manager-pro/pricing?utm_medium=text&utm_source=wordpress-wppm-halloween20212021';
+            $offer->key     = 'pm_halloween_offer_2021';
 
             return $offer;
         }
-        
+
         $offer->status = false;
 
         return $offer;
@@ -62,7 +62,7 @@ class Offers {
                         <a class="link" target="_blank" href="<?php echo $offer->link; ?>"><?php _e( 'Get Now', 'wedevs-project-manager' ) ; ?></a>
                     </p>
                 </div>
-                
+
             </div>
 
             <style>
@@ -105,7 +105,7 @@ class Offers {
 
                 jQuery('body').on('click', '#pm-notice .notice-dismiss', function(e) {
                     e.preventDefault();
-                    
+
                     jQuery.ajax({
                         type: 'POST',
                         data: {
