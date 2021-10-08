@@ -262,7 +262,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
-= v2.4.14 - October 16, 2021 =
+= v2.4.14 - Oct 8, 2021 =
 
 **Notice** Limited time promotional offer for Halloween
 **Fix** Sanitization and data validation issues
