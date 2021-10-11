@@ -150,7 +150,6 @@ return [
 	__( 'Choose task type', 'wedevs-taskType-manager' ),
 	__( 'Write a comment...', 'wedevs-project-manager' ),
 	__( 'Provide your App Key & Token', 'wedevs-project-manager' ),
-	__( 'App Key', 'wedevs-project-manager' ),
 	__( 'App Token', 'wedevs-project-manager' ),
 	__( 'No activities found!', 'wedevs-project-manager' ),
 	__( 'Load More', 'wedevs-project-manager' ),
