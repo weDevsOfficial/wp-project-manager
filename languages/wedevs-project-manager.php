@@ -306,7 +306,7 @@ return [
 	__( 'Pusher Settings', 'wedevs-project-manager' ),
 	__( 'App id', 'wedevs-project-manager' ),
 	__( 'App Key', 'wedevs-project-manager' ),
-	__( 'secret', 'wedevs-project-manager' ),
+	__( 'Secret', 'wedevs-project-manager' ),
 	__( 'Cluster', 'wedevs-project-manager' ),
 	__( 'Save Changes', 'wedevs-project-manager' ),
 	__( 'E-Mail Settings', 'wedevs-project-manager' ),
