@@ -1,12 +1,12 @@
-= v2.4.14 - Oct 8, 2021 =
+= v2.4.14 - Oct 11, 2021 =
 
 **Notice** Limited time promotional offer for Halloween
 **Fix** Sanitization and data validation issues
 **Fix** Timezone issues in My Calendar
 **Fix** Task file downloading issue by other member of project assignee list
-**Fix** After Task Create Email - `undefined offset` issue in template footer
-**Fix** User assign from Project Overview page
-**Fix** Unassigned Reports was not loading
+**Fix** After Task Create Email, `undefined offset` issue in template footer
+**Fix** User assign issue from Project Overview page
+**Fix** Unassigned Reports were not loading
 
 = v2.4.13 - July 16, 2021 =
 
@@ -41,12 +41,12 @@
 
 **Update** Task query updated for filtering tasks by complete_at date range.
 **Fix** Completed tasks were not showing on my-task.
-**Fix** Made the icons inline alignment on the subtask create form. 
+**Fix** Made the icons inline alignment on the subtask create form.
 
 = v2.4.7 - Dec 10, 2020 =
 
 **Update** PSR-4 standard
-**Fix** Project pagination was not working when all projects are deleted from the current page. 
+**Fix** Project pagination was not working when all projects are deleted from the current page.
 **Fix** Fixed the task pagination problem. It was not working when a task is deleted.
 
 = v2.4.6 - Nov 21, 2020 =
@@ -72,10 +72,10 @@
 
 = v2.4.3 - Sep 10, 2020 =
 
-**Update** In dashboard project menu bar has been rearranged. 
-**Update** In single task now user can navigate to project and task list.   
-**Fix** Co-worker can not be deleted in self created task comment. 
-**Fix** In frontend project manager date picker was not showing in single task. 
+**Update** In dashboard project menu bar has been rearranged.
+**Update** In single task now user can navigate to project and task list.
+**Fix** Co-worker can not be deleted in self created task comment.
+**Fix** In frontend project manager date picker was not showing in single task.
 **Fix** In my task, task create form did not change the list even the project has been change.
 **Fix** Project title was missing from my-task.
 
@@ -122,14 +122,14 @@
 * **New** Project description shows upon clicking on the description button.
 * **Update** Load more buttons showing twice after deleting completed task.
 * **Fix** On My task overview graph showing error when there are no task.
-* **Fix** Task assigned date is not showing in a single task popup. 
-* **Fix** Progress bar continue loading after clicking on Clear button on the task filter. 
+* **Fix** Task assigned date is not showing in a single task popup.
+* **Fix** Progress bar continue loading after clicking on Clear button on the task filter.
 
 = v2.3.8 - Mar 12, 2020 =
 
 * **New** New function for getting tasks, messages, milestones, discussions, projects, comments, files, users.
 * **New** Toggle Project description.
-* **Fix** Overview graph showing error when there is no task. 
+* **Fix** Overview graph showing error when there is no task.
 * **Fix** Task assigned date is not showing in single task popup.
 * **Fix** Progress bar continue loading when clearing the task filter.
 * **Update** The unnecessary load more button is showing when delete completed task.
@@ -159,7 +159,7 @@
 * **Fix** Assigned manager in a project was not getting mail at project create time.
 * **Fix** Make Multi-site compatible for fetching co-worker.
 * **Fix** Invisible tools menu for co-worker.
-* **Fix** Co-workers could not edit their created task.  
+* **Fix** Co-workers could not edit their created task.
 * **Fix** 'Inbox' task create form was showing for all pagination page.
 * **Fix** Showing invalid date after search outstanding task.
 * **Fix** Favorite project was not working.
@@ -174,7 +174,7 @@
 
 * **Fix** Task label are inserted two times while updating task.
 * **Fix** Task update buttons can not be selected for tooltip.
-* **Update** Project assigned users has been removed from user search results. 
+* **Update** Project assigned users has been removed from user search results.
 * **Update** Add text limit on task title.
 
 = v2.3.3 - Nov 10, 2019 =
@@ -188,14 +188,14 @@
 = v2.3.2 - Oct 10, 2019 =
 
 * **Fix** Conflict with elementor.
-* **Update** Toastr library. 
+* **Update** Toastr library.
 
 = v2.3.1 - Sep 26, 2019 =
 
 * **New** User can create new task from my-task section.
 * **New** Sorting my-task table column.
 * **Update** My-tasks menu is not appear in front-end.
-* **Update** Reduce loading executing time for project home page. 
+* **Update** Reduce loading executing time for project home page.
 * **Update** Refactoring code for getting projects data.
 
 = v2.3.0 - Sep 09, 2019 =
@@ -209,13 +209,13 @@
 = v2.2.4 - Jul 22, 2019 =
 
 * **New** Task title field in task list search form.
-* **Fix** Task sorting is not working. 
+* **Fix** Task sorting is not working.
 * **Fix** Prevent sorting for default task list (Inbox).
 * **Update** Showing 'more task' button even there is not task.
 
 = v2.2.3 - Jun 15, 2019 =
 
-* **Update** Task list search query. 
+* **Update** Task list search query.
 * **Fix** After drag and drop task is not updating from my-task calendar.
 * **Fix** Milestone disapear after reloding the page.
 
@@ -275,7 +275,7 @@
 
 * **New** Set loading effect for 'Load more' task.
 * **New** Set loading effect at task list page and list archive page nevigation.
-* **New** Set loading effect at task list pagination. 
+* **New** Set loading effect at task list pagination.
 * **New** New library v-tooltip
 * **Fix** Any kinds of url added extra &nbsp from tinymce text filed.
 * **Fix** After project edit, the description is not updated real time.
@@ -288,7 +288,7 @@
 * **Fix** Task pagination did not work.
 * **Fix** Close button did not work in new project form.
 * **Fix** Milestone due date did not update.
-* **Update** Set permission at user create time from project overview page. 
+* **Update** Set permission at user create time from project overview page.
 
 = v2.0.11 - Feb 08, 2019 =
 
@@ -335,7 +335,7 @@
 *  **New** Switch project with key binding cmd+j/clt+j.
 *  **New** Task list page redesign.
 *  **New** Single task list page redesign.
-*  **New** System default task list inbox. 
+*  **New** System default task list inbox.
 *  **New** All description fields with validation and sanitization at edit time.
 *  **New** Project title should be unique.
 *  **Fix** Task filter query.
@@ -373,7 +373,7 @@
 = v2.0.4 - July 27, 2018 =
 
  * **Fix** Download link for wedevs project manager php-5.6.
- 
+
 = v2.0.3 - July 27, 2018 =
 
  * **New** List drag, drop and reorder.
@@ -419,7 +419,7 @@
  * [fixed] Task list is not showing when using the Internet Explorer browser.
  * [fixed] Projects dashboard display missing alignment.
  * [Update] Improved plugin strings.
- 
+
 = 1.6.14 - April 26, 2018 =
 
  * [fixed] Task is not showing after clicking on a task from the calendar.
@@ -439,7 +439,7 @@
  * [fixed] To-do list, Discussion, milestone, page translation not working.
  * [fixed] Projects page translation not working.
  * [update] Improved plugin strings.
- 
+
 = 1.6.11 - February 26, 2018 =
 
  * [fix] Notify users while commenting in a task.
@@ -492,8 +492,8 @@
  * [fix] When complete a task then this completed task shown double in the to-do list.
  * [fix] Double "New To-Do" button shown.
  * [update] 'Get project id' function always return false.
- * [update] Design change for single task page. 
- 
+ * [update] Design change for single task page.
+
 = 1.6.5 - July 6, 2017 =
 
  * [fix] Co-worker can not show the list corner menu.

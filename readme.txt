@@ -3,9 +3,9 @@ Contributors: tareq1988, nizamuddinbabu, wedevs, asaquzzaman
 Donate Link: https://tareq.co/donate/
 Tags: project, project manager, project management, web project management, task manager, online collaboration tool,
 Requires at least: 4.4 or higher
-Tested up to: 5.7.2
+Tested up to: 5.8.1
 Requires PHP: 5.6
-Stable tag: 2.4.13
+Stable tag: 2.4.14
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,10 +15,10 @@ WP Project Manager - Task scheduling, Project management, Team collaboration is 
 
 **Best Project Management Tool for WordPress**
 
-Being one of the most advanced project management and task management tools for WordPress, [WP Project Manager comes](https://wedevs.com/wp-project-manager-pro) with some of the exceptional features that turn your project management experience of your teammates a joyful ride. Super-charge your productivity creating, organizing and assigning tasks within a few clicks. 
-Its user-friendly interface and web-based task management feature enable the user to complete their to-dos quicker than ever. 
+Being one of the most advanced project management and task management tools for WordPress, [WP Project Manager comes](https://wedevs.com/wp-project-manager-pro) with some of the exceptional features that turn your project management experience of your teammates a joyful ride. Super-charge your productivity creating, organizing and assigning tasks within a few clicks.
+Its user-friendly interface and web-based task management feature enable the user to complete their to-dos quicker than ever.
 [youtube https://www.youtube.com/watch?v=GI4u8wXOxHg]
-Effortlessly get your team to complete all the projects timely with its time tracking tool and generate an advanced performance report with its built-in reporting feature absolutely hassle-free. This cutting edge innovative project management solution is termed as one of the more reliable open source Project Manager software for WordPress. 
+Effortlessly get your team to complete all the projects timely with its time tracking tool and generate an advanced performance report with its built-in reporting feature absolutely hassle-free. This cutting edge innovative project management solution is termed as one of the more reliable open source Project Manager software for WordPress.
 So now you can through your headache of being able to manage the project efficiently out of the window with this super-efficient project management application.
 
 Want to give it a try? Then try its 👉 [FREE OFFICIAL DEMO](https://pm.wedevsdemos.com)
@@ -57,8 +57,8 @@ Want to give it a try? Then try its 👉 [FREE OFFICIAL DEMO](https://pm.wedevsd
 
 **Pusher Integration**
 
-* Get a real-time notification for your project management activities with push notifications. 
-* You will receive notifications for assigning team members, mentioning in comments, creating tasks, and updating task status. 
+* Get a real-time notification for your project management activities with push notifications.
+* You will receive notifications for assigning team members, mentioning in comments, creating tasks, and updating task status.
 
 👉 [Learn more about all the functions and features from our documentation](https://wedevs.com/docs/wp-project-manager/).
 
@@ -123,10 +123,10 @@ Want to give it a try? Then try its 👉 [FREE OFFICIAL DEMO](https://pm.wedevsd
    * When issues will be created on your GitHub and Bitbucket account, it will be added to your task list. So, your developer team can take action in time.
 
 **[Reports](https://wedevs.com/docs/wp-project-manager/reports/view-reports/)**
-   
+
    * To make your project management efficient, you need to have reports for tasks and user activities. It will help you to make the right decisions for your projects and team.
    * You will get several predefined report cases depending on the user activities. The reports are very much self-explanatory. The reports are very much self-explanatory. You will get,
-      
+
       **1. Overdue Tasks**
       **2. Completed Task**
       **3. User Activities**
@@ -154,7 +154,7 @@ No matter which team or organization you are running, WP Project Manager ensures
 = FULL CONTROL OVER PRIVACY AND SECURITY =
 
 No compromise with privacy and permission among the tasks or projects. With user role customization and team permission feature (Pro), manage who can see or who can manage which project very easily.
- 
+
 = PERSONAL DASHBOARD FOR USERS =
 
 Everyone gets their own dashboard to stay updated about tasks in the most organized way. From this personal board, a user will be able to access only the projects and tasks he is allowed to see.
@@ -211,7 +211,7 @@ If you think you can help develop this plugin even better then you can always mo
 
 WP Project Manager uses [Appsero](https://appsero.com) SDK to collect some telemetry data upon user's confirmation. This helps us to troubleshoot problems faster & make product improvements.
 
-Appsero SDK **does not gather any data by default.** The SDK only starts gathering basic telemetry data **when a user allows it via the admin notice**. We collect the data to ensure great user experience for all our users. 
+Appsero SDK **does not gather any data by default.** The SDK only starts gathering basic telemetry data **when a user allows it via the admin notice**. We collect the data to ensure great user experience for all our users.
 
 Integrating Appsero SDK **DOES NOT IMMEDIATELY** start gathering data, **without confirmation from users in any case.**
 
@@ -262,15 +262,15 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
-= v2.4.14 - Oct 8, 2021 =
+= v2.4.14 - Oct 11, 2021 =
 
 **Notice** Limited time promotional offer for Halloween
 **Fix** Sanitization and data validation issues
 **Fix** Timezone issues in My Calendar
 **Fix** Task file downloading issue by other member of project assignee list
-**Fix** After Task Create Email - `undefined offset` issue in template footer
-**Fix** User assign from Project Overview page
-**Fix** Unassigned Reports was not loading
+**Fix** After Task Create Email, `undefined offset` issue in template footer
+**Fix** User assign issue from Project Overview page
+**Fix** Unassigned Reports were not loading
 
 = v2.4.13 - July 16, 2021 =
 
@@ -305,12 +305,12 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 **Update** Task query updated for filtering tasks by complete_at date range.
 **Fix** Completed tasks were not showing on my-task.
-**Fix** Made the icons inline alignment on the subtask create form. 
+**Fix** Made the icons inline alignment on the subtask create form.
 
 = v2.4.7 - Dec 10, 2020 =
 
 **Update** PSR-4 standard.
-**Fix** Project pagination was not working when all projects are deleted from the current page. 
+**Fix** Project pagination was not working when all projects are deleted from the current page.
 **Fix** Fixed the task pagination problem. It was not working when a task is deleted.
 
 = v2.4.6 - Nov 21, 2020 =
@@ -336,10 +336,10 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 = v2.4.3 - Sep 10, 2020 =
 
-**Update** In dashboard project menu bar has been rearranged. 
-**Update** In single task now user can navigate to project and task list.   
-**Fix** Co-worker can not be deleted in self created task comment. 
-**Fix** In frontend project manager date picker was not showing in single task. 
+**Update** In dashboard project menu bar has been rearranged.
+**Update** In single task now user can navigate to project and task list.
+**Fix** Co-worker can not be deleted in self created task comment.
+**Fix** In frontend project manager date picker was not showing in single task.
 **Fix** In my task, task create form did not change the list even the project has been change.
 **Fix** Project title was missing from my-task.
 
@@ -386,8 +386,8 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 * **New** Project description shows upon clicking on the description button.
 * **Update** Load more buttons showing twice after deleting completed task.
 * **Fix** On My task overview graph showing error when there are no task.
-* **Fix** Task assigned date is not showing in a single task popup. 
-* **Fix** Progress bar continue loading after clicking on Clear button on the task filter. 
+* **Fix** Task assigned date is not showing in a single task popup.
+* **Fix** Progress bar continue loading after clicking on Clear button on the task filter.
 
 = v2.3.8 - Mar 12, 2020 =
 
@@ -413,7 +413,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 * **Fix** Assigned manager in a project was not getting mail at project create time.
 * **Fix** Make Multi-site compatible for fetching co-worker.
 * **Fix** Invisible tools menu for co-worker.
-* **Fix** Co-workers could not edit their created task.  
+* **Fix** Co-workers could not edit their created task.
 * **Fix** 'Inbox' task create form was showing for all pagination page.
 * **Fix** Showing invalid date after search outstanding task.
 * **Fix** Favorite project was not working.
@@ -428,7 +428,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 * **Fix** Task label are inserted two times while updating task.
 * **Fix** Task update buttons can not be selected for tooltip.
-* **Update** Project assigned users has been removed from user search results. 
+* **Update** Project assigned users has been removed from user search results.
 * **Update** Add text limit on task title.
 
 = v2.3.3 - Nov 10, 2019 =
