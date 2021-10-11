@@ -250,6 +250,7 @@ return [
 	__( 'Update Project', 'wedevs-project-manager' ),
 	__( 'Client', 'wedevs-project-manager' ),
 	__( 'Project title is required.', 'wedevs-project-manager' ),
+	__( 'Task title required!', 'wedevs-project-manager'),
 	__( '- All Categories -', 'wedevs-project-manager' ),
 	__( 'Active', 'wedevs-project-manager' ),
 	__( 'Favourite', 'wedevs-project-manager' ),
