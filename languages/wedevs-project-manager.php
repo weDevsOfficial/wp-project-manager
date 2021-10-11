@@ -337,7 +337,7 @@ return [
 	__( 'Type name required!', 'pm-pro' ),
 	__( 'Edit', 'pm-pro' ),
 	__( 'Delete', 'pm-pro' ),
-	__( 'Are you sure!', 'wedevs-project-manager' ),
+	__( 'Are you sure?', 'wedevs-project-manager' ),
 	__( '+ Create New Task Type', 'pm' ),
 	__( 'Name', 'pm-pro' ),
 	__( 'Action', 'pm-pro' ),
