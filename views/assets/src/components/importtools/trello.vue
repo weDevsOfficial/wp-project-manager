@@ -32,7 +32,7 @@
                             </div>
                             <div class="wpuf-int-field">
                                 <div class="pm-pro-settings-action">
-                                    <input id="trello_submit" type="submit" class="button button-primary"  :value="__('Imports', 'wedevs-project-manager' )">
+                                    <input id="trello_submit" type="submit" class="button button-primary"  :value="__('Import', 'wedevs-project-manager' )">
                                 </div>
                             </div>
                         </div>
