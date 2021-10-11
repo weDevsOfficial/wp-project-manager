@@ -305,7 +305,7 @@ return [
 	__( 'Task visible for co-worker', 'wedevs-project-manager' ),
 	__( 'Pusher', 'pm-pro' ),
 	__( 'Pusher Settings', 'wedevs-project-manager' ),
-	__( 'App id', 'wedevs-project-manager' ),
+	__( 'App ID', 'wedevs-project-manager' ),
 	__( 'App Key', 'wedevs-project-manager' ),
 	__( 'Secret', 'wedevs-project-manager' ),
 	__( 'Cluster', 'wedevs-project-manager' ),
