@@ -264,13 +264,13 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 = v2.4.14 - Oct 11, 2021 =
 
-**Notice** Limited time promotional offer for Halloween
-**Fix** Sanitization and data validation issues
+**Fix** Data sanitization and validation issues to prevent security threats
 **Fix** Timezone issues in My Calendar
 **Fix** Task file downloading issue by other member of project assignee list
 **Fix** After Task Create Email, `undefined offset` issue in template footer
 **Fix** User assign issue from Project Overview page
 **Fix** Unassigned Reports were not loading
+**Notice** Limited time promotional offer for Halloween
 
 = v2.4.13 - July 16, 2021 =
 
