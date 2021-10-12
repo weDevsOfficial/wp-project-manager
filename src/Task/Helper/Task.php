@@ -182,10 +182,10 @@ class Task {
 
 	/**
 	 * Format task data
-	 * 
-	 * @param  Object $task 
-	 * 
-	 * @return array          
+	 *
+	 * @param  Object $task
+	 *
+	 * @return array
 	 */
 	public function fromat_task( $task ) {
 
@@ -193,14 +193,14 @@ class Task {
 			'id'                    => (int) $task->id,
 			'title'                 => (string) $task->title,
 			'description'           => [ 'html' => pm_get_content( $task->description ), 'content' => $task->description ],
-			'estimation'            => $task->estimation*60,
+			'estimation'            => $task->estimation * 60,
 			'comparable_estimation' => $task->comparable_estimation,
-			'formated_com_est'      => pm_second_to_time( $task->comparable_estimation*60 ),
+			'formated_com_est'      => pm_second_to_time( $task->comparable_estimation * 60 ),
 			'start_at'              => format_date( $task->start_at ),
 			'due_date'              => format_date( $task->due_date ),
 			'complexity'            => $this->complexity( $task->complexity ),
 			'priority'              => $this->priorities( $task->priority ),
-			'order'                 => empty( $task->order ) ? 0 : intval($task->order), 
+			'order'                 => empty( $task->order ) ? 0 : intval( $task->order ),
 			'payable'               => $this->payability( $task->payable ),
 			'recurrent'             => $this->recurrency( $task->recurrent ),
 			'parent_id'             => (int) $task->parent_id,
@@ -1279,7 +1279,7 @@ class Task {
 
 		if ( $is_user_null ) {
 			$this->join .= " LEFT JOIN {$tb_asin} ON $tb_asin.task_id={$this->tb_tasks}.id";
-			$this->where .= $wpdb->prepare( " AND ( $tb_asin.assigned_to IN ($format) OR $tb_asin.assigned_to is null )", $users );
+			$this->where .= $wpdb->prepare( " AND ( $tb_asin.assigned_to IN ($format) OR $tb_asin.assigned_to is null ) ) ", $users );
 		} else {
 			$this->join .= " LEFT JOIN {$tb_asin} ON $tb_asin.task_id={$this->tb_tasks}.id";
 			$this->where .= $wpdb->prepare( " AND $tb_asin.assigned_to IN ($format)", $users );
@@ -1516,11 +1516,9 @@ class Task {
 		$ope_params       = !empty( $this->query_params['due_date_operator'] ) ? $this->query_params['due_date_operator'] : false;
 		$ope_params       = pm_get_prepare_data( $ope_params );
 
-		
         if ( empty( $due_date ) ) {
             return $this;
         }
-        
 
 		if ( $due_date_start ) {
 			$due_start_reduce = date('Y-m-d', strtotime ( $due_date_start) );
@@ -1562,22 +1560,23 @@ class Task {
 
 			$operator = $this->get_operator( $explode[0] );
 			$due_date = date( 'Y-m-d', strtotime( $due_date ) );
-			
-			if( $explode[0] == 'null' || $explode[0] == 'empty' ) {
 
-				$due_q = "{$this->tb_tasks}.due_date $operator";
-
-				$q[] = "($due_q) $relation";
-			} else {
-
-				$due_q = $wpdb->prepare( " {$this->tb_tasks}.due_date $operator %s", $due_date );
-
-				$q[] = " ( {$due_q} ) {$relation} ";
+			if ( $operator !== "= ''" ) {
+				if( $explode[0] == 'null' || $explode[0] == 'empty' ) {
+					$due_q = "{$this->tb_tasks}.due_date $operator";
+	
+					$q[] = "($due_q) $relation";
+				} else {
+					$due_q = $wpdb->prepare( " {$this->tb_tasks}.due_date $operator %s", $due_date );
+	
+					$q[] = " ( {$due_q} ) {$relation} ";
+				}
 			}
 		}
 
 		$q = implode( ' ', $q );
-	
+		$q = substr( $q, 0, -2 ); // Remove `or` text from last sql string
+		
 		if ( ! empty( $q ) ) {
 			$this->where .= " AND ( $q ) ";
 		}

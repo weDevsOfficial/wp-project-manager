@@ -40,7 +40,7 @@ export default {
                 data: {
                     'title': this.project.title,
                     'categories': this.project_cat ? [this.project_cat]: null,
-                    'description': this.project.description,
+                    'description': this.project.description ? this.project.description['html'] : null,
                     'notify_users': this.project_notify,
                     'assignees': this.formatUsers(this.selectedUsers),
                     'status': this.project.status,

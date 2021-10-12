@@ -97,9 +97,8 @@ class Task_Controller {
     }
 
     public static function get_task( $task_id, $project_id = false, $request=[] ) {
-        
-        return pm_get_tasks( [ 
-            'id' => $task_id,
+        return pm_get_tasks( [
+            'id'   => $task_id,
             'with' => 'project, activities, comments, task_list, time, labels' 
         ] );
         // $task = Task::with( 'task_lists' )
