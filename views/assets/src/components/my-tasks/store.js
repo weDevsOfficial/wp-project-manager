@@ -75,6 +75,7 @@ export default {
         setMoreActivities(state, activities){
             state.activities = state.activities.concat(activities);
         },
+
         afterDoneUndoneTask(state, {task, route}) {
             if (route == 'mytask-current') {
                 var pi = state.currentTasks.findIndex( p => p.id == task.project_id);
@@ -110,6 +111,31 @@ export default {
                             state.isFetchCurrentTasks = false;
                             state.user.meta.data.total_complete_tasks --;
                         }
+                }
+            }
+        },
+
+        /**
+         * After create task
+         * Update all counts of current task and outstanding task
+         * 
+         * @param {object} state 
+         * @param {object} task Created task
+         * 
+         * @return void
+         */
+        afterCreateTask( state, {task} ) {
+            var isUserAssigned = task.assignees.data.filter( assignee => assignee.id === state.user.id ).length > 0 ? true : false;
+
+            if ( isUserAssigned ) {
+                var due_day       = pm.Moment( new Date(task.due_date.date) ).format('YYYY-MM-DD');
+                var today         = pm.Moment().format( 'YYYY-MM-DD' );
+                var isCurrentTask = pm.Moment( due_day ).isSameOrAfter( today ) ? true : false;
+
+                if ( isCurrentTask ) {
+                    state.user.meta.data.total_current_tasks++;
+                } else {
+                    state.user.meta.data.total_outstanding_tasks++;
                 }
             }
         }

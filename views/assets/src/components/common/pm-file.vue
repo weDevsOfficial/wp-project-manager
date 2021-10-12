@@ -1,5 +1,4 @@
 <template>
-
     <div class="pm-file">
         <a v-if="isVideo" v-pm-pretty-photo class="pm-colorbox-img pm-video" :href="file.url + '?iframe=true'" :title="file.name" target="_blank" rel="prettyPhoto">
             <img class="pm-content-img-size" :src="file.thumb" :alt="file.name" :title="file.name">
@@ -19,23 +18,24 @@
             <img v-if="!file.absoluteUrl" class="pm-content-img-size" :src="file.thumb" :alt="file.name" :title="file.name">
         </a>
     </div>
-
 </template>
 
 
 <script>
 export default {
+
     props: {
         file: {
-            required: true,
-            type: Object,
-        }
-    },
-    data() {
-        return {
+            required : true,
+            type     : Object,
+        },
 
+        file_project_id: {
+            required : false,
+            type     : Number
         }
     },
+
     computed: {
         isPrettyPhoto () {
             var photo = [];
@@ -51,7 +51,7 @@ export default {
                 return false;
             }
         },
-        
+
         isVideo () {
             if (typeof this.file.mime_type !== 'undefined' ) {
                 return this.file.mime_type.split("/").indexOf('video') !== -1;
@@ -75,23 +75,12 @@ export default {
         },
 
         projectId () {
-           if ( this.file.fileable ) {
+           if ( typeof this.file.fileable !== 'undefined' && this.file.fileable.project_id !== null ) {
                return this.file.fileable.project_id;
            }
 
-           return this.project_id;
-        }
-
-    },
-    methods: {
-        check(){
-            //console.log(this.file.mime_type);
+           return this.project_id > 0 ? this.project_id : this.file_project_id;
         }
     }
 }
 </script>
-
-
-<style lang="css">
-
-</style>

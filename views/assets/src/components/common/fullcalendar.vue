@@ -210,3 +210,13 @@
         },
     }
 </script>
+
+<style scoped>
+    .pm-calendar .fc-title {
+        margin-left: 2px !important;
+    }
+
+    .fc-day-grid-event .fc-content {
+        display: flex !important;
+    }
+</style>

@@ -1244,9 +1244,8 @@ class Project {
 		// if ( $inUsers === false ) {
 		// 	$inUsers = isset( $this->query_params['users'] ) ? $this->query_params['users'] : false;
 		// }
-		
+
 		if ( empty( $inUsers ) ) {
-			
 			if ( pm_has_manage_capability( get_current_user_id() ) ) {
 				return $this;
 			}
@@ -1258,12 +1257,14 @@ class Project {
 
 		if ( is_array( $inUsers ) ) {
 			$query_format = pm_get_prepare_format( $inUsers );
-			$this->where .= $wpdb->prepare( " AND {$this->tb_project_user}.user_id IN ($query_format)", $inUsers );
-		
+
+			if ( ! empty( trim( $query_format ) ) ) {
+				$this->where .= $wpdb->prepare( " AND {$this->tb_project_user}.user_id IN ($query_format)", $inUsers );
+			}
 		} else {
 			$this->where .= $wpdb->prepare( " AND {$this->tb_project_user}.user_id IN (%d)", $inUsers );
 		}
-		
+
 		return $this;
 	}
 
