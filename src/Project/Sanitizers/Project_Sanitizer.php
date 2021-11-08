@@ -8,7 +8,7 @@ class Project_Sanitizer extends Abstract_Sanitizer {
 	public function filters() {
         return [
             'projectable_type' => 'trimer',
-            'title'            => 'pm_kses',
+            'title'            => 'trimer|sanitize_text_field',
             'description'      => 'pm_kses',
             'status'           => 'trimer',
         ];
