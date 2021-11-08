@@ -11,51 +11,48 @@
         <table  align="center" border="1" cellpadding="0" cellspacing="0" width="600" style="border-collapse: collapse; background: #fff; border:1px solid #f2f2f2;">
             <tr style="border-bottom: 1px solid #f2f2f2;">
                 <td style="padding: 50px;">
-                    
                     <table  style="margin-right: 20px;">
                         <tr>
                             <td>
-                                <img 
+                                <img
                                     style="
-                                        outline: none; 
-                                        text-decoration: none; 
-                                        height: 48px; 
-                                        width: 48px; 
-                                        border-radius: 50%; 
                                         outline: none;
-                                    " 
-                                    src="<?php echo esc_url( $updater['data']['avatar_url'] ); ?>" 
-                                    alt="<?php echo $updater['data']['display_name']; ?>" 
-                                    title="<?php echo $updater['data']['display_name']; ?>"
+                                        text-decoration: none;
+                                        height: 48px;
+                                        width: 48px;
+                                        border-radius: 50%;
+                                        outline: none;
+                                    "
+                                    src="<?php echo esc_url( $updater['data']['avatar_url'] ); ?>"
+                                    alt="<?php echo esc_attr( $updater['data']['display_name'] ); ?>"
+                                    title="<?php echo esc_attr( $updater['data']['display_name'] ); ?>"
                                 />
                             </td>
                             <td>
                                 <div style="margin-left: 10px;">
                                     <h1 style="margin: 0 0 7px; font-weight: bold; font-size: 18px; color: #000000; letter-spacing: 0.16px; line-height: 22px;">
-                                        <?php 
-                                            echo ucfirst( esc_html( $updater['data']['display_name'] ) ); 
-                                            _e( ' update comment on ', 'wedevs-project-manager' ); 
-                                            echo strtolower( $commnetable_type );
+                                        <?php
+                                            echo esc_html( ucfirst( $updater['data']['display_name'] ) );
+                                            esc_html_e( ' update comment on ', 'wedevs-project-manager' );
+                                            echo esc_html( strtolower( $commnetable_type ) );
                                         ?>
                                     </h1>
-                                    <a 
+                                    <a
                                         style="
-                                            text-decoration: none; 
-                                            font-size: 15px; 
-                                            color: #0676D4; 
-                                            letter-spacing: 0.14px; 
-                                            line-height: 22px;" 
-                                            
-                                        href="<?php echo esc_url( $comment_link ); ?>" 
+                                            text-decoration: none;
+                                            font-size: 15px;
+                                            color: #0676D4;
+                                            letter-spacing: 0.14px;
+                                            line-height: 22px;"
+                                        href="<?php echo esc_url( $comment_link ); ?>"
                                         target="_blank"
                                     >
-                                        <?php _e( 'View this comment', 'wedevs-project-manger' ); ?>
-                                    </a> 
+                                        <?php esc_html_e( 'View this comment', 'wedevs-project-manger' ); ?>
+                                    </a>
                                 </div>
                             </td>
                         </tr>
                     </table>
-                    
                 </td>
             </tr>
             <tr>
@@ -76,10 +73,10 @@
                         <tr>
                             <td>
                                 <p style="font-size: 16px; line-height: 30px; margin: 0; color: #7E8690;">
-                                    <?php _e( 'Updated at', 'wedevs-project-manger' ) ?>
+                                    <?php esc_html_e( 'Updated at', 'wedevs-project-manger' ) ?>
                                 </p>
                                 <h2 style="font-size: 16px; color: #000; margin: 0; font-weight: 400;">
-                                     <?php $comment_date = empty( $updated_at ) ? '&#x02013;&#x02013;' : pm_date_format( esc_html( $updated_at ) ); ?>
+                                    <?php $comment_date = empty( $updated_at ) ? '&#x02013;&#x02013;' : esc_html( pm_date_format( $updated_at ) ); ?>
                                     <?php echo esc_html( $comment_date ); ?>
                                 </h2>
                                 &nbsp;
@@ -89,11 +86,11 @@
                         <tr>
                             <td>
                                 <p style="font-size: 16px; line-height: 30px; margin: 0; color: #7E8690;">
-                                    <span><?php _e( 'Comment', 'wedevs-project-manager' ); ?></span>
+                                    <span><?php esc_html_e( 'Comment', 'wedevs-project-manager' ); ?></span>
 
                                 </p>
                                 <div style="padding: 5px 15px; background: #edeef45e; border: 1px solid #f2f2f2; border-radius: 5px; margin-bottom: 30px; line-height: 26px; margin-top: 10px;">
-                                    <?php echo $content; ?>
+                                    <?php echo wp_kses_data( $content ); ?>
                                 </div>
                             </td>
                         </tr>
@@ -102,29 +99,28 @@
                             <td>
                                 &nbsp;
                                 <a style="
-                                    text-decoration: none; 
-                                    color: #0676D4; 
-                                    display: inline-block; 
-                                    padding: 9px 24px; 
-                                    font-size: 15px; 
-                                    color: #FFFFFF; 
-                                    letter-spacing: 0.14px; 
-                                    line-height: 30px; 
-                                    transition: opacity .2s; 
-                                    background: #7D60FF; 
-                                    border-radius: 3px;" 
+                                    text-decoration: none;
+                                    color: #0676D4;
+                                    display: inline-block;
+                                    padding: 9px 24px;
+                                    font-size: 15px;
+                                    color: #FFFFFF;
+                                    letter-spacing: 0.14px;
+                                    line-height: 30px;
+                                    transition: opacity .2s;
+                                    background: #7D60FF;
+                                    border-radius: 3px;"
 
-                                    href="<?php echo esc_url( $comment_link ); ?>" 
+                                    href="<?php echo esc_url( $comment_link ); ?>"
                                     target="_blank"
                                 >
-                                    <?php _e( 'Reply', 'wedevs-project-manager'); ?>
+                                    <?php esc_html_e( 'Reply', 'wedevs-project-manager'); ?>
                                 </a>
                             </td>
                         </tr>
                     </table>
                 </td>
             </tr>
-            
         </table>
     </center>
     <?php require_once dirname(__FILE__) . '/footer.php'; ?>

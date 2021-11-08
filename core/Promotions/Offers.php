@@ -58,8 +58,8 @@ class Offers {
             <div class="notice notice-success is-dismissible pm-promotional-offer-notice" id="pm-notice">
                 <div class="content">
                     <p>
-                        <?php echo $offer->message; ?>
-                        <a class="link" target="_blank" href="<?php echo $offer->link; ?>"><?php _e( 'Get Now', 'wedevs-project-manager' ) ; ?></a>
+                        <?php echo wp_kses( $offer->message, [ 'strong' => [], 'br' => [] ] ); ?>
+                        <a class="link" target="_blank" href="<?php echo esc_url( $offer->link ); ?>"><?php esc_html_e( 'Get Now', 'wedevs-project-manager' ) ; ?></a>
                     </p>
                 </div>
 
@@ -111,9 +111,9 @@ class Offers {
                         data: {
                             action: 'pm-dismiss-offer-notice',
                             nonce: '<?php echo esc_attr( wp_create_nonce( 'pm_dismiss_offer' ) ); ?>',
-                            pm_offer_key: '<?php echo $offer->key; ?>'
+                            pm_offer_key: '<?php echo esc_attr( $offer->key ); ?>'
                         },
-                        url: '<?php echo admin_url( "admin-ajax.php" ); ?>',
+                        url: '<?php echo esc_url( admin_url( "admin-ajax.php" ) ); ?>',
                         success: function (res) {
 
                         }
@@ -132,7 +132,7 @@ class Offers {
      */
     public function dismiss_offer() {
 
-        if ( empty( $_POST['nonce'] ) ) {
+        if ( empty( $_POST['nonce'] ) && ! isset( $_POST['pm_offer_key'] ) ) {
             return;
         }
 
@@ -146,8 +146,8 @@ class Offers {
             return;
         }
 
-        $offer_key  = 'pm_offer_notice';
-        $disabled_key = sanitize_text_field( $_POST['pm_offer_key'] );
+        $offer_key    = 'pm_offer_notice';
+        $disabled_key = sanitize_text_field( wp_unslash( $_POST['pm_offer_key'] ) );
 
         update_option( $offer_key, $disabled_key );
     }
