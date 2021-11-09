@@ -19,7 +19,7 @@ class Offers {
         $current_time = new \DateTimeImmutable( 'now', new \DateTimeZone('America/New_York') );
         $disabled_key = get_option( 'pm_offer_notice' );
 
-        $promotion1_start = $current_time->setDate( '2021', '11', '19' )->setTime( '09', '00', '00' );
+        $promotion1_start = $current_time->setDate( '2021', '11', '1' )->setTime( '09', '00', '00' );
         $promotion1_end   = $current_time->setDate( '2021', '11', '30' )->setTime( '23', '59', '59' );
 
         if ( $current_time >= $promotion1_start && $current_time <= $promotion1_end ) {
@@ -45,6 +45,11 @@ class Offers {
      */
     public function promotional_offer() {
         if ( ! current_user_can( 'manage_options' ) ) {
+            return;
+        }
+
+        // Check if inside the wp-project-manager page
+        if ( ! isset( $_GET['page'] ) || 'pm_projects' !== $_GET['page'] ) { // phpcs:disable WordPress.Security.NonceVerification
             return;
         }
 
