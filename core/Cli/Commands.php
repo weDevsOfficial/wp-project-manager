@@ -120,7 +120,8 @@ class Commands extends Cli {
             'pm_gantt_chart_links'
         ];
         foreach ($tables as $table) {
-            $wpdb->query( "TRUNCATE TABLE {$wpdb->prefix}{$table}" );
+            /* translators: %s: Table Name. */
+            $wpdb->query( $wpdb->prepare( "TRUNCATE TABLE %s", $wpdb->prefix . $table ) );
         }
 
         delete_option('pm_start_migration');

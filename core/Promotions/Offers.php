@@ -19,14 +19,14 @@ class Offers {
         $current_time = new \DateTimeImmutable( 'now', new \DateTimeZone('America/New_York') );
         $disabled_key = get_option( 'pm_offer_notice' );
 
-        $promotion1_start = $current_time->setDate( '2021', '10', '21' )->setTime( '09', '00', '00' );
-        $promotion1_end   = $current_time->setDate( '2021', '10', '31' )->setTime( '23', '59', '59' );
+        $promotion1_start = $current_time->setDate( '2021', '11', '19' )->setTime( '09', '00', '00' );
+        $promotion1_end   = $current_time->setDate( '2021', '11', '30' )->setTime( '23', '59', '59' );
 
         if ( $current_time >= $promotion1_start && $current_time <= $promotion1_end ) {
-            $offer->status  = $disabled_key == 'pm_halloween_offer_2021' ? false : true;
-            $offer->message = __( '<strong>Get Yourself a Spooky Delight !</strong></br>Get Up To <strong>40% OFF</strong> on <strong>WP Project Manager Pro</strong>.', 'wedevs-project-manager' );
-            $offer->link    = 'https://wedevs.com/wp-project-manager-pro/pricing?utm_medium=text&utm_source=wordpress-wppm-halloween20212021';
-            $offer->key     = 'pm_halloween_offer_2021';
+            $offer->status  = $disabled_key == 'pm_bfcm2021' ? false : true;
+            $offer->message = __( '<strong>Irresistible Black Friday & Cyber Monday Deals.</strong></br>Enjoy Up To <strong>50% OFF</strong> on <strong>WP Project Manager Pro</strong>.', 'wedevs-project-manager' );
+            $offer->link    = 'https://wedevs.com/wp-project-manager-pro/pricing?utm_medium=text&utm_source=wordpress-wppm-bfcm2021';
+            $offer->key     = 'pm_bfcm2021';
 
             return $offer;
         }
@@ -48,6 +48,13 @@ class Offers {
             return;
         }
 
+        // Check if inside the wp-project-manager page
+        $root_page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
+
+        if ( 'pm_projects' !== $root_page ) {
+            return;
+        }
+
         $offer = $this->get_offer();
 
         if ( ! $offer->status ) {
@@ -58,8 +65,8 @@ class Offers {
             <div class="notice notice-success is-dismissible pm-promotional-offer-notice" id="pm-notice">
                 <div class="content">
                     <p>
-                        <?php echo $offer->message; ?>
-                        <a class="link" target="_blank" href="<?php echo $offer->link; ?>"><?php _e( 'Get Now', 'wedevs-project-manager' ) ; ?></a>
+                        <?php echo wp_kses( $offer->message, [ 'strong' => [], 'br' => [] ] ); ?>
+                        <a class="link" target="_blank" href="<?php echo esc_url( $offer->link ); ?>"><?php esc_html_e( 'Get Now', 'wedevs-project-manager' ) ; ?></a>
                     </p>
                 </div>
 
@@ -111,9 +118,9 @@ class Offers {
                         data: {
                             action: 'pm-dismiss-offer-notice',
                             nonce: '<?php echo esc_attr( wp_create_nonce( 'pm_dismiss_offer' ) ); ?>',
-                            pm_offer_key: '<?php echo $offer->key; ?>'
+                            pm_offer_key: '<?php echo esc_attr( $offer->key ); ?>'
                         },
-                        url: '<?php echo admin_url( "admin-ajax.php" ); ?>',
+                        url: '<?php echo esc_url( admin_url( "admin-ajax.php" ) ); ?>',
                         success: function (res) {
 
                         }
@@ -132,7 +139,7 @@ class Offers {
      */
     public function dismiss_offer() {
 
-        if ( empty( $_POST['nonce'] ) ) {
+        if ( empty( $_POST['nonce'] ) && ! isset( $_POST['pm_offer_key'] ) ) {
             return;
         }
 
@@ -146,8 +153,8 @@ class Offers {
             return;
         }
 
-        $offer_key  = 'pm_offer_notice';
-        $disabled_key = sanitize_text_field( $_POST['pm_offer_key'] );
+        $offer_key    = 'pm_offer_notice';
+        $disabled_key = sanitize_text_field( wp_unslash( $_POST['pm_offer_key'] ) );
 
         update_option( $offer_key, $disabled_key );
     }
