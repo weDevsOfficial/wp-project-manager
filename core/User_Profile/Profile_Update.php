@@ -80,7 +80,8 @@ class Profile_Update {
         <table class="form-table">
             <tbody>
                 <tr>
-                    <th><?php esc_html_e( 'Capability', 'wedevs-project-manager' ); ?> </th>
+                    <th><?php esc_html_e( 'Capability', 'wedevs-project-manager' ); ?></th>
+
                     <td>
                         <fieldset>
                             <select name="pm_capability">
