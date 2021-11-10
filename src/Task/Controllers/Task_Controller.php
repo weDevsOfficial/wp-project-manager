@@ -540,7 +540,7 @@ class Task_Controller {
             ->first();
 
         $resource = new Item( $task, new Task_Transformer );
-        $resource = $this->get_response( $resource );
+        $resource =  $self->get_response( $resource );
         $list_id  = $resource['data']['task_list_id'];
 
         do_action( "pm_before_delete_task", $task, $data );
@@ -582,7 +582,7 @@ class Task_Controller {
             'list'     => $list
         ];
 
-        return $this->get_response( $resource, $message ); 
+        return  $self->get_response( $resource, $message ); 
     }
 
     public function destroy( WP_REST_Request $request ) {
@@ -1433,4 +1433,3 @@ class Task_Controller {
         );
     }
 }
-
