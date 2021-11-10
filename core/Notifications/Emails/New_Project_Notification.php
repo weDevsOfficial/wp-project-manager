@@ -27,7 +27,7 @@ class New_Project_Notification extends Email {
         }
 
         $template_name = apply_filters( 'pm_new_project_email_template_path', $this->get_template_path( '/html/new-project.php' ) );
-        $subject       = sprintf( __( '[%s] New Project Create: %s', 'wedevs-project-manager' ), $this->get_blogname(), $project['title'] );
+        $subject       = sprintf( __( '[%s] New Project Created: %s', 'wedevs-project-manager' ), $this->get_blogname(), $project['title'] );
         $assignees     = $project['assignees']['data'];
         $users         = array();
 
