@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title><?php echo esc_html_e( 'Your Message Subject or Title', 'wedevs-project-manager' ); ?></title>
+    <title><?php esc_html_e( 'Your Message Subject or Title', 'wedevs-project-manager' ); ?></title>
 </head>
 <body style="margin: 0; padding: 0; background: #ccc; font-family: 'Roboto', sans-serif; font-weight: 300; box-sizing: border-box;">
     <center style="width: 100%;">

@@ -49,7 +49,9 @@ class Offers {
         }
 
         // Check if inside the wp-project-manager page
-        if ( ! isset( $_GET['page'] ) || 'pm_projects' !== $_GET['page'] ) { // phpcs:disable WordPress.Security.NonceVerification
+        $root_page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
+
+        if ( 'pm_projects' !== $root_page ) {
             return;
         }
 

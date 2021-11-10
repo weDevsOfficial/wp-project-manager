@@ -121,7 +121,7 @@ class Commands extends Cli {
         ];
         foreach ($tables as $table) {
             /* translators: %s: Table Name. */
-		    $wpdb->query( $wpdb->prepare( "TRUNCATE TABLE {$wpdb->prefix}%s", $table ) );
+            $wpdb->query( $wpdb->prepare( "TRUNCATE TABLE %s", $wpdb->prefix . $table ) );
         }
 
         delete_option('pm_start_migration');

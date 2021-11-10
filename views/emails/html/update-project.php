@@ -73,11 +73,10 @@
                                     </div>
                                     <div>
                                         <?php
+                                            // translators: %1s: project title, %2s: project updated by name
                                             printf(
-                                                '%s "%s" %s %s',
-                                                esc_html_e( 'The project', 'wedevs-project-manager'  ),
+                                                esc_html__( 'The project "%1$s" has been updated by %2$s', 'wedevs-project-manager'  ),
                                                 esc_html( $title ),
-                                                esc_html_e( 'has been updated by', 'wedevs-project-manager' ),
                                                 esc_attr( $updater['data']['display_name'] )
                                             );
                                         ?>

@@ -89,7 +89,7 @@
                                     <span><?php esc_html_e( 'Comment', 'wedevs-project-manager' ); ?></span>
                                 </p>
                                 <div style="padding: 5px 15px; background: #edeef45e; border: 1px solid #f2f2f2; border-radius: 5px; margin-bottom: 30px; line-height: 26px; margin-top: 10px;">
-                                    Test Comment: <?php echo wp_kses_data( $content ); ?>
+                                    <?php echo wp_kses_data( $content ); ?>
                                 </div>
                             </td>
                         </tr>

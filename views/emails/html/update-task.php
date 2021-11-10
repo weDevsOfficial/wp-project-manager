@@ -87,7 +87,7 @@
                             &nbsp;
                             <p style="font-size: 16px; line-height: 30px; margin: 0; color: #7E8690;"><?php esc_html_e( 'Description', 'wedevs-project-manager' ); ?></p>
                             <div style="padding: 5px 15px; background: #edeef45e; border: 1px solid #f2f2f2; border-radius: 5px; margin-bottom: 30px; line-height: 26px; margin-top: 10px;">
-                                Test Update task: <?php echo empty( $description['html'] ) ? esc_html_e( 'No description found!', 'wedevs-project-manager' ) : wp_kses_data( $description['html'] ); ?>
+                                <?php echo empty( $description['html'] ) ? esc_html__( 'No description found!', 'wedevs-project-manager' ) : wp_kses_data( $description['html'] ); ?>
                             </div>
                         </td>
                     </tr>
