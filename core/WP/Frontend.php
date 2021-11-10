@@ -32,7 +32,7 @@ class Frontend {
      */
     public function __construct() {
         $this->includes();
-        
+
         // instantiate classes
         $this->instantiate();
 
@@ -49,7 +49,7 @@ class Frontend {
     public function install() {
         if ( is_multisite() && is_network_admin() ) {
             $sites = get_sites();
-            
+
             foreach ( $sites as $key => $site ) {
                 $this->after_insert_site( $site );
             }
@@ -87,10 +87,10 @@ class Frontend {
         add_action( 'admin_init', array( $this, 'test' ) );
     }
 
-    function test() {  
-        
+    function test() {
+
         $current_time = new \DateTimeImmutable( 'now', new \DateTimeZone('America/New_York') );
-        
+
     }
 
     function after_insert_site( $new_sites ) {
@@ -128,7 +128,7 @@ class Frontend {
                 }
             }
         }
-        
+
         return $plugins;
     }
 
@@ -171,14 +171,14 @@ class Frontend {
             'placeholder' => __( 'Are you facing any problem?', 'wedevs-project-manager' ),
             'icon'        => '<svg xmlns="http://www.w3.org/2000/svg" enable-background="new 0 0 512 512" width="23" height="23" viewBox="0 0 512 512"><path fill="#3B86FF"  stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="30" d="M192.75,385.15C119.47,359.14,67,289.2,67,207c0-104.38,84.62-189,189-189s189,84.62,189,189c0,82.2-52.47,152.14-125.75,178.15"/><polyline fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" stroke-width="30" points="252 216 252 495 315 432 252 495 189 432"/></svg>'
         );
-        
+
         $reasons[] = array(
             'id'          => 'found_error',
             'text'        => __( 'Found an Error', 'wedevs-project-manager' ),
             'placeholder' => __( 'Please tell us more about the error. We\'ll reach you with the possible solution.', 'wedevs-project-manager' ),
             'icon'        => '<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="23" height="23" viewBox="0 0 32 32" fill="#3B86FF"><path d="M16 0C7.164 0 0 7.164 0 16s7.164 16 16 16 16-7.164 16-16S24.836 0 16 0zm0 30C8.28 30 2 23.72 2 16S8.28 2 16 2s14 6.28 14 14-6.28 14-14 14zm0-24a2 2 0 0 0-2 2v10a2 2 0 0 0 4 0V8a2 2 0 0 0-2-2zm-2 17.968a2 2 1080 1 0 4 0 2 2 1080 1 0-4 0z"/></svg>',
         );
-        
+
         $reasons[] = array(
             'id'          => 'not_documented',
             'text'        => __( 'No proper documentation', 'wedevs-project-manager' ),
