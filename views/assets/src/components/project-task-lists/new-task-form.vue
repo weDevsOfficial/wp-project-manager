@@ -768,7 +768,7 @@ export default {
             }
 
             if(!this.task.title) {
-                pm.Toastr.error('Task title required!');
+                pm.Toastr.error(__('Task title required!', 'wedevs-project-manager'));
                 return false;
             }
 

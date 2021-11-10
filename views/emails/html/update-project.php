@@ -112,7 +112,7 @@
                 <td style="padding: 0 50px 50px;">
                     <div>
                         <h2 style="font-size: 20px; color: #000000; letter-spacing: 0.18px; line-height: 30px; margin-bottom: 15px;">
-                            <?php _e( 'Project Assignes', 'wedevs-project-manager'); ?>
+                            <?php _e( 'Project Assignees', 'wedevs-project-manager'); ?>
                         </h2>
                         <span style="margin: 0; padding: 0; list-style: none; display: inline-block;">
 

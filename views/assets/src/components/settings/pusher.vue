@@ -9,7 +9,7 @@
                         <tbody>
                             <tr>
                                 <th scope="row">
-                                    <label for="pm_mails[email_from]">{{ __( 'App id', 'wedevs-project-manager') }}</label>
+                                    <label for="pm_mails[email_from]">{{ __( 'App ID', 'wedevs-project-manager') }}</label>
                                 </th>
                                 <td>
                                     <input v-model="appId" type="text" class="regular-text" id="pm_mails[email_from]" name="pm_mails[email_from]" value="">
