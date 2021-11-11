@@ -5,7 +5,7 @@ Tags: project, project manager, project management, web project management, task
 Requires at least: 4.4 or higher
 Tested up to: 5.8.1
 Requires PHP: 5.6
-Stable tag: 2.4.14
+Stable tag: 2.4.15
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -261,6 +261,14 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 
 == Changelog ==
+
+= v2.4.15 - Nov 11, 2021 =
+
+**Update** ChartJS libraries from v2.x to v3.6.0
+**Update** Removed dummy data, unused files and external cdn links to improve and clean the whole codebase
+**Fix** Data escaping and sanitization issues all over the plugin
+**Fix** Some i18n translation, wrong text-domain issues
+**Notice** Limited time promotional offer regarding Black Friday and Cyber Monday
 
 = v2.4.14 - Oct 11, 2021 =
 

@@ -36,10 +36,14 @@ var PM_Overview = {
             ]
         };
 
-        Chart.defaults.global.responsive = true;
+        Chart.defaults.responsive = true;
         var ctx = el.getContext("2d");
         // This will get the first returned node in the jQuery collection.
-        var pmChart = new pm.Chart(ctx, {
+
+        // Destroy if canvas is already used.
+        if ( window.pmOverviewChart instanceof Chart ) window.pmOverviewChart.destroy();
+
+        window.pmOverviewChart = new pm.Chart(ctx, {
             type: 'line',
             data: data,
             pointDotRadius : 8,

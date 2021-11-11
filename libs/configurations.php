@@ -30,7 +30,6 @@ function migrations_table_prefix() {
 *  @return void
 */
 function pm_php_version_notice() {
-    
     if ( ! current_user_can( 'manage_options' ) ) {
         return;
     }
@@ -39,7 +38,7 @@ function pm_php_version_notice() {
         <div class="error notice" id="pm-php-notice" style="padding: 1em; position: relative;">
             <p><?php echo sprintf( esc_html__("Your current PHP version is <strong>{$php_version}</strong>. You need to upgrade your PHP version to <strong>5.6 or later</strong> to run project manager.", "wedevs-project-manager" ) ); ?></p>
         </div>
-    <?php 
+    <?php
 }
 
 

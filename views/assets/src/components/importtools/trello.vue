@@ -16,11 +16,11 @@
                     <div>
                         <div class="wpuf-int-form-row">
                             <div class="wpuf-int-field-label">
-                                <label for="">{{ __( 'Provide your App key & Token', 'wedevs-project-manager') }}</label>
+                                <label for="">{{ __( 'Provide your App Key & Token', 'wedevs-project-manager') }}</label>
                             </div>
                             <div class="wpuf-int-field">
-                                <input id="app_key" name="app_key" placeholder="App Key" class="regular-text">
-                                <input id="app_token" name="app_token" placeholder="App Token" class="regular-text">
+                                <input id="app_key" name="app_key" placeholder="__('App Key', 'wedevs-project-manager' )" class="regular-text">
+                                <input id="app_token" name="app_token" placeholder="__('App Token', 'wedevs-project-manager' )" class="regular-text">
                             </div>
                             <div class="wpuf-int-field">
                                 <div v-if="trello.import_loader.length != 0">
@@ -32,7 +32,7 @@
                             </div>
                             <div class="wpuf-int-field">
                                 <div class="pm-pro-settings-action">
-                                    <input id="trello_submit" type="submit" class="button button-primary"  :value="__('Imports', 'wedevs-project-manager' )">
+                                    <input id="trello_submit" type="submit" class="button button-primary"  :value="__('Import', 'wedevs-project-manager' )">
                                 </div>
                             </div>
                         </div>

@@ -55,7 +55,7 @@ class Profile_Update {
 
         <h3><?php esc_html_e( 'WP Project Manager', 'wedevs-project-manager' ); ?></h3>
 
-        <?php 
+        <?php
 
         $this->capbility_form( $profile_user );
 
@@ -80,18 +80,19 @@ class Profile_Update {
         <table class="form-table">
             <tbody>
                 <tr>
-                    <th><?php _e( 'Capability', 'pm-pro' ); ?> </th>
+                    <th><?php esc_html_e( 'Capability', 'wedevs-project-manager' ); ?></th>
+
                     <td>
                         <fieldset>
                             <select name="pm_capability">
                                 <option value="">
-                                    <?php echo __( '— No capability for this user —', 'wedevs-project-manager' ); ?>
+                                    <?php echo esc_html_e( '— No capability for this user —', 'wedevs-project-manager' ); ?>
                                 </option>
                                 <?php
                                     foreach ( pm_access_capabilities() as $cap_key => $label ) {
                                         ?>
-                                            <option <?php selected( $meta_value, $cap_key ); ?> value="<?php echo $cap_key; ?>">
-                                                <?php echo $label; ?>
+                                            <option <?php selected( $meta_value, $cap_key ); ?> value="<?php echo esc_attr( $cap_key ); ?>">
+                                                <?php echo esc_html( $label ); ?>
                                             </option>
                                         <?php
                                     }
@@ -106,15 +107,15 @@ class Profile_Update {
     }
 
     public function profile_update( $user_id = 0, $prev_data ) {
-        if ( 
-            ! isset( $_POST['pm_profile_nonce'] ) 
-                || 
-            ! wp_verify_nonce( sanitize_text_field( $_POST['pm_profile_nonce'] ), 'pm_nonce' ) 
+        if (
+            ! isset( $_POST['pm_profile_nonce'] )
+                ||
+            ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['pm_profile_nonce'] ) ), 'pm_nonce' )
         ) {
             return;
         }
-        
-        $cap_key = empty( $_POST['pm_capability'] ) ? '' : sanitize_text_field( $_POST['pm_capability'] );
+
+        $cap_key = empty( $_POST['pm_capability'] ) ? '' : sanitize_text_field( wp_unslash( $_POST['pm_capability'] ) );
 
         if ( !current_user_can( 'manage_options' ) ) {
             return;
@@ -133,7 +134,7 @@ class Profile_Update {
         }
 
         update_user_meta( $user_id, 'pm_capability', $cap_key );
-        
+
         $this->remove_capability( $user_id );
         $this->add_capability( $user_id, $cap_key );
 
@@ -154,7 +155,7 @@ class Profile_Update {
         if ( $cap_key == pm_admin_cap_slug() ) {
             $user->add_cap( pm_manager_cap_slug() );
         }
-        
+
         $user->add_cap( $cap_key );
     }
 }

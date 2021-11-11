@@ -5,7 +5,7 @@ $suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 $view_path = dirname (__FILE__) . '/../views/';
 
 $pm_scripts = [
-	
+
 	'pm-config' => [
 		'id'         => 'pm-config',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/bootstrap.js',
@@ -36,7 +36,7 @@ $pm_scripts = [
 		'dependency' => ['pm-time-picke'],
 		'in_footer'  => true
 	],
-	
+
 	'pm-i18n' => [
 		'id'         => 'pm-i18n',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/i18n/i18n.js',
@@ -49,15 +49,14 @@ $pm_scripts = [
 		'id'         => 'pm-vue',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/vue/vue'.$suffix.'.js',
 		'path'       => $view_path . '/assets/vendor/vue/vue'.$suffix.'.js',
-		'path' => 'https://cdn.jsdelivr.net/npm/vue',
 		'dependency' => ['pm-i18n'],
 		'in_footer'  => true
 	],
+
 	'pm-vuex' => [
 		'id'         => 'pm-vuex',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/vue/vuex'.$suffix.'.js',
 		'path'       => $view_path . '/assets/vendor/vue/vuex'.$suffix.'.js',
-		'path' => 'https://unpkg.com/vuex',
 		'dependency' => ['pm-vue'],
 		'in_footer'  => true
 	],
@@ -69,7 +68,7 @@ $pm_scripts = [
 		'dependency' => ['pm-vuex'],
 		'in_footer'  => true
 	],
-	
+
 	'pm-chart' => [
 		'id'         => 'pm-chart',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/chart/chart'.$suffix.'.js',
@@ -216,12 +215,12 @@ $pm_scripts = [
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/const.js',
 		'path'       => $view_path . '/assets/vendor/const.js',
 		'dependency' => [
-			'jquery', 
+			'jquery',
 			'underscore',
 			'plupload-handlers',
 			'jquery-ui-progressbar',
 			'jquery-ui-datepicker',
-			'jquery-ui-dialog', 
+			'jquery-ui-dialog',
 			'jquery-ui-autocomplete',
 			'jquery-ui-tooltip',
 			'pm-tiny-mce',
@@ -241,6 +240,7 @@ $pm_scripts = [
 		],
 		'in_footer'  => true
 	],
+
 	'pmglobal' => [
 		'id'         => 'pmglobal',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/js/pmglobal.js',

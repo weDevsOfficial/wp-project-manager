@@ -781,18 +781,18 @@ function pm_total_message() {
 function pm_get_ip() {
     $ipaddress = '';
 
-    if ( isset($_SERVER['HTTP_CLIENT_IP'] ) ) {
-        $ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+    if ( isset( $_SERVER['HTTP_CLIENT_IP'] ) ) {
+        $ipaddress = wp_unslash( $_SERVER['HTTP_CLIENT_IP'] ); //phpcs:ignore
     } else if ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
-        $ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+        $ipaddress = wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ); //phpcs:ignore
     } else if ( isset( $_SERVER['HTTP_X_FORWARDED'] ) ) {
-        $ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+        $ipaddress = wp_unslash( $_SERVER['HTTP_X_FORWARDED'] ); //phpcs:ignore
     } else if ( isset( $_SERVER['HTTP_FORWARDED_FOR'] ) ) {
-        $ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+        $ipaddress = wp_unslash( $_SERVER['HTTP_FORWARDED_FOR'] ); //phpcs:ignore
     } else if ( isset( $_SERVER['HTTP_FORWARDED'] ) ) {
-        $ipaddress = $_SERVER['HTTP_FORWARDED'];
+        $ipaddress = wp_unslash( $_SERVER['HTTP_FORWARDED'] ); //phpcs:ignore
     } else if ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
-        $ipaddress = $_SERVER['REMOTE_ADDR'];
+        $ipaddress = wp_unslash( $_SERVER['REMOTE_ADDR'] ); //phpcs:ignore
     } else {
         $ipaddress = 'UNKNOWN';
     }

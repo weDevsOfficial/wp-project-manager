@@ -11,44 +11,42 @@
         <table  align="center" border="1" cellpadding="0" cellspacing="0" width="600" style="border-collapse: collapse; background: #fff; border:1px solid #f2f2f2;">
             <tr style="border-bottom: 1px solid #f2f2f2;">
                 <td style="padding: 50px;">
-                    
                     <table  style="margin-right: 20px;">
                         <tr>
                             <td>
-                                <img 
+                                <img
                                     style="
-                                        outline: none; 
-                                        text-decoration: none; 
-                                        height: 48px; 
-                                        width: 48px; 
-                                        border-radius: 50%; 
                                         outline: none;
-                                    " 
-                                    src="<?php echo esc_url( $updater['data']['avatar_url'] ); ?>" 
-                                    alt="<?php echo esc_attr( $updater['data']['display_name'] ); ?>" 
+                                        text-decoration: none;
+                                        height: 48px;
+                                        width: 48px;
+                                        border-radius: 50%;
+                                        outline: none;
+                                    "
+                                    src="<?php echo esc_url( $updater['data']['avatar_url'] ); ?>"
+                                    alt="<?php echo esc_attr( $updater['data']['display_name'] ); ?>"
                                     title="<?php echo esc_attr( $updater['data']['display_name'] ); ?>"
                                 />
                             </td>
                             <td>
                                 <div style="margin-left: 10px;">
                                     <h1 style="margin: 0 0 7px; font-weight: bold; font-size: 18px; color: #000000; letter-spacing: 0.16px; line-height: 22px;">
-                                        <?php echo ucfirst( esc_html( $updater['data']['display_name'] ) ); ?> <?php _e( 'update the project', 'wedevs-project-manager' ); ?>
+                                        <?php echo esc_html( ucfirst( $updater['data']['display_name'] ) ); ?> <?php esc_html_e( 'update the project', 'wedevs-project-manager' ); ?>
                                     </h1>
-                                    <a style="text-decoration: none; font-size: 15px; color: #0676D4; letter-spacing: 0.14px; line-height: 22px;" href="<?php echo esc_url( $link . '#/projects/' . $id . '/task-lists/' ); ?>" target="_blank"><?php _e( 'View this project', 'wedevs-project-manger' ); ?></a> 
+                                    <a style="text-decoration: none; font-size: 15px; color: #0676D4; letter-spacing: 0.14px; line-height: 22px;" href="<?php echo esc_url( $link . '#/projects/' . $id . '/task-lists/' ); ?>" target="_blank"><?php esc_html_e( 'View this project', 'wedevs-project-manger' ); ?></a> 
                                 </div>
                             </td>
                         </tr>
                     </table>
-                    
                 </td>
             </tr>
-            
+
             <tr>
                 <td style="padding: 50px;">
                     <table>
                         <tr>
                             <td>
-                                <p style="font-size: 16px; line-height: 30px; margin: 0; color: #7E8690;"><?php _e( 'Project', 'wedevs-project-manager' ); ?></p>
+                                <p style="font-size: 16px; line-height: 30px; margin: 0; color: #7E8690;"><?php esc_html_e( 'Project', 'wedevs-project-manager' ); ?></p>
                                 <h2 style="font-size: 18px; color: #000; margin: 0;"><?php echo esc_html( $title ); ?></h2>
                                 &nbsp;
                             </td>
@@ -57,10 +55,10 @@
                         <tr>
                             <td>
                                 <p style="font-size: 16px; line-height: 30px; margin: 0; color: #7E8690;">
-                                    <?php _e( 'Updated at', 'wedevs-project-manger' ) ?>
+                                    <?php esc_html_e( 'Updated at', 'wedevs-project-manger' ) ?>
                                 </p>
                                 <h2 style="font-size: 16px; color: #000; margin: 0; font-weight: 400;">
-                                     <?php $project_date = empty( $updated_at['date'] ) ? '&#x02013;&#x02013;' : pm_date_format( esc_html( $updated_at['date'] ) ); ?>
+                                    <?php $project_date = empty( $updated_at['date'] ) ? '&#x02013;&#x02013;' : esc_html( pm_date_format( $updated_at['date'] ) ); ?>
                                     <?php echo esc_html( $project_date ); ?>
                                 </h2>
                                 &nbsp;
@@ -75,22 +73,17 @@
                                     </div>
                                     <div>
                                         <?php
-                                            printf( 
-                                                '%s "%s" %s %s', 
-                                                __( 'The project', 'wedevs-project-manager'  ),
-                                                $title,
-                                                __( 'has been updated by', 'wedevs-project-manager' ),
-                                                $updater['data']['display_name']
+                                            // translators: %1s: project title, %2s: project updated by name
+                                            printf(
+                                                esc_html__( 'The project "%1$s" has been updated by %2$s', 'wedevs-project-manager'  ),
+                                                esc_html( $title ),
+                                                esc_attr( $updater['data']['display_name'] )
                                             );
                                         ?>
                                     </div>
                                     <div>
-                                        <?php
-                                            
-                                            _e( 'You can see the project by going here: ', 'wedevs-project-manager'  );
-                                             
-                                        ?>
-                                        <a style="text-decoration: none; font-size: 15px; color: #0676D4; letter-spacing: 0.14px; line-height: 22px;" href="<?php echo esc_url( $link . '#/projects/' . $id . '/task-lists/' ); ?>" target="_blank"><?php echo $title; ?></a> 
+                                        <?php esc_html_e( 'You can see the project by going here: ', 'wedevs-project-manager'  ); ?>
+                                        <a style="text-decoration: none; font-size: 15px; color: #0676D4; letter-spacing: 0.14px; line-height: 22px;" href="<?php echo esc_url( $link . '#/projects/' . $id . '/task-lists/' ); ?>" target="_blank"><?php echo esc_html( $title ); ?></a> 
                                     </div>
 
                                 </div>
@@ -100,7 +93,7 @@
                         <tr>
                             <td>
                                 <a style="text-decoration: none; color: #0676D4; display: inline-block; padding: 9px 24px; font-size: 15px; color: #FFFFFF; letter-spacing: 0.14px; line-height: 30px; transition: opacity .2s; background: #7D60FF; border-radius: 3px;" href="<?php echo esc_url($link.'#/projects/'.$id . '/task-lists/' ); ?>" target="_blank">
-                                    <?php _e( 'View Project', 'wedevs-project-manager'); ?>
+                                    <?php esc_html_e( 'View Project', 'wedevs-project-manager'); ?>
                                 </a>
                             </td>
                         </tr>
@@ -112,26 +105,20 @@
                 <td style="padding: 0 50px 50px;">
                     <div>
                         <h2 style="font-size: 20px; color: #000000; letter-spacing: 0.18px; line-height: 30px; margin-bottom: 15px;">
-                            <?php _e( 'Project Assignes', 'wedevs-project-manager'); ?>
+                            <?php esc_html_e( 'Project Assignes', 'wedevs-project-manager'); ?>
                         </h2>
                         <span style="margin: 0; padding: 0; list-style: none; display: inline-block;">
-
                              <?php
-
                                 foreach( $assignees['data'] as $assign ) {
                                     ?>
-
                                         <img style="outline:none; margin-right: 4px; text-decoration:none; height: 33px; width: 33px; border-radius: 50%;" src="<?php echo esc_url( $assign['avatar_url'] ); ?>" alt="<?php echo esc_attr( $assign['display_name'] ); ?>" title="<?php echo esc_attr( $assign['display_name'] ); ?>" width="33" height="33" />
                                     <?php
                                 }
-
                             ?>
-                    
                         </span>
                     </div>
                 </td>
             </tr>
-            
         </table>
     </center>
     <?php require_once dirname(__FILE__) . '/footer.php'; ?>
