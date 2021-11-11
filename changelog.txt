@@ -1,3 +1,11 @@
+= v2.4.15 - Nov 11, 2021 =
+
+**Update** ChartJS libraries from v2.x to v3.6.0
+**Update** Removed dummy data, unused files and external cdn links to improve and clean the whole codebase
+**Fix** Data escaping and sanitization issues all over the plugin
+**Fix** Some i18n translation, wrong text-domain issues
+**Notice** Limited time promotional offer regarding Black Friday and Cyber Monday
+
 = v2.4.14 - Oct 11, 2021 =
 
 **Fix** Data sanitization and validation issues to prevent security threats

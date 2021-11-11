@@ -51,10 +51,14 @@ var PM_mytask = {
             ]
         };
 
-        Chart.defaults.global.responsive = true;
+        Chart.defaults.responsive = true;
         var ctx = el.getContext("2d");
         // This will get the first returned node in the jQuery collection.
-        var pmChart = new pm.Chart(ctx, {
+
+        // Destroy if canvas is already used.
+        if ( window.pmMyTaskChart instanceof Chart ) window.pmMyTaskChart.destroy();
+
+        window.pmMyTaskChart = new pm.Chart(ctx, {
             type: 'line',
             data: data,
             pointDotRadius : 8,
@@ -116,7 +120,7 @@ var PM_PI = {
         var self = this;
         var context = vnode.context;
         var meta = context.$store.state.myTask.user.meta;
-        
+
         if( typeof meta !== 'undefined' ) {
             var config = {
                 type: 'doughnut',
@@ -145,8 +149,11 @@ var PM_PI = {
 
         }
 
+        // Destroy if canvas is already used.
+        if ( window.piChart instanceof Chart ) window.piChart.destroy();
+
         var ctx = element.getContext("2d");
-        var piChart= new Chart(ctx, config);
+        window.piChart = new Chart(ctx, config);
     }
 }
 
