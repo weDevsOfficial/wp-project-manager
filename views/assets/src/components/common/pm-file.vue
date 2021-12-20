@@ -75,7 +75,7 @@ export default {
         },
 
         projectId () {
-           if ( typeof this.file.fileable !== 'undefined' && this.file.fileable.project_id !== null ) {
+           if ( typeof this.file.fileable !== 'undefined' && this.file.fileable !== null && this.file.fileable.project_id !== null ) {
                return this.file.fileable.project_id;
            }
 
