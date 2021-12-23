@@ -1,3 +1,8 @@
+= v2.4.16 - Dec 23, 2021 =
+
+**Fix** Discussion file url was not downloadable for PDF
+**Notice** Limited time promotional notice on holiday sale
+
 = v2.4.15 - Nov 11, 2021 =
 
 **Update** ChartJS libraries from v2.x to v3.6.0
