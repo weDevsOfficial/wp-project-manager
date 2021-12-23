@@ -19,14 +19,14 @@ class Offers {
         $current_time = new \DateTimeImmutable( 'now', new \DateTimeZone('America/New_York') );
         $disabled_key = get_option( 'pm_offer_notice' );
 
-        $promotion1_start = $current_time->setDate( '2021', '11', '19' )->setTime( '09', '00', '00' );
-        $promotion1_end   = $current_time->setDate( '2021', '11', '30' )->setTime( '23', '59', '59' );
+        $promotion1_start = $current_time->setDate( '2021', '12', '24' )->setTime( '09', '00', '00' );
+        $promotion1_end   = $current_time->setDate( '2022', '01', '12' )->setTime( '23', '59', '59' );
 
         if ( $current_time >= $promotion1_start && $current_time <= $promotion1_end ) {
-            $offer->status  = $disabled_key == 'pm_bfcm2021' ? false : true;
-            $offer->message = __( '<strong>Irresistible Black Friday & Cyber Monday Deals.</strong></br>Enjoy Up To <strong>50% OFF</strong> on <strong>WP Project Manager Pro</strong>.', 'wedevs-project-manager' );
-            $offer->link    = 'https://wedevs.com/wp-project-manager-pro/pricing?utm_medium=text&utm_source=wordpress-wppm-bfcm2021';
-            $offer->key     = 'pm_bfcm2021';
+            $offer->status  = $disabled_key == 'pm_holidays_2021' ? false : true;
+            $offer->message = __( 'Happy Holidays.<br>Let The Festivities Begin.<br>Enjoy Up To <strong>35% OFF</strong> on <strong>WP Project Manager Pro.</strong>', 'wedevs-project-manager' );
+            $offer->link    = 'https://wedevs.com/wp-project-manager-pro/pricing?utm_medium=text&utm_source=wordpress-wppm-holidaysale2021';
+            $offer->key     = 'pm_holidays_2021';
 
             return $offer;
         }
