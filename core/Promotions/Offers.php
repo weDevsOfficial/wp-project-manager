@@ -1,6 +1,8 @@
 <?php
 namespace WeDevs\PM\Core\Promotions;
 
+use AmpProject\Validator\Spec\Tag\Strong;
+
 /**
 * Promotion class
 *
@@ -14,24 +16,44 @@ class Offers {
     }
 
     public function get_offer() {
-        $offer        = new \stdClass;
+        $offer         = new \stdClass;
+        $offer->status = false;
+        $promo_notice  = get_transient( 'wppm_promo_notice' );
 
+        if ( false === $promo_notice ) {
+            $promo_notice_url = 'https://raw.githubusercontent.com/weDevsOfficial/wppm-util/master/promotions.json';
+            $response         = wp_remote_get( $promo_notice_url, array( 'timeout' => 15 ) );
+
+            if ( is_wp_error( $response ) || $response['response']['code'] !== 200 ) {
+                return $offer;
+            }
+
+            $promo_notice = wp_remote_retrieve_body( $response );
+            set_transient( 'wppm_promo_notice', $promo_notice, DAY_IN_SECONDS );
+        }
+
+        $promo_notice = json_decode( $promo_notice, true );
         $current_time = new \DateTimeImmutable( 'now', new \DateTimeZone('America/New_York') );
+        $current_time = $current_time->format( 'Y-m-d H:i:s T' );
         $disabled_key = get_option( 'pm_offer_notice' );
 
-        $promotion1_start = $current_time->setDate( '2021', '12', '24' )->setTime( '09', '00', '00' );
-        $promotion1_end   = $current_time->setDate( '2022', '01', '12' )->setTime( '23', '59', '59' );
+        if ( $current_time >= $promo_notice['start_date'] && $current_time <= $promo_notice['end_date'] ) {
+            $offer->status    = $disabled_key == $promo_notice['key'] ? false : true;
+            $offer->link      = $promo_notice['action_url'];
+            $offer->key       = $promo_notice['key'];
+            $offer->btn_txt   = ! empty( $promo_notice['action_title'] ) ? $promo_notice['action_title'] : 'Get Now';
+            $offer->message   = [];
+            $offer->message[] = sprintf( __( '<strong>%s</strong>', 'wedevs-project-manager' ), $promo_notice['title'] );
 
-        if ( $current_time >= $promotion1_start && $current_time <= $promotion1_end ) {
-            $offer->status  = $disabled_key == 'pm_holidays_2021' ? false : true;
-            $offer->message = __( 'Happy Holidays.<br>Let The Festivities Begin.<br>Enjoy Up To <strong>35% OFF</strong> on <strong>WP Project Manager Pro.</strong>', 'wedevs-project-manager' );
-            $offer->link    = 'https://wedevs.com/wp-project-manager-pro/pricing?utm_medium=text&utm_source=wordpress-wppm-holidaysale2021';
-            $offer->key     = 'pm_holidays_2021';
+            if ( ! empty( $promo_notice['description'] ) ) {
+                $offer->message[] = sprintf( __( '%s', 'wedevs-project-manager' ), $promo_notice['description'] );
+            }
+
+            $offer->message[] = sprintf( __( '%s', 'wedevs-project-manager' ), $promo_notice['content'] );
+            $offer->message   = implode( '<br>', $offer->message );
 
             return $offer;
         }
-
-        $offer->status = false;
 
         return $offer;
     }
@@ -49,29 +71,16 @@ class Offers {
         }
 
         // Check if inside the wp-project-manager page
-        $root_page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
-
-        if ( 'pm_projects' !== $root_page ) {
+        if ( ! isset( $_GET['page'] ) || 'pm_projects' !== $_GET['page'] ) {
             return;
         }
 
         $offer = $this->get_offer();
-
         if ( ! $offer->status ) {
             return;
         }
 
         ?>
-            <div class="notice notice-success is-dismissible pm-promotional-offer-notice" id="pm-notice">
-                <div class="content">
-                    <p>
-                        <?php echo wp_kses( $offer->message, [ 'strong' => [], 'br' => [] ] ); ?>
-                        <a class="link" target="_blank" href="<?php echo esc_url( $offer->link ); ?>"><?php esc_html_e( 'Get Now', 'wedevs-project-manager' ) ; ?></a>
-                    </p>
-                </div>
-
-            </div>
-
             <style>
                 #pm-notice .content {
                     display: flex;
@@ -107,6 +116,18 @@ class Offers {
                     background:  #9a51c7;
                 }
             </style>
+
+            <div class="notice notice-success is-dismissible pm-promotional-offer-notice" id="pm-notice">
+                <div class="content">
+                    <p>
+                        <?php echo wp_kses( $offer->message, [ 'strong' => [], 'br' => [] ] ); ?>
+                        <br>
+                        <a class="link" target="_blank" href="<?php echo esc_url( $offer->link ); ?>">
+                            <?php printf( esc_html__( '%s', 'wedevs-project-manager' ), $offer->btn_txt ); ?>
+                        </a>
+                    </p>
+                </div>
+            </div>
 
             <script type='text/javascript'>
 
