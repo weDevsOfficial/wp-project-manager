@@ -16,40 +16,45 @@ class Offers {
     }
 
     public function get_offer() {
-        $promo_notice_url = 'https://raw.githubusercontent.com/weDevsOfficial/wppm-util/master/promotions.json';
-        $response         = wp_remote_get( $promo_notice_url, array( 'timeout' => 15 ) );
-        $promo            = wp_remote_retrieve_body( $response );
+        $offer         = new \stdClass;
+        $offer->status = false;
+        $promo_notice  = get_transient( 'wppm_promo_notice' );
 
-        if ( is_wp_error( $response ) || $response['response']['code'] !== 200 ) {
-            $promo = '{}';
+        if ( false === $promo_notice ) {
+            $promo_notice_url = 'https://raw.githubusercontent.com/weDevsOfficial/wppm-util/master/promotions.json';
+            $response         = wp_remote_get( $promo_notice_url, array( 'timeout' => 15 ) );
+
+            if ( is_wp_error( $response ) || $response['response']['code'] !== 200 ) {
+                return $offer;
+            }
+
+            $promo_notice = wp_remote_retrieve_body( $response );
+            set_transient( 'wppm_promo_notice', $promo_notice, DAY_IN_SECONDS );
         }
 
-        $promo        = json_decode( $promo, true );
+        $promo_notice = json_decode( $promo_notice, true );
         $current_time = new \DateTimeImmutable( 'now', new \DateTimeZone('America/New_York') );
         $current_time = $current_time->format( 'Y-m-d H:i:s T' );
         $disabled_key = get_option( 'pm_offer_notice' );
-        $current_time = '2022-02-07 11:00:00 EST';
-        $offer        = new \stdClass;
 
-        if ( $current_time >= $promo['start_date'] && $current_time <= $promo['end_date'] ) {
-            $offer->status    = $disabled_key == $promo['key'] ? false : true;
-            $offer->link      = $promo['action_url'];
-            $offer->key       = $promo['key'];
-            $offer->btn_txt   = ! empty( $promo['action_title'] ) ? $promo['action_title'] : 'Get Now';
+        if ( $current_time >= $promo_notice['start_date'] && $current_time <= $promo_notice['end_date'] ) {
+            $offer->status    = $disabled_key == $promo_notice['key'] ? false : true;
+            $offer->link      = $promo_notice['action_url'];
+            $offer->key       = $promo_notice['key'];
+            $offer->btn_txt   = ! empty( $promo_notice['action_title'] ) ? $promo_notice['action_title'] : 'Get Now';
             $offer->message   = [];
-            $offer->message[] = sprintf( __( '<strong>%s</strong>', 'wedevs-project-manager' ), $promo['title'] );
+            $offer->message[] = sprintf( __( '<strong>%s</strong>', 'wedevs-project-manager' ), $promo_notice['title'] );
 
-            if ( ! empty( $promo['description'] ) ) {
-                $offer->message[] = sprintf( __( '%s', 'wedevs-project-manager' ), $promo['description'] );
+            if ( ! empty( $promo_notice['description'] ) ) {
+                $offer->message[] = sprintf( __( '%s', 'wedevs-project-manager' ), $promo_notice['description'] );
             }
 
-            $offer->message[] = sprintf( __( '%s', 'wedevs-project-manager' ), $promo['content'] );
+            $offer->message[] = sprintf( __( '%s', 'wedevs-project-manager' ), $promo_notice['content'] );
             $offer->message   = implode( '<br>', $offer->message );
 
             return $offer;
         }
 
-        $offer->status = false;
         return $offer;
     }
 
@@ -66,8 +71,7 @@ class Offers {
         }
 
         // Check if inside the wp-project-manager page
-        $root_page = isset( $_GET['page'] ) ? sanitize_text_field( wp_unslash( $_GET['page'] ) ) : '';
-        if ( 'pm_projects' !== $root_page ) {
+        if ( ! isset( $_GET['page'] ) || 'pm_projects' !== $_GET['page'] ) {
             return;
         }
 
