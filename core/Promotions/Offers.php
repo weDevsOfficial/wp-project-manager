@@ -1,7 +1,6 @@
 <?php
-namespace WeDevs\PM\Core\Promotions;
 
-use AmpProject\Validator\Spec\Tag\Strong;
+namespace WeDevs\PM\Core\Promotions;
 
 /**
 * Promotion class
@@ -10,11 +9,19 @@ use AmpProject\Validator\Spec\Tag\Strong;
 */
 class Offers {
 
-    function __construct() {
+    /**
+     * Class constructor
+     */
+    public function __construct() {
         add_action( 'admin_notices', array( $this, 'promotional_offer' ) );
         add_action( 'wp_ajax_pm-dismiss-offer-notice', array( $this, 'dismiss_offer' ) );
     }
 
+    /**
+     * Retrieves offer data.
+     *
+     * @return object
+     */
     public function get_offer() {
         $offer         = new \stdClass;
         $offer->status = false;
@@ -38,7 +45,6 @@ class Offers {
         $disabled_key = get_option( 'pm_offer_notice' );
 
         if ( $current_time >= $promo_notice['start_date'] && $current_time <= $promo_notice['end_date'] ) {
-            $offer->status    = $disabled_key == $promo_notice['key'] ? false : true;
             $offer->link      = $promo_notice['action_url'];
             $offer->key       = $promo_notice['key'];
             $offer->btn_txt   = ! empty( $promo_notice['action_title'] ) ? $promo_notice['action_title'] : 'Get Now';
@@ -52,7 +58,9 @@ class Offers {
             $offer->message[] = sprintf( __( '%s', 'wedevs-project-manager' ), $promo_notice['content'] );
             $offer->message   = implode( '<br>', $offer->message );
 
-            return $offer;
+            if ( $disabled_key != $promo_notice['key'] ) {
+                $offer->status = true;
+            }
         }
 
         return $offer;

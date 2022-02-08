@@ -1,3 +1,7 @@
+= v2.4.17 - Feb 07, 2022 =
+
+**Notice** Limited time promotional notice on Super Bowl sale
+
 = v2.4.16 - Dec 23, 2021 =
 
 **Fix** Discussion file url was not downloadable for PDF

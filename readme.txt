@@ -3,9 +3,9 @@ Contributors: tareq1988, nizamuddinbabu, wedevs, asaquzzaman
 Donate Link: https://tareq.co/donate/
 Tags: project, project manager, project management, web project management, task manager, online collaboration tool,
 Requires at least: 4.4 or higher
-Tested up to: 5.8.2
+Tested up to: 5.9
 Requires PHP: 5.6
-Stable tag: 2.4.16
+Stable tag: 2.4.17
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -261,6 +261,10 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 
 == Changelog ==
+
+= v2.4.17 - Feb 07, 2022 =
+
+**Notice** Limited time promotional notice on Super Bowl sale
 
 = v2.4.16 - Dec 23, 2021 =
 
