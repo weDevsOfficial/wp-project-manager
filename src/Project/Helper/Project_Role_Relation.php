@@ -54,14 +54,17 @@ class Project_Role_Relation {
 			);
 		}
 
-		$this->role_project_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM $tb_role_project WHERE project_id=%d AND role_id=%d", $project_id, 2 ) );
-		$this->role_project_user( $project, 2 );
-		
-		$this->role_project_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM $tb_role_project WHERE project_id=%d AND role_id=%d", $project_id, 3 ) );
-		$this->role_project_user( $project, 3 );
+		$role_project_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM $tb_role_project WHERE project_id=%d AND role_id=%d", $project_id, 2 ) );
+		$this->role_project_id = $role_project_id;
+		$this->role_project_user( $project, 2, $role_project_id );
 
-		$this->role_project_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM $tb_role_project WHERE project_id=%d AND role_id=%d", $project_id, 1 ) );
-		$this->role_project_user( $project, 1 );
+		$role_project_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM $tb_role_project WHERE project_id=%d AND role_id=%d", $project_id, 3 ) );
+		$this->role_project_id = $role_project_id;
+		$this->role_project_user( $project, 3, $role_project_id );
+
+		$role_project_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM $tb_role_project WHERE project_id=%d AND role_id=%d", $project_id, 1 ) );
+		$this->role_project_id = $role_project_id;
+		$this->role_project_user( $project, 1, $role_project_id );
 	}
 
 	private function role_project( $project, $role_id ) {
@@ -109,19 +112,29 @@ class Project_Role_Relation {
 		return $this;
 	}
 
-	private function role_project_user( $project, $role_id ) {
+	private function role_project_user( $project, $role_id, $role_project_id = null ) {
 		global $wpdb;
 		$rol_project_user = $wpdb->prefix . 'pm_role_project_users';
 		$users = $project['assignees']['data'];
 		$roles = [];
 
+		if ( empty( $role_project_id ) ) {
+			$role_project_id = $this->role_project_id;
+		}
+
 		foreach ( $users as $key => $user ) {
 			$roles[$user['id']] = !empty( $user['roles']['data'] ) ? $user['roles']['data'][0]['id'] : false; 
 		}
-		
+
 		foreach ( $roles as $user_id => $project_role ) {
 			if ( $project_role == $role_id ) {
-				$wpdb->insert( $rol_project_user, ['role_project_id' => $this->role_project_id, 'user_id' => $user_id] );
+				$wpdb->insert(
+					$rol_project_user,
+					[
+						'role_project_id' => $role_project_id,
+						'user_id' => $user_id
+					]
+				);
 			}
 		}
 
