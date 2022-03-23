@@ -2117,6 +2117,9 @@ ul.pm-links li a {
   text-decoration: none;
   font-weight: normal;
 }
+.pm-search-item-li:hover a, .pm-search-item-li.ui-menu-item:hover a, .pm-search-item:hover {
+  color: #000 !important;
+}
 ul.pm-links li a.pm-loading {
   background: #eee;
 }
