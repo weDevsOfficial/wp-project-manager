@@ -114,7 +114,7 @@ class Project_Role_Relation {
 
 	private function role_project_user( $project, $role_id, $role_project_id = null ) {
 		global $wpdb;
-		$rol_project_user = $wpdb->prefix . 'pm_role_project_users';
+		$role_project_user = $wpdb->prefix . 'pm_role_project_users';
 		$users = $project['assignees']['data'];
 		$roles = [];
 
@@ -122,17 +122,21 @@ class Project_Role_Relation {
 			$role_project_id = $this->role_project_id;
 		}
 
-		foreach ( $users as $key => $user ) {
+		foreach ( $users as $user ) {
 			$roles[$user['id']] = !empty( $user['roles']['data'] ) ? $user['roles']['data'][0]['id'] : false; 
 		}
 
 		foreach ( $roles as $user_id => $project_role ) {
 			if ( $project_role == $role_id ) {
 				$wpdb->insert(
-					$rol_project_user,
+					$role_project_user,
 					[
 						'role_project_id' => $role_project_id,
-						'user_id' => $user_id
+						'user_id' => $user_id,
+					],
+					[
+						'%d',
+						'%d',
 					]
 				);
 			}
