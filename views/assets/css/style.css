@@ -2117,8 +2117,14 @@ ul.pm-links li a {
   text-decoration: none;
   font-weight: normal;
 }
-.pm-search-item-li:hover a, .pm-search-item-li.ui-menu-item:hover a, .pm-search-item:hover {
-  color: #000 !important;
+.pm-search-item-li.ui-menu-item, .pm-search-item-li.ui-menu-item a {
+  background: #fff;
+  border: 0px solid;
+}
+.pm-search-item-li.ui-menu-item:hover a {
+  background: #fff;
+  color: #199fd4;
+  border: 0px solid;
 }
 ul.pm-links li a.pm-loading {
   background: #eee;
