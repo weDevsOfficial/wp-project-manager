@@ -1,49 +1,52 @@
+= v2.4.18 - March 28, 2022 =
+
+**Fix:** Fixed Project Searching hover project links. (Issue #437)
+**Fix:** Fixed Some Role Permission assign issue after creating project.
+
 = v2.4.17 - Feb 07, 2022 =
 
-**Notice** Limited time promotional notice on Super Bowl sale
+**Notice:** Limited time promotional notice on Super Bowl sale
 
 = v2.4.16 - Dec 23, 2021 =
 
-**Fix** Discussion file url was not downloadable for PDF
-**Notice** Limited time promotional notice on holiday sale
+**Fix:** Discussion file url was not downloadable for PDF
+**Notice:** Limited time promotional notice on holiday sale
 
 = v2.4.15 - Nov 11, 2021 =
 
-**Update** ChartJS libraries from v2.x to v3.6.0
-**Update** Removed dummy data, unused files and external cdn links to improve and clean the whole codebase
-**Fix** Data escaping and sanitization issues all over the plugin
-**Fix** Some i18n translation, wrong text-domain issues
-**Notice** Limited time promotional offer regarding Black Friday and Cyber Monday
+**Update:** ChartJS libraries from v2.x to v3.6.0
+**Update:** Removed dummy data, unused files and external cdn links to improve and clean the whole codebase
+**Fix:** Data escaping and sanitization issues all over the plugin
+**Fix:** Some i18n translation, wrong text-domain issues
+**Notice:** Limited time promotional offer regarding Black Friday and Cyber Monday
 
 = v2.4.14 - Oct 11, 2021 =
 
-**Fix** Data sanitization and validation issues to prevent security threats
-**Fix** Timezone issues in My Calendar
-**Fix** Task file downloading issue by other member of project assignee list
-**Fix** After Task Create Email, `undefined offset` issue in template footer
-**Fix** User assign issue from Project Overview page
-**Fix** Unassigned Reports were not loading
-**Notice** Limited time promotional offer for Halloween
+**Fix:** Data sanitization and validation issues to prevent security threats
+**Fix:** Timezone issues in My Calendar
+**Fix:** Task file downloading issue by other member of project assignee list
+**Fix:** After Task Create Email, `undefined offset` issue in template footer
+**Fix:** User assign issue from Project Overview page
+**Fix:** Unassigned Reports were not loading
+**Notice:** Limited time promotional offer for Halloween
 
 = v2.4.13 - July 16, 2021 =
 
-**Notice** Limited time promotional offer regarding summer sale
-**Update** Calendar event content styles
-**Update** Some library upgrade for better performance
-**Fix** My Task report was not getting accurate result in some cases
-**Fix** My Calendar single task was unable to be moved
-**Fix** After creating a task, it was not updating instantly in ‘My Calendar’ and ‘My Task at a Glance’ section
-**Fix** Authentication issues on some un-authenticated API endpoints like tasks, task types, activities
+**Notice:** Limited time promotional offer regarding summer sale
+**Update:** Calendar event content styles
+**Update:** Some library upgrade for better performance
+**Fix:** My Task report was not getting accurate result in some cases
+**Fix:** My Calendar single task was unable to be moved
+**Fix:** After creating a task, it was not updating instantly in ‘My Calendar’ and ‘My Task at a Glance’ section
+**Fix:** Authentication issues on some un-authenticated API endpoints like tasks, task types, activities
 
 = v2.4.12 - May 07, 2021 =
 
-**Notice** Limited time promotion on account of Eid.
+**Notice:** Limited time promotion on account of Eid.
 
 = v2.4.11 - March 17, 2021 =
 
-**Notice** Limited time promotion for weDevs’ birthday.
-
-= v2.4.10 - Feb 13, 2021 =
+**Notice:** Limited time promotion for weDevs’ birthday.
 
 **Fix** Vulnerable security issue.
 
