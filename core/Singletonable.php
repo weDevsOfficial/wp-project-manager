@@ -105,18 +105,6 @@ trait Singletonable {
     private function __clone() {
 
     }
-
-    /**
-     * Unserialize method to prevent unserializing of the *Singleton*
-     * instance.
-     *
-     * @since 2.4.19 Make this method to public to support PHP-8.
-     *
-     * @return void
-     */
-    public function __wakeup() {
-
-    }
 }
 
 //Example: singleton() first param
