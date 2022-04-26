@@ -76,7 +76,7 @@ trait Singletonable {
 
             if ( method_exists( $this, $method ) ) {
 
-                if ( property_exists( $this, $property ) ) {
+                if ( ! empty( $property ) && property_exists( $this, $property ) ) {
                     $this->$property = call_user_func_array(
                         array( $this, $method ),
                         $params
@@ -107,12 +107,14 @@ trait Singletonable {
     }
 
     /**
-     * Private unserialize method to prevent unserializing of the *Singleton*
+     * Unserialize method to prevent unserializing of the *Singleton*
      * instance.
+     *
+     * @since 2.4.19 Make this method to public to support PHP-8.
      *
      * @return void
      */
-    private function __wakeup() {
+    public function __wakeup() {
 
     }
 }
