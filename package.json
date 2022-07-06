@@ -95,7 +95,7 @@
     "fullcalendar": "3.6.2",
     "jquery-timepicker": "^1.3.3",
     "lodash": "^4.17.15",
-    "moment": "^2.19.1",
+    "moment": "^2.29.4",
     "moment-timezone": "^0.5.13",
     "nprogress": "^0.2.0",
     "toastr": "^2.1.2",
