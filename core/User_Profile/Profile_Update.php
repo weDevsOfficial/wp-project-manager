@@ -106,10 +106,10 @@ class Profile_Update {
         <?php
     }
 
-    public function profile_update( $user_id = 0, $prev_data ) {
+    public function profile_update( $user_id, $prev_data ) {
         if (
             ! isset( $_POST['pm_profile_nonce'] )
-                ||
+            ||
             ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['pm_profile_nonce'] ) ), 'pm_nonce' )
         ) {
             return;
@@ -120,6 +120,8 @@ class Profile_Update {
         if ( !current_user_can( 'manage_options' ) ) {
             return;
         }
+
+        $user_id = empty( $user_id ) ? 0 : absint( $user_id );
 
         $this->update_user_capability( $user_id, $cap_key );
 

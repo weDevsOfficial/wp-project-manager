@@ -76,7 +76,7 @@ trait Singletonable {
 
             if ( method_exists( $this, $method ) ) {
 
-                if ( property_exists( $this, $property ) ) {
+                if ( ! empty( $property ) && property_exists( $this, $property ) ) {
                     $this->$property = call_user_func_array(
                         array( $this, $method ),
                         $params
@@ -103,16 +103,6 @@ trait Singletonable {
      * @return void
      */
     private function __clone() {
-
-    }
-
-    /**
-     * Private unserialize method to prevent unserializing of the *Singleton*
-     * instance.
-     *
-     * @return void
-     */
-    private function __wakeup() {
 
     }
 }
