@@ -22,7 +22,7 @@
                                 <td>
                                     <fieldset>
                                         <label for="wpuf-pm_mails[email_url_link][backend]">
-                                            <input v-model="link_to_backend" type="checkbox" class="radio">{{ __( 'Link to Backend', 'wedevs-project-manager') }}
+                                            <input v-model="link_to_backend" type="checkbox" class="radio">&nbsp;{{ __( 'Link to Backend', 'wedevs-project-manager') }}
                                         </label>
                                         <br>
                                         <p class="description">{{ __( 'Select where do you want to take the user. Notification emails contain links.', 'wedevs-project-manager') }}
