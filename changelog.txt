@@ -1,3 +1,9 @@
+= v2.5.0 - July 15, 2022 =
+
+**Update:** Compatibility with PHP-8.x
+**Update:** Improved codebase to make performance better
+**Fix:** Fixed some translation issues
+
 = v2.4.18 - March 28, 2022 =
 
 **Fix:** Fixed Project Searching hover project links. (Issue #437)
