@@ -595,11 +595,15 @@ class Task_List_Controller {
         return $this->get_response( $resource );
     }
 
-    public function get_lists_tasks_count( $list_ids = [], $project_id, $filter_params = [] ) {
+    public function get_lists_tasks_count( $list_ids, $project_id, $filter_params = [] ) {
         global $wpdb;
 
         if ( empty( $list_ids ) ) {
             $list_ids[] = 0;
+        }
+
+        if ( ! is_array( $list_ids ) ) {
+            $list_ids = [];
         }
 
         $tb_tasks     = pm_tb_prefix() . 'pm_tasks';

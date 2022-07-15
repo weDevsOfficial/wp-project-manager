@@ -662,8 +662,8 @@ function pm_filter_content_url( $content ) {
     return $content;
 }
 
-function pm_get_user_url( $user_id = false, $is_admin ) {
-    $user_id = $user_id ? $user_id : get_current_user_id();
+function pm_get_user_url( $user_id, $is_admin ) {
+    $user_id = ! empty( $user_id ) ? $user_id : get_current_user_id();
 
     $is_admin = $is_admin ? 'admin' : 'frontend';
     $pm_base  = pm_get_project_page($is_admin);
