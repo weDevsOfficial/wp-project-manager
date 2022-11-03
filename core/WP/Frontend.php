@@ -3,6 +3,7 @@
 namespace WeDevs\PM\Core\WP;
 
 use WeDevs\PM\Core\WP\Menu;
+use WeDevs\PM\Core\Pro\Menu as Pro_Menu;
 use WeDevs\PM\Core\Upgrades\Upgrade;
 use WeDevs\PM\Core\Notifications\Notification;
 use WeDevs\PM\Core\WP\Register_Scripts;
@@ -70,6 +71,8 @@ class Frontend {
     public function init_actions() {
         add_action( 'plugins_loaded', array( $this, 'seed' ), 10 );
         add_action( 'admin_menu', array( new Menu, 'admin_menu' ) );
+//        add_action( 'pm_menu_before_load_scripts', array( new Pro_Menu, 'admin_menu' ) );
+//        add_action( 'pm_modules_page_contents', array( new Pro_Menu, 'modules_page_contents' ) );
         add_action( 'wp_ajax_pm_ajax_upload', array ( new File_System, 'ajax_upload_file' ) );
         add_action( 'init', array ( 'WeDevs\PM\Core\Notifications\Notification' , 'init_transactional_emails' ) );
         add_action( 'admin_enqueue_scripts', array ( $this, 'register_scripts' ) );
@@ -83,6 +86,8 @@ class Frontend {
         add_action( 'admin_init', array( $this, 'redirect_after_activate' ) );
         add_action( 'admin_bar_menu', array( $this, 'pm_toolbar_search_button' ), 999);
         add_action( 'wp_initialize_site', [ $this, 'after_insert_site' ], 10 );
+
+        new Pro_Menu();
 
         add_action( 'admin_init', array( $this, 'test' ) );
     }

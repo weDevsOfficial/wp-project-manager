@@ -68,7 +68,7 @@
     "less-loader": "^4.1.0",
     "lodash": "^4.17.19",
     "node-sass": "^4.13.1",
-    "npm": "^6.2.0",
+    "npm": "^8.15.1",
     "optimize-css-assets-webpack-plugin": "^5.0.0",
     "partialify": "^3.1.6",
     "promise-polyfill": "^6.0.2",

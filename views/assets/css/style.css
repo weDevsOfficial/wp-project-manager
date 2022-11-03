@@ -5420,6 +5420,24 @@ a.pm-icon-tick.grey {
 }
 
 
+/* pro badge styles for lite submenu */
+.pm-pro-badge,
+.wp-submenu-wrap span.pm-pro-badge {
+  gap: 10px;
+  color: #FFF;
+  float: right;
+  display: inline-block;
+  padding: 1px 5px 2px;
+  font-size: 11px;
+  text-align: center;
+  font-weight: 400;
+  line-height: 13.31px;
+  white-space: nowrap;
+  border-radius: .25rem;
+  vertical-align: baseline;
+  background-color: #FF9000;
+}
+
 
 
 

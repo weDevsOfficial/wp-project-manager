@@ -92,6 +92,12 @@ return [
 		'dependency' => false,
 		'path'       => $view_path . '/assets/css/pm-style.css',
 	],
+    'pm-pro-styles' => [
+        'id'         => 'pm-pro-styles',
+        'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'core/Pro/assets/pro-styles.css',
+        'dependency' => [ 'pm-new-style' ],
+        'path'       => dirname (__FILE__) . '/../core/Pro/assets/pro-styles.css',
+    ],
 	'pm-slicknav' => [
 		'id'         => 'pm-slicknav',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/css/slicknav/slicknav.min.css',

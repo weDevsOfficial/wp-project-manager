@@ -28,15 +28,15 @@ class Menu {
 			$submenu[$slug][] = [ __( 'Categories', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/categories" ];
 		}
 
+        do_action( 'pm_menu_before_load_scripts', $home );
+
+        add_action( 'admin_print_styles-' . $home, array( 'WeDevs\\PM\\Core\\WP\\Menu', 'scripts' ) );
+
+        do_action( 'cpm_admin_menu', self::$capability, $home );
+
 		if ( ! $wedevs_pm_pro ) {
 			$submenu[$slug][] = [ __( 'Premium', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/premium" ];
 		}
- 
-		do_action( 'pm_menu_before_load_scripts', $home );
-
-		add_action( 'admin_print_styles-' . $home, array( 'WeDevs\\PM\\Core\\WP\\Menu', 'scripts' ) );
-
-		do_action( 'cpm_admin_menu', self::$capability, $home );
 		
 		if ( pm_has_admin_capability() ) {
 			$submenu[$slug][] = [ __( 'Settings', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/settings" ];
