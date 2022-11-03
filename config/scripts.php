@@ -241,6 +241,16 @@ $pm_scripts = [
 		'in_footer'  => true
 	],
 
+    'pm-pro-script' => [
+        'id'         => 'pm-pro-script',
+        'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'core/Pro/assets/pro-scripts.js',
+        'path'       => dirname (__FILE__) . '/../core/Pro/assets/pro-scripts.js',
+        'dependency' => [
+//            'pm'
+        ],
+        'in_footer'  => true
+    ],
+
 	'pmglobal' => [
 		'id'         => 'pmglobal',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/js/pmglobal.js',
