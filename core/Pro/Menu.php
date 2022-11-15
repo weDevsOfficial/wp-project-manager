@@ -19,8 +19,12 @@ class Menu {
     }
 
 	public function admin_menu( $slug ) {
-        global $submenu;
+        global $submenu, $wedevs_pm_pro;
 
+        // If pm pro exists then stop pro execution.
+        if ( $wedevs_pm_pro ) {
+            return;
+        }
 
         if ( pm_has_manage_capability() ) {
             $submenu['pm_projects'][] = array( self::pro_menu_string( 'Woo Project' ), self::$capability, 'admin.php?page=pm_projects#/woo-project' );
@@ -32,15 +36,20 @@ class Menu {
 //            add_action( 'admin_print_styles-' . $hook, array( $this, 'scripts' ) );
         }
 
-        $submenu['pm_projects']['calendar'] = array( self::pro_menu_string( 'Calendar' ), self::$capability, 'admin.php?page=pm_projects#/calendar' );
+//        $submenu['pm_projects']['calendar'] = array( self::pro_menu_string( 'Calendar' ), self::$capability, 'admin.php?page=pm_projects#/calendar' );
+//        add_submenu_page( 'pm_projects', $this->pro_menu_string( 'Calendar' ), $this->pro_menu_string( 'Calendar' ), self::$capability, 'calendar', [ static::class, 'modules_preview_page' ] );
 
         if ( pm_has_manage_capability() ) {
-            $submenu['pm_projects'][]          = array( $this->pro_menu_string( 'Progress' ), self::$capability, 'admin.php?page=pm_projects#/progress' );
-            $submenu['pm_projects']['reports'] = array( $this->pro_menu_string( 'Reports' ), self::$capability, 'admin.php?page=pm_projects#/reports' );
-            $submenu['pm_projects'][]          = array( $this->pro_menu_string( 'Modules' ), self::$capability, 'admin.php?page=pm_projects#/modules', self::modules_preview_page() );
+//            $submenu['pm_projects'][]          = array( $this->pro_menu_string( 'Progress' ), self::$capability, 'admin.php?page=pm_projects#/progress' );
+//            $submenu['pm_projects']['reports'] = array( $this->pro_menu_string( 'Reports' ), self::$capability, 'admin.php?page=pm_projects#/reports' );
+//            $submenu['pm_projects'][]          = array( $this->pro_menu_string( 'Modules' ), self::$capability, 'admin.php?page=pm_projects#/modules' );
+            $hook = add_submenu_page( 'pm_projects', $this->pro_menu_string( 'Modules' ), $this->pro_menu_string( 'Modules' ), self::$capability, 'modules', [ static::class, 'modules_preview_page' ] );
+            add_action( 'admin_head-' . $hook, array( $this, 'scripts' ) );
         }
 
-        add_action( 'pm_modules_page_contents', self::modules_page_contents() );
+
+
+        add_action( 'pm_modules_page_contents', [ static::class, 'modules_page_contents' ] );
 
 //        add_action( 'admin_print_styles-' . $slug, array( $this, 'scripts' ) );
 
@@ -48,18 +57,12 @@ class Menu {
 	}
 
     private function pro_menu_string( $menu_name ) {
-        global $wedevs_pm_pro;
-
-        if ( ! $wedevs_pm_pro ) {
-            return sprintf(
-                __( '%1$s %2$sPro%3$s', 'wedevs-project-manager' ),
-                $menu_name,
-                '<span class="pm-pro-badge">',
-                '</span>'
-            );
-        }
-
-        return __( $menu_name, 'wedevs-project-manager' );
+        return sprintf(
+            __( '%1$s %2$sPro%3$s', 'wedevs-project-manager' ),
+            $menu_name,
+            '<span class="pm-pro-badge">',
+            '</span>'
+        );
     }
 
     /**
@@ -157,11 +160,117 @@ class Menu {
      *
      * @return void
      */
-    public static function modules_page_contents() {
-        $modules = self::pro_modules_info();
+    public static function modules_page_contents( $modules ) {
+        $diamond_icon = file_get_contents( pm_config( 'define.url' ) . 'core/Pro/assets/images/diamond.svg' );
+        $check_icon   = file_get_contents( pm_config( 'define.url' ) . 'core/Pro/assets/images/check.svg' );
+        $crown_icon   = file_get_contents( pm_config( 'define.url' ) . 'core/Pro/assets/images/crown.svg' );
+        $close_icon   = file_get_contents( pm_config( 'define.url' ) . 'core/Pro/assets/images/x.svg' );
+
+        wp_enqueue_style( 'swiffy-slider' );
+        wp_enqueue_script( 'swiffy-slider' );
+        wp_enqueue_script( 'swiffy-slider-extension' );
         ?>
+        <div id="pm-upgrade-popup" class="pm-popup-window">
+            <div class="modal-window">
+                <div class="modal-window-inner">
+                    <div class="content-area">
+                        <div class="popup-close-button">
+                            <?php echo $close_icon; ?>
+                        </div>
+                        <div class="popup-diamond">
+                            <?php echo $diamond_icon; ?>
+                        </div>
+                        <div class="pm-popup-header">
+                            <h2 class="font-orange header-one">Upgrade to</h2>
+                            <h2 class="header-two">WP Project Manager <span class="font-bold">Pro</span></h2>
+                            <h2 class="header-three font-gray">unlock and take advantage of our premium features 🎉</h2>
+                        </div>
+                        <div class="pm-popup-list-area">
+                            <div class="single-checklist">
+                                <div class="check-icon">
+                                    <?php echo $check_icon; ?>
+                                </div>
+                                <div class="check-list">
+                                    <p>
+                                        Give your team & projects additional pace with 10+ premium modules such as -
+                                        <span class="bold font-black">Stripe Gateway, Time Tracker, Sub Task, Invoice, Kanban Board, Gantt Chart, WooCommerce Order, BuddyPress</span> etc.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="single-checklist">
+                                <div class="check-icon">
+                                    <?php echo $check_icon; ?>
+                                </div>
+                                <div class="check-list">
+                                    <p>
+                                        Experience the <span class="bold font-black">Advanced Files Manager</span>
+                                        the helps you to <span class="bold font-black">upload, store</span> or
+                                        <span class="bold font-black">create files, documents, custom fields,</span>
+                                        and <span class="bold font-black">images</span> from one place and keeps you hassle free.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="single-checklist">
+                                <div class="check-icon">
+                                    <?php echo $check_icon; ?>
+                                </div>
+                                <div class="check-list">
+                                    <p>
+                                        Get more <span class="bold font-black">Advanced Reporting, Automatic</span>
+                                        Daily Digest Mail, and <span class="bold font-black">Real-Time Updates</span>.
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="single-checklist">
+                                <div class="check-icon">
+                                    <?php echo $check_icon; ?>
+                                </div>
+                                <div class="check-list">
+                                    <p>
+                                        <span class="bold font-black">Collaborate</span> with your team members privately with
+                                        <span class="bold font-black">Built-in Private Messenger</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="<?php echo self::get_upgrade_to_pro_popup_url(); ?>" target="_blank" class="pro-button button-upgrade-to-pro">
+                            <?php
+                            /* translators: %s: Crown Icon */
+                            echo sprintf( __( 'Upgrade to PRO <span class="pro-icon">%s</span>', 'wedevs-project-manager' ), $crown_icon );
+                            ?>
+                        </a>
+                    </div>
+                    <div class="slider-area">
+                        <div class="pm-slider slider-indicators-outside slider-indicators-round slider-nav-mousedrag slider-nav-autoplay slider-nav-autopause" id="pm-slider">
+                            <div class="swiffy-slider">
+                                <ul class="slider-container">
+                                    <li><img src="<?php echo pm_config( 'define.url' ) . 'core/Pro/assets/images/popup-slider/slider-1.jpg'; ?>"></li>
+                                    <li><img src="<?php echo pm_config( 'define.url' ) . 'core/Pro/assets/images/popup-slider/slider-2.jpg'; ?>"></li>
+                                    <li><img src="<?php echo pm_config( 'define.url' ) . 'core/Pro/assets/images/popup-slider/slider-3.jpg'; ?>"></li>
+                                    <li><img src="<?php echo pm_config( 'define.url' ) . 'core/Pro/assets/images/popup-slider/slider-4.jpg'; ?>"></li>
+                                </ul>
+
+                                <div class="slider-indicators">
+                                    <button class="active"></button>
+                                    <button></button>
+                                    <button></button>
+                                    <button></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="footer-feature">
+                        <p><?php echo $check_icon; ?> Industry leading 24x7 support</p>
+                        <p><?php echo $check_icon; ?> 14 days no questions asked refund policy</p>
+                        <p><?php echo $check_icon; ?> Secured payment</p>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div id="wedevs-project-manager" class="wedevs-pm-wrap wrap wp-core-ui pm pm-page-wrapper">
-            <h2 style="display: none;"></h2>
+            <h2><?php esc_html_e( 'Modules', 'wedevs-project-manager' ); ?></h2>
             <div class="pm-wrap module-list-area">
                 <?php foreach ( $modules as $module ) : ?>
                     <div class="plugin-card">
@@ -183,6 +292,14 @@ class Menu {
                                 <p><?php echo esc_html( $module['description'] ); ?></p>
                             </div>
                         </div>
+                        <div class="form-create-overlay">
+                            <a href="#pm-upgrade-popup" class="pro-button button-upgrade-to-pro">
+                                <?php
+                                /* translators: %s: Crown Icon */
+                                echo sprintf( __( 'Upgrade to PRO <span class="pro-icon">%s</span>', 'wedevs-project-manager' ), $crown_icon );
+                                ?>
+                            </a>
+                        </div>
                     </div>
                 <?php endforeach; ?>
             </div>
@@ -190,8 +307,22 @@ class Menu {
         <?php
     }
 
+    /**
+     * Get the upgrade to pro url from the PRO Prompts
+     *
+     * @since 2.5.1
+     *
+     * @return string
+     */
+    public static function get_upgrade_to_pro_popup_url() {
+        return esc_url( 'https://wedevs.com/wp-user-frontend-pro/pricing/?utm_source=wpdashboard&utm_medium=popup' );
+    }
+
 	public function scripts() {
-		Enqueue_Scripts::scripts();
-		Enqueue_Scripts::styles();
+//		Enqueue_Scripts::scripts();
+//		Enqueue_Scripts::styles();
+
+        wp_enqueue_style( 'pm-pro-styles' );
+        wp_enqueue_script( 'pm-pro-script' );
 	}
 }
