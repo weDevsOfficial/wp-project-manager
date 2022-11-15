@@ -1319,8 +1319,8 @@ function pm_manager_cap_slug() {
  */
 function pm_access_capabilities( $cap = false ) {
     $caps = [
-        pm_admin_cap_slug() => __( 'PM Admin', 'pm-pro' ),
-        pm_manager_cap_slug() => __( 'PM Manager', 'pm-pro' )
+        pm_admin_cap_slug() => __( 'PM Admin', 'wedevs-project-manager' ),
+        pm_manager_cap_slug() => __( 'PM Manager', 'wedevs-project-manager' )
     ];
 
     $caps = apply_filters( 'pm_access_capabilities', $caps );
@@ -1328,7 +1328,29 @@ function pm_access_capabilities( $cap = false ) {
     return empty( $cap ) ? $caps : $caps[$cap];
 }
 
+/**
+ * The HTML preview part when hovering over a pro settings field.
+ *
+ * @since 2.5.1
+ *
+ * @return string
+ */
+function pm_get_pro_upgrader_overlay_content() {
+    $crown_icon = pm_config( 'define.url' ) . 'core/Pro/assets/images/crown.svg';
 
+    return sprintf(
+        /* translators: 1) Overlay opening tags, 2) Opening span tag, 3) Icon content, 4) Overlay closing tags */
+        __( '%1$sUpgrade to PRO %2$s%3$s%4$s', 'wedevs-project-manager' ),
+        sprintf(
+            /* translators: %s: pop-up url for upgrade pro */
+            '<div class="pro-field-overlay"><a href="%s" target="_blank" class="wpuf-button button-upgrade-to-pro">',
+            esc_url( WPUF_Pro_Prompt::get_upgrade_to_pro_popup_url() )
+        ),
+        '<span class="pro-icon icon-white">',
+        file_get_contents( $crown_icon ),
+        '</span></a></div>'
+    );
+}
 
 
 

@@ -98,6 +98,12 @@ return [
         'dependency' => [ 'pm-new-style' ],
         'path'       => dirname (__FILE__) . '/../core/Pro/assets/pro-styles.css',
     ],
+    'swiffy-slider' => [
+        'id'         => 'swiffy-slider',
+        'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'core/Pro/assets//vendor/swiffy-slider/swiffy-slider.min.css',
+        'dependency' => false,
+        'path'       => dirname (__FILE__) . '/../core/Pro/assets//vendor/swiffy-slider/swiffy-slider.min.css',
+    ],
 	'pm-slicknav' => [
 		'id'         => 'pm-slicknav',
 		'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/css/slicknav/slicknav.min.css',

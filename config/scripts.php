@@ -245,9 +245,23 @@ $pm_scripts = [
         'id'         => 'pm-pro-script',
         'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'core/Pro/assets/pro-scripts.js',
         'path'       => dirname (__FILE__) . '/../core/Pro/assets/pro-scripts.js',
-        'dependency' => [
-//            'pm'
-        ],
+        'dependency' => [ 'jquery' ],
+        'in_footer'  => true
+    ],
+
+    'swiffy-slider' => [
+        'id'         => 'swiffy-slider',
+        'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'core/Pro/assets/vendor/swiffy-slider/swiffy-slider.min.js',
+        'path'       => dirname (__FILE__) . '/../core/Pro/assets/vendor/swiffy-slider/swiffy-slider.min.js',
+        'dependency' => [ 'jquery' ],
+        'in_footer'  => true
+    ],
+
+    'swiffy-slider-extension' => [
+        'id'         => 'swiffy-slider-extension',
+        'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'core/Pro/assets/vendor/swiffy-slider/swiffy-slider-extensions.min.js',
+        'path'       => dirname (__FILE__) . '/../core/Pro/assets/vendor/swiffy-slider/swiffy-slider-extensions.min.js',
+        'dependency' => [ 'jquery' ],
         'in_footer'  => true
     ],
 
