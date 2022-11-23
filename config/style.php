@@ -92,6 +92,12 @@ return [
 		'dependency' => false,
 		'path'       => $view_path . '/assets/css/pm-style.css',
 	],
+    'pm-badge-styles' => [
+        'id'         => 'pm-badge-styles',
+        'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'core/Pro/assets/badge.css',
+        'dependency' => false,
+        'path'       => dirname (__FILE__) . '/../core/Pro/assets/badge.css',
+    ],
     'pm-pro-styles' => [
         'id'         => 'pm-pro-styles',
         'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'core/Pro/assets/pro-styles.css',

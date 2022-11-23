@@ -1,0 +1,203 @@
+/* pm pro menu badge styles */
+.wp-submenu-wrap li {
+    position: relative;
+}
+
+.pm-pro-badge,
+.wp-submenu-wrap span.pm-pro-badge {
+    gap: 10px;
+    color: #FFF;
+    float: right;
+    display: inline-block;
+    padding: 1px 5px 2px;
+    font-size: 11px;
+    text-align: center;
+    font-weight: 400;
+    line-height: 13.31px;
+    white-space: nowrap;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    border-radius: .25rem;
+    vertical-align: baseline;
+    background-color: #FF9000;
+    -webkit-font-smoothing: auto;
+}
+
+.wp-submenu-wrap li .pm-pro-field-tooltip {
+    top: 221px;
+    left: 302px;
+    color: #fff;
+    width: 270px;
+    opacity: 0;
+    padding: 30px 25px;
+    z-index: 20000;
+    display: none;
+    position: absolute;
+    transform: translate(-50%, -100%);
+    box-sizing: border-box;
+    background: #000;
+    transition: opacity 0.8s;
+    border-radius: 5px;
+}
+
+.wp-submenu-wrap li:hover .pm-pro-field-tooltip,
+.wp-submenu-wrap span.pm-pro-badge:hover .pm-pro-field-tooltip {
+    opacity: 1;
+    display: block;
+}
+
+.wp-submenu-wrap li .pm-pro-field-tooltip a {
+    display: none !important;
+}
+
+.wp-submenu-wrap li .pm-pro-field-tooltip h3.tooltip-header {
+    color: #fff;
+    font-size: 14px;
+    line-height: 12px;
+    margin: 0px 0 18px;
+}
+
+.pm-pro-field-tooltip ul li {
+    display: flex;
+    font-size: 14px;
+    line-height: 25px;
+    font-weight: 400;
+    align-items: center;
+}
+
+.pm-pro-field-tooltip ul li .tooltip-check {
+    margin-right: 10px;
+}
+
+.wp-submenu-wrap li .pm-pro-field-tooltip .pro-link {
+    display: flex;
+    margin-top: 20px;
+    justify-content: center;
+}
+
+.wp-submenu-wrap li .pm-pro-field-tooltip .pro-link a.pro-button.button-upgrade-to-pro {
+    top: 50%;
+    color: #fff !important;
+    padding: 8px 18px !important;
+    display: flex !important;
+    margin-top: 9px !important;
+    background: #ff9000;
+    min-height: auto;
+    align-items: center;
+    border-radius: 5px;
+}
+
+.wp-submenu-wrap li .pm-pro-field-tooltip .pro-link a.pro-button.button-upgrade-to-pro:hover {
+    background: #ff9000 !important;
+    box-shadow: none !important;
+}
+
+.pm-pro-field-tooltip .pro-link a.pro-button span.pro-icon {
+    height: 1em;
+    margin-left: 10px;
+}
+
+.wp-submenu-wrap li .pm-pro-field-tooltip i {
+    top: 31.5%;
+    left: 0%;
+    width: 30px;
+    height: 15px;
+    overflow: hidden;
+    position: absolute;
+    transform: translate(0%, -50%) rotate(-90deg);
+    margin-left: -15px;
+}
+
+.wp-submenu-wrap li .pm-pro-field-tooltip i::after {
+    top: 8px;
+    left: 50%;
+    width: 12px;
+    height: 12px;
+    content: '';
+    position: absolute;
+    transform: translate(-50%, -50%) rotate(45deg);
+    background-color: #000;
+}
+
+
+/*.pm-pro-field-tooltip {*/
+/*    top: 320px;*/
+/*    left: 50%;*/
+/*    color: #fff;*/
+/*    width: 270px;*/
+/*    opacity: 0;*/
+/*    padding: 25px 22px;*/
+/*    z-index: 110;*/
+/*    display: none;*/
+/*    position: absolute;*/
+/*    transform: translate(-50%, -100%);*/
+/*    box-sizing: border-box;*/
+/*    background: #000;*/
+/*    transition: opacity 0.8s;*/
+/*    border-radius: 5px;*/
+
+/*h3.tooltip-header {*/
+/*    color: #fff;*/
+/*    font-size: 14px;*/
+/*    line-height: 10px;*/
+/*    margin: 0px 0 18px;*/
+/*}*/
+
+/*ul {*/
+/*li {*/
+/*    display: flex;*/
+/*    font-size: 14px;*/
+/*    line-height: 21px;*/
+/*    font-weight: 400;*/
+/*    align-items: center;*/
+
+/*.tooltip-check {*/
+/*    margin-right: 10px;*/
+/*}*/
+/*}*/
+/*}*/
+
+/*.pro-link {*/
+/*    display: flex;*/
+/*    margin-top: 20px;*/
+/*    justify-content: center;*/
+
+/*a.pro-button.button-upgrade-to-pro {*/
+/*    top: 50%;*/
+/*    color: #fff;*/
+/*    padding: 8px 18px;*/
+/*    display: flex;*/
+/*    background: #ff9000;*/
+/*    min-height: auto;*/
+/*    align-items: center;*/
+/*    border-radius: 5px;*/
+
+/*.crown-icon {*/
+/*    height: 1em;*/
+/*    margin-left: 10px;*/
+/*}*/
+/*}*/
+/*}*/
+
+/*i {*/
+/*    top: -8px;*/
+/*    left: 50%;*/
+/*    width: 24px;*/
+/*    height: 12px;*/
+/*    overflow: hidden;*/
+/*    position: absolute;*/
+/*    margin-left: -12px;*/
+
+/*&:after {*/
+/*     top: 8px;*/
+/*     left: 50%;*/
+/*     width: 12px;*/
+/*     height: 12px;*/
+/*     content: '';*/
+/*     position: absolute;*/
+/*     transform: translate(-50%, -50%) rotate(45deg);*/
+/*     background-color: #000;*/
+/* }*/
+/*}*/
+/*}*/
+
+/* pm pro menu badge styles end */
