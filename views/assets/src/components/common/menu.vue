@@ -22,7 +22,7 @@
                 <div class="pm-nav-menu-toggle dashicons dashicons-arrow-down-alt2" @click="collapseNav()">
                     <span>Menu</span>
                 </div>
-                <div class="menu-item" v-for="item in menu" :key="item.name"> 
+                <div :class="item.badge ? 'menu-item pro-menu-item' : 'menu-item'" v-for="item in menu" :key="item.name">
 
                     <router-link 
                         :class="item.class +' '+ setActiveMenu(item)"
@@ -33,8 +33,12 @@
                     >
                         <span :class="'logo '+setMenuIcon(item)"></span>
                         <span class="title">{{ item.name }}</span>
+                        <span class="pm-pro-badge pro-project-menu-badge" v-if="item.badge">
+                            {{ __( 'Pro', 'wedevs-project-manager' ) }}
+                        </span>
                     </router-link>
-                </div> 
+                    <Tooltip />
+                </div>
 
                 <div class="menu-item more-menu-wrap" v-if="moreMenu.length">
                     <a @click.prevent="" href="#" :class="`message pm-sm-col-12 ${isMoreMenuActive(moreMenu)}`">
@@ -43,8 +47,8 @@
                         <span>{{ __('More', 'wedevs-project-manager') }}</span>
                     </a>
 
-                    <ul class="child-menu-wrap">
-                        <li class="child-item" v-for="child in moreMenu" :key="child.name">
+                    <ul class="child-menu-wrap" :style="!PM_Vars.is_pro ? 'width: 135px' : ''">
+                        <li :class="child.badge ? 'child-item pro-menu-item' : 'child-item'" v-for="child in moreMenu" :key="child.name">
                             <router-link 
                                 :class="`${child.class} ${setActiveMenu(child)}`"
                                 :to="{
@@ -54,7 +58,11 @@
                             >
                                 <span :class="`logo ${setMenuIcon(child)}`"></span>
                                 <span class="title">{{ child.name }}</span>
+                                <span class="pm-pro-badge pro-project-menu-badge" v-if="child.badge">
+                                    {{ __( 'Pro', 'wedevs-project-manager' ) }}
+                                </span>
                             </router-link>
+                          <Tooltip />
                         </li>
                     </ul>
                 </div>    
@@ -251,6 +259,7 @@
 
 <script>
     import { sortBy } from 'lodash';
+    import Tooltip from '@components/upgrade/tooltip';
 
 	export default {
         props: {
@@ -365,6 +374,10 @@
                 return items.slice(0,7);
             }
 		},
+
+    components: {
+      Tooltip,
+    },
 
 		methods: {
             // collapse navigation

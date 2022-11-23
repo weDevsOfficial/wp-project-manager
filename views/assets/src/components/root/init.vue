@@ -24,6 +24,10 @@
 						}
 					);
 				}
+
+        // if ( this.$route.path && ( '/calender' !== this.$route.path || '/progress' !== this.$route.path || 'woo-project' !== this.$route.path ) ) {
+        //   document.querySelector( '.pm-content-overlay' ).remove();
+        // }
 			}
 		}
 	}

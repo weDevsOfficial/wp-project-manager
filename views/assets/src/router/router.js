@@ -4,13 +4,26 @@ import add_ons from '@components/add-ons/router';
 import '@components/importtools/router';
 //import '@components/tools/router';
 import '@components/my-tasks/router';
+import '@components/reports/router';
 
 if ( !PM_Vars.is_pro ) {
-    // require('@components/calendar/router');
-    require('@components/reports/router');
-    require('@components/progress/router');
     require('@components/welcome/router');
-    require('@components/pro-features/router');
+    require('@components/premium/router');
+    require('@components/upgrade/router');
+    require('@components/progress/router');
+    require('@components/calendar/router');
+    require('@components/pro-modules/router');
+    require('@components/woo-project/router');
+
+    // Pro prompt pages.
+    require('@components/pro-settings/router');
+    require('@components/tasks-report/router');
+    require('@components/project-modules/router');
+    require('@components/project-settings/router');
+
+    // Pro prompt fields.
+    require('@components/privacy/router');
+    require('@components/pro-task-lists/router');
 }
 
 import {general, email} from '@components/settings/router';

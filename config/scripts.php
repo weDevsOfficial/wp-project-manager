@@ -245,7 +245,7 @@ $pm_scripts = [
         'id'         => 'pm-pro-script',
         'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'core/Pro/assets/pro-scripts.js',
         'path'       => dirname (__FILE__) . '/../core/Pro/assets/pro-scripts.js',
-        'dependency' => [ 'jquery' ],
+        'dependency' => [ 'jquery', 'pm-scripts', 'pm-vue-router', 'pm-vuex', 'pm-vue' ],
         'in_footer'  => true
     ],
 
