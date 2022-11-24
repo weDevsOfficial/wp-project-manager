@@ -59,194 +59,193 @@
 </template>
 
 <style lang="less">
-    .task-estimation-wrap {
-        position: relative;
+.task-estimation-wrap {
+  position: relative;
 
-        .label {
-            .subtask-label {
-                font-style: italic;
-                font-weight: 500;
-                font-size: 11px;
-            }
+  .label {
+    .subtask-label {
+      font-style: italic;
+      font-weight: 500;
+      font-size: 11px;
+    }
 
-            .pm-pro-badge {
-                float: none;
-            }
+    .pm-pro-badge {
+      float: none;
+    }
+  }
+
+  .data-active {
+    &:hover {
+      & ~ .pm-project-module-content-overlay {
+        width: 95%;
+        height: 120%;
+        display: block;
+        margin-left: -15px;
+        border-radius: 3px;
+
+        a.pro-button {
+          width: 150px;
+          padding: 8px 14px;
+          font-size: 12px;
+          line-height: 18px;
+
+          svg.crown-icon {
+            margin-left: 6px;
+          }
         }
+      }
+    }
 
-        .data-active {
-        &:hover {
-          & ~ .pm-project-module-content-overlay {
-            width: 95%;
-            height: 120%;
-            display: block;
-            margin-left: -15px;
-            border-radius: 3px;
+    & ~ .pm-project-module-content-overlay {
+      &:hover {
+        width: 95%;
+        height: 120%;
+        display: block;
+        margin-left: -15px;
+        border-radius: 3px;
 
-            a.pro-button {
-              width: 150px;
-              padding: 8px 14px;
-              font-size: 12px;
-              line-height: 18px;
+        a.pro-button {
+          width: 150px;
+          padding: 8px 14px;
+          font-size: 12px;
+          line-height: 18px;
 
-              svg.crown-icon {
-                margin-left: 6px;
-              }
-            }
+          svg.crown-icon {
+            margin-left: 6px;
+          }
+        }
+      }
+    }
+  }
+
+  .no-user-found {
+    span {
+      background: #f5f6f8;
+      padding: 2px 5px;
+      color: #858587;
+      font-size: 13px;
+      border-radius: 2px;
+      font-weight: 400;
+    }
+  }
+
+  .task-estimation-time {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    font-size: 13px;
+    position: relative;
+    background: #f5f6f8;
+    padding: 0 5px;
+    border-radius: 2px;
+    margin-left: 5px;
+    cursor: pointer;
+
+    &:hover {
+      .clear {
+        display: flex;
+      }
+    }
+
+    .clear {
+      display: none;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      background: #cf513d;
+      align-items: center;
+      justify-content: center;
+      border-radius: 2px;
+
+      svg {
+        height: 10px;
+        width: 10px;
+        fill: #fff;
+      }
+    }
+
+    .hour {
+      margin-right: 10px;
+    }
+
+    .hour, .minute {
+      .title {
+        color: #000;
+      }
+    }
+  }
+
+  .process-text-wrap {
+    position: relative;
+
+    .slot-wrap {
+      display: flex;
+      align-items: center;
+    }
+
+    .time-form-wrap {
+      padding: 10px;
+      border: 1px solid #ddd;
+
+      .hour {
+        position: relative;
+      }
+
+      .minute {
+        margin-left: 5px;
+      }
+
+      &:before {
+        right: 110px !important;
+      }
+
+      &:after {
+        right: 110px !important;
+      }
+
+      .input-field {
+        display: block;
+      }
+
+      .process-submit {
+        display: flex;
+        align-items: center;
+        margin-top: 8px;
+
+        .clear {
+          font-size: 13px;
+          color: #838383;
+
+          &:hover {
+            color: #444;
           }
         }
 
-        & ~ .pm-project-module-content-overlay {
-          &:hover {
-            width: 95%;
-            height: 120%;
-            display: block;
-            margin-left: -15px;
-            border-radius: 3px;
+        .action {
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          flex: 1;
 
-            a.pro-button {
-              width: 150px;
-              padding: 8px 14px;
-              font-size: 12px;
-              line-height: 18px;
+          .cross {
+            padding: 0 10px;
 
-              svg.crown-icon {
-                margin-left: 6px;
-              }
+            svg {
+              height: 10px;
+              width: 10px;
             }
           }
         }
       }
-
-        .no-user-found {
-            span {
-                background: #f5f6f8;
-                padding: 2px 5px;
-                color: #858587;
-                font-size: 13px;
-                border-radius: 2px;
-                font-weight: 400;
-            }
-        }
-
-        .task-estimation-time {
-            display: flex;
-            align-items: center;
-            flex-wrap: wrap;
-            font-size: 13px;
-            position: relative;
-            background: #f5f6f8;
-            padding: 0 5px;
-            border-radius: 2px;
-            margin-left: 5px;
-            cursor: pointer;
-
-            &:hover {
-                .clear {
-                    display: flex;
-                }
-            }
-
-            .clear {
-                display: none;
-                position: absolute;
-                left: 0;
-                right: 0;
-                top: 0;
-                bottom: 0;
-                background: #cf513d;
-                align-items: center;
-                justify-content: center;
-                border-radius: 2px;
-
-                svg {
-                    height: 10px;
-                    width: 10px;
-                    fill: #fff;
-                }
-            }
-
-            .hour {
-                margin-right: 10px;
-            }
-
-            .hour, .minute {
-                .title {
-                    color: #000;
-                }
-            }
-        }
-
-        .process-text-wrap {
-            position: relative;
-
-            .slot-wrap {
-                display: flex;
-                align-items: center;
-            }
-
-            .time-form-wrap {
-                padding: 10px;
-                border: 1px solid #ddd;
-
-                .hour {
-                    position: relative;
-                }
-
-                .minute {
-                    margin-left: 5px;
-                }
-
-                &:before {
-                    right: 110px !important;
-                }
-
-                &:after {
-                    right: 110px !important;
-                }
-
-                .input-field {
-                    display: block;
-                }
-
-                .process-submit {
-                    display: flex;
-                    align-items: center;
-                    margin-top: 8px;
-
-                    .clear {
-                        font-size: 13px;
-                        color: #838383;
-
-                        &:hover {
-                            color: #444;
-                        }
-                    }
-
-                    .action {
-                        display: flex;
-                        align-items: center;
-                        justify-content: flex-end;
-                        flex: 1;
-
-                        .cross {
-                            padding: 0 10px;
-
-                            svg {
-                                height: 10px;
-                                width: 10px;
-                            }
-                        }
-                    }
-                }
-            }
-        }
     }
+  }
+}
 
-    .pm-pro-task-estimation-field-wrap {
-        margin: 0 10px;
-    }
-
+.pm-pro-task-estimation-field-wrap {
+  margin: 0 10px;
+}
 </style>
 
 <script>

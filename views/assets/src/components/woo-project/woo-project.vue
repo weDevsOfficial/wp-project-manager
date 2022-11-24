@@ -132,8 +132,8 @@ export default {
     }
   },
 
-  mounted() {
-
+  mounted: function(){
+    pm.NProgress.done();
   },
 
   methods: {

@@ -11,6 +11,10 @@ import activities from './activities.vue';
 import overview from './overview.vue';
 import mytaskTemplete from './my-tasks.vue';
 
+if ( !PM_Vars.is_pro ) {
+    require('@components/tasks-report/router');
+}
+
 //'/my-tasks/:user_id(\\d+)?',
 
 weDevsPMRegisterChildrenRoute('my_tasks',
@@ -62,15 +66,13 @@ weDevsPMRegisterChildrenRoute('my_tasks',
 );
 
 weDevsPMRegisterChildrenRoute('project_root', 
-    [   
+    [
         {
             path: '/my-tasks/:user_id(\\d+)?',
             name: 'my_tasks',
             component: mytaskTemplete,
             children: wedevsPMGetRegisterChildrenRoute('my_tasks'),
-
         }
-        
     ]
 );
 

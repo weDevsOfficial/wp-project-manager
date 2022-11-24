@@ -6,7 +6,6 @@ weDevsPMRegisterChildrenRoute('project_root',
             path: '/modules',
             component: Modules,
             name: 'modules',
-        }
-
+        },
     ]
 );

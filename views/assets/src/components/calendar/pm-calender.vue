@@ -367,7 +367,7 @@
                                 style="background-color:#c86432;border-color:#c86432">
                                 <div class="fc-content">
                                   <span class="fc-event-icons">
-                                    <img src="http://0.gravatar.com/avatar/c5372fb724f06b520f86e003b661f9da?s=96&amp;d=mm&amp;r=g" width="18" height="18" title="Nadim">
+                                    <img src="http://0.gravatar.com/avatar/c5372fb724f06b520f86e003b661f9da?s=96&amp;d=mm&amp;r=g" width="18" height="18" :title="__('Nadim', 'wedevs-project-manager' )">
                                   </span>
                                   <span class="fc-title">{{ __( 'Woo project test', 'wedevs-project-manager' ) }}</span>
                                 </div>
@@ -386,7 +386,7 @@
                                   <div class="fc-content">
                                     <span class="fc-event-icons">
                                       <img src="http://0.gravatar.com/avatar/c5372fb724f06b520f86e003b661f9da?s=96&amp;d=mm&amp;r=g"
-                                        width="18" height="18" title="Nadim">
+                                        width="18" height="18" :title="__( 'Nadim', 'wedevs-project-manager' )">
                                     </span>
                                     <span class="fc-title">{{ __( 'Woo project test (copy)', 'wedevs-project-manager' ) }}</span>
                                   </div>

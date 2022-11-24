@@ -1,5 +1,5 @@
 <template>
-  <div class="pm-task-recurrent nonSortableTag context" ref="recurringWrapper">
+  <div class="pm-task-recurrent nonSortableTag context">
     <h3 class="label">
       <span>{{ __( 'Recurring', 'wedevs-project-manager' ) }}</span>
       <i class="info-icon"

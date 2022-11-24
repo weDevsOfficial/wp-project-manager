@@ -71,6 +71,10 @@ export default {
     UpgraderBtn,
   },
 
+  mounted: function(){
+    pm.NProgress.done();
+  },
+
   data () {
     return {
       popUpExists: false,

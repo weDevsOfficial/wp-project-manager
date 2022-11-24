@@ -258,192 +258,192 @@
 </style>
 
 <script>
-    import { sortBy } from 'lodash';
-    import Tooltip from '@components/upgrade/tooltip';
+import { sortBy } from 'lodash';
+import Tooltip from '@components/upgrade/tooltip';
 
-	export default {
-        props: {
-            current: {
-                type: String,
-                default: '',
+export default {
+  props: {
+    current: {
+      type: String,
+      default: '',
+    }
+  },
+  data () {
+    return {
+      isNavCollapse: false,
+      moreMenu: []
+    }
+  },
+  computed: {
+    menu () {
+      var project = this.$store.state.project;
+
+      if( typeof project.meta === 'undefined' ){
+        return [];
+      }
+
+      let items = pm_apply_filters(
+          'pm-project-menu',
+          [
+            {
+              route: {
+                name: 'task_lists',
+                project_id: this.project_id,
+              },
+
+              name: this.__( 'Task Lists', 'wedevs-project-manager'),
+              count: project.meta.data.total_task_lists,
+              class: 'to-do-list pm-sm-col-12',
+              order: 1
+            },
+
+            {
+              route: {
+                name: 'pm_overview',
+                project_id: this.project_id,
+              },
+
+              name: this.__( 'Overview', 'wedevs-project-manager'),
+              count: '',
+              class: 'overview pm-sm-col-12',
+              order: 2
+            },
+
+            {
+              route: {
+                name: 'activities',
+                project_id: this.project_id,
+              },
+
+              name: this.__( 'Activities', 'wedevs-project-manager'),
+              count: project.meta.data.total_activities,
+              class: 'activity pm-sm-col-12',
+              order: 21
+            },
+
+            {
+              route: {
+                name: 'discussions',
+                project_id: this.project_id,
+              },
+
+              name: this.__( 'Discussions', 'wedevs-project-manager'),
+              count: project.meta.data.total_discussion_boards,
+              class: 'message pm-sm-col-12',
+              order: 4
+            },
+
+            {
+              route: {
+                name: 'milestones',
+                project_id: this.project_id,
+              },
+
+              name: this.__( 'Milestones', 'wedevs-project-manager'),
+              count: project.meta.data.total_milestones,
+              class: 'milestone pm-sm-col-12',
+              order: 5
+            },
+
+            {
+              route: {
+                name: 'pm_files',
+                project_id: this.project_id,
+              },
+
+              name: this.__( 'Files', 'wedevs-project-manager'),
+              count: project.meta.data.total_files,
+              class: 'files pm-sm-col-12',
+              order: 6
             }
-        },
-        data () {
-            return {
-                isNavCollapse: false,
-                moreMenu: []
-            }
-        },
-		computed: {
-			menu () {
-                var project = this.$store.state.project;
-                
-                if( typeof project.meta === 'undefined' ){
-                    return [];
-                }
+          ]
+      );
 
-                let items = pm_apply_filters(
-                    'pm-project-menu',
-                    [
-                        {
-                            route: {
-                                name: 'task_lists',
-                                project_id: this.project_id,
-                            },
+      items = items.filter( item => {
+        if ( item.meta != undefined && item.meta.permission != undefined ) {
+          return item.meta.permission( project );
+        }
 
-                            name: this.__( 'Task Lists', 'wedevs-project-manager'),
-                            count: project.meta.data.total_task_lists,
-                            class: 'to-do-list pm-sm-col-12',
-                            order: 1
-                        },
+        return true;
+      } );
 
-                        {
-                            route: {
-                                name: 'pm_overview',
-                                project_id: this.project_id,
-                            },
+      items = sortBy( items, ['order'] );
 
-                            name: this.__( 'Overview', 'wedevs-project-manager'),
-                            count: '',
-                            class: 'overview pm-sm-col-12',
-                            order: 2
-                        },
+      this.moreMenu = [...items.slice(7,items.length)];
 
-                        {
-                            route: {
-                                name: 'activities',
-                                project_id: this.project_id,
-                            },
+      return items.slice(0,7);
+    }
+  },
 
-                            name: this.__( 'Activities', 'wedevs-project-manager'),
-                            count: project.meta.data.total_activities,
-                            class: 'activity pm-sm-col-12',
-                            order: 21
-                        },
+  components: {
+    Tooltip,
+  },
 
-                        {
-                            route: {
-                                name: 'discussions',
-                                project_id: this.project_id,
-                            },
-
-                            name: this.__( 'Discussions', 'wedevs-project-manager'),
-                            count: project.meta.data.total_discussion_boards,
-                            class: 'message pm-sm-col-12',
-                            order: 4
-                        },
-
-                        {
-                            route: {
-                                name: 'milestones',
-                                project_id: this.project_id,
-                            },
-
-                            name: this.__( 'Milestones', 'wedevs-project-manager'),
-                            count: project.meta.data.total_milestones,
-                            class: 'milestone pm-sm-col-12',
-                            order: 5
-                        },
-
-                        {
-                            route: {
-                                name: 'pm_files',
-                                project_id: this.project_id,
-                            },
-
-                            name: this.__( 'Files', 'wedevs-project-manager'),
-                            count: project.meta.data.total_files,
-                            class: 'files pm-sm-col-12',
-                            order: 6
-                        }
-                    ]
-                );
-
-                items = items.filter( item => {
-                    if ( item.meta != undefined && item.meta.permission != undefined ) {
-                        return item.meta.permission( project );
-                    }
-
-                    return true;
-                } );
-                
-                items = sortBy( items, ['order'] );
-
-                this.moreMenu = [...items.slice(7,items.length)];
-                
-                return items.slice(0,7);
-            }
-		},
-
-    components: {
-      Tooltip,
+  methods: {
+    // collapse navigation
+    collapseNav () {
+      this.isNavCollapse = ! this.isNavCollapse;
     },
 
-		methods: {
-            // collapse navigation
-            collapseNav () {
-                this.isNavCollapse = ! this.isNavCollapse;
-            },
+    isMoreMenuActive (menus) {
 
-            isMoreMenuActive (menus) {
+      var name = this.$route.name;
+      var active = '';
 
-                var name = this.$route.name;
-                var active = '';
+      menus.forEach( menu => {
+        if( name == menu.route.name ) {
+          active = 'active';
+        }
+      } )
 
-                menus.forEach( menu => {
-                    if( name == menu.route.name ) {
-                        active = 'active';
-                    }
-                } )
+      return active;
+    },
 
-                return active;
-            },
+    setActiveMenu (item) {
+      var name = this.$route.name;
 
-			setActiveMenu (item) {
-				var name = this.$route.name;
-                
-                if( 
-                    ( item.route.name == 'task_lists' && ( name == 'single_list' || name == "task_lists_pagination" ) )
-                    || 
-                    ( item.route.name == 'discussions' && name == 'individual_discussions' )
-                    || 
-                    ( name == item.route.name ) 
-                ) {
-					return 'active';
-                } 
-			},
-			setMenuIcon (item) {
-                switch(item.route.name) {
-                    case 'pm_overview':
-                        return 'icon-pm-overview';
-                        break;
+      if(
+          ( item.route.name == 'task_lists' && ( name == 'single_list' || name == "task_lists_pagination" ) )
+          ||
+          ( item.route.name == 'discussions' && name == 'individual_discussions' )
+          ||
+          ( name == item.route.name )
+      ) {
+        return 'active';
+      }
+    },
+    setMenuIcon (item) {
+      switch(item.route.name) {
+        case 'pm_overview':
+          return 'icon-pm-overview';
+          break;
 
-                    case 'activities':
-                        return 'icon-pm-activity';
-                        break;
+        case 'activities':
+          return 'icon-pm-activity';
+          break;
 
-                    case 'discussions':
-                        return 'icon-pm-discussion';
-                        break;
+        case 'discussions':
+          return 'icon-pm-discussion';
+          break;
 
-                    case 'task_lists':
-                        return 'icon-pm-task-list';
-                        break;
+        case 'task_lists':
+          return 'icon-pm-task-list';
+          break;
 
-                    case 'milestones':
-                        return 'icon-pm-mileston';
-                        break;
+        case 'milestones':
+          return 'icon-pm-mileston';
+          break;
 
-                    case 'pm_files':
-                        return 'icon-pm-file';
-                        break;
-                        
-                    case 'kanboard':
-                        return 'icon-pm-discussion';
-                        break;
-                }
-                
-            },
-		}
-	}
+        case 'pm_files':
+          return 'icon-pm-file';
+          break;
+
+        case 'kanboard':
+          return 'icon-pm-discussion';
+          break;
+      }
+
+    },
+  }
+}
 </script>
