@@ -9,7 +9,7 @@
           <a v-for="tab in tabs" href="#" @click.prevent="tabChange(tab)" :class="'nav-tab ' + isTabActive(tab)">
             <span :class="tab.icon"></span>
             <span>{{ tab.label }}</span>
-            <span class="pm-pro-badge">{{ __( 'Pro', 'wedevs-project-manager' ) }}</span>
+            <pm-pro-badge />
           </a>
         </h3>
         <div class="metabox-holder pm-project-module-page">
@@ -146,6 +146,7 @@
 </style>
 
 <script>
+import Badge from '@components/upgrade/badge';
 import UpgraderOverlay from '@components/upgrade/overlay';
 import Integrations from './integrations.vue'
 import Capabilities from './capabilities.vue'
@@ -185,7 +186,8 @@ export default {
     'pm-pro-upgrader-overlay': UpgraderOverlay,
     'pm-pro-integrations': Integrations,
     'pm-pro-capabilities': Capabilities,
-    'pm-pro-label': Label
+    'pm-pro-label': Label,
+    'pm-pro-badge': Badge,
   },
 
   created () {
