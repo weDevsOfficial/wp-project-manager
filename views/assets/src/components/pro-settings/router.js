@@ -1,9 +1,9 @@
-weDevsPmRegisterModule('settings', 'settings');
+weDevsPmRegisterModule( 'settings', 'settings' );
 
 import Pages from '@components/pro-settings/pages';
 import Invoices from '@components/pro-settings/invoice';
 import Settings from '@components/pro-settings/settings';
-import settingsHeader from '@components/settings/header';
+import SettingsHeader from '@components/settings/header';
 import PageSettingsTab from '@components/pro-settings/page-tab-menu';
 import InvoiceSettingsTab from '@components/pro-settings/invoice-tab-menu';
 
@@ -54,7 +54,7 @@ weDevsPMRegisterChildrenRoute('project_root',
     [
         {
             path: 'settings',
-            component: settingsHeader,
+            component: SettingsHeader,
             meta: {
                 permission: function( project ) {
                     return pmUserCanAccessPage( PM_Vars.admin_cap_slug )
@@ -63,7 +63,6 @@ weDevsPMRegisterChildrenRoute('project_root',
                 order: 7,
             },
             children: wedevsPMGetRegisterChildrenRoute( 'settings_root' )
-        }
-
+        },
     ]
 );

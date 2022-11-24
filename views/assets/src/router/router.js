@@ -17,7 +17,6 @@ if ( !PM_Vars.is_pro ) {
 
     // Pro prompt pages.
     require('@components/pro-settings/router');
-    require('@components/tasks-report/router');
     require('@components/project-modules/router');
     require('@components/project-settings/router');
 

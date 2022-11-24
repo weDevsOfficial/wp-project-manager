@@ -200,14 +200,7 @@ import UpgraderOverlay from '@components/upgrade/overlay';
 export default {
   data () {
     return {
-      showLabelPopOver: false,
-      listId: 0,
-      taskId: 0,
-      storeTaskLabel: [],
-      updating: false,
-      isPopOverOpen: false,
-      labelLoading: false,
-      projectLoading: false,
+
     }
   },
 
@@ -217,121 +210,7 @@ export default {
   },
 
   methods: {
-    has_task_permission() {
-      var permission =  this.can_edit_task(this.actionData.task) ;
-      return permission ;
-    },
 
-    deleteLabel (label) {
-      this.onSelect({ label: { ...label } });
-    },
-
-    // popper options
-    popperOptions () {
-      return {
-        placement: 'bottom-end',
-        modifiers: { offset: { offset: '0, 3px' } },
-      }
-    },
-
-    before_destroy_single_task (task) {
-      this.$store.commit('isSigleTask', false);
-    },
-
-    onSelect (data) {
-      if(this.labelLoading) {
-        return;
-      }
-
-      var self = this;
-
-      self.updateLabelStore(data.label);
-      self.updating = true;
-
-      self.updateLabel(function() {
-        self.updating = false;
-      });
-    },
-
-    updateLabelStore (label) {
-      var id = label.id;
-
-      if( this.storeTaskLabel.indexOf(id) == -1 ) {
-        this.storeTaskLabel.push(id);
-      } else {
-        let index = this.storeTaskLabel.indexOf(id);
-        this.storeTaskLabel.splice(index, 1);
-      }
-    },
-
-    setStoreTaskLabel () {
-      var self = this;
-
-      if( typeof this.actionData.task === 'undefined' ) {
-        return [];
-      }
-
-      this.actionData.task.labels.data.forEach(function(label, index) {
-        self.storeTaskLabel.push(parseInt(label.id));
-      });
-    },
-
-    windowActivity (el) {
-      var toltip = jQuery(el.target).closest('.tooltip'),
-          toltip = toltip.attr('id'),
-          button = jQuery(el.target).closest('.label-title-wrap');
-
-      if(!button.length && typeof toltip === 'undefined') {
-        this.showLabelPopOver = false;
-      }
-    },
-
-    getLabelPopoverStatus () {
-      this.isPopOverOpen = this.isPopOverOpen ? false : true;
-    },
-
-    filterUserId (users) {
-      let cuser = [];
-      cuser = users.map(function (user) {
-        return user.id;
-      });
-
-      if (!cuser.length) {
-        cuser = [0];
-      }
-
-      return cuser;
-    },
-
-    updateLabel (callBack) {
-
-      var self = this;
-      var data = {
-        title: self.actionData.task.title,
-        task_labels: self.storeTaskLabel.length ? self.storeTaskLabel : '',
-        board_id: self.actionData.task.task_list_id,
-        assignees: self.filterUserId(this.actionData.task.assignees.data),//this.assigned_to,
-      }
-      var request_data = {
-        url: self.base_url + 'pm/v2/projects/'+self.actionData.task.project_id+'/tasks/'+self.actionData.task.id+'/update',
-        type: 'POST',
-        data: data,
-        success (res) {
-          self.labelLoading = false;
-          self.actionData.task.labels = res.data.labels;
-          if(typeof callBack === 'function') {
-            callBack(res);
-          }
-        },
-
-        error (res) {
-
-        }
-      }
-
-      self.labelLoading = true;
-      self.httpRequest(request_data);
-    }
   }
 }
 </script>

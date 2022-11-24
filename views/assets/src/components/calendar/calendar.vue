@@ -126,7 +126,6 @@
             line-height: 25px;
             font-size: 14px;
           }
-
         }
         .multiselect__tags {
           min-height: auto;
@@ -147,14 +146,18 @@
   }
 }
 
-.fc-flat .fc-expander-space {
-  display: inline !important;
+.fc-flat {
+  .fc-expander-space {
+    display: inline !important;
+  }
 }
-.fc-resource-area .fc-icon {
-  width: auto;
-  font-size: initial;
-  vertical-align: middle;
-  margin-top: -1%;
+.fc-resource-area{
+  .fc-icon {
+    width: auto;
+    font-size: initial;
+    margin-top: -1%;
+    vertical-align: middle;
+  }
 }
 .color-plate-before() {
   content: "";
@@ -232,8 +235,8 @@
       }
     },
 
-    mounted() {
-
+    mounted: function(){
+      pm.NProgress.done();
     },
 
     methods: {

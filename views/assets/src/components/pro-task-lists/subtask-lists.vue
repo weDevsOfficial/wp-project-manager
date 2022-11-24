@@ -196,7 +196,6 @@
                     font-size: 11px;
                     line-height: 12px;
                     padding: 2px 4px;
-
                 }
 
                 .icon-pm-delete, .icon-pm-pencil, .flaticon-pm-copy-files {
@@ -205,6 +204,7 @@
                         color: #fff;
                     }
                 }
+
                 .meta-item {
                     margin-right: 10px;
                 }
@@ -229,9 +229,9 @@
                         }
                     }
                 }
-
             }
         }
+
         .input-area {
             border-radius: 3px;
             border: 1px solid #e5e4e4;

@@ -182,8 +182,8 @@ import Badge from '@components/upgrade/badge';
 import UpgraderOverlay from '@components/upgrade/overlay';
 
 export default {
-  mounted: {
-
+  mounted: function(){
+    pm.NProgress.done();
   },
 
   components: {

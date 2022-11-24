@@ -2,6 +2,13 @@
 
 namespace WeDevs\PM\Core\Pro;
 
+/**
+ * Class Menu
+ *
+ * @since 2.5.1
+ *
+ * @package WeDevs\PM\Core\Pro
+ */
 class Menu {
 
     /**
@@ -22,7 +29,7 @@ class Menu {
      *
      * @return void
      */
-	public function admin_menu( $slug ) {
+    public function admin_menu( $slug ) {
         global $submenu, $wedevs_pm_pro;
 
         // If pm pro exists then stop pro execution.
@@ -43,7 +50,7 @@ class Menu {
 
         add_action( 'admin_print_styles-' . $slug, array( $this, 'scripts' ) );
         wp_enqueue_style( 'pm-badge-styles' );
-	}
+    }
 
     /**
      * Get the menu string with pro badge.
@@ -60,7 +67,7 @@ class Menu {
             $menu_name,
             '<span class="pm-pro-badge">',
             '</span>',
-            self::get_pro_preview_tooltip()
+            $this->get_pro_preview_tooltip()
         );
     }
 
@@ -71,17 +78,19 @@ class Menu {
      *
      * @return string
      */
-    public static function get_pro_preview_tooltip() {
-        $crown_icon = pm_config( 'define.url' ) . 'core/Pro/assets/images/crown.svg';
-        $check_icon = pm_config( 'define.url' ) . 'core/Pro/assets/images/check.svg';
-        $features = [
+    public function get_pro_preview_tooltip() {
+        $features = array(
             'Enjoy 10+ premium modules',
             'Advanced reporting filters',
             '24/7 customer support',
             'Real-time project updates',
             'Complete control of user roles & permissions',
-        ];
+        );
+
         $tooltip_header = __( 'Available in Pro. Unlock & enjoy:', 'wedevs-project-manager' );
+        $crown_icon     = pm_config( 'define.url' ) . 'core/Pro/assets/images/crown.svg';
+        $check_icon     = pm_config( 'define.url' ) . 'core/Pro/assets/images/check.svg';
+
         $html = '<div class="pm-pro-field-tooltip">';
         $html .= "<a href='#'></a><h3 class='tooltip-header'>{$tooltip_header}</h3>";
         $html .= '<ul>';
@@ -101,7 +110,7 @@ class Menu {
                     %4$s<span class="pro-icon icon-white"> %5$s</span>
                 </a>
             </div>',
-            esc_url( self::get_upgrade_to_pro_popup_url() ),
+            esc_url( $this->get_upgrade_to_pro_popup_url() ),
             '_blank',
             'pro-button button-upgrade-to-pro',
             __( 'Upgrade to PRO', 'wedevs-project-manager' ),
@@ -115,13 +124,13 @@ class Menu {
     }
 
     /**
-     * Get the upgrade to pro url from the PRO Prompts
+     * Get the upgrade to pro url from the PRO Prompts.
      *
      * @since 2.5.1
      *
      * @return string
      */
-    public static function get_upgrade_to_pro_popup_url() {
+    public function get_upgrade_to_pro_popup_url() {
         return esc_url( 'https://wedevs.com/wp-project-manager-pro/pricing/?utm_source=freeplugin&utm_medium=pm-action-link&utm_campaign=pm-pro-prompt' );
     }
 
@@ -134,10 +143,9 @@ class Menu {
      */
 	public function scripts() {
         wp_enqueue_style( 'swiffy-slider' );
-        wp_enqueue_script( 'swiffy-slider' );
         wp_enqueue_style( 'pm-pro-styles' );
 
-        wp_enqueue_script( 'pm-pro-script' );
+        wp_enqueue_script( 'swiffy-slider' );
         wp_enqueue_script( 'swiffy-slider-extension' );
 	}
 }

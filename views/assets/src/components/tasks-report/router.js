@@ -1,4 +1,6 @@
-import Reports from './reports';
+import Menu from '@components/tasks-report/menu';
+import Reports from '@components/tasks-report/reports';
+
 weDevsPMRegisterChildrenRoute( "my_tasks",
     [
         {
@@ -9,7 +11,6 @@ weDevsPMRegisterChildrenRoute( "my_tasks",
     ]
 );
 
-import Menu from './menu';
 weDevs_PM_Components.push({
     hook: 'pm-my-task-menu',
     component: 'pm-pro-my-task-menu',

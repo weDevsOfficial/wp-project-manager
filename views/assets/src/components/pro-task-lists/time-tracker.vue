@@ -140,19 +140,6 @@
         }
       }
     }
-    // .custom-time-popup-menu {
-    //     position: absolute;
-    //     left: -139px;
-    //     top: 38px;
-    //     z-index: 9999;
-    //     background: #fff;
-    //     box-shadow: 0px 2px 40px 0px rgba(214, 214, 214, 0.6);
-    //     text-align: left;
-    //     margin: 0;
-    //     border-radius: 3px;
-    //     border: 1px solid #ddd;
-    //     padding: 10px;
-    // }
   }
 
   .pm-pro-tr-task-info {
@@ -296,17 +283,9 @@ import UpgraderOverlay from '@components/upgrade/overlay';
 export default {
   data () {
     return {
-      interval: '',
       hour: '00',
       minute: '00',
       second: '00',
-      isRunningStopWatch: false,
-      action: {
-        showMenu: false,
-        customTimeForm: false,
-      },
-      timeActivityRunning: false,
-      RequestIsRunning: false,
     }
   },
 
@@ -316,12 +295,7 @@ export default {
   },
 
   methods: {
-    popperOptions () {
-      return {
-        placement: 'bottom-end',
-        modifiers: { offset: { offset: '0, 3px' } },
-      }
-    },
+
   },
 }
 </script>

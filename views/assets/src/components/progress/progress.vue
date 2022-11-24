@@ -13,7 +13,7 @@
             </a>
             <span class="pm-progress-label pm-update">{{ __( 'update', 'wedevs-project-manager' ) }}</span>
             <span>
-              <a href="#/my-tasks/overview">{{ __( 'Nadim' ) }}</a>
+              <a href="#/my-tasks/overview">{{ __( 'Nadim', 'wedevs-project-manager' ) }}</a>
               {{ __( 'has updated the description of a discussion board,', 'wedevs-project-manager' ) }}
               <a href="#/projects/1/discussions/9">{{ __( 'New Test', 'wedevs-project-manager' ) }}</a>.
             </span>
@@ -106,8 +106,8 @@
       }
     },
 
-    mounted() {
-
+    mounted: function(){
+      pm.NProgress.done();
     },
 
     components: {
