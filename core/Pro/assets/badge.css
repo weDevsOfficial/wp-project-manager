@@ -81,6 +81,7 @@
     display: flex !important;
     margin-top: 9px !important;
     background: #ff9000;
+    font-weight: 600;
     min-height: auto;
     align-items: center;
     border-radius: 5px;
@@ -117,87 +118,5 @@
     transform: translate(-50%, -50%) rotate(45deg);
     background-color: #000;
 }
-
-
-/*.pm-pro-field-tooltip {*/
-/*    top: 320px;*/
-/*    left: 50%;*/
-/*    color: #fff;*/
-/*    width: 270px;*/
-/*    opacity: 0;*/
-/*    padding: 25px 22px;*/
-/*    z-index: 110;*/
-/*    display: none;*/
-/*    position: absolute;*/
-/*    transform: translate(-50%, -100%);*/
-/*    box-sizing: border-box;*/
-/*    background: #000;*/
-/*    transition: opacity 0.8s;*/
-/*    border-radius: 5px;*/
-
-/*h3.tooltip-header {*/
-/*    color: #fff;*/
-/*    font-size: 14px;*/
-/*    line-height: 10px;*/
-/*    margin: 0px 0 18px;*/
-/*}*/
-
-/*ul {*/
-/*li {*/
-/*    display: flex;*/
-/*    font-size: 14px;*/
-/*    line-height: 21px;*/
-/*    font-weight: 400;*/
-/*    align-items: center;*/
-
-/*.tooltip-check {*/
-/*    margin-right: 10px;*/
-/*}*/
-/*}*/
-/*}*/
-
-/*.pro-link {*/
-/*    display: flex;*/
-/*    margin-top: 20px;*/
-/*    justify-content: center;*/
-
-/*a.pro-button.button-upgrade-to-pro {*/
-/*    top: 50%;*/
-/*    color: #fff;*/
-/*    padding: 8px 18px;*/
-/*    display: flex;*/
-/*    background: #ff9000;*/
-/*    min-height: auto;*/
-/*    align-items: center;*/
-/*    border-radius: 5px;*/
-
-/*.crown-icon {*/
-/*    height: 1em;*/
-/*    margin-left: 10px;*/
-/*}*/
-/*}*/
-/*}*/
-
-/*i {*/
-/*    top: -8px;*/
-/*    left: 50%;*/
-/*    width: 24px;*/
-/*    height: 12px;*/
-/*    overflow: hidden;*/
-/*    position: absolute;*/
-/*    margin-left: -12px;*/
-
-/*&:after {*/
-/*     top: 8px;*/
-/*     left: 50%;*/
-/*     width: 12px;*/
-/*     height: 12px;*/
-/*     content: '';*/
-/*     position: absolute;*/
-/*     transform: translate(-50%, -50%) rotate(45deg);*/
-/*     background-color: #000;*/
-/* }*/
-/*}*/
-/*}*/
 
 /* pm pro menu badge styles end */

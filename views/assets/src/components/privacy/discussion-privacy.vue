@@ -1,5 +1,5 @@
 <template>
-  <div class="item pm-discussion-privacy">
+  <div class="item pm-make-privacy">
     <label>
       <input value="yes" type="checkbox" @click.prevent="">
       {{ __( 'Private', 'wedevs-project-manager' ) }}
@@ -10,7 +10,7 @@
 </template>
 
 <style lang="less" scoped>
-.pm-discussion-privacy {
+.pm-make-privacy {
   padding: 10px 0;
   position: relative;
 
@@ -21,33 +21,29 @@
   .pm-pro-badge {
     float: none;
     margin-left: 6px;
-
-    .pm-pro-field-tooltip {
-      top: 325px;
-    }
   }
 
   label {
     &:hover {
       & ~ .pm-project-module-content-overlay {
+        width: 102%;
+        height: 50px;
         display: block;
-        width: 328px;
-        height: 55px;
+        margin-top: -5px;
         margin-left: 0;
         border-radius: 3px;
-        margin-top: -5px;
       }
     }
   }
 
   .pm-project-module-content-overlay {
     &:hover {
+      width: 102%;
+      height: 50px;
       display: block;
-      width: 328px;
-      height: 55px;
+      margin-top: -5px;
       margin-left: 0;
       border-radius: 3px;
-      margin-top: -5px;
     }
   }
 }
@@ -74,4 +70,3 @@ export default {
   }
 }
 </script>
-

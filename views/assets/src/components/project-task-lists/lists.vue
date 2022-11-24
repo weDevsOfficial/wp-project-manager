@@ -1632,7 +1632,7 @@
                             }
                         }
                         a {
-                            height: 30px !important;
+                            height: 30px;
                             display: flex;
                             align-items: center;
                             width: 117px;

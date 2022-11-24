@@ -1,12 +1,6 @@
 <template>
   <div class="pm-wrap pm-front-end">
     <div id="pm-report">
-
-      <!-- <h1 class="pm-no-print report-page-title">
-          {{ __('Project Report', 'wedevs-project-manager' ) }}
-          <router-link :to="{name:'advance-tasks'}" class="pm--btn pm--btn-primary">{{ __( 'Advanced Report', 'wedevs-project-manager' )}}</router-link>
-      </h1> -->
-
       <div class="pm-report-input">
         <ul class="pm--row pm-gutter-20 pm-text-center pm-reports-container">
           <li class="pm-col-lg-3 pm-col-sm-4 pm-col-xs-6">
@@ -14,12 +8,13 @@
               <img :src="getAssetUrl( '/images/overdue_task.svg' )" height="50"> <br>
               <h3>
                 {{ __( 'Overdue Tasks', 'wedevs-project-manager' ) }}
-                <span class="pro-badge">{{ __( 'Pro', 'wedevs-project-manager' ) }}</span>
+                <Badge />
               </h3>
               <div class="project-meta-text" v-html="__( 'Generate a report based on <strong>tasks</strong> which are <strong>pending</strong> beyond due dates.', 'wedevs-project-manager' )"></div>
-              <a href="#/reports" @click.stop class="pm--btn pm--btn-default">
+              <a href="#" @click.stop class="pm--btn pm--btn-default">
                 <i class="flaticon-eye"></i>
                 {{ __( 'View Full Report', 'wedevs-project-manager' ) }}
+                <UpgraderOverlay />
               </a>
             </div>
           </li>
@@ -29,12 +24,13 @@
               <img :src="getAssetUrl( '/images/completed_task.svg' )" height="50"><br>
               <h3>
                 {{ __( 'Complete Task', 'wedevs-project-manager' ) }}
-                <span class="pro-badge">{{ __( 'Pro', 'wedevs-project-manager' ) }}</span>
+                <Badge />
               </h3>
               <div class="project-meta-text" v-html="__('Generate a report from <strong>tasks</strong> which were <strong>completed</strong>.', 'wedevs-project-manager' )"></div>
-              <a href="#/reports" @click.stop class="pm--btn pm--btn-default">
+              <a href="#" @click.stop class="pm--btn pm--btn-default">
                 <i class="flaticon-eye"></i>
                 {{ __( 'View Full Report', 'wedevs-project-manager' ) }}
+                <UpgraderOverlay />
               </a>
             </div>
           </li>
@@ -44,12 +40,13 @@
               <img :src="getAssetUrl( '/images/user_activity.svg' )" height="50"> <br>
               <h3>
                 {{  __('User Activities', 'wedevs-project-manager' ) }}
-                <span class="pro-badge">{{ __( 'Pro', 'wedevs-project-manager' ) }}</span>
+                <Badge />
               </h3>
               <div class="project-meta-text" v-html="__('Create a report based on an employee or <strong>all employee</strong> activity on <strong>tasks</strong>.', 'wedevs-project-manager' )"></div>
-              <a href="#/reports" @click.stop class="pm--btn pm--btn-default">
+              <a href="#" @click.stop class="pm--btn pm--btn-default">
                 <i class="flaticon-eye"></i>
                 {{ __( 'View Full Report', 'wedevs-project-manager' ) }}
+                <UpgraderOverlay />
               </a>
             </div>
           </li>
@@ -59,12 +56,13 @@
               <img :src="getAssetUrl( '/images/taskby_milestone.svg' )" height="50"> <br>
               <h3>
                 {{ __( 'Task by Milestone', 'wedevs-project-manager') }}
-                <span class="pro-badge">{{ __( 'Pro', 'wedevs-project-manager' ) }}</span>
+                <Badge />
               </h3>
               <div class="project-meta-text" v-html="__('Browse   <strong>tasks</strong> reports according to <strong>Milestones</strong> (CSV exportable).', 'wedevs-project-manager' )"></div>
-              <a href="#/reports" @click.stop class="pm--btn pm--btn-default">
+              <a href="#" @click.stop class="pm--btn pm--btn-default">
                 <i class="flaticon-eye"></i>
                 {{ __( 'View Full Report', 'wedevs-project-manager' ) }}
+                <UpgraderOverlay />
               </a>
             </div>
           </li>
@@ -74,12 +72,13 @@
               <img :src="getAssetUrl( '/images/unassign_task.svg' )" height="50"> <br>
               <h3>
                 {{ __( 'Unassigned Task', 'wedevs-project-manager' ) }}
-                <span class="pro-badge">{{ __( 'Pro', 'wedevs-project-manager' ) }}</span>
+                <Badge />
               </h3>
               <div class="project-meta-text" v-html="__('Find out <strong>all tasks</strong> whichwere not  <strong>assigned</strong> to any employee.', 'wedevs-project-manager' )"></div>
-              <a href="#/reports" @click.stop class="pm--btn pm--btn-default">
+              <a href="#" @click.stop class="pm--btn pm--btn-default">
                 <i class="flaticon-eye"></i>
                 {{ __( 'View Full Report', 'wedevs-project-manager' ) }}
+                <UpgraderOverlay />
               </a>
             </div>
           </li>
@@ -89,12 +88,13 @@
               <img :src="getAssetUrl( '/images/taskby_milestone.svg' )" height="50"> <br>
               <h3>
                 {{ __( 'Summary', 'wedevs-project-manager' ) }}
-                <span class="pro-badge">{{ __( 'Pro', 'wedevs-project-manager' ) }}</span>
+                <Badge />
               </h3>
               <div class="project-meta-text" v-html="__('Browse <strong>tasks</strong> reports according to <strong>Milestones</strong> (CSV exportable).', 'wedevs-project-manager' )"></div>
-              <a href="#/reports" @click.stop class="pm--btn pm--btn-default">
+              <a href="#" @click.stop class="pm--btn pm--btn-default">
                 <i class="flaticon-eye"></i>
                 {{ __( 'View Full Report', 'wedevs-project-manager' ) }}
+                <UpgraderOverlay />
               </a>
             </div>
           </li>
@@ -112,17 +112,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    .pro-badge {
-      color: #FFF;
+
+    .pm-pro-badge {
       margin-left: 7px;
-      display: inline-block;
       padding: 2.5px 6px 3px;
       font-size: 12px;
-      font-weight: 400;
-      line-height: 13.31px;
-      border-radius: 0.25rem;
-      vertical-align: baseline;
-      background-color: #FF9000;
     }
   }
   .pm--btn {
@@ -153,7 +147,19 @@
   }
   .pm-card {
     .pm--btn {
+      position: relative;
       margin-top: 15px;
+
+      &:hover {
+        .pm-project-module-content-overlay {
+          width: 250px;
+          height: 50px;
+          display: block;
+          margin-top: -12px;
+          margin-left: -52px;
+          border-radius: 5px;
+        }
+      }
     }
   }
   .project-meta-text {
@@ -172,22 +178,22 @@
 </style>
 
 <script>
+import Badge from '@components/upgrade/badge';
+import UpgraderOverlay from '@components/upgrade/overlay';
+
 export default {
-  // beforeRouteEnter (to, from, next) {
-  //   if ( pmUserCanAccess( PM_Vars.manager_cap_slug ) ) {
-  //     next();
-  //   } else {
-  //     next( '/' );
-  //   }
-  // },
-  //
-  // mounted: function(){
-  //   pm.NProgress.done();
-  // },
-  //
-  // created () {
-  //
-  // }
+  mounted: {
+
+  },
+
+  components: {
+    Badge,
+    UpgraderOverlay,
+  },
+
+  mounted: function(){
+    pm.NProgress.done();
+  },
 }
 
 </script>

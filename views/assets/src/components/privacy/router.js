@@ -1,4 +1,5 @@
-import TaskListPrivacy from './task-list-privacy.vue';
+import TaskListPrivacy from '@components/privacy/task-list-privacy';
+import DiscussionPrivacy from '@components/privacy/discussion-privacy';
 
 weDevs_PM_Components.push({
     hook: 'pm_task_list_form',
@@ -9,5 +10,5 @@ weDevs_PM_Components.push({
 weDevs_PM_Components.push({
     hook: 'pm_discuss_form',
     component: 'pm_discuss_privacy_field',
-    property: TaskListPrivacy
+    property: DiscussionPrivacy
 });
