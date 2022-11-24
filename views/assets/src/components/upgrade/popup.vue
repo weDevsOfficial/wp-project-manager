@@ -252,6 +252,8 @@ ul.slider-container li img {
 
 .slider-area {
   margin-left: 30px;
+  overflow: hidden;
+  text-align: center;
 }
 
 .slider-area .single-slider img {

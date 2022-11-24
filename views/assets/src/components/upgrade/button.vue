@@ -18,6 +18,7 @@
     transform: translate(-50%, -50%);
     background: #ff9000;
     min-height: auto;
+    font-weight: 600;
     align-items: center;
     border-radius: 5px;
 
