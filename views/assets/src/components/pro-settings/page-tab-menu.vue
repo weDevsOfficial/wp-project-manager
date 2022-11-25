@@ -1,8 +1,7 @@
 <template>
   <router-link class="nav-tab pro-nab-menu" :to="{name: 'pages_settings_tab'}">
     {{ __( 'Pages', 'wedevs-project-manager' ) }}
-    <span class="pm-pro-badge">{{ __( 'Pro', 'wedevs-project-manager' ) }}</span>
-    <Tooltip />
+    <Badge />
   </router-link>
 </template>
 
@@ -30,7 +29,7 @@
 </style>
 
 <script>
-import Tooltip from '@components/upgrade/tooltip';
+import Badge from '@components/upgrade/badge';
 
 export default {
   data() {
@@ -38,7 +37,7 @@ export default {
   },
 
   components: {
-    Tooltip,
+    Badge,
   },
 
   mounted() {

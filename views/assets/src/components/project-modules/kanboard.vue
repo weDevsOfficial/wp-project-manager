@@ -5,12 +5,12 @@
 
     <div class="pm-kanboard-fullscreen">
       <div class="kanboard-menu-wrap">
-        <a title="Fullscreen" @click.stop="" href="#" class="fullscreen-view-btn list-action-group">
+        <a title="Fullscreen" @click.stop href="#" class="fullscreen-view-btn list-action-group">
           <span class="icon-pm-fullscreen"></span>
           <span class="icon-pm-fullscreen-text">{{ __( 'Fullscreen', 'wedevs-project-manager' ) }}</span>
         </a>
         <div class="pm-list-header-menu">
-          <a title="Task Filter" href="#" @click.stop="" class="active-task-filter task-filter list-action-group task-filter-btn">
+          <a title="Task Filter" href="#" @click.stop class="active-task-filter task-filter list-action-group task-filter-btn">
             <span class="icon-pm-filter"></span>
             <span>{{ __( 'Filter', 'wedevs-project-manager' ) }}</span>
           </a>
@@ -24,7 +24,9 @@
               <div class="kbc-section-background">
                 <div class="kbc-section-header-wrap" style="color: rgb(132, 132, 132); background: rgb(251, 252, 253);">
                   <div class="kbc-section-header">
-                    <div title="Open" class="kbc-section-title"><span>Open</span> <!----></div>
+                    <div title="Open" class="kbc-section-title">
+                      <span>{{ __( 'Open', 'wedevs-project-manager' ) }}</span>
+                    </div>
                   </div>
                   <div class="kbc-section-action kbc-non-sortable">
                     <div class="kbc-action-icon-wrap">

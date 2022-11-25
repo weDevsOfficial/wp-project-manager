@@ -1,98 +1,3 @@
-.font-gray {
-    color: #656668;
-}
-
-.font-bold {
-    font-weight: bold;
-}
-
-.header-one {
-    font-size: 30px;
-    font-weight: 500;
-}
-
-.font-black {
-    color: #000;
-}
-
-.header-two {
-    font-size: 20px;
-    font-weight: 400;
-}
-
-.font-orange {
-    color: #ff9000;
-}
-
-.header-three {
-    font-size: 20px;
-    font-weight: 400;
-}
-
-.modal-window h2 {
-    margin: 0;
-    padding: 0;
-    line-height: 1.6em;
-}
-
-.pm-toggle-switch {
-    width: 50px;
-    height: 26px;
-    display: inline-block;
-    position: relative;
-}
-
-.pm-toggle-switch input {
-    display: none;
-}
-
-.pm-toggle-switch .slider {
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    cursor: pointer;
-    position: absolute;
-    transition: .4s;
-    background-color: #ccc;
-    -webkit-transition: .4s;
-}
-
-.pm-toggle-switch .slider:before {
-    left: 3px;
-    width: 18px;
-    bottom: 4px;
-    height: 18px;
-    content: "";
-    position: absolute;
-    transition: .4s;
-    background-color: white;
-    -webkit-transition: .4s;
-}
-
-.pm-toggle-switch input:focus + .slider {
-    box-shadow: 0 0 1px #2196F3;
-}
-
-.pm-toggle-switch input:checked + .slider {
-    background-color: #0073aa;
-}
-
-.pm-toggle-switch input:checked + .slider:before {
-    transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    -webkit-transform: translateX(26px);
-}
-
-/* Rounded sliders */
-.slider.round {
-    border-radius: 34px;
-}
-
-.slider.round:before {
-    border-radius: 50%;
-}
-
 /* pro badge styles for lite submenu */
 .pro-project-menu-badge {
     margin: 2px 0 0 7px;
@@ -105,15 +10,9 @@
     position: relative;
 }
 
-.pm-project-menu .pro-menu-item:hover .pm-pro-field-tooltip,
-.pm-project-menu .pro-menu-item .pm-pro-badge:hover .pm-pro-field-tooltip {
-    opacity: 1;
-    display: block;
-}
-
 .pm-project-menu .pro-menu-item.child-item:hover .pm-pro-field-tooltip,
 .pm-project-menu .pro-menu-item.child-item .pm-pro-badge:hover .pm-pro-field-tooltip {
-    top: 340px;
+    top: 335px;
 }
 
 /* pro prompts overlay css */
@@ -176,14 +75,20 @@
     background: #ff9000 !important;
 }
 
+.report-task .pm-pro-badge > .pm-pro-field-tooltip {
+    top: 395px !important;
+}
+
 .pm-my-reports.pm-my-taskoverview ~ .pm-pro-badge > .pm-pro-field-tooltip {
     top: 400px;
 }
 
+.report-task .pm-pro-badge > .pm-pro-field-tooltip > ul,
 .pm-my-reports.pm-my-taskoverview ~ .pm-pro-badge > .pm-pro-field-tooltip > ul {
     overflow: hidden;
 }
 
+.report-task .pm-pro-badge > .pm-pro-field-tooltip .pro-button,
 .pm-my-reports.pm-my-taskoverview ~ .pm-pro-badge > .pm-pro-field-tooltip .pro-button {
     border: none;
     box-shadow: none;

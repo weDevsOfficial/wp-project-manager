@@ -33,11 +33,8 @@
                     >
                         <span :class="'logo '+setMenuIcon(item)"></span>
                         <span class="title">{{ item.name }}</span>
-                        <span class="pm-pro-badge pro-project-menu-badge" v-if="item.badge">
-                            {{ __( 'Pro', 'wedevs-project-manager' ) }}
-                        </span>
+                        <Badge v-if="item.badge" />
                     </router-link>
-                    <Tooltip />
                 </div>
 
                 <div class="menu-item more-menu-wrap" v-if="moreMenu.length">
@@ -58,11 +55,8 @@
                             >
                                 <span :class="`logo ${setMenuIcon(child)}`"></span>
                                 <span class="title">{{ child.name }}</span>
-                                <span class="pm-pro-badge pro-project-menu-badge" v-if="child.badge">
-                                    {{ __( 'Pro', 'wedevs-project-manager' ) }}
-                                </span>
+                                <Badge v-if="child.badge" />
                             </router-link>
-                          <Tooltip />
                         </li>
                     </ul>
                 </div>    
@@ -74,10 +68,10 @@
 
 
 <style lang="less">
-	.pm-project-menu {
-	    background: #fff;
-	    border: 1px solid #E5E4E4;
-	    padding: 0 9px;
+    .pm-project-menu {
+        background: #fff;
+        border: 1px solid #E5E4E4;
+        padding: 0 9px;
 
         &:after {
             display: table;
@@ -86,14 +80,15 @@
             display: block;
         }
 
-	    .menu-item {
+        .menu-item {
             display: inline-block;
-	    	a {
-	    		display: inline-block;
-			    margin: 9px 0 0 0;
-			    padding: 5px 14px 14px 14px;
-			    font-size: 13px;
-			    color: #000;
+
+            a {
+                display: inline-block;
+                margin: 9px 0 0 0;
+                padding: 5px 14px 14px 14px;
+                font-size: 13px;
+                color: #000;
                 white-space: nowrap;
                 // display: flex;
                 // align-items: center;
@@ -106,23 +101,34 @@
 
                 .logo {
                     margin-right: 5px;
+
                     &:before {
                         font-size: 12px;
                     }
                 }
-	    	}
-	    	
-	    	.active {
-	    		border: 1px solid #E5E4E4;
+            }
+
+            .active {
+                border: 1px solid #E5E4E4;
                 background: #fbfbfb;
                 border-bottom: 1px solid #fbfbfb;
                 border-radius: 3px;
                 margin-bottom: -1px;
                 border-bottom-left-radius: 0;
                 border-bottom-right-radius: 0;
-	    	}
-	    }
-	}
+            }
+
+            &.pro-menu-item {
+                margin: 5px 0 0 6px;
+            }
+        }
+
+        .pro-menu-item {
+            .pm-pro-badge {
+                margin: 2px 0 0 8px;
+            }
+        }
+    }
 
     .pm-header-menu-wrap {
         margin-top: 20px;
@@ -259,7 +265,7 @@
 
 <script>
 import { sortBy } from 'lodash';
-import Tooltip from '@components/upgrade/tooltip';
+import Badge from '@components/upgrade/badge';
 
 export default {
   props: {
@@ -376,7 +382,7 @@ export default {
   },
 
   components: {
-    Tooltip,
+    Badge,
   },
 
   methods: {
