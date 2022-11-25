@@ -248,6 +248,10 @@
   display: block;
 }
 
+.pm-popup-window .content-area .pm-popup-header {
+    margin-bottom: 22px;
+}
+
 ul.slider-container li img {
   height: auto;
   max-width: 100%;
@@ -322,6 +326,7 @@ ul.slider-container li img {
 .single-checklist p,
 .modal-window .header-three {
   color: #656668;
+  margin-bottom: 2px;
   padding-right: 32px;
 }
 
