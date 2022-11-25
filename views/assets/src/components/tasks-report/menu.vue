@@ -2,8 +2,8 @@
   <li>
     <router-link :to="routeLink( 'reports' )" class="pm-my-reports pm-my-taskoverview report-task">
       {{ __( 'Reports', 'wedevs-project-manager' ) }}
+      <Badge />
     </router-link>
-    <Badge />
   </li>
 </template>
 
@@ -12,7 +12,7 @@ li {
   display: flex;
 
   .pm-pro-badge {
-    margin: 9px 0 0 8px;
+    margin: 3px 0 0 8px;
     align-self: flex-start;
   }
 }
