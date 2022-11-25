@@ -55,6 +55,10 @@
     position: relative;
 }
 
+.pm-pro-field-tooltip .button-upgrade-to-pro:hover {
+    background: #CF7500 !important;
+}
+
 #wpcontent:hover .pm-content-overlay,
 .pm-project-module-page:hover .pm-project-module-content-overlay {
     display: block;
@@ -80,7 +84,7 @@
 }
 
 .pm-my-reports.pm-my-taskoverview ~ .pm-pro-badge > .pm-pro-field-tooltip {
-    top: 400px;
+    top: 395px;
 }
 
 .report-task .pm-pro-badge > .pm-pro-field-tooltip > ul,

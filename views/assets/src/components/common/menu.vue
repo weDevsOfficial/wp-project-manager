@@ -20,7 +20,7 @@
         <div class="pm-header-menu-wrap">
             <nav v-pm-header-menu-responsive v-if="menu.length" :class="(isNavCollapse) ? 'pm-project-menu menu-items-open' : 'pm-project-menu'">
                 <div class="pm-nav-menu-toggle dashicons dashicons-arrow-down-alt2" @click="collapseNav()">
-                    <span>Menu</span>
+                    <span>{{ 'Menu', 'wedevs-project-manager' }}</span>
                 </div>
                 <div :class="item.badge ? 'menu-item pro-menu-item' : 'menu-item'" v-for="item in menu" :key="item.name">
 
