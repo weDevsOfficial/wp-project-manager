@@ -63,64 +63,11 @@ class Menu {
      */
     private function pro_menu_string( $menu_name ) {
         return sprintf(
-            __( '%1$s %2$sPro%3$s %4$s', 'wedevs-project-manager' ),
+            __( '%1$s %2$sPro%3$s', 'wedevs-project-manager' ),
             $menu_name,
             '<span class="pm-pro-badge">',
-            '</span>',
-            $this->get_pro_preview_tooltip()
+            '</span>'
         );
-    }
-
-    /**
-     * Get the upgrade tooltip html for wp menu.
-     *
-     * @since 2.5.1
-     *
-     * @return string
-     */
-    public function get_pro_preview_tooltip() {
-        $features = array(
-            'Enjoy 10+ premium modules',
-            'Advanced reporting filters',
-            '24/7 customer support',
-            'Real-time project updates',
-            'Complete control of user roles & permissions',
-        );
-
-        $tooltip_header = __( 'Available in Pro. Unlock & enjoy:', 'wedevs-project-manager' );
-        $crown_icon     = pm_config( 'define.url' ) . 'core/Pro/assets/images/crown.svg';
-        $check_icon     = pm_config( 'define.url' ) . 'core/Pro/assets/images/check.svg';
-
-        $html = '<div class="pm-pro-field-tooltip">';
-        $html .= "<a href='#'></a><h3 class='tooltip-header'>{$tooltip_header}</h3>";
-        $html .= '<ul>';
-
-        foreach ( $features as $feature ) {
-            $html .= sprintf(
-                '<li><span class="tooltip-check">%1$s</span> %2$s</li>',
-                file_get_contents( $check_icon ),
-                esc_html( $feature )
-            );
-        }
-
-        $html .= '</ul>';
-        $html .= sprintf( '
-            <div class="pro-link">
-                <a href="%1$s" target="%2$s" class="%3$s">
-                    %4$s<span class="pro-icon icon-white"> %5$s</span>
-                </a>
-            </div>',
-            esc_url( $this->get_upgrade_to_pro_popup_url() ),
-            '_blank',
-            'pro-button button-upgrade-to-pro',
-            __( 'Upgrade to PRO', 'wedevs-project-manager' ),
-            file_get_contents( $crown_icon )
-        );
-
-        $html .= '<i></i>';
-        $html .= '</div>';
-
-        return $html;
     }
 
     /**
