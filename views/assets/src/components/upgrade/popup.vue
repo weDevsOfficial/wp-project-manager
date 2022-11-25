@@ -139,6 +139,100 @@
 </template>
 
 <style lang="less" scoped>
+.font-gray {
+  color: #656668;
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+.header-one {
+  font-size: 30px;
+  font-weight: 500;
+}
+
+.font-black {
+  color: #000;
+}
+
+.header-two {
+  font-size: 30px;
+  font-weight: 400;
+}
+
+.font-orange {
+  color: #ff9000;
+}
+
+.header-three {
+  font-size: 20px;
+  font-weight: 400;
+}
+
+.modal-window h2 {
+  margin: 0;
+  padding: 0;
+  line-height: 1.6em;
+}
+
+.pm-toggle-switch {
+  width: 50px;
+  height: 26px;
+  display: inline-block;
+  position: relative;
+}
+
+.pm-toggle-switch input {
+  display: none;
+}
+
+.pm-toggle-switch .slider {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  cursor: pointer;
+  position: absolute;
+  transition: .4s;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+}
+
+.pm-toggle-switch .slider:before {
+  left: 3px;
+  width: 18px;
+  bottom: 4px;
+  height: 18px;
+  content: "";
+  position: absolute;
+  transition: .4s;
+  background-color: white;
+  -webkit-transition: .4s;
+}
+
+.pm-toggle-switch input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+.pm-toggle-switch input:checked + .slider {
+  background-color: #0073aa;
+}
+
+.pm-toggle-switch input:checked + .slider:before {
+  transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  -webkit-transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
 .pm-popup-window {
   top: 0;
   left: 0;
@@ -240,7 +334,7 @@ ul.slider-container li img {
 }
 
 .check-icon img {
-  padding: 11px 10px;
+  padding: 6px 5px;
   background: #139F84;
   border-radius: 20px;
 }

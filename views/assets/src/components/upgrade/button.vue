@@ -23,8 +23,12 @@
     border-radius: 5px;
 
     .crown-icon {
-      height: 1em;
+      height: 1.2em;
       margin-left: 10px;
+    }
+
+    &:hover {
+      background: #CF7500 !important;
     }
   }
 </style>

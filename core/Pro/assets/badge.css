@@ -88,8 +88,12 @@
 }
 
 .wp-submenu-wrap li .pm-pro-field-tooltip .pro-link a.pro-button.button-upgrade-to-pro:hover {
-    background: #ff9000 !important;
+    background: #ff9000;
     box-shadow: none !important;
+}
+
+.pm-pro-field-tooltip .button-upgrade-to-pro:hover {
+    background: #CF7500 !important;
 }
 
 .pm-pro-field-tooltip .pro-link a.pro-button span.pro-icon {

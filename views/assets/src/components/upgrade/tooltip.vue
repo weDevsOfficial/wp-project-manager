@@ -3,7 +3,7 @@
     <i></i>
     <h3 class="tooltip-header">{{ __( 'Available in Pro. Unlock & enjoy:', 'wedevs-project-manager' ) }}</h3>
     <ul>
-      <li v-for="( feature, key ) in features">
+      <li v-for="( feature, key ) in features" @click.stop>
         <span class="tooltip-check" :key="key">
           <svg xmlns="http://www.w3.org/2000/svg" width="10" height="8" fill="#139F84" xmlns:v="https://vecta.io/nano">
             <path fill-rule="evenodd" d="M8.927 1.134c-.33-.33-.865-.33-1.195 0L3.374 5.492 1.897 4.015c-.33-.33-.865-.33-1.195 0s-.33.865 0 1.195l2.075 2.075c.33.33.865.33 1.195 0l4.955-4.955c.33-.33.33-.865 0-1.195zM.992 4.853c.01.012.02.024.031.035l2.075 2.075a.39.39 0 0 0 .552 0l4.955-4.955a.39.39 0 0 0 .031-.517.39.39 0 0 1-.031.517L3.65 6.963a.39.39 0 0 1-.552 0L1.023 4.888c-.011-.011-.022-.023-.031-.035z" />
@@ -60,6 +60,14 @@
       .tooltip-check {
         margin-right: 10px;
       }
+
+      span {
+        color: #fff;
+
+        &:hover {
+          color: #fff;
+        }
+      }
     }
   }
 
@@ -106,21 +114,6 @@
     }
   }
 }
-
-//tr.pro-preview span.pro-icon,
-//tr span.pro-icon-title {
-//  position: relative;
-//  padding-top: 10px;
-//}
-//span.pro-icon-title:hover .pm-pro-field-tooltip {
-//  display: block;
-//  opacity: 1;
-//}
-//
-//span.pro-icon:hover .pm-pro-field-tooltip {
-//  display: block;
-//  opacity: 1;
-//}
 </style>
 
 <script>
@@ -138,45 +131,7 @@ export default {
   },
 
   mounted() {
-    // const items = document.querySelector( '.pro-menu-item' );
-    // items.addEventListener( 'mouseenter', function() {
-    //   const tooltip        = document.querySelector( '.pm-pro-field-tooltip' ),
-    //     tooltipIcon        = document.querySelector( '.pm-pro-field-tooltip i' ),
-    //     windowWidth        = window.clientWidth,
-    //     windowHeight       = window.height,
-    //     iconBounding       = items[0].getBoundingClientRect(),
-    //     spaceTop           = iconBounding.y,
-    //     iconBoundingRight  = iconBounding.right,
-    //     iconBoundingBottom = iconBounding.bottom,
-    //     spaceRight         = windowWidth - iconBoundingRight,
-    //     spaceBottom        = windowHeight - iconBoundingBottom,
-    //     tooltipHeight      = tooltip.outerHeight,
-    //     tooltipWidth       = tooltip.outerWidth;
-    //
-    //   console.log( 'abce' );
-    //
-    //   if ( spaceTop > tooltipHeight ) {
-    //     tooltipIcon.style.top       = '100%';
-    //     tooltipIcon.style.left      = '50%';
-    //     tooltipIcon.style.transform = 'initial';
-    //     tooltip.style.top           = '0';
-    //     tooltip.style.left          = '50%';
-    //   } else if ( spaceTop < tooltipHeight && spaceRight > tooltipWidth ) {
-    //     tooltipIcon.style.top       = '22px';
-    //     tooltipIcon.style.left      = '-5px';
-    //     tooltipIcon.style.transform = 'rotate(90deg)';
-    //     tooltip.style.top           = '310px';
-    //     tooltip.style.left          = '185px';
-    //   } else if ( spaceBottom > tooltipHeight ) {
-    //     tooltip.style.top           = '360px';
-    //     tooltip.style.left          = '10px';
-    //     tooltipIcon.style.top       = '-10px';
-    //     tooltipIcon.style.left      = '150px';
-    //     tooltipIcon.style.transform = 'rotate(180deg)';
-    //   }
-    //
-    //   tooltip.appendChild( this );
-    // } );
+
   },
 
   methods: {

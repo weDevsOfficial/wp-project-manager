@@ -1,9 +1,9 @@
 <template>
   <li>
-    <router-link :to="routeLink( 'reports' )" class="pm-my-reports pm-my-taskoverview">
+    <router-link :to="routeLink( 'reports' )" class="pm-my-reports pm-my-taskoverview report-task">
       {{ __( 'Reports', 'wedevs-project-manager' ) }}
+      <Badge />
     </router-link>
-    <Badge />
   </li>
 </template>
 
@@ -12,7 +12,7 @@ li {
   display: flex;
 
   .pm-pro-badge {
-    margin: 10px 0 0 6px;
+    margin: 3px 0 0 8px;
     align-self: flex-start;
   }
 }
@@ -26,6 +26,10 @@ li {
             Badge,
         },
 
+        mounted: function(){
+            pm.NProgress.done();
+        },
+
         methods: {
             routeLink( name ) {
                 let route = { name : 'mytask-'+ name };
@@ -34,7 +38,7 @@ li {
                 }
 
                 return route;
-            }
+            },
         }
     }
 </script>

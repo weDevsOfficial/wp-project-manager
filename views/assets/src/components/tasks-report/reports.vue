@@ -274,7 +274,6 @@
 </style>
 
 <script>
-    // import UserReportsTaskEstimation from './user-reports-task-estimation.vue'
     import UpgraderOverlay from '@components/upgrade/overlay';
 
     export default {
@@ -284,12 +283,12 @@
             }
         },
 
-        components: {
-            UpgraderOverlay,
+        mounted: function(){
+            pm.NProgress.done();
         },
 
-        mounted: function(){
-          pm.NProgress.done();
+        components: {
+            UpgraderOverlay,
         },
 
         methods: {
