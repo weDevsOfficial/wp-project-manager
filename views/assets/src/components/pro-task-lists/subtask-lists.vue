@@ -2,7 +2,7 @@
     <div class="pm-pro-single-subtask-lists">
         <div class="subtask-title pm-h2">
           {{ __( 'Subtasks', 'wedevs-project-manager' ) }}
-          <Badge />
+          <span class="pm-pro-badge">{{ __( 'Pro', 'wedevs-project-manager' ) }}</span>
         </div>
         <ul class="pm-subtsk-sortable">
             <li class="subtask-li">
@@ -297,7 +297,6 @@
 </style>
 
 <script>
-    import Badge from '@components/upgrade/badge';
     import UpgraderOverlay from '@components/upgrade/overlay';
 
     export default {
@@ -307,9 +306,7 @@
             }
         },
 
-
         components: {
-            Badge,
             UpgraderOverlay,
         },
 

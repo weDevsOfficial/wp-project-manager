@@ -13,7 +13,7 @@
             </g>
           </svg>
         </i>
-        <Badge />
+        <span class="pm-pro-badge">{{ __( 'Pro', 'wedevs-project-manager' ) }}</span>
       </h3>
 
       <div class="data-active">
@@ -277,7 +277,6 @@
 </style>
 
 <script>
-import Badge from '@components/upgrade/badge';
 import UpgraderOverlay from '@components/upgrade/overlay';
 
 export default {
@@ -290,7 +289,6 @@ export default {
   },
 
   components: {
-    Badge,
     UpgraderOverlay,
   },
 
