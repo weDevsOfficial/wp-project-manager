@@ -3,7 +3,7 @@
     <pm-header></pm-header>
     <pm-heder-menu current="task_lists"></pm-heder-menu>
 
-    <div class="pm-kanboard-fullscreen">
+    <div class="pm-kanboard-fullscreen pm-project-module-page">
       <div class="kanboard-menu-wrap">
         <a title="Fullscreen" @click.stop href="#" class="fullscreen-view-btn list-action-group">
           <span class="icon-pm-fullscreen"></span>
@@ -18,7 +18,7 @@
         <br>
       </div>
       <div class="kbc-kanboard">
-        <div class="kbc-table-wrap pm-project-module-page">
+        <div class="kbc-table-wrap">
           <div class="kbc-th-wrap kbc-section-order-wrap ui-sortable">
             <div data-section_id="12" class="kbc-th kbc-sortable-section kbc-section-order-by ui-sortable-handle">
               <div class="kbc-section-background">
@@ -191,9 +191,9 @@
               </div>
             </div>
           </div>
-          <UpgraderOverlay />
         </div>
       </div>
+      <UpgraderOverlay />
     </div>
   </div>
 </template>
@@ -431,7 +431,7 @@
   }
 
   .kanboard-menu-wrap {
-    margin: 10px 0px;
+    padding: 10px 0px;
     display: block;
     overflow: hidden;
 
@@ -581,6 +581,13 @@
           }
         }
       }
+    }
+  }
+
+  .pm-project-module-page {
+    .pm-project-module-content-overlay {
+      width: 100%;
+      margin-left: 0;
     }
   }
 }
