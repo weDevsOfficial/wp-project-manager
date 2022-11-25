@@ -1,6 +1,5 @@
 <template>
     <div class="custom-fields-content-wrapper">
-
         <h3 class="label">
             <span>{{ __( 'Custom Fields', 'wedevs-project-manager' ) }}</span>
             <i class="info-icon"
@@ -12,7 +11,7 @@
                     </g>
                 </svg>
             </i>
-            <Badge />
+            <span class="pm-pro-badge">{{ __( 'Pro', 'wedevs-project-manager' ) }}</span>
         </h3>
     </div>
 </template>
@@ -43,19 +42,3 @@
   }
 }
 </style>
-
-<script>
-  import Badge from '@components/upgrade/badge';
-
-  export default {
-    data () {
-      return {
-
-      }
-    },
-
-    components: {
-      Badge,
-    },
-  }
-</script>

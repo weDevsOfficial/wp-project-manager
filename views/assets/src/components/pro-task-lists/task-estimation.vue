@@ -4,7 +4,7 @@
             <span>{{ __( 'Estimation', 'wedevs-project-manager' ) }}</span>
             <span class="subtask-label">({{ __( 'according subtasks', 'wedevs-project-manager' ) }})</span>
             <i class="info-icon"
-                v-tooltip:top-center="__('Set a duration by which this task is</br>planned to be accomplished.', 'wedevs-project-manager')">
+                v-tooltip:top-center="__( 'Set a duration by which this task is</br>planned to be accomplished.', 'wedevs-project-manager' )">
                 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg"
                     xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 111.577 111.577"
                     style="enable-background:new 0 0 111.577 111.577;" xml:space="preserve">
@@ -13,7 +13,7 @@
                     </g>
                 </svg>
             </i>
-            <Badge />
+            <span class="pm-pro-badge">{{ __( 'Pro', 'wedevs-project-manager' ) }}</span>
         </h3>
 
         <div class="data-active">
@@ -249,7 +249,6 @@
 </style>
 
 <script>
-    import Badge from '@components/upgrade/badge';
     import UpgraderOverlay from '@components/upgrade/overlay';
 
     export default {
@@ -260,7 +259,6 @@
         },
 
         components: {
-            Badge,
             UpgraderOverlay,
         },
 

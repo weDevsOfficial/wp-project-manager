@@ -2,14 +2,14 @@
   <div class="single-task-label context">
     <h3 class="label">
       {{ __( 'Label', 'wedevs-project-manager' ) }}
-      <Badge />
+      <span class="pm-pro-badge">{{ __( 'Pro', 'wedevs-project-manager' ) }}</span>
     </h3>
 
     <div class="data-active">
       <div class="process-text-wrap">
         <div class="slot-wrap" slot="reference">
           <a class="display-flex process-btn" href="#" @click.prevent="" >
-            <i :title="__('Add new label', 'wedevs-project-manager')">
+            <i :title="__( 'Add new label', 'wedevs-project-manager' )">
               <svg viewBox="0 0 319 277" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                 <g id="Page-1" stroke="none" stroke-width="1">
                   <g id="label" transform="translate(170.500000, 138.500000) rotate(-105.000000) translate(-170.500000, -138.500000) translate(23.000000, -9.000000)">
@@ -194,7 +194,6 @@
 </style>
 
 <script>
-import Badge from '@components/upgrade/badge';
 import UpgraderOverlay from '@components/upgrade/overlay';
 
 export default {
@@ -205,7 +204,6 @@ export default {
   },
 
   components: {
-    Badge,
     UpgraderOverlay,
   },
 
