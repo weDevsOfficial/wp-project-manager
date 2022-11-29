@@ -1,5 +1,5 @@
 <template>
-  <div class="pm-page woo-project pm-woo-project pm-module" @mouseenter="addPromptsOverlay" @mouseleave="removePromptsOverlay">
+  <div class="pm-page woo-project pm-woo-project pm-module">
     <div id="icon-themes" class="icon32"><br/></div>
     <h2 style="display: none"></h2>
     <div class="woo-project-outer">
@@ -110,9 +110,11 @@
   .woo-project .pm-project-role, .woo-project .project-users {
     margin-top: 10px;
   }
-  a.pro-button.button-upgrade-to-pro {
-    position: fixed !important;
-    transform: translate(-2%, -50%) !important;
+
+  &:hover {
+    .pm-project-module-content-overlay {
+      display: block;
+    }
   }
 }
 
@@ -137,13 +139,7 @@ export default {
   },
 
   methods: {
-    addPromptsOverlay() {
-      document.querySelector( '.pm-project-module-content-overlay' ).style.display = 'block';
-    },
 
-    removePromptsOverlay() {
-      document.querySelector( '.pm-project-module-content-overlay' ).style.display = 'none';
-    },
   },
 }
 </script>

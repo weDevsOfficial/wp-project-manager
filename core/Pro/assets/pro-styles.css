@@ -1,9 +1,26 @@
 /* pro badge styles for lite submenu */
+.pm-pro-badge {
+    gap: 10px;
+    color: #FFF;
+    float: right;
+    display: inline-block;
+    padding: 1px 5px 2px;
+    font-size: 11px;
+    text-align: center;
+    font-weight: 400;
+    line-height: 13.31px;
+    white-space: nowrap;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    border-radius: .25rem;
+    vertical-align: baseline;
+    background-color: #FF9000;
+    -webkit-font-smoothing: auto;
+}
+
 .pro-project-menu-badge {
     margin: 2px 0 0 7px;
 }
 
-.wp-submenu-wrap li,
 .pm-project-menu .pro-menu-item,
 .wp-submenu-wrap span.pm-pro-badge,
 .pm-project-menu .pro-menu-item span.pm-pro-badge {
@@ -16,17 +33,20 @@
 }
 
 /* pro prompts overlay css */
-.pm-content-overlay,
+.pm-page,
+.pm-calender-page {
+    position: relative;
+}
+
 .pm-project-module-content-overlay {
     top: 0;
     left: 0;
-    width: 101.6%;
+    width: 100%;
     height: 100%;
     z-index: 100;
     display: none;
     position: absolute;
     background: rgba(0, 0, 0, 0.5);
-    margin-left: -20px;
 }
 
 .pm-content-overlay .button-upgrade-to-pro,
@@ -51,15 +71,10 @@
 }
 
 /* global styles */
-#wpcontent {
-    position: relative;
-}
-
 .pm-pro-field-tooltip .button-upgrade-to-pro:hover {
     background: #CF7500 !important;
 }
 
-#wpcontent:hover .pm-content-overlay,
 .pm-project-module-page:hover .pm-project-module-content-overlay {
     display: block;
 }
@@ -80,7 +95,7 @@
 }
 
 .report-task .pm-pro-badge > .pm-pro-field-tooltip {
-    top: 395px !important;
+    top: 345px !important;
 }
 
 .pm-my-reports.pm-my-taskoverview ~ .pm-pro-badge > .pm-pro-field-tooltip {

@@ -13,6 +13,8 @@
 .pm-make-privacy {
   padding: 10px 0;
   position: relative;
+  display: flex;
+  align-items: center;
 
   .pro-button {
     padding: 5px 15px !important;
@@ -24,6 +26,14 @@
   }
 
   label {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 6px;
+
+    input[type='checkbox'] {
+      margin-right: 5px;
+    }
+
     &:hover {
       & ~ .pm-project-module-content-overlay {
         width: 102%;

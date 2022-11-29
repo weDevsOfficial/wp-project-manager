@@ -242,8 +242,7 @@
                                   href="http://wordpress.test/wp-admin/admin.php?page=pm_projects#/calendar" style="background-color:#c86432;border-color:#c86432">
                                   <div class="fc-content">
                                     <span class="fc-event-icons">
-                                      <img src="http://0.gravatar.com/avatar/c5372fb724f06b520f86e003b661f9da?s=96&amp;d=mm&amp;r=g"
-                                        width="18" height="18" title="Nadim" />
+                                      <img :src="getAssetUrl( 'images/gravatar.png' )" width="18" height="18" :title="__( 'Alexander', 'wedevs-project-manager' )" />
                                     </span>
                                     <span class="fc-title">{{ __( 'Check recurring validations', 'wedevs-project-manager' ) }}</span>
                                   </div>
@@ -361,17 +360,18 @@
                           <tbody>
                             <tr>
                               <td rowspan="6"></td>
-                              <td class="fc-event-container"><a
-                                class="fc-day-grid-event fc-h-event fc-event fc-start fc-end pm-calender-todo pm-task-running fc-draggable"
-                                href="http://wordpress.test/wp-admin/admin.php?page=pm_projects#/calendar"
-                                style="background-color:#c86432;border-color:#c86432">
-                                <div class="fc-content">
-                                  <span class="fc-event-icons">
-                                    <img src="http://0.gravatar.com/avatar/c5372fb724f06b520f86e003b661f9da?s=96&amp;d=mm&amp;r=g" width="18" height="18" :title="__('Nadim', 'wedevs-project-manager' )">
-                                  </span>
-                                  <span class="fc-title">{{ __( 'Woo project test', 'wedevs-project-manager' ) }}</span>
-                                </div>
-                              </a></td>
+                              <td class="fc-event-container">
+                                <a style="background-color:#c86432;border-color:#c86432"
+                                  class="fc-day-grid-event fc-h-event fc-event fc-start fc-end pm-calender-todo pm-task-running fc-draggable"
+                                  href="http://wordpress.test/wp-admin/admin.php?page=pm_projects#/calendar">
+                                  <div class="fc-content">
+                                    <span class="fc-event-icons">
+                                      <img :src="getAssetUrl( 'images/gravatar.png' )" width="18" height="18" :title="__( 'Alexander', 'wedevs-project-manager' )"">
+                                    </span>
+                                    <span class="fc-title">{{ __( 'Create Developer Assignments', 'wedevs-project-manager' ) }}</span>
+                                  </div>
+                                </a>
+                              </td>
                               <td rowspan="6"></td>
                               <td rowspan="6"></td>
                               <td rowspan="6"></td>
@@ -385,10 +385,10 @@
                                   style="background-color:#c86432;border-color:#c86432">
                                   <div class="fc-content">
                                     <span class="fc-event-icons">
-                                      <img src="http://0.gravatar.com/avatar/c5372fb724f06b520f86e003b661f9da?s=96&amp;d=mm&amp;r=g"
-                                        width="18" height="18" :title="__( 'Nadim', 'wedevs-project-manager' )">
+                                      <img :src="getAssetUrl( 'images/gravatar.png' )"
+                                        width="18" height="18" :title="__( 'Alexander', 'wedevs-project-manager' )">
                                     </span>
-                                    <span class="fc-title">{{ __( 'Woo project test (copy)', 'wedevs-project-manager' ) }}</span>
+                                    <span class="fc-title">{{ __( 'Handle Bitcom Deals', 'wedevs-project-manager' ) }}</span>
                                   </div>
                                 </a>
                               </td>
@@ -399,9 +399,9 @@
                                   class="fc-day-grid-event fc-h-event fc-event fc-start fc-end pm-calender-todo pm-task-running fc-draggable">
                                   <div class="fc-content">
                                     <span class="fc-event-icons">
-                                      <img src="http://0.gravatar.com/avatar/c5372fb724f06b520f86e003b661f9da?s=96&amp;d=mm&amp;r=g" width="18" height="18" title="Nadim">
+                                      <img :src="getAssetUrl( 'images/gravatar.png' )" width="18" height="18" :title="__( 'Alexander', 'wedevs-project-manager' )">
                                     </span>
-                                    <span class="fc-title">{{ __( 'Woo project test (copy)', 'wedevs-project-manager' ) }}</span>
+                                    <span class="fc-title">{{ __( 'Make Final Presentation', 'wedevs-project-manager' ) }}</span>
                                   </div>
                                 </a>
                               </td>

@@ -1,6 +1,6 @@
 <template>
-  <div id="pm-progress-wrap" class="pm-wrap pm-front-end pm-calendar-wrap" @mouseenter="addPromptsOverlay" @mouseleave="removePromptsOverlay">
-    <h2>Progress</h2>
+  <div id="pm-progress-wrap" class="pm-wrap pm-front-end pm-calendar-wrap">
+    <h2>{{ __( 'Progress', 'wedevs-project-manager' ) }}</h2>
     <ul class="pm-activity dash">
       <li class="pm-progress-wrap">
         <div class="pm-activity-heads">
@@ -13,9 +13,9 @@
             </a>
             <span class="pm-progress-label pm-update">{{ __( 'update', 'wedevs-project-manager' ) }}</span>
             <span>
-              <a href="#/my-tasks/overview">{{ __( 'Nadim', 'wedevs-project-manager' ) }}</a>
+              <a href="#/my-tasks/overview">{{ __( 'Alexander', 'wedevs-project-manager' ) }}</a>
               {{ __( 'has updated the description of a discussion board,', 'wedevs-project-manager' ) }}
-              <a href="#/projects/1/discussions/9">{{ __( 'New Test', 'wedevs-project-manager' ) }}</a>.
+              <a href="#/projects/1/discussions/9">{{ __( 'Profile badge successfully updated', 'wedevs-project-manager' ) }}</a>.
             </span>
             <span class="date">
               <time datetime="2022-11-03T07:49:10+06:00" title="2022-11-03T07:49:10+06:00">
@@ -29,9 +29,9 @@
             </a>
             <span class="pm-progress-label pm-create">{{ __( 'create', 'wedevs-project-manager' ) }}</span>
             <span>
-              <a href="#/my-tasks/overview">{{ __( 'Nadim', 'wedevs-project-manager' ) }}</a>
+              <a href="#/my-tasks/overview">{{ __( 'Alexander', 'wedevs-project-manager' ) }}</a>
               {{ __( 'has created a discussion board titled as', 'wedevs-project-manager' ) }}
-              <a href="#/projects/1/discussions/9">{{ __( 'New Test', 'wedevs-project-manager' ) }}</a>.
+              <a href="#/projects/1/discussions/9">{{ __( 'Profile badge successfully created', 'wedevs-project-manager' ) }}</a>.
             </span>
             <span class="date">
               <time datetime="2022-11-03T07:48:51+06:00" title="2022-11-03T07:48:51+06:00">
@@ -40,6 +40,7 @@
             </span>
           </li>
         </ul>
+        <UpgraderOverlay />
       </li>
     </ul>
     <ul class="pm-activity dash">
@@ -54,9 +55,9 @@
             </a>
             <span class="pm-progress-label pm-update">{{ __( 'update', 'wedevs-project-manager' ) }}</span>
             <span>
-              <a href="#/my-tasks/overview">{{ __( 'Nadim', 'wedevs-project-manager' ) }}</a>
+              <a href="#/my-tasks/overview">{{ __( 'Alexander', 'wedevs-project-manager' ) }}</a>
                 {{ __( 'has updated the description of a discussion board,', 'wedevs-project-manager' ) }}
-              <a href="#/projects/1/discussions/9">{{ __( 'New Test', 'wedevs-project-manager' ) }}</a>.
+              <a href="#/projects/1/discussions/9">{{ __( 'Project recursion successfully updated', 'wedevs-project-manager' ) }}</a>.
             </span>
             <span class="date">
               <time datetime="2022-11-03T07:49:10+06:00" title="2022-11-03T07:49:10+06:00">
@@ -70,9 +71,9 @@
             </a>
             <span class="pm-progress-label pm-create">{{ __( 'create', 'wedevs-project-manager' ) }}</span>
             <span>
-              <a href="#/my-tasks/overview">{{ __( 'Nadim', 'wedevs-project-manager' ) }}</a>
+              <a href="#/my-tasks/overview">{{ __( 'Alexander', 'wedevs-project-manager' ) }}</a>
                 {{ __( 'has created a discussion board titled as', 'wedevs-project-manager' ) }}
-              <a href="#/projects/1/discussions/9">{{ __( 'New Test', 'wedevs-project-manager' ) }}</a>.
+              <a href="#/projects/1/discussions/9">{{ __( 'Project recursion successfully created', 'wedevs-project-manager' ) }}</a>.
             </span>
             <span class="date">
               <time datetime="2022-11-03T07:48:51+06:00" title="2022-11-03T07:48:51+06:00">
@@ -81,17 +82,21 @@
             </span>
           </li>
         </ul>
+        <UpgraderOverlay />
       </li>
     </ul>
     <UpgraderOverlay />
   </div>
 </template>
 
-<style lang="less">
-#pm-progress-wrap {
-  a.pro-button.button-upgrade-to-pro {
-    position: fixed !important;
-    transform: translate(-2%, -50%) !important;
+<style lang="less" scoped>
+.pm-activity {
+  position: relative;
+
+  &:hover {
+    .pm-project-module-content-overlay {
+      display: block;
+    }
   }
 }
 </style>
@@ -114,14 +119,6 @@
       UpgraderOverlay,
     },
 
-    methods: {
-      addPromptsOverlay() {
-        document.querySelector( '.pm-project-module-content-overlay' ).style.display = 'block';
-      },
-
-      removePromptsOverlay() {
-        document.querySelector( '.pm-project-module-content-overlay' ).style.display = 'none';
-      },
-    },
+    methods: {},
   }
 </script>
