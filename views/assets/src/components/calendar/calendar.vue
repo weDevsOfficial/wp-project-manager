@@ -1,5 +1,5 @@
 <template>
-  <div id="pm-calender-page" class="pm-calender-page pm-wrap pm-front-end pm-calendar-wrap" @mouseenter="addPromptsOverlay" @mouseleave="removePromptsOverlay">
+  <div id="pm-calender-page" class="pm-calender-page pm-wrap pm-front-end pm-calendar-wrap">
     <div id="icon-themes" class="icon32"><br/></div>
     <h2>{{ __( 'Calendar', 'wedevs-project-manager' ) }}</h2>
     <div class="button-group">
@@ -40,7 +40,7 @@
                 <div class="multiselect__tags">
                   <div class="multiselect__tags-wrap" style="">
                     <span class="multiselect__tag">
-                      <span>{{ __( 'Nadim', 'wedevs-project-manager' ) }}</span>
+                      <span>{{ __( 'Alexander', 'wedevs-project-manager' ) }}</span>
                       <i aria-hidden="true" tabindex="1" class="multiselect__tag-icon"></i>
                     </span>
                   </div>
@@ -51,7 +51,7 @@
                   <ul class="multiselect__content" style="display: inline-block;">
                     <li class="multiselect__element">
                       <span data-select="" data-selected="" data-deselect="" class="multiselect__option multiselect__option--highlight multiselect__option--selected">
-                        <span>{{ __( 'Nadim', 'wedevs-project-manager' ) }}</span>
+                        <span>{{ __( 'Alexander', 'wedevs-project-manager' ) }}</span>
                       </span>
                     </li>
                     <li class="multiselect__element">
@@ -212,9 +212,11 @@
       }
     }
   }
-  a.pro-button.button-upgrade-to-pro {
-    position: fixed !important;
-    transform: translate(-2%, -50%) !important;
+
+  &:hover {
+    .pm-project-module-content-overlay {
+      display: block;
+    }
   }
 }
 </style>
@@ -240,13 +242,7 @@
     },
 
     methods: {
-      addPromptsOverlay() {
-        document.querySelector( '.pm-project-module-content-overlay' ).style.display = 'block';
-      },
 
-      removePromptsOverlay() {
-        document.querySelector( '.pm-project-module-content-overlay' ).style.display = 'none';
-      },
     },
   }
 </script>

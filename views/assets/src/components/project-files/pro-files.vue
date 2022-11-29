@@ -5,9 +5,6 @@
         <a @click.stop="" :key="key" href="#" class="button button-primary">
           <span class="dashicons dashicons-plus-alt"></span>
           {{ __( value, 'wedevs-project-manager' ) }}
-          <span class="pm-pro-badge pro-project-menu-badge files-btn-badge">
-            {{ __( 'Pro', 'wedevs-project-manager' ) }}
-          </span>
         </a>
       </template>
       <UpgraderOverlay />
@@ -62,11 +59,6 @@ export default {
       padding: 6px 10px;
       margin-left: 10px;
       line-height: 36px;
-
-      span.files-btn-badge {
-        float: none;
-        margin-left: 5px;
-      }
 
       .dashicons {
         display: inline;
