@@ -30,7 +30,7 @@
                   <span class="bold font-black">
                     {{ __( 'Stripe Gateway, Time Tracker, Sub Task, Invoice, Kanban Board, Gantt Chart, WooCommerce Order, BuddyPress', 'wedevs-project-manager' ) }}
                   </span> 
-                  {{ __( 'etc.', 'wedevs-project-manager' ) }}
+                  {{ __( 'etc', 'wedevs-project-manager' ) }}
                 </p>
               </div>
             </div>
@@ -48,7 +48,7 @@
                   <span class="bold font-black">{{ __( 'create files, documents, custom fields,', 'wedevs-project-manager' ) }}</span>
                   {{ __( 'and', 'wedevs-project-manager' ) }} 
                   <span class="bold font-black">{{ __( 'images', 'wedevs-project-manager' ) }}</span> 
-                  {{ __( 'from one place and keeps you hassle-free.', 'wedevs-project-manager' ) }}
+                  {{ __( 'from one place and keeps you hassle-free', 'wedevs-project-manager' ) }}
                 </p>
               </div>
             </div>
@@ -61,7 +61,7 @@
                   {{ __( 'Get more', 'wedevs-project-manager' ) }} 
                   <span class="bold font-black">{{ __( 'Advanced Reporting, Automatic', 'wedevs-project-manager' ) }}</span>
                   {{ __( 'Daily Digest Mail, and', 'wedevs-project-manager' ) }} 
-                  <span class="bold font-black">{{ __( 'Real-Time Updates', 'wedevs-project-manager' ) }}</span>.
+                  <span class="bold font-black">{{ __( 'Real-Time Updates', 'wedevs-project-manager' ) }}</span>
                 </p>
               </div>
             </div>
@@ -414,8 +414,13 @@ export default {
     },
 
     closePopup() {
-      const popup = document.querySelector( '.pm-popup-window' );
+      const popup       = document.querySelector( '.pm-popup-window' ),
+        firstIndicator  = document.querySelector( '.pm-popup-window .slider-indicators button:first-child' ),
+        activeIndicator = document.querySelector( '.pm-popup-window .slider-indicators button.active' );
+
       popup.classList.remove( 'state-show' );
+      activeIndicator.classList.remove( 'active' );
+      firstIndicator.classList.add( 'active' );
     },
   },
 }
