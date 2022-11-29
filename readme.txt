@@ -1,7 +1,7 @@
-=== WP Project Manager - Project, Task Management & Team Collaboration Software ===
+=== WP Project Manager - Task, team, and project management plugin featuring kanban board and gantt charts ===
 Contributors: tareq1988, nizamuddinbabu, wedevs, asaquzzaman
 Donate Link: https://tareq.co/donate/
-Tags: project, project manager, project management, web project management, task manager, online collaboration tool,
+Tags: project, project manager, project management, kanban board, gantt charts,  task manager, team collaboration tool
 Requires at least: 4.4 or higher
 Tested up to: 6.0.1
 Requires PHP: 5.6
@@ -9,7 +9,7 @@ Stable tag: 2.5.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-WP Project Manager - Task scheduling, Project management, Team collaboration is easier than ever.
+The WP Project Manager makes task scheduling, project management, and team collaboration simpler than ever. Manage your projects with a Kanban board, Gantt charts, and different integrations like GitHub, Bitbucket, Slack & BuddyPress.
 
 == Description ==
 
@@ -21,16 +21,15 @@ Its user-friendly interface and web-based task management feature enable the use
 Effortlessly get your team to complete all the projects timely with its time tracking tool and generate an advanced performance report with its built-in reporting feature absolutely hassle-free. This cutting edge innovative project management solution is termed as one of the more reliable open source Project Manager software for WordPress.
 So now you can through your headache of being able to manage the project efficiently out of the window with this super-efficient project management application.
 
-Want to give it a try? Then try its 👉 [FREE OFFICIAL DEMO](https://pm.wedevsdemos.com)
-
-**Key Features**
+Want to give it a try? Then try its 👉 [FREE OFFICIAL DEMO](https://pm.wedevsdemos.com/wp-login.php)
+**🎯 Key Features 🎯**
 
 **To-do List**
 
 * Add as many to-do lists as you want with title and description
 * Add tasks, assign users, assign a due date
 * See progress bar on the list
-* Add comments on individual to-do lists and to-do’s
+* Add comments, description and title on individual to-do lists and to-do’s
 * Mark to-do as complete/incomplete
 
 **Milestone**
@@ -42,7 +41,8 @@ Want to give it a try? Then try its 👉 [FREE OFFICIAL DEMO](https://pm.wedevsd
 
 * Messages are used for discussing the project with co-workers of that project
 * You can add attachments on messages
-* Comments can be made for discussion
+* Edit and stylize messages
+* Comments can be made for discussion or collaboration 
 
 **Files**
 
@@ -50,7 +50,7 @@ Want to give it a try? Then try its 👉 [FREE OFFICIAL DEMO](https://pm.wedevsd
 * Upload all files on messages and comments and navigate to individual attached threads.
 * Upload and share any file anytime in one place (Pro).
 
-**Notification**
+**Dynamic Notification**
 
 * Email notification to keep the users updated about their assigned, upcoming or outdated tasks.
 * Control who will receive which notification from settings (Pro).
@@ -58,7 +58,13 @@ Want to give it a try? Then try its 👉 [FREE OFFICIAL DEMO](https://pm.wedevsd
 **Pusher Integration**
 
 * Get a real-time notification for your project management activities with push notifications.
-* You will receive notifications for assigning team members, mentioning in comments, creating tasks, and updating task status.
+* You will receive notifications for assigning team members, mentioning in comments, creating tasks, and updating task status. 
+
+**Interactive calendar**
+
+* Check tasks progress. 
+* Dynamic and interactive drag and drop functionality to assign tasks. 
+* Daily, weekly and monthly and user specific view in the calendar. 
 
 👉 [Learn more about all the functions and features from our documentation](https://wedevs.com/docs/wp-project-manager/).
 
@@ -71,16 +77,16 @@ Want to give it a try? Then try its 👉 [FREE OFFICIAL DEMO](https://pm.wedevsd
 
 **[Kanban Board for WordPress](https://wedevs.com/products/plugins/wp-project-manager-pro/kanban-board/)**
 
-   * Create unlimited custom boards according to your need
-   * Drag and drop tasks from one board to another anytime
-   * Create new task right from any board whenever you want
-   * Get an exact idea of the current stages of all the tasks from one place
+   * Create unlimited custom kanban boards according to your need for better workflow visualization.
+   * Drag and drop tasks from one board to another anytime.
+   * Create new task right from any board whenever you want.
+   * Get an exact idea of the current stages of all the tasks from one place with Kanban board.
 
 **[Gantt Chart for WordPress](https://wedevs.com/products/plugins/wp-project-manager-pro/gantt-chart/)**
 
-   * Observe the duration of the tasks through horizontal bar graphs
-   * Change beginning and finishing dates of the tasks or projects
-   * Assess dependencies among different tasks and subtasks
+   * Observe the duration of the tasks through horizontal bar graphs.
+   * Change beginning and finishing dates of the tasks or projects.
+   * Assess dependencies among different tasks and subtasks with Gantt charts. 
 
 **[Time Tracker](https://wedevs.com/products/plugins/wp-project-manager-pro/time-tracker/)**
 
@@ -90,10 +96,15 @@ Want to give it a try? Then try its 👉 [FREE OFFICIAL DEMO](https://pm.wedevsd
 
 **[Invoice for Charging Clients](https://wedevs.com/products/plugins/wp-project-manager-pro/invoice/)**
 
-   * Invoices will be automatically formatted based on your input
-   * Upon a payment completion, the amount will be added to your account and the invoice will be automatically marked as paid
-   * Invoices can be downloaded as pdf
+   * Invoices will be automatically formatted based on your input.
+   * Upon a payment completion, the amount will be added to your account and the invoice will be automatically marked as paid.
+   * Invoices can be downloaded as pdf.
 
+**[Stripe Gateway](https://wedevs.com/wp-project-manager-pro/extensions/invoice-stripe-gateway/)**
+
+   * Lets your clients to pay using stripe gateway. 
+   * Automate the billing process with predefined project templates.
+   
 **[BuddyPress for WordPress](https://wedevs.com/products/plugins/wp-project-manager-pro/buddypress/)**
 
    * Create different tasks for different teams
@@ -103,14 +114,23 @@ Want to give it a try? Then try its 👉 [FREE OFFICIAL DEMO](https://pm.wedevsd
 
 **[SubTask for more simple task management system](https://wedevs.com/products/plugins/wp-project-manager-pro/sub-task/)**
 
-   * Break your long tasks into as many portion as you need.
-   * Assign several workers for several tasks.
+   * Break your long tasks into as many portions as you need.
+   * Assign several team members for several tasks.
 
 **[WooCommerce Integration](https://wedevs.com/products/plugins/wp-project-manager-pro/woocommerce-order/)**
 
    * You can create a project automatically after the order or the payment is processed.
    * Control which product will create what type of project and task.
    * Add and manage user roles like co-workers, managers, and clients to the Projects and Tasks.
+
+
+**[Advanced Files Management](https://wedevs.com/docs/wp-project-manager/managing-projects/files-wp-project-manager/)**
+
+   * Upload all files in one place.  
+   * Create folders for different files. 
+   * Link messages & task lists with files. 
+   * Make files private. 
+
 
 **[Slack Integration](https://wedevs.com/docs/wp-project-manager/integrations/slack/)**
 
@@ -122,7 +142,7 @@ Want to give it a try? Then try its 👉 [FREE OFFICIAL DEMO](https://pm.wedevsd
    * Connect your GitHub and Bitbucket account with WP Project Manager easily.
    * When issues will be created on your GitHub and Bitbucket account, it will be added to your task list. So, your developer team can take action in time.
 
-**[Reports](https://wedevs.com/docs/wp-project-manager/reports/view-reports/)**
+**[Advanced Reports with Insights](https://wedevs.com/docs/wp-project-manager/reports/view-reports/)**
 
    * To make your project management efficient, you need to have reports for tasks and user activities. It will help you to make the right decisions for your projects and team.
    * You will get several predefined report cases depending on the user activities. The reports are very much self-explanatory. The reports are very much self-explanatory. You will get,
@@ -165,10 +185,11 @@ Everyone gets their own dashboard to stay updated about tasks in the most organi
 👉 [Learn more about all the functions and features from our documentation.](https://wedevs.com/docs/wp-project-manager/)
 
 = SEE HOW WP PROJECT MANAGER HAS BEEN RECOGNIZED BY THE TOP SITES =
-   1. [Top 6 WordPress Project Management Plugins](https://kinsta.com/blog/wordpress-project-management-plugins/)
-   2. [Top 23 WordPress Plugins for Freelancers to Improve Their Workflow](https://colorlib.com/wp/freelance-plugins-wordpress/)
+   1. [Top 20 WordPress Plugins for Freelancers to Improve Their Workflow](https://colorlib.com/wp/freelance-plugins-wordpress/)
+   2. [9 Best WordPress Project Management Plugins](https://blog.hubspot.com/website/best-wordpress-project-management-plugins)
    3. [Top 8 Project Management Plugins For WordPress](https://www.elegantthemes.com/blog/tips-tricks/top-8-project-management-plugins-for-wordpress)
-   4. [Project Management Tools for WordPress to Help You Stay on Track](https://premium.wpmudev.org/blog/project-management-tools/)
+   4. [Top 9 Premium WordPress Project Management Plugins](https://www.hostinger.com/tutorials/wordpress-project-management#Top_9_Premium_WordPress_Project_Management_Plugins) 
+   5. [13 Best WordPress Project Management Plugins in 2022](https://wplift.com/best-wordpress-project-management-plugins)
 
 = LEARN HOW YOU CAN LEVERAGE YOUR PRODUCTIVITY TOOL TO THE FULLEST =
 
@@ -757,7 +778,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 = 1.6.7 - August 01, 2017 =
 
  * [new] Js Tiptip library has been added.
- * [update] Condition applied when showing calender on setting tast start date.
+ * [update] Condition applied when showing calendar on setting tast start date.
  * [update] Date icon has been shown if no date was set.
  * [update] Description icon has been shown if no description was set.
  * [update] Co-Worker icon has been shown if no Co-Worker was set in the task.
