@@ -360,7 +360,7 @@ ul.slider-container li img {
 }
 
 .slider-area {
-  margin-left: 30px;
+  margin-left: 10px;
   overflow: hidden;
   text-align: center;
 }

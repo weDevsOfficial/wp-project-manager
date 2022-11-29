@@ -13,7 +13,7 @@ if ( !PM_Vars.is_pro ) {
     require('@components/progress/router');
     require('@components/calendar/router');
     require('@components/pro-modules/router');
-    require('@components/woo-project/router');
+    // require('@components/woo-project/router');
 
     // Pro prompt pages.
     require('@components/pro-settings/router');
