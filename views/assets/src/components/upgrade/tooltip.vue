@@ -137,7 +137,7 @@ export default {
 
   methods: {
     clickForUpgrade() {
-      window.open( 'https://wedevs.com/wp-project-manager-pro/pricing/?utm_source=freeplugin&utm_medium=pm-action-link&utm_campaign=pm-pro-prompt', '_blank' );
+      window.open( 'https://wedevs.com/wp-project-manager-pro/pricing/?utm_source=wpdashboard&utm_medium=popup', '_blank' );
     },
   },
 }
