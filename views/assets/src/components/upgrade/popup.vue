@@ -6,11 +6,11 @@
           <div class="popup-close-button" @click.prevent="closePopup">
             <img :src="getAssetUrl( 'images/modules/x.svg' )" :alt="__( 'Close Icon', 'wedevs-project-manager' )" />
           </div>
-          <div class="popup-diamond">
-            <img :src="getAssetUrl( 'images/modules/diamond.svg' )" :alt="__( 'Diamond Icon', 'wedevs-project-manager' )" />
-          </div>
           <div class="pm-popup-header">
-            <h2 class="font-orange header-one">{{ __( 'Upgrade to', 'wedevs-project-manager' ) }}</h2>
+            <div class="popup-diamond">
+              <img :src="getAssetUrl( 'images/modules/diamond.svg' )" :alt="__( 'Diamond Icon', 'wedevs-project-manager' )" />
+              <h2 class="font-orange header-one">{{ __( 'Upgrade to', 'wedevs-project-manager' ) }}</h2>
+            </div>
             <h2 class="header-two">
               {{ __( 'WP Project Manager', 'wedevs-project-manager' ) }} 
               <span class="font-bold">{{ __( 'Pro', 'wedevs-project-manager' ) }}</span>
@@ -42,13 +42,13 @@
                 <p>
                   {{ __( 'Experience the', 'wedevs-project-manager' ) }} 
                   <span class="bold font-black">{{ __( 'Advanced Files Manager', 'wedevs-project-manager' ) }}</span>
-                  {{ __( 'the helps you to', 'wedevs-project-manager' ) }} 
+                  {{ __( 'that helps you to', 'wedevs-project-manager' ) }}
                   <span class="bold font-black">{{ __( 'upload, store', 'wedevs-project-manager' ) }}</span>
                   {{ __( 'or', 'wedevs-project-manager' ) }}
                   <span class="bold font-black">{{ __( 'create files, documents, custom fields,', 'wedevs-project-manager' ) }}</span>
                   {{ __( 'and', 'wedevs-project-manager' ) }} 
                   <span class="bold font-black">{{ __( 'images', 'wedevs-project-manager' ) }}</span> 
-                  {{ __( 'from one place and keeps you hassle free.', 'wedevs-project-manager' ) }}
+                  {{ __( 'from one place and keeps you hassle-free.', 'wedevs-project-manager' ) }}
                 </p>
               </div>
             </div>
@@ -305,10 +305,20 @@ ul.slider-container li img {
   opacity: 1;
 }
 
+.popup-diamond {
+  display: flex;
+  align-items: center;
+}
+
 .popup-diamond img {
   padding: 6px;
   background: linear-gradient(220.03deg, #FFF3DD 39.57%, #FFE3AD 97.5%);
   border-radius: 5px;
+}
+
+.popup-diamond h2 {
+  margin-left: 12px;
+  font-weight: 600;
 }
 
 .pm-popup-list-area {

@@ -1,9 +1,6 @@
 <template>
   <div class="single-task-label context">
-    <h3 class="label">
-      {{ __( 'Label', 'wedevs-project-manager' ) }}
-      <span class="pm-pro-badge">{{ __( 'Pro', 'wedevs-project-manager' ) }}</span>
-    </h3>
+    <h3 class="label">{{ __( 'Label', 'wedevs-project-manager' ) }}</h3>
 
     <div class="data-active">
       <div class="process-text-wrap">
@@ -37,13 +34,6 @@
   border-color: #f1f1f1 !important;
 }
 .single-task-label {
-  .label {
-    .pm-pro-badge {
-      float: none;
-      margin-left: 6px;
-    }
-  }
-
   .data-active {
     &:hover {
       & ~ .pm-project-module-content-overlay {

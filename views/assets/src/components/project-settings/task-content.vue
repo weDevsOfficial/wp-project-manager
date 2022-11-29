@@ -3,7 +3,7 @@
         <h3 class="label">
             <span>{{ __( 'Custom Fields', 'wedevs-project-manager' ) }}</span>
             <i class="info-icon"
-                v-tooltip:top-center="__('Custom field will help you to create additional</br>fields for this task. Create a custom field</br>from project settings.', 'wedevs-project-manager')">
+                v-tooltip:top-center="__('Custom field will help you to create additional<br/>fields for this task. Create a custom field<br/>from project settings. ⭐️ This feature is available<br/>on Pro version', 'wedevs-project-manager')">
                 <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" style="enable-background:new 0 0 111.577 111.577;" xml:space="preserve"
                     xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 111.577 111.577">
                     <g>
@@ -11,7 +11,6 @@
                     </g>
                 </svg>
             </i>
-            <span class="pm-pro-badge">{{ __( 'Pro', 'wedevs-project-manager' ) }}</span>
         </h3>
     </div>
 </template>
@@ -34,10 +33,6 @@
         width: 10px;
         fill: #858587;
       }
-    }
-
-    .pm-pro-badge {
-      float: none;
     }
   }
 }

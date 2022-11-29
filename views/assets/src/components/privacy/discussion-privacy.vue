@@ -4,7 +4,7 @@
       <input value="yes" type="checkbox" @click.prevent="">
       {{ __( 'Private', 'wedevs-project-manager' ) }}
     </label>
-    <Badge />
+    <span class="pm-pro-badge">{{ 'Pro', 'wedevs-project-manager' }}</span>
     <UpgraderOverlay />
   </div>
 </template>
@@ -33,17 +33,6 @@
     input[type='checkbox'] {
       margin-right: 5px;
     }
-
-    &:hover {
-      & ~ .pm-project-module-content-overlay {
-        width: 102%;
-        height: 50px;
-        display: block;
-        margin-top: -5px;
-        margin-left: 0;
-        border-radius: 3px;
-      }
-    }
   }
 
   .pm-project-module-content-overlay {
@@ -56,11 +45,21 @@
       border-radius: 3px;
     }
   }
+
+  &:hover {
+    .pm-project-module-content-overlay {
+      width: 102%;
+      height: 50px;
+      display: block;
+      margin-top: -5px;
+      margin-left: 0;
+      border-radius: 3px;
+    }
+  }
 }
 </style>
 
 <script>
-import Badge from '@components/upgrade/badge';
 import UpgraderOverlay from '@components/upgrade/overlay';
 
 export default {
@@ -71,7 +70,6 @@ export default {
   },
 
   components: {
-    Badge,
     UpgraderOverlay,
   },
 

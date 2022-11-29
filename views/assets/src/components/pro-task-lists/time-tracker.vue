@@ -13,7 +13,6 @@
             </g>
           </svg>
         </i>
-        <span class="pm-pro-badge">{{ __( 'Pro', 'wedevs-project-manager' ) }}</span>
       </h3>
 
       <div class="data-active">
@@ -51,12 +50,6 @@
   position: relative;
 
   .time-tracker {
-    h3.label {
-      .pm-pro-badge {
-        float: none;
-      }
-    }
-
     .data-active {
       &:hover {
         & ~ .pm-project-module-content-overlay {

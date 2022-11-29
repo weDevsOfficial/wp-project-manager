@@ -94,10 +94,6 @@
     background: #ff9000 !important;
 }
 
-.report-task .pm-pro-badge > .pm-pro-field-tooltip {
-    top: 345px !important;
-}
-
 .pm-my-reports.pm-my-taskoverview ~ .pm-pro-badge > .pm-pro-field-tooltip {
     top: 395px;
 }
