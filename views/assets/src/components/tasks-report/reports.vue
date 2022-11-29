@@ -11,7 +11,7 @@
         <div class="user-reports-wrap">
             <div class="user-wrap">
                 <h3>{{ __( 'User Name', 'wedevs-project-manager' ) }}</h3>
-                <span class="user-name">{{ __( 'Nadim', 'wedevs-project-manager' ) }}</span>
+                <span class="user-name">{{ __( 'Alexander', 'wedevs-project-manager' ) }}</span>
             </div>
 
             <div class="pm-card pm-card-default pm-report-meta-panel pm-report-worker-panel">
