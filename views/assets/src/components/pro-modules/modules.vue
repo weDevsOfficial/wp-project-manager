@@ -81,7 +81,7 @@ export default {
       modules: [
         {
           'id'          : 'kanbanboard',
-          'name'        : __( 'KanBan Board', 'wedevs-project-manager' ),
+          'name'        : __( 'Kanban Board', 'wedevs-project-manager' ),
           'thumbnail'   : 'kanban-board.png',
           'description' : __( 'Turn your projects into Trello like boards and organize them using drag and drop feature.', 'wedevs-project-manager' ),
         },
