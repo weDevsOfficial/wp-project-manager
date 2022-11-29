@@ -37,9 +37,9 @@ class Menu {
             return;
         }
 
-        if ( pm_has_manage_capability() ) {
-            $submenu['pm_projects'][] = array( __( 'Woo Project', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/woo-project' );
-        }
+//        if ( pm_has_manage_capability() ) {
+//            $submenu['pm_projects'][] = array( __( 'Woo Project', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/woo-project' );
+//        }
 
         $submenu['pm_projects'][] = array( __( 'Calendar', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/calendar' );
         if ( pm_has_manage_capability() ) {
