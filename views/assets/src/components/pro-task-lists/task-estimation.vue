@@ -13,7 +13,6 @@
                     </g>
                 </svg>
             </i>
-            <span class="pm-pro-badge">{{ __( 'Pro', 'wedevs-project-manager' ) }}</span>
         </h3>
 
         <div class="data-active">
@@ -67,10 +66,6 @@
       font-style: italic;
       font-weight: 500;
       font-size: 11px;
-    }
-
-    .pm-pro-badge {
-      float: none;
     }
   }
 

@@ -59,6 +59,7 @@ export default {
       padding: 6px 10px;
       margin-left: 10px;
       line-height: 36px;
+      vertical-align: middle;
 
       .dashicons {
         display: inline;

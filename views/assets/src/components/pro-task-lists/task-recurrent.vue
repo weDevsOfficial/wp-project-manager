@@ -11,7 +11,6 @@
           </g>
         </svg>
       </i>
-      <span class="pm-pro-badge">{{ __( 'Pro', 'wedevs-project-manager' ) }}</span>
     </h3>
 
     <div class="data-active">
@@ -42,12 +41,6 @@
   order: 10;
   width: 100%;
   position: relative;
-
-  .label {
-    .pm-pro-badge {
-      float: none;
-    }
-  }
 
   .data-active {
     &:hover {
