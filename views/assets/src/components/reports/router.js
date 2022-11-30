@@ -1,10 +1,4 @@
-// const Reports = resolve => {
-//     require.ensure(['./reports.vue'], () => {
-//         resolve(require('./reports.vue'));
-//     });
-// }
-
-import Reports from './reports.vue'
+import Reports from '@components/reports/reports';
 
 weDevsPMRegisterChildrenRoute('project_root', 
     [
@@ -13,6 +7,5 @@ weDevsPMRegisterChildrenRoute('project_root',
             component: Reports,
             name: 'reports',
         }
-
     ]
 );
