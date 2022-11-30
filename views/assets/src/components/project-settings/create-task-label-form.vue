@@ -30,7 +30,6 @@
         </div>
 
         <div>
-
             <div class="label-action" v-if="labelId">
                 <a  @click.prevent="closeEditForm()" class="pm-button pm-secondary" href="#">{{ __('Cancel', 'wedevs-project-manager') }}</a>
                 <div class="update-button-wrap">
@@ -39,7 +38,6 @@
                 </div>
 
             </div>
-
             <div class="label-action" v-else>
                 <a @click.prevent="closeNewLabelForm()" class="pm-button pm-secondary" href="#">{{ __('Cancel', 'wedevs-project-manager') }}</a>
                 <div class="add-button-wrap">
@@ -87,7 +85,6 @@
         }
     }
 
-
     @keyframes pm-spinner-circle {
         0% {
             -webkit-transform: rotate(0);
@@ -125,8 +122,6 @@
             transform: rotate(360deg)
         }
     }
-
-
 </style>
 
 <script type="text/javascript">

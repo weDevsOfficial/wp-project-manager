@@ -363,9 +363,7 @@
             updateOptionColor(color, option) {
                 option.color = color;
             },
-
             checkTextColor (background) {
-
                 if(typeof background == 'undefined') {
                     return '#848484';
                 }

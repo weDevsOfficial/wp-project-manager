@@ -64,8 +64,6 @@ export default {
         }
     },
 
-
-
     created () {
         //set setting custom field tab menu
         this.actionData.tabs.push({

@@ -7,6 +7,5 @@ weDevsPMRegisterChildrenRoute('project_root',
             component: WooProject,
             name: 'woo-project',
         }
-
     ]
 );

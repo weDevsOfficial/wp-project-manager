@@ -12,12 +12,12 @@
           <tr>
             <th>{{ __( 'Title', 'wedevs-project-manager' ) }}</th>
             <th>{{ __( 'Created', 'wedevs-project-manager' ) }}</th>
-            <th>{{__( 'due', 'wedevs-project-manager' ) }}</th>
+            <th>{{ __( 'due', 'wedevs-project-manager' ) }}</th>
             <th>{{ __( 'Status', 'wedevs-project-manager' ) }}</th>
-            <th>{{ __( 'Discount', 'wedevs-project-manager' )}}</th>
-            <th>{{ __( 'due', 'wedevs-project-manager' )}}</th>
-            <th>{{ __( 'Total', 'wedevs-project-manager' )}}</th>
-            <th>{{__( 'Paid', 'wedevs-project-manager' )}}</th>
+            <th>{{ __( 'Discount', 'wedevs-project-manager' ) }}</th>
+            <th>{{ __( 'due', 'wedevs-project-manager' ) }}</th>
+            <th>{{ __( 'Total', 'wedevs-project-manager' ) }}</th>
+            <th>{{ __( 'Paid', 'wedevs-project-manager' ) }}</th>
             <th>{{ __( 'Action', 'wedevs-project-manager' ) }}</th>
           </tr>
         </thead>
