@@ -1,45 +1,28 @@
 <template>
     <div class="pm-custom-fields">
         <div class="inline-two-field">
-            <div
-                class="field"
-                :style="{
-                    'margin-right': isUpdateMode ?  '0' : '20px'
-                }"
-            >
-                <label for="field-name" class="label">
-                    {{ __( 'Field Title', 'pm-pro' ) }}
-                </label>
+            <div class="field" :style="{ 'margin-right': isUpdateMode ?  '0' : '20px' }">
+                <label for="field-name" class="label">{{ __( 'Field Title', 'pm-pro' ) }}</label>
                 <div class="item">
-                    <input
-                        id="field-name"
-                        class="text"
-                        v-model="fields.title"
-                        type="text"
-                        :placeholder="__('e.g Priority, Stage, Status', 'pm-pro')"
-                    />
+                    <input id="field-name" class="text" v-model="fields.title" type="text" :placeholder="__('e.g Priority, Stage, Status', 'pm-pro')" />
                 </div>
             </div>
             <div v-if="!isUpdateMode" class="field">
-
-                    <label for="type" class="label">
-                        {{ __( 'Type', 'pm-pro' ) }}
-                    </label>
-                    <div class="item">
-                        <select id="type" class="select" v-model="fields.type">
-                            <option value="dropdown">{{ __('Drop-down', 'pm-pro') }}</option>
-                            <option value="text">{{ __('Text', 'pm-pro') }}</option>
-                            <option value="number">{{ __('Number', 'pm-pro') }}</option>
-                            <option value="url">{{ __('URL', 'pm-pro') }}</option>
-                        </select>
-                    </div>
-
+                <label for="type" class="label">
+                    {{ __( 'Type', 'pm-pro' ) }}
+                </label>
+                <div class="item">
+                    <select id="type" class="select" v-model="fields.type">
+                        <option value="dropdown">{{ __('Drop-down', 'pm-pro') }}</option>
+                        <option value="text">{{ __('Text', 'pm-pro') }}</option>
+                        <option value="number">{{ __('Number', 'pm-pro') }}</option>
+                        <option value="url">{{ __('URL', 'pm-pro') }}</option>
+                    </select>
+                </div>
             </div>
         </div>
         <options-field v-if="fields.type == 'dropdown'" :modal="modal" :options="fields.options"></options-field>
-
-
-         <div class="field-description">
+        <div class="field-description">
             <a v-if="!hasDescription" @click.prevent="descriptionStatus()" href="#"  class="des-label">
                 <!-- <span v-if="!hasDescription" v-html="'&#43;'"></span>
                 <span v-if="hasDescription" v-html="'&#8722;'"></span> -->
@@ -128,9 +111,8 @@
     }
 </style>
 
-
 <script>
-    import OptionsDropdown from './options.vue'
+    import OptionsDropdown from './options.vue';
 
     Vue.directive('description-textarea', {
         inserted: function (element, text, vnode) {

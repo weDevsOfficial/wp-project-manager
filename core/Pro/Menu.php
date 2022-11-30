@@ -5,7 +5,7 @@ namespace WeDevs\PM\Core\Pro;
 /**
  * Class Menu
  *
- * @since 2.5.1
+ * @since 2.6.0
  *
  * @package WeDevs\PM\Core\Pro
  */
@@ -14,7 +14,7 @@ class Menu {
     /**
      * Prompts menu capabilities.
      *
-     * @since 2.5.1
+     * @since 2.6.0
      *
      * @var string
      */
@@ -23,7 +23,7 @@ class Menu {
     /**
      * Register pro prompts menu.
      *
-     * @since 2.5.1
+     * @since 2.6.0
      *
      * @param string $slug
      *
@@ -54,7 +54,7 @@ class Menu {
     /**
      * Enqueue pro prompts related styles.
      *
-     * @since 2.5.1
+     * @since 2.6.0
      *
      * @return void
      */
