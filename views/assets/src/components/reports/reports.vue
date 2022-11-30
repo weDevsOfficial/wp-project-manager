@@ -26,7 +26,7 @@
                 {{ __( 'Complete Task', 'wedevs-project-manager' ) }}
                 <Badge />
               </h3>
-              <div class="project-meta-text" v-html="__('Generate a report from <strong>tasks</strong> which were <strong>completed</strong>.', 'wedevs-project-manager' )"></div>
+              <div class="project-meta-text" v-html="__( 'Generate a report from <strong>tasks</strong> which were <strong>completed</strong>.', 'wedevs-project-manager' )"></div>
               <a href="#" @click.stop class="pm--btn pm--btn-default">
                 <i class="flaticon-eye"></i>
                 {{ __( 'View Full Report', 'wedevs-project-manager' ) }}
@@ -39,7 +39,7 @@
             <div class="pm-card pm-card-default card-report-user-activities">
               <img :src="getAssetUrl( '/images/user_activity.svg' )" height="50"> <br>
               <h3>
-                {{  __('User Activities', 'wedevs-project-manager' ) }}
+                {{  __( 'User Activities', 'wedevs-project-manager' ) }}
                 <Badge />
               </h3>
               <div class="project-meta-text" v-html="__('Create a report based on an employee or <strong>all employee</strong> activity on <strong>tasks</strong>.', 'wedevs-project-manager' )"></div>

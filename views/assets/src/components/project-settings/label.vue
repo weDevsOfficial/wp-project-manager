@@ -14,9 +14,9 @@
                 <table class="pm-table table-striped table-justified">
                     <thead>
                         <tr>
-                            <th class="th-title">{{ __('Name', 'wedevs-project-manager') }}</th>
-                            <th class="th-title">{{ __('Description', 'wedevs-project-manager') }}</th>
-                            <th class="th-title">{{ __('Action', 'wedevs-project-manager') }}</th>
+                            <th class="th-title">{{ __( 'Name', 'wedevs-project-manager' ) }}</th>
+                            <th class="th-title">{{ __( 'Description', 'wedevs-project-manager' ) }}</th>
+                            <th class="th-title">{{ __( 'Action', 'wedevs-project-manager' ) }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -28,9 +28,9 @@
                                 <td>{{ label.description }}</td>
                                 <td>
                                     <div class="action-wrap">
-                                        <span><a @click.prevent="edit(label, index)" href="#">{{ __('Edit', 'wedevs-project-manager') }}</a></span>
+                                        <span><a @click.prevent="edit(label, index)" href="#">{{ __( 'Edit', 'wedevs-project-manager' ) }}</a></span>
                                         <span class="pipe">|</span>
-                                        <span><a @click.prevent="selfRemove(label, index)" href="#">{{ __('Delete', 'wedevs-project-manager') }}</a></span>
+                                        <span><a @click.prevent="selfRemove(label, index)" href="#">{{ __( 'Delete', 'wedevs-project-manager' ) }}</a></span>
                                     </div>
                                 </td>
                             </tr>

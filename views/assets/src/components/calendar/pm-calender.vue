@@ -35,7 +35,7 @@
     </div>
     <div class="fc-view-container">
       <div class="fc-view fc-month-view fc-basic-view" style="">
-        <table class="">
+        <table>
           <thead class="fc-head">
             <tr>
               <td class="fc-head-container fc-widget-header">
@@ -366,7 +366,7 @@
                                   href="http://wordpress.test/wp-admin/admin.php?page=pm_projects#/calendar">
                                   <div class="fc-content">
                                     <span class="fc-event-icons">
-                                      <img :src="getAssetUrl( 'images/gravatar.png' )" width="18" height="18" :title="__( 'Alexander', 'wedevs-project-manager' )"">
+                                      <img :src="getAssetUrl( 'images/gravatar.png' )" width="18" height="18" :title="__( 'Alexander', 'wedevs-project-manager' )">
                                     </span>
                                     <span class="fc-title">{{ __( 'Create Developer Assignments', 'wedevs-project-manager' ) }}</span>
                                   </div>
