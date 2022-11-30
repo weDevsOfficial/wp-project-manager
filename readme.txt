@@ -283,6 +283,10 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= v2.6.0 - Nov 30, 2022 =
+
+**New:** Added pm pro version overview for lite users
+
 = v2.5.0 - July 15, 2022 =
 
 **Update:** Compatibility with PHP-8.x
