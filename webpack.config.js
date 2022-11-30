@@ -122,6 +122,5 @@ module.exports =[
         plugins: plugins
     },
     //pusher
-]
-
+];
 
