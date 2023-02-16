@@ -12,7 +12,7 @@
                 <div class="multiselect__tags">
                   <div class="multiselect__tags-wrap" style="display: none;"></div>
                   <div class="multiselect__spinner" style="display: none;"></div>
-                  <input name="" type="text" autocomplete="off" placeholder="Filter by project" tabindex="0" class="multiselect__input" style="display: none;">
+                  <input name="" type="text" autocomplete="off" :placeholder="__( 'Filter by project', 'wedevs-project-manager' )" tabindex="0" class="multiselect__input" style="display: none;">
                   <span class="multiselect__single">{{ __( 'Recurring Test Project', 'wedevs-project-manager' ) }}</span>
                 </div>
                 <div class="multiselect__content-wrapper" style="max-height: 300px; display: none;">
@@ -66,7 +66,7 @@
                 </div>
               </div>
             </div>
-            <input type="submit" class="btn button-secondary" value="Filter">
+            <input type="submit" class="btn button-secondary" :value="__( 'Filter', 'wedevs-project-manager' )">
           </div>
         </form>
       </div>
