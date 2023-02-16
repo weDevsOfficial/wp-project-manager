@@ -638,4 +638,5 @@ return [
 	__( 'Upload a file', 'wedevs-project-manager' ),
 	__( 'Create a doc', 'wedevs-project-manager' ),
 	__( 'Link to Docs', 'wedevs-project-manager' ),
+	__( 'Type name...', 'wedevs-project-manager' ),
 ];
