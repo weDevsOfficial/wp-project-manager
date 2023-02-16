@@ -634,4 +634,8 @@ return [
 	__( 'Search All...', 'wedevs-project-manager' ),
 	__( 'Search By Client...', 'wedevs-project-manager' ),
 	__( ' Discussions', 'wedevs-project-manager' ),
+	__( 'Create a folder', 'wedevs-project-manager' ),
+	__( 'Upload a file', 'wedevs-project-manager' ),
+	__( 'Create a doc', 'wedevs-project-manager' ),
+	__( 'Link to Docs', 'wedevs-project-manager' ),
 ];
