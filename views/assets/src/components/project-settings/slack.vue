@@ -40,7 +40,7 @@
                             <div>
                                 <div class="wpuf-int-form-row">
                                     <div class="wpuf-int-field-label">
-                                        <label for="mailchimp-list-id">{{ __( 'Slack Webhook URL', 'wedevs-project-manger' ) }}</label>
+                                        <label for="mailchimp-list-id">{{ __( 'Slack Webhook URL', 'wedevs-project-manager' ) }}</label>
                                     </div>
                                     <div class="wpuf-int-field">
                                         <input type="url" placeholder="https://hooks.slack.com/services/..." class="regular-text" />
