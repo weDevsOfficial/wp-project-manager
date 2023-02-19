@@ -33,7 +33,7 @@
                                     <h1 style="margin: 0 0 7px; font-weight: bold; font-size: 18px; color: #000000; letter-spacing: 0.16px; line-height: 22px;">
                                         <?php echo esc_html( ucfirst( $creator['data']['display_name'] ) ); ?> <?php esc_html_e( 'assigned a task to you', 'wedevs-project-manager' ); ?>
                                     </h1>
-                                    <a style="text-decoration: none; font-size: 15px; color: #0676D4; letter-spacing: 0.14px; line-height: 22px;" href="<?php echo esc_url($link.'#/projects/'.$project_id . '/task-lists/tasks/' . $id); ?>" target="_blank"><?php esc_html_e( 'View this task', 'wedevs-project-manger' ); ?></a> 
+                                    <a style="text-decoration: none; font-size: 15px; color: #0676D4; letter-spacing: 0.14px; line-height: 22px;" href="<?php echo esc_url($link.'#/projects/'.$project_id . '/task-lists/tasks/' . $id); ?>" target="_blank"><?php esc_html_e( 'View this task', 'wedevs-project-manager' ); ?></a> 
                                 </div>
                             </td>
                         </tr>
