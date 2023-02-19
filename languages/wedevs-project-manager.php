@@ -322,7 +322,7 @@ return [
 	__( 'Enable Daily Digest', 'wedevs-project-manager' ),
 	__( 'Subtasks', 'wedevs-project-manager' ),
 	__( 'Pro', 'wedevs-project-manager' ),
-	__( 'Content planing', 'wedevs-project-manger' ),
+	__( 'Content planing', 'wedevs-project-manager' ),
 	__( 'Estimation', 'wedevs-project-manager' ),
 	__( 'according subtasks', 'wedevs-project-manager' ),
 	__( '00 Hour', 'wedevs-project-manager' ),
