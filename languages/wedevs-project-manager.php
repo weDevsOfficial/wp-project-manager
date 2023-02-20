@@ -639,4 +639,8 @@ return [
 	__( 'Create a doc', 'wedevs-project-manager' ),
 	__( 'Link to Docs', 'wedevs-project-manager' ),
 	__( 'Type name...', 'wedevs-project-manager' ),
+	__( 'Want to help make <strong>%1$s</strong> even more awesome? Allow %1$s to collect non-sensitive diagnostic data and usage information.', 'wedevs-project-manager' ),
+	__( 'what we collect', 'wedevs-project-manager' ),
+	__( 'Allow', 'wedevs-project-manager' ),
+	__( 'No thanks', 'wedevs-project-manager' ),
 ];
