@@ -46,15 +46,15 @@ class WP_Router {
 			$validator   = $route['validator'];
 			$sanitizer   = $route['sanitizer'];
 			$namespace   = pm_api_namespace();
-			
-			register_rest_route( $namespace, $uri, array(
-				'methods'             => $http_verb,
-				'callback'            => array( $controller, $method ),
+
+            register_rest_route( $namespace, $uri, array(
+                'methods'             => $http_verb,
+                'callback'            => array( $controller, $method ),
                 'args'                => $this->prepare_args( $http_verb, $namespace, $uri, $validator, $sanitizer ),
-				'permission_callback' => function ( WP_REST_Request $request ) use ( $permissions ) {
-					return $this->check_permission( $request, $permissions );
-				},
-			) );
+                'permission_callback' => function ( WP_REST_Request $request ) use ( $permissions ) {
+                    return $this->check_permission( $request, $permissions );
+                },
+            ) );
 		}
 	}
 
@@ -188,7 +188,7 @@ class WP_Router {
             if ( substr( $key, 0, 5 ) === 'HTTP_' ) {
                 $key = substr( $key, 5 );
 
-                if ( ! isset( $copy_server[$key] ) || !isset( $_SERVER[$key] ) ) {
+                if ( ! isset( $copy_server[ $key ] ) || !isset( $_SERVER[ $key ] ) ) {
                     $key = str_replace( ' ', '-', ucwords( strtolower( str_replace( '_', ' ', $key ) ) ) );
                     $headers[ $key ] = $value;
                 }
