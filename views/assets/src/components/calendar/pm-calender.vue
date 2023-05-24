@@ -34,7 +34,7 @@
       <div class="fc-clear"></div>
     </div>
     <div class="fc-view-container">
-      <div class="fc-view fc-month-view fc-basic-view">
+      <div class="fc-view fc-month-view fc-basic-view" style="">
         <table>
           <thead class="fc-head">
             <tr>
