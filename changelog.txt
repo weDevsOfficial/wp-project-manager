@@ -1,3 +1,7 @@
+= v2.6.1 - May 24, 2023 =
+
+**Fix:** User task calender's starting date data handling security issue.
+
 = v2.6.0 - Nov 30, 2022 =
 
 **New:** Added pm pro version overview for lite users
