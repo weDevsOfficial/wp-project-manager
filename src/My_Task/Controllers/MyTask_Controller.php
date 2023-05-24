@@ -124,11 +124,16 @@ class MyTask_Controller {
     public function user_calender_tasks( WP_REST_Request $request ) {
         global $wpdb;
 
-        $user_id       = $request->get_param( 'id' );
-        $start         = $request->get_param( 'start' );
-        $end           = $request->get_param( 'end' );
-        $events        = [];
-        $users         = $request->get_param( 'users' );
+        // Get calender start date & handle sql injection.
+        $start = $request->get_param( 'start' );
+
+        try {
+            $date  = new \DateTimeImmutable( $start );
+            $start = $date->format( 'Y-m-d' );
+        } catch ( \Exception $exception ) {
+            return new \WP_Error( 400, esc_html__('Starting date is not valid. Please re-check your request.', 'wedevs-project-manager') );
+        }
+
         $user_id       = get_current_user_id();
         $tb_tasks      = pm_tb_prefix() . 'pm_tasks';
         $tb_boards     = pm_tb_prefix() . 'pm_boards';
