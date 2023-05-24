@@ -131,7 +131,7 @@ class MyTask_Controller {
             $date  = new \DateTimeImmutable( $start );
             $start = $date->format( 'Y-m-d' );
         } catch ( \Exception $exception ) {
-            return new \WP_Error( 400, esc_html__('Starting date is not valid. Please re-check your request.', 'wedevs-project-manager') );
+            return new \WP_Error( 400, esc_html__( 'Starting date is not valid. Please re-check your request.', 'wedevs-project-manager' ) );
         }
 
         $user_id       = get_current_user_id();
