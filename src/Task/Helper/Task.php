@@ -93,8 +93,8 @@ class Task {
         header('Content-Disposition: attachment; filename=data.csv');
         $output = fopen("php://output", "w");
 
-        fputcsv( $output, [__('Tasks', 'pm-pro' ), __( 'Task List', 'pm-pro' ), __( 'Project Name', 'pm-pro' ),
-        	__('Due Date', 'pm-pro'),__( 'Created At', 'pm-pro' )
+        fputcsv( $output, [__('Tasks', 'wedevs-project-manager' ), __( 'Task List', 'wedevs-project-manager' ), __( 'Project Name', 'wedevs-project-manager' ),
+        	__('Due Date', 'wedevs-project-manager'),__( 'Created At', 'wedevs-project-manager' )
         ] );
 
         foreach ( $tasks['data'] as $key => $result ) {
