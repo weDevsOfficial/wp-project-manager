@@ -18,7 +18,7 @@
 		props: {
 			label: {
 				type: [String],
-				default: __( 'Loading...', 'pm' ) 
+				default: __( 'Loading...', 'wedevs-project-manager' ) 
 			}
 		}
 	}
