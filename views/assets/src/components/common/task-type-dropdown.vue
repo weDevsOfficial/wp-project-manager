@@ -116,7 +116,7 @@
             placeholder: {
             	type: [String],
             	default () {
-            		return __( 'Choose task type', 'wedevs-taskType-manager' )
+            		return __( 'Choose task type', 'wedevs-project-manager' )
             	}
             },
 
