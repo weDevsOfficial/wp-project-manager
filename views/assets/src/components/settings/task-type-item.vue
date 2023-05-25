@@ -9,9 +9,9 @@
 
             <td>
                 <div class="action-wrap">
-                    <span><a @click.prevent="isUpdateMode = isUpdateMode ? false : true" href="#">{{ __('Edit', 'pm-pro') }}</a></span>
+                    <span><a @click.prevent="isUpdateMode = isUpdateMode ? false : true" href="#">{{ __('Edit', 'wedevs-project-manager') }}</a></span>
                     <span class="pipe">|</span>
-                    <span><a @click.prevent="selfRemove(taskType.id)" href="#">{{ __('Delete', 'pm-pro') }}</a></span>
+                    <span><a @click.prevent="selfRemove(taskType.id)" href="#">{{ __('Delete', 'wedevs-project-manager') }}</a></span>
                 </div>
             </td>
         </tr>
