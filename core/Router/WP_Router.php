@@ -34,9 +34,9 @@ class WP_Router {
 	 *
 	 * @return void
 	 */
-    public function make_wp_rest_route() {
+	public function make_wp_rest_route() {
 		$routes = static::$routes;
-		
+
 		foreach ( $routes as $route ) {
 			$uri         = '/' . $route['uri'];
 			$http_verb   = $route['http_verb'];
@@ -47,14 +47,14 @@ class WP_Router {
 			$sanitizer   = $route['sanitizer'];
 			$namespace   = pm_api_namespace();
 
-	            register_rest_route( $namespace, $uri, array(
-	                'methods'             => $http_verb,
-	                'callback'            => array( $controller, $method ),
-	                'args'                => $this->prepare_args( $http_verb, $namespace, $uri, $validator, $sanitizer ),
-	                'permission_callback' => function ( WP_REST_Request $request ) use ( $permissions ) {
-	                    return $this->check_permission( $request, $permissions );
-	                },
-	            ) );
+			register_rest_route( $namespace, $uri, array(
+				'methods'             => $http_verb,
+				'callback'            => array( $controller, $method ),
+				'args'                => $this->prepare_args( $http_verb, $namespace, $uri, $validator, $sanitizer ),
+				'permission_callback' => function ( WP_REST_Request $request ) use ( $permissions ) {
+					return $this->check_permission( $request, $permissions );
+				},
+			) );
 		}
 	}
 
