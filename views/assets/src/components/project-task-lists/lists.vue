@@ -123,7 +123,7 @@
                                                 </div>
 
                                                 <div class="list-title">
-                                                    <span @click.prevent="listExpand(list)" class="list-title-anchor">{{ ucfirst( list.title ) }}</span>
+                                                    <span @click.prevent="listExpand(list)" class="list-title-anchor" v-html="ucfirst( list.title )"></span>
                                                 </div>
                                                 <div class="after-title">
                                                         <!-- v-pm-tooltip -->
@@ -1569,7 +1569,7 @@
                             top: 40px;
                             width: 350px;
                             left: auto;
-                            z-index: 9999;
+                            z-index: 999;
                             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
                             border: 1px solid #DDDDDD;
                             background: #fff;
@@ -1632,7 +1632,7 @@
                             }
                         }
                         a {
-                            height: 30px !important;
+                            height: 30px;
                             display: flex;
                             align-items: center;
                             width: 117px;

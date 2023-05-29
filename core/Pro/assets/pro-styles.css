@@ -1,0 +1,111 @@
+/* pro badge styles for lite submenu */
+.pm-pro-badge {
+    gap: 10px;
+    color: #FFF;
+    float: right;
+    display: inline-block;
+    padding: 1px 5px 2px;
+    font-size: 11px;
+    text-align: center;
+    font-weight: 400;
+    line-height: 13.31px;
+    white-space: nowrap;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    border-radius: .25rem;
+    vertical-align: baseline;
+    background-color: #FF9000;
+    -webkit-font-smoothing: auto;
+}
+
+.pro-project-menu-badge {
+    margin: 2px 0 0 7px;
+}
+
+.pm-project-menu .pro-menu-item,
+.wp-submenu-wrap span.pm-pro-badge,
+.pm-project-menu .pro-menu-item span.pm-pro-badge {
+    position: relative;
+}
+
+.pm-project-menu .pro-menu-item.child-item:hover .pm-pro-field-tooltip,
+.pm-project-menu .pro-menu-item.child-item .pm-pro-badge:hover .pm-pro-field-tooltip {
+    top: 335px;
+}
+
+/* pro prompts overlay css */
+.pm-page,
+.pm-calender-page {
+    position: relative;
+}
+
+.pm-project-module-content-overlay {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    display: none;
+    position: absolute;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.pm-content-overlay .button-upgrade-to-pro,
+.pm-project-module-content-overlay .button-upgrade-to-pro {
+    top: 50%;
+    left: 50%;
+    color: #fff;
+    padding: 10px 15px;
+    min-height: auto;
+    background: #ff9000;
+    border-radius: 5px;
+}
+
+.pm-content-overlay .button-upgrade-to-pro {
+    position: fixed;
+    transform: translate(0%, -50%);
+}
+
+.pm-project-module-content-overlay .button-upgrade-to-pro {
+    position: absolute;
+    transform: translate(-50%, -50%);
+}
+
+/* global styles */
+.pm-pro-field-tooltip .button-upgrade-to-pro:hover {
+    background: #CF7500 !important;
+}
+
+.pm-project-module-page:hover .pm-project-module-content-overlay {
+    display: block;
+}
+
+.pm-discussion-privacy .pm-pro-badge .pm-pro-field-tooltip {
+    top: 335px !important;
+}
+
+.pm-discussion-privacy .pm-pro-badge .pm-pro-field-tooltip .pro-button {
+    width: auto !important;
+    height: 40px !important;
+}
+
+.pm-discussion-privacy .pm-project-module-content-overlay .pro-button {
+    width: auto !important;
+    height: 35px !important;
+    background: #ff9000 !important;
+}
+
+.pm-my-reports.pm-my-taskoverview ~ .pm-pro-badge > .pm-pro-field-tooltip {
+    top: 395px;
+}
+
+.report-task .pm-pro-badge > .pm-pro-field-tooltip > ul,
+.pm-my-reports.pm-my-taskoverview ~ .pm-pro-badge > .pm-pro-field-tooltip > ul {
+    overflow: hidden;
+}
+
+.report-task .pm-pro-badge > .pm-pro-field-tooltip .pro-button,
+.pm-my-reports.pm-my-taskoverview ~ .pm-pro-badge > .pm-pro-field-tooltip .pro-button {
+    border: none;
+    box-shadow: none;
+}
+/* global styles end */

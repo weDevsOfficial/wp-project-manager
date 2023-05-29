@@ -43,7 +43,7 @@
 <script>
     import NewLabelForm from './new-task-type-form.vue'
     import taskTypeItem from './task-type-item.vue'
-    
+
     export default {
 
         data () {
@@ -95,7 +95,7 @@
 
             getTaskTypes () {
                 var self = this;
-    
+
                 var request = {
                     type: 'GET',
                     url: self.base_url + 'pm/v2/settings/task-types',

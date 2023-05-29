@@ -10,17 +10,20 @@
             <new-task-form v-if="taskForm" @disableTaskForm="closeTaskForm"></new-task-form>
         </div>
 
+        <pop-up v-if="!PM_Vars.is_pro" />
     </div>
 </template>
 <style>
 
 </style>
 <script>
+    import Popup from '@components/upgrade/popup';
     import do_action from '@components/common/do-action.vue';
     import NewTaskForm from '@components/my-tasks/new-task.vue';
 
     export default {
         components: {
+            'pop-up': Popup,
             'do-action': do_action,
             'new-task-form': NewTaskForm
         },
