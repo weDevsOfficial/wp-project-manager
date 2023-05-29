@@ -35,7 +35,7 @@
                                     <label for="pm_mails[email_type]">{{ __( 'E-Mail Type', 'wedevs-project-manager') }}</label>
                                 </th>
                                 <td>
-                                    <select v-model="email_type" class="regular" name="pm_mails[email_type]" id="pm_mails[email_type]">
+                                    <select v-model="email_type" class="regular" name="pm_mails[email_type]" id="pm_mails[email_type]" style="width: 120px;">
                                         <option value="text/html">{{ __( 'HTML Mail', 'wedevs-project-manager') }}</option>
                                         <option value="text/plain" selected="selected">{{ __( 'Plain Text', 'wedevs-project-manager') }}</option>
                                     </select>

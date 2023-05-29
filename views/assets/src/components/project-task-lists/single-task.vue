@@ -89,12 +89,12 @@
                                 <span v-if="is_task_title_edit_mode && can_edit_task(task)">
                                     <input
                                         v-model="task.title"
-                                        maxlength="200" 
+                                        maxlength="200"
                                         @blur="updateTaskTitle(task)"
                                         @keyup.enter="updateTaskTitle(task)"
                                         @keyup="warningTitleCharacterLimit()"
                                         class="pm-task-title-activity pm-task-title-field"
-                                        type="text" 
+                                        type="text"
                                     />
                                     <span class="pm-spinner" v-if="show_spinner"></span>
                                 </span>
@@ -102,10 +102,9 @@
                                 <span
                                     :class="lineThrough(task) + ' pm-task-title-activity pm-task-title-span'"
                                     v-if="!is_task_title_edit_mode"
-                                    @click.prevent="isTaskTitleEditMode()">
-                                    {{ ucfirst(task.title) }}
-                                </span>
-
+                                    @click.prevent="isTaskTitleEditMode()"
+                                    v-html="ucfirst(task.title)"
+                                ></span>
                             </div>
                         </div>
 
@@ -115,8 +114,7 @@
                                     {{ __("Project:", 'wedevs-project-manager' ) }}
                                 </span>
                                 <span class="list-title">
-
-                                    <a :href="`#/projects/${task.project_id}/task-lists`"> {{ task.project_title }}</a>
+                                    <a :href="`#/projects/${task.project_id}/task-lists`" v-html="task.project_title"> </a>
                                 </span>
                             </div>
 
@@ -125,7 +123,7 @@
                                     {{ __("Task List:", 'wedevs-project-manager' ) }}
                                 </span>
                                 <span class="list-title">
-                                    <a :href="`#/projects/${task.project_id}/task-lists/${task.task_list_id}`"> {{ task.task_list_title }}</a>
+                                    <a :href="`#/projects/${task.project_id}/task-lists/${task.task_list_id}`" v-html="task.task_list_title"> </a>
                                 </span>
                             </div>
                         </div>
@@ -1420,6 +1418,11 @@
                 if(this.truckTitleUpdate == task.title) {
                     return;
                 }
+
+                const txt = document.createElement( 'textarea' );
+                txt.innerHTML = task.title;
+                task.title = txt.value;
+
                 this.updateTaskElement(task);
             },
 

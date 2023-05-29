@@ -5,7 +5,8 @@
         <div v-for="milestone in upComingMileStones" class="pm-milestone late">
             <div class="milestone-detail ">
                 <h3 class="milestone-head">
-                    {{ milestone.title }} <br>
+                    <span v-html="milestone.title"></span>
+                    <br>
                     <span class="time-left">
                         ({{ humanDate(milestone) }} {{ __( 'left -', 'wedevs-project-manager') }} 
                         <time :datetime="momentFormat(milestone)" :title="momentFormat(milestone)">
@@ -90,8 +91,12 @@
                         return false;
                     }
 
-                    var today   = pm.Moment().format( 'YYYY-MM-DD' ),
+                    const today = pm.Moment().format( 'YYYY-MM-DD' ),
                         due_day = pm.Moment( due_date ).format( 'YYYY-MM-DD' );
+
+                    const txt = document.createElement( 'textarea' );
+                    txt.innerHTML = milestone.title;
+                    milestone.title = txt.value;
 
                     return pm.Moment(due_day).isSameOrAfter(today) ? milestone : false;
                 });

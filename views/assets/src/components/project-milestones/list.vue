@@ -7,10 +7,9 @@
                     params: {
                         project_id: project_id,
                         list_id: list.id
-                    }}">
-
-                {{ list.title }}
-
+                    }}"
+                v-html="list.title"
+            >
             </router-link>
         </div>
         
