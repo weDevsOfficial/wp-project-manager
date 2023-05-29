@@ -47,14 +47,14 @@ class WP_Router {
 			$sanitizer   = $route['sanitizer'];
 			$namespace   = pm_api_namespace();
 
-		            register_rest_route( $namespace, $uri, array(
-		                'methods'             => $http_verb,
-		                'callback'            => array( $controller, $method ),
-		                'args'                => $this->prepare_args( $http_verb, $namespace, $uri, $validator, $sanitizer ),
-		                'permission_callback' => function ( WP_REST_Request $request ) use ( $permissions ) {
-		                    return $this->check_permission( $request, $permissions );
-		                },
-		            ) );
+	            register_rest_route( $namespace, $uri, array(
+	                'methods'             => $http_verb,
+	                'callback'            => array( $controller, $method ),
+	                'args'                => $this->prepare_args( $http_verb, $namespace, $uri, $validator, $sanitizer ),
+	                'permission_callback' => function ( WP_REST_Request $request ) use ( $permissions ) {
+	                    return $this->check_permission( $request, $permissions );
+	                },
+	            ) );
 		}
 	}
 
