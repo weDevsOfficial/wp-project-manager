@@ -19,8 +19,7 @@
 
             <div class="title-wrp">
                 <div class="title">
-                    <span>{{ list.title }}</span>
-                    
+                    <span v-html="list.title"></span>
                 </div>
                 <div class="list-actions">
                     <div class="list-title-action progress-bar">
@@ -64,7 +63,7 @@
             </div>
 
             <div class="description">
-                <span>{{ list.description }}</span>
+                <span v-html="list.description"></span>
             </div>
 
             <list-tasks :list="list"></list-tasks>

@@ -196,7 +196,7 @@
             },
 
             discussion () {
-                return this.$store.state.projectDiscussions.discussion;
+                return this.decodeDiscussionHtml( this.$store.state.projectDiscussions.discussion );
             },
 
             total_discussion_page () {
@@ -240,7 +240,17 @@
                 }
 
                 self.deleteDiscuss(args);
-            }
+            },
+
+            decodeDiscussionHtml ( discussions ) {
+                return discussions.map( singleDiscussion => {
+                    const txt = document.createElement( 'textarea' );
+                    txt.innerHTML = singleDiscussion.title;
+                    singleDiscussion.title = txt.value;
+
+                    return singleDiscussion;
+                } );
+            },
         }
     }
 

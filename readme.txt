@@ -285,6 +285,8 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 = v2.6.1 - May 24, 2023 =
 
+**Fix:** The email type settings field UI broken issue.
+**Fix:** Tasks title content not decoded properly & fix ux issue.
 **Fix:** User task calender's starting date data handling security issue.
 
 = v2.6.0 - Nov 30, 2022 =
