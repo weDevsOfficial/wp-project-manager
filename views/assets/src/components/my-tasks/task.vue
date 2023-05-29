@@ -6,8 +6,7 @@
                    <input :disabled="can_complete_task(task)" v-model="task_status" @click="doneUndone()" type="checkbox"  value="" name="" >
 
                     <span class="task-title">
-
-                        <a href="#" @click.prevent="getSingleTask(task)">{{ task.title }}</a>
+                        <a href="#" @click.prevent="getSingleTask(task)" v-html="task.title"></a>
                     </span>
 
 

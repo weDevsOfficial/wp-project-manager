@@ -34,9 +34,9 @@ class WP_Router {
 	 *
 	 * @return void
 	 */
-    public function make_wp_rest_route() {
+	public function make_wp_rest_route() {
 		$routes = static::$routes;
-		
+
 		foreach ( $routes as $route ) {
 			$uri         = '/' . $route['uri'];
 			$http_verb   = $route['http_verb'];
@@ -46,14 +46,14 @@ class WP_Router {
 			$validator   = $route['validator'];
 			$sanitizer   = $route['sanitizer'];
 			$namespace   = pm_api_namespace();
-			
+
 			register_rest_route( $namespace, $uri, array(
-				'methods'  => $http_verb,
-				'callback' => array( $controller, $method ),
+				'methods'             => $http_verb,
+				'callback'            => array( $controller, $method ),
+				'args'                => $this->prepare_args( $http_verb, $namespace, $uri, $validator, $sanitizer ),
 				'permission_callback' => function ( WP_REST_Request $request ) use ( $permissions ) {
 					return $this->check_permission( $request, $permissions );
 				},
-				'args' => $this->prepare_args( $http_verb, $namespace, $uri, $validator, $sanitizer )
 			) );
 		}
 	}
@@ -68,7 +68,7 @@ class WP_Router {
 	 * @return boolean (Return true if permitted; ortherwise false.)
 	 */
 	private function check_permission( WP_REST_Request $request, $permissions ) {
-		$permitted = array();
+		$permitted   = array();
 		$merge_error = false;
 
 		if ( empty( $permissions ) ) {
@@ -88,7 +88,7 @@ class WP_Router {
 
 		if ( $merge_error ) {
 			$permitted = $this->merge_permission_error( $permitted );
-		} else if ( is_array($permitted) && in_array( false, $permitted ) ) {
+		} else if ( is_array( $permitted ) && in_array( false, $permitted ) ) {
 			$permitted = false;
 		}
 		
@@ -98,7 +98,7 @@ class WP_Router {
 	function merge_permission_error($wp_errors) {
 	  	$wp_error_merged = new WP_Error();
 
-	  	if ( !is_array( $wp_errors ) ) {
+	  	if ( ! is_array( $wp_errors ) ) {
 	  		return $wp_errors;
 	  	}
 		
@@ -146,7 +146,7 @@ class WP_Router {
 
 	protected function prepare_request_object( $http_verb, $namespace, $uri) {
 		$request_uri = isset( $_SERVER['REQUEST_URI'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_URI'] ) ) : '';
-		$url_prefix = '/' . rest_get_url_prefix();
+		$url_prefix  = '/' . rest_get_url_prefix();
 		$request_uri = substr( $request_uri, strlen( $url_prefix ) );
 
 		$route   = '/' . $namespace . $uri;
@@ -188,21 +188,21 @@ class WP_Router {
             if ( substr( $key, 0, 5 ) === 'HTTP_' ) {
                 $key = substr( $key, 5 );
 
-                if ( !isset( $copy_server[$key] ) || !isset( $_SERVER[$key] ) ) {
+                if ( ! isset( $copy_server[ $key ] ) || !isset( $_SERVER[ $key ] ) ) {
                     $key = str_replace( ' ', '-', ucwords( strtolower( str_replace( '_', ' ', $key ) ) ) );
-                    $headers[$key] = $value;
+                    $headers[ $key ] = $value;
                 }
             } elseif ( isset( $copy_server[$key] ) ) {
-                $headers[$copy_server[$key]] = $value;
+                $headers[ $copy_server[ $key ] ] = $value;
             }
         }
 
-        if ( !isset( $headers['Authorization'] ) ) {
+        if ( ! isset( $headers['Authorization'] ) ) {
             if ( isset( $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] ) ) {
                 $headers['Authorization'] = isset( $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] ) ) : '';
             } elseif ( isset( $_SERVER['PHP_AUTH_USER'] ) ) {
                 $basic_pass = isset( $_SERVER['PHP_AUTH_PW'] ) ? sanitize_text_field( wp_unslash( $_SERVER['PHP_AUTH_PW'] )  ) : '';
-                $auth_user = isset( $_SERVER['PHP_AUTH_USER'] ) ? sanitize_text_field( wp_unslash( $_SERVER['PHP_AUTH_USER'] ) ) : '';
+                $auth_user  = isset( $_SERVER['PHP_AUTH_USER'] ) ? sanitize_text_field( wp_unslash( $_SERVER['PHP_AUTH_USER'] ) ) : '';
                 $headers['Authorization'] = 'Basic ' . base64_encode( $auth_user . ':' . $basic_pass );
             } elseif ( isset( $_SERVER['PHP_AUTH_DIGEST'] ) ) {
                 $headers['Authorization'] = isset( $_SERVER['PHP_AUTH_DIGEST'] ) ? sanitize_text_field( wp_unslash( $_SERVER['PHP_AUTH_DIGEST'] ) ) : '';
@@ -214,18 +214,18 @@ class WP_Router {
 
     protected function append_uri_params( WP_REST_Request $request, $route ) {
     	$request_uri = $request->get_route();
-    	$uri_parts = explode( '/', $request_uri );
+    	$uri_parts   = explode( '/', $request_uri );
     	$route_parts = explode( '/', $route );
     	$params = [];
 
     	if ( count( $uri_parts ) === count( $route_parts ) ) {
-    		foreach ($uri_parts as $key => $value) {
-    			if ( $value === $route_parts[$key] ) {
+    		foreach ( $uri_parts as $key => $value ) {
+    			if ( $value === $route_parts[ $key ] ) {
     				continue;
-    			} elseif ( preg_match( "/^(\(\?P<).+(>\.\+\))$/", $route_parts[$key] ) ) {
-    				$param = str_replace( "(?P<", '', $route_parts[$key] );
+    			} elseif ( preg_match( "/^(\(\?P<).+(>\.\+\))$/", $route_parts[ $key ] ) ) {
+    				$param = str_replace( "(?P<", '', $route_parts[ $key ] );
     				$param = str_replace( ">.+)", '', $param );
-    				$params[$param] = $value;
+    				$params[ $param ] = $value;
     			}
     		}
     	}
@@ -272,7 +272,7 @@ class WP_Router {
 	 */
 	protected function apply_validation( $args, Validator $validator ) {
 		$rules = $validator->rules();
-		$keys = array_keys( $rules );
+		$keys  = array_keys( $rules );
 
 		foreach ( $keys as $key ) {
 			$args[$key] = [
@@ -312,7 +312,7 @@ class WP_Router {
 		$keys = array_keys( $filters );
 
 		foreach ( $keys as $key ) {
-			$args[$key]['sanitize_callback'] = function ( $param, $request, $key ) use ( $sanitizer ) {
+			$args[ $key ]['sanitize_callback'] = function ( $param, $request, $key ) use ( $sanitizer ) {
 				return $sanitizer->sanitize( $request, $key );
 			};
 		}

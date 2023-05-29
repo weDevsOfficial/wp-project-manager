@@ -3,7 +3,7 @@
         <div class="pm-message-form-wrap" >
             <form class="pm-form pm-message-form" @submit.prevent="formAction()" enctype='multipart/form-data'>
             <div class="item title">
-                <input v-model="discuss.title" name="title" required="required" type="text" id="message_title" value="" :placeholder="Enter_Message_Title">
+                <input v-model="discuss.title" name="title" required="required" type="text" id="message_title" :placeholder="Enter_Message_Title">
             </div>
 
             <div class="item detail">
@@ -15,9 +15,7 @@
                     <option value="-1">
                      {{ __( '- Milestone -', 'wedevs-project-manager') }}
                     </option>
-                    <option v-for="milestone in milestones" :key="milestone.id" :value="milestone.id">
-                      {{ milestone.title }}
-                    </option>
+                    <option v-for="milestone in milestones" :key="milestone.id" :value="milestone.id" v-html="milestone.title"></option>
                 </select>
 
             </div>

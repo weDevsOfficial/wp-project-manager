@@ -8,9 +8,9 @@
                         project_id: project_id,
                         discussion_id: discuss.id
                     }
-                }">
-                {{ discuss.title }}
-            </router-link>
+                }"
+                v-html="discuss.title"
+            ></router-link>
         </div>
 
         <div class="pm-col-4 ">

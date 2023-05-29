@@ -165,7 +165,10 @@
         computed: {
             discuss () {
                 if ( this.$store.state.projectDiscussions.discussion.length ) {
-                    //console.log(this.$store.state.projectDiscussions.discussion[0]);
+                    const txt = document.createElement( 'textarea' );
+                    txt.innerHTML = this.$store.state.projectDiscussions.discussion[0].title;
+                    this.$store.state.projectDiscussions.discussion[0].title = txt.value;
+
                     return this.$store.state.projectDiscussions.discussion[0];
                 }
 
