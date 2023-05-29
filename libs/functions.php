@@ -1319,19 +1319,11 @@ function pm_manager_cap_slug() {
  */
 function pm_access_capabilities( $cap = false ) {
     $caps = [
-        pm_admin_cap_slug() => __( 'PM Admin', 'pm-pro' ),
-        pm_manager_cap_slug() => __( 'PM Manager', 'pm-pro' )
+        pm_admin_cap_slug()   => __( 'PM Admin', 'wedevs-project-manager' ),
+        pm_manager_cap_slug() => __( 'PM Manager', 'wedevs-project-manager' ),
     ];
 
     $caps = apply_filters( 'pm_access_capabilities', $caps );
 
     return empty( $cap ) ? $caps : $caps[$cap];
 }
-
-
-
-
-
-
-
-

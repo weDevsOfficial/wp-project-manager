@@ -4,8 +4,9 @@
         <div v-for="milestone in completedMilestones" class="pm-milestone complete">
             <div class="milestone-detail ">
                 <h3 class="milestone-head">
-                    {{ milestone.title }} <br>
-                   <action :milestone="milestone"></action>
+                    <span v-html="milestone.title"></span>
+                    <br>
+                    <action :milestone="milestone"></action>
                 </h3>
 
                 <div class="detail">

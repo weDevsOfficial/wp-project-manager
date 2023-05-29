@@ -124,11 +124,16 @@ class MyTask_Controller {
     public function user_calender_tasks( WP_REST_Request $request ) {
         global $wpdb;
 
-        $user_id    = $request->get_param( 'id' );
-        $start      = $request->get_param( 'start' );
-        $end        = $request->get_param( 'end' );
-        $events        = [];
-        $users         = $request->get_param( 'users' );
+        // Get calender start date & handle sql injection.
+        $start = $request->get_param( 'start' );
+
+        try {
+            $date  = new \DateTimeImmutable( $start );
+            $start = $date->format( 'Y-m-d' );
+        } catch ( \Exception $exception ) {
+            return new \WP_Error( 400, esc_html__( 'Starting date is not valid. Please re-check your request.', 'wedevs-project-manager' ) );
+        }
+
         $user_id       = get_current_user_id();
         $tb_tasks      = pm_tb_prefix() . 'pm_tasks';
         $tb_boards     = pm_tb_prefix() . 'pm_boards';
@@ -141,15 +146,18 @@ class MyTask_Controller {
         $tb_users     = $wpdb->base_prefix . 'users';
         $tb_user_meta = $wpdb->base_prefix . 'usermeta';
 
-        $tb_role_user  = pm_tb_prefix() . 'pm_role_user';
+        $tb_role_user    = pm_tb_prefix() . 'pm_role_user';
         $current_user_id = get_current_user_id();
 
-        $user_id = empty( $user_id ) ? (int)$current_user_id : (int)$user_id;
-
+        $user_id     = empty( $user_id ) ? absint( $current_user_id ) : absint( $user_id );
         $project_ids = $this->get_current_user_project_ids( $user_id );
-        
-        $boards     = "SELECT id FROM $tb_boards WHERE type='task_list' and status=1";
-        $get_boards = $wpdb->get_results( $boards );
+
+        $get_boards = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT id FROM $tb_boards WHERE type='%s' and status=1", 'task_list'
+            )
+        );
+
         $boards_id  = wp_list_pluck( $get_boards, 'id' );
         $boards_id  = implode( ',', $boards_id );
 
@@ -392,41 +400,40 @@ class MyTask_Controller {
                 GROUP BY(tsk.id)";
         }
 
-        $events = $wpdb->get_results( $event_query );
+        $events     = $wpdb->get_results( $event_query );
+        $user_roles = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT DISTINCT user_id, project_id, role_id FROM $tb_role_user WHERE user_id='%d'", $current_user_id
+            )
+        );
 
-        $user_roles = $wpdb->prepare("SELECT DISTINCT user_id, project_id, role_id FROM $tb_role_user WHERE user_id=%d", $current_user_id);
-        $user_roles = $wpdb->get_results( $user_roles );
-
-
-        $tasks   = $this->Calendar_Transformer( $events, $user_roles );
-   
-       
+        $tasks = $this->Calendar_Transformer( $events, $user_roles );
         wp_send_json_success( $tasks );
     }
 
     public function Calendar_Transformer( $events, $user_roles ) {
         $current_user_id = get_current_user_id();
-        $has_manage_cap = pm_has_manage_capability();
+        $has_manage_cap  = pm_has_manage_capability();
+
         $roles = [];
         $tasks = [];
 
-        foreach ( $user_roles as $key => $user_role ) {
-            $roles[$user_role->project_id][$user_role->user_id] = $user_role->role_id;
+        foreach ( $user_roles as $user_role ) {
+            $roles[ $user_role->project_id ][ $user_role->user_id ] = $user_role->role_id;
         }
 
-        foreach ( $events as $key => $event ) {
-
+        foreach ( $events as $event ) {
             $role = 0;
 
-            if ( ! empty( $roles[$event->project_id][$current_user_id] ) ) {
-                $role = $roles[$event->project_id][$current_user_id];
+            if ( ! empty( $roles[ $event->project_id ][ $current_user_id ] ) ) {
+                $role = $roles[ $event->project_id ][ $current_user_id ];
             }
 
             $event->list_id       = $this->get_list_id( $event->boardable );
+            $event->settings      = $this->get_settings_value( $event->settings );
+            $event->assignees     = $this->get_assignees_value( $event->assignees, $event->users );
             $event->task_privacy  = $this->get_privacy_meta_value( $event->task_meta );
             $event->list_privacy  = $this->get_privacy_meta_value( $event->list_meta );
-            $event->assignees     = $this->get_assignees_value( $event->assignees, $event->users );
-            $event->settings      = $this->get_settings_value( $event->settings );
             $event->project_title = $this->get_project_title( $event->project );
 
 
@@ -441,18 +448,18 @@ class MyTask_Controller {
                 continue;
             }
 
-            $tasks[] = [
-                'id'            => (int) $event->id,
-                'title'         =>  $event->title,
-                'start'         =>  $this->get_start( $event ),
-                'end'           =>  $this->get_end( $event ),
-                'status'        =>  $event->status ? 'complete' : 'incomplete',
-                'type'          =>  'task',
-                'project_id'    => $event->project_id,
-                'created_at'    => format_date( $event->created_at ),
-                'updated_at'    => format_date( $event->updated_at ),
-                'assignees'     => $event->assignees
-            ];
+            $tasks[] = array(
+                'id'         => absint( $event->id ),
+                'end'        => $this->get_end( $event ),
+                'type'       => 'task',
+                'title'      => $event->title,
+                'start'      => $this->get_start( $event ),
+                'status'     => $event->status ? 'complete' : 'incomplete',
+                'assignees'  => $event->assignees,
+                'project_id' => $event->project_id,
+                'created_at' => format_date( $event->created_at ),
+                'updated_at' => format_date( $event->updated_at ),
+            );
         }
 
         return $tasks;
@@ -461,17 +468,16 @@ class MyTask_Controller {
     public function get_current_user_project_ids( $user_id, $project_id = false ) {
         global $wpdb;
 
-        $tb_role_user  = pm_tb_prefix() . 'pm_role_user';
-        $user_id = $user_id;
+        $tb_role_user = pm_tb_prefix() . 'pm_role_user';
 
         $project_ids = [];
 
         // IF empty project id
-        $project_query = $wpdb->prepare( "SELECT DISTINCT project_id FROM $tb_role_user WHERE user_id=%d", $user_id );
+        $project_query = $wpdb->prepare( "SELECT DISTINCT project_id FROM $tb_role_user WHERE user_id='%d'", $user_id );
 
         $project_ids = $wpdb->get_results( $project_query );
         $project_ids = wp_list_pluck( $project_ids, 'project_id' );
-        
+
         return $project_ids;
     }
 

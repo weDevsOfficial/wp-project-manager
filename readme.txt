@@ -1,131 +1,152 @@
-=== WP Project Manager - Project, Task Management & Team Collaboration Software ===
+=== WP Project Manager - Task, team, and project management plugin featuring kanban board and gantt charts ===
 Contributors: tareq1988, nizamuddinbabu, wedevs, asaquzzaman
 Donate Link: https://tareq.co/donate/
-Tags: project, project manager, project management, web project management, task manager, online collaboration tool,
+Tags: project, project manager, project management, kanban board, gantt charts,  task manager, team collaboration tool
 Requires at least: 4.4 or higher
 Tested up to: 6.0.1
 Requires PHP: 5.6
-Stable tag: 2.5.0
+Stable tag: 2.6.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-WP Project Manager - Task scheduling, Project management, Team collaboration is easier than ever.
-
+The WP Project Manager makes task scheduling, project management, and team collaboration simpler than ever. Manage your projects with a Kanban board, Gantt charts, and different integrations like GitHub, Bitbucket, Slack & BuddyPress.
+ 
 == Description ==
 
 **Best Project Management Tool for WordPress**
 
-Being one of the most advanced project management and task management tools for WordPress, [WP Project Manager comes](https://wedevs.com/wp-project-manager-pro) with some of the exceptional features that turn your project management experience of your teammates a joyful ride. Super-charge your productivity creating, organizing and assigning tasks within a few clicks.
+Being one of the most advanced project management and task management tools for WordPress, [WP Project Manager comes](https://wedevs.com/wp-project-manager-pro) with some of the exceptional features that turn your project management experience of your teammates a joyful ride. Super-charge your productivity by creating, organizing, and assigning tasks within a few clicks.
 Its user-friendly interface and web-based task management feature enable the user to complete their to-dos quicker than ever.
 [youtube https://www.youtube.com/watch?v=GI4u8wXOxHg]
-Effortlessly get your team to complete all the projects timely with its time tracking tool and generate an advanced performance report with its built-in reporting feature absolutely hassle-free. This cutting edge innovative project management solution is termed as one of the more reliable open source Project Manager software for WordPress.
+Effortlessly get your team to complete all the projects timely with its time tracking tool and generate an advanced performance report with its built-in reporting feature absolutely hassle-free. This cutting-edge innovative project management solution is termed as one of the more reliable open source Project Manager software for WordPress.
 So now you can through your headache of being able to manage the project efficiently out of the window with this super-efficient project management application.
 
-Want to give it a try? Then try its 👉 [FREE OFFICIAL DEMO](https://pm.wedevsdemos.com)
+Want to give it a try? Then try its 👉 [FREE OFFICIAL DEMO](https://pm.wedevsdemos.com/wp-login.php)
 
-**Key Features**
+**🎯 Key Features of WP Project Manager FREE 🎯**
 
-**To-do List**
+**🗓 To-do List**
 
-* Add as many to-do lists as you want with title and description
+* Add as many to-do lists as you want with titles and description
 * Add tasks, assign users, assign a due date
-* See progress bar on the list
-* Add comments on individual to-do lists and to-do’s
+* See the progress bar on the list 
+* Add comments, descriptions, and titles on individual to-do lists and to-do’s
 * Mark to-do as complete/incomplete
 
-**Milestone**
+**🎯 Milestone**
 
 * 3 types of milestones are there, a) upcoming, b) completed and c) late milestone
 * Assign messages and to-do list on milestone
 
-**Messages**
+**💬 Messages**
 
 * Messages are used for discussing the project with co-workers of that project
-* You can add attachments on messages
-* Comments can be made for discussion
+* You can add attachments to messages
+* Edit and stylize messages
+* Comments can be made for discussion or collaboration 
 
-**Files**
+**🗂 Files**
 
 * File sharing feature to ensure better understanding and workflow between co-workers.
 * Upload all files on messages and comments and navigate to individual attached threads.
 * Upload and share any file anytime in one place (Pro).
 
-**Notification**
+**🔔 Dynamic Notification**
 
 * Email notification to keep the users updated about their assigned, upcoming or outdated tasks.
 * Control who will receive which notification from settings (Pro).
 
-**Pusher Integration**
+**🔄 Pusher Integration**
 
 * Get a real-time notification for your project management activities with push notifications.
-* You will receive notifications for assigning team members, mentioning in comments, creating tasks, and updating task status.
+* You will receive notifications for assigning team members, mentioning in comments, creating tasks, and updating task status. 
 
 👉 [Learn more about all the functions and features from our documentation](https://wedevs.com/docs/wp-project-manager/).
 
-**Pro Features**
+**💎💥🏆 === Powerful Pro Features of WP Project Manager ===🏆💥💎** 
 
-[**Managing projects from frontend**](https://wedevs.com/docs/wp-project-manager/managing-projects-from-wp-project-manager-frontend/)
+**[👉 Managing projects from frontend](https://wedevs.com/docs/wp-project-manager/managing-projects-from-wp-project-manager-frontend/)** (Pro)
 
    * Let your users be able to view your projects from the frontend
-   * Manage projects without going to backend interface.
+   * WP Project Manager lets you manage projects without going to the backend interface.
 
-**[Kanban Board for WordPress](https://wedevs.com/products/plugins/wp-project-manager-pro/kanban-board/)**
+**[👉 Kanban Board for WordPress](https://wedevs.com/products/plugins/wp-project-manager-pro/kanban-board/)** (Pro)
 
-   * Create unlimited custom boards according to your need
-   * Drag and drop tasks from one board to another anytime
-   * Create new task right from any board whenever you want
-   * Get an exact idea of the current stages of all the tasks from one place
+   * Create unlimited custom kanban boards according to your need for better workflow visualization and project management.
+   * Drag and drop tasks from one board to another anytime.
+   * Create new tasks right from any board whenever you want with WP Project Manager 
+   * Get an exact idea of the current stages of all the tasks from one place in the WP Project Manager with the Kanban board.
 
-**[Gantt Chart for WordPress](https://wedevs.com/products/plugins/wp-project-manager-pro/gantt-chart/)**
+**[👉 Gantt Chart for WordPress](https://wedevs.com/products/plugins/wp-project-manager-pro/gantt-chart/)** (Pro)
 
-   * Observe the duration of the tasks through horizontal bar graphs
-   * Change beginning and finishing dates of the tasks or projects
-   * Assess dependencies among different tasks and subtasks
+   * Observe the duration of the tasks through horizontal bar graphs with WP Project Manager 
+   * Change the beginning and finishing dates of the tasks or projects.
+   * Assess dependencies among different tasks and subtasks with Gantt charts. 
 
-**[Time Tracker](https://wedevs.com/products/plugins/wp-project-manager-pro/time-tracker/)**
+**[👉 Time Tracker](https://wedevs.com/products/plugins/wp-project-manager-pro/time-tracker/)** (Pro)
 
    * Timer with start, stop or pause feature for every task.
    * Calculation and tracking of time spent on a task.
    * Payment for hourly charged workers is made easy.
 
-**[Invoice for Charging Clients](https://wedevs.com/products/plugins/wp-project-manager-pro/invoice/)**
+**[👉 Invoice for Charging Clients](https://wedevs.com/products/plugins/wp-project-manager-pro/invoice/)**  (Pro)
 
-   * Invoices will be automatically formatted based on your input
-   * Upon a payment completion, the amount will be added to your account and the invoice will be automatically marked as paid
-   * Invoices can be downloaded as pdf
+   * Invoices will be automatically formatted based on your input in WP Project Manager.
+   * Upon payment completion, the amount will be added to your account and the invoice will be automatically marked as paid.
+   * Invoices can be downloaded as pdf on WP Project Manager pro
 
-**[BuddyPress for WordPress](https://wedevs.com/products/plugins/wp-project-manager-pro/buddypress/)**
+**[👉 Interactive calendar](https://wedevs.com/docs/wp-project-manager/managing-projects/calendar/)** (Pro)
 
-   * Create different tasks for different teams
-   * Set administrative staffs with access over all departments
+   * Check tasks progress with WP Project Manager. 
+   * Dynamic and interactive drag-and-drop functionality to assign tasks. 
+   * Daily, weekly, monthly and user-specific view in the calendar. 
+
+**[👉 Stripe Gateway](https://wedevs.com/wp-project-manager-pro/extensions/invoice-stripe-gateway/)**  (Pro)
+
+   * WP Project Manager lets your clients pay using stripe gateway. 
+   * Automate the billing process with predefined project templates of the WP Project Manager.
+   
+**[👉 BuddyPress for WordPress](https://wedevs.com/products/plugins/wp-project-manager-pro/buddypress/)** (Pro)
+
+   * Create different tasks for different teams using WP Project Manager. 
+   * Set administrative staff with access to all departments
    * Set different permissions for different employee roles.
-   * Manage everything from the front end of your site
+   * Manage everything using WP Project Manager from the front end of your site.
 
-**[SubTask for more simple task management system](https://wedevs.com/products/plugins/wp-project-manager-pro/sub-task/)**
+**[👉 SubTask for more simple task management system](https://wedevs.com/products/plugins/wp-project-manager-pro/sub-task/)** (Pro)
 
-   * Break your long tasks into as many portion as you need.
-   * Assign several workers for several tasks.
+   * Break your long tasks into as many portions as you need.
+   * Assign several team members for several tasks.
 
-**[WooCommerce Integration](https://wedevs.com/products/plugins/wp-project-manager-pro/woocommerce-order/)**
+**[👉 WooCommerce Integration](https://wedevs.com/products/plugins/wp-project-manager-pro/woocommerce-order/)** (Pro)
 
    * You can create a project automatically after the order or the payment is processed.
    * Control which product will create what type of project and task.
    * Add and manage user roles like co-workers, managers, and clients to the Projects and Tasks.
 
-**[Slack Integration](https://wedevs.com/docs/wp-project-manager/integrations/slack/)**
+
+**[👉 Advanced Files Management](https://wedevs.com/docs/wp-project-manager/managing-projects/files-wp-project-manager/)** (Pro)
+
+   * Upload all files in one place.  
+   * Create folders for different files using WP Project Manager. 
+   * Link messages & task lists with files. 
+   * Make files private. 
+
+
+**[👉 Slack Integration](https://wedevs.com/docs/wp-project-manager/integrations/slack/)** (Pro)
 
    * Integrate your WP Project Manager Pro with the best workspace communication tool - Slack
-   * Get instant notifications on your Slack channels when a new task, subtask, comment is created or an existing one is modified. And also when a task is completed or a new co-worker is added.
+   * Get instant notifications on your Slack channels when a new task, subtask, or comment is created or an existing one is modified. And also when a task is completed or a new co-worker is added.
 
-**[GitHub and Bitbucket Integration](https://wedevs.com/docs/wp-project-manager/integrations/github-bitbucket/)**
+**[👉 GitHub and Bitbucket Integration](https://wedevs.com/docs/wp-project-manager/integrations/github-bitbucket/)** (Pro)
 
    * Connect your GitHub and Bitbucket account with WP Project Manager easily.
-   * When issues will be created on your GitHub and Bitbucket account, it will be added to your task list. So, your developer team can take action in time.
+   * When issues will be created on your GitHub and Bitbucket accounts, they will be added to your task list. So, your developer team can take action in time.
 
-**[Reports](https://wedevs.com/docs/wp-project-manager/reports/view-reports/)**
+**[👉 Advanced Reports with Insights](https://wedevs.com/docs/wp-project-manager/reports/view-reports/)** (Pro)
 
    * To make your project management efficient, you need to have reports for tasks and user activities. It will help you to make the right decisions for your projects and team.
-   * You will get several predefined report cases depending on the user activities. The reports are very much self-explanatory. The reports are very much self-explanatory. You will get,
+   * You will get several predefined report cases depending on the user activities with the WP Project Manager. The reports are very much self-explanatory. You will get,
 
       **1. Overdue Tasks**
       **2. Completed Task**
@@ -134,22 +155,21 @@ Want to give it a try? Then try its 👉 [FREE OFFICIAL DEMO](https://pm.wedevsd
       **5. Unassigned Tasks**
       **6. Summary**
 
-
 👉 [GET WP PROJECT MANAGER PRO](https://wedevs.com/wp-project-manager-pro/pricing)
 
 **STANDOUT FUNCTIONALITIES OF WP PROJECT MANAGER**
 
 = EFFICIENT TASK MANAGER WITH INTUITIVE INTERFACE =
 
-Manage all types of tasks and projects with the least time possible. The interactive user-friendly interface will not only give you a smooth experience but also assist you to boost the overall efficiency.
+Manage all types of tasks and projects in the least time possible. The interactive user-friendly interface will not only give you a smooth experience but also assist you to boost overall efficiency.
 
 = TEAM COLLABORATION MADE EASY =
 
-With built-in discussion thread and file sharing option, make the most out of teamwork without any hassle. Easily work simultaneously with remote teams with this team collaboration tool for WordPress.
+With a built-in discussion thread and file sharing option, make the most out of teamwork without any hassle. Easily work simultaneously with remote teams with this team collaboration tool for WordPress.
 
 = BEST FIT FOR ANY KIND OF TEAMS =
 
-No matter which team or organization you are running, WP Project Manager ensures the best outcome from all kinds of teams. This is why this plugin has become the favorite open source project management software for every team and individuals.
+No matter which team or organization you are running, WP Project Manager ensures the best outcome for all kinds of teams. This is why this plugin has become the favorite open source project management software for every team and individual.
 
 = FULL CONTROL OVER PRIVACY AND SECURITY =
 
@@ -165,10 +185,11 @@ Everyone gets their own dashboard to stay updated about tasks in the most organi
 👉 [Learn more about all the functions and features from our documentation.](https://wedevs.com/docs/wp-project-manager/)
 
 = SEE HOW WP PROJECT MANAGER HAS BEEN RECOGNIZED BY THE TOP SITES =
-   1. [Top 6 WordPress Project Management Plugins](https://kinsta.com/blog/wordpress-project-management-plugins/)
-   2. [Top 23 WordPress Plugins for Freelancers to Improve Their Workflow](https://colorlib.com/wp/freelance-plugins-wordpress/)
+   1. [Top 20 WordPress Plugins for Freelancers to Improve Their Workflow](https://colorlib.com/wp/freelance-plugins-wordpress/)
+   2. [9 Best WordPress Project Management Plugins](https://blog.hubspot.com/website/best-wordpress-project-management-plugins)
    3. [Top 8 Project Management Plugins For WordPress](https://www.elegantthemes.com/blog/tips-tricks/top-8-project-management-plugins-for-wordpress)
-   4. [Project Management Tools for WordPress to Help You Stay on Track](https://premium.wpmudev.org/blog/project-management-tools/)
+   4. [Top 9 Premium WordPress Project Management Plugins](https://www.hostinger.com/tutorials/wordpress-project-management#Top_9_Premium_WordPress_Project_Management_Plugins) 
+   5. [13 Best WordPress Project Management Plugins in 2022](https://wplift.com/best-wordpress-project-management-plugins)
 
 = LEARN HOW YOU CAN LEVERAGE YOUR PRODUCTIVITY TOOL TO THE FULLEST =
 
@@ -203,7 +224,7 @@ If you think you can help develop this plugin even better then you can always mo
 * [WordPress ERP](https://wperp.com/?utm_medium=referral&utm_source=wporg&utm_campaign=Project+Manager+Readme&utm_content=WPERP)
 * [WooCommerce Conversion Tracking](https://wedevs.com/woocommerce-conversion-tracking/)
 * [weMail](https://getwemail.io/)
-* [AppSero](https://appsero.com/)
+* [Appsero](https://appsero.com/)
 * [Happy Addons](https://happyaddons.com/?utm_source=wedevs&utm_medium=menu)
 * [wePos](https://wedevs.com/wepos)
 
@@ -231,16 +252,16 @@ A. Currently all the project management options resides in the admin panel. No f
 = Q. Who can create projects? =
 A. Only Editors and Admin's can create projects and edit them.
 
-= Q. Who can create tasklist, todo, messages or milestone? =
+= Q. Who can create tasklist, todo, messages or milestones? =
 A. Admins and every co-workers from a project can create these.
 
 = Q. Can every member see every project? =
 A. Only admins (editor/administrator) can see all of them. Other user roles can only see their assigned projects.
 
-= Q. Can the plugin be extended? =
+= Q. Can the WP Project Manager plugin be extended? =
 A. Sure, lots of actions and filters are added by default and will add more of them.
 
-= Q. Found a bug =
+= Q. Found a bug on WP Project Manager =
 A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-project-manager/issues) on github.
 
 == Screenshots ==
@@ -261,6 +282,16 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 
 == Changelog ==
+
+= v2.6.1 - May 24, 2023 =
+
+**Fix:** The email type settings field UI broken issue.
+**Fix:** Tasks title content not decoded properly & fix ux issue.
+**Fix:** User task calender's starting date data handling security issue.
+
+= v2.6.0 - Nov 30, 2022 =
+
+**New:** Added pm pro version overview for lite users
 
 = v2.5.0 - July 15, 2022 =
 
@@ -426,36 +457,36 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 = v2.3.7 - Feb 27, 2020 =
 
 * **Fix** In favorite project section 'all projects' were showing.
-* **Fix** Task notification mails contains raw html.
+* **Fix** Task notification mails contain raw HTML.
 * **Fix** Set 200 character limit when adding a new task.
 
 = v2.3.6 - Feb 10, 2020 =
 
 * **New** Set date range picker in my-task section to filter tasks.
 * **New** Set date range picker in my-task overview to filter activities.
-* **New** Duplicate a task from task-list.
+* **New** Duplicate a task from the task list.
 * **New** New components are, pm-button, pm-dropdown-menu, pm-triangle-box, pm-click-wrap, pm-popup-modal, pm-date-range-picker.
 * **Update** Redesigned task-create form.
 * **Update** Replace jQuery date picker to date range picker.
-* **Update** Some features are moved from task create form to single task page.
-* **Fix** Assigned manager in a project was not getting mail at project create time.
-* **Fix** Make Multi-site compatible for fetching co-worker.
-* **Fix** Invisible tools menu for co-worker.
+* **Update** Some features are moved from task create a form to a single task page.
+* **Fix** Assigned manager in a project was not getting mail at project creation time.
+* **Fix** Make Multi-site compatible for fetching co-workers.
+* **Fix** Invisible tools menu for co-workers.
 * **Fix** Co-workers could not edit their created task.
-* **Fix** 'Inbox' task create form was showing for all pagination page.
-* **Fix** Showing invalid date after search outstanding task.
+* **Fix** 'Inbox' task create form was showing for all pagination pages.
+* **Fix** Showing invalid date after searching outstanding task.
 * **Fix** Favorite project was not working.
 
 = v2.3.5 - Dec 19, 2019 =
 
-* **New** Add privacy policy in product description.
+* **New** Add privacy policy in the product description.
 * **Fix** Sanitize data while updating task.
-* **Fix** Add extra data validation on database query.
+* **Fix** Add extra data validation on the database query.
 
 = v2.3.4 - Nov 15, 2019 =
 
-* **Fix** Task label are inserted two times while updating task.
-* **Fix** Task update buttons can not be selected for tooltip.
+* **Fix** Task label are inserted two times while updating the task.
+* **Fix** Task update buttons can not be selected for the tooltip.
 * **Update** Project assigned users has been removed from user search results.
 * **Update** Add text limit on task title.
 
@@ -559,7 +590,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 * **New** Set loading effect at task list page and list archive page nevigation.
 * **New** Set loading effect at task list pagination.
 * **New** New library v-tooltip
-* **Fix** Any kinds of url added extra   from tinymce text filed.
+* **Fix** Any kinds of url added extra   from tinymce text filed.
 * **Fix** After project edit, the description is not updated real time.
 * **Fix** Less file is not built to css file.
 * **Update** Set target blank in tinymce posted url.
@@ -757,7 +788,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 = 1.6.7 - August 01, 2017 =
 
  * [new] Js Tiptip library has been added.
- * [update] Condition applied when showing calender on setting tast start date.
+ * [update] Condition applied when showing calendar on setting tast start date.
  * [update] Date icon has been shown if no date was set.
  * [update] Description icon has been shown if no description was set.
  * [update] Co-Worker icon has been shown if no Co-Worker was set in the task.
@@ -1057,4 +1088,4 @@ Initial version released
 
 == Upgrade Notice ==
 
-<strong>BREAKING CHANGE</strong>: v2.0 release is a major version and introduces breaking changes by re-writing the whole plugin. Please test the plugin before updating from <strong>v1.x</strong>. Taking a database backup is adviced.
+<strong>BREAKING CHANGE</strong>: v2.0 release is a major version and introduces breaking changes by re-writing the whole plugin. Please test the plugin before updating from <strong>v1.x</strong>. Taking a database backup is advised.

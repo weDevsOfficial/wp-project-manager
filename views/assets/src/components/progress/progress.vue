@@ -1,17 +1,124 @@
 <template>
-    <div>
-        <div class="postbox pm-pro-notice">
-            <div class="pm-text">
-                This feature is only available in the Pro Version.                </div>
-            <a target="_blank" href="https://wedevs.com/wp-project-manager-pro/pricing/?utm_source=freeplugin&utm_medium=pm-action-link&utm_campaign=pm-pro-prompt" class="button button-primary">Upgrade to Pro Version</a>
+  <div id="pm-progress-wrap" class="pm-wrap pm-front-end pm-calendar-wrap">
+    <h2>{{ __( 'Progress', 'wedevs-project-manager' ) }}</h2>
+    <ul class="pm-activity dash">
+      <li class="pm-progress-wrap">
+        <div class="pm-activity-heads">
+          <span>{{ __( 'Oct 24 2022', 'wedevs-project-manager' ) }}</span>
         </div>
-    </div>
+        <ul>
+          <li>
+            <a href="#/projects/1/overview" class="pm-progress-label">
+              {{ __( 'Recurring Test Project', 'wedevs-project-manager' ) }}
+            </a>
+            <span class="pm-progress-label pm-update">{{ __( 'update', 'wedevs-project-manager' ) }}</span>
+            <span>
+              <a href="#/my-tasks/overview">{{ __( 'Alexander', 'wedevs-project-manager' ) }}</a>
+              {{ __( 'has updated the description of a discussion board,', 'wedevs-project-manager' ) }}
+              <a href="#/projects/1/discussions/9">{{ __( 'Profile badge successfully updated', 'wedevs-project-manager' ) }}</a>.
+            </span>
+            <span class="date">
+              <time datetime="2022-11-03T07:49:10+06:00" title="2022-11-03T07:49:10+06:00">
+                {{ __( '2022-11-03 07:49:10', 'wedevs-project-manager' ) }}
+              </time>
+            </span>
+          </li>
+          <li>
+            <a href="#/projects/1/overview" class="pm-progress-label">
+              {{ __( 'Recurring Test Project', 'wedevs-project-manager' ) }}
+            </a>
+            <span class="pm-progress-label pm-create">{{ __( 'create', 'wedevs-project-manager' ) }}</span>
+            <span>
+              <a href="#/my-tasks/overview">{{ __( 'Alexander', 'wedevs-project-manager' ) }}</a>
+              {{ __( 'has created a discussion board titled as', 'wedevs-project-manager' ) }}
+              <a href="#/projects/1/discussions/9">{{ __( 'Profile badge successfully created', 'wedevs-project-manager' ) }}</a>.
+            </span>
+            <span class="date">
+              <time datetime="2022-11-03T07:48:51+06:00" title="2022-11-03T07:48:51+06:00">
+                {{ __( '2022-11-03 07:48:51', 'wedevs-project-manager' ) }}
+              </time>
+            </span>
+          </li>
+        </ul>
+        <UpgraderOverlay />
+      </li>
+    </ul>
+    <ul class="pm-activity dash">
+      <li class="pm-progress-wrap">
+        <div class="pm-activity-heads">
+          <span>{{ __( 'Oct 25 2022', 'wedevs-project-manager' ) }}</span>
+        </div>
+        <ul>
+          <li>
+            <a href="#/projects/1/overview" class="pm-progress-label">
+              {{ __( 'Recurring Test Project', 'wedevs-project-manager' ) }}
+            </a>
+            <span class="pm-progress-label pm-update">{{ __( 'update', 'wedevs-project-manager' ) }}</span>
+            <span>
+              <a href="#/my-tasks/overview">{{ __( 'Alexander', 'wedevs-project-manager' ) }}</a>
+                {{ __( 'has updated the description of a discussion board,', 'wedevs-project-manager' ) }}
+              <a href="#/projects/1/discussions/9">{{ __( 'Project recursion successfully updated', 'wedevs-project-manager' ) }}</a>.
+            </span>
+            <span class="date">
+              <time datetime="2022-11-03T07:49:10+06:00" title="2022-11-03T07:49:10+06:00">
+                {{ __( '2022-11-03 07:49:10', 'wedevs-project-manager' ) }}
+              </time>
+            </span>
+          </li>
+          <li>
+            <a href="#/projects/1/overview" class="pm-progress-label">
+              {{ __( 'Recurring Test Project', 'wedevs-project-manager' ) }}
+            </a>
+            <span class="pm-progress-label pm-create">{{ __( 'create', 'wedevs-project-manager' ) }}</span>
+            <span>
+              <a href="#/my-tasks/overview">{{ __( 'Alexander', 'wedevs-project-manager' ) }}</a>
+                {{ __( 'has created a discussion board titled as', 'wedevs-project-manager' ) }}
+              <a href="#/projects/1/discussions/9">{{ __( 'Project recursion successfully created', 'wedevs-project-manager' ) }}</a>.
+            </span>
+            <span class="date">
+              <time datetime="2022-11-03T07:48:51+06:00" title="2022-11-03T07:48:51+06:00">
+                {{ __( '2022-11-03 07:48:51', 'wedevs-project-manager' ) }}
+              </time>
+            </span>
+          </li>
+        </ul>
+        <UpgraderOverlay />
+      </li>
+    </ul>
+    <UpgraderOverlay />
+  </div>
 </template>
 
-<script>
-    export default {
-        mounted () {
-            pm.NProgress.done();
-        }
+<style lang="less" scoped>
+.pm-activity {
+  position: relative;
+
+  &:hover {
+    .pm-project-module-content-overlay {
+      display: block;
     }
+  }
+}
+</style>
+
+<script>
+  import UpgraderOverlay from '@components/upgrade/overlay';
+
+  export default {
+    data() {
+      return {
+
+      }
+    },
+
+    mounted: function(){
+      pm.NProgress.done();
+    },
+
+    components: {
+      UpgraderOverlay,
+    },
+
+    methods: {},
+  }
 </script>

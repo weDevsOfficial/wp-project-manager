@@ -15,8 +15,7 @@
                     </div>
                 </div>
             </div>
-
-
+            <pro-files v-if="!loading"></pro-files>
             <div v-if="!loading">
                 <ul class="pm-folders-list" v-if="files.length">
                     <li class="file" v-for="file in files" :key="file.id">
@@ -49,7 +48,6 @@
                         </div>
                     </li>
 
-
                     <div class="clearfix"></div>
                 </ul>
 
@@ -59,21 +57,22 @@
 
             </div>
         </div>
-        <div class="pm-files pm-files-container-pro" v-else>
+        <div v-else class="pm-files pm-files-container-pro">
             <do-action :hook="'pm_file_footer'"></do-action>
         </div>
     </div>
-
 </template>
 
-<style lang="less">
-
+<style lang="less" scoped>
+.pm-files-container-free {
+  height: 65vh;
+}
 </style>
 
 <script>
-
     import do_action from '@components/common/do-action.vue';
     import Header from '@components/common/header.vue';
+    import Files from './pro-files.vue';
     import Mixins from './mixin';
 
     export default {
@@ -98,7 +97,8 @@
 
         components: {
             'do-action': do_action,
-            'pm-header': Header
+            'pm-header': Header,
+            'pro-files': Files,
         },
 
         methods: {

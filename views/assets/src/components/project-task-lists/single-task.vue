@@ -89,12 +89,12 @@
                                 <span v-if="is_task_title_edit_mode && can_edit_task(task)">
                                     <input
                                         v-model="task.title"
-                                        maxlength="200" 
+                                        maxlength="200"
                                         @blur="updateTaskTitle(task)"
                                         @keyup.enter="updateTaskTitle(task)"
                                         @keyup="warningTitleCharacterLimit()"
                                         class="pm-task-title-activity pm-task-title-field"
-                                        type="text" 
+                                        type="text"
                                     />
                                     <span class="pm-spinner" v-if="show_spinner"></span>
                                 </span>
@@ -102,10 +102,9 @@
                                 <span
                                     :class="lineThrough(task) + ' pm-task-title-activity pm-task-title-span'"
                                     v-if="!is_task_title_edit_mode"
-                                    @click.prevent="isTaskTitleEditMode()">
-                                    {{ ucfirst(task.title) }}
-                                </span>
-
+                                    @click.prevent="isTaskTitleEditMode()"
+                                    v-html="ucfirst(task.title)"
+                                ></span>
                             </div>
                         </div>
 
@@ -115,8 +114,7 @@
                                     {{ __("Project:", 'wedevs-project-manager' ) }}
                                 </span>
                                 <span class="list-title">
-
-                                    <a :href="`#/projects/${task.project_id}/task-lists`"> {{ task.project_title }}</a>
+                                    <a :href="`#/projects/${task.project_id}/task-lists`" v-html="task.project_title"> </a>
                                 </span>
                             </div>
 
@@ -125,7 +123,7 @@
                                     {{ __("Task List:", 'wedevs-project-manager' ) }}
                                 </span>
                                 <span class="list-title">
-                                    <a :href="`#/projects/${task.project_id}/task-lists/${task.task_list_id}`"> {{ task.task_list_title }}</a>
+                                    <a :href="`#/projects/${task.project_id}/task-lists/${task.task_list_id}`" v-html="task.task_list_title"> </a>
                                 </span>
                             </div>
                         </div>
@@ -134,10 +132,8 @@
                             <div class="assigne-users context">
                                 <h3 class="label">
                                     <span>{{ __( 'Members', 'wedevs-project-manager' ) }}</span>
-                                    <i
-                                        v-tooltip.top-center="__( 'You can add team members responsible for this task.', 'wedevs-project-manager' )"
-                                        class="info-icon"
-                                    >
+                                    <i class="info-icon"
+                                        v-tooltip.top-center="__( 'You can add team members responsible for this task.', 'wedevs-project-manager' )">
                                         <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 111.577 111.577" style="enable-background:new 0 0 111.577 111.577;" xml:space="preserve"> <g> <path d="M78.962,99.536l-1.559,6.373c-4.677,1.846-8.413,3.251-11.195,4.217c-2.785,0.969-6.021,1.451-9.708,1.451 c-5.662,0-10.066-1.387-13.207-4.142c-3.141-2.766-4.712-6.271-4.712-10.523c0-1.646,0.114-3.339,0.351-5.064 c0.239-1.727,0.619-3.672,1.139-5.846l5.845-20.688c0.52-1.981,0.962-3.858,1.316-5.633c0.359-1.764,0.532-3.387,0.532-4.848 c0-2.642-0.547-4.49-1.636-5.529c-1.089-1.036-3.167-1.562-6.252-1.562c-1.511,0-3.064,0.242-4.647,0.71 c-1.59,0.47-2.949,0.924-4.09,1.346l1.563-6.378c3.829-1.559,7.489-2.894,10.99-4.002c3.501-1.111,6.809-1.667,9.938-1.667 c5.623,0,9.962,1.359,13.009,4.077c3.047,2.72,4.57,6.246,4.57,10.591c0,0.899-0.1,2.483-0.315,4.747 c-0.21,2.269-0.601,4.348-1.171,6.239l-5.82,20.605c-0.477,1.655-0.906,3.547-1.279,5.676c-0.385,2.115-0.569,3.731-0.569,4.815 c0,2.736,0.61,4.604,1.833,5.597c1.232,0.993,3.354,1.487,6.368,1.487c1.415,0,3.025-0.251,4.814-0.744 C76.854,100.348,78.155,99.915,78.962,99.536z M80.438,13.03c0,3.59-1.353,6.656-4.072,9.177c-2.712,2.53-5.98,3.796-9.803,3.796 c-3.835,0-7.111-1.266-9.854-3.796c-2.738-2.522-4.11-5.587-4.11-9.177c0-3.583,1.372-6.654,4.11-9.207 C59.447,1.274,62.729,0,66.563,0c3.822,0,7.091,1.277,9.803,3.823C79.087,6.376,80.438,9.448,80.438,13.03z"/> </g></svg>
                                     </i>
 
@@ -432,7 +428,7 @@
                                 </div>
                             </div>
 
-                            <div class="task-privacy-wrap context" v-if="PM_Vars.is_pro && can_edit_task(task) && user_can('view_private_task')">
+                            <div class="task-privacy-wrap context" v-if="can_edit_task(task) && user_can('view_private_task')">
                                 <h3 class="label">
                                     <span>{{ __( 'Privacy', 'wedevs-project-manager' ) }}</span>
 
@@ -452,7 +448,7 @@
                                     
                                     <div 
                                         class="process-privacy-text-wrap"
-                                        @click.prevent="singleTaskLockUnlock(task)"
+                                        @click.prevent="PM_Vars.is_pro ? singleTaskLockUnlock(task) : ''"
                                     >
                                        <!--  <span class="privacy-action-label" v-if="task.meta.privacy == '0' || typeof task.meta.privacy == 'undefined'">{{ __( 'Mark as private', 'wedevs-project-manager' ) }}</span>
                                         <span class="privacy-action-label" v-if="task.meta.privacy == '1'">{{ __( 'Mark as public', 'wedevs-project-manager' ) }}</span>
@@ -464,24 +460,23 @@
                                         >
                                             <span :class="classnames({
                                                 ['pm-toggle-switch']: true,
-                                                ['big']: task.meta.privacy == '0',
-                                                ['checked']: task.meta.privacy == '1'
+                                                ['big']: !PM_Vars.is_pro ? false : task.meta.privacy == '0',
+                                                ['checked']: !PM_Vars.is_pro ? false : task.meta.privacy == '1'
                                             })"></span>
 
                                         </a>
 
                                         <div class="process-results task-privacy">
-                                        
                                             <div class="status">
                                                 <span class="private">{{ __( 'Hide from others', 'wedevs-project-manager' ) }}</span>
-
                                             </div>
-                                            
                                         </div>
                                     </div>
                                 </div>
 
-                                <div class="spinner-wrap" v-if="privacyLoading">
+                                <upgrader-overlay v-if="!PM_Vars.is_pro" />
+
+                                <div class="spinner-wrap" v-if="PM_Vars.is_pro && privacyLoading">
                                     <div class="task-tool-spinner">
                                         <div class="bounce1"></div>
                                         <div class="bounce2"></div>
@@ -664,6 +659,50 @@
                         top: 2px;
                         width: 8px;
                         height: 8px;
+                    }
+                }
+            }
+
+            .data-active {
+                &:hover {
+                    & ~ .pm-project-module-content-overlay {
+                        width: 95%;
+                        height: 120%;
+                        display: block;
+                        margin-left: -15px;
+                        border-radius: 3px;
+
+                        a.pro-button {
+                            width: 150px;
+                            padding: 8px 14px;
+                            font-size: 12px;
+                            line-height: 18px;
+
+                            svg.crown-icon {
+                                margin-left: 6px;
+                            }
+                        }
+                    }
+                }
+
+                & ~ .pm-project-module-content-overlay {
+                    &:hover {
+                        width: 95%;
+                        height: 120%;
+                        display: block;
+                        margin-left: -15px;
+                        border-radius: 3px;
+
+                        a.pro-button {
+                            width: 150px;
+                            padding: 8px 14px;
+                            font-size: 12px;
+                            line-height: 18px;
+
+                            svg.crown-icon {
+                                margin-left: 6px;
+                            }
+                        }
                     }
                 }
             }
@@ -1118,6 +1157,7 @@
     import ActivityParser from '@components/common/activity-parser.vue';
     import editor from '@components/common/text-editor.vue';
     import Type from './single-task-type';
+    import UpgraderOverlay from '@components/upgrade/overlay';
 
     Vue.directive('activity-load-more', {
         bind: function(el, binding, vnode) {
@@ -1281,7 +1321,8 @@
             'do-action': DoAction,
             'activity-parser': ActivityParser,
             'text-editor': editor,
-            'task-type': Type
+            'task-type': Type,
+            'upgrader-overlay': UpgraderOverlay,
         },
 
         created() {
@@ -1377,6 +1418,11 @@
                 if(this.truckTitleUpdate == task.title) {
                     return;
                 }
+
+                const txt = document.createElement( 'textarea' );
+                txt.innerHTML = task.title;
+                task.title = txt.value;
+
                 this.updateTaskElement(task);
             },
 

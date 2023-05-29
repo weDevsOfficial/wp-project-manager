@@ -24,7 +24,7 @@
         "league/fractal": "^0.17.0",
         "a5hleyrich/wp-background-processing": "^1.0",
         "tareq1988/wp-eloquent": "dev-master",
-        "appsero/client": "^1.1",
+        "appsero/client": "^1.2",
         "simshaun/recurr": "^4.0"
     },
     "autoload": {

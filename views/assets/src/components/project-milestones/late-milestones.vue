@@ -4,7 +4,8 @@
         <div v-for="milestone in lateMileStones" class="pm-milestone late">
             <div class="milestone-detail ">
                 <h3 class="milestone-head">
-                    {{ milestone.title }} <br>
+                    <span v-html="milestone.title"></span>
+                    <br>
                     <span class="time-left">
                         ({{ humanDate(milestone) }} - 
                         <time :datetime="momentFormat(milestone)" :title="momentFormat(milestone)">
