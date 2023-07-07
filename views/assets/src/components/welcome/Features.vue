@@ -11,7 +11,7 @@
                 </template>
             </div>
             <div class="pm-text-center view-all-feature">
-                <a href="https://wedevs.com/wp-project-manager-pro/features/" target="_blank" rel="noopener" class="pm-btn pm-btn-primary">View All Features</a>
+                <a href="https://wedevs.com/wp-project-manager-pro/features/" target="_blank" rel="noopener" class="pm-btn pm-btn-primary">{{ __( 'View All Features', 'wedevs-project-manager' ) }}</a>
             </div>
         </div>
     </section><!-- end features section -->
@@ -25,43 +25,43 @@
                 show: false,
                 featureItems: [
                     {
-                        'featureName': 'Overview',
-                        'featureDescription': 'In the overview section you will get a complete picture of your proejct. A chart for what has been done in the last 30 days, no of discussion, task lists, milestones and more.',
+                        'featureName': __( 'Overview', 'wedevs-project-manager' ),
+                        'featureDescription': __( 'In the overview section you will get a complete picture of your project. A chart for what has been done in the last 30 days, no of discussion, task lists, milestones and more.', 'wedevs-project-manager' ),
                         'featureVideo': 'rliDPp4sIyM',
                         'featureThumb': 'overview-thumb.jpg',
                         'cardClass': 'overview'
                     },
                     {
-                        'featureName': 'Activities',
-                        'featureDescription': 'You will also get a complete activity log history from the activities section of your project. All the activity will also be divided by date so it is easier to keep track.',
+                        'featureName': __( 'Activities', 'wedevs-project-manager' ),
+                        'featureDescription': __( 'You will also get a complete activity log history from the activities section of your project. All the activity will also be divided by date so it is easier to keep track.', 'wedevs-project-manager' ),
                         'featureVideo': 'KarLsZ8FPQQ',
                         'featureThumb': 'activities-thumb.jpg',
                         'cardClass': 'activities'
                     },
                     {
-                        'featureName': 'Team Discussion',
-                        'featureDescription': 'There is a built-in discussion panel right inside your projects. Consisting open, group discussion feature. Making team collaboration much more effective.',
+                        'featureName': __( 'Team Discussion', 'wedevs-project-manager' ),
+                        'featureDescription': __( 'There is a built-in discussion panel right inside your projects. Consisting open, group discussion feature. Making team collaboration much more effective.', 'wedevs-project-manager' ),
                         'featureVideo': 'uCXHBIa-1Eg',
                         'featureThumb': 'discussion-thumb.jpg',
                         'cardClass': 'discussion'
                     },
                     {
-                        'featureName': 'To-do Lists',
-                        'featureDescription': 'In your projects you get a separate Task List tab to divide your work. You will be able to set due date for a task, set milestone, categorize and more.',
+                        'featureName': __( 'To-do Lists', 'wedevs-project-manager' ),
+                        'featureDescription': __( 'In your projects you get a separate Task List tab to divide your work. You will be able to set due date for a task, set milestone, categorize and more.', 'wedevs-project-manager' ),
                         'featureVideo': 'mZS-GWiB1WQ',
                         'featureThumb': 'task-thumb.jpg',
                         'cardClass': 'task'
                     },
                     {
-                        'featureName': 'Milestone',
-                        'featureDescription': 'In the Milestones tab you will be able to set a specific milestone you want to reach. Set the name, due date, details. You will also see tasks set under each milestone.',
+                        'featureName': __( 'Milestone', 'wedevs-project-manager' ),
+                        'featureDescription': __( 'In the Milestones tab you will be able to set a specific milestone you want to reach. Set the name, due date, details. You will also see tasks set under each milestone.', 'wedevs-project-manager' ),
                         'featureVideo': 'umJozhMjkho',
                         'featureThumb': 'milestone-thumb.jpg',
                         'cardClass': 'milestone'
                     },
                     {
-                        'featureName': 'Manage Files',
-                        'featureDescription': "You don't need to rely on a separate file manager. WP Project Manager's Files feature will let you store all your files and see it in one place.",
+                        'featureName': __( 'Manage Files', 'wedevs-project-manager' ),
+                        'featureDescription': __( "You don't need to rely on a separate file manager. WP Project Manager's Files feature will let you store all your files and see it in one place.", 'wedevs-project-manager' ),
                         'featureVideo': 'i1F3MNwrJbM',
                         'featureThumb': 'file-thumb.jpg',
                         'cardClass': 'files'
