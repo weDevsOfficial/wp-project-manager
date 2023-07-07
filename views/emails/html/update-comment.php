@@ -47,7 +47,7 @@
                                         href="<?php echo esc_url( $comment_link ); ?>"
                                         target="_blank"
                                     >
-                                        <?php esc_html_e( 'View this comment', 'wedevs-project-manger' ); ?>
+                                        <?php esc_html_e( 'View this comment', 'wedevs-project-manager' ); ?>
                                     </a>
                                 </div>
                             </td>
@@ -73,7 +73,7 @@
                         <tr>
                             <td>
                                 <p style="font-size: 16px; line-height: 30px; margin: 0; color: #7E8690;">
-                                    <?php esc_html_e( 'Updated at', 'wedevs-project-manger' ) ?>
+                                    <?php esc_html_e( 'Updated at', 'wedevs-project-manager' ) ?>
                                 </p>
                                 <h2 style="font-size: 16px; color: #000; margin: 0; font-weight: 400;">
                                     <?php $comment_date = empty( $updated_at ) ? '&#x02013;&#x02013;' : esc_html( pm_date_format( $updated_at ) ); ?>

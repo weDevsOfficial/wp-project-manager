@@ -47,7 +47,7 @@ function PM_pusher_before_assignees( $task, $assignees ) {
     $task_title = $task['title'];
     $url     = pm_get_task_url( $task['project_id'], $task['task_list']['data']['id'], $task['id'], $is_admin );
     
-    $message = sprintf( '%s <a class="pm-pro-pusher-anchor" class="pm-pro-pusher-anchor" target="_blank" href="'.$url.'">%s</a>', __( "You've been assigned a new" ), __( 'task', 'wedevs-project-manager' ) );
+    $message = sprintf( '%s <a class="pm-pro-pusher-anchor" class="pm-pro-pusher-anchor" target="_blank" href="'.$url.'">%s</a>', __( "You've been assigned a new", 'wedevs-project-manager' ), __( 'task', 'wedevs-project-manager' ) );
     $nc_message = sprintf( '%1$s <strong>%2$s</strong> %3$s', __( "You've assigned in", 'wedevs-project-manager' ), $task_title, __( 'task', 'wedevs-project-manager' ) );
     
     $channel = PM_pusher_channel();
@@ -162,10 +162,10 @@ function PM_pusher_update_task( $model ) {
             $update_key = __( 'due date', 'wedevs-project-manager' );
         }
 
-        $message  = sprintf( '%s <a class="pm-pro-pusher-anchor" target="_blank" style="color: #fff; text-decoration: underline;" href="'.$url.'">%s</a> %s', __( 'Task' ), $update_key, __('has been updated', 'wedevs-project-manager') );
+        $message  = sprintf( '%s <a class="pm-pro-pusher-anchor" target="_blank" style="color: #fff; text-decoration: underline;" href="'.$url.'">%s</a> %s', __( 'Task', 'wedevs-project-manager' ), $update_key, __('has been updated', 'wedevs-project-manager') );
         $nc_message  = sprintf( '<strong>%1$s</strong> %2$s %3$s', $task['title'], $update_key, __('has been updated', 'wedevs-project-manager') );
     } else {
-        $message  = sprintf( '<a class="pm-pro-pusher-anchor" target="_blank" style="color: #fff; text-decoration: underline;" href="'.$url.'">%s</a> %s', __( 'Task' ), __('has been updated', 'wedevs-project-manager') );
+        $message  = sprintf( '<a class="pm-pro-pusher-anchor" target="_blank" style="color: #fff; text-decoration: underline;" href="'.$url.'">%s</a> %s', __( 'Task', 'wedevs-project-manager' ), __('has been updated', 'wedevs-project-manager') );
         $nc_message  = sprintf( '<strong>%1$s</strong> %2$s', $task['title'], __('has been updated', 'wedevs-project-manager') );
     }
 
