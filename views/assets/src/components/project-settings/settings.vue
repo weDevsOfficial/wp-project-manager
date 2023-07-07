@@ -160,19 +160,19 @@ export default {
       tabs: [
         {
           id: 'capabilities',
-          label: __('Capabilities', 'pm-pro'),
+          label: __('Capabilities', 'wedevs-project-manager'),
           icon: 'icon-pm-capability',
           active: true
         },
         {
           id: 'integrations',
-          label: __('Integrations', 'pm-pro'),
+          label: __('Integrations', 'wedevs-project-manager'),
           icon: 'icon-pm-integration',
           active: false
         },
         {
           id: 'task_label',
-          label: __('Label', 'pm-pro'),
+          label: __('Label', 'wedevs-project-manager'),
           icon: 'icon-pm-tag',
           active: false
         },

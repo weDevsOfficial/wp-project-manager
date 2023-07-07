@@ -2,7 +2,7 @@
     <div v-if="tabContent()" class="group" style="">
         <div>
             <div>
-                <a href="#" class="pm-button pm-primary" @click.prevent="toggleForm()">{{ __( 'Add New', 'pm-pro' ) }}</a>
+                <a href="#" class="pm-button pm-primary" @click.prevent="toggleForm()">{{ __( 'Add New', 'wedevs-project-manager' ) }}</a>
                 <div>
                     <field-lists />
                 </div>
@@ -55,7 +55,7 @@ export default {
                 options: []
             },
             modal: {
-                title: __( 'Custom Fields', 'pm-pro' ),
+                title: __( 'Custom Fields', 'wedevs-project-manager' ),
                 manageLoading: true,
                 submitButtonDisabled: false
             },
@@ -68,7 +68,7 @@ export default {
         //set setting custom field tab menu
         this.actionData.tabs.push({
             id: 'custom_field',
-            label: __('Custom Field', 'pm-pro'),
+            label: __('Custom Field', 'wedevs-project-manager'),
             icon: 'flaticon-custom-field-icon',
             active: false
         });
@@ -113,17 +113,17 @@ export default {
             }
 
             if(this.fields.title == '') {
-                pm.Toastr.warning(__('Field title required!', 'pm-pro'));
+                pm.Toastr.warning(__('Field title required!', 'wedevs-project-manager'));
                 return false;
             }
 
             if(this.fields.type == '') {
-                pm.Toastr.warning(__( 'Field type required!', 'pm-pro'));
+                pm.Toastr.warning(__( 'Field type required!', 'wedevs-project-manager'));
                 return false;
             }
 
             if(this.fields.type == 'dropdown' && !this.fields.options.length) {
-                pm.Toastr.warning(__( 'Field options required!', 'pm-pro'));
+                pm.Toastr.warning(__( 'Field options required!', 'wedevs-project-manager'));
                 return false;
             }
 
@@ -147,7 +147,7 @@ export default {
                         description: '',
                         options: []
                     }
-                    pm.Toastr.success(__('Custom field created successfully!', 'pm-pro'));
+                    pm.Toastr.success(__('Custom field created successfully!', 'wedevs-project-manager'));
                     self.toggleForm();
                 },
 
@@ -177,7 +177,7 @@ export default {
                         description: '',
                         options: []
                     }
-                    pm.Toastr.success(__( 'Custom field updated successfully!', 'pm-pro'));
+                    pm.Toastr.success(__( 'Custom field updated successfully!', 'wedevs-project-manager'));
                     self.toggleForm();
                 },
 
