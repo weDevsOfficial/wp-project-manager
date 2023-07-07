@@ -5,12 +5,12 @@
 
     <div class="pm-kanboard-fullscreen pm-project-module-page">
       <div class="kanboard-menu-wrap">
-        <a title="Fullscreen" @click.stop href="#" class="fullscreen-view-btn list-action-group">
+        <a :title="__( 'Fullscreen', 'wedevs-project-manager' )" @click.stop href="#" class="fullscreen-view-btn list-action-group">
           <span class="icon-pm-fullscreen"></span>
           <span class="icon-pm-fullscreen-text">{{ __( 'Fullscreen', 'wedevs-project-manager' ) }}</span>
         </a>
         <div class="pm-list-header-menu">
-          <a title="Task Filter" href="#" @click.stop class="active-task-filter task-filter list-action-group task-filter-btn">
+          <a :title="__( 'Task Filter', 'wedevs-project-manager' )" href="#" @click.stop class="active-task-filter task-filter list-action-group task-filter-btn">
             <span class="icon-pm-filter"></span>
             <span>{{ __( 'Filter', 'wedevs-project-manager' ) }}</span>
           </a>
@@ -24,13 +24,13 @@
               <div class="kbc-section-background">
                 <div class="kbc-section-header-wrap" style="color: rgb(132, 132, 132); background: rgb(251, 252, 253);">
                   <div class="kbc-section-header">
-                    <div title="Open" class="kbc-section-title">
+                    <div :title="__( 'Open', 'wedevs-project-manager' )" class="kbc-section-title">
                       <span>{{ __( 'Open', 'wedevs-project-manager' ) }}</span>
                     </div>
                   </div>
                   <div class="kbc-section-action kbc-non-sortable">
                     <div class="kbc-action-icon-wrap">
-                      <a title="Add Task" href="#" class="pm-pro-kanboard-action-hrf">
+                      <a :title="__( 'Add Task', 'wedevs-project-manager' )" href="#" class="pm-pro-kanboard-action-hrf">
                         <span style="color: rgb(132, 132, 132);">
                           <i aria-hidden="true" class="fa fa-plus"></i>
                         </span>
@@ -56,7 +56,7 @@
                   <form action="post">
                     <div class="kbc-content-inside">
                       <input required="required" data-section_id="1" data-new-task-field="1" type="text"
-                        placeholder="Add New Task" class="kbc-section-new-task" />
+                        :placeholder="__('Add New Task', 'wedevs-project-manager')" class="kbc-section-new-task" />
                     </div>
                   </form>
                 </div>
@@ -66,13 +66,13 @@
               <div class="kbc-section-background">
                 <div class="kbc-section-header-wrap" style="color: rgb(132, 132, 132); background: rgb(251, 252, 253);">
                   <div class="kbc-section-header">
-                    <div title="Open" class="kbc-section-title">
+                    <div :title="__( 'Open', 'wedevs-project-manager' )" class="kbc-section-title">
                       <span>{{ __( 'In Progress', 'wedevs-project-manager' ) }}</span>
                     </div>
                   </div>
                   <div class="kbc-section-action kbc-non-sortable">
                     <div class="kbc-action-icon-wrap">
-                      <a title="Add Task" href="#" class="pm-pro-kanboard-action-hrf">
+                      <a :title="__( 'Add Task', 'wedevs-project-manager' )" href="#" class="pm-pro-kanboard-action-hrf">
                         <span style="color: rgb(132, 132, 132);">
                           <i aria-hidden="true" class="fa fa-plus"></i>
                         </span>
@@ -97,7 +97,7 @@
                 <div class="kbc-section-footer">
                   <form action="post">
                     <div class="kbc-content-inside">
-                      <input required="required" data-section_id="1" data-new-task-field="1" type="text" placeholder="Add New Task" class="kbc-section-new-task"></div>
+                      <input required="required" data-section_id="1" data-new-task-field="1" type="text" :placeholder="__('Add New Task', 'wedevs-project-manager')" class="kbc-section-new-task"></div>
                   </form>
                 </div>
               </div>
@@ -106,13 +106,13 @@
               <div class="kbc-section-background">
                 <div class="kbc-section-header-wrap" style="color: rgb(132, 132, 132); background: rgb(251, 252, 253);">
                   <div class="kbc-section-header">
-                    <div title="Open" class="kbc-section-title">
+                    <div :title="__( 'Open', 'wedevs-project-manager' )" class="kbc-section-title">
                       <span>{{ __( 'Done', 'wedevs-project-manager' ) }}</span>
                     </div>
                   </div>
                   <div class="kbc-section-action kbc-non-sortable">
                     <div class="kbc-action-icon-wrap">
-                      <a title="Add Task" href="#" class="pm-pro-kanboard-action-hrf">
+                      <a :title="__( 'Add Task', 'wedevs-project-manager' )" href="#" class="pm-pro-kanboard-action-hrf">
                         <span style="color: rgb(132, 132, 132);">
                           <i aria-hidden="true" class="fa fa-plus"></i>
                         </span>
@@ -137,7 +137,7 @@
                 <div class="kbc-section-footer">
                   <form action="post">
                     <div class="kbc-content-inside">
-                      <input required="required" data-section_id="1" data-new-task-field="1" type="text" placeholder="Add New Task" class="kbc-section-new-task"></div>
+                      <input required="required" data-section_id="1" data-new-task-field="1" type="text" :placeholder="__('Add New Task', 'wedevs-project-manager')" class="kbc-section-new-task"></div>
                   </form>
                 </div>
               </div>
@@ -146,13 +146,13 @@
               <div class="kbc-section-background">
                 <div class="kbc-section-header-wrap" style="color: rgb(132, 132, 132); background: rgb(251, 252, 253);">
                   <div class="kbc-section-header">
-                    <div title="Open" class="kbc-section-title">
+                    <div :title="__( 'Open', 'wedevs-project-manager' )" class="kbc-section-title">
                       <span>{{ __( 'Overdue', 'wedevs-project-manager' ) }}</span>
                     </div>
                   </div>
                   <div class="kbc-section-action kbc-non-sortable">
                     <div class="kbc-action-icon-wrap">
-                      <a title="Add Task" href="#" class="pm-pro-kanboard-action-hrf">
+                      <a :title="__( 'Add Task', 'wedevs-project-manager' )" href="#" class="pm-pro-kanboard-action-hrf">
                         <span style="color: rgb(132, 132, 132);">
                           <i aria-hidden="true" class="fa fa-plus"></i>
                         </span>
@@ -178,7 +178,7 @@
                   <form action="post">
                     <div class="kbc-content-inside">
                       <input required="required" data-section_id="1" data-new-task-field="1" type="text"
-                        placeholder="Add New Task" class="kbc-section-new-task">
+                        :placeholder="__('Add New Task', 'wedevs-project-manager')" class="kbc-section-new-task">
                     </div>
                   </form>
                 </div>
@@ -186,7 +186,7 @@
             </div>
             <div class="kbc-th kbc-th-new-section kbc-non-sortable ui-sortable-handle">
               <div class="kbc-section-header">
-                <div><input type="text" placeholder="Add new section" required="required" class="wpup-new-section-field">
+                <div><input type="text" :placeholder="__('Add new section', 'wedevs-project-manager')" required="required" class="wpup-new-section-field">
                 </div>
               </div>
             </div>
