@@ -17,7 +17,7 @@
             </i>
           </a>
 
-          <div class="helper-text">{{ __( 'Add Label', 'pm-pro' ) }}</div>
+          <div class="helper-text">{{ __( 'Add Label', 'wedevs-project-manager' ) }}</div>
         </div>
       </div>
     </div>

@@ -28,7 +28,7 @@ pm_add_filter( 'pm-project-menu', (menu) => {
             route: {
                 name: 'pm_pro_invoice'
             },
-            name: __( 'Invoice', 'pm-pro' ),
+            name: __( 'Invoice', 'wedevs-project-manager' ),
             count: '',
             badge: true,
             class: 'logo icon-pm-invoice',
@@ -38,7 +38,7 @@ pm_add_filter( 'pm-project-menu', (menu) => {
             route: {
                 name: 'pm_pro_settings'
             },
-            name: __( 'Settings', 'pm-pro' ),
+            name: __( 'Settings', 'wedevs-project-manager' ),
             count: '',
             badge: true,
             class: 'logo icon-pm-settings',
