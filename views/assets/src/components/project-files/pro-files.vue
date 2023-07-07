@@ -4,7 +4,7 @@
       <template v-for="( value, key ) in uploadBtnContents">
         <a @click.stop="" :key="key" href="#" class="button button-primary">
           <span class="dashicons dashicons-plus-alt"></span>
-          {{ __( value, 'wedevs-project-manager' ) }}
+          {{ value }}
         </a>
       </template>
       <UpgraderOverlay />
@@ -26,10 +26,10 @@ export default {
   data() {
     return {
       uploadBtnContents: [
-        'Create a folder',
-        'Upload a file',
-        'Create a doc',
-        'Link to Docs'
+        __( 'Create a folder', 'wedevs-project-manager' ),
+        __( 'Upload a file', 'wedevs-project-manager' ),
+        __( 'Create a doc', 'wedevs-project-manager' ),
+        __( 'Link to Docs', 'wedevs-project-manager' )
       ],
     }
   },
