@@ -16,7 +16,7 @@
                     <div class="body">
                         <div class="header-wrap">
                             <div class="title">
-                                <span class="pm-pro-subtask-todo-text"> {{ __( 'Content planing', 'wedevs-project-manger' ) }} </span>
+                                <span class="pm-pro-subtask-todo-text"> {{ __( 'Content planing', 'wedevs-project-manager' ) }} </span>
                             </div>
                         </div>
                     </div>
