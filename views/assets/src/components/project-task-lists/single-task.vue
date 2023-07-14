@@ -244,7 +244,7 @@
                                             class="process-results user-images" 
                                             v-if="!task.assignees.data.length"
                                         >
-                                            <span>{{ __( 'No user found!', 'pm-pro' ) }}</span>
+                                            <span>{{ __( 'No user found!', 'wedevs-project-manager' ) }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -414,7 +414,7 @@
                                             } )" 
                                             v-if="!task.start_at.date && !task.due_date.date"
                                         >
-                                            <span>{{ 'No date found!', 'pm-pro' }}</span>
+                                            <span>{{ 'No date found!', 'wedevs-project-manager' }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -513,7 +513,7 @@
                             <div v-else class="task-details">
 
                                 <div class="pm-des-area" v-if="!is_task_details_edit_mode">
-                                    <h3 class="label">{{ __('Description', 'pm-pro' ) }}</h3>
+                                    <h3 class="label">{{ __('Description', 'wedevs-project-manager' ) }}</h3>
                                     <div class="pm-desc-content">
                                         <div v-if="task.description.content != ''" class="pm-task-description" v-html="task.description.html"></div>
                                         <a class="task-description-edit-icon" @click.prevent="isTaskDetailsEditMode()" :title="update_description" v-if="can_edit_task(task) && !isArchivedTaskList(task)">
