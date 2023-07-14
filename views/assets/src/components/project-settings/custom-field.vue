@@ -68,7 +68,7 @@ export default {
         //set setting custom field tab menu
         this.actionData.tabs.push({
             id: 'custom_field',
-            label: __('Custom Field', 'wedevs-project-manager'),
+            label: __( 'Custom Field', 'wedevs-project-manager' ),
             icon: 'flaticon-custom-field-icon',
             active: false
         });
@@ -108,22 +108,22 @@ export default {
             }
         },
         validCustomField () {
-            if(this.modal.loading) {
+            if ( this.modal.loading ) {
                 return false;
             }
 
-            if(this.fields.title == '') {
-                pm.Toastr.warning(__('Field title required!', 'wedevs-project-manager'));
+            if ( this.fields.title == '' ) {
+                pm.Toastr.warning( __( 'Field title required!', 'wedevs-project-manager' ) );
                 return false;
             }
 
-            if(this.fields.type == '') {
-                pm.Toastr.warning(__( 'Field type required!', 'wedevs-project-manager'));
+            if ( this.fields.type == '' ) {
+                pm.Toastr.warning( __(  'Field type required!', 'wedevs-project-manager' ) );
                 return false;
             }
 
-            if(this.fields.type == 'dropdown' && !this.fields.options.length) {
-                pm.Toastr.warning(__( 'Field options required!', 'wedevs-project-manager'));
+            if ( this.fields.type == 'dropdown' && !this.fields.options.length ) {
+                pm.Toastr.warning( __(  'Field options required!', 'wedevs-project-manager' ) );
                 return false;
             }
 
@@ -147,7 +147,7 @@ export default {
                         description: '',
                         options: []
                     }
-                    pm.Toastr.success(__('Custom field created successfully!', 'wedevs-project-manager'));
+                    pm.Toastr.success( __( 'Custom field created successfully!', 'wedevs-project-manager' ) );
                     self.toggleForm();
                 },
 
@@ -177,7 +177,7 @@ export default {
                         description: '',
                         options: []
                     }
-                    pm.Toastr.success(__( 'Custom field updated successfully!', 'wedevs-project-manager'));
+                    pm.Toastr.success( __( 'Custom field updated successfully!', 'wedevs-project-manager' ) );
                     self.toggleForm();
                 },
 

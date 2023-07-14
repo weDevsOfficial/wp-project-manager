@@ -56,7 +56,7 @@
                     </li>
                     <li class="multiselect__element">
                       <span data-select="" data-selected="" data-deselect="" class="multiselect__option">
-                        <span>{{ __( 'Md. Sifatullah Kakkar', 'wedevs-project-manager' ) }}</span>
+                        <span>{{ __( 'Katty Allen', 'wedevs-project-manager' ) }}</span>
                       </span>
                     </li>
                     <li style="display: none;">

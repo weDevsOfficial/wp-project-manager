@@ -56,7 +56,7 @@
                   <form action="post">
                     <div class="kbc-content-inside">
                       <input required="required" data-section_id="1" data-new-task-field="1" type="text"
-                        :placeholder="__('Add New Task', 'wedevs-project-manager')" class="kbc-section-new-task" />
+                        :placeholder="__( 'Add New Task', 'wedevs-project-manager' )" class="kbc-section-new-task" />
                     </div>
                   </form>
                 </div>
@@ -97,7 +97,7 @@
                 <div class="kbc-section-footer">
                   <form action="post">
                     <div class="kbc-content-inside">
-                      <input required="required" data-section_id="1" data-new-task-field="1" type="text" :placeholder="__('Add New Task', 'wedevs-project-manager')" class="kbc-section-new-task"></div>
+                      <input required="required" data-section_id="1" data-new-task-field="1" type="text" :placeholder="__( 'Add New Task', 'wedevs-project-manager' )" class="kbc-section-new-task"></div>
                   </form>
                 </div>
               </div>
@@ -137,7 +137,7 @@
                 <div class="kbc-section-footer">
                   <form action="post">
                     <div class="kbc-content-inside">
-                      <input required="required" data-section_id="1" data-new-task-field="1" type="text" :placeholder="__('Add New Task', 'wedevs-project-manager')" class="kbc-section-new-task"></div>
+                      <input required="required" data-section_id="1" data-new-task-field="1" type="text" :placeholder="__( 'Add New Task', 'wedevs-project-manager' )" class="kbc-section-new-task"></div>
                   </form>
                 </div>
               </div>
@@ -178,7 +178,7 @@
                   <form action="post">
                     <div class="kbc-content-inside">
                       <input required="required" data-section_id="1" data-new-task-field="1" type="text"
-                        :placeholder="__('Add New Task', 'wedevs-project-manager')" class="kbc-section-new-task">
+                        :placeholder="__( 'Add New Task', 'wedevs-project-manager' )" class="kbc-section-new-task">
                     </div>
                   </form>
                 </div>
@@ -186,7 +186,7 @@
             </div>
             <div class="kbc-th kbc-th-new-section kbc-non-sortable ui-sortable-handle">
               <div class="kbc-section-header">
-                <div><input type="text" :placeholder="__('Add new section', 'wedevs-project-manager')" required="required" class="wpup-new-section-field">
+                <div><input type="text" :placeholder="__( 'Add new section', 'wedevs-project-manager' )" required="required" class="wpup-new-section-field">
                 </div>
               </div>
             </div>

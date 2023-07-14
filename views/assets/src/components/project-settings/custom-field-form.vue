@@ -4,7 +4,7 @@
             <div class="field" :style="{ 'margin-right': isUpdateMode ?  '0' : '20px' }">
                 <label for="field-name" class="label">{{ __( 'Field Title', 'wedevs-project-manager' ) }}</label>
                 <div class="item">
-                    <input id="field-name" class="text" v-model="fields.title" type="text" :placeholder="__('e.g Priority, Stage, Status', 'wedevs-project-manager')" />
+                    <input id="field-name" class="text" v-model="fields.title" type="text" :placeholder="__( 'e.g Priority, Stage, Status', 'wedevs-project-manager' )" />
                 </div>
             </div>
             <div v-if="!isUpdateMode" class="field">
@@ -13,10 +13,10 @@
                 </label>
                 <div class="item">
                     <select id="type" class="select" v-model="fields.type">
-                        <option value="dropdown">{{ __('Drop-down', 'wedevs-project-manager') }}</option>
-                        <option value="text">{{ __('Text', 'wedevs-project-manager') }}</option>
-                        <option value="number">{{ __('Number', 'wedevs-project-manager') }}</option>
-                        <option value="url">{{ __('URL', 'wedevs-project-manager') }}</option>
+                        <option value="dropdown">{{ __( 'Drop-down', 'wedevs-project-manager' ) }}</option>
+                        <option value="text">{{ __( 'Text', 'wedevs-project-manager' ) }}</option>
+                        <option value="number">{{ __( 'Number', 'wedevs-project-manager' ) }}</option>
+                        <option value="url">{{ __( 'URL', 'wedevs-project-manager' ) }}</option>
                     </select>
                 </div>
             </div>
