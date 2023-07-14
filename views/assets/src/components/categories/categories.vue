@@ -121,7 +121,7 @@
                                     </td>
                                 </tr>   
                                 <tr v-if="!categories.length" class="no-items">
-                                    <td class="colspanchange" colspan="3">{{ __('No categories found.', 'wedevs-project-manager') }}</td>
+                                    <td class="colspanchange" colspan="3">{{ __( 'No categories found.', 'wedevs-project-manager' ) }}</td>
                                 </tr>
                             </tbody>
 

@@ -66,7 +66,7 @@
                         <tr>
                             <td>
                                 <p style="font-size: 16px; line-height: 30px; margin: 0; color: #7E8690;">
-                                    <?php esc_html_e( 'Updated at', 'wedevs-project-manager' ) ?>
+                                    <?php esc_html_e( 'Updated at', 'wedevs-project-manager' ); ?>
                                 </p>
                                 <h2 style="font-size: 16px; color: #000; margin: 0; font-weight: 400;">
                                      <?php $discussion_date = empty( $updated_at['date'] ) ? '&#x02013;&#x02013;' : pm_date_format( esc_html( $updated_at['date'] ) ); ?>

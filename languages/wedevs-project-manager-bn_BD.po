@@ -5,16 +5,16 @@ msgstr ""
 "Project-Id-Version: WP Project Manager 2.3.10\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/cpm\n"
 "POT-Creation-Date: 2020-06-12 04:18:38+00:00\n"
+"PO-Revision-Date: 2023-07-12 09:52+0600\n"
+"Last-Translator: \n"
+"Language-Team: বাংলা\n"
+"Language: bn_BD\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2020-06-15 06:34+0000\n"
-"Language-Team: বাংলা\n"
-"X-Generator: Loco https://localise.biz/\n"
-"Last-Translator: \n"
 "Plural-Forms: nplurals=2; plural=(n==0 || n==1);\n"
-"Language: bn_BD\n"
-"X-Loco-Version: 2.4.0; wp-5.4.2"
+"X-Generator: Poedit 3.3.2\n"
+"X-Loco-Version: 2.4.0; wp-5.4.2\n"
 
 #: core/Admin_Notice/Admin_Notice.php:33
 msgid "UPDATE REQUIRED"
@@ -151,11 +151,11 @@ msgstr ""
 
 #: core/Promotions/Offers.php:47
 msgid ""
-"<p>In this Christmas, stay on top of budgets. Spend <strong>30%% "
-"LESS</strong> on <strong>WP Project Manager Pro</strong> and increase "
-"productivity for you and your organization. [Limited time ⏳😎]</p> <p><a "
-"target=\"_blank\" class=\"button button-primary\" href=\"%s\">Grab The "
-"Deal</a></p>"
+"<p>In this Christmas, stay on top of budgets. Spend <strong>30%% LESS</"
+"strong> on <strong>WP Project Manager Pro</strong> and increase productivity "
+"for you and your organization. [Limited time ⏳😎]</p> <p><a "
+"target=\"_blank\" class=\"button button-primary\" href=\"%s\">Grab The Deal</"
+"a></p>"
 msgstr ""
 
 #: core/Promotions/Offers.php:199 core/Promotions/Wedevs_Promotion.php:190
@@ -1716,9 +1716,7 @@ msgstr ""
 
 #: views/assets/js/pm.js:9
 msgid " Discussions"
-msgstr ""
-"\n"
-"আলোচনা"
+msgstr "আলোচনা"
 
 #: views/assets/js/pm.js:9
 msgid " Task Lists"
@@ -2369,6 +2367,14 @@ msgstr ""
 
 #: views/assets/src/components/pro-features/ProFeatures.vue:22
 msgid "Calendar"
+msgstr ""
+
+#: core/WP/Menu.php:26
+msgid "Reports"
+msgstr ""
+
+#: build/core/Pro/Menu.php:48 core/Pro/Menu.php:48
+msgid "Modules"
 msgstr ""
 
 #: views/assets/src/components/pro-features/ProFeatures.vue:23

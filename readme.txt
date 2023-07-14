@@ -5,7 +5,7 @@ Tags: project, project manager, project management, kanban board, gantt charts, 
 Requires at least: 4.4 or higher
 Tested up to: 6.0.1
 Requires PHP: 5.6
-Stable tag: 2.6.1
+Stable tag: 2.6.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -282,6 +282,13 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 
 == Changelog ==
+
+= v2.6.4 - Jul 14, 2023 =
+
+**Fix:** Translation issues of background email & notifications error messages.
+**Fix:** Project creation CTA button name translation issue.
+**Fix:** Frontend preview contents translation relevant issues.
+**Fix:** Project switch, task creating & several unformatted strings translation issues.
 
 = v2.6.1 - May 24, 2023 =
 

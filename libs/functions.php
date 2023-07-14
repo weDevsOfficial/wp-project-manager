@@ -625,7 +625,7 @@ function pm_get_jed_locale_data( $domain, $language_dir = null ) {
 
     if ( ! empty( $translations->headers['Plural-Forms'] ) ) {
         $locale['locale_data'][ $domain ]['']['plural_forms'] = $translations->headers['Plural-Forms'];
-    } else if ( ! empty( $plugin_translations['header'] ) ) {
+    } else if ( ! empty( $plugin_translations['header']['Plural-Forms'] ) ) {
         $locale['locale_data'][ $domain ]['']['plural_forms'] = $plugin_translations['header']['Plural-Forms'];
     }
 

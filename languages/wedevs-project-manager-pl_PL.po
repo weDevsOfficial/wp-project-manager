@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: WP Project Manager v0.4.3\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/cpm\n"
 "POT-Creation-Date: 2018-07-11 06:41:04+00:00\n"
-"PO-Revision-Date: 2018-07-11 12:53+0600\n"
+"PO-Revision-Date: 2023-07-12 09:37+0600\n"
 "Last-Translator: Jacek Synowiec <wppm@dobraorganizacja.pl>\n"
 "Language-Team: \n"
 "Language: pl_PL\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Poedit 2.0.8\n"
+"X-Generator: Poedit 3.3.2\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
 "_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
@@ -189,6 +189,10 @@ msgstr ""
 
 #: core/WP/Menu.php:26
 msgid "Reports"
+msgstr ""
+
+#: build/core/Pro/Menu.php:48 core/Pro/Menu.php:48
+msgid "Modules"
 msgstr ""
 
 #: core/WP/Menu.php:27
