@@ -67,7 +67,7 @@
         </div>
 
         <div v-if="!projectRequestProcessing && !hasProjects">
-            <span>{{ 'No project found!', 'pm-pro' }}</span>
+            <span>{{ 'No project found!', 'wedevs-project-manager' }}</span>
         </div>
         
     </div>
