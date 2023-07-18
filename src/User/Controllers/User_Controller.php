@@ -21,6 +21,7 @@ class User_Controller {
     use Transformer_Manager, Request_Filter;
 
     public function index( WP_REST_Request $request ) {
+        error_log( print_r( 'Hello Users:', 1 ) );
         $id    = $request->get_param( 'id' );
 
         $per_page   = $request->get_param( 'per_page' );
@@ -155,15 +156,16 @@ class User_Controller {
         return $this->get_response( $resource );
     }
 
-    public function save_users_map_name(WP_REST_Request $request){
+    public function save_users_map_name( WP_REST_Request $request ) {
         $usernames = $request->get_params();
-        foreach($usernames['usernames'] as $username_key => $username_value){
-            $username_key_array = explode('_',$username_key);
-            if(in_array('github',$username_key_array) || in_array('bitbucket',$username_key_array)){
-                $user_meta_key = $username_key_array[0];
-                $user_meta_id = $username_key_array[1];
-                $user_meta_value = !empty($username_value) ? $username_value : '' ;
-                update_user_meta($user_meta_id,$user_meta_key,$user_meta_value);
+        foreach ( $usernames['usernames'] as $username_key => $username_value ) {
+            $username_key_array = explode( '_', $username_key );
+            if ( in_array( 'github', $username_key_array, true ) || in_array( 'bitbucket', $username_key_array, true ) ) {
+                $user_meta_id    = $username_key_array[1];
+                $user_meta_key   = $username_key_array[0];
+                $user_meta_value = ! empty( $username_value ) ? sanitize_text_field( $username_value ) : '';
+
+                update_user_meta( $user_meta_id, $user_meta_key, $user_meta_value );
             }
         }
     }
