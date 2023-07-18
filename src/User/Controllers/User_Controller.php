@@ -21,7 +21,6 @@ class User_Controller {
     use Transformer_Manager, Request_Filter;
 
     public function index( WP_REST_Request $request ) {
-        error_log( print_r( 'Hello Users:', 1 ) );
         $id    = $request->get_param( 'id' );
 
         $per_page   = $request->get_param( 'per_page' );
