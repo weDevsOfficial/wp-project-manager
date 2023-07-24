@@ -109,7 +109,7 @@ use WeDevs\PM\Core\Notifications\Emails\Complete_Task_Notification;
             do_action_ref_array( current_filter() . '_notification', $args );
         } catch ( Exception $e ) {
             if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-                trigger_error( esc_attr__( 'Transactional email triggered fatal error for callback ' . current_filter(), 'wedevs-project-manager' ), E_USER_WARNING );
+                trigger_error( esc_attr__( 'Transactional email triggered fatal error for callback ', 'wedevs-project-manager' ) . current_filter(), E_USER_WARNING );
             }
         }
     }

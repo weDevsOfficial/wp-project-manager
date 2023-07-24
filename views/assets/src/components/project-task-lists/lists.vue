@@ -78,22 +78,20 @@
                                                 </div>
 
                                                 <div class="list-title">
-                                                    <span @click.prevent="listExpand(inboxList)" class="list-title-anchor">{{ ucfirst( inboxList.title ) }}</span>
+                                                    <span @click.prevent="listExpand( inboxList )" class="list-title-anchor">{{ ucfirst( __( inboxList.title, 'wedevs-project-manager' ) ) }}</span>
                                                 </div>
                                                 <div class="after-title">
-                                                       
-                                                        <div class="view-single-list"  :title="__('Single List', 'wedevs-project-manager')">
-                                                            <span @click.prevent="goToSigleList(inboxList)" class="icon-pm-eye"></span>
-                                                        </div>
-                                                        <div class="list-title-action progress-bar">
-                                                            <div :style="getProgressStyle( inboxList )" class="bar completed"></div>
-                                                        </div>
-                                                           
-                                                        <!-- never remove <div class="pm-progress-percent">{{ getProgressPercent( list ) }}%</div> -->
-                                                        <div class="list-title-action task-count">
-                                                            <span>{{ inboxList.meta.total_complete_tasks }}</span>/<span>{{ getTotalTask(inboxList.meta.total_complete_tasks, inboxList.meta.total_incomplete_tasks) }}</span>
-                                                        </div>
-                                                    
+                                                    <div class="view-single-list"  :title="__( 'Single List', 'wedevs-project-manager' )">
+                                                        <span @click.prevent="goToSigleList( inboxList )" class="icon-pm-eye"></span>
+                                                    </div>
+                                                    <div class="list-title-action progress-bar">
+                                                        <div :style="getProgressStyle( inboxList )" class="bar completed"></div>
+                                                    </div>
+
+                                                    <!-- never remove <div class="pm-progress-percent">{{ getProgressPercent( list ) }}%</div> -->
+                                                    <div class="list-title-action task-count">
+                                                        <span>{{ inboxList.meta.total_complete_tasks }}</span>/<span>{{ getTotalTask( inboxList.meta.total_complete_tasks, inboxList.meta.total_incomplete_tasks ) }}</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -123,27 +121,26 @@
                                                 </div>
 
                                                 <div class="list-title">
-                                                    <span @click.prevent="listExpand(list)" class="list-title-anchor" v-html="ucfirst( list.title )"></span>
+                                                    <span @click.prevent="listExpand(list)" class="list-title-anchor" v-html="ucfirst( __( list.title, 'wedevs-project-manager' ) )"></span>
                                                 </div>
                                                 <div class="after-title">
-                                                        <!-- v-pm-tooltip -->
-                                                        <div class="view-single-list"  :title="__('Single List', 'wedevs-project-manager')">
-                                                            <span @click.prevent="goToSigleList(list)" class="icon-pm-eye"></span>
-                                                        </div>
-                                                        <div class="list-title-action progress-bar">
-                                                            <div :style="getProgressStyle( list )" class="bar completed"></div>
-                                                        </div>
-                                                           
-                                                        <!-- never remove <div class="pm-progress-percent">{{ getProgressPercent( list ) }}%</div> -->
-                                                        <div class="list-title-action task-count">
-                                                            <span>{{ list.meta.total_complete_tasks }}</span>/<span>{{ getTotalTask(list.meta.total_complete_tasks, list.meta.total_incomplete_tasks) }}</span>
-                                                        </div>
+                                                    <!-- v-pm-tooltip -->
+                                                    <div class="view-single-list"  :title="__('Single List', 'wedevs-project-manager')">
+                                                        <span @click.prevent="goToSigleList(list)" class="icon-pm-eye"></span>
+                                                    </div>
+                                                    <div class="list-title-action progress-bar">
+                                                        <div :style="getProgressStyle( list )" class="bar completed"></div>
+                                                    </div>
 
-                                                        <div v-if="!isInbox(list.id) && PM_Vars.is_pro" class="list-title-action">
-                                                            <span  v-if="!parseInt(list.meta.privacy)" class="icon-pm-unlock"></span>
-                                                            <span  v-if="parseInt(list.meta.privacy)" class="icon-pm-private"></span>
-                                                        </div>
-                                                    
+                                                      <!-- never remove <div class="pm-progress-percent">{{ getProgressPercent( list ) }}%</div> -->
+                                                    <div class="list-title-action task-count">
+                                                        <span>{{ list.meta.total_complete_tasks }}</span>/<span>{{ getTotalTask(list.meta.total_complete_tasks, list.meta.total_incomplete_tasks) }}</span>
+                                                    </div>
+
+                                                    <div v-if="!isInbox(list.id) && PM_Vars.is_pro" class="list-title-action">
+                                                        <span  v-if="!parseInt(list.meta.privacy)" class="icon-pm-unlock"></span>
+                                                        <span  v-if="parseInt(list.meta.privacy)" class="icon-pm-private"></span>
+                                                    </div>
                                                 </div>
 
                                                 <div :data-list_id="list.id" class="more-menu list-more-menu">

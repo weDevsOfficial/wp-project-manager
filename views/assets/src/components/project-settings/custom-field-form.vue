@@ -2,21 +2,21 @@
     <div class="pm-custom-fields">
         <div class="inline-two-field">
             <div class="field" :style="{ 'margin-right': isUpdateMode ?  '0' : '20px' }">
-                <label for="field-name" class="label">{{ __( 'Field Title', 'pm-pro' ) }}</label>
+                <label for="field-name" class="label">{{ __( 'Field Title', 'wedevs-project-manager' ) }}</label>
                 <div class="item">
-                    <input id="field-name" class="text" v-model="fields.title" type="text" :placeholder="__('e.g Priority, Stage, Status', 'pm-pro')" />
+                    <input id="field-name" class="text" v-model="fields.title" type="text" :placeholder="__( 'e.g Priority, Stage, Status', 'wedevs-project-manager' )" />
                 </div>
             </div>
             <div v-if="!isUpdateMode" class="field">
                 <label for="type" class="label">
-                    {{ __( 'Type', 'pm-pro' ) }}
+                    {{ __( 'Type', 'wedevs-project-manager' ) }}
                 </label>
                 <div class="item">
                     <select id="type" class="select" v-model="fields.type">
-                        <option value="dropdown">{{ __('Drop-down', 'pm-pro') }}</option>
-                        <option value="text">{{ __('Text', 'pm-pro') }}</option>
-                        <option value="number">{{ __('Number', 'pm-pro') }}</option>
-                        <option value="url">{{ __('URL', 'pm-pro') }}</option>
+                        <option value="dropdown">{{ __( 'Drop-down', 'wedevs-project-manager' ) }}</option>
+                        <option value="text">{{ __( 'Text', 'wedevs-project-manager' ) }}</option>
+                        <option value="number">{{ __( 'Number', 'wedevs-project-manager' ) }}</option>
+                        <option value="url">{{ __( 'URL', 'wedevs-project-manager' ) }}</option>
                     </select>
                 </div>
             </div>
@@ -26,7 +26,7 @@
             <a v-if="!hasDescription" @click.prevent="descriptionStatus()" href="#"  class="des-label">
                 <!-- <span v-if="!hasDescription" v-html="'&#43;'"></span>
                 <span v-if="hasDescription" v-html="'&#8722;'"></span> -->
-                <span>{{ __( 'Add description', 'pm-pro' ) }}</span>
+                <span>{{ __( 'Add description', 'wedevs-project-manager' ) }}</span>
             </a>
             <textarea v-description-textarea v-if="hasDescription" id="description" class="description-textarea" v-model="fields.description"></textarea>
         </div>

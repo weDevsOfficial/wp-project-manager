@@ -42,7 +42,7 @@
             return {
                 resources: [
                     {
-                        'title': 'Upgrade',
+                        'title': __( 'Upgrade', 'wedevs-project-manager' ),
                         'description': __( 'Get upgraded to Pro version to unlock endless opportunities of managing your project better.', 'wedevs-project-manager'),
                         'buttonLabel': __( 'Upgrade to Pro', 'wedevs-project-manager' ),
                         'buttonUrl': 'https://wedevs.com/wp-project-manager-pro/pricing/',
@@ -50,7 +50,7 @@
                         'icon': 'upgrade-icon.svg'
                     },
                     {
-                        'title': 'Pro Features',
+                        'title': __( 'Pro Features', 'wedevs-project-manager' ),
                         'description': __( 'Enhance your project management performance with extended features in the pro version.', 'wedevs-project-manager' ),
                         'buttonLabel': __( 'View Pro features', 'wedevs-project-manager' ),
                         'buttonUrl': 'https://wedevs.com/wp-project-manager-pro/extensions/',
@@ -58,7 +58,7 @@
                         'icon': 'pro-feature-icon.svg'
                     },
                     {
-                        'title': 'Module',
+                        'title': __( 'Module', 'wedevs-project-manager' ),
                         'description': __( 'Check out all the useful modules that would take your project management experience to a whole new level.', 'wedevs-project-manager' ),
                         'buttonLabel': __( 'Go to Modules', 'wedevs-project-manager' ),
                         'buttonUrl': 'https://wedevs.com/wp-project-manager-pro/extensions/',

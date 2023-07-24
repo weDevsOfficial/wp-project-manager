@@ -3,17 +3,17 @@ msgstr ""
 "Project-Id-Version: WP Project Manager Chinese\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/cpm\n"
 "POT-Creation-Date: 2018-07-11 06:41:04+00:00\n"
-"PO-Revision-Date: 2018-07-11 12:58+0600\n"
+"PO-Revision-Date: 2023-07-12 09:37+0600\n"
 "Last-Translator: Amos Lee <470266798@qq.com>\n"
 "Language-Team: Amos Lee <tareq@wedevs.com>\n"
 "Language: zh_TW\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-KeywordsList: _e;__;gettext_noop;esc_attr_e\n"
 "X-Poedit-Basepath: .\n"
-"X-Generator: Poedit 2.0.8\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.3.2\n"
 "X-Poedit-SearchPath-0: ..\n"
 
 #: core/Notifications/Emails/Complete_Task_Notification.php:42
@@ -175,6 +175,10 @@ msgstr ""
 
 #: core/WP/Menu.php:26
 msgid "Reports"
+msgstr ""
+
+#: build/core/Pro/Menu.php:48 core/Pro/Menu.php:48
+msgid "Modules"
 msgstr ""
 
 #: core/WP/Menu.php:27

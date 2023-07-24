@@ -81,10 +81,11 @@ class Task {
 
 
 	/**
-     * AJAX Get tasks Csv
+     * AJAX Get tasks Csv.
      * 
-     * @param  array $request
-     * 
+     * @param array $request
+     *
+     * @return void
      */
 	public static function get_taskscsv( WP_REST_Request $request ) {
 		$self = self::getInstance();
@@ -93,21 +94,31 @@ class Task {
         header('Content-Disposition: attachment; filename=data.csv');
         $output = fopen("php://output", "w");
 
-        fputcsv( $output, [__('Tasks', 'pm-pro' ), __( 'Task List', 'pm-pro' ), __( 'Project Name', 'pm-pro' ),
-        	__('Due Date', 'pm-pro'),__( 'Created At', 'pm-pro' )
-        ] );
+        fputcsv(
+            $output,
+            [
+                __( 'Tasks', 'wedevs-project-manager' ),
+                __( 'Task List', 'wedevs-project-manager' ),
+                __( 'Project Name', 'wedevs-project-manager' ),
+        	    __( 'Due Date', 'wedevs-project-manager' ),
+                __( 'Created At', 'wedevs-project-manager' )
+            ]
+        );
 
         foreach ( $tasks['data'] as $key => $result ) {
-        	error_log(print_r($result,true));
-	        fputcsv( $output,
+	        fputcsv(
+                $output,
                 [
-                    $result['title'], $result['task_list']->title, $result['project']->title,$result['due_date'],
+                    $result['title'],
+                    $result['task_list']->title,
+                    $result['project']->title,
+                    $result['due_date'],
                     $result['created_at'],
                 ]
             );
         }
 
-        fclose($output);
+        fclose( $output );
         exit();
 	}
 
