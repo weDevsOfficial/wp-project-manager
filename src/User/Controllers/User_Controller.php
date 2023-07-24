@@ -156,6 +156,10 @@ class User_Controller {
     }
 
     public function save_users_map_name( WP_REST_Request $request ) {
+        if ( ! current_user_can( 'manage_options' ) ) {
+            return new \WP_Error( 'usersmap', __( 'You have no permission to create/update user meta.', 'wedevs-project-manager' ) );
+        }
+
         $usernames = $request->get_params();
         foreach ( $usernames['usernames'] as $username_key => $username_value ) {
             $username_key_array = explode( '_', $username_key );
