@@ -68,7 +68,7 @@
 
                         </div>
 
-                        <div v-if="!hasTaskType" class="helper-text">{{ __( 'Add Task Type', 'pm-pro' ) }}</div>
+                        <div v-if="!hasTaskType" class="helper-text">{{ __( 'Add Task Type', 'wedevs-project-manager' ) }}</div>
                     </div>
                 </pm-popper>
 
@@ -84,7 +84,7 @@
                         class="process-results user-images" 
                         v-if="!hasTaskType"
                     >
-                        <span>{{ __( 'No type found!', 'pm-pro' ) }}</span>
+                        <span>{{ __( 'No type found!', 'wedevs-project-manager' ) }}</span>
                     </div>
                 </div>
 

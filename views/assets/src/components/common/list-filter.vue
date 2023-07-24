@@ -25,7 +25,7 @@
                             :show-labels="false"
                             :searchable="true"
                             :loading="asyncListLoading"
-                            :placeholder="__('Type task list name', 'pm-pro')"
+                            :placeholder="__( 'Type task list name', 'wedevs-project-manager' )"
                             @search-change="asyncFind($event)"
                             label="title"
                             track-by="id">

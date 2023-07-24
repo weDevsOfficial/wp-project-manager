@@ -1,3 +1,14 @@
+= v2.6.5 - Jul 24, 2023 =
+
+**Fix:** User controllers meta data updating authentication error.
+
+= v2.6.4 - Jul 14, 2023 =
+
+**Fix:** Translation issues of background email & notifications error messages.
+**Fix:** Project creation CTA button name translation issue.
+**Fix:** Frontend preview contents translation relevant issues.
+**Fix:** Project switch, task creating & several unformatted strings translation issues.
+
 = v2.6.1 - May 24, 2023 =
 
 **Fix:** The email type settings field UI broken issue.

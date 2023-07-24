@@ -1,7 +1,7 @@
 <template>
     <div class="pm-custom-field-options-wrap">
         <div v-if="options.length" class="pm-custom-field-options">
-            <h2 v-if="options.length" class="options-title">{{ __('Options', 'pm-pro') }}</h2>
+            <h2 v-if="options.length" class="options-title">{{ __( 'Options', 'wedevs-project-manager' ) }}</h2>
             <div v-if="options.length" class="option-list-wrap">
                 <div
                     class="option-list"
@@ -90,11 +90,11 @@
                         @keyup.enter="addNewOption()"
                         v-model="fields.title"
                         type="text"
-                        :placeholder="__( 'Type an option name', 'pm-pro' )"
+                        :placeholder="__( 'Type an option name', 'wedevs-project-manager' )"
                     />
                 </div>
                 <div>
-                    <a href="#" @click.prevent="addNewOption()" class="pm-button pm-primary">{{ __('Add option', 'pm-pro') }}</a>
+                    <a href="#" @click.prevent="addNewOption()" class="pm-button pm-primary">{{ __( 'Add option', 'wedevs-project-manager' ) }}</a>
                 </div>
 
             </div>
@@ -102,7 +102,7 @@
             <a class="add-new-options" @click.prevent="toggleOptionField()" href="#">
                 <span v-if="!optionField" v-html="'&#43;'"></span>
                 <span v-if="optionField" v-html="'&#8722;'"></span>
-                <span>{{ 'Close', 'pm-pro' }}</span>
+                <span>{{ __( 'Close', 'wedevs-project-manager' ) }}</span>
             </a>
         </div>
 
@@ -110,7 +110,7 @@
             <a class="add-new-options" @click.prevent="toggleOptionField()" href="#">
                 <span v-if="!optionField" v-html="'&#43;'"></span>
                 <span v-if="optionField" v-html="'&#8722;'"></span>
-                <span>{{ 'Add an option', 'pm-pro' }}</span>
+                <span>{{ __( 'Add an option', 'wedevs-project-manager' ) }}</span>
             </a>
         </div>
     </div>
@@ -301,7 +301,7 @@
             },
             characterLimit (title, event) {
                 if(title.length > 39) {
-                    pm.Toastr.warning(__('Maximum character limit 40', 'pm-pro'));
+                    pm.Toastr.warning( __( 'Maximum character limit 40', 'wedevs-project-manager' ) );
                     event.preventDefault();
                 }
             },
@@ -336,7 +336,7 @@
 
             addNewOption () {
                 if( this.fields.title == '' ) {
-                    pm.Toastr.warning( __( 'Option name required', 'pm-pro' )  );
+                    pm.Toastr.warning( __( 'Option name required', 'wedevs-project-manager' )  );
                     return;
                 }
 

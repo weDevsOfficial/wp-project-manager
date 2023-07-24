@@ -16,7 +16,7 @@ var PM_mytask = {
             labels: PM_mytask.getLabels(graph), //["Oct 05", "Oct 09", "Oct 15"],
             datasets: [
                 {
-                    label: __( 'activity', 'wedevs-proejct-manager' ),
+                    label: __( 'activity', 'wedevs-project-manager' ),
                     fillColor: "rgba(120,200, 223, 0.4)",
                     strokeColor: "#79C7DF",
                     pointColor: "#79C7DF",
@@ -27,7 +27,7 @@ var PM_mytask = {
                     backgroundColor: "rgba(120,200, 223, 0.4)",
                 },
                 {
-                    label: __( 'Completed Task', 'wedevs-proejct-manager' ),
+                    label: __( 'Completed Task', 'wedevs-project-manager' ),
                     fillColor: "rgba(0, 144, 217, 1)",
                     strokeColor: "#0090D9",
                     pointColor: "#0090D9",
@@ -38,7 +38,7 @@ var PM_mytask = {
                     backgroundColor: "rgba(0, 144, 217, 0.5)",
                 },
                 {
-                    label: __( 'Assigned Task', 'wedevs-proejct-manager' ),
+                    label: __( 'Assigned Task', 'wedevs-project-manager' ),
                     fillColor: "#590340",
                     strokeColor: "#590340",
                     pointColor: "#590340",
@@ -130,9 +130,9 @@ var PM_PI = {
                         backgroundColor: [ "#61BD4F", "#0090D9", "#EB5A46"],
                     }],
                     labels: [
-                        __( "Current Task", 'wedevs-proejct-manager' ),
-                        __( "Completed Task", 'wedevs-proejct-manager' ),
-                        __( "Outstanding Task", 'wedevs-proejct-manager' )
+                        __( "Current Task", 'wedevs-project-manager' ),
+                        __( "Completed Task", 'wedevs-project-manager' ),
+                        __( "Outstanding Task", 'wedevs-project-manager' )
                     ]
                 },
                 options: {
