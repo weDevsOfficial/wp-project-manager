@@ -20,7 +20,7 @@
                         <div class="pm-start-price">
                             <small><sup>$</sup></small>00
                         </div>
-                        <div class="pm-start-block-content">Per Year<br><a href="https://wedevs.com/wp-project-manager-pro/pricing/" target="_blank" rel="noopener" class="pm-btn pm-btn-lg pm-btn-primary">Get Started Now</a></div>
+                        <div class="pm-start-block-content">{{ __('Per Year', 'wedevs-project-manager') }}<br><a href="https://wedevs.com/wp-project-manager-pro/pricing/" target="_blank" rel="noopener" class="pm-btn pm-btn-lg pm-btn-primary">{{ __('Get Started Now', 'wedevs-project-manager') }}</a></div>
                     </div>
                 </div>
             </div>
@@ -32,17 +32,17 @@
         data () {
             return {
                 featureLists: [
-                    'Built-in private messenger',
-                    'Set the start & end date of the project',
-                    'Upload all files in one place',
-                    'Create folders for files',
-                    'Link messages & task lists with files',
-                    'Project user permission',
-                    'Team category permission',
-                    'Frontend projects and discussions',
-                    'Automatic daily digest emails',
-                    'Advanced filters for reports',
-                    'Real-time updates'
+                    __('Built-in private messenger', 'wedevs-project-manager'),
+                    __('Set the start & end date of the project', 'wedevs-project-manager'),
+                    __('Upload all files in one place', 'wedevs-project-manager'),
+                    __('Create folders for files', 'wedevs-project-manager'),
+                    __('Link messages & task lists with files', 'wedevs-project-manager'),
+                    __('Project user permission', 'wedevs-project-manager'),
+                    __('Team category permission', 'wedevs-project-manager'),
+                    __('Frontend projects and discussions', 'wedevs-project-manager'),
+                    __('Automatic daily digest emails', 'wedevs-project-manager'),
+                    __('Advanced filters for reports', 'wedevs-project-manager'),
+                    __('Real-time updates', 'wedevs-project-manager')
                 ]
             }
         }
