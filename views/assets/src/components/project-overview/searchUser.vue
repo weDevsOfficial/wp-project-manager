@@ -5,8 +5,8 @@
             <div class="popup-container">
                 <div v-if="!createNew" class="search-user">
                     <div class="popup-body">
-                        <h3>Add User</h3>
-                        <input v-if="!search_done" type="text" ref="search" class="pm-users-search" @keyup="searchUser" placeholder="Search User" v-model="searchChar">
+                        <h3>{{ __( 'Add User', 'wedevs-project-manager' ) }}</h3>
+                        <input v-if="!search_done" type="text" ref="search" class="pm-users-search" @keyup="searchUser" :placeholder="__( 'Search User', 'wedevs-project-manager' )" v-model="searchChar">
                             <div v-if="search_done" v-for="projectUser in selected" :key="projectUser.id">
                                 <div><input @click.prevent="resetSearch()" class="show-name" type="text" :value="projectUser.display_name"></div>
                                 <div>
@@ -20,13 +20,13 @@
 
                             </div>
 
-                        <div class="spiner" v-show="show_spinner"><span class="pm-spinner"></span> &nbsp;&nbsp; <span class="wait"> wait ... </span></div>
+                        <div class="spiner" v-show="show_spinner"><span class="pm-spinner"></span> &nbsp;&nbsp; <span class="wait">{{ __( ' wait ... ', 'wedevs-project-manager' ) }}</span></div>
 
                     </div>
 
                     <div v-if="notfound && searchChar !== ''" class="popup-body">
-                        <p class="centered">No user found named <span class="pm-text-danger">"{{ searchChar }}"</span>, You can create a new user</p>
-                        <button class="button-primary pm-new-user-btn" @click="createNewUser(true)" type="button">Create User</button>
+                        <p class="centered">{{ __( 'No user found named ', 'wedevs-project-manager') }}<span class="pm-text-danger">"{{ searchChar }}"</span>{{ __( ', You can create a new user', 'wedevs-project-manager' ) }}</p>
+                        <button class="button-primary pm-new-user-btn" @click="createNewUser(true)" type="button">{{ __( 'Create User', 'wedevs-project-manager' ) }}</button>
 
                     </div>
 
@@ -41,8 +41,8 @@
 
                     <div v-if="selected.length > 0" class="popup-body">
                         <div class="btn-box">
-                            <a class="button button-primary" @click="saveUsers()">Add</a>
-                            <a class="button button-cancel" @click="closeSearch()">Cancel</a>
+                            <a class="button button-primary" @click="saveUsers()">{{ __( 'Add', 'wedevs-project-manager' ) }}</a>
+                            <a class="button button-cancel" @click="closeSearch()">{{ __( 'Cancel', 'wedevs-project-manager' ) }}</a>
                         </div>
                     </div>
 

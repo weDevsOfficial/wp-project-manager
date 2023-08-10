@@ -1,6 +1,6 @@
 <template>
     <div class="pm-create-user-form-wrap">
-        <h3>Create New User</h3>
+        <h3>{{ __( 'Create New User', 'wedevs-project-manager' ) }}</h3>
         <div class="pm-error"></div>
         <form action="" class="pm-user-create-form" @submit.prevent="saveUser()">
             <div class="pm-field-wrap">
@@ -100,7 +100,7 @@
                                 this.exist_msg = ""
                             } else {
                                 this.user_found = true;
-                                this.exist_msg = "this email already exists with user name \"" + res.data[0].username + "\"";
+                                this.exist_msg = __( 'this email already exists with user name ', 'wedevs-project-manager' ) + "\"" + res.data[0].username + "\"";
                             }
                             this.show_spinner = false;
                         }
