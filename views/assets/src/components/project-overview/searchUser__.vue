@@ -4,7 +4,7 @@
     <div class="add-user-pop">
         <div class="popup-container">
             <div class="popup-body">
-                <h3>{{ __( 'Add User', 'wedevs-project-manager') }}</h3>
+                <h3>{{ __( 'Add User', 'wedevs-project-manager' ) }}</h3>
                 <input type="text" class="pm-users-search" @keyup="searchUser" v-model="searchChar">
             </div>
 
@@ -40,8 +40,8 @@
 
             <div v-if="pm_abort" class="popup-body">
                 <div class="btn-box">
-                    <a class="button button-primary" @click="saveUsers()">{{ __( 'Add', 'wedevs-project-manager') }}</a>
-                    <a class="button button-cancel" @click="closeSearch()">{{ __( 'Cancel', 'wedevs-project-manager') }}</a>
+                    <a class="button button-primary" @click="saveUsers()">{{ __( 'Add', 'wedevs-project-manager' ) }}</a>
+                    <a class="button button-cancel" @click="closeSearch()">{{ __( 'Cancel', 'wedevs-project-manager' ) }}</a>
                 </div>
             </div>
 
