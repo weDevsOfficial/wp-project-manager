@@ -1,3 +1,7 @@
+= v2.6.6 - Aug 10, 2023 =
+
+**Fix:** Search users, new users & more features string translation issue.
+
 = v2.6.5 - Jul 24, 2023 =
 
 **Fix:** User controllers meta data updating authentication error.
