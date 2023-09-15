@@ -3,7 +3,7 @@ Contributors: tareq1988, nizamuddinbabu, wedevs, asaquzzaman
 Donate Link: https://tareq.co/donate/
 Tags: project, project manager, project management, kanban board, gantt charts,  task manager, team collaboration tool
 Requires at least: 4.4 or higher
-Tested up to: 6.3
+Tested up to: 6.3.1
 Requires PHP: 5.6
 Stable tag: 2.6.6
 License: GPLv2 or later
@@ -286,6 +286,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 = v2.6.6 - Aug 10, 2023 =
 
 **Fix:** Search users, new users & more features string translation issue.
+**Fix:** Authentication error in user project role update.
 
 = v2.6.5 - Jul 24, 2023 =
 
