@@ -132,6 +132,10 @@ class User_Controller {
     }
 
     public function update_role( WP_REST_Request $request ) {
+        if ( ! pm_has_manage_capability() ) {
+            return new \WP_Error( 'unauthenticated', __( 'You have no permission to update user role.', 'wedevs-project-manager' ) );
+        }
+
         // Extract user inputs
         $id         = $request->get_param( 'user_id' );
         $project_id = $request->get_param( 'project_id' );

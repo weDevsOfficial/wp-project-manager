@@ -1,6 +1,7 @@
 = v2.6.6 - Aug 10, 2023 =
 
 **Fix:** Search users, new users & more features string translation issue.
+**Fix:** Authentication error in user project role update.
 
 = v2.6.5 - Jul 24, 2023 =
 
