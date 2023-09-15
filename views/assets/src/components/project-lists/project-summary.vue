@@ -1,7 +1,7 @@
 <template> 
     <!-- project-list-view toggle this class for list view -->
     <div class="pm-projects-row" :class="{'project-list-view': !activeClass('grid_view') }">
-        <h3 v-if="!projects.length" class="no-projects">{{ __( 'No projects found.', 'wedevs-project-manager') }}</h3>
+        <h3 v-if="!projects.length" class="no-projects">{{ __( 'No projects found.', 'wedevs-project-manager' ) }}</h3>
         <div class="pm-project-column" v-for="project in projects" :key="project.id">
 
             <article class="pm-project-item clearfix">
@@ -70,7 +70,7 @@
                                         project_id: project.id
                                     }}">
                                     <i class="pm-icon logo icon-pm-task-list" aria-hidden="true"></i>
-                                    <span class="pm-tooltip-label">{{ parseInt(project.meta.data.total_tasks) + __( ' Tasks', 'wedevs-project-manager') }}</span>
+                                    <span class="pm-tooltip-label">{{ parseInt( project.meta.data.total_tasks ) + tooltipLabels.tasks }}</span>
                                 </router-link>
                             </li>
                             <li class="pm-meta-discussion pm-has-tooltip">
@@ -80,7 +80,7 @@
                                         project_id: project.id
                                     }}">
                                     <i class="pm-icon flaticon-pm-discussions"></i>
-                                    <span class="pm-tooltip-label">{{ parseInt(project.meta.data.total_discussion_boards) + __( ' Discussions', 'wedevs-project-manager') }}</span>
+                                    <span class="pm-tooltip-label">{{ parseInt( project.meta.data.total_discussion_boards ) + tooltipLabels.discussions }}</span>
                                 </router-link>
                             </li>
                             <li class="pm-meta-list pm-has-tooltip">
@@ -90,7 +90,7 @@
                                         project_id: project.id
                                     }}">
                                     <i class="pm-icon flaticon-list"></i>
-                                    <span class="pm-tooltip-label">{{ parseInt(project.meta.data.total_task_lists) + __( ' Task Lists', 'wedevs-project-manager') }}</span>
+                                    <span class="pm-tooltip-label">{{ parseInt( project.meta.data.total_task_lists ) + tooltipLabels.tasksLists }}</span>
                                 </router-link>
                             </li>
                             <li class="pm-meta-files pm-has-tooltip">
@@ -100,7 +100,7 @@
                                         project_id: project.id
                                     }}">
                                     <i class="pm-icon flaticon-document"></i>
-                                    <span class="pm-tooltip-label">{{ parseInt(project.meta.data.total_files) + __( ' Files', 'wedevs-project-manager') }}</span>
+                                    <span class="pm-tooltip-label">{{ parseInt( project.meta.data.total_files ) + tooltipLabels.files }}</span>
                                 </router-link>
                             </li>
                             <li class="pm-meta-flag pm-has-tooltip">
@@ -110,13 +110,13 @@
                                         project_id: project.id
                                     }}">
                                     <i class="pm-icon flaticon-flag"></i>
-                                    <span class="pm-tooltip-label">{{ parseInt(project.meta.data.total_milestones) + __( ' Milestones', 'wedevs-project-manager') }}</span>
+                                    <span class="pm-tooltip-label">{{ parseInt( project.meta.data.total_milestones ) + tooltipLabels.milestones }}</span>
                                 </router-link>
                             </li>
                             <li class="pm-meta-comment pm-has-tooltip">
                                 <a href="#">
                                     <i class="pm-icon flaticon-comment-black-oval-bubble-shape"></i>
-                                    <span class="pm-tooltip-label">{{ parseInt(project.meta.data.total_comments) + __( ' Comments', 'wedevs-project-manager')}}</span>
+                                    <span class="pm-tooltip-label">{{ parseInt( project.meta.data.total_comments ) + tooltipLabels.comments }}</span>
                                 </a>
                             </li>
                         </ul>
@@ -175,8 +175,16 @@
                 is_active_settings: false,
                 is_update: false,
                 project: {},
-                project_action: __( 'Project Actions', 'wedevs-project-manager'),
+                project_action: __( 'Project Actions', 'wedevs-project-manager' ),
                 dropdownToggleStatus: false,
+                tooltipLabels: {
+                    tasks: __( ' Tasks', 'wedevs-project-manager' ),
+                    discussions: __( ' Discussions', 'wedevs-project-manager' ),
+                    tasksLists: __( ' Task Lists', 'wedevs-project-manager' ),
+                    files: __( ' Files', 'wedevs-project-manager' ),
+                    milestones: __( ' Milestones', 'wedevs-project-manager' ),
+                    comments: __( ' Comments', 'wedevs-project-manager' ),
+                }
             }
         },
         computed: {

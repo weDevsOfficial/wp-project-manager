@@ -810,7 +810,7 @@ export default {
 
                 callback: function( self, res ) { 
                     self.clearFormData();
-                    self.task_description = typeof res.data.description === 'undefined' ? '' : res.data.description.content;
+                    self.task_description = ! res.data['description'] || typeof res.data.description === 'undefined' ? '' : res.data.description.content;
 
                     self.$emit('afterTaskUpdated', res, args);
                 }
