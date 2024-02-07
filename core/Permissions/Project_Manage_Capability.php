@@ -13,7 +13,7 @@ class Project_Manage_Capability extends Abstract_Permission {
         if ( empty( $project_id ) ) {
             $project_id = $this->request->get_param( 'project_id' );
         }
-        
+
         if ( empty( $user_id ) || empty( $project_id ) ) {
             return new \WP_Error( 'project', __( "You have no permission.", "wedevs-project-manager" ) );
         }
@@ -25,7 +25,7 @@ class Project_Manage_Capability extends Abstract_Permission {
         if ( pm_is_manager( $project_id, $user_id ) ) {
             return true;
         }
-        
+
         return new \WP_Error( 'project', __( "You have no permission.", "wedevs-project-manager" ) );
     }
 }
