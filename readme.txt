@@ -5,7 +5,7 @@ Tags: project, project manager, project management, kanban board, gantt charts, 
 Requires at least: 4.4 or higher
 Tested up to: 6.3.1
 Requires PHP: 5.6
-Stable tag: 2.6.7
+Stable tag: 2.6.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -282,6 +282,12 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 
 == Changelog ==
+
+= v2.6.8 - Feb 09, 2024 =
+
+**Fix:** User role management api security block for unauthentic project users.
+**Fix:** Project discussion create api security handling stuff.
+**Fix:** Project modification api security block.
 
 = v2.6.6 - Aug 10, 2023 =
 
