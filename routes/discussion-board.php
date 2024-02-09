@@ -10,7 +10,7 @@ $router->get( 'projects/{project_id}/discussion-boards', 'WeDevs/PM/Discussion_B
     ->permission( [ $access_project ] );
 
 $router->post( 'projects/{project_id}/discussion-boards', 'WeDevs/PM/Discussion_Board/Controllers/Discussion_Board_Controller@store' )
-    ->permission( [ $create_discuss])
+    ->permission( [ $create_discuss ] )
     ->validator( 'WeDevs\PM\Discussion_Board\Validators\Create_Discussion_Board' )
     ->sanitizer( 'WeDevs\PM\Discussion_Board\Validators\Discussion_Board_Sanitizer' );
 
