@@ -8,7 +8,7 @@ $router = Router::singleton();
 $router->get( 'users', 'WeDevs/PM/User/Controllers/User_Controller@index' )
     ->permission(['WeDevs\PM\Core\Permissions\Authentic']);
 $router->post( 'users', 'WeDevs/PM/User/Controllers/User_Controller@store' )
-    ->permission(['WeDevs\PM\Core\Permissions\Project_Manage_Capability']);
+    ->permission(['WeDevs\PM\Core\Permissions\Authentic']);
 $router->get( 'users/{id}', 'WeDevs/PM/User/Controllers/User_Controller@show' )
     ->permission(['WeDevs\PM\Core\Permissions\Authentic']);
 
