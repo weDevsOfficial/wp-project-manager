@@ -7,7 +7,7 @@
             <div class="pm-card pm-card-default card-overdue-task">
               <img :src="getAssetUrl( '/images/overdue_task.svg' )" height="50"> <br>
               <h3>
-                {{ __( 'Overdue Tasks', 'wedevs-project-manager' ) }}
+                {{ __( 'Overdue Task(s)', 'wedevs-project-manager' ) }}
                 <Badge />
               </h3>
               <div class="project-meta-text" v-html="__( 'Generate a report based on <strong>tasks</strong> which are <strong>pending</strong> beyond due dates.', 'wedevs-project-manager' )"></div>
@@ -23,7 +23,7 @@
             <div class="pm-card pm-card-default card-completed-tasks">
               <img :src="getAssetUrl( '/images/completed_task.svg' )" height="50"><br>
               <h3>
-                {{ __( 'Complete Task', 'wedevs-project-manager' ) }}
+                {{ __( 'Complete Task(s)', 'wedevs-project-manager' ) }}
                 <Badge />
               </h3>
               <div class="project-meta-text" v-html="__( 'Generate a report from <strong>tasks</strong> which were <strong>completed</strong>.', 'wedevs-project-manager' )"></div>
@@ -74,7 +74,7 @@
                 {{ __( 'Unassigned Task', 'wedevs-project-manager' ) }}
                 <Badge />
               </h3>
-              <div class="project-meta-text" v-html="__('Find out <strong>all tasks</strong> whichwere not  <strong>assigned</strong> to any employee.', 'wedevs-project-manager' )"></div>
+              <div class="project-meta-text" v-html="__('Find out <strong>all tasks</strong> which were not  <strong>assigned</strong> to any employee.', 'wedevs-project-manager' )"></div>
               <a href="#" @click.stop class="pm--btn pm--btn-default">
                 <i class="flaticon-eye"></i>
                 {{ __( 'View Full Report', 'wedevs-project-manager' ) }}
