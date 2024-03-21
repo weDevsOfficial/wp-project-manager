@@ -18,7 +18,6 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '7.2'
-          dry-run: true
       - name: Composer install and build # Remove or modify this step as needed
         run: |
           composer install
@@ -28,6 +27,8 @@ jobs:
           composer dump-autoload -o
       - name: WordPress Plugin Deploy
         uses: 10up/action-wordpress-plugin-deploy@stable
+        with:
+          generate-zip: true
         env:
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
