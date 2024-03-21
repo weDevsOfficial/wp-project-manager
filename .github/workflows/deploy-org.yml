@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@master
       - name: Npm install and build
         run: |
-          npm config set python python3
+          rm -r package-lock.json
           npm i
           npm run build
           npm run makepot
