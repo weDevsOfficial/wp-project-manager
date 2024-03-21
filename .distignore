@@ -6,7 +6,7 @@
 .distignore
 .editorconfig
 .env
-.giattributes
+.gitattributes
 .gitignore
 .svnignore
 .gitmodules
@@ -40,7 +40,6 @@ codeception.yml
 /tests
 nbproject
 phpcs-report.txt
-phpcs.xml.dist
 phpcs.xml.dist
 pm.sublime-project
 pm.sublime-workspace
