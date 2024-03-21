@@ -2,20 +2,32 @@ name: Deploy to WordPress.org
 on:
   push:
     tags:
-    - "*"
+      - "*"
 jobs:
   tag:
     name: New tag
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
-    - name: Build # Remove or modify this step as needed
-      run: |
-        npm install
-        npm run build
-    - name: WordPress Plugin Deploy
-      uses: 10up/action-wordpress-plugin-deploy@stable
-      env:
-        SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
-        SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
-        SLUG: wedevs-project-manager
+      - uses: actions/checkout@master
+      - name: Npm install and build
+        run: |
+          npm i
+          npm run build
+          npm run makepot
+      - name: Use desired version of php
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.2'
+      - name: Composer install and build # Remove or modify this step as needed
+        run: |
+          composer install
+          composer update
+          composer dump-autoload -o
+          composer install --no-dev
+          composer dump-autoload -o
+      - name: WordPress Plugin Deploy
+        uses: 10up/action-wordpress-plugin-deploy@stable
+        env:
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SLUG: wedevs-project-manager
