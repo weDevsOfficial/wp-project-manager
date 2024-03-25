@@ -66,7 +66,7 @@ jobs:
           asset_path: ${{ steps.deploy.outputs.zip-path }}
 
           # Provide what the file should be named when attached to the release (plugin-name.zip)
-          asset_name: ${{ github.event.repository.name }}.zip
+          asset_name: wedevs-project-manager.zip
 
           # Provide the file type.
           asset_content_type: application/zip
