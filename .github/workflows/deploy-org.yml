@@ -33,6 +33,7 @@ jobs:
           composer install --no-dev
           composer dump-autoload -o
       - name: WordPress Plugin Deploy
+        id: deploy
         uses: 10up/action-wordpress-plugin-deploy@stable
         with:
           dry-run: true
