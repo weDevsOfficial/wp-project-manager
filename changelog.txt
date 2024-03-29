@@ -1,5 +1,11 @@
 == Changelog ==
 
+= v2.6.13 - Mar 29, 2024 =
+
+**Fix:** New project's user creation issue.
+
+**Update:** PHP version support PHP-5.6 to PHP-7.2.
+
 = v2.6.12 - Mar 04, 2024 =
 
 **Update:** Version bump & make stable readme character.

@@ -3,9 +3,9 @@ Contributors: tareq1988, nizamuddinbabu, wedevs, asaquzzaman
 Donate Link: https://tareq.co/donate/
 Tags: project, project manager, project management, project management plugin, project manager tool
 Requires at least: 4.4 or higher
-Tested up to: 6.3.1
+Tested up to: 6.4.3
 Requires PHP: 5.6
-Stable tag: 2.6.12
+Stable tag: 2.6.13
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -308,6 +308,12 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 
 == Changelog ==
+
+= v2.6.13 - Mar 29, 2024 =
+
+**Fix:** New project's user creation issue.
+
+**Update:** PHP version support PHP-5.6 to PHP-7.2.
 
 = v2.6.12 - Mar 04, 2024 =
 
