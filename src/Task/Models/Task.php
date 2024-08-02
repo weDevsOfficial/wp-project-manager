@@ -75,6 +75,10 @@ class Task extends Eloquent {
             ->where( pm_tb_prefix() . 'pm_boardables.boardable_type', 'task');
     }
 
+    public function scopeSubTasks( $query ) {
+        return $query->where( 'parent_id', $this->id );
+    }
+
     public function boards() {
         return $this->belongsToMany( 'WeDevs\PM\Common\Models\Board', pm_tb_prefix() . 'pm_boardables', 'boardable_id', 'board_id' )
             ->where( pm_tb_prefix() . 'pm_boardables.boardable_type', 'task');
@@ -82,6 +86,10 @@ class Task extends Eloquent {
 
     public function boardables() {
         return $this->hasMany( 'WeDevs\PM\Common\Models\Boardable', 'boardable_id' )->where( 'boardable_type', 'task' );
+    }
+
+    public function sub_boardables() {
+        return $this->hasMany( 'WeDevs\PM\Common\Models\Boardable', 'boardable_id' )->where( 'boardable_type', 'sub_task' );
     }
 
     public function files() {
