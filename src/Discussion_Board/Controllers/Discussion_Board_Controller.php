@@ -74,6 +74,24 @@ class Discussion_Board_Controller {
         $milestone_id = $request->get_param( 'milestone' );
         $files        = array_key_exists( 'files', $media_data ) ? $media_data['files'] : null;
 
+        $file_type = $files['type'][0];
+
+        if ( $file_type === 'image/svg+xml' ) {
+            $svg_tmp_name = $files['tmp_name'][0];
+
+            $svg_content = file_get_contents($svg_tmp_name);
+
+            if ( $this->contains_xss_code($svg_content) ) {
+                return wp_send_json(
+                    [
+                        'error_type' => 'svg_xss',
+                        'message' => __( 'The SVG file you attempted to upload contains content that may pose security risks. Please ensure your file is safe and try again.', 'pm-pro' )
+                    ], 400
+                );
+                wp_die();
+            }
+        }
+
         $is_private    = $request->get_param( 'privacy' );
         $data['is_private']    = $is_private == 'true' || $is_private === true ? 1 : 0;
         
@@ -107,6 +125,24 @@ class Discussion_Board_Controller {
         $milestone_id        = $request->get_param( 'milestone' );
         $files               = array_key_exists( 'files', $media_data ) ? $media_data['files'] : null;
         $files_to_delete     = $request->get_param( 'files_to_delete' );
+
+        $file_type = $files['type'][0];
+
+        if ( $file_type === 'image/svg+xml' ) {
+            $svg_tmp_name = $files['tmp_name'][0];
+
+            $svg_content = file_get_contents($svg_tmp_name);
+
+            if ( $this->contains_xss_code($svg_content) ) {
+                return wp_send_json(
+                    [
+                        'error_type' => 'svg_xss',
+                        'message' => __( 'The SVG file you attempted to upload contains content that may pose security risks. Please ensure your file is safe and try again.', 'pm-pro' )
+                    ], 400
+                );
+                wp_die();
+            }
+        }
 
         $is_private    = $request->get_param( 'privacy' );
         $data['is_private']    = $is_private == 'true' || $is_private === true ? 1 : 0;
@@ -246,6 +282,25 @@ class Discussion_Board_Controller {
         ] );
         pm_update_meta( $discussion_board_id, $project_id, 'discussion_board', 'privacy', $privacy );
         return $this->get_response( NULL);
+    }
+
+    /**
+     * Check if the given content contains potential XSS code.
+     *
+     * This function scans the provided content for malicious code patterns,
+     * specifically checking for <script> tags and event attributes like `onclick`, 
+     * `onmouseover`, and similar inline event handlers that are commonly used in XSS attacks.
+     *
+     * @param string $content The content to be scanned for XSS vulnerabilities.
+     * 
+     * @return bool Returns true if potential XSS code is found, otherwise false.
+     */
+    protected function contains_xss_code( $content ) {
+        // Check for <script> tags and event attributes like onclick, onmouseover, etc.
+        $pattern = '/<script.*?>.*?<\/script>|on[a-z]+\s*=\s*["\'][^"\']*["\']/i';
+
+        // Perform the pattern matching and return true if XSS code is found
+        return preg_match($pattern, $content);
     }
 }
 
