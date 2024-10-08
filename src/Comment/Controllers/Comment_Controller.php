@@ -15,6 +15,7 @@ use WeDevs\PM\Comment\Models\Comment;
 use WeDevs\PM\Core\File_System\File_System;
 use WeDevs\PM\File\Models\File;
 use WeDevs\PM\Common\Traits\File_Attachment;
+use WeDevs\PM\File\Helper\File as HelperFile;
 
 class Comment_Controller {
 
@@ -79,7 +80,19 @@ class Comment_Controller {
         $commentable_id = $request->get_param('commentable_id');
     
         $files      = array_key_exists( 'files', $media_data ) ? $media_data['files'] : null;
-        
+
+        $file_type = $files['type'][0];
+
+        if( HelperFile::check_file_for_xss_code( $file_type, $files ) ){
+            return wp_send_json(
+                [
+                    'error_type' => 'svg_xss',
+                    'message' => __( 'The SVG file you attempted to upload contains content that may pose security risks. Please ensure your file is safe and try again.', 'pm-pro' )
+                ], 400
+            );
+            wp_die();
+        }
+ 
         $comment = Comment::create( $data );
 
         if ( $type ) {
@@ -115,6 +128,18 @@ class Comment_Controller {
 
         // An array of files
         $files = array_key_exists( 'files', $media_data ) ? $media_data['files'] : null;
+
+        $file_type = $files['type'][0];
+
+        if( HelperFile::check_file_for_xss_code( $file_type, $files ) ){
+            return wp_send_json(
+                [
+                    'error_type' => 'svg_xss',
+                    'message' => __( 'The SVG file you attempted to upload contains content that may pose security risks. Please ensure your file is safe and try again.', 'pm-pro' )
+                ], 400
+            );
+            wp_die();
+        }
 
         // An array of file ids that needs to be deleted
         $files_to_delete = $request->get_param( 'files_to_delete' );
@@ -164,4 +189,5 @@ class Comment_Controller {
 
         return $this->get_response(false, $message);
     }
+
 }
