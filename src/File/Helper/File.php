@@ -62,16 +62,14 @@ class File {
             if ( self::contains_xss_code($svg_content) ) {
                 return true;
             }
-
-			return false;
         }
+
+		return false;
 	}
 
     public static function contains_xss_code( $content ) {
-        // Check for <script> tags and event attributes like onclick, onmouseover, etc.
         $pattern = '/<script.*?>.*?<\/script>|on[a-z]+\s*=\s*["\'][^"\']*["\']/i';
 
-        // Perform the pattern matching and return true if XSS code is found
         return preg_match($pattern, $content);
     }
 
