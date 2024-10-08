@@ -17,6 +17,7 @@ use WeDevs\PM\File\Models\File;
 use WeDevs\PM\Core\File_System\File_System;
 use WeDevs\PM\Common\Traits\File_Attachment;
 use Illuminate\Pagination\Paginator;
+use WeDevs\PM\File\Helper\File as HelperFile;
 
 use WeDevs\PM\Task\Models\Task;
 
@@ -76,20 +77,14 @@ class Discussion_Board_Controller {
 
         $file_type = $files['type'][0];
 
-        if ( $file_type === 'image/svg+xml' ) {
-            $svg_tmp_name = $files['tmp_name'][0];
-
-            $svg_content = file_get_contents($svg_tmp_name);
-
-            if ( $this->contains_xss_code($svg_content) ) {
-                return wp_send_json(
-                    [
-                        'error_type' => 'svg_xss',
-                        'message' => __( 'The SVG file you attempted to upload contains content that may pose security risks. Please ensure your file is safe and try again.', 'pm-pro' )
-                    ], 400
-                );
-                wp_die();
-            }
+        if( HelperFile::check_file_for_xss_code( $file_type, $files ) ){
+            return wp_send_json(
+                [
+                    'error_type' => 'svg_xss',
+                    'message' => __( 'The SVG file you attempted to upload contains content that may pose security risks. Please ensure your file is safe and try again.', 'pm-pro' )
+                ], 400
+            );
+            wp_die();
         }
 
         $is_private    = $request->get_param( 'privacy' );
@@ -128,20 +123,14 @@ class Discussion_Board_Controller {
 
         $file_type = $files['type'][0];
 
-        if ( $file_type === 'image/svg+xml' ) {
-            $svg_tmp_name = $files['tmp_name'][0];
-
-            $svg_content = file_get_contents($svg_tmp_name);
-
-            if ( $this->contains_xss_code($svg_content) ) {
-                return wp_send_json(
-                    [
-                        'error_type' => 'svg_xss',
-                        'message' => __( 'The SVG file you attempted to upload contains content that may pose security risks. Please ensure your file is safe and try again.', 'pm-pro' )
-                    ], 400
-                );
-                wp_die();
-            }
+        if( HelperFile::check_file_for_xss_code( $file_type, $files ) ){
+            return wp_send_json(
+                [
+                    'error_type' => 'svg_xss',
+                    'message' => __( 'The SVG file you attempted to upload contains content that may pose security risks. Please ensure your file is safe and try again.', 'pm-pro' )
+                ], 400
+            );
+            wp_die();
         }
 
         $is_private    = $request->get_param( 'privacy' );
