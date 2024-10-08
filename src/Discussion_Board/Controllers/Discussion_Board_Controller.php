@@ -272,25 +272,6 @@ class Discussion_Board_Controller {
         pm_update_meta( $discussion_board_id, $project_id, 'discussion_board', 'privacy', $privacy );
         return $this->get_response( NULL);
     }
-
-    /**
-     * Check if the given content contains potential XSS code.
-     *
-     * This function scans the provided content for malicious code patterns,
-     * specifically checking for <script> tags and event attributes like `onclick`, 
-     * `onmouseover`, and similar inline event handlers that are commonly used in XSS attacks.
-     *
-     * @param string $content The content to be scanned for XSS vulnerabilities.
-     * 
-     * @return bool Returns true if potential XSS code is found, otherwise false.
-     */
-    protected function contains_xss_code( $content ) {
-        // Check for <script> tags and event attributes like onclick, onmouseover, etc.
-        $pattern = '/<script.*?>.*?<\/script>|on[a-z]+\s*=\s*["\'][^"\']*["\']/i';
-
-        // Perform the pattern matching and return true if XSS code is found
-        return preg_match($pattern, $content);
-    }
 }
 
 
