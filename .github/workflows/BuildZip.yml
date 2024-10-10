@@ -3,15 +3,17 @@ name: Build release zip
 on:
   push:
     branches:
-      develop
+    - develop
 
 jobs:
- build:
+  build:
     name: Build release zip
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - name: Use Node.js 12.1.0
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Use Node.js 12.1.0
         uses: actions/setup-node@v4
         with:
           node-version: 12.1.0
@@ -33,7 +35,7 @@ jobs:
           composer dump-autoload -o
           composer install --no-dev
           composer dump-autoload -o
-          
+
     - name: Generate zip
       uses: 10up/action-wordpress-plugin-build-zip@stable
       env:
