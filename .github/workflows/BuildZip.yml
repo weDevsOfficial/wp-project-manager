@@ -14,8 +14,8 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Use Node.js 12.1.0
-        uses: actions/setup-node@v4
-        with:
+      uses: actions/setup-node@v4
+       with:
           node-version: 12.1.0
       - uses: actions/checkout@master
       - name: Npm install and build
