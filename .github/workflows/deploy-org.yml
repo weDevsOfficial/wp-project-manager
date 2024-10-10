@@ -44,8 +44,7 @@ jobs:
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
           SLUG: wedevs-project-manager
-          
-- name: Generate zip
+      - name: Generate zip
       uses: 10up/action-wordpress-plugin-build-zip@stable
       env:
         SLUG: wedevs-project-manager
