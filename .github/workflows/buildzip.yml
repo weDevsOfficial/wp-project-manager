@@ -27,7 +27,7 @@ jobs:
           
     - name: Use desired version of php
       uses: shivammathur/setup-php@v2
-        with:
+      with:
         php-version: '7.4'
         
     - name: Composer install and build # Remove or modify this step as needed
