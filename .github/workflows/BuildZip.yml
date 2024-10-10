@@ -6,7 +6,7 @@ on:
       develop
 
 jobs:
-  build:
+ build:
     name: Build release zip
     runs-on: ubuntu-latest
     steps:
