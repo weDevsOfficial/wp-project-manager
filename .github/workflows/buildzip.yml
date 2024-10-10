@@ -24,11 +24,11 @@ jobs:
           npm i
           npm run build
           npm run makepot
-          
-    - name: Use desired version of php
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '7.4'
+
+- name: Setup PHP with specific version of PECL extension
+  uses: shivammathur/setup-php@v2
+  with:
+    php-version: '7.4'
     - name: Composer install and build # Remove or modify this step as needed
         run: |
           composer install
