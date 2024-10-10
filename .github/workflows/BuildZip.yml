@@ -3,7 +3,7 @@ name: Build release zip
 on:
   push:
     branches:
-    - develop
+      develop
 
 jobs:
   build:
