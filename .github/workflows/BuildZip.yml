@@ -34,7 +34,7 @@ jobs:
           composer install --no-dev
           composer dump-autoload -o
           
-      - name: Generate zip
-        uses: 10up/action-wordpress-plugin-build-zip@stable
-        env:
-        SLUG: wedevs-project-manager
+    - name: Generate zip
+      uses: 10up/action-wordpress-plugin-build-zip@stable
+      env:
+        SLUG: wedevs-project-manager # optional, remove if GitHub repo name matches SVN slug, including capitalization
