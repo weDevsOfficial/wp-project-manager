@@ -73,3 +73,8 @@ jobs:
 
           # Provide the file type.
           asset_content_type: application/zip
+
+- name: Generate zip
+      uses: 10up/action-wordpress-plugin-build-zip@stable
+      env:
+        SLUG: wedevs-project-manager
