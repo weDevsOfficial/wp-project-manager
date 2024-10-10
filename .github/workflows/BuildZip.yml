@@ -2,8 +2,8 @@ name: Build release zip
 
 on:
   push:
-    tags:
-      - "*"
+    branches:
+    - develop
 
 jobs:
   build:
