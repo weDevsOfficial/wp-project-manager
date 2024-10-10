@@ -1,20 +1,17 @@
-name: Build release zip
-
+name: Build Release Zip
 on:
   push:
     branches:
     - develop
 
 jobs:
-  build:
-    name: Build release zip
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-    - name: Use Node.js 12.1.0
-      uses: actions/setup-node@v4
-      with:
+   
+      - uses: actions/checkout@v4
+      - name: Use Node.js 12.1.0
+        uses: actions/setup-node@v4
+        with:
           node-version: 12.1.0
       - uses: actions/checkout@master
       - name: Npm install and build
@@ -34,8 +31,8 @@ jobs:
           composer dump-autoload -o
           composer install --no-dev
           composer dump-autoload -o
-
-    - name: Generate zip
-      uses: 10up/action-wordpress-plugin-build-zip@stable
-      env:
-        SLUG: wedevs-project-manager # optional, remove if GitHub repo name matches SVN slug, including capitalization
+      
+      - name: Generate zip
+        uses: 10up/action-wordpress-plugin-build-zip@stable
+        env:
+          SLUG: wedevs-project-manager # optional, remove if GitHub repo name matches SVN slug, including capitalization      
