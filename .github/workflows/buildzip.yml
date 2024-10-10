@@ -24,7 +24,6 @@ jobs:
           npm i
           npm run build
           npm run makepot
-          
 - name: Setup PHP without composer
   uses: shivammathur/setup-php@v2
   with:
