@@ -41,6 +41,15 @@ jobs:
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
           SLUG: wedevs-project-manager
+
+      # Generate release zip after all steps
+      - name: Generate zip
+        uses: 10up/action-wordpress-plugin-build-zip@stable
+        with:
+          slug: wedevs-project-manager  # Ensure this matches your plugin's SVN slug
+        env:
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
       
       - name: Create Release
         id: create_release
@@ -70,9 +79,4 @@ jobs:
 
           # Provide the file type.
           asset_content_type: application/zip
-          
-      - name: Generate zip
-        uses: 10up/action-wordpress-plugin-build-zip@stable
-        env:
-         SLUG: wedevs-project-manager # optional, remove if GitHub repo name matches SVN slug, including capitalization
 
