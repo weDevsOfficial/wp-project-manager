@@ -76,5 +76,7 @@ jobs:
           
       - name: Generate zip
         uses: 10up/action-wordpress-plugin-build-zip@stable
+        with:
+          retention-days: 1
         env:
          SLUG: wedevs-project-manager # optional, remove if GitHub repo name matches SVN slug, including capitalization
