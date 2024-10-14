@@ -81,9 +81,7 @@ class Comment_Controller {
     
         $files      = array_key_exists( 'files', $media_data ) ? $media_data['files'] : null;
 
-        $file_type = $files['type'][0];
-
-        if( HelperFile::check_file_for_xss_code( $file_type, $files ) ){
+        if( HelperFile::check_file_for_xss_code( $files ) ){
             return wp_send_json(
                 [
                     'error_type' => 'svg_xss',
@@ -129,9 +127,7 @@ class Comment_Controller {
         // An array of files
         $files = array_key_exists( 'files', $media_data ) ? $media_data['files'] : null;
 
-        $file_type = $files['type'][0];
-
-        if( HelperFile::check_file_for_xss_code( $file_type, $files ) ){
+        if( HelperFile::check_file_for_xss_code( $files ) ){
             return wp_send_json(
                 [
                     'error_type' => 'svg_xss',
