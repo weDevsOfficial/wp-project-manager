@@ -53,16 +53,21 @@ class File {
 		return $response;
 	}
 
-	public static function check_file_for_xss_code( $file_type, $files ) {
-		if ( $file_type === 'image/svg+xml' ) {
-            $svg_tmp_name = $files['tmp_name'][0];
-
-            $svg_content = file_get_contents($svg_tmp_name);
-
-            if ( self::contains_xss_code($svg_content) ) {
-                return true;
-            }
-        }
+	public static function check_file_for_xss_code( $files ) {
+		if (isset($files['type']) && is_array($files['type'])) {
+	
+			foreach ($files['type'] as $index => $file_type) {
+				
+				if ($file_type === 'image/svg+xml') {
+					$svg_tmp_name = $files['tmp_name'][$index];
+					$svg_content = file_get_contents($svg_tmp_name);
+	
+					if (self::contains_xss_code($svg_content)) {
+						return true;
+					}
+				}
+			}
+		}
 
 		return false;
 	}

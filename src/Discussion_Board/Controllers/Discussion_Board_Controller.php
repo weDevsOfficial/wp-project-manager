@@ -75,9 +75,7 @@ class Discussion_Board_Controller {
         $milestone_id = $request->get_param( 'milestone' );
         $files        = array_key_exists( 'files', $media_data ) ? $media_data['files'] : null;
 
-        $file_type = $files['type'][0];
-
-        if( HelperFile::check_file_for_xss_code( $file_type, $files ) ){
+        if( HelperFile::check_file_for_xss_code( $files ) ){
             return wp_send_json(
                 [
                     'error_type' => 'svg_xss',
@@ -121,9 +119,7 @@ class Discussion_Board_Controller {
         $files               = array_key_exists( 'files', $media_data ) ? $media_data['files'] : null;
         $files_to_delete     = $request->get_param( 'files_to_delete' );
 
-        $file_type = $files['type'][0];
-
-        if( HelperFile::check_file_for_xss_code( $file_type, $files ) ){
+        if( HelperFile::check_file_for_xss_code( $files ) ){
             return wp_send_json(
                 [
                     'error_type' => 'svg_xss',
