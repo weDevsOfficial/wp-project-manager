@@ -4,6 +4,7 @@ namespace WeDevs\PM\Core\Permissions;
 
 use WeDevs\PM\Core\Permissions\Permission;
 use WP_REST_Request;
+
 abstract class Abstract_Permission implements Permission {
     /**
      * This variable holds an instance of WP_REST_Request.
