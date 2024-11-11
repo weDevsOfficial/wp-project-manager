@@ -21,15 +21,6 @@ abstract class Abstract_Permission implements Permission {
      */
     public function __construct( WP_REST_Request $request ) {
         $this->request = $request;
-
-        $user_id = $request->get_param( 'user_id' );
-        $user_id = empty( $user_id ) ? 0 : intval( $user_id );
-
-        if ( empty( $user_id ) && ! empty( get_current_user_id() ) ) {
-            $user_id = get_current_user_id();
-        }
-
-        wp_set_current_user( $user_id );
     }
 
     /**
