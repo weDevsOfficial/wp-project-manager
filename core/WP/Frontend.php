@@ -85,6 +85,7 @@ class Frontend {
         add_action( 'admin_init', array( $this, 'redirect_after_activate' ) );
         add_action( 'admin_bar_menu', array( $this, 'pm_toolbar_search_button' ), 999);
         add_action( 'wp_initialize_site', [ $this, 'after_insert_site' ], 10 );
+        add_filter( 'pm_check_permission', 'pm_privacy_check', 10, 3 );
 
         add_action( 'admin_init', array( $this, 'test' ) );
     }
