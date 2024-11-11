@@ -4,6 +4,12 @@
 
 **Fix:** Vulnerable security issue.
 
+= v2.6.14 - Oct 08, 2024 =
+
+**Fix:** XSS attack while uploading svg file.
+
+**Fix:** Sub task duplicating issue.
+
 = v2.6.13 - Mar 29, 2024 =
 
 **Fix:** New project's user creation issue.
