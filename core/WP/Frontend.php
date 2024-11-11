@@ -84,7 +84,8 @@ class Frontend {
         add_action( 'admin_footer', array( $this, 'switch_project_html' ) );
         add_action( 'admin_init', array( $this, 'redirect_after_activate' ) );
         add_action( 'admin_bar_menu', array( $this, 'pm_toolbar_search_button' ), 999);
-        add_action( 'wp_initialize_site', [ $this, 'after_insert_site' ], 10 );
+        add_action( 'wp_initialize_site', array( $this, 'after_insert_site' ), 10 );
+        add_filter( 'pm_check_permission', array( $this, 'pm_privacy_check' ), 10, 3 );
 
         add_action( 'admin_init', array( $this, 'test' ) );
     }
@@ -101,6 +102,19 @@ class Frontend {
         $this->run_install();
 
         restore_current_blog();
+    }
+
+    /**
+     * Summary of pm_privacy_check.
+     *
+     * @param mixed $bool
+     * @param mixed $project_id
+     * @param mixed $permission_name
+     *
+     * @return bool
+     */
+    public function pm_privacy_check( $bool, $project_id, $permission_name ) {
+        return pm_user_can( $permission_name, $project_id );
     }
 
     function seed() {
