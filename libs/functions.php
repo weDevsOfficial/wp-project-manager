@@ -1327,10 +1327,3 @@ function pm_access_capabilities( $cap = false ) {
 
     return empty( $cap ) ? $caps : $caps[$cap];
 }
-
-if ( ! function_exists( 'pm_privacy_check' ) ) {
-    function pm_privacy_check( $bool, $project_id, $permission_name ) {
-        return pm_user_can( $permission_name, $project_id );
-    }
-    
-}
