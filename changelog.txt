@@ -1,5 +1,9 @@
 == Changelog ==
 
+= v2.6.15 - Nov 11, 2024 =
+
+**Fix:** Vulnerable security issue.
+
 = v2.6.13 - Mar 29, 2024 =
 
 **Fix:** New project's user creation issue.
