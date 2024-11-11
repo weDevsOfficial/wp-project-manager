@@ -14,13 +14,13 @@ class Delete_Task extends Abstract_Permission {
 		$task_id    = $this->request->get_param( 'task_id' );
 		$task       = Task::where( 'id', $task_id )->where( 'project_id', $project_id )->first();
 
-        if ( isset( $task->created_by ) && $task->created_by == $user_id ) {
+        if ( isset( $task->created_by ) && (int) $task->created_by === $user_id ) {
         	return true;
         }
 
         $pm_task_delete_permission = apply_filters( 'pm_check_permission', true, $project_id, 'create_task' );
 
-        if ( $pm_task_delete_permission ) {
+        if ( ! $pm_task_delete_permission ) {
         	return false;
         }
 
