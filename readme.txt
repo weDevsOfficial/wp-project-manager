@@ -309,6 +309,10 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= v2.6.15 - Nov 11, 2024 =
+
+**Fix:** Vulnerable security issue.
+
 = v2.6.14 - Oct 08, 2024 =
 
 **Fix:** XSS attack while uploading svg file.
