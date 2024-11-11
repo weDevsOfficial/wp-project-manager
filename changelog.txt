@@ -1,11 +1,8 @@
 == Changelog ==
 
-= v2.6.15 - Nov 11, 2024 =
+= v2.6.14 - Nov 11, 2024 =
 
 **Fix:** Vulnerable security issue.
-
-= v2.6.14 - Oct 08, 2024 =
-
 **Fix:** XSS attack while uploading svg file.
 **Fix:** Sub task duplicating issue.
 
