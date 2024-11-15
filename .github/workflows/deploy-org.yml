@@ -20,23 +20,23 @@ jobs:
       - name: Npm install and build
         run: |
           rm -r package-lock.json
+          npm install -g grunt-cli
           npm i
-          npm run build
-          npm run makepot
-      - name: Use desired version of php
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '7.4'
-      - name: Composer install and build # Remove or modify this step as needed
-        run: |
-          composer install
-          composer update
-          composer dump-autoload -o
-          composer install --no-dev
-          composer dump-autoload -o
-      - name: Generate zip
-        uses: 10up/action-wordpress-plugin-build-zip@stable
-        with:
-          retention-days: 5
-        env:
-         SLUG: wedevs-project-manager # optional, remove if GitHub repo name matches SVN slug, including capitalization
+          grunt release
+      # - name: Use desired version of php
+      #   uses: shivammathur/setup-php@v2
+      #   with:
+      #     php-version: '7.4'
+      # - name: Composer install and build # Remove or modify this step as needed
+      #   run: |
+      #     composer install
+      #     composer update
+      #     composer dump-autoload -o
+      #     composer install --no-dev
+      #     composer dump-autoload -o
+      # - name: Generate zip
+      #   uses: 10up/action-wordpress-plugin-build-zip@stable
+      #   with:
+      #     retention-days: 5
+        # env:
+        #  SLUG: wedevs-project-manager # optional, remove if GitHub repo name matches SVN slug, including capitalization
