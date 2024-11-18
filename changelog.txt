@@ -1,5 +1,9 @@
 == Changelog ==
 
+= v2.6.15 - Nov 18, 2024 =
+**Update:** Tested upto 6.7
+**Update:** Version bump & make stable frontend.
+
 = v2.6.14 - Nov 11, 2024 =
 
 **Fix:** Vulnerable security issue.
