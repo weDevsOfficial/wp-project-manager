@@ -315,7 +315,6 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 **Fix:** XSS attack while uploading svg file.
 **Fix:** Sub task duplicating issue.
 
-
 = v2.6.13 - Mar 29, 2024 =
 
 **Fix:** New project's user creation issue.
