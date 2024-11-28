@@ -23,5 +23,4 @@ pm_register_routes();
 
 do_action( 'pm_loaded' );
 
-// Call tracker immediately
-pm_init_tracker();
+add_action('init', 'pm_init_tracker');
