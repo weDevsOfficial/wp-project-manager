@@ -29,4 +29,8 @@ define( 'PM_FILE', __FILE__ );
 define( 'PM_BASENAME', plugin_basename(__FILE__) );
 define( 'PM_PLUGIN_ASSEST', plugins_url( 'views/assets', __FILE__ ) );
 
-require __DIR__.'/bootstrap/start.php';
+add_action('init',function(){
+  
+    require __DIR__.'/bootstrap/start.php';
+
+});
