@@ -186,6 +186,23 @@ class Task_List_Controller {
             if ( ! empty( $filter_tasks[$list['id']] ) ) {
                 $lists['data'][$key]['incomplete_tasks']['data'] = $filter_tasks[ $list['id'] ];
             }
+       
+            if(isset($lists['data'][$key]['creator']->data->user_pass)){
+                unset($lists['data'][$key]['creator']->data->user_pass);
+            }
+            if(isset($lists['data'][$key]['creator']->data->user_registered)){
+                unset($lists['data'][$key]['creator']->data->user_registered);
+            }
+            if(isset($lists['data'][$key]['creator']->data->user_activation_key)){
+                unset($lists['data'][$key]['creator']->data->user_activation_key);
+            }
+            if(isset($lists['data'][$key]['creator']->data->user_status)){
+                unset($lists['data'][$key]['creator']->data->user_status);
+            }
+            if(isset($lists['data'][$key]['creator']->allcaps)){
+                unset($lists['data'][$key]['creator']->allcaps);
+            }
+           
         }
 
         return $lists;
