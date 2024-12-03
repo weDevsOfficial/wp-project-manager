@@ -38,7 +38,8 @@
 
                                 <div class="footer-section">
 
-                                    <a v-if="file.attachment_id" :href="getDownloadUrl(file.attachment_id)"><span class="dashicons dashicons-download"></span></a>
+                                    <a v-if="file.attachment_id" @click.prevent="checkPermissionAndDownload(getDownloadUrl(file.attachment_id), file.url)" :href="getDownloadUrl(file.attachment_id)" >
+                                    <span class="dashicons dashicons-download"></span></a>
                                     <a v-if="contentURL(file)" :href="contentURL(file)"><span class="dashicons dashicons-admin-links"></span></a>
                                     <a v-if="contentURL(file)" :href="contentURL(file)" class="pm-comments-count"><span class="pm-btn pm-btn-blue pm-comment-count"></span></a>
 
@@ -155,7 +156,34 @@
                         return '#/projects/'+self.project_id+'/task/'+file.fileable.commentable_id;
                         break;
                 }
-            }
+            },
+            async checkPermissionAndDownload(permissionUrl, downloadUrl) {
+                try {
+                    const headers = {
+                        "Content-Type": "application/json",
+                        "X-WP-Nonce": PM_Global_Vars.permission,
+                    };
+
+                    const response = await fetch(permissionUrl, {
+                        method: "GET",
+                        headers,
+                    });
+
+                    if (response.ok) {
+                        // If permission is granted, create a dynamic anchor tag
+                        const dynamicAnchor = document.createElement("a");
+                        dynamicAnchor.href = downloadUrl;
+                        dynamicAnchor.target = "_blank";
+                        document.body.appendChild(dynamicAnchor);
+                        dynamicAnchor.click();
+                        document.body.removeChild(dynamicAnchor);
+                    } else {
+                        alert("Permission denied.");
+                    }
+                } catch (error) {
+                    console.error("Error checking permissions:", error);
+                }
+            },
 
         }
 
