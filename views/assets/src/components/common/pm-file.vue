@@ -13,7 +13,7 @@
             <img class="pm-content-img-size" :src="getAssetUrl('/images/icons/icon-psd.png')" :alt="file.name" :title="file.name">
         </a>
 
-        <a v-else class="pm-colorbox-img" :href="getDownloadUrl(file.attachment_id, projectId)" :title="file.name" target="_blank">
+        <a v-else class="pm-colorbox-img" @click.prevent="checkPermissionAndDownload(getDownloadUrl(file.attachment_id, projectId), file.url)" :href="getDownloadUrl(file.attachment_id, projectId)" :title="file.name" target="_blank">
             <img v-if="file.absoluteUrl" class="pm-content-img-size" :src="file.absoluteUrl" :alt="file.name" :title="file.name">
             <img v-if="!file.absoluteUrl" class="pm-content-img-size" :src="file.thumb" :alt="file.name" :title="file.name">
         </a>
@@ -81,6 +81,36 @@ export default {
 
            return this.project_id > 0 ? this.project_id : this.file_project_id;
         }
-    }
+    },
+    methods: {
+        async checkPermissionAndDownload(permissionUrl, downloadUrl) {
+            try {
+                
+                const headers = {
+                    "Content-Type": "application/json",
+                    "X-WP-Nonce": PM_Global_Vars.permission,
+                };
+
+                const response = await fetch(permissionUrl, {
+                    method: "GET",
+                    headers,
+                });
+
+                if (response.ok) {
+                    // If permission is granted, create a dynamic anchor tag
+                    const dynamicAnchor = document.createElement("a");
+                    dynamicAnchor.href = downloadUrl;
+                    dynamicAnchor.target = "_blank";
+                    document.body.appendChild(dynamicAnchor);
+                    dynamicAnchor.click();
+                    document.body.removeChild(dynamicAnchor);
+                } else {
+                    alert("Permission denied.");
+                }
+            } catch (error) {
+                console.error("Error checking permissions:", error);
+            }
+        },
+    },
 }
 </script>
