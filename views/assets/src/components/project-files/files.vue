@@ -161,7 +161,7 @@
                 try {
                     const headers = {
                         "Content-Type": "application/json",
-                        "X-WP-Nonce": PM_Vars.permission,
+                        "X-WP-Nonce": PM_Global_Vars.permission,
                     };
 
                     const response = await fetch(permissionUrl, {
