@@ -2,6 +2,7 @@
 
 = v2.6.16 - Dec 10, 2024 =
 
+**Update:** WordPress 6.7.1 compatibility
 **Fix:** File download permission issue.
 **Fix:** WP 6.7.1 translation loaded early error.
 **Fix:** Subscriber level data exposure security issue.
