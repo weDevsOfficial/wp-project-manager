@@ -19,7 +19,6 @@ jobs:
       - uses: actions/checkout@master
       - name: Npm install and build
         run: |
-          rm -r package-lock.json
           npm i
           npm run build
           npm run makepot
@@ -40,3 +39,11 @@ jobs:
           retention-days: 5
         env:
          SLUG: wedevs-project-manager # optional, remove if GitHub repo name matches SVN slug, including capitalization
+      - name: WordPress Plugin Deploy
+        uses: 10up/action-wordpress-plugin-deploy@stable
+        with:
+          dry-run: true
+        env:
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SLUG: wedevs-project-manager
