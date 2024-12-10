@@ -1,6 +1,15 @@
 == Changelog ==
 
+= v2.6.16 - Dec 10, 2024 =
+
+**Update:** WordPress 6.7.1 compatibility
+**Fix:** File download permission issue.
+**Fix:** WP 6.7.1 translation loaded early error.
+**Fix:** Subscriber level data exposure security issue.
+
+
 = v2.6.15 - Nov 18, 2024 =
+
 **Update:** Tested upto 6.7
 **Update:** Version bump & make stable frontend.
 
