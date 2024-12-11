@@ -22,3 +22,5 @@ bin
 tmp
 .editorconfig
 composer.phar
+/wp-project-manager.zip
+/zipfile
