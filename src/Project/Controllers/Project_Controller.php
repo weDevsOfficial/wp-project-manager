@@ -25,8 +25,8 @@ class Project_Controller {
 	use Transformer_Manager, Request_Filter, File_Attachment;
 
 	public function index( WP_REST_Request $request ) {
-		$per_page = $request->get_param( 'per_page' );
-		$page     = $request->get_param( 'page' );
+		$per_page = intval( $request->get_param( 'per_page' ) );
+		$page     = intval( $request->get_param( 'page' ) );
 		$status   = $request->get_param( 'status' );
 		$category = $request->get_param( 'category' );
 		$project_transform = $request->get_param( 'project_transform' );
@@ -322,7 +322,7 @@ class Project_Controller {
 	}
 
 	public function destroy( WP_REST_Request $request ) {
-		$id = $request->get_param('id');
+		$id = intval( $request->get_param('id') );
 
 		// Find the requested resource
 		$project =  Project::find( $id );
@@ -380,7 +380,7 @@ class Project_Controller {
 	}
 
 	public function favourite_project (WP_REST_Request $request) {
-        $project_id = $request->get_param( 'id' );
+        $project_id = intval( $request->get_param( 'id' ) );
         $favourite  = $request->get_param( 'favourite' );
         $user_id    = get_current_user_id();
 
