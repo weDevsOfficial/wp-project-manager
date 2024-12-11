@@ -31,12 +31,12 @@ class Milestone_Controller {
     }
 
     public function index( WP_REST_Request $request ) {
-        $project_id = $request->get_param( 'project_id' );
-        $per_page   = $request->get_param( 'per_page' );
+        $project_id = intval( $request->get_param( 'project_id' ) );
+        $per_page   = intval( $request->get_param( 'per_page' ) );
         $status     = $request->get_param( 'status' );
         $per_page   = $per_page ? $per_page : -1;
 
-        $page       = $request->get_param( 'page' );
+        $page       = intval( $request->get_param( 'page' ) );
         $page       = $page ? $page : 1;
 
         Paginator::currentPageResolver(function () use ($page) {
@@ -76,7 +76,7 @@ class Milestone_Controller {
     }
 
     public function show( WP_REST_Request $request ) {
-        $project_id   = $request->get_param( 'project_id' );
+        $project_id   = intval( $request->get_param( 'project_id' ) );
         $milestone_id = $request->get_param( 'milestone_id' );
 
         $milestone = Milestone::where( 'id', $milestone_id )
@@ -173,7 +173,7 @@ class Milestone_Controller {
         $data['is_private']    = $is_private == 'true' || $is_private === true ? 1 : 0;
 
         // Set project id from url parameter
-        $project_id   = $request->get_param( 'project_id' );
+        $project_id   = intval( $request->get_param( 'project_id' ) );
 
         // Set milestone id from url parameter
         $milestone_id = $request->get_param( 'milestone_id' );
@@ -214,7 +214,7 @@ class Milestone_Controller {
     }
 
     public function destroy( WP_REST_Request $request ) {
-        $project_id   = $request->get_param( 'project_id' );
+        $project_id   = intval( $request->get_param( 'project_id' ) );
         $milestone_id = $request->get_param( 'milestone_id' );
 
         $milestone = Milestone::where( 'id', $milestone_id )
@@ -233,7 +233,7 @@ class Milestone_Controller {
         return $this->get_response(false, $message);
     }
     public function privacy( WP_REST_Request $request ) {
-        $project_id = $request->get_param( 'project_id' );
+        $project_id = intval( $request->get_param( 'project_id' ) );
         $milestone_id = $request->get_param( 'milestone_id' );
         $privacy = $request->get_param( 'is_private' );
         $milestone = Milestone::find( $milestone_id );

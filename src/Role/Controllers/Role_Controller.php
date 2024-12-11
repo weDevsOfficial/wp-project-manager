@@ -26,7 +26,7 @@ class Role_Controller {
     }
 
     public function show( WP_REST_Request $request ) {
-        $id       = $request->get_param('id');
+        $id       = intval( $request->get_param('id') );
         $role     = Role::where('status', 1)->find( $id );
         $resource = new Item( $role, new Role_Transformer );
 
@@ -56,7 +56,7 @@ class Role_Controller {
     }
 
     public function destroy( WP_REST_Request $request ) {
-        $id = $request->get_param( 'id' );
+        $id = intval( $request->get_param( 'id' ) );
         $role = Role::find( $id );
 
         $role->delete();

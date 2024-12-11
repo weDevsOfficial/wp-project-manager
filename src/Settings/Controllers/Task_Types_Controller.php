@@ -19,9 +19,9 @@ class Task_Types_Controller {
     use Request_Filter, Transformer_Manager;
 
     public function index( WP_REST_Request $request ) {
-        $per_page   = $request->get_param( 'per_page' );
+        $per_page   = intval( $request->get_param( 'per_page' ) );
         $per_page   = $per_page ? $per_page : 500;
-        $page       = $request->get_param( 'page' );
+        $page       = intval( $request->get_param( 'page' ) );
         $page       = empty( $page ) ? 1 : $page;
         
         Paginator::currentPageResolver(function () use ($page) {
@@ -66,7 +66,7 @@ class Task_Types_Controller {
     }
 
     public function update_task_type( WP_REST_Request $request ) {
-        $id          = $request->get_param( 'id' );
+        $id          = intval( $request->get_param( 'id' ) );
         $title       = $request->get_param( 'title' );
         $description = $request->get_param( 'description' );
         $type        = $request->get_param( 'type' );
@@ -88,7 +88,7 @@ class Task_Types_Controller {
     }
 
     public function destroy_task_type( WP_REST_Request $request ) {
-        $id    = $request->get_param( 'id' );
+        $id    = intval( $request->get_param( 'id' ) );
 
         $stored_type = Task_Types::where( 'id', $id )
             ->first();
