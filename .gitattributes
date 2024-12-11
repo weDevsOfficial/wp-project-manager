@@ -28,3 +28,5 @@
 /tsconfig.base.json export-ignore
 /tsconfig.base export-ignore
 /webpack.config.js export-ignore
+/wp-project-manager.zip
+/zipfile
