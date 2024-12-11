@@ -49,10 +49,10 @@ class Task_Controller {
     }
 
     public function index( WP_REST_Request $request ) {
-        $project_id = $request->get_param( 'project_id' );
-        $per_page   = $request->get_param( 'per_page' );
+        $project_id = intval( $request->get_param( 'project_id' ) );
+        $per_page   = intval( $request->get_param( 'per_page' ) );
         $per_page   = $per_page ? $per_page : 5;
-        $page       = $request->get_param( 'page' );
+        $page       = intval( $request->get_param( 'page' ) );
         $search     = $request->get_param( 's' );
 
         Paginator::currentPageResolver(function () use ($page) {
@@ -91,7 +91,7 @@ class Task_Controller {
     }
 
     public function show( WP_REST_Request $request ) {
-        $project_id = $request->get_param( 'project_id' );
+        $project_id = intval( $request->get_param( 'project_id' ) );
         $task_id    = $request->get_param( 'task_id' );
         return $this->get_task( $task_id, $project_id, $request->get_params() );
     }
@@ -185,7 +185,7 @@ class Task_Controller {
 
     public function store( WP_REST_Request $request ) {
         $data          = $this->extract_non_empty_values( $request );
-        $project_id    = $request->get_param( 'project_id' );
+        $project_id    = intval( $request->get_param( 'project_id' ) );
         $board_id      = $request->get_param( 'board_id' );
         $assignees     = $request->get_param( 'assignees' );
         $is_private    = $request->get_param( 'privacy' );
@@ -587,7 +587,7 @@ class Task_Controller {
 
     public function destroy( WP_REST_Request $request ) {
         // Grab user inputs
-        $project_id = $request->get_param( 'project_id' );
+        $project_id = intval( $request->get_param( 'project_id' ) );
         $task_id    = $request->get_param( 'task_id' );
 
         // Select the task
@@ -678,7 +678,7 @@ class Task_Controller {
     }
 
     public function attach_users( WP_REST_Request $request ) {
-        $project_id = $request->get_param( 'project_id' );
+        $project_id = intval( $request->get_param( 'project_id' ) );
         $task_id    = $request->get_param( 'task_id' );
         $user_ids   = $request->get_param( 'users' );
 
@@ -703,7 +703,7 @@ class Task_Controller {
     }
 
     public function detach_users( WP_REST_Request $request ) {
-        $project_id = $request->get_param( 'project_id' );
+        $project_id = intval( $request->get_param( 'project_id' ) );
         $task_id    = $request->get_param( 'task_id' );
         $user_ids   = $request->get_param( 'users' );
 
@@ -743,7 +743,7 @@ class Task_Controller {
     }
 
     public function privacy( WP_REST_Request $request ) {
-        $project_id = $request->get_param( 'project_id' );
+        $project_id = intval( $request->get_param( 'project_id' ) );
         $task_id = $request->get_param( 'task_id' );
         $privacy = $request->get_param( 'is_private' );
         $task = Task::find( $task_id );
@@ -756,7 +756,7 @@ class Task_Controller {
 
     public function task_sorting( WP_REST_Request $request ) {
 
-        $project_id = $request->get_param( 'project_id' );
+        $project_id = intval( $request->get_param( 'project_id' ) );
         $list_id    = $request->get_param( 'list_id' );
         $task_id    = $request->get_param( 'task_id' );
         $orders     = $request->get_param( 'orders' );
@@ -1412,7 +1412,7 @@ class Task_Controller {
     public function load_more_tasks( WP_REST_Request $request ) {
         $list_id    = $request->get_param( 'list_id' );
         $task_ids   = $request->get_param( 'task_ids' );
-        $project_id = $request->get_param( 'project_id' );
+        $project_id = intval( $request->get_param( 'project_id' ) );
         $status     = $request->get_param( 'status' );
 
         if ( (int) $status ) {
