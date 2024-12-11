@@ -19,7 +19,7 @@ class Search_Controller {
 
 	public function search( WP_REST_Request $request ) {
 		$string     = $request->get_param( 'query' );
-    	$project_id = $request->get_param( 'project_id' );
+    	$project_id = intval( $request->get_param( 'project_id' ) );
 		$model      = $request->get_param( 'model' ); //[milestone, discussion_board, task_list, task]
 		$model 		= empty( $model ) ? '' : $model;
 
