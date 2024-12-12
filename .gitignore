@@ -20,4 +20,6 @@ phpcs-report.txt
 /languages/wedevs-project-manager.pot
 /views/assets/vendor/wp-hooks/pm-hooks.js
 /views/assets/vendor/vue-fullscreen/vue-fullscreen.min.js
+wp-project-manager.zip
+/zipfile/
 

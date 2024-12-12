@@ -38,7 +38,7 @@ jobs:
         with:
           retention-days: 5
         env:
-         SLUG: wedevs-project-manager # optional, remove if GitHub repo name matches SVN slug, including capitalization
+         SLUG: blog-reading-progress-bar # optional, remove if GitHub repo name matches SVN slug, including capitalization
       - name: WordPress Plugin Deploy
         uses: 10up/action-wordpress-plugin-deploy@stable
         with:
@@ -46,4 +46,4 @@ jobs:
         env:
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
-          SLUG: wedevs-project-manager
+          SLUG: blog-reading-progress-bar
