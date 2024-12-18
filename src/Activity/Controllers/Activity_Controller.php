@@ -19,7 +19,7 @@ class Activity_Controller {
 
     public function index( WP_REST_Request $request ) {
         
-        $per_page   = intval( intval( $request->get_param( 'per_page' ) ) );
+        $per_page   = intval( $request->get_param( 'per_page' ) );
         $page       = intval( $request->get_param( 'page' ) );
         $project_id = intval( $request->get_param( 'project_id' ) );
 
