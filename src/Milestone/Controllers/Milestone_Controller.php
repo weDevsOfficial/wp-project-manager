@@ -33,7 +33,7 @@ class Milestone_Controller {
     public function index( WP_REST_Request $request ) {
         $project_id = intval( $request->get_param( 'project_id' ) );
         $per_page   = intval( $request->get_param( 'per_page' ) );
-        $status     = $request->get_param( 'status' );
+        $status     = sanitize_text_field($request->get_param( 'status' ) );
         $per_page   = $per_page ? $per_page : -1;
 
         $page       = intval( $request->get_param( 'page' ) );
@@ -77,7 +77,7 @@ class Milestone_Controller {
 
     public function show( WP_REST_Request $request ) {
         $project_id   = intval( $request->get_param( 'project_id' ) );
-        $milestone_id = $request->get_param( 'milestone_id' );
+        $milestone_id = intval( $request->get_param( 'milestone_id' ) );
 
         $milestone = Milestone::where( 'id', $milestone_id )
             ->where( 'project_id', $project_id );
@@ -130,7 +130,7 @@ class Milestone_Controller {
     public function store( WP_REST_Request $request ) {
         // Grab non empty user input
         $data = $this->extract_non_empty_values( $request );
-        $is_private    = $request->get_param( 'privacy' );
+        $is_private    = sanitize_text_field( $request->get_param( 'privacy' ) );
         $data['is_private']    = $is_private == 'true' || $is_private === true ? 1 : 0;
 
         // Milestone achieve date

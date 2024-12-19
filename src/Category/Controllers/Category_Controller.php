@@ -19,7 +19,7 @@ class Category_Controller {
     use Transformer_Manager;
 
     public function index( WP_REST_Request $request ) {
-        $type = $request->get_param( 'type' );
+        $type = sanitize_text_field( $request->get_param( 'type' ) );
 
         $per_page = intval( $request->get_param( 'per_page' ) );
         $per_page = $per_page ? $per_page : 20;
@@ -71,7 +71,7 @@ class Category_Controller {
         $data = [
             'title' => sanitize_text_field( $request->get_param( 'title' ) ),
             'description' => sanitize_text_field( $request->get_param( 'description' ) ),
-            'categorible_type' => $request->get_param( 'categorible_type' )
+            'categorible_type' => sanitize_text_field( $request->get_param( 'categorible_type' ) )
         ];
         $data = array_filter( $data );
 
@@ -92,8 +92,9 @@ class Category_Controller {
         $data = [
             'title' => sanitize_text_field( $request->get_param( 'title' ) ),
             'description' => sanitize_text_field( $request->get_param( 'description' ) ),
-            'categorible_type' => $request->get_param( 'categorible_type' )
+            'categorible_type' => sanitize_text_field( $request->get_param( 'categorible_type' ) )
         ];
+        
 
         $category = Category::findOrFail( $id );
         $data = array_filter( $data );

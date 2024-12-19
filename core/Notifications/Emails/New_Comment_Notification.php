@@ -75,7 +75,8 @@ class New_Comment_Notification extends Email {
                             ->where( 'entity_id',  $request['commentable_id'])
                             ->where( 'meta_key', 'title' )
                             ->first();
-            $title = $filemeta->meta_value;
+                            
+            $title = $filemeta->meta_value ?? '';
         }
 
         $template_name = apply_filters( 'pm_new_comment_email_template_path', $this->get_template_path( '/html/new-comment.php' ) );

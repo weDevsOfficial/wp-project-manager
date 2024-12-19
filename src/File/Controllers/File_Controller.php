@@ -45,7 +45,7 @@ class File_Controller {
     }
 
     public function show( WP_REST_Request $request ) {
-        $file_id = $request->get_param( 'file_id' );
+        $file_id = intval($request->get_param( 'file_id' ) );
         $file = File::find( $file_id );
 
         $resource = new Item( $file, new File_Transformer );
@@ -69,8 +69,8 @@ class File_Controller {
     }
 
     public function rename( WP_REST_Request $request ) {
-        $file_id   = $request->get_param( 'file_id' );
-        $file_name = $request->get_param( 'name' );
+        $file_id   = intval( $request->get_param( 'file_id' ) );
+        $file_name = sanitize_file_name($request->get_param( 'name' ) );
         $file      = File::find( $file_id );
 
         File_System::update( $file->attachment_id, array( 'name' => $file_name ) );
@@ -81,7 +81,7 @@ class File_Controller {
     }
 
     public function destroy( WP_REST_Request $request ) {
-        $file_id = $request->get_param( 'file_id' );
+        $file_id = intval( $request->get_param( 'file_id' ) );
 
         $file = File::find( $file_id );
         File_System::delete( $file->attachment_id );
@@ -91,7 +91,7 @@ class File_Controller {
     }
 
     public function download( WP_REST_Request $request ) {
-        $file_id = $request->get_param('file_id');
+        $file_id = intval( $request->get_param('file_id') );
 
         //get file path
         $file = File_System::get_file( $file_id );
