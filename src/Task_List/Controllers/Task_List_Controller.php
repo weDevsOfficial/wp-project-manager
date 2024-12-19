@@ -514,7 +514,7 @@ class Task_List_Controller {
             ->where( 'project_id', $project_id )
             ->first();
 
-        $user_ids = explode( ',', $request->get_param( 'users' ) );
+        $user_ids = array_map( 'intval', explode( ',', $request->get_param( 'users' ) ) );
 
         $task_list->users()->whereIn( 'boardable_id', $user_ids )->delete();
 
