@@ -21,12 +21,12 @@ class User_Controller {
     use Transformer_Manager, Request_Filter;
 
     public function index( WP_REST_Request $request ) {
-        $id    = $request->get_param( 'id' );
+        $id    = intval( $request->get_param( 'id' ) );
 
-        $per_page   = $request->get_param( 'per_page' );
+        $per_page   = intval( $request->get_param( 'per_page' ) );
         $per_page   = $per_page ? $per_page : 15;
 
-        $page       = $request->get_param( 'page' );
+        $page       = intval( $request->get_param( 'page' ) );
         $page       = $page ? $page : 1;
 
         Paginator::currentPageResolver(function () use ($page) {
@@ -48,7 +48,7 @@ class User_Controller {
     }
 
     public function show( WP_REST_Request $request ) {
-        $id       = $request->get_param( 'id' );
+        $id       = intval( $request->get_param( 'id' ) );
         $user     = User::find( $id );
         $resource = new Item( $user, new User_Transformer );
 
@@ -134,7 +134,7 @@ class User_Controller {
     public function update_role( WP_REST_Request $request ) {
         // Extract user inputs
         $id         = $request->get_param( 'user_id' );
-        $project_id = $request->get_param( 'project_id' );
+        $project_id = intval( $request->get_param( 'project_id' ) );
         $role_ids   = $request->get_param( 'role_ids' );
         $role_ids   = explode( ',', $role_ids );
 

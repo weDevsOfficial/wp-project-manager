@@ -18,7 +18,7 @@ class Settings_Controller {
     use Request_Filter, Transformer_Manager;
 
     public function index( WP_REST_Request $request ) {
-        $project_id = $request->get_param( 'project_id' );
+        $project_id = intval( $request->get_param( 'project_id' ) );
         $key        = $request->get_param( 'key' );
 
         if ( $project_id && $key ) {
@@ -53,9 +53,9 @@ class Settings_Controller {
 
     public function store( WP_REST_Request $request ) {
         $data       = $this->extract_non_empty_values( $request );
-        $project_id = $request->get_param( 'project_id' );
+        $project_id = intval( $request->get_param( 'project_id' ) );
         $settings   = $request->get_param( 'settings' );
-        $id         = $request->get_param( 'id' );
+        $id         = intval( $request->get_param( 'id' ) );
         
         if ( is_array( $settings ) ) {
             $settings_collection = [];
@@ -114,7 +114,7 @@ class Settings_Controller {
     }
 
     public function destroy( WP_REST_Request $request ) {
-        $id = $request->get_param( 'id' );
+        $id = intval( $request->get_param( 'id' ) );
 
         $settings = Settings::where( 'id', $id )
             ->first();
@@ -131,14 +131,14 @@ class Settings_Controller {
     public function pluck_without_project(WP_REST_Request $request) {
         $key = $request->get_param('key');
 
-        return pm_get_setting( $kye );
+        return pm_get_setting( $key );
     }
 
     public function pluck_with_project(WP_REST_Request $request) {
         $project_id = $request->get_param('project_id');
         $key        = $request->get_param('key');
 
-        return pm_get_setting( $kye, $project_id );
+        return pm_get_setting( $key, $project_id );
     }
 
     public function notice(WP_REST_Request $request) {

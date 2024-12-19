@@ -26,11 +26,11 @@ class Discussion_Board_Controller {
     use Transformer_Manager, Request_Filter, File_Attachment;
 
     public function index( WP_REST_Request $request ) {
-        $project_id = $request->get_param( 'project_id' );
-        $per_page = $request->get_param( 'per_page' );
+        $project_id = intval( $request->get_param( 'project_id' ) );
+        $per_page = intval( $request->get_param( 'per_page' ) );
         $per_page = $per_page ? $per_page : 15;
 
-        $page = $request->get_param( 'page' );
+        $page = intval( $request->get_param( 'page' ) );
         $page = $page ? $page : 1;
 
         Paginator::currentPageResolver(function () use ($page) {
@@ -51,9 +51,9 @@ class Discussion_Board_Controller {
     }
 
     public function show( WP_REST_Request $request ) {
-        $project_id = $request->get_param( 'project_id' );
-        $discussion_board_id = $request->get_param( 'discussion_board_id' );
-
+        $project_id = intval( $request->get_param( 'project_id' ) );
+        $discussion_board_id = intval( $request->get_param( 'discussion_board_id' ) );
+        
         $discussion_board  = Discussion_Board::with('metas')->where( 'id', $discussion_board_id )->where( 'project_id', $project_id );
         $discussion_board = apply_filters( 'pm_discuss_show_query', $discussion_board, $project_id, $request );
         $discussion_board = $discussion_board->first();
@@ -72,9 +72,9 @@ class Discussion_Board_Controller {
 
         $data         = $this->extract_non_empty_values( $request );
         $media_data   = $request->get_file_params();
-        $milestone_id = $request->get_param( 'milestone' );
+        $milestone_id = intval( $request->get_param( 'milestone' ) );
         $files        = array_key_exists( 'files', $media_data ) ? $media_data['files'] : null;
-
+        
         if( HelperFile::check_file_for_xss_code( $files ) ){
             return wp_send_json(
                 [
@@ -82,7 +82,6 @@ class Discussion_Board_Controller {
                     'message' => __( 'The SVG file you attempted to upload contains content that may pose security risks. Please ensure your file is safe and try again.', 'pm-pro' )
                 ], 400
             );
-            wp_die();
         }
 
         $is_private    = $request->get_param( 'privacy' );
@@ -113,7 +112,7 @@ class Discussion_Board_Controller {
     public function update( WP_REST_Request $request ) {
         $data                = $this->extract_non_empty_values( $request );
         $media_data          = $request->get_file_params();
-        $project_id          = $request->get_param( 'project_id' );
+        $project_id          = intval( $request->get_param( 'project_id' ) );
         $discussion_board_id = $request->get_param( 'discussion_board_id' );
         $milestone_id        = $request->get_param( 'milestone' );
         $files               = array_key_exists( 'files', $media_data ) ? $media_data['files'] : null;
@@ -126,10 +125,9 @@ class Discussion_Board_Controller {
                     'message' => __( 'The SVG file you attempted to upload contains content that may pose security risks. Please ensure your file is safe and try again.', 'pm-pro' )
                 ], 400
             );
-            wp_die();
         }
 
-        $is_private    = $request->get_param( 'privacy' );
+        $is_private    = sanitize_text_field( $request->get_param( 'privacy' ) );
         $data['is_private']    = $is_private == 'true' || $is_private === true ? 1 : 0;
 
         $milestone = Milestone::find( $milestone_id );
@@ -165,7 +163,7 @@ class Discussion_Board_Controller {
     }
 
     public function destroy( WP_REST_Request $request ) {
-        $project_id = $request->get_param( 'project_id' );
+        $project_id = intval( $request->get_param( 'project_id' ) );
         $discussion_board_id = $request->get_param( 'discussion_board_id' );
 
         $discussion_board = Discussion_Board::where( 'id', $discussion_board_id )
@@ -212,8 +210,8 @@ class Discussion_Board_Controller {
     }
 
     public function attach_users( WP_REST_Request $request ) {
-        $project_id = $request->get_param( 'project_id' );
-        $discussion_board_id = $request->get_param( 'discussion_board_id' );
+        $project_id = intval( $request->get_param( 'project_id' ) );
+        $discussion_board_id = intval( $request->get_param( 'discussion_board_id' ) );
 
         $discussion_board = Discussion_Board::where( 'id', $discussion_board_id )
             ->where( 'project_id', $project_id )
@@ -239,7 +237,7 @@ class Discussion_Board_Controller {
     }
 
     public function detach_users( WP_REST_Request $request ) {
-        $project_id = $request->get_param( 'project_id' );
+        $project_id = intval( $request->get_param( 'project_id' ) );
         $discussion_board_id = $request->get_param( 'discussion_board_id' );
 
         $discussion_board = Discussion_Board::where( 'id', $discussion_board_id )
@@ -258,9 +256,10 @@ class Discussion_Board_Controller {
     }
 
     public function privacy( WP_REST_Request $request ) {
-        $project_id = $request->get_param( 'project_id' );
-        $discussion_board_id = $request->get_param( 'discussion_board_id' );
-        $privacy = $request->get_param( 'is_private' );
+        $project_id = intval( $request->get_param( 'project_id' ) );
+        $discussion_board_id = intval($request->get_param( 'discussion_board_id' ) );
+        $privacy = intval( $request->get_param( 'is_private' ) );
+        
         $discuss = Discussion_Board::find( $discussion_board_id );
         $discuss->update_model( [
             'is_private' => $privacy
