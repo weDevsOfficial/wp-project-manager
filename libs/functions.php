@@ -1330,23 +1330,29 @@ function pm_access_capabilities( $cap = false ) {
 
 
 function pm_validate_assignee( $assignees){
-	
-    if ( is_array( $assignees ) ) {
-        foreach ( $assignees as &$assignee ) {
-            // Sanitize user_id and role_id
-            $assignee['user_id'] = absint( $assignee['user_id'] );
-            $assignee['role_id'] = absint( $assignee['role_id'] );
-            
-            // validate user_id exists
-            $user = get_user_by( 'id', $assignee['user_id'] );
-            if ( ! $user ) {
-                continue;
-            }
-            
-            // validate role_id is a valid role in your system
-            if ( ! get_role( $assignee['role_id'] ) ) {
-                continue;
-            }
+    
+    if ( empty( $assignees ) ) {
+            return [];
+    }
+    
+    if ( !is_array( $assignees ) ) {
+            return [];
+    }
+
+    foreach ( $assignees as &$assignee ) {
+        // Sanitize user_id and role_id
+        $assignee['user_id'] = absint( $assignee['user_id'] );
+        $assignee['role_id'] = absint( $assignee['role_id'] );
+        
+        // validate user_id exists
+        $user = get_user_by( 'id', $assignee['user_id'] );
+        if ( ! $user ) {
+            continue;
+        }
+        
+        // validate role_id is a valid role in your system
+        if ( ! get_role( $assignee['role_id'] ) ) {
+            continue;
         }
     }
 
