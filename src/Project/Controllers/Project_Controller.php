@@ -30,7 +30,7 @@ class Project_Controller {
 		$status   = $request->get_param( 'status' );
 		$category = $request->get_param( 'category' );
 		$project_transform = $request->get_param( 'project_transform' );
-
+ 
 		$per_page_from_settings = pm_get_setting( 'project_per_page' );
 		$per_page_from_settings = $per_page_from_settings ? $per_page_from_settings : 15;
 
@@ -215,12 +215,14 @@ class Project_Controller {
 		$project = Project::create( $data );
 		add_option('projectId_git_bit_hash_'.$project->id , sha1(strtotime("now").$project->id));
 		// Establishing relationships
-		$category_ids = $request->get_param( 'categories' );
+		$category_ids = intval( $request->get_param( 'categories' ) );
+		
 		if ( $category_ids ) {
 			$project->categories()->sync( $category_ids );
 		}
 
-		$assignees =  $request->get_param( 'assignees' );
+		$assignees = pm_validate_assignee( $request->get_param( 'assignees' ) );
+
 		$assignees[] = [
 			'user_id' => wp_get_current_user()->ID,
 			'role_id' => 1, // 1 for manager
@@ -252,12 +254,12 @@ class Project_Controller {
 		$project->update_model( $data );
 
 		// Establishing relationships
-		$category_ids = $request->get_param( 'categories' );
+		$category_ids = intval( $request->get_param( 'categories' ));
 		if ( $category_ids ) {
 			$project->categories()->sync( $category_ids );
 		}
 
-		$assignees = $request->get_param( 'assignees' );
+		$assignees = pm_validate_assignee( $request->get_param( 'assignees' ) );
 
 		if ( is_array( $assignees ) ) {
 			$project->assignees()->detach();
@@ -381,7 +383,7 @@ class Project_Controller {
 
 	public function favourite_project (WP_REST_Request $request) {
         $project_id = intval( $request->get_param( 'id' ) );
-        $favourite  = $request->get_param( 'favourite' );
+        $favourite  = sanitize_text_field( $request->get_param( 'favourite' ) ) ;
         $user_id    = get_current_user_id();
 
 

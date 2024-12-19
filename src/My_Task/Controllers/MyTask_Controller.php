@@ -23,7 +23,8 @@ class MyTask_Controller {
 
     public function user_tasks_by_type ( WP_REST_Request $request ) {
         $id       = intval( $request->get_param( 'id' ) );
-        $taskType = $request->get_param( 'task_type' );
+        $taskType = sanitize_text_field( $request->get_param( 'task_type' ) );
+        
         $today = date( 'Y-m-d', strtotime( current_time( 'mysql' ) ) );
 
         $user     = User::with( [
