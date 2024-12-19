@@ -676,8 +676,8 @@ class Task_Controller {
     public function task_sorting( WP_REST_Request $request ) {
 
         $project_id = intval( $request->get_param( 'project_id' ) );
-        $list_id    = $request->get_param( 'list_id' );
-        $task_id    = $request->get_param( 'task_id' );
+        $list_id    = intval( $request->get_param( 'list_id' ) );
+        $task_id    = intval($request->get_param( 'task_id' ) );
         $orders     = $request->get_param( 'orders' );
         $receive    = $request->get_param( 'receive' );
         $task       = [];
@@ -1331,10 +1331,10 @@ class Task_Controller {
     }
 
     public function load_more_tasks( WP_REST_Request $request ) {
-        $list_id    = $request->get_param( 'list_id' );
-        $task_ids   = $request->get_param( 'task_ids' );
+        $list_id    = intval( $request->get_param( 'list_id' ) );
+        $task_ids   = array_map( 'intval', (array)$request->get_param( 'task_ids' ));
         $project_id = intval( $request->get_param( 'project_id' ) );
-        $status     = $request->get_param( 'status' );
+        $status     = intval( $request->get_param( 'status' ) );
 
         if ( (int) $status ) {
             $task_ids = $this->get_complete_task_ids( [$list_id], $project_id, $task_ids );   
