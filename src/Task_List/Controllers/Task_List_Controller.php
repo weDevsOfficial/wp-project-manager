@@ -45,8 +45,8 @@ class Task_List_Controller {
         $task_tb                = $wpdb->prefix . 'pm_tasks';
         $list_tb                = $wpdb->prefix . 'pm_boardables';
 
-        $project_id             = $request->get_param( 'project_id' );
-        $per_page               = $request->get_param( 'per_page' );
+        $project_id             = intval( $request->get_param( 'project_id' ) );
+        $per_page               = intval( $request->get_param( 'per_page' ) );
         $status                 = $request->get_param( 'status' );
         $list_id                = $request->get_param( 'list_id' ); //must be a array
         $per_page_from_settings = pm_get_setting( 'list_per_page' );
@@ -55,7 +55,7 @@ class Task_List_Controller {
         $with                   = $request->get_param( 'with' );
         $with                   = explode( ',', $with );
 
-        $page = $request->get_param( 'page' );
+        $page = intval( $request->get_param( 'page' ) );
         $page = $page ? $page : 1;
 
         if ( ! is_array( $status ) ) {
@@ -85,7 +85,7 @@ class Task_List_Controller {
         $tb_lists     = pm_tb_prefix() . 'pm_boards';
         $tb_boardable = pm_tb_prefix() . 'pm_boardables';
         $tb_meta      = pm_tb_prefix() . 'pm_meta';
-        $title       = $request->get_param( 'title' );
+        $title       = sanitize_text_field( $request->get_param( 'title' ) );
         $is_archive  = $request->get_param( 'is_archive' );
 
         $task_lists = Task_List::select( $tb_lists . '.*' )
@@ -227,7 +227,7 @@ class Task_List_Controller {
     }
 
     public function listInbox ( WP_REST_Request $request ) {
-        $project_id = $request->get_param( 'project_id' );
+        $project_id = intval( $request->get_param( 'project_id' ) );
         $tasks = Task::parent()->doesnthave('boardables')->where('project_id', $project_id)->get();
 
         $resource = new Collection ( $tasks, new Task_Transformer );
@@ -237,13 +237,13 @@ class Task_List_Controller {
     }
 
     public function show( WP_REST_Request $request ) {
-        $project_id   = $request->get_param( 'project_id' );
-        $task_list_id = $request->get_param( 'task_list_id' );
+        $project_id   = intval( $request->get_param( 'project_id' ) );
+        $task_list_id = intval( $request->get_param( 'task_list_id' ) );
         $with         = $request->get_param( 'with' );
         
         return $this->get_list( [
-            'project_id'   => $request->get_param( 'project_id' ),
-            'task_list_id' => $request->get_param( 'task_list_id' ),
+            'project_id'   => $project_id,
+            'task_list_id' => $task_list_id,
             'with'         => $request->get_param( 'with' )
         ] );
     }
@@ -291,41 +291,6 @@ class Task_List_Controller {
         return $list;
     }
 
-    //updated query but not filter updated 
-    // public function get_list( $params ) {
-
-    //     $project_id   = $params['project_id'];
-    //     $task_list_id = $params['task_list_id'];
-    //     $with         = empty( $params['with'] ) ? [] : $params['with'];
-    //     $with         = pm_get_prepare_data( $with );
-        
-    //     $list = pm_get_task_lists([
-    //         'id'         => $task_list_id,
-    //         'project_id' => $project_id,
-    //         'with'       => $with
-    //     ]);
-       
-    //     $list_id = [$task_list_id];
-        
-    //     if ( in_array( 'incomplete_tasks', $with ) ) {
-    //         $incomplete_task_ids = ( new Task_Controller )->get_incomplete_task_ids( $list_id, $project_id );
-    //         $incomplete_tasks    = pm_get_tasks( [ 'id' => $incomplete_task_ids ] );
-
-    //         $list['data']['incomplete_tasks']['data'] = $incomplete_tasks['data'];
-    //         $list['data']['incomplete_tasks']['meta'] = $incomplete_tasks['meta'];
-    //     }
-
-    //     if ( in_array( 'complete_tasks', $with ) ) {
-    //         $complete_task_ids = ( new Task_Controller )->get_complete_task_ids( $list_id, $project_id );
-    //         $complete_tasks    = pm_get_tasks( [ 'id' => $complete_task_ids ] );
-
-    //         $list['data']['complete_tasks']['data'] = $complete_tasks['data'];
-    //         $list['data']['complete_tasks']['meta'] = $complete_tasks['meta'];
-    //     }
-
-    //     return $list;
-    // }
-
     public static function create_tasklist( $data ) {
         $self = self::getInstance();
         $milestone_id       = $data[ 'milestone' ];
@@ -356,9 +321,9 @@ class Task_List_Controller {
 
     public function store( WP_REST_Request $request ) {
         $data               = $this->extract_non_empty_values( $request );
-        $milestone_id       = $request->get_param( 'milestone' );
-        $project_id         = $request->get_param( 'project_id' );
-        $is_private         = $request->get_param( 'privacy' );
+        $milestone_id       = sanitize_text_field( $request->get_param( 'milestone' ) );
+        $project_id         = intval( $request->get_param( 'project_id' ) );
+        $is_private         = sanitize_text_field($request->get_param( 'privacy' ) );
         $data['is_private'] = $is_private == 'true' || $is_private === true ? 1 : 0;
 
         $milestone     = Milestone::find( $milestone_id );
@@ -385,8 +350,8 @@ class Task_List_Controller {
     public function update( WP_REST_Request $request ) {
         $data = $this->extract_non_empty_values( $request );
         
-        $project_id          = $request->get_param( 'project_id' );
-        $task_list_id        = $request->get_param( 'task_list_id' );
+        $project_id          = intval( $request->get_param( 'project_id' ) );
+        $task_list_id        = intval( $request->get_param( 'task_list_id' ) );
         $milestone_id        = $request->get_param( 'milestone' );
         $data['description'] = $request->get_param('description'); 
         $is_private          = $request->get_param( 'privacy' );
@@ -446,8 +411,8 @@ class Task_List_Controller {
 
     public function destroy( WP_REST_Request $request ) {
         // Grab user inputs
-        $project_id   = $request->get_param( 'project_id' );
-        $task_list_id = $request->get_param( 'task_list_id' );
+        $project_id   = intval( $request->get_param( 'project_id' ) );
+        $task_list_id = intval( $request->get_param( 'task_list_id' ) );
 
         // Select the task list to be deleted
         $task_list = Task_List::where( 'id', $task_list_id )
@@ -515,8 +480,8 @@ class Task_List_Controller {
     }
 
     public function attach_users( WP_REST_Request $request ) {
-        $project_id = $request->get_param( 'project_id' );
-        $task_list_id = $request->get_param( 'task_list_id' );
+        $project_id = intval( $request->get_param( 'project_id' ) );
+        $task_list_id = intval( $request->get_param( 'task_list_id' ) );
 
         $task_list = Task_List::where( 'id', $task_list_id )
             ->where( 'project_id', $project_id )
@@ -542,14 +507,14 @@ class Task_List_Controller {
     }
 
     public function detach_users( WP_REST_Request $request ) {
-        $project_id = $request->get_param( 'project_id' );
-        $task_list_id = $request->get_param( 'task_list_id' );
+        $project_id = intval( $request->get_param( 'project_id' ) );
+        $task_list_id = intval( $request->get_param( 'task_list_id' ) );
 
         $task_list = Task_List::where( 'id', $task_list_id )
             ->where( 'project_id', $project_id )
             ->first();
 
-        $user_ids = explode( ',', $request->get_param( 'users' ) );
+        $user_ids = array_map( 'intval', explode( ',', $request->get_param( 'users' ) ) );
 
         $task_list->users()->whereIn( 'boardable_id', $user_ids )->delete();
 
@@ -559,8 +524,8 @@ class Task_List_Controller {
     }
 
     public function privacy( WP_REST_Request $request ) {
-        $project_id = $request->get_param( 'project_id' );
-        $task_list_id = $request->get_param( 'task_list_id' );
+        $project_id = intval( $request->get_param( 'project_id' ) );
+        $task_list_id = intval( $request->get_param( 'task_list_id' ) );
         $privacy = $request->get_param( 'is_private' );
         pm_update_meta( $task_list_id, $project_id, 'task_list', 'privacy', $privacy );
         return $this->get_response( NULL);
@@ -590,8 +555,8 @@ class Task_List_Controller {
 
     public function list_search( WP_REST_Request $request ) {
 
-        $project_id  = $request->get_param( 'project_id' );
-        $title       = $request->get_param( 'title' );
+        $project_id  = intval( $request->get_param( 'project_id' ) );
+        $title       = sanitize_text_field( $request->get_param( 'title' ) ); 
         $is_archive  = $request->get_param( 'is_archive' );
 
         $task_lists = Task_List::where( function($q) use( $title, $project_id, $is_archive ) {

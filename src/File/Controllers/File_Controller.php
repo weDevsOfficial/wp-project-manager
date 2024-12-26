@@ -19,11 +19,11 @@ class File_Controller {
     use Transformer_Manager, Request_Filter;
 
     public function index( WP_REST_Request $request ) {
-        $project_id = $request->get_param( 'project_id' );
-        $per_page = $request->get_param( 'per_page' );
+        $project_id = intval( $request->get_param( 'project_id' ) );
+        $per_page = intval( $request->get_param( 'per_page' ) );
         $per_page = $per_page ? $per_page : 200;
 
-        $page = $request->get_param( 'page' );
+        $page = intval( $request->get_param( 'page' ) );
         $page = $page ? $page : 1;
 
         Paginator::currentPageResolver(function () use ($page) {
@@ -45,7 +45,7 @@ class File_Controller {
     }
 
     public function show( WP_REST_Request $request ) {
-        $file_id = $request->get_param( 'file_id' );
+        $file_id = intval($request->get_param( 'file_id' ) );
         $file = File::find( $file_id );
 
         $resource = new Item( $file, new File_Transformer );
@@ -69,8 +69,8 @@ class File_Controller {
     }
 
     public function rename( WP_REST_Request $request ) {
-        $file_id   = $request->get_param( 'file_id' );
-        $file_name = $request->get_param( 'name' );
+        $file_id   = intval( $request->get_param( 'file_id' ) );
+        $file_name = sanitize_file_name($request->get_param( 'name' ) );
         $file      = File::find( $file_id );
 
         File_System::update( $file->attachment_id, array( 'name' => $file_name ) );
@@ -81,7 +81,7 @@ class File_Controller {
     }
 
     public function destroy( WP_REST_Request $request ) {
-        $file_id = $request->get_param( 'file_id' );
+        $file_id = intval( $request->get_param( 'file_id' ) );
 
         $file = File::find( $file_id );
         File_System::delete( $file->attachment_id );
@@ -91,7 +91,7 @@ class File_Controller {
     }
 
     public function download( WP_REST_Request $request ) {
-        $file_id = $request->get_param('file_id');
+        $file_id = intval( $request->get_param('file_id') );
 
         //get file path
         $file = File_System::get_file( $file_id );
