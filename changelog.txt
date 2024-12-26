@@ -1,5 +1,10 @@
 == Changelog ==
 
+= v2.6.17 - Dec 26, 2024 =
+
+**Improved:** Enhanced sanitization of user input to strengthen data security.
+**Fix:** Resolved SQL security vulnerability to ensure system integrity..
+
 = v2.6.16 - Dec 10, 2024 =
 
 **Update:** WordPress 6.7.1 compatibility
