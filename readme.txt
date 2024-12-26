@@ -5,7 +5,7 @@ Tags: project, project manager, project management, project management plugin, p
 Requires at least: 4.4 or higher
 Tested up to: 6.7.1
 Requires PHP: 5.6
-Stable tag: 2.6.16
+Stable tag: 2.6.17
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -308,6 +308,11 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 
 == Changelog ==
+
+= v2.6.17 - Dec 26, 2024 =
+
+**Improved:** Enhanced sanitization of user input to strengthen data security.
+**Fix:** Resolved SQL security vulnerability to ensure system integrity..
 
 = v2.6.16 - Dec 10, 2024 =
 
