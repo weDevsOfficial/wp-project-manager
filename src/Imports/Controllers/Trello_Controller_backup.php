@@ -18,8 +18,8 @@ class Trello_Controller {
 
     public function test( WP_REST_Request $request ) {
 
-        $app_key = trim($request->get_param('app_key'));
-        $app_token = trim($request->get_param('app_token'));
+        $app_key = trim(sanitize_text_field($request->get_param('app_key')));
+        $app_token = trim(sanitize_text_field( $request->get_param('app_token')));
         $trello_helper = new Trello_helper($app_key,$app_token,'dev');
 
         $trello_tree = [];
