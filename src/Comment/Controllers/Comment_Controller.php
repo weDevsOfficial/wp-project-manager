@@ -22,15 +22,15 @@ class Comment_Controller {
     use Transformer_Manager, Request_Filter, File_Attachment, Last_Activity;
 
     public function index( WP_REST_Request $request ) {
-        $project_id = $request->get_param( 'project_id' );
-        $per_page = $request->get_param( 'per_page' );
-        $page     = $request->get_param( 'page' );
+        $project_id = intval( $request->get_param( 'project_id' ) );
+        $per_page = intval( $request->get_param( 'per_page' ) );
+        $page     = intval( $request->get_param( 'page' ) );
 
         $per_page = $per_page ? $per_page : pm_config('app.comment_per_page');
         $page     = $page ? $page : 1;
 
         $on = $request->get_param( 'on' );
-        $id = $request->get_param( 'id' );
+        $id = intval( $request->get_param( 'id' ) );
         $by = $request->get_param( 'by' );
 
         if ( $on ) {
