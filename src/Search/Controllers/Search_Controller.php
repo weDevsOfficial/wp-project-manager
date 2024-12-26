@@ -18,8 +18,8 @@ class Search_Controller {
 	use Transformer_Manager, Request_Filter;
 
 	public function search( WP_REST_Request $request ) {
-		$string     = $request->get_param( 'query' );
-    	$project_id = $request->get_param( 'project_id' );
+		$string     = sanitize_text_field( $request->get_param( 'query' ) );
+    	$project_id = intval( $request->get_param( 'project_id' ) );
 		$model      = $request->get_param( 'model' ); //[milestone, discussion_board, task_list, task]
 		$model 		= empty( $model ) ? '' : $model;
 
@@ -34,8 +34,8 @@ class Search_Controller {
 	}
 
     public function searchTopBar( WP_REST_Request $request ) {
-        $string     = $request->get_param( 'query' );
-        $type     = $request->get_param( 'type' );
+        $string     = sanitize_text_field ( $request->get_param( 'query' ) );
+        $type     = sanitize_text_field( $request->get_param( 'type' ) );
         $model      = $request->get_param( 'model' ); //[milestone, discussion_board, task_list, task]
         $model 		= empty( $model ) ? '' : $model;
 

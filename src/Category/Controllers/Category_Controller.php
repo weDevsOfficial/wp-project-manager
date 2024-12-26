@@ -19,12 +19,12 @@ class Category_Controller {
     use Transformer_Manager;
 
     public function index( WP_REST_Request $request ) {
-        $type = $request->get_param( 'type' );
+        $type = sanitize_text_field( $request->get_param( 'type' ) );
 
-        $per_page = $request->get_param( 'per_page' );
+        $per_page = intval( $request->get_param( 'per_page' ) );
         $per_page = $per_page ? $per_page : 20;
 
-        $page = $request->get_param( 'page' );
+        $page = intval( $request->get_param( 'page' ) );
         $page = $page ? $page : 1;
 
         Paginator::currentPageResolver(function () use ($page) {
@@ -53,7 +53,7 @@ class Category_Controller {
     }
 
     public function show( WP_REST_Request $request ) {
-        $id = $request->get_param( 'id' );
+        $id = intval( $request->get_param( 'id' ) );
 
         $category = Category::findOrFail( $id );
         $resource = new Item( $category, new Category_Transformer );
@@ -69,9 +69,9 @@ class Category_Controller {
 
     public function store( WP_REST_Request $request ) {
         $data = [
-            'title' => $request->get_param( 'title' ),
-            'description' => $request->get_param( 'description' ),
-            'categorible_type' => $request->get_param( 'categorible_type' )
+            'title' => sanitize_text_field( $request->get_param( 'title' ) ),
+            'description' => sanitize_text_field( $request->get_param( 'description' ) ),
+            'categorible_type' => sanitize_text_field( $request->get_param( 'categorible_type' ) )
         ];
         $data = array_filter( $data );
 
@@ -87,13 +87,14 @@ class Category_Controller {
     }
 
     public function update( WP_REST_Request $request ) {
-        $id = $request->get_param( 'id' );
+        $id = intval( $request->get_param( 'id' ) );
 
         $data = [
-            'title' => $request->get_param( 'title' ),
-            'description' => $request->get_param( 'description' ),
-            'categorible_type' => $request->get_param( 'categorible_type' )
+            'title' => sanitize_text_field( $request->get_param( 'title' ) ),
+            'description' => sanitize_text_field( $request->get_param( 'description' ) ),
+            'categorible_type' => sanitize_text_field( $request->get_param( 'categorible_type' ) )
         ];
+        
 
         $category = Category::findOrFail( $id );
         $data = array_filter( $data );
@@ -109,7 +110,7 @@ class Category_Controller {
         return $this->get_response( $resource, $message );    }
 
     public function destroy( WP_REST_Request $request ) {
-        $id = $request->get_param( 'id' );
+        $id = intval( $request->get_param( 'id' ) );
         $category = Category::find( $id );
 
         $category->projects()->detach();

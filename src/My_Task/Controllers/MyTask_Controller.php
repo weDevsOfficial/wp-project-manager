@@ -22,8 +22,9 @@ class MyTask_Controller {
     use Transformer_Manager, Request_Filter;
 
     public function user_tasks_by_type ( WP_REST_Request $request ) {
-        $id       = $request->get_param( 'id' );
-        $taskType = $request->get_param( 'task_type' );
+        $id       = intval( $request->get_param( 'id' ) );
+        $taskType = sanitize_text_field( $request->get_param( 'task_type' ) );
+        
         $today = date( 'Y-m-d', strtotime( current_time( 'mysql' ) ) );
 
         $user     = User::with( [
@@ -654,7 +655,7 @@ class MyTask_Controller {
     }
 
     // public function user_calender_tasks_x( WP_REST_Request $request ) {
-    //     $id = $request->get_param( 'id' );
+    //     $id = intval( $request->get_param( 'id' ) );
     //     $start      = $request->get_param( 'start' );
     //     $end        = $request->get_param( 'end' );
 
@@ -721,7 +722,7 @@ class MyTask_Controller {
     }
 
     public function user_activities ( WP_REST_Request $request ) {
-        $id       = $request->get_param( 'id' );
+        $id       = intval( $request->get_param( 'id' ) );
         $page     = $request->get_param( 'mytask_activities_page' );
         $per_page = $request->get_param( 'mytask_activities_per_page' );
         $page     = isset( $page ) ? $page : 1;
