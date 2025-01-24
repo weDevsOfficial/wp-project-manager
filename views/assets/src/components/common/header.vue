@@ -73,6 +73,7 @@
             v-if="!project.description.content && showDescription"
             v-text="__( 'No Description Found!', 'wedevs-project-manager' )"
         />
+        <pm-do-action hook="pm_project_before_header_end"></pm-do-action>
     </div> 
     
 </template>

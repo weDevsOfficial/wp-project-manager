@@ -19,6 +19,9 @@
                 <!-- v-model="project_description" -->
                 <textarea v-model="project_description"  class="pm-project-description" id="" rows="5" :placeholder="details_of_project"></textarea>
             </div>
+
+            <pm-do-action hook="pm_project_form_after_description" :actionData="project"></pm-do-action>
+
             <div class="pm-project-form-users-wrap" v-if="selectedUsers.length">
                 <div class="pm-form-item pm-project-role" v-if="show_role_field">
                     <table>
@@ -258,6 +261,8 @@
                         'department_id': this.project.department_id
                     }
                 }
+
+                pmBus.$emit('pm_before_project_form_submit', args.data);
                 
                 var self = this;
                 if (this.project.hasOwnProperty('id')) {
