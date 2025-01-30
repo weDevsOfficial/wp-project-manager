@@ -375,9 +375,11 @@ export default {
 
       items = sortBy( items, ['order'] );
 
-      this.moreMenu = [...items.slice(7,items.length)];
+      let showNumberOfItems = pm_apply_filters( "pm-show-project-menu-items", 7 );
 
-      return items.slice(0,7);
+      this.moreMenu = [...items.slice( showNumberOfItems, items.length)];
+
+      return items.slice(0, showNumberOfItems);
     }
   },
 
