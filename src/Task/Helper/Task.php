@@ -1766,12 +1766,21 @@ class Task {
 		$results = $wpdb->get_results( $query );
 
 		// If task has not boardable_id mean no list
-		foreach ( $results as $key => $result ) {
-			if( empty( $result->task_list_id ) ) {
-				continue;
+		if ( $id ) {
+			foreach ( $results as $key => $result ) {
+				if( $result->id == $id ) {
+					$tasks[] = $result;
+					break;
+				}
 			}
+		} else {
+			foreach ( $results as $key => $result ) {
+				if( empty( $result->task_list_id ) ) {
+					continue;
+				}
 
-			$tasks[] = $result;
+				$tasks[] = $result;
+			}
 		}
 		
 		
