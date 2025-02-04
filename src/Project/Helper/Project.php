@@ -1315,7 +1315,7 @@ class Project {
 	private function orderby() {
         global $wpdb;
 
-		$tb_pj    = $wpdb->prefix . 'pm_projects';
+		$tb_pm_projects    = $wpdb->prefix . 'pm_projects';
 		$odr_prms = isset( $this->query_params['orderby'] ) ? $this->query_params['orderby'] : false;
 
         if ( $odr_prms === false && !is_array( $odr_prms ) ) {
@@ -1337,11 +1337,17 @@ class Project {
 
         $order = [];
 
+        $columns = $wpdb->get_col( "DESC $tb_pm_projects" );
+
         foreach ( $orders as $key => $value ) {
-            $order[] =  $tb_pj .'.'. $key . ' ' . $value;
+            if ( !in_array( $key, $columns ) ) {
+				continue; // skip invalid columns
+			}
+            $order[] = sprintf( "%s.%s %s", $tb_pm_projects, sanitize_key( $key ), sanitize_sql_orderby($value ) );
+            
         }
 
-        $this->orderby = "ORDER BY {$wpdb->prefix}pm_meta.meta_value DESC, " . implode( ', ', $order);
+        $this->orderby = "ORDER BY {$wpdb->prefix}pm_meta.meta_value DESC" . ( ! empty( $order ) ? ', ' . implode( ', ', $order ) : '' );
 
         return $this;
     }
