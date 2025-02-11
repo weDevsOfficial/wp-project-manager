@@ -164,7 +164,9 @@ class Task_Controller {
         $data          = $this->extract_non_empty_values( $request );
         $project_id    = intval( $request->get_param( 'project_id' ) );
         $board_id      = intval( $request->get_param( 'board_id' ) );
-        $assignees     = array_map( 'intval', $request->get_param( 'assignees' ));
+        $assignees     = is_array($request->get_param('assignees')) ? 
+        array_map('intval', $request->get_param('assignees')) : [];
+
         $is_private    = intval( $request->get_param( 'privacy' ) );
         $type_id       = intval( $request->get_param( 'type_id' ) );
         $data['is_private']    = $is_private == 'true' || $is_private === true ? 1 : 0;
