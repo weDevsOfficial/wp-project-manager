@@ -12,7 +12,7 @@ $router->post( 'settings', 'WeDevs/PM/Settings/Controllers/Settings_Controller@s
     ->permission( ['WeDevs\PM\Core\Permissions\Settings_Page_Access'] );
 
 $router->post( 'settings/notice', 'WeDevs/PM/Settings/Controllers/Settings_Controller@notice' )
-    ->permission( [ $authentic ] );
+    ->permission( [ $authentic, 'WeDevs\PM\Core\Permissions\Settings_Page_Access' ] );
 //$router->get( 'projects/settings/{key}/key', 'WeDevs/PM/Settings/Controllers/Settings_Controller@pluck_without_project' );;
 
 //$router->get( 'projects/{project_id}/settings/{key}/key', 'WeDevs/PM/Settings/Controllers/Settings_Controller@pluck_with_project' );;

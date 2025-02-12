@@ -143,6 +143,10 @@ class Settings_Controller {
 
     public function notice(WP_REST_Request $request) {
         $action = $request->get_param('action');
+        // verify the nonce
+        if (!wp_verify_nonce($request->get_param('_wpnonce'), 'wp_rest')) {
+            return $this->get_response(false, ['message' => __('Nonce verification failed', 'wedevs-project-manager')]);
+        }
         
         update_option( $action, 'complete' );
     }
