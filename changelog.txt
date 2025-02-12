@@ -1,5 +1,12 @@
 == Changelog ==
 
+= v2.6.18 - Feb 12, 2025 =
+
+ **Fix:** Report - Missing Authorization to Authenticated (Subscriber+) Limited Arbitrary Options Update.
+ **Fix:** Every task is redirecting to a single task (for subscriber role).
+ **Fix:** Authenticated SQL Injection.
+ **Added:** new hooks for better extendibility `pm_project_update`.
+
 = v2.6.17 - Dec 26, 2024 =
 
 **Improved:** Enhanced sanitization of user input to strengthen data security.
