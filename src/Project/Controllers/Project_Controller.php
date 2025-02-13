@@ -266,6 +266,8 @@ class Project_Controller {
 			$this->assign_users( $project, $assignees );
 		}
 
+		do_action( 'pm_project_update', $project, $request->get_params() );
+
 		$resource = new Item( $project, new Project_Transformer );
 		$response = $this->get_response( $resource );
 		$response['message'] = pm_get_text('success_messages.project_updated');

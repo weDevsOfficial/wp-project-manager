@@ -4,20 +4,6 @@ namespace WeDevs\PM\Project\Helper;
 use WP_REST_Request;
 use WeDevs\PM\Task_List\Helper\Task_List;
 
-// data: {
-// 	with: 'assignees,categories,overview_graph',
-// 	per_page: '10',
-// 	select: 'id, title',
-// 	category: [2, 4],
-// 	inUsers: [1,2],
-// 	id: [1,2],
-// 	title: 'Rocket',
-// 	status: '0',
-// 	page: 1,
-//  orderby: 'title:asc,id:desc'
-//  project_meta: 'otal_task_lists,total_tasks,total_complete_tasks,total_incomplete_tasks,total_discussion_boards,total_milestones,total_comments,total_files,total_activities'
-// },
-
 class Project {
 
 	private static $_instance;
@@ -43,7 +29,7 @@ class Project {
 	/**
 	 * Class instance
 	 *
-	 * @return Object
+	 * @return self
 	 */
 	public static function getInstance() {
         return new self();
@@ -59,9 +45,9 @@ class Project {
     /**
      * AJAX Get projects
      *
-     * @param  array $request
+     * @param  WP_REST_Request $request
      *
-     * @return Object
+     * @return void
      */
 	public static function get_projects( WP_REST_Request $request ) {
 		$self     = self::getInstance();
@@ -328,7 +314,7 @@ class Project {
 	/**
 	 * Join others table information
 	 *
-	 * @return Object
+	 * @return self
 	 */
 	private function with() {
 		$this->include_assignees()
@@ -739,7 +725,7 @@ class Project {
 	/**
 	 * Project Milestone Count
 	 *
-	 * @return class
+	 * @return self
 	 */
 	private function project_milestones_count() {
 
@@ -781,7 +767,7 @@ class Project {
 	/**
 	 *  Project Total Files Count
 	 *
-	 * @return class object
+	 * @return self object
 	 */
 	private function project_files_count() {
 		
@@ -820,7 +806,7 @@ class Project {
 	/**
 	 *  Project Total Activities Count
 	 *
-	 * @return class object
+	 * @return self object
 	 */
 	private function project_activities_count() {
 
@@ -886,7 +872,7 @@ class Project {
 	/**
 	 * Set project categories
 	 *
-	 * @return class object
+	 * @return self object
 	 */
 	private function include_categories() {
 		global $wpdb;
@@ -1018,7 +1004,7 @@ class Project {
 	/**
 	 * Set project ssignees
 	 *
-	 * @return class object
+	 * @return self object
 	 */
 	private function include_assignees() {
 		global $wpdb;
@@ -1128,7 +1114,7 @@ class Project {
 	/**
 	 * Set project where condition
 	 *
-	 * @return class object
+	 * @return self object
 	 */
 	private function where() {
 
@@ -1146,7 +1132,7 @@ class Project {
 	/**
 	 * Filter project by ID
 	 *
-	 * @return class object
+	 * @return self object
 	 */
 	private function where_id() {
 		global $wpdb;
@@ -1177,7 +1163,7 @@ class Project {
 	/**
 	 * Filter porject by status
 	 *
-	 * @return class object
+	 * @return self object
 	 */
 	private function where_status() {
 		global $wpdb;
@@ -1217,7 +1203,7 @@ class Project {
 	/**
 	 * Filter project by title
 	 *
-	 * @return class object
+	 * @return self object
 	 */
 	private function where_title() {
 		global $wpdb;
@@ -1235,7 +1221,7 @@ class Project {
 	/**
 	 * Filter project by users
 	 *
-	 * @return class object
+	 * @return self object
 	 */
 	private function where_users() {
 		global $wpdb;
@@ -1271,7 +1257,7 @@ class Project {
 	/**
 	 * Filter project by category
 	 *
-	 * @return class object
+	 * @return self object
 	 */
 	private function where_category() {
 		global $wpdb;
@@ -1297,7 +1283,7 @@ class Project {
 	/**
 	 * Generate project query limit
 	 *
-	 * @return class object
+	 * @return self object
 	 */
 	private function limit() {
 		global $wpdb;
@@ -1315,7 +1301,7 @@ class Project {
 	private function orderby() {
         global $wpdb;
 
-		$tb_pj    = $wpdb->prefix . 'pm_projects';
+		$tb_pm_projects    = $wpdb->prefix . 'pm_projects';
 		$odr_prms = isset( $this->query_params['orderby'] ) ? $this->query_params['orderby'] : false;
 
         if ( $odr_prms === false && !is_array( $odr_prms ) ) {
@@ -1337,11 +1323,17 @@ class Project {
 
         $order = [];
 
+        $columns = $wpdb->get_col( "DESC $tb_pm_projects" );
+
         foreach ( $orders as $key => $value ) {
-            $order[] =  $tb_pj .'.'. $key . ' ' . $value;
+            if ( !in_array( $key, $columns ) ) {
+				continue; // skip invalid columns
+			}
+            $order[] = sprintf( "%s.%s %s", $tb_pm_projects, sanitize_key( $key ), sanitize_sql_orderby($value ) );
+            
         }
 
-        $this->orderby = "ORDER BY {$wpdb->prefix}pm_meta.meta_value DESC, " . implode( ', ', $order);
+        $this->orderby = "ORDER BY {$wpdb->prefix}pm_meta.meta_value DESC" . ( ! empty( $order ) ? ', ' . implode( ', ', $order ) : '' );
 
         return $this;
     }
@@ -1363,7 +1355,7 @@ class Project {
 	/**
 	 * Get the number for projects per page
 	 *
-	 * @return class instance
+	 * @return int
 	 */
 	private function get_per_page() {
 		$per_page = isset( $this->query_params['per_page'] ) ? $this->query_params['per_page'] : false;
@@ -1382,7 +1374,7 @@ class Project {
 	/**
 	 * Execute the projects query
 	 *
-	 * @return class instance
+	 * @return self object
 	 */
 	private function get() {
 		global $wpdb;
