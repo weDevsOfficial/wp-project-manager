@@ -41,7 +41,7 @@ class Task {
 	/**
 	 * Class instance
 	 * 
-	 * @return Object
+	 * @return self
 	 */
 	public static function getInstance() {
         // if ( !self::$_instance ) {
@@ -70,7 +70,7 @@ class Task {
      * 
      * @param  array $request
      * 
-     * @return Object
+     * @return void
      */
 	public static function get_tasks( WP_REST_Request $request ) {
 		$self  = self::getInstance();
@@ -394,7 +394,7 @@ class Task {
 	/**
 	 * Join others table information
 	 * 
-	 * @return Object
+	 * @return self
 	 */
 	private function with() {
 		$this->include_project()
@@ -864,7 +864,7 @@ class Task {
 	/**
 	 * Set project ssignees
 	 * 
-	 * @return class object
+	 * @return self object
 	 */
 	private function include_list() {
 		global $wpdb;
@@ -907,7 +907,7 @@ class Task {
 	/**
 	 * Set project ssignees
 	 * 
-	 * @return class object
+	 * @return self object
 	 */
 	private function include_project() {
 		global $wpdb;
@@ -1163,7 +1163,7 @@ class Task {
 	/**
 	 * Set task where condition
 	 * 
-	 * @return class object
+	 * @return self object
 	 */
 	private function where() {
 		
@@ -1588,7 +1588,7 @@ class Task {
 	/**
 	 * Filter task by ID
 	 * 
-	 * @return class object
+	 * @return self object
 	 */
 	private function where_id() {
 		$id = isset( $this->query_params['id'] ) ? $this->query_params['id'] : false; 
@@ -1609,7 +1609,7 @@ class Task {
 	/**
 	 * Filter task by recurrent
 	 * 
-	 * @return class object
+	 * @return self object
 	 */
 	private function where_recurrent() {
 		$recurrent = isset( $this->query_params['recurrent'] ) ? $this->query_params['recurrent'] : false; 
@@ -1630,7 +1630,7 @@ class Task {
 	/**
 	 * Filter porject by status
 	 * 
-	 * @return class object
+	 * @return self object
 	 */
 	private function where_status() {
 		$status = isset( $this->query_params['status'] ) ? $this->query_params['status'] : false;
@@ -1649,7 +1649,7 @@ class Task {
 	/**
 	 * Filter task by title
 	 * 
-	 * @return class object
+	 * @return self object
 	 */
 	private function where_title() {
 		$title = isset( $this->query_params['title'] ) ? $this->query_params['title'] : false;
@@ -1668,7 +1668,7 @@ class Task {
 	/**
 	 * Generate task query limit
 	 * 
-	 * @return class object
+	 * @return self object
 	 */
 	private function limit() {
 		$per_page = isset( $this->query_params['per_page'] ) ? $this->query_params['per_page'] : false;
@@ -1702,7 +1702,7 @@ class Task {
 	/**
 	 * Get the number for tasks per page
 	 * 
-	 * @return class instance
+	 * @return self instance
 	 */
 	private function get_per_page() {
 		$per_page = isset( $this->query_params['per_page'] ) ? $this->query_params['per_page'] : false;
@@ -1731,7 +1731,7 @@ class Task {
 	/**
 	 * Execute the tasks query
 	 * 
-	 * @return class instance
+	 * @return self instance
 	 */
 	private function get() {
 		global $wpdb;
@@ -1766,12 +1766,21 @@ class Task {
 		$results = $wpdb->get_results( $query );
 
 		// If task has not boardable_id mean no list
-		foreach ( $results as $key => $result ) {
-			if( empty( $result->task_list_id ) ) {
-				continue;
+		if ( $id ) {
+			foreach ( $results as $key => $result ) {
+				if( $result->id == $id ) {
+					$tasks[] = $result;
+					break;
+				}
 			}
+		} else {
+			foreach ( $results as $key => $result ) {
+				if( empty( $result->task_list_id ) ) {
+					continue;
+				}
 
-			$tasks[] = $result;
+				$tasks[] = $result;
+			}
 		}
 		
 		
