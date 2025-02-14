@@ -254,7 +254,7 @@ class Project_Controller {
 		$project->update_model( $data );
 
 		// Establishing relationships
-		$category_ids = intval( $request->get_param( 'categories' ));
+		$category_ids = map_deep( $request->get_param( 'categories' ), 'intval' );
 		if ( $category_ids ) {
 			$project->categories()->sync( $category_ids );
 		}
