@@ -36,6 +36,15 @@ class Task_Types_Controller {
         }
 
         $type_collection = $types->getCollection();
+
+        // decode html entities like &amp; to &
+        foreach( $type_collection as $type ){
+            
+            $type->title = html_entity_decode($type->title);
+        }
+        
+        
+        
         $resource = new Collection( $type_collection, new Task_Type_Transformer );
         $resource->setPaginator( new IlluminatePaginatorAdapter( $types ) );
         
