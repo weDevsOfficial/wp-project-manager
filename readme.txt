@@ -326,7 +326,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 **Fix:** The email type settings field UI broken issue.
 **Fix:** Tasks title content not decoded properly & fix ux issue.
-**Fix:** User task calenderâ€™s starting date data handling security issue.
+**Fix:** User task calender’s starting date data handling security issue.
 
 = v2.6.0 - Nov 30, 2022 =
 
@@ -377,7 +377,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 **Update:** Some library upgrade for better performance
 **Fix:** My Task report was not getting accurate result in some cases
 **Fix:** My Calendar single task was unable to be moved
-**Fix:** After creating a task, it was not updating instantly in â€˜My Calendarâ€™ and â€˜My Task at a Glanceâ€™ section
+**Fix:** After creating a task, it was not updating instantly in 'My Calendar' and 'My Task at a Glance' section
 **Fix:** Authentication issues on some un-authenticated API endpoints like tasks, task types, activities
 
 = v2.4.12 - May 07, 2021 =
@@ -386,7 +386,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 = v2.4.11 - March 17, 2021 =
 
-**Notice:** Limited time promotion for weDevsâ€™ birthday.
+**Notice:** Limited time promotion for weDevs birthday.
 
 = v2.4.10 - Feb 13, 2021 =
 
@@ -427,7 +427,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 **New** Introduce new library simshaun/recurr.
 **New** Added the remove format option in project manager text editor.
-**Fixed** In text editor, after type â€˜@â€™ the list of users exceeds outside of the modal.
+**Fixed** In text editor, after type '@' the list of users exceeds outside of the modal.
 **Fix** Task assigned all users can change the task type.
 **Fix** User can not delete their own created task comments.
 **Fix** Remove the HTML tag from milestone title.
