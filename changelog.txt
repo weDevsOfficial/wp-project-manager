@@ -1,5 +1,9 @@
 == Changelog ==
 
+= v2.6.22 - Mar 7, 2025 =
+
+**Improved:** Readme.txt file.
+
 = v2.6.21 - Feb 18, 2025 =
 
 **Fix:** Project Category bug for seamless organization.
