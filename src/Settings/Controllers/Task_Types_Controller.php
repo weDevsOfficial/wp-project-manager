@@ -36,6 +36,7 @@ class Task_Types_Controller {
         }
 
         $type_collection = $types->getCollection();
+
         $resource = new Collection( $type_collection, new Task_Type_Transformer );
         $resource->setPaginator( new IlluminatePaginatorAdapter( $types ) );
         
