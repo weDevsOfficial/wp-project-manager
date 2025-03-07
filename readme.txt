@@ -243,6 +243,10 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= v2.6.22 - Mar 7, 2025 =
+
+**Improved:** Readme.txt file.
+
 = v2.6.21 - Feb 18, 2025 =
 
 **Fix:** Project Category bug for seamless organization.
@@ -250,10 +254,10 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 = v2.6.18 - Feb 12, 2025 =
 
- **Fix:** Report - Missing Authorization to Authenticated (Subscriber+) Limited Arbitrary Options Update.
- **Fix:** Every task is redirecting to a single task (for subscriber role).
- **Fix:** Authenticated SQL Injection.
- **Added:** new hooks for better extendibility `pm_project_update`.
+**Fix:** Report - Missing Authorization to Authenticated (Subscriber+) Limited Arbitrary Options Update.
+**Fix:** Every task is redirecting to a single task (for subscriber role).
+**Fix:** Authenticated SQL Injection.
+*Added:** new hooks for better extendibility `pm_project_update`.
 
 = v2.6.17 - Dec 26, 2024 =
 
