@@ -1737,6 +1737,7 @@ class Task {
 		global $wpdb;
 		
 		$id        = isset( $this->query_params['id'] ) ? $this->query_params['id'] : false;
+		$more_tasks_request = isset( $this->query_params['source'] ) && 'more_tasks' === $this->query_params['source'] ? true : false;
 		$boardable = pm_tb_prefix() . 'pm_boardables';
 		$tasks = [];
 
@@ -1766,7 +1767,7 @@ class Task {
 		$results = $wpdb->get_results( $query );
 
 		// If task has not boardable_id mean no list
-		if ( $id ) {
+		if ( $id && ! $more_tasks_request ) {
 			foreach ( $results as $key => $result ) {
 				if( $result->id == $id ) {
 					$tasks[] = $result;
