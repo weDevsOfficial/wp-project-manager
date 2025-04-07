@@ -21,7 +21,7 @@ Its user-friendly interface and web-based task management feature enable the use
 
 Why wait, effortlessly manage projects, track time, and generate performance reports with this project management solution.
 
-[youtube https://www.youtube.com/watch?v=GI4u8wXOxHg&list=PLJorZsV2RVv82Xe9ReXngU6Wk1RN0EwHu&ab\_channel=weDevs\]
+[youtube https://www.youtube.com/watch?v=GI4u8wXOxHg]
 
 Want to give it a try? 
 👉 [TRY FREE OFFICIAL DEMO](https://pm.wedevsdemos.com/wp-login.php)
