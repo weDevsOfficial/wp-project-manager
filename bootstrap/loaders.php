@@ -161,17 +161,22 @@ function pm_init_tracker() {
 }
 
 function pm_clean_svg() {
-
     add_filter( 'wp_check_filetype_and_ext', function ( $data, $file, $filename, $mimes ) {
         if ( $data['ext'] === 'svg' ) {
             $sanitizer = new Sanitizer();
-            $dirtySVG  = file_get_contents( $file );
-            $cleanSVG  = $sanitizer->sanitize( $dirtySVG );
-            file_put_contents( $file, $cleanSVG );
+            // Check if file exists and is readable
+            if ( file_exists( $file ) && is_readable( $file ) ) {
+                $dirtySVG = file_get_contents( $file );
+                if ( $dirtySVG !== false ) {
+                    $cleanSVG = $sanitizer->sanitize( $dirtySVG );
+                    // Check if sanitization was successful
+                    if ( $cleanSVG !== false && is_writable( $file ) ) {
+                        file_put_contents( $file, $cleanSVG );
+                    }
+                }
+            }
         }
     
         return $data;
     }, 10, 4 );
-    
-    
 }
