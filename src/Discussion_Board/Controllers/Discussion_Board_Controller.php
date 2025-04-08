@@ -75,14 +75,6 @@ class Discussion_Board_Controller {
         $milestone_id = intval( $request->get_param( 'milestone' ) );
         $files        = array_key_exists( 'files', $media_data ) ? $media_data['files'] : null;
         
-        if( HelperFile::check_file_for_xss_code( $files ) ){
-            return wp_send_json(
-                [
-                    'error_type' => 'svg_xss',
-                    'message' => __( 'The SVG file you attempted to upload contains content that may pose security risks. Please ensure your file is safe and try again.', 'pm-pro' )
-                ], 400
-            );
-        }
 
         $is_private    = $request->get_param( 'privacy' );
         $data['is_private']    = $is_private == 'true' || $is_private === true ? 1 : 0;
@@ -117,15 +109,6 @@ class Discussion_Board_Controller {
         $milestone_id        = $request->get_param( 'milestone' );
         $files               = array_key_exists( 'files', $media_data ) ? $media_data['files'] : null;
         $files_to_delete     = $request->get_param( 'files_to_delete' );
-
-        if( HelperFile::check_file_for_xss_code( $files ) ){
-            return wp_send_json(
-                [
-                    'error_type' => 'svg_xss',
-                    'message' => __( 'The SVG file you attempted to upload contains content that may pose security risks. Please ensure your file is safe and try again.', 'pm-pro' )
-                ], 400
-            );
-        }
 
         $is_private    = sanitize_text_field( $request->get_param( 'privacy' ) );
         $data['is_private']    = $is_private == 'true' || $is_private === true ? 1 : 0;

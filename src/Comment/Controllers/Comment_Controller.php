@@ -80,16 +80,6 @@ class Comment_Controller {
         $commentable_id = $request->get_param('commentable_id');
     
         $files      = array_key_exists( 'files', $media_data ) ? $media_data['files'] : null;
-
-        if( HelperFile::check_file_for_xss_code( $files ) ){
-            return wp_send_json(
-                [
-                    'error_type' => 'svg_xss',
-                    'message' => __( 'The SVG file you attempted to upload contains content that may pose security risks. Please ensure your file is safe and try again.', 'pm-pro' )
-                ], 400
-            );
-            wp_die();
-        }
  
         $comment = Comment::create( $data );
 
@@ -126,16 +116,6 @@ class Comment_Controller {
 
         // An array of files
         $files = array_key_exists( 'files', $media_data ) ? $media_data['files'] : null;
-
-        if( HelperFile::check_file_for_xss_code( $files ) ){
-            return wp_send_json(
-                [
-                    'error_type' => 'svg_xss',
-                    'message' => __( 'The SVG file you attempted to upload contains content that may pose security risks. Please ensure your file is safe and try again.', 'pm-pro' )
-                ], 400
-            );
-            wp_die();
-        }
 
         // An array of file ids that needs to be deleted
         $files_to_delete = $request->get_param( 'files_to_delete' );
