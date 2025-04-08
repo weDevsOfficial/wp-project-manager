@@ -5,6 +5,7 @@ use WeDevs\PM\Core\Router\Router;
 use WeDevs\PM\Core\Router\WP_Router;
 use WeDevs\PM\Core\Database\Migrater;
 use WeDevs\PM\Core\WP\Frontend;
+use enshrined\svgSanitize\Sanitizer;
 
 function pm_load_configurations() {
     $files = glob( __DIR__ . "/../config/*.php" );
@@ -157,4 +158,25 @@ function pm_init_tracker() {
     }
 
     $insights->init_plugin();
+}
+
+function pm_clean_svg() {
+    add_filter( 'wp_check_filetype_and_ext', function ( $data, $file, $filename, $mimes ) {
+        if ( $data['ext'] === 'svg' ) {
+            $sanitizer = new Sanitizer();
+            // Check if file exists and is readable
+            if ( file_exists( $file ) && is_readable( $file ) ) {
+                $dirtySVG = file_get_contents( $file );
+                if ( $dirtySVG !== false ) {
+                    $cleanSVG = $sanitizer->sanitize( $dirtySVG );
+                    // Check if sanitization was successful
+                    if ( $cleanSVG !== false && is_writable( $file ) ) {
+                        file_put_contents( $file, $cleanSVG );
+                    }
+                }
+            }
+        }
+    
+        return $data;
+    }, 10, 4 );
 }
