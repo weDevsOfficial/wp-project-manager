@@ -5,7 +5,7 @@ Tags: project, project manager, project management, project management plugin, p
 Requires at least: 4.4 or higher
 Tested up to: 6.7.2
 Requires PHP: 5.6
-Stable tag: 2.6.22
+Stable tag: 2.6.23
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,7 +21,7 @@ Its user-friendly interface and web-based task management feature enable the use
 
 Why wait, effortlessly manage projects, track time, and generate performance reports with this project management solution.
 
-[youtube https://www.youtube.com/watch?v=GI4u8wXOxHg&list=PLJorZsV2RVv82Xe9ReXngU6Wk1RN0EwHu&ab\_channel=weDevs\]
+[youtube https://www.youtube.com/watch?v=GI4u8wXOxHg]
 
 Want to give it a try? 
 👉 [TRY FREE OFFICIAL DEMO](https://pm.wedevsdemos.com/wp-login.php)
@@ -242,6 +242,10 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 
 == Changelog ==
+
+= v2.6.23 - Apr 8, 2025 =
+
+**Added:** SVG file upload sanitization & security improvmenet.
 
 = v2.6.22 - Mar 7, 2025 =
 

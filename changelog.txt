@@ -1,5 +1,9 @@
 == Changelog ==
 
+= v2.6.23 - Apr 8, 2025 =
+
+**Added:** SVG file upload sanitization & security improvmenet.
+
 = v2.6.22 - Mar 7, 2025 =
 
 **Improved:** Readme.txt file.
