@@ -1,5 +1,11 @@
 == Changelog ==
 
+
+= v2.6.24 – Apr 28, 2025 =
+
+**Fixed:** Load more task.
+**Improved:** Readme.txt file.
+
 = v2.6.23 - Apr 8, 2025 =
 
 **Added:** SVG file upload sanitization & security improvmenet.
