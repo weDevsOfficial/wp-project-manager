@@ -10,35 +10,103 @@ jobs:
     name: Deploy plugin for new Tag
     runs-on: ubuntu-latest
     steps:
-   
       - uses: actions/checkout@v4
+
+      - name: Set up environment prerequisites
+        run: |
+          sudo apt-get update --allow-releaseinfo-change
+          sudo apt-get install -y python3 make g++ build-essential
+          npm config set python python3
+
       - name: Use Node.js 12.1.0
         uses: actions/setup-node@v4
         with:
           node-version: 12.1.0
-      - uses: actions/checkout@master
+
       - name: Npm install and build
         run: |
           npm i
           npm run build
           npm run makepot
+
       - name: Use desired version of php
         uses: shivammathur/setup-php@v2
         with:
           php-version: '7.4'
-      - name: Composer install and build # Remove or modify this step as needed
+
+      - name: Composer install and build
         run: |
           composer install
           composer update
           composer dump-autoload -o
           composer install --no-dev
           composer dump-autoload -o
+
       - name: Generate zip
         uses: 10up/action-wordpress-plugin-build-zip@stable
         with:
           retention-days: 5
         env:
-         SLUG: wedevs-project-manager # optional, remove if GitHub repo name matches SVN slug, including capitalization
+          SLUG: wedevs-project-manager # optional, remove if GitHub repo name matches SVN slug, including capitalization
+
+      - name: WordPress Plugin Deploy
+        uses: 10up/action-wordpress-plugin-deploy@stable
+        with:
+          dry-run: false
+        env:
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SLUG: wedevs-project-managername: Deploy to WordPress.org
+on:
+  push:
+    tags:
+      - "*"
+permissions:
+  contents: write
+jobs:
+  tag:
+    name: Deploy plugin for new Tag
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up environment prerequisites
+        run: |
+          sudo apt-get update --allow-releaseinfo-change
+          sudo apt-get install -y python3 make g++ build-essential
+          npm config set python python3
+
+      - name: Use Node.js 12.1.0
+        uses: actions/setup-node@v4
+        with:
+          node-version: 12.1.0
+
+      - name: Npm install and build
+        run: |
+          npm i
+          npm run build
+          npm run makepot
+
+      - name: Use desired version of php
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+
+      - name: Composer install and build
+        run: |
+          composer install
+          composer update
+          composer dump-autoload -o
+          composer install --no-dev
+          composer dump-autoload -o
+
+      - name: Generate zip
+        uses: 10up/action-wordpress-plugin-build-zip@stable
+        with:
+          retention-days: 5
+        env:
+          SLUG: wedevs-project-manager # optional, remove if GitHub repo name matches SVN slug, including capitalization
+
       - name: WordPress Plugin Deploy
         uses: 10up/action-wordpress-plugin-deploy@stable
         with:
