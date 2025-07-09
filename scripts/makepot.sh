@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 # makepot script for WP Project Manager
 
@@ -21,4 +22,6 @@ if ! command -v php >/dev/null 2>&1; then
 fi
 
 # Run makepot
-php -d memory_limit=$MEMORY_LIMIT -d max_execution_time=$MAX_EXECUTION_TIME ./node_modules/wp-vue-i18n/bin/wpvuei18n makepot 
+php -d memory_limit="$MEMORY_LIMIT" \
+    -d max_execution_time="$MAX_EXECUTION_TIME" \
+    ./node_modules/wp-vue-i18n/bin/wpvuei18n makepot "$@" 
