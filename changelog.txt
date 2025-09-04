@@ -1,6 +1,10 @@
 == Changelog ==
 
 
+= v2.6.25 – Sep 4, 2025 =
+
+**Improved:** Unwanted trello helper backup file removed.
+
 = v2.6.24 – Apr 28, 2025 =
 
 **Fixed:** Load more task.
