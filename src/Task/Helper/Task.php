@@ -62,7 +62,7 @@ class Task {
     private function set_login_user() {
 
     	$this->user_id = empty( $this->query_params['login_user'] ) ? 
-    		get_current_user_id() : (int) $user_id;
+    		get_current_user_id() : (int) $this->query_params['login_user'];
     }
 
     /**
@@ -985,14 +985,14 @@ class Task {
 		if ( is_multisite() ) {
 			$meta_key = pm_user_meta_key();
 
-			$query = "SELECT DISTINCT usr.ID as id, usr.display_name, usr.user_email as email, asin.project_id, asin.role_id
+			$query = "SELECT DISTINCT usr.ID as id, usr.display_name, usr.user_email as email, asin.project_id, asin.role_id, asin.assigned_at
 				FROM $tb_users as usr
 				LEFT JOIN $tb_assignees as asin ON usr.ID = asin.user_id
 				LEFT JOIN $tb_user_meta as umeta ON umeta.user_id = usr.ID
-				where asin.project_id IN ($project_format) 
+				where asin.task_id IN ($task_format) 
 				AND umeta.meta_key='$meta_key'";
 		} else {
-			$query = "SELECT DISTINCT usr.ID as id, usr.display_name, usr.user_email as email, asin.task_id
+			$query = "SELECT DISTINCT usr.ID as id, usr.display_name, usr.user_email as email, asin.task_id, asin.assigned_at
 				FROM $tb_users as usr
 				LEFT JOIN $tb_assignees as asin ON usr.ID = asin.assigned_to
 				where asin.task_id IN ($task_format)";
@@ -1173,6 +1173,7 @@ class Task {
 			->where_start_at()
 			->where_due_date()
 			->where_completed_at()
+			->where_created_at()
 			->where_project_id()
 			->where_users()
 			->where_lists()
@@ -1480,6 +1481,84 @@ class Task {
 			} else {
 
 				$due_q = $wpdb->prepare( " {$this->tb_tasks}.completed_at $operator %s", $completed_at );
+
+				$q[] = " ( {$due_q} ) {$relation} ";
+			}
+		}
+
+		$q = implode( ' ', $q );
+	
+		if ( ! empty( $q ) ) {
+			$this->where .= " AND ( $q ) ";
+		}
+
+		return $this;
+	}
+
+	private function where_created_at() {
+		global $wpdb;
+
+		$created_at         = !empty( $this->query_params['created_at'] ) ? $this->query_params['created_at'] : false;
+		$created_at_start   = !empty( $this->query_params['created_at_start'] ) ? $this->query_params['created_at_start'] : false;
+		$created_at_between = !isset( $this->query_params['created_at_between'] ) ? true : pm_is_true( $this->query_params['created_at_between'] );
+		$ope_params         = !empty( $this->query_params['created_at_operator'] ) ? $this->query_params['created_at_operator'] : false;
+		$ope_params         = pm_get_prepare_data( $ope_params );
+
+		if ( empty( $ope_params ) ) {
+            if ( empty( $created_at ) ) {
+                return $this;
+            }
+        }
+
+		if ( $created_at_start ) {
+			$com_start_reduce = date('Y-m-d', strtotime ( $created_at_start) );
+			$com_add          = date('Y-m-d', strtotime ( $created_at) );
+		}
+	
+		//If its contain between condition
+		if ( $created_at_start ) {
+
+			if ( $created_at_between ) {
+				$query = $wpdb->prepare( " DATE({$this->tb_tasks}.created_at) BETWEEN %s AND %s ", $com_start_reduce, $com_add );
+			} else {
+				$query = $wpdb->prepare( " DATE({$this->tb_tasks}.created_at) NOT BETWEEN %s AND %s ", $com_start_reduce, $com_add );
+			}
+			
+			$this->where .= " AND ( $query ) ";
+
+			return $this;
+		}
+		//close between condition
+
+		$q = [];
+		
+		$keys = array_keys( $ope_params );
+		$last_key = end( $keys );
+		
+		foreach ( $ope_params as $key => $ope_param ) {
+			$explode = explode( '|', str_replace( ' ', '', $ope_param ) );
+
+			if ( ! empty( $explode[1] ) ) {
+				$relation = $explode[1];
+			} else {
+				$relation = 'AND';
+			}
+			
+			if ( $last_key == $key ) {
+				$relation = '';
+			}
+
+			$operator = $this->get_operator( $explode[0] );
+			$created_at = date( 'Y-m-d', strtotime( $created_at ) );
+			
+			if( $explode[0] == 'null' || $explode[0] == 'empty' ) {
+
+				$due_q = "{$this->tb_tasks}.created_at $operator";
+
+				$q[] = "($due_q) {$relation}";
+			} else {
+
+				$due_q = $wpdb->prepare( " {$this->tb_tasks}.created_at $operator %s", $created_at );
 
 				$q[] = " ( {$due_q} ) {$relation} ";
 			}
