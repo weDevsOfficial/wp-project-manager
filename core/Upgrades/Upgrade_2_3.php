@@ -99,11 +99,11 @@ class Upgrade_2_3 extends WP_Background_Process {
         ?>
         <script type="text/javascript">
 
-            var home          = "<?php echo esc_html_e( $home ); ?>";
-            var url_prefix    = "<?php echo esc_html_e( $url_prefix ); ?>";
-            var bg_complete   = "<?php echo esc_html_e( $is_background_compelte ); ?>";
-            var percentage    = "<?php echo esc_html_e( $percentage ); ?>";
-            var perctnage_txt = "<?php echo esc_html_e( $percentage ); ?>";
+            var home          = "<?php echo esc_html( $home ); ?>";
+            var url_prefix    = "<?php echo esc_html( $url_prefix ); ?>";
+            var bg_complete   = "<?php echo esc_html( $is_background_compelte ); ?>";
+            var percentage    = "<?php echo esc_html( $percentage ); ?>";
+            var perctnage_txt = "<?php echo esc_html( $percentage ); ?>";
 
             perctnage_txt = percentage == 0 ? '' : Math.ceil(percentage)+'%';
 
