@@ -16,13 +16,8 @@ class Trello_helper {
         }
 
         private function setup_trello($api_key,$token,$mode){
-            if($mode == 'test'){
-                $this->api_key = '1156d2bb824b52972adb358326a75061';
-                $this->token = '2c9c552cb5568f896b3e3acae25f5fecda06b09ade5101fe68182a2c4b0ea015';
-            }else{
-                $this->api_key = $api_key ;
-                $this->token = $token ;
-            }
+            $this->api_key = $api_key ;
+            $this->token = $token ;
             $this->api= 'https://api.trello.com/1/';
             $this->key_bind = 'key='. $this->api_key .'&token='. $this->token ;
         }
