@@ -1,0 +1,19 @@
+{
+  "$schema": "https://playground.wordpress.net/blueprint-schema.json",
+  "meta": {
+    "title": "WP Project Manager",
+    "author": "wedevs"
+  },
+  "plugins": [
+    "wedevs-project-manager"
+  ],
+  "features": {
+    "networking": true
+  },
+  "login": true,
+  "landingPage": "/wp-admin/",
+  "preferredVersions": {
+    "php": "7.4",
+    "wp": "latest"
+  }
+}
