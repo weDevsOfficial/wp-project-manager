@@ -1375,7 +1375,7 @@ class Task {
 
 			// Validate relation token to prevent SQL injection. Only allow AND/OR (case-insensitive).
 			if ( ! empty( $explode[1] ) ) {
-				$relation_raw = strtoupper( $explode[1] );
+				$relation_raw = strtoupper( sanitize_text_field( $explode[1] ) );
 				$relation = in_array( $relation_raw, array( 'AND', 'OR' ), true ) ? $relation_raw : 'AND';
 			} else {
 				$relation = 'AND';
