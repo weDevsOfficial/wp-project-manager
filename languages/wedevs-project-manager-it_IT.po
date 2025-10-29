@@ -1,0 +1,4391 @@
+# Copyright (C) 2024 weDevs
+# This file is distributed under the GPL2.
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Project Manager 2.6.13\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/cpm\n"
+"POT-Creation-Date: 2024-03-29 10:40:46+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2024-06-26 09:03+0000\n"
+"Last-Translator: \n"
+"Language-Team: Italiano\n"
+"X-Generator: Loco https://localise.biz/\n"
+"Language: it-IT\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Loco-Version: 2.6.10; wp-6.5.5"
+
+#: views/assets/src/components/calendar/pm-calender.vue:106 
+#: views/assets/src/components/calendar/pm-calender.vue:350
+msgid "1"
+msgstr "1"
+
+#: views/assets/src/components/calendar/pm-calender.vue:109 
+#: views/assets/src/components/calendar/pm-calender.vue:353
+msgid "2"
+msgstr "2"
+
+#: views/assets/src/components/calendar/pm-calender.vue:112 
+#: views/assets/src/components/calendar/pm-calender.vue:356
+msgid "3"
+msgstr "3"
+
+#: views/assets/src/components/calendar/pm-calender.vue:115
+msgid "4"
+msgstr "4"
+
+#: views/assets/src/components/calendar/pm-calender.vue:118
+msgid "5"
+msgstr "5"
+
+#: views/assets/src/components/calendar/pm-calender.vue:157
+msgid "6"
+msgstr "6"
+
+#: views/assets/src/components/calendar/pm-calender.vue:160
+msgid "7"
+msgstr "7"
+
+#: views/assets/src/components/calendar/pm-calender.vue:163
+msgid "8"
+msgstr "8"
+
+#: views/assets/src/components/calendar/pm-calender.vue:166
+msgid "9"
+msgstr "9"
+
+#: views/assets/src/components/calendar/pm-calender.vue:169
+msgid "10"
+msgstr "10"
+
+#: views/assets/src/components/calendar/pm-calender.vue:172
+msgid "11"
+msgstr "11"
+
+#: views/assets/src/components/calendar/pm-calender.vue:175
+msgid "12"
+msgstr "12"
+
+#: views/assets/src/components/calendar/pm-calender.vue:214
+msgid "13"
+msgstr "13"
+
+#: views/assets/src/components/calendar/pm-calender.vue:217
+msgid "14"
+msgstr "14"
+
+#: views/assets/src/components/calendar/pm-calender.vue:220
+msgid "15"
+msgstr "15"
+
+#: views/assets/src/components/calendar/pm-calender.vue:223
+msgid "16"
+msgstr "16"
+
+#: views/assets/src/components/calendar/pm-calender.vue:226
+msgid "17"
+msgstr "17"
+
+#: views/assets/src/components/calendar/pm-calender.vue:229
+msgid "18"
+msgstr "18"
+
+#: views/assets/src/components/calendar/pm-calender.vue:232
+msgid "19"
+msgstr "19"
+
+#: views/assets/src/components/calendar/pm-calender.vue:281
+msgid "20"
+msgstr "20"
+
+#: views/assets/src/components/calendar/pm-calender.vue:284
+msgid "21"
+msgstr "21"
+
+#: views/assets/src/components/calendar/pm-calender.vue:287
+msgid "22"
+msgstr "22"
+
+#: views/assets/src/components/calendar/pm-calender.vue:290
+msgid "23"
+msgstr "23"
+
+#: views/assets/src/components/calendar/pm-calender.vue:293
+msgid "24"
+msgstr "24"
+
+#: views/assets/src/components/calendar/pm-calender.vue:296
+msgid "25"
+msgstr "25"
+
+#: views/assets/src/components/calendar/pm-calender.vue:299
+msgid "26"
+msgstr "26"
+
+#: views/assets/src/components/calendar/pm-calender.vue:338
+msgid "27"
+msgstr "27"
+
+#: views/assets/src/components/calendar/pm-calender.vue:341
+msgid "28"
+msgstr "28"
+
+#: views/assets/src/components/calendar/pm-calender.vue:344
+msgid "29"
+msgstr "29"
+
+#: views/assets/src/components/calendar/pm-calender.vue:100 
+#: views/assets/src/components/calendar/pm-calender.vue:347
+msgid "30"
+msgstr "30"
+
+#: views/assets/src/components/calendar/pm-calender.vue:103
+msgid "31"
+msgstr "31"
+
+#: core/Admin_Notice/Admin_Notice.php:33
+msgid "UPDATE REQUIRED"
+msgstr "AGGIORNAMENTO RICHIESTO"
+
+#: core/Admin_Notice/Admin_Notice.php:35
+msgid ""
+"WP Project Manager Pro is not working because you are using an old version "
+"of WP Project Manager Pro. Please update"
+msgstr ""
+"WP Project Manager Pro non funziona perché stai utilizzando una vecchia "
+"versione di WP Project Manager Pro. Per favore aggiornare"
+
+#: core/Admin_Notice/Admin_Notice.php:37
+msgid "WP Project Manager Pro"
+msgstr "WP Project Manager Pro"
+
+#: core/Admin_Notice/Admin_Notice.php:39
+msgid "to >= v2.0.12"
+msgstr "a >= v2.0.12"
+
+#: core/Admin_Notice/Admin_Notice.php:42
+msgid "to work with the latest version of WP Project Manager"
+msgstr "per lavorare con l'ultima versione di WP Project Manager"
+
+#: core/Admin_Notice/Admin_Notice.php:45
+msgid "Update WP Project Manager Pro Now"
+msgstr "Aggiorna subito WP Project Manager Pro"
+
+#: core/Admin_Notice/Admin_Notice.php:171
+msgid "<h2>WP Project Manager Pro required version 2.0 or above.</span></h2>"
+msgstr "WP Project Manager Pro richiede la versione 2.0 o successiva."
+
+#: core/Admin_Notice/Admin_Notice.php:172
+msgid "<p>To migrate version 2.0, Please read mmigration docs </p>"
+msgstr "Per migrare la versione 2.0, leggere i documenti di migrazione"
+
+#: core/Admin_Notice/Admin_Notice.php:181
+msgid "Read Docs"
+msgstr "Leggi i documenti"
+
+#: core/Notifications/Background_Emailer.php:48 
+#: core/Notifications/Notification.php:112
+msgid "Transactional email triggered fatal error for callback "
+msgstr ""
+"L'e-mail transazionale ha attivato un errore irreversibile per la richiamata"
+
+#: core/Notifications/Emails/Complete_Task_Notification.php:48
+msgid "[%s] %s Task mark as %s in %s"
+msgstr "[%s] %s Contrassegna l'attività come %s in %s"
+
+#: core/Notifications/Emails/New_Comment_Notification.php:55 
+#: core/Notifications/Emails/Update_Comment_Notification.php:54 
+#: src/Pusher/Libs/action.php:476
+msgid "Message"
+msgstr "Messaggio"
+
+#: core/Notifications/Emails/New_Comment_Notification.php:60 
+#: core/Notifications/Emails/Update_Comment_Notification.php:57 
+#: src/Task/Helper/Task.php:101 
+#: views/assets/src/components/my-tasks/complete-task.vue:21 
+#: views/assets/src/components/my-tasks/current-task.vue:21 
+#: views/assets/src/components/my-tasks/outstanding-task.vue:21 
+#: views/assets/src/components/project-modules/gantt.vue:9 
+#: views/assets/src/components/project-task-lists/lists.vue:231
+msgid "Task List"
+msgstr "Elenco delle attività"
+
+#: core/Notifications/Emails/New_Comment_Notification.php:65 
+#: core/Notifications/Emails/Update_Comment_Notification.php:60 
+#: src/Pusher/Libs/action.php:92 src/Pusher/Libs/action.php:97 
+#: src/Pusher/Libs/action.php:165 src/Pusher/Libs/action.php:168 
+#: views/assets/js/pm.js:28 views/assets/js/pm.js:61 
+#: views/assets/src/components/common/globally-task-create-form.vue:53 
+#: views/assets/src/components/my-tasks/new-task.vue:84 
+#: views/assets/src/components/project-modules/gantt.vue:10 
+#: views/assets/src/components/project-overview/directive.js:10 
+#: views/assets/src/components/tasks-report/reports.vue:112 
+#: views/emails/html/complete-task.php:56 views/emails/html/new-task.php:48 
+#: views/emails/html/update-task.php:48
+msgid "Task"
+msgstr "Attività"
+
+#: core/Notifications/Emails/New_Comment_Notification.php:70
+msgid "File"
+msgstr "File"
+
+#: core/Notifications/Emails/New_Comment_Notification.php:82
+msgid "[%s][%s] New Comment on: %s"
+msgstr "[%s][%s] Nuovo commento su: %s"
+
+#: core/Notifications/Emails/New_Message_Notification.php:58
+msgid "[%s][%s] New Message: %s"
+msgstr "[%s][%s] Nuovo messaggio: %s"
+
+#: core/Notifications/Emails/New_Project_Notification.php:30
+msgid "[%s] New Project Created: %s"
+msgstr "[%s] Nuovo progetto creato: %s"
+
+#: core/Notifications/Emails/New_Task_Notification.php:46
+msgid "[%s][%s] New Task Assigned: %s"
+msgstr "[%s][%s] Nuova attività assegnata: %s"
+
+#: core/Notifications/Emails/Update_Comment_Notification.php:51
+msgid "[%s][%s] Update Comment on: %s"
+msgstr "[%s][%s] Aggiorna commento su: %s"
+
+#: core/Notifications/Emails/Update_Message_Notification.php:58
+msgid "[%s][%s] Update Message: %s"
+msgstr "[%s][%s] Messaggio di aggiornamento: %s"
+
+#: core/Notifications/Emails/Update_Project_Notification.php:26
+msgid "[%s] Updated Project: %s"
+msgstr "[%s] Progetto aggiornato: %s"
+
+#: core/Notifications/Emails/Update_Task_Notification.php:46
+msgid "[%s][%s] Update Task Assigned: %s"
+msgstr "[%s][%s] Attività di aggiornamento assegnata: %s"
+
+#: core/Permissions/Access_Project.php:28 core/Permissions/Admin.php:15 
+#: core/Permissions/Create_Discuss.php:19 
+#: core/Permissions/Create_Milestone.php:18 
+#: core/Permissions/Create_Task.php:18 
+#: core/Permissions/Create_Task_List.php:19 
+#: core/Permissions/Delete_Task.php:27 core/Permissions/Edit_Comment.php:31 
+#: core/Permissions/Edit_Discuss.php:30 core/Permissions/Edit_File.php:29 
+#: core/Permissions/Edit_Milestone.php:30 core/Permissions/Edit_Task.php:32 
+#: core/Permissions/Edit_Task_List.php:30 core/Permissions/Manager.php:15 
+#: core/Permissions/Project_Manage_Capability.php:18 
+#: core/Permissions/Project_Manage_Capability.php:29 
+#: core/Permissions/Project_Settings_Page_Access.php:15 
+#: core/Permissions/Project_Settings_Page_Access.php:26
+msgid "You have no permission."
+msgstr "Non hai il permesso."
+
+#: core/Permissions/Complete_Task.php:36
+msgid "You have no permission to change task status."
+msgstr "Non hai l'autorizzazione per modificare lo stato dell'attività."
+
+#: core/Permissions/Create_File.php:18
+msgid "You have no permission to create message."
+msgstr "Non hai l'autorizzazione per creare un messaggio."
+
+#: core/Permissions/Project_Create_Capability.php:15
+msgid "You have no permission to create project."
+msgstr "Non hai l'autorizzazione per creare un progetto."
+
+#: core/Pro/Menu.php:44 views/assets/src/components/calendar/calendar.vue:4 
+#: views/assets/src/components/premium/ProFeatures.vue:22
+msgid "Calendar"
+msgstr "Calendario"
+
+#: core/Pro/Menu.php:46 views/assets/src/components/premium/ProFeatures.vue:38 
+#: views/assets/src/components/progress/progress.vue:3
+msgid "Progress"
+msgstr "Progresso"
+
+#: core/Pro/Menu.php:47 views/assets/src/components/tasks-report/menu.vue:4
+msgid "Reports"
+msgstr "Rapporti"
+
+#: core/Pro/Menu.php:48
+msgid "Modules"
+msgstr "Moduli"
+
+#: core/Promotions/Offers.php:52
+msgid "<strong>%s</strong>"
+msgstr "<strong>%s</strong>"
+
+#: core/Promotions/Offers.php:55 core/Promotions/Offers.php:58 
+#: core/Promotions/Offers.php:134
+msgid "%s"
+msgstr "%s"
+
+#: core/Promotions/Offers.php:176 core/Promotions/Wedevs_Promotion.php:190
+msgid "Invalid nonce"
+msgstr "Non valido"
+
+#: core/Promotions/Offers.php:181 core/Promotions/Wedevs_Promotion.php:194
+msgid "You have no permission to do that"
+msgstr "Non hai il permesso per farlo"
+
+#: core/Promotions/Wedevs_Promotion.php:82
+msgid "Learn More &rarr;"
+msgstr "Scopri di più→"
+
+#: core/Upgrades/Upgrade.php:152
+msgid "WP Project Manager Data Update Required"
+msgstr "Aggiornamento dati WP Project Manager obbligatorio"
+
+#: core/Upgrades/Upgrade.php:153
+msgid "&#8211; Please click the button below to update to the latest version."
+msgstr ""
+"– Fare clic sul pulsante in basso per aggiornare alla versione più recente."
+
+#: core/Upgrades/Upgrade.php:157
+msgid "Run the Update"
+msgstr "Esegui l'aggiornamento"
+
+#: core/Upgrades/Upgrade.php:158
+msgid "Read More"
+msgstr "Per saperne di più"
+
+#: core/Upgrades/Upgrade.php:166
+msgid ""
+"It is strongly recommended that you backup your database before proceeding. "
+"Are you sure you wish to run the updater now?"
+msgstr ""
+"Si consiglia vivamente di eseguire il backup del database prima di procedere."
+" ..."
+
+#: core/Upgrades/Upgrade_2_2.php:33 
+#: src/Project/Controllers/Project_Controller.php:427 
+#: views/assets/src/components/project-modules/gantt.vue:77 
+#: views/assets/src/components/project-modules/gantt.vue:211
+msgid "Inbox"
+msgstr "Posta in arrivo"
+
+#: core/Upgrades/Upgrade_2_2.php:34 
+#: src/Project/Controllers/Project_Controller.php:428 
+#: views/assets/src/components/project-task-lists/lists.vue:100 
+#: views/assets/src/components/project-task-lists/lists.vue:186
+msgid ""
+"This is a system default task list. Any task without an assigned tasklist "
+"will appear here."
+msgstr ""
+"Questo è un elenco di attività predefinito del sistema. Qualsiasi attività "
+"senza un elenco attività assegnato verrà visualizzata qui."
+
+#. Plugin Name of the plugin/theme
+msgid "WP Project Manager"
+msgstr "WP Project Manager"
+
+#: core/User_Profile/Profile_Update.php:83
+msgid "Capability"
+msgstr "Capacità"
+
+#: core/User_Profile/Profile_Update.php:89
+msgid "— No capability for this user —"
+msgstr "— Nessuna funzionalità per questo utente —"
+
+#: core/WP/Enqueue_Scripts.php:73
+msgid "Allowed Files"
+msgstr "File consentiti"
+
+#: core/WP/Frontend.php:172
+msgid "Temporary deactivation"
+msgstr "Disattivazione temporanea"
+
+#: core/WP/Frontend.php:173
+msgid "Are you facing any problem?"
+msgstr "Stai affrontando qualche problema?"
+
+#: core/WP/Frontend.php:179
+msgid "Found an Error"
+msgstr "Trovato un errore"
+
+#: core/WP/Frontend.php:180
+msgid ""
+"Please tell us more about the error. We'll reach you with the possible "
+"solution."
+msgstr ""
+"Per favore dicci di più sull'errore. Ti contatteremo con la possibile "
+"soluzione."
+
+#: core/WP/Frontend.php:186
+msgid "No proper documentation"
+msgstr "Nessuna documentazione adeguata"
+
+#: core/WP/Frontend.php:187
+msgid "Could you tell us a bit more?"
+msgstr "Potresti dirci qualcosa in più?"
+
+#: core/WP/Frontend.php:228
+msgid "Every %d Minutes PM schedule"
+msgstr "Ogni %d minuti Programmazione PM"
+
+#: core/WP/Frontend.php:274
+msgid "Get Pro"
+msgstr "Ottieni Pro"
+
+#: core/WP/Frontend.php:277 core/WP/Menu.php:42 
+#: views/assets/src/components/project-settings/router.js:41
+msgid "Settings"
+msgstr "Impostazioni"
+
+#: core/WP/Frontend.php:278
+msgid "Documentation"
+msgstr "Documentazione"
+
+#: core/WP/Frontend.php:325 core/WP/Frontend.php:338
+msgid "Create New Task"
+msgstr "Crea nuova attività"
+
+#: core/WP/Frontend.php:354 views/project-switch/project-switch.php:5
+msgid "Jump to a project"
+msgstr "Passa a un progetto"
+
+#: core/WP/Menu.php:19 libs/functions.php:1006 
+#: views/assets/src/components/project-lists/header.vue:10
+msgid "Project Manager"
+msgstr "Project Manager"
+
+#: core/WP/Menu.php:21 views/assets/js/pm.js:28 
+#: views/assets/src/components/my-tasks/complete-task.vue:22 
+#: views/assets/src/components/my-tasks/current-task.vue:22 
+#: views/assets/src/components/my-tasks/outstanding-task.vue:22 
+#: views/assets/src/components/project-lists/router.js:42 
+#: views/assets/src/components/tasks-report/reports.vue:103
+msgid "Projects"
+msgstr "Progetti"
+
+#: core/WP/Menu.php:24
+msgid "My Tasks %s"
+msgstr "Le mie attività %s"
+
+#: core/WP/Menu.php:28 views/assets/src/components/categories/categories.vue:3 
+#: views/assets/src/components/categories/router.js:21
+msgid "Categories"
+msgstr "Categorie"
+
+#: core/WP/Menu.php:38
+msgid "Premium"
+msgstr "Premium"
+
+#: core/WP/Menu.php:46
+msgid "Tools"
+msgstr "Strumenti"
+
+#: db/seeds/RoleTableSeeder.php:23
+msgid "Manager"
+msgstr "Manager"
+
+#: db/seeds/RoleTableSeeder.php:25
+msgid "Manager is a person who manages the project."
+msgstr "Il manager è una persona che gestisce il progetto."
+
+#: db/seeds/RoleTableSeeder.php:33
+msgid "Co-Worker"
+msgstr "Collaboratore"
+
+#: db/seeds/RoleTableSeeder.php:35
+msgid "Co-worker is person who works under a project."
+msgstr "Il collaboratore è la persona che lavora nell'ambito di un progetto."
+
+#: libs/functions.php:1322
+msgid "PM Admin"
+msgstr "PM amministratore"
+
+#: libs/functions.php:1323
+msgid "PM Manager"
+msgstr "Direttore del PM"
+
+#: src/Category/Validators/Create_Category.php:10 
+#: src/Category/Validators/Update_Category.php:10
+msgid "Category title is required."
+msgstr "Il titolo della categoria è obbligatorio."
+
+#: src/Category/Validators/Update_Category.php:11
+msgid "Category ID is required."
+msgstr "L'ID della categoria è obbligatorio."
+
+#: src/Category/Validators/Update_Category.php:12
+msgid "Category ID must be greater than zero"
+msgstr "L'ID della categoria deve essere maggiore di zero"
+
+#: src/Comment/Validators/Create_Comment.php:10 
+#: src/Comment/Validators/Update_Comment.php:10
+msgid "Comment title is required."
+msgstr "Il titolo del commento è obbligatorio."
+
+#: src/Comment/Validators/Create_Comment.php:11 
+#: src/Discussion_Board/Validators/Create_Discussion_Board.php:11 
+#: src/Milestone/Validators/Create_Milestone.php:11 
+#: src/Project/Validators/Update_Project.php:12 
+#: src/Task/Validators/Create_Task.php:11 
+#: src/Task_List/Validators/Create_Task_List.php:11
+msgid "Project ID is required."
+msgstr "L'ID progetto è obbligatorio."
+
+#: src/Comment/Validators/Update_Comment.php:11
+msgid "Comment ID is required."
+msgstr "L'ID commento è obbligatorio."
+
+#: src/Comment/Validators/Update_Comment.php:12
+msgid "Comment ID must be greater than zero"
+msgstr "L'ID del commento deve essere maggiore di zero"
+
+#: src/Discussion_Board/Validators/Create_Discussion_Board.php:10 
+#: src/Discussion_Board/Validators/Update_Discussion_Board.php:10
+msgid "Discussion title is required."
+msgstr "Il titolo della discussione è obbligatorio."
+
+#: src/Discussion_Board/Validators/Update_Discussion_Board.php:11
+msgid "Discussion ID is required."
+msgstr "L'ID discussione è obbligatorio."
+
+#: src/Discussion_Board/Validators/Update_Discussion_Board.php:12
+msgid "Discussion ID must be greater than zero"
+msgstr "L'ID discussione deve essere maggiore di zero"
+
+#: src/File/Controllers/File_Controller.php:102
+msgid "file not found"
+msgstr "file non trovato"
+
+#: src/Milestone/Validators/Create_Milestone.php:10 
+#: src/Milestone/Validators/Update_Milestone.php:10
+msgid "Milestone title is required."
+msgstr "È richiesto il titolo del traguardo."
+
+#: src/Milestone/Validators/Update_Milestone.php:11
+msgid "Milestone ID is required."
+msgstr "L'ID traguardo è obbligatorio."
+
+#: src/Milestone/Validators/Update_Milestone.php:12
+msgid "Milestone ID must be greater than zero"
+msgstr "L'ID della tappa deve essere maggiore di zero"
+
+#: src/My_Task/Controllers/MyTask_Controller.php:134
+msgid "Starting date is not valid. Please re-check your request."
+msgstr ""
+"La data di inizio non è valida. Ti invitiamo a ricontrollare la tua "
+"richiesta."
+
+#: src/Project/Controllers/Project_Controller.php:406
+msgid "The project has been marked as favorite"
+msgstr "Il progetto è stato contrassegnato come preferito"
+
+#: src/Project/Controllers/Project_Controller.php:409
+msgid "The project has been removed from favorite"
+msgstr "Il progetto è stato rimosso dai preferiti"
+
+#: src/Project/Validators/Create_Project.php:10 
+#: src/Project/Validators/Update_Project.php:10 
+#: views/assets/src/components/project-lists/project-create-form.vue:244 
+#: views/assets/src/components/project-overview/mixin.js:26
+msgid "Project title is required."
+msgstr "Il titolo del progetto è obbligatorio."
+
+#: src/Project/Validators/Create_Project.php:11 
+#: src/Project/Validators/Update_Project.php:11
+msgid "Project title must be unique."
+msgstr "Il titolo del progetto deve essere univoco."
+
+#: src/Project/Validators/Update_Project.php:13
+msgid "Project ID must be greater than zero"
+msgstr "L'ID progetto deve essere maggiore di zero"
+
+#: src/Pusher/Libs/action.php:50
+msgid "You've been assigned a new"
+msgstr "Ti è stato assegnato un nuovo"
+
+#: src/Pusher/Libs/action.php:50 src/Pusher/Libs/action.php:51 
+#: src/Pusher/Libs/action.php:219 src/Pusher/Libs/action.php:300 
+#: texts/resource_types.php:14
+msgid "task"
+msgstr "attività"
+
+#: src/Pusher/Libs/action.php:51
+msgid "You've assigned in"
+msgstr "Hai assegnato l'incarico"
+
+#: src/Pusher/Libs/action.php:92 src/Pusher/Libs/action.php:93
+msgid "has been completed"
+msgstr "è stato completato"
+
+#: src/Pusher/Libs/action.php:97 src/Pusher/Libs/action.php:98
+msgid "has been re-opened"
+msgstr "è stato riaperto"
+
+#: src/Pusher/Libs/action.php:158
+msgid "title"
+msgstr "titolo"
+
+#: src/Pusher/Libs/action.php:160
+msgid "description"
+msgstr "descrizione"
+
+#: src/Pusher/Libs/action.php:162
+msgid "due date"
+msgstr "scadenza"
+
+#: src/Pusher/Libs/action.php:165 src/Pusher/Libs/action.php:166 
+#: src/Pusher/Libs/action.php:168 src/Pusher/Libs/action.php:169 
+#: src/Pusher/Libs/action.php:476
+msgid "has been updated"
+msgstr "è stato aggiornato"
+
+#: src/Pusher/Libs/action.php:211 src/Pusher/Libs/action.php:292 
+#: texts/resource_types.php:11
+msgid "task list"
+msgstr "elenco delle attività"
+
+#: src/Pusher/Libs/action.php:225 src/Pusher/Libs/action.php:305 
+#: texts/resource_types.php:23
+msgid "file"
+msgstr "file"
+
+#: src/Pusher/Libs/action.php:233 src/Pusher/Libs/action.php:313 
+#: texts/resource_types.php:8
+msgid "discussion board"
+msgstr "Forum di discussione"
+
+#: src/Pusher/Libs/action.php:245 src/Pusher/Libs/action.php:253
+msgid "commented on a"
+msgstr "ha commentato a"
+
+#: src/Pusher/Libs/action.php:325
+msgid "updated comment on a"
+msgstr "commento aggiornato su un"
+
+#: src/Pusher/Libs/action.php:351
+msgid "updated his comment on a"
+msgstr "ha aggiornato il suo commento su un"
+
+#: src/Pusher/Libs/action.php:408
+msgid "started a new discussion on"
+msgstr "ho aperto una nuova discussione su"
+
+#: src/Pusher/Libs/action.php:432
+msgid "You've got a new"
+msgstr "Ne hai uno nuovo"
+
+#: src/Pusher/Libs/action.php:432
+msgid "messsage"
+msgstr "messaggio"
+
+#: src/Pusher/Libs/action.php:453
+msgid "updated discussion on a"
+msgstr "discussione aggiornata su un"
+
+#: src/Role/Validators/Create_Role.php:10 
+#: src/Role/Validators/Update_Role.php:10
+msgid "Role title is required."
+msgstr "Il titolo del ruolo è obbligatorio."
+
+#: src/Role/Validators/Update_Role.php:11
+msgid "Role ID is required."
+msgstr "L'ID del ruolo è obbligatorio."
+
+#: src/Role/Validators/Update_Role.php:12
+msgid "Role ID must be greater than zero"
+msgstr "L'ID del ruolo deve essere maggiore di zero"
+
+#: src/Search/Controllers/Search_Controller.php:84 
+#: src/Search/Controllers/Search_Controller.php:127 views/assets/js/pm.js:28 
+#: views/assets/src/components/project-files/files.vue:55 
+#: views/assets/src/components/project-task-lists/lists.vue:198 
+#: views/assets/src/components/project-task-lists/lists.vue:209 
+#: views/assets/src/components/project-task-lists/lists.vue:1022
+msgid "No results found."
+msgstr "Nessun risultato trovato."
+
+#: src/Settings/Controllers/Settings_Controller.php:125
+msgid "Delete settings record"
+msgstr "Elimina il record delle impostazioni"
+
+#: src/Task/Controllers/Task_Controller.php:1328
+msgid "Copy "
+msgstr "Copia"
+
+#: src/Task/Helper/Task.php:100 views/assets/js/pm.js:28 
+#: views/assets/src/components/my-tasks/complete-task.vue:7 
+#: views/assets/src/components/my-tasks/current-task.vue:7 
+#: views/assets/src/components/my-tasks/my-task-header.vue:20 
+#: views/assets/src/components/my-tasks/my-tasks.vue:5 
+#: views/assets/src/components/my-tasks/outstanding-task.vue:7 
+#: views/assets/src/components/my-tasks/overview.vue:54 
+#: views/assets/src/components/my-tasks/overview.vue:62 
+#: views/assets/src/components/my-tasks/overview.vue:70 
+#: views/assets/src/components/project-overview/overview.vue:58 
+#: views/assets/src/components/project-settings/slack.vue:66
+msgid "Tasks"
+msgstr "Attività"
+
+#: src/Task/Helper/Task.php:102
+msgid "Project Name"
+msgstr "Nome del progetto"
+
+#: src/Task/Helper/Task.php:103 views/assets/js/library.js:20 
+#: views/assets/js/pm.js:20 views/assets/js/pm.js:61 
+#: views/assets/src/components/common/list-filter.vue:63 
+#: views/assets/src/components/my-tasks/current-task.vue:24 
+#: views/assets/src/components/project-milestones/new-milestone-form.vue:44 
+#: views/assets/src/components/project-task-lists/lists.vue:274 
+#: views/assets/src/components/project-task-lists/new-task-form.vue:343 
+#: views/assets/src/components/project-task-lists/single-task.vue:263 
+#: views/emails/html/new-task.php:68 views/emails/html/update-task.php:68
+msgid "Due Date"
+msgstr "Scadenza"
+
+#: src/Task/Helper/Task.php:104
+msgid "Created At"
+msgstr "Creato a"
+
+#: src/Task/Validators/Create_Task.php:10 
+#: src/Task/Validators/Update_Task.php:10
+msgid "Task title is required."
+msgstr "Il titolo dell'attività è obbligatorio."
+
+#: src/Task/Validators/Create_Task.php:12
+msgid "Project ID shoud be numeric."
+msgstr "L'ID progetto deve essere numerico."
+
+#: src/Task/Validators/Update_Task.php:11
+msgid "Task ID is required."
+msgstr "L'ID attività è obbligatorio."
+
+#: src/Task/Validators/Update_Task.php:12
+msgid "Task ID must be greater than zero"
+msgstr "L'ID attività deve essere maggiore di zero"
+
+#: src/Task_List/Validators/Create_Task_List.php:10 
+#: src/Task_List/Validators/Update_Task_List.php:10
+msgid "Task list title is required."
+msgstr "Il titolo dell'elenco attività è obbligatorio."
+
+#: src/Task_List/Validators/Update_Task_List.php:11
+msgid "Task list ID is required."
+msgstr "L'ID dell'elenco attività è obbligatorio."
+
+#: src/Task_List/Validators/Update_Task_List.php:12
+msgid "Task list ID must be greater than zero"
+msgstr "L'ID dell'elenco attività deve essere maggiore di zero"
+
+#: src/User/Controllers/User_Controller.php:160
+msgid "You have no permission to create/update user meta."
+msgstr "Non hai l'autorizzazione per creare/aggiornare meta utente."
+
+#: texts/activities.php:6
+msgid "%1$s has created a project titled as %2$s."
+msgstr "%1$s ha creato un progetto intitolato %2$s."
+
+#: texts/activities.php:10
+msgid "%1$s has updated project title from \"%2$s\" to \"%3$s\"."
+msgstr "%1$s ha aggiornato il titolo del progetto da \"%2$s\" a \"%3$s\"."
+
+#: texts/activities.php:14
+msgid "%1$s has updated %2$s project description."
+msgstr "%1$s ha aggiornato la descrizione del progetto %2$s."
+
+#: texts/activities.php:18
+msgid "%1$s has updated project status from \"%2$s\" to \"%3$s\"."
+msgstr "%1$s ha aggiornato lo stato del progetto da \"%2$s\" a \"%3$s\"."
+
+#: texts/activities.php:22
+msgid "%1$s has updated project budget from \"%2$s\" to \"%3$s\"."
+msgstr "%1$s ha aggiornato il budget del progetto da \"%2$s\" a \"%3$s\"."
+
+#: texts/activities.php:26
+msgid "%1$s has updated project pay rate from \"%2$s\" to \"%3$s\"."
+msgstr ""
+"%1$s ha aggiornato la tariffa di pagamento del progetto da \"%2$s\" a "
+"\"%3$s\"."
+
+#: texts/activities.php:30
+msgid "%1$s has updated project est completion date from \"%2$s\" to \"%3$s\"."
+msgstr ""
+"%1$s ha aggiornato la data di completamento prevista del progetto da "
+"\"%2$s\" a \"%3$s\"."
+
+#: texts/activities.php:34
+msgid "%1$s has updated project color code from \"%2$s\" to \"%3$s\"."
+msgstr ""
+"%1$s ha aggiornato il codice colore del progetto da \"%2$s\" a \"%3$s\"."
+
+#: texts/activities.php:40
+msgid "%1$s has created a discussion board titled as %2$s."
+msgstr "%1$s ha creato un forum di discussione intitolato %2$s."
+
+#: texts/activities.php:44
+msgid "%1$s has deleted a discussion board titled as %2$s."
+msgstr "%1$s ha eliminato un forum di discussione intitolato %2$s."
+
+#: texts/activities.php:48
+msgid ""
+"%1$s has updated the title of a discussion board from \"%2$s\" to \"%3$s\"."
+msgstr ""
+"%1$s ha aggiornato il titolo di un forum di discussione da \"%2$s\" a "
+"\"%3$s\"."
+
+#: texts/activities.php:52
+msgid "%1$s has updated the description of a discussion board, %2$s."
+msgstr "%1$s ha aggiornato la descrizione di un forum di discussione, %2$s."
+
+#: texts/activities.php:56
+msgid "%1$s has updated the order of a discussion board, %2$s."
+msgstr "%1$s ha aggiornato l'ordine del forum di discussione, %2$s."
+
+#: texts/activities.php:60
+msgid "%1$s has updated the status of a discussion board, %2$s."
+msgstr "%1$s ha aggiornato lo stato di un forum di discussione, %2$s."
+
+#: texts/activities.php:66
+msgid "%1$s has created a task list titled as %2$s."
+msgstr "%1$s ha creato un elenco di attività intitolato %2$s."
+
+#: texts/activities.php:70
+msgid "%1$s has deleted a task list titled as %2$s."
+msgstr "%1$s ha eliminato un elenco di attività denominato %2$s."
+
+#: texts/activities.php:74
+msgid "%1$s has updated the title of a task list from \"%2$s\" to \"%3$s\"."
+msgstr ""
+"%1$s ha aggiornato il titolo di un elenco di attività da \"%2$s\" a \"%3$s\"."
+
+#: texts/activities.php:78
+msgid "%1$s has updated the description of a task list, %2$s."
+msgstr "%1$s ha aggiornato la descrizione di un elenco di attività, %2$s."
+
+#: texts/activities.php:82
+msgid "%1$s has updated the order of a task list, %2$s."
+msgstr "%1$s ha aggiornato l'ordine di un elenco di attività, %2$s."
+
+#: texts/activities.php:86
+msgid "%1$s has archived a task list, %2$s."
+msgstr "%1$s ha archiviato un elenco di attività, %2$s."
+
+#: texts/activities.php:90
+msgid "%1$s has restored a task list, %2$s."
+msgstr "%1$s ha ripristinato un elenco di attività, %2$s."
+
+#: texts/activities.php:96
+msgid "%1$s has created a milestone, %2$s."
+msgstr "%1$s ha creato un traguardo, %2$s."
+
+#: texts/activities.php:100
+msgid "%1$s has deleted a milestone, %2$s."
+msgstr "%1$s ha eliminato un traguardo, %2$s."
+
+#: texts/activities.php:104
+msgid "%1$s has updated the title of a milestone from \"%2$s\" to \"%3$s\"."
+msgstr "%1$s ha aggiornato il titolo di un traguardo da \"%2$s\" a \"%3$s\"."
+
+#: texts/activities.php:108
+msgid "%1$s has updated the description of a milestone, %2$s."
+msgstr "%1$s ha aggiornato la descrizione di un traguardo, %2$s."
+
+#: texts/activities.php:112
+msgid "%1$s has updated the order of a milestone, %2$s."
+msgstr "%1$s ha aggiornato l'ordine di un traguardo, %2$s."
+
+#: texts/activities.php:116
+msgid "%1$s has updated the status of a milestone, %2$s."
+msgstr "%1$s ha aggiornato lo stato di un traguardo, %2$s."
+
+#: texts/activities.php:122
+msgid "%1$s has created a task, %2$s."
+msgstr "%1$s ha creato un'attività, %2$s."
+
+#: texts/activities.php:126
+msgid "%1$s has deleted a task, %2$s."
+msgstr "%1$s ha eliminato un'attività, %2$s."
+
+#: texts/activities.php:130
+msgid "%1$s has updated the title of a task from \"%2$s\" to \"%3$s\"."
+msgstr "%1$s ha aggiornato il titolo di un'attività da \"%2$s\" a \"%3$s\"."
+
+#: texts/activities.php:134
+msgid "%1$s has updated the description of a task, %2$s."
+msgstr "%1$s ha aggiornato la descrizione di un'attività, %2$s."
+
+#: texts/activities.php:138
+msgid "%1$s has updated the estimation of a task, %2$s, from %3$s to %4$s."
+msgstr "%1$s ha aggiornato la stima di un'attività, %2$s, da %3$s a %4$s."
+
+#: texts/activities.php:142
+msgid "%1$s has updated the start date of a task, %2$s, from %3$s to %4$s."
+msgstr ""
+"%1$s ha aggiornato la data di inizio di un'attività, %2$s, da %3$sa %4$s."
+
+#: texts/activities.php:146
+msgid "%1$s has updated the due date of a task, %2$s, from %3$s to %4$s."
+msgstr ""
+"%1$s ha aggiornato la data di scadenza di un'attività, %2$s, da %3$s a %4$s."
+
+#: texts/activities.php:150
+msgid "%1$s has updated the complexity of a task, %2$s, from %3$s to %4$s."
+msgstr "%1$s ha aggiornato la complessità di un'attività, %2$s, da %3$sa %4$s."
+
+#: texts/activities.php:154
+msgid "%1$s has updated the priority of a task, %2$s, from %3$s to %4$s."
+msgstr "%1$s ha aggiornato la priorità di un'attività, %2$s, da %3$s a %4$s."
+
+#: texts/activities.php:158
+msgid "%1$s has updated the payable status of a task, %2$s, from %3$s to %4$s."
+msgstr ""
+"%1$s ha aggiornato lo stato pagabile di un'attività, %2$s, da %3$s a %4$s."
+
+#: texts/activities.php:162
+msgid "%1$s has updated the recurrency of a task, %2$s, from %3$s to %4$s."
+msgstr "%1$s ha aggiornato la ricorrenza di un'attività, %2$s, da %3$s a %4$s."
+
+#: texts/activities.php:166
+msgid "%1$s has updated the status of a task, %2$s, from %3$s to %4$s."
+msgstr "%1$s ha aggiornato lo stato di un'attività, %2$s, da %3$s a %4$s."
+
+#: texts/activities.php:172
+msgid "%1$s has commented on a task, %2$s."
+msgstr "%1$s ha commentato un'attività, %2$s."
+
+#: texts/activities.php:176
+msgid "%1$s has updated a comment on a task, %2$s."
+msgstr "%1$s ha aggiornato un commento su un'attività, %2$s."
+
+#: texts/activities.php:180
+msgid "%1$s has deleted a comment on a task, %2$s."
+msgstr "%1$s ha eliminato un commento su un'attività, %2$s."
+
+#: texts/activities.php:184
+msgid "%1$s has replied a comment on a task, %2$s"
+msgstr "%1$s ha risposto a un commento su un'attività, %2$s"
+
+#: texts/activities.php:188
+msgid "%1$s has updated a reply comment on a task, %2$s."
+msgstr "%1$s ha aggiornato un commento di risposta su un'attività, %2$s."
+
+#: texts/activities.php:192
+msgid "%1$s has deleted a reply comment on a task, %2$s."
+msgstr "%1$s ha eliminato un commento di risposta su un'attività, %2$s."
+
+#: texts/activities.php:198
+msgid "%1$s has commented on a task list, %2$s."
+msgstr "%1$s ha commentato un elenco di attività, %2$s."
+
+#: texts/activities.php:202
+msgid "%1$s has updated a comment on a task list, %2$s."
+msgstr "%1$s ha aggiornato un commento su un elenco di attività, %2$s."
+
+#: texts/activities.php:206
+msgid "%1$s has deleted a comment on a task list, %2$s."
+msgstr "%1$s ha eliminato un commento sull'elenco delle attività, %2$s."
+
+#: texts/activities.php:210
+msgid "%1$s has replied a comment on a task list, %2$s"
+msgstr "%1$s ha risposto a un commento su un elenco di attività, %2$s"
+
+#: texts/activities.php:214
+msgid "%1$s has updated a reply comment on a task list, %2$s."
+msgstr ""
+"%1$s ha aggiornato un commento di risposta su un elenco di attività, %2$s."
+
+#: texts/activities.php:218
+msgid "%1$s has deleted a reply comment on a task list, %2$s."
+msgstr ""
+"%1$s ha eliminato un commento di risposta su un elenco di attività, %2$s."
+
+#: texts/activities.php:224
+msgid "%1$s has commented on a discussion board, %2$s."
+msgstr "%1$s ha commentato in un forum di discussione, %2$s."
+
+#: texts/activities.php:228
+msgid "%1$s has updated a comment on a discussion board, %2$s."
+msgstr "%1$s ha aggiornato un commento su un forum di discussione, %2$s."
+
+#: texts/activities.php:232
+msgid "%1$s has deleted a comment on a discussion board, %2$s."
+msgstr "%1$s ha eliminato un commento su un forum di discussione, %2$s."
+
+#: texts/activities.php:236
+msgid "%1$s has replied a comment on a discussion board, %2$s"
+msgstr "%1$s ha risposto a un commento su un forum di discussione, %2$s"
+
+#: texts/activities.php:240
+msgid "%1$s has updated a reply comment on a discussion board, %2$s."
+msgstr ""
+"%1$s ha aggiornato un commento di risposta su un forum di discussione, %2$s."
+
+#: texts/activities.php:244
+msgid "%1$s has deleted a reply comment on a discussion board, %2$s."
+msgstr ""
+"%1$s ha eliminato un commento di risposta su un forum di discussione, %2$s."
+
+#: texts/activities.php:250
+msgid "%1$s has commented on a milestone, %2$s."
+msgstr "%1$s ha commentato un traguardo, %2$s."
+
+#: texts/activities.php:254
+msgid "%1$s has updated a comment on a milestone, %2$s."
+msgstr "%1$s ha aggiornato un commento su un traguardo, %2$s."
+
+#: texts/activities.php:258
+msgid "%1$s has deleted a comment on a milestone, %2$s."
+msgstr "%1$s ha eliminato un commento su un traguardo, %2$s."
+
+#: texts/activities.php:262
+msgid "%1$s has replied a comment on a milestone, %2$s"
+msgstr "%1$s ha risposto a un commento su un traguardo, %2$s"
+
+#: texts/activities.php:266
+msgid "%1$s has updated a reply comment on a milestone, %2$s."
+msgstr "%1$s ha aggiornato un commento di risposta su un traguardo, %2$s."
+
+#: texts/activities.php:270
+msgid "%1$s has deleted a reply comment on a milestone, %2$s."
+msgstr "%1$s ha eliminato un commento di risposta su un traguardo, %2$s."
+
+#: texts/activities.php:276
+msgid "%1$s has commented on the project, %2$s."
+msgstr "%1$s ha commentato il progetto %2$s."
+
+#: texts/activities.php:280
+msgid "%1$s has updated a comment on the project, %2$s."
+msgstr "%1$s ha aggiornato un commento sul progetto %2$s."
+
+#: texts/activities.php:284
+msgid "%1$s has deleted a comment on the project, %2$s."
+msgstr "%1$s ha eliminato un commento sul progetto %2$s."
+
+#: texts/activities.php:288
+msgid "%1$s has replied a comment on the project, %2$s"
+msgstr "%1$s ha risposto a un commento sul progetto %2$s"
+
+#: texts/activities.php:292
+msgid "%1$s has updated a reply comment on the project, %2$s."
+msgstr "%1$s ha aggiornato un commento di risposta sul progetto %2$s."
+
+#: texts/activities.php:296
+msgid "%1$s has deleted a reply comment on the project, %2$s."
+msgstr "%1$s ha eliminato un commento di risposta sul progetto %2$s."
+
+#: texts/activities.php:302
+msgid "%1$s has commented on a file, %2$s."
+msgstr "%1$s ha commentato un file, %2$s."
+
+#: texts/activities.php:306
+msgid "%1$s has updated a comment on a file, %2$s."
+msgstr "%1$s ha aggiornato un commento su un file, %2$s."
+
+#: texts/activities.php:310
+msgid "%1$s has deleted a comment on a file, %2$s."
+msgstr "%1$s ha eliminato un commento su un file, %2$s."
+
+#: texts/activities.php:314
+msgid "%1$s has replied a comment on a file, %2$s"
+msgstr "%1$s ha risposto a un commento su un file, %2$s"
+
+#: texts/activities.php:318
+msgid "%1$s has updated a reply comment on a file, %2$s."
+msgstr "%1$s ha aggiornato un commento di risposta su un file, %2$s."
+
+#: texts/activities.php:322
+msgid "%1$s has deleted a reply comment on a file, %2$s."
+msgstr "%1$s ha eliminato un commento di risposta su un file, %2$s."
+
+#: texts/activities.php:328
+msgid "%1$s has duplicated project from, %2$s."
+msgstr "%1$s ha duplicato il progetto da %2$s."
+
+#: texts/activities.php:332
+msgid "%1$s has duplicated list from, %2$s."
+msgstr "%1$s ha un elenco duplicato da %2$s."
+
+#: texts/resource_types.php:5
+msgid "project"
+msgstr "Progetto"
+
+#: texts/resource_types.php:17
+msgid "milestone"
+msgstr "traguardi"
+
+#: texts/resource_types.php:20
+msgid "comment"
+msgstr "commento"
+
+#: texts/success_messages.php:6
+msgid "A new project has been created successfully."
+msgstr "Un nuovo progetto è stato creato con successo."
+
+#: texts/success_messages.php:9
+msgid "A project has been updated successfully."
+msgstr "Un progetto è stato aggiornato con successo."
+
+#: texts/success_messages.php:12
+msgid "A project has been deleted successfully."
+msgstr "Un progetto è stato eliminato con successo."
+
+#: texts/success_messages.php:16
+msgid "A new category has been created successfully."
+msgstr "Una nuova categoria è stata creata con successo."
+
+#: texts/success_messages.php:19
+msgid "A category has been updated successfully."
+msgstr "Una categoria è stata aggiornata con successo."
+
+#: texts/success_messages.php:22
+msgid "A category has been deleted successfully."
+msgstr "Una categoria è stata eliminata con successo."
+
+#: texts/success_messages.php:25
+msgid "All the selected categories has been deleted successfully."
+msgstr "Tutte le categorie selezionate sono state eliminate con successo."
+
+#: texts/success_messages.php:29
+msgid "Successfully commented."
+msgstr "Commentato con successo."
+
+#: texts/success_messages.php:32
+msgid "A comment has been updated successfully."
+msgstr "Un commento è stato aggiornato con successo."
+
+#: texts/success_messages.php:35
+msgid "A comment has been deleted successfully."
+msgstr "Un commento è stato eliminato con successo."
+
+#: texts/success_messages.php:39
+msgid "A new discussion has been created successfully."
+msgstr "Una nuova discussione è stata creata con successo."
+
+#: texts/success_messages.php:42
+msgid "A discussion has been updated successfully."
+msgstr "Una discussione è stata aggiornata con successo."
+
+#: texts/success_messages.php:45
+msgid "A discussion has been deleted successfully."
+msgstr "Una discussione è stata eliminata con successo."
+
+#: texts/success_messages.php:49
+msgid "A new milestone has been created successfully."
+msgstr "Un nuovo traguardo è stato creato con successo."
+
+#: texts/success_messages.php:52
+msgid "A milestone has been updated successfully."
+msgstr "Un traguardo è stato aggiornato correttamente."
+
+#: texts/success_messages.php:55
+msgid "A milestone has been deleted successfully."
+msgstr "Un traguardo è stato eliminato correttamente."
+
+#: texts/success_messages.php:59
+msgid "A new task list has been created successfully."
+msgstr "Un nuovo elenco di attività è stato creato correttamente."
+
+#: texts/success_messages.php:62
+msgid "A task list has been updated successfully."
+msgstr "Un elenco di attività è stato aggiornato correttamente."
+
+#: texts/success_messages.php:65
+msgid "A task list has been deleted successfully."
+msgstr "Un elenco di attività è stato eliminato correttamente."
+
+#: texts/success_messages.php:69
+msgid "A new task has been created successfully."
+msgstr "Una nuova attività è stata creata correttamente."
+
+#: texts/success_messages.php:72
+msgid "A task has been updated successfully."
+msgstr "Un'attività è stata aggiornata con successo."
+
+#: texts/success_messages.php:75
+msgid "A task has been deleted successfully."
+msgstr "Un'attività è stata eliminata correttamente."
+
+#: texts/success_messages.php:78
+msgid "Settings has been changed successfully."
+msgstr "Le impostazioni sono state modificate con successo."
+
+#: texts/success_messages.php:81
+msgid "No elements found."
+msgstr "Nessun elemento trovato."
+
+#: texts/success_messages.php:84 
+#: views/assets/src/components/project-lists/project-summary.vue:4
+msgid "No projects found."
+msgstr "Nessun progetto trovato."
+
+#: texts/success_messages.php:87
+msgid "Task marked as done"
+msgstr "Attività contrassegnata come completata"
+
+#: texts/success_messages.php:90
+msgid "Task reopened"
+msgstr "Attività riaperta"
+
+#: vendor/a5hleyrich/wp-background-processing/classes/wp-background-process.php:685
+msgid "Every Minute"
+msgstr "Ogni minuto"
+
+#: vendor/a5hleyrich/wp-background-processing/classes/wp-background-process.php:687
+msgid "Every %d Minutes"
+msgstr "Ogni %d Minuti"
+
+#: views/assets/js/library.js:1 views/assets/js/pm.js:1 
+#: views/assets/js/pm.js:20 
+#: views/assets/src/components/categories/categories.vue:288 
+#: views/assets/src/components/categories/mixin.js:182 
+#: views/assets/src/components/common/comments.vue:428 
+#: views/assets/src/components/project-discussions/mixin.js:511 
+#: views/assets/src/components/project-overview/mixin.js:98 
+#: views/assets/src/components/project-task-lists/list-comments.vue:436 
+#: views/assets/src/components/project-task-lists/mixin.js:412 
+#: views/assets/src/components/project-task-lists/mixin.js:644 
+#: views/assets/src/components/project-task-lists/task-comments.vue:209 
+#: views/assets/src/components/settings/task-type-item.vue:58
+msgid "Are you sure?"
+msgstr "Sei sicuro?"
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20 
+#: views/assets/src/components/upgrade/button.vue:3 
+#: views/assets/src/components/upgrade/popup.vue:83
+msgid "Upgrade to PRO "
+msgstr "Aggiornamento a Pro"
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20 
+#: views/assets/src/components/common/notify-user.vue:4
+msgid "Notify users"
+msgstr "Avvisare gli utenti"
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20 
+#: views/assets/src/components/categories/categories.vue:75 
+#: views/assets/src/components/common/notify-user.vue:7
+msgid "Select all"
+msgstr "Seleziona tutto"
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20 
+#: views/assets/js/pm.js:28 views/assets/js/pm.js:61 
+#: views/assets/src/components/categories/edit-category-form.vue:23 
+#: views/assets/src/components/common/comment-form.vue:15 
+#: views/assets/src/components/common/list-filter.vue:79 
+#: views/assets/src/components/common/popup-modal.vue:174 
+#: views/assets/src/components/project-discussions/new-discuss-form.vue:30 
+#: views/assets/src/components/project-milestones/new-milestone-form.vue:18 
+#: views/assets/src/components/project-overview/addNewUser.vue:52 
+#: views/assets/src/components/project-overview/searchUser.vue:45 
+#: views/assets/src/components/project-overview/searchUser__.vue:44 
+#: views/assets/src/components/project-settings/create-task-label-form.vue:34 
+#: views/assets/src/components/project-settings/create-task-label-form.vue:42 
+#: views/assets/src/components/project-task-lists/list-comment-form.vue:15 
+#: views/assets/src/components/project-task-lists/new-task-list-form.vue:26 
+#: views/assets/src/components/project-task-lists/single-task.vue:530 
+#: views/assets/src/components/project-task-lists/task-comment-form.vue:15 
+#: views/assets/src/components/settings/new-task-type-form.vue:26 
+#: views/assets/src/components/settings/new-task-type-form.vue:35
+msgid "Cancel"
+msgstr "Annulla"
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20 
+#: views/assets/src/components/common/comment-form.vue:21 
+#: views/assets/src/components/common/comment-form.vue:203 
+#: views/assets/src/components/project-task-lists/list-comment-form.vue:21 
+#: views/assets/src/components/project-task-lists/list-comment-form.vue:124 
+#: views/assets/src/components/project-task-lists/task-comment-form.vue:21 
+#: views/assets/src/components/project-task-lists/task-comment-form.vue:123
+msgid "Attach"
+msgstr "Allegare"
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20 
+#: views/assets/src/components/common/comment-form.vue:27 
+#: views/assets/src/components/project-task-lists/list-comment-form.vue:27 
+#: views/assets/src/components/project-task-lists/task-comment-form.vue:27
+msgid "Notify user"
+msgstr "Avvisa l'utente"
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20 
+#: views/assets/src/components/common/comment-form.vue:32 
+#: views/assets/src/components/common/users-drop-down.vue:4 
+#: views/assets/src/components/project-task-lists/list-comment-form.vue:32 
+#: views/assets/src/components/project-task-lists/task-comment-form.vue:32
+msgid "Assign to"
+msgstr "Assegnato a"
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20 
+#: views/assets/js/pm.js:28
+msgid "Search User"
+msgstr "Cerca utente"
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20 
+#: views/assets/src/components/common/comments.vue:3 
+#: views/assets/src/components/project-task-lists/list-comments.vue:4 
+#: views/assets/src/components/project-task-lists/single-list.vue:71 
+#: views/assets/src/components/project-task-lists/task-comments.vue:4 
+#: views/emails/html/new-message.php:60 views/emails/html/update-message.php:60
+msgid "Discussion"
+msgstr "Discussione"
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20 
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/categories/categories.vue:110 
+#: views/assets/src/components/common/comments.vue:32 
+#: views/assets/src/components/project-discussions/discussions.vue:167 
+#: views/assets/src/components/project-settings/label.vue:31 
+#: views/assets/src/components/project-task-lists/incompleted-tasks.vue:76 
+#: views/assets/src/components/project-task-lists/list-comments.vue:33 
+#: views/assets/src/components/project-task-lists/lists.vue:157 
+#: views/assets/src/components/project-task-lists/single-list.vue:45 
+#: views/assets/src/components/project-task-lists/task-comments.vue:33 
+#: views/assets/src/components/settings/task-type-item.vue:12
+msgid "Edit"
+msgstr "Modificare"
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20 
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/categories/categories.vue:57 
+#: views/assets/src/components/categories/categories.vue:111 
+#: views/assets/src/components/categories/categories.vue:163 
+#: views/assets/src/components/common/comments.vue:38 
+#: views/assets/src/components/common/header.vue:36 
+#: views/assets/src/components/project-lists/project-create-form.vue:36 
+#: views/assets/src/components/project-lists/project-summary.vue:46 
+#: views/assets/src/components/project-settings/label.vue:33 
+#: views/assets/src/components/project-task-lists/completed-tasks.vue:47 
+#: views/assets/src/components/project-task-lists/incompleted-tasks.vue:90 
+#: views/assets/src/components/project-task-lists/list-comments.vue:39 
+#: views/assets/src/components/project-task-lists/lists.vue:163 
+#: views/assets/src/components/project-task-lists/single-list.vue:51 
+#: views/assets/src/components/project-task-lists/single-task.vue:77 
+#: views/assets/src/components/project-task-lists/task-comments.vue:39 
+#: views/assets/src/components/settings/task-type-item.vue:14
+msgid "Delete"
+msgstr "Eliminare"
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20 
+#: views/assets/src/components/common/comments.vue:71 
+#: views/assets/src/components/project-task-lists/list-comments.vue:75 
+#: views/assets/src/components/project-task-lists/task-comments.vue:75
+msgid "Add a comment"
+msgstr "Aggiungi un commento"
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20 
+#: views/assets/src/components/project-settings/custom-field-form.vue:12 
+#: views/assets/src/components/project-settings/field-lists.vue:7 
+#: views/assets/src/components/project-task-lists/single-task-type.vue:5 
+#: views/assets/src/components/tasks-report/reports.vue:90
+msgid "Type"
+msgstr "Tipo"
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20
+msgid "Add a type to make your task</br>more specific on this project."
+msgstr ""
+"Aggiungi un tipo per rendere la tua attività più specifica su questo "
+"progetto."
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20 
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-task-lists/new-task-form.vue:145 
+#: views/assets/src/components/project-task-lists/single-task-type.vue:31
+msgid "Loading"
+msgstr "Caricamento"
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20 
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-task-lists/new-task-form.vue:149 
+#: views/assets/src/components/project-task-lists/single-task-type.vue:35
+msgid "Task type not found!"
+msgstr "Tipo di attività non trovato!"
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20
+msgid "Add new task type"
+msgstr "Aggiungi un nuovo tipo di attività"
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20 
+#: views/assets/src/components/project-task-lists/single-task-type.vue:71
+msgid "Add Task Type"
+msgstr "Aggiungi tipo di attività"
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20 
+#: views/assets/src/components/project-task-lists/single-task-type.vue:87
+msgid "No type found!"
+msgstr "Nessun tipo trovato!"
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20
+msgid "Click to mark the task as incompleted."
+msgstr "Fare clic per contrassegnare l'attività come incompleta."
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20 
+#: views/assets/js/pm.js:61 
+#: views/assets/src/components/common/list-filter.vue:41 
+#: views/assets/src/components/my-tasks/overview.vue:68 
+#: views/assets/src/components/my-tasks/search-task.vue:56 
+#: views/assets/src/components/project-lists/project-header-menu.vue:17 
+#: views/assets/src/components/project-task-lists/lists.vue:252 
+#: views/assets/src/components/project-task-lists/single-task.vue:40
+msgid "Completed"
+msgstr "Completato"
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20
+msgid "When the task is done, click to mark it as completed."
+msgstr ""
+"Una volta completata l'attività, fare clic per contrassegnarla come "
+"completata."
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20 
+#: views/assets/src/components/project-task-lists/single-task.vue:52
+msgid "Mark Complete"
+msgstr "Segna come completato"
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20 
+#: views/assets/src/components/project-task-lists/single-task.vue:58
+msgid "Created by"
+msgstr "Creato da"
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20 
+#: views/assets/src/components/project-discussions/discussions.vue:87 
+#: views/assets/src/components/project-discussions/individual-discussions.vue:36
+#:  
+#: views/assets/src/components/project-discussions/individual-discussions.vue:72
+#:  views/assets/src/components/project-task-lists/single-task.vue:60
+msgid "on"
+msgstr "su"
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20 
+#: views/assets/src/components/project-task-lists/single-task.vue:70
+msgid "Copy Link"
+msgstr "Copia link"
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20 
+#: views/assets/src/components/project-task-lists/single-task.vue:114
+msgid "Project:"
+msgstr "Progetto:"
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20 
+#: views/assets/src/components/project-task-lists/single-task.vue:123
+msgid "Task List:"
+msgstr "Elenco delle attività:"
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20 
+#: views/assets/src/components/project-task-lists/single-task.vue:134
+msgid "Members"
+msgstr "Membri"
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20
+msgid "You can add team members responsible for this task."
+msgstr "Puoi aggiungere membri del team responsabili di questa attività."
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20
+msgid "Add new member"
+msgstr "Aggiungi nuovo membro"
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20 
+#: views/assets/src/components/project-task-lists/single-task.vue:220
+msgid "Add New Member"
+msgstr "Aggiungi Nuovo Membro"
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20 
+#: views/assets/src/components/project-task-lists/single-task.vue:247
+msgid "No user found!"
+msgstr "Nessun utente trovato!"
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20
+msgid ""
+"You can fix a date for when this task</br>is planned to be accomplished."
+msgstr ""
+"È possibile fissare una data in cui si prevede che questa attività venga "
+"completata."
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20 
+#: views/assets/src/components/common/color-picker.vue:25 
+#: views/assets/src/components/my-tasks/overview.vue:220 
+#: views/assets/src/components/my-tasks/search-task.vue:229 
+#: views/assets/src/components/project-task-lists/lists.vue:289
+msgid "Clear"
+msgstr "Chiaro"
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20
+msgid "Add Due Date"
+msgstr "Aggiungi data di scadenza"
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20 
+#: views/assets/src/components/project-task-lists/single-task.vue:358
+msgid "Add Due Date +"
+msgstr "Aggiungi data di scadenza +"
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20 
+#: views/assets/src/components/project-task-lists/single-task.vue:417
+msgid "No date found!"
+msgstr "Nessuna data trovata!"
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20 
+#: views/assets/src/components/project-task-lists/single-task.vue:433
+msgid "Privacy"
+msgstr "Privacy"
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20
+msgid ""
+"It will hide the task from co-workers and clients.</br>According project "
+"settings capability."
+msgstr ""
+"Nasconderà l'attività a colleghi e clienti.</br>In base alle capacità delle "
+"impostazioni del progetto."
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20 
+#: views/assets/src/components/project-task-lists/single-task.vue:471
+msgid "Hide from others"
+msgstr "Nasconditi dagli altri"
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20 
+#: views/assets/src/components/categories/categories.vue:33 
+#: views/assets/src/components/categories/categories.vue:85 
+#: views/assets/src/components/categories/categories.vue:143 
+#: views/assets/src/components/categories/edit-category-form.vue:14 
+#: views/assets/src/components/project-settings/create-task-label-form.vue:15 
+#: views/assets/src/components/project-settings/field-lists.vue:8 
+#: views/assets/src/components/project-settings/label.vue:18 
+#: views/assets/src/components/project-task-lists/single-task.vue:508 
+#: views/assets/src/components/project-task-lists/single-task.vue:516 
+#: views/assets/src/components/settings/new-task-type-form.vue:15 
+#: views/assets/src/components/settings/task-types.vue:23 
+#: views/emails/html/complete-task.php:95 views/emails/html/update-task.php:88
+msgid "Description"
+msgstr "Descrizione"
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20 
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-settings/slack.vue:79 
+#: views/assets/src/components/project-task-lists/single-task.vue:529
+msgid "Update"
+msgstr "Aggiornamento"
+
+#: views/assets/js/library.js:20 views/assets/js/pm.js:20 
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-overview/directive.js:9 
+#: views/assets/src/components/project-task-lists/single-task.vue:548
+msgid "Activity"
+msgstr "Attività"
+
+#: views/assets/js/pm.js:1 
+#: views/assets/src/components/project-milestones/mixin.js:316
+msgid "Are you sure you want to delete this milestones?"
+msgstr "Sei sicuro di voler eliminare questi traguardi?"
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-lists/directive.js:84
+msgid "No users found."
+msgstr "Nessun utente trovato."
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-lists/directive.js:85 
+#: views/assets/src/components/project-lists/project-create-form.vue:128
+msgid "Create a new user"
+msgstr "Crea un nuovo utente"
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-lists/project-new-user-form.vue:7 
+#: views/assets/src/components/project-overview/addNewUser.vue:7
+msgid "Username"
+msgstr "Nome utente"
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-lists/project-new-user-form.vue:12 
+#: views/assets/src/components/project-overview/addNewUser.vue:12
+msgid "First Name"
+msgstr "Nome"
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-lists/project-new-user-form.vue:17 
+#: views/assets/src/components/project-overview/addNewUser.vue:17
+msgid "Last Name"
+msgstr "Cognome"
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-lists/project-new-user-form.vue:22 
+#: views/assets/src/components/project-overview/addNewUser.vue:22
+msgid "Email"
+msgstr "Email"
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-lists/project-create-form.vue:13
+msgid "- Project Category -"
+msgstr "- Categoria del progetto -"
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-lists/project-create-form.vue:53
+msgid "Notify Co-Workers"
+msgstr "Avvisare i collaboratori"
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/common/color-picker.vue:31 
+#: views/assets/src/components/project-lists/project-create-form.vue:60 
+#: views/assets/src/components/project-settings/options.vue:105
+msgid "Close"
+msgstr "Chiudere"
+
+#: views/assets/js/pm.js:28
+msgid "action"
+msgstr "azione"
+
+#: views/assets/js/pm.js:28 views/assets/src/components/common/header.vue:25 
+#: views/assets/src/components/project-lists/project-summary.vue:32 
+#: views/assets/src/components/project-settings/slack.vue:89
+msgid "Complete"
+msgstr "Completato"
+
+#: views/assets/js/pm.js:28 views/assets/src/components/common/header.vue:28 
+#: views/assets/src/components/project-lists/project-summary.vue:35
+msgid "Restore"
+msgstr "Ristabilire"
+
+#: views/assets/js/pm.js:28
+msgid "Delete project"
+msgstr "Elimina progetto"
+
+#: views/assets/js/pm.js:28
+msgid "Project Description"
+msgstr "Descrizione del Progetto"
+
+#: views/assets/js/pm.js:28
+msgid "No Description Found!"
+msgstr "Nessuna descrizione trovata!"
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-overview/addNewUser.vue:3
+msgid "Create New User"
+msgstr "Crea nuovo utente"
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-overview/searchUser.vue:8 
+#: views/assets/src/components/project-overview/searchUser__.vue:7
+msgid "Add User"
+msgstr "Aggiungi utente"
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-overview/searchUser.vue:23
+msgid " wait ... "
+msgstr "Aspettare ..."
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-overview/searchUser.vue:28
+msgid "No user found named "
+msgstr "Nessun utente trovato con nome"
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-overview/searchUser.vue:28
+msgid ", You can create a new user"
+msgstr ", È possibile creare un nuovo utente"
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-lists/project-new-user-form.vue:43 
+#: views/assets/src/components/project-overview/searchUser.vue:29
+msgid "Create User"
+msgstr "Creare un utente"
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-overview/overview.vue:119 
+#: views/assets/src/components/project-overview/searchUser.vue:44 
+#: views/assets/src/components/project-overview/searchUser__.vue:43
+msgid "Add"
+msgstr "Aggiungere"
+
+#: views/assets/js/pm.js:28 views/assets/src/components/common/menu.vue:336 
+#: views/assets/src/components/project-discussions/discussions.vue:21 
+#: views/assets/src/components/project-milestones/completed-milestones.vue:33 
+#: views/assets/src/components/project-milestones/late-milestones.vue:40 
+#: views/assets/src/components/project-milestones/upcoming-milestones.vue:43 
+#: views/assets/src/components/project-overview/overview.vue:32
+msgid "Discussions"
+msgstr "Discussioni"
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/common/list-drop-down.vue:43 
+#: views/assets/src/components/common/menu.vue:300 
+#: views/assets/src/components/project-milestones/completed-milestones.vue:24 
+#: views/assets/src/components/project-milestones/late-milestones.vue:31 
+#: views/assets/src/components/project-milestones/upcoming-milestones.vue:33 
+#: views/assets/src/components/project-overview/overview.vue:47 
+#: views/assets/src/components/project-task-lists/default-list-page.vue:4
+msgid "Task Lists"
+msgstr "Elenco delle attività"
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-discussions/discussions.vue:109 
+#: views/assets/src/components/project-discussions/individual-discussions.vue:56
+#:  views/assets/src/components/project-overview/overview.vue:69
+msgid "Comments"
+msgstr "Commenti"
+
+#: views/assets/js/pm.js:28 views/assets/src/components/common/menu.vue:360 
+#: views/assets/src/components/project-overview/overview.vue:83 
+#: views/assets/src/components/project-settings/capabilities.vue:163
+msgid "Files"
+msgstr "Files"
+
+#: views/assets/js/pm.js:28 views/assets/src/components/common/menu.vue:348 
+#: views/assets/src/components/project-milestones/milestones.vue:21 
+#: views/assets/src/components/project-overview/overview.vue:98
+msgid "Milestones"
+msgstr "Traguardi"
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-overview/overview.vue:108
+msgid "Last 30 days"
+msgstr "Ultimi 30 giorni"
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-overview/overview.vue:116 
+#: views/assets/src/components/project-settings/github-bitbucket.vue:83
+msgid "Users"
+msgstr "Utenti"
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-activities/activities.vue:47
+msgid "Load More ..."
+msgstr "Carica altro..."
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-activities/activities.vue:49
+msgid "No activities found."
+msgstr "Nessuna attività trovata."
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-files/files.vue:30
+msgid "Attached to"
+msgstr "Allegato a"
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-files/files.vue:32 
+#: views/emails/html/new-project.php:79
+msgid "by"
+msgstr "di"
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-files/files.vue:34
+msgid "admin"
+msgstr "amministratore"
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-task-lists/new-task-list-btn.vue:7
+msgid "New Task List"
+msgstr "Nuovo elenco attività"
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-discussions/new-discuss-form.vue:16 
+#: views/assets/src/components/project-task-lists/new-task-list-form.vue:17
+msgid "- Milestone -"
+msgstr "- Traguardi -"
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-task-lists/new-task-btn.vue:3
+msgid "Add Task"
+msgstr "Aggiungi attività"
+
+#: views/assets/js/pm.js:28
+msgid "Add New Task (Character limit 200)"
+msgstr "Aggiungi nuova attività (limite di caratteri 200)"
+
+#: views/assets/js/pm.js:28
+msgid "Type User Name"
+msgstr "Digitare il nome utente"
+
+#: views/assets/js/pm.js:28
+msgid "Assign user"
+msgstr "Assegna utente"
+
+#: views/assets/js/pm.js:28 views/assets/src/components/settings/header.vue:16
+msgid "Task Type"
+msgstr "Tipo di attività"
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/common/popup-modal.vue:175 
+#: views/assets/src/components/my-tasks/my-tasks.vue:7 
+#: views/assets/src/components/project-settings/custom-field.vue:5 
+#: views/assets/src/components/project-settings/invoice.vue:8 
+#: views/assets/src/components/woo-project/woo-project.vue:54
+msgid "Add New"
+msgstr "Aggiungere nuova"
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-task-lists/move-task.vue:12
+msgid "Task: "
+msgstr "Attività:"
+
+#: views/assets/js/pm.js:28
+msgid "Search Lists"
+msgstr "Elenchi di ricerca"
+
+#: views/assets/js/pm.js:28
+msgid "Move Task"
+msgstr "Sposta attività"
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-task-lists/incompleted-tasks.vue:58 
+#: views/assets/src/components/project-task-lists/lists.vue:737
+msgid "Make Private"
+msgstr "Rendere privato"
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-task-lists/incompleted-tasks.vue:64
+msgid "Make Public"
+msgstr "Rendere pubblico"
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-task-lists/incompleted-tasks.vue:70 
+#: views/assets/src/components/woo-project/woo-project.vue:38
+msgid "Duplicate"
+msgstr "Duplicare"
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-task-lists/incompleted-tasks.vue:83
+msgid "Move"
+msgstr "Spostare"
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-task-lists/list-tasks.vue:15 
+#: views/assets/src/components/project-task-lists/list-tasks.vue:43 
+#: views/assets/src/components/project-task-lists/single-list-tasks.vue:14 
+#: views/assets/src/components/project-task-lists/single-list-tasks.vue:32
+msgid "More Tasks"
+msgstr "Più attività"
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-task-lists/list-tasks.vue:23
+msgid "Show Completed Task"
+msgstr "Mostra attività completata"
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-task-lists/list-tasks.vue:26
+msgid "Hide Completed Task"
+msgstr "Nascondi attività completata"
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-task-lists/default-list-page.vue:6
+msgid ""
+"You can list all your Tasks in a single discussion using a Task list. Use "
+"these lists to divide a project into several sectors, assign co-workers and "
+"check progress."
+msgstr ""
+"Puoi elencare tutte le tue attività in un'unica discussione utilizzando un "
+"elenco attività. Utilizza questi elenchi per dividere un progetto in più "
+"settori, assegnare colleghi e verificare i progressi."
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-task-lists/default-list-page.vue:14
+msgid "When to use Task Lists?"
+msgstr "Quando utilizzare gli elenchi attività?"
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-task-lists/default-list-page.vue:17
+msgid "To partition a project internals."
+msgstr "Per partizionare internamente un progetto."
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-task-lists/default-list-page.vue:18
+msgid "To mark milestone points."
+msgstr "Per contrassegnare i punti ai traguardi."
+
+#: views/assets/js/pm.js:28 
+#: views/assets/src/components/project-task-lists/default-list-page.vue:19
+msgid "To assign people to tasks."
+msgstr "Assegnare le persone alle attività."
+
+#: views/assets/js/pm.js:61 
+#: views/assets/src/components/common/list-filter.vue:6 
+#: views/assets/src/components/project-task-lists/lists.vue:218
+msgid "Task Filter"
+msgstr "Filtro attività"
+
+#: views/assets/js/pm.js:61 
+#: views/assets/src/components/common/list-filter.vue:13 
+#: views/project-switch/task-creating.php:6
+msgid "Task title"
+msgstr "Titolo dell'attività"
+
+#: views/assets/js/pm.js:61 
+#: views/assets/src/components/common/list-filter.vue:19 
+#: views/assets/src/components/project-task-lists/new-task-list-form.vue:80
+msgid "Task list name"
+msgstr "Nome dell'elenco attività"
+
+#: views/assets/js/pm.js:61
+msgid "Type task list name"
+msgstr "Digitare il nome dell'elenco attività"
+
+#: views/assets/js/pm.js:61 
+#: views/assets/src/components/common/list-filter.vue:32 
+#: views/assets/src/components/project-task-lists/lists.vue:243
+msgid "No task lists found."
+msgstr "Nessun elenco attività trovato."
+
+#: views/assets/js/pm.js:61 
+#: views/assets/src/components/common/list-filter.vue:38 
+#: views/assets/src/components/project-settings/invoice.vue:16 
+#: views/assets/src/components/project-task-lists/lists.vue:249
+msgid "Status"
+msgstr "Stato"
+
+#: views/assets/js/pm.js:61 
+#: views/assets/src/components/common/list-filter.vue:44 
+#: views/assets/src/components/project-task-lists/lists.vue:255
+msgid "On-going"
+msgstr "In corso"
+
+#: views/assets/js/pm.js:61 
+#: views/assets/src/components/common/list-filter.vue:49 
+#: views/assets/src/components/project-task-lists/lists.vue:260
+msgid "Assigned to"
+msgstr "Assegnato a"
+
+#: views/assets/js/pm.js:61 
+#: views/assets/src/components/common/list-filter.vue:78
+msgid "Clear Filter"
+msgstr "Filtro pulito"
+
+#: views/assets/js/pm.js:61
+msgid "Apply Filter"
+msgstr "Applica il filtro"
+
+#: views/assets/js/pm.js:61 
+#: views/assets/src/components/common/globally-task-create-form.vue:6 
+#: views/assets/src/components/my-tasks/new-task.vue:28 
+#: views/assets/src/components/project-modules/gantt.vue:8 
+#: views/assets/src/components/project-modules/gantt.vue:60 
+#: views/assets/src/components/tasks-report/reports.vue:89 
+#: views/assets/src/components/woo-project/woo-project.vue:35 
+#: views/emails/html/complete-task.php:87 views/emails/html/new-project.php:48 
+#: views/emails/html/new-task.php:79 views/emails/html/update-project.php:49 
+#: views/emails/html/update-task.php:80
+msgid "Project"
+msgstr "Progetto"
+
+#: views/assets/js/pm.js:61 
+#: views/assets/src/components/common/globally-task-create-form.vue:19 
+#: views/assets/src/components/my-tasks/new-task.vue:44
+msgid "Loading projects"
+msgstr "Caricamento progetti"
+
+#: views/assets/js/pm.js:61 
+#: views/assets/src/components/common/globally-task-create-form.vue:31 
+#: views/assets/src/components/my-tasks/new-task.vue:56
+msgid "In List"
+msgstr "Nella lista"
+
+#: views/assets/js/pm.js:61 
+#: views/assets/src/components/common/globally-task-create-form.vue:42 
+#: views/assets/src/components/my-tasks/new-task.vue:73
+msgid "Loading task lists"
+msgstr "Caricamento elenchi attività"
+
+#: views/assets/js/pm.js:61 
+#: views/assets/src/components/common/globally-task-create-form.vue:65
+msgid "You have no permission to create task for this project"
+msgstr "Non hai l'autorizzazione per creare attività per questo progetto"
+
+#: views/assets/src/components/calendar/calendar.vue:16 
+#: views/assets/src/components/calendar/calendar.vue:22 
+#: views/assets/src/components/progress/progress.vue:12 
+#: views/assets/src/components/progress/progress.vue:28 
+#: views/assets/src/components/progress/progress.vue:54 
+#: views/assets/src/components/progress/progress.vue:70
+msgid "Recurring Test Project"
+msgstr "Progetto di test ricorrente"
+
+#: views/assets/src/components/calendar/calendar.vue:27 
+#: views/assets/src/components/project-modules/gantt.vue:51 
+#: views/assets/src/components/project-modules/gantt.vue:195
+msgid "Woo Project Testing"
+msgstr "Test del progetto Woo"
+
+#: views/assets/src/components/calendar/calendar.vue:32 
+#: views/assets/src/components/calendar/calendar.vue:63
+msgid "No elements found. Consider changing the search query."
+msgstr ""
+"Nessun elemento trovato. Valuta la possibilità di modificare la query di "
+"ricerca."
+
+#: views/assets/src/components/calendar/calendar.vue:43 
+#: views/assets/src/components/calendar/calendar.vue:54 
+#: views/assets/src/components/progress/progress.vue:16 
+#: views/assets/src/components/progress/progress.vue:32 
+#: views/assets/src/components/progress/progress.vue:58 
+#: views/assets/src/components/progress/progress.vue:74 
+#: views/assets/src/components/tasks-report/reports.vue:14
+msgid "Alexander"
+msgstr "Alessandro"
+
+#: views/assets/src/components/calendar/calendar.vue:59
+msgid "Katty Allen"
+msgstr "Katty Allen"
+
+#: views/assets/src/components/calendar/calendar.vue:75
+msgid "Incomplete Task"
+msgstr "Attività incompleta"
+
+#: views/assets/src/components/calendar/calendar.vue:76
+msgid "Complete Task"
+msgstr "Completa l'attività"
+
+#: views/assets/src/components/calendar/calendar.vue:77 
+#: views/assets/src/components/my-tasks/directives.js:135 
+#: views/assets/src/components/my-tasks/search-task.vue:55
+msgid "Outstanding Task"
+msgstr "Attività eccezionale"
+
+#: views/assets/src/components/calendar/calendar.vue:78 
+#: views/assets/src/components/project-settings/capabilities.vue:126 
+#: views/assets/src/components/welcome/Features.vue:56
+msgid "Milestone"
+msgstr "Traguardi"
+
+#: views/assets/src/components/calendar/pm-calender.vue:6
+msgid "today"
+msgstr "oggi"
+
+#: views/assets/src/components/calendar/pm-calender.vue:20
+msgid "User view"
+msgstr "Vista dell'utente"
+
+#: views/assets/src/components/calendar/pm-calender.vue:23
+msgid "month"
+msgstr "mese"
+
+#: views/assets/src/components/calendar/pm-calender.vue:26
+msgid "week"
+msgstr "settimana"
+
+#: views/assets/src/components/calendar/pm-calender.vue:29
+msgid "day"
+msgstr "giorno"
+
+#: views/assets/src/components/calendar/pm-calender.vue:33
+msgid "November 2022"
+msgstr "Novembre 2022"
+
+#: views/assets/src/components/calendar/pm-calender.vue:47
+msgid "Sun"
+msgstr "Dom"
+
+#: views/assets/src/components/calendar/pm-calender.vue:50
+msgid "Mon"
+msgstr "Lun"
+
+#: views/assets/src/components/calendar/pm-calender.vue:53
+msgid "Tue"
+msgstr "Mar"
+
+#: views/assets/src/components/calendar/pm-calender.vue:56
+msgid "Wed"
+msgstr "Mer"
+
+#: views/assets/src/components/calendar/pm-calender.vue:59
+msgid "Thu"
+msgstr "Gio"
+
+#: views/assets/src/components/calendar/pm-calender.vue:62
+msgid "Fri"
+msgstr "Ven"
+
+#: views/assets/src/components/calendar/pm-calender.vue:65
+msgid "Sat"
+msgstr "Sab"
+
+#: views/assets/src/components/calendar/pm-calender.vue:247
+msgid "Check recurring validations"
+msgstr "Controlla le convalide ricorrenti"
+
+#: views/assets/src/components/calendar/pm-calender.vue:371
+msgid "Create Developer Assignments"
+msgstr "Crea incarichi per sviluppatori"
+
+#: views/assets/src/components/calendar/pm-calender.vue:391
+msgid "Handle Bitcom Deals"
+msgstr "Gestisci le offerte Bitcom"
+
+#: views/assets/src/components/calendar/pm-calender.vue:404
+msgid "Make Final Presentation"
+msgstr "Fai la presentazione finale"
+
+#: views/assets/src/components/categories/categories.vue:23 
+#: views/assets/src/components/categories/categories.vue:239
+msgid "Add New Category"
+msgstr "Aggiungi nuova categoria"
+
+#: views/assets/src/components/categories/categories.vue:27 
+#: views/assets/src/components/categories/categories.vue:80 
+#: views/assets/src/components/categories/categories.vue:137 
+#: views/assets/src/components/categories/edit-category-form.vue:8 
+#: views/assets/src/components/project-settings/label.vue:17 
+#: views/assets/src/components/settings/task-types.vue:22
+msgid "Name"
+msgstr "Nome"
+
+#: views/assets/src/components/categories/categories.vue:54
+msgid "Select bulk action"
+msgstr "Seleziona l'azione collettiva"
+
+#: views/assets/src/components/categories/categories.vue:56 
+#: views/assets/src/components/categories/categories.vue:162
+msgid "Bulk Actions"
+msgstr "Azioni in blocco"
+
+#: views/assets/src/components/categories/categories.vue:124
+msgid "No categories found."
+msgstr "Nessuna categoria trovata."
+
+#: views/assets/src/components/categories/edit-category-form.vue:5
+msgid "Quick Edit"
+msgstr "Modifica rapida"
+
+#: views/assets/src/components/categories/edit-category-form.vue:42
+msgid "Update Category"
+msgstr "Aggiorna categoria"
+
+#: views/assets/src/components/common/button.vue:179
+msgid "Submit"
+msgstr "Invia"
+
+#: views/assets/src/components/common/color-picker.vue:9
+msgid "Select Color"
+msgstr "Seleziona Colore"
+
+#: views/assets/src/components/common/comment-form.vue:198 
+#: views/assets/src/components/project-task-lists/list-comment-form.vue:119 
+#: views/assets/src/components/project-task-lists/task-comment-form.vue:118
+msgid "Post Comment"
+msgstr "Posta un commento"
+
+#: views/assets/src/components/common/comment-form.vue:199 
+#: views/assets/src/components/project-discussions/comment-form.vue:46 
+#: views/assets/src/components/project-task-lists/list-comment-form.vue:120 
+#: views/assets/src/components/project-task-lists/task-comment-form.vue:119
+msgid "Update Comment"
+msgstr "Aggiorna commento"
+
+#: views/assets/src/components/common/dropdown-menu.vue:12
+msgid "Menu 1"
+msgstr "Menù 1"
+
+#: views/assets/src/components/common/dropdown-menu.vue:21
+msgid "Menu 2"
+msgstr "Menù 2"
+
+#: views/assets/src/components/common/file-uploader.vue:11
+msgid "Delete File"
+msgstr "Cancella il file"
+
+#: views/assets/src/components/common/file-uploader.vue:17
+msgid "To attach"
+msgstr "Allegare"
+
+#: views/assets/src/components/common/file-uploader.vue:21
+msgid "from your computer."
+msgstr "dal tuo computer."
+
+#: views/assets/src/components/common/file-uploader.vue:72
+msgid "select files"
+msgstr "Seleziona i file"
+
+#: views/assets/src/components/common/globally-task-create-form.vue:158 
+#: views/assets/src/components/common/project-drop-down.vue:119
+msgid "Select a project"
+msgstr "Seleziona un progetto"
+
+#: views/assets/src/components/common/header.vue:336
+msgid "Project Actions"
+msgstr "Azioni del progetto"
+
+#: views/assets/src/components/common/list-filter.vue:238 
+#: views/assets/src/components/common/list-filter.vue:242 
+#: views/assets/src/components/common/list-filter.vue:253 
+#: views/assets/src/components/common/list-filter.vue:316 
+#: views/assets/src/components/common/list-filter.vue:388 
+#: views/assets/src/components/project-lists/project-header-menu.vue:29 
+#: views/assets/src/components/project-task-lists/lists.vue:405 
+#: views/assets/src/components/project-task-lists/lists.vue:453 
+#: views/assets/src/components/project-task-lists/lists.vue:519 
+#: views/assets/src/components/project-task-lists/lists.vue:716 
+#: views/assets/src/components/project-task-lists/lists.vue:743
+msgid "All"
+msgstr "Tutti"
+
+#: views/assets/src/components/common/list-filter.vue:246 
+#: views/assets/src/components/common/list-filter.vue:259 
+#: views/assets/src/components/project-task-lists/lists.vue:372 
+#: views/assets/src/components/project-task-lists/lists.vue:376 
+#: views/assets/src/components/project-task-lists/lists.vue:383 
+#: views/assets/src/components/project-task-lists/lists.vue:400
+msgid "Any"
+msgstr "Qualunque"
+
+#: views/assets/src/components/common/list-filter.vue:263 
+#: views/assets/src/components/project-task-lists/lists.vue:387
+msgid "Over Due"
+msgstr "Scaduto"
+
+#: views/assets/src/components/common/list-filter.vue:267 
+#: views/assets/src/components/project-task-lists/lists.vue:391
+msgid "Today"
+msgstr "Oggi"
+
+#: views/assets/src/components/common/list-filter.vue:271 
+#: views/assets/src/components/project-task-lists/lists.vue:395
+msgid "Less Than 1 week"
+msgstr "Meno di 1 settimana"
+
+#: views/assets/src/components/common/loading-animation.vue:21
+msgid "Loading..."
+msgstr "Caricamento..."
+
+#: views/assets/src/components/common/menu.vue:44
+msgid "More"
+msgstr "Di più"
+
+#: views/assets/src/components/common/menu.vue:312 
+#: views/assets/src/components/my-tasks/my-task-header.vue:28 
+#: views/assets/src/components/welcome/Features.vue:28
+msgid "Overview"
+msgstr "Panoramica"
+
+#: views/assets/src/components/common/menu.vue:324 
+#: views/assets/src/components/my-tasks/my-task-header.vue:35 
+#: views/assets/src/components/my-tasks/overview.vue:77 
+#: views/assets/src/components/welcome/Features.vue:35
+msgid "Activities"
+msgstr "Attività"
+
+#: views/assets/src/components/common/popup-modal.vue:173 
+#: views/assets/src/components/project-modules/gantt.vue:26 
+#: views/assets/src/components/project-settings/field-lists.vue:6 
+#: views/assets/src/components/project-settings/invoice.vue:13
+msgid "Title"
+msgstr "Titolo"
+
+#: views/assets/src/components/common/task-type-dropdown.vue:119
+msgid "Choose task type"
+msgstr "Scegli il tipo di attività"
+
+#: views/assets/src/components/common/text-editor.vue:36
+msgid "Write a comment..."
+msgstr "Scrivi un commento..."
+
+#: views/assets/src/components/importtools/trello.vue:19
+msgid "Provide your App Key & Token"
+msgstr "Fornisci la chiave e il token dell'app"
+
+#: views/assets/src/components/my-tasks/activities.vue:43
+msgid "No activities found!"
+msgstr "Nessuna attività trovata!"
+
+#: views/assets/src/components/my-tasks/activities.vue:45
+msgid "Load More"
+msgstr "Carica altro"
+
+#: views/assets/src/components/my-tasks/calendar.vue:4
+msgid "My Calendar"
+msgstr "Il mio calendario"
+
+#: views/assets/src/components/my-tasks/complete-task.vue:24
+msgid "Completed at"
+msgstr "Completato a"
+
+#: views/assets/src/components/my-tasks/complete-task.vue:81 
+#: views/assets/src/components/my-tasks/current-task.vue:95 
+#: views/assets/src/components/my-tasks/outstanding-task.vue:80
+msgid "No task found!"
+msgstr "Nessuna attività trovata!"
+
+#: views/assets/src/components/my-tasks/current-task.vue:310 
+#: views/assets/src/components/my-tasks/current-task.vue:314 
+#: views/assets/src/components/my-tasks/outstanding-task.vue:274 
+#: views/emails/html/new-comment.php:76 views/emails/html/new-message.php:69 
+#: views/emails/html/new-project.php:57
+msgid "Created at"
+msgstr "Creato a"
+
+#: views/assets/src/components/my-tasks/current-task.vue:318 
+#: views/assets/src/components/my-tasks/outstanding-task.vue:278
+msgid "Date Between"
+msgstr "Data tra"
+
+#: views/assets/src/components/my-tasks/directives.js:19
+msgid "activity"
+msgstr "attività"
+
+#: views/assets/src/components/my-tasks/directives.js:30 
+#: views/assets/src/components/my-tasks/directives.js:134
+msgid "Completed Task"
+msgstr "Attività completata"
+
+#: views/assets/src/components/my-tasks/directives.js:41
+msgid "Assigned Task"
+msgstr "Compito assegnato"
+
+#: views/assets/src/components/my-tasks/directives.js:133 
+#: views/assets/src/components/my-tasks/search-task.vue:54
+msgid "Current Task"
+msgstr "Attività corrente"
+
+#: views/assets/src/components/my-tasks/my-task-header.vue:8
+msgid "My Tasks"
+msgstr "Le mie attività"
+
+#: views/assets/src/components/my-tasks/my-task-header.vue:107
+msgid "Select an User"
+msgstr "Seleziona un utente"
+
+#: views/assets/src/components/my-tasks/new-task.vue:24
+msgid "New Task"
+msgstr "Nuovo attività"
+
+#: views/assets/src/components/my-tasks/new-task.vue:41
+msgid "No project found!"
+msgstr "Nessun progetto trovato."
+
+#: views/assets/src/components/my-tasks/new-task.vue:70
+msgid "No task lists found!"
+msgstr "Nessun elenco di attività trovato!"
+
+#: views/assets/src/components/my-tasks/outstanding-task.vue:24 
+#: views/assets/src/components/project-modules/kanboard.vue:150
+msgid "Overdue"
+msgstr "In ritardo"
+
+#: views/assets/src/components/my-tasks/overview.vue:18
+msgid "My Task Overview"
+msgstr "Panoramica delle mie attività"
+
+#: views/assets/src/components/my-tasks/overview.vue:20
+msgid "Activity Filter"
+msgstr "Filtro attività"
+
+#: views/assets/src/components/my-tasks/overview.vue:47
+msgid "At a glance"
+msgstr "A prima vista"
+
+#: views/assets/src/components/my-tasks/overview.vue:52
+msgid "Current"
+msgstr "Attuale"
+
+#: views/assets/src/components/my-tasks/overview.vue:60
+msgid "Outstanding"
+msgstr "Eccezionale"
+
+#: views/assets/src/components/my-tasks/overview.vue:228 
+#: views/assets/src/components/my-tasks/search-task.vue:236
+msgid "Start at - Due date"
+msgstr "Inizia alle - Data di scadenza"
+
+#: views/assets/src/components/my-tasks/overview.vue:228 
+#: views/assets/src/components/my-tasks/search-task.vue:236
+msgid "Due date"
+msgstr "Scadenza"
+
+#: views/assets/src/components/my-tasks/router.js:27
+msgid "My tasks"
+msgstr "Le mie attività"
+
+#: views/assets/src/components/my-tasks/search-task.vue:20 
+#: views/assets/src/components/my-tasks/search-task.vue:35
+msgid "No project found."
+msgstr "Nessun progetto trovato."
+
+#: views/assets/src/components/my-tasks/search-task.vue:458
+msgid "Start date and due date should be greater than or equal today"
+msgstr ""
+"La data di inizio e la data di scadenza devono essere maggiori o uguali alla "
+"data odierna"
+
+#: views/assets/src/components/my-tasks/search-task.vue:463
+msgid "Start date should be greater than or equal today"
+msgstr "La data di inizio deve essere maggiore o uguale a oggi"
+
+#: views/assets/src/components/my-tasks/search-task.vue:468
+msgid "Due date should be greater than today"
+msgstr "La data di scadenza dovrebbe essere successiva a quella odierna"
+
+#: views/assets/src/components/my-tasks/search-task.vue:495
+msgid "Start date and due date should be less than today"
+msgstr ""
+"La data di inizio e la data di scadenza dovrebbero essere inferiori a oggi"
+
+#: views/assets/src/components/my-tasks/search-task.vue:500
+msgid "Start date should be less than today"
+msgstr "La data di inizio dovrebbe essere inferiore a quella odierna"
+
+#: views/assets/src/components/my-tasks/search-task.vue:505
+msgid "Due date should be less than today"
+msgstr "La data di scadenza dovrebbe essere inferiore a quella odierna"
+
+#: views/assets/src/components/premium/FeatureWidget.vue:19 
+#: views/assets/src/components/premium/ProModules.vue:14
+msgid "See More"
+msgstr "Vedi altro"
+
+#: views/assets/src/components/premium/MoreProFeatures.vue:5
+msgid "More features to unveil while"
+msgstr "Altre funzionalità da svelare mentre"
+
+#: views/assets/src/components/premium/MoreProFeatures.vue:6
+msgid "Managing Your Project"
+msgstr "Gestire il tuo progetto"
+
+#: views/assets/src/components/premium/MoreProFeatures.vue:8
+msgid "Useful & fascinating features for WP Project Manager that can be"
+msgstr ""
+"Funzionalità utili e affascinanti per WP Project Manager che possono essere"
+
+#: views/assets/src/components/premium/MoreProFeatures.vue:8
+msgid "unlocked with the Pro Version."
+msgstr "sbloccato con la versione Pro."
+
+#: views/assets/src/components/premium/MoreProFeatures.vue:23
+msgid "Per Year"
+msgstr "Per anno"
+
+#: views/assets/src/components/premium/MoreProFeatures.vue:23
+msgid "Get Started Now"
+msgstr "Inizia ora"
+
+#: views/assets/src/components/premium/MoreProFeatures.vue:35
+msgid "Built-in private messenger"
+msgstr "Messenger privato integrato"
+
+#: views/assets/src/components/premium/MoreProFeatures.vue:36
+msgid "Set the start & end date of the project"
+msgstr "Imposta la data di inizio e fine del progetto"
+
+#: views/assets/src/components/premium/MoreProFeatures.vue:37
+msgid "Upload all files in one place"
+msgstr "Carica tutti i file in un unico posto"
+
+#: views/assets/src/components/premium/MoreProFeatures.vue:38
+msgid "Create folders for files"
+msgstr "Crea le cartelle per i file"
+
+#: views/assets/src/components/premium/MoreProFeatures.vue:39
+msgid "Link messages & task lists with files"
+msgstr "Collega messaggi ed elenchi di attività con i file"
+
+#: views/assets/src/components/premium/MoreProFeatures.vue:40
+msgid "Project user permission"
+msgstr "Autorizzazione utente del progetto"
+
+#: views/assets/src/components/premium/MoreProFeatures.vue:41
+msgid "Team category permission"
+msgstr "Autorizzazione della categoria squadra"
+
+#: views/assets/src/components/premium/MoreProFeatures.vue:42
+msgid "Frontend projects and discussions"
+msgstr "Progetti e discussioni frontend"
+
+#: views/assets/src/components/premium/MoreProFeatures.vue:43
+msgid "Automatic daily digest emails"
+msgstr "Email automatiche di raccolta giornaliera"
+
+#: views/assets/src/components/premium/MoreProFeatures.vue:44
+msgid "Advanced filters for reports"
+msgstr "Filtri avanzati per i report"
+
+#: views/assets/src/components/premium/MoreProFeatures.vue:45
+msgid "Real-time updates"
+msgstr "Aggiornamenti in tempo reale"
+
+#: views/assets/src/components/premium/ProBanner.vue:14
+msgid "Project Manager Pro"
+msgstr "Project Manager Pro"
+
+#: views/assets/src/components/premium/ProBanner.vue:17
+msgid "Premium Features"
+msgstr "Funzionalità premium"
+
+#: views/assets/src/components/premium/ProBanner.vue:20
+msgid "Advanced project management tools to ensure your"
+msgstr "Strumenti avanzati di gestione dei progetti per garantire il tuo"
+
+#: views/assets/src/components/premium/ProBanner.vue:21
+msgid "efficiency and productivity reach the peak."
+msgstr "efficienza e produttività raggiungono il massimo."
+
+#: views/assets/src/components/premium/ProFeatures.vue:23
+msgid "Get the Birdseye view of all tasks from an interactive calendar."
+msgstr ""
+"Ottieni la vista Birdseye di tutte le attività da un calendario interattivo."
+
+#: views/assets/src/components/premium/ProFeatures.vue:30
+msgid "Report"
+msgstr "Rapporto"
+
+#: views/assets/src/components/premium/ProFeatures.vue:31
+msgid "Generate actionable insights with built-in reporting system."
+msgstr "Genera informazioni strategiche con il sistema di reporting integrato."
+
+#: views/assets/src/components/premium/ProFeatures.vue:39
+msgid ""
+"Stay updated with the live progress of your projects. Plan ahead of deadline."
+msgstr ""
+"Rimani aggiornato con lo stato di avanzamento dei tuoi progetti in tempo "
+"reale. Pianificare in anticipo rispetto alla scadenza."
+
+#: views/assets/src/components/premium/ProModules.vue:5
+msgid "Available Modules"
+msgstr "Moduli disponibili"
+
+#: views/assets/src/components/premium/ProModules.vue:27 
+#: views/assets/src/components/pro-modules/modules.vue:108
+msgid "Recurring Task"
+msgstr "Attività ricorrente"
+
+#: views/assets/src/components/premium/ProModules.vue:28
+msgid ""
+"Automate routine tasks with this super handy module. Just set the patterns & "
+"parameters and the tasks will repeat itself accordingly."
+msgstr ""
+"Automatizza le attività di routine con questo modulo super pratico. Basta "
+"impostare modelli e parametri e le attività si ripeteranno di conseguenza."
+
+#: views/assets/src/components/premium/ProModules.vue:34
+msgid "BuddyPress"
+msgstr "BuddyPress"
+
+#: views/assets/src/components/premium/ProModules.vue:35
+msgid ""
+"Need to bring team networking in your project manager? You're good to go."
+msgstr ""
+"Hai bisogno di portare il networking del team nel tuo project manager? Sei a "
+"posto."
+
+#: views/assets/src/components/premium/ProModules.vue:41 
+#: views/assets/src/components/pro-modules/modules.vue:114 
+#: views/assets/src/components/project-modules/router.js:42
+msgid "Gantt Chart"
+msgstr "Diagramma di Gantt"
+
+#: views/assets/src/components/premium/ProModules.vue:42
+msgid ""
+"Get a graphical overview of task progress, deadline, sub-tasks, project "
+"dependencies - everything in one place."
+msgstr ""
+"Ottieni una panoramica grafica dell'avanzamento delle attività, della "
+"scadenza, delle attività secondarie, delle dipendenze del progetto: tutto in "
+"un unico posto."
+
+#: views/assets/src/components/premium/ProModules.vue:48 
+#: views/assets/src/components/pro-modules/modules.vue:84
+msgid "Kanban Board"
+msgstr "Tabellone Kanban"
+
+#: views/assets/src/components/premium/ProModules.vue:49
+msgid ""
+"Organize your tasks in Kanban style to keep team-mates updated about task "
+"status."
+msgstr ""
+"Organizza le tue attività in stile Kanban per mantenere aggiornati i "
+"compagni di squadra sulle statistiche delle attività"
+
+#: views/assets/src/components/premium/ProModules.vue:55 
+#: views/assets/src/components/pro-modules/modules.vue:102
+msgid "WooCommerce Order"
+msgstr "Ordine WooCommerce"
+
+#: views/assets/src/components/premium/ProModules.vue:56
+msgid ""
+"Integrate task management with your WooCommerce store and automate the "
+"workflow."
+msgstr ""
+"Integra la gestione delle attività con il tuo negozio WooCommerce e "
+"automatizza il flusso di lavoro."
+
+#: views/assets/src/components/premium/ProModules.vue:62 
+#: views/assets/src/components/pro-modules/modules.vue:90
+msgid "Sub Task"
+msgstr "Attività secondaria"
+
+#: views/assets/src/components/premium/ProModules.vue:63
+msgid ""
+"Break down your tasks into smaller ones to work more effectively. Keep track "
+"of every detail."
+msgstr ""
+"Suddividi i tuoi compiti in compiti più piccoli per lavorare in modo più "
+"efficace. Tieni traccia di ogni dettaglio."
+
+#: views/assets/src/components/premium/ProModules.vue:69 
+#: views/assets/src/components/pro-modules/modules.vue:126
+msgid "Time Tracker"
+msgstr "Tracciare il tempo"
+
+#: views/assets/src/components/premium/ProModules.vue:70
+msgid ""
+"Track the exact time you spend on specific tasks. With Interval option of "
+"course."
+msgstr ""
+"Tieni traccia del tempo esatto che dedichi ad attività specifiche. "
+"Ovviamente con l'opzione Intervallo."
+
+#: views/assets/src/components/premium/ProModules.vue:76 
+#: views/assets/src/components/pro-settings/invoice-tab-menu.vue:3 
+#: views/assets/src/components/project-settings/invoice.vue:7 
+#: views/assets/src/components/project-settings/router.js:31
+msgid "Invoice"
+msgstr "Fattura"
+
+#: views/assets/src/components/premium/ProModules.vue:77
+msgid "Invoice creation, payment collection have never been easier before."
+msgstr ""
+"La creazione di fatture e la riscossione dei pagamenti non sono mai state "
+"così facili prima."
+
+#: views/assets/src/components/premium/ProModules.vue:83
+msgid "Stripe Gateway"
+msgstr "Gateway Stripe"
+
+#: views/assets/src/components/premium/ProModules.vue:84
+msgid ""
+"Enable the hassle-free and popular payment system with the minimum cost "
+"possible."
+msgstr ""
+"Abilita il sistema di pagamento popolare e senza problemi con il costo "
+"minimo possibile."
+
+#: views/assets/src/components/privacy/discussion-privacy.vue:5 
+#: views/assets/src/components/privacy/task-list-privacy.vue:5
+msgid "Private"
+msgstr "Privato"
+
+#: views/assets/src/components/pro-modules/modules.vue:86
+msgid ""
+"Turn your projects into Trello like boards and organize them using drag and "
+"drop feature."
+msgstr ""
+"Trasforma i tuoi progetti in bacheche simili a Trello e organizzali "
+"utilizzando la funzionalità di trascinamento della selezione."
+
+#: views/assets/src/components/pro-modules/modules.vue:92
+msgid ""
+"Break down your to-dos into smaller tasks for better management and project "
+"tracking."
+msgstr ""
+"Suddividi le tue cose da fare in attività più piccole per una migliore "
+"gestione e monitoraggio dei progetti."
+
+#: views/assets/src/components/pro-modules/modules.vue:96 
+#: views/assets/src/components/project-settings/custom-field.vue:58 
+#: views/assets/src/components/project-settings/task-content.vue:4
+msgid "Custom Fields"
+msgstr "Campi personalizzati"
+
+#: views/assets/src/components/pro-modules/modules.vue:98 
+#: views/assets/src/components/pro-modules/modules.vue:140
+msgid ""
+"Generate invoice for your projects anytime; print, download and send emails "
+"to your client."
+msgstr ""
+"Genera fatture per i tuoi progetti in qualsiasi momento; stampa, scarica e "
+"invia email al tuo cliente."
+
+#: views/assets/src/components/pro-modules/modules.vue:104
+msgid ""
+"Create projects instantly for each of the orders placed on your WooCommerce "
+"store."
+msgstr ""
+"Crea progetti istantaneamente per ciascuno degli ordini effettuati sul tuo "
+"negozio WooCommerce."
+
+#: views/assets/src/components/pro-modules/modules.vue:110
+msgid "Repeatedly creates tasks if you set recurrence."
+msgstr "Crea ripetutamente attività se imposti la ricorrenza."
+
+#: views/assets/src/components/pro-modules/modules.vue:116
+msgid ""
+"Create detailed Gantt charts for your projects and become a professional "
+"project manager."
+msgstr ""
+"Crea diagrammi di Gantt dettagliati per i tuoi progetti e diventa un project "
+"manager professionista."
+
+#: views/assets/src/components/pro-modules/modules.vue:120
+msgid "BuddyPress Integration"
+msgstr "Integrazione con BuddyPress"
+
+#: views/assets/src/components/pro-modules/modules.vue:122
+msgid ""
+"Manage your projects group wise directly from the frontend using this "
+"premium integration."
+msgstr ""
+"Gestisci i tuoi progetti in gruppo direttamente dal frontend utilizzando "
+"questa integrazione premium."
+
+#: views/assets/src/components/pro-modules/modules.vue:128
+msgid ""
+"Track time for each of your project tasks for increasing overall team "
+"productivity."
+msgstr ""
+"Tieni traccia del tempo dedicato a ciascuna delle attività del tuo progetto "
+"per aumentare la produttività complessiva del team."
+
+#: views/assets/src/components/pro-modules/modules.vue:132
+msgid "Invoice stripe payment gateway"
+msgstr "Fattura Stripe gateway di pagamento"
+
+#: views/assets/src/components/pro-modules/modules.vue:134
+msgid "Get payment with stripe account."
+msgstr "Ottieni il pagamento con l'account stripe."
+
+#: views/assets/src/components/pro-modules/modules.vue:138
+msgid "Project Invoice"
+msgstr "Fattura del progetto"
+
+#: views/assets/src/components/pro-settings/invoice.vue:4
+msgid "Invoices"
+msgstr "Fatture"
+
+#: views/assets/src/components/pro-settings/invoice.vue:9
+msgid "Theme Color"
+msgstr "Colore del tema"
+
+#: views/assets/src/components/pro-settings/invoice.vue:17
+msgid "Currency"
+msgstr "Valuta"
+
+#: views/assets/src/components/pro-settings/invoice.vue:21
+msgid "US Dollar"
+msgstr "Dollaro Americano"
+
+#: views/assets/src/components/pro-settings/invoice.vue:26
+msgid "Payment Gateway"
+msgstr "Gateway di pagamento"
+
+#: views/assets/src/components/pro-settings/invoice.vue:31
+msgid "Paypal"
+msgstr "Paypal"
+
+#: views/assets/src/components/pro-settings/invoice.vue:37
+msgid "Stripe"
+msgstr "Stripe"
+
+#: views/assets/src/components/pro-settings/invoice.vue:44
+msgid "PayPal email"
+msgstr "E-mail PayPal"
+
+#: views/assets/src/components/pro-settings/invoice.vue:53
+msgid "Enable demo/sandbox mode forPayPal"
+msgstr "Abilita la modalità demo/sandbox per PayPal"
+
+#: views/assets/src/components/pro-settings/invoice.vue:60
+msgid ""
+"When sandbox mode is active, all payment gateway will be used in demo mode"
+msgstr ""
+"Quando la modalità sandbox è attiva, tutti i gateway di pagamento verranno "
+"utilizzati in modalità demo"
+
+#: views/assets/src/components/pro-settings/invoice.vue:67
+msgid "PayPal Instruction"
+msgstr "Istruzioni PayPal"
+
+#: views/assets/src/components/pro-settings/invoice.vue:70
+msgid "Pay with your credit card"
+msgstr "Paga con la tua carta di credito"
+
+#: views/assets/src/components/pro-settings/invoice.vue:76
+msgid "Organization"
+msgstr "Organizzazione"
+
+#: views/assets/src/components/pro-settings/invoice.vue:85
+msgid "Address Line 1"
+msgstr "Indirizzo 1"
+
+#: views/assets/src/components/pro-settings/invoice.vue:93
+msgid "Address Line 2"
+msgstr "Indirizzo 2"
+
+#: views/assets/src/components/pro-settings/invoice.vue:101
+msgid "City"
+msgstr "Città"
+
+#: views/assets/src/components/pro-settings/invoice.vue:109
+msgid "State/Province"
+msgstr "Stato/Provincia"
+
+#: views/assets/src/components/pro-settings/invoice.vue:116
+msgid "Zip/Postal Code"
+msgstr "Zip / Codice postale"
+
+#: views/assets/src/components/pro-settings/invoice.vue:123
+msgid "Country"
+msgstr "Paese"
+
+#: views/assets/src/components/pro-settings/invoice.vue:127
+msgid "Bangladesh"
+msgstr "Bangladesh"
+
+#: views/assets/src/components/pro-settings/page-tab-menu.vue:3
+msgid "Pages"
+msgstr "Pagine"
+
+#: views/assets/src/components/pro-settings/pages.vue:5
+msgid "Page Settings"
+msgstr "Impostazioni della pagina"
+
+#: views/assets/src/components/pro-settings/pages.vue:10
+msgid "Front-end"
+msgstr "Front-end"
+
+#: views/assets/src/components/pro-settings/settings.vue:7
+msgid "Task start date"
+msgstr "Data di inizio dell'attività"
+
+#: views/assets/src/components/pro-settings/settings.vue:15
+msgid "Enable task start date field"
+msgstr "Abilita il campo della data di inizio dell'attività"
+
+#: views/assets/src/components/pro-settings/settings.vue:25
+msgid "Logo"
+msgstr "Logo"
+
+#: views/assets/src/components/pro-settings/settings.vue:33
+msgid "Upload"
+msgstr "Caricamento"
+
+#: views/assets/src/components/pro-settings/settings.vue:44
+msgid "Daily Digest"
+msgstr "Raccolta giornaliera"
+
+#: views/assets/src/components/pro-settings/settings.vue:52
+msgid "Enable Daily Digest"
+msgstr "Rapporto quotidiano"
+
+#: views/assets/src/components/pro-task-lists/subtask-lists.vue:4 
+#: views/assets/src/components/tasks-report/reports.vue:73
+msgid "Subtasks"
+msgstr "Attività secondarie"
+
+#: views/assets/src/components/pro-task-lists/subtask-lists.vue:5 
+#: views/assets/src/components/upgrade/badge.vue:3 
+#: views/assets/src/components/upgrade/popup.vue:16
+msgid "Pro"
+msgstr "Pro"
+
+#: views/assets/src/components/pro-task-lists/subtask-lists.vue:19
+msgid "Content planing"
+msgstr "Progettazione dei contenuti"
+
+#: views/assets/src/components/pro-task-lists/task-estimation.vue:4
+msgid "Estimation"
+msgstr "Stima"
+
+#: views/assets/src/components/pro-task-lists/task-estimation.vue:5
+msgid "according subtasks"
+msgstr "in base alle sottoattività"
+
+#: views/assets/src/components/pro-task-lists/task-estimation.vue:47
+msgid "00 Hour"
+msgstr "00 Ora"
+
+#: views/assets/src/components/pro-task-lists/task-estimation.vue:50
+msgid "00 Minute"
+msgstr "00 minuti"
+
+#: views/assets/src/components/pro-task-lists/task-label.vue:3 
+#: views/assets/src/components/project-settings/settings.vue:175
+msgid "Label"
+msgstr "Etichetta"
+
+#: views/assets/src/components/pro-task-lists/task-label.vue:20
+msgid "Add Label"
+msgstr "Aggiungi etichetta"
+
+#: views/assets/src/components/pro-task-lists/task-recurrent.vue:4
+msgid "Recurring"
+msgstr "Ricorrente"
+
+#: views/assets/src/components/pro-task-lists/task-recurrent.vue:32
+msgid "Add Recurring"
+msgstr "Aggiungi ricorrente"
+
+#: views/assets/src/components/pro-task-lists/time-tracker.vue:5
+msgid "Track Time"
+msgstr "Tieni traccia del tempo"
+
+#: views/assets/src/components/pro-task-lists/time-tracker.vue:35
+msgid "+ Add custom time"
+msgstr "+ Aggiungi orario personalizzato"
+
+#: views/assets/src/components/progress/progress.vue:7
+msgid "Oct 24 2022"
+msgstr "24 Ott 2022"
+
+#: views/assets/src/components/progress/progress.vue:14 
+#: views/assets/src/components/progress/progress.vue:56
+msgid "update"
+msgstr "aggiornamento"
+
+#: views/assets/src/components/progress/progress.vue:17 
+#: views/assets/src/components/progress/progress.vue:59
+msgid "has updated the description of a discussion board,"
+msgstr "ha aggiornato la descrizione di un forum di discussione,"
+
+#: views/assets/src/components/progress/progress.vue:18
+msgid "Profile badge successfully updated"
+msgstr "Badge del profilo aggiornato con successo"
+
+#: views/assets/src/components/progress/progress.vue:22 
+#: views/assets/src/components/progress/progress.vue:64
+msgid "2022-11-03 07:49:10"
+msgstr "2022-11-03 07:49:10"
+
+#: views/assets/src/components/progress/progress.vue:30 
+#: views/assets/src/components/progress/progress.vue:72
+msgid "create"
+msgstr "creare"
+
+#: views/assets/src/components/progress/progress.vue:33 
+#: views/assets/src/components/progress/progress.vue:75
+msgid "has created a discussion board titled as"
+msgstr "ha creato un forum di discussione intitolato come"
+
+#: views/assets/src/components/progress/progress.vue:34
+msgid "Profile badge successfully created"
+msgstr "Badge del profilo creato con successo"
+
+#: views/assets/src/components/progress/progress.vue:38 
+#: views/assets/src/components/progress/progress.vue:80
+msgid "2022-11-03 07:48:51"
+msgstr "2022-11-03 07:48:51"
+
+#: views/assets/src/components/progress/progress.vue:49
+msgid "Oct 25 2022"
+msgstr "25 Ott 2022"
+
+#: views/assets/src/components/progress/progress.vue:60
+msgid "Project recursion successfully updated"
+msgstr "Ricorsione del progetto aggiornata con successo"
+
+#: views/assets/src/components/progress/progress.vue:76
+msgid "Project recursion successfully created"
+msgstr "Ricorsione del progetto creata con successo"
+
+#: views/assets/src/components/project-discussions/comment-form.vue:45
+msgid "Add New Comment"
+msgstr "Aggiungi nuovo commento"
+
+#: views/assets/src/components/project-discussions/discussions.vue:17 
+#: views/assets/src/components/project-task-lists/new-task-list-form.vue:83
+msgid "Add List"
+msgstr "Aggiungi elenco"
+
+#: views/assets/src/components/project-discussions/discussions.vue:24
+msgid ""
+"Use our built in discussion panel to create an open discussion, a group "
+"discussion or a private conversation. Note that the Admin can always "
+"moderate these discussions."
+msgstr ""
+"Utilizza il nostro pannello di discussione integrato per creare una "
+"discussione aperta, una discussione di gruppo o una conversazione privata. "
+"Tieni presente che l'amministratore può sempre moderare queste discussioni."
+
+#: views/assets/src/components/project-discussions/discussions.vue:28 
+#: views/assets/src/components/project-discussions/discussions.vue:55
+msgid "Add New Discussion"
+msgstr "Aggiungi nuova discussione"
+
+#: views/assets/src/components/project-discussions/discussions.vue:33 
+#: views/assets/src/components/project-discussions/discussions.vue:60
+msgid "Create a new message"
+msgstr "Crea un nuovo messaggio"
+
+#: views/assets/src/components/project-discussions/discussions.vue:39
+msgid "When to use Discussions?"
+msgstr "Quando utilizzare le discussioni?"
+
+#: views/assets/src/components/project-discussions/discussions.vue:42
+msgid "To discuss a work matter privately."
+msgstr "Per discutere una questione di lavoro in privato."
+
+#: views/assets/src/components/project-discussions/discussions.vue:43
+msgid "To exchange files privately."
+msgstr "Per scambiare file in privato."
+
+#: views/assets/src/components/project-discussions/discussions.vue:44
+msgid "To discuss in a group."
+msgstr "Da discutere in gruppo."
+
+#: views/assets/src/components/project-discussions/discussions.vue:45
+msgid "To create an open discussion visible to all."
+msgstr "Creare una discussione aperta e visibile a tutti."
+
+#: views/assets/src/components/project-discussions/discussions.vue:69
+msgid "Discussion List"
+msgstr "Elenco di discussione"
+
+#: views/assets/src/components/project-discussions/discussions.vue:83 
+#: views/assets/src/components/project-discussions/individual-discussions.vue:33
+msgid "By"
+msgstr "Di"
+
+#: views/assets/src/components/project-discussions/discussions.vue:168
+msgid "Delete this message"
+msgstr "Elimina questo messaggio"
+
+#: views/assets/src/components/project-discussions/discussions.vue:169
+msgid "Make it private"
+msgstr "Rendilo privato"
+
+#: views/assets/src/components/project-discussions/mixin.js:558
+msgid "Are you sure to delete this comment?"
+msgstr "Sei sicuro di eliminare questo commento?"
+
+#: views/assets/src/components/project-discussions/new-discuss-form.vue:59
+msgid "Enter message title"
+msgstr "Inserisci il titolo del messaggio"
+
+#: views/assets/src/components/project-discussions/new-discuss-form.vue:60
+msgid "Add Message"
+msgstr "Aggiungi un messaggio"
+
+#: views/assets/src/components/project-discussions/new-discuss-form.vue:61
+msgid "Update Message"
+msgstr "Aggiorna messaggio"
+
+#: views/assets/src/components/project-files/pro-files.vue:29
+msgid "Create a folder"
+msgstr "Crea una cartella"
+
+#: views/assets/src/components/project-files/pro-files.vue:30
+msgid "Upload a file"
+msgstr "Caricare un file"
+
+#: views/assets/src/components/project-files/pro-files.vue:31
+msgid "Create a doc"
+msgstr "Crea un documento"
+
+#: views/assets/src/components/project-files/pro-files.vue:32
+msgid "Link to Docs"
+msgstr "Collegamento a Documenti"
+
+#: views/assets/src/components/project-lists/header.vue:56
+msgid "Start a new project"
+msgstr "Inizia un nuovo progetto"
+
+#: views/assets/src/components/project-lists/project-create-form.vue:125
+msgid "Name of the project"
+msgstr "Nome del progetto"
+
+#: views/assets/src/components/project-lists/project-create-form.vue:126
+msgid "Some details about the project (optional)"
+msgstr "Alcuni dettagli sul progetto (facoltativo)"
+
+#: views/assets/src/components/project-lists/project-create-form.vue:127
+msgid "Search users..."
+msgstr "Cerca utenti..."
+
+#: views/assets/src/components/project-lists/project-create-form.vue:129
+msgid "Add New Project"
+msgstr "Aggiungi nuovo progetto"
+
+#: views/assets/src/components/project-lists/project-create-form.vue:130
+msgid "Update Project"
+msgstr "Aggiorna progetto"
+
+#: views/assets/src/components/project-lists/project-create-form.vue:131 
+#: views/assets/src/components/project-settings/capabilities.vue:8
+msgid "Client"
+msgstr "Cliente"
+
+#: views/assets/src/components/project-lists/project-filter-by-category.vue:5
+msgid "- All Categories -"
+msgstr "- Tutte le categorie -"
+
+#: views/assets/src/components/project-lists/project-header-menu.vue:11
+msgid "Active"
+msgstr "Attivo"
+
+#: views/assets/src/components/project-lists/project-header-menu.vue:23
+msgid "Favourite"
+msgstr "Preferito"
+
+#: views/assets/src/components/project-lists/project-new-project-btn.vue:3
+msgid "New Project"
+msgstr "Nuovo progetto"
+
+#: views/assets/src/components/project-lists/project-view.vue:7 
+#: views/assets/src/components/project-lists/project-view.vue:26
+msgid "Grid View"
+msgstr "Vista griglia"
+
+#: views/assets/src/components/project-lists/project-view.vue:13 
+#: views/assets/src/components/project-lists/project-view.vue:25
+msgid "List View"
+msgstr "Vista lista"
+
+#: views/assets/src/components/project-milestones/action-milestones.vue:33
+msgid "Edit Milestone"
+msgstr "Modifica traguardo"
+
+#: views/assets/src/components/project-milestones/action-milestones.vue:34
+msgid "Delete milestone"
+msgstr "Elimina traguardo"
+
+#: views/assets/src/components/project-milestones/action-milestones.vue:35
+msgid "Mark as incomplete"
+msgstr "Contrassegna come incompleto"
+
+#: views/assets/src/components/project-milestones/action-milestones.vue:36
+msgid "Mark as complete"
+msgstr "Contrassegna come completo"
+
+#: views/assets/src/components/project-milestones/completed-milestones.vue:3
+msgid "Completed Milestones"
+msgstr "Traguardi completati"
+
+#: views/assets/src/components/project-milestones/completed-milestones.vue:44
+msgid "Completed on:"
+msgstr "Completato il:"
+
+#: views/assets/src/components/project-milestones/late-milestones.vue:3
+msgid "Late Milestones"
+msgstr "Traguardi tardivi"
+
+#: views/assets/src/components/project-milestones/milestones.vue:23
+msgid ""
+"Create a lifecycle of your projects using milestones. Time mark the "
+"different stages of your project with multiple milestones and also it will "
+"help the assigned people to aim for a date to complete the project according "
+"to those steps."
+msgstr ""
+"Crea un ciclo di vita dei tuoi progetti utilizzando i traguardi. Segna il "
+"tempo delle diverse fasi del tuo progetto con più traguardi e aiuterà "
+"inoltre le persone assegnate a mirare a una data per completare il progetto "
+"in base a tali passaggi."
+
+#: views/assets/src/components/project-milestones/milestones.vue:26 
+#: views/assets/src/components/project-milestones/milestones.vue:54 
+#: views/assets/src/components/project-milestones/new-milestone-form.vue:46
+msgid "Add Milestone"
+msgstr "Aggiungi Traguardo"
+
+#: views/assets/src/components/project-milestones/milestones.vue:39
+msgid "When to use Milestones?"
+msgstr "Quando utilizzare i traguardi?"
+
+#: views/assets/src/components/project-milestones/milestones.vue:42
+msgid "To set a target date for the project overall."
+msgstr "Fissare una data target per il progetto complessivo."
+
+#: views/assets/src/components/project-milestones/milestones.vue:43
+msgid "To divide a project into several development-time phases."
+msgstr "Dividere un progetto in diverse fasi temporali di sviluppo."
+
+#: views/assets/src/components/project-milestones/milestones.vue:44
+msgid "To coordinate projects and assigned persons timely."
+msgstr "Coordinare tempestivamente i progetti e le persone assegnate."
+
+#: views/assets/src/components/project-milestones/new-milestone-form.vue:45
+msgid "Milestone name"
+msgstr "Nome Traguardo"
+
+#: views/assets/src/components/project-milestones/new-milestone-form.vue:47
+msgid "Update Milestone"
+msgstr "Aggiorna traguardo"
+
+#: views/assets/src/components/project-milestones/new-milestone-form.vue:100
+msgid "Milestone title required!"
+msgstr "È richiesto il titolo del traguardo!"
+
+#: views/assets/src/components/project-milestones/upcoming-milestones.vue:3
+msgid "Upcoming Milestones"
+msgstr "Prossimi traguardi"
+
+#: views/assets/src/components/project-milestones/upcoming-milestones.vue:11
+msgid "left -"
+msgstr "Sinistra -"
+
+#: views/assets/src/components/project-modules/gantt.vue:30
+msgid "Start time"
+msgstr "Ora di inizio"
+
+#: views/assets/src/components/project-modules/gantt.vue:34
+msgid "Group"
+msgstr "Gruppo"
+
+#: views/assets/src/components/project-modules/gantt.vue:38 
+#: views/assets/src/components/project-settings/field-lists.vue:9 
+#: views/assets/src/components/project-settings/invoice.vue:21 
+#: views/assets/src/components/project-settings/label.vue:19 
+#: views/assets/src/components/settings/task-types.vue:24
+msgid "Action"
+msgstr "Azione"
+
+#: views/assets/src/components/project-modules/gantt.vue:56 
+#: views/assets/src/components/project-modules/gantt.vue:81
+msgid "2022-11-17"
+msgstr "2022-11-17"
+
+#: views/assets/src/components/project-modules/gantt.vue:85
+msgid "List"
+msgstr "Elenco"
+
+#: views/assets/src/components/project-modules/gantt.vue:107
+msgid "November, 2022"
+msgstr "Novembre, 2022"
+
+#: views/assets/src/components/project-modules/gantt.vue:112
+msgid "15, Tue"
+msgstr "15, mar"
+
+#: views/assets/src/components/project-modules/gantt.vue:115
+msgid "16, Wed"
+msgstr "16, mercoledì"
+
+#: views/assets/src/components/project-modules/gantt.vue:118
+msgid "17, Thu"
+msgstr "17, Gio"
+
+#: views/assets/src/components/project-modules/gantt.vue:121
+msgid "18, Fri"
+msgstr "18, Ven"
+
+#: views/assets/src/components/project-modules/gantt.vue:124
+msgid "19, Sat"
+msgstr "19, Sab"
+
+#: views/assets/src/components/project-modules/gantt.vue:127
+msgid "20, Sun"
+msgstr "20, domenica"
+
+#: views/assets/src/components/project-modules/gantt.vue:130
+msgid "21, Mon"
+msgstr "21, Lun"
+
+#: views/assets/src/components/project-modules/gantt.vue:133
+msgid "22, Tue"
+msgstr "22, Mar"
+
+#: views/assets/src/components/project-modules/gantt.vue:136
+msgid "23, Wed"
+msgstr "23, Mer"
+
+#: views/assets/src/components/project-modules/gantt.vue:139
+msgid "24, Thu"
+msgstr "24, Gio"
+
+#: views/assets/src/components/project-modules/gantt.vue:142
+msgid "25, Fri"
+msgstr "25, Ven"
+
+#: views/assets/src/components/project-modules/gantt.vue:145
+msgid "26, Sat"
+msgstr "26, Sab"
+
+#: views/assets/src/components/project-modules/gantt.vue:148
+msgid "27, Sun"
+msgstr "27, Dom"
+
+#: views/assets/src/components/project-modules/kanboard.vue:10
+msgid "Fullscreen"
+msgstr "A schermo intero"
+
+#: views/assets/src/components/project-modules/kanboard.vue:15 
+#: views/assets/src/components/project-task-lists/lists.vue:39
+msgid "Filter"
+msgstr "Filtro"
+
+#: views/assets/src/components/project-modules/kanboard.vue:28
+msgid "Open"
+msgstr "Aprire"
+
+#: views/assets/src/components/project-modules/kanboard.vue:70
+msgid "In Progress"
+msgstr "In corso"
+
+#: views/assets/src/components/project-modules/kanboard.vue:110
+msgid "Done"
+msgstr "Fatto"
+
+#: views/assets/src/components/project-modules/router.js:29
+msgid "Kanban board"
+msgstr "Tabellone Kanban"
+
+#: views/assets/src/components/project-overview/addNewUser.vue:51 
+#: views/assets/src/components/project-settings/capabilities.vue:24 
+#: views/assets/src/components/project-settings/capabilities.vue:30 
+#: views/assets/src/components/project-settings/capabilities.vue:60 
+#: views/assets/src/components/project-settings/capabilities.vue:66 
+#: views/assets/src/components/project-settings/capabilities.vue:97 
+#: views/assets/src/components/project-settings/capabilities.vue:103 
+#: views/assets/src/components/project-settings/capabilities.vue:134 
+#: views/assets/src/components/project-settings/capabilities.vue:140 
+#: views/assets/src/components/project-settings/slack.vue:72 
+#: views/assets/src/components/woo-project/woo-project.vue:37
+msgid "Create"
+msgstr "Creare"
+
+#: views/assets/src/components/project-overview/addNewUser.vue:103
+msgid "this email already exists with user name "
+msgstr "questa email esiste già con il nome utente"
+
+#: views/assets/src/components/project-settings/capabilities.vue:7
+msgid "Co-worker"
+msgstr "Collaboratore"
+
+#: views/assets/src/components/project-settings/capabilities.vue:16
+msgid "Message: "
+msgstr "Messaggio:"
+
+#: views/assets/src/components/project-settings/capabilities.vue:38 
+#: views/assets/src/components/project-settings/capabilities.vue:44 
+#: views/assets/src/components/project-settings/capabilities.vue:74 
+#: views/assets/src/components/project-settings/capabilities.vue:80 
+#: views/assets/src/components/project-settings/capabilities.vue:111 
+#: views/assets/src/components/project-settings/capabilities.vue:117 
+#: views/assets/src/components/project-settings/capabilities.vue:148 
+#: views/assets/src/components/project-settings/capabilities.vue:154
+msgid "View Private"
+msgstr "Visualizza privato"
+
+#: views/assets/src/components/project-settings/capabilities.vue:52
+msgid "Todo List"
+msgstr "Lista di cose da fare"
+
+#: views/assets/src/components/project-settings/capabilities.vue:89
+msgid "Todo"
+msgstr "Fare"
+
+#: views/assets/src/components/project-settings/capabilities.vue:171 
+#: views/assets/src/components/project-settings/capabilities.vue:177
+msgid "Upload or create doc"
+msgstr "Carica o crea un documento"
+
+#: views/assets/src/components/project-settings/capabilities.vue:185 
+#: views/assets/src/components/project-settings/capabilities.vue:191
+msgid "View Private files or docs"
+msgstr "Visualizza file o documenti privati"
+
+#: views/assets/src/components/project-settings/create-task-label-form.vue:6
+msgid "Label Name"
+msgstr "Nome dell'etichetta"
+
+#: views/assets/src/components/project-settings/create-task-label-form.vue:24
+msgid "Color"
+msgstr "Colore"
+
+#: views/assets/src/components/project-settings/create-task-label-form.vue:193
+msgid "Label name required!"
+msgstr "Nome dell'etichetta obbligatorio!"
+
+#: views/assets/src/components/project-settings/create-task-label-form.vue:198
+msgid "Label color required!"
+msgstr "È richiesto il colore dell'etichetta!"
+
+#: views/assets/src/components/project-settings/custom-field-form.vue:5
+msgid "Field Title"
+msgstr "Titolo del campo"
+
+#: views/assets/src/components/project-settings/custom-field-form.vue:16
+msgid "Drop-down"
+msgstr "Elenco a discesa"
+
+#: views/assets/src/components/project-settings/custom-field-form.vue:17
+msgid "Text"
+msgstr "Testo"
+
+#: views/assets/src/components/project-settings/custom-field-form.vue:18
+msgid "Number"
+msgstr "Numero"
+
+#: views/assets/src/components/project-settings/custom-field-form.vue:19
+msgid "URL"
+msgstr "URL"
+
+#: views/assets/src/components/project-settings/custom-field-form.vue:29
+msgid "Add description"
+msgstr "Aggiungi una descrizione"
+
+#: views/assets/src/components/project-settings/custom-field.vue:71
+msgid "Custom Field"
+msgstr "Campo personalizzato"
+
+#: views/assets/src/components/project-settings/custom-field.vue:116
+msgid "Field title required!"
+msgstr "Titolo del campo obbligatorio!"
+
+#: views/assets/src/components/project-settings/custom-field.vue:121
+msgid "Field type required!"
+msgstr "Tipo di campo obbligatorio!"
+
+#: views/assets/src/components/project-settings/custom-field.vue:126
+msgid "Field options required!"
+msgstr "Opzioni sul campo richieste!"
+
+#: views/assets/src/components/project-settings/custom-field.vue:150
+msgid "Custom field created successfully!"
+msgstr "Campo personalizzato creato con successo!"
+
+#: views/assets/src/components/project-settings/custom-field.vue:180
+msgid "Custom field updated successfully!"
+msgstr "Campo personalizzato aggiornato con successo!"
+
+#: views/assets/src/components/project-settings/field-lists.vue:14
+msgid "No field found!"
+msgstr "Nessun campo trovato!"
+
+#: views/assets/src/components/project-settings/github-bitbucket.vue:8
+msgid "Github"
+msgstr "Github"
+
+#: views/assets/src/components/project-settings/github-bitbucket.vue:55 
+#: views/assets/src/components/project-settings/github-bitbucket.vue:62
+msgid "Webhook URL"
+msgstr "URL del webhook"
+
+#: views/assets/src/components/project-settings/github-bitbucket.vue:63 
+#: views/assets/src/components/project-settings/slack.vue:51
+msgid "to send our JSON payloads"
+msgstr "per inviare i nostri payload JSON"
+
+#: views/assets/src/components/project-settings/github-bitbucket.vue:65 
+#: views/assets/src/components/project-settings/slack.vue:53
+msgid "View documentation"
+msgstr "Visualizza la documentazione"
+
+#: views/assets/src/components/project-settings/github-bitbucket.vue:84
+msgid "Github Username"
+msgstr "Nome utente Github"
+
+#: views/assets/src/components/project-settings/github-bitbucket.vue:85
+msgid "Bitbucket Username"
+msgstr "Nome utente Bitbucket"
+
+#: views/assets/src/components/project-settings/github-bitbucket.vue:99
+msgid "No user found"
+msgstr "Nessun utente trovato"
+
+#: views/assets/src/components/project-settings/github-bitbucket.vue:110 
+#: views/assets/src/components/project-settings/slack.vue:128
+msgid "Save Form"
+msgstr "Salva modulo"
+
+#: views/assets/src/components/project-settings/github-bitbucket.vue:153 
+#: views/assets/src/components/pusher/settings.vue:69 
+#: views/assets/src/components/settings/email.vue:82 
+#: views/assets/src/components/settings/general.vue:120 
+#: views/assets/src/components/settings/pusher.vue:69 
+#: views/assets/src/components/settings/usersmap.vue:48
+msgid "Save Changes"
+msgstr "Salvare le modifiche"
+
+#: views/assets/src/components/project-settings/invoice.vue:14
+msgid "Created"
+msgstr "Creato"
+
+#: views/assets/src/components/project-settings/invoice.vue:15 
+#: views/assets/src/components/project-settings/invoice.vue:18
+msgid "due"
+msgstr "dovuto"
+
+#: views/assets/src/components/project-settings/invoice.vue:17
+msgid "Discount"
+msgstr "Sconto"
+
+#: views/assets/src/components/project-settings/invoice.vue:19 
+#: views/assets/src/components/tasks-report/reports.vue:95 
+#: views/assets/src/components/tasks-report/reports.vue:118 
+#: views/assets/src/components/tasks-report/reports.vue:136
+msgid "Total"
+msgstr "Totale"
+
+#: views/assets/src/components/project-settings/invoice.vue:20
+msgid "Paid"
+msgstr "Pagato"
+
+#: views/assets/src/components/project-settings/invoice.vue:28
+msgid "No invoice found!"
+msgstr "Nessuna fattura trovata!"
+
+#: views/assets/src/components/project-settings/label.vue:6
+msgid "+ Create label"
+msgstr "+ Crea etichetta"
+
+#: views/assets/src/components/project-settings/label.vue:252
+msgid "Are you sure!"
+msgstr "Sei sicuro!"
+
+#: views/assets/src/components/project-settings/options.vue:4
+msgid "Options"
+msgstr "Opzioni"
+
+#: views/assets/src/components/project-settings/options.vue:97
+msgid "Add option"
+msgstr "Aggiungi opzione"
+
+#: views/assets/src/components/project-settings/options.vue:113
+msgid "Add an option"
+msgstr "Aggiungi un'opzione"
+
+#: views/assets/src/components/project-settings/options.vue:304
+msgid "Maximum character limit 40"
+msgstr "Limite massimo di caratteri 40"
+
+#: views/assets/src/components/project-settings/options.vue:339
+msgid "Option name required"
+msgstr "Nome dell'opzione obbligatorio"
+
+#: views/assets/src/components/project-settings/settings.vue:163
+msgid "Capabilities"
+msgstr "Capacità"
+
+#: views/assets/src/components/project-settings/settings.vue:169
+msgid "Integrations"
+msgstr "Integrazioni"
+
+#: views/assets/src/components/project-settings/slack.vue:36
+msgid "x"
+msgstr "x"
+
+#: views/assets/src/components/project-settings/slack.vue:43
+msgid "Slack Webhook URL"
+msgstr "URL del Webhook lento"
+
+#: views/assets/src/components/project-settings/slack.vue:49
+msgid "Slack webhook URL"
+msgstr "URL del webhook lento"
+
+#: views/assets/src/components/project-settings/slack.vue:60
+msgid "More option"
+msgstr "Più opzioni"
+
+#: views/assets/src/components/project-settings/slack.vue:96
+msgid "Incomplete"
+msgstr "Incompleto"
+
+#: views/assets/src/components/project-settings/slack.vue:106
+msgid "New comment"
+msgstr "Nuovo commento"
+
+#: views/assets/src/components/project-settings/slack.vue:113
+msgid "Update comment"
+msgstr "Aggiorna commento"
+
+#: views/assets/src/components/project-task-lists/lists.vue:25
+msgid "Add Task List"
+msgstr "Aggiungi elenco attività"
+
+#: views/assets/src/components/project-task-lists/lists.vue:225 
+#: views/assets/src/components/tasks-report/reports.vue:87
+msgid "Task Title"
+msgstr "Titolo dell'attività"
+
+#: views/assets/src/components/project-task-lists/lists.vue:737
+msgid "Make Visible"
+msgstr "Rendi visibile"
+
+#: views/assets/src/components/project-task-lists/new-task-form.vue:239
+msgid "characters remaining"
+msgstr "caratteri rimanenti"
+
+#: views/assets/src/components/project-task-lists/new-task-form.vue:340
+msgid "Add a new task"
+msgstr "Aggiungi una nuova attività"
+
+#: views/assets/src/components/project-task-lists/new-task-form.vue:341
+msgid "Add extra details about this task (optional)"
+msgstr "Aggiungi ulteriori dettagli su questa attività (facoltativo)"
+
+#: views/assets/src/components/project-task-lists/new-task-form.vue:342
+msgid "Start Date"
+msgstr "Data d'inizio"
+
+#: views/assets/src/components/project-task-lists/new-task-form.vue:344
+msgid "Select User"
+msgstr "Seleziona Utente"
+
+#: views/assets/src/components/project-task-lists/new-task-form.vue:345
+msgid "Update Task"
+msgstr "Aggiorna attività"
+
+#: views/assets/src/components/project-task-lists/new-task-form.vue:346
+msgid "Estimated hour to complete the task"
+msgstr "Ora stimata per completare l'attività"
+
+#: views/assets/src/components/project-task-lists/new-task-form.vue:586 
+#: views/assets/src/components/project-task-lists/single-task.vue:1409 
+#: views/assets/src/components/project-task-lists/single-task.vue:1415
+msgid "Maxmim character limit 200"
+msgstr "Limite massimo di caratteri 200"
+
+#: views/assets/src/components/project-task-lists/new-task-form.vue:771
+msgid "Task title required!"
+msgstr "Titolo dell'attività richiesto!"
+
+#: views/assets/src/components/project-task-lists/new-task-list-form.vue:81
+msgid "Task list details"
+msgstr "Dettagli dell'elenco delle attività"
+
+#: views/assets/src/components/project-task-lists/new-task-list-form.vue:82
+msgid "Update List"
+msgstr "Aggiorna elenco"
+
+#: views/assets/src/components/project-task-lists/single-list-tasks.vue:5
+msgid "Incomplete Tasks"
+msgstr "Attività incomplete"
+
+#: views/assets/src/components/project-task-lists/single-list-tasks.vue:12 
+#: views/assets/src/components/project-task-lists/single-list-tasks.vue:29
+msgid "No tasks found."
+msgstr "Nessuna attività trovata."
+
+#: views/assets/src/components/project-task-lists/single-list-tasks.vue:21
+msgid "Completed Tasks"
+msgstr "Attività completate"
+
+#: views/assets/src/components/project-task-lists/single-list.vue:17
+msgid "Back to Task Lists"
+msgstr "Torna agli elenchi di attività"
+
+#: views/assets/src/components/project-task-lists/single-list.vue:466
+msgid "Delete List"
+msgstr "Elimina elenco"
+
+#: views/assets/src/components/project-task-lists/single-task.vue:453
+msgid "Mark as private"
+msgstr "Contrassegna come privato"
+
+#: views/assets/src/components/project-task-lists/single-task.vue:454
+msgid "Mark as public"
+msgstr "Contrassegna come pubblico"
+
+#: views/assets/src/components/project-task-lists/single-task.vue:1200
+msgid "Update Description"
+msgstr "Descrizione dell'aggiornamento"
+
+#: views/assets/src/components/project-task-lists/single-task.vue:1619
+msgid "Copied!"
+msgstr "Copiato!"
+
+#: views/assets/src/components/project-task-lists/single-task.vue:1865
+msgid "Invalid date range!"
+msgstr "Intervallo di date non valido!"
+
+#: views/assets/src/components/project-task-lists/single-task.vue:2031
+msgid "Task marked as private"
+msgstr "Attività contrassegnata come privata"
+
+#: views/assets/src/components/project-task-lists/single-task.vue:2033
+msgid "Task visible for co-worker"
+msgstr "Attività visibile per il collaboratore"
+
+#: views/assets/src/components/pusher/settings-tab-menu.vue:3 
+#: views/assets/src/components/settings/header.vue:12
+msgid "Pusher"
+msgstr "Pusher"
+
+#: views/assets/src/components/pusher/settings.vue:7 
+#: views/assets/src/components/settings/pusher.vue:7
+msgid "Pusher Settings"
+msgstr "Impostazioni Pusher"
+
+#: views/assets/src/components/pusher/settings.vue:12 
+#: views/assets/src/components/settings/pusher.vue:12
+msgid "App ID"
+msgstr "ID dell'app"
+
+#: views/assets/src/components/pusher/settings.vue:20 
+#: views/assets/src/components/settings/pusher.vue:20
+msgid "App Key"
+msgstr "Chiave dell'app"
+
+#: views/assets/src/components/pusher/settings.vue:28
+msgid "Secret"
+msgstr "Segreto"
+
+#: views/assets/src/components/pusher/settings.vue:37 
+#: views/assets/src/components/settings/pusher.vue:37
+msgid "Cluster"
+msgstr "Raggruppare"
+
+#: views/assets/src/components/reports/reports.vue:10
+msgid "Overdue Task(s)"
+msgstr "Attività scadute(s)"
+
+#: views/assets/src/components/reports/reports.vue:16 
+#: views/assets/src/components/reports/reports.vue:32 
+#: views/assets/src/components/reports/reports.vue:48 
+#: views/assets/src/components/reports/reports.vue:64 
+#: views/assets/src/components/reports/reports.vue:80 
+#: views/assets/src/components/reports/reports.vue:96
+msgid "View Full Report"
+msgstr "Visualizza il rapporto completo"
+
+#: views/assets/src/components/reports/reports.vue:26
+msgid "Complete Task(s)"
+msgstr "Completa l'attività(s)"
+
+#: views/assets/src/components/reports/reports.vue:42
+msgid "User Activities"
+msgstr "Attività dell'utente"
+
+#: views/assets/src/components/reports/reports.vue:58
+msgid "Task by Milestone"
+msgstr "Attività per traguardo"
+
+#: views/assets/src/components/reports/reports.vue:74
+msgid "Unassigned Task"
+msgstr "Compito non assegnato"
+
+#: views/assets/src/components/reports/reports.vue:90
+msgid "Summary"
+msgstr "Riepilogo"
+
+#: views/assets/src/components/settings/email.vue:7 
+#: views/assets/src/components/settings/header.vue:9
+msgid "E-Mail Settings"
+msgstr "Impostazioni dell 'email"
+
+#: views/assets/src/components/settings/email.vue:12
+msgid "From Email"
+msgstr "Dall'email"
+
+#: views/assets/src/components/settings/email.vue:20
+msgid "Links in the Email"
+msgstr "Collegamenti nell'e-mail"
+
+#: views/assets/src/components/settings/email.vue:25
+msgid "Link to Backend"
+msgstr "Collegamento al back-end"
+
+#: views/assets/src/components/settings/email.vue:28
+msgid ""
+"Select where do you want to take the user. Notification emails contain links."
+msgstr ""
+"Seleziona dove vuoi portare l'utente. Le email di notifica contengono "
+"collegamenti."
+
+#: views/assets/src/components/settings/email.vue:35
+msgid "E-Mail Type"
+msgstr "Tipo di posta elettronica"
+
+#: views/assets/src/components/settings/email.vue:39
+msgid "HTML Mail"
+msgstr "Posta HTML"
+
+#: views/assets/src/components/settings/email.vue:40
+msgid "Plain Text"
+msgstr "Solo testo"
+
+#: views/assets/src/components/settings/email.vue:46
+msgid "Send email via Bcc"
+msgstr "Invia e-mail tramite Ccn"
+
+#: views/assets/src/components/settings/email.vue:52
+msgid "Enable Bcc"
+msgstr "Abilita Ccn"
+
+#: views/assets/src/components/settings/general.vue:7 
+#: views/assets/src/components/settings/header.vue:5
+msgid "General Settings"
+msgstr "Impostazioni generali"
+
+#: views/assets/src/components/settings/general.vue:12
+msgid "File Upload Limit"
+msgstr "Limite caricamento file"
+
+#: views/assets/src/components/settings/general.vue:16
+msgid "File Size in Megabytes. e.g: 2"
+msgstr "Dimensioni del file in megabyte. ad esempio: 2"
+
+#: views/assets/src/components/settings/general.vue:21
+msgid "Projects Per Page"
+msgstr "Progetti per pagina"
+
+#: views/assets/src/components/settings/general.vue:25
+msgid "-1 for unlimited"
+msgstr "-1 per illimitato"
+
+#: views/assets/src/components/settings/general.vue:31
+msgid "Task Lists Per Page"
+msgstr "Elenchi attività per pagina"
+
+#: views/assets/src/components/settings/general.vue:39
+msgid "Incomplete Tasks Per Page"
+msgstr "Attività incomplete per pagina"
+
+#: views/assets/src/components/settings/general.vue:47
+msgid "Completed Tasks Per Page"
+msgstr "Attività completate per pagina"
+
+#: views/assets/src/components/settings/general.vue:55
+msgid "Project Managing Capability"
+msgstr "Capacità di gestione del progetto"
+
+#: views/assets/src/components/settings/general.vue:68
+msgid "Select the user roles who can see and manage all projects."
+msgstr ""
+"Seleziona i ruoli utente che possono visualizzare e gestire tutti i progetti."
+
+#: views/assets/src/components/settings/general.vue:74
+msgid "Project Creation Capability"
+msgstr "Capacità di creazione di progetti"
+
+#: views/assets/src/components/settings/general.vue:85
+msgid "Select the user roles who can create projects."
+msgstr "Seleziona i ruoli utente che possono creare progetti."
+
+#: views/assets/src/components/settings/new-task-type-form.vue:6
+msgid "Type Name"
+msgstr "Digitare Nome"
+
+#: views/assets/src/components/settings/new-task-type-form.vue:187
+msgid "Type name required!"
+msgstr "Digita il nome richiesto!"
+
+#: views/assets/src/components/settings/pusher.vue:28
+msgid "secret"
+msgstr "segreto"
+
+#: views/assets/src/components/settings/task-types.vue:10
+msgid "+ Create New Task Type"
+msgstr "+ Crea un nuovo tipo di attività"
+
+#: views/assets/src/components/settings/usersmap.vue:6
+msgid "Users Map to Github & Bitbucket"
+msgstr "Gli utenti si mappano su Github e Bitbucket"
+
+#: views/assets/src/components/tasks-report/reports.vue:5 
+#: views/emails/html/complete-task.php:76
+msgid "Date"
+msgstr "Data"
+
+#: views/assets/src/components/tasks-report/reports.vue:13
+msgid "User Name"
+msgstr "Nome utente"
+
+#: views/assets/src/components/tasks-report/reports.vue:22
+msgid "Total Estimation Hours"
+msgstr "Ore totali di stima"
+
+#: views/assets/src/components/tasks-report/reports.vue:26
+msgid "Completed Task Count"
+msgstr "Conteggio attività completate"
+
+#: views/assets/src/components/tasks-report/reports.vue:30
+msgid "Avg. Hour Per-task"
+msgstr "Media Ora per attività"
+
+#: views/assets/src/components/tasks-report/reports.vue:34
+msgid "Avg. Work Hour Per-day"
+msgstr "Media Orario di lavoro giornaliero"
+
+#: views/assets/src/components/tasks-report/reports.vue:38
+msgid "Avg. Task Per-day"
+msgstr "Media Compito giornaliero"
+
+#: views/assets/src/components/tasks-report/reports.vue:48
+msgid "All Projects"
+msgstr "Tutti i progetti"
+
+#: views/assets/src/components/tasks-report/reports.vue:56
+msgid "Task Types"
+msgstr "Tipi di attività"
+
+#: views/assets/src/components/tasks-report/reports.vue:64
+msgid "Subtask Types"
+msgstr "Tipi di attività secondarie"
+
+#: views/assets/src/components/tasks-report/reports.vue:86
+msgid "Completed At"
+msgstr "Completato A"
+
+#: views/assets/src/components/tasks-report/reports.vue:88
+msgid "Subtask Title"
+msgstr "Titolo dell'attività secondaria"
+
+#: views/assets/src/components/tasks-report/reports.vue:91
+msgid "Hour"
+msgstr "Ora"
+
+#: views/assets/src/components/tasks-report/reports.vue:107 
+#: views/assets/src/components/tasks-report/reports.vue:110
+msgid "Task type"
+msgstr "Tipo di attività"
+
+#: views/assets/src/components/tasks-report/reports.vue:114 
+#: views/assets/src/components/tasks-report/reports.vue:132
+msgid "Est. Hour"
+msgstr "Est. Ora"
+
+#: views/assets/src/components/tasks-report/reports.vue:127
+msgid "Sub task type"
+msgstr "Tipo di attività secondaria"
+
+#: views/assets/src/components/tasks-report/reports.vue:130
+msgid "Sub task Type"
+msgstr "Tipo di attività secondaria"
+
+#: views/assets/src/components/tasks-report/reports.vue:131
+msgid "Subtask"
+msgstr "Sotto attività"
+
+#: views/assets/src/components/upgrade/popup.vue:12
+msgid "Upgrade to"
+msgstr "L'aggiornamento a"
+
+#: views/assets/src/components/upgrade/popup.vue:19
+msgid "unlock and take advantage of our premium features 🎉"
+msgstr "sblocca e sfrutta le nostre funzionalità premium 🎉"
+
+#: views/assets/src/components/upgrade/popup.vue:29
+msgid ""
+"Give your team & projects additional pace with 10+ premium modules such as -"
+msgstr ""
+"Dai al tuo team e ai tuoi progetti ulteriore ritmo con oltre 10 moduli "
+"premium come:"
+
+#: views/assets/src/components/upgrade/popup.vue:31
+msgid ""
+"Stripe Gateway, Time Tracker, Sub Task, Invoice, Kanban Board, Gantt Chart, "
+"WooCommerce Order, BuddyPress"
+msgstr ""
+"Stripe Gateway, Time Tracker, Attività secondaria, Fattura, Lavagna Kanban, "
+"Diagramma di Gantt, Ordine WooCommerce, BuddyPress"
+
+#: views/assets/src/components/upgrade/popup.vue:33
+msgid "etc"
+msgstr "ecc"
+
+#: views/assets/src/components/upgrade/popup.vue:43
+msgid "Experience the"
+msgstr "Sperimenta il"
+
+#: views/assets/src/components/upgrade/popup.vue:44
+msgid "Advanced Files Manager"
+msgstr "Gestione file avanzata"
+
+#: views/assets/src/components/upgrade/popup.vue:45
+msgid "that helps you to"
+msgstr "che ti aiuta a"
+
+#: views/assets/src/components/upgrade/popup.vue:46
+msgid "upload, store"
+msgstr "caricare, archiviare"
+
+#: views/assets/src/components/upgrade/popup.vue:47
+msgid "or"
+msgstr "o"
+
+#: views/assets/src/components/upgrade/popup.vue:48
+msgid "create files, documents, custom fields,"
+msgstr "creare file, documenti, campi personalizzati,"
+
+#: views/assets/src/components/upgrade/popup.vue:49
+msgid "and"
+msgstr "e"
+
+#: views/assets/src/components/upgrade/popup.vue:50
+msgid "images"
+msgstr "immagini"
+
+#: views/assets/src/components/upgrade/popup.vue:51
+msgid "from one place and keeps you hassle-free"
+msgstr "da un unico posto e ti mantiene senza problemi"
+
+#: views/assets/src/components/upgrade/popup.vue:61
+msgid "Get more"
+msgstr "Prendi di più"
+
+#: views/assets/src/components/upgrade/popup.vue:62
+msgid "Advanced Reporting, Automatic"
+msgstr "Reportistica avanzata, automatica"
+
+#: views/assets/src/components/upgrade/popup.vue:63
+msgid "Daily Digest Mail, and"
+msgstr "Posta giornaliera, e"
+
+#: views/assets/src/components/upgrade/popup.vue:64
+msgid "Real-Time Updates"
+msgstr "Aggiornamenti in tempo reale"
+
+#: views/assets/src/components/upgrade/popup.vue:74
+msgid "Collaborate"
+msgstr "Collaborare"
+
+#: views/assets/src/components/upgrade/popup.vue:75
+msgid "with your team members privately with"
+msgstr "con i membri del tuo team in privato con"
+
+#: views/assets/src/components/upgrade/popup.vue:76
+msgid "Built-in Private Messenger"
+msgstr "Messenger privato integrato"
+
+#: views/assets/src/components/upgrade/popup.vue:115
+msgid "10,000+ successful businesses"
+msgstr "Oltre 10.000 aziende di successo"
+
+#: views/assets/src/components/upgrade/popup.vue:123
+msgid "14 days no questions asked refund policy"
+msgstr "14 giorni senza fare domande sulla politica di rimborso"
+
+#: views/assets/src/components/upgrade/popup.vue:131
+msgid "Industry leading 24x7 support"
+msgstr "Supporto 24 ore su 24, 7 giorni su 7, leader del settore"
+
+#: views/assets/src/components/upgrade/tooltip.vue:4
+msgid "Available in Pro. Unlock & enjoy:"
+msgstr "Disponibile in Pro. Sbloccare e godere:"
+
+#: views/assets/src/components/welcome/Features.vue:5
+msgid "Features you can use..."
+msgstr "Funzionalità che puoi utilizzare..."
+
+#: views/assets/src/components/welcome/Features.vue:14
+msgid "View All Features"
+msgstr "Visualizza tutte le funzionalità"
+
+#: views/assets/src/components/welcome/Features.vue:29
+msgid ""
+"In the overview section you will get a complete picture of your project. A "
+"chart for what has been done in the last 30 days, no of discussion, task "
+"lists, milestones and more."
+msgstr ""
+"Nella sezione Panoramica avrai un quadro completo del tuo progetto. Un "
+"grafico con ciò che è stato fatto negli ultimi 30 giorni, numero di "
+"discussioni, elenchi di attività, traguardi e altro ancora."
+
+#: views/assets/src/components/welcome/Features.vue:36
+msgid ""
+"You will also get a complete activity log history from the activities "
+"section of your project. All the activity will also be divided by date so it "
+"is easier to keep track."
+msgstr ""
+"Riceverai anche una cronologia completa del registro delle attività dalla "
+"sezione delle attività del tuo progetto. Tutta l'attività sarà inoltre "
+"divisa per data così sarà più semplice tenerne traccia."
+
+#: views/assets/src/components/welcome/Features.vue:42
+msgid "Team Discussion"
+msgstr "Discussione di squadra"
+
+#: views/assets/src/components/welcome/Features.vue:43
+msgid ""
+"There is a built-in discussion panel right inside your projects. Consisting "
+"open, group discussion feature. Making team collaboration much more "
+"effective."
+msgstr ""
+"C'è un pannello di discussione integrato proprio all'interno dei tuoi "
+"progetti. Composto da funzionalità di discussione di gruppo aperta. Rendere "
+"la collaborazione del team molto più efficace."
+
+#: views/assets/src/components/welcome/Features.vue:49
+msgid "To-do Lists"
+msgstr "Elenchi di cose da fare"
+
+#: views/assets/src/components/welcome/Features.vue:50
+msgid ""
+"In your projects you get a separate Task List tab to divide your work. You "
+"will be able to set due date for a task, set milestone, categorize and more."
+msgstr ""
+"Nei tuoi progetti ottieni una scheda Elenco attività separata per dividere "
+"il tuo lavoro. Sarai in grado di impostare la data di scadenza per "
+"un'attività, impostare l'obiettivo cardine, classificare e altro ancora."
+
+#: views/assets/src/components/welcome/Features.vue:57
+msgid ""
+"In the Milestones tab you will be able to set a specific milestone you want "
+"to reach. Set the name, due date, details. You will also see tasks set under "
+"each milestone."
+msgstr ""
+"Nella scheda Traguardi potrai impostare un traguardo specifico che desideri "
+"raggiungere. Imposta il nome, la data di scadenza, i dettagli. Vedrai anche "
+"le attività impostate sotto ogni traguardo."
+
+#: views/assets/src/components/welcome/Features.vue:63
+msgid "Manage Files"
+msgstr "Gestisci file"
+
+#: views/assets/src/components/welcome/Features.vue:64
+msgid ""
+"You don't need to rely on a separate file manager. WP Project Manager's "
+"Files feature will let you store all your files and see it in one place."
+msgstr ""
+"Non è necessario fare affidamento su un file manager separato. La funzione "
+"File di WP Project Manager ti consentirà di archiviare tutti i tuoi file e "
+"vederli in un unico posto."
+
+#: views/assets/src/components/welcome/WelcomeBanner.vue:13
+msgid "Welcome to"
+msgstr "Benvenuto a"
+
+#: views/assets/src/components/welcome/WelcomeBanner.vue:15
+msgid ""
+"The best project management tool for WordPress to get things done with your "
+"team."
+msgstr ""
+"Il miglior strumento di gestione dei progetti per WordPress per portare a "
+"termine le attività con il tuo team."
+
+#: views/assets/src/components/welcome/WelcomeBanner.vue:16
+msgid "Filter, edit, update or take"
+msgstr "Filtra, modifica, aggiorna o prendi"
+
+#: views/assets/src/components/welcome/WelcomeBanner.vue:23
+msgid "Create Your First Project"
+msgstr "Crea il tuo primo progetto"
+
+#: views/assets/src/components/welcome/WelcomeBanner.vue:26
+msgid "Read Full Guide"
+msgstr "Leggi la guida completa"
+
+#: views/assets/src/components/welcome/resources.vue:10
+msgid "Import"
+msgstr "Importa"
+
+#: views/assets/src/components/welcome/resources.vue:11
+msgid "Effortlessly import projects and project tasks from"
+msgstr "Importa facilmente progetti e attività progettuali da"
+
+#: views/assets/src/components/welcome/resources.vue:12
+msgid "other platforms to manage them at one place."
+msgstr "altre piattaforme per gestirli in un unico posto."
+
+#: views/assets/src/components/welcome/resources.vue:16
+msgid "Import Now"
+msgstr "Importa ora"
+
+#: views/assets/src/components/welcome/resources.vue:20
+msgid "Resources of Project Manager"
+msgstr "Risorse del Project Manager"
+
+#: views/assets/src/components/welcome/resources.vue:45
+msgid "Upgrade"
+msgstr "Aggiornamento"
+
+#: views/assets/src/components/welcome/resources.vue:46
+msgid ""
+"Get upgraded to Pro version to unlock endless opportunities of managing your "
+"project better."
+msgstr ""
+"Ottieni l'aggiornamento alla versione Pro per sbloccare infinite opportunità "
+"di gestire meglio il tuo progetto."
+
+#: views/assets/src/components/welcome/resources.vue:47
+msgid "Upgrade to Pro"
+msgstr "Aggiornamento a Pro"
+
+#: views/assets/src/components/welcome/resources.vue:53
+msgid "Pro Features"
+msgstr "Funzionalità professionali"
+
+#: views/assets/src/components/welcome/resources.vue:54
+msgid ""
+"Enhance your project management performance with extended features in the "
+"pro version."
+msgstr ""
+"Migliora le prestazioni di gestione dei tuoi progetti con funzionalità "
+"estese nella versione pro."
+
+#: views/assets/src/components/welcome/resources.vue:55
+msgid "View Pro features"
+msgstr "Visualizza le funzionalità Pro"
+
+#: views/assets/src/components/welcome/resources.vue:61
+msgid "Module"
+msgstr "Moduli"
+
+#: views/assets/src/components/welcome/resources.vue:62
+msgid ""
+"Check out all the useful modules that would take your project management "
+"experience to a whole new level."
+msgstr ""
+"Scopri tutti i moduli utili che porteranno la tua esperienza di gestione dei "
+"progetti a un livello completamente nuovo."
+
+#: views/assets/src/components/welcome/resources.vue:63
+msgid "Go to Modules"
+msgstr "Vai a Moduli"
+
+#: views/assets/src/components/woo-project/woo-project.vue:6
+msgid "After Product Order Placement"
+msgstr "Dopo l'ordine del prodotto"
+
+#: views/assets/src/components/woo-project/woo-project.vue:11
+msgid "Order Products"
+msgstr "Ordina prodotti"
+
+#: views/assets/src/components/woo-project/woo-project.vue:19
+msgid "Search Product"
+msgstr "Cerca prodotto"
+
+#: views/assets/src/components/woo-project/woo-project.vue:26
+msgid "Oops! No product found. Consider changing the search query."
+msgstr ""
+"Ops! Nessun prodotto trovato. Valuta la possibilità di modificare la query "
+"di ricerca."
+
+#: views/assets/src/components/woo-project/woo-project.vue:43
+msgid "Assignees Users"
+msgstr "Utenti assegnatari"
+
+#: views/assets/src/components/woo-project/woo-project.vue:53
+msgid "Save Change"
+msgstr "Salva modifica"
+
+#: views/assets/src/helpers/mixin/mixin.js:1060
+msgid "Are you sure to delete this project?"
+msgstr "Sei sicuro di eliminare questo progetto?"
+
+#: views/emails/html/complete-task.php:36
+msgid " has re-open the task"
+msgstr "ha riaperto l'attività"
+
+#: views/emails/html/complete-task.php:38
+msgid " has completed the task"
+msgstr "hai completato l'attività"
+
+#: views/emails/html/complete-task.php:44 views/emails/html/new-task.php:36 
+#: views/emails/html/update-task.php:35
+msgid "View this task"
+msgstr "Visualizza questa attività"
+
+#: views/emails/html/complete-task.php:63 views/emails/html/new-task.php:55 
+#: views/emails/html/update-task.php:55
+msgid "Assign To"
+msgstr "Assegnato A"
+
+#: views/emails/html/complete-task.php:97 views/emails/html/update-task.php:90
+msgid "No description found!"
+msgstr "Nessuna descrizione trovata!"
+
+#: views/emails/html/complete-task.php:105 views/emails/html/new-task.php:96 
+#: views/emails/html/update-task.php:98
+msgid "View Task"
+msgstr "Visualizza attività"
+
+#: views/emails/html/complete-task.php:117 views/emails/html/new-task.php:108 
+#: views/emails/html/update-task.php:110
+msgid "Collaborators"
+msgstr "Collaboratori"
+
+#: views/emails/html/footer.php:12
+msgid "Made by"
+msgstr "Fatto da"
+
+#: views/emails/html/new-comment.php:36
+msgid " commented on "
+msgstr "commentato su"
+
+#: views/emails/html/new-comment.php:50 views/emails/html/update-comment.php:50
+msgid "View this comment"
+msgstr "Visualizza questo commento"
+
+#: views/emails/html/new-comment.php:89 views/emails/html/update-comment.php:89
+msgid "Comment"
+msgstr "Commento"
+
+#: views/emails/html/new-comment.php:116 
+#: views/emails/html/update-comment.php:117
+msgid "Reply"
+msgstr "Rispondere"
+
+#: views/emails/html/new-message.php:34
+msgid "start a new discussion"
+msgstr "iniziare una nuova discussione"
+
+#: views/emails/html/new-message.php:47 views/emails/html/update-message.php:47
+msgid "View this discussion"
+msgstr "Visualizza questa discussione"
+
+#: views/emails/html/new-message.php:82 views/emails/html/update-message.php:82
+msgid "Details"
+msgstr "Dettagli"
+
+#: views/emails/html/new-message.php:109 
+#: views/emails/html/update-message.php:109
+msgid "View Discussion"
+msgstr "Visualizza discussione"
+
+#: views/emails/html/new-message.php:121 
+#: views/emails/html/update-message.php:121
+msgid "Discussion Members"
+msgstr "Membri della discussione"
+
+#: views/emails/html/new-project.php:34
+msgid "assigned a project to you"
+msgstr "ti ha assegnato un progetto"
+
+#: views/emails/html/new-project.php:36 views/emails/html/update-project.php:36
+msgid "View this project"
+msgstr "Visualizza questo progetto"
+
+#: views/emails/html/new-project.php:77
+msgid "You are assigned a project"
+msgstr "Ti viene assegnato un progetto"
+
+#: views/emails/html/new-project.php:85 views/emails/html/update-project.php:85
+msgid "You can see the project by going here: "
+msgstr "Puoi vedere il progetto andando qui:"
+
+#: views/emails/html/new-project.php:96 views/emails/html/update-project.php:96
+msgid "View Project"
+msgstr "Visualizza progetto"
+
+#: views/emails/html/new-project.php:108 
+#: views/emails/html/update-project.php:108
+msgid "Project Assignes"
+msgstr "Progetti assegnati"
+
+#: views/emails/html/new-task.php:7
+msgid "Your Message Subject or Title"
+msgstr "Oggetto o titolo del tuo messaggio"
+
+#: views/emails/html/new-task.php:34
+msgid "assigned a task to you"
+msgstr "ti ha assegnato un compito"
+
+#: views/emails/html/update-comment.php:36
+msgid " update comment on "
+msgstr "aggiorna il commento su"
+
+#: views/emails/html/update-comment.php:76 
+#: views/emails/html/update-message.php:69 
+#: views/emails/html/update-project.php:58
+msgid "Updated at"
+msgstr "Aggiornato a"
+
+#: views/emails/html/update-message.php:34
+msgid "update the discussion"
+msgstr "aggiorna la discussione"
+
+#: views/emails/html/update-project.php:34
+msgid "update the project"
+msgstr "aggiornare il progetto"
+
+#. translators: %1s: project title, %2s: project updated by name
+#: views/emails/html/update-project.php:78
+msgid "The project \"%1$s\" has been updated by %2$s"
+msgstr "Il progetto \"%1$s\" è stato aggiornato da %2$s"
+
+#: views/emails/html/update-task.php:33
+msgid "updated the task"
+msgstr "aggiornato l'attività"
+
+#: views/project-switch/project-switch.php:11
+msgid " to navigate"
+msgstr "navigare"
+
+#: views/project-switch/project-switch.php:15
+msgid " to select "
+msgstr "selezionare"
+
+#: views/project-switch/project-switch.php:19
+msgid "to dismiss"
+msgstr "dismettere"
+
+#. Plugin URI of the plugin/theme
+msgid "https://wedevs.com/wp-project-manager-pro/"
+msgstr "https://wedevs.com/wp-project-manager-pro/"
+
+#. Description of the plugin/theme
+msgid ""
+"WordPress Project Management plugin. Manage your projects and tasks, get "
+"things done."
+msgstr ""
+"Plug-in per la gestione dei progetti WordPress. Gestisci i tuoi progetti e "
+"attività, porta a termine le cose."
+
+#. Author of the plugin/theme
+msgid "weDevs"
+msgstr "weDevs"
+
+#. Author URI of the plugin/theme
+msgid "https://wedevs.com"
+msgstr "https://wedevs.com"
