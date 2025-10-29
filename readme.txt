@@ -5,7 +5,7 @@ Tags: project, project manager, project management, kanban board, task manager
 Requires at least: 4.4 or higher
 Tested up to: 6.8
 Requires PHP: 5.6
-Stable tag: 2.6.26
+Stable tag: 2.6.27
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -245,6 +245,10 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 
 == Changelog ==
+
+= v2.6.27 – Oct 29, 2025 =
+
+**Improved:** Sanitization to prevent SQL Injection.
 
 = v2.6.26 – Oct 13, 2025 =
 
