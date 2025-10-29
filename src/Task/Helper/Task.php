@@ -1373,7 +1373,6 @@ class Task {
 				continue;
 			}
 
-			// Validate relation token to prevent SQL injection. Only allow AND/OR (case-insensitive).
 			if ( ! empty( $explode[1] ) ) {
 				$relation_raw = strtoupper( sanitize_text_field( $explode[1] ) );
 				$relation = in_array( $relation_raw, array( 'AND', 'OR' ), true ) ? $relation_raw : 'AND';
@@ -1462,7 +1461,6 @@ class Task {
 			$explode = explode( '|', str_replace( ' ', '', $ope_param ) );
 
 			if ( ! empty( $explode[1] ) ) {
-				// Sanitize relation to prevent SQL injection - only allow AND or OR
 				$relation = strtoupper( sanitize_text_field( trim( $explode[1] ) ) );
 				$relation = in_array( $relation, array( 'AND', 'OR' ), true ) ? $relation : 'AND';
 			} else {
@@ -1540,7 +1538,6 @@ class Task {
 			$explode = explode( '|', str_replace( ' ', '', $ope_param ) );
 
 			if ( ! empty( $explode[1] ) ) {
-				// Sanitize relation to prevent SQL injection - only allow AND or OR
 				$relation = strtoupper( sanitize_text_field( trim( $explode[1] ) ) );
 				$relation = in_array( $relation, array( 'AND', 'OR' ), true ) ? $relation : 'AND';
 			} else {
