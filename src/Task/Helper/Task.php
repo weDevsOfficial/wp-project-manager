@@ -1463,7 +1463,7 @@ class Task {
 
 			if ( ! empty( $explode[1] ) ) {
 				// Sanitize relation to prevent SQL injection - only allow AND or OR
-				$relation = strtoupper( trim( $explode[1] ) );
+				$relation = strtoupper( sanitize_text_field( trim( $explode[1] ) ) );
 				$relation = in_array( $relation, array( 'AND', 'OR' ), true ) ? $relation : 'AND';
 			} else {
 				$relation = 'AND';
@@ -1541,7 +1541,7 @@ class Task {
 
 			if ( ! empty( $explode[1] ) ) {
 				// Sanitize relation to prevent SQL injection - only allow AND or OR
-				$relation = strtoupper( trim( $explode[1] ) );
+				$relation = strtoupper( sanitize_text_field( trim( $explode[1] ) ) );
 				$relation = in_array( $relation, array( 'AND', 'OR' ), true ) ? $relation : 'AND';
 			} else {
 				$relation = 'AND';
