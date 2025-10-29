@@ -1,5 +1,9 @@
 == Changelog ==
 
+= v2.6.27 – Oct 29, 2025 =
+
+**Improved:** Sanitization to prevent SQL Injection.
+
 = v2.6.26 – Oct 13, 2025 =
 
 **Added:** Italian translation file.
