@@ -1,5 +1,9 @@
 == Changelog ==
 
+= v2.6.26 – Oct 13, 2025 =
+
+**Added:** Italian translation file.
+**Fixed:** Hardcoded data exposure issue in the Trello test environment. Thanks to Legion Hunter from Patchstack for responsibly reporting it.
 
 = v2.6.25 – Sep 4, 2025 =
 
