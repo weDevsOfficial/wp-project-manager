@@ -86,7 +86,7 @@ class Profile_Update {
                         <fieldset>
                             <select name="pm_capability">
                                 <option value="">
-                                    <?php echo esc_html_e( '— No capability for this user —', 'wedevs-project-manager' ); ?>
+                                    <?php esc_html_e( '— No capability for this user —', 'wedevs-project-manager' ); ?>
                                 </option>
                                 <?php
                                     foreach ( pm_access_capabilities() as $cap_key => $label ) {
