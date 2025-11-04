@@ -55,6 +55,10 @@ class Pusher {
     }
 
     public function scripts() {
+        if ( ! Auth::app_key() || ! Auth::app_cluster() ) {
+            return;
+        }
+        
         $path = filemtime( pm_config('define.path') . '/src/Pusher/views/assets/vendor/pusher-v5.0.2.min.js' );
         wp_enqueue_script( 'pm-pusher-library', pm_config('define.url') . 'src/Pusher/views/assets/vendor/pusher-v5.0.2.min.js', array('jquery'), $path, true );
         
