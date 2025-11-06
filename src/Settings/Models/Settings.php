@@ -20,7 +20,11 @@ class Settings extends Eloquent {
     ];
 
     public static $hideSettings = [
-        'zapier_api'
+        'zapier_api',
+        'ai_api_key',
+        'ai_api_key_openai',
+        'ai_api_key_gemini',
+        'ai_api_key_deepseek'
     ];
 
     public function setValueAttribute( $value ) {
