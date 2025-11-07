@@ -9,6 +9,7 @@ use WeDevs\PM\Common\Traits\Request_Filter;
 use WeDevs\PM\Common\Traits\Transformer_Manager;
 use WeDevs\PM\Settings\Models\Settings;
 use WeDevs\PM\Settings\Transformers\Settings_Transformer;
+use WeDevs\PM\Settings\Helper\Settings as Helper;
 
 class AI_Settings_Controller {
 
@@ -38,12 +39,12 @@ class AI_Settings_Controller {
         }
 
         // Get provider from request parameter (for UI provider switching) or from database
-        $provider = $request->get_param( 'provider' );
+        $provider = sanitize_text_field( $request->get_param( 'provider' ) );
         if ( !$provider ) {
             // Fall back to database value
             foreach ( $settings_collection as $setting ) {
                 if ( $setting->key === 'ai_provider' ) {
-                    $provider = $setting->value;
+                    $provider = sanitize_text_field( $setting->value );
                     break;
                 }
             }
@@ -71,20 +72,21 @@ class AI_Settings_Controller {
      * @return mixed
      */
     public function store( WP_REST_Request $request ) {
-        $data = $this->extract_non_empty_values( $request );
+        $project_id = intval( $request->get_param( 'project_id' ) );
         $settings_data = $request->get_param( 'settings' );
+        $id = intval( $request->get_param( 'id' ) );
 
         if ( is_array( $settings_data ) ) {
             $settings_collection = [];
 
-            foreach ( $settings_data as $index => $setting_item ) {
-                // Encrypt API key if present and convert to provider-specific key
-                if ( isset( $setting_item['key'] ) && $setting_item['key'] === 'ai_api_key' && !empty( $setting_item['value'] ) ) {
+            foreach ( $settings_data as $setting_item ) {
+                // Handle API key - encrypt if present, delete if blank
+                if ( isset( $setting_item['key'] ) && $setting_item['key'] === 'ai_api_key' ) {
                     // Get provider from settings array to create provider-specific key
                     $provider = null;
                     foreach ( $settings_data as $item ) {
                         if ( isset( $item['key'] ) && $item['key'] === 'ai_provider' ) {
-                            $provider = $item['value'];
+                            $provider = sanitize_text_field( $item['value'] );
                             break;
                         }
                     }
@@ -92,30 +94,42 @@ class AI_Settings_Controller {
                     if ( $provider ) {
                         // Create provider-specific key: ai_api_key_openai, ai_api_key_gemini, etc.
                         $setting_item['key'] = 'ai_api_key_' . $provider;
-                        $encrypted = $this->encrypt_api_key( $setting_item['value'] );
-                        $setting_item['value'] = $encrypted;
+                        
+                        // If value is empty, delete the setting instead of saving
+                        if ( empty( $setting_item['value'] ) ) {
+                            $api_key_setting = Settings::where( 'key', $setting_item['key'] )->first();
+                            if ( $api_key_setting ) {
+                                $api_key_setting->delete();
+                            }
+                            // Skip adding to collection since it's deleted
+                            continue;
+                        } else {
+                            // Encrypt the API key
+                            $encrypted = $this->encrypt_api_key( sanitize_text_field( $setting_item['value'] ) );
+                            $setting_item['value'] = $encrypted;
+                        }
                     } else {
                         // Skip this setting if no provider
                         continue;
                     }
                 }
 
-                $saved_setting = Settings_Controller::save_settings( $setting_item, 0, 0 );
+                $saved_setting = Settings_Controller::save_settings( $setting_item, $project_id, $id );
                 $settings_collection[] = $saved_setting;
             }
 
             $resource = new Collection( $settings_collection, new Settings_Transformer );
+            ( new Helper )->update_project_permission( $settings_data, $project_id );
+            $settings = $settings_collection;
         } else {
-            // Handle single setting
-            if ( isset( $data['key'] ) && $data['key'] === 'ai_api_key' && !empty( $data['value'] ) ) {
-                // For single setting mode, we need provider context - skip for now
-                // API key should be saved via array mode with provider context
-            }
-
-            $settings = Settings_Controller::save_settings( $data, 0, 0 );
+            $data = $this->extract_non_empty_values( $request );
+            $settings = Settings_Controller::save_settings( $data, $project_id, $id );
             $resource = new Item( $settings, new Settings_Transformer );
+            ( new Helper )->update_project_permission( $data, $project_id );
         }
 
+        do_action( 'pm_after_save_settings', $settings );
+        
         $message = [
             'message' => pm_get_text('success_messages.setting_saved')
         ];
@@ -130,28 +144,33 @@ class AI_Settings_Controller {
      * @return mixed
      */
     public function test_connection( WP_REST_Request $request ) {
-        $provider = $request->get_param( 'provider' );
-        $api_key = $request->get_param( 'api_key' );
+        $provider = sanitize_text_field( $request->get_param( 'provider' ) );
+        $api_key = sanitize_text_field( $request->get_param( 'api_key' ) );
 
-        if ( empty( $provider ) ) {
-            return $this->get_response( false, [
+        // Validate provider against allowed list
+        $allowed_providers = [ 'openai', 'gemini', 'deepseek' ];
+        if ( empty( $provider ) || !in_array( strtolower( $provider ), $allowed_providers, true ) ) {
+            return $this->get_response( null, [
                 'success' => false,
-                'message' => __( 'Provider is required.', 'wedevs-project-manager' )
+                'message' => __( 'Provider is required and must be a valid provider.', 'wedevs-project-manager' )
             ] );
         }
 
-        // If API key is not provided or contains asterisks (masked), try to get it from database
-        if ( empty( $api_key ) || strpos( $api_key, '*' ) !== false ) {
+        $provider = strtolower( $provider );
+
+        // If API key is not provided or appears to be masked (contains asterisks and matches masked pattern length ~30 chars), try to get it from database
+        $is_masked = !empty( $api_key ) && strpos( $api_key, '*' ) !== false && strlen( $api_key ) <= 30;
+        if ( empty( $api_key ) || $is_masked ) {
             $api_key_key = 'ai_api_key_' . $provider;
             $api_key_setting = Settings::where( 'key', $api_key_key )->first();
             
             if ( $api_key_setting && !empty( $api_key_setting->value ) ) {
-                $api_key = $this->decrypt_api_key( $api_key_setting->value );
+                $api_key = self::decrypt_api_key_static( $api_key_setting->value );
             }
         }
 
         if ( empty( $api_key ) ) {
-            return $this->get_response( false, [
+            return $this->get_response( null, [
                 'success' => false,
                 'message' => __( 'API key is required. Please enter your API key.', 'wedevs-project-manager' )
             ] );
@@ -159,7 +178,7 @@ class AI_Settings_Controller {
 
         $result = $this->test_ai_connection( $provider, $api_key );
 
-        return $this->get_response( false, [
+        return $this->get_response( null, [
             'success' => $result['success'],
             'message' => $result['message']
         ] );
@@ -173,6 +192,17 @@ class AI_Settings_Controller {
      * @return array
      */
     private function test_ai_connection( $provider, $api_key ) {
+        // Validate provider (should already be validated, but double-check for security)
+        $allowed_providers = [ 'openai', 'gemini', 'deepseek' ];
+        $provider = strtolower( sanitize_text_field( $provider ) );
+        
+        if ( !in_array( $provider, $allowed_providers, true ) ) {
+            return [
+                'success' => false,
+                'message' => __( 'Invalid provider selected.', 'wedevs-project-manager' )
+            ];
+        }
+
         $providers = [
             'openai' => [
                 'url' => 'https://api.openai.com/v1/models',
@@ -191,14 +221,7 @@ class AI_Settings_Controller {
             ]
         ];
 
-        if ( !isset( $providers[ strtolower( $provider ) ] ) ) {
-            return [
-                'success' => false,
-                'message' => __( 'Invalid provider selected.', 'wedevs-project-manager' )
-            ];
-        }
-
-        $config = $providers[ strtolower( $provider ) ];
+        $config = $providers[ $provider ];
         $url = $config['url'];
 
         $args = [
@@ -225,7 +248,7 @@ class AI_Settings_Controller {
             $error_message = $response->get_error_message();
             return [
                 'success' => false,
-                'message' => sprintf( __( 'Connection failed: %s', 'wedevs-project-manager' ), $error_message )
+                'message' => sprintf( __( 'Connection failed: %s', 'wedevs-project-manager' ), esc_html( $error_message ) )
             ];
         }
 
@@ -242,15 +265,15 @@ class AI_Settings_Controller {
             
             // Try to extract a meaningful error message
             $error_message = __( 'Connection failed. Please check your API key and settings.', 'wedevs-project-manager' );
-            if ( isset( $error_data['error']['message'] ) ) {
-                $error_message = $error_data['error']['message'];
+            if ( isset( $error_data['error']['message'] ) && is_string( $error_data['error']['message'] ) ) {
+                $error_message = sanitize_text_field( $error_data['error']['message'] );
             } elseif ( isset( $error_data['error'] ) && is_string( $error_data['error'] ) ) {
-                $error_message = $error_data['error'];
+                $error_message = sanitize_text_field( $error_data['error'] );
             }
             
             return [
                 'success' => false,
-                'message' => $error_message
+                'message' => esc_html( $error_message )
             ];
         }
     }
@@ -296,10 +319,6 @@ class AI_Settings_Controller {
      * @param string $encrypted_key
      * @return string
      */
-    private function decrypt_api_key( $encrypted_key ) {
-        return self::decrypt_api_key_static( $encrypted_key );
-    }
-
     public static function decrypt_api_key_static( $encrypted_key ) {
         if ( empty( $encrypted_key ) ) {
             return '';

@@ -244,17 +244,22 @@ export default {
                 ai_temperature: this.temperature
             };
 
-            // Add API key only if it's been entered and is NOT the masked version
-            // If user hasn't changed the masked value, don't send it (to avoid overwriting with masked value)
-            if (this.api_key && this.api_key.trim() !== '' && this.api_key.indexOf('*') === -1) {
-                data.ai_api_key = this.api_key;
+            // Handle API key:
+            // - If masked (contains *): don't send (to avoid overwriting with masked value)
+            // - If empty/blank: send empty string (to delete existing key)
+            // - If has value: send the value (to save/update)
+            if (this.api_key && this.api_key.indexOf('*') !== -1) {
+                // Masked value - don't send
+            } else {
+                // Send the value (empty string if cleared, actual value if entered)
+                data.ai_api_key = this.api_key ? this.api_key.trim() : '';
             }
 
             data = pm_apply_filters('ai_setting_data', data);
             
             var formattedSettings = this.formatSettings(data);
             
-            // Use custom endpoint for AI settings
+            // Use custom endpoint for AI settings (needed for API key encryption)
             var request = {
                 url: this.base_url + 'pm/v2/settings/ai',
                 data: {
@@ -263,13 +268,26 @@ export default {
                 type: 'POST',
                 success (res) {
                     pm.Toastr.success(res.message);
+                    
+                    // Check if API key was sent and if it was empty (deleted)
+                    var apiKeyWasSent = false;
+                    var apiKeyWasEmpty = false;
+                    formattedSettings.forEach(function(item) {
+                        if (item.key === 'ai_api_key') {
+                            apiKeyWasSent = true;
+                            apiKeyWasEmpty = !item.value || item.value.trim() === '';
+                        }
+                    });
+                    
                     if (res.data) {
+                        var apiKeyFound = false;
                         res.data.forEach( function( item ) {
                             // Check if this is a provider-specific API key (ai_api_key_openai, ai_api_key_gemini, etc.)
                             if (item.key && item.key.indexOf('ai_api_key_') === 0) {
                                 // Only process if it matches the current provider
                                 var expectedKey = 'ai_api_key_' + self.provider;
                                 if (item.key === expectedKey) {
+                                    apiKeyFound = true;
                                     // Mark that API key is saved (value is a masked string or truthy)
                                     if (item.value && (typeof item.value === 'string' || item.value === true)) {
                                         self.api_key_saved = true;
@@ -285,7 +303,20 @@ export default {
                                 PM_Vars.settings[item.key] = item.value;
                             }
                         } );
+                        
+                        // If API key was sent as empty and not found in response, it was deleted
+                        if (apiKeyWasSent && apiKeyWasEmpty && !apiKeyFound) {
+                            self.api_key_saved = false;
+                            self.api_key = '';
+                            self.saved_api_key_mask = '';
+                        }
+                    } else if (apiKeyWasSent && apiKeyWasEmpty) {
+                        // API key was deleted, update UI
+                        self.api_key_saved = false;
+                        self.api_key = '';
+                        self.saved_api_key_mask = '';
                     }
+                    
                     self.show_spinner = false;
                 },
                 error (res) {
