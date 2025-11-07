@@ -186,9 +186,18 @@ export default {
             this.checkApiKeyExists();
         },
         testConnection () {
-            if (!this.provider || !this.api_key) {
-                pm.Toastr.error(__( 'Please provide provider and API key to test connection.', 'wedevs-project-manager'));
+            if (!this.provider) {
+                pm.Toastr.error(__( 'Please select a provider to test connection.', 'wedevs-project-manager'));
                 return;
+            }
+
+            // Allow testing even if API key field is empty or masked (backend will retrieve from database)
+            if (!this.api_key) {
+                // Check if we have a saved API key
+                if (!this.api_key_saved) {
+                    pm.Toastr.error(__( 'Please enter an API key to test connection.', 'wedevs-project-manager'));
+                    return;
+                }
             }
 
             this.testing_connection = true;
@@ -197,15 +206,23 @@ export default {
                 url: this.base_url + 'pm/v2/settings/ai/test-connection',
                 data: {
                     provider: this.provider,
-                    api_key: this.api_key
+                    api_key: this.api_key || '' // Send empty or masked value, backend will handle it
                 },
                 type: 'POST',
                 success (res) {
                     self.testing_connection = false;
-                    if (res.message) {
-                        pm.Toastr.success(res.message);
+                    // Check if the connection was actually successful
+                    if (res.success === false) {
+                        // Connection failed, show error message
+                        var errorMsg = res.message || __( 'Connection failed. Please check your API key and settings.', 'wedevs-project-manager');
+                        pm.Toastr.error(errorMsg);
                     } else {
-                        pm.Toastr.success(__( 'Connection successful! AI integration is ready.', 'wedevs-project-manager'));
+                        // Connection successful
+                        if (res.message) {
+                            pm.Toastr.success(res.message);
+                        } else {
+                            pm.Toastr.success(__( 'Connection successful! AI integration is ready.', 'wedevs-project-manager'));
+                        }
                     }
                 },
                 error (res) {

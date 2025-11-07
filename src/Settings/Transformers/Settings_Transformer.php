@@ -24,7 +24,7 @@ class Settings_Transformer extends TransformerAbstract {
             // Handle API keys for all providers (ai_api_key_openai, ai_api_key_gemini, ai_api_key_deepseek)
             if ( $item->key === 'ai_api_key' || strpos( $item->key, 'ai_api_key_' ) === 0 ) {
                 // For API key, we need to decrypt first, then mask
-                $decrypted_key = \WeDevs\PM\Settings\Controllers\AI_Settings_Controller::decrypt_api_key( $value );
+                $decrypted_key = \WeDevs\PM\Settings\Controllers\AI_Settings_Controller::decrypt_api_key_static( $value );
                 if ( !empty( $decrypted_key ) ) {
                     $value = $this->mask_api_key( $decrypted_key );
                 } else {

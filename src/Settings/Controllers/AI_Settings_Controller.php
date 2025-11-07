@@ -133,23 +133,36 @@ class AI_Settings_Controller {
         $provider = $request->get_param( 'provider' );
         $api_key = $request->get_param( 'api_key' );
 
-        if ( empty( $provider ) || empty( $api_key ) ) {
+        if ( empty( $provider ) ) {
             return $this->get_response( false, [
-                'message' => __( 'Provider and API key are required.', 'wedevs-project-manager' )
+                'success' => false,
+                'message' => __( 'Provider is required.', 'wedevs-project-manager' )
+            ] );
+        }
+
+        // If API key is not provided or contains asterisks (masked), try to get it from database
+        if ( empty( $api_key ) || strpos( $api_key, '*' ) !== false ) {
+            $api_key_key = 'ai_api_key_' . $provider;
+            $api_key_setting = Settings::where( 'key', $api_key_key )->first();
+            
+            if ( $api_key_setting && !empty( $api_key_setting->value ) ) {
+                $api_key = $this->decrypt_api_key( $api_key_setting->value );
+            }
+        }
+
+        if ( empty( $api_key ) ) {
+            return $this->get_response( false, [
+                'success' => false,
+                'message' => __( 'API key is required. Please enter your API key.', 'wedevs-project-manager' )
             ] );
         }
 
         $result = $this->test_ai_connection( $provider, $api_key );
 
-        if ( $result['success'] ) {
-            return $this->get_response( true, [
-                'message' => __( 'Connection successful! AI integration is ready.', 'wedevs-project-manager' )
-            ] );
-        } else {
-            return $this->get_response( false, [
-                'message' => $result['message']
-            ] );
-        }
+        return $this->get_response( false, [
+            'success' => $result['success'],
+            'message' => $result['message']
+        ] );
     }
 
     /**
@@ -167,9 +180,9 @@ class AI_Settings_Controller {
                 'header_value' => 'Bearer ' . $api_key
             ],
             'gemini' => [
-                'url' => 'https://generativelanguage.googleapis.com/v1/models',
-                'header_key' => 'x-goog-api-key',
-                'header_value' => $api_key
+                'url' => 'https://generativelanguage.googleapis.com/v1/models?key=' . urlencode( $api_key ),
+                'header_key' => '',
+                'header_value' => ''
             ],
             'deepseek' => [
                 'url' => 'https://api.deepseek.com/v1/models',
@@ -190,19 +203,29 @@ class AI_Settings_Controller {
 
         $args = [
             'method' => 'GET',
-            'headers' => [
+            'timeout' => 15,
+            'sslverify' => true
+        ];
+
+        // Add headers only if they're specified (Gemini uses query param instead)
+        if ( !empty( $config['header_key'] ) && !empty( $config['header_value'] ) ) {
+            $args['headers'] = [
                 $config['header_key'] => $config['header_value'],
                 'Content-Type' => 'application/json'
-            ],
-            'timeout' => 15
-        ];
+            ];
+        } else {
+            $args['headers'] = [
+                'Content-Type' => 'application/json'
+            ];
+        }
 
         $response = wp_remote_request( $url, $args );
 
         if ( is_wp_error( $response ) ) {
+            $error_message = $response->get_error_message();
             return [
                 'success' => false,
-                'message' => __( 'Connection failed. Please check your API key and settings.', 'wedevs-project-manager' )
+                'message' => sprintf( __( 'Connection failed: %s', 'wedevs-project-manager' ), $error_message )
             ];
         }
 
@@ -214,9 +237,20 @@ class AI_Settings_Controller {
                 'message' => __( 'Connection successful! AI integration is ready.', 'wedevs-project-manager' )
             ];
         } else {
+            $response_body = wp_remote_retrieve_body( $response );
+            $error_data = json_decode( $response_body, true );
+            
+            // Try to extract a meaningful error message
+            $error_message = __( 'Connection failed. Please check your API key and settings.', 'wedevs-project-manager' );
+            if ( isset( $error_data['error']['message'] ) ) {
+                $error_message = $error_data['error']['message'];
+            } elseif ( isset( $error_data['error'] ) && is_string( $error_data['error'] ) ) {
+                $error_message = $error_data['error'];
+            }
+            
             return [
                 'success' => false,
-                'message' => __( 'Connection failed. Please check your API key and settings.', 'wedevs-project-manager' )
+                'message' => $error_message
             ];
         }
     }
@@ -262,7 +296,11 @@ class AI_Settings_Controller {
      * @param string $encrypted_key
      * @return string
      */
-    public static function decrypt_api_key( $encrypted_key ) {
+    private function decrypt_api_key( $encrypted_key ) {
+        return self::decrypt_api_key_static( $encrypted_key );
+    }
+
+    public static function decrypt_api_key_static( $encrypted_key ) {
         if ( empty( $encrypted_key ) ) {
             return '';
         }
