@@ -23,8 +23,8 @@ class Settings extends Eloquent {
         'zapier_api',
         'ai_api_key',
         'ai_api_key_openai',
-        'ai_api_key_gemini',
-        'ai_api_key_deepseek'
+        'ai_api_key_anthropic',
+        'ai_api_key_google'
     ];
 
     public function setValueAttribute( $value ) {

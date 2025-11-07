@@ -128,11 +128,14 @@ pm.Vue.directive('pm-popup-box', {
         }
         
         // Initialize new dialog and store it by ID
+        // Set width to 50% for AI project preview dialog, otherwise use default 485
+        var dialogWidth = (dialogId === 'pm-ai-project-dialog') ? '50%' : 485;
+        
         dilogboxes[dialogId] = jQuery(el).dialog({
             autoOpen: false,
             modal: true,
             dialogClass: 'pm-ui-dialog',
-            width: 485,
+            width: dialogWidth,
             height: 'auto',
             position:['middle', 100],
         });

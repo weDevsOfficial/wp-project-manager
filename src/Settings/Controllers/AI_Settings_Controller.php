@@ -16,6 +16,581 @@ class AI_Settings_Controller {
     use Request_Filter, Transformer_Manager;
 
     /**
+     * Get all available AI providers
+     *
+     * @return array Provider configurations
+     */
+    public static function get_providers() {
+
+        return [
+
+            'openai' => [
+
+                'name' => 'OpenAI',
+
+                'endpoint' => 'https://api.openai.com/v1/chat/completions',
+
+                'requires_key' => true,
+
+                'api_key_field' => 'openai_api_key',
+
+                'api_key_url' => 'https://platform.openai.com/api-keys'
+
+            ],
+
+            'anthropic' => [
+
+                'name' => 'Anthropic',
+
+                'endpoint' => 'https://api.anthropic.com/v1/messages',
+
+                'requires_key' => true,
+
+                'api_key_field' => 'anthropic_api_key',
+
+                'api_key_url' => 'https://console.anthropic.com/settings/keys'
+
+            ],
+
+            'google' => [
+
+                'name' => 'Google',
+
+                'endpoint' => 'https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent',
+
+                'requires_key' => true,
+
+                'api_key_field' => 'google_api_key',
+
+                'api_key_url' => 'https://aistudio.google.com/app/apikey'
+
+            ]
+
+        ];
+
+    }
+
+    /**
+     * Get all model configurations with their technical parameters
+     *
+     * @return array Model configurations
+     */
+    public static function get_models() {
+
+        return [
+
+            // OpenAI GPT-4.1 Series (Latest - December 2024)
+
+            'gpt-4.1' => [
+
+                'name' => 'GPT-4.1 - Latest Flagship (OpenAI)',
+
+                'provider' => 'openai',
+
+                'token_param' => 'max_tokens',
+
+                'token_location' => 'body',
+
+                'supports_json_mode' => true,
+
+                'supports_custom_temperature' => true
+
+            ],
+
+            'gpt-4.1-mini' => [
+
+                'name' => 'GPT-4.1 Mini - Fast & Smart (OpenAI)',
+
+                'provider' => 'openai',
+
+                'token_param' => 'max_tokens',
+
+                'token_location' => 'body',
+
+                'supports_json_mode' => true,
+
+                'supports_custom_temperature' => true
+
+            ],
+
+            'gpt-4.1-nano' => [
+
+                'name' => 'GPT-4.1 Nano - Fastest & Cheapest (OpenAI)',
+
+                'provider' => 'openai',
+
+                'token_param' => 'max_tokens',
+
+                'token_location' => 'body',
+
+                'supports_json_mode' => true,
+
+                'supports_custom_temperature' => true
+
+            ],
+
+            // OpenAI O1 Series (Reasoning Models)
+
+            'o1' => [
+
+                'name' => 'O1 - Full Reasoning Model (OpenAI)',
+
+                'provider' => 'openai',
+
+                'token_param' => 'max_completion_tokens',
+
+                'token_location' => 'body',
+
+                'temperature' => 1.0,
+
+                'supports_json_mode' => false,
+
+                'supports_custom_temperature' => false
+
+            ],
+
+            'o1-mini' => [
+
+                'name' => 'O1 Mini - Cost-Effective Reasoning (OpenAI)',
+
+                'provider' => 'openai',
+
+                'token_param' => 'max_completion_tokens',
+
+                'token_location' => 'body',
+
+                'temperature' => 1.0,
+
+                'supports_json_mode' => false,
+
+                'supports_custom_temperature' => false
+
+            ],
+
+            'o1-preview' => [
+
+                'name' => 'O1 Preview - Limited Access (OpenAI)',
+
+                'provider' => 'openai',
+
+                'token_param' => 'max_completion_tokens',
+
+                'token_location' => 'body',
+
+                'temperature' => 1.0,
+
+                'supports_json_mode' => false,
+
+                'supports_custom_temperature' => false
+
+            ],
+
+            // OpenAI GPT-4o Series (Multimodal)
+
+            'gpt-4o' => [
+
+                'name' => 'GPT-4o - Multimodal (OpenAI)',
+
+                'provider' => 'openai',
+
+                'token_param' => 'max_tokens',
+
+                'token_location' => 'body',
+
+                'supports_json_mode' => true,
+
+                'supports_custom_temperature' => true
+
+            ],
+
+            'gpt-4o-mini' => [
+
+                'name' => 'GPT-4o Mini - Efficient Multimodal (OpenAI)',
+
+                'provider' => 'openai',
+
+                'token_param' => 'max_tokens',
+
+                'token_location' => 'body',
+
+                'supports_json_mode' => true,
+
+                'supports_custom_temperature' => true
+
+            ],
+
+            'gpt-4o-2024-08-06' => [
+
+                'name' => 'GPT-4o Latest Snapshot (OpenAI)',
+
+                'provider' => 'openai',
+
+                'token_param' => 'max_tokens',
+
+                'token_location' => 'body',
+
+                'supports_json_mode' => true,
+
+                'supports_custom_temperature' => true
+
+            ],
+
+            // OpenAI GPT-4 Turbo & Legacy
+
+            'gpt-4-turbo' => [
+
+                'name' => 'GPT-4 Turbo (OpenAI)',
+
+                'provider' => 'openai',
+
+                'token_param' => 'max_tokens',
+
+                'token_location' => 'body',
+
+                'supports_json_mode' => true,
+
+                'supports_custom_temperature' => true
+
+            ],
+
+            'gpt-4-turbo-2024-04-09' => [
+
+                'name' => 'GPT-4 Turbo Latest (OpenAI)',
+
+                'provider' => 'openai',
+
+                'token_param' => 'max_tokens',
+
+                'token_location' => 'body',
+
+                'supports_json_mode' => true,
+
+                'supports_custom_temperature' => true
+
+            ],
+
+            'gpt-4' => [
+
+                'name' => 'GPT-4 (OpenAI)',
+
+                'provider' => 'openai',
+
+                'token_param' => 'max_tokens',
+
+                'token_location' => 'body',
+
+                'supports_json_mode' => true,
+
+                'supports_custom_temperature' => true
+
+            ],
+
+            'gpt-3.5-turbo' => [
+
+                'name' => 'GPT-3.5 Turbo (OpenAI)',
+
+                'provider' => 'openai',
+
+                'token_param' => 'max_tokens',
+
+                'token_location' => 'body',
+
+                'supports_json_mode' => true,
+
+                'supports_custom_temperature' => true
+
+            ],
+
+            'gpt-3.5-turbo-0125' => [
+
+                'name' => 'GPT-3.5 Turbo Latest (OpenAI)',
+
+                'provider' => 'openai',
+
+                'token_param' => 'max_tokens',
+
+                'token_location' => 'body',
+
+                'supports_json_mode' => true,
+
+                'supports_custom_temperature' => true
+
+            ],
+
+            // Anthropic Claude 4 Series (Latest Generation)
+
+            'claude-4-opus' => [
+
+                'name' => 'Claude 4 Opus - Best Coding Model (Anthropic)',
+
+                'provider' => 'anthropic',
+
+                'token_param' => 'max_tokens',
+
+                'token_location' => 'body',
+
+                'supports_json_mode' => true,
+
+                'supports_custom_temperature' => true
+
+            ],
+
+            'claude-4-sonnet' => [
+
+                'name' => 'Claude 4 Sonnet - Advanced Reasoning (Anthropic)',
+
+                'provider' => 'anthropic',
+
+                'token_param' => 'max_tokens',
+
+                'token_location' => 'body',
+
+                'supports_json_mode' => true,
+
+                'supports_custom_temperature' => true
+
+            ],
+
+            'claude-4.1-opus' => [
+
+                'name' => 'Claude 4.1 Opus - Most Capable (Anthropic)',
+
+                'provider' => 'anthropic',
+
+                'token_param' => 'max_tokens',
+
+                'token_location' => 'body',
+
+                'supports_json_mode' => true,
+
+                'supports_custom_temperature' => true
+
+            ],
+
+            // Anthropic Claude 3.7 Series
+
+            'claude-3.7-sonnet' => [
+
+                'name' => 'Claude 3.7 Sonnet - Hybrid Reasoning (Anthropic)',
+
+                'provider' => 'anthropic',
+
+                'token_param' => 'max_tokens',
+
+                'token_location' => 'body',
+
+                'supports_json_mode' => true,
+
+                'supports_custom_temperature' => true
+
+            ],
+
+            // Anthropic Claude 3.5 Series (Current Available)
+
+            'claude-3-5-sonnet-20241022' => [
+
+                'name' => 'Claude 3.5 Sonnet Latest (Anthropic)',
+
+                'provider' => 'anthropic',
+
+                'token_param' => 'max_tokens',
+
+                'token_location' => 'body',
+
+                'supports_json_mode' => true,
+
+                'supports_custom_temperature' => true
+
+            ],
+
+            'claude-3-5-sonnet-20240620' => [
+
+                'name' => 'Claude 3.5 Sonnet (Anthropic)',
+
+                'provider' => 'anthropic',
+
+                'token_param' => 'max_tokens',
+
+                'token_location' => 'body',
+
+                'supports_json_mode' => true,
+
+                'supports_custom_temperature' => true
+
+            ],
+
+            'claude-3-5-haiku-20241022' => [
+
+                'name' => 'Claude 3.5 Haiku (Anthropic)',
+
+                'provider' => 'anthropic',
+
+                'token_param' => 'max_tokens',
+
+                'token_location' => 'body',
+
+                'supports_json_mode' => true,
+
+                'supports_custom_temperature' => true
+
+            ],
+
+            // Anthropic Claude 3 Legacy
+
+            'claude-3-opus-20240229' => [
+
+                'name' => 'Claude 3 Opus (Anthropic)',
+
+                'provider' => 'anthropic',
+
+                'token_param' => 'max_tokens',
+
+                'token_location' => 'body',
+
+                'supports_json_mode' => true,
+
+                'supports_custom_temperature' => true
+
+            ],
+
+            'claude-3-sonnet-20240229' => [
+
+                'name' => 'Claude 3 Sonnet (Anthropic)',
+
+                'provider' => 'anthropic',
+
+                'token_param' => 'max_tokens',
+
+                'token_location' => 'body',
+
+                'supports_json_mode' => true,
+
+                'supports_custom_temperature' => true
+
+            ],
+
+            'claude-3-haiku-20240307' => [
+
+                'name' => 'Claude 3 Haiku (Anthropic)',
+
+                'provider' => 'anthropic',
+
+                'token_param' => 'max_tokens',
+
+                'token_location' => 'body',
+
+                'supports_json_mode' => true,
+
+                'supports_custom_temperature' => true
+
+            ],
+
+            // Google Gemini (Current Models)
+
+            'gemini-2.0-flash-exp' => [
+
+                'name' => 'Gemini 2.0 Flash Experimental - Latest (Google)',
+
+                'provider' => 'google',
+
+                'token_param' => 'maxOutputTokens',
+
+                'token_location' => 'generationConfig',
+
+                'supports_json_mode' => true,
+
+                'supports_custom_temperature' => true
+
+            ],
+
+            'gemini-1.5-flash' => [
+
+                'name' => 'Gemini 1.5 Flash - Fast & Free (Google)',
+
+                'provider' => 'google',
+
+                'token_param' => 'maxOutputTokens',
+
+                'token_location' => 'generationConfig',
+
+                'supports_json_mode' => true,
+
+                'supports_custom_temperature' => true
+
+            ],
+
+            'gemini-1.5-flash-8b' => [
+
+                'name' => 'Gemini 1.5 Flash 8B - Fast & Free (Google)',
+
+                'provider' => 'google',
+
+                'token_param' => 'maxOutputTokens',
+
+                'token_location' => 'generationConfig',
+
+                'supports_json_mode' => true,
+
+                'supports_custom_temperature' => true
+
+            ],
+
+            'gemini-1.5-pro' => [
+
+                'name' => 'Gemini 1.5 Pro - Most Capable (Google)',
+
+                'provider' => 'google',
+
+                'token_param' => 'maxOutputTokens',
+
+                'token_location' => 'generationConfig',
+
+                'supports_json_mode' => true,
+
+                'supports_custom_temperature' => true
+
+            ],
+
+            'gemini-1.0-pro' => [
+
+                'name' => 'Gemini 1.0 Pro - Stable (Google)',
+
+                'provider' => 'google',
+
+                'token_param' => 'maxOutputTokens',
+
+                'token_location' => 'generationConfig',
+
+                'supports_json_mode' => true,
+
+                'supports_custom_temperature' => true
+
+            ]
+
+        ];
+
+    }
+
+    /**
+     * Get models filtered by provider
+     *
+     * @param string $provider Provider key (e.g., 'openai', 'anthropic', 'google')
+     * @return array Models for the specified provider
+     */
+    public static function get_models_by_provider( $provider ) {
+        $all_models = self::get_models();
+        $filtered = [];
+        
+        foreach ( $all_models as $model_key => $model_config ) {
+            if ( isset( $model_config['provider'] ) && $model_config['provider'] === $provider ) {
+                $filtered[ $model_key ] = $model_config;
+            }
+        }
+        
+        return $filtered;
+    }
+
+    /**
      * Get AI settings
      *
      * @param WP_REST_Request $request
@@ -148,7 +723,7 @@ class AI_Settings_Controller {
         $api_key = sanitize_text_field( $request->get_param( 'api_key' ) );
 
         // Validate provider against allowed list
-        $allowed_providers = [ 'openai', 'gemini', 'deepseek' ];
+        $allowed_providers = array_keys( self::get_providers() );
         if ( empty( $provider ) || !in_array( strtolower( $provider ), $allowed_providers, true ) ) {
             return $this->get_response( null, [
                 'success' => false,
@@ -193,7 +768,7 @@ class AI_Settings_Controller {
      */
     private function test_ai_connection( $provider, $api_key ) {
         // Validate provider (should already be validated, but double-check for security)
-        $allowed_providers = [ 'openai', 'gemini', 'deepseek' ];
+        $allowed_providers = array_keys( self::get_providers() );
         $provider = strtolower( sanitize_text_field( $provider ) );
         
         if ( !in_array( $provider, $allowed_providers, true ) ) {
@@ -203,23 +778,39 @@ class AI_Settings_Controller {
             ];
         }
 
-        $providers = [
-            'openai' => [
-                'url' => 'https://api.openai.com/v1/models',
-                'header_key' => 'Authorization',
-                'header_value' => 'Bearer ' . $api_key
-            ],
-            'gemini' => [
-                'url' => 'https://generativelanguage.googleapis.com/v1/models?key=' . urlencode( $api_key ),
-                'header_key' => '',
-                'header_value' => ''
-            ],
-            'deepseek' => [
-                'url' => 'https://api.deepseek.com/v1/models',
-                'header_key' => 'Authorization',
-                'header_value' => 'Bearer ' . $api_key
-            ]
+        // Get provider config from static method
+        $providers_config = self::get_providers();
+        $provider_config = $providers_config[ $provider ];
+        
+        // Build test URL based on provider
+        $test_urls = [
+            'openai' => 'https://api.openai.com/v1/models',
+            'anthropic' => 'https://api.anthropic.com/v1/messages',
+            'google' => 'https://generativelanguage.googleapis.com/v1/models?key=' . urlencode( $api_key )
         ];
+        
+        $providers = [];
+        foreach ( $providers_config as $key => $config ) {
+            if ( $key === 'google' ) {
+                $providers[ $key ] = [
+                    'url' => $test_urls[ $key ],
+                    'header_key' => '',
+                    'header_value' => ''
+                ];
+            } elseif ( $key === 'anthropic' ) {
+                $providers[ $key ] = [
+                    'url' => $test_urls[ $key ],
+                    'header_key' => 'x-api-key',
+                    'header_value' => $api_key
+                ];
+            } else {
+                $providers[ $key ] = [
+                    'url' => $test_urls[ $key ],
+                    'header_key' => 'Authorization',
+                    'header_value' => 'Bearer ' . $api_key
+                ];
+            }
+        }
 
         $config = $providers[ $provider ];
         $url = $config['url'];
