@@ -133,11 +133,11 @@
         }
         
         .pm-ai-preview-content {
-            margin-bottom: 20px;
+            margin: 20px;
         }
         
         .pm-preview-section {
-            margin-bottom: 25px;
+            margin-bottom: 10px;
             
             &:last-child {
                 margin-bottom: 0;
@@ -152,9 +152,7 @@
         }
         
         .pm-task-group-label {
-            display: flex;
-            align-items: center;
-            margin-bottom: 15px;
+            padding: 0 10px !important;
             
             .pm-group-input {
                 flex: 1;
@@ -166,8 +164,6 @@
         .pm-preview-item {
             display: flex;
             align-items: center;
-            padding: 8px 0;
-            margin-bottom: 5px;
             
             &.pm-editable-item {
                 margin-bottom: 15px;
@@ -207,6 +203,7 @@
             
             &.pm-task-input {
                 margin-left: 8px;
+                padding: 0 10px !important;
             }
         }
         
@@ -227,18 +224,17 @@
         }
         
         .pm-ai-preview-footer {
-            padding-top: 20px;
             border-top: 1px solid #e0e0e0;
             text-align: right;
             
             .pm-btn-ai-save {
                 background: #8b5cf6 !important;
                 color: #fff !important;
-                padding: 10px 20px;
+                padding: 0 20px;
                 border: none;
                 border-radius: 4px;
-                font-weight: 600;
                 cursor: pointer;
+                margin-top: 20px;
                 
                 &:hover:not(:disabled) {
                     background: #7c3aed !important;

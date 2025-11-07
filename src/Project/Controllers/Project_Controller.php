@@ -519,7 +519,10 @@ class Project_Controller {
 		}
 
 		// Parse and return the generated structure
-		return $this->get_response( $result['data'] );
+		return $this->get_response( null, [
+			'success' => true,
+			'data' => $result['data']
+		] );
 	}
 
 	/**
@@ -535,7 +538,7 @@ class Project_Controller {
 	 */
 	private function call_ai_api( $provider, $api_key, $model, $max_tokens, $temperature, $prompt ) {
 		$provider = strtolower( sanitize_text_field( $provider ) );
-		$allowed_providers = [ 'openai', 'gemini', 'deepseek' ];
+		$allowed_providers = array_keys( \WeDevs\PM\Settings\Controllers\AI_Settings_Controller::get_providers() );
 		
 		if ( !in_array( $provider, $allowed_providers, true ) ) {
 			return [
@@ -543,12 +546,18 @@ class Project_Controller {
 				'message' => __( 'Invalid AI provider.', 'wedevs-project-manager' )
 			];
 		}
+		
+		// Get provider config
+		$providers_config = \WeDevs\PM\Settings\Controllers\AI_Settings_Controller::get_providers();
+		$provider_config = $providers_config[ $provider ];
+		
+		// Get model config
+		$models_config = \WeDevs\PM\Settings\Controllers\AI_Settings_Controller::get_models();
+		$model_config = isset( $models_config[ $model ] ) ? $models_config[ $model ] : null;
 
 		// Prepare request based on provider
-		if ( $provider === 'openai' || $provider === 'deepseek' ) {
-			$url = $provider === 'openai' 
-				? 'https://api.openai.com/v1/chat/completions'
-				: 'https://api.deepseek.com/v1/chat/completions';
+		if ( $provider === 'openai' ) {
+			$url = $provider_config['endpoint'];
 
 			$body = [
 				'model' => $model,
@@ -572,8 +581,34 @@ class Project_Controller {
 				],
 				'body' => json_encode( $body )
 			];
-		} else { // gemini
-			$url = 'https://generativelanguage.googleapis.com/v1/models/' . $model . ':generateContent?key=' . urlencode( $api_key );
+		} elseif ( $provider === 'anthropic' ) {
+			$url = $provider_config['endpoint'];
+
+			$body = [
+				'model' => $model,
+				'messages' => [
+					[
+						'role' => 'user',
+						'content' => $prompt
+					]
+				],
+				'max_tokens' => $max_tokens,
+				'temperature' => $temperature
+			];
+
+			$args = [
+				'method' => 'POST',
+				'timeout' => 30,
+				'sslverify' => true,
+				'headers' => [
+					'x-api-key' => $api_key,
+					'anthropic-version' => '2023-06-01',
+					'Content-Type' => 'application/json'
+				],
+				'body' => json_encode( $body )
+			];
+		} else { // google
+			$url = str_replace( '{model}', $model, $provider_config['endpoint'] ) . '?key=' . urlencode( $api_key );
 
 			$body = [
 				'contents' => [
@@ -646,11 +681,15 @@ class Project_Controller {
 
 		// Extract content from response
 		$content = '';
-		if ( $provider === 'openai' || $provider === 'deepseek' ) {
+		if ( $provider === 'openai' ) {
 			if ( isset( $response_data['choices'][0]['message']['content'] ) ) {
 				$content = $response_data['choices'][0]['message']['content'];
 			}
-		} else { // gemini
+		} elseif ( $provider === 'anthropic' ) {
+			if ( isset( $response_data['content'][0]['text'] ) ) {
+				$content = $response_data['content'][0]['text'];
+			}
+		} else { // google
 			if ( isset( $response_data['candidates'][0]['content']['parts'][0]['text'] ) ) {
 				$content = $response_data['candidates'][0]['content']['parts'][0]['text'];
 			}

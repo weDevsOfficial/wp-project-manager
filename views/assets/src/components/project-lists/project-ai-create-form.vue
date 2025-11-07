@@ -2,32 +2,32 @@
     <div>
         <form v-if="!showPreview" action="" method="post" class="pm-form pm-project-ai-form" @submit.prevent="generateProject();">
             <div class="pm-form-item item project-ai-prompt">
-                <textarea 
-                    v-model="ai_prompt" 
-                    class="pm-project-ai-description" 
-                    id="ai_prompt" 
-                    rows="8" 
+                <textarea
+                    v-model="ai_prompt"
+                    class="pm-project-ai-description"
+                    id="ai_prompt"
+                    rows="8"
                     :placeholder="prompt_placeholder">
                 </textarea>
             </div>
 
+
+          <div
+              v-show="generating"
+              class="pm-loading"></div>
             <div class="submit">
-                <input 
-                    type="submit" 
-                    name="generate_project" 
-                    id="generate_project" 
-                    class="pm-button pm-primary" 
-                    :value="generate_button_text"
-                    :disabled="generating">
-                <a @click.prevent="closeForm()" class="pm-button pm-secondary project-cancel" href="#">
-                    {{ __( 'Close', 'wedevs-project-manager') }}
-                </a>
-                <span v-show="generating" class="pm-loading"></span>
+                <input
+                    v-show="!generating"
+                    type="submit"
+                    name="generate_project"
+                    id="generate_project"
+                    class="pm-button pm-primary"
+                    :value="generate_button_text">
             </div>
         </form>
 
-        <project-ai-preview 
-            v-if="showPreview" 
+        <project-ai-preview
+            v-if="showPreview"
             :projectData="generatedProject"
             @save-project="saveProject">
         </project-ai-preview>
@@ -67,14 +67,14 @@
                 }
 
                 this.generating = true;
-                
+
                 // Call AI API to generate project structure
                 var self = this;
                 var requestData = {
                     prompt: this.ai_prompt,
                     is_admin: PM_Vars.is_admin
                 };
-                
+
                 jQuery.ajax({
                     type: 'POST',
                     url: this.base_url + 'pm/v2/projects/ai/generate',
@@ -86,20 +86,20 @@
                     data: requestData,
                     success: function(res) {
                         self.generating = false;
-                        
+
                         // Check if response has an error message
                         if (res.message && (typeof res.message === 'string' || Array.isArray(res.message))) {
                             var errorMsg = Array.isArray(res.message) ? res.message.join(', ') : res.message;
                             pm.Toastr.error(errorMsg);
                             return;
                         }
-                        
+
                         // Check if response has error in data
                         if (res.data && res.data.message && !res.data.title) {
                             pm.Toastr.error(res.data.message);
                             return;
                         }
-                        
+
                         if (res.data && (res.data.title || res.data.tasks || res.data.task_groups)) {
                             self.generatedProject = res.data;
                             self.showPreview = true;
@@ -111,7 +111,7 @@
                     error: function(xhr, status, error) {
                         self.generating = false;
                         var errorMsg = __( 'Failed to generate project. Please try again.', 'wedevs-project-manager');
-                        
+
                         // Try to extract error message from response
                         if (xhr.responseJSON) {
                             // Handle array of messages (WordPress REST API format)
@@ -139,7 +139,7 @@
                         else if (xhr.status) {
                             errorMsg = sprintf(__( 'Request failed with status code: %d', 'wedevs-project-manager'), xhr.status);
                         }
-                        
+
                         pm.Toastr.error(errorMsg);
                     }
                 });
@@ -158,13 +158,13 @@
                     callback: function(res) {
                         if (res.data && res.data.id) {
                             var projectId = res.data.id;
-                            
+
                             // Create task lists and tasks
                             self.createTaskListsAndTasks(projectId, projectData, function() {
                                 self.generating = false;
                                 pm.Toastr.success(__( 'Project created successfully!', 'wedevs-project-manager'));
                                 self.closeForm();
-                                
+
                                 // Navigate to the project
                                 self.$router.push({
                                     name: 'pm_overview',
@@ -219,7 +219,7 @@
                                         });
                                     });
                                 }
-                                
+
                                 groupIndex++;
                                 if (groupIndex === projectData.task_groups.length) {
                                     // All task lists created, now create tasks
@@ -246,10 +246,10 @@
             },
             createTaskListsSequentially (taskLists) {
                 if (taskLists.length === 0) return;
-                
+
                 var self = this;
                 var taskList = taskLists.shift();
-                
+
                 jQuery.ajax({
                     type: 'POST',
                     url: this.base_url + 'pm/v2/projects/' + taskList.project_id + '/task-lists',
@@ -277,17 +277,17 @@
                     callback();
                     return;
                 }
-                
+
                 var self = this;
                 var task = tasks.shift();
-                
+
                 // Get inbox if board_id is null
                 if (!task.board_id) {
                     // Use inbox - we'll need to get it from project meta
                     // For now, create without board_id and it will use inbox
                     task.board_id = null;
                 }
-                
+
                 jQuery.ajax({
                     type: 'POST',
                     url: this.base_url + 'pm/v2/projects/' + task.project_id + '/tasks',
@@ -342,11 +342,14 @@
             resize: vertical;
             min-height: 150px;
         }
-        
+        .pm-loading {
+          display: flex;
+          justify-content: flex-end;
+        }
         .submit {
             margin-top: 15px;
             text-align: right;
-            
+
             .pm-button {
                 margin-left: 10px;
             }

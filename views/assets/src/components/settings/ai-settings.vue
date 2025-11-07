@@ -13,8 +13,8 @@
                                 <td>
                                     <select v-model="provider" class="regular-text" id="ai_provider" name="ai_provider" @change="onProviderChange">
                                         <option value="openai">OpenAI</option>
-                                        <option value="gemini">Gemini</option>
-                                        <option value="deepseek">Deepseek</option>
+                                        <option value="anthropic">Anthropic</option>
+                                        <option value="google">Google</option>
                                     </select>
                                     <p class="description">{{ __( 'Select your preferred AI service provider.', 'wedevs-project-manager') }}</p>
                                 </td>
@@ -101,16 +101,39 @@ export default {
             save_change: __( 'Save Changes', 'wedevs-project-manager'),
             models: {
                 openai: [
-                    { value: 'gpt-3.5-turbo', label: 'GPT-3.5 Turbo' },
-                    { value: 'gpt-4', label: 'GPT-4' },
-                    { value: 'gpt-4-turbo', label: 'GPT-4 Turbo' }
+                    { value: 'gpt-4.1', label: 'GPT-4.1 - Latest Flagship (OpenAI)' },
+                    { value: 'gpt-4.1-mini', label: 'GPT-4.1 Mini - Fast & Smart (OpenAI)' },
+                    { value: 'gpt-4.1-nano', label: 'GPT-4.1 Nano - Fastest & Cheapest (OpenAI)' },
+                    { value: 'o1', label: 'O1 - Full Reasoning Model (OpenAI)' },
+                    { value: 'o1-mini', label: 'O1 Mini - Cost-Effective Reasoning (OpenAI)' },
+                    { value: 'o1-preview', label: 'O1 Preview - Limited Access (OpenAI)' },
+                    { value: 'gpt-4o', label: 'GPT-4o - Multimodal (OpenAI)' },
+                    { value: 'gpt-4o-mini', label: 'GPT-4o Mini - Efficient Multimodal (OpenAI)' },
+                    { value: 'gpt-4o-2024-08-06', label: 'GPT-4o Latest Snapshot (OpenAI)' },
+                    { value: 'gpt-4-turbo', label: 'GPT-4 Turbo (OpenAI)' },
+                    { value: 'gpt-4-turbo-2024-04-09', label: 'GPT-4 Turbo Latest (OpenAI)' },
+                    { value: 'gpt-4', label: 'GPT-4 (OpenAI)' },
+                    { value: 'gpt-3.5-turbo', label: 'GPT-3.5 Turbo (OpenAI)' },
+                    { value: 'gpt-3.5-turbo-0125', label: 'GPT-3.5 Turbo Latest (OpenAI)' }
                 ],
-                gemini: [
-                    { value: 'gemini-pro', label: 'Gemini Pro' },
-                    { value: 'gemini-pro-vision', label: 'Gemini Pro Vision' }
+                anthropic: [
+                    { value: 'claude-4-opus', label: 'Claude 4 Opus - Best Coding Model (Anthropic)' },
+                    { value: 'claude-4-sonnet', label: 'Claude 4 Sonnet - Advanced Reasoning (Anthropic)' },
+                    { value: 'claude-4.1-opus', label: 'Claude 4.1 Opus - Most Capable (Anthropic)' },
+                    { value: 'claude-3.7-sonnet', label: 'Claude 3.7 Sonnet - Hybrid Reasoning (Anthropic)' },
+                    { value: 'claude-3-5-sonnet-20241022', label: 'Claude 3.5 Sonnet Latest (Anthropic)' },
+                    { value: 'claude-3-5-sonnet-20240620', label: 'Claude 3.5 Sonnet (Anthropic)' },
+                    { value: 'claude-3-5-haiku-20241022', label: 'Claude 3.5 Haiku (Anthropic)' },
+                    { value: 'claude-3-opus-20240229', label: 'Claude 3 Opus (Anthropic)' },
+                    { value: 'claude-3-sonnet-20240229', label: 'Claude 3 Sonnet (Anthropic)' },
+                    { value: 'claude-3-haiku-20240307', label: 'Claude 3 Haiku (Anthropic)' }
                 ],
-                deepseek: [
-                    { value: 'deepseek-chat', label: 'DeepSeek Chat' }
+                google: [
+                    { value: 'gemini-2.0-flash-exp', label: 'Gemini 2.0 Flash Experimental - Latest (Google)' },
+                    { value: 'gemini-1.5-flash', label: 'Gemini 1.5 Flash - Fast & Free (Google)' },
+                    { value: 'gemini-1.5-flash-8b', label: 'Gemini 1.5 Flash 8B - Fast & Free (Google)' },
+                    { value: 'gemini-1.5-pro', label: 'Gemini 1.5 Pro - Most Capable (Google)' },
+                    { value: 'gemini-1.0-pro', label: 'Gemini 1.0 Pro - Stable (Google)' }
                 ]
             }
         }
