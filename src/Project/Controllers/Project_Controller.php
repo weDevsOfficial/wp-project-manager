@@ -19,6 +19,8 @@ use Illuminate\Pagination\Paginator;
 use WeDevs\PM\Common\Models\Meta;
 use WeDevs\PM\Task_List\Models\Task_List;
 use WeDevs\PM\Project\Helper\Project_Role_Relation;
+use WeDevs\PM\Settings\Models\Settings;
+use WeDevs\PM\Settings\Controllers\AI_Settings_Controller;
 
 class Project_Controller {
 
@@ -440,5 +442,293 @@ class Project_Controller {
 		}
 	}
 
+	/**
+	 * Generate project structure using AI
+	 *
+	 * @param WP_REST_Request $request
+	 * @return mixed
+	 */
+	public function ai_generate( WP_REST_Request $request ) {
+		$prompt = sanitize_text_field( $request->get_param( 'prompt' ) );
+
+		if ( empty( $prompt ) ) {
+			return $this->get_response( null, [
+				'success' => false,
+				'message' => __( 'Prompt is required.', 'wedevs-project-manager' )
+			] );
+		}
+
+		// Get AI settings
+		$provider_setting = Settings::where( 'key', 'ai_provider' )->first();
+		$provider = $provider_setting ? sanitize_text_field( $provider_setting->value ) : 'openai';
+
+		$model_setting = Settings::where( 'key', 'ai_model' )->first();
+		$model = $model_setting ? sanitize_text_field( $model_setting->value ) : 'gpt-3.5-turbo';
+
+		$max_tokens_setting = Settings::where( 'key', 'ai_max_tokens' )->first();
+		$max_tokens = $max_tokens_setting ? intval( $max_tokens_setting->value ) : 1000;
+
+		$temperature_setting = Settings::where( 'key', 'ai_temperature' )->first();
+		$temperature = $temperature_setting ? floatval( $temperature_setting->value ) : 0.7;
+
+		// Get API key
+		$api_key_key = 'ai_api_key_' . $provider;
+		$api_key_setting = Settings::where( 'key', $api_key_key )->first();
+		
+		if ( !$api_key_setting || empty( $api_key_setting->value ) ) {
+			return $this->get_response( null, [
+				'success' => false,
+				'message' => __( 'AI API key is not configured. Please configure it in Settings.', 'wedevs-project-manager' )
+			] );
+		}
+
+		$api_key = AI_Settings_Controller::decrypt_api_key_static( $api_key_setting->value );
+
+		if ( empty( $api_key ) ) {
+			return $this->get_response( null, [
+				'success' => false,
+				'message' => __( 'AI API key is invalid. Please check your settings.', 'wedevs-project-manager' )
+			] );
+		}
+
+		// Prepare AI prompt
+		$ai_prompt = "Based on the following project description, generate a structured project plan with:\n";
+		$ai_prompt .= "1. A project title\n";
+		$ai_prompt .= "2. Initial tasks (tasks without a group)\n";
+		$ai_prompt .= "3. Task groups with tasks under each group\n\n";
+		$ai_prompt .= "Project description: " . $prompt . "\n\n";
+		$ai_prompt .= "Return ONLY a valid JSON object with this exact structure:\n";
+		$ai_prompt .= "{\n";
+		$ai_prompt .= "  \"title\": \"Project Name\",\n";
+		$ai_prompt .= "  \"description\": \"Project description\",\n";
+		$ai_prompt .= "  \"tasks\": [{\"title\": \"Task Name 1\"}, {\"title\": \"Task Name 2\"}],\n";
+		$ai_prompt .= "  \"task_groups\": [{\n";
+		$ai_prompt .= "    \"title\": \"Group Name\",\n";
+		$ai_prompt .= "    \"tasks\": [{\"title\": \"Task Name 1\"}, {\"title\": \"Task Name 2\"}]\n";
+		$ai_prompt .= "  }]\n";
+		$ai_prompt .= "}";
+
+		// Call AI API based on provider
+		$result = $this->call_ai_api( $provider, $api_key, $model, $max_tokens, $temperature, $ai_prompt );
+
+		if ( !$result['success'] ) {
+			return $this->get_response( null, [
+				'success' => false,
+				'message' => $result['message']
+			] );
+		}
+
+		// Parse and return the generated structure
+		return $this->get_response( $result['data'] );
+	}
+
+	/**
+	 * Call AI API
+	 *
+	 * @param string $provider
+	 * @param string $api_key
+	 * @param string $model
+	 * @param int $max_tokens
+	 * @param float $temperature
+	 * @param string $prompt
+	 * @return array
+	 */
+	private function call_ai_api( $provider, $api_key, $model, $max_tokens, $temperature, $prompt ) {
+		$provider = strtolower( sanitize_text_field( $provider ) );
+		$allowed_providers = [ 'openai', 'gemini', 'deepseek' ];
+		
+		if ( !in_array( $provider, $allowed_providers, true ) ) {
+			return [
+				'success' => false,
+				'message' => __( 'Invalid AI provider.', 'wedevs-project-manager' )
+			];
+		}
+
+		// Prepare request based on provider
+		if ( $provider === 'openai' || $provider === 'deepseek' ) {
+			$url = $provider === 'openai' 
+				? 'https://api.openai.com/v1/chat/completions'
+				: 'https://api.deepseek.com/v1/chat/completions';
+
+			$body = [
+				'model' => $model,
+				'messages' => [
+					[
+						'role' => 'user',
+						'content' => $prompt
+					]
+				],
+				'max_tokens' => $max_tokens,
+				'temperature' => $temperature
+			];
+
+			$args = [
+				'method' => 'POST',
+				'timeout' => 30,
+				'sslverify' => true,
+				'headers' => [
+					'Authorization' => 'Bearer ' . $api_key,
+					'Content-Type' => 'application/json'
+				],
+				'body' => json_encode( $body )
+			];
+		} else { // gemini
+			$url = 'https://generativelanguage.googleapis.com/v1/models/' . $model . ':generateContent?key=' . urlencode( $api_key );
+
+			$body = [
+				'contents' => [
+					[
+						'parts' => [
+							[
+								'text' => $prompt
+							]
+						]
+					]
+				],
+				'generationConfig' => [
+					'maxOutputTokens' => $max_tokens,
+					'temperature' => $temperature
+				]
+			];
+
+			$args = [
+				'method' => 'POST',
+				'timeout' => 30,
+				'sslverify' => true,
+				'headers' => [
+					'Content-Type' => 'application/json'
+				],
+				'body' => json_encode( $body )
+			];
+		}
+
+		$response = wp_remote_request( $url, $args );
+
+		if ( is_wp_error( $response ) ) {
+			$error_msg = $response->get_error_message();
+			return [
+				'success' => false,
+				'message' => sprintf( __( 'AI API error: %s', 'wedevs-project-manager' ), esc_html( $error_msg ) )
+			];
+		}
+
+		$response_code = wp_remote_retrieve_response_code( $response );
+		$response_body = wp_remote_retrieve_body( $response );
+		$response_data = json_decode( $response_body, true );
+
+		if ( $response_code !== 200 ) {
+			$error_message = __( 'AI API request failed.', 'wedevs-project-manager' );
+			
+			// Try to extract detailed error message from response
+			if ( isset( $response_data['error']['message'] ) ) {
+				$error_message = sanitize_text_field( $response_data['error']['message'] );
+			} elseif ( isset( $response_data['error'] ) && is_string( $response_data['error'] ) ) {
+				$error_message = sanitize_text_field( $response_data['error'] );
+			} elseif ( isset( $response_data['message'] ) ) {
+				$error_message = sanitize_text_field( $response_data['message'] );
+			} elseif ( isset( $response_data['error']['code'] ) ) {
+				$error_message = sprintf( 
+					__( 'AI API error (Code: %s)', 'wedevs-project-manager' ), 
+					sanitize_text_field( $response_data['error']['code'] ) 
+				);
+			} else {
+				$error_message = sprintf( 
+					__( 'AI API request failed with status code: %d', 'wedevs-project-manager' ), 
+					$response_code 
+				);
+			}
+			
+			return [
+				'success' => false,
+				'message' => $error_message
+			];
+		}
+
+		// Extract content from response
+		$content = '';
+		if ( $provider === 'openai' || $provider === 'deepseek' ) {
+			if ( isset( $response_data['choices'][0]['message']['content'] ) ) {
+				$content = $response_data['choices'][0]['message']['content'];
+			}
+		} else { // gemini
+			if ( isset( $response_data['candidates'][0]['content']['parts'][0]['text'] ) ) {
+				$content = $response_data['candidates'][0]['content']['parts'][0]['text'];
+			}
+		}
+
+		if ( empty( $content ) ) {
+			return [
+				'success' => false,
+				'message' => __( 'No content received from AI.', 'wedevs-project-manager' )
+			];
+		}
+
+		// Extract JSON from response (handle markdown code blocks)
+		$content = trim( $content );
+		if ( preg_match( '/```json\s*(.*?)\s*```/s', $content, $matches ) ) {
+			$content = $matches[1];
+		} elseif ( preg_match( '/```\s*(.*?)\s*```/s', $content, $matches ) ) {
+			$content = $matches[1];
+		}
+
+		$parsed_data = json_decode( $content, true );
+
+		if ( json_last_error() !== JSON_ERROR_NONE || !is_array( $parsed_data ) ) {
+			$json_error = json_last_error_msg();
+			return [
+				'success' => false,
+				'message' => sprintf( 
+					__( 'Failed to parse AI response: %s. Please try again.', 'wedevs-project-manager' ),
+					esc_html( $json_error )
+				)
+			];
+		}
+
+		// Ensure required structure
+		$result = [
+			'title' => isset( $parsed_data['title'] ) ? sanitize_text_field( $parsed_data['title'] ) : '',
+			'description' => isset( $parsed_data['description'] ) ? sanitize_textarea_field( $parsed_data['description'] ) : '',
+			'tasks' => [],
+			'task_groups' => []
+		];
+
+		if ( isset( $parsed_data['tasks'] ) && is_array( $parsed_data['tasks'] ) ) {
+			foreach ( $parsed_data['tasks'] as $task ) {
+				if ( isset( $task['title'] ) && !empty( $task['title'] ) ) {
+					$result['tasks'][] = [
+						'title' => sanitize_text_field( $task['title'] )
+					];
+				}
+			}
+		}
+
+		if ( isset( $parsed_data['task_groups'] ) && is_array( $parsed_data['task_groups'] ) ) {
+			foreach ( $parsed_data['task_groups'] as $group ) {
+				if ( isset( $group['title'] ) && !empty( $group['title'] ) ) {
+					$group_data = [
+						'title' => sanitize_text_field( $group['title'] ),
+						'tasks' => []
+					];
+					
+					if ( isset( $group['tasks'] ) && is_array( $group['tasks'] ) ) {
+						foreach ( $group['tasks'] as $task ) {
+							if ( isset( $task['title'] ) && !empty( $task['title'] ) ) {
+								$group_data['tasks'][] = [
+									'title' => sanitize_text_field( $task['title'] )
+								];
+							}
+						}
+					}
+					
+					$result['task_groups'][] = $group_data;
+				}
+			}
+		}
+
+		return [
+			'success' => true,
+			'data' => $result
+		];
+	}
 
 }
