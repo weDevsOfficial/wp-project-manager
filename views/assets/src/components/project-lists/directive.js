@@ -112,19 +112,23 @@ pm.Vue.directive('pm-users', {
         Project.coWorkerSearch(el, binding, vnode);
     }
 });
-var dilogbox = false;
+var dilogboxes = {};
 // Register a global custom directive called v-pm-popup-box
 pm.Vue.directive('pm-popup-box', {
     inserted: function (el, buinding, vnode) {
-
+        var dialogId = el.id || 'pm-dialog-' + Math.random().toString(36).substr(2, 9);
+        
+        // Destroy existing dialog for this element if it exists
         if (
-            dilogbox !== false
+            dilogboxes[dialogId] !== undefined
                 &&
-            typeof dilogbox.dialog( "instance" ) != 'undefined'
+            typeof dilogboxes[dialogId].dialog( "instance" ) != 'undefined'
         ){
-            dilogbox.dialog( "destroy" );
+            dilogboxes[dialogId].dialog( "destroy" );
         }
-        dilogbox = jQuery(el).dialog({
+        
+        // Initialize new dialog and store it by ID
+        dilogboxes[dialogId] = jQuery(el).dialog({
             autoOpen: false,
             modal: true,
             dialogClass: 'pm-ui-dialog',
