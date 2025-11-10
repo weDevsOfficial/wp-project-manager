@@ -9,9 +9,6 @@
             <div class="pm-preview-section">
                 <h4 class="pm-preview-label">{{ __( 'Project Name', 'wedevs-project-manager') }}</h4>
                 <div class="pm-preview-item pm-editable-item">
-                    <div class="pm-preview-icon">
-                        <span class="pm-project-icon" :style="{ backgroundColor: projectColor }"></span>
-                    </div>
                     <input 
                         type="text" 
                         v-model="projectData.title" 
@@ -174,18 +171,6 @@
             }
         }
         
-        .pm-preview-icon {
-            margin-right: 10px;
-            
-            .pm-project-icon {
-                display: inline-block;
-                width: 32px;
-                height: 32px;
-                border-radius: 50%;
-                background-color: #3498db;
-            }
-        }
-        
         .pm-editable-input {
             flex: 1;
             border: none;
@@ -202,7 +187,6 @@
             }
             
             &.pm-task-input {
-                margin-left: 8px;
                 padding: 0 10px !important;
             }
         }
