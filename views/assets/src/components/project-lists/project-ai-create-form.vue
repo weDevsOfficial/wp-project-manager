@@ -11,10 +11,6 @@
                 </textarea>
             </div>
 
-
-          <div
-              v-show="generating"
-              class="pm-loading"></div>
             <div class="submit">
                 <input
                     v-show="!generating"
@@ -31,6 +27,14 @@
             :projectData="generatedProject"
             @save-project="saveProject">
         </project-ai-preview>
+
+        <!-- Finalizing Tasks Modal -->
+        <div v-if="generating" class="pm-ai-finalizing-modal">
+            <div class="pm-ai-finalizing-content">
+                <div class="pm-ai-finalizing-text">{{ statusMessage }}</div>
+                <div class="pm-ai-loading-spinner"></div>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -48,6 +52,7 @@
                 ai_prompt: '',
                 generating: false,
                 showPreview: false,
+                statusMessage: __( 'Generating Project Structure', 'wedevs-project-manager'),
                 generatedProject: {
                     title: '',
                     description: '',
@@ -67,6 +72,7 @@
                 }
 
                 this.generating = true;
+                this.statusMessage = __( 'Generating Project Structure', 'wedevs-project-manager');
 
                 // Call AI API to generate project structure
                 var self = this;
@@ -145,6 +151,7 @@
             saveProject (projectData) {
                 var self = this;
                 this.generating = true;
+                this.statusMessage = __( 'Creating Project', 'wedevs-project-manager');
 
                 // First create the project
                 var projectArgs = {
@@ -185,6 +192,13 @@
                 var tasksToCreate = [];
                 var taskListsToCreate = [];
 
+                // Update status message
+                if (projectData.task_groups && projectData.task_groups.length > 0) {
+                    this.statusMessage = __( 'Creating Task Lists', 'wedevs-project-manager');
+                } else {
+                    this.statusMessage = __( 'Finalizing Tasks', 'wedevs-project-manager');
+                }
+
                 // Create initial tasks (without group) in inbox
                 if (projectData.tasks && projectData.tasks.length > 0) {
                     tasksToCreate = tasksToCreate.concat(
@@ -221,6 +235,7 @@
                                 groupIndex++;
                                 if (groupIndex === projectData.task_groups.length) {
                                     // All task lists created, now create tasks
+                                    self.statusMessage = __( 'Finalizing Tasks', 'wedevs-project-manager');
                                     self.createTasksSequentially(tasksToCreate, callback);
                                 }
                             }
@@ -277,6 +292,7 @@
                 }
 
                 var self = this;
+                this.statusMessage = __( 'Finalizing Tasks', 'wedevs-project-manager');
                 var task = tasks.shift();
 
                 // Get inbox if board_id is null
@@ -315,6 +331,7 @@
                 jQuery('#pm-ai-project-dialog').dialog( "close" );
                 this.ai_prompt = '';
                 this.showPreview = false;
+                this.statusMessage = __( 'Generating Project Structure', 'wedevs-project-manager');
                 this.generatedProject = {
                     title: '',
                     description: '',
@@ -340,10 +357,6 @@
             resize: vertical;
             min-height: 150px;
         }
-        .pm-loading {
-          display: flex;
-          justify-content: flex-end;
-        }
         .submit {
             margin-top: 15px;
             text-align: right;
@@ -351,6 +364,55 @@
             .pm-button {
                 margin-left: 10px;
             }
+        }
+    }
+
+    .pm-ai-finalizing-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10000;
+
+        .pm-ai-finalizing-content {
+            background-color: #ffffff;
+            border-radius: 4px;
+            padding: 40px 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            .pm-ai-finalizing-text {
+                color: #333333;
+                font-size: 16px;
+                font-weight: 400;
+                margin-bottom: 20px;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            }
+
+            .pm-ai-loading-spinner {
+                width: 40px;
+                height: 40px;
+                border: 3px solid #e0e0e0;
+                border-top-color: #666666;
+                border-radius: 50%;
+                animation: pm-ai-spin 0.8s linear infinite;
+            }
+        }
+    }
+
+    @keyframes pm-ai-spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
         }
     }
 </style>
