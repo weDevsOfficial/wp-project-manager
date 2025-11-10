@@ -250,7 +250,7 @@
                 var self = this;
                 var taskList = taskLists.shift();
 
-                jQuery.ajax({
+                this.httpRequest({
                     type: 'POST',
                     url: this.base_url + 'pm/v2/projects/' + taskList.project_id + '/task-lists',
                     data: {
@@ -288,7 +288,7 @@
                     task.board_id = null;
                 }
 
-                jQuery.ajax({
+                this.httpRequest({
                     type: 'POST',
                     url: this.base_url + 'pm/v2/projects/' + task.project_id + '/tasks',
                     data: {
