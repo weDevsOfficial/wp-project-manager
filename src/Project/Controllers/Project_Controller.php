@@ -32,7 +32,7 @@ class Project_Controller {
 		$status   = $request->get_param( 'status' );
 		$category = $request->get_param( 'category' );
 		$project_transform = $request->get_param( 'project_transform' );
- 
+
 		$per_page_from_settings = pm_get_setting( 'project_per_page' );
 		$per_page_from_settings = $per_page_from_settings ? $per_page_from_settings : 15;
 
@@ -218,7 +218,7 @@ class Project_Controller {
 		add_option('projectId_git_bit_hash_'.$project->id , sha1(strtotime("now").$project->id));
 		// Establishing relationships
 		$category_ids = map_deep( $request->get_param( 'categories' ), 'intval' );
-		
+
 		if ( $category_ids ) {
 			$project->categories()->sync( $category_ids );
 		}
@@ -239,7 +239,7 @@ class Project_Controller {
 		$resource = new Item( $project, new Project_Transformer );
 		$response = $this->get_response( $resource );
 		$response['message'] = pm_get_text('success_messages.project_created');
-		
+
 		do_action( 'cpm_project_new', $project->id, $project->toArray(), $request->get_params() ); // will deprecated
 		do_action( 'pm_after_new_project', $response, $request->get_params() );
 
@@ -397,9 +397,9 @@ class Project_Controller {
 				'entity_type' => 'project',
 				'meta_key'    => 'favourite_project'
 			])->max('meta_value');
-            
+
             $lastFavourite = intval($lastFavourite ) + 1;
-			
+
 			pm_update_meta( $user_id, $project_id, 'project', 'favourite_project', $lastFavourite );
 
         } else {
@@ -407,7 +407,7 @@ class Project_Controller {
 		}
 
 		do_action( "pm_after_favaurite_project", $request );
-		
+
 		if ( $favourite == 'true' ) {
 			$response = $this->get_response( null, [ 'message' =>  __( "The project has been marked as favorite", 'wedevs-project-manager' ) ] );
 		} else {
@@ -447,14 +447,14 @@ class Project_Controller {
 	 *
 	 * @return array Array of limit values
 	 */
-	private function get_ai_generation_limits() {
-		return [
-			'max_task_groups'     	=> apply_filters( 'pm_ai_max_task_groups', 8 ),
-			'max_tasks_per_group' 	=> apply_filters( 'pm_ai_max_tasks_per_group', 8 ),
-			'max_initial_tasks'   	=> apply_filters( 'pm_ai_max_initial_tasks', 8 ),
-			'max_task_title_length' => apply_filters( 'pm_ai_max_task_title_length', 200 )
-		];
-	}
+    private function get_ai_generation_limits() {
+        return [
+            'max_task_groups'       => apply_filters( 'pm_ai_max_task_groups', 8 ),
+            'max_tasks_per_group'   => apply_filters( 'pm_ai_max_tasks_per_group', 8 ),
+            'max_initial_tasks'     => apply_filters( 'pm_ai_max_initial_tasks', 8 ),
+            'max_task_title_length' => apply_filters( 'pm_ai_max_task_title_length', 200 ),
+        ];
+    }
 
 	/**
 	 * Generate project structure using AI
@@ -488,7 +488,7 @@ class Project_Controller {
 		// Get API key
 		$api_key_key = 'ai_api_key_' . $provider;
 		$api_key_setting = Settings::where( 'key', $api_key_key )->first();
-		
+
 		if ( !$api_key_setting || empty( $api_key_setting->value ) ) {
 			return $this->get_response( null, [
 				'success' => false,
@@ -565,18 +565,18 @@ class Project_Controller {
 	private function call_ai_api( $provider, $api_key, $model, $max_tokens, $temperature, $prompt ) {
 		$provider = strtolower( sanitize_text_field( $provider ) );
 		$allowed_providers = array_keys( \WeDevs\PM\Settings\Controllers\AI_Settings_Controller::get_providers() );
-		
+
 		if ( !in_array( $provider, $allowed_providers, true ) ) {
 			return [
 				'success' => false,
 				'message' => __( 'Invalid AI provider.', 'wedevs-project-manager' )
 			];
 		}
-		
+
 		// Get provider config
 		$providers_config = \WeDevs\PM\Settings\Controllers\AI_Settings_Controller::get_providers();
 		$provider_config = $providers_config[ $provider ];
-		
+
 		// Get model config
 		$models_config = \WeDevs\PM\Settings\Controllers\AI_Settings_Controller::get_models();
 		$model_config = isset( $models_config[ $model ] ) ? $models_config[ $model ] : null;
@@ -679,7 +679,7 @@ class Project_Controller {
 
 		if ( $response_code !== 200 ) {
 			$error_message = __( 'AI API request failed.', 'wedevs-project-manager' );
-			
+
 			// Try to extract detailed error message from response
 			if ( isset( $response_data['error']['message'] ) ) {
 				$error_message = sanitize_text_field( $response_data['error']['message'] );
@@ -688,17 +688,17 @@ class Project_Controller {
 			} elseif ( isset( $response_data['message'] ) ) {
 				$error_message = sanitize_text_field( $response_data['message'] );
 			} elseif ( isset( $response_data['error']['code'] ) ) {
-				$error_message = sprintf( 
-					__( 'AI API error (Code: %s)', 'wedevs-project-manager' ), 
-					sanitize_text_field( $response_data['error']['code'] ) 
+				$error_message = sprintf(
+					__( 'AI API error (Code: %s)', 'wedevs-project-manager' ),
+					sanitize_text_field( $response_data['error']['code'] )
 				);
 			} else {
-				$error_message = sprintf( 
-					__( 'AI API request failed with status code: %d', 'wedevs-project-manager' ), 
-					$response_code 
+				$error_message = sprintf(
+					__( 'AI API request failed with status code: %d', 'wedevs-project-manager' ),
+					$response_code
 				);
 			}
-			
+
 			return [
 				'success' => false,
 				'message' => $error_message
@@ -742,7 +742,7 @@ class Project_Controller {
 			$json_error = json_last_error_msg();
 			return [
 				'success' => false,
-				'message' => sprintf( 
+				'message' => sprintf(
 					__( 'Failed to parse AI response: %s. Please try again.', 'wedevs-project-manager' ),
 					esc_html( $json_error )
 				)
@@ -797,7 +797,7 @@ class Project_Controller {
 						'title' => sanitize_text_field( $group['title'] ),
 						'tasks' => []
 					];
-					
+
 					// Process tasks in group (limit to max_tasks_per_group)
 					if ( isset( $group['tasks'] ) && is_array( $group['tasks'] ) ) {
 						$task_count = 0;
@@ -818,7 +818,7 @@ class Project_Controller {
 							}
 						}
 					}
-					
+
 					$result['task_groups'][] = $group_data;
 					$group_count++;
 				}
