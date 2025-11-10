@@ -79,8 +79,6 @@
                     type: 'POST',
                     url: this.base_url + 'pm/v2/projects/ai/generate',
                     beforeSend: function(xhr) {
-                        xhr.setRequestHeader("Authorization_name", btoa('mslweiew'));
-                        xhr.setRequestHeader("Authorization_password", btoa('1$%#$8sgf&*FBI'));
                         xhr.setRequestHeader("X-WP-Nonce", PM_Vars.permission);
                     },
                     data: requestData,

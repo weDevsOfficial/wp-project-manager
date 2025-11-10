@@ -147,56 +147,102 @@ export default {
     mounted: function(){
         pm.NProgress.done();
         
-        // Check if API key exists in database
-        this.checkApiKeyExists();
-        
-        // Set default model if current model is not available for selected provider
-        if (!this.availableModels.find(m => m.value === this.model)) {
-            this.model = this.availableModels[0].value;
-        }
+        // Load all AI settings from API
+        this.loadAISettings();
     },
     methods: {
-        checkApiKeyExists () {
+        loadAISettings (preserveProvider) {
             var self = this;
+            
+            // Store current provider if we need to preserve it
+            var currentProvider = self.provider;
+            
             // Pass provider as query parameter so backend knows which API key to return
             var request = {
                 url: this.base_url + 'pm/v2/settings/ai?provider=' + encodeURIComponent(self.provider),
                 type: 'GET',
                 success (res) {
-                    if (res.data) {
-                        // Look for provider-specific API key: ai_api_key_openai, ai_api_key_gemini, etc.
-                        var apiKeyKey = 'ai_api_key_' + self.provider;
-                        var apiKeyItem = res.data.find(function(item) {
-                            return item.key === apiKeyKey;
-                        });
-                        if (apiKeyItem) {
-                            // Check if value is a masked string (contains asterisks) or truthy
-                            if (apiKeyItem.value && (typeof apiKeyItem.value === 'string' || apiKeyItem.value === true)) {
-                                self.api_key_saved = true;
-                                // Store masked value in input field for display
-                                if (typeof apiKeyItem.value === 'string') {
-                                    self.api_key = apiKeyItem.value;
-                                    self.saved_api_key_mask = apiKeyItem.value;
-                                }
-                            } else {
-                                self.api_key_saved = false;
-                                self.api_key = '';
+                    if (res.data && Array.isArray(res.data)) {
+                        // Process all settings from API response
+                        res.data.forEach(function(item) {
+                            switch(item.key) {
+                                case 'ai_provider':
+                                    // Only update provider if we're not preserving it (i.e., initial load)
+                                    if (item.value && !preserveProvider) {
+                                        self.provider = item.value;
+                                    } else if (preserveProvider) {
+                                        // Restore the provider that was selected
+                                        self.provider = currentProvider;
+                                    }
+                                    break;
+                                
+                                case 'ai_model':
+                                    if (item.value) {
+                                        self.model = item.value;
+                                    }
+                                    break;
+                                
+                                case 'ai_max_tokens':
+                                    if (item.value) {
+                                        self.max_tokens = parseInt(item.value, 10);
+                                    }
+                                    break;
+                                
+                                case 'ai_temperature':
+                                    if (item.value !== null && item.value !== undefined) {
+                                        self.temperature = parseFloat(item.value);
+                                    }
+                                    break;
+                                
+                                default:
+                                    // Handle provider-specific API keys: ai_api_key_openai, ai_api_key_anthropic, etc.
+                                    if (item.key && item.key.indexOf('ai_api_key_') === 0) {
+                                        var keyProvider = item.key.replace('ai_api_key_', '');
+                                        
+                                        // Use preserved provider if available, otherwise use current provider
+                                        var providerToCheck = preserveProvider ? currentProvider : self.provider;
+                                        
+                                        // Only process if it matches the provider we're looking for
+                                        if (keyProvider === providerToCheck) {
+                                            // Check if value is a masked string (contains asterisks) or truthy
+                                            if (item.value && (typeof item.value === 'string' || item.value === true)) {
+                                                self.api_key_saved = true;
+                                                // Store masked value in input field for display
+                                                if (typeof item.value === 'string') {
+                                                    self.api_key = item.value;
+                                                    self.saved_api_key_mask = item.value;
+                                                }
+                                            } else {
+                                                self.api_key_saved = false;
+                                                self.api_key = '';
+                                            }
+                                        }
+                                    }
+                                    break;
                             }
-                        } else {
-                            self.api_key_saved = false;
-                            self.api_key = '';
+                            
+                            // Also update PM_Vars.settings for compatibility
+                            if (item.key && item.key.indexOf('ai_api_key_') !== 0) {
+                                PM_Vars.settings[item.key] = item.value;
+                            }
+                        });
+                        
+                        // Set default model if current model is not available for selected provider
+                        if (!self.availableModels.find(m => m.value === self.model)) {
+                            self.model = self.availableModels[0].value;
                         }
-                    } else {
-                        self.api_key_saved = false;
-                        self.api_key = '';
                     }
                 },
                 error (res) {
-                    self.api_key_saved = false;
-                    self.api_key = '';
+                    // Error handling - no logging needed
                 }
             };
             this.httpRequest(request);
+        },
+        checkApiKeyExists () {
+            // This method is now deprecated in favor of loadAISettings()
+            // Keeping for backward compatibility but redirecting to loadAISettings
+            this.loadAISettings();
         },
         onProviderChange () {
             // Update model to first available model for new provider
@@ -205,8 +251,8 @@ export default {
             this.api_key = '';
             this.api_key_saved = false;
             this.saved_api_key_mask = '';
-            // Check if API key exists for the new provider
-            this.checkApiKeyExists();
+            // Check if API key exists for the new provider (preserve the selected provider)
+            this.loadAISettings(true);
         },
         testConnection () {
             if (!this.provider) {
@@ -333,6 +379,9 @@ export default {
                             self.api_key = '';
                             self.saved_api_key_mask = '';
                         }
+                        
+                        // Reload settings to ensure UI is in sync
+                        self.loadAISettings();
                     } else if (apiKeyWasSent && apiKeyWasEmpty) {
                         // API key was deleted, update UI
                         self.api_key_saved = false;

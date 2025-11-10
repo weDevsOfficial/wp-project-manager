@@ -446,9 +446,6 @@ export default {
             }
             
             var before = function( xhr ) {
-                xhr.setRequestHeader("Authorization_name", btoa('mslweiew')); //btoa js encoding base64_encode
-                xhr.setRequestHeader("Authorization_password", btoa('1$%#$8sgf&*FBI')); //atob js decode base64_decode
-
                 xhr.setRequestHeader("X-WP-Nonce", PM_Vars.permission);
             };
 
