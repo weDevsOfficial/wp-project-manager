@@ -2,12 +2,14 @@
     <div class="pm-ai-preview">
         <div class="pm-ai-preview-header">
             <h3>{{ __( 'Previewing your Project & Tasks', 'wedevs-project-manager') }}</h3>
-            <button 
-                v-if="hasSelectedItems" 
-                class="pm-button pm-primary pm-btn-ai-delete" 
-                @click="deleteSelected">
-                {{ __('Delete Selected') }}
-            </button>
+            <transition name="fade">
+                <button 
+                    v-if="hasSelectedItems" 
+                    class="pm-button pm-primary pm-btn-ai-delete" 
+                    @click="deleteSelected">
+                    {{ __('Delete Selected') }}
+                </button>
+            </transition>
         </div>
         
         <div class="pm-ai-preview-content">
@@ -27,56 +29,68 @@
 
             <!-- Initial Tasks (without group) -->
             <div class="pm-preview-section" v-if="initialTasks.length > 0">
-                <div class="pm-preview-item pm-task-item" v-for="(task, index) in initialTasks" :key="'initial-' + index">
-                    <input 
-                        type="checkbox" 
-                        class="pm-task-checkbox" 
-                        :value="'initial-' + index"
-                        v-model="selectedItems"
-                    />
-                    <input 
-                        type="text" 
-                        v-model="task.title" 
-                        class="pm-editable-input pm-task-input"
-                        :placeholder="__( 'Task Name', 'wedevs-project-manager')"
-                    />
-                    <i class="pm-icon flaticon-edit pm-edit-icon" @click="focusInput" aria-hidden="true"></i>
-                </div>
+                <transition-group name="fade-slide" tag="div">
+                    <div 
+                        class="pm-preview-item pm-task-item" 
+                        v-for="(task, index) in initialTasks" 
+                        :key="'initial-' + index">
+                        <input 
+                            type="checkbox" 
+                            class="pm-task-checkbox" 
+                            :value="'initial-' + index"
+                            v-model="selectedItems"
+                        />
+                        <input 
+                            type="text" 
+                            v-model="task.title" 
+                            class="pm-editable-input pm-task-input"
+                            :placeholder="__( 'Task Name', 'wedevs-project-manager')"
+                        />
+                        <i class="pm-icon flaticon-edit pm-edit-icon" @click="focusInput" aria-hidden="true"></i>
+                    </div>
+                </transition-group>
             </div>
 
             <!-- Task Groups -->
-            <div class="pm-preview-section" v-for="(group, groupIndex) in taskGroups" :key="'group-' + groupIndex">
-                <h4 class="pm-preview-label pm-task-group-label">
-                    <input 
-                        type="checkbox" 
-                        class="pm-task-group-checkbox" 
-                        :value="'group-' + groupIndex"
-                        v-model="selectedItems"
-                    />
-                    <input 
-                        type="text" 
-                        v-model="group.title" 
-                        class="pm-editable-input pm-group-input"
-                        :placeholder="__( 'Task Group Name', 'wedevs-project-manager')"
-                    />
-                    <i class="pm-icon flaticon-edit pm-edit-icon" @click="focusInput" aria-hidden="true"></i>
-                </h4>
-                <div class="pm-preview-item pm-task-item" v-for="(task, taskIndex) in group.tasks" :key="'task-' + groupIndex + '-' + taskIndex">
-                    <input 
-                        type="checkbox" 
-                        class="pm-task-checkbox" 
-                        :value="'task-' + groupIndex + '-' + taskIndex"
-                        v-model="selectedItems"
-                    />
-                    <input 
-                        type="text" 
-                        v-model="task.title" 
-                        class="pm-editable-input pm-task-input"
-                        :placeholder="__( 'Task Name', 'wedevs-project-manager')"
-                    />
-                    <i class="pm-icon flaticon-edit pm-edit-icon" @click="focusInput" aria-hidden="true"></i>
+            <transition-group name="fade-slide" tag="div">
+                <div class="pm-preview-section" v-for="(group, groupIndex) in taskGroups" :key="'group-' + groupIndex">
+                    <h4 class="pm-preview-label pm-task-group-label">
+                        <input 
+                            type="checkbox" 
+                            class="pm-task-group-checkbox" 
+                            :value="'group-' + groupIndex"
+                            v-model="selectedItems"
+                        />
+                        <input 
+                            type="text" 
+                            v-model="group.title" 
+                            class="pm-editable-input pm-group-input"
+                            :placeholder="__( 'Task Group Name', 'wedevs-project-manager')"
+                        />
+                        <i class="pm-icon flaticon-edit pm-edit-icon" @click="focusInput" aria-hidden="true"></i>
+                    </h4>
+                    <transition-group name="fade-slide" tag="div">
+                        <div 
+                            class="pm-preview-item pm-task-item" 
+                            v-for="(task, taskIndex) in group.tasks" 
+                            :key="'task-' + groupIndex + '-' + taskIndex">
+                            <input 
+                                type="checkbox" 
+                                class="pm-task-checkbox" 
+                                :value="'task-' + groupIndex + '-' + taskIndex"
+                                v-model="selectedItems"
+                            />
+                            <input 
+                                type="text" 
+                                v-model="task.title" 
+                                class="pm-editable-input pm-task-input"
+                                :placeholder="__( 'Task Name', 'wedevs-project-manager')"
+                            />
+                            <i class="pm-icon flaticon-edit pm-edit-icon" @click="focusInput" aria-hidden="true"></i>
+                        </div>
+                    </transition-group>
                 </div>
-            </div>
+            </transition-group>
         </div>
 
         <div class="pm-ai-preview-footer">
@@ -101,7 +115,6 @@
         data () {
             return {
                 saving: false,
-                projectColor: this.generateProjectColor(),
                 selectedItems: []
             }
         },
@@ -117,11 +130,6 @@
             }
         },
         methods: {
-            generateProjectColor () {
-                // Generate a random color for the project icon
-                const colors = ['#3498db', '#e74c3c', '#2ecc71', '#f39c12', '#9b59b6', '#1abc9c', '#e67e22'];
-                return colors[Math.floor(Math.random() * colors.length)];
-            },
             focusInput (event) {
                 // Find the parent container (pm-preview-item or pm-task-group-label)
                 const parent = event.target.closest('.pm-preview-item, .pm-task-group-label');
@@ -206,11 +214,46 @@
                 border-radius: 4px;
                 cursor: pointer;
                 font-size: 14px;
+                transition: background 0.2s ease;
                 
                 &:hover {
                     background: #c0392b !important;
                 }
             }
+        }
+        
+        // Fade transition for delete button
+        .fade-enter-active,
+        .fade-leave-active {
+            transition: opacity 0.2s ease;
+        }
+        
+        .fade-enter,
+        .fade-leave-to {
+            opacity: 0;
+        }
+        
+        // Fade and slide transition for items
+        .fade-slide-enter-active {
+            transition: all 0.25s ease;
+        }
+        
+        .fade-slide-leave-active {
+            transition: all 0.2s ease;
+        }
+        
+        .fade-slide-enter {
+            opacity: 0;
+            transform: translateX(-10px);
+        }
+        
+        .fade-slide-leave-to {
+            opacity: 0;
+            transform: translateX(10px);
+        }
+        
+        .fade-slide-move {
+            transition: transform 0.2s ease;
         }
         
         .pm-ai-preview-content {
