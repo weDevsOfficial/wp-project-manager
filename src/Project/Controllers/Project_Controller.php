@@ -443,6 +443,20 @@ class Project_Controller {
 	}
 
 	/**
+	 * Get AI generation limits with filter hooks
+	 *
+	 * @return array Array of limit values
+	 */
+	private function get_ai_generation_limits() {
+		return [
+			'max_task_groups'     	=> apply_filters( 'pm_ai_max_task_groups', 8 ),
+			'max_tasks_per_group' 	=> apply_filters( 'pm_ai_max_tasks_per_group', 8 ),
+			'max_initial_tasks'   	=> apply_filters( 'pm_ai_max_initial_tasks', 8 ),
+			'max_task_title_length' => apply_filters( 'pm_ai_max_task_title_length', 200 )
+		];
+	}
+
+	/**
 	 * Generate project structure using AI
 	 *
 	 * @param WP_REST_Request $request
@@ -491,11 +505,23 @@ class Project_Controller {
 			] );
 		}
 
+		// Get limits with filter hooks
+		$limits = $this->get_ai_generation_limits();
+		$max_task_groups = $limits['max_task_groups'];
+		$max_tasks_per_group = $limits['max_tasks_per_group'];
+		$max_initial_tasks = $limits['max_initial_tasks'];
+		$max_task_title_length = $limits['max_task_title_length'];
+
 		// Prepare AI prompt
 		$ai_prompt = "Based on the following project description, generate a structured project plan with:\n";
 		$ai_prompt .= "1. A project title\n";
-		$ai_prompt .= "2. Initial tasks (tasks without a group)\n";
-		$ai_prompt .= "3. Task groups with tasks under each group\n\n";
+		$ai_prompt .= "2. Initial tasks (tasks without a group) - Maximum {$max_initial_tasks} tasks\n";
+		$ai_prompt .= "3. Task groups with tasks under each group - Maximum {$max_task_groups} groups, {$max_tasks_per_group} tasks per group\n\n";
+		$ai_prompt .= "IMPORTANT LIMITS:\n";
+		$ai_prompt .= "- Maximum {$max_initial_tasks} initial tasks (tasks without a group)\n";
+		$ai_prompt .= "- Maximum {$max_task_groups} task groups\n";
+		$ai_prompt .= "- Maximum {$max_tasks_per_group} tasks per task group\n";
+		$ai_prompt .= "- Keep task titles concise (under {$max_task_title_length} characters)\n\n";
 		$ai_prompt .= "Project description: " . $prompt . "\n\n";
 		$ai_prompt .= "Return ONLY a valid JSON object with this exact structure:\n";
 		$ai_prompt .= "{\n";
@@ -723,6 +749,13 @@ class Project_Controller {
 			];
 		}
 
+		// Get limits with filter hooks (same as used in prompt generation)
+		$limits = $this->get_ai_generation_limits();
+		$max_task_groups = $limits['max_task_groups'];
+		$max_tasks_per_group = $limits['max_tasks_per_group'];
+		$max_initial_tasks = $limits['max_initial_tasks'];
+		$max_task_title_length = $limits['max_task_title_length'];
+
 		// Ensure required structure
 		$result = [
 			'title' => isset( $parsed_data['title'] ) ? sanitize_text_field( $parsed_data['title'] ) : '',
@@ -731,35 +764,63 @@ class Project_Controller {
 			'task_groups' => []
 		];
 
+		// Process initial tasks (limit to max_initial_tasks)
 		if ( isset( $parsed_data['tasks'] ) && is_array( $parsed_data['tasks'] ) ) {
+			$task_count = 0;
 			foreach ( $parsed_data['tasks'] as $task ) {
+				if ( $task_count >= $max_initial_tasks ) {
+					break; // Stop if limit reached
+				}
 				if ( isset( $task['title'] ) && !empty( $task['title'] ) ) {
+					$task_title = sanitize_text_field( $task['title'] );
+					// Truncate if exceeds character limit
+					if ( strlen( $task_title ) > $max_task_title_length ) {
+						$task_title = substr( $task_title, 0, $max_task_title_length );
+					}
 					$result['tasks'][] = [
-						'title' => sanitize_text_field( $task['title'] )
+						'title' => $task_title
 					];
+					$task_count++;
 				}
 			}
 		}
 
+		// Process task groups (limit to max_task_groups)
 		if ( isset( $parsed_data['task_groups'] ) && is_array( $parsed_data['task_groups'] ) ) {
+			$group_count = 0;
 			foreach ( $parsed_data['task_groups'] as $group ) {
+				if ( $group_count >= $max_task_groups ) {
+					break; // Stop if limit reached
+				}
 				if ( isset( $group['title'] ) && !empty( $group['title'] ) ) {
 					$group_data = [
 						'title' => sanitize_text_field( $group['title'] ),
 						'tasks' => []
 					];
 					
+					// Process tasks in group (limit to max_tasks_per_group)
 					if ( isset( $group['tasks'] ) && is_array( $group['tasks'] ) ) {
+						$task_count = 0;
 						foreach ( $group['tasks'] as $task ) {
+							if ( $task_count >= $max_tasks_per_group ) {
+								break; // Stop if limit reached
+							}
 							if ( isset( $task['title'] ) && !empty( $task['title'] ) ) {
+								$task_title = sanitize_text_field( $task['title'] );
+								// Truncate if exceeds character limit
+								if ( strlen( $task_title ) > $max_task_title_length ) {
+									$task_title = substr( $task_title, 0, $max_task_title_length );
+								}
 								$group_data['tasks'][] = [
-									'title' => sanitize_text_field( $task['title'] )
+									'title' => $task_title
 								];
+								$task_count++;
 							}
 						}
 					}
 					
 					$result['task_groups'][] = $group_data;
+					$group_count++;
 				}
 			}
 		}
