@@ -21,53 +21,29 @@ class AI_Settings_Controller {
      * @return array Provider configurations
      */
     public static function get_providers() {
-
         return [
-
             'openai' => [
-
-                'name' => 'OpenAI',
-
-                'endpoint' => 'https://api.openai.com/v1/chat/completions',
-
-                'requires_key' => true,
-
+                'name'          => 'OpenAI',
+                'endpoint'      => 'https://api.openai.com/v1/chat/completions',
+                'requires_key'  => true,
                 'api_key_field' => 'openai_api_key',
-
-                'api_key_url' => 'https://platform.openai.com/api-keys'
-
+                'api_key_url'   => 'https://platform.openai.com/api-keys',
             ],
-
             'anthropic' => [
-
                 'name' => 'Anthropic',
-
                 'endpoint' => 'https://api.anthropic.com/v1/messages',
-
                 'requires_key' => true,
-
                 'api_key_field' => 'anthropic_api_key',
-
-                'api_key_url' => 'https://console.anthropic.com/settings/keys'
-
+                'api_key_url' => 'https://console.anthropic.com/settings/keys',
             ],
-
             'google' => [
-
                 'name' => 'Google',
-
                 'endpoint' => 'https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent',
-
                 'requires_key' => true,
-
                 'api_key_field' => 'google_api_key',
-
-                'api_key_url' => 'https://aistudio.google.com/app/apikey'
-
-            ]
-
+                'api_key_url' => 'https://aistudio.google.com/app/apikey',
+            ],
         ];
-
     }
 
     /**
@@ -580,13 +556,13 @@ class AI_Settings_Controller {
     public static function get_models_by_provider( $provider ) {
         $all_models = self::get_models();
         $filtered = [];
-        
+
         foreach ( $all_models as $model_key => $model_config ) {
             if ( isset( $model_config['provider'] ) && $model_config['provider'] === $provider ) {
                 $filtered[ $model_key ] = $model_config;
             }
         }
-        
+
         return $filtered;
     }
 
@@ -615,7 +591,7 @@ class AI_Settings_Controller {
 
         // Get provider from request parameter (for UI provider switching) or from database
         $provider = sanitize_text_field( $request->get_param( 'provider' ) );
-        
+
         if ( !$provider ) {
             // Fall back to database value
             foreach ( $settings_collection as $setting ) {
@@ -625,7 +601,7 @@ class AI_Settings_Controller {
                 }
             }
         }
-        
+
         // If provider is set, load the provider-specific API key
         if ( $provider ) {
             $api_key_key = 'ai_api_key_' . $provider;
@@ -666,11 +642,11 @@ class AI_Settings_Controller {
                             break;
                         }
                     }
-                    
+
                     if ( $provider ) {
                         // Create provider-specific key: ai_api_key_openai, ai_api_key_gemini, etc.
                         $setting_item['key'] = 'ai_api_key_' . $provider;
-                        
+
                         // If value is empty, delete the setting instead of saving
                         if ( empty( $setting_item['value'] ) ) {
                             $api_key_setting = Settings::where( 'key', $setting_item['key'] )->first();
@@ -705,7 +681,7 @@ class AI_Settings_Controller {
         }
 
         do_action( 'pm_after_save_settings', $settings );
-        
+
         $message = [
             'message' => pm_get_text('success_messages.setting_saved')
         ];
@@ -739,7 +715,7 @@ class AI_Settings_Controller {
         if ( empty( $api_key ) || $is_masked ) {
             $api_key_key = 'ai_api_key_' . $provider;
             $api_key_setting = Settings::where( 'key', $api_key_key )->first();
-            
+
             if ( $api_key_setting && !empty( $api_key_setting->value ) ) {
                 $api_key = self::decrypt_api_key_static( $api_key_setting->value );
             }
@@ -771,7 +747,7 @@ class AI_Settings_Controller {
         // Validate provider (should already be validated, but double-check for security)
         $allowed_providers = array_keys( self::get_providers() );
         $provider = strtolower( sanitize_text_field( $provider ) );
-        
+
         if ( !in_array( $provider, $allowed_providers, true ) ) {
             return [
                 'success' => false,
@@ -782,14 +758,14 @@ class AI_Settings_Controller {
         // Get provider config from static method
         $providers_config = self::get_providers();
         $provider_config = $providers_config[ $provider ];
-        
+
         // Build test URL based on provider
         $test_urls = [
             'openai' => 'https://api.openai.com/v1/models',
             'anthropic' => 'https://api.anthropic.com/v1/messages',
             'google' => 'https://generativelanguage.googleapis.com/v1/models?key=' . urlencode( $api_key )
         ];
-        
+
         $providers = [];
         foreach ( $providers_config as $key => $config ) {
             if ( $key === 'google' ) {
@@ -854,7 +830,7 @@ class AI_Settings_Controller {
         } else {
             $response_body = wp_remote_retrieve_body( $response );
             $error_data = json_decode( $response_body, true );
-            
+
             // Try to extract a meaningful error message
             $error_message = __( 'Connection failed. Please check your API key and settings.', 'wedevs-project-manager' );
             if ( isset( $error_data['error']['message'] ) && is_string( $error_data['error']['message'] ) ) {
@@ -862,7 +838,7 @@ class AI_Settings_Controller {
             } elseif ( isset( $error_data['error'] ) && is_string( $error_data['error'] ) ) {
                 $error_message = sanitize_text_field( $error_data['error'] );
             }
-            
+
             return [
                 'success' => false,
                 'message' => esc_html( $error_message )
@@ -884,24 +860,24 @@ class AI_Settings_Controller {
         $key = wp_salt( 'auth' );
         $method = 'AES-256-CBC';
         $iv_length = openssl_cipher_iv_length( $method );
-        
+
         if ( $iv_length === false ) {
             return '';
         }
-        
+
         $iv = openssl_random_pseudo_bytes( $iv_length );
         if ( $iv === false ) {
             return '';
         }
-        
+
         $encrypted = openssl_encrypt( $api_key, $method, $key, 0, $iv );
-        
+
         if ( $encrypted === false ) {
             return '';
         }
-        
+
         $result = base64_encode( $encrypted . '::' . $iv );
-        
+
         return $result;
     }
 
@@ -918,25 +894,25 @@ class AI_Settings_Controller {
 
         $key = wp_salt( 'auth' );
         $method = 'AES-256-CBC';
-        
+
         $data = base64_decode( $encrypted_key );
         if ( $data === false ) {
             return '';
         }
-        
+
         $parts = explode( '::', $data, 2 );
         if ( count( $parts ) !== 2 ) {
             return '';
         }
-        
+
         list( $encrypted, $iv ) = $parts;
-        
+
         $decrypted = openssl_decrypt( $encrypted, $method, $key, 0, $iv );
-        
+
         if ( $decrypted === false ) {
             return '';
         }
-        
+
         return $decrypted;
     }
 }
