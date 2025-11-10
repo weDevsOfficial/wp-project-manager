@@ -615,6 +615,7 @@ class AI_Settings_Controller {
 
         // Get provider from request parameter (for UI provider switching) or from database
         $provider = sanitize_text_field( $request->get_param( 'provider' ) );
+        
         if ( !$provider ) {
             // Fall back to database value
             foreach ( $settings_collection as $setting ) {
