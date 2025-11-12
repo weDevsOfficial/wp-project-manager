@@ -5,7 +5,7 @@ Tags: project management, project manager, kanban board, task manager, gantt cha
 Requires at least: 4.4 or higher
 Tested up to: 6.8
 Requires PHP: 5.6
-Stable tag: 2.6.27
+Stable tag: 2.6.28
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,6 +31,12 @@ Our user-friendly interface is combined with advanced tools like **Kanban Board*
 ## Key Features of WP Project Manager FREE
 
 The free version of WP Project Manager offers core **task manager** and **project management** essentials to get you started. Take a look at them below:
+
+##  AI Project
+–   Create projects effortlessly using AI assistance
+–   Generate project plans, task lists, and timelines with AI support
+–   Streamline project setup and enhance productivity with AI-driven insights
+-   Select from various AI provider models to suit your project needs
 
 ##🗓 To-Do List & Task Management
 –   Add as many to-do lists as you want with titles and descriptions
@@ -220,6 +226,10 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 14. Manage projects from the frontend
 
 == Changelog ==
+
+= v2.6.28 – Nov 13, 2025 =
+
+**Added:** AI Project Creation - Generate project plans, task lists, and timelines with AI support.
 
 = v2.6.27 – Oct 29, 2025 =
 
