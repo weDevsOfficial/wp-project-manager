@@ -536,16 +536,75 @@ export default {
                 },
 
                 error (res) {
+                    // Try to parse responseText if responseJSON is not available
+                    var responseData = res.responseJSON;
+                    if (!responseData && res.responseText) {
+                        try {
+                            // Remove any PHP notices/warnings that might be in the response
+                            var cleanText = res.responseText;
+                            // Try to extract JSON from responseText (handle cases where PHP errors are prepended)
+                            var jsonMatch = cleanText.match(/\{[\s\S]*\}/);
+                            if (jsonMatch) {
+                                responseData = JSON.parse(jsonMatch[0]);
+                            }
+                        } catch (e) {
+                            // Silently handle parsing errors
+                        }
+                    }
+                    
                     if ( res.status == 400 ) {
-                        var params = res.responseJSON.data.params;
-                        for ( var obj in params ){
-                            pm.Toastr.error(params[obj][0]);
+                        var errorShown = false;
+                        
+                        // Check WordPress REST API error format: data.details.field.message
+                        if ( responseData && responseData.data && responseData.data.details ) {
+                            var details = responseData.data.details;
+                            for ( var field in details ) {
+                                if ( details[field] && details[field].message ) {
+                                    var messages = Array.isArray(details[field].message) ? details[field].message : [details[field].message];
+                                    messages.forEach(function(msg) {
+                                        pm.Toastr.error(msg);
+                                        errorShown = true;
+                                    });
+                                }
+                            }
+                        }
+                        
+                        // Check old format: data.params
+                        if ( !errorShown && responseData && responseData.data && responseData.data.params ) {
+                            var params = responseData.data.params;
+                            for ( var obj in params ){
+                                if ( Array.isArray(params[obj]) ) {
+                                    params[obj].forEach(function(msg) {
+                                        pm.Toastr.error(msg);
+                                    });
+                                } else {
+                                    pm.Toastr.error(params[obj]);
+                                }
+                                errorShown = true;
+                            }
+                        }
+                        
+                        // Fallback error message
+                        if ( !errorShown ) {
+                            var errorMsg = __( 'Validation error occurred. Please check your input.', 'wedevs-project-manager');
+                            if ( responseData && responseData.message ) {
+                                errorMsg = Array.isArray(responseData.message) ? responseData.message.join(', ') : responseData.message;
+                            }
+                            pm.Toastr.error(errorMsg);
                         }
                     }
                     if (res.status == 500 ) {
-                        res.responseJSON.message.map( function( value, index ) {
-                            pm.Toastr.error(value);
-                        });
+                        if ( responseData && responseData.message ) {
+                            if ( Array.isArray(responseData.message) ) {
+                                responseData.message.map( function( value, index ) {
+                                    pm.Toastr.error(value);
+                                });
+                            } else {
+                                pm.Toastr.error(responseData.message);
+                            }
+                        } else {
+                            pm.Toastr.error(__( 'Server error occurred. Please try again.', 'wedevs-project-manager'));
+                        }
                     }
 
                     if(typeof args.callback === 'function'){
