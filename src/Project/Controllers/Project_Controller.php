@@ -522,15 +522,21 @@ class Project_Controller {
 		$ai_prompt .= "- Maximum {$max_task_groups} task groups\n";
 		$ai_prompt .= "- Maximum {$max_tasks_per_group} tasks per task group\n";
 		$ai_prompt .= "- Keep task titles concise (under {$max_task_title_length} characters)\n\n";
+		$ai_prompt .= "CRITICAL: NO DUPLICATE TASKS\n";
+		$ai_prompt .= "- Each task title must be unique across the entire project\n";
+		$ai_prompt .= "- Do not repeat the same task title in initial tasks\n";
+		$ai_prompt .= "- Do not repeat the same task title within a task group\n";
+		$ai_prompt .= "- Do not use the same task title in both initial tasks and task groups\n";
+		$ai_prompt .= "- Task titles are compared case-insensitively (e.g., 'Task Name' and 'task name' are considered duplicates)\n\n";
 		$ai_prompt .= "Project description: " . $prompt . "\n\n";
 		$ai_prompt .= "Return ONLY a valid JSON object with this exact structure:\n";
 		$ai_prompt .= "{\n";
 		$ai_prompt .= "  \"title\": \"Project Name\",\n";
 		$ai_prompt .= "  \"description\": \"Project description\",\n";
-		$ai_prompt .= "  \"tasks\": [{\"title\": \"Task Name 1\"}, {\"title\": \"Task Name 2\"}],\n";
+		$ai_prompt .= "  \"tasks\": [{\"title\": \"Initial Task 1\"}, {\"title\": \"Initial Task 2\"}],\n";
 		$ai_prompt .= "  \"task_groups\": [{\n";
 		$ai_prompt .= "    \"title\": \"Group Name\",\n";
-		$ai_prompt .= "    \"tasks\": [{\"title\": \"Task Name 1\"}, {\"title\": \"Task Name 2\"}]\n";
+		$ai_prompt .= "    \"tasks\": [{\"title\": \"Group Task 1\"}, {\"title\": \"Group Task 2\"}]\n";
 		$ai_prompt .= "  }]\n";
 		$ai_prompt .= "}";
 
