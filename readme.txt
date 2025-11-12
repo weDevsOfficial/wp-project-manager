@@ -230,6 +230,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 = v2.6.28 – Nov 13, 2025 =
 
 **Added:** AI Project Creation - Generate project plans, task lists, and timelines with AI support.
+**Fixed:** Load Pusher scripts only when app_key and cluster are set.
 
 = v2.6.27 – Oct 29, 2025 =
 
