@@ -24,6 +24,7 @@
 
         <project-ai-preview
             v-if="showPreview"
+            ref="projectPreview"
             :projectData="generatedProject"
             @save-project="saveProject">
         </project-ai-preview>
@@ -161,7 +162,42 @@
                         status: 'incomplete'
                     },
                     callback: function(res) {
-                        if (res.data && res.data.id) {
+                        // Check if this is an error response (validation error, etc.)
+                        // The error handler in newProject passes the xhr object which has a status property
+                        if (res && (res.status !== undefined && res.status !== 200)) {
+                            // Error already shown via Toastr in newProject error handler
+                            // Reset the loading state
+                            self.generating = false;
+                            // Reset the saving state in the preview component
+                            if (self.$refs.projectPreview) {
+                                self.$refs.projectPreview.saving = false;
+                                // Check if this is a title-related error and highlight the input
+                                var isTitleError = false;
+                                if (res.responseText) {
+                                    try {
+                                        var jsonMatch = res.responseText.match(/\{[\s\S]*\}/);
+                                        if (jsonMatch) {
+                                            var errorData = JSON.parse(jsonMatch[0]);
+                                            if (errorData && errorData.data && errorData.data.details && errorData.data.details.title) {
+                                                isTitleError = true;
+                                            } else if (errorData && errorData.data && errorData.data.params && errorData.data.params.title) {
+                                                isTitleError = true;
+                                            }
+                                        }
+                                    } catch (e) {
+                                        // Silently handle parsing errors
+                                    }
+                                }
+                                if (isTitleError) {
+                                    self.$refs.projectPreview.setTitleError();
+                                }
+                            }
+                            return;
+                        }
+
+                        // Check if response has project data (success case)
+                        // On success, res should have a data property with the project
+                        if (res && res.data && res.data.id) {
                             var projectId = res.data.id;
 
                             // Create task lists and tasks
@@ -179,8 +215,16 @@
                                 });
                             });
                         } else {
+                            // Unexpected response format or error without status property
                             self.generating = false;
-                            pm.Toastr.error(__( 'Failed to create project', 'wedevs-project-manager'));
+                            // Reset the saving state in the preview component
+                            if (self.$refs.projectPreview) {
+                                self.$refs.projectPreview.saving = false;
+                            }
+                            // Only show error if not already shown (check if it's a validation error)
+                            if (!res || !res.responseJSON || !res.responseJSON.data || !res.responseJSON.data.params) {
+                                pm.Toastr.error(__( 'Failed to create project', 'wedevs-project-manager'));
+                            }
                         }
                     }
                 };
