@@ -19,6 +19,8 @@ use Illuminate\Pagination\Paginator;
 use WeDevs\PM\Common\Models\Meta;
 use WeDevs\PM\Task_List\Models\Task_List;
 use WeDevs\PM\Project\Helper\Project_Role_Relation;
+use WeDevs\PM\Settings\Models\Settings;
+use WeDevs\PM\Settings\Controllers\AI_Settings_Controller;
 
 class Project_Controller {
 
@@ -30,7 +32,7 @@ class Project_Controller {
 		$status   = $request->get_param( 'status' );
 		$category = $request->get_param( 'category' );
 		$project_transform = $request->get_param( 'project_transform' );
- 
+
 		$per_page_from_settings = pm_get_setting( 'project_per_page' );
 		$per_page_from_settings = $per_page_from_settings ? $per_page_from_settings : 15;
 
@@ -216,7 +218,7 @@ class Project_Controller {
 		add_option('projectId_git_bit_hash_'.$project->id , sha1(strtotime("now").$project->id));
 		// Establishing relationships
 		$category_ids = map_deep( $request->get_param( 'categories' ), 'intval' );
-		
+
 		if ( $category_ids ) {
 			$project->categories()->sync( $category_ids );
 		}
@@ -237,7 +239,7 @@ class Project_Controller {
 		$resource = new Item( $project, new Project_Transformer );
 		$response = $this->get_response( $resource );
 		$response['message'] = pm_get_text('success_messages.project_created');
-		
+
 		do_action( 'cpm_project_new', $project->id, $project->toArray(), $request->get_params() ); // will deprecated
 		do_action( 'pm_after_new_project', $response, $request->get_params() );
 
@@ -395,9 +397,9 @@ class Project_Controller {
 				'entity_type' => 'project',
 				'meta_key'    => 'favourite_project'
 			])->max('meta_value');
-            
+
             $lastFavourite = intval($lastFavourite ) + 1;
-			
+
 			pm_update_meta( $user_id, $project_id, 'project', 'favourite_project', $lastFavourite );
 
         } else {
@@ -405,7 +407,7 @@ class Project_Controller {
 		}
 
 		do_action( "pm_after_favaurite_project", $request );
-		
+
 		if ( $favourite == 'true' ) {
 			$response = $this->get_response( null, [ 'message' =>  __( "The project has been marked as favorite", 'wedevs-project-manager' ) ] );
 		} else {
@@ -440,5 +442,399 @@ class Project_Controller {
 		}
 	}
 
+	/**
+	 * Get AI generation limits with filter hooks
+	 *
+	 * @return array Array of limit values
+	 */
+    private function get_ai_generation_limits() {
+        return [
+            'max_task_groups'       => apply_filters( 'pm_ai_max_task_groups', 8 ),
+            'max_tasks_per_group'   => apply_filters( 'pm_ai_max_tasks_per_group', 8 ),
+            'max_initial_tasks'     => apply_filters( 'pm_ai_max_initial_tasks', 8 ),
+            'max_task_title_length' => apply_filters( 'pm_ai_max_task_title_length', 200 ),
+        ];
+    }
+
+	/**
+	 * Generate project structure using AI
+	 *
+	 * @param WP_REST_Request $request
+	 * @return mixed
+	 */
+	public function ai_generate( WP_REST_Request $request ) {
+		$prompt = sanitize_text_field( $request->get_param( 'prompt' ) );
+
+		if ( empty( $prompt ) ) {
+			return $this->get_response( null, [
+				'success' => false,
+				'message' => __( 'Prompt is required.', 'wedevs-project-manager' )
+			] );
+		}
+
+		// Get AI settings
+		$provider_setting = Settings::where( 'key', 'ai_provider' )->first();
+		$provider = $provider_setting ? sanitize_text_field( $provider_setting->value ) : 'openai';
+
+		$model_setting = Settings::where( 'key', 'ai_model' )->first();
+		$model = $model_setting ? sanitize_text_field( $model_setting->value ) : 'gpt-3.5-turbo';
+
+		$max_tokens_setting = Settings::where( 'key', 'ai_max_tokens' )->first();
+		$max_tokens = $max_tokens_setting ? intval( $max_tokens_setting->value ) : 1000;
+
+		$temperature_setting = Settings::where( 'key', 'ai_temperature' )->first();
+		$temperature = $temperature_setting ? floatval( $temperature_setting->value ) : 0.7;
+
+		// Get API key
+		$api_key_key = 'ai_api_key_' . $provider;
+		$api_key_setting = Settings::where( 'key', $api_key_key )->first();
+
+		if ( !$api_key_setting || empty( $api_key_setting->value ) ) {
+			return $this->get_response( null, [
+				'success' => false,
+				'message' => __( 'AI API key is not configured. Please configure it in Settings.', 'wedevs-project-manager' )
+			] );
+		}
+
+		$api_key = AI_Settings_Controller::decrypt_api_key_static( $api_key_setting->value );
+
+		if ( empty( $api_key ) ) {
+			return $this->get_response( null, [
+				'success' => false,
+				'message' => __( 'AI API key is invalid. Please check your settings.', 'wedevs-project-manager' )
+			] );
+		}
+
+		// Get limits with filter hooks
+		$limits = $this->get_ai_generation_limits();
+		$max_task_groups = $limits['max_task_groups'];
+		$max_tasks_per_group = $limits['max_tasks_per_group'];
+		$max_initial_tasks = $limits['max_initial_tasks'];
+		$max_task_title_length = $limits['max_task_title_length'];
+
+		// Prepare AI prompt
+		$ai_prompt = "Based on the following project description, generate a structured project plan with:\n";
+		$ai_prompt .= "1. A project title\n";
+		$ai_prompt .= "2. Initial tasks (tasks without a group) - Maximum {$max_initial_tasks} tasks\n";
+		$ai_prompt .= "3. Task groups with tasks under each group - Maximum {$max_task_groups} groups, {$max_tasks_per_group} tasks per group\n\n";
+		$ai_prompt .= "IMPORTANT LIMITS:\n";
+		$ai_prompt .= "- Maximum {$max_initial_tasks} initial tasks (tasks without a group)\n";
+		$ai_prompt .= "- Maximum {$max_task_groups} task groups\n";
+		$ai_prompt .= "- Maximum {$max_tasks_per_group} tasks per task group\n";
+		$ai_prompt .= "- Keep task titles concise (under {$max_task_title_length} characters)\n\n";
+		$ai_prompt .= "CRITICAL: NO DUPLICATE TASKS\n";
+		$ai_prompt .= "- Each task title must be unique across the entire project\n";
+		$ai_prompt .= "- Do not repeat the same task title in initial tasks\n";
+		$ai_prompt .= "- Do not repeat the same task title within a task group\n";
+		$ai_prompt .= "- Do not use the same task title in both initial tasks and task groups\n";
+		$ai_prompt .= "- Task titles are compared case-insensitively (e.g., 'Task Name' and 'task name' are considered duplicates)\n\n";
+		$ai_prompt .= "Project description: " . $prompt . "\n\n";
+		$ai_prompt .= "Return ONLY a valid JSON object with this exact structure:\n";
+		$ai_prompt .= "{\n";
+		$ai_prompt .= "  \"title\": \"Project Name\",\n";
+		$ai_prompt .= "  \"description\": \"Project description\",\n";
+		$ai_prompt .= "  \"tasks\": [{\"title\": \"Initial Task 1\"}, {\"title\": \"Initial Task 2\"}],\n";
+		$ai_prompt .= "  \"task_groups\": [{\n";
+		$ai_prompt .= "    \"title\": \"Group Name\",\n";
+		$ai_prompt .= "    \"tasks\": [{\"title\": \"Group Task 1\"}, {\"title\": \"Group Task 2\"}]\n";
+		$ai_prompt .= "  }]\n";
+		$ai_prompt .= "}";
+
+		// Call AI API based on provider
+		$result = $this->call_ai_api( $provider, $api_key, $model, $max_tokens, $temperature, $ai_prompt );
+
+		if ( !$result['success'] ) {
+			return $this->get_response( null, [
+				'success' => false,
+				'message' => $result['message']
+			] );
+		}
+
+		// Parse and return the generated structure
+		return $this->get_response( null, [
+			'success' => true,
+			'data' => $result['data']
+		] );
+	}
+
+	/**
+	 * Call AI API
+	 *
+	 * @param string $provider
+	 * @param string $api_key
+	 * @param string $model
+	 * @param int $max_tokens
+	 * @param float $temperature
+	 * @param string $prompt
+	 * @return array
+	 */
+	private function call_ai_api( $provider, $api_key, $model, $max_tokens, $temperature, $prompt ) {
+		$provider = strtolower( sanitize_text_field( $provider ) );
+		$allowed_providers = array_keys( \WeDevs\PM\Settings\Controllers\AI_Settings_Controller::get_providers() );
+
+		if ( !in_array( $provider, $allowed_providers, true ) ) {
+			return [
+				'success' => false,
+				'message' => __( 'Invalid AI provider.', 'wedevs-project-manager' )
+			];
+		}
+
+		// Get provider config
+		$providers_config = \WeDevs\PM\Settings\Controllers\AI_Settings_Controller::get_providers();
+		$provider_config = $providers_config[ $provider ];
+
+		// Get model config
+		$models_config = \WeDevs\PM\Settings\Controllers\AI_Settings_Controller::get_models();
+		$model_config = isset( $models_config[ $model ] ) ? $models_config[ $model ] : null;
+
+		// Prepare request based on provider
+		if ( $provider === 'openai' ) {
+			$url = $provider_config['endpoint'];
+
+			$body = [
+				'model' => $model,
+				'messages' => [
+					[
+						'role' => 'user',
+						'content' => $prompt
+					]
+				],
+				'max_tokens' => $max_tokens,
+				'temperature' => $temperature
+			];
+
+			$args = [
+				'method' => 'POST',
+				'timeout' => 30,
+				'sslverify' => true,
+				'headers' => [
+					'Authorization' => 'Bearer ' . $api_key,
+					'Content-Type' => 'application/json'
+				],
+				'body' => json_encode( $body )
+			];
+		} elseif ( $provider === 'anthropic' ) {
+			$url = $provider_config['endpoint'];
+
+			$body = [
+				'model' => $model,
+				'messages' => [
+					[
+						'role' => 'user',
+						'content' => $prompt
+					]
+				],
+				'max_tokens' => $max_tokens,
+				'temperature' => $temperature
+			];
+
+			$args = [
+				'method' => 'POST',
+				'timeout' => 30,
+				'sslverify' => true,
+				'headers' => [
+					'x-api-key' => $api_key,
+					'anthropic-version' => '2023-06-01',
+					'Content-Type' => 'application/json'
+				],
+				'body' => json_encode( $body )
+			];
+		} else { // google
+			$url = str_replace( '{model}', $model, $provider_config['endpoint'] ) . '?key=' . urlencode( $api_key );
+
+			$body = [
+				'contents' => [
+					[
+						'parts' => [
+							[
+								'text' => $prompt
+							]
+						]
+					]
+				],
+				'generationConfig' => [
+					'maxOutputTokens' => $max_tokens,
+					'temperature' => $temperature
+				]
+			];
+
+			$args = [
+				'method' => 'POST',
+				'timeout' => 30,
+				'sslverify' => true,
+				'headers' => [
+					'Content-Type' => 'application/json'
+				],
+				'body' => json_encode( $body )
+			];
+		}
+
+		$response = wp_remote_request( $url, $args );
+
+		if ( is_wp_error( $response ) ) {
+			$error_msg = $response->get_error_message();
+			return [
+				'success' => false,
+				'message' => sprintf( __( 'AI API error: %s', 'wedevs-project-manager' ), esc_html( $error_msg ) )
+			];
+		}
+
+		$response_code = wp_remote_retrieve_response_code( $response );
+		$response_body = wp_remote_retrieve_body( $response );
+		$response_data = json_decode( $response_body, true );
+
+		if ( $response_code !== 200 ) {
+			$error_message = __( 'AI API request failed.', 'wedevs-project-manager' );
+
+			// Try to extract detailed error message from response
+			if ( isset( $response_data['error']['message'] ) ) {
+				$error_message = sanitize_text_field( $response_data['error']['message'] );
+			} elseif ( isset( $response_data['error'] ) && is_string( $response_data['error'] ) ) {
+				$error_message = sanitize_text_field( $response_data['error'] );
+			} elseif ( isset( $response_data['message'] ) ) {
+				$error_message = sanitize_text_field( $response_data['message'] );
+			} elseif ( isset( $response_data['error']['code'] ) ) {
+				$error_message = sprintf(
+					__( 'AI API error (Code: %s)', 'wedevs-project-manager' ),
+					sanitize_text_field( $response_data['error']['code'] )
+				);
+			} else {
+				$error_message = sprintf(
+					__( 'AI API request failed with status code: %d', 'wedevs-project-manager' ),
+					$response_code
+				);
+			}
+
+			return [
+				'success' => false,
+				'message' => $error_message
+			];
+		}
+
+		// Extract content from response
+		$content = '';
+		if ( $provider === 'openai' ) {
+			if ( isset( $response_data['choices'][0]['message']['content'] ) ) {
+				$content = $response_data['choices'][0]['message']['content'];
+			}
+		} elseif ( $provider === 'anthropic' ) {
+			if ( isset( $response_data['content'][0]['text'] ) ) {
+				$content = $response_data['content'][0]['text'];
+			}
+		} else { // google
+			if ( isset( $response_data['candidates'][0]['content']['parts'][0]['text'] ) ) {
+				$content = $response_data['candidates'][0]['content']['parts'][0]['text'];
+			}
+		}
+
+		if ( empty( $content ) ) {
+			return [
+				'success' => false,
+				'message' => __( 'No content received from AI.', 'wedevs-project-manager' )
+			];
+		}
+
+		// Extract JSON from response (handle markdown code blocks)
+		$content = trim( $content );
+		if ( preg_match( '/```json\s*(.*?)\s*```/s', $content, $matches ) ) {
+			$content = $matches[1];
+		} elseif ( preg_match( '/```\s*(.*?)\s*```/s', $content, $matches ) ) {
+			$content = $matches[1];
+		}
+
+		$parsed_data = json_decode( $content, true );
+
+		if ( json_last_error() !== JSON_ERROR_NONE || !is_array( $parsed_data ) ) {
+			$json_error = json_last_error_msg();
+			return [
+				'success' => false,
+				'message' => sprintf(
+					__( 'Failed to parse AI response: %s. Please try again.', 'wedevs-project-manager' ),
+					esc_html( $json_error )
+				)
+			];
+		}
+
+		// Get limits with filter hooks (same as used in prompt generation)
+		$limits = $this->get_ai_generation_limits();
+		$max_task_groups = $limits['max_task_groups'];
+		$max_tasks_per_group = $limits['max_tasks_per_group'];
+		$max_initial_tasks = $limits['max_initial_tasks'];
+		$max_task_title_length = $limits['max_task_title_length'];
+
+		// Ensure required structure
+		$result = [
+			'title' => isset( $parsed_data['title'] ) ? sanitize_text_field( $parsed_data['title'] ) : '',
+			'description' => isset( $parsed_data['description'] ) ? sanitize_textarea_field( $parsed_data['description'] ) : '',
+			'tasks' => [],
+			'task_groups' => []
+		];
+
+		// Process initial tasks (limit to max_initial_tasks)
+		if ( isset( $parsed_data['tasks'] ) && is_array( $parsed_data['tasks'] ) ) {
+			$task_count = 0;
+			foreach ( $parsed_data['tasks'] as $task ) {
+				if ( $task_count >= $max_initial_tasks ) {
+					break; // Stop if limit reached
+				}
+				if ( isset( $task['title'] ) && !empty( $task['title'] ) ) {
+					$task_title = sanitize_text_field( $task['title'] );
+					// Truncate if exceeds character limit
+					if ( strlen( $task_title ) > $max_task_title_length ) {
+						$task_title = substr( $task_title, 0, $max_task_title_length );
+					}
+					$result['tasks'][] = [
+						'title' => $task_title
+					];
+					$task_count++;
+				}
+			}
+		}
+
+		// Process task groups (limit to max_task_groups)
+		if ( isset( $parsed_data['task_groups'] ) && is_array( $parsed_data['task_groups'] ) ) {
+			$group_count = 0;
+			foreach ( $parsed_data['task_groups'] as $group ) {
+				if ( $group_count >= $max_task_groups ) {
+					break; // Stop if limit reached
+				}
+				if ( isset( $group['title'] ) && !empty( $group['title'] ) ) {
+					$group_data = [
+						'title' => sanitize_text_field( $group['title'] ),
+						'tasks' => []
+					];
+
+					// Process tasks in group (limit to max_tasks_per_group)
+					if ( isset( $group['tasks'] ) && is_array( $group['tasks'] ) ) {
+						$task_count = 0;
+						foreach ( $group['tasks'] as $task ) {
+							if ( $task_count >= $max_tasks_per_group ) {
+								break; // Stop if limit reached
+							}
+							if ( isset( $task['title'] ) && !empty( $task['title'] ) ) {
+								$task_title = sanitize_text_field( $task['title'] );
+								// Truncate if exceeds character limit
+								if ( strlen( $task_title ) > $max_task_title_length ) {
+									$task_title = substr( $task_title, 0, $max_task_title_length );
+								}
+								$group_data['tasks'][] = [
+									'title' => $task_title
+								];
+								$task_count++;
+							}
+						}
+					}
+
+					$result['task_groups'][] = $group_data;
+					$group_count++;
+				}
+			}
+		}
+
+		return [
+			'success' => true,
+			'data' => $result
+		];
+	}
 
 }

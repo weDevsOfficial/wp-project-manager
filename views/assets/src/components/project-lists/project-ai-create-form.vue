@@ -1,0 +1,463 @@
+<template>
+    <div>
+        <form v-if="!showPreview" action="" method="post" class="pm-form pm-project-ai-form" @submit.prevent="generateProject();">
+            <div class="pm-form-item item project-ai-prompt">
+                <textarea
+                    v-model="ai_prompt"
+                    class="pm-project-ai-description"
+                    id="ai_prompt"
+                    rows="8"
+                    :placeholder="prompt_placeholder">
+                </textarea>
+            </div>
+
+            <div class="submit">
+                <input
+                    v-show="!generating"
+                    type="submit"
+                    name="generate_project"
+                    id="generate_project"
+                    class="pm-button pm-primary"
+                    :value="generate_button_text">
+            </div>
+        </form>
+
+        <project-ai-preview
+            v-if="showPreview"
+            ref="projectPreview"
+            :projectData="generatedProject"
+            @save-project="saveProject">
+        </project-ai-preview>
+
+        <!-- Finalizing Tasks Modal -->
+        <div v-if="generating" class="pm-ai-finalizing-modal">
+            <div class="pm-ai-finalizing-content">
+                <div class="pm-ai-finalizing-text">{{ statusMessage }}</div>
+                <div class="pm-ai-loading-spinner"></div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    import project_ai_preview from './project-ai-preview.vue';
+    import Mixins from '@helpers/mixin/mixin';
+
+    var project_ai_form = {
+        mixins: [Mixins],
+        components: {
+            'project-ai-preview': project_ai_preview
+        },
+        data () {
+            return {
+                ai_prompt: '',
+                generating: false,
+                showPreview: false,
+                statusMessage: __( 'Generating Project Structure', 'wedevs-project-manager'),
+                generatedProject: {
+                    title: '',
+                    description: '',
+                    tasks: [],
+                    task_groups: []
+                },
+                prompt_placeholder: __( 'Write about your project here, so that AI can create the project and tasks', 'wedevs-project-manager'),
+                generate_button_text: __( 'Generate', 'wedevs-project-manager'),
+                base_url: PM_Vars.api_base_url
+            }
+        },
+        methods: {
+            generateProject () {
+                if (!this.ai_prompt.trim()) {
+                    pm.Toastr.error(__( 'Please enter a project description', 'wedevs-project-manager'));
+                    return;
+                }
+
+                this.generating = true;
+                this.statusMessage = __( 'Generating Project Structure', 'wedevs-project-manager');
+
+                // Call AI API to generate project structure
+                var self = this;
+                var requestData = {
+                    prompt: this.ai_prompt,
+                    is_admin: PM_Vars.is_admin
+                };
+
+                jQuery.ajax({
+                    type: 'POST',
+                    url: this.base_url + 'pm/v2/projects/ai/generate',
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader("X-WP-Nonce", PM_Vars.permission);
+                    },
+                    data: requestData,
+                    success: function(res) {
+                        self.generating = false;
+
+                        // Check if response has an error message
+                        if (res.message && (typeof res.message === 'string' || Array.isArray(res.message))) {
+                            var errorMsg = Array.isArray(res.message) ? res.message.join(', ') : res.message;
+                            pm.Toastr.error(errorMsg);
+                            return;
+                        }
+
+                        // Check if response has error in data
+                        if (res.data && res.data.message && !res.data.title) {
+                            pm.Toastr.error(res.data.message);
+                            return;
+                        }
+
+                        if (res.data && (res.data.title || res.data.tasks || res.data.task_groups)) {
+                            self.generatedProject = res.data;
+                            self.showPreview = true;
+                        } else {
+                            var errorMsg = res.message || (res.data && res.data.message) || __( 'Failed to generate project structure', 'wedevs-project-manager');
+                            pm.Toastr.error(errorMsg);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        self.generating = false;
+                        var errorMsg = __( 'Failed to generate project. Please try again.', 'wedevs-project-manager');
+
+                        // Try to extract error message from response
+                        if (xhr.responseJSON) {
+                            // Handle array of messages (WordPress REST API format)
+                            if (Array.isArray(xhr.responseJSON.message)) {
+                                errorMsg = xhr.responseJSON.message.join(', ');
+                            }
+                            // Handle single message string
+                            else if (typeof xhr.responseJSON.message === 'string') {
+                                errorMsg = xhr.responseJSON.message;
+                            }
+                            // Handle error object with message
+                            else if (xhr.responseJSON.error && xhr.responseJSON.error.message) {
+                                errorMsg = xhr.responseJSON.error.message;
+                            }
+                            // Handle data.message format
+                            else if (xhr.responseJSON.data && xhr.responseJSON.data.message) {
+                                errorMsg = xhr.responseJSON.data.message;
+                            }
+                        }
+                        // Fallback to status text if available
+                        else if (xhr.statusText) {
+                            errorMsg = sprintf(__( 'Request failed: %s', 'wedevs-project-manager'), xhr.statusText);
+                        }
+                        // Fallback to status code
+                        else if (xhr.status) {
+                            errorMsg = sprintf(__( 'Request failed with status code: %d', 'wedevs-project-manager'), xhr.status);
+                        }
+
+                        pm.Toastr.error(errorMsg);
+                    }
+                });
+            },
+            saveProject (projectData) {
+                var self = this;
+                this.generating = true;
+                this.statusMessage = __( 'Creating Project', 'wedevs-project-manager');
+
+                // First create the project
+                var projectArgs = {
+                    data: {
+                        title: projectData.title,
+                        description: projectData.description || this.ai_prompt,
+                        status: 'incomplete'
+                    },
+                    callback: function(res) {
+                        // Check if this is an error response (validation error, etc.)
+                        // The error handler in newProject passes the xhr object which has a status property
+                        if (res && (res.status !== undefined && res.status !== 200)) {
+                            // Error already shown via Toastr in newProject error handler
+                            // Reset the loading state
+                            self.generating = false;
+                            // Reset the saving state in the preview component
+                            if (self.$refs.projectPreview) {
+                                self.$refs.projectPreview.saving = false;
+                                // Check if this is a title-related error and highlight the input
+                                var isTitleError = false;
+                                if (res.responseText) {
+                                    try {
+                                        var jsonMatch = res.responseText.match(/\{[\s\S]*\}/);
+                                        if (jsonMatch) {
+                                            var errorData = JSON.parse(jsonMatch[0]);
+                                            if (errorData && errorData.data && errorData.data.details && errorData.data.details.title) {
+                                                isTitleError = true;
+                                            } else if (errorData && errorData.data && errorData.data.params && errorData.data.params.title) {
+                                                isTitleError = true;
+                                            }
+                                        }
+                                    } catch (e) {
+                                        // Silently handle parsing errors
+                                    }
+                                }
+                                if (isTitleError) {
+                                    self.$refs.projectPreview.setTitleError();
+                                }
+                            }
+                            return;
+                        }
+
+                        // Check if response has project data (success case)
+                        // On success, res should have a data property with the project
+                        if (res && res.data && res.data.id) {
+                            var projectId = res.data.id;
+
+                            // Create task lists and tasks
+                            self.createTaskListsAndTasks(projectId, projectData, function() {
+                                self.generating = false;
+                                pm.Toastr.success(__( 'Project created successfully!', 'wedevs-project-manager'));
+                                self.closeForm();
+
+                                // Navigate to the project
+                                self.$router.push({
+                                    name: 'pm_overview',
+                                    params: {
+                                        project_id: projectId
+                                    }
+                                });
+                            });
+                        } else {
+                            // Unexpected response format or error without status property
+                            self.generating = false;
+                            // Reset the saving state in the preview component
+                            if (self.$refs.projectPreview) {
+                                self.$refs.projectPreview.saving = false;
+                            }
+                            // Only show error if not already shown (check if it's a validation error)
+                            if (!res || !res.responseJSON || !res.responseJSON.data || !res.responseJSON.data.params) {
+                                pm.Toastr.error(__( 'Failed to create project', 'wedevs-project-manager'));
+                            }
+                        }
+                    }
+                };
+
+                this.newProject(projectArgs);
+            },
+            createTaskListsAndTasks (projectId, projectData, callback) {
+                var self = this;
+                var tasksToCreate = [];
+                var taskListsToCreate = [];
+
+                // Update status message
+                if (projectData.task_groups && projectData.task_groups.length > 0) {
+                    this.statusMessage = __( 'Creating Task Lists', 'wedevs-project-manager');
+                } else {
+                    this.statusMessage = __( 'Finalizing Tasks', 'wedevs-project-manager');
+                }
+
+                // Create initial tasks (without group) in inbox
+                if (projectData.tasks && projectData.tasks.length > 0) {
+                    tasksToCreate = tasksToCreate.concat(
+                        projectData.tasks.map(function(task) {
+                            return {
+                                title: task.title,
+                                project_id: projectId,
+                                board_id: null // Will use inbox
+                            };
+                        })
+                    );
+                }
+
+                // Create task groups and their tasks
+                if (projectData.task_groups && projectData.task_groups.length > 0) {
+                    var groupIndex = 0;
+                    projectData.task_groups.forEach(function(group) {
+                        // Create task list for the group
+                        taskListsToCreate.push({
+                            title: group.title,
+                            project_id: projectId,
+                            callback: function(taskListRes) {
+                                if (taskListRes.data && taskListRes.data.id && group.tasks) {
+                                    // Create tasks for this task list
+                                    group.tasks.forEach(function(task) {
+                                        tasksToCreate.push({
+                                            title: task.title,
+                                            project_id: projectId,
+                                            board_id: taskListRes.data.id
+                                        });
+                                    });
+                                }
+
+                                groupIndex++;
+                                if (groupIndex === projectData.task_groups.length) {
+                                    // All task lists created, now create tasks
+                                    self.statusMessage = __( 'Finalizing Tasks', 'wedevs-project-manager');
+                                    self.createTasksSequentially(tasksToCreate, callback);
+                                }
+                            }
+                        });
+                    });
+                } else {
+                    // No task groups, just create initial tasks
+                    if (tasksToCreate.length > 0) {
+                        this.createTasksSequentially(tasksToCreate, callback);
+                    } else {
+                        callback();
+                    }
+                }
+
+                // Create task lists sequentially
+                if (taskListsToCreate.length > 0) {
+                    this.createTaskListsSequentially(taskListsToCreate);
+                } else if (tasksToCreate.length === 0) {
+                    callback();
+                }
+            },
+            createTaskListsSequentially (taskLists) {
+                if (taskLists.length === 0) return;
+
+                var self = this;
+                var taskList = taskLists.shift();
+
+                this.httpRequest({
+                    type: 'POST',
+                    url: this.base_url + 'pm/v2/projects/' + taskList.project_id + '/task-lists',
+                    data: {
+                        title: taskList.title
+                    },
+                    success: function(res) {
+                        if (typeof taskList.callback === 'function') {
+                            taskList.callback(res);
+                        }
+                        if (taskLists.length > 0) {
+                            self.createTaskListsSequentially(taskLists);
+                        }
+                    },
+                    error: function() {
+                        // Continue even if one fails
+                        if (taskLists.length > 0) {
+                            self.createTaskListsSequentially(taskLists);
+                        }
+                    }
+                });
+            },
+            createTasksSequentially (tasks, callback) {
+                if (tasks.length === 0) {
+                    callback();
+                    return;
+                }
+
+                var self = this;
+                this.statusMessage = __( 'Finalizing Tasks', 'wedevs-project-manager');
+                var task = tasks.shift();
+
+                // Get inbox if board_id is null
+                if (!task.board_id) {
+                    // Use inbox - we'll need to get it from project meta
+                    // For now, create without board_id and it will use inbox
+                    task.board_id = null;
+                }
+
+                this.httpRequest({
+                    type: 'POST',
+                    url: this.base_url + 'pm/v2/projects/' + task.project_id + '/tasks',
+                    data: {
+                        title: task.title,
+                        board_id: task.board_id,
+                        project_id: task.project_id
+                    },
+                    success: function() {
+                        if (tasks.length > 0) {
+                            self.createTasksSequentially(tasks, callback);
+                        } else {
+                            callback();
+                        }
+                    },
+                    error: function() {
+                        // Continue even if one fails
+                        if (tasks.length > 0) {
+                            self.createTasksSequentially(tasks, callback);
+                        } else {
+                            callback();
+                        }
+                    }
+                });
+            },
+            closeForm () {
+                jQuery('#pm-ai-project-dialog').dialog( "close" );
+                this.ai_prompt = '';
+                this.showPreview = false;
+                this.statusMessage = __( 'Generating Project Structure', 'wedevs-project-manager');
+                this.generatedProject = {
+                    title: '',
+                    description: '',
+                    tasks: [],
+                    task_groups: []
+                };
+            }
+        }
+    }
+
+    export default project_ai_form;
+</script>
+
+<style lang="less">
+    .pm-project-ai-form {
+        .pm-project-ai-description {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            line-height: 1.5;
+            resize: vertical;
+            min-height: 150px;
+        }
+        .submit {
+            margin-top: 15px;
+            text-align: right;
+
+            .pm-button {
+                margin-left: 10px;
+            }
+        }
+    }
+
+    .pm-ai-finalizing-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10000;
+
+        .pm-ai-finalizing-content {
+            background-color: #ffffff;
+            border-radius: 4px;
+            padding: 40px 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+
+            .pm-ai-finalizing-text {
+                color: #333333;
+                font-size: 16px;
+                font-weight: 400;
+                margin-bottom: 20px;
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            }
+
+            .pm-ai-loading-spinner {
+                width: 40px;
+                height: 40px;
+                border: 3px solid #e0e0e0;
+                border-top-color: #666666;
+                border-radius: 50%;
+                animation: pm-ai-spin 0.8s linear infinite;
+            }
+        }
+    }
+
+    @keyframes pm-ai-spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+</style>
+

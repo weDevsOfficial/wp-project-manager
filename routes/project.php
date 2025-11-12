@@ -39,6 +39,9 @@ $router->post( 'projects/{id}/delete', 'WeDevs/PM/Project/Controllers/Project_Co
     ->sanitizer( 'WeDevs\PM\Project\Sanitizers\Delete_Sanitizer' )
     ->permission(['WeDevs\PM\Core\Permissions\Project_Manage_Capability']);
 
+$router->post( 'projects/ai/generate', 'WeDevs/PM/Project/Controllers/Project_Controller@ai_generate' )
+    ->permission(['WeDevs\PM\Core\Permissions\Project_Create_Capability']);
+
 // $router->get( 'projects/search', 'WeDevs/PM/Project/Controllers/Project_Controller@project_search' )
 //     ->permission(['WeDevs\PM\Core\Permissions\Authentic']);
 
