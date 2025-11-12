@@ -1,5 +1,9 @@
 == Changelog ==
 
+= v2.6.28 – Nov 13, 2025 =
+
+**Added:** AI Project Creation - Generate project plans, task lists, and timelines with AI support.
+
 = v2.6.27 – Oct 29, 2025 =
 
 **Improved:** Sanitization to prevent SQL Injection.
