@@ -26,6 +26,11 @@ class Project_Controller {
 
 	use Transformer_Manager, Request_Filter, File_Attachment;
 
+	// Token limit constants for AI generation
+	const MIN_MAX_TOKENS = 500;
+	const MAX_MAX_TOKENS = 16384;
+	const MAX_JSON_CONTENT_SIZE = 1000000; // 1MB limit for JSON repair operations
+
 	public function index( WP_REST_Request $request ) {
 		$per_page = intval( $request->get_param( 'per_page' ) );
 		$page     = intval( $request->get_param( 'page' ) );
@@ -472,23 +477,19 @@ class Project_Controller {
 			] );
 		}
 
-		// Get AI settings
-		$provider_setting = Settings::where( 'key', 'ai_provider' )->first();
-		$provider = $provider_setting ? sanitize_text_field( $provider_setting->value ) : 'openai';
+		// Get AI settings - combine into single query for better performance
+		$settings_keys = [ 'ai_provider', 'ai_model', 'ai_max_tokens', 'ai_temperature' ];
+		$settings = Settings::whereIn( 'key', $settings_keys )->get()->keyBy( 'key' );
 
-		$model_setting = Settings::where( 'key', 'ai_model' )->first();
-		$model = $model_setting ? sanitize_text_field( $model_setting->value ) : 'gpt-3.5-turbo';
-
-		$max_tokens_setting = Settings::where( 'key', 'ai_max_tokens' )->first();
-		$max_tokens = $max_tokens_setting ? intval( $max_tokens_setting->value ) : 2000;
+		$provider = isset( $settings['ai_provider'] ) ? sanitize_text_field( $settings['ai_provider']->value ) : 'openai';
+		$model = isset( $settings['ai_model'] ) ? sanitize_text_field( $settings['ai_model']->value ) : 'gpt-3.5-turbo';
+		$max_tokens = isset( $settings['ai_max_tokens'] ) ? intval( $settings['ai_max_tokens']->value ) : 2000;
+		$temperature = isset( $settings['ai_temperature'] ) ? floatval( $settings['ai_temperature']->value ) : 0.7;
 		
 		// Enforce token limits for safety
-		$max_tokens = max( 500, min( 16384, $max_tokens ) );
+		$max_tokens = max( self::MIN_MAX_TOKENS, min( self::MAX_MAX_TOKENS, $max_tokens ) );
 
-		$temperature_setting = Settings::where( 'key', 'ai_temperature' )->first();
-		$temperature = $temperature_setting ? floatval( $temperature_setting->value ) : 0.7;
-
-		// Get API key
+		// Get API key (separate query as it's provider-specific)
 		$api_key_key = 'ai_api_key_' . $provider;
 		$api_key_setting = Settings::where( 'key', $api_key_key )->first();
 
@@ -622,18 +623,7 @@ class Project_Controller {
 			$url = $provider_config['endpoint'];
 
 			// Check if model supports temperature
-			$supports_temperature = isset( $model_config['supports_custom_temperature'] ) && $model_config['supports_custom_temperature'];
-			
-			// Additional safety check: exclude temperature for known models that don't support it
-			// even if config says they do (handles edge cases)
-			if ( $supports_temperature ) {
-				// Double-check model name patterns that don't support temperature
-				if ( strpos( $model, 'o1' ) === 0 || 
-					 strpos( $model, 'search' ) !== false || 
-					 strpos( $model, 'search-api' ) !== false ) {
-					$supports_temperature = false;
-				}
-			}
+			$supports_temperature = $this->model_supports_temperature( $model, $model_config );
 
 			$body = [
 				'model' => $model,
@@ -665,7 +655,7 @@ class Project_Controller {
 			$url = $provider_config['endpoint'];
 
 			// Check if model supports temperature
-			$supports_temperature = isset( $model_config['supports_custom_temperature'] ) && $model_config['supports_custom_temperature'];
+			$supports_temperature = $this->model_supports_temperature( $model, $model_config );
 
 			$body = [
 				'model' => $model,
@@ -708,7 +698,7 @@ class Project_Controller {
 			$url = str_replace( '{model}', $google_model, $provider_config['endpoint'] ) . '?key=' . urlencode( $api_key );
 
 			// Check if model supports temperature
-			$supports_temperature = isset( $model_config['supports_custom_temperature'] ) && $model_config['supports_custom_temperature'];
+			$supports_temperature = $this->model_supports_temperature( $model, $model_config );
 			
 			// Check if model supports JSON mode
 			$supports_json_mode = isset( $model_config['supports_json_mode'] ) && $model_config['supports_json_mode'];
@@ -920,132 +910,8 @@ class Project_Controller {
 			];
 		}
 
-		// ========================================
-		// JSON CLEANING AND NORMALIZATION
-		// ========================================
-		// AI models sometimes return malformed JSON with:
-		// 1. Mixed quotes: {'title': 'value'} or {"title": 'value'}
-		// 2. Double closing quotes: "value""
-		// 3. Mismatched quotes: 'value" or "value'
-		// 4. Control characters from truncation
-		// This section cleans and normalizes the JSON before parsing
-		
-		// Extract JSON from response (handle markdown code blocks)
-		$original_content = $content;
-		$content = trim( $content );
-		if ( preg_match( '/```json\s*(.*?)\s*```/s', $content, $matches ) ) {
-			$content = $matches[1];
-		} elseif ( preg_match( '/```\s*(.*?)\s*```/s', $content, $matches ) ) {
-			$content = $matches[1];
-		}
-
-		// Try to extract JSON object if content contains it
-		if ( preg_match( '/\{[\s\S]*\}/', $content, $json_matches ) ) {
-			$content = $json_matches[0];
-		}
-
-		// Step 1: Remove control characters that cause JSON parsing errors
-		$content = preg_replace( '/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/', '', $content );
-
-		// Step 2: Fix mixed quotes - Convert single quotes to double quotes in JSON string values
-		// Pattern 1: {"key": 'value'} -> {"key": "value"}
-		$content = preg_replace_callback(
-			'/([{,]\s*"[^"]+"\s*:\s*)\'([^\']*?)\'/',
-			function( $matches ) {
-				// Escape any double quotes inside the single-quoted string
-				$value = str_replace( '"', '\\"', $matches[2] );
-				return $matches[1] . '"' . $value . '"';
-			},
-			$content
-		);
-
-		// Pattern 2: {'key': 'value'} -> {"key": "value"} (single-quoted keys)
-		$content = preg_replace( '/([{,]\s*)\'([^\']+?)\'(\s*:)/', '$1"$2"$3', $content );
-
-		// Pattern 3: Fix mismatched quotes like 'value" or "value'
-		$content = preg_replace( '/:\s*\'([^"\']*?)"/', ': "$1"', $content );
-		$content = preg_replace( '/:\s*"([^"\']*?)\'/', ': "$1"', $content );
-
-		// Step 3: Fix double/triple quotes at end of strings
-		$content = preg_replace( '/""([,}\]\s])/', '"$1', $content );
-		$content = preg_replace( '/""$/', '"', $content );
-		$content = preg_replace( '/"{3,}/', '"', $content );
-
-		// Note: Removed incomplete string fixing regex as it was corrupting valid JSON
-		// The previous regex was matching complete strings and adding extra quotes
-		// Incomplete strings will be handled by the truncation logic below
-
-		// Try to fix incomplete JSON by finding the last complete structure
-		$open_braces = substr_count( $content, '{' ) - substr_count( $content, '}' );
-		$open_brackets = substr_count( $content, '[' ) - substr_count( $content, ']' );
-		
-		// Check for incomplete strings (unclosed quotes)
-		$quote_count = substr_count( $content, '"' );
-		$has_incomplete_string = ( $quote_count % 2 !== 0 );
-		
-		// If structures are unbalanced or strings are incomplete, find where to truncate
-		if ( $open_braces > 0 || $open_brackets > 0 || $has_incomplete_string ) {
-			// Find the last position before any incomplete content
-			// Look for the last complete object/array structure
-			$last_brace = strrpos( $content, '}' );
-			$last_bracket = strrpos( $content, ']' );
-			
-			// Also check for incomplete strings - find last complete string
-			$last_complete_quote = -1;
-			if ( $has_incomplete_string ) {
-				// Find pairs of quotes working backwards
-				$quote_positions = [];
-				for ( $i = strlen( $content ) - 1; $i >= 0; $i-- ) {
-					if ( $content[$i] === '"' && ( $i === 0 || $content[$i-1] !== '\\' ) ) {
-						$quote_positions[] = $i;
-					}
-				}
-				// If we have an odd number, find the last complete pair
-				if ( count( $quote_positions ) > 0 && count( $quote_positions ) % 2 === 1 ) {
-					// Remove the last (incomplete) quote
-					array_shift( $quote_positions );
-				}
-				if ( count( $quote_positions ) > 0 ) {
-					$last_complete_quote = $quote_positions[0];
-				}
-			}
-			
-			// Determine the best truncation point
-			$truncate_at = -1;
-			$candidates = array_filter( [ $last_brace, $last_bracket, $last_complete_quote ] );
-			if ( !empty( $candidates ) ) {
-				$truncate_at = max( $candidates );
-			}
-			
-			if ( $truncate_at >= 0 ) {
-				// Truncate to the last complete structure
-				$content = substr( $content, 0, $truncate_at + 1 );
-				
-				// If we truncated at a quote, we need to close the string and structure
-				if ( $truncate_at === $last_complete_quote ) {
-					$content = rtrim( $content, '"' );
-					// Find what structure this string was in and close it
-					$before_string = substr( $content, 0, strrpos( $content, '"' ) );
-					$last_colon = strrpos( $before_string, ':' );
-					if ( $last_colon !== false ) {
-						// This was a string value, close it and the structure
-						$content = rtrim( $content ) . '"}';
-					}
-				}
-				
-				// Close any remaining open structures
-				// Recalculate after truncation
-				$remaining_open_brackets = substr_count( $content, '[' ) - substr_count( $content, ']' );
-				$remaining_open_braces = substr_count( $content, '{' ) - substr_count( $content, '}' );
-				
-				for ( $i = 0; $i < $remaining_open_brackets; $i++ ) {
-					$content = rtrim( $content ) . ']';
-				}
-				for ( $i = 0; $i < $remaining_open_braces; $i++ ) {
-					$content = rtrim( $content ) . '}';
-				}
-			}
-		}
+		// Repair and normalize malformed JSON from AI responses
+		$content = $this->repair_incomplete_json( $content );
 
 		// Try parsing with JSON_INVALID_UTF8_IGNORE flag if available
 		if ( defined( 'JSON_INVALID_UTF8_IGNORE' ) ) {
@@ -1059,10 +925,7 @@ class Project_Controller {
 			
 			return [
 				'success' => false,
-				'message' => sprintf(
-					__( 'Failed to parse AI response: %s. Please try again.', 'wedevs-project-manager' ),
-					esc_html( $json_error )
-				)
+				'message' => __( 'The AI response exceeds the token limit. Please try increasing the "Max Tokens" setting in AI Settings and try again.', 'wedevs-project-manager' )
 			];
 		}
 
@@ -1146,6 +1009,168 @@ class Project_Controller {
 			'success' => true,
 			'data' => $result
 		];
+	}
+
+	/**
+	 * Check if a model supports temperature parameter
+	 *
+	 * @param string $model Model ID
+	 * @param array|null $model_config Model configuration array
+	 * @return bool True if model supports temperature, false otherwise
+	 */
+	private function model_supports_temperature( $model, $model_config ) {
+		if ( !isset( $model_config['supports_custom_temperature'] ) || !$model_config['supports_custom_temperature'] ) {
+			return false;
+		}
+
+		// Additional safety check: exclude temperature for known models that don't support it
+		// even if config says they do (handles edge cases)
+		// Models that don't support temperature:
+		// - o1 models (reasoning models)
+		// - search-api models (search API models)
+		// - Any model with "search" in the name
+		if ( strpos( $model, 'o1' ) === 0 || 
+			 strpos( $model, 'search' ) !== false || 
+			 strpos( $model, 'search-api' ) !== false ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Repair and normalize malformed JSON from AI responses
+	 *
+	 * Handles common JSON issues:
+	 * - Mixed quotes: {'title': 'value'} or {"title": 'value'}
+	 * - Double closing quotes: "value""
+	 * - Mismatched quotes: 'value" or "value'
+	 * - Control characters from truncation
+	 * - Incomplete JSON structures
+	 *
+	 * @param string $content Raw content from AI API
+	 * @return string Cleaned and normalized JSON string
+	 */
+	private function repair_incomplete_json( $content ) {
+		// Validate input size to prevent regex DoS attacks
+		if ( strlen( $content ) > self::MAX_JSON_CONTENT_SIZE ) {
+			return $content; // Return as-is if too large, let json_decode handle the error
+		}
+
+		// Extract JSON from response (handle markdown code blocks)
+		$content = trim( $content );
+		if ( preg_match( '/```json\s*(.*?)\s*```/s', $content, $matches ) ) {
+			$content = $matches[1];
+		} elseif ( preg_match( '/```\s*(.*?)\s*```/s', $content, $matches ) ) {
+			$content = $matches[1];
+		}
+
+		// Try to extract JSON object if content contains it
+		if ( preg_match( '/\{[\s\S]*\}/', $content, $json_matches ) ) {
+			$content = $json_matches[0];
+		}
+
+		// Step 1: Remove control characters that cause JSON parsing errors
+		$content = preg_replace( '/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/', '', $content );
+
+		// Step 2: Fix mixed quotes - Convert single quotes to double quotes in JSON string values
+		// Pattern 1: {"key": 'value'} -> {"key": "value"}
+		$content = preg_replace_callback(
+			'/([{,]\s*"[^"]+"\s*:\s*)\'([^\']*?)\'/',
+			function( $matches ) {
+				// Escape any double quotes inside the single-quoted string
+				$value = str_replace( '"', '\\"', $matches[2] );
+				return $matches[1] . '"' . $value . '"';
+			},
+			$content
+		);
+
+		// Pattern 2: {'key': 'value'} -> {"key": "value"} (single-quoted keys)
+		$content = preg_replace( '/([{,]\s*)\'([^\']+?)\'(\s*:)/', '$1"$2"$3', $content );
+
+		// Pattern 3: Fix mismatched quotes like 'value" or "value'
+		$content = preg_replace( '/:\s*\'([^"\']*?)"/', ': "$1"', $content );
+		$content = preg_replace( '/:\s*"([^"\']*?)\'/', ': "$1"', $content );
+
+		// Step 3: Fix double/triple quotes at end of strings
+		$content = preg_replace( '/""([,}\]\s])/', '"$1', $content );
+		$content = preg_replace( '/""$/', '"', $content );
+		$content = preg_replace( '/"{3,}/', '"', $content );
+
+		// Try to fix incomplete JSON by finding the last complete structure
+		$open_braces = substr_count( $content, '{' ) - substr_count( $content, '}' );
+		$open_brackets = substr_count( $content, '[' ) - substr_count( $content, ']' );
+		
+		// Check for incomplete strings (unclosed quotes)
+		$quote_count = substr_count( $content, '"' );
+		$has_incomplete_string = ( $quote_count % 2 !== 0 );
+		
+		// If structures are unbalanced or strings are incomplete, find where to truncate
+		if ( $open_braces > 0 || $open_brackets > 0 || $has_incomplete_string ) {
+			// Find the last position before any incomplete content
+			// Look for the last complete object/array structure
+			$last_brace = strrpos( $content, '}' );
+			$last_bracket = strrpos( $content, ']' );
+			
+			// Also check for incomplete strings - find last complete string
+			$last_complete_quote = -1;
+			if ( $has_incomplete_string ) {
+				// Find pairs of quotes working backwards
+				$quote_positions = [];
+				$content_length = strlen( $content );
+				for ( $i = $content_length - 1; $i >= 0; $i-- ) {
+					if ( $content[$i] === '"' && ( $i === 0 || $content[$i-1] !== '\\' ) ) {
+						$quote_positions[] = $i;
+					}
+				}
+				// If we have an odd number, find the last complete pair
+				if ( count( $quote_positions ) > 0 && count( $quote_positions ) % 2 === 1 ) {
+					// Remove the last (incomplete) quote
+					array_shift( $quote_positions );
+				}
+				if ( count( $quote_positions ) > 0 ) {
+					$last_complete_quote = $quote_positions[0];
+				}
+			}
+			
+			// Determine the best truncation point
+			$truncate_at = -1;
+			$candidates = array_filter( [ $last_brace, $last_bracket, $last_complete_quote ] );
+			if ( !empty( $candidates ) ) {
+				$truncate_at = max( $candidates );
+			}
+			
+			if ( $truncate_at >= 0 ) {
+				// Truncate to the last complete structure
+				$content = substr( $content, 0, $truncate_at + 1 );
+				
+				// If we truncated at a quote, we need to close the string and structure
+				if ( $truncate_at === $last_complete_quote ) {
+					$content = rtrim( $content, '"' );
+					// Find what structure this string was in and close it
+					$before_string = substr( $content, 0, strrpos( $content, '"' ) );
+					$last_colon = strrpos( $before_string, ':' );
+					if ( $last_colon !== false ) {
+						// This was a string value, close it and the structure
+						$content = rtrim( $content ) . '"}';
+					}
+				}
+				
+				// Close any remaining open structures
+				// Recalculate after truncation
+				$remaining_open_brackets = substr_count( $content, '[' ) - substr_count( $content, ']' );
+				$remaining_open_braces = substr_count( $content, '{' ) - substr_count( $content, '}' );
+				
+				for ( $i = 0; $i < $remaining_open_brackets; $i++ ) {
+					$content = rtrim( $content ) . ']';
+				}
+				for ( $i = 0; $i < $remaining_open_braces; $i++ ) {
+					$content = rtrim( $content ) . '}';
+				}
+			}
+		}
+
+		return $content;
 	}
 
 }
