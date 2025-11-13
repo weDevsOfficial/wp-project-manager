@@ -586,6 +586,14 @@ class Project_Controller {
 		// Get model config
 		$models_config = \WeDevs\PM\Settings\Controllers\AI_Settings_Controller::get_models();
 		$model_config = isset( $models_config[ $model ] ) ? $models_config[ $model ] : null;
+		
+		// Validate model exists
+		if ( !$model_config ) {
+			return [
+				'success' => false,
+				'message' => sprintf( __( 'Model "%s" is not available. Please select a valid model from settings.', 'wedevs-project-manager' ), $model )
+			];
+		}
 
 		// Prepare request based on provider
 		if ( $provider === 'openai' ) {
@@ -640,7 +648,17 @@ class Project_Controller {
 				'body' => json_encode( $body )
 			];
 		} else { // google
-			$url = str_replace( '{model}', $model, $provider_config['endpoint'] ) . '?key=' . urlencode( $api_key );
+			// For Google, use model_path if available, otherwise use model_id
+			$google_model = isset( $model_config['model_path'] ) && !empty( $model_config['model_path'] ) 
+				? $model_config['model_path'] 
+				: $model;
+			
+			// Remove 'models/' prefix if present (endpoint already includes it)
+			if ( strpos( $google_model, 'models/' ) === 0 ) {
+				$google_model = substr( $google_model, 7 );
+			}
+			
+			$url = str_replace( '{model}', $google_model, $provider_config['endpoint'] ) . '?key=' . urlencode( $api_key );
 
 			$body = [
 				'contents' => [
