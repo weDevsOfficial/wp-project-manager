@@ -480,7 +480,10 @@ class Project_Controller {
 		$model = $model_setting ? sanitize_text_field( $model_setting->value ) : 'gpt-3.5-turbo';
 
 		$max_tokens_setting = Settings::where( 'key', 'ai_max_tokens' )->first();
-		$max_tokens = $max_tokens_setting ? intval( $max_tokens_setting->value ) : 1000;
+		$max_tokens = $max_tokens_setting ? intval( $max_tokens_setting->value ) : 2000;
+		
+		// Enforce token limits for safety
+		$max_tokens = max( 500, min( 16384, $max_tokens ) );
 
 		$temperature_setting = Settings::where( 'key', 'ai_temperature' )->first();
 		$temperature = $temperature_setting ? floatval( $temperature_setting->value ) : 0.7;
@@ -529,6 +532,20 @@ class Project_Controller {
 		$ai_prompt .= "- Do not use the same task title in both initial tasks and task groups\n";
 		$ai_prompt .= "- Task titles are compared case-insensitively (e.g., 'Task Name' and 'task name' are considered duplicates)\n\n";
 		$ai_prompt .= "Project description: " . $prompt . "\n\n";
+		$ai_prompt .= "TOKEN LIMIT WARNING:\n";
+		$ai_prompt .= "- Your response is limited to {$max_tokens} tokens (max_tokens parameter)\n";
+		$ai_prompt .= "- You MUST stay within this limit and return COMPLETE, valid JSON\n";
+		$ai_prompt .= "- If you cannot fit all tasks within the limit, prioritize and reduce the number of tasks/groups\n";
+		$ai_prompt .= "- NEVER return incomplete or truncated JSON - it's better to return fewer complete tasks than many incomplete ones\n\n";
+		$ai_prompt .= "CRITICAL JSON FORMATTING RULES:\n";
+		$ai_prompt .= "- Return ONLY valid, complete JSON - no markdown, no code blocks, no explanations\n";
+		$ai_prompt .= "- ALWAYS use DOUBLE QUOTES (\") for all JSON strings - NEVER use single quotes (')\n";
+		$ai_prompt .= "- Each string must start with ONE double quote and end with ONE double quote\n";
+		$ai_prompt .= "- Example of CORRECT formatting: {\"title\": \"Task Name\"}\n";
+		$ai_prompt .= "- Example of WRONG formatting: {'title': 'Task Name'} or {\"title\": \"Task Name\"\"}\n";
+		$ai_prompt .= "- The JSON must be complete and properly closed (all brackets and braces must match)\n";
+		$ai_prompt .= "- Do not truncate or cut off any strings - ensure all task titles are complete\n";
+		$ai_prompt .= "- The response must be parseable by standard JSON parsers\n\n";
 		$ai_prompt .= "Return ONLY a valid JSON object with this exact structure:\n";
 		$ai_prompt .= "{\n";
 		$ai_prompt .= "  \"title\": \"Project Name\",\n";
@@ -538,7 +555,12 @@ class Project_Controller {
 		$ai_prompt .= "    \"title\": \"Group Name\",\n";
 		$ai_prompt .= "    \"tasks\": [{\"title\": \"Group Task 1\"}, {\"title\": \"Group Task 2\"}]\n";
 		$ai_prompt .= "  }]\n";
-		$ai_prompt .= "}";
+		$ai_prompt .= "}\n\n";
+		$ai_prompt .= "FINAL CHECK: Before responding, verify that:\n";
+		$ai_prompt .= "1. All strings use double quotes (\") not single quotes (')\n";
+		$ai_prompt .= "2. No string has double closing quotes (\"\" at the end)\n";
+		$ai_prompt .= "3. All brackets and braces are properly closed\n";
+		$ai_prompt .= "4. The JSON is complete and not truncated";
 
 		// Call AI API based on provider
 		$result = $this->call_ai_api( $provider, $api_key, $model, $max_tokens, $temperature, $ai_prompt );
@@ -599,6 +621,20 @@ class Project_Controller {
 		if ( $provider === 'openai' ) {
 			$url = $provider_config['endpoint'];
 
+			// Check if model supports temperature
+			$supports_temperature = isset( $model_config['supports_custom_temperature'] ) && $model_config['supports_custom_temperature'];
+			
+			// Additional safety check: exclude temperature for known models that don't support it
+			// even if config says they do (handles edge cases)
+			if ( $supports_temperature ) {
+				// Double-check model name patterns that don't support temperature
+				if ( strpos( $model, 'o1' ) === 0 || 
+					 strpos( $model, 'search' ) !== false || 
+					 strpos( $model, 'search-api' ) !== false ) {
+					$supports_temperature = false;
+				}
+			}
+
 			$body = [
 				'model' => $model,
 				'messages' => [
@@ -607,9 +643,13 @@ class Project_Controller {
 						'content' => $prompt
 					]
 				],
-				'max_tokens' => $max_tokens,
-				'temperature' => $temperature
+				'max_tokens' => $max_tokens
 			];
+			
+			// Only add temperature if model supports it
+			if ( $supports_temperature ) {
+				$body['temperature'] = $temperature;
+			}
 
 			$args = [
 				'method' => 'POST',
@@ -624,6 +664,9 @@ class Project_Controller {
 		} elseif ( $provider === 'anthropic' ) {
 			$url = $provider_config['endpoint'];
 
+			// Check if model supports temperature
+			$supports_temperature = isset( $model_config['supports_custom_temperature'] ) && $model_config['supports_custom_temperature'];
+
 			$body = [
 				'model' => $model,
 				'messages' => [
@@ -632,9 +675,13 @@ class Project_Controller {
 						'content' => $prompt
 					]
 				],
-				'max_tokens' => $max_tokens,
-				'temperature' => $temperature
+				'max_tokens' => $max_tokens
 			];
+			
+			// Only add temperature if model supports it
+			if ( $supports_temperature ) {
+				$body['temperature'] = $temperature;
+			}
 
 			$args = [
 				'method' => 'POST',
@@ -660,6 +707,26 @@ class Project_Controller {
 			
 			$url = str_replace( '{model}', $google_model, $provider_config['endpoint'] ) . '?key=' . urlencode( $api_key );
 
+			// Check if model supports temperature
+			$supports_temperature = isset( $model_config['supports_custom_temperature'] ) && $model_config['supports_custom_temperature'];
+			
+			// Check if model supports JSON mode
+			$supports_json_mode = isset( $model_config['supports_json_mode'] ) && $model_config['supports_json_mode'];
+
+			$generationConfig = [
+				'maxOutputTokens' => $max_tokens
+			];
+			
+			// Only add temperature if model supports it
+			if ( $supports_temperature ) {
+				$generationConfig['temperature'] = $temperature;
+			}
+			
+			// Enable JSON mode if supported (forces structured JSON output)
+			if ( $supports_json_mode ) {
+				$generationConfig['responseMimeType'] = 'application/json';
+			}
+
 			$body = [
 				'contents' => [
 					[
@@ -670,10 +737,7 @@ class Project_Controller {
 						]
 					]
 				],
-				'generationConfig' => [
-					'maxOutputTokens' => $max_tokens,
-					'temperature' => $temperature
-				]
+				'generationConfig' => $generationConfig
 			];
 
 			$args = [
@@ -734,25 +798,140 @@ class Project_Controller {
 		if ( $provider === 'openai' ) {
 			if ( isset( $response_data['choices'][0]['message']['content'] ) ) {
 				$content = $response_data['choices'][0]['message']['content'];
+			} elseif ( isset( $response_data['choices'][0]['text'] ) ) {
+				// Fallback for older OpenAI API format
+				$content = $response_data['choices'][0]['text'];
 			}
 		} elseif ( $provider === 'anthropic' ) {
-			if ( isset( $response_data['content'][0]['text'] ) ) {
-				$content = $response_data['content'][0]['text'];
+			// Anthropic API returns content as an array of content blocks
+			if ( isset( $response_data['content'] ) && is_array( $response_data['content'] ) ) {
+				// Loop through content blocks to find text
+				foreach ( $response_data['content'] as $content_block ) {
+					if ( isset( $content_block['type'] ) && $content_block['type'] === 'text' && isset( $content_block['text'] ) ) {
+						$content = $content_block['text'];
+						break;
+					} elseif ( isset( $content_block['text'] ) ) {
+						// Fallback: if no type field, assume it's text
+						$content = $content_block['text'];
+						break;
+					}
+				}
 			}
 		} else { // google
+			// Check for finish reason first (Google Gemini specific)
+			if ( isset( $response_data['candidates'][0]['finishReason'] ) ) {
+				$finish_reason = $response_data['candidates'][0]['finishReason'];
+				
+				if ( $finish_reason === 'MAX_TOKENS' ) {
+					// Response was truncated due to token limit
+					$usage_metadata = isset( $response_data['usageMetadata'] ) ? $response_data['usageMetadata'] : [];
+					$total_tokens = isset( $usage_metadata['totalTokenCount'] ) ? $usage_metadata['totalTokenCount'] : 0;
+					$thoughts_tokens = isset( $usage_metadata['thoughtsTokenCount'] ) ? $usage_metadata['thoughtsTokenCount'] : 0;
+					$candidates_tokens = isset( $usage_metadata['candidatesTokenCount'] ) ? $usage_metadata['candidatesTokenCount'] : 0;
+					
+					// Try to extract content even if truncated - it might still be parseable
+					// We'll attempt to parse it and if it fails, show the error
+					$truncated_content = '';
+					if ( isset( $response_data['candidates'][0]['content']['parts'][0]['text'] ) ) {
+						$truncated_content = $response_data['candidates'][0]['content']['parts'][0]['text'];
+					} elseif ( isset( $response_data['candidates'][0]['content']['parts'] ) && is_array( $response_data['candidates'][0]['content']['parts'] ) ) {
+						foreach ( $response_data['candidates'][0]['content']['parts'] as $part ) {
+							if ( isset( $part['text'] ) ) {
+								$truncated_content = $part['text'];
+								break;
+							}
+						}
+					}
+					
+					// If we have content, try to use it (will be cleaned and parsed later)
+					// Otherwise, show error with recommendation
+					if ( empty( $truncated_content ) ) {
+						// Calculate recommended tokens: thoughts tokens + desired response tokens + buffer
+						$recommended_tokens = max( 5000, $thoughts_tokens + 2000 + 500 );
+						
+						$error_message = sprintf(
+							__( 'Response was truncated due to token limit. Used %d tokens total (%d for internal reasoning, %d for response). This model requires higher token limits. Recommended: at least %d tokens for complete responses.', 'wedevs-project-manager' ),
+							$total_tokens,
+							$thoughts_tokens,
+							$candidates_tokens,
+							$recommended_tokens
+						);
+						
+						return [
+							'success' => false,
+							'message' => $error_message
+						];
+					} else {
+						// We have truncated content - try to parse it
+						$content = $truncated_content;
+					}
+				} elseif ( $finish_reason === 'SAFETY' ) {
+					return [
+						'success' => false,
+						'message' => __( 'Response was blocked due to safety filters. Please try a different project description.', 'wedevs-project-manager' )
+					];
+				} elseif ( $finish_reason === 'RECITATION' ) {
+					return [
+						'success' => false,
+						'message' => __( 'Response was blocked due to recitation filters. Please try a different project description.', 'wedevs-project-manager' )
+					];
+				}
+			}
+			
+			// Extract content from Google response
 			if ( isset( $response_data['candidates'][0]['content']['parts'][0]['text'] ) ) {
 				$content = $response_data['candidates'][0]['content']['parts'][0]['text'];
+			} elseif ( isset( $response_data['candidates'][0]['content']['parts'] ) && is_array( $response_data['candidates'][0]['content']['parts'] ) ) {
+				// Loop through parts to find text
+				foreach ( $response_data['candidates'][0]['content']['parts'] as $part ) {
+					if ( isset( $part['text'] ) ) {
+						$content = $part['text'];
+						break;
+					}
+				}
+			} elseif ( isset( $response_data['candidates'][0]['output'] ) ) {
+				// Fallback for different Google API format
+				$content = $response_data['candidates'][0]['output'];
 			}
 		}
 
 		if ( empty( $content ) ) {
+			// Try to provide a more helpful error message
+			$error_message = __( 'No content received from AI. The API response may have an unexpected structure.', 'wedevs-project-manager' );
+			
+			// Check if there's an error in the response
+			if ( isset( $response_data['error'] ) ) {
+				if ( isset( $response_data['error']['message'] ) ) {
+					$error_message = sprintf(
+						__( 'AI API error: %s', 'wedevs-project-manager' ),
+						sanitize_text_field( $response_data['error']['message'] )
+					);
+				} elseif ( isset( $response_data['error']['type'] ) ) {
+					$error_message = sprintf(
+						__( 'AI API error: %s', 'wedevs-project-manager' ),
+						sanitize_text_field( $response_data['error']['type'] )
+					);
+				}
+			}
+			
 			return [
 				'success' => false,
-				'message' => __( 'No content received from AI.', 'wedevs-project-manager' )
+				'message' => $error_message
 			];
 		}
 
+		// ========================================
+		// JSON CLEANING AND NORMALIZATION
+		// ========================================
+		// AI models sometimes return malformed JSON with:
+		// 1. Mixed quotes: {'title': 'value'} or {"title": 'value'}
+		// 2. Double closing quotes: "value""
+		// 3. Mismatched quotes: 'value" or "value'
+		// 4. Control characters from truncation
+		// This section cleans and normalizes the JSON before parsing
+		
 		// Extract JSON from response (handle markdown code blocks)
+		$original_content = $content;
 		$content = trim( $content );
 		if ( preg_match( '/```json\s*(.*?)\s*```/s', $content, $matches ) ) {
 			$content = $matches[1];
@@ -760,10 +939,124 @@ class Project_Controller {
 			$content = $matches[1];
 		}
 
-		$parsed_data = json_decode( $content, true );
+		// Try to extract JSON object if content contains it
+		if ( preg_match( '/\{[\s\S]*\}/', $content, $json_matches ) ) {
+			$content = $json_matches[0];
+		}
+
+		// Step 1: Remove control characters that cause JSON parsing errors
+		$content = preg_replace( '/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/', '', $content );
+
+		// Step 2: Fix mixed quotes - Convert single quotes to double quotes in JSON string values
+		// Pattern 1: {"key": 'value'} -> {"key": "value"}
+		$content = preg_replace_callback(
+			'/([{,]\s*"[^"]+"\s*:\s*)\'([^\']*?)\'/',
+			function( $matches ) {
+				// Escape any double quotes inside the single-quoted string
+				$value = str_replace( '"', '\\"', $matches[2] );
+				return $matches[1] . '"' . $value . '"';
+			},
+			$content
+		);
+
+		// Pattern 2: {'key': 'value'} -> {"key": "value"} (single-quoted keys)
+		$content = preg_replace( '/([{,]\s*)\'([^\']+?)\'(\s*:)/', '$1"$2"$3', $content );
+
+		// Pattern 3: Fix mismatched quotes like 'value" or "value'
+		$content = preg_replace( '/:\s*\'([^"\']*?)"/', ': "$1"', $content );
+		$content = preg_replace( '/:\s*"([^"\']*?)\'/', ': "$1"', $content );
+
+		// Step 3: Fix double/triple quotes at end of strings
+		$content = preg_replace( '/""([,}\]\s])/', '"$1', $content );
+		$content = preg_replace( '/""$/', '"', $content );
+		$content = preg_replace( '/"{3,}/', '"', $content );
+
+		// Note: Removed incomplete string fixing regex as it was corrupting valid JSON
+		// The previous regex was matching complete strings and adding extra quotes
+		// Incomplete strings will be handled by the truncation logic below
+
+		// Try to fix incomplete JSON by finding the last complete structure
+		$open_braces = substr_count( $content, '{' ) - substr_count( $content, '}' );
+		$open_brackets = substr_count( $content, '[' ) - substr_count( $content, ']' );
+		
+		// Check for incomplete strings (unclosed quotes)
+		$quote_count = substr_count( $content, '"' );
+		$has_incomplete_string = ( $quote_count % 2 !== 0 );
+		
+		// If structures are unbalanced or strings are incomplete, find where to truncate
+		if ( $open_braces > 0 || $open_brackets > 0 || $has_incomplete_string ) {
+			// Find the last position before any incomplete content
+			// Look for the last complete object/array structure
+			$last_brace = strrpos( $content, '}' );
+			$last_bracket = strrpos( $content, ']' );
+			
+			// Also check for incomplete strings - find last complete string
+			$last_complete_quote = -1;
+			if ( $has_incomplete_string ) {
+				// Find pairs of quotes working backwards
+				$quote_positions = [];
+				for ( $i = strlen( $content ) - 1; $i >= 0; $i-- ) {
+					if ( $content[$i] === '"' && ( $i === 0 || $content[$i-1] !== '\\' ) ) {
+						$quote_positions[] = $i;
+					}
+				}
+				// If we have an odd number, find the last complete pair
+				if ( count( $quote_positions ) > 0 && count( $quote_positions ) % 2 === 1 ) {
+					// Remove the last (incomplete) quote
+					array_shift( $quote_positions );
+				}
+				if ( count( $quote_positions ) > 0 ) {
+					$last_complete_quote = $quote_positions[0];
+				}
+			}
+			
+			// Determine the best truncation point
+			$truncate_at = -1;
+			$candidates = array_filter( [ $last_brace, $last_bracket, $last_complete_quote ] );
+			if ( !empty( $candidates ) ) {
+				$truncate_at = max( $candidates );
+			}
+			
+			if ( $truncate_at >= 0 ) {
+				// Truncate to the last complete structure
+				$content = substr( $content, 0, $truncate_at + 1 );
+				
+				// If we truncated at a quote, we need to close the string and structure
+				if ( $truncate_at === $last_complete_quote ) {
+					$content = rtrim( $content, '"' );
+					// Find what structure this string was in and close it
+					$before_string = substr( $content, 0, strrpos( $content, '"' ) );
+					$last_colon = strrpos( $before_string, ':' );
+					if ( $last_colon !== false ) {
+						// This was a string value, close it and the structure
+						$content = rtrim( $content ) . '"}';
+					}
+				}
+				
+				// Close any remaining open structures
+				// Recalculate after truncation
+				$remaining_open_brackets = substr_count( $content, '[' ) - substr_count( $content, ']' );
+				$remaining_open_braces = substr_count( $content, '{' ) - substr_count( $content, '}' );
+				
+				for ( $i = 0; $i < $remaining_open_brackets; $i++ ) {
+					$content = rtrim( $content ) . ']';
+				}
+				for ( $i = 0; $i < $remaining_open_braces; $i++ ) {
+					$content = rtrim( $content ) . '}';
+				}
+			}
+		}
+
+		// Try parsing with JSON_INVALID_UTF8_IGNORE flag if available
+		if ( defined( 'JSON_INVALID_UTF8_IGNORE' ) ) {
+			$parsed_data = json_decode( $content, true, 512, JSON_INVALID_UTF8_IGNORE );
+		} else {
+			$parsed_data = json_decode( $content, true );
+		}
 
 		if ( json_last_error() !== JSON_ERROR_NONE || !is_array( $parsed_data ) ) {
 			$json_error = json_last_error_msg();
+			
 			return [
 				'success' => false,
 				'message' => sprintf(

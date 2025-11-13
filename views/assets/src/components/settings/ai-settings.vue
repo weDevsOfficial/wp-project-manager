@@ -51,8 +51,8 @@
                                     <label for="ai_max_tokens">{{ __( 'Max Tokens', 'wedevs-project-manager') }}</label>
                                 </th>
                                 <td>
-                                    <input v-model.number="max_tokens" type="number" class="regular-text" id="ai_max_tokens" name="ai_max_tokens" min="1" max="4096">
-                                    <p class="description">{{ __( 'Maximum number of tokens for AI responses (1-4096).', 'wedevs-project-manager') }}</p>
+                                    <input v-model.number="max_tokens" type="number" class="regular-text" id="ai_max_tokens" name="ai_max_tokens" min="500" max="16384">
+                                    <p class="description">{{ __( 'Maximum number of tokens for AI responses (500-16384). Higher values allow more detailed projects but may cost more.', 'wedevs-project-manager') }}</p>
                                 </td>
                             </tr>
                             <tr>
@@ -94,7 +94,7 @@ export default {
             api_key_saved: false, // Track if API key exists in database
             saved_api_key_mask: '', // Store masked API key for display
             model: this.getSettings('ai_model', 'gpt-3.5-turbo'),
-            max_tokens: this.getSettings('ai_max_tokens', 1000),
+            max_tokens: this.getSettings('ai_max_tokens', 2000),
             temperature: parseFloat(this.getSettings('ai_temperature', 0.7)),
             show_spinner: false,
             testing_connection: false,
