@@ -374,7 +374,14 @@ class Config {
 
             // Determine token parameter based on model type
             $token_param = (strpos($model_id, 'o1') === 0) ? 'max_completion_tokens' : 'max_tokens';
-            $supports_temp = (strpos($model_id, 'o1') !== 0);
+            
+            // Models that don't support temperature:
+            // - o1 models (reasoning models)
+            // - search-api models (search API models)
+            // - Any model with "search" in the name
+            $supports_temp = (strpos($model_id, 'o1') !== 0) 
+                && (strpos($model_id, 'search') === false)
+                && (strpos($model_id, 'search-api') === false);
 
             $available_models[$model_id] = [
                 'name' => $model_name . ' (OpenAI)',
