@@ -127,6 +127,9 @@ class Offers {
 
             <div class="notice notice-success is-dismissible pm-promotional-offer-notice" id="pm-notice">
                 <div class="content">
+                    <p style="margin-right:14px ;">
+                        <img height="100" src="https://ps.w.org/wedevs-project-manager/assets/icon-128x128.gif" alt="WP Project Manager Plugin">
+                	</p>
                     <p>
                         <?php echo wp_kses( $offer->message, [ 'strong' => [], 'br' => [] ] ); ?>
                         <br>
