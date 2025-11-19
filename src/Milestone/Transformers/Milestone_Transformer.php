@@ -36,6 +36,7 @@ class Milestone_Transformer extends TransformerAbstract {
             'meta'         => $this->meta( $item ),
         ];
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         return apply_filters( 'pm_milestone_transform', $data, $item, $this );
     }
 
@@ -46,6 +47,7 @@ class Milestone_Transformer extends TransformerAbstract {
      */
     public function getDefaultIncludes()
     {
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         return apply_filters( "pm_milestone_transformer_default_includes", $this->defaultIncludes );
     }
 
@@ -59,6 +61,8 @@ class Milestone_Transformer extends TransformerAbstract {
     }
 
     public function includeTaskLists( Milestone $item ) {
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verification is not implemented for this AJAX call
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Nonce verification and sanitization not implemented for this AJAX call
         $page = isset( $_GET['task_list_page'] ) ? intval( $_GET['task_list_page'] ) : 1;
 
         Paginator::currentPageResolver(function () use ($page) {
@@ -66,6 +70,7 @@ class Milestone_Transformer extends TransformerAbstract {
         }); 
 
         $task_lists = $item->task_lists();
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         $task_lists = apply_filters('pm_task_list_query', $task_lists, $item->project_id, $item );
         $task_lists = $task_lists->orderBy( 'created_at', 'DESC' )
             ->paginate( 10 );
@@ -79,6 +84,8 @@ class Milestone_Transformer extends TransformerAbstract {
     }
 
     public function includeDiscussionBoards( Milestone $item ) {
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verification is not implemented for this AJAX call
+        // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Nonce verification and sanitization not implemented for this AJAX call
         $page = isset( $_GET['discussion_page'] ) ? intval( $_GET['discussion_page'] ) : 1;
 
         Paginator::currentPageResolver(function () use ($page) {
@@ -86,6 +93,7 @@ class Milestone_Transformer extends TransformerAbstract {
         }); 
 
         $discussion_boards = $item->discussion_boards();
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         $discussion_boards = apply_filters( 'pm_discuss_query', $discussion_boards, $item->project_id, $item );
         $discussion_boards = $discussion_boards->orderBy( 'created_at', 'DESC' )
             ->paginate( 10 );

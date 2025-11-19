@@ -69,7 +69,8 @@
                                     <?php esc_html_e( 'Created at', 'wedevs-project-manager' ) ?>
                                 </p>
                                 <h2 style="font-size: 16px; color: #000; margin: 0; font-weight: 400;">
-                                     <?php $discussion_date = empty( $created_at['date'] ) ? '&#x02013;&#x02013;' : pm_date_format( esc_html( $created_at['date'] ) ); ?>
+                                     <?php // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Template variable, not a global
+                                     $discussion_date = empty( $created_at['date'] ) ? '&#x02013;&#x02013;' : pm_date_format( esc_html( $created_at['date'] ) ); ?>
                                     <?php echo esc_html( $discussion_date ); ?>
                                 </h2>
                                 &nbsp;
@@ -123,7 +124,8 @@
                         <span style="margin: 0; padding: 0; list-style: none; display: inline-block;">
 
                              <?php
-                                foreach( $project['assignees']['data'] as $assign ) {
+                                foreach( $project['assignees']['data'] as $assign ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Template variable, not a global
+                                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Template variable, not a global
                                     ?>
 
                                         <img

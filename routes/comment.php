@@ -4,7 +4,9 @@ use WeDevs\PM\Core\Router\Router;
 use WeDevs\PM\Core\Permissions\Authentic;
 use WeDevs\PM\Core\Permissions\Access_Project;
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Route file variable, not a global
 $router  = Router::singleton();
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Route file variable, not a global
 $access  = 'WeDevs\PM\Core\Permissions\Access_Project';
 
 $router->get( 'projects/{project_id}/comments', 'WeDevs/PM/Comment/Controllers/Comment_Controller@index' )

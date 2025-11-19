@@ -33,8 +33,10 @@
                                     <?php
 
                                         if ( $status == 'incomplete' ) {
+                                            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Template variable, not a global
                                             $header_title = __( ' has re-open the task', 'wedevs-project-manager' );
                                         } else {
+                                            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Template variable, not a global
                                             $header_title = __( ' has completed the task', 'wedevs-project-manager' );
                                         }
                                     ?>
@@ -63,8 +65,10 @@
                                 <p style="font-size: 16px; line-height: 30px; margin: 0; color: #7E8690;"><?php esc_html_e( 'Assign To', 'wedevs-project-manager' ); ?></p>
                                 <p style="font-size: 16px; color: #000000; line-height: 30px; margin: 0;">
                                     <?php
+                                        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Template variable, not a global
                                         $assign_users = [];
-                                        foreach( $assignees['data'] as $assign ) {
+                                        foreach( $assignees['data'] as $assign ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Template variable, not a global
+                                            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Template variable, not a global
                                             $assign_users[] = $assign->display_name;
                                         }
 
@@ -120,7 +124,8 @@
 
                              <?php
 
-                                foreach( $assignees['data'] as $assign ) {
+                                foreach( $assignees['data'] as $assign ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Template variable, not a global
+                                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Template variable, not a global
                                     ?>
 
                                         <img style="outline:none; margin-right: 4px; text-decoration:none; height: 33px; width: 33px; border-radius: 50%;" src="<?php echo esc_url( $assign->avatar_url ); ?>" alt="User Name" title="User Name" width="33" height="33" />

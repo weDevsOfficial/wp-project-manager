@@ -54,8 +54,10 @@ class New_Message_Notification extends Email {
             return ; 
         }
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         $template_name = apply_filters( 'pm_new_message_email_template_path', $this->get_template_path( '/html/new-message.php' ) );
-        $subject = sprintf( __( '[%s][%s] New Message: %s', 'wedevs-project-manager' ), $this->get_blogname(), $project['title'] , $request['title'] );
+        // translators: %1$s: Site name, %2$s: Project title, %3$s: Message title
+        $subject = sprintf( __( '[%1$s][%2$s] New Message: %3$s', 'wedevs-project-manager' ), $this->get_blogname(), $project['title'] , $request['title'] );
         
         $message = $this->get_content_html( $template_name, $message );
         

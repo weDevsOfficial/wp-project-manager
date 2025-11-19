@@ -55,8 +55,10 @@
                             <p style="font-size: 16px; line-height: 30px; margin: 0; color: #7E8690;"><?php esc_html_e( 'Assign To', 'wedevs-project-manager' ); ?></p>
                             <p style="font-size: 16px; color: #000000; line-height: 30px; margin: 0;">
                                 <?php
+                                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Template variable, not a global
                                     $assign_users = [];
-                                    foreach( $assignees['data'] as $assign ) {
+                                    foreach( $assignees['data'] as $assign ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Template variable, not a global
+                                        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Template variable, not a global
                                         $assign_users[] = esc_html( $assign->display_name );
                                     }
 
@@ -112,7 +114,8 @@
                     <span style="margin: 0; padding: 0; list-style: none; display: inline-block;">
 
                          <?php
-                            foreach( $assignees['data'] as $assign ) {
+                            foreach( $assignees['data'] as $assign ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Template variable, not a global
+                                // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Template variable, not a global
                                 ?>
                                     <img style="outline:none; margin-right: 4px; text-decoration:none; height: 33px; width: 33px; border-radius: 50%;" src="<?php echo esc_url( $assign->avatar_url ); ?>" alt="<?php echo esc_attr( $assign->display_name ); ?>" title="<?php echo esc_attr( $assign->display_name ); ?>" width="33" height="33" />
                                 <?php

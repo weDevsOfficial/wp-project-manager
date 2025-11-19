@@ -680,6 +680,7 @@ class AI_Settings_Controller {
             ( new Helper )->update_project_permission( $data, $project_id );
         }
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         do_action( 'pm_after_save_settings', $settings );
 
         $message = [
@@ -816,6 +817,7 @@ class AI_Settings_Controller {
             $error_message = $response->get_error_message();
             return [
                 'success' => false,
+                // translators: %s: Error message
                 'message' => sprintf( __( 'Connection failed: %s', 'wedevs-project-manager' ), esc_html( $error_message ) )
             ];
         }

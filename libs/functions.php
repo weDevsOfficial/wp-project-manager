@@ -12,16 +12,19 @@ use WeDevs\PM\Discussion_Board\Models\Discussion_Board;
 use Illuminate\Database\Eloquent\Collection;
 use WeDevs\PM\Project\Models\Project;
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_get_text( $key ) {
     return Textdomain::get_text( $key);
 }
 
 if ( !function_exists( 'get_wp_timezone' ) ) {
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
     function get_wp_timezone() {
         return pm_get_wp_timezone();
     }
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_get_wp_timezone() {
     $current_offset = get_option('gmt_offset');
     $wp_timezone = get_option('timezone_string');
@@ -46,11 +49,13 @@ function pm_get_wp_timezone() {
 }
 
 if ( ! function_exists( 'tzcode_to_tzstring' ) ) {
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
     function tzcode_to_tzstring( $tzcode ) {
         return pm_tzcode_to_tzstring( $tzcode );
     }
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_tzcode_to_tzstring( $tzcode ) {
     $timezones = config( 'timezones' );
     $timezone = $tzcode;
@@ -63,11 +68,13 @@ function pm_tzcode_to_tzstring( $tzcode ) {
 }
 
 if ( ! function_exists( 'tzstring_to_tzcode' ) ) {
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
     function tzstring_to_tzcode( $tzstr ) {
         pm_tzstring_to_tzcode( $tzstr );
     }
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_tzstring_to_tzcode( $tzstr ) {
     $timezones = config( 'timezones' );
     $default = '';
@@ -82,6 +89,7 @@ function pm_tzstring_to_tzcode( $tzstr ) {
 }
 
 if ( ! function_exists( 'format_date' ) ) {
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
     function format_date( $date ) {
 
         if ( $date && !is_object($date) ) {
@@ -102,13 +110,15 @@ if ( ! function_exists( 'format_date' ) ) {
 }
 
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_date_format( $date ) {
 
     $date_format = get_option( 'date_format' );
 
-    return $date ? Date( $date_format, strtotime( $date ) ) : '';
+    return $date ? gmdate( $date_format, strtotime( $date ) ) : '';
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function make_carbon_date( $date ) {
     $timezone = get_wp_timezone();
     $timezone = tzcode_to_tzstring( $timezone );
@@ -121,6 +131,7 @@ function make_carbon_date( $date ) {
     return null;
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_get_wp_roles() {
     global $wp_roles;
 
@@ -131,6 +142,7 @@ function pm_get_wp_roles() {
     return $wp_roles->get_names();
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_get_setting( $key = null, $project_id = false ) {
     $settings     = null;
     $all_settings = null;
@@ -159,6 +171,7 @@ function pm_get_setting( $key = null, $project_id = false ) {
     return null;
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_get_settings( $key = null, $project_id = false ) {
     $settings = null;
 
@@ -181,6 +194,7 @@ function pm_get_settings( $key = null, $project_id = false ) {
     return $settings;
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_delete_settings( $key, $project_id = false ) {
 
     if ( $project_id ) {
@@ -201,6 +215,7 @@ function pm_delete_settings( $key, $project_id = false ) {
     wp_send_json_error();
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_set_settings( $key, $value, $project_id = false ){
 
     if ( $project_id == false ){
@@ -212,6 +227,7 @@ function pm_set_settings( $key, $value, $project_id = false ){
     return $settings;
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_add_meta( $id, $project_id, $type, $key, $value ) {
     WeDevs\PM\Common\Models\Meta::create([
         'entity_id'   => $id,
@@ -225,6 +241,7 @@ function pm_add_meta( $id, $project_id, $type, $key, $value ) {
 }
 
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_update_meta( $id, $project_id, $type, $key, $value ) {
     $meta = WeDevs\PM\Common\Models\Meta::where( 'entity_id', $id )
         ->where( 'project_id', $project_id )
@@ -239,6 +256,7 @@ function pm_update_meta( $id, $project_id, $type, $key, $value ) {
     }
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_get_meta( $entity_id, $project_id, $type, $key, $single = true ) {
     $entity_id = pm_get_prepare_data( $entity_id );
 
@@ -260,6 +278,7 @@ function pm_get_meta( $entity_id, $project_id, $type, $key, $single = true ) {
     return $meta;
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_delete_meta( $id, $project_id, $type, $key = false ) {
     $meta = WeDevs\PM\Common\Models\Meta::where( 'entity_id', $id )
         ->where( 'project_id', $project_id )
@@ -275,11 +294,13 @@ function pm_delete_meta( $id, $project_id, $type, $key = false ) {
     }
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_get_response( $resource, $extra = [] ) {
     $manager = new \League\Fractal\Manager();
     $data_serialize = new \League\Fractal\Serializer\DataArraySerializer();
     $manager->setSerializer( $data_serialize );
 
+    // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verification is not implemented for this AJAX call
     if ( isset( $_GET['with'] ) ) {
         $manager->parseIncludes( sanitize_text_field( wp_unslash( $_GET['with'] ) ) );
     }
@@ -294,14 +315,19 @@ function pm_get_response( $resource, $extra = [] ) {
     return array_merge( $extra, $response );
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pmpr() {
     $args = func_get_args();
 
     foreach ( $args as $arg ) {
-        echo '<pre>'; print_r( $arg ); '</pre>';
+        echo '<pre>';
+        // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r -- Debug function for development
+        print_r( $arg );
+        '</pre>';
     }
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_pro_get_project_capabilities( $project_id ) {
     $caps = WeDevs\PM\Settings\Models\Settings::where('key', 'capabilities')
         ->where('project_id', $project_id)
@@ -325,6 +351,7 @@ function pm_pro_get_project_capabilities( $project_id ) {
     return $formatedCaps;
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_is_user_in_project( $project_id, $user_id = false ) {
     $user_id = $user_id ? $user_id : get_current_user_id();
 
@@ -335,6 +362,7 @@ function pm_is_user_in_project( $project_id, $user_id = false ) {
     return $user_in_project ? true : false;
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_is_user_in_task( $project_id, $user_id = false ) {
     $user_id = $user_id ? $user_id : get_current_user_id();
 
@@ -345,6 +373,7 @@ function pm_is_user_in_task( $project_id, $user_id = false ) {
     return $user_in_task ? true : false;
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_get_role( $project_id, $user_id = false ) {
     $user_id = $user_id ? $user_id : get_current_user_id();
 
@@ -360,6 +389,7 @@ function pm_get_role( $project_id, $user_id = false ) {
     return false;
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_get_role_caps( $project_id, $role ) {
     $caps = pm_pro_get_project_capabilities( $project_id );
 
@@ -370,6 +400,7 @@ function pm_get_role_caps( $project_id, $role ) {
     return [];
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_is_manager( $project_id, $user_id = false ) {
     $user_id = $user_id ? $user_id : get_current_user_id();
 
@@ -383,6 +414,7 @@ function pm_is_manager( $project_id, $user_id = false ) {
  * @param  boolean $user_id
  * @return [type]
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_has_admin_capability( $user_id = false ) {
 
     $user_id = $user_id ? intval( $user_id ) : get_current_user_id();
@@ -403,6 +435,7 @@ function pm_has_admin_capability( $user_id = false ) {
  * @param  boolean $user_id
  * @return [type]
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_has_manage_capability( $user_id = false ) {
 
     $user_id = $user_id ? intval( $user_id ) : get_current_user_id();
@@ -425,6 +458,7 @@ function pm_has_manage_capability( $user_id = false ) {
  * @param  boolean $user_id
  * @return [type]
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_user_can_access( $cap = false, $user_id = false ) {
     $user_id = $user_id ? $user_id : get_current_user_id();
     $cap = empty( $cap ) ? pm_manager_cap_slug() : $cap;
@@ -446,6 +480,7 @@ function pm_user_can_access( $cap = false, $user_id = false ) {
  * @param  boolean $user_id
  * @return [type]
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_user_can( $cap, $project_id, $user_id = false ) {
     $user_id = $user_id ? $user_id : get_current_user_id();
 
@@ -492,10 +527,12 @@ function pm_user_can( $cap, $project_id, $user_id = false ) {
     return false;
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_has_project_create_capability( $user_id = false ) {
     return pm_user_can_access( pm_manager_cap_slug() );
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_has_project_managing_capability( $project_id, $user_id = false ) {
     if ( pm_has_manage_capability( $user_id ) ) {
         return true;
@@ -507,6 +544,7 @@ function pm_has_project_managing_capability( $project_id, $user_id = false ) {
     return false;
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_user_can_complete_task( $task, $user_id = false ) {
     if(!$task) {
         return false;
@@ -542,6 +580,7 @@ function pm_user_can_complete_task( $task, $user_id = false ) {
  * @param  string $type admin, ajax, cron or frontend.
  * @return bool
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_is_request( $type ) {
     switch ( $type ) {
         case 'admin' :
@@ -563,15 +602,19 @@ function pm_is_request( $type ) {
  * @param string $type type of the error. e.g: debug, error, info
  * @param string $msg
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_log( $type = '', $msg = '' ) {
     $ouput_path = config( 'frontend.patch' );
 
     if ( WP_DEBUG == true ) {
-        $msg = sprintf( "[%s][%s] %s\n", date( 'd.m.Y h:i:s' ), $type, print_r($msg, true) );
+        // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r -- Debug function used within WP_DEBUG block
+        $msg = sprintf( "[%s][%s] %s\n", gmdate( 'd.m.Y h:i:s' ), $type, print_r($msg, true) );
+        // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- Debug function used within WP_DEBUG block
         error_log( $msg, 3, $ouput_path . '/tmp/pm-debug.log' );
     }
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_get_translations_for_plugin_domain( $domain, $language_dir = null ) {
 
     if ( $language_dir == null ) {
@@ -607,6 +650,7 @@ function pm_get_translations_for_plugin_domain( $domain, $language_dir = null ) 
  *
  * @return array
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_get_jed_locale_data( $domain, $language_dir = null ) {
     $plugin_translations = pm_get_translations_for_plugin_domain( $domain, $language_dir );
     $translations = get_translations_for_domain( $domain );
@@ -637,6 +681,7 @@ function pm_get_jed_locale_data( $domain, $language_dir = null ) {
     return $locale;
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_tb_prefix() {
     global $wpdb;
 
@@ -650,18 +695,23 @@ function pm_tb_prefix() {
  * @param string $content
  * @return string
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_get_content( $content ) {
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
     $content = apply_filters( 'pm_get_content', $content );
 
     return $content;
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_filter_content_url( $content ) {
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
     $content = apply_filters( 'pm_get_content_url', $content );
 
     return $content;
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_get_user_url( $user_id, $is_admin ) {
     $user_id = ! empty( $user_id ) ? $user_id : get_current_user_id();
 
@@ -672,6 +722,7 @@ function pm_get_user_url( $user_id, $is_admin ) {
     return $user_url;
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_get_task_url( $project_id, $list_id, $task_id, $is_admin ) {
     $is_admin = $is_admin ? 'admin' : 'frontend';
     $pm_base  = pm_get_project_page($is_admin);
@@ -680,6 +731,7 @@ function pm_get_task_url( $project_id, $list_id, $task_id, $is_admin ) {
     return $task_url;
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_get_discuss_url( $project_id, $discuss_id, $is_admin ) {
     $is_admin = $is_admin ? 'admin' : 'frontend';
     $pm_base  = pm_get_project_page( $is_admin );
@@ -688,6 +740,7 @@ function pm_get_discuss_url( $project_id, $discuss_id, $is_admin ) {
     return $task_url;
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_get_task( $task_id ) {
     $task = Task::with('task_lists')
         ->where( 'id', $task_id )
@@ -704,10 +757,12 @@ function pm_get_task( $task_id ) {
     return pm_get_response( $resource );
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_get_file_download_url( $project_id, $user_id, $file_id ) {
     return get_rest_url() . 'pm/v2/projects/' . $project_id . '/files/' . $file_id . '/users/' . $user_id . '/download';
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_get_list_url( $project_id, $list_id, $is_admin ) {
 
     $is_admin = $is_admin ? 'admin' : 'frontend';
@@ -717,6 +772,7 @@ function pm_get_list_url( $project_id, $list_id, $is_admin ) {
     return $list_url;
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_get_front_end_project_page() {
     $pages   = get_option( 'pm_pages', [] );
     $project = empty( $pages['project'] ) ? '' : absint( $pages['project'] );
@@ -728,6 +784,7 @@ function pm_get_front_end_project_page() {
     return '';
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_get_project_page( $type = false ) {
 
     if ( $type == 'admin' ) {
@@ -747,26 +804,31 @@ function pm_get_project_page( $type = false ) {
     }
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_total_projects() {
     $project = Project::count();
     return $project;
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_total_task() {
     $task = Task::count();
     return $task;
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_total_task_list() {
     $task_list = Task_List::count();
     return $task_list;
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_total_milestone() {
     $milestone = Milestone::count();
     return $milestone;
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_total_message() {
     $message = Discussion_Board::count();
     return $message;
@@ -778,6 +840,7 @@ function pm_total_message() {
 *
 * @return void
 **/
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_get_ip() {
     $ipaddress = '';
 
@@ -800,6 +863,7 @@ function pm_get_ip() {
     return $ipaddress;
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_get_capabilities() {
 
     return [
@@ -816,6 +880,7 @@ function pm_get_capabilities() {
     ];
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_get_capabilities_relation( $role ) {
 
     $caps = [
@@ -834,6 +899,7 @@ function pm_get_capabilities_relation( $role ) {
     return $caps[$role];
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_default_cap( $cap_id = false ) {
     $pm_caps =  [
         '1'  => 'create_message',
@@ -855,6 +921,7 @@ function pm_default_cap( $cap_id = false ) {
     return $pm_caps;
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_default_manager_caps() {
     return [
         'create_message'         => true,
@@ -870,6 +937,7 @@ function pm_default_manager_caps() {
     ];
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_default_co_caps() {
     return [
         'create_message'         => true,
@@ -885,6 +953,7 @@ function pm_default_co_caps() {
     ];
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_default_client_caps() {
     return [
         'create_message'         => true,
@@ -900,6 +969,7 @@ function pm_default_client_caps() {
     ];
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_get_prepare_format( $ids, $is_string = false ) {
 
     
@@ -923,6 +993,7 @@ function pm_get_prepare_format( $ids, $is_string = false ) {
     return $format;
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_get_prepare_data( $args, $delimiter = ',' ) {
 
     $new = [];
@@ -959,6 +1030,7 @@ function pm_get_prepare_data( $args, $delimiter = ',' ) {
  * @param string|array $var Data to sanitize.
  * @return string|array
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_clean( $var ) {
     if ( is_array( $var ) ) {
         return array_map( 'pm_clean', $var );
@@ -973,12 +1045,14 @@ function pm_clean( $var ) {
  * @since 1.0.0
  * @return string
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_frontend_slug() {
     $slug = get_option( 'pm_frontend_slug' );
     if ( ! $slug ) {
         $slug = 'pm';
     }
 
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
     return apply_filters( 'pm_frontend_slug', sanitize_title( $slug ) );
 }
 
@@ -987,6 +1061,7 @@ function pm_frontend_slug() {
  *
  * @return string
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_frontend_url() {
     $site_url       = get_site_url();
     $dashboard_slug = ltrim( get_pm_frontend_slug(), '/' );
@@ -999,6 +1074,7 @@ function pm_frontend_url() {
  *
  * @return string
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_dashboard_title() {
     $dashboard_title = get_option( 'pm_frontend_dashboard_title' );
 
@@ -1006,6 +1082,7 @@ function pm_dashboard_title() {
         $dashboard_title = __( 'Project Manager', 'wedevs-project-manager' );
     }
 
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
     return apply_filters( 'pm_dashboard_title', $dashboard_title );
 }
 
@@ -1014,7 +1091,9 @@ function pm_dashboard_title() {
  *
  * @return string
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_register_query_var() {
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
     return apply_filters( 'pm_frontend_query_var', 'pm_dashboard' );
 }
 
@@ -1023,8 +1102,10 @@ function pm_register_query_var() {
  *
  * @return string
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_root_element() {
     $id = pm_root_element_id();
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
     return apply_filters( 'pm_root_element', '<div id="'. $id .'"></div>' );
 }
 
@@ -1033,7 +1114,9 @@ function pm_root_element() {
  *
  * @return string
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_root_element_id() {
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
     return apply_filters( 'pm_root_element_id', 'wedevs-pm' );
 }
 
@@ -1042,7 +1125,9 @@ function pm_root_element_id() {
  *
  * @return string
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_admin_slug() {
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
     return apply_filters( 'pm_admin_slug', 'pm_projects' );
 }
 
@@ -1051,8 +1136,10 @@ function pm_admin_slug() {
  *
  * @return string
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_admin_url() {
     $slug = pm_admin_slug();
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
     return apply_filters( 'pm_admin_url', admin_url( "admin.php?page={$slug}" ) );
 }
 
@@ -1061,6 +1148,7 @@ function pm_admin_url() {
  *
  * @return void
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_dashboard_logo() {
     // $logo = get_option( 'pm_frontend_logo' );
     // if ( $logo ) {
@@ -1070,6 +1158,7 @@ function pm_dashboard_logo() {
     // return ERP_DASHBOARD_ASSETS . '/images/pm-logo.png';
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_active_for_network() {
     
     $plugins     = get_plugins();
@@ -1092,16 +1181,20 @@ function pm_active_for_network() {
     return false;
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_user_meta_key() {
     global $wpdb;
 
     return $wpdb->prefix . 'capabilities';
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_can_create_user_at_project_create_time() {
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
     return apply_filters( 'pm_can_create_user_at_project_create_time', true );
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_get_estimation_type() { 
     if ( ! function_exists( 'pm_pro_is_module_active' ) ) {
         return 'task';
@@ -1120,6 +1213,7 @@ function pm_get_estimation_type() {
     return 'task';
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_is_active_time_tracker_module() { 
     if ( ! function_exists( 'pm_pro_is_module_active' ) ) {
         return false;
@@ -1132,6 +1226,7 @@ function pm_is_active_time_tracker_module() {
     return false;
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_second_to_time( $seconds ) {
     $total_second = $seconds;
     // extract hours
@@ -1161,6 +1256,7 @@ function pm_second_to_time( $seconds ) {
  * @param  array|string $params
  * @return [type]
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_get_projects( $params = [] ) {
      return WeDevs\PM\Project\Helper\Project::get_results( $params );
 }
@@ -1170,6 +1266,7 @@ function pm_get_projects( $params = [] ) {
  * @param  array|string $params
  * @return [type]
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_get_task_lists( $params = [] ) {
      return \WeDevs\PM\Task_List\Helper\Task_List::get_results( $params );
 }
@@ -1179,6 +1276,7 @@ function pm_get_task_lists( $params = [] ) {
  * @param  array|string $params
  * @return [type]
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_get_tasks( $params = [] ) {
      return \WeDevs\PM\task\Helper\Task::get_results( $params );
 }
@@ -1188,6 +1286,7 @@ function pm_get_tasks( $params = [] ) {
  * @param  array|string $params
  * @return [type]
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_get_activities( $params = [] ) {
      return \WeDevs\PM\Activity\Helper\Activity::get_results( $params );
 }
@@ -1197,6 +1296,7 @@ function pm_get_activities( $params = [] ) {
  * @param  array|string $params
  * @return [type]
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_get_milestones( $params = [] ) {
      return \WeDevs\PM\Milestone\Helper\Milestone::get_results( $params );
 }
@@ -1206,6 +1306,7 @@ function pm_get_milestones( $params = [] ) {
  * @param  array|string $params
  * @return [type]
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_get_discussions( $params = [] ) {
      return \WeDevs\PM\Discussion_Board\Helper\Discussion_Board::get_results( $params );
 }
@@ -1215,6 +1316,7 @@ function pm_get_discussions( $params = [] ) {
  * @param  array|string $params
  * @return [type]
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_get_comments( $params = [] ) {
      return \WeDevs\PM\Comment\Helper\Comment::get_results( $params );
 }
@@ -1224,6 +1326,7 @@ function pm_get_comments( $params = [] ) {
  * @param  array|string $params
  * @return [type]
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_get_files( $params = [] ) {
      return \WeDevs\PM\File\Helper\File::get_results( $params );
 }
@@ -1233,6 +1336,7 @@ function pm_get_files( $params = [] ) {
  * @param  array|string $params
  * @return [type]
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_get_users( $params = [] ) {
      return \WeDevs\PM\User\Helper\User::get_results( $params );
 }
@@ -1242,6 +1346,7 @@ function pm_get_users( $params = [] ) {
  * @param  array|string $params
  * @return [type]
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_is_single_query( $params ) {
     if ( empty( $params['id'] ) ) {
         return false;
@@ -1260,10 +1365,12 @@ function pm_is_single_query( $params ) {
     return false;
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_api_namespace() {
     return config( 'app.slug' ) . '/v' . config( 'app.api' );
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_current_user_can_update_core() {
     if ( is_multisite() ) {
         if ( is_main_site() && current_user_can( 'activate_plugins' ) ) {
@@ -1287,6 +1394,7 @@ function pm_current_user_can_update_core() {
  * 
  * @return [type]
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_is_true ( $val ) {
     
     if ( is_string( $val ) ) {
@@ -1300,7 +1408,9 @@ function pm_is_true ( $val ) {
  * [pm_pro_progress_page_slug description]
  * @return [type]
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_admin_cap_slug() {
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
     return apply_filters( 'pm_admin_capability_slug', 'pm_admin' );
 }
 
@@ -1308,7 +1418,9 @@ function pm_admin_cap_slug() {
  * [pm_pro_reports_page_slug description]
  * @return [type]
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_manager_cap_slug() {
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
     return apply_filters( 'pm_manager_capability_slug', 'pm_manager' );
 }
 
@@ -1317,18 +1429,21 @@ function pm_manager_cap_slug() {
  * @param  boolean $cap
  * @return [type]
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_access_capabilities( $cap = false ) {
     $caps = [
         pm_admin_cap_slug()   => __( 'PM Admin', 'wedevs-project-manager' ),
         pm_manager_cap_slug() => __( 'PM Manager', 'wedevs-project-manager' ),
     ];
 
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
     $caps = apply_filters( 'pm_access_capabilities', $caps );
 
     return empty( $cap ) ? $caps : $caps[$cap];
 }
 
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_validate_assignee( $assignees){
     
     if ( empty( $assignees ) ) {

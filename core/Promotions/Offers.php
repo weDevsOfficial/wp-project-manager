@@ -49,13 +49,13 @@ class Offers {
             $offer->key       = $promo_notice['key'];
             $offer->btn_txt   = ! empty( $promo_notice['action_title'] ) ? $promo_notice['action_title'] : 'Get Now';
             $offer->message   = [];
-            $offer->message[] = sprintf( __( '<strong>%s</strong>', 'wedevs-project-manager' ), $promo_notice['title'] );
+            $offer->message[] = '<strong>' . esc_html( $promo_notice['title'] ) . '</strong>';
 
             if ( ! empty( $promo_notice['description'] ) ) {
-                $offer->message[] = sprintf( __( '%s', 'wedevs-project-manager' ), $promo_notice['description'] );
+                $offer->message[] = esc_html( $promo_notice['description'] );
             }
 
-            $offer->message[] = sprintf( __( '%s', 'wedevs-project-manager' ), $promo_notice['content'] );
+            $offer->message[] = esc_html( $promo_notice['content'] );
             $offer->message   = implode( '<br>', $offer->message );
 
             if ( $disabled_key != $promo_notice['key'] ) {
@@ -79,6 +79,7 @@ class Offers {
         }
 
         // Check if inside the wp-project-manager page
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verification is not implemented for this page check
         if ( ! isset( $_GET['page'] ) || 'pm_projects' !== $_GET['page'] ) {
             return;
         }
@@ -131,7 +132,7 @@ class Offers {
                         <?php echo wp_kses( $offer->message, [ 'strong' => [], 'br' => [] ] ); ?>
                         <br>
                         <a class="link" target="_blank" href="<?php echo esc_url( $offer->link ); ?>">
-                            <?php printf( esc_html__( '%s', 'wedevs-project-manager' ), $offer->btn_txt ); ?>
+                            <?php echo esc_html( $offer->btn_txt ); ?>
                         </a>
                     </p>
                 </div>

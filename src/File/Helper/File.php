@@ -135,6 +135,7 @@ class File {
         $items = $this->set_attach_file( $items, $file ); 
 		$items = $this->item_with( $items, $file );
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
 		return apply_filters( 'pm_file_transform', $items, $file );
 	}
 
@@ -339,6 +340,7 @@ class File {
 			WHERE %d=%d {$this->where} 
 			{$this->orderby} {$this->limit}";
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is prepared, $query is built dynamically with table names. Table names cannot be placeholders.
 		$results = $wpdb->get_results( $wpdb->prepare( $query, 1, 1 ) );
 
 		$this->found_rows = $wpdb->get_var( "SELECT FOUND_ROWS()" );

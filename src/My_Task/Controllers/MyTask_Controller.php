@@ -25,7 +25,7 @@ class MyTask_Controller {
         $id       = intval( $request->get_param( 'id' ) );
         $taskType = sanitize_text_field( $request->get_param( 'task_type' ) );
         
-        $today = date( 'Y-m-d', strtotime( current_time( 'mysql' ) ) );
+        $today = gmdate( 'Y-m-d', strtotime( current_time( 'mysql' ) ) );
 
         $user     = User::with( [
             'projects' => function ( $query ) use ( $id, $taskType, $today ) {
@@ -153,9 +153,10 @@ class MyTask_Controller {
         $user_id     = empty( $user_id ) ? absint( $current_user_id ) : absint( $user_id );
         $project_ids = $this->get_current_user_project_ids( $user_id );
 
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- $tb_boards is a table name. Table names cannot be placeholders.
         $get_boards = $wpdb->get_results(
             $wpdb->prepare(
-                "SELECT id FROM $tb_boards WHERE type='%s' and status=1", 'task_list'
+                "SELECT id FROM $tb_boards WHERE type=%s and status=1", 'task_list'
             )
         );
 
@@ -401,10 +402,12 @@ class MyTask_Controller {
                 GROUP BY(tsk.id)";
         }
 
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Complex query built dynamically, values are sanitized. Table names cannot be placeholders.
         $events     = $wpdb->get_results( $event_query );
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- $tb_role_user is a table name. Table names cannot be placeholders.
         $user_roles = $wpdb->get_results(
             $wpdb->prepare(
-                "SELECT DISTINCT user_id, project_id, role_id FROM $tb_role_user WHERE user_id='%d'", $current_user_id
+                "SELECT DISTINCT user_id, project_id, role_id FROM $tb_role_user WHERE user_id=%d", $current_user_id
             )
         );
 
@@ -474,8 +477,10 @@ class MyTask_Controller {
         $project_ids = [];
 
         // IF empty project id
-        $project_query = $wpdb->prepare( "SELECT DISTINCT project_id FROM $tb_role_user WHERE user_id='%d'", $user_id );
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- $tb_role_user is a table name. Table names cannot be placeholders.
+        $project_query = $wpdb->prepare( "SELECT DISTINCT project_id FROM $tb_role_user WHERE user_id=%d", $user_id );
 
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is prepared above. Table names cannot be placeholders.
         $project_ids = $wpdb->get_results( $project_query );
         $project_ids = wp_list_pluck( $project_ids, 'project_id' );
 

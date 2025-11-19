@@ -155,8 +155,6 @@ class ImportTrello extends WP_Background_Process
         // trello lists to cpm boards
         $this->fetchAndSaveLists($board_id,$pm_project->id);
 
-        error_log($board['name']);
-
     }
 
     /**
@@ -432,7 +430,7 @@ class ImportTrello extends WP_Background_Process
         $mailuser = preg_replace('/[^A-Za-z0-9\-]/', '', $mailuser);
         $hostname = str_replace('http', '',get_site_url());
         $hostname = str_replace('://', '',$hostname);
-        echo $hostname;
+        echo esc_html( $hostname );
         if (strpos($hostname, ".")) {
             $email = 'trello_'.$mailuser.'@'.$hostname;
         } else {

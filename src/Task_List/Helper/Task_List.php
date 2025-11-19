@@ -143,6 +143,7 @@ class Task_List {
 			->comments()
 			->files();
 			
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
 		$this->lists = apply_filters( 'pm_tasklist_with',$this->lists, $this->list_ids, $this->query_params );
 
 		return $this;
@@ -177,6 +178,7 @@ class Task_List {
 
 		array_push( $query_data, 'task_list' );
 		
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is prepared, $query is built dynamically with table names. Table names cannot be placeholders.
 		$results  = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 		$comment_ids = wp_list_pluck( $results, 'comment_id' );
 		
@@ -236,6 +238,7 @@ class Task_List {
 
 		array_push( $query_data, 'task_list' );
 		
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is prepared, $query is built dynamically with table names. Table names cannot be placeholders.
 		$results  = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 		$file_ids = wp_list_pluck( $results, 'file_id' );
 		
@@ -300,6 +303,7 @@ class Task_List {
 
 		array_push( $query_data, 'task_list', 'task', '1' );
 		
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is prepared, $query is built dynamically with table names. Table names cannot be placeholders.
 		$results  = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 		$task_ids = wp_list_pluck( $results, 'task_id' );
 		
@@ -364,6 +368,7 @@ class Task_List {
 
 		array_push( $query_data, 'task_list', 'task', '0' );
 		
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is prepared, $query is built dynamically with table names. Table names cannot be placeholders.
 		$results  = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 		$task_ids = wp_list_pluck( $results, 'task_id' );
 		
@@ -424,6 +429,7 @@ class Task_List {
 
 		array_push( $query_data, 'milestone', 'task_list' );
 		
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Query is prepared, $query is built dynamically with table names
 		$results       = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 		$milestone_ids = wp_list_pluck( $results, 'milestone_id' );
 		
@@ -533,6 +539,7 @@ class Task_List {
 
         array_push( $query_data, 'task_list' );
 
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Query is prepared, $query is built dynamically with table names
         $results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 
         foreach ( $results as $key => $result ) {
@@ -571,6 +578,7 @@ class Task_List {
 
 		array_push( $query_data, 'task', 'task_list' );
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Query is prepared, $query is built dynamically with table names
 		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 
 		foreach ( $results as $key => $result ) {
@@ -605,6 +613,7 @@ class Task_List {
 
 		array_push( $query_data, 'task', 'task_list', '1' );
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Query is prepared, $query is built dynamically with table names
 		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 
 		foreach ( $results as $key => $result ) {
@@ -639,6 +648,7 @@ class Task_List {
 
 		array_push( $query_data, 'task', 'task_list', '0' );
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Query is prepared, $query is built dynamically with table names
 		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 
 		foreach ( $results as $key => $result ) {
@@ -672,6 +682,7 @@ class Task_List {
 
 		array_push( $query_data, 'task_list' );
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Query is prepared, $query is built dynamically with table names
 		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 
 		foreach ( $results as $key => $result ) {
@@ -724,6 +735,7 @@ class Task_List {
 
 		array_push( $query_data, 'task_list', 'user' );
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Query is prepared, $query is built dynamically with table names
 		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 
 		foreach ( $results as $key => $result ) {
@@ -985,6 +997,7 @@ class Task_List {
 			WHERE %d=%d {$this->where} AND $this->tb_list.type=%s
 			{$this->orderby} {$this->limit} ";
 		
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is prepared, $query is built dynamically with table names. Table names cannot be placeholders.
 		$results = $wpdb->get_results( $wpdb->prepare( $query, 1, 1, 'task_list' ) );
 
 		$this->found_rows = $wpdb->get_var( "SELECT FOUND_ROWS()" );

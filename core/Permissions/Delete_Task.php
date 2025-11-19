@@ -18,6 +18,7 @@ class Delete_Task extends Abstract_Permission {
         	return true;
         }
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         $pm_task_delete_permission = apply_filters( 'pm_check_permission', true, $project_id, 'create_task' );
 
         if ( ! $pm_task_delete_permission ) {

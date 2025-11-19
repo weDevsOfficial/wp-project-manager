@@ -1,9 +1,12 @@
 <?php
 
 global $wp_version;
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Config file variable, not a global
 $suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Config file variable, not a global
 $view_path = dirname (__FILE__) . '/../views/';
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Config file variable, not a global
 $pm_scripts = [
 
     'pm-config' => [
@@ -270,6 +273,7 @@ $pm_scripts = [
 ];
 
 //if ( ( version_compare( $wp_version, '5.0', '<' ) ) || ! is_admin() ) {
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Config file variable, not a global
     $pm_hooks = [
 	    'pm-hooks' => [
 			'id'         => 'pm-hooks',
@@ -280,8 +284,10 @@ $pm_scripts = [
 		]
 	];
 
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Config file variable, not a global
 	$pm_scripts['pm-vue-library']['dependency'] = array_merge( [$pm_hooks['pm-hooks']['id']], $pm_scripts['pm-vue-library']['dependency'] );
 
+	// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Config file variable, not a global
 	$pm_scripts = array_merge( $pm_scripts, $pm_hooks );
 //}
 

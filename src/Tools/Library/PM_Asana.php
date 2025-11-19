@@ -12,12 +12,19 @@
  */
 namespace WeDevs\PM\Tools\Library;
 // Define some constants for later usage.
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- Constant names are part of Asana API library
 define('ASANA_METHOD_POST', 1);
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- Constant names are part of Asana API library
 define('ASANA_METHOD_PUT', 2);
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- Constant names are part of Asana API library
 define('ASANA_METHOD_GET', 3);
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- Constant names are part of Asana API library
 define('ASANA_METHOD_DELETE', 4);
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- Constant names are part of Asana API library
 define('ASANA_RETURN_TYPE_JSON', 1);
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- Constant names are part of Asana API library
 define('ASANA_RETURN_TYPE_OBJECT', 2);
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound -- Constant names are part of Asana API library
 define('ASANA_RETURN_TYPE_ARRAY', 3);
 
 class PM_Asana
@@ -64,6 +71,7 @@ class PM_Asana
         if (is_string($options)) {
             $this->apiKey = $options;
         } elseif (is_array($options) && !empty($options['apiKey'])) {
+            // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error -- Debug function for development
             trigger_error('API Key has been deprecated by Asana. Please use OAuth or Personal Access Tokens instead', E_USER_DEPRECATED);
             $this->apiKey = $options['apiKey'];
         } elseif (is_array($options) && !empty($options['personalAccessToken'])) {
@@ -378,6 +386,7 @@ class PM_Asana
      * Deprecated function, please use removeProjectFromTask
      */
     public function removeProjectToTask($taskId, $projectId) {
+        // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error -- Debug function for development
         trigger_error('Function is deprecated, please use removeProjectFromTask', E_USER_NOTICE);
 
         return $this->removeProjectFromTask($taskId, $projectId);
@@ -1211,6 +1220,7 @@ class PM_Asana
     {
         $data = array(
             'custom_field' => $customFieldId,
+            // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_var_export -- Debug function for development
             'is_important' => is_bool($isImportant) ? var_export($isImportant, true) : $isImportant
         );
         if (!is_null($insertBefore)) {
@@ -1323,6 +1333,7 @@ class PM_Asana
      */
     private function askAsana($url, $data = null, $method = ASANA_METHOD_GET)
     {
+        // phpcs:disable WordPress.WP.AlternativeFunctions.curl_curl_init,WordPress.WP.AlternativeFunctions.curl_curl_setopt,WordPress.WP.AlternativeFunctions.curl_curl_exec,WordPress.WP.AlternativeFunctions.curl_curl_getinfo,WordPress.WP.AlternativeFunctions.curl_curl_errno,WordPress.WP.AlternativeFunctions.curl_curl_error,WordPress.WP.AlternativeFunctions.curl_curl_close -- Asana API library requires cURL for API integration
         $headerData = array();
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $url);
@@ -1396,26 +1407,29 @@ class PM_Asana
             if ($this->debug || $this->advDebug) {
                 $info = curl_getinfo($curl);
                 echo '<pre>';
+                // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r -- Debug function for development
                 print_r($info);
                 echo '</pre>';
                 if ($info['http_code'] == 0) {
-                    echo '<br>cURL error num: ' . curl_errno($curl);
-                    echo '<br>cURL error: ' . curl_error($curl);
+                    echo '<br>cURL error num: ' . esc_html( curl_errno($curl) );
+                    echo '<br>cURL error: ' . esc_html( curl_error($curl) );
                 }
                 echo '<br>Sent info:<br><pre>';
+                // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_print_r -- Debug function for development
                 print_r($data);
                 echo '</pre>';
             }
         } catch (Exception $ex) {
             if ($this->debug || $this->advDebug) {
-                echo '<br>cURL error num: ' . curl_errno($curl);
-                echo '<br>cURL error: ' . curl_error($curl);
+                echo '<br>cURL error num: ' . esc_html( curl_errno($curl) );
+                echo '<br>cURL error: ' . esc_html( curl_error($curl) );
             }
             echo 'Error on cURL';
             $this->response = null;
         }
 
         curl_close($curl);
+        // phpcs:enable
 
         return $this->response;
     }

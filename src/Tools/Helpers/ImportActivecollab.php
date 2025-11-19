@@ -160,8 +160,6 @@ class ImportActivecollab extends WP_Background_Process
         $pm_project->save();
         $this->fetchAndSaveLists($this->projectDetails['tasks_lists'], $project_id, $pm_project->id);
 
-        error_log($this->projectDetails['title']);
-
     }
 
     /**
@@ -343,7 +341,6 @@ class ImportActivecollab extends WP_Background_Process
      */
 
     public function migrateProjectMembers($activecol_board_members,$pm_project_id){
-        error_log('entered ACP Members');
         $activecol_board_members = $this->repairStringArray($activecol_board_members);
         foreach ($activecol_board_members as $member){
             $user_id = null;
@@ -374,7 +371,6 @@ class ImportActivecollab extends WP_Background_Process
      * @param $pm_task_id
      */
     public function migrateCardMembers($activecol_card_members, $pm_project_id, $pm_task_id){
-        error_log('entered Card Members');
         $activecol_card_members = $this->repairStringArray($activecol_card_members);
         if(count($activecol_card_members) > 0) {
             foreach ($activecol_card_members as $member) {
@@ -418,7 +414,6 @@ class ImportActivecollab extends WP_Background_Process
      * @param $pm_task_id
      */
     public function migrateTaskComments($task_comments, $pm_project_id, $pm_task_id){
-        error_log('entered Tasks Comments');
 
     foreach ($task_comments as $comment) {
 
@@ -436,7 +431,6 @@ class ImportActivecollab extends WP_Background_Process
                     'created_by' => $user_id,
                     'updated_by' => $user_id
                 ));
-                error_log('comment_id : ' . $com_id);
             }
 
         }
@@ -451,7 +445,6 @@ class ImportActivecollab extends WP_Background_Process
      * @param $pm_task_id
      */
     public function migrateCardChecklists($activecol_card_Checklists,$pm_board_id, $pm_project_id, $pm_task_id){
-        error_log('entered Card Comments');
         if(count($activecol_card_Checklists) > 0) {
             foreach ($activecol_card_Checklists as $checklist) {
                 $list_item = $checklist['checkItems'];
@@ -509,7 +502,7 @@ class ImportActivecollab extends WP_Background_Process
         $mailuser = preg_replace('/[^A-Za-z0-9\-]/', '', $mailuser);
         $hostname = str_replace('http', '',get_site_url());
         $hostname = str_replace('://', '',$hostname);
-        echo $hostname;
+        echo esc_html( $hostname );
         if (strpos($hostname, ".")) {
             $email = 'activecol_'.$mailuser.'@'.$hostname;
         } else {

@@ -22,8 +22,10 @@ class Update_Project_Notification extends Email {
             return ;
         }
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         $template_name = apply_filters( 'pm_new_project_email_template_path', $this->get_template_path( '/html/update-project.php' ) );
-        $subject       = sprintf( __( '[%s] Updated Project: %s', 'wedevs-project-manager' ), $this->get_blogname(), $project['title'] );
+        // translators: %1$s: Site name, %2$s: Project title
+        $subject       = sprintf( __( '[%1$s] Updated Project: %2$s', 'wedevs-project-manager' ), $this->get_blogname(), $project['title'] );
         $assignees     = $project['assignees']['data'];
         $users         = array();
 

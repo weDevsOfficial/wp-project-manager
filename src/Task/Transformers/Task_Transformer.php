@@ -58,6 +58,7 @@ class Task_Transformer extends TransformerAbstract {
         }
 
         return apply_filters(
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
             'pm_task_transform',
             [
                 'id'           => (int) $item->id,
@@ -99,6 +100,7 @@ class Task_Transformer extends TransformerAbstract {
             LEFT JOIN $tb_tasks as tk ON tk.id = typt.task_id 
             where tk.id IN ($item_id)";
 
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is built dynamically with table names, values are sanitized. Table names cannot be placeholders.
         $result = $wpdb->get_row( $query );
 
         if ( $result ) {
@@ -135,6 +137,7 @@ class Task_Transformer extends TransformerAbstract {
      */
     public function getDefaultIncludes()
     {
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         return apply_filters( "pm_task_transformer_default_includes", $this->defaultIncludes );
     }
     /**

@@ -132,7 +132,6 @@ class ImportAsana extends WP_Background_Process
         $project_data = $this->asana->getAsana('projects/'.$project_id);
         if(isset($project_data->data)){
             $project = $project_data->data;
-            error_log(print_r($project, true));
 //            $hasProject = Project::where('title', '=', trim($project->name))->get();
 //            if(isset($hasProject->title)) {
                 $project_members = $project->members;
@@ -156,8 +155,6 @@ class ImportAsana extends WP_Background_Process
                 $this->migrateprojectsMembers($project_members, $pm_project->id);
                 // asana lists to cpm projects
                 $this->fetchAndSaveLists($project_id, $pm_project->id);
-
-                error_log($pm_project->name);
 //            }
         }
 
@@ -219,7 +216,6 @@ class ImportAsana extends WP_Background_Process
                 foreach ($tasks as $task_minimal) {
                     $task_d = $this->asana->getAsana('tasks/'.$task_minimal->gid);
                     sleep(3);
-                    error_log('task imported : '.print_r($task_d, true));
                     if(isset($task_d->data)){
                     $task = $task_d->data;
                         if($task->resource_subtype == "default_task") {
@@ -252,7 +248,6 @@ class ImportAsana extends WP_Background_Process
                             }
                             $subtasks = $this->asana->getAsana('tasks/'.$task->id.'/subtasks');
                             sleep(3);
-                            error_log('subtask imported : '.print_r($subtasks, true));
                             //migrating checklists to sub_task
                             if (is_array($subtasks->data)) {
                                 $this->migrateSubTasks($subtasks->data, $boardid, $pm_project_id, $pm_taks->id);
@@ -260,7 +255,6 @@ class ImportAsana extends WP_Background_Process
 
                             $task_stories = $this->asana->getAsana('tasks/'.$task->gid.'/stories');
                             sleep(3);
-                            error_log('subtask detailed to import : '.print_r($subtasks, true));
                             //migrating comments to discussion
                             if (is_array($task_stories->data)) {
                                 $this->migrateTaskStories($task_stories->data, $pm_project_id, $pm_taks->id);
@@ -307,8 +301,6 @@ class ImportAsana extends WP_Background_Process
      */
 
     public function migrateprojectsMembers($asana_project_members,$pm_project_id){
-        error_log('entered project Members');
-        error_log(print_r($asana_project_members, true));
         foreach ($asana_project_members as $member){
             $user_id = null;
             $user_role = array();
@@ -318,7 +310,6 @@ class ImportAsana extends WP_Background_Process
                 $credentials = $user_data->data;
                 if($credentials->email){
                     $email = sanitize_email( $credentials->email );
-                    error_log($email);
                     $user_id = $this->getOrCreateUserId($credentials->name, $email);
                 } else {
                     $user_id = $this->getOrCreateUserId($credentials->name,$this->makeFakeEmail($credentials->name));
@@ -343,7 +334,6 @@ class ImportAsana extends WP_Background_Process
      * @param $pm_task_id
      */
     public function migrateTaskFollowers($asana_task_follower, $pm_project_id, $pm_task_id){
-        error_log('entered Card Members');
         if(count($asana_task_follower) > 0) {
             foreach ($asana_task_follower as $member) {
                 $user_id = null;
@@ -378,7 +368,6 @@ class ImportAsana extends WP_Background_Process
      * @param $pm_task_id
      */
     public function migrateTaskStories($task_stories, $pm_project_id, $pm_task_id){
-        error_log('entered Tasks Comments');
 
         foreach ($task_stories as $comment) {
             if($comment->type == "comment") {
@@ -399,7 +388,6 @@ class ImportAsana extends WP_Background_Process
                         'created_by' => $user_id,
                         'updated_by' => $user_id
                     ));
-                    error_log('comment_id : ' . $com_id);
                 }
 
             }
@@ -414,7 +402,6 @@ class ImportAsana extends WP_Background_Process
      * @param $pm_task_id
      */
     public function migrateSubTasks($asanaSubTasks, $boardid, $pm_project_id, $pm_task_id){
-    error_log('entered Sub Task');
     if(count($asanaSubTasks) > 0) {
         foreach ($asanaSubTasks as $a_subtask) {
             $task_d = $this->asana->getAsana('tasks/'.$a_subtask->gid);
@@ -477,7 +464,7 @@ class ImportAsana extends WP_Background_Process
         $mailuser = preg_replace('/[^A-Za-z0-9\-]/', '', $mailuser);
         $hostname = str_replace('http', '',get_site_url());
         $hostname = str_replace('://', '',$hostname);
-        echo $hostname;
+        echo esc_html( $hostname );
         if (strpos($hostname, ".")) {
             $email = 'asana_'.$mailuser.'@'.$hostname;
         } else {
@@ -489,8 +476,6 @@ class ImportAsana extends WP_Background_Process
 
     public function makeBoardable($asana_section_type, $pm_task_id){
 //        $board_id = $this->sections['index'];
-        error_log('index : '.$asana_section_type);
-        error_log(print_r($this->sections, TRUE));
         $board_id = $this->sections[$asana_section_type];
         $boardable = new Boardable();
         $boardable->board_id = $board_id;

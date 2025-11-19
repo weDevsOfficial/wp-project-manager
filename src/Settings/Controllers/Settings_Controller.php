@@ -73,6 +73,7 @@ class Settings_Controller {
             ( new Helper )->update_project_permission( $data, $project_id );
         }
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         do_action( 'pm_after_save_settings', $settings );
         
         $message = [

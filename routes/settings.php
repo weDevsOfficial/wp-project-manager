@@ -2,7 +2,9 @@
 
 use WeDevs\PM\Core\Router\Router;
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Route file variable, not a global
 $router    = Router::singleton();
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Route file variable, not a global
 $authentic = 'WeDevs\PM\Core\Permissions\Authentic';
 
 $router->get( 'settings', 'WeDevs/PM/Settings/Controllers/Settings_Controller@index' )

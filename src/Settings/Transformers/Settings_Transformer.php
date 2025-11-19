@@ -80,6 +80,7 @@ class Settings_Transformer extends TransformerAbstract {
      */
     public function getDefaultIncludes()
     {
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         return apply_filters( "pm_setting_transformer_default_includes", $this->defaultIncludes );
     }
 }

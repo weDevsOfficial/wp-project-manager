@@ -2,6 +2,7 @@
 
 use WeDevs\PM\Core\Router\Router;
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Route file variable, not a global
 $router = Router::singleton();
 
 $router->get( 'projects/{project_id}/task-lists', 'WeDevs/PM/Task_List/Controllers/Task_List_Controller@index' )

@@ -11,6 +11,7 @@ use WeDevs\PM\Project\Validators\Update_Project;
 use WeDevs\PM\Project\Sanitizers\Delete_Sanitizer;
 use WeDevs\PM\Helper\Project;
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Route file variable, not a global
 $router = Router::singleton();
 
 $router->get( 'advanced/projects', 'WeDevs/PM/Project/Controllers/Project_Controller@index' )

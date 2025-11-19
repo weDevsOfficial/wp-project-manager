@@ -89,6 +89,7 @@ class User_Transformer extends TransformerAbstract {
      * @return array
      */
     public function getDefaultIncludes() {
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         return apply_filters( "pm_user_transformer_default_includes", $this->defaultIncludes );
     }
 
@@ -113,7 +114,7 @@ class User_Transformer extends TransformerAbstract {
 
     public function includeMeta ( User $user ) {
         return $this->item ('', function () use ( $user ) {
-            $today = date( 'Y-m-d', strtotime( current_time( 'mysql' ) ) );
+            $today = gmdate( 'Y-m-d', strtotime( current_time( 'mysql' ) ) );
 
             $project_ids = User_Role::where( 'user_id', $user->ID )->get(['project_id'])->toArray();
             $project_ids = wp_list_pluck( $project_ids, 'project_id' );
@@ -143,12 +144,12 @@ class User_Transformer extends TransformerAbstract {
                 if ( empty( $item['due_date'] ) ) {
                     return true;
                 }
-                return date( 'Y-m-d', strtotime( $item['due_date'] ) ) >=  $today;
+                return gmdate( 'Y-m-d', strtotime( $item['due_date'] ) ) >=  $today;
             });
 
             $total_outstanding_tasks = $tasks->where( 'status', 'incomplete' )->filter( function( $item ) use ( $today ) {
                 if ( ! empty( $item['due_date'] ) ) {
-                    return date( 'Y-m-d', strtotime( $item['due_date'] ) ) <  $today;
+                    return gmdate( 'Y-m-d', strtotime( $item['due_date'] ) ) <  $today;
                 }
             });
 
@@ -159,9 +160,9 @@ class User_Transformer extends TransformerAbstract {
                 
                 $total_current_tasks = $tasks->where( 'status', 'incomplete' )->filter( function( $item ) use ( $start_at, $due_date, &$total ) {
                         
-                    $today         = date( 'Y-m-d', strtotime( current_time('mysql') ) );
-                    $item_start_at = empty( $item['start_at'] ) ? date( 'Y-m-d', strtotime( $item['created_at'] ) ) : date( 'Y-m-d', strtotime( $item['start_at'] ) );
-                    $item_due_date = empty( $item['due_date'] ) ? '' : date( 'Y-m-d', strtotime( $item['due_date'] ) );
+                    $today         = gmdate( 'Y-m-d', strtotime( current_time('mysql') ) );
+                    $item_start_at = empty( $item['start_at'] ) ? gmdate( 'Y-m-d', strtotime( $item['created_at'] ) ) : gmdate( 'Y-m-d', strtotime( $item['start_at'] ) );
+                    $item_due_date = empty( $item['due_date'] ) ? '' : gmdate( 'Y-m-d', strtotime( $item['due_date'] ) );
     
                     if ( 
                         $today <= $item_due_date 
@@ -179,9 +180,9 @@ class User_Transformer extends TransformerAbstract {
 
                 $total_outstanding_tasks = $tasks->where( 'status', 'incomplete' )->filter( function( $item ) use ( $start_at, $due_date, &$total ) {
 
-                    $today         = date( 'Y-m-d', strtotime( current_time('mysql') ) );
-                    $item_due_date = empty( $item['due_date'] ) ? '' : date( 'Y-m-d', strtotime( $item['due_date'] ) );
-                    $item_start_at = empty( $item['start_at'] ) ? date( 'Y-m-d', strtotime( $item['created_at'] ) ) : date( 'Y-m-d', strtotime( $item['start_at'] ) );
+                    $today         = gmdate( 'Y-m-d', strtotime( current_time('mysql') ) );
+                    $item_due_date = empty( $item['due_date'] ) ? '' : gmdate( 'Y-m-d', strtotime( $item['due_date'] ) );
+                    $item_start_at = empty( $item['start_at'] ) ? gmdate( 'Y-m-d', strtotime( $item['created_at'] ) ) : gmdate( 'Y-m-d', strtotime( $item['start_at'] ) );
     
                     if ( 
                         !empty( $item_due_date )
@@ -199,8 +200,8 @@ class User_Transformer extends TransformerAbstract {
 
                 $total_complete_tasks = $tasks->where( 'status', 'complete' )->filter( function( $item ) use ( $start_at, $due_date, &$total ) {
 
-                    $item_due_date = empty( $item['due_date'] ) ? '' : date( 'Y-m-d', strtotime( $item['due_date'] ) );
-                    $item_start_at = empty( $item['start_at'] ) ? date( 'Y-m-d', strtotime( $item['created_at'] ) ) : date( 'Y-m-d', strtotime( $item['start_at'] ) );
+                    $item_due_date = empty( $item['due_date'] ) ? '' : gmdate( 'Y-m-d', strtotime( $item['due_date'] ) );
+                    $item_start_at = empty( $item['start_at'] ) ? gmdate( 'Y-m-d', strtotime( $item['created_at'] ) ) : gmdate( 'Y-m-d', strtotime( $item['start_at'] ) );
     
                     if ( 
                         $item_start_at >= $start_at 
@@ -295,11 +296,11 @@ class User_Transformer extends TransformerAbstract {
         $due_date = empty( $_GET['due_date'] ) ? false : pm_clean( $_GET['due_date'] );
 
         if ( $start_at && $due_date ) {
-            $first_day = date( 'Y-m-d', strtotime( $start_at ) );
-            $today = date( 'Y-m-d', strtotime( $due_date ) );
+            $first_day = gmdate( 'Y-m-d', strtotime( $start_at ) );
+            $today = gmdate( 'Y-m-d', strtotime( $due_date ) );
         } else {
-            $today     = date( 'Y-m-d', strtotime( current_time( 'mysql' ) ) );
-            $first_day = date( 'Y-m-d', strtotime('-1 month') );
+            $today     = gmdate( 'Y-m-d', strtotime( current_time( 'mysql' ) ) );
+            $first_day = gmdate( 'Y-m-d', strtotime('-1 month') );
         }
 
         $graph_data      = [];
@@ -311,19 +312,19 @@ class User_Transformer extends TransformerAbstract {
         $assigned_tasks  = $item->assignees->toBase();
         $activities      = $item->activities->toBase();
         
-        for (  $dt = $first_day; $dt<=$today; $dt = date('Y-m-d', strtotime( $dt . '+1 day' ) ) ) {
+        for (  $dt = $first_day; $dt<=$today; $dt = gmdate('Y-m-d', strtotime( $dt . '+1 day' ) ) ) {
 
             $dt_activities = $activities->filter( function($item) use ( $dt ) {
 
-                return date( 'Y-m-d', strtotime( $item['created_at'] ) ) == $dt;
+                return gmdate( 'Y-m-d', strtotime( $item['created_at'] ) ) == $dt;
             } );
 
             $dt_assigned_tasks = $assigned_tasks->filter( function ( $item ) use ( $dt ) {
-                return date( 'Y-m-d', strtotime( $item['assigned_at'] ) ) == $dt;
+                return gmdate( 'Y-m-d', strtotime( $item['assigned_at'] ) ) == $dt;
             });
 
             $dt_completed_tasks = $completed_tasks->filter( function ( $item ) use ( $dt ) {
-                return date( 'Y-m-d', strtotime( $item['updated_at'] ) ) == $dt;
+                return gmdate( 'Y-m-d', strtotime( $item['updated_at'] ) ) == $dt;
             });
 
             $graph_data[] = [

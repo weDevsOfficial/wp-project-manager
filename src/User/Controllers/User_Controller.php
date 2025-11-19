@@ -202,12 +202,14 @@ class User_Controller {
                 AND umeta.meta_key='$meta_key'
                 $role";
         } else {
+             // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- $tb_role_users and $tb_users are table names, $role is built from sanitized data. Table names cannot be placeholders.
              $sql = "SELECT DISTINCT us.ID as user_id, us.user_email as user_email, us.display_name as display_name
                 FROM $tb_role_users as rus
                 LEFT JOIN $tb_users as us ON us.ID=rus.user_id
                 WHERE 1=1 $role";
         } 
 
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is built above with table names, values are sanitized. Table names cannot be placeholders.
         $users = $wpdb->get_results( $sql );
 
         foreach ( $users as $key => $user ) {

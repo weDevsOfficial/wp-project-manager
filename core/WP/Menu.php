@@ -21,6 +21,7 @@ class Menu {
         $submenu[$slug][] = [ __( 'Projects', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/" ];
 
         $active_task = self::my_task_count();
+        // translators: %s: HTML span element containing the task count badge
         $mytask_text = sprintf( __( 'My Tasks %s', 'wedevs-project-manager' ), '<span class="awaiting-mod count-1"><span class="pending-count">' . $active_task . '</span></span>' );
         $submenu[$slug][] = [ $mytask_text , self::$capability, "admin.php?page={$slug}#/my-tasks" ];
 
@@ -28,10 +29,12 @@ class Menu {
             $submenu[$slug][] = [ __( 'Categories', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/categories" ];
         }
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         do_action( 'pm_menu_before_load_scripts', $home );
 
         add_action( 'admin_print_styles-' . $home, array( 'WeDevs\\PM\\Core\\WP\\Menu', 'scripts' ) );
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name, part of public API
         do_action( 'cpm_admin_menu', self::$capability, $home );
 
         if ( ! $wedevs_pm_pro ) {
@@ -46,6 +49,7 @@ class Menu {
             $submenu[$slug]['importtools'] = [ __( 'Tools', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/importtools" ];
         }
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         do_action( 'pm_menu_after_load_scripts', $home );
     }
 
@@ -59,7 +63,7 @@ class Menu {
 	}
 
 	public static function my_task_count () {
-		$today = date( 'Y-m-d', strtotime( current_time( 'mysql' ) ) );
+		$today = gmdate( 'Y-m-d', strtotime( current_time( 'mysql' ) ) );
 		$user_id = get_current_user_id();
 
 		$project_ids = User_Role::where( 'user_id', $user_id)->get(['project_id'])->toArray();

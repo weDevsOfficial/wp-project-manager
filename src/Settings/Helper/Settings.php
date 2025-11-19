@@ -75,9 +75,11 @@ class Settings {
 		global $wpdb;
 		$tb_rol = $wpdb->prefix . 'pm_role_project';
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $tb_rol is a table name
 		$query = "SELECT id FROM $tb_rol
 			WHERE project_id=%d and role_id=%d";
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Query is prepared above
 		$this->co_worker_role_project_id = $wpdb->get_var( $wpdb->prepare( $query, $project_id, 2  ) );
 		
 		return $this;
@@ -90,6 +92,7 @@ class Settings {
 		$query = "SELECT id FROM $tb_rol
 			WHERE project_id=%d and role_id=%d";
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Query is prepared above
 		$this->client_role_project_id = $wpdb->get_var( $wpdb->prepare( $query, $project_id, 3  ) );
 
 		return $this;
@@ -102,6 +105,7 @@ class Settings {
 		$query = "SELECT id FROM $tb_rol
 			WHERE project_id=%d and role_id=%d";
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Query is prepared above
 		$this->manager_role_project_id = $wpdb->get_var( $wpdb->prepare( $query, $project_id, 1  ) );
 
 		return $this;
@@ -116,6 +120,7 @@ class Settings {
 			LEFT JOIN $tb_rol as rp ON rp.id=cp.role_project_id
 			WHERE rp.project_id=%d";
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Query is built dynamically with table names, values are sanitized
 		$wpdb->query( $wpdb->prepare( $query, $project_id ) );
 
 		return $this;

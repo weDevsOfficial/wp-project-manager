@@ -189,6 +189,7 @@ class Project {
 		$query = "SELECT DISTINCT COUNT(id) FROM $tb_projects
 				WHERE status =%s";
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is prepared, $query is built dynamically with table names. Table names cannot be placeholders.
 		$incomplete_project_count = $wpdb->get_var( $wpdb->prepare( $query, $type ) );
 
 		return $incomplete_project_count;
@@ -207,6 +208,7 @@ class Project {
 			AND $tb_meta.entity_id = %d
 			AND $tb_meta.meta_value is not null";
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is prepared, $query is built dynamically with table names. Table names cannot be placeholders.
 		$favourite_project_count = $wpdb->get_var( $wpdb->prepare( $query, 'favourite_project', $current_user_id ) );
 
 		return $favourite_project_count;
@@ -251,6 +253,7 @@ class Project {
         $items = $this->item_with( $items, $project );
         //$items = $this->item_meta( $items, $project );
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         return apply_filters( 'pm_project_transform', $items, $project );
 
 
@@ -321,6 +324,7 @@ class Project {
 			->include_categories()
 			->role_capabilities();
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
 		$this->projects = apply_filters( 'pm_project_with',$this->projects, $this->project_ids, $this->query_params );
 
 		return $this;
@@ -420,6 +424,7 @@ class Project {
 		
 		array_push( $query_data, 'project', 'favourite_project', $current_user_id );
 		
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is prepared, $query is built dynamically with table names. Table names cannot be placeholders.
 		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 		
 		foreach ( $results as $key => $result ) {
@@ -461,6 +466,7 @@ class Project {
 
 		array_push( $query_data, 'project' );
 		
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is prepared, $query is built dynamically with table names. Table names cannot be placeholders.
 		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 		
 		foreach ( $results as $key => $result ) {
@@ -501,6 +507,7 @@ class Project {
 
 		array_push( $query_data, 0 );
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is prepared, $query is built dynamically with table names. Table names cannot be placeholders.
 		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 
 		foreach ( $results as $key => $result ) {
@@ -537,6 +544,7 @@ class Project {
 
 		array_push( $query_data, 1 );
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is prepared, $query is built dynamically with table names. Table names cannot be placeholders.
 		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 
 		foreach ( $results as $key => $result ) {
@@ -598,6 +606,7 @@ class Project {
 			WHERE pt.project_id IN ($project_format)
 			GROUP by pt.project_id";
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is prepared, $query is built dynamically with table names. Table names cannot be placeholders.
 		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 
 		foreach ( $results as $key => $result ) {
@@ -635,6 +644,7 @@ class Project {
 
 		array_push( $query_data, 'task_list' );
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Query is prepared, $query is built dynamically with table names
 		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data )  );
 
 		foreach ( $results as $key => $result ) {
@@ -672,6 +682,7 @@ class Project {
 
 		array_push( $query_data, 'discussion_board' );
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Query is prepared, $query is built dynamically with table names
 		$results = $wpdb->get_results( $wpdb->prepare( $query,  $query_data ) );
 
 		foreach ( $results as $key => $result ) {
@@ -707,6 +718,7 @@ class Project {
 			WHERE pcm.project_id IN ($project_format)
 			GROUP BY pcm.project_id";
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Query is prepared, $query is built dynamically with table names
 		$results = $wpdb->get_results( $wpdb->prepare( $query,  $query_data ) );
 
 		foreach ( $results as $key => $result ) {
@@ -749,6 +761,7 @@ class Project {
 
 		array_push( $query_data, 'milestone' );
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is prepared, $query is built dynamically with table names. Table names cannot be placeholders.
 		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 
 		foreach ( $results as $key => $result ) {
@@ -788,6 +801,7 @@ class Project {
 			WHERE pf.project_id IN ($project_format)
 			GROUP BY pf.project_id";
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is prepared, $query is built dynamically with table names. Table names cannot be placeholders.
 		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 
 		foreach ( $results as $key => $result ) {
@@ -827,6 +841,7 @@ class Project {
 			WHERE pma.project_id IN ($project_format)
 			GROUP BY pma.project_id";
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is prepared, $query is built dynamically with table names. Table names cannot be placeholders.
 		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 
 
@@ -901,6 +916,7 @@ class Project {
 
 		array_push( $query_data, 'project' );
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is prepared, $query is built dynamically with table names. Table names cannot be placeholders.
 		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 
 		foreach ( $results as $key => $result ) {
@@ -959,6 +975,7 @@ class Project {
 				LEFT JOIN $tb_role_project as rp ON rp.id = rpc.role_project_id
 				where rp.project_id IN ($project_format)";
 		
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is prepared, $query is built dynamically with table names. Table names cannot be placeholders.
 		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 
 		$caps = [];
@@ -1042,6 +1059,7 @@ class Project {
 				where asin.project_id IN ($project_format)";
 		} 
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is prepared, $query is built dynamically with table names. Table names cannot be placeholders.
 		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 		
 		foreach ( $results as $key => $result ) {
@@ -1106,6 +1124,7 @@ class Project {
 		
 		$this->join .= " LEFT JOIN {$wpdb->prefix}pm_role_user ON {$wpdb->prefix}pm_role_user.project_id={$wpdb->prefix}pm_projects.id";
 		
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
 		$this->join = apply_filters( 'pm_project_join_query', $this->join, $this->query_params );
 
 		return $this;
@@ -1124,6 +1143,7 @@ class Project {
 			->where_title()
 			->where_status();
 		
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
 		$this->where = apply_filters( 'pm_project_where_query', $this->where, $this->query_params );
 
 		return $this;
@@ -1144,10 +1164,12 @@ class Project {
 
 		if ( is_array( $id ) ) {
 			$query_format = pm_get_prepare_format( $id );
+			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare -- Complex query with interpolated table names and format strings, values are sanitized
 			$this->where .= $wpdb->prepare( " AND {$this->tb_project}.id IN ($query_format)", $id );
 		}
 
 		if ( !is_array( $id ) ) {
+			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is interpolated, values are sanitized
 			$this->where .= $wpdb->prepare( " AND {$this->tb_project}.id IN (%d)", $id );
 
 			$explode = explode( ',', $id );
@@ -1194,6 +1216,7 @@ class Project {
 			if ( gettype( $status ) == 'string' ) {
 				$status = $attr[$status];
 			}
+			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is interpolated, values are sanitized
 			$this->where .= $wpdb->prepare( " AND {$this->tb_project}.status=%d", $status );
 		}
 
@@ -1213,6 +1236,7 @@ class Project {
 			return $this;
 		}
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is interpolated, values are sanitized
 		$this->where .= $wpdb->prepare( " AND {$this->tb_project}.title LIKE %s", '%'.$title.'%' );
 
 		return $this;
@@ -1245,9 +1269,11 @@ class Project {
 			$query_format = pm_get_prepare_format( $inUsers );
 
 			if ( ! empty( trim( $query_format ) ) ) {
+				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare -- Complex query with interpolated table names and format strings, values are sanitized
 				$this->where .= $wpdb->prepare( " AND {$this->tb_project_user}.user_id IN ($query_format)", $inUsers );
 			}
 		} else {
+			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is interpolated, values are sanitized
 			$this->where .= $wpdb->prepare( " AND {$this->tb_project_user}.user_id IN (%d)", $inUsers );
 		}
 
@@ -1271,8 +1297,10 @@ class Project {
 
 		if ( is_array( $category ) ) {
 			$query_format = pm_get_prepare_format( $category );
+			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare -- Complex query with interpolated table names and format strings, values are sanitized
 			$this->where .= $wpdb->prepare( " AND {$this->tb_category_project}.category_id IN ($query_format)", $category );	
 		} else {
+			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is interpolated, values are sanitized
 			$this->where .= $wpdb->prepare( " AND {$this->tb_category_project}.category_id IN (%d)", $category );
 		}
 		
@@ -1323,7 +1351,8 @@ class Project {
 
         $order = [];
 
-        $columns = $wpdb->get_col( "DESC $tb_pm_projects" );
+        // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table name is interpolated, DESC is a SQL command. Table names cannot be placeholders.
+		$columns = $wpdb->get_col( "DESC $tb_pm_projects" );
 
         foreach ( $orders as $key => $value ) {
             if ( !in_array( $key, $columns ) ) {
@@ -1389,6 +1418,7 @@ class Project {
 				{$this->orderby}
 				{$this->limit}";
 		
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is prepared, $query is built dynamically with table names. Table names cannot be placeholders.
 		$results = $wpdb->get_results( $wpdb->prepare( $query, 1, 1 ) );
 		
 		$this->found_rows = $wpdb->get_var( "SELECT FOUND_ROWS()" );

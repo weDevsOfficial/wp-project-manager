@@ -57,7 +57,8 @@
                                     <?php esc_html_e( 'Created at', 'wedevs-project-manager' ) ?>
                                 </p>
                                 <h2 style="font-size: 16px; color: #000; margin: 0; font-weight: 400;">
-                                     <?php $project_date = empty( $created_at['date'] ) ? '&#x02013;&#x02013;' : pm_date_format( esc_html( $created_at['date'] ) ); ?>
+                                     <?php // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Template variable, not a global
+                                     $project_date = empty( $created_at['date'] ) ? '&#x02013;&#x02013;' : pm_date_format( esc_html( $created_at['date'] ) ); ?>
                                     <?php echo esc_html( $project_date ); ?>
                                 </h2>
                                 &nbsp;
@@ -108,7 +109,7 @@
                             <?php esc_html_e( 'Project Assignes', 'wedevs-project-manager'); ?>
                         </h2>
                         <span style="margin: 0; padding: 0; list-style: none; display: inline-block;">
-                            <?php foreach( $assignees['data'] as $assign ): ?>
+                            <?php foreach( $assignees['data'] as $assign ): // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Template variable, not a global ?>
                                 <img style="outline:none; margin-right: 4px; text-decoration:none; height: 33px; width: 33px; border-radius: 50%;" src="<?php echo esc_url( $assign['avatar_url'] ); ?>" alt="<?php echo esc_attr( $assign['display_name'] ); ?>" title="<?php echo esc_attr( $assign['display_name'] ); ?>" width="33" height="33" />
                             <?php endforeach; ?>
                         </span>
