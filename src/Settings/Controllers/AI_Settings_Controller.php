@@ -16,6 +16,8 @@ class AI_Settings_Controller {
 
     use Request_Filter, Transformer_Manager;
 
+    const TIMEOUT_DURATION = 300;
+
     /**
      * Get all available AI providers
      *
@@ -129,7 +131,7 @@ class AI_Settings_Controller {
                 }
             }
         }
-        
+
         // Pass models in extra parameter so they're merged into the response
         return $this->get_response( $resource, [ 'models' => $formatted_models ] );
     }
@@ -292,47 +294,49 @@ class AI_Settings_Controller {
             // Anthropic requires POST with a body to test connection
             $url = 'https://api.anthropic.com/v1/messages';
             $args = [
-                'method' => 'POST',
-                'timeout' => 15,
+                'method'    => 'POST',
+                'timeout'   => self::TIMEOUT_DURATION,
                 'sslverify' => true,
-                'headers' => [
-                    'x-api-key' => $api_key,
+                'headers'   => [
+                    'x-api-key'         => $api_key,
                     'anthropic-version' => '2023-06-01',
-                    'Content-Type' => 'application/json'
+                    'Content-Type'      => 'application/json',
                 ],
-                'body' => json_encode( [
-                    'model' => 'claude-sonnet-4-5-20250929',
-                    'max_tokens' => 10,
-                    'messages' => [
-                        [
-                            'role' => 'user',
-                            'content' => 'Hi'
-                        ]
+                'body'      => json_encode(
+                    [
+                        'model'      => 'claude-sonnet-4-5-20250929',
+                        'max_tokens' => 10,
+                        'messages'   => [
+                            [
+                                'role'    => 'user',
+                                'content' => 'Hi',
+                            ],
+                        ],
                     ]
-                ] )
+                ),
             ];
         } elseif ( $provider === 'google' ) {
             // Google uses GET with API key in query string
             $url = 'https://generativelanguage.googleapis.com/v1/models?key=' . urlencode( $api_key );
             $args = [
-                'method' => 'GET',
-                'timeout' => 15,
+                'method'    => 'GET',
+                'timeout'   => self::TIMEOUT_DURATION,
                 'sslverify' => true,
-                'headers' => [
-                    'Content-Type' => 'application/json'
-                ]
+                'headers'   => [
+                    'Content-Type' => 'application/json',
+                ],
             ];
         } else {
             // OpenAI uses GET with Bearer token
-            $url = 'https://api.openai.com/v1/models';
+            $url  = 'https://api.openai.com/v1/models';
             $args = [
-                'method' => 'GET',
-                'timeout' => 15,
+                'method'    => 'GET',
+                'timeout'   => self::TIMEOUT_DURATION,
                 'sslverify' => true,
-                'headers' => [
+                'headers'   => [
                     'Authorization' => 'Bearer ' . $api_key,
-                    'Content-Type' => 'application/json'
-                ]
+                    'Content-Type'  => 'application/json',
+                ],
             ];
         }
 
@@ -353,7 +357,7 @@ class AI_Settings_Controller {
             // For Anthropic, verify we got a valid response structure
             if ( $provider === 'anthropic' ) {
                 $response_data = json_decode( $response_body, true );
-                
+
                 // Anthropic success response should have 'content' or 'id' field
                 if ( isset( $response_data['content'] ) || isset( $response_data['id'] ) ) {
                     return [
@@ -377,7 +381,7 @@ class AI_Settings_Controller {
                             'message' => esc_html( $error_message )
                         ];
                     }
-                    
+
                     // Unexpected response format
                     return [
                         'success' => false,
@@ -385,7 +389,7 @@ class AI_Settings_Controller {
                     ];
                 }
             }
-            
+
             // For OpenAI and Google, 200 status is sufficient
             return [
                 'success' => true,
@@ -396,7 +400,7 @@ class AI_Settings_Controller {
 
             // Try to extract a meaningful error message
             $error_message = __( 'Connection failed. Please check your API key and settings.', 'wedevs-project-manager' );
-            
+
             // Handle Anthropic error format
             if ( $provider === 'anthropic' && isset( $error_data['error'] ) ) {
                 if ( isset( $error_data['error']['message'] ) && is_string( $error_data['error']['message'] ) ) {

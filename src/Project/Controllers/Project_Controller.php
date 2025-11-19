@@ -29,9 +29,10 @@ class Project_Controller {
 	// Token limit constants for AI generation
 	const MIN_MAX_TOKENS = 500;
 	const MAX_MAX_TOKENS = 16384;
-	const MAX_JSON_CONTENT_SIZE = 1000000; // 1MB limit for JSON repair operations
+    const MAX_JSON_CONTENT_SIZE = 1000000; // 1MB limit for JSON repair operations
+    const TIMEOUT_DURATION = 300;
 
-	public function index( WP_REST_Request $request ) {
+    public function index( WP_REST_Request $request ) {
 		$per_page = intval( $request->get_param( 'per_page' ) );
 		$page     = intval( $request->get_param( 'page' ) );
 		$status   = $request->get_param( 'status' );
@@ -485,7 +486,7 @@ class Project_Controller {
 		$model = isset( $settings['ai_model'] ) ? sanitize_text_field( $settings['ai_model']->value ) : 'gpt-3.5-turbo';
 		$max_tokens = isset( $settings['ai_max_tokens'] ) ? intval( $settings['ai_max_tokens']->value ) : 2000;
 		$temperature = isset( $settings['ai_temperature'] ) ? floatval( $settings['ai_temperature']->value ) : 0.7;
-		
+
 		// Enforce token limits for safety
 		$max_tokens = max( self::MIN_MAX_TOKENS, min( self::MAX_MAX_TOKENS, $max_tokens ) );
 
@@ -609,7 +610,7 @@ class Project_Controller {
 		// Get model config
 		$models_config = \WeDevs\PM\Settings\Controllers\AI_Settings_Controller::get_models();
 		$model_config = isset( $models_config[ $model ] ) ? $models_config[ $model ] : null;
-		
+
 		// Validate model exists
 		if ( !$model_config ) {
 			return [
@@ -635,22 +636,22 @@ class Project_Controller {
 				],
 				'max_tokens' => $max_tokens
 			];
-			
+
 			// Only add temperature if model supports it
 			if ( $supports_temperature ) {
 				$body['temperature'] = $temperature;
 			}
 
-			$args = [
-				'method' => 'POST',
-				'timeout' => 30,
-				'sslverify' => true,
-				'headers' => [
-					'Authorization' => 'Bearer ' . $api_key,
-					'Content-Type' => 'application/json'
-				],
-				'body' => json_encode( $body )
-			];
+            $args = [
+                'method'    => 'POST',
+                'timeout'   => self::TIMEOUT_DURATION,
+                'sslverify' => true,
+                'headers'   => [
+                    'Authorization' => 'Bearer ' . $api_key,
+                    'Content-Type'  => 'application/json',
+                ],
+                'body'      => json_encode( $body ),
+            ];
 		} elseif ( $provider === 'anthropic' ) {
 			$url = $provider_config['endpoint'];
 
@@ -667,51 +668,51 @@ class Project_Controller {
 				],
 				'max_tokens' => $max_tokens
 			];
-			
+
 			// Only add temperature if model supports it
 			if ( $supports_temperature ) {
 				$body['temperature'] = $temperature;
 			}
 
-			$args = [
-				'method' => 'POST',
-				'timeout' => 30,
-				'sslverify' => true,
-				'headers' => [
-					'x-api-key' => $api_key,
-					'anthropic-version' => '2023-06-01',
-					'Content-Type' => 'application/json'
-				],
-				'body' => json_encode( $body )
-			];
+            $args = [
+                'method'    => 'POST',
+                'timeout'   => self::TIMEOUT_DURATION,
+                'sslverify' => true,
+                'headers'   => [
+                    'x-api-key'         => $api_key,
+                    'anthropic-version' => '2023-06-01',
+                    'Content-Type'      => 'application/json',
+                ],
+                'body'      => json_encode( $body ),
+            ];
 		} else { // google
 			// For Google, use model_path if available, otherwise use model_id
-			$google_model = isset( $model_config['model_path'] ) && !empty( $model_config['model_path'] ) 
-				? $model_config['model_path'] 
+			$google_model = isset( $model_config['model_path'] ) && !empty( $model_config['model_path'] )
+				? $model_config['model_path']
 				: $model;
-			
+
 			// Remove 'models/' prefix if present (endpoint already includes it)
 			if ( strpos( $google_model, 'models/' ) === 0 ) {
 				$google_model = substr( $google_model, 7 );
 			}
-			
+
 			$url = str_replace( '{model}', $google_model, $provider_config['endpoint'] ) . '?key=' . urlencode( $api_key );
 
 			// Check if model supports temperature
 			$supports_temperature = $this->model_supports_temperature( $model, $model_config );
-			
+
 			// Check if model supports JSON mode
 			$supports_json_mode = isset( $model_config['supports_json_mode'] ) && $model_config['supports_json_mode'];
 
 			$generationConfig = [
 				'maxOutputTokens' => $max_tokens
 			];
-			
+
 			// Only add temperature if model supports it
 			if ( $supports_temperature ) {
 				$generationConfig['temperature'] = $temperature;
 			}
-			
+
 			// Enable JSON mode if supported (forces structured JSON output)
 			if ( $supports_json_mode ) {
 				$generationConfig['responseMimeType'] = 'application/json';
@@ -730,15 +731,15 @@ class Project_Controller {
 				'generationConfig' => $generationConfig
 			];
 
-			$args = [
-				'method' => 'POST',
-				'timeout' => 30,
-				'sslverify' => true,
-				'headers' => [
-					'Content-Type' => 'application/json'
-				],
-				'body' => json_encode( $body )
-			];
+            $args = [
+                'method'    => 'POST',
+                'timeout'   => self::TIMEOUT_DURATION,
+                'sslverify' => true,
+                'headers'   => [
+                    'Content-Type' => 'application/json',
+                ],
+                'body'      => json_encode( $body ),
+            ];
 		}
 
 		$response = wp_remote_request( $url, $args );
@@ -811,14 +812,14 @@ class Project_Controller {
 			// Check for finish reason first (Google Gemini specific)
 			if ( isset( $response_data['candidates'][0]['finishReason'] ) ) {
 				$finish_reason = $response_data['candidates'][0]['finishReason'];
-				
+
 				if ( $finish_reason === 'MAX_TOKENS' ) {
 					// Response was truncated due to token limit
 					$usage_metadata = isset( $response_data['usageMetadata'] ) ? $response_data['usageMetadata'] : [];
 					$total_tokens = isset( $usage_metadata['totalTokenCount'] ) ? $usage_metadata['totalTokenCount'] : 0;
 					$thoughts_tokens = isset( $usage_metadata['thoughtsTokenCount'] ) ? $usage_metadata['thoughtsTokenCount'] : 0;
 					$candidates_tokens = isset( $usage_metadata['candidatesTokenCount'] ) ? $usage_metadata['candidatesTokenCount'] : 0;
-					
+
 					// Try to extract content even if truncated - it might still be parseable
 					// We'll attempt to parse it and if it fails, show the error
 					$truncated_content = '';
@@ -832,13 +833,13 @@ class Project_Controller {
 							}
 						}
 					}
-					
+
 					// If we have content, try to use it (will be cleaned and parsed later)
 					// Otherwise, show error with recommendation
 					if ( empty( $truncated_content ) ) {
 						// Calculate recommended tokens: thoughts tokens + desired response tokens + buffer
 						$recommended_tokens = max( 5000, $thoughts_tokens + 2000 + 500 );
-						
+
 						$error_message = sprintf(
 							__( 'Response was truncated due to token limit. Used %d tokens total (%d for internal reasoning, %d for response). This model requires higher token limits. Recommended: at least %d tokens for complete responses.', 'wedevs-project-manager' ),
 							$total_tokens,
@@ -846,7 +847,7 @@ class Project_Controller {
 							$candidates_tokens,
 							$recommended_tokens
 						);
-						
+
 						return [
 							'success' => false,
 							'message' => $error_message
@@ -867,7 +868,7 @@ class Project_Controller {
 					];
 				}
 			}
-			
+
 			// Extract content from Google response
 			if ( isset( $response_data['candidates'][0]['content']['parts'][0]['text'] ) ) {
 				$content = $response_data['candidates'][0]['content']['parts'][0]['text'];
@@ -888,7 +889,7 @@ class Project_Controller {
 		if ( empty( $content ) ) {
 			// Try to provide a more helpful error message
 			$error_message = __( 'No content received from AI. The API response may have an unexpected structure.', 'wedevs-project-manager' );
-			
+
 			// Check if there's an error in the response
 			if ( isset( $response_data['error'] ) ) {
 				if ( isset( $response_data['error']['message'] ) ) {
@@ -903,7 +904,7 @@ class Project_Controller {
 					);
 				}
 			}
-			
+
 			return [
 				'success' => false,
 				'message' => $error_message
@@ -922,7 +923,7 @@ class Project_Controller {
 
 		if ( json_last_error() !== JSON_ERROR_NONE || !is_array( $parsed_data ) ) {
 			$json_error = json_last_error_msg();
-			
+
 			return [
 				'success' => false,
 				'message' => __( 'The AI response exceeds the token limit. Please try increasing the "Max Tokens" setting in AI Settings and try again.', 'wedevs-project-manager' )
@@ -1029,8 +1030,8 @@ class Project_Controller {
 		// - o1 models (reasoning models)
 		// - search-api models (search API models)
 		// - Any model with "search" in the name
-		if ( strpos( $model, 'o1' ) === 0 || 
-			 strpos( $model, 'search' ) !== false || 
+		if ( strpos( $model, 'o1' ) === 0 ||
+			 strpos( $model, 'search' ) !== false ||
 			 strpos( $model, 'search-api' ) !== false ) {
 			return false;
 		}
@@ -1100,18 +1101,18 @@ class Project_Controller {
 		// Try to fix incomplete JSON by finding the last complete structure
 		$open_braces = substr_count( $content, '{' ) - substr_count( $content, '}' );
 		$open_brackets = substr_count( $content, '[' ) - substr_count( $content, ']' );
-		
+
 		// Check for incomplete strings (unclosed quotes)
 		$quote_count = substr_count( $content, '"' );
 		$has_incomplete_string = ( $quote_count % 2 !== 0 );
-		
+
 		// If structures are unbalanced or strings are incomplete, find where to truncate
 		if ( $open_braces > 0 || $open_brackets > 0 || $has_incomplete_string ) {
 			// Find the last position before any incomplete content
 			// Look for the last complete object/array structure
 			$last_brace = strrpos( $content, '}' );
 			$last_bracket = strrpos( $content, ']' );
-			
+
 			// Also check for incomplete strings - find last complete string
 			$last_complete_quote = -1;
 			if ( $has_incomplete_string ) {
@@ -1132,18 +1133,18 @@ class Project_Controller {
 					$last_complete_quote = $quote_positions[0];
 				}
 			}
-			
+
 			// Determine the best truncation point
 			$truncate_at = -1;
 			$candidates = array_filter( [ $last_brace, $last_bracket, $last_complete_quote ] );
 			if ( !empty( $candidates ) ) {
 				$truncate_at = max( $candidates );
 			}
-			
+
 			if ( $truncate_at >= 0 ) {
 				// Truncate to the last complete structure
 				$content = substr( $content, 0, $truncate_at + 1 );
-				
+
 				// If we truncated at a quote, we need to close the string and structure
 				if ( $truncate_at === $last_complete_quote ) {
 					$content = rtrim( $content, '"' );
@@ -1155,12 +1156,12 @@ class Project_Controller {
 						$content = rtrim( $content ) . '"}';
 					}
 				}
-				
+
 				// Close any remaining open structures
 				// Recalculate after truncation
 				$remaining_open_brackets = substr_count( $content, '[' ) - substr_count( $content, ']' );
 				$remaining_open_braces = substr_count( $content, '{' ) - substr_count( $content, '}' );
-				
+
 				for ( $i = 0; $i < $remaining_open_brackets; $i++ ) {
 					$content = rtrim( $content ) . ']';
 				}
