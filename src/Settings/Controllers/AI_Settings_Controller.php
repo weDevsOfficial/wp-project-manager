@@ -10,10 +10,13 @@ use WeDevs\PM\Common\Traits\Transformer_Manager;
 use WeDevs\PM\Settings\Models\Settings;
 use WeDevs\PM\Settings\Transformers\Settings_Transformer;
 use WeDevs\PM\Settings\Helper\Settings as Helper;
+use WeDevs\PM\Settings\AI\Config as AI_Config;
 
 class AI_Settings_Controller {
 
     use Request_Filter, Transformer_Manager;
+
+    const TIMEOUT_DURATION = 300;
 
     /**
      * Get all available AI providers
@@ -21,29 +24,7 @@ class AI_Settings_Controller {
      * @return array Provider configurations
      */
     public static function get_providers() {
-        return [
-            'openai' => [
-                'name'          => 'OpenAI',
-                'endpoint'      => 'https://api.openai.com/v1/chat/completions',
-                'requires_key'  => true,
-                'api_key_field' => 'openai_api_key',
-                'api_key_url'   => 'https://platform.openai.com/api-keys',
-            ],
-            'anthropic' => [
-                'name' => 'Anthropic',
-                'endpoint' => 'https://api.anthropic.com/v1/messages',
-                'requires_key' => true,
-                'api_key_field' => 'anthropic_api_key',
-                'api_key_url' => 'https://console.anthropic.com/settings/keys',
-            ],
-            'google' => [
-                'name' => 'Google',
-                'endpoint' => 'https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent',
-                'requires_key' => true,
-                'api_key_field' => 'google_api_key',
-                'api_key_url' => 'https://aistudio.google.com/app/apikey',
-            ],
-        ];
+        return AI_Config::get_providers();
     }
 
     /**
@@ -52,499 +33,7 @@ class AI_Settings_Controller {
      * @return array Model configurations
      */
     public static function get_models() {
-
-        return [
-
-            // OpenAI GPT-4.1 Series (Latest - December 2024)
-
-            'gpt-4.1' => [
-
-                'name' => 'GPT-4.1 - Latest Flagship (OpenAI)',
-
-                'provider' => 'openai',
-
-                'token_param' => 'max_tokens',
-
-                'token_location' => 'body',
-
-                'supports_json_mode' => true,
-
-                'supports_custom_temperature' => true
-
-            ],
-
-            'gpt-4.1-mini' => [
-
-                'name' => 'GPT-4.1 Mini - Fast & Smart (OpenAI)',
-
-                'provider' => 'openai',
-
-                'token_param' => 'max_tokens',
-
-                'token_location' => 'body',
-
-                'supports_json_mode' => true,
-
-                'supports_custom_temperature' => true
-
-            ],
-
-            'gpt-4.1-nano' => [
-
-                'name' => 'GPT-4.1 Nano - Fastest & Cheapest (OpenAI)',
-
-                'provider' => 'openai',
-
-                'token_param' => 'max_tokens',
-
-                'token_location' => 'body',
-
-                'supports_json_mode' => true,
-
-                'supports_custom_temperature' => true
-
-            ],
-
-            // OpenAI O1 Series (Reasoning Models)
-
-            'o1' => [
-
-                'name' => 'O1 - Full Reasoning Model (OpenAI)',
-
-                'provider' => 'openai',
-
-                'token_param' => 'max_completion_tokens',
-
-                'token_location' => 'body',
-
-                'temperature' => 1.0,
-
-                'supports_json_mode' => false,
-
-                'supports_custom_temperature' => false
-
-            ],
-
-            'o1-mini' => [
-
-                'name' => 'O1 Mini - Cost-Effective Reasoning (OpenAI)',
-
-                'provider' => 'openai',
-
-                'token_param' => 'max_completion_tokens',
-
-                'token_location' => 'body',
-
-                'temperature' => 1.0,
-
-                'supports_json_mode' => false,
-
-                'supports_custom_temperature' => false
-
-            ],
-
-            'o1-preview' => [
-
-                'name' => 'O1 Preview - Limited Access (OpenAI)',
-
-                'provider' => 'openai',
-
-                'token_param' => 'max_completion_tokens',
-
-                'token_location' => 'body',
-
-                'temperature' => 1.0,
-
-                'supports_json_mode' => false,
-
-                'supports_custom_temperature' => false
-
-            ],
-
-            // OpenAI GPT-4o Series (Multimodal)
-
-            'gpt-4o' => [
-
-                'name' => 'GPT-4o - Multimodal (OpenAI)',
-
-                'provider' => 'openai',
-
-                'token_param' => 'max_tokens',
-
-                'token_location' => 'body',
-
-                'supports_json_mode' => true,
-
-                'supports_custom_temperature' => true
-
-            ],
-
-            'gpt-4o-mini' => [
-
-                'name' => 'GPT-4o Mini - Efficient Multimodal (OpenAI)',
-
-                'provider' => 'openai',
-
-                'token_param' => 'max_tokens',
-
-                'token_location' => 'body',
-
-                'supports_json_mode' => true,
-
-                'supports_custom_temperature' => true
-
-            ],
-
-            'gpt-4o-2024-08-06' => [
-
-                'name' => 'GPT-4o Latest Snapshot (OpenAI)',
-
-                'provider' => 'openai',
-
-                'token_param' => 'max_tokens',
-
-                'token_location' => 'body',
-
-                'supports_json_mode' => true,
-
-                'supports_custom_temperature' => true
-
-            ],
-
-            // OpenAI GPT-4 Turbo & Legacy
-
-            'gpt-4-turbo' => [
-
-                'name' => 'GPT-4 Turbo (OpenAI)',
-
-                'provider' => 'openai',
-
-                'token_param' => 'max_tokens',
-
-                'token_location' => 'body',
-
-                'supports_json_mode' => true,
-
-                'supports_custom_temperature' => true
-
-            ],
-
-            'gpt-4-turbo-2024-04-09' => [
-
-                'name' => 'GPT-4 Turbo Latest (OpenAI)',
-
-                'provider' => 'openai',
-
-                'token_param' => 'max_tokens',
-
-                'token_location' => 'body',
-
-                'supports_json_mode' => true,
-
-                'supports_custom_temperature' => true
-
-            ],
-
-            'gpt-4' => [
-
-                'name' => 'GPT-4 (OpenAI)',
-
-                'provider' => 'openai',
-
-                'token_param' => 'max_tokens',
-
-                'token_location' => 'body',
-
-                'supports_json_mode' => true,
-
-                'supports_custom_temperature' => true
-
-            ],
-
-            'gpt-3.5-turbo' => [
-
-                'name' => 'GPT-3.5 Turbo (OpenAI)',
-
-                'provider' => 'openai',
-
-                'token_param' => 'max_tokens',
-
-                'token_location' => 'body',
-
-                'supports_json_mode' => true,
-
-                'supports_custom_temperature' => true
-
-            ],
-
-            'gpt-3.5-turbo-0125' => [
-
-                'name' => 'GPT-3.5 Turbo Latest (OpenAI)',
-
-                'provider' => 'openai',
-
-                'token_param' => 'max_tokens',
-
-                'token_location' => 'body',
-
-                'supports_json_mode' => true,
-
-                'supports_custom_temperature' => true
-
-            ],
-
-            // Anthropic Claude 4 Series (Latest Generation)
-
-            'claude-4-opus' => [
-
-                'name' => 'Claude 4 Opus - Best Coding Model (Anthropic)',
-
-                'provider' => 'anthropic',
-
-                'token_param' => 'max_tokens',
-
-                'token_location' => 'body',
-
-                'supports_json_mode' => true,
-
-                'supports_custom_temperature' => true
-
-            ],
-
-            'claude-4-sonnet' => [
-
-                'name' => 'Claude 4 Sonnet - Advanced Reasoning (Anthropic)',
-
-                'provider' => 'anthropic',
-
-                'token_param' => 'max_tokens',
-
-                'token_location' => 'body',
-
-                'supports_json_mode' => true,
-
-                'supports_custom_temperature' => true
-
-            ],
-
-            'claude-4.1-opus' => [
-
-                'name' => 'Claude 4.1 Opus - Most Capable (Anthropic)',
-
-                'provider' => 'anthropic',
-
-                'token_param' => 'max_tokens',
-
-                'token_location' => 'body',
-
-                'supports_json_mode' => true,
-
-                'supports_custom_temperature' => true
-
-            ],
-
-            // Anthropic Claude 3.7 Series
-
-            'claude-3.7-sonnet' => [
-
-                'name' => 'Claude 3.7 Sonnet - Hybrid Reasoning (Anthropic)',
-
-                'provider' => 'anthropic',
-
-                'token_param' => 'max_tokens',
-
-                'token_location' => 'body',
-
-                'supports_json_mode' => true,
-
-                'supports_custom_temperature' => true
-
-            ],
-
-            // Anthropic Claude 3.5 Series (Current Available)
-
-            'claude-3-5-sonnet-20241022' => [
-
-                'name' => 'Claude 3.5 Sonnet Latest (Anthropic)',
-
-                'provider' => 'anthropic',
-
-                'token_param' => 'max_tokens',
-
-                'token_location' => 'body',
-
-                'supports_json_mode' => true,
-
-                'supports_custom_temperature' => true
-
-            ],
-
-            'claude-3-5-sonnet-20240620' => [
-
-                'name' => 'Claude 3.5 Sonnet (Anthropic)',
-
-                'provider' => 'anthropic',
-
-                'token_param' => 'max_tokens',
-
-                'token_location' => 'body',
-
-                'supports_json_mode' => true,
-
-                'supports_custom_temperature' => true
-
-            ],
-
-            'claude-3-5-haiku-20241022' => [
-
-                'name' => 'Claude 3.5 Haiku (Anthropic)',
-
-                'provider' => 'anthropic',
-
-                'token_param' => 'max_tokens',
-
-                'token_location' => 'body',
-
-                'supports_json_mode' => true,
-
-                'supports_custom_temperature' => true
-
-            ],
-
-            // Anthropic Claude 3 Legacy
-
-            'claude-3-opus-20240229' => [
-
-                'name' => 'Claude 3 Opus (Anthropic)',
-
-                'provider' => 'anthropic',
-
-                'token_param' => 'max_tokens',
-
-                'token_location' => 'body',
-
-                'supports_json_mode' => true,
-
-                'supports_custom_temperature' => true
-
-            ],
-
-            'claude-3-sonnet-20240229' => [
-
-                'name' => 'Claude 3 Sonnet (Anthropic)',
-
-                'provider' => 'anthropic',
-
-                'token_param' => 'max_tokens',
-
-                'token_location' => 'body',
-
-                'supports_json_mode' => true,
-
-                'supports_custom_temperature' => true
-
-            ],
-
-            'claude-3-haiku-20240307' => [
-
-                'name' => 'Claude 3 Haiku (Anthropic)',
-
-                'provider' => 'anthropic',
-
-                'token_param' => 'max_tokens',
-
-                'token_location' => 'body',
-
-                'supports_json_mode' => true,
-
-                'supports_custom_temperature' => true
-
-            ],
-
-            // Google Gemini (Current Models)
-
-            'gemini-2.0-flash-exp' => [
-
-                'name' => 'Gemini 2.0 Flash Experimental - Latest (Google)',
-
-                'provider' => 'google',
-
-                'token_param' => 'maxOutputTokens',
-
-                'token_location' => 'generationConfig',
-
-                'supports_json_mode' => true,
-
-                'supports_custom_temperature' => true
-
-            ],
-
-            'gemini-1.5-flash' => [
-
-                'name' => 'Gemini 1.5 Flash - Fast & Free (Google)',
-
-                'provider' => 'google',
-
-                'token_param' => 'maxOutputTokens',
-
-                'token_location' => 'generationConfig',
-
-                'supports_json_mode' => true,
-
-                'supports_custom_temperature' => true
-
-            ],
-
-            'gemini-1.5-flash-8b' => [
-
-                'name' => 'Gemini 1.5 Flash 8B - Fast & Free (Google)',
-
-                'provider' => 'google',
-
-                'token_param' => 'maxOutputTokens',
-
-                'token_location' => 'generationConfig',
-
-                'supports_json_mode' => true,
-
-                'supports_custom_temperature' => true
-
-            ],
-
-            'gemini-1.5-pro' => [
-
-                'name' => 'Gemini 1.5 Pro - Most Capable (Google)',
-
-                'provider' => 'google',
-
-                'token_param' => 'maxOutputTokens',
-
-                'token_location' => 'generationConfig',
-
-                'supports_json_mode' => true,
-
-                'supports_custom_temperature' => true
-
-            ],
-
-            'gemini-1.0-pro' => [
-
-                'name' => 'Gemini 1.0 Pro - Stable (Google)',
-
-                'provider' => 'google',
-
-                'token_param' => 'maxOutputTokens',
-
-                'token_location' => 'generationConfig',
-
-                'supports_json_mode' => true,
-
-                'supports_custom_temperature' => true
-
-            ]
-
-        ];
-
+        return AI_Config::get_models();
     }
 
     /**
@@ -554,16 +43,7 @@ class AI_Settings_Controller {
      * @return array Models for the specified provider
      */
     public static function get_models_by_provider( $provider ) {
-        $all_models = self::get_models();
-        $filtered = [];
-
-        foreach ( $all_models as $model_key => $model_config ) {
-            if ( isset( $model_config['provider'] ) && $model_config['provider'] === $provider ) {
-                $filtered[ $model_key ] = $model_config;
-            }
-        }
-
-        return $filtered;
+        return AI_Config::get_models_by_provider( $provider );
     }
 
     /**
@@ -611,10 +91,49 @@ class AI_Settings_Controller {
             }
         }
 
+        // Get models
+        $models = self::get_models();
+
+        // If we have an API key but no cache, try to fetch models in the background
+        if ( $provider && isset( $api_key_setting ) && !empty( $api_key_setting->value ) ) {
+            $cached_models = get_transient( 'pm_ai_models_cache' );
+            if ( empty( $cached_models ) || !isset( $cached_models['models'] ) || empty( $cached_models['models'] ) ) {
+                // Trigger model update in background (non-blocking)
+                // Use a transient flag to prevent multiple simultaneous fetches
+                $fetch_lock = get_transient( 'pm_ai_models_fetching' );
+                if ( !$fetch_lock ) {
+                    set_transient( 'pm_ai_models_fetching', true, 60 ); // Lock for 60 seconds
+                    // Schedule the fetch (non-blocking)
+                    AI_Config::update_all_models();
+                    delete_transient( 'pm_ai_models_fetching' );
+                }
+            }
+        }
+
         // Transformer will mask the API key value for security
         $resource = new Collection( $settings_collection, new Settings_Transformer );
 
-        return $this->get_response( $resource );
+        // Format models for frontend - group by provider
+        $formatted_models = [
+            'openai' => [],
+            'anthropic' => [],
+            'google' => []
+        ];
+
+        foreach ( $models as $model_id => $model_config ) {
+            if ( isset( $model_config['provider'] ) && isset( $model_config['name'] ) ) {
+                $provider_key = $model_config['provider'];
+                if ( isset( $formatted_models[ $provider_key ] ) ) {
+                    $formatted_models[ $provider_key ][] = [
+                        'value' => $model_id,
+                        'label' => $model_config['name']
+                    ];
+                }
+            }
+        }
+
+        // Pass models in extra parameter so they're merged into the response
+        return $this->get_response( $resource, [ 'models' => $formatted_models ] );
     }
 
     /**
@@ -681,6 +200,17 @@ class AI_Settings_Controller {
         }
 
         do_action( 'pm_after_save_settings', $settings );
+
+        // Update models cache if API key was saved
+        if ( is_array( $settings_data ) ) {
+            foreach ( $settings_data as $setting_item ) {
+                if ( isset( $setting_item['key'] ) && strpos( $setting_item['key'], 'ai_api_key_' ) === 0 ) {
+                    // API key was saved, refresh models cache
+                    AI_Config::update_all_models();
+                    break;
+                }
+            }
+        }
 
         $message = [
             'message' => pm_get_text('success_messages.setting_saved')
@@ -759,54 +289,54 @@ class AI_Settings_Controller {
         $providers_config = self::get_providers();
         $provider_config = $providers_config[ $provider ];
 
-        // Build test URL based on provider
-        $test_urls = [
-            'openai' => 'https://api.openai.com/v1/models',
-            'anthropic' => 'https://api.anthropic.com/v1/messages',
-            'google' => 'https://generativelanguage.googleapis.com/v1/models?key=' . urlencode( $api_key )
-        ];
-
-        $providers = [];
-        foreach ( $providers_config as $key => $config ) {
-            if ( $key === 'google' ) {
-                $providers[ $key ] = [
-                    'url' => $test_urls[ $key ],
-                    'header_key' => '',
-                    'header_value' => ''
-                ];
-            } elseif ( $key === 'anthropic' ) {
-                $providers[ $key ] = [
-                    'url' => $test_urls[ $key ],
-                    'header_key' => 'x-api-key',
-                    'header_value' => $api_key
-                ];
-            } else {
-                $providers[ $key ] = [
-                    'url' => $test_urls[ $key ],
-                    'header_key' => 'Authorization',
-                    'header_value' => 'Bearer ' . $api_key
-                ];
-            }
-        }
-
-        $config = $providers[ $provider ];
-        $url = $config['url'];
-
-        $args = [
-            'method' => 'GET',
-            'timeout' => 15,
-            'sslverify' => true
-        ];
-
-        // Add headers only if they're specified (Gemini uses query param instead)
-        if ( !empty( $config['header_key'] ) && !empty( $config['header_value'] ) ) {
-            $args['headers'] = [
-                $config['header_key'] => $config['header_value'],
-                'Content-Type' => 'application/json'
+        // Build test configuration based on provider
+        if ( $provider === 'anthropic' ) {
+            // Anthropic requires POST with a body to test connection
+            $url = 'https://api.anthropic.com/v1/messages';
+            $args = [
+                'method'    => 'POST',
+                'timeout'   => self::TIMEOUT_DURATION,
+                'sslverify' => true,
+                'headers'   => [
+                    'x-api-key'         => $api_key,
+                    'anthropic-version' => '2023-06-01',
+                    'Content-Type'      => 'application/json',
+                ],
+                'body'      => json_encode(
+                    [
+                        'model'      => 'claude-sonnet-4-5-20250929',
+                        'max_tokens' => 10,
+                        'messages'   => [
+                            [
+                                'role'    => 'user',
+                                'content' => 'Hi',
+                            ],
+                        ],
+                    ]
+                ),
+            ];
+        } elseif ( $provider === 'google' ) {
+            // Google uses GET with API key in query string
+            $url = 'https://generativelanguage.googleapis.com/v1/models?key=' . urlencode( $api_key );
+            $args = [
+                'method'    => 'GET',
+                'timeout'   => self::TIMEOUT_DURATION,
+                'sslverify' => true,
+                'headers'   => [
+                    'Content-Type' => 'application/json',
+                ],
             ];
         } else {
-            $args['headers'] = [
-                'Content-Type' => 'application/json'
+            // OpenAI uses GET with Bearer token
+            $url  = 'https://api.openai.com/v1/models';
+            $args = [
+                'method'    => 'GET',
+                'timeout'   => self::TIMEOUT_DURATION,
+                'sslverify' => true,
+                'headers'   => [
+                    'Authorization' => 'Bearer ' . $api_key,
+                    'Content-Type'  => 'application/json',
+                ],
             ];
         }
 
@@ -821,19 +351,67 @@ class AI_Settings_Controller {
         }
 
         $response_code = wp_remote_retrieve_response_code( $response );
+        $response_body = wp_remote_retrieve_body( $response );
 
         if ( $response_code === 200 ) {
+            // For Anthropic, verify we got a valid response structure
+            if ( $provider === 'anthropic' ) {
+                $response_data = json_decode( $response_body, true );
+
+                // Anthropic success response should have 'content' or 'id' field
+                if ( isset( $response_data['content'] ) || isset( $response_data['id'] ) ) {
+                    return [
+                        'success' => true,
+                        'message' => __( 'Connection successful! AI integration is ready.', 'wedevs-project-manager' )
+                    ];
+                } else {
+                    // Check if there's an error in the response even with 200 status
+                    if ( isset( $response_data['error'] ) ) {
+                        $error_message = __( 'Connection failed. Please check your API key and settings.', 'wedevs-project-manager' );
+                        if ( isset( $response_data['error']['message'] ) && is_string( $response_data['error']['message'] ) ) {
+                            $error_message = sanitize_text_field( $response_data['error']['message'] );
+                        } elseif ( isset( $response_data['error']['type'] ) ) {
+                            $error_message = sanitize_text_field( $response_data['error']['type'] );
+                            if ( isset( $response_data['error']['message'] ) ) {
+                                $error_message .= ': ' . sanitize_text_field( $response_data['error']['message'] );
+                            }
+                        }
+                        return [
+                            'success' => false,
+                            'message' => esc_html( $error_message )
+                        ];
+                    }
+
+                    // Unexpected response format
+                    return [
+                        'success' => false,
+                        'message' => __( 'Connection test completed but received unexpected response format.', 'wedevs-project-manager' )
+                    ];
+                }
+            }
+
+            // For OpenAI and Google, 200 status is sufficient
             return [
                 'success' => true,
                 'message' => __( 'Connection successful! AI integration is ready.', 'wedevs-project-manager' )
             ];
         } else {
-            $response_body = wp_remote_retrieve_body( $response );
             $error_data = json_decode( $response_body, true );
 
             // Try to extract a meaningful error message
             $error_message = __( 'Connection failed. Please check your API key and settings.', 'wedevs-project-manager' );
-            if ( isset( $error_data['error']['message'] ) && is_string( $error_data['error']['message'] ) ) {
+
+            // Handle Anthropic error format
+            if ( $provider === 'anthropic' && isset( $error_data['error'] ) ) {
+                if ( isset( $error_data['error']['message'] ) && is_string( $error_data['error']['message'] ) ) {
+                    $error_message = sanitize_text_field( $error_data['error']['message'] );
+                } elseif ( isset( $error_data['error']['type'] ) ) {
+                    $error_message = sanitize_text_field( $error_data['error']['type'] );
+                    if ( isset( $error_data['error']['message'] ) ) {
+                        $error_message .= ': ' . sanitize_text_field( $error_data['error']['message'] );
+                    }
+                }
+            } elseif ( isset( $error_data['error']['message'] ) && is_string( $error_data['error']['message'] ) ) {
                 $error_message = sanitize_text_field( $error_data['error']['message'] );
             } elseif ( isset( $error_data['error'] ) && is_string( $error_data['error'] ) ) {
                 $error_message = sanitize_text_field( $error_data['error'] );
@@ -914,6 +492,43 @@ class AI_Settings_Controller {
         }
 
         return $decrypted;
+    }
+
+    /**
+     * Update AI models cache from all providers
+     *
+     * @param WP_REST_Request $request
+     * @return mixed
+     */
+    public function update_models( WP_REST_Request $request ) {
+        $result = AI_Config::update_all_models();
+
+        if ( is_wp_error( $result ) ) {
+            return $this->get_response( null, [
+                'success' => false,
+                'message' => $result->get_error_message()
+            ] );
+        }
+
+        return $this->get_response( null, [
+            'success' => true,
+            'message' => __( 'Models cache updated successfully.', 'wedevs-project-manager' )
+        ] );
+    }
+
+    /**
+     * Clear AI models cache
+     *
+     * @param WP_REST_Request $request
+     * @return mixed
+     */
+    public function clear_models_cache( WP_REST_Request $request ) {
+        AI_Config::clear_models_cache();
+
+        return $this->get_response( null, [
+            'success' => true,
+            'message' => __( 'Models cache cleared successfully.', 'wedevs-project-manager' )
+        ] );
     }
 }
 
