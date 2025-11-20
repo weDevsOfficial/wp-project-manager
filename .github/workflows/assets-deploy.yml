@@ -3,7 +3,6 @@ name: Plugin asset/readme update
 on:
   push:
     branches:
-      - develop
       - master
 
 jobs:
