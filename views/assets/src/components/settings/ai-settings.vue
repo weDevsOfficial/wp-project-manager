@@ -51,8 +51,8 @@
                                     <label for="ai_max_tokens">{{ __( 'Max Tokens', 'wedevs-project-manager') }}</label>
                                 </th>
                                 <td>
-                                    <input v-model.number="max_tokens" type="number" class="regular-text" id="ai_max_tokens" name="ai_max_tokens" min="1" max="4096">
-                                    <p class="description">{{ __( 'Maximum number of tokens for AI responses (1-4096).', 'wedevs-project-manager') }}</p>
+                                    <input v-model.number="max_tokens" type="number" class="regular-text" id="ai_max_tokens" name="ai_max_tokens" min="500" max="16384">
+                                    <p class="description">{{ __( 'Maximum number of tokens for AI responses (500-16384). Higher values allow more detailed projects but may cost more.', 'wedevs-project-manager') }}</p>
                                 </td>
                             </tr>
                             <tr>
@@ -94,47 +94,15 @@ export default {
             api_key_saved: false, // Track if API key exists in database
             saved_api_key_mask: '', // Store masked API key for display
             model: this.getSettings('ai_model', 'gpt-3.5-turbo'),
-            max_tokens: this.getSettings('ai_max_tokens', 1000),
+            max_tokens: this.getSettings('ai_max_tokens', 2000),
             temperature: parseFloat(this.getSettings('ai_temperature', 0.7)),
             show_spinner: false,
             testing_connection: false,
             save_change: __( 'Save Changes', 'wedevs-project-manager'),
             models: {
-                openai: [
-                    { value: 'gpt-4.1', label: 'GPT-4.1 - Latest Flagship (OpenAI)' },
-                    { value: 'gpt-4.1-mini', label: 'GPT-4.1 Mini - Fast & Smart (OpenAI)' },
-                    { value: 'gpt-4.1-nano', label: 'GPT-4.1 Nano - Fastest & Cheapest (OpenAI)' },
-                    { value: 'o1', label: 'O1 - Full Reasoning Model (OpenAI)' },
-                    { value: 'o1-mini', label: 'O1 Mini - Cost-Effective Reasoning (OpenAI)' },
-                    { value: 'o1-preview', label: 'O1 Preview - Limited Access (OpenAI)' },
-                    { value: 'gpt-4o', label: 'GPT-4o - Multimodal (OpenAI)' },
-                    { value: 'gpt-4o-mini', label: 'GPT-4o Mini - Efficient Multimodal (OpenAI)' },
-                    { value: 'gpt-4o-2024-08-06', label: 'GPT-4o Latest Snapshot (OpenAI)' },
-                    { value: 'gpt-4-turbo', label: 'GPT-4 Turbo (OpenAI)' },
-                    { value: 'gpt-4-turbo-2024-04-09', label: 'GPT-4 Turbo Latest (OpenAI)' },
-                    { value: 'gpt-4', label: 'GPT-4 (OpenAI)' },
-                    { value: 'gpt-3.5-turbo', label: 'GPT-3.5 Turbo (OpenAI)' },
-                    { value: 'gpt-3.5-turbo-0125', label: 'GPT-3.5 Turbo Latest (OpenAI)' }
-                ],
-                anthropic: [
-                    { value: 'claude-4-opus', label: 'Claude 4 Opus - Best Coding Model (Anthropic)' },
-                    { value: 'claude-4-sonnet', label: 'Claude 4 Sonnet - Advanced Reasoning (Anthropic)' },
-                    { value: 'claude-4.1-opus', label: 'Claude 4.1 Opus - Most Capable (Anthropic)' },
-                    { value: 'claude-3.7-sonnet', label: 'Claude 3.7 Sonnet - Hybrid Reasoning (Anthropic)' },
-                    { value: 'claude-3-5-sonnet-20241022', label: 'Claude 3.5 Sonnet Latest (Anthropic)' },
-                    { value: 'claude-3-5-sonnet-20240620', label: 'Claude 3.5 Sonnet (Anthropic)' },
-                    { value: 'claude-3-5-haiku-20241022', label: 'Claude 3.5 Haiku (Anthropic)' },
-                    { value: 'claude-3-opus-20240229', label: 'Claude 3 Opus (Anthropic)' },
-                    { value: 'claude-3-sonnet-20240229', label: 'Claude 3 Sonnet (Anthropic)' },
-                    { value: 'claude-3-haiku-20240307', label: 'Claude 3 Haiku (Anthropic)' }
-                ],
-                google: [
-                    { value: 'gemini-2.0-flash-exp', label: 'Gemini 2.0 Flash Experimental - Latest (Google)' },
-                    { value: 'gemini-1.5-flash', label: 'Gemini 1.5 Flash - Fast & Free (Google)' },
-                    { value: 'gemini-1.5-flash-8b', label: 'Gemini 1.5 Flash 8B - Fast & Free (Google)' },
-                    { value: 'gemini-1.5-pro', label: 'Gemini 1.5 Pro - Most Capable (Google)' },
-                    { value: 'gemini-1.0-pro', label: 'Gemini 1.0 Pro - Stable (Google)' }
-                ]
+                openai: [],
+                anthropic: [],
+                google: []
             }
         }
     },
@@ -162,6 +130,20 @@ export default {
                 url: this.base_url + 'pm/v2/settings/ai?provider=' + encodeURIComponent(self.provider),
                 type: 'GET',
                 success (res) {
+                    // Update models from API response if available
+                    if (res.models && typeof res.models === 'object') {
+                        // Update models for each provider
+                        if (res.models.openai && Array.isArray(res.models.openai)) {
+                            self.models.openai = res.models.openai;
+                        }
+                        if (res.models.anthropic && Array.isArray(res.models.anthropic)) {
+                            self.models.anthropic = res.models.anthropic;
+                        }
+                        if (res.models.google && Array.isArray(res.models.google)) {
+                            self.models.google = res.models.google;
+                        }
+                    }
+                    
                     if (res.data && Array.isArray(res.data)) {
                         // Process all settings from API response
                         res.data.forEach(function(item) {
@@ -228,8 +210,10 @@ export default {
                         });
                         
                         // Set default model if current model is not available for selected provider
-                        if (!self.availableModels.find(m => m.value === self.model)) {
-                            self.model = self.availableModels[0].value;
+                        if (self.availableModels && self.availableModels.length > 0) {
+                            if (!self.availableModels.find(m => m.value === self.model)) {
+                                self.model = self.availableModels[0].value;
+                            }
                         }
                     }
                 },
@@ -245,8 +229,13 @@ export default {
             this.loadAISettings();
         },
         onProviderChange () {
+            // Reload settings to get models for the new provider
+            this.loadAISettings(true);
+            
             // Update model to first available model for new provider
-            this.model = this.availableModels[0].value;
+            if (this.availableModels && this.availableModels.length > 0) {
+                this.model = this.availableModels[0].value;
+            }
             // Clear current API key display and check for saved key for new provider
             this.api_key = '';
             this.api_key_saved = false;
