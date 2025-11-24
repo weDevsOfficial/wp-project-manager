@@ -246,7 +246,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
-= v2.6.29 – Nov 20, 2025 =
+= v2.6.29 – Nov 24, 2025 =
 
 **Fixed:** AI Response broken error.
 **Fixed:** AI Response timeout error.
