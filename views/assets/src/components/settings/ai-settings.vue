@@ -1,0 +1,395 @@
+<template>
+    <div>
+        <div class="metabox-holder">
+            <div id="pm_ai_settings" class="group" style="">
+                <form @submit.prevent="saveAISettings()" method="post" action="options.php">
+                    <h2>{{ __( 'AI Settings', 'wedevs-project-manager') }}</h2>
+                    <table class="form-table">
+                        <tbody>
+                            <tr>
+                                <th scope="row">
+                                    <label for="ai_provider">{{ __( 'AI Service Provider', 'wedevs-project-manager') }}</label>
+                                </th>
+                                <td>
+                                    <select v-model="provider" class="regular-text" id="ai_provider" name="ai_provider" @change="onProviderChange">
+                                        <option value="openai">OpenAI</option>
+                                        <option value="anthropic">Anthropic</option>
+                                        <option value="google">Google</option>
+                                    </select>
+                                    <p class="description">{{ __( 'Select your preferred AI service provider.', 'wedevs-project-manager') }}</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">
+                                    <label for="ai_api_key">{{ __( 'API Key', 'wedevs-project-manager') }}</label>
+                                </th>
+                                <td>
+                                    <input v-model="api_key" type="text" class="regular-text" id="ai_api_key" name="ai_api_key" :placeholder="api_key_saved ? __('API key is saved', 'wedevs-project-manager') : __('Enter your API key here', 'wedevs-project-manager')">
+                                    <p class="description">
+                                        {{ __( 'Enter your API key for the selected provider.', 'wedevs-project-manager') }}
+                                        <span v-if="api_key_saved" style="color: #46b450; margin-left: 10px;">
+                                            ✓ {{ __( 'API key is saved', 'wedevs-project-manager') }}
+                                        </span>
+                                    </p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">
+                                    <label for="ai_model">{{ __( 'Model Selection', 'wedevs-project-manager') }}</label>
+                                </th>
+                                <td>
+                                    <select v-model="model" class="regular-text" id="ai_model" name="ai_model">
+                                        <option v-for="modelOption in availableModels" :key="modelOption.value" :value="modelOption.value">
+                                            {{ modelOption.label }}
+                                        </option>
+                                    </select>
+                                    <p class="description">{{ __( 'Select the AI model to use.', 'wedevs-project-manager') }}</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">
+                                    <label for="ai_max_tokens">{{ __( 'Max Tokens', 'wedevs-project-manager') }}</label>
+                                </th>
+                                <td>
+                                    <input v-model.number="max_tokens" type="number" class="regular-text" id="ai_max_tokens" name="ai_max_tokens" min="500" max="16384">
+                                    <p class="description">{{ __( 'Maximum number of tokens for AI responses (500-16384). Higher values allow more detailed projects but may cost more.', 'wedevs-project-manager') }}</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">
+                                    <label for="ai_temperature">{{ __( 'Temperature', 'wedevs-project-manager') }}</label>
+                                </th>
+                                <td>
+                                    <input v-model.number="temperature" type="range" min="0" max="1" step="0.1" class="regular-text" id="ai_temperature" name="ai_temperature">
+                                    <span class="description">{{ temperature }}</span>
+                                    <p class="description">{{ __( 'Creativity level (0 to 1): 0.2 for deterministic, 0.8 for creative.', 'wedevs-project-manager') }}</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div>
+                        <p class="submit">
+                            <button type="button" @click="testConnection()" class="button" :disabled="testing_connection">
+                                <span v-if="testing_connection" class="pm-spinner" style="margin-right: 5px;"></span>
+                                {{ __( 'Test Connection', 'wedevs-project-manager') }}
+                            </button>
+                            <input type="submit" name="submit" id="submit" class="button button-primary" :value="save_change" style="margin-left: 10px;">
+                            <span v-show="show_spinner" class="pm-spinner"></span>
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+import Mixins from './mixin';
+
+export default {
+    data () {
+        return {
+            provider: this.getSettings('ai_provider', 'openai'),
+            api_key: '', // Don't load from settings, it's encrypted
+            api_key_saved: false, // Track if API key exists in database
+            saved_api_key_mask: '', // Store masked API key for display
+            model: this.getSettings('ai_model', 'gpt-3.5-turbo'),
+            max_tokens: this.getSettings('ai_max_tokens', 2000),
+            temperature: parseFloat(this.getSettings('ai_temperature', 0.7)),
+            show_spinner: false,
+            testing_connection: false,
+            save_change: __( 'Save Changes', 'wedevs-project-manager'),
+            models: {
+                openai: [],
+                anthropic: [],
+                google: []
+            }
+        }
+    },
+    computed: {
+        availableModels () {
+            return this.models[this.provider] || this.models.openai;
+        }
+    },
+    mixins: [Mixins],
+    mounted: function(){
+        pm.NProgress.done();
+        
+        // Load all AI settings from API
+        this.loadAISettings();
+    },
+    methods: {
+        loadAISettings (preserveProvider) {
+            var self = this;
+            
+            // Store current provider if we need to preserve it
+            var currentProvider = self.provider;
+            
+            // Pass provider as query parameter so backend knows which API key to return
+            var request = {
+                url: this.base_url + 'pm/v2/settings/ai?provider=' + encodeURIComponent(self.provider),
+                type: 'GET',
+                success (res) {
+                    // Update models from API response if available
+                    if (res.models && typeof res.models === 'object') {
+                        // Update models for each provider
+                        if (res.models.openai && Array.isArray(res.models.openai)) {
+                            self.models.openai = res.models.openai;
+                        }
+                        if (res.models.anthropic && Array.isArray(res.models.anthropic)) {
+                            self.models.anthropic = res.models.anthropic;
+                        }
+                        if (res.models.google && Array.isArray(res.models.google)) {
+                            self.models.google = res.models.google;
+                        }
+                    }
+                    
+                    if (res.data && Array.isArray(res.data)) {
+                        // Process all settings from API response
+                        res.data.forEach(function(item) {
+                            switch(item.key) {
+                                case 'ai_provider':
+                                    // Only update provider if we're not preserving it (i.e., initial load)
+                                    if (item.value && !preserveProvider) {
+                                        self.provider = item.value;
+                                    } else if (preserveProvider) {
+                                        // Restore the provider that was selected
+                                        self.provider = currentProvider;
+                                    }
+                                    break;
+                                
+                                case 'ai_model':
+                                    if (item.value) {
+                                        self.model = item.value;
+                                    }
+                                    break;
+                                
+                                case 'ai_max_tokens':
+                                    if (item.value) {
+                                        self.max_tokens = parseInt(item.value, 10);
+                                    }
+                                    break;
+                                
+                                case 'ai_temperature':
+                                    if (item.value !== null && item.value !== undefined) {
+                                        self.temperature = parseFloat(item.value);
+                                    }
+                                    break;
+                                
+                                default:
+                                    // Handle provider-specific API keys: ai_api_key_openai, ai_api_key_anthropic, etc.
+                                    if (item.key && item.key.indexOf('ai_api_key_') === 0) {
+                                        var keyProvider = item.key.replace('ai_api_key_', '');
+                                        
+                                        // Use preserved provider if available, otherwise use current provider
+                                        var providerToCheck = preserveProvider ? currentProvider : self.provider;
+                                        
+                                        // Only process if it matches the provider we're looking for
+                                        if (keyProvider === providerToCheck) {
+                                            // Check if value is a masked string (contains asterisks) or truthy
+                                            if (item.value && (typeof item.value === 'string' || item.value === true)) {
+                                                self.api_key_saved = true;
+                                                // Store masked value in input field for display
+                                                if (typeof item.value === 'string') {
+                                                    self.api_key = item.value;
+                                                    self.saved_api_key_mask = item.value;
+                                                }
+                                            } else {
+                                                self.api_key_saved = false;
+                                                self.api_key = '';
+                                            }
+                                        }
+                                    }
+                                    break;
+                            }
+                            
+                            // Also update PM_Vars.settings for compatibility
+                            if (item.key && item.key.indexOf('ai_api_key_') !== 0) {
+                                PM_Vars.settings[item.key] = item.value;
+                            }
+                        });
+                        
+                        // Set default model if current model is not available for selected provider
+                        if (self.availableModels && self.availableModels.length > 0) {
+                            if (!self.availableModels.find(m => m.value === self.model)) {
+                                self.model = self.availableModels[0].value;
+                            }
+                        }
+                    }
+                },
+                error (res) {
+                    // Error handling - no logging needed
+                }
+            };
+            this.httpRequest(request);
+        },
+        checkApiKeyExists () {
+            // This method is now deprecated in favor of loadAISettings()
+            // Keeping for backward compatibility but redirecting to loadAISettings
+            this.loadAISettings();
+        },
+        onProviderChange () {
+            // Reload settings to get models for the new provider
+            this.loadAISettings(true);
+            
+            // Update model to first available model for new provider
+            if (this.availableModels && this.availableModels.length > 0) {
+                this.model = this.availableModels[0].value;
+            }
+            // Clear current API key display and check for saved key for new provider
+            this.api_key = '';
+            this.api_key_saved = false;
+            this.saved_api_key_mask = '';
+            // Check if API key exists for the new provider (preserve the selected provider)
+            this.loadAISettings(true);
+        },
+        testConnection () {
+            if (!this.provider) {
+                pm.Toastr.error(__( 'Please select a provider to test connection.', 'wedevs-project-manager'));
+                return;
+            }
+
+            // Allow testing even if API key field is empty or masked (backend will retrieve from database)
+            if (!this.api_key) {
+                // Check if we have a saved API key
+                if (!this.api_key_saved) {
+                    pm.Toastr.error(__( 'Please enter an API key to test connection.', 'wedevs-project-manager'));
+                    return;
+                }
+            }
+
+            this.testing_connection = true;
+            var self = this;
+            var request = {
+                url: this.base_url + 'pm/v2/settings/ai/test-connection',
+                data: {
+                    provider: this.provider,
+                    api_key: this.api_key || '' // Send empty or masked value, backend will handle it
+                },
+                type: 'POST',
+                success (res) {
+                    self.testing_connection = false;
+                    // Check if the connection was actually successful
+                    if (res.success === false) {
+                        // Connection failed, show error message
+                        var errorMsg = res.message || __( 'Connection failed. Please check your API key and settings.', 'wedevs-project-manager');
+                        pm.Toastr.error(errorMsg);
+                    } else {
+                        // Connection successful
+                        if (res.message) {
+                            pm.Toastr.success(res.message);
+                        } else {
+                            pm.Toastr.success(__( 'Connection successful! AI integration is ready.', 'wedevs-project-manager'));
+                        }
+                    }
+                },
+                error (res) {
+                    self.testing_connection = false;
+                    var errorMsg = res.message || __( 'Connection failed. Please check your API key and settings.', 'wedevs-project-manager');
+                    pm.Toastr.error(errorMsg);
+                }
+            };
+
+            this.httpRequest(request);
+        },
+        saveAISettings () {
+            this.show_spinner = true;
+            var self = this;
+            var data = {
+                ai_provider: this.provider,
+                ai_model: this.model,
+                ai_max_tokens: this.max_tokens,
+                ai_temperature: this.temperature
+            };
+
+            // Handle API key:
+            // - If masked (contains *): don't send (to avoid overwriting with masked value)
+            // - If empty/blank: send empty string (to delete existing key)
+            // - If has value: send the value (to save/update)
+            if (this.api_key && this.api_key.indexOf('*') !== -1) {
+                // Masked value - don't send
+            } else {
+                // Send the value (empty string if cleared, actual value if entered)
+                data.ai_api_key = this.api_key ? this.api_key.trim() : '';
+            }
+
+            data = pm_apply_filters('ai_setting_data', data);
+            
+            var formattedSettings = this.formatSettings(data);
+            
+            // Use custom endpoint for AI settings (needed for API key encryption)
+            var request = {
+                url: this.base_url + 'pm/v2/settings/ai',
+                data: {
+                    settings: formattedSettings
+                },
+                type: 'POST',
+                success (res) {
+                    pm.Toastr.success(res.message);
+                    
+                    // Check if API key was sent and if it was empty (deleted)
+                    var apiKeyWasSent = false;
+                    var apiKeyWasEmpty = false;
+                    formattedSettings.forEach(function(item) {
+                        if (item.key === 'ai_api_key') {
+                            apiKeyWasSent = true;
+                            apiKeyWasEmpty = !item.value || item.value.trim() === '';
+                        }
+                    });
+                    
+                    if (res.data) {
+                        var apiKeyFound = false;
+                        res.data.forEach( function( item ) {
+                            // Check if this is a provider-specific API key (ai_api_key_openai, ai_api_key_gemini, etc.)
+                            if (item.key && item.key.indexOf('ai_api_key_') === 0) {
+                                // Only process if it matches the current provider
+                                var expectedKey = 'ai_api_key_' + self.provider;
+                                if (item.key === expectedKey) {
+                                    apiKeyFound = true;
+                                    // Mark that API key is saved (value is a masked string or truthy)
+                                    if (item.value && (typeof item.value === 'string' || item.value === true)) {
+                                        self.api_key_saved = true;
+                                        // Store masked value in input field for display
+                                        if (typeof item.value === 'string') {
+                                            self.api_key = item.value;
+                                            self.saved_api_key_mask = item.value;
+                                        }
+                                    }
+                                }
+                            } else {
+                                // Regular setting, save to PM_Vars
+                                PM_Vars.settings[item.key] = item.value;
+                            }
+                        } );
+                        
+                        // If API key was sent as empty and not found in response, it was deleted
+                        if (apiKeyWasSent && apiKeyWasEmpty && !apiKeyFound) {
+                            self.api_key_saved = false;
+                            self.api_key = '';
+                            self.saved_api_key_mask = '';
+                        }
+                        
+                        // Reload settings to ensure UI is in sync
+                        self.loadAISettings();
+                    } else if (apiKeyWasSent && apiKeyWasEmpty) {
+                        // API key was deleted, update UI
+                        self.api_key_saved = false;
+                        self.api_key = '';
+                        self.saved_api_key_mask = '';
+                    }
+                    
+                    self.show_spinner = false;
+                },
+                error (res) {
+                    self.show_spinner = false;
+                    var errorMsg = res.message || __( 'Failed to save settings.', 'wedevs-project-manager');
+                    pm.Toastr.error(errorMsg);
+                }
+            };
+
+            this.httpRequest(request);
+        }
+    }
+}
+</script>
+

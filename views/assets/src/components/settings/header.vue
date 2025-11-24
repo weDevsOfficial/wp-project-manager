@@ -15,6 +15,9 @@
             <router-link class="nav-tab" :to="{name: 'task_type_settings_tab'}">
                 {{ __( 'Task Type', 'wedevs-project-manager') }}
             </router-link>
+            <router-link class="nav-tab" :to="{name: 'ai_settings_tab'}">
+                {{ __( 'AI Settings', 'wedevs-project-manager') }}
+            </router-link>
             <pm-do-action :hook="'pm-settings-tab'"></pm-do-action>
         </h2>
         <div class="settingswrapper">

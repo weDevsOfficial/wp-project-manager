@@ -39,3 +39,12 @@ $router->post( 'settings/task-types/{id}', 'WeDevs/PM/Settings/Controllers/Task_
 $router->post( 'settings/task-types/{id}/delete', 'WeDevs/PM/Settings/Controllers/Task_Types_Controller@destroy_task_type' )
     ->permission( ['WeDevs\PM\Core\Permissions\Settings_Page_Access'] );
 
+$router->get( 'settings/ai', 'WeDevs/PM/Settings/Controllers/AI_Settings_Controller@index' )
+    ->permission( [ $authentic ] );
+
+$router->post( 'settings/ai', 'WeDevs/PM/Settings/Controllers/AI_Settings_Controller@store' )
+    ->permission( ['WeDevs\PM\Core\Permissions\Settings_Page_Access'] );
+
+$router->post( 'settings/ai/test-connection', 'WeDevs/PM/Settings/Controllers/AI_Settings_Controller@test_connection' )
+    ->permission( ['WeDevs\PM\Core\Permissions\Settings_Page_Access'] );
+

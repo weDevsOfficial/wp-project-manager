@@ -83,7 +83,7 @@
                                     </div>
                                     <div>
                                         <?php esc_html_e( 'You can see the project by going here: ', 'wedevs-project-manager'  ); ?>
-                                        <a style="text-decoration: none; font-size: 15px; color: #0676D4; letter-spacing: 0.14px; line-height: 22px;" href="<?php echo esc_url( $link . '#/projects/' . $id . '/task-lists/' ); ?>" target="_blank"><?php echo esc_html_e( $title ); ?></a> 
+                                        <a style="text-decoration: none; font-size: 15px; color: #0676D4; letter-spacing: 0.14px; line-height: 22px;" href="<?php echo esc_url( $link . '#/projects/' . $id . '/task-lists/' ); ?>" target="_blank"><?php echo esc_html( $title ); ?></a> 
                                     </div>
 
                                 </div>
