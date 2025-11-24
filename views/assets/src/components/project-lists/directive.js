@@ -112,23 +112,30 @@ pm.Vue.directive('pm-users', {
         Project.coWorkerSearch(el, binding, vnode);
     }
 });
-var dilogbox = false;
+var dilogboxes = {};
 // Register a global custom directive called v-pm-popup-box
 pm.Vue.directive('pm-popup-box', {
     inserted: function (el, buinding, vnode) {
-
+        var dialogId = el.id || 'pm-dialog-' + Math.random().toString(36).substr(2, 9);
+        
+        // Destroy existing dialog for this element if it exists
         if (
-            dilogbox !== false
+            dilogboxes[dialogId] !== undefined
                 &&
-            typeof dilogbox.dialog( "instance" ) != 'undefined'
+            typeof dilogboxes[dialogId].dialog( "instance" ) != 'undefined'
         ){
-            dilogbox.dialog( "destroy" );
+            dilogboxes[dialogId].dialog( "destroy" );
         }
-        dilogbox = jQuery(el).dialog({
+        
+        // Initialize new dialog and store it by ID
+        // Set width to 50% for AI project preview dialog, otherwise use default 485
+        var dialogWidth = (dialogId === 'pm-ai-project-dialog') ? '50%' : 485;
+        
+        dilogboxes[dialogId] = jQuery(el).dialog({
             autoOpen: false,
             modal: true,
             dialogClass: 'pm-ui-dialog',
-            width: 485,
+            width: dialogWidth,
             height: 'auto',
             position:['middle', 100],
         });

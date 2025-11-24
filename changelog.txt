@@ -1,5 +1,34 @@
 == Changelog ==
 
+= v2.6.29 – Nov 24, 2025 =
+
+**Fixed:** AI Response broken error.
+**Fixed:** AI Response timeout error.
+**Improved:** Dynamic AI Model Selection.
+
+= v2.6.28 – Nov 13, 2025 =
+
+**Added:** AI Project Creation - Generate project plans, task lists, and timelines with AI support.
+**Fixed:** Load Pusher scripts only when app_key and cluster are set.
+
+= v2.6.27 – Oct 29, 2025 =
+
+**Improved:** Sanitization to prevent SQL Injection.
+
+= v2.6.26 – Oct 13, 2025 =
+
+**Added:** Italian translation file.
+**Fixed:** Hardcoded data exposure issue in the Trello test environment. Thanks to Legion Hunter from Patchstack for responsibly reporting it.
+
+= v2.6.25 – Sep 4, 2025 =
+
+**Improved:** Unwanted trello helper backup file removed.
+
+= v2.6.24 – Apr 28, 2025 =
+
+**Fixed:** Load more task.
+**Improved:** Readme.txt file.
+
 = v2.6.23 - Apr 8, 2025 =
 
 **Added:** SVG file upload sanitization & security improvmenet.

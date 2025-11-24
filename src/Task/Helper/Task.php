@@ -1374,11 +1374,12 @@ class Task {
 			}
 
 			if ( ! empty( $explode[1] ) ) {
-				$relation = $explode[1];
+				$relation_raw = strtoupper( sanitize_text_field( $explode[1] ) );
+				$relation = in_array( $relation_raw, array( 'AND', 'OR' ), true ) ? $relation_raw : 'AND';
 			} else {
 				$relation = 'AND';
 			}
-			
+
 			if ( $last_key == $key ) {
 				$relation = '';
 			}
@@ -1460,11 +1461,12 @@ class Task {
 			$explode = explode( '|', str_replace( ' ', '', $ope_param ) );
 
 			if ( ! empty( $explode[1] ) ) {
-				$relation = $explode[1];
+				$relation = strtoupper( sanitize_text_field( trim( $explode[1] ) ) );
+				$relation = in_array( $relation, array( 'AND', 'OR' ), true ) ? $relation : 'AND';
 			} else {
 				$relation = 'AND';
 			}
-			
+
 			if ( $last_key == $key ) {
 				$relation = '';
 			}
@@ -1536,11 +1538,12 @@ class Task {
 			$explode = explode( '|', str_replace( ' ', '', $ope_param ) );
 
 			if ( ! empty( $explode[1] ) ) {
-				$relation = $explode[1];
+				$relation = strtoupper( sanitize_text_field( trim( $explode[1] ) ) );
+				$relation = in_array( $relation, array( 'AND', 'OR' ), true ) ? $relation : 'AND';
 			} else {
 				$relation = 'AND';
 			}
-			
+
 			if ( $last_key == $key ) {
 				$relation = '';
 			}
@@ -1737,6 +1740,7 @@ class Task {
 		global $wpdb;
 		
 		$id        = isset( $this->query_params['id'] ) ? $this->query_params['id'] : false;
+		$more_tasks_request = isset( $this->query_params['source'] ) && 'more_tasks' === $this->query_params['source'] ? true : false;
 		$boardable = pm_tb_prefix() . 'pm_boardables';
 		$tasks = [];
 
@@ -1766,7 +1770,7 @@ class Task {
 		$results = $wpdb->get_results( $query );
 
 		// If task has not boardable_id mean no list
-		if ( $id ) {
+		if ( $id && ! $more_tasks_request ) {
 			foreach ( $results as $key => $result ) {
 				if( $result->id == $id ) {
 					$tasks[] = $result;

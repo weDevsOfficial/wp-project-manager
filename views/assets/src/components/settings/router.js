@@ -24,6 +24,8 @@ import settingsEmail from './email.vue'
 
 import Pusher from './pusher.vue'
 
+import AiSettings from './ai-settings.vue'
+
 
 weDevsPMRegisterChildrenRoute('settings_root',
     [
@@ -61,6 +63,16 @@ weDevsPMRegisterChildrenRoute('settings_root',
             path: 'task-type', 
             component: taskType, 
             name: 'task_type_settings_tab',
+            meta: {
+                permission: function(project) {
+                    return pmUserCanAccessPage(PM_Vars.admin_cap_slug)
+                }
+            }
+        },
+        { 
+            path: 'ai-settings', 
+            component: AiSettings, 
+            name: 'ai_settings_tab',
             meta: {
                 permission: function(project) {
                     return pmUserCanAccessPage(PM_Vars.admin_cap_slug)
