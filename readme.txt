@@ -1,11 +1,11 @@
- === Project Management & Task Manager with Kanban Board & Gantt Chart – WP Project Manager ===
+ === AI-Powered Project Management & Task Manager with Kanban Board & Gantt Chart – WP Project Manager ===
 Contributors: tareq1988, nizamuddinbabu, wedevs, asaquzzaman
 Donate Link: https://tareq.co/donate/
 Tags: project management, project manager, kanban board, task manager, gantt chart
 Requires at least: 4.4 or higher
 Tested up to: 6.8
 Requires PHP: 5.6
-Stable tag: 2.6.28
+Stable tag: 2.6.29
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -14,13 +14,13 @@ Powerful project management tool for WordPress. Manage tasks, Kanban boards, Gan
 == Description ==
 ## Best Project Management Plugin for WordPress with Kanban Board, Gantt Chart, and Task Manager
 
-[WP Project Manager](https://wedevs.com/wp-project-manager-pro) is a leading project management and task manager plugin for WordPress. Designed for teams, agencies, enterprises, and freelancers, this powerful plugin can simplify project management, task management, milestone tracking, collaboration, and reporting like never before.
+[WP Project Manager](https://wedevs.com/wp-project-manager-pro) is a leading AI-powered project management and task manager plugin for WordPress. Designed for teams, agencies, enterprises, and freelancers, this powerful plugin can simplify project management, task management, milestone tracking, collaboration, and reporting like never before.
 
 [youtube https://www.youtube.com/watch?v=GI4u8wXOxHg]
 
 No matter if you are struggling to handle complex projects or simple to-dos, WP Project Manager can turn your WordPress site into a central hub for organizing tasks, managing team members, assigning tasks to them, milestone tracking, and driving productivity.
 
-Our user-friendly interface is combined with advanced tools like **Kanban Board** and **Gantt Chart** for visualizing task management and project progress. Besides, **Time Tracker**, **Task Calendar**, and **integration** with various platforms facilitate team collaboration.
+Our user-friendly interface combines **AI technology** with advanced tools like **Kanban Board** and **Gantt Chart** for visualizing task management and project progress. Besides, **Time Tracker**, **Task Calendar**, and **integration** with various platforms facilitate team collaboration.
 
 **Want to give it a try?** 
 👉 [TRY FREE OFFICIAL DEMO](https://pm2.wedevsdemos.com/wp-login.php)
@@ -32,11 +32,11 @@ Our user-friendly interface is combined with advanced tools like **Kanban Board*
 
 The free version of WP Project Manager offers core **task manager** and **project management** essentials to get you started. Take a look at them below:
 
-##  AI Project
-–   Create projects effortlessly using AI assistance
-–   Generate project plans, task lists, and timelines with AI support
-–   Streamline project setup and enhance productivity with AI-driven insights
--   Select from various AI provider models to suit your project needs
+##  AI Project Creation
+–   Generate project plans, task lists, and timelines in seconds with AI support
+–   Get smart project suggestions based on goals, deadlines, and workloads 
+–   Save time by letting AI outline project structures and assign initial tasks automatically
+-   Adjust and refine AI-generated plans to match your team's unique workflow
 
 ##🗓 To-Do List & Task Management
 –   Add as many to-do lists as you want with titles and descriptions
@@ -163,6 +163,25 @@ Help make WP Project Manager the ultimate project management tool! Fork our repo
 –   Indonesian: Hirizh
 –   Polish: Jacek Synowiec
 
+## Take a Look at Our Other Products
+
+* **[Dokan](https://wordpress.org/plugins/dokan-lite)**: Build your own multi-vendor marketplace on WordPress quickly and easily. Create platforms similar to Amazon, eBay, or Etsy, allowing multiple sellers to manage their shops under one roof.
+
+* **[Happy Addons for Elementor](https://wordpress.org/plugins/happy-elementor-addons/)**: Expand Elementor’s capabilities with over 143 essential widgets, a Header & Footer Builder, mega menu, and 500+ ready-made templates. Customize your WordPress site with ease.
+
+* **[WP ERP](https://wordpress.org/plugins/erp/)**: A complete business management tool for WordPress. Handle HR, recruitment, job listings, CRM, and accounting seamlessly alongside WooCommerce integration.
+
+* **[weMail](https://wordpress.org/plugins/wemail/)**: Simplify your email marketing with an all-in-one WordPress tool. Design newsletters, subscription forms, and opt-ins to engage your audience easily.
+
+* **[WP User Frontend](https://wordpress.org/plugins/wp-user-frontend/)**: Enable users to create and manage content from the front-end of your WordPress site. Perfect for forms, post submissions, and user dashboards without accessing the backend.
+
+* **[weDocs](https://wordpress.org/plugins/wedocs/)**: Organize and manage your online documentation effortlessly. This plugin lets you create a knowledge base, wiki, or document library directly within WordPress.
+
+* **[Texty](https://wordpress.org/plugins/texty/)**: A fast and easy SMS notification plugin for WordPress and WooCommerce. Send instant messages to your users via popular gateways like Twilio, Vonage, and more.
+
+* **[wePOS](https://wordpress.org/plugins/wepos/)**: Turn your WooCommerce store into a powerful point-of-sale system. Manage sales, inventory, and customers in real-time using WordPress.
+
+
 == Installation ==
 
 Extract the zip file and just drop the contents in the wp-content/plugins/ directory of your WordPress installation and then activate the Plugin from the Plugins page.
@@ -210,9 +229,9 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Screenshots ==
 
-1. Kanban Board of WP Project Manager
+1. Manage unlimited projects
 2. Gantt Chart of WP Project Manager
-3. Manage unlimited projects
+3. Kanban Board of WP Project Manager
 4. Extend project management power with advanced modules
 5. Keep every milestone on track
 6. Have project overview at a glance
@@ -226,6 +245,12 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 14. Manage projects from the frontend
 
 == Changelog ==
+
+= v2.6.29 – Nov 24, 2025 =
+
+**Fixed:** AI Response broken error.
+**Fixed:** AI Response timeout error.
+**Improved:** Dynamic AI Model Selection.
 
 = v2.6.28 – Nov 13, 2025 =
 

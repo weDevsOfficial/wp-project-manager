@@ -1,7 +1,7 @@
 <template>
     <div class="pm-ai-preview">
         <div class="pm-ai-preview-header">
-            <h3>{{ __( 'Previewing your Project & Tasks', 'wedevs-project-manager') }}</h3>
+            <span>{{ __( 'Previewing your Project & Tasks', 'wedevs-project-manager') }}</span>
             <transition name="fade">
                 <button
                     v-if="hasSelectedItems"
@@ -198,6 +198,12 @@
 </script>
 
 <style lang="less">
+    .ui-dialog-titlebar {
+        span.ui-dialog-title {
+            font-size: 1.2rem;
+        }
+    }
+
     .pm-ai-preview {
         max-height: 600px;
         overflow-y: auto;
@@ -208,6 +214,12 @@
             border-bottom: 1px solid #e0e0e0;
             display: flex;
             justify-content: space-between;
+
+            span {
+                font-size: 1rem;
+                margin-left: 5px;
+                font-weight: bold;
+            }
 
             h3 {
                 margin: 0;
@@ -340,7 +352,8 @@
             }
 
             &.pm-task-input {
-                padding: 0 10px !important;
+                margin: 0 !important;
+                padding: 0 !important;
             }
 
             &.pm-input-error {

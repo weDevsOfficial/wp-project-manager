@@ -1,5 +1,11 @@
 == Changelog ==
 
+= v2.6.29 – Nov 24, 2025 =
+
+**Fixed:** AI Response broken error.
+**Fixed:** AI Response timeout error.
+**Improved:** Dynamic AI Model Selection.
+
 = v2.6.28 – Nov 13, 2025 =
 
 **Added:** AI Project Creation - Generate project plans, task lists, and timelines with AI support.

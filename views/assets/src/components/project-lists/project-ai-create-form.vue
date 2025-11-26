@@ -17,7 +17,7 @@
                     type="submit"
                     name="generate_project"
                     id="generate_project"
-                    class="pm-button pm-primary"
+                    class="pm-button pm-primary pm-btn-ai-generate"
                     :value="generate_button_text">
             </div>
         </form>
@@ -409,6 +409,25 @@
                 margin-left: 10px;
             }
         }
+
+        .pm-btn-ai-generate {
+            background: #8b5cf6 !important;
+            color: #fff !important;
+            padding: 0 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+
+            &:hover:not(:disabled) {
+                background: #7c3aed !important;
+            }
+
+            &:disabled {
+                opacity: 0.6;
+                cursor: not-allowed;
+            }
+        }
     }
 
     .pm-ai-finalizing-modal {
@@ -437,7 +456,6 @@
                 font-size: 16px;
                 font-weight: 400;
                 margin-bottom: 20px;
-                font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             }
 
             .pm-ai-loading-spinner {
