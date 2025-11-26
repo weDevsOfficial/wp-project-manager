@@ -78,6 +78,7 @@ class Email {
      * @return void
      */
     function email_header() {
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         $header_file = apply_filters( 'pm_email_header_file', $this->get_template_path( '/html/header.php' ) );
         $this->load_templae( $header_file );
     }
@@ -92,6 +93,7 @@ class Email {
      * @return void
      */
     public function email_footer() {
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         $footer_file = apply_filters( 'pm_email_footer_file', $this->get_template_path( '/html/footer.php' ) );
         $this->load_templae( $footer_file );
     }
@@ -128,24 +130,28 @@ class Email {
     public function from_email() {
         $email = pm_get_setting( 'from_email' );
         $email = empty( $email ) ? get_bloginfo('admin_email'): $email; 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         return apply_filters('pm_from_email', $email);
     }
 
     public function is_bcc_enable() {
         $enable_bcc = pm_get_setting( 'enable_bcc' );
         $enable_bcc = isset( $enable_bcc ) ? $enable_bcc == "true" : false;
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         return apply_filters( 'pm_enable_bcc', $enable_bcc  ) ;
     }
 
     public function email_type() {
         $email_type = pm_get_setting('email_type');
         $email_type = isset( $email_type ) ? $email_type : 'text/html';
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         return apply_filters( 'pm_email_type', $email_type );
     }
 
     public function link_to_backend() {
         $link_to_backend = pm_get_setting('link_to_backend');
         $link_to_backend = ( isset( $link_to_backend ) && $link_to_backend == 'false' ) ? false : true;
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         return apply_filters('pm_email_link_to_backend', $link_to_backend ) ;
     }
 
@@ -162,6 +168,7 @@ class Email {
     }
 
     function notify_manager() {
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         return apply_filters( 'notify_project_managers', false );
     }
     /**

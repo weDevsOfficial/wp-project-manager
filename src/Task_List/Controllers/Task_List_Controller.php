@@ -124,6 +124,7 @@ class Task_List_Controller {
             $task_lists->where( pm_tb_prefix() .'pm_boards.title', 'like', '%'.$title.'%');
         }
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         $task_lists = apply_filters( "pm_task_list_check_privacy", $task_lists, $project_id, $request );
 
         if ( $per_page == '-1' ) {
@@ -259,6 +260,7 @@ class Task_List_Controller {
             ->where( pm_tb_prefix().'pm_boards.id', $task_list_id )
             ->where( pm_tb_prefix().'pm_boards.project_id', $project_id );
 
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
             $task_list = apply_filters("pm_task_list_show_query", $task_list, $project_id, $params );
 
             $task_list = $task_list->first();
@@ -307,6 +309,7 @@ class Task_List_Controller {
             $self->attach_milestone( $task_list, $milestone );
         }
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         do_action( 'pm_new_task_list_before_response', $task_list, $data );
         $resource = new Item( $task_list, new Task_List_Transformer );
 
@@ -314,7 +317,9 @@ class Task_List_Controller {
             'message' => pm_get_text('success_messages.task_list_created')
         ];
         $response = $self->get_response( $resource, $message );
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name, part of public API
         do_action( 'cpm_tasklist_new', $task_list->id, $project_id, $data );
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         do_action( 'pm_after_new_task_list', $response, $data );
         return $response;
     }
@@ -335,6 +340,7 @@ class Task_List_Controller {
             $this->attach_milestone( $task_list, $milestone );
         }
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         do_action( 'pm_new_task_list_before_response', $task_list, $request->get_params() );
         $resource = new Item( $task_list, new Task_List_Transformer );
 
@@ -342,7 +348,9 @@ class Task_List_Controller {
             'message' => pm_get_text('success_messages.task_list_created')
         ];
         $response = $this->get_response( $resource, $message );
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name, part of public API
         do_action( 'cpm_tasklist_new', $task_list->id, $project_id, $request->get_params() );
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         do_action( 'pm_after_new_task_list', $response, $request->get_params() );
         return $response;
     }
@@ -370,6 +378,7 @@ class Task_List_Controller {
             $task_list->milestones()->detach();
         }
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         do_action( 'pm_update_task_list_before_response', $task_list, $request->get_params() );
         $resource = new Item( $task_list, new Task_List_Transformer );
 
@@ -378,7 +387,9 @@ class Task_List_Controller {
         ];
 
         $response = $this->get_response( $resource, $message );
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name, part of public API
         do_action( 'cpm_tasklist_update', $task_list_id, $project_id, $request->get_params() );
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         do_action( 'pm_after_update_task_list', $response, $request->get_params() );
         return $response;
     }
@@ -391,7 +402,9 @@ class Task_List_Controller {
             ->where( 'project_id', $project_id )
             ->first();
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         do_action( 'pm_before_delete_task_list', $task_list_id, $project_id );
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name, part of public API
         do_action( 'cpm_delete_tasklist_prev', $task_list_id );
         // Delete relations
         $self->detach_all_relations( $task_list );
@@ -399,7 +412,9 @@ class Task_List_Controller {
         // Delete the task list
         $task_list->delete();
         
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name, part of public API
         do_action( 'cpm_delete_tasklist_after', $task_list_id );
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         do_action( 'pm_after_delete_task_list', $task_list );
 
         $message = [
@@ -419,7 +434,9 @@ class Task_List_Controller {
             ->where( 'project_id', $project_id )
             ->first();
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         do_action( 'pm_before_delete_task_list', $task_list_id, $project_id );
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name, part of public API
         do_action( 'cpm_delete_tasklist_prev', $task_list_id );
         // Delete relations
         $this->detach_all_relations( $task_list );
@@ -427,7 +444,9 @@ class Task_List_Controller {
         // Delete the task list
         $task_list->delete();
         
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name, part of public API
         do_action( 'cpm_delete_tasklist_after', $task_list_id );
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         do_action( 'pm_after_delete_task_list', $task_list );
 
         $message = [
@@ -599,7 +618,7 @@ class Task_List_Controller {
         $join         = '';
 
         $status       = isset( $filter_params['status'] ) ? intval( $filter_params['status'] ) : false;
-        $due_date     = empty( $filter_params['due_date'] ) ? false : date( 'Y-m-d', strtotime( $filter_params['due_date'] ) );
+        $due_date     = empty( $filter_params['due_date'] ) ? false : gmdate( 'Y-m-d', strtotime( $filter_params['due_date'] ) );
         $assignees    = empty( $filter_params['users'] ) ? [] : $filter_params['users'];
         $title        = empty( $filter_params['title'] ) ? '' : $filter_params['title'];
 
@@ -613,16 +632,16 @@ class Task_List_Controller {
 
         if ( ! empty( $due_date ) ) {
             if( $due_date == 'overdue' ) {
-                $today = date( 'Y-m-d', strtotime( current_time('mysql') ) );
+                $today = gmdate( 'Y-m-d', strtotime( current_time('mysql') ) );
                 $filter .= ' AND itasks.due_date < ' . $today;
 
             } else if ( $due_date == 'today' ) {
-                $today = date('Y-m-d', strtotime( current_time('mysql') ) );
+                $today = gmdate('Y-m-d', strtotime( current_time('mysql') ) );
                 $filter .= ' AND itasks.due_date = ' . $today;
 
             } else if ( $due_date == 'week' ) {
-                $today = date('Y-m-d', strtotime( current_time('mysql') ) );
-                $last = date('Y-m-d', strtotime( current_time('mysql') . '-1 week' ) );
+                $today = gmdate('Y-m-d', strtotime( current_time('mysql') ) );
+                $last = gmdate('Y-m-d', strtotime( current_time('mysql') . '-1 week' ) );
 
                 $filter .= ' AND itasks.due_date >= ' . $last;
                 $filter .= ' AND itasks.due_date <= ' . $today;
@@ -644,7 +663,9 @@ class Task_List_Controller {
             }
         }
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         $join .= apply_filters( 'pm_incomplete_task_query_join', '', $project_id );
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         $filter .= apply_filters( 'pm_incomplete_task_query_where', '', $project_id );
 
         $boardable = "SELECT bo.board_id,
@@ -671,7 +692,7 @@ class Task_List_Controller {
             $filter
             GROUP BY bo.board_id";
 
-
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Complex query with table names and filters, values are sanitized. Table names cannot be placeholders.
         $results = $wpdb->get_results( $boardable );
         $returns = [];
 

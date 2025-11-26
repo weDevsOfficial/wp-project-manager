@@ -2,8 +2,11 @@
 
 use WeDevs\PM\Core\Router\Router;
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Route file variable, not a global
 $router         = Router::singleton();
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Route file variable, not a global
 $access_project = 'WeDevs\PM\Core\Permissions\Access_Project';
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Route file variable, not a global
 $create_discuss = 'WeDevs\PM\Core\Permissions\Create_Discuss';
 
 $router->get( 'projects/{project_id}/discussion-boards', 'WeDevs/PM/Discussion_Board/Controllers/Discussion_Board_Controller@index' )

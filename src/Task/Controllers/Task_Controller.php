@@ -64,6 +64,7 @@ class Task_Controller {
                 ->parent()
                 ->where('title', 'LIKE', '%'.$search.'%');
             
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
             $tasks = apply_filters( 'pm_task_index_query', $tasks, $project_id, $request );
             
             $tasks = $tasks->orderBy( 'created_at', 'DESC')
@@ -73,6 +74,7 @@ class Task_Controller {
         } else {
             $tasks = Task::where( 'project_id', $project_id )
                 ->parent();
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
             $tasks = apply_filters( 'pm_task_index_query', $tasks, $project_id, $request );
 
             if ( $per_page == '-1' ) {
@@ -121,11 +123,14 @@ class Task_Controller {
         $board         = Board::find( $board_id );
 
         if ( $project ) {
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
             $data = apply_filters( 'pm_before_create_task', $data, $board_id, $data );
             $task = Task::create( $data );
         }
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name, part of public API
         do_action( 'cpm_task_new', $board_id, $task->id, $data );
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         do_action('pm_after_update_task', $task, $data );
 
         if ( $task && $board ) {
@@ -142,7 +147,9 @@ class Task_Controller {
         if ( is_array( $assignees ) && $task ) {
             $self->attach_assignees( $task, $assignees );
         }
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name, part of public API
         do_action( 'cpm_after_new_task', $task->id, $board_id, $project_id );
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         do_action('pm_after_create_task', $task, $data );
 
         $resource = new Item( $task, new Task_Transformer );
@@ -155,6 +162,7 @@ class Task_Controller {
 
         $response = $self->get_response( $resource, $message );
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         do_action('pm_create_task_aftre_transformer', $response, $data );
 
         return $response;
@@ -181,10 +189,12 @@ class Task_Controller {
         $board         = Board::find( $board_id );
 
         if ( $project ) {
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
             $data = apply_filters( 'pm_before_create_task', $data, $board_id, $request->get_params() );
             $task = Task::create( $data );
         }
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name, part of public API
         do_action( 'cpm_task_new', $board_id, $task->id, $request->get_params() );
 
         if ( $task && $board ) {
@@ -204,7 +214,9 @@ class Task_Controller {
 
         $this->insert_type( $task->id, $type_id, $project_id, $board_id );
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name, part of public API
         do_action( 'cpm_after_new_task', $task->id, $board_id, $project_id );
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         do_action('pm_after_create_task', $task, $request->get_params() );
 
         $resource = new Item( $task, new Task_Transformer );
@@ -217,6 +229,7 @@ class Task_Controller {
 
         $response = $this->get_response( $resource, $message );
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         do_action('pm_create_task_aftre_transformer', $response, $request->get_params() );
 
         return $response;
@@ -276,6 +289,7 @@ class Task_Controller {
 
     public function attach_assignees( Task $task, $assignees = [] ) {
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         do_action('pm_before_assignees', $task, $assignees );
 
         foreach ( $assignees as $user_id ) {
@@ -296,6 +310,7 @@ class Task_Controller {
             }
         }
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         do_action('pm_after_assignees', $task, $assignees );
     }
 
@@ -350,6 +365,7 @@ class Task_Controller {
         $is_private           = isset( $params['privacy'] ) ? $params['privacy'] : $task->is_private;
         $type_id              = empty( $params['type_id'] ) ? false : intval( $params['type_id'] );
         $deleted_users        = $task->assignees()->whereNotIn( 'assigned_to', $assignees )->get()->toArray(); //->delete();
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         $deleted_users        = apply_filters( 'pm_task_deleted_users', $deleted_users, $task );
         $deleted_users        = wp_list_pluck( $deleted_users, 'id' );
 
@@ -371,12 +387,16 @@ class Task_Controller {
             self::getInstance()->update_type( $task->id, $type_id, $project_id, $task->task_list );  
         }
             
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name, part of public API
         do_action( 'cpm_task_update', $list_id, $task_id, $params );
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         $params = apply_filters( 'pm_before_update_task', $params, $list_id, $task_id, $task );
         $task->update_model( $params );
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name, part of public API
         do_action( 'cpm_after_update_task', $task->id, $list_id, $project_id );
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         do_action('pm_after_update_task', $task, $params );
 
         $task_response = Task_Helper::get_results([ 
@@ -390,6 +410,7 @@ class Task_Controller {
             'data'     => $task_response['data']
         ];
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         do_action('pm_update_task_aftre_transformer', $response, $params );
         
         return $response;
@@ -410,6 +431,7 @@ class Task_Controller {
             $task->completed_at = null;
         }
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         do_action( 'pm_before_change_task_status', $task );
 
         if ( $task->save() ) {
@@ -417,7 +439,9 @@ class Task_Controller {
             $this->task_activity_comment($task, $status);
         }
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         do_action( 'mark_task_complete', $task->project_id, $task->id );
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         do_action( 'pm_changed_task_status', $task, $old_value, $request->get_params() );
 
         $task_response = Task_Helper::get_results([ 
@@ -431,6 +455,7 @@ class Task_Controller {
             'data'     => $task_response['data']
         ];
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         do_action('pm_changed_task_status_aftre_transformer', $response, $request->get_params() );
 
         return $response;
@@ -464,7 +489,9 @@ class Task_Controller {
         $resource = $self->get_response( $resource );
         $list_id  = $resource['data']['task_list_id'];
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         do_action( "pm_before_delete_task", $task, $data );
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name, part of public API
         do_action( 'cpm_delete_task_prev', $task_id, $project_id, $project_id, $task );
 
         // Delete relations assoicated with the task
@@ -493,7 +520,9 @@ class Task_Controller {
             'task_list_id' => $list_id
         ] );
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name, part of public API
         do_action( 'cpm_delete_task_after', $task_id, $project_id );
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         do_action( 'pm_after_delete_task', $task_id, $project_id );
 
         $message = [
@@ -520,7 +549,9 @@ class Task_Controller {
         $resource = $this->get_response( $resource );
         $list_id  = $resource['data']['task_list_id'];
         
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         do_action("pm_before_delete_task", $task, $request->get_params() );
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name, part of public API
         do_action( 'cpm_delete_task_prev', $task_id, $project_id, $project_id, $task );
 
         // Delete relations assoicated with the task
@@ -548,7 +579,9 @@ class Task_Controller {
             'task_list_id' => $list_id
         ] );
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name, part of public API
         do_action( 'cpm_delete_task_after', $task_id, $project_id );
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         do_action( 'pm_after_delete_task', $task_id, $project_id );
 
         $message = [
@@ -766,14 +799,14 @@ class Task_Controller {
 
                     if ( ! empty(  $due_date ) ) {
                         if( $due_date == 'overdue' ) {
-                            $today = date( 'Y-m-d', strtotime( current_time('mysql') ) );
+                            $today = gmdate( 'Y-m-d', strtotime( current_time('mysql') ) );
                             $q->where( 'due_date', '<', $today );
                         } else if ( $due_date == 'today' ) {
-                            $today = date('Y-m-d', strtotime( current_time('mysql') ) );
+                            $today = gmdate('Y-m-d', strtotime( current_time('mysql') ) );
                             $q->where( 'due_date', $today );
                         } else if ( $due_date == 'week' ) {
-                            $today = date('Y-m-d', strtotime( current_time('mysql') ) );
-                            $last = date('Y-m-d', strtotime( current_time('mysql') . '-1 week' ) );
+                            $today = gmdate('Y-m-d', strtotime( current_time('mysql') ) );
+                            $last = gmdate('Y-m-d', strtotime( current_time('mysql') . '-1 week' ) );
 
                             $q->where( 'due_date', '>=', $last );
                             $q->where( 'due_date', '<=', $today );
@@ -790,6 +823,7 @@ class Task_Controller {
                         });
                     }
 
+                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
                     $q = apply_filters( 'pm_task_filter_query', $q, $project_id );
                 }
             ]
@@ -807,14 +841,14 @@ class Task_Controller {
 
                 if ( ! empty(  $due_date ) ) {
                     if( $due_date == 'overdue' ) {
-                        $today = date( 'Y-m-d', strtotime( current_time('mysql') ) );
+                        $today = gmdate( 'Y-m-d', strtotime( current_time('mysql') ) );
                         $q->where( 'due_date', '<', $today );
                     } else if ( $due_date == 'today' ) {
-                        $today = date('Y-m-d', strtotime( current_time('mysql') ) );
+                        $today = gmdate('Y-m-d', strtotime( current_time('mysql') ) );
                         $q->where( 'due_date', $today );
                     } else if ( $due_date == 'week' ) {
-                        $today = date('Y-m-d', strtotime( current_time('mysql') ) );
-                        $last = date('Y-m-d', strtotime( current_time('mysql') . '-1 week' ) );
+                        $today = gmdate('Y-m-d', strtotime( current_time('mysql') ) );
+                        $last = gmdate('Y-m-d', strtotime( current_time('mysql') . '-1 week' ) );
 
                         $q->where( 'due_date', '>=', $last );
                         $q->where( 'due_date', '<=', $today );
@@ -831,6 +865,7 @@ class Task_Controller {
                     });
                 }
 
+                // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
                 $q = apply_filters( 'pm_task_filter_query', $q, $project_id );
 
             }
@@ -848,6 +883,7 @@ class Task_Controller {
         ->where( pm_tb_prefix() . 'pm_boards.project_id', $project_id)
         ->orderBy( pm_tb_prefix() . 'pm_boards.order', 'DESC' );
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         return apply_filters( 'pm_check_task_filter_list_permission', $task_lists, $request );
     }
 
@@ -960,6 +996,7 @@ class Task_Controller {
     public function transform_tasks( $tasks ) {
         $transform_tasks = new Collection( $tasks, new New_Task_Transformer );
         $all_tasks = $this->get_response( $transform_tasks );
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         return apply_filters( 'pm_after_transformer_list_tasks', $all_tasks );
     }
 
@@ -1002,6 +1039,7 @@ class Task_Controller {
             GROUP BY tk.id";
 
 
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is built dynamically with table names, values are sanitized. Table names cannot be placeholders.
         $results = $wpdb->get_results( $tasks );
 
         $returns = [];
@@ -1046,7 +1084,9 @@ class Task_Controller {
         }
 
         $list_ids         = implode(',', $list_ids );
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         $permission_join  = apply_filters( 'pm_incomplete_task_query_join', '', $project_id );
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         $where = apply_filters( 'pm_incomplete_task_query_where', '', $project_id );
 
         if ( ! empty( $not_in_tasks ) ) {
@@ -1077,6 +1117,7 @@ class Task_Controller {
 
             group by ibord_id";
 
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is built dynamically with table names, values are sanitized. Table names cannot be placeholders.
         $results = $wpdb->get_results( $sql );
 
         if ( $per_page_count != -1 ) {
@@ -1128,7 +1169,9 @@ class Task_Controller {
         }
 
         $list_ids         = implode(',', $list_ids );
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         $permission_join  = apply_filters( 'pm_complete_task_query_join', '', $project_id );
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         $where = apply_filters( 'pm_complete_task_query_where', '', $project_id );
 
         if ( ! empty( $not_in_tasks ) ) {
@@ -1159,6 +1202,7 @@ class Task_Controller {
 
             group by ibord_id";
 
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is built dynamically with table names, values are sanitized. Table names cannot be placeholders.
         $results = $wpdb->get_results( $sql );
 
         if ( $per_page_count != -1 ) {
@@ -1228,6 +1272,7 @@ class Task_Controller {
             ->groupBy( $task . '.id' )
             ->orderBy( $list . '.order', 'DESC' );
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         $task_collection = apply_filters( 'list_tasks_filter_query', $task_collection, $args );
 
         $task_collection = $task_collection->get();
@@ -1237,6 +1282,7 @@ class Task_Controller {
 
         $resource = new collection( $task_collection, $task_transformer );
         $tasks    = $this->get_response( $resource );
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         $tasks    = apply_filters( 'pm_after_transformer_list_tasks', $tasks, $task_ids );
 
         return $tasks;
@@ -1253,6 +1299,7 @@ class Task_Controller {
         $duplicate_task = $this->task_duplicate( $task, $list_id, $project_id );
         $new_task       = $this->get_task( $duplicate_task->id );
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         do_action( 'pm_after_task_duplicate', $new_task, $task  );
 
         wp_send_json_success( 
@@ -1308,7 +1355,9 @@ class Task_Controller {
             $newMeta = $this->replicate( $meta, $meta_data );
         }
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name, part of public API
         do_action( 'cpm_task_duplicate_after', $newTask->id, $list_id, $project_id );
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         do_action( 'pm_task_duplicate_after', $newTask->id, $list_id, $project_id, $task );
 
         return $newTask;

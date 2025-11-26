@@ -98,10 +98,12 @@ class Comment_Controller {
             'activity' => $this->last_activity( $commentable_type, $commentable_id ),
         ];
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name, part of public API
         do_action( 'cpm_comment_new', $comment->id , $request->get_param('project_id'), $request->get_params() );
         
         $response = $this->get_response( $resource, $message );
         
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         do_action( 'pm_after_new_comment', $response, $request->get_params());
         
         return $response;
@@ -140,7 +142,9 @@ class Comment_Controller {
         ];
 
         $response = $this->get_response( $resource, $message );
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name, part of public API
         do_action( 'cpm_comment_update', $comment->id, $request->get_param('project_id'), $response );
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         do_action( 'pm_after_update_comment', $response, $request->get_params());
         return $response;
     }
@@ -152,6 +156,7 @@ class Comment_Controller {
         $resource_type = $comment->commentable_type;
         $resource_id = $comment->commentable_id;
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name, part of public API
         do_action( 'cpm_comment_delete', $comment, false );
         $this->detach_files( $comment );
         $comment->replies()->delete();

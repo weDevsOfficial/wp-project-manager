@@ -130,6 +130,7 @@ class Project extends Eloquent {
     }
 
     public function labels() {
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         return  apply_filters( 'pm_task_label', $this );
     }
 }

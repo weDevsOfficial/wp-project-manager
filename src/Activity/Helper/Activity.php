@@ -115,6 +115,7 @@ class Activity {
 
 		$items = $this->item_with( $items, $activity );
 		
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
 		return apply_filters( 'pm_activity_transform', $items, $activity );
 	}
 
@@ -228,6 +229,7 @@ class Activity {
 		$this->actor()
 			->project();
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
 		$this->activities = apply_filters( 'pm_activity_with',$this->activities, $this->activity_ids, $this->query_params );
 
 		return $this;
@@ -346,8 +348,8 @@ class Activity {
 		}
 
 		if ( $updated_at_start ) {
-			$com_start_reduce = date('Y-m-d',(strtotime ( '-1 day' , strtotime ( $updated_at_start) ) ));
-			$com_add          = date('Y-m-d',(strtotime ( '+1 day' , strtotime ( $updated_at) ) ));
+			$com_start_reduce = gmdate('Y-m-d',(strtotime ( '-1 day' , strtotime ( $updated_at_start) ) ));
+			$com_add          = gmdate('Y-m-d',(strtotime ( '+1 day' , strtotime ( $updated_at) ) ));
 		}
 
 		//If its contain between condition
@@ -595,6 +597,7 @@ class Activity {
 			WHERE %d=%d {$this->where}
 			{$this->orderby} {$this->limit} ";
 		
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is prepared, $query is built dynamically with table names. Table names cannot be placeholders.
 		$results = $wpdb->get_results( $wpdb->prepare( $query, 1, 1 ) );
 		
 		$this->found_rows = $wpdb->get_var( "SELECT FOUND_ROWS()" );

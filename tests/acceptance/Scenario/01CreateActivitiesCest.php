@@ -1,4 +1,5 @@
 <?php
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Codeception test class, follows Codeception conventions
 class CreateProjectTaskListTaskCest
 {
     public function _before(AcceptanceTester $I)

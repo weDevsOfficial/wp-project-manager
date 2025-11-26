@@ -59,6 +59,7 @@ class Profile_Update {
 
         $this->capbility_form( $profile_user );
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         do_action( 'pm_user_profile', $profile_user );
 
         wp_nonce_field( 'pm_nonce', 'pm_profile_nonce' );
@@ -125,6 +126,7 @@ class Profile_Update {
 
         $this->update_user_capability( $user_id, $cap_key );
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         do_action( 'pm_update_profile', $user_id, $prev_data );
     }
 

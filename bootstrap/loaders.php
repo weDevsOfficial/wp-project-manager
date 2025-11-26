@@ -7,6 +7,7 @@ use WeDevs\PM\Core\Database\Migrater;
 use WeDevs\PM\Core\WP\Frontend;
 use enshrined\svgSanitize\Sanitizer;
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_load_configurations() {
     $files = glob( __DIR__ . "/../config/*.php" );
 
@@ -24,6 +25,7 @@ function pm_load_configurations() {
     return $config;
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_load_texts() {
     $files = glob( __DIR__ . "/../texts/*.php" );
 
@@ -41,6 +43,7 @@ function pm_load_texts() {
     return $lang;
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_load_libs() {
     $files = glob( __DIR__ . "/../libs/*.php" );
 
@@ -61,6 +64,7 @@ function pm_load_libs() {
  * These files will be considered as route files only, nothing else.
  * So make files in that directoy carefully.
  */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_load_routes() {
     $files = glob( __DIR__ . "/../routes/*.php" );
 
@@ -76,6 +80,7 @@ function pm_load_routes() {
     unset( $files );
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_load_orm() {
     $capsule = new Capsule;
     $config_db = pm_config('db');
@@ -91,6 +96,7 @@ function pm_load_orm() {
     $capsule->bootEloquent();
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_load_schema() {
     $contents = [];
     $files = glob( __DIR__ . "/../db/migrations/*.php" );
@@ -109,6 +115,7 @@ function pm_load_schema() {
     return $contents;
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_migrate_db() {
     $migrater = new Migrater();
 
@@ -116,28 +123,34 @@ function pm_migrate_db() {
     $migrater->build_schema();
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_seed_db() {
     (new RoleTableSeeder())->run();
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_register_routes() {
     $routes = Router::get_routes();
 
     WP_Router::register($routes);
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_view() {
     new Frontend();
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_user_tracking() {
     add_action( 'plugins_loaded', 'pm_after_load_pro', 99 );
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_after_load_pro() {
     // add_action( 'init', 'pm_init_tracker' ); // No need after v1.1
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_init_tracker() {
     $client = new Appsero\Client( 'd6e3df28-610b-4315-840d-df0b2b02f4fe', 'WP Project Manager', PM_FILE );
 
@@ -160,6 +173,7 @@ function pm_init_tracker() {
     $insights->init_plugin();
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_clean_svg() {
     add_filter( 'wp_check_filetype_and_ext', function ( $data, $file, $filename, $mimes ) {
         if ( $data['ext'] === 'svg' ) {
@@ -170,7 +184,9 @@ function pm_clean_svg() {
                 if ( $dirtySVG !== false ) {
                     $cleanSVG = $sanitizer->sanitize( $dirtySVG );
                     // Check if sanitization was successful
+                    // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_is_writable -- File path is validated
                     if ( $cleanSVG !== false && is_writable( $file ) ) {
+                        // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents -- File path is validated
                         file_put_contents( $file, $cleanSVG );
                     }
                 }

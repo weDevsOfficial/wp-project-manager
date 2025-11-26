@@ -2,6 +2,7 @@
 
 use WeDevs\PM\Core\Router\Router;
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Route file variable, not a global
 $router = Router::singleton();
 
 $router->get( 'projects/{project_id}/files', 'WeDevs/PM/File/Controllers/File_Controller@index' )

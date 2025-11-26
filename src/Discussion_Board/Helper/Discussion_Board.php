@@ -116,6 +116,7 @@ class Discussion_Board {
 
 		$items = $this->item_with( $items, $discussion_board );
 		
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
 		return apply_filters( 'pm_discuss_transform', $items, $discussion_board );
 	}
 
@@ -145,6 +146,7 @@ class Discussion_Board {
 			->project()
 			->comments();
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
 		$this->discussion_boards = apply_filters( 'pm_discussion_board_with',$this->discussion_boards, $this->discussion_board_ids, $this->query_params );
 
 		return $this;
@@ -234,6 +236,7 @@ class Discussion_Board {
 
 		array_push( $query_data, 'milestone', 'discussion_board' );
 		
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is prepared, $query is built dynamically with table names. Table names cannot be placeholders.
 		$results       = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 		$milestone_ids = wp_list_pluck( $results, 'milestone_id' );
 		
@@ -326,6 +329,7 @@ class Discussion_Board {
 
 		array_push( $query_data, 'discussion_board' );
 		
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Query is prepared, $query is built dynamically with table names
 		$results  = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 		$comment_ids = wp_list_pluck( $results, 'comment_id' );
 		
@@ -385,6 +389,7 @@ class Discussion_Board {
 
 		array_push( $query_data, 'discussion_board' );
 		
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Query is prepared, $query is built dynamically with table names
 		$results  = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 		$file_ids = wp_list_pluck( $results, 'file_id' );
 		
@@ -443,6 +448,7 @@ class Discussion_Board {
 
 		array_push( $query_data, 'discussion_board' );
 		
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Query is prepared, $query is built dynamically with table names
 		$results  = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 
 		foreach ( $results as $key => $result ) {
@@ -477,6 +483,7 @@ class Discussion_Board {
 
 		array_push( $query_data, 'discussion_board' );
 		
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Query is prepared, $query is built dynamically with table names
 		$results  = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 
 		foreach ( $results as $key => $result ) {
@@ -511,6 +518,7 @@ class Discussion_Board {
 
         array_push( $query_data, 'discussion_board' );
 
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Query is prepared, $query is built dynamically with table names
         $results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 
         foreach ( $results as $key => $result ) {
@@ -698,6 +706,7 @@ class Discussion_Board {
 			WHERE %d=%d {$this->where} AND $this->tb_discussion_board.type=%s
 			{$this->orderby} {$this->limit} ";
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is prepared, $query is built dynamically with table names. Table names cannot be placeholders.
 		$results = $wpdb->get_results( $wpdb->prepare( $query, 1, 1, 'discussion_board' ) );
 
 		$this->found_rows = $wpdb->get_var( "SELECT FOUND_ROWS()" );

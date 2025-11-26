@@ -1,11 +1,15 @@
 <?php
 
 if ( function_exists( 'pm_pro_get_logo' ) ) {
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Template variable, not a global
     $logo_path = pm_pro_get_logo();
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Template variable, not a global
     $logo_path = $logo_path['url'];
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Template variable, not a global
 $now      = format_date(current_time('mysql'));
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Template variable, not a global
 $calendar = config('frontend.assets_url')  . 'images/calendar.png';
 ?>
 

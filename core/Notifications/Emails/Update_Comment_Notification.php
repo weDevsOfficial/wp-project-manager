@@ -47,8 +47,10 @@ class Update_Comment_Notification extends Email {
             return ; 
         }
         $title         = $comment->{ $request['commentable_type'] }->title;
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         $template_name = apply_filters( 'pm_update_comment_email_template_path', $this->get_template_path( '/html/update-comment.php' ) );
-        $subject       = sprintf( __( '[%s][%s] Update Comment on: %s', 'wedevs-project-manager' ), $this->get_blogname(), $project->title , $title );
+        // translators: %1$s: Site name, %2$s: Project title, %3$s: Commentable item title
+        $subject       = sprintf( __( '[%1$s][%2$s] Update Comment on: %3$s', 'wedevs-project-manager' ), $this->get_blogname(), $project->title , $title );
         
         if( $request['commentable_type'] == 'discussion_board' ){
             $type = __( 'Message', 'wedevs-project-manager' );

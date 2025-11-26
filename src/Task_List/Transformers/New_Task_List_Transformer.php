@@ -43,6 +43,7 @@ class New_Task_List_Transformer extends TransformerAbstract {
             'project_id' => $item->project_id
         ];
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         return apply_filters( 'pm_task_list_transform', $data, $item );
     }
 

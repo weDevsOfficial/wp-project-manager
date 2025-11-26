@@ -48,6 +48,7 @@ class Task_List_Transformer extends TransformerAbstract {
 
         ];
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         return apply_filters( 'pm_task_list_transform', $data, $item );
     }
 
@@ -58,6 +59,7 @@ class Task_List_Transformer extends TransformerAbstract {
      */
     public function getDefaultIncludes()
     {
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         return apply_filters( "pm_task_list_transformer_default_includes", $this->defaultIncludes );
     }
 
@@ -82,6 +84,7 @@ class Task_List_Transformer extends TransformerAbstract {
     }
 
     public function includeComments( Task_List $item ) {
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verification is not implemented for this AJAX call
         $page = isset( $_GET['comment_page'] ) ? intval($_GET['comment_page']) : 1;
 
         Paginator::currentPageResolver(function () use ($page) {
@@ -101,6 +104,7 @@ class Task_List_Transformer extends TransformerAbstract {
     }
 
     public function includeFiles( Task_List $item ) {
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verification is not implemented for this AJAX call
         $page = isset( $_GET['file_page'] ) ? intval($_GET['file_page']) : 1;
 
         Paginator::currentPageResolver(function () use ($page) {
@@ -134,7 +138,9 @@ class Task_List_Transformer extends TransformerAbstract {
 
 
     public function includeCompleteTasks( Task_List $item ) {
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verification is not implemented for this AJAX call
         $page = isset( $_GET['complete_task_page'] ) ? intval($_GET['complete_task_page']) : 1;
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verification is not implemented for this AJAX call
         $per_page_count = isset( $_GET['complete_task_per_page'] ) ? intval($_GET['complete_task_per_page']) : false;
 
         $per_page = pm_get_setting( 'complete_tasks_per_page' );
@@ -151,6 +157,7 @@ class Task_List_Transformer extends TransformerAbstract {
         $tasks = $item->tasks()
                 ->where( 'status', 1 );
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         $tasks = apply_filters( 'pm_complete_task_query', $tasks,  $item->project_id, $item );
         if ( $per_page == '-1' ) {
             $per_page = $tasks->count();
@@ -162,7 +169,9 @@ class Task_List_Transformer extends TransformerAbstract {
     }
 
     public function includeIncompleteTasks( Task_List $item ) {
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verification is not implemented for this AJAX call
         $page = isset( $_GET['incomplete_task_page'] ) ? intval( $_GET['incomplete_task_page'] ) : 1;
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verification is not implemented for this AJAX call
         $per_page_count = isset( $_GET['incomplete_task_per_page'] ) ? intval($_GET['incomplete_task_per_page']) : false;
 
         Paginator::currentPageResolver(function () use ($page) {
@@ -178,6 +187,7 @@ class Task_List_Transformer extends TransformerAbstract {
         
         $tasks = $item->tasks()
             ->where( 'status', 0 );
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         $tasks = apply_filters( 'pm_incomplete_task_query', $tasks,  $item->project_id, $item );
         
         if ( $per_page == '-1' ) {

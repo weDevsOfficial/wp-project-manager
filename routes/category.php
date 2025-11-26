@@ -2,8 +2,11 @@
 
 use WeDevs\PM\Core\Router\Router;
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Route file variable, not a global
 $router                    = Router::singleton();
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Route file variable, not a global
 $project_manage_capability = 'WeDevs\PM\Core\Permissions\Project_Manage_Capability';
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Route file variable, not a global
 $authentic                 = 'WeDevs\PM\Core\Permissions\Authentic';
 
 $router->get( 'categories', 'WeDevs/PM/Category/Controllers/Category_Controller@index' )

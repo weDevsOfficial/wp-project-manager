@@ -1,5 +1,6 @@
 <?php
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function PM_pusher_localize( $localize ) {
     if( isset( $localize['settings']['pusher_secret'] ) ) {
         if ( ! pm_has_manage_capability() ) {

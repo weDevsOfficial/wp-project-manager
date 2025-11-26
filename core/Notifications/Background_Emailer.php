@@ -45,7 +45,8 @@ class Background_Emailer extends WP_Background_Process
                 Notification::send_queued_transactional_email( $callback['filter'], $callback['args'] );
             } catch ( Exception $e ) {
                 if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-                    trigger_error( esc_attr__( 'Transactional email triggered fatal error for callback ', 'wedevs-project-manager' ) . $callback['filter'], E_USER_WARNING );
+                    // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error -- Used for debugging within WP_DEBUG block
+                    trigger_error( esc_attr__( 'Transactional email triggered fatal error for callback ', 'wedevs-project-manager' ) . esc_attr( $callback['filter'] ), E_USER_WARNING );
                 }
             }
         }

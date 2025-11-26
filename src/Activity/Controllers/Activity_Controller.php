@@ -46,6 +46,7 @@ class Activity_Controller {
         $resource->setPaginator( new IlluminatePaginatorAdapter( $activities ) );
 
         $response = $this->get_response( $resource );
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         $response = apply_filters('pm_get_task', $response , $request);
         return $response ;
     }

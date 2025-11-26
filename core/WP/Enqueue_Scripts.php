@@ -14,8 +14,10 @@ class Enqueue_Scripts {
 		];
 
 		foreach ( $scripts_id as $script_id ) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Dynamic hook name, part of public API
 			do_action( 'before_loaded' . $script_id );
 			wp_enqueue_script( $script_id );
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Dynamic hook name, part of public API
 			do_action( 'after_loaded' . $script_id );
 		}
 
@@ -30,10 +32,12 @@ class Enqueue_Scripts {
 		];
 
 		foreach ( $styles_id as $style ) {
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Dynamic hook name, part of public API
 			do_action( 'before_loaded' . $style );
 			
 			wp_enqueue_style( $style );
 
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Dynamic hook name, part of public API
 			do_action( 'after_loaded' . $style );
 		}
 	}
@@ -54,8 +58,11 @@ class Enqueue_Scripts {
 			'permalinkStructure'       => get_option( 'permalink_structure' ),
 			'project_page'             => pm_get_project_page(),
 			'rest_api_prefix'          => rest_get_url_prefix(),
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are part of public API
 			'todo_list_form'           => apply_filters( 'todo_list_form', array( 'PM_Task_Mixin' ) ),
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are part of public API
 			'todo_list_router_default' => apply_filters( 'todo_list_router_default', array( 'PM_Task_Mixin' ) ),
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook names are part of public API
 			'todo_list_text_editor'    => apply_filters( 'todo_list_text_editor', array() ),
 			'assets_url'               => config('frontend.assets_url'),
 			'wp_time_zone'             => tzcode_to_tzstring( get_wp_timezone() ),
@@ -83,6 +90,7 @@ class Enqueue_Scripts {
 			'dir_url'                          => config('frontend.url'),
 			'is_pro'                           => $wedevs_pm_pro,
 			'is_admin'                         => is_admin(),
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
 			'language'                         => apply_filters( 'pm_get_jed_locale_data', [ 'pm' => pm_get_jed_locale_data( 'wedevs-project-manager' ) ] ),
 			'date_format'                      => get_option( 'date_format' ),
 			'time_format'                      => get_option( 'time_format' ),
@@ -98,6 +106,7 @@ class Enqueue_Scripts {
         ];
 
         $localize = self::filter( $localize );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
 		$localize = apply_filters( 'pm_localize', $localize );
 
 		wp_localize_script( 'pm-config', 'PM_Vars', $localize );

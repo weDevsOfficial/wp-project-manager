@@ -39,7 +39,8 @@ class Upgrade_2_2_2 {
 
         $sql = "UPDATE {$wpdb->prefix}pm_boards SET `order`=99999999 WHERE `title`='Inbox' AND `type`='task_list' AND `description`='This is a system default task list. Any task without an assigned tasklist will appear here.'";
 
-        $wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->prefix}pm_boards SET `order`=99999999 WHERE `title`='Inbox' AND `type`='task_list' AND `description`='This is a system default task list. Any task without an assigned tasklist will appear here.'") );
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- No placeholders needed, static query
+        $wpdb->query( "UPDATE {$wpdb->prefix}pm_boards SET `order`=99999999 WHERE `title`='Inbox' AND `type`='task_list' AND `description`='This is a system default task list. Any task without an assigned tasklist will appear here.'" );
     }
 
 }

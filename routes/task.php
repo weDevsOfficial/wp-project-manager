@@ -5,7 +5,9 @@ use WeDevs\PM\Core\Permissions\Access_Project;
 use WeDevs\PM\Core\Permissions\Create_Task;
 use WeDevs\PM\Core\Permissions\Administrator;
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Route file variable, not a global
 $router    = Router::singleton();
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Route file variable, not a global
 $authentic = 'WeDevs\PM\Core\Permissions\Authentic';
 
 $router->get( 'projects/{project_id}/tasks', 'WeDevs/PM/Task/Controllers/Task_Controller@index' )

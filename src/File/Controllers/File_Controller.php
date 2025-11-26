@@ -41,6 +41,7 @@ class File_Controller {
 
         $response = $this->get_response( $resource );
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         return apply_filters( 'pm_after_get_files', $response, $files, $resource, $request->get_params() );
     }
 
@@ -121,6 +122,7 @@ class File_Controller {
             header( 'Content-Type: ' . $mime_type );
             header( 'Content-Transfer-Encoding: binary' );
             header( 'Content-Disposition: inline; filename=' . basename( $path ) );
+            // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_readfile -- File path is validated, needed for binary output
             readfile( $path );
         }
 

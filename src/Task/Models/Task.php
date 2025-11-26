@@ -118,6 +118,7 @@ class Task extends Eloquent {
     }
 
     public function task_model( $key = '' ) {
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         return apply_filters( 'task_model', $this, $key );
     }
 
@@ -131,6 +132,7 @@ class Task extends Eloquent {
     }
 
     public function labels() {
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         return apply_filters( 'pm_task_model_labels', $this );
     }
 

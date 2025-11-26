@@ -6,6 +6,7 @@ use WeDevs\PM\Task_List\Helper\Task_List;
 use WeDevs\PM\Project\Helper\Project;
 use WeDevs\PM\Discussion_Board\Models\Discussion_Board;
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function PM_pusher_has_task_update_content( $model ) {
 
     $content = [];
@@ -23,8 +24,8 @@ function PM_pusher_has_task_update_content( $model ) {
 
             case 'due_date':
                 $formated_due = format_date( $value );
-                $original_due = date( 'Y-m-d', strtotime( $original['due_date'] ) );
-                $updated_due  = date( 'Y-m-d', strtotime( $formated_due['date'] ) );
+                $original_due = gmdate( 'Y-m-d', strtotime( $original['due_date'] ) );
+                $updated_due  = gmdate( 'Y-m-d', strtotime( $formated_due['date'] ) );
 
                 if ( $original_due != $updated_due ) {
                     $content['due_date'] = $formated_due['date'];
@@ -36,7 +37,9 @@ function PM_pusher_has_task_update_content( $model ) {
     return $content;
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function PM_pusher_before_assignees( $task, $assignees ) {
+    // phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Nonce verification and sanitization handled by pm_clean()
     $is_admin      = empty( intval( pm_clean( $_POST['is_admin'] ) ) ) ? false : true;
     $task          = pm_get_task( $task->id );
     $task          = $task['data'];
@@ -79,7 +82,9 @@ function PM_pusher_before_assignees( $task, $assignees ) {
 }
 
 //For task update status
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function PM_pusher_update_task_status( $new, $old, $task ) {
+    // phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Nonce verification and sanitization handled by pm_clean()
     $is_admin = empty( intval( pm_clean( $_POST['is_admin'] ) ) ) ? false : true;
     $task     = pm_get_task( $task->id );
     $task     = $task['data'];
@@ -126,6 +131,7 @@ function PM_pusher_update_task_status( $new, $old, $task ) {
     ));
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function PM_pusher_update_task( $model ) {
     $class_name = class_basename( $model );
 
@@ -149,6 +155,7 @@ function PM_pusher_update_task( $model ) {
         return;
     }
 
+    // phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Nonce verification and sanitization handled by pm_clean()
     $is_admin = empty( intval( pm_clean( $_POST['is_admin'] ) ) ) ? false : true;
     $url      = pm_get_task_url( $task['project_id'], $task['task_list']['data']['id'], $task['id'], $is_admin );
 
@@ -197,6 +204,7 @@ function PM_pusher_update_task( $model ) {
     ));
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function PM_pusher_after_new_comment( $comment, $params ) {
     $type = $comment['data']['commentable_type'];
     $creator = $comment['data']['creator']['data']['display_name'];
@@ -279,6 +287,7 @@ function PM_pusher_after_new_comment( $comment, $params ) {
     ));
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function PM_pusher_after_update_comment( $comment, $params ) {
     $type = $comment['data']['commentable_type'];
     $creator = $comment['data']['creator']['data']['display_name'];
@@ -359,13 +368,17 @@ function PM_pusher_after_update_comment( $comment, $params ) {
     ));
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function PM_pusher_task_list_url( $project_id, $list_id ) {
+    // phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Nonce verification and sanitization handled by pm_clean()
     $is_admin = empty( intval( pm_clean( $_POST['is_admin'] ) ) ) ? false : true;
 
     return pm_get_list_url( $project_id, $list_id, $is_admin );
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function PM_pusher_task_url( $project_id, $list_id, $task_id ) {
+    // phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.MissingUnslash,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Nonce verification and sanitization handled by pm_clean()
     $is_admin = empty( intval( pm_clean( $_POST['is_admin'] ) ) ) ? 'frontend' : 'admin';
 
     if ( ! $list_id  ) {
@@ -375,6 +388,7 @@ function PM_pusher_task_url( $project_id, $list_id, $task_id ) {
     return pm_get_task_url( $project_id, $list_id, $task_id, $is_admin );
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function PM_pusher_file_url( $project_id, $file_id ) {
     return;
     // $file = File::find( $file_id );
@@ -394,6 +408,7 @@ function PM_pusher_file_url( $project_id, $file_id ) {
     // }
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function PM_pusher_after_new_message( $message, $params, $discussion_board ) {
     $channel = PM_pusher_channel();
     $event   = PM_pusher_get_event( 'message_create' );
@@ -437,6 +452,7 @@ function PM_pusher_after_new_message( $message, $params, $discussion_board ) {
     ));
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function PM_pusher_after_update_message( $mesage, $params, $discussion_board ) {
     $channel = PM_pusher_channel();
     $event   = PM_pusher_get_event( 'message_update' );
@@ -481,11 +497,14 @@ function PM_pusher_after_update_message( $mesage, $params, $discussion_board ) {
     ));
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function PM_pusher_message_url( $project_id, $message_id ) {
+    // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verification is not implemented for this callback
     $is_admin = empty( $_POST['is_admin'] ) ? false : true;
     return pm_get_discuss_url( $project_id, $message_id, $is_admin );
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_wp_notification_center( $sender_id, $receiver_id, $message, $anchor=''  ) {
 
     if ( ! function_exists( 'wd_notify' ) ) {

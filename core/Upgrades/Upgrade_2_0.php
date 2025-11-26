@@ -1214,7 +1214,7 @@ class Upgrade_2_0 extends WP_Background_Process
                     'meta_key'    => 'invoice_payment',
                     'meta_value'  => maybe_serialize([
                         'amount'  => floatval( $payment['amount'] ),
-                        'date'    => date( 'Y-m-d', strtotime( $payment_date ) ),
+                        'date'    => gmdate( 'Y-m-d', strtotime( $payment_date ) ),
                         'notes'   => $payment['notes'],
                         'gateway' => $payment['method']
                     ]),
@@ -1404,7 +1404,7 @@ class Upgrade_2_0 extends WP_Background_Process
         if( is_array( $tasks ) ){
 
             $ganttTable = $wpdb->prefix . 'pm_gantt_chart_links';
-            $now      = date( 'Y-m-d', strtotime( current_time('mysql') ) );
+            $now      = gmdate( 'Y-m-d', strtotime( current_time('mysql') ) );
             $user   = wp_get_current_user();
 
             foreach ( $tasks as $old => $new ) {
@@ -1592,7 +1592,7 @@ class Upgrade_2_0 extends WP_Background_Process
             return;
         }
         $timetrackerTable = $wpdb->prefix . 'pm_time_tracker';
-        $now      = date( 'Y-m-d', strtotime( current_time('mysql') ) );
+        $now      = gmdate( 'Y-m-d', strtotime( current_time('mysql') ) );
         foreach( $timetracker as $time ){
             $wpdb->insert( 
                 $timetrackerTable, 
@@ -1913,7 +1913,7 @@ class Upgrade_2_0 extends WP_Background_Process
 
     function insert_client_role () {
         $user = wp_get_current_user();
-        $now  = date( 'Y-m-d', strtotime( current_time('mysql') ) );
+        $now  = gmdate( 'Y-m-d', strtotime( current_time('mysql') ) );
         if ( ! Role::where('slug', 'client')->exists() ) {
             Role::insert([
                 [

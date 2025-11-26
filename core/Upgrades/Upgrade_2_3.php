@@ -466,7 +466,8 @@ class Upgrade_2_3 extends WP_Background_Process {
                 ('File Create'),
                 ('File Private')";
 
-        $wpdb->query( $wpdb->prepare( "INSERT INTO {$wpdb->prefix}pm_capabilities (name)
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- No placeholders needed, static query
+        $wpdb->query( "INSERT INTO {$wpdb->prefix}pm_capabilities (name)
                VALUES
                 ('Message Create'),
                 ('Message Private'),
@@ -477,7 +478,7 @@ class Upgrade_2_3 extends WP_Background_Process {
                 ('Task Create'),
                 ('Task Private'),
                 ('File Create'),
-                ('File Private')" ) );
+                ('File Private')" );
 
         update_option( 'pm_capabilities', 'done' );
     }
@@ -508,7 +509,8 @@ class Upgrade_2_3 extends WP_Background_Process {
 
         $sql = "SELECT DISTINCT pj.id FROM {$wpdb->prefix}pm_projects as pj";
 
-        $projects = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT pj.id FROM {$wpdb->prefix}pm_projects as pj" ) );
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- No placeholders needed, static query
+        $projects = $wpdb->get_results( "SELECT DISTINCT pj.id FROM {$wpdb->prefix}pm_projects as pj" );
         $projects = wp_list_pluck( $projects, 'id' );
 
         $value = '';
@@ -561,9 +563,10 @@ class Upgrade_2_3 extends WP_Background_Process {
             LEFT JOIN {$wpdb->prefix}pm_settings as st ON st.project_id=pj.id
             WHERE st.key='capabilities'";
 
-        $results = $wpdb->get_results( $wpdb->prepare( "SELECT pj.id, st.value FROM {$wpdb->prefix}pm_projects as pj
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- No placeholders needed, static query
+        $results = $wpdb->get_results( "SELECT pj.id, st.value FROM {$wpdb->prefix}pm_projects as pj
             LEFT JOIN {$wpdb->prefix}pm_settings as st ON st.project_id=pj.id
-            WHERE st.key='capabilities'" ) );
+            WHERE st.key='capabilities'" );
         
         $new_reslts = [];
 
@@ -573,7 +576,8 @@ class Upgrade_2_3 extends WP_Background_Process {
 
         $query = "SELECT * FROM {$wpdb->prefix}pm_role_project";
 
-        $role_projects = $wpdb->get_results($wpdb->prepare( "SELECT * FROM {$wpdb->prefix}pm_role_project" ) );
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- No placeholders needed, static query
+        $role_projects = $wpdb->get_results( "SELECT * FROM {$wpdb->prefix}pm_role_project" );
 
         foreach ( $role_projects as $key => $role_project ) {
             $project_id = $role_project->project_id;
@@ -665,30 +669,33 @@ class Upgrade_2_3 extends WP_Background_Process {
             LEFT JOIN {$wpdb->prefix}pm_role_project as rp ON rp.project_id=ru.project_id
             WHERE ru.role_id=2 AND rp.role_id=2";
 
-        $client_projects = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT rp.id as role_project_id, ru.user_id as user_id, ru.project_id as project_id
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- No placeholders needed, static query
+        $client_projects = $wpdb->get_results( "SELECT DISTINCT rp.id as role_project_id, ru.user_id as user_id, ru.project_id as project_id
             FROM {$wpdb->prefix}pm_role_user as ru
             LEFT JOIN {$wpdb->prefix}pm_role_project as rp ON rp.project_id=ru.project_id
-            WHERE ru.role_id=2 AND rp.role_id=2" ) );
+            WHERE ru.role_id=2 AND rp.role_id=2" );
 
         $query = "SELECT DISTINCT rp.id as role_project_id, ru.user_id as user_id, ru.project_id as project_id
             FROM {$wpdb->prefix}pm_role_user as ru
             LEFT JOIN {$wpdb->prefix}pm_role_project as rp ON rp.project_id=ru.project_id
             WHERE ru.role_id=3 AND rp.role_id=3";
 
-        $co_worker_projects = $wpdb->get_results($wpdb->prepare( "SELECT DISTINCT rp.id as role_project_id, ru.user_id as user_id, ru.project_id as project_id
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- No placeholders needed, static query
+        $co_worker_projects = $wpdb->get_results( "SELECT DISTINCT rp.id as role_project_id, ru.user_id as user_id, ru.project_id as project_id
             FROM {$wpdb->prefix}pm_role_user as ru
             LEFT JOIN {$wpdb->prefix}pm_role_project as rp ON rp.project_id=ru.project_id
-            WHERE ru.role_id=3 AND rp.role_id=3" ) );
+            WHERE ru.role_id=3 AND rp.role_id=3" );
 
         $query = "SELECT DISTINCT rp.id as role_project_id, ru.user_id as user_id, ru.project_id as project_id
             FROM {$wpdb->prefix}pm_role_user as ru
             LEFT JOIN {$wpdb->prefix}pm_role_project as rp ON rp.project_id=ru.project_id
             WHERE ru.role_id=1 AND rp.role_id=1";
 
-        $manager_projects = $wpdb->get_results($wpdb->prepare( "SELECT DISTINCT rp.id as role_project_id, ru.user_id as user_id, ru.project_id as project_id
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- No placeholders needed, static query
+        $manager_projects = $wpdb->get_results( "SELECT DISTINCT rp.id as role_project_id, ru.user_id as user_id, ru.project_id as project_id
             FROM {$wpdb->prefix}pm_role_user as ru
             LEFT JOIN {$wpdb->prefix}pm_role_project as rp ON rp.project_id=ru.project_id
-            WHERE ru.role_id=1 AND rp.role_id=1" ));
+            WHERE ru.role_id=1 AND rp.role_id=1" );
 
         $role_projects = array_merge( $client_projects, $co_worker_projects, $manager_projects );
 

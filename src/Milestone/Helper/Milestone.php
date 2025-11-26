@@ -143,6 +143,7 @@ class Milestone {
 		$items = $this->item_with( $items, $milestone );
 		//$items = $this->item_meta( $items, $milestone );
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
 		return apply_filters( 'pm_milestone_transform', $items, $milestone );
 	}
 
@@ -166,6 +167,7 @@ class Milestone {
 			->discussion_boards()
 			->task_lists();
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
 		$this->milestones = apply_filters( 'pm_milestone_with',$this->milestones, $this->milestone_ids, $this->query_params );
 
 		return $this;
@@ -201,6 +203,7 @@ class Milestone {
 
 		array_push( $query_data, 'milestone', 'discussion_board' );
 		
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is prepared, $query is built dynamically with table names. Table names cannot be placeholders.
 		$results  = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 		$discussion_board_ids = wp_list_pluck( $results, 'discussion_board_id' );
 		
@@ -257,6 +260,7 @@ class Milestone {
 
 		array_push( $query_data, 'milestone', 'task_list' );
 		
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is prepared, $query is built dynamically with table names. Table names cannot be placeholders.
 		$results  = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 		$list_ids = wp_list_pluck( $results, 'list_id' );
 		
@@ -296,6 +300,7 @@ class Milestone {
 
 		array_push( $query_data, 'achieve_date' );
 		
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Query is prepared, $query is built dynamically with table names
 		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 		$metas   = [];
 
@@ -343,6 +348,7 @@ class Milestone {
 
 		array_push( $query_data, 'milestone', 'task_list' );
 		
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Query is prepared, $query is built dynamically with table names
 		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 		
 		foreach ( $results as $key => $result ) {
@@ -381,6 +387,7 @@ class Milestone {
 
 		array_push( $query_data, 'milestone', 'discussion_board' );
 		
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Query is prepared, $query is built dynamically with table names
 		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 		
 		foreach ( $results as $key => $result ) {
@@ -416,6 +423,7 @@ class Milestone {
 
         array_push( $query_data, 'milestone' );
 
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- Query is prepared, $query is built dynamically with table names
         $results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 
         foreach ( $results as $key => $result ) {
@@ -594,6 +602,7 @@ class Milestone {
 			WHERE %d=%d {$this->where} AND $this->tb_milestone.type=%s
 			{$this->orderby} {$this->limit} ";
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is prepared, $query is built dynamically with table names. Table names cannot be placeholders.
 		$results = $wpdb->get_results( $wpdb->prepare( $query, 1, 1, 'milestone' ) );
 
 		$this->found_rows = $wpdb->get_var( "SELECT FOUND_ROWS()" );

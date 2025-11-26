@@ -12,7 +12,9 @@ trait Transformer_Manager {
         $manager = new Manager();
         $manager->setSerializer( new DataArraySerializer() );
 
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verification is not implemented for this AJAX call
         if ( isset( $_GET['with'] ) ) {
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verification is not implemented for this AJAX call
             $manager->parseIncludes( sanitize_text_field( wp_unslash( $_GET['with'] ) ) ) ;
         }
 
@@ -30,7 +32,9 @@ trait Transformer_Manager {
         $manager = new Manager();
         $manager->setSerializer( new DataArraySerializer() );
 
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verification is not implemented for this AJAX call
         if ( isset( $_GET['with'] ) ) {
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verification is not implemented for this AJAX call
             $manager->parseIncludes( sanitize_text_field( wp_unslash( $_GET['with'] ) ) );
         }
 

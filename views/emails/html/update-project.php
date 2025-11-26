@@ -58,7 +58,8 @@
                                     <?php esc_html_e( 'Updated at', 'wedevs-project-manager' ); ?>
                                 </p>
                                 <h2 style="font-size: 16px; color: #000; margin: 0; font-weight: 400;">
-                                    <?php $project_date = empty( $updated_at['date'] ) ? '&#x02013;&#x02013;' : esc_html( pm_date_format( $updated_at['date'] ) ); ?>
+                                    <?php // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Template variable, not a global
+                                    $project_date = empty( $updated_at['date'] ) ? '&#x02013;&#x02013;' : esc_html( pm_date_format( $updated_at['date'] ) ); ?>
                                     <?php echo esc_html( $project_date ); ?>
                                 </h2>
                                 &nbsp;
@@ -73,8 +74,8 @@
                                     </div>
                                     <div>
                                         <?php
-                                            // translators: %1s: project title, %2s: project updated by name
                                             printf(
+                                                // translators: %1$s: Project title, %2$s: User display name who updated the project
                                                 esc_html__( 'The project "%1$s" has been updated by %2$s', 'wedevs-project-manager'  ),
                                                 esc_html( $title ),
                                                 esc_attr( $updater['data']['display_name'] )
@@ -109,7 +110,8 @@
                         </h2>
                         <span style="margin: 0; padding: 0; list-style: none; display: inline-block;">
                              <?php
-                                foreach( $assignees['data'] as $assign ) {
+                                foreach( $assignees['data'] as $assign ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Template variable, not a global
+                                    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Template variable, not a global
                                     ?>
                                         <img style="outline:none; margin-right: 4px; text-decoration:none; height: 33px; width: 33px; border-radius: 50%;" src="<?php echo esc_url( $assign['avatar_url'] ); ?>" alt="<?php echo esc_attr( $assign['display_name'] ); ?>" title="<?php echo esc_attr( $assign['display_name'] ); ?>" width="33" height="33" />
                                     <?php

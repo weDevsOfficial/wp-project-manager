@@ -21,6 +21,7 @@ pm_view();
 pm_load_routes();
 pm_register_routes();
 pm_clean_svg();
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
 do_action( 'pm_loaded' );
 
 add_action('init', 'pm_init_tracker');

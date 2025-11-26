@@ -44,8 +44,10 @@ class Complete_Task_Notification extends Email {
             return ;
         }
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         $template_name = apply_filters( 'pm_complete_task_email_template_path', $this->get_template_path( '/html/complete-task.php' ) );
-        $subject = sprintf( __( '[%s] %s Task mark as %s in %s', 'wedevs-project-manager' ), $this->get_blogname(), $task->title, $task->status, $task->projects->title );
+        // translators: %1$s: Site name, %2$s: Task title, %3$s: Task status, %4$s: Project title
+        $subject = sprintf( __( '[%1$s] %2$s Task mark as %3$s in %4$s', 'wedevs-project-manager' ), $this->get_blogname(), $task->title, $task->status, $task->projects->title );
         $message = $this->get_content_html( $template_name, $task_raw );
 
         $this->send( $users, $subject, $message );

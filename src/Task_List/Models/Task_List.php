@@ -52,6 +52,7 @@ class Task_List extends Eloquent {
             ->withPivot( 'order' );
 
         if ( $project_id ) {
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
             $tasks = apply_filters( 'pm_filter_task_permission', $tasks,  $project_id );
         }
 

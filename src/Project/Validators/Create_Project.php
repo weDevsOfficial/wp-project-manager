@@ -14,6 +14,7 @@ class Create_Project extends Abstract_Validator {
 
     public function rules() {
         
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         if ( apply_filters( 'pm_check_project_title_unique', true ) ) {
             return [
                 'title'  => 'required|pm_unique:Project,title',

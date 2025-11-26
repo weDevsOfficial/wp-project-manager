@@ -1,18 +1,22 @@
 <?php
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function required( $value ) {
     return trim( $value );
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function numeric( $value ) {
     return is_numeric( $value );
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function email( $value ) {
     return is_email( $value );
 }
 
 //Greater than zero (gtz)
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function gtz( $value ) {
 
 	$filter_options = array( 
@@ -26,6 +30,7 @@ function gtz( $value ) {
 	return false;
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_unique ($value, $args) {
 	// Listing all the variables
 	list($model, $collumn) = $args;

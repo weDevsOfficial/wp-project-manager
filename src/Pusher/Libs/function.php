@@ -1,10 +1,12 @@
 <?php
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_pusher_channel() {
 
     return 'private-wp-project-manager';
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_pusher_events() {
 
     return [
@@ -16,6 +18,7 @@ function pm_pusher_events() {
     ];
 }
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function name is part of public API
 function pm_pusher_get_event( $event_key ) {
 
     $events = pm_pusher_events();

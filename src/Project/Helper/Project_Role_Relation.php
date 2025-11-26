@@ -42,26 +42,31 @@ class Project_Role_Relation {
 		$tb_role_project = $wpdb->prefix . 'pm_role_project';
 		$project_id      = $project['id'];
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table names are interpolated, values are sanitized. Table names cannot be placeholders.
 		$role_project_ids = $wpdb->get_results( $wpdb->prepare( "SELECT rpu.role_project_id FROM $table as rpu 
 			LEFT JOIN $tb_role_project as rp ON rp.id=rpu.role_project_id
 			WHERE rp.project_id=%d", $project_id ) );
 		
 		$role_project_ids = wp_list_pluck( $role_project_ids, 'role_project_id' );
-
+		
 		foreach ( $role_project_ids as $key => $role_project_id ) {
+			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table name is interpolated, values are sanitized. Table names cannot be placeholders.
 			$wpdb->query(
 				$wpdb->prepare( "DELETE FROM $table WHERE role_project_id=%d", $role_project_id ) 
 			);
 		}
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table name is interpolated, values are sanitized. Table names cannot be placeholders.
 		$role_project_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM $tb_role_project WHERE project_id=%d AND role_id=%d", $project_id, 2 ) );
 		$this->role_project_id = $role_project_id;
 		$this->role_project_user( $project, 2, $role_project_id );
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is interpolated, values are sanitized
 		$role_project_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM $tb_role_project WHERE project_id=%d AND role_id=%d", $project_id, 3 ) );
 		$this->role_project_id = $role_project_id;
 		$this->role_project_user( $project, 3, $role_project_id );
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is interpolated, values are sanitized
 		$role_project_id = $wpdb->get_var( $wpdb->prepare( "SELECT id FROM $tb_role_project WHERE project_id=%d AND role_id=%d", $project_id, 1 ) );
 		$this->role_project_id = $role_project_id;
 		$this->role_project_user( $project, 1, $role_project_id );
@@ -152,14 +157,18 @@ class Project_Role_Relation {
 		$tb_rpu = $wpdb->prefix . 'pm_role_project_users';
 		$tb_rpc = $wpdb->prefix . 'pm_role_project_capabilities';
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table name is interpolated, values are sanitized. Table names cannot be placeholders.
 		$rpids = $wpdb->get_results( $wpdb->prepare("SELECT id FROM $tb_rp WHERE project_id=%d", $project_id) );
 		$rpids = wp_list_pluck( $rpids, 'id' );
 		
 		foreach ( $rpids as $key => $rpid ) {
+			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table name is interpolated, values are sanitized. Table names cannot be placeholders.
 			$wpdb->query( $wpdb->prepare( "DELETE FROM $tb_rpu WHERE role_project_id=%d", $rpid ) );
+			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table name is interpolated, values are sanitized. Table names cannot be placeholders.
 			$wpdb->query( $wpdb->prepare( "DELETE FROM $tb_rpc WHERE role_project_id=%d", $rpid ) );
 		}
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table name is interpolated, values are sanitized. Table names cannot be placeholders.
 		$wpdb->query( $wpdb->prepare( "DELETE FROM $tb_rp WHERE project_id=%d", $project_id ) );
 		
 	}
