@@ -1,12 +1,99 @@
 <?php
 
 /**
- * This script patches the return type of specific methods in the Eloquent Model and Collection classes
- * to avoid deprecation warnings in PHP 8.*.
+ * This script patches PHP 8+ compatibility issues in Illuminate Container and Eloquent classes.
  *
- * It adds the #[ReturnTypeWillChange] attribute to methods that are missing a return type declaration.
+ * It fixes:
+ * 1. PSR-11 ContainerInterface compatibility (has() and get() methods)
+ * 2. ArrayAccess interface compatibility (offsetExists, offsetGet, offsetSet, offsetUnset)
+ * 3. Nullable parameter declarations
+ * 4. Return type declarations for PHP 8+
  */
+
+function patchContainerPSR11($file) {
+    if (!file_exists($file)) {
+        echo "❌ File not found: $file\n";
+        return;
+    }
+
+    $content = file_get_contents($file);
+    $originalContent = $content;
+
+    // Fix has() method - PSR-11 requires: has(string $id): bool
+    $content = preg_replace(
+        '/public function has\(\$id\)(\s*\{)/s',
+        'public function has(string $id): bool$1',
+        $content
+    );
+
+    // Fix get() method - PSR-11 requires: get(string $id)
+    $content = preg_replace(
+        '/public function get\(\$id\)(\s*\{)/s',
+        'public function get(string $id)$1',
+        $content
+    );
+
+    // Fix offsetExists - ArrayAccess requires: offsetExists($key): bool
+    $content = preg_replace(
+        '/public function offsetExists\(\$key\)(\s*\{)/s',
+        'public function offsetExists($key): bool$1',
+        $content
+    );
+
+    // Fix offsetGet - ArrayAccess requires: offsetGet($key): mixed
+    $content = preg_replace(
+        '/public function offsetGet\(\$key\)(\s*\{)/s',
+        'public function offsetGet($key): mixed$1',
+        $content
+    );
+
+    // Fix offsetSet - ArrayAccess requires: offsetSet($key, $value): void
+    $content = preg_replace(
+        '/public function offsetSet\(\$key, \$value\)(\s*\{)/s',
+        'public function offsetSet($key, $value): void$1',
+        $content
+    );
+
+    // Fix offsetUnset - ArrayAccess requires: offsetUnset($key): void
+    $content = preg_replace(
+        '/public function offsetUnset\(\$key\)(\s*\{)/s',
+        'public function offsetUnset($key): void$1',
+        $content
+    );
+
+    // Fix nullable parameters - PHP 8.1+ requires explicit nullable type
+    $content = preg_replace(
+        '/public function resolving\(\$abstract, Closure \$callback = null\)/s',
+        'public function resolving($abstract, ?Closure $callback = null)',
+        $content
+    );
+
+    $content = preg_replace(
+        '/public function afterResolving\(\$abstract, Closure \$callback = null\)/s',
+        'public function afterResolving($abstract, ?Closure $callback = null)',
+        $content
+    );
+
+    $content = preg_replace(
+        '/public static function setInstance\(ContainerContract \$container = null\)/s',
+        'public static function setInstance(?ContainerContract $container = null)',
+        $content
+    );
+
+    if ($content !== $originalContent) {
+        file_put_contents($file, $content);
+        echo "✅ Patched Container: PSR-11 and ArrayAccess compatibility\n";
+    } else {
+        echo "⚠️ Container already patched or no changes needed\n";
+    }
+}
+
 function patchReturnType($file, $method) {
+    if (!file_exists($file)) {
+        echo "❌ File not found: $file\n";
+        return;
+    }
+
     $content = file_get_contents($file);
 
     // Check if method is already patched with the attribute
@@ -45,7 +132,13 @@ function patchReturnType($file, $method) {
 }
 
 
-// Example usage
+// Patch Container class for PSR-11 and ArrayAccess compatibility
+echo "=== Patching Illuminate Container ===\n";
+$targetContainerFile = __DIR__ . '/../vendor/illuminate/container/Container.php';
+patchContainerPSR11($targetContainerFile);
+
+// Patch Model and Collection classes
+echo "\n=== Patching Eloquent Model and Collection ===\n";
 $targetModelFile = __DIR__ . '/../vendor/illuminate/database/Eloquent/Model.php';
 $targetCollectionFile = __DIR__ . '/../vendor/illuminate/support/Collection.php';
 
@@ -55,3 +148,5 @@ foreach ($methods as $method) {
     patchReturnType($targetModelFile, $method);
     patchReturnType($targetCollectionFile, $method);
 }
+
+echo "\n✅ All patches applied successfully!\n";
