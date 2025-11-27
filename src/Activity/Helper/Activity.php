@@ -26,6 +26,9 @@ class Activity {
 	private $activities;
 	private $activity_ids;
 	private $is_single_query = false;
+	private $tb_project;
+	private $tb_activity;
+	private $found_rows;
 
 	public static function getInstance() {
         return new self();
