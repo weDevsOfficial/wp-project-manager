@@ -16,6 +16,7 @@
  *
  * @SuppressWarnings(PHPMD)
 */
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Codeception test class, follows Codeception conventions
 class UnitTester extends \Codeception\Actor
 {
     use _generated\UnitTesterActions;

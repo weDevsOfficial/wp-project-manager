@@ -36,6 +36,7 @@ use WeDevs\PM\Core\Notifications\Emails\Complete_Task_Notification;
      * Hook in all transactional emails.
      */
     public static function init_transactional_emails() {
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         $email_actions = apply_filters( 'pm_notification_action', array(
             'pm_after_new_project',
             'pm_after_update_project',
@@ -48,6 +49,7 @@ use WeDevs\PM\Core\Notifications\Emails\Complete_Task_Notification;
             'pm_after_update_comment'
         ) );
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         if ( apply_filters( 'pm_transactional_emails', true ) ) {
             self::$background_emailer = new Background_Emailer();
 
@@ -87,9 +89,11 @@ use WeDevs\PM\Core\Notifications\Emails\Complete_Task_Notification;
      * @param array  $args Email args (default: []).
      */
     public static function send_queued_transactional_email( $filter = '', $args = array() ) {
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         if ( apply_filters( 'pm_allow_send_queued_transactional_email', true, $filter, $args ) ) {
             self::instance(); // Init self so emails exist.
 
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- Dynamic hook name, part of public API
             do_action_ref_array( $filter . '_notification', $args );
         }
     }
@@ -106,10 +110,12 @@ use WeDevs\PM\Core\Notifications\Emails\Complete_Task_Notification;
         try {
             $args = func_get_args();
             self::instance(); // Init self so emails exist.
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.DynamicHooknameFound -- Dynamic hook name, part of public API
             do_action_ref_array( current_filter() . '_notification', $args );
         } catch ( Exception $e ) {
             if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-                trigger_error( esc_attr__( 'Transactional email triggered fatal error for callback ', 'wedevs-project-manager' ) . current_filter(), E_USER_WARNING );
+                // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_trigger_error -- Used for debugging within WP_DEBUG block
+                trigger_error( esc_attr__( 'Transactional email triggered fatal error for callback ', 'wedevs-project-manager' ) . esc_attr( current_filter() ), E_USER_WARNING );
             }
         }
     }

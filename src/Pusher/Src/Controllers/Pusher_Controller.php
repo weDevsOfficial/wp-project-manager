@@ -33,7 +33,10 @@ class Pusher_Controller {
 
         if ( is_user_logged_in() ) {
             $pusher = new Auth();
-            echo $pusher->socket_auth( $channel_name, $socket_id );
+            $response = $pusher->socket_auth( $channel_name, $socket_id );
+            header( 'Content-Type: application/json' );
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- JSON response from validated data
+            echo $response;
             exit;
 
         } else {

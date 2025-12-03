@@ -48,6 +48,7 @@ class Project_Transformer extends TransformerAbstract {
             'updated_at'          => format_date( $item->updated_at ),
             'list_inbox'          => (int) $listmeta,
         ];
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         return apply_filters( "pm_project_transformer", $data, $item );
     }
 
@@ -58,6 +59,7 @@ class Project_Transformer extends TransformerAbstract {
      */
     public function getDefaultIncludes()
     {
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         return apply_filters( "pm_project_transformer_default_includes", $this->defaultIncludes );
     }
 
@@ -65,17 +67,22 @@ class Project_Transformer extends TransformerAbstract {
 
         return $this->item($item, function ($item) {
             $list                   = $item->task_lists();
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
             $list                   = apply_filters( 'pm_task_list_query', $list, $item->id );
             $task                   = $item->tasks();
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
             $task                   = apply_filters( 'pm_task_query', $task, $item->id );
             $task_count             = $task->count();
             $complete_tasks_count   = $task->where( 'status', Task::COMPLETE)->count();
             $incomplete_tasks_count = $task->where( 'status', Task::INCOMPLETE)->count();
             $discussion             = $item->discussion_boards();
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
             $discussion             = apply_filters( 'pm_discuss_query', $discussion, $item->id);
             $milestones             = $item->milestones();
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
             $milestones             = apply_filters( 'pm_milestone_index_query', $milestones, $item->id );
             $files                  = $item->files();
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
             $files                  = apply_filters( 'pm_file_query', $files, $item->id );
 
             return[
@@ -103,8 +110,8 @@ class Project_Transformer extends TransformerAbstract {
     }
 
     public function includeOverviewGraph( Project $item ) {
-        $today     = date( 'Y-m-d', strtotime( current_time( 'mysql' ) ) );
-        $first_day = date( 'Y-m-d', strtotime('-1 month') );
+        $today     = gmdate( 'Y-m-d', strtotime( current_time( 'mysql' ) ) );
+        $first_day = gmdate( 'Y-m-d', strtotime('-1 month') );
         
         $graph_data = [];
 
@@ -116,7 +123,7 @@ class Project_Transformer extends TransformerAbstract {
         $task_groups = [];
         
         foreach ( $tasks as $key => $task ) {
-            $created_date = date( 'Y-m-d', strtotime( $task['created_at'] ) );
+            $created_date = gmdate( 'Y-m-d', strtotime( $task['created_at'] ) );
             $task_groups[$created_date][] = $task;
         }
 
@@ -128,11 +135,11 @@ class Project_Transformer extends TransformerAbstract {
         $activity_groups = [];
 
         foreach ( $activities as $key => $activity ) {
-            $created_date = date( 'Y-m-d', strtotime( $activity['created_at'] ) );
+            $created_date = gmdate( 'Y-m-d', strtotime( $activity['created_at'] ) );
             $activity_groups[$created_date][] = $activity;
         }
 
-        for ( $dt = $first_day; $dt<=$today; $dt = date('Y-m-d', strtotime( $dt . '+1 day' ) ) ) {
+        for ( $dt = $first_day; $dt<=$today; $dt = gmdate('Y-m-d', strtotime( $dt . '+1 day' ) ) ) {
             $graph_data[] = [
                 'date_time'  => format_date( $dt ),
                 'tasks'      => empty( $task_groups[$dt] ) ? 0 : count( $task_groups[$dt] ),

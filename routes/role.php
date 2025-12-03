@@ -6,6 +6,7 @@ use WeDevs\PM\Core\Permissions\Authentic;
 use WeDevs\PM\Core\Permissions\Project_Manage_Capability;
 
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Route file variable, not a global
 $router = Router::singleton();
 
 $router->get( 'roles', 'WeDevs/PM/Role/Controllers/Role_Controller@index' )

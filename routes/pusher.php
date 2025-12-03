@@ -5,6 +5,7 @@ use WeDevs\PM\Core\Permissions\Project_Manage_Capability;
 use WeDevs\PM\Core\Permissions\Authentic;
 
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Route file variable, not a global
 $router = Router::singleton();
 
 

@@ -1,6 +1,8 @@
 <?php
 if ( function_exists( 'pm_pro_get_logo' ) ) {
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Template variable, not a global
     $logo_path = pm_pro_get_logo();
+    // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Template variable, not a global
     $logo_path = ! empty( $logo_path['url'] ) ? $logo_path['url'] : null;
 
     if ( ! empty( $logo_path ) ) {

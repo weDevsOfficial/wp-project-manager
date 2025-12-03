@@ -34,6 +34,7 @@ class Trello_helper {
         }
 
         public function make_request($source,$querystring,$calback){
+        // phpcs:disable WordPress.WP.AlternativeFunctions.curl_curl_init,WordPress.WP.AlternativeFunctions.curl_curl_setopt_array,WordPress.WP.AlternativeFunctions.curl_curl_exec,WordPress.WP.AlternativeFunctions.curl_curl_close -- Trello API integration requires cURL
         // Get cURL resource
         $curl = curl_init();
         // Set some options - we are passing in a useragent too here
@@ -45,6 +46,7 @@ class Trello_helper {
         $resp = curl_exec($curl);
         // Close request to clear up some resources
         curl_close($curl);
+        // phpcs:enable
         return $calback($resp);
     }
 

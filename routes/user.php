@@ -3,6 +3,7 @@
 use WeDevs\PM\Core\Router\Router;
 use WeDevs\PM\Core\Permissions\Authentic;
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Route file variable, not a global
 $router = Router::singleton();
 
 $router->get( 'users', 'WeDevs/PM/User/Controllers/User_Controller@index' )

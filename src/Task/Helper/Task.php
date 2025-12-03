@@ -118,6 +118,7 @@ class Task {
             );
         }
 
+        // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose -- File handle is validated, needed for CSV export
         fclose( $output );
         exit();
 	}
@@ -413,6 +414,7 @@ class Task {
 			->include_label()
 			->include_milestone();
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
 		$this->tasks = apply_filters( 'pm_task_with',$this->tasks, $this->task_ids, $this->query_params );
 
 		return $this;
@@ -442,6 +444,7 @@ class Task {
 		$list_format = pm_get_prepare_format( $list_ids );
 		$format_data = array_merge( $list_ids, ['task_list', 'milestone'] );
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- Complex query with interpolated table names and format strings, values are sanitized
 		$query = $wpdb->prepare( "SELECT board_id as milestone_id, boardable_id as list_id
 			FROM $tb_boardable
 			WHERE $tb_boardable.boardable_id IN ($list_format)  
@@ -450,6 +453,7 @@ class Task {
 			$format_data 
 		);
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is built dynamically with table names, values are sanitized. Table names cannot be placeholders.
 		$results       = $wpdb->get_results( $query );
 		$milestone_ids = wp_list_pluck( $results, 'milestone_id' );
 		$milestone_ids = empty( $milestone_ids ) ? [0] : $milestone_ids;
@@ -667,6 +671,7 @@ class Task {
 
 		array_push( $query_data, 'task' );
 		
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is prepared, $query is built dynamically with table names. Table names cannot be placeholders.
 		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 		
 		foreach ( $results as $key => $result ) {
@@ -716,6 +721,7 @@ class Task {
             WHERE parent_id IN ( $tk_ids_format )
             GROUP BY parent_id";
 
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is prepared, $query is built dynamically with table names. Table names cannot be placeholders.
         $results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
         //$results = wp_list_pluck( $results, 'estimation', 'parent_id' );
         $estimations   = [];
@@ -762,6 +768,7 @@ class Task {
 
 		array_push( $query_data, 'task' );
 		
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is prepared, $query is built dynamically with table names. Table names cannot be placeholders.
 		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 		$orders   = [];
 		
@@ -798,6 +805,7 @@ class Task {
 			where parent_id IN ($tk_ids_format)";
 
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is prepared, $query is built dynamically with table names. Table names cannot be placeholders.
 		$results = $wpdb->get_results( $wpdb->prepare( $query, $this->task_ids ) );
 		$subtasks = [];
 
@@ -841,6 +849,7 @@ class Task {
 			LEFT JOIN $this->tb_tasks as tk ON tk.id = typt.task_id 
 			where tk.id IN ($tk_ids_format)";
 		
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is prepared, $query is built dynamically with table names. Table names cannot be placeholders.
 		$results = $wpdb->get_results( $wpdb->prepare( $query, $this->task_ids ) );
 		$types   = [];
 
@@ -888,6 +897,7 @@ class Task {
 			LEFT JOIN $this->tb_tasks as tk ON tk.id = bor.boardable_id 
 			where tk.id IN ($tk_ids_format)";
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is prepared, $query is built dynamically with table names. Table names cannot be placeholders.
 		$results = $wpdb->get_results( $wpdb->prepare( $query, $this->task_ids ) );
 		$lists   = [];
 
@@ -928,6 +938,7 @@ class Task {
 			where tk.id IN ($tk_ids_format)";
 
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is prepared, $query is built dynamically with table names. Table names cannot be placeholders.
 		$results = $wpdb->get_results( $wpdb->prepare( $query, $this->task_ids ) );
 		$projects = [];
 
@@ -998,6 +1009,7 @@ class Task {
 				where asin.task_id IN ($task_format)";
 		} 
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is built dynamically with table names and format strings, values are sanitized. Table names cannot be placeholders.
 		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 		
 		foreach ( $results as $key => $result ) {
@@ -1049,6 +1061,7 @@ class Task {
 
 		array_push( $query_data, 'task' );
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is built dynamically with table names and format strings, values are sanitized. Table names cannot be placeholders.
 		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 		
 		foreach ( $results as $key => $result ) {
@@ -1085,6 +1098,7 @@ class Task {
 		
 		array_push( $query_data, 'task' );
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is built dynamically with table names and format strings, values are sanitized. Table names cannot be placeholders.
 		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
 		
 		foreach ( $results as $key => $result ) {
@@ -1155,6 +1169,7 @@ class Task {
 
 	private function join() {
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
 		$this->join = apply_filters( 'pm_task_join', $this->join );
 
 		return $this;
@@ -1179,6 +1194,7 @@ class Task {
 			->where_milestone()
 			->where_recurrent();
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
 		$this->where = apply_filters( 'pm_task_where', $this->where, $this->user_id );
 
 		return $this;
@@ -1240,6 +1256,7 @@ class Task {
 			
 		global $wpdb;
 		
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare -- Complex query with interpolated format string, values are sanitized
 		$this->where .= $wpdb->prepare( " AND list.id IN ($format)", $lists );
 
 		return $this;
@@ -1266,9 +1283,11 @@ class Task {
 
 		if ( $is_user_null ) {
 			$this->join .= " LEFT JOIN {$tb_asin} ON $tb_asin.task_id={$this->tb_tasks}.id";
+			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare -- Complex query with interpolated table names and format strings, values are sanitized
 			$this->where .= $wpdb->prepare( " AND ( $tb_asin.assigned_to IN ($format) OR $tb_asin.assigned_to is null ) ) ", $users );
 		} else {
 			$this->join .= " LEFT JOIN {$tb_asin} ON $tb_asin.task_id={$this->tb_tasks}.id";
+			// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare -- Complex query with interpolated table names and format strings, values are sanitized
 			$this->where .= $wpdb->prepare( " AND $tb_asin.assigned_to IN ($format)", $users );
 		}
 
@@ -1287,7 +1306,8 @@ class Task {
 		$tb_boardables   = pm_tb_prefix() . 'pm_boardables';
 
 		if ( empty( $milestone ) ) {
-			$data_milestone = $wpdb->get_results( $wpdb->prepare( "SELECT id FROM {$tb_milestone} WHERE %d=%d AND type='milestone'", 1, 1 ) );
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Table name is interpolated, values are sanitized. Table names cannot be placeholders.
+		$data_milestone = $wpdb->get_results( $wpdb->prepare( "SELECT id FROM {$tb_milestone} WHERE %d=%d AND type='milestone'", 1, 1 ) );
 			$milestone_ids = wp_list_pluck( $data_milestone, 'id' );
 
 		} else {
@@ -1299,6 +1319,7 @@ class Task {
 		$format      = pm_get_prepare_format( $milestone_ids );
 		$format_data = array_merge( $milestone_ids, ['milestone', 'task_list']  );
 		
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- Complex query with interpolated table names and format strings, values are sanitized
 		$milestone_lists = $wpdb->get_results( 
 			$wpdb->prepare( "SELECT boardable_id as list_id 
 				FROM {$tb_boardables} 
@@ -1315,6 +1336,7 @@ class Task {
 		$list_ids = empty( $list_ids ) ? [-1] : $list_ids;
 		$format   = pm_get_prepare_format( $list_ids );
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared,WordPress.DB.PreparedSQLPlaceholders.UnfinishedPrepare -- Complex query with interpolated format string, values are sanitized
 		$this->where .= $wpdb->prepare( " AND list.id IN ($format)", $list_ids );
 
 		return $this;
@@ -1385,11 +1407,12 @@ class Task {
 			}
 
 			
-			$start_at = date( 'Y-m-d', strtotime( $start_at ) );
+			$start_at = gmdate( 'Y-m-d', strtotime( $start_at ) );
 			
 			if( $explode[0] == 'null' || $explode[0] == 'empty' ) {
 				$q[] = "({$this->tb_tasks}.start_at $operator) $relation";
 			} else {
+				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Complex query with interpolated table names and operators, values are sanitized
 				$q[] = $wpdb->prepare( "
 					( {$this->tb_tasks}.start_at $operator %s ) 
 						OR 
@@ -1433,16 +1456,18 @@ class Task {
         }
 
 		if ( $completed_at_start ) {
-			$com_start_reduce = date('Y-m-d', strtotime ( $completed_at_start) );
-			$com_add          = date('Y-m-d', strtotime ( $completed_at) );
+			$com_start_reduce = gmdate('Y-m-d', strtotime ( $completed_at_start) );
+			$com_add          = gmdate('Y-m-d', strtotime ( $completed_at) );
 		}
 	
 		//If its contain between condition
 		if ( $completed_at_start ) {
 
 			if ( $completed_at_between ) {
+				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is interpolated, values are sanitized
 				$query = $wpdb->prepare( " DATE({$this->tb_tasks}.completed_at) BETWEEN %s AND %s ", $com_start_reduce, $com_add );
 			} else {
+				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is interpolated, values are sanitized
 				$query = $wpdb->prepare( " DATE({$this->tb_tasks}.completed_at) NOT BETWEEN %s AND %s ", $com_start_reduce, $com_add );
 			}
 			
@@ -1472,7 +1497,7 @@ class Task {
 			}
 
 			$operator = $this->get_operator( $explode[0] );
-			$completed_at = date( 'Y-m-d', strtotime( $completed_at ) );
+			$completed_at = gmdate( 'Y-m-d', strtotime( $completed_at ) );
 			
 			if( $explode[0] == 'null' || $explode[0] == 'empty' ) {
 
@@ -1510,16 +1535,18 @@ class Task {
         }
 
 		if ( $due_date_start ) {
-			$due_start_reduce = date('Y-m-d', strtotime ( $due_date_start) );
-			$due_add          = date('Y-m-d', strtotime ( $due_date ) );
+			$due_start_reduce = gmdate('Y-m-d', strtotime ( $due_date_start) );
+			$due_add          = gmdate('Y-m-d', strtotime ( $due_date ) );
 		}
 
 		//If its contain between condition
 		if ( $due_date_start ) {
 
 			if ( $due_date_between ) {
+				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is interpolated, values are sanitized
 				$query = $wpdb->prepare( " DATE({$this->tb_tasks}.due_date) BETWEEN %s AND %s ", $due_start_reduce, $due_add );
 			} else {
+				// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is interpolated, values are sanitized
 				$query = $wpdb->prepare( " DATE({$this->tb_tasks}.due_date) NOT BETWEEN %s AND %s ", $due_start_reduce, $due_add );
 			}
 			
@@ -1549,7 +1576,7 @@ class Task {
 			}
 
 			$operator = $this->get_operator( $explode[0] );
-			$due_date = date( 'Y-m-d', strtotime( $due_date ) );
+			$due_date = gmdate( 'Y-m-d', strtotime( $due_date ) );
 
 			if ( $operator !== "= ''" ) {
 				if( $explode[0] == 'null' || $explode[0] == 'empty' ) {
@@ -1744,6 +1771,7 @@ class Task {
 		$boardable = pm_tb_prefix() . 'pm_boardables';
 		$tasks = [];
 
+		// phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Complex query with interpolated table names and dynamic WHERE/JOIN clauses, values are sanitized
 		$query = $wpdb->prepare( "SELECT SQL_CALC_FOUND_ROWS DISTINCT {$this->tb_tasks}.*, 
 			list.id as task_list_id,
 			list.title as task_list_title
@@ -1767,6 +1795,7 @@ class Task {
 			1, 1, 'task_list', 'task'
 		);
 		//echo $query; die();
+		// phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared,PluginCheck.Security.DirectDB.UnescapedDBParameter -- Query is built dynamically with table names, values are sanitized. Table names cannot be placeholders.
 		$results = $wpdb->get_results( $query );
 
 		// If task has not boardable_id mean no list

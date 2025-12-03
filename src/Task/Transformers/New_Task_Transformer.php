@@ -42,6 +42,7 @@ class New_Task_Transformer extends TransformerAbstract {
         ];
         
         if ( $this->list_task_transormer_filter ) {
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
             return apply_filters( 'pm_list_task_transormer', $task, $item );  
         }
         

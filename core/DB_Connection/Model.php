@@ -98,6 +98,7 @@ class Model extends \WeDevs\ORM\Eloquent\Model {
                 break;
 
             case 'created': 
+                // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
                 do_action( 'pm_created', $this );
                 Activity_Log::entry( $this, 'created' );
                 break;
@@ -109,18 +110,21 @@ class Model extends \WeDevs\ORM\Eloquent\Model {
                 break;
 
             case 'updated':
+                // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
                 do_action( 'pm_updated', $this );
                 Activity_Log::entry( $this, 'updated' );
                 break;
 
             case 'deleted':
 
+                // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
                 do_action( 'pm_deleted', $this );
                 //Activity_Log::entry( $this, 'deleted' );
                 break;
 
             case 'deleting':
 
+                // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
                 do_action( 'pm_deleting', $this );
                 Activity_Log::entry( $this, 'deleting' );
                 break;

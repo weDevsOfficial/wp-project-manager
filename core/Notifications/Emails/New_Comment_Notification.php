@@ -79,8 +79,10 @@ class New_Comment_Notification extends Email {
             $title = $filemeta->meta_value ?? '';
         }
 
+        // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
         $template_name = apply_filters( 'pm_new_comment_email_template_path', $this->get_template_path( '/html/new-comment.php' ) );
-        $subject       = sprintf( __( '[%s][%s] New Comment on: %s', 'wedevs-project-manager' ), $this->get_blogname(), $project->title , $title );       
+        // translators: %1$s: Site name, %2$s: Project title, %3$s: Commentable item title
+        $subject       = sprintf( __( '[%1$s][%2$s] New Comment on: %3$s', 'wedevs-project-manager' ), $this->get_blogname(), $project->title , $title );       
         
         $message = $this->get_content_html( $template_name, [
             'id'                => $commentData['data']['id'],

@@ -6,6 +6,7 @@ use WeDevs\PM\Role\Models\Role;
 use \WeDevs\PM\Settings\Models\Settings;
 use Carbon\Carbon;
 
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedClassFound -- Class name is part of public API
 class RoleTableSeeder extends Seeder
 {
     /**

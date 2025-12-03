@@ -51,6 +51,7 @@ class Project_Controller {
 
 		$projects = $this->fetch_projects( $category, $status );
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
 		$projects = apply_filters( 'pm_project_query', $projects, $request->get_params() );
 
 		$projects = $projects->orderBy(  pm_tb_prefix().'pm_projects.created_at', 'DESC' );
@@ -204,12 +205,15 @@ class Project_Controller {
 		if ( is_array( $assignees ) ) {
 			$this->assign_users( $project, $assignees );
 		}
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
 		do_action( 'pm_project_new', $project, $data );
 		// Transforming database model instance
 		$resource = new Item( $project, new Project_Transformer );
 		$response = $this->get_response( $resource );
 		$response['message'] = pm_get_text('success_messages.project_created');
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name, part of public API
 		do_action( 'cpm_project_new', $project->id, $project->toArray(), $data ); // will deprecated
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
 		do_action( 'pm_after_new_project', $response, $data );
 
 		( new Project_Role_Relation )->set_relation_after_create_project( $response['data'] );
@@ -240,13 +244,16 @@ class Project_Controller {
 		if ( is_array( $assignees ) ) {
 			$this->assign_users( $project, $assignees );
 		}
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
 		do_action( 'pm_project_new', $project, $request->get_params());
 		// Transforming database model instance
 		$resource = new Item( $project, new Project_Transformer );
 		$response = $this->get_response( $resource );
 		$response['message'] = pm_get_text('success_messages.project_created');
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name, part of public API
 		do_action( 'cpm_project_new', $project->id, $project->toArray(), $request->get_params() ); // will deprecated
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
 		do_action( 'pm_after_new_project', $response, $request->get_params() );
 
 		( new Project_Role_Relation )->set_relation_after_create_project( $response['data'] );
@@ -274,12 +281,15 @@ class Project_Controller {
 			$this->assign_users( $project, $assignees );
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
 		do_action( 'pm_project_update', $project, $request->get_params() );
 
 		$resource = new Item( $project, new Project_Transformer );
 		$response = $this->get_response( $resource );
 		$response['message'] = pm_get_text('success_messages.project_updated');
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name, part of public API
 		do_action( 'cpm_project_update', $project->id, $project->toArray(), $request->get_params() );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
 		do_action( 'pm_after_update_project', $response, $request->get_params() );
 
 		( new Project_Role_Relation )->set_relation_after_update_project( $response['data'] );
@@ -291,8 +301,11 @@ class Project_Controller {
 		$projects = Project::all();
 		foreach ($projects as  $project ) {
 
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name, part of public API
 			do_action( 'cpm_delete_project_prev', $project->id ); // will be deprecated
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name, part of public API
 			do_action( 'cpm_project_delete', $project, true );
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
 			do_action( 'pm_before_delete_project', $project, $project->id );
 			// Delete related resourcess
 			$project->categories()->detach();
@@ -325,7 +338,9 @@ class Project_Controller {
 
 			// Delete the main resource
 			$project->delete();
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
 			do_action( 'pm_after_delete_project', $project );
+			// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name, part of public API
 			do_action( 'cpm_delete_project_after', $project->id );
 		}
 			return [
@@ -338,8 +353,11 @@ class Project_Controller {
 
 		// Find the requested resource
 		$project =  Project::find( $id );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name, part of public API
 		do_action( 'cpm_delete_project_prev', $id ); // will be deprecated
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name, part of public API
 		do_action( 'cpm_project_delete', $id, true );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
 		do_action( 'pm_before_delete_project', $project, $request->get_params() );
 		// Delete related resourcess
 		$project->categories()->detach();
@@ -372,7 +390,9 @@ class Project_Controller {
 
 		// Delete the main resource
 		$project->delete();
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
 		do_action( 'pm_after_delete_project', $project );
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Legacy hook name, part of public API
 		do_action( 'cpm_delete_project_after', $id );
 		return [
 			'message' => pm_get_text('success_messages.project_deleted')
@@ -412,6 +432,7 @@ class Project_Controller {
             pm_update_meta( $user_id, $project_id, 'project', 'favourite_project', null );
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
 		do_action( "pm_after_favaurite_project", $request );
 
 		if ( $favourite == 'true' ) {
@@ -455,9 +476,13 @@ class Project_Controller {
 	 */
     private function get_ai_generation_limits() {
         return [
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
             'max_task_groups'       => apply_filters( 'pm_ai_max_task_groups', 8 ),
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
             'max_tasks_per_group'   => apply_filters( 'pm_ai_max_tasks_per_group', 8 ),
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
             'max_initial_tasks'     => apply_filters( 'pm_ai_max_initial_tasks', 8 ),
+            // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hook name is part of public API
             'max_task_title_length' => apply_filters( 'pm_ai_max_task_title_length', 200 ),
         ];
     }
@@ -745,11 +770,12 @@ class Project_Controller {
 		$response = wp_remote_request( $url, $args );
 
 		if ( is_wp_error( $response ) ) {
-			$error_msg = $response->get_error_message();
-			return [
-				'success' => false,
-				'message' => sprintf( __( 'AI API error: %s', 'wedevs-project-manager' ), esc_html( $error_msg ) )
-			];
+		$error_msg = $response->get_error_message();
+		return [
+			'success' => false,
+			// translators: %s: Error message
+			'message' => sprintf( __( 'AI API error: %s', 'wedevs-project-manager' ), esc_html( $error_msg ) )
+		];
 		}
 
 		$response_code = wp_remote_retrieve_response_code( $response );
@@ -768,11 +794,13 @@ class Project_Controller {
 				$error_message = sanitize_text_field( $response_data['message'] );
 			} elseif ( isset( $response_data['error']['code'] ) ) {
 				$error_message = sprintf(
+					// translators: %s: Error code
 					__( 'AI API error (Code: %s)', 'wedevs-project-manager' ),
 					sanitize_text_field( $response_data['error']['code'] )
 				);
 			} else {
 				$error_message = sprintf(
+					// translators: %d: HTTP status code
 					__( 'AI API request failed with status code: %d', 'wedevs-project-manager' ),
 					$response_code
 				);
