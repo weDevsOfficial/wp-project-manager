@@ -766,7 +766,7 @@ class Task_Controller {
 
                     if ( ! empty(  $due_date ) ) {
                         if( $due_date == 'overdue' ) {
-                            $today = date( 'Y-m-d', strtotime( current_time('mysql') ) );
+                            $today = gmdate( 'Y-m-d', strtotime( current_time('mysql') ) );
                             $q->where( 'due_date', '<', $today );
                         } else if ( $due_date == 'today' ) {
                             $today = date('Y-m-d', strtotime( current_time('mysql') ) );
@@ -807,7 +807,7 @@ class Task_Controller {
 
                 if ( ! empty(  $due_date ) ) {
                     if( $due_date == 'overdue' ) {
-                        $today = date( 'Y-m-d', strtotime( current_time('mysql') ) );
+                        $today = gmdate( 'Y-m-d', strtotime( current_time('mysql') ) );
                         $q->where( 'due_date', '<', $today );
                     } else if ( $due_date == 'today' ) {
                         $today = date('Y-m-d', strtotime( current_time('mysql') ) );

@@ -10,10 +10,10 @@
     <rule ref="./phpcs-xml/plugin-check-security.xml"/>
     
     <!-- Include WordPress Plugin Check Performance Rules -->
-    <!-- <rule ref="./phpcs-xml/plugin-check-performance.xml"/> -->
+    <rule ref="./phpcs-xml/plugin-check-performance.xml"/>
     
     <!-- Include WordPress Plugin Check General Rules -->
-    <!-- <rule ref="./phpcs-xml/plugin-check-general.xml"/> -->
+    <rule ref="./phpcs-xml/plugin-check-general.xml"/>
     
     <!-- Include WordPress Plugin Check Accessibility Rules -->
     <!-- <rule ref="./phpcs-xml/plugin-check-accessibility.xml"/> -->
@@ -45,7 +45,7 @@
     <!-- =================================== -->
     
     <exclude-pattern>*/assets/*</exclude-pattern>
-    <exclude-pattern>*/src/*</exclude-pattern>
+    <!-- <exclude-pattern>*/src/*</exclude-pattern> -->
     <exclude-pattern>*/lib/*</exclude-pattern>
     <exclude-pattern>*/build/*</exclude-pattern>
     <exclude-pattern>*/node_modules/*</exclude-pattern>

@@ -106,7 +106,7 @@ function pm_date_format( $date ) {
 
     $date_format = get_option( 'date_format' );
 
-    return $date ? Date( $date_format, strtotime( $date ) ) : '';
+    return $date ? gmdate( $date_format, strtotime( $date ) ) : '';
 }
 
 function make_carbon_date( $date ) {
@@ -122,9 +122,16 @@ function make_carbon_date( $date ) {
 }
 
 function pm_get_wp_roles() {
+    // Use wp_roles() function which properly initializes the global without override warnings
+    if ( function_exists( 'wp_roles' ) ) {
+        return wp_roles()->get_names();
+    }
+
+    // Fallback for older WordPress versions (pre-4.3)
     global $wp_roles;
 
-    if ( !$wp_roles ) {
+    if ( ! $wp_roles ) {
+        // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Initializing global for WordPress < 4.3 compatibility
         $wp_roles = new WP_Roles();
     }
 
@@ -567,7 +574,7 @@ function pm_log( $type = '', $msg = '' ) {
     $ouput_path = config( 'frontend.patch' );
 
     if ( WP_DEBUG == true ) {
-        $msg = sprintf( "[%s][%s] %s\n", date( 'd.m.Y h:i:s' ), $type, print_r($msg, true) );
+        $msg = sprintf( "[%s][%s] %s\n", gmdate( 'd.m.Y h:i:s' ), $type, print_r($msg, true) );
         error_log( $msg, 3, $ouput_path . '/tmp/pm-debug.log' );
     }
 }

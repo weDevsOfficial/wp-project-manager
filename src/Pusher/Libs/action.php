@@ -23,8 +23,8 @@ function PM_pusher_has_task_update_content( $model ) {
 
             case 'due_date':
                 $formated_due = format_date( $value );
-                $original_due = date( 'Y-m-d', strtotime( $original['due_date'] ) );
-                $updated_due  = date( 'Y-m-d', strtotime( $formated_due['date'] ) );
+                $original_due = gmdate( 'Y-m-d', strtotime( $original['due_date'] ) );
+                $updated_due  = gmdate( 'Y-m-d', strtotime( $formated_due['date'] ) );
 
                 if ( $original_due != $updated_due ) {
                     $content['due_date'] = $formated_due['date'];

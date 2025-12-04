@@ -35,9 +35,9 @@ class Project_Controller {
     public function index( WP_REST_Request $request ) {
 		$per_page = intval( $request->get_param( 'per_page' ) );
 		$page     = intval( $request->get_param( 'page' ) );
-		$status   = $request->get_param( 'status' );
-		$category = $request->get_param( 'category' );
-		$project_transform = $request->get_param( 'project_transform' );
+		$status   = sanitize_text_field($request->get_param('status'));
+		$category = intval($request->get_param('category'));
+		$project_transform = sanitize_text_field($request->get_param('project_transform'));
 
 		$per_page_from_settings = pm_get_setting( 'project_per_page' );
 		$per_page_from_settings = $per_page_from_settings ? $per_page_from_settings : 15;
@@ -162,7 +162,7 @@ class Project_Controller {
     }
 
 	public function show( WP_REST_Request $request ) {
-		$id 	  = $request->get_param('id');
+		$id 	  = intval($request->get_param('id'));
 		$user_id  = get_current_user_id();
 		$project  = Project::find($id);
 

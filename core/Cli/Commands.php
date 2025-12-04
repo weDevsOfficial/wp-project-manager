@@ -42,7 +42,7 @@ class Commands extends Cli {
         $randomString     = '';
 
         for ($i = 0; $i < $length; $i++) {
-            $randomString .= $characters[rand(0, $charactersLength - 1)];
+            $randomString .= $characters[wp_rand(0, $charactersLength - 1)];
         }
 
         return $randomString;
@@ -57,8 +57,8 @@ class Commands extends Cli {
         $char = "0123456789abcdefghijklmnopqrstuvwxyz";
 
         // choose random lengths for the username ($ulen) and the domain ($dlen)
-        $ulen = mt_rand(5, 10);
-        $dlen = mt_rand(7, 17);
+        $ulen = wp_rand(5, 10);
+        $dlen = wp_rand(7, 17);
 
         // reset the address
         $a = "";
@@ -66,7 +66,7 @@ class Commands extends Cli {
         // get $ulen random entries from the list of possible characters
         // these make up the username (to the left of the @)
         for ($i = 1; $i <= $ulen; $i++) {
-        $a .= substr($char, mt_rand(0, strlen($char)), 1);
+        $a .= substr($char, wp_rand(0, strlen($char)), 1);
         }
 
         // wouldn't work so well without this
@@ -75,14 +75,14 @@ class Commands extends Cli {
         // now get $dlen entries from the list of possible characters
         // this is the domain name (to the right of the @, excluding the tld)
         for ($i = 1; $i <= $dlen; $i++) {
-        $a .= substr($char, mt_rand(0, strlen($char)), 1);
+        $a .= substr($char, wp_rand(0, strlen($char)), 1);
         }
 
         // need a dot to separate the domain from the tld
         $a .= ".";
 
         // finally, pick a random top-level domain and stick it on the end
-        $a .= $tlds[mt_rand(0, (sizeof($tlds)-1))];
+        $a .= $tlds[wp_rand(0, (sizeof($tlds)-1))];
 
         return $a;
     }
@@ -343,7 +343,7 @@ class Commands extends Cli {
                 'status'       => 'incomplete',
                 'title'        => $faker->name,
                 'description'  => $faker->text,
-                'achieve_date' => date('Y M, d', $date ),
+                'achieve_date' => gmdate('Y M, d', $date ),
                 'privacy'      => false,
                 'project_id'   => $arguments['project_id']
             );

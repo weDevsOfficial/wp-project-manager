@@ -26,6 +26,10 @@ class Activity {
 	private $activities;
 	private $activity_ids;
 	private $is_single_query = false;
+	
+	private $found_rows;
+	private $per_page;
+	private $tb_activity;
 
 	public static function getInstance() {
         return new self();
@@ -346,8 +350,8 @@ class Activity {
 		}
 
 		if ( $updated_at_start ) {
-			$com_start_reduce = date('Y-m-d',(strtotime ( '-1 day' , strtotime ( $updated_at_start) ) ));
-			$com_add          = date('Y-m-d',(strtotime ( '+1 day' , strtotime ( $updated_at) ) ));
+			$com_start_reduce = gmdate('Y-m-d',(strtotime ( '-1 day' , strtotime ( $updated_at_start) ) ));
+			$com_add          = gmdate('Y-m-d',(strtotime ( '+1 day' , strtotime ( $updated_at) ) ));
 		}
 
 		//If its contain between condition
