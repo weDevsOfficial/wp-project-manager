@@ -171,7 +171,7 @@ class Offers {
      */
     public function dismiss_offer() {
 
-        if ( empty( $_POST['nonce'] ) && ! isset( $_POST['pm_offer_key'] ) ) {
+        if ( empty( $_POST['nonce'] ) || ! isset( $_POST['pm_offer_key'] ) ) {
             return;
         }
 
