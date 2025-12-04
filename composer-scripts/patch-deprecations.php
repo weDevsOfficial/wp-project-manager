@@ -149,4 +149,25 @@ foreach ($methods as $method) {
     patchReturnType($targetCollectionFile, $method);
 }
 
+// Patch Illuminate Pagination classes
+echo "\n=== Patching Illuminate Pagination ===\n";
+$targetAbstractPaginatorFile = __DIR__ . '/../vendor/illuminate/pagination/AbstractPaginator.php';
+$targetPaginatorFile = __DIR__ . '/../vendor/illuminate/pagination/Paginator.php';
+$targetLengthAwarePaginatorFile = __DIR__ . '/../vendor/illuminate/pagination/LengthAwarePaginator.php';
+
+foreach ($methods as $method) {
+    patchReturnType($targetAbstractPaginatorFile, $method);
+    patchReturnType($targetPaginatorFile, $method);
+    patchReturnType($targetLengthAwarePaginatorFile, $method);
+}
+
+// Patch League Fractal ParamBag
+echo "\n=== Patching League Fractal ParamBag ===\n";
+$targetParamBagFile = __DIR__ . '/../vendor/league/fractal/src/ParamBag.php';
+$fractalMethods = ['offsetExists', 'offsetGet', 'offsetSet', 'offsetUnset', 'getIterator'];
+
+foreach ($fractalMethods as $method) {
+    patchReturnType($targetParamBagFile, $method);
+}
+
 echo "\n✅ All patches applied successfully!\n";
