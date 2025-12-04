@@ -52,17 +52,23 @@ class Task_List_Controller {
         $per_page_from_settings = pm_get_setting( 'list_per_page' );
         $per_page_from_settings = $per_page_from_settings ? $per_page_from_settings : 15;
         $per_page               = $per_page ? $per_page : $per_page_from_settings;
-        $with                   = $request->get_param( 'with' );
+        $with                   = sanitize_text_field($request->get_param('with'));
         $with                   = explode( ',', $with );
 
         $page = intval( $request->get_param( 'page' ) );
         $page = $page ? $page : 1;
 
         if ( ! is_array( $status ) ) {
-            if ( strpos( $status, ',' ) !== false ) {
+            if ($status !== null && strpos($status, ',') !== false) {
+                $status = sanitize_text_field($status);
                 $status = str_replace( ' ', '', $status );
                 $status = explode( ',', $status );
+                $status = array_map('intval', $status);
+            } elseif ($status !== null) {
+                $status = array(intval($status));
             }
+        } else {
+            $status = array_map('intval', $status);
         }
 
         if ( ! empty( $status ) ) {
@@ -86,7 +92,7 @@ class Task_List_Controller {
         $tb_boardable = pm_tb_prefix() . 'pm_boardables';
         $tb_meta      = pm_tb_prefix() . 'pm_meta';
         $title       = sanitize_text_field( $request->get_param( 'title' ) );
-        $is_archive  = $request->get_param( 'is_archive' );
+        $is_archive  = filter_var($request->get_param('is_archive'), FILTER_VALIDATE_BOOLEAN);
 
         $task_lists = Task_List::select( $tb_lists . '.*' )
             ->selectRaw(
@@ -239,7 +245,7 @@ class Task_List_Controller {
     public function show( WP_REST_Request $request ) {
         $project_id   = intval( $request->get_param( 'project_id' ) );
         $task_list_id = intval( $request->get_param( 'task_list_id' ) );
-        $with         = $request->get_param( 'with' );
+        $with         = sanitize_text_field($request->get_param('with'));
         
         return $this->get_list( [
             'project_id'   => $project_id,
@@ -352,8 +358,8 @@ class Task_List_Controller {
         
         $project_id          = intval( $request->get_param( 'project_id' ) );
         $task_list_id        = intval( $request->get_param( 'task_list_id' ) );
-        $milestone_id        = $request->get_param( 'milestone' );
-        $data['description'] = $request->get_param('description'); 
+        $milestone_id        = intval($request->get_param('milestone'));
+        $data['description'] = wp_kses_post($request->get_param('description'));
         $is_private          = $request->get_param( 'privacy' );
         $data['is_private']  = $is_private == 'true' || $is_private === true ? 1 : 0;
         
@@ -526,7 +532,7 @@ class Task_List_Controller {
     public function privacy( WP_REST_Request $request ) {
         $project_id = intval( $request->get_param( 'project_id' ) );
         $task_list_id = intval( $request->get_param( 'task_list_id' ) );
-        $privacy = $request->get_param( 'is_private' );
+        $privacy = filter_var($request->get_param('is_private'), FILTER_VALIDATE_BOOLEAN);
         pm_update_meta( $task_list_id, $project_id, 'task_list', 'privacy', $privacy );
         return $this->get_response( NULL);
     }
@@ -534,6 +540,12 @@ class Task_List_Controller {
     public function list_sorting( WP_REST_Request $request ) {
 
         $orders  = $request->get_param( 'orders' );
+
+        if (! is_array($orders)) {
+            wp_send_json_error(array('message' => 'Invalid orders parameter'));
+            return;
+        }
+
         $orders  = array_reverse( $orders );
 
         foreach ( $orders as $index => $order ) {
@@ -594,12 +606,14 @@ class Task_List_Controller {
         $tb_meta      = pm_tb_prefix() . 'pm_meta';
         $tb_assigned  = pm_tb_prefix() . 'pm_assignees';
 
-        $list_ids     = implode( ',', $list_ids );
+        $list_ids_sanitized = array_map( 'intval', $list_ids );
+        $list_ids_placeholders = implode( ',', array_fill( 0, count( $list_ids_sanitized ), '%d' ) );
         $filter       = '';
+        $filter_values = [];
         $join         = '';
 
         $status       = isset( $filter_params['status'] ) ? intval( $filter_params['status'] ) : false;
-        $due_date     = empty( $filter_params['due_date'] ) ? false : date( 'Y-m-d', strtotime( $filter_params['due_date'] ) );
+        $due_date     = empty( $filter_params['due_date'] ) ? false : gmdate( 'Y-m-d', strtotime( $filter_params['due_date'] ) );
         $assignees    = empty( $filter_params['users'] ) ? [] : $filter_params['users'];
         $title        = empty( $filter_params['title'] ) ? '' : $filter_params['title'];
 
@@ -608,39 +622,49 @@ class Task_List_Controller {
                 $status = $status == 'complete' ? 1 : 0;
             }
 
-            $filter .= ' AND itasks.status = ' . $status;
+            $filter .= ' AND itasks.status = %d';
+            $filter_values[] = $status;
         }
 
         if ( ! empty( $due_date ) ) {
             if( $due_date == 'overdue' ) {
-                $today = date( 'Y-m-d', strtotime( current_time('mysql') ) );
-                $filter .= ' AND itasks.due_date < ' . $today;
+                $today = gmdate( 'Y-m-d', strtotime( current_time('mysql') ) );
+                $filter .= ' AND itasks.due_date < %s';
+                $filter_values[] = $today;
 
             } else if ( $due_date == 'today' ) {
-                $today = date('Y-m-d', strtotime( current_time('mysql') ) );
-                $filter .= ' AND itasks.due_date = ' . $today;
+                $today = gmdate('Y-m-d', strtotime( current_time('mysql') ) );
+                $filter .= ' AND itasks.due_date = %s';
+                $filter_values[] = $today;
 
             } else if ( $due_date == 'week' ) {
-                $today = date('Y-m-d', strtotime( current_time('mysql') ) );
-                $last = date('Y-m-d', strtotime( current_time('mysql') . '-1 week' ) );
+                $today = gmdate('Y-m-d', strtotime( current_time('mysql') ) );
+                $last = gmdate('Y-m-d', strtotime( current_time('mysql') . '-1 week' ) );
 
-                $filter .= ' AND itasks.due_date >= ' . $last;
-                $filter .= ' AND itasks.due_date <= ' . $today;
+                $filter .= ' AND itasks.due_date >= %s';
+                $filter .= ' AND itasks.due_date <= %s';
+                $filter_values[] = $last;
+                $filter_values[] = $today;
             }
         }
 
         if ( ! empty( $title ) ) {
-            $filter .= " AND itasks.title like '%$title%'";
+            $filter .= " AND itasks.title LIKE %s";
+            $filter_values[] = '%' . $wpdb->esc_like( $title ) . '%';
         }
 
         if ( ! empty( $assignees ) ) {
             $join .= " LEFT JOIN $tb_assigned as asign ON asign.task_id=itasks.id";
 
             if ( is_array( $assignees ) && $assignees[0] != 0 ) {
-                $filter .= ' AND asign.assigned_to IN(' . implode(',', $assignees) . ')';
+                $assignees_sanitized = array_map( 'intval', $assignees );
+                $assignees_placeholders = implode( ',', array_fill( 0, count( $assignees_sanitized ), '%d' ) );
+                $filter .= ' AND asign.assigned_to IN(' . $assignees_placeholders . ')';
+                $filter_values = array_merge( $filter_values, $assignees_sanitized );
 
             } else if ( !is_array( $assignees ) && $assignees != 0) {
-                $filter .= ' AND asign.assigned_to = ' . $assignees;
+                $filter .= ' AND asign.assigned_to = %d';
+                $filter_values[] = intval( $assignees );
             }
         }
 
@@ -663,16 +687,16 @@ class Task_List_Controller {
             LEFT JOIN $tb_boardable as bo ON bo.boardable_id=itasks.id
             $join
             WHERE
-            bo.board_id IN ($list_ids)
+            bo.board_id IN ($list_ids_placeholders)
             AND
             bo.boardable_type = 'task'
             AND
-            itasks.project_id=$project_id
+            itasks.project_id=%d
             $filter
             GROUP BY bo.board_id";
 
-
-        $results = $wpdb->get_results( $boardable );
+        $prepare_values = array_merge( $list_ids_sanitized, array( $project_id ), $filter_values );
+        $results = $wpdb->get_results( $wpdb->prepare( $boardable, ...$prepare_values ) );
         $returns = [];
 
         foreach ( $results as $key => $result ) {

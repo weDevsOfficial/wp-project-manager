@@ -164,19 +164,27 @@ function pm_clean_svg() {
     add_filter( 'wp_check_filetype_and_ext', function ( $data, $file, $filename, $mimes ) {
         if ( $data['ext'] === 'svg' ) {
             $sanitizer = new Sanitizer();
+
+            // Initialize WP_Filesystem
+            global $wp_filesystem;
+            if ( empty( $wp_filesystem ) ) {
+                require_once ABSPATH . 'wp-admin/includes/file.php';
+                WP_Filesystem();
+            }
+
             // Check if file exists and is readable
-            if ( file_exists( $file ) && is_readable( $file ) ) {
-                $dirtySVG = file_get_contents( $file );
+            if ( $wp_filesystem->exists( $file ) && $wp_filesystem->is_readable( $file ) ) {
+                $dirtySVG = $wp_filesystem->get_contents( $file );
                 if ( $dirtySVG !== false ) {
                     $cleanSVG = $sanitizer->sanitize( $dirtySVG );
                     // Check if sanitization was successful
-                    if ( $cleanSVG !== false && is_writable( $file ) ) {
-                        file_put_contents( $file, $cleanSVG );
+                    if ( $cleanSVG !== false && $wp_filesystem->is_writable( $file ) ) {
+                        $wp_filesystem->put_contents( $file, $cleanSVG, FS_CHMOD_FILE );
                     }
                 }
             }
         }
-    
+
         return $data;
     }, 10, 4 );
 }

@@ -105,10 +105,17 @@ class Discussion_Board_Controller {
         $data                = $this->extract_non_empty_values( $request );
         $media_data          = $request->get_file_params();
         $project_id          = intval( $request->get_param( 'project_id' ) );
-        $discussion_board_id = $request->get_param( 'discussion_board_id' );
-        $milestone_id        = $request->get_param( 'milestone' );
+        $discussion_board_id = intval( $request->get_param( 'discussion_board_id' ) );
+        $milestone_id        = intval( $request->get_param( 'milestone' ) );
         $files               = array_key_exists( 'files', $media_data ) ? $media_data['files'] : null;
         $files_to_delete     = $request->get_param( 'files_to_delete' );
+        
+        // Validate files_to_delete is array and sanitize
+        if ( $files_to_delete && is_array( $files_to_delete ) ) {
+            $files_to_delete = array_map( 'intval', $files_to_delete );
+        } else {
+            $files_to_delete = array();
+        }
 
         $is_private    = sanitize_text_field( $request->get_param( 'privacy' ) );
         $data['is_private']    = $is_private == 'true' || $is_private === true ? 1 : 0;
@@ -201,8 +208,12 @@ class Discussion_Board_Controller {
             ->first();
 
         $user_ids = $request->get_param( 'users' );
-
+        
+        // Validate and sanitize user_ids
         if ( is_array( $user_ids ) ) {
+            $user_ids = array_map( 'intval', $user_ids );
+            $user_ids = array_filter( $user_ids ); // Remove 0 values
+            
             foreach ( $user_ids as $user_id ) {
                 $data = [
                     'board_id' => $discussion_board->id,
@@ -221,15 +232,18 @@ class Discussion_Board_Controller {
 
     public function detach_users( WP_REST_Request $request ) {
         $project_id = intval( $request->get_param( 'project_id' ) );
-        $discussion_board_id = $request->get_param( 'discussion_board_id' );
+        $discussion_board_id = intval( $request->get_param( 'discussion_board_id' ) );
 
         $discussion_board = Discussion_Board::where( 'id', $discussion_board_id )
             ->where( 'project_id', $project_id )
             ->first();
 
         $user_ids = $request->get_param( 'users' );
-
+        
+        // Validate and sanitize user_ids
         if ( is_array( $user_ids ) ) {
+            $user_ids = array_map( 'intval', $user_ids );
+            $user_ids = array_filter( $user_ids ); // Remove 0 values
             $discussion_board->users()->detach( $user_ids );
         }
 

@@ -18,13 +18,16 @@ class Menu {
 
         $home = add_menu_page( __( 'Project Manager', 'wedevs-project-manager' ), __( 'Project Manager', 'wedevs-project-manager' ), self::$capability, $slug, array( new Output, 'home_page' ), self::pm_svg(), 3 );
 
+        // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intentionally adding custom submenu items to WordPress admin menu
         $submenu[$slug][] = [ __( 'Projects', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/" ];
 
         $active_task = self::my_task_count();
         $mytask_text = sprintf( __( 'My Tasks %s', 'wedevs-project-manager' ), '<span class="awaiting-mod count-1"><span class="pending-count">' . $active_task . '</span></span>' );
+        // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intentionally adding custom submenu items to WordPress admin menu
         $submenu[$slug][] = [ $mytask_text , self::$capability, "admin.php?page={$slug}#/my-tasks" ];
 
         if ( pm_user_can_access( pm_manager_cap_slug() ) ) {
+            // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intentionally adding custom submenu items to WordPress admin menu
             $submenu[$slug][] = [ __( 'Categories', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/categories" ];
         }
 
@@ -35,14 +38,17 @@ class Menu {
         do_action( 'cpm_admin_menu', self::$capability, $home );
 
         if ( ! $wedevs_pm_pro ) {
+            // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intentionally adding custom submenu items to WordPress admin menu
             $submenu[$slug][] = [ __( 'Premium', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/premium" ];
         }
 
         if ( pm_has_admin_capability() ) {
+            // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intentionally adding custom submenu items to WordPress admin menu
             $submenu[$slug][] = [ __( 'Settings', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/settings" ];
         }
 
         if ( pm_user_can_access( pm_manager_cap_slug() ) ) {
+            // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intentionally adding custom submenu items to WordPress admin menu
             $submenu[$slug]['importtools'] = [ __( 'Tools', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/importtools" ];
         }
 
@@ -59,7 +65,7 @@ class Menu {
 	}
 
 	public static function my_task_count () {
-		$today = date( 'Y-m-d', strtotime( current_time( 'mysql' ) ) );
+		$today = gmdate( 'Y-m-d', strtotime( current_time( 'mysql' ) ) );
 		$user_id = get_current_user_id();
 
 		$project_ids = User_Role::where( 'user_id', $user_id)->get(['project_id'])->toArray();

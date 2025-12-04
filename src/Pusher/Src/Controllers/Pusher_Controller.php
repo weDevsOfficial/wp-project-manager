@@ -33,7 +33,13 @@ class Pusher_Controller {
 
         if ( is_user_logged_in() ) {
             $pusher = new Auth();
-            echo $pusher->socket_auth( $channel_name, $socket_id );
+            $auth_response = $pusher->socket_auth($channel_name, $socket_id);
+
+            // Return proper JSON response for Pusher authentication
+            // $auth_response is already JSON-encoded and validated by socket_auth() method
+            header('Content-Type: application/json');
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Already JSON-encoded by Pusher library
+            echo $auth_response;
             exit;
 
         } else {

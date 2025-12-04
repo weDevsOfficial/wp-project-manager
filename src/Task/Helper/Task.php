@@ -82,7 +82,7 @@ class Task {
 
 	/**
      * AJAX Get tasks Csv.
-     * 
+     *
      * @param array $request
      *
      * @return void
@@ -90,35 +90,49 @@ class Task {
 	public static function get_taskscsv( WP_REST_Request $request ) {
 		$self = self::getInstance();
 		$tasks = self::get_results( $request->get_params() );
+
+		// Initialize WP_Filesystem
+		global $wp_filesystem;
+		if ( empty( $wp_filesystem ) ) {
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+			WP_Filesystem();
+		}
+
 		header('Content-Type: text/csv; charset=utf-8');
         header('Content-Disposition: attachment; filename=data.csv');
-        $output = fopen("php://output", "w");
 
-        fputcsv(
-            $output,
-            [
-                __( 'Tasks', 'wedevs-project-manager' ),
-                __( 'Task List', 'wedevs-project-manager' ),
-                __( 'Project Name', 'wedevs-project-manager' ),
-        	    __( 'Due Date', 'wedevs-project-manager' ),
-                __( 'Created At', 'wedevs-project-manager' )
-            ]
-        );
+		// Build CSV content in memory
+		$csv_data = array();
 
+		// Add header row
+		$csv_data[] = [
+			__( 'Tasks', 'wedevs-project-manager' ),
+			__( 'Task List', 'wedevs-project-manager' ),
+			__( 'Project Name', 'wedevs-project-manager' ),
+			__( 'Due Date', 'wedevs-project-manager' ),
+			__( 'Created At', 'wedevs-project-manager' )
+		];
+
+		// Add data rows
         foreach ( $tasks['data'] as $key => $result ) {
-	        fputcsv(
-                $output,
-                [
-                    $result['title'],
-                    $result['task_list']->title,
-                    $result['project']->title,
-                    $result['due_date'],
-                    $result['created_at'],
-                ]
-            );
+	        $csv_data[] = [
+				$result['title'],
+				$result['task_list']->title,
+				$result['project']->title,
+				$result['due_date'],
+				$result['created_at'],
+			];
         }
 
-        fclose( $output );
+		// Convert array to CSV format and output
+		$output = fopen('php://temp', 'r+');
+		foreach ( $csv_data as $row ) {
+			fputcsv( $output, $row );
+		}
+		rewind( $output );
+		echo stream_get_contents( $output );
+		fclose( $output );
+
         exit();
 	}
 
@@ -1385,7 +1399,7 @@ class Task {
 			}
 
 			
-			$start_at = date( 'Y-m-d', strtotime( $start_at ) );
+			$start_at = gmdate( 'Y-m-d', strtotime( $start_at ) );
 			
 			if( $explode[0] == 'null' || $explode[0] == 'empty' ) {
 				$q[] = "({$this->tb_tasks}.start_at $operator) $relation";
@@ -1433,8 +1447,8 @@ class Task {
         }
 
 		if ( $completed_at_start ) {
-			$com_start_reduce = date('Y-m-d', strtotime ( $completed_at_start) );
-			$com_add          = date('Y-m-d', strtotime ( $completed_at) );
+			$com_start_reduce = gmdate('Y-m-d', strtotime ( $completed_at_start) );
+			$com_add          = gmdate('Y-m-d', strtotime ( $completed_at) );
 		}
 	
 		//If its contain between condition
@@ -1472,7 +1486,7 @@ class Task {
 			}
 
 			$operator = $this->get_operator( $explode[0] );
-			$completed_at = date( 'Y-m-d', strtotime( $completed_at ) );
+			$completed_at = gmdate( 'Y-m-d', strtotime( $completed_at ) );
 			
 			if( $explode[0] == 'null' || $explode[0] == 'empty' ) {
 
@@ -1510,8 +1524,8 @@ class Task {
         }
 
 		if ( $due_date_start ) {
-			$due_start_reduce = date('Y-m-d', strtotime ( $due_date_start) );
-			$due_add          = date('Y-m-d', strtotime ( $due_date ) );
+			$due_start_reduce = gmdate('Y-m-d', strtotime ( $due_date_start) );
+			$due_add          = gmdate('Y-m-d', strtotime ( $due_date ) );
 		}
 
 		//If its contain between condition
@@ -1549,7 +1563,7 @@ class Task {
 			}
 
 			$operator = $this->get_operator( $explode[0] );
-			$due_date = date( 'Y-m-d', strtotime( $due_date ) );
+			$due_date = gmdate( 'Y-m-d', strtotime( $due_date ) );
 
 			if ( $operator !== "= ''" ) {
 				if( $explode[0] == 'null' || $explode[0] == 'empty' ) {

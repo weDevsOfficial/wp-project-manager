@@ -103,9 +103,9 @@ class Project_Transformer extends TransformerAbstract {
     }
 
     public function includeOverviewGraph( Project $item ) {
-        $today     = date( 'Y-m-d', strtotime( current_time( 'mysql' ) ) );
-        $first_day = date( 'Y-m-d', strtotime('-1 month') );
-        
+        $today     = gmdate( 'Y-m-d', strtotime( current_time( 'mysql' ) ) );
+        $first_day = gmdate( 'Y-m-d', strtotime('-1 month') );
+
         $graph_data = [];
 
         $tasks = $item->tasks()
@@ -114,9 +114,9 @@ class Project_Transformer extends TransformerAbstract {
             ->toArray();
 
         $task_groups = [];
-        
+
         foreach ( $tasks as $key => $task ) {
-            $created_date = date( 'Y-m-d', strtotime( $task['created_at'] ) );
+            $created_date = gmdate( 'Y-m-d', strtotime( $task['created_at'] ) );
             $task_groups[$created_date][] = $task;
         }
 
@@ -128,11 +128,11 @@ class Project_Transformer extends TransformerAbstract {
         $activity_groups = [];
 
         foreach ( $activities as $key => $activity ) {
-            $created_date = date( 'Y-m-d', strtotime( $activity['created_at'] ) );
+            $created_date = gmdate( 'Y-m-d', strtotime( $activity['created_at'] ) );
             $activity_groups[$created_date][] = $activity;
         }
 
-        for ( $dt = $first_day; $dt<=$today; $dt = date('Y-m-d', strtotime( $dt . '+1 day' ) ) ) {
+        for ( $dt = $first_day; $dt<=$today; $dt = gmdate('Y-m-d', strtotime( $dt . '+1 day' ) ) ) {
             $graph_data[] = [
                 'date_time'  => format_date( $dt ),
                 'tasks'      => empty( $task_groups[$dt] ) ? 0 : count( $task_groups[$dt] ),
