@@ -44,15 +44,15 @@
 	<exclude-pattern>*/cherry-framework/*</exclude-pattern>
 	<exclude-pattern>*/titan-framework/*</exclude-pattern>
 	<exclude-pattern>*/plugin-update-checker/*</exclude-pattern>
-	<exclude-pattern>*/composer_directory/*</exclude-pattern>
+	<exclude-pattern>*/vendor/*</exclude-pattern>
 	<exclude-pattern>*/guzzlehttp/*</exclude-pattern>
 
 	<!-- =================================== -->
 	<!-- PHP COMPATIBILITY -->
 	<!-- =================================== -->
 
-	<!-- Plugins should be compatible with PHP 5.6 and higher (updated from 5.2) -->
-	<config name="testVersion" value="5.6-"/>
+	<!-- Plugins should be compatible with PHP 7.2 and higher (WordPress 6.7+ requirement) -->
+	<config name="testVersion" value="7.2-"/>
 
 	<!-- Check for PHP compatibility issues -->
 	<rule ref="PHPCompatibility"/>

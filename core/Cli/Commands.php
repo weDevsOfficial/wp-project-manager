@@ -769,8 +769,9 @@ class Commands extends Cli {
             'pm_gantt_chart_links'
         ];
         foreach ($tables as $table) {
-            /* translators: %s: Table Name. */
-            $wpdb->query( $wpdb->prepare( "TRUNCATE TABLE %s", $wpdb->prefix . $table ) );
+            $table_name = $wpdb->prefix . $table;
+            // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- Table name is from hardcoded whitelist
+            $wpdb->query( "TRUNCATE TABLE `" . esc_sql( $table_name ) . "`" );
         }
 
         delete_option('pm_start_migration');

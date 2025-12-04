@@ -475,8 +475,10 @@ class ImportAsana extends WP_Background_Process
         $email = '';
         $mailuser = str_replace(' ', '', $name);
         $mailuser = preg_replace('/[^A-Za-z0-9\-]/', '', $mailuser);
-        $hostname = str_replace('http', '',get_site_url());
-        $hostname = str_replace('://', '', $hostname);
+        $hostname = wp_parse_url( get_site_url(), PHP_URL_HOST );
+        if ( empty( $hostname ) ) {
+            $hostname = 'localhost';
+        }
         if (strpos($hostname, ".")) {
             $email = 'asana_'.$mailuser.'@'.$hostname;
         } else {
