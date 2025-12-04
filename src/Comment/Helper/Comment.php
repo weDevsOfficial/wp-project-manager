@@ -17,6 +17,8 @@ class Comment {
 	private $comments;
 	private $comment_ids;
 	private $is_single_query = false;
+	private $tb_comment;
+	private $found_rows;
 
 	public static function getInstance() {
         return new self();
