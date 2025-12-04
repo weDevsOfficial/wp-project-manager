@@ -536,27 +536,61 @@ class Activity {
             return $this;
         }
 
-        if ( is_string( $odr_prms ) ) {
+		// Whitelist of allowed columns for ordering
+		$allowed_columns = array(
+			'id',
+			'actor_id',
+			'action',
+			'action_type',
+			'resource_id',
+			'resource_type',
+			'created_at',
+			'updated_at'
+		);
+
+		if ( is_string( $odr_prms ) ) {
         	$orders = [];
         	$odr_prms = str_replace( ' ', '', trim( $odr_prms ) );
         	$odr_prms = explode( ',', $odr_prms );
 
         	foreach ( $odr_prms as $key => $param ) {
         		$pair = explode( '|', $param );
+				if (count($pair) !== 2) {
+					continue;
+				}
         		$tb_col = $pair[0];
-        		$value = $pair[1];
-        		$orders[$tb_col] = $value;
+				$value = strtolower($pair[1]);
+
+				// Validate column and order
+				if (! in_array($tb_col, $allowed_columns, true)) {
+					continue;
+				}
+				if (! in_array($value, array('asc', 'desc'), true)) {
+					$value = 'asc';
+				}
+
+				$orders[$tb_col] = $value;
         	}
         } else if ( is_array( $odr_prms ) ) {
-        	$orders = $odr_prms;
+			$orders = [];
+			foreach ($odr_prms as $col => $dir) {
+				if (! in_array($col, $allowed_columns, true)) {
+					continue;
+				}
+				$dir = strtolower($dir);
+				if (! in_array($dir, array('asc', 'desc'), true)) {
+					$dir = 'asc';
+				}
+				$orders[$col] = $dir;
+			}
         } else {
-        	$ordes = [];
+			$orders = [];
         }
 
         $order = [];
         
         foreach ( $orders as $key => $value ) {
-            $order[] =  $this->tb_activity .'.'. $key . ' ' . $value;
+			$order[] =  $this->tb_activity . '.' . esc_sql($key) . ' ' . esc_sql($value);
         }
         
         $this->orderby = "ORDER BY " . implode( ', ', $order);

@@ -1815,6 +1815,22 @@ class Task {
 			return $this;
 		}
 
+		// Whitelist of allowed columns for ordering
+		$allowed_columns = array(
+			'id',
+			'title',
+			'description',
+			'estimation',
+			'start_at',
+			'due_date',
+			'complexity',
+			'priority',
+			'status',
+			'created_at',
+			'updated_at',
+			'completed_at'
+		);
+
 		$orders = [];
 
 		$odr_prms = str_replace( ' ', '', $odr_prms );
@@ -1825,7 +1841,17 @@ class Task {
 			$orderStr = explode( ':', $orderStr );
 
 			$orderby = $orderStr[0];
-			$order = empty( $orderStr[1] ) ? 'asc' : $orderStr[1];
+			$order = empty($orderStr[1]) ? 'asc' : strtolower($orderStr[1]);
+
+			// Validate column name against whitelist
+			if (! in_array($orderby, $allowed_columns, true)) {
+				continue;
+			}
+
+			// Validate order direction
+			if (! in_array($order, array('asc', 'desc'), true)) {
+				$order = 'asc';
+			}
 
 			$orders[$orderby] = $order;
 		}
@@ -1833,7 +1859,7 @@ class Task {
 		$order = [];
 
 	    foreach ( $orders as $key => $value ) {
-	    	$order[] =  $tb_pj .'.'. $key . ' ' . $value;
+			$order[] =  $tb_pj . '.' . esc_sql($key) . ' ' . esc_sql($value);
 	    }
 
 	    $this->orderby = "ORDER BY " . implode( ', ', $order);
