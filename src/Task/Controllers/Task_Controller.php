@@ -766,14 +766,14 @@ class Task_Controller {
 
                     if ( ! empty(  $due_date ) ) {
                         if( $due_date == 'overdue' ) {
-                            $today = gmdate( 'Y-m-d', strtotime( current_time('mysql') ) );
+                            $today = gmdate( 'Y-m-d' );
                             $q->where( 'due_date', '<', $today );
                         } else if ( $due_date == 'today' ) {
-                            $today = gmdate('Y-m-d', strtotime( current_time('mysql') ) );
+                            $today = gmdate( 'Y-m-d' );
                             $q->where( 'due_date', $today );
                         } else if ( $due_date == 'week' ) {
-                            $today = gmdate('Y-m-d', strtotime( current_time('mysql') ) );
-                            $last = date('Y-m-d', strtotime( current_time('mysql') . '-1 week' ) );
+                            $today = gmdate( 'Y-m-d' );
+                            $last = gmdate( 'Y-m-d', strtotime( '-1 week' ) );
 
                             $q->where( 'due_date', '>=', $last );
                             $q->where( 'due_date', '<=', $today );
@@ -807,14 +807,14 @@ class Task_Controller {
 
                 if ( ! empty(  $due_date ) ) {
                     if( $due_date == 'overdue' ) {
-                        $today = gmdate( 'Y-m-d', strtotime( current_time('mysql') ) );
+                        $today = gmdate( 'Y-m-d' );
                         $q->where( 'due_date', '<', $today );
                     } else if ( $due_date == 'today' ) {
-                        $today = gmdate('Y-m-d', strtotime( current_time('mysql') ) );
+                        $today = gmdate( 'Y-m-d' );
                         $q->where( 'due_date', $today );
                     } else if ( $due_date == 'week' ) {
-                        $today = gmdate('Y-m-d', strtotime( current_time('mysql') ) );
-                        $last = date('Y-m-d', strtotime( current_time('mysql') . '-1 week' ) );
+                        $today = gmdate( 'Y-m-d' );
+                        $last = gmdate( 'Y-m-d', strtotime( '-1 week' ) );
 
                         $q->where( 'due_date', '>=', $last );
                         $q->where( 'due_date', '<=', $today );
