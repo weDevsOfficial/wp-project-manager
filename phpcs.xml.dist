@@ -1,11 +1,49 @@
 <?xml version="1.0"?>
 <ruleset name="WordPress Coding Standards for Plugins">
-    <description>Generally-applicable sniffs for WordPress plugins</description>
+    <description>WP Project Manager - Comprehensive coding standards with Plugin Check rules</description>
 
-<!--     <rule ref="WordPress-Core">
+    <!-- =================================== -->
+    <!-- PLUGIN CHECK RULESETS -->
+    <!-- =================================== -->
+    
+    <!-- Include WordPress Plugin Check Security Rules -->
+    <rule ref="./phpcs-xml/plugin-check-security.xml"/>
+    
+    <!-- Include WordPress Plugin Check Performance Rules -->
+    <!-- <rule ref="./phpcs-xml/plugin-check-performance.xml"/> -->
+    
+    <!-- Include WordPress Plugin Check General Rules -->
+    <!-- <rule ref="./phpcs-xml/plugin-check-general.xml"/> -->
+    
+    <!-- Include WordPress Plugin Check Accessibility Rules -->
+    <!-- <rule ref="./phpcs-xml/plugin-check-accessibility.xml"/> -->
+    
+    <!-- Include WordPress Plugin Check Plugin Repository Rules -->
+    <!-- <rule ref="./phpcs-xml/plugin-check-plugin-repo.xml"/> -->
+    <!-- Note: Commented out to avoid duplicate security rules -->
+
+    <!-- =================================== -->
+    <!-- LEGACY RULES (Kept for compatibility) -->
+    <!-- =================================== -->
+    
+    <!-- WordPress Core Standards (optional, can be enabled) -->
+    <!-- <rule ref="WordPress-Core">
         <exclude name="Generic.WhiteSpace.DisallowSpaceIndent"/>
-    </rule>
- -->
+    </rule> -->
+
+    <!-- WordPress Database Rules -->
+    <rule ref="WordPress.DB"/>
+    
+    <!-- WordPress Security Rules -->
+    <rule ref="WordPress.Security"/>
+    
+    <!-- WordPress Code Analysis Rules -->
+    <rule ref="WordPress.CodeAnalysis"/>
+
+    <!-- =================================== -->
+    <!-- FILE EXCLUSIONS -->
+    <!-- =================================== -->
+    
     <exclude-pattern>*/assets/*</exclude-pattern>
     <exclude-pattern>*/src/*</exclude-pattern>
     <exclude-pattern>*/lib/*</exclude-pattern>
@@ -15,14 +53,17 @@
     <exclude-pattern>*/tests/*</exclude-pattern>
     <exclude-pattern>*/bin/*</exclude-pattern>
 
-    <arg name="extensions" value="php" />
-    <arg name="report" value="full" />
-    <arg name="report-file" value="phpcs-report.txt" />
-    <arg name="warning-severity" value="0" />
+    <!-- =================================== -->
+    <!-- PHPCS CONFIGURATION -->
+    <!-- =================================== -->
+    
+    <arg name="extensions" value="php"/>
+    <arg name="report" value="full"/>
+    <arg name="report-file" value="phpcs-report.txt"/>
+    <arg name="warning-severity" value="0"/>
+    <arg value="s"/>
+    
     <file>.</file>
 
-    <!-- <rule ref="WordPress.Security.ValidatedSanitizedInput" /> -->
-    <rule ref="WordPress.DB" />
-    <rule ref="WordPress.Security" />
-    <rule ref="WordPress.CodeAnalysis" />
 </ruleset>
+
