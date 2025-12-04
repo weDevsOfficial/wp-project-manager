@@ -1,5 +1,8 @@
 == Changelog ==
 
+= v2.6.31 – Dec 4, 2025 =
+**Fixed:** Changed Plugin name 'WP Project Manager' to 'Wedevs Project Manager'.
+
 = v2.6.30 – Dec 4, 2025 =
 **Fixed:** Better handling of sorting options and offer dismissal timing.
 **Improved:** Code quality updates for smoother performance.

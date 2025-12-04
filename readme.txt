@@ -6,7 +6,7 @@ Tags: project management, project manager, kanban board, task manager, gantt cha
 Requires at least: 4.4 or higher
 Tested up to: 6.8
 Requires PHP: 5.6
-Stable tag: 2.7.0
+Stable tag: 2.6.30
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -186,6 +186,9 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 14. Manage projects from the frontend
 
 == Changelog ==
+
+= v2.6.31 – Dec 4, 2025 =
+**Fixed:** Changed Plugin name 'WP Project Manager' to 'Wedevs Project Manager'.
 
 = v2.6.30 – Dec 4, 2025 =
 **Fixed:** Better handling of sorting options and offer dismissal timing.
