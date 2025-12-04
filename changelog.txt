@@ -1,5 +1,11 @@
 == Changelog ==
 
+= v2.6.30 – Dec 4, 2025 =
+**Fixed:** Better handling of sorting options and offer dismissal timing.
+**Improved:** Code quality updates for smoother performance.
+**Improved:** New WP-CLI commands to help manage data more easily.
+**Improved:** Updated translations and tightened a few security checks.
+
 = v2.6.29 – Nov 24, 2025 =
 
 **Fixed:** AI Response broken error.
