@@ -136,6 +136,11 @@ class User {
 		$format     = pm_get_prepare_format( $id );
 		$format_ids = pm_get_prepare_data( $id );
 
+		// Prevent empty IN clause which causes SQL error
+		if (empty($format_ids)) {
+			return $this;
+		}
+
 		$this->where .= $wpdb->prepare( " AND {$this->tb_user}.ID IN ($format)", $format_ids );
 
 		if ( count( $format_ids ) == 1 ) {
