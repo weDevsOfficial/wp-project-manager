@@ -48,6 +48,12 @@ class Trello_helper {
             return $calback(json_encode(['error' => $response->get_error_message()]));
         }
 
+        // Validate HTTP status code
+        $code = wp_remote_retrieve_response_code($response);
+        if ((int)$code < 200 || (int)$code >= 300) {
+            return $calback(json_encode(['error' => 'HTTP ' . $code]));
+        }
+
         // Get the response body
         $resp = wp_remote_retrieve_body($response);
 

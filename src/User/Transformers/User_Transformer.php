@@ -113,7 +113,7 @@ class User_Transformer extends TransformerAbstract {
 
     public function includeMeta ( User $user ) {
         return $this->item ('', function () use ( $user ) {
-            $today = gmdate( 'Y-m-d', strtotime( current_time( 'mysql' ) ) );
+            $today = gmdate( 'Y-m-d' );
 
             $project_ids = User_Role::where( 'user_id', $user->ID )->get(['project_id'])->toArray();
             $project_ids = wp_list_pluck( $project_ids, 'project_id' );
@@ -159,7 +159,7 @@ class User_Transformer extends TransformerAbstract {
                 
                 $total_current_tasks = $tasks->where( 'status', 'incomplete' )->filter( function( $item ) use ( $start_at, $due_date, &$total ) {
                         
-                    $today         = gmdate( 'Y-m-d', strtotime( current_time('mysql') ) );
+                    $today         = gmdate( 'Y-m-d' );
                     $item_start_at = empty( $item['start_at'] ) ? gmdate( 'Y-m-d', strtotime( $item['created_at'] ) ) : gmdate( 'Y-m-d', strtotime( $item['start_at'] ) );
                     $item_due_date = empty( $item['due_date'] ) ? '' : gmdate( 'Y-m-d', strtotime( $item['due_date'] ) );
     
@@ -179,7 +179,7 @@ class User_Transformer extends TransformerAbstract {
 
                 $total_outstanding_tasks = $tasks->where( 'status', 'incomplete' )->filter( function( $item ) use ( $start_at, $due_date, &$total ) {
 
-                    $today         = gmdate( 'Y-m-d', strtotime( current_time('mysql') ) );
+                    $today         = gmdate( 'Y-m-d' );
                     $item_due_date = empty( $item['due_date'] ) ? '' : gmdate( 'Y-m-d', strtotime( $item['due_date'] ) );
                     $item_start_at = empty( $item['start_at'] ) ? gmdate( 'Y-m-d', strtotime( $item['created_at'] ) ) : gmdate( 'Y-m-d', strtotime( $item['start_at'] ) );
     
@@ -298,7 +298,7 @@ class User_Transformer extends TransformerAbstract {
             $first_day = gmdate( 'Y-m-d', strtotime( $start_at ) );
             $today = gmdate( 'Y-m-d', strtotime( $due_date ) );
         } else {
-            $today     = gmdate( 'Y-m-d', strtotime( current_time( 'mysql' ) ) );
+            $today     = gmdate( 'Y-m-d' );
             $first_day = gmdate( 'Y-m-d', strtotime('-1 month') );
         }
 
