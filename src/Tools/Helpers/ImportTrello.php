@@ -431,8 +431,7 @@ class ImportTrello extends WP_Background_Process
         $mailuser = str_replace(' ', '', $name);
         $mailuser = preg_replace('/[^A-Za-z0-9\-]/', '', $mailuser);
         $hostname = str_replace('http', '',get_site_url());
-        $hostname = str_replace('://', '',$hostname);
-        echo $hostname;
+        $hostname = str_replace('://', '', $hostname);
         if (strpos($hostname, ".")) {
             $email = 'trello_'.$mailuser.'@'.$hostname;
         } else {

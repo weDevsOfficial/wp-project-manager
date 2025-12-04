@@ -25,7 +25,8 @@
         "a5hleyrich/wp-background-processing": "^1.0",
         "tareq1988/wp-eloquent": "dev-master",
         "appsero/client": "^1.2",
-        "simshaun/recurr": "^4.0"
+        "simshaun/recurr": "^4.0",
+        "enshrined/svg-sanitize": "^0.22.0"
     },
     "autoload": {
         "classmap": [

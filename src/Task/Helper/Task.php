@@ -82,7 +82,7 @@ class Task {
 
 	/**
      * AJAX Get tasks Csv.
-     * 
+     *
      * @param array $request
      *
      * @return void
@@ -90,35 +90,49 @@ class Task {
 	public static function get_taskscsv( WP_REST_Request $request ) {
 		$self = self::getInstance();
 		$tasks = self::get_results( $request->get_params() );
+
+		// Initialize WP_Filesystem
+		global $wp_filesystem;
+		if ( empty( $wp_filesystem ) ) {
+			require_once ABSPATH . 'wp-admin/includes/file.php';
+			WP_Filesystem();
+		}
+
 		header('Content-Type: text/csv; charset=utf-8');
         header('Content-Disposition: attachment; filename=data.csv');
-        $output = fopen("php://output", "w");
 
-        fputcsv(
-            $output,
-            [
-                __( 'Tasks', 'wedevs-project-manager' ),
-                __( 'Task List', 'wedevs-project-manager' ),
-                __( 'Project Name', 'wedevs-project-manager' ),
-        	    __( 'Due Date', 'wedevs-project-manager' ),
-                __( 'Created At', 'wedevs-project-manager' )
-            ]
-        );
+		// Build CSV content in memory
+		$csv_data = array();
 
+		// Add header row
+		$csv_data[] = [
+			__( 'Tasks', 'wedevs-project-manager' ),
+			__( 'Task List', 'wedevs-project-manager' ),
+			__( 'Project Name', 'wedevs-project-manager' ),
+			__( 'Due Date', 'wedevs-project-manager' ),
+			__( 'Created At', 'wedevs-project-manager' )
+		];
+
+		// Add data rows
         foreach ( $tasks['data'] as $key => $result ) {
-	        fputcsv(
-                $output,
-                [
-                    $result['title'],
-                    $result['task_list']->title,
-                    $result['project']->title,
-                    $result['due_date'],
-                    $result['created_at'],
-                ]
-            );
+	        $csv_data[] = [
+				$result['title'],
+				$result['task_list']->title,
+				$result['project']->title,
+				$result['due_date'],
+				$result['created_at'],
+			];
         }
 
-        fclose( $output );
+		// Convert array to CSV format and output
+		$output = fopen('php://temp', 'r+');
+		foreach ( $csv_data as $row ) {
+			fputcsv( $output, $row );
+		}
+		rewind( $output );
+		echo stream_get_contents( $output );
+		fclose( $output );
+
         exit();
 	}
 
@@ -145,7 +159,7 @@ class Task {
 		$response = $self->format_tasks( $self->tasks );
 
 		if ( pm_is_single_query( $params ) ) {
-			return ['data' => $response['data'][0]] ;
+			return ['data' => ! empty($response['data']) ? $response['data'][0] : []];
 		}
 
 		return $response;
@@ -311,6 +325,23 @@ class Task {
 
 	public function user_info( $user_id ) {
 		$user = get_user_by( 'id', $user_id );
+
+		// Return empty data if user doesn't exist
+		if (! $user) {
+			return [
+				'id'                => 0,
+				'username'          => '',
+				'nicename'          => '',
+				'email'             => '',
+				'profile_url'       => '',
+				'display_name'      => 'Unknown User',
+				'manage_capability' => 0,
+				'create_capability' => 0,
+				'avatar_url'        => '',
+				'github'            => '',
+				'bitbucket'         => ''
+			];
+		}
 
 		$data = [
 			'id'                => (int) $user->ID,
@@ -1374,17 +1405,18 @@ class Task {
 			}
 
 			if ( ! empty( $explode[1] ) ) {
-				$relation = $explode[1];
+				$relation_raw = strtoupper( sanitize_text_field( $explode[1] ) );
+				$relation = in_array( $relation_raw, array( 'AND', 'OR' ), true ) ? $relation_raw : 'AND';
 			} else {
 				$relation = 'AND';
 			}
-			
+
 			if ( $last_key == $key ) {
 				$relation = '';
 			}
 
 			
-			$start_at = date( 'Y-m-d', strtotime( $start_at ) );
+			$start_at = gmdate( 'Y-m-d', strtotime( $start_at ) );
 			
 			if( $explode[0] == 'null' || $explode[0] == 'empty' ) {
 				$q[] = "({$this->tb_tasks}.start_at $operator) $relation";
@@ -1432,8 +1464,8 @@ class Task {
         }
 
 		if ( $completed_at_start ) {
-			$com_start_reduce = date('Y-m-d', strtotime ( $completed_at_start) );
-			$com_add          = date('Y-m-d', strtotime ( $completed_at) );
+			$com_start_reduce = gmdate('Y-m-d', strtotime ( $completed_at_start) );
+			$com_add          = gmdate('Y-m-d', strtotime ( $completed_at) );
 		}
 	
 		//If its contain between condition
@@ -1460,17 +1492,18 @@ class Task {
 			$explode = explode( '|', str_replace( ' ', '', $ope_param ) );
 
 			if ( ! empty( $explode[1] ) ) {
-				$relation = $explode[1];
+				$relation = strtoupper( sanitize_text_field( trim( $explode[1] ) ) );
+				$relation = in_array( $relation, array( 'AND', 'OR' ), true ) ? $relation : 'AND';
 			} else {
 				$relation = 'AND';
 			}
-			
+
 			if ( $last_key == $key ) {
 				$relation = '';
 			}
 
 			$operator = $this->get_operator( $explode[0] );
-			$completed_at = date( 'Y-m-d', strtotime( $completed_at ) );
+			$completed_at = gmdate( 'Y-m-d', strtotime( $completed_at ) );
 			
 			if( $explode[0] == 'null' || $explode[0] == 'empty' ) {
 
@@ -1508,8 +1541,8 @@ class Task {
         }
 
 		if ( $due_date_start ) {
-			$due_start_reduce = date('Y-m-d', strtotime ( $due_date_start) );
-			$due_add          = date('Y-m-d', strtotime ( $due_date ) );
+			$due_start_reduce = gmdate('Y-m-d', strtotime ( $due_date_start) );
+			$due_add          = gmdate('Y-m-d', strtotime ( $due_date ) );
 		}
 
 		//If its contain between condition
@@ -1536,17 +1569,18 @@ class Task {
 			$explode = explode( '|', str_replace( ' ', '', $ope_param ) );
 
 			if ( ! empty( $explode[1] ) ) {
-				$relation = $explode[1];
+				$relation = strtoupper( sanitize_text_field( trim( $explode[1] ) ) );
+				$relation = in_array( $relation, array( 'AND', 'OR' ), true ) ? $relation : 'AND';
 			} else {
 				$relation = 'AND';
 			}
-			
+
 			if ( $last_key == $key ) {
 				$relation = '';
 			}
 
 			$operator = $this->get_operator( $explode[0] );
-			$due_date = date( 'Y-m-d', strtotime( $due_date ) );
+			$due_date = gmdate( 'Y-m-d', strtotime( $due_date ) );
 
 			if ( $operator !== "= ''" ) {
 				if( $explode[0] == 'null' || $explode[0] == 'empty' ) {
@@ -1737,6 +1771,7 @@ class Task {
 		global $wpdb;
 		
 		$id        = isset( $this->query_params['id'] ) ? $this->query_params['id'] : false;
+		$more_tasks_request = isset( $this->query_params['source'] ) && 'more_tasks' === $this->query_params['source'] ? true : false;
 		$boardable = pm_tb_prefix() . 'pm_boardables';
 		$tasks = [];
 
@@ -1766,7 +1801,7 @@ class Task {
 		$results = $wpdb->get_results( $query );
 
 		// If task has not boardable_id mean no list
-		if ( $id ) {
+		if ( $id && ! $more_tasks_request ) {
 			foreach ( $results as $key => $result ) {
 				if( $result->id == $id ) {
 					$tasks[] = $result;
@@ -1811,6 +1846,22 @@ class Task {
 			return $this;
 		}
 
+		// Whitelist of allowed columns for ordering
+		$allowed_columns = array(
+			'id',
+			'title',
+			'description',
+			'estimation',
+			'start_at',
+			'due_date',
+			'complexity',
+			'priority',
+			'status',
+			'created_at',
+			'updated_at',
+			'completed_at'
+		);
+
 		$orders = [];
 
 		$odr_prms = str_replace( ' ', '', $odr_prms );
@@ -1821,7 +1872,17 @@ class Task {
 			$orderStr = explode( ':', $orderStr );
 
 			$orderby = $orderStr[0];
-			$order = empty( $orderStr[1] ) ? 'asc' : $orderStr[1];
+			$order = empty($orderStr[1]) ? 'asc' : strtolower($orderStr[1]);
+
+			// Validate column name against whitelist
+			if (! in_array($orderby, $allowed_columns, true)) {
+				continue;
+			}
+
+			// Validate order direction
+			if (! in_array($order, array('asc', 'desc'), true)) {
+				$order = 'asc';
+			}
 
 			$orders[$orderby] = $order;
 		}
@@ -1829,7 +1890,7 @@ class Task {
 		$order = [];
 
 	    foreach ( $orders as $key => $value ) {
-	    	$order[] =  $tb_pj .'.'. $key . ' ' . $value;
+			$order[] =  $tb_pj . '.' . esc_sql($key) . ' ' . esc_sql($value);
 	    }
 
 	    $this->orderby = "ORDER BY " . implode( ', ', $order);

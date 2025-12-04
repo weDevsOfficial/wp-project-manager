@@ -1324,23 +1324,15 @@ class PM_Asana
     private function askAsana($url, $data = null, $method = ASANA_METHOD_GET)
     {
         $headerData = array();
-        $curl = curl_init();
-        curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true); // Don't print the result
-        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, $this->timeout);
-        curl_setopt($curl, CURLOPT_TIMEOUT, $this->timeout);
-        curl_setopt($curl, CURLOPT_FAILONERROR, $this->failOnError);
-        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true); // Verify SSL connection
-        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2); //         ""           ""
 
+        // Prepare headers based on authentication method
         if (!empty($this->apiKey)) {
-            // Send with API key.
-            curl_setopt($curl, CURLOPT_USERPWD, $this->apiKey);
-            curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+            // Send with API key using Basic Auth
+            $headerData['Authorization'] = 'Basic ' . base64_encode($this->apiKey);
 
             // Don't send as json when attaching files to tasks.
             if (is_string($data) || empty($data['file'])) {
-                array_push($headerData, 'Content-Type: application/json'); // Send as JSON
+                $headerData['Content-Type'] = 'application/json'; // Send as JSON
             }
         } elseif (!empty($this->accessToken) || !empty($this->personalAccessToken)) {
             if (!empty($this->accessToken)) {
@@ -1350,72 +1342,105 @@ class PM_Asana
             }
 
             // Send with auth token.
-            array_push($headerData, 'Authorization: Bearer ' . $accessToken);
+            $headerData['Authorization'] = 'Bearer ' . $accessToken;
 
             // Don't send as json when attaching files to tasks.
             if (is_string($data) || empty($data['file'])) {
-                array_push($headerData, 'Content-Type: application/json');
+                $headerData['Content-Type'] = 'application/json';
             }
         }
 
-        if ($this->advDebug) {
-            curl_setopt($curl, CURLOPT_HEADER, true); // Display headers
-            curl_setopt($curl, CURLINFO_HEADER_OUT, true); // Display output headers
-            curl_setopt($curl, CURLOPT_VERBOSE, true); // Display communication with server
-        }
-
-        if ($method == ASANA_METHOD_POST) {
-            curl_setopt($curl, CURLOPT_POST, true);
-        } elseif ($method == ASANA_METHOD_PUT) {
-            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'PUT');
-        } elseif ($method == ASANA_METHOD_DELETE) {
-            curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'DELETE');
-        }
-        if (!is_null($data) && ($method == ASANA_METHOD_POST || $method == ASANA_METHOD_PUT)) {
-            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-        }
-
         if ($this->fastAPI) {
-            array_push($headerData, 'Asana-Fast-Api: true');
+            $headerData['Asana-Fast-Api'] = 'true';
         }
 
         if ($this->newRichText) {
-            array_push($headerData, 'Asana-Enable: new_rich_text');
+            $headerData['Asana-Enable'] = 'new_rich_text';
         } else {
-            array_push($headerData, 'Asana-Disable: new_rich_text');
+            $headerData['Asana-Disable'] = 'new_rich_text';
         }
 
-        if (sizeof($headerData) > 0) {
-            curl_setopt($curl, CURLOPT_HTTPHEADER, $headerData);
+        // Prepare WordPress HTTP API arguments
+        $args = array(
+            'timeout'     => $this->timeout,
+            'headers'     => $headerData,
+            'sslverify'   => true,
+            'redirection' => 5,
+        );
+
+        // Set method and body based on request type
+        if ($method == ASANA_METHOD_POST) {
+            $args['method'] = 'POST';
+            if (!is_null($data)) {
+                $args['body'] = $data;
+            }
+        } elseif ($method == ASANA_METHOD_PUT) {
+            $args['method'] = 'PUT';
+            if (!is_null($data)) {
+                $args['body'] = $data;
+            }
+        } elseif ($method == ASANA_METHOD_DELETE) {
+            $args['method'] = 'DELETE';
+        } else {
+            $args['method'] = 'GET';
         }
 
         try {
-            $this->response = curl_exec($curl);
-            $this->responseCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+            // Make the HTTP request using WordPress HTTP API
+            $response = wp_remote_request($url, $args);
+
+            // Check for WP_Error
+            if (is_wp_error($response)) {
+                $this->response = null;
+                $this->responseCode = 0;
+
+                if ($this->debug || $this->advDebug) {
+                    echo '<pre>';
+                    echo 'WordPress HTTP API Error: ' . esc_html($response->get_error_message());
+                    echo '</pre>';
+                    echo '<br>Sent info:<br><pre>';
+                    print_r($data);
+                    echo '</pre>';
+                }
+
+                if (!$this->failOnError) {
+                    return null;
+                }
+
+                return null;
+            }
+
+            // Get response code and body
+            $this->responseCode = wp_remote_retrieve_response_code($response);
+            $this->response = wp_remote_retrieve_body($response);
 
             if ($this->debug || $this->advDebug) {
-                $info = curl_getinfo($curl);
+                $info = array(
+                    'url' => $url,
+                    'http_code' => $this->responseCode,
+                    'headers' => wp_remote_retrieve_headers($response)->getAll(),
+                    'response' => $this->response,
+                );
                 echo '<pre>';
                 print_r($info);
                 echo '</pre>';
-                if ($info['http_code'] == 0) {
-                    echo '<br>cURL error num: ' . curl_errno($curl);
-                    echo '<br>cURL error: ' . curl_error($curl);
-                }
                 echo '<br>Sent info:<br><pre>';
                 print_r($data);
                 echo '</pre>';
             }
+
+            // Handle failOnError behavior
+            if ($this->failOnError && $this->responseCode >= 400) {
+                $this->response = null;
+                return null;
+            }
+
         } catch (Exception $ex) {
             if ($this->debug || $this->advDebug) {
-                echo '<br>cURL error num: ' . curl_errno($curl);
-                echo '<br>cURL error: ' . curl_error($curl);
+                echo 'Error on HTTP request: ' . esc_html($ex->getMessage());
             }
-            echo 'Error on cURL';
             $this->response = null;
         }
-
-        curl_close($curl);
 
         return $this->response;
     }

@@ -16,13 +16,8 @@ class Trello_helper {
         }
 
         private function setup_trello($api_key,$token,$mode){
-            if($mode == 'test'){
-                $this->api_key = '1156d2bb824b52972adb358326a75061';
-                $this->token = '2c9c552cb5568f896b3e3acae25f5fecda06b09ade5101fe68182a2c4b0ea015';
-            }else{
-                $this->api_key = $api_key ;
-                $this->token = $token ;
-            }
+            $this->api_key = $api_key ;
+            $this->token = $token ;
             $this->api= 'https://api.trello.com/1/';
             $this->key_bind = 'key='. $this->api_key .'&token='. $this->token ;
         }
@@ -39,17 +34,23 @@ class Trello_helper {
         }
 
         public function make_request($source,$querystring,$calback){
-        // Get cURL resource
-        $curl = curl_init();
-        // Set some options - we are passing in a useragent too here
-        curl_setopt_array($curl, [
-            CURLOPT_RETURNTRANSFER => 1,
-            CURLOPT_URL => $this->remote_addr($source,$querystring)
+        // Use WordPress HTTP API instead of cURL
+        $url = $this->remote_addr($source,$querystring);
+
+        // Make the request using wp_remote_get
+        $response = wp_remote_get($url, [
+            'timeout' => 30,
+            'sslverify' => true
         ]);
-        // Send the request & save response to $resp
-        $resp = curl_exec($curl);
-        // Close request to clear up some resources
-        curl_close($curl);
+
+        // Check for errors
+        if (is_wp_error($response)) {
+            return $calback(json_encode(['error' => $response->get_error_message()]));
+        }
+
+        // Get the response body
+        $resp = wp_remote_retrieve_body($response);
+
         return $calback($resp);
     }
 

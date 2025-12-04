@@ -766,13 +766,13 @@ class Task_Controller {
 
                     if ( ! empty(  $due_date ) ) {
                         if( $due_date == 'overdue' ) {
-                            $today = date( 'Y-m-d', strtotime( current_time('mysql') ) );
+                            $today = gmdate( 'Y-m-d', strtotime( current_time('mysql') ) );
                             $q->where( 'due_date', '<', $today );
                         } else if ( $due_date == 'today' ) {
-                            $today = date('Y-m-d', strtotime( current_time('mysql') ) );
+                            $today = gmdate('Y-m-d', strtotime( current_time('mysql') ) );
                             $q->where( 'due_date', $today );
                         } else if ( $due_date == 'week' ) {
-                            $today = date('Y-m-d', strtotime( current_time('mysql') ) );
+                            $today = gmdate('Y-m-d', strtotime( current_time('mysql') ) );
                             $last = date('Y-m-d', strtotime( current_time('mysql') . '-1 week' ) );
 
                             $q->where( 'due_date', '>=', $last );
@@ -807,13 +807,13 @@ class Task_Controller {
 
                 if ( ! empty(  $due_date ) ) {
                     if( $due_date == 'overdue' ) {
-                        $today = date( 'Y-m-d', strtotime( current_time('mysql') ) );
+                        $today = gmdate( 'Y-m-d', strtotime( current_time('mysql') ) );
                         $q->where( 'due_date', '<', $today );
                     } else if ( $due_date == 'today' ) {
-                        $today = date('Y-m-d', strtotime( current_time('mysql') ) );
+                        $today = gmdate('Y-m-d', strtotime( current_time('mysql') ) );
                         $q->where( 'due_date', $today );
                     } else if ( $due_date == 'week' ) {
-                        $today = date('Y-m-d', strtotime( current_time('mysql') ) );
+                        $today = gmdate('Y-m-d', strtotime( current_time('mysql') ) );
                         $last = date('Y-m-d', strtotime( current_time('mysql') . '-1 week' ) );
 
                         $q->where( 'due_date', '>=', $last );
@@ -1344,7 +1344,7 @@ class Task_Controller {
             $task_ids = $this->get_incomplete_task_ids( [$list_id], $project_id, $task_ids );   
         }
         
-        $tasks = pm_get_tasks( [ 'id' => $task_ids ] );
+        $tasks = pm_get_tasks( [ 'id' => $task_ids, 'source' => 'more_tasks' ] );
 
         wp_send_json_success(
             [

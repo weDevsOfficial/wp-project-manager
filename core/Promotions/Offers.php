@@ -47,7 +47,7 @@ class Offers {
         if ( $current_time >= $promo_notice['start_date'] && $current_time <= $promo_notice['end_date'] ) {
             $offer->link      = $promo_notice['action_url'];
             $offer->key       = $promo_notice['key'];
-            $offer->btn_txt   = ! empty( $promo_notice['action_title'] ) ? $promo_notice['action_title'] : 'Get Now';
+            $offer->btn_txt   = ! empty( $promo_notice['action_title'] ) ? $promo_notice['action_title'] : __( 'Get Now', 'wedevs-project-manager' );
             $offer->message   = [];
             $offer->message[] = sprintf( __( '<strong>%s</strong>', 'wedevs-project-manager' ), $promo_notice['title'] );
 
@@ -127,11 +127,14 @@ class Offers {
 
             <div class="notice notice-success is-dismissible pm-promotional-offer-notice" id="pm-notice">
                 <div class="content">
+                    <p style="margin-right:14px ;">
+                        <img height="100" src="https://ps.w.org/wedevs-project-manager/assets/icon-128x128.gif" alt="WP Project Manager Plugin">
+                	</p>
                     <p>
                         <?php echo wp_kses( $offer->message, [ 'strong' => [], 'br' => [] ] ); ?>
                         <br>
-                        <a class="link" target="_blank" href="<?php echo esc_url( $offer->link ); ?>">
-                            <?php printf( esc_html__( '%s', 'wedevs-project-manager' ), $offer->btn_txt ); ?>
+                         <a class="link" target="_blank" rel="noopener noreferrer" href="<?php echo esc_url( $offer->link ); ?>">
+                            <?php echo esc_html( $offer->btn_txt ); ?>
                         </a>
                     </p>
                 </div>
@@ -168,7 +171,7 @@ class Offers {
      */
     public function dismiss_offer() {
 
-        if ( empty( $_POST['nonce'] ) && ! isset( $_POST['pm_offer_key'] ) ) {
+        if ( empty( $_POST['nonce'] ) || ! isset( $_POST['pm_offer_key'] ) ) {
             return;
         }
 

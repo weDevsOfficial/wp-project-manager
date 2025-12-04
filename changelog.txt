@@ -1,5 +1,56 @@
 == Changelog ==
 
+= v2.6.31 – Dec 4, 2025 =
+**Fixed:** Changed Plugin name 'WP Project Manager' to 'Wedevs Project Manager'.
+
+= v2.6.30 – Dec 4, 2025 =
+**Fixed:** Better handling of sorting options and offer dismissal timing.
+**Improved:** Code quality updates for smoother performance.
+**Improved:** New WP-CLI commands to help manage data more easily.
+**Improved:** Updated translations and tightened a few security checks.
+
+= v2.6.29 – Nov 24, 2025 =
+
+**Fixed:** AI Response broken error.
+**Fixed:** AI Response timeout error.
+**Improved:** Dynamic AI Model Selection.
+
+= v2.6.28 – Nov 13, 2025 =
+
+**Added:** AI Project Creation - Generate project plans, task lists, and timelines with AI support.
+**Fixed:** Load Pusher scripts only when app_key and cluster are set.
+
+= v2.6.27 – Oct 29, 2025 =
+
+**Improved:** Sanitization to prevent SQL Injection.
+
+= v2.6.26 – Oct 13, 2025 =
+
+**Added:** Italian translation file.
+**Fixed:** Hardcoded data exposure issue in the Trello test environment. Thanks to Legion Hunter from Patchstack for responsibly reporting it.
+
+= v2.6.25 – Sep 4, 2025 =
+
+**Improved:** Unwanted trello helper backup file removed.
+
+= v2.6.24 – Apr 28, 2025 =
+
+**Fixed:** Load more task.
+**Improved:** Readme.txt file.
+
+= v2.6.23 - Apr 8, 2025 =
+
+**Added:** SVG file upload sanitization & security improvmenet.
+
+= v2.6.22 - Mar 7, 2025 =
+
+**Improved:** Readme.txt file.
+
+= v2.6.21 - Feb 18, 2025 =
+
+**Fix:** Project Category bug for seamless organization.
+**Fix:** Resolved Task Type special character display issues.
+
 = v2.6.20 - Feb 13, 2025 =
 
  **Fix:** Report - Missing Authorization to Authenticated (Subscriber+) Limited Arbitrary Options Update.

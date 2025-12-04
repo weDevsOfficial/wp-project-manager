@@ -23,9 +23,9 @@ class Upgrade_2_2_1 {
 
 		foreach ( $results as $key => $meta ) {
 			$meta_value = maybe_unserialize( $meta->meta_value );
-			
+
 			if ( is_object( $meta_value ) ) {
-				$date = date( 'Y-m-d H:i:s', strtotime( $meta_value->date ) );
+				$date = gmdate( 'Y-m-d H:i:s', strtotime( $meta_value->date ) );
 
 				$wpdb->update( $tb_meta, ['meta_value' => $date], ['id' => $meta->id] );
 			}

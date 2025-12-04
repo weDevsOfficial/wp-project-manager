@@ -25,7 +25,7 @@ class MyTask_Controller {
         $id       = intval( $request->get_param( 'id' ) );
         $taskType = sanitize_text_field( $request->get_param( 'task_type' ) );
         
-        $today = date( 'Y-m-d', strtotime( current_time( 'mysql' ) ) );
+        $today = gmdate( 'Y-m-d', strtotime( current_time( 'mysql' ) ) );
 
         $user     = User::with( [
             'projects' => function ( $query ) use ( $id, $taskType, $today ) {
@@ -155,7 +155,7 @@ class MyTask_Controller {
 
         $get_boards = $wpdb->get_results(
             $wpdb->prepare(
-                "SELECT id FROM $tb_boards WHERE type='%s' and status=1", 'task_list'
+                "SELECT id FROM $tb_boards WHERE type=%s and status=1", 'task_list'
             )
         );
 
@@ -174,7 +174,8 @@ class MyTask_Controller {
         if ( is_multisite() ) {
             $meta_key = pm_user_meta_key();
 
-            $event_query = "SELECT tsk.*,
+            $event_query = $wpdb->prepare(
+                "SELECT tsk.*,
                 GROUP_CONCAT(
                     DISTINCT
                     CONCAT(
@@ -268,16 +269,16 @@ class MyTask_Controller {
                 LEFT JOIN $tb_settings as sett ON pj.id=sett.project_id AND sett.key='capabilities'
 
                 WHERE 1=1
-                    AND umeta.meta_key='$meta_key'
+                    AND umeta.meta_key=%s
                     AND
                     (
-                        (tsk.due_date >= '$start')
+                        (tsk.due_date >= %s)
                             or
-                        (tsk.due_date is null and tsk.start_at >= '$start')
+                        (tsk.due_date is null and tsk.start_at >= %s)
                             or
-                        (tsk.start_at is null and tsk.due_date >= '$start' )
+                        (tsk.start_at is null and tsk.due_date >= %s )
                             or
-                        ((tsk.start_at is null AND tsk.due_date is null) and tsk.created_at >= '$start')
+                        ((tsk.start_at is null AND tsk.due_date is null) and tsk.created_at >= %s)
                     )
                     AND
                     board.id IN ($boards_id)
@@ -285,11 +286,18 @@ class MyTask_Controller {
 
                     $where_users
 
-                GROUP BY(tsk.id)";
+                GROUP BY(tsk.id)",
+                $meta_key,
+                $start,
+                $start,
+                $start,
+                $start
+            );
 
         } else {
 
-            $event_query = "SELECT tsk.*,
+            $event_query = $wpdb->prepare(
+                "SELECT tsk.*,
                 GROUP_CONCAT(
                     DISTINCT
                     CONCAT(
@@ -384,13 +392,13 @@ class MyTask_Controller {
                 WHERE 1=1
                     AND
                     (
-                        (tsk.due_date >= '$start')
+                        (tsk.due_date >= %s)
                             or
-                        (tsk.due_date is null and tsk.start_at >= '$start')
+                        (tsk.due_date is null and tsk.start_at >= %s)
                             or
-                        (tsk.start_at is null and tsk.due_date >= '$start' )
+                        (tsk.start_at is null and tsk.due_date >= %s )
                             or
-                        ((tsk.start_at is null AND tsk.due_date is null) and tsk.created_at >= '$start')
+                        ((tsk.start_at is null AND tsk.due_date is null) and tsk.created_at >= %s)
                     )
                     AND
                     board.id IN ($boards_id)
@@ -398,13 +406,18 @@ class MyTask_Controller {
 
                     $where_users
 
-                GROUP BY(tsk.id)";
+                GROUP BY(tsk.id)",
+                $start,
+                $start,
+                $start,
+                $start
+            );
         }
 
         $events     = $wpdb->get_results( $event_query );
         $user_roles = $wpdb->get_results(
             $wpdb->prepare(
-                "SELECT DISTINCT user_id, project_id, role_id FROM $tb_role_user WHERE user_id='%d'", $current_user_id
+                "SELECT DISTINCT user_id, project_id, role_id FROM $tb_role_user WHERE user_id=%d", $current_user_id
             )
         );
 
@@ -474,9 +487,9 @@ class MyTask_Controller {
         $project_ids = [];
 
         // IF empty project id
-        $project_query = $wpdb->prepare( "SELECT DISTINCT project_id FROM $tb_role_user WHERE user_id='%d'", $user_id );
-
-        $project_ids = $wpdb->get_results( $project_query );
+        $project_ids = $wpdb->get_results(
+            $wpdb->prepare( "SELECT DISTINCT project_id FROM $tb_role_user WHERE user_id=%d", $user_id )
+        );
         $project_ids = wp_list_pluck( $project_ids, 'project_id' );
 
         return $project_ids;

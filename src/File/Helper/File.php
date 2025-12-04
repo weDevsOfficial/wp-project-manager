@@ -54,27 +54,27 @@ class File {
 	}
 
 	public static function check_file_for_xss_code( $files ) {
-		if (isset($files['type']) && is_array($files['type'])) {
-	
-			foreach ($files['type'] as $index => $file_type) {
-				
-				if ($file_type === 'image/svg+xml') {
-					$svg_tmp_name = $files['tmp_name'][$index];
-					$svg_content = file_get_contents($svg_tmp_name);
-	
-					if (self::contains_xss_code($svg_content)) {
-						return true;
-					}
-				}
-			}
-		}
 
-		return false;
-	}
+        if (isset($files['type']) && is_array($files['type'])) {
+			// Check if the file is an SVG
+            foreach ($files['tmp_name'] as $index => $tmp_name) {
+                $extension = pathinfo($files['name'][$index], PATHINFO_EXTENSION);
+                if ('svg' === $extension && 'image/svg+xml' === $files['type'][$index]) {
+                    $svg_content = file_get_contents($tmp_name);
+
+                    if (self::contains_xss_code($svg_content)) {
+                        return true;
+                    }
+                }
+            }
+
+        }
+
+        return false;
+    }
 
     public static function contains_xss_code( $content ) {
-        $pattern = '/<script.*?>.*?<\/script>|on[a-z]+\s*=\s*["\'][^"\']*["\']/i';
-
+		$pattern = '/<script.*?>.*?<\/script>|on[a-z]+\s*=\s*["\'][^"\']*["\']|javascript\s*[:=][^"\']+|data\s*[:=][^"\']+/ix';
         return preg_match($pattern, $content);
     }
 
@@ -284,7 +284,19 @@ class File {
             return $this;
         }
 
-        $orders = [];
+		// Whitelist of allowed columns for ordering
+		$allowed_columns = array(
+			'id',
+			'fileable_id',
+			'fileable_type',
+			'type',
+			'parent',
+			'created_by',
+			'created_at',
+			'updated_at'
+		);
+
+		$orders = [];
 
         $odr_prms = str_replace( ' ', '', $odr_prms );
         $odr_prms = explode( ',', $odr_prms );
@@ -293,14 +305,25 @@ class File {
 			$orderStr         = str_replace( ' ', '', $orderStr );
 			$orderStr         = explode( ':', $orderStr );
 			$orderby          = $orderStr[0];
-			$order            = empty( $orderStr[1] ) ? 'asc' : $orderStr[1];
+			$order            = empty($orderStr[1]) ? 'asc' : strtolower($orderStr[1]);
+
+			// Validate column name against whitelist
+			if (! in_array($orderby, $allowed_columns, true)) {
+				continue;
+			}
+
+			// Validate order direction
+			if (! in_array($order, array('asc', 'desc'), true)) {
+				$order = 'asc';
+			}
+
 			$orders[$orderby] = $order;
         }
 
         $order = [];
 
         foreach ( $orders as $key => $value ) {
-            $order[] =  $tb_pj .'.'. $key . ' ' . $value;
+			$order[] =  $tb_pj . '.' . esc_sql($key) . ' ' . esc_sql($value);
         }
 
         $this->orderby = "ORDER BY " . implode( ', ', $order);

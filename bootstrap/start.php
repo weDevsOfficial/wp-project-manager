@@ -20,7 +20,7 @@ pm_user_tracking();
 pm_view();
 pm_load_routes();
 pm_register_routes();
-
+pm_clean_svg();
 do_action( 'pm_loaded' );
 
 add_action('init', 'pm_init_tracker');
