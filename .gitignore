@@ -3,7 +3,6 @@
 /views/assets/js/
 /views/assets/css/pm-style.css
 /.idea
-.env
 .DS_Store
 .travis.yml
 npm-debug.log
@@ -23,3 +22,4 @@ phpcs-report.txt
 wp-project-manager.zip
 /zipfile/
 
+config.bat
