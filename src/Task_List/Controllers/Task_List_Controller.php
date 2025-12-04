@@ -59,7 +59,7 @@ class Task_List_Controller {
         $page = $page ? $page : 1;
 
         if ( ! is_array( $status ) ) {
-            if ( strpos( $status, ',' ) !== false ) {
+            if ( $status !== null && strpos( $status, ',' ) !== false ) {
                 $status = str_replace( ' ', '', $status );
                 $status = explode( ',', $status );
             }
