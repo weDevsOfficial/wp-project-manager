@@ -159,7 +159,7 @@ class Task {
 		$response = $self->format_tasks( $self->tasks );
 
 		if ( pm_is_single_query( $params ) ) {
-			return ['data' => $response['data'][0]] ;
+			return ['data' => ! empty($response['data']) ? $response['data'][0] : []];
 		}
 
 		return $response;
@@ -325,6 +325,23 @@ class Task {
 
 	public function user_info( $user_id ) {
 		$user = get_user_by( 'id', $user_id );
+
+		// Return empty data if user doesn't exist
+		if (! $user) {
+			return [
+				'id'                => 0,
+				'username'          => '',
+				'nicename'          => '',
+				'email'             => '',
+				'profile_url'       => '',
+				'display_name'      => 'Unknown User',
+				'manage_capability' => 0,
+				'create_capability' => 0,
+				'avatar_url'        => '',
+				'github'            => '',
+				'bitbucket'         => ''
+			];
+		}
 
 		$data = [
 			'id'                => (int) $user->ID,

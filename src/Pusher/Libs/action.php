@@ -37,7 +37,7 @@ function PM_pusher_has_task_update_content( $model ) {
 }
 
 function PM_pusher_before_assignees( $task, $assignees ) {
-    $is_admin      = empty( intval( pm_clean( $_POST['is_admin'] ) ) ) ? false : true;
+    $is_admin      = isset($_POST['is_admin']) && ! empty(intval(pm_clean($_POST['is_admin']))) ? true : false;
     $task          = pm_get_task( $task->id );
     $task          = $task['data'];
     $task_user_ids = wp_list_pluck( $task['assignees']['data'], 'id' );
