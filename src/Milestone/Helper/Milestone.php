@@ -539,7 +539,20 @@ class Milestone {
             return $this;
         }
 
-        $orders = [];
+		// Whitelist of allowed columns for ordering
+		$allowed_columns = array(
+			'id',
+			'title',
+			'description',
+			'type',
+			'project_id',
+			'order',
+			'created_at',
+			'updated_at',
+			'achieve_date'
+		);
+
+		$orders = [];
 
         $odr_prms = str_replace( ' ', '', $odr_prms );
         $odr_prms = explode( ',', $odr_prms );
@@ -548,14 +561,25 @@ class Milestone {
 			$orderStr         = str_replace( ' ', '', $orderStr );
 			$orderStr         = explode( ':', $orderStr );
 			$orderby          = $orderStr[0];
-			$order            = empty( $orderStr[1] ) ? 'asc' : $orderStr[1];
+			$order            = empty($orderStr[1]) ? 'asc' : strtolower($orderStr[1]);
+
+			// Validate column name against whitelist
+			if (! in_array($orderby, $allowed_columns, true)) {
+				continue;
+			}
+
+			// Validate order direction
+			if (! in_array($order, array('asc', 'desc'), true)) {
+				$order = 'asc';
+			}
+
 			$orders[$orderby] = $order;
         }
 
         $order = [];
 
         foreach ( $orders as $key => $value ) {
-            $order[] =  $tb_pj .'.'. $key . ' ' . $value;
+			$order[] =  $tb_pj . '.' . esc_sql($key) . ' ' . esc_sql($value);
         }
 
         $this->orderby = "ORDER BY " . implode( ', ', $order);
