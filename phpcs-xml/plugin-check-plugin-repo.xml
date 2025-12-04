@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="PluginCheck-PluginRepo" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/squizlabs/PHP_CodeSniffer/master/phpcs.xsd">
+	
+	<description>WordPress Plugin Check - Plugin Repository Requirements</description>
+
+	<!-- =================================== -->
+	<!-- WORDPRESS.ORG PLUGIN REQUIREMENTS -->
+	<!-- =================================== -->
+
+	<!-- All the security rules also apply to plugin repo -->
+	<rule ref="./plugin-check-security.xml"/>
+
+	<!-- =================================== -->
+	<!-- LICENSING & CREDITS -->
+	<!-- =================================== -->
+
+	<!-- Plugins should be GPL compatible -->
+	<!-- This is checked at plugin submission, not via PHPCS -->
+
+	<!-- =================================== -->
+	<!-- PLUGIN HEADERS & METADATA -->
+	<!-- =================================== -->
+
+	<!-- Check for proper plugin header information -->
+	<!-- This is checked at plugin submission, not via PHPCS -->
+
+	<!-- =================================== -->
+	<!-- TRADEMARK & BRANDING -->
+	<!-- =================================== -->
+
+	<!-- Check for WordPress trademark usage -->
+	<!-- This is checked at plugin submission, not via PHPCS -->
+
+	<!-- =================================== -->
+	<!-- EXTERNAL DEPENDENCIES -->
+	<!-- =================================== -->
+
+	<!-- Exclude common third-party libraries that are allowed -->
+	<exclude-pattern>*/tgm-plugin-activation/*</exclude-pattern>
+	<exclude-pattern>*/freemius/*</exclude-pattern>
+	<exclude-pattern>*/dompdf/*</exclude-pattern>
+	<exclude-pattern>*/cmb2/*</exclude-pattern>
+	<exclude-pattern>*/redux-framework/*</exclude-pattern>
+	<exclude-pattern>*/cherry-framework/*</exclude-pattern>
+	<exclude-pattern>*/titan-framework/*</exclude-pattern>
+	<exclude-pattern>*/plugin-update-checker/*</exclude-pattern>
+	<exclude-pattern>*/composer_directory/*</exclude-pattern>
+	<exclude-pattern>*/guzzlehttp/*</exclude-pattern>
+
+	<!-- =================================== -->
+	<!-- PHP COMPATIBILITY -->
+	<!-- =================================== -->
+
+	<!-- Plugins should be compatible with PHP 5.6 and higher (updated from 5.2) -->
+	<config name="testVersion" value="5.6-"/>
+
+	<!-- Check for PHP compatibility issues -->
+	<rule ref="PHPCompatibility"/>
+
+</ruleset>

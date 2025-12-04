@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="PluginCheck-Performance" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/squizlabs/PHP_CodeSniffer/master/phpcs.xsd">
+	
+	<description>WordPress Plugin Check - Performance Category Rules</description>
+
+	<!-- =================================== -->
+	<!-- WORDPRESS PERFORMANCE -->
+	<!-- =================================== -->
+
+	<!-- Discourage use of WordPress functions that are slow -->
+	<rule ref="WordPress.WP.AlternativeFunctions">
+		<type>warning</type>
+	</rule>
+
+	<!-- Check for slow queries and operations -->
+	<rule ref="WordPress.DB.SlowDBQuery">
+		<type>warning</type>
+	</rule>
+
+	<!-- Proper transient usage -->
+	<rule ref="WordPress.WP.CronInterval">
+		<type>warning</type>
+	</rule>
+
+	<!-- =================================== -->
+	<!-- PHP PERFORMANCE -->
+	<!-- =================================== -->
+
+	<!-- Discourage slow string concatenation in loops -->
+	<rule ref="Squiz.PHP.DisallowMultipleAssignments">
+		<type>warning</type>
+	</rule>
+
+</ruleset>

@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="PluginCheck-Accessibility" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/squizlabs/PHP_CodeSniffer/master/phpcs.xsd">
+	
+	<description>WordPress Plugin Check - Accessibility Category Rules</description>
+
+	<!-- =================================== -->
+	<!-- ACCESSIBILITY STANDARDS -->
+	<!-- =================================== -->
+
+	<!-- Check for proper image alt attributes (when detecting HTML in PHP) -->
+	<rule ref="Squiz.HTML.AltAttribute">
+		<type>warning</type>
+	</rule>
+
+	<!-- Check for proper label/input associations -->
+	<rule ref="Squiz.HTML.FormsLabelAssociation">
+		<type>warning</type>
+	</rule>
+
+	<!-- Check for proper heading structure -->
+	<rule ref="Squiz.HTML.HeadingOrder">
+		<type>warning</type>
+	</rule>
+
+	<!-- Check for proper HTML structure -->
+	<rule ref="Squiz.HTML.HTMLTagsNotInScope">
+		<type>warning</type>
+	</rule>
+
+</ruleset>
