@@ -171,23 +171,22 @@ class Offers {
      */
     public function dismiss_offer() {
 
-        if ( empty( $_POST['nonce'] ) || ! isset( $_POST['pm_offer_key'] ) ) {
-            return;
-        }
-
-        if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'pm_dismiss_offer' ) ) {
+        if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'pm_dismiss_offer' ) ) {
             wp_send_json_error( __( 'Invalid nonce', 'wedevs-project-manager' ) );
-            return;
         }
 
         if ( ! current_user_can( 'manage_options' ) ) {
             wp_send_json_error( __( 'You have no permission to do that', 'wedevs-project-manager' ) );
-            return;
+        }
+
+        if ( ! isset( $_POST['pm_offer_key'] ) ) {
+            wp_send_json_error( __( 'Invalid request', 'wedevs-project-manager' ) );
         }
 
         $offer_key    = 'pm_offer_notice';
         $disabled_key = sanitize_text_field( wp_unslash( $_POST['pm_offer_key'] ) );
 
         update_option( $offer_key, $disabled_key );
+        wp_send_json_success();
     }
 }
