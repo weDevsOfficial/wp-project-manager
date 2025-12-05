@@ -31,7 +31,6 @@ export.sh
 npm-debug.log
 plugin-deploy.sh
 readme.md
-composer.json
 composer.lock
 composer.phar
 secret.json
@@ -49,3 +48,8 @@ views/assets/vendor/wp-hooks/wp-hooks.js
 /zipfile
 wp-project-manager.zip
 /phpcs-xml
+
+# Exclude vendor folders not required for production
+vendor/doctrine/deprecations/src/PHPUnit
+vendor/doctrine/deprecations/test_fixtures
+vendor/doctrine/deprecations/tests

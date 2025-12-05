@@ -49,13 +49,13 @@ class Offers {
             $offer->key       = $promo_notice['key'];
             $offer->btn_txt   = ! empty( $promo_notice['action_title'] ) ? $promo_notice['action_title'] : __( 'Get Now', 'wedevs-project-manager' );
             $offer->message   = [];
-            $offer->message[] = sprintf( __( '<strong>%s</strong>', 'wedevs-project-manager' ), $promo_notice['title'] );
+            $offer->message[] = '<strong>' . esc_html( $promo_notice['title'] ) . '</strong>';
 
             if ( ! empty( $promo_notice['description'] ) ) {
-                $offer->message[] = sprintf( __( '%s', 'wedevs-project-manager' ), $promo_notice['description'] );
+                $offer->message[] = esc_html( $promo_notice['description'] );
             }
 
-            $offer->message[] = sprintf( __( '%s', 'wedevs-project-manager' ), $promo_notice['content'] );
+            $offer->message[] = esc_html( $promo_notice['content'] );
             $offer->message   = implode( '<br>', $offer->message );
 
             if ( $disabled_key != $promo_notice['key'] ) {
@@ -128,7 +128,7 @@ class Offers {
             <div class="notice notice-success is-dismissible pm-promotional-offer-notice" id="pm-notice">
                 <div class="content">
                     <p style="margin-right:14px ;">
-                        <img height="100" src="https://ps.w.org/wedevs-project-manager/assets/icon-128x128.gif" alt="WP Project Manager Plugin">
+                        <img height="100" src="<?php echo esc_url( PM_PLUGIN_ASSEST . '/images/pm-icon.png' ); ?>" alt="<?php echo esc_attr__( 'Project Manager Plugin', 'wedevs-project-manager' ); ?>">
                 	</p>
                     <p>
                         <?php echo wp_kses( $offer->message, [ 'strong' => [], 'br' => [] ] ); ?>

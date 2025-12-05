@@ -153,14 +153,14 @@ class Upgrade_2_0 extends WP_Background_Process
         
         ?>
             <script type="text/javascript">
-                var pm_is_all_migrated = <?php echo json_encode($is_all_migrated); ?>;
+                var pm_is_all_migrated = <?php echo wp_json_encode( $is_all_migrated ); ?>;
 
                 jQuery( document ).on( 'heartbeat-send', function ( event, data ) {
                     data.pm_migration = true;
                 });
 
                 jQuery(document).ready(function() {
-                    var migrateData = <?php esc_attr( $observe ); ?>;
+                    var migrateData = <?php echo wp_json_encode( $db_observe ); ?>;
                     
                     
                     pmProgressStatus(migrateData, pm_is_all_migrated, function() {
