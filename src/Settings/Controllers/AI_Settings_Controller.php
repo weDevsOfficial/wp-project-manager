@@ -346,6 +346,7 @@ class AI_Settings_Controller {
             $error_message = $response->get_error_message();
             return [
                 'success' => false,
+                // translators: %s: error message
                 'message' => sprintf( __( 'Connection failed: %s', 'wedevs-project-manager' ), esc_html( $error_message ) )
             ];
         }

@@ -615,6 +615,7 @@ class Project_Controller {
 		if ( !$model_config ) {
 			return [
 				'success' => false,
+				// translators: %s: model name
 				'message' => sprintf( __( 'Model "%s" is not available. Please select a valid model from settings.', 'wedevs-project-manager' ), $model )
 			];
 		}
@@ -748,6 +749,7 @@ class Project_Controller {
 			$error_msg = $response->get_error_message();
 			return [
 				'success' => false,
+				// translators: %s: error message
 				'message' => sprintf( __( 'AI API error: %s', 'wedevs-project-manager' ), esc_html( $error_msg ) )
 			];
 		}
@@ -768,11 +770,13 @@ class Project_Controller {
 				$error_message = sanitize_text_field( $response_data['message'] );
 			} elseif ( isset( $response_data['error']['code'] ) ) {
 				$error_message = sprintf(
+					// translators: %s: error code
 					__( 'AI API error (Code: %s)', 'wedevs-project-manager' ),
 					sanitize_text_field( $response_data['error']['code'] )
 				);
 			} else {
 				$error_message = sprintf(
+					// translators: %d: HTTP status code
 					__( 'AI API request failed with status code: %d', 'wedevs-project-manager' ),
 					$response_code
 				);
@@ -841,6 +845,7 @@ class Project_Controller {
 						$recommended_tokens = max( 5000, $thoughts_tokens + 2000 + 500 );
 
 						$error_message = sprintf(
+							// translators: %1$d: total tokens used, %2$d: thoughts tokens, %3$d: response tokens, %4$d: recommended tokens
 							__( 'Response was truncated due to token limit. Used %d tokens total (%d for internal reasoning, %d for response). This model requires higher token limits. Recommended: at least %d tokens for complete responses.', 'wedevs-project-manager' ),
 							$total_tokens,
 							$thoughts_tokens,
@@ -894,11 +899,13 @@ class Project_Controller {
 			if ( isset( $response_data['error'] ) ) {
 				if ( isset( $response_data['error']['message'] ) ) {
 					$error_message = sprintf(
+						// translators: %s: error message
 						__( 'AI API error: %s', 'wedevs-project-manager' ),
 						sanitize_text_field( $response_data['error']['message'] )
 					);
 				} elseif ( isset( $response_data['error']['type'] ) ) {
 					$error_message = sprintf(
+						// translators: %s: error type
 						__( 'AI API error: %s', 'wedevs-project-manager' ),
 						sanitize_text_field( $response_data['error']['type'] )
 					);
