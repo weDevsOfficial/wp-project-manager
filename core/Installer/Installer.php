@@ -8,7 +8,7 @@ class Installer {
 
  	public function do_install() {
  		new PM_Create_Table();
-        (new \RoleTableSeeder())->run();
+        (new \PM_RoleTableSeeder())->run();
 
         $was_installed_before = get_option( 'pm_db_version', false );
 

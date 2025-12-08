@@ -50,7 +50,7 @@ class Upgrade {
         
         if (  $is_need_update ) {
             new PM_Create_Table;
-            (new \RoleTableSeeder())->run();
+            (new \PM_RoleTableSeeder())->run();
         }
     }
 
