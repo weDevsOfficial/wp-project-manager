@@ -15,6 +15,9 @@ class User {
 	private $user_ids;
 	private $is_single_query = false;
 
+	private $found_rows;
+	private $tb_user;
+	
 	public static function getInstance() {
 
         return new self();
