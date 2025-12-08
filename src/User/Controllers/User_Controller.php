@@ -231,12 +231,16 @@ class User_Controller {
                     $role_id
                 );
             } else {
-                $sql = "SELECT DISTINCT us.ID as user_id, us.user_email as user_email, us.display_name as display_name
+                $sql = $wpdb->prepare(
+                    "SELECT DISTINCT us.ID as user_id, us.user_email as user_email, us.display_name as display_name
                     FROM {$tb_role_users} as rus
                     LEFT JOIN {$tb_users} as us ON us.ID=rus.user_id
-                    WHERE 1=1";
+                    WHERE %d=%d",
+                    1,
+                    1
+                );
             }
-        } 
+        }
 
         $users = $wpdb->get_results( $sql );
 
