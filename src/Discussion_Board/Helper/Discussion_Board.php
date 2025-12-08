@@ -221,20 +221,21 @@ class Discussion_Board {
 			return $this;
 		}
 
-		$tb_boardable   = pm_tb_prefix() . 'pm_boardables';
-		$discuss_format = pm_get_prepare_format( $this->discussion_board_ids );
-		$query_data     = $this->discussion_board_ids;
+		$tb_boardable  = $wpdb->prefix . 'pm_boardables';
+		$sanitized_ids = implode( ',', array_map( 'absint', $this->discussion_board_ids ) );
 
-		$query = "SELECT DISTINCT bor.boardable_id as discussion_board_id,
-			bor.board_id as milestone_id
-			FROM $tb_boardable as bor
-			where bor.boardable_id IN ($discuss_format)
-			AND bor.board_type=%s
-			AND bor.boardable_type=%s";
-
-		array_push( $query_data, 'milestone', 'discussion_board' );
-		
-		$results       = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT DISTINCT bor.boardable_id as discussion_board_id,
+				bor.board_id as milestone_id
+				FROM {$tb_boardable} as bor
+				WHERE bor.boardable_id IN ({$sanitized_ids})
+				AND bor.board_type = %s
+				AND bor.boardable_type = %s",
+				'milestone',
+				'discussion_board'
+			)
+		);
 		$milestone_ids = wp_list_pluck( $results, 'milestone_id' );
 		
 		$milestones = Milestone::get_results([
@@ -314,19 +315,18 @@ class Discussion_Board {
 			return $this;
 		}
 
-		$tb_comments             = pm_tb_prefix() . 'pm_comments';
-		$discussion_board_format = pm_get_prepare_format( $this->discussion_board_ids );
-		$query_data              = $this->discussion_board_ids;
+		$tb_comments   = $wpdb->prefix . 'pm_comments';
+		$sanitized_ids = implode( ',', array_map( 'absint', $this->discussion_board_ids ) );
 
-		$query ="SELECT DISTINCT com.id as comment_id, com.commentable_id as discussion_board_id
-			FROM $tb_comments as com
-			WHERE com.commentable_id IN ($discussion_board_format)
-			AND com.commentable_type = %s
-		";
-
-		array_push( $query_data, 'discussion_board' );
-		
-		$results  = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT DISTINCT com.id as comment_id, com.commentable_id as discussion_board_id
+				FROM {$tb_comments} as com
+				WHERE com.commentable_id IN ({$sanitized_ids})
+				AND com.commentable_type = %s",
+				'discussion_board'
+			)
+		);
 		$comment_ids = wp_list_pluck( $results, 'comment_id' );
 		
 		$comments = Comment::get_results([
@@ -373,19 +373,19 @@ class Discussion_Board {
 			return $this;
 		}
 
-		$tb_files                = pm_tb_prefix() . 'pm_files';
-		$discussion_board_format = pm_get_prepare_format( $this->discussion_board_ids );
-		$query_data              = $this->discussion_board_ids;
+		$tb_files      = $wpdb->prefix . 'pm_files';
+		$sanitized_ids = implode( ',', array_map( 'absint', $this->discussion_board_ids ) );
 
-		$query = "SELECT DISTINCT fil.id as file_id,
-			fil.fileable_id as discussion_board_id
-			FROM $tb_files as fil
-			where fil.fileable_id IN ($discussion_board_format)
-			AND fil.fileable_type=%s";
-
-		array_push( $query_data, 'discussion_board' );
-		
-		$results  = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT DISTINCT fil.id as file_id,
+				fil.fileable_id as discussion_board_id
+				FROM {$tb_files} as fil
+				WHERE fil.fileable_id IN ({$sanitized_ids})
+				AND fil.fileable_type = %s",
+				'discussion_board'
+			)
+		);
 		$file_ids = wp_list_pluck( $results, 'file_id' );
 		
 		$files = File::get_results([
@@ -430,20 +430,19 @@ class Discussion_Board {
 			return 0;
 		}
 
-		$tb_comments             = pm_tb_prefix() . 'pm_comments';
-		$discussion_board_format = pm_get_prepare_format( $this->discussion_board_ids );
-		$query_data              = $this->discussion_board_ids;
+		$tb_comments   = $wpdb->prefix . 'pm_comments';
+		$sanitized_ids = implode( ',', array_map( 'absint', $this->discussion_board_ids ) );
 
-		$query ="SELECT DISTINCT count(com.id) as total_comments, com.commentable_id as discussion_board_id
-			FROM $tb_comments as com
-			WHERE com.commentable_id IN ($discussion_board_format)
-			AND com.commentable_type = %s
-			group by com.commentable_id
-		";
-
-		array_push( $query_data, 'discussion_board' );
-		
-		$results  = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT DISTINCT count(com.id) as total_comments, com.commentable_id as discussion_board_id
+				FROM {$tb_comments} as com
+				WHERE com.commentable_id IN ({$sanitized_ids})
+				AND com.commentable_type = %s
+				GROUP BY com.commentable_id",
+				'discussion_board'
+			)
+		);
 
 		foreach ( $results as $key => $result ) {
 			$discussion_board_id = $result->discussion_board_id;
@@ -464,20 +463,20 @@ class Discussion_Board {
 			return 0;
 		}
 
-		$tb_files                = pm_tb_prefix() . 'pm_files';
-		$discussion_board_format = pm_get_prepare_format( $this->discussion_board_ids );
-		$query_data              = $this->discussion_board_ids;
+		$tb_files      = $wpdb->prefix . 'pm_files';
+		$sanitized_ids = implode( ',', array_map( 'absint', $this->discussion_board_ids ) );
 
-		$query = "SELECT DISTINCT count(fil.id) as total_files,
-			fil.fileable_id as discussion_board_id
-			FROM $tb_files as fil
-			where fil.fileable_id IN ($discussion_board_format)
-			AND fil.fileable_type=%s
-			group by fil.fileable_id";
-
-		array_push( $query_data, 'discussion_board' );
-		
-		$results  = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT DISTINCT count(fil.id) as total_files,
+				fil.fileable_id as discussion_board_id
+				FROM {$tb_files} as fil
+				WHERE fil.fileable_id IN ({$sanitized_ids})
+				AND fil.fileable_type = %s
+				GROUP BY fil.fileable_id",
+				'discussion_board'
+			)
+		);
 
 		foreach ( $results as $key => $result ) {
 			$discussion_board_id = $result->discussion_board_id;
@@ -498,20 +497,20 @@ class Discussion_Board {
         
         global $wpdb;
 
-		$metas            = [];
-		$tb_projects      = pm_tb_prefix() . 'pm_projects';
-		$tb_meta          = pm_tb_prefix() . 'pm_meta';
-		$discussion_board_format = pm_get_prepare_format( $this->discussion_board_ids );
-		$query_data       = $this->discussion_board_ids;
+		$metas         = [];
+		$tb_projects   = $wpdb->prefix . 'pm_projects';
+		$tb_meta       = $wpdb->prefix . 'pm_meta';
+		$sanitized_ids = implode( ',', array_map( 'absint', $this->discussion_board_ids ) );
 
-        $query = "SELECT DISTINCT $tb_meta.meta_key, $tb_meta.meta_value, $tb_meta.entity_id
-            FROM $tb_meta
-            WHERE $tb_meta.entity_id IN ($discussion_board_format)
-            AND $tb_meta.entity_type = %s ";
-
-        array_push( $query_data, 'discussion_board' );
-
-        $results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
+        $results = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT DISTINCT {$tb_meta}.meta_key, {$tb_meta}.meta_value, {$tb_meta}.entity_id
+                FROM {$tb_meta}
+                WHERE {$tb_meta}.entity_id IN ({$sanitized_ids})
+                AND {$tb_meta}.entity_type = %s",
+                'discussion_board'
+            )
+        );
 
         foreach ( $results as $key => $result ) {
             $discussion_board_id = $result->entity_id;
@@ -714,13 +713,19 @@ class Discussion_Board {
 		global $wpdb;
 		$id = isset( $this->query_params['id'] ) ? $this->query_params['id'] : false;
 
-		$query = "SELECT SQL_CALC_FOUND_ROWS DISTINCT {$this->tb_discussion_board}.*
-			FROM {$this->tb_discussion_board}
-			{$this->join}
-			WHERE %d=%d {$this->where} AND $this->tb_discussion_board.type=%s
-			{$this->orderby} {$this->limit} ";
+		$tb = $this->tb_discussion_board;
 
-		$results = $wpdb->get_results( $wpdb->prepare( $query, 1, 1, 'discussion_board' ) );
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT SQL_CALC_FOUND_ROWS DISTINCT {$tb}.*
+				FROM {$tb}
+				{$this->join}
+				WHERE 1=%d {$this->where} AND {$tb}.type = %s
+				{$this->orderby} {$this->limit}",
+				1,
+				'discussion_board'
+			)
+		);
 
 		$this->found_rows = $wpdb->get_var( "SELECT FOUND_ROWS()" );
 		$this->discussion_boards = $results;
