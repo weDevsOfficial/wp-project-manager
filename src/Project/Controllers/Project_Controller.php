@@ -846,7 +846,7 @@ class Project_Controller {
 
 						$error_message = sprintf(
 							// translators: %1$d: total tokens used, %2$d: thoughts tokens, %3$d: response tokens, %4$d: recommended tokens
-							__( 'Response was truncated due to token limit. Used %d tokens total (%d for internal reasoning, %d for response). This model requires higher token limits. Recommended: at least %d tokens for complete responses.', 'wedevs-project-manager' ),
+							__( 'Response was truncated due to token limit. Used %1$d tokens total (%2$d for internal reasoning, %3$d for response). This model requires higher token limits. Recommended: at least %4$d tokens for complete responses.', 'wedevs-project-manager' ),
 							$total_tokens,
 							$thoughts_tokens,
 							$candidates_tokens,
