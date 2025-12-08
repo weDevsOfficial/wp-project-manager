@@ -358,7 +358,7 @@ class Upgrade_2_0 extends WP_Background_Process
      */
     public function upgrade_init ( ) {
         new PM_Create_Table;
-        (new \RoleTableSeeder())->run();
+        (new \PM_RoleTableSeeder())->run();
         //create pro table 
         $this->create_gantt_chart_table();
         $this->create_invoice_table();

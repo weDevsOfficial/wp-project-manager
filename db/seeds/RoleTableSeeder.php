@@ -6,7 +6,7 @@ use WeDevs\PM\Role\Models\Role;
 use \WeDevs\PM\Settings\Models\Settings;
 use Carbon\Carbon;
 
-class RoleTableSeeder extends Seeder
+class PM_RoleTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.

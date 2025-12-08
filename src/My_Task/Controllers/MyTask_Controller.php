@@ -433,6 +433,7 @@ class MyTask_Controller {
             );
         }
 
+        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- $event_query is already prepared with $wpdb->prepare() above
         $events     = $wpdb->get_results( $event_query );
         $user_roles = $wpdb->get_results(
             $wpdb->prepare(
