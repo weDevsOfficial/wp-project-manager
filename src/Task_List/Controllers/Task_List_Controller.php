@@ -596,29 +596,23 @@ class Task_List_Controller {
             $list_ids[] = 0;
         }
 
-        if ( ! is_array( $list_ids ) ) {
+        if ( ! \is_array( $list_ids ) ) {
             $list_ids = [];
         }
 
-        $tb_tasks     = pm_tb_prefix() . 'pm_tasks';
-        $tb_lists     = pm_tb_prefix() . 'pm_boards';
-        $tb_boardable = pm_tb_prefix() . 'pm_boardables';
-        $tb_meta      = pm_tb_prefix() . 'pm_meta';
-        $tb_assigned  = pm_tb_prefix() . 'pm_assignees';
-
         $list_ids_sanitized = array_map( 'intval', $list_ids );
-        $list_ids_placeholders = implode( ',', array_fill( 0, count( $list_ids_sanitized ), '%d' ) );
+        $list_ids_placeholders = implode( ',', array_fill( 0, \count( $list_ids_sanitized ), '%d' ) );
         $filter       = '';
         $filter_values = [];
         $join         = '';
 
-        $status       = isset( $filter_params['status'] ) ? intval( $filter_params['status'] ) : false;
+        $status       = isset( $filter_params['status'] ) ? \intval( $filter_params['status'] ) : false;
         $due_date     = empty( $filter_params['due_date'] ) ? false : gmdate( 'Y-m-d', strtotime( $filter_params['due_date'] ) );
         $assignees    = empty( $filter_params['users'] ) ? [] : $filter_params['users'];
         $title        = empty( $filter_params['title'] ) ? '' : $filter_params['title'];
 
         if ( $status !== false ) {
-            if ( gettype( $status ) == 'string'  ) {
+            if ( \gettype( $status ) == 'string'  ) {
                 $status = $status == 'complete' ? 1 : 0;
             }
 
@@ -627,24 +621,28 @@ class Task_List_Controller {
         }
 
         if ( ! empty( $due_date ) ) {
-            if( $due_date == 'overdue' ) {
-                $today = gmdate( 'Y-m-d', strtotime( current_time('mysql') ) );
-                $filter .= ' AND itasks.due_date < %s';
-                $filter_values[] = $today;
+            switch ( $due_date ) {
+                case 'overdue':
+                    $today = gmdate( 'Y-m-d', strtotime( current_time('mysql') ) );
+                    $filter .= ' AND itasks.due_date < %s';
+                    $filter_values[] = $today;
+                    break;
 
-            } else if ( $due_date == 'today' ) {
-                $today = gmdate('Y-m-d', strtotime( current_time('mysql') ) );
-                $filter .= ' AND itasks.due_date = %s';
-                $filter_values[] = $today;
+                case 'today':
+                    $today = gmdate('Y-m-d', strtotime( current_time('mysql') ) );
+                    $filter .= ' AND itasks.due_date = %s';
+                    $filter_values[] = $today;
+                    break;
 
-            } else if ( $due_date == 'week' ) {
-                $today = gmdate('Y-m-d', strtotime( current_time('mysql') ) );
-                $last = gmdate('Y-m-d', strtotime( current_time('mysql') . '-1 week' ) );
+                case 'week':
+                    $today = gmdate('Y-m-d', strtotime( current_time('mysql') ) );
+                    $last = gmdate('Y-m-d', strtotime( current_time('mysql') . '-1 week' ) );
 
-                $filter .= ' AND itasks.due_date >= %s';
-                $filter .= ' AND itasks.due_date <= %s';
-                $filter_values[] = $last;
-                $filter_values[] = $today;
+                    $filter .= ' AND itasks.due_date >= %s';
+                    $filter .= ' AND itasks.due_date <= %s';
+                    $filter_values[] = $last;
+                    $filter_values[] = $today;
+                    break;
             }
         }
 
@@ -654,24 +652,25 @@ class Task_List_Controller {
         }
 
         if ( ! empty( $assignees ) ) {
-            $join .= " LEFT JOIN $tb_assigned as asign ON asign.task_id=itasks.id";
+            $join .= $wpdb->prepare( " LEFT JOIN {$wpdb->prefix}pm_assignees as asign ON asign.task_id=itasks.id" );
 
-            if ( is_array( $assignees ) && $assignees[0] != 0 ) {
+            if ( \is_array( $assignees ) && $assignees[0] != 0 ) {
                 $assignees_sanitized = array_map( 'intval', $assignees );
-                $assignees_placeholders = implode( ',', array_fill( 0, count( $assignees_sanitized ), '%d' ) );
-                $filter .= ' AND asign.assigned_to IN(' . $assignees_placeholders . ')';
-                $filter_values = array_merge( $filter_values, $assignees_sanitized );
+                $assignees_placeholders = implode( ',', array_fill( 0, \count( $assignees_sanitized ), '%d' ) );
+                $filter .= " AND asign.assigned_to IN({$assignees_placeholders})";
+                $filter_values = [...$filter_values, ...$assignees_sanitized];
 
-            } else if ( !is_array( $assignees ) && $assignees != 0) {
+            } else if ( !\is_array( $assignees ) && $assignees != 0) {
                 $filter .= ' AND asign.assigned_to = %d';
-                $filter_values[] = intval( $assignees );
+                $filter_values[] = \intval( $assignees );
             }
         }
 
         $join .= apply_filters( 'pm_incomplete_task_query_join', '', $project_id );
         $filter .= apply_filters( 'pm_incomplete_task_query_where', '', $project_id );
 
-        $boardable = "SELECT bo.board_id,
+        $results = $wpdb->get_results(  $wpdb->prepare(
+            "SELECT bo.board_id,
                 group_concat(
                     DISTINCT
                     if(itasks.status=0, itasks.id, null)
@@ -683,23 +682,22 @@ class Task_List_Controller {
                     separator '|'
                 ) completed_task_ids
 
-            FROM $tb_tasks as itasks
-            LEFT JOIN $tb_boardable as bo ON bo.boardable_id=itasks.id
-            $join
+            FROM {$wpdb->prefix}pm_tasks as itasks
+            LEFT JOIN {$wpdb->prefix}pm_boardables as bo ON bo.boardable_id=itasks.id
+            {$join}
             WHERE
-            bo.board_id IN ($list_ids_placeholders)
+            bo.board_id IN ({$list_ids_placeholders})
             AND
             bo.boardable_type = 'task'
             AND
             itasks.project_id=%d
-            $filter
-            GROUP BY bo.board_id";
-
-        $prepare_values = array_merge( $list_ids_sanitized, array( $project_id ), $filter_values );
-        $results = $wpdb->get_results( $wpdb->prepare( $boardable, ...$prepare_values ) );
+            {$filter}
+            GROUP BY bo.board_id",
+            [...$list_ids_sanitized, $project_id, ...$filter_values]
+        ) );
         $returns = [];
 
-        foreach ( $results as $key => $result ) {
+        foreach ( $results as $result ) {
             $result->incompleted_task_ids = empty( $result->incompleted_task_ids ) ? [] : explode( '|', $result->incompleted_task_ids );
             $result->completed_task_ids   = empty( $result->completed_task_ids ) ? [] : explode( '|', $result->completed_task_ids );
 
