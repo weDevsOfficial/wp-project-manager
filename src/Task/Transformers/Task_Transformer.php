@@ -89,15 +89,15 @@ class Task_Transformer extends TransformerAbstract {
     public function get_type( $item_id ) {
         global $wpdb;
 
-        $tb_task_types     = pm_tb_prefix() . 'pm_task_types';
-        $tb_task_type_task = pm_tb_prefix() . 'pm_task_type_task';
-        $tb_tasks          = pm_tb_prefix() . 'pm_tasks';
+        $tb_task_types     = esc_sql( pm_tb_prefix() . 'pm_task_types' );
+        $tb_task_type_task = esc_sql( pm_tb_prefix() . 'pm_task_type_task' );
+        $tb_tasks          = esc_sql( pm_tb_prefix() . 'pm_tasks' );
 
         $query = $wpdb->prepare(
             "SELECT DISTINCT typ.id as type_id, typ.title, typ.description, tk.id as task_id
-            FROM $tb_task_types as typ
-            LEFT JOIN $tb_task_type_task as typt ON typ.id = typt.type_id 
-            LEFT JOIN $tb_tasks as tk ON tk.id = typt.task_id 
+            FROM {$tb_task_types} as typ
+            LEFT JOIN {$tb_task_type_task} as typt ON typ.id = typt.type_id
+            LEFT JOIN {$tb_tasks} as tk ON tk.id = typt.task_id
             WHERE tk.id = %d",
             $item_id
         );

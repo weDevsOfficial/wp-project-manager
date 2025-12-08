@@ -1040,8 +1040,10 @@ class Task_Controller {
         $start = \intval( $per_page_count ) ? $per_page_count - 1 : 0;
 
         $sanitized_list_ids = implode( ',', array_map( 'absint', $list_ids ) );
-        $permission_join  = apply_filters( 'pm_incomplete_task_query_join', '', $project_id );
-        $where = apply_filters( 'pm_incomplete_task_query_where', '', $project_id );
+        // Note: permission_join filter should return sanitized SQL JOIN clauses only
+        // Plugin developers must ensure their filter callbacks return safe SQL
+        $permission_join  = apply_filters( 'pm_incomplete_task_query_join', '', absint( $project_id ) );
+        $where = apply_filters( 'pm_incomplete_task_query_where', '', absint( $project_id ) );
         $not_in_clause = '';
 
         if ( ! empty( $not_in_tasks ) ) {
@@ -1049,9 +1051,9 @@ class Task_Controller {
             $not_in_clause = " AND itasks.id NOT IN ({$sanitized_not_in})";
         }
 
-        $results = $wpdb->get_results(
-            $wpdb->prepare(
-                "SELECT ibord_id, GROUP_CONCAT( DISTINCT task.task_id order by task.iorder DESC) as itasks_id
+        // Build query with filter-provided clauses
+        // Filters are expected to return already-prepared SQL fragments
+        $query = "SELECT ibord_id, GROUP_CONCAT( DISTINCT task.task_id order by task.iorder DESC) as itasks_id
                 FROM
                     (
                         SELECT
@@ -1073,9 +1075,9 @@ class Task_Controller {
 
                     ) as task
 
-                group by ibord_id"
-            )
-        );
+                group by ibord_id";
+
+        $results = $wpdb->get_results( $query );
 
         if ( $per_page_count != -1 ) {
             $results = $this->set_pagination( $results, $start, $per_page );
@@ -1122,8 +1124,10 @@ class Task_Controller {
         $start = \intval( $per_page_count ) ? $per_page_count-1 : 0;
 
         $sanitized_list_ids = implode( ',', array_map( 'absint', $list_ids ) );
-        $permission_join  = apply_filters( 'pm_complete_task_query_join', '', $project_id );
-        $where = apply_filters( 'pm_complete_task_query_where', '', $project_id );
+        // Note: permission_join filter should return sanitized SQL JOIN clauses only
+        // Plugin developers must ensure their filter callbacks return safe SQL
+        $permission_join  = apply_filters( 'pm_complete_task_query_join', '', absint( $project_id ) );
+        $where = apply_filters( 'pm_complete_task_query_where', '', absint( $project_id ) );
         $not_in_clause = '';
 
         if ( ! empty( $not_in_tasks ) ) {
@@ -1131,9 +1135,9 @@ class Task_Controller {
             $not_in_clause = " AND itasks.id NOT IN ({$sanitized_not_in})";
         }
 
-        $results = $wpdb->get_results(
-            $wpdb->prepare(
-                "SELECT ibord_id, GROUP_CONCAT( DISTINCT task.task_id order by task.iorder DESC) as itasks_id
+        // Build query with filter-provided clauses
+        // Filters are expected to return already-prepared SQL fragments
+        $query = "SELECT ibord_id, GROUP_CONCAT( DISTINCT task.task_id order by task.iorder DESC) as itasks_id
                 FROM
                     (
                         SELECT
@@ -1155,9 +1159,9 @@ class Task_Controller {
 
                     ) as task
 
-                group by ibord_id"
-            )
-        );
+                group by ibord_id";
+
+        $results = $wpdb->get_results( $query );
 
         if ( $per_page_count != -1 ) {
             $results = $this->set_pagination( $results, $start, $per_page );
