@@ -970,39 +970,37 @@ class Task_Controller {
             $tasks_ids[] = 0;
         }
 
-        $comment      = pm_tb_prefix() . 'pm_comments';
-        $assignees    = pm_tb_prefix() . 'pm_assignees';
-        $tb_tasks     = pm_tb_prefix() . 'pm_tasks';
+        $comment      = esc_sql( $wpdb->prefix . 'pm_comments');
+        $assignees    = esc_sql( $wpdb->prefix . 'pm_assignees');
+        $tb_tasks     = esc_sql( $wpdb->prefix . 'pm_tasks');
         $tasks_ids    = array_map( 'intval', $tasks_ids );
-        $placeholders = implode( ', ', array_fill( 0, count( $tasks_ids ), '%d' ) );
+        $sanitized_ids = implode( ',', array_map( 'absint', $tasks_ids ) );
 
-        $tasks = $wpdb->prepare(
-            "SELECT tk.id,
-                GROUP_CONCAT(
-                    DISTINCT
-                    CONCAT(
-                        '{',
-                            '\"', 'assigned_to', '\"', ':' , '\"', IFNULL(asgn.assigned_to, '') , '\"' , ',',
-                            '\"', 'assigned_at', '\"', ':' , '\"', IFNULL(asgn.assigned_at, '') , '\"' , ',',
-                            '\"', 'completed_at', '\"', ':' , '\"', IFNULL(asgn.completed_at, '') , '\"' , ',',
-                            '\"', 'started_at', '\"', ':' , '\"', IFNULL(asgn.started_at, '') , '\"' , ',',
-                            '\"', 'status', '\"', ':' , '\"', IFNULL(asgn.status, '') , '\"'
-                        ,'}'
-                    ) SEPARATOR '|'
-                ) as assignees,
+        $results = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT tk.id,
+                    GROUP_CONCAT(
+                        DISTINCT
+                        CONCAT(
+                            '{',
+                                '\"', 'assigned_to', '\"', ':' , '\"', IFNULL(asgn.assigned_to, '') , '\"' , ',',
+                                '\"', 'assigned_at', '\"', ':' , '\"', IFNULL(asgn.assigned_at, '') , '\"' , ',',
+                                '\"', 'completed_at', '\"', ':' , '\"', IFNULL(asgn.completed_at, '') , '\"' , ',',
+                                '\"', 'started_at', '\"', ':' , '\"', IFNULL(asgn.started_at, '') , '\"' , ',',
+                                '\"', 'status', '\"', ':' , '\"', IFNULL(asgn.status, '') , '\"'
+                            ,'}'
+                        ) SEPARATOR '|'
+                    ) as assignees,
 
-                count(cm.id) as total_comment
+                    count(cm.id) as total_comment
 
-            FROM {$tb_tasks} as tk
-            LEFT JOIN {$comment} as cm ON tk.id=cm.commentable_id AND cm.commentable_type = 'task'
-            LEFT JOIN {$assignees} as asgn ON tk.id=asgn.task_id
-            where
-            tk.id In ({$placeholders})
-            GROUP BY tk.id",
-            $tasks_ids
+                FROM {$tb_tasks} as tk
+                LEFT JOIN {$comment} as cm ON tk.id=cm.commentable_id AND cm.commentable_type = 'task'
+                LEFT JOIN {$assignees} as asgn ON tk.id=asgn.task_id
+                WHERE tk.id IN ({$sanitized_ids})
+                GROUP BY tk.id"
+            )
         );
-
-        $results = $wpdb->get_results( $tasks );
 
         $returns = [];
 
@@ -1033,54 +1031,51 @@ class Task_Controller {
 
         $per_page_count    = isset( $_GET['incomplete_task_page'] ) ? \intval( $_GET['incomplete_task_page'] ) : false;
 
-        $table_ba   = "{$wpdb->prefix}pm_boardables";
-        $table_task = "{$wpdb->prefix}pm_tasks";
+        $table_ba   = esc_sql( $wpdb->prefix . 'pm_boardables');
+        $table_task = esc_sql( $wpdb->prefix . 'pm_tasks');
 
         $per_page   = pm_get_setting( 'incomplete_tasks_per_page' );
         $per_page   = empty( $per_page ) ? 20 : \intval( $per_page );
 
         $start = \intval( $per_page_count ) ? $per_page_count - 1 : 0;
 
-        $list_ids_placeholders = implode( ',', array_fill( 0, count( $list_ids ), '%d' ) );
+        $sanitized_list_ids = implode( ',', array_map( 'absint', $list_ids ) );
         $permission_join  = apply_filters( 'pm_incomplete_task_query_join', '', $project_id );
         $where = apply_filters( 'pm_incomplete_task_query_where', '', $project_id );
-
         $not_in_clause = '';
-        $prepare_values = $list_ids;
-        
+
         if ( ! empty( $not_in_tasks ) ) {
-            $not_in_placeholders = implode( ',', array_fill( 0, count( $not_in_tasks ), '%d' ) );
-            $not_in_clause = $wpdb->prepare( " AND itasks.id NOT IN ({$not_in_placeholders})", $not_in_tasks );
+            $sanitized_not_in = implode( ',', array_map( 'absint', $not_in_tasks ) );
+            $not_in_clause = " AND itasks.id NOT IN ({$sanitized_not_in})";
         }
 
-        $sql = $wpdb->prepare(
-            "SELECT ibord_id, GROUP_CONCAT( DISTINCT task.task_id order by task.iorder DESC) as itasks_id
-            FROM
-                (
-                    SELECT
-                        itasks.id as task_id,
-                        ibord.board_id as ibord_id,
-                        ibord.order as iorder
-                    FROM
-                        {$table_task} as itasks
-                        inner join {$table_ba} as ibord on itasks.id = ibord.boardable_id
-                        AND ibord.board_id in ({$list_ids_placeholders})
-                        {$permission_join}
-                    WHERE
-                        itasks.status=0
-                        AND ibord.board_type='task_list'
-                        AND ibord.boardable_type='task'
-                        {$not_in_clause}
-                        {$where}
-                        order by iorder asc
+        $results = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT ibord_id, GROUP_CONCAT( DISTINCT task.task_id order by task.iorder DESC) as itasks_id
+                FROM
+                    (
+                        SELECT
+                            itasks.id as task_id,
+                            ibord.board_id as ibord_id,
+                            ibord.order as iorder
+                        FROM
+                            {$table_task} as itasks
+                            inner join {$table_ba} as ibord on itasks.id = ibord.boardable_id
+                            AND ibord.board_id in ({$sanitized_list_ids})
+                            {$permission_join}
+                        WHERE
+                            itasks.status=0
+                            AND ibord.board_type='task_list'
+                            AND ibord.boardable_type='task'
+                            {$not_in_clause}
+                            {$where}
+                            order by iorder asc
 
-                ) as task
+                    ) as task
 
-            group by ibord_id",
-            $prepare_values
+                group by ibord_id"
+            )
         );
-
-        $results = $wpdb->get_results( $sql );
 
         if ( $per_page_count != -1 ) {
             $results = $this->set_pagination( $results, $start, $per_page );
@@ -1118,55 +1113,51 @@ class Task_Controller {
 
         $per_page_count    = isset( $_GET['complete_task_page'] ) ? \intval( $_GET['complete_task_page'] ) : false;
 
-        $table_ba         = "{$wpdb->prefix}pm_boardables";
-        $table_task       = "{$wpdb->prefix}pm_tasks";
+        $table_ba         = esc_sql( $wpdb->prefix . 'pm_boardables');
+        $table_task       = esc_sql( $wpdb->prefix . 'pm_tasks');
 
         $per_page         = pm_get_setting( 'complete_tasks_per_page' );
         $per_page   = empty( $per_page ) ? 20 : \intval( $per_page );
 
         $start = \intval( $per_page_count ) ? $per_page_count-1 : 0;
 
-        $list_ids_placeholders = implode( ',', array_fill( 0, count( $list_ids ), '%d' ) );
+        $sanitized_list_ids = implode( ',', array_map( 'absint', $list_ids ) );
         $permission_join  = apply_filters( 'pm_complete_task_query_join', '', $project_id );
         $where = apply_filters( 'pm_complete_task_query_where', '', $project_id );
-
         $not_in_clause = '';
-        $prepare_values = $list_ids;
-        
+
         if ( ! empty( $not_in_tasks ) ) {
-            $not_in_placeholders = implode( ',', array_fill( 0, count( $not_in_tasks ), '%d' ) );
-            $not_in_clause = $wpdb->prepare( " AND itasks.id NOT IN ({$not_in_placeholders})", $not_in_tasks );
+            $sanitized_not_in = implode( ',', array_map( 'absint', $not_in_tasks ) );
+            $not_in_clause = " AND itasks.id NOT IN ({$sanitized_not_in})";
         }
 
-        $sql = $wpdb->prepare(
-            "SELECT ibord_id, GROUP_CONCAT( DISTINCT task.task_id order by task.iorder DESC) as itasks_id
-            FROM
-                (
-                    SELECT
-                        itasks.id as task_id,
-                        ibord.board_id as ibord_id,
-                        ibord.order as iorder
-                    FROM
-                        {$table_task} as itasks
-                        inner join {$table_ba} as ibord on itasks.id = ibord.boardable_id
-                        AND ibord.board_id in ({$list_ids_placeholders})
-                        {$permission_join}
-                    WHERE
-                        itasks.status=1
-                        AND ibord.board_type='task_list'
-                        AND ibord.boardable_type='task'
-                        {$not_in_clause}
-                        {$where}
-                        order by iorder asc
+        $results = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT ibord_id, GROUP_CONCAT( DISTINCT task.task_id order by task.iorder DESC) as itasks_id
+                FROM
+                    (
+                        SELECT
+                            itasks.id as task_id,
+                            ibord.board_id as ibord_id,
+                            ibord.order as iorder
+                        FROM
+                            {$table_task} as itasks
+                            inner join {$table_ba} as ibord on itasks.id = ibord.boardable_id
+                            AND ibord.board_id in ({$sanitized_list_ids})
+                            {$permission_join}
+                        WHERE
+                            itasks.status=1
+                            AND ibord.board_type='task_list'
+                            AND ibord.boardable_type='task'
+                            {$not_in_clause}
+                            {$where}
+                            order by iorder asc
 
-                ) as task
+                    ) as task
 
-            group by ibord_id",
-            $prepare_values
+                group by ibord_id"
+            )
         );
-
-        $results = $wpdb->get_results( $sql );
-error_log(print_r( [$results], true ));
 
         if ( $per_page_count != -1 ) {
             $results = $this->set_pagination( $results, $start, $per_page );

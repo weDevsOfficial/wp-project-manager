@@ -30,6 +30,8 @@ class Discussion_Board {
 	private $discussion_boards;
 	private $discussion_board_ids;
 	private $is_single_query = false;
+	private $tb_project;
+	private $tb_discussion_board;
 
 	public static function getInstance() {
         return new self();
@@ -221,7 +223,7 @@ class Discussion_Board {
 			return $this;
 		}
 
-		$tb_boardable  = $wpdb->prefix . 'pm_boardables';
+		$tb_boardable  = esc_sql( $wpdb->prefix . 'pm_boardables' );
 		$sanitized_ids = implode( ',', array_map( 'absint', $this->discussion_board_ids ) );
 
 		$results = $wpdb->get_results(
@@ -315,7 +317,7 @@ class Discussion_Board {
 			return $this;
 		}
 
-		$tb_comments   = $wpdb->prefix . 'pm_comments';
+		$tb_comments   = esc_sql( $wpdb->prefix . 'pm_comments' );
 		$sanitized_ids = implode( ',', array_map( 'absint', $this->discussion_board_ids ) );
 
 		$results = $wpdb->get_results(
@@ -373,7 +375,7 @@ class Discussion_Board {
 			return $this;
 		}
 
-		$tb_files      = $wpdb->prefix . 'pm_files';
+		$tb_files      = esc_sql( $wpdb->prefix . 'pm_files' );
 		$sanitized_ids = implode( ',', array_map( 'absint', $this->discussion_board_ids ) );
 
 		$results = $wpdb->get_results(
@@ -430,7 +432,7 @@ class Discussion_Board {
 			return 0;
 		}
 
-		$tb_comments   = $wpdb->prefix . 'pm_comments';
+		$tb_comments   = esc_sql( $wpdb->prefix . 'pm_comments' );
 		$sanitized_ids = implode( ',', array_map( 'absint', $this->discussion_board_ids ) );
 
 		$results = $wpdb->get_results(
@@ -463,7 +465,7 @@ class Discussion_Board {
 			return 0;
 		}
 
-		$tb_files      = $wpdb->prefix . 'pm_files';
+		$tb_files      = esc_sql( $wpdb->prefix . 'pm_files' );
 		$sanitized_ids = implode( ',', array_map( 'absint', $this->discussion_board_ids ) );
 
 		$results = $wpdb->get_results(
@@ -498,8 +500,8 @@ class Discussion_Board {
         global $wpdb;
 
 		$metas         = [];
-		$tb_projects   = $wpdb->prefix . 'pm_projects';
-		$tb_meta       = $wpdb->prefix . 'pm_meta';
+		$tb_projects   = esc_sql( $wpdb->prefix . 'pm_projects' );
+		$tb_meta       = esc_sql( $wpdb->prefix . 'pm_meta' );
 		$sanitized_ids = implode( ',', array_map( 'absint', $this->discussion_board_ids ) );
 
         $results = $wpdb->get_results(
@@ -635,7 +637,7 @@ class Discussion_Board {
 	private function orderby() {
         global $wpdb;
 
-		$tb_pj    = $wpdb->prefix . 'pm_boards';
+		$tb_pj    = esc_sql( $wpdb->prefix . 'pm_boards' );
 		$odr_prms = isset( $this->query_params['orderby'] ) ? $this->query_params['orderby'] : false;
 
         if ( $odr_prms === false && !is_array( $odr_prms ) ) {
@@ -713,7 +715,7 @@ class Discussion_Board {
 		global $wpdb;
 		$id = isset( $this->query_params['id'] ) ? $this->query_params['id'] : false;
 
-		$tb = $this->tb_discussion_board;
+		$tb = esc_sql( $this->tb_discussion_board );
 
 		$results = $wpdb->get_results(
 			$wpdb->prepare(
@@ -742,7 +744,9 @@ class Discussion_Board {
 	}
 
 	private function set_table_name() {
-		$this->tb_project          = pm_tb_prefix() . 'pm_projects';
-		$this->tb_discussion_board = pm_tb_prefix() . 'pm_boards';
+		global $wpdb;
+
+		$this->tb_project          = esc_sql( $wpdb->prefix  . 'pm_projects');
+		$this->tb_discussion_board = esc_sql( $wpdb->prefix  . 'pm_boards');
 	}
 }
