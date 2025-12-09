@@ -547,7 +547,7 @@ class Commands extends Cli {
             }
             \WP_CLI::line( '' );
 
-            fwrite( STDOUT, \WP_CLI::colorize( '%RType "yes" to continue:%n ' ) );
+            \WP_CLI::out( \WP_CLI::colorize( '%RType "yes" to continue:%n ' ) );
             $confirmation = trim( fgets( STDIN ) );
 
             if ( $confirmation !== 'yes' ) {

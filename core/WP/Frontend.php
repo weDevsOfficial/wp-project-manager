@@ -14,7 +14,7 @@ use WeDevs\PM\Core\Promotions\Promotions;
 use WeDevs\PM\Core\Promotions\Offers;
 
 use WeDevs\PM\Core\Installer\Installer;
-use PM_Create_Table;
+use WeDevs_PM_Create_Table;
 //use WeDevs\PM\Tools\Helpers\ImportActivecollab;
 use WeDevs\PM\Tools\Helpers\ImportTrello;
 //use WeDevs\PM\Tools\Helpers\ImportAsana;
@@ -114,7 +114,7 @@ class Frontend {
      * @return bool
      */
     public function pm_privacy_check( $bool, $project_id, $permission_name ) {
-        return pm_user_can( $permission_name, $project_id );
+        return wedevs_pm_user_can( $permission_name, $project_id );
     }
 
     function seed() {
@@ -153,13 +153,13 @@ class Frontend {
     }
 
     function load_plugin_textdomain() {
-        load_plugin_textdomain( 'wedevs-project-manager', false, config('frontend.basename') . '/languages/' );
+        load_plugin_textdomain( 'wedevs-project-manager', false, wedevs_pm_config('frontend.basename') . '/languages/' );
     }
 
     public function includes() {
         // cli command
         if ( defined('WP_CLI') && WP_CLI ) {
-            $file = config( 'frontend.patch' ) . '/core/cli/Commands.php';
+            $file = wedevs_pm_config( 'frontend.patch' ) . '/core/cli/Commands.php';
 
             //if ( file_exists( $file ) ) {
                 new Commands();
@@ -211,7 +211,7 @@ class Frontend {
     }
 
     function change_mime_icon( $icon, $mime = null, $post_id = null ) {
-        $assets_url = config('frontend.assets_url');
+        $assets_url = wedevs_pm_config('frontend.assets_url');
         $folder     = $assets_url . 'images/icons/';
         $exist_mime = [
             'application/pdf'                                                         => 'pdf.png',
@@ -247,7 +247,7 @@ class Frontend {
     }
 
     function project_text_editor($config) {
-    $config['external_plugins']['placeholder'] = config('frontend.assets_url') . 'vendor/tinymce/plugins/placeholder/plugin.min.js';
+    $config['external_plugins']['placeholder'] = wedevs_pm_config('frontend.assets_url') . 'vendor/tinymce/plugins/placeholder/plugin.min.js';
     $config['plugins'] = 'placeholder textcolor colorpicker wplink wordpress';
     return $config;
 }
@@ -315,18 +315,18 @@ class Frontend {
         wp_enqueue_style( 'pmglobal' );
         wp_localize_script( 'pmglobal', 'PM_Global_Vars',[
             'rest_url'           => home_url() .'/'.rest_get_url_prefix(),
-            'project_page'       => pm_get_project_page(),
+            'project_page'       => wedevs_pm_get_project_page(),
             'permission'         => wp_create_nonce('wp_rest'),
             'api_base_url'       => esc_url_raw( get_rest_url() ),
-            'api_namespace'      => pm_api_namespace(),
+            'api_namespace'      => wedevs_pm_api_namespace(),
             'permalinkStructure' => get_option( 'permalink_structure' ),
         ]);
 
-        require_once pm_config('frontend.view_path') . '/project-switch/project-switch.php';
+        require_once wedevs_pm_config('frontend.view_path') . '/project-switch/project-switch.php';
     }
 
     public function new_task_craeting() {
-        require_once pm_config('frontend.view_path') . '/project-switch/task-creating.php';
+        require_once wedevs_pm_config('frontend.view_path') . '/project-switch/task-creating.php';
     }
 
     public function pm_toolbar_new_task_creating ($wp_admin_bar) {

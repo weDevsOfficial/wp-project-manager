@@ -58,7 +58,7 @@ class Settings {
 				continue;
 			}
 
-			$cap_id = pm_get_capabilities_relation( $cap_key );
+			$cap_id = wedevs_pm_get_capabilities_relation( $cap_key );
 
 			$wpdb->insert( 
 				$tb_cap, 

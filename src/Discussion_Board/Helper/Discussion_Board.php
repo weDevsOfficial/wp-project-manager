@@ -61,7 +61,7 @@ class Discussion_Board {
 
 		$response = $self->format_discussion_boards( $self->discussion_boards );
 
-		if ( pm_is_single_query( $params ) ) {
+		if ( wedevs_pm_is_single_query( $params ) ) {
 			return ['data' => $response['data'][0]] ;
 		}
 
@@ -108,11 +108,11 @@ class Discussion_Board {
 		$items = [
             'id'          => (int) $discussion_board->id,
             'title'       => $discussion_board->title,
-            'description' => pm_get_content( $discussion_board->description ),
+            'description' => wedevs_pm_get_content( $discussion_board->description ),
             'project_id'  => $discussion_board->project_id,
             'order'       => $discussion_board->order,
-            'created_at'  => format_date( $discussion_board->created_at ),
-            'updated_at'  => format_date( $discussion_board->updated_at ),
+            'created_at'  => wedevs_pm_format_date( $discussion_board->created_at ),
+            'updated_at'  => wedevs_pm_format_date( $discussion_board->updated_at ),
             'meta'        => $discussion_board->meta,
         ];
 
@@ -160,7 +160,7 @@ class Discussion_Board {
 		$creator_ids = wp_list_pluck( $this->discussion_boards, 'created_by' );
 		$creator_ids = array_unique( $creator_ids );
 
-		$creators = pm_get_users( [ 'id' => $creator_ids ] );
+		$creators = wedevs_pm_get_users( [ 'id' => $creator_ids ] );
 		$creators = $creators['data'];
 		
 		$items = []; 
@@ -187,7 +187,7 @@ class Discussion_Board {
 		$updater_ids = wp_list_pluck( $this->discussion_boards, 'updated_by' );
 		$updater_ids = array_unique( $updater_ids );
 
-		$updaters = pm_get_users( [ 'id' => $updater_ids ] );
+		$updaters = wedevs_pm_get_users( [ 'id' => $updater_ids ] );
 		$updaters = $updaters['data'];
 		
 		$items = []; 
@@ -286,7 +286,7 @@ class Discussion_Board {
 		$project_ids = wp_list_pluck( $this->discussion_boards, 'project_id' );
 		$project_ids = array_unique( $project_ids );
 		
-		$projects = pm_get_projects( [ 'id' => $project_ids ] );
+		$projects = wedevs_pm_get_projects( [ 'id' => $project_ids ] );
 		$projects_map = [];
 
 		foreach ( $projects['data'] as $key => $project ) {
@@ -559,7 +559,7 @@ class Discussion_Board {
 
 		if ( is_array( $id ) ) {
 			//$query_id = implode( ',', $id );
-			$query_format = pm_get_prepare_format( $id );
+			$query_format = wedevs_pm_get_prepare_format( $id );
 			$this->where .= $wpdb->prepare( " AND {$this->tb_discussion_board}.id IN ($query_format)", $id );
 			// $this->where .= " AND {$this->tb_discussion_board}.id IN ($query_id)";
 		}
@@ -608,7 +608,7 @@ class Discussion_Board {
 		if ( is_array( $id ) ) {
 			//$query_id = implode( ',', $id );
 			//$this->where .= " AND {$this->tb_discussion_board}.project_id IN ($query_id)";
-			$query_format = pm_get_prepare_format( $id );
+			$query_format = wedevs_pm_get_prepare_format( $id );
 			$this->where .= $wpdb->prepare( " AND {$this->tb_discussion_board}.project_id IN ($query_format)", $id );
 		}
 

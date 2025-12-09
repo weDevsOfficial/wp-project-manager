@@ -57,7 +57,7 @@
                                     <?php esc_html_e( 'Created at', 'wedevs-project-manager' ) ?>
                                 </p>
                                 <h2 style="font-size: 16px; color: #000; margin: 0; font-weight: 400;">
-                                     <?php $project_date = empty( $created_at['date'] ) ? '&#x02013;&#x02013;' : pm_date_format( esc_html( $created_at['date'] ) ); ?>
+                                     <?php $project_date = empty( $created_at['date'] ) ? '&#x02013;&#x02013;' : wedevs_pm_date_format( esc_html( $created_at['date'] ) ); ?>
                                     <?php echo esc_html( $project_date ); ?>
                                 </h2>
                                 &nbsp;

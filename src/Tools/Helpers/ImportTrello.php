@@ -46,9 +46,9 @@ class ImportTrello extends WP_Background_Process
     }
 
     public function after_load_wp() {
-        $this->credentials = pm_get_setting('trello_credentials');
+        $this->credentials = wedevs_pm_get_setting('trello_credentials');
         if(!$this->credentials){
-            pm_set_settings('trello_credentials', array('api_key' => '', 'token' => ''));
+            wedevs_pm_set_settings('trello_credentials', array('api_key' => '', 'token' => ''));
         } else {
             if(array_key_exists('api_key', $this->credentials)) {
                 $this->trello = new PM_Trello($this->credentials['api_key'], $this->credentials['token']);

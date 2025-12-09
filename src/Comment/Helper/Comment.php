@@ -46,7 +46,7 @@ class Comment {
 
 		$response = $self->format_comments( $self->comments );
 
-		if ( pm_is_single_query( $params ) ) {
+		if ( wedevs_pm_is_single_query( $params ) ) {
 			return ['data' => $response['data'][0]] ;
 		}
 
@@ -98,10 +98,10 @@ class Comment {
 		
 		$items =  [
 			'id'               => (int) $comment->id,
-            'content'          => pm_get_content( $comment->content ),
+            'content'          => wedevs_pm_get_content( $comment->content ),
             'commentable_type' => $comment->commentable_type,
             'commentable_id'   => $comment->commentable_id,
-            'created_at'       => format_date( $comment->created_at ),
+            'created_at'       => wedevs_pm_format_date( $comment->created_at ),
             'project_id'       => (int) $comment->project_id,
             'meta'       => [
                 //'total_replies' => $comment->replies->count(),
@@ -141,10 +141,10 @@ class Comment {
 			return $this;
 		}
 
-		$commentable_id = pm_get_prepare_data( $commentable_id );
+		$commentable_id = wedevs_pm_get_prepare_data( $commentable_id );
 
 		if ( is_array( $commentable_id ) ) {
-			$query_format = pm_get_prepare_format( $commentable_id );
+			$query_format = wedevs_pm_get_prepare_format( $commentable_id );
 			$this->where .= $wpdb->prepare( " AND {$this->tb_comment}.commentable_id IN ($query_format)", $commentable_id );
 		}
 
@@ -168,10 +168,10 @@ class Comment {
 			return $this;
 		}
 
-		$commentable_type = pm_get_prepare_data( $commentable_type );
+		$commentable_type = wedevs_pm_get_prepare_data( $commentable_type );
 
 		if ( is_array( $commentable_type ) ) {
-			$query_format = pm_get_prepare_format( $commentable_type, true );
+			$query_format = wedevs_pm_get_prepare_format( $commentable_type, true );
 			$this->where .= $wpdb->prepare( " AND {$this->tb_comment}.commentable_type IN ($query_format)", $commentable_type );
 		}
 
@@ -195,8 +195,8 @@ class Comment {
 		}
 
 		global $wpdb;
-		$format     = pm_get_prepare_format( $id );
-		$format_ids = pm_get_prepare_data( $id );
+		$format     = wedevs_pm_get_prepare_format( $id );
+		$format_ids = wedevs_pm_get_prepare_data( $id );
 
 		$this->where .= $wpdb->prepare( " AND {$this->tb_comment}.id IN ($format)", $format_ids );
 
@@ -214,7 +214,7 @@ class Comment {
 			return $this;
 		}
 
-		$tb_files        = esc_sql( pm_tb_prefix() . 'pm_files' );
+		$tb_files        = esc_sql( wedevs_pm_tb_prefix() . 'pm_files' );
 		$comment_ids_safe = array_map( 'absint', $this->comment_ids );
 		$comment_placeholders = implode( ', ', array_fill( 0, count( $comment_ids_safe ), '%d' ) );
 		$query_data      = array_merge( $comment_ids_safe, array( 'comment' ) );
@@ -262,7 +262,7 @@ class Comment {
 		$creator_ids = wp_list_pluck( $this->comments, 'created_by' );
 		$creator_ids = array_unique( $creator_ids );
 
-		$creators = pm_get_users( [ 'id' => $creator_ids ] );
+		$creators = wedevs_pm_get_users( [ 'id' => $creator_ids ] );
 
 		$creators = $creators['data'];
 		
@@ -289,7 +289,7 @@ class Comment {
 		$updater_ids = wp_list_pluck( $this->comments, 'updated_by' );
 		$updater_ids = array_unique( $updater_ids );
 
-		$updaters = pm_get_users( [ 'id' => $updater_ids ] );
+		$updaters = wedevs_pm_get_users( [ 'id' => $updater_ids ] );
 		$updaters = $updaters['data'];
 		
 		$items = []; 
@@ -451,7 +451,7 @@ class Comment {
 	}
 
     private function set_table_name() {
-		$this->tb_comment = esc_sql( pm_tb_prefix() . 'pm_comments' );
+		$this->tb_comment = esc_sql( wedevs_pm_tb_prefix() . 'pm_comments' );
 	}
 
 }

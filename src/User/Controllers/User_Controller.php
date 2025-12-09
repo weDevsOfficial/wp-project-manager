@@ -191,12 +191,12 @@ class User_Controller {
                 break;
         }
 
-        $tb_role_users = esc_sql( pm_tb_prefix() . 'pm_role_user' );
+        $tb_role_users = esc_sql( wedevs_pm_tb_prefix() . 'pm_role_user' );
         $tb_users      = esc_sql( $wpdb->base_prefix . 'users' );
         $tb_user_meta  = esc_sql( $wpdb->base_prefix . 'usermeta' );
 
         if ( is_multisite() ) {
-            $meta_key = pm_user_meta_key();
+            $meta_key = wedevs_pm_user_meta_key();
 
             if ( $role_id ) {
                 $users = $wpdb->get_results(

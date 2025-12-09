@@ -69,7 +69,7 @@
                             <p style="font-size: 16px; color: #000000; line-height: 30px; margin: 0;">
                                 <?php
 
-                                    echo empty( $due_date['date'] ) ? '&#x02013;&#x02013;' : esc_html( pm_date_format( $due_date['date'] ) );
+                                    echo empty( $due_date['date'] ) ? '&#x02013;&#x02013;' : esc_html( wedevs_pm_date_format( $due_date['date'] ) );
                                 ?>
                             </p>
                         </td>

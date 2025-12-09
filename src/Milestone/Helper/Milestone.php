@@ -57,7 +57,7 @@ class Milestone {
 
 		$response = $self->format_milestones( $self->milestones );
 		
-		if ( pm_is_single_query( $params ) ) {
+		if ( wedevs_pm_is_single_query( $params ) ) {
 			return ['data' => $response['data'][0]] ;
 		}
 
@@ -112,10 +112,10 @@ class Milestone {
             'title'        => $milestone->title,
             'description'  => $milestone->description,
             'order'        => (int) $milestone->order,
-            'achieve_date' => format_date( $milestone->achieve_date ),
-            'achieved_at'  => format_date( $milestone->updated_at ),
+            'achieve_date' => wedevs_pm_format_date( $milestone->achieve_date ),
+            'achieved_at'  => wedevs_pm_format_date( $milestone->updated_at ),
             'status'       => $milestone->status,
-            'created_at'   => format_date( $milestone->created_at ),
+            'created_at'   => wedevs_pm_format_date( $milestone->created_at ),
             'meta'         => $milestone->meta
         ];
 
@@ -188,7 +188,7 @@ class Milestone {
 			return $this;
 		}
 
-		$tb_milestones    = esc_sql( pm_tb_prefix() . 'pm_boardables' );
+		$tb_milestones    = esc_sql( wedevs_pm_tb_prefix() . 'pm_boardables' );
 		$milestone_ids_safe = array_map( 'absint', $this->milestone_ids );
 		$milestone_placeholders = implode( ', ', array_fill( 0, count( $milestone_ids_safe ), '%d' ) );
 		$query_data       = array_merge( $milestone_ids_safe, array( 'milestone', 'discussion_board' ) );
@@ -246,7 +246,7 @@ class Milestone {
 			return $this;
 		}
 
-		$tb_milestones    = esc_sql( pm_tb_prefix() . 'pm_boardables' );
+		$tb_milestones    = esc_sql( wedevs_pm_tb_prefix() . 'pm_boardables' );
 		$milestone_ids_safe = array_map( 'absint', $this->milestone_ids );
 		$milestone_placeholders = implode( ', ', array_fill( 0, count( $milestone_ids_safe ), '%d' ) );
 		$query_data       = array_merge( $milestone_ids_safe, array( 'milestone', 'task_list' ) );
@@ -289,7 +289,7 @@ class Milestone {
 	private function achieve_date() {
 		global $wpdb;
 
-		$tb_meta          = esc_sql( pm_tb_prefix() . 'pm_meta' );
+		$tb_meta          = esc_sql( wedevs_pm_tb_prefix() . 'pm_meta' );
 		$milestone_ids_safe = array_map( 'absint', $this->milestone_ids );
 		$milestone_placeholders = implode( ', ', array_fill( 0, count( $milestone_ids_safe ), '%d' ) );
 		$query_data       = array_merge( $milestone_ids_safe, array( 'achieve_date' ) );
@@ -335,7 +335,7 @@ class Milestone {
 		}
 
 		$metas            = [];
-		$tb_milestones    = esc_sql( pm_tb_prefix() . 'pm_boardables' );
+		$tb_milestones    = esc_sql( wedevs_pm_tb_prefix() . 'pm_boardables' );
 		$milestone_ids_safe = array_map( 'absint', $this->milestone_ids );
 		$milestone_placeholders = implode( ', ', array_fill( 0, count( $milestone_ids_safe ), '%d' ) );
 		$query_data       = array_merge( $milestone_ids_safe, array( 'milestone', 'task_list' ) );
@@ -375,7 +375,7 @@ class Milestone {
 		}
 
 		$metas            = [];
-		$tb_milestones    = esc_sql( pm_tb_prefix() . 'pm_boardables' );
+		$tb_milestones    = esc_sql( wedevs_pm_tb_prefix() . 'pm_boardables' );
 		$milestone_ids_safe = array_map( 'absint', $this->milestone_ids );
 		$milestone_placeholders = implode( ', ', array_fill( 0, count( $milestone_ids_safe ), '%d' ) );
 		$query_data       = array_merge( $milestone_ids_safe, array( 'milestone', 'discussion_board' ) );
@@ -414,8 +414,8 @@ class Milestone {
 		global $wpdb;
 
 		$metas            = [];
-		$tb_projects      = esc_sql( pm_tb_prefix() . 'pm_projects' );
-		$tb_meta          = esc_sql( pm_tb_prefix() . 'pm_meta' );
+		$tb_projects      = esc_sql( wedevs_pm_tb_prefix() . 'pm_projects' );
+		$tb_meta          = esc_sql( wedevs_pm_tb_prefix() . 'pm_meta' );
 		$milestone_ids_safe = array_map( 'absint', $this->milestone_ids );
 		$milestone_placeholders = implode( ', ', array_fill( 0, count( $milestone_ids_safe ), '%d' ) );
 		$query_data       = array_merge( $milestone_ids_safe, array( 'milestone' ) );
@@ -473,8 +473,8 @@ class Milestone {
 		}
 
 		global $wpdb;
-		$format     = pm_get_prepare_format( $id );
-		$format_ids = pm_get_prepare_data( $id );
+		$format     = wedevs_pm_get_prepare_format( $id );
+		$format_ids = wedevs_pm_get_prepare_data( $id );
 
 		$this->where .= $wpdb->prepare( " AND {$this->tb_milestone}.id IN ($format)", $format_ids );
 
@@ -515,7 +515,7 @@ class Milestone {
 		if ( is_array( $id ) ) {
 			//$query_id = implode( ',', $id );
 			//$this->where .= " AND {$this->tb_milestone}.project_id IN ($query_id)";
-			$query_format = pm_get_prepare_format( $id );
+			$query_format = wedevs_pm_get_prepare_format( $id );
 			$this->where .= $wpdb->prepare( " AND {$this->tb_milestone}.project_id IN ($query_format)", $id );
 		}
 
@@ -652,7 +652,7 @@ class Milestone {
 	}
 
 	private function set_table_name() {
-		$this->tb_project   = esc_sql( pm_tb_prefix() . 'pm_projects' );
-		$this->tb_milestone = esc_sql( pm_tb_prefix() . 'pm_boards' );
+		$this->tb_project   = esc_sql( wedevs_pm_tb_prefix() . 'pm_projects' );
+		$this->tb_milestone = esc_sql( wedevs_pm_tb_prefix() . 'pm_boards' );
 	}
 }

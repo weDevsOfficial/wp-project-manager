@@ -34,7 +34,7 @@ class ImportActivecollab extends WP_Background_Process
      * @var string
      */
     protected $action = 'activecol_import';
-    private $credentials; //= pm_get_settings('activecol_credentials');
+    private $credentials; //= wedevs_pm_get_settings('activecol_credentials');
     private $activecol;
     private $imported;
     private $importing;
@@ -50,9 +50,9 @@ class ImportActivecollab extends WP_Background_Process
     }
 
     public function after_load_wp() {
-        $this->credentials = pm_get_setting('activecol_credentials');
+        $this->credentials = wedevs_pm_get_setting('activecol_credentials');
         if(!$this->credentials){
-            pm_set_settings('activecol_credentials', array('token' => '', 'url' => '', 'accID' => ''));
+            wedevs_pm_set_settings('activecol_credentials', array('token' => '', 'url' => '', 'accID' => ''));
         } else {
             if(array_key_exists('token', $this->credentials)) {
                 $this->activecol = new PM_ActiveCol($this->credentials['url'],$this->credentials['token']);

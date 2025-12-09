@@ -39,7 +39,7 @@ class Project_Controller {
 		$category = intval($request->get_param('category'));
 		$project_transform = sanitize_text_field($request->get_param('project_transform'));
 
-		$per_page_from_settings = pm_get_setting( 'project_per_page' );
+		$per_page_from_settings = wedevs_pm_get_setting( 'project_per_page' );
 		$per_page_from_settings = $per_page_from_settings ? $per_page_from_settings : 15;
 
 		$per_page = $per_page ? $per_page : $per_page_from_settings;
@@ -53,7 +53,7 @@ class Project_Controller {
 
 		$projects = apply_filters( 'pm_project_query', $projects, $request->get_params() );
 
-		$projects = $projects->orderBy(  pm_tb_prefix().'pm_projects.created_at', 'DESC' );
+		$projects = $projects->orderBy(  wedevs_pm_tb_prefix().'pm_projects.created_at', 'DESC' );
 
 		if ( -1 === intval( $per_page ) || $per_page == 'all' ) {
 			$per_page = $projects->get()->count();
@@ -124,13 +124,13 @@ class Project_Controller {
 			$projects = $projects->where( 'status', $status );
 		}
 
-		$projects = $projects->leftJoin( pm_tb_prefix() . 'pm_meta', function ( $join ) use( $user_id ) {
-			$join->on( pm_tb_prefix().'pm_projects.id', '=',  pm_tb_prefix().'pm_meta.project_id' )
+		$projects = $projects->leftJoin( wedevs_pm_tb_prefix() . 'pm_meta', function ( $join ) use( $user_id ) {
+			$join->on( wedevs_pm_tb_prefix().'pm_projects.id', '=',  wedevs_pm_tb_prefix().'pm_meta.project_id' )
 			->where('meta_key', '=', 'favourite_project')->where('entity_id', '=', $user_id);
 		})
-		->selectRaw( pm_tb_prefix().'pm_projects.*' )
-		->groupBy( pm_tb_prefix().'pm_projects.id' )
-		->orderBy( pm_tb_prefix().'pm_meta.meta_value', 'DESC');
+		->selectRaw( wedevs_pm_tb_prefix().'pm_projects.*' )
+		->groupBy( wedevs_pm_tb_prefix().'pm_projects.id' )
+		->orderBy( wedevs_pm_tb_prefix().'pm_meta.meta_value', 'DESC');
 
 		return $projects;
     }
@@ -152,7 +152,7 @@ class Project_Controller {
     	} else {
     		$projects = Project::with('assignees');
     	}
-    	if ( !pm_has_manage_capability( $user_id ) ){
+    	if ( !wedevs_pm_has_manage_capability( $user_id ) ){
     		$projects = $projects->whereHas('assignees', function( $q ) use ( $user_id ) {
     					$q->where('user_id', $user_id );
     				});
@@ -167,7 +167,7 @@ class Project_Controller {
 		$project  = Project::find($id);
 
 		if ( !$project  ) {
-			return new \WP_Error( 'project', pm_get_text('success_messages.no_project'), array( 'status'=> 404 ) );
+			return new \WP_Error( 'project', wedevs_pm_get_text('success_messages.no_project'), array( 'status'=> 404 ) );
 		}
 
         $projectId_git_bit_hash = get_option('projectId_git_bit_hash_'.$project->id);
@@ -176,7 +176,7 @@ class Project_Controller {
         }
 
 		$resource = new Item( $project, new Project_Transformer );
-		$list_view = pm_get_meta( $user_id, $id, 'list_view', 'list_view_type' );
+		$list_view = wedevs_pm_get_meta( $user_id, $id, 'list_view', 'list_view_type' );
 		$resource->setMeta([
 			'list_view_type' => $list_view ? $list_view->toArray() : null
 		]);
@@ -208,7 +208,7 @@ class Project_Controller {
 		// Transforming database model instance
 		$resource = new Item( $project, new Project_Transformer );
 		$response = $this->get_response( $resource );
-		$response['message'] = pm_get_text('success_messages.project_created');
+		$response['message'] = wedevs_pm_get_text('success_messages.project_created');
 		do_action( 'cpm_project_new', $project->id, $project->toArray(), $data ); // will deprecated
 		do_action( 'pm_after_new_project', $response, $data );
 
@@ -229,7 +229,7 @@ class Project_Controller {
 			$project->categories()->sync( $category_ids );
 		}
 
-		$assignees = pm_validate_assignee( $request->get_param( 'assignees' ) );
+		$assignees = wedevs_pm_validate_assignee( $request->get_param( 'assignees' ) );
 
 		$assignees[] = [
 			'user_id' => wp_get_current_user()->ID,
@@ -244,7 +244,7 @@ class Project_Controller {
 		// Transforming database model instance
 		$resource = new Item( $project, new Project_Transformer );
 		$response = $this->get_response( $resource );
-		$response['message'] = pm_get_text('success_messages.project_created');
+		$response['message'] = wedevs_pm_get_text('success_messages.project_created');
 
 		do_action( 'cpm_project_new', $project->id, $project->toArray(), $request->get_params() ); // will deprecated
 		do_action( 'pm_after_new_project', $response, $request->get_params() );
@@ -267,7 +267,7 @@ class Project_Controller {
 			$project->categories()->sync( $category_ids );
 		}
 
-		$assignees = pm_validate_assignee( $request->get_param( 'assignees' ) );
+		$assignees = wedevs_pm_validate_assignee( $request->get_param( 'assignees' ) );
 
 		if ( is_array( $assignees ) ) {
 			$project->assignees()->detach();
@@ -278,7 +278,7 @@ class Project_Controller {
 
 		$resource = new Item( $project, new Project_Transformer );
 		$response = $this->get_response( $resource );
-		$response['message'] = pm_get_text('success_messages.project_updated');
+		$response['message'] = wedevs_pm_get_text('success_messages.project_updated');
 		do_action( 'cpm_project_update', $project->id, $project->toArray(), $request->get_params() );
 		do_action( 'pm_after_update_project', $response, $request->get_params() );
 
@@ -329,7 +329,7 @@ class Project_Controller {
 			do_action( 'cpm_delete_project_after', $project->id );
 		}
 			return [
-				'message' => pm_get_text('success_messages.project_deleted')
+				'message' => wedevs_pm_get_text('success_messages.project_deleted')
 			];
 	}
 
@@ -375,7 +375,7 @@ class Project_Controller {
 		do_action( 'pm_after_delete_project', $project );
 		do_action( 'cpm_delete_project_after', $id );
 		return [
-			'message' => pm_get_text('success_messages.project_deleted')
+			'message' => wedevs_pm_get_text('success_messages.project_deleted')
 		];
 	}
 
@@ -406,10 +406,10 @@ class Project_Controller {
 
             $lastFavourite = intval($lastFavourite ) + 1;
 
-			pm_update_meta( $user_id, $project_id, 'project', 'favourite_project', $lastFavourite );
+			wedevs_pm_update_meta( $user_id, $project_id, 'project', 'favourite_project', $lastFavourite );
 
         } else {
-            pm_update_meta( $user_id, $project_id, 'project', 'favourite_project', null );
+            wedevs_pm_update_meta( $user_id, $project_id, 'project', 'favourite_project', null );
 		}
 
 		do_action( "pm_after_favaurite_project", $request );

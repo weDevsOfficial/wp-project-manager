@@ -21,7 +21,7 @@ require __DIR__.'/bootstrap/loaders.php';
 require __DIR__.'/libs/configurations.php';
 
 if ( version_compare( phpversion(), '5.6.0', '<' ) ) {
-    add_action( 'admin_notices',  'pm_php_version_notice'  );
+    add_action( 'admin_notices',  'wedevs_pm_php_version_notice'  );
     return;
 }
 

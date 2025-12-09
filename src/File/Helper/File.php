@@ -46,7 +46,7 @@ class File {
 
 		$response = $self->format_files( $self->files );
 
-		if ( pm_is_single_query( $params ) ) {
+		if ( wedevs_pm_is_single_query( $params ) ) {
 			return ['data' => $response['data'][0]] ;
 		}
 
@@ -127,7 +127,7 @@ class File {
             'fileable_type' => $file->fileable_type,
             'directory'     => empty( $file->directory ) ? '' : $file->directory,
             'attachment_id' => $file->attachment_id,
-            'attached_at'   => format_date( $file->created_at ),
+            'attached_at'   => wedevs_pm_format_date( $file->created_at ),
             //'fileable'      => $this->get_fileabel($file),
             //'meta'          => $this->get_file_meta($file)
         ];
@@ -175,8 +175,8 @@ class File {
 		}
 
 		global $wpdb;
-		$format     = pm_get_prepare_format( $id );
-		$format_ids = pm_get_prepare_data( $id );
+		$format     = wedevs_pm_get_prepare_format( $id );
+		$format_ids = wedevs_pm_get_prepare_data( $id );
 
 		$this->where .= $wpdb->prepare( " AND {$this->tb_file}.id IN ($format)", $format_ids );
 
@@ -196,7 +196,7 @@ class File {
 		$creator_ids = wp_list_pluck( $this->files, 'created_by' );
 		$creator_ids = array_unique( $creator_ids );
 
-		$creators = pm_get_users( [ 'id' => $creator_ids ] );
+		$creators = wedevs_pm_get_users( [ 'id' => $creator_ids ] );
 		$creators = $creators['data'];
 		
 		$items = []; 
@@ -222,7 +222,7 @@ class File {
 		$updater_ids = wp_list_pluck( $this->files, 'updated_by' );
 		$updater_ids = array_unique( $updater_ids );
 
-		$updaters = pm_get_users( [ 'id' => $updater_ids ] );
+		$updaters = wedevs_pm_get_users( [ 'id' => $updater_ids ] );
 		$updaters = $updaters['data'];
 		
 		$items = []; 
@@ -383,7 +383,7 @@ class File {
 	}
 
     private function set_table_name() {
-		$this->tb_file = esc_sql( pm_tb_prefix() . 'pm_files' );
+		$this->tb_file = esc_sql( wedevs_pm_tb_prefix() . 'pm_files' );
 	}
 
 }

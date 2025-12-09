@@ -15,7 +15,7 @@ class Upgrade_2_2_1 {
 	function pm_update_milestone_duedate_meta() {
 		global $wpdb;
 
-		$tb_meta = pm_tb_prefix() . 'pm_meta';
+		$tb_meta = wedevs_pm_tb_prefix() . 'pm_meta';
 
 		$query = $wpdb->prepare("SELECT id, meta_value FROM {$wpdb->prefix}pm_meta WHERE entity_type=%s AND meta_key=%s", 'milestone', 'achieve_date');
 

@@ -60,7 +60,7 @@ class MyTask_Controller {
                             $task = $task->where( 'due_date', '<', $today );
                         }
 
-                        if ( ! pm_has_manage_capability() ) {
+                        if ( ! wedevs_pm_has_manage_capability() ) {
                             /*exclude private tasks*/
                             $task = $task->doesntHave( 'metas', 'and', function ($query) {
                                     $query->where( 'meta_key', '=', 'privacy' )
@@ -100,7 +100,7 @@ class MyTask_Controller {
                     if ( $taskType == 'outstanding' ) {
                         $task = $task->where( 'due_date', '<', $today );
                     }
-                    if ( ! pm_has_manage_capability() ) {
+                    if ( ! wedevs_pm_has_manage_capability() ) {
                         /*exclude private tasks*/
                         $task = $task->doesntHave( 'metas', 'and', function ($query) {
                                 $query->where( 'meta_key', '=', 'privacy' )
@@ -136,18 +136,18 @@ class MyTask_Controller {
         }
 
         $user_id       = get_current_user_id();
-        $tb_tasks      = esc_sql( pm_tb_prefix() . 'pm_tasks' );
-        $tb_boards     = esc_sql( pm_tb_prefix() . 'pm_boards' );
-        $tb_boardables = esc_sql( pm_tb_prefix() . 'pm_boardables' );
-        $tb_assignees  = esc_sql( pm_tb_prefix() . 'pm_assignees' );
-        $tb_meta       = esc_sql( pm_tb_prefix() . 'pm_meta' );
-        $tb_projects   = esc_sql( pm_tb_prefix() . 'pm_projects' );
-        $tb_settings   = esc_sql( pm_tb_prefix() . 'pm_settings' );
+        $tb_tasks      = esc_sql( wedevs_pm_tb_prefix() . 'pm_tasks' );
+        $tb_boards     = esc_sql( wedevs_pm_tb_prefix() . 'pm_boards' );
+        $tb_boardables = esc_sql( wedevs_pm_tb_prefix() . 'pm_boardables' );
+        $tb_assignees  = esc_sql( wedevs_pm_tb_prefix() . 'pm_assignees' );
+        $tb_meta       = esc_sql( wedevs_pm_tb_prefix() . 'pm_meta' );
+        $tb_projects   = esc_sql( wedevs_pm_tb_prefix() . 'pm_projects' );
+        $tb_settings   = esc_sql( wedevs_pm_tb_prefix() . 'pm_settings' );
 
         $tb_users     = esc_sql( $wpdb->base_prefix . 'users' );
         $tb_user_meta = esc_sql( $wpdb->base_prefix . 'usermeta' );
 
-        $tb_role_user    = esc_sql( pm_tb_prefix() . 'pm_role_user' );
+        $tb_role_user    = esc_sql( wedevs_pm_tb_prefix() . 'pm_role_user' );
         $current_user_id = get_current_user_id();
 
         $user_id     = empty( $user_id ) ? absint( $current_user_id ) : absint( $user_id );
@@ -178,7 +178,7 @@ class MyTask_Controller {
         $project_ids_placeholders = implode( ', ', array_fill( 0, count( $project_ids_array ), '%d' ) );
 
         if ( is_multisite() ) {
-            $meta_key = pm_user_meta_key();
+            $meta_key = wedevs_pm_user_meta_key();
 
             // Prepare parameters array
             $prepare_params = array_merge(
@@ -438,7 +438,7 @@ class MyTask_Controller {
 
     public function Calendar_Transformer( $events, $user_roles ) {
         $current_user_id = get_current_user_id();
-        $has_manage_cap  = pm_has_manage_capability();
+        $has_manage_cap  = wedevs_pm_has_manage_capability();
 
         $roles = [];
         $tasks = [];
@@ -482,8 +482,8 @@ class MyTask_Controller {
                 'status'     => $event->status ? 'complete' : 'incomplete',
                 'assignees'  => $event->assignees,
                 'project_id' => $event->project_id,
-                'created_at' => format_date( $event->created_at ),
-                'updated_at' => format_date( $event->updated_at ),
+                'created_at' => wedevs_pm_format_date( $event->created_at ),
+                'updated_at' => wedevs_pm_format_date( $event->updated_at ),
             );
         }
 
@@ -493,7 +493,7 @@ class MyTask_Controller {
     public function get_current_user_project_ids( $user_id, $project_id = false ) {
         global $wpdb;
 
-        $tb_role_user = esc_sql( pm_tb_prefix() . 'pm_role_user' );
+        $tb_role_user = esc_sql( wedevs_pm_tb_prefix() . 'pm_role_user' );
 
         // IF empty project id
         $project_ids = $wpdb->get_results(
@@ -510,22 +510,22 @@ class MyTask_Controller {
     public function get_end( $event ) {
 
         if ( ! empty( $event->due_date ) ) {
-            return format_date( $event->due_date );
+            return wedevs_pm_format_date( $event->due_date );
         } else if ( ! empty( $event->start_at )) {
-            return format_date( $event->start_at);
+            return wedevs_pm_format_date( $event->start_at);
         } else {
-            return format_date( $event->created_at );
+            return wedevs_pm_format_date( $event->created_at );
         }
     }
 
     public function get_start( $event ) {
 
         if ( !empty( $event->start_at ) ) {
-            return format_date( $event->start_at);
+            return wedevs_pm_format_date( $event->start_at);
         } else if ( isset( $event->due_date ) ) {
-            return format_date( $event->due_date );
+            return wedevs_pm_format_date( $event->due_date );
         } else {
-            return format_date( $event->created_at );
+            return wedevs_pm_format_date( $event->created_at );
         }
     }
 
@@ -686,7 +686,7 @@ class MyTask_Controller {
 
     //     $tasks = User::find( $id )->tasks()
     //             ->whereHas('boards',function( $query ) {
-    //                 $query->where( pm_tb_prefix() . 'pm_boards.status', '1');
+    //                 $query->where( wedevs_pm_tb_prefix() . 'pm_boards.status', '1');
     //             })
     //             ->with('assignees')
     //             ->parent()
@@ -701,7 +701,7 @@ class MyTask_Controller {
     //                     $q3->whereNull( 'due_date' )
     //                         ->where( function ( $qsub ) use ($start, $end) {
     //                             $qsub->where( 'start_at', '>=', $start )
-    //                                 ->where(  pm_tb_prefix() . 'pm_tasks.created_at', '<=', $end );
+    //                                 ->where(  wedevs_pm_tb_prefix() . 'pm_tasks.created_at', '<=', $end );
     //                         });
     //                 } )
 
@@ -709,18 +709,18 @@ class MyTask_Controller {
     //                     $q4->whereNull( 'start_at' )
     //                         ->where( function ( $qsub ) use ($start, $end) {
     //                             $qsub->where( 'due_date', '>=', $start )
-    //                                 ->where(  pm_tb_prefix() . 'pm_tasks.created_at', '<=', $end );
+    //                                 ->where(  wedevs_pm_tb_prefix() . 'pm_tasks.created_at', '<=', $end );
     //                         });
     //                 } )
 
     //                 ->orWhere( function( $q5 ) use ($start, $end) {
     //                     $q5->whereNull( 'start_at' )
     //                         ->orWhereNull( 'due_date' )
-    //                         ->whereBetween( pm_tb_prefix() . 'pm_tasks.created_at', array($start, $end) );
+    //                         ->whereBetween( wedevs_pm_tb_prefix() . 'pm_tasks.created_at', array($start, $end) );
     //                 } );
     //             } );
 
-    //     if ( !pm_has_manage_capability() ){
+    //     if ( !wedevs_pm_has_manage_capability() ){
     //         $tasks = $tasks->doesntHave( 'metas', 'and', function ($query) {
     //                     $query->where( 'meta_key', '=', 'privacy' )
     //                         ->where( 'meta_value', '!=', '0' );

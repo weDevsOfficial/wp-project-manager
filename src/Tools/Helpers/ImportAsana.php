@@ -26,7 +26,7 @@ class ImportAsana extends WP_Background_Process
      * @var string
      */
     protected $action = 'asana_import';
-    public $credentials; //= pm_get_settings('asana_credentials');
+    public $credentials; //= wedevs_pm_get_settings('asana_credentials');
     public $asana;
     private $imported;
     private $importing;
@@ -40,9 +40,9 @@ class ImportAsana extends WP_Background_Process
     }
 
     public function after_load_wp(){
-        $this->credentials = pm_get_setting('asana_credentials');
+        $this->credentials = wedevs_pm_get_setting('asana_credentials');
         if(!$this->credentials){
-            pm_set_settings('asana_credentials', array('token' => ''));
+            wedevs_pm_set_settings('asana_credentials', array('token' => ''));
         } else {
             if(array_key_exists('token', $this->credentials)) {
                 if(!empty($this->credentials['token'])){

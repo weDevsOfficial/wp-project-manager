@@ -58,7 +58,7 @@ class Task_List {
 
 		$response = $self->format_tasklists( $self->lists );
 
-		if ( pm_is_single_query( $params ) ) {
+		if ( wedevs_pm_is_single_query( $params ) ) {
 			return ['data' => $response['data'][0]] ;
 		}
 
@@ -104,10 +104,10 @@ class Task_List {
 		$items = [
 			'id'          => (int) $tasklist->id,
 			'title'       => isset( $tasklist->title ) ? (string) $tasklist->title : null,
-			'description' => isset( $tasklist->description ) ? pm_filter_content_url( $tasklist->description ) : null,
+			'description' => isset( $tasklist->description ) ? wedevs_pm_filter_content_url( $tasklist->description ) : null,
 			'order'       => isset( $tasklist->order ) ? (int) $tasklist->order : null,
 			'status'      => isset( $tasklist->status ) ? $tasklist->status : null,
-			'created_at'  => isset( $tasklist->status ) ?  format_date( $tasklist->created_at ) : null,
+			'created_at'  => isset( $tasklist->status ) ?  wedevs_pm_format_date( $tasklist->created_at ) : null,
 			'extra'       => true,
 			'project_id'  => isset( $tasklist->project_id ) ?  $tasklist->project_id : null,
 			'meta'        => $tasklist->meta
@@ -165,7 +165,7 @@ class Task_List {
 			return $this;
 		}
 
-		$tb_comments = esc_sql( pm_tb_prefix() . 'pm_comments' );
+		$tb_comments = esc_sql( wedevs_pm_tb_prefix() . 'pm_comments' );
 		$list_ids_safe = array_map( 'absint', $this->list_ids );
 		$list_placeholders = implode( ', ', array_fill( 0, count( $list_ids_safe ), '%d' ) );
 		$query_data  = array_merge( $list_ids_safe, array( 'task_list' ) );
@@ -225,7 +225,7 @@ class Task_List {
 			return $this;
 		}
 
-		$tb_files     = esc_sql( pm_tb_prefix() . 'pm_files' );
+		$tb_files     = esc_sql( wedevs_pm_tb_prefix() . 'pm_files' );
 		$list_ids_safe = array_map( 'absint', $this->list_ids );
 		$list_placeholders = implode( ', ', array_fill( 0, count( $list_ids_safe ), '%d' ) );
 		$query_data   = array_merge( $list_ids_safe, array( 'task_list' ) );
@@ -286,8 +286,8 @@ class Task_List {
 			return $this;
 		}
 
-		$tb_boardable = esc_sql( pm_tb_prefix() . 'pm_boardables' );
-		$tb_tasks     = esc_sql( pm_tb_prefix() . 'pm_tasks' );
+		$tb_boardable = esc_sql( wedevs_pm_tb_prefix() . 'pm_boardables' );
+		$tb_tasks     = esc_sql( wedevs_pm_tb_prefix() . 'pm_tasks' );
 		$list_ids_safe = array_map( 'absint', $this->list_ids );
 		$list_placeholders = implode( ', ', array_fill( 0, count( $list_ids_safe ), '%d' ) );
 		$query_data   = array_merge( $list_ids_safe, array( 'task_list', 'task', '1' ) );
@@ -352,8 +352,8 @@ class Task_List {
 			return $this;
 		}
 
-		$tb_boardable = esc_sql( pm_tb_prefix() . 'pm_boardables' );
-		$tb_tasks     = esc_sql( pm_tb_prefix() . 'pm_tasks' );
+		$tb_boardable = esc_sql( wedevs_pm_tb_prefix() . 'pm_boardables' );
+		$tb_tasks     = esc_sql( wedevs_pm_tb_prefix() . 'pm_tasks' );
 		$list_ids_safe = array_map( 'absint', $this->list_ids );
 		$list_placeholders = implode( ', ', array_fill( 0, count( $list_ids_safe ), '%d' ) );
 		$query_data   = array_merge( $list_ids_safe, array( 'task_list', 'task', '0' ) );
@@ -418,7 +418,7 @@ class Task_List {
 			return $this;
 		}
 
-		$tb_boardable   = esc_sql( pm_tb_prefix() . 'pm_boardables' );
+		$tb_boardable   = esc_sql( wedevs_pm_tb_prefix() . 'pm_boardables' );
 		$list_ids_safe = array_map( 'absint', $this->list_ids );
 		$list_placeholders = implode( ', ', array_fill( 0, count( $list_ids_safe ), '%d' ) );
 		$query_data     = array_merge( $list_ids_safe, array( 'milestone', 'task_list' ) );
@@ -467,7 +467,7 @@ class Task_List {
 		$creator_ids = wp_list_pluck( $this->lists, 'created_by' );
 		$creator_ids = array_unique( $creator_ids );
 
-		$creators = pm_get_users( [ 'id' => $creator_ids ] );
+		$creators = wedevs_pm_get_users( [ 'id' => $creator_ids ] );
 		$creators = $creators['data'];
 		
 		$items = []; 
@@ -494,7 +494,7 @@ class Task_List {
 		$updater_ids = wp_list_pluck( $this->lists, 'updated_by' );
 		$updater_ids = array_unique( $updater_ids );
 
-		$updaters = pm_get_users( [ 'id' => $updater_ids ] );
+		$updaters = wedevs_pm_get_users( [ 'id' => $updater_ids ] );
 		$updaters = $updaters['data'];
 		
 		$items = []; 
@@ -530,8 +530,8 @@ class Task_List {
 		}
 		global $wpdb;
 		$metas           = [];
-		$tb_projects     = esc_sql( pm_tb_prefix() . 'pm_projects' );
-		$tb_meta         = esc_sql( pm_tb_prefix() . 'pm_meta' );
+		$tb_projects     = esc_sql( wedevs_pm_tb_prefix() . 'pm_projects' );
+		$tb_meta         = esc_sql( wedevs_pm_tb_prefix() . 'pm_meta' );
 		$list_ids_safe   = array_map( 'absint', $this->list_ids );
 		$list_placeholders = implode( ', ', array_fill( 0, count( $list_ids_safe ), '%d' ) );
 		$query_data      = array_merge( $list_ids_safe, array( 'task_list' ) );
@@ -566,8 +566,8 @@ class Task_List {
 	private function total_tasks_count() {
 		global $wpdb;
 		$metas           = [];
-		$tb_tasks        = esc_sql( pm_tb_prefix() . 'pm_tasks' );
-		$tb_boardable    = esc_sql( pm_tb_prefix() . 'pm_boardables' );
+		$tb_tasks        = esc_sql( wedevs_pm_tb_prefix() . 'pm_tasks' );
+		$tb_boardable    = esc_sql( wedevs_pm_tb_prefix() . 'pm_boardables' );
 		$list_ids_safe   = array_map( 'absint', $this->list_ids );
 		$list_placeholders = implode( ', ', array_fill( 0, count( $list_ids_safe ), '%d' ) );
 		$query_data      = array_merge( $list_ids_safe, array( 'task', 'task_list' ) );
@@ -601,8 +601,8 @@ class Task_List {
 	private function  total_complete_tasks_count() {
 		global $wpdb;
 		$metas           = [];
-		$tb_tasks        = esc_sql( pm_tb_prefix() . 'pm_tasks' );
-		$tb_boardable    = esc_sql( pm_tb_prefix() . 'pm_boardables' );
+		$tb_tasks        = esc_sql( wedevs_pm_tb_prefix() . 'pm_tasks' );
+		$tb_boardable    = esc_sql( wedevs_pm_tb_prefix() . 'pm_boardables' );
 		$list_ids_safe   = array_map( 'absint', $this->list_ids );
 		$list_placeholders = implode( ', ', array_fill( 0, count( $list_ids_safe ), '%d' ) );
 		$query_data      = array_merge( $list_ids_safe, array( 'task', 'task_list', 1 ) );
@@ -636,8 +636,8 @@ class Task_List {
 	private function total_incomplete_tasks_count() {
 		global $wpdb;
 		$metas           = [];
-		$tb_tasks        = esc_sql( pm_tb_prefix() . 'pm_tasks' );
-		$tb_boardable    = esc_sql( pm_tb_prefix() . 'pm_boardables' );
+		$tb_tasks        = esc_sql( wedevs_pm_tb_prefix() . 'pm_tasks' );
+		$tb_boardable    = esc_sql( wedevs_pm_tb_prefix() . 'pm_boardables' );
 		$list_ids_safe   = array_map( 'absint', $this->list_ids );
 		$list_placeholders = implode( ', ', array_fill( 0, count( $list_ids_safe ), '%d' ) );
 		$query_data      = array_merge( $list_ids_safe, array( 'task', 'task_list', 0 ) );
@@ -671,8 +671,8 @@ class Task_List {
 	private function total_comments_count() {
 		global $wpdb;
 		$metas           = [];
-		$tb_pm_comments  = esc_sql( pm_tb_prefix() . 'pm_comments' );
-		$tb_boards       = esc_sql( pm_tb_prefix() . 'pm_boards' );
+		$tb_pm_comments  = esc_sql( wedevs_pm_tb_prefix() . 'pm_comments' );
+		$tb_boards       = esc_sql( wedevs_pm_tb_prefix() . 'pm_boards' );
 		$list_ids_safe   = array_map( 'absint', $this->list_ids );
 		$list_placeholders = implode( ', ', array_fill( 0, count( $list_ids_safe ), '%d' ) );
 		$query_data      = array_merge( $list_ids_safe, array( 'task_list' ) );
@@ -707,12 +707,12 @@ class Task_List {
 		$metas           = [];
 		$tb_users        = esc_sql( $wpdb->base_prefix . 'users' );
 		$tb_user_meta    = esc_sql( $wpdb->base_prefix . 'usermeta' );
-		$tb_boardable    = esc_sql( pm_tb_prefix() . 'pm_boardables' );
+		$tb_boardable    = esc_sql( wedevs_pm_tb_prefix() . 'pm_boardables' );
 		$list_ids_safe   = array_map( 'absint', $this->list_ids );
 		$list_placeholders = implode( ', ', array_fill( 0, count( $list_ids_safe ), '%d' ) );
 
 		if ( is_multisite() ) {
-			$meta_key = pm_user_meta_key();
+			$meta_key = wedevs_pm_user_meta_key();
 			$query_data = array_merge( $list_ids_safe, array( 'task_list', 'user', $meta_key ) );
 
 			$results = $wpdb->get_results(
@@ -832,8 +832,8 @@ class Task_List {
 		}
 
 		global $wpdb;
-		$format     = pm_get_prepare_format( $id );
-		$format_ids = pm_get_prepare_data( $id );
+		$format     = wedevs_pm_get_prepare_format( $id );
+		$format_ids = wedevs_pm_get_prepare_data( $id );
 		
 		$this->where .= $wpdb->prepare( " AND {$this->tb_list}.id IN ($format)", $format_ids );
 
@@ -874,7 +874,7 @@ class Task_List {
 		if ( is_array( $id ) ) {
 			//$query_id = implode( ',', $id );
 			//$this->where .= " AND {$this->tb_list}.project_id IN ($query_id)";
-			$query_format = pm_get_prepare_format( $id );
+			$query_format = wedevs_pm_get_prepare_format( $id );
 			$this->where .= $wpdb->prepare( " AND {$this->tb_list}.project_id IN ($query_format)", $id );
 		}
 
@@ -893,11 +893,11 @@ class Task_List {
             return $this;
         }
 
-        $format = pm_get_prepare_format( $task_ids );
-        $task_ids = pm_get_prepare_data( $task_ids );
+        $format = wedevs_pm_get_prepare_format( $task_ids );
+        $task_ids = wedevs_pm_get_prepare_data( $task_ids );
 
         global $wpdb;
-        $tb_boardables = pm_tb_prefix() . 'pm_boardables';
+        $tb_boardables = wedevs_pm_tb_prefix() . 'pm_boardables';
 
         $this->join .= " LEFT JOIN {$tb_boardables} ON $tb_boardables.board_id={$this->tb_list}.id";
 
@@ -913,11 +913,11 @@ class Task_List {
             return $this;
         }
 
-        $format = pm_get_prepare_format( $sub_task_ids );
-        $sub_task_ids = pm_get_prepare_data( $sub_task_ids );
+        $format = wedevs_pm_get_prepare_format( $sub_task_ids );
+        $sub_task_ids = wedevs_pm_get_prepare_data( $sub_task_ids );
 
         global $wpdb;
-        $tb_boardables = pm_tb_prefix() . 'pm_boardables';
+        $tb_boardables = wedevs_pm_tb_prefix() . 'pm_boardables';
 
         $this->join .= " LEFT JOIN {$tb_boardables} ON $tb_boardables.board_id={$this->tb_list}.id";
 
@@ -1017,7 +1017,7 @@ class Task_List {
 			return intval( $per_page );
 		}
 
-		$per_page = pm_get_setting( 'list_per_page' );
+		$per_page = wedevs_pm_get_setting( 'list_per_page' );
 
 		return empty( $per_page ) ? 10 : (int) $per_page;
 	}
@@ -1054,12 +1054,12 @@ class Task_List {
 	}
 
 	private function set_table_name() {
-		$this->tb_project          = esc_sql( pm_tb_prefix() . 'pm_projects' );
-		$this->tb_list             = esc_sql( pm_tb_prefix() . 'pm_boards' );
-		$this->tb_task             = esc_sql( pm_tb_prefix() . 'pm_tasks' );
-		$this->tb_project_user     = pm_tb_prefix() . 'pm_role_user';
-		$this->tb_task_user        = pm_tb_prefix() . 'pm_assignees';
-		$this->tb_categories       = pm_tb_prefix() . 'pm_categories';
-		$this->tb_category_project = pm_tb_prefix() . 'pm_category_project';
+		$this->tb_project          = esc_sql( wedevs_pm_tb_prefix() . 'pm_projects' );
+		$this->tb_list             = esc_sql( wedevs_pm_tb_prefix() . 'pm_boards' );
+		$this->tb_task             = esc_sql( wedevs_pm_tb_prefix() . 'pm_tasks' );
+		$this->tb_project_user     = wedevs_pm_tb_prefix() . 'pm_role_user';
+		$this->tb_task_user        = wedevs_pm_tb_prefix() . 'pm_assignees';
+		$this->tb_categories       = wedevs_pm_tb_prefix() . 'pm_categories';
+		$this->tb_category_project = wedevs_pm_tb_prefix() . 'pm_category_project';
 	}
 }

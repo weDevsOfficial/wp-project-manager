@@ -59,7 +59,7 @@ class Activity {
 
 		$response = $self->format_activities( $self->activities );
 
-		if ( pm_is_single_query( $params ) ) {
+		if ( wedevs_pm_is_single_query( $params ) ) {
 			return ['data' => $response['data'][0]] ;
 		}
 
@@ -107,12 +107,12 @@ class Activity {
 
 		$items = [
             'id'            => (int) $activity->id,
-            'message'       => pm_get_text( "activities.{$activity->action}" ),
+            'message'       => wedevs_pm_get_text( "activities.{$activity->action}" ),
             'action'        => $activity->action,
             'action_type'   => $activity->action_type,
             'project_id'    => $activity->project_id,
             'meta'          => empty( $meta ) ? [] : $meta,
-            'committed_at'  => format_date( $activity->created_at ),
+            'committed_at'  => wedevs_pm_format_date( $activity->created_at ),
             'resource_id'   => $activity->resource_id,
             'resource_type' => $activity->resource_type,
         ];
@@ -209,13 +209,13 @@ class Activity {
 
         foreach ($activity->meta as $key => $value) {
             if ( $key == 'commentable_type' && $value == 'file' ) {
-                $trans_commentable_type = pm_get_text( "resource_types.{$value}" );
+                $trans_commentable_type = wedevs_pm_get_text( "resource_types.{$value}" );
                 $meta['commentable_id'] = $activity->meta['commentable_id'];
                 $meta['commentable_type'] = $activity->meta['commentable_type'];
                 $meta['trans_commentable_type'] = $trans_commentable_type;
                 $meta['commentable_title'] = $trans_commentable_type;
             } elseif ( $key == 'commentable_type' ) {
-                $trans_commentable_type = pm_get_text( "resource_types.{$value}" );
+                $trans_commentable_type = wedevs_pm_get_text( "resource_types.{$value}" );
                 $meta['commentable_id'] = $activity->meta['commentable_id'];
                 $meta['commentable_type'] = $activity->meta['commentable_type'];
                 $meta['trans_commentable_type'] = $trans_commentable_type;
@@ -245,7 +245,7 @@ class Activity {
 		$project_ids = wp_list_pluck( $this->activities, 'project_id' );
 		$project_ids = array_unique( $project_ids );
 
-		$projects = pm_get_projects( [ 'id' => $project_ids ] );
+		$projects = wedevs_pm_get_projects( [ 'id' => $project_ids ] );
 		$projects = $projects['data'];
 		
 		$items = []; 
@@ -271,7 +271,7 @@ class Activity {
 		$actor_ids = wp_list_pluck( $this->activities, 'actor_id' );
 		$actor_ids = array_unique( $actor_ids );
 
-		$actors = pm_get_users( [ 'id' => $actor_ids ] );
+		$actors = wedevs_pm_get_users( [ 'id' => $actor_ids ] );
 		$actors = $actors['data'];
 		
 		$items = []; 
@@ -298,7 +298,7 @@ class Activity {
 		$updater_ids = wp_list_pluck( $this->activities, 'updated_by' );
 		$updater_ids = array_unique( $updater_ids );
 
-		$updaters = pm_get_users( [ 'id' => $updater_ids ] );
+		$updaters = wedevs_pm_get_users( [ 'id' => $updater_ids ] );
 		$updaters = $updaters['data'];
 		
 		$items = []; 
@@ -341,7 +341,7 @@ class Activity {
 
 		$updated_at         = !empty( $this->query_params['updated_at'] ) ? $this->query_params['updated_at'] : false;
 		$updated_at_start   = !empty( $this->query_params['updated_at_start'] ) ? $this->query_params['updated_at_start'] : false;
-		$updated_at_between = !isset( $this->query_params['updated_at_between'] ) ? true : pm_is_true( $this->query_params['updated_at_between'] );
+		$updated_at_between = !isset( $this->query_params['updated_at_between'] ) ? true : wedevs_pm_is_true( $this->query_params['updated_at_between'] );
 		$operator_key       = !empty( $this->query_params['updated_at_operator'] ) ? $this->query_params['updated_at_operator'] : 'equal';
 		
 
@@ -405,10 +405,10 @@ class Activity {
 			return $this;
 		}
 
-		$resource_type = pm_get_prepare_data( $resource_type );
+		$resource_type = wedevs_pm_get_prepare_data( $resource_type );
 
 		if ( is_array( $resource_type ) ) {
-			$query_format = pm_get_prepare_format( $resource_type, true );
+			$query_format = wedevs_pm_get_prepare_format( $resource_type, true );
 			$this->where .= $wpdb->prepare( " AND {$this->tb_activity}.resource_type IN ($query_format)", $resource_type );
 		}
 
@@ -432,10 +432,10 @@ class Activity {
 			return $this;
 		}
 
-		$id = pm_get_prepare_data( $id );
+		$id = wedevs_pm_get_prepare_data( $id );
 
 		if ( is_array( $id ) ) {
-			$query_format = pm_get_prepare_format( $id );
+			$query_format = wedevs_pm_get_prepare_format( $id );
 			$this->where .= $wpdb->prepare( " AND {$this->tb_activity}.id IN ($query_format)", $id );
 		}
 
@@ -454,10 +454,10 @@ class Activity {
 			return $this;
 		}
 
-		$actor_id = pm_get_prepare_data( $actor_id );
+		$actor_id = wedevs_pm_get_prepare_data( $actor_id );
 
 		if ( is_array( $actor_id ) ) {
-			$query_format = pm_get_prepare_format( $actor_id );
+			$query_format = wedevs_pm_get_prepare_format( $actor_id );
 			$this->where .= $wpdb->prepare( " AND {$this->tb_activity}.actor_id IN ($query_format)", $actor_id );
 		}
 
@@ -481,10 +481,10 @@ class Activity {
 			return $this;
 		}
 
-		$resource_id = pm_get_prepare_data( $resource_id );
+		$resource_id = wedevs_pm_get_prepare_data( $resource_id );
 
 		if ( is_array( $resource_id ) ) {
-			$query_format = pm_get_prepare_format( $resource_id );
+			$query_format = wedevs_pm_get_prepare_format( $resource_id );
 			$this->where .= $wpdb->prepare( " AND {$this->tb_activity}.resource_id IN ($query_format)", $resource_id );
 		}
 
@@ -503,10 +503,10 @@ class Activity {
 			return $this;
 		}
 
-		$project_id = pm_get_prepare_data( $project_id );
+		$project_id = wedevs_pm_get_prepare_data( $project_id );
 
 		if ( is_array( $project_id ) ) {
-			$query_format = pm_get_prepare_format( $project_id );
+			$query_format = wedevs_pm_get_prepare_format( $project_id );
 			$this->where .= $wpdb->prepare( " AND {$this->tb_activity}.project_id IN ($query_format)", $project_id );
 		}
 
@@ -654,7 +654,7 @@ class Activity {
 	}
 
 	private function set_table_name() {
-		$this->tb_project  = esc_sql( pm_tb_prefix() . 'pm_projects' );
-		$this->tb_activity = esc_sql( pm_tb_prefix() . 'pm_activities' );
+		$this->tb_project  = esc_sql( wedevs_pm_tb_prefix() . 'pm_projects' );
+		$this->tb_activity = esc_sql( wedevs_pm_tb_prefix() . 'pm_activities' );
 	}
 }

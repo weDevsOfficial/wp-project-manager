@@ -46,9 +46,9 @@ class Task_List extends Eloquent {
     }
 
     public function tasks( $project_id = false ) {
-        $tasks = $this->belongsToMany( 'WeDevs\PM\Task\Models\Task', pm_tb_prefix() . 'pm_boardables', 'board_id', 'boardable_id' )
-            ->where( pm_tb_prefix() . 'pm_boardables.boardable_type', 'task' )
-            ->where( pm_tb_prefix() . 'pm_boardables.board_type', 'task_list' )
+        $tasks = $this->belongsToMany( 'WeDevs\PM\Task\Models\Task', wedevs_pm_tb_prefix() . 'pm_boardables', 'board_id', 'boardable_id' )
+            ->where( wedevs_pm_tb_prefix() . 'pm_boardables.boardable_type', 'task' )
+            ->where( wedevs_pm_tb_prefix() . 'pm_boardables.board_type', 'task_list' )
             ->withPivot( 'order' );
 
         if ( $project_id ) {
@@ -63,7 +63,7 @@ class Task_List extends Eloquent {
     }
 
     public function assignees() {
-        return $this->belongsToMany( 'WeDevs\PM\User\Models\User', pm_tb_prefix() . 'pm_boardables', 'board_id', 'boardable_id')
+        return $this->belongsToMany( 'WeDevs\PM\User\Models\User', wedevs_pm_tb_prefix() . 'pm_boardables', 'board_id', 'boardable_id')
             ->where( 'board_type', 'task_list' )
             ->where( 'boardable_type', 'user' );
     }
@@ -73,7 +73,7 @@ class Task_List extends Eloquent {
     }
 
     public function milestones() {
-        return $this->belongsToMany( 'WeDevs\PM\Milestone\Models\Milestone', pm_tb_prefix() . 'pm_boardables', 'boardable_id', 'board_id' )
+        return $this->belongsToMany( 'WeDevs\PM\Milestone\Models\Milestone', wedevs_pm_tb_prefix() . 'pm_boardables', 'boardable_id', 'board_id' )
             ->where( 'board_type', 'milestone' )
             ->where( 'boardable_type', 'task_list' );
     }

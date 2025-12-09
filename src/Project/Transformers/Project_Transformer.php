@@ -25,7 +25,7 @@ class Project_Transformer extends TransformerAbstract {
     ];
 
     public function transform( Project $item ) { 
-        $listmeta = pm_get_meta($item->id, $item->id, 'task_list', 'list-inbox');
+        $listmeta = wedevs_pm_get_meta($item->id, $item->id, 'task_list', 'list-inbox');
         if($listmeta) {
             $listmeta = $listmeta->meta_value;
         }else {
@@ -35,17 +35,17 @@ class Project_Transformer extends TransformerAbstract {
         $data = [
             'id'                  => (int) $item->id,
             'title'               => (string) $item->title,
-            'description'         => [ 'html' => pm_get_content( $item->description ), 'content' => $item->description ],
+            'description'         => [ 'html' => wedevs_pm_get_content( $item->description ), 'content' => $item->description ],
             'status'              => $item->status,
             'budget'              => $item->budget,
             'pay_rate'            => $item->pay_rate,
-            'est_completion_date' => format_date( $item->est_completion_date ),
+            'est_completion_date' => wedevs_pm_format_date( $item->est_completion_date ),
             'color_code'          => $item->color_code,
             'order'               => $item->order,
             'projectable_type'    => $item->projectable_type,
             'favourite'           => !empty($item->favourite) ? (boolean) $item->favourite->meta_value: false,
-            'created_at'          => format_date( $item->created_at ),
-            'updated_at'          => format_date( $item->updated_at ),
+            'created_at'          => wedevs_pm_format_date( $item->created_at ),
+            'updated_at'          => wedevs_pm_format_date( $item->updated_at ),
             'list_inbox'          => (int) $listmeta,
         ];
         return apply_filters( "pm_project_transformer", $data, $item );
@@ -134,7 +134,7 @@ class Project_Transformer extends TransformerAbstract {
 
         for ( $dt = $first_day; $dt<=$today; $dt = gmdate('Y-m-d', strtotime( $dt . '+1 day' ) ) ) {
             $graph_data[] = [
-                'date_time'  => format_date( $dt ),
+                'date_time'  => wedevs_pm_format_date( $dt ),
                 'tasks'      => empty( $task_groups[$dt] ) ? 0 : count( $task_groups[$dt] ),
                 'activities' => empty( $activity_groups[$dt] ) ? 0 : count( $activity_groups[$dt] )
             ];

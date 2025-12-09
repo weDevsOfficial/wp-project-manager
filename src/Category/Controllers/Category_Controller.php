@@ -80,7 +80,7 @@ class Category_Controller {
         $response = $this->get_response( $resource );
 
         $message = [
-            'message' => pm_get_text('success_messages.category_created')
+            'message' => wedevs_pm_get_text('success_messages.category_created')
         ];
 
         return $this->get_response( $resource, $message );
@@ -104,7 +104,7 @@ class Category_Controller {
         $response = $this->get_response( $resource );
 
         $message = [
-            'message' => pm_get_text('success_messages.category_updated')
+            'message' => wedevs_pm_get_text('success_messages.category_updated')
         ];
 
         return $this->get_response( $resource, $message );    }
@@ -117,7 +117,7 @@ class Category_Controller {
         $category->delete();
 
         $message = [
-            'message' => pm_get_text('success_messages.category_deleted')
+            'message' => wedevs_pm_get_text('success_messages.category_deleted')
         ];
 
         return $this->get_response( false, $message );
@@ -132,7 +132,7 @@ class Category_Controller {
         }
 
         $message = [
-            'message' => pm_get_text('success_messages.selected_category_deleted')
+            'message' => wedevs_pm_get_text('success_messages.selected_category_deleted')
         ];
 
         return $this->get_response( false, $message );

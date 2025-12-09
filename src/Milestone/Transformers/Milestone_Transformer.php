@@ -29,10 +29,10 @@ class Milestone_Transformer extends TransformerAbstract {
             'title'        => $item->title,
             'description'  => $item->description,
             'order'        => (int) $item->order,
-            'achieve_date' => format_date( $item->achieve_date ),
-            'achieved_at'  => format_date( $item->updated_at ),
+            'achieve_date' => wedevs_pm_format_date( $item->achieve_date ),
+            'achieved_at'  => wedevs_pm_format_date( $item->updated_at ),
             'status'       => $item->status,
-            'created_at'   => format_date( $item->created_at ),
+            'created_at'   => wedevs_pm_format_date( $item->created_at ),
             'meta'         => $this->meta( $item ),
         ];
 

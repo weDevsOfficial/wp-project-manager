@@ -85,7 +85,7 @@ class Milestone_Controller {
         $milestone = $milestone->first();
         if ( $milestone == NULL ) {
             return $this->get_response( null,  [
-                'message' => pm_get_text('success_messages.no_element')
+                'message' => wedevs_pm_get_text('success_messages.no_element')
             ] );
         }
         $resource = new Item( $milestone, new Milestone_Transformer );
@@ -117,7 +117,7 @@ class Milestone_Controller {
         $resource  = new Item( $milestone, new Milestone_Transformer );
 
         $message = [
-            'message' => pm_get_text('success_messages.milestone_created')
+            'message' => wedevs_pm_get_text('success_messages.milestone_created')
         ];
         $response = $self->get_response( $resource, $message );
 
@@ -153,7 +153,7 @@ class Milestone_Controller {
         $resource  = new Item( $milestone, new Milestone_Transformer );
 
         $message = [
-            'message' => pm_get_text('success_messages.milestone_created')
+            'message' => wedevs_pm_get_text('success_messages.milestone_created')
         ];
         $response = $this->get_response( $resource, $message );
 
@@ -204,7 +204,7 @@ class Milestone_Controller {
         $resource = new Item( $milestone, new Milestone_Transformer );
 
         $message = [
-            'message' => pm_get_text('success_messages.milestone_updated')
+            'message' => wedevs_pm_get_text('success_messages.milestone_updated')
         ];
 
         $response = $this->get_response( $resource, $message );
@@ -226,7 +226,7 @@ class Milestone_Controller {
         $milestone->delete();
 
         $message = [
-            'message' => pm_get_text('success_messages.milestone_deleted')
+            'message' => wedevs_pm_get_text('success_messages.milestone_deleted')
         ];
         do_action( 'cpm_milestone_delete', $milestone_id, false );
 
@@ -240,7 +240,7 @@ class Milestone_Controller {
         $milestone->update_model( [
             'is_private' => $privacy
         ] );
-        pm_update_meta( $milestone_id, $project_id, 'milestone', 'privacy', $privacy );
+        wedevs_pm_update_meta( $milestone_id, $project_id, 'milestone', 'privacy', $privacy );
         return $this->get_response( NULL);
     }
 }

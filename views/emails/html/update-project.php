@@ -58,7 +58,7 @@
                                     <?php esc_html_e( 'Updated at', 'wedevs-project-manager' ); ?>
                                 </p>
                                 <h2 style="font-size: 16px; color: #000; margin: 0; font-weight: 400;">
-                                    <?php $project_date = empty( $updated_at['date'] ) ? '&#x02013;&#x02013;' : esc_html( pm_date_format( $updated_at['date'] ) ); ?>
+                                    <?php $project_date = empty( $updated_at['date'] ) ? '&#x02013;&#x02013;' : esc_html( wedevs_pm_date_format( $updated_at['date'] ) ); ?>
                                     <?php echo esc_html( $project_date ); ?>
                                 </h2>
                                 &nbsp;
