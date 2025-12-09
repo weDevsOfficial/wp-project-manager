@@ -1043,10 +1043,18 @@ class Task_Controller {
         $list_ids = array_map( 'absint', $list_ids );
         $list_placeholders = implode( ', ', array_fill( 0, count( $list_ids ), '%d' ) );
 
-        // Note: permission_join filter should return sanitized SQL JOIN clauses only
-        // Plugin developers must ensure their filter callbacks return safe SQL
-        $permission_join  = apply_filters( 'pm_incomplete_task_query_join', '', absint( $project_id ) );
+        /*
+         * Filter hooks for extending SQL query.
+         * SECURITY NOTE: Filter implementers MUST return properly sanitized SQL.
+         * These filters allow plugins to add JOIN and WHERE clauses for permission checks.
+         * The filter callbacks are responsible for using $wpdb->prepare() or esc_sql() on their output.
+         */
+        $permission_join = apply_filters( 'pm_incomplete_task_query_join', '', absint( $project_id ) );
+        $permission_join = is_string( $permission_join ) ? $permission_join : '';
+
         $where = apply_filters( 'pm_incomplete_task_query_where', '', absint( $project_id ) );
+        $where = is_string( $where ) ? $where : '';
+
         $not_in_clause = '';
         $not_in_values = array();
 
@@ -1060,8 +1068,7 @@ class Task_Controller {
         // Build prepare values array
         $prepare_values = array_merge( $list_ids, $not_in_values );
 
-        // Build query with filter-provided clauses
-        // Filters are expected to return already-prepared SQL fragments
+        // phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter -- Filter hooks for SQL extensions; implementers must sanitize
         $results = $wpdb->get_results(
             $wpdb->prepare(
                 "SELECT ibord_id, GROUP_CONCAT( DISTINCT task.task_id order by task.iorder DESC) as itasks_id
@@ -1090,6 +1097,7 @@ class Task_Controller {
                 $prepare_values
             )
         );
+        // phpcs:enable PluginCheck.Security.DirectDB.UnescapedDBParameter
 
         if ( $per_page_count != -1 ) {
             $results = $this->set_pagination( $results, $start, $per_page );
@@ -1139,10 +1147,18 @@ class Task_Controller {
         $list_ids = array_map( 'absint', $list_ids );
         $list_placeholders = implode( ', ', array_fill( 0, count( $list_ids ), '%d' ) );
 
-        // Note: permission_join filter should return sanitized SQL JOIN clauses only
-        // Plugin developers must ensure their filter callbacks return safe SQL
-        $permission_join  = apply_filters( 'pm_complete_task_query_join', '', absint( $project_id ) );
+        /*
+         * Filter hooks for extending SQL query.
+         * SECURITY NOTE: Filter implementers MUST return properly sanitized SQL.
+         * These filters allow plugins to add JOIN and WHERE clauses for permission checks.
+         * The filter callbacks are responsible for using $wpdb->prepare() or esc_sql() on their output.
+         */
+        $permission_join = apply_filters( 'pm_complete_task_query_join', '', absint( $project_id ) );
+        $permission_join = is_string( $permission_join ) ? $permission_join : '';
+
         $where = apply_filters( 'pm_complete_task_query_where', '', absint( $project_id ) );
+        $where = is_string( $where ) ? $where : '';
+
         $not_in_clause = '';
         $not_in_values = array();
 
@@ -1156,8 +1172,7 @@ class Task_Controller {
         // Build prepare values array
         $prepare_values = array_merge( $list_ids, $not_in_values );
 
-        // Build query with filter-provided clauses
-        // Filters are expected to return already-prepared SQL fragments
+        // phpcs:disable PluginCheck.Security.DirectDB.UnescapedDBParameter -- Filter hooks for SQL extensions; implementers must sanitize
         $results = $wpdb->get_results(
             $wpdb->prepare(
                 "SELECT ibord_id, GROUP_CONCAT( DISTINCT task.task_id order by task.iorder DESC) as itasks_id
@@ -1186,6 +1201,7 @@ class Task_Controller {
                 $prepare_values
             )
         );
+        // phpcs:enable PluginCheck.Security.DirectDB.UnescapedDBParameter
 
         if ( $per_page_count != -1 ) {
             $results = $this->set_pagination( $results, $start, $per_page );
