@@ -199,50 +199,55 @@ class User_Controller {
             $meta_key = pm_user_meta_key();
 
             if ( $role_id ) {
-                $sql = $wpdb->prepare(
-                    "SELECT DISTINCT us.ID as user_id, us.user_email as user_email, us.display_name as display_name
-                    FROM {$tb_role_users} as rus
-                    LEFT JOIN {$tb_users} as us ON us.ID=rus.user_id
-                    LEFT JOIN {$tb_user_meta} as umeta ON umeta.user_id = us.ID
-                    WHERE 1=1 
-                    AND umeta.meta_key=%s
-                    AND rus.role_id=%d",
-                    $meta_key,
-                    $role_id
+                $users = $wpdb->get_results(
+                    $wpdb->prepare(
+                        "SELECT DISTINCT us.ID as user_id, us.user_email as user_email, us.display_name as display_name
+                        FROM {$tb_role_users} as rus
+                        LEFT JOIN {$tb_users} as us ON us.ID=rus.user_id
+                        LEFT JOIN {$tb_user_meta} as umeta ON umeta.user_id = us.ID
+                        WHERE 1=1 
+                        AND umeta.meta_key=%s
+                        AND rus.role_id=%d",
+                        $meta_key,
+                        $role_id
+                    )
                 );
             } else {
-                $sql = $wpdb->prepare(
-                    "SELECT DISTINCT us.ID as user_id, us.user_email as user_email, us.display_name as display_name
-                    FROM {$tb_role_users} as rus
-                    LEFT JOIN {$tb_users} as us ON us.ID=rus.user_id
-                    LEFT JOIN {$tb_user_meta} as umeta ON umeta.user_id = us.ID
-                    WHERE 1=1 
-                    AND umeta.meta_key=%s",
-                    $meta_key
+                $users = $wpdb->get_results(
+                    $wpdb->prepare(
+                        "SELECT DISTINCT us.ID as user_id, us.user_email as user_email, us.display_name as display_name
+                        FROM {$tb_role_users} as rus
+                        LEFT JOIN {$tb_users} as us ON us.ID=rus.user_id
+                        LEFT JOIN {$tb_user_meta} as umeta ON umeta.user_id = us.ID
+                        WHERE 1=1 
+                        AND umeta.meta_key=%s",
+                        $meta_key
+                    )
                 );
             }
         } else {
             if ( $role_id ) {
-                $sql = $wpdb->prepare(
-                    "SELECT DISTINCT us.ID as user_id, us.user_email as user_email, us.display_name as display_name
-                    FROM {$tb_role_users} as rus
-                    LEFT JOIN {$tb_users} as us ON us.ID=rus.user_id
-                    WHERE 1=1 AND rus.role_id=%d",
-                    $role_id
+                $users = $wpdb->get_results(
+                    $wpdb->prepare(
+                        "SELECT DISTINCT us.ID as user_id, us.user_email as user_email, us.display_name as display_name
+                        FROM {$tb_role_users} as rus
+                        LEFT JOIN {$tb_users} as us ON us.ID=rus.user_id
+                        WHERE 1=1 AND rus.role_id=%d",
+                        $role_id
+                    )
                 );
             } else {
-                $sql = $wpdb->prepare(
-                    "SELECT DISTINCT us.ID as user_id, us.user_email as user_email, us.display_name as display_name
-                    FROM {$tb_role_users} as rus
-                    LEFT JOIN {$tb_users} as us ON us.ID=rus.user_id
-                    WHERE %d=%d",
-                    1,
-                    1
+                $users = $wpdb->get_results(
+                    $wpdb->prepare(
+                        "SELECT DISTINCT us.ID as user_id, us.user_email as user_email, us.display_name as display_name
+                        FROM {$tb_role_users} as rus
+                        LEFT JOIN {$tb_users} as us ON us.ID=rus.user_id
+                        WHERE 1=1",
+                        array()
+                    )
                 );
             }
         }
-
-        $users = $wpdb->get_results( $sql );
 
         foreach ( $users as $user ) {
             $user->avatar_url = get_avatar_url( $user->user_email );

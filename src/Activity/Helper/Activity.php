@@ -627,13 +627,17 @@ class Activity {
 		global $wpdb;
 		$id = isset( $this->query_params['id'] ) ? $this->query_params['id'] : false;
 
-		$query = "SELECT SQL_CALC_FOUND_ROWS DISTINCT {$this->tb_activity}.*
-			FROM {$this->tb_activity}
-			{$this->join}
-			WHERE %d=%d {$this->where}
-			{$this->orderby} {$this->limit} ";
-		
-		$results = $wpdb->get_results( $wpdb->prepare( $query, 1, 1 ) );
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT SQL_CALC_FOUND_ROWS DISTINCT {$this->tb_activity}.*
+				FROM {$this->tb_activity}
+				{$this->join}
+				WHERE %d=%d {$this->where}
+				{$this->orderby} {$this->limit}",
+				1,
+				1
+			)
+		);
 		
 		$this->found_rows = $wpdb->get_var( "SELECT FOUND_ROWS()" );
 		$this->activities = $results;
@@ -650,7 +654,7 @@ class Activity {
 	}
 
 	private function set_table_name() {
-		$this->tb_project  = pm_tb_prefix() . 'pm_projects';
-		$this->tb_activity = pm_tb_prefix() . 'pm_activities';
+		$this->tb_project  = esc_sql( pm_tb_prefix() . 'pm_projects' );
+		$this->tb_activity = esc_sql( pm_tb_prefix() . 'pm_activities' );
 	}
 }
