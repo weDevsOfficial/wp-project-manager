@@ -52,7 +52,7 @@ class Task_List extends Eloquent {
             ->withPivot( 'order' );
 
         if ( $project_id ) {
-            $tasks = apply_filters( 'pm_filter_task_permission', $tasks,  $project_id );
+            $tasks = apply_filters( 'wedevs_pm_filter_task_permission', $tasks,  $project_id );
         }
 
         return $tasks;

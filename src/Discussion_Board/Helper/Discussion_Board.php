@@ -118,7 +118,7 @@ class Discussion_Board {
 
 		$items = $this->item_with( $items, $discussion_board );
 		
-		return apply_filters( 'pm_discuss_transform', $items, $discussion_board );
+		return apply_filters( 'wedevs_pm_discuss_transform', $items, $discussion_board );
 	}
 
 	private function item_with( $items, $discussion_board ) {
@@ -147,7 +147,7 @@ class Discussion_Board {
 			->project()
 			->comments();
 
-		$this->discussion_boards = apply_filters( 'pm_discussion_board_with',$this->discussion_boards, $this->discussion_board_ids, $this->query_params );
+		$this->discussion_boards = apply_filters( 'wedevs_pm_discussion_board_with',$this->discussion_boards, $this->discussion_board_ids, $this->query_params );
 
 		return $this;
 	}

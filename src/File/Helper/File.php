@@ -135,7 +135,7 @@ class File {
         $items = $this->set_attach_file( $items, $file ); 
 		$items = $this->item_with( $items, $file );
 
-		return apply_filters( 'pm_file_transform', $items, $file );
+		return apply_filters( 'wedevs_pm_file_transform', $items, $file );
 	}
 
 	private function set_attach_file( $items, $file ) {

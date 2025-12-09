@@ -36,7 +36,7 @@ class Assignee_Transformer extends TransformerAbstract {
      */
     public function getDefaultIncludes()
     {
-        return apply_filters( "pm_assignee_transformer_default_includes", $this->defaultIncludes );
+        return apply_filters( "wedevs_pm_assignee_transformer_default_includes", $this->defaultIncludes );
     }
 
     public function includeUser( Assignee $item ) {

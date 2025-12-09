@@ -446,7 +446,7 @@ class Task {
 			->include_label()
 			->include_milestone();
 
-		$this->tasks = apply_filters( 'pm_task_with',$this->tasks, $this->task_ids, $this->query_params );
+		$this->tasks = apply_filters( 'wedevs_pm_task_with',$this->tasks, $this->task_ids, $this->query_params );
 
 		return $this;
 	}
@@ -1223,7 +1223,7 @@ class Task {
 
 	private function join() {
 
-		$this->join = apply_filters( 'pm_task_join', $this->join );
+		$this->join = apply_filters( 'wedevs_pm_task_join', $this->join );
 
 		return $this;
 	}
@@ -1247,7 +1247,7 @@ class Task {
 			->where_milestone()
 			->where_recurrent();
 
-		$this->where = apply_filters( 'pm_task_where', $this->where, $this->user_id );
+		$this->where = apply_filters( 'wedevs_pm_task_where', $this->where, $this->user_id );
 
 		return $this;
 	}

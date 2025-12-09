@@ -110,7 +110,7 @@ class Comment {
 
 		$items = $this->item_with( $items, $comment );
 
-		return apply_filters( 'pm_comment_transform', $items, $comment );
+		return apply_filters( 'wedevs_pm_comment_transform', $items, $comment );
 	}
 
 	private function join() {

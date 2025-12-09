@@ -50,7 +50,7 @@ class Milestone_Controller {
             $milestones = $milestones->where( 'status',  $status);
         }
 
-        $milestones = apply_filters("pm_milestone_index_query", $milestones, $project_id, $request );
+        $milestones = apply_filters( "wedevs_pm_milestone_index_query", $milestones, $project_id, $request );
 
         if ( $per_page == '-1' ) {
             $per_page = $milestones->count();
@@ -81,7 +81,7 @@ class Milestone_Controller {
 
         $milestone = Milestone::where( 'id', $milestone_id )
             ->where( 'project_id', $project_id );
-        $milestone = apply_filters( "pm_milestone_show_query", $milestone, $project_id, $request );
+        $milestone = apply_filters( "wedevs_pm_milestone_show_query", $milestone, $project_id, $request );
         $milestone = $milestone->first();
         if ( $milestone == NULL ) {
             return $this->get_response( null,  [
@@ -112,7 +112,7 @@ class Milestone_Controller {
             'project_id'  => $milestone->project_id,
         ]);
 
-        do_action("pm_new_milestone_before_response", $milestone, $data );
+        do_action( "wedevs_pm_new_milestone_before_response", $milestone, $data );
         // Transform milestone data
         $resource  = new Item( $milestone, new Milestone_Transformer );
 
@@ -121,8 +121,8 @@ class Milestone_Controller {
         ];
         $response = $self->get_response( $resource, $message );
 
-        do_action( 'cpm_milestone_new', $milestone->id, $data[ 'project_id' ], $data );
-        do_action("pm_after_new_milestone", $response, $data );
+        do_action( 'wedevs_cpm_milestone_new', $milestone->id, $data[ 'project_id' ], $data );
+        do_action( "wedevs_pm_after_new_milestone", $response, $data );
 
         return $response;
     }
@@ -148,7 +148,7 @@ class Milestone_Controller {
             'project_id'  => $milestone->project_id,
         ]);
 
-        do_action("pm_new_milestone_before_response", $milestone, $request->get_params() );
+        do_action( "wedevs_pm_new_milestone_before_response", $milestone, $request->get_params() );
         // Transform milestone data
         $resource  = new Item( $milestone, new Milestone_Transformer );
 
@@ -157,8 +157,8 @@ class Milestone_Controller {
         ];
         $response = $this->get_response( $resource, $message );
 
-        do_action( 'cpm_milestone_new', $milestone->id, $request->get_param( 'project_id' ), $request->get_params() );
-        do_action("pm_after_new_milestone", $response, $request->get_params() );
+        do_action( 'wedevs_cpm_milestone_new', $milestone->id, $request->get_param( 'project_id' ), $request->get_params() );
+        do_action( "wedevs_pm_after_new_milestone", $response, $request->get_params() );
 
         return $response;
     }
@@ -199,8 +199,8 @@ class Milestone_Controller {
             $meta->save();
         }
 
-        do_action( 'cpm_milestone_update', $milestone_id, $project_id, $request->get_params() );
-        do_action("pm_update_milestone_before_response", $milestone, $request->get_params() );
+        do_action( 'wedevs_cpm_milestone_update', $milestone_id, $project_id, $request->get_params() );
+        do_action( "wedevs_pm_update_milestone_before_response", $milestone, $request->get_params() );
         $resource = new Item( $milestone, new Milestone_Transformer );
 
         $message = [
@@ -208,7 +208,7 @@ class Milestone_Controller {
         ];
 
         $response = $this->get_response( $resource, $message );
-        do_action("pm_after_update_milestone", $response, $request->get_params() );
+        do_action( "wedevs_pm_after_update_milestone", $response, $request->get_params() );
 
         return $response;
     }
@@ -228,7 +228,7 @@ class Milestone_Controller {
         $message = [
             'message' => wedevs_pm_get_text('success_messages.milestone_deleted')
         ];
-        do_action( 'cpm_milestone_delete', $milestone_id, false );
+        do_action( 'wedevs_cpm_milestone_delete', $milestone_id, false );
 
         return $this->get_response(false, $message);
     }

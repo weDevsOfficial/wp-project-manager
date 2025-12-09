@@ -640,13 +640,13 @@ function wedevs_pm_tb_prefix() {
  * @return string
  */
 function wedevs_pm_get_content( $content ) {
-    $content = apply_filters( 'pm_get_content', $content );
+    $content = apply_filters( 'wedevs_pm_get_content', $content );
 
     return $content;
 }
 
 function wedevs_pm_filter_content_url( $content ) {
-    $content = apply_filters( 'pm_get_content_url', $content );
+    $content = apply_filters( 'wedevs_pm_get_content_url', $content );
 
     return $content;
 }
@@ -968,7 +968,7 @@ function wedevs_pm_frontend_slug() {
         $slug = 'pm';
     }
 
-    return apply_filters( 'pm_frontend_slug', sanitize_title( $slug ) );
+    return apply_filters( 'wedevs_pm_frontend_slug', sanitize_title( $slug ) );
 }
 
 /**
@@ -995,7 +995,7 @@ function wedevs_pm_dashboard_title() {
         $dashboard_title = __( 'Project Manager', 'wedevs-project-manager' );
     }
 
-    return apply_filters( 'pm_dashboard_title', $dashboard_title );
+    return apply_filters( 'wedevs_pm_dashboard_title', $dashboard_title );
 }
 
 /**
@@ -1004,7 +1004,7 @@ function wedevs_pm_dashboard_title() {
  * @return string
  */
 function wedevs_pm_register_query_var() {
-    return apply_filters( 'pm_frontend_query_var', 'pm_dashboard' );
+    return apply_filters( 'wedevs_pm_frontend_query_var', 'pm_dashboard' );
 }
 
 /**
@@ -1014,7 +1014,7 @@ function wedevs_pm_register_query_var() {
  */
 function wedevs_pm_root_element() {
     $id = wedevs_pm_root_element_id();
-    return apply_filters( 'pm_root_element', '<div id="'. $id .'"></div>' );
+    return apply_filters( 'wedevs_pm_root_element', '<div id="'. $id .'"></div>' );
 }
 
 /**
@@ -1023,7 +1023,7 @@ function wedevs_pm_root_element() {
  * @return string
  */
 function wedevs_pm_root_element_id() {
-    return apply_filters( 'pm_root_element_id', 'wedevs-pm' );
+    return apply_filters( 'wedevs_pm_root_element_id', 'wedevs-pm' );
 }
 
 /**
@@ -1032,7 +1032,7 @@ function wedevs_pm_root_element_id() {
  * @return string
  */
 function wedevs_pm_admin_slug() {
-    return apply_filters( 'pm_admin_slug', 'pm_projects' );
+    return apply_filters( 'wedevs_pm_admin_slug', 'pm_projects' );
 }
 
 /**
@@ -1042,7 +1042,7 @@ function wedevs_pm_admin_slug() {
  */
 function wedevs_pm_admin_url() {
     $slug = wedevs_pm_admin_slug();
-    return apply_filters( 'pm_admin_url', admin_url( "admin.php?page={$slug}" ) );
+    return apply_filters( 'wedevs_pm_admin_url', admin_url( "admin.php?page={$slug}" ) );
 }
 
 /**
@@ -1088,7 +1088,7 @@ function wedevs_pm_user_meta_key() {
 }
 
 function wedevs_pm_can_create_user_at_project_create_time() {
-    return apply_filters( 'pm_can_create_user_at_project_create_time', true );
+    return apply_filters( 'wedevs_pm_can_create_user_at_project_create_time', true );
 }
 
 function wedevs_pm_get_estimation_type() { 
@@ -1290,7 +1290,7 @@ function wedevs_pm_is_true ( $val ) {
  * @return [type]
  */
 function wedevs_pm_admin_cap_slug() {
-    return apply_filters( 'pm_admin_capability_slug', 'pm_admin' );
+    return apply_filters( 'wedevs_pm_admin_capability_slug', 'pm_admin' );
 }
 
 /**
@@ -1298,7 +1298,7 @@ function wedevs_pm_admin_cap_slug() {
  * @return [type]
  */
 function wedevs_pm_manager_cap_slug() {
-    return apply_filters( 'pm_manager_capability_slug', 'pm_manager' );
+    return apply_filters( 'wedevs_pm_manager_capability_slug', 'pm_manager' );
 }
 
 /**
@@ -1312,7 +1312,7 @@ function wedevs_pm_access_capabilities( $cap = false ) {
         wedevs_pm_manager_cap_slug() => __( 'PM Manager', 'wedevs-project-manager' ),
     ];
 
-    $caps = apply_filters( 'pm_access_capabilities', $caps );
+    $caps = apply_filters( 'wedevs_pm_access_capabilities', $caps );
 
     return empty( $cap ) ? $caps : $caps[$cap];
 }

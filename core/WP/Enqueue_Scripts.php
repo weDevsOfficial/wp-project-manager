@@ -14,9 +14,9 @@ class Enqueue_Scripts {
 		];
 
 		foreach ( $scripts_id as $script_id ) {
-			do_action( 'before_loaded' . $script_id );
+			do_action( 'wedevs_before_loaded_' . $script_id );
 			wp_enqueue_script( $script_id );
-			do_action( 'after_loaded' . $script_id );
+			do_action( 'wedevs_after_loaded_' . $script_id );
 		}
 
 		wp_enqueue_media();
@@ -30,11 +30,11 @@ class Enqueue_Scripts {
 		];
 
 		foreach ( $styles_id as $style ) {
-			do_action( 'before_loaded' . $style );
+			do_action( 'wedevs_before_loaded_' . $style );
 			
 			wp_enqueue_style( $style );
 
-			do_action( 'after_loaded' . $style );
+			do_action( 'wedevs_after_loaded_' . $style );
 		}
 	}
 
@@ -54,9 +54,9 @@ class Enqueue_Scripts {
 			'permalinkStructure'       => get_option( 'permalink_structure' ),
 			'project_page'             => wedevs_pm_get_project_page(),
 			'rest_api_prefix'          => rest_get_url_prefix(),
-			'todo_list_form'           => apply_filters( 'todo_list_form', array( 'PM_Task_Mixin' ) ),
-			'todo_list_router_default' => apply_filters( 'todo_list_router_default', array( 'PM_Task_Mixin' ) ),
-			'todo_list_text_editor'    => apply_filters( 'todo_list_text_editor', array() ),
+			'todo_list_form'           => apply_filters( 'wedevs_todo_list_form', array( 'PM_Task_Mixin' ) ),
+			'todo_list_router_default' => apply_filters( 'wedevs_todo_list_router_default', array( 'PM_Task_Mixin' ) ),
+			'todo_list_text_editor'    => apply_filters( 'wedevs_todo_list_text_editor', array() ),
 			'assets_url'               => wedevs_pm_config('frontend.assets_url'),
 			'wp_time_zone'             => wedevs_pm_tzcode_to_tzstring( wedevs_pm_get_wp_timezone() ),
 			'current_user'             => wp_get_current_user(),
@@ -83,7 +83,7 @@ class Enqueue_Scripts {
 			'dir_url'                          => wedevs_pm_config('frontend.url'),
 			'is_pro'                           => $wedevs_pm_pro,
 			'is_admin'                         => is_admin(),
-			'language'                         => apply_filters( 'pm_get_jed_locale_data', [ 'pm' => wedevs_pm_get_jed_locale_data( 'wedevs-project-manager' ) ] ),
+			'language'                         => apply_filters( 'wedevs_pm_get_jed_locale_data', [ 'pm' => wedevs_pm_get_jed_locale_data( 'wedevs-project-manager' ) ] ),
 			'date_format'                      => get_option( 'date_format' ),
 			'time_format'                      => get_option( 'time_format' ),
 			'id'                               => wedevs_pm_root_element_id(),
@@ -98,7 +98,7 @@ class Enqueue_Scripts {
         ];
 
         $localize = self::filter( $localize );
-		$localize = apply_filters( 'pm_localize', $localize );
+		$localize = apply_filters( 'wedevs_pm_localize', $localize );
 
 		wp_localize_script( 'pm-config', 'PM_Vars', $localize );
 	}

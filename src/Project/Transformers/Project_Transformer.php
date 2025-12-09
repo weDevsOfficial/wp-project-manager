@@ -48,7 +48,7 @@ class Project_Transformer extends TransformerAbstract {
             'updated_at'          => wedevs_pm_format_date( $item->updated_at ),
             'list_inbox'          => (int) $listmeta,
         ];
-        return apply_filters( "pm_project_transformer", $data, $item );
+        return apply_filters( "wedevs_pm_project_transformer", $data, $item );
     }
 
     /**
@@ -58,25 +58,25 @@ class Project_Transformer extends TransformerAbstract {
      */
     public function getDefaultIncludes()
     {
-        return apply_filters( "pm_project_transformer_default_includes", $this->defaultIncludes );
+        return apply_filters( "wedevs_pm_project_transformer_default_includes", $this->defaultIncludes );
     }
 
     public function includeMeta (Project $item) {
 
         return $this->item($item, function ($item) {
             $list                   = $item->task_lists();
-            $list                   = apply_filters( 'pm_task_list_query', $list, $item->id );
+            $list                   = apply_filters( 'wedevs_pm_task_list_query', $list, $item->id );
             $task                   = $item->tasks();
-            $task                   = apply_filters( 'pm_task_query', $task, $item->id );
+            $task                   = apply_filters( 'wedevs_pm_task_query', $task, $item->id );
             $task_count             = $task->count();
             $complete_tasks_count   = $task->where( 'status', Task::COMPLETE)->count();
             $incomplete_tasks_count = $task->where( 'status', Task::INCOMPLETE)->count();
             $discussion             = $item->discussion_boards();
-            $discussion             = apply_filters( 'pm_discuss_query', $discussion, $item->id);
+            $discussion             = apply_filters( 'wedevs_pm_discuss_query', $discussion, $item->id);
             $milestones             = $item->milestones();
-            $milestones             = apply_filters( 'pm_milestone_index_query', $milestones, $item->id );
+            $milestones             = apply_filters( 'wedevs_pm_milestone_index_query', $milestones, $item->id );
             $files                  = $item->files();
-            $files                  = apply_filters( 'pm_file_query', $files, $item->id );
+            $files                  = apply_filters( 'wedevs_pm_file_query', $files, $item->id );
 
             return[
                 'total_task_lists'        => $list->count(),

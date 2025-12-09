@@ -119,7 +119,7 @@ class Milestone {
             'meta'         => $milestone->meta
         ];
 
-        //$items = apply_filters( 'pm_milestone_transform', $items, $milestone );
+        //$items = apply_filters( 'wedevs_pm_milestone_transform', $items, $milestone );
 
 		// $select_items = empty( $this->query_params['select'] ) ? null : $this->query_params['select'];
 
@@ -143,7 +143,7 @@ class Milestone {
 		$items = $this->item_with( $items, $milestone );
 		//$items = $this->item_meta( $items, $milestone );
 
-		return apply_filters( 'pm_milestone_transform', $items, $milestone );
+		return apply_filters( 'wedevs_pm_milestone_transform', $items, $milestone );
 	}
 
 	private function item_with( $items, $milestone ) {
@@ -166,7 +166,7 @@ class Milestone {
 			->discussion_boards()
 			->task_lists();
 
-		$this->milestones = apply_filters( 'pm_milestone_with',$this->milestones, $this->milestone_ids, $this->query_params );
+		$this->milestones = apply_filters( 'wedevs_pm_milestone_with',$this->milestones, $this->milestone_ids, $this->query_params );
 
 		return $this;
 	}

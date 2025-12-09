@@ -13,7 +13,7 @@ class Pusher {
     }
 
     public function filters() {
-        add_filter( 'pm_localize', 'wedevs_pm_pusher_localize' );
+        add_filter( 'wedevs_pm_localize', 'wedevs_pm_pusher_localize' );
     }
 
     public function init() {

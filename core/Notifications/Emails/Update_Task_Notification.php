@@ -42,7 +42,7 @@ class Update_Task_Notification extends Email {
             return ; 
         }
 
-        $template_name = apply_filters( 'pm_new_task_email_template_path', $this->get_template_path( '/html/update-task.php' ) );
+        $template_name = apply_filters( 'wedevs_pm_new_task_email_template_path', $this->get_template_path( '/html/update-task.php' ) );
         /* translators: 1: Blog name, 2: Project title, 3: Task title */
         $subject = sprintf( __( '[%1$s][%2$s] Update Task Assigned: %3$s', 'wedevs-project-manager' ), $this->get_blogname(), $task_raw['project_title'], $task_raw['title'] );
 

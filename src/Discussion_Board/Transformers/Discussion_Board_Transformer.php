@@ -34,7 +34,7 @@ class Discussion_Board_Transformer extends TransformerAbstract {
             'created_at'  => wedevs_pm_format_date( $item->created_at ),
             'meta'        => $this->meta( $item ),
         ];
-        return apply_filters( 'pm_discuss_transform', $data, $item);
+        return apply_filters( 'wedevs_pm_discuss_transform', $data, $item);
     
     }
 
@@ -45,7 +45,7 @@ class Discussion_Board_Transformer extends TransformerAbstract {
      */
     public function getDefaultIncludes()
     {
-        return apply_filters( "pm_discuss_board_transformer_default_includes", $this->defaultIncludes );
+        return apply_filters( "wedevs_pm_discuss_board_transformer_default_includes", $this->defaultIncludes );
     }
 
     public function meta( Discussion_Board $item ) {

@@ -252,7 +252,7 @@ class Project {
         $items = $this->item_with( $items, $project );
         //$items = $this->item_meta( $items, $project );
 
-        return apply_filters( 'pm_project_transform', $items, $project );
+        return apply_filters( 'wedevs_pm_project_transform', $items, $project );
 
 
 		// $select_items = empty( $this->query_params['select'] ) ? null : $this->query_params['select'];
@@ -322,7 +322,7 @@ class Project {
 			->include_categories()
 			->role_capabilities();
 
-		$this->projects = apply_filters( 'pm_project_with',$this->projects, $this->project_ids, $this->query_params );
+		$this->projects = apply_filters( 'wedevs_pm_project_with',$this->projects, $this->project_ids, $this->query_params );
 
 		return $this;
 	}
@@ -1134,7 +1134,7 @@ class Project {
 		
 		$this->join .= " LEFT JOIN {$wpdb->prefix}pm_role_user ON {$wpdb->prefix}pm_role_user.project_id={$wpdb->prefix}pm_projects.id";
 		
-		$this->join = apply_filters( 'pm_project_join_query', $this->join, $this->query_params );
+		$this->join = apply_filters( 'wedevs_pm_project_join_query', $this->join, $this->query_params );
 
 		return $this;
 	}
@@ -1152,7 +1152,7 @@ class Project {
 			->where_title()
 			->where_status();
 		
-		$this->where = apply_filters( 'pm_project_where_query', $this->where, $this->query_params );
+		$this->where = apply_filters( 'wedevs_pm_project_where_query', $this->where, $this->query_params );
 
 		return $this;
 	}

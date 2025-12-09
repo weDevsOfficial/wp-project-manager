@@ -130,7 +130,7 @@ class Task_List_Controller {
             $task_lists->where( wedevs_pm_tb_prefix() .'pm_boards.title', 'like', '%'.$title.'%');
         }
 
-        $task_lists = apply_filters( "pm_task_list_check_privacy", $task_lists, $project_id, $request );
+        $task_lists = apply_filters( "wedevs_pm_task_list_check_privacy", $task_lists, $project_id, $request );
 
         if ( $per_page == '-1' ) {
             $per_page = $task_lists->count();
@@ -265,7 +265,7 @@ class Task_List_Controller {
             ->where( wedevs_pm_tb_prefix().'pm_boards.id', $task_list_id )
             ->where( wedevs_pm_tb_prefix().'pm_boards.project_id', $project_id );
 
-            $task_list = apply_filters("pm_task_list_show_query", $task_list, $project_id, $params );
+            $task_list = apply_filters( "wedevs_pm_task_list_show_query", $task_list, $project_id, $params );
 
             $task_list = $task_list->first();
 
@@ -313,15 +313,15 @@ class Task_List_Controller {
             $self->attach_milestone( $task_list, $milestone );
         }
 
-        do_action( 'pm_new_task_list_before_response', $task_list, $data );
+        do_action( 'wedevs_pm_new_task_list_before_response', $task_list, $data );
         $resource = new Item( $task_list, new Task_List_Transformer );
 
         $message = [
             'message' => wedevs_pm_get_text('success_messages.task_list_created')
         ];
         $response = $self->get_response( $resource, $message );
-        do_action( 'cpm_tasklist_new', $task_list->id, $project_id, $data );
-        do_action( 'pm_after_new_task_list', $response, $data );
+        do_action( 'wedevs_cpm_tasklist_new', $task_list->id, $project_id, $data );
+        do_action( 'wedevs_pm_after_new_task_list', $response, $data );
         return $response;
     }
 
@@ -341,15 +341,15 @@ class Task_List_Controller {
             $this->attach_milestone( $task_list, $milestone );
         }
 
-        do_action( 'pm_new_task_list_before_response', $task_list, $request->get_params() );
+        do_action( 'wedevs_pm_new_task_list_before_response', $task_list, $request->get_params() );
         $resource = new Item( $task_list, new Task_List_Transformer );
 
         $message = [
             'message' => wedevs_pm_get_text('success_messages.task_list_created')
         ];
         $response = $this->get_response( $resource, $message );
-        do_action( 'cpm_tasklist_new', $task_list->id, $project_id, $request->get_params() );
-        do_action( 'pm_after_new_task_list', $response, $request->get_params() );
+        do_action( 'wedevs_cpm_tasklist_new', $task_list->id, $project_id, $request->get_params() );
+        do_action( 'wedevs_pm_after_new_task_list', $response, $request->get_params() );
         return $response;
     }
 
@@ -376,7 +376,7 @@ class Task_List_Controller {
             $task_list->milestones()->detach();
         }
 
-        do_action( 'pm_update_task_list_before_response', $task_list, $request->get_params() );
+        do_action( 'wedevs_pm_update_task_list_before_response', $task_list, $request->get_params() );
         $resource = new Item( $task_list, new Task_List_Transformer );
 
         $message = [
@@ -384,8 +384,8 @@ class Task_List_Controller {
         ];
 
         $response = $this->get_response( $resource, $message );
-        do_action( 'cpm_tasklist_update', $task_list_id, $project_id, $request->get_params() );
-        do_action( 'pm_after_update_task_list', $response, $request->get_params() );
+        do_action( 'wedevs_cpm_tasklist_update', $task_list_id, $project_id, $request->get_params() );
+        do_action( 'wedevs_pm_after_update_task_list', $response, $request->get_params() );
         return $response;
     }
 
@@ -397,16 +397,16 @@ class Task_List_Controller {
             ->where( 'project_id', $project_id )
             ->first();
 
-        do_action( 'pm_before_delete_task_list', $task_list_id, $project_id );
-        do_action( 'cpm_delete_tasklist_prev', $task_list_id );
+        do_action( 'wedevs_pm_before_delete_task_list', $task_list_id, $project_id );
+        do_action( 'wedevs_cpm_delete_tasklist_prev', $task_list_id );
         // Delete relations
         $self->detach_all_relations( $task_list );
 
         // Delete the task list
         $task_list->delete();
         
-        do_action( 'cpm_delete_tasklist_after', $task_list_id );
-        do_action( 'pm_after_delete_task_list', $task_list );
+        do_action( 'wedevs_cpm_delete_tasklist_after', $task_list_id );
+        do_action( 'wedevs_pm_after_delete_task_list', $task_list );
 
         $message = [
             'message' => wedevs_pm_get_text('success_messages.task_list_deleted')
@@ -425,16 +425,16 @@ class Task_List_Controller {
             ->where( 'project_id', $project_id )
             ->first();
 
-        do_action( 'pm_before_delete_task_list', $task_list_id, $project_id );
-        do_action( 'cpm_delete_tasklist_prev', $task_list_id );
+        do_action( 'wedevs_pm_before_delete_task_list', $task_list_id, $project_id );
+        do_action( 'wedevs_cpm_delete_tasklist_prev', $task_list_id );
         // Delete relations
         $this->detach_all_relations( $task_list );
 
         // Delete the task list
         $task_list->delete();
         
-        do_action( 'cpm_delete_tasklist_after', $task_list_id );
-        do_action( 'pm_after_delete_task_list', $task_list );
+        do_action( 'wedevs_cpm_delete_tasklist_after', $task_list_id );
+        do_action( 'wedevs_pm_after_delete_task_list', $task_list );
 
         $message = [
             'message' => wedevs_pm_get_text('success_messages.task_list_deleted')
@@ -666,8 +666,8 @@ class Task_List_Controller {
             }
         }
 
-        $join .= apply_filters( 'pm_incomplete_task_query_join', '', $project_id );
-        $filter .= apply_filters( 'pm_incomplete_task_query_where', '', $project_id );
+        $join .= apply_filters( 'wedevs_pm_incomplete_task_query_join', '', $project_id );
+        $filter .= apply_filters( 'wedevs_pm_incomplete_task_query_where', '', $project_id );
 
         $results = $wpdb->get_results(  $wpdb->prepare(
             "SELECT bo.board_id,

@@ -64,7 +64,7 @@ class Task_Controller {
                 ->parent()
                 ->where('title', 'LIKE', '%'.$search.'%');
             
-            $tasks = apply_filters( 'pm_task_index_query', $tasks, $project_id, $request );
+            $tasks = apply_filters( 'wedevs_pm_task_index_query', $tasks, $project_id, $request );
             
             $tasks = $tasks->orderBy( 'created_at', 'DESC')
                 ->get();
@@ -73,7 +73,7 @@ class Task_Controller {
         } else {
             $tasks = Task::where( 'project_id', $project_id )
                 ->parent();
-            $tasks = apply_filters( 'pm_task_index_query', $tasks, $project_id, $request );
+            $tasks = apply_filters( 'wedevs_pm_task_index_query', $tasks, $project_id, $request );
 
             if ( $per_page == '-1' ) {
                 $per_page = $tasks->count();
@@ -121,12 +121,12 @@ class Task_Controller {
         $board         = Board::find( $board_id );
 
         if ( $project ) {
-            $data = apply_filters( 'pm_before_create_task', $data, $board_id, $data );
+            $data = apply_filters( 'wedevs_pm_before_create_task', $data, $board_id, $data );
             $task = Task::create( $data );
         }
 
-        do_action( 'cpm_task_new', $board_id, $task->id, $data );
-        do_action('pm_after_update_task', $task, $data );
+        do_action( 'wedevs_cpm_task_new', $board_id, $task->id, $data );
+        do_action( 'wedevs_pm_after_update_task', $task, $data );
 
         if ( $task && $board ) {
             $latest_order = Boardable::latest_order( $board->id, $board->type, 'task' );
@@ -142,8 +142,8 @@ class Task_Controller {
         if ( is_array( $assignees ) && $task ) {
             $self->attach_assignees( $task, $assignees );
         }
-        do_action( 'cpm_after_new_task', $task->id, $board_id, $project_id );
-        do_action('pm_after_create_task', $task, $data );
+        do_action( 'wedevs_cpm_after_new_task', $task->id, $board_id, $project_id );
+        do_action( 'wedevs_pm_after_create_task', $task, $data );
 
         $resource = new Item( $task, new Task_Transformer );
 
@@ -155,7 +155,7 @@ class Task_Controller {
 
         $response = $self->get_response( $resource, $message );
 
-        do_action('pm_create_task_aftre_transformer', $response, $data );
+        do_action( 'wedevs_pm_create_task_aftre_transformer', $response, $data );
 
         return $response;
     }
@@ -181,11 +181,11 @@ class Task_Controller {
         $board         = Board::find( $board_id );
 
         if ( $project ) {
-            $data = apply_filters( 'pm_before_create_task', $data, $board_id, $request->get_params() );
+            $data = apply_filters( 'wedevs_pm_before_create_task', $data, $board_id, $request->get_params() );
             $task = Task::create( $data );
         }
 
-        do_action( 'cpm_task_new', $board_id, $task->id, $request->get_params() );
+        do_action( 'wedevs_cpm_task_new', $board_id, $task->id, $request->get_params() );
 
         if ( $task && $board ) {
             $latest_order = Boardable::latest_order( $board->id, $board->type, 'task' );
@@ -204,8 +204,8 @@ class Task_Controller {
 
         $this->insert_type( $task->id, $type_id, $project_id, $board_id );
 
-        do_action( 'cpm_after_new_task', $task->id, $board_id, $project_id );
-        do_action('pm_after_create_task', $task, $request->get_params() );
+        do_action( 'wedevs_cpm_after_new_task', $task->id, $board_id, $project_id );
+        do_action( 'wedevs_pm_after_create_task', $task, $request->get_params() );
 
         $resource = new Item( $task, new Task_Transformer );
 
@@ -217,7 +217,7 @@ class Task_Controller {
 
         $response = $this->get_response( $resource, $message );
 
-        do_action('pm_create_task_aftre_transformer', $response, $request->get_params() );
+        do_action( 'wedevs_pm_create_task_aftre_transformer', $response, $request->get_params() );
 
         return $response;
     }
@@ -276,7 +276,7 @@ class Task_Controller {
 
     public function attach_assignees( Task $task, $assignees = [] ) {
 
-        do_action('pm_before_assignees', $task, $assignees );
+        do_action( 'wedevs_pm_before_assignees', $task, $assignees );
 
         foreach ( $assignees as $user_id ) {
             if ( ! intval( $user_id ) ) {
@@ -296,7 +296,7 @@ class Task_Controller {
             }
         }
 
-        do_action('pm_after_assignees', $task, $assignees );
+        do_action( 'wedevs_pm_after_assignees', $task, $assignees );
     }
 
     private function update_task_status( Task $task ){
@@ -350,7 +350,7 @@ class Task_Controller {
         $is_private           = isset( $params['privacy'] ) ? $params['privacy'] : $task->is_private;
         $type_id              = empty( $params['type_id'] ) ? false : intval( $params['type_id'] );
         $deleted_users        = $task->assignees()->whereNotIn( 'assigned_to', $assignees )->get()->toArray(); //->delete();
-        $deleted_users        = apply_filters( 'pm_task_deleted_users', $deleted_users, $task );
+        $deleted_users        = apply_filters( 'wedevs_pm_task_deleted_users', $deleted_users, $task );
         $deleted_users        = wp_list_pluck( $deleted_users, 'id' );
 
         if ( $is_private == 'true' || $is_private === true ) {
@@ -371,13 +371,13 @@ class Task_Controller {
             self::getInstance()->update_type( $task->id, $type_id, $project_id, $task->task_list );  
         }
             
-        do_action( 'cpm_task_update', $list_id, $task_id, $params );
+        do_action( 'wedevs_cpm_task_update', $list_id, $task_id, $params );
 
-        $params = apply_filters( 'pm_before_update_task', $params, $list_id, $task_id, $task );
+        $params = apply_filters( 'wedevs_pm_before_update_task', $params, $list_id, $task_id, $task );
         $task->update_model( $params );
 
-        do_action( 'cpm_after_update_task', $task->id, $list_id, $project_id );
-        do_action('pm_after_update_task', $task, $params );
+        do_action( 'wedevs_cpm_after_update_task', $task->id, $list_id, $project_id );
+        do_action( 'wedevs_pm_after_update_task', $task, $params );
 
         $task_response = Task_Helper::get_results([ 
             'id' => $task->id,
@@ -390,7 +390,7 @@ class Task_Controller {
             'data'     => $task_response['data']
         ];
 
-        do_action('pm_update_task_aftre_transformer', $response, $params );
+        do_action( 'wedevs_pm_update_task_aftre_transformer', $response, $params );
         
         return $response;
     }
@@ -410,15 +410,15 @@ class Task_Controller {
             $task->completed_at = null;
         }
 
-        do_action( 'pm_before_change_task_status', $task );
+        do_action( 'wedevs_pm_before_change_task_status', $task );
 
         if ( $task->save() ) {
             $this->update_task_status( $task );
             $this->task_activity_comment($task, $status);
         }
 
-        do_action( 'mark_task_complete', $task->project_id, $task->id );
-        do_action( 'pm_changed_task_status', $task, $old_value, $request->get_params() );
+        do_action( 'wedevs_mark_task_complete', $task->project_id, $task->id );
+        do_action( 'wedevs_pm_changed_task_status', $task, $old_value, $request->get_params() );
 
         $task_response = Task_Helper::get_results([ 
             'id' => $task->id,
@@ -431,7 +431,7 @@ class Task_Controller {
             'data'     => $task_response['data']
         ];
 
-        do_action('pm_changed_task_status_aftre_transformer', $response, $request->get_params() );
+        do_action( 'wedevs_pm_changed_task_status_aftre_transformer', $response, $request->get_params() );
 
         return $response;
     }
@@ -464,8 +464,8 @@ class Task_Controller {
         $resource = $self->get_response( $resource );
         $list_id  = $resource['data']['task_list_id'];
 
-        do_action( "pm_before_delete_task", $task, $data );
-        do_action( 'cpm_delete_task_prev', $task_id, $project_id, $project_id, $task );
+        do_action( "wedevs_pm_before_delete_task", $task, $data );
+        do_action( 'wedevs_cpm_delete_task_prev', $task_id, $project_id, $project_id, $task );
 
         // Delete relations assoicated with the task
         $task->boardables()->delete();
@@ -493,8 +493,8 @@ class Task_Controller {
             'task_list_id' => $list_id
         ] );
 
-        do_action( 'cpm_delete_task_after', $task_id, $project_id );
-        do_action( 'pm_after_delete_task', $task_id, $project_id );
+        do_action( 'wedevs_cpm_delete_task_after', $task_id, $project_id );
+        do_action( 'wedevs_pm_after_delete_task', $task_id, $project_id );
 
         $message = [
             'message' => wedevs_pm_get_text('success_messages.task_deleted'),
@@ -520,8 +520,8 @@ class Task_Controller {
         $resource = $this->get_response( $resource );
         $list_id  = $resource['data']['task_list_id'];
         
-        do_action("pm_before_delete_task", $task, $request->get_params() );
-        do_action( 'cpm_delete_task_prev', $task_id, $project_id, $project_id, $task );
+        do_action( "wedevs_pm_before_delete_task", $task, $request->get_params() );
+        do_action( 'wedevs_cpm_delete_task_prev', $task_id, $project_id, $project_id, $task );
 
         // Delete relations assoicated with the task
         $task->boardables()->delete();
@@ -548,8 +548,8 @@ class Task_Controller {
             'task_list_id' => $list_id
         ] );
 
-        do_action( 'cpm_delete_task_after', $task_id, $project_id );
-        do_action( 'pm_after_delete_task', $task_id, $project_id );
+        do_action( 'wedevs_cpm_delete_task_after', $task_id, $project_id );
+        do_action( 'wedevs_pm_after_delete_task', $task_id, $project_id );
 
         $message = [
             'message'  => wedevs_pm_get_text('success_messages.task_deleted'),
@@ -790,7 +790,7 @@ class Task_Controller {
                         });
                     }
 
-                    $q = apply_filters( 'pm_task_filter_query', $q, $project_id );
+                    $q = apply_filters( 'wedevs_pm_task_filter_query', $q, $project_id );
                 }
             ]
         )
@@ -831,7 +831,7 @@ class Task_Controller {
                     });
                 }
 
-                $q = apply_filters( 'pm_task_filter_query', $q, $project_id );
+                $q = apply_filters( 'wedevs_pm_task_filter_query', $q, $project_id );
 
             }
         )
@@ -848,7 +848,7 @@ class Task_Controller {
         ->where( wedevs_pm_tb_prefix() . 'pm_boards.project_id', $project_id)
         ->orderBy( wedevs_pm_tb_prefix() . 'pm_boards.order', 'DESC' );
 
-        return apply_filters( 'pm_check_task_filter_list_permission', $task_lists, $request );
+        return apply_filters( 'wedevs_pm_check_task_filter_list_permission', $task_lists, $request );
     }
 
     public function filter( WP_REST_Request $request ) {
@@ -960,7 +960,7 @@ class Task_Controller {
     public function transform_tasks( $tasks ) {
         $transform_tasks = new Collection( $tasks, new New_Task_Transformer );
         $all_tasks = $this->get_response( $transform_tasks );
-        return apply_filters( 'pm_after_transformer_list_tasks', $all_tasks );
+        return apply_filters( 'wedevs_pm_after_transformer_list_tasks', $all_tasks );
     }
 
     public function get_tasks_meta( $tasks_ids = [] ) {
@@ -1049,10 +1049,10 @@ class Task_Controller {
          * These filters allow plugins to add JOIN and WHERE clauses for permission checks.
          * The filter callbacks are responsible for using $wpdb->prepare() or esc_sql() on their output.
          */
-        $permission_join = apply_filters( 'pm_incomplete_task_query_join', '', absint( $project_id ) );
+        $permission_join = apply_filters( 'wedevs_pm_incomplete_task_query_join', '', absint( $project_id ) );
         $permission_join = is_string( $permission_join ) ? $permission_join : '';
 
-        $where = apply_filters( 'pm_incomplete_task_query_where', '', absint( $project_id ) );
+        $where = apply_filters( 'wedevs_pm_incomplete_task_query_where', '', absint( $project_id ) );
         $where = is_string( $where ) ? $where : '';
 
         $not_in_clause = '';
@@ -1153,10 +1153,10 @@ class Task_Controller {
          * These filters allow plugins to add JOIN and WHERE clauses for permission checks.
          * The filter callbacks are responsible for using $wpdb->prepare() or esc_sql() on their output.
          */
-        $permission_join = apply_filters( 'pm_complete_task_query_join', '', absint( $project_id ) );
+        $permission_join = apply_filters( 'wedevs_pm_complete_task_query_join', '', absint( $project_id ) );
         $permission_join = is_string( $permission_join ) ? $permission_join : '';
 
-        $where = apply_filters( 'pm_complete_task_query_where', '', absint( $project_id ) );
+        $where = apply_filters( 'wedevs_pm_complete_task_query_where', '', absint( $project_id ) );
         $where = is_string( $where ) ? $where : '';
 
         $not_in_clause = '';
@@ -1270,7 +1270,7 @@ class Task_Controller {
             ->groupBy( $task . '.id' )
             ->orderBy( $list . '.order', 'DESC' );
 
-        $task_collection = apply_filters( 'list_tasks_filter_query', $task_collection, $args );
+        $task_collection = apply_filters( 'wedevs_list_tasks_filter_query', $task_collection, $args );
 
         $task_collection = $task_collection->get();
         
@@ -1279,7 +1279,7 @@ class Task_Controller {
 
         $resource = new collection( $task_collection, $task_transformer );
         $tasks    = $this->get_response( $resource );
-        $tasks    = apply_filters( 'pm_after_transformer_list_tasks', $tasks, $task_ids );
+        $tasks    = apply_filters( 'wedevs_pm_after_transformer_list_tasks', $tasks, $task_ids );
 
         return $tasks;
     }
@@ -1295,7 +1295,7 @@ class Task_Controller {
         $duplicate_task = $this->task_duplicate( $task, $list_id, $project_id );
         $new_task       = $this->get_task( $duplicate_task->id );
 
-        do_action( 'pm_after_task_duplicate', $new_task, $task  );
+        do_action( 'wedevs_pm_after_task_duplicate', $new_task, $task  );
 
         wp_send_json_success( 
             [
@@ -1350,8 +1350,8 @@ class Task_Controller {
             $newMeta = $this->replicate( $meta, $meta_data );
         }
 
-        do_action( 'cpm_task_duplicate_after', $newTask->id, $list_id, $project_id );
-        do_action( 'pm_task_duplicate_after', $newTask->id, $list_id, $project_id, $task );
+        do_action( 'wedevs_cpm_task_duplicate_after', $newTask->id, $list_id, $project_id );
+        do_action( 'wedevs_pm_task_duplicate_after', $newTask->id, $list_id, $project_id, $task );
 
         return $newTask;
     }

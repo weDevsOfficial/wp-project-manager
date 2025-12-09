@@ -48,7 +48,7 @@ class Task_List_Transformer extends TransformerAbstract {
 
         ];
 
-        return apply_filters( 'pm_task_list_transform', $data, $item );
+        return apply_filters( 'wedevs_pm_task_list_transform', $data, $item );
     }
 
         /**
@@ -58,7 +58,7 @@ class Task_List_Transformer extends TransformerAbstract {
      */
     public function getDefaultIncludes()
     {
-        return apply_filters( "pm_task_list_transformer_default_includes", $this->defaultIncludes );
+        return apply_filters( "wedevs_pm_task_list_transformer_default_includes", $this->defaultIncludes );
     }
 
     public function meta( Task_List $item ) {
@@ -151,7 +151,7 @@ class Task_List_Transformer extends TransformerAbstract {
         $tasks = $item->tasks()
                 ->where( 'status', 1 );
 
-        $tasks = apply_filters( 'pm_complete_task_query', $tasks,  $item->project_id, $item );
+        $tasks = apply_filters( 'wedevs_pm_complete_task_query', $tasks,  $item->project_id, $item );
         if ( $per_page == '-1' ) {
             $per_page = $tasks->count();
         }
@@ -178,7 +178,7 @@ class Task_List_Transformer extends TransformerAbstract {
         
         $tasks = $item->tasks()
             ->where( 'status', 0 );
-        $tasks = apply_filters( 'pm_incomplete_task_query', $tasks,  $item->project_id, $item );
+        $tasks = apply_filters( 'wedevs_pm_incomplete_task_query', $tasks,  $item->project_id, $item );
         
         if ( $per_page == '-1' ) {
             $per_page = $tasks->count();

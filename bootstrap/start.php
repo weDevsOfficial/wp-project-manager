@@ -21,6 +21,6 @@ wedevs_pm_view();
 wedevs_pm_load_routes();
 wedevs_pm_register_routes();
 wedevs_pm_clean_svg();
-do_action( 'pm_loaded' );
+do_action( 'wedevs_pm_loaded' );
 
 add_action('init', 'wedevs_pm_init_tracker');

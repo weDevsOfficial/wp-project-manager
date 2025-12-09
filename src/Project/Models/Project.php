@@ -130,6 +130,6 @@ class Project extends Eloquent {
     }
 
     public function labels() {
-        return  apply_filters( 'pm_task_label', $this );
+        return  apply_filters( 'wedevs_pm_task_label', $this );
     }
 }

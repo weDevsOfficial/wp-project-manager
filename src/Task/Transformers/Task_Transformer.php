@@ -58,7 +58,7 @@ class Task_Transformer extends TransformerAbstract {
         }
 
         return apply_filters(
-            'pm_task_transform',
+            'wedevs_pm_task_transform',
             [
                 'id'           => (int) $item->id,
                 'title'        => $item->title,
@@ -138,7 +138,7 @@ class Task_Transformer extends TransformerAbstract {
      */
     public function getDefaultIncludes()
     {
-        return apply_filters( "pm_task_transformer_default_includes", $this->defaultIncludes );
+        return apply_filters( "wedevs_pm_task_transformer_default_includes", $this->defaultIncludes );
     }
     /**
      * Include task list

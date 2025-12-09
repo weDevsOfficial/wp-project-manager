@@ -41,7 +41,7 @@ class File_Transformer extends TransformerAbstract {
      */
     public function getDefaultIncludes()
     {
-        return apply_filters( "pm_file_transformer_default_includes", $this->defaultIncludes );
+        return apply_filters( "wedevs_pm_file_transformer_default_includes", $this->defaultIncludes );
     }
 
     public function get_fileabel( $item ) {
