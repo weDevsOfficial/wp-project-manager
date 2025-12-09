@@ -20,10 +20,10 @@ class New_Message_Notification extends Email {
         if ( empty( $request['notify_users'] ) ){
             return ;
         }
-        $message            = pm_get_discussions( [ 'id' => $message['data']['id'] ] );
+        $message            = wedevs_pm_get_discussions( [ 'id' => $message['data']['id'] ] );
         $message            = $message['data'];
         $project_id         = $message['project_id'];
-        $project            = pm_get_projects( ['id' => $project_id, 'with' => 'assignees'] );
+        $project            = wedevs_pm_get_projects( ['id' => $project_id, 'with' => 'assignees'] );
         $project            = $project['data']; //Project::with('assignees', 'managers')->find( $request['project_id'] );
         $message['project'] = $project;
         $users              = array();

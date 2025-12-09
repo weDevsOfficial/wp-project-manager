@@ -97,7 +97,7 @@ class Task_Controller {
     }
 
     public static function get_task( $task_id, $project_id = false, $request=[] ) {
-        return pm_get_tasks( [
+        return wedevs_pm_get_tasks( [
             'id'   => $task_id,
             'with' => 'project, activities, comments, task_list, time, labels' 
         ] );
@@ -112,7 +112,7 @@ class Task_Controller {
         $data['is_private']    = $is_private == 'true' || $is_private === true ? 1 : 0;
 
         if ( empty( $board_id ) ) {
-            $inbox            = pm_get_meta($project_id, $project_id, 'task_list', 'list-inbox');
+            $inbox            = wedevs_pm_get_meta($project_id, $project_id, 'task_list', 'list-inbox');
             $board_id         = $inbox->meta_value;
             $data['board_id'] = $inbox->meta_value;
         }
@@ -149,7 +149,7 @@ class Task_Controller {
 
 
         $message = [
-            'message' => pm_get_text('success_messages.task_created'),
+            'message' => wedevs_pm_get_text('success_messages.task_created'),
             'activity' => $self->last_activity( 'task', $task->id ),
         ];
 
@@ -172,7 +172,7 @@ class Task_Controller {
         $data['is_private']    = $is_private == 'true' || $is_private === true ? 1 : 0;
 
         if ( empty( $board_id ) ) {
-            $inbox            = pm_get_meta($project_id, $project_id, 'task_list', 'list-inbox');
+            $inbox            = wedevs_pm_get_meta($project_id, $project_id, 'task_list', 'list-inbox');
             $board_id         = $inbox->meta_value;
             $data['board_id'] = $inbox->meta_value;
         }
@@ -211,7 +211,7 @@ class Task_Controller {
 
 
         $message = [
-            'message' => pm_get_text('success_messages.task_created'),
+            'message' => wedevs_pm_get_text('success_messages.task_created'),
             'activity' => $this->last_activity( 'task', $task->id ),
         ];
 
@@ -385,7 +385,7 @@ class Task_Controller {
         ]);
 
         $response = [
-            'message'  => pm_get_text('success_messages.task_updated'),
+            'message'  => wedevs_pm_get_text('success_messages.task_updated'),
             'activity' => self::getInstance()->last_activity( 'task', $task->id ),
             'data'     => $task_response['data']
         ];
@@ -426,7 +426,7 @@ class Task_Controller {
         ]);
 
         $response = [
-            'message'  => pm_get_text( 'success_messages.task_updated' ),
+            'message'  => wedevs_pm_get_text( 'success_messages.task_updated' ),
             'activity' => self::getInstance()->last_activity( 'task', $task->id ),
             'data'     => $task_response['data']
         ];
@@ -437,7 +437,7 @@ class Task_Controller {
     }
 
     private function task_activity_comment ($task, $status) {
-        $activity = ( (bool) $status) ? pm_get_text('success_messages.task_activity_done_comment') : pm_get_text('success_messages.task_activity_undone_comment');
+        $activity = ( (bool) $status) ? wedevs_pm_get_text('success_messages.task_activity_done_comment') : wedevs_pm_get_text('success_messages.task_activity_undone_comment');
         $user_id = get_current_user_id();
         $comment                   = new Comment;
         $comment->content          = $activity;
@@ -497,7 +497,7 @@ class Task_Controller {
         do_action( 'pm_after_delete_task', $task_id, $project_id );
 
         $message = [
-            'message' => pm_get_text('success_messages.task_deleted'),
+            'message' => wedevs_pm_get_text('success_messages.task_deleted'),
             'activity' => $self->last_activity( 'task', $task->id ),
             'task'     => $resource,
             'list'     => $list
@@ -552,7 +552,7 @@ class Task_Controller {
         do_action( 'pm_after_delete_task', $task_id, $project_id );
 
         $message = [
-            'message'  => pm_get_text('success_messages.task_deleted'),
+            'message'  => wedevs_pm_get_text('success_messages.task_deleted'),
             'activity' => $this->last_activity( 'task', $task->id ),
             'task'     => $resource,
             'list'     => $list
@@ -671,7 +671,7 @@ class Task_Controller {
         $task->update_model( [
             'is_private' => $privacy
         ] );
-        pm_update_meta( $task_id, $project_id, 'task', 'privacy', $privacy );
+        wedevs_pm_update_meta( $task_id, $project_id, 'task', 'privacy', $privacy );
         return $this->get_response( NULL);
     }
 
@@ -686,7 +686,7 @@ class Task_Controller {
         $sender_list_id = false;
 
         if ( isset( $receive ) && $receive == 1 ) {
-            $task = pm_get_task( $task_id );
+            $task = wedevs_pm_get_task( $task_id );
             $sender_list_id = $task ? $task['data']['task_list']['data']['id'] : false;
             $boardable = Boardable::where( 'board_type', 'task_list' )
                 ->where( 'boardable_id', $task_id )
@@ -697,7 +697,7 @@ class Task_Controller {
                 $boardable->update();
             }
 
-            $task = pm_get_task( $task_id );
+            $task = wedevs_pm_get_task( $task_id );
         }
 
         foreach ( $orders as $order ) {
@@ -747,7 +747,7 @@ class Task_Controller {
         $project_id   = intval($request->get_param('project_id'));
         $title        = sanitize_text_field($request->get_param('title'));
 
-        $tb_lists     = pm_tb_prefix() . 'pm_boards';
+        $tb_lists     = wedevs_pm_tb_prefix() . 'pm_boards';
 
 
         $task_lists = Task_List::select( $tb_lists.'.*' )->with(
@@ -802,7 +802,7 @@ class Task_Controller {
 
                 if ( ! empty(  $status ) ) {
                     $status = $status == 'complete' ? 1 : 0;
-                    $q->where( pm_tb_prefix(). 'pm_tasks.status', $status );
+                    $q->where( wedevs_pm_tb_prefix(). 'pm_tasks.status', $status );
                 }
 
                 if ( ! empty(  $due_date ) ) {
@@ -838,27 +838,27 @@ class Task_Controller {
         ->where(function($q) use( $lists ) {
             if( !empty( $lists ) && !empty( $lists[0] ) ) {
                 if( is_array( $lists ) && $lists[0] != 0 ) {
-                    $q->whereIn( pm_tb_prefix() . 'pm_boards.id', $lists );
+                    $q->whereIn( wedevs_pm_tb_prefix() . 'pm_boards.id', $lists );
                 } else if ( !is_array( $lists ) &&  $lists != 0 ) {
-                    $q->where( pm_tb_prefix() . 'pm_boards.id', $lists );
+                    $q->where( wedevs_pm_tb_prefix() . 'pm_boards.id', $lists );
                 }
             }
         })
-        ->where( pm_tb_prefix() . 'pm_boards.status', 1 )
-        ->where( pm_tb_prefix() . 'pm_boards.project_id', $project_id)
-        ->orderBy( pm_tb_prefix() . 'pm_boards.order', 'DESC' );
+        ->where( wedevs_pm_tb_prefix() . 'pm_boards.status', 1 )
+        ->where( wedevs_pm_tb_prefix() . 'pm_boards.project_id', $project_id)
+        ->orderBy( wedevs_pm_tb_prefix() . 'pm_boards.order', 'DESC' );
 
         return apply_filters( 'pm_check_task_filter_list_permission', $task_lists, $request );
     }
 
     public function filter( WP_REST_Request $request ) {
-        $per_page     = pm_get_setting( 'list_per_page' );
+        $per_page     = wedevs_pm_get_setting( 'list_per_page' );
         $per_page     = empty( $per_page ) ? 20 : $per_page;
 
-        $it_per_page   = pm_get_setting( 'incomplete_tasks_per_page' );
+        $it_per_page   = wedevs_pm_get_setting( 'incomplete_tasks_per_page' );
         $it_per_page   = empty( $per_page ) ? 20 : intval( $per_page );
 
-        $ct_per_page   = pm_get_setting( 'complete_tasks_per_page' );
+        $ct_per_page   = wedevs_pm_get_setting( 'complete_tasks_per_page' );
         $ct_per_page   = empty( $per_page ) ? 20 : intval( $per_page );
 
         $page         = intval($request->get_param('page'));
@@ -1034,7 +1034,7 @@ class Task_Controller {
         $table_ba   = esc_sql( $wpdb->prefix . 'pm_boardables' );
         $table_task = esc_sql( $wpdb->prefix . 'pm_tasks' );
 
-        $per_page   = pm_get_setting( 'incomplete_tasks_per_page' );
+        $per_page   = wedevs_pm_get_setting( 'incomplete_tasks_per_page' );
         $per_page   = empty( $per_page ) ? 20 : \intval( $per_page );
 
         $start = \intval( $per_page_count ) ? $per_page_count - 1 : 0;
@@ -1138,7 +1138,7 @@ class Task_Controller {
         $table_ba         = esc_sql( $wpdb->prefix . 'pm_boardables' );
         $table_task       = esc_sql( $wpdb->prefix . 'pm_tasks' );
 
-        $per_page         = pm_get_setting( 'complete_tasks_per_page' );
+        $per_page         = wedevs_pm_get_setting( 'complete_tasks_per_page' );
         $per_page   = empty( $per_page ) ? 20 : \intval( $per_page );
 
         $start = \intval( $per_page_count ) ? $per_page_count - 1 : 0;
@@ -1233,10 +1233,10 @@ class Task_Controller {
             $task_ids[] = 0;
         }
 
-        $task      = pm_tb_prefix() . 'pm_tasks';
-        $list      = pm_tb_prefix() . 'pm_boardables';
-        $comment   = pm_tb_prefix() . 'pm_comments';
-        $assignees = pm_tb_prefix() . 'pm_assignees';
+        $task      = wedevs_pm_tb_prefix() . 'pm_tasks';
+        $list      = wedevs_pm_tb_prefix() . 'pm_boardables';
+        $comment   = wedevs_pm_tb_prefix() . 'pm_comments';
+        $assignees = wedevs_pm_tb_prefix() . 'pm_assignees';
 
         $task_collection = Task::select( $task . '.*')
             ->selectRaw(
@@ -1386,7 +1386,7 @@ class Task_Controller {
             $task_ids = $this->get_incomplete_task_ids( [$list_id], $project_id, $task_ids );   
         }
         
-        $tasks = pm_get_tasks( [ 'id' => $task_ids, 'source' => 'more_tasks' ] );
+        $tasks = wedevs_pm_get_tasks( [ 'id' => $task_ids, 'source' => 'more_tasks' ] );
 
         wp_send_json_success(
             [

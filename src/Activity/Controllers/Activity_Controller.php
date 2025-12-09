@@ -34,8 +34,8 @@ class Activity_Controller {
             $activities = Activity::orderBy( 'created_at', 'DESC' )
                 ->paginate( $per_page );
         } else {
-            $activities = Activity::where( pm_tb_prefix() .'pm_activities.project_id', $project_id )
-                ->orderBy( pm_tb_prefix() .'pm_activities.created_at', 'desc' )
+            $activities = Activity::where( wedevs_pm_tb_prefix() .'pm_activities.project_id', $project_id )
+                ->orderBy( wedevs_pm_tb_prefix() .'pm_activities.created_at', 'desc' )
                 ->paginate( $per_page );
             
         }

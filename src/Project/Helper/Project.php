@@ -80,7 +80,7 @@ class Project {
 
 		$response = $self->format_projects( $self->projects );
 		
-		if( pm_is_single_query( $params ) ) {
+		if( wedevs_pm_is_single_query( $params ) ) {
 			$project = empty( $response['data'][0] ) ? [] : $response['data'][0];
 			return ['data' => $project];
 		}
@@ -185,7 +185,7 @@ class Project {
 
 	private function count_project_by_type( $type) {
 		global $wpdb;
-		$tb_projects = pm_tb_prefix() . 'pm_projects';
+		$tb_projects = wedevs_pm_tb_prefix() . 'pm_projects';
 
 		$incomplete_project_count = $wpdb->get_var( $wpdb->prepare( 
 			"SELECT DISTINCT COUNT(id) FROM {$tb_projects} WHERE status = %d", 
@@ -197,8 +197,8 @@ class Project {
 
 	private function favourite_project_count() {
 		global $wpdb;
-		$tb_projects = pm_tb_prefix() . 'pm_projects';
-		$tb_meta     = pm_tb_prefix() . 'pm_meta';
+		$tb_projects = wedevs_pm_tb_prefix() . 'pm_projects';
+		$tb_meta     = wedevs_pm_tb_prefix() . 'pm_meta';
 		$current_user_id = get_current_user_id();
 
 
@@ -222,7 +222,7 @@ class Project {
 	 * @return array
 	 */
 	public function fromat_project( $project ) {
-		$listmeta = pm_get_meta( $project->id, $project->id, 'task_list', 'list-inbox');
+		$listmeta = wedevs_pm_get_meta( $project->id, $project->id, 'task_list', 'list-inbox');
 
         if( $listmeta ) {
             $listmeta = $listmeta->meta_value;
@@ -234,16 +234,16 @@ class Project {
             'id'      	      	  => (int) $project->id,
             'project_id'      	  => (int) $project->id, //need for calendar task create form
 			'title'   	  		  => isset( $project->title ) ? (string) $project->title : '',
-			'description' 		  => isset( $project->description ) ? [ 'html' => pm_get_content( $project->description ), 'content' => $project->description ] : '',
+			'description' 		  => isset( $project->description ) ? [ 'html' => wedevs_pm_get_content( $project->description ), 'content' => $project->description ] : '',
 			'status'	  		  => isset( $project->status ) ? $project->status : null,
 			'budget'	  		  => isset( $project->budget ) ? $project->budget : null,
 			'pay_rate'	  		  => isset( $project->pay_rate ) ? $project->pay_rate : null,
-			'est_completion_date' => isset( $project->est_completion_date ) ? format_date( $project->est_completion_date ) : null,
+			'est_completion_date' => isset( $project->est_completion_date ) ? wedevs_pm_format_date( $project->est_completion_date ) : null,
 			'order'				  => isset( $project->order ) ? $project->order : null,
 			'projectable_type'	  => isset( $project->projectable_type ) ? $project->projectable_type : null,
 			'favourite'	  		  => isset( $project->favourite ) ? $project->favourite : false,
-			'created_at'		  => isset( $project->created_at ) ? format_date( $project->created_at ) : null,
-			'updated_at'		  => isset( $project->updated_at ) ? format_date( $project->updated_at ) : null,
+			'created_at'		  => isset( $project->created_at ) ? wedevs_pm_format_date( $project->created_at ) : null,
+			'updated_at'		  => isset( $project->updated_at ) ? wedevs_pm_format_date( $project->updated_at ) : null,
 			'created_by'		  => isset( $project->created_by ) ? (int) $project->created_by : false,
 			'list_inbox'		  => $listmeta,
         ];
@@ -451,8 +451,8 @@ class Project {
 		global $wpdb;
 
 		$metas          = [];
-		$tb_projects    = esc_sql( pm_tb_prefix() . 'pm_projects' );
-		$tb_meta        = esc_sql( pm_tb_prefix() . 'pm_meta' );
+		$tb_projects    = esc_sql( wedevs_pm_tb_prefix() . 'pm_projects' );
+		$tb_meta        = esc_sql( wedevs_pm_tb_prefix() . 'pm_meta' );
 		$project_ids_safe = array_map( 'absint', $this->project_ids );
 		$project_placeholders = implode( ', ', array_fill( 0, count( $project_ids_safe ), '%d' ) );
 		$query_data     = array_merge( $project_ids_safe, array( 'project' ) );
@@ -529,8 +529,8 @@ class Project {
 
 		global $wpdb;
 		$metas          = [];
-		$tb_projects    = esc_sql( pm_tb_prefix() . 'pm_projects' );
-		$tb_task        = esc_sql( pm_tb_prefix() . 'pm_tasks' );
+		$tb_projects    = esc_sql( wedevs_pm_tb_prefix() . 'pm_projects' );
+		$tb_task        = esc_sql( wedevs_pm_tb_prefix() . 'pm_tasks' );
 		$project_ids_safe = array_map( 'absint', $this->project_ids );
 		$project_placeholders = implode( ', ', array_fill( 0, count( $project_ids_safe ), '%d' ) );
 		$query_data     = array_merge( $project_ids_safe, array( 1 ) );
@@ -595,8 +595,8 @@ class Project {
 		global $wpdb;
 
 		$metas          = [];
-		$tb_projects    = esc_sql( pm_tb_prefix() . 'pm_projects' );
-		$tb_task        = esc_sql( pm_tb_prefix() . 'pm_tasks' );
+		$tb_projects    = esc_sql( wedevs_pm_tb_prefix() . 'pm_projects' );
+		$tb_task        = esc_sql( wedevs_pm_tb_prefix() . 'pm_tasks' );
 		$project_ids_safe = array_map( 'absint', $this->project_ids );
 		$project_placeholders = implode( ', ', array_fill( 0, count( $project_ids_safe ), '%d' ) );
 
@@ -632,9 +632,9 @@ class Project {
 		global $wpdb;
 
 		$metas          = [];
-		$tb_projects    = pm_tb_prefix() . 'pm_projects';
-		$tb_boards      = pm_tb_prefix() . 'pm_boards';
-		$project_format = pm_get_prepare_format( $this->project_ids );
+		$tb_projects    = wedevs_pm_tb_prefix() . 'pm_projects';
+		$tb_boards      = wedevs_pm_tb_prefix() . 'pm_boards';
+		$project_format = wedevs_pm_get_prepare_format( $this->project_ids );
 		$query_data     = $this->project_ids;
 
 		array_push( $query_data, 'task_list' );
@@ -667,9 +667,9 @@ class Project {
 		global $wpdb;
 
 		$metas          = [];
-		$tb_projects    = pm_tb_prefix() . 'pm_projects';
-		$tb_boards      = pm_tb_prefix() . 'pm_boards';
-		$project_format = pm_get_prepare_format( $this->project_ids );
+		$tb_projects    = wedevs_pm_tb_prefix() . 'pm_projects';
+		$tb_boards      = wedevs_pm_tb_prefix() . 'pm_boards';
+		$project_format = wedevs_pm_get_prepare_format( $this->project_ids );
 		$query_data     = $this->project_ids;
 
 
@@ -704,8 +704,8 @@ class Project {
 		global $wpdb;
 
 		$metas          = [];
-		$tb_projects    = esc_sql( pm_tb_prefix() . 'pm_projects' );
-		$tb_comments    = esc_sql( pm_tb_prefix() . 'pm_comments' );
+		$tb_projects    = esc_sql( wedevs_pm_tb_prefix() . 'pm_projects' );
+		$tb_comments    = esc_sql( wedevs_pm_tb_prefix() . 'pm_comments' );
 		$project_ids_safe = array_map( 'absint', $this->project_ids );
 		$project_placeholders = implode( ', ', array_fill( 0, count( $project_ids_safe ), '%d' ) );
 
@@ -746,9 +746,9 @@ class Project {
 		global $wpdb;
 
 		$metas          = [];
-		$tb_projects    = pm_tb_prefix() . 'pm_projects';
-		$tb_boards      = pm_tb_prefix() . 'pm_boards';
-		$project_format = pm_get_prepare_format( $this->project_ids );
+		$tb_projects    = wedevs_pm_tb_prefix() . 'pm_projects';
+		$tb_boards      = wedevs_pm_tb_prefix() . 'pm_boards';
+		$project_format = wedevs_pm_get_prepare_format( $this->project_ids );
 		$query_data     = $this->project_ids;
 
 
@@ -787,8 +787,8 @@ class Project {
 		global $wpdb;
 
 		$metas          = [];
-		$tb_projects    = esc_sql( pm_tb_prefix() . 'pm_projects' );
-		$tb_files       = esc_sql( pm_tb_prefix() . 'pm_files' );
+		$tb_projects    = esc_sql( wedevs_pm_tb_prefix() . 'pm_projects' );
+		$tb_files       = esc_sql( wedevs_pm_tb_prefix() . 'pm_files' );
 		$project_ids_safe = array_map( 'absint', $this->project_ids );
 		$project_placeholders = implode( ', ', array_fill( 0, count( $project_ids_safe ), '%d' ) );
 
@@ -829,8 +829,8 @@ class Project {
 		global $wpdb;
 
 		$metas = [];
-		$tb_projects    = esc_sql( pm_tb_prefix() . 'pm_projects' );
-		$tb_activites   = esc_sql( pm_tb_prefix() . 'pm_activities' );
+		$tb_projects    = esc_sql( wedevs_pm_tb_prefix() . 'pm_projects' );
+		$tb_activites   = esc_sql( wedevs_pm_tb_prefix() . 'pm_activities' );
 		$project_ids_safe = array_map( 'absint', $this->project_ids );
 		$project_placeholders = implode( ', ', array_fill( 0, count( $project_ids_safe ), '%d' ) );
 
@@ -903,8 +903,8 @@ class Project {
 			return $this;
 		}
 
-		$tb_categories  = esc_sql( pm_tb_prefix() . 'pm_categories' );
-		$tb_relation    = esc_sql( pm_tb_prefix() . 'pm_category_project' );
+		$tb_categories  = esc_sql( wedevs_pm_tb_prefix() . 'pm_categories' );
+		$tb_relation    = esc_sql( wedevs_pm_tb_prefix() . 'pm_category_project' );
 		$project_ids_safe = array_map( 'absint', $this->project_ids );
 		$project_placeholders = implode( ', ', array_fill( 0, count( $project_ids_safe ), '%d' ) );
 		$query_data     = array_merge( $project_ids_safe, array( 'project' ) );
@@ -965,8 +965,8 @@ class Project {
 			return $this;
 		}
 
-		$tb_role_project = esc_sql( pm_tb_prefix() . 'pm_role_project' );
-		$tb_role_project_capabilities = esc_sql( pm_tb_prefix() . 'pm_role_project_capabilities' );
+		$tb_role_project = esc_sql( wedevs_pm_tb_prefix() . 'pm_role_project' );
+		$tb_role_project_capabilities = esc_sql( wedevs_pm_tb_prefix() . 'pm_role_project_capabilities' );
 		$project_ids_safe = array_map( 'absint', $this->project_ids );
 		$project_placeholders = implode( ', ', array_fill( 0, count( $project_ids_safe ), '%d' ) );
 
@@ -1002,16 +1002,16 @@ class Project {
 				$role_slug = 'client';
 			}
 
-			$cap_slug = pm_default_cap( $result->capability_id );
+			$cap_slug = wedevs_pm_default_cap( $result->capability_id );
 
 			$caps[$result->project_id][$role_slug][$cap_slug] = true;
 		}
 
 		foreach ( $this->projects as $key => $project ) {
 			if ( empty( $caps[$project->id] ) ) {
-				$caps[$project->id]['manager'] = pm_default_manager_caps();
-				$caps[$project->id]['co_worker'] = pm_default_co_caps();
-				$caps[$project->id]['client'] = pm_default_client_caps();
+				$caps[$project->id]['manager'] = wedevs_pm_default_manager_caps();
+				$caps[$project->id]['co_worker'] = wedevs_pm_default_co_caps();
+				$caps[$project->id]['client'] = wedevs_pm_default_client_caps();
 			}
 
 			$project->role_capabilities = empty( $caps[$project->id] ) ? [] : $caps[$project->id];
@@ -1039,14 +1039,14 @@ class Project {
 			return $this;
 		}
 
-		$tb_assignees   = esc_sql( pm_tb_prefix() . 'pm_role_user' );
+		$tb_assignees   = esc_sql( wedevs_pm_tb_prefix() . 'pm_role_user' );
 		$tb_users       = esc_sql( $wpdb->base_prefix . 'users' );
 		$tb_user_meta   = esc_sql( $wpdb->base_prefix . 'usermeta' );
 		$project_ids_safe = array_map( 'absint', $this->project_ids );
 		$project_placeholders = implode( ', ', array_fill( 0, count( $project_ids_safe ), '%d' ) );
 
 		if ( is_multisite() ) {
-			$meta_key = pm_user_meta_key();
+			$meta_key = wedevs_pm_user_meta_key();
 			$query_data = array_merge( $project_ids_safe, array( $meta_key ) );
 
 			$results = $wpdb->get_results(
@@ -1171,7 +1171,7 @@ class Project {
 		}
 
 		if ( is_array( $id ) ) {
-			$query_format = pm_get_prepare_format( $id );
+			$query_format = wedevs_pm_get_prepare_format( $id );
 			$this->where .= $wpdb->prepare( " AND {$this->tb_project}.id IN ($query_format)", $id );
 		}
 
@@ -1260,17 +1260,17 @@ class Project {
 		// }
 
 		if ( empty( $inUsers ) ) {
-			if ( pm_has_manage_capability( get_current_user_id() ) ) {
+			if ( wedevs_pm_has_manage_capability( get_current_user_id() ) ) {
 				return $this;
 			}
 
 			$inUsers = get_current_user_id();
 		}
 
-		$inUsers = pm_get_prepare_data( $inUsers );
+		$inUsers = wedevs_pm_get_prepare_data( $inUsers );
 
 		if ( is_array( $inUsers ) ) {
-			$query_format = pm_get_prepare_format( $inUsers );
+			$query_format = wedevs_pm_get_prepare_format( $inUsers );
 
 			if ( ! empty( trim( $query_format ) ) ) {
 				$this->where .= $wpdb->prepare( " AND {$this->tb_project_user}.user_id IN ($query_format)", $inUsers );
@@ -1298,7 +1298,7 @@ class Project {
 		$this->join  .= " LEFT JOIN {$this->tb_category_project} ON {$this->tb_category_project}.project_id={$this->tb_project}.id";
 
 		if ( is_array( $category ) ) {
-			$query_format = pm_get_prepare_format( $category );
+			$query_format = wedevs_pm_get_prepare_format( $category );
 			$this->where .= $wpdb->prepare( " AND {$this->tb_category_project}.category_id IN ($query_format)", $category );	
 		} else {
 			$this->where .= $wpdb->prepare( " AND {$this->tb_category_project}.category_id IN (%d)", $category );
@@ -1413,7 +1413,7 @@ class Project {
 			return (int) $per_page;
 		}
 
-		$per_page = pm_get_setting( 'project_per_page' );
+		$per_page = wedevs_pm_get_setting( 'project_per_page' );
 
 		return empty( $per_page ) ? 10 : (int) $per_page;
 
@@ -1463,12 +1463,12 @@ class Project {
 	 * Set table name as class object
 	 */
 	private function set_table_name() {
-		$this->tb_project = esc_sql( pm_tb_prefix() . 'pm_projects' );
-		$this->tb_list    = esc_sql( pm_tb_prefix() . 'pm_boards' );
-		$this->tb_task    = esc_sql( pm_tb_prefix() . 'pm_tasks' );
-		$this->tb_project_user     = pm_tb_prefix() . 'pm_role_user';
-		$this->tb_task_user        = pm_tb_prefix() . 'pm_assignees';
-		$this->tb_categories       = pm_tb_prefix() . 'pm_categories';
-		$this->tb_category_project = pm_tb_prefix() . 'pm_category_project';
+		$this->tb_project = esc_sql( wedevs_pm_tb_prefix() . 'pm_projects' );
+		$this->tb_list    = esc_sql( wedevs_pm_tb_prefix() . 'pm_boards' );
+		$this->tb_task    = esc_sql( wedevs_pm_tb_prefix() . 'pm_tasks' );
+		$this->tb_project_user     = wedevs_pm_tb_prefix() . 'pm_role_user';
+		$this->tb_task_user        = wedevs_pm_tb_prefix() . 'pm_assignees';
+		$this->tb_categories       = wedevs_pm_tb_prefix() . 'pm_categories';
+		$this->tb_category_project = wedevs_pm_tb_prefix() . 'pm_category_project';
 	}
 }

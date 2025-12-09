@@ -14,7 +14,7 @@ class Menu {
     public static function admin_menu() {
         global $submenu, $wedevs_pm_pro, $wedevs_license_progress;
 
-        $slug = pm_admin_slug();
+        $slug = wedevs_pm_admin_slug();
 
         $home = add_menu_page( __( 'Project Manager', 'wedevs-project-manager' ), __( 'Project Manager', 'wedevs-project-manager' ), self::$capability, $slug, array( new Output, 'home_page' ), self::pm_svg(), 3 );
 
@@ -27,7 +27,7 @@ class Menu {
         // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intentionally adding custom submenu items to WordPress admin menu
         $submenu[$slug][] = [ $mytask_text , self::$capability, "admin.php?page={$slug}#/my-tasks" ];
 
-        if ( pm_user_can_access( pm_manager_cap_slug() ) ) {
+        if ( wedevs_pm_user_can_access( wedevs_pm_manager_cap_slug() ) ) {
             // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intentionally adding custom submenu items to WordPress admin menu
             $submenu[$slug][] = [ __( 'Categories', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/categories" ];
         }
@@ -43,12 +43,12 @@ class Menu {
             $submenu[$slug][] = [ __( 'Premium', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/premium" ];
         }
 
-        if ( pm_has_admin_capability() ) {
+        if ( wedevs_pm_has_admin_capability() ) {
             // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intentionally adding custom submenu items to WordPress admin menu
             $submenu[$slug][] = [ __( 'Settings', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/settings" ];
         }
 
-        if ( pm_user_can_access( pm_manager_cap_slug() ) ) {
+        if ( wedevs_pm_user_can_access( wedevs_pm_manager_cap_slug() ) ) {
             // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intentionally adding custom submenu items to WordPress admin menu
             $submenu[$slug]['importtools'] = [ __( 'Tools', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/importtools" ];
         }
@@ -72,19 +72,19 @@ class Menu {
 		$project_ids = User_Role::where( 'user_id', $user_id)->get(['project_id'])->toArray();
         $project_ids = wp_list_pluck( $project_ids, 'project_id' );
 
-        if ( pm_has_manage_capability() ){
+        if ( wedevs_pm_has_manage_capability() ){
             $tasks = User::find( $user_id )
             	->tasks()
                 ->whereHas('boards')
                 ->parent()
-                ->where( pm_tb_prefix() . 'pm_tasks.status', 0)
-            	->whereIn( pm_tb_prefix() . 'pm_tasks.project_id', $project_ids)
+                ->where( wedevs_pm_tb_prefix() . 'pm_tasks.status', 0)
+            	->whereIn( wedevs_pm_tb_prefix() . 'pm_tasks.project_id', $project_ids)
                 ->get();
         }else{
             $tasks = User::find( $user_id )->tasks()
                 ->parent()
-                ->where( pm_tb_prefix() . 'pm_tasks.status', 0)
-                ->whereIn( pm_tb_prefix() . 'pm_tasks.project_id', $project_ids)
+                ->where( wedevs_pm_tb_prefix() . 'pm_tasks.status', 0)
+                ->whereIn( wedevs_pm_tb_prefix() . 'pm_tasks.project_id', $project_ids)
                 ->doesntHave( 'metas', 'and', function ($query) {
                     $query->where( 'meta_key', '=', 'privacy' )
                         ->where( 'meta_value', '!=', '0' );

@@ -39,7 +39,7 @@ class User {
 
 		$response = $self->format_users( $self->users );
 
-		if ( pm_is_single_query( $params ) ) {
+		if ( wedevs_pm_is_single_query( $params ) ) {
 			return ['data' => $response['data'][0]] ;
 		}
 
@@ -90,8 +90,8 @@ class User {
 			'email'             => $user->user_email,
 			'profile_url'       => $user->user_url,
 			'display_name'      => $user->display_name,
-			'manage_capability' => (int) pm_has_manage_capability($user->ID),
-			'create_capability' => (int) pm_has_project_create_capability($user->ID),
+			'manage_capability' => (int) wedevs_pm_has_manage_capability($user->ID),
+			'create_capability' => (int) wedevs_pm_has_project_create_capability($user->ID),
 			'avatar_url'        => get_avatar_url( $user->user_email ),
 			'github'            => get_user_meta($user->ID,'github' ,true),
 			'bitbucket'         => get_user_meta($user->ID,'bitbucket', true)
@@ -136,8 +136,8 @@ class User {
 		}
 
 		global $wpdb;
-		$format     = pm_get_prepare_format( $id );
-		$format_ids = pm_get_prepare_data( $id );
+		$format     = wedevs_pm_get_prepare_format( $id );
+		$format_ids = wedevs_pm_get_prepare_data( $id );
 
 		// Prevent empty IN clause which causes SQL error
 		if (empty($format_ids)) {
@@ -280,6 +280,6 @@ class User {
 	 * Set table name as class object
 	 */
 	private function set_table_name() {
-		$this->tb_user = esc_sql( pm_tb_prefix() . 'users' );
+		$this->tb_user = esc_sql( wedevs_pm_tb_prefix() . 'users' );
 	}
 }

@@ -1,12 +1,12 @@
 <?php
 
-if ( function_exists( 'pm_pro_get_logo' ) ) {
-    $logo_path = pm_pro_get_logo();
+if ( function_exists( 'wedevs_pm_pro_get_logo' ) ) {
+    $logo_path = wedevs_pm_pro_get_logo();
     $logo_path = $logo_path['url'];
 }
 
-$now      = format_date(current_time('mysql'));
-$calendar = config('frontend.assets_url')  . 'images/calendar.png';
+$now      = wedevs_pm_format_date(current_time('mysql'));
+$calendar = wedevs_pm_config('frontend.assets_url')  . 'images/calendar.png';
 ?>
 
 <div style="background: #f5f5f5; padding-bottom: 30px;">

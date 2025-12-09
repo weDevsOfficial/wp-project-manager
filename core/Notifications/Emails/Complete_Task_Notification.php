@@ -17,7 +17,7 @@ class Complete_Task_Notification extends Email {
 
     public function trigger( $task, $old_value ) {
 
-        $task_raw = pm_get_tasks( [ 'id' => $task->id ] );
+        $task_raw = wedevs_pm_get_tasks( [ 'id' => $task->id ] );
         $task_raw = $task_raw['data'];
         $task_raw['completed_by'] = wp_get_current_user(); 
 

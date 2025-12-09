@@ -76,7 +76,7 @@
                                 <p style="font-size: 16px; line-height: 30px; margin: 0; color: #7E8690;"><?php esc_html_e( 'Date', 'wedevs-project-manager' ); ?></p>
                                 <p style="font-size: 16px; color: #000000; line-height: 30px; margin: 0;">
                                     <?php
-                                        echo esc_html( pm_date_format( current_time( 'mysql' ) ) );
+                                        echo esc_html( wedevs_pm_date_format( current_time( 'mysql' ) ) );
                                     ?>
                                 </p>
                             </td>

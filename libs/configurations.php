@@ -2,34 +2,26 @@
 
 use WeDevs\PM\Core\Config\Config;
 
-if ( ! function_exists( 'config' ) ) {
-        
-    function config( $key = null ) {
-        return Config::get( $key );
-    }
-}
-
-function pm_config( $key = null ) {
+function wedevs_pm_config( $key = null ) {
     return Config::get( $key );
 }
 
-function pm_wp_config( $key ) {
+function wedevs_pm_wp_config( $key ) {
     return constant( $key );
 }
 
-function migrations_table_prefix() {
-    $slug   = config( 'app.slug' );
+function wedevs_pm_migrations_table_prefix() {
+    $slug   = wedevs_pm_config( 'app.slug' );
     $prefix = str_replace( '-', '_', str_replace( ' ', '_', $slug ) );
 
     return $prefix;
 }
 
-
 /**
 * php version notices
 *  @return void
 */
-function pm_php_version_notice() {
+function wedevs_pm_php_version_notice() {
     if ( ! current_user_can( 'manage_options' ) ) {
         return;
     }
@@ -47,5 +39,3 @@ function pm_php_version_notice() {
         </div>
     <?php
 }
-
-

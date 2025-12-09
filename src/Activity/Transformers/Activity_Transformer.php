@@ -17,7 +17,7 @@ class Activity_Transformer extends TransformerAbstract {
         if ( $item->action == 'cpm_migration' ){
             $message = $item->meta['text'];
         }else {
-            $message = pm_get_text( "activities.{$item->action}" ); 
+            $message = wedevs_pm_get_text( "activities.{$item->action}" ); 
         }
 
         return [
@@ -26,7 +26,7 @@ class Activity_Transformer extends TransformerAbstract {
             'action'        => $item->action,
             'action_type'   => $item->action_type,
             'meta'          => $this->parse_meta( $item ),
-            'committed_at'  => format_date( $item->created_at ),
+            'committed_at'  => wedevs_pm_format_date( $item->created_at ),
             'resource_id'   => $item->resource_id,
             'resource_type' => $item->resource_type,
         ];
@@ -114,13 +114,13 @@ class Activity_Transformer extends TransformerAbstract {
 
         foreach ($activity->meta as $key => $value) {
             if ( $key == 'commentable_type' && $value == 'file' ) {
-                $trans_commentable_type = pm_get_text( "resource_types.{$value}" );
+                $trans_commentable_type = wedevs_pm_get_text( "resource_types.{$value}" );
                 $meta['commentable_id'] = $activity->meta['commentable_id'];
                 $meta['commentable_type'] = $activity->meta['commentable_type'];
                 $meta['trans_commentable_type'] = $trans_commentable_type;
                 $meta['commentable_title'] = $trans_commentable_type;
             } elseif ( $key == 'commentable_type' ) {
-                $trans_commentable_type = pm_get_text( "resource_types.{$value}" );
+                $trans_commentable_type = wedevs_pm_get_text( "resource_types.{$value}" );
                 $meta['commentable_id'] = $activity->meta['commentable_id'];
                 $meta['commentable_type'] = $activity->meta['commentable_type'];
                 $meta['trans_commentable_type'] = $trans_commentable_type;

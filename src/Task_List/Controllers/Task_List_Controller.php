@@ -49,7 +49,7 @@ class Task_List_Controller {
         $per_page               = intval( $request->get_param( 'per_page' ) );
         $status                 = $request->get_param( 'status' );
         $list_id                = $request->get_param( 'list_id' ); //must be a array
-        $per_page_from_settings = pm_get_setting( 'list_per_page' );
+        $per_page_from_settings = wedevs_pm_get_setting( 'list_per_page' );
         $per_page_from_settings = $per_page_from_settings ? $per_page_from_settings : 15;
         $per_page               = $per_page ? $per_page : $per_page_from_settings;
         $with                   = sanitize_text_field($request->get_param('with'));
@@ -87,10 +87,10 @@ class Task_List_Controller {
             return $page;
         });
 
-        $tb_tasks     = pm_tb_prefix() . 'pm_tasks';
-        $tb_lists     = pm_tb_prefix() . 'pm_boards';
-        $tb_boardable = pm_tb_prefix() . 'pm_boardables';
-        $tb_meta      = pm_tb_prefix() . 'pm_meta';
+        $tb_tasks     = wedevs_pm_tb_prefix() . 'pm_tasks';
+        $tb_lists     = wedevs_pm_tb_prefix() . 'pm_boards';
+        $tb_boardable = wedevs_pm_tb_prefix() . 'pm_boardables';
+        $tb_meta      = wedevs_pm_tb_prefix() . 'pm_meta';
         $title       = sanitize_text_field( $request->get_param( 'title' ) );
         $is_archive  = filter_var($request->get_param('is_archive'), FILTER_VALIDATE_BOOLEAN);
 
@@ -116,18 +116,18 @@ class Task_List_Controller {
                         $q->orWhereNull($tb_meta . '.entity_type');
                     });
             })
-            ->where( pm_tb_prefix() .'pm_boards.project_id', $project_id)
+            ->where( wedevs_pm_tb_prefix() .'pm_boards.project_id', $project_id)
             ->groupBy($tb_lists.'.id');
 
         if ( ! empty( $status ) ) {
-            $task_lists->whereIn( pm_tb_prefix() .'pm_boards.status', $status );
+            $task_lists->whereIn( wedevs_pm_tb_prefix() .'pm_boards.status', $status );
         } else {
             //for archive task-list
-            $task_lists->where( pm_tb_prefix() .'pm_boards.status', $status );
+            $task_lists->where( wedevs_pm_tb_prefix() .'pm_boards.status', $status );
         }
 
         if ( ! empty( $title ) ) {
-            $task_lists->where( pm_tb_prefix() .'pm_boards.title', 'like', '%'.$title.'%');
+            $task_lists->where( wedevs_pm_tb_prefix() .'pm_boards.title', 'like', '%'.$title.'%');
         }
 
         $task_lists = apply_filters( "pm_task_list_check_privacy", $task_lists, $project_id, $request );
@@ -258,12 +258,12 @@ class Task_List_Controller {
         $project_id   = $params['project_id'];
         $task_list_id = $params['task_list_id'];
         $with         = empty( $params['with'] ) ? [] : $params['with'];
-        $with         = pm_get_prepare_data( $with );
+        $with         = wedevs_pm_get_prepare_data( $with );
 
-        $task_list = Task_List::select(pm_tb_prefix().'pm_boards.*')
+        $task_list = Task_List::select(wedevs_pm_tb_prefix().'pm_boards.*')
             //->with( 'tasks' )
-            ->where( pm_tb_prefix().'pm_boards.id', $task_list_id )
-            ->where( pm_tb_prefix().'pm_boards.project_id', $project_id );
+            ->where( wedevs_pm_tb_prefix().'pm_boards.id', $task_list_id )
+            ->where( wedevs_pm_tb_prefix().'pm_boards.project_id', $project_id );
 
             $task_list = apply_filters("pm_task_list_show_query", $task_list, $project_id, $params );
 
@@ -271,7 +271,7 @@ class Task_List_Controller {
 
         if ( $task_list == NULL ) {
             return $this->get_response( null,  [
-                'message' => pm_get_text('success_messages.no_element')
+                'message' => wedevs_pm_get_text('success_messages.no_element')
             ] );
         }
 
@@ -317,7 +317,7 @@ class Task_List_Controller {
         $resource = new Item( $task_list, new Task_List_Transformer );
 
         $message = [
-            'message' => pm_get_text('success_messages.task_list_created')
+            'message' => wedevs_pm_get_text('success_messages.task_list_created')
         ];
         $response = $self->get_response( $resource, $message );
         do_action( 'cpm_tasklist_new', $task_list->id, $project_id, $data );
@@ -345,7 +345,7 @@ class Task_List_Controller {
         $resource = new Item( $task_list, new Task_List_Transformer );
 
         $message = [
-            'message' => pm_get_text('success_messages.task_list_created')
+            'message' => wedevs_pm_get_text('success_messages.task_list_created')
         ];
         $response = $this->get_response( $resource, $message );
         do_action( 'cpm_tasklist_new', $task_list->id, $project_id, $request->get_params() );
@@ -380,7 +380,7 @@ class Task_List_Controller {
         $resource = new Item( $task_list, new Task_List_Transformer );
 
         $message = [
-            'message' => pm_get_text('success_messages.task_list_updated')
+            'message' => wedevs_pm_get_text('success_messages.task_list_updated')
         ];
 
         $response = $this->get_response( $resource, $message );
@@ -409,7 +409,7 @@ class Task_List_Controller {
         do_action( 'pm_after_delete_task_list', $task_list );
 
         $message = [
-            'message' => pm_get_text('success_messages.task_list_deleted')
+            'message' => wedevs_pm_get_text('success_messages.task_list_deleted')
         ];
 
         return $message;
@@ -437,7 +437,7 @@ class Task_List_Controller {
         do_action( 'pm_after_delete_task_list', $task_list );
 
         $message = [
-            'message' => pm_get_text('success_messages.task_list_deleted')
+            'message' => wedevs_pm_get_text('success_messages.task_list_deleted')
         ];
 
         return $this->get_response(false, $message);
@@ -533,7 +533,7 @@ class Task_List_Controller {
         $project_id = intval( $request->get_param( 'project_id' ) );
         $task_list_id = intval( $request->get_param( 'task_list_id' ) );
         $privacy = filter_var($request->get_param('is_private'), FILTER_VALIDATE_BOOLEAN);
-        pm_update_meta( $task_list_id, $project_id, 'task_list', 'privacy', $privacy );
+        wedevs_pm_update_meta( $task_list_id, $project_id, 'task_list', 'privacy', $privacy );
         return $this->get_response( NULL);
     }
 
@@ -708,8 +708,8 @@ class Task_List_Controller {
     }
 
     public function get_milestone_by_list_ids( $list_ids ) {
-        $tb_boardable = pm_tb_prefix() . 'pm_boardables';
-        $tb_milestone = pm_tb_prefix() . 'pm_boards';
+        $tb_boardable = wedevs_pm_tb_prefix() . 'pm_boardables';
+        $tb_milestone = wedevs_pm_tb_prefix() . 'pm_boards';
 
         $milestones = Milestone::select($tb_milestone. '.*', $tb_boardable . '.boardable_id as list_id')
 

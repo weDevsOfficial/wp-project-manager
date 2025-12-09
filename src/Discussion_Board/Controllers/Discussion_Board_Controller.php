@@ -60,7 +60,7 @@ class Discussion_Board_Controller {
 
         if ( $discussion_board == NULL ) {
             return $this->get_response( null,  [
-                'message' => pm_get_text('success_messages.no_element')
+                'message' => wedevs_pm_get_text('success_messages.no_element')
             ] );
         }
         $resource = new Item( $discussion_board, new Discussion_Board_Transformer );
@@ -92,7 +92,7 @@ class Discussion_Board_Controller {
         do_action( 'pm_new_message_before_response', $discussion_board, $request->get_params() );
         $resource = new Item( $discussion_board, new Discussion_Board_Transformer );
         $message = [
-            'message' => pm_get_text('success_messages.discuss_created')
+            'message' => wedevs_pm_get_text('success_messages.discuss_created')
         ];
         $resource = apply_filters( 'pm_ater_new_message',  $resource,  $request );
         $response = $this->get_response( $resource, $message );
@@ -142,7 +142,7 @@ class Discussion_Board_Controller {
         $resource = new Item( $discussion_board, new Discussion_Board_Transformer );
 
         $message = [
-            'message' => pm_get_text('success_messages.discuss_updated')
+            'message' => wedevs_pm_get_text('success_messages.discuss_updated')
         ];
         
         $resource = apply_filters( 'pm_ater_new_message',  $resource,  $request );
@@ -173,7 +173,7 @@ class Discussion_Board_Controller {
         $discussion_board->delete();
 
         $message = [
-            'message' => pm_get_text('success_messages.discuss_deleted')
+            'message' => wedevs_pm_get_text('success_messages.discuss_deleted')
         ];
         do_action( 'pm_after_delete_message', $request->get_params() );
         return $this->get_response(false, $message);
@@ -261,7 +261,7 @@ class Discussion_Board_Controller {
         $discuss->update_model( [
             'is_private' => $privacy
         ] );
-        pm_update_meta( $discussion_board_id, $project_id, 'discussion_board', 'privacy', $privacy );
+        wedevs_pm_update_meta( $discussion_board_id, $project_id, 'discussion_board', 'privacy', $privacy );
         return $this->get_response( NULL);
     }
 }

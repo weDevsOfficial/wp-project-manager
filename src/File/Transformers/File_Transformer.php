@@ -26,7 +26,7 @@ class File_Transformer extends TransformerAbstract {
             'fileable_type' => $item->fileable_type,
             'directory'     => $item->directory,
             'attachment_id' => $item->attachment_id,
-            'attached_at'   => format_date( $item->created_at ),
+            'attached_at'   => wedevs_pm_format_date( $item->created_at ),
             'fileable'      => $this->get_fileabel($item),
             'meta'      => $this->get_file_meta($item)
         ];

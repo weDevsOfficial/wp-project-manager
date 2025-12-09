@@ -26,7 +26,7 @@ class Comment_Controller {
         $per_page = intval( $request->get_param( 'per_page' ) );
         $page     = intval( $request->get_param( 'page' ) );
 
-        $per_page = $per_page ? $per_page : pm_config('app.comment_per_page');
+        $per_page = $per_page ? $per_page : wedevs_pm_config('app.comment_per_page');
         $page     = $page ? $page : 1;
 
         $on = $request->get_param( 'on' );
@@ -94,7 +94,7 @@ class Comment_Controller {
         $resource = new Item( $comment, new Comment_Transformer );
 
         $message = [
-            'message' => pm_get_text('success_messages.comment_created'),
+            'message' => wedevs_pm_get_text('success_messages.comment_created'),
             'activity' => $this->last_activity( $commentable_type, $commentable_id ),
         ];
 
@@ -135,7 +135,7 @@ class Comment_Controller {
         $resource = new Item( $comment, new Comment_Transformer );
 
         $message = [
-            'message' => pm_get_text('success_messages.comment_updated'),
+            'message' => wedevs_pm_get_text('success_messages.comment_updated'),
             'activity' => $this->last_activity( $comment->commentable_type, $comment->commentable_id  ),
         ];
 
@@ -159,7 +159,7 @@ class Comment_Controller {
         $comment->delete();
 
         $message = [
-            'message' => pm_get_text('success_messages.comment_deleted'),
+            'message' => wedevs_pm_get_text('success_messages.comment_deleted'),
             'activity' => $this->last_activity( $resource_type, $resource_id ),
         ];
 

@@ -29,8 +29,8 @@ class Calendar_Transformer extends TransformerAbstract {
             'status'        =>  array_key_exists('status', $event) ? $event['status'] : $meta['status'],
             'type'          => (isset($event['type']) && $event['type'] == 'milestone') ? 'milestone': 'task',
             'project_id'    => $event ['project_id'],
-            'created_at'    => format_date($event['created_at']),
-            'updated_at'    => format_date($event['updated_at']),
+            'created_at'    => wedevs_pm_format_date($event['created_at']),
+            'updated_at'    => wedevs_pm_format_date($event['updated_at']),
         ];
     }
 
@@ -40,13 +40,13 @@ class Calendar_Transformer extends TransformerAbstract {
         }
 
         if ( isset( $event['due_date'] ) ) {
-            return format_date( $event['due_date'] );
+            return wedevs_pm_format_date( $event['due_date'] );
         } else if (array_key_exists( 'start_at', $event ) && !empty( $event['start_at'] )) {
-            return format_date( $event['start_at']);
+            return wedevs_pm_format_date( $event['start_at']);
         } else if ( !empty( $meta['achieve_date'] ) ){
-            return format_date( $meta['achieve_date'] );
+            return wedevs_pm_format_date( $meta['achieve_date'] );
         }else {
-            return format_date( $event['created_at'] );
+            return wedevs_pm_format_date( $event['created_at'] );
         }
 
     }
@@ -57,13 +57,13 @@ class Calendar_Transformer extends TransformerAbstract {
         }
 
         if (array_key_exists( 'start_at', $event ) && !empty( $event['start_at'] )) {
-            return format_date( $event['start_at']);
+            return wedevs_pm_format_date( $event['start_at']);
         }else if ( isset( $event['due_date'] ) ) {
-            return format_date( $event['due_date'] );
+            return wedevs_pm_format_date( $event['due_date'] );
         } else if ( !empty( $meta['achieve_date'] ) ){
-            return format_date( $meta['achieve_date'] );
+            return wedevs_pm_format_date( $meta['achieve_date'] );
         }else {
-            return format_date( $event['created_at'] );
+            return wedevs_pm_format_date( $event['created_at'] );
         }
 
     }

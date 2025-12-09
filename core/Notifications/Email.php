@@ -46,12 +46,12 @@ class Email {
 
         $child_theme_dir  = get_stylesheet_directory() . '/pm/emails';
         $parent_theme_dir = get_template_directory() . '/pm/emails';
-        $mail_dir         = config('frontend.view_path'). '/emails';
+        $mail_dir         = wedevs_pm_config('frontend.view_path'). '/emails';
 
-        if ( function_exists('pm_pro_config') ) {
-            $pro_dir      = pm_pro_config('define.view_path').'/emails';
+        if ( function_exists('wedevs_pm_pro_config') ) {
+            $pro_dir      = wedevs_pm_pro_config('define.view_path').'/emails';
             if ( $module != null ) {
-                $module_path      = pm_pro_config('define.module_path').'/'. $module . 'views/emails';
+                $module_path      = wedevs_pm_pro_config('define.module_path').'/'. $module . 'views/emails';
             }
         }
         
@@ -126,25 +126,25 @@ class Email {
     }
 
     public function from_email() {
-        $email = pm_get_setting( 'from_email' );
+        $email = wedevs_pm_get_setting( 'from_email' );
         $email = empty( $email ) ? get_bloginfo('admin_email'): $email; 
         return apply_filters('pm_from_email', $email);
     }
 
     public function is_bcc_enable() {
-        $enable_bcc = pm_get_setting( 'enable_bcc' );
+        $enable_bcc = wedevs_pm_get_setting( 'enable_bcc' );
         $enable_bcc = isset( $enable_bcc ) ? $enable_bcc == "true" : false;
         return apply_filters( 'pm_enable_bcc', $enable_bcc  ) ;
     }
 
     public function email_type() {
-        $email_type = pm_get_setting('email_type');
+        $email_type = wedevs_pm_get_setting('email_type');
         $email_type = isset( $email_type ) ? $email_type : 'text/html';
         return apply_filters( 'pm_email_type', $email_type );
     }
 
     public function link_to_backend() {
-        $link_to_backend = pm_get_setting('link_to_backend');
+        $link_to_backend = wedevs_pm_get_setting('link_to_backend');
         $link_to_backend = ( isset( $link_to_backend ) && $link_to_backend == 'false' ) ? false : true;
         return apply_filters('pm_email_link_to_backend', $link_to_backend ) ;
     }

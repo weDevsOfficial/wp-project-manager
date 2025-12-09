@@ -29,9 +29,9 @@ class Discussion_Board_Transformer extends TransformerAbstract {
         $data = [
             'id'          => (int) $item->id,
             'title'       => $item->title,
-            'description' => pm_get_content( $item->description ),
+            'description' => wedevs_pm_get_content( $item->description ),
             'order'       => $item->order,
-            'created_at'  => format_date( $item->created_at ),
+            'created_at'  => wedevs_pm_format_date( $item->created_at ),
             'meta'        => $this->meta( $item ),
         ];
         return apply_filters( 'pm_discuss_transform', $data, $item);

@@ -89,7 +89,7 @@ class Profile_Update {
                                     <?php esc_html_e( '— No capability for this user —', 'wedevs-project-manager' ); ?>
                                 </option>
                                 <?php
-                                    foreach ( pm_access_capabilities() as $cap_key => $label ) {
+                                    foreach ( wedevs_pm_access_capabilities() as $cap_key => $label ) {
                                         ?>
                                             <option <?php selected( $meta_value, $cap_key ); ?> value="<?php echo esc_attr( $cap_key ); ?>">
                                                 <?php echo esc_html( $label ); ?>
@@ -145,7 +145,7 @@ class Profile_Update {
     function remove_capability( $user_id ) {
         $user = get_user_by( 'id', $user_id );
 
-        foreach ( pm_access_capabilities() as $meta_key => $label ) {
+        foreach ( wedevs_pm_access_capabilities() as $meta_key => $label ) {
             $user->remove_cap( $meta_key );
         }
     }
@@ -154,8 +154,8 @@ class Profile_Update {
 
         $user = get_user_by( 'id', $user_id );
 
-        if ( $cap_key == pm_admin_cap_slug() ) {
-            $user->add_cap( pm_manager_cap_slug() );
+        if ( $cap_key == wedevs_pm_admin_cap_slug() ) {
+            $user->add_cap( wedevs_pm_manager_cap_slug() );
         }
 
         $user->add_cap( $cap_key );

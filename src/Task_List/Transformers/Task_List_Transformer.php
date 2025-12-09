@@ -38,10 +38,10 @@ class Task_List_Transformer extends TransformerAbstract {
         $data = [
             'id'          => (int) $item->id,
             'title'       => $item->title,
-            'description' => pm_filter_content_url( $item->description ),
+            'description' => wedevs_pm_filter_content_url( $item->description ),
             'order'       => (int) $item->order,
             'status'      => $item->status,
-            'created_at'  => format_date( $item->created_at ),
+            'created_at'  => wedevs_pm_format_date( $item->created_at ),
             'meta'        => $this->meta( $item ),
             'extra'       => true,
             'project_id'  => $item->project_id
@@ -90,7 +90,7 @@ class Task_List_Transformer extends TransformerAbstract {
 
         $comments = $item->comments()
             ->orderBy( 'created_at', 'ASC' )
-            ->paginate( pm_config('app.comment_per_page') );
+            ->paginate( wedevs_pm_config('app.comment_per_page') );
 
         $comment_collection = $comments->getCollection();
         $resource = $this->collection( $comment_collection, new Comment_Transformer );
@@ -137,7 +137,7 @@ class Task_List_Transformer extends TransformerAbstract {
         $page = isset( $_GET['complete_task_page'] ) ? intval($_GET['complete_task_page']) : 1;
         $per_page_count = isset( $_GET['complete_task_per_page'] ) ? intval($_GET['complete_task_per_page']) : false;
 
-        $per_page = pm_get_setting( 'complete_tasks_per_page' );
+        $per_page = wedevs_pm_get_setting( 'complete_tasks_per_page' );
         $per_page = $per_page ? $per_page : 5;
 
         if ( intval( $per_page_count ) ) {
@@ -155,7 +155,7 @@ class Task_List_Transformer extends TransformerAbstract {
         if ( $per_page == '-1' ) {
             $per_page = $tasks->count();
         }
-        $tasks =  $tasks->orderBy( pm_tb_prefix() . 'pm_boardables.order', 'ASC' )
+        $tasks =  $tasks->orderBy( wedevs_pm_tb_prefix() . 'pm_boardables.order', 'ASC' )
             ->paginate( $per_page );
 
         return $this->make_paginated_tasks( $tasks );
@@ -169,7 +169,7 @@ class Task_List_Transformer extends TransformerAbstract {
             return $page;
         }); 
 
-        $per_page = pm_get_setting( 'incomplete_tasks_per_page' );
+        $per_page = wedevs_pm_get_setting( 'incomplete_tasks_per_page' );
         $per_page = $per_page ? $per_page : 5;
         
         if ( intval( $per_page_count ) ) {
@@ -184,7 +184,7 @@ class Task_List_Transformer extends TransformerAbstract {
             $per_page = $tasks->count();
         }
         
-        $tasks = $tasks->orderBy( pm_tb_prefix() . 'pm_boardables.order', 'ASC' )
+        $tasks = $tasks->orderBy( wedevs_pm_tb_prefix() . 'pm_boardables.order', 'ASC' )
             ->paginate( $per_page );
         return $this->make_paginated_tasks( $tasks );
     }

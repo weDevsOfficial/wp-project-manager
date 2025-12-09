@@ -1,6 +1,6 @@
 <?php
-if ( function_exists( 'pm_pro_get_logo' ) ) {
-    $logo_path = pm_pro_get_logo();
+if ( function_exists( 'wedevs_pm_pro_get_logo' ) ) {
+    $logo_path = wedevs_pm_pro_get_logo();
     $logo_path = ! empty( $logo_path['url'] ) ? $logo_path['url'] : null;
 
     if ( ! empty( $logo_path ) ) {

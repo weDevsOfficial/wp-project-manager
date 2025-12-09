@@ -62,10 +62,10 @@ class Task_Transformer extends TransformerAbstract {
             [
                 'id'           => (int) $item->id,
                 'title'        => $item->title,
-                'description'  => [ 'html' => pm_get_content( pm_kses( $item->description ) ), 'content' => pm_kses( $item->description ) ],
+                'description'  => [ 'html' => wedevs_pm_get_content( wedevs_pm_kses( $item->description ) ), 'content' => wedevs_pm_kses( $item->description ) ],
                 'estimation'   => $item->estimation,
-                'start_at'     => format_date( $item->start_at ),
-                'due_date'     => format_date( $item->due_date ),
+                'start_at'     => wedevs_pm_format_date( $item->start_at ),
+                'due_date'     => wedevs_pm_format_date( $item->due_date ),
                 'complexity'   => $item->complexity,
                 'priority'     => $item->priority,
                 'order'        => (int) $order,
@@ -75,9 +75,9 @@ class Task_Transformer extends TransformerAbstract {
                 'status'       => $item->status,
                 'project_id'   => $item->project_id,
                 'category_id'  => $item->category_id,
-                'created_at'   => format_date( $item->created_at ),
-                'completed_at' => format_date( $item->completed_at ),
-                'updated_at'   => format_date( $item->updated_at ),
+                'created_at'   => wedevs_pm_format_date( $item->created_at ),
+                'completed_at' => wedevs_pm_format_date( $item->completed_at ),
+                'updated_at'   => wedevs_pm_format_date( $item->updated_at ),
                 'task_list_id' => $item->task_list,
                 'meta'         => $this->meta( $item ),
                 'type'         => $this->get_type( $item->id )
@@ -89,9 +89,9 @@ class Task_Transformer extends TransformerAbstract {
     public function get_type( $item_id ) {
         global $wpdb;
 
-        $tb_task_types     = esc_sql( pm_tb_prefix() . 'pm_task_types' );
-        $tb_task_type_task = esc_sql( pm_tb_prefix() . 'pm_task_type_task' );
-        $tb_tasks          = esc_sql( pm_tb_prefix() . 'pm_tasks' );
+        $tb_task_types     = esc_sql( wedevs_pm_tb_prefix() . 'pm_task_types' );
+        $tb_task_type_task = esc_sql( wedevs_pm_tb_prefix() . 'pm_task_type_task' );
+        $tb_tasks          = esc_sql( wedevs_pm_tb_prefix() . 'pm_tasks' );
 
         $result = $wpdb->get_row(
             $wpdb->prepare(
@@ -124,7 +124,7 @@ class Task_Transformer extends TransformerAbstract {
             'total_files'       => $item->files->count(),
             'total_board'       => $item->boards->count(),
             'total_assignee'    => $item->assignees->count(),
-            'can_complete_task' => pm_user_can_complete_task( $item ),
+            'can_complete_task' => wedevs_pm_user_can_complete_task( $item ),
         ] );
         
 	    return $metas;
@@ -190,7 +190,7 @@ class Task_Transformer extends TransformerAbstract {
 
         $comments = $item->comments()
             ->orderBy( 'created_at', 'ASC' )
-            ->paginate( pm_config('app.comment_per_page') );
+            ->paginate( wedevs_pm_config('app.comment_per_page') );
 
         $comment_collection = $comments->getCollection();
         $resource = $this->collection( $comment_collection, new Comment_Transformer );
@@ -202,7 +202,7 @@ class Task_Transformer extends TransformerAbstract {
 
     public function includeAssignees( Task $item ) {
         $users = $item->user;
-        //pmpr(pm_get_response($this->collection( $users, new User_Transformer ))); die();
+        //pmpr(wedevs_pm_get_response($this->collection( $users, new User_Transformer ))); die();
         return $this->collection( $users, new User_Transformer );
     }
 

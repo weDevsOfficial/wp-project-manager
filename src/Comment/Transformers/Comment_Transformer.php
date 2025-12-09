@@ -29,11 +29,11 @@ class Comment_Transformer extends TransformerAbstract {
     public function transform( Comment $item ) {
         return [
             'id'               => (int) $item->id,
-            'content'          => pm_get_content( $item->content ),
+            'content'          => wedevs_pm_get_content( $item->content ),
             'commentable_type' => $item->commentable_type,
             'commentable_id'   => $item->commentable_id,
-            'created_at'       => format_date( $item->created_at ),
-            'updated_at'       => format_date( $item->updated_at ),
+            'created_at'       => wedevs_pm_format_date( $item->created_at ),
+            'updated_at'       => wedevs_pm_format_date( $item->updated_at ),
             'project_id'       => (int) $item->project_id,
             'meta'       => [
                 'total_replies' => $item->replies->count(),
@@ -61,7 +61,7 @@ class Comment_Transformer extends TransformerAbstract {
     public function includeReplies( Comment $item ) {
         $page = isset( $_GET['reply_page'] ) ? intval( $_GET['reply_page'] ) : 1;
 
-        $replies = $item->replies()->paginate( pm_config('app.comment_per_page'), ['*'], 'reply_page', $page );
+        $replies = $item->replies()->paginate( wedevs_pm_config('app.comment_per_page'), ['*'], 'reply_page', $page );
 
         $reply_collection = $replies->getCollection();
         $resource = $this->collection( $reply_collection, new Comment_Transformer );

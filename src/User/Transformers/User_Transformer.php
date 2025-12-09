@@ -66,17 +66,17 @@ class User_Transformer extends TransformerAbstract {
             'email'             => $user->user_email,
             'profile_url'       => $user->user_url,
             'display_name'      => $user->display_name,
-            'manage_capability' => (int) pm_has_manage_capability($user->ID),
-            'create_capability' => (int) pm_has_project_create_capability($user->ID),
+            'manage_capability' => (int) wedevs_pm_has_manage_capability($user->ID),
+            'create_capability' => (int) wedevs_pm_has_project_create_capability($user->ID),
             'avatar_url'        => get_avatar_url( $user->user_email ),
             'github' => get_user_meta($user->ID,'github' ,true),
             'bitbucket' => get_user_meta($user->ID,'bitbucket', true)
         ];
 
         if ( $user->pivot && $user->pivot->assigned_at ) {
-            $data['completed_at'] = format_date( $user->pivot->completed_at );
-            $data['started_at'] = format_date( $user->pivot->started_at );
-            $data['assigned_at'] = format_date( $user->pivot->assigned_at );
+            $data['completed_at'] = wedevs_pm_format_date( $user->pivot->completed_at );
+            $data['started_at'] = wedevs_pm_format_date( $user->pivot->started_at );
+            $data['assigned_at'] = wedevs_pm_format_date( $user->pivot->assigned_at );
             $data['status'] = (int) $user->pivot->status;
         }
 
@@ -118,14 +118,14 @@ class User_Transformer extends TransformerAbstract {
             $project_ids = User_Role::where( 'user_id', $user->ID )->get(['project_id'])->toArray();
             $project_ids = wp_list_pluck( $project_ids, 'project_id' );
 
-            if ( pm_has_manage_capability() ){
+            if ( wedevs_pm_has_manage_capability() ){
                 $tasks = $user->tasks()->whereHas('boards')
-                    ->whereIn( pm_tb_prefix() . 'pm_tasks.project_id', $project_ids)
+                    ->whereIn( wedevs_pm_tb_prefix() . 'pm_tasks.project_id', $project_ids)
                     ->parent()
                     ->get();
             } else {
                 $tasks = $user->tasks()->whereHas('boards')
-                    ->whereIn( pm_tb_prefix() . 'pm_tasks.project_id', $project_ids)
+                    ->whereIn( wedevs_pm_tb_prefix() . 'pm_tasks.project_id', $project_ids)
                     ->parent()
                     ->doesntHave( 'metas', 'and', function ($query) {
                         $query->where( 'meta_key', '=', 'privacy' )
@@ -152,8 +152,8 @@ class User_Transformer extends TransformerAbstract {
                 }
             });
 
-            $start_at = empty( $_GET['start_at'] ) ? false : pm_clean( $_GET['start_at'] );
-            $due_date = empty( $_GET['due_date'] ) ? false : pm_clean( $_GET['due_date'] );
+            $start_at = empty( $_GET['start_at'] ) ? false : wedevs_pm_clean( $_GET['start_at'] );
+            $due_date = empty( $_GET['due_date'] ) ? false : wedevs_pm_clean( $_GET['due_date'] );
             
             if ( ! empty( $start_at ) && ! empty( $due_date ) ) {
                 
@@ -234,10 +234,10 @@ class User_Transformer extends TransformerAbstract {
         $project_ids = User_Role::where( 'user_id', $item->ID)->get(['project_id'])->toArray();
         $project_ids = wp_list_pluck( $project_ids, 'project_id' );
 
-        if ( !pm_has_manage_capability() ){
+        if ( !wedevs_pm_has_manage_capability() ){
 
             $tasks = $item->tasks()
-                ->whereIn( pm_tb_prefix() . 'pm_tasks.project_id', $project_ids)
+                ->whereIn( wedevs_pm_tb_prefix() . 'pm_tasks.project_id', $project_ids)
                 ->parent()
                 ->doesntHave( 'metas', 'and', function ($query) {
                     $query->where( 'meta_key', '=', 'privacy' )
@@ -252,7 +252,7 @@ class User_Transformer extends TransformerAbstract {
                 })
                 ->get();
         }else {
-            $tasks = $item->tasks()->parent()->whereIn( pm_tb_prefix() . 'pm_tasks.project_id', $project_ids)->get();
+            $tasks = $item->tasks()->parent()->whereIn( wedevs_pm_tb_prefix() . 'pm_tasks.project_id', $project_ids)->get();
         }
 
 
@@ -291,8 +291,8 @@ class User_Transformer extends TransformerAbstract {
     }
 
     public function includeGraph ( User $item ) {
-        $start_at = empty( $_GET['start_at'] ) ? false : pm_clean( $_GET['start_at'] );
-        $due_date = empty( $_GET['due_date'] ) ? false : pm_clean( $_GET['due_date'] );
+        $start_at = empty( $_GET['start_at'] ) ? false : wedevs_pm_clean( $_GET['start_at'] );
+        $due_date = empty( $_GET['due_date'] ) ? false : wedevs_pm_clean( $_GET['due_date'] );
 
         if ( $start_at && $due_date ) {
             $first_day = gmdate( 'Y-m-d', strtotime( $start_at ) );
@@ -327,7 +327,7 @@ class User_Transformer extends TransformerAbstract {
             });
 
             $graph_data[] = [
-                'date_time'             => format_date( $dt ),
+                'date_time'             => wedevs_pm_format_date( $dt ),
                 'completed_tasks'       => $dt_completed_tasks->count(),
                 'assigned_tasks'        => $dt_assigned_tasks->count(),
                 'activities'            => $dt_activities->count()

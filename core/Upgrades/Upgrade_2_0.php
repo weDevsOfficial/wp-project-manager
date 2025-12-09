@@ -16,7 +16,7 @@ use WeDevs\PM\Comment\Models\Comment;
 use WeDevs\PM\Settings\Models\Settings;
 use WeDevs\PM\Category\Models\Category;
 use WeDevs\PM\Activity\Models\Activity;
-use PM_Create_Table;
+use WeDevs_PM_Create_Table;
 
 /**
 *   Upgrade project manager 2.0     
@@ -145,7 +145,7 @@ class Upgrade_2_0 extends WP_Background_Process
         $db_observe = get_option( 'pm_observe_migration' );
 
         $observe = json_encode( $db_observe );
-        $assets_url = config('frontend.assets_url');
+        $assets_url = wedevs_pm_config('frontend.assets_url');
 
         $result = array_diff( $db_observe['count'], $db_observe['migrate'] );
         
@@ -357,8 +357,8 @@ class Upgrade_2_0 extends WP_Background_Process
      * @return [type] [description]
      */
     public function upgrade_init ( ) {
-        new PM_Create_Table;
-        (new \PM_RoleTableSeeder())->run();
+        new WeDevs_PM_Create_Table;
+        (new \WeDevs_PM_RoleTableSeeder())->run();
         //create pro table 
         $this->create_gantt_chart_table();
         $this->create_invoice_table();
