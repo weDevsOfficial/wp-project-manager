@@ -70,7 +70,7 @@ class Pusher_Crypto {
     public function generate_shared_secret($channel)
     {
         if (!self::is_encrypted_channel($channel)) {
-            throw new PusherException('You must specify a channel of the form private-encrypted-* for E2E encryption. Got '.$channel);
+            throw new PusherException('You must specify a channel of the form private-encrypted-* for E2E encryption. Got ' . esc_html( $channel ));
         }
 
         return hash('sha256', $channel.$this->encryption_master_key, true);
@@ -87,7 +87,7 @@ class Pusher_Crypto {
     public function encrypt_payload($channel, $plaintext)
     {
         if (!self::is_encrypted_channel($channel)) {
-            throw new PusherException('Cannot encrypt plaintext for a channel that is not of the form private-encrypted-*. Got '.$channel);
+            throw new PusherException('Cannot encrypt plaintext for a channel that is not of the form private-encrypted-*. Got ' . esc_html( $channel ));
         }
         $nonce = $this->generate_nonce();
         $shared_secret = $this->generate_shared_secret($channel);
