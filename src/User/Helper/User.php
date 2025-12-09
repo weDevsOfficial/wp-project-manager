@@ -99,7 +99,7 @@ class User {
 
 		$items = $this->item_with( $items, $user );
 		
-		return apply_filters( 'pm_user_transform', $items, $user );
+		return apply_filters( 'wedevs_pm_user_transform', $items, $user );
 	}
 
 	private function item_with( $items, $user ) {

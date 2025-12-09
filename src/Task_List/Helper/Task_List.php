@@ -143,7 +143,7 @@ class Task_List {
 			->comments()
 			->files();
 			
-		$this->lists = apply_filters( 'pm_tasklist_with',$this->lists, $this->list_ids, $this->query_params );
+		$this->lists = apply_filters( 'wedevs_pm_tasklist_with',$this->lists, $this->list_ids, $this->query_params );
 
 		return $this;
 	}

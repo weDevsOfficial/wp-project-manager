@@ -51,7 +51,7 @@ class Project_Controller {
 
 		$projects = $this->fetch_projects( $category, $status );
 
-		$projects = apply_filters( 'pm_project_query', $projects, $request->get_params() );
+		$projects = apply_filters( 'wedevs_pm_project_query', $projects, $request->get_params() );
 
 		$projects = $projects->orderBy(  wedevs_pm_tb_prefix().'pm_projects.created_at', 'DESC' );
 
@@ -204,13 +204,13 @@ class Project_Controller {
 		if ( is_array( $assignees ) ) {
 			$this->assign_users( $project, $assignees );
 		}
-		do_action( 'pm_project_new', $project, $data );
+		do_action( 'wedevs_pm_project_new', $project, $data );
 		// Transforming database model instance
 		$resource = new Item( $project, new Project_Transformer );
 		$response = $this->get_response( $resource );
 		$response['message'] = wedevs_pm_get_text('success_messages.project_created');
-		do_action( 'cpm_project_new', $project->id, $project->toArray(), $data ); // will deprecated
-		do_action( 'pm_after_new_project', $response, $data );
+		do_action( 'wedevs_cpm_project_new', $project->id, $project->toArray(), $data ); // will deprecated
+		do_action( 'wedevs_pm_after_new_project', $response, $data );
 
 		( new Project_Role_Relation )->set_relation_after_create_project( $response['data'] );
 
@@ -240,14 +240,14 @@ class Project_Controller {
 		if ( is_array( $assignees ) ) {
 			$this->assign_users( $project, $assignees );
 		}
-		do_action( 'pm_project_new', $project, $request->get_params());
+		do_action( 'wedevs_pm_project_new', $project, $request->get_params());
 		// Transforming database model instance
 		$resource = new Item( $project, new Project_Transformer );
 		$response = $this->get_response( $resource );
 		$response['message'] = wedevs_pm_get_text('success_messages.project_created');
 
-		do_action( 'cpm_project_new', $project->id, $project->toArray(), $request->get_params() ); // will deprecated
-		do_action( 'pm_after_new_project', $response, $request->get_params() );
+		do_action( 'wedevs_cpm_project_new', $project->id, $project->toArray(), $request->get_params() ); // will deprecated
+		do_action( 'wedevs_pm_after_new_project', $response, $request->get_params() );
 
 		( new Project_Role_Relation )->set_relation_after_create_project( $response['data'] );
 
@@ -274,13 +274,13 @@ class Project_Controller {
 			$this->assign_users( $project, $assignees );
 		}
 
-		do_action( 'pm_project_update', $project, $request->get_params() );
+		do_action( 'wedevs_pm_project_update', $project, $request->get_params() );
 
 		$resource = new Item( $project, new Project_Transformer );
 		$response = $this->get_response( $resource );
 		$response['message'] = wedevs_pm_get_text('success_messages.project_updated');
-		do_action( 'cpm_project_update', $project->id, $project->toArray(), $request->get_params() );
-		do_action( 'pm_after_update_project', $response, $request->get_params() );
+		do_action( 'wedevs_cpm_project_update', $project->id, $project->toArray(), $request->get_params() );
+		do_action( 'wedevs_pm_after_update_project', $response, $request->get_params() );
 
 		( new Project_Role_Relation )->set_relation_after_update_project( $response['data'] );
 
@@ -291,9 +291,9 @@ class Project_Controller {
 		$projects = Project::all();
 		foreach ($projects as  $project ) {
 
-			do_action( 'cpm_delete_project_prev', $project->id ); // will be deprecated
-			do_action( 'cpm_project_delete', $project, true );
-			do_action( 'pm_before_delete_project', $project, $project->id );
+			do_action( 'wedevs_cpm_delete_project_prev', $project->id ); // will be deprecated
+			do_action( 'wedevs_cpm_project_delete', $project, true );
+			do_action( 'wedevs_pm_before_delete_project', $project, $project->id );
 			// Delete related resourcess
 			$project->categories()->detach();
 
@@ -325,8 +325,8 @@ class Project_Controller {
 
 			// Delete the main resource
 			$project->delete();
-			do_action( 'pm_after_delete_project', $project );
-			do_action( 'cpm_delete_project_after', $project->id );
+			do_action( 'wedevs_pm_after_delete_project', $project );
+			do_action( 'wedevs_cpm_delete_project_after', $project->id );
 		}
 			return [
 				'message' => wedevs_pm_get_text('success_messages.project_deleted')
@@ -338,9 +338,9 @@ class Project_Controller {
 
 		// Find the requested resource
 		$project =  Project::find( $id );
-		do_action( 'cpm_delete_project_prev', $id ); // will be deprecated
-		do_action( 'cpm_project_delete', $id, true );
-		do_action( 'pm_before_delete_project', $project, $request->get_params() );
+		do_action( 'wedevs_cpm_delete_project_prev', $id ); // will be deprecated
+		do_action( 'wedevs_cpm_project_delete', $id, true );
+		do_action( 'wedevs_pm_before_delete_project', $project, $request->get_params() );
 		// Delete related resourcess
 		$project->categories()->detach();
 
@@ -372,8 +372,8 @@ class Project_Controller {
 
 		// Delete the main resource
 		$project->delete();
-		do_action( 'pm_after_delete_project', $project );
-		do_action( 'cpm_delete_project_after', $id );
+		do_action( 'wedevs_pm_after_delete_project', $project );
+		do_action( 'wedevs_cpm_delete_project_after', $id );
 		return [
 			'message' => wedevs_pm_get_text('success_messages.project_deleted')
 		];
@@ -412,7 +412,7 @@ class Project_Controller {
             wedevs_pm_update_meta( $user_id, $project_id, 'project', 'favourite_project', null );
 		}
 
-		do_action( "pm_after_favaurite_project", $request );
+		do_action( "wedevs_pm_after_favaurite_project", $request );
 
 		if ( $favourite == 'true' ) {
 			$response = $this->get_response( null, [ 'message' =>  __( "The project has been marked as favorite", 'wedevs-project-manager' ) ] );
@@ -455,10 +455,10 @@ class Project_Controller {
 	 */
     private function get_ai_generation_limits() {
         return [
-            'max_task_groups'       => apply_filters( 'pm_ai_max_task_groups', 8 ),
-            'max_tasks_per_group'   => apply_filters( 'pm_ai_max_tasks_per_group', 8 ),
-            'max_initial_tasks'     => apply_filters( 'pm_ai_max_initial_tasks', 8 ),
-            'max_task_title_length' => apply_filters( 'pm_ai_max_task_title_length', 200 ),
+            'max_task_groups'       => apply_filters( 'wedevs_pm_ai_max_task_groups', 8 ),
+            'max_tasks_per_group'   => apply_filters( 'wedevs_pm_ai_max_tasks_per_group', 8 ),
+            'max_initial_tasks'     => apply_filters( 'wedevs_pm_ai_max_initial_tasks', 8 ),
+            'max_task_title_length' => apply_filters( 'wedevs_pm_ai_max_task_title_length', 200 ),
         ];
     }
 

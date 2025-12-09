@@ -39,7 +39,7 @@ class List_Task_Transformer extends TransformerAbstract {
         ];
         
         if ( $this->list_task_transormer_filter ) {
-            return apply_filters( 'pm_list_task_transormer', $task, $item );  
+            return apply_filters( 'wedevs_pm_list_task_transormer', $task, $item );  
         }
         
         return $task;

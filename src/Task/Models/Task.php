@@ -118,7 +118,7 @@ class Task extends Eloquent {
     }
 
     public function task_model( $key = '' ) {
-        return apply_filters( 'task_model', $this, $key );
+        return apply_filters( 'wedevs_task_model', $this, $key );
     }
 
     public function metas() {
@@ -131,7 +131,7 @@ class Task extends Eloquent {
     }
 
     public function labels() {
-        return apply_filters( 'pm_task_model_labels', $this );
+        return apply_filters( 'wedevs_pm_task_model_labels', $this );
     }
 
 }

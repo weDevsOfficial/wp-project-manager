@@ -73,7 +73,7 @@ class Settings_Controller {
             ( new Helper )->update_project_permission( $data, $project_id );
         }
 
-        do_action( 'pm_after_save_settings', $settings );
+        do_action( 'wedevs_pm_after_save_settings', $settings );
         
         $message = [
             'message' => wedevs_pm_get_text('success_messages.setting_saved')

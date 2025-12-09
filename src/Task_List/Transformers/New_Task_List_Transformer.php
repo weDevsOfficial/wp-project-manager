@@ -43,7 +43,7 @@ class New_Task_List_Transformer extends TransformerAbstract {
             'project_id' => $item->project_id
         ];
 
-        return apply_filters( 'pm_task_list_transform', $data, $item );
+        return apply_filters( 'wedevs_pm_task_list_transform', $data, $item );
     }
 
     public function get_creator( $item ) {

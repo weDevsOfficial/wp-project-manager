@@ -119,7 +119,7 @@ class Activity {
 
 		$items = $this->item_with( $items, $activity );
 		
-		return apply_filters( 'pm_activity_transform', $items, $activity );
+		return apply_filters( 'wedevs_pm_activity_transform', $items, $activity );
 	}
 
 	private function item_with( $items, $activity ) {
@@ -232,7 +232,7 @@ class Activity {
 		$this->actor()
 			->project();
 
-		$this->activities = apply_filters( 'pm_activity_with',$this->activities, $this->activity_ids, $this->query_params );
+		$this->activities = apply_filters( 'wedevs_pm_activity_with',$this->activities, $this->activity_ids, $this->query_params );
 
 		return $this;
 	}

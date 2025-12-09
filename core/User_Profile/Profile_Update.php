@@ -59,7 +59,7 @@ class Profile_Update {
 
         $this->capbility_form( $profile_user );
 
-        do_action( 'pm_user_profile', $profile_user );
+        do_action( 'wedevs_pm_user_profile', $profile_user );
 
         wp_nonce_field( 'pm_nonce', 'pm_profile_nonce' );
 
@@ -125,7 +125,7 @@ class Profile_Update {
 
         $this->update_user_capability( $user_id, $cap_key );
 
-        do_action( 'pm_update_profile', $user_id, $prev_data );
+        do_action( 'wedevs_pm_update_profile', $user_id, $prev_data );
     }
 
     function update_user_capability( $user_id, $cap_key ) {

@@ -32,11 +32,11 @@ class Menu {
             $submenu[$slug][] = [ __( 'Categories', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/categories" ];
         }
 
-        do_action( 'pm_menu_before_load_scripts', $home );
+        do_action( 'wedevs_pm_menu_before_load_scripts', $home );
 
         add_action( 'admin_print_styles-' . $home, array( 'WeDevs\\PM\\Core\\WP\\Menu', 'scripts' ) );
 
-        do_action( 'cpm_admin_menu', self::$capability, $home );
+        do_action( 'wedevs_cpm_admin_menu', self::$capability, $home );
 
         if ( ! $wedevs_pm_pro ) {
             // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intentionally adding custom submenu items to WordPress admin menu
@@ -53,7 +53,7 @@ class Menu {
             $submenu[$slug]['importtools'] = [ __( 'Tools', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/importtools" ];
         }
 
-        do_action( 'pm_menu_after_load_scripts', $home );
+        do_action( 'wedevs_pm_menu_after_load_scripts', $home );
     }
 
 	public static function pm_svg() {

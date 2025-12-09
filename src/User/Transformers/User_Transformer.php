@@ -89,7 +89,7 @@ class User_Transformer extends TransformerAbstract {
      * @return array
      */
     public function getDefaultIncludes() {
-        return apply_filters( "pm_user_transformer_default_includes", $this->defaultIncludes );
+        return apply_filters( "wedevs_pm_user_transformer_default_includes", $this->defaultIncludes );
     }
 
     public function includeRoles( $user ) {

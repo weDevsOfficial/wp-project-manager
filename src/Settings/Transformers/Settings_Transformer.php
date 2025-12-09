@@ -80,6 +80,6 @@ class Settings_Transformer extends TransformerAbstract {
      */
     public function getDefaultIncludes()
     {
-        return apply_filters( "pm_setting_transformer_default_includes", $this->defaultIncludes );
+        return apply_filters( "wedevs_pm_setting_transformer_default_includes", $this->defaultIncludes );
     }
 }

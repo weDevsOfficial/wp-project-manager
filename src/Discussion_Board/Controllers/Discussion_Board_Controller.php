@@ -38,7 +38,7 @@ class Discussion_Board_Controller {
         });
 
         $discussion_boards = Discussion_Board::where( 'project_id', $project_id );
-        $discussion_boards = apply_filters( 'pm_discuss_index_query', $discussion_boards, $project_id, $request );
+        $discussion_boards = apply_filters( 'wedevs_pm_discuss_index_query', $discussion_boards, $project_id, $request );
         $discussion_boards = $discussion_boards->orderBy( 'created_at', 'DESC' )
                                 ->paginate( $per_page );
 
@@ -46,7 +46,7 @@ class Discussion_Board_Controller {
 
         $resource = new Collection( $discussion_board_collection, new Discussion_Board_Transformer );
         $resource->setPaginator( new IlluminatePaginatorAdapter( $discussion_boards ) );
-        $resource = apply_filters( 'pm_get_messages',  $resource,  $request );
+        $resource = apply_filters( 'wedevs_pm_get_messages',  $resource,  $request );
         return $this->get_response( $resource );
     }
 
@@ -55,7 +55,7 @@ class Discussion_Board_Controller {
         $discussion_board_id = intval( $request->get_param( 'discussion_board_id' ) );
         
         $discussion_board  = Discussion_Board::with('metas')->where( 'id', $discussion_board_id )->where( 'project_id', $project_id );
-        $discussion_board = apply_filters( 'pm_discuss_show_query', $discussion_board, $project_id, $request );
+        $discussion_board = apply_filters( 'wedevs_pm_discuss_show_query', $discussion_board, $project_id, $request );
         $discussion_board = $discussion_board->first();
 
         if ( $discussion_board == NULL ) {
@@ -64,7 +64,7 @@ class Discussion_Board_Controller {
             ] );
         }
         $resource = new Item( $discussion_board, new Discussion_Board_Transformer );
-        $resource = apply_filters( 'pm_get_message',  $resource,  $request );
+        $resource = apply_filters( 'wedevs_pm_get_message',  $resource,  $request );
         return $this->get_response( $resource );
     }
 
@@ -89,15 +89,15 @@ class Discussion_Board_Controller {
         if ( $files ) {
             $this->attach_files( $discussion_board, $files );
         }
-        do_action( 'pm_new_message_before_response', $discussion_board, $request->get_params() );
+        do_action( 'wedevs_pm_new_message_before_response', $discussion_board, $request->get_params() );
         $resource = new Item( $discussion_board, new Discussion_Board_Transformer );
         $message = [
             'message' => wedevs_pm_get_text('success_messages.discuss_created')
         ];
-        $resource = apply_filters( 'pm_ater_new_message',  $resource,  $request );
+        $resource = apply_filters( 'wedevs_pm_ater_new_message',  $resource,  $request );
         $response = $this->get_response( $resource, $message );
-        do_action( 'cpm_message_new', $discussion_board->id, $request->get_params( 'project_id' ), $request->get_params() );
-        do_action( 'pm_after_new_message', $response, $request->get_params(), $discussion_board );
+        do_action( 'wedevs_cpm_message_new', $discussion_board->id, $request->get_params( 'project_id' ), $request->get_params() );
+        do_action( 'wedevs_pm_after_new_message', $response, $request->get_params(), $discussion_board );
         return $response;
     }
 
@@ -138,17 +138,17 @@ class Discussion_Board_Controller {
         if ( $files_to_delete ) {
             $this->detach_files( $discussion_board, $files_to_delete );
         }
-        do_action( 'pm_update_message_before_response', $discussion_board, $request->get_params() );
+        do_action( 'wedevs_pm_update_message_before_response', $discussion_board, $request->get_params() );
         $resource = new Item( $discussion_board, new Discussion_Board_Transformer );
 
         $message = [
             'message' => wedevs_pm_get_text('success_messages.discuss_updated')
         ];
         
-        $resource = apply_filters( 'pm_ater_new_message',  $resource,  $request );
+        $resource = apply_filters( 'wedevs_pm_ater_new_message',  $resource,  $request );
         $response = $this->get_response( $resource, $message );
-        do_action( 'cpm_message_update', $discussion_board_id, $project_id, $request->get_params() );
-        do_action( 'pm_after_update_message', $response, $request->get_params(), $discussion_board );
+        do_action( 'wedevs_cpm_message_update', $discussion_board_id, $project_id, $request->get_params() );
+        do_action( 'wedevs_pm_after_update_message', $response, $request->get_params(), $discussion_board );
         return $response;
     }
 
@@ -159,8 +159,8 @@ class Discussion_Board_Controller {
         $discussion_board = Discussion_Board::where( 'id', $discussion_board_id )
             ->where( 'project_id', $project_id )
             ->first();
-        do_action( 'pm_before_delete_message', $discussion_board, $request->get_params() );
-        do_action( 'cpm_message_delete', $discussion_board_id, false );
+        do_action( 'wedevs_pm_before_delete_message', $discussion_board, $request->get_params() );
+        do_action( 'wedevs_cpm_message_delete', $discussion_board_id, false );
         $comments = $discussion_board->comments;
         foreach ($comments as $comment) {
             $comment->replies()->delete();
@@ -175,7 +175,7 @@ class Discussion_Board_Controller {
         $message = [
             'message' => wedevs_pm_get_text('success_messages.discuss_deleted')
         ];
-        do_action( 'pm_after_delete_message', $request->get_params() );
+        do_action( 'wedevs_pm_after_delete_message', $request->get_params() );
         return $this->get_response(false, $message);
     }
 

@@ -49,7 +49,7 @@ class Comment_Transformer extends TransformerAbstract {
      */
     public function getDefaultIncludes()
     {
-        return apply_filters( "pm_comment_transformer_default_includes", $this->defaultIncludes );
+        return apply_filters( "wedevs_pm_comment_transformer_default_includes", $this->defaultIncludes );
     }
 
     /**

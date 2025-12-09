@@ -199,7 +199,7 @@ class AI_Settings_Controller {
             ( new Helper )->update_project_permission( $data, $project_id );
         }
 
-        do_action( 'pm_after_save_settings', $settings );
+        do_action( 'wedevs_pm_after_save_settings', $settings );
 
         // Update models cache if API key was saved
         if ( is_array( $settings_data ) ) {

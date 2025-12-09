@@ -31,6 +31,6 @@ class Category_Transformer extends TransformerAbstract {
      */
     public function getDefaultIncludes()
     {
-        return apply_filters( "pm_category_transformer_default_includes", $this->defaultIncludes );
+        return apply_filters( "wedevs_pm_category_transformer_default_includes", $this->defaultIncludes );
     }
 }

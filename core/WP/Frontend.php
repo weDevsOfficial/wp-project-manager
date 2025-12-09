@@ -71,7 +71,7 @@ class Frontend {
     public function init_actions() {
         add_action( 'plugins_loaded', array( $this, 'seed' ), 10 );
         add_action( 'admin_menu', array( new Menu, 'admin_menu' ) );
-        add_action( 'pm_menu_before_load_scripts', array( new Pro_Menu, 'admin_menu' ) );
+        add_action( 'wedevs_pm_menu_before_load_scripts', array( new Pro_Menu, 'admin_menu' ) );
         add_action( 'wp_ajax_pm_ajax_upload', array ( new File_System, 'ajax_upload_file' ) );
         add_action( 'init', array ( 'WeDevs\PM\Core\Notifications\Notification' , 'init_transactional_emails' ) );
         add_action( 'admin_enqueue_scripts', array ( $this, 'register_scripts' ) );
@@ -85,7 +85,7 @@ class Frontend {
         add_action( 'admin_init', array( $this, 'redirect_after_activate' ) );
         add_action( 'admin_bar_menu', array( $this, 'pm_toolbar_search_button' ), 999);
         add_action( 'wp_initialize_site', array( $this, 'after_insert_site' ), 10 );
-        add_filter( 'pm_check_permission', array( $this, 'pm_privacy_check' ), 10, 3 );
+        add_filter( 'wedevs_pm_check_permission', array( $this, 'pm_privacy_check' ), 10, 3 );
 
         add_action( 'admin_init', array( $this, 'test' ) );
     }
@@ -122,13 +122,13 @@ class Frontend {
     }
 
     function pm_content_filter() {
-        add_filter( 'pm_get_content', 'wptexturize' );
-        add_filter( 'pm_get_content', 'convert_smilies' );
-        add_filter( 'pm_get_content', 'convert_chars' );
-        add_filter( 'pm_get_content', 'wpautop' );
-        add_filter( 'pm_get_content', 'shortcode_unautop' );
-        add_filter( 'pm_get_content', 'prepend_attachment' );
-        add_filter( 'pm_get_content', 'make_clickable' );
+        add_filter( 'wedevs_pm_get_content', 'wptexturize' );
+        add_filter( 'wedevs_pm_get_content', 'convert_smilies' );
+        add_filter( 'wedevs_pm_get_content', 'convert_chars' );
+        add_filter( 'wedevs_pm_get_content', 'wpautop' );
+        add_filter( 'wedevs_pm_get_content', 'shortcode_unautop' );
+        add_filter( 'wedevs_pm_get_content', 'prepend_attachment' );
+        add_filter( 'wedevs_pm_get_content', 'make_clickable' );
         //add_filter('all_plugins', [ $this, 'hide_plugin_form_admin_network' ] );
     }
 
@@ -149,7 +149,7 @@ class Frontend {
     }
 
     function pm_content_filter_url() {
-        add_filter( 'pm_get_content_url', 'make_clickable' );
+        add_filter( 'wedevs_pm_get_content_url', 'make_clickable' );
     }
 
     function load_plugin_textdomain() {
@@ -175,7 +175,7 @@ class Frontend {
     public function init_filters() {
         add_filter( 'upload_mimes', [$this, 'cc_mime_types'] );
         add_filter( 'wp_mime_type_icon', [$this, 'change_mime_icon'], 10, 3 );
-        add_filter( 'todo_list_text_editor', [$this, 'project_text_editor'] );
+        add_filter( 'wedevs_todo_list_text_editor', [$this, 'project_text_editor'] );
         add_filter( 'upload_mimes', [$this, 'custom_upload_mimes']);
         add_filter( 'appsero_custom_deactivation_reasons', [ $this, 'custom_deactivation_reason' ] );
     }
@@ -381,7 +381,7 @@ class Frontend {
 
     public function redirect_after_activate() {
 
-        if ( ! apply_filters( 'pm_welcome_page_redirect', get_transient( '_pm_setup_page_redirect' ) ) ) {
+        if ( ! apply_filters( 'wedevs_pm_welcome_page_redirect', get_transient( '_pm_setup_page_redirect' ) ) ) {
             return;
         }
 
