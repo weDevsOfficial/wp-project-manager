@@ -93,16 +93,16 @@ class Task_Transformer extends TransformerAbstract {
         $tb_task_type_task = esc_sql( pm_tb_prefix() . 'pm_task_type_task' );
         $tb_tasks          = esc_sql( pm_tb_prefix() . 'pm_tasks' );
 
-        $query = $wpdb->prepare(
-            "SELECT DISTINCT typ.id as type_id, typ.title, typ.description, tk.id as task_id
-            FROM {$tb_task_types} as typ
-            LEFT JOIN {$tb_task_type_task} as typt ON typ.id = typt.type_id
-            LEFT JOIN {$tb_tasks} as tk ON tk.id = typt.task_id
-            WHERE tk.id = %d",
-            $item_id
+        $result = $wpdb->get_row(
+            $wpdb->prepare(
+                "SELECT DISTINCT typ.id as type_id, typ.title, typ.description, tk.id as task_id
+                FROM {$tb_task_types} as typ
+                LEFT JOIN {$tb_task_type_task} as typt ON typ.id = typt.type_id
+                LEFT JOIN {$tb_tasks} as tk ON tk.id = typt.task_id
+                WHERE tk.id = %d",
+                absint( $item_id )
+            )
         );
-
-        $result = $wpdb->get_row( $query );
 
         if ( $result ) {
             $result->id = (int) $result->type_id;

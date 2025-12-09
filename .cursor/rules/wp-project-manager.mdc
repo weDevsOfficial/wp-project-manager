@@ -1,0 +1,906 @@
+---
+description: WP Project Manager - WordPress Project Management Plugin development guidelines and coding standards
+alwaysApply: false
+---
+# WP Project Manager - Cursor Rules
+
+You are an expert in WordPress, PHP, and related web development technologies.
+
+## Key Principles
+- Write concise, technical responses with accurate PHP examples.
+- Follow WordPress coding standards and best practices.
+- Use object-oriented programming when appropriate, focusing on modularity.
+- Prefer iteration and modularization over duplication.
+- Use descriptive function, variable, and file names.
+- Use lowercase with hyphens for directories (e.g., wp-content/plugins/wp-project-manager).
+- Favor hooks (actions and filters) for extending functionality.
+
+## Project Overview
+This is a WordPress Project Management plugin built with modern PHP architecture patterns. It uses a custom MVC-like structure with Controllers, Models, Transformers, and a REST API router system.
+
+## Technology Stack
+- **PHP**: >= 7.4 (use typed properties, arrow functions when appropriate)
+- **WordPress**: Plugin development following WordPress Coding Standards
+- **ORM**: WP Eloquent (Laravel-style Eloquent for WordPress)
+- **API**: League Fractal for data transformation
+- **Frontend**: Vue.js 2.x with Vuex for state management
+- **Build**: Webpack for asset compilation
+- **Dependencies**: Composer for dependency management
+
+## Project Architecture
+
+### Directory Structure
+```
+wp-project-manager/
+├── bootstrap/          # Plugin initialization
+├── config/            # Configuration files
+├── core/              # Core functionality (Router, Permissions, DB, etc.)
+├── db/                # Database migrations and seeders
+├── libs/              # Helper functions and utilities
+├── routes/            # REST API route definitions
+├── src/               # Main application code (Controllers, Models, Transformers)
+├── texts/             # Localized text strings
+├── views/             # Vue.js frontend and email templates
+└── vendor/            # Composer dependencies (do not modify)
+```
+
+### Namespacing Convention
+- Core classes: `WeDevs\PM\Core\{Component}\{Class}`
+- Application classes: `WeDevs\PM\{Module}\{Type}\{Class}`
+
+Examples:
+```php
+namespace WeDevs\PM\Project\Controllers;
+namespace WeDevs\PM\Task\Models;
+namespace WeDevs\PM\Core\Permissions;
+```
+
+## PHP/WordPress Coding Standards
+
+### General PHP Standards
+- Use PHP 7.4+ features when appropriate (typed properties, arrow functions)
+- Follow WordPress PHP Coding Standards (WPCS)
+- Use strict typing when possible: `declare(strict_types=1);`
+- Utilize WordPress core functions and APIs when available
+- Use tabs for indentation, not spaces
+- Opening braces on the same line for classes and methods
+- Always use `<?php` full opening tag, never short tags
+- Use snake_case for function and variable names
+- Use PascalCase for class names
+
+### Error Handling and Logging
+Implement proper error handling and logging:
+```php
+// Use WordPress debug logging
+if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+    error_log( 'PM Debug: ' . print_r( $data, true ) );
+}
+
+// Create custom error handlers when necessary
+try {
+    // Code that might throw an exception
+    $result = $this->process_data( $input );
+} catch ( \Exception $e ) {
+    return new \WP_Error( 
+        'processing_error', 
+        $e->getMessage(), 
+        [ 'status' => 500 ] 
+    );
+}
+```
+
+### Security Requirements
+**CRITICAL: Always follow these security practices:**
+
+1. **Input Sanitization**: Always sanitize user input using WordPress built-in functions
+   ```php
+   $id = intval( $request->get_param( 'id' ) );
+   $title = sanitize_text_field( $request->get_param( 'title' ) );
+   $content = sanitize_textarea_field( $request->get_param( 'content' ) );
+   $email = sanitize_email( $request->get_param( 'email' ) );
+   $url = esc_url_raw( $request->get_param( 'url' ) );
+   $html = wp_kses_post( $request->get_param( 'html_content' ) );
+   $array = array_map( 'absint', $request->get_param( 'ids' ) );
+   ```
+
+2. **Output Escaping**: Always escape output
+   ```php
+   esc_html( $text );           // For plain text
+   esc_attr( $attribute );      // For HTML attributes
+   esc_url( $url );             // For URLs
+   esc_js( $string );           // For inline JavaScript
+   wp_kses_post( $html );       // For post content with allowed HTML
+   wp_kses( $html, $allowed );  // For custom allowed HTML
+   ```
+
+3. **Database Queries**: Use prepared statements with $wpdb
+   ```php
+   global $wpdb;
+   
+   // SELECT with prepare
+   $results = $wpdb->get_results(
+       $wpdb->prepare(
+           "SELECT * FROM {$wpdb->prefix}pm_projects WHERE id = %d AND status = %s",
+           $id,
+           $status
+       )
+   );
+   
+   // INSERT with prepare
+   $wpdb->insert(
+       $wpdb->prefix . 'pm_projects',
+       [
+           'title'      => $title,
+           'status'     => $status,
+           'created_by' => get_current_user_id(),
+       ],
+       [ '%s', '%s', '%d' ]
+   );
+   
+   // UPDATE with prepare
+   $wpdb->update(
+       $wpdb->prefix . 'pm_projects',
+       [ 'title' => $title ],
+       [ 'id' => $id ],
+       [ '%s' ],
+       [ '%d' ]
+   );
+   ```
+
+4. **Nonce Verification**: Verify nonces for form submissions and AJAX
+   ```php
+   // Creating nonce
+   wp_nonce_field( 'pm_save_project', 'pm_nonce' );
+   
+   // Verifying nonce
+   if ( ! wp_verify_nonce( $_POST['pm_nonce'], 'pm_save_project' ) ) {
+       wp_die( __( 'Security check failed.', 'wedevs-project-manager' ) );
+   }
+   
+   // For REST API - nonce is handled automatically when using cookie authentication
+   ```
+
+5. **Capability Checks**: Always verify user permissions
+   ```php
+   // Check WordPress capabilities
+   if ( ! current_user_can( 'manage_options' ) ) {
+       return new \WP_Error( 'forbidden', __( 'Permission denied.', 'wedevs-project-manager' ) );
+   }
+   
+   // Check plugin-specific capabilities
+   if ( ! pm_user_can( 'edit_project', $project_id ) ) {
+       return new \WP_Error( 'forbidden', __( 'You cannot edit this project.', 'wedevs-project-manager' ) );
+   }
+   ```
+
+### Direct File Access Prevention
+Every PHP file should start with:
+```php
+<?php
+/**
+ * File description
+ *
+ * @package WeDevs\PM
+ */
+
+// don't call the file directly
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+```
+
+## WordPress Best Practices
+
+### Hooks System
+Use WordPress hooks (actions and filters) instead of modifying core files:
+```php
+// Action hooks - execute code at specific points
+add_action( 'init', [ $this, 'register_post_types' ] );
+add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_assets' ] );
+add_action( 'rest_api_init', [ $this, 'register_routes' ] );
+
+// Filter hooks - modify data
+add_filter( 'pm_project_query', [ $this, 'modify_query' ], 10, 2 );
+add_filter( 'pm_task_permissions', [ $this, 'check_permissions' ], 10, 3 );
+
+// Creating custom hooks
+do_action( 'pm_project_created', $project, $request );
+$data = apply_filters( 'pm_project_data', $data, $project );
+```
+
+### Asset Management
+Use proper enqueueing for scripts and styles:
+```php
+public function enqueue_assets() {
+    // Styles
+    wp_enqueue_style(
+        'pm-frontend',
+        PM_PLUGIN_ASSEST . '/css/frontend.css',
+        [],
+        PM_VERSION
+    );
+    
+    // Scripts with dependencies
+    wp_enqueue_script(
+        'pm-frontend',
+        PM_PLUGIN_ASSEST . '/js/frontend.js',
+        [ 'jquery', 'wp-api-fetch' ],
+        PM_VERSION,
+        true // Load in footer
+    );
+    
+    // Localize script data
+    wp_localize_script( 'pm-frontend', 'PM_Vars', [
+        'ajaxurl'  => admin_url( 'admin-ajax.php' ),
+        'nonce'    => wp_create_nonce( 'pm_nonce' ),
+        'rest_url' => rest_url( 'pm/v2/' ),
+        'i18n'     => [
+            'confirm_delete' => __( 'Are you sure?', 'wedevs-project-manager' ),
+        ],
+    ] );
+}
+```
+
+### Transients API for Caching
+```php
+// Get cached data
+$projects = get_transient( 'pm_user_projects_' . $user_id );
+
+if ( false === $projects ) {
+    // Cache miss - fetch from database
+    $projects = $this->fetch_user_projects( $user_id );
+    
+    // Cache for 1 hour
+    set_transient( 'pm_user_projects_' . $user_id, $projects, HOUR_IN_SECONDS );
+}
+
+// Delete cache when data changes
+delete_transient( 'pm_user_projects_' . $user_id );
+```
+
+### Background Processing with WP Cron
+```php
+// Schedule event
+if ( ! wp_next_scheduled( 'pm_daily_cleanup' ) ) {
+    wp_schedule_event( time(), 'daily', 'pm_daily_cleanup' );
+}
+
+// Hook the event
+add_action( 'pm_daily_cleanup', [ $this, 'run_daily_cleanup' ] );
+
+// Unschedule on deactivation
+register_deactivation_hook( PM_FILE, function() {
+    wp_clear_scheduled_hook( 'pm_daily_cleanup' );
+} );
+```
+
+### Options API for Configuration
+```php
+// Get option with default
+$setting = get_option( 'pm_email_notifications', true );
+
+// Update option
+update_option( 'pm_email_notifications', $value );
+
+// Delete option
+delete_option( 'pm_email_notifications' );
+
+// Autoloaded options (for frequently accessed data)
+add_option( 'pm_version', PM_VERSION, '', 'yes' );
+```
+
+### Database Schema Changes
+Use dbDelta() for database modifications:
+```php
+public function create_tables() {
+    global $wpdb;
+    
+    $charset_collate = $wpdb->get_charset_collate();
+    
+    $sql = "CREATE TABLE {$wpdb->prefix}pm_projects (
+        id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+        title varchar(255) NOT NULL,
+        description longtext,
+        status tinyint(1) DEFAULT 0,
+        created_by bigint(20) unsigned NOT NULL,
+        created_at datetime DEFAULT CURRENT_TIMESTAMP,
+        updated_at datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+        PRIMARY KEY (id),
+        KEY status (status),
+        KEY created_by (created_by)
+    ) $charset_collate;";
+    
+    require_once ABSPATH . 'wp-admin/includes/upgrade.php';
+    dbDelta( $sql );
+}
+```
+
+### Internationalization (i18n)
+```php
+// Simple string
+__( 'Project Manager', 'wedevs-project-manager' );
+
+// Echo string
+_e( 'Save Changes', 'wedevs-project-manager' );
+
+// With placeholders
+sprintf(
+    /* translators: %s: project title */
+    __( 'Project "%s" has been created.', 'wedevs-project-manager' ),
+    $project->title
+);
+
+// Plural forms
+sprintf(
+    /* translators: %d: number of tasks */
+    _n( '%d task', '%d tasks', $count, 'wedevs-project-manager' ),
+    $count
+);
+
+// With context
+_x( 'Post', 'verb', 'wedevs-project-manager' );
+```
+
+### AJAX Handling
+```php
+// Register AJAX handlers
+add_action( 'wp_ajax_pm_get_tasks', [ $this, 'ajax_get_tasks' ] );
+add_action( 'wp_ajax_nopriv_pm_get_tasks', [ $this, 'ajax_get_tasks' ] ); // For non-logged users
+
+public function ajax_get_tasks() {
+    // Verify nonce
+    check_ajax_referer( 'pm_nonce', 'nonce' );
+    
+    // Check permissions
+    if ( ! current_user_can( 'read' ) ) {
+        wp_send_json_error( [ 'message' => __( 'Permission denied.', 'wedevs-project-manager' ) ] );
+    }
+    
+    // Sanitize input
+    $project_id = absint( $_POST['project_id'] );
+    
+    // Process request
+    $tasks = $this->get_tasks( $project_id );
+    
+    // Send response
+    wp_send_json_success( [ 'tasks' => $tasks ] );
+}
+```
+
+### REST API Handling
+```php
+// Register REST routes
+add_action( 'rest_api_init', function() {
+    register_rest_route( 'pm/v2', '/projects', [
+        'methods'             => WP_REST_Server::READABLE,
+        'callback'            => [ $this, 'get_projects' ],
+        'permission_callback' => [ $this, 'check_permission' ],
+        'args'                => [
+            'per_page' => [
+                'default'           => 10,
+                'sanitize_callback' => 'absint',
+            ],
+        ],
+    ] );
+} );
+
+public function check_permission( WP_REST_Request $request ) {
+    return current_user_can( 'read' );
+}
+```
+
+## Module Structure Pattern
+
+### Controllers
+Location: `src/{Module}/Controllers/{Module}_Controller.php`
+
+Controllers handle HTTP requests and return responses using Fractal transformers.
+
+```php
+<?php
+
+namespace WeDevs\PM\{Module}\Controllers;
+
+use WP_REST_Request;
+use League\Fractal\Resource\Item;
+use League\Fractal\Resource\Collection;
+use WeDevs\PM\Common\Traits\Transformer_Manager;
+use WeDevs\PM\Common\Traits\Request_Filter;
+
+class {Module}_Controller {
+    use Transformer_Manager, Request_Filter;
+
+    public function index( WP_REST_Request $request ) {
+        // Sanitize inputs
+        $per_page = intval( $request->get_param( 'per_page' ) );
+        $page     = intval( $request->get_param( 'page' ) );
+        
+        // Query data
+        $items = Model::paginate( $per_page );
+        
+        // Transform and return
+        $resource = new Collection( $items, new {Module}_Transformer );
+        return $this->get_response( $resource );
+    }
+
+    public function show( WP_REST_Request $request ) {
+        $id = intval( $request->get_param( 'id' ) );
+        $item = Model::find( $id );
+        
+        if ( ! $item ) {
+            return new \WP_Error( 
+                'not_found', 
+                pm_get_text( 'success_messages.no_element' ), 
+                [ 'status' => 404 ] 
+            );
+        }
+        
+        $resource = new Item( $item, new {Module}_Transformer );
+        return $this->get_response( $resource );
+    }
+    
+    public function store( WP_REST_Request $request ) {
+        // Data is already sanitized by sanitizer
+        $data = $this->extract_non_empty_values( $request );
+        
+        $item = Model::create( $data );
+        
+        do_action( 'pm_{module}_created', $item, $request );
+        
+        $resource = new Item( $item, new {Module}_Transformer );
+        $response = $this->get_response( $resource );
+        $response['message'] = pm_get_text( 'success_messages.{module}_created' );
+        
+        return $response;
+    }
+}
+```
+
+### Models (Eloquent)
+Location: `src/{Module}/Models/{Model}.php`
+
+Models extend WP Eloquent and define relationships.
+
+```php
+<?php
+
+namespace WeDevs\PM\{Module}\Models;
+
+use WeDevs\PM\Core\DB_Connection\Model as Eloquent;
+use WeDevs\PM\Common\Traits\Model_Events;
+
+class {Model} extends Eloquent {
+    use Model_Events;
+
+    protected $table = 'pm_{table_name}';
+
+    // Status constants
+    const INCOMPLETE = 0;
+    const COMPLETE   = 1;
+    const PENDING    = 2;
+
+    protected $fillable = [
+        'title',
+        'description',
+        'status',
+        'project_id',
+        'created_by',
+        'updated_by',
+    ];
+
+    protected $dates = [ 'created_at', 'updated_at' ];
+
+    // Relationships
+    public function project() {
+        return $this->belongsTo( 'WeDevs\PM\Project\Models\Project', 'project_id' );
+    }
+
+    public function comments() {
+        return $this->hasMany( 'WeDevs\PM\Comment\Models\Comment', 'commentable_id' )
+            ->where( 'commentable_type', '{type}' );
+    }
+    
+    public function creator() {
+        return $this->belongsTo( 'WeDevs\PM\User\Models\User', 'created_by' );
+    }
+
+    // Scopes
+    public function scopeCompleted( $query ) {
+        return $query->where( 'status', self::COMPLETE );
+    }
+    
+    public function scopeIncomplete( $query ) {
+        return $query->where( 'status', self::INCOMPLETE );
+    }
+    
+    public function scopeByProject( $query, $project_id ) {
+        return $query->where( 'project_id', $project_id );
+    }
+}
+```
+
+### Transformers
+Location: `src/{Module}/Transformers/{Model}_Transformer.php`
+
+Transformers format data for API responses using League Fractal.
+
+```php
+<?php
+
+namespace WeDevs\PM\{Module}\Transformers;
+
+use League\Fractal\TransformerAbstract;
+use WeDevs\PM\{Module}\Models\{Model};
+use WeDevs\PM\Common\Traits\Resource_Editors;
+
+class {Model}_Transformer extends TransformerAbstract {
+    use Resource_Editors;
+
+    protected $defaultIncludes = [ 'creator', 'updater' ];
+    protected $availableIncludes = [ 'comments', 'files', 'project' ];
+
+    public function transform( {Model} $item ) {
+        $data = [
+            'id'          => (int) $item->id,
+            'title'       => (string) $item->title,
+            'description' => [
+                'html'    => pm_get_content( $item->description ),
+                'content' => $item->description,
+            ],
+            'status'      => $item->status,
+            'created_at'  => format_date( $item->created_at ),
+            'updated_at'  => format_date( $item->updated_at ),
+        ];
+        
+        return apply_filters( 'pm_{module}_transformer', $data, $item );
+    }
+
+    public function includeComments( {Model} $item ) {
+        return $this->collection( $item->comments, new Comment_Transformer );
+    }
+    
+    public function includeProject( {Model} $item ) {
+        return $this->item( $item->project, new Project_Transformer );
+    }
+}
+```
+
+### Routes
+Location: `routes/{module}.php`
+
+Define REST API routes with permissions, validators, and sanitizers.
+
+```php
+<?php
+
+use WeDevs\PM\Core\Router\Router;
+
+$router = Router::singleton();
+
+$router->get( '{module}s', 'WeDevs/PM/{Module}/Controllers/{Module}_Controller@index' )
+    ->permission( [ 'WeDevs\PM\Core\Permissions\Authentic' ] );
+
+$router->get( '{module}s/{id}', 'WeDevs/PM/{Module}/Controllers/{Module}_Controller@show' )
+    ->permission( [ 'WeDevs\PM\Core\Permissions\Access_Project' ] );
+
+$router->post( '{module}s', 'WeDevs/PM/{Module}/Controllers/{Module}_Controller@store' )
+    ->permission( [ 'WeDevs\PM\Core\Permissions\Project_Create_Capability' ] )
+    ->validator( 'WeDevs\PM\{Module}\Validators\Create_{Model}' )
+    ->sanitizer( 'WeDevs\PM\{Module}\Sanitizers\{Model}_Sanitizer' );
+
+$router->post( '{module}s/{id}/update', 'WeDevs/PM/{Module}/Controllers/{Module}_Controller@update' )
+    ->permission( [ 'WeDevs\PM\Core\Permissions\Project_Manage_Capability' ] )
+    ->validator( 'WeDevs\PM\{Module}\Validators\Update_{Model}' )
+    ->sanitizer( 'WeDevs\PM\{Module}\Sanitizers\{Model}_Sanitizer' );
+
+$router->post( '{module}s/{id}/delete', 'WeDevs/PM/{Module}/Controllers/{Module}_Controller@destroy' )
+    ->permission( [ 'WeDevs\PM\Core\Permissions\Project_Manage_Capability' ] );
+```
+
+### Validators
+Location: `src/{Module}/Validators/{Action}_{Model}.php`
+
+```php
+<?php
+
+namespace WeDevs\PM\{Module}\Validators;
+
+use WeDevs\PM\Core\Validator\Abstract_Validator;
+
+class Create_{Model} extends Abstract_Validator {
+    public function messages() {
+        return [
+            'title.required'   => __( 'Title is required.', 'wedevs-project-manager' ),
+            'title.max'        => __( 'Title must not exceed 255 characters.', 'wedevs-project-manager' ),
+            'project_id.required' => __( 'Project ID is required.', 'wedevs-project-manager' ),
+        ];
+    }
+
+    public function rules() {
+        return [
+            'title'      => 'required|max:255',
+            'project_id' => 'required|numeric',
+        ];
+    }
+}
+```
+
+### Sanitizers
+Location: `src/{Module}/Sanitizers/{Model}_Sanitizer.php`
+
+```php
+<?php
+
+namespace WeDevs\PM\{Module}\Sanitizers;
+
+use WeDevs\PM\Core\Sanitizer\Abstract_Sanitizer;
+
+class {Model}_Sanitizer extends Abstract_Sanitizer {
+    public function filters() {
+        return [
+            'title'       => 'trimer|sanitize_text_field',
+            'description' => 'trimer|wp_kses_post',
+            'status'      => 'trimer|absint',
+            'project_id'  => 'trimer|absint',
+        ];
+    }
+}
+```
+
+### Permissions
+Location: `core/Permissions/{Permission_Name}.php`
+
+```php
+<?php
+
+namespace WeDevs\PM\Core\Permissions;
+
+use WP_REST_Request;
+
+class {Permission_Name} extends Abstract_Permission {
+    public function check() {
+        // Allow admin/manager access
+        if ( pm_user_can_access( pm_manager_cap_slug() ) ) {
+            return true;
+        }
+
+        $project_id = $this->request->get_param( 'project_id' );
+        
+        if ( empty( $project_id ) ) {
+            $project_id = $this->request->get_param( 'id' );
+        }
+
+        // Check project-specific permission
+        if ( pm_user_can( 'view_project', $project_id ) ) {
+            return true;
+        }
+
+        return new \WP_Error( 
+            'permission', 
+            __( 'You do not have permission to perform this action.', 'wedevs-project-manager' ),
+            [ 'status' => 403 ]
+        );
+    }
+}
+```
+
+## Helper Functions
+
+### Common Helper Functions (from libs/functions.php)
+```php
+// Get settings
+pm_get_setting( 'key' );
+pm_get_setting( 'key', $project_id );
+pm_set_settings( 'key', 'value' );
+pm_set_settings( 'key', 'value', $project_id );
+
+// Meta operations
+pm_add_meta( $id, $project_id, $type, $key, $value );
+pm_update_meta( $id, $project_id, $type, $key, $value );
+pm_get_meta( $entity_id, $project_id, $type, $key );
+pm_delete_meta( $id, $project_id, $type, $key );
+
+// Permission checks
+pm_has_admin_capability( $user_id );
+pm_has_manage_capability( $user_id );
+pm_user_can( $cap, $project_id, $user_id );
+pm_user_can_access( $cap, $user_id );
+pm_is_manager( $project_id, $user_id );
+pm_is_user_in_project( $project_id, $user_id );
+
+// Text/translations
+pm_get_text( 'key.subkey' );
+__( 'Text', 'wedevs-project-manager' );
+_e( 'Text', 'wedevs-project-manager' );
+
+// Table prefix
+pm_tb_prefix();
+
+// Date formatting
+format_date( $date );
+make_carbon_date( $date );
+
+// Response helpers
+pm_get_response( $resource, $extra );
+
+// Data helpers
+pm_get_projects( $params );
+pm_get_tasks( $params );
+pm_get_task_lists( $params );
+pm_clean( $var );
+pm_is_true( $val );
+```
+
+## Vue.js Frontend Guidelines
+
+### Component Location
+- Components: `views/assets/src/components/{module}/`
+- Store modules: `views/assets/src/components/{module}/store.js`
+- Routers: `views/assets/src/components/{module}/router.js`
+- Mixins: `views/assets/src/components/{module}/mixin.js`
+
+### Component Structure
+```vue
+<template>
+    <div class="pm-{component-name}">
+        <!-- Template content -->
+    </div>
+</template>
+
+<script>
+export default {
+    name: '{ComponentName}',
+    
+    props: {
+        projectId: {
+            type: Number,
+            required: true,
+        },
+    },
+    
+    data() {
+        return {
+            loading: false,
+            items: [],
+        };
+    },
+
+    computed: {
+        // Computed properties from Vuex store
+        ...mapGetters( [ 'getProjectById' ] ),
+    },
+
+    methods: {
+        async fetchData() {
+            this.loading = true;
+            try {
+                const response = await this.$http.get( 'pm/v2/projects' );
+                this.items = response.data;
+            } catch ( error ) {
+                this.$root.$emit( 'pm-notification', {
+                    type: 'error',
+                    message: error.message,
+                } );
+            } finally {
+                this.loading = false;
+            }
+        },
+    },
+
+    created() {
+        this.fetchData();
+    },
+};
+</script>
+
+<style lang="less">
+.pm-{component-name} {
+    // Scoped styles
+}
+</style>
+```
+
+### API Calls
+Use the centralized HTTP helper:
+```javascript
+// GET request
+this.$http.get( 'pm/v2/projects' );
+this.$http.get( 'pm/v2/projects', { params: { per_page: 10 } } );
+
+// POST request
+this.$http.post( 'pm/v2/projects', data );
+
+// Update
+this.$http.post( 'pm/v2/projects/' + id + '/update', data );
+
+// Delete
+this.$http.post( 'pm/v2/projects/' + id + '/delete' );
+```
+
+## Database Conventions
+
+### Table Naming
+- All tables prefixed with `{wp_prefix}pm_`
+- Use snake_case for table and column names
+- Common columns: `id`, `created_at`, `updated_at`, `created_by`, `updated_by`, `project_id`
+
+### Migrations
+Location: `db/Create_Table.php`
+
+## Hooks and Filters
+
+### Action Hooks
+```php
+do_action( 'pm_loaded' );
+do_action( 'pm_project_new', $project, $data );
+do_action( 'pm_after_new_project', $response, $data );
+do_action( 'pm_before_delete_project', $project, $params );
+do_action( 'pm_after_delete_project', $project );
+do_action( 'pm_task_complete', $task, $request );
+```
+
+### Filter Hooks
+```php
+apply_filters( 'pm_project_query', $query, $params );
+apply_filters( 'pm_project_transformer', $data, $item );
+apply_filters( 'pm_access_capabilities', $caps );
+apply_filters( 'pm_task_permissions', $permissions, $task, $user_id );
+apply_filters( 'pm_get_content', $content );
+```
+
+## Text Domain
+Always use `wedevs-project-manager` for translations:
+```php
+__( 'Text to translate', 'wedevs-project-manager' );
+_e( 'Text to echo', 'wedevs-project-manager' );
+esc_html__( 'Escaped text', 'wedevs-project-manager' );
+esc_html_e( 'Escaped echo', 'wedevs-project-manager' );
+esc_attr__( 'Attribute text', 'wedevs-project-manager' );
+```
+
+## Testing
+- Unit tests: `tests/unit/`
+- Acceptance tests: `tests/acceptance/`
+- Test support: `tests/_support/`
+
+Use WordPress's built-in testing tools (WP_UnitTestCase):
+```php
+class Test_Project extends WP_UnitTestCase {
+    public function test_project_creation() {
+        $project = Project::create( [
+            'title' => 'Test Project',
+        ] );
+        
+        $this->assertInstanceOf( Project::class, $project );
+        $this->assertEquals( 'Test Project', $project->title );
+    }
+}
+```
+
+## Key Conventions Summary
+
+1. **Follow WordPress's plugin API** for extending functionality
+2. **Implement proper data sanitization** using WordPress functions
+3. **Use WordPress's authentication** and authorization functions
+4. **Implement proper AJAX handling** using admin-ajax.php or REST API
+5. **Use WordPress's hook system** for modular and extensible code
+6. **Never modify vendor directory** - Use Composer for dependencies
+7. **Use wp-eloquent patterns** - Follow Laravel Eloquent conventions for models
+8. **Always sanitize/escape** - Security is critical in WordPress plugins
+9. **Use transformers for API output** - Don't return raw model data
+10. **Check permissions** - Every endpoint should verify user access
+11. **Internationalize strings** - All user-facing strings must be translatable
+12. **Follow PSR-4 autoloading** - Class names must match file names
+13. **Use constants for status values** - Define in model classes
+
+## Code Quality Commands
+```bash
+# Run PHPCS for coding standards
+composer run phpcs
+
+# Fix auto-fixable issues
+composer run phpcbf
+
+# Run tests
+./vendor/bin/codecept run
+```

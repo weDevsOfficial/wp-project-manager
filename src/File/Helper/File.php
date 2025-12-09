@@ -356,13 +356,17 @@ class File {
 		global $wpdb;
 		$id = isset( $this->query_params['id'] ) ? $this->query_params['id'] : false;
 
-		$query = "SELECT SQL_CALC_FOUND_ROWS DISTINCT {$this->tb_file}.*
-			FROM {$this->tb_file}
-			{$this->join}
-			WHERE %d=%d {$this->where} 
-			{$this->orderby} {$this->limit}";
-
-		$results = $wpdb->get_results( $wpdb->prepare( $query, 1, 1 ) );
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT SQL_CALC_FOUND_ROWS DISTINCT {$this->tb_file}.*
+				FROM {$this->tb_file}
+				{$this->join}
+				WHERE %d=%d {$this->where} 
+				{$this->orderby} {$this->limit}",
+				1,
+				1
+			)
+		);
 
 		$this->found_rows = $wpdb->get_var( "SELECT FOUND_ROWS()" );
 		$this->files = $results;
@@ -379,7 +383,7 @@ class File {
 	}
 
     private function set_table_name() {
-		$this->tb_file = pm_tb_prefix() . 'pm_files';
+		$this->tb_file = esc_sql( pm_tb_prefix() . 'pm_files' );
 	}
 
 }
