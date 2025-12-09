@@ -117,7 +117,7 @@ function pm_migrate_db() {
 }
 
 function pm_seed_db() {
-    (new RoleTableSeeder())->run();
+    (new PM_RoleTableSeeder())->run();
 }
 
 function pm_register_routes() {

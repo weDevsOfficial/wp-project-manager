@@ -239,6 +239,7 @@ class Frontend {
         // Adds every 5 minutes to the existing schedules.
         $schedules[ 'pm_schedule' ] = array(
             'interval' => MINUTE_IN_SECONDS * 1,
+            // translators: %d: minutes
             'display'  => sprintf( __( 'Every %d Minutes PM schedule', 'wedevs-project-manager' ), 1 ),
         );
 

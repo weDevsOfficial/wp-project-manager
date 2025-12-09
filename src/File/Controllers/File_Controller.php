@@ -129,7 +129,7 @@ class File_Controller {
             header( 'Content-Transfer-Encoding: binary' );
             header( 'Content-Disposition: inline; filename=' . basename( $path ) );
 
-            // Replace readfile with WP_Filesystem method
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Binary file content for download must not be escaped
             echo $wp_filesystem->get_contents( $path );
         }
 

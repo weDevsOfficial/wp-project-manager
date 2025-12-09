@@ -22,6 +22,7 @@ class Menu {
         $submenu[$slug][] = [ __( 'Projects', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/" ];
 
         $active_task = self::my_task_count();
+        // translators: %s: pending task count number
         $mytask_text = sprintf( __( 'My Tasks %s', 'wedevs-project-manager' ), '<span class="awaiting-mod count-1"><span class="pending-count">' . $active_task . '</span></span>' );
         // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intentionally adding custom submenu items to WordPress admin menu
         $submenu[$slug][] = [ $mytask_text , self::$capability, "admin.php?page={$slug}#/my-tasks" ];

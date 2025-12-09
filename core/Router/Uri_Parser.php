@@ -24,7 +24,7 @@ class Uri_Parser {
             return $handler;
         }
 
-        throw new Invalid_Route_Handler( str_replace( '/', '\\', $str ) );
+        throw new Invalid_Route_Handler( esc_html( str_replace( '/', '\\', $str ) ) );
     }
 
     /**
@@ -42,7 +42,7 @@ class Uri_Parser {
             return $class;
         }
 
-        throw new Class_Not_Found( $class );
+        throw new Class_Not_Found( esc_html( $class ) );
     }
 
     /**
@@ -62,7 +62,7 @@ class Uri_Parser {
             return $method;
         }
 
-        throw new Undefined_Method_Call( $controller, $method );
+        throw new Undefined_Method_Call( esc_html( $controller ), esc_html( $method ) );
     }
 
     /**

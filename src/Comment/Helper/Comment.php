@@ -214,19 +214,21 @@ class Comment {
 			return $this;
 		}
 
-		$tb_files       = pm_tb_prefix() . 'pm_files';
-		$comment_format = pm_get_prepare_format( $this->comment_ids );
-		$query_data     = $this->comment_ids;
+		$tb_files        = esc_sql( pm_tb_prefix() . 'pm_files' );
+		$comment_ids_safe = array_map( 'absint', $this->comment_ids );
+		$comment_placeholders = implode( ', ', array_fill( 0, count( $comment_ids_safe ), '%d' ) );
+		$query_data      = array_merge( $comment_ids_safe, array( 'comment' ) );
 
-		$query = "SELECT DISTINCT fil.id as file_id,
-			fil.fileable_id as comment_id
-			FROM $tb_files as fil
-			where fil.fileable_id IN ($comment_format)
-			AND fil.fileable_type=%s";
-
-		array_push( $query_data, 'comment' );
-		
-		$results  = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT DISTINCT fil.id as file_id,
+				fil.fileable_id as comment_id
+				FROM {$tb_files} as fil
+				where fil.fileable_id IN ({$comment_placeholders})
+				AND fil.fileable_type=%s",
+				$query_data
+			)
+		);
 		$file_ids = wp_list_pluck( $results, 'file_id' );
 		
 		$files = File::get_results([
@@ -422,13 +424,17 @@ class Comment {
 		global $wpdb;
 		$id = isset( $this->query_params['id'] ) ? $this->query_params['id'] : false;
 
-		$query = "SELECT SQL_CALC_FOUND_ROWS DISTINCT {$this->tb_comment}.*
-			FROM {$this->tb_comment}
-			{$this->join}
-			WHERE %d=%d {$this->where} 
-			{$this->orderby} {$this->limit}";
-
-		$results = $wpdb->get_results( $wpdb->prepare( $query, 1, 1 ) );
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT SQL_CALC_FOUND_ROWS DISTINCT {$this->tb_comment}.*
+				FROM {$this->tb_comment}
+				{$this->join}
+				WHERE %d=%d {$this->where} 
+				{$this->orderby} {$this->limit}",
+				1,
+				1
+			)
+		);
 
 		$this->found_rows = $wpdb->get_var( "SELECT FOUND_ROWS()" );
 		$this->comments = $results;
@@ -445,7 +451,7 @@ class Comment {
 	}
 
     private function set_table_name() {
-		$this->tb_comment = pm_tb_prefix() . 'pm_comments';
+		$this->tb_comment = esc_sql( pm_tb_prefix() . 'pm_comments' );
 	}
 
 }

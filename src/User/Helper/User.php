@@ -15,6 +15,9 @@ class User {
 	private $user_ids;
 	private $is_single_query = false;
 
+	private $found_rows;
+	private $tb_user;
+	
 	public static function getInstance() {
 
         return new self();
@@ -246,15 +249,18 @@ class User {
 
 	private function get() {
 		global $wpdb;
-		
 
-		$query = "SELECT SQL_CALC_FOUND_ROWS DISTINCT {$this->tb_user}.*
-			FROM {$this->tb_user}
-			{$this->join}
-			WHERE %d=%d {$this->where} 
-			{$this->orderby} {$this->limit} ";
-
-		$results = $wpdb->get_results( $wpdb->prepare( $query, 1, 1 ) );
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT SQL_CALC_FOUND_ROWS DISTINCT {$this->tb_user}.*
+				FROM {$this->tb_user}
+				{$this->join}
+				WHERE %d=%d {$this->where} 
+				{$this->orderby} {$this->limit}",
+				1,
+				1
+			)
+		);
 
 		$this->found_rows = $wpdb->get_var( "SELECT FOUND_ROWS()" );
 		$this->users = $results;
@@ -270,10 +276,10 @@ class User {
 		return $this;
 	}
 
-		/**
+	/**
 	 * Set table name as class object
 	 */
 	private function set_table_name() {
-		$this->tb_user    = pm_tb_prefix() . 'users';
+		$this->tb_user = esc_sql( pm_tb_prefix() . 'users' );
 	}
 }
