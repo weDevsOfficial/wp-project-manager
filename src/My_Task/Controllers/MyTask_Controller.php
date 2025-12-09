@@ -169,17 +169,13 @@ class MyTask_Controller {
 
         $boards_id_placeholders  = implode( ',', array_fill( 0, count( $boards_id ), '%d' ) );
 
+        // Ensure project_ids is safe and build placeholders
         if ( empty( $project_ids ) ) {
-            $where_projec_ids = "AND pj.id IN (0)";
-            $project_ids_array = array();
+            $project_ids_array = array( 0 );
         } else {
-            $project_ids = array_map( 'absint', $project_ids );
-            $project_ids_placeholders = implode( ',', array_fill( 0, count( $project_ids ), '%d' ) );
-            $where_projec_ids = "AND pj.id IN ( {$project_ids_placeholders} )";
-            $project_ids_array = $project_ids;
+            $project_ids_array = array_map( 'absint', $project_ids );
         }
-
-        $where_users = " AND asin.assigned_to = %d";
+        $project_ids_placeholders = implode( ', ', array_fill( 0, count( $project_ids_array ), '%d' ) );
 
         if ( is_multisite() ) {
             $meta_key = pm_user_meta_key();
@@ -192,7 +188,7 @@ class MyTask_Controller {
                 array( $user_id )
             );
 
-            $event_query = $wpdb->prepare(
+            $events = $wpdb->get_results( $wpdb->prepare(
                 "SELECT tsk.*,
                 GROUP_CONCAT(
                     DISTINCT
@@ -300,14 +296,12 @@ class MyTask_Controller {
                     )
                     AND
                     board.id IN ({$boards_id_placeholders})
-                    {$where_projec_ids}
-
-                    {$where_users}
+                    AND pj.id IN ({$project_ids_placeholders})
+                    AND asin.assigned_to = %d
 
                 GROUP BY(tsk.id)",
                 $prepare_params
-            );
-
+            ) );
         } else {
 
             // Prepare parameters array
@@ -318,7 +312,7 @@ class MyTask_Controller {
                 array( $user_id )
             );
 
-            $event_query = $wpdb->prepare(
+            $events = $wpdb->get_results( $wpdb->prepare(
                 "SELECT tsk.*,
                 GROUP_CONCAT(
                     DISTINCT
@@ -424,17 +418,14 @@ class MyTask_Controller {
                     )
                     AND
                     board.id IN ({$boards_id_placeholders})
-                    {$where_projec_ids}
-
-                    {$where_users}
+                    AND pj.id IN ({$project_ids_placeholders})
+                    AND asin.assigned_to = %d
 
                 GROUP BY(tsk.id)",
                 $prepare_params
-            );
+            ) );
         }
 
-        // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- $event_query is already prepared with $wpdb->prepare() above
-        $events     = $wpdb->get_results( $event_query );
         $user_roles = $wpdb->get_results(
             $wpdb->prepare(
                 "SELECT DISTINCT user_id, project_id, role_id FROM {$tb_role_user} WHERE user_id=%d", $current_user_id
@@ -502,13 +493,14 @@ class MyTask_Controller {
     public function get_current_user_project_ids( $user_id, $project_id = false ) {
         global $wpdb;
 
-        $tb_role_user = pm_tb_prefix() . 'pm_role_user';
-
-        $project_ids = [];
+        $tb_role_user = esc_sql( pm_tb_prefix() . 'pm_role_user' );
 
         // IF empty project id
         $project_ids = $wpdb->get_results(
-            $wpdb->prepare( "SELECT DISTINCT project_id FROM $tb_role_user WHERE user_id=%d", $user_id )
+            $wpdb->prepare(
+                "SELECT DISTINCT project_id FROM {$tb_role_user} WHERE user_id=%d",
+                absint( $user_id )
+            )
         );
         $project_ids = wp_list_pluck( $project_ids, 'project_id' );
 
