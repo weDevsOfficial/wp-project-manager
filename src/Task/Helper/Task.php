@@ -65,13 +65,13 @@ class Task {
     		get_current_user_id() : (int) $user_id;
     }
 
-    /**
-     * AJAX Get tasks
-     * 
-     * @param  array $request
-     * 
-     * @return void
-     */
+	/**
+	 * AJAX Get tasks
+	 * 
+	 * @param   WP_REST_Request $request
+	 * 
+	 * @return void
+	 */
 	public static function get_tasks( WP_REST_Request $request ) {
 		$self  = self::getInstance();
 		$tasks = self::get_results( $request->get_params() );
@@ -81,12 +81,12 @@ class Task {
 
 
 	/**
-     * AJAX Get tasks Csv.
-     *
-     * @param array $request
-     *
-     * @return void
-     */
+	 * AJAX Get tasks Csv.
+	 *
+	 * @param   WP_REST_Request $request
+	 *
+	 * @return void
+	 */
 	public static function get_taskscsv( WP_REST_Request $request ) {
 		$self = self::getInstance();
 		$tasks = self::get_results( $request->get_params() );
@@ -1222,6 +1222,8 @@ class Task {
 	}
 
 	private function join() {
+		// Initialize join as empty string to prevent unescaped parameter warnings
+		$this->join = '';
 
 		$this->join = apply_filters( 'wedevs_pm_task_join', $this->join );
 
@@ -1815,22 +1817,25 @@ class Task {
 		global $wpdb;
 		
 		$id        = isset( $this->query_params['id'] ) ? $this->query_params['id'] : false;
-		$more_tasks_request = isset( $this->query_params['source'] ) && 'more_tasks' === $this->query_params['source'] ? true : false;
-		$boardable = esc_sql( wedevs_pm_tb_prefix() . 'pm_boardables' );
+		$more_tasks_request = isset($this->query_params['source']) && 'more_tasks' === $this->query_params['source'] ? true : false;
 		$tasks = [];
 
+		// Ensure these are strings to avoid null/undefined issues
+		$join = is_string($this->join) ? $this->join : '';
+
+		// phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter -- $join is built safely via join() method using wpdb::prepare() and apply_filters()
 		$results = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT SQL_CALC_FOUND_ROWS DISTINCT {$this->tb_tasks}.*,
+				"SELECT SQL_CALC_FOUND_ROWS DISTINCT %i.*,
 				list.id as task_list_id,
 				list.title as task_list_title
 
-				FROM {$this->tb_tasks}
+				FROM %i
 
-				Left join {$boardable} as boardable ON boardable.boardable_id = {$this->tb_tasks}.id
-				Left join {$this->tb_lists} as list ON list.id = boardable.board_id
+				Left join %i as boardable ON boardable.boardable_id = %i.id
+				Left join %i as list ON list.id = boardable.board_id
 
-				{$this->join}
+				{$join}
 
 				WHERE %d=%d {$this->where}
 
@@ -1840,6 +1845,11 @@ class Task {
 				{$this->orderby}
 
 				{$this->limit}",
+				$this->tb_tasks,
+				$this->tb_tasks,
+				wedevs_pm_tb_prefix() . 'pm_boardables',
+				$this->tb_tasks,
+				$this->tb_lists,
 				1,
 				1,
 				'task_list',

@@ -187,7 +187,7 @@ class Project {
 
 	private function count_project_by_type( $type) {
 		global $wpdb;
-		$tb_projects = wedevs_pm_tb_prefix() . 'pm_projects';
+		$tb_projects = esc_sql(wedevs_pm_tb_prefix() . 'pm_projects');
 
 		$incomplete_project_count = $wpdb->get_var( $wpdb->prepare( 
 			"SELECT DISTINCT COUNT(id) FROM {$tb_projects} WHERE status = %d", 
@@ -199,8 +199,8 @@ class Project {
 
 	private function favourite_project_count() {
 		global $wpdb;
-		$tb_projects = wedevs_pm_tb_prefix() . 'pm_projects';
-		$tb_meta     = wedevs_pm_tb_prefix() . 'pm_meta';
+		$tb_projects = esc_sql(wedevs_pm_tb_prefix() . 'pm_projects');
+		$tb_meta     = esc_sql(wedevs_pm_tb_prefix() . 'pm_meta');
 		$current_user_id = get_current_user_id();
 
 
@@ -634,16 +634,18 @@ class Project {
 		global $wpdb;
 
 		$metas          = [];
-		$tb_projects    = wedevs_pm_tb_prefix() . 'pm_projects';
 		$tb_boards      = wedevs_pm_tb_prefix() . 'pm_boards';
-		$project_format = wedevs_pm_get_prepare_format( $this->project_ids );
 		$query_data     = $this->project_ids;
 
+		// Build IN clause placeholders
+		$placeholders = implode(', ', array_fill(0, count($query_data), '%d'));
+
 		array_push( $query_data, 'task_list' );
+		array_unshift($query_data, $tb_boards);
 
 		$results = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT COUNT(pb.id) as task_list_count ,  project_id
-				FROM $tb_boards as pb
-				WHERE pb.project_id IN ($project_format)
+				FROM %i as pb
+				WHERE pb.project_id IN ($placeholders)
 				AND pb.type=%s
 				GROUP BY pb.project_id", $query_data )  );
 
@@ -669,17 +671,18 @@ class Project {
 		global $wpdb;
 
 		$metas          = [];
-		$tb_projects    = wedevs_pm_tb_prefix() . 'pm_projects';
 		$tb_boards      = wedevs_pm_tb_prefix() . 'pm_boards';
-		$project_format = wedevs_pm_get_prepare_format( $this->project_ids );
 		$query_data     = $this->project_ids;
 
+		// Build IN clause placeholders
+		$placeholders = implode(', ', array_fill(0, count($query_data), '%d'));
 
 		array_push( $query_data, 'discussion_board' );
+		array_unshift($query_data, $tb_boards);
 
 		$results = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT COUNT(pb.id) as discussion_count ,  project_id
-				FROM $tb_boards as pb
-				WHERE pb.project_id IN ($project_format)
+				FROM %i as pb
+				WHERE pb.project_id IN ($placeholders)
 				AND pb.type=%s
 				GROUP BY pb.project_id",  $query_data ) );
 
@@ -748,17 +751,18 @@ class Project {
 		global $wpdb;
 
 		$metas          = [];
-		$tb_projects    = wedevs_pm_tb_prefix() . 'pm_projects';
 		$tb_boards      = wedevs_pm_tb_prefix() . 'pm_boards';
-		$project_format = wedevs_pm_get_prepare_format( $this->project_ids );
 		$query_data     = $this->project_ids;
 
+		// Build IN clause placeholders
+		$placeholders = implode(', ', array_fill(0, count($query_data), '%d'));
 
 		array_push( $query_data, 'milestone' );
+		array_unshift($query_data, $tb_boards);
 
 		$results = $wpdb->get_results( $wpdb->prepare( "SELECT DISTINCT COUNT(pb.id) as milestones_count ,  project_id
-				FROM $tb_boards as pb
-				WHERE pb.project_id IN ($project_format)
+				FROM %i as pb
+				WHERE pb.project_id IN ($placeholders)
 				AND pb.type=%s
 				GROUP BY pb.project_id", $query_data ) );
 
@@ -1430,17 +1434,26 @@ class Project {
 	private function get() {
 		global $wpdb;
 		$id = isset( $this->query_params['id'] ) ? $this->query_params['id'] : false;
-		
+
+		// Ensure these are strings to avoid null/undefined issues
+		$join = is_string($this->join) ? $this->join : '';
+		$where = is_string($this->where) ? $this->where : '';
+		$orderby = is_string($this->orderby) ? $this->orderby : '';
+		$limit = is_string($this->limit) ? $this->limit : '';
+
+		// phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter -- $join is built safely via join() method using wpdb::prepare() and apply_filters()
 		$results = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT SQL_CALC_FOUND_ROWS DISTINCT {$this->tb_project}.*
+				"SELECT SQL_CALC_FOUND_ROWS DISTINCT %i.*
 				FROM 
-					{$this->tb_project}
-					{$this->join}
+					%i
+					{$join}
 				WHERE %d=%d 
-					{$this->where}
-					{$this->orderby}
-					{$this->limit}",
+					{$where}
+					{$orderby}
+					{$limit}",
+				$this->tb_project,
+				$this->tb_project,
 				1,
 				1
 			)

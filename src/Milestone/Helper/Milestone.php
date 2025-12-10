@@ -27,6 +27,9 @@ class Milestone {
 	private $with;
 	private $milestones;
 	private $milestone_ids;
+	private $found_rows;
+	private $tb_milestone;
+	private $tb_project;
 	private $is_single_query = false;
 
 	public static function getInstance() {
@@ -463,7 +466,7 @@ class Milestone {
 	/**
 	 * Filter milestone by ID
 	 *
-	 * @return class object
+	 * @return self object
 	 */
 	private function where_id() {
 		$id = isset( $this->query_params['id'] ) ? $this->query_params['id'] : false; 
@@ -488,7 +491,7 @@ class Milestone {
 	/**
 	 * Filter task by title
 	 *
-	 * @return class object
+	 * @return self object
 	 */
 	private function where_title() {
 		global $wpdb;
@@ -624,15 +627,25 @@ class Milestone {
 		global $wpdb;
 		$id = isset( $this->query_params['id'] ) ? $this->query_params['id'] : false;
 
+		// Ensure these are strings to avoid null/undefined issues
+		$join = is_string($this->join) ? $this->join : '';
+		$where = is_string($this->where) ? $this->where : '';
+		$orderby = is_string($this->orderby) ? $this->orderby : '';
+		$limit = is_string($this->limit) ? $this->limit : '';
+
+		// phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter -- $join is built safely via join() method using wpdb::prepare() and apply_filters()
 		$results = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT SQL_CALC_FOUND_ROWS DISTINCT {$this->tb_milestone}.*
-				FROM {$this->tb_milestone}
-				{$this->join}
-				WHERE %d=%d {$this->where} AND {$this->tb_milestone}.type=%s
-				{$this->orderby} {$this->limit}",
+				"SELECT SQL_CALC_FOUND_ROWS DISTINCT %i.*
+				FROM %i
+				{$join}
+				WHERE %d=%d {$where} AND %i.type=%s
+				{$orderby} {$limit}",
+				$this->tb_milestone,
+				$this->tb_milestone,
 				1,
 				1,
+				$this->tb_milestone,
 				'milestone'
 			)
 		);

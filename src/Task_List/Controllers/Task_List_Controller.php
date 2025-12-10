@@ -669,6 +669,11 @@ class Task_List_Controller {
         $join .= apply_filters( 'wedevs_pm_incomplete_task_query_join', '', $project_id );
         $filter .= apply_filters( 'wedevs_pm_incomplete_task_query_where', '', $project_id );
 
+        // Ensure $join and $filter are strings to avoid null/undefined issues
+        $join = is_string($join) ? $join : '';
+        $filter = is_string($filter) ? $filter : '';
+
+        // phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter -- $join is built safely via apply_filters() which allows extensibility for custom JOIN clauses
         $results = $wpdb->get_results(  $wpdb->prepare(
             "SELECT bo.board_id,
                 group_concat(

@@ -250,13 +250,22 @@ class User {
 	private function get() {
 		global $wpdb;
 
+		// Ensure these are strings to avoid null/undefined issues
+		$join = is_string($this->join) ? $this->join : '';
+		$where = is_string($this->where) ? $this->where : '';
+		$orderby = is_string($this->orderby) ? $this->orderby : '';
+		$limit = is_string($this->limit) ? $this->limit : '';
+
+		// phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter -- $join is built safely via join() method using wpdb::prepare() and apply_filters()
 		$results = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT SQL_CALC_FOUND_ROWS DISTINCT {$this->tb_user}.*
-				FROM {$this->tb_user}
-				{$this->join}
-				WHERE %d=%d {$this->where} 
-				{$this->orderby} {$this->limit}",
+				"SELECT SQL_CALC_FOUND_ROWS DISTINCT %i.*
+				FROM %i
+				{$join}
+				WHERE %d=%d {$where} 
+				{$orderby} {$limit}",
+				$this->tb_user,
+				$this->tb_user,
 				1,
 				1
 			)

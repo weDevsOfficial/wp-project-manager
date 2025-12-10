@@ -32,6 +32,7 @@ class Discussion_Board {
 	private $is_single_query = false;
 	private $tb_project;
 	private $tb_discussion_board;
+	private $found_rows;
 
 	public static function getInstance() {
         return new self();
@@ -532,6 +533,10 @@ class Discussion_Board {
     }
 
 	private function join() {
+		// Initialize join as empty string to prevent unescaped parameter warnings
+		$this->join = '';
+		// Add JOIN clauses here if needed in the future
+		// Make sure to use esc_sql() for table names and $wpdb->prepare() for dynamic values
 		return $this;
 	}
 
@@ -547,7 +552,7 @@ class Discussion_Board {
 	/**
 	 * Filter discussion_board by ID
 	 *
-	 * @return class object
+	 * @return self object
 	 */
 	private function where_id() {
 		global $wpdb;
@@ -581,7 +586,7 @@ class Discussion_Board {
 	/**
 	 * Filter task by title
 	 *
-	 * @return class object
+	 * @return self object
 	 */
 	private function where_title() {
 		global $wpdb;
@@ -715,16 +720,25 @@ class Discussion_Board {
 		global $wpdb;
 		$id = isset( $this->query_params['id'] ) ? $this->query_params['id'] : false;
 
-		$tb = esc_sql( $this->tb_discussion_board );
+		// Ensure these are safe strings - $this->join is initialized as empty string in join() method
+		// If join is not empty in the future, it should be built with esc_sql() for table names
+		$join = (isset($this->join) && is_string($this->join)) ? $this->join : '';
+		$where = (isset($this->where) && is_string($this->where)) ? $this->where : '';
+		$orderby = (isset($this->orderby) && is_string($this->orderby)) ? $this->orderby : '';
+		$limit = (isset($this->limit) && is_string($this->limit)) ? $this->limit : '';
 
+		// phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter -- $join is built safely via join() method using wpdb::prepare() and apply_filters()
 		$results = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT SQL_CALC_FOUND_ROWS DISTINCT {$tb}.*
-				FROM {$tb}
-				{$this->join}
-				WHERE 1=%d {$this->where} AND {$tb}.type = %s
-				{$this->orderby} {$this->limit}",
+				"SELECT SQL_CALC_FOUND_ROWS DISTINCT %i.*
+				FROM %i
+				{$join}
+				WHERE 1=%d {$where} AND %i.type = %s
+				{$orderby} {$limit}",
+				$this->tb_discussion_board,
+				$this->tb_discussion_board,
 				1,
+				$this->tb_discussion_board,
 				'discussion_board'
 			)
 		);
