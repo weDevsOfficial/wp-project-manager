@@ -396,7 +396,7 @@ class Activity {
 	/**
 	 * Filter activity by ID
 	 *
-	 * @return class object
+	 * @return self object
 	 */
 	private function where_resource_type() {
 		global $wpdb;
@@ -423,7 +423,7 @@ class Activity {
 	/**
 	 * Filter activity by ID
 	 *
-	 * @return class object
+	 * @return self object
 	 */
 	private function where_id() {
 		global $wpdb;
@@ -472,7 +472,7 @@ class Activity {
 	/**
 	 * Filter task by title
 	 *
-	 * @return class object
+	 * @return self object
 	 */
 	private function where_resource_id() {
 		global $wpdb;
@@ -628,13 +628,22 @@ class Activity {
 		global $wpdb;
 		$id = isset( $this->query_params['id'] ) ? $this->query_params['id'] : false;
 
+		// Ensure these are strings to avoid null/undefined issues
+		$join = is_string($this->join) ? $this->join : '';
+		$where = is_string($this->where) ? $this->where : '';
+		$orderby = is_string($this->orderby) ? $this->orderby : '';
+		$limit = is_string($this->limit) ? $this->limit : '';
+
+		// phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter -- $join is built safely via join() method using wpdb::prepare() and apply_filters()
 		$results = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT SQL_CALC_FOUND_ROWS DISTINCT {$this->tb_activity}.*
-				FROM {$this->tb_activity}
-				{$this->join}
-				WHERE %d=%d {$this->where}
-				{$this->orderby} {$this->limit}",
+				"SELECT SQL_CALC_FOUND_ROWS DISTINCT %i.*
+				FROM %i
+				{$join}
+				WHERE %d=%d {$where}
+				{$orderby} {$limit}",
+				$this->tb_activity,
+				$this->tb_activity,
 				1,
 				1
 			)

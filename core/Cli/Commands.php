@@ -589,13 +589,13 @@ class Commands extends Cli {
         $errors = array();
 
         foreach ( $tables_to_clean as $table => $description ) {
-            $full_table_name = $wpdb->prefix . $table;
+            $full_table_name = esc_sql( $wpdb->prefix . $table );
             
             // Check if table exists
             $table_exists = $wpdb->get_var( $wpdb->prepare(
                 "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = %s AND table_name = %s",
                 DB_NAME,
-                $full_table_name
+                $wpdb->prefix . $table
             ) );
 
             if ( $table_exists ) {
