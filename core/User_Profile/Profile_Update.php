@@ -40,11 +40,11 @@ class Profile_Update {
     /**
      * Default interface for setting a HR role
      *
-     * @param WP_User $profile_user User data
+     * @param \WP_User $profile_user User data
      *
      * @return bool Always false
      */
-    public function profile( $profile_user ) {
+    public function profile( \WP_User $profile_user ) {
 
         // Bail if current user cannot edit users
         if ( ! current_user_can( 'edit_user', $profile_user->ID ) || !current_user_can( 'manage_options') ) {

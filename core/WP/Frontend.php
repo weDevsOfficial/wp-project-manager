@@ -298,8 +298,8 @@ class Frontend {
     /**
      * Upgrade notice
      *
-     * @param  stdClass $current
-     * @param  stdClass $new
+     * @param  \stdClass $current
+     * @param  \stdClass $new
      *
      * @return void
      */

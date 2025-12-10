@@ -24,7 +24,7 @@ class Pusher {
         $files = glob( __DIR__ . "/Libs/*.php" );
 
         if ( $files === false ) {
-            throw new RuntimeException( "Failed to glob for lib files" );
+            throw new \RuntimeException( "Failed to glob for lib files" );
         }
 
         foreach ($files as $file) {
@@ -67,7 +67,7 @@ class Pusher {
         } else {
             wp_enqueue_script( 'pm-toastr-pusher', plugins_url( 'views/assets/vendor/toastr/toastr.min.js', __FILE__ ), array('jquery'), $path, true );
             wp_enqueue_script( 'pm-pusher-jquery', wedevs_pm_config('define.url') . 'src/Pusher/views/assets/vendor/pusher-jquery.js', array('jquery', 'pm-pusher-library', 'pm-toastr-pusher'), time(), true );
-            wp_enqueue_style( 'pm-toastr-pusher', plugins_url( 'views/assets/css/toastr/toastr.min.css', __FILE__ ), false, 'v2.1.3', 'all' );
+            wp_enqueue_style( 'pm-toastr-pusher', plugins_url( 'views/assets/css/toastr/toastr.min.css', __FILE__ ), [], 'v2.1.3', 'all' );
         }
 
         $localize = [
@@ -85,7 +85,7 @@ class Pusher {
 
         wp_localize_script( 'pm-pusher-jquery', 'PM_Pusher_Vars', $localize );
 
-        wp_enqueue_style( 'pm-pro-pusher-notification', plugins_url( 'views/assets/css/pusher.css', __FILE__ ), false, time(), 'all' );
+        wp_enqueue_style( 'pm-pro-pusher-notification', plugins_url( 'views/assets/css/pusher.css', __FILE__ ), [], time(), 'all' );
     }
 }
 
