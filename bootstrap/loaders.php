@@ -24,21 +24,16 @@ function wedevs_pm_load_configurations() {
     return $config;
 }
 
+/**
+ * Load text files (Deprecated)
+ * 
+ * @deprecated No longer used. Translations are now handled directly with WordPress i18n functions.
+ * @return array Empty array for backward compatibility
+ */
 function wedevs_pm_load_texts() {
-    $files = glob( __DIR__ . "/../texts/*.php" );
-
-    if ( $files === false ) {
-        throw new RuntimeException( "Failed to glob for lang files" );
-    }
-
-    foreach ( $files as $file ) {
-        $lang[basename( $file, '.php' )] = include $file;
-    }
-
-    unset( $file );
-    unset( $files );
-
-    return $lang;
+    // Deprecated: texts/*.php files are no longer used
+    // All translations now use proper WordPress i18n functions (__(), _e(), etc.)
+    return array();
 }
 
 function wedevs_pm_load_libs() {

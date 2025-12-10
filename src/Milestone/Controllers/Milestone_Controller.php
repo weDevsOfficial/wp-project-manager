@@ -85,7 +85,7 @@ class Milestone_Controller {
         $milestone = $milestone->first();
         if ( $milestone == NULL ) {
             return $this->get_response( null,  [
-                'message' => wedevs_pm_get_text('success_messages.no_element')
+                'message' => __( 'No elements found.', 'wedevs-project-manager' )
             ] );
         }
         $resource = new Item( $milestone, new Milestone_Transformer );
@@ -117,7 +117,7 @@ class Milestone_Controller {
         $resource  = new Item( $milestone, new Milestone_Transformer );
 
         $message = [
-            'message' => wedevs_pm_get_text('success_messages.milestone_created')
+            'message' => __( 'A new milestone has been created successfully.', 'wedevs-project-manager' )
         ];
         $response = $self->get_response( $resource, $message );
 
@@ -153,7 +153,7 @@ class Milestone_Controller {
         $resource  = new Item( $milestone, new Milestone_Transformer );
 
         $message = [
-            'message' => wedevs_pm_get_text('success_messages.milestone_created')
+            'message' => __( 'A new milestone has been created successfully.', 'wedevs-project-manager' )
         ];
         $response = $this->get_response( $resource, $message );
 
@@ -204,7 +204,7 @@ class Milestone_Controller {
         $resource = new Item( $milestone, new Milestone_Transformer );
 
         $message = [
-            'message' => wedevs_pm_get_text('success_messages.milestone_updated')
+            'message' => __( 'A milestone has been updated successfully.', 'wedevs-project-manager' )
         ];
 
         $response = $this->get_response( $resource, $message );
@@ -226,7 +226,7 @@ class Milestone_Controller {
         $milestone->delete();
 
         $message = [
-            'message' => wedevs_pm_get_text('success_messages.milestone_deleted')
+            'message' => __( 'A milestone has been deleted successfully.', 'wedevs-project-manager' )
         ];
         do_action( 'wedevs_cpm_milestone_delete', $milestone_id, false );
 
