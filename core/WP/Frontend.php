@@ -76,7 +76,7 @@ class Frontend {
         add_action( 'init', array ( 'WeDevs\PM\Core\Notifications\Notification' , 'init_transactional_emails' ) );
         add_action( 'admin_enqueue_scripts', array ( $this, 'register_scripts' ) );
         add_action( 'wp_enqueue_scripts', array ( $this, 'register_scripts' ) );
-        add_action( 'plugins_loaded', array( $this, 'load_plugin_textdomain' ) );
+        add_action( 'init', array( $this, 'load_plugin_textdomain' ) );
         add_action( 'plugins_loaded', array( $this, 'pm_content_filter' ) );
         add_action( 'plugins_loaded', array( $this, 'pm_content_filter_url' ) );
         add_filter( 'plugin_action_links_' . PM_BASENAME , array( $this, 'plugin_action_links' ) );

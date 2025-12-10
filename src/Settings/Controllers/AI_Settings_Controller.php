@@ -213,7 +213,7 @@ class AI_Settings_Controller {
         }
 
         $message = [
-            'message' => wedevs_pm_get_text('success_messages.setting_saved')
+            'message' => __( 'Settings has been changed successfully.', 'wedevs-project-manager' )
         ];
 
         return $this->get_response( $resource, $message );
