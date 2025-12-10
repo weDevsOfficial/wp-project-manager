@@ -24,6 +24,8 @@ class Project {
 	private $projects;
 	private $project_ids;
 	private $is_single_query = false;
+	private $tb_project_user;
+	private $found_rows;
 	
 
 

@@ -29,6 +29,14 @@ class Task_List {
 	private $lists;
 	private $list_ids;
 	private $is_single_query = false;
+	private $tb_project;
+	private $tb_list;
+	private $tb_task;
+	private $tb_project_user;
+	private $tb_task_user;
+	private $tb_categories;
+	private $tb_category_project;
+	private $found_rows;
 
 	public static function getInstance() {
         return new self();
