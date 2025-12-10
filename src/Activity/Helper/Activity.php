@@ -30,6 +30,7 @@ class Activity {
 	private $found_rows;
 	private $per_page;
 	private $tb_activity;
+	private $tb_project;
 
 	public static function getInstance() {
         return new self();
