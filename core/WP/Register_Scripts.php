@@ -30,8 +30,9 @@ class Register_Scripts {
 		foreach ( $styles as $style ) {
 			$path = wedevs_pm_config( 'app.version' );
 			
-			if ( !empty( $script['path'] ) && file_exists( $script['path'] ) ) {
-				$path = filemtime( $script['path'] );
+			
+			if ( !empty( $style['path'] ) && file_exists( $style['path'] ) ) {
+				$path = filemtime( $style['path'] );
 			}
 
 			wp_register_style( 
