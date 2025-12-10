@@ -12,8 +12,21 @@ use WeDevs\PM\Discussion_Board\Models\Discussion_Board;
 use Illuminate\Database\Eloquent\Collection;
 use WeDevs\PM\Project\Models\Project;
 
+/**
+ * Get translated text (Deprecated)
+ * 
+ * @deprecated This function is deprecated. Use WordPress i18n functions (__(), _e(), etc.) directly instead.
+ * 
+ * @param string $key The text key
+ * @return mixed
+ */
 function wedevs_pm_get_text( $key ) {
-    return Textdomain::get_text( $key);
+    // This function is kept only for backward compatibility with pm-pro plugin
+    // All core functionality now uses proper WordPress i18n functions
+    _deprecated_function( __FUNCTION__, '2.6.0', 'WordPress i18n functions (__(), _e(), etc.)' );
+    
+    // Return empty array for any key to prevent errors
+    return array();
 }
 
 function wedevs_pm_get_wp_timezone() {
@@ -684,7 +697,7 @@ function wedevs_pm_get_task( $task_id ) {
 
     if ( $task == NULL ) {
         return wedevs_pm_get_response( null,  [
-            'message' => wedevs_pm_get_text('success_messages.no_element')
+            'message' => __( 'No elements found.', 'wedevs-project-manager' )
         ] );
     }
 

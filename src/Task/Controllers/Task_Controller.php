@@ -149,7 +149,7 @@ class Task_Controller {
 
 
         $message = [
-            'message' => wedevs_pm_get_text('success_messages.task_created'),
+            'message' => __( 'A new task has been created successfully.', 'wedevs-project-manager' ),
             'activity' => $self->last_activity( 'task', $task->id ),
         ];
 
@@ -211,7 +211,7 @@ class Task_Controller {
 
 
         $message = [
-            'message' => wedevs_pm_get_text('success_messages.task_created'),
+            'message' => __( 'A new task has been created successfully.', 'wedevs-project-manager' ),
             'activity' => $this->last_activity( 'task', $task->id ),
         ];
 
@@ -385,7 +385,7 @@ class Task_Controller {
         ]);
 
         $response = [
-            'message'  => wedevs_pm_get_text('success_messages.task_updated'),
+            'message'  => __( 'A task has been updated successfully.', 'wedevs-project-manager' ),
             'activity' => self::getInstance()->last_activity( 'task', $task->id ),
             'data'     => $task_response['data']
         ];
@@ -426,7 +426,7 @@ class Task_Controller {
         ]);
 
         $response = [
-            'message'  => wedevs_pm_get_text( 'success_messages.task_updated' ),
+            'message'  => __( 'A task has been updated successfully.', 'wedevs-project-manager' ),
             'activity' => self::getInstance()->last_activity( 'task', $task->id ),
             'data'     => $task_response['data']
         ];
@@ -437,7 +437,7 @@ class Task_Controller {
     }
 
     private function task_activity_comment ($task, $status) {
-        $activity = ( (bool) $status) ? wedevs_pm_get_text('success_messages.task_activity_done_comment') : wedevs_pm_get_text('success_messages.task_activity_undone_comment');
+        $activity = ( (bool) $status) ? __( 'Task marked as done', 'wedevs-project-manager' ) : __( 'Task reopened', 'wedevs-project-manager' );
         $user_id = get_current_user_id();
         $comment                   = new Comment;
         $comment->content          = $activity;
@@ -497,7 +497,7 @@ class Task_Controller {
         do_action( 'wedevs_pm_after_delete_task', $task_id, $project_id );
 
         $message = [
-            'message' => wedevs_pm_get_text('success_messages.task_deleted'),
+            'message' => __( 'A task has been deleted successfully.', 'wedevs-project-manager' ),
             'activity' => $self->last_activity( 'task', $task->id ),
             'task'     => $resource,
             'list'     => $list
@@ -552,7 +552,7 @@ class Task_Controller {
         do_action( 'wedevs_pm_after_delete_task', $task_id, $project_id );
 
         $message = [
-            'message'  => wedevs_pm_get_text('success_messages.task_deleted'),
+            'message'  => __( 'A task has been deleted successfully.', 'wedevs-project-manager' ),
             'activity' => $this->last_activity( 'task', $task->id ),
             'task'     => $resource,
             'list'     => $list
