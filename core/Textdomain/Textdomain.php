@@ -20,36 +20,23 @@ class Textdomain {
     /**
      * Load lang files from the lang directory and store these
      * values in lang static property.
+     * 
+     * @deprecated No longer loads texts from files. All translations use WordPress i18n functions.
      */
     protected function load() {
-        self::$texts = wedevs_pm_load_texts();
+        self::$texts = array(); // No longer loading from texts/*.php files
     }
 
+    /**
+     * Get text (Deprecated)
+     * 
+     * @deprecated Use WordPress i18n functions (__(), _e(), etc.) directly instead.
+     * @param string $key The text key
+     * @return array Empty array for backward compatibility
+     */
     public static function get_text( $key ) {
-        Textdomain::singleton(
-            array(),
-            array([
-                'method' => 'load',
-                'params' => [],
-                'property' => null
-            ])
-        );
-
-        $texts = self::$texts;
-        $keys  = explode( '.', $key );
-        $text  = self::get_value_from_array( $texts, $keys );
-
-        $localized_text = [];
-        if ( count( $keys ) == 1 ) {
-            $sub_keys = array_keys( $text );
-            foreach ( $sub_keys as $key ) {
-                $localized_text[$key] = self::named_sprintf( $text[$key] );
-            }
-        } else {
-            $localized_text = self::named_sprintf( $text );
-        }
-
-        return $localized_text;
+        // Deprecated: Return empty array for backward compatibility
+        return array();
     }
 
     private static function get_value_from_array( $array = [], $keys = [] ) {

@@ -60,7 +60,7 @@ class Discussion_Board_Controller {
 
         if ( $discussion_board == NULL ) {
             return $this->get_response( null,  [
-                'message' => wedevs_pm_get_text('success_messages.no_element')
+                'message' => __( 'No elements found.', 'wedevs-project-manager' )
             ] );
         }
         $resource = new Item( $discussion_board, new Discussion_Board_Transformer );
@@ -92,7 +92,7 @@ class Discussion_Board_Controller {
         do_action( 'wedevs_pm_new_message_before_response', $discussion_board, $request->get_params() );
         $resource = new Item( $discussion_board, new Discussion_Board_Transformer );
         $message = [
-            'message' => wedevs_pm_get_text('success_messages.discuss_created')
+            'message' => __( 'A new discussion has been created successfully.', 'wedevs-project-manager' )
         ];
         $resource = apply_filters( 'wedevs_pm_ater_new_message',  $resource,  $request );
         $response = $this->get_response( $resource, $message );
@@ -142,7 +142,7 @@ class Discussion_Board_Controller {
         $resource = new Item( $discussion_board, new Discussion_Board_Transformer );
 
         $message = [
-            'message' => wedevs_pm_get_text('success_messages.discuss_updated')
+            'message' => __( 'A discussion has been updated successfully.', 'wedevs-project-manager' )
         ];
         
         $resource = apply_filters( 'wedevs_pm_ater_new_message',  $resource,  $request );
@@ -173,7 +173,7 @@ class Discussion_Board_Controller {
         $discussion_board->delete();
 
         $message = [
-            'message' => wedevs_pm_get_text('success_messages.discuss_deleted')
+            'message' => __( 'A discussion has been deleted successfully.', 'wedevs-project-manager' )
         ];
         do_action( 'wedevs_pm_after_delete_message', $request->get_params() );
         return $this->get_response(false, $message);

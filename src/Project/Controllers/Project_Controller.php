@@ -167,7 +167,7 @@ class Project_Controller {
 		$project  = Project::find($id);
 
 		if ( !$project  ) {
-			return new \WP_Error( 'project', wedevs_pm_get_text('success_messages.no_project'), array( 'status'=> 404 ) );
+			return new \WP_Error( 'project', __( 'No projects found.', 'wedevs-project-manager' ), array( 'status'=> 404 ) );
 		}
 
         $projectId_git_bit_hash = get_option('projectId_git_bit_hash_'.$project->id);
@@ -208,7 +208,7 @@ class Project_Controller {
 		// Transforming database model instance
 		$resource = new Item( $project, new Project_Transformer );
 		$response = $this->get_response( $resource );
-		$response['message'] = wedevs_pm_get_text('success_messages.project_created');
+		$response['message'] = __( 'A new project has been created successfully.', 'wedevs-project-manager' );
 		do_action( 'wedevs_cpm_project_new', $project->id, $project->toArray(), $data ); // will deprecated
 		do_action( 'wedevs_pm_after_new_project', $response, $data );
 
@@ -244,7 +244,7 @@ class Project_Controller {
 		// Transforming database model instance
 		$resource = new Item( $project, new Project_Transformer );
 		$response = $this->get_response( $resource );
-		$response['message'] = wedevs_pm_get_text('success_messages.project_created');
+		$response['message'] = __( 'A new project has been created successfully.', 'wedevs-project-manager' );
 
 		do_action( 'wedevs_cpm_project_new', $project->id, $project->toArray(), $request->get_params() ); // will deprecated
 		do_action( 'wedevs_pm_after_new_project', $response, $request->get_params() );
@@ -278,7 +278,7 @@ class Project_Controller {
 
 		$resource = new Item( $project, new Project_Transformer );
 		$response = $this->get_response( $resource );
-		$response['message'] = wedevs_pm_get_text('success_messages.project_updated');
+		$response['message'] = __( 'A project has been updated successfully.', 'wedevs-project-manager' );
 		do_action( 'wedevs_cpm_project_update', $project->id, $project->toArray(), $request->get_params() );
 		do_action( 'wedevs_pm_after_update_project', $response, $request->get_params() );
 
@@ -329,7 +329,7 @@ class Project_Controller {
 			do_action( 'wedevs_cpm_delete_project_after', $project->id );
 		}
 			return [
-				'message' => wedevs_pm_get_text('success_messages.project_deleted')
+				'message' => __( 'A project has been deleted successfully.', 'wedevs-project-manager' )
 			];
 	}
 
@@ -375,7 +375,7 @@ class Project_Controller {
 		do_action( 'wedevs_pm_after_delete_project', $project );
 		do_action( 'wedevs_cpm_delete_project_after', $id );
 		return [
-			'message' => wedevs_pm_get_text('success_messages.project_deleted')
+			'message' => __( 'A project has been deleted successfully.', 'wedevs-project-manager' )
 		];
 	}
 

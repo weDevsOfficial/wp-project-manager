@@ -271,7 +271,7 @@ class Task_List_Controller {
 
         if ( $task_list == NULL ) {
             return $this->get_response( null,  [
-                'message' => wedevs_pm_get_text('success_messages.no_element')
+                'message' => __( 'No elements found.', 'wedevs-project-manager' )
             ] );
         }
 
@@ -317,7 +317,7 @@ class Task_List_Controller {
         $resource = new Item( $task_list, new Task_List_Transformer );
 
         $message = [
-            'message' => wedevs_pm_get_text('success_messages.task_list_created')
+            'message' => __( 'A new task list has been created successfully.', 'wedevs-project-manager' )
         ];
         $response = $self->get_response( $resource, $message );
         do_action( 'wedevs_cpm_tasklist_new', $task_list->id, $project_id, $data );
@@ -345,7 +345,7 @@ class Task_List_Controller {
         $resource = new Item( $task_list, new Task_List_Transformer );
 
         $message = [
-            'message' => wedevs_pm_get_text('success_messages.task_list_created')
+            'message' => __( 'A new task list has been created successfully.', 'wedevs-project-manager' )
         ];
         $response = $this->get_response( $resource, $message );
         do_action( 'wedevs_cpm_tasklist_new', $task_list->id, $project_id, $request->get_params() );
@@ -380,7 +380,7 @@ class Task_List_Controller {
         $resource = new Item( $task_list, new Task_List_Transformer );
 
         $message = [
-            'message' => wedevs_pm_get_text('success_messages.task_list_updated')
+            'message' => __( 'A task list has been updated successfully.', 'wedevs-project-manager' )
         ];
 
         $response = $this->get_response( $resource, $message );
@@ -409,7 +409,7 @@ class Task_List_Controller {
         do_action( 'wedevs_pm_after_delete_task_list', $task_list );
 
         $message = [
-            'message' => wedevs_pm_get_text('success_messages.task_list_deleted')
+            'message' => __( 'A task list has been deleted successfully.', 'wedevs-project-manager' )
         ];
 
         return $message;
@@ -437,7 +437,7 @@ class Task_List_Controller {
         do_action( 'wedevs_pm_after_delete_task_list', $task_list );
 
         $message = [
-            'message' => wedevs_pm_get_text('success_messages.task_list_deleted')
+            'message' => __( 'A task list has been deleted successfully.', 'wedevs-project-manager' )
         ];
 
         return $this->get_response(false, $message);

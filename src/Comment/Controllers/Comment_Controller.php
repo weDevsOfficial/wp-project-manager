@@ -94,7 +94,7 @@ class Comment_Controller {
         $resource = new Item( $comment, new Comment_Transformer );
 
         $message = [
-            'message' => wedevs_pm_get_text('success_messages.comment_created'),
+            'message' => __( 'Successfully commented.', 'wedevs-project-manager' ),
             'activity' => $this->last_activity( $commentable_type, $commentable_id ),
         ];
 
@@ -135,7 +135,7 @@ class Comment_Controller {
         $resource = new Item( $comment, new Comment_Transformer );
 
         $message = [
-            'message' => wedevs_pm_get_text('success_messages.comment_updated'),
+            'message' => __( 'A comment has been updated successfully.', 'wedevs-project-manager' ),
             'activity' => $this->last_activity( $comment->commentable_type, $comment->commentable_id  ),
         ];
 
@@ -159,7 +159,7 @@ class Comment_Controller {
         $comment->delete();
 
         $message = [
-            'message' => wedevs_pm_get_text('success_messages.comment_deleted'),
+            'message' => __( 'A comment has been deleted successfully.', 'wedevs-project-manager' ),
             'activity' => $this->last_activity( $resource_type, $resource_id ),
         ];
 
