@@ -51,8 +51,8 @@ module.exports = function(grunt) {
                     '!npm-debug.log',
                     '!plugin-deploy.sh',
                     '!readme.md',
-                    '!composer.json',
-                    '!composer.lock',
+                    // '!composer.json', included intentionally due to wp.org repo rules
+                    // '!composer.lock', included intentionally due to wp.org repo rules
                     '!composer.phar',
                     '!secret.json',
                     '!codeception.yml',
@@ -71,7 +71,8 @@ module.exports = function(grunt) {
                     '!postman_collection.json',
                     '!views/assets/css/Single Task Page.json',
                     '!views/assets/vendor/wp-hooks/wp-hooks.js',
-                    '!**/*~'
+                    '!**/*~',
+                    '!/vendor/doctrine/deprecations/src/PHPUnit'
                 ],
                 dest: 'build/'
             }
