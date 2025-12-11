@@ -283,7 +283,9 @@ function wedevs_pm_get_response( $resource, $extra = [] ) {
     $data_serialize = new \League\Fractal\Serializer\DataArraySerializer();
     $manager->setSerializer( $data_serialize );
 
+    // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verified at REST API layer via register_rest_route() in WP_Router.
     if ( isset( $_GET['with'] ) ) {
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verified at REST API layer via register_rest_route() in WP_Router.
         $manager->parseIncludes( sanitize_text_field( wp_unslash( $_GET['with'] ) ) );
     }
 

@@ -79,6 +79,7 @@ class Offers {
         }
 
         // Check if inside the wp-project-manager page
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only page check for displaying admin notice, no data modification.
         if ( ! isset( $_GET['page'] ) || 'pm_projects' !== $_GET['page'] ) {
             return;
         }

@@ -163,7 +163,7 @@ class Task_Transformer extends TransformerAbstract {
      * @return \League\Fractal\Resource\Collection
      */
     public function includeBoards( Task $item ) {
-        $page = isset( $_GET['board_page'] ) ? intval($_GET['board_page']) : 1;
+        $page = self::get_context_int( 'board_page', 1 );
 
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
@@ -182,7 +182,7 @@ class Task_Transformer extends TransformerAbstract {
     }
 
     public function includeComments( Task $item ) {
-        $page = isset( $_GET['comment_page'] ) ? intval( $_GET['comment_page'] ) : 1;
+        $page = self::get_context_int( 'comment_page', 1 );
 
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
@@ -207,7 +207,7 @@ class Task_Transformer extends TransformerAbstract {
     }
 
     public function includeActivities( Task $item ) {
-        $page = isset( $_GET['activitie_page'] ) ? intval( $_GET['activitie_page'] ) : 1;
+        $page = self::get_context_int( 'activitie_page', 1 );
 
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
@@ -218,7 +218,7 @@ class Task_Transformer extends TransformerAbstract {
     }
 
     public function includeFiles( Task $item ) {
-        $page = isset( $_GET['file_page'] ) ? intval( $_GET['file_page'] ) : 1;
+        $page = self::get_context_int( 'file_page', 1 );
 
         Paginator::currentPageResolver(function () use ($page) {
             return $page;

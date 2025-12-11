@@ -6,6 +6,21 @@ use WeDevs\PM\Task_List\Helper\Task_List;
 use WeDevs\PM\Project\Helper\Project;
 use WeDevs\PM\Discussion_Board\Models\Discussion_Board;
 
+/**
+ * Get is_admin flag from POST request.
+ * Nonce is verified at REST API layer via register_rest_route() in WP_Router.
+ *
+ * @return bool True if is_admin flag is set and not empty.
+ */
+function wedevs_pm_pusher_is_admin_request() {
+    // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified at REST API layer via register_rest_route() in WP_Router.
+    if ( ! isset( $_POST['is_admin'] ) ) {
+        return false;
+    }
+    // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified at REST API layer via register_rest_route() in WP_Router.
+    return ! empty( intval( wedevs_pm_clean( sanitize_text_field( wp_unslash( $_POST['is_admin'] ) ) ) ) );
+}
+
 function wedevs_pm_pusher_has_task_update_content( $model ) {
 
     $content = [];
@@ -37,7 +52,7 @@ function wedevs_pm_pusher_has_task_update_content( $model ) {
 }
 
 function wedevs_pm_pusher_before_assignees( $task, $assignees ) {
-    $is_admin      = isset($_POST['is_admin']) && ! empty(intval(wedevs_pm_clean($_POST['is_admin']))) ? true : false;
+    $is_admin      = wedevs_pm_pusher_is_admin_request();
     $task          = wedevs_pm_get_task( $task->id );
     $task          = $task['data'];
     $task_user_ids = wp_list_pluck( $task['assignees']['data'], 'id' );
@@ -80,7 +95,7 @@ function wedevs_pm_pusher_before_assignees( $task, $assignees ) {
 
 //For task update status
 function wedevs_pm_pusher_update_task_status( $new, $old, $task ) {
-    $is_admin = empty( intval( wedevs_pm_clean( $_POST['is_admin'] ) ) ) ? false : true;
+    $is_admin = wedevs_pm_pusher_is_admin_request();
     $task     = wedevs_pm_get_task( $task->id );
     $task     = $task['data'];
     $status   = $task['status'];
@@ -149,7 +164,7 @@ function wedevs_pm_pusher_update_task( $model ) {
         return;
     }
 
-    $is_admin = empty( intval( wedevs_pm_clean( $_POST['is_admin'] ) ) ) ? false : true;
+    $is_admin = wedevs_pm_pusher_is_admin_request();
     $url      = wedevs_pm_get_task_url( $task['project_id'], $task['task_list']['data']['id'], $task['id'], $is_admin );
 
     if ( count( $content ) == 1 ) {
@@ -360,13 +375,13 @@ function wedevs_pm_pusher_after_update_comment( $comment, $params ) {
 }
 
 function wedevs_pm_pusher_task_list_url( $project_id, $list_id ) {
-    $is_admin = empty( intval( wedevs_pm_clean( $_POST['is_admin'] ) ) ) ? false : true;
+    $is_admin = wedevs_pm_pusher_is_admin_request();
 
     return wedevs_pm_get_list_url( $project_id, $list_id, $is_admin );
 }
 
 function wedevs_pm_pusher_task_url( $project_id, $list_id, $task_id ) {
-    $is_admin = empty( intval( wedevs_pm_clean( $_POST['is_admin'] ) ) ) ? 'frontend' : 'admin';
+    $is_admin = wedevs_pm_pusher_is_admin_request() ? 'admin' : 'frontend';
 
     if ( ! $list_id  ) {
         return wedevs_pm_get_project_page( $is_admin ) . '#/projects/' . $project_id . '/task-lists/tasks/' . $task_id;
@@ -482,7 +497,7 @@ function wedevs_pm_pusher_after_update_message( $mesage, $params, $discussion_bo
 }
 
 function wedevs_pm_pusher_message_url( $project_id, $message_id ) {
-    $is_admin = empty( $_POST['is_admin'] ) ? false : true;
+    $is_admin = wedevs_pm_pusher_is_admin_request();
     return wedevs_pm_get_discuss_url( $project_id, $message_id, $is_admin );
 }
 
