@@ -1208,6 +1208,7 @@ class Upgrade_2_0 extends WP_Background_Process
             foreach ( $payments as $payment ) {
                 $payment_date = empty( $payment['date'] ) ? $post['post_modified'] : $payment['date'];
 
+                // phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_key, WordPress.DB.SlowDBQuery.slow_db_query_meta_value -- Custom Eloquent model table (pm_meta), not WordPress core meta tables.
                 $data = [
                     'entity_id'   => $invoice_id,
                     'entity_type' => 'invoice',
@@ -1224,6 +1225,7 @@ class Upgrade_2_0 extends WP_Background_Process
                     'created_at'  => $payment_date,
                     'updated_at'  => $payment_date,
                 ];
+                // phpcs:enable WordPress.DB.SlowDBQuery.slow_db_query_meta_key, WordPress.DB.SlowDBQuery.slow_db_query_meta_value
                 $this->save_object( New Meta, $data );
                 
             }
@@ -1338,6 +1340,7 @@ class Upgrade_2_0 extends WP_Background_Process
             return ;
         }
 
+        // phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_key, WordPress.DB.SlowDBQuery.slow_db_query_meta_value -- Custom Eloquent model table (pm_meta), not WordPress core meta tables.
         $metaObj = $this->save_object( new Meta, [
             'entity_id'   => $group_id,
             'entity_type' => 'pm_buddypress',
@@ -1349,6 +1352,7 @@ class Upgrade_2_0 extends WP_Background_Process
             'created_at'  => $newProject->created_at,
             'updated_at'  => $newProject->updated_at,
         ] );
+        // phpcs:enable WordPress.DB.SlowDBQuery.slow_db_query_meta_key, WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 
     }
 
@@ -1640,6 +1644,7 @@ class Upgrade_2_0 extends WP_Background_Process
             if( empty( $value ) ){
                 continue ;
             }
+            // phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_key, WordPress.DB.SlowDBQuery.slow_db_query_meta_value -- Custom Eloquent model table (pm_meta), not WordPress core meta tables.
             $metaObj = $this->save_object( new Meta, [
                 'entity_id'   => $object->id,
                 'entity_type' => $entity_type !== null? $entity_type : $object->type,
@@ -1651,6 +1656,7 @@ class Upgrade_2_0 extends WP_Background_Process
                 'created_at'  => $object->created_at,
                 'updated_at'  => $object->updated_at,
             ] );
+            // phpcs:enable WordPress.DB.SlowDBQuery.slow_db_query_meta_key, WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 
             $meta_ids[] = $metaObj->id;
         }

@@ -104,6 +104,7 @@ class Milestone_Controller {
         $milestone    = Milestone::create( $data );
 
         // Set 'achieve_date' as milestone meta data
+        // phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_key, WordPress.DB.SlowDBQuery.slow_db_query_meta_value -- Custom Eloquent model table (pm_meta), not WordPress core meta tables.
         Meta::create([
             'entity_id'   => $milestone->id,
             'entity_type' => 'milestone',
@@ -111,6 +112,7 @@ class Milestone_Controller {
             'meta_value'  => $achieve_date ? gmdate( 'Y-m-d H:i:s', strtotime( $achieve_date ) ) : null,
             'project_id'  => $milestone->project_id,
         ]);
+        // phpcs:enable WordPress.DB.SlowDBQuery.slow_db_query_meta_key, WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 
         do_action( "wedevs_pm_new_milestone_before_response", $milestone, $data );
         // Transform milestone data
@@ -140,6 +142,7 @@ class Milestone_Controller {
         $milestone    = Milestone::create( $data );
 
         // Set 'achieve_date' as milestone meta data
+        // phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_key, WordPress.DB.SlowDBQuery.slow_db_query_meta_value -- Custom Eloquent model table (pm_meta), not WordPress core meta tables.
         Meta::create([
             'entity_id'   => $milestone->id,
             'entity_type' => 'milestone',
@@ -147,6 +150,7 @@ class Milestone_Controller {
             'meta_value'  => $achieve_date ? gmdate( 'Y-m-d H:i:s', strtotime( $achieve_date ) ) : null,
             'project_id'  => $milestone->project_id,
         ]);
+        // phpcs:enable WordPress.DB.SlowDBQuery.slow_db_query_meta_key, WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 
         do_action( "wedevs_pm_new_milestone_before_response", $milestone, $request->get_params() );
         // Transform milestone data
@@ -188,12 +192,14 @@ class Milestone_Controller {
         }
 
         if ( $milestone && $achieve_date ) {
+            // phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Custom Eloquent model table (pm_meta), not WordPress core meta tables.
             $meta = Meta::firstOrCreate([
                 'entity_id'   => $milestone->id,
                 'entity_type' => 'milestone',
                 'meta_key'    => 'achieve_date',
                 'project_id'  => $milestone->project_id,
             ]);
+            // phpcs:enable WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 
             $meta->meta_value = gmdate( 'Y-m-d H:i:s', strtotime( $achieve_date ) );
             $meta->save();
