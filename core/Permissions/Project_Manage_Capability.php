@@ -18,11 +18,11 @@ class Project_Manage_Capability extends Abstract_Permission {
             return new \WP_Error( 'project', __( "You have no permission.", "wedevs-project-manager" ) );
         }
 
-        if ( pm_user_can_access( pm_manager_cap_slug() ) )  {
+        if ( wedevs_pm_user_can_access( wedevs_pm_manager_cap_slug() ) )  {
             return true;
         }
 
-        if ( pm_is_manager( $project_id, $user_id ) ) {
+        if ( wedevs_pm_is_manager( $project_id, $user_id ) ) {
             return true;
         }
 

@@ -23,9 +23,9 @@ class Assignee_Transformer extends TransformerAbstract {
         return [
             'id'           => (int) $item->id,
             'status'       => $item->status,
-            'assigned_at'  => format_date( $item->assigned_at ),
-            'started_at'   => format_date( $item->started_at ),
-            'completed_at' => format_date( $item->completed_at ),
+            'assigned_at'  => wedevs_pm_format_date( $item->assigned_at ),
+            'started_at'   => wedevs_pm_format_date( $item->started_at ),
+            'completed_at' => wedevs_pm_format_date( $item->completed_at ),
         ];
     }
 
@@ -36,7 +36,7 @@ class Assignee_Transformer extends TransformerAbstract {
      */
     public function getDefaultIncludes()
     {
-        return apply_filters( "pm_assignee_transformer_default_includes", $this->defaultIncludes );
+        return apply_filters( "wedevs_pm_assignee_transformer_default_includes", $this->defaultIncludes );
     }
 
     public function includeUser( Assignee $item ) {

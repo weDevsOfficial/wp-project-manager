@@ -15,6 +15,9 @@ class User {
 	private $user_ids;
 	private $is_single_query = false;
 
+	private $found_rows;
+	private $tb_user;
+	
 	public static function getInstance() {
 
         return new self();
@@ -36,7 +39,7 @@ class User {
 
 		$response = $self->format_users( $self->users );
 
-		if ( pm_is_single_query( $params ) ) {
+		if ( wedevs_pm_is_single_query( $params ) ) {
 			return ['data' => $response['data'][0]] ;
 		}
 
@@ -87,8 +90,8 @@ class User {
 			'email'             => $user->user_email,
 			'profile_url'       => $user->user_url,
 			'display_name'      => $user->display_name,
-			'manage_capability' => (int) pm_has_manage_capability($user->ID),
-			'create_capability' => (int) pm_has_project_create_capability($user->ID),
+			'manage_capability' => (int) wedevs_pm_has_manage_capability($user->ID),
+			'create_capability' => (int) wedevs_pm_has_project_create_capability($user->ID),
 			'avatar_url'        => get_avatar_url( $user->user_email ),
 			'github'            => get_user_meta($user->ID,'github' ,true),
 			'bitbucket'         => get_user_meta($user->ID,'bitbucket', true)
@@ -96,7 +99,7 @@ class User {
 
 		$items = $this->item_with( $items, $user );
 		
-		return apply_filters( 'pm_user_transform', $items, $user );
+		return apply_filters( 'wedevs_pm_user_transform', $items, $user );
 	}
 
 	private function item_with( $items, $user ) {
@@ -133,8 +136,8 @@ class User {
 		}
 
 		global $wpdb;
-		$format     = pm_get_prepare_format( $id );
-		$format_ids = pm_get_prepare_data( $id );
+		$format     = wedevs_pm_get_prepare_format( $id );
+		$format_ids = wedevs_pm_get_prepare_data( $id );
 
 		// Prevent empty IN clause which causes SQL error
 		if (empty($format_ids)) {
@@ -246,15 +249,27 @@ class User {
 
 	private function get() {
 		global $wpdb;
-		
 
-		$query = "SELECT SQL_CALC_FOUND_ROWS DISTINCT {$this->tb_user}.*
-			FROM {$this->tb_user}
-			{$this->join}
-			WHERE %d=%d {$this->where} 
-			{$this->orderby} {$this->limit} ";
+		// Ensure these are strings to avoid null/undefined issues
+		$join = is_string($this->join) ? $this->join : '';
+		$where = is_string($this->where) ? $this->where : '';
+		$orderby = is_string($this->orderby) ? $this->orderby : '';
+		$limit = is_string($this->limit) ? $this->limit : '';
 
-		$results = $wpdb->get_results( $wpdb->prepare( $query, 1, 1 ) );
+		// phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter -- $join is built safely via join() method using wpdb::prepare() and apply_filters()
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT SQL_CALC_FOUND_ROWS DISTINCT %i.*
+				FROM %i
+				{$join}
+				WHERE %d=%d {$where} 
+				{$orderby} {$limit}",
+				$this->tb_user,
+				$this->tb_user,
+				1,
+				1
+			)
+		);
 
 		$this->found_rows = $wpdb->get_var( "SELECT FOUND_ROWS()" );
 		$this->users = $results;
@@ -270,10 +285,10 @@ class User {
 		return $this;
 	}
 
-		/**
+	/**
 	 * Set table name as class object
 	 */
 	private function set_table_name() {
-		$this->tb_user    = pm_tb_prefix() . 'users';
+		$this->tb_user = esc_sql( wedevs_pm_tb_prefix() . 'users' );
 	}
 }

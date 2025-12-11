@@ -7,19 +7,19 @@ use WeDevs\PM\Pusher\Core\Auth\Pusher_Crypto as PusherCrypto;
 class Auth {
 
     public static function app_key() {
-        return pm_get_setting( 'pusher_app_key' );
+        return wedevs_pm_get_setting( 'pusher_app_key' );
     }
 
     public static function secret() {
-        return pm_get_setting( 'pusher_secret' );
+        return wedevs_pm_get_setting( 'pusher_secret' );
     }
 
     public static function app_id() {
-        return pm_get_setting( 'pusher_app_id' );
+        return wedevs_pm_get_setting( 'pusher_app_id' );
     }
 
     public static function app_cluster() {
-        return pm_get_setting( 'pusher_cluster' );
+        return wedevs_pm_get_setting( 'pusher_cluster' );
     }
 
     /**

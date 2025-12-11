@@ -5,6 +5,6 @@ namespace WeDevs\PM\Core\WP;
 class Output {
 
 	public static function home_page() {
-		echo pm_root_element(); //phpcs:ignore
+		echo wp_kses( wedevs_pm_root_element(), array( 'div' => array( 'id' => array() ) ) );
 	}
 }

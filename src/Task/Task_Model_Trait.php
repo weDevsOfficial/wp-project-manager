@@ -81,11 +81,11 @@ trait Task_Model_Trait {
     }
 
     public function setStartAtAttribute( $date ) {
-        $this->attributes['start_at'] = make_carbon_date( $date );
+        $this->attributes['start_at'] = wedevs_pm_make_carbon_date( $date );
     }
 
     public function setDueDateAttribute( $date ) {
-        $this->attributes['due_date'] = make_carbon_date( $date );
+        $this->attributes['due_date'] = wedevs_pm_make_carbon_date( $date );
     }
 
     public function getRecurrentAttribute( $value ) {

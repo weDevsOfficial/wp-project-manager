@@ -33,19 +33,19 @@
 //     }
 
 //     public function initFormat() {
-//         $this->status = pm_get_setting('activecol_formatted');
+//         $this->status = wedevs_pm_get_setting('activecol_formatted');
 //         error_log($this->status);
 //         if(!$this->status){
-//             pm_set_settings('activecol_formatted', 0);
+//             wedevs_pm_set_settings('activecol_formatted', 0);
 //         }
 //     }
 
 //     public function formatData(){
 
-//         $this->credentials = pm_get_setting('activecol_credentials');
+//         $this->credentials = wedevs_pm_get_setting('activecol_credentials');
 
 //         if(!$this->credentials){
-//             pm_set_settings('activecol_credentials', array('token' => '', 'url' => '', 'accID' => ''));
+//             wedevs_pm_set_settings('activecol_credentials', array('token' => '', 'url' => '', 'accID' => ''));
 //         } else {
 //             if(array_key_exists('token', $this->credentials)) {
 //                 $this->token = new Token($this->credentials['token'],$this->credentials['url']);
@@ -191,7 +191,7 @@
 //     protected function task( $item ) {
 //         if($item == 'acl'){
 //             $this->formatData($this->projects);
-//             pm_set_settings('activecol_formatted', 1);
+//             wedevs_pm_set_settings('activecol_formatted', 1);
 //         }
 //         return false;
 //     }

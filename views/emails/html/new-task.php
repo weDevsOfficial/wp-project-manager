@@ -55,12 +55,12 @@
                                 <p style="font-size: 16px; line-height: 30px; margin: 0; color: #7E8690;"><?php esc_html_e( 'Assign To', 'wedevs-project-manager' ); ?></p>
                                 <p style="font-size: 16px; color: #000000; line-height: 30px; margin: 0;">
                                     <?php
-                                        $assign_users = [];
-                                        foreach( $assignees['data'] as $assign ) {
-                                            $assign_users[] = esc_html( $assign->display_name );
+                                        $wedevs_pm_assign_users = [];
+                                        foreach( $assignees['data'] as $wedevs_pm_assign ) {
+                                            $wedevs_pm_assign_users[] = esc_html( $wedevs_pm_assign->display_name );
                                         }
 
-                                        echo esc_html( implode( ', ', $assign_users ) );
+                                        echo esc_html( implode( ', ', $wedevs_pm_assign_users ) );
                                     ?>
                                 </p>
                             </td>
@@ -68,7 +68,7 @@
                                 <p style="font-size: 16px; line-height: 30px; margin: 0; color: #7E8690;"><?php esc_html_e( 'Due Date', 'wedevs-project-manager' ); ?></p>
                                 <p style="font-size: 16px; color: #000000; line-height: 30px; margin: 0;">
                                     <?php
-                                        echo empty( $due_date['date'] ) ? '&#x02013;&#x02013;' : esc_html( pm_date_format( $due_date['date'] ) );
+                                        echo empty( $due_date['date'] ) ? '&#x02013;&#x02013;' : esc_html( wedevs_pm_date_format( $due_date['date'] ) );
                                     ?>
                                 </p>
                             </td>
@@ -111,10 +111,10 @@
 
                              <?php
 
-                                foreach( $assignees['data'] as $assign ) {
+                                foreach( $assignees['data'] as $wedevs_pm_assign ) {
                                     ?>
 
-                                        <img style="outline:none; margin-right: 4px; text-decoration:none; height: 33px; width: 33px; border-radius: 50%;" src="<?php echo esc_url( $assign->avatar_url ); ?>" alt="User Name" title="User Name" width="33" height="33" />
+                                        <img style="outline:none; margin-right: 4px; text-decoration:none; height: 33px; width: 33px; border-radius: 50%;" src="<?php echo esc_url( $wedevs_pm_assign->avatar_url ); ?>" alt="User Name" title="User Name" width="33" height="33" />
                                     <?php
                                 }
 

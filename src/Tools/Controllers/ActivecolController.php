@@ -36,9 +36,9 @@
 //     }
 
 //     public function tokenAc(WP_REST_Request $request){
-//         $status = pm_get_setting('activecol_formatted');
+//         $status = wedevs_pm_get_setting('activecol_formatted');
 //         if(empty($status)){
-//             pm_set_settings('activecol_formatted', 0);
+//             wedevs_pm_set_settings('activecol_formatted', 0);
 //         }
 //         $username = $request->get_param('user');
 //         $password = $request->get_param('pass');
@@ -68,9 +68,9 @@
 
 //     public function projectsAC(){
 
-//         $status = pm_get_setting('activecol_formatted');
+//         $status = wedevs_pm_get_setting('activecol_formatted');
 //         if(empty($status)){
-//             pm_set_settings('activecol_formatted', 0);
+//             wedevs_pm_set_settings('activecol_formatted', 0);
 //         }
 
 //         $aclFormatter = new FormatActiveCollab();
@@ -79,7 +79,7 @@
 //             $aclFormatter->save()->dispatch();
 //         }
 
-//         $credentials = pm_get_setting('activecol_credentials');
+//         $credentials = wedevs_pm_get_setting('activecol_credentials');
 //         try{
 //             $token = new Token($credentials['token'], $credentials['url']);
 //             $client = new Client($token);
@@ -112,7 +112,7 @@
 //         $importAcl->save()->dispatch();
 //         return array('msg' => 'Your ActiveCollab Projects are under process to import ... ');
 
-// //        $settings = pm_get_setting('activecol_credentials');
+// //        $settings = wedevs_pm_get_setting('activecol_credentials');
 // //        $acl = new PM_ActiveCol($settings['url'], $settings['token']);
 // //        return $acl->getProject($projects[0]);
 

@@ -36,7 +36,7 @@ class Task_Observer extends Model_Observer {
             'task_title_new' => $item->title,
         ];
 
-        do_action( 'pm_task_title_update', $item->title, $old_value, $item );
+        do_action( 'wedevs_pm_task_title_update', $item->title, $old_value, $item );
 
         $this->log_activity( $item, 'update_task_title', 'update', $meta );
     }
@@ -46,7 +46,7 @@ class Task_Observer extends Model_Observer {
             'task_title' => $item->title,
         ];
 
-        do_action( 'pm_task_description_update', $item->title, $old_value, $item );
+        do_action( 'wedevs_pm_task_description_update', $item->title, $old_value, $item );
 
         $this->log_activity( $item, 'update_task_description', 'update', $meta );
     }
@@ -78,7 +78,7 @@ class Task_Observer extends Model_Observer {
             'task_due_date_new' => $item->due_date instanceof Carbon ? $item->due_date->toDateTimeString() : null,
         ];
 
-        do_action( 'pm_task_due_date_update', $meta['task_due_date_new'], $old_value, $item );
+        do_action( 'wedevs_pm_task_due_date_update', $meta['task_due_date_new'], $old_value, $item );
 
         $this->log_activity( $item, 'update_task_due_date', 'update', $meta );
     }
@@ -141,7 +141,7 @@ class Task_Observer extends Model_Observer {
             'task_status_new' => $item->status,
         ];
 
-        do_action( 'pm_update_task_status', $meta['task_status_new'], $meta['task_status_old'], $item );
+        do_action( 'wedevs_pm_update_task_status', $meta['task_status_new'], $meta['task_status_old'], $item );
 
         $this->log_activity( $item, 'update_task_status', 'update', $meta );
     }

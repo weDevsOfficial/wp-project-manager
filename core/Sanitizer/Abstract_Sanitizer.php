@@ -99,6 +99,18 @@ abstract class Abstract_Sanitizer implements Sanitizer {
         $fn_parts = explode( ':', $fn );
 
         $fn_name = trim( $fn_parts[0] );
+        
+        // Handle function name prefixing for WordPress naming convention compliance
+        // If function starts with 'pm_', convert to 'wedevs_pm_'
+        if ( strpos( $fn_name, 'pm_' ) === 0 ) {
+            $prefixed_fn_name = 'wedevs_' . $fn_name;
+        } else {
+            $prefixed_fn_name = 'wedevs_pm_' . $fn_name;
+        }
+        
+        if ( function_exists( $prefixed_fn_name ) ) {
+            $fn_name = $prefixed_fn_name;
+        }
 
         if ( count( $fn_parts ) > 1 ) {
             $fn_params = trim( $fn_parts[1] );

@@ -58,7 +58,7 @@ class Settings {
 				continue;
 			}
 
-			$cap_id = pm_get_capabilities_relation( $cap_key );
+			$cap_id = wedevs_pm_get_capabilities_relation( $cap_key );
 
 			$wpdb->insert( 
 				$tb_cap, 
@@ -73,50 +73,65 @@ class Settings {
 
 	private function set_co_worker_role_project_id( $project_id ) {
 		global $wpdb;
-		$tb_rol = $wpdb->prefix . 'pm_role_project';
+		$tb_rol = esc_sql( $wpdb->prefix . 'pm_role_project' );
 
-		$query = "SELECT id FROM $tb_rol
-			WHERE project_id=%d and role_id=%d";
+		$this->co_worker_role_project_id = $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT id FROM {$tb_rol}
+				WHERE project_id=%d and role_id=%d",
+				absint( $project_id ),
+				2
+			)
+		);
 
-		$this->co_worker_role_project_id = $wpdb->get_var( $wpdb->prepare( $query, $project_id, 2  ) );
-		
 		return $this;
 	}
 
 	private function set_client_role_project_id( $project_id ) {
 		global $wpdb;
-		$tb_rol = $wpdb->prefix . 'pm_role_project';
+		$tb_rol = esc_sql( $wpdb->prefix . 'pm_role_project' );
 
-		$query = "SELECT id FROM $tb_rol
-			WHERE project_id=%d and role_id=%d";
-
-		$this->client_role_project_id = $wpdb->get_var( $wpdb->prepare( $query, $project_id, 3  ) );
+		$this->client_role_project_id = $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT id FROM {$tb_rol}
+				WHERE project_id=%d and role_id=%d",
+				absint( $project_id ),
+				3
+			)
+		);
 
 		return $this;
 	}
 
 	private function set_manager_role_project_id( $project_id ) {
 		global $wpdb;
-		$tb_rol = $wpdb->prefix . 'pm_role_project';
+		$tb_rol = esc_sql( $wpdb->prefix . 'pm_role_project' );
 
-		$query = "SELECT id FROM $tb_rol
-			WHERE project_id=%d and role_id=%d";
-
-		$this->manager_role_project_id = $wpdb->get_var( $wpdb->prepare( $query, $project_id, 1  ) );
+		$this->manager_role_project_id = $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT id FROM {$tb_rol}
+				WHERE project_id=%d and role_id=%d",
+				absint( $project_id ),
+				1
+			)
+		);
 
 		return $this;
 	}
 
 	private function delete_cap( $project_id ) {
 		global $wpdb;
-		$tb_rol = $wpdb->prefix . 'pm_role_project';
-		$tb_cap = $wpdb->prefix . 'pm_role_project_capabilities';
+		$tb_rol = esc_sql( $wpdb->prefix . 'pm_role_project' );
+		$tb_cap = esc_sql( $wpdb->prefix . 'pm_role_project_capabilities' );
 
-		$query = "DELETE cp FROM $tb_cap as cp
-			LEFT JOIN $tb_rol as rp ON rp.id=cp.role_project_id
-			WHERE rp.project_id=%d";
-
-		$wpdb->query( $wpdb->prepare( $query, $project_id ) );
+		$wpdb->query(
+			$wpdb->prepare(
+				"DELETE cp FROM {$tb_cap} as cp
+				LEFT JOIN {$tb_rol} as rp ON rp.id=cp.role_project_id
+				WHERE rp.project_id=%d",
+				absint( $project_id )
+			)
+		);
 
 		return $this;
 	}

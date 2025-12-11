@@ -73,10 +73,10 @@ class Settings_Controller {
             ( new Helper )->update_project_permission( $data, $project_id );
         }
 
-        do_action( 'pm_after_save_settings', $settings );
+        do_action( 'wedevs_pm_after_save_settings', $settings );
         
         $message = [
-            'message' => pm_get_text('success_messages.setting_saved')
+            'message' => __( 'Settings has been changed successfully.', 'wedevs-project-manager' )
         ];
         return $this->get_response( $resource, $message );
     }
@@ -131,14 +131,14 @@ class Settings_Controller {
     public function pluck_without_project(WP_REST_Request $request) {
         $key = $request->get_param('key');
 
-        return pm_get_setting( $key );
+        return wedevs_pm_get_setting( $key );
     }
 
     public function pluck_with_project(WP_REST_Request $request) {
         $project_id = $request->get_param('project_id');
         $key        = $request->get_param('key');
 
-        return pm_get_setting( $key, $project_id );
+        return wedevs_pm_get_setting( $key, $project_id );
     }
 
     public function notice(WP_REST_Request $request) {

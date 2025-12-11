@@ -29,12 +29,12 @@ class Discussion_Board_Transformer extends TransformerAbstract {
         $data = [
             'id'          => (int) $item->id,
             'title'       => $item->title,
-            'description' => pm_get_content( $item->description ),
+            'description' => wedevs_pm_get_content( $item->description ),
             'order'       => $item->order,
-            'created_at'  => format_date( $item->created_at ),
+            'created_at'  => wedevs_pm_format_date( $item->created_at ),
             'meta'        => $this->meta( $item ),
         ];
-        return apply_filters( 'pm_discuss_transform', $data, $item);
+        return apply_filters( 'wedevs_pm_discuss_transform', $data, $item);
     
     }
 
@@ -45,7 +45,7 @@ class Discussion_Board_Transformer extends TransformerAbstract {
      */
     public function getDefaultIncludes()
     {
-        return apply_filters( "pm_discuss_board_transformer_default_includes", $this->defaultIncludes );
+        return apply_filters( "wedevs_pm_discuss_board_transformer_default_includes", $this->defaultIncludes );
     }
 
     public function meta( Discussion_Board $item ) {
@@ -66,7 +66,7 @@ class Discussion_Board_Transformer extends TransformerAbstract {
     }
 
     public function includeComments( Discussion_Board $item ) {
-        $page = isset( $_GET['comment_page'] ) ? intval( $_GET['comment_page'] ) : 1;
+        $page = self::get_context_int( 'comment_page', 1 );
 
         // Paginator::currentPageResolver(function () use ($page) {
         //     return $page;
@@ -85,7 +85,7 @@ class Discussion_Board_Transformer extends TransformerAbstract {
     }
 
     public function includeFiles( Discussion_Board $item ) {
-        $page = isset( $_GET['file_page'] ) ? intval($_GET['file_page']) : 1;
+        $page = self::get_context_int( 'file_page', 1 );
 
         Paginator::currentPageResolver(function () use ($page) {
             return $page;

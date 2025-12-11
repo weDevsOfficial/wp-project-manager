@@ -33,13 +33,13 @@
                                     <?php
 
                                         if ( $status == 'incomplete' ) {
-                                            $header_title = __( ' has re-open the task', 'wedevs-project-manager' );
+                                            $wedevs_pm_header_title = __( ' has re-open the task', 'wedevs-project-manager' );
                                         } else {
-                                            $header_title = __( ' has completed the task', 'wedevs-project-manager' );
+                                            $wedevs_pm_header_title = __( ' has completed the task', 'wedevs-project-manager' );
                                         }
                                     ?>
                                     <h1 style="margin: 0 0 7px; font-weight: bold; font-size: 18px; color: #000000; letter-spacing: 0.16px; line-height: 22px;">
-                                        <?php echo esc_html( ucfirst( $completed_by->display_name ) ); ?> <?php echo esc_html( $header_title ); ?>
+                                        <?php echo esc_html( ucfirst( $completed_by->display_name ) ); ?> <?php echo esc_html( $wedevs_pm_header_title ); ?>
                                     </h1>
                                     <a style="text-decoration: none; font-size: 15px; color: #0676D4; letter-spacing: 0.14px; line-height: 22px;" href="<?php echo esc_url($link.'#/projects/'.$project_id . '/task-lists/tasks/' . $id); ?>" target="_blank"><?php esc_html_e( 'View this task', 'wedevs-project-manager' ); ?></a> 
                                 </div>
@@ -63,12 +63,12 @@
                                 <p style="font-size: 16px; line-height: 30px; margin: 0; color: #7E8690;"><?php esc_html_e( 'Assign To', 'wedevs-project-manager' ); ?></p>
                                 <p style="font-size: 16px; color: #000000; line-height: 30px; margin: 0;">
                                     <?php
-                                        $assign_users = [];
-                                        foreach( $assignees['data'] as $assign ) {
-                                            $assign_users[] = $assign->display_name;
+                                        $wedevs_pm_assign_users = [];
+                                        foreach( $assignees['data'] as $wedevs_pm_assign ) {
+                                            $wedevs_pm_assign_users[] = $wedevs_pm_assign->display_name;
                                         }
 
-                                        echo esc_html( implode( ', ', $assign_users ) );
+                                        echo esc_html( implode( ', ', $wedevs_pm_assign_users ) );
                                     ?>
                                 </p>
                             </td>
@@ -76,7 +76,7 @@
                                 <p style="font-size: 16px; line-height: 30px; margin: 0; color: #7E8690;"><?php esc_html_e( 'Date', 'wedevs-project-manager' ); ?></p>
                                 <p style="font-size: 16px; color: #000000; line-height: 30px; margin: 0;">
                                     <?php
-                                        echo esc_html( pm_date_format( current_time( 'mysql' ) ) );
+                                        echo esc_html( wedevs_pm_date_format( current_time( 'mysql' ) ) );
                                     ?>
                                 </p>
                             </td>
@@ -120,10 +120,10 @@
 
                              <?php
 
-                                foreach( $assignees['data'] as $assign ) {
+                                foreach( $assignees['data'] as $wedevs_pm_assign ) {
                                     ?>
 
-                                        <img style="outline:none; margin-right: 4px; text-decoration:none; height: 33px; width: 33px; border-radius: 50%;" src="<?php echo esc_url( $assign->avatar_url ); ?>" alt="User Name" title="User Name" width="33" height="33" />
+                                        <img style="outline:none; margin-right: 4px; text-decoration:none; height: 33px; width: 33px; border-radius: 50%;" src="<?php echo esc_url( $wedevs_pm_assign->avatar_url ); ?>" alt="User Name" title="User Name" width="33" height="33" />
                                     <?php
                                 }
 

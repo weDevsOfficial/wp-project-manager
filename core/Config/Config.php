@@ -22,7 +22,7 @@ class Config {
      * values in config static property.
      */
     protected function load() {
-        self::$configs = pm_load_configurations();
+        self::$configs = wedevs_pm_load_configurations();
     }
 
     /**

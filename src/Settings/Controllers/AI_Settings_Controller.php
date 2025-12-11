@@ -199,7 +199,7 @@ class AI_Settings_Controller {
             ( new Helper )->update_project_permission( $data, $project_id );
         }
 
-        do_action( 'pm_after_save_settings', $settings );
+        do_action( 'wedevs_pm_after_save_settings', $settings );
 
         // Update models cache if API key was saved
         if ( is_array( $settings_data ) ) {
@@ -213,7 +213,7 @@ class AI_Settings_Controller {
         }
 
         $message = [
-            'message' => pm_get_text('success_messages.setting_saved')
+            'message' => __( 'Settings has been changed successfully.', 'wedevs-project-manager' )
         ];
 
         return $this->get_response( $resource, $message );
@@ -346,6 +346,7 @@ class AI_Settings_Controller {
             $error_message = $response->get_error_message();
             return [
                 'success' => false,
+                // translators: %s: error message
                 'message' => sprintf( __( 'Connection failed: %s', 'wedevs-project-manager' ), esc_html( $error_message ) )
             ];
         }

@@ -17,7 +17,7 @@ class Complete_Task_Notification extends Email {
 
     public function trigger( $task, $old_value ) {
 
-        $task_raw = pm_get_tasks( [ 'id' => $task->id ] );
+        $task_raw = wedevs_pm_get_tasks( [ 'id' => $task->id ] );
         $task_raw = $task_raw['data'];
         $task_raw['completed_by'] = wp_get_current_user(); 
 
@@ -44,8 +44,9 @@ class Complete_Task_Notification extends Email {
             return ;
         }
 
-        $template_name = apply_filters( 'pm_complete_task_email_template_path', $this->get_template_path( '/html/complete-task.php' ) );
-        $subject = sprintf( __( '[%s] %s Task mark as %s in %s', 'wedevs-project-manager' ), $this->get_blogname(), $task->title, $task->status, $task->projects->title );
+        $template_name = apply_filters( 'wedevs_pm_complete_task_email_template_path', $this->get_template_path( '/html/complete-task.php' ) );
+        /* translators: 1: Blog name, 2: Task title, 3: Task status, 4: Project title */
+        $subject = sprintf( __( '[%1$s] %2$s Task mark as %3$s in %4$s', 'wedevs-project-manager' ), $this->get_blogname(), $task->title, $task->status, $task->projects->title );
         $message = $this->get_content_html( $template_name, $task_raw );
 
         $this->send( $users, $subject, $message );

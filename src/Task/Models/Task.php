@@ -70,9 +70,9 @@ class Task extends Eloquent {
     }
 
     public function task_lists() {
-        return $this->belongsToMany( 'WeDevs\PM\Task_List\Models\Task_List', pm_tb_prefix() . 'pm_boardables', 'boardable_id', 'board_id' )
-            ->where( pm_tb_prefix() . 'pm_boardables.board_type', 'task_list')
-            ->where( pm_tb_prefix() . 'pm_boardables.boardable_type', 'task');
+        return $this->belongsToMany( 'WeDevs\PM\Task_List\Models\Task_List', wedevs_pm_tb_prefix() . 'pm_boardables', 'boardable_id', 'board_id' )
+            ->where( wedevs_pm_tb_prefix() . 'pm_boardables.board_type', 'task_list')
+            ->where( wedevs_pm_tb_prefix() . 'pm_boardables.boardable_type', 'task');
     }
 
     public function scopeSubTasks( $query ) {
@@ -80,8 +80,8 @@ class Task extends Eloquent {
     }
 
     public function boards() {
-        return $this->belongsToMany( 'WeDevs\PM\Common\Models\Board', pm_tb_prefix() . 'pm_boardables', 'boardable_id', 'board_id' )
-            ->where( pm_tb_prefix() . 'pm_boardables.boardable_type', 'task');
+        return $this->belongsToMany( 'WeDevs\PM\Common\Models\Board', wedevs_pm_tb_prefix() . 'pm_boardables', 'boardable_id', 'board_id' )
+            ->where( wedevs_pm_tb_prefix() . 'pm_boardables.boardable_type', 'task');
     }
 
     public function boardables() {
@@ -105,7 +105,7 @@ class Task extends Eloquent {
     }
     
     public function user() {
-        return $this->belongsToMany( 'WeDevs\PM\User\Models\User', pm_tb_prefix() . 'pm_assignees', 'task_id', 'assigned_to' )
+        return $this->belongsToMany( 'WeDevs\PM\User\Models\User', wedevs_pm_tb_prefix() . 'pm_assignees', 'task_id', 'assigned_to' )
             ->withPivot('completed_at', 'assigned_at', 'started_at', 'status');
     }
 
@@ -118,7 +118,7 @@ class Task extends Eloquent {
     }
 
     public function task_model( $key = '' ) {
-        return apply_filters( 'task_model', $this, $key );
+        return apply_filters( 'wedevs_task_model', $this, $key );
     }
 
     public function metas() {
@@ -131,7 +131,7 @@ class Task extends Eloquent {
     }
 
     public function labels() {
-        return apply_filters( 'pm_task_model_labels', $this );
+        return apply_filters( 'wedevs_pm_task_model_labels', $this );
     }
 
 }

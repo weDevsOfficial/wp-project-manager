@@ -65,13 +65,13 @@ class Task {
     		get_current_user_id() : (int) $user_id;
     }
 
-    /**
-     * AJAX Get tasks
-     * 
-     * @param  array $request
-     * 
-     * @return void
-     */
+	/**
+	 * AJAX Get tasks
+	 * 
+	 * @param   WP_REST_Request $request
+	 * 
+	 * @return void
+	 */
 	public static function get_tasks( WP_REST_Request $request ) {
 		$self  = self::getInstance();
 		$tasks = self::get_results( $request->get_params() );
@@ -81,12 +81,12 @@ class Task {
 
 
 	/**
-     * AJAX Get tasks Csv.
-     *
-     * @param array $request
-     *
-     * @return void
-     */
+	 * AJAX Get tasks Csv.
+	 *
+	 * @param   WP_REST_Request $request
+	 *
+	 * @return void
+	 */
 	public static function get_taskscsv( WP_REST_Request $request ) {
 		$self = self::getInstance();
 		$tasks = self::get_results( $request->get_params() );
@@ -125,13 +125,15 @@ class Task {
         }
 
 		// Convert array to CSV format and output
-		$output = fopen('php://temp', 'r+');
+		// Note: php://temp is a memory stream, not a file system operation
+		$output = fopen('php://temp', 'r+'); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fopen
 		foreach ( $csv_data as $row ) {
 			fputcsv( $output, $row );
 		}
 		rewind( $output );
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- CSV content is already escaped by fputcsv
 		echo stream_get_contents( $output );
-		fclose( $output );
+		fclose( $output ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_fclose
 
         exit();
 	}
@@ -158,7 +160,7 @@ class Task {
 
 		$response = $self->format_tasks( $self->tasks );
 
-		if ( pm_is_single_query( $params ) ) {
+		if ( wedevs_pm_is_single_query( $params ) ) {
 			return ['data' => ! empty($response['data']) ? $response['data'][0] : []];
 		}
 
@@ -213,12 +215,12 @@ class Task {
 		$items = [
 			'id'                    => (int) $task->id,
 			'title'                 => (string) $task->title,
-			'description'           => [ 'html' => pm_get_content( $task->description ), 'content' => $task->description ],
+			'description'           => [ 'html' => wedevs_pm_get_content( $task->description ), 'content' => $task->description ],
 			'estimation'            => $task->estimation * 60,
 			'comparable_estimation' => $task->comparable_estimation,
-			'formated_com_est'      => pm_second_to_time( $task->comparable_estimation * 60 ),
-			'start_at'              => format_date( $task->start_at ),
-			'due_date'              => format_date( $task->due_date ),
+			'formated_com_est'      => wedevs_pm_second_to_time( $task->comparable_estimation * 60 ),
+			'start_at'              => wedevs_pm_format_date( $task->start_at ),
+			'due_date'              => wedevs_pm_format_date( $task->due_date ),
 			'complexity'            => $this->complexity( $task->complexity ),
 			'priority'              => $this->priorities( $task->priority ),
 			'order'                 => empty( $task->order ) ? 0 : intval( $task->order ),
@@ -227,10 +229,10 @@ class Task {
 			'parent_id'             => (int) $task->parent_id,
 			'status'                => $this->status( $task->status ),
 			'category_id'           => empty( $task->type['id'] ) ? '' : (int) $task->type['id'],
-			'created_at'            => format_date( $task->created_at ),
+			'created_at'            => wedevs_pm_format_date( $task->created_at ),
 			'created_by'            => (int) $task->created_by,
-			'completed_at'          => format_date( $task->completed_at ),
-			'updated_at'            => format_date( $task->updated_at ),
+			'completed_at'          => wedevs_pm_format_date( $task->completed_at ),
+			'updated_at'            => wedevs_pm_format_date( $task->updated_at ),
 			'creator'               => [ 'data' => $this->user_info( $task->created_by ) ],
 			'updater'               => [ 'data' => $this->user_info( $task->updated_by ) ],
         ];
@@ -248,7 +250,7 @@ class Task {
 		$item['meta'] = empty( $task->meta ) ? [] : $task->meta;
 		
 		$item['meta']['total_comment']     = $task->total_comments;
-		$item['meta']['can_complete_task'] = $this->pm_user_can_complete_task( $task );
+		$item['meta']['can_complete_task'] = $this->wedevs_pm_user_can_complete_task( $task );
 		$item['meta']['total_files']       = $task->total_files;
 		$item['meta']['total_assignee']    = count( $task->assignees['data'] );
 		$item['meta']['privacy']           = $task->is_private;
@@ -256,17 +258,17 @@ class Task {
 		return $item;
 	}
 
-	function pm_user_can_complete_task( $task, $user_id = false ) {
+	function wedevs_pm_user_can_complete_task( $task, $user_id = false ) {
 	    if(!$task) {
 	        return false;
 	    }
 	    $user_id = $user_id ? $user_id: get_current_user_id();
 
-	    if ( pm_has_manage_capability( $user_id ) ) {
+	    if ( wedevs_pm_has_manage_capability( $user_id ) ) {
 	        return true;
 	    }
 
-	    if ( pm_is_manager( $task->project_id, $user_id ) ) {
+	    if ( wedevs_pm_is_manager( $task->project_id, $user_id ) ) {
 	        return true;
 	    }
 
@@ -350,8 +352,8 @@ class Task {
 			'email'             => $user->user_email,
 			'profile_url'       => $user->user_url,
 			'display_name'      => $user->display_name,
-			'manage_capability' => (int) pm_has_manage_capability($user->ID),
-			'create_capability' => (int) pm_has_project_create_capability($user->ID),
+			'manage_capability' => (int) wedevs_pm_has_manage_capability($user->ID),
+			'create_capability' => (int) wedevs_pm_has_project_create_capability($user->ID),
 			'avatar_url'        => get_avatar_url( $user->user_email ),
 			'github'            => get_user_meta($user->ID,'github' ,true),
 			'bitbucket'         => get_user_meta($user->ID,'bitbucket', true)
@@ -444,7 +446,7 @@ class Task {
 			->include_label()
 			->include_milestone();
 
-		$this->tasks = apply_filters( 'pm_task_with',$this->tasks, $this->task_ids, $this->query_params );
+		$this->tasks = apply_filters( 'wedevs_pm_task_with',$this->tasks, $this->task_ids, $this->query_params );
 
 		return $this;
 	}
@@ -453,14 +455,14 @@ class Task {
 		global $wpdb;
 
 		$with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
-		$with = pm_get_prepare_data( $with );
+		$with = wedevs_pm_get_prepare_data( $with );
 
 		if ( ! in_array( 'milestone', $with ) || empty( $this->task_ids ) ) {
 			return $this;
 		}
 
 		$list_ids = wp_list_pluck( $this->tasks, 'task_list_id' );
-		$tb_boardable = pm_tb_prefix() . 'pm_boardables';
+		$tb_boardable = esc_sql( wedevs_pm_tb_prefix() . 'pm_boardables' );
 
 		if ( empty( $list_ids ) ) {
 			foreach ( $this->tasks as $key => $task ) {
@@ -470,21 +472,23 @@ class Task {
 			return $this;
 		}
 
-		$list_format = pm_get_prepare_format( $list_ids );
-		$format_data = array_merge( $list_ids, ['task_list', 'milestone'] );
+		$list_ids = array_map( 'absint', $list_ids );
+		$list_placeholders = implode( ', ', array_fill( 0, count( $list_ids ), '%d' ) );
+		$format_data = array_merge( $list_ids, array( 'task_list', 'milestone' ) );
 
-		$query = $wpdb->prepare( "SELECT board_id as milestone_id, boardable_id as list_id
-			FROM $tb_boardable
-			WHERE $tb_boardable.boardable_id IN ($list_format)  
-			AND $tb_boardable.boardable_type = %s
-			AND $tb_boardable.board_type = %s", 
-			$format_data 
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT board_id as milestone_id, boardable_id as list_id
+				FROM {$tb_boardable}
+				WHERE {$tb_boardable}.boardable_id IN ({$list_placeholders})
+				AND {$tb_boardable}.boardable_type = %s
+				AND {$tb_boardable}.board_type = %s",
+				$format_data
+			)
 		);
-
-		$results       = $wpdb->get_results( $query );
 		$milestone_ids = wp_list_pluck( $results, 'milestone_id' );
 		$milestone_ids = empty( $milestone_ids ) ? [0] : $milestone_ids;
-		$milestones    = pm_get_milestones([ 'id' => $milestone_ids]);
+		$milestones    = wedevs_pm_get_milestones([ 'id' => $milestone_ids]);
 
 		$mis_key_id = [];
 		$list_mils  = [];
@@ -520,17 +524,17 @@ class Task {
 		global $wpdb;
 		$with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
 		
-		$with = pm_get_prepare_data( $with );
+		$with = wedevs_pm_get_prepare_data( $with );
 
 		if ( ! in_array( 'labels', $with ) || empty( $this->task_ids ) ) {
 			return $this;
 		}
 
-		if ( ! function_exists( 'pm_pro_get_labels' ) ) {
+		if ( ! function_exists( 'wedevs_pm_pro_get_labels' ) ) {
 			return $this;
 		}
 
-		$results = pm_pro_get_labels([ 
+		$results = wedevs_pm_pro_get_labels([ 
 			'task_id' => $this->task_ids
 		]);
 
@@ -552,21 +556,21 @@ class Task {
 		global $wpdb;
 		$with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
 		
-		$with = pm_get_prepare_data( $with );
+		$with = wedevs_pm_get_prepare_data( $with );
 
 		if ( ! in_array( 'time', $with ) || empty( $this->task_ids ) ) {
 			return $this;
 		}
 		
-		if ( ! pm_is_active_time_tracker_module() ) {
+		if ( ! wedevs_pm_is_active_time_tracker_module() ) {
 			return $this;
 		}
 
-		if ( ! function_exists( 'pm_pro_get_times' ) ) {
+		if ( ! function_exists( 'wedevs_pm_pro_get_times' ) ) {
 			return $this;
 		}
 
-		$results = pm_pro_get_times([
+		$results = wedevs_pm_pro_get_times([
 			'task_id' => $this->task_ids
 		]);
 		
@@ -620,13 +624,13 @@ class Task {
 		
 		$with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
 		
-		$with = pm_get_prepare_data( $with );
+		$with = wedevs_pm_get_prepare_data( $with );
 
 		if ( ! in_array( 'comments', $with ) || empty( $this->task_ids ) ) {
 			return $this;
 		}
 		
-		$comments = pm_get_comments([
+		$comments = wedevs_pm_get_comments([
 			'commentable_id' => array_unique( $this->task_ids ),
 			'commentable_type' => 'task'
 		]);
@@ -653,13 +657,13 @@ class Task {
 		global $wpdb;
 		$with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
 		
-		$with = pm_get_prepare_data( $with );
+		$with = wedevs_pm_get_prepare_data( $with );
 
 		if ( ! in_array( 'activities', $with ) || empty( $this->task_ids ) ) {
 			return $this;
 		}
 
-		$results = pm_get_activities([
+		$results = wedevs_pm_get_activities([
 			'resource_id' => $this->task_ids,
 			'resource_type' => 'task'
 		]);
@@ -686,19 +690,20 @@ class Task {
 		global $wpdb;
 
 		$metas          = [];
-		$tb_tasks    = pm_tb_prefix() . 'pm_tasks';
-		$tb_meta        = pm_tb_prefix() . 'pm_meta';
-		$task_format = pm_get_prepare_format( $this->task_ids );
-		$query_data     = $this->task_ids;
+		$tb_meta        = esc_sql( wedevs_pm_tb_prefix() . 'pm_meta' );
+		$task_ids_safe  = array_map( 'absint', $this->task_ids );
+		$task_placeholders = implode( ', ', array_fill( 0, count( $task_ids_safe ), '%d' ) );
+		$query_data     = array_merge( $task_ids_safe, array( 'task' ) );
 
-		$query = "SELECT DISTINCT $tb_meta.meta_key, $tb_meta.meta_value, $tb_meta.entity_id as task_id
-			FROM $tb_meta
-			WHERE $tb_meta.entity_id IN ($task_format)  
-			AND $tb_meta.entity_type = %s";
-
-		array_push( $query_data, 'task' );
-		
-		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT DISTINCT {$tb_meta}.meta_key, {$tb_meta}.meta_value, {$tb_meta}.entity_id as task_id
+				FROM {$tb_meta}
+				WHERE {$tb_meta}.entity_id IN ({$task_placeholders})
+				AND {$tb_meta}.entity_type = %s",
+				$query_data
+			)
+		);
 		
 		foreach ( $results as $key => $result ) {
 			$task_id = $result->task_id;
@@ -729,7 +734,7 @@ class Task {
 			return $this;
 		}
 
-		if ( pm_get_estimation_type() == 'task' ) {
+		if ( wedevs_pm_get_estimation_type() == 'task' ) {
 			
 			foreach ( $this->tasks as $key => $task ) {
 				$task->comparable_estimation = $task->estimation;
@@ -738,16 +743,19 @@ class Task {
 			return $this;
 		}
 
-		$tb_tasks  = pm_tb_prefix() . 'pm_tasks';
-		$tk_ids_format = $this->get_prepare_format( $this->task_ids );
-		$query_data    = $this->task_ids;
+		$tb_tasks  = esc_sql( wedevs_pm_tb_prefix() . 'pm_tasks' );
+		$task_ids_safe = array_map( 'absint', $this->task_ids );
+		$task_placeholders = implode( ', ', array_fill( 0, count( $task_ids_safe ), '%d' ) );
 
-        $query ="SELECT sum(estimation) as estimation, parent_id
-            FROM $tb_tasks
-            WHERE parent_id IN ( $tk_ids_format )
-            GROUP BY parent_id";
-
-        $results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT sum(estimation) as estimation, parent_id
+				FROM {$tb_tasks}
+				WHERE parent_id IN ({$task_placeholders})
+				GROUP BY parent_id",
+				$task_ids_safe
+			)
+		);
         //$results = wp_list_pluck( $results, 'estimation', 'parent_id' );
         $estimations   = [];
 
@@ -782,18 +790,20 @@ class Task {
 			return $this;
 		}
 
-		$tb_boardable  = pm_tb_prefix() . 'pm_boardables';
-		$tk_ids_format = $this->get_prepare_format( $this->task_ids );
-		$query_data    = $this->task_ids;
+		$tb_boardable  = esc_sql( wedevs_pm_tb_prefix() . 'pm_boardables' );
+		$task_ids_safe = array_map( 'absint', $this->task_ids );
+		$task_placeholders = implode( ', ', array_fill( 0, count( $task_ids_safe ), '%d' ) );
+		$query_data    = array_merge( $task_ids_safe, array( 'task' ) );
 
-		$query = "SELECT DISTINCT bor.order, bor.boardable_id as task_id
-			FROM $tb_boardable as bor
-			where bor.boardable_id IN ($tk_ids_format)
-			AND bor.boardable_type=%s";
-
-		array_push( $query_data, 'task' );
-		
-		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT DISTINCT bor.order, bor.boardable_id as task_id
+				FROM {$tb_boardable} as bor
+				where bor.boardable_id IN ({$task_placeholders})
+				AND bor.boardable_type=%s",
+				$query_data
+			)
+		);
 		$orders   = [];
 		
 		foreach ( $results as $key => $result ) {
@@ -821,15 +831,18 @@ class Task {
 			return $this;
 		}
 
-		$tb_tasks = pm_tb_prefix() . 'pm_tasks';
-		$tk_ids_format = $this->get_prepare_format( $this->task_ids );
+		$tb_tasks = esc_sql( wedevs_pm_tb_prefix() . 'pm_tasks' );
+		$task_ids_safe = array_map( 'absint', $this->task_ids );
+		$task_placeholders = implode( ', ', array_fill( 0, count( $task_ids_safe ), '%d' ) );
 
-		$query = "SELECT DISTINCT *
-			FROM $tb_tasks 
-			where parent_id IN ($tk_ids_format)";
-
-
-		$results = $wpdb->get_results( $wpdb->prepare( $query, $this->task_ids ) );
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT DISTINCT *
+				FROM {$tb_tasks}
+				where parent_id IN ({$task_placeholders})",
+				$task_ids_safe
+			)
+		);
 		$subtasks = [];
 
 		foreach ( $results as $key => $result ) {
@@ -862,17 +875,22 @@ class Task {
 			return $this;
 		}
 
-		$tb_task_types     = pm_tb_prefix() . 'pm_task_types';
-		$tb_task_type_task = pm_tb_prefix() . 'pm_task_type_task';
-		$tk_ids_format     = $this->get_prepare_format( $this->task_ids );
+		$tb_task_types     = esc_sql( wedevs_pm_tb_prefix() . 'pm_task_types' );
+		$tb_task_type_task = esc_sql( wedevs_pm_tb_prefix() . 'pm_task_type_task' );
+		$tb_tasks_escaped  = esc_sql( $this->tb_tasks );
+		$task_ids_safe     = array_map( 'absint', $this->task_ids );
+		$task_placeholders = implode( ', ', array_fill( 0, count( $task_ids_safe ), '%d' ) );
 
-		$query = "SELECT DISTINCT typ.id as type_id, typ.title, typ.description, tk.id as task_id
-			FROM $tb_task_types as typ
-			LEFT JOIN $tb_task_type_task as typt ON typ.id = typt.type_id 
-			LEFT JOIN $this->tb_tasks as tk ON tk.id = typt.task_id 
-			where tk.id IN ($tk_ids_format)";
-		
-		$results = $wpdb->get_results( $wpdb->prepare( $query, $this->task_ids ) );
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT DISTINCT typ.id as type_id, typ.title, typ.description, tk.id as task_id
+				FROM {$tb_task_types} as typ
+				LEFT JOIN {$tb_task_type_task} as typt ON typ.id = typt.type_id
+				LEFT JOIN {$tb_tasks_escaped} as tk ON tk.id = typt.task_id
+				where tk.id IN ({$task_placeholders})",
+				$task_ids_safe
+			)
+		);
 		$types   = [];
 
 		foreach ( $results as $key => $result ) {
@@ -909,17 +927,22 @@ class Task {
 			return $this;
 		}
 
-		$tb_list       = pm_tb_prefix() . 'pm_boards';
-		$tb_boardable  = pm_tb_prefix() . 'pm_boardables';
-		$tk_ids_format = $this->get_prepare_format( $this->task_ids );
+		$tb_list       = esc_sql( wedevs_pm_tb_prefix() . 'pm_boards' );
+		$tb_boardable  = esc_sql( wedevs_pm_tb_prefix() . 'pm_boardables' );
+		$tb_tasks_escaped = esc_sql( $this->tb_tasks );
+		$task_ids_safe = array_map( 'absint', $this->task_ids );
+		$task_placeholders = implode( ', ', array_fill( 0, count( $task_ids_safe ), '%d' ) );
 
-		$query = "SELECT DISTINCT bo.id as id, bo.title, tk.id as task_id
-			FROM $tb_list as bo
-			LEFT JOIN $tb_boardable as bor ON bor.board_id = bo.id 
-			LEFT JOIN $this->tb_tasks as tk ON tk.id = bor.boardable_id 
-			where tk.id IN ($tk_ids_format)";
-
-		$results = $wpdb->get_results( $wpdb->prepare( $query, $this->task_ids ) );
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT DISTINCT bo.id as id, bo.title, tk.id as task_id
+				FROM {$tb_list} as bo
+				LEFT JOIN {$tb_boardable} as bor ON bor.board_id = bo.id
+				LEFT JOIN {$tb_tasks_escaped} as tk ON tk.id = bor.boardable_id
+				where tk.id IN ({$task_placeholders})",
+				$task_ids_safe
+			)
+		);
 		$lists   = [];
 
 		foreach ( $results as $key => $result ) {
@@ -944,22 +967,26 @@ class Task {
 		global $wpdb;
 		
 		$with = empty( $this->query_params['with'] ) ? [] : $this->query_params['with'];
-		$with = pm_get_prepare_data( $with );
+		$with = wedevs_pm_get_prepare_data( $with );
 
 		if ( empty( $this->task_ids ) ) {
 			return $this;
 		}
 
-		$tb_project = pm_tb_prefix() . 'pm_projects';
-		$tk_ids_format = $this->get_prepare_format( $this->task_ids );
+		$tb_project = esc_sql( wedevs_pm_tb_prefix() . 'pm_projects' );
+		$tb_tasks_escaped = esc_sql( $this->tb_tasks );
+		$task_ids_safe = array_map( 'absint', $this->task_ids );
+		$task_placeholders = implode( ', ', array_fill( 0, count( $task_ids_safe ), '%d' ) );
 
-		$query = "SELECT DISTINCT pr.id as project_id, pr.title, tk.id as task_id
-			FROM $tb_project as pr
-			LEFT JOIN $this->tb_tasks as tk ON tk.project_id = pr.id 
-			where tk.id IN ($tk_ids_format)";
-
-
-		$results = $wpdb->get_results( $wpdb->prepare( $query, $this->task_ids ) );
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT DISTINCT pr.id as project_id, pr.title, tk.id as task_id
+				FROM {$tb_project} as pr
+				LEFT JOIN {$tb_tasks_escaped} as tk ON tk.project_id = pr.id
+				where tk.id IN ({$task_placeholders})",
+				$task_ids_safe
+			)
+		);
 		$projects = [];
 
 		foreach ( $results as $key => $result ) {
@@ -972,7 +999,7 @@ class Task {
 
 			$pjs_by_id = [];
 			$project_ids = wp_list_pluck( $results, 'project_id' );
-			$db_projects = pm_get_projects( [ 'id' => array_unique( $project_ids ) ] );
+			$db_projects = wedevs_pm_get_projects( [ 'id' => array_unique( $project_ids ) ] );
 
 			foreach ( $db_projects['data'] as $key => $db_project ) {
 				$pjs_by_id[$db_project['id']] = $db_project;
@@ -1007,29 +1034,38 @@ class Task {
 			return $this;
 		}
 
-		$tb_assignees   = pm_tb_prefix() . 'pm_assignees';
-		$tb_users       = $wpdb->base_prefix . 'users';
-		$tb_user_meta   = $wpdb->base_prefix . 'usermeta';
-		$task_format 	= pm_get_prepare_format( $this->task_ids );
-		$query_data     = $this->task_ids;
+		$tb_assignees   = esc_sql( wedevs_pm_tb_prefix() . 'pm_assignees' );
+		$tb_users       = esc_sql( $wpdb->base_prefix . 'users' );
+		$tb_user_meta   = esc_sql( $wpdb->base_prefix . 'usermeta' );
+		$task_ids_safe  = array_map( 'absint', $this->task_ids );
+		$task_placeholders = implode( ', ', array_fill( 0, count( $task_ids_safe ), '%d' ) );
 
 		if ( is_multisite() ) {
-			$meta_key = pm_user_meta_key();
+			$meta_key = wedevs_pm_user_meta_key();
+			$query_data = array_merge( $task_ids_safe, array( $meta_key ) );
 
-			$query = "SELECT DISTINCT usr.ID as id, usr.display_name, usr.user_email as email, asin.project_id, asin.role_id
-				FROM $tb_users as usr
-				LEFT JOIN $tb_assignees as asin ON usr.ID = asin.user_id
-				LEFT JOIN $tb_user_meta as umeta ON umeta.user_id = usr.ID
-				where asin.project_id IN ($project_format) 
-				AND umeta.meta_key='$meta_key'";
+			$results = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT DISTINCT usr.ID as id, usr.display_name, usr.user_email as email, asin.task_id
+					FROM {$tb_users} as usr
+					LEFT JOIN {$tb_assignees} as asin ON usr.ID = asin.assigned_to
+					LEFT JOIN {$tb_user_meta} as umeta ON umeta.user_id = usr.ID
+					where asin.task_id IN ({$task_placeholders})
+					AND umeta.meta_key=%s",
+					$query_data
+				)
+			);
 		} else {
-			$query = "SELECT DISTINCT usr.ID as id, usr.display_name, usr.user_email as email, asin.task_id
-				FROM $tb_users as usr
-				LEFT JOIN $tb_assignees as asin ON usr.ID = asin.assigned_to
-				where asin.task_id IN ($task_format)";
-		} 
-
-		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
+			$results = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT DISTINCT usr.ID as id, usr.display_name, usr.user_email as email, asin.task_id
+					FROM {$tb_users} as usr
+					LEFT JOIN {$tb_assignees} as asin ON usr.ID = asin.assigned_to
+					where asin.task_id IN ({$task_placeholders})",
+					$task_ids_safe
+				)
+			);
+		}
 		
 		foreach ( $results as $key => $result ) {
 			$task_id = $result->task_id;
@@ -1064,23 +1100,24 @@ class Task {
 		}
 
 		$metas          = [];
-		$tb_pm_comments = pm_tb_prefix() . 'pm_comments';
-		$tb_tasks       = pm_tb_prefix() . 'pm_tasks';
-		$task_format    = pm_get_prepare_format( $this->task_ids );
-		$query_data     = $this->task_ids;
+		$tb_pm_comments = esc_sql( wedevs_pm_tb_prefix() . 'pm_comments' );
+		$tb_tasks       = esc_sql( wedevs_pm_tb_prefix() . 'pm_tasks' );
+		$task_ids_safe  = array_map( 'absint', $this->task_ids );
+		$task_placeholders = implode( ', ', array_fill( 0, count( $task_ids_safe ), '%d' ) );
+		$query_data     = array_merge( $task_ids_safe, array( 'task' ) );
 
-		$query ="SELECT DISTINCT count($tb_pm_comments.id) as comment_count,
-			$tb_tasks.id as task_id
-			FROM $tb_pm_comments
-			LEFT JOIN $tb_tasks  ON $tb_tasks.id = $tb_pm_comments.commentable_id
-			WHERE $tb_tasks.id IN ($task_format)
-			AND $tb_pm_comments.commentable_type = %s
-			group by $tb_tasks.id
-		";
-
-		array_push( $query_data, 'task' );
-
-		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT DISTINCT count({$tb_pm_comments}.id) as comment_count,
+				{$tb_tasks}.id as task_id
+				FROM {$tb_pm_comments}
+				LEFT JOIN {$tb_tasks}  ON {$tb_tasks}.id = {$tb_pm_comments}.commentable_id
+				WHERE {$tb_tasks}.id IN ({$task_placeholders})
+				AND {$tb_pm_comments}.commentable_type = %s
+				group by {$tb_tasks}.id",
+				$query_data
+			)
+		);
 		
 		foreach ( $results as $key => $result ) {
 			$task_id = $result->task_id;
@@ -1102,21 +1139,21 @@ class Task {
 			return $this;
 		}
 
-		$tb_pm_files  = pm_tb_prefix() . 'pm_files';
-		$tb_tasks     = pm_tb_prefix() . 'pm_tasks';
-		
-		$task_format  = pm_get_prepare_format( $this->task_ids );
-		$query_data   = $this->task_ids;
+		$tb_pm_files   = esc_sql( wedevs_pm_tb_prefix() . 'pm_files' );
+		$task_ids_safe = array_map( 'absint', $this->task_ids );
+		$task_placeholders = implode( ', ', array_fill( 0, count( $task_ids_safe ), '%d' ) );
+		$query_data    = array_merge( $task_ids_safe, array( 'task' ) );
 
-		$query = "SELECT DISTINCT count(fl.id) as count,  fl.fileable_id as task_id
-			from $tb_pm_files as fl
-			where fl.fileable_id IN ($task_format)
-			AND fl.fileable_type = %s
-			group by fl.fileable_id";
-		
-		array_push( $query_data, 'task' );
-
-		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT DISTINCT count(fl.id) as count,  fl.fileable_id as task_id
+				from {$tb_pm_files} as fl
+				where fl.fileable_id IN ({$task_placeholders})
+				AND fl.fileable_type = %s
+				group by fl.fileable_id",
+				$query_data
+			)
+		);
 		
 		foreach ( $results as $key => $result ) {
 			$task_id = $result->task_id;
@@ -1185,8 +1222,10 @@ class Task {
 	}
 
 	private function join() {
+		// Initialize join as empty string to prevent unescaped parameter warnings
+		$this->join = '';
 
-		$this->join = apply_filters( 'pm_task_join', $this->join );
+		$this->join = apply_filters( 'wedevs_pm_task_join', $this->join );
 
 		return $this;
 	}
@@ -1210,7 +1249,7 @@ class Task {
 			->where_milestone()
 			->where_recurrent();
 
-		$this->where = apply_filters( 'pm_task_where', $this->where, $this->user_id );
+		$this->where = apply_filters( 'wedevs_pm_task_where', $this->where, $this->user_id );
 
 		return $this;
 	}
@@ -1293,7 +1332,7 @@ class Task {
 		$users = $this->get_prepare_data( $users );
 		
 		global $wpdb;
-		$tb_asin = pm_tb_prefix() . 'pm_assignees';
+		$tb_asin = wedevs_pm_tb_prefix() . 'pm_assignees';
 
 		if ( $is_user_null ) {
 			$this->join .= " LEFT JOIN {$tb_asin} ON $tb_asin.task_id={$this->tb_tasks}.id";
@@ -1314,39 +1353,46 @@ class Task {
 		global $wpdb;
 
 		$milestone = $this->query_params['milestone'];
-		$tb_milestone   = pm_tb_prefix() . 'pm_boards';
-		$tb_boardables   = pm_tb_prefix() . 'pm_boardables';
+		$tb_milestone   = esc_sql( wedevs_pm_tb_prefix() . 'pm_boards' );
+		$tb_boardables   = esc_sql( wedevs_pm_tb_prefix() . 'pm_boardables' );
 
 		if ( empty( $milestone ) ) {
-			$data_milestone = $wpdb->get_results( $wpdb->prepare( "SELECT id FROM {$tb_milestone} WHERE %d=%d AND type='milestone'", 1, 1 ) );
+			$data_milestone = $wpdb->get_results(
+				$wpdb->prepare(
+					"SELECT id FROM {$tb_milestone} WHERE %d=%d AND type=%s",
+					1,
+					1,
+					'milestone'
+				)
+			);
 			$milestone_ids = wp_list_pluck( $data_milestone, 'id' );
 
 		} else {
-			$milestone_ids = pm_get_prepare_data( $milestone );
+			$milestone_ids = wedevs_pm_get_prepare_data( $milestone );
 		}
 
-		$milestone_ids = empty( $milestone_ids ) ? [-1] : $milestone_ids;
+		$milestone_ids = empty( $milestone_ids ) ? array( -1 ) : $milestone_ids;
+		$milestone_ids = array_map( 'intval', $milestone_ids );
+		$milestone_placeholders = implode( ', ', array_fill( 0, count( $milestone_ids ), '%d' ) );
+		$format_data = array_merge( $milestone_ids, array( 'milestone', 'task_list' ) );
 
-		$format      = pm_get_prepare_format( $milestone_ids );
-		$format_data = array_merge( $milestone_ids, ['milestone', 'task_list']  );
-		
-		$milestone_lists = $wpdb->get_results( 
-			$wpdb->prepare( "SELECT boardable_id as list_id 
-				FROM {$tb_boardables} 
-				WHERE board_id IN ($format) 
-				
-				AND board_type=%s 
-				AND boardable_type=%s", 
-
+		$milestone_lists = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT boardable_id as list_id
+				FROM {$tb_boardables}
+				WHERE board_id IN ({$milestone_placeholders})
+				AND board_type=%s
+				AND boardable_type=%s",
 				$format_data
-			) 
+			)
 		);
 
 		$list_ids = wp_list_pluck( $milestone_lists, 'list_id' );
-		$list_ids = empty( $list_ids ) ? [-1] : $list_ids;
-		$format   = pm_get_prepare_format( $list_ids );
+		$list_ids = empty( $list_ids ) ? array( -1 ) : $list_ids;
+		$list_ids = array_map( 'intval', $list_ids );
+		$list_placeholders = implode( ', ', array_fill( 0, count( $list_ids ), '%d' ) );
 
-		$this->where .= $wpdb->prepare( " AND list.id IN ($format)", $list_ids );
+		$this->where .= $wpdb->prepare( " AND list.id IN ({$list_placeholders})", $list_ids );
 
 		return $this;
 	}
@@ -1370,9 +1416,9 @@ class Task {
 	private function where_start_at() {
 
 		if ( 
-			empty( pm_get_setting( 'task_start_field' ) ) 
+			empty( wedevs_pm_get_setting( 'task_start_field' ) ) 
 				||
-			pm_get_setting( 'task_start_field' ) == 'false'
+			wedevs_pm_get_setting( 'task_start_field' ) == 'false'
 		 ) {
 			return $this;
 		}
@@ -1453,9 +1499,9 @@ class Task {
 
 		$completed_at         = !empty( $this->query_params['completed_at'] ) ? $this->query_params['completed_at'] : false;
 		$completed_at_start   = !empty( $this->query_params['completed_at_start'] ) ? $this->query_params['completed_at_start'] : false;
-		$completed_at_between = !isset( $this->query_params['completed_at_between'] ) ? true : pm_is_true( $this->query_params['completed_at_between'] );
+		$completed_at_between = !isset( $this->query_params['completed_at_between'] ) ? true : wedevs_pm_is_true( $this->query_params['completed_at_between'] );
 		$ope_params           = !empty( $this->query_params['completed_at_operator'] ) ? $this->query_params['completed_at_operator'] : false;
-		$ope_params           = pm_get_prepare_data( $ope_params );
+		$ope_params           = wedevs_pm_get_prepare_data( $ope_params );
 
 		if ( empty( $ope_params ) ) {
             if ( empty( $completed_at ) ) {
@@ -1532,9 +1578,9 @@ class Task {
 
 		$due_date         = !empty( $this->query_params['due_date'] ) ? $this->query_params['due_date'] : false;
 		$due_date_start   = !empty( $this->query_params['due_date_start'] ) ? $this->query_params['due_date_start'] : false;
-		$due_date_between = !isset( $this->query_params['due_date_between'] ) ? true : pm_is_true( $this->query_params['due_date_between'] );
+		$due_date_between = !isset( $this->query_params['due_date_between'] ) ? true : wedevs_pm_is_true( $this->query_params['due_date_between'] );
 		$ope_params       = !empty( $this->query_params['due_date_operator'] ) ? $this->query_params['due_date_operator'] : false;
-		$ope_params       = pm_get_prepare_data( $ope_params );
+		$ope_params       = wedevs_pm_get_prepare_data( $ope_params );
 
         if ( empty( $due_date ) ) {
             return $this;
@@ -1752,11 +1798,11 @@ class Task {
 		}
 
 		if ( in_array( 'incomplete_tasks_per_page', $with ) ) {
-			$per_page = pm_get_setting( 'incomplete_tasks_per_page' );
+			$per_page = wedevs_pm_get_setting( 'incomplete_tasks_per_page' );
 		}
 
 		if ( in_array( 'complete_tasks_per_page', $with ) ) {
-			$per_page = pm_get_setting( 'complete_tasks_per_page' );
+			$per_page = wedevs_pm_get_setting( 'complete_tasks_per_page' );
 		}
 
 		return empty( $per_page ) ? 10 : (int) $per_page;
@@ -1771,34 +1817,45 @@ class Task {
 		global $wpdb;
 		
 		$id        = isset( $this->query_params['id'] ) ? $this->query_params['id'] : false;
-		$more_tasks_request = isset( $this->query_params['source'] ) && 'more_tasks' === $this->query_params['source'] ? true : false;
-		$boardable = pm_tb_prefix() . 'pm_boardables';
+		$more_tasks_request = isset($this->query_params['source']) && 'more_tasks' === $this->query_params['source'] ? true : false;
 		$tasks = [];
 
-		$query = $wpdb->prepare( "SELECT SQL_CALC_FOUND_ROWS DISTINCT {$this->tb_tasks}.*, 
-			list.id as task_list_id,
-			list.title as task_list_title
-			
-			FROM {$this->tb_tasks}
+		// Ensure these are strings to avoid null/undefined issues
+		$join = is_string($this->join) ? $this->join : '';
 
-			Left join $boardable as boardable ON boardable.boardable_id = {$this->tb_tasks}.id
-			Left join {$this->tb_lists} as list ON list.id = boardable.board_id
-			
-			{$this->join}
-			
-			WHERE %d=%d {$this->where} 
+		// phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter -- $join is built safely via join() method using wpdb::prepare() and apply_filters()
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT SQL_CALC_FOUND_ROWS DISTINCT %i.*,
+				list.id as task_list_id,
+				list.title as task_list_title
 
-			AND boardable.board_type=%s 
-			AND boardable.boardable_type=%s
-			
-			{$this->orderby} 
-			
-			{$this->limit}", 
+				FROM %i
 
-			1, 1, 'task_list', 'task'
+				Left join %i as boardable ON boardable.boardable_id = %i.id
+				Left join %i as list ON list.id = boardable.board_id
+
+				{$join}
+
+				WHERE %d=%d {$this->where}
+
+				AND boardable.board_type=%s
+				AND boardable.boardable_type=%s
+
+				{$this->orderby}
+
+				{$this->limit}",
+				$this->tb_tasks,
+				$this->tb_tasks,
+				wedevs_pm_tb_prefix() . 'pm_boardables',
+				$this->tb_tasks,
+				$this->tb_lists,
+				1,
+				1,
+				'task_list',
+				'task'
+			)
 		);
-		//echo $query; die();
-		$results = $wpdb->get_results( $query );
 
 		// If task has not boardable_id mean no list
 		if ( $id && ! $more_tasks_request ) {
@@ -1902,8 +1959,8 @@ class Task {
 	 * Set table name as class object
 	 */
 	private function set_table_name() {
-		$this->tb_tasks    = pm_tb_prefix() . 'pm_tasks';
-		$this->tb_lists    = pm_tb_prefix() . 'pm_boards';
-		$this->tb_projects = pm_tb_prefix() . 'pm_projects';
+		$this->tb_tasks    = esc_sql( wedevs_pm_tb_prefix() . 'pm_tasks' );
+		$this->tb_lists    = esc_sql( wedevs_pm_tb_prefix() . 'pm_boards' );
+		$this->tb_projects = esc_sql( wedevs_pm_tb_prefix() . 'pm_projects' );
 	}
 }

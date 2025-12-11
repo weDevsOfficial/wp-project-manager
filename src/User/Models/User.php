@@ -31,16 +31,16 @@ class User extends Eloquent {
     }
 
     public function roles() {
-        return $this->belongsToMany( 'WeDevs\PM\Role\Models\Role', pm_tb_prefix() . 'pm_role_user', 'user_id', 'role_id' )
+        return $this->belongsToMany( 'WeDevs\PM\Role\Models\Role', wedevs_pm_tb_prefix() . 'pm_role_user', 'user_id', 'role_id' )
             ->withPivot('project_id', 'role_id');
     }
 
     public function projects() {
-        return $this->belongsToMany( 'WeDevs\PM\Project\Models\Project', pm_tb_prefix() . 'pm_role_user', 'user_id', 'project_id' );
+        return $this->belongsToMany( 'WeDevs\PM\Project\Models\Project', wedevs_pm_tb_prefix() . 'pm_role_user', 'user_id', 'project_id' );
     }
 
     public function tasks() {
-        return $this->belongsToMany( 'WeDevs\PM\Task\Models\Task', pm_tb_prefix() . 'pm_assignees','assigned_to', 'task_id' );
+        return $this->belongsToMany( 'WeDevs\PM\Task\Models\Task', wedevs_pm_tb_prefix() . 'pm_assignees','assigned_to', 'task_id' );
     }
 
     public function activities () {
@@ -55,7 +55,7 @@ class User extends Eloquent {
         global $wpdb;
 
         if ( is_multisite() ) {
-            $user_meta_key = pm_user_meta_key();
+            $user_meta_key = wedevs_pm_user_meta_key();
             $usermeta_tb   = $wpdb->base_prefix . 'usermeta';
             $users_tb      = $wpdb->base_prefix . 'users';
             

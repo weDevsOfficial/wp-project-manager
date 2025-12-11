@@ -10,7 +10,7 @@ class Create_Discuss extends Abstract_Permission {
     public function check() {
         $project_id = $this->request->get_param( 'project_id' );
 
-        $pm_discussion_create_permission = apply_filters( 'pm_check_permission', pm_is_user_in_project( $project_id ), $project_id, 'create_message' );
+        $pm_discussion_create_permission = apply_filters( 'wedevs_pm_check_permission', wedevs_pm_is_user_in_project( $project_id ), $project_id, 'create_message' );
 
         if ( $pm_discussion_create_permission ) {
         	return true;

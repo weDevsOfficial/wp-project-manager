@@ -26,7 +26,7 @@ class File_Transformer extends TransformerAbstract {
             'fileable_type' => $item->fileable_type,
             'directory'     => $item->directory,
             'attachment_id' => $item->attachment_id,
-            'attached_at'   => format_date( $item->created_at ),
+            'attached_at'   => wedevs_pm_format_date( $item->created_at ),
             'fileable'      => $this->get_fileabel($item),
             'meta'      => $this->get_file_meta($item)
         ];
@@ -41,7 +41,7 @@ class File_Transformer extends TransformerAbstract {
      */
     public function getDefaultIncludes()
     {
-        return apply_filters( "pm_file_transformer_default_includes", $this->defaultIncludes );
+        return apply_filters( "wedevs_pm_file_transformer_default_includes", $this->defaultIncludes );
     }
 
     public function get_fileabel( $item ) {

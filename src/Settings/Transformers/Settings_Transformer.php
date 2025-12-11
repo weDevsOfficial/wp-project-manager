@@ -40,7 +40,7 @@ class Settings_Transformer extends TransformerAbstract {
             'id'         => (int) $item->id,
             'key'        => $item->key,
             'value'      => $value,
-            'created_at' => format_date( $item->created_at ),
+            'created_at' => wedevs_pm_format_date( $item->created_at ),
         ];
     }
 
@@ -80,6 +80,6 @@ class Settings_Transformer extends TransformerAbstract {
      */
     public function getDefaultIncludes()
     {
-        return apply_filters( "pm_setting_transformer_default_includes", $this->defaultIncludes );
+        return apply_filters( "wedevs_pm_setting_transformer_default_includes", $this->defaultIncludes );
     }
 }

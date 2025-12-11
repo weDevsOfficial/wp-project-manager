@@ -12,11 +12,11 @@ class Admin_Notice {
 	}
 
 	function pm_pro_notice_2_1_0() {
-		if ( ! function_exists( 'pm_pro_config' ) ) {
+		if ( ! function_exists( 'wedevs_pm_pro_config' ) ) {
 			return;
 		}
 
-		$pro_version = pm_pro_config('app.version');
+		$pro_version = wedevs_pm_pro_config('app.version');
 
 		if ( version_compare( $pro_version, '2.0.12' , '<' ) ) {
             ?>
@@ -25,7 +25,7 @@ class Admin_Notice {
                     <tbody>
                         <tr>
                             <td class="image-container">
-                                <img src="<?php echo esc_url(config('frontend.url') . 'views/assets/images/pm-logo-pro.png'); ?>" alt="">
+                                <img src="<?php echo esc_url(wedevs_pm_config('frontend.url') . 'views/assets/images/pm-logo-pro.png'); ?>" alt="">
                             </td>
                             <td class="message-container">
                                 <p style="font-size: 13px">
@@ -168,15 +168,15 @@ class Admin_Notice {
 	}
 
 	public function pm_pro_notice() {
-		$offer  = __( '<h2>WP Project Manager Pro required version 2.0 or above.</span></h2>', "wedevs-project-manager" );
-        $offer .= __( '<p>To migrate version 2.0, Please read mmigration docs </p>', 'wedevs-project-manager' );
+		$offer  = '<h2>' . esc_html__( 'WP Project Manager Pro required version 2.0 or above.', 'wedevs-project-manager' ) . '</h2>';
+        $offer .= '<p>' . esc_html__( 'To migrate version 2.0, Please read migration docs', 'wedevs-project-manager' ) . '</p>';
 
         $offer_msg = sprintf( '%s', $offer );
 		 ?>
 		 <div class="notice" id="pm-promotional-offer-notice">
 
-                <img class="pm-logo" src="<?php echo esc_url(config('frontend.url') . 'views/assets/images/pm-icon.png'); ?>" alt="">
-                <div class="pm-offer-msg-wrap"><?php echo esc_html($offer_msg); ?></div>
+                <img class="pm-logo" src="<?php echo esc_url(wedevs_pm_config('frontend.url') . 'views/assets/images/pm-icon.png'); ?>" alt="">
+                <div class="pm-offer-msg-wrap"><?php echo wp_kses_post($offer_msg); ?></div>
                 <span class="dashicons dashicons-megaphone"></span>
                 <a href="https://wedevs.com/docs/wp-project-manager/how-to-migrate-to-wp-project-manager-v2-0/?utm_source=wp-admin&utm_medium=pm-action-link&utm_campaign=pm-docs" class="button button-primary promo-btn" target="_blank"><?php esc_html_e( 'Read Docs', 'wedevs-project-manager' ); ?></a>
             </div>

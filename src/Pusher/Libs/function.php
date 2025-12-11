@@ -1,11 +1,11 @@
 <?php
 
-function pm_pusher_channel() {
+function wedevs_pm_pusher_channel() {
 
     return 'private-wp-project-manager';
 }
 
-function pm_pusher_events() {
+function wedevs_pm_pusher_events() {
 
     return [
         'task_create'    => 'create-task', //Event
@@ -16,9 +16,9 @@ function pm_pusher_events() {
     ];
 }
 
-function pm_pusher_get_event( $event_key ) {
+function wedevs_pm_pusher_get_event( $event_key ) {
 
-    $events = pm_pusher_events();
+    $events = wedevs_pm_pusher_events();
 
     return $events[$event_key];
 }

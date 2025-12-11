@@ -47,7 +47,7 @@ class Milestone extends Eloquent {
 
     public function getAchieveDateAttribute() {
     	if( $this->achieve_date_field ) {
-    		return make_carbon_date( $this->achieve_date_field->meta_value );
+    		return wedevs_pm_make_carbon_date( $this->achieve_date_field->meta_value );
     	}
     }
 
@@ -85,13 +85,13 @@ class Milestone extends Eloquent {
     }
 
     public function task_lists() {
-        return $this->belongsToMany( 'WeDevs\PM\Task_List\Models\Task_List', pm_tb_prefix() . 'pm_boardables', 'board_id', 'boardable_id' )
+        return $this->belongsToMany( 'WeDevs\PM\Task_List\Models\Task_List', wedevs_pm_tb_prefix() . 'pm_boardables', 'board_id', 'boardable_id' )
             ->where( 'boardable_type', 'task_list' )
             ->where( 'board_type', 'milestone' );
     }
 
     public function tasks() {
-        return $this->belongsToMany( 'WeDevs\PM\Task\Models\Task', pm_tb_prefix() . 'pm_boardables', 'board_id', 'boardable_id' )
+        return $this->belongsToMany( 'WeDevs\PM\Task\Models\Task', wedevs_pm_tb_prefix() . 'pm_boardables', 'board_id', 'boardable_id' )
             ->where( 'boardable_type', 'task' )
             ->where( 'board_type', 'milestone' );
     }
@@ -101,7 +101,7 @@ class Milestone extends Eloquent {
     }
 
     public function discussion_boards() {
-        return $this->belongsToMany( 'WeDevs\PM\Discussion_Board\Models\Discussion_Board', pm_tb_prefix() . 'pm_boardables', 'board_id', 'boardable_id' )
+        return $this->belongsToMany( 'WeDevs\PM\Discussion_Board\Models\Discussion_Board', wedevs_pm_tb_prefix() . 'pm_boardables', 'board_id', 'boardable_id' )
             ->where( 'board_type', 'milestone' )
             ->where( 'boardable_type', 'discussion_board' );
     }

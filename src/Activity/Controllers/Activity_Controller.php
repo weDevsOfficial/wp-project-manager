@@ -34,8 +34,8 @@ class Activity_Controller {
             $activities = Activity::orderBy( 'created_at', 'DESC' )
                 ->paginate( $per_page );
         } else {
-            $activities = Activity::where( pm_tb_prefix() .'pm_activities.project_id', $project_id )
-                ->orderBy( pm_tb_prefix() .'pm_activities.created_at', 'desc' )
+            $activities = Activity::where( wedevs_pm_tb_prefix() .'pm_activities.project_id', $project_id )
+                ->orderBy( wedevs_pm_tb_prefix() .'pm_activities.created_at', 'desc' )
                 ->paginate( $per_page );
             
         }
@@ -46,7 +46,7 @@ class Activity_Controller {
         $resource->setPaginator( new IlluminatePaginatorAdapter( $activities ) );
 
         $response = $this->get_response( $resource );
-        $response = apply_filters('pm_get_task', $response , $request);
+        $response = apply_filters( 'wedevs_pm_get_task', $response , $request);
         return $response ;
     }
 }
