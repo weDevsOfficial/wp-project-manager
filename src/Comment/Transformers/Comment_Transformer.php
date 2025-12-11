@@ -59,7 +59,7 @@ class Comment_Transformer extends TransformerAbstract {
      * @return \League\Fractal\Resource\Collection
      */
     public function includeReplies( Comment $item ) {
-        $page = isset( $_GET['reply_page'] ) ? intval( $_GET['reply_page'] ) : 1;
+        $page = self::get_context_int( 'reply_page', 1 );
 
         $replies = $item->replies()->paginate( wedevs_pm_config('app.comment_per_page'), ['*'], 'reply_page', $page );
 
@@ -78,7 +78,7 @@ class Comment_Transformer extends TransformerAbstract {
      * @return \League\Fractal\Resource\Collection
      */
     public function includeFiles( Comment $item ) {
-        $page = isset( $_GET['file_page'] ) ? intval( $_GET['file_page'] ) : 1;
+        $page = self::get_context_int( 'file_page', 1 );
 
         $files = $item->files()->get();
 

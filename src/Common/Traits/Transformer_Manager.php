@@ -8,11 +8,19 @@ use League\Fractal\Serializer\DataArraySerializer;
 
 trait Transformer_Manager {
 
+    use Request_Context;
+
     public function get_response( $resource, $extra = [] ) {
         $manager = new Manager();
         $manager->setSerializer( new DataArraySerializer() );
 
+        // Set request context for transformers - nonce already verified at REST API layer.
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verified at REST API layer via register_rest_route() in WP_Router.
+        self::set_request_context( $_GET );
+
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verified at REST API layer via register_rest_route() in WP_Router.
         if ( isset( $_GET['with'] ) ) {
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verified at REST API layer via register_rest_route() in WP_Router.
             $manager->parseIncludes( sanitize_text_field( wp_unslash( $_GET['with'] ) ) ) ;
         }
 
@@ -30,7 +38,13 @@ trait Transformer_Manager {
         $manager = new Manager();
         $manager->setSerializer( new DataArraySerializer() );
 
+        // Set request context for transformers - nonce already verified at REST API layer.
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verified at REST API layer via register_rest_route() in WP_Router.
+        self::set_request_context( $_GET );
+        
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verified at REST API layer via register_rest_route() in WP_Router.
         if ( isset( $_GET['with'] ) ) {
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verified at REST API layer via register_rest_route() in WP_Router.
             $manager->parseIncludes( sanitize_text_field( wp_unslash( $_GET['with'] ) ) );
         }
 

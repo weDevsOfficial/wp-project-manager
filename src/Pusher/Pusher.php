@@ -62,6 +62,7 @@ class Pusher {
         $path = filemtime( wedevs_pm_config('define.path') . '/src/Pusher/views/assets/vendor/pusher-v5.0.2.min.js' );
         wp_enqueue_script( 'pm-pusher-library', wedevs_pm_config('define.url') . 'src/Pusher/views/assets/vendor/pusher-v5.0.2.min.js', array('jquery'), $path, true );
         
+// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only check for admin page context, no data modification.
         if ( isset( $_GET['page'] ) && $_GET['page'] == 'pm_projects' ) {
             wp_enqueue_script( 'pm-pusher-jquery', wedevs_pm_config('define.url') . 'src/Pusher/views/assets/vendor/pusher-jquery.js', array('jquery', 'pm-pusher-library', 'pm-toastr'), time(), true );
         } else {

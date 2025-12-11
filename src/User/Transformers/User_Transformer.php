@@ -152,8 +152,8 @@ class User_Transformer extends TransformerAbstract {
                 }
             });
 
-            $start_at = empty( $_GET['start_at'] ) ? false : wedevs_pm_clean( $_GET['start_at'] );
-            $due_date = empty( $_GET['due_date'] ) ? false : wedevs_pm_clean( $_GET['due_date'] );
+            $start_at = self::get_context_param( 'start_at', false );
+            $due_date = self::get_context_param( 'due_date', false );
             
             if ( ! empty( $start_at ) && ! empty( $due_date ) ) {
                 
@@ -270,8 +270,8 @@ class User_Transformer extends TransformerAbstract {
         $project_ids = User_Role::where( 'user_id', $item->ID )->get(['project_id'])->toArray();
         $project_ids = wp_list_pluck( $project_ids, 'project_id' );
 
-        $page = isset( $_GET['mytask_activities_page'] ) ? $_GET['mytask_activities_page'] : 1;
-        $per_page = isset( $_GET['mytask_activities_per_page'] ) ? $_GET['mytask_activities_per_page'] : 15;
+        $page = self::get_context_int( 'mytask_activities_page', 1 );
+        $per_page = self::get_context_int( 'mytask_activities_per_page', 15 );
 
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
@@ -291,8 +291,8 @@ class User_Transformer extends TransformerAbstract {
     }
 
     public function includeGraph ( User $item ) {
-        $start_at = empty( $_GET['start_at'] ) ? false : wedevs_pm_clean( $_GET['start_at'] );
-        $due_date = empty( $_GET['due_date'] ) ? false : wedevs_pm_clean( $_GET['due_date'] );
+        $start_at = self::get_context_param( 'start_at', false );
+        $due_date = self::get_context_param( 'due_date', false );
 
         if ( $start_at && $due_date ) {
             $first_day = gmdate( 'Y-m-d', strtotime( $start_at ) );

@@ -1029,6 +1029,7 @@ class Task_Controller {
             $list_ids[] = 0;
         }
 
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verified at REST API layer via register_rest_route() in WP_Router.
         $per_page_count    = isset( $_GET['incomplete_task_page'] ) ? \intval( $_GET['incomplete_task_page'] ) : false;
 
         $table_ba   = esc_sql( $wpdb->prefix . 'pm_boardables' );
@@ -1133,6 +1134,7 @@ class Task_Controller {
             $list_ids[] = 0;
         }
 
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verified at REST API layer via register_rest_route() in WP_Router.
         $per_page_count    = isset( $_GET['complete_task_page'] ) ? \intval( $_GET['complete_task_page'] ) : false;
 
         $table_ba         = esc_sql( $wpdb->prefix . 'pm_boardables' );
