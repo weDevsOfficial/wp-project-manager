@@ -25,12 +25,12 @@ class Router {
 	 *
 	 * @param  string $uri
 	 *
-	 * @param  stirng $handler (This string contains a class namespace
+	 * @param  array $handler (This string contains a class namespace
 	 * and a method name. These two things are sperated by @. Left
 	 * part of @ is the class namespace and right part is the mehtod
 	 * name.)
 	 *
-	 * @return object (An object of the router class.)
+	 * @return $this (An object of the router class.)
 	 */
 	public function get( $uri, $handler ) {
 		$this->parse( $uri, $handler, 'GET');
@@ -44,12 +44,12 @@ class Router {
 	 *
 	 * @param  string $uri
 	 *
-	 * @param  stirng $handler (This string contains a class namespace
+	 * @param  array $handler (This string contains a class namespace
 	 * and a method name. These two things are sperated by @. Left
 	 * part of @ is the class namespace and right part is the mehtod
 	 * name.)
 	 *
-	 * @return object (An object of the router class.)
+	 * @return $this (An object of the router class.)
 	 */
 	public function post( $uri, $handler ) {
 		$this->parse( $uri, $handler, 'POST' );
@@ -63,12 +63,12 @@ class Router {
 	 *
 	 * @param  string $uri
 	 *
-	 * @param  stirng $handler (This string contains a class namespace
+	 * @param  array $handler (This string contains a class namespace
 	 * and a method name. These two things are sperated by @. Left
 	 * part of @ is the class namespace and right part is the mehtod
 	 * name.)
 	 *
-	 * @return object (An object of the router class.)
+	 * @return $this (An object of the router class.)
 	 */
 	public function put( $uri, $handler ) {
 		$this->parse( $uri, $handler, 'PUT' );
@@ -82,12 +82,12 @@ class Router {
 	 *
 	 * @param  string $uri
 	 *
-	 * @param  stirng $handler (This string contains a class namespace
+	 * @param  array $handler (This string contains a class namespace
 	 * and a method name. These two things are sperated by @. Left
 	 * part of @ is the class namespace and right part is the mehtod
 	 * name.)
 	 *
-	 * @return object (An object of the router class.)
+	 * @return $this (An object of the router class.)
 	 */
 	public function delete( $uri, $handler ) {
 		$this->parse( $uri, $handler, 'DELETE' );
@@ -101,12 +101,12 @@ class Router {
 	 *
 	 * @param  string $uri
 	 *
-	 * @param  stirng $handler (This string contains a class namespace
+	 * @param  array $handler (This string contains a class namespace
 	 * and a method name. These two things are sperated by @. Left
 	 * part of @ is the class namespace and right part is the mehtod
 	 * name.)
 	 *
-	 * @return object (An object of the router class.)
+	 * @return $this (An object of the router class.)
 	 */
 	public function patch( $uri, $handler ) {
 		$this->parse( $uri, $handler, 'PATCH' );
@@ -120,7 +120,7 @@ class Router {
 	 *
 	 * @param  string $uri
 	 *
-	 * @param  string $handler (This string contains a class namespace
+	 * @param  array $handler (This string contains a class namespace
 	 * and a method name. These two things are sperated by @. Left
 	 * part of @ is the class namespace and right part is the mehtod
 	 * name.)
@@ -152,7 +152,7 @@ class Router {
 	 *
 	 * @param  array  $permissions (Array of permission classes.)
 	 *
-	 * @return object (An object of the router class.)
+	 * @return $this (An object of the router class.)
 	 */
 	public function permission( $permissions = array() ) {
 		$last_index = count( static::$routes ) - 1;
@@ -168,7 +168,7 @@ class Router {
 	 *
 	 * @param  string $validator (Validator class namespace.)
 	 *
-	 * @return object (An object of the router class.)
+	 * @return $this (An object of the router class.)
 	 */
 	public function validator( $validator, $method = false ) {
 		$last_index = count( static::$routes ) - 1;
@@ -183,7 +183,7 @@ class Router {
 	 *
 	 * @param  string $sanitizer (Sanitizer class namespace.)
 	 *
-	 * @return object (An object of the router class.)
+	 * @return $this (An object of the router class.)
 	 */
 	public function sanitizer( $sanitizer ) {
 		$last_index = count( static::$routes ) - 1;

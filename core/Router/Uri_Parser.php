@@ -10,21 +10,19 @@ class Uri_Parser {
     /**
      * Separate class namespace and it's method from a given string.
      *
-     * @param  string $str (This contains a class namespace and a method
-     * name. These two things are separated by @ symbol in the string.)
-     *
-     * @return array (Array of two elements where first element is a class namespace
-     * and second element is a method name if the given name is in valid format;
-     * otherwise throws exception.)
+     * @param  array $handler (This contains a class namespace and a method
+     * [class_namespace, method_name]
+        * @return array (Array of two elements where first element is a class namespace
+        * and second element is a method name if the given name is in valid format;
+        * otherwise throws exception.)
      */
-    public function class_method_separation( $str ) {
-        $handler = explode( '@', $str );
-
-        if (count( $handler ) === 2) {
+    public function class_method_separation( array $handler ) {
+        
+        if( is_array( $handler ) && count( $handler ) === 2 ){
             return $handler;
         }
 
-        throw new Invalid_Route_Handler( str_replace( '/', '\\', $str ) );
+        throw new Invalid_Route_Handler( $handler );
     }
 
     /**
