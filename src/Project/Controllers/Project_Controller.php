@@ -398,11 +398,13 @@ class Project_Controller {
 
 
         if ( $favourite == 'true' || $favourite === true ) {
+            // phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Custom Eloquent model table (pm_meta), not WordPress core meta tables.
             $lastFavourite = Meta::where([
 				'entity_id'   => $user_id,
 				'entity_type' => 'project',
 				'meta_key'    => 'favourite_project'
 			])->max('meta_value');
+            // phpcs:enable WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 
             $lastFavourite = intval($lastFavourite ) + 1;
 
@@ -426,12 +428,14 @@ class Project_Controller {
 
 	function create_list_inbox($project_id) {
 
+		// phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Custom Eloquent model table (pm_meta), not WordPress core meta tables.
 		$meta = Meta::firstOrCreate([
 			'entity_id'	=> $project_id,
 			'entity_type' => 'task_list',
 			'meta_key' => 'list-inbox',
 			'project_id' => $project_id,
 		]);
+		// phpcs:enable WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 
 		if ( empty( $meta->meta_value ) ) {
 

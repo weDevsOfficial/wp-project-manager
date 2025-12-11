@@ -212,6 +212,7 @@ function wedevs_pm_set_settings( $key, $value, $project_id = false ){
 }
 
 function wedevs_pm_add_meta( $id, $project_id, $type, $key, $value ) {
+    // phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_key, WordPress.DB.SlowDBQuery.slow_db_query_meta_value -- Custom Eloquent model table (pm_meta), not WordPress core meta tables.
     WeDevs\PM\Common\Models\Meta::create([
         'entity_id'   => $id,
         'entity_type' => $type,
@@ -221,10 +222,12 @@ function wedevs_pm_add_meta( $id, $project_id, $type, $key, $value ) {
         'created_by'  => get_current_user_id(),
         'created_by'  => get_current_user_id()
     ]);
+    // phpcs:enable WordPress.DB.SlowDBQuery.slow_db_query_meta_key, WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 }
 
 
 function wedevs_pm_update_meta( $id, $project_id, $type, $key, $value ) {
+    // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Custom Eloquent model table (pm_meta), not WordPress core meta tables.
     $meta = WeDevs\PM\Common\Models\Meta::where( 'entity_id', $id )
         ->where( 'project_id', $project_id )
         ->where( 'entity_type', $type )
@@ -232,6 +235,7 @@ function wedevs_pm_update_meta( $id, $project_id, $type, $key, $value ) {
         ->first();
 
     if ( $meta ) {
+        // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value -- Custom Eloquent model table (pm_meta), not WordPress core meta tables.
         $meta->update(['meta_value' => $value]);
     } else {
         wedevs_pm_add_meta( $id, $project_id, $type, $key, $value );
