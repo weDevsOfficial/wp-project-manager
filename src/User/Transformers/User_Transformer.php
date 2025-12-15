@@ -11,7 +11,9 @@ use WeDevs\PM\User\Models\User_Role;
 use WeDevs\PM\My_Task\Transformers\Project_Transformer;
 use WeDevs\PM\Role\Transformers\Role_Transformer;
 use WeDevs\PM\Task\Transformers\Task_Transformer;
+use WeDevs\PM\Activity\Transformers\Activity_Transformer;
 use Carbon\Carbon;
+use WeDevs\PM\Core\Router\WP_Router;
 
 class User_Transformer extends TransformerAbstract {
     /**
@@ -152,8 +154,8 @@ class User_Transformer extends TransformerAbstract {
                 }
             });
 
-            $start_at = self::get_context_param( 'start_at', false );
-            $due_date = self::get_context_param( 'due_date', false );
+            $start_at = WP_Router::$request->get_param( 'start_at' ) ?? false;
+            $due_date = WP_Router::$request->get_param( 'due_date' ) ?? false;
             
             if ( ! empty( $start_at ) && ! empty( $due_date ) ) {
                 
@@ -270,8 +272,8 @@ class User_Transformer extends TransformerAbstract {
         $project_ids = User_Role::where( 'user_id', $item->ID )->get(['project_id'])->toArray();
         $project_ids = wp_list_pluck( $project_ids, 'project_id' );
 
-        $page = self::get_context_int( 'mytask_activities_page', 1 );
-        $per_page = self::get_context_int( 'mytask_activities_per_page', 15 );
+        $page = WP_Router::$request->get_param( 'mytask_activities_page' ) ?? 1;
+        $per_page = WP_Router::$request->get_param( 'mytask_activities_per_page' ) ?? 15;
 
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
@@ -291,8 +293,8 @@ class User_Transformer extends TransformerAbstract {
     }
 
     public function includeGraph ( User $item ) {
-        $start_at = self::get_context_param( 'start_at', false );
-        $due_date = self::get_context_param( 'due_date', false );
+        $start_at = WP_Router::$request->get_param( 'start_at' ) ?? false;
+        $due_date = WP_Router::$request->get_param( 'due_date' ) ?? false;
 
         if ( $start_at && $due_date ) {
             $first_day = gmdate( 'Y-m-d', strtotime( $start_at ) );

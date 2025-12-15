@@ -5,23 +5,17 @@ namespace WeDevs\PM\Common\Traits;
 use League\Fractal;
 use League\Fractal\Manager as Manager;
 use League\Fractal\Serializer\DataArraySerializer;
+use WeDevs\PM\Core\Router\WP_Router;
 
 trait Transformer_Manager {
 
-    use Request_Context;
 
     public function get_response( $resource, $extra = [] ) {
         $manager = new Manager();
         $manager->setSerializer( new DataArraySerializer() );
 
-        // Set request context for transformers - nonce already verified at REST API layer.
-        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verified at REST API layer via register_rest_route() in WP_Router.
-        self::set_request_context( $_GET );
-
-        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verified at REST API layer via register_rest_route() in WP_Router.
-        if ( isset( $_GET['with'] ) ) {
-            // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verified at REST API layer via register_rest_route() in WP_Router.
-            $manager->parseIncludes( sanitize_text_field( wp_unslash( $_GET['with'] ) ) ) ;
+        if (isset(WP_Router::$request->get_query_params()['with'])) {
+            $manager->parseIncludes(sanitize_text_field(wp_unslash(WP_Router::$request->get_query_params()['with'])));
         }
 
         if ($resource) {
@@ -38,14 +32,9 @@ trait Transformer_Manager {
         $manager = new Manager();
         $manager->setSerializer( new DataArraySerializer() );
 
-        // Set request context for transformers - nonce already verified at REST API layer.
-        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verified at REST API layer via register_rest_route() in WP_Router.
-        self::set_request_context( $_GET );
-        
-        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verified at REST API layer via register_rest_route() in WP_Router.
-        if ( isset( $_GET['with'] ) ) {
-            // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verified at REST API layer via register_rest_route() in WP_Router.
-            $manager->parseIncludes( sanitize_text_field( wp_unslash( $_GET['with'] ) ) );
+
+        if (isset(WP_Router::$request->get_query_params()['with'])) {
+            $manager->parseIncludes(sanitize_text_field(wp_unslash(WP_Router::$request->get_query_params()['with'])));
         }
 
         if ($resource) {
