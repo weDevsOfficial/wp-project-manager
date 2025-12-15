@@ -16,6 +16,8 @@ class WP_Router {
 	 */
 	public static $routes = [];
 
+	public static $request = null;
+
 	/**
 	 * Register routes that are got from route files as wp rest route.
 	 *
@@ -255,7 +257,7 @@ class WP_Router {
 		$request->set_query_params( $get_data );
 		$request->set_body_params( $post_data );
 		$request->set_file_params( $file_data );
-
+		static::$request = $request;
 		return $request;
 	}
 

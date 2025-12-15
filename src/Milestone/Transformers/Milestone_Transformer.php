@@ -10,6 +10,7 @@ use WeDevs\PM\Discussion_Board\Transformers\Discussion_Board_Transformer;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use WeDevs\PM\Common\Traits\Resource_Editors;
 use Illuminate\Pagination\Paginator;
+use WeDevs\PM\Core\Router\WP_Router;
 
 class Milestone_Transformer extends TransformerAbstract {
 
@@ -59,7 +60,7 @@ class Milestone_Transformer extends TransformerAbstract {
     }
 
     public function includeTaskLists( Milestone $item ) {
-        $page = self::get_context_int( 'task_list_page', 1 );
+        $page = WP_Router::$request->get_param( 'task_list_page' ) ?? 1;
 
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
@@ -79,7 +80,7 @@ class Milestone_Transformer extends TransformerAbstract {
     }
 
     public function includeDiscussionBoards( Milestone $item ) {
-        $page = self::get_context_int( 'discussion_page', 1 );
+        $page = WP_Router::$request->get_param( 'discussion_page' ) ?? 1;
 
         Paginator::currentPageResolver(function () use ($page) {
             return $page;

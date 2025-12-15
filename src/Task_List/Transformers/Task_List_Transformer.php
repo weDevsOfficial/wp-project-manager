@@ -15,6 +15,7 @@ use WeDevs\PM\Task\Models\Task;
 use Illuminate\Database\Capsule\Manager as DB;
 use Illuminate\Pagination\Paginator;
 use League\Fractal\Resource\Collection as Collection;
+use WeDevs\PM\Core\Router\WP_Router;
 
 
 class Task_List_Transformer extends TransformerAbstract {
@@ -82,7 +83,7 @@ class Task_List_Transformer extends TransformerAbstract {
     }
 
     public function includeComments( Task_List $item ) {
-        $page = self::get_context_int( 'comment_page', 1 );
+        $page = WP_Router::$request->get_param( 'comment_page' ) ?? 1;
 
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
@@ -101,7 +102,7 @@ class Task_List_Transformer extends TransformerAbstract {
     }
 
     public function includeFiles( Task_List $item ) {
-        $page = self::get_context_int( 'file_page', 1 );
+        $page = WP_Router::$request->get_param( 'file_page' ) ?? 1;
 
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
@@ -134,8 +135,8 @@ class Task_List_Transformer extends TransformerAbstract {
 
 
     public function includeCompleteTasks( Task_List $item ) {
-        $page           = self::get_context_int( 'complete_task_page', 1 );
-        $per_page_count = self::get_context_int( 'complete_task_per_page', 0 );
+        $page           = WP_Router::$request->get_param( 'complete_task_page' ) ?? 1;
+        $per_page_count = WP_Router::$request->get_param( 'complete_task_per_page' ) ?? 0;
 
         $per_page = wedevs_pm_get_setting( 'complete_tasks_per_page' );
         $per_page = $per_page ? $per_page : 5;
@@ -162,8 +163,8 @@ class Task_List_Transformer extends TransformerAbstract {
     }
 
     public function includeIncompleteTasks( Task_List $item ) {
-        $page           = self::get_context_int( 'incomplete_task_page', 1 );
-        $per_page_count = self::get_context_int( 'incomplete_task_per_page', 0 );
+        $page           = WP_Router::$request->get_param( 'incomplete_task_page' ) ?? 1;
+        $per_page_count = WP_Router::$request->get_param( 'incomplete_task_per_page' ) ?? 0;
 
         Paginator::currentPageResolver(function () use ($page) {
             return $page;

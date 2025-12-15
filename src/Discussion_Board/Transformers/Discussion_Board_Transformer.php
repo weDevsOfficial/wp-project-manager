@@ -12,6 +12,7 @@ use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use WeDevs\PM\Milestone\Transformers\Milestone_Transformer;
 use WeDevs\PM\Common\Traits\Resource_Editors;
 use Illuminate\Pagination\Paginator;
+use WeDevs\PM\Core\Router\WP_Router;
 
 class Discussion_Board_Transformer extends TransformerAbstract {
 
@@ -66,7 +67,7 @@ class Discussion_Board_Transformer extends TransformerAbstract {
     }
 
     public function includeComments( Discussion_Board $item ) {
-        $page = self::get_context_int( 'comment_page', 1 );
+        $page = WP_Router::$request->get_param( 'comment_page' ) ?? 1;
 
         // Paginator::currentPageResolver(function () use ($page) {
         //     return $page;
@@ -85,7 +86,8 @@ class Discussion_Board_Transformer extends TransformerAbstract {
     }
 
     public function includeFiles( Discussion_Board $item ) {
-        $page = self::get_context_int( 'file_page', 1 );
+        $page = WP_Router::$request->get_param( 'file_page' ) ?? 1;
+       
 
         Paginator::currentPageResolver(function () use ($page) {
             return $page;

@@ -16,6 +16,7 @@ use WeDevs\PM\Activity\Transformers\Activity_Transformer;
 use WeDevs\PM\Common\Traits\Resource_Editors;
 use Illuminate\Pagination\Paginator;
 use WeDevs\PM\Common\Models\Boardable;
+use WeDevs\PM\Core\Router\WP_Router;
 
 
 class Task_Transformer extends TransformerAbstract {
@@ -163,7 +164,7 @@ class Task_Transformer extends TransformerAbstract {
      * @return \League\Fractal\Resource\Collection
      */
     public function includeBoards( Task $item ) {
-        $page = self::get_context_int( 'board_page', 1 );
+        $page = WP_Router::$request->get_param( 'board_page' ) ?? 1;
 
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
@@ -182,7 +183,7 @@ class Task_Transformer extends TransformerAbstract {
     }
 
     public function includeComments( Task $item ) {
-        $page = self::get_context_int( 'comment_page', 1 );
+        $page = WP_Router::$request->get_param( 'comment_page' ) ?? 1;
 
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
@@ -207,7 +208,7 @@ class Task_Transformer extends TransformerAbstract {
     }
 
     public function includeActivities( Task $item ) {
-        $page = self::get_context_int( 'activitie_page', 1 );
+        $page = WP_Router::$request->get_param( 'activitie_page' ) ?? 1;
 
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
@@ -218,7 +219,7 @@ class Task_Transformer extends TransformerAbstract {
     }
 
     public function includeFiles( Task $item ) {
-        $page = self::get_context_int( 'file_page', 1 );
+        $page = WP_Router::$request->get_param( 'file_page' ) ?? 1;
 
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
