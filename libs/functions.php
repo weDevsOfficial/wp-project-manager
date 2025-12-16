@@ -560,6 +560,8 @@ function wedevs_pm_is_request( $type ) {
             return defined( 'DOING_CRON' );
         case 'frontend' :
             return ( ! is_admin() || defined( 'DOING_AJAX' ) ) && ! defined( 'DOING_CRON' );
+        default :
+            return false;
     }
 }
 
@@ -784,7 +786,7 @@ function wedevs_pm_total_message() {
 *
 * @since 1.0.0
 *
-* @return void
+* @return string IP address
 **/
 function wedevs_pm_get_ip() {
     $ipaddress = '';
