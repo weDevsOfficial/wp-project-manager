@@ -8,6 +8,7 @@ use WeDevs\PM\File\Transformers\File_Transformer;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use WeDevs\PM\User\Transformers\User_Transformer;
 use WeDevs\PM\Common\Traits\Resource_Editors;
+use WeDevs\PM\Core\Router\WP_Router;
 
 class Comment_Transformer extends TransformerAbstract {
 
@@ -59,7 +60,7 @@ class Comment_Transformer extends TransformerAbstract {
      * @return \League\Fractal\Resource\Collection
      */
     public function includeReplies( Comment $item ) {
-        $page = self::get_context_int( 'reply_page', 1 );
+        $page =  WP_Router::$request->get_param( 'reply_page' ) ?? 1;
 
         $replies = $item->replies()->paginate( wedevs_pm_config('app.comment_per_page'), ['*'], 'reply_page', $page );
 
@@ -78,7 +79,7 @@ class Comment_Transformer extends TransformerAbstract {
      * @return \League\Fractal\Resource\Collection
      */
     public function includeFiles( Comment $item ) {
-        $page = self::get_context_int( 'file_page', 1 );
+        $page =  WP_Router::$request->get_param( 'file_page' ) ?? 1;
 
         $files = $item->files()->get();
 
