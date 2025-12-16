@@ -997,7 +997,7 @@ function wedevs_pm_frontend_slug() {
  */
 function wedevs_pm_frontend_url() {
     $site_url       = get_site_url();
-    $dashboard_slug = ltrim( get_wedevs_pm_frontend_slug(), '/' );
+    $dashboard_slug = ltrim( wedevs_pm_frontend_slug(), '/' );
 
     return trailingslashit( $site_url ) . $dashboard_slug;
 }
