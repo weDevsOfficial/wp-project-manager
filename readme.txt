@@ -1,4 +1,4 @@
-=== Project Manager - AI-Powered Project & Task Manager with Kanban Board & Gantt Chart ===
+=== weDevs Project Manager - AI-Powered Project & Task Manager with Kanban Board & Gantt Chart ===
 
 Contributors: tareq1988, nizamuddinbabu, wedevs, asaquzzaman
 Donate Link: https://tareq.co/donate/
@@ -14,16 +14,16 @@ Powerful project management tool with Kanban boards, Gantt charts, Time tracker,
 
 == Description ==
 ## AI-powered Project Manager with Kanban Board, Gantt Chart, Task Manager, and more.
-[Project Manager](https://wedevs.com/wp-project-manager-pro) is a leading feature-rich project manager designed for teams, agencies, enterprises, and freelancers. It can simplify your project management, task management, milestone tracking, collaboration, and reporting like never before.
+[weDevs Project Manager](https://wedevs.com/wp-project-manager-pro) is a leading feature-rich project manager designed for teams, agencies, enterprises, and freelancers. It can simplify your project management, task management, milestone tracking, collaboration, and reporting like never before.
 [youtube https://www.youtube.com/watch?v=GI4u8wXOxHg]
-No matter if you are struggling to handle complex projects or simple to-dos, Project Manager can turn your WordPress site into a central hub for organizing tasks, managing team members, assigning tasks to them, milestone tracking, and driving productivity.
+No matter if you are struggling to handle complex projects or simple to-dos, weDevs Project Manager can turn your WordPress site into a central hub for organizing tasks, managing team members, assigning tasks to them, milestone tracking, and driving productivity.
 Our user-friendly interface combines **AI technology** with advanced tools like **Kanban Board** and **Gantt Chart** for visualizing task management and project progress. Besides, **Time Tracker**, **Task Calendar**, and **integration** with various platforms facilitate team collaboration.
 **Want to give it a try?** 
 👉 [TRY FREE OFFICIAL DEMO](https://pm2.wedevsdemos.com/wp-login.php)
 **Useful Links**
 [Docs](https://wedevs.com/docs/wp-project-manager/) | [Videos](https://www.youtube.com/watch?v=GI4u8wXOxHg&list=PLJorZsV2RVv82Xe9ReXngU6Wk1RN0EwHu) | [Support](https://wedevs.com/account/tickets/) | [IdeaSharing](https://roadmap.wedevs.com/wp-project-manager#ideas) | [Comparison](https://wedevs.com/wp-project-manager-pro/compare/) | [Get Pro](https://wedevs.com/wp-project-manager-pro/pricing/)
-## Key Features of Project Manager FREE
-The free version of Project Manager offers core **task manager** and **project management** essentials to get you started. Take a look at them below:
+## Key Features of weDevs Project Manager FREE
+The free version of weDevs Project Manager offers core **task manager** and **project management** essentials to get you started. Take a look at them below:
 ##  AI Project Creation
 –   Generate project plans, task lists, and timelines in seconds with AI support
 –   Get smart project suggestions based on goals, deadlines, and workloads 
@@ -72,7 +72,7 @@ The free version of Project Manager offers core **task manager** and **project m
 ##🧾 Invoice & Billing (Pro)
 –   Auto-generate formatted invoices based on tracked time and project details
 –   Upon completion of the payment, the invoice is marked as paid
-–   Invoices can be downloaded as PDF on Project Manager Pro
+–   Invoices can be downloaded as PDF on weDevs Project Manager Pro
 ##📆 Interactive Tasks Calendar (Pro)
 –   View tasks in daily, weekly, monthly, or user-specific tasks calendar layouts
 –   Drag-and-drop to reschedule tasks and track progress dynamically
@@ -95,7 +95,7 @@ The free version of Project Manager offers core **task manager** and **project m
 –   Get real-time Slack notifications whenever new tasks, sub-tasks, or comments are created
 –   Also get notified when a task is completed or a new member is added
 ##</> GitHub & Bitbucket Integration (Pro)
-–   Connect GitHub and Bitbucket accounts to Project Manager
+–   Connect GitHub and Bitbucket accounts to weDevs Project Manager
 –   Whenever issues are created on GitHub and Bitbucket accounts, they are automatically added to the task manager list for developers
 ##📈 Advanced Reports & Insights (Pro)
 –   Generate detailed project reporting with predefined views: Overdue Tasks, Completed Tasks, User Activities, Tasks by Milestone, Unassigned Tasks, and Summary
@@ -110,15 +110,15 @@ The free version of Project Manager offers core **task manager** and **project m
 –   Get a real-time notification for your project management activities with push notifications
 –   You will receive notifications for assigning team members, mentioning in comments, creating tasks, and updating task status
 ## Still confused about choosing a project manager tool?
-👉 Check out the complete [comparison of Project Manager with other popular project management solutions](https://wedevs.com/wp-project-manager-pro/compare/)
-👉 Explore the [documentation for all the features and functions of Project Manager](https://wedevs.com/docs/wp-project-manager/)
+👉 Check out the complete [comparison of weDevs Project Manager with other popular project management solutions](https://wedevs.com/wp-project-manager-pro/compare/)
+👉 Explore the [documentation for all the features and functions of weDevs Project Manager](https://wedevs.com/docs/wp-project-manager/)
 ## Recognition & Awards
 –   [10 Best WordPress Project Management Plugins (2025 Picks)](https://www.elegantthemes.com/blog/wordpress/best-wordpress-project-management-plugins) (Elegant Themes)
 –   [18 Best WordPress Plugins for Freelancers 2025](https://colorlib.com/wp/freelance-plugins-wordpress/) (Colorlib)
 –   [9 Best WordPress Project Management Plugins](https://blog.hubspot.com/website/best-wordpress-project-management-plugins) (HubSpot)
 –   ]14 Best WordPress Project Management Plugins](https://www.hostinger.com/tutorials/wordpress-project-management) (Hostinger)
 ## Contribute
-Help make Project Manager the ultimate project management tool! Fork our repository from [GitHub](https://github.com/weDevsOfficial/wp-project-manager) and submit pull requests.
+Help make weDevs Project Manager the ultimate project management tool! Fork our repository from [GitHub](https://github.com/weDevsOfficial/wp-project-manager) and submit pull requests.
 ## Our Valuable Contributors
 –   French: Corentin Allard
 –   Dutch: eskamedia
@@ -141,38 +141,38 @@ Help make Project Manager the ultimate project management tool! Fork our reposit
 Extract the zip file, then drop the contents into the wp-content/plugins/ directory of your WordPress installation, and activate the Plugin from the Plugins page.
 
 == Frequently Asked Questions ==
-= Q. Why doesn't Project Manager show up in the frontend? =
-A. By default, Project Manager is basically backend-focused. However, it comes with a page named **Project** which you’ll find in the **page section**. Once you publish the page, a project dashboard will be displayed on the frontend.
+= Q. Why doesn't weDevs Project Manager show up in the frontend? =
+A. By default, weDevs Project Manager is basically backend-focused. However, it comes with a page named **Project** which you’ll find in the **page section**. Once you publish the page, a project dashboard will be displayed on the frontend.
 = Q. Who can create projects? =
 A. Admins and users, anyone who has the permission to create projects, can do this with the plugin.
 = Q. Which Project Management Tool is great for your needs? =
-A.  Project Manager excels in Kanban boards, Gantt charts, task managers, time trackers, milestone trackers, invoice generators, and more. These are ideal not only for individuals or freelancers, but also for enterprises and agencies.
-= Q. Does Project Manager solve all project management challenges? =
-A.  It's impossible for any single tool alone to tackle all project management challenges. However, Project Manager is good at handling task overload and disorganization, visualizing project progress, team communication, file and resource management, project reporting, and collaboration.
-= Q. How to manage tasks with Project Manager =
-A. Start by navigating to **WP Admin > Project Manager > Projects**. Then, select or create a project, and head to the Task Lists tab. For a quick guide, please explore this documentation on [how to create a project with Project Manager](https://wedevs.com/docs/wp-project-manager/getting-started/creating-a-project/).
+A.  weDevs Project Manager excels in Kanban boards, Gantt charts, task managers, time trackers, milestone trackers, invoice generators, and more. These are ideal not only for individuals or freelancers, but also for enterprises and agencies.
+= Q. Does weDevs Project Manager solve all project management challenges? =
+A.  It's impossible for any single tool alone to tackle all project management challenges. However, weDevs Project Manager is good at handling task overload and disorganization, visualizing project progress, team communication, file and resource management, project reporting, and collaboration.
+= Q. How to manage tasks with weDevs Project Manager =
+A. Start by navigating to **WP Admin > Project Manager > Projects**. Then, select or create a project, and head to the Task Lists tab. For a quick guide, please explore this documentation on [how to create a project with weDevs Project Manager](https://wedevs.com/docs/wp-project-manager/getting-started/creating-a-project/).
 = Q. Who can create a task list, to-do, messages, or milestones? =
 A. By default, the website admin and project manager have the authority to do so. But any user or co-worker can also do this if he/she get permission from the admin.
-= Q. Is there a way to get the overview of the Project Manager's Gantt Chart feature =
+= Q. Is there a way to get the overview of the weDevs Project Manager's Gantt Chart feature =
 A. Of course, please check out this overview video of the Gantt Chart feature – 
 [youtube https://www.youtube.com/watch?v=KUGywSKQsF0&ab_channel=weDevs]
 = Q. How to track the progress of a task? =
 A. You can easily track the progress of the task of your team member from the task overview report. Here is the overview of that – 
 [youtube https://www.youtube.com/watch?v=ec-4TXP7o7w&ab_channel=weDevs]
-= Q. Can anyone use the Project Manager as a Trello or Trello-like Kanban Board? =
-A. Project Manager has a Kanban board module. You can easily manage your tasks with the Kanban board view, just like Trello. Here is the video overview – 
+= Q. Can anyone use the weDevs Project Manager as a Trello or Trello-like Kanban Board? =
+A. WeDevs Project Manager has a Kanban board module. You can easily manage your tasks with the Kanban board view, just like Trello. Here is the video overview – 
 [youtube https://www.youtube.com/watch?v=5bhmpalVs7E&ab_channel=weDevs]
 = Q. Can every member see every project? =
 A. Only admins (editor/administrator) can see all of them. Other user roles can only see their assigned projects.
-= Q. Can the Project Manager be extended? =
+= Q. Can the weDevs Project Manager be extended? =
 A. Sure, lots of actions and filters are added by default, and will add more of them.
-= Q. Found a bug on Project Manager =
+= Q. Found a bug on weDevs Project Manager =
 A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-project-manager/issues) on Git Hub.
 
 == Screenshots ==
 1. Manage unlimited projects
-2. Gantt Chart of the Project Manager
-3. Kanban Board of the Project Manager
+2. Gantt Chart of weDevs Project Manager
+3. Kanban Board of weDevs Project Manager
 4. Extend project management power with advanced modules
 5. Keep every milestone on track
 6. Have a project overview at a glance
@@ -246,7 +246,7 @@ Links throughout the plugin may direct users to weDevs.com for documentation, su
 == Changelog ==
 
 = v2.6.31 – Dec 4, 2025 =
-**Fixed:** Changed Plugin name 'WP Project Manager' to 'Project Manager'.
+**Fixed:** Changed Plugin name 'WP Project Manager' to 'Wedevs Project Manager'.
 
 = v2.6.30 – Dec 4, 2025 =
 **Fixed:** Better handling of sorting options and offer dismissal timing.
@@ -323,13 +323,13 @@ Links throughout the plugin may direct users to weDevs.com for documentation, su
 **Update:** Version bump & make stable readme character.
 
 = v2.6.10 – Feb 29, 2024 =
-**Fix:** Api discussion creation XSS vulnerability for authenticated users.
+**Fix:** Api discussion creation xss vulnerability for authentic users.
 
 = v2.6.9 – Feb 09, 2024 =
 **Update:** Version bump & make stable frontend.
 
 = v2.6.8 – Feb 09, 2024 =
-**Fix:** User role management api security block for unauthenticated project users.
+**Fix:** User role management api security block for unauthentic project users.
 **Fix:** Project discussion create api security handling stuff.
 **Fix:** Project modification api security block.
 
@@ -352,7 +352,7 @@ Links throughout the plugin may direct users to weDevs.com for documentation, su
 **Fix:** User task calender’s starting date data handling security issue.
 
 = v2.6.0 – Nov 30, 2022 =
-**New:** Added PM Pro version overview for Lite users
+**New:** Added pm pro version overview for lite users
 
 = v2.5.0 – July 15, 2022 =
 **Update:** Compatibility with PHP-8.x
@@ -364,39 +364,39 @@ Links throughout the plugin may direct users to weDevs.com for documentation, su
 **Fix:** Fixed Some Role Permission assign issue after creating project.
 
 = v2.4.17 – Feb 07, 2022 =
-**Notice:** Limited-time promotional notice on Super Bowl sale
+**Notice:** Limited time promotional notice on Super Bowl sale
 
 = v2.4.16 – Dec 23, 2021 =
-**Fix:** Discussion file URL was not downloadable for PDF
-**Notice:** Limited-time promotional notice on holiday sale
+**Fix:** Discussion file url was not downloadable for PDF
+**Notice:** Limited time promotional notice on holiday sale
 
 = v2.4.15 – Nov 11, 2021 =
 **Update:** ChartJS libraries from v2.x to v3.6.0
-**Update:** Removed dummy data, unused files and external CDN links to improve and clean the whole codebase
+**Update:** Removed dummy data, unused files and external cdn links to improve and clean the whole codebase
 **Fix:** Data escaping and sanitization issues all over the plugin
 **Fix:** Some i18n translation, wrong text-domain issues
-**Notice:** Limited-time promotional offer regarding Black Friday and Cyber Monday
+**Notice:** Limited time promotional offer regarding Black Friday and Cyber Monday
 
 = v2.4.14 – Oct 11, 2021 =
 **Fix:** Data sanitization and validation issues to prevent security threats
 **Fix:** Timezone issues in My Calendar
-**Fix:** Task file downloading issue by another member of the project assignee list
+**Fix:** Task file downloading issue by other member of project assignee list
 **Fix:** After Task Create Email, `undefined offset` issue in template footer
-**Fix:** User assigns issue from Project Overview page
+**Fix:** User assign issue from Project Overview page
 **Fix:** Unassigned Reports were not loading
-**Notice:** Limited-time promotional offer for Halloween
+**Notice:** Limited time promotional offer for Halloween
 
 = v2.4.13 – July 16, 2021 =
-**Notice:** Limited-time promotional offer regarding summer sale
+**Notice:** Limited time promotional offer regarding summer sale
 **Update:** Calendar event content styles
 **Update:** Some library upgrade for better performance
-**Fix:** My Task report was not getting an accurate result in some cases
+**Fix:** My Task report was not getting accurate result in some cases
 **Fix:** My Calendar single task was unable to be moved
 **Fix:** After creating a task, it was not updating instantly in 'My Calendar' and 'My Task at a Glance' section
-**Fix:** Authentication issues on some unauthenticated API endpoints like tasks, task types, activities
+**Fix:** Authentication issues on some un-authenticated API endpoints like tasks, task types, activities
 
 = v2.4.12 – May 07, 2021 =
-**Notice:** Limited-time promotion on account of Eid.
+**Notice:** Limited time promotion on account of Eid.
 
 = v2.4.11 – March 17, 2021 =
 **Notice:** Limited time promotion for weDevs birthday.
