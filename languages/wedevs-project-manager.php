@@ -392,9 +392,7 @@ return [
 	__( 'Please enter a project description', 'wedevs-project-manager' ),
 	__( 'Failed to generate project structure', 'wedevs-project-manager' ),
 	__( 'Failed to generate project. Please try again.', 'wedevs-project-manager' ),
-	/* translators: %s: Error message */
 	__( 'Request failed: %s', 'wedevs-project-manager' ),
-	/* translators: %d: HTTP status code */
 	__( 'Request failed with status code: %d', 'wedevs-project-manager' ),
 	__( 'Creating Project', 'wedevs-project-manager' ),
 	__( 'Project created successfully!', 'wedevs-project-manager' ),
@@ -402,7 +400,7 @@ return [
 	__( 'Creating Task Lists', 'wedevs-project-manager' ),
 	__( 'Finalizing Tasks', 'wedevs-project-manager' ),
 	__( 'Previewing your Project & Tasks', 'wedevs-project-manager' ),
-	__( 'Delete Selected', 'wedevs-project-manager' ),
+	__( 'Delete Selected' ),
 	__( 'Project Name', 'wedevs-project-manager' ),
 	__( 'Saving...', 'wedevs-project-manager' ),
 	__( 'Save Project', 'wedevs-project-manager' ),
