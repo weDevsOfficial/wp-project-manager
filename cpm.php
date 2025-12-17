@@ -18,7 +18,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 // Define version directly to avoid early translation loading from get_plugin_data()
 define('PM_VERSION', '3.0.0');
 
-
 require __DIR__.'/bootstrap/loaders.php';
 require __DIR__.'/libs/configurations.php';
 require_once __DIR__.'/compatibility-checker.php';

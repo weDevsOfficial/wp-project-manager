@@ -2,8 +2,19 @@
 if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
-// Hook into Pro plugin activation to prevent incompatible activation
-add_action( 'activate_pm-pro/cpm-pro.php', 'wedevs_pm_prevent_old_pro_activation', 1 );
+
+// Get all possible Pro package slugs dynamically
+function wedevs_pm_get_pro_packages() {
+    return [
+        'wedevs-project-manager-pro',
+        'wedevs-project-manager-business',
+        'wedevs-project-manager-professional',
+        'pm-pro' // Legacy package name
+    ];
+}
+
+// Hook into any Pro plugin activation dynamically to prevent incompatible activation
+add_action( 'activate_plugin', 'wedevs_pm_prevent_old_pro_activation', 1, 2 );
 
 // Deactivate Pro BEFORE plugins_loaded to prevent fatal errors
 wedevs_pm_deactivate_incompatible_pro();
@@ -12,9 +23,27 @@ wedevs_pm_deactivate_incompatible_pro();
 add_action( 'plugins_loaded', 'wedevs_pm_check_pro_compatibility', 100 );
 
 
-function wedevs_pm_prevent_old_pro_activation() {
-    // Check if we can access Pro version during activation
-    $pro_file = WP_PLUGIN_DIR . '/pm-pro/cpm-pro.php';
+function wedevs_pm_prevent_old_pro_activation( $plugin, $network_wide = false ) {
+    // Get all possible Pro package slugs
+    $pro_packages = wedevs_pm_get_pro_packages();
+
+    // Check if the plugin being activated is one of the Pro packages
+    $is_pro_package = false;
+    $pro_slug = '';
+    foreach ( $pro_packages as $package ) {
+        if ( strpos( $plugin, $package ) !== false ) {
+            $is_pro_package = true;
+            $pro_slug = $package;
+            break;
+        }
+    }
+
+    if ( ! $is_pro_package ) {
+        return; // Not a Pro package, ignore
+    }
+
+    // Get the full path to the Pro plugin file
+    $pro_file = WP_PLUGIN_DIR . '/' . $plugin;
 
     if ( file_exists( $pro_file ) ) {
         // Read the Pro plugin file to get version
@@ -24,7 +53,7 @@ function wedevs_pm_prevent_old_pro_activation() {
         // If Pro version is < 3.0.0, prevent activation
         if ( $pro_version && version_compare( $pro_version, '3.0.0', '<' ) ) {
             // Deactivate it immediately
-            deactivate_plugins( 'pm-pro/cpm-pro.php', true );
+            deactivate_plugins( $plugin, true );
 
             // Store version for notice
             update_option( 'wedevs_pm_pro_activation_blocked', $pro_version );
@@ -52,18 +81,42 @@ function wedevs_pm_deactivate_incompatible_pro() {
         require_once ABSPATH . 'wp-admin/includes/plugin.php';
     }
 
-    // Always check if Pro is active and incompatible
-    if ( is_plugin_active( 'pm-pro/cpm-pro.php' ) ) {
-        // Get Pro version if available
-        $pro_version = defined( 'PM_PRO_VERSION' ) ? PM_PRO_VERSION : null;
+    // Get all active plugins
+    $active_plugins = get_option( 'active_plugins', [] );
+    $pro_packages = wedevs_pm_get_pro_packages();
+
+    // Check each active plugin to see if it's a Pro package
+    foreach ( $active_plugins as $plugin ) {
+        $is_pro_package = false;
+        foreach ( $pro_packages as $package ) {
+            if ( strpos( $plugin, $package ) !== false ) {
+                $is_pro_package = true;
+                break;
+            }
+        }
+
+        if ( ! $is_pro_package ) {
+            continue;
+        }
+
+        // Get the full path to the Pro plugin file
+        $pro_file = WP_PLUGIN_DIR . '/' . $plugin;
+
+        if ( ! file_exists( $pro_file ) ) {
+            continue;
+        }
+
+        // Read the Pro plugin file to get version
+        $pro_data = get_file_data( $pro_file, [ 'Version' => 'Version' ] );
+        $pro_version = $pro_data['Version'] ?? null;
 
         // If updating from 2.x to 3.0 OR Pro version is < 3.0.0, deactivate Pro
         $is_updating = $previous_version && version_compare( $previous_version, '3.0.0', '<' );
         $pro_is_old = $pro_version && version_compare( $pro_version, '3.0.0', '<' );
 
-        if ( $is_updating || $pro_is_old || !$pro_version ) {
+        if ( $is_updating || $pro_is_old || ! $pro_version ) {
             // Deactivate Pro immediately to prevent fatal errors
-            deactivate_plugins( 'pm-pro/cpm-pro.php', true ); // silent deactivation
+            deactivate_plugins( $plugin, true ); // silent deactivation
             update_option( 'wedevs_pm_pro_deactivated_on_update', $pro_version ?: 'unknown' );
 
             // Add notice for next page load
@@ -105,25 +158,47 @@ function wedevs_pm_pro_deactivated_notice() {
 function wedevs_pm_check_pro_compatibility() {
     // Check if Pro version is active
     $required_version = '3.0.0';
-  
-    if ( defined( 'PM_PRO_VERSION' ) ) {
-        // Check if Pro version is compatible (>= 3.0.0)
-        if ( version_compare( PM_PRO_VERSION, $required_version, '<' ) ) {
-            add_action( 'admin_notices', 'wedevs_pm_pro_incompatible_notice' );
-            // Deactivate Pro plugin on admin_init to ensure proper context
-            add_action( 'admin_init', function() {
-                deactivate_plugins( 'pm-pro/cpm-pro.php' );
-            } );
+
+    // Check if Pro is active
+    if ( ! function_exists( 'is_plugin_active' ) ) {
+        require_once ABSPATH . 'wp-admin/includes/plugin.php';
+    }
+
+    // Get all active plugins
+    $active_plugins = get_option( 'active_plugins', [] );
+    $pro_packages = wedevs_pm_get_pro_packages();
+
+    // Check each active plugin to see if it's a Pro package
+    foreach ( $active_plugins as $plugin ) {
+        $is_pro_package = false;
+        foreach ( $pro_packages as $package ) {
+            if ( strpos( $plugin, $package ) !== false ) {
+                $is_pro_package = true;
+                break;
+            }
         }
-    }else{
-        // error_log(print_r( [pm_pro_config('app.version')], true ));
-        
-        if ( function_exists( 'pm_pro_config' ) && version_compare( pm_pro_config('app.version'), $required_version, '<' ) ) {
+
+        if ( ! $is_pro_package ) {
+            continue;
+        }
+
+        // Get the full path to the Pro plugin file
+        $pro_file = WP_PLUGIN_DIR . '/' . $plugin;
+
+        if ( ! file_exists( $pro_file ) ) {
+            continue;
+        }
+
+        // Read the Pro plugin file to get version
+        $pro_data = get_file_data( $pro_file, [ 'Version' => 'Version' ] );
+        $pro_version = $pro_data['Version'] ?? null;
+
+        // Check if Pro version is compatible (>= 3.0.0)
+        if ( $pro_version && version_compare( $pro_version, $required_version, '<' ) ) {
             add_action( 'admin_notices', 'wedevs_pm_pro_incompatible_notice' );
-           
             // Deactivate Pro plugin on admin_init to ensure proper context
-            add_action( 'admin_init', function() {
-                deactivate_plugins( 'pm-pro/cpm-pro.php' );
+            add_action( 'admin_init', function() use ( $plugin ) {
+                deactivate_plugins( $plugin );
             } );
         }
     }
