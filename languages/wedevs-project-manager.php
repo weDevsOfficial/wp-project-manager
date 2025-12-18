@@ -362,7 +362,7 @@ return [
 	__( 'Project recursion successfully updated', 'wedevs-project-manager' ),
 	__( 'Project recursion successfully created', 'wedevs-project-manager' ),
 	__( 'Add New Comment', 'wedevs-project-manager' ),
-	__( 'Add List', 'cpm' ),
+	__( 'Add List', 'wedevs-project-manager' ),
 	__( 'Use our built in discussion panel to create an open discussion, a group discussion or a private conversation. Note that the Admin can always moderate these discussions.', 'wedevs-project-manager' ),
 	__( 'Add New Discussion', 'wedevs-project-manager' ),
 	__( 'Create a new message', 'wedevs-project-manager' ),
@@ -392,6 +392,7 @@ return [
 	__( 'Please enter a project description', 'wedevs-project-manager' ),
 	__( 'Failed to generate project structure', 'wedevs-project-manager' ),
 	__( 'Failed to generate project. Please try again.', 'wedevs-project-manager' ),
+	// translators: %s: error message
 	__( 'Request failed: %s', 'wedevs-project-manager' ),
 	__( 'Request failed with status code: %d', 'wedevs-project-manager' ),
 	__( 'Creating Project', 'wedevs-project-manager' ),
