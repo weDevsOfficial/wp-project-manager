@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Wedevs Project Manager
+ * Plugin Name: Project Manager
  * Plugin URI: https://wedevs.com/wp-project-manager-pro/
  * Description: WordPress Project Management plugin. Manage your projects and tasks, get things done.
  * Author: weDevs
