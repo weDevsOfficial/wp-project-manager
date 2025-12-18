@@ -160,6 +160,11 @@ Project Manager uses the following third-party services to enhance project manag
 - [weDevs Terms of Service](https://wedevs.com/terms-and-conditions/)
 - [weDevs Privacy Policy](https://wedevs.com/privacy-policy/)
 
+= Privacy Policy
+Project Manager uses [Appsero](https://appsero.com/) SDK to collect some telemetry data upon user’s confirmation. This helps us to troubleshoot problems faster & make product improvements.
+Appsero SDK does not gather any data by default. The SDK only starts gathering basic telemetry data when a user allows it via the admin notice. We collect the data to ensure great user experience for all our users.
+Integrating Appsero SDK DOES NOT IMMEDIATELY start gathering data, without confirmation from users in any case.
+
 == Installation ==
 Extract the zip file, then drop the contents into the wp-content/plugins/ directory of your WordPress installation, and activate the Plugin from the Plugins page.
 
