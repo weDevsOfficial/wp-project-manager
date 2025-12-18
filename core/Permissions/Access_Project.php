@@ -8,7 +8,7 @@ use WP_REST_Request;
 class Access_Project extends Abstract_Permission {
    
     public function check() { 
-        if ( pm_user_can_access( pm_manager_cap_slug() ) )  {
+        if ( wedevs_pm_user_can_access( wedevs_pm_manager_cap_slug() ) )  {
             return true;
         }
         
@@ -21,7 +21,7 @@ class Access_Project extends Abstract_Permission {
         // $user_id = $this->request->get_param( 'user_id' ); 
         // $user_id = empty( $user_id ) ? 0 : intval( $user_id );
 
-        if ( pm_user_can( 'view_project', $project_id ) ) {
+        if ( wedevs_pm_user_can( 'view_project', $project_id ) ) {
             return true;
         }
 

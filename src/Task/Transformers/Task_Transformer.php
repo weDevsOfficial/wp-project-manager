@@ -16,6 +16,7 @@ use WeDevs\PM\Activity\Transformers\Activity_Transformer;
 use WeDevs\PM\Common\Traits\Resource_Editors;
 use Illuminate\Pagination\Paginator;
 use WeDevs\PM\Common\Models\Boardable;
+use WeDevs\PM\Core\Router\WP_Router;
 
 
 class Task_Transformer extends TransformerAbstract {
@@ -58,14 +59,14 @@ class Task_Transformer extends TransformerAbstract {
         }
 
         return apply_filters(
-            'pm_task_transform',
+            'wedevs_pm_task_transform',
             [
                 'id'           => (int) $item->id,
                 'title'        => $item->title,
-                'description'  => [ 'html' => pm_get_content( pm_kses( $item->description ) ), 'content' => pm_kses( $item->description ) ],
+                'description'  => [ 'html' => wedevs_pm_get_content( wedevs_pm_kses( $item->description ) ), 'content' => wedevs_pm_kses( $item->description ) ],
                 'estimation'   => $item->estimation,
-                'start_at'     => format_date( $item->start_at ),
-                'due_date'     => format_date( $item->due_date ),
+                'start_at'     => wedevs_pm_format_date( $item->start_at ),
+                'due_date'     => wedevs_pm_format_date( $item->due_date ),
                 'complexity'   => $item->complexity,
                 'priority'     => $item->priority,
                 'order'        => (int) $order,
@@ -75,9 +76,9 @@ class Task_Transformer extends TransformerAbstract {
                 'status'       => $item->status,
                 'project_id'   => $item->project_id,
                 'category_id'  => $item->category_id,
-                'created_at'   => format_date( $item->created_at ),
-                'completed_at' => format_date( $item->completed_at ),
-                'updated_at'   => format_date( $item->updated_at ),
+                'created_at'   => wedevs_pm_format_date( $item->created_at ),
+                'completed_at' => wedevs_pm_format_date( $item->completed_at ),
+                'updated_at'   => wedevs_pm_format_date( $item->updated_at ),
                 'task_list_id' => $item->task_list,
                 'meta'         => $this->meta( $item ),
                 'type'         => $this->get_type( $item->id )
@@ -89,17 +90,20 @@ class Task_Transformer extends TransformerAbstract {
     public function get_type( $item_id ) {
         global $wpdb;
 
-        $tb_task_types     = pm_tb_prefix() . 'pm_task_types';
-        $tb_task_type_task = pm_tb_prefix() . 'pm_task_type_task';
-        $tb_tasks          = pm_tb_prefix() . 'pm_tasks';
+        $tb_task_types     = esc_sql( wedevs_pm_tb_prefix() . 'pm_task_types' );
+        $tb_task_type_task = esc_sql( wedevs_pm_tb_prefix() . 'pm_task_type_task' );
+        $tb_tasks          = esc_sql( wedevs_pm_tb_prefix() . 'pm_tasks' );
 
-        $query = "SELECT DISTINCT typ.id as type_id, typ.title, typ.description, tk.id as task_id
-            FROM $tb_task_types as typ
-            LEFT JOIN $tb_task_type_task as typt ON typ.id = typt.type_id 
-            LEFT JOIN $tb_tasks as tk ON tk.id = typt.task_id 
-            where tk.id IN ($item_id)";
-
-        $result = $wpdb->get_row( $query );
+        $result = $wpdb->get_row(
+            $wpdb->prepare(
+                "SELECT DISTINCT typ.id as type_id, typ.title, typ.description, tk.id as task_id
+                FROM {$tb_task_types} as typ
+                LEFT JOIN {$tb_task_type_task} as typt ON typ.id = typt.type_id
+                LEFT JOIN {$tb_tasks} as tk ON tk.id = typt.task_id
+                WHERE tk.id = %d",
+                absint( $item_id )
+            )
+        );
 
         if ( $result ) {
             $result->id = (int) $result->type_id;
@@ -121,7 +125,7 @@ class Task_Transformer extends TransformerAbstract {
             'total_files'       => $item->files->count(),
             'total_board'       => $item->boards->count(),
             'total_assignee'    => $item->assignees->count(),
-            'can_complete_task' => pm_user_can_complete_task( $item ),
+            'can_complete_task' => wedevs_pm_user_can_complete_task( $item ),
         ] );
         
 	    return $metas;
@@ -135,7 +139,7 @@ class Task_Transformer extends TransformerAbstract {
      */
     public function getDefaultIncludes()
     {
-        return apply_filters( "pm_task_transformer_default_includes", $this->defaultIncludes );
+        return apply_filters( "wedevs_pm_task_transformer_default_includes", $this->defaultIncludes );
     }
     /**
      * Include task list
@@ -160,7 +164,7 @@ class Task_Transformer extends TransformerAbstract {
      * @return \League\Fractal\Resource\Collection
      */
     public function includeBoards( Task $item ) {
-        $page = isset( $_GET['board_page'] ) ? intval($_GET['board_page']) : 1;
+        $page = WP_Router::$request->get_param( 'board_page' ) ?? 1;
 
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
@@ -179,7 +183,7 @@ class Task_Transformer extends TransformerAbstract {
     }
 
     public function includeComments( Task $item ) {
-        $page = isset( $_GET['comment_page'] ) ? intval( $_GET['comment_page'] ) : 1;
+        $page = WP_Router::$request->get_param( 'comment_page' ) ?? 1;
 
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
@@ -187,7 +191,7 @@ class Task_Transformer extends TransformerAbstract {
 
         $comments = $item->comments()
             ->orderBy( 'created_at', 'ASC' )
-            ->paginate( pm_config('app.comment_per_page') );
+            ->paginate( wedevs_pm_config('app.comment_per_page') );
 
         $comment_collection = $comments->getCollection();
         $resource = $this->collection( $comment_collection, new Comment_Transformer );
@@ -199,12 +203,12 @@ class Task_Transformer extends TransformerAbstract {
 
     public function includeAssignees( Task $item ) {
         $users = $item->user;
-        //pmpr(pm_get_response($this->collection( $users, new User_Transformer ))); die();
+        //pmpr(wedevs_pm_get_response($this->collection( $users, new User_Transformer ))); die();
         return $this->collection( $users, new User_Transformer );
     }
 
     public function includeActivities( Task $item ) {
-        $page = isset( $_GET['activitie_page'] ) ? intval( $_GET['activitie_page'] ) : 1;
+        $page = WP_Router::$request->get_param( 'activitie_page' ) ?? 1;
 
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
@@ -215,7 +219,7 @@ class Task_Transformer extends TransformerAbstract {
     }
 
     public function includeFiles( Task $item ) {
-        $page = isset( $_GET['file_page'] ) ? intval( $_GET['file_page'] ) : 1;
+        $page = WP_Router::$request->get_param( 'file_page' ) ?? 1;
 
         Paginator::currentPageResolver(function () use ($page) {
             return $page;

@@ -80,7 +80,7 @@ class Category_Controller {
         $response = $this->get_response( $resource );
 
         $message = [
-            'message' => pm_get_text('success_messages.category_created')
+            'message' => __( 'A new category has been created successfully.', 'wedevs-project-manager' )
         ];
 
         return $this->get_response( $resource, $message );
@@ -104,7 +104,7 @@ class Category_Controller {
         $response = $this->get_response( $resource );
 
         $message = [
-            'message' => pm_get_text('success_messages.category_updated')
+            'message' => __( 'A category has been updated successfully.', 'wedevs-project-manager' )
         ];
 
         return $this->get_response( $resource, $message );    }
@@ -117,7 +117,7 @@ class Category_Controller {
         $category->delete();
 
         $message = [
-            'message' => pm_get_text('success_messages.category_deleted')
+            'message' => __( 'A category has been deleted successfully.', 'wedevs-project-manager' )
         ];
 
         return $this->get_response( false, $message );
@@ -132,7 +132,7 @@ class Category_Controller {
         }
 
         $message = [
-            'message' => pm_get_text('success_messages.selected_category_deleted')
+            'message' => __( 'All the selected categories has been deleted successfully.', 'wedevs-project-manager' )
         ];
 
         return $this->get_response( false, $message );

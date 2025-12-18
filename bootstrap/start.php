@@ -15,12 +15,12 @@ global $wedevs_pm_pro;
 require __DIR__.'/../vendor/autoload.php';
 
 
-pm_load_libs();
-pm_user_tracking();
-pm_view();
-pm_load_routes();
-pm_register_routes();
-pm_clean_svg();
-do_action( 'pm_loaded' );
+wedevs_pm_load_libs();
+wedevs_pm_user_tracking();
+wedevs_pm_view();
+wedevs_pm_load_routes();
+wedevs_pm_register_routes();
+wedevs_pm_clean_svg();
+do_action( 'wedevs_pm_loaded' );
 
-add_action('init', 'pm_init_tracker');
+add_action('init', 'wedevs_pm_init_tracker');

@@ -53,7 +53,7 @@ class Search_Controller {
 
 		$project_ids = [];
 
-		if ( ! pm_has_manage_capability( $current_user_id ) ) {
+		if ( ! wedevs_pm_has_manage_capability( $current_user_id ) ) {
 			$project_ids = $this->user_in_projects( $current_user_id );
 		}
 
@@ -136,7 +136,7 @@ class Search_Controller {
 		$projects = Project::where( 'title', 'like', '%'. $string.'%')->orderBy( 'created_at', 'DESC' );;
 
 		// user is assigneed in project
-		if ( !pm_has_manage_capability( $user_id ) ){
+		if ( !wedevs_pm_has_manage_capability( $user_id ) ){
     		$projects = $projects->whereHas('assignees', function( $q ) use ( $user_id ) {
 				$q->where('user_id', $user_id );
 			});
@@ -156,7 +156,7 @@ class Search_Controller {
             ->where( 'status', '=', $type);
 
         // user is assigneed in project
-        if ( !pm_has_manage_capability( $user_id ) ){
+        if ( !wedevs_pm_has_manage_capability( $user_id ) ){
             $projects = $projects->whereHas('assignees', function( $q ) use ( $user_id ) {
                 $q->where('user_id', $user_id );
             });
@@ -192,7 +192,7 @@ class Search_Controller {
 			$tasks = $this->tasks_privacy( $tasks, $project_id );
 
 		} else {
-			if (! pm_has_manage_capability() ) {
+			if (! wedevs_pm_has_manage_capability() ) {
 				$tasks = $this->remove_private_task( $tasks );
 			}
 		}
@@ -228,7 +228,7 @@ class Search_Controller {
 
 
 		} else {
-			if (! pm_has_manage_capability() ) {
+			if (! wedevs_pm_has_manage_capability() ) {
 
 				$project_ids = $this->user_in_projects();
 
@@ -253,19 +253,19 @@ class Search_Controller {
 
 	function board_privacy ( $board, $board_type, $project_id ) {
 
-		if ( pm_is_manager( $project_id ) ) {
+		if ( wedevs_pm_is_manager( $project_id ) ) {
 			return $board;
 		}
 
-		if ( in_array( 'milestone', $board_type ) && pm_user_can( 'view_private_milestone', $project_id ) ) {
+		if ( in_array( 'milestone', $board_type ) && wedevs_pm_user_can( 'view_private_milestone', $project_id ) ) {
 			return $board;
 		}
 
-		if ( in_array( 'discussion_board', $board_type ) && pm_user_can( 'view_private_message', $project_id ) ) {
+		if ( in_array( 'discussion_board', $board_type ) && wedevs_pm_user_can( 'view_private_message', $project_id ) ) {
 			return $board;
 		}
 
-		if ( in_array( 'task_list', $board_type ) && pm_user_can( 'view_private_list', $project_id ) ) {
+		if ( in_array( 'task_list', $board_type ) && wedevs_pm_user_can( 'view_private_list', $project_id ) ) {
 			return $board;
 		}
 
@@ -314,14 +314,14 @@ class Search_Controller {
     			if (
     				isset( $item->metas[0] )
     				&&  $item->type == 'milestone'
-    				&& !pm_user_can( 'view_private_milestone', $item->project_id )
+    				&& !wedevs_pm_user_can( 'view_private_milestone', $item->project_id )
     			) {
     				continue ;
     			}
     			if (
     				isset( $item->metas[0] )
     				&&  $item->type == 'discussion_board'
-    				&& !pm_user_can( 'view_private_message', $item->project_id )
+    				&& !wedevs_pm_user_can( 'view_private_message', $item->project_id )
     			) {
     				continue ;
     			}
@@ -329,7 +329,7 @@ class Search_Controller {
     			if (
     				isset( $item->metas[0] )
     				&&  $item->type == 'task_list'
-    				&& !pm_user_can( 'view_private_list', $item->project_id )
+    				&& !wedevs_pm_user_can( 'view_private_list', $item->project_id )
     			) {
     				continue ;
     			}
@@ -379,11 +379,11 @@ class Search_Controller {
 	 */
 	function tasks_privacy ( $tasks, $project_id ) {
 
-		if ( pm_is_manager( $project_id ) ) {
+		if ( wedevs_pm_is_manager( $project_id ) ) {
 			return $tasks;
 		}
 
-		if ( ! pm_user_can( 'view_private_task', $project_id ) ) {
+		if ( ! wedevs_pm_user_can( 'view_private_task', $project_id ) ) {
 			// when tasks are praivate and not ability to view
 			$tasks = $tasks->doesntHave( 'metas', 'and', function ( $query ) use( $project_id ) {
 					$query->where( 'meta_key', '=', 'privacy' )
@@ -394,7 +394,7 @@ class Search_Controller {
 		}
 
 		// When list is private and not avility to view list
-		if ( ! pm_user_can( 'view_private_list', $project_id )  ) {
+		if ( ! wedevs_pm_user_can( 'view_private_list', $project_id )  ) {
 			$tasks = $tasks->doesntHave( 'task_lists.metas', 'and', function ( $query ) use ( $project_id ) {
 
 					$query->where( 'meta_key', '=', 'privacy' )
@@ -419,21 +419,21 @@ class Search_Controller {
 		$user_id = get_current_user_id();
 		$projects = Project::where( 'status', 0 );
 
-		if ( !pm_has_manage_capability( $user_id ) ){
+		if ( !wedevs_pm_has_manage_capability( $user_id ) ){
     		$projects = $projects->whereHas('assignees', function( $q ) use ( $user_id ) {
     					$q->where('user_id', $user_id );
     				});
     	}
 
-		$projects = $projects->leftJoin( pm_tb_prefix() . 'pm_meta', function ( $join ) use( $user_id ) {
-			$join->on( pm_tb_prefix().'pm_projects.id', '=',  pm_tb_prefix().'pm_meta.project_id' )
+		$projects = $projects->leftJoin( wedevs_pm_tb_prefix() . 'pm_meta', function ( $join ) use( $user_id ) {
+			$join->on( wedevs_pm_tb_prefix().'pm_projects.id', '=',  wedevs_pm_tb_prefix().'pm_meta.project_id' )
 			->where('meta_key', '=', 'favourite_project')->where('entity_id', '=', $user_id);
 		})
-		->selectRaw( pm_tb_prefix().'pm_projects.*' )
-		->groupBy( pm_tb_prefix().'pm_projects.id' )
-		->orderBy( pm_tb_prefix().'pm_meta.meta_value', 'DESC');
+		->selectRaw( wedevs_pm_tb_prefix().'pm_projects.*' )
+		->groupBy( wedevs_pm_tb_prefix().'pm_projects.id' )
+		->orderBy( wedevs_pm_tb_prefix().'pm_meta.meta_value', 'DESC');
 
-		$projects = $projects->orderBy(  pm_tb_prefix().'pm_projects.created_at', 'DESC' )->take(5);
+		$projects = $projects->orderBy(  wedevs_pm_tb_prefix().'pm_projects.created_at', 'DESC' )->take(5);
 		$projects = $projects->get(['id', 'title', 'description']);
 
 
