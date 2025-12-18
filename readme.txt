@@ -215,6 +215,9 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Changelog ==
 
+= v3.0.1 – Dec 18, 2025 =
+**Improved:** Removed development files.
+
 = v3.0.0 – Dec 18, 2025 =
 **Improved:** Aligned plugin description with WordPress.org directory standards.
 **Improved:** internal consistency across metadata, versioning, and documentation.
