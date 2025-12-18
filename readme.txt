@@ -169,7 +169,7 @@ A.  Project Manager excels in Kanban boards, Gantt charts, task managers, time t
 = Q. Does Project Manager solve all project management challenges? =
 A.  It's impossible for any single tool alone to tackle all project management challenges. However, Project Manager is good at handling task overload and disorganization, visualizing project progress, team communication, file and resource management, project reporting, and collaboration.
 = Q. How to manage tasks with Project Manager? =
-A. Start by navigating to **WP Admin > Project Manager > Projects**. Then, select or create a project, and head to the Task Lists tab. For a quick guide, please explore this documentation on [how to create a project with weDevs Project Manager](https://wedevs.com/docs/wp-project-manager/getting-started/creating-a-project/).
+A. Start by navigating to **WP Admin > Project Manager > Projects**. Then, select or create a project, and head to the Task Lists tab. For a quick guide, please explore this documentation on [how to create a project with Project Manager](https://wedevs.com/docs/wp-project-manager/getting-started/creating-a-project/).
 = Q. Who can create a task list, to-do, messages, or milestones? =
 A. By default, the website admin and project manager have the authority to do so. But any user or co-worker can also do this if he/she get permission from the admin.
 = Q. Is there a way to get the overview of the Project Manager's Gantt Chart feature? =
