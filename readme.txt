@@ -6,7 +6,7 @@ Tags: project management, project manager, kanban board, task manager, gantt cha
 Requires at least: 4.4 or higher
 Tested up to: 6.9
 Requires PHP: 5.6
-Stable tag: 2.6.30
+Stable tag: 2.6.31
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -137,6 +137,25 @@ Help make Project Manager the ultimate project management tool! Fork our reposit
 * **[Texty](https://wordpress.org/plugins/texty/)**: A fast and easy SMS notification plugin for WordPress and WooCommerce. Send instant messages to your users via popular gateways like Twilio, Vonage, and more.
 * **[wePOS](https://wordpress.org/plugins/wepos/)**: Turn your WooCommerce store into a powerful point-of-sale system. Manage sales, inventory, and customers in real-time using WordPress.
 
+== External Services ==
+
+Project Manager uses the following third-party services to enhance project management features. All data shared with these services is necessary for the plugin functionality and handled securely.
+
+1. **OpenAI API** - Used to generate AI-assisted project plans, task lists, and suggestions. Task titles, descriptions, and deadlines may be sent for AI processing.
+   - **[Terms of Service](https://openai.com/terms) and [Privacy Policy](https://openai.com/privacy)**
+
+2. **Google Generative Language API** - Assists content generation for tasks and projects. Task titles, descriptions, and comments may be sent for AI suggestions.
+   - **[Terms of Service](https://cloud.google.com/terms) and [Privacy Policy](https://policies.google.com/privacy)**
+
+3. **Anthropic API** - Provides AI-assisted responses and task suggestions. Task details like titles, descriptions, and deadlines may be sent for AI processing.
+   - **[Terms of Service](https://cloud.anthropic.com/terms) and [Privacy Policy](https://anthropic.com/privacy)**
+
+4. **Trello API** - Integrates Trello boards, cards, and checklists. Project and task information such as titles, descriptions, and due dates are sent to sync with Trello.
+   - **[Terms of Service](https://trello.com/en-US/legal) and [Privacy Policy](https://trello.com/en-US/privacy-policy)**
+
+5. **Asana API** - Syncs tasks, stories, and project updates. Task titles, descriptions, deadlines, and comments are sent to Asana for project updates.
+   - **[Terms of Service](https://asana.com/terms) and [Privacy Policy](https://asana.com/privacy)**
+
 == Installation ==
 Extract the zip file, then drop the contents into the wp-content/plugins/ directory of your WordPress installation, and activate the Plugin from the Plugins page.
 
@@ -150,7 +169,7 @@ A.  Project Manager excels in Kanban boards, Gantt charts, task managers, time t
 = Q. Does Project Manager solve all project management challenges? =
 A.  It's impossible for any single tool alone to tackle all project management challenges. However, Project Manager is good at handling task overload and disorganization, visualizing project progress, team communication, file and resource management, project reporting, and collaboration.
 = Q. How to manage tasks with Project Manager =
-A. Start by navigating to **WP Admin > Project Manager > Projects**. Then, select or create a project, and head to the Task Lists tab. For a quick guide, please explore this documentation on [how to create a project with Project Manager](https://wedevs.com/docs/wp-project-manager/getting-started/creating-a-project/).
+A. Start by navigating to **WP Admin > Project Manager > Projects**. Then, select or create a project, and head to the Task Lists tab. For a quick guide, please explore this documentation on [how to create a project with weDevs Project Manager](https://wedevs.com/docs/wp-project-manager/getting-started/creating-a-project/).
 = Q. Who can create a task list, to-do, messages, or milestones? =
 A. By default, the website admin and project manager have the authority to do so. But any user or co-worker can also do this if he/she get permission from the admin.
 = Q. Is there a way to get the overview of the Project Manager's Gantt Chart feature =
@@ -171,8 +190,8 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 
 == Screenshots ==
 1. Manage unlimited projects
-2. Gantt Chart of the Project Manager
-3. Kanban Board of the Project Manager
+2. Gantt Chart of Project Manager
+3. Kanban Board of Project Manager
 4. Extend project management power with advanced modules
 5. Keep every milestone on track
 6. Have a project overview at a glance
@@ -265,13 +284,13 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 **Update:** Version bump & make stable readme character.
 
 = v2.6.10 – Feb 29, 2024 =
-**Fix:** Api discussion creation XSS vulnerability for authenticated users.
+**Fix:** Api discussion creation xss vulnerability for authentic users.
 
 = v2.6.9 – Feb 09, 2024 =
 **Update:** Version bump & make stable frontend.
 
 = v2.6.8 – Feb 09, 2024 =
-**Fix:** User role management api security block for unauthenticated project users.
+**Fix:** User role management api security block for unauthentic project users.
 **Fix:** Project discussion create api security handling stuff.
 **Fix:** Project modification api security block.
 
@@ -294,7 +313,7 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 **Fix:** User task calender’s starting date data handling security issue.
 
 = v2.6.0 – Nov 30, 2022 =
-**New:** Added PM Pro version overview for Lite users
+**New:** Added pm pro version overview for lite users
 
 = v2.5.0 – July 15, 2022 =
 **Update:** Compatibility with PHP-8.x
@@ -306,39 +325,39 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 **Fix:** Fixed Some Role Permission assign issue after creating project.
 
 = v2.4.17 – Feb 07, 2022 =
-**Notice:** Limited-time promotional notice on Super Bowl sale
+**Notice:** Limited time promotional notice on Super Bowl sale
 
 = v2.4.16 – Dec 23, 2021 =
-**Fix:** Discussion file URL was not downloadable for PDF
-**Notice:** Limited-time promotional notice on holiday sale
+**Fix:** Discussion file url was not downloadable for PDF
+**Notice:** Limited time promotional notice on holiday sale
 
 = v2.4.15 – Nov 11, 2021 =
 **Update:** ChartJS libraries from v2.x to v3.6.0
-**Update:** Removed dummy data, unused files and external CDN links to improve and clean the whole codebase
+**Update:** Removed dummy data, unused files and external cdn links to improve and clean the whole codebase
 **Fix:** Data escaping and sanitization issues all over the plugin
 **Fix:** Some i18n translation, wrong text-domain issues
-**Notice:** Limited-time promotional offer regarding Black Friday and Cyber Monday
+**Notice:** Limited time promotional offer regarding Black Friday and Cyber Monday
 
 = v2.4.14 – Oct 11, 2021 =
 **Fix:** Data sanitization and validation issues to prevent security threats
 **Fix:** Timezone issues in My Calendar
-**Fix:** Task file downloading issue by another member of the project assignee list
+**Fix:** Task file downloading issue by other member of project assignee list
 **Fix:** After Task Create Email, `undefined offset` issue in template footer
-**Fix:** User assigns issue from Project Overview page
+**Fix:** User assign issue from Project Overview page
 **Fix:** Unassigned Reports were not loading
-**Notice:** Limited-time promotional offer for Halloween
+**Notice:** Limited time promotional offer for Halloween
 
 = v2.4.13 – July 16, 2021 =
-**Notice:** Limited-time promotional offer regarding summer sale
+**Notice:** Limited time promotional offer regarding summer sale
 **Update:** Calendar event content styles
 **Update:** Some library upgrade for better performance
-**Fix:** My Task report was not getting an accurate result in some cases
+**Fix:** My Task report was not getting accurate result in some cases
 **Fix:** My Calendar single task was unable to be moved
 **Fix:** After creating a task, it was not updating instantly in 'My Calendar' and 'My Task at a Glance' section
-**Fix:** Authentication issues on some unauthenticated API endpoints like tasks, task types, activities
+**Fix:** Authentication issues on some un-authenticated API endpoints like tasks, task types, activities
 
 = v2.4.12 – May 07, 2021 =
-**Notice:** Limited-time promotion on account of Eid.
+**Notice:** Limited time promotion on account of Eid.
 
 = v2.4.11 – March 17, 2021 =
 **Notice:** Limited time promotion for weDevs birthday.
