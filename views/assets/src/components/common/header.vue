@@ -103,7 +103,7 @@
                 left: 0;
                 white-space: nowrap;
                 padding: 10px 15px !important;
-                min-width: 250px;
+                min-width: 350px;
                 @media (max-width: 767px){
                     left: inherit;
                     right: 0px;
