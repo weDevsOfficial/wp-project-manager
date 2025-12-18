@@ -116,7 +116,7 @@ The free version of Project Manager offers core **task manager** and **project m
 –   [10 Best WordPress Project Management Plugins (2025 Picks)](https://www.elegantthemes.com/blog/wordpress/best-wordpress-project-management-plugins) (Elegant Themes)
 –   [18 Best WordPress Plugins for Freelancers 2025](https://colorlib.com/wp/freelance-plugins-wordpress/) (Colorlib)
 –   [9 Best WordPress Project Management Plugins](https://blog.hubspot.com/website/best-wordpress-project-management-plugins) (HubSpot)
-–   ]14 Best WordPress Project Management Plugins](https://www.hostinger.com/tutorials/wordpress-project-management) (Hostinger)
+–   [14 Best WordPress Project Management Plugins](https://www.hostinger.com/tutorials/wordpress-project-management) (Hostinger)
 ## Contribute
 Help make Project Manager the ultimate project management tool! Fork our repository from [GitHub](https://github.com/weDevsOfficial/wp-project-manager) and submit pull requests.
 ## Our Valuable Contributors
