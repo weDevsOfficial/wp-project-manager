@@ -3,7 +3,6 @@
 namespace WeDevs\PM\Core;
 
 use Reflection;
-use WPMUDEV\PluginTest\Singleton;
 
 trait Singletonable {
     /**
