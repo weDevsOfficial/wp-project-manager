@@ -40,11 +40,11 @@ class Profile_Update {
     /**
      * Default interface for setting a HR role
      *
-     * @param WP_User $profile_user User data
+     * @param \WP_User $profile_user User data
      *
      * @return bool Always false
      */
-    public function profile( $profile_user ) {
+    public function profile( \WP_User $profile_user ) {
 
         // Bail if current user cannot edit users
         if ( ! current_user_can( 'edit_user', $profile_user->ID ) || !current_user_can( 'manage_options') ) {
@@ -59,7 +59,7 @@ class Profile_Update {
 
         $this->capbility_form( $profile_user );
 
-        do_action( 'pm_user_profile', $profile_user );
+        do_action( 'wedevs_pm_user_profile', $profile_user );
 
         wp_nonce_field( 'pm_nonce', 'pm_profile_nonce' );
 
@@ -89,7 +89,7 @@ class Profile_Update {
                                     <?php esc_html_e( '— No capability for this user —', 'wedevs-project-manager' ); ?>
                                 </option>
                                 <?php
-                                    foreach ( pm_access_capabilities() as $cap_key => $label ) {
+                                    foreach ( wedevs_pm_access_capabilities() as $cap_key => $label ) {
                                         ?>
                                             <option <?php selected( $meta_value, $cap_key ); ?> value="<?php echo esc_attr( $cap_key ); ?>">
                                                 <?php echo esc_html( $label ); ?>
@@ -125,7 +125,7 @@ class Profile_Update {
 
         $this->update_user_capability( $user_id, $cap_key );
 
-        do_action( 'pm_update_profile', $user_id, $prev_data );
+        do_action( 'wedevs_pm_update_profile', $user_id, $prev_data );
     }
 
     function update_user_capability( $user_id, $cap_key ) {
@@ -145,7 +145,7 @@ class Profile_Update {
     function remove_capability( $user_id ) {
         $user = get_user_by( 'id', $user_id );
 
-        foreach ( pm_access_capabilities() as $meta_key => $label ) {
+        foreach ( wedevs_pm_access_capabilities() as $meta_key => $label ) {
             $user->remove_cap( $meta_key );
         }
     }
@@ -154,8 +154,8 @@ class Profile_Update {
 
         $user = get_user_by( 'id', $user_id );
 
-        if ( $cap_key == pm_admin_cap_slug() ) {
-            $user->add_cap( pm_manager_cap_slug() );
+        if ( $cap_key == wedevs_pm_admin_cap_slug() ) {
+            $user->add_cap( wedevs_pm_manager_cap_slug() );
         }
 
         $user->add_cap( $cap_key );

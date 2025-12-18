@@ -20,10 +20,10 @@ class Update_Message_Notification extends Email {
         if ( empty( $request['notify_users'] ) ){
             return ;
         }
-        $message            = pm_get_discussions( [ 'id' => $message['data']['id'] ] );
+        $message            = wedevs_pm_get_discussions( [ 'id' => $message['data']['id'] ] );
         $message            = $message['data'];
         $project_id         = $message['project_id'];
-        $project            = pm_get_projects( ['id' => $project_id, 'with' => 'assignees'] );
+        $project            = wedevs_pm_get_projects( ['id' => $project_id, 'with' => 'assignees'] );
         $project            = $project['data']; //Project::with('assignees', 'managers')->find( $request['project_id'] );
         $message['project'] = $project;
         $users              = [];
@@ -54,8 +54,9 @@ class Update_Message_Notification extends Email {
             return ; 
         }
 
-        $template_name = apply_filters( 'pm_new_message_email_template_path', $this->get_template_path( '/html/update-message.php' ) );
-        $subject = sprintf( __( '[%s][%s] Update Message: %s', 'wedevs-project-manager' ), $this->get_blogname(), $project['title'] , $request['title'] );
+        $template_name = apply_filters( 'wedevs_pm_new_message_email_template_path', $this->get_template_path( '/html/update-message.php' ) );
+        /* translators: 1: Blog name, 2: Project title, 3: Message title */
+        $subject = sprintf( __( '[%1$s][%2$s] Update Message: %3$s', 'wedevs-project-manager' ), $this->get_blogname(), $project['title'] , $request['title'] );
         
         $message = $this->get_content_html( $template_name, $message );
         

@@ -15,6 +15,7 @@ use WeDevs\PM\Task\Models\Task;
 use Illuminate\Database\Capsule\Manager as DB;
 use Illuminate\Pagination\Paginator;
 use League\Fractal\Resource\Collection as Collection;
+use WeDevs\PM\Core\Router\WP_Router;
 
 
 class Task_List_Transformer extends TransformerAbstract {
@@ -38,17 +39,17 @@ class Task_List_Transformer extends TransformerAbstract {
         $data = [
             'id'          => (int) $item->id,
             'title'       => $item->title,
-            'description' => pm_filter_content_url( $item->description ),
+            'description' => wedevs_pm_filter_content_url( $item->description ),
             'order'       => (int) $item->order,
             'status'      => $item->status,
-            'created_at'  => format_date( $item->created_at ),
+            'created_at'  => wedevs_pm_format_date( $item->created_at ),
             'meta'        => $this->meta( $item ),
             'extra'       => true,
             'project_id'  => $item->project_id
 
         ];
 
-        return apply_filters( 'pm_task_list_transform', $data, $item );
+        return apply_filters( 'wedevs_pm_task_list_transform', $data, $item );
     }
 
         /**
@@ -58,7 +59,7 @@ class Task_List_Transformer extends TransformerAbstract {
      */
     public function getDefaultIncludes()
     {
-        return apply_filters( "pm_task_list_transformer_default_includes", $this->defaultIncludes );
+        return apply_filters( "wedevs_pm_task_list_transformer_default_includes", $this->defaultIncludes );
     }
 
     public function meta( Task_List $item ) {
@@ -82,7 +83,7 @@ class Task_List_Transformer extends TransformerAbstract {
     }
 
     public function includeComments( Task_List $item ) {
-        $page = isset( $_GET['comment_page'] ) ? intval($_GET['comment_page']) : 1;
+        $page = WP_Router::$request->get_param( 'comment_page' ) ?? 1;
 
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
@@ -90,7 +91,7 @@ class Task_List_Transformer extends TransformerAbstract {
 
         $comments = $item->comments()
             ->orderBy( 'created_at', 'ASC' )
-            ->paginate( pm_config('app.comment_per_page') );
+            ->paginate( wedevs_pm_config('app.comment_per_page') );
 
         $comment_collection = $comments->getCollection();
         $resource = $this->collection( $comment_collection, new Comment_Transformer );
@@ -101,7 +102,7 @@ class Task_List_Transformer extends TransformerAbstract {
     }
 
     public function includeFiles( Task_List $item ) {
-        $page = isset( $_GET['file_page'] ) ? intval($_GET['file_page']) : 1;
+        $page = WP_Router::$request->get_param( 'file_page' ) ?? 1;
 
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
@@ -134,10 +135,10 @@ class Task_List_Transformer extends TransformerAbstract {
 
 
     public function includeCompleteTasks( Task_List $item ) {
-        $page = isset( $_GET['complete_task_page'] ) ? intval($_GET['complete_task_page']) : 1;
-        $per_page_count = isset( $_GET['complete_task_per_page'] ) ? intval($_GET['complete_task_per_page']) : false;
+        $page           = WP_Router::$request->get_param( 'complete_task_page' ) ?? 1;
+        $per_page_count = WP_Router::$request->get_param( 'complete_task_per_page' ) ?? 0;
 
-        $per_page = pm_get_setting( 'complete_tasks_per_page' );
+        $per_page = wedevs_pm_get_setting( 'complete_tasks_per_page' );
         $per_page = $per_page ? $per_page : 5;
 
         if ( intval( $per_page_count ) ) {
@@ -151,25 +152,25 @@ class Task_List_Transformer extends TransformerAbstract {
         $tasks = $item->tasks()
                 ->where( 'status', 1 );
 
-        $tasks = apply_filters( 'pm_complete_task_query', $tasks,  $item->project_id, $item );
+        $tasks = apply_filters( 'wedevs_pm_complete_task_query', $tasks,  $item->project_id, $item );
         if ( $per_page == '-1' ) {
             $per_page = $tasks->count();
         }
-        $tasks =  $tasks->orderBy( pm_tb_prefix() . 'pm_boardables.order', 'ASC' )
+        $tasks =  $tasks->orderBy( wedevs_pm_tb_prefix() . 'pm_boardables.order', 'ASC' )
             ->paginate( $per_page );
 
         return $this->make_paginated_tasks( $tasks );
     }
 
     public function includeIncompleteTasks( Task_List $item ) {
-        $page = isset( $_GET['incomplete_task_page'] ) ? intval( $_GET['incomplete_task_page'] ) : 1;
-        $per_page_count = isset( $_GET['incomplete_task_per_page'] ) ? intval($_GET['incomplete_task_per_page']) : false;
+        $page           = WP_Router::$request->get_param( 'incomplete_task_page' ) ?? 1;
+        $per_page_count = WP_Router::$request->get_param( 'incomplete_task_per_page' ) ?? 0;
 
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
         }); 
 
-        $per_page = pm_get_setting( 'incomplete_tasks_per_page' );
+        $per_page = wedevs_pm_get_setting( 'incomplete_tasks_per_page' );
         $per_page = $per_page ? $per_page : 5;
         
         if ( intval( $per_page_count ) ) {
@@ -178,13 +179,13 @@ class Task_List_Transformer extends TransformerAbstract {
         
         $tasks = $item->tasks()
             ->where( 'status', 0 );
-        $tasks = apply_filters( 'pm_incomplete_task_query', $tasks,  $item->project_id, $item );
+        $tasks = apply_filters( 'wedevs_pm_incomplete_task_query', $tasks,  $item->project_id, $item );
         
         if ( $per_page == '-1' ) {
             $per_page = $tasks->count();
         }
         
-        $tasks = $tasks->orderBy( pm_tb_prefix() . 'pm_boardables.order', 'ASC' )
+        $tasks = $tasks->orderBy( wedevs_pm_tb_prefix() . 'pm_boardables.order', 'ASC' )
             ->paginate( $per_page );
         return $this->make_paginated_tasks( $tasks );
     }

@@ -8,6 +8,7 @@ use WeDevs\PM\File\Transformers\File_Transformer;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use WeDevs\PM\User\Transformers\User_Transformer;
 use WeDevs\PM\Common\Traits\Resource_Editors;
+use WeDevs\PM\Core\Router\WP_Router;
 
 class Comment_Transformer extends TransformerAbstract {
 
@@ -29,11 +30,11 @@ class Comment_Transformer extends TransformerAbstract {
     public function transform( Comment $item ) {
         return [
             'id'               => (int) $item->id,
-            'content'          => pm_get_content( $item->content ),
+            'content'          => wedevs_pm_get_content( $item->content ),
             'commentable_type' => $item->commentable_type,
             'commentable_id'   => $item->commentable_id,
-            'created_at'       => format_date( $item->created_at ),
-            'updated_at'       => format_date( $item->updated_at ),
+            'created_at'       => wedevs_pm_format_date( $item->created_at ),
+            'updated_at'       => wedevs_pm_format_date( $item->updated_at ),
             'project_id'       => (int) $item->project_id,
             'meta'       => [
                 'total_replies' => $item->replies->count(),
@@ -49,7 +50,7 @@ class Comment_Transformer extends TransformerAbstract {
      */
     public function getDefaultIncludes()
     {
-        return apply_filters( "pm_comment_transformer_default_includes", $this->defaultIncludes );
+        return apply_filters( "wedevs_pm_comment_transformer_default_includes", $this->defaultIncludes );
     }
 
     /**
@@ -59,9 +60,9 @@ class Comment_Transformer extends TransformerAbstract {
      * @return \League\Fractal\Resource\Collection
      */
     public function includeReplies( Comment $item ) {
-        $page = isset( $_GET['reply_page'] ) ? intval( $_GET['reply_page'] ) : 1;
+        $page =  WP_Router::$request->get_param( 'reply_page' ) ?? 1;
 
-        $replies = $item->replies()->paginate( pm_config('app.comment_per_page'), ['*'], 'reply_page', $page );
+        $replies = $item->replies()->paginate( wedevs_pm_config('app.comment_per_page'), ['*'], 'reply_page', $page );
 
         $reply_collection = $replies->getCollection();
         $resource = $this->collection( $reply_collection, new Comment_Transformer );
@@ -78,7 +79,7 @@ class Comment_Transformer extends TransformerAbstract {
      * @return \League\Fractal\Resource\Collection
      */
     public function includeFiles( Comment $item ) {
-        $page = isset( $_GET['file_page'] ) ? intval( $_GET['file_page'] ) : 1;
+        $page =  WP_Router::$request->get_param( 'file_page' ) ?? 1;
 
         $files = $item->files()->get();
 
