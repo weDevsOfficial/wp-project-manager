@@ -32,6 +32,7 @@ use WeDevs\PM\Settings\Controllers\Task_Types_Controller;
 use WeDevs\PM\Settings\Models\Task_Type_Task;
 use WeDevs\PM\task\Helper\Task as Task_Helper;
 use WeDevs\PM\Task\Observers\Task_Observer;
+use WeDevs\PM\Core\Router\WP_Router;
 
 class Task_Controller {
 
@@ -1029,9 +1030,7 @@ class Task_Controller {
             $list_ids[] = 0;
         }
 
-        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verified at REST API layer via register_rest_route() in WP_Router.
-        $per_page_count    = isset( $_GET['incomplete_task_page'] ) ? \intval( $_GET['incomplete_task_page'] ) : false;
-
+        $per_page_count  = WP_Router::$request->get_param( 'incomplete_task_page' ) ?? false;
         $table_ba   = esc_sql( $wpdb->prefix . 'pm_boardables' );
         $table_task = esc_sql( $wpdb->prefix . 'pm_tasks' );
 
