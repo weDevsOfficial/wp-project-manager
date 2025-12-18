@@ -10,9 +10,6 @@ use WeDevs\PM\Core\WP\Register_Scripts;
 use WeDevs\PM\Core\WP\Enqueue_Scripts as Enqueue_Scripts;
 use WeDevs\PM\Core\File_System\File_System as File_System;
 use WeDevs\PM\Core\Cli\Commands;
-use WeDevs\PM\Core\Promotions\Promotions;
-use WeDevs\PM\Core\Promotions\Offers;
-
 use WeDevs\PM\Core\Installer\Installer;
 use WeDevs_PM_Create_Table;
 //use WeDevs\PM\Tools\Helpers\ImportActivecollab;
@@ -255,7 +252,6 @@ class Frontend {
     public function instantiate() {
         Notification::init_transactional_emails();
         new Upgrade();
-        new Offers();
         new Profile_Update();
         //new Promotions();
         //new ImportTrello();
