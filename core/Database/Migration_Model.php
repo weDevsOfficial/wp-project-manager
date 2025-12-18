@@ -8,7 +8,7 @@ class Migration_Model extends Eloquent {
     protected $table;
 
     public function __construct( array $attributes = [] ) {
-        $this->table = migrations_table_prefix() . '_migrations';
+        $this->table = wedevs_pm_migrations_table_prefix() . '_migrations';
 
         parent::__construct( $attributes );
     }

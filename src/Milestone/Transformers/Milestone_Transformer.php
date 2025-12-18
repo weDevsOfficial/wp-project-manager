@@ -10,6 +10,7 @@ use WeDevs\PM\Discussion_Board\Transformers\Discussion_Board_Transformer;
 use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use WeDevs\PM\Common\Traits\Resource_Editors;
 use Illuminate\Pagination\Paginator;
+use WeDevs\PM\Core\Router\WP_Router;
 
 class Milestone_Transformer extends TransformerAbstract {
 
@@ -29,14 +30,14 @@ class Milestone_Transformer extends TransformerAbstract {
             'title'        => $item->title,
             'description'  => $item->description,
             'order'        => (int) $item->order,
-            'achieve_date' => format_date( $item->achieve_date ),
-            'achieved_at'  => format_date( $item->updated_at ),
+            'achieve_date' => wedevs_pm_format_date( $item->achieve_date ),
+            'achieved_at'  => wedevs_pm_format_date( $item->updated_at ),
             'status'       => $item->status,
-            'created_at'   => format_date( $item->created_at ),
+            'created_at'   => wedevs_pm_format_date( $item->created_at ),
             'meta'         => $this->meta( $item ),
         ];
 
-        return apply_filters( 'pm_milestone_transform', $data, $item, $this );
+        return apply_filters( 'wedevs_pm_milestone_transform', $data, $item, $this );
     }
 
     /**
@@ -46,7 +47,7 @@ class Milestone_Transformer extends TransformerAbstract {
      */
     public function getDefaultIncludes()
     {
-        return apply_filters( "pm_milestone_transformer_default_includes", $this->defaultIncludes );
+        return apply_filters( "wedevs_pm_milestone_transformer_default_includes", $this->defaultIncludes );
     }
 
     public function meta( Milestone $item ) {
@@ -59,14 +60,14 @@ class Milestone_Transformer extends TransformerAbstract {
     }
 
     public function includeTaskLists( Milestone $item ) {
-        $page = isset( $_GET['task_list_page'] ) ? intval( $_GET['task_list_page'] ) : 1;
+        $page = WP_Router::$request->get_param( 'task_list_page' ) ?? 1;
 
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
         }); 
 
         $task_lists = $item->task_lists();
-        $task_lists = apply_filters('pm_task_list_query', $task_lists, $item->project_id, $item );
+        $task_lists = apply_filters( 'wedevs_pm_task_list_query', $task_lists, $item->project_id, $item );
         $task_lists = $task_lists->orderBy( 'created_at', 'DESC' )
             ->paginate( 10 );
 
@@ -79,14 +80,14 @@ class Milestone_Transformer extends TransformerAbstract {
     }
 
     public function includeDiscussionBoards( Milestone $item ) {
-        $page = isset( $_GET['discussion_page'] ) ? intval( $_GET['discussion_page'] ) : 1;
+        $page = WP_Router::$request->get_param( 'discussion_page' ) ?? 1;
 
         Paginator::currentPageResolver(function () use ($page) {
             return $page;
         }); 
 
         $discussion_boards = $item->discussion_boards();
-        $discussion_boards = apply_filters( 'pm_discuss_query', $discussion_boards, $item->project_id, $item );
+        $discussion_boards = apply_filters( 'wedevs_pm_discuss_query', $discussion_boards, $item->project_id, $item );
         $discussion_boards = $discussion_boards->orderBy( 'created_at', 'DESC' )
             ->paginate( 10 );
 

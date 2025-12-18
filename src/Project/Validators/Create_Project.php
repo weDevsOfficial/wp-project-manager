@@ -14,7 +14,7 @@ class Create_Project extends Abstract_Validator {
 
     public function rules() {
         
-        if ( apply_filters( 'pm_check_project_title_unique', true ) ) {
+        if ( apply_filters( 'wedevs_pm_check_project_title_unique', true ) ) {
             return [
                 'title'  => 'required|pm_unique:Project,title',
             ];
