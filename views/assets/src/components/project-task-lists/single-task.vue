@@ -126,6 +126,18 @@
                                     <a :href="`#/projects/${task.project_id}/task-lists/${task.task_list_id}`" v-html="task.task_list_title"> </a>
                                 </span>
                             </div>
+
+                            <div class="task-list-title-text" v-if="task.meta && task.meta.github_issue_url">
+                                <span >
+                                    {{ __("GitHub Issue:", 'wedevs-project-manager' ) }}
+                                </span>
+                                <span class="list-title">
+                                    <a :href="task.meta.github_issue_url" target="_blank" rel="noopener noreferrer">
+                                        <span class="dashicons dashicons-admin-links"></span>
+                                        {{ __("View on GitHub", 'wedevs-project-manager' ) }}
+                                    </a>
+                                </span>
+                            </div>
                         </div>
 
                         <div class="options-wrap actions-wrap">
