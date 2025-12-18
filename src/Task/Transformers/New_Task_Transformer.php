@@ -19,10 +19,10 @@ class New_Task_Transformer extends TransformerAbstract {
         $task = [
             'id'          => (int) $item->id,
             'title'       => $item->title,
-            'description' => [ 'html' => pm_get_content( $item->description ), 'content' => $item->description ],
+            'description' => [ 'html' => wedevs_pm_get_content( $item->description ), 'content' => $item->description ],
             'estimation'  => $item->estimation,
-            'start_at'    => format_date( $item->start_at ),
-            'due_date'    => format_date( $item->due_date ),
+            'start_at'    => wedevs_pm_format_date( $item->start_at ),
+            'due_date'    => wedevs_pm_format_date( $item->due_date ),
             'complexity'  => $item->complexity,
             'priority'    => $item->priority,
             //'order'       => (int) $order,
@@ -32,9 +32,9 @@ class New_Task_Transformer extends TransformerAbstract {
             'status'      => $item->status,
             'project_id'  => $item->project_id,
             'category_id' => $item->category_id,
-            'created_at'  => format_date( $item->created_at ),
-            'completed_at' => format_date( $item->completed_at ),
-            'updated_at'  => format_date( $item->updated_at ),
+            'created_at'  => wedevs_pm_format_date( $item->created_at ),
+            'completed_at' => wedevs_pm_format_date( $item->completed_at ),
+            'updated_at'  => wedevs_pm_format_date( $item->updated_at ),
             'task_list_id' => $item->task_list,
             'meta'        => $this->meta( $item ),
             'assignees'   => $this->assignees( $item ),
@@ -42,7 +42,7 @@ class New_Task_Transformer extends TransformerAbstract {
         ];
         
         if ( $this->list_task_transormer_filter ) {
-            return apply_filters( 'pm_list_task_transormer', $task, $item );  
+            return apply_filters( 'wedevs_pm_list_task_transormer', $task, $item );  
         }
         
         return $task;
@@ -66,8 +66,8 @@ class New_Task_Transformer extends TransformerAbstract {
             'email'             => $user->user_email,
             'profile_url'       => $user->user_url,
             'display_name'      => $user->display_name,
-            'manage_capability' => (int) pm_has_manage_capability($user->ID),
-            'create_capability' => (int) pm_has_project_create_capability($user->ID),
+            'manage_capability' => (int) wedevs_pm_has_manage_capability($user->ID),
+            'create_capability' => (int) wedevs_pm_has_project_create_capability($user->ID),
             'avatar_url'        => get_avatar_url( $user->user_email ),
         ];
 
@@ -77,14 +77,14 @@ class New_Task_Transformer extends TransformerAbstract {
 
     public function meta( Task $item ) {
         $metas = [
-            'can_complete_task' => $this->pm_user_can_complete_task( $item ),
+            'can_complete_task' => $this->wedevs_pm_user_can_complete_task( $item ),
             'total_comment'  => $item->total_comment,
         ];
         
 	    return $metas;
     }
 
-    function pm_user_can_complete_task( $item ) {
+    function wedevs_pm_user_can_complete_task( $item ) {
         
         if( ! $item ) {
             return false;
@@ -92,11 +92,11 @@ class New_Task_Transformer extends TransformerAbstract {
 
         $user_id = get_current_user_id();
 
-        if ( pm_has_manage_capability( $user_id ) ) {
+        if ( wedevs_pm_has_manage_capability( $user_id ) ) {
             return true;
         }
 
-        if ( pm_is_manager( $item->project_id, $user_id ) ) {
+        if ( wedevs_pm_is_manager( $item->project_id, $user_id ) ) {
             return true;
         }
 
@@ -165,15 +165,15 @@ class New_Task_Transformer extends TransformerAbstract {
                 'email'             => $user->user_email,
                 'profile_url'       => $user->user_url,
                 'display_name'      => $user->display_name,
-                'manage_capability' => (int) pm_has_manage_capability($user->ID),
-                'create_capability' => (int) pm_has_project_create_capability($user->ID),
+                'manage_capability' => (int) wedevs_pm_has_manage_capability($user->ID),
+                'create_capability' => (int) wedevs_pm_has_project_create_capability($user->ID),
                 'avatar_url'        => get_avatar_url( $user->user_email ),
             ];
 
             
-            $data['completed_at'] = empty( $assign->completed_at ) ? [] : format_date( $assign->completed_at );
-            $data['started_at'] = empty( $assign->started_at ) ? [] : format_date( $assign->started_at );
-            $data['assigned_at'] = empty( $assign->assigned_at ) ? [] : format_date( $assign->assigned_at );
+            $data['completed_at'] = empty( $assign->completed_at ) ? [] : wedevs_pm_format_date( $assign->completed_at );
+            $data['started_at'] = empty( $assign->started_at ) ? [] : wedevs_pm_format_date( $assign->started_at );
+            $data['assigned_at'] = empty( $assign->assigned_at ) ? [] : wedevs_pm_format_date( $assign->assigned_at );
             $data['status'] = empty( $assign->status ) ? 0 : (int) $assign->status;
 
             $assignees['data'][] = $data;

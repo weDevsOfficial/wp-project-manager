@@ -1,6 +1,6 @@
 <?php
 
-class PM_Create_Table {
+class WeDevs_PM_Create_Table {
 
     public function __construct() {
 
@@ -496,7 +496,7 @@ class PM_Create_Table {
     public function update_version()
     {
         delete_option('cpm_version');
-        update_option('pm_version', config('app.version'));
+        update_option('pm_version', wedevs_pm_config('app.version'));
 
         // record the activation date/time if not exists
         $installed = get_option('pm_installed');

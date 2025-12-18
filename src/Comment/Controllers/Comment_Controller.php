@@ -26,7 +26,7 @@ class Comment_Controller {
         $per_page = intval( $request->get_param( 'per_page' ) );
         $page     = intval( $request->get_param( 'page' ) );
 
-        $per_page = $per_page ? $per_page : pm_config('app.comment_per_page');
+        $per_page = $per_page ? $per_page : wedevs_pm_config('app.comment_per_page');
         $page     = $page ? $page : 1;
 
         $on = $request->get_param( 'on' );
@@ -94,15 +94,15 @@ class Comment_Controller {
         $resource = new Item( $comment, new Comment_Transformer );
 
         $message = [
-            'message' => pm_get_text('success_messages.comment_created'),
+            'message' => __( 'Successfully commented.', 'wedevs-project-manager' ),
             'activity' => $this->last_activity( $commentable_type, $commentable_id ),
         ];
 
-        do_action( 'cpm_comment_new', $comment->id , $request->get_param('project_id'), $request->get_params() );
+        do_action( 'wedevs_cpm_comment_new', $comment->id , $request->get_param('project_id'), $request->get_params() );
         
         $response = $this->get_response( $resource, $message );
         
-        do_action( 'pm_after_new_comment', $response, $request->get_params());
+        do_action( 'wedevs_pm_after_new_comment', $response, $request->get_params());
         
         return $response;
     }
@@ -135,13 +135,13 @@ class Comment_Controller {
         $resource = new Item( $comment, new Comment_Transformer );
 
         $message = [
-            'message' => pm_get_text('success_messages.comment_updated'),
+            'message' => __( 'A comment has been updated successfully.', 'wedevs-project-manager' ),
             'activity' => $this->last_activity( $comment->commentable_type, $comment->commentable_id  ),
         ];
 
         $response = $this->get_response( $resource, $message );
-        do_action( 'cpm_comment_update', $comment->id, $request->get_param('project_id'), $response );
-        do_action( 'pm_after_update_comment', $response, $request->get_params());
+        do_action( 'wedevs_cpm_comment_update', $comment->id, $request->get_param('project_id'), $response );
+        do_action( 'wedevs_pm_after_update_comment', $response, $request->get_params());
         return $response;
     }
 
@@ -152,14 +152,14 @@ class Comment_Controller {
         $resource_type = $comment->commentable_type;
         $resource_id = $comment->commentable_id;
 
-        do_action( 'cpm_comment_delete', $comment, false );
+        do_action( 'wedevs_cpm_comment_delete', $comment, false );
         $this->detach_files( $comment );
         $comment->replies()->delete();
         $comment->files()->delete();
         $comment->delete();
 
         $message = [
-            'message' => pm_get_text('success_messages.comment_deleted'),
+            'message' => __( 'A comment has been deleted successfully.', 'wedevs-project-manager' ),
             'activity' => $this->last_activity( $resource_type, $resource_id ),
         ];
 

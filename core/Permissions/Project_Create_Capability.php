@@ -8,7 +8,7 @@ use WP_REST_Request;
 class Project_Create_Capability extends Abstract_Permission {
     public function check() {
 
-        if ( pm_user_can_access( pm_manager_cap_slug() ) ) {
+        if ( wedevs_pm_user_can_access( wedevs_pm_manager_cap_slug() ) ) {
             return true;
         }
         

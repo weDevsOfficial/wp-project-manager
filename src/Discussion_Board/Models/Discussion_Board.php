@@ -41,13 +41,13 @@ class Discussion_Board extends Eloquent {
     }
 
     public function users() {
-        return $this->belongsToMany( 'WeDevs\PM\User\Models\User', pm_tb_prefix() . 'pm_boardables', 'board_id', 'boardable_id')
+        return $this->belongsToMany( 'WeDevs\PM\User\Models\User', wedevs_pm_tb_prefix() . 'pm_boardables', 'board_id', 'boardable_id')
             ->where( 'board_type', 'discussion_board' )
             ->where( 'boardable_type', 'user' );
     }
 
     public function milestones() {
-        return $this->belongsToMany( 'WeDevs\PM\Milestone\Models\Milestone', pm_tb_prefix() . 'pm_boardables', 'boardable_id', 'board_id' )
+        return $this->belongsToMany( 'WeDevs\PM\Milestone\Models\Milestone', wedevs_pm_tb_prefix() . 'pm_boardables', 'boardable_id', 'board_id' )
             ->where( 'board_type', 'milestone' )
             ->where( 'boardable_type', 'discussion_board' );
     }

@@ -1,15 +1,15 @@
 <?php
 
 global $wp_version;
-$suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
-$view_path = dirname (__FILE__) . '/../views/';
+$wedevs_pm_suffix = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+$wedevs_pm_view_path = dirname (__FILE__) . '/../views/';
 
-$pm_scripts = [
+$wedevs_pm_scripts = [
 
     'pm-config' => [
         'id'         => 'pm-config',
         'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/bootstrap.js',
-        'path'       => $view_path . '/assets/vendor/bootstrap.js',
+        'path'       => $wedevs_pm_view_path . '/assets/vendor/bootstrap.js',
         'dependency' => ['jquery'],
         'in_footer'  => true
     ],
@@ -24,7 +24,7 @@ $pm_scripts = [
     'pm-time-picker' => [
         'id'         => 'pm-time-picke',
         'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/jquery-ui-timepicker/jquery-ui-timepicker.js',
-        'path'       => $view_path . '/assets/vendor/jquery-ui-timepicker/jquery-ui-timepicker.js',
+        'path'       => $wedevs_pm_view_path . '/assets/vendor/jquery-ui-timepicker/jquery-ui-timepicker.js',
         'dependency' => ['jquery-ui-datepicker','pm-tiny-mce'],
         'in_footer'  => true
     ],
@@ -32,7 +32,7 @@ $pm_scripts = [
     'pm-jed' => [
         'id'         => 'pm-jed',
         'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/i18n/jed.js',
-        'path'       => $view_path . '/assets/vendor/i18n/jed.js',
+        'path'       => $wedevs_pm_view_path . '/assets/vendor/i18n/jed.js',
         'dependency' => ['pm-time-picke'],
         'in_footer'  => true
     ],
@@ -40,39 +40,39 @@ $pm_scripts = [
     'pm-i18n' => [
         'id'         => 'pm-i18n',
         'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/i18n/i18n.js',
-        'path'       => $view_path . '/assets/vendor/i18n/i18n.js',
+        'path'       => $wedevs_pm_view_path . '/assets/vendor/i18n/i18n.js',
         'dependency' => ['pm-jed'],
         'in_footer'  => true
     ],
 
     'pm-vue' => [
         'id'         => 'pm-vue',
-        'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/vue/vue'.$suffix.'.js',
-        'path'       => $view_path . '/assets/vendor/vue/vue'.$suffix.'.js',
+        'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/vue/vue'.$wedevs_pm_suffix.'.js',
+        'path'       => $wedevs_pm_view_path . '/assets/vendor/vue/vue'.$wedevs_pm_suffix.'.js',
         'dependency' => ['pm-i18n'],
         'in_footer'  => true
     ],
 
     'pm-vuex' => [
         'id'         => 'pm-vuex',
-        'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/vue/vuex'.$suffix.'.js',
-        'path'       => $view_path . '/assets/vendor/vue/vuex'.$suffix.'.js',
+        'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/vue/vuex'.$wedevs_pm_suffix.'.js',
+        'path'       => $wedevs_pm_view_path . '/assets/vendor/vue/vuex'.$wedevs_pm_suffix.'.js',
         'dependency' => ['pm-vue'],
         'in_footer'  => true
     ],
 
     'pm-vue-router' => [
         'id'         => 'pm-vue-router',
-        'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/vue/vue-router'.$suffix.'.js',
-        'path'       => $view_path . '/assets/vendor/vue/vue-router'.$suffix.'.js',
+        'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/vue/vue-router'.$wedevs_pm_suffix.'.js',
+        'path'       => $wedevs_pm_view_path . '/assets/vendor/vue/vue-router'.$wedevs_pm_suffix.'.js',
         'dependency' => ['pm-vuex'],
         'in_footer'  => true
     ],
 
     'pm-chart' => [
         'id'         => 'pm-chart',
-        'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/chart/chart'.$suffix.'.js',
-        'path'       => $view_path . '/assets/vendor/chart/chart'.$suffix.'.js',
+        'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/chart/chart'.$wedevs_pm_suffix.'.js',
+        'path'       => $wedevs_pm_view_path . '/assets/vendor/chart/chart'.$wedevs_pm_suffix.'.js',
         'dependency' => ['pm-vue-router'],
         'in_footer'  => true
     ],
@@ -80,36 +80,36 @@ $pm_scripts = [
     'pm-chart-datalabels' => [
         'id'         => 'pm-chart-datalabels',
         'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/chart/chart-datalabels.min.js',
-        'path'       => $view_path . '/assets/vendor/chart/chart-datalabels.min.js',
+        'path'       => $wedevs_pm_view_path . '/assets/vendor/chart/chart-datalabels.min.js',
         'dependency' => ['pm-chart'],
         'in_footer'  => true
     ],
 
     'pm-preloader' => [
         'id'         => 'pm-preloader',
-        'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/Elegant-Loading-Indicator/jquery.preloader'.$suffix.'.js',
-        'path'       => $view_path . '/assets/vendor/Elegant-Loading-Indicator/jquery.preloader'.$suffix.'.js',
+        'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/Elegant-Loading-Indicator/jquery.preloader'.$wedevs_pm_suffix.'.js',
+        'path'       => $wedevs_pm_view_path . '/assets/vendor/Elegant-Loading-Indicator/jquery.preloader'.$wedevs_pm_suffix.'.js',
         'dependency' => ['pm-chart-datalabels'],
         'in_footer'  => true
     ],
     'pm-moment' => [
         'id'         => 'pm-moment',
-        'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/moment/moment'.$suffix.'.js',
-        'path'       => $view_path . '/assets/vendor/moment/moment'.$suffix.'.js',
+        'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/moment/moment'.$wedevs_pm_suffix.'.js',
+        'path'       => $wedevs_pm_view_path . '/assets/vendor/moment/moment'.$wedevs_pm_suffix.'.js',
         'dependency' => ['pm-preloader'],
         'in_footer'  => true
     ],
     'pm-locale' => [
         'id'         => 'pm-locale',
         'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/fullcalendar/locale-all.js',
-        'path'       => $view_path . '/assets/vendor/fullcalendar/locale-all.js',
+        'path'       => $wedevs_pm_view_path . '/assets/vendor/fullcalendar/locale-all.js',
         'dependency' => ['pm-moment'],
         'in_footer'  => true
     ],
     'pm-fullcalendar' => [
         'id'         => 'pm-fullcalendar',
-        'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/fullcalendar/fullcalendar'.$suffix.'.js',
-        'path'       => $view_path . '/assets/vendor/fullcalendar/fullcalendar'.$suffix.'.js',
+        'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/fullcalendar/fullcalendar'.$wedevs_pm_suffix.'.js',
+        'path'       => $wedevs_pm_view_path . '/assets/vendor/fullcalendar/fullcalendar'.$wedevs_pm_suffix.'.js',
         'dependency' => ['pm-moment'],
         'in_footer'  => true
     ],
@@ -117,7 +117,7 @@ $pm_scripts = [
     'pm-fullcalendar-scheduler' => [
         'id'         => 'pm-fullcalendar-scheduler',
         'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/scheduler/scheduler.min.js',
-        'path'       => $view_path . '/assets/vendor/scheduler/scheduler.min.js',
+        'path'       => $wedevs_pm_view_path . '/assets/vendor/scheduler/scheduler.min.js',
         'dependency' => ['pm-fullcalendar'],
         'in_footer'  => true
     ],
@@ -125,7 +125,7 @@ $pm_scripts = [
     'pm-v-tooltip' => [
         'id'         => 'pm-v-tooltip',
         'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/v-tooltip/v-tooltip.min.js',
-        'path'       => $view_path . '/assets/vendor/v-tooltip/v-tooltip.min.js',
+        'path'       => $wedevs_pm_view_path . '/assets/vendor/v-tooltip/v-tooltip.min.js',
         'dependency' => ['pm-fullcalendar-scheduler'],
         'in_footer'  => true
     ],
@@ -133,15 +133,15 @@ $pm_scripts = [
     'pm-v-fullscreen' => [
         'id'         => 'pm-v-fullscreen',
         'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/vue-fullscreen/vue-fullscreen.min.js',
-        'path'       => $view_path . '/assets/vendor/vue-fullscreen/vue-fullscreen.min.js',
+        'path'       => $wedevs_pm_view_path . '/assets/vendor/vue-fullscreen/vue-fullscreen.min.js',
         'dependency' => ['pm-v-tooltip'],
         'in_footer'  => true
     ],
 
     'pm-nprogress' => [
         'id'         => 'pm-nprogress',
-        'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/nprogress/nprogress'.$suffix.'.js',
-        'path'       => $view_path . '/assets/vendor/nprogress/nprogress'.$suffix.'.js',
+        'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/nprogress/nprogress'.$wedevs_pm_suffix.'.js',
+        'path'       => $wedevs_pm_view_path . '/assets/vendor/nprogress/nprogress'.$wedevs_pm_suffix.'.js',
         'dependency' => ['pm-v-tooltip', 'pm-locale', 'pm-v-fullscreen'],
         'in_footer'  => true
     ],
@@ -149,7 +149,7 @@ $pm_scripts = [
     'pm-toastr' => [
         'id'         => 'pm-toastr',
         'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/toastr/toastr.min.js',
-        'path'       => $view_path . '/assets/vendor/toastr/toastr.min.js',
+        'path'       => $wedevs_pm_view_path . '/assets/vendor/toastr/toastr.min.js',
         'dependency' => ['pm-nprogress'],
         'in_footer'  => true
     ],
@@ -157,7 +157,7 @@ $pm_scripts = [
     'pm-vue-library' => [
         'id'         => 'pm-vue-library',
         'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/js/library.js',
-        'path'       => $view_path . '/assets/js/library.js',
+        'path'       => $wedevs_pm_view_path . '/assets/js/library.js',
         'dependency' => ['pm-toastr'],
         'in_footer'  => true
     ],
@@ -165,14 +165,14 @@ $pm_scripts = [
     'pm-pretty-photo' => [
         'id'         => 'pm-pretty-photo',
         'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/pretty-photo/jquery.prettyPhoto.js',
-        'path'       => $view_path . '/assets/vendor/pretty-photo/jquery.prettyPhoto.js',
+        'path'       => $wedevs_pm_view_path . '/assets/vendor/pretty-photo/jquery.prettyPhoto.js',
         'dependency' => ['pm-vue-library'],
         'in_footer'  => true
     ],
 
     'pm-touch-punch' => [
         'id'         => 'pm-touch-punch',
-        'path'       => $view_path . '/assets/vendor/touch-punch/draggabilly.min.js',
+        'path'       => $wedevs_pm_view_path . '/assets/vendor/touch-punch/draggabilly.min.js',
         'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/touch-punch/draggabilly.min.js',
         'dependency' => ['pm-pretty-photo'],
         'in_footer'  => true
@@ -180,7 +180,7 @@ $pm_scripts = [
 
     'pm-date-range-picker' => [
         'id'         => 'pm-date-range-picker',
-        'path'       => $view_path . '/assets/vendor/daterangepicker/daterangepicker.js',
+        'path'       => $wedevs_pm_view_path . '/assets/vendor/daterangepicker/daterangepicker.js',
         'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/daterangepicker/daterangepicker.js',
         'dependency' => ['pm-touch-punch'],
         'in_footer'  => true
@@ -189,7 +189,7 @@ $pm_scripts = [
     'pm-tiptip' => [
         'id'         => 'pm-tiptip',
         'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/tiptip/jquery.tipTip.min.js',
-        'path'       => $view_path . '/assets/vendor/tiptip/jquery.tipTip.min.js',
+        'path'       => $wedevs_pm_view_path . '/assets/vendor/tiptip/jquery.tipTip.min.js',
         'dependency' => ['pm-date-range-picker'],
         'in_footer'  => true
     ],
@@ -197,7 +197,7 @@ $pm_scripts = [
     // 'pm-slicknav' => [
     // 	'id'         => 'pm-slicknav',
     // 	'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/slicknav/slicknav.min.js',
-    // 	'path'       => $view_path . '/assets/vendor/slicknav/slicknav.min.js',
+    // 	'path'       => $wedevs_pm_view_path . '/assets/vendor/slicknav/slicknav.min.js',
     // 	'dependency' => ['pm-tiptip'],
     // 	'in_footer'  => true
     // ],
@@ -205,7 +205,7 @@ $pm_scripts = [
     'pm-uploader' => [
         'id'         => 'pm-uploader',
         'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/uploader/uploader.js',
-        'path'       => $view_path . '/assets/vendor/uploader/uploader.js',
+        'path'       => $wedevs_pm_view_path . '/assets/vendor/uploader/uploader.js',
         'dependency' => ['pm-tiptip'],
         'in_footer'  => true
     ],
@@ -213,7 +213,7 @@ $pm_scripts = [
     'pm-const' => [
         'id'         => 'pm-const',
         'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/const.js',
-        'path'       => $view_path . '/assets/vendor/const.js',
+        'path'       => $wedevs_pm_view_path . '/assets/vendor/const.js',
         'dependency' => [
             'jquery',
             'underscore',
@@ -234,7 +234,7 @@ $pm_scripts = [
     'pm' => [
         'id'         => 'pm-scripts',
         'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/js/pm.js',
-        'path'       => $view_path . '/assets/js/pm.js',
+        'path'       => $wedevs_pm_view_path . '/assets/js/pm.js',
         'dependency' => [
             'pm-const'
         ],
@@ -260,7 +260,7 @@ $pm_scripts = [
     'pmglobal' => [
         'id'         => 'pmglobal',
         'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/js/pmglobal.js',
-        'path'       => $view_path . '/assets/js/pmglobal.js',
+        'path'       => $wedevs_pm_view_path . '/assets/js/pmglobal.js',
         'dependency' => [
             'jquery',
             'jquery-ui-autocomplete',
@@ -270,22 +270,22 @@ $pm_scripts = [
 ];
 
 //if ( ( version_compare( $wp_version, '5.0', '<' ) ) || ! is_admin() ) {
-    $pm_hooks = [
+    $wedevs_pm_hooks = [
 	    'pm-hooks' => [
 			'id'         => 'pm-hooks',
 			'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/wp-hooks/pm-hooks.js',
-			'path'       => $view_path . '/assets/vendor/wp-hooks/pm-hooks.js',
+			'path'       => $wedevs_pm_view_path . '/assets/vendor/wp-hooks/pm-hooks.js',
 			'dependency' => [],
 			'in_footer'  => true
 		]
 	];
 
-	$pm_scripts['pm-vue-library']['dependency'] = array_merge( [$pm_hooks['pm-hooks']['id']], $pm_scripts['pm-vue-library']['dependency'] );
+	$wedevs_pm_scripts['pm-vue-library']['dependency'] = array_merge( [$wedevs_pm_hooks['pm-hooks']['id']], $wedevs_pm_scripts['pm-vue-library']['dependency'] );
 
-	$pm_scripts = array_merge( $pm_scripts, $pm_hooks );
+	$wedevs_pm_scripts = array_merge( $wedevs_pm_scripts, $wedevs_pm_hooks );
 //}
 
-return $pm_scripts;
+return $wedevs_pm_scripts;
 
 
 

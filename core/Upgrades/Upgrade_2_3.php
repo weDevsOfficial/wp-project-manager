@@ -349,7 +349,7 @@ class Upgrade_2_3 extends WP_Background_Process {
         $ids = wp_list_pluck( $ids, 'id' ); 
         $this->count_boards = count( $ids );
         
-        //pm_log('board_count', $this->count_boards);
+        //wedevs_pm_log('board_count', $this->count_boards);
         foreach ( $ids as $id ) {
             $id = intval( $id );
             if ( empty( $id ) ) {
@@ -374,7 +374,7 @@ class Upgrade_2_3 extends WP_Background_Process {
         $ids = wp_list_pluck( $ids, 'id' ); 
         $this->count_tasks = count( $ids );
         
-        //pm_log('task_count', $this->count_tasks);
+        //wedevs_pm_log('task_count', $this->count_tasks);
         foreach ( $ids as $id ) {
             $id = intval( $id );
             if ( empty( $id ) ) {

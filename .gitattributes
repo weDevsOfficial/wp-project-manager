@@ -30,3 +30,4 @@
 /webpack.config.js export-ignore
 wp-project-manager.zip export-ignore
 /zipfile* export-ignore
+/api-schema.json export-ignore

@@ -3,10 +3,10 @@
 Contributors: tareq1988, nizamuddinbabu, wedevs, asaquzzaman
 Donate Link: https://tareq.co/donate/
 Tags: project management, project manager, kanban board, task manager, gantt chart
-Requires at least: 4.4 or higher
+Stable tag: 3.0.0
+Requires PHP: 7.4
+Requires at least: 6.2
 Tested up to: 6.9
-Requires PHP: 5.6
-Stable tag: 2.6.31
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -184,6 +184,64 @@ A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-proj
 12. Stay updated on project progress
 13. Built-in invoice generator
 14. Manage projects from the frontend
+
+== External Services ==
+
+This plugin connects to external third-party services. Below is a list of all external services used:
+
+= AI Project Creation (Optional) =
+This plugin offers an optional AI-powered project creation feature. When enabled and configured by the administrator, the plugin may connect to the following AI service providers:
+
+**OpenAI**
+- **Purpose**: Generate project plans, task lists, and timelines using AI.
+- **When data is sent**: Only when a user actively uses the AI project creation feature.
+- **What data is sent**: User-provided project description and requirements.
+- [OpenAI Terms of Use](https://openai.com/policies/terms-of-use)
+- [OpenAI Privacy Policy](https://openai.com/policies/privacy-policy)
+
+**Anthropic (Claude)**
+- **Purpose**: Generate project plans, task lists, and timelines using AI.
+- **When data is sent**: Only when a user actively uses the AI project creation feature.
+- **What data is sent**: User-provided project description and requirements.
+- [Anthropic Terms of Service](https://www.anthropic.com/legal/consumer-terms)
+- [Anthropic Privacy Policy](https://www.anthropic.com/legal/privacy)
+
+**Google Gemini**
+- **Purpose**: Generate project plans, task lists, and timelines using AI.
+- **When data is sent**: Only when a user actively uses the AI project creation feature.
+- **What data is sent**: User-provided project description and requirements.
+- [Google Terms of Service](https://policies.google.com/terms)
+- [Google Privacy Policy](https://policies.google.com/privacy)
+
+= Import Tools (Optional) =
+The plugin provides optional import functionality from other project management tools:
+
+**Trello Import**
+- **Purpose**: Import projects, boards, and tasks from Trello.
+- **When data is sent**: Only when a user initiates a Trello import.
+- **What data is sent**: API authentication credentials to fetch user's Trello data.
+- [Trello Terms of Service](https://www.atlassian.com/legal/software-license-agreement)
+- [Trello Privacy Policy](https://www.atlassian.com/legal/privacy-policy)
+
+**Asana Import**
+- **Purpose**: Import projects and tasks from Asana.
+- **When data is sent**: Only when a user initiates an Asana import.
+- **What data is sent**: API authentication credentials to fetch user's Asana data.
+- [Asana Terms of Service](https://asana.com/terms)
+- [Asana Privacy Policy](https://asana.com/privacy)
+
+= Promotional Notices =
+The plugin may fetch promotional content from weDevs servers to display special offers and updates to administrators.
+- **Purpose**: Display promotional notices to administrators.
+- **When data is sent**: Periodically when administrators access the plugin settings.
+- **What data is sent**: No personal data is sent; only a request to fetch promotional content.
+- [weDevs Terms of Service](https://wedevs.com/terms-and-conditions/)
+- [weDevs Privacy Policy](https://wedevs.com/privacy-policy/)
+
+= weDevs.com =
+Links throughout the plugin may direct users to weDevs.com for documentation, support, and premium features.
+- [weDevs Terms of Service](https://wedevs.com/terms-and-conditions/)
+- [weDevs Privacy Policy](https://wedevs.com/privacy-policy/)
 
 == Changelog ==
 

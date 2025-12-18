@@ -49,7 +49,7 @@ class Task_List_Controller {
         $per_page               = intval( $request->get_param( 'per_page' ) );
         $status                 = $request->get_param( 'status' );
         $list_id                = $request->get_param( 'list_id' ); //must be a array
-        $per_page_from_settings = pm_get_setting( 'list_per_page' );
+        $per_page_from_settings = wedevs_pm_get_setting( 'list_per_page' );
         $per_page_from_settings = $per_page_from_settings ? $per_page_from_settings : 15;
         $per_page               = $per_page ? $per_page : $per_page_from_settings;
         $with                   = sanitize_text_field($request->get_param('with'));
@@ -87,10 +87,10 @@ class Task_List_Controller {
             return $page;
         });
 
-        $tb_tasks     = pm_tb_prefix() . 'pm_tasks';
-        $tb_lists     = pm_tb_prefix() . 'pm_boards';
-        $tb_boardable = pm_tb_prefix() . 'pm_boardables';
-        $tb_meta      = pm_tb_prefix() . 'pm_meta';
+        $tb_tasks     = wedevs_pm_tb_prefix() . 'pm_tasks';
+        $tb_lists     = wedevs_pm_tb_prefix() . 'pm_boards';
+        $tb_boardable = wedevs_pm_tb_prefix() . 'pm_boardables';
+        $tb_meta      = wedevs_pm_tb_prefix() . 'pm_meta';
         $title       = sanitize_text_field( $request->get_param( 'title' ) );
         $is_archive  = filter_var($request->get_param('is_archive'), FILTER_VALIDATE_BOOLEAN);
 
@@ -116,21 +116,21 @@ class Task_List_Controller {
                         $q->orWhereNull($tb_meta . '.entity_type');
                     });
             })
-            ->where( pm_tb_prefix() .'pm_boards.project_id', $project_id)
+            ->where( wedevs_pm_tb_prefix() .'pm_boards.project_id', $project_id)
             ->groupBy($tb_lists.'.id');
 
         if ( ! empty( $status ) ) {
-            $task_lists->whereIn( pm_tb_prefix() .'pm_boards.status', $status );
+            $task_lists->whereIn( wedevs_pm_tb_prefix() .'pm_boards.status', $status );
         } else {
             //for archive task-list
-            $task_lists->where( pm_tb_prefix() .'pm_boards.status', $status );
+            $task_lists->where( wedevs_pm_tb_prefix() .'pm_boards.status', $status );
         }
 
         if ( ! empty( $title ) ) {
-            $task_lists->where( pm_tb_prefix() .'pm_boards.title', 'like', '%'.$title.'%');
+            $task_lists->where( wedevs_pm_tb_prefix() .'pm_boards.title', 'like', '%'.$title.'%');
         }
 
-        $task_lists = apply_filters( "pm_task_list_check_privacy", $task_lists, $project_id, $request );
+        $task_lists = apply_filters( "wedevs_pm_task_list_check_privacy", $task_lists, $project_id, $request );
 
         if ( $per_page == '-1' ) {
             $per_page = $task_lists->count();
@@ -258,20 +258,20 @@ class Task_List_Controller {
         $project_id   = $params['project_id'];
         $task_list_id = $params['task_list_id'];
         $with         = empty( $params['with'] ) ? [] : $params['with'];
-        $with         = pm_get_prepare_data( $with );
+        $with         = wedevs_pm_get_prepare_data( $with );
 
-        $task_list = Task_List::select(pm_tb_prefix().'pm_boards.*')
+        $task_list = Task_List::select(wedevs_pm_tb_prefix().'pm_boards.*')
             //->with( 'tasks' )
-            ->where( pm_tb_prefix().'pm_boards.id', $task_list_id )
-            ->where( pm_tb_prefix().'pm_boards.project_id', $project_id );
+            ->where( wedevs_pm_tb_prefix().'pm_boards.id', $task_list_id )
+            ->where( wedevs_pm_tb_prefix().'pm_boards.project_id', $project_id );
 
-            $task_list = apply_filters("pm_task_list_show_query", $task_list, $project_id, $params );
+            $task_list = apply_filters( "wedevs_pm_task_list_show_query", $task_list, $project_id, $params );
 
             $task_list = $task_list->first();
 
         if ( $task_list == NULL ) {
             return $this->get_response( null,  [
-                'message' => pm_get_text('success_messages.no_element')
+                'message' => __( 'No elements found.', 'wedevs-project-manager' )
             ] );
         }
 
@@ -313,15 +313,15 @@ class Task_List_Controller {
             $self->attach_milestone( $task_list, $milestone );
         }
 
-        do_action( 'pm_new_task_list_before_response', $task_list, $data );
+        do_action( 'wedevs_pm_new_task_list_before_response', $task_list, $data );
         $resource = new Item( $task_list, new Task_List_Transformer );
 
         $message = [
-            'message' => pm_get_text('success_messages.task_list_created')
+            'message' => __( 'A new task list has been created successfully.', 'wedevs-project-manager' )
         ];
         $response = $self->get_response( $resource, $message );
-        do_action( 'cpm_tasklist_new', $task_list->id, $project_id, $data );
-        do_action( 'pm_after_new_task_list', $response, $data );
+        do_action( 'wedevs_cpm_tasklist_new', $task_list->id, $project_id, $data );
+        do_action( 'wedevs_pm_after_new_task_list', $response, $data );
         return $response;
     }
 
@@ -341,15 +341,15 @@ class Task_List_Controller {
             $this->attach_milestone( $task_list, $milestone );
         }
 
-        do_action( 'pm_new_task_list_before_response', $task_list, $request->get_params() );
+        do_action( 'wedevs_pm_new_task_list_before_response', $task_list, $request->get_params() );
         $resource = new Item( $task_list, new Task_List_Transformer );
 
         $message = [
-            'message' => pm_get_text('success_messages.task_list_created')
+            'message' => __( 'A new task list has been created successfully.', 'wedevs-project-manager' )
         ];
         $response = $this->get_response( $resource, $message );
-        do_action( 'cpm_tasklist_new', $task_list->id, $project_id, $request->get_params() );
-        do_action( 'pm_after_new_task_list', $response, $request->get_params() );
+        do_action( 'wedevs_cpm_tasklist_new', $task_list->id, $project_id, $request->get_params() );
+        do_action( 'wedevs_pm_after_new_task_list', $response, $request->get_params() );
         return $response;
     }
 
@@ -376,16 +376,16 @@ class Task_List_Controller {
             $task_list->milestones()->detach();
         }
 
-        do_action( 'pm_update_task_list_before_response', $task_list, $request->get_params() );
+        do_action( 'wedevs_pm_update_task_list_before_response', $task_list, $request->get_params() );
         $resource = new Item( $task_list, new Task_List_Transformer );
 
         $message = [
-            'message' => pm_get_text('success_messages.task_list_updated')
+            'message' => __( 'A task list has been updated successfully.', 'wedevs-project-manager' )
         ];
 
         $response = $this->get_response( $resource, $message );
-        do_action( 'cpm_tasklist_update', $task_list_id, $project_id, $request->get_params() );
-        do_action( 'pm_after_update_task_list', $response, $request->get_params() );
+        do_action( 'wedevs_cpm_tasklist_update', $task_list_id, $project_id, $request->get_params() );
+        do_action( 'wedevs_pm_after_update_task_list', $response, $request->get_params() );
         return $response;
     }
 
@@ -397,19 +397,19 @@ class Task_List_Controller {
             ->where( 'project_id', $project_id )
             ->first();
 
-        do_action( 'pm_before_delete_task_list', $task_list_id, $project_id );
-        do_action( 'cpm_delete_tasklist_prev', $task_list_id );
+        do_action( 'wedevs_pm_before_delete_task_list', $task_list_id, $project_id );
+        do_action( 'wedevs_cpm_delete_tasklist_prev', $task_list_id );
         // Delete relations
         $self->detach_all_relations( $task_list );
 
         // Delete the task list
         $task_list->delete();
         
-        do_action( 'cpm_delete_tasklist_after', $task_list_id );
-        do_action( 'pm_after_delete_task_list', $task_list );
+        do_action( 'wedevs_cpm_delete_tasklist_after', $task_list_id );
+        do_action( 'wedevs_pm_after_delete_task_list', $task_list );
 
         $message = [
-            'message' => pm_get_text('success_messages.task_list_deleted')
+            'message' => __( 'A task list has been deleted successfully.', 'wedevs-project-manager' )
         ];
 
         return $message;
@@ -425,19 +425,19 @@ class Task_List_Controller {
             ->where( 'project_id', $project_id )
             ->first();
 
-        do_action( 'pm_before_delete_task_list', $task_list_id, $project_id );
-        do_action( 'cpm_delete_tasklist_prev', $task_list_id );
+        do_action( 'wedevs_pm_before_delete_task_list', $task_list_id, $project_id );
+        do_action( 'wedevs_cpm_delete_tasklist_prev', $task_list_id );
         // Delete relations
         $this->detach_all_relations( $task_list );
 
         // Delete the task list
         $task_list->delete();
         
-        do_action( 'cpm_delete_tasklist_after', $task_list_id );
-        do_action( 'pm_after_delete_task_list', $task_list );
+        do_action( 'wedevs_cpm_delete_tasklist_after', $task_list_id );
+        do_action( 'wedevs_pm_after_delete_task_list', $task_list );
 
         $message = [
-            'message' => pm_get_text('success_messages.task_list_deleted')
+            'message' => __( 'A task list has been deleted successfully.', 'wedevs-project-manager' )
         ];
 
         return $this->get_response(false, $message);
@@ -533,7 +533,7 @@ class Task_List_Controller {
         $project_id = intval( $request->get_param( 'project_id' ) );
         $task_list_id = intval( $request->get_param( 'task_list_id' ) );
         $privacy = filter_var($request->get_param('is_private'), FILTER_VALIDATE_BOOLEAN);
-        pm_update_meta( $task_list_id, $project_id, 'task_list', 'privacy', $privacy );
+        wedevs_pm_update_meta( $task_list_id, $project_id, 'task_list', 'privacy', $privacy );
         return $this->get_response( NULL);
     }
 
@@ -596,29 +596,23 @@ class Task_List_Controller {
             $list_ids[] = 0;
         }
 
-        if ( ! is_array( $list_ids ) ) {
+        if ( ! \is_array( $list_ids ) ) {
             $list_ids = [];
         }
 
-        $tb_tasks     = pm_tb_prefix() . 'pm_tasks';
-        $tb_lists     = pm_tb_prefix() . 'pm_boards';
-        $tb_boardable = pm_tb_prefix() . 'pm_boardables';
-        $tb_meta      = pm_tb_prefix() . 'pm_meta';
-        $tb_assigned  = pm_tb_prefix() . 'pm_assignees';
-
         $list_ids_sanitized = array_map( 'intval', $list_ids );
-        $list_ids_placeholders = implode( ',', array_fill( 0, count( $list_ids_sanitized ), '%d' ) );
+        $list_ids_placeholders = implode( ',', array_fill( 0, \count( $list_ids_sanitized ), '%d' ) );
         $filter       = '';
         $filter_values = [];
         $join         = '';
 
-        $status       = isset( $filter_params['status'] ) ? intval( $filter_params['status'] ) : false;
+        $status       = isset( $filter_params['status'] ) ? \intval( $filter_params['status'] ) : false;
         $due_date     = empty( $filter_params['due_date'] ) ? false : gmdate( 'Y-m-d', strtotime( $filter_params['due_date'] ) );
         $assignees    = empty( $filter_params['users'] ) ? [] : $filter_params['users'];
         $title        = empty( $filter_params['title'] ) ? '' : $filter_params['title'];
 
         if ( $status !== false ) {
-            if ( gettype( $status ) == 'string'  ) {
+            if ( \gettype( $status ) == 'string'  ) {
                 $status = $status == 'complete' ? 1 : 0;
             }
 
@@ -627,24 +621,28 @@ class Task_List_Controller {
         }
 
         if ( ! empty( $due_date ) ) {
-            if( $due_date == 'overdue' ) {
-                $today = gmdate( 'Y-m-d', strtotime( current_time('mysql') ) );
-                $filter .= ' AND itasks.due_date < %s';
-                $filter_values[] = $today;
+            switch ( $due_date ) {
+                case 'overdue':
+                    $today = gmdate( 'Y-m-d', strtotime( current_time('mysql') ) );
+                    $filter .= ' AND itasks.due_date < %s';
+                    $filter_values[] = $today;
+                    break;
 
-            } else if ( $due_date == 'today' ) {
-                $today = gmdate('Y-m-d', strtotime( current_time('mysql') ) );
-                $filter .= ' AND itasks.due_date = %s';
-                $filter_values[] = $today;
+                case 'today':
+                    $today = gmdate('Y-m-d', strtotime( current_time('mysql') ) );
+                    $filter .= ' AND itasks.due_date = %s';
+                    $filter_values[] = $today;
+                    break;
 
-            } else if ( $due_date == 'week' ) {
-                $today = gmdate('Y-m-d', strtotime( current_time('mysql') ) );
-                $last = gmdate('Y-m-d', strtotime( current_time('mysql') . '-1 week' ) );
+                case 'week':
+                    $today = gmdate('Y-m-d', strtotime( current_time('mysql') ) );
+                    $last = gmdate('Y-m-d', strtotime( current_time('mysql') . '-1 week' ) );
 
-                $filter .= ' AND itasks.due_date >= %s';
-                $filter .= ' AND itasks.due_date <= %s';
-                $filter_values[] = $last;
-                $filter_values[] = $today;
+                    $filter .= ' AND itasks.due_date >= %s';
+                    $filter .= ' AND itasks.due_date <= %s';
+                    $filter_values[] = $last;
+                    $filter_values[] = $today;
+                    break;
             }
         }
 
@@ -654,24 +652,30 @@ class Task_List_Controller {
         }
 
         if ( ! empty( $assignees ) ) {
-            $join .= " LEFT JOIN $tb_assigned as asign ON asign.task_id=itasks.id";
+            $join .= $wpdb->prepare( " LEFT JOIN {$wpdb->prefix}pm_assignees as asign ON asign.task_id=itasks.id" );
 
-            if ( is_array( $assignees ) && $assignees[0] != 0 ) {
+            if ( \is_array( $assignees ) && $assignees[0] != 0 ) {
                 $assignees_sanitized = array_map( 'intval', $assignees );
-                $assignees_placeholders = implode( ',', array_fill( 0, count( $assignees_sanitized ), '%d' ) );
-                $filter .= ' AND asign.assigned_to IN(' . $assignees_placeholders . ')';
-                $filter_values = array_merge( $filter_values, $assignees_sanitized );
+                $assignees_placeholders = implode( ',', array_fill( 0, \count( $assignees_sanitized ), '%d' ) );
+                $filter .= " AND asign.assigned_to IN({$assignees_placeholders})";
+                $filter_values = [...$filter_values, ...$assignees_sanitized];
 
-            } else if ( !is_array( $assignees ) && $assignees != 0) {
+            } else if ( !\is_array( $assignees ) && $assignees != 0) {
                 $filter .= ' AND asign.assigned_to = %d';
-                $filter_values[] = intval( $assignees );
+                $filter_values[] = \intval( $assignees );
             }
         }
 
-        $join .= apply_filters( 'pm_incomplete_task_query_join', '', $project_id );
-        $filter .= apply_filters( 'pm_incomplete_task_query_where', '', $project_id );
+        $join .= apply_filters( 'wedevs_pm_incomplete_task_query_join', '', $project_id );
+        $filter .= apply_filters( 'wedevs_pm_incomplete_task_query_where', '', $project_id );
 
-        $boardable = "SELECT bo.board_id,
+        // Ensure $join and $filter are strings to avoid null/undefined issues
+        $join = is_string($join) ? $join : '';
+        $filter = is_string($filter) ? $filter : '';
+
+        // phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter -- $join is built safely via apply_filters() which allows extensibility for custom JOIN clauses
+        $results = $wpdb->get_results(  $wpdb->prepare(
+            "SELECT bo.board_id,
                 group_concat(
                     DISTINCT
                     if(itasks.status=0, itasks.id, null)
@@ -683,23 +687,22 @@ class Task_List_Controller {
                     separator '|'
                 ) completed_task_ids
 
-            FROM $tb_tasks as itasks
-            LEFT JOIN $tb_boardable as bo ON bo.boardable_id=itasks.id
-            $join
+            FROM {$wpdb->prefix}pm_tasks as itasks
+            LEFT JOIN {$wpdb->prefix}pm_boardables as bo ON bo.boardable_id=itasks.id
+            {$join}
             WHERE
-            bo.board_id IN ($list_ids_placeholders)
+            bo.board_id IN ({$list_ids_placeholders})
             AND
             bo.boardable_type = 'task'
             AND
             itasks.project_id=%d
-            $filter
-            GROUP BY bo.board_id";
-
-        $prepare_values = array_merge( $list_ids_sanitized, array( $project_id ), $filter_values );
-        $results = $wpdb->get_results( $wpdb->prepare( $boardable, ...$prepare_values ) );
+            {$filter}
+            GROUP BY bo.board_id",
+            [...$list_ids_sanitized, $project_id, ...$filter_values]
+        ) );
         $returns = [];
 
-        foreach ( $results as $key => $result ) {
+        foreach ( $results as $result ) {
             $result->incompleted_task_ids = empty( $result->incompleted_task_ids ) ? [] : explode( '|', $result->incompleted_task_ids );
             $result->completed_task_ids   = empty( $result->completed_task_ids ) ? [] : explode( '|', $result->completed_task_ids );
 
@@ -710,8 +713,8 @@ class Task_List_Controller {
     }
 
     public function get_milestone_by_list_ids( $list_ids ) {
-        $tb_boardable = pm_tb_prefix() . 'pm_boardables';
-        $tb_milestone = pm_tb_prefix() . 'pm_boards';
+        $tb_boardable = wedevs_pm_tb_prefix() . 'pm_boardables';
+        $tb_milestone = wedevs_pm_tb_prefix() . 'pm_boards';
 
         $milestones = Milestone::select($tb_milestone. '.*', $tb_boardable . '.boardable_id as list_id')
 
