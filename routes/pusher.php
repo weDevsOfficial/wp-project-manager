@@ -5,10 +5,10 @@ use WeDevs\PM\Core\Permissions\Project_Manage_Capability;
 use WeDevs\PM\Core\Permissions\Authentic;
 
 
-$router = Router::singleton();
+$wedevs_pm_router = Router::singleton();
 
 
-$router->post( 'user/{user_id}/pusher/auth', 'WeDevs\PM\Pusher\Src\Controllers\Pusher_Controller@authentication' )
+$wedevs_pm_router->post( 'user/{user_id}/pusher/auth', 'WeDevs\PM\Pusher\Src\Controllers\Pusher_Controller@authentication' )
     ->permission(['WeDevs\PM\Core\Permissions\Authentic']);
 
 

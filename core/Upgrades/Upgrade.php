@@ -1,6 +1,6 @@
 <?php
 namespace WeDevs\PM\Core\Upgrades;
-use PM_Create_Table;
+use WeDevs_PM_Create_Table;
 
 
 class Upgrade {
@@ -49,8 +49,8 @@ class Upgrade {
         $is_need_update = self::is_needs_update();
         
         if (  $is_need_update ) {
-            new PM_Create_Table;
-            (new \RoleTableSeeder())->run();
+            new WeDevs_PM_Create_Table;
+            (new \WeDevs_PM_RoleTableSeeder())->run();
         }
     }
 
@@ -112,7 +112,7 @@ class Upgrade {
         $bd_version = get_option( 'cpm_db_version' );
         $installed_version = !empty( $bd_version ) ? get_option( 'cpm_db_version' ) : get_option( 'pm_db_version' );
 
-        $updatable_versions = pm_config('app.db_version');
+        $updatable_versions = wedevs_pm_config('app.db_version');
 
         // may be it's the first install
         if ( ! $installed_version ) {

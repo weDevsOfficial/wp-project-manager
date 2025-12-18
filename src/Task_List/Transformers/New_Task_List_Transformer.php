@@ -30,10 +30,10 @@ class New_Task_List_Transformer extends TransformerAbstract {
         $data = [
             'id'          => (int) $item->id,
             'title'       => $item->title,
-            'description' => pm_filter_content_url( $item->description ),
+            'description' => wedevs_pm_filter_content_url( $item->description ),
             'order'       => (int) $item->order,
             'status'      => $item->status,
-            'created_at'  => format_date( $item->created_at ),
+            'created_at'  => wedevs_pm_format_date( $item->created_at ),
             'meta'        => $this->meta( $item ),
             'extra'       => true,
             'milestone'   => $item->milestone,
@@ -43,7 +43,7 @@ class New_Task_List_Transformer extends TransformerAbstract {
             'project_id' => $item->project_id
         ];
 
-        return apply_filters( 'pm_task_list_transform', $data, $item );
+        return apply_filters( 'wedevs_pm_task_list_transform', $data, $item );
     }
 
     public function get_creator( $item ) {
@@ -62,8 +62,8 @@ class New_Task_List_Transformer extends TransformerAbstract {
             'email'             => $user->user_email,
             'profile_url'       => $user->user_url,
             'display_name'      => $user->display_name,
-            'manage_capability' => (int) pm_has_manage_capability($user->ID),
-            'create_capability' => (int) pm_has_project_create_capability($user->ID),
+            'manage_capability' => (int) wedevs_pm_has_manage_capability($user->ID),
+            'create_capability' => (int) wedevs_pm_has_project_create_capability($user->ID),
             'avatar_url'        => get_avatar_url( $user->user_email ),
         ];
 

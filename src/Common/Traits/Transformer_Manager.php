@@ -5,15 +5,17 @@ namespace WeDevs\PM\Common\Traits;
 use League\Fractal;
 use League\Fractal\Manager as Manager;
 use League\Fractal\Serializer\DataArraySerializer;
+use WeDevs\PM\Core\Router\WP_Router;
 
 trait Transformer_Manager {
+
 
     public function get_response( $resource, $extra = [] ) {
         $manager = new Manager();
         $manager->setSerializer( new DataArraySerializer() );
 
-        if ( isset( $_GET['with'] ) ) {
-            $manager->parseIncludes( sanitize_text_field( wp_unslash( $_GET['with'] ) ) ) ;
+        if (isset(WP_Router::$request->get_query_params()['with'])) {
+            $manager->parseIncludes(sanitize_text_field(wp_unslash(WP_Router::$request->get_query_params()['with'])));
         }
 
         if ($resource) {
@@ -30,8 +32,9 @@ trait Transformer_Manager {
         $manager = new Manager();
         $manager->setSerializer( new DataArraySerializer() );
 
-        if ( isset( $_GET['with'] ) ) {
-            $manager->parseIncludes( sanitize_text_field( wp_unslash( $_GET['with'] ) ) );
+
+        if (isset(WP_Router::$request->get_query_params()['with'])) {
+            $manager->parseIncludes(sanitize_text_field(wp_unslash(WP_Router::$request->get_query_params()['with'])));
         }
 
         if ($resource) {

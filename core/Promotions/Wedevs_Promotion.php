@@ -182,11 +182,7 @@ abstract class Wedevs_Promotion {
      */
     public function dismiss_upgrade_promo() {
 
-        if ( 
-            isset( $_POST['nonce'] ) 
-                && 
-            ! wp_verify_nonce( ( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) ), 'pm_christmas_offer' ) 
-        ) {
+        if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'pm_admin' ) ) {
             wp_send_json_error( __( 'Invalid nonce', 'wedevs-project-manager' ) );
         }
 

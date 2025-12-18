@@ -49,13 +49,13 @@ class Offers {
             $offer->key       = $promo_notice['key'];
             $offer->btn_txt   = ! empty( $promo_notice['action_title'] ) ? $promo_notice['action_title'] : __( 'Get Now', 'wedevs-project-manager' );
             $offer->message   = [];
-            $offer->message[] = sprintf( __( '<strong>%s</strong>', 'wedevs-project-manager' ), $promo_notice['title'] );
+            $offer->message[] = '<strong>' . esc_html( $promo_notice['title'] ) . '</strong>';
 
             if ( ! empty( $promo_notice['description'] ) ) {
-                $offer->message[] = sprintf( __( '%s', 'wedevs-project-manager' ), $promo_notice['description'] );
+                $offer->message[] = esc_html( $promo_notice['description'] );
             }
 
-            $offer->message[] = sprintf( __( '%s', 'wedevs-project-manager' ), $promo_notice['content'] );
+            $offer->message[] = esc_html( $promo_notice['content'] );
             $offer->message   = implode( '<br>', $offer->message );
 
             if ( $disabled_key != $promo_notice['key'] ) {
@@ -79,6 +79,7 @@ class Offers {
         }
 
         // Check if inside the wp-project-manager page
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only page check for displaying admin notice, no data modification.
         if ( ! isset( $_GET['page'] ) || 'pm_projects' !== $_GET['page'] ) {
             return;
         }
@@ -128,7 +129,7 @@ class Offers {
             <div class="notice notice-success is-dismissible pm-promotional-offer-notice" id="pm-notice">
                 <div class="content">
                     <p style="margin-right:14px ;">
-                        <img height="100" src="https://ps.w.org/wedevs-project-manager/assets/icon-128x128.gif" alt="WP Project Manager Plugin">
+                        <img height="100" src="<?php echo esc_url( PM_PLUGIN_ASSEST . '/images/pm-icon.png' ); ?>" alt="<?php echo esc_attr__( 'Project Manager Plugin', 'wedevs-project-manager' ); ?>">
                 	</p>
                     <p>
                         <?php echo wp_kses( $offer->message, [ 'strong' => [], 'br' => [] ] ); ?>
@@ -171,23 +172,22 @@ class Offers {
      */
     public function dismiss_offer() {
 
-        if ( empty( $_POST['nonce'] ) || ! isset( $_POST['pm_offer_key'] ) ) {
-            return;
-        }
-
-        if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'pm_dismiss_offer' ) ) {
+        if ( ! isset( $_POST['nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['nonce'] ) ), 'pm_dismiss_offer' ) ) {
             wp_send_json_error( __( 'Invalid nonce', 'wedevs-project-manager' ) );
-            return;
         }
 
         if ( ! current_user_can( 'manage_options' ) ) {
             wp_send_json_error( __( 'You have no permission to do that', 'wedevs-project-manager' ) );
-            return;
+        }
+
+        if ( ! isset( $_POST['pm_offer_key'] ) ) {
+            wp_send_json_error( __( 'Invalid request', 'wedevs-project-manager' ) );
         }
 
         $offer_key    = 'pm_offer_notice';
         $disabled_key = sanitize_text_field( wp_unslash( $_POST['pm_offer_key'] ) );
 
         update_option( $offer_key, $disabled_key );
+        wp_send_json_success();
     }
 }
