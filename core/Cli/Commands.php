@@ -595,7 +595,7 @@ class Commands extends Cli {
             $table_exists = $wpdb->get_var( $wpdb->prepare(
                 "SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = %s AND table_name = %s",
                 DB_NAME,
-                $wpdb->prefix . $table
+                $full_table_name
             ) );
 
             if ( $table_exists ) {
