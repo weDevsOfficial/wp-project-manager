@@ -48,6 +48,7 @@ views/assets/vendor/wp-hooks/wp-hooks.js
 /zipfile
 wp-project-manager.zip
 /phpcs-xml
+api-schema.json
 
 # Exclude vendor folders not required for production
 vendor/doctrine/deprecations/src/PHPUnit

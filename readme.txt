@@ -3,10 +3,10 @@
 Contributors: tareq1988, nizamuddinbabu, wedevs, asaquzzaman
 Donate Link: https://tareq.co/donate/
 Tags: project management, project manager, kanban board, task manager, gantt chart
+Stable tag: 3.0.0
+Requires PHP: 7.4
 Requires at least: 6.2
 Tested up to: 6.9
-Requires PHP: 5.6
-Stable tag: 2.6.30
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
