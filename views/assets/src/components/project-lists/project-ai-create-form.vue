@@ -138,7 +138,7 @@
                         }
                         // Fallback to status text if available
                         else if (xhr.statusText) {
-                            errorMsg = sprintf(__( 'Request failed: %s', 'wedevs-project-manager'), xhr.statusText);
+                            errorMsg = sprintf(__( 'Request failed:', 'wedevs-project-manager'))+xhr.statusText;
                         }
                         // Fallback to status code
                         else if (xhr.status) {

@@ -7,7 +7,7 @@
                     v-if="hasSelectedItems"
                     class="pm-button pm-primary pm-btn-ai-delete"
                     @click="deleteSelected">
-                    {{ __('Delete Selected') }}
+                    {{ __('Delete Selected', 'wedevs-project-manager') }}
                 </button>
             </transition>
         </div>
