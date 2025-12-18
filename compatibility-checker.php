@@ -206,7 +206,7 @@ function wedevs_pm_check_pro_compatibility() {
 
 
 function wedevs_pm_pro_incompatible_notice() {
-    $pro_version = defined( 'PM_PRO_VERSION' ) ? PM_PRO_VERSION : ( function_exists( 'pm_pro_config' ) ? pm_pro_config('app.version') : 'unknown' );
+    $pro_version = defined( 'PM_PRO_VERSION' ) ? PM_PRO_VERSION : ( function_exists( 'pm_pro_config' ) ? pm_pro_config('app.version') : wedevs_pm_pro_config('app.version')  );
     $deactivated_on_update = get_option( 'wedevs_pm_pro_deactivated_on_update' );
     ?>
     <div class="error">
