@@ -25,7 +25,7 @@ class Project_Transformer extends TransformerAbstract {
     ];
 
     public function transform( Project $item ) { 
-        $listmeta = pm_get_meta($item->id, $item->id, 'task_list', 'list-inbox');
+        $listmeta = wedevs_pm_get_meta($item->id, $item->id, 'task_list', 'list-inbox');
         if($listmeta) {
             $listmeta = $listmeta->meta_value;
         }else {
@@ -35,20 +35,20 @@ class Project_Transformer extends TransformerAbstract {
         $data = [
             'id'                  => (int) $item->id,
             'title'               => (string) $item->title,
-            'description'         => [ 'html' => pm_get_content( $item->description ), 'content' => $item->description ],
+            'description'         => [ 'html' => wedevs_pm_get_content( $item->description ), 'content' => $item->description ],
             'status'              => $item->status,
             'budget'              => $item->budget,
             'pay_rate'            => $item->pay_rate,
-            'est_completion_date' => format_date( $item->est_completion_date ),
+            'est_completion_date' => wedevs_pm_format_date( $item->est_completion_date ),
             'color_code'          => $item->color_code,
             'order'               => $item->order,
             'projectable_type'    => $item->projectable_type,
             'favourite'           => !empty($item->favourite) ? (boolean) $item->favourite->meta_value: false,
-            'created_at'          => format_date( $item->created_at ),
-            'updated_at'          => format_date( $item->updated_at ),
+            'created_at'          => wedevs_pm_format_date( $item->created_at ),
+            'updated_at'          => wedevs_pm_format_date( $item->updated_at ),
             'list_inbox'          => (int) $listmeta,
         ];
-        return apply_filters( "pm_project_transformer", $data, $item );
+        return apply_filters( "wedevs_pm_project_transformer", $data, $item );
     }
 
     /**
@@ -58,25 +58,25 @@ class Project_Transformer extends TransformerAbstract {
      */
     public function getDefaultIncludes()
     {
-        return apply_filters( "pm_project_transformer_default_includes", $this->defaultIncludes );
+        return apply_filters( "wedevs_pm_project_transformer_default_includes", $this->defaultIncludes );
     }
 
     public function includeMeta (Project $item) {
 
         return $this->item($item, function ($item) {
             $list                   = $item->task_lists();
-            $list                   = apply_filters( 'pm_task_list_query', $list, $item->id );
+            $list                   = apply_filters( 'wedevs_pm_task_list_query', $list, $item->id );
             $task                   = $item->tasks();
-            $task                   = apply_filters( 'pm_task_query', $task, $item->id );
+            $task                   = apply_filters( 'wedevs_pm_task_query', $task, $item->id );
             $task_count             = $task->count();
             $complete_tasks_count   = $task->where( 'status', Task::COMPLETE)->count();
             $incomplete_tasks_count = $task->where( 'status', Task::INCOMPLETE)->count();
             $discussion             = $item->discussion_boards();
-            $discussion             = apply_filters( 'pm_discuss_query', $discussion, $item->id);
+            $discussion             = apply_filters( 'wedevs_pm_discuss_query', $discussion, $item->id);
             $milestones             = $item->milestones();
-            $milestones             = apply_filters( 'pm_milestone_index_query', $milestones, $item->id );
+            $milestones             = apply_filters( 'wedevs_pm_milestone_index_query', $milestones, $item->id );
             $files                  = $item->files();
-            $files                  = apply_filters( 'pm_file_query', $files, $item->id );
+            $files                  = apply_filters( 'wedevs_pm_file_query', $files, $item->id );
 
             return[
                 'total_task_lists'        => $list->count(),
@@ -103,9 +103,9 @@ class Project_Transformer extends TransformerAbstract {
     }
 
     public function includeOverviewGraph( Project $item ) {
-        $today     = date( 'Y-m-d', strtotime( current_time( 'mysql' ) ) );
-        $first_day = date( 'Y-m-d', strtotime('-1 month') );
-        
+        $today     = gmdate( 'Y-m-d', strtotime( current_time( 'mysql' ) ) );
+        $first_day = gmdate( 'Y-m-d', strtotime('-1 month') );
+
         $graph_data = [];
 
         $tasks = $item->tasks()
@@ -114,9 +114,9 @@ class Project_Transformer extends TransformerAbstract {
             ->toArray();
 
         $task_groups = [];
-        
+
         foreach ( $tasks as $key => $task ) {
-            $created_date = date( 'Y-m-d', strtotime( $task['created_at'] ) );
+            $created_date = gmdate( 'Y-m-d', strtotime( $task['created_at'] ) );
             $task_groups[$created_date][] = $task;
         }
 
@@ -128,13 +128,13 @@ class Project_Transformer extends TransformerAbstract {
         $activity_groups = [];
 
         foreach ( $activities as $key => $activity ) {
-            $created_date = date( 'Y-m-d', strtotime( $activity['created_at'] ) );
+            $created_date = gmdate( 'Y-m-d', strtotime( $activity['created_at'] ) );
             $activity_groups[$created_date][] = $activity;
         }
 
-        for ( $dt = $first_day; $dt<=$today; $dt = date('Y-m-d', strtotime( $dt . '+1 day' ) ) ) {
+        for ( $dt = $first_day; $dt<=$today; $dt = gmdate('Y-m-d', strtotime( $dt . '+1 day' ) ) ) {
             $graph_data[] = [
-                'date_time'  => format_date( $dt ),
+                'date_time'  => wedevs_pm_format_date( $dt ),
                 'tasks'      => empty( $task_groups[$dt] ) ? 0 : count( $task_groups[$dt] ),
                 'activities' => empty( $activity_groups[$dt] ) ? 0 : count( $activity_groups[$dt] )
             ];

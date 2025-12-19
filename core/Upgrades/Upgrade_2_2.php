@@ -20,12 +20,14 @@ class Upgrade_2_2 {
         $projects = Project::get(['id']);
 
         $projects->each( function( $project ) {
+            // phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Custom Eloquent model table (pm_meta), not WordPress core meta tables.
             $meta = Meta::firstOrCreate([
                 'entity_id' => $project->id,
                 'entity_type' => 'task_list',
                 'meta_key' => 'list-inbox',
                 'project_id' => $project->id,
             ]);
+            // phpcs:enable WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 
             if ( empty( $meta->meta_value ) ) {
 

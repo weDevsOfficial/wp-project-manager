@@ -8,7 +8,7 @@ trait Singletonable {
     /**
      * Returns the *Singleton* instance of this class.
      *
-     * @staticvar Singleton $instance The *Singleton* instances of this class.
+     * @staticvar Singletonable $instance The *Singleton* instances of this class.
      *
      * @param array $dependencies Array of external objects that are required
      * to instantiate the singletonable class.
@@ -22,7 +22,7 @@ trait Singletonable {
      * parameters. If we need to assign the method call value to a property,
      * we will get that property from the array with the key 'property'.
      *
-     * @return Singleton The *Singleton* instance.
+     * @return Singletonable The *Singleton* instance.
      */
     public static function singleton( array $dependencies = [], array $callables = [] ) {
         static $instance = null;

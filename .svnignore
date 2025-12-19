@@ -24,3 +24,4 @@ tmp
 composer.phar
 wp-project-manager.zip
 zipfile
+api-schema.json

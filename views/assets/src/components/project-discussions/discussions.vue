@@ -14,7 +14,7 @@
             </div>
         </div>
 
-        <!-- {{ pm.i18n.__('Add List', 'cpm') }} -->
+        <!-- {{ pm.i18n.__('Add List', 'wedevs-project-manager') }} -->
         <div class="pm-discussion pm-discussion-container" v-if="isFetchDiscussion">
             <div class="pm-blank-template discussion" v-if="blankTemplate">
                 <div class="pm-content" >

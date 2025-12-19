@@ -12,6 +12,7 @@ class Meta extends Eloquent {
 
     protected $table = 'pm_meta';
 
+    // phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_key, WordPress.DB.SlowDBQuery.slow_db_query_meta_value -- These are Eloquent model column definitions for custom pm_meta table, not WordPress core meta queries.
     protected $fillable = [
         'entity_id',
         'entity_type',
@@ -21,6 +22,7 @@ class Meta extends Eloquent {
         'created_by',
         'updated_by',
     ];
+    // phpcs:enable WordPress.DB.SlowDBQuery.slow_db_query_meta_key, WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 
     public function milestone() {
         return $this->belongsTo( 'WeDevs\PM\Milestone\Models\Milestone', 'entity_id' );
@@ -35,6 +37,7 @@ class Meta extends Eloquent {
             $value = maybe_serialize($value); 
         }
 
+        // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value -- Eloquent model attribute setter for custom pm_meta table, not a WordPress meta query.
         $this->attributes['meta_value'] = $value;
     }
 }

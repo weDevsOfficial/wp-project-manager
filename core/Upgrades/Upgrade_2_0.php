@@ -16,7 +16,7 @@ use WeDevs\PM\Comment\Models\Comment;
 use WeDevs\PM\Settings\Models\Settings;
 use WeDevs\PM\Category\Models\Category;
 use WeDevs\PM\Activity\Models\Activity;
-use PM_Create_Table;
+use WeDevs_PM_Create_Table;
 
 /**
 *   Upgrade project manager 2.0     
@@ -145,7 +145,7 @@ class Upgrade_2_0 extends WP_Background_Process
         $db_observe = get_option( 'pm_observe_migration' );
 
         $observe = json_encode( $db_observe );
-        $assets_url = config('frontend.assets_url');
+        $assets_url = wedevs_pm_config('frontend.assets_url');
 
         $result = array_diff( $db_observe['count'], $db_observe['migrate'] );
         
@@ -153,14 +153,14 @@ class Upgrade_2_0 extends WP_Background_Process
         
         ?>
             <script type="text/javascript">
-                var pm_is_all_migrated = <?php echo json_encode($is_all_migrated); ?>;
+                var pm_is_all_migrated = <?php echo wp_json_encode( $is_all_migrated ); ?>;
 
                 jQuery( document ).on( 'heartbeat-send', function ( event, data ) {
                     data.pm_migration = true;
                 });
 
                 jQuery(document).ready(function() {
-                    var migrateData = <?php esc_attr( $observe ); ?>;
+                    var migrateData = <?php echo wp_json_encode( $db_observe ); ?>;
                     
                     
                     pmProgressStatus(migrateData, pm_is_all_migrated, function() {
@@ -357,8 +357,8 @@ class Upgrade_2_0 extends WP_Background_Process
      * @return [type] [description]
      */
     public function upgrade_init ( ) {
-        new PM_Create_Table;
-        (new \RoleTableSeeder())->run();
+        new WeDevs_PM_Create_Table;
+        (new \WeDevs_PM_RoleTableSeeder())->run();
         //create pro table 
         $this->create_gantt_chart_table();
         $this->create_invoice_table();
@@ -1208,13 +1208,14 @@ class Upgrade_2_0 extends WP_Background_Process
             foreach ( $payments as $payment ) {
                 $payment_date = empty( $payment['date'] ) ? $post['post_modified'] : $payment['date'];
 
+                // phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_key, WordPress.DB.SlowDBQuery.slow_db_query_meta_value -- Custom Eloquent model table (pm_meta), not WordPress core meta tables.
                 $data = [
                     'entity_id'   => $invoice_id,
                     'entity_type' => 'invoice',
                     'meta_key'    => 'invoice_payment',
                     'meta_value'  => maybe_serialize([
                         'amount'  => floatval( $payment['amount'] ),
-                        'date'    => date( 'Y-m-d', strtotime( $payment_date ) ),
+                        'date'    => gmdate( 'Y-m-d', strtotime( $payment_date ) ),
                         'notes'   => $payment['notes'],
                         'gateway' => $payment['method']
                     ]),
@@ -1224,6 +1225,7 @@ class Upgrade_2_0 extends WP_Background_Process
                     'created_at'  => $payment_date,
                     'updated_at'  => $payment_date,
                 ];
+                // phpcs:enable WordPress.DB.SlowDBQuery.slow_db_query_meta_key, WordPress.DB.SlowDBQuery.slow_db_query_meta_value
                 $this->save_object( New Meta, $data );
                 
             }
@@ -1338,6 +1340,7 @@ class Upgrade_2_0 extends WP_Background_Process
             return ;
         }
 
+        // phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_key, WordPress.DB.SlowDBQuery.slow_db_query_meta_value -- Custom Eloquent model table (pm_meta), not WordPress core meta tables.
         $metaObj = $this->save_object( new Meta, [
             'entity_id'   => $group_id,
             'entity_type' => 'pm_buddypress',
@@ -1349,6 +1352,7 @@ class Upgrade_2_0 extends WP_Background_Process
             'created_at'  => $newProject->created_at,
             'updated_at'  => $newProject->updated_at,
         ] );
+        // phpcs:enable WordPress.DB.SlowDBQuery.slow_db_query_meta_key, WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 
     }
 
@@ -1404,7 +1408,7 @@ class Upgrade_2_0 extends WP_Background_Process
         if( is_array( $tasks ) ){
 
             $ganttTable = $wpdb->prefix . 'pm_gantt_chart_links';
-            $now      = date( 'Y-m-d', strtotime( current_time('mysql') ) );
+            $now      = gmdate( 'Y-m-d', strtotime( current_time('mysql') ) );
             $user   = wp_get_current_user();
 
             foreach ( $tasks as $old => $new ) {
@@ -1592,7 +1596,7 @@ class Upgrade_2_0 extends WP_Background_Process
             return;
         }
         $timetrackerTable = $wpdb->prefix . 'pm_time_tracker';
-        $now      = date( 'Y-m-d', strtotime( current_time('mysql') ) );
+        $now      = gmdate( 'Y-m-d', strtotime( current_time('mysql') ) );
         foreach( $timetracker as $time ){
             $wpdb->insert( 
                 $timetrackerTable, 
@@ -1640,6 +1644,7 @@ class Upgrade_2_0 extends WP_Background_Process
             if( empty( $value ) ){
                 continue ;
             }
+            // phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_key, WordPress.DB.SlowDBQuery.slow_db_query_meta_value -- Custom Eloquent model table (pm_meta), not WordPress core meta tables.
             $metaObj = $this->save_object( new Meta, [
                 'entity_id'   => $object->id,
                 'entity_type' => $entity_type !== null? $entity_type : $object->type,
@@ -1651,6 +1656,7 @@ class Upgrade_2_0 extends WP_Background_Process
                 'created_at'  => $object->created_at,
                 'updated_at'  => $object->updated_at,
             ] );
+            // phpcs:enable WordPress.DB.SlowDBQuery.slow_db_query_meta_key, WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 
             $meta_ids[] = $metaObj->id;
         }
@@ -1913,7 +1919,7 @@ class Upgrade_2_0 extends WP_Background_Process
 
     function insert_client_role () {
         $user = wp_get_current_user();
-        $now  = date( 'Y-m-d', strtotime( current_time('mysql') ) );
+        $now  = gmdate( 'Y-m-d', strtotime( current_time('mysql') ) );
         if ( ! Role::where('slug', 'client')->exists() ) {
             Role::insert([
                 [

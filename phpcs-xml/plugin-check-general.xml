@@ -1,0 +1,61 @@
+<?xml version="1.0"?>
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="PluginCheck-General" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/squizlabs/PHP_CodeSniffer/master/phpcs.xsd">
+	
+	<description>WordPress Plugin Check - General Category Rules</description>
+
+	<!-- =================================== -->
+	<!-- WORDPRESS CODING STANDARDS -->
+	<!-- =================================== -->
+
+	<!-- Check for WordPress specific issues -->
+	<rule ref="WordPress.CodeAnalysis">
+		<type>warning</type>
+	</rule>
+
+	<!-- Check for proper WordPress enqueuing -->
+	<rule ref="WordPress.WP.EnqueuedResources">
+		<type>warning</type>
+	</rule>
+
+	<!-- Check for proper use of WordPress globals -->
+	<rule ref="WordPress.WP.GlobalVariablesOverride">
+		<type>error</type>
+	</rule>
+
+	<!-- =================================== -->
+	<!-- I18N (Internationalization) -->
+	<!-- =================================== -->
+
+	<!-- Check for proper text domain usage -->
+	<rule ref="WordPress.WP.I18n">
+		<type>warning</type>
+	</rule>
+
+	<!-- =================================== -->
+	<!-- PHP BEST PRACTICES -->
+	<!-- =================================== -->
+
+	<!-- Check for proper PHP syntax -->
+	<rule ref="Generic.PHP.Syntax"/>
+
+	<!-- Check for proper function declarations -->
+	<rule ref="Generic.Functions.OpeningFunctionBraceKernighanRitchie">
+		<type>warning</type>
+	</rule>
+
+	<!-- Check for unused code -->
+	<rule ref="Generic.CodeAnalysis.UnusedFunctionParameter">
+		<type>warning</type>
+	</rule>
+
+	<!-- Check for empty statements -->
+	<rule ref="Generic.CodeAnalysis.EmptyStatement">
+		<type>warning</type>
+	</rule>
+
+	<!-- Check for useless overriding methods -->
+	<rule ref="Generic.CodeAnalysis.UselessOverridingMethod">
+		<type>warning</type>
+	</rule>
+
+</ruleset>

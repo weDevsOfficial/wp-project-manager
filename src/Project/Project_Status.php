@@ -33,7 +33,7 @@ trait Project_Status {
     }
 
     public function setEstCompletionDateAttribute( $date ) {
-        $this->attributes['est_completion_date'] = make_carbon_date( $date );
+        $this->attributes['est_completion_date'] = wedevs_pm_make_carbon_date( $date );
     }
 
 }

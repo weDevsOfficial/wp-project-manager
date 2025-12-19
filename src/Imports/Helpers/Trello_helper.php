@@ -34,17 +34,23 @@ class Trello_helper {
         }
 
         public function make_request($source,$querystring,$calback){
-        // Get cURL resource
-        $curl = curl_init();
-        // Set some options - we are passing in a useragent too here
-        curl_setopt_array($curl, [
-            CURLOPT_RETURNTRANSFER => 1,
-            CURLOPT_URL => $this->remote_addr($source,$querystring)
+        // Use WordPress HTTP API instead of cURL
+        $url = $this->remote_addr($source,$querystring);
+
+        // Make the request using wp_remote_get
+        $response = wp_remote_get($url, [
+            'timeout' => 30,
+            'sslverify' => true
         ]);
-        // Send the request & save response to $resp
-        $resp = curl_exec($curl);
-        // Close request to clear up some resources
-        curl_close($curl);
+
+        // Check for errors
+        if (is_wp_error($response)) {
+            return $calback(json_encode(['error' => $response->get_error_message()]));
+        }
+
+        // Get the response body
+        $resp = wp_remote_retrieve_body($response);
+
         return $calback($resp);
     }
 

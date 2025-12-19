@@ -46,9 +46,9 @@ class ImportTrello extends WP_Background_Process
     }
 
     public function after_load_wp() {
-        $this->credentials = pm_get_setting('trello_credentials');
+        $this->credentials = wedevs_pm_get_setting('trello_credentials');
         if(!$this->credentials){
-            pm_set_settings('trello_credentials', array('api_key' => '', 'token' => ''));
+            wedevs_pm_set_settings('trello_credentials', array('api_key' => '', 'token' => ''));
         } else {
             if(array_key_exists('api_key', $this->credentials)) {
                 $this->trello = new PM_Trello($this->credentials['api_key'], $this->credentials['token']);
@@ -431,8 +431,7 @@ class ImportTrello extends WP_Background_Process
         $mailuser = str_replace(' ', '', $name);
         $mailuser = preg_replace('/[^A-Za-z0-9\-]/', '', $mailuser);
         $hostname = str_replace('http', '',get_site_url());
-        $hostname = str_replace('://', '',$hostname);
-        echo $hostname;
+        $hostname = str_replace('://', '', $hostname);
         if (strpos($hostname, ".")) {
             $email = 'trello_'.$mailuser.'@'.$hostname;
         } else {

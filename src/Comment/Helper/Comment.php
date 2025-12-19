@@ -16,6 +16,8 @@ class Comment {
 	private $with = ['creator', 'updater', 'files'];
 	private $comments;
 	private $comment_ids;
+	private $found_rows;
+	private $tb_comment;
 	private $is_single_query = false;
 	private $tb_comment;
 	private $found_rows;
@@ -28,7 +30,7 @@ class Comment {
     	$this->set_table_name();
     }
 
-    public static function get_task_comments( WP_REST_Request $request ) {
+	public static function get_task_comments(\WP_REST_Request $request) {
 		$comments = self::get_results( $request->get_params() );
 
 		wp_send_json( $comments );
@@ -48,7 +50,7 @@ class Comment {
 
 		$response = $self->format_comments( $self->comments );
 
-		if ( pm_is_single_query( $params ) ) {
+		if ( wedevs_pm_is_single_query( $params ) ) {
 			return ['data' => $response['data'][0]] ;
 		}
 
@@ -100,10 +102,10 @@ class Comment {
 		
 		$items =  [
 			'id'               => (int) $comment->id,
-            'content'          => pm_get_content( $comment->content ),
+            'content'          => wedevs_pm_get_content( $comment->content ),
             'commentable_type' => $comment->commentable_type,
             'commentable_id'   => $comment->commentable_id,
-            'created_at'       => format_date( $comment->created_at ),
+            'created_at'       => wedevs_pm_format_date( $comment->created_at ),
             'project_id'       => (int) $comment->project_id,
             'meta'       => [
                 //'total_replies' => $comment->replies->count(),
@@ -112,7 +114,7 @@ class Comment {
 
 		$items = $this->item_with( $items, $comment );
 
-		return apply_filters( 'pm_comment_transform', $items, $comment );
+		return apply_filters( 'wedevs_pm_comment_transform', $items, $comment );
 	}
 
 	private function join() {
@@ -143,10 +145,10 @@ class Comment {
 			return $this;
 		}
 
-		$commentable_id = pm_get_prepare_data( $commentable_id );
+		$commentable_id = wedevs_pm_get_prepare_data( $commentable_id );
 
 		if ( is_array( $commentable_id ) ) {
-			$query_format = pm_get_prepare_format( $commentable_id );
+			$query_format = wedevs_pm_get_prepare_format( $commentable_id );
 			$this->where .= $wpdb->prepare( " AND {$this->tb_comment}.commentable_id IN ($query_format)", $commentable_id );
 		}
 
@@ -160,7 +162,7 @@ class Comment {
 	/**
 	 * Filter activity by ID
 	 *
-	 * @return class object
+	 * @return self object
 	 */
 	private function where_commentable_type() {
 		global $wpdb;
@@ -170,10 +172,10 @@ class Comment {
 			return $this;
 		}
 
-		$commentable_type = pm_get_prepare_data( $commentable_type );
+		$commentable_type = wedevs_pm_get_prepare_data( $commentable_type );
 
 		if ( is_array( $commentable_type ) ) {
-			$query_format = pm_get_prepare_format( $commentable_type, true );
+			$query_format = wedevs_pm_get_prepare_format( $commentable_type, true );
 			$this->where .= $wpdb->prepare( " AND {$this->tb_comment}.commentable_type IN ($query_format)", $commentable_type );
 		}
 
@@ -187,7 +189,7 @@ class Comment {
 	/**
 	 * Filter comment by ID
 	 *
-	 * @return class object
+	 * @return self object
 	 */
 	private function where_id() {
 		$id = isset( $this->query_params['id'] ) ? $this->query_params['id'] : false; 
@@ -197,8 +199,8 @@ class Comment {
 		}
 
 		global $wpdb;
-		$format     = pm_get_prepare_format( $id );
-		$format_ids = pm_get_prepare_data( $id );
+		$format     = wedevs_pm_get_prepare_format( $id );
+		$format_ids = wedevs_pm_get_prepare_data( $id );
 
 		$this->where .= $wpdb->prepare( " AND {$this->tb_comment}.id IN ($format)", $format_ids );
 
@@ -216,19 +218,21 @@ class Comment {
 			return $this;
 		}
 
-		$tb_files       = pm_tb_prefix() . 'pm_files';
-		$comment_format = pm_get_prepare_format( $this->comment_ids );
-		$query_data     = $this->comment_ids;
+		$tb_files        = esc_sql( wedevs_pm_tb_prefix() . 'pm_files' );
+		$comment_ids_safe = array_map( 'absint', $this->comment_ids );
+		$comment_placeholders = implode( ', ', array_fill( 0, count( $comment_ids_safe ), '%d' ) );
+		$query_data      = array_merge( $comment_ids_safe, array( 'comment' ) );
 
-		$query = "SELECT DISTINCT fil.id as file_id,
-			fil.fileable_id as comment_id
-			FROM $tb_files as fil
-			where fil.fileable_id IN ($comment_format)
-			AND fil.fileable_type=%s";
-
-		array_push( $query_data, 'comment' );
-		
-		$results  = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT DISTINCT fil.id as file_id,
+				fil.fileable_id as comment_id
+				FROM {$tb_files} as fil
+				where fil.fileable_id IN ({$comment_placeholders})
+				AND fil.fileable_type=%s",
+				$query_data
+			)
+		);
 		$file_ids = wp_list_pluck( $results, 'file_id' );
 		
 		$files = File::get_results([
@@ -262,7 +266,7 @@ class Comment {
 		$creator_ids = wp_list_pluck( $this->comments, 'created_by' );
 		$creator_ids = array_unique( $creator_ids );
 
-		$creators = pm_get_users( [ 'id' => $creator_ids ] );
+		$creators = wedevs_pm_get_users( [ 'id' => $creator_ids ] );
 
 		$creators = $creators['data'];
 		
@@ -289,7 +293,7 @@ class Comment {
 		$updater_ids = wp_list_pluck( $this->comments, 'updated_by' );
 		$updater_ids = array_unique( $updater_ids );
 
-		$updaters = pm_get_users( [ 'id' => $updater_ids ] );
+		$updaters = wedevs_pm_get_users( [ 'id' => $updater_ids ] );
 		$updaters = $updaters['data'];
 		
 		$items = []; 
@@ -351,7 +355,20 @@ class Comment {
             return $this;
         }
 
-        $orders = [];
+		// Whitelist of allowed columns for ordering
+		$allowed_columns = array(
+			'id',
+			'parent',
+			'project_id',
+			'commentable_id',
+			'commentable_type',
+			'user_id',
+			'content',
+			'created_at',
+			'updated_at'
+		);
+
+		$orders = [];
 
         $odr_prms = str_replace( ' ', '', $odr_prms );
         $odr_prms = explode( ',', $odr_prms );
@@ -360,14 +377,25 @@ class Comment {
 			$orderStr         = str_replace( ' ', '', $orderStr );
 			$orderStr         = explode( ':', $orderStr );
 			$orderby          = $orderStr[0];
-			$order            = empty( $orderStr[1] ) ? 'asc' : $orderStr[1];
+			$order            = empty($orderStr[1]) ? 'asc' : strtolower($orderStr[1]);
+
+			// Validate column name against whitelist
+			if (! in_array($orderby, $allowed_columns, true)) {
+				continue;
+			}
+
+			// Validate order direction
+			if (! in_array($order, array('asc', 'desc'), true)) {
+				$order = 'asc';
+			}
+
 			$orders[$orderby] = $order;
         }
 
         $order = [];
 
         foreach ( $orders as $key => $value ) {
-            $order[] =  $tb_pj .'.'. $key . ' ' . $value;
+			$order[] =  $tb_pj . '.' . esc_sql($key) . ' ' . esc_sql($value);
         }
 
         $this->orderby = "ORDER BY " . implode( ', ', $order);
@@ -400,13 +428,26 @@ class Comment {
 		global $wpdb;
 		$id = isset( $this->query_params['id'] ) ? $this->query_params['id'] : false;
 
-		$query = "SELECT SQL_CALC_FOUND_ROWS DISTINCT {$this->tb_comment}.*
-			FROM {$this->tb_comment}
-			{$this->join}
-			WHERE %d=%d {$this->where} 
-			{$this->orderby} {$this->limit}";
+		// Ensure these are strings to avoid null/undefined issues
+		$join = is_string($this->join) ? $this->join : '';
+		$where = is_string($this->where) ? $this->where : '';
+		$orderby = is_string($this->orderby) ? $this->orderby : '';
+		$limit = is_string($this->limit) ? $this->limit : '';
 
-		$results = $wpdb->get_results( $wpdb->prepare( $query, 1, 1 ) );
+		// phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter -- $join is built safely via join() method using wpdb::prepare() and apply_filters()
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT SQL_CALC_FOUND_ROWS DISTINCT %i.*
+				FROM %i
+				{$join}
+				WHERE %d=%d {$where} 
+				{$orderby} {$limit}",
+				$this->tb_comment,
+				$this->tb_comment,
+				1,
+				1
+			)
+		);
 
 		$this->found_rows = $wpdb->get_var( "SELECT FOUND_ROWS()" );
 		$this->comments = $results;
@@ -423,7 +464,7 @@ class Comment {
 	}
 
     private function set_table_name() {
-		$this->tb_comment = pm_tb_prefix() . 'pm_comments';
+		$this->tb_comment = esc_sql( wedevs_pm_tb_prefix() . 'pm_comments' );
 	}
 
 }

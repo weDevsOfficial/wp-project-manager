@@ -69,8 +69,8 @@
                                     <?php esc_html_e( 'Updated at', 'wedevs-project-manager' ); ?>
                                 </p>
                                 <h2 style="font-size: 16px; color: #000; margin: 0; font-weight: 400;">
-                                     <?php $discussion_date = empty( $updated_at['date'] ) ? '&#x02013;&#x02013;' : pm_date_format( esc_html( $updated_at['date'] ) ); ?>
-                                    <?php echo esc_html( $discussion_date ); ?>
+                                     <?php $wedevs_pm_discussion_date = empty( $updated_at['date'] ) ? '&#x02013;&#x02013;' : wedevs_pm_date_format( esc_html( $updated_at['date'] ) ); ?>
+                                    <?php echo esc_html( $wedevs_pm_discussion_date ); ?>
                                 </h2>
                                 &nbsp;
                             </td>
@@ -124,7 +124,7 @@
 
                              <?php
 
-                                foreach( $project['assignees']['data'] as $assign ) {
+                                foreach( $project['assignees']['data'] as $wedevs_pm_assign ) {
                                     ?>
 
                                         <img
@@ -136,8 +136,8 @@
                                                 width: 33px;
                                                 border-radius: 50%;"
 
-                                            src="<?php echo esc_url( $assign->avatar_url ); ?>"
-                                            alt="<?php echo esc_attr( $assign->display_name ); ?>" title="<?php echo esc_attr( $assign->display_name ); ?>" width="33" height="33"
+                                            src="<?php echo esc_url( $wedevs_pm_assign->avatar_url ); ?>"
+                                            alt="<?php echo esc_attr( $wedevs_pm_assign->display_name ); ?>" title="<?php echo esc_attr( $wedevs_pm_assign->display_name ); ?>" width="33" height="33"
                                         />
                                     <?php
                                 }
