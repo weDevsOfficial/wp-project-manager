@@ -17,8 +17,6 @@ class User {
 	private $tb_user;
 	private $found_rows;
 
-	private $found_rows;
-	private $tb_user;
 	
 	public static function getInstance() {
 
