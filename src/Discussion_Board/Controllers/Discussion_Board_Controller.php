@@ -38,7 +38,7 @@ class Discussion_Board_Controller {
         });
 
         $discussion_boards = Discussion_Board::where( 'project_id', $project_id );
-        $discussion_boards = apply_filters( 'pm_discuss_index_query', $discussion_boards, $project_id, $request );
+        $discussion_boards = apply_filters( 'wedevs_pm_discuss_index_query', $discussion_boards, $project_id, $request );
         $discussion_boards = $discussion_boards->orderBy( 'created_at', 'DESC' )
                                 ->paginate( $per_page );
 
@@ -46,7 +46,7 @@ class Discussion_Board_Controller {
 
         $resource = new Collection( $discussion_board_collection, new Discussion_Board_Transformer );
         $resource->setPaginator( new IlluminatePaginatorAdapter( $discussion_boards ) );
-        $resource = apply_filters( 'pm_get_messages',  $resource,  $request );
+        $resource = apply_filters( 'wedevs_pm_get_messages',  $resource,  $request );
         return $this->get_response( $resource );
     }
 
@@ -55,16 +55,16 @@ class Discussion_Board_Controller {
         $discussion_board_id = intval( $request->get_param( 'discussion_board_id' ) );
         
         $discussion_board  = Discussion_Board::with('metas')->where( 'id', $discussion_board_id )->where( 'project_id', $project_id );
-        $discussion_board = apply_filters( 'pm_discuss_show_query', $discussion_board, $project_id, $request );
+        $discussion_board = apply_filters( 'wedevs_pm_discuss_show_query', $discussion_board, $project_id, $request );
         $discussion_board = $discussion_board->first();
 
         if ( $discussion_board == NULL ) {
             return $this->get_response( null,  [
-                'message' => pm_get_text('success_messages.no_element')
+                'message' => __( 'No elements found.', 'wedevs-project-manager' )
             ] );
         }
         $resource = new Item( $discussion_board, new Discussion_Board_Transformer );
-        $resource = apply_filters( 'pm_get_message',  $resource,  $request );
+        $resource = apply_filters( 'wedevs_pm_get_message',  $resource,  $request );
         return $this->get_response( $resource );
     }
 
@@ -89,15 +89,15 @@ class Discussion_Board_Controller {
         if ( $files ) {
             $this->attach_files( $discussion_board, $files );
         }
-        do_action( 'pm_new_message_before_response', $discussion_board, $request->get_params() );
+        do_action( 'wedevs_pm_new_message_before_response', $discussion_board, $request->get_params() );
         $resource = new Item( $discussion_board, new Discussion_Board_Transformer );
         $message = [
-            'message' => pm_get_text('success_messages.discuss_created')
+            'message' => __( 'A new discussion has been created successfully.', 'wedevs-project-manager' )
         ];
-        $resource = apply_filters( 'pm_ater_new_message',  $resource,  $request );
+        $resource = apply_filters( 'wedevs_pm_ater_new_message',  $resource,  $request );
         $response = $this->get_response( $resource, $message );
-        do_action( 'cpm_message_new', $discussion_board->id, $request->get_params( 'project_id' ), $request->get_params() );
-        do_action( 'pm_after_new_message', $response, $request->get_params(), $discussion_board );
+        do_action( 'wedevs_cpm_message_new', $discussion_board->id, $request->get_params( 'project_id' ), $request->get_params() );
+        do_action( 'wedevs_pm_after_new_message', $response, $request->get_params(), $discussion_board );
         return $response;
     }
 
@@ -105,10 +105,17 @@ class Discussion_Board_Controller {
         $data                = $this->extract_non_empty_values( $request );
         $media_data          = $request->get_file_params();
         $project_id          = intval( $request->get_param( 'project_id' ) );
-        $discussion_board_id = $request->get_param( 'discussion_board_id' );
-        $milestone_id        = $request->get_param( 'milestone' );
+        $discussion_board_id = intval( $request->get_param( 'discussion_board_id' ) );
+        $milestone_id        = intval( $request->get_param( 'milestone' ) );
         $files               = array_key_exists( 'files', $media_data ) ? $media_data['files'] : null;
         $files_to_delete     = $request->get_param( 'files_to_delete' );
+        
+        // Validate files_to_delete is array and sanitize
+        if ( $files_to_delete && is_array( $files_to_delete ) ) {
+            $files_to_delete = array_map( 'intval', $files_to_delete );
+        } else {
+            $files_to_delete = array();
+        }
 
         $is_private    = sanitize_text_field( $request->get_param( 'privacy' ) );
         $data['is_private']    = $is_private == 'true' || $is_private === true ? 1 : 0;
@@ -131,17 +138,17 @@ class Discussion_Board_Controller {
         if ( $files_to_delete ) {
             $this->detach_files( $discussion_board, $files_to_delete );
         }
-        do_action( 'pm_update_message_before_response', $discussion_board, $request->get_params() );
+        do_action( 'wedevs_pm_update_message_before_response', $discussion_board, $request->get_params() );
         $resource = new Item( $discussion_board, new Discussion_Board_Transformer );
 
         $message = [
-            'message' => pm_get_text('success_messages.discuss_updated')
+            'message' => __( 'A discussion has been updated successfully.', 'wedevs-project-manager' )
         ];
         
-        $resource = apply_filters( 'pm_ater_new_message',  $resource,  $request );
+        $resource = apply_filters( 'wedevs_pm_ater_new_message',  $resource,  $request );
         $response = $this->get_response( $resource, $message );
-        do_action( 'cpm_message_update', $discussion_board_id, $project_id, $request->get_params() );
-        do_action( 'pm_after_update_message', $response, $request->get_params(), $discussion_board );
+        do_action( 'wedevs_cpm_message_update', $discussion_board_id, $project_id, $request->get_params() );
+        do_action( 'wedevs_pm_after_update_message', $response, $request->get_params(), $discussion_board );
         return $response;
     }
 
@@ -152,8 +159,8 @@ class Discussion_Board_Controller {
         $discussion_board = Discussion_Board::where( 'id', $discussion_board_id )
             ->where( 'project_id', $project_id )
             ->first();
-        do_action( 'pm_before_delete_message', $discussion_board, $request->get_params() );
-        do_action( 'cpm_message_delete', $discussion_board_id, false );
+        do_action( 'wedevs_pm_before_delete_message', $discussion_board, $request->get_params() );
+        do_action( 'wedevs_cpm_message_delete', $discussion_board_id, false );
         $comments = $discussion_board->comments;
         foreach ($comments as $comment) {
             $comment->replies()->delete();
@@ -166,9 +173,9 @@ class Discussion_Board_Controller {
         $discussion_board->delete();
 
         $message = [
-            'message' => pm_get_text('success_messages.discuss_deleted')
+            'message' => __( 'A discussion has been deleted successfully.', 'wedevs-project-manager' )
         ];
-        do_action( 'pm_after_delete_message', $request->get_params() );
+        do_action( 'wedevs_pm_after_delete_message', $request->get_params() );
         return $this->get_response(false, $message);
     }
 
@@ -201,8 +208,12 @@ class Discussion_Board_Controller {
             ->first();
 
         $user_ids = $request->get_param( 'users' );
-
+        
+        // Validate and sanitize user_ids
         if ( is_array( $user_ids ) ) {
+            $user_ids = array_map( 'intval', $user_ids );
+            $user_ids = array_filter( $user_ids ); // Remove 0 values
+            
             foreach ( $user_ids as $user_id ) {
                 $data = [
                     'board_id' => $discussion_board->id,
@@ -221,15 +232,18 @@ class Discussion_Board_Controller {
 
     public function detach_users( WP_REST_Request $request ) {
         $project_id = intval( $request->get_param( 'project_id' ) );
-        $discussion_board_id = $request->get_param( 'discussion_board_id' );
+        $discussion_board_id = intval( $request->get_param( 'discussion_board_id' ) );
 
         $discussion_board = Discussion_Board::where( 'id', $discussion_board_id )
             ->where( 'project_id', $project_id )
             ->first();
 
         $user_ids = $request->get_param( 'users' );
-
+        
+        // Validate and sanitize user_ids
         if ( is_array( $user_ids ) ) {
+            $user_ids = array_map( 'intval', $user_ids );
+            $user_ids = array_filter( $user_ids ); // Remove 0 values
             $discussion_board->users()->detach( $user_ids );
         }
 
@@ -247,7 +261,7 @@ class Discussion_Board_Controller {
         $discuss->update_model( [
             'is_private' => $privacy
         ] );
-        pm_update_meta( $discussion_board_id, $project_id, 'discussion_board', 'privacy', $privacy );
+        wedevs_pm_update_meta( $discussion_board_id, $project_id, 'discussion_board', 'privacy', $privacy );
         return $this->get_response( NULL);
     }
 }

@@ -12,7 +12,7 @@ class Role_Transformer extends TransformerAbstract {
             'id'          => (int) $item->id,
             'title'       => $item->title,
             'description' => $item->description,
-            'created_at'  => format_date( $item->created_at ),
+            'created_at'  => wedevs_pm_format_date( $item->created_at ),
             'slug'        => $item->slug
         ];
     }

@@ -25,7 +25,7 @@ class MyTask_Controller {
         $id       = intval( $request->get_param( 'id' ) );
         $taskType = sanitize_text_field( $request->get_param( 'task_type' ) );
         
-        $today = date( 'Y-m-d', strtotime( current_time( 'mysql' ) ) );
+        $today = gmdate( 'Y-m-d', strtotime( current_time( 'mysql' ) ) );
 
         $user     = User::with( [
             'projects' => function ( $query ) use ( $id, $taskType, $today ) {
@@ -60,7 +60,7 @@ class MyTask_Controller {
                             $task = $task->where( 'due_date', '<', $today );
                         }
 
-                        if ( ! pm_has_manage_capability() ) {
+                        if ( ! wedevs_pm_has_manage_capability() ) {
                             /*exclude private tasks*/
                             $task = $task->doesntHave( 'metas', 'and', function ($query) {
                                     $query->where( 'meta_key', '=', 'privacy' )
@@ -100,7 +100,7 @@ class MyTask_Controller {
                     if ( $taskType == 'outstanding' ) {
                         $task = $task->where( 'due_date', '<', $today );
                     }
-                    if ( ! pm_has_manage_capability() ) {
+                    if ( ! wedevs_pm_has_manage_capability() ) {
                         /*exclude private tasks*/
                         $task = $task->doesntHave( 'metas', 'and', function ($query) {
                                 $query->where( 'meta_key', '=', 'privacy' )
@@ -136,18 +136,18 @@ class MyTask_Controller {
         }
 
         $user_id       = get_current_user_id();
-        $tb_tasks      = pm_tb_prefix() . 'pm_tasks';
-        $tb_boards     = pm_tb_prefix() . 'pm_boards';
-        $tb_boardables = pm_tb_prefix() . 'pm_boardables';
-        $tb_assignees  = pm_tb_prefix() . 'pm_assignees';
-        $tb_meta       = pm_tb_prefix() . 'pm_meta';
-        $tb_projects   = pm_tb_prefix() . 'pm_projects';
-        $tb_settings   = pm_tb_prefix() . 'pm_settings';
+        $tb_tasks      = esc_sql( wedevs_pm_tb_prefix() . 'pm_tasks' );
+        $tb_boards     = esc_sql( wedevs_pm_tb_prefix() . 'pm_boards' );
+        $tb_boardables = esc_sql( wedevs_pm_tb_prefix() . 'pm_boardables' );
+        $tb_assignees  = esc_sql( wedevs_pm_tb_prefix() . 'pm_assignees' );
+        $tb_meta       = esc_sql( wedevs_pm_tb_prefix() . 'pm_meta' );
+        $tb_projects   = esc_sql( wedevs_pm_tb_prefix() . 'pm_projects' );
+        $tb_settings   = esc_sql( wedevs_pm_tb_prefix() . 'pm_settings' );
 
-        $tb_users     = $wpdb->base_prefix . 'users';
-        $tb_user_meta = $wpdb->base_prefix . 'usermeta';
+        $tb_users     = esc_sql( $wpdb->base_prefix . 'users' );
+        $tb_user_meta = esc_sql( $wpdb->base_prefix . 'usermeta' );
 
-        $tb_role_user    = pm_tb_prefix() . 'pm_role_user';
+        $tb_role_user    = esc_sql( wedevs_pm_tb_prefix() . 'pm_role_user' );
         $current_user_id = get_current_user_id();
 
         $user_id     = empty( $user_id ) ? absint( $current_user_id ) : absint( $user_id );
@@ -155,26 +155,41 @@ class MyTask_Controller {
 
         $get_boards = $wpdb->get_results(
             $wpdb->prepare(
-                "SELECT id FROM $tb_boards WHERE type='%s' and status=1", 'task_list'
+                "SELECT id FROM {$tb_boards} WHERE type=%s and status=1", 'task_list'
             )
         );
 
         $boards_id  = wp_list_pluck( $get_boards, 'id' );
-        $boards_id  = implode( ',', $boards_id );
+        $boards_id  = array_map( 'absint', $boards_id );
 
-        if ( empty( $project_ids ) ) {
-            $where_projec_ids = "AND pj.id IN (0)";;
-        } else {
-            $project_ids = implode( ',', $project_ids );
-            $where_projec_ids = "AND pj.id IN ( $project_ids )";
+        // Handle empty boards_id case
+        if ( empty( $boards_id ) ) {
+            $boards_id = array( 0 );
         }
 
-        $where_users = " AND asin.assigned_to IN ( $user_id )";
+        $boards_id_placeholders  = implode( ',', array_fill( 0, count( $boards_id ), '%d' ) );
+
+        // Ensure project_ids is safe and build placeholders
+        if ( empty( $project_ids ) ) {
+            $project_ids_array = array( 0 );
+        } else {
+            $project_ids_array = array_map( 'absint', $project_ids );
+        }
+        $project_ids_placeholders = implode( ', ', array_fill( 0, count( $project_ids_array ), '%d' ) );
 
         if ( is_multisite() ) {
-            $meta_key = pm_user_meta_key();
+            $meta_key = wedevs_pm_user_meta_key();
 
-            $event_query = "SELECT tsk.*,
+            // Prepare parameters array
+            $prepare_params = array_merge(
+                array( $meta_key, $start, $start, $start, $start ),
+                $boards_id,
+                $project_ids_array,
+                array( $user_id )
+            );
+
+            $events = $wpdb->get_results( $wpdb->prepare(
+                "SELECT tsk.*,
                 GROUP_CONCAT(
                     DISTINCT
                     CONCAT(
@@ -239,57 +254,66 @@ class MyTask_Controller {
                     ) SEPARATOR '|'
                 ) as users
 
-                FROM $tb_tasks as tsk
+                FROM {$tb_tasks} as tsk
 
-                LEFT JOIN $tb_boardables as boabl
+                LEFT JOIN {$tb_boardables} as boabl
                     ON (tsk.id=boabl.boardable_id AND boabl.board_type='task_list' AND boabl.boardable_type='task')
 
-                LEFT JOIN $tb_boards as board
+                LEFT JOIN {$tb_boards} as board
                     ON (boabl.board_id=board.id AND board.type='task_list')
 
-                LEFT JOIN $tb_projects as pj ON (tsk.project_id=pj.id)
+                LEFT JOIN {$tb_projects} as pj ON (tsk.project_id=pj.id)
 
                 -- For getting multipule assignee users in individual task
-                LEFT JOIN $tb_assignees as asins ON tsk.id=asins.task_id
+                LEFT JOIN {$tb_assignees} as asins ON tsk.id=asins.task_id
 
                 -- For filter user
-                LEFT JOIN $tb_assignees as asin ON tsk.id=asin.task_id
+                LEFT JOIN {$tb_assignees} as asin ON tsk.id=asin.task_id
 
                 -- For getting all users information
-                LEFT JOIN $tb_users as usr ON asins.assigned_to=usr.ID
-                LEFT JOIN $tb_user_meta as umeta ON umeta.user_id = usr.ID
+                LEFT JOIN {$tb_users} as usr ON asins.assigned_to=usr.ID
+                LEFT JOIN {$tb_user_meta} as umeta ON umeta.user_id = usr.ID
 
-                LEFT JOIN $tb_meta as tskmt
+                LEFT JOIN {$tb_meta} as tskmt
                     ON (tsk.id=tskmt.entity_id AND tskmt.entity_type='task')
 
-                LEFT JOIN $tb_meta as boablmt
+                LEFT JOIN {$tb_meta} as boablmt
                     ON ( boabl.board_id=boablmt.entity_id AND boablmt.entity_type='task_list')
 
-                LEFT JOIN $tb_settings as sett ON pj.id=sett.project_id AND sett.key='capabilities'
+                LEFT JOIN {$tb_settings} as sett ON pj.id=sett.project_id AND sett.key='capabilities'
 
                 WHERE 1=1
-                    AND umeta.meta_key='$meta_key'
+                    AND umeta.meta_key=%s
                     AND
                     (
-                        (tsk.due_date >= '$start')
+                        (tsk.due_date >= %s)
                             or
-                        (tsk.due_date is null and tsk.start_at >= '$start')
+                        (tsk.due_date is null and tsk.start_at >= %s)
                             or
-                        (tsk.start_at is null and tsk.due_date >= '$start' )
+                        (tsk.start_at is null and tsk.due_date >= %s )
                             or
-                        ((tsk.start_at is null AND tsk.due_date is null) and tsk.created_at >= '$start')
+                        ((tsk.start_at is null AND tsk.due_date is null) and tsk.created_at >= %s)
                     )
                     AND
-                    board.id IN ($boards_id)
-                    $where_projec_ids
+                    board.id IN ({$boards_id_placeholders})
+                    AND pj.id IN ({$project_ids_placeholders})
+                    AND asin.assigned_to = %d
 
-                    $where_users
-
-                GROUP BY(tsk.id)";
-
+                GROUP BY(tsk.id)",
+                $prepare_params
+            ) );
         } else {
 
-            $event_query = "SELECT tsk.*,
+            // Prepare parameters array
+            $prepare_params = array_merge(
+                array( $start, $start, $start, $start ),
+                $boards_id,
+                $project_ids_array,
+                array( $user_id )
+            );
+
+            $events = $wpdb->get_results( $wpdb->prepare(
+                "SELECT tsk.*,
                 GROUP_CONCAT(
                     DISTINCT
                     CONCAT(
@@ -354,57 +378,57 @@ class MyTask_Controller {
                     ) SEPARATOR '|'
                 ) as users
 
-                FROM $tb_tasks as tsk
+                FROM {$tb_tasks} as tsk
 
-                LEFT JOIN $tb_boardables as boabl
+                LEFT JOIN {$tb_boardables} as boabl
                     ON (tsk.id=boabl.boardable_id AND boabl.board_type='task_list' AND boabl.boardable_type='task')
 
-                LEFT JOIN $tb_boards as board
+                LEFT JOIN {$tb_boards} as board
                     ON (boabl.board_id=board.id AND board.type='task_list')
 
-                LEFT JOIN $tb_projects as pj ON (tsk.project_id=pj.id)
+                LEFT JOIN {$tb_projects} as pj ON (tsk.project_id=pj.id)
 
                 -- For getting multipule assignee users in individual task
-                LEFT JOIN $tb_assignees as asins ON tsk.id=asins.task_id
+                LEFT JOIN {$tb_assignees} as asins ON tsk.id=asins.task_id
 
                 -- For filter user
-                LEFT JOIN $tb_assignees as asin ON tsk.id=asin.task_id
+                LEFT JOIN {$tb_assignees} as asin ON tsk.id=asin.task_id
 
                 -- For getting all users information
-                LEFT JOIN $tb_users as usr ON asins.assigned_to=usr.ID
+                LEFT JOIN {$tb_users} as usr ON asins.assigned_to=usr.ID
 
-                LEFT JOIN $tb_meta as tskmt
+                LEFT JOIN {$tb_meta} as tskmt
                     ON (tsk.id=tskmt.entity_id AND tskmt.entity_type='task')
 
-                LEFT JOIN $tb_meta as boablmt
+                LEFT JOIN {$tb_meta} as boablmt
                     ON ( boabl.board_id=boablmt.entity_id AND boablmt.entity_type='task_list')
 
-                LEFT JOIN $tb_settings as sett ON pj.id=sett.project_id AND sett.key='capabilities'
+                LEFT JOIN {$tb_settings} as sett ON pj.id=sett.project_id AND sett.key='capabilities'
 
                 WHERE 1=1
                     AND
                     (
-                        (tsk.due_date >= '$start')
+                        (tsk.due_date >= %s)
                             or
-                        (tsk.due_date is null and tsk.start_at >= '$start')
+                        (tsk.due_date is null and tsk.start_at >= %s)
                             or
-                        (tsk.start_at is null and tsk.due_date >= '$start' )
+                        (tsk.start_at is null and tsk.due_date >= %s )
                             or
-                        ((tsk.start_at is null AND tsk.due_date is null) and tsk.created_at >= '$start')
+                        ((tsk.start_at is null AND tsk.due_date is null) and tsk.created_at >= %s)
                     )
                     AND
-                    board.id IN ($boards_id)
-                    $where_projec_ids
+                    board.id IN ({$boards_id_placeholders})
+                    AND pj.id IN ({$project_ids_placeholders})
+                    AND asin.assigned_to = %d
 
-                    $where_users
-
-                GROUP BY(tsk.id)";
+                GROUP BY(tsk.id)",
+                $prepare_params
+            ) );
         }
 
-        $events     = $wpdb->get_results( $event_query );
         $user_roles = $wpdb->get_results(
             $wpdb->prepare(
-                "SELECT DISTINCT user_id, project_id, role_id FROM $tb_role_user WHERE user_id='%d'", $current_user_id
+                "SELECT DISTINCT user_id, project_id, role_id FROM {$tb_role_user} WHERE user_id=%d", $current_user_id
             )
         );
 
@@ -414,7 +438,7 @@ class MyTask_Controller {
 
     public function Calendar_Transformer( $events, $user_roles ) {
         $current_user_id = get_current_user_id();
-        $has_manage_cap  = pm_has_manage_capability();
+        $has_manage_cap  = wedevs_pm_has_manage_capability();
 
         $roles = [];
         $tasks = [];
@@ -458,8 +482,8 @@ class MyTask_Controller {
                 'status'     => $event->status ? 'complete' : 'incomplete',
                 'assignees'  => $event->assignees,
                 'project_id' => $event->project_id,
-                'created_at' => format_date( $event->created_at ),
-                'updated_at' => format_date( $event->updated_at ),
+                'created_at' => wedevs_pm_format_date( $event->created_at ),
+                'updated_at' => wedevs_pm_format_date( $event->updated_at ),
             );
         }
 
@@ -469,14 +493,15 @@ class MyTask_Controller {
     public function get_current_user_project_ids( $user_id, $project_id = false ) {
         global $wpdb;
 
-        $tb_role_user = pm_tb_prefix() . 'pm_role_user';
-
-        $project_ids = [];
+        $tb_role_user = esc_sql( wedevs_pm_tb_prefix() . 'pm_role_user' );
 
         // IF empty project id
-        $project_query = $wpdb->prepare( "SELECT DISTINCT project_id FROM $tb_role_user WHERE user_id='%d'", $user_id );
-
-        $project_ids = $wpdb->get_results( $project_query );
+        $project_ids = $wpdb->get_results(
+            $wpdb->prepare(
+                "SELECT DISTINCT project_id FROM {$tb_role_user} WHERE user_id=%d",
+                absint( $user_id )
+            )
+        );
         $project_ids = wp_list_pluck( $project_ids, 'project_id' );
 
         return $project_ids;
@@ -485,22 +510,22 @@ class MyTask_Controller {
     public function get_end( $event ) {
 
         if ( ! empty( $event->due_date ) ) {
-            return format_date( $event->due_date );
+            return wedevs_pm_format_date( $event->due_date );
         } else if ( ! empty( $event->start_at )) {
-            return format_date( $event->start_at);
+            return wedevs_pm_format_date( $event->start_at);
         } else {
-            return format_date( $event->created_at );
+            return wedevs_pm_format_date( $event->created_at );
         }
     }
 
     public function get_start( $event ) {
 
         if ( !empty( $event->start_at ) ) {
-            return format_date( $event->start_at);
+            return wedevs_pm_format_date( $event->start_at);
         } else if ( isset( $event->due_date ) ) {
-            return format_date( $event->due_date );
+            return wedevs_pm_format_date( $event->due_date );
         } else {
-            return format_date( $event->created_at );
+            return wedevs_pm_format_date( $event->created_at );
         }
     }
 
@@ -661,7 +686,7 @@ class MyTask_Controller {
 
     //     $tasks = User::find( $id )->tasks()
     //             ->whereHas('boards',function( $query ) {
-    //                 $query->where( pm_tb_prefix() . 'pm_boards.status', '1');
+    //                 $query->where( wedevs_pm_tb_prefix() . 'pm_boards.status', '1');
     //             })
     //             ->with('assignees')
     //             ->parent()
@@ -676,7 +701,7 @@ class MyTask_Controller {
     //                     $q3->whereNull( 'due_date' )
     //                         ->where( function ( $qsub ) use ($start, $end) {
     //                             $qsub->where( 'start_at', '>=', $start )
-    //                                 ->where(  pm_tb_prefix() . 'pm_tasks.created_at', '<=', $end );
+    //                                 ->where(  wedevs_pm_tb_prefix() . 'pm_tasks.created_at', '<=', $end );
     //                         });
     //                 } )
 
@@ -684,18 +709,18 @@ class MyTask_Controller {
     //                     $q4->whereNull( 'start_at' )
     //                         ->where( function ( $qsub ) use ($start, $end) {
     //                             $qsub->where( 'due_date', '>=', $start )
-    //                                 ->where(  pm_tb_prefix() . 'pm_tasks.created_at', '<=', $end );
+    //                                 ->where(  wedevs_pm_tb_prefix() . 'pm_tasks.created_at', '<=', $end );
     //                         });
     //                 } )
 
     //                 ->orWhere( function( $q5 ) use ($start, $end) {
     //                     $q5->whereNull( 'start_at' )
     //                         ->orWhereNull( 'due_date' )
-    //                         ->whereBetween( pm_tb_prefix() . 'pm_tasks.created_at', array($start, $end) );
+    //                         ->whereBetween( wedevs_pm_tb_prefix() . 'pm_tasks.created_at', array($start, $end) );
     //                 } );
     //             } );
 
-    //     if ( !pm_has_manage_capability() ){
+    //     if ( !wedevs_pm_has_manage_capability() ){
     //         $tasks = $tasks->doesntHave( 'metas', 'and', function ($query) {
     //                     $query->where( 'meta_key', '=', 'privacy' )
     //                         ->where( 'meta_value', '!=', '0' );

@@ -36,19 +36,19 @@ use WeDevs\PM\Core\Notifications\Emails\Complete_Task_Notification;
      * Hook in all transactional emails.
      */
     public static function init_transactional_emails() {
-        $email_actions = apply_filters( 'pm_notification_action', array(
-            'pm_after_new_project',
-            'pm_after_update_project',
-            'pm_after_new_message',
-            'pm_after_update_message',
-            'pm_after_create_task',
-            'pm_after_update_task',
-            'pm_changed_task_status',
-            'pm_after_new_comment',
-            'pm_after_update_comment'
+        $email_actions = apply_filters( 'wedevs_pm_notification_action', array(
+            'wedevs_pm_after_new_project',
+            'wedevs_pm_after_update_project',
+            'wedevs_pm_after_new_message',
+            'wedevs_pm_after_update_message',
+            'wedevs_pm_after_create_task',
+            'wedevs_pm_after_update_task',
+            'wedevs_pm_changed_task_status',
+            'wedevs_pm_after_new_comment',
+            'wedevs_pm_after_update_comment'
         ) );
 
-        if ( apply_filters( 'pm_transactional_emails', true ) ) {
+        if ( apply_filters( 'wedevs_pm_transactional_emails', true ) ) {
             self::$background_emailer = new Background_Emailer();
 
             foreach ( $email_actions as $action ) {
@@ -87,7 +87,7 @@ use WeDevs\PM\Core\Notifications\Emails\Complete_Task_Notification;
      * @param array  $args Email args (default: []).
      */
     public static function send_queued_transactional_email( $filter = '', $args = array() ) {
-        if ( apply_filters( 'pm_allow_send_queued_transactional_email', true, $filter, $args ) ) {
+        if ( apply_filters( 'wedevs_pm_allow_send_queued_transactional_email', true, $filter, $args ) ) {
             self::instance(); // Init self so emails exist.
 
             do_action_ref_array( $filter . '_notification', $args );
@@ -107,9 +107,9 @@ use WeDevs\PM\Core\Notifications\Emails\Complete_Task_Notification;
             $args = func_get_args();
             self::instance(); // Init self so emails exist.
             do_action_ref_array( current_filter() . '_notification', $args );
-        } catch ( Exception $e ) {
+        } catch ( \Exception $e ) {
             if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-                trigger_error( esc_attr__( 'Transactional email triggered fatal error for callback ', 'wedevs-project-manager' ) . current_filter(), E_USER_WARNING );
+                trigger_error( esc_attr__( 'Transactional email triggered fatal error for callback ', 'wedevs-project-manager' ) . esc_attr( current_filter() ), E_USER_WARNING );
             }
         }
     }

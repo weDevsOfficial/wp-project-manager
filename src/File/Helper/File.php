@@ -16,6 +16,8 @@ class File {
 	private $with = ['creator', 'updater'];
 	private $files;
 	private $file_ids;
+	private $found_rows;
+	private $tb_file;
 	private $is_single_query = false;
 
 	public static function getInstance() {
@@ -26,7 +28,7 @@ class File {
     	$this->set_table_name();
     }
 
-    public static function get_task_files( WP_REST_Request $request ) {
+	public static function get_task_files(\WP_REST_Request $request) {
 		$files = self::get_results( $request->get_params() );
 
 		wp_send_json( $files );
@@ -46,7 +48,7 @@ class File {
 
 		$response = $self->format_files( $self->files );
 
-		if ( pm_is_single_query( $params ) ) {
+		if ( wedevs_pm_is_single_query( $params ) ) {
 			return ['data' => $response['data'][0]] ;
 		}
 
@@ -127,7 +129,7 @@ class File {
             'fileable_type' => $file->fileable_type,
             'directory'     => empty( $file->directory ) ? '' : $file->directory,
             'attachment_id' => $file->attachment_id,
-            'attached_at'   => format_date( $file->created_at ),
+            'attached_at'   => wedevs_pm_format_date( $file->created_at ),
             //'fileable'      => $this->get_fileabel($file),
             //'meta'          => $this->get_file_meta($file)
         ];
@@ -135,7 +137,7 @@ class File {
         $items = $this->set_attach_file( $items, $file ); 
 		$items = $this->item_with( $items, $file );
 
-		return apply_filters( 'pm_file_transform', $items, $file );
+		return apply_filters( 'wedevs_pm_file_transform', $items, $file );
 	}
 
 	private function set_attach_file( $items, $file ) {
@@ -165,7 +167,7 @@ class File {
 	/**
 	 * Filter file by ID
 	 *
-	 * @return class object
+	 * @return self object
 	 */
 	private function where_id() {
 		$id = isset( $this->query_params['id'] ) ? $this->query_params['id'] : false; 
@@ -175,8 +177,8 @@ class File {
 		}
 
 		global $wpdb;
-		$format     = pm_get_prepare_format( $id );
-		$format_ids = pm_get_prepare_data( $id );
+		$format     = wedevs_pm_get_prepare_format( $id );
+		$format_ids = wedevs_pm_get_prepare_data( $id );
 
 		$this->where .= $wpdb->prepare( " AND {$this->tb_file}.id IN ($format)", $format_ids );
 
@@ -196,7 +198,7 @@ class File {
 		$creator_ids = wp_list_pluck( $this->files, 'created_by' );
 		$creator_ids = array_unique( $creator_ids );
 
-		$creators = pm_get_users( [ 'id' => $creator_ids ] );
+		$creators = wedevs_pm_get_users( [ 'id' => $creator_ids ] );
 		$creators = $creators['data'];
 		
 		$items = []; 
@@ -222,7 +224,7 @@ class File {
 		$updater_ids = wp_list_pluck( $this->files, 'updated_by' );
 		$updater_ids = array_unique( $updater_ids );
 
-		$updaters = pm_get_users( [ 'id' => $updater_ids ] );
+		$updaters = wedevs_pm_get_users( [ 'id' => $updater_ids ] );
 		$updaters = $updaters['data'];
 		
 		$items = []; 
@@ -284,7 +286,19 @@ class File {
             return $this;
         }
 
-        $orders = [];
+		// Whitelist of allowed columns for ordering
+		$allowed_columns = array(
+			'id',
+			'fileable_id',
+			'fileable_type',
+			'type',
+			'parent',
+			'created_by',
+			'created_at',
+			'updated_at'
+		);
+
+		$orders = [];
 
         $odr_prms = str_replace( ' ', '', $odr_prms );
         $odr_prms = explode( ',', $odr_prms );
@@ -293,14 +307,25 @@ class File {
 			$orderStr         = str_replace( ' ', '', $orderStr );
 			$orderStr         = explode( ':', $orderStr );
 			$orderby          = $orderStr[0];
-			$order            = empty( $orderStr[1] ) ? 'asc' : $orderStr[1];
+			$order            = empty($orderStr[1]) ? 'asc' : strtolower($orderStr[1]);
+
+			// Validate column name against whitelist
+			if (! in_array($orderby, $allowed_columns, true)) {
+				continue;
+			}
+
+			// Validate order direction
+			if (! in_array($order, array('asc', 'desc'), true)) {
+				$order = 'asc';
+			}
+
 			$orders[$orderby] = $order;
         }
 
         $order = [];
 
         foreach ( $orders as $key => $value ) {
-            $order[] =  $tb_pj .'.'. $key . ' ' . $value;
+			$order[] =  $tb_pj . '.' . esc_sql($key) . ' ' . esc_sql($value);
         }
 
         $this->orderby = "ORDER BY " . implode( ', ', $order);
@@ -333,13 +358,26 @@ class File {
 		global $wpdb;
 		$id = isset( $this->query_params['id'] ) ? $this->query_params['id'] : false;
 
-		$query = "SELECT SQL_CALC_FOUND_ROWS DISTINCT {$this->tb_file}.*
-			FROM {$this->tb_file}
-			{$this->join}
-			WHERE %d=%d {$this->where} 
-			{$this->orderby} {$this->limit}";
+		// Ensure these are strings to avoid null/undefined issues
+		$join = is_string($this->join) ? $this->join : '';
+		$where = is_string($this->where) ? $this->where : '';
+		$orderby = is_string($this->orderby) ? $this->orderby : '';
+		$limit = is_string($this->limit) ? $this->limit : '';
 
-		$results = $wpdb->get_results( $wpdb->prepare( $query, 1, 1 ) );
+		// phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter -- $join is built safely via join() method using wpdb::prepare() and apply_filters()
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT SQL_CALC_FOUND_ROWS DISTINCT %i.*
+				FROM %i
+				{$join}
+				WHERE %d=%d {$where} 
+				{$orderby} {$limit}",
+				$this->tb_file,
+				$this->tb_file,
+				1,
+				1
+			)
+		);
 
 		$this->found_rows = $wpdb->get_var( "SELECT FOUND_ROWS()" );
 		$this->files = $results;
@@ -356,7 +394,7 @@ class File {
 	}
 
     private function set_table_name() {
-		$this->tb_file = pm_tb_prefix() . 'pm_files';
+		$this->tb_file = esc_sql( wedevs_pm_tb_prefix() . 'pm_files' );
 	}
 
 }

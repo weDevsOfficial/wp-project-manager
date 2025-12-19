@@ -37,14 +37,18 @@ class Menu {
             return;
         }
 
-//        if ( pm_has_manage_capability() ) {
+//        if ( wedevs_pm_has_manage_capability() ) {
 //            $submenu['pm_projects'][] = array( __( 'Woo Project', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/woo-project' );
 //        }
 
+        // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intentionally adding custom submenu items to WordPress admin menu
         $submenu['pm_projects'][] = array( __( 'Calendar', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/calendar' );
-        if ( pm_has_manage_capability() ) {
+        if ( wedevs_pm_has_manage_capability() ) {
+            // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intentionally adding custom submenu items to WordPress admin menu
             $submenu['pm_projects'][] = array( __( 'Progress', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/progress' );
+            // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intentionally adding custom submenu items to WordPress admin menu
             $submenu['pm_projects'][] = array( __( 'Reports', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/reports' );
+            // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intentionally adding custom submenu items to WordPress admin menu
             $submenu['pm_projects'][] = array( __( 'Modules', 'wedevs-project-manager' ), self::$capability, 'admin.php?page=pm_projects#/modules' );
         }
 

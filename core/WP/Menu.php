@@ -14,39 +14,46 @@ class Menu {
     public static function admin_menu() {
         global $submenu, $wedevs_pm_pro, $wedevs_license_progress;
 
-        $slug = pm_admin_slug();
+        $slug = wedevs_pm_admin_slug();
 
         $home = add_menu_page( __( 'Project Manager', 'wedevs-project-manager' ), __( 'Project Manager', 'wedevs-project-manager' ), self::$capability, $slug, array( new Output, 'home_page' ), self::pm_svg(), 3 );
 
+        // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intentionally adding custom submenu items to WordPress admin menu
         $submenu[$slug][] = [ __( 'Projects', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/" ];
 
         $active_task = self::my_task_count();
+        // translators: %s: pending task count number
         $mytask_text = sprintf( __( 'My Tasks %s', 'wedevs-project-manager' ), '<span class="awaiting-mod count-1"><span class="pending-count">' . $active_task . '</span></span>' );
+        // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intentionally adding custom submenu items to WordPress admin menu
         $submenu[$slug][] = [ $mytask_text , self::$capability, "admin.php?page={$slug}#/my-tasks" ];
 
-        if ( pm_user_can_access( pm_manager_cap_slug() ) ) {
+        if ( wedevs_pm_user_can_access( wedevs_pm_manager_cap_slug() ) ) {
+            // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intentionally adding custom submenu items to WordPress admin menu
             $submenu[$slug][] = [ __( 'Categories', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/categories" ];
         }
 
-        do_action( 'pm_menu_before_load_scripts', $home );
+        do_action( 'wedevs_pm_menu_before_load_scripts', $home );
 
         add_action( 'admin_print_styles-' . $home, array( 'WeDevs\\PM\\Core\\WP\\Menu', 'scripts' ) );
 
-        do_action( 'cpm_admin_menu', self::$capability, $home );
+        do_action( 'wedevs_cpm_admin_menu', self::$capability, $home );
 
         if ( ! $wedevs_pm_pro ) {
+            // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intentionally adding custom submenu items to WordPress admin menu
             $submenu[$slug][] = [ __( 'Premium', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/premium" ];
         }
 
-        if ( pm_has_admin_capability() ) {
+        if ( wedevs_pm_has_admin_capability() ) {
+            // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intentionally adding custom submenu items to WordPress admin menu
             $submenu[$slug][] = [ __( 'Settings', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/settings" ];
         }
 
-        if ( pm_user_can_access( pm_manager_cap_slug() ) ) {
+        if ( wedevs_pm_user_can_access( wedevs_pm_manager_cap_slug() ) ) {
+            // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intentionally adding custom submenu items to WordPress admin menu
             $submenu[$slug]['importtools'] = [ __( 'Tools', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/importtools" ];
         }
 
-        do_action( 'pm_menu_after_load_scripts', $home );
+        do_action( 'wedevs_pm_menu_after_load_scripts', $home );
     }
 
 	public static function pm_svg() {
@@ -59,25 +66,25 @@ class Menu {
 	}
 
 	public static function my_task_count () {
-		$today = date( 'Y-m-d', strtotime( current_time( 'mysql' ) ) );
+		$today = gmdate( 'Y-m-d', strtotime( current_time( 'mysql' ) ) );
 		$user_id = get_current_user_id();
 
 		$project_ids = User_Role::where( 'user_id', $user_id)->get(['project_id'])->toArray();
         $project_ids = wp_list_pluck( $project_ids, 'project_id' );
 
-        if ( pm_has_manage_capability() ){
+        if ( wedevs_pm_has_manage_capability() ){
             $tasks = User::find( $user_id )
             	->tasks()
                 ->whereHas('boards')
                 ->parent()
-                ->where( pm_tb_prefix() . 'pm_tasks.status', 0)
-            	->whereIn( pm_tb_prefix() . 'pm_tasks.project_id', $project_ids)
+                ->where( wedevs_pm_tb_prefix() . 'pm_tasks.status', 0)
+            	->whereIn( wedevs_pm_tb_prefix() . 'pm_tasks.project_id', $project_ids)
                 ->get();
         }else{
             $tasks = User::find( $user_id )->tasks()
                 ->parent()
-                ->where( pm_tb_prefix() . 'pm_tasks.status', 0)
-                ->whereIn( pm_tb_prefix() . 'pm_tasks.project_id', $project_ids)
+                ->where( wedevs_pm_tb_prefix() . 'pm_tasks.status', 0)
+                ->whereIn( wedevs_pm_tb_prefix() . 'pm_tasks.project_id', $project_ids)
                 ->doesntHave( 'metas', 'and', function ($query) {
                     $query->where( 'meta_key', '=', 'privacy' )
                         ->where( 'meta_value', '!=', '0' );

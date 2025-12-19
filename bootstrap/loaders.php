@@ -7,7 +7,7 @@ use WeDevs\PM\Core\Database\Migrater;
 use WeDevs\PM\Core\WP\Frontend;
 use enshrined\svgSanitize\Sanitizer;
 
-function pm_load_configurations() {
+function wedevs_pm_load_configurations() {
     $files = glob( __DIR__ . "/../config/*.php" );
 
     if ( $files === false ) {
@@ -24,24 +24,14 @@ function pm_load_configurations() {
     return $config;
 }
 
-function pm_load_texts() {
-    $files = glob( __DIR__ . "/../texts/*.php" );
 
-    if ( $files === false ) {
-        throw new RuntimeException( "Failed to glob for lang files" );
-    }
-
-    foreach ( $files as $file ) {
-        $lang[basename( $file, '.php' )] = include $file;
-    }
-
-    unset( $file );
-    unset( $files );
-
-    return $lang;
+function wedevs_pm_load_texts() {
+    // Deprecated: texts/*.php files are no longer used
+    // All translations now use proper WordPress i18n functions (__(), _e(), etc.)
+    return array();
 }
 
-function pm_load_libs() {
+function wedevs_pm_load_libs() {
     $files = glob( __DIR__ . "/../libs/*.php" );
 
     if ( $files === false ) {
@@ -61,7 +51,7 @@ function pm_load_libs() {
  * These files will be considered as route files only, nothing else.
  * So make files in that directoy carefully.
  */
-function pm_load_routes() {
+function wedevs_pm_load_routes() {
     $files = glob( __DIR__ . "/../routes/*.php" );
 
     if ( $files === false ) {
@@ -76,9 +66,9 @@ function pm_load_routes() {
     unset( $files );
 }
 
-function pm_load_orm() {
+function wedevs_pm_load_orm() {
     $capsule = new Capsule;
-    $config_db = pm_config('db');
+    $config_db = wedevs_pm_config('db');
     $status = $capsule->addConnection( $config_db );
 
     // Setup eloquent model events
@@ -91,7 +81,7 @@ function pm_load_orm() {
     $capsule->bootEloquent();
 }
 
-function pm_load_schema() {
+function wedevs_pm_load_schema() {
     $contents = [];
     $files = glob( __DIR__ . "/../db/migrations/*.php" );
 
@@ -109,36 +99,36 @@ function pm_load_schema() {
     return $contents;
 }
 
-function pm_migrate_db() {
+function wedevs_pm_migrate_db() {
     $migrater = new Migrater();
 
     $migrater->create_migrations_table();
     $migrater->build_schema();
 }
 
-function pm_seed_db() {
-    (new RoleTableSeeder())->run();
+function wedevs_pm_seed_db() {
+    (new WeDevs_PM_RoleTableSeeder())->run();
 }
 
-function pm_register_routes() {
+function wedevs_pm_register_routes() {
     $routes = Router::get_routes();
 
     WP_Router::register($routes);
 }
 
-function pm_view() {
+function wedevs_pm_view() {
     new Frontend();
 }
 
-function pm_user_tracking() {
-    add_action( 'plugins_loaded', 'pm_after_load_pro', 99 );
+function wedevs_pm_user_tracking() {
+    add_action( 'plugins_loaded', 'wedevs_pm_after_load_pro', 99 );
 }
 
-function pm_after_load_pro() {
-    // add_action( 'init', 'pm_init_tracker' ); // No need after v1.1
+function wedevs_pm_after_load_pro() {
+    // add_action( 'init', 'wedevs_pm_init_tracker' ); // No need after v1.1
 }
 
-function pm_init_tracker() {
+function wedevs_pm_init_tracker() {
     $client = new Appsero\Client( 'd6e3df28-610b-4315-840d-df0b2b02f4fe', 'WP Project Manager', PM_FILE );
 
     $insights = $client->insights();
@@ -147,11 +137,11 @@ function pm_init_tracker() {
     if ( version_compare( $client->version, '1.1.1', '>=' ) ) {
         $insights->add_extra( function() {
             return [
-                'projects'  => pm_total_projects(),
-                'tasklist'  => pm_total_task(),
-                'tasks'     => pm_total_task_list(),
-                'message'   => pm_total_message(),
-                'milestone' => pm_total_milestone(),
+                'projects'  => wedevs_pm_total_projects(),
+                'tasklist'  => wedevs_pm_total_task(),
+                'tasks'     => wedevs_pm_total_task_list(),
+                'message'   => wedevs_pm_total_message(),
+                'milestone' => wedevs_pm_total_milestone(),
                 'is_pro'    => class_exists('WeDevs\PM_Pro\Core\WP\Frontend') ? 'yes' : 'no'
             ];
         } );
@@ -160,23 +150,31 @@ function pm_init_tracker() {
     $insights->init_plugin();
 }
 
-function pm_clean_svg() {
+function wedevs_pm_clean_svg() {
     add_filter( 'wp_check_filetype_and_ext', function ( $data, $file, $filename, $mimes ) {
         if ( $data['ext'] === 'svg' ) {
             $sanitizer = new Sanitizer();
+
+            // Initialize WP_Filesystem
+            global $wp_filesystem;
+            if ( empty( $wp_filesystem ) ) {
+                require_once ABSPATH . 'wp-admin/includes/file.php';
+                WP_Filesystem();
+            }
+
             // Check if file exists and is readable
-            if ( file_exists( $file ) && is_readable( $file ) ) {
-                $dirtySVG = file_get_contents( $file );
+            if ( $wp_filesystem->exists( $file ) && $wp_filesystem->is_readable( $file ) ) {
+                $dirtySVG = $wp_filesystem->get_contents( $file );
                 if ( $dirtySVG !== false ) {
                     $cleanSVG = $sanitizer->sanitize( $dirtySVG );
                     // Check if sanitization was successful
-                    if ( $cleanSVG !== false && is_writable( $file ) ) {
-                        file_put_contents( $file, $cleanSVG );
+                    if ( $cleanSVG !== false && $wp_filesystem->is_writable( $file ) ) {
+                        $wp_filesystem->put_contents( $file, $cleanSVG, FS_CHMOD_FILE );
                     }
                 }
             }
         }
-    
+
         return $data;
     }, 10, 4 );
 }

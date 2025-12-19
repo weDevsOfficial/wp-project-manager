@@ -35,11 +35,11 @@ class Project_Controller {
     public function index( WP_REST_Request $request ) {
 		$per_page = intval( $request->get_param( 'per_page' ) );
 		$page     = intval( $request->get_param( 'page' ) );
-		$status   = $request->get_param( 'status' );
-		$category = $request->get_param( 'category' );
-		$project_transform = $request->get_param( 'project_transform' );
+		$status   = sanitize_text_field($request->get_param('status'));
+		$category = intval($request->get_param('category'));
+		$project_transform = sanitize_text_field($request->get_param('project_transform'));
 
-		$per_page_from_settings = pm_get_setting( 'project_per_page' );
+		$per_page_from_settings = wedevs_pm_get_setting( 'project_per_page' );
 		$per_page_from_settings = $per_page_from_settings ? $per_page_from_settings : 15;
 
 		$per_page = $per_page ? $per_page : $per_page_from_settings;
@@ -51,9 +51,9 @@ class Project_Controller {
 
 		$projects = $this->fetch_projects( $category, $status );
 
-		$projects = apply_filters( 'pm_project_query', $projects, $request->get_params() );
+		$projects = apply_filters( 'wedevs_pm_project_query', $projects, $request->get_params() );
 
-		$projects = $projects->orderBy(  pm_tb_prefix().'pm_projects.created_at', 'DESC' );
+		$projects = $projects->orderBy(  wedevs_pm_tb_prefix().'pm_projects.created_at', 'DESC' );
 
 		if ( -1 === intval( $per_page ) || $per_page == 'all' ) {
 			$per_page = $projects->get()->count();
@@ -124,13 +124,13 @@ class Project_Controller {
 			$projects = $projects->where( 'status', $status );
 		}
 
-		$projects = $projects->leftJoin( pm_tb_prefix() . 'pm_meta', function ( $join ) use( $user_id ) {
-			$join->on( pm_tb_prefix().'pm_projects.id', '=',  pm_tb_prefix().'pm_meta.project_id' )
+		$projects = $projects->leftJoin( wedevs_pm_tb_prefix() . 'pm_meta', function ( $join ) use( $user_id ) {
+			$join->on( wedevs_pm_tb_prefix().'pm_projects.id', '=',  wedevs_pm_tb_prefix().'pm_meta.project_id' )
 			->where('meta_key', '=', 'favourite_project')->where('entity_id', '=', $user_id);
 		})
-		->selectRaw( pm_tb_prefix().'pm_projects.*' )
-		->groupBy( pm_tb_prefix().'pm_projects.id' )
-		->orderBy( pm_tb_prefix().'pm_meta.meta_value', 'DESC');
+		->selectRaw( wedevs_pm_tb_prefix().'pm_projects.*' )
+		->groupBy( wedevs_pm_tb_prefix().'pm_projects.id' )
+		->orderBy( wedevs_pm_tb_prefix().'pm_meta.meta_value', 'DESC');
 
 		return $projects;
     }
@@ -152,7 +152,7 @@ class Project_Controller {
     	} else {
     		$projects = Project::with('assignees');
     	}
-    	if ( !pm_has_manage_capability( $user_id ) ){
+    	if ( !wedevs_pm_has_manage_capability( $user_id ) ){
     		$projects = $projects->whereHas('assignees', function( $q ) use ( $user_id ) {
     					$q->where('user_id', $user_id );
     				});
@@ -162,12 +162,12 @@ class Project_Controller {
     }
 
 	public function show( WP_REST_Request $request ) {
-		$id 	  = $request->get_param('id');
+		$id 	  = intval($request->get_param('id'));
 		$user_id  = get_current_user_id();
 		$project  = Project::find($id);
 
 		if ( !$project  ) {
-			return new \WP_Error( 'project', pm_get_text('success_messages.no_project'), array( 'status'=> 404 ) );
+			return new \WP_Error( 'project', __( 'No projects found.', 'wedevs-project-manager' ), array( 'status'=> 404 ) );
 		}
 
         $projectId_git_bit_hash = get_option('projectId_git_bit_hash_'.$project->id);
@@ -176,7 +176,7 @@ class Project_Controller {
         }
 
 		$resource = new Item( $project, new Project_Transformer );
-		$list_view = pm_get_meta( $user_id, $id, 'list_view', 'list_view_type' );
+		$list_view = wedevs_pm_get_meta( $user_id, $id, 'list_view', 'list_view_type' );
 		$resource->setMeta([
 			'list_view_type' => $list_view ? $list_view->toArray() : null
 		]);
@@ -204,13 +204,13 @@ class Project_Controller {
 		if ( is_array( $assignees ) ) {
 			$this->assign_users( $project, $assignees );
 		}
-		do_action( 'pm_project_new', $project, $data );
+		do_action( 'wedevs_pm_project_new', $project, $data );
 		// Transforming database model instance
 		$resource = new Item( $project, new Project_Transformer );
 		$response = $this->get_response( $resource );
-		$response['message'] = pm_get_text('success_messages.project_created');
-		do_action( 'cpm_project_new', $project->id, $project->toArray(), $data ); // will deprecated
-		do_action( 'pm_after_new_project', $response, $data );
+		$response['message'] = __( 'A new project has been created successfully.', 'wedevs-project-manager' );
+		do_action( 'wedevs_cpm_project_new', $project->id, $project->toArray(), $data ); // will deprecated
+		do_action( 'wedevs_pm_after_new_project', $response, $data );
 
 		( new Project_Role_Relation )->set_relation_after_create_project( $response['data'] );
 
@@ -229,7 +229,7 @@ class Project_Controller {
 			$project->categories()->sync( $category_ids );
 		}
 
-		$assignees = pm_validate_assignee( $request->get_param( 'assignees' ) );
+		$assignees = wedevs_pm_validate_assignee( $request->get_param( 'assignees' ) );
 
 		$assignees[] = [
 			'user_id' => wp_get_current_user()->ID,
@@ -240,14 +240,14 @@ class Project_Controller {
 		if ( is_array( $assignees ) ) {
 			$this->assign_users( $project, $assignees );
 		}
-		do_action( 'pm_project_new', $project, $request->get_params());
+		do_action( 'wedevs_pm_project_new', $project, $request->get_params());
 		// Transforming database model instance
 		$resource = new Item( $project, new Project_Transformer );
 		$response = $this->get_response( $resource );
-		$response['message'] = pm_get_text('success_messages.project_created');
+		$response['message'] = __( 'A new project has been created successfully.', 'wedevs-project-manager' );
 
-		do_action( 'cpm_project_new', $project->id, $project->toArray(), $request->get_params() ); // will deprecated
-		do_action( 'pm_after_new_project', $response, $request->get_params() );
+		do_action( 'wedevs_cpm_project_new', $project->id, $project->toArray(), $request->get_params() ); // will deprecated
+		do_action( 'wedevs_pm_after_new_project', $response, $request->get_params() );
 
 		( new Project_Role_Relation )->set_relation_after_create_project( $response['data'] );
 
@@ -267,20 +267,20 @@ class Project_Controller {
 			$project->categories()->sync( $category_ids );
 		}
 
-		$assignees = pm_validate_assignee( $request->get_param( 'assignees' ) );
+		$assignees = wedevs_pm_validate_assignee( $request->get_param( 'assignees' ) );
 
 		if ( is_array( $assignees ) ) {
 			$project->assignees()->detach();
 			$this->assign_users( $project, $assignees );
 		}
 
-		do_action( 'pm_project_update', $project, $request->get_params() );
+		do_action( 'wedevs_pm_project_update', $project, $request->get_params() );
 
 		$resource = new Item( $project, new Project_Transformer );
 		$response = $this->get_response( $resource );
-		$response['message'] = pm_get_text('success_messages.project_updated');
-		do_action( 'cpm_project_update', $project->id, $project->toArray(), $request->get_params() );
-		do_action( 'pm_after_update_project', $response, $request->get_params() );
+		$response['message'] = __( 'A project has been updated successfully.', 'wedevs-project-manager' );
+		do_action( 'wedevs_cpm_project_update', $project->id, $project->toArray(), $request->get_params() );
+		do_action( 'wedevs_pm_after_update_project', $response, $request->get_params() );
 
 		( new Project_Role_Relation )->set_relation_after_update_project( $response['data'] );
 
@@ -291,9 +291,9 @@ class Project_Controller {
 		$projects = Project::all();
 		foreach ($projects as  $project ) {
 
-			do_action( 'cpm_delete_project_prev', $project->id ); // will be deprecated
-			do_action( 'cpm_project_delete', $project, true );
-			do_action( 'pm_before_delete_project', $project, $project->id );
+			do_action( 'wedevs_cpm_delete_project_prev', $project->id ); // will be deprecated
+			do_action( 'wedevs_cpm_project_delete', $project, true );
+			do_action( 'wedevs_pm_before_delete_project', $project, $project->id );
 			// Delete related resourcess
 			$project->categories()->detach();
 
@@ -325,11 +325,11 @@ class Project_Controller {
 
 			// Delete the main resource
 			$project->delete();
-			do_action( 'pm_after_delete_project', $project );
-			do_action( 'cpm_delete_project_after', $project->id );
+			do_action( 'wedevs_pm_after_delete_project', $project );
+			do_action( 'wedevs_cpm_delete_project_after', $project->id );
 		}
 			return [
-				'message' => pm_get_text('success_messages.project_deleted')
+				'message' => __( 'A project has been deleted successfully.', 'wedevs-project-manager' )
 			];
 	}
 
@@ -338,9 +338,9 @@ class Project_Controller {
 
 		// Find the requested resource
 		$project =  Project::find( $id );
-		do_action( 'cpm_delete_project_prev', $id ); // will be deprecated
-		do_action( 'cpm_project_delete', $id, true );
-		do_action( 'pm_before_delete_project', $project, $request->get_params() );
+		do_action( 'wedevs_cpm_delete_project_prev', $id ); // will be deprecated
+		do_action( 'wedevs_cpm_project_delete', $id, true );
+		do_action( 'wedevs_pm_before_delete_project', $project, $request->get_params() );
 		// Delete related resourcess
 		$project->categories()->detach();
 
@@ -372,10 +372,10 @@ class Project_Controller {
 
 		// Delete the main resource
 		$project->delete();
-		do_action( 'pm_after_delete_project', $project );
-		do_action( 'cpm_delete_project_after', $id );
+		do_action( 'wedevs_pm_after_delete_project', $project );
+		do_action( 'wedevs_cpm_delete_project_after', $id );
 		return [
-			'message' => pm_get_text('success_messages.project_deleted')
+			'message' => __( 'A project has been deleted successfully.', 'wedevs-project-manager' )
 		];
 	}
 
@@ -398,21 +398,23 @@ class Project_Controller {
 
 
         if ( $favourite == 'true' || $favourite === true ) {
+            // phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Custom Eloquent model table (pm_meta), not WordPress core meta tables.
             $lastFavourite = Meta::where([
 				'entity_id'   => $user_id,
 				'entity_type' => 'project',
 				'meta_key'    => 'favourite_project'
 			])->max('meta_value');
+            // phpcs:enable WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 
             $lastFavourite = intval($lastFavourite ) + 1;
 
-			pm_update_meta( $user_id, $project_id, 'project', 'favourite_project', $lastFavourite );
+			wedevs_pm_update_meta( $user_id, $project_id, 'project', 'favourite_project', $lastFavourite );
 
         } else {
-            pm_update_meta( $user_id, $project_id, 'project', 'favourite_project', null );
+            wedevs_pm_update_meta( $user_id, $project_id, 'project', 'favourite_project', null );
 		}
 
-		do_action( "pm_after_favaurite_project", $request );
+		do_action( "wedevs_pm_after_favaurite_project", $request );
 
 		if ( $favourite == 'true' ) {
 			$response = $this->get_response( null, [ 'message' =>  __( "The project has been marked as favorite", 'wedevs-project-manager' ) ] );
@@ -426,12 +428,14 @@ class Project_Controller {
 
 	function create_list_inbox($project_id) {
 
+		// phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Custom Eloquent model table (pm_meta), not WordPress core meta tables.
 		$meta = Meta::firstOrCreate([
 			'entity_id'	=> $project_id,
 			'entity_type' => 'task_list',
 			'meta_key' => 'list-inbox',
 			'project_id' => $project_id,
 		]);
+		// phpcs:enable WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 
 		if ( empty( $meta->meta_value ) ) {
 
@@ -455,10 +459,10 @@ class Project_Controller {
 	 */
     private function get_ai_generation_limits() {
         return [
-            'max_task_groups'       => apply_filters( 'pm_ai_max_task_groups', 8 ),
-            'max_tasks_per_group'   => apply_filters( 'pm_ai_max_tasks_per_group', 8 ),
-            'max_initial_tasks'     => apply_filters( 'pm_ai_max_initial_tasks', 8 ),
-            'max_task_title_length' => apply_filters( 'pm_ai_max_task_title_length', 200 ),
+            'max_task_groups'       => apply_filters( 'wedevs_pm_ai_max_task_groups', 8 ),
+            'max_tasks_per_group'   => apply_filters( 'wedevs_pm_ai_max_tasks_per_group', 8 ),
+            'max_initial_tasks'     => apply_filters( 'wedevs_pm_ai_max_initial_tasks', 8 ),
+            'max_task_title_length' => apply_filters( 'wedevs_pm_ai_max_task_title_length', 200 ),
         ];
     }
 
@@ -615,6 +619,7 @@ class Project_Controller {
 		if ( !$model_config ) {
 			return [
 				'success' => false,
+				// translators: %s: model name
 				'message' => sprintf( __( 'Model "%s" is not available. Please select a valid model from settings.', 'wedevs-project-manager' ), $model )
 			];
 		}
@@ -748,6 +753,7 @@ class Project_Controller {
 			$error_msg = $response->get_error_message();
 			return [
 				'success' => false,
+				// translators: %s: error message
 				'message' => sprintf( __( 'AI API error: %s', 'wedevs-project-manager' ), esc_html( $error_msg ) )
 			];
 		}
@@ -768,11 +774,13 @@ class Project_Controller {
 				$error_message = sanitize_text_field( $response_data['message'] );
 			} elseif ( isset( $response_data['error']['code'] ) ) {
 				$error_message = sprintf(
+					// translators: %s: error code
 					__( 'AI API error (Code: %s)', 'wedevs-project-manager' ),
 					sanitize_text_field( $response_data['error']['code'] )
 				);
 			} else {
 				$error_message = sprintf(
+					// translators: %d: HTTP status code
 					__( 'AI API request failed with status code: %d', 'wedevs-project-manager' ),
 					$response_code
 				);
@@ -841,7 +849,8 @@ class Project_Controller {
 						$recommended_tokens = max( 5000, $thoughts_tokens + 2000 + 500 );
 
 						$error_message = sprintf(
-							__( 'Response was truncated due to token limit. Used %d tokens total (%d for internal reasoning, %d for response). This model requires higher token limits. Recommended: at least %d tokens for complete responses.', 'wedevs-project-manager' ),
+							// translators: %1$d: total tokens used, %2$d: thoughts tokens, %3$d: response tokens, %4$d: recommended tokens
+							__( 'Response was truncated due to token limit. Used %1$d tokens total (%2$d for internal reasoning, %3$d for response). This model requires higher token limits. Recommended: at least %4$d tokens for complete responses.', 'wedevs-project-manager' ),
 							$total_tokens,
 							$thoughts_tokens,
 							$candidates_tokens,
@@ -894,11 +903,13 @@ class Project_Controller {
 			if ( isset( $response_data['error'] ) ) {
 				if ( isset( $response_data['error']['message'] ) ) {
 					$error_message = sprintf(
+						// translators: %s: error message
 						__( 'AI API error: %s', 'wedevs-project-manager' ),
 						sanitize_text_field( $response_data['error']['message'] )
 					);
 				} elseif ( isset( $response_data['error']['type'] ) ) {
 					$error_message = sprintf(
+						// translators: %s: error type
 						__( 'AI API error: %s', 'wedevs-project-manager' ),
 						sanitize_text_field( $response_data['error']['type'] )
 					);

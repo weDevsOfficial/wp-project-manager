@@ -13,7 +13,7 @@ Class File_System {
 
         $uploaded_file = wp_handle_upload( $file, array( 'test_form' => false ) );
         $attachment_id = self::attachment_id( $uploaded_file );
-        do_action( 'cpm_after_upload_file', $$attachment_id );
+        do_action( 'wedevs_cpm_after_upload_file', $attachment_id );
 
         return $attachment_id;
     }
@@ -56,22 +56,35 @@ Class File_System {
         $upload_dir       = wp_upload_dir();
         $upload_path      = str_replace( '/', DIRECTORY_SEPARATOR, $upload_dir['path'] ) . DIRECTORY_SEPARATOR;
         $encode_explode   = explode( ',', $file['thumb'] );
-        
+
         if ( empty( $encode_explode[1] ) ) {
             return false;
         }
-        
+
         $encodedData      = str_replace( ' ', '+' , $encode_explode[1] );
         $decoded          = base64_decode( $encodedData );
         $filename         = $file['id'] .'-'. $file['name'];
-        $image_upload     = file_put_contents( $upload_path . $filename, $decoded );
-        
+
+        // Initialize WP_Filesystem
+        global $wp_filesystem;
+        if ( empty( $wp_filesystem ) ) {
+            require_once ABSPATH . 'wp-admin/includes/file.php';
+            WP_Filesystem();
+        }
+
+        // Replace file_put_contents with WP_Filesystem method
+        $image_upload = $wp_filesystem->put_contents( $upload_path . $filename, $decoded, FS_CHMOD_FILE );
+
+        if ( $image_upload === false ) {
+            return false;
+        }
+
         $uploaded             = array();
         $uploaded['error']    = '';
         $uploaded['tmp_name'] = $upload_path . $filename;
         $uploaded['name']     = $file['name'];
         $uploaded['type']     = $file['type'];
-        $uploaded['size']     = filesize( $upload_path . $filename );
+        $uploaded['size']     = $wp_filesystem->size( $upload_path . $filename );
 
         return $uploaded;
     }
@@ -158,7 +171,7 @@ Class File_System {
     }
 
     public static function delete( $file_id, $force = true ) {
-        do_action( 'cpm_delete_attachment', $file_id, $force );
+        do_action( 'wedevs_cpm_delete_attachment', $file_id, $force );
         wp_delete_attachment( $file_id, $force );
     }
 

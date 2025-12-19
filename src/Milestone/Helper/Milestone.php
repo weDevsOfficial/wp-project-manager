@@ -27,6 +27,9 @@ class Milestone {
 	private $with;
 	private $milestones;
 	private $milestone_ids;
+	private $found_rows;
+	private $tb_milestone;
+	private $tb_project;
 	private $is_single_query = false;
 
 	public static function getInstance() {
@@ -57,7 +60,7 @@ class Milestone {
 
 		$response = $self->format_milestones( $self->milestones );
 		
-		if ( pm_is_single_query( $params ) ) {
+		if ( wedevs_pm_is_single_query( $params ) ) {
 			return ['data' => $response['data'][0]] ;
 		}
 
@@ -112,14 +115,14 @@ class Milestone {
             'title'        => $milestone->title,
             'description'  => $milestone->description,
             'order'        => (int) $milestone->order,
-            'achieve_date' => format_date( $milestone->achieve_date ),
-            'achieved_at'  => format_date( $milestone->updated_at ),
+            'achieve_date' => wedevs_pm_format_date( $milestone->achieve_date ),
+            'achieved_at'  => wedevs_pm_format_date( $milestone->updated_at ),
             'status'       => $milestone->status,
-            'created_at'   => format_date( $milestone->created_at ),
+            'created_at'   => wedevs_pm_format_date( $milestone->created_at ),
             'meta'         => $milestone->meta
         ];
 
-        //$items = apply_filters( 'pm_milestone_transform', $items, $milestone );
+        //$items = apply_filters( 'wedevs_pm_milestone_transform', $items, $milestone );
 
 		// $select_items = empty( $this->query_params['select'] ) ? null : $this->query_params['select'];
 
@@ -143,7 +146,7 @@ class Milestone {
 		$items = $this->item_with( $items, $milestone );
 		//$items = $this->item_meta( $items, $milestone );
 
-		return apply_filters( 'pm_milestone_transform', $items, $milestone );
+		return apply_filters( 'wedevs_pm_milestone_transform', $items, $milestone );
 	}
 
 	private function item_with( $items, $milestone ) {
@@ -166,7 +169,7 @@ class Milestone {
 			->discussion_boards()
 			->task_lists();
 
-		$this->milestones = apply_filters( 'pm_milestone_with',$this->milestones, $this->milestone_ids, $this->query_params );
+		$this->milestones = apply_filters( 'wedevs_pm_milestone_with',$this->milestones, $this->milestone_ids, $this->query_params );
 
 		return $this;
 	}
@@ -188,20 +191,22 @@ class Milestone {
 			return $this;
 		}
 
-		$tb_milestones    = pm_tb_prefix() . 'pm_boardables';
-		$milestone_format = pm_get_prepare_format( $this->milestone_ids );
-		$query_data       = $this->milestone_ids;
+		$tb_milestones    = esc_sql( wedevs_pm_tb_prefix() . 'pm_boardables' );
+		$milestone_ids_safe = array_map( 'absint', $this->milestone_ids );
+		$milestone_placeholders = implode( ', ', array_fill( 0, count( $milestone_ids_safe ), '%d' ) );
+		$query_data       = array_merge( $milestone_ids_safe, array( 'milestone', 'discussion_board' ) );
 
-		$query = "SELECT DISTINCT bor.boardable_id as discussion_board_id,
-			bor.board_id as milestone_id
-			FROM $tb_milestones as bor
-			where bor.board_id IN ($milestone_format)
-			AND bor.board_type=%s
-			AND bor.boardable_type=%s";
-
-		array_push( $query_data, 'milestone', 'discussion_board' );
-		
-		$results  = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT DISTINCT bor.boardable_id as discussion_board_id,
+				bor.board_id as milestone_id
+				FROM {$tb_milestones} as bor
+				where bor.board_id IN ({$milestone_placeholders})
+				AND bor.board_type=%s
+				AND bor.boardable_type=%s",
+				$query_data
+			)
+		);
 		$discussion_board_ids = wp_list_pluck( $results, 'discussion_board_id' );
 		
 		$discussion_boards = Discussion_Board::get_results([
@@ -244,20 +249,22 @@ class Milestone {
 			return $this;
 		}
 
-		$tb_milestones    = pm_tb_prefix() . 'pm_boardables';
-		$milestone_format = pm_get_prepare_format( $this->milestone_ids );
-		$query_data       = $this->milestone_ids;
+		$tb_milestones    = esc_sql( wedevs_pm_tb_prefix() . 'pm_boardables' );
+		$milestone_ids_safe = array_map( 'absint', $this->milestone_ids );
+		$milestone_placeholders = implode( ', ', array_fill( 0, count( $milestone_ids_safe ), '%d' ) );
+		$query_data       = array_merge( $milestone_ids_safe, array( 'milestone', 'task_list' ) );
 
-		$query = "SELECT DISTINCT bor.boardable_id as list_id,
-			bor.board_id as milestone_id
-			FROM $tb_milestones as bor
-			where bor.board_id IN ($milestone_format)
-			AND bor.board_type=%s
-			AND bor.boardable_type=%s";
-
-		array_push( $query_data, 'milestone', 'task_list' );
-		
-		$results  = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT DISTINCT bor.boardable_id as list_id,
+				bor.board_id as milestone_id
+				FROM {$tb_milestones} as bor
+				where bor.board_id IN ({$milestone_placeholders})
+				AND bor.board_type=%s
+				AND bor.boardable_type=%s",
+				$query_data
+			)
+		);
 		$list_ids = wp_list_pluck( $results, 'list_id' );
 		
 		$lists = Task_List::get_results([
@@ -285,18 +292,20 @@ class Milestone {
 	private function achieve_date() {
 		global $wpdb;
 
-		$tb_meta          = pm_tb_prefix() . 'pm_meta';
-		$milestone_format = pm_get_prepare_format( $this->milestone_ids );
-		$query_data       = $this->milestone_ids;
+		$tb_meta          = esc_sql( wedevs_pm_tb_prefix() . 'pm_meta' );
+		$milestone_ids_safe = array_map( 'absint', $this->milestone_ids );
+		$milestone_placeholders = implode( ', ', array_fill( 0, count( $milestone_ids_safe ), '%d' ) );
+		$query_data       = array_merge( $milestone_ids_safe, array( 'achieve_date' ) );
 
-		$query = "SELECT DISTINCT mt.meta_value as achieve_date, mt.entity_id as milestone_id
-			FROM $tb_meta as mt
-			where mt.entity_id IN ($milestone_format)
-			AND mt.meta_key=%s";
-
-		array_push( $query_data, 'achieve_date' );
-		
-		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT DISTINCT mt.meta_value as achieve_date, mt.entity_id as milestone_id
+				FROM {$tb_meta} as mt
+				where mt.entity_id IN ({$milestone_placeholders})
+				AND mt.meta_key=%s",
+				$query_data
+			)
+		);
 		$metas   = [];
 
 		foreach ( $results as $key => $result ) {
@@ -329,21 +338,23 @@ class Milestone {
 		}
 
 		$metas            = [];
-		$tb_milestones    = pm_tb_prefix() . 'pm_boardables';
-		$milestone_format = pm_get_prepare_format( $this->milestone_ids );
-		$query_data       = $this->milestone_ids;
+		$tb_milestones    = esc_sql( wedevs_pm_tb_prefix() . 'pm_boardables' );
+		$milestone_ids_safe = array_map( 'absint', $this->milestone_ids );
+		$milestone_placeholders = implode( ', ', array_fill( 0, count( $milestone_ids_safe ), '%d' ) );
+		$query_data       = array_merge( $milestone_ids_safe, array( 'milestone', 'task_list' ) );
 
-		$query = "SELECT DISTINCT count(bor.boardable_id) as total_task_list,
-			bor.board_id as milestone_id
-			FROM $tb_milestones as bor
-			where bor.board_id IN ($milestone_format)
-			AND bor.board_type=%s
-			AND bor.boardable_type=%s
-			group by bor.boardable_id";
-
-		array_push( $query_data, 'milestone', 'task_list' );
-		
-		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT DISTINCT count(bor.boardable_id) as total_task_list,
+				bor.board_id as milestone_id
+				FROM {$tb_milestones} as bor
+				where bor.board_id IN ({$milestone_placeholders})
+				AND bor.board_type=%s
+				AND bor.boardable_type=%s
+				group by bor.boardable_id",
+				$query_data
+			)
+		);
 		
 		foreach ( $results as $key => $result ) {
 			$milestone_id = $result->milestone_id;
@@ -367,21 +378,23 @@ class Milestone {
 		}
 
 		$metas            = [];
-		$tb_milestones    = pm_tb_prefix() . 'pm_boardables';
-		$milestone_format = pm_get_prepare_format( $this->milestone_ids );
-		$query_data       = $this->milestone_ids;
+		$tb_milestones    = esc_sql( wedevs_pm_tb_prefix() . 'pm_boardables' );
+		$milestone_ids_safe = array_map( 'absint', $this->milestone_ids );
+		$milestone_placeholders = implode( ', ', array_fill( 0, count( $milestone_ids_safe ), '%d' ) );
+		$query_data       = array_merge( $milestone_ids_safe, array( 'milestone', 'discussion_board' ) );
 
-		$query = "SELECT DISTINCT count(bor.boardable_id) as total_discussion_board,
-			bor.board_id as milestone_id
-			FROM $tb_milestones as bor
-			where bor.board_id IN ($milestone_format)
-			AND bor.board_type=%s
-			AND bor.boardable_type=%s
-			group by bor.boardable_id";
-
-		array_push( $query_data, 'milestone', 'discussion_board' );
-		
-		$results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT DISTINCT count(bor.boardable_id) as total_discussion_board,
+				bor.board_id as milestone_id
+				FROM {$tb_milestones} as bor
+				where bor.board_id IN ({$milestone_placeholders})
+				AND bor.board_type=%s
+				AND bor.boardable_type=%s
+				group by bor.boardable_id",
+				$query_data
+			)
+		);
 		
 		foreach ( $results as $key => $result ) {
 			$milestone_id = $result->milestone_id;
@@ -401,22 +414,24 @@ class Milestone {
 			return $this;
 		}
         
-        global $wpdb;
+		global $wpdb;
 
 		$metas            = [];
-		$tb_projects      = pm_tb_prefix() . 'pm_projects';
-		$tb_meta          = pm_tb_prefix() . 'pm_meta';
-		$milestone_format = pm_get_prepare_format( $this->milestone_ids );
-		$query_data       = $this->milestone_ids;
+		$tb_projects      = esc_sql( wedevs_pm_tb_prefix() . 'pm_projects' );
+		$tb_meta          = esc_sql( wedevs_pm_tb_prefix() . 'pm_meta' );
+		$milestone_ids_safe = array_map( 'absint', $this->milestone_ids );
+		$milestone_placeholders = implode( ', ', array_fill( 0, count( $milestone_ids_safe ), '%d' ) );
+		$query_data       = array_merge( $milestone_ids_safe, array( 'milestone' ) );
 
-        $query = "SELECT DISTINCT $tb_meta.meta_key, $tb_meta.meta_value, $tb_meta.entity_id
-            FROM $tb_meta
-            WHERE $tb_meta.entity_id IN ($milestone_format)
-            AND $tb_meta.entity_type = %s ";
-
-        array_push( $query_data, 'milestone' );
-
-        $results = $wpdb->get_results( $wpdb->prepare( $query, $query_data ) );
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT DISTINCT {$tb_meta}.meta_key, {$tb_meta}.meta_value, {$tb_meta}.entity_id
+				FROM {$tb_meta}
+				WHERE {$tb_meta}.entity_id IN ({$milestone_placeholders})
+				AND {$tb_meta}.entity_type = %s",
+				$query_data
+			)
+		);
 
         foreach ( $results as $key => $result ) {
             $milestone_id = $result->entity_id;
@@ -451,7 +466,7 @@ class Milestone {
 	/**
 	 * Filter milestone by ID
 	 *
-	 * @return class object
+	 * @return self object
 	 */
 	private function where_id() {
 		$id = isset( $this->query_params['id'] ) ? $this->query_params['id'] : false; 
@@ -461,8 +476,8 @@ class Milestone {
 		}
 
 		global $wpdb;
-		$format     = pm_get_prepare_format( $id );
-		$format_ids = pm_get_prepare_data( $id );
+		$format     = wedevs_pm_get_prepare_format( $id );
+		$format_ids = wedevs_pm_get_prepare_data( $id );
 
 		$this->where .= $wpdb->prepare( " AND {$this->tb_milestone}.id IN ($format)", $format_ids );
 
@@ -476,7 +491,7 @@ class Milestone {
 	/**
 	 * Filter task by title
 	 *
-	 * @return class object
+	 * @return self object
 	 */
 	private function where_title() {
 		global $wpdb;
@@ -503,7 +518,7 @@ class Milestone {
 		if ( is_array( $id ) ) {
 			//$query_id = implode( ',', $id );
 			//$this->where .= " AND {$this->tb_milestone}.project_id IN ($query_id)";
-			$query_format = pm_get_prepare_format( $id );
+			$query_format = wedevs_pm_get_prepare_format( $id );
 			$this->where .= $wpdb->prepare( " AND {$this->tb_milestone}.project_id IN ($query_format)", $id );
 		}
 
@@ -539,7 +554,20 @@ class Milestone {
             return $this;
         }
 
-        $orders = [];
+		// Whitelist of allowed columns for ordering
+		$allowed_columns = array(
+			'id',
+			'title',
+			'description',
+			'type',
+			'project_id',
+			'order',
+			'created_at',
+			'updated_at',
+			'achieve_date'
+		);
+
+		$orders = [];
 
         $odr_prms = str_replace( ' ', '', $odr_prms );
         $odr_prms = explode( ',', $odr_prms );
@@ -548,14 +576,25 @@ class Milestone {
 			$orderStr         = str_replace( ' ', '', $orderStr );
 			$orderStr         = explode( ':', $orderStr );
 			$orderby          = $orderStr[0];
-			$order            = empty( $orderStr[1] ) ? 'asc' : $orderStr[1];
+			$order            = empty($orderStr[1]) ? 'asc' : strtolower($orderStr[1]);
+
+			// Validate column name against whitelist
+			if (! in_array($orderby, $allowed_columns, true)) {
+				continue;
+			}
+
+			// Validate order direction
+			if (! in_array($order, array('asc', 'desc'), true)) {
+				$order = 'asc';
+			}
+
 			$orders[$orderby] = $order;
         }
 
         $order = [];
 
         foreach ( $orders as $key => $value ) {
-            $order[] =  $tb_pj .'.'. $key . ' ' . $value;
+			$order[] =  $tb_pj . '.' . esc_sql($key) . ' ' . esc_sql($value);
         }
 
         $this->orderby = "ORDER BY " . implode( ', ', $order);
@@ -588,13 +627,28 @@ class Milestone {
 		global $wpdb;
 		$id = isset( $this->query_params['id'] ) ? $this->query_params['id'] : false;
 
-		$query = "SELECT SQL_CALC_FOUND_ROWS DISTINCT {$this->tb_milestone}.*
-			FROM {$this->tb_milestone}
-			{$this->join}
-			WHERE %d=%d {$this->where} AND $this->tb_milestone.type=%s
-			{$this->orderby} {$this->limit} ";
+		// Ensure these are strings to avoid null/undefined issues
+		$join = is_string($this->join) ? $this->join : '';
+		$where = is_string($this->where) ? $this->where : '';
+		$orderby = is_string($this->orderby) ? $this->orderby : '';
+		$limit = is_string($this->limit) ? $this->limit : '';
 
-		$results = $wpdb->get_results( $wpdb->prepare( $query, 1, 1, 'milestone' ) );
+		// phpcs:ignore PluginCheck.Security.DirectDB.UnescapedDBParameter -- $join is built safely via join() method using wpdb::prepare() and apply_filters()
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT SQL_CALC_FOUND_ROWS DISTINCT %i.*
+				FROM %i
+				{$join}
+				WHERE %d=%d {$where} AND %i.type=%s
+				{$orderby} {$limit}",
+				$this->tb_milestone,
+				$this->tb_milestone,
+				1,
+				1,
+				$this->tb_milestone,
+				'milestone'
+			)
+		);
 
 		$this->found_rows = $wpdb->get_var( "SELECT FOUND_ROWS()" );
 		$this->milestones = $results;
@@ -611,7 +665,7 @@ class Milestone {
 	}
 
 	private function set_table_name() {
-		$this->tb_project          = pm_tb_prefix() . 'pm_projects';
-		$this->tb_milestone        = pm_tb_prefix() . 'pm_boards';
+		$this->tb_project   = esc_sql( wedevs_pm_tb_prefix() . 'pm_projects' );
+		$this->tb_milestone = esc_sql( wedevs_pm_tb_prefix() . 'pm_boards' );
 	}
 }

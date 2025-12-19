@@ -12,17 +12,24 @@ use WeDevs\PM\Discussion_Board\Models\Discussion_Board;
 use Illuminate\Database\Eloquent\Collection;
 use WeDevs\PM\Project\Models\Project;
 
-function pm_get_text( $key ) {
-    return Textdomain::get_text( $key);
+/**
+ * Get translated text (Deprecated)
+ * 
+ * @deprecated This function is deprecated. Use WordPress i18n functions (__(), _e(), etc.) directly instead.
+ * 
+ * @param string $key The text key
+ * @return mixed
+ */
+function wedevs_pm_get_text( $key ) {
+    // This function is kept only for backward compatibility with pm-pro plugin
+    // All core functionality now uses proper WordPress i18n functions
+    _deprecated_function( __FUNCTION__, '2.6.0', 'WordPress i18n functions (__(), _e(), etc.)' );
+    
+    // Return empty array for any key to prevent errors
+    return array();
 }
 
-if ( !function_exists( 'get_wp_timezone' ) ) {
-    function get_wp_timezone() {
-        return pm_get_wp_timezone();
-    }
-}
-
-function pm_get_wp_timezone() {
+function wedevs_pm_get_wp_timezone() {
     $current_offset = get_option('gmt_offset');
     $wp_timezone = get_option('timezone_string');
 
@@ -45,14 +52,8 @@ function pm_get_wp_timezone() {
     return $wp_timezone;
 }
 
-if ( ! function_exists( 'tzcode_to_tzstring' ) ) {
-    function tzcode_to_tzstring( $tzcode ) {
-        return pm_tzcode_to_tzstring( $tzcode );
-    }
-}
-
-function pm_tzcode_to_tzstring( $tzcode ) {
-    $timezones = config( 'timezones' );
+function wedevs_pm_tzcode_to_tzstring( $tzcode ) {
+    $timezones = wedevs_pm_config( 'timezones' );
     $timezone = $tzcode;
 
     if ( array_key_exists( $tzcode , $timezones ) ) {
@@ -62,14 +63,8 @@ function pm_tzcode_to_tzstring( $tzcode ) {
     return $timezone;
 }
 
-if ( ! function_exists( 'tzstring_to_tzcode' ) ) {
-    function tzstring_to_tzcode( $tzstr ) {
-        pm_tzstring_to_tzcode( $tzstr );
-    }
-}
-
-function pm_tzstring_to_tzcode( $tzstr ) {
-    $timezones = config( 'timezones' );
+function wedevs_pm_tzstring_to_tzcode( $tzstr ) {
+    $timezones = wedevs_pm_config( 'timezones' );
     $default = '';
 
     foreach ( $timezones as $tzcode => $tzstring ) {
@@ -81,37 +76,34 @@ function pm_tzstring_to_tzcode( $tzstr ) {
     return $default;
 }
 
-if ( ! function_exists( 'format_date' ) ) {
-    function format_date( $date ) {
+function wedevs_pm_format_date( $date ) {
 
         if ( $date && !is_object($date) ) {
             $date =  \Carbon\Carbon::parse($date);
         }
         $date_format = get_option( 'date_format' );
         $time_format = get_option( 'time_format' );
-        $timezone    = get_wp_timezone();
+        $timezone    = wedevs_pm_get_wp_timezone();
 
         return [
             'date'      => $date ? $date->format( 'Y-m-d' ) : null,
             'time'      => $date ? $date->format( 'H:i:s' ) : null,
             'datetime'      => $date ? $date->format( 'Y-m-d H:i:s' ) : null,
-            'timezone'  => tzcode_to_tzstring( $timezone ),
+            'timezone'  => wedevs_pm_tzcode_to_tzstring( $timezone ),
             'timestamp' => $date ?  $date->toATOMString() : null
         ];
-    } 
 }
 
-
-function pm_date_format( $date ) {
+function wedevs_pm_date_format( $date ) {
 
     $date_format = get_option( 'date_format' );
 
-    return $date ? Date( $date_format, strtotime( $date ) ) : '';
+    return $date ? gmdate( $date_format, strtotime( $date ) ) : '';
 }
 
-function make_carbon_date( $date ) {
-    $timezone = get_wp_timezone();
-    $timezone = tzcode_to_tzstring( $timezone );
+function wedevs_pm_make_carbon_date( $date ) {
+    $timezone = wedevs_pm_get_wp_timezone();
+    $timezone = wedevs_pm_tzcode_to_tzstring( $timezone );
     $time = $date ? strtotime( $date ) : null;
 
     if ( $time ) {
@@ -121,17 +113,24 @@ function make_carbon_date( $date ) {
     return null;
 }
 
-function pm_get_wp_roles() {
+function wedevs_pm_get_wp_roles() {
+    // Use wp_roles() function which properly initializes the global without override warnings
+    if ( function_exists( 'wp_roles' ) ) {
+        return wp_roles()->get_names();
+    }
+
+    // Fallback for older WordPress versions (pre-4.3)
     global $wp_roles;
 
-    if ( !$wp_roles ) {
+    if ( ! $wp_roles ) {
+        // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Initializing global for WordPress < 4.3 compatibility
         $wp_roles = new WP_Roles();
     }
 
     return $wp_roles->get_names();
 }
 
-function pm_get_setting( $key = null, $project_id = false ) {
+function wedevs_pm_get_setting( $key = null, $project_id = false ) {
     $settings     = null;
     $all_settings = null;
 
@@ -159,7 +158,7 @@ function pm_get_setting( $key = null, $project_id = false ) {
     return null;
 }
 
-function pm_get_settings( $key = null, $project_id = false ) {
+function wedevs_pm_get_settings( $key = null, $project_id = false ) {
     $settings = null;
 
     if ( $key && $project_id ) {
@@ -181,7 +180,7 @@ function pm_get_settings( $key = null, $project_id = false ) {
     return $settings;
 }
 
-function pm_delete_settings( $key, $project_id = false ) {
+function wedevs_pm_delete_settings( $key, $project_id = false ) {
 
     if ( $project_id ) {
         $settings = \WeDevs\PM\Settings\Models\Settings::where( 'key', $key )
@@ -201,7 +200,7 @@ function pm_delete_settings( $key, $project_id = false ) {
     wp_send_json_error();
 }
 
-function pm_set_settings( $key, $value, $project_id = false ){
+function wedevs_pm_set_settings( $key, $value, $project_id = false ){
 
     if ( $project_id == false ){
         $settings = \WeDevs\PM\Settings\Models\Settings::updateOrCreate(['key' => $key], ['value' => $value ]);
@@ -212,7 +211,8 @@ function pm_set_settings( $key, $value, $project_id = false ){
     return $settings;
 }
 
-function pm_add_meta( $id, $project_id, $type, $key, $value ) {
+function wedevs_pm_add_meta( $id, $project_id, $type, $key, $value ) {
+    // phpcs:disable WordPress.DB.SlowDBQuery.slow_db_query_meta_key, WordPress.DB.SlowDBQuery.slow_db_query_meta_value -- Custom Eloquent model table (pm_meta), not WordPress core meta tables.
     WeDevs\PM\Common\Models\Meta::create([
         'entity_id'   => $id,
         'entity_type' => $type,
@@ -222,10 +222,12 @@ function pm_add_meta( $id, $project_id, $type, $key, $value ) {
         'created_by'  => get_current_user_id(),
         'created_by'  => get_current_user_id()
     ]);
+    // phpcs:enable WordPress.DB.SlowDBQuery.slow_db_query_meta_key, WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 }
 
 
-function pm_update_meta( $id, $project_id, $type, $key, $value ) {
+function wedevs_pm_update_meta( $id, $project_id, $type, $key, $value ) {
+    // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key -- Custom Eloquent model table (pm_meta), not WordPress core meta tables.
     $meta = WeDevs\PM\Common\Models\Meta::where( 'entity_id', $id )
         ->where( 'project_id', $project_id )
         ->where( 'entity_type', $type )
@@ -233,14 +235,15 @@ function pm_update_meta( $id, $project_id, $type, $key, $value ) {
         ->first();
 
     if ( $meta ) {
+        // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value -- Custom Eloquent model table (pm_meta), not WordPress core meta tables.
         $meta->update(['meta_value' => $value]);
     } else {
-        pm_add_meta( $id, $project_id, $type, $key, $value );
+        wedevs_pm_add_meta( $id, $project_id, $type, $key, $value );
     }
 }
 
-function pm_get_meta( $entity_id, $project_id, $type, $key, $single = true ) {
-    $entity_id = pm_get_prepare_data( $entity_id );
+function wedevs_pm_get_meta( $entity_id, $project_id, $type, $key, $single = true ) {
+    $entity_id = wedevs_pm_get_prepare_data( $entity_id );
 
     $meta = WeDevs\PM\Common\Models\Meta::where( function($q) use($project_id) {
             if ( !empty( $project_id ) ) {
@@ -260,7 +263,7 @@ function pm_get_meta( $entity_id, $project_id, $type, $key, $single = true ) {
     return $meta;
 }
 
-function pm_delete_meta( $id, $project_id, $type, $key = false ) {
+function wedevs_pm_delete_meta( $id, $project_id, $type, $key = false ) {
     $meta = WeDevs\PM\Common\Models\Meta::where( 'entity_id', $id )
         ->where( 'project_id', $project_id )
         ->where( 'entity_type', $type );
@@ -275,12 +278,14 @@ function pm_delete_meta( $id, $project_id, $type, $key = false ) {
     }
 }
 
-function pm_get_response( $resource, $extra = [] ) {
+function wedevs_pm_get_response( $resource, $extra = [] ) {
     $manager = new \League\Fractal\Manager();
     $data_serialize = new \League\Fractal\Serializer\DataArraySerializer();
     $manager->setSerializer( $data_serialize );
 
+    // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verified at REST API layer via register_rest_route() in WP_Router.
     if ( isset( $_GET['with'] ) ) {
+        // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonce verified at REST API layer via register_rest_route() in WP_Router.
         $manager->parseIncludes( sanitize_text_field( wp_unslash( $_GET['with'] ) ) );
     }
 
@@ -294,7 +299,10 @@ function pm_get_response( $resource, $extra = [] ) {
     return array_merge( $extra, $response );
 }
 
-function pmpr() {
+/**
+ * Print debug output
+ */
+function wedevs_pm_pr() {
     $args = func_get_args();
 
     foreach ( $args as $arg ) {
@@ -302,15 +310,15 @@ function pmpr() {
     }
 }
 
-function pm_pro_get_project_capabilities( $project_id ) {
+function wedevs_pm_pro_get_project_capabilities( $project_id ) {
     $caps = WeDevs\PM\Settings\Models\Settings::where('key', 'capabilities')
         ->where('project_id', $project_id)
         ->first();
 
     if ( ! $caps ) {
         return [
-            'co_worker' => pm_default_co_caps(),
-            'client'    => pm_default_client_caps()
+            'co_worker' => wedevs_pm_default_co_caps(),
+            'client'    => wedevs_pm_default_client_caps()
         ];
     }
 
@@ -325,7 +333,7 @@ function pm_pro_get_project_capabilities( $project_id ) {
     return $formatedCaps;
 }
 
-function pm_is_user_in_project( $project_id, $user_id = false ) {
+function wedevs_pm_is_user_in_project( $project_id, $user_id = false ) {
     $user_id = $user_id ? $user_id : get_current_user_id();
 
     $user_in_project = WeDevs\PM\User\Models\User_Role::where( 'project_id', $project_id )
@@ -335,7 +343,7 @@ function pm_is_user_in_project( $project_id, $user_id = false ) {
     return $user_in_project ? true : false;
 }
 
-function pm_is_user_in_task( $project_id, $user_id = false ) {
+function wedevs_pm_is_user_in_task( $project_id, $user_id = false ) {
     $user_id = $user_id ? $user_id : get_current_user_id();
 
     $user_in_task = WeDevs\PM\Common\Models\Assignee::where( 'project_id', $project_id )
@@ -345,7 +353,7 @@ function pm_is_user_in_task( $project_id, $user_id = false ) {
     return $user_in_task ? true : false;
 }
 
-function pm_get_role( $project_id, $user_id = false ) {
+function wedevs_pm_get_role( $project_id, $user_id = false ) {
     $user_id = $user_id ? $user_id : get_current_user_id();
 
     $role = WeDevs\PM\User\Models\User_Role::with('role')
@@ -360,8 +368,8 @@ function pm_get_role( $project_id, $user_id = false ) {
     return false;
 }
 
-function pm_get_role_caps( $project_id, $role ) {
-    $caps = pm_pro_get_project_capabilities( $project_id );
+function wedevs_pm_get_role_caps( $project_id, $role ) {
+    $caps = wedevs_pm_pro_get_project_capabilities( $project_id );
 
     if ( !empty( $caps[$role] ) ) {
         return $caps[$role];
@@ -370,10 +378,10 @@ function pm_get_role_caps( $project_id, $role ) {
     return [];
 }
 
-function pm_is_manager( $project_id, $user_id = false ) {
+function wedevs_pm_is_manager( $project_id, $user_id = false ) {
     $user_id = $user_id ? $user_id : get_current_user_id();
 
-    $role = pm_get_role( $project_id, $user_id );
+    $role = wedevs_pm_get_role( $project_id, $user_id );
 
     return $role == 'manager' ? true : false;
 }
@@ -383,7 +391,7 @@ function pm_is_manager( $project_id, $user_id = false ) {
  * @param  boolean $user_id
  * @return [type]
  */
-function pm_has_admin_capability( $user_id = false ) {
+function wedevs_pm_has_admin_capability( $user_id = false ) {
 
     $user_id = $user_id ? intval( $user_id ) : get_current_user_id();
     
@@ -391,7 +399,7 @@ function pm_has_admin_capability( $user_id = false ) {
         return true;
     }
     
-    if ( user_can( $user_id, pm_admin_cap_slug() ) ) {
+    if ( user_can( $user_id, wedevs_pm_admin_cap_slug() ) ) {
         return true;
     }     
     
@@ -403,16 +411,16 @@ function pm_has_admin_capability( $user_id = false ) {
  * @param  boolean $user_id
  * @return [type]
  */
-function pm_has_manage_capability( $user_id = false ) {
+function wedevs_pm_has_manage_capability( $user_id = false ) {
 
     $user_id = $user_id ? intval( $user_id ) : get_current_user_id();
     $user    = get_user_by( 'id', $user_id );
 
-    if ( pm_has_admin_capability() ) {
+    if ( wedevs_pm_has_admin_capability() ) {
         return true;
     }
     
-    if ( user_can( $user_id, pm_manager_cap_slug() ) ) {
+    if ( user_can( $user_id, wedevs_pm_manager_cap_slug() ) ) {
         return true;
     }    
 
@@ -425,11 +433,11 @@ function pm_has_manage_capability( $user_id = false ) {
  * @param  boolean $user_id
  * @return [type]
  */
-function pm_user_can_access( $cap = false, $user_id = false ) {
+function wedevs_pm_user_can_access( $cap = false, $user_id = false ) {
     $user_id = $user_id ? $user_id : get_current_user_id();
-    $cap = empty( $cap ) ? pm_manager_cap_slug() : $cap;
+    $cap = empty( $cap ) ? wedevs_pm_manager_cap_slug() : $cap;
 
-    if ( pm_has_manage_capability() ) {
+    if ( wedevs_pm_has_manage_capability() ) {
         return true;
     }
 
@@ -446,7 +454,7 @@ function pm_user_can_access( $cap = false, $user_id = false ) {
  * @param  boolean $user_id
  * @return [type]
  */
-function pm_user_can( $cap, $project_id, $user_id = false ) {
+function wedevs_pm_user_can( $cap, $project_id, $user_id = false ) {
     $user_id = $user_id ? $user_id : get_current_user_id();
 
     $cache_key  = 'pm_user_can-' . md5( serialize( [
@@ -458,19 +466,19 @@ function pm_user_can( $cap, $project_id, $user_id = false ) {
     $items  = wp_cache_get( $cache_key, 'pm' );
 
     if ( false === $items ) {
-        if ( pm_has_manage_capability( $user_id ) ) {
+        if ( wedevs_pm_has_manage_capability( $user_id ) ) {
             return true;
         }
 
-        if ( ! pm_is_user_in_project( $project_id, $user_id ) ) {
+        if ( ! wedevs_pm_is_user_in_project( $project_id, $user_id ) ) {
             return false;
         }
 
-        if ( pm_is_manager( $project_id, $user_id ) ) {
+        if ( wedevs_pm_is_manager( $project_id, $user_id ) ) {
             return true;
         }
 
-        $role = pm_get_role( $project_id, $user_id );
+        $role = wedevs_pm_get_role( $project_id, $user_id );
         
         if ( !$role ) {
             return false;
@@ -480,7 +488,7 @@ function pm_user_can( $cap, $project_id, $user_id = false ) {
             return true;
         }
 
-        $role_caps = pm_get_role_caps( $project_id, $role );
+        $role_caps = wedevs_pm_get_role_caps( $project_id, $role );
 
         if ( isset( $role_caps[$cap] ) ) {
             return $role_caps[$cap];
@@ -492,32 +500,32 @@ function pm_user_can( $cap, $project_id, $user_id = false ) {
     return false;
 }
 
-function pm_has_project_create_capability( $user_id = false ) {
-    return pm_user_can_access( pm_manager_cap_slug() );
+function wedevs_pm_has_project_create_capability( $user_id = false ) {
+    return wedevs_pm_user_can_access( wedevs_pm_manager_cap_slug() );
 }
 
-function pm_has_project_managing_capability( $project_id, $user_id = false ) {
-    if ( pm_has_manage_capability( $user_id ) ) {
+function wedevs_pm_has_project_managing_capability( $project_id, $user_id = false ) {
+    if ( wedevs_pm_has_manage_capability( $user_id ) ) {
         return true;
     }
-    if ( pm_is_manager( $project_id, $user_id ) ) {
+    if ( wedevs_pm_is_manager( $project_id, $user_id ) ) {
         return true;
     }
 
     return false;
 }
 
-function pm_user_can_complete_task( $task, $user_id = false ) {
+function wedevs_pm_user_can_complete_task( $task, $user_id = false ) {
     if(!$task) {
         return false;
     }
     $user_id = $user_id ? $user_id: get_current_user_id();
 
-    if ( pm_has_manage_capability( $user_id ) ) {
+    if ( wedevs_pm_has_manage_capability( $user_id ) ) {
         return true;
     }
 
-    if ( pm_is_manager( $task->project_id, $user_id ) ) {
+    if ( wedevs_pm_is_manager( $task->project_id, $user_id ) ) {
         return true;
     }
 
@@ -542,7 +550,7 @@ function pm_user_can_complete_task( $task, $user_id = false ) {
  * @param  string $type admin, ajax, cron or frontend.
  * @return bool
  */
-function pm_is_request( $type ) {
+function wedevs_pm_is_request( $type ) {
     switch ( $type ) {
         case 'admin' :
             return is_admin();
@@ -552,6 +560,8 @@ function pm_is_request( $type ) {
             return defined( 'DOING_CRON' );
         case 'frontend' :
             return ( ! is_admin() || defined( 'DOING_AJAX' ) ) && ! defined( 'DOING_CRON' );
+        default :
+            return false;
     }
 }
 
@@ -563,19 +573,19 @@ function pm_is_request( $type ) {
  * @param string $type type of the error. e.g: debug, error, info
  * @param string $msg
  */
-function pm_log( $type = '', $msg = '' ) {
-    $ouput_path = config( 'frontend.patch' );
+function wedevs_pm_log( $type = '', $msg = '' ) {
+    $ouput_path = wedevs_pm_config( 'frontend.patch' );
 
     if ( WP_DEBUG == true ) {
-        $msg = sprintf( "[%s][%s] %s\n", date( 'd.m.Y h:i:s' ), $type, print_r($msg, true) );
+        $msg = sprintf( "[%s][%s] %s\n", gmdate( 'd.m.Y h:i:s' ), $type, print_r($msg, true) );
         error_log( $msg, 3, $ouput_path . '/tmp/pm-debug.log' );
     }
 }
 
-function pm_get_translations_for_plugin_domain( $domain, $language_dir = null ) {
+function wedevs_pm_get_translations_for_plugin_domain( $domain, $language_dir = null ) {
 
     if ( $language_dir == null ) {
-        $language_dir  = config('frontend.patch') . '/languages/';
+        $language_dir  = wedevs_pm_config('frontend.patch') . '/languages/';
     }
 
     $languages     = get_available_languages( $language_dir );
@@ -607,8 +617,8 @@ function pm_get_translations_for_plugin_domain( $domain, $language_dir = null ) 
  *
  * @return array
  */
-function pm_get_jed_locale_data( $domain, $language_dir = null ) {
-    $plugin_translations = pm_get_translations_for_plugin_domain( $domain, $language_dir );
+function wedevs_pm_get_jed_locale_data( $domain, $language_dir = null ) {
+    $plugin_translations = wedevs_pm_get_translations_for_plugin_domain( $domain, $language_dir );
     $translations = get_translations_for_domain( $domain );
 
     $locale = array(
@@ -637,7 +647,7 @@ function pm_get_jed_locale_data( $domain, $language_dir = null ) {
     return $locale;
 }
 
-function pm_tb_prefix() {
+function wedevs_pm_tb_prefix() {
     global $wpdb;
 
     return $wpdb->prefix;
@@ -650,74 +660,74 @@ function pm_tb_prefix() {
  * @param string $content
  * @return string
  */
-function pm_get_content( $content ) {
-    $content = apply_filters( 'pm_get_content', $content );
+function wedevs_pm_get_content( $content ) {
+    $content = apply_filters( 'wedevs_pm_get_content', $content );
 
     return $content;
 }
 
-function pm_filter_content_url( $content ) {
-    $content = apply_filters( 'pm_get_content_url', $content );
+function wedevs_pm_filter_content_url( $content ) {
+    $content = apply_filters( 'wedevs_pm_get_content_url', $content );
 
     return $content;
 }
 
-function pm_get_user_url( $user_id, $is_admin ) {
+function wedevs_pm_get_user_url( $user_id, $is_admin ) {
     $user_id = ! empty( $user_id ) ? $user_id : get_current_user_id();
 
     $is_admin = $is_admin ? 'admin' : 'frontend';
-    $pm_base  = pm_get_project_page($is_admin);
+    $pm_base  = wedevs_pm_get_project_page($is_admin);
     $user_url = $pm_base . '#/my-tasks/' . $user_id;
 
     return $user_url;
 }
 
-function pm_get_task_url( $project_id, $list_id, $task_id, $is_admin ) {
+function wedevs_pm_get_task_url( $project_id, $list_id, $task_id, $is_admin ) {
     $is_admin = $is_admin ? 'admin' : 'frontend';
-    $pm_base  = pm_get_project_page($is_admin);
+    $pm_base  = wedevs_pm_get_project_page($is_admin);
     $task_url = $pm_base . '#/projects/' . $project_id . '/task-lists/' . $list_id . '/tasks/' . $task_id;
 
     return $task_url;
 }
 
-function pm_get_discuss_url( $project_id, $discuss_id, $is_admin ) {
+function wedevs_pm_get_discuss_url( $project_id, $discuss_id, $is_admin ) {
     $is_admin = $is_admin ? 'admin' : 'frontend';
-    $pm_base  = pm_get_project_page( $is_admin );
+    $pm_base  = wedevs_pm_get_project_page( $is_admin );
     $task_url = $pm_base . '#/projects/' . $project_id . '/discussions/' . $discuss_id;
 
     return $task_url;
 }
 
-function pm_get_task( $task_id ) {
+function wedevs_pm_get_task( $task_id ) {
     $task = Task::with('task_lists')
         ->where( 'id', $task_id )
         ->first();
 
     if ( $task == NULL ) {
-        return pm_get_response( null,  [
-            'message' => pm_get_text('success_messages.no_element')
+        return wedevs_pm_get_response( null,  [
+            'message' => __( 'No elements found.', 'wedevs-project-manager' )
         ] );
     }
 
     $resource = new Item( $task, new Task_Transformer );
 
-    return pm_get_response( $resource );
+    return wedevs_pm_get_response( $resource );
 }
 
-function pm_get_file_download_url( $project_id, $user_id, $file_id ) {
+function wedevs_pm_get_file_download_url( $project_id, $user_id, $file_id ) {
     return get_rest_url() . 'pm/v2/projects/' . $project_id . '/files/' . $file_id . '/users/' . $user_id . '/download';
 }
 
-function pm_get_list_url( $project_id, $list_id, $is_admin ) {
+function wedevs_pm_get_list_url( $project_id, $list_id, $is_admin ) {
 
     $is_admin = $is_admin ? 'admin' : 'frontend';
-    $pm_base  = pm_get_project_page( $is_admin );
+    $pm_base  = wedevs_pm_get_project_page( $is_admin );
     $list_url = $pm_base . '#/projects/' . $project_id . '/task-lists/' . $list_id;
 
     return $list_url;
 }
 
-function pm_get_front_end_project_page() {
+function wedevs_pm_get_front_end_project_page() {
     $pages   = get_option( 'pm_pages', [] );
     $project = empty( $pages['project'] ) ? '' : absint( $pages['project'] );
 
@@ -728,46 +738,46 @@ function pm_get_front_end_project_page() {
     return '';
 }
 
-function pm_get_project_page( $type = false ) {
+function wedevs_pm_get_project_page( $type = false ) {
 
     if ( $type == 'admin' ) {
         return admin_url( 'admin.php?page=pm_projects' );
     }
 
     if ( $type == 'frontend' ) {
-        return pm_get_front_end_project_page();
+        return wedevs_pm_get_front_end_project_page();
     }
 
-    if ( pm_is_request( 'admin' ) ) {
+    if ( wedevs_pm_is_request( 'admin' ) ) {
         return admin_url( 'admin.php?page=pm_projects' );
     }
 
-    if ( pm_is_request( 'frontend' ) ) {
-        return pm_get_front_end_project_page();
+    if ( wedevs_pm_is_request( 'frontend' ) ) {
+        return wedevs_pm_get_front_end_project_page();
     }
 }
 
-function pm_total_projects() {
+function wedevs_pm_total_projects() {
     $project = Project::count();
     return $project;
 }
 
-function pm_total_task() {
+function wedevs_pm_total_task() {
     $task = Task::count();
     return $task;
 }
 
-function pm_total_task_list() {
+function wedevs_pm_total_task_list() {
     $task_list = Task_List::count();
     return $task_list;
 }
 
-function pm_total_milestone() {
+function wedevs_pm_total_milestone() {
     $milestone = Milestone::count();
     return $milestone;
 }
 
-function pm_total_message() {
+function wedevs_pm_total_message() {
     $message = Discussion_Board::count();
     return $message;
 }
@@ -776,9 +786,9 @@ function pm_total_message() {
 *
 * @since 1.0.0
 *
-* @return void
+* @return string IP address
 **/
-function pm_get_ip() {
+function wedevs_pm_get_ip() {
     $ipaddress = '';
 
     if ( isset( $_SERVER['HTTP_CLIENT_IP'] ) ) {
@@ -800,7 +810,7 @@ function pm_get_ip() {
     return $ipaddress;
 }
 
-function pm_get_capabilities() {
+function wedevs_pm_get_capabilities() {
 
     return [
         'Message Create',
@@ -816,7 +826,7 @@ function pm_get_capabilities() {
     ];
 }
 
-function pm_get_capabilities_relation( $role ) {
+function wedevs_pm_get_capabilities_relation( $role ) {
 
     $caps = [
         'create_message'         => 1,
@@ -834,7 +844,7 @@ function pm_get_capabilities_relation( $role ) {
     return $caps[$role];
 }
 
-function pm_default_cap( $cap_id = false ) {
+function wedevs_pm_default_cap( $cap_id = false ) {
     $pm_caps =  [
         '1'  => 'create_message',
         '2'  => 'view_private_message',
@@ -855,7 +865,7 @@ function pm_default_cap( $cap_id = false ) {
     return $pm_caps;
 }
 
-function pm_default_manager_caps() {
+function wedevs_pm_default_manager_caps() {
     return [
         'create_message'         => true,
         'view_private_message'   => true,
@@ -870,7 +880,7 @@ function pm_default_manager_caps() {
     ];
 }
 
-function pm_default_co_caps() {
+function wedevs_pm_default_co_caps() {
     return [
         'create_message'         => true,
         'view_private_message'   => true,
@@ -885,7 +895,7 @@ function pm_default_co_caps() {
     ];
 }
 
-function pm_default_client_caps() {
+function wedevs_pm_default_client_caps() {
     return [
         'create_message'         => true,
         'view_private_message'   => false,
@@ -900,10 +910,10 @@ function pm_default_client_caps() {
     ];
 }
 
-function pm_get_prepare_format( $ids, $is_string = false ) {
+function wedevs_pm_get_prepare_format( $ids, $is_string = false ) {
 
     
-    $ids = pm_get_prepare_data( $ids );
+    $ids = wedevs_pm_get_prepare_data( $ids );
 
     // how many entries will we select?
     $how_many = count( $ids );
@@ -923,7 +933,7 @@ function pm_get_prepare_format( $ids, $is_string = false ) {
     return $format;
 }
 
-function pm_get_prepare_data( $args, $delimiter = ',' ) {
+function wedevs_pm_get_prepare_data( $args, $delimiter = ',' ) {
 
     $new = [];
 
@@ -959,7 +969,7 @@ function pm_get_prepare_data( $args, $delimiter = ',' ) {
  * @param string|array $var Data to sanitize.
  * @return string|array
  */
-function pm_clean( $var ) {
+function wedevs_pm_clean( $var ) {
     if ( is_array( $var ) ) {
         return array_map( 'pm_clean', $var );
     } else {
@@ -973,13 +983,13 @@ function pm_clean( $var ) {
  * @since 1.0.0
  * @return string
  */
-function pm_frontend_slug() {
+function wedevs_pm_frontend_slug() {
     $slug = get_option( 'pm_frontend_slug' );
     if ( ! $slug ) {
         $slug = 'pm';
     }
 
-    return apply_filters( 'pm_frontend_slug', sanitize_title( $slug ) );
+    return apply_filters( 'wedevs_pm_frontend_slug', sanitize_title( $slug ) );
 }
 
 /**
@@ -987,9 +997,9 @@ function pm_frontend_slug() {
  *
  * @return string
  */
-function pm_frontend_url() {
+function wedevs_pm_frontend_url() {
     $site_url       = get_site_url();
-    $dashboard_slug = ltrim( get_pm_frontend_slug(), '/' );
+    $dashboard_slug = ltrim( wedevs_pm_frontend_slug(), '/' );
 
     return trailingslashit( $site_url ) . $dashboard_slug;
 }
@@ -999,14 +1009,14 @@ function pm_frontend_url() {
  *
  * @return string
  */
-function pm_dashboard_title() {
+function wedevs_pm_dashboard_title() {
     $dashboard_title = get_option( 'pm_frontend_dashboard_title' );
 
     if ( ! $dashboard_title ) {
         $dashboard_title = __( 'Project Manager', 'wedevs-project-manager' );
     }
 
-    return apply_filters( 'pm_dashboard_title', $dashboard_title );
+    return apply_filters( 'wedevs_pm_dashboard_title', $dashboard_title );
 }
 
 /**
@@ -1014,8 +1024,8 @@ function pm_dashboard_title() {
  *
  * @return string
  */
-function pm_register_query_var() {
-    return apply_filters( 'pm_frontend_query_var', 'pm_dashboard' );
+function wedevs_pm_register_query_var() {
+    return apply_filters( 'wedevs_pm_frontend_query_var', 'pm_dashboard' );
 }
 
 /**
@@ -1023,9 +1033,9 @@ function pm_register_query_var() {
  *
  * @return string
  */
-function pm_root_element() {
-    $id = pm_root_element_id();
-    return apply_filters( 'pm_root_element', '<div id="'. $id .'"></div>' );
+function wedevs_pm_root_element() {
+    $id = wedevs_pm_root_element_id();
+    return apply_filters( 'wedevs_pm_root_element', '<div id="'. $id .'"></div>' );
 }
 
 /**
@@ -1033,8 +1043,8 @@ function pm_root_element() {
  *
  * @return string
  */
-function pm_root_element_id() {
-    return apply_filters( 'pm_root_element_id', 'wedevs-pm' );
+function wedevs_pm_root_element_id() {
+    return apply_filters( 'wedevs_pm_root_element_id', 'wedevs-pm' );
 }
 
 /**
@@ -1042,8 +1052,8 @@ function pm_root_element_id() {
  *
  * @return string
  */
-function pm_admin_slug() {
-    return apply_filters( 'pm_admin_slug', 'pm_projects' );
+function wedevs_pm_admin_slug() {
+    return apply_filters( 'wedevs_pm_admin_slug', 'pm_projects' );
 }
 
 /**
@@ -1051,9 +1061,9 @@ function pm_admin_slug() {
  *
  * @return string
  */
-function pm_admin_url() {
-    $slug = pm_admin_slug();
-    return apply_filters( 'pm_admin_url', admin_url( "admin.php?page={$slug}" ) );
+function wedevs_pm_admin_url() {
+    $slug = wedevs_pm_admin_slug();
+    return apply_filters( 'wedevs_pm_admin_url', admin_url( "admin.php?page={$slug}" ) );
 }
 
 /**
@@ -1061,7 +1071,7 @@ function pm_admin_url() {
  *
  * @return void
  */
-function pm_dashboard_logo() {
+function wedevs_pm_dashboard_logo() {
     // $logo = get_option( 'pm_frontend_logo' );
     // if ( $logo ) {
     //     return wp_get_attachment_url( $logo );
@@ -1070,7 +1080,7 @@ function pm_dashboard_logo() {
     // return ERP_DASHBOARD_ASSETS . '/images/pm-logo.png';
 }
 
-function pm_active_for_network() {
+function wedevs_pm_active_for_network() {
     
     $plugins     = get_plugins();
     $plugin_path = false;
@@ -1092,26 +1102,26 @@ function pm_active_for_network() {
     return false;
 }
 
-function pm_user_meta_key() {
+function wedevs_pm_user_meta_key() {
     global $wpdb;
 
     return $wpdb->prefix . 'capabilities';
 }
 
-function pm_can_create_user_at_project_create_time() {
-    return apply_filters( 'pm_can_create_user_at_project_create_time', true );
+function wedevs_pm_can_create_user_at_project_create_time() {
+    return apply_filters( 'wedevs_pm_can_create_user_at_project_create_time', true );
 }
 
-function pm_get_estimation_type() { 
-    if ( ! function_exists( 'pm_pro_is_module_active' ) ) {
+function wedevs_pm_get_estimation_type() { 
+    if ( ! function_exists( 'wedevs_pm_pro_is_module_active' ) ) {
         return 'task';
     }
 
-    if ( pm_pro_is_module_active( 'Sub_Tasks/Sub_Tasks.php' ) ) {
+    if ( wedevs_pm_pro_is_module_active( 'Sub_Tasks/Sub_Tasks.php' ) ) {
         return 'subtask';
     }
 
-    // $db_est_type = pm_get_setting( 'estimation_type' );
+    // $db_est_type = wedevs_pm_get_setting( 'estimation_type' );
 
     // if ( empty( $db_est_type ) ) {
     //     return 'task';
@@ -1120,19 +1130,19 @@ function pm_get_estimation_type() {
     return 'task';
 }
 
-function pm_is_active_time_tracker_module() { 
-    if ( ! function_exists( 'pm_pro_is_module_active' ) ) {
+function wedevs_pm_is_active_time_tracker_module() { 
+    if ( ! function_exists( 'wedevs_pm_pro_is_module_active' ) ) {
         return false;
     }
 
-    if ( pm_pro_is_module_active( 'Time_Tracker/Time_Tracker.php' ) ) {
+    if ( wedevs_pm_pro_is_module_active( 'Time_Tracker/Time_Tracker.php' ) ) {
         return true;
     }
 
     return false;
 }
 
-function pm_second_to_time( $seconds ) {
+function wedevs_pm_second_to_time( $seconds ) {
     $total_second = $seconds;
     // extract hours
     $hours = floor( $seconds / (60 * 60) );
@@ -1161,7 +1171,7 @@ function pm_second_to_time( $seconds ) {
  * @param  array|string $params
  * @return [type]
  */
-function pm_get_projects( $params = [] ) {
+function wedevs_pm_get_projects( $params = [] ) {
      return WeDevs\PM\Project\Helper\Project::get_results( $params );
 }
 
@@ -1170,7 +1180,7 @@ function pm_get_projects( $params = [] ) {
  * @param  array|string $params
  * @return [type]
  */
-function pm_get_task_lists( $params = [] ) {
+function wedevs_pm_get_task_lists( $params = [] ) {
      return \WeDevs\PM\Task_List\Helper\Task_List::get_results( $params );
 }
 
@@ -1179,7 +1189,7 @@ function pm_get_task_lists( $params = [] ) {
  * @param  array|string $params
  * @return [type]
  */
-function pm_get_tasks( $params = [] ) {
+function wedevs_pm_get_tasks( $params = [] ) {
      return \WeDevs\PM\task\Helper\Task::get_results( $params );
 }
 
@@ -1188,7 +1198,7 @@ function pm_get_tasks( $params = [] ) {
  * @param  array|string $params
  * @return [type]
  */
-function pm_get_activities( $params = [] ) {
+function wedevs_pm_get_activities( $params = [] ) {
      return \WeDevs\PM\Activity\Helper\Activity::get_results( $params );
 }
 
@@ -1197,7 +1207,7 @@ function pm_get_activities( $params = [] ) {
  * @param  array|string $params
  * @return [type]
  */
-function pm_get_milestones( $params = [] ) {
+function wedevs_pm_get_milestones( $params = [] ) {
      return \WeDevs\PM\Milestone\Helper\Milestone::get_results( $params );
 }
 
@@ -1206,7 +1216,7 @@ function pm_get_milestones( $params = [] ) {
  * @param  array|string $params
  * @return [type]
  */
-function pm_get_discussions( $params = [] ) {
+function wedevs_pm_get_discussions( $params = [] ) {
      return \WeDevs\PM\Discussion_Board\Helper\Discussion_Board::get_results( $params );
 }
 
@@ -1215,7 +1225,7 @@ function pm_get_discussions( $params = [] ) {
  * @param  array|string $params
  * @return [type]
  */
-function pm_get_comments( $params = [] ) {
+function wedevs_pm_get_comments( $params = [] ) {
      return \WeDevs\PM\Comment\Helper\Comment::get_results( $params );
 }
 
@@ -1224,7 +1234,7 @@ function pm_get_comments( $params = [] ) {
  * @param  array|string $params
  * @return [type]
  */
-function pm_get_files( $params = [] ) {
+function wedevs_pm_get_files( $params = [] ) {
      return \WeDevs\PM\File\Helper\File::get_results( $params );
 }
 
@@ -1233,7 +1243,7 @@ function pm_get_files( $params = [] ) {
  * @param  array|string $params
  * @return [type]
  */
-function pm_get_users( $params = [] ) {
+function wedevs_pm_get_users( $params = [] ) {
      return \WeDevs\PM\User\Helper\User::get_results( $params );
 }
 
@@ -1242,7 +1252,7 @@ function pm_get_users( $params = [] ) {
  * @param  array|string $params
  * @return [type]
  */
-function pm_is_single_query( $params ) {
+function wedevs_pm_is_single_query( $params ) {
     if ( empty( $params['id'] ) ) {
         return false;
     }
@@ -1251,7 +1261,7 @@ function pm_is_single_query( $params ) {
         return false;
     }
 
-    $id = pm_get_prepare_data( $params['id'] );
+    $id = wedevs_pm_get_prepare_data( $params['id'] );
     
     if ( count( $id ) == 1 ) {
         return true;
@@ -1260,11 +1270,11 @@ function pm_is_single_query( $params ) {
     return false;
 }
 
-function pm_api_namespace() {
-    return config( 'app.slug' ) . '/v' . config( 'app.api' );
+function wedevs_pm_api_namespace() {
+    return wedevs_pm_config( 'app.slug' ) . '/v' . wedevs_pm_config( 'app.api' );
 }
 
-function pm_current_user_can_update_core() {
+function wedevs_pm_current_user_can_update_core() {
     if ( is_multisite() ) {
         if ( is_main_site() && current_user_can( 'activate_plugins' ) ) {
             return true;
@@ -1287,7 +1297,7 @@ function pm_current_user_can_update_core() {
  * 
  * @return [type]
  */
-function pm_is_true ( $val ) {
+function wedevs_pm_is_true ( $val ) {
     
     if ( is_string( $val ) ) {
         return $val == 'true' || $val == '1' ? true : false;
@@ -1300,16 +1310,16 @@ function pm_is_true ( $val ) {
  * [pm_pro_progress_page_slug description]
  * @return [type]
  */
-function pm_admin_cap_slug() {
-    return apply_filters( 'pm_admin_capability_slug', 'pm_admin' );
+function wedevs_pm_admin_cap_slug() {
+    return apply_filters( 'wedevs_pm_admin_capability_slug', 'pm_admin' );
 }
 
 /**
  * [pm_pro_reports_page_slug description]
  * @return [type]
  */
-function pm_manager_cap_slug() {
-    return apply_filters( 'pm_manager_capability_slug', 'pm_manager' );
+function wedevs_pm_manager_cap_slug() {
+    return apply_filters( 'wedevs_pm_manager_capability_slug', 'pm_manager' );
 }
 
 /**
@@ -1317,19 +1327,19 @@ function pm_manager_cap_slug() {
  * @param  boolean $cap
  * @return [type]
  */
-function pm_access_capabilities( $cap = false ) {
+function wedevs_pm_access_capabilities( $cap = false ) {
     $caps = [
-        pm_admin_cap_slug()   => __( 'PM Admin', 'wedevs-project-manager' ),
-        pm_manager_cap_slug() => __( 'PM Manager', 'wedevs-project-manager' ),
+        wedevs_pm_admin_cap_slug()   => __( 'PM Admin', 'wedevs-project-manager' ),
+        wedevs_pm_manager_cap_slug() => __( 'PM Manager', 'wedevs-project-manager' ),
     ];
 
-    $caps = apply_filters( 'pm_access_capabilities', $caps );
+    $caps = apply_filters( 'wedevs_pm_access_capabilities', $caps );
 
     return empty( $cap ) ? $caps : $caps[$cap];
 }
 
 
-function pm_validate_assignee( $assignees){
+function wedevs_pm_validate_assignee( $assignees){
     
     if ( empty( $assignees ) ) {
             return [];

@@ -26,7 +26,7 @@ class ImportAsana extends WP_Background_Process
      * @var string
      */
     protected $action = 'asana_import';
-    public $credentials; //= pm_get_settings('asana_credentials');
+    public $credentials; //= wedevs_pm_get_settings('asana_credentials');
     public $asana;
     private $imported;
     private $importing;
@@ -40,9 +40,9 @@ class ImportAsana extends WP_Background_Process
     }
 
     public function after_load_wp(){
-        $this->credentials = pm_get_setting('asana_credentials');
+        $this->credentials = wedevs_pm_get_setting('asana_credentials');
         if(!$this->credentials){
-            pm_set_settings('asana_credentials', array('token' => ''));
+            wedevs_pm_set_settings('asana_credentials', array('token' => ''));
         } else {
             if(array_key_exists('token', $this->credentials)) {
                 if(!empty($this->credentials['token'])){
@@ -476,8 +476,7 @@ class ImportAsana extends WP_Background_Process
         $mailuser = str_replace(' ', '', $name);
         $mailuser = preg_replace('/[^A-Za-z0-9\-]/', '', $mailuser);
         $hostname = str_replace('http', '',get_site_url());
-        $hostname = str_replace('://', '',$hostname);
-        echo $hostname;
+        $hostname = str_replace('://', '', $hostname);
         if (strpos($hostname, ".")) {
             $email = 'asana_'.$mailuser.'@'.$hostname;
         } else {

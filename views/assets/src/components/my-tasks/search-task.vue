@@ -28,7 +28,7 @@
                     :show-labels="false"
                     :searchable="true"
                     :loading="asyncListLoading"
-                    :placeholder="__('All Lists', 'pm-pro')"
+                    :placeholder="__('All Lists', 'wedevs-project-manager')"
                     @search-change="asyncListFind($event)"
                     label="title"
                     track-by="id">

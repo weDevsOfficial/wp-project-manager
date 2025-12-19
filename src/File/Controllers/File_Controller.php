@@ -41,7 +41,7 @@ class File_Controller {
 
         $response = $this->get_response( $resource );
 
-        return apply_filters( 'pm_after_get_files', $response, $files, $resource, $request->get_params() );
+        return apply_filters( 'wedevs_pm_after_get_files', $response, $files, $resource, $request->get_params() );
     }
 
     public function show( WP_REST_Request $request ) {
@@ -97,20 +97,27 @@ class File_Controller {
         $file = File_System::get_file( $file_id );
         $path = get_attached_file( $file_id );
 
-        if ( ! file_exists( $path ) ) {
+        // Initialize WP_Filesystem
+        global $wp_filesystem;
+        if ( empty( $wp_filesystem ) ) {
+            require_once ABSPATH . 'wp-admin/includes/file.php';
+            WP_Filesystem();
+        }
+
+        if ( ! $wp_filesystem->exists( $path ) ) {
             header( "Status: 404 Not Found" );
             die( esc_html__( 'file not found', 'wedevs-project-manager' ) );
         }
 
         $file_name = basename( $path );
-        
+
         $mime_type = empty( $file['mime_type'] ) ? 'application/force-download' : $file['mime_type'];
 
         // serve the file with right header
-        if ( is_readable( $path ) ) {
+        if ( $wp_filesystem->is_readable( $path ) ) {
             // header("Pragma: public");
             // header("Expires: 0");
-            // header("Cache-Control: must-revalidate, post-check=0, pre-check=0"); 
+            // header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
             // header("Content-Type: application/force-download");
             // header("Content-Type: application/octet-stream");
             // header("Content-Type: application/download");
@@ -121,7 +128,9 @@ class File_Controller {
             header( 'Content-Type: ' . $mime_type );
             header( 'Content-Transfer-Encoding: binary' );
             header( 'Content-Disposition: inline; filename=' . basename( $path ) );
-            readfile( $path );
+
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Binary file content for download must not be escaped
+            echo $wp_filesystem->get_contents( $path );
         }
 
         exit;
