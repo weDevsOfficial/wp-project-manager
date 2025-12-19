@@ -661,12 +661,20 @@ function wedevs_pm_tb_prefix() {
  * @return string
  */
 function wedevs_pm_get_content( $content ) {
+    if (empty($content)) {
+        return $content;
+    }
+
     $content = apply_filters( 'wedevs_pm_get_content', $content );
 
     return $content;
 }
 
 function wedevs_pm_filter_content_url( $content ) {
+    if (empty($content)) {
+        return $content;
+    }
+
     $content = apply_filters( 'wedevs_pm_get_content_url', $content );
 
     return $content;
