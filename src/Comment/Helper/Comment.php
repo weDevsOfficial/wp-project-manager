@@ -19,9 +19,6 @@ class Comment {
 	private $found_rows;
 	private $tb_comment;
 	private $is_single_query = false;
-	private $tb_comment;
-	private $found_rows;
-
 	public static function getInstance() {
         return new self();
     }
