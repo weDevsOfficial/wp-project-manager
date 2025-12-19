@@ -38,9 +38,9 @@ class Project_Role_Relation {
 
 		global $wpdb;
 
-		$table           = $wpdb->prefix . 'pm_role_project_users';
-		$tb_role_project = $wpdb->prefix . 'pm_role_project';
-		$project_id      = $project['id'];
+		$table           = esc_sql( $wpdb->prefix . 'pm_role_project_users' );
+		$tb_role_project = esc_sql( $wpdb->prefix . 'pm_role_project' );
+		$project_id      = absint( $project['id'] );
 
 		$role_project_ids = $wpdb->get_results( $wpdb->prepare( "SELECT rpu.role_project_id FROM $table as rpu 
 			LEFT JOIN $tb_role_project as rp ON rp.id=rpu.role_project_id
@@ -148,9 +148,10 @@ class Project_Role_Relation {
 	public function after_delete_project( $project_id ) {
 		global $wpdb;
 		
-		$tb_rp = $wpdb->prefix . 'pm_role_project';
-		$tb_rpu = $wpdb->prefix . 'pm_role_project_users';
-		$tb_rpc = $wpdb->prefix . 'pm_role_project_capabilities';
+		$tb_rp = esc_sql( $wpdb->prefix . 'pm_role_project' );
+		$tb_rpu = esc_sql( $wpdb->prefix . 'pm_role_project_users' );
+		$tb_rpc = esc_sql( $wpdb->prefix . 'pm_role_project_capabilities' );
+		$project_id = absint( $project_id );
 
 		$rpids = $wpdb->get_results( $wpdb->prepare("SELECT id FROM $tb_rp WHERE project_id=%d", $project_id) );
 		$rpids = wp_list_pluck( $rpids, 'id' );

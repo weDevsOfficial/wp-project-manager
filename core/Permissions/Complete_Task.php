@@ -15,7 +15,7 @@ class Complete_Task extends Abstract_Permission {
 
         if ( $user_id ) {
 
-        	if ( $project_id && pm_has_project_managing_capability( $project_id, $user_id ) ) {
+        	if ( $project_id && wedevs_pm_has_project_managing_capability( $project_id, $user_id ) ) {
 	            return true;
 	        }
             
@@ -27,7 +27,7 @@ class Complete_Task extends Abstract_Permission {
                return true;
             }
 
-            if ( pm_user_can_complete_task( $task, $user_id ) ) {
+            if ( wedevs_pm_user_can_complete_task( $task, $user_id ) ) {
                 return true;
             }
 

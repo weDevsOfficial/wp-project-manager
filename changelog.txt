@@ -1,5 +1,13 @@
 == Changelog ==
 
+= v3.0.0 – Dec 18, 2025 =
+**Improved:** Aligned plugin description with WordPress.org directory standards.
+**Improved:** internal consistency across metadata, versioning, and documentation.
+**Improved:** code structure and internationalization for long-term maintainability.
+**Fix:** Addressed all categories of issues identified through WordPress.org recommended tool.
+**Added:** Attached third-party integration disclosures for better user clarity.
+**Improved:** General stability and compatibility.
+
 = v2.6.31 – Dec 4, 2025 =
 **Fixed:** Changed Plugin name 'WP Project Manager' to 'Wedevs Project Manager'.
 

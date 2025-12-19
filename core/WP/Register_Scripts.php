@@ -5,10 +5,10 @@ namespace WeDevs\PM\Core\WP;
 class Register_Scripts {
 	
 	public static function scripts() {
-		$scripts = config('scripts');
+		$scripts = wedevs_pm_config('scripts');
 		
 		foreach ( $scripts as $script ) {
-			$path = config( 'app.version' );
+			$path = wedevs_pm_config( 'app.version' );
 			
 			if ( !empty( $script['path'] ) && file_exists( $script['path'] ) ) {
 				$path = filemtime( $script['path'] );
@@ -25,13 +25,14 @@ class Register_Scripts {
 	}
 
 	public static function styles() {
-		$styles = config('style');
+		$styles = wedevs_pm_config('style');
 		
 		foreach ( $styles as $style ) {
-			$path = config( 'app.version' );
+			$path = wedevs_pm_config( 'app.version' );
 			
-			if ( !empty( $script['path'] ) && file_exists( $script['path'] ) ) {
-				$path = filemtime( $script['path'] );
+			
+			if ( !empty( $style['path'] ) && file_exists( $style['path'] ) ) {
+				$path = filemtime( $style['path'] );
 			}
 
 			wp_register_style( 

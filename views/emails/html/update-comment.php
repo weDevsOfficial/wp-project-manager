@@ -76,8 +76,8 @@
                                     <?php esc_html_e( 'Updated at', 'wedevs-project-manager' ); ?>
                                 </p>
                                 <h2 style="font-size: 16px; color: #000; margin: 0; font-weight: 400;">
-                                    <?php $comment_date = empty( $updated_at ) ? '&#x02013;&#x02013;' : esc_html( pm_date_format( $updated_at ) ); ?>
-                                    <?php echo esc_html( $comment_date ); ?>
+                                    <?php $wedevs_pm_comment_date = empty( $updated_at ) ? '&#x02013;&#x02013;' : esc_html( wedevs_pm_date_format( $updated_at ) ); ?>
+                                    <?php echo esc_html( $wedevs_pm_comment_date ); ?>
                                 </h2>
                                 &nbsp;
                             </td>

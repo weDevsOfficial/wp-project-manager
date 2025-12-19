@@ -41,7 +41,7 @@ class File_Controller {
 
         $response = $this->get_response( $resource );
 
-        return apply_filters( 'pm_after_get_files', $response, $files, $resource, $request->get_params() );
+        return apply_filters( 'wedevs_pm_after_get_files', $response, $files, $resource, $request->get_params() );
     }
 
     public function show( WP_REST_Request $request ) {
@@ -129,7 +129,7 @@ class File_Controller {
             header( 'Content-Transfer-Encoding: binary' );
             header( 'Content-Disposition: inline; filename=' . basename( $path ) );
 
-            // Replace readfile with WP_Filesystem method
+            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Binary file content for download must not be escaped
             echo $wp_filesystem->get_contents( $path );
         }
 
