@@ -5,7 +5,7 @@
  * Description: WordPress Project Management plugin. Manage your projects and tasks, get things done.
  * Author: weDevs
  * Author URI: https://wedevs.com
- * Version: 3.0.1
+ * Version: 3.0.0
  * Text Domain: wedevs-project-manager
  * Domain Path: /languages
  * License: GPL2
