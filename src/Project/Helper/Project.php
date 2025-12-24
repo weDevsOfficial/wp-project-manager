@@ -11,6 +11,7 @@ class Project {
 	private $tb_list;
 	private $tb_task;
 	private $tb_projectuser;
+	private $tb_project_user;
 	private $tb_task_user;
 	private $tb_categories;
 	private $tb_category_project;
@@ -24,7 +25,6 @@ class Project {
 	private $projects;
 	private $project_ids;
 	private $is_single_query = false;
-	private $tb_project_user;
 	private $found_rows;
 	
 
