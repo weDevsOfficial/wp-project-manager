@@ -15,6 +15,17 @@
 
                     <!-- header-right -->
                     <div class="pm-header-right pm-text-right">
+                        <!-- Headway Widget -->
+                        <span id="pm-headway-icon" class="pm-headway-badge"></span>
+                        
+                        <!-- Share Your Idea Link -->
+                        <a 
+                            class="pm-share-idea-link"
+                            target="_blank"
+                            href="https://pm.canny.io/ideas">
+                            💡 {{ __( 'Share your idea', 'wedevs-project-manager' ) }}
+                        </a>
+
                         <pm-do-action hook="pm_projects_header" ></pm-do-action>
                     </div>
                 </div>
@@ -89,6 +100,59 @@
         left: 50% !important;
         transform: translate(-50%, 0);
         max-width: calc(100% - 50px);
+    }
+
+    /* Headway Badge Container - matches WPUF styling */
+    .pm-headway-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #e5e7eb;
+        border-radius: 50%;
+        padding: 4px;
+        margin-right: 16px;
+        vertical-align: middle;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+
+        &:hover {
+            background-color: #f1f5f9;
+        }
+    }
+
+    /* Hide duplicate Headway badge container styling */
+    #pm-headway-icon .HW_badge_cont {
+        position: static;
+        width: auto;
+        height: auto;
+    }
+
+    /* Share Your Idea Link Styles */
+    .pm-share-idea-link {
+        display: inline-block;
+        border: 1px solid #c9a227;
+        border-radius: 6px;
+        padding: 8px 16px;
+        font-size: 14px;
+        font-weight: 500;
+        color: #92700c;
+        background-color: #fefce8;
+        text-decoration: none;
+        margin-right: 16px;
+        vertical-align: middle;
+        transition: all 0.2s ease;
+
+        &:hover {
+            background-color: #fef9c3;
+            color: #713f12;
+        }
+    }
+
+    .pm-header-right {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
     }
 
 </style>

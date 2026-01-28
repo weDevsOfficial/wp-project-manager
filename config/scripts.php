@@ -266,6 +266,14 @@ $wedevs_pm_scripts = [
             'jquery-ui-autocomplete',
         ],
         'in_footer'  => true
+    ],
+
+    'pm-headway' => [
+        'id'         => 'pm-headway',
+        'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/headway/headway.js',
+        'path'       => $wedevs_pm_view_path . '/assets/vendor/headway/headway.js',
+        'dependency' => ['jquery'],
+        'in_footer'  => true
     ]
 ];
 
