@@ -1,8 +1,8 @@
-=== Project Manager - AI-Powered Project & Task Manager with Kanban Board & Gantt Chart ===
+=== Project Manager – AI Powered Project Management, Task Management, Kanban Board & Time Tracker ===
 
 Contributors: tareq1988, nizamuddinbabu, wedevs, asaquzzaman
 Donate Link: https://tareq.co/donate/
-Tags: project management, project manager, kanban board, task manager, gantt chart
+Tags: kanban, project, project management, task management, project manager
 Requires at least: 6.2
 Tested up to: 6.9
 Requires PHP: 7.4
@@ -10,105 +10,126 @@ Stable tag: 3.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Powerful project management tool with Kanban boards, Gantt charts, Time tracker, Task manager, Milestone tracker, Advanced reporting, and more.
+Ease Project Management and Task Management using a powerful project manager with Kanban board, Gantt chart, milestone tracking & project reporting.
 
 == Description ==
-## AI-powered Project Manager with Kanban Board, Gantt Chart, Task Manager, and more.
-[Project Manager](https://wedevs.com/wp-project-manager-pro) is a leading feature-rich project manager designed for teams, agencies, enterprises, and freelancers. It can simplify your project management, task management, milestone tracking, collaboration, and reporting like never before.
+## AI-Powered Project Manager
+[Project Manager](https://wedevs.com/wp-project-manager-pro) is a feature-rich project management plugin built for WordPress users who need structured and organized workflow management.
+
 [youtube https://www.youtube.com/watch?v=GI4u8wXOxHg]
-No matter if you are struggling to handle complex projects or simple to-dos, Project Manager can turn your WordPress site into a central hub for organizing tasks, managing team members, assigning tasks to them, milestone tracking, and driving productivity.
-Our user-friendly interface combines **AI technology** with advanced tools like **Kanban Board** and **Gantt Chart** for visualizing task management and project progress. Besides, **Time Tracker**, **Task Calendar**, and **integration** with various platforms facilitate team collaboration.
-**Want to give it a try?** 
+
+Built for teams, agencies, enterprises, and freelancers, Project Manager transforms your WordPress site into a complete project management system with **Kanban Board**, **Gantt Chart**, **Task Manager**, **Milestone Tracking**, **Tasks Calendar**, and **Project Reporting** - all in one place.
+
+Whether you want to manage complex and multi-team projects or keep track of simple daily tasks, Project Manager gives you full control over your project and task management workflow. You can assign tasks, set deadlines, track progress, and collaborate without leaving your WordPress dashboard.
+
+Now powered by AI, Project Manager can generate complete task lists for your projects based on your project description. As a result, you don't need to think about or create every task name manually, which can save you a significant amount of time.
+
+## Want to give it a try?
 👉 [TRY FREE OFFICIAL DEMO](https://pm2.wedevsdemos.com/wp-login.php)
-**Useful Links**
+
+## Useful Links
 [Docs](https://wedevs.com/docs/wp-project-manager/) | [Videos](https://www.youtube.com/watch?v=GI4u8wXOxHg&list=PLJorZsV2RVv82Xe9ReXngU6Wk1RN0EwHu) | [Support](https://wedevs.com/account/tickets/) | [IdeaSharing](https://roadmap.wedevs.com/wp-project-manager#ideas) | [Comparison](https://wedevs.com/wp-project-manager-pro/compare/) | [Get Pro](https://wedevs.com/wp-project-manager-pro/pricing/)
-## Key Features of Project Manager FREE
-The free version of Project Manager offers core **task manager** and **project management** essentials to get you started. Take a look at them below:
-##  AI Project Creation
-–   Generate project plans, task lists, and timelines in seconds with AI support
-–   Get smart project suggestions based on goals, deadlines, and workloads 
-–   Save time by letting AI outline project structures and assign initial tasks automatically
--   Adjust and refine AI-generated plans to match your team's unique workflow
-##🗓 To-Do List & Task Management
-–   Add as many to-do lists as you want with titles and descriptions
-–   Assign users, set due dates, and track progress with visual bars
-–   Add comments, descriptions, and titles to tasks and lists for collaboration
-–   Mark tasks as complete/incomplete for easy management
-##🎯 Milestone Tracking
-–   Track 3 types of milestones: upcoming, completed, and late milestones
-–   Assign task lists and messages to milestones for better project reporting
+
+##🎯 Free Features of Project Manager
+The free version provides essential tools for project management and structured task management. It includes everything you need to manage projects and teams efficiently.
+##🤖 AI-Powered Project Creation
+–   Generate complete task lists based on your project description using AI
+–   Reduce the need to create every task from scratch
+–   Save time by letting AI suggest relevant tasks for your project
+-   Get ideas for important tasks that may be easy to miss when planning manually
+-   Review, edit, and adjust the AI-generated task list to match your team’s workflow
+##📝 To-Do List & Task Management
+–   Create unlimited task lists with titles and descriptions
+–   Assign tasks to team members
+–   Set due dates for each task
+–   Track task progress using visual status indicators
+–   Add comments and detailed descriptions to tasks
+–   Mark tasks as complete or incomplete to keep work organized
+##🏆 Milestone Tracking
+–   Track upcoming, completed, and overdue milestones easily
+–   View milestone status at a glance
+–   Assign task lists to specific milestones
+–   Attach messages and updates to milestones
+–   Improve project reporting and team accountability
 ##💬 Messages & Team Collaboration
-–   Discuss projects with co-workers via threaded messages
-–   Edit and stylize messages for enhanced collaboration
-–   Enable comments for real-time feedback and task management
+–   Stay aligned with your team through built-in threaded messaging
+–   Edit and stylize messages for clearer collaboration
+–   Enable comments on tasks for real-time feedback
+–   Keep your project management communication in one central place
 ##🗂 File Sharing
-–   Upload files directly in messages and comments to ease the workflow
-–   Navigate attached files within threads to manage resources in one place
-–   Foster team collaboration through file sharing and private discussions
+–   Upload and share files directly within messages and comments 
+–   Navigate attachments inside threads to manage all project resources in one place
+–   Private discussions and file sharing make collaboration effortless
 ##🔔 Dynamic Notifications
-–   Email alerts for assigned tasks, due dates, and updates
-–   Customize notifications to keep your team informed without overload
+–   Receive email alerts for assigned tasks, due dates, and project changes
+–   Customize your notification preferences to keep your team informed without overload
+–   Never miss an update
 ##🔲 Intuitive Interface for Efficient Task Management
-–   Task manager features a user-friendly and interactive interface
-–   Helps to complete projects in the quickest possible time with visual workflows
-–   Notifies with real-time updates to enhance productivity and collaboration
-##👨🏻‍💻 Frontend Project Management (Pro)
-–   Empower users to view and manage projects from the frontend – no need for backend access
-–   Ideal for client portals and team dashboards in your website
-##📊 Kanban Board (Pro)
-–   Visualize workflows with customizable Kanban boards
-–   Default boards include Open, In Progress, Done, and Overdue
-–   Drag-and-drop tasks between boards for agile project management 
-–   Create unlimited custom Kanban boards, sort tasks by status, and add new ones on the fly
-–   Delete unused boards to keep your Kanban board neat and clean
-##📉 Gantt Chart (Pro)
-–   Plan and track project timelines with interactive Gantt chart horizontal bars
-–   Adjust start/end dates, assess task dependencies, and monitor subtasks visually
-–   Essential for milestone tracking and long-term project management
+–   The task manager in Project Manager features a clean and user-friendly interface
+–   Designed for speed, it helps complete tasks faster with visual workflows
+–   With real-time updates, it helps you stay productive, easing collaboration and efficiency
+##🚀 Pro Features of Project Manager (Take Your Project Management Further)
+By upgrading to Project Manager Pro, you can unlock the full power of project management on WordPress.
+##👨🏻‍💻 Frontend Project Management
+–   Let users view and manage tasks and projects directly from your website's frontend
+–   No backend access required
+–   Perfect for client portals and team dashboards
+##📊 Kanban Board
+–   Visualize your entire project management workflow with a customizable Kanban Board
+–   Default columns include Open, In Progress, Done, and Overdue
+–   Drag and drop tasks between boards for agile project management
+–   Create unlimited Kanban boards, sort tasks by status, and add new ones on the fly
+##📉 Gantt Chart
+–   Plan and monitor project timelines with an interactive Gantt Chart
+–   Adjust start and end dates, map out task dependencies, and track subtasks visually
+–   Great for milestone tracking and long-term project management 
 –   Remote teams stay aligned with shared Gantt charts and Kanban boards
-##⏰ Time Tracker (Pro)
-–   Start, stop, or pause timers per task to log billable hours accurately
-–   Calculate time spent and simplify payments for hourly teams in your task manager
-##🧾 Invoice & Billing (Pro)
-–   Auto-generate formatted invoices based on tracked time and project details
-–   Upon completion of the payment, the invoice is marked as paid
-–   Invoices can be downloaded as PDF on Project Manager Pro
-##📆 Interactive Tasks Calendar (Pro)
-–   View tasks in daily, weekly, monthly, or user-specific tasks calendar layouts
-–   Drag-and-drop to reschedule tasks and track progress dynamically
-##💳 Stripe Payment Gateway (Pro)
-–   Accept client payments via Stripe for seamless billing in your project manager
-–   Automate with predefined project templates
-##👥 BuddyPress Integration (Pro)
-–   Assign tasks to teams, set role-based permissions, and manage departments
-–   Boost collaboration across WordPress communities
-##📌 Subtasks for Granular Task Management (Pro)
-–   Break complex tasks into subtasks and assign to multiple team members
-–   Great for detailed task manager workflows
-##🛒 WooCommerce Integration (Pro)
-–   Auto-create projects from orders or payments
-–   Map products to specific tasks and roles, like co-workers or clients
-##🗂️ Advanced File Management (Pro)
-–   Organize files in folders, link to messages/tasks, and set privacy controls
-–   Google Drive-like interface for secure sharing
+##⏰ Time Tracker
+–   Start, stop, or pause timers on any task to log billable hours with precision
+–   Calculate total time spent per project and simplify payments for hourly teams
+##🧾 Invoice & Billing
+–   Auto-generate professional invoices based on tracked time and project details
+–   Mark invoices as paid upon payment completion
+–   Download invoices as PDF to simplify billing for every project
+##📆 Interactive Tasks Calendar
+–   View all your tasks in daily, weekly, monthly, or user-specific layouts with an interactive Task Calendar
+–   Drag and drop to reschedule tasks and track project progress dynamically
+–   The Calendar keeps your entire project management timeline organized and visible
+##💳 Stripe Payment Gateway
+–   Accept client payments directly via Stripe for seamless billing inside your project manager
+–   Use predefined project templates to automate your workflow
+##👥 BuddyPress Integration
+–   Assign tasks to teams, set role-based permissions, and manage departments 
+–   Boost collaboration across your WordPress community with deep BuddyPress integration
+##📌 Subtasks for Granular Task Management
+–   Break complex tasks into smaller subtasks and assign them to multiple team members
+–   Subtasks give you granular control over every detail in your task manager workflow
+##🛒 WooCommerce Integration
+–   Auto-create projects directly from WooCommerce orders or payments
+–   Map products to specific tasks and roles, which is perfect for e-commerce project management
+##🗂️ Advanced File Management
+–   Organize files in folders, link them to messages and tasks, and set privacy controls
+–   Enjoy a Google Drive-like interface for secure, structured file sharing within your project management workspace
 ##💬 Slack Integration (Pro)
-–   Get real-time Slack notifications whenever new tasks, sub-tasks, or comments are created
-–   Also get notified when a task is completed or a new member is added
-##</> GitHub & Bitbucket Integration (Pro)
-–   Connect GitHub and Bitbucket accounts to Project Manager
-–   Whenever issues are created on GitHub and Bitbucket accounts, they are automatically added to the task manager list for developers
-##📈 Advanced Reports & Insights (Pro)
-–   Generate detailed project reporting with predefined views: Overdue Tasks, Completed Tasks, User Activities, Tasks by Milestone, Unassigned Tasks, and Summary
-–   Data-driven decisions for better project management and team performance
-##🛡️ Recurring Task Management & Enhanced Security (Pro)
-–   Set repeating tasks for ongoing projects
-–   Customize user roles and permissions for privacy in collaboration
-##📋 Personal Dashboard (Pro)
-–   Each team member gets a personal dashboard for assigned tasks
-–   Keeps everyone focused and informed
+–   Get real-time Slack notifications whenever new tasks, subtasks, or comments are created
+–   Stay informed when tasks are completed or new team members are added
+##🔗 GitHub & Bitbucket Integration
+–   Connect your GitHub and Bitbucket accounts directly to Project Manager
+–   Issues created in GitHub or Bitbucket are automatically added to your task manager list
+–   Keeps developers in sync with the rest of the project
+##📈 Advanced Reports & Insights
+–   Generate detailed project reporting with predefined views
+–   View them as Overdue Tasks, Completed Tasks, User Activities, Tasks by Milestone, Unassigned Tasks, and Summary
+–   Make data-driven decisions and improve overall project management performance
+##🛡️ Recurring Tasks & Enhanced Security
+–   Set up repeating tasks for ongoing projects so nothing falls through the cracks
+–   Customize user roles and permissions to maintain privacy and security in your collaboration workflows
+##📋 Personal Dashboard
+–   Every team member gets their own personal dashboard showing all assigned tasks
+–   Keep everyone focused, informed, and productive
 ##🔄 Pusher Integration
-–   Get a real-time notification for your project management activities with push notifications
-–   You will receive notifications for assigning team members, mentioning in comments, creating tasks, and updating task status
+–   Receive real-time push notifications for all your project management activities
+–   Includes task assignments, mentions in comments, new tasks, and status updates
 ## Still confused about choosing a project manager tool?
 👉 Check out the complete [comparison of Project Manager with other popular project management solutions](https://wedevs.com/wp-project-manager-pro/compare/)
 👉 Explore the [documentation for all the features and functions of Project Manager](https://wedevs.com/docs/wp-project-manager/)
@@ -156,46 +177,51 @@ Project Manager uses the following third-party services to enhance project manag
 5. **Asana API** - Syncs tasks, stories, and project updates. Task titles, descriptions, deadlines, and comments are sent to Asana for project updates.
    - **[Terms of Service](https://asana.com/terms) and [Privacy Policy](https://asana.com/privacy)**
 
-= Terms and Conditions =
+== Terms and Conditions ==
 - [weDevs Terms of Service](https://wedevs.com/terms-and-conditions/)
 - [weDevs Privacy Policy](https://wedevs.com/privacy-policy/)
 
-= Privacy Policy
+== Privacy Policy ==
 Project Manager uses [Appsero](https://appsero.com/) SDK to collect some telemetry data upon user’s confirmation. This helps us to troubleshoot problems faster & make product improvements.
-Appsero SDK does not gather any data by default. The SDK only starts gathering basic telemetry data when a user allows it via the admin notice. We collect the data to ensure great user experience for all our users.
+
+Appsero SDK does not gather any data by default. The SDK only starts gathering basic telemetry data when a user allows it via the admin notice. We collect the data to ensure a great user experience for all our users.
+
 Integrating Appsero SDK DOES NOT IMMEDIATELY start gathering data, without confirmation from users in any case.
 
 == Installation ==
 Extract the zip file, then drop the contents into the wp-content/plugins/ directory of your WordPress installation, and activate the Plugin from the Plugins page.
 
 == Frequently Asked Questions ==
+= Q. What is Project Manager? =
+A. Project Manager is a feature-rich tool for project and task management. It offers numerous modules like milestones, time tracker, Kanban board, Gantt chart, File manager, and more for team collaboration directly from your WordPress dashboard. It is ideal for agencies, freelancers, remote teams, and growing businesses.
+= Q. Who can create projects? =
+A. Administrators and users with proper permissions can create and manage projects. You can control user roles and access permissions to decide who can create projects, assign tasks, manage milestones, and view reports.
 = Q. Why doesn't Project Manager show up in the frontend? =
 A. By default, Project Manager is basically backend-focused. However, it comes with a page named **Project** which you’ll find in the **page section**. Once you publish the page, a project dashboard will be displayed on the frontend.
-= Q. Who can create projects? =
-A. Admins and users, anyone who has the permission to create projects, can do this with the plugin.
-= Q. Which Project Management Tool is great for your needs? =
-A.  Project Manager excels in Kanban boards, Gantt charts, task managers, time trackers, milestone trackers, invoice generators, and more. These are ideal not only for individuals or freelancers, but also for enterprises and agencies.
-= Q. Does Project Manager solve all project management challenges? =
-A.  It's impossible for any single tool alone to tackle all project management challenges. However, Project Manager is good at handling task overload and disorganization, visualizing project progress, team communication, file and resource management, project reporting, and collaboration.
-= Q. How to manage tasks with Project Manager? =
+= Q. How does task management work in Project Manager? =
 A. Start by navigating to **WP Admin > Project Manager > Projects**. Then, select or create a project, and head to the Task Lists tab. For a quick guide, please explore this documentation on [how to create a project with Project Manager](https://wedevs.com/docs/wp-project-manager/getting-started/creating-a-project/).
-= Q. Who can create a task list, to-do, messages, or milestones? =
-A. By default, the website admin and project manager have the authority to do so. But any user or co-worker can also do this if he/she get permission from the admin.
-= Q. Is there a way to get the overview of the Project Manager's Gantt Chart feature? =
-A. Of course, please check out this overview video of the Gantt Chart feature – 
-[youtube https://www.youtube.com/watch?v=KUGywSKQsF0&ab_channel=weDevs]
-= Q. How to track the progress of a task? =
-A. You can easily track the progress of the task of your team member from the task overview report. Here is the overview of that – 
-[youtube https://www.youtube.com/watch?v=ec-4TXP7o7w&ab_channel=weDevs]
-= Q. Can anyone use the Project Manager as a Trello or Trello-like Kanban Board? =
-A. Project Manager has a Kanban board module. You can easily manage your tasks with the Kanban board view, just like Trello. Here is the video overview – 
-[youtube https://www.youtube.com/watch?v=5bhmpalVs7E&ab_channel=weDevs]
+= Q. Does Project Manager support a Trello-like Kanban Board? =
+A. Project Manager has a Kanban board module. You can easily manage your tasks with the Kanban board view, just like Trello. Here is the video overview – [youtube https://www.youtube.com/watch?v=5bhmpalVs7E&ab_channel=weDevs]
+= Q. Is there a Gantt Chart available in Project Manager? =
+A. Yes. The Gantt Chart module is available in Project Manager. It can help you visualize project timelines, task schedules, and overall progress. It gives you a clear overview of how your project is moving. Please check out this overview video of the Gantt Chart feature – [youtube https://www.youtube.com/watch?v=KUGywSKQsF0&ab_channel=weDevs]
+= Q. Can I track project milestones? =
+A. Yes. You can create and manage project milestones, assign task lists to milestones, and track upcoming, completed, and overdue milestones. This improves accountability and project reporting.
+= Q. Does Project Manager offer AI-based task suggestions? =
+A. Yes. The plugin can generate smart AI-powered task list suggestions based on your project description. This saves time and helps you avoid missing important tasks when creating task lists manually.
+= Q. Can team members collaborate inside the plugin? =
+A. Yes. Team members can comment on tasks, share updates, upload files, and communicate directly inside the project dashboard. This improves team collaboration and reduces the need for external tools.
 = Q. Can every member see every project? =
-A. Only admins (editor/administrator) can see all of them. Other user roles can only see their assigned projects.
-= Q. Can the Project Manager be extended? =
-A. Sure, lots of actions and filters are added by default, and will add more of them.
-= Q. Found a bug on Project Manager? =
-A. Found any bugs? Please create an [issue](https://github.com/tareq1988/wp-project-manager/issues) on Git Hub.
+A. No. Only administrators can see all projects. Other users can only access the projects and tasks assigned to them, based on their role and permissions.
+= Q. Does Project Manager include time tracking? =
+A. Yes. You can track the time spent on tasks. This is useful for productivity tracking, client billing, and performance monitoring.
+= Q. Can I generate project reports? =
+A. Yes. Project Manager provides detailed project reports, task reports, and user activity reports. These reports help you monitor team performance and project progress.
+= Q. Is Project Manager suitable for agencies and large teams? =
+A. Yes. The plugin is suitable for freelancers, startups, agencies, and enterprise teams. It supports scalable project management workflows for small and large teams.
+= Q. Can developers extend Project Manager? =
+A. Yes. The plugin includes developer-friendly actions and filters so you can customize and extend its features based on your business needs.
+= Q. How can I get support or report a bug? =
+A. If you face any issues, you can contact the support team through the official website or report bugs on GitHub. Regular updates are released to improve security and performance. Please create an [issue](https://github.com/tareq1988/wp-project-manager/issues) on Git Hub.
 
 == Screenshots ==
 1. Manage unlimited projects
