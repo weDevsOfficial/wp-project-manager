@@ -110,7 +110,7 @@ By upgrading to Project Manager Pro, you can unlock the full power of project ma
 ##🗂️ Advanced File Management
 –   Organize files in folders, link them to messages and tasks, and set privacy controls
 –   Enjoy a Google Drive-like interface for secure, structured file sharing within your project management workspace
-##💬 Slack Integration (Pro)
+##💬 Slack Integration
 –   Get real-time Slack notifications whenever new tasks, subtasks, or comments are created
 –   Stay informed when tasks are completed or new team members are added
 ##🔗 GitHub & Bitbucket Integration
