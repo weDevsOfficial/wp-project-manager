@@ -15,9 +15,13 @@ Ease Project Management and Task Management using a powerful project manager wit
 == Description ==
 ## AI-Powered Project Manager
 [Project Manager](https://wedevs.com/wp-project-manager-pro) is a feature-rich project management plugin built for WordPress users who need structured and organized workflow management.
+
 [youtube https://www.youtube.com/watch?v=GI4u8wXOxHg]
+
 Built for teams, agencies, enterprises, and freelancers, Project Manager transforms your WordPress site into a complete project management system with **Kanban Board**, **Gantt Chart**, **Task Manager**, **Milestone Tracking**, **Tasks Calendar**, and **Project Reporting** - all in one place.
+
 Whether you want to manage complex and multi-team projects or keep track of simple daily tasks, Project Manager gives you full control over your project and task management workflow. You can assign tasks, set deadlines, track progress, and collaborate without leaving your WordPress dashboard.
+
 Now powered by AI, Project Manager can generate complete task lists for your projects based on your project description. As a result, you don't need to think about or create every task name manually, which can save you a significant amount of time.
 
 ## Want to give it a try?
@@ -173,13 +177,15 @@ Project Manager uses the following third-party services to enhance project manag
 5. **Asana API** - Syncs tasks, stories, and project updates. Task titles, descriptions, deadlines, and comments are sent to Asana for project updates.
    - **[Terms of Service](https://asana.com/terms) and [Privacy Policy](https://asana.com/privacy)**
 
-= Terms and Conditions =
+== Terms and Conditions ==
 - [weDevs Terms of Service](https://wedevs.com/terms-and-conditions/)
 - [weDevs Privacy Policy](https://wedevs.com/privacy-policy/)
 
-= Privacy Policy
+== Privacy Policy ==
 Project Manager uses [Appsero](https://appsero.com/) SDK to collect some telemetry data upon user’s confirmation. This helps us to troubleshoot problems faster & make product improvements.
-Appsero SDK does not gather any data by default. The SDK only starts gathering basic telemetry data when a user allows it via the admin notice. We collect the data to ensure great user experience for all our users.
+
+Appsero SDK does not gather any data by default. The SDK only starts gathering basic telemetry data when a user allows it via the admin notice. We collect the data to ensure a great user experience for all our users.
+
 Integrating Appsero SDK DOES NOT IMMEDIATELY start gathering data, without confirmation from users in any case.
 
 == Installation ==
