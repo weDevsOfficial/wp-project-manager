@@ -11,7 +11,7 @@ class Update_Project_Notification extends Email {
     
     function __construct() {
 
-        add_action('pm_after_update_project_notification', array($this, 'trigger'), 10, 2 );
+        add_action('wedevs_pm_after_update_project_notification', array($this, 'trigger'), 10, 2 );
     }
 
     public function trigger( $project, $data ) {

@@ -12,7 +12,7 @@ class Complete_Task_Notification extends Email {
 
     function __construct() {
 
-        add_action('pm_changed_task_status_notification', array($this, 'trigger'), 10, 2 );
+        add_action('wedevs_pm_changed_task_status_notification', array($this, 'trigger'), 10, 2 );
     }
 
     public function trigger( $task, $old_value ) {

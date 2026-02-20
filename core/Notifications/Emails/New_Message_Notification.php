@@ -12,7 +12,7 @@ class New_Message_Notification extends Email {
     
     function __construct() {
 
-        add_action('pm_after_new_message_notification', array($this, 'trigger'), 10, 2 );
+        add_action('wedevs_pm_after_new_message_notification', array($this, 'trigger'), 10, 2 );
     }
 
     public function trigger( $message, $request ) {
