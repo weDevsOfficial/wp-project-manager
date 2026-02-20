@@ -11,7 +11,7 @@ class Update_Task_Notification extends Email {
     
     function __construct() {
 
-        add_action('pm_after_update_task_notification', array($this, 'trigger'), 10, 2 );
+        add_action('wedevs_pm_after_update_task_notification', array($this, 'trigger'), 10, 2 );
     }
 
     public function trigger( $task, $data ) {
