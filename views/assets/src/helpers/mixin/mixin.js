@@ -297,7 +297,8 @@ export default {
                 return '';
             }
 
-            return word.replace(/\w/, c => c.toUpperCase())
+            // Properly handle Unicode characters (including Slovak č, ľ, š, ž, etc.)
+            return word.charAt(0).toUpperCase() + word.slice(1);
         },
 
 
