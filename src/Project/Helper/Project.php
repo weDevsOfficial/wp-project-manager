@@ -1266,7 +1266,7 @@ class Project {
 		// }
 
 		if ( empty( $inUsers ) ) {
-			if ( wedevs_pm_has_manage_capability( get_current_user_id() ) ) {
+			if ( wedevs_pm_has_admin_capability( get_current_user_id() ) ) {
 				return $this;
 			}
 

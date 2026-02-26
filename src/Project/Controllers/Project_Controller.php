@@ -152,7 +152,7 @@ class Project_Controller {
     	} else {
     		$projects = Project::with('assignees');
     	}
-    	if ( !wedevs_pm_has_manage_capability( $user_id ) ){
+    	if ( !wedevs_pm_has_admin_capability( $user_id ) ){
     		$projects = $projects->whereHas('assignees', function( $q ) use ( $user_id ) {
     					$q->where('user_id', $user_id );
     				});
