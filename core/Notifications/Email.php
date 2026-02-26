@@ -145,7 +145,14 @@ class Email {
 
     public function link_to_backend() {
         $link_to_backend = wedevs_pm_get_setting('link_to_backend');
-        $link_to_backend = ( isset( $link_to_backend ) && $link_to_backend == 'false' ) ? false : true;
+
+        if ( $link_to_backend === null ) {
+            $pages = get_option('pm_pages', []);
+            $link_to_backend = empty( $pages['project'] );
+        } else {
+            $link_to_backend = filter_var( $link_to_backend, FILTER_VALIDATE_BOOLEAN );
+        }
+
         return apply_filters('wedevs_pm_email_link_to_backend', $link_to_backend ) ;
     }
 
