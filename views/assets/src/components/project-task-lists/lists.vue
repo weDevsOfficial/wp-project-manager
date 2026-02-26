@@ -1632,14 +1632,15 @@
                             height: 30px;
                             display: flex;
                             align-items: center;
-                            width: 117px;
+                            min-width: 117px;
+                            width: auto;
                             background: #1A9ED4;
                             height: 30px;
                             color: #fff;
                             padding: 0 13px;
                             border-radius: 3px;
                             font-size: 12px;
-
+                            white-space: nowrap;
                         }
                         .plus {
                             margin-right: 5px;
