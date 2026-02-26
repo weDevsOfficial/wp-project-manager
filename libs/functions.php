@@ -407,17 +407,6 @@ function wedevs_pm_has_admin_capability( $user_id = false ) {
 }
 
 /**
- * Check if user can view all projects (only PM Admin and WP Admin).
- * PM Manager should only see assigned projects.
- *
- * @param  int|false $user_id
- * @return bool
- */
-function wedevs_pm_can_view_all_projects( $user_id = false ) {
-    return wedevs_pm_has_admin_capability( $user_id );
-}
-
-/**
  * Checking for PM_Managre capability
  * @param  boolean $user_id
  * @return [type]
