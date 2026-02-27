@@ -4,6 +4,9 @@
             <div id="pm_ai_settings" class="group" style="">
                 <form @submit.prevent="saveAISettings()" method="post" action="options.php">
                     <h2>{{ __( 'AI Settings', 'wedevs-project-manager') }}</h2>
+                    <p class="description" style="margin-bottom: 16px;">
+                        {{ __( 'Configure the AI provider used for AI-powered features — including automatic project generation and AI subtask generation (Pro).', 'wedevs-project-manager') }}
+                    </p>
                     <table class="form-table">
                         <tbody>
                             <tr>
@@ -52,7 +55,7 @@
                                 </th>
                                 <td>
                                     <input v-model.number="max_tokens" type="number" class="regular-text" id="ai_max_tokens" name="ai_max_tokens" min="500" max="16384">
-                                    <p class="description">{{ __( 'Maximum number of tokens for AI responses (500-16384). Higher values allow more detailed projects but may cost more.', 'wedevs-project-manager') }}</p>
+                                    <p class="description">{{ __( 'Maximum number of tokens for AI responses (500-16384). Higher values allow more detailed responses for both project and subtask generation, but may cost more.', 'wedevs-project-manager') }}</p>
                                 </td>
                             </tr>
                             <tr>
