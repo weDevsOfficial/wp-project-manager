@@ -1950,7 +1950,9 @@ class Task {
 			$order[] =  $tb_pj . '.' . esc_sql($key) . ' ' . esc_sql($value);
 	    }
 
-	    $this->orderby = "ORDER BY " . implode( ', ', $order);
+	    if ( !empty( $order ) ) {
+	        $this->orderby = "ORDER BY " . implode( ', ', $order );
+	    }
 	    
 		return $this;
 	}
