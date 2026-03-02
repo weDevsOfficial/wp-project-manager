@@ -37,14 +37,13 @@
                         <span  class="icon-pm-private"></span>
                     </div>
 
-                    
                     <!--  <a href="#" @click.prevent="getSingleTask(task)" v-if="parseInt(task.meta.total_comment) > 0" class="task-activity comment">
                         <span class="icon-pm-comment"></span>
                         <span>{{ task.meta.total_comment }}</span>
-                    </a> 
+                    </a> -->
                     <div class="task-activity">
                         <do-action :hook="'task_inline'" :actionData="doActionData"></do-action>
-                    </div> -->
+                    </div>
                 </div>  
 
                 <div v-if="can_edit_task(task) && !isArchivedTaskList(task)" class="nonSortableTag more-menu task-more-menu">
@@ -225,7 +224,7 @@
                 return {
                     task: this.task,
                     list: this.list
-                }
+                };
             },
             // popper options
             popperOptions () {
