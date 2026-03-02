@@ -102,6 +102,8 @@ class Settings_Controller {
                 'key' => $data['key'],
                 'project_id' => $project_id
             ]);
+            // Ensure project_id is in the data array for update_model
+            $data['project_id'] = $project_id;
         } else {
             $settings = Settings::firstOrCreate([
                 'key' => $data['key']
