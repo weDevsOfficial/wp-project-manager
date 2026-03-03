@@ -27,6 +27,26 @@ export default {
 
     methods: {
 
+        /**
+         * Strip GitHub issue/PR URLs from HTML content.
+         * Only strips when preview cards are enabled, otherwise keeps URLs visible.
+         */
+        stripGithubUrls ( html ) {
+            if ( !html ) return html;
+            // Only strip URLs if GitHub previews are enabled
+            var previewsEnabled = PM_Vars.settings && PM_Vars.settings.github_enable_previews;
+            if ( !previewsEnabled || previewsEnabled === 'false' || previewsEnabled === '0' ) {
+                return html;
+            }
+            // Remove <a> tags linking to GitHub issues/PRs
+            var filtered = html.replace( /<a[^>]*href=["'][^"']*github\.com\/[^"']+\/(issues|pull)\/\d+[^"']*["'][^>]*>[\s\S]*?<\/a>/gi, '' );
+            // Remove plain text GitHub issue/PR URLs
+            filtered = filtered.replace( /https?:\/\/github\.com\/[^\s<]+\/(issues|pull)\/\d+[^\s<]*/gi, '' );
+            // Clean up empty paragraphs
+            filtered = filtered.replace( /<p>\s*<\/p>/gi, '' );
+            return filtered;
+        },
+
         isArchivePage () {
             return this.$route.name == 'task_lists_archive' || this.$route.name == 'task_lists_archive_pagination'
         },

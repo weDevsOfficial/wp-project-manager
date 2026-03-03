@@ -45,7 +45,8 @@
 
 
                         <div v-if="!comment.edit_mode" class="pm-comment-content">
-                            <div v-html="comment.content"></div>
+                            <div v-html="stripGithubUrls(comment.content)"></div>
+                            <pm-github-preview v-if="comment.content" :content="comment.content"></pm-github-preview>
                             <ul class="pm-attachments" v-if="comment.files.data.length">
                                 <li v-for="file in comment.files.data" :key="file.id">
                                     <pm-file :file="file" :file_project_id="comment.project_id" />

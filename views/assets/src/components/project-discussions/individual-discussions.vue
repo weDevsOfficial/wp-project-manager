@@ -37,7 +37,8 @@
                         </div>
                     </h3>
                     <div class="pm-entry-detail">
-                        <div v-html="discuss.description"></div>
+                        <div v-html="stripGithubUrls(discuss.description)"></div>
+                        <pm-github-preview v-if="discuss.description" :content="discuss.description"></pm-github-preview>
 
                         <ul class="pm-attachments" v-if="discuss.files.data.length">
                             <li v-for="file in discuss.files.data" :key="file.id">
@@ -87,7 +88,8 @@
                                 </div>
                             </div>
                             <div class="pm-comment-content">
-                                <div v-html="comment.content"></div>
+                                <div v-html="stripGithubUrls(comment.content)"></div>
+                                <pm-github-preview v-if="comment.content" :content="comment.content"></pm-github-preview>
 
                                 <ul class="pm-attachments" v-if="comment.files.data.length">
                                     <li v-for="file in comment.files.data" :key="file.id">

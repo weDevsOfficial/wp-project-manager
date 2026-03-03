@@ -515,7 +515,8 @@
                                 <div class="pm-des-area" v-if="!is_task_details_edit_mode">
                                     <h3 class="label">{{ __( 'Description', 'wedevs-project-manager' ) }}</h3>
                                     <div class="pm-desc-content">
-                                        <div v-if="task.description.content != ''" class="pm-task-description" v-html="task.description.html"></div>
+                                        <div v-if="task.description.content != ''" class="pm-task-description" v-html="stripGithubUrls(task.description.html)"></div>
+                                        <pm-github-preview v-if="task.description.html" :content="task.description.html"></pm-github-preview>
                                         <a class="task-description-edit-icon" @click.prevent="isTaskDetailsEditMode()" :title="update_description" v-if="can_edit_task(task) && !isArchivedTaskList(task)">
                                             <i style="font-size: 16px;"  class="fa fa-pencil" aria-hidden="true"></i>
 
