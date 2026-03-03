@@ -1390,7 +1390,7 @@ function wedevs_pm_load_headway_badge( $selector = '#pm-headway-icon' ) {
     ?>
     <script>
         const pmHeadwaySelector = '<?php echo esc_js( $selector ); ?>';
-        const pmHeadwayBadgeCount = pmHeadwaySelector + ' ul li.headway-icon span#HW_badge_cont.HW_visible';
+        const pmHeadwayBadgeCount = '#HW_badge_cont';
 
         const HW_config = {
             selector: pmHeadwaySelector,

@@ -22,6 +22,7 @@
                         <a 
                             class="pm-share-idea-link"
                             target="_blank"
+                            rel="noopener noreferrer"
                             href="https://pm.canny.io/ideas">
                             💡 {{ __( 'Share your idea', 'wedevs-project-manager' ) }}
                         </a>
