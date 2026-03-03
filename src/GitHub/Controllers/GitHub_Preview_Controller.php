@@ -350,7 +350,7 @@ class GitHub_Preview_Controller {
 
         // Handle rate limiting
         if ( $status_code === 429 ) {
-            return [
+            $result = [
                 'success' => true,
                 'data'    => [
                     'type'       => $type,
@@ -365,6 +365,10 @@ class GitHub_Preview_Controller {
                     'html_url' => $parsed['url'],
                 ],
             ];
+
+            set_transient( $cache_key, $result, 5 * MINUTE_IN_SECONDS );
+
+            return $result;
         }
 
         // Handle unexpected status codes

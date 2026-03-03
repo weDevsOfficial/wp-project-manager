@@ -1,5 +1,5 @@
 <template>
-    <div class="pm-github-preview-card" :class="cardClass" @click="openInGitHub">
+    <div class="pm-github-preview-card" :class="cardClass" tabindex="0" role="button" @click="openInGitHub" @keydown.enter.prevent="openInGitHub" @keydown.space.prevent="openInGitHub">
         <!-- Loading State -->
         <div v-if="loading" class="pm-github-preview-loading">
             <span class="pm-spinner"></span>
@@ -17,7 +17,7 @@
                 <div class="pm-github-preview-header-text">
                     <span class="pm-github-preview-type">{{ typeLabel }} #{{ previewData.number }}</span>
                 </div>
-                <span class="pm-github-preview-repo">{{ previewData.repository.full_name }}</span>
+                <span class="pm-github-preview-repo">{{ repoName }}</span>
                 <div class="pm-github-preview-warning-row">
                     <span class="pm-github-preview-warning">
                         <svg height="16" width="16" viewBox="0 0 16 16" fill="#e69500">
@@ -130,23 +130,28 @@ export default {
         typeLabel: function () {
             if ( !this.previewData ) return '';
             if ( this.previewData.type === 'pull_request' ) {
-                return 'Pull Request';
+                return __( 'Pull Request', 'wedevs-project-manager' );
             }
-            return 'Issue';
+            return __( 'Issue', 'wedevs-project-manager' );
         },
 
         stateLabel: function () {
             if ( !this.previewData ) return '';
             var state = this.previewData.state;
-            if ( state === 'open' ) return 'Open';
-            if ( state === 'closed' ) return 'Closed';
-            if ( state === 'merged' ) return 'Merged';
+            if ( state === 'open' ) return __( 'Open', 'wedevs-project-manager' );
+            if ( state === 'closed' ) return __( 'Closed', 'wedevs-project-manager' );
+            if ( state === 'merged' ) return __( 'Merged', 'wedevs-project-manager' );
             return state;
+        },
+
+        repoName: function () {
+            if ( !this.previewData || !this.previewData.repository ) return '';
+            return this.previewData.repository.full_name || '';
         },
 
         relativeTime: function () {
             if ( !this.previewData || !this.previewData.created_at ) return '';
-            
+
             var now = new Date();
             var created = new Date( this.previewData.created_at );
             var diffMs = now - created;
@@ -157,12 +162,12 @@ export default {
             var diffMonths = Math.floor( diffDays / 30 );
             var diffYears = Math.floor( diffDays / 365 );
 
-            if ( diffYears > 0 ) return diffYears === 1 ? '1 year ago' : diffYears + ' years ago';
-            if ( diffMonths > 0 ) return diffMonths === 1 ? '1 month ago' : diffMonths + ' months ago';
-            if ( diffDays > 0 ) return diffDays === 1 ? '1 day ago' : diffDays + ' days ago';
-            if ( diffHours > 0 ) return diffHours === 1 ? '1 hour ago' : diffHours + ' hours ago';
-            if ( diffMins > 0 ) return diffMins === 1 ? '1 minute ago' : diffMins + ' minutes ago';
-            return 'just now';
+            if ( diffYears > 0 ) return sprintf( _n( '%d year ago', '%d years ago', diffYears, 'wedevs-project-manager' ), diffYears );
+            if ( diffMonths > 0 ) return sprintf( _n( '%d month ago', '%d months ago', diffMonths, 'wedevs-project-manager' ), diffMonths );
+            if ( diffDays > 0 ) return sprintf( _n( '%d day ago', '%d days ago', diffDays, 'wedevs-project-manager' ), diffDays );
+            if ( diffHours > 0 ) return sprintf( _n( '%d hour ago', '%d hours ago', diffHours, 'wedevs-project-manager' ), diffHours );
+            if ( diffMins > 0 ) return sprintf( _n( '%d minute ago', '%d minutes ago', diffMins, 'wedevs-project-manager' ), diffMins );
+            return __( 'just now', 'wedevs-project-manager' );
         }
     },
 
@@ -172,8 +177,15 @@ export default {
             if ( this.previewData && this.previewData.html_url ) {
                 targetUrl = this.previewData.html_url;
             }
-            if ( targetUrl ) {
+            if ( !targetUrl ) return;
+            try {
+                var parsed = new URL( targetUrl );
+                if ( parsed.protocol !== 'https:' || !parsed.hostname.match( /(^|\.)github\.com$/ ) ) {
+                    return;
+                }
                 window.open( targetUrl, '_blank', 'noopener,noreferrer' );
+            } catch ( e ) {
+                return;
             }
         },
 
