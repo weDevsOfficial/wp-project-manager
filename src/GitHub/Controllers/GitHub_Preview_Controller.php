@@ -373,7 +373,7 @@ class GitHub_Preview_Controller {
 
         // Handle unexpected status codes
         if ( $status_code !== 200 || empty( $body ) ) {
-            return [
+            $result = [
                 'success' => true,
                 'data'    => [
                     'type'       => $type,
@@ -388,6 +388,10 @@ class GitHub_Preview_Controller {
                     'html_url' => $parsed['url'],
                 ],
             ];
+
+            set_transient( $cache_key, $result, 5 * MINUTE_IN_SECONDS );
+
+            return $result;
         }
 
         // Determine state for PRs (can be merged)
