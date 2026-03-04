@@ -4,9 +4,9 @@ Contributors: tareq1988, nizamuddinbabu, wedevs, asaquzzaman
 Donate Link: https://tareq.co/donate/
 Tags: kanban, project, project management, task management, project manager
 Requires at least: 6.2
-Tested up to: 6.9
+Tested up to: 6.9.1
 Requires PHP: 7.4
-Stable tag: 3.0.2
+Stable tag: 3.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -240,6 +240,14 @@ A. If you face any issues, you can contact the support team through the official
 14. Manage projects from the frontend
 
 == Changelog ==
+
+= v3.0.3 – Mar 4, 2026 =
+**Fixed:** Resolved an issue where email notifications were not being sent.
+**Fixed:** Improved button width handling in the list view.
+**Fixed:** Corrected Slovak and other Unicode character capitalization in the `ucfirst` function.
+**Fixed:** Automatically infer `link_to_backend` from pages when it is not set.
+**Added:** Added support for the `view-all-projects` check and implemented it in the controller.
+**Fixed:** Restored missing labels in the tasks list.
 
 = v3.0.2 – Jan 14, 2026 =
 **Fixed:** Subscriber Level Authorization issue [#573](https://github.com/weDevsOfficial/wp-project-manager/pull/573).
