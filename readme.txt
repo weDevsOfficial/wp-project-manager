@@ -248,6 +248,7 @@ A. If you face any issues, you can contact the support team through the official
 **Fixed:** Automatically infer `link_to_backend` from pages when it is not set.
 **Added:** Added support for the `view-all-projects` check and implemented it in the controller.
 **Fixed:** Restored missing labels in the tasks list.
+**Added:** Feature headway-integration.
 
 = v3.0.2 – Jan 14, 2026 =
 **Fixed:** Subscriber Level Authorization issue [#573](https://github.com/weDevsOfficial/wp-project-manager/pull/573).
