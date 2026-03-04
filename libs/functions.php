@@ -1395,6 +1395,7 @@ function wedevs_pm_load_headway_badge( $selector = '#pm-headway-icon' ) {
             // Defer Headway init until after page load so it doesn't block rendering
             function pmInitHeadway() {
                 if ( typeof window.Headway === 'undefined' ) return;
+                if ( !document.querySelector( pmHeadwaySelector ) ) return;
 
                 window.HW_config = {
                     selector: pmHeadwaySelector,
