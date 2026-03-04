@@ -22,6 +22,9 @@ class Enqueue_Scripts {
 		wp_enqueue_media();
 
 		self::localize_scripts();
+
+		// Load Headway widget badge
+		wedevs_pm_load_headway_badge();
 	}
 
 	public static function styles() {
