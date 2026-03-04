@@ -15,8 +15,13 @@
 
                     <!-- header-right -->
                     <div class="pm-header-right pm-text-right">
-                        <!-- Headway Widget -->
-                        <span id="pm-headway-icon" class="pm-headway-badge"></span>
+                        <!-- Headway Widget (What's New) -->
+                        <span id="pm-headway-icon" class="pm-headway-badge" :title="__( 'What\'s New', 'wedevs-project-manager' )">
+                            <svg class="pm-headway-icon-svg" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#586069" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                            </svg>
+                        </span>
                         
                         <!-- Share Your Idea Link -->
                         <a 
@@ -108,6 +113,7 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
+        position: relative;
         border: 1px solid #e5e7eb;
         border-radius: 50%;
         padding: 4px;
@@ -122,11 +128,21 @@
         }
     }
 
-    /* Hide duplicate Headway badge container styling */
+    .pm-headway-icon-svg {
+        display: block;
+        position: relative;
+        z-index: 1;
+    }
+
+    /* Make Headway badge container fill the entire clickable area */
     #pm-headway-icon .HW_badge_cont {
-        position: static;
-        width: auto;
-        height: auto;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        z-index: 2;
     }
 
     /* Share Your Idea Link Styles */

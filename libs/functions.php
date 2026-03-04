@@ -1389,30 +1389,46 @@ function wedevs_pm_load_headway_badge( $selector = '#pm-headway-icon' ) {
     wp_enqueue_script( 'pm-headway' );
     ?>
     <script>
-        const pmHeadwaySelector = '<?php echo esc_js( $selector ); ?>';
-        const pmHeadwayBadgeCount = '#HW_badge_cont';
+        (function() {
+            var pmHeadwaySelector = '<?php echo esc_js( $selector ); ?>';
 
-        const HW_config = {
-            selector: pmHeadwaySelector,
-            account: 'yo9n07',
-            callbacks: {
-                onWidgetReady: function ( widget ) {
-                    if ( widget.getUnseenCount() === 0 ) {
-                        var badge = document.querySelector(pmHeadwayBadgeCount);
-                        if (badge) {
-                            badge.style.opacity = '0';
+            // Defer Headway init until after page load so it doesn't block rendering
+            function pmInitHeadway() {
+                if ( typeof window.Headway === 'undefined' ) return;
+
+                window.HW_config = {
+                    selector: pmHeadwaySelector,
+                    account: 'yo9n07',
+                    callbacks: {
+                        onWidgetReady: function ( widget ) {
+                            if ( widget.getUnseenCount() === 0 ) {
+                                var badge = document.querySelector('#HW_badge_cont');
+                                if (badge) {
+                                    badge.style.opacity = '0';
+                                }
+                            }
+                        },
+                        onHideWidget: function(){
+                            var badge = document.querySelector('#HW_badge_cont');
+                            if (badge) {
+                                badge.style.opacity = '0';
+                            }
                         }
                     }
-                },
-                onHideWidget: function(){
-                    var badge = document.querySelector(pmHeadwayBadgeCount);
-                    if (badge) {
-                        badge.style.opacity = '0';
-                    }
-                }
-            }
-        };
+                };
 
+                window.Headway.init( window.HW_config );
+            }
+
+            // Wait for page to finish loading, then init after a short idle delay
+            if ( document.readyState === 'complete' ) {
+                setTimeout( pmInitHeadway, 2000 );
+            } else {
+                window.addEventListener( 'load', function() {
+                    setTimeout( pmInitHeadway, 2000 );
+                });
+            }
+        })();
     </script>
 
     <?php
