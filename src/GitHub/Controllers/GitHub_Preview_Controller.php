@@ -108,9 +108,13 @@ class GitHub_Preview_Controller {
         ] );
 
         if ( is_wp_error( $response ) ) {
+            if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+                error_log( 'GitHub API connection error: ' . $response->get_error_message() );
+            }
+
             return [
                 'success' => false,
-                'error'   => $response->get_error_message(),
+                'error'   => __( 'Could not connect to GitHub. Please check your network and try again.', 'wedevs-project-manager' ),
             ];
         }
 
@@ -172,7 +176,7 @@ class GitHub_Preview_Controller {
 
         $url = $request->get_param( 'url' );
 
-        if ( empty( $url ) ) {
+        if ( ! is_string( $url ) || empty( $url ) ) {
             return [
                 'success' => false,
                 'error'   => __( 'URL is required.', 'wedevs-project-manager' ),
@@ -188,7 +192,9 @@ class GitHub_Preview_Controller {
             ];
         }
 
-        return $this->fetch_github_data( $parsed );
+        $force_refresh = filter_var( $request->get_param( 'force_refresh' ), FILTER_VALIDATE_BOOLEAN );
+
+        return $this->fetch_github_data( $parsed, $force_refresh );
     }
 
     /**
@@ -265,12 +271,18 @@ class GitHub_Preview_Controller {
     /**
      * Fetch data from the GitHub API with transient caching.
      *
-     * @param array $parsed Parsed URL components.
+     * @param array $parsed         Parsed URL components.
+     * @param bool  $force_refresh  Whether to bypass cache.
      * @return array
      */
-    private function fetch_github_data( $parsed ) {
+    private function fetch_github_data( $parsed, $force_refresh = false ) {
         $cache_key = 'pm_github_preview_' . md5( $parsed['url'] );
-        $cached    = get_transient( $cache_key );
+
+        if ( $force_refresh ) {
+            delete_transient( $cache_key );
+        }
+
+        $cached = get_transient( $cache_key );
 
         if ( false !== $cached ) {
             return $cached;
@@ -285,12 +297,12 @@ class GitHub_Preview_Controller {
         if ( $type === 'pull_request' ) {
             $api_url = sprintf(
                 'https://api.github.com/repos/%s/%s/pulls/%d',
-                $owner, $repo, $number
+                rawurlencode( $owner ), rawurlencode( $repo ), $number
             );
         } else {
             $api_url = sprintf(
                 'https://api.github.com/repos/%s/%s/issues/%d',
-                $owner, $repo, $number
+                rawurlencode( $owner ), rawurlencode( $repo ), $number
             );
         }
 
@@ -317,13 +329,17 @@ class GitHub_Preview_Controller {
                 ],
             ];
 
-            set_transient( $cache_key, $error_result, 5 * MINUTE_IN_SECONDS );
+            set_transient( $cache_key, $error_result, 2 * MINUTE_IN_SECONDS );
 
             return $error_result;
         }
 
         $status_code = wp_remote_retrieve_response_code( $response );
         $body        = json_decode( wp_remote_retrieve_body( $response ), true );
+
+        if ( json_last_error() !== JSON_ERROR_NONE ) {
+            $body = null;
+        }
 
         // Handle access denied / not found
         if ( $status_code === 403 || $status_code === 404 || $status_code === 401 ) {
@@ -343,7 +359,7 @@ class GitHub_Preview_Controller {
                 ],
             ];
 
-            set_transient( $cache_key, $result, 10 * MINUTE_IN_SECONDS );
+            set_transient( $cache_key, $result, 2 * MINUTE_IN_SECONDS );
 
             return $result;
         }
@@ -389,7 +405,7 @@ class GitHub_Preview_Controller {
                 ],
             ];
 
-            set_transient( $cache_key, $result, 5 * MINUTE_IN_SECONDS );
+            set_transient( $cache_key, $result, 2 * MINUTE_IN_SECONDS );
 
             return $result;
         }

@@ -21,6 +21,9 @@
             <router-link class="nav-tab" :to="{name: 'github_settings_tab'}">
                 {{ __( 'GitHub', 'wedevs-project-manager') }}
             </router-link>
+            <router-link class="nav-tab" :to="{name: 'notion_settings_tab'}">
+                {{ __( 'Notion', 'wedevs-project-manager') }}
+            </router-link>
             <pm-do-action :hook="'pm-settings-tab'"></pm-do-action>
         </h2>
         <div class="settingswrapper">

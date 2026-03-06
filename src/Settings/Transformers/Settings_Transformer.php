@@ -30,7 +30,7 @@ class Settings_Transformer extends TransformerAbstract {
                 } else {
                     $value = '';
                 }
-            } else if ( $item->key === 'github_access_token' ) {
+            } else if ( $item->key === 'github_access_token' || $item->key === 'notion_access_token' ) {
                 if ( !empty( $value ) ) {
                     $value = $this->mask_api_key( $value );
                 } else {

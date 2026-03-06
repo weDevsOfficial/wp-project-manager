@@ -47,6 +47,29 @@ export default {
             return filtered;
         },
 
+        /**
+         * Strip Notion URLs from HTML content.
+         * Only strips when preview cards are enabled, otherwise keeps URLs visible.
+         */
+        stripNotionUrls ( html ) {
+            if ( !html ) return html;
+            var previewsEnabled = PM_Vars.settings && PM_Vars.settings.notion_enable_previews;
+            if ( !previewsEnabled || previewsEnabled === 'false' || previewsEnabled === '0' ) {
+                return html;
+            }
+            // Remove <a> tags linking to Notion pages/databases
+            var filtered = html.replace( /<a[^>]*href=["'][^"']*notion\.so\/[^"']*["'][^>]*>[\s\S]*?<\/a>/gi, '' );
+            // Remove plain text Notion URLs
+            filtered = filtered.replace( /https?:\/\/(?:www\.)?notion\.so\/[^\s<]+/gi, '' );
+            // Clean up empty tags and stray whitespace
+            filtered = filtered.replace( /<p>\s*<\/p>/gi, '' );
+            filtered = filtered.replace( /<div>\s*<\/div>/gi, '' );
+            filtered = filtered.replace( /<span>\s*<\/span>/gi, '' );
+            filtered = filtered.replace( /^(\s*<br\s*\/?\s*>\s*)+/gi, '' );
+            filtered = filtered.replace( /(\s*<br\s*\/?\s*>\s*)+$/gi, '' );
+            return filtered.trim();
+        },
+
         isArchivePage () {
             return this.$route.name == 'task_lists_archive' || this.$route.name == 'task_lists_archive_pagination'
         },

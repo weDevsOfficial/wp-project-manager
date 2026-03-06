@@ -1,24 +1,24 @@
 <template>
-    <div class="pm-github-preview-container" v-if="previewsEnabled && githubUrls.length">
-        <pm-github-preview-card
-            v-for="(urlItem, index) in githubUrls"
+    <div class="pm-notion-preview-container" v-if="previewsEnabled && notionUrls.length">
+        <pm-notion-preview-card
+            v-for="(urlItem, index) in notionUrls"
             :key="urlItem.url + '-' + index"
             :url="urlItem.url"
             :preview-data="previews[urlItem.url] || null"
             :loading="loadingUrls[urlItem.url] || false"
             @refresh="fetchPreview(urlItem.url, true)"
-        ></pm-github-preview-card>
+        ></pm-notion-preview-card>
     </div>
 </template>
 
 <script>
-import GitHubPreviewCard from './github-preview-card.vue';
+import NotionPreviewCard from './notion-preview-card.vue';
 
 export default {
-    name: 'pm-github-preview-container',
+    name: 'pm-notion-preview-container',
 
     components: {
-        'pm-github-preview-card': GitHubPreviewCard
+        'pm-notion-preview-card': NotionPreviewCard
     },
 
     props: {
@@ -38,12 +38,12 @@ export default {
 
     computed: {
         previewsEnabled: function () {
-            var setting = PM_Vars.settings && PM_Vars.settings.github_enable_previews;
+            var setting = PM_Vars.settings && PM_Vars.settings.notion_enable_previews;
             return setting && setting !== 'false' && setting !== '0';
         },
-        githubUrls: function () {
+        notionUrls: function () {
             if ( !this.previewsEnabled ) return [];
-            return this.extractGitHubUrls( this.content );
+            return this.extractNotionUrls( this.content );
         }
     },
 
@@ -66,30 +66,33 @@ export default {
 
     methods: {
         /**
-         * Extract GitHub issue/PR URLs from HTML content.
+         * Extract Notion URLs from HTML content.
          */
-        extractGitHubUrls: function ( content ) {
+        extractNotionUrls: function ( content ) {
             if ( !content ) return [];
 
-            // Strip HTML tags to get raw URLs
+            // Strip HTML tags to get raw text
             var text = content.replace( /<[^>]+>/g, ' ' );
             // Also extract from href attributes
-            var hrefPattern = /href=["']([^"']*github\.com[^"']*)["']/gi;
+            var hrefPattern = /href=["']([^"']*notion\.so[^"']*)["']/gi;
             var hrefMatches = [];
             var hrefMatch;
             while ( ( hrefMatch = hrefPattern.exec( content ) ) !== null ) {
                 hrefMatches.push( hrefMatch[1] );
             }
 
-            var pattern = /https?:\/\/github\.com\/([^\/\s]+)\/([^\/\s]+)\/(issues|pull)\/(\d+)/gi;
+            // Match Notion URLs with a 32-char hex ID (with or without dashes)
+            var pattern = /https?:\/\/(?:www\.)?notion\.so\/(?:[^\s<"']*?[-\/])?([\da-f]{32}|[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12})(?:[?\s#<"']|$)/gi;
             var urls = [];
             var seen = {};
             var match;
 
             // Search in plain text
             while ( ( match = pattern.exec( text ) ) !== null ) {
-                var url = match[0];
-                if ( !seen[url] ) {
+                var fullMatch = match[0].replace( /[\s<"']$/, '' );
+                // Reconstruct the full URL up to the ID
+                var url = this.extractFullNotionUrl( text, match.index );
+                if ( url && !seen[url] ) {
                     seen[url] = true;
                     urls.push({ url: url });
                 }
@@ -98,14 +101,9 @@ export default {
             // Search in href attributes
             for ( var i = 0; i < hrefMatches.length; i++ ) {
                 var href = hrefMatches[i];
-                var hrefRegex = /https?:\/\/github\.com\/([^\/\s]+)\/([^\/\s]+)\/(issues|pull)\/(\d+)/i;
-                var hMatch = hrefRegex.exec( href );
-                if ( hMatch ) {
-                    var hUrl = hMatch[0];
-                    if ( !seen[hUrl] ) {
-                        seen[hUrl] = true;
-                        urls.push({ url: hUrl });
-                    }
+                if ( this.isNotionUrl( href ) && !seen[href] ) {
+                    seen[href] = true;
+                    urls.push({ url: href });
                 }
             }
 
@@ -113,15 +111,36 @@ export default {
         },
 
         /**
+         * Extract full Notion URL from text starting at given position.
+         */
+        extractFullNotionUrl: function ( text, startIndex ) {
+            var urlPattern = /https?:\/\/(?:www\.)?notion\.so\/[^\s<"']+/gi;
+            urlPattern.lastIndex = startIndex;
+            var match = urlPattern.exec( text );
+            if ( match && match.index === startIndex ) {
+                return match[0];
+            }
+            return null;
+        },
+
+        /**
+         * Check if a URL is a valid Notion URL with an ID.
+         */
+        isNotionUrl: function ( url ) {
+            if ( !url ) return false;
+            return /^https?:\/\/(?:www\.)?notion\.so\/.+/i.test( url ) &&
+                   /[\da-f]{32}|[\da-f]{8}-[\da-f]{4}-[\da-f]{4}-[\da-f]{4}-[\da-f]{12}/i.test( url );
+        },
+
+        /**
          * Fetch preview data for all detected URLs.
          */
         fetchAllPreviews: function () {
             var self = this;
-            var urls = this.githubUrls;
+            var urls = this.notionUrls;
 
             if ( !urls.length ) return;
 
-            // Collect URLs that aren't already loaded
             var urlsToFetch = [];
             for ( var i = 0; i < urls.length; i++ ) {
                 var url = urls[i].url;
@@ -132,7 +151,6 @@ export default {
 
             if ( !urlsToFetch.length ) return;
 
-            // Use batch endpoint if multiple URLs
             if ( urlsToFetch.length > 1 ) {
                 this.batchFetch( urlsToFetch );
             } else {
@@ -151,7 +169,7 @@ export default {
             self.$set( self.loadingUrls, url, true );
 
             jQuery.ajax({
-                url: self.setPermalink( PM_Vars.api_base_url + '/pm/v2/github/preview' ),
+                url: self.setPermalink( PM_Vars.api_base_url + '/pm/v2/notion/preview' ),
                 type: 'POST',
                 data: {
                     url: url,
@@ -168,12 +186,11 @@ export default {
                 },
                 error: function () {
                     self.$set( self.previews, url, {
-                        type: 'issue',
-                        number: self.extractNumberFromUrl( url ),
+                        type: 'page',
+                        id: 'unknown',
                         state: 'error',
-                        repository: self.extractRepoFromUrl( url ),
                         error: 'Could not fetch preview',
-                        html_url: url
+                        url: url
                     });
                 },
                 complete: function () {
@@ -188,13 +205,12 @@ export default {
         batchFetch: function ( urls ) {
             var self = this;
 
-            // Set all as loading
             for ( var i = 0; i < urls.length; i++ ) {
                 self.$set( self.loadingUrls, urls[i], true );
             }
 
             jQuery.ajax({
-                url: self.setPermalink( PM_Vars.api_base_url + '/pm/v2/github/batch-preview' ),
+                url: self.setPermalink( PM_Vars.api_base_url + '/pm/v2/notion/batch-preview' ),
                 type: 'POST',
                 data: {
                     urls: urls,
@@ -220,12 +236,11 @@ export default {
                         var url = urls[j];
                         if ( !self.previews[url] ) {
                             self.$set( self.previews, url, {
-                                type: 'issue',
-                                number: self.extractNumberFromUrl( url ),
+                                type: 'page',
+                                id: 'unknown',
                                 state: 'error',
-                                repository: self.extractRepoFromUrl( url ),
                                 error: 'Could not fetch preview',
-                                html_url: url
+                                url: url
                             });
                         }
                     }
@@ -244,36 +259,13 @@ export default {
         setPermalink: function ( url ) {
             url = url.replace( /([^:]\/)\/+/g, '$1' );
             return url;
-        },
-
-        /**
-         * Extract issue/PR number from URL.
-         */
-        extractNumberFromUrl: function ( url ) {
-            var match = url.match( /\/(issues|pull)\/(\d+)/ );
-            return match ? parseInt( match[2] ) : 0;
-        },
-
-        /**
-         * Extract repository info from URL.
-         */
-        extractRepoFromUrl: function ( url ) {
-            var match = url.match( /github\.com\/([^\/]+)\/([^\/]+)\// );
-            if ( match ) {
-                return {
-                    owner: match[1],
-                    name: match[2],
-                    full_name: match[1] + '/' + match[2]
-                };
-            }
-            return { owner: '', name: '', full_name: '' };
         }
     }
 };
 </script>
 
 <style lang="less">
-.pm-github-preview-container {
+.pm-notion-preview-container {
     margin: 8px 0;
 }
 </style>

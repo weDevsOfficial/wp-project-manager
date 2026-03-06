@@ -25,7 +25,8 @@ class Settings extends Eloquent {
         'ai_api_key_openai',
         'ai_api_key_anthropic',
         'ai_api_key_google',
-        'github_access_token'
+        'github_access_token',
+        'notion_access_token'
     ];
 
     public function setValueAttribute( $value ) {
