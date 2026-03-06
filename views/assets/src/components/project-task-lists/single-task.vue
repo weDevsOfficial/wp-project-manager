@@ -515,7 +515,9 @@
                                 <div class="pm-des-area" v-if="!is_task_details_edit_mode">
                                     <h3 class="label">{{ __( 'Description', 'wedevs-project-manager' ) }}</h3>
                                     <div class="pm-desc-content">
-                                        <div v-if="task.description.content != ''" class="pm-task-description" v-html="task.description.html"></div>
+                                        <div v-if="task.description.content != ''" class="pm-task-description" v-html="stripNotionUrls(stripGithubUrls(task.description.html))"></div>
+                                        <pm-github-preview v-if="task.description.html" :content="task.description.html"></pm-github-preview>
+                                        <pm-notion-preview v-if="task.description.html" :content="task.description.html"></pm-notion-preview>
                                         <a class="task-description-edit-icon" @click.prevent="isTaskDetailsEditMode()" :title="update_description" v-if="can_edit_task(task) && !isArchivedTaskList(task)">
                                             <i style="font-size: 16px;"  class="fa fa-pencil" aria-hidden="true"></i>
 
@@ -608,6 +610,10 @@
                 .pm-task-description {
                     p {
                         margin: 0;
+                    }
+
+                    &:empty {
+                        display: none;
                     }
                 }
             }
