@@ -41,7 +41,7 @@ class GitHub_Preview_Controller {
             ->first();
 
         if ( $setting ) {
-            return $setting->value !== false && $setting->value !== 'false' && $setting->value !== '0';
+            return ! in_array( $setting->value, [ false, 'false', '0', 0 ], true );
         }
 
         // Enabled by default
@@ -259,7 +259,7 @@ class GitHub_Preview_Controller {
             return [
                 'owner'  => sanitize_text_field( $matches[1] ),
                 'repo'   => sanitize_text_field( $matches[2] ),
-                'type'   => $matches[3] === 'pull' ? 'pull_request' : 'issue',
+                'type'   => strtolower( $matches[3] ) === 'pull' ? 'pull_request' : 'issue',
                 'number' => intval( $matches[4] ),
                 'url'    => $url,
             ];
@@ -341,6 +341,33 @@ class GitHub_Preview_Controller {
             $body = null;
         }
 
+        // Handle rate limiting (check before access-denied because GitHub returns
+        // 403 for rate limit exhaustion, not just 429)
+        $is_rate_limited = $status_code === 429
+            || ( $status_code === 403 && wp_remote_retrieve_header( $response, 'x-ratelimit-remaining' ) === '0' );
+
+        if ( $is_rate_limited ) {
+            $result = [
+                'success' => true,
+                'data'    => [
+                    'type'       => $type,
+                    'number'     => $number,
+                    'state'      => 'rate_limited',
+                    'repository' => [
+                        'owner'     => $owner,
+                        'name'      => $repo,
+                        'full_name' => $owner . '/' . $repo,
+                    ],
+                    'error'    => __( 'GitHub API rate limit exceeded. Please try again later.', 'wedevs-project-manager' ),
+                    'html_url' => $parsed['url'],
+                ],
+            ];
+
+            set_transient( $cache_key, $result, 10 * MINUTE_IN_SECONDS );
+
+            return $result;
+        }
+
         // Handle access denied / not found
         if ( $status_code === 403 || $status_code === 404 || $status_code === 401 ) {
             $result = [
@@ -360,29 +387,6 @@ class GitHub_Preview_Controller {
             ];
 
             set_transient( $cache_key, $result, 2 * MINUTE_IN_SECONDS );
-
-            return $result;
-        }
-
-        // Handle rate limiting
-        if ( $status_code === 429 ) {
-            $result = [
-                'success' => true,
-                'data'    => [
-                    'type'       => $type,
-                    'number'     => $number,
-                    'state'      => 'rate_limited',
-                    'repository' => [
-                        'owner'     => $owner,
-                        'name'      => $repo,
-                        'full_name' => $owner . '/' . $repo,
-                    ],
-                    'error'    => __( 'GitHub API rate limit exceeded. Please try again later.', 'wedevs-project-manager' ),
-                    'html_url' => $parsed['url'],
-                ],
-            ];
-
-            set_transient( $cache_key, $result, 5 * MINUTE_IN_SECONDS );
 
             return $result;
         }

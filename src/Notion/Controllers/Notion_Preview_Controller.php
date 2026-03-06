@@ -46,7 +46,7 @@ class Notion_Preview_Controller {
             ->first();
 
         if ( $setting ) {
-            return $setting->value !== false && $setting->value !== 'false' && $setting->value !== '0';
+            return ! in_array( $setting->value, [ false, 'false', '0', 0 ], true );
         }
 
         return true;
