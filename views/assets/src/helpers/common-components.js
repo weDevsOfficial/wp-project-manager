@@ -36,6 +36,7 @@ import FullCalendar from "@components/common/fullcalendar.vue";
 import SingleTask from "@components/project-task-lists/single-task.vue";
 import GitHubPreviewContainer from "@components/common/github-preview-container.vue";
 import NotionPreviewContainer from "@components/common/notion-preview-container.vue";
+import LoomPreviewContainer from "@components/common/loom-preview-container.vue";
 
 pm.Vue.component("pm-pagination", pagination);
 pm.Vue.component("pm-date-picker", datePicker);
@@ -75,3 +76,4 @@ pm.Vue.component("pm-calendar", FullCalendar);
 pm.Vue.component("pm-single-task", SingleTask);
 pm.Vue.component("pm-github-preview", GitHubPreviewContainer);
 pm.Vue.component("pm-notion-preview", NotionPreviewContainer);
+pm.Vue.component("pm-loom-preview", LoomPreviewContainer);

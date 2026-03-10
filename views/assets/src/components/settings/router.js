@@ -28,6 +28,7 @@ import AiSettings from './ai-settings.vue'
 
 import GitHubSettings from './github.vue'
 import NotionSettings from './notion.vue'
+import LoomSettings from './loom.vue'
 
 weDevsPMRegisterChildrenRoute('settings_root',
     [
@@ -95,6 +96,16 @@ weDevsPMRegisterChildrenRoute('settings_root',
             path: 'notion',
             component: NotionSettings,
             name: 'notion_settings_tab',
+            meta: {
+                permission: function(project) {
+                    return pmUserCanAccessPage(PM_Vars.admin_cap_slug)
+                }
+            }
+        },
+        {
+            path: 'loom',
+            component: LoomSettings,
+            name: 'loom_settings_tab',
             meta: {
                 permission: function(project) {
                     return pmUserCanAccessPage(PM_Vars.admin_cap_slug)

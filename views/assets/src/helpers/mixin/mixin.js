@@ -70,6 +70,31 @@ export default {
             return filtered.trim();
         },
 
+        /**
+         * Strip Loom URLs from HTML content.
+         * Only strips when preview cards are enabled, otherwise keeps URLs visible.
+         */
+        stripLoomUrls ( html ) {
+            if ( !html ) return html;
+            var previewsEnabled = PM_Vars.settings && PM_Vars.settings.loom_enable_previews;
+            // Default to enabled when setting hasn't been saved yet
+            if ( typeof previewsEnabled === 'undefined' ) previewsEnabled = true;
+            if ( !previewsEnabled || previewsEnabled === 'false' || previewsEnabled === '0' ) {
+                return html;
+            }
+            // Remove <a> tags linking to Loom videos
+            var filtered = html.replace( /<a[^>]*href=["'][^"']*loom\.com\/(share|embed)\/[^"']*["'][^>]*>[\s\S]*?<\/a>/gi, '' );
+            // Remove plain text Loom URLs
+            filtered = filtered.replace( /https?:\/\/(?:www\.)?loom\.com\/(share|embed)\/[^\s<]+/gi, '' );
+            // Clean up empty tags
+            filtered = filtered.replace( /<p>\s*<\/p>/gi, '' );
+            filtered = filtered.replace( /<div>\s*<\/div>/gi, '' );
+            filtered = filtered.replace( /<span>\s*<\/span>/gi, '' );
+            filtered = filtered.replace( /^(\s*<br\s*\/?\s*>\s*)+/gi, '' );
+            filtered = filtered.replace( /(\s*<br\s*\/?\s*>\s*)+$/gi, '' );
+            return filtered.trim();
+        },
+
         isArchivePage () {
             return this.$route.name == 'task_lists_archive' || this.$route.name == 'task_lists_archive_pagination'
         },
