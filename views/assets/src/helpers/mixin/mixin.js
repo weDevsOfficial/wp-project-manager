@@ -27,6 +27,74 @@ export default {
 
     methods: {
 
+        /**
+         * Strip GitHub issue/PR URLs from HTML content.
+         * Only strips when preview cards are enabled, otherwise keeps URLs visible.
+         */
+        stripGithubUrls ( html ) {
+            if ( !html ) return html;
+            // Only strip URLs if GitHub previews are enabled
+            var previewsEnabled = PM_Vars.settings && PM_Vars.settings.github_enable_previews;
+            if ( !previewsEnabled || previewsEnabled === 'false' || previewsEnabled === '0' ) {
+                return html;
+            }
+            // Remove <a> tags linking to GitHub issues/PRs
+            var filtered = html.replace( /<a[^>]*href=["'][^"']*github\.com\/[^"']+\/(issues|pull)\/\d+[^"']*["'][^>]*>[\s\S]*?<\/a>/gi, '' );
+            // Remove plain text GitHub issue/PR URLs
+            filtered = filtered.replace( /https?:\/\/github\.com\/[^\s<]+\/(issues|pull)\/\d+[^\s<]*/gi, '' );
+            // Clean up empty paragraphs
+            filtered = filtered.replace( /<p>\s*<\/p>/gi, '' );
+            return filtered;
+        },
+
+        /**
+         * Strip Notion URLs from HTML content.
+         * Only strips when preview cards are enabled, otherwise keeps URLs visible.
+         */
+        stripNotionUrls ( html ) {
+            if ( !html ) return html;
+            var previewsEnabled = PM_Vars.settings && PM_Vars.settings.notion_enable_previews;
+            if ( !previewsEnabled || previewsEnabled === 'false' || previewsEnabled === '0' ) {
+                return html;
+            }
+            // Remove <a> tags linking to Notion pages/databases
+            var filtered = html.replace( /<a[^>]*href=["'][^"']*notion\.so\/[^"']*["'][^>]*>[\s\S]*?<\/a>/gi, '' );
+            // Remove plain text Notion URLs
+            filtered = filtered.replace( /https?:\/\/(?:www\.)?notion\.so\/[^\s<]+/gi, '' );
+            // Clean up empty tags and stray whitespace
+            filtered = filtered.replace( /<p>\s*<\/p>/gi, '' );
+            filtered = filtered.replace( /<div>\s*<\/div>/gi, '' );
+            filtered = filtered.replace( /<span>\s*<\/span>/gi, '' );
+            filtered = filtered.replace( /^(\s*<br\s*\/?\s*>\s*)+/gi, '' );
+            filtered = filtered.replace( /(\s*<br\s*\/?\s*>\s*)+$/gi, '' );
+            return filtered.trim();
+        },
+
+        /**
+         * Strip Loom URLs from HTML content.
+         * Only strips when preview cards are enabled, otherwise keeps URLs visible.
+         */
+        stripLoomUrls ( html ) {
+            if ( !html ) return html;
+            var previewsEnabled = PM_Vars.settings && PM_Vars.settings.loom_enable_previews;
+            // Default to enabled when setting hasn't been saved yet
+            if ( typeof previewsEnabled === 'undefined' ) previewsEnabled = true;
+            if ( !previewsEnabled || previewsEnabled === 'false' || previewsEnabled === '0' ) {
+                return html;
+            }
+            // Remove <a> tags linking to Loom videos
+            var filtered = html.replace( /<a[^>]*href=["'][^"']*loom\.com\/(share|embed)\/[^"']*["'][^>]*>[\s\S]*?<\/a>/gi, '' );
+            // Remove plain text Loom URLs
+            filtered = filtered.replace( /https?:\/\/(?:www\.)?loom\.com\/(share|embed)\/[^\s<]+/gi, '' );
+            // Clean up empty tags
+            filtered = filtered.replace( /<p>\s*<\/p>/gi, '' );
+            filtered = filtered.replace( /<div>\s*<\/div>/gi, '' );
+            filtered = filtered.replace( /<span>\s*<\/span>/gi, '' );
+            filtered = filtered.replace( /^(\s*<br\s*\/?\s*>\s*)+/gi, '' );
+            filtered = filtered.replace( /(\s*<br\s*\/?\s*>\s*)+$/gi, '' );
+            return filtered.trim();
+        },
+
         isArchivePage () {
             return this.$route.name == 'task_lists_archive' || this.$route.name == 'task_lists_archive_pagination'
         },

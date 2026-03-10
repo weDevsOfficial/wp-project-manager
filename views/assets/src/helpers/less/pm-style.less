@@ -1000,6 +1000,7 @@
 			}
 			.pm-desc-content {
 				display: flex;
+				flex-wrap: wrap;
 				.pm-task-description {
 					width: 97%;
 					flex: 1;
@@ -1013,6 +1014,11 @@
 					&:hover {
 						color: #444;
 					}
+				}
+				.pm-github-preview-container,
+				.pm-notion-preview-container,
+				.pm-loom-preview-container {
+					width: 100%;
 				}
 			}
 			.task-description-edit-icon {
