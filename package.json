@@ -9,7 +9,8 @@
   "scripts": {
     "dev": "wp-scripts start",
     "build": "wp-scripts build",
-    "lint": "eslint views/assets/src --ext .ts,.tsx"
+    "lint": "eslint views/assets/src --ext .ts,.tsx",
+    "release": "grunt release --force"
   },
   "dependencies": {
     "@babel/runtime": "^7.24.0",
