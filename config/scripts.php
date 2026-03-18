@@ -233,10 +233,12 @@ $wedevs_pm_scripts = [
 
     'pm' => [
         'id'         => 'pm-scripts',
-        'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/js/pm.js',
-        'path'       => $wedevs_pm_view_path . '/assets/js/pm.js',
+        'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/dist/pm.js',
+        'path'       => $wedevs_pm_view_path . '/assets/dist/pm.js',
         'dependency' => [
-            'pm-const'
+            'jquery',
+            'pm-config',
+            'wp-element',
         ],
         'in_footer'  => true
     ],

@@ -160,17 +160,22 @@ class User_Controller {
             return new \WP_Error( 'usersmap', __( 'You have no permission to create/update user meta.', 'wedevs-project-manager' ) );
         }
 
-        $usernames = $request->get_params();
-        foreach ( $usernames['usernames'] as $username_key => $username_value ) {
-            $username_key_array = explode( '_', $username_key );
-            if ( in_array( 'github', $username_key_array, true ) || in_array( 'bitbucket', $username_key_array, true ) ) {
-                $user_meta_id    = $username_key_array[1];
-                $user_meta_key   = $username_key_array[0];
-                $user_meta_value = ! empty( $username_value ) ? sanitize_text_field( $username_value ) : '';
+        $usernames = $request->get_param( 'usernames' );
 
-                update_user_meta( $user_meta_id, $user_meta_key, $user_meta_value );
+        if ( ! empty( $usernames ) && is_array( $usernames ) ) {
+            foreach ( $usernames as $username_key => $username_value ) {
+                $username_key_array = explode( '_', $username_key );
+                if ( in_array( 'github', $username_key_array, true ) || in_array( 'bitbucket', $username_key_array, true ) ) {
+                    $user_meta_id    = $username_key_array[1];
+                    $user_meta_key   = $username_key_array[0];
+                    $user_meta_value = ! empty( $username_value ) ? sanitize_text_field( $username_value ) : '';
+
+                    update_user_meta( $user_meta_id, $user_meta_key, $user_meta_value );
+                }
             }
         }
+
+        return new \WP_REST_Response( [ 'message' => __( 'User mapping saved', 'wedevs-project-manager' ) ], 200 );
     }
 
     public function get_user_all_projects(WP_REST_Request $request) {

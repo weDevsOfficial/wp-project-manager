@@ -6,7 +6,7 @@ use WP_REST;
 class Enqueue_Scripts {
 
 	public static function scripts() {
-		
+
 
 		$scripts_id = [
 			'pm-config',

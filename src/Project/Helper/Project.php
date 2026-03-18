@@ -1081,10 +1081,13 @@ class Project {
 		foreach ( $results as $key => $result ) {
 			$project_id = $result->project_id;
 			unset( $result->project_id );
-			
+
 			$result->avatar_url = get_avatar_url( $result->id );
+			$result->username   = get_userdata( $result->id )->user_login ?? '';
+			$result->github     = get_user_meta( $result->id, 'github', true );
+			$result->bitbucket  = get_user_meta( $result->id, 'bitbucket', true );
 			$result->roles = [
-				'data' => [$this->roles($result->role_id)] 
+				'data' => [$this->roles($result->role_id)]
 			];
 
 			$users[$project_id][] = $result;

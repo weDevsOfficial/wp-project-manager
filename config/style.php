@@ -132,26 +132,8 @@ return [
     ],
     'pm-style' => [
         'id'         => 'pm-style',
-        'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/css/style.css',
-        'path'       => $wedevs_pm_view_path . '/assets/css/style.css',
-        'dependency' => [
-            'pm-vue-multiselect',
-            'pm-nprogress',
-            'pm-fontawesome',
-            'pm-toastr',
-            'pm-jquery-ui',
-            'pm-fullcalendar',
-            'pm-tiny-mce',
-            'pm-loading',
-            'pm-loaautocompleteding',
-            'pm-pretty-photo',
-            'pm-tiptip',
-            'pm-v-tooltip',
-            'pm-scheduler',
-            'pm-daterangepicker',
-            'pm-const-style',
-            'pm-new-style',
-            'pm-slicknav'
-        ]
+        'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/dist/pm.css',
+        'path'       => $wedevs_pm_view_path . '/assets/dist/pm.css',
+        'dependency' => [],
     ],
 ];

@@ -1,0 +1,288 @@
+/* DO NOT use @tailwind base — Preflight is disabled in config */
+@tailwind components;
+@tailwind utilities;
+
+/* ── shadcn/ui CSS variables — must be on :root so portaled
+     elements (Select, Dialog, Popover) can access them ────── */
+:root {
+  --background:            0 0% 100%;
+  --foreground:            240 10% 3.9%;
+
+  --card:                  0 0% 100%;
+  --card-foreground:       240 10% 3.9%;
+
+  --popover:               0 0% 100%;
+  --popover-foreground:    240 10% 3.9%;
+
+  --primary:               262 80% 57%;        /* #7C3AED — pm-accent */
+  --primary-foreground:    0 0% 100%;           /* white */
+
+  --secondary:             240 4.8% 95.9%;
+  --secondary-foreground:  240 5.9% 10%;
+
+  --muted:                 240 4.8% 95.9%;
+  --muted-foreground:      240 3.8% 46.1%;
+
+  --accent:                240 4.8% 95.9%;
+  --accent-foreground:     240 5.9% 10%;
+
+  --destructive:           0 72.2% 50.6%;
+  --destructive-foreground: 0 0% 98%;
+
+  --border:                240 5.9% 90%;
+  --input:                 240 5.9% 90%;
+  --ring:                  262 80% 57%;         /* matches --primary */
+
+  --radius:                0.375rem;
+}
+
+/* ── Scoped reset — ONLY inside plugin root ─────────────── */
+#wedevs-project-manager {
+  *, *::before, *::after {
+    box-sizing: border-box;
+    border-width: 0;
+    border-style: solid;
+    border-color: hsl(var(--border));
+  }
+
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: hsl(var(--foreground));
+  -webkit-font-smoothing: antialiased;
+
+  /* Reset WP admin interference on common elements */
+  h1, h2, h3, h4, h5, h6 {
+    font-size: inherit;
+    font-weight: inherit;
+    margin: 0;
+    padding: 0;
+  }
+
+  p { margin: 0; }
+
+  a {
+    color: inherit;
+    text-decoration: inherit;
+  }
+
+  button, input, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+  }
+
+  button {
+    cursor: pointer;
+    box-shadow: none;
+    text-transform: none;
+    letter-spacing: normal;
+  }
+
+  img, svg {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  /* WP admin adds shadows/outlines to inputs — override */
+  input, textarea, select {
+    box-shadow: none !important;
+    outline: none;
+  }
+
+  input:focus, textarea:focus, select:focus {
+    box-shadow: none !important;
+    outline: none;
+  }
+
+  /* Reset WP table styles */
+  table { border-collapse: collapse; border-spacing: 0; }
+  th { text-align: left; font-weight: 600; }
+  td, th { padding: 0; }
+
+  /* Reset WP label */
+  label {
+    display: inline-block;
+    font-weight: inherit;
+    margin: 0;
+  }
+
+  /* Range input */
+  input[type="range"] {
+    padding: 0;
+    border: none;
+    background: transparent;
+    box-shadow: none !important;
+  }
+
+  /* Separator / hr */
+  hr {
+    margin: 0;
+    border: none;
+    border-top: 1px solid hsl(var(--border));
+  }
+
+  /* Switch — override WP checkbox/button styles */
+  button[role="switch"] {
+    box-shadow: none !important;
+    position: relative;
+    display: inline-flex;
+    height: 1.5rem;
+    width: 2.75rem;
+    flex-shrink: 0;
+    cursor: pointer;
+    align-items: center;
+    border-radius: 9999px;
+    border: 2px solid transparent !important;
+    background-color: hsl(var(--input));
+    transition: background-color 0.2s ease;
+  }
+
+  button[role="switch"][data-state="checked"] {
+    background-color: hsl(var(--primary)) !important;
+  }
+
+  button[role="switch"] > span {
+    pointer-events: none;
+    display: block;
+    height: 1.25rem;
+    width: 1.25rem;
+    border-radius: 9999px;
+    background-color: white !important;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1) !important;
+    transition: transform 0.2s ease !important;
+    transform: translateX(0) !important;
+  }
+
+  button[role="switch"][data-state="checked"] > span {
+    transform: translateX(1.25rem) !important;
+  }
+}
+
+/* ── Full-screen settings mode — hides WP admin chrome ───── */
+body.pm-fullscreen-settings {
+  overflow: hidden !important;
+}
+
+body.pm-fullscreen-settings #wpadminbar {
+  display: none !important;
+}
+
+body.pm-fullscreen-settings #adminmenuwrap,
+body.pm-fullscreen-settings #adminmenuback {
+  display: none !important;
+}
+
+body.pm-fullscreen-settings #wpcontent {
+  margin-left: 0 !important;
+}
+
+body.pm-fullscreen-settings #wpbody-content {
+  padding-bottom: 0 !important;
+}
+
+body.pm-fullscreen-settings #wpfooter {
+  display: none !important;
+}
+
+body.pm-fullscreen-settings .notice,
+body.pm-fullscreen-settings .updated,
+body.pm-fullscreen-settings .error,
+body.pm-fullscreen-settings .update-nag {
+  display: none !important;
+}
+
+body.pm-fullscreen-settings #wedevs-pm {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  z-index: 100 !important;
+  background: #F7F8FA;
+}
+
+/* ── Z-index hierarchy ───────────────────────────────────────
+     100   — Fullscreen app container (#wedevs-pm)
+     2000  — Dialog/Sheet overlay (backdrop)
+     2001  — Dialog/Sheet content
+     3000  — Popper content (Select, Dropdown, Popover, Tooltip)
+              — Always on top because popper teleports to <body>
+              — even when triggered from inside a Dialog/Sheet
+     4000  — Toast notifications
+     WP admin bar (99999) — hidden in fullscreen mode ──────── */
+
+/* ── Radix UI portaled Popper elements (Select, Dropdown, etc.)
+     Teleported to <body>. Must be ABOVE Dialog/Sheet content
+     because a Select inside a Sheet still teleports here. ──── */
+[data-radix-popper-content-wrapper] {
+  z-index: 3000 !important;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: hsl(var(--foreground));
+  -webkit-font-smoothing: antialiased;
+}
+
+[data-radix-popper-content-wrapper] *,
+[data-radix-popper-content-wrapper] *::before,
+[data-radix-popper-content-wrapper] *::after {
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+  border-color: hsl(var(--border));
+}
+
+/* Override WP admin focus styles on portaled inputs */
+[data-radix-popper-content-wrapper] input,
+[data-radix-popper-content-wrapper] input:focus,
+[role="dialog"][data-state] input,
+[role="dialog"][data-state] input:focus {
+  box-shadow: none !important;
+  outline: none !important;
+  border-color: hsl(var(--border)) !important;
+}
+
+/* ── Dialog/Sheet overlay (backdrop) ─────────────────────────
+     Specificity (0,2,0) beats Tailwind z-50 at (0,1,0). ───── */
+[data-state].fixed {
+  z-index: 2000 !important;
+}
+
+/* ── Dialog/Sheet content ────────────────────────────────────
+     Specificity (0,2,0) beats Tailwind z-50 at (0,1,0). ───── */
+[role="dialog"][data-state] {
+  z-index: 2001 !important;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: hsl(var(--foreground));
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Center modal dialogs — uses data-pm-dialog attribute to avoid targeting sheets */
+[data-pm-dialog] {
+  position: fixed !important;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) !important;
+}
+
+[role="dialog"][data-state] *,
+[role="dialog"][data-state] *::before,
+[role="dialog"][data-state] *::after {
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+  border-color: hsl(var(--border));
+}
+
+/* ── Toast notifications — highest layer ─────────────────── */
+ol[data-sonner-toaster],
+[role="region"][aria-label*="Notification"] {
+  z-index: 4000 !important;
+}
