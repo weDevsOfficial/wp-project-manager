@@ -168,17 +168,32 @@ body.pm-fullscreen-settings {
   overflow: hidden !important;
 }
 
-body.pm-fullscreen-settings #wpadminbar {
+body.pm-fullscreen-settings:not(.pm-mode-wordpress) #wpadminbar {
   display: none !important;
 }
 
-body.pm-fullscreen-settings #adminmenuwrap,
-body.pm-fullscreen-settings #adminmenuback {
+body.pm-fullscreen-settings.pm-mode-wordpress #wpadminbar {
+  display: block !important;
+}
+
+body.pm-fullscreen-settings:not(.pm-mode-wordpress) #adminmenuwrap,
+body.pm-fullscreen-settings:not(.pm-mode-wordpress) #adminmenuback {
   display: none !important;
 }
 
-body.pm-fullscreen-settings #wpcontent {
+body.pm-fullscreen-settings:not(.pm-mode-wordpress) #wpcontent {
   margin-left: 0 !important;
+}
+
+body.pm-fullscreen-settings.pm-mode-wordpress #adminmenuwrap,
+body.pm-fullscreen-settings.pm-mode-wordpress #adminmenuback {
+  display: block !important;
+  transition: all 0.2s ease;
+}
+
+body.pm-fullscreen-settings.pm-mode-wordpress #wpcontent {
+  margin-left: 160px !important;
+  transition: margin-left 0.2s ease;
 }
 
 body.pm-fullscreen-settings #wpbody-content {
@@ -204,6 +219,12 @@ body.pm-fullscreen-settings #wedevs-pm {
   bottom: 0 !important;
   z-index: 100 !important;
   background: #F7F8FA;
+  transition: left 0.2s ease;
+}
+
+body.pm-fullscreen-settings.pm-mode-wordpress #wedevs-pm {
+  top: 32px !important;
+  left: 160px !important;
 }
 
 /* ── Z-index hierarchy ───────────────────────────────────────

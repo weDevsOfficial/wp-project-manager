@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 import { AppSidebar } from './AppSidebar'
+import { TopBar } from './TopBar'
 
 export function AppLayout() {
   useEffect(() => {
@@ -11,9 +12,12 @@ export function AppLayout() {
   return (
     <div className="pm-app-layout flex h-screen overflow-hidden bg-pm-surface-muted">
       <AppSidebar />
-      <main className="flex-1 overflow-y-auto">
-        <Outlet />
-      </main>
+      <div className="flex-1 flex flex-col overflow-hidden">
+        <TopBar />
+        <main className="flex-1 overflow-y-auto">
+          <Outlet />
+        </main>
+      </div>
     </div>
   )
 }

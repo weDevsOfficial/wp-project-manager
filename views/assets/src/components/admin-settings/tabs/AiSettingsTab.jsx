@@ -12,7 +12,7 @@ import { Label } from '@components/ui/label'
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from '@components/ui/select'
-import { Bot, Lock, CheckCircle2, Zap } from 'lucide-react'
+import { Bot, CheckCircle2 } from 'lucide-react'
 
 const providers = [
   { value: 'openai',    label: 'OpenAI'    },
@@ -31,8 +31,6 @@ const AiSettingsTab = () => {
   const aiSaving      = useAppSelector((s) => s.settings.aiSaving)
   const aiTestingConn = useAppSelector((s) => s.settings.aiTestingConn)
   const aiLoading     = useAppSelector((s) => s.settings.aiLoading)
-  const isPro         = useAppSelector((s) => s.settings.isPro)
-
   const [localApiKey, setLocalApiKey] = useState('')
   const [isDirty, setIsDirty] = useState(false)
 
@@ -120,31 +118,7 @@ const AiSettingsTab = () => {
             {__('Configure AI provider for project generation and smart suggestions.', 'wedevs-project-manager')}
           </p>
         </div>
-        {!isPro && (
-          <span className="inline-flex items-center gap-1 border border-pm-accent text-pm-accent text-xs px-2 py-0.5 rounded font-medium">
-            <Zap className="w-3 h-3" />
-            {__('Pro Feature', 'wedevs-project-manager')}
-          </span>
-        )}
       </div>
-
-      {!isPro && (
-        <div className="mt-4 rounded-md border border-pm-accent/30 bg-pm-accent-light px-4 py-3 flex gap-3 items-start">
-          <Lock className="w-4 h-4 mt-0.5 text-pm-accent shrink-0" />
-          <div>
-            <p className="text-sm font-medium text-pm-accent">
-              {__('Unlock AI-powered features with Pro', 'wedevs-project-manager')}
-            </p>
-            <p className="text-xs text-pm-text-muted mt-0.5">
-              {__('AI project generation, smart task suggestions, and auto-descriptions require an active Pro license.', 'wedevs-project-manager')}
-            </p>
-            <a href="https://wedevs.com/wp-project-manager-pro/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 mt-2 text-xs font-medium text-pm-accent hover:underline">
-              {__('Upgrade to Pro', 'wedevs-project-manager')}
-              <Zap className="w-3 h-3" />
-            </a>
-          </div>
-        </div>
-      )}
 
       <form onSubmit={onSubmit}>
         <div className="mt-5 rounded-lg border border-pm-border bg-white">

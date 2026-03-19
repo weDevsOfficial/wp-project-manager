@@ -1,6 +1,7 @@
-import React, { useState, useCallback, useEffect } from 'react'
+import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { useAppDispatch, useAppSelector } from '@store/index'
-import { toggleExpand, addTaskToList } from '@store/taskListsSlice'
+import { toggleExpand, addTaskToList, reorderTasksLocal } from '@store/taskListsSlice'
+import { sortTasks } from '@store/tasksSlice'
 import { createTask } from '@store/tasksSlice'
 import { useApi } from '@hooks/useApi'
 // cn removed — not used in this file
@@ -45,6 +46,12 @@ export default function TaskListSection({ list, projectId }) {
   const [selectedAssignees, setSelectedAssignees] = useState([])
   const [creating, setCreating] = useState(false)
   const [showCompleted, setShowCompleted] = useState(false)
+
+  // List rename
+  const [renaming, setRenaming] = useState(false)
+  const [renameTitle, setRenameTitle] = useState('')
+  const [loadingMore, setLoadingMore] = useState(false)
+  const [loadingMoreComplete, setLoadingMoreComplete] = useState(false)
 
   // Search users for assignment
   const handleSearchUsers = useCallback(async (q) => {
@@ -119,6 +126,101 @@ export default function TaskListSection({ list, projectId }) {
     setCreating(false)
   }, [dispatch, projectId, list.id, newTitle, newDesc, newDueDate, selectedAssignees, creating, toast, __, resetForm])
 
+  // ── Task drag-drop within list ──────────────────
+  const dragTaskIdx = useRef(null)
+  const [dragOverTaskIdx, setDragOverTaskIdx] = useState(null)
+
+  const handleTaskDragStart = useCallback((idx) => {
+    dragTaskIdx.current = idx
+  }, [])
+
+  const handleTaskDragOver = useCallback((e, idx) => {
+    e.preventDefault()
+    if (dragTaskIdx.current !== null && dragTaskIdx.current !== idx) {
+      setDragOverTaskIdx(idx)
+    }
+  }, [])
+
+  const handleTaskDrop = useCallback((e, toIdx) => {
+    e.preventDefault()
+    e.stopPropagation()
+    const fromIdx = dragTaskIdx.current
+    if (fromIdx === null || fromIdx === toIdx) {
+      dragTaskIdx.current = null
+      setDragOverTaskIdx(null)
+      return
+    }
+    // Optimistic reorder
+    dispatch(reorderTasksLocal({ listId: list.id, fromIndex: fromIdx, toIndex: toIdx }))
+    // Build orders for API
+    const tasks = [...incompleteTasks]
+    const [moved] = tasks.splice(fromIdx, 1)
+    tasks.splice(toIdx, 0, moved)
+    const orders = tasks.map((t, i) => ({ id: t.id, index: i }))
+    dispatch(sortTasks({ projectId, listId: list.id, taskId: moved.id, orders, receive: 0 }))
+
+    dragTaskIdx.current = null
+    setDragOverTaskIdx(null)
+  }, [dispatch, projectId, list.id, incompleteTasks])
+
+  const handleTaskDragEnd = useCallback(() => {
+    dragTaskIdx.current = null
+    setDragOverTaskIdx(null)
+  }, [])
+
+  // ── List rename ──────────────────────────────────
+  const startRename = useCallback(() => {
+    setRenameTitle(list.title)
+    setRenaming(true)
+  }, [list.title])
+
+  const handleRename = useCallback(async () => {
+    if (!renameTitle.trim()) return
+    try {
+      await api.post(`projects/${projectId}/task-lists/${list.id}/update`, {
+        title: renameTitle.trim(),
+      })
+      toast.success(__('List renamed'))
+      setRenaming(false)
+      // Refetch to update — simple approach
+      window.location.reload()
+    } catch { toast.error(__('Failed to rename')) }
+  }, [api, projectId, list.id, renameTitle, toast, __])
+
+  const handleDeleteList = useCallback(async () => {
+    if (!confirm(__('Delete this list and all its tasks?'))) return
+    try {
+      await api.post(`projects/${projectId}/task-lists/${list.id}/delete`)
+      toast.success(__('List deleted'))
+      window.location.reload()
+    } catch { toast.error(__('Failed to delete list')) }
+  }, [api, projectId, list.id, toast, __])
+
+  // ── Load more tasks ──────────────────────────────
+  const hasMoreIncomplete = incompleteTasks.length < totalIncomplete
+  const hasMoreComplete = completeTasks.length < totalComplete
+
+  const handleLoadMore = useCallback(async (status) => {
+    const isComplete = status === 1
+    if (isComplete) setLoadingMoreComplete(true)
+    else setLoadingMore(true)
+    try {
+      const existingIds = (isComplete ? completeTasks : incompleteTasks).map(t => t.id)
+      const res = await api.get(`projects/${projectId}/task-lists/${list.id}/more/tasks`, {
+        list_id: list.id,
+        task_ids: existingIds,
+        project_id: projectId,
+        status,
+      })
+      const newTasks = res.data ?? []
+      if (newTasks.length > 0) {
+        newTasks.forEach(t => dispatch(addTaskToList({ listId: list.id, task: t })))
+      }
+    } catch { toast.error(__('Failed to load more tasks')) }
+    if (isComplete) setLoadingMoreComplete(false)
+    else setLoadingMore(false)
+  }, [api, projectId, list.id, incompleteTasks, completeTasks, dispatch, toast, __])
+
   return (
     <div className="rounded-xl border bg-card overflow-hidden">
       {/* Section header */}
@@ -134,9 +236,23 @@ export default function TaskListSection({ list, projectId }) {
           />
         </button>
 
-        <h3 className="text-sm font-semibold text-pm-text-primary flex-1 truncate">
-          {list.title}
-        </h3>
+        {renaming ? (
+          <div className="flex items-center gap-1.5 flex-1">
+            <input
+              autoFocus
+              value={renameTitle}
+              onChange={(e) => setRenameTitle(e.target.value)}
+              onKeyDown={(e) => { if (e.key === 'Enter') handleRename(); if (e.key === 'Escape') setRenaming(false); }}
+              className="text-sm font-semibold text-pm-text-primary flex-1 bg-transparent border-b border-pm-accent outline-none px-0 py-0"
+            />
+            <button type="button" onClick={handleRename} className="text-pm-accent hover:text-pm-accent/80 text-xs font-medium">{__('Save')}</button>
+            <button type="button" onClick={() => setRenaming(false)} className="text-pm-text-muted hover:text-pm-text text-xs">{__('Cancel')}</button>
+          </div>
+        ) : (
+          <h3 className="text-sm font-semibold text-pm-text-primary flex-1 truncate">
+            {list.title}
+          </h3>
+        )}
 
         {/* Counts */}
         <span className="text-[11px] text-pm-text-muted tabular-nums">
@@ -168,11 +284,11 @@ export default function TaskListSection({ list, projectId }) {
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={startRename}>
               <Pencil className="h-3.5 w-3.5 mr-2" />
               {__('Rename')}
             </DropdownMenuItem>
-            <DropdownMenuItem className="text-destructive focus:text-destructive">
+            <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={handleDeleteList}>
               <Trash2 className="h-3.5 w-3.5 mr-2" />
               {__('Delete')}
             </DropdownMenuItem>
@@ -185,10 +301,37 @@ export default function TaskListSection({ list, projectId }) {
         <div>
           {/* Incomplete tasks */}
           {incompleteTasks.length > 0 ? (
-            incompleteTasks.map(task => (
-              <TaskRow key={task.id} task={task} projectId={projectId} listId={list.id} />
+            incompleteTasks.map((task, idx) => (
+              <TaskRow
+                key={task.id}
+                task={task}
+                projectId={projectId}
+                listId={list.id}
+                draggable
+                onDragStart={() => handleTaskDragStart(idx)}
+                onDragOver={(e) => handleTaskDragOver(e, idx)}
+                onDrop={(e) => handleTaskDrop(e, idx)}
+                onDragEnd={handleTaskDragEnd}
+                isDragOver={dragOverTaskIdx === idx}
+              />
             ))
-          ) : !showNewTask ? (
+          ) : null}
+
+          {/* Load more incomplete */}
+          {hasMoreIncomplete && incompleteTasks.length > 0 && (
+            <div className="px-4 py-1.5 border-b border-border/40">
+              <button
+                type="button"
+                className="text-xs text-pm-accent hover:underline disabled:opacity-50"
+                disabled={loadingMore}
+                onClick={() => handleLoadMore(0)}
+              >
+                {loadingMore ? __('Loading...') : __('Load more tasks')}
+              </button>
+            </div>
+          )}
+
+          {incompleteTasks.length === 0 && !showNewTask ? (
             <div className="px-4 py-8 text-center">
               <p className="text-sm text-pm-text-muted mb-3">{__('No tasks yet')}</p>
               <Button
@@ -351,9 +494,25 @@ export default function TaskListSection({ list, projectId }) {
                   {totalComplete} {__('Completed')}
                 </span>
               </button>
-              {showCompleted && completeTasks.map(task => (
-                <TaskRow key={task.id} task={task} projectId={projectId} listId={list.id} />
-              ))}
+              {showCompleted && (
+                <>
+                  {completeTasks.map(task => (
+                    <TaskRow key={task.id} task={task} projectId={projectId} listId={list.id} />
+                  ))}
+                  {hasMoreComplete && (
+                    <div className="px-4 py-1.5">
+                      <button
+                        type="button"
+                        className="text-xs text-pm-accent hover:underline disabled:opacity-50"
+                        disabled={loadingMoreComplete}
+                        onClick={() => handleLoadMore(1)}
+                      >
+                        {loadingMoreComplete ? __('Loading...') : __('Load more completed')}
+                      </button>
+                    </div>
+                  )}
+                </>
+              )}
             </div>
           )}
         </div>

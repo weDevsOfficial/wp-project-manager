@@ -13,6 +13,7 @@ import {
   setCategory,
   setViewMode,
   setCreateSheetOpen,
+  openEditSheet,
 } from "@store/projectsSlice";
 import { cn } from "@lib/utils";
 import { useI18n } from "@hooks/useI18n";
@@ -76,7 +77,11 @@ import {
   FileText,
   Activity,
   ClipboardList,
+  Sparkles,
+  Pencil,
 } from "lucide-react";
+
+import AiCreateDialog from "./AiCreateDialog";
 
 import { ProjectCreateSheet } from "./ProjectCreateSheet";
 
@@ -155,6 +160,7 @@ export default function ProjectsPage() {
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [projectToDelete, setProjectToDelete] = useState(null);
+  const [aiDialogOpen, setAiDialogOpen] = useState(false);
 
   // ── Initial load ────────────────────────────────────────
   useEffect(() => {
@@ -350,6 +356,10 @@ export default function ProjectsPage() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
+        <DropdownMenuItem onClick={() => dispatch(openEditSheet(project))}>
+          <Pencil className="h-4 w-4 mr-2" />
+          {__("Edit")}
+        </DropdownMenuItem>
         <DropdownMenuItem onClick={() => handleToggleStatus(project.id)}>
           {isComplete(project) ? (
             <>
@@ -679,14 +689,25 @@ export default function ProjectsPage() {
         <h1 className="text-2xl font-bold text-pm-text-primary">
           {__("Projects")}
         </h1>
-        <Button
-          size="sm"
-          className="gap-1.5"
-          onClick={() => dispatch(setCreateSheetOpen(true))}
-        >
-          <Plus className="h-4 w-4" />
-          {__("New Project")}
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button
+            size="sm"
+            variant="outline"
+            className="gap-1.5"
+            onClick={() => setAiDialogOpen(true)}
+          >
+            <Sparkles className="h-4 w-4" />
+            {__("AI Create")}
+          </Button>
+          <Button
+            size="sm"
+            className="gap-1.5"
+            onClick={() => dispatch(setCreateSheetOpen(true))}
+          >
+            <Plus className="h-4 w-4" />
+            {__("New Project")}
+          </Button>
+        </div>
       </div>
 
       <div className="flex items-center justify-between flex-wrap gap-3">
@@ -800,6 +821,7 @@ export default function ProjectsPage() {
       </Dialog>
 
       <ProjectCreateSheet />
+      <AiCreateDialog open={aiDialogOpen} onOpenChange={setAiDialogOpen} />
     </div>
   );
 }

@@ -22,6 +22,11 @@ import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar'
 import { Separator } from '@components/ui/separator'
 import { Skeleton } from '@components/ui/skeleton'
 import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@components/ui/popover'
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -135,6 +140,7 @@ export default function TaskDetailSheet() {
       dispatch(fetchTask({ projectId, taskId: currentTask.id }))
     }
   }, [taskSheetOpen, currentTask?.id, projectId, dispatch])
+
 
   // ── Derived (must be before handlers that use them) ──
   const assignees = currentTask
@@ -424,9 +430,37 @@ export default function TaskDetailSheet() {
                   </div>
                   {editingDates ? (
                     <div className="flex items-center gap-2 flex-wrap">
-                      <Input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} className="h-7 text-xs w-[150px]" placeholder={__('Start')} />
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button variant="outline" size="sm" className="h-7 text-xs gap-1.5 font-normal min-w-[120px] justify-start">
+                            <Calendar className="h-3 w-3" />
+                            {startDate || __('Start')}
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-3" align="start">
+                          <div className="space-y-2">
+                            <p className="text-xs font-medium text-pm-text-muted">{__('Start Date')}</p>
+                            <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} className="w-full rounded-md border border-input bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring" />
+                            {startDate && <Button variant="ghost" size="sm" className="h-6 text-[10px] w-full" onClick={() => setStartDate('')}>{__('Clear')}</Button>}
+                          </div>
+                        </PopoverContent>
+                      </Popover>
                       <span className="text-xs text-pm-text-muted">→</span>
-                      <Input type="date" value={dueDate} onChange={e => setDueDate(e.target.value)} className="h-7 text-xs w-[150px]" placeholder={__('Due')} />
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button variant="outline" size="sm" className="h-7 text-xs gap-1.5 font-normal min-w-[120px] justify-start">
+                            <Calendar className="h-3 w-3" />
+                            {dueDate || __('Due')}
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-3" align="start">
+                          <div className="space-y-2">
+                            <p className="text-xs font-medium text-pm-text-muted">{__('Due Date')}</p>
+                            <input type="date" value={dueDate} onChange={e => setDueDate(e.target.value)} className="w-full rounded-md border border-input bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring" />
+                            {dueDate && <Button variant="ghost" size="sm" className="h-6 text-[10px] w-full" onClick={() => setDueDate('')}>{__('Clear')}</Button>}
+                          </div>
+                        </PopoverContent>
+                      </Popover>
                       <Button size="sm" className="h-6 text-[11px] px-2" onClick={handleDateSave}>{__('Save')}</Button>
                       <Button variant="ghost" size="sm" className="h-6 text-[11px] px-2" onClick={() => setEditingDates(false)}>{__('Cancel')}</Button>
                     </div>
@@ -634,29 +668,6 @@ export default function TaskDetailSheet() {
             </div>
 
             <Separator />
-
-            {/* ── Files ── */}
-            {(currentTask.meta?.total_files ?? 0) > 0 && (
-              <>
-                <div className="px-6 py-4">
-                  <h4 className="text-xs font-semibold uppercase tracking-wider text-pm-text-muted/70 flex items-center gap-1.5 mb-2">
-                    <Paperclip className="h-3.5 w-3.5" />{__('Attachments')}
-                    <span className="text-[10px] bg-muted px-1.5 py-0.5 rounded-full tabular-nums">{currentTask.meta?.total_files}</span>
-                  </h4>
-                  {currentTask.files?.data?.length > 0 && (
-                    <div className="flex items-center gap-2 flex-wrap">
-                      {currentTask.files.data.map(f => (
-                        <a key={f.id} href={f.url} target="_blank" rel="noreferrer"
-                          className="inline-flex items-center gap-1.5 text-xs bg-muted/50 px-2.5 py-1 rounded-md hover:bg-muted transition-colors">
-                          <Paperclip className="h-3 w-3 text-pm-text-muted" />{f.name}
-                        </a>
-                      ))}
-                    </div>
-                  )}
-                </div>
-                <Separator />
-              </>
-            )}
 
             {/* ── Activity Log ── */}
             <div className="px-6 py-4">

@@ -173,6 +173,21 @@ const taskListsSlice = createSlice({
         }
       }
     },
+    // Optimistic: reorder lists locally (before API call)
+    reorderListsLocal(state, action) {
+      const { fromIndex, toIndex } = action.payload
+      const [moved] = state.lists.splice(fromIndex, 1)
+      state.lists.splice(toIndex, 0, moved)
+    },
+    // Optimistic: reorder tasks within a list
+    reorderTasksLocal(state, action) {
+      const { listId, fromIndex, toIndex } = action.payload
+      const list = state.lists.find(l => l.id === listId)
+      if (list) {
+        const [moved] = list.incomplete_tasks.data.splice(fromIndex, 1)
+        list.incomplete_tasks.data.splice(toIndex, 0, moved)
+      }
+    },
     // Optimistic: move task between incomplete <-> complete within a list
     toggleTaskInList(state, action) {
       const list = state.lists.find(l => l.id === action.payload.listId)
@@ -256,6 +271,7 @@ const taskListsSlice = createSlice({
 export const {
   setProjectId, toggleExpand, expandAll, collapseAll, clearLists,
   addTaskToList, removeTaskFromList, toggleTaskInList,
+  reorderListsLocal, reorderTasksLocal,
 } = taskListsSlice.actions
 
 export default taskListsSlice.reducer

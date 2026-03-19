@@ -27,6 +27,9 @@ import {
   ChevronDown,
   Send,
   FileText,
+  Pencil,
+  Check,
+  X,
 } from "lucide-react";
 import FileUploadArea from "@components/common/FileUploadArea";
 import {
@@ -99,6 +102,15 @@ export default function DiscussionsPage() {
   const [newComment, setNewComment] = useState("");
   const [commentFiles, setCommentFiles] = useState([]);
   const [submitting, setSubmitting] = useState(false);
+
+  // Edit discussion state
+  const [editingDiscId, setEditingDiscId] = useState(null);
+  const [editDiscTitle, setEditDiscTitle] = useState("");
+  const [editDiscDesc, setEditDiscDesc] = useState("");
+
+  // Edit comment state
+  const [editingCommentId, setEditingCommentId] = useState(null);
+  const [editCommentText, setEditCommentText] = useState("");
 
   // Vue 2: GET projects/{pid}/discussion-boards?with=comments&per_page=20&page={page}
   const fetchDiscussions = useCallback(
@@ -258,6 +270,71 @@ export default function DiscussionsPage() {
     setSubmitting(false);
   }, [api, projectId, openId, newComment, submitting, toast, __]);
 
+  // Edit discussion
+  const startEditDiscussion = useCallback((d) => {
+    setEditingDiscId(d.id);
+    setEditDiscTitle(d.title || "");
+    setEditDiscDesc(d.description?.content || "");
+  }, []);
+
+  const cancelEditDiscussion = useCallback(() => {
+    setEditingDiscId(null);
+    setEditDiscTitle("");
+    setEditDiscDesc("");
+  }, []);
+
+  const handleUpdateDiscussion = useCallback(async () => {
+    if (!editDiscTitle.trim() || !editingDiscId) return;
+    try {
+      await api.post(`projects/${projectId}/discussion-boards/${editingDiscId}/update`, {
+        title: editDiscTitle.trim(),
+        description: editDiscDesc.trim(),
+        project_id: projectId,
+      });
+      setDiscussions((prev) =>
+        prev.map((d) =>
+          d.id === editingDiscId
+            ? { ...d, title: editDiscTitle.trim(), description: { ...d.description, content: editDiscDesc.trim(), html: editDiscDesc.trim() } }
+            : d,
+        ),
+      );
+      cancelEditDiscussion();
+      toast.success(__("Discussion updated"));
+    } catch {
+      toast.error(__("Failed to update discussion"));
+    }
+  }, [api, projectId, editingDiscId, editDiscTitle, editDiscDesc, toast, __, cancelEditDiscussion]);
+
+  // Edit comment
+  const startEditComment = useCallback((c) => {
+    setEditingCommentId(c.id);
+    setEditCommentText(c.content || "");
+  }, []);
+
+  const cancelEditComment = useCallback(() => {
+    setEditingCommentId(null);
+    setEditCommentText("");
+  }, []);
+
+  const handleUpdateComment = useCallback(async () => {
+    if (!editCommentText.trim() || !editingCommentId) return;
+    try {
+      await api.post(`projects/${projectId}/comments/${editingCommentId}/update`, {
+        content: editCommentText.trim(),
+        project_id: projectId,
+      });
+      setComments((prev) =>
+        prev.map((c) =>
+          c.id === editingCommentId ? { ...c, content: editCommentText.trim() } : c,
+        ),
+      );
+      cancelEditComment();
+      toast.success(__("Comment updated"));
+    } catch {
+      toast.error(__("Failed to update comment"));
+    }
+  }, [api, projectId, editingCommentId, editCommentText, toast, __, cancelEditComment]);
+
   // Vue 2: POST projects/{pid}/comments/{id}/delete
   const handleDeleteComment = useCallback(
     async (commentId) => {
@@ -400,6 +477,31 @@ export default function DiscussionsPage() {
                 {/* Discussion header */}
                 <div className="p-4">
                   <div className="flex items-start justify-between gap-3">
+                    {editingDiscId === d.id ? (
+                      <div className="flex-1 space-y-2">
+                        <Input
+                          autoFocus
+                          value={editDiscTitle}
+                          onChange={(e) => setEditDiscTitle(e.target.value)}
+                          className="h-8 text-sm"
+                        />
+                        <Textarea
+                          value={editDiscDesc}
+                          onChange={(e) => setEditDiscDesc(e.target.value)}
+                          className="text-sm min-h-[50px] resize-y"
+                        />
+                        <div className="flex gap-1.5">
+                          <Button size="sm" className="h-7 gap-1 text-xs" onClick={handleUpdateDiscussion} disabled={!editDiscTitle.trim()}>
+                            <Check className="h-3 w-3" />
+                            {__("Save")}
+                          </Button>
+                          <Button size="sm" variant="ghost" className="h-7 gap-1 text-xs" onClick={cancelEditDiscussion}>
+                            <X className="h-3 w-3" />
+                            {__("Cancel")}
+                          </Button>
+                        </div>
+                      </div>
+                    ) : (
                     <button
                       type="button"
                       className="flex-1 text-left min-w-0"
@@ -427,6 +529,7 @@ export default function DiscussionsPage() {
                         </p>
                       )}
                     </button>
+                    )}
                     <div className="flex items-center gap-1.5 shrink-0">
                       {commentCount > 0 && (
                         <span className="flex items-center gap-0.5 text-[11px] text-pm-text-muted">
@@ -445,6 +548,10 @@ export default function DiscussionsPage() {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
+                          <DropdownMenuItem onClick={() => startEditDiscussion(d)}>
+                            <Pencil className="h-3.5 w-3.5 mr-2" />
+                            {__("Edit")}
+                          </DropdownMenuItem>
                           <DropdownMenuItem
                             onClick={() => isPro && handleTogglePrivacy(d)}
                             disabled={!isPro}
@@ -537,20 +644,56 @@ export default function DiscussionsPage() {
                                   <span className="text-[10px] text-pm-text-muted">
                                     {formatPmDateTime(c.created_at)}
                                   </span>
-                                  <button
-                                    type="button"
-                                    className="text-[10px] text-pm-text-muted hover:text-destructive opacity-0 group-hover:opacity-100 transition-opacity ml-auto"
-                                    onClick={() => handleDeleteComment(c.id)}
-                                  >
-                                    <Trash2 className="h-3 w-3" />
-                                  </button>
+                                  <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity ml-auto">
+                                    <button
+                                      type="button"
+                                      className="text-[10px] text-pm-text-muted hover:text-pm-accent"
+                                      onClick={() => startEditComment(c)}
+                                    >
+                                      <Pencil className="h-3 w-3" />
+                                    </button>
+                                    <button
+                                      type="button"
+                                      className="text-[10px] text-pm-text-muted hover:text-destructive"
+                                      onClick={() => handleDeleteComment(c.id)}
+                                    >
+                                      <Trash2 className="h-3 w-3" />
+                                    </button>
+                                  </div>
                                 </div>
-                                <div
-                                  className="text-xs text-pm-text-primary/80 leading-relaxed prose prose-sm max-w-none"
-                                  dangerouslySetInnerHTML={{
-                                    __html: c.content,
-                                  }}
-                                />
+                                {editingCommentId === c.id ? (
+                                  <div className="space-y-1.5">
+                                    <Textarea
+                                      autoFocus
+                                      value={editCommentText}
+                                      onChange={(e) => setEditCommentText(e.target.value)}
+                                      className="text-xs min-h-[36px] resize-y"
+                                      onKeyDown={(e) => {
+                                        if (e.key === "Enter" && !e.shiftKey) {
+                                          e.preventDefault();
+                                          handleUpdateComment();
+                                        }
+                                        if (e.key === "Escape") cancelEditComment();
+                                      }}
+                                    />
+                                    <div className="flex gap-1">
+                                      <Button size="sm" className="h-6 text-[10px] gap-1 px-2" onClick={handleUpdateComment} disabled={!editCommentText.trim()}>
+                                        <Check className="h-2.5 w-2.5" />
+                                        {__("Save")}
+                                      </Button>
+                                      <Button size="sm" variant="ghost" className="h-6 text-[10px] px-2" onClick={cancelEditComment}>
+                                        {__("Cancel")}
+                                      </Button>
+                                    </div>
+                                  </div>
+                                ) : (
+                                  <div
+                                    className="text-xs text-pm-text-primary/80 leading-relaxed prose prose-sm max-w-none"
+                                    dangerouslySetInnerHTML={{
+                                      __html: c.content,
+                                    }}
+                                  />
+                                )}
                                 {renderFiles(c.files)}
                               </div>
                             </div>

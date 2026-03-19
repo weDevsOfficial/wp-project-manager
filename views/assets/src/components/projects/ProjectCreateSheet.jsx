@@ -2,8 +2,10 @@ import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { useAppDispatch, useAppSelector } from '@store/index'
 import {
   createProject,
+  updateProject,
   searchUsers,
   setCreateSheetOpen,
+  closeEditSheet,
 } from '@store/projectsSlice'
 import { cn } from '@lib/utils'
 import { useI18n } from '@hooks/useI18n'
@@ -60,10 +62,17 @@ export function ProjectCreateSheet() {
   const {
     createSheetOpen,
     creating,
+    updating,
+    editSheetOpen,
+    editProject,
     categories,
     roles,
     searchingUsers,
   } = useAppSelector((s) => s.projects)
+
+  const isEditMode = editSheetOpen && editProject
+  const isOpen = createSheetOpen || editSheetOpen
+  const isSaving = creating || updating
 
   // ── Form state ──────────────────────────────────────────
 
@@ -85,18 +94,39 @@ export function ProjectCreateSheet() {
   // ── Reset form when sheet opens ─────────────────────────
 
   useEffect(() => {
-    if (createSheetOpen) {
-      setTitle('')
-      setDescription('')
-      setCategoryId('')
-      setNotifyUsers(false)
+    if (isOpen) {
       setTitleError('')
       setSearchQuery('')
       setSearchResults([])
-      setSelectedUsers([])
       setPopoverOpen(false)
+
+      if (isEditMode) {
+        setTitle(editProject.title || '')
+        setDescription(editProject.description?.content || editProject.description || '')
+        const catId = editProject.categories?.data?.[0]?.id
+        setCategoryId(catId ? String(catId) : '')
+        setNotifyUsers(false)
+
+        const assignees = editProject.assignees?.data || []
+        const defaultRoleId = roles.length > 0 ? roles[0].id : 1
+        setSelectedUsers(
+          assignees.map((a) => ({
+            id: a.id || a.assigned_to,
+            display_name: a.display_name || a.name || '',
+            avatar_url: a.avatar_url || '',
+            email: a.email || '',
+            roleId: a.role_id || defaultRoleId,
+          }))
+        )
+      } else {
+        setTitle('')
+        setDescription('')
+        setCategoryId('')
+        setNotifyUsers(false)
+        setSelectedUsers([])
+      }
     }
-  }, [createSheetOpen])
+  }, [isOpen, isEditMode]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Cleanup timer on unmount
   useEffect(() => {
@@ -198,19 +228,30 @@ export function ProjectCreateSheet() {
     if (notifyUsers) payload.notify_users = true
 
     try {
-      await dispatch(createProject(payload)).unwrap()
-      toast.success(__('Project created successfully'))
+      if (isEditMode) {
+        payload.projectId = editProject.id
+        await dispatch(updateProject(payload)).unwrap()
+        toast.success(__('Project updated successfully'))
+      } else {
+        await dispatch(createProject(payload)).unwrap()
+        toast.success(__('Project created successfully'))
+      }
     } catch {
-      toast.error(__('Failed to create project'))
+      toast.error(isEditMode ? __('Failed to update project') : __('Failed to create project'))
     }
-  }, [dispatch, title, description, categoryId, selectedUsers, notifyUsers, toast, __])
+  }, [dispatch, title, description, categoryId, selectedUsers, notifyUsers, toast, __, isEditMode, editProject])
 
   // ── Render ──────────────────────────────────────────────
 
   return (
     <Sheet
-      open={createSheetOpen}
-      onOpenChange={(open) => dispatch(setCreateSheetOpen(open))}
+      open={isOpen}
+      onOpenChange={(open) => {
+        if (!open) {
+          if (isEditMode) dispatch(closeEditSheet())
+          else dispatch(setCreateSheetOpen(false))
+        }
+      }}
     >
       <SheetContent
         side="right"
@@ -218,9 +259,11 @@ export function ProjectCreateSheet() {
       >
         {/* Header */}
         <SheetHeader className="px-6 py-4 border-b">
-          <SheetTitle>{__('Create New Project')}</SheetTitle>
+          <SheetTitle>{isEditMode ? __('Edit Project') : __('Create New Project')}</SheetTitle>
           <SheetDescription>
-            {__('Fill in the details below to create a new project.')}
+            {isEditMode
+              ? __('Update the project details below.')
+              : __('Fill in the details below to create a new project.')}
           </SheetDescription>
         </SheetHeader>
 
@@ -428,14 +471,16 @@ export function ProjectCreateSheet() {
         <SheetFooter className="px-6 py-4 border-t">
           <Button
             variant="outline"
-            onClick={() => dispatch(setCreateSheetOpen(false))}
-            disabled={creating}
+            onClick={() => isEditMode ? dispatch(closeEditSheet()) : dispatch(setCreateSheetOpen(false))}
+            disabled={isSaving}
           >
             {__('Cancel')}
           </Button>
-          <Button onClick={handleSubmit} disabled={creating}>
-            {creating && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
-            {creating ? __('Creating...') : __('Create Project')}
+          <Button onClick={handleSubmit} disabled={isSaving}>
+            {isSaving && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+            {isSaving
+              ? (isEditMode ? __('Updating...') : __('Creating...'))
+              : (isEditMode ? __('Update Project') : __('Create Project'))}
           </Button>
         </SheetFooter>
       </SheetContent>

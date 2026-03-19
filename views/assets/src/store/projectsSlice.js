@@ -132,6 +132,18 @@ export const fetchRoles = createAsyncThunk(
   }
 )
 
+export const updateProject = createAsyncThunk(
+  'projects/updateProject',
+  async ({ projectId, ...payload }, { rejectWithValue }) => {
+    try {
+      const res = await api.post(`projects/${projectId}/update`, payload)
+      return res
+    } catch (e) {
+      return rejectWithValue(e.message ?? 'Failed to update project')
+    }
+  }
+)
+
 export const searchUsers = createAsyncThunk(
   'projects/searchUsers',
   async (query, { rejectWithValue }) => {
@@ -168,6 +180,9 @@ const initialState = {
 
   createSheetOpen: false,
   creating:        false,
+  updating:        false,
+  editSheetOpen:   false,
+  editProject:     null,
   searchingUsers:  false,
 }
 
@@ -197,6 +212,14 @@ const projectsSlice = createSlice({
     },
     setCreateSheetOpen(state, action) {
       state.createSheetOpen = action.payload
+    },
+    openEditSheet(state, action) {
+      state.editProject = action.payload
+      state.editSheetOpen = true
+    },
+    closeEditSheet(state) {
+      state.editSheetOpen = false
+      state.editProject = null
     },
   },
   extraReducers: (builder) => {
@@ -271,6 +294,18 @@ const projectsSlice = createSlice({
     })
     builder.addCase(createProject.rejected, (state) => { state.creating = false })
 
+    builder.addCase(updateProject.pending, (state) => { state.updating = true })
+    builder.addCase(updateProject.fulfilled, (state, action) => {
+      state.updating = false
+      if (action.payload.data) {
+        const idx = state.projects.findIndex(p => p.id === action.payload.data.id)
+        if (idx !== -1) state.projects[idx] = action.payload.data
+      }
+      state.editSheetOpen = false
+      state.editProject = null
+    })
+    builder.addCase(updateProject.rejected, (state) => { state.updating = false })
+
     builder.addCase(fetchCategories.fulfilled, (state, action) => {
       state.categories = action.payload
       state.categoriesLoaded = true
@@ -289,6 +324,7 @@ const projectsSlice = createSlice({
 
 export const {
   setStatus, setPage, setCategory, setViewMode, setCreateSheetOpen,
+  openEditSheet, closeEditSheet,
 } = projectsSlice.actions
 
 export default projectsSlice.reducer

@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useApi } from "@hooks/useApi";
 import { useI18n } from "@hooks/useI18n";
+import { useToast } from "@hooks/useToast";
 import { Button } from "@components/ui/button";
 import { Skeleton } from "@components/ui/skeleton";
 import { Progress } from "@components/ui/progress";
@@ -16,7 +17,25 @@ import {
   FileText,
   Activity,
   Users,
+  Plus,
+  X,
+  UserPlus,
+  Loader2,
+  Trash2,
 } from "lucide-react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@components/ui/popover";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@components/ui/command";
 import { Area, AreaChart, XAxis, CartesianGrid } from "recharts";
 import {
   ChartContainer,
@@ -32,10 +51,18 @@ export default function ProjectOverview() {
   const navigate = useNavigate();
   const api = useApi();
   const { __ } = useI18n();
+  const toast = useToast();
 
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
   const [graph, setGraph] = useState([]);
+
+  // Member management
+  const [memberPopover, setMemberPopover] = useState(false);
+  const [memberSearch, setMemberSearch] = useState('');
+  const [memberResults, setMemberResults] = useState([]);
+  const [searchingMembers, setSearchingMembers] = useState(false);
+  const searchTimer = useRef(null);
 
   // Vue 2 fetches: GET projects/{id}?with=overview_graph
   useEffect(() => {
@@ -53,6 +80,48 @@ export default function ProjectOverview() {
       .catch(() => {})
       .finally(() => setLoading(false));
   }, [projectId]);
+
+  const handleMemberSearch = useCallback((value) => {
+    setMemberSearch(value);
+    if (searchTimer.current) clearTimeout(searchTimer.current);
+    if (value.trim().length < 2) { setMemberResults([]); return; }
+    searchTimer.current = setTimeout(async () => {
+      setSearchingMembers(true);
+      try {
+        const res = await api.get('users', { search: value.trim() });
+        const existing = new Set((project?.assignees?.data ?? []).map(u => u.id));
+        setMemberResults((res.data ?? []).filter(u => !existing.has(u.id)));
+      } catch { setMemberResults([]); }
+      setSearchingMembers(false);
+    }, 300);
+  }, [api, project]);
+
+  const handleAddMember = useCallback(async (user) => {
+    setMemberPopover(false);
+    setMemberSearch('');
+    setMemberResults([]);
+    try {
+      await api.put(`projects/${projectId}/members`, { user_id: user.id, role: 'member' });
+      setProject(prev => ({
+        ...prev,
+        assignees: { data: [...(prev.assignees?.data ?? []), user] },
+      }));
+      toast.success(__('Member added'));
+    } catch { toast.error(__('Failed to add member')); }
+  }, [api, projectId, toast, __]);
+
+  const handleRemoveMember = useCallback(async (userId) => {
+    try {
+      await api.del(`projects/${projectId}/members/${userId}`);
+      setProject(prev => ({
+        ...prev,
+        assignees: { data: (prev.assignees?.data ?? []).filter(u => u.id !== userId) },
+      }));
+      toast.success(__('Member removed'));
+    } catch { toast.error(__('Failed to remove member')); }
+  }, [api, projectId, toast, __]);
+
+  useEffect(() => { return () => { if (searchTimer.current) clearTimeout(searchTimer.current); }; }, []);
 
   if (loading) {
     return (
@@ -284,13 +353,52 @@ export default function ProjectOverview() {
 
       {/* Members */}
       <div className="rounded-xl border bg-card p-5">
-        <h3 className="text-sm font-semibold text-pm-text-primary mb-4 flex items-center gap-2">
-          <Users className="h-4 w-4 text-pm-text-muted" />
-          {__("Team Members")}
-          <span className="text-[10px] bg-muted px-1.5 py-0.5 rounded-full tabular-nums font-normal">
-            {assignees.length}
-          </span>
-        </h3>
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-sm font-semibold text-pm-text-primary flex items-center gap-2">
+            <Users className="h-4 w-4 text-pm-text-muted" />
+            {__("Team Members")}
+            <span className="text-[10px] bg-muted px-1.5 py-0.5 rounded-full tabular-nums font-normal">
+              {assignees.length}
+            </span>
+          </h3>
+          <Popover open={memberPopover} onOpenChange={setMemberPopover}>
+            <PopoverTrigger asChild>
+              <Button variant="outline" size="sm" className="h-7 text-xs gap-1.5">
+                <UserPlus className="h-3 w-3" />
+                {__("Add")}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-[280px] p-0" align="end">
+              <Command shouldFilter={false}>
+                <CommandInput placeholder={__("Search users...")} value={memberSearch} onValueChange={handleMemberSearch} />
+                <CommandList>
+                  {searchingMembers && (
+                    <div className="flex items-center justify-center py-4 text-sm text-muted-foreground">
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />{__("Searching...")}
+                    </div>
+                  )}
+                  {!searchingMembers && memberSearch.trim().length >= 2 && memberResults.length === 0 && (
+                    <CommandEmpty>{__("No users found")}</CommandEmpty>
+                  )}
+                  {memberResults.length > 0 && (
+                    <CommandGroup>
+                      {memberResults.map(u => (
+                        <CommandItem key={u.id} value={String(u.id)} onSelect={() => handleAddMember(u)} className="cursor-pointer">
+                          <Avatar className="h-6 w-6 mr-2">
+                            <AvatarImage src={u.avatar_url} />
+                            <AvatarFallback className="text-[9px]">{userInitials(u.display_name)}</AvatarFallback>
+                          </Avatar>
+                          <span className="text-sm truncate flex-1">{u.display_name}</span>
+                          <Plus className="h-3.5 w-3.5 text-muted-foreground" />
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  )}
+                </CommandList>
+              </Command>
+            </PopoverContent>
+          </Popover>
+        </div>
         {assignees.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
             {assignees.map((user) => (
@@ -317,6 +425,14 @@ export default function ProjectOverview() {
                     {user.roles.data[0].title}
                   </span>
                 )}
+                <button
+                  type="button"
+                  className="opacity-0 group-hover:opacity-100 transition-opacity text-pm-text-muted hover:text-destructive shrink-0"
+                  onClick={() => handleRemoveMember(user.id)}
+                  title={__("Remove")}
+                >
+                  <Trash2 className="h-3.5 w-3.5" />
+                </button>
               </div>
             ))}
           </div>

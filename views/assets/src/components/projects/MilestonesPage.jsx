@@ -48,6 +48,7 @@ export default function MilestonesPage() {
   const [description, setDescription] = useState("");
   const [achieveDate, setAchieveDate] = useState("");
   const [creating, setCreating] = useState(false);
+  const [editingMilestone, setEditingMilestone] = useState(null);
 
   // Vue 2: GET projects/{pid}/milestones?with=discussion_boards,task_lists&per_page=20
   const fetchMilestones = useCallback(async () => {
@@ -140,6 +141,70 @@ export default function MilestonesPage() {
     [api, projectId, toast, __],
   );
 
+  // Vue 2: POST projects/{pid}/milestones/{id}/update
+  const handleUpdate = useCallback(
+    async (e) => {
+      e.preventDefault();
+      if (!editingMilestone || !title.trim()) return;
+      setCreating(true);
+      try {
+        await api.post(
+          `projects/${projectId}/milestones/${editingMilestone.id}/update`,
+          {
+            title: title.trim(),
+            description: description.trim(),
+            achieve_date: achieveDate || undefined,
+            project_id: projectId,
+          },
+        );
+        setEditingMilestone(null);
+        setTitle("");
+        setDescription("");
+        setAchieveDate("");
+        setShowForm(false);
+        toast.success(__("Milestone updated"));
+        fetchMilestones();
+      } catch {
+        toast.error(__("Failed to update milestone"));
+      }
+      setCreating(false);
+    },
+    [api, projectId, editingMilestone, title, description, achieveDate, toast, __, fetchMilestones],
+  );
+
+  const handleToggleStatus = useCallback(
+    async (m) => {
+      const isComplete = m.status === "complete" || m.status === 1 || m.status === "1";
+      const newStatus = isComplete ? "incomplete" : "complete";
+      try {
+        await api.post(`projects/${projectId}/milestones/${m.id}/update`, {
+          title: m.title,
+          status: newStatus,
+          project_id: projectId,
+        });
+        setMilestones((prev) =>
+          prev.map((ms) => (ms.id === m.id ? { ...ms, status: newStatus } : ms)),
+        );
+        toast.success(
+          newStatus === "complete"
+            ? __("Milestone marked as complete")
+            : __("Milestone marked as incomplete"),
+        );
+      } catch {
+        toast.error(__("Failed to update status"));
+      }
+    },
+    [api, projectId, toast, __],
+  );
+
+  const startEdit = useCallback((m) => {
+    setEditingMilestone(m);
+    setTitle(m.title || "");
+    setDescription(m.description?.content || m.description || "");
+    setAchieveDate(extractDateStr(m.achieve_date) || "");
+    setShowForm(true);
+  }, []);
+
   // Vue 2 groups: Upcoming, Late, Completed
   const today = new Date().toISOString().split("T")[0];
 
@@ -222,6 +287,14 @@ export default function MilestonesPage() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => startEdit(m)}>
+                <Pencil className="h-3.5 w-3.5 mr-2" />
+                {__("Edit")}
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => handleToggleStatus(m)}>
+                <CheckCircle className="h-3.5 w-3.5 mr-2" />
+                {isComplete ? __("Mark Incomplete") : __("Mark Complete")}
+              </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => isPro && handleTogglePrivacy(m)}
                 disabled={!isPro}
@@ -358,7 +431,7 @@ export default function MilestonesPage() {
         <Button
           size="sm"
           className="gap-1.5"
-          onClick={() => setShowForm((v) => !v)}
+          onClick={() => { setEditingMilestone(null); setTitle(""); setDescription(""); setAchieveDate(""); setShowForm((v) => !v) }}
         >
           <Plus className="h-4 w-4" />
           {__("New Milestone")}
@@ -367,7 +440,7 @@ export default function MilestonesPage() {
 
       {showForm && (
         <form
-          onSubmit={handleCreate}
+          onSubmit={editingMilestone ? handleUpdate : handleCreate}
           className="rounded-xl border bg-card p-4 space-y-3"
         >
           <Input
@@ -401,6 +474,7 @@ export default function MilestonesPage() {
               type="button"
               onClick={() => {
                 setShowForm(false);
+                setEditingMilestone(null);
                 setTitle("");
                 setDescription("");
                 setAchieveDate("");
@@ -413,7 +487,9 @@ export default function MilestonesPage() {
               type="submit"
               disabled={!title.trim() || creating}
             >
-              {creating ? __("Creating...") : __("Create")}
+              {creating
+                ? (editingMilestone ? __("Updating...") : __("Creating..."))
+                : (editingMilestone ? __("Update") : __("Create"))}
             </Button>
           </div>
         </form>

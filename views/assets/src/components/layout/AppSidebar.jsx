@@ -54,6 +54,26 @@ export function AppSidebar() {
   const [expandedProjects, setExpandedProjects] = useState(new Set())
   const [showFavourites, setShowFavourites] = useState(true)
   const [showProjects, setShowProjects] = useState(true)
+  const [sidebarMode, setSidebarMode] = useState(
+    localStorage.getItem('pm-sidebar-mode') ?? 'plugin'
+  )
+
+  // Listen for mode changes from TopBar
+  useEffect(() => {
+    const handler = (e) => setSidebarMode(e.detail)
+    window.addEventListener('pm-sidebar-mode-change', handler)
+    return () => window.removeEventListener('pm-sidebar-mode-change', handler)
+  }, [])
+
+  // Apply mode on mount
+  useEffect(() => {
+    if (sidebarMode === 'wordpress') {
+      document.body.classList.add('pm-mode-wordpress')
+    }
+    return () => {
+      document.body.classList.remove('pm-mode-wordpress')
+    }
+  }, [])
 
   function toggleCollapse() {
     const next = !collapsed
@@ -239,13 +259,21 @@ export function AppSidebar() {
 
   // ── Main render ─────────────────────────────────────
 
-  const sidebarWidth = collapsed ? 56 : 240
+  const sidebarWidth = sidebarMode === 'wordpress' ? 0 : (collapsed ? 56 : 240)
 
   return (
     <aside
-      className="shrink-0 bg-white border-r border-pm-border flex flex-col transition-all duration-200"
+      className={cn(
+        'shrink-0 bg-white border-r border-pm-border flex flex-col transition-all duration-200',
+        sidebarMode === 'wordpress' && 'overflow-hidden'
+      )}
       style={{ width: sidebarWidth, minWidth: sidebarWidth, maxWidth: sidebarWidth }}
     >
+      {sidebarMode === 'wordpress' ? (
+        /* Hidden in WP mode — toggle is in TopBar */
+        null
+      ) : (
+      <>
       {/* Header */}
       <div className={cn('pt-3 pb-2', collapsed ? 'px-2' : 'px-4')}>
         <div className={cn('flex items-center', collapsed ? 'justify-center' : 'justify-between')}>
@@ -422,6 +450,8 @@ export function AppSidebar() {
           <p className="text-[11px] text-pm-text-muted">WP Project Manager</p>
         )}
       </div>
+      </>
+      )}
     </aside>
   )
 }

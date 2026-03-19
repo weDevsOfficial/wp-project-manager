@@ -6,7 +6,7 @@ import { useToast } from '@hooks/useToast'
 import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
 import { Label } from '@components/ui/label'
-import { Radio, ExternalLink } from 'lucide-react'
+import { Radio } from 'lucide-react'
 
 const PusherTab = () => {
   const { __ } = useI18n()
@@ -15,7 +15,6 @@ const PusherTab = () => {
 
   const pusher       = useAppSelector((s) => s.settings.pusher)
   const pusherSaving = useAppSelector((s) => s.settings.pusherSaving)
-  const isPro        = useAppSelector((s) => s.settings.isPro)
 
   const [form, setForm] = useState({ ...pusher })
   const [isDirty, setIsDirty] = useState(false)
@@ -48,27 +47,7 @@ const PusherTab = () => {
             {__('Enable real-time updates via Pusher.', 'wedevs-project-manager')}
           </p>
         </div>
-        {!isPro && (
-          <span className="inline-flex items-center border border-pm-accent text-pm-accent text-xs px-2 py-0.5 rounded font-medium">
-            Pro
-          </span>
-        )}
       </div>
-
-      {!isPro && (
-        <div className="mt-4 rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-700">
-          {__('Real-time notifications via Pusher require a Pro license.', 'wedevs-project-manager')}
-          <a
-            href="https://wedevs.com/wp-project-manager-pro/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-1 font-medium underline ml-1"
-          >
-            {__('Upgrade', 'wedevs-project-manager')}
-            <ExternalLink className="w-3 h-3" />
-          </a>
-        </div>
-      )}
 
       <div className="mt-5 rounded-lg border border-pm-border bg-white">
         <div className="flex items-center justify-between px-5 py-4">

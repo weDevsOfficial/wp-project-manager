@@ -5,6 +5,7 @@ import { toggleTaskInList, removeTaskFromList, addTaskToList } from '@store/task
 import { cn } from '@lib/utils'
 import { useI18n } from '@hooks/useI18n'
 import { useToast } from '@hooks/useToast'
+import { useApi } from '@hooks/useApi'
 import { Button } from '@components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar'
 import {
@@ -28,7 +29,12 @@ import {
   Trash2,
   Flag,
   Check,
+  ArrowRightLeft,
+  GripVertical,
+  Lock as LockIcon,
+  Unlock,
 } from 'lucide-react'
+import MoveTaskDialog from './MoveTaskDialog'
 import {
   isTaskComplete,
   formatPmDate,
@@ -38,12 +44,14 @@ import {
 
 // ── Component ────────────────────────────────────────
 
-export default function TaskRow({ task, projectId, listId }) {
+export default function TaskRow({ task, projectId, listId, draggable: isDraggable, onDragStart, onDragOver, onDrop, onDragEnd, isDragOver }) {
   const dispatch = useAppDispatch()
   const { __ } = useI18n()
   const toast = useToast()
+  const api = useApi()
   const [toggling, setToggling] = useState(false)
   const [hovered, setHovered] = useState(false)
+  const [moveDialogOpen, setMoveDialogOpen] = useState(false)
 
   const isComplete = isTaskComplete(task.status)
   const assignees = Array.isArray(task.assignees)
@@ -93,6 +101,18 @@ export default function TaskRow({ task, projectId, listId }) {
     }
   }, [dispatch, task.id, listId, toast, __])
 
+  const handleTogglePrivacy = useCallback(async () => {
+    const isPrivate = task.meta?.privacy ? 0 : 1
+    try {
+      await api.post(`projects/${projectId}/tasks/privacy/${task.id}`, { is_private: isPrivate })
+      toast.success(isPrivate ? __('Set to private') : __('Set to public'))
+    } catch { toast.error(__('Failed to update privacy')) }
+  }, [api, projectId, task.id, task.meta?.privacy, toast, __])
+
+  const handleMoved = useCallback((taskId, fromListId, toListId) => {
+    dispatch(removeTaskFromList({ listId: fromListId, taskId }))
+  }, [dispatch])
+
   const priorityColor = task.priority >= 3 ? 'text-red-500' : task.priority === 2 ? 'text-amber-500' : task.priority === 1 ? 'text-blue-500' : ''
 
   return (
@@ -101,8 +121,19 @@ export default function TaskRow({ task, projectId, listId }) {
         'group flex items-center gap-2.5 px-3 py-2 border-b border-border/40 last:border-b-0',
         'hover:bg-muted/20 transition-colors',
         isComplete && 'opacity-50',
+        isDragOver && 'border-t-2 border-t-pm-accent',
       )}
+      draggable={isDraggable}
+      onDragStart={onDragStart}
+      onDragOver={onDragOver}
+      onDrop={onDrop}
+      onDragEnd={onDragEnd}
     >
+      {/* Drag handle */}
+      {isDraggable && (
+        <GripVertical className="h-3.5 w-3.5 text-pm-text-muted/30 opacity-0 group-hover:opacity-100 transition-opacity cursor-grab shrink-0" />
+      )}
+
       {/* ClickUp-style circle checkbox */}
       <button
         type="button"
@@ -212,6 +243,17 @@ export default function TaskRow({ task, projectId, listId }) {
               <Copy className="h-3.5 w-3.5 mr-2" />
               {__('Duplicate')}
             </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setMoveDialogOpen(true)}>
+              <ArrowRightLeft className="h-3.5 w-3.5 mr-2" />
+              {__('Move')}
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={handleTogglePrivacy}>
+              {task.meta?.privacy ? (
+                <><Unlock className="h-3.5 w-3.5 mr-2" />{__('Make Public')}</>
+              ) : (
+                <><LockIcon className="h-3.5 w-3.5 mr-2" />{__('Make Private')}</>
+              )}
+            </DropdownMenuItem>
             <DropdownMenuItem
               className="text-destructive focus:text-destructive"
               onClick={handleDelete}
@@ -222,6 +264,15 @@ export default function TaskRow({ task, projectId, listId }) {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
+
+      <MoveTaskDialog
+        open={moveDialogOpen}
+        onOpenChange={setMoveDialogOpen}
+        task={task}
+        projectId={projectId}
+        currentListId={listId}
+        onMoved={handleMoved}
+      />
     </div>
   )
 }

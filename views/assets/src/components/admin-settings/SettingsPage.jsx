@@ -1,9 +1,8 @@
 import React, { useState, lazy, Suspense } from 'react'
 import { useI18n } from '@hooks/useI18n'
-import { useAppSelector } from '@store/index'
 import { cn } from '@lib/utils'
 import {
-  Settings, Mail, Users, ListTodo, Bot, Radio, Sparkles,
+  Settings, Mail, Users, ListTodo, Bot, Radio,
 } from 'lucide-react'
 
 // ── Lazy-loaded tab components ───────────────────────────────
@@ -27,8 +26,6 @@ const tabComponents = {
 // ── Component ────────────────────────────────────────────────
 const SettingsPage = () => {
   const { __ } = useI18n()
-  const isPro  = useAppSelector((s) => s.settings.isPro)
-
   const [activeTab, setActiveTab] = useState('general')
 
   const tabGroups = [
@@ -50,7 +47,7 @@ const SettingsPage = () => {
     {
       title: __('Advanced', 'wedevs-project-manager'),
       tabs: [
-        { key: 'ai-settings', label: __('AI Settings', 'wedevs-project-manager'), icon: Bot, pro: true },
+        { key: 'ai-settings', label: __('AI Settings', 'wedevs-project-manager'), icon: Bot },
       ],
     },
   ]
@@ -98,13 +95,6 @@ const SettingsPage = () => {
                       )}
                     />
                     <span className="flex-1 truncate text-[13px]">{tab.label}</span>
-
-                    {tab.pro && !isPro && (
-                      <span className="inline-flex items-center text-[9px] px-1.5 py-0 h-[16px] leading-none bg-pm-accent/10 text-pm-accent border-0 font-semibold rounded">
-                        <Sparkles className="w-2.5 h-2.5 mr-0.5" />
-                        PRO
-                      </span>
-                    )}
                   </button>
                 )
               })}

@@ -1,9 +1,11 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@store/index";
 import {
   fetchTaskLists,
   createTaskList,
+  reorderLists,
+  reorderListsLocal,
   expandAll,
   collapseAll,
 } from "@store/taskListsSlice";
@@ -18,6 +20,8 @@ import { Skeleton } from "@components/ui/skeleton";
 import { ArrowLeft, Plus, ChevronsUpDown, ListTodo } from "lucide-react";
 import TaskListSection from "./TaskListSection";
 import TaskDetailSheet from "./TaskDetailSheet";
+import TaskFilterBar from "./TaskFilterBar";
+import TaskRow from "./TaskRow";
 
 export default function TaskListsPage() {
   const { projectId: pidParam } = useParams();
@@ -34,6 +38,48 @@ export default function TaskListsPage() {
   const [newListDesc, setNewListDesc] = useState("");
   const [newListPrivate, setNewListPrivate] = useState(false);
   const [creatingList, setCreatingList] = useState(false);
+  const [filteredTasks, setFilteredTasks] = useState(null);
+
+  // ── List drag-drop ────────────────────────────────
+  const dragListIdx = useRef(null);
+  const [dragOverIdx, setDragOverIdx] = useState(null);
+
+  const handleListDragStart = useCallback((idx) => {
+    dragListIdx.current = idx;
+  }, []);
+
+  const handleListDragOver = useCallback((e, idx) => {
+    e.preventDefault();
+    if (dragListIdx.current !== null && dragListIdx.current !== idx) {
+      setDragOverIdx(idx);
+    }
+  }, []);
+
+  const handleListDrop = useCallback((e, toIdx) => {
+    e.preventDefault();
+    const fromIdx = dragListIdx.current;
+    if (fromIdx === null || fromIdx === toIdx) {
+      dragListIdx.current = null;
+      setDragOverIdx(null);
+      return;
+    }
+    // Optimistic reorder
+    dispatch(reorderListsLocal({ fromIndex: fromIdx, toIndex: toIdx }));
+    // Build orders array for API
+    const reordered = [...lists];
+    const [moved] = reordered.splice(fromIdx, 1);
+    reordered.splice(toIdx, 0, moved);
+    const orders = reordered.map((l, i) => ({ id: l.id, index: i }));
+    dispatch(reorderLists({ projectId, orders }));
+
+    dragListIdx.current = null;
+    setDragOverIdx(null);
+  }, [dispatch, lists, projectId]);
+
+  const handleListDragEnd = useCallback(() => {
+    dragListIdx.current = null;
+    setDragOverIdx(null);
+  }, []);
 
   // Fetch task lists on mount
   useEffect(() => {
@@ -235,15 +281,60 @@ export default function TaskListsPage() {
         </form>
       )}
 
+      {/* Filter bar */}
+      {!loading && lists.length > 0 && (
+        <TaskFilterBar
+          projectId={projectId}
+          lists={lists}
+          onFilterResults={(tasks) => setFilteredTasks(tasks)}
+          onClear={() => setFilteredTasks(null)}
+        />
+      )}
+
       {/* Content */}
       {loading ? (
         renderSkeleton()
       ) : lists.length === 0 ? (
         renderEmpty()
+      ) : filteredTasks ? (
+        /* Filtered results — flat task list */
+        <div className="rounded-xl border bg-card overflow-hidden">
+          <div className="px-4 py-2.5 bg-muted/30 border-b">
+            <span className="text-xs font-medium text-pm-text-muted">
+              {filteredTasks.length} {filteredTasks.length === 1 ? __("result") : __("results")}
+            </span>
+          </div>
+          {filteredTasks.length === 0 ? (
+            <div className="py-8 text-center text-sm text-pm-text-muted">
+              {__("No tasks match your filters.")}
+            </div>
+          ) : (
+            <div>
+              {filteredTasks.map((task) => (
+                  <TaskRow
+                    key={task.id}
+                    task={task}
+                    projectId={projectId}
+                    listId={task.task_list_id ?? task.board_id ?? 0}
+                  />
+              ))}
+            </div>
+          )}
+        </div>
       ) : (
         <div className="space-y-4">
-          {lists.map((list) => (
-            <TaskListSection key={list.id} list={list} projectId={projectId} />
+          {lists.map((list, idx) => (
+            <div
+              key={list.id}
+              draggable
+              onDragStart={() => handleListDragStart(idx)}
+              onDragOver={(e) => handleListDragOver(e, idx)}
+              onDrop={(e) => handleListDrop(e, idx)}
+              onDragEnd={handleListDragEnd}
+              className={dragOverIdx === idx ? "ring-2 ring-pm-accent/40 rounded-xl transition-shadow" : ""}
+            >
+              <TaskListSection list={list} projectId={projectId} />
+            </div>
           ))}
         </div>
       )}
