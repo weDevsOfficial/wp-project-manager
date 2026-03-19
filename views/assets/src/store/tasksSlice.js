@@ -19,9 +19,11 @@ export const fetchTask = createAsyncThunk(
   'tasks/fetchTask',
   async ({ projectId, taskId }, { rejectWithValue }) => {
     try {
+      // Vue uses: with: 'boards,comments,activities,project'
+      // Pro transformer auto-adds: labels, time, custom_fields
       const res = await api.get(
         `projects/${projectId}/tasks/${taskId}`,
-        { with: 'assignees,comments,labels' },
+        { with: 'assignees,comments,labels,activities,project' },
       )
       return res.data
     } catch (e) {

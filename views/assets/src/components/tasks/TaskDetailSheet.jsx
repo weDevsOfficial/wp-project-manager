@@ -8,6 +8,7 @@ import { useI18n } from '@hooks/useI18n'
 import { useToast } from '@hooks/useToast'
 import ProGate from '@components/common/ProGate'
 import ProBadge from '@components/common/ProBadge'
+import { usePermissions } from '@hooks/usePermissions'
 import {
   Sheet,
   SheetContent,
@@ -55,6 +56,7 @@ import {
   EyeOff,
   Layers,
   Tag,
+  Repeat,
 } from 'lucide-react'
 import {
   isTaskComplete,
@@ -88,6 +90,188 @@ function parseActivityMessage(activity) {
   })
 
   return msg
+}
+
+// Pro components — lazy-loaded, only downloaded when isPro is true
+const SubtaskList        = React.lazy(() => import('@components/pro/SubtaskList'))
+const TimeTrackerWidget  = React.lazy(() => import('@components/pro/TimeTrackerWidget'))
+const LabelManager       = React.lazy(() => import('@components/pro/LabelManager'))
+const TaskRecurrence     = React.lazy(() => import('@components/pro/TaskRecurrence'))
+const CustomFieldsSection = React.lazy(() => import('@components/pro/CustomFieldsSection'))
+
+/**
+ * ProInlineProperties — Time Tracker, Labels, Recurrence, Custom Fields
+ * Rendered INSIDE the properties grid (above Description), matching Vue layout.
+ */
+function ProInlineProperties({ taskId, projectId, currentTask, dispatch, api }) {
+  const { __ } = useI18n()
+  const { isPro } = usePermissions()
+  const toast = useToast()
+
+  // Vue sends: { title, task_labels: [ids], board_id, assignees: [ids] }
+  const handleLabelToggle = useCallback((labelId) => {
+    if (!taskId || !projectId || !currentTask) return
+    const currentLabels = currentTask?.labels?.data || []
+    const exists = currentLabels.some(l => l.id === labelId)
+    const taskLabelIds = exists
+      ? currentLabels.filter(l => l.id !== labelId).map(l => l.id)
+      : [...currentLabels.map(l => l.id), labelId]
+    const assigneeIds = (currentTask.assignees?.data || currentTask.assignees || []).map(u => u.id)
+    api.post(`projects/${projectId}/tasks/${taskId}/update`, {
+      title: currentTask.title,
+      task_labels: taskLabelIds.length ? taskLabelIds : false,
+      board_id: currentTask.task_list_id,
+      assignees: assigneeIds,
+    }).then(() => dispatch(fetchTask({ projectId, taskId })))
+  }, [taskId, projectId, currentTask, dispatch, api])
+
+  // Vue sends: title, task_id, project_id, recurrent (int), recurrence_data (object)
+  const handleRecurrenceChange = useCallback((recurrence) => {
+    if (!recurrence || !taskId || !projectId || !currentTask) return
+    const typeMap = { day: 4, week: 1, month: 2, year: 3, no: 0 }
+    api.post(`projects/${projectId}/tasks/${taskId}/update`, {
+      title: currentTask.title,
+      task_id: taskId,
+      project_id: projectId,
+      recurrent: typeMap[recurrence.type] || 0,
+      'recurrence_data[repeat]': recurrence.interval || 1,
+      'recurrence_data[weekdays]': recurrence.weekdays || [],
+      'recurrence_data[expire_type]': recurrence.expire_type === 'after' ? 'occurrence' : (recurrence.expire_type || 'n'),
+      'recurrence_data[expire_after_date]': recurrence.expire_date || '',
+      'recurrence_data[expire_after_occurrence]': recurrence.occurrences || 0,
+      'recurrence_data[duration]': recurrence.interval || 1,
+      'recurrence_data[occurrence_attempted]': '0',
+      'recurrence_data[formatted]': '0',
+    }).then(() => {
+      dispatch(fetchTask({ projectId, taskId }))
+      toast.success(__('Recurrence saved'))
+    })
+  }, [taskId, projectId, currentTask, api, dispatch, toast, __])
+
+  if (!isPro) {
+    return (
+      <div className="space-y-1 pt-1">
+        <ProGate feature={__('Time Tracker')}>
+          <div className="flex items-center h-7">
+            <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
+              <Clock className="h-3.5 w-3.5" /><span className="text-xs">{__('Track Time')}</span>
+            </div>
+          </div>
+        </ProGate>
+        <ProGate feature={__('Labels')}>
+          <div className="flex items-center h-7">
+            <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
+              <Tag className="h-3.5 w-3.5" /><span className="text-xs">{__('Label')}</span>
+            </div>
+          </div>
+        </ProGate>
+        <ProGate feature={__('Recurrence')}>
+          <div className="flex items-center h-7">
+            <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
+              <Repeat className="h-3.5 w-3.5" /><span className="text-xs">{__('Recurring')}</span>
+            </div>
+          </div>
+        </ProGate>
+      </div>
+    )
+  }
+
+  return (
+    <React.Suspense fallback={null}>
+      <div className="space-y-1 pt-1">
+        {/* Time Tracker */}
+        <div className="flex items-start min-h-[28px]">
+          <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0 pt-1">
+            <Clock className="h-3.5 w-3.5" /><span className="text-xs">{__('Track Time')}</span>
+          </div>
+          <div className="flex-1">
+            <TimeTrackerWidget projectId={projectId} taskId={taskId} listId={currentTask?.task_list_id} taskTimeData={currentTask?.time} />
+          </div>
+        </div>
+
+        {/* Labels */}
+        <div className="flex items-start min-h-[28px]">
+          <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0 pt-1">
+            <Tag className="h-3.5 w-3.5" /><span className="text-xs">{__('Label')}</span>
+          </div>
+          <div className="flex-1">
+            <LabelManager
+              projectId={projectId}
+              taskLabels={currentTask?.labels?.data || []}
+              onLabelToggle={handleLabelToggle}
+            />
+          </div>
+        </div>
+
+        {/* Recurrence */}
+        <div className="flex items-center min-h-[28px]">
+          <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
+            <Repeat className="h-3.5 w-3.5" /><span className="text-xs">{__('Recurring')}</span>
+          </div>
+          <TaskRecurrence
+            recurrence={(() => {
+              // API returns: recurrent (int 0-4) + meta.recurrence (object)
+              // Component expects: { type, interval, weekdays, expire_type, ... }
+              const r = currentTask?.recurrent
+              const data = currentTask?.meta?.recurrence
+              if (!r || r === 0 || r === '0') return null
+              const typeMap = { 4: 'day', 1: 'week', 2: 'month', 3: 'year' }
+              return {
+                type: typeMap[r] || 'no',
+                interval: data?.repeat || data?.duration || 1,
+                weekdays: data?.weekdays || [],
+                expire_type: data?.expire_type === 'occurrence' ? 'after' : (data?.expire_type || 'never'),
+                expire_date: data?.expire_after_date || '',
+                occurrences: data?.expire_after_occurrence || 0,
+              }
+            })()}
+            onChange={handleRecurrenceChange}
+          />
+        </div>
+
+        {/* Custom Fields */}
+        <div className="pt-1">
+          <CustomFieldsSection
+            projectId={projectId}
+            taskId={taskId}
+            taskCustomFields={currentTask?.custom_fields || {}}
+          />
+        </div>
+      </div>
+    </React.Suspense>
+  )
+}
+
+/**
+ * ProSubtasksSection — Subtasks list below Description.
+ */
+function ProSubtasksSection({ taskId, projectId, currentTask }) {
+  const { __ } = useI18n()
+  const { isPro } = usePermissions()
+
+  if (!isPro) {
+    return (
+      <div className="px-6 py-3">
+        <ProGate feature={__('Subtasks')}>
+          <div className="flex items-center gap-2 text-sm text-pm-text-muted py-1">
+            <Layers className="h-3.5 w-3.5" />
+            <span className="text-xs">{__('Subtasks')}</span>
+          </div>
+        </ProGate>
+      </div>
+    )
+  }
+
+  return (
+    <React.Suspense fallback={null}>
+      <div className="px-6 py-4">
+        <h4 className="text-xs font-semibold uppercase tracking-wider text-pm-text-muted/70 mb-2 flex items-center gap-1.5">
+          <Layers className="h-3.5 w-3.5" />{__('Subtasks')}
+        </h4>
+        <SubtaskList taskId={taskId} projectId={projectId} boardId={currentTask?.task_list_id} />
+      </div>
+    </React.Suspense>
+  )
 }
 
 export default function TaskDetailSheet() {
@@ -554,6 +738,15 @@ export default function TaskDetailSheet() {
                   </div>
                 </div>
               </div>
+
+              {/* ── Pro inline properties (Time Tracker, Labels, Recurrence, Custom Fields) ── */}
+              <ProInlineProperties
+                taskId={currentTask?.id}
+                projectId={currentTask?.project_id}
+                currentTask={currentTask}
+                dispatch={dispatch}
+                api={api}
+              />
             </div>
 
             <Separator />
@@ -590,27 +783,12 @@ export default function TaskDetailSheet() {
 
             <Separator />
 
-            {/* ── Pro Feature Placeholders ── */}
-            <div className="px-6 py-3 space-y-2">
-              <ProGate feature={__('Subtasks')}>
-                <div className="flex items-center gap-2 text-sm text-pm-text-muted py-1">
-                  <Layers className="h-3.5 w-3.5" />
-                  <span className="text-xs">{__('Subtasks')}</span>
-                </div>
-              </ProGate>
-              <ProGate feature={__('Time Tracker')}>
-                <div className="flex items-center gap-2 text-sm text-pm-text-muted py-1">
-                  <Clock className="h-3.5 w-3.5" />
-                  <span className="text-xs">{__('Time Tracker')}</span>
-                </div>
-              </ProGate>
-              <ProGate feature={__('Labels')}>
-                <div className="flex items-center gap-2 text-sm text-pm-text-muted py-1">
-                  <Tag className="h-3.5 w-3.5" />
-                  <span className="text-xs">{__('Labels')}</span>
-                </div>
-              </ProGate>
-            </div>
+            {/* ── Pro: Subtasks (below description, above comments) ── */}
+            <ProSubtasksSection
+              taskId={currentTask?.id}
+              projectId={currentTask?.project_id}
+              currentTask={currentTask}
+            />
 
             <Separator />
 

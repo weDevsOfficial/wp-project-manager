@@ -1,8 +1,10 @@
 import React, { useState, lazy, Suspense } from 'react'
 import { useI18n } from '@hooks/useI18n'
+import { usePermissions } from '@hooks/usePermissions'
 import { cn } from '@lib/utils'
 import {
   Settings, Mail, Users, ListTodo, Bot, Radio,
+  Calendar, Image, FileText,
 } from 'lucide-react'
 
 // ── Lazy-loaded tab components ───────────────────────────────
@@ -11,21 +13,28 @@ const EmailTab      = lazy(() => import('./tabs/EmailTab'))
 const TaskTypesTab  = lazy(() => import('./tabs/TaskTypesTab'))
 const UserMapTab    = lazy(() => import('./tabs/UserMapTab'))
 const PusherTab     = lazy(() => import('./tabs/PusherTab'))
-const AiSettingsTab = lazy(() => import('./tabs/AiSettingsTab'))
+const AiSettingsTab      = lazy(() => import('./tabs/AiSettingsTab'))
+const ProSettingsTab     = lazy(() => import('./tabs/ProSettingsTab'))
+const InvoiceSettingsTab = lazy(() => import('./tabs/InvoiceSettingsTab'))
+const PagesSettingsTab   = lazy(() => import('./tabs/PagesSettingsTab'))
 
 // ── Tab → Component map ──────────────────────────────────────
 const tabComponents = {
-  'general':     GeneralTab,
-  'email':       EmailTab,
-  'task-types':  TaskTypesTab,
-  'usermap':     UserMapTab,
-  'pusher':      PusherTab,
-  'ai-settings': AiSettingsTab,
+  'general':      GeneralTab,
+  'email':        EmailTab,
+  'task-types':   TaskTypesTab,
+  'usermap':      UserMapTab,
+  'pusher':       PusherTab,
+  'ai-settings':  AiSettingsTab,
+  'pro-settings': ProSettingsTab,
+  'invoices':     InvoiceSettingsTab,
+  'pages':        PagesSettingsTab,
 }
 
 // ── Component ────────────────────────────────────────────────
 const SettingsPage = () => {
   const { __ } = useI18n()
+  const { isPro } = usePermissions()
   const [activeTab, setActiveTab] = useState('general')
 
   const tabGroups = [
@@ -50,6 +59,14 @@ const SettingsPage = () => {
         { key: 'ai-settings', label: __('AI Settings', 'wedevs-project-manager'), icon: Bot },
       ],
     },
+    // Pro-only settings tabs (Invoice + Pages — Pro Settings are in General)
+    ...(isPro ? [{
+      title: __('Pro', 'wedevs-project-manager'),
+      tabs: [
+        { key: 'invoices', label: __('Invoices', 'wedevs-project-manager'), icon: FileText },
+        { key: 'pages',    label: __('Pages',    'wedevs-project-manager'), icon: FileText },
+      ],
+    }] : []),
   ]
 
   const ActiveComponent = tabComponents[activeTab]

@@ -137,6 +137,25 @@ export function TopBar() {
       crumbs.push({ label: __('Settings'), path: '/settings' })
     } else if (parts[0] === 'categories') {
       crumbs.push({ label: __('Categories'), path: '/categories' })
+    } else if (parts[0] === 'reports') {
+      crumbs.push({ label: __('Reports'), path: '/reports' })
+      if (parts[1] === 'report-summary') {
+        crumbs.push({ label: __('Summary Report'), path: location.pathname })
+      }
+    } else if (parts[0] === 'calendar') {
+      crumbs.push({ label: __('Calendar'), path: '/calendar' })
+    } else if (parts[0] === 'sprints') {
+      crumbs.push({ label: __('Sprints'), path: '/sprints' })
+    } else if (parts[0] === 'modules') {
+      crumbs.push({ label: __('Modules'), path: '/modules' })
+    } else if (parts[0] === 'premium') {
+      crumbs.push({ label: __('Premium'), path: '/premium' })
+    } else if (parts[0] === 'license') {
+      crumbs.push({ label: __('License'), path: '/license' })
+    } else if (parts[0]) {
+      // Generic fallback: capitalize the route segment
+      const label = parts[0].replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+      crumbs.push({ label, path: `/${parts[0]}` })
     }
 
     return crumbs

@@ -9,18 +9,26 @@ import {
   Settings, ArrowLeft, PanelLeftClose, PanelLeftOpen,
   ChevronDown, Star, ListTodo, Layout, MessageSquare,
   Milestone, FileText, Activity, Plus, Tag, Crown, Layers,
+  Columns3, GitBranch, Receipt, Timer, Shield,
 } from 'lucide-react'
 import { cn } from '@lib/utils'
 
 // ── Project sub-nav items ────────────────────────────
 
-const PROJECT_SUB_NAV = [
+const projectSubNav_FREE = [
   { key: 'task-lists',   label: 'Task Lists',   icon: ListTodo,       path: (pid) => `/projects/${pid}/task-lists` },
   { key: 'overview',     label: 'Overview',      icon: Layout,         path: (pid) => `/projects/${pid}/overview` },
   { key: 'discussions',  label: 'Discussions',   icon: MessageSquare,  path: (pid) => `/projects/${pid}/discussions` },
   { key: 'milestones',   label: 'Milestones',    icon: Milestone,      path: (pid) => `/projects/${pid}/milestones` },
   { key: 'files',        label: 'Files',         icon: FileText,       path: (pid) => `/projects/${pid}/files` },
   { key: 'activities',   label: 'Activities',    icon: Activity,       path: (pid) => `/projects/${pid}/activities` },
+]
+
+const PROJECT_SUB_NAV_PRO = [
+  { key: 'kanban',       label: 'Kanban Board',  icon: Columns3,       path: (pid) => `/projects/${pid}/kanban` },
+  { key: 'gantt',        label: 'Gantt Chart',   icon: GitBranch,      path: (pid) => `/projects/${pid}/gantt` },
+  { key: 'invoices',     label: 'Invoices',      icon: Receipt,        path: (pid) => `/projects/${pid}/invoices` },
+  { key: 'settings',     label: 'Settings',      icon: Settings,       path: (pid) => `/projects/${pid}/settings` },
 ]
 
 // ── Truncated text helper ────────────────────────────
@@ -44,6 +52,13 @@ export function AppSidebar() {
   const location = useLocation()
   const navigate = useNavigate()
   const api      = useApi()
+
+  // Merge free + pro sub-nav items
+  const projectSubNav = useMemo(() => {
+    return isPro
+      ? [...projectSubNav_FREE, ...PROJECT_SUB_NAV_PRO]
+      : projectSubNav_FREE
+  }, [isPro])
 
   // Sidebar keeps its own project list — independent of ProjectsPage Redux filters
   const [sidebarProjects, setSidebarProjects] = useState([])
@@ -107,7 +122,7 @@ export function AppSidebar() {
   const activeSubKey = useMemo(() => {
     if (!activeProjectId) return null
     const path = location.pathname
-    for (const item of PROJECT_SUB_NAV) {
+    for (const item of projectSubNav) {
       if (path.includes(item.key)) return item.key
     }
     return 'task-lists'
@@ -130,10 +145,19 @@ export function AppSidebar() {
     { key: 'my-tasks', label: __('My Tasks'), icon: CheckSquare,  route: '/my-tasks' },
   ], [__])
 
-  const viewNavItems = useMemo(() => [
-    { key: 'calendar', label: __('Calendar'), icon: Calendar,  route: '/calendar', pro: true },
-    { key: 'reports',  label: __('Reports'),  icon: BarChart3, route: '/reports',  pro: true },
-  ], [__])
+  const viewNavItems = useMemo(() => {
+    const items = [
+      { key: 'calendar', label: __('Calendar'), icon: Calendar,  route: '/calendar', pro: !isPro },
+      { key: 'reports',  label: __('Reports'),  icon: BarChart3, route: '/reports',  pro: !isPro },
+    ]
+    if (isPro) {
+      items.push(
+        { key: 'sprints', label: __('Sprints'), icon: Timer,  route: '/sprints' },
+        { key: 'license', label: __('License'), icon: Shield, route: '/license' },
+      )
+    }
+    return items
+  }, [__, isPro])
 
   const activeKey = useMemo(() => {
     const path = location.pathname
@@ -145,6 +169,8 @@ export function AppSidebar() {
     if (path.startsWith('/my-tasks')) return 'my-tasks'
     if (path.startsWith('/calendar')) return 'calendar'
     if (path.startsWith('/reports'))  return 'reports'
+    if (path.startsWith('/sprints'))  return 'sprints'
+    if (path.startsWith('/license'))  return 'license'
     return 'projects'
   }, [location.pathname])
 
@@ -231,7 +257,7 @@ export function AppSidebar() {
         {/* Sub-nav (expanded, not collapsed) */}
         {isExpanded && !collapsed && (
           <div className="ml-5 pl-2.5 border-l border-border/50 mt-0.5 mb-1 space-y-0.5">
-            {PROJECT_SUB_NAV.map(sub => {
+            {projectSubNav.map(sub => {
               const SubIcon = sub.icon
               const subActive = isActive && activeSubKey === sub.key
 

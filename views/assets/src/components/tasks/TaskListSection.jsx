@@ -52,6 +52,8 @@ export default function TaskListSection({ list, projectId }) {
   const [renameTitle, setRenameTitle] = useState('')
   const [loadingMore, setLoadingMore] = useState(false)
   const [loadingMoreComplete, setLoadingMoreComplete] = useState(false)
+  const [allIncompleteLoaded, setAllIncompleteLoaded] = useState(false)
+  const [allCompleteLoaded, setAllCompleteLoaded] = useState(false)
 
   // Search users for assignment
   const handleSearchUsers = useCallback(async (q) => {
@@ -178,6 +180,7 @@ export default function TaskListSection({ list, projectId }) {
     if (!renameTitle.trim()) return
     try {
       await api.post(`projects/${projectId}/task-lists/${list.id}/update`, {
+        id: list.id,
         title: renameTitle.trim(),
       })
       toast.success(__('List renamed'))
@@ -197,8 +200,8 @@ export default function TaskListSection({ list, projectId }) {
   }, [api, projectId, list.id, toast, __])
 
   // ── Load more tasks ──────────────────────────────
-  const hasMoreIncomplete = incompleteTasks.length < totalIncomplete
-  const hasMoreComplete = completeTasks.length < totalComplete
+  const hasMoreIncomplete = !allIncompleteLoaded && incompleteTasks.length < totalIncomplete
+  const hasMoreComplete = !allCompleteLoaded && completeTasks.length < totalComplete
 
   const handleLoadMore = useCallback(async (status) => {
     const isComplete = status === 1
@@ -207,14 +210,16 @@ export default function TaskListSection({ list, projectId }) {
     try {
       const existingIds = (isComplete ? completeTasks : incompleteTasks).map(t => t.id)
       const res = await api.get(`projects/${projectId}/task-lists/${list.id}/more/tasks`, {
-        list_id: list.id,
         task_ids: existingIds,
-        project_id: projectId,
         status,
       })
-      const newTasks = res.data ?? []
+      const newTasks = res?.data?.tasks?.data ?? res?.data ?? []
       if (newTasks.length > 0) {
         newTasks.forEach(t => dispatch(addTaskToList({ listId: list.id, task: t })))
+      } else {
+        // No more tasks to load
+        if (isComplete) setAllCompleteLoaded(true)
+        else setAllIncompleteLoaded(true)
       }
     } catch { toast.error(__('Failed to load more tasks')) }
     if (isComplete) setLoadingMoreComplete(false)

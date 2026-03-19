@@ -127,6 +127,17 @@
   }
 
   /* Switch — override WP checkbox/button styles */
+  /* Radio — override WP admin button styles on Radix radio */
+  button[role="radio"] {
+    box-shadow: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    min-height: auto !important;
+    min-width: auto !important;
+    line-height: 1 !important;
+  }
+
   button[role="switch"] {
     box-shadow: none !important;
     position: relative;
@@ -232,10 +243,10 @@ body.pm-fullscreen-settings.pm-mode-wordpress #wedevs-pm {
      2000  — Dialog/Sheet overlay (backdrop)
      2001  — Dialog/Sheet content
      3000  — Popper content (Select, Dropdown, Popover, Tooltip)
-              — Always on top because popper teleports to <body>
-              — even when triggered from inside a Dialog/Sheet
      4000  — Toast notifications
-     WP admin bar (99999) — hidden in fullscreen mode ──────── */
+     WP admin bar (99999) — hidden in fullscreen mode
+     In WordPress sidebar mode (pm-mode-wordpress):
+       Dialogs/Sheets/Poppers are bumped above 99999 ──────── */
 
 /* ── Radix UI portaled Popper elements (Select, Dropdown, etc.)
      Teleported to <body>. Must be ABOVE Dialog/Sheet content
@@ -293,7 +304,7 @@ body.pm-fullscreen-settings.pm-mode-wordpress #wedevs-pm {
   transform: translate(-50%, -50%) !important;
 }
 
-[role="dialog"][data-state] *,
+[role="dialog"][data-state] *:not(button[role="radio"]),
 [role="dialog"][data-state] *::before,
 [role="dialog"][data-state] *::after {
   box-sizing: border-box;
@@ -302,8 +313,27 @@ body.pm-fullscreen-settings.pm-mode-wordpress #wedevs-pm {
   border-color: hsl(var(--border));
 }
 
-/* ── Toast notifications — highest layer ─────────────────── */
+/* ── Toast notifications — above Radix portals (Sheet z-50, Dialog z-50) ── */
 ol[data-sonner-toaster],
-[role="region"][aria-label*="Notification"] {
-  z-index: 4000 !important;
+[data-sonner-toaster] {
+  z-index: 99999 !important;
+}
+
+/* ── WordPress sidebar mode — bump portaled elements above
+     WP admin bar (z-index 99999) and WP sidebar ─────────── */
+body.pm-mode-wordpress [data-state].fixed {
+  z-index: 100100 !important;
+}
+
+body.pm-mode-wordpress [role="dialog"][data-state] {
+  z-index: 100101 !important;
+}
+
+body.pm-mode-wordpress [data-radix-popper-content-wrapper] {
+  z-index: 100200 !important;
+}
+
+body.pm-mode-wordpress ol[data-sonner-toaster],
+body.pm-mode-wordpress [data-sonner-toaster] {
+  z-index: 100300 !important;
 }

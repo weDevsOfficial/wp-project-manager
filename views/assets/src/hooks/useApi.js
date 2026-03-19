@@ -7,7 +7,9 @@ function request(method, endpoint, data) {
   return new Promise((resolve, reject) => {
     const base = PM_Vars.api_base_url ?? PM_Vars.rest_url ?? ''
     const ns   = PM_Vars.api_namespace ?? 'pm/v2'
-    const url  = `${base}${ns}/${endpoint}`
+    // If endpoint starts with a namespace like pm-pro/v2/ or pm/v2/, don't prepend
+    const hasNs = /^[\w-]+\/v\d+\//.test(endpoint) || endpoint.startsWith('http')
+    const url   = hasNs ? `${base}${endpoint}` : `${base}${ns}/${endpoint}`
 
     const payload = {
       is_admin: PM_Vars.is_admin,
@@ -42,7 +44,8 @@ function uploadFormData(endpoint, formData) {
   return new Promise((resolve, reject) => {
     const base = PM_Vars.api_base_url ?? PM_Vars.rest_url ?? ''
     const ns   = PM_Vars.api_namespace ?? 'pm/v2'
-    const url  = `${base}${ns}/${endpoint}`
+    const hasNs = /^[\w-]+\/v\d+\//.test(endpoint) || endpoint.startsWith('http')
+    const url   = hasNs ? `${base}${endpoint}` : `${base}${ns}/${endpoint}`
 
     formData.append('is_admin', PM_Vars.is_admin)
 

@@ -79,9 +79,10 @@ export const updateTaskList = createAsyncThunk(
     { rejectWithValue },
   ) => {
     try {
+      const id = parseInt(listId)
       const res = await api.post(
-        `projects/${projectId}/task-lists/${listId}/update`,
-        { title, description },
+        `projects/${projectId}/task-lists/${id}/update`,
+        { id, title, description },
       )
       return res.data
     } catch (e) {

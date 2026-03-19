@@ -3,6 +3,7 @@ import { useAppDispatch } from "@store/index";
 import { openTaskSheet } from "@store/tasksSlice";
 import { setProjectId } from "@store/taskListsSlice";
 import { useApi } from "@hooks/useApi";
+import { useProApi } from "@hooks/useProApi";
 import { useI18n } from "@hooks/useI18n";
 import { useToast } from "@hooks/useToast";
 import { usePermissions } from "@hooks/usePermissions";
@@ -48,6 +49,11 @@ import {
   Loader2,
   Filter,
   X,
+  BarChart3,
+  Clock,
+  ChevronLeft,
+  ChevronRight,
+  Calendar as CalendarIcon,
 } from "lucide-react";
 import {
   PieChart,
@@ -58,7 +64,11 @@ import {
   LineChart,
   Line,
   XAxis,
+  YAxis,
   CartesianGrid,
+  BarChart,
+  Bar,
+  Legend,
 } from "recharts";
 import {
   isTaskComplete,
@@ -399,6 +409,8 @@ function NewTaskSheet({ open, onOpenChange, userId, onCreated }) {
 
 // ── Main Page ────────────────────────────────────────
 
+const isPro = typeof PM_Vars !== "undefined" && !!PM_Vars.is_pro;
+
 const TABS = [
   {
     key: "current",
@@ -420,6 +432,7 @@ const TABS = [
   },
   { key: "overview", label: "Overview", icon: PieChartIcon },
   { key: "activities", label: "Activities", icon: Activity },
+  ...(isPro ? [{ key: "reports", label: "Reports", icon: BarChart3, pro: true }] : []),
 ];
 
 const PIE_COLORS = ["#61BD4F", "#EB5A46", "#0090D9"]; // green, red, blue — matches Vue 2
@@ -427,6 +440,7 @@ const PIE_COLORS = ["#61BD4F", "#EB5A46", "#0090D9"]; // green, red, blue — ma
 export default function MyTasksPage() {
   const dispatch = useAppDispatch();
   const api = useApi();
+  const proApi = isPro ? useProApi() : null;
   const { __ } = useI18n();
   const toast = useToast();
   const { canManage } = usePermissions();
@@ -453,6 +467,22 @@ export default function MyTasksPage() {
   // Overview graph
   const [graph, setGraph] = useState([]);
   const [overviewLoading, setOverviewLoading] = useState(false);
+
+  // Overview calendar
+  const [calDate, setCalDate] = useState(new Date());
+  const [calEvents, setCalEvents] = useState([]);
+
+  // Reports tab (Pro)
+  const [reportData, setReportData] = useState(null);
+  const [reportLoading, setReportLoading] = useState(false);
+  const [reportStart, setReportStart] = useState(() => {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-01`;
+  });
+  const [reportEnd, setReportEnd] = useState(() => {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  });
 
   // Activities
   const [activities, setActivities] = useState([]);
@@ -604,6 +634,55 @@ export default function MyTasksPage() {
     } catch {}
     setActLoading(false);
   }, [api, userId, actPage]);
+
+  // Fetch overview calendar events
+  const calYear = calDate.getFullYear();
+  const calMonth = calDate.getMonth();
+  const calDaysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
+  const calFirstDay = new Date(calYear, calMonth, 1).getDay();
+  const calMonths = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  const calDays = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+
+  useEffect(() => {
+    if (!userId || activeTab !== "overview") return;
+    const start = `${calYear}-${String(calMonth + 1).padStart(2, "0")}-01`;
+    const end = `${calYear}-${String(calMonth + 1).padStart(2, "0")}-${calDaysInMonth}`;
+    api
+      .get(`users/${userId}/tasks/calender`, { start, end })
+      .then((res) => setCalEvents(Array.isArray(res?.data ?? res) ? (res?.data ?? res) : []))
+      .catch(() => setCalEvents([]));
+  }, [userId, activeTab, calYear, calMonth]);
+
+  const calEventsByDate = useMemo(() => {
+    const map = {};
+    calEvents.forEach((evt) => {
+      const d = extractDateStr(evt.start_date || evt.due_date || evt.start);
+      if (d) { if (!map[d]) map[d] = []; map[d].push(evt); }
+    });
+    return map;
+  }, [calEvents]);
+
+  // Fetch reports data (Pro)
+  const fetchReport = useCallback(() => {
+    if (!userId || !proApi) return;
+    setReportLoading(true);
+    proApi
+      .get("report-summary", {
+        type: "user",
+        users: userId,
+        startDate: reportStart,
+        endDate: reportEnd,
+        estimated_time: "task_estimation",
+        report_query: "yes",
+      })
+      .then((res) => setReportData(res?.data ?? res))
+      .catch(() => setReportData(null))
+      .finally(() => setReportLoading(false));
+  }, [userId, proApi, reportStart, reportEnd]);
+
+  useEffect(() => {
+    if (activeTab === "reports" && isPro) fetchReport();
+  }, [activeTab, fetchReport]);
 
   // Open task detail sheet
   const handleOpenTask = useCallback(
@@ -768,6 +847,9 @@ export default function MyTasksPage() {
             >
               <Icon className="h-3.5 w-3.5" />
               {__(tab.label)}
+              {tab.pro && (
+                <span className="bg-pm-accent text-white text-[8px] font-bold px-1 py-0.5 rounded leading-none">{__("Pro")}</span>
+              )}
               {count !== undefined && (
                 <span
                   className={`inline-flex items-center justify-center rounded-full px-1.5 min-w-[18px] h-[18px] text-[10px] font-semibold tabular-nums ${
@@ -908,6 +990,285 @@ export default function MyTasksPage() {
                 </div>
               </div>
             )}
+
+            {/* Mini Calendar — user's tasks */}
+            <div className="rounded-xl border bg-card p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-sm font-semibold text-pm-text-primary flex items-center gap-2">
+                  <CalendarIcon className="h-4 w-4" />
+                  {__("Calendar")}
+                </h3>
+                <div className="flex items-center gap-1">
+                  <button type="button" onClick={() => setCalDate(new Date(calYear, calMonth - 1, 1))} className="p-1 rounded hover:bg-muted">
+                    <ChevronLeft className="h-4 w-4 text-pm-text-muted" />
+                  </button>
+                  <span className="text-sm font-medium min-w-[130px] text-center">{calMonths[calMonth]} {calYear}</span>
+                  <button type="button" onClick={() => setCalDate(new Date(calYear, calMonth + 1, 1))} className="p-1 rounded hover:bg-muted">
+                    <ChevronRight className="h-4 w-4 text-pm-text-muted" />
+                  </button>
+                </div>
+              </div>
+              {/* Day headers */}
+              <div className="grid grid-cols-7 mb-1">
+                {calDays.map((d) => (
+                  <div key={d} className="text-center text-[10px] font-semibold uppercase text-pm-text-muted py-1">{d}</div>
+                ))}
+              </div>
+              {/* Calendar grid */}
+              <div className="grid grid-cols-7">
+                {Array.from({ length: calFirstDay }).map((_, i) => (
+                  <div key={`e-${i}`} className="min-h-[60px] border border-transparent" />
+                ))}
+                {Array.from({ length: calDaysInMonth }).map((_, i) => {
+                  const day = i + 1;
+                  const dateStr = `${calYear}-${String(calMonth + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+                  const todayStr = new Date().toISOString().substring(0, 10);
+                  const isToday = dateStr === todayStr;
+                  const dayEvts = calEventsByDate[dateStr] || [];
+                  return (
+                    <div key={day} className={`min-h-[60px] border border-pm-border/20 p-0.5 ${isToday ? "bg-pm-accent/5" : ""}`}>
+                      <span className={`text-[10px] font-medium inline-flex items-center justify-center w-5 h-5 rounded-full ${isToday ? "bg-pm-accent text-white" : "text-pm-text-muted"}`}>{day}</span>
+                      {dayEvts.slice(0, 2).map((evt, j) => {
+                        const complete = evt.status === 1 || evt.status === "complete";
+                        const overdue = !complete && evt.due_date && extractDateStr(evt.due_date) < todayStr;
+                        return (
+                          <div
+                            key={evt.id || j}
+                            className={`text-[8px] px-1 py-0 rounded truncate mt-0.5 cursor-pointer ${complete ? "bg-blue-100 text-blue-700" : overdue ? "bg-red-100 text-red-700" : "bg-green-100 text-green-700"}`}
+                            title={evt.title}
+                          >
+                            {evt.title}
+                          </div>
+                        );
+                      })}
+                      {dayEvts.length > 2 && <div className="text-[7px] text-pm-text-muted px-1">+{dayEvts.length - 2}</div>}
+                    </div>
+                  );
+                })}
+              </div>
+              {/* Legend */}
+              <div className="flex items-center gap-4 mt-3 text-[10px] text-pm-text-muted">
+                <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-green-500" />{__("Current")}</span>
+                <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-red-500" />{__("Outstanding")}</span>
+                <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-blue-500" />{__("Completed")}</span>
+              </div>
+            </div>
+          </div>
+        )
+      ) : activeTab === "reports" ? (
+        /* Reports tab (Pro) */
+        reportLoading ? (
+          <div className="space-y-3">
+            {[1, 2, 3].map((i) => <Skeleton key={i} className="h-32 rounded-xl" />)}
+          </div>
+        ) : !reportData ? (
+          <div className="space-y-4">
+            <div className="flex items-end gap-3">
+              <div className="space-y-1">
+                <label className="text-[10px] font-medium uppercase text-pm-text-muted">{__("Start Date")}</label>
+                <Input type="date" value={reportStart} onChange={(e) => setReportStart(e.target.value)} className="h-8 text-sm w-36" />
+              </div>
+              <div className="space-y-1">
+                <label className="text-[10px] font-medium uppercase text-pm-text-muted">{__("End Date")}</label>
+                <Input type="date" value={reportEnd} onChange={(e) => setReportEnd(e.target.value)} className="h-8 text-sm w-36" />
+              </div>
+              <Button size="sm" className="h-8" onClick={fetchReport}>{__("Run Report")}</Button>
+            </div>
+            <div className="text-center py-12">
+              <BarChart3 className="h-12 w-12 text-pm-text-muted/20 mx-auto mb-3" />
+              <p className="text-sm text-pm-text-muted">{__("Select date range and click Run Report.")}</p>
+            </div>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {/* Date filter */}
+            <div className="flex items-end gap-3">
+              <div className="space-y-1">
+                <label className="text-[10px] font-medium uppercase text-pm-text-muted">{__("Start Date")}</label>
+                <Input type="date" value={reportStart} onChange={(e) => setReportStart(e.target.value)} className="h-8 text-sm w-36" />
+              </div>
+              <div className="space-y-1">
+                <label className="text-[10px] font-medium uppercase text-pm-text-muted">{__("End Date")}</label>
+                <Input type="date" value={reportEnd} onChange={(e) => setReportEnd(e.target.value)} className="h-8 text-sm w-36" />
+              </div>
+              <Button size="sm" className="h-8" onClick={fetchReport}>{__("Run Report")}</Button>
+            </div>
+
+            {/* User Name */}
+            <div className="flex items-center gap-3">
+              <span className="text-sm font-semibold">{__("User Name")}</span>
+              <span className="text-sm bg-muted px-2.5 py-1 rounded">{user?.display_name || "—"}</span>
+            </div>
+
+            {/* Meta badges */}
+            {(() => {
+              const projects = reportData?.projects?.data || {};
+              const allProj = Object.values(projects).flatMap((up) => (up?.data ? (Array.isArray(up.data) ? up.data : Object.values(up.data)) : []));
+              const totalEst = allProj.reduce((t, p) => { const tf = p.estimated_hours_tf || "0:00"; const pts = tf.split(":"); return t + (parseInt(pts[0]) || 0) * 3600 + (parseInt(pts[1]) || 0) * 60; }, 0);
+              const totalWork = allProj.reduce((t, p) => { const tf = p.working_hours_tf || "0:00"; const pts = tf.split(":"); return t + (parseInt(pts[0]) || 0) * 3600 + (parseInt(pts[1]) || 0) * 60; }, 0);
+              const completedTasks = allProj.reduce((t, p) => t + (p.completed_tasks || 0), 0);
+              const totalTasks = allProj.reduce((t, p) => t + (p.assigned_tasks || 0) + (p.assigned_subtasks || 0), 0);
+              const fmtTime = (s) => { const h = Math.floor(s / 3600); const m = Math.floor((s % 3600) / 60); return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`; };
+              const days = (() => { const s = new Date(reportStart); const e = new Date(reportEnd); return Math.max(1, Math.ceil((e - s) / (1000 * 60 * 60 * 24)) + 1); })();
+              const avgPerTask = totalTasks > 0 ? fmtTime(totalEst / totalTasks) : "00:00";
+              const avgPerDay = fmtTime(totalWork / days);
+              const avgTaskPerDay = totalTasks > 0 ? (totalTasks / days).toFixed(1) : "0";
+              return (
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className="inline-flex items-center gap-1.5 bg-teal-600 text-white text-xs font-medium px-2.5 py-1 rounded-full"><Clock className="h-3 w-3" />{__("Total Estimation Hours")} <span className="bg-white/20 px-1.5 rounded">{fmtTime(totalEst)}</span></span>
+                  <span className="inline-flex items-center gap-1.5 bg-blue-600 text-white text-xs font-medium px-2.5 py-1 rounded-full">{__("Completed Task Count")} <span className="bg-white/20 px-1.5 rounded">{completedTasks}</span></span>
+                  <span className="inline-flex items-center gap-1.5 bg-amber-600 text-white text-xs font-medium px-2.5 py-1 rounded-full">{__("Avg. Hour Per-task")} <span className="bg-white/20 px-1.5 rounded">{avgPerTask}</span></span>
+                  <span className="inline-flex items-center gap-1.5 bg-cyan-600 text-white text-xs font-medium px-2.5 py-1 rounded-full">{__("Avg. Work Hour Per-day")} <span className="bg-white/20 px-1.5 rounded">{avgPerDay}</span></span>
+                  <span className="inline-flex items-center gap-1.5 bg-violet-600 text-white text-xs font-medium px-2.5 py-1 rounded-full">{__("Avg. Task Per-day")} <span className="bg-white/20 px-1.5 rounded">{avgTaskPerDay}</span></span>
+                </div>
+              );
+            })()}
+
+            {/* 3 Charts side by side */}
+            {(() => {
+              const projects = reportData?.projects?.data || {};
+              const allProj = Object.values(projects).flatMap((up) => (up?.data ? (Array.isArray(up.data) ? up.data : Object.values(up.data)) : []));
+              const taskTypes = reportData?.task_types_detailed?.data || [];
+              const subtaskTypes = reportData?.subtask_types_detailed?.data || [];
+
+              const projChart = allProj.map((p) => ({
+                name: (p.project?.title || "?").substring(0, 12),
+                estHours: parseFloat(p.estimated_hours || 0),
+                completed: p.completed_tasks || 0,
+              }));
+              const ttChart = (Array.isArray(taskTypes) ? taskTypes : []).map((t) => ({
+                name: (t.type || "?").substring(0, 12),
+                estHours: parseFloat(t.est_hours_decimal || 0),
+                completed: t.completed || 0,
+              }));
+              const stChart = (Array.isArray(subtaskTypes) ? subtaskTypes : []).map((t) => ({
+                name: (t.type || "?").substring(0, 12),
+                estHours: parseFloat(t.est_hours_decimal || 0),
+                completed: t.completed || 0,
+              }));
+
+              const renderChart = (data, title) => (
+                <div className="rounded-xl border bg-card p-4 flex-1 min-w-[250px]">
+                  <h4 className="text-sm font-semibold text-pm-text-primary mb-2">{title}</h4>
+                  {data.length > 0 ? (
+                    <div className="h-[200px]">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <BarChart data={data} margin={{ top: 5, right: 10, bottom: 5, left: 0 }}>
+                          <CartesianGrid strokeDasharray="3 3" vertical={false} />
+                          <XAxis dataKey="name" tick={{ fontSize: 9 }} tickLine={false} axisLine={false} />
+                          <YAxis tick={{ fontSize: 9 }} tickLine={false} axisLine={false} allowDecimals={false} width={25} />
+                          <Tooltip />
+                          <Legend wrapperStyle={{ fontSize: 10 }} />
+                          <Bar dataKey="estHours" name={__("Est. Hours")} fill="#f77726" radius={[3, 3, 0, 0]} maxBarSize={20} />
+                          <Bar dataKey="completed" name={__("Completed")} fill="#4bc0c0" radius={[3, 3, 0, 0]} maxBarSize={20} />
+                        </BarChart>
+                      </ResponsiveContainer>
+                    </div>
+                  ) : (
+                    <div className="h-[200px] flex items-center justify-center text-xs text-pm-text-muted">{__("No data")}</div>
+                  )}
+                </div>
+              );
+
+              return (
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                  {renderChart(projChart, __("All Projects"))}
+                  {renderChart(ttChart, __("Task Types"))}
+                  {renderChart(stChart, __("Subtask Types"))}
+                </div>
+              );
+            })()}
+
+            {/* Tables */}
+            {(() => {
+              const projects = reportData?.projects?.data || {};
+              const allProj = Object.values(projects).flatMap((up) => (up?.data ? (Array.isArray(up.data) ? up.data : Object.values(up.data)) : []));
+              const subtasksAll = Object.values(reportData?.sub_tasks_details?.data || {}).flatMap((ut) => (ut?.data ? (Array.isArray(ut.data) ? ut.data : Object.values(ut.data)) : []));
+              const taskTypes = reportData?.task_types_detailed?.data || [];
+
+              return (
+                <>
+                  {/* Projects table */}
+                  {allProj.length > 0 && (
+                    <div className="rounded-xl border bg-card overflow-hidden">
+                      <h4 className="text-sm font-semibold text-pm-text-primary px-4 py-3 border-b">{__("Projects")}</h4>
+                      <table className="w-full text-sm">
+                        <thead><tr className="border-b text-xs text-pm-text-muted">
+                          <th className="text-left px-4 py-2">{__("Project")}</th>
+                          <th className="text-left px-4 py-2">{__("Assigned")}</th>
+                          <th className="text-left px-4 py-2">{__("Completed")}</th>
+                          <th className="text-left px-4 py-2">{__("Working H")}</th>
+                          <th className="text-left px-4 py-2">{__("Est. H")}</th>
+                        </tr></thead>
+                        <tbody>
+                          {allProj.map((p, i) => (
+                            <tr key={i} className="border-b last:border-b-0">
+                              <td className="px-4 py-2 font-medium">{p.project?.title || "—"}</td>
+                              <td className="px-4 py-2 text-pm-text-muted">{p.assigned_tasks || 0}</td>
+                              <td className="px-4 py-2 text-pm-text-muted">{p.completed_tasks || 0}</td>
+                              <td className="px-4 py-2 text-pm-text-muted">{p.working_hours_tf || "0:00"}</td>
+                              <td className="px-4 py-2 text-pm-text-muted">{p.estimated_hours_tf || "0:00"}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+
+                  {/* Task Type table */}
+                  {Array.isArray(taskTypes) && taskTypes.length > 0 && (
+                    <div className="rounded-xl border bg-card overflow-hidden">
+                      <h4 className="text-sm font-semibold text-pm-text-primary px-4 py-3 border-b">{__("Task type")}</h4>
+                      <table className="w-full text-sm">
+                        <thead><tr className="border-b text-xs text-pm-text-muted">
+                          <th className="text-left px-4 py-2">{__("Task type")}</th>
+                          <th className="text-left px-4 py-2">{__("Task")}</th>
+                          <th className="text-left px-4 py-2">{__("Est. Hour")}</th>
+                        </tr></thead>
+                        <tbody>
+                          {taskTypes.map((t, i) => (
+                            <tr key={i} className="border-b last:border-b-0">
+                              <td className="px-4 py-2 font-medium">{t.type || "—"}</td>
+                              <td className="px-4 py-2 text-pm-text-muted">{t.assigned || 0}</td>
+                              <td className="px-4 py-2 text-pm-text-muted">{t.est_hours || "0:00"}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+
+                  {/* Subtasks table */}
+                  {subtasksAll.length > 0 && (
+                    <div className="rounded-xl border bg-card overflow-hidden">
+                      <h4 className="text-sm font-semibold text-pm-text-primary px-4 py-3 border-b">{__("Subtasks")}</h4>
+                      <table className="w-full text-sm">
+                        <thead><tr className="border-b text-xs text-pm-text-muted">
+                          <th className="text-left px-4 py-2">{__("Completed At")}</th>
+                          <th className="text-left px-4 py-2">{__("Task Title")}</th>
+                          <th className="text-left px-4 py-2">{__("Subtask Title")}</th>
+                          <th className="text-left px-4 py-2">{__("Project")}</th>
+                          <th className="text-left px-4 py-2">{__("Type")}</th>
+                          <th className="text-left px-4 py-2">{__("Hour")}</th>
+                        </tr></thead>
+                        <tbody>
+                          {subtasksAll.map((st, i) => (
+                            <tr key={i} className="border-b last:border-b-0">
+                              <td className="px-4 py-2 text-pm-text-muted">{st.completed_at_display || "N/A"}</td>
+                              <td className="px-4 py-2">{st.parent_task_title || "—"}</td>
+                              <td className="px-4 py-2 font-medium">{st.title}</td>
+                              <td className="px-4 py-2 text-pm-text-muted">{st.project_title || "—"}</td>
+                              <td className="px-4 py-2 text-pm-text-muted">{st.type?.title || "—"}</td>
+                              <td className="px-4 py-2 text-pm-text-muted">{st.estimation_tf || "0:00"}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </>
+              );
+            })()}
           </div>
         )
       ) : activeTab !== "activities" ? (

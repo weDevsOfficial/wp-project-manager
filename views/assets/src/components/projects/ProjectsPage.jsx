@@ -79,6 +79,7 @@ import {
   ClipboardList,
   Sparkles,
   Pencil,
+  Settings,
 } from "lucide-react";
 
 import AiCreateDialog from "./AiCreateDialog";
@@ -143,7 +144,7 @@ export default function ProjectsPage() {
   const navigate = useNavigate();
   const { __ } = useI18n();
   const toast = useToast();
-  const { canCreate } = usePermissions();
+  const { canCreate, isPro } = usePermissions();
 
   const {
     projects,
@@ -373,6 +374,12 @@ export default function ProjectsPage() {
             </>
           )}
         </DropdownMenuItem>
+        {isPro && (
+          <DropdownMenuItem onClick={() => navigate(`/projects/${project.id}/settings`)}>
+            <Settings className="h-4 w-4 mr-2" />
+            {__("Settings")}
+          </DropdownMenuItem>
+        )}
         <DropdownMenuItem
           className="text-destructive focus:text-destructive"
           onClick={() => confirmDelete(project)}

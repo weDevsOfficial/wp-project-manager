@@ -2,15 +2,20 @@ import React, { useState, useCallback } from 'react'
 import { useAppDispatch, useAppSelector } from '@store/index'
 import { saveGeneral } from '@store/settingsSlice'
 import { useI18n } from '@hooks/useI18n'
+import { usePermissions } from '@hooks/usePermissions'
 import { useToast } from '@hooks/useToast'
 import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
 import { Label } from '@components/ui/label'
+import { Switch } from '@components/ui/switch'
+import { Separator } from '@components/ui/separator'
+import { Calendar, Mail as MailIcon, Image, Upload, Trash2 } from 'lucide-react'
 
 const GeneralTab = () => {
   const { __ } = useI18n()
   const toast  = useToast()
   const dispatch = useAppDispatch()
+  const { isPro } = usePermissions()
 
   const general       = useAppSelector((s) => s.settings.general)
   const generalSaving = useAppSelector((s) => s.settings.generalSaving)
@@ -18,15 +23,48 @@ const GeneralTab = () => {
   const [form, setForm] = useState({ ...general })
   const [isDirty, setIsDirty] = useState(false)
 
+  // Pro fields
+  const settings = typeof PM_Vars !== 'undefined' ? PM_Vars.settings : {}
+  const [taskStartField, setTaskStartField] = useState(settings?.task_start_field === 'true' || settings?.task_start_field === true)
+  const [dailyDigest, setDailyDigest] = useState(settings?.daily_digest === 'true' || settings?.daily_digest === true)
+  const [logo, setLogo] = useState(() => {
+    if (typeof PM_Pro_Vars !== 'undefined' && PM_Pro_Vars.pm_logo && !jQuery.isEmptyObject(PM_Pro_Vars.pm_logo)) {
+      return PM_Pro_Vars.pm_logo
+    }
+    return null
+  })
+  const [logoId, setLogoId] = useState(null)
+
   const updateField = useCallback((key, value) => {
     setForm((prev) => ({ ...prev, [key]: value }))
     setIsDirty(true)
   }, [])
 
+  const handleLogoUpload = () => {
+    if (typeof wp === 'undefined' || !wp.media) {
+      toast.error(__('Media uploader not available'))
+      return
+    }
+    const frame = wp.media({ title: __('Select Logo'), button: { text: __('Use this image') }, multiple: false })
+    frame.on('select', () => {
+      const att = frame.state().get('selection').first().toJSON()
+      setLogoId(att.id)
+      setLogo({ thumb: att.url, name: att.filename || att.title })
+      setIsDirty(true)
+    })
+    frame.open()
+  }
+
   const onSubmit = async (e) => {
     e.preventDefault()
     try {
-      await dispatch(saveGeneral(form)).unwrap()
+      const payload = { ...form }
+      if (isPro) {
+        payload.task_start_field = taskStartField
+        payload.daily_digest = dailyDigest
+        if (logoId !== null) payload.logo = logoId
+      }
+      await dispatch(saveGeneral(payload)).unwrap()
       setIsDirty(false)
       toast.success(__('Settings saved', 'wedevs-project-manager'))
     } catch (err) {
@@ -98,6 +136,61 @@ const GeneralTab = () => {
           </React.Fragment>
         ))}
       </div>
+
+      {/* Pro settings — appended to General when Pro is active */}
+      {isPro && (
+        <div className="rounded-lg border border-pm-border bg-white mt-5">
+          <div className="px-5 py-3 bg-muted/30 border-b border-pm-border">
+            <h3 className="text-sm font-semibold text-pm-text-primary">{__('Pro Settings')}</h3>
+          </div>
+
+          <div className="flex items-center justify-between px-5 py-4">
+            <div>
+              <Label className="text-sm font-medium flex items-center gap-2">
+                <Calendar className="h-4 w-4 text-pm-text-muted" />{__('Task Start Date')}
+              </Label>
+              <p className="text-xs text-pm-text-muted mt-0.5">{__('Enable start date field for tasks')}</p>
+            </div>
+            <Switch checked={taskStartField} onCheckedChange={(v) => { setTaskStartField(v); setIsDirty(true) }} />
+          </div>
+
+          <div className="border-t border-pm-border" />
+
+          <div className="flex items-center justify-between px-5 py-4">
+            <div>
+              <Label className="text-sm font-medium flex items-center gap-2">
+                <MailIcon className="h-4 w-4 text-pm-text-muted" />{__('Daily Digest')}
+              </Label>
+              <p className="text-xs text-pm-text-muted mt-0.5">{__('Send daily digest emails to team members')}</p>
+            </div>
+            <Switch checked={dailyDigest} onCheckedChange={(v) => { setDailyDigest(v); setIsDirty(true) }} />
+          </div>
+
+          <div className="border-t border-pm-border" />
+
+          <div className="px-5 py-4">
+            <Label className="text-sm font-medium flex items-center gap-2 mb-1">
+              <Image className="h-4 w-4 text-pm-text-muted" />{__('Company Logo')}
+            </Label>
+            <p className="text-xs text-pm-text-muted mb-3">{__('Used on invoices and reports')}</p>
+            <div className="flex items-center gap-3">
+              {logo?.thumb && (
+                <img src={logo.thumb} alt={logo.name || 'Logo'} className="h-14 w-14 rounded-lg border border-pm-border object-contain bg-white" />
+              )}
+              <div className="flex gap-2">
+                <Button type="button" size="sm" variant="outline" className="h-8 text-xs" onClick={handleLogoUpload}>
+                  <Upload className="h-3 w-3 mr-1" />{logo ? __('Change') : __('Upload')}
+                </Button>
+                {logo && (
+                  <Button type="button" size="sm" variant="outline" className="h-8 text-xs text-destructive" onClick={() => { setLogo(null); setLogoId(null); setIsDirty(true) }}>
+                    <Trash2 className="h-3 w-3 mr-1" />{__('Remove')}
+                  </Button>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="flex items-center gap-3 mt-5">
         <Button type="submit" disabled={!isDirty || generalSaving}>
