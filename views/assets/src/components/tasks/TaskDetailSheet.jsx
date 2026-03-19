@@ -229,14 +229,12 @@ function ProInlineProperties({ taskId, projectId, currentTask, dispatch, api }) 
           />
         </div>
 
-        {/* Custom Fields */}
-        <div className="pt-1">
-          <CustomFieldsSection
-            projectId={projectId}
-            taskId={taskId}
-            taskCustomFields={currentTask?.custom_fields || {}}
-          />
-        </div>
+        {/* Custom Fields — separated from built-in properties */}
+        <CustomFieldsSection
+          projectId={projectId}
+          taskId={taskId}
+          taskCustomFields={currentTask?.custom_fields || {}}
+        />
       </div>
     </React.Suspense>
   )

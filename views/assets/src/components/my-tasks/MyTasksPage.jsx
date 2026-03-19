@@ -54,6 +54,7 @@ import {
   ChevronLeft,
   ChevronRight,
   Calendar as CalendarIcon,
+  Crown,
 } from "lucide-react";
 import {
   PieChart,
@@ -78,6 +79,7 @@ import {
   userInitials,
 } from "@lib/pm-utils";
 import TaskDetailSheet from "@components/tasks/TaskDetailSheet";
+import { useProModal } from "@components/common/ProUpgradeModal";
 
 // ── Task Row ─────────────────────────────────────────
 
@@ -432,7 +434,7 @@ const TABS = [
   },
   { key: "overview", label: "Overview", icon: PieChartIcon },
   { key: "activities", label: "Activities", icon: Activity },
-  ...(isPro ? [{ key: "reports", label: "Reports", icon: BarChart3, pro: true }] : []),
+  { key: "reports", label: "Reports", icon: BarChart3, pro: true },
 ];
 
 const PIE_COLORS = ["#61BD4F", "#EB5A46", "#0090D9"]; // green, red, blue — matches Vue 2
@@ -444,6 +446,7 @@ export default function MyTasksPage() {
   const { __ } = useI18n();
   const toast = useToast();
   const { canManage } = usePermissions();
+  const { setOpen: setProModalOpen } = useProModal();
 
   const [activeTab, setActiveTab] = useState("current");
   const [loading, setLoading] = useState(true);
@@ -838,7 +841,10 @@ export default function MyTasksPage() {
             <button
               key={tab.key}
               type="button"
-              onClick={() => setActiveTab(tab.key)}
+              onClick={() => {
+                if (tab.pro && !isPro) { setProModalOpen(true); return; }
+                setActiveTab(tab.key);
+              }}
               className={`relative inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-all duration-200 ${
                 isActive
                   ? "bg-background text-pm-text-primary shadow-sm"
@@ -847,8 +853,10 @@ export default function MyTasksPage() {
             >
               <Icon className="h-3.5 w-3.5" />
               {__(tab.label)}
-              {tab.pro && (
-                <span className="bg-pm-accent text-white text-[8px] font-bold px-1 py-0.5 rounded leading-none">{__("Pro")}</span>
+              {tab.pro && !isPro && (
+                <span className="inline-flex items-center gap-0.5 bg-pm-accent/10 text-pm-accent text-[9px] font-semibold px-1.5 py-0.5 rounded">
+                  <Crown className="h-2.5 w-2.5" />PRO
+                </span>
               )}
               {count !== undefined && (
                 <span

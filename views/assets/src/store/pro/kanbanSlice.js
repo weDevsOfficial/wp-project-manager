@@ -163,7 +163,7 @@ export const importTasks = createAsyncThunk(
   'kanban/importTasks',
   async ({ projectId, taskIds, boardId }, { rejectWithValue }) => {
     try {
-      const res = await api.post(`projects/${projectId}/kanboard/import-tasks`, { task_ids: taskIds, board_id: boardId })
+      const res = await api.post(`projects/${projectId}/kanboard/import-tasks`, { items: taskIds, board_id: boardId })
       return res.data ?? res
     } catch (e) {
       return rejectWithValue(e.message)
@@ -209,9 +209,19 @@ const kanbanSlice = createSlice({
         const { boardId, tasks } = action.payload
         const board = state.boards.find(b => b.id === boardId)
         if (board) {
-          // tasks might be { data: [...], meta: {...} } or just an array
           board.tasks = tasks
         }
+      })
+      .addCase(removeTaskFromBoard.fulfilled, (state, action) => {
+        const { boardId, taskId } = action.payload
+        const board = state.boards.find(b => b.id === boardId)
+        if (board) {
+          const tasks = Array.isArray(board.tasks) ? board.tasks : (board.tasks?.data ?? [])
+          board.tasks = tasks.filter(t => t.id !== taskId)
+        }
+      })
+      .addCase(addTaskToBoard.fulfilled, (state, action) => {
+        // After adding, we reload all boards anyway, but update optimistically
       })
   },
 })

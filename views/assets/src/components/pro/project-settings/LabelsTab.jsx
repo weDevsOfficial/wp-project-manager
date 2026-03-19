@@ -271,7 +271,8 @@ const LabelsTab = ({ projectId }) => {
               <div className="grid grid-cols-[1fr_1fr_100px] gap-2 px-5 py-3 items-center">
                 <div>
                   <Badge
-                    className="text-white text-xs"
+                    variant="outline"
+                    className="text-white text-xs border-transparent"
                     style={{ backgroundColor: label.color || '#3b82f6' }}
                   >
                     {label.title}

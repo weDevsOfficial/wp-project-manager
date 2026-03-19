@@ -1,5 +1,5 @@
 import React from 'react'
-import { Sparkles } from 'lucide-react'
+import { Crown } from 'lucide-react'
 import { useProModal } from './ProUpgradeModal'
 import { usePermissions } from '@hooks/usePermissions'
 import { useI18n } from '@hooks/useI18n'
@@ -26,7 +26,7 @@ export default function ProBadge({ label, className = '' }) {
       className={`inline-flex items-center gap-0.5 text-[9px] font-semibold px-1.5 py-0.5 rounded bg-pm-accent/10 text-pm-accent hover:bg-pm-accent/20 transition-colors cursor-pointer ${className}`}
       title={__('Available in Pro')}
     >
-      <Sparkles className="h-2.5 w-2.5" />
+      <Crown className="h-2.5 w-2.5" />
       {label || 'PRO'}
     </button>
   )

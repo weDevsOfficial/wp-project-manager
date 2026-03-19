@@ -6,7 +6,9 @@ import { Input } from '@components/ui/input'
 import { Textarea } from '@components/ui/textarea'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/select'
 import { Checkbox } from '@components/ui/checkbox'
+import { Separator } from '@components/ui/separator'
 import { Skeleton } from '@components/ui/skeleton'
+import { TextCursorInput, Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
 function FieldInput({ field, value, onChange }) {
@@ -19,7 +21,7 @@ function FieldInput({ field, value, onChange }) {
           value={value || ''}
           onChange={(e) => onChange(e.target.value)}
           className="h-8 text-sm"
-          placeholder={field.placeholder || ''}
+          placeholder={field.placeholder || field.description || ''}
         />
       )
     case 'textarea':
@@ -29,6 +31,7 @@ function FieldInput({ field, value, onChange }) {
           onChange={(e) => onChange(e.target.value)}
           rows={2}
           className="text-sm"
+          placeholder={field.description || ''}
         />
       )
     case 'number':
@@ -51,25 +54,39 @@ function FieldInput({ field, value, onChange }) {
       )
     case 'checkbox':
       return (
-        <Checkbox
-          checked={value === '1' || value === true}
-          onCheckedChange={(checked) => onChange(checked ? '1' : '0')}
-        />
+        <div className="pt-1">
+          <Checkbox
+            checked={value === '1' || value === true || value === 'true'}
+            onCheckedChange={(checked) => onChange(checked ? '1' : '0')}
+          />
+        </div>
       )
     case 'dropdown':
-    case 'select':
+    case 'select': {
+      const options = Array.isArray(field.options)
+        ? field.options
+        : field.optional_value
+          ? (typeof field.optional_value === 'string'
+            ? field.optional_value.split(',').map(o => o.trim())
+            : Array.isArray(field.optional_value) ? field.optional_value : [])
+          : []
+
       return (
-        <Select value={value || ''} onValueChange={onChange}>
+        <Select value={value || 'none'} onValueChange={(v) => onChange(v === 'none' ? '' : v)}>
           <SelectTrigger className="h-8 text-sm">
-            <SelectValue />
+            <SelectValue placeholder={field.description || ''} />
           </SelectTrigger>
           <SelectContent>
-            {(field.options || []).map((opt, i) => (
-              <SelectItem key={i} value={opt.value || opt}>{opt.label || opt}</SelectItem>
-            ))}
+            <SelectItem value="none">—</SelectItem>
+            {options.map((opt, i) => {
+              const val = typeof opt === 'object' ? (opt.value || opt.label || '') : String(opt)
+              const label = typeof opt === 'object' ? (opt.label || opt.value || '') : String(opt)
+              return <SelectItem key={i} value={val}>{label}</SelectItem>
+            })}
           </SelectContent>
         </Select>
       )
+    }
     default:
       return (
         <Input value={value || ''} onChange={(e) => onChange(e.target.value)} className="h-8 text-sm" />
@@ -82,13 +99,13 @@ export default function CustomFieldsSection({ projectId, taskId, taskCustomField
   const dispatch = useAppDispatch()
   const { fields, loading } = useAppSelector(s => s.customFields)
   const [values, setValues] = useState({})
+  const [savedFields, setSavedFields] = useState({}) // tracks save status per field
 
   useEffect(() => {
     if (projectId && taskId) dispatch(fetchCustomFields({ projectId, taskId }))
   }, [projectId, taskId, dispatch])
 
   useEffect(() => {
-    // Initialize values from API response — each field has .value property
     const initial = {}
     fields.forEach(f => {
       initial[f.id] = f.value?.value ?? taskCustomFields[f.id] ?? ''
@@ -100,18 +117,23 @@ export default function CustomFieldsSection({ projectId, taskId, taskCustomField
 
   const handleChange = useCallback((fieldId, value) => {
     setValues(prev => ({ ...prev, [fieldId]: value }))
-    // Debounce API calls — 500ms delay per field
+    setSavedFields(prev => ({ ...prev, [fieldId]: 'saving' }))
+
     clearTimeout(debounceRef.current[fieldId])
     debounceRef.current[fieldId] = setTimeout(() => {
       dispatch(setCustomFieldValue({ projectId, fieldId, taskId, value }))
+        .then(() => {
+          setSavedFields(prev => ({ ...prev, [fieldId]: 'saved' }))
+          setTimeout(() => setSavedFields(prev => ({ ...prev, [fieldId]: '' })), 1500)
+        })
     }, 500)
   }, [dispatch, projectId, taskId])
 
   if (loading) {
     return (
-      <div className="space-y-2">
+      <div className="space-y-2 pt-2">
+        <Separator className="mb-2" />
         <Skeleton className="h-6 w-24" />
-        <Skeleton className="h-8 w-full" />
         <Skeleton className="h-8 w-full" />
       </div>
     )
@@ -120,17 +142,36 @@ export default function CustomFieldsSection({ projectId, taskId, taskCustomField
   if (fields.length === 0) return null
 
   return (
-    <div className="space-y-3">
-      {fields.map(field => (
-        <div key={field.id} className="flex items-start gap-3">
-          <label className="text-xs font-medium text-pm-text-muted w-28 pt-1.5 shrink-0 truncate" title={field.title}>
-            {field.title}
-          </label>
-          <div className="flex-1">
-            <FieldInput field={field} value={values[field.id]} onChange={(v) => handleChange(field.id, v)} />
+    <div className="pt-2">
+      <Separator className="mb-3" />
+      <div className="space-y-1">
+        {fields.map(field => (
+          <div key={field.id} className="flex items-start min-h-[28px]">
+            <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0 pt-1">
+              <TextCursorInput className="h-3.5 w-3.5" />
+              <span className="text-xs truncate" title={field.title}>{field.title}</span>
+            </div>
+            <div className="flex-1 relative">
+              <FieldInput
+                field={field}
+                value={values[field.id]}
+                onChange={(v) => handleChange(field.id, v)}
+              />
+              {/* Save indicator */}
+              {savedFields[field.id] === 'saved' && (
+                <span className="absolute right-2 top-1/2 -translate-y-1/2 text-green-500">
+                  <Check className="h-3.5 w-3.5" />
+                </span>
+              )}
+              {savedFields[field.id] === 'saving' && (
+                <span className="absolute right-2 top-1/2 -translate-y-1/2">
+                  <span className="w-3 h-3 rounded-full border-2 border-pm-accent border-t-transparent animate-spin inline-block" />
+                </span>
+              )}
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   )
 }
