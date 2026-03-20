@@ -24,12 +24,23 @@ const projectSubNav_FREE = [
   { key: 'activities',   label: 'Activities',    icon: Activity,       path: (pid) => `/projects/${pid}/activities` },
 ]
 
-const PROJECT_SUB_NAV_PRO = [
-  { key: 'kanban',       label: 'Kanban Board',  icon: Columns3,       path: (pid) => `/projects/${pid}/kanban` },
-  { key: 'gantt',        label: 'Gantt Chart',   icon: GitBranch,      path: (pid) => `/projects/${pid}/gantt` },
-  { key: 'invoices',     label: 'Invoices',      icon: Receipt,        path: (pid) => `/projects/${pid}/invoices` },
-  { key: 'settings',     label: 'Settings',      icon: Settings,       path: (pid) => `/projects/${pid}/settings` },
-]
+// Pro sub-nav items — filtered by active modules at runtime
+function getProSubNav() {
+  const modules = (typeof PM_Pro_Vars !== 'undefined' && Array.isArray(PM_Pro_Vars.active_modules))
+    ? PM_Pro_Vars.active_modules.map(m => typeof m === 'string' ? m : (m.path || ''))
+    : []
+  const isActive = (dir) => modules.some(m => m.startsWith(dir + '/') || m === dir)
+
+  const items = []
+  if (isActive('Kanboard'))  items.push({ key: 'kanban',   label: 'Kanban Board', icon: Columns3,  path: (pid) => `/projects/${pid}/kanban` })
+  if (isActive('Gantt'))     items.push({ key: 'gantt',    label: 'Gantt Chart',  icon: GitBranch,  path: (pid) => `/projects/${pid}/gantt` })
+  if (isActive('Invoice'))   items.push({ key: 'invoices', label: 'Invoices',     icon: Receipt,    path: (pid) => `/projects/${pid}/invoices` })
+  // Settings always available when pro is active
+  items.push({ key: 'settings', label: 'Settings', icon: Settings, path: (pid) => `/projects/${pid}/settings` })
+  return items
+}
+
+const PROJECT_SUB_NAV_PRO = getProSubNav()
 
 // ── Truncated text helper ────────────────────────────
 // A flex-1 span that always truncates. Uses a wrapper div

@@ -140,6 +140,57 @@ window.PM = {
     ReactRouterDom,
     ReduxToolkit,
   },
+
+  // Re-export shadcn/ui components so pro doesn't need its own copies
+  ui: {
+    Avatar:       require('@components/ui/avatar'),
+    Badge:        require('@components/ui/badge'),
+    Button:       require('@components/ui/button'),
+    Card:         require('@components/ui/card'),
+    Checkbox:     require('@components/ui/checkbox'),
+    Command:      require('@components/ui/command'),
+    ContextMenu:  require('@components/ui/context-menu'),
+    Dialog:       require('@components/ui/dialog'),
+    DropdownMenu: require('@components/ui/dropdown-menu'),
+    Input:        require('@components/ui/input'),
+    Label:        require('@components/ui/label'),
+    Pagination:   require('@components/ui/pagination'),
+    Popover:      require('@components/ui/popover'),
+    Progress:     require('@components/ui/progress'),
+    RadioGroup:   require('@components/ui/radio-group'),
+    ScrollArea:   require('@components/ui/scroll-area'),
+    Select:       require('@components/ui/select'),
+    Separator:    require('@components/ui/separator'),
+    Sheet:        require('@components/ui/sheet'),
+    Skeleton:     require('@components/ui/skeleton'),
+    Switch:       require('@components/ui/switch'),
+    Table:        require('@components/ui/table'),
+    Tabs:         require('@components/ui/tabs'),
+    Textarea:     require('@components/ui/textarea'),
+    Tooltip:      require('@components/ui/tooltip'),
+  },
+
+  // Re-export Radix UI primitives so pro uses the SAME context instances.
+  // Without this, pro bundles its own Radix and DismissableLayer/FocusScope
+  // contexts conflict with free's Sheet — clicks inside pro popovers get eaten.
+  radix: {
+    Dialog:      require('@radix-ui/react-dialog'),
+    Popover:     require('@radix-ui/react-popover'),
+    DropdownMenu: require('@radix-ui/react-dropdown-menu'),
+    Select:      require('@radix-ui/react-select'),
+    Checkbox:    require('@radix-ui/react-checkbox'),
+    Switch:      require('@radix-ui/react-switch'),
+    RadioGroup:  require('@radix-ui/react-radio-group'),
+    Tabs:        require('@radix-ui/react-tabs'),
+    Tooltip:     require('@radix-ui/react-tooltip'),
+    Avatar:      require('@radix-ui/react-avatar'),
+    Label:       require('@radix-ui/react-label'),
+    Separator:   require('@radix-ui/react-separator'),
+    ScrollArea:  require('@radix-ui/react-scroll-area'),
+    Progress:    require('@radix-ui/react-progress'),
+    Slot:        require('@radix-ui/react-slot'),
+    ContextMenu: require('@radix-ui/react-context-menu'),
+  },
 }
 
 // Mount immediately — no deferred mount needed.
