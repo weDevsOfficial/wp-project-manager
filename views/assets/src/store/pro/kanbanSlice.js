@@ -26,7 +26,7 @@ export const createBoard = createAsyncThunk(
   'kanban/createBoard',
   async ({ projectId, title }, { rejectWithValue }) => {
     try {
-      const res = await api.post(`projects/${projectId}/kanboard`, { title })
+      const res = await api.post(`projects/${projectId}/kanboard`, { board_title: title })
       return res.data ?? res
     } catch (e) {
       return rejectWithValue(e.message)
