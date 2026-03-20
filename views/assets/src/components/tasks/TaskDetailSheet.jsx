@@ -61,6 +61,7 @@ import {
 } from 'lucide-react'
 import {
   isTaskComplete,
+  isPrivate,
   formatPmDate,
   formatPmDateTime,
   formatEstimation,
@@ -91,6 +92,209 @@ function parseActivityMessage(activity) {
   })
 
   return msg
+}
+
+/**
+ * TaskPrivacyField — toggleable when Pro, ProGate upsell when free.
+ * Vue: POST pm/v2/projects/{pid}/tasks/privacy/{tid} with { is_private: 0/1 }
+ */
+function TaskPrivacyField({ task, projectId, dispatch, api }) {
+  const { __ } = useI18n()
+  const { isPro } = usePermissions()
+  const taskPrivate = isPrivate(task?.meta?.privacy)
+  const [toggling, setToggling] = useState(false)
+
+  const handleToggle = useCallback(() => {
+    if (toggling) return
+    setToggling(true)
+    const newPrivacy = taskPrivate ? 0 : 1
+    api.post(`projects/${projectId}/tasks/privacy/${task.id}`, {
+      is_private: newPrivacy,
+    }).then(() => {
+      dispatch(fetchTask({ projectId, taskId: task.id }))
+    }).catch(() => {})
+    .finally(() => setToggling(false))
+  }, [taskPrivate, task, projectId, api, dispatch, toggling])
+
+  if (!isPro) {
+    return (
+      <ProGate feature={__('Privacy')}>
+        <div className="flex items-center h-7">
+          <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
+            <Shield className="h-3.5 w-3.5" /><span className="text-xs">{__('Privacy')}</span>
+          </div>
+        </div>
+      </ProGate>
+    )
+  }
+
+  return (
+    <div className="flex items-center h-7">
+      <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
+        <Shield className="h-3.5 w-3.5" /><span className="text-xs">{__('Privacy')}</span>
+      </div>
+      <button
+        className={cn(
+          'flex items-center gap-1.5 text-xs px-2 py-0.5 rounded transition-colors',
+          taskPrivate
+            ? 'bg-amber-50 text-amber-700 hover:bg-amber-100'
+            : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100',
+          toggling && 'opacity-50'
+        )}
+        onClick={handleToggle}
+        disabled={toggling}
+        title={taskPrivate ? __('Click to make public') : __('Click to make private')}
+      >
+        {taskPrivate ? <EyeOff className="h-3 w-3" /> : <Eye className="h-3 w-3" />}
+        {taskPrivate ? __('Private') : __('Public')}
+      </button>
+    </div>
+  )
+}
+
+/**
+ * TaskEstimationField — Editable estimation with hh:mm popover.
+ *
+ * API response (Helper/Task format):
+ *   estimation            — task's own estimation in SECONDS (DB minutes * 60)
+ *   comparable_estimation — minutes: task est (if type=task) OR sum of subtask est (if type=subtask)
+ *   formated_com_est      — { hour, minute, second, total_second }
+ *
+ * PM_Vars.estimationType:
+ *   'task'    → editable, uses task's own estimation
+ *   'subtask' → read-only, shows comparable_estimation (sum of subtasks)
+ */
+function TaskEstimationField({ task, projectId, dispatch, api }) {
+  const { __ } = useI18n()
+  const [open, setOpen] = useState(false)
+  const [saving, setSaving] = useState(false)
+
+  // Vue conditions from single-task-estimation-form.vue:
+  // 1. hasSubTasks → show read-only "according subtasks" with formated_com_est
+  // 2. isActiveTaskEstimatedTime → only if NO subtasks AND exactly 1 assignee
+  // 3. Otherwise → show "Please Choose one user"
+  //
+  // In Vue, task.sub_tasks comes from the Sub_Tasks module store, not from API.
+  // In React, subtasks are in Redux state.subtasks.subtasks (loaded by pro SubtaskList).
+  // We also check the store for subtasks since API doesn't include them.
+  const assignees = task?.assignees?.data || task?.assignees || []
+  // Subtasks are in pro's Redux slice (state.subtasks.subtasks).
+  // Safe fallback: if pro not loaded or Sub_Tasks module off, returns empty array.
+  const proSubtasks = useAppSelector(s => s.subtasks?.subtasks || [])
+  const hasSubTasks = proSubtasks.length > 0
+  const hasOneAssignee = assignees.length === 1
+  const canEditEstimation = !hasSubTasks && hasOneAssignee
+
+  // Helper/Task format always returns estimation = DB_minutes * 60 (seconds)
+  // fetchTask goes through Helper, so always divide by 60
+  const rawEstimation = parseInt(task?.estimation) || 0
+  const estMinutes = Math.floor(rawEstimation / 60)
+
+  const comparableMinutes = parseInt(task?.comparable_estimation) || 0
+
+  // What to display
+  const displayMinutes = hasSubTasks ? comparableMinutes : estMinutes
+
+  const displayStr = displayMinutes > 0
+    ? `${Math.floor(displayMinutes / 60)} Hour ${displayMinutes % 60} Minute`
+    : __('None')
+
+  // Single input value "hh:mm" — matches Vue's estimation-form
+  const minutesToHHMM = (m) => {
+    const h = Math.floor(m / 60)
+    const mm = m % 60
+    return `${String(h).padStart(2, '0')}:${String(mm).padStart(2, '0')}`
+  }
+
+  const [timeInput, setTimeInput] = useState(() => estMinutes > 0 ? minutesToHHMM(estMinutes) : '')
+
+  useEffect(() => {
+    setTimeInput(estMinutes > 0 ? minutesToHHMM(estMinutes) : '')
+  }, [estMinutes])
+
+  const handleSave = useCallback(() => {
+    setSaving(true)
+    // Vue sends estimation as "hh:mm" STRING — PHP parses it
+    api.post(`projects/${projectId}/tasks/${task.id}/update`, {
+      title: task.title,
+      estimation: timeInput || '00:00',
+    }).then(() => {
+      dispatch(fetchTask({ projectId, taskId: task.id }))
+      setOpen(false)
+    }).catch(() => {})
+    .finally(() => setSaving(false))
+  }, [timeInput, task, projectId, api, dispatch])
+
+  const handleClear = useCallback(() => {
+    setSaving(true)
+    api.post(`projects/${projectId}/tasks/${task.id}/update`, {
+      title: task.title,
+      estimation: '00:00',
+    }).then(() => {
+      dispatch(fetchTask({ projectId, taskId: task.id }))
+      setTimeInput('')
+      setOpen(false)
+    }).catch(() => {})
+    .finally(() => setSaving(false))
+  }, [task, projectId, api, dispatch])
+
+  const handleInputChange = (e) => {
+    let val = e.target.value.replace(/[^0-9:]/g, '')
+    // Only allow one colon
+    const parts = val.split(':')
+    if (parts.length > 2) val = parts[0] + ':' + parts.slice(1).join('')
+    // Limit minutes to 59
+    if (parts.length === 2 && parts[1].length >= 2) {
+      const m = parseInt(parts[1])
+      if (m > 59) val = parts[0] + ':59'
+    }
+    setTimeInput(val)
+  }
+
+  return (
+    <div className="flex items-center h-7">
+      <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
+        <Clock className="h-3.5 w-3.5" /><span className="text-xs">{__('Estimate')}</span>
+      </div>
+      {hasSubTasks ? (
+        // Has subtasks: read-only, shows formated_com_est (according subtasks)
+        <span className="text-xs text-pm-text-primary tabular-nums">
+          {displayStr}
+          <span className="text-[10px] text-pm-text-muted ml-1 italic">({__('according subtasks')})</span>
+        </span>
+      ) : canEditEstimation ? (
+        // No subtasks + exactly 1 assignee: editable via popover
+        <Popover open={open} onOpenChange={setOpen}>
+          <PopoverTrigger asChild>
+            <button className="text-xs text-pm-text-primary tabular-nums hover:text-pm-accent transition-colors">
+              {displayStr}
+            </button>
+          </PopoverTrigger>
+          <PopoverContent className="w-48 p-3" align="start">
+            <label className="text-[10px] font-medium text-pm-text-muted block mb-2">{__('Estimation (hh:mm)')}</label>
+            <input
+              type="text"
+              value={timeInput}
+              onChange={handleInputChange}
+              onKeyDown={(e) => { if (e.key === 'Enter') handleSave() }}
+              className="w-full h-8 text-sm font-mono px-2 rounded border border-pm-border"
+              placeholder="hh:mm"
+              autoFocus
+            />
+            <div className="flex items-center justify-between mt-2">
+              <button className="text-xs text-pm-text-muted hover:text-pm-text" onClick={handleClear} disabled={saving}>{__('Clear')}</button>
+              <button className="text-xs bg-pm-accent text-white px-3 py-1 rounded hover:bg-pm-accent-hover disabled:opacity-50" onClick={handleSave} disabled={saving}>{__('Save')}</button>
+            </div>
+          </PopoverContent>
+        </Popover>
+      ) : (
+        // No subtasks + 0 or 2+ assignees: show "Please Choose one user"
+        <span className="text-xs text-pm-text-muted bg-muted/50 px-2 py-0.5 rounded">
+          {__('Please choose one user')}
+        </span>
+      )}
+    </div>
+  )
 }
 
 /**
@@ -573,41 +777,7 @@ export default function TaskDetailSheet() {
                   )}
                 </div>
 
-                {/* Estimation */}
-                <div className="flex items-center h-7">
-                  <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
-                    <Clock className="h-3.5 w-3.5" /><span className="text-xs">{__('Estimate')}</span>
-                  </div>
-                  <span className="text-xs text-pm-text-primary tabular-nums">
-                    {formatEstimation(currentTask.estimation) || __('None')}
-                  </span>
-                </div>
-
-                {/* Task type */}
-                {currentTask.type && (
-                  <div className="flex items-center h-7">
-                    <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
-                      <ListTodo className="h-3.5 w-3.5" /><span className="text-xs">{__('Type')}</span>
-                    </div>
-                    <span className="text-xs text-pm-text-primary bg-muted/50 px-2 py-0.5 rounded">
-                      {currentTask.type.title}
-                    </span>
-                  </div>
-                )}
-
-                {/* Privacy — Pro only */}
-                <ProGate feature={__('Privacy')}>
-                  <div className="flex items-center h-7">
-                    <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
-                      <Shield className="h-3.5 w-3.5" /><span className="text-xs">{__('Privacy')}</span>
-                    </div>
-                    <span className="text-xs text-pm-text-primary">
-                      {currentTask.meta?.privacy ? __('Private') : __('Public')}
-                    </span>
-                  </div>
-                </ProGate>
-
-                {/* Assignees — interactive */}
+                {/* Assignees — interactive (before Estimation so user is assigned first) */}
                 <div className="flex items-start min-h-[28px]">
                   <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0 pt-1">
                     <Users className="h-3.5 w-3.5" /><span className="text-xs">{__('Assignees')}</span>
@@ -651,6 +821,24 @@ export default function TaskDetailSheet() {
                     )}
                   </div>
                 </div>
+
+                {/* Estimation — editable, depends on assignees */}
+                <TaskEstimationField task={currentTask} projectId={currentTask?.project_id} dispatch={dispatch} api={api} />
+
+                {/* Privacy — toggleable when Pro, ProGate upsell when free */}
+                <TaskPrivacyField task={currentTask} projectId={currentTask?.project_id} dispatch={dispatch} api={api} />
+
+                {/* Task type */}
+                {currentTask.type && (
+                  <div className="flex items-center h-7">
+                    <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
+                      <ListTodo className="h-3.5 w-3.5" /><span className="text-xs">{__('Type')}</span>
+                    </div>
+                    <span className="text-xs text-pm-text-primary bg-muted/50 px-2 py-0.5 rounded">
+                      {currentTask.type.title}
+                    </span>
+                  </div>
+                )}
               </div>
 
               {/* ── Pro inline properties (Time Tracker, Labels, Recurrence, Custom Fields) ── */}

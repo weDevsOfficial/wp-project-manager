@@ -3,6 +3,7 @@ import { useAppDispatch } from '@store/index'
 import { changeTaskStatus, deleteTask, duplicateTask, openTaskSheet } from '@store/tasksSlice'
 import { toggleTaskInList, removeTaskFromList, addTaskToList } from '@store/taskListsSlice'
 import { cn } from '@lib/utils'
+import { isPrivate as checkPrivate } from '@lib/pm-utils'
 import { useI18n } from '@hooks/useI18n'
 import { useToast } from '@hooks/useToast'
 import { useApi } from '@hooks/useApi'
@@ -101,13 +102,15 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
     }
   }, [dispatch, task.id, listId, toast, __])
 
+  const taskIsPrivate = checkPrivate(task.meta?.privacy)
+
   const handleTogglePrivacy = useCallback(async () => {
-    const isPrivate = task.meta?.privacy ? 0 : 1
+    const newPrivacy = taskIsPrivate ? 0 : 1
     try {
-      await api.post(`projects/${projectId}/tasks/privacy/${task.id}`, { is_private: isPrivate })
-      toast.success(isPrivate ? __('Set to private') : __('Set to public'))
+      await api.post(`projects/${projectId}/tasks/privacy/${task.id}`, { is_private: newPrivacy })
+      toast.success(newPrivacy ? __('Set to private') : __('Set to public'))
     } catch { toast.error(__('Failed to update privacy')) }
-  }, [api, projectId, task.id, task.meta?.privacy, toast, __])
+  }, [api, projectId, task.id, taskIsPrivate, toast, __])
 
   const handleMoved = useCallback((taskId, fromListId, toListId) => {
     dispatch(removeTaskFromList({ listId: fromListId, taskId }))
@@ -223,8 +226,17 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
       )}
 
       {/* Privacy */}
-      {task.meta?.privacy === 1 && (
-        <Lock className="h-3 w-3 text-pm-text-muted shrink-0" />
+      {taskIsPrivate && (
+        <TooltipProvider delayDuration={200}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Lock className="h-3 w-3 text-amber-500 shrink-0" />
+            </TooltipTrigger>
+            <TooltipContent side="top" className="text-[10px]">
+              {__('Private task')}
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       )}
 
       {/* Actions */}
@@ -248,7 +260,7 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
               {__('Move')}
             </DropdownMenuItem>
             <DropdownMenuItem onClick={handleTogglePrivacy}>
-              {task.meta?.privacy ? (
+              {taskIsPrivate ? (
                 <><Unlock className="h-3.5 w-3.5 mr-2" />{__('Make Public')}</>
               ) : (
                 <><LockIcon className="h-3.5 w-3.5 mr-2" />{__('Make Private')}</>
