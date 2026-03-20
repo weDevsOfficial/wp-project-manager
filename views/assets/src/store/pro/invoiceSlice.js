@@ -13,10 +13,10 @@ const initialState = {
 
 export const fetchInvoices = createAsyncThunk(
   'invoice/fetchInvoices',
-  async ({ projectId } = {}, { rejectWithValue }) => {
+  async ({ projectId, page = 1, per_page = 20 } = {}, { rejectWithValue }) => {
     try {
       const ep = projectId ? `projects/${projectId}/invoice` : 'invoices'
-      const res = await api.get(ep)
+      const res = await api.get(ep, { per_page, page })
       return res
     } catch (e) {
       return rejectWithValue(e.message)

@@ -9,7 +9,7 @@ import {
   Settings, ArrowLeft, PanelLeftClose, PanelLeftOpen,
   ChevronDown, Star, ListTodo, Layout, MessageSquare,
   Milestone, FileText, Activity, Plus, Tag, Crown, Layers,
-  Columns3, GitBranch, Receipt, Timer, Shield,
+  Columns3, GitBranch, Receipt, Timer, Shield, Wrench,
 } from 'lucide-react'
 import { cn } from '@lib/utils'
 
@@ -457,6 +457,7 @@ export function AppSidebar() {
               )}
               {renderNavItem({ key: 'categories', label: __('Categories'), icon: Tag, route: '/categories', adminOnly: true })}
               {renderNavItem({ key: 'settings', label: __('Settings'), icon: Settings, route: '/settings', adminOnly: true })}
+              {renderNavItem({ key: 'importtools', label: __('Tools'), icon: Wrench, route: '/importtools', adminOnly: true })}
             </div>
           )}
         </nav>

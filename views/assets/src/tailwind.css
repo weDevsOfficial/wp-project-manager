@@ -126,7 +126,7 @@
     border-top: 1px solid hsl(var(--border));
   }
 
-  /* Switch — override WP checkbox/button styles */
+
   /* Radio — override WP admin button styles on Radix radio */
   button[role="radio"] {
     box-shadow: none !important;
@@ -138,6 +138,7 @@
     line-height: 1 !important;
   }
 
+  /* Switch — override WP checkbox/button styles */
   button[role="switch"] {
     box-shadow: none !important;
     position: relative;

@@ -24,6 +24,7 @@ const CategoriesPage  = React.lazy(() => import('@components/projects/Categories
 const PremiumPage     = React.lazy(() => import('@components/projects/PremiumPage'))
 const ModulesPage     = React.lazy(() => import('@components/projects/ModulesPage'))
 const MyTasksPage     = React.lazy(() => import('@components/my-tasks/MyTasksPage'))
+const ToolsPage       = React.lazy(() => import('@components/projects/ToolsPage'))
 
 // ── Free placeholder pages (shown when Pro is NOT active) ──
 const CalendarPlaceholder = React.lazy(() => import('@components/projects/CalendarPage'))
@@ -68,6 +69,7 @@ function App() {
                 <Route path="premium" element={<PremiumPage />} />
                 <Route path="my-tasks" element={<MyTasksPage />} />
                 <Route path="settings" element={<SettingsPage />} />
+                <Route path="importtools" element={<ToolsPage />} />
 
                 {/* ── Calendar & Reports — Pro replaces free placeholder ── */}
                 <Route path="calendar" element={ProCalendarPage ? <ProCalendarPage /> : <CalendarPlaceholder />} />
