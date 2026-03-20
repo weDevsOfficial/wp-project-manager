@@ -8,7 +8,7 @@ import {
   FolderKanban, CheckSquare, Calendar, BarChart3,
   Settings, ArrowLeft, PanelLeftClose, PanelLeftOpen,
   ChevronDown, Star, ListTodo, Layout, MessageSquare,
-  Milestone, FileText, Activity, Plus, Tag, Crown, Layers,
+  Milestone, FileText, Activity, Tag, Crown, Layers,
   Columns3, GitBranch, Receipt, Timer, Shield, Wrench,
 } from 'lucide-react'
 import { cn } from '@lib/utils'
@@ -68,7 +68,6 @@ export function AppSidebar() {
   )
   const [expandedProjects, setExpandedProjects] = useState(new Set())
   const [showFavourites, setShowFavourites] = useState(true)
-  const [showProjects, setShowProjects] = useState(true)
   const [sidebarMode, setSidebarMode] = useState(
     localStorage.getItem('pm-sidebar-mode') ?? 'plugin'
   )
@@ -113,11 +112,34 @@ export function AppSidebar() {
     return match ? parseInt(match[1], 10) : null
   }, [location.pathname])
 
+  // ── Recent Projects — track last 5 visited projects ──
+  const [recentProjectIds, setRecentProjectIds] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('pm-recent-projects') || '[]')
+    } catch { return [] }
+  })
+
   useEffect(() => {
     if (activeProjectId) {
       setExpandedProjects(new Set([activeProjectId]))
+
+      // Add to recent projects (move to front, max 5, no duplicates)
+      setRecentProjectIds(prev => {
+        const updated = [activeProjectId, ...prev.filter(id => id !== activeProjectId)].slice(0, 5)
+        localStorage.setItem('pm-recent-projects', JSON.stringify(updated))
+        return updated
+      })
     }
   }, [activeProjectId])
+
+  const recentProjects = useMemo(() => {
+    if (!recentProjectIds.length || !sidebarProjects.length) return []
+    return recentProjectIds
+      .map(id => sidebarProjects.find(p => p.id === id))
+      .filter(Boolean)
+  }, [recentProjectIds, sidebarProjects])
+
+  const [showRecent, setShowRecent] = useState(true)
 
   const activeSubKey = useMemo(() => {
     if (!activeProjectId) return null
@@ -147,8 +169,9 @@ export function AppSidebar() {
 
   const viewNavItems = useMemo(() => {
     const items = [
-      { key: 'calendar', label: __('Calendar'), icon: Calendar,  route: '/calendar', pro: !isPro },
-      { key: 'reports',  label: __('Reports'),  icon: BarChart3, route: '/reports',  pro: !isPro },
+      { key: 'calendar',  label: __('Calendar'),  icon: Calendar,  route: '/calendar',  pro: !isPro },
+      { key: 'progress',  label: __('Progress'),  icon: Activity,  route: '/progress',  pro: !isPro },
+      { key: 'reports',   label: __('Reports'),   icon: BarChart3, route: '/reports',   pro: !isPro },
     ]
     if (isPro) {
       items.push(
@@ -168,6 +191,7 @@ export function AppSidebar() {
     if (path.startsWith('/projects')) return 'projects'
     if (path.startsWith('/my-tasks')) return 'my-tasks'
     if (path.startsWith('/calendar')) return 'calendar'
+    if (path.startsWith('/progress')) return 'progress'
     if (path.startsWith('/reports'))  return 'reports'
     if (path.startsWith('/sprints'))  return 'sprints'
     if (path.startsWith('/license'))  return 'license'
@@ -360,47 +384,25 @@ export function AppSidebar() {
             </div>
           )}
 
-          {/* Projects tree */}
-          <div className="mb-3">
-            {!collapsed ? (
-              <div className="flex items-center justify-between px-2 mb-1.5">
+          {/* Recent Projects */}
+          {recentProjects.length > 0 && (
+            <div className="mb-3">
+              {!collapsed ? (
                 <button
-                  className="flex items-center gap-1 flex-1 min-w-0"
-                  onClick={() => setShowProjects(v => !v)}
+                  className="w-full flex items-center justify-between px-2 mb-1.5 group/sec"
+                  onClick={() => setShowRecent(v => !v)}
                 >
-                  <ChevronDown className="h-3 w-3 shrink-0 text-pm-text-muted/40 transition-transform duration-200" style={{ transform: showProjects ? 'rotate(0deg)' : 'rotate(-90deg)' }} />
                   <p className="text-[11px] font-medium text-pm-text-muted uppercase tracking-wider">
-                    {__('Projects')}
+                    {__('Recent')}
                   </p>
+                  <ChevronDown className="h-3 w-3 text-pm-text-muted/40 transition-transform duration-200" style={{ transform: showRecent ? 'rotate(0deg)' : 'rotate(-90deg)' }} />
                 </button>
-                <button
-                  className="p-0.5 rounded hover:bg-pm-hover text-pm-text-muted/50 hover:text-pm-accent transition-colors shrink-0"
-                  title={__('New Project')}
-                  onClick={() => navigate('/projects')}
-                >
-                  <Plus className="h-3.5 w-3.5" />
-                </button>
-              </div>
-            ) : (
-              <div className="border-t border-pm-border my-2 mx-1" />
-            )}
-            {showProjects && (
-              <>
-                {sidebarProjects
-                  .filter(p => !p.favourite)
-                  .slice(0, 15)
-                  .map(renderProjectItem)}
-                {sidebarProjects.filter(p => !p.favourite).length > 15 && !collapsed && (
-                  <button
-                    className="w-full text-[11px] text-pm-text-muted hover:text-pm-accent px-2.5 py-1.5 text-left transition-colors"
-                    onClick={() => navigate('/projects')}
-                  >
-                    {__('View all projects...')}
-                  </button>
-                )}
-              </>
-            )}
-          </div>
+              ) : (
+                <div className="border-t border-pm-border my-2 mx-1" />
+              )}
+              {showRecent && recentProjects.map(renderProjectItem)}
+            </div>
+          )}
 
           {/* Views */}
           <div className="mb-3">

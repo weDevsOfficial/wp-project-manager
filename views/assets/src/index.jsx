@@ -2,14 +2,19 @@ import React from 'react'
 import { createRoot } from 'react-dom/client'
 import { createPortal } from 'react-dom'
 import { Provider } from 'react-redux'
+import * as ReactRedux from 'react-redux'
+import * as ReactRouterDom from 'react-router-dom'
+import * as ReduxToolkit from '@reduxjs/toolkit'
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { Toaster } from 'sonner'
-import { store } from '@store/index'
+import { store, injectReducer } from '@store/index'
+import { fetchTask } from '@store/tasksSlice'
 import { AppLayout } from '@components/layout/AppLayout'
 import { ProModalProvider } from '@components/common/ProUpgradeModal'
+import { registerSlot, registerFilter, applyFilters, doAction, addAction, Slot, useFilter, useSlotFills } from '@hooks/useSlot'
+import { registerRoute, useRegisteredRoutes } from '@/router/routeRegistry'
+import { registerNavItem, useRegisteredNavItems } from '@hooks/useNavRegistry'
 import './tailwind.css'
-
-const isPro = typeof PM_Vars !== 'undefined' && !!PM_Vars.is_pro
 
 // ── Free pages (always loaded) ──────────────────────────
 const ProjectsPage    = React.lazy(() => import('@components/projects/ProjectsPage'))
@@ -26,20 +31,59 @@ const ModulesPage     = React.lazy(() => import('@components/projects/ModulesPag
 const MyTasksPage     = React.lazy(() => import('@components/my-tasks/MyTasksPage'))
 const ToolsPage       = React.lazy(() => import('@components/projects/ToolsPage'))
 
-// ── Free placeholder pages (shown when Pro is NOT active) ──
+// ── Free placeholder pages (shown when Pro does NOT replace them) ──
 const CalendarPlaceholder = React.lazy(() => import('@components/projects/CalendarPage'))
 const ReportsPlaceholder  = React.lazy(() => import('@components/projects/ReportsPage'))
+const ProgressPlaceholder = React.lazy(() => import('@components/projects/ProgressPage'))
 
-// ── Pro pages (lazy-loaded, ONLY downloaded when isPro && route matched) ──
-const KanbanBoard     = isPro ? React.lazy(() => import('@components/pro/KanbanBoard'))       : null
-const GanttChart      = isPro ? React.lazy(() => import('@components/pro/GanttChart'))        : null
-const SprintPage      = isPro ? React.lazy(() => import('@components/pro/SprintPage'))        : null
-const InvoicePage     = isPro ? React.lazy(() => import('@components/pro/InvoicePage'))       : null
-const ProReportsPage  = isPro ? React.lazy(() => import('@components/pro/ProReportsPage'))    : null
-const ProCalendarPage = isPro ? React.lazy(() => import('@components/pro/ProCalendarPage'))   : null
-const ProModulesPage  = isPro ? React.lazy(() => import('@components/pro/ProModulesPage'))    : null
-const LicensePage     = isPro ? React.lazy(() => import('@components/pro/LicensePage'))       : null
-const ProjectSettingsPage = isPro ? React.lazy(() => import('@components/pro/project-settings/ProjectSettingsPage')) : null
+// ── Replaceable page wrapper — pro can override via filters ──
+function FilteredPage({ filterName, fallback: Fallback }) {
+  const Override = useFilter(filterName, null)
+  if (Override) {
+    return <React.Suspense fallback={null}>{Override}</React.Suspense>
+  }
+  return <Fallback />
+}
+
+function AppRoutes() {
+  const dynamicRoutes = useRegisteredRoutes()
+
+  return (
+    <Routes>
+      <Route element={<AppLayout />}>
+        {/* ── Free routes ── */}
+        <Route index element={<Navigate to="/projects" replace />} />
+        <Route path="projects" element={<ProjectsPage />} />
+        <Route path="projects/:projectId/task-lists" element={<TaskListsPage />} />
+        <Route path="projects/:projectId/overview" element={<ProjectOverview />} />
+        <Route path="projects/:projectId/discussions" element={<DiscussionsPage />} />
+        <Route path="projects/:projectId/milestones" element={<MilestonesPage />} />
+        <Route path="projects/:projectId/files" element={<FilesPage />} />
+        <Route path="projects/:projectId/activities" element={<ActivitiesPage />} />
+        <Route path="categories" element={<CategoriesPage />} />
+        <Route path="premium" element={<PremiumPage />} />
+        <Route path="my-tasks" element={<MyTasksPage />} />
+        <Route path="settings" element={<SettingsPage />} />
+        <Route path="importtools" element={<ToolsPage />} />
+
+        {/* ── Replaceable pages — Pro overrides via registerFilter() ── */}
+        <Route path="calendar" element={<FilteredPage filterName="route.calendar.element" fallback={CalendarPlaceholder} />} />
+        <Route path="reports/*" element={<FilteredPage filterName="route.reports.element" fallback={ReportsPlaceholder} />} />
+        <Route path="modules" element={<FilteredPage filterName="route.modules.element" fallback={ModulesPage} />} />
+        <Route path="progress" element={<FilteredPage filterName="route.progress.element" fallback={ProgressPlaceholder} />} />
+
+        {/* ── Dynamic routes registered by Pro plugin ── */}
+        {dynamicRoutes.map(({ path, element }, i) => (
+          <Route key={`pro-${i}`} path={path} element={
+            <React.Suspense fallback={null}>{element}</React.Suspense>
+          } />
+        ))}
+
+        <Route path="*" element={<Navigate to="/projects" replace />} />
+      </Route>
+    </Routes>
+  )
+}
 
 function App() {
   return (
@@ -54,39 +98,7 @@ function App() {
               </div>
             }
           >
-            <Routes>
-              <Route element={<AppLayout />}>
-                {/* ── Free routes ── */}
-                <Route index element={<Navigate to="/projects" replace />} />
-                <Route path="projects" element={<ProjectsPage />} />
-                <Route path="projects/:projectId/task-lists" element={<TaskListsPage />} />
-                <Route path="projects/:projectId/overview" element={<ProjectOverview />} />
-                <Route path="projects/:projectId/discussions" element={<DiscussionsPage />} />
-                <Route path="projects/:projectId/milestones" element={<MilestonesPage />} />
-                <Route path="projects/:projectId/files" element={<FilesPage />} />
-                <Route path="projects/:projectId/activities" element={<ActivitiesPage />} />
-                <Route path="categories" element={<CategoriesPage />} />
-                <Route path="premium" element={<PremiumPage />} />
-                <Route path="my-tasks" element={<MyTasksPage />} />
-                <Route path="settings" element={<SettingsPage />} />
-                <Route path="importtools" element={<ToolsPage />} />
-
-                {/* ── Calendar & Reports — Pro replaces free placeholder ── */}
-                <Route path="calendar" element={ProCalendarPage ? <ProCalendarPage /> : <CalendarPlaceholder />} />
-                <Route path="reports/*" element={ProReportsPage ? <ProReportsPage /> : <ReportsPlaceholder />} />
-                <Route path="modules" element={ProModulesPage ? <ProModulesPage /> : <ModulesPage />} />
-
-                {/* ── Pro-only routes (never rendered for free users) ── */}
-                {KanbanBoard && <Route path="projects/:projectId/kanban" element={<KanbanBoard />} />}
-                {GanttChart && <Route path="projects/:projectId/gantt" element={<GanttChart />} />}
-                {InvoicePage && <Route path="projects/:projectId/invoices" element={<InvoicePage />} />}
-                {SprintPage && <Route path="sprints" element={<SprintPage />} />}
-                {LicensePage && <Route path="license" element={<LicensePage />} />}
-                {ProjectSettingsPage && <Route path="projects/:projectId/settings" element={<ProjectSettingsPage />} />}
-
-                <Route path="*" element={<Navigate to="/projects" replace />} />
-              </Route>
-            </Routes>
+            <AppRoutes />
           </React.Suspense>
         </div>
         </ProModalProvider>
@@ -97,6 +109,37 @@ function App() {
       </HashRouter>
     </Provider>
   )
+}
+
+// ── Expose PM extension APIs for Pro plugin ──────────────
+window.PM = {
+  // Extension system (React-reactive + WP hooks bridge)
+  registerSlot,
+  registerFilter,
+  applyFilters,
+  doAction,
+  addAction,
+  Slot,
+  useFilter,
+  useSlotFills,
+  injectReducer,
+  registerRoute,
+  useRegisteredRoutes,
+  registerNavItem,
+  useRegisteredNavItems,
+  store,
+
+  // Free store thunks that pro may need to dispatch
+  thunks: { fetchTask },
+
+  // Re-export libraries so Pro uses the SAME instances (no duplicate bundling)
+  libs: {
+    React,
+    ReactDOM: require('react-dom'),
+    ReactRedux,
+    ReactRouterDom,
+    ReduxToolkit,
+  },
 }
 
 // Mount immediately — no deferred mount needed.

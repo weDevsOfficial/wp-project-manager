@@ -1,7 +1,7 @@
 {
-  "name": "wedevs-project-manager",
+  "name": "pmapi",
   "version": "3.0.3",
-  "description": "WP Project Manager — React 18 + wp-scripts + Tailwind v3 + shadcn/ui + Redux Toolkit",
+  "description": "Front-end package manager for project manager",
   "engines": {
     "node": ">=22.0.0",
     "pnpm": ">=9.0.0"
