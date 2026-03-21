@@ -305,9 +305,10 @@ body.pm-fullscreen-settings.pm-mode-wordpress #wedevs-pm {
   transform: translate(-50%, -50%) !important;
 }
 
-[role="dialog"][data-state] *:not(button[role="radio"]),
-[role="dialog"][data-state] *::before,
-[role="dialog"][data-state] *::after {
+/* Radix dialogs only — exclude WP media modal (.media-modal) */
+[role="dialog"][data-state]:not(.media-modal) *:not(button[role="radio"]),
+[role="dialog"][data-state]:not(.media-modal) *::before,
+[role="dialog"][data-state]:not(.media-modal) *::after {
   box-sizing: border-box;
   border-width: 0;
   border-style: solid;

@@ -702,13 +702,13 @@ export default function TaskDetailSheet() {
               )}
 
               {/* ── Properties grid ── */}
-              <div className="space-y-2">
+              <div className="space-y-0.5 bg-muted/20 rounded-lg p-2">
                 {/* Status */}
-                <div className="flex items-center h-7">
+                <div className="flex items-center h-8 px-2 rounded-md hover:bg-muted/40 transition-colors cursor-pointer" onClick={handleToggleStatus}>
                   <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
                     <Check className="h-3.5 w-3.5" /><span className="text-xs">{__('Status')}</span>
                   </div>
-                  <span className={cn('inline-flex items-center gap-1.5 text-[11px] font-medium px-2 py-0.5 rounded-full',
+                  <span className={cn('inline-flex items-center gap-1.5 text-[11px] font-medium px-2.5 py-0.5 rounded-full',
                     complete ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-600')}>
                     <span className={cn('h-1.5 w-1.5 rounded-full', complete ? 'bg-emerald-500' : 'bg-amber-500')} />
                     {complete ? __('Done') : __('Active')}
@@ -716,17 +716,17 @@ export default function TaskDetailSheet() {
                 </div>
 
                 {/* Priority */}
-                <div className="flex items-center h-7">
+                <div className="flex items-center h-8 px-2 rounded-md hover:bg-muted/40 transition-colors">
                   <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
                     <Flag className="h-3.5 w-3.5" /><span className="text-xs">{__('Priority')}</span>
                   </div>
-                  <span className="text-xs text-pm-text-primary">
+                  <span className={cn('text-xs', currentTask.priority >= 3 ? 'text-red-500 font-medium' : currentTask.priority === 2 ? 'text-orange-500 font-medium' : 'text-pm-text-primary')}>
                     {currentTask.priority >= 3 ? __('Urgent') : currentTask.priority === 2 ? __('High') : currentTask.priority === 1 ? __('Normal') : __('None')}
                   </span>
                 </div>
 
                 {/* Dates — editable */}
-                <div className="flex items-center min-h-[28px]">
+                <div className="flex items-center min-h-[32px] px-2 rounded-md hover:bg-muted/40 transition-colors">
                   <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
                     <Calendar className="h-3.5 w-3.5" /><span className="text-xs">{__('Dates')}</span>
                   </div>
@@ -778,8 +778,8 @@ export default function TaskDetailSheet() {
                 </div>
 
                 {/* Assignees — interactive (before Estimation so user is assigned first) */}
-                <div className="flex items-start min-h-[28px]">
-                  <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0 pt-1">
+                <div className="flex items-start min-h-[32px] px-2 rounded-md hover:bg-muted/40 transition-colors py-1">
+                  <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0 pt-0.5">
                     <Users className="h-3.5 w-3.5" /><span className="text-xs">{__('Assignees')}</span>
                   </div>
                   <div className="flex-1">

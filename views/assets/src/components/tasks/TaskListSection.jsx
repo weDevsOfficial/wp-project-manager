@@ -9,7 +9,7 @@ import { useI18n } from '@hooks/useI18n'
 import { useToast } from '@hooks/useToast'
 import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
-import { Textarea } from '@components/ui/textarea'
+import RichTextEditor from '@components/common/RichTextEditor'
 import { Progress } from '@components/ui/progress'
 import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar'
 import { userInitials } from '@lib/pm-utils'
@@ -28,7 +28,7 @@ import {
 } from 'lucide-react'
 import TaskRow from './TaskRow'
 
-export default function TaskListSection({ list, projectId }) {
+export default function TaskListSection({ list, projectId, showLabels }) {
   const dispatch = useAppDispatch()
   const { __ } = useI18n()
   const toast = useToast()
@@ -312,6 +312,7 @@ export default function TaskListSection({ list, projectId }) {
                 task={task}
                 projectId={projectId}
                 listId={list.id}
+                showLabels={showLabels}
                 draggable
                 onDragStart={() => handleTaskDragStart(idx)}
                 onDragOver={(e) => handleTaskDragOver(e, idx)}
@@ -383,11 +384,11 @@ export default function TaskListSection({ list, projectId }) {
               {expandedForm && (
                 <div className="pl-[26px] space-y-2">
                   {/* Description */}
-                  <Textarea
-                    value={newDesc}
-                    onChange={e => setNewDesc(e.target.value)}
+                  <RichTextEditor
+                    content={newDesc}
+                    onChange={setNewDesc}
                     placeholder={__('Description...')}
-                    className="text-sm min-h-[60px] resize-y"
+                    minHeight="60px"
                   />
 
                   {/* Due date */}
@@ -502,7 +503,7 @@ export default function TaskListSection({ list, projectId }) {
               {showCompleted && (
                 <>
                   {completeTasks.map(task => (
-                    <TaskRow key={task.id} task={task} projectId={projectId} listId={list.id} />
+                    <TaskRow key={task.id} task={task} projectId={projectId} listId={list.id} showLabels={showLabels} />
                   ))}
                   {hasMoreComplete && (
                     <div className="px-4 py-1.5">

@@ -316,7 +316,7 @@ export default function ActivitiesPage() {
               { label: __('Created'), value: stats.creates, color: 'text-blue-500' },
               { label: __('Updated'), value: stats.updates, color: 'text-amber-500' },
             ].map(stat => (
-              <div key={stat.label} className="bg-muted/30 rounded-lg px-4 py-3 text-center border">
+              <div key={stat.label} className="bg-white rounded-lg px-4 py-3 text-center border">
                 <div className={`text-2xl font-bold ${stat.color}`}>{stat.value}</div>
                 <div className="text-[11px] text-pm-text-muted mt-0.5">{stat.label}</div>
               </div>

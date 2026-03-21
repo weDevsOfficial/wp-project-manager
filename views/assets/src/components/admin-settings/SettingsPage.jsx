@@ -16,7 +16,6 @@ const TaskTypesTab  = lazy(() => import('./tabs/TaskTypesTab'))
 const UserMapTab    = lazy(() => import('./tabs/UserMapTab'))
 const PusherTab     = lazy(() => import('./tabs/PusherTab'))
 const AiSettingsTab      = lazy(() => import('./tabs/AiSettingsTab'))
-const ProSettingsTab     = lazy(() => import('./tabs/ProSettingsTab'))
 const InvoiceSettingsTab = lazy(() => import('./tabs/InvoiceSettingsTab'))
 const PagesSettingsTab   = lazy(() => import('./tabs/PagesSettingsTab'))
 
@@ -28,7 +27,6 @@ const tabComponents = {
   'usermap':      UserMapTab,
   'pusher':       PusherTab,
   'ai-settings':  AiSettingsTab,
-  'pro-settings': ProSettingsTab,
   'invoices':     InvoiceSettingsTab,
   'pages':        PagesSettingsTab,
 }
@@ -94,7 +92,6 @@ const SettingsPage = () => {
 
   // Pro tabs that show for everyone (with preview for free users)
   const proTabs = [
-    { key: 'pro-settings', label: __('Pro Settings', 'wedevs-project-manager'), icon: Settings, pro: true },
     { key: 'invoices',     label: __('Invoices', 'wedevs-project-manager'),     icon: FileText, pro: true },
     { key: 'pages',        label: __('Pages', 'wedevs-project-manager'),        icon: FileText, pro: true },
   ]

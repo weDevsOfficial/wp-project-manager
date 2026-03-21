@@ -13,7 +13,7 @@ import { useToast } from '@hooks/useToast'
 
 import { Button } from '@components/ui/button'
 import { Label } from '@components/ui/label'
-import { Textarea } from '@components/ui/textarea'
+import RichTextEditor from '@components/common/RichTextEditor'
 import { Checkbox } from '@components/ui/checkbox'
 import { Separator } from '@components/ui/separator'
 import {
@@ -313,12 +313,11 @@ export function ProjectCreateSheet() {
           {/* Description */}
           <div className="space-y-2">
             <Label htmlFor="project-description">{__('Description')}</Label>
-            <Textarea
-              id="project-description"
+            <RichTextEditor
+              content={description}
+              onChange={setDescription}
               placeholder={__('Describe your project...')}
-              rows={4}
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
+              minHeight="100px"
             />
           </div>
 

@@ -5,7 +5,7 @@ import { useI18n } from "@hooks/useI18n";
 import { useToast } from "@hooks/useToast";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
-import { Textarea } from "@components/ui/textarea";
+import RichTextEditor from "@components/common/RichTextEditor";
 import { Skeleton } from "@components/ui/skeleton";
 import { Progress } from "@components/ui/progress";
 import {
@@ -450,11 +450,11 @@ export default function MilestonesPage() {
             placeholder={__("Milestone title")}
             className="h-9 text-sm"
           />
-          <Textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
+          <RichTextEditor
+            content={description}
+            onChange={setDescription}
             placeholder={__("Description...")}
-            className="text-sm min-h-[60px] resize-y"
+            minHeight="60px"
           />
           <div className="flex items-center gap-2">
             <label className="text-xs text-pm-text-muted w-20 shrink-0">

@@ -6,8 +6,9 @@ import * as ReactRedux from 'react-redux'
 import * as ReactRouterDom from 'react-router-dom'
 import * as ReduxToolkit from '@reduxjs/toolkit'
 import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
-import { Toaster } from 'sonner'
-import { store, injectReducer } from '@store/index'
+import * as SonnerLib from 'sonner'
+const { Toaster } = SonnerLib
+import { store, injectReducer, resetProjectState } from '@store/index'
 import { fetchTask } from '@store/tasksSlice'
 import { AppLayout } from '@components/layout/AppLayout'
 import { ProModalProvider } from '@components/common/ProUpgradeModal'
@@ -129,8 +130,9 @@ window.PM = {
   useRegisteredNavItems,
   store,
 
-  // Free store thunks that pro may need to dispatch
+  // Free store actions/thunks that pro may need to dispatch
   thunks: { fetchTask },
+  actions: { resetProjectState },
 
   // Re-export libraries so Pro uses the SAME instances (no duplicate bundling)
   libs: {
@@ -139,6 +141,7 @@ window.PM = {
     ReactRedux,
     ReactRouterDom,
     ReduxToolkit,
+    Sonner: SonnerLib,
   },
 
   // Re-export shadcn/ui components so pro doesn't need its own copies
@@ -168,6 +171,7 @@ window.PM = {
     Tabs:         require('@components/ui/tabs'),
     Textarea:     require('@components/ui/textarea'),
     Tooltip:      require('@components/ui/tooltip'),
+    RichTextEditor: require('@components/common/RichTextEditor'),
   },
 
   // Re-export Radix UI primitives so pro uses the SAME context instances.

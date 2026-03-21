@@ -45,7 +45,7 @@ import {
 
 // ── Component ────────────────────────────────────────
 
-export default function TaskRow({ task, projectId, listId, draggable: isDraggable, onDragStart, onDragOver, onDrop, onDragEnd, isDragOver }) {
+export default function TaskRow({ task, projectId, listId, draggable: isDraggable, onDragStart, onDragOver, onDrop, onDragEnd, isDragOver, showLabels }) {
   const dispatch = useAppDispatch()
   const { __ } = useI18n()
   const toast = useToast()
@@ -173,6 +173,21 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
       >
         {task.title}
       </button>
+
+      {/* Labels (when "Show Labels in Tasks List" is enabled in project settings) */}
+      {showLabels && task.labels?.data?.length > 0 && (
+        <div className="flex items-center gap-1 shrink-0">
+          {task.labels.data.map(label => (
+            <span
+              key={label.id}
+              className="text-[9px] font-medium text-white uppercase leading-none px-1.5 py-0.5 rounded"
+              style={{ backgroundColor: label.color || '#3b82f6' }}
+            >
+              {label.title}
+            </span>
+          ))}
+        </div>
+      )}
 
       {/* Priority flag */}
       {task.priority > 0 && (

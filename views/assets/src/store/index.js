@@ -5,6 +5,9 @@ import projectsReducer from './projectsSlice'
 import taskListsReducer from './taskListsSlice'
 import tasksReducer from './tasksSlice'
 
+// Re-export for convenience
+export { resetProjectState } from './actions'
+
 // Static (free) reducers — always present
 const staticReducers = {
   settings:  settingsReducer,

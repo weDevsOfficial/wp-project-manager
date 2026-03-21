@@ -5,7 +5,7 @@ import { useI18n } from "@hooks/useI18n";
 import { useToast } from "@hooks/useToast";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
-import { Textarea } from "@components/ui/textarea";
+import RichTextEditor from "@components/common/RichTextEditor";
 import { Skeleton } from "@components/ui/skeleton";
 import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
 import { Separator } from "@components/ui/separator";
@@ -286,7 +286,7 @@ export default function DiscussionsPage() {
   const handleUpdateDiscussion = useCallback(async () => {
     if (!editDiscTitle.trim() || !editingDiscId) return;
     try {
-      await api.post(`projects/${projectId}/discussion-boards/${editingDiscId}/update`, {
+      await api.post(`projects/${projectId}/discussion-boards/${editingDiscId}`, {
         title: editDiscTitle.trim(),
         description: editDiscDesc.trim(),
         project_id: projectId,
@@ -319,7 +319,7 @@ export default function DiscussionsPage() {
   const handleUpdateComment = useCallback(async () => {
     if (!editCommentText.trim() || !editingCommentId) return;
     try {
-      await api.post(`projects/${projectId}/comments/${editingCommentId}/update`, {
+      await api.post(`projects/${projectId}/comments/${editingCommentId}`, {
         content: editCommentText.trim(),
         project_id: projectId,
       });
@@ -394,11 +394,11 @@ export default function DiscussionsPage() {
             placeholder={__("Enter message title")}
             className="h-9 text-sm"
           />
-          <Textarea
-            value={formDesc}
-            onChange={(e) => setFormDesc(e.target.value)}
+          <RichTextEditor
+            content={formDesc}
+            onChange={setFormDesc}
             placeholder={__("Description...")}
-            className="text-sm min-h-[80px] resize-y"
+            minHeight="80px"
           />
 
           {/* Milestone dropdown */}
@@ -485,10 +485,10 @@ export default function DiscussionsPage() {
                           onChange={(e) => setEditDiscTitle(e.target.value)}
                           className="h-8 text-sm"
                         />
-                        <Textarea
-                          value={editDiscDesc}
-                          onChange={(e) => setEditDiscDesc(e.target.value)}
-                          className="text-sm min-h-[50px] resize-y"
+                        <RichTextEditor
+                          content={editDiscDesc}
+                          onChange={setEditDiscDesc}
+                          minHeight="50px"
                         />
                         <div className="flex gap-1.5">
                           <Button size="sm" className="h-7 gap-1 text-xs" onClick={handleUpdateDiscussion} disabled={!editDiscTitle.trim()}>
@@ -663,18 +663,11 @@ export default function DiscussionsPage() {
                                 </div>
                                 {editingCommentId === c.id ? (
                                   <div className="space-y-1.5">
-                                    <Textarea
-                                      autoFocus
-                                      value={editCommentText}
-                                      onChange={(e) => setEditCommentText(e.target.value)}
-                                      className="text-xs min-h-[36px] resize-y"
-                                      onKeyDown={(e) => {
-                                        if (e.key === "Enter" && !e.shiftKey) {
-                                          e.preventDefault();
-                                          handleUpdateComment();
-                                        }
-                                        if (e.key === "Escape") cancelEditComment();
-                                      }}
+                                    <RichTextEditor
+                                      content={editCommentText}
+                                      onChange={setEditCommentText}
+                                      autofocus
+                                      minHeight="36px"
                                     />
                                     <div className="flex gap-1">
                                       <Button size="sm" className="h-6 text-[10px] gap-1 px-2" onClick={handleUpdateComment} disabled={!editCommentText.trim()}>
@@ -704,17 +697,12 @@ export default function DiscussionsPage() {
                       {/* Add comment */}
                       <div className="space-y-2">
                         <div className="flex gap-2">
-                          <Textarea
-                            value={newComment}
-                            onChange={(e) => setNewComment(e.target.value)}
+                          <RichTextEditor
+                            content={newComment}
+                            onChange={setNewComment}
                             placeholder={__("Write a comment...")}
-                            className="text-sm min-h-[40px] resize-y flex-1"
-                            onKeyDown={(e) => {
-                              if (e.key === "Enter" && !e.shiftKey) {
-                                e.preventDefault();
-                                handleAddComment();
-                              }
-                            }}
+                            minHeight="40px"
+                            className="flex-1"
                           />
                           <Button
                             size="icon"

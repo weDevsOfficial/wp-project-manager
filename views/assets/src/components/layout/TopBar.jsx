@@ -107,11 +107,11 @@ export function TopBar() {
     setSearching(false)
   }, [api])
 
-  // Fetch notifications when sheet opens
+  // Fetch recent activities as notifications (no dedicated notifications endpoint)
   useEffect(() => {
     if (!notifOpen) return
     setNotifLoading(true)
-    api.get('notifications', { per_page: 20 })
+    api.get('activities', { per_page: 20 })
       .then(res => {
         setNotifications(res.data ?? [])
         setUnreadCount(0)
@@ -213,7 +213,7 @@ export function TopBar() {
         {/* What's New (Headway) */}
         <button
           type="button"
-          id="pm-headway-badge"
+          id="pm-headway-icon"
           className="relative p-1 rounded hover:bg-muted text-pm-text-muted hover:text-pm-accent transition-colors shrink-0"
           title={__("What's New")}
           onClick={() => {
@@ -330,14 +330,14 @@ export function TopBar() {
 
       {/* ── Notifications Sheet ── */}
       <Sheet open={notifOpen} onOpenChange={setNotifOpen}>
-        <SheetContent side="right" className="w-full sm:max-w-[380px] p-0 gap-0">
-          <SheetHeader className="px-5 py-4 border-b">
+        <SheetContent side="right" className="w-full sm:max-w-[380px] p-0 gap-0 flex flex-col h-full">
+          <SheetHeader className="px-5 py-4 border-b shrink-0">
             <SheetTitle className="flex items-center gap-2">
               <Bell className="h-4 w-4 text-pm-accent" />
               {__('Notifications')}
             </SheetTitle>
           </SheetHeader>
-          <div className="flex-1 overflow-y-auto">
+          <div className="flex-1 overflow-y-auto min-h-0">
             {notifLoading ? (
               <div className="flex items-center justify-center py-12 text-sm text-pm-text-muted">
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />{__('Loading...')}
@@ -349,14 +349,32 @@ export function TopBar() {
               </div>
             ) : (
               <div className="divide-y divide-border">
-                {notifications.map(n => (
-                  <div key={n.id} className="px-5 py-3 hover:bg-muted/20 transition-colors">
-                    <p className="text-xs text-pm-text-primary">{n.message || n.description || n.title || __('Notification')}</p>
-                    {n.created_at && (
-                      <p className="text-[10px] text-pm-text-muted mt-1">{formatPmDateTime(n.created_at)}</p>
-                    )}
-                  </div>
-                ))}
+                {notifications.map(n => {
+                  // Parse {{placeholder}} templates in activity messages
+                  let msg = n.message || n.description || n.title || __('Activity')
+                  if (typeof msg === 'string') {
+                    msg = msg.replace(/\{\{([^}]+)\}\}/g, (_, path) => {
+                      const val = path.split('.').reduce((o, k) => o?.[k], n)
+                      return val != null ? String(val) : ''
+                    })
+                  }
+                  const actor = n.actor?.data || n.actor || {}
+                  return (
+                    <div key={n.id} className="flex items-start gap-3 px-5 py-3 hover:bg-muted/20 transition-colors">
+                      {actor.avatar_url ? (
+                        <img src={actor.avatar_url} className="h-7 w-7 rounded-full shrink-0 mt-0.5" alt="" />
+                      ) : (
+                        <div className="h-7 w-7 rounded-full bg-muted shrink-0 mt-0.5" />
+                      )}
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs text-pm-text-primary leading-relaxed">{msg}</p>
+                        {n.created_at && (
+                          <p className="text-[10px] text-pm-text-muted mt-0.5">{formatPmDateTime(n.created_at)}</p>
+                        )}
+                      </div>
+                    </div>
+                  )
+                })}
               </div>
             )}
           </div>

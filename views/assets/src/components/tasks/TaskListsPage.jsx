@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "@store/index";
+import { useAppDispatch, useAppSelector, resetProjectState } from "@store/index";
 import {
   fetchTaskLists,
   createTaskList,
@@ -12,9 +12,10 @@ import {
 import { cn } from "@lib/utils";
 import { useI18n } from "@hooks/useI18n";
 import { useToast } from "@hooks/useToast";
+import { useApi } from "@hooks/useApi";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
-import { Textarea } from "@components/ui/textarea";
+import RichTextEditor from "@components/common/RichTextEditor";
 import { Checkbox } from "@components/ui/checkbox";
 import { Skeleton } from "@components/ui/skeleton";
 import { ArrowLeft, Plus, ChevronsUpDown, ListTodo } from "lucide-react";
@@ -30,6 +31,7 @@ export default function TaskListsPage() {
   const dispatch = useAppDispatch();
   const { __ } = useI18n();
   const toast = useToast();
+  const api = useApi();
 
   const { lists, loading, expandedIds } = useAppSelector((s) => s.taskLists);
 
@@ -39,6 +41,7 @@ export default function TaskListsPage() {
   const [newListPrivate, setNewListPrivate] = useState(false);
   const [creatingList, setCreatingList] = useState(false);
   const [filteredTasks, setFilteredTasks] = useState(null);
+  const [showLabels, setShowLabels] = useState(false);
 
   // ── List drag-drop ────────────────────────────────
   const dragListIdx = useRef(null);
@@ -81,12 +84,23 @@ export default function TaskListsPage() {
     setDragOverIdx(null);
   }, []);
 
-  // Fetch task lists on mount
+  // Fetch task lists on mount / project change
   useEffect(() => {
+    setShowLabels(false) // Reset for new project
+    dispatch(resetProjectState()) // Clear all project-scoped Redux state
     if (projectId) {
       dispatch(fetchTaskLists(projectId));
+      // Check label_in_tasks_list project setting
+      api.get(`projects/${projectId}`, { with: 'labels' })
+        .then(res => {
+          const proj = res?.data ?? res
+          if (proj?.label_in_tasks_list) {
+            setShowLabels(proj.label_in_tasks_list.status === 'enable' || proj.label_in_tasks_list.status === true)
+          }
+        })
+        .catch(() => {})
     }
-  }, [dispatch, projectId]);
+  }, [dispatch, projectId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleCreateList = useCallback(
     async (e) => {
@@ -237,11 +251,11 @@ export default function TaskListsPage() {
               }
             }}
           />
-          <Textarea
-            value={newListDesc}
-            onChange={(e) => setNewListDesc(e.target.value)}
+          <RichTextEditor
+            content={newListDesc}
+            onChange={setNewListDesc}
             placeholder={__("Task list details")}
-            className="text-sm min-h-[80px] resize-y"
+            minHeight="80px"
           />
           <div className="flex items-center gap-2">
             <Checkbox
@@ -316,6 +330,7 @@ export default function TaskListsPage() {
                     task={task}
                     projectId={projectId}
                     listId={task.task_list_id ?? task.board_id ?? 0}
+                    showLabels={showLabels}
                   />
               ))}
             </div>
@@ -333,7 +348,7 @@ export default function TaskListsPage() {
               onDragEnd={handleListDragEnd}
               className={dragOverIdx === idx ? "ring-2 ring-pm-accent/40 rounded-xl transition-shadow" : ""}
             >
-              <TaskListSection list={list} projectId={projectId} />
+              <TaskListSection list={list} projectId={projectId} showLabels={showLabels} />
             </div>
           ))}
         </div>

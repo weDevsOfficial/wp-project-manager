@@ -101,25 +101,43 @@ export default function ProjectOverview() {
     setMemberSearch('');
     setMemberResults([]);
     try {
-      await api.put(`projects/${projectId}/members`, { user_id: user.id, role: 'member' });
+      const existing = project?.assignees?.data ?? [];
+      const allAssignees = [...existing, user].map(u => ({
+        user_id: u.id,
+        role_id: u.roles?.data?.[0]?.id ?? 2,
+      }));
+      await api.post(`projects/${projectId}/update`, {
+        title: project.title,
+        status: project.status,
+        assignees: allAssignees,
+      });
       setProject(prev => ({
         ...prev,
         assignees: { data: [...(prev.assignees?.data ?? []), user] },
       }));
       toast.success(__('Member added'));
     } catch { toast.error(__('Failed to add member')); }
-  }, [api, projectId, toast, __]);
+  }, [api, projectId, project, toast, __]);
 
   const handleRemoveMember = useCallback(async (userId) => {
     try {
-      await api.del(`projects/${projectId}/members/${userId}`);
+      const remaining = (project?.assignees?.data ?? []).filter(u => u.id !== userId);
+      const allAssignees = remaining.map(u => ({
+        user_id: u.id,
+        role_id: u.roles?.data?.[0]?.id ?? 2,
+      }));
+      await api.post(`projects/${projectId}/update`, {
+        title: project.title,
+        status: project.status,
+        assignees: allAssignees,
+      });
       setProject(prev => ({
         ...prev,
         assignees: { data: (prev.assignees?.data ?? []).filter(u => u.id !== userId) },
       }));
       toast.success(__('Member removed'));
     } catch { toast.error(__('Failed to remove member')); }
-  }, [api, projectId, toast, __]);
+  }, [api, projectId, project, toast, __]);
 
   useEffect(() => { return () => { if (searchTimer.current) clearTimeout(searchTimer.current); }; }, []);
 

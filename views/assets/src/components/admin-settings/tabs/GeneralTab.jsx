@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useCallback, useRef } from 'react'
 import { useAppDispatch, useAppSelector } from '@store/index'
 import { saveGeneral } from '@store/settingsSlice'
 import { useI18n } from '@hooks/useI18n'
@@ -9,7 +9,7 @@ import { Input } from '@components/ui/input'
 import { Label } from '@components/ui/label'
 import { Switch } from '@components/ui/switch'
 import { Separator } from '@components/ui/separator'
-import { Calendar, Mail as MailIcon, Image, Upload, Trash2 } from 'lucide-react'
+import { Calendar, Mail as MailIcon, Image, Upload, Trash2, Loader2 } from 'lucide-react'
 
 const GeneralTab = () => {
   const { __ } = useI18n()
@@ -28,12 +28,14 @@ const GeneralTab = () => {
   const [taskStartField, setTaskStartField] = useState(settings?.task_start_field === 'true' || settings?.task_start_field === true)
   const [dailyDigest, setDailyDigest] = useState(settings?.daily_digest === 'true' || settings?.daily_digest === true)
   const [logo, setLogo] = useState(() => {
-    if (typeof PM_Pro_Vars !== 'undefined' && PM_Pro_Vars.pm_logo && !jQuery.isEmptyObject(PM_Pro_Vars.pm_logo)) {
+    if (typeof PM_Pro_Vars !== 'undefined' && PM_Pro_Vars.pm_logo && typeof PM_Pro_Vars.pm_logo === 'object' && (PM_Pro_Vars.pm_logo.thumb || PM_Pro_Vars.pm_logo.url)) {
       return PM_Pro_Vars.pm_logo
     }
     return null
   })
   const [logoId, setLogoId] = useState(null)
+  const [uploading, setUploading] = useState(false)
+  const fileRef = useRef(null)
 
   const updateField = useCallback((key, value) => {
     setForm((prev) => ({ ...prev, [key]: value }))
@@ -41,18 +43,34 @@ const GeneralTab = () => {
   }, [])
 
   const handleLogoUpload = () => {
-    if (typeof wp === 'undefined' || !wp.media) {
-      toast.error(__('Media uploader not available'))
-      return
-    }
-    const frame = wp.media({ title: __('Select Logo'), button: { text: __('Use this image') }, multiple: false })
-    frame.on('select', () => {
-      const att = frame.state().get('selection').first().toJSON()
+    fileRef.current?.click()
+  }
+
+  const handleFileChange = async (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    if (!file.type.startsWith('image/')) { toast.error(__('Please select an image file')); return }
+    setUploading(true)
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+      const nonce = typeof PM_Vars !== 'undefined' ? (PM_Vars.permission || PM_Vars.nonce) : ''
+      const res = await fetch('/wp-json/wp/v2/media', {
+        method: 'POST',
+        headers: { 'X-WP-Nonce': nonce },
+        body: formData,
+      })
+      if (!res.ok) throw new Error('Upload failed')
+      const att = await res.json()
       setLogoId(att.id)
-      setLogo({ thumb: att.url, name: att.filename || att.title })
+      setLogo({ thumb: att.source_url, name: att.title?.rendered || file.name })
       setIsDirty(true)
-    })
-    frame.open()
+      toast.success(__('Logo uploaded'))
+    } catch (err) {
+      toast.error(err?.message || __('Failed to upload'))
+    }
+    setUploading(false)
+    e.target.value = ''
   }
 
   const onSubmit = async (e) => {
@@ -178,8 +196,10 @@ const GeneralTab = () => {
                 <img src={logo.thumb} alt={logo.name || 'Logo'} className="h-14 w-14 rounded-lg border border-pm-border object-contain bg-white" />
               )}
               <div className="flex gap-2">
-                <Button type="button" size="sm" variant="outline" className="h-8 text-xs" onClick={handleLogoUpload}>
-                  <Upload className="h-3 w-3 mr-1" />{logo ? __('Change') : __('Upload')}
+                <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleFileChange} />
+                <Button type="button" size="sm" variant="outline" className="h-8 text-xs" onClick={handleLogoUpload} disabled={uploading}>
+                  {uploading ? <Loader2 className="h-3 w-3 mr-1 animate-spin" /> : <Upload className="h-3 w-3 mr-1" />}
+                  {uploading ? __('Uploading...') : logo ? __('Change') : __('Upload')}
                 </Button>
                 {logo && (
                   <Button type="button" size="sm" variant="outline" className="h-8 text-xs text-destructive" onClick={() => { setLogo(null); setLogoId(null); setIsDirty(true) }}>

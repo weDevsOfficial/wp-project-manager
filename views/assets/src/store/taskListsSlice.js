@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { useApi } from '@hooks/useApi'
+import { resetProjectState } from './actions'
 
 const api = useApi()
 
@@ -26,7 +27,7 @@ export const fetchTaskLists = createAsyncThunk(
         `projects/${projectId}/task-lists`,
         {
           per_page: perPage,
-          with: 'incomplete_tasks,complete_tasks,assignees',
+          with: 'incomplete_tasks,complete_tasks,assignees,labels',
           incomplete_task_per_page: incompletePerPage,
           complete_task_per_page: completePerPage,
           status: 1, // active lists only
@@ -218,7 +219,11 @@ const taskListsSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchTaskLists.pending, (state) => { state.loading = true })
+    builder.addCase(fetchTaskLists.pending, (state) => {
+      state.loading = true
+      state.lists = []          // Clear stale data from previous project
+      state.expandedIds = []
+    })
     builder.addCase(fetchTaskLists.fulfilled, (state, action) => {
       state.loading = false
       state.lists = action.payload.data
@@ -266,6 +271,9 @@ const taskListsSlice = createSlice({
       const orderMap = new Map(action.payload.map(o => [o.id, o.index]))
       state.lists.sort((a, b) => (orderMap.get(a.id) ?? 0) - (orderMap.get(b.id) ?? 0))
     })
+
+    // Global project reset — clear all project-scoped data
+    builder.addCase(resetProjectState, () => initialState)
   },
 })
 

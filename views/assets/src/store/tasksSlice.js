@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { useApi } from '@hooks/useApi'
+import { resetProjectState } from './actions'
 
 const api = useApi()
 
@@ -221,6 +222,9 @@ const tasksSlice = createSlice({
         state.taskComments.push(action.payload)
       }
     })
+
+    // Global project reset — clear task sheet and comments
+    builder.addCase(resetProjectState, () => initialState)
   },
 })
 
