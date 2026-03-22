@@ -49,8 +49,9 @@ export function TopBar() {
   const [searchResults, setSearchResults] = useState({ projects: [], tasks: [] })
   const [searching, setSearching] = useState(false)
 
+  const isFrontendPage = typeof PM_Vars !== 'undefined' && PM_Vars.is_frontend && !PM_Vars.is_admin
   const [sidebarMode, setSidebarMode] = useState(
-    () => localStorage.getItem('pm-sidebar-mode') ?? 'plugin'
+    () => isFrontendPage ? 'plugin' : (localStorage.getItem('pm-sidebar-mode') ?? 'plugin')
   )
 
   const toggleSidebarMode = useCallback(() => {
@@ -65,6 +66,13 @@ export function TopBar() {
     // Dispatch custom event so AppSidebar picks up the change
     window.dispatchEvent(new CustomEvent('pm-sidebar-mode-change', { detail: next }))
   }, [sidebarMode])
+
+  // Frontend: always force plugin sidebar mode, remove WP sidebar class
+  useEffect(() => {
+    if (isFrontendPage) {
+      document.body.classList.remove('pm-mode-wordpress')
+    }
+  }, [isFrontendPage])
 
   const [notifOpen, setNotifOpen] = useState(false)
   const [notifications, setNotifications] = useState([])
@@ -162,6 +170,7 @@ export function TopBar() {
   }, [location.pathname, __])
 
   const currentUser = typeof PM_Vars !== 'undefined' ? PM_Vars.current_user : null
+  const isFrontend = typeof PM_Vars !== 'undefined' && PM_Vars.is_frontend && !PM_Vars.is_admin
   const hasResults = searchResults.projects.length > 0 || searchResults.tasks.length > 0
 
   return (
@@ -210,23 +219,23 @@ export function TopBar() {
           <Lightbulb className="h-3.5 w-3.5" />
         </a>
 
-        {/* What's New (Headway) */}
-        <button
-          type="button"
-          id="pm-headway-icon"
-          className="relative p-1 rounded hover:bg-muted text-pm-text-muted hover:text-pm-accent transition-colors shrink-0"
-          title={__("What's New")}
-          onClick={() => {
-            // Headway widget opens via its own SDK if loaded, otherwise link
-            if (typeof Headway !== 'undefined' && Headway.toggle) {
-              Headway.toggle()
-            } else {
-              window.open('https://headway.co', '_blank')
-            }
-          }}
-        >
-          <Megaphone className="h-4 w-4" />
-        </button>
+        {/* What's New (Headway) — wrapper div prevents badge span from breaking button layout */}
+        <div className="relative shrink-0" id="pm-headway-icon">
+          <button
+            type="button"
+            className="p-1 rounded hover:bg-muted text-pm-text-muted hover:text-pm-accent transition-colors"
+            title={__("What's New")}
+            onClick={() => {
+              if (typeof Headway !== 'undefined' && Headway.toggle) {
+                Headway.toggle()
+              } else {
+                window.open('https://headway.co', '_blank')
+              }
+            }}
+          >
+            <Megaphone className="h-4 w-4" />
+          </button>
+        </div>
 
         {/* Notifications */}
         <Button variant="ghost" size="icon" className="h-8 w-8 relative shrink-0" onClick={() => setNotifOpen(true)}>
@@ -238,31 +247,33 @@ export function TopBar() {
           )}
         </Button>
 
-        {/* Sidebar mode toggle */}
-        <div className="flex items-center gap-0.5 bg-muted/60 rounded-md p-0.5 shrink-0">
-          <button
-            type="button"
-            onClick={() => sidebarMode !== 'plugin' && toggleSidebarMode()}
-            className={cn(
-              'p-1.5 rounded transition-colors',
-              sidebarMode === 'plugin' ? 'bg-background shadow-sm text-pm-accent' : 'text-pm-text-muted hover:text-pm-text'
-            )}
-            title={__('Plugin sidebar')}
-          >
-            <LayoutDashboard className="h-3.5 w-3.5" />
-          </button>
-          <button
-            type="button"
-            onClick={() => sidebarMode !== 'wordpress' && toggleSidebarMode()}
-            className={cn(
-              'p-1.5 rounded transition-colors',
-              sidebarMode === 'wordpress' ? 'bg-background shadow-sm text-pm-accent' : 'text-pm-text-muted hover:text-pm-text'
-            )}
-            title={__('WordPress sidebar')}
-          >
-            <Monitor className="h-3.5 w-3.5" />
-          </button>
-        </div>
+        {/* Sidebar mode toggle — admin only (no WP sidebar on frontend) */}
+        {!isFrontend && (
+          <div className="flex items-center gap-0.5 bg-muted/60 rounded-md p-0.5 shrink-0">
+            <button
+              type="button"
+              onClick={() => sidebarMode !== 'plugin' && toggleSidebarMode()}
+              className={cn(
+                'p-1.5 rounded transition-colors',
+                sidebarMode === 'plugin' ? 'bg-background shadow-sm text-pm-accent' : 'text-pm-text-muted hover:text-pm-text'
+              )}
+              title={__('Plugin sidebar')}
+            >
+              <LayoutDashboard className="h-3.5 w-3.5" />
+            </button>
+            <button
+              type="button"
+              onClick={() => sidebarMode !== 'wordpress' && toggleSidebarMode()}
+              className={cn(
+                'p-1.5 rounded transition-colors',
+                sidebarMode === 'wordpress' ? 'bg-background shadow-sm text-pm-accent' : 'text-pm-text-muted hover:text-pm-text'
+              )}
+              title={__('WordPress sidebar')}
+            >
+              <Monitor className="h-3.5 w-3.5" />
+            </button>
+          </div>
+        )}
 
         {/* User avatar */}
         {currentUser && (

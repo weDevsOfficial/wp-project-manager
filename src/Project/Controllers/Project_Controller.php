@@ -51,6 +51,12 @@ class Project_Controller {
 
 		$projects = $this->fetch_projects( $category, $status );
 
+		// Search by title (used by React UI search bar)
+		$title = sanitize_text_field( $request->get_param( 'title' ) );
+		if ( ! empty( $title ) ) {
+			$projects = $projects->where( wedevs_pm_tb_prefix() . 'pm_projects.title', 'LIKE', '%' . $title . '%' );
+		}
+
 		$projects = apply_filters( 'wedevs_pm_project_query', $projects, $request->get_params() );
 
 		$projects = $projects->orderBy(  wedevs_pm_tb_prefix().'pm_projects.created_at', 'DESC' );

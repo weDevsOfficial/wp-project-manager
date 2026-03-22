@@ -11,6 +11,7 @@ const { Toaster } = SonnerLib
 import { store, injectReducer, resetProjectState } from '@store/index'
 import { fetchTask } from '@store/tasksSlice'
 import { AppLayout } from '@components/layout/AppLayout'
+import { FrontendLayout } from '@components/layout/FrontendLayout'
 import { ProModalProvider } from '@components/common/ProUpgradeModal'
 import { registerSlot, registerFilter, applyFilters, doAction, addAction, Slot, useFilter, useSlotFills } from '@hooks/useSlot'
 import { registerRoute, useRegisteredRoutes } from '@/router/routeRegistry'
@@ -48,10 +49,12 @@ function FilteredPage({ filterName, fallback: Fallback }) {
 
 function AppRoutes() {
   const dynamicRoutes = useRegisteredRoutes()
+  const isFrontend = typeof PM_Vars !== 'undefined' && PM_Vars.is_frontend && !PM_Vars.is_admin
+  const Layout = isFrontend ? FrontendLayout : AppLayout
 
   return (
     <Routes>
-      <Route element={<AppLayout />}>
+      <Route element={<Layout />}>
         {/* ── Free routes ── */}
         <Route index element={<Navigate to="/projects" replace />} />
         <Route path="projects" element={<ProjectsPage />} />
@@ -61,16 +64,18 @@ function AppRoutes() {
         <Route path="projects/:projectId/milestones" element={<MilestonesPage />} />
         <Route path="projects/:projectId/files" element={<FilesPage />} />
         <Route path="projects/:projectId/activities" element={<ActivitiesPage />} />
-        <Route path="categories" element={<CategoriesPage />} />
-        <Route path="premium" element={<PremiumPage />} />
         <Route path="my-tasks" element={<MyTasksPage />} />
-        <Route path="settings" element={<SettingsPage />} />
-        <Route path="importtools" element={<ToolsPage />} />
+
+        {/* ── Admin-only routes — hidden on frontend ── */}
+        {!isFrontend && <Route path="categories" element={<CategoriesPage />} />}
+        {!isFrontend && <Route path="settings" element={<SettingsPage />} />}
+        {!isFrontend && <Route path="importtools" element={<ToolsPage />} />}
+        {!isFrontend && <Route path="modules" element={<FilteredPage filterName="route.modules.element" fallback={ModulesPage} />} />}
+        <Route path="premium" element={<PremiumPage />} />
 
         {/* ── Replaceable pages — Pro overrides via registerFilter() ── */}
         <Route path="calendar" element={<FilteredPage filterName="route.calendar.element" fallback={CalendarPlaceholder} />} />
         <Route path="reports/*" element={<FilteredPage filterName="route.reports.element" fallback={ReportsPlaceholder} />} />
-        <Route path="modules" element={<FilteredPage filterName="route.modules.element" fallback={ModulesPage} />} />
         <Route path="progress" element={<FilteredPage filterName="route.progress.element" fallback={ProgressPlaceholder} />} />
 
         {/* ── Dynamic routes registered by Pro plugin ── */}

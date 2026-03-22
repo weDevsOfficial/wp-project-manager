@@ -86,6 +86,8 @@ class Enqueue_Scripts {
 			'dir_url'                          => wedevs_pm_config('frontend.url'),
 			'is_pro'                           => $wedevs_pm_pro,
 			'is_admin'                         => is_admin(),
+			'is_frontend'                      => ! is_admin(),
+			'logout_url'                       => wp_logout_url( home_url() ),
 			'language'                         => apply_filters( 'wedevs_pm_get_jed_locale_data', [ 'pm' => wedevs_pm_get_jed_locale_data( 'wedevs-project-manager' ) ] ),
 			'date_format'                      => get_option( 'date_format' ),
 			'time_format'                      => get_option( 'time_format' ),

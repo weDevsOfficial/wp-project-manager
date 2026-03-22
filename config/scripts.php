@@ -235,11 +235,12 @@ $wedevs_pm_scripts = [
         'id'         => 'pm-scripts',
         'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/dist/pm.js',
         'path'       => $wedevs_pm_view_path . '/assets/dist/pm.js',
-        'dependency' => [
-            'jquery',
-            'pm-config',
-            'wp-element',
-        ],
+        'dependency' => array_merge(
+            ['jquery', 'pm-config'],
+            file_exists( plugin_dir_path( dirname( __FILE__ ) ) . 'views/assets/dist/pm.asset.php' )
+                ? ( require plugin_dir_path( dirname( __FILE__ ) ) . 'views/assets/dist/pm.asset.php' )['dependencies']
+                : ['wp-element']
+        ),
         'in_footer'  => true
     ],
 

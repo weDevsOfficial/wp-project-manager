@@ -152,7 +152,7 @@ export function ProjectCreateSheet() {
         try {
           const results = await dispatch(searchUsers(value.trim())).unwrap()
           const filtered = results.filter(
-            (u) => !selectedUsers.some((su) => su.id === u.id),
+            (u) => !selectedUsers.some((su) => parseInt(su.id) === parseInt(u.id)),
           )
           setSearchResults(filtered)
         } catch {

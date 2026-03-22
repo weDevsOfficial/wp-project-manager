@@ -80,6 +80,7 @@ import {
   Sparkles,
   Pencil,
   Settings,
+  Search,
 } from "lucide-react";
 
 import AiCreateDialog from "./AiCreateDialog";
@@ -104,6 +105,20 @@ function projectProgress(p) {
 
 function isComplete(p) {
   return p.status === "complete" || p.status === "1" || p.status === 1;
+}
+
+function statusColor(p) {
+  if (isComplete(p)) return '#10b981' // emerald-500
+  if (p.status === 'archived' || p.status === '2' || p.status === 2) return '#6b7280' // gray-500
+  if (p.status === 'pending' || p.status === '3' || p.status === 3) return '#f59e0b' // amber-500
+  return '#6366f1' // indigo-500 (active/incomplete)
+}
+
+function statusLabel(p) {
+  if (isComplete(p)) return 'Completed'
+  if (p.status === 'archived' || p.status === '2' || p.status === 2) return 'Archived'
+  if (p.status === 'pending' || p.status === '3' || p.status === 3) return 'Pending'
+  return 'Active'
 }
 
 function userInitials(name) {
@@ -131,10 +146,10 @@ function getDescriptionSnippet(project) {
 // ── Filter tabs definition ──────────────────────────────
 
 const FILTER_TABS = [
-  { key: "incomplete", label: "Active", countKey: "total_incomplete" },
-  { key: "complete", label: "Completed", countKey: "total_complete" },
-  { key: "favourite", label: "Favourite", countKey: "total_favourite" },
-  { key: "all", label: "All" },
+  { key: "incomplete", label: "Active", countKey: "total_incomplete", color: "#6366f1" },
+  { key: "complete", label: "Completed", countKey: "total_complete", color: "#10b981" },
+  { key: "favourite", label: "Favourite", countKey: "total_favourite", color: "#f59e0b" },
+  { key: "all", label: "All", color: "#6b7280" },
 ];
 
 // ── Component ────────────────────────────────────────────
@@ -162,6 +177,8 @@ export default function ProjectsPage() {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [projectToDelete, setProjectToDelete] = useState(null);
   const [aiDialogOpen, setAiDialogOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const searchTimerRef = React.useRef(null);
 
   // ── Initial load ────────────────────────────────────────
   useEffect(() => {
@@ -181,6 +198,14 @@ export default function ProjectsPage() {
     },
     [dispatch],
   );
+
+  const handleSearch = useCallback((value) => {
+    setSearchQuery(value);
+    clearTimeout(searchTimerRef.current);
+    searchTimerRef.current = setTimeout(() => {
+      dispatch(fetchProjects({ page: 1, title: value || undefined }));
+    }, 400);
+  }, [dispatch]);
 
   const handleCategoryChange = useCallback(
     (value) => {
@@ -283,21 +308,14 @@ export default function ProjectsPage() {
     const meta = getMeta(project);
     if (!meta) return null;
 
+    const pid = project.id;
     const items = [
-      { icon: ClipboardList, label: __("Tasks"), value: meta.total_tasks },
-      {
-        icon: MessageSquare,
-        label: __("Discussions"),
-        value: meta.total_discussion_boards,
-      },
-      { icon: ListTodo, label: __("Task Lists"), value: meta.total_task_lists },
-      { icon: FileText, label: __("Files"), value: meta.total_files },
-      {
-        icon: Milestone,
-        label: __("Milestones"),
-        value: meta.total_milestones,
-      },
-      { icon: Activity, label: __("Comments"), value: meta.total_comments },
+      { icon: ClipboardList, label: __("Tasks"), value: meta.total_tasks, route: `/projects/${pid}/task-lists` },
+      { icon: MessageSquare, label: __("Discussions"), value: meta.total_discussion_boards, route: `/projects/${pid}/discussions` },
+      { icon: ListTodo, label: __("Task Lists"), value: meta.total_task_lists, route: `/projects/${pid}/task-lists` },
+      { icon: FileText, label: __("Files"), value: meta.total_files, route: `/projects/${pid}/files` },
+      { icon: Milestone, label: __("Milestones"), value: meta.total_milestones, route: `/projects/${pid}/milestones` },
+      { icon: Activity, label: __("Comments"), value: meta.total_comments, route: `/projects/${pid}/task-lists` },
     ];
 
     return (
@@ -306,15 +324,17 @@ export default function ProjectsPage() {
           {items.map((item) => (
             <Tooltip key={item.label}>
               <TooltipTrigger asChild>
-                <div className="flex items-center gap-1 text-xs">
+                <button
+                  type="button"
+                  className="flex items-center gap-1 text-xs hover:text-pm-accent transition-colors"
+                  onClick={(e) => { e.stopPropagation(); navigate(item.route) }}
+                >
                   <item.icon className="h-3.5 w-3.5" />
                   <span>{item.value ?? 0}</span>
-                </div>
+                </button>
               </TooltipTrigger>
               <TooltipContent side="bottom">
-                <p>
-                  {item.value ?? 0} {item.label}
-                </p>
+                <p>{item.value ?? 0} {item.label}</p>
               </TooltipContent>
             </Tooltip>
           ))}
@@ -352,7 +372,7 @@ export default function ProjectsPage() {
   const renderProjectDropdown = (project) => (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon" className="h-8 w-8">
+        <Button variant="ghost" size="icon" className="h-8 w-8 text-pm-text-primary">
           <MoreHorizontal className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
@@ -397,7 +417,7 @@ export default function ProjectsPage() {
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
       {projects.map((project) => {
         const progress = projectProgress(project);
-        const projectColor = project.color_code || "hsl(var(--primary))";
+        const projectColor = project.color_code || statusColor(project);
 
         return (
           <div
@@ -474,20 +494,14 @@ export default function ProjectsPage() {
               <div className="flex items-center justify-between pt-1">
                 {renderAssignees(project)}
                 <span
-                  className={cn(
-                    "inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-full",
-                    isComplete(project)
-                      ? "bg-emerald-50 text-emerald-600"
-                      : "bg-amber-50 text-amber-600",
-                  )}
+                  className="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-full"
+                  style={{ backgroundColor: statusColor(project) + '12', color: statusColor(project) }}
                 >
                   <span
-                    className={cn(
-                      "h-1.5 w-1.5 rounded-full",
-                      isComplete(project) ? "bg-emerald-500" : "bg-amber-500",
-                    )}
+                    className="h-1.5 w-1.5 rounded-full"
+                    style={{ backgroundColor: statusColor(project) }}
                   />
-                  {isComplete(project) ? __("Done") : __("Active")}
+                  {__(statusLabel(project))}
                 </span>
               </div>
             </div>
@@ -514,18 +528,20 @@ export default function ProjectsPage() {
               {__("Progress")}
             </th>
             <th className="text-left px-4 py-2.5 text-[11px] font-semibold uppercase tracking-wider text-pm-text-muted/70">
-              {__("Tasks")}
+              {__("Details")}
             </th>
             <th className="text-left px-4 py-2.5 text-[11px] font-semibold uppercase tracking-wider text-pm-text-muted/70">
               {__("Members")}
             </th>
-            <th className="w-10" />
+            <th className="text-left px-4 py-2.5 text-[11px] font-semibold uppercase tracking-wider text-pm-text-muted/70 w-10">
+              {__("Action")}
+            </th>
           </tr>
         </thead>
         <tbody>
           {projects.map((project) => {
             const progress = projectProgress(project);
-            const projectColor = project.color_code || "hsl(var(--primary))";
+            const projectColor = project.color_code || statusColor(project);
 
             return (
               <tr
@@ -569,20 +585,14 @@ export default function ProjectsPage() {
                 </td>
                 <td className="px-4 py-3">
                   <span
-                    className={cn(
-                      "inline-flex items-center gap-1.5 text-[11px] font-medium px-2 py-0.5 rounded-full",
-                      isComplete(project)
-                        ? "bg-emerald-50 text-emerald-600"
-                        : "bg-amber-50 text-amber-600",
-                    )}
+                    className="inline-flex items-center gap-1.5 text-[11px] font-medium px-2 py-0.5 rounded-full"
+                    style={{ backgroundColor: statusColor(project) + '12', color: statusColor(project) }}
                   >
                     <span
-                      className={cn(
-                        "h-1.5 w-1.5 rounded-full",
-                        isComplete(project) ? "bg-emerald-500" : "bg-amber-500",
-                      )}
+                      className="h-1.5 w-1.5 rounded-full"
+                      style={{ backgroundColor: statusColor(project) }}
                     />
-                    {isComplete(project) ? __("Done") : __("Active")}
+                    {__(statusLabel(project))}
                   </span>
                 </td>
                 <td className="px-4 py-3">
@@ -594,19 +604,11 @@ export default function ProjectsPage() {
                   </div>
                 </td>
                 <td className="px-4 py-3">
-                  <span className="text-xs text-pm-text-muted tabular-nums">
-                    <span className="text-pm-text-primary font-medium">
-                      {getMeta(project)?.total_complete_tasks ?? 0}
-                    </span>
-                    <span className="mx-0.5">/</span>
-                    {getMeta(project)?.total_tasks ?? 0}
-                  </span>
+                  {renderMetaCounters(project)}
                 </td>
                 <td className="px-4 py-3">{renderAssignees(project)}</td>
-                <td className="px-3 py-3 text-right">
-                  <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-                    {renderProjectDropdown(project)}
-                  </div>
+                <td className="px-3 py-3 text-center">
+                  {renderProjectDropdown(project)}
                 </td>
               </tr>
             );
@@ -739,12 +741,8 @@ export default function ProjectsPage() {
               >
                 {__(tab.label)}
                 <span
-                  className={cn(
-                    "inline-flex items-center justify-center rounded-full px-1.5 min-w-[18px] h-[18px] text-[10px] font-semibold tabular-nums transition-colors",
-                    isActive
-                      ? "bg-pm-accent/10 text-pm-accent"
-                      : "bg-transparent text-pm-text-muted/70",
-                  )}
+                  className="inline-flex items-center justify-center rounded-full px-1.5 min-w-[18px] h-[18px] text-[10px] font-semibold tabular-nums transition-colors"
+                  style={isActive ? { backgroundColor: tab.color + '15', color: tab.color } : { color: 'var(--pm-text-muted)' }}
                 >
                   {count}
                 </span>
@@ -754,6 +752,16 @@ export default function ProjectsPage() {
         </div>
 
         <div className="flex items-center gap-2">
+          <div className="relative">
+            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-pm-text-muted" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => handleSearch(e.target.value)}
+              placeholder={__('Search projects...')}
+              className="h-9 w-[180px] rounded-md border border-pm-border bg-background pl-8 pr-3 text-sm placeholder:text-pm-text-muted/60 focus:outline-none focus:ring-1 focus:ring-pm-accent"
+            />
+          </div>
           <Select
             value={categoryId !== undefined ? String(categoryId) : "__all__"}
             onValueChange={handleCategoryChange}

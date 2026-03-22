@@ -13,6 +13,14 @@ import {
 } from 'lucide-react'
 import { cn } from '@lib/utils'
 
+function statusColor(p) {
+  const s = p.status
+  if (s === 'complete' || s === '1' || s === 1) return '#10b981'
+  if (s === 'archived' || s === '2' || s === 2) return '#6b7280'
+  if (s === 'pending' || s === '3' || s === 3) return '#f59e0b'
+  return '#6366f1'
+}
+
 // ── Project sub-nav items ────────────────────────────
 
 const projectSubNav_FREE = [
@@ -59,6 +67,7 @@ function TruncText({ children, className }) {
 
 export function AppSidebar() {
   const { isAdmin, isPro } = usePermissions()
+  const isFrontend = typeof PM_Vars !== 'undefined' && PM_Vars.is_frontend && !PM_Vars.is_admin
   const { __ } = useI18n()
   const location = useLocation()
   const navigate = useNavigate()
@@ -185,13 +194,13 @@ export function AppSidebar() {
       { key: 'reports',   label: __('Reports'),   icon: BarChart3, route: '/reports',   pro: !isPro },
     ]
     if (isPro) {
-      items.push(
-        { key: 'sprints', label: __('Sprints'), icon: Timer,  route: '/sprints' },
-        { key: 'license', label: __('License'), icon: Shield, route: '/license' },
-      )
+      items.push({ key: 'sprints', label: __('Sprints'), icon: Timer, route: '/sprints' })
+      if (!isFrontend) {
+        items.push({ key: 'license', label: __('License'), icon: Shield, route: '/license' })
+      }
     }
     return items
-  }, [__, isPro])
+  }, [__, isPro, isFrontend])
 
   const activeKey = useMemo(() => {
     const path = location.pathname
@@ -244,7 +253,7 @@ export function AppSidebar() {
   function renderProjectItem(project) {
     const isExpanded = expandedProjects.has(project.id)
     const isActive = activeProjectId === project.id
-    const color = project.color_code || 'hsl(var(--primary))'
+    const color = project.color_code || statusColor(project)
 
     return (
       <div key={project.id} className="mb-0.5">
@@ -436,8 +445,8 @@ export function AppSidebar() {
             ) : (
               <div className="border-t border-pm-border my-2 mx-1" />
             )}
-            {renderNavItem({ key: 'modules', label: __('Modules'), icon: Layers, route: '/modules' })}
-            {!isPro && (
+            {!isFrontend && renderNavItem({ key: 'modules', label: __('Modules'), icon: Layers, route: '/modules' })}
+            {!isPro && !isFrontend && (
               collapsed ? (
                 <button
                   className="w-full flex justify-center py-2 text-orange-500 hover:bg-orange-50 rounded-md transition-colors"
@@ -459,7 +468,7 @@ export function AppSidebar() {
           </div>
 
           {/* Admin */}
-          {isAdmin && (
+          {isAdmin && !isFrontend && (
             <div className="mb-3">
               {!collapsed ? (
                 <p className="text-[11px] font-medium text-pm-text-muted uppercase tracking-wider px-2 mb-1.5">
@@ -478,7 +487,9 @@ export function AppSidebar() {
 
       {/* Footer */}
       <div className={cn('border-t border-pm-border py-3', collapsed ? 'px-2' : 'px-4')}>
-        {collapsed ? (
+        {isFrontend ? (
+          <p className="text-[11px] text-pm-text-muted text-center">WP Project Manager</p>
+        ) : collapsed ? (
           <button
             className="w-full flex justify-center p-1 rounded hover:bg-pm-hover text-pm-text-muted hover:text-pm-accent transition-colors"
             title={__('Back to WP Admin')}

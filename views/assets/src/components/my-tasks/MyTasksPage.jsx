@@ -12,6 +12,7 @@ import { Input } from "@components/ui/input";
 import { Label } from "@components/ui/label";
 import RichTextEditor from "@components/common/RichTextEditor";
 import { Skeleton } from "@components/ui/skeleton";
+import { Badge } from "@components/ui/badge";
 import {
   Pagination,
   PaginationContent,
@@ -55,6 +56,12 @@ import {
   ChevronRight,
   Calendar as CalendarIcon,
   Crown,
+  Edit3,
+  Trash2,
+  FolderKanban,
+  FileText,
+  Milestone,
+  ArrowUpDown,
 } from "lucide-react";
 import {
   PieChart,
@@ -74,12 +81,34 @@ import {
 import {
   isTaskComplete,
   formatPmDate,
-  formatPmDateTime,
   extractDateStr,
   userInitials,
 } from "@lib/pm-utils";
 import TaskDetailSheet from "@components/tasks/TaskDetailSheet";
 import { useProModal } from "@components/common/ProUpgradeModal";
+import { cn } from "@lib/utils";
+
+// ── Activity helpers (same as ActivitiesPage) ────────
+const ACTIVITY_ICON_MAP = {
+  create_project: FolderKanban, update_project: Edit3, delete_project: Trash2,
+  create_task: CheckSquare, update_task: Edit3, delete_task: Trash2,
+  update_task_title: Edit3, update_task_description: Edit3, update_task_status: ArrowUpDown,
+  update_task_start_at: Edit3, update_task_due_date: Edit3, update_task_estimation: Edit3,
+  complete_task: CheckSquare, incomplete_task: CheckSquare,
+  create_task_list: Plus, delete_task_list: Trash2,
+  create_milestone: Milestone, delete_milestone: Trash2,
+  create_discussion_board: MessageSquare, comment_on_task: MessageSquare,
+  comment_on_discussion_board: MessageSquare, upload_file: FileText,
+}
+const ACTIVITY_COLOR_MAP = { create: 'bg-emerald-500', update: 'bg-blue-500', delete: 'bg-red-500' }
+const ACTIVITY_LABELS = { create: 'Created', update: 'Updated', delete: 'Deleted' }
+const ACTIVITY_FALLBACKS = {
+  create_project: 'created a project', create_task: 'created a task', delete_task: 'deleted a task',
+  update_task_title: 'updated task title', update_task_status: 'updated task status',
+  update_task_start_at: 'updated task start date', update_task_due_date: 'updated task due date',
+  create_task_list: 'created a task list', create_milestone: 'created a milestone',
+  create_discussion_board: 'created a discussion', comment_on_task: 'commented on a task',
+}
 
 // ── Task Row ─────────────────────────────────────────
 
@@ -470,6 +499,8 @@ export default function MyTasksPage() {
   // Overview graph
   const [graph, setGraph] = useState([]);
   const [overviewLoading, setOverviewLoading] = useState(false);
+  const [overviewStartDate, setOverviewStartDate] = useState('');
+  const [overviewEndDate, setOverviewEndDate] = useState('');
 
   // Overview calendar
   const [calDate, setCalDate] = useState(new Date());
@@ -588,15 +619,18 @@ export default function MyTasksPage() {
   useEffect(() => {
     if (!userId || activeTab !== "overview") return;
     setOverviewLoading(true);
+    const params = { with: "meta,graph" };
+    if (overviewStartDate) params.start_at = overviewStartDate;
+    if (overviewEndDate) params.due_date = overviewEndDate;
     api
-      .get(`users/${userId}`, { with: "meta,graph" })
+      .get(`users/${userId}`, params)
       .then((res) => {
         setUser(res.data);
         setGraph(res.data?.graph?.data ?? res.data?.graph ?? []);
       })
       .catch(() => {})
       .finally(() => setOverviewLoading(false));
-  }, [userId, activeTab]);
+  }, [userId, activeTab, overviewStartDate, overviewEndDate]);
 
   // Fetch activities
   useEffect(() => {
@@ -726,17 +760,39 @@ export default function MyTasksPage() {
 
   // Parse activity message
   function parseActivityMessage(act) {
-    let msg = act.message || "";
-    if (!msg) return act.action || "";
-    return msg.replace(/\{\{([^}]+)\}\}/g, (_, path) => {
-      const keys = path.trim().split(".");
-      let val = act;
-      for (const key of keys) {
-        if (val && typeof val === "object" && key in val) val = val[key];
-        else return "";
+    const actor = act.actor?.data || {}
+    const meta = act.meta || {}
+    let msg = act.message || ""
+
+    if (!msg) {
+      const fallback = ACTIVITY_FALLBACKS[act.action]
+      if (fallback) {
+        const title = meta.task_title || meta.task_list_title || meta.project_title
+          || meta.milestone_title || meta.discussion_board_title || ''
+        return title ? `${fallback} "${title}"` : fallback
       }
-      return val != null ? String(val) : "";
-    });
+      return (act.action || 'activity').replace(/_/g, ' ')
+    }
+
+    msg = msg.replace(/\{\{([^}]+)\}\}/g, (_, path) => {
+      const keys = path.trim().split(".")
+      const data = { actor: { data: actor }, meta }
+      let val = data
+      for (const key of keys) {
+        if (val == null) return ""
+        val = val[key]
+      }
+      return (val != null && typeof val !== 'object') ? String(val) : ""
+    })
+
+    // Remove actor name from beginning (shown separately)
+    const actorName = actor.display_name || ''
+    if (actorName && msg.startsWith(actorName)) {
+      msg = msg.slice(actorName.length).replace(/^\s+/, '')
+      msg = msg.charAt(0).toUpperCase() + msg.slice(1)
+    }
+
+    return msg
   }
 
   return (
@@ -885,6 +941,29 @@ export default function MyTasksPage() {
           </div>
         ) : (
           <div className="space-y-6">
+            {/* Date range filter */}
+            <div className="flex items-center gap-3 flex-wrap">
+              <span className="text-sm font-medium text-pm-text-muted">{__('Activity Filter')}</span>
+              <input
+                type="date"
+                value={overviewStartDate}
+                onChange={(e) => setOverviewStartDate(e.target.value)}
+                className="h-8 rounded-md border border-pm-border bg-background px-2 text-xs focus:outline-none focus:ring-1 focus:ring-pm-accent"
+              />
+              <span className="text-xs text-pm-text-muted">{__('to')}</span>
+              <input
+                type="date"
+                value={overviewEndDate}
+                onChange={(e) => setOverviewEndDate(e.target.value)}
+                className="h-8 rounded-md border border-pm-border bg-background px-2 text-xs focus:outline-none focus:ring-1 focus:ring-pm-accent"
+              />
+              {(overviewStartDate || overviewEndDate) && (
+                <Button variant="ghost" size="sm" className="h-8 text-xs text-pm-text-muted" onClick={() => { setOverviewStartDate(''); setOverviewEndDate('') }}>
+                  <X className="h-3 w-3 mr-1" />{__('Clear')}
+                </Button>
+              )}
+            </div>
+
             {/* At a Glance — Pie Chart */}
             <div className="rounded-xl border bg-card p-6">
               <h3 className="text-sm font-semibold text-pm-text-primary mb-4">
@@ -1472,27 +1551,45 @@ export default function MyTasksPage() {
             </div>
           ) : (
             <>
-              {activities.map((act, i) => (
-                <div
-                  key={act.id || i}
-                  className="flex gap-3 py-2.5 border-b border-border/40 last:border-b-0"
-                >
-                  <Avatar className="h-6 w-6 shrink-0">
-                    <AvatarImage src={act.actor?.data?.avatar_url} />
-                    <AvatarFallback className="text-[8px]">
-                      {userInitials(act.actor?.data?.display_name ?? "?")}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm text-pm-text-primary/80">
-                      {parseActivityMessage(act)}
-                    </p>
-                    <p className="text-[10px] text-pm-text-muted mt-0.5">
-                      {formatPmDateTime(act.committed_at)}
-                    </p>
+              {activities.map((act, i) => {
+                const Icon = ACTIVITY_ICON_MAP[act.action] || Activity
+                const actor = act.actor?.data || {}
+                const actionType = act.action_type || 'update'
+                const badgeColor = ACTIVITY_COLOR_MAP[actionType] || 'bg-gray-400'
+                const badgeLabel = ACTIVITY_LABELS[actionType] || actionType
+                const timeStr = act.committed_at?.time?.slice(0, 5) || ''
+
+                return (
+                  <div
+                    key={act.id || i}
+                    className="flex items-start gap-3 py-3 px-4 bg-white rounded-lg border border-border/50 hover:shadow-sm transition-all"
+                  >
+                    <Avatar className="h-8 w-8 shrink-0 mt-0.5">
+                      <AvatarImage src={actor.avatar_url} />
+                      <AvatarFallback className="text-[11px] font-semibold bg-pm-accent/10 text-pm-accent">
+                        {userInitials(actor.display_name ?? "?")}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-0.5">
+                        <span className="text-sm font-semibold text-pm-text">{actor.display_name || 'Unknown'}</span>
+                        <Badge variant="outline" className={cn('text-[10px] px-1.5 py-0 h-4 font-medium border-0 text-white', badgeColor)}>
+                          {badgeLabel}
+                        </Badge>
+                      </div>
+                      <p className="text-sm text-pm-text-muted leading-snug">
+                        {parseActivityMessage(act)}
+                      </p>
+                      {timeStr && (
+                        <span className="text-[11px] text-pm-text-muted/50 mt-1 inline-block">{timeStr}</span>
+                      )}
+                    </div>
+                    <div className="shrink-0 mt-1">
+                      <Icon className="h-4 w-4 text-pm-text-muted/40" />
+                    </div>
                   </div>
-                </div>
-              ))}
+                )
+              })}
               {actHasMore && (
                 <div className="text-center pt-4">
                   <Button

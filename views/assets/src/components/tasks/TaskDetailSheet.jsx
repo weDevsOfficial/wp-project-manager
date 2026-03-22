@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback, useState } from 'react'
 import { Slot, useSlotFills } from '@hooks/useSlot'
 import { useAppDispatch, useAppSelector } from '@store/index'
-import { closeTaskSheet, fetchTask, updateTask, changeTaskStatus, addTaskComment, deleteTask } from '@store/tasksSlice'
+import { closeTaskSheet, fetchTask, updateTask, changeTaskStatus, addTaskComment, updateTaskComment, deleteTaskComment, deleteTask } from '@store/tasksSlice'
 import { toggleTaskInList, removeTaskFromList } from '@store/taskListsSlice'
 import { useApi } from '@hooks/useApi'
 import { cn } from '@lib/utils'
@@ -20,6 +20,7 @@ import {
 import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
 import RichTextEditor from '@components/common/RichTextEditor'
+import FileUploadArea from '@components/common/FileUploadArea'
 import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar'
 import { Separator } from '@components/ui/separator'
 import { Skeleton } from '@components/ui/skeleton'
@@ -58,6 +59,7 @@ import {
   Layers,
   Tag,
   Repeat,
+  Pencil,
 } from 'lucide-react'
 import {
   isTaskComplete,
@@ -421,6 +423,9 @@ export default function TaskDetailSheet() {
   // Comment form
   const [newComment, setNewComment] = useState('')
   const [submittingComment, setSubmittingComment] = useState(false)
+  const [commentFiles, setCommentFiles] = useState([])
+  const [editingCommentId, setEditingCommentId] = useState(null)
+  const [editCommentText, setEditCommentText] = useState('')
 
   // Activity
   const [activities, setActivities] = useState([])
@@ -555,11 +560,14 @@ export default function TaskDetailSheet() {
   // Remove assignee — send remaining assignees array via updateTask
   const handleRemoveAssignee = useCallback(async (userId) => {
     if (!currentTask || !projectId) return
-    const remainingIds = assignees.map(a => a.assigned_to ?? a.id).filter(id => id !== userId)
+    const remainingIds = assignees.map(a => a.assigned_to ?? a.id).filter(id => parseInt(id) !== parseInt(userId))
     try {
+      // jQuery omits empty arrays in form-urlencoded, so send [-1] as sentinel for "clear all"
+      // PHP: empty([-1]) is false, intval(-1) gives -1 which won't match any user → effectively clears
+      const assigneePayload = remainingIds.length > 0 ? remainingIds : [-1]
       await dispatch(updateTask({
         projectId, taskId: currentTask.id,
-        data: { assignees: remainingIds },
+        data: { assignees: assigneePayload },
       })).unwrap()
       dispatch(fetchTask({ projectId, taskId: currentTask.id }))
       toast.success(__('Assignee removed'))
@@ -568,19 +576,66 @@ export default function TaskDetailSheet() {
     }
   }, [dispatch, projectId, currentTask, assignees, toast, __])
 
-  // Submit comment
+  // Submit comment (with optional file attachments)
   const handleSubmitComment = useCallback(async () => {
     if (!currentTask || !projectId || !newComment.trim()) return
     setSubmittingComment(true)
     try {
-      await dispatch(addTaskComment({ projectId, taskId: currentTask.id, content: newComment })).unwrap()
+      if (commentFiles.length > 0) {
+        const formData = new FormData()
+        formData.append('content', newComment)
+        formData.append('commentable_id', currentTask.id)
+        formData.append('commentable_type', 'task')
+        formData.append('mentioned_users', '')
+        formData.append('notify_users', '')
+        formData.append('project_id', projectId)
+        commentFiles.forEach(f => formData.append('files[]', f))
+        await api.upload(`projects/${projectId}/comments`, formData)
+        dispatch(fetchTask({ projectId, taskId: currentTask.id }))
+      } else {
+        await dispatch(addTaskComment({ projectId, taskId: currentTask.id, content: newComment })).unwrap()
+      }
       setNewComment('')
+      setCommentFiles([])
       toast.success(__('Comment added'))
     } catch {
       toast.error(__('Failed to add comment'))
     }
     setSubmittingComment(false)
-  }, [dispatch, projectId, currentTask, newComment, toast, __])
+  }, [dispatch, projectId, currentTask, newComment, commentFiles, api, toast, __])
+
+  // Edit comment
+  const startEditComment = useCallback((c) => {
+    setEditingCommentId(c.id)
+    setEditCommentText(c.content || '')
+  }, [])
+
+  const cancelEditComment = useCallback(() => {
+    setEditingCommentId(null)
+    setEditCommentText('')
+  }, [])
+
+  const handleUpdateComment = useCallback(async () => {
+    if (!editCommentText.trim() || !editingCommentId || !projectId) return
+    try {
+      await dispatch(updateTaskComment({ projectId, commentId: editingCommentId, content: editCommentText.trim() })).unwrap()
+      cancelEditComment()
+      toast.success(__('Comment updated'))
+    } catch {
+      toast.error(__('Failed to update comment'))
+    }
+  }, [dispatch, projectId, editingCommentId, editCommentText, toast, __, cancelEditComment])
+
+  // Delete comment
+  const handleDeleteComment = useCallback(async (commentId) => {
+    if (!projectId) return
+    try {
+      await dispatch(deleteTaskComment({ projectId, commentId })).unwrap()
+      toast.success(__('Comment deleted'))
+    } catch {
+      toast.error(__('Failed to delete comment'))
+    }
+  }, [dispatch, projectId, toast, __])
 
   // Fetch activities
   const handleLoadActivities = useCallback(async () => {
@@ -809,12 +864,19 @@ export default function TaskDetailSheet() {
                         />
                         {assigneeResults.length > 0 && (
                           <div className="absolute top-full left-0 right-0 mt-1 bg-background border rounded-lg shadow-lg z-50 max-h-36 overflow-y-auto">
-                            {assigneeResults.map(u => (
-                              <button key={u.id} type="button" className="w-full flex items-center gap-2 px-3 py-1.5 text-xs hover:bg-muted/50 text-left" onClick={() => handleAddAssignee(u)}>
-                                <Avatar className="h-5 w-5"><AvatarImage src={u.avatar_url} /><AvatarFallback className="text-[8px]">{userInitials(u.display_name)}</AvatarFallback></Avatar>
-                                {u.display_name}
-                              </button>
-                            ))}
+                            {assigneeResults.map(u => {
+                              const isAssigned = assignees.some(a => parseInt(a.id || a.assigned_to) === parseInt(u.id))
+                              return (
+                                <button key={u.id} type="button"
+                                  className={cn("w-full flex items-center gap-2 px-3 py-1.5 text-xs text-left", isAssigned ? "bg-pm-accent/5 text-pm-accent" : "hover:bg-muted/50")}
+                                  onClick={() => isAssigned ? handleRemoveAssignee(u.id) : handleAddAssignee(u)}
+                                >
+                                  <Avatar className="h-5 w-5"><AvatarImage src={u.avatar_url} /><AvatarFallback className="text-[8px]">{userInitials(u.display_name)}</AvatarFallback></Avatar>
+                                  <span className="flex-1">{u.display_name}</span>
+                                  {isAssigned && <Check className="h-3.5 w-3.5 text-pm-accent shrink-0" />}
+                                </button>
+                              )
+                            })}
                           </div>
                         )}
                       </div>
@@ -904,32 +966,56 @@ export default function TaskDetailSheet() {
               {/* Comment list */}
               {comments.length > 0 && (
                 <div className="space-y-3 mb-4">
-                  {comments.map(comment => (
-                    <div key={comment.id} className="flex gap-2.5">
-                      <Avatar className="h-7 w-7 shrink-0">
-                        <AvatarImage src={comment.creator?.data?.avatar_url} />
-                        <AvatarFallback className="text-[9px]">{userInitials(comment.creator?.data?.display_name ?? '?')}</AvatarFallback>
-                      </Avatar>
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-0.5">
-                          <span className="text-xs font-medium text-pm-text-primary">{comment.creator?.data?.display_name}</span>
-                          <span className="text-[10px] text-pm-text-muted">{formatPmDateTime(comment.created_at)}</span>
-                        </div>
-                        <div className="text-xs text-pm-text-primary/80 leading-relaxed prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: comment.content }} />
-                        {/* Comment files */}
-                        {comment.files?.data?.length > 0 && (
-                          <div className="flex items-center gap-2 mt-1.5 flex-wrap">
-                            {comment.files.data.map(f => (
-                              <a key={f.id} href={f.url} target="_blank" rel="noreferrer"
-                                className="inline-flex items-center gap-1 text-[10px] text-pm-accent bg-pm-accent/5 px-2 py-0.5 rounded hover:bg-pm-accent/10 transition-colors">
-                                <Paperclip className="h-2.5 w-2.5" />{f.name}
-                              </a>
-                            ))}
+                  {comments.map(comment => {
+                    const isOwn = comment.creator?.data?.id === (typeof PM_Vars !== 'undefined' ? PM_Vars.current_user?.ID : null)
+                    const isEditing = editingCommentId === comment.id
+                    return (
+                      <div key={comment.id} className="flex gap-2.5 group/comment">
+                        <Avatar className="h-7 w-7 shrink-0">
+                          <AvatarImage src={comment.creator?.data?.avatar_url} />
+                          <AvatarFallback className="text-[9px]">{userInitials(comment.creator?.data?.display_name ?? '?')}</AvatarFallback>
+                        </Avatar>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2 mb-0.5">
+                            <span className="text-xs font-medium text-pm-text-primary">{comment.creator?.data?.display_name}</span>
+                            <span className="text-[10px] text-pm-text-muted">{formatPmDateTime(comment.created_at)}</span>
+                            {isOwn && !isEditing && (
+                              <span className="opacity-0 group-hover/comment:opacity-100 transition-opacity flex items-center gap-1 ml-auto">
+                                <button type="button" onClick={() => startEditComment(comment)} className="p-0.5 rounded hover:bg-muted text-pm-text-muted hover:text-pm-accent" title={__('Edit')}>
+                                  <Pencil className="h-3 w-3" />
+                                </button>
+                                <button type="button" onClick={() => handleDeleteComment(comment.id)} className="p-0.5 rounded hover:bg-muted text-pm-text-muted hover:text-destructive" title={__('Delete')}>
+                                  <Trash2 className="h-3 w-3" />
+                                </button>
+                              </span>
+                            )}
                           </div>
-                        )}
+                          {isEditing ? (
+                            <div className="space-y-2">
+                              <RichTextEditor content={editCommentText} onChange={setEditCommentText} minHeight="60px" autofocus />
+                              <div className="flex items-center gap-2">
+                                <Button size="sm" className="h-6 text-[11px]" onClick={handleUpdateComment}>{__('Save')}</Button>
+                                <Button size="sm" variant="ghost" className="h-6 text-[11px]" onClick={cancelEditComment}>{__('Cancel')}</Button>
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="text-xs text-pm-text-primary/80 leading-relaxed prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: comment.content }} />
+                          )}
+                          {/* Comment files */}
+                          {comment.files?.data?.length > 0 && (
+                            <div className="flex items-center gap-2 mt-1.5 flex-wrap">
+                              {comment.files.data.map(f => (
+                                <a key={f.id} href={f.url} target="_blank" rel="noreferrer"
+                                  className="inline-flex items-center gap-1 text-[10px] text-pm-accent bg-pm-accent/5 px-2 py-0.5 rounded hover:bg-pm-accent/10 transition-colors">
+                                  <Paperclip className="h-2.5 w-2.5" />{f.name}
+                                </a>
+                              ))}
+                            </div>
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    )
+                  })}
                 </div>
               )}
 
@@ -941,6 +1027,7 @@ export default function TaskDetailSheet() {
                   onChange={(html) => setNewComment(html)}
                   minHeight="60px"
                 />
+                <FileUploadArea files={commentFiles} onFilesChange={setCommentFiles} compact />
                 <Button size="sm" className="h-7 text-xs" onClick={handleSubmitComment} disabled={!newComment.trim() || submittingComment}>
                   {submittingComment ? __('Sending...') : __('Add Comment')}
                 </Button>

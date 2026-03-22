@@ -4,7 +4,7 @@ import { toggleExpand, addTaskToList, reorderTasksLocal } from '@store/taskLists
 import { sortTasks } from '@store/tasksSlice'
 import { createTask } from '@store/tasksSlice'
 import { useApi } from '@hooks/useApi'
-// cn removed — not used in this file
+import { cn } from '@lib/utils'
 import { useI18n } from '@hooks/useI18n'
 import { useToast } from '@hooks/useToast'
 import { Button } from '@components/ui/button'
@@ -25,6 +25,7 @@ import {
   MoreHorizontal,
   Trash2,
   Pencil,
+  Check,
 } from 'lucide-react'
 import TaskRow from './TaskRow'
 
@@ -66,7 +67,7 @@ export default function TaskListSection({ list, projectId, showLabels }) {
   }, [api])
 
   const addAssignee = useCallback((user) => {
-    if (!selectedAssignees.find(u => u.id === user.id)) {
+    if (!selectedAssignees.find(u => parseInt(u.id) === parseInt(user.id))) {
       setSelectedAssignees(prev => [...prev, user])
     }
     setAssigneeSearch('')
@@ -415,20 +416,24 @@ export default function TaskListSection({ list, projectId, showLabels }) {
                         />
                         {assigneeResults.length > 0 && (
                           <div className="absolute top-full left-0 right-0 mt-1 bg-background border rounded-lg shadow-lg z-50 max-h-40 overflow-y-auto">
-                            {assigneeResults.map(user => (
-                              <button
-                                key={user.id}
-                                type="button"
-                                className="w-full flex items-center gap-2 px-3 py-2 text-sm hover:bg-muted/50 text-left transition-colors"
-                                onClick={() => addAssignee(user)}
-                              >
-                                <Avatar className="h-5 w-5">
-                                  <AvatarImage src={user.avatar_url} />
-                                  <AvatarFallback className="text-[8px]">{userInitials(user.display_name)}</AvatarFallback>
-                                </Avatar>
-                                <span className="truncate">{user.display_name}</span>
-                              </button>
-                            ))}
+                            {assigneeResults.map(user => {
+                              const isSelected = selectedAssignees.some(u => parseInt(u.id) === parseInt(user.id))
+                              return (
+                                <button
+                                  key={user.id}
+                                  type="button"
+                                  className={cn("w-full flex items-center gap-2 px-3 py-2 text-sm text-left transition-colors", isSelected ? "bg-pm-accent/5 text-pm-accent" : "hover:bg-muted/50")}
+                                  onClick={() => isSelected ? removeAssignee(user.id) : addAssignee(user)}
+                                >
+                                  <Avatar className="h-5 w-5">
+                                    <AvatarImage src={user.avatar_url} />
+                                    <AvatarFallback className="text-[8px]">{userInitials(user.display_name)}</AvatarFallback>
+                                  </Avatar>
+                                  <span className="flex-1 truncate">{user.display_name}</span>
+                                  {isSelected && <Check className="h-3.5 w-3.5 text-pm-accent shrink-0" />}
+                                </button>
+                              )
+                            })}
                           </div>
                         )}
                       </div>

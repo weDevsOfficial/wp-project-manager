@@ -170,6 +170,33 @@ export const addTaskComment = createAsyncThunk(
   },
 )
 
+export const updateTaskComment = createAsyncThunk(
+  'tasks/updateTaskComment',
+  async ({ projectId, commentId, content }, { rejectWithValue }) => {
+    try {
+      const res = await api.post(`projects/${projectId}/comments/${commentId}`, {
+        content,
+        project_id: projectId,
+      })
+      return { commentId, content, data: res.data }
+    } catch (e) {
+      return rejectWithValue(e.message ?? 'Failed to update comment')
+    }
+  },
+)
+
+export const deleteTaskComment = createAsyncThunk(
+  'tasks/deleteTaskComment',
+  async ({ projectId, commentId }, { rejectWithValue }) => {
+    try {
+      await api.post(`projects/${projectId}/comments/${commentId}/delete`)
+      return { commentId }
+    } catch (e) {
+      return rejectWithValue(e.message ?? 'Failed to delete comment')
+    }
+  },
+)
+
 // ── Slice ─────────────────────────────────────────────
 
 const tasksSlice = createSlice({
@@ -221,6 +248,14 @@ const tasksSlice = createSlice({
       if (action.payload) {
         state.taskComments.push(action.payload)
       }
+    })
+    builder.addCase(updateTaskComment.fulfilled, (state, action) => {
+      const { commentId, content } = action.payload
+      const idx = state.taskComments.findIndex(c => c.id === commentId)
+      if (idx >= 0) state.taskComments[idx] = { ...state.taskComments[idx], content }
+    })
+    builder.addCase(deleteTaskComment.fulfilled, (state, action) => {
+      state.taskComments = state.taskComments.filter(c => c.id !== action.payload.commentId)
     })
 
     // Global project reset — clear task sheet and comments

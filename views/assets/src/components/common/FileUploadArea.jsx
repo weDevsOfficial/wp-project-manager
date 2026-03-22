@@ -1,11 +1,25 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { Button } from '@components/ui/button'
-import { Paperclip, X, FileText, Image } from 'lucide-react'
+import { Paperclip, X, FileText, Image as ImageIcon } from 'lucide-react'
 import { useI18n } from '@hooks/useI18n'
 
 function fileIcon(file) {
-  if (file.type?.startsWith('image')) return Image
+  if (file.type?.startsWith('image')) return ImageIcon
   return FileText
+}
+
+function FileThumbnail({ file }) {
+  const [preview, setPreview] = useState(null)
+  useEffect(() => {
+    if (file.type?.startsWith('image')) {
+      const url = URL.createObjectURL(file)
+      setPreview(url)
+      return () => URL.revokeObjectURL(url)
+    }
+  }, [file])
+  if (preview) return <img src={preview} alt="" className="h-8 w-8 rounded object-cover shrink-0" />
+  const Icon = fileIcon(file)
+  return <Icon className="h-3 w-3 text-pm-text-muted" />
 }
 
 export default function FileUploadArea({ files = [], onFilesChange, compact = false }) {
@@ -27,25 +41,23 @@ export default function FileUploadArea({ files = [], onFilesChange, compact = fa
   if (compact) {
     return (
       <div className="flex items-center gap-2 flex-wrap">
-        {files.map((f, i) => {
-          const Icon = fileIcon(f)
-          return (
-            <span key={i} className="inline-flex items-center gap-1 text-xs bg-muted/50 px-2 py-1 rounded-md">
-              <Icon className="h-3 w-3 text-pm-text-muted" />
-              <span className="truncate max-w-[120px]">{f.name}</span>
-              <button type="button" onClick={() => handleRemove(i)} className="text-pm-text-muted hover:text-destructive ml-0.5">
-                <X className="h-3 w-3" />
-              </button>
-            </span>
-          )
-        })}
+        {files.map((f, i) => (
+          <span key={i} className="inline-flex items-center gap-1.5 text-xs bg-muted/50 px-2 py-1 rounded-md border border-border/50">
+            <FileThumbnail file={f} />
+            <span className="truncate max-w-[120px]">{f.name}</span>
+            <span className="text-[9px] text-pm-text-muted tabular-nums">{(f.size / 1024).toFixed(0)}KB</span>
+            <button type="button" onClick={() => handleRemove(i)} className="text-pm-text-muted hover:text-destructive ml-0.5">
+              <X className="h-3 w-3" />
+            </button>
+          </span>
+        ))}
         <button
           type="button"
           onClick={() => inputRef.current?.click()}
           className="inline-flex items-center gap-1 text-xs text-pm-accent hover:text-pm-accent/80 transition-colors"
         >
           <Paperclip className="h-3 w-3" />
-          {__('Attach')}
+          {files.length > 0 ? __('More') : __('Attach')}
         </button>
         <input ref={inputRef} type="file" multiple className="hidden" onChange={handleSelect} />
       </div>
@@ -68,19 +80,16 @@ export default function FileUploadArea({ files = [], onFilesChange, compact = fa
       {/* File list */}
       {files.length > 0 && (
         <div className="space-y-1.5">
-          {files.map((f, i) => {
-            const Icon = fileIcon(f)
-            return (
-              <div key={i} className="flex items-center gap-2 bg-muted/30 rounded-md px-3 py-1.5">
-                <Icon className="h-4 w-4 text-pm-text-muted shrink-0" />
-                <span className="text-xs text-pm-text-primary flex-1 truncate">{f.name}</span>
-                <span className="text-[10px] text-pm-text-muted tabular-nums">{(f.size / 1024).toFixed(0)} KB</span>
-                <button type="button" onClick={() => handleRemove(i)} className="text-pm-text-muted hover:text-destructive">
-                  <X className="h-3.5 w-3.5" />
-                </button>
-              </div>
-            )
-          })}
+          {files.map((f, i) => (
+            <div key={i} className="flex items-center gap-2 bg-muted/30 rounded-md px-3 py-1.5">
+              <FileThumbnail file={f} />
+              <span className="text-xs text-pm-text-primary flex-1 truncate">{f.name}</span>
+              <span className="text-[10px] text-pm-text-muted tabular-nums">{(f.size / 1024).toFixed(0)} KB</span>
+              <button type="button" onClick={() => handleRemove(i)} className="text-pm-text-muted hover:text-destructive">
+                <X className="h-3.5 w-3.5" />
+              </button>
+            </div>
+          ))}
         </div>
       )}
     </div>

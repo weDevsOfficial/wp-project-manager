@@ -121,7 +121,7 @@ export default function ProjectOverview() {
 
   const handleRemoveMember = useCallback(async (userId) => {
     try {
-      const remaining = (project?.assignees?.data ?? []).filter(u => u.id !== userId);
+      const remaining = (project?.assignees?.data ?? []).filter(u => parseInt(u.id) !== parseInt(userId));
       const allAssignees = remaining.map(u => ({
         user_id: u.id,
         role_id: u.roles?.data?.[0]?.id ?? 2,
@@ -133,7 +133,7 @@ export default function ProjectOverview() {
       });
       setProject(prev => ({
         ...prev,
-        assignees: { data: (prev.assignees?.data ?? []).filter(u => u.id !== userId) },
+        assignees: { data: (prev.assignees?.data ?? []).filter(u => parseInt(u.id) !== parseInt(userId)) },
       }));
       toast.success(__('Member removed'));
     } catch { toast.error(__('Failed to remove member')); }
@@ -236,27 +236,21 @@ export default function ProjectOverview() {
       </div>
 
       {/* Stats grid — clickable cards */}
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
         {stats.map((s) => (
           <button
             key={s.label}
             type="button"
-            className="rounded-xl border bg-card p-4 flex items-center gap-3.5 text-left hover:shadow-md hover:border-border/80 transition-all"
+            className="rounded-xl border bg-card px-3 py-3 flex flex-col items-center gap-1.5 text-center hover:shadow-md hover:border-border/80 transition-all"
             onClick={() =>
               s.route && navigate(`/projects/${projectId}/${s.route}`)
             }
           >
-            <div className={`p-2.5 rounded-xl ${s.bg}`}>
-              <s.icon className={`h-5 w-5 ${s.fg}`} />
+            <div className={`p-2 rounded-lg ${s.bg}`}>
+              <s.icon className={`h-4 w-4 ${s.fg}`} />
             </div>
-            <div>
-              <p className="text-2xl font-bold text-pm-text-primary tabular-nums">
-                {s.value}
-              </p>
-              <p className="text-[11px] text-pm-text-muted font-medium">
-                {s.label}
-              </p>
-            </div>
+            <p className="text-xl font-bold text-pm-text-primary tabular-nums leading-none">{s.value}</p>
+            <p className="text-[10px] text-pm-text-muted font-medium">{s.label}</p>
           </button>
         ))}
       </div>

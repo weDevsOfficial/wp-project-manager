@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Headway badge — position absolutely so it doesn't break flex layout */
+#pm-headway-icon .HW_badge_cont {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  pointer-events: none;
+}
+
 /* ── shadcn/ui CSS variables — must be on :root so portaled
      elements (Select, Dialog, Popover) can access them ────── */
 :root {
