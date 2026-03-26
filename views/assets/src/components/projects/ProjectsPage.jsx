@@ -19,6 +19,7 @@ import { cn } from "@lib/utils";
 import { useI18n } from "@hooks/useI18n";
 import { useToast } from "@hooks/useToast";
 import { usePermissions } from "@hooks/usePermissions";
+import { useProModal } from "@components/common/ProUpgradeModal";
 
 import { Button } from "@components/ui/button";
 import { Skeleton } from "@components/ui/skeleton";
@@ -68,6 +69,8 @@ import {
   Star,
   MoreHorizontal,
   Trash2,
+  Copy,
+  Crown,
   CheckCircle,
   Undo2,
   FolderKanban,
@@ -160,6 +163,7 @@ export default function ProjectsPage() {
   const { __ } = useI18n();
   const toast = useToast();
   const { canCreate, isPro } = usePermissions();
+  const { setOpen: setProModalOpen } = useProModal();
 
   const {
     projects,
@@ -261,6 +265,28 @@ export default function ProjectsPage() {
       setProjectToDelete(null);
     }
   }, [dispatch, projectToDelete, toast, __]);
+
+  const handleDuplicate = useCallback(async (project) => {
+    if (!isPro) {
+      setProModalOpen(true)
+      return
+    }
+    try {
+      const baseUrl = typeof PM_Vars !== 'undefined' ? PM_Vars.api_base_url : '/wp-json/'
+      const res = await fetch(`${baseUrl}pm-pro/v2/duplicate/project/${project.id}`, {
+        method: 'POST',
+        headers: {
+          'X-WP-Nonce': typeof PM_Vars !== 'undefined' ? PM_Vars.permission : '',
+          'Content-Type': 'application/json',
+        },
+      })
+      if (!res.ok) throw new Error('Failed')
+      toast.success(__('Project duplicated'))
+      dispatch(fetchProjects({ status: activeFilter === 'all' ? '' : activeFilter }))
+    } catch {
+      toast.error(__('Failed to duplicate project'))
+    }
+  }, [dispatch, isPro, activeFilter, setProModalOpen, toast, __])
 
   const handleViewModeChange = useCallback(
     (mode) => {
@@ -409,6 +435,11 @@ export default function ProjectsPage() {
             {__("Settings")}
           </DropdownMenuItem>
         )}
+        <DropdownMenuItem onClick={() => handleDuplicate(project)}>
+          <Copy className="h-4 w-4 mr-2" />
+          {__("Duplicate")}
+          {!isPro && <Crown className="h-3 w-3 ml-auto text-amber-500" />}
+        </DropdownMenuItem>
         <DropdownMenuItem
           className="text-destructive focus:text-destructive"
           onClick={() => confirmDelete(project)}
@@ -761,14 +792,14 @@ export default function ProjectsPage() {
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="relative">
-            <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-pm-text-muted" />
+          <div className="flex items-center gap-1.5 h-9 w-[180px] rounded-md border border-pm-border bg-background px-2.5 focus-within:ring-1 focus-within:ring-pm-accent">
+            <Search className="h-3.5 w-3.5 text-pm-text-muted shrink-0" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => handleSearch(e.target.value)}
               placeholder={__('Search projects...')}
-              className="h-9 w-[180px] rounded-md border border-pm-border bg-background pl-8 pr-3 text-sm placeholder:text-pm-text-muted/60 focus:outline-none focus:ring-1 focus:ring-pm-accent"
+              className="flex-1 min-w-0 h-full bg-transparent text-sm placeholder:text-pm-text-muted/60 focus:outline-none !border-0 !p-0 !shadow-none"
             />
           </div>
           <Select

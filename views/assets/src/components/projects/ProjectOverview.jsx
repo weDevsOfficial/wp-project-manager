@@ -236,21 +236,23 @@ export default function ProjectOverview() {
       </div>
 
       {/* Stats grid — clickable cards */}
-      <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
+      <div className="flex gap-2 overflow-x-auto pb-1">
         {stats.map((s) => (
           <button
             key={s.label}
             type="button"
-            className="rounded-xl border bg-card px-3 py-3 flex flex-col items-center gap-1.5 text-center hover:shadow-md hover:border-border/80 transition-all"
+            className="flex-1 min-w-[120px] rounded-xl border bg-white px-3 py-3 flex items-center gap-3 hover:shadow-md hover:border-border/80 transition-all"
             onClick={() =>
               s.route && navigate(`/projects/${projectId}/${s.route}`)
             }
           >
-            <div className={`p-2 rounded-lg ${s.bg}`}>
+            <div className={`p-2 rounded-lg ${s.bg} shrink-0`}>
               <s.icon className={`h-4 w-4 ${s.fg}`} />
             </div>
-            <p className="text-xl font-bold text-pm-text-primary tabular-nums leading-none">{s.value}</p>
-            <p className="text-[10px] text-pm-text-muted font-medium">{s.label}</p>
+            <div className="text-left min-w-0">
+              <p className="text-lg font-bold text-pm-text-primary tabular-nums leading-none">{s.value}</p>
+              <p className="text-[10px] text-pm-text-muted font-medium mt-0.5">{s.label}</p>
+            </div>
           </button>
         ))}
       </div>

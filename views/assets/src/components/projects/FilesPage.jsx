@@ -6,6 +6,7 @@ import { useI18n } from "@hooks/useI18n";
 import { useToast } from "@hooks/useToast";
 import { usePermissions } from "@hooks/usePermissions";
 import { useProModal } from "@components/common/ProUpgradeModal";
+import ProBadge from "@components/common/ProBadge";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
 import { Label } from "@components/ui/label";
@@ -26,7 +27,6 @@ import {
   Upload,
   FilePlus,
   Link2,
-  Crown,
   FolderOpen,
   LayoutGrid,
   List,
@@ -100,6 +100,43 @@ export default function FilesPage() {
   const [linkTitle, setLinkTitle] = useState("");
   const [linkUrl, setLinkUrl] = useState("");
   const [uploading, setUploading] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  // Move to folder
+  const [moveOpen, setMoveOpen] = useState(false);
+  const [moveItem, setMoveItem] = useState(null);
+  const [moveTarget, setMoveTarget] = useState('0');
+  const [allFolders, setAllFolders] = useState([]);
+  const [movingLoading, setMovingLoading] = useState(false);
+
+  const openMoveDialog = useCallback((file) => {
+    setMoveItem(file);
+    setMoveTarget('0');
+    proApi.get(`projects/${projectId}/files/folders`).then(res => {
+      const folders = res?.data || res || [];
+      setAllFolders(Array.isArray(folders) ? folders.filter(f => f.id !== file.id) : []);
+    }).catch(() => {});
+    setMoveOpen(true);
+  }, [proApi, projectId]);
+
+  const handleMove = async () => {
+    if (!moveItem) return;
+    setMovingLoading(true);
+    try {
+      await proApi.post(`projects/${projectId}/files/sorting`, {
+        source: moveItem.id,
+        destination: parseInt(moveTarget) || 0,
+      });
+      toast.success(__('File moved'));
+      setMoveOpen(false);
+      setMoveItem(null);
+      setRefreshKey(k => k + 1);
+    } catch {
+      toast.error(__('Failed to move file'));
+    } finally {
+      setMovingLoading(false);
+    }
+  };
 
   const proAction = (action) => {
     if (!isPro) { setProModalOpen(true); return; }
@@ -126,37 +163,24 @@ export default function FilesPage() {
       : Promise.resolve({ data: [] });
 
     if (isPro) {
-      const proReq = proApi.get(`projects/${projectId}/files`, { per_page: 100, folder_id: folderId || undefined }).catch(() => ({ data: [] }));
-      Promise.all([freeReq, proReq]).then(([freeRes, proRes]) => {
-        const freeFiles = freeRes?.data ?? freeRes ?? [];
-        const proFiles = proRes?.data ?? proRes ?? [];
-        const freeArr = Array.isArray(freeFiles) ? freeFiles : Object.values(freeFiles);
-        const proArr = Array.isArray(proFiles) ? proFiles : Object.values(proFiles);
-        // Pro API already filters by folder_id, so proArr is the source of truth
-        // Free API returns ALL files flat — only include free files that have NO match in pro
-        const proUrls = new Set(proArr.map(f => f.url).filter(Boolean));
-        const proAttIds = new Set(proArr.map(f => f.attachment_id).filter(Boolean));
-        const proIds = new Set(proArr.map(f => f.id));
-
-        const merged = [...proArr];
-        if (folderId === 0) {
-          // At root: only add free files that aren't duplicated in pro (by URL or attachment_id)
-          freeArr.forEach(f => {
-            if (proIds.has(f.id)) return;
-            if (f.url && proUrls.has(f.url)) return;
-            if (f.attachment_id && proAttIds.has(f.attachment_id)) return;
-            merged.push(f);
-          });
-        }
-        // Filter out current folder itself
-        const filtered = merged.filter(f => f.id !== folderId);
-        setFiles(sortFiles(filtered));
-      }).finally(() => setLoading(false));
+      // When pro is active, use ONLY the pro API.
+      // Both free and pro share the same pm_files DB table.
+      // Pro API filters by parent/folder_id — free API returns everything flat.
+      // Using only pro API avoids duplicate files showing outside their folders.
+      proApi.get(`projects/${projectId}/files`, { per_page: 100, folder_id: folderId || undefined })
+        .then((proRes) => {
+          const proFiles = proRes?.data ?? proRes ?? [];
+          const proArr = Array.isArray(proFiles) ? proFiles : Object.values(proFiles);
+          const filtered = proArr.filter(f => f.id !== folderId);
+          setFiles(sortFiles(filtered));
+        })
+        .catch(() => setFiles([]))
+        .finally(() => setLoading(false));
     } else {
       freeReq.then((res) => setFiles(res?.data ?? res ?? []))
         .finally(() => setLoading(false));
     }
-  }, [api, proApi, projectId, isPro, folderId]);
+  }, [api, proApi, projectId, isPro, folderId, refreshKey]);
 
   useEffect(() => { fetchFiles(); }, [fetchFiles]);
 
@@ -299,21 +323,21 @@ export default function FilesPage() {
 
         {/* Pro action buttons */}
         <div className="flex items-center gap-2">
-          <Button size="sm" variant="outline" className="h-8 text-xs" onClick={() => proAction(() => setFolderOpen(true))}>
+          <Button size="sm" variant="outline" className="h-8 text-xs group/btn" onClick={() => proAction(() => setFolderOpen(true))}>
             <FolderPlus className="h-3.5 w-3.5 mr-1" />{__("Create a folder")}
-            {!isPro && <Crown className="h-3 w-3 ml-1 text-pm-accent" />}
+            {!isPro && <span className="opacity-0 group-hover/btn:opacity-100 transition-opacity ml-1"><ProBadge /></span>}
           </Button>
-          <Button size="sm" variant="outline" className="h-8 text-xs" onClick={() => proAction(() => setUploadOpen(true))}>
+          <Button size="sm" variant="outline" className="h-8 text-xs group/btn" onClick={() => proAction(() => setUploadOpen(true))}>
             <Upload className="h-3.5 w-3.5 mr-1" />{__("Upload a file")}
-            {!isPro && <Crown className="h-3 w-3 ml-1 text-pm-accent" />}
+            {!isPro && <span className="opacity-0 group-hover/btn:opacity-100 transition-opacity ml-1"><ProBadge /></span>}
           </Button>
-          <Button size="sm" variant="outline" className="h-8 text-xs" onClick={() => proAction(() => setDocOpen(true))}>
+          <Button size="sm" variant="outline" className="h-8 text-xs group/btn" onClick={() => proAction(() => setDocOpen(true))}>
             <FilePlus className="h-3.5 w-3.5 mr-1" />{__("Create a doc")}
-            {!isPro && <Crown className="h-3 w-3 ml-1 text-pm-accent" />}
+            {!isPro && <span className="opacity-0 group-hover/btn:opacity-100 transition-opacity ml-1"><ProBadge /></span>}
           </Button>
-          <Button size="sm" variant="outline" className="h-8 text-xs" onClick={() => proAction(() => setLinkDocOpen(true))}>
+          <Button size="sm" variant="outline" className="h-8 text-xs group/btn" onClick={() => proAction(() => setLinkDocOpen(true))}>
             <Link2 className="h-3.5 w-3.5 mr-1" />{__("Link to Docs")}
-            {!isPro && <Crown className="h-3 w-3 ml-1 text-pm-accent" />}
+            {!isPro && <span className="opacity-0 group-hover/btn:opacity-100 transition-opacity ml-1"><ProBadge /></span>}
           </Button>
         </div>
       </div>
@@ -398,7 +422,7 @@ export default function FilesPage() {
                         {f.privacy === 1 && <Lock className="h-2.5 w-2.5 text-pm-text-muted/50 shrink-0" />}
                       </div>
                       <p className="text-[10px] text-pm-text-muted mt-0.5 truncate">
-                        {isFolder ? `${f.items_count || 0} ${__('items')}` : formatPmDateTime(f.created_at) || ''}
+                        {isFolder ? `${f.children_count ?? f.children?.data?.length ?? f.items_count ?? 0} ${__('items')}` : formatPmDateTime(f.created_at) || ''}
                       </p>
                     </div>
                     {/* Hover actions */}
@@ -419,6 +443,11 @@ export default function FilesPage() {
                             <DropdownMenuItem onClick={() => handleTogglePrivacy(f)}>
                               {f.privacy ? <Unlock className="h-3.5 w-3.5 mr-2" /> : <Lock className="h-3.5 w-3.5 mr-2" />}
                               {f.privacy ? __("Make Public") : __("Make Private")}
+                            </DropdownMenuItem>
+                          )}
+                          {isPro && !isFolder && (
+                            <DropdownMenuItem onClick={() => openMoveDialog(f)}>
+                              <Move className="h-3.5 w-3.5 mr-2" />{__("Move to Folder")}
                             </DropdownMenuItem>
                           )}
                           <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => handleDelete(f.id)}>
@@ -450,7 +479,7 @@ export default function FilesPage() {
                       {isLink && f.url && <ExternalLink className="h-3 w-3 text-pm-text-muted/50 shrink-0" />}
                     </div>
                     <div className="flex items-center gap-2 mt-0.5 text-[11px] text-pm-text-muted">
-                      {isFolder && <span>{f.items_count || 0} {__('items')}</span>}
+                      {isFolder && <span>{f.children_count ?? f.children?.data?.length ?? f.items_count ?? 0} {__('items')}</span>}
                       {isDoc && f.description?.content && <span className="truncate max-w-[200px]">{f.description.content.replace(/<[^>]*>/g, '').slice(0, 60)}</span>}
                       {isLink && f.url && <span className="truncate max-w-[200px]">{f.url}</span>}
                       {attachedTo && (
@@ -483,6 +512,11 @@ export default function FilesPage() {
                           <DropdownMenuItem onClick={() => handleTogglePrivacy(f)}>
                             {f.privacy ? <Unlock className="h-3.5 w-3.5 mr-2" /> : <Lock className="h-3.5 w-3.5 mr-2" />}
                             {f.privacy ? __("Make Public") : __("Make Private")}
+                          </DropdownMenuItem>
+                        )}
+                        {isPro && !isFolder && (
+                          <DropdownMenuItem onClick={() => openMoveDialog(f)}>
+                            <Move className="h-3.5 w-3.5 mr-2" />{__("Move to Folder")}
                           </DropdownMenuItem>
                         )}
                         <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => handleDelete(f.id)}>
@@ -565,6 +599,32 @@ export default function FilesPage() {
           <DialogFooter>
             <Button variant="outline" size="sm" onClick={() => setLinkDocOpen(false)}>{__("Cancel")}</Button>
             <Button size="sm" onClick={handleLinkDoc} disabled={!linkTitle.trim() || !linkUrl.trim()}>{__("Add Link")}</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Move to folder dialog */}
+      <Dialog open={moveOpen} onOpenChange={setMoveOpen}>
+        <DialogContent className="max-w-sm" data-pm-dialog>
+          <DialogHeader><DialogTitle>{__("Move to Folder")}</DialogTitle></DialogHeader>
+          <div className="space-y-3">
+            <p className="text-xs text-pm-text-muted">{__("Moving")}: <strong>{moveItem?.meta?.title || moveItem?.name || moveItem?.title}</strong></p>
+            <div>
+              <Label className="text-xs mb-1 block">{__("Destination Folder")}</Label>
+              <select value={moveTarget} onChange={e => setMoveTarget(e.target.value)}
+                className="w-full h-9 rounded-md border border-pm-border bg-background px-3 text-sm focus:outline-none focus:ring-1 focus:ring-pm-accent">
+                <option value="0">{__("Root (Home)")}</option>
+                {allFolders.map(f => (
+                  <option key={f.id} value={String(f.id)}>{f.title || f.meta?.title || `Folder #${f.id}`}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" size="sm" onClick={() => setMoveOpen(false)}>{__("Cancel")}</Button>
+            <Button size="sm" onClick={handleMove} disabled={movingLoading}>
+              {movingLoading ? __("Moving...") : __("Move")}
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

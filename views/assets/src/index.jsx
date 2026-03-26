@@ -37,6 +37,8 @@ const ToolsPage       = React.lazy(() => import('@components/projects/ToolsPage'
 const CalendarPlaceholder = React.lazy(() => import('@components/projects/CalendarPage'))
 const ReportsPlaceholder  = React.lazy(() => import('@components/projects/ReportsPage'))
 const ProgressPlaceholder = React.lazy(() => import('@components/projects/ProgressPage'))
+import ProFeaturePlaceholder from '@components/common/ProFeaturePlaceholder'
+import { Columns3, GitBranch, Receipt, Settings as SettingsIcon } from 'lucide-react'
 
 // ── Replaceable page wrapper — pro can override via filters ──
 function FilteredPage({ filterName, fallback: Fallback }) {
@@ -77,6 +79,12 @@ function AppRoutes() {
         <Route path="calendar" element={<FilteredPage filterName="route.calendar.element" fallback={CalendarPlaceholder} />} />
         <Route path="reports/*" element={<FilteredPage filterName="route.reports.element" fallback={ReportsPlaceholder} />} />
         <Route path="progress" element={<FilteredPage filterName="route.progress.element" fallback={ProgressPlaceholder} />} />
+
+        {/* ── Pro feature placeholders — Pro overrides via dynamic routes ── */}
+        <Route path="projects/:projectId/kanban" element={<FilteredPage filterName="route.kanban.element" fallback={() => <ProFeaturePlaceholder title="Kanban Board" description="Visualize your workflow with drag-and-drop boards." icon={Columns3} mockKey="kanban" />} />} />
+        <Route path="projects/:projectId/gantt" element={<FilteredPage filterName="route.gantt.element" fallback={() => <ProFeaturePlaceholder title="Gantt Chart" description="Plan and track project timelines with interactive Gantt charts." icon={GitBranch} mockKey="gantt" />} />} />
+        <Route path="projects/:projectId/invoices" element={<FilteredPage filterName="route.invoices.element" fallback={() => <ProFeaturePlaceholder title="Invoices" description="Create and manage project invoices with payment tracking." icon={Receipt} mockKey="invoices" />} />} />
+        <Route path="projects/:projectId/settings" element={<FilteredPage filterName="route.settings.element" fallback={() => <ProFeaturePlaceholder title="Project Settings" description="Configure project capabilities, integrations, and more." icon={SettingsIcon} mockKey="settings" />} />} />
 
         {/* ── Dynamic routes registered by Pro plugin ── */}
         {dynamicRoutes.map(({ path, element }, i) => (

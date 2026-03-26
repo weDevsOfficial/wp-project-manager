@@ -217,10 +217,14 @@ function TaskEstimationField({ task, projectId, dispatch, api }) {
 
   const handleSave = useCallback(() => {
     setSaving(true)
-    // Vue sends estimation as "hh:mm" STRING — PHP parses it
+    // Vue sends estimation as MINUTES (number) — convert hh:mm to minutes
+    const parts = (timeInput || '00:00').split(':')
+    const hours = parseInt(parts[0]) || 0
+    const mins = parseInt(parts[1]) || 0
+    const totalMinutes = hours * 60 + mins
     api.post(`projects/${projectId}/tasks/${task.id}/update`, {
       title: task.title,
-      estimation: timeInput || '00:00',
+      estimation: totalMinutes,
     }).then(() => {
       dispatch(fetchTask({ projectId, taskId: task.id }))
       setOpen(false)

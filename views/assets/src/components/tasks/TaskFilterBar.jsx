@@ -103,13 +103,13 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
   return (
     <div className="rounded-lg border bg-card px-3 py-2.5 flex items-center gap-2 flex-wrap">
       {/* Search */}
-      <div className="flex items-center gap-0 flex-1 min-w-[160px] max-w-[240px] h-8 rounded-md border border-input bg-background px-2.5 focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
+      <div className="flex items-center gap-1.5 flex-1 min-w-[160px] max-w-[240px] h-8 rounded-md border border-input bg-background px-2.5 focus-within:ring-1 focus-within:ring-pm-accent">
         <Search className="h-3.5 w-3.5 text-pm-text-muted shrink-0" />
         <input
           value={searchTitle}
           onChange={(e) => handleSearchChange(e.target.value)}
           placeholder={__('Search tasks...')}
-          className="flex-1 h-full bg-transparent text-xs text-pm-text-primary placeholder:text-muted-foreground focus:outline-none pl-2 border-0"
+          className="flex-1 min-w-0 h-full bg-transparent text-xs text-pm-text-primary placeholder:text-muted-foreground focus:outline-none !border-0 !p-0 !shadow-none"
         />
       </div>
 

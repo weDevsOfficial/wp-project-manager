@@ -278,9 +278,9 @@ export function TopBar() {
         {/* User avatar */}
         {currentUser && (
           <Avatar className="h-7 w-7 shrink-0">
-            <AvatarImage src={currentUser.avatar_url} />
+            <AvatarImage src={currentUser.data?.avatar_url || currentUser.avatar_url || (typeof PM_Vars !== 'undefined' ? PM_Vars.avatar_url : '')} />
             <AvatarFallback className="text-[10px]">
-              {userInitials(currentUser.display_name || currentUser.username || 'U')}
+              {userInitials(currentUser.data?.display_name || currentUser.display_name || currentUser.data?.user_login || 'U')}
             </AvatarFallback>
           </Avatar>
         )}

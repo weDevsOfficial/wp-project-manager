@@ -74,10 +74,16 @@ export function AppSidebar() {
   const api      = useApi()
 
   // Merge free + pro sub-nav items
+  // When pro is off, show Kanban/Gantt/Invoice/Settings as pro previews (like Calendar placeholder)
   const projectSubNav = useMemo(() => {
-    return isPro
-      ? [...projectSubNav_FREE, ...PROJECT_SUB_NAV_PRO]
-      : projectSubNav_FREE
+    if (isPro) return [...projectSubNav_FREE, ...PROJECT_SUB_NAV_PRO]
+    return [
+      ...projectSubNav_FREE,
+      { key: 'kanban',   label: 'Kanban Board', icon: Columns3,  path: (pid) => `/projects/${pid}/kanban`,   proPreview: true },
+      { key: 'gantt',    label: 'Gantt Chart',  icon: GitBranch,  path: (pid) => `/projects/${pid}/gantt`,    proPreview: true },
+      { key: 'invoices', label: 'Invoices',     icon: Receipt,    path: (pid) => `/projects/${pid}/invoices`, proPreview: true },
+      { key: 'settings', label: 'Settings',     icon: Settings,   path: (pid) => `/projects/${pid}/settings`, proPreview: true },
+    ]
   }, [isPro])
 
   // Sidebar keeps its own project list — independent of ProjectsPage Redux filters
@@ -156,7 +162,7 @@ export function AppSidebar() {
     if (!recentProjectIds.length || !sidebarProjects.length) return []
     return recentProjectIds
       .map(id => sidebarProjects.find(p => p.id === id))
-      .filter(Boolean)
+      .filter(p => p && !p.favourite)
   }, [recentProjectIds, sidebarProjects])
 
   const [showRecent, setShowRecent] = useState(true)
@@ -234,7 +240,7 @@ export function AppSidebar() {
       <button
         key={item.key}
         className={cn(
-          'w-full flex items-center min-w-0 rounded-md transition-colors text-left mb-0.5',
+          'w-full flex items-center min-w-0 rounded-md transition-colors text-left mb-0.5 group/nav',
           collapsed ? 'justify-center px-0 py-2' : 'gap-2.5 px-2.5 py-[7px]',
           isActive
             ? 'bg-pm-accent/10 text-pm-accent font-medium'
@@ -245,7 +251,7 @@ export function AppSidebar() {
       >
         <Icon className={cn('shrink-0', collapsed ? 'w-5 h-5' : 'w-4 h-4', isActive ? 'text-pm-accent' : 'text-pm-text-muted')} />
         {!collapsed && <TruncText className="text-[13px]">{item.label}</TruncText>}
-        {!collapsed && item.pro && <span className="shrink-0"><ProBadge /></span>}
+        {!collapsed && item.pro && <span className="shrink-0 opacity-0 group-hover/nav:opacity-100 transition-opacity"><ProBadge /></span>}
       </button>
     )
   }
@@ -309,7 +315,7 @@ export function AppSidebar() {
                 <button
                   key={sub.key}
                   className={cn(
-                    'w-full flex items-center min-w-0 gap-2 rounded-md px-2 py-[5px] text-left transition-colors',
+                    'w-full flex items-center min-w-0 gap-2 rounded-md px-2 py-[5px] text-left transition-colors group/sub',
                     subActive
                       ? 'bg-pm-accent/10 text-pm-accent font-medium'
                       : 'text-pm-text-muted hover:bg-pm-hover hover:text-pm-text',
@@ -318,6 +324,7 @@ export function AppSidebar() {
                 >
                   <SubIcon className={cn('h-3.5 w-3.5 shrink-0', subActive ? 'text-pm-accent' : 'text-pm-text-muted/70')} />
                   <TruncText className="text-[12px]">{__(sub.label)}</TruncText>
+                  {sub.proPreview && <span className="shrink-0 opacity-0 group-hover/sub:opacity-100 transition-opacity"><ProBadge /></span>}
                 </button>
               )
             })}
@@ -445,11 +452,11 @@ export function AppSidebar() {
             ) : (
               <div className="border-t border-pm-border my-2 mx-1" />
             )}
-            {!isFrontend && renderNavItem({ key: 'modules', label: __('Modules'), icon: Layers, route: '/modules' })}
+            {!isFrontend && renderNavItem({ key: 'modules', label: __('Modules'), icon: Layers, route: '/modules', pro: !isPro })}
             {!isPro && !isFrontend && (
               collapsed ? (
                 <button
-                  className="w-full flex justify-center py-2 text-orange-500 hover:bg-orange-50 rounded-md transition-colors"
+                  className="w-full flex justify-center py-2 text-pm-accent hover:bg-pm-accent/5 rounded-md transition-colors"
                   title={__('Upgrade to Pro')}
                   onClick={() => navigate('/premium')}
                 >
@@ -457,7 +464,7 @@ export function AppSidebar() {
                 </button>
               ) : (
                 <button
-                  className="w-full flex items-center min-w-0 gap-2.5 rounded-md px-2.5 py-[7px] text-left mb-0.5 transition-colors text-orange-500 hover:bg-orange-50"
+                  className="w-full flex items-center min-w-0 gap-2.5 rounded-md px-2.5 py-[7px] text-left mb-0.5 transition-colors text-pm-accent hover:bg-pm-accent/5"
                   onClick={() => navigate('/premium')}
                 >
                   <Crown className="w-4 h-4 shrink-0" />

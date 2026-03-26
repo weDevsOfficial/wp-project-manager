@@ -347,3 +347,39 @@ body.pm-mode-wordpress ol[data-sonner-toaster],
 body.pm-mode-wordpress [data-sonner-toaster] {
   z-index: 100300 !important;
 }
+
+/* ── Override WP admin button styles inside our React app ──
+   WP admin applies background/border/shadow to all <button> elements.
+   We reset these inside #wedevs-project-manager and Radix portals. ── */
+#wedevs-project-manager button:not(.components-button):not(.wp-element-button):not([role="checkbox"]):not([data-state]),
+[data-radix-popper-content-wrapper] button,
+[data-radix-popper-content-wrapper] [role="menuitem"],
+[role="dialog"][data-state] button {
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
+}
+#wedevs-project-manager button:not(.components-button):not(.wp-element-button):focus,
+[data-radix-popper-content-wrapper] button:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+/* ── Override WP admin input styles inside our React app ──
+   WP admin adds extra padding/height/border to inputs which
+   misaligns icons and breaks Tailwind's h-* sizing. ── */
+#wedevs-project-manager input:not([type="checkbox"]):not([type="radio"]),
+#wedevs-project-manager textarea,
+#wedevs-project-manager select,
+[data-radix-popper-content-wrapper] input,
+[data-radix-popper-content-wrapper] textarea,
+[role="dialog"][data-state] input,
+[role="dialog"][data-state] textarea {
+  padding: revert;
+  height: auto;
+  line-height: inherit;
+  box-shadow: none;
+  border-color: hsl(var(--border));
+  border-radius: calc(var(--radius) - 2px);
+  background-color: transparent;
+}
