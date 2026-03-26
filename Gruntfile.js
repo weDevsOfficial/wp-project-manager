@@ -113,7 +113,7 @@ module.exports = function(grunt) {
             options: {},
 
             build: {
-                cmd: 'npm',
+                cmd: 'pnpm',
                 args: ['run', 'build']
             },
 
