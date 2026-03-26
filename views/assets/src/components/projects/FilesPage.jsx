@@ -27,7 +27,16 @@ import {
   FilePlus,
   Link2,
   Crown,
-  Folder,
+  FolderOpen,
+  LayoutGrid,
+  List,
+  Lock,
+  Unlock,
+  ChevronRight,
+  Home,
+  Pencil,
+  Move,
+  Globe,
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -73,6 +82,13 @@ export default function FilesPage() {
   const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  // Folder navigation (Pro)
+  const [folderId, setFolderId] = useState(0);
+  const [folderPath, setFolderPath] = useState([]); // [{id, title}, ...]
+  const [detailItem, setDetailItem] = useState(null);
+  const [detailOpen, setDetailOpen] = useState(false);
+  const [viewMode, setViewMode] = useState(() => localStorage.getItem('pm_files_view') || 'grid');
+
   // Pro dialogs
   const [uploadOpen, setUploadOpen] = useState(false);
   const [folderOpen, setFolderOpen] = useState(false);
@@ -90,31 +106,88 @@ export default function FilesPage() {
     action();
   };
 
+  // Sort: folders first, then files, docs, links
+  const sortFiles = (items) => {
+    const order = { folder: 0, pro_file: 1, doc: 2, link: 3 };
+    return [...items].sort((a, b) => {
+      const ta = order[a.type] ?? order[a.file_type] ?? 1;
+      const tb = order[b.type] ?? order[b.file_type] ?? 1;
+      if (ta !== tb) return ta - tb;
+      return (a.title || '').localeCompare(b.title || '');
+    });
+  };
+
   // Fetch files — free (pm/v2) + pro (pm-pro/v2) merged
   const fetchFiles = useCallback(() => {
     setLoading(true);
-    const freeReq = api.get(`projects/${projectId}/files`, { per_page: 100 }).catch(() => ({ data: [] }));
+    // Only fetch free files at root level
+    const freeReq = folderId === 0
+      ? api.get(`projects/${projectId}/files`, { per_page: 100 }).catch(() => ({ data: [] }))
+      : Promise.resolve({ data: [] });
 
     if (isPro) {
-      const proReq = proApi.get(`projects/${projectId}/files`, { per_page: 100 }).catch(() => ({ data: [] }));
+      const proReq = proApi.get(`projects/${projectId}/files`, { per_page: 100, folder_id: folderId || undefined }).catch(() => ({ data: [] }));
       Promise.all([freeReq, proReq]).then(([freeRes, proRes]) => {
         const freeFiles = freeRes?.data ?? freeRes ?? [];
         const proFiles = proRes?.data ?? proRes ?? [];
         const freeArr = Array.isArray(freeFiles) ? freeFiles : Object.values(freeFiles);
         const proArr = Array.isArray(proFiles) ? proFiles : Object.values(proFiles);
-        // Merge, deduplicate by id
-        const merged = [...proArr];
+        // Pro API already filters by folder_id, so proArr is the source of truth
+        // Free API returns ALL files flat — only include free files that have NO match in pro
+        const proUrls = new Set(proArr.map(f => f.url).filter(Boolean));
+        const proAttIds = new Set(proArr.map(f => f.attachment_id).filter(Boolean));
         const proIds = new Set(proArr.map(f => f.id));
-        freeArr.forEach(f => { if (!proIds.has(f.id)) merged.push(f); });
-        setFiles(merged);
+
+        const merged = [...proArr];
+        if (folderId === 0) {
+          // At root: only add free files that aren't duplicated in pro (by URL or attachment_id)
+          freeArr.forEach(f => {
+            if (proIds.has(f.id)) return;
+            if (f.url && proUrls.has(f.url)) return;
+            if (f.attachment_id && proAttIds.has(f.attachment_id)) return;
+            merged.push(f);
+          });
+        }
+        // Filter out current folder itself
+        const filtered = merged.filter(f => f.id !== folderId);
+        setFiles(sortFiles(filtered));
       }).finally(() => setLoading(false));
     } else {
       freeReq.then((res) => setFiles(res?.data ?? res ?? []))
         .finally(() => setLoading(false));
     }
-  }, [api, proApi, projectId, isPro]);
+  }, [api, proApi, projectId, isPro, folderId]);
 
   useEffect(() => { fetchFiles(); }, [fetchFiles]);
+
+  // Folder navigation handlers
+  const enterFolder = (folder) => {
+    setFolderPath(prev => [...prev, { id: folder.id, title: folder.title }]);
+    setFolderId(folder.id);
+  };
+  const navigateToBreadcrumb = (idx) => {
+    if (idx === -1) { setFolderId(0); setFolderPath([]); return; }
+    const newPath = folderPath.slice(0, idx + 1);
+    setFolderPath(newPath);
+    setFolderId(newPath[newPath.length - 1].id);
+  };
+  const handleTogglePrivacy = async (item) => {
+    try {
+      await proApi.post(`projects/${projectId}/files/${item.id}`, { privacy: item.privacy ? 0 : 1 });
+      toast.success(item.privacy ? __('Made public') : __('Made private'));
+      fetchFiles();
+    } catch { toast.error(__('Failed to update privacy')); }
+  };
+  const handleItemClick = (item) => {
+    const type = item.type || item.file_type;
+    if (type === 'folder') {
+      // Prevent re-entering the same folder
+      if (item.id === folderId) return;
+      enterFolder(item);
+      return;
+    }
+    setDetailItem(item); setDetailOpen(true);
+  };
 
   // Upload file (Pro) — pm-pro/v2/projects/{pid}/files
   const handleUpload = async (e) => {
@@ -125,7 +198,7 @@ export default function FilesPage() {
       const formData = new FormData();
       formData.append("files[0]", file);
       formData.append("type", "pro_file");
-      formData.append("parent", "0");
+      formData.append("parent", String(folderId));
       formData.append("project_id", projectId);
       await api.upload(`pm-pro/v2/projects/${projectId}/files`, formData);
       toast.success(__("File uploaded"));
@@ -142,7 +215,7 @@ export default function FilesPage() {
       await proApi.post(`projects/${projectId}/files`, {
         title: folderName.trim(),
         type: "folder",
-        parent: 0,
+        parent: folderId,
       });
       toast.success(__("Folder created"));
       setFolderOpen(false);
@@ -159,7 +232,7 @@ export default function FilesPage() {
         title: docTitle.trim(),
         description: docContent,
         type: "doc",
-        parent: 0,
+        parent: folderId,
       });
       toast.success(__("Document created"));
       setDocOpen(false);
@@ -177,7 +250,7 @@ export default function FilesPage() {
         title: linkTitle.trim(),
         url: linkUrl.trim(),
         type: "link",
-        parent: 0,
+        parent: folderId,
       });
       toast.success(__("Link added"));
       setLinkDocOpen(false);
@@ -263,89 +336,156 @@ export default function FilesPage() {
         </div>
       ) : (
         <div className="rounded-xl border bg-card overflow-hidden">
-          {/* Breadcrumb bar */}
-          <div className="flex items-center gap-2 px-4 py-2.5 bg-pm-accent/5 border-b">
-            <Folder className="h-4 w-4 text-pm-accent" />
-            <span className="text-xs font-medium text-pm-text-primary">{__("Home")}</span>
+          {/* Breadcrumb bar + view toggle */}
+          <div className="flex items-center justify-between px-4 py-2.5 bg-pm-accent/5 border-b">
+            <div className="flex items-center gap-1.5 flex-wrap">
+              <button onClick={() => navigateToBreadcrumb(-1)} className="flex items-center gap-1 text-xs font-medium text-pm-accent hover:underline">
+                <Home className="h-3.5 w-3.5" />{__("Home")}
+              </button>
+              {folderPath.map((crumb, idx) => (
+                <React.Fragment key={crumb.id}>
+                  <ChevronRight className="h-3 w-3 text-pm-text-muted/50" />
+                  <button onClick={() => navigateToBreadcrumb(idx)}
+                    className={`text-xs font-medium ${idx === folderPath.length - 1 ? 'text-pm-text-primary' : 'text-pm-accent hover:underline'}`}>
+                    {crumb.title}
+                  </button>
+                </React.Fragment>
+              ))}
+            </div>
+            <div className="flex items-center gap-0.5 bg-muted/50 rounded-md p-0.5">
+              <button onClick={() => { setViewMode('grid'); localStorage.setItem('pm_files_view', 'grid') }}
+                className={`p-1 rounded ${viewMode === 'grid' ? 'bg-white shadow-sm text-pm-accent' : 'text-pm-text-muted hover:text-pm-text'}`}>
+                <LayoutGrid className="h-3.5 w-3.5" />
+              </button>
+              <button onClick={() => { setViewMode('list'); localStorage.setItem('pm_files_view', 'list') }}
+                className={`p-1 rounded ${viewMode === 'list' ? 'bg-white shadow-sm text-pm-accent' : 'text-pm-text-muted hover:text-pm-text'}`}>
+                <List className="h-3.5 w-3.5" />
+              </button>
+            </div>
           </div>
 
-          {/* File list */}
-          <div className="divide-y divide-border/50">
+          {/* File grid / list */}
+          <div className={viewMode === 'grid' ? 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 p-4' : 'divide-y divide-border/50'}>
             {files.map((f) => {
-              const Icon = getFileIcon(f.type || f.mime_type);
+              const fileType = f.type || f.file_type || '';
+              const isFolder = fileType === 'folder';
+              const isDoc = fileType === 'doc';
+              const isLink = fileType === 'link';
+              const Icon = isFolder ? FolderOpen : isDoc ? FileText : isLink ? Globe : getFileIcon(f.type || f.mime_type);
+              const iconColor = isFolder ? 'text-amber-500' : isDoc ? 'text-blue-500' : isLink ? 'text-emerald-500' : 'text-pm-text-muted';
               const fileName = f.meta?.title || f.name || f.title || "File";
-              const attachedTo = getAttachedLabel(f, __);
+              const attachedTo = !isFolder && !isDoc && !isLink ? getAttachedLabel(f, __) : '';
               const isImage = (f.type || f.mime_type || "").startsWith("image");
-              const thumbUrl = f.thumb || (isImage ? f.url : null);
+              const thumbUrl = !isFolder && !isDoc && !isLink ? (f.thumb || (isImage ? f.url : null)) : null;
 
+              /* ── GRID VIEW ── */
+              if (viewMode === 'grid') {
+                return (
+                  <div key={f.id} className="group relative rounded-xl border bg-white hover:shadow-md transition-all cursor-pointer overflow-hidden"
+                    onClick={() => handleItemClick(f)}>
+                    {/* Preview area */}
+                    <div className={`aspect-square flex items-center justify-center ${isFolder ? 'bg-amber-50' : thumbUrl ? '' : 'bg-muted/30'}`}>
+                      {thumbUrl ? (
+                        <img src={thumbUrl} alt={fileName} className="w-full h-full object-cover" />
+                      ) : (
+                        <Icon className={`h-10 w-10 ${iconColor}`} />
+                      )}
+                    </div>
+                    {/* Info */}
+                    <div className="p-2.5">
+                      <div className="flex items-center gap-1">
+                        <p className="text-xs font-medium text-pm-text-primary truncate flex-1">{fileName}</p>
+                        {f.privacy === 1 && <Lock className="h-2.5 w-2.5 text-pm-text-muted/50 shrink-0" />}
+                      </div>
+                      <p className="text-[10px] text-pm-text-muted mt-0.5 truncate">
+                        {isFolder ? `${f.items_count || 0} ${__('items')}` : formatPmDateTime(f.created_at) || ''}
+                      </p>
+                    </div>
+                    {/* Hover actions */}
+                    <div className="absolute top-1.5 right-1.5 opacity-0 group-hover:opacity-100 transition-opacity" onClick={e => e.stopPropagation()}>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="secondary" size="icon" className="h-6 w-6 rounded-full shadow-sm bg-white/90 backdrop-blur">
+                            <MoreHorizontal className="h-3 w-3" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          {!isFolder && f.url && (
+                            <DropdownMenuItem onClick={() => window.open(f.url, "_blank")}>
+                              <Download className="h-3.5 w-3.5 mr-2" />{__("Download")}
+                            </DropdownMenuItem>
+                          )}
+                          {isPro && (
+                            <DropdownMenuItem onClick={() => handleTogglePrivacy(f)}>
+                              {f.privacy ? <Unlock className="h-3.5 w-3.5 mr-2" /> : <Lock className="h-3.5 w-3.5 mr-2" />}
+                              {f.privacy ? __("Make Public") : __("Make Private")}
+                            </DropdownMenuItem>
+                          )}
+                          <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => handleDelete(f.id)}>
+                            <Trash2 className="h-3.5 w-3.5 mr-2" />{__("Delete")}
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
+                  </div>
+                );
+              }
+
+              /* ── LIST VIEW ── */
               return (
-                <div
-                  key={f.id}
-                  className="flex items-center gap-3 px-4 py-3 hover:bg-muted/30 transition-colors group"
-                >
-                  {/* Thumbnail / Icon */}
-                  <div className="w-10 h-10 rounded-lg bg-muted/50 flex items-center justify-center shrink-0 overflow-hidden">
+                <div key={f.id}
+                  className={`flex items-center gap-3 px-4 py-3 hover:bg-muted/30 transition-colors group ${isFolder ? 'cursor-pointer' : ''}`}
+                  onClick={() => handleItemClick(f)}>
+                  <div className={`w-10 h-10 rounded-lg ${isFolder ? 'bg-amber-50' : 'bg-muted/50'} flex items-center justify-center shrink-0 overflow-hidden`}>
                     {thumbUrl ? (
                       <img src={thumbUrl} alt={fileName} className="w-full h-full object-cover rounded-lg" />
                     ) : (
-                      <Icon className="h-5 w-5 text-pm-text-muted" />
+                      <Icon className={`h-5 w-5 ${iconColor}`} />
                     )}
                   </div>
-
-                  {/* File info */}
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium text-pm-text-primary truncate">{fileName}</p>
+                    <div className="flex items-center gap-2">
+                      <p className={`text-sm font-medium text-pm-text-primary truncate ${isFolder ? 'hover:text-pm-accent' : ''}`}>{fileName}</p>
+                      {f.privacy === 1 && <Lock className="h-3 w-3 text-pm-text-muted/50 shrink-0" title={__('Private')} />}
+                      {isLink && f.url && <ExternalLink className="h-3 w-3 text-pm-text-muted/50 shrink-0" />}
+                    </div>
                     <div className="flex items-center gap-2 mt-0.5 text-[11px] text-pm-text-muted">
+                      {isFolder && <span>{f.items_count || 0} {__('items')}</span>}
+                      {isDoc && f.description?.content && <span className="truncate max-w-[200px]">{f.description.content.replace(/<[^>]*>/g, '').slice(0, 60)}</span>}
+                      {isLink && f.url && <span className="truncate max-w-[200px]">{f.url}</span>}
                       {attachedTo && (
-                        <span className="inline-flex items-center gap-1">
-                          <ExternalLink className="h-2.5 w-2.5" />
-                          {attachedTo}
-                        </span>
+                        <><span className="inline-flex items-center gap-1"><ExternalLink className="h-2.5 w-2.5" />{attachedTo}</span><span>·</span></>
                       )}
-                      {attachedTo && <span>·</span>}
-                      <span>{formatPmDateTime(f.created_at)}</span>
-                      {f.creator?.data?.display_name && (
-                        <>
-                          <span>·</span>
-                          <span>{__("by")} {f.creator.data.display_name}</span>
-                        </>
-                      )}
+                      {!isFolder && formatPmDateTime(f.created_at) && <span>{formatPmDateTime(f.created_at)}</span>}
+                      {f.creator?.data?.display_name && <><span>·</span><span>{__("by")} {f.creator.data.display_name}</span></>}
                     </div>
                   </div>
-
-                  {/* Actions */}
-                  <div className="flex items-center gap-1 shrink-0">
-                    {f.url && (
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"
-                        onClick={() => window.open(f.url, "_blank")}
-                        title={__("Download")}
-                      >
+                  <div className="flex items-center gap-1 shrink-0" onClick={e => e.stopPropagation()}>
+                    {!isFolder && f.url && (
+                      <Button variant="ghost" size="icon" className="h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"
+                        onClick={() => window.open(f.url, "_blank")} title={__("Download")}>
                         <Download className="h-3.5 w-3.5" />
                       </Button>
                     )}
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"
-                        >
+                        <Button variant="ghost" size="icon" className="h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity">
                           <MoreHorizontal className="h-3.5 w-3.5" />
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        {f.url && (
+                        {!isFolder && f.url && (
                           <DropdownMenuItem onClick={() => window.open(f.url, "_blank")}>
                             <Download className="h-3.5 w-3.5 mr-2" />{__("Download")}
                           </DropdownMenuItem>
                         )}
-                        <DropdownMenuItem
-                          className="text-destructive focus:text-destructive"
-                          onClick={() => handleDelete(f.id)}
-                        >
+                        {isPro && (
+                          <DropdownMenuItem onClick={() => handleTogglePrivacy(f)}>
+                            {f.privacy ? <Unlock className="h-3.5 w-3.5 mr-2" /> : <Lock className="h-3.5 w-3.5 mr-2" />}
+                            {f.privacy ? __("Make Public") : __("Make Private")}
+                          </DropdownMenuItem>
+                        )}
+                        <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => handleDelete(f.id)}>
                           <Trash2 className="h-3.5 w-3.5 mr-2" />{__("Delete")}
                         </DropdownMenuItem>
                       </DropdownMenuContent>

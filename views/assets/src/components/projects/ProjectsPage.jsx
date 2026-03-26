@@ -178,6 +178,7 @@ export default function ProjectsPage() {
   const [projectToDelete, setProjectToDelete] = useState(null);
   const [aiDialogOpen, setAiDialogOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [sortBy, setSortBy] = useState('id:desc');
   const searchTimerRef = React.useRef(null);
 
   // ── Initial load ────────────────────────────────────────
@@ -212,6 +213,14 @@ export default function ProjectsPage() {
       const catId = value === "__all__" ? undefined : Number(value);
       dispatch(setCategory(catId));
       dispatch(fetchProjects({ page: 1 }));
+    },
+    [dispatch],
+  );
+
+  const handleSortChange = useCallback(
+    (value) => {
+      setSortBy(value);
+      dispatch(fetchProjects({ page: 1, orderby: value }));
     },
     [dispatch],
   );
@@ -776,6 +785,18 @@ export default function ProjectsPage() {
                   {cat.title}
                 </SelectItem>
               ))}
+            </SelectContent>
+          </Select>
+
+          <Select value={sortBy} onValueChange={handleSortChange}>
+            <SelectTrigger className="w-[160px] h-9 text-sm">
+              <SelectValue placeholder={__("Sort By")} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="id:desc">{__("Newest First")}</SelectItem>
+              <SelectItem value="id:asc">{__("Oldest First")}</SelectItem>
+              <SelectItem value="title:asc">{__("Title A-Z")}</SelectItem>
+              <SelectItem value="title:desc">{__("Title Z-A")}</SelectItem>
             </SelectContent>
           </Select>
 

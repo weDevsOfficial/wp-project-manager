@@ -117,12 +117,12 @@ export default function InvoiceSettingsTab() {
   const [themeColor, setThemeColor] = useState(() => getInv('theme_color', '#82b541'))
   const [currencyCode, setCurrencyCode] = useState(() => getInv('currency_code', 'USD'))
   const [paypalEnabled, setPaypalEnabled] = useState(() => {
-    const v = getInv('paypal', false)
-    return v === true || v === 'true'
+    const v = getInv('paypal_status', null) ?? getInv('paypal', false)
+    return v === 'on' || v === true || v === 'true'
   })
-  const [paypalMail, setPaypalMail] = useState(() => getInv('paypal_mail', ''))
+  const [paypalMail, setPaypalMail] = useState(() => getInv('paypal_email', '') || getInv('paypal_mail', ''))
   const [sandboxMode, setSandboxMode] = useState(() => {
-    const v = getInv('sand_box_mode', false)
+    const v = getInv('paypal_test', null) ?? getInv('sand_box_mode', false)
     return v === true || v === 'true'
   })
   const [paypalInstruction, setPaypalInstruction] = useState(() => getInv('paypal_instruction', ''))
@@ -134,9 +134,17 @@ export default function InvoiceSettingsTab() {
   const [zip, setZip] = useState(() => getInv('zip_code', ''))
   const [countryCode, setCountryCode] = useState(() => getInv('country_code', 'BD'))
 
+  // Invoice Default Settings
+  const [companyName, setCompanyName] = useState(() => getInv('company_name', ''))
+  const [companyAddress, setCompanyAddress] = useState(() => getInv('company_address', ''))
+  const [taxRate, setTaxRate] = useState(() => getInv('tax_rate', ''))
+  const [defaultNotes, setDefaultNotes] = useState(() => getInv('default_notes', ''))
+
   // Stripe fields
   const [stripeEnabled, setStripeEnabled] = useState(() => {
-    // Check gateWays array for stripe entry
+    const v = getInv('stripe_status', null)
+    if (v) return v === 'on' || v === true || v === 'true'
+    // Fallback: check gateWays array for stripe entry
     const gw = getInv('gateWays', [])
     const stripe = Array.isArray(gw) ? gw.find(g => g.name === 'stripe') : null
     return stripe?.active === true || stripe?.active === 'true'
@@ -165,17 +173,27 @@ export default function InvoiceSettingsTab() {
           { name: 'paypal', label: 'Paypal', active: paypalEnabled },
           { name: 'stripe', label: 'Stripe', active: stripeEnabled },
         ],
+        // PayPal (new keys + legacy fallback)
+        paypal_status: paypalEnabled ? 'on' : 'off',
+        paypal_email: paypalMail,
+        paypal_test: sandboxMode,
         paypal: paypalEnabled,
         paypal_mail: paypalMail,
         sand_box_mode: sandboxMode,
         paypal_instruction: paypalInstruction,
-        // Stripe
+        // Stripe (new keys + legacy)
+        stripe_status: stripeEnabled ? 'on' : 'off',
         stripe_instruction: stripeInstruction,
         stripe_test_secret: stripeTestSecret,
         secret_key: secretKey,
         secret_publishable_key: secretPublishableKey,
         live_secret_key: liveSecretKey,
         live_publishable_key: livePublishableKey,
+        // Invoice Defaults
+        company_name: companyName,
+        company_address: companyAddress,
+        tax_rate: taxRate,
+        default_notes: defaultNotes,
         // Organization
         organization,
         address_line_1: address1,
@@ -319,6 +337,54 @@ export default function InvoiceSettingsTab() {
               )}
             </div>
           )}
+        </div>
+      </div>
+
+      {/* Invoice Defaults */}
+      <div className="rounded-lg border border-pm-border bg-white mb-5">
+        <div className="px-5 py-3 bg-muted/30 border-b border-pm-border">
+          <h3 className="text-sm font-semibold text-pm-text-primary">{__('Invoice Defaults')}</h3>
+        </div>
+        <div className="flex items-center justify-between px-5 py-4 border-b border-pm-border">
+          <div>
+            <Label className="text-sm font-medium">{__('Company Name')}</Label>
+            <p className="text-xs text-pm-text-muted mt-0.5">{__('Displayed on invoices as the billing entity')}</p>
+          </div>
+          <Input value={companyName} onChange={e => set(setCompanyName)(e.target.value)} className="w-64 h-8 text-sm" placeholder={__('Your Company Name')} />
+        </div>
+        <div className="px-5 py-4 border-b border-pm-border">
+          <div className="flex items-center justify-between mb-1">
+            <div>
+              <Label className="text-sm font-medium">{__('Company Address')}</Label>
+              <p className="text-xs text-pm-text-muted mt-0.5">{__('Full address shown on invoices')}</p>
+            </div>
+          </div>
+          <Textarea value={companyAddress} onChange={e => set(setCompanyAddress)(e.target.value)} className="text-sm mt-2" rows={3} placeholder={__('123 Main St, Suite 100\nCity, State 12345')} />
+        </div>
+        <div className="flex items-center justify-between px-5 py-4 border-b border-pm-border">
+          <div>
+            <Label className="text-sm font-medium">{__('Tax Rate (%)')}</Label>
+            <p className="text-xs text-pm-text-muted mt-0.5">{__('Default tax percentage applied to invoices')}</p>
+          </div>
+          <Input
+            type="number"
+            min="0"
+            max="100"
+            step="0.01"
+            value={taxRate}
+            onChange={e => set(setTaxRate)(e.target.value)}
+            className="w-32 h-8 text-sm text-right"
+            placeholder="0.00"
+          />
+        </div>
+        <div className="px-5 py-4">
+          <div className="flex items-center justify-between mb-1">
+            <div>
+              <Label className="text-sm font-medium">{__('Default Notes / Terms')}</Label>
+              <p className="text-xs text-pm-text-muted mt-0.5">{__('Automatically included at the bottom of every invoice')}</p>
+            </div>
+          </div>
+          <Textarea value={defaultNotes} onChange={e => set(setDefaultNotes)(e.target.value)} className="text-sm mt-2" rows={4} placeholder={__('Payment is due within 30 days of invoice date.\nThank you for your business.')} />
         </div>
       </div>
 

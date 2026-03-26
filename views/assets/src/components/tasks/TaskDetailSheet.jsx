@@ -60,6 +60,7 @@ import {
   Tag,
   Repeat,
   Pencil,
+  FileText,
 } from 'lucide-react'
 import {
   isTaskComplete,
@@ -918,7 +919,7 @@ export default function TaskDetailSheet() {
             {/* ── Description ── */}
             <div className="px-6 py-4">
               <div className="flex items-center justify-between mb-2">
-                <h4 className="text-xs font-semibold uppercase tracking-wider text-pm-text-muted/70">{__('Description')}</h4>
+                <h4 className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-pm-text-muted/70"><FileText className="h-3.5 w-3.5" />{__('Description')}</h4>
                 {!editingDesc && (
                   <button type="button" className="text-[11px] font-medium text-pm-accent hover:text-pm-accent/80 transition-colors"
                     onClick={() => { setDescription(currentTask.description?.html || currentTask.description?.content || ''); setEditingDesc(true) }}>
