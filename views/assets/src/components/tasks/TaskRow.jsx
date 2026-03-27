@@ -42,6 +42,7 @@ import {
   formatPmDate,
   dueDateColorClass,
   userInitials,
+  isOverdue,
 } from '@lib/pm-utils'
 
 // ── Component ────────────────────────────────────────
@@ -232,12 +233,19 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
         </div>
       )}
 
-      {/* Due date */}
+      {/* Due date + overdue badge */}
       {dueDateStr && (
         <span className={cn('flex items-center gap-1 text-[11px] shrink-0', dueDateColorClass(task.due_date))}>
           <Calendar className="h-3 w-3" />
-          {dueDateStr}
+          {formatPmDate(task.start_at) && !isComplete
+            ? `${formatPmDate(task.start_at)} → ${dueDateStr}`
+            : dueDateStr}
         </span>
+      )}
+      {isOverdue(task.due_date, task.status) && (
+        <Badge variant="destructive" className="text-[9px] px-1.5 py-0 h-4 shrink-0">
+          Overdue
+        </Badge>
       )}
 
       {/* Comment count */}

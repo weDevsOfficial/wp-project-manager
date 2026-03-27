@@ -83,6 +83,7 @@ import {
   formatPmDate,
   extractDateStr,
   userInitials,
+  isOverdue,
 } from "@lib/pm-utils";
 import TaskDetailSheet from "@components/tasks/TaskDetailSheet";
 import { useProModal } from "@components/common/ProUpgradeModal";
@@ -202,18 +203,21 @@ function MyTaskRow({ task, projectTitle, onToggle, onOpen }) {
         </span>
       )}
 
-      {/* Due date */}
+      {/* Due date + overdue badge */}
       <span
         className={`text-[11px] shrink-0 tabular-nums ${
-          !complete &&
-          extractDateStr(task.due_date) &&
-          new Date(extractDateStr(task.due_date)) < new Date()
+          isOverdue(task.due_date, task.status)
             ? "text-red-500"
             : "text-pm-text-muted"
         }`}
       >
         {formatPmDate(task.due_date) || "—"}
       </span>
+      {isOverdue(task.due_date, task.status) && (
+        <Badge variant="destructive" className="text-[9px] px-1.5 py-0 h-4 shrink-0">
+          Overdue
+        </Badge>
+      )}
 
       {/* Comment count */}
       {(task.meta?.total_comment ?? 0) > 0 && (

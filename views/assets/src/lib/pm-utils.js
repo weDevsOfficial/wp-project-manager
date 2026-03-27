@@ -107,6 +107,21 @@ export function dueDateColorClass(field) {
   return 'text-pm-text-muted'
 }
 
+/**
+ * Check if a task's due date is overdue (past today and task is not complete).
+ */
+export function isOverdue(dueField, status) {
+  if (isTaskComplete(status)) return false
+  const dateStr = extractDateStr(dueField)
+  if (!dateStr) return false
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  const due = new Date(dateStr)
+  if (isNaN(due.getTime())) return false
+  due.setHours(0, 0, 0, 0)
+  return due < today
+}
+
 // ── Estimation ────────────────────────────────────────
 
 /**

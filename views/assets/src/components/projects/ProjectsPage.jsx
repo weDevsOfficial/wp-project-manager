@@ -91,7 +91,7 @@ import AiCreateDialog from "./AiCreateDialog";
 
 import { ProjectCreateSheet } from "./ProjectCreateSheet";
 
-import { unwrapData } from "@lib/pm-utils";
+import { unwrapData, formatPmDate } from "@lib/pm-utils";
 
 // ── Helpers ──────────────────────────────────────────────
 
@@ -523,17 +523,31 @@ export default function ProjectsPage() {
               {/* Meta counters */}
               {renderMetaCounters(project)}
 
-              {/* Progress bar — inline compact */}
-              <div className="flex items-center gap-2.5">
-                <Progress value={progress} className="h-1 flex-1" />
-                <span className="text-[11px] font-medium text-pm-text-muted tabular-nums w-7 text-right">
-                  {progress}%
-                </span>
+              {/* Progress bar + task breakdown */}
+              <div className="space-y-1">
+                <div className="flex items-center gap-2.5">
+                  <Progress value={progress} className="h-1 flex-1" />
+                  <span className="text-[11px] font-medium text-pm-text-muted tabular-nums w-7 text-right">
+                    {progress}%
+                  </span>
+                </div>
+                {getMeta(project) && (
+                  <p className="text-[10px] text-pm-text-muted">
+                    {getMeta(project).total_complete_tasks ?? 0} {__("done")} / {getMeta(project).total_tasks ?? 0} {__("total")}
+                  </p>
+                )}
               </div>
 
-              {/* Footer: assignees + status */}
+              {/* Footer: assignees + created date + status */}
               <div className="flex items-center justify-between pt-1">
-                {renderAssignees(project)}
+                <div className="flex items-center gap-3">
+                  {renderAssignees(project)}
+                  {project.created_at && (
+                    <span className="text-[10px] text-pm-text-muted">
+                      {formatPmDate(project.created_at)}
+                    </span>
+                  )}
+                </div>
                 <span
                   className="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-full"
                   style={{ backgroundColor: statusColor(project) + '12', color: statusColor(project) }}
@@ -573,6 +587,9 @@ export default function ProjectsPage() {
             </th>
             <th className="text-left px-4 py-2.5 text-[11px] font-semibold uppercase tracking-wider text-pm-text-muted/70">
               {__("Members")}
+            </th>
+            <th className="text-left px-4 py-2.5 text-[11px] font-semibold uppercase tracking-wider text-pm-text-muted/70">
+              {__("Created")}
             </th>
             <th className="text-left px-4 py-2.5 text-[11px] font-semibold uppercase tracking-wider text-pm-text-muted/70 w-10">
               {__("Action")}
@@ -637,17 +654,31 @@ export default function ProjectsPage() {
                   </span>
                 </td>
                 <td className="px-4 py-3">
-                  <div className="flex items-center gap-2">
-                    <Progress value={progress} className="h-1 flex-1" />
-                    <span className="text-[11px] font-medium text-pm-text-muted tabular-nums w-7 text-right">
-                      {progress}%
-                    </span>
+                  <div className="space-y-1">
+                    <div className="flex items-center gap-2">
+                      <Progress value={progress} className="h-1 flex-1" />
+                      <span className="text-[11px] font-medium text-pm-text-muted tabular-nums w-7 text-right">
+                        {progress}%
+                      </span>
+                    </div>
+                    {getMeta(project) && (
+                      <p className="text-[10px] text-pm-text-muted">
+                        {getMeta(project).total_complete_tasks ?? 0} {__("done")} / {getMeta(project).total_tasks ?? 0} {__("total")}
+                      </p>
+                    )}
                   </div>
                 </td>
                 <td className="px-4 py-3">
                   {renderMetaCounters(project)}
                 </td>
                 <td className="px-4 py-3">{renderAssignees(project)}</td>
+                <td className="px-4 py-3">
+                  {project.created_at && (
+                    <span className="text-[11px] text-pm-text-muted">
+                      {formatPmDate(project.created_at)}
+                    </span>
+                  )}
+                </td>
                 <td className="px-3 py-3 text-center">
                   {renderProjectDropdown(project)}
                 </td>

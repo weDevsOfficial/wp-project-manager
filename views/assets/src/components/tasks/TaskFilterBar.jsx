@@ -10,7 +10,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@components/ui/select'
+import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar'
 import { Search, X, Filter } from 'lucide-react'
+import { userInitials } from '@lib/pm-utils'
 
 export default function TaskFilterBar({ projectId, lists, onFilterResults, onClear }) {
   const { __ } = useI18n()
@@ -20,13 +22,27 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
   const [status, setStatus] = useState('')
   const [dueDate, setDueDate] = useState('')
   const [listId, setListId] = useState('')
+  const [assigneeId, setAssigneeId] = useState('')
   const [searchTitle, setSearchTitle] = useState('')
   const [filtering, setFiltering] = useState(false)
 
   const searchTimerRef = useRef(null)
 
-  const hasActiveFilter = status || dueDate || listId || searchTitle.trim()
-  const activeCount = [status, dueDate, listId, searchTitle.trim()].filter(Boolean).length
+  // Collect unique assignees from all lists
+  const allAssignees = React.useMemo(() => {
+    const map = new Map()
+    lists?.forEach(list => {
+      const tasks = [...(list.incomplete_tasks?.data ?? []), ...(list.complete_tasks?.data ?? [])]
+      tasks.forEach(task => {
+        const users = Array.isArray(task.assignees) ? task.assignees : (task.assignees?.data ?? [])
+        users.forEach(u => { if (u.id && !map.has(u.id)) map.set(u.id, u) })
+      })
+    })
+    return Array.from(map.values())
+  }, [lists])
+
+  const hasActiveFilter = status || dueDate || listId || assigneeId || searchTitle.trim()
+  const activeCount = [status, dueDate, listId, assigneeId, searchTitle.trim()].filter(Boolean).length
 
   const applyFilter = useCallback(async (overrides = {}) => {
     const params = {
@@ -34,6 +50,7 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
       status: overrides.status ?? status,
       dueDate: overrides.dueDate ?? dueDate,
       lists: (overrides.listId ?? listId) ? [Number(overrides.listId ?? listId)] : undefined,
+      users: (overrides.assigneeId ?? assigneeId) ? [Number(overrides.assigneeId ?? assigneeId)] : undefined,
       title: overrides.searchTitle ?? searchTitle.trim(),
     }
 
@@ -55,12 +72,13 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
       // silently fail
     }
     setFiltering(false)
-  }, [api, projectId, status, dueDate, listId, searchTitle, onFilterResults, onClear])
+  }, [api, projectId, status, dueDate, listId, assigneeId, searchTitle, onFilterResults, onClear])
 
   const handleClear = useCallback(() => {
     setStatus('')
     setDueDate('')
     setListId('')
+    setAssigneeId('')
     setSearchTitle('')
     onClear?.()
   }, [onClear])
@@ -145,6 +163,28 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
           <SelectContent>
             {lists.map((l) => (
               <SelectItem key={l.id} value={String(l.id)}>{l.title}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      )}
+
+      {/* Assignee */}
+      {allAssignees.length > 0 && (
+        <Select value={assigneeId} onValueChange={(v) => { setAssigneeId(v); applyFilter({ assigneeId: v }) }}>
+          <SelectTrigger className="h-8 w-[140px] text-xs">
+            <SelectValue placeholder={__('Assignee')} />
+          </SelectTrigger>
+          <SelectContent>
+            {allAssignees.map((u) => (
+              <SelectItem key={u.id} value={String(u.id)}>
+                <span className="flex items-center gap-1.5">
+                  <Avatar className="h-4 w-4">
+                    <AvatarImage src={u.avatar_url} />
+                    <AvatarFallback className="text-[7px]">{userInitials(u.display_name || '')}</AvatarFallback>
+                  </Avatar>
+                  {u.display_name}
+                </span>
+              </SelectItem>
             ))}
           </SelectContent>
         </Select>
