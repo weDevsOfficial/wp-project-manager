@@ -10,30 +10,33 @@ const initialState = {
   lists:          [],
   currentList:    null,
   loading:        false,
+  loadingMore:    false,
   expandedIds:    [],
   projectId:      null,
+  listsMeta:      { total: 0, total_pages: 1, current_page: 1, per_page: 10 },
 }
 
 // ── Async thunks ──────────────────────────────────────
 
 export const fetchTaskLists = createAsyncThunk(
   'taskLists/fetchTaskLists',
-  async (projectId, { rejectWithValue }) => {
+  async ({ projectId, page = 1 }, { rejectWithValue }) => {
     try {
       const perPage = parseInt(String(PM_Vars.settings?.list_per_page), 10) || 10
       const incompletePerPage = parseInt(String(PM_Vars.settings?.incomplete_tasks_per_page), 10) || 10
-      const completePerPage = parseInt(String(PM_Vars.settings?.complete_tasks_per_page), 10) || 5
+      const completePerPage = parseInt(String(PM_Vars.settings?.complete_tasks_per_page), 10) || 10
       const res = await api.get(
         `projects/${projectId}/task-lists`,
         {
           per_page: perPage,
+          page,
           with: 'incomplete_tasks,complete_tasks,assignees,labels',
           incomplete_task_per_page: incompletePerPage,
           complete_task_per_page: completePerPage,
           status: 1, // active lists only
         },
       )
-      return { data: res.data ?? [], projectId }
+      return { data: res.data ?? [], meta: res.meta?.pagination ?? {}, projectId, page }
     } catch (e) {
       return rejectWithValue(e.message ?? 'Failed to load task lists')
     }
@@ -228,10 +231,18 @@ const taskListsSlice = createSlice({
       state.loading = false
       state.lists = action.payload.data
       state.projectId = action.payload.projectId
-      // Auto-expand all lists on first load
-      if (state.expandedIds.length === 0) {
-        state.expandedIds = state.lists.map(l => l.id)
+      // Store pagination meta from API
+      const meta = action.payload.meta
+      if (meta && meta.total !== undefined) {
+        state.listsMeta = {
+          total:        parseInt(meta.total, 10)        || 0,
+          total_pages:  parseInt(meta.total_pages, 10)  || 1,
+          current_page: parseInt(meta.current_page, 10) || parseInt(action.payload.page, 10) || 1,
+          per_page:     parseInt(meta.per_page, 10)     || 10,
+        }
       }
+      // Auto-expand all lists on load (including page changes)
+      state.expandedIds = state.lists.map(l => l.id)
     })
     builder.addCase(fetchTaskLists.rejected, (state) => { state.loading = false })
 
@@ -250,6 +261,11 @@ const taskListsSlice = createSlice({
         }
         state.lists.push(newList)
         state.expandedIds.push(newList.id)
+        // Update pagination meta (matches Vue's afterNewListupdateListsMeta)
+        const newTotal = (parseInt(state.listsMeta.total, 10) || 0) + 1
+        const perPage = parseInt(state.listsMeta.per_page, 10) || 10
+        state.listsMeta.total = newTotal
+        state.listsMeta.total_pages = Math.ceil(newTotal / perPage) || 1
       }
     })
 
@@ -265,6 +281,11 @@ const taskListsSlice = createSlice({
     builder.addCase(deleteTaskList.fulfilled, (state, action) => {
       state.lists = state.lists.filter(l => l.id !== action.payload)
       state.expandedIds = state.expandedIds.filter(id => id !== action.payload)
+      // Update pagination meta (matches Vue's afterDeleteList)
+      const newTotal = Math.max(0, (parseInt(state.listsMeta.total, 10) || 0) - 1)
+      const perPage = parseInt(state.listsMeta.per_page, 10) || 10
+      state.listsMeta.total = newTotal
+      state.listsMeta.total_pages = Math.ceil(newTotal / perPage) || 1
     })
 
     builder.addCase(reorderLists.fulfilled, (state, action) => {

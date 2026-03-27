@@ -21,6 +21,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@components/ui/dropdown-menu'
+import { Badge } from '@components/ui/badge'
 import {
   Calendar,
   MessageSquare,
@@ -173,6 +174,13 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
       >
         {task.title}
       </button>
+
+      {/* Task type pill */}
+      {task.type?.title && (
+        <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4 shrink-0 font-normal text-muted-foreground">
+          {task.type.title}
+        </Badge>
+      )}
 
       {/* Labels (when "Show Labels in Tasks List" is enabled in project settings) */}
       {showLabels && task.labels?.data?.length > 0 && (

@@ -16,7 +16,7 @@ export const fetchProjects = createAsyncThunk(
         page: params?.page ?? state.currentPage,
         with: 'assignees',
         project_meta: 'all',
-        orderby: 'id:desc',
+        orderby: params?.orderby ?? state.orderBy ?? 'id:desc',
         ...params,
       }
       // Only send status filter if not "all"
@@ -168,6 +168,7 @@ const initialState = {
   status:       'incomplete',
   activeFilter: 'incomplete',
   categoryId:   undefined,
+  orderBy:      'id:desc',
   viewMode:     localStorage.getItem('pm-project-view') ?? 'grid',
 
   projectsMeta: { total_incomplete: 0, total_complete: 0, total_favourite: 0 },
@@ -204,6 +205,10 @@ const projectsSlice = createSlice({
     },
     setCategory(state, action) {
       state.categoryId = action.payload
+      state.currentPage = 1
+    },
+    setOrderBy(state, action) {
+      state.orderBy = action.payload
       state.currentPage = 1
     },
     setViewMode(state, action) {
@@ -323,7 +328,7 @@ const projectsSlice = createSlice({
 })
 
 export const {
-  setStatus, setPage, setCategory, setViewMode, setCreateSheetOpen,
+  setStatus, setPage, setCategory, setOrderBy, setViewMode, setCreateSheetOpen,
   openEditSheet, closeEditSheet,
 } = projectsSlice.actions
 

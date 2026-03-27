@@ -1,4 +1,5 @@
 import React, { useEffect, useCallback, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Slot, useSlotFills } from '@hooks/useSlot'
 import { useAppDispatch, useAppSelector } from '@store/index'
 import { closeTaskSheet, fetchTask, updateTask, changeTaskStatus, addTaskComment, updateTaskComment, deleteTaskComment, deleteTask } from '@store/tasksSlice'
@@ -9,6 +10,7 @@ import { useI18n } from '@hooks/useI18n'
 import { useToast } from '@hooks/useToast'
 import ProGate from '@components/common/ProGate'
 import ProBadge from '@components/common/ProBadge'
+import { Badge } from '@components/ui/badge'
 import { usePermissions } from '@hooks/usePermissions'
 import {
   Sheet,
@@ -41,7 +43,6 @@ import {
   Users,
   MessageSquare,
   Paperclip,
-  Flag,
   Check,
   Maximize2,
   Minimize2,
@@ -122,17 +123,18 @@ function TaskPrivacyField({ task, projectId, dispatch, api }) {
   if (!isPro) {
     return (
       <ProGate feature={__('Privacy')}>
-        <div className="flex items-center h-7">
+        <div className="flex items-center h-8 px-2 rounded-md hover:bg-muted/40 transition-colors">
           <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
             <Shield className="h-3.5 w-3.5" /><span className="text-xs">{__('Privacy')}</span>
           </div>
+          <ProBadge />
         </div>
       </ProGate>
     )
   }
 
   return (
-    <div className="flex items-center h-7">
+    <div className="flex items-center h-8 px-2 rounded-md hover:bg-muted/40 transition-colors">
       <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
         <Shield className="h-3.5 w-3.5" /><span className="text-xs">{__('Privacy')}</span>
       </div>
@@ -259,7 +261,7 @@ function TaskEstimationField({ task, projectId, dispatch, api }) {
   }
 
   return (
-    <div className="flex items-center h-7">
+    <div className="flex items-center h-8 px-2 rounded-md hover:bg-muted/40 transition-colors">
       <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
         <Clock className="h-3.5 w-3.5" /><span className="text-xs">{__('Estimate')}</span>
       </div>
@@ -305,6 +307,118 @@ function TaskEstimationField({ task, projectId, dispatch, api }) {
 }
 
 /**
+ * TaskTypeField — Editable task type with dropdown.
+ * Vue: single-task-type.vue — pm-task-type-dropdown with popover.
+ * API: GET settings/task-types, POST projects/{pid}/tasks/{tid}/update with { type_id }
+ */
+function TaskTypeField({ task, projectId, dispatch, api }) {
+  const { __ } = useI18n()
+  const [open, setOpen] = useState(false)
+  const [types, setTypes] = useState([])
+  const [loadingTypes, setLoadingTypes] = useState(false)
+  const [saving, setSaving] = useState(false)
+
+  const currentType = task?.type
+
+  const loadTypes = useCallback(() => {
+    if (types.length > 0) return
+    setLoadingTypes(true)
+    api.get('settings/task-types')
+      .then(res => {
+        const items = res?.data ?? res ?? []
+        setTypes(Array.isArray(items) ? items : [])
+      })
+      .catch(() => {})
+      .finally(() => setLoadingTypes(false))
+  }, [api, types.length])
+
+  const handleSelect = useCallback((type) => {
+    if (saving) return
+    setSaving(true)
+    const typeId = type?.id === currentType?.id ? false : type?.id
+    api.post(`projects/${projectId}/tasks/${task.id}/update`, {
+      title: task.title,
+      type_id: typeId,
+    }).then(() => {
+      dispatch(fetchTask({ projectId, taskId: task.id }))
+      setOpen(false)
+    }).catch(() => {})
+    .finally(() => setSaving(false))
+  }, [saving, currentType, task, projectId, api, dispatch])
+
+  const handleClear = useCallback(() => {
+    if (saving) return
+    setSaving(true)
+    api.post(`projects/${projectId}/tasks/${task.id}/update`, {
+      title: task.title,
+      type_id: false,
+    }).then(() => {
+      dispatch(fetchTask({ projectId, taskId: task.id }))
+      setOpen(false)
+    }).catch(() => {})
+    .finally(() => setSaving(false))
+  }, [saving, task, projectId, api, dispatch])
+
+  return (
+    <div className="flex items-center h-8 px-2 rounded-md hover:bg-muted/40 transition-colors">
+      <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
+        <ListTodo className="h-3.5 w-3.5" /><span className="text-xs">{__('Type')}</span>
+      </div>
+      <Popover open={open} onOpenChange={(v) => { setOpen(v); if (v) loadTypes() }}>
+        <PopoverTrigger asChild>
+          <button className={cn(
+            'text-xs transition-colors',
+            currentType
+              ? 'text-pm-text-primary bg-muted/50 px-2 py-0.5 rounded hover:bg-muted'
+              : 'text-pm-text-muted hover:text-pm-accent'
+          )}>
+            {currentType ? currentType.title : __('Add type')}
+          </button>
+        </PopoverTrigger>
+        <PopoverContent className="w-44 p-2" align="start">
+          {loadingTypes ? (
+            <p className="text-xs text-pm-text-muted py-2 text-center">{__('Loading...')}</p>
+          ) : types.length === 0 ? (
+            <p className="text-xs text-pm-text-muted py-2 text-center">{__('No task types found')}</p>
+          ) : (
+            <div className="space-y-0.5">
+              {types.map(t => (
+                <button
+                  key={t.id}
+                  type="button"
+                  className={cn(
+                    'w-full text-left text-xs px-2 py-1.5 rounded hover:bg-muted/50 transition-colors flex items-center justify-between',
+                    currentType?.id === t.id && 'bg-primary/5 text-primary font-medium'
+                  )}
+                  onClick={() => handleSelect(t)}
+                  disabled={saving}
+                >
+                  {t.title}
+                  {currentType?.id === t.id && <Check className="h-3 w-3" />}
+                </button>
+              ))}
+              {currentType && (
+                <>
+                  <div className="border-t border-border my-1" />
+                  <button
+                    type="button"
+                    className="w-full text-left text-xs px-2 py-1.5 rounded text-destructive hover:bg-destructive/10 transition-colors"
+                    onClick={handleClear}
+                    disabled={saving}
+                  >
+                    {__('Remove type')}
+                  </button>
+                </>
+              )}
+            </div>
+          )}
+        </PopoverContent>
+      </Popover>
+    </div>
+  )
+}
+
+/**
  * ProInlineProperties — Time Tracker, Labels, Recurrence, Custom Fields.
  * When pro is active, pro plugin fills the 'task.detail.inline-properties' slot.
  * When pro is NOT active, shows ProGate upsell placeholders.
@@ -331,29 +445,32 @@ function ProInlineProperties({ taskId, projectId, currentTask, dispatch, api }) 
   // Free fallback — ProGate upsell placeholders
   if (!isPro) {
     return (
-      <div className="space-y-1 pt-1">
+      <>
         <ProGate feature={__('Time Tracker')}>
-          <div className="flex items-center h-7">
+          <div className="flex items-center h-8 px-2 rounded-md hover:bg-muted/40 transition-colors">
             <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
               <Clock className="h-3.5 w-3.5" /><span className="text-xs">{__('Track Time')}</span>
             </div>
+            <ProBadge />
           </div>
         </ProGate>
         <ProGate feature={__('Labels')}>
-          <div className="flex items-center h-7">
+          <div className="flex items-center h-8 px-2 rounded-md hover:bg-muted/40 transition-colors">
             <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
               <Tag className="h-3.5 w-3.5" /><span className="text-xs">{__('Label')}</span>
             </div>
+            <ProBadge />
           </div>
         </ProGate>
         <ProGate feature={__('Recurrence')}>
-          <div className="flex items-center h-7">
+          <div className="flex items-center h-8 px-2 rounded-md hover:bg-muted/40 transition-colors">
             <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
               <Repeat className="h-3.5 w-3.5" /><span className="text-xs">{__('Recurring')}</span>
             </div>
+            <ProBadge />
           </div>
         </ProGate>
-      </div>
+      </>
     )
   }
 
@@ -390,6 +507,7 @@ function ProSubtasksSection({ taskId, projectId, currentTask }) {
           <div className="flex items-center gap-2 text-sm text-pm-text-muted py-1">
             <Layers className="h-3.5 w-3.5" />
             <span className="text-xs">{__('Subtasks')}</span>
+            <ProBadge />
           </div>
         </ProGate>
       </div>
@@ -401,6 +519,7 @@ function ProSubtasksSection({ taskId, projectId, currentTask }) {
 
 export default function TaskDetailSheet() {
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
   const api = useApi()
   const { __ } = useI18n()
   const toast = useToast()
@@ -722,10 +841,45 @@ export default function TaskDetailSheet() {
               </DropdownMenu>
             </div>
 
+            <Separator />
+
             {/* ── Header: status + title + meta ── */}
             <div className="px-6 pt-6 pb-4 space-y-4">
-              <SheetHeader className="space-y-0">
-                <SheetDescription className="sr-only">{__('Task details')}</SheetDescription>
+              <SheetHeader className="space-y-1.5">
+                <SheetDescription asChild>
+                  <div className="flex items-center gap-2 flex-wrap">
+                    {(currentTask.project?.data?.title || currentTask.project?.title) && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const pid = currentTask.project?.data?.id || currentTask.project?.id || projectId
+                          dispatch(closeTaskSheet())
+                          navigate(`/projects/${pid}/task-lists`)
+                        }}
+                        className="inline-flex items-center gap-1 text-[11px] font-medium text-pm-accent hover:text-pm-accent/80 transition-colors truncate max-w-[200px]"
+                        title={currentTask.project?.data?.title || currentTask.project?.title}
+                      >
+                        <Layers className="h-3 w-3 shrink-0" />
+                        {currentTask.project?.data?.title || currentTask.project?.title}
+                      </button>
+                    )}
+                    <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4 font-mono">
+                      #{currentTask.id}
+                    </Badge>
+                    {currentTask.creator?.data && (
+                      <div className="flex items-center gap-1.5">
+                        <Avatar className="h-4 w-4">
+                          <AvatarImage src={currentTask.creator.data.avatar_url} />
+                          <AvatarFallback className="text-[7px]">{userInitials(currentTask.creator.data.display_name || '')}</AvatarFallback>
+                        </Avatar>
+                        <span className="text-[11px] text-muted-foreground">{currentTask.creator.data.display_name}</span>
+                      </div>
+                    )}
+                    {currentTask.created_at && (
+                      <span className="text-[11px] text-muted-foreground">· {formatPmDateTime(currentTask.created_at)}</span>
+                    )}
+                  </div>
+                </SheetDescription>
                 <div className="flex items-center gap-3">
                   <button type="button" onClick={handleToggleStatus} className="shrink-0 group/status">
                     {complete ? (
@@ -752,17 +906,8 @@ export default function TaskDetailSheet() {
                 </div>
               </SheetHeader>
 
-              {/* Created by */}
-              {currentTask.creator?.data && (
-                <p className="text-[11px] text-pm-text-muted flex items-center gap-1.5 pl-9">
-                  <User className="h-3 w-3" />
-                  {__('Created by')} <span className="font-medium text-pm-text-primary">{currentTask.creator.data.display_name}</span>
-                  {currentTask.created_at && <span>· {formatPmDateTime(currentTask.created_at)}</span>}
-                </p>
-              )}
-
               {/* ── Properties grid ── */}
-              <div className="space-y-0.5 bg-muted/20 rounded-lg p-2">
+              <div className="space-y-0.5 bg-muted/20 rounded-lg px-2 pb-2">
                 {/* Status */}
                 <div className="flex items-center h-8 px-2 rounded-md hover:bg-muted/40 transition-colors cursor-pointer" onClick={handleToggleStatus}>
                   <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
@@ -772,16 +917,6 @@ export default function TaskDetailSheet() {
                     complete ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-600')}>
                     <span className={cn('h-1.5 w-1.5 rounded-full', complete ? 'bg-emerald-500' : 'bg-amber-500')} />
                     {complete ? __('Done') : __('Active')}
-                  </span>
-                </div>
-
-                {/* Priority */}
-                <div className="flex items-center h-8 px-2 rounded-md hover:bg-muted/40 transition-colors">
-                  <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
-                    <Flag className="h-3.5 w-3.5" /><span className="text-xs">{__('Priority')}</span>
-                  </div>
-                  <span className={cn('text-xs', currentTask.priority >= 3 ? 'text-red-500 font-medium' : currentTask.priority === 2 ? 'text-orange-500 font-medium' : 'text-pm-text-primary')}>
-                    {currentTask.priority >= 3 ? __('Urgent') : currentTask.priority === 2 ? __('High') : currentTask.priority === 1 ? __('Normal') : __('None')}
                   </span>
                 </div>
 
@@ -892,30 +1027,21 @@ export default function TaskDetailSheet() {
                 {/* Estimation — editable, depends on assignees */}
                 <TaskEstimationField task={currentTask} projectId={currentTask?.project_id} dispatch={dispatch} api={api} />
 
+                {/* Task type — editable dropdown */}
+                <TaskTypeField task={currentTask} projectId={currentTask?.project_id} dispatch={dispatch} api={api} />
+
                 {/* Privacy — toggleable when Pro, ProGate upsell when free */}
                 <TaskPrivacyField task={currentTask} projectId={currentTask?.project_id} dispatch={dispatch} api={api} />
 
-                {/* Task type */}
-                {currentTask.type && (
-                  <div className="flex items-center h-7">
-                    <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
-                      <ListTodo className="h-3.5 w-3.5" /><span className="text-xs">{__('Type')}</span>
-                    </div>
-                    <span className="text-xs text-pm-text-primary bg-muted/50 px-2 py-0.5 rounded">
-                      {currentTask.type.title}
-                    </span>
-                  </div>
-                )}
+                {/* ── Pro inline properties (Time Tracker, Labels, Recurrence, Custom Fields) ── */}
+                <ProInlineProperties
+                  taskId={currentTask?.id}
+                  projectId={currentTask?.project_id}
+                  currentTask={currentTask}
+                  dispatch={dispatch}
+                  api={api}
+                />
               </div>
-
-              {/* ── Pro inline properties (Time Tracker, Labels, Recurrence, Custom Fields) ── */}
-              <ProInlineProperties
-                taskId={currentTask?.id}
-                projectId={currentTask?.project_id}
-                currentTask={currentTask}
-                dispatch={dispatch}
-                api={api}
-              />
             </div>
 
             <Separator />

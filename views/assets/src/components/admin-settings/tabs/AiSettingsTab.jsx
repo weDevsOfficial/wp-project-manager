@@ -185,9 +185,12 @@ const AiSettingsTab = () => {
           <Button type="button" variant="outline" disabled={aiTestingConn || aiSaving} onClick={handleTestConnection}>
             {aiTestingConn ? __('Testing...', 'wedevs-project-manager') : __('Test Connection', 'wedevs-project-manager')}
           </Button>
-          <Button type="submit" disabled={aiSaving || aiTestingConn}>
+          <Button type="submit" disabled={aiSaving || aiTestingConn || !isDirty}>
             {aiSaving ? __('Saving...', 'wedevs-project-manager') : __('Save Changes', 'wedevs-project-manager')}
           </Button>
+          {isDirty && (
+            <span className="text-xs text-amber-600">{__('You have unsaved changes', 'wedevs-project-manager')}</span>
+          )}
         </div>
       </form>
     </div>

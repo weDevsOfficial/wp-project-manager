@@ -11,6 +11,7 @@ import {
   setStatus,
   setPage,
   setCategory,
+  setOrderBy,
   setViewMode,
   setCreateSheetOpen,
   openEditSheet,
@@ -173,6 +174,7 @@ export default function ProjectsPage() {
     total,
     activeFilter,
     categoryId,
+    orderBy,
     viewMode,
     projectsMeta,
     categories,
@@ -182,7 +184,6 @@ export default function ProjectsPage() {
   const [projectToDelete, setProjectToDelete] = useState(null);
   const [aiDialogOpen, setAiDialogOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [sortBy, setSortBy] = useState('id:desc');
   const searchTimerRef = React.useRef(null);
 
   // ── Initial load ────────────────────────────────────────
@@ -223,7 +224,7 @@ export default function ProjectsPage() {
 
   const handleSortChange = useCallback(
     (value) => {
-      setSortBy(value);
+      dispatch(setOrderBy(value));
       dispatch(fetchProjects({ page: 1, orderby: value }));
     },
     [dispatch],
@@ -819,7 +820,7 @@ export default function ProjectsPage() {
             </SelectContent>
           </Select>
 
-          <Select value={sortBy} onValueChange={handleSortChange}>
+          <Select value={orderBy} onValueChange={handleSortChange}>
             <SelectTrigger className="w-[160px] h-9 text-sm">
               <SelectValue placeholder={__("Sort By")} />
             </SelectTrigger>

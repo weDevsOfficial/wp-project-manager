@@ -9,7 +9,6 @@ import {
   expandAll,
   collapseAll,
 } from "@store/taskListsSlice";
-import { cn } from "@lib/utils";
 import { useI18n } from "@hooks/useI18n";
 import { useToast } from "@hooks/useToast";
 import { useApi } from "@hooks/useApi";
@@ -18,6 +17,10 @@ import { Input } from "@components/ui/input";
 import RichTextEditor from "@components/common/RichTextEditor";
 import { Checkbox } from "@components/ui/checkbox";
 import { Skeleton } from "@components/ui/skeleton";
+import {
+  Pagination, PaginationContent, PaginationItem,
+  PaginationLink, PaginationNext, PaginationPrevious, PaginationEllipsis,
+} from "@components/ui/pagination";
 import { ArrowLeft, Plus, ChevronsUpDown, ListTodo } from "lucide-react";
 import TaskListSection from "./TaskListSection";
 import TaskDetailSheet from "./TaskDetailSheet";
@@ -33,7 +36,12 @@ export default function TaskListsPage() {
   const toast = useToast();
   const api = useApi();
 
-  const { lists, loading, expandedIds } = useAppSelector((s) => s.taskLists);
+  const { lists, loading, expandedIds, listsMeta } = useAppSelector((s) => s.taskLists);
+
+  const handlePageChange = useCallback((page) => {
+    if (page < 1 || page > listsMeta.total_pages || page === listsMeta.current_page) return
+    dispatch(fetchTaskLists({ projectId, page }))
+  }, [dispatch, projectId, listsMeta.total_pages, listsMeta.current_page])
 
   const [showNewList, setShowNewList] = useState(false);
   const [newListTitle, setNewListTitle] = useState("");
@@ -89,7 +97,7 @@ export default function TaskListsPage() {
     setShowLabels(false) // Reset for new project
     dispatch(resetProjectState()) // Clear all project-scoped Redux state
     if (projectId) {
-      dispatch(fetchTaskLists(projectId));
+      dispatch(fetchTaskLists({ projectId }));
       // Check label_in_tasks_list project setting
       api.get(`projects/${projectId}`, { with: 'labels' })
         .then(res => {
@@ -352,6 +360,51 @@ export default function TaskListsPage() {
             </div>
           ))}
         </div>
+      )}
+
+      {/* Task list pagination */}
+      {!loading && listsMeta.total_pages > 1 && (
+        <Pagination className="mt-4">
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                onClick={() => handlePageChange(listsMeta.current_page - 1)}
+                className={listsMeta.current_page <= 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+              />
+            </PaginationItem>
+            {Array.from({ length: listsMeta.total_pages }, (_, i) => i + 1).map((page) => {
+              const current = listsMeta.current_page
+              const total = listsMeta.total_pages
+              // Show first, last, current, and neighbors; ellipsis for gaps
+              if (page === 1 || page === total || (page >= current - 1 && page <= current + 1)) {
+                return (
+                  <PaginationItem key={page}>
+                    <PaginationLink
+                      isActive={page === current}
+                      onClick={() => handlePageChange(page)}
+                      className="cursor-pointer"
+                    >
+                      {page}
+                    </PaginationLink>
+                  </PaginationItem>
+                )
+              }
+              if (page === 2 && current > 3) {
+                return <PaginationItem key="start-ellipsis"><PaginationEllipsis /></PaginationItem>
+              }
+              if (page === total - 1 && current < total - 2) {
+                return <PaginationItem key="end-ellipsis"><PaginationEllipsis /></PaginationItem>
+              }
+              return null
+            })}
+            <PaginationItem>
+              <PaginationNext
+                onClick={() => handlePageChange(listsMeta.current_page + 1)}
+                className={listsMeta.current_page >= listsMeta.total_pages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
       )}
 
       {/* Task detail sheet */}
