@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import { useApi } from '@hooks/useApi'
 import { resetProjectState } from './actions'
+import { updateTask, fetchTask, changeTaskStatus } from './tasksSlice'
 
 const api = useApi()
 
@@ -301,6 +302,29 @@ const taskListsSlice = createSlice({
     builder.addCase(reorderLists.fulfilled, (state, action) => {
       const orderMap = new Map(action.payload.map(o => [o.id, o.index]))
       state.lists.sort((a, b) => (orderMap.get(a.id) ?? 0) - (orderMap.get(b.id) ?? 0))
+    })
+
+    // ── Sync task changes from tasksSlice back into lists ──
+    // When a task is updated in TaskDetailSheet, reflect changes in the list view
+    const syncTaskInLists = (state, updatedTask) => {
+      if (!updatedTask?.id) return
+      state.lists.forEach(list => {
+        const inIdx = list.incomplete_tasks.data.findIndex(t => t.id === updatedTask.id)
+        if (inIdx !== -1) {
+          list.incomplete_tasks.data[inIdx] = { ...list.incomplete_tasks.data[inIdx], ...updatedTask }
+        }
+        const coIdx = list.complete_tasks.data.findIndex(t => t.id === updatedTask.id)
+        if (coIdx !== -1) {
+          list.complete_tasks.data[coIdx] = { ...list.complete_tasks.data[coIdx], ...updatedTask }
+        }
+      })
+    }
+
+    builder.addCase(updateTask.fulfilled, (state, action) => {
+      if (action.payload) syncTaskInLists(state, action.payload)
+    })
+    builder.addCase(fetchTask.fulfilled, (state, action) => {
+      if (action.payload) syncTaskInLists(state, action.payload)
     })
 
     // Global project reset — clear all project-scoped data

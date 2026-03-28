@@ -75,6 +75,7 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
     dispatch(toggleTaskInList({ listId, taskId: task.id, newStatus }))
     try {
       await dispatch(changeTaskStatus({ projectId, taskId: task.id, status: newStatus })).unwrap()
+      toast.success(newStatus === 1 ? __('Task completed') : __('Task reopened'))
     } catch {
       dispatch(toggleTaskInList({ listId, taskId: task.id, newStatus: isComplete ? 1 : 0 }))
       toast.error(__('Failed to update task status'))

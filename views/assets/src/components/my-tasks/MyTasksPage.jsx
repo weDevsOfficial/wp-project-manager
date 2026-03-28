@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useCallback, useMemo } from "react";
-import { useAppDispatch } from "@store/index";
+import React, { useEffect, useState, useCallback, useMemo, useRef } from "react";
+import { useAppDispatch, useAppSelector } from "@store/index";
 import { openTaskSheet } from "@store/tasksSlice";
 import { setProjectId } from "@store/taskListsSlice";
 import { useApi } from "@hooks/useApi";
@@ -619,6 +619,22 @@ export default function MyTasksPage() {
     if (tab?.taskType) fetchTasks(1);
   }, [userId, activeTab, fetchTasks]);
 
+  // Refetch tasks when TaskDetailSheet closes (status/assignee/dates may have changed)
+  const taskSheetOpen = useAppSelector((s) => s.tasks.taskSheetOpen);
+  const prevSheetOpen = useRef(false);
+  useEffect(() => {
+    if (prevSheetOpen.current && !taskSheetOpen) {
+      // Sheet just closed — refetch to pick up any changes made in the detail sheet
+      fetchTasks(taskPage);
+      if (userId) {
+        api.get(`users/${userId}`, { with: "meta" })
+          .then((res) => setUser(res.data))
+          .catch(() => {});
+      }
+    }
+    prevSheetOpen.current = taskSheetOpen;
+  }, [taskSheetOpen]); // eslint-disable-line react-hooks/exhaustive-deps
+
   // Fetch overview graph data — Vue 2: GET users/{id}?with=meta,graph
   useEffect(() => {
     if (!userId || activeTab !== "overview") return;
@@ -743,6 +759,7 @@ export default function MyTasksPage() {
           `projects/${task.project_id}/tasks/${task.id}/change-status`,
           { status: newStatus },
         );
+        toast.success(newStatus === 1 ? __("Task completed") : __("Task reopened"));
         fetchTasks(taskPage);
         // Refetch user meta for counts
         const userRes = await api.get(`users/${userId}`, { with: "meta" });

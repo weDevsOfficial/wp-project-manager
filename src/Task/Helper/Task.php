@@ -1858,7 +1858,7 @@ class Task {
 		);
 
 		// If task has not boardable_id mean no list
-		if ( $id && ! $more_tasks_request ) {
+		if ( $id && ! is_array( $id ) && ! $more_tasks_request ) {
 			foreach ( $results as $key => $result ) {
 				if( $result->id == $id ) {
 					$tasks[] = $result;

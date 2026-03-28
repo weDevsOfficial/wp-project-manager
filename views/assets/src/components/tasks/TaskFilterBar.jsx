@@ -67,7 +67,16 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
     setFiltering(true)
     try {
       const res = await api.post(`projects/${projectId}/tasks/filter`, params)
-      onFilterResults?.(res.data ?? [])
+      // API returns task lists with embedded tasks — extract flat task array
+      const lists = res.data ?? []
+      const tasks = []
+      lists.forEach(list => {
+        const incomplete = list.incomplete_tasks?.data ?? []
+        const complete = list.complete_tasks?.data ?? []
+        incomplete.forEach(t => tasks.push({ ...t, task_list_id: t.task_list_id ?? list.id, board_id: t.board_id ?? list.id }))
+        complete.forEach(t => tasks.push({ ...t, task_list_id: t.task_list_id ?? list.id, board_id: t.board_id ?? list.id }))
+      })
+      onFilterResults?.(tasks)
     } catch {
       // silently fail
     }

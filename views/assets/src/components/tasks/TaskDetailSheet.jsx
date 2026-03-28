@@ -647,6 +647,7 @@ export default function TaskDetailSheet() {
     dispatch(toggleTaskInList({ listId: currentTask.task_list_id, taskId: currentTask.id, newStatus }))
     try {
       await dispatch(changeTaskStatus({ projectId, taskId: currentTask.id, status: newStatus })).unwrap()
+      toast.success(newStatus === 1 ? __('Task completed') : __('Task reopened'))
     } catch {
       toast.error(__('Failed to update status'))
     }
