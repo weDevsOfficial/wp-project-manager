@@ -10,6 +10,7 @@ import * as SonnerLib from 'sonner'
 const { Toaster } = SonnerLib
 import { store, injectReducer, resetProjectState } from '@store/index'
 import { fetchTask } from '@store/tasksSlice'
+import { fetchTaskLists } from '@store/taskListsSlice'
 import { AppLayout } from '@components/layout/AppLayout'
 import { FrontendLayout } from '@components/layout/FrontendLayout'
 import { ProModalProvider } from '@components/common/ProUpgradeModal'
@@ -32,6 +33,7 @@ const PremiumPage     = React.lazy(() => import('@components/projects/PremiumPag
 const ModulesPage     = React.lazy(() => import('@components/projects/ModulesPage'))
 const MyTasksPage     = React.lazy(() => import('@components/my-tasks/MyTasksPage'))
 const ToolsPage       = React.lazy(() => import('@components/projects/ToolsPage'))
+const WelcomePage     = React.lazy(() => import('@components/welcome/WelcomePage'))
 
 // ── Free placeholder pages (shown when Pro does NOT replace them) ──
 const CalendarPlaceholder = React.lazy(() => import('@components/projects/CalendarPage'))
@@ -72,6 +74,7 @@ function AppRoutes() {
         {!isFrontend && <Route path="categories" element={<CategoriesPage />} />}
         {!isFrontend && <Route path="settings" element={<SettingsPage />} />}
         {!isFrontend && <Route path="importtools" element={<ToolsPage />} />}
+        {!isFrontend && <Route path="welcome" element={<WelcomePage />} />}
         {!isFrontend && <Route path="modules" element={<FilteredPage filterName="route.modules.element" fallback={ModulesPage} />} />}
         <Route path="premium" element={<PremiumPage />} />
 
@@ -152,7 +155,7 @@ window.PM = {
   store,
 
   // Free store actions/thunks that pro may need to dispatch
-  thunks: { fetchTask },
+  thunks: { fetchTask, fetchTaskLists },
   actions: { resetProjectState },
 
   // Re-export libraries so Pro uses the SAME instances (no duplicate bundling)

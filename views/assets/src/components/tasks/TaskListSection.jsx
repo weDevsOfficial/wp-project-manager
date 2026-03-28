@@ -28,6 +28,7 @@ import {
   Check,
   Lock,
 } from 'lucide-react'
+import { Slot } from '@hooks/useSlot'
 import TaskRow from './TaskRow'
 
 export default function TaskListSection({ list, projectId, showLabels }) {
@@ -299,6 +300,8 @@ export default function TaskListSection({ list, projectId, showLabels }) {
               <Pencil className="h-3.5 w-3.5 mr-2" />
               {__('Rename')}
             </DropdownMenuItem>
+            {/* Pro slot: archive, duplicate, etc. */}
+            <Slot name="tasklist.section.menu" listId={list.id} projectId={projectId} list={list} />
             <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={handleDeleteList}>
               <Trash2 className="h-3.5 w-3.5 mr-2" />
               {__('Delete')}

@@ -24,6 +24,7 @@ import {
   PaginationLink, PaginationNext, PaginationPrevious, PaginationEllipsis,
 } from "@components/ui/pagination";
 import { ArrowLeft, Plus, ChevronsUpDown, ListTodo, Crown } from "lucide-react";
+import { Slot } from "@hooks/useSlot";
 import TaskListSection from "./TaskListSection";
 import TaskDetailSheet from "./TaskDetailSheet";
 import TaskFilterBar from "./TaskFilterBar";
@@ -228,6 +229,9 @@ export default function TaskListsPage() {
               {allExpanded ? __("Collapse all") : __("Expand all")}
             </Button>
           )}
+
+          {/* Pro slot: archive button, etc. */}
+          <Slot name="tasklist.header.actions" projectId={projectId} />
 
           {/* New list button */}
           <Button
