@@ -979,7 +979,7 @@ export default function MyTasksPage() {
                 className="h-8 rounded-md border border-pm-border bg-background px-2 text-xs focus:outline-none focus:ring-1 focus:ring-pm-accent"
               />
               {(overviewStartDate || overviewEndDate) && (
-                <Button variant="ghost" size="sm" className="h-8 text-xs text-pm-text-muted" onClick={() => { setOverviewStartDate(''); setOverviewEndDate('') }}>
+                <Button variant="outline" size="sm" className="h-8 text-xs" onClick={() => { setOverviewStartDate(''); setOverviewEndDate('') }}>
                   <X className="h-3 w-3 mr-1" />{__('Clear')}
                 </Button>
               )}

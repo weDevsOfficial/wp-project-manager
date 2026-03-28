@@ -499,7 +499,7 @@ export default function DiscussionsPage() {
                             <Check className="h-3 w-3" />
                             {__("Save")}
                           </Button>
-                          <Button size="sm" variant="ghost" className="h-7 gap-1 text-xs" onClick={cancelEditDiscussion}>
+                          <Button size="sm" variant="outline" className="h-7 gap-1 text-xs" onClick={cancelEditDiscussion}>
                             <X className="h-3 w-3" />
                             {__("Cancel")}
                           </Button>

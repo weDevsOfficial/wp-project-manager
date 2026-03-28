@@ -218,9 +218,9 @@ export default function TaskListsPage() {
           {/* Expand/Collapse all */}
           {lists.length > 0 && (
             <Button
-              variant="ghost"
+              variant="outline"
               size="sm"
-              className="text-xs gap-1.5"
+              className="text-xs gap-1.5 h-8 px-3"
               onClick={() =>
                 allExpanded ? dispatch(collapseAll()) : dispatch(expandAll())
               }
@@ -236,10 +236,10 @@ export default function TaskListsPage() {
           {/* New list button */}
           <Button
             size="sm"
-            className="gap-1.5"
+            className="text-xs gap-1.5 h-8 px-3"
             onClick={() => setShowNewList((v) => !v)}
           >
-            <Plus className="h-4 w-4" />
+            <Plus className="h-3.5 w-3.5" />
             {__("New List")}
           </Button>
         </div>

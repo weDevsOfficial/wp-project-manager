@@ -201,7 +201,7 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
 
       {/* Clear */}
       {hasActiveFilter && (
-        <Button variant="ghost" size="sm" className="h-8 text-xs gap-1 text-pm-text-muted" onClick={handleClear}>
+        <Button variant="outline" size="sm" className="h-8 text-xs gap-1" onClick={handleClear}>
           <X className="h-3 w-3" />
           {__('Clear')}
         </Button>
