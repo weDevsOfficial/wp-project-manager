@@ -193,6 +193,14 @@ window.PM = {
     Textarea:     require('@components/ui/textarea'),
     Tooltip:      require('@components/ui/tooltip'),
     RichTextEditor: require('@components/common/RichTextEditor'),
+    GitHubPreviewContainer: require('@components/common/GitHubPreviewContainer'),
+    NotionPreviewContainer: require('@components/common/NotionPreviewContainer'),
+    LoomPreviewContainer:   require('@components/common/LoomPreviewContainer'),
+  },
+
+  // Shared utilities for pro plugin
+  utils: {
+    urlStrippers: require('@/lib/url-strippers'),
   },
 
   // Re-export Radix UI primitives so pro uses the SAME context instances.

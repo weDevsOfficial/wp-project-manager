@@ -6,6 +6,10 @@ import { useToast } from "@hooks/useToast";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
 import RichTextEditor from "@components/common/RichTextEditor";
+import GitHubPreviewContainer from "@components/common/GitHubPreviewContainer";
+import NotionPreviewContainer from "@components/common/NotionPreviewContainer";
+import LoomPreviewContainer from "@components/common/LoomPreviewContainer";
+import { stripAllPreviewUrls } from "@/lib/url-strippers";
 import { Skeleton } from "@components/ui/skeleton";
 import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
 import { Separator } from "@components/ui/separator";
@@ -609,9 +613,12 @@ export default function DiscussionsPage() {
                         <div
                           className="prose prose-sm max-w-none text-sm text-pm-text-primary/80 [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
                           dangerouslySetInnerHTML={{
-                            __html: d.description.html,
+                            __html: stripAllPreviewUrls(d.description.html),
                           }}
                         />
+                        <GitHubPreviewContainer content={d.description.html} />
+                        <NotionPreviewContainer content={d.description.html} />
+                        <LoomPreviewContainer content={d.description.html} />
                       </div>
                     )}
                     <Separator />
@@ -680,12 +687,17 @@ export default function DiscussionsPage() {
                                     </div>
                                   </div>
                                 ) : (
-                                  <div
-                                    className="text-xs text-pm-text-primary/80 leading-relaxed prose prose-sm max-w-none"
-                                    dangerouslySetInnerHTML={{
-                                      __html: c.content,
-                                    }}
-                                  />
+                                  <>
+                                    <div
+                                      className="text-xs text-pm-text-primary/80 leading-relaxed prose prose-sm max-w-none"
+                                      dangerouslySetInnerHTML={{
+                                        __html: stripAllPreviewUrls(c.content),
+                                      }}
+                                    />
+                                    <GitHubPreviewContainer content={c.content || ''} />
+                                    <NotionPreviewContainer content={c.content || ''} />
+                                    <LoomPreviewContainer content={c.content || ''} />
+                                  </>
                                 )}
                                 {renderFiles(c.files)}
                               </div>

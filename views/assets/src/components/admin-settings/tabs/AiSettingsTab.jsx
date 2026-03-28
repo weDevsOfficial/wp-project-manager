@@ -115,7 +115,7 @@ const AiSettingsTab = () => {
             {__('AI Settings', 'wedevs-project-manager')}
           </h2>
           <p className="text-sm text-pm-text-muted mt-0.5">
-            {__('Configure AI provider for project generation and smart suggestions.', 'wedevs-project-manager')}
+            {__('Configure the AI provider used for AI-powered features — including automatic project generation and AI subtask generation (Pro).', 'wedevs-project-manager')}
           </p>
         </div>
       </div>
@@ -164,7 +164,7 @@ const AiSettingsTab = () => {
           <div className="flex items-center justify-between px-5 py-4">
             <div>
               <Label htmlFor="ai_max_tokens">{__('Max Tokens', 'wedevs-project-manager')}</Label>
-              <p className="text-xs text-pm-text-muted mt-1">500 – 16 384</p>
+              <p className="text-xs text-pm-text-muted mt-1">{__('500–16384. Higher values allow more detailed responses for both project and subtask generation, but may cost more.', 'wedevs-project-manager')}</p>
             </div>
             <Input id="ai_max_tokens" type="number" min={500} max={16384} value={ai.ai_max_tokens} onChange={(e) => { dispatch(setAiMaxTokens(Number(e.target.value))); setIsDirty(true) }} className="w-40" />
           </div>

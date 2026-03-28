@@ -22,6 +22,10 @@ import {
 import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
 import RichTextEditor from '@components/common/RichTextEditor'
+import GitHubPreviewContainer from '@components/common/GitHubPreviewContainer'
+import NotionPreviewContainer from '@components/common/NotionPreviewContainer'
+import LoomPreviewContainer from '@components/common/LoomPreviewContainer'
+import { stripAllPreviewUrls } from '@/lib/url-strippers'
 import FileUploadArea from '@components/common/FileUploadArea'
 import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar'
 import { Separator } from '@components/ui/separator'
@@ -62,6 +66,7 @@ import {
   Repeat,
   Pencil,
   FileText,
+  Sparkles,
 } from 'lucide-react'
 import {
   isTaskComplete,
@@ -499,15 +504,27 @@ function ProSubtasksSection({ taskId, projectId, currentTask }) {
     )
   }
 
-  // Free fallback — ProGate upsell
+  // Free fallback — ProGate upsell with AI button teaser
   if (!isPro) {
     return (
       <div className="px-6 py-3">
         <ProGate feature={__('Subtasks')}>
-          <div className="flex items-center gap-2 text-sm text-pm-text-muted py-1">
-            <Layers className="h-3.5 w-3.5" />
-            <span className="text-xs">{__('Subtasks')}</span>
-            <ProBadge />
+          <div className="flex items-center justify-between py-1">
+            <div className="flex items-center gap-2 text-sm text-pm-text-muted">
+              <Layers className="h-3.5 w-3.5" />
+              <span className="text-xs">{__('Subtasks')}</span>
+              <ProBadge />
+            </div>
+            <button
+              type="button"
+              disabled
+              aria-disabled="true"
+              className="inline-flex items-center gap-1 text-[11px] text-white bg-pm-accent/60 rounded px-2 py-1 cursor-not-allowed opacity-60"
+            >
+              <Sparkles className="h-3 w-3" />
+              {__('Generate with AI')}
+              <span className="bg-white/25 text-white text-[9px] px-1 py-0.5 rounded font-semibold">{__('Pro')}</span>
+            </button>
           </div>
         </ProGate>
       </div>
@@ -1068,7 +1085,12 @@ export default function TaskDetailSheet() {
               ) : (
                 <div className={cn('rounded-lg p-3 min-h-[48px] transition-colors', currentTask.description?.html ? 'bg-muted/20' : 'bg-muted/10 border border-dashed border-border/60')}>
                   {currentTask.description?.html ? (
-                    <div className="prose prose-sm max-w-none text-sm text-pm-text-primary/80 [&>*:first-child]:mt-0 [&>*:last-child]:mb-0" dangerouslySetInnerHTML={{ __html: currentTask.description.html }} />
+                    <>
+                      <div className="prose prose-sm max-w-none text-sm text-pm-text-primary/80 [&>*:first-child]:mt-0 [&>*:last-child]:mb-0" dangerouslySetInnerHTML={{ __html: stripAllPreviewUrls(currentTask.description.html) }} />
+                      <GitHubPreviewContainer content={currentTask.description.html} />
+                      <NotionPreviewContainer content={currentTask.description.html} />
+                      <LoomPreviewContainer content={currentTask.description.html} />
+                    </>
                   ) : (
                     <p className="text-xs text-pm-text-muted italic">{__('No description yet. Click "Add" to write one.')}</p>
                   )}
@@ -1130,7 +1152,12 @@ export default function TaskDetailSheet() {
                               </div>
                             </div>
                           ) : (
-                            <div className="text-xs text-pm-text-primary/80 leading-relaxed prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: comment.content }} />
+                            <>
+                              <div className="text-xs text-pm-text-primary/80 leading-relaxed prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: stripAllPreviewUrls(comment.content) }} />
+                              <GitHubPreviewContainer content={comment.content || ''} />
+                              <NotionPreviewContainer content={comment.content || ''} />
+                              <LoomPreviewContainer content={comment.content || ''} />
+                            </>
                           )}
                           {/* Comment files */}
                           {comment.files?.data?.length > 0 && (

@@ -9,6 +9,23 @@ import {
   Calendar, Image, FileText, Crown, Lock,
 } from 'lucide-react'
 
+// Brand SVG icons for settings nav (not available as non-deprecated lucide icons)
+const GitHubNavIcon = (props) => (
+  <svg viewBox="0 0 16 16" fill="currentColor" {...props}>
+    <path fillRule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z" />
+  </svg>
+)
+const NotionNavIcon = (props) => (
+  <svg viewBox="0 0 24 24" fill="currentColor" {...props}>
+    <path d="M4.459 4.208c.746.606 1.026.56 2.428.466l13.215-.793c.28 0 .047-.28-.046-.326L17.86 1.968c-.42-.326-.98-.7-2.055-.607L2.451 2.577c-.466.046-.56.28-.374.466l2.382 1.165zM5.251 7.26v13.932c0 .747.373 1.027 1.214.98l14.523-.84c.84-.046.933-.56.933-1.167V7.307c0-.606-.233-.933-.746-.886l-15.177.886c-.56.047-.747.327-.747.933zm14.336.42c.094.42 0 .84-.42.886l-.7.14v10.264c-.607.327-1.167.514-1.634.514-.747 0-.933-.234-1.494-.933l-4.577-7.186v6.953l1.447.327s0 .84-1.167.84l-3.22.187c-.093-.187 0-.653.327-.747l.84-.22V9.854L7.822 9.76c-.094-.42.14-1.027.747-1.073l3.454-.234 4.764 7.28V9.527l-1.214-.14c-.093-.513.28-.886.747-.933l3.267-.187z" />
+  </svg>
+)
+const LoomNavIcon = (props) => (
+  <svg viewBox="0 0 62 62" fill="#625DF5" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <path d="M62,27.6H43.9l15.7-9.1l-3.4-6l-15.7,9.1l9.1-15.7l-6-3.5l-9.1,15.7V0h-6.9v18.1L18.5,2.4l-6,3.4l9.1,15.7L5.9,12.5l-3.4,6l15.7,9.1H0v6.9h18.1L2.4,43.5l3.4,6l15.7-9.1l-9.1,15.7l6,3.4l9.1-15.7V62h6.9V43.9l9.1,15.7l6-3.4l-9.1-15.7l15.7,9.1l3.4-6l-15.7-9.1H62L62,27.6L62,27.6z M31,40.4c-5.2,0-9.4-4.2-9.4-9.4c0-5.2,4.2-9.4,9.4-9.4c5.2,0,9.4,4.2,9.4,9.4C40.4,36.2,36.2,40.4,31,40.4z" />
+  </svg>
+)
+
 // ── Lazy-loaded tab components ───────────────────────────────
 const GeneralTab    = lazy(() => import('./tabs/GeneralTab'))
 const EmailTab      = lazy(() => import('./tabs/EmailTab'))
@@ -16,6 +33,9 @@ const TaskTypesTab  = lazy(() => import('./tabs/TaskTypesTab'))
 const UserMapTab    = lazy(() => import('./tabs/UserMapTab'))
 const PusherTab     = lazy(() => import('./tabs/PusherTab'))
 const AiSettingsTab      = lazy(() => import('./tabs/AiSettingsTab'))
+const GitHubSettingsTab  = lazy(() => import('./tabs/GitHubSettingsTab'))
+const NotionSettingsTab  = lazy(() => import('./tabs/NotionSettingsTab'))
+const LoomSettingsTab    = lazy(() => import('./tabs/LoomSettingsTab'))
 const InvoiceSettingsTab = lazy(() => import('./tabs/InvoiceSettingsTab'))
 const PagesSettingsTab   = lazy(() => import('./tabs/PagesSettingsTab'))
 
@@ -27,6 +47,9 @@ const tabComponents = {
   'usermap':      UserMapTab,
   'pusher':       PusherTab,
   'ai-settings':  AiSettingsTab,
+  'github':       GitHubSettingsTab,
+  'notion':       NotionSettingsTab,
+  'loom':         LoomSettingsTab,
   'invoices':     InvoiceSettingsTab,
   'pages':        PagesSettingsTab,
 }
@@ -110,6 +133,9 @@ const SettingsPage = () => {
       tabs: [
         { key: 'usermap', label: __('User Map', 'wedevs-project-manager'), icon: Users },
         { key: 'pusher',  label: __('Pusher',   'wedevs-project-manager'), icon: Radio },
+        { key: 'github',  label: __('GitHub',   'wedevs-project-manager'), icon: GitHubNavIcon },
+        { key: 'notion',  label: __('Notion',   'wedevs-project-manager'), icon: NotionNavIcon },
+        { key: 'loom',    label: __('Loom',     'wedevs-project-manager'), icon: LoomNavIcon },
       ],
     },
     {
