@@ -133,7 +133,7 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
 
       {/* Status */}
       <Select value={status} onValueChange={(v) => { setStatus(v); applyFilter({ status: v }) }}>
-        <SelectTrigger className="h-8 w-[120px] text-xs">
+        <SelectTrigger className="h-8 w-auto sm:w-[120px] text-xs">
           <SelectValue placeholder={__('Status')} />
         </SelectTrigger>
         <SelectContent>
@@ -144,7 +144,7 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
 
       {/* Due date */}
       <Select value={dueDate} onValueChange={(v) => { setDueDate(v); applyFilter({ dueDate: v }) }}>
-        <SelectTrigger className="h-8 w-[120px] text-xs">
+        <SelectTrigger className="h-8 w-auto sm:w-[120px] text-xs">
           <SelectValue placeholder={__('Due Date')} />
         </SelectTrigger>
         <SelectContent>
@@ -157,7 +157,7 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
       {/* List */}
       {lists?.length > 0 && (
         <Select value={listId} onValueChange={(v) => { setListId(v); applyFilter({ listId: v }) }}>
-          <SelectTrigger className="h-8 w-[140px] text-xs">
+          <SelectTrigger className="h-8 w-auto sm:w-[140px] text-xs">
             <SelectValue placeholder={__('Task List')} />
           </SelectTrigger>
           <SelectContent>
@@ -171,7 +171,7 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
       {/* Assignee */}
       {allAssignees.length > 0 && (
         <Select value={assigneeId} onValueChange={(v) => { setAssigneeId(v); applyFilter({ assigneeId: v }) }}>
-          <SelectTrigger className="h-8 w-[140px] text-xs">
+          <SelectTrigger className="h-8 w-auto sm:w-[140px] text-xs">
             <SelectValue placeholder={__('Assignee')} />
           </SelectTrigger>
           <SelectContent>

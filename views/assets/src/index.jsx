@@ -80,18 +80,26 @@ function AppRoutes() {
         <Route path="reports/*" element={<FilteredPage filterName="route.reports.element" fallback={ReportsPlaceholder} />} />
         <Route path="progress" element={<FilteredPage filterName="route.progress.element" fallback={ProgressPlaceholder} />} />
 
-        {/* ── Pro feature placeholders — Pro overrides via dynamic routes ── */}
-        <Route path="projects/:projectId/kanban" element={<FilteredPage filterName="route.kanban.element" fallback={() => <ProFeaturePlaceholder title="Kanban Board" description="Visualize your workflow with drag-and-drop boards." icon={Columns3} mockKey="kanban" />} />} />
-        <Route path="projects/:projectId/gantt" element={<FilteredPage filterName="route.gantt.element" fallback={() => <ProFeaturePlaceholder title="Gantt Chart" description="Plan and track project timelines with interactive Gantt charts." icon={GitBranch} mockKey="gantt" />} />} />
-        <Route path="projects/:projectId/invoices" element={<FilteredPage filterName="route.invoices.element" fallback={() => <ProFeaturePlaceholder title="Invoices" description="Create and manage project invoices with payment tracking." icon={Receipt} mockKey="invoices" />} />} />
-        <Route path="projects/:projectId/settings" element={<FilteredPage filterName="route.settings.element" fallback={() => <ProFeaturePlaceholder title="Project Settings" description="Configure project capabilities, integrations, and more." icon={SettingsIcon} mockKey="settings" />} />} />
-
         {/* ── Dynamic routes registered by Pro plugin ── */}
         {dynamicRoutes.map(({ path, element }, i) => (
           <Route key={`pro-${i}`} path={path} element={
             <React.Suspense fallback={null}>{element}</React.Suspense>
           } />
         ))}
+
+        {/* ── Pro feature placeholders — only shown when Pro hasn't registered the route ── */}
+        {!dynamicRoutes.some(r => r.path === 'projects/:projectId/kanban') && (
+          <Route path="projects/:projectId/kanban" element={<ProFeaturePlaceholder title="Kanban Board" description="Visualize your workflow with drag-and-drop boards." icon={Columns3} mockKey="kanban" />} />
+        )}
+        {!dynamicRoutes.some(r => r.path === 'projects/:projectId/gantt') && (
+          <Route path="projects/:projectId/gantt" element={<ProFeaturePlaceholder title="Gantt Chart" description="Plan and track project timelines with interactive Gantt charts." icon={GitBranch} mockKey="gantt" />} />
+        )}
+        {!dynamicRoutes.some(r => r.path === 'projects/:projectId/invoices') && (
+          <Route path="projects/:projectId/invoices" element={<ProFeaturePlaceholder title="Invoices" description="Create and manage project invoices with payment tracking." icon={Receipt} mockKey="invoices" />} />
+        )}
+        {!dynamicRoutes.some(r => r.path === 'projects/:projectId/settings') && (
+          <Route path="projects/:projectId/settings" element={<ProFeaturePlaceholder title="Project Settings" description="Configure project capabilities, integrations, and more." icon={SettingsIcon} mockKey="settings" />} />
+        )}
 
         <Route path="*" element={<Navigate to="/projects" replace />} />
       </Route>

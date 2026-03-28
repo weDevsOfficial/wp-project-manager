@@ -1,12 +1,13 @@
 import React, { useCallback, useState } from 'react'
 import { useAppDispatch } from '@store/index'
 import { changeTaskStatus, deleteTask, duplicateTask, openTaskSheet } from '@store/tasksSlice'
-import { toggleTaskInList, removeTaskFromList, addTaskToList } from '@store/taskListsSlice'
+import { toggleTaskInList, removeTaskFromList, addTaskToList, updateTaskPrivacy } from '@store/taskListsSlice'
 import { cn } from '@lib/utils'
 import { isPrivate as checkPrivate } from '@lib/pm-utils'
 import { useI18n } from '@hooks/useI18n'
 import { useToast } from '@hooks/useToast'
 import { useApi } from '@hooks/useApi'
+import { usePermissions } from '@hooks/usePermissions'
 import { Button } from '@components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar'
 import {
@@ -33,8 +34,10 @@ import {
   Check,
   ArrowRightLeft,
   GripVertical,
+  Pencil,
   Lock as LockIcon,
   Unlock,
+  Crown,
 } from 'lucide-react'
 import MoveTaskDialog from './MoveTaskDialog'
 import {
@@ -52,6 +55,7 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
   const { __ } = useI18n()
   const toast = useToast()
   const api = useApi()
+  const { isPro } = usePermissions()
   const [toggling, setToggling] = useState(false)
   const [hovered, setHovered] = useState(false)
   const [moveDialogOpen, setMoveDialogOpen] = useState(false)
@@ -108,11 +112,15 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
 
   const handleTogglePrivacy = useCallback(async () => {
     const newPrivacy = taskIsPrivate ? 0 : 1
+    dispatch(updateTaskPrivacy({ taskId: task.id, privacy: newPrivacy }))
     try {
       await api.post(`projects/${projectId}/tasks/privacy/${task.id}`, { is_private: newPrivacy })
       toast.success(newPrivacy ? __('Set to private') : __('Set to public'))
-    } catch { toast.error(__('Failed to update privacy')) }
-  }, [api, projectId, task.id, taskIsPrivate, toast, __])
+    } catch {
+      dispatch(updateTaskPrivacy({ taskId: task.id, privacy: taskIsPrivate ? 1 : 0 }))
+      toast.error(__('Failed to update privacy'))
+    }
+  }, [api, projectId, task.id, taskIsPrivate, dispatch, toast, __])
 
   const handleMoved = useCallback((taskId, fromListId, toListId) => {
     dispatch(removeTaskFromList({ listId: fromListId, taskId }))
@@ -280,6 +288,7 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuItem onClick={handleOpen}>
+              <Pencil className="h-3.5 w-3.5 mr-2" />
               {__('Edit')}
             </DropdownMenuItem>
             <DropdownMenuItem onClick={handleDuplicate}>
@@ -290,12 +299,13 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
               <ArrowRightLeft className="h-3.5 w-3.5 mr-2" />
               {__('Move')}
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={handleTogglePrivacy}>
+            <DropdownMenuItem onClick={() => isPro && handleTogglePrivacy()} disabled={!isPro}>
               {taskIsPrivate ? (
                 <><Unlock className="h-3.5 w-3.5 mr-2" />{__('Make Public')}</>
               ) : (
                 <><LockIcon className="h-3.5 w-3.5 mr-2" />{__('Make Private')}</>
               )}
+              {!isPro && <Crown className="h-3 w-3 ml-auto text-pm-accent" />}
             </DropdownMenuItem>
             <DropdownMenuItem
               className="text-destructive focus:text-destructive"

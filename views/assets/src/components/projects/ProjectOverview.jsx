@@ -143,9 +143,9 @@ export default function ProjectOverview() {
 
   if (loading) {
     return (
-      <div className="max-w-[1400px] mx-auto p-6 space-y-5">
+      <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-5">
         <Skeleton className="h-8 w-1/3" />
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           {[1, 2, 3].map((i) => (
             <Skeleton key={i} className="h-24 rounded-xl" />
           ))}
@@ -216,7 +216,7 @@ export default function ProjectOverview() {
   ];
 
   return (
-    <div className="max-w-[1400px] mx-auto p-6 space-y-6">
+    <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-6">
       {/* Header */}
       <div className="flex items-center gap-3">
         <Button

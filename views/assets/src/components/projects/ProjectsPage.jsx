@@ -430,16 +430,15 @@ export default function ProjectsPage() {
             </>
           )}
         </DropdownMenuItem>
-        {isPro && (
-          <DropdownMenuItem onClick={() => navigate(`/projects/${project.id}/settings`)}>
-            <Settings className="h-4 w-4 mr-2" />
-            {__("Settings")}
-          </DropdownMenuItem>
-        )}
+        <DropdownMenuItem onClick={() => isPro ? navigate(`/projects/${project.id}/settings`) : setProModalOpen(true)}>
+          <Settings className="h-4 w-4 mr-2" />
+          {__("Settings")}
+          {!isPro && <Crown className="h-3 w-3 ml-auto text-pm-accent" />}
+        </DropdownMenuItem>
         <DropdownMenuItem onClick={() => handleDuplicate(project)}>
           <Copy className="h-4 w-4 mr-2" />
           {__("Duplicate")}
-          {!isPro && <Crown className="h-3 w-3 ml-auto text-amber-500" />}
+          {!isPro && <Crown className="h-3 w-3 ml-auto text-pm-accent" />}
         </DropdownMenuItem>
         <DropdownMenuItem
           className="text-destructive focus:text-destructive"
@@ -569,8 +568,8 @@ export default function ProjectsPage() {
   // ── List view ──────────────────────────────────────────
 
   const renderListView = () => (
-    <div className="rounded-xl border bg-card overflow-hidden">
-      <table className="w-full text-sm">
+    <div className="rounded-xl border bg-card overflow-x-auto">
+      <table className="w-full text-sm min-w-[800px]">
         <thead>
           <tr className="border-b bg-muted/30">
             <th className="text-left px-5 py-2.5 text-[11px] font-semibold uppercase tracking-wider text-pm-text-muted/70">
@@ -765,8 +764,8 @@ export default function ProjectsPage() {
   // ── Main render ────────────────────────────────────────
 
   return (
-    <div className="max-w-[1400px] mx-auto p-6 space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-6">
+      <div className="flex items-center justify-between flex-wrap gap-2">
         <h1 className="text-2xl font-bold text-pm-text-primary">
           {__("Projects")}
         </h1>

@@ -273,7 +273,7 @@ export default function ActivitiesPage() {
   }, [activities, total])
 
   return (
-    <div className="max-w-[1400px] mx-auto p-6 space-y-5">
+    <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-5">
       {/* Header */}
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => navigate(`/projects/${projectId}/task-lists`)}>
@@ -287,7 +287,7 @@ export default function ActivitiesPage() {
 
       {loading ? (
         <div className="space-y-4">
-          <div className="grid grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {[1, 2, 3, 4].map(i => <Skeleton key={i} className="h-20 rounded-lg" />)}
           </div>
           {[1, 2, 3, 4, 5].map(i => (
@@ -309,7 +309,7 @@ export default function ActivitiesPage() {
       ) : (
         <>
           {/* Stats cards */}
-          <div className="grid grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {[
               { label: __('Total'), value: stats.total, color: 'text-pm-accent' },
               { label: __('Today'), value: stats.today, color: 'text-emerald-500' },

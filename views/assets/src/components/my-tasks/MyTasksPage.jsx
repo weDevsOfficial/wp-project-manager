@@ -800,7 +800,7 @@ export default function MyTasksPage() {
   }
 
   return (
-    <div className="max-w-[1400px] mx-auto p-6 space-y-6">
+    <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-6">
       {/* Header — user info + user selector */}
       <div className="flex items-center gap-4">
         <Avatar className="h-14 w-14">
@@ -851,7 +851,7 @@ export default function MyTasksPage() {
       </div>
 
       {/* Stats cards */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {[
           {
             label: __("Current"),
@@ -1281,7 +1281,7 @@ export default function MyTasksPage() {
                 <>
                   {/* Projects table */}
                   {allProj.length > 0 && (
-                    <div className="rounded-xl border bg-card overflow-hidden">
+                    <div className="rounded-xl border bg-card overflow-x-auto">
                       <h4 className="text-sm font-semibold text-pm-text-primary px-4 py-3 border-b">{__("Projects")}</h4>
                       <table className="w-full text-sm">
                         <thead><tr className="border-b text-xs text-pm-text-muted">
@@ -1308,7 +1308,7 @@ export default function MyTasksPage() {
 
                   {/* Task Type table */}
                   {Array.isArray(taskTypes) && taskTypes.length > 0 && (
-                    <div className="rounded-xl border bg-card overflow-hidden">
+                    <div className="rounded-xl border bg-card overflow-x-auto">
                       <h4 className="text-sm font-semibold text-pm-text-primary px-4 py-3 border-b">{__("Task type")}</h4>
                       <table className="w-full text-sm">
                         <thead><tr className="border-b text-xs text-pm-text-muted">
@@ -1331,7 +1331,7 @@ export default function MyTasksPage() {
 
                   {/* Subtasks table */}
                   {subtasksAll.length > 0 && (
-                    <div className="rounded-xl border bg-card overflow-hidden">
+                    <div className="rounded-xl border bg-card overflow-x-auto">
                       <h4 className="text-sm font-semibold text-pm-text-primary px-4 py-3 border-b">{__("Subtasks")}</h4>
                       <table className="w-full text-sm">
                         <thead><tr className="border-b text-xs text-pm-text-muted">
@@ -1370,7 +1370,7 @@ export default function MyTasksPage() {
               value={searchTitle}
               onChange={(e) => setSearchTitle(e.target.value)}
               placeholder={__("Search by Task Title")}
-              className="h-9 text-sm max-w-[220px]"
+              className="h-9 text-sm w-full sm:max-w-[220px]"
               onKeyDown={(e) => {
                 if (e.key === "Enter") fetchTasks(1);
               }}
@@ -1378,7 +1378,7 @@ export default function MyTasksPage() {
 
             {/* Project filter */}
             <select
-              className="h-9 text-sm border rounded-md px-3 bg-background text-pm-text-primary max-w-[180px]"
+              className="h-9 text-sm border rounded-md px-3 bg-background text-pm-text-primary w-full sm:max-w-[180px]"
               value={filterProjectId}
               onChange={(e) => {
                 setFilterProjectId(e.target.value);

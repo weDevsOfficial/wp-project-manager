@@ -26,6 +26,7 @@ import {
   Trash2,
   Pencil,
   Check,
+  Lock,
 } from 'lucide-react'
 import TaskRow from './TaskRow'
 
@@ -258,6 +259,10 @@ export default function TaskListSection({ list, projectId, showLabels }) {
           <h3 className="text-sm font-semibold text-pm-text-primary flex-1 truncate">
             {list.title}
           </h3>
+        )}
+
+        {!renaming && list.meta?.privacy === 1 && (
+          <Lock className="h-3 w-3 text-pm-text-muted shrink-0" title={__('Private')} />
         )}
 
         {/* Counts */}

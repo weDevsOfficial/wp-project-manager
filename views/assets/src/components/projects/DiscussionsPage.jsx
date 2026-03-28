@@ -350,7 +350,7 @@ export default function DiscussionsPage() {
   );
 
   return (
-    <div className="max-w-[1400px] mx-auto p-6 space-y-5">
+    <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-5">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -403,7 +403,7 @@ export default function DiscussionsPage() {
 
           {/* Milestone dropdown */}
           <Select value={formMilestone} onValueChange={setFormMilestone}>
-            <SelectTrigger className="h-9 text-sm w-[200px]">
+            <SelectTrigger className="h-9 text-sm w-full sm:w-[200px]">
               <SelectValue placeholder={__("- Milestone -")} />
             </SelectTrigger>
             <SelectContent>

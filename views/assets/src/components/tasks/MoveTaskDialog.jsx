@@ -65,7 +65,7 @@ export default function MoveTaskDialog({ open, onOpenChange, task, projectId, cu
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[420px]">
+      <DialogContent className="sm:max-w-[420px]" data-pm-dialog>
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <ListTodo className="h-4 w-4 text-pm-accent" />

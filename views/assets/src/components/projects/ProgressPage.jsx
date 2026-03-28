@@ -89,7 +89,7 @@ export default function ProgressPage() {
   const { setOpen } = useProModal()
 
   return (
-    <div className="max-w-[1400px] mx-auto p-6 space-y-6">
+    <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -107,7 +107,7 @@ export default function ProgressPage() {
       <div className="group relative rounded-xl border bg-card overflow-hidden">
         <div className="p-4">
           {/* Stats bar */}
-          <div className="grid grid-cols-4 gap-4 mb-5">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-5">
             {[
               { label: __('Activities Today'), value: '24', color: 'text-pm-accent' },
               { label: __('Tasks Completed'), value: '12', color: 'text-emerald-500' },

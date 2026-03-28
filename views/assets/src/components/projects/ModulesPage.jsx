@@ -98,7 +98,7 @@ export default function ModulesPage() {
   const { setOpen } = useProModal();
 
   return (
-    <div className="max-w-[1400px] mx-auto p-6 space-y-6">
+    <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>

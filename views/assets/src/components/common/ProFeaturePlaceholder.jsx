@@ -15,7 +15,7 @@ function KanbanMock() {
     { title: 'Overdue', color: '#6b7280', tasks: ['Bug fix #42'] },
   ]
   return (
-    <div className="flex gap-3 p-5" style={{ minHeight: '420px', alignItems: 'flex-start' }}>
+    <div className="flex flex-col sm:flex-row gap-3 p-5" style={{ minHeight: '420px', alignItems: 'flex-start' }}>
       {cols.map(col => (
         <div key={col.title} className="flex-1 rounded-lg bg-gray-50 overflow-hidden">
           <div className="px-3 py-2 text-white text-xs font-semibold flex justify-between" style={{ background: col.color }}>
@@ -115,15 +115,15 @@ function SettingsMock() {
   const fields = ['Project Name', 'Description', 'Status', 'Visibility']
   return (
     <div className="p-5" style={{ minHeight: '420px' }}>
-      <div className="flex gap-3 mb-5">
+      <div className="flex flex-wrap gap-2 sm:gap-3 mb-5">
         {tabs.map((t, i) => (
           <div key={t} className={`px-4 py-1.5 rounded-md text-xs font-medium ${i === 0 ? 'bg-pm-accent text-white' : 'bg-gray-100 text-gray-500'}`}>{t}</div>
         ))}
       </div>
       {fields.map((f, i) => (
-        <div key={i} className="flex items-center justify-between py-3.5 border-b border-gray-100">
-          <span className="text-[13px] text-gray-700 font-medium">{f}</span>
-          <div className="w-48 h-8 rounded-md bg-gray-50 border border-gray-200" />
+        <div key={i} className="flex items-center justify-between gap-3 py-3.5 border-b border-gray-100">
+          <span className="text-[13px] text-gray-700 font-medium shrink-0">{f}</span>
+          <div className="w-full sm:w-48 h-8 rounded-md bg-gray-50 border border-gray-200" />
         </div>
       ))}
     </div>
@@ -144,7 +144,7 @@ export default function ProFeaturePlaceholder({ title, description, icon: Icon, 
   const MockComponent = mockKey && MOCK_MAP[mockKey]
 
   return (
-    <div className="max-w-[1400px] mx-auto p-6 space-y-6">
+    <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-6">
       {/* Header — same pattern as CalendarPage */}
       <div className="flex items-center justify-between">
         <div>

@@ -175,9 +175,9 @@ export function TopBar() {
 
   return (
     <>
-      <div className="h-12 border-b border-pm-border bg-white flex items-center px-4 gap-3 shrink-0">
+      <div className="h-12 border-b border-pm-border bg-white flex items-center px-2 sm:px-4 gap-2 sm:gap-3 shrink-0">
         {/* Breadcrumb */}
-        <nav className="flex items-center gap-1 flex-1 min-w-0">
+        <nav className="flex items-center gap-1 flex-1 min-w-0 overflow-hidden">
           {breadcrumbs.map((crumb, i) => (
             <span key={i} className="flex items-center gap-1">
               {i > 0 && <ChevronRight className="h-3 w-3 text-pm-text-muted/50 shrink-0" />}
@@ -196,7 +196,15 @@ export function TopBar() {
           ))}
         </nav>
 
-        {/* Search trigger */}
+        {/* Search trigger — icon on mobile, full button on desktop */}
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-8 w-8 md:hidden shrink-0"
+          onClick={() => setSearchOpen(true)}
+        >
+          <Search className="h-4 w-4 text-pm-text-muted" />
+        </Button>
         <Button
           variant="outline"
           size="sm"
@@ -220,7 +228,7 @@ export function TopBar() {
         </a>
 
         {/* What's New (Headway) — wrapper div prevents badge span from breaking button layout */}
-        <div className="relative shrink-0" id="pm-headway-icon">
+        <div className="relative shrink-0 hidden sm:block" id="pm-headway-icon">
           <button
             type="button"
             className="p-1 rounded hover:bg-muted text-pm-text-muted hover:text-pm-accent transition-colors"
@@ -247,7 +255,7 @@ export function TopBar() {
           )}
         </Button>
 
-        {/* Sidebar mode toggle — admin only (no WP sidebar on frontend) */}
+        {/* Sidebar mode toggle — admin only (no WP sidebar on frontend), hidden on mobile */}
         {!isFrontend && (
           <div className="flex items-center gap-0.5 bg-muted/60 rounded-md p-0.5 shrink-0">
             <button
@@ -288,7 +296,7 @@ export function TopBar() {
 
       {/* ── Search Dialog (Ctrl+K) ── */}
       <Dialog open={searchOpen} onOpenChange={setSearchOpen}>
-        <DialogContent className="sm:max-w-[480px] p-0 gap-0 overflow-hidden !fixed !top-[20%] !left-[50vw] !-translate-x-1/2 !translate-y-0">
+        <DialogContent className="max-w-[calc(100vw-2rem)] sm:max-w-[480px] p-0 gap-0 overflow-hidden" data-pm-dialog>
           <Command shouldFilter={false} className="rounded-lg">
             <CommandInput
               placeholder={__('Search projects and tasks...')}

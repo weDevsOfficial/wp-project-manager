@@ -135,7 +135,7 @@ export default function PremiumPage() {
   const { __ } = useI18n();
 
   return (
-    <div className="max-w-[1400px] mx-auto p-6 space-y-8">
+    <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-8">
       {/* ── Hero Banner ── */}
       <div className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-purple-600 via-indigo-600 to-blue-600 px-8 py-10 md:px-12 md:py-14 text-center text-white">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.1),transparent_70%)]" />

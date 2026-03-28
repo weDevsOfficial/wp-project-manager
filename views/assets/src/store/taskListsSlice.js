@@ -193,6 +193,16 @@ const taskListsSlice = createSlice({
         list.incomplete_tasks.data.splice(toIndex, 0, moved)
       }
     },
+    // Optimistic: update task privacy in-place
+    updateTaskPrivacy(state, action) {
+      const { taskId, privacy } = action.payload
+      state.lists.forEach(list => {
+        const inTask = list.incomplete_tasks.data.find(t => t.id === taskId)
+        if (inTask) inTask.meta = { ...inTask.meta, privacy }
+        const coTask = list.complete_tasks.data.find(t => t.id === taskId)
+        if (coTask) coTask.meta = { ...coTask.meta, privacy }
+      })
+    },
     // Optimistic: move task between incomplete <-> complete within a list
     toggleTaskInList(state, action) {
       const list = state.lists.find(l => l.id === action.payload.listId)
@@ -300,7 +310,7 @@ const taskListsSlice = createSlice({
 
 export const {
   setProjectId, toggleExpand, expandAll, collapseAll, clearLists,
-  addTaskToList, removeTaskFromList, toggleTaskInList,
+  addTaskToList, removeTaskFromList, updateTaskPrivacy, toggleTaskInList,
   reorderListsLocal, reorderTasksLocal,
 } = taskListsSlice.actions
 

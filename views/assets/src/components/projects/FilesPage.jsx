@@ -30,8 +30,6 @@ import {
   FolderOpen,
   LayoutGrid,
   List,
-  Lock,
-  Unlock,
   ChevronRight,
   Home,
   Pencil,
@@ -195,13 +193,6 @@ export default function FilesPage() {
     setFolderPath(newPath);
     setFolderId(newPath[newPath.length - 1].id);
   };
-  const handleTogglePrivacy = async (item) => {
-    try {
-      await proApi.post(`projects/${projectId}/files/${item.id}`, { privacy: item.privacy ? 0 : 1 });
-      toast.success(item.privacy ? __('Made public') : __('Made private'));
-      fetchFiles();
-    } catch { toast.error(__('Failed to update privacy')); }
-  };
   const handleItemClick = (item) => {
     const type = item.type || item.file_type;
     if (type === 'folder') {
@@ -300,7 +291,7 @@ export default function FilesPage() {
   );
 
   return (
-    <div className="max-w-[1400px] mx-auto p-6 space-y-5">
+    <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-5">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Button
@@ -419,7 +410,6 @@ export default function FilesPage() {
                     <div className="p-2.5">
                       <div className="flex items-center gap-1">
                         <p className="text-xs font-medium text-pm-text-primary truncate flex-1">{fileName}</p>
-                        {f.privacy === 1 && <Lock className="h-2.5 w-2.5 text-pm-text-muted/50 shrink-0" />}
                       </div>
                       <p className="text-[10px] text-pm-text-muted mt-0.5 truncate">
                         {isFolder ? `${f.children_count ?? f.children?.data?.length ?? f.items_count ?? 0} ${__('items')}` : formatPmDateTime(f.created_at) || ''}
@@ -437,12 +427,6 @@ export default function FilesPage() {
                           {!isFolder && f.url && (
                             <DropdownMenuItem onClick={() => window.open(f.url, "_blank")}>
                               <Download className="h-3.5 w-3.5 mr-2" />{__("Download")}
-                            </DropdownMenuItem>
-                          )}
-                          {isPro && (
-                            <DropdownMenuItem onClick={() => handleTogglePrivacy(f)}>
-                              {f.privacy ? <Unlock className="h-3.5 w-3.5 mr-2" /> : <Lock className="h-3.5 w-3.5 mr-2" />}
-                              {f.privacy ? __("Make Public") : __("Make Private")}
                             </DropdownMenuItem>
                           )}
                           {isPro && !isFolder && (
@@ -475,7 +459,6 @@ export default function FilesPage() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
                       <p className={`text-sm font-medium text-pm-text-primary truncate ${isFolder ? 'hover:text-pm-accent' : ''}`}>{fileName}</p>
-                      {f.privacy === 1 && <Lock className="h-3 w-3 text-pm-text-muted/50 shrink-0" title={__('Private')} />}
                       {isLink && f.url && <ExternalLink className="h-3 w-3 text-pm-text-muted/50 shrink-0" />}
                     </div>
                     <div className="flex items-center gap-2 mt-0.5 text-[11px] text-pm-text-muted">
@@ -506,12 +489,6 @@ export default function FilesPage() {
                         {!isFolder && f.url && (
                           <DropdownMenuItem onClick={() => window.open(f.url, "_blank")}>
                             <Download className="h-3.5 w-3.5 mr-2" />{__("Download")}
-                          </DropdownMenuItem>
-                        )}
-                        {isPro && (
-                          <DropdownMenuItem onClick={() => handleTogglePrivacy(f)}>
-                            {f.privacy ? <Unlock className="h-3.5 w-3.5 mr-2" /> : <Lock className="h-3.5 w-3.5 mr-2" />}
-                            {f.privacy ? __("Make Public") : __("Make Private")}
                           </DropdownMenuItem>
                         )}
                         {isPro && !isFolder && (

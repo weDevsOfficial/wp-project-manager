@@ -3,6 +3,7 @@ import { useI18n } from "@hooks/useI18n";
 import { usePermissions } from "@hooks/usePermissions";
 import { useProModal } from "@components/common/ProUpgradeModal";
 import ProBadge from "@components/common/ProBadge";
+import { Button } from "@components/ui/button";
 import {
   AlertTriangle,
   CheckCircle,
@@ -40,7 +41,7 @@ const REPORTS = [
   {
     id: "milestone",
     title: "Task by Milestone",
-    desc: "Browse tasks reports according to Milestones. CSV exportable.",
+    desc: "Browse tasks reports according to Milestones (CSV exportable).",
     icon: Milestone,
     color: "text-purple-500 bg-purple-50",
   },
@@ -54,7 +55,7 @@ const REPORTS = [
   {
     id: "summary",
     title: "Summary",
-    desc: "Get a comprehensive summary of all project tasks and activities.",
+    desc: "Browse summary reports with charts and estimation data (CSV exportable).",
     icon: BarChart3,
     color: "text-indigo-500 bg-indigo-50",
   },
@@ -66,7 +67,7 @@ export default function ReportsPage() {
   const { setOpen } = useProModal();
 
   return (
-    <div className="max-w-[1400px] mx-auto p-6 space-y-6">
+    <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -89,39 +90,44 @@ export default function ReportsPage() {
               key={r.id}
               className="group relative rounded-xl border bg-card overflow-hidden hover:shadow-md transition-shadow"
             >
-              <div className="p-5">
-                {/* Icon + Pro badge */}
-                <div className="flex items-start justify-between mb-3">
+              <div className="p-5 text-center space-y-3">
+                {/* Icon */}
+                <div className="inline-flex">
                   <div
                     className={`p-3 rounded-xl ${bg} group-hover:scale-110 transition-transform`}
                   >
                     <r.icon className={`h-6 w-6 ${fg}`} />
                   </div>
-                  {isPro ? (
-                    <button className="inline-flex items-center gap-1.5 text-xs font-medium text-pm-accent bg-pm-accent/10 px-2.5 py-1 rounded-md hover:bg-pm-accent/20 transition-colors">
-                      <Eye className="h-3.5 w-3.5" />
-                      {__("View Report")}
-                    </button>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={() => setOpen(true)}
-                      className="p-1.5 rounded-md hover:bg-muted text-pm-text-muted/50 hover:text-pm-accent transition-colors"
-                      title={__("Upgrade to Pro")}
-                    >
-                      <Lock className="h-4 w-4" />
-                    </button>
-                  )}
                 </div>
 
-                {/* Title + description */}
-                <h3 className="text-sm font-semibold text-pm-text-primary mb-1.5">
+                {/* Title */}
+                <h3 className="text-sm font-semibold text-pm-text-primary">
                   {__(r.title)}
                   {!isPro && <ProBadge className="ml-2 align-middle" />}
                 </h3>
+
+                {/* Description */}
                 <p className="text-xs text-pm-text-muted leading-relaxed min-h-[40px]">
                   {__(r.desc)}
                 </p>
+
+                {/* Action button */}
+                {isPro ? (
+                  <Button variant="outline" size="sm" className="gap-1.5">
+                    <Eye className="h-3.5 w-3.5" />
+                    {__("View Full Report")}
+                  </Button>
+                ) : (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="gap-1.5"
+                    onClick={() => setOpen(true)}
+                  >
+                    <Lock className="h-3.5 w-3.5" />
+                    {__("View Full Report")}
+                  </Button>
+                )}
               </div>
 
               {/* Hover overlay for free users */}

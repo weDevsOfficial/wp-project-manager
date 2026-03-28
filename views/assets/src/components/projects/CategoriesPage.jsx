@@ -179,7 +179,7 @@ export default function CategoriesPage() {
   // ── Render ─────────────────────────────────────────
 
   return (
-    <div className="max-w-[1400px] mx-auto p-6 space-y-6">
+    <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-6">
       {/* Header — same pattern as ProjectsPage */}
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-pm-text-primary">

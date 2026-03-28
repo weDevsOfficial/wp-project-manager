@@ -9,9 +9,11 @@ import {
   expandAll,
   collapseAll,
 } from "@store/taskListsSlice";
+import { cn } from "@lib/utils";
 import { useI18n } from "@hooks/useI18n";
 import { useToast } from "@hooks/useToast";
 import { useApi } from "@hooks/useApi";
+import { usePermissions } from "@hooks/usePermissions";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
 import RichTextEditor from "@components/common/RichTextEditor";
@@ -21,7 +23,7 @@ import {
   Pagination, PaginationContent, PaginationItem,
   PaginationLink, PaginationNext, PaginationPrevious, PaginationEllipsis,
 } from "@components/ui/pagination";
-import { ArrowLeft, Plus, ChevronsUpDown, ListTodo } from "lucide-react";
+import { ArrowLeft, Plus, ChevronsUpDown, ListTodo, Crown } from "lucide-react";
 import TaskListSection from "./TaskListSection";
 import TaskDetailSheet from "./TaskDetailSheet";
 import TaskFilterBar from "./TaskFilterBar";
@@ -35,6 +37,7 @@ export default function TaskListsPage() {
   const { __ } = useI18n();
   const toast = useToast();
   const api = useApi();
+  const { isPro } = usePermissions();
 
   const { lists, loading, expandedIds, listsMeta } = useAppSelector((s) => s.taskLists);
 
@@ -188,9 +191,9 @@ export default function TaskListsPage() {
   // ── Main render ─────────────────────────────
 
   return (
-    <div className="max-w-[1400px] mx-auto p-6 space-y-5">
+    <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-5">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-2">
         <div className="flex items-center gap-3">
           <Button
             variant="ghost"
@@ -270,13 +273,15 @@ export default function TaskListsPage() {
               id="new-list-private"
               checked={newListPrivate}
               onCheckedChange={(v) => setNewListPrivate(!!v)}
+              disabled={!isPro}
             />
             <label
               htmlFor="new-list-private"
-              className="text-sm text-pm-text-primary cursor-pointer"
+              className={cn("text-sm cursor-pointer", isPro ? 'text-pm-text-primary' : 'text-pm-text-muted')}
             >
               {__("Private")}
             </label>
+            {!isPro && <Crown className="h-3 w-3 text-pm-accent" />}
           </div>
           <div className="flex items-center gap-2 pt-1">
             <Button

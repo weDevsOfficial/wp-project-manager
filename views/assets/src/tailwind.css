@@ -305,12 +305,17 @@ body.pm-fullscreen-settings.pm-mode-wordpress #wedevs-pm {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Center modal dialogs — uses data-pm-dialog attribute to avoid targeting sheets */
+/* Center modal dialogs — uses data-pm-dialog attribute to avoid targeting sheets.
+   Dialogs portal to <body>, so we use inset + margin for true centering
+   regardless of sidebar width. */
 [data-pm-dialog] {
   position: fixed !important;
-  left: 50% !important;
-  top: 50% !important;
-  transform: translate(-50%, -50%) !important;
+  top: 20% !important;
+  left: 0 !important;
+  right: 0 !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  transform: none !important;
 }
 
 /* Radix dialogs only — exclude WP media modal (.media-modal) */
@@ -351,11 +356,10 @@ body.pm-mode-wordpress [data-sonner-toaster] {
 /* ── Override WP admin button styles inside our React app ──
    WP admin applies background/border/shadow to all <button> elements.
    We reset these inside #wedevs-project-manager and Radix portals. ── */
-#wedevs-project-manager button:not(.components-button):not(.wp-element-button):not([role="checkbox"]):not([data-state]),
-[data-radix-popper-content-wrapper] button,
+#wedevs-project-manager button:not(.components-button):not(.wp-element-button):not([role="checkbox"]):not([data-state]):not(.border),
+[data-radix-popper-content-wrapper] button:not(.border),
 [data-radix-popper-content-wrapper] [role="menuitem"],
-[role="dialog"][data-state] button {
-  background-color: transparent;
+[role="dialog"][data-state] button:not(.border) {
   border: none;
   box-shadow: none;
 }

@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo, useEffect, useRef } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useApi } from '@hooks/useApi'
 import { usePermissions } from '@hooks/usePermissions'
@@ -208,6 +208,32 @@ export function AppSidebar() {
     return items
   }, [__, isPro, isFrontend])
 
+  // Auto-collapse sidebar on full-width pages (reports, calendar, progress, sprints)
+  const autoCollapsedRef = useRef(false)
+  const prevPathnameRef = useRef(location.pathname)
+  useEffect(() => {
+    const prevPath = prevPathnameRef.current
+    const currPath = location.pathname
+    prevPathnameRef.current = currPath
+
+    // Skip initial mount
+    if (prevPath === currPath) return
+
+    const fullWidthPages = ['reports', 'calendar', 'progress', 'sprints']
+    const wasFullWidth = fullWidthPages.some(p => prevPath.startsWith(`/${p}`))
+    const isFullWidth = fullWidthPages.some(p => currPath.startsWith(`/${p}`))
+
+    if (isFullWidth && !wasFullWidth && !collapsed) {
+      // Entering a full-width page from a normal page — auto-collapse
+      autoCollapsedRef.current = true
+      setCollapsed(true)
+    } else if (!isFullWidth && wasFullWidth && autoCollapsedRef.current) {
+      // Leaving a full-width page — restore only if we auto-collapsed it
+      autoCollapsedRef.current = false
+      setCollapsed(false)
+    }
+  }, [location.pathname]) // eslint-disable-line react-hooks/exhaustive-deps
+
   const activeKey = useMemo(() => {
     const path = location.pathname
     if (path.startsWith('/modules')) return 'modules'
@@ -342,7 +368,7 @@ export function AppSidebar() {
     <aside
       className={cn(
         'shrink-0 bg-white border-r border-pm-border flex flex-col transition-all duration-200',
-        sidebarMode === 'wordpress' && 'overflow-hidden'
+        sidebarMode === 'wordpress' && 'overflow-hidden',
       )}
       style={{ width: sidebarWidth, minWidth: sidebarWidth, maxWidth: sidebarWidth }}
     >
