@@ -1,74 +1,129 @@
 /**
- * useApi — wraps jQuery.ajax with WP REST nonce.
- * Sends POST/PUT as form-urlencoded (matches old Vue 2 behavior).
+ * useApi — native fetch() wrapper for PM REST endpoints.
+ * Sends POST/PUT/DELETE as JSON, GET as query params.
  * Injects is_admin param on every request (required by PM backend).
+ *
+ * Base URL comes from PHP: PM_Vars.rest_url (e.g. https://site.com/wp-json/pm/v2/)
  */
-function request(method, endpoint, data) {
-  return new Promise((resolve, reject) => {
-    const base = PM_Vars.api_base_url ?? PM_Vars.rest_url ?? ''
-    const ns   = PM_Vars.api_namespace ?? 'pm/v2'
-    // If endpoint starts with a namespace like pm-pro/v2/ or pm/v2/, don't prepend
-    const hasNs = /^[\w-]+\/v\d+\//.test(endpoint) || endpoint.startsWith('http')
-    const url   = hasNs ? `${base}${endpoint}` : `${base}${ns}/${endpoint}`
 
-    const payload = {
-      is_admin: PM_Vars.is_admin,
-      ...(data && typeof data === 'object' ? data : {}),
-    }
+/**
+ * Serialize an object into URL query string.
+ * Handles flat values, arrays (key[]=val), and nested objects (key[sub]=val).
+ */
+function buildQueryString(obj, prefix) {
+  const parts = []
+  for (const key in obj) {
+    if (!Object.prototype.hasOwnProperty.call(obj, key)) continue
+    const value = obj[key]
+    const paramKey = prefix ? `${prefix}[${key}]` : key
 
-    jQuery.ajax({
-      url,
-      method,
-      data: payload,
-      dataType: 'json',
-      beforeSend(xhr) {
-        xhr.setRequestHeader('X-WP-Nonce', PM_Vars.permission)
-      },
-      success: (res) => resolve(res ?? {}),
-      error: (xhr, textStatus) => {
-        if (textStatus === 'parseerror') {
-          resolve({})
-          return
+    if (value === undefined || value === null) continue
+
+    if (Array.isArray(value)) {
+      value.forEach((item, i) => {
+        if (item !== null && typeof item === 'object') {
+          parts.push(buildQueryString(item, `${paramKey}[${i}]`))
+        } else {
+          parts.push(`${encodeURIComponent(paramKey)}[]=${encodeURIComponent(item)}`)
         }
-        reject(new Error(xhr.responseJSON?.message ?? xhr.statusText ?? 'API Error'))
-      },
-    })
-  })
+      })
+    } else if (typeof value === 'object') {
+      parts.push(buildQueryString(value, paramKey))
+    } else {
+      parts.push(`${encodeURIComponent(paramKey)}=${encodeURIComponent(value)}`)
+    }
+  }
+  return parts.filter(Boolean).join('&')
+}
+
+async function request(method, endpoint, data) {
+  // PM_Vars.rest_url is the full base: https://site.com/wp-json/pm/v2/
+  let url = PM_Vars.rest_url + endpoint
+
+  const payload = {
+    is_admin: PM_Vars.is_admin,
+    ...(data && typeof data === 'object' ? data : {}),
+  }
+
+  const options = {
+    method,
+    credentials: 'same-origin',
+    headers: {
+      'X-WP-Nonce': PM_Vars.permission,
+    },
+  }
+
+  if (method === 'GET') {
+    const qs = buildQueryString(payload)
+    if (qs) url += (url.includes('?') ? '&' : '?') + qs
+  } else {
+    options.headers['Content-Type'] = 'application/json'
+    options.body = JSON.stringify(payload)
+  }
+
+  let res
+  try {
+    res = await fetch(url, options)
+  } catch {
+    throw new Error('Network error')
+  }
+
+  // Parse response — gracefully handle empty or non-JSON responses
+  let json
+  try {
+    const text = await res.text()
+    json = text ? JSON.parse(text) : {}
+  } catch {
+    if (res.ok) return {}
+    throw new Error(res.statusText || 'API Error')
+  }
+
+  if (!res.ok) {
+    throw new Error(json?.message ?? res.statusText ?? 'API Error')
+  }
+
+  return json ?? {}
 }
 
 /**
  * Upload files via FormData — needed for discussion/comment file attachments.
- * Vue 2 uses: contentType: false, processData: false with FormData.
  */
-function uploadFormData(endpoint, formData) {
-  return new Promise((resolve, reject) => {
-    const base = PM_Vars.api_base_url ?? PM_Vars.rest_url ?? ''
-    const ns   = PM_Vars.api_namespace ?? 'pm/v2'
-    const hasNs = /^[\w-]+\/v\d+\//.test(endpoint) || endpoint.startsWith('http')
-    const url   = hasNs ? `${base}${endpoint}` : `${base}${ns}/${endpoint}`
+async function uploadFormData(endpoint, formData) {
+  const url = PM_Vars.rest_url + endpoint
 
-    formData.append('is_admin', PM_Vars.is_admin)
+  formData.append('is_admin', PM_Vars.is_admin)
 
-    jQuery.ajax({
-      url,
-      method: 'POST',
-      data: formData,
-      contentType: false,
-      processData: false,
-      dataType: 'json',
-      beforeSend(xhr) {
-        xhr.setRequestHeader('X-WP-Nonce', PM_Vars.permission)
-      },
-      success: (res) => resolve(res ?? {}),
-      error: (xhr, textStatus) => {
-        if (textStatus === 'parseerror') {
-          resolve({})
-          return
-        }
-        reject(new Error(xhr.responseJSON?.message ?? xhr.statusText ?? 'API Error'))
-      },
-    })
-  })
+  const options = {
+    method: 'POST',
+    credentials: 'same-origin',
+    headers: {
+      'X-WP-Nonce': PM_Vars.permission,
+      // Do NOT set Content-Type — browser sets it with multipart boundary
+    },
+    body: formData,
+  }
+
+  let res
+  try {
+    res = await fetch(url, options)
+  } catch {
+    throw new Error('Network error')
+  }
+
+  let json
+  try {
+    const text = await res.text()
+    json = text ? JSON.parse(text) : {}
+  } catch {
+    if (res.ok) return {}
+    throw new Error(res.statusText || 'Upload failed')
+  }
+
+  if (!res.ok) {
+    throw new Error(json?.message ?? res.statusText ?? 'Upload failed')
+  }
+
+  return json ?? {}
 }
 
 // Stable singleton — same reference every render, safe in useCallback deps

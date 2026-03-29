@@ -54,6 +54,8 @@ class Enqueue_Scripts {
 			'base_url'                 => home_url(),
 			'api_base_url'             => esc_url_raw( get_rest_url() ),
 			'api_namespace'            => wedevs_pm_api_namespace(),
+			'rest_url'                 => esc_url_raw( get_rest_url( null, wedevs_pm_api_namespace() . '/' ) ),
+			'rest_url_pro'             => esc_url_raw( get_rest_url( null, 'pm-pro/v2/' ) ),
 			'permalinkStructure'       => get_option( 'permalink_structure' ),
 			'project_page'             => wedevs_pm_get_project_page(),
 			'rest_api_prefix'          => rest_get_url_prefix(),

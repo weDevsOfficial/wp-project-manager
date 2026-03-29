@@ -254,6 +254,17 @@ class WP_Router {
 		$post_data = wp_unslash( $_POST );
 		$file_data = wp_unslash( $_FILES );
 
+		// Handle JSON body — $_POST is empty when Content-Type is application/json
+		if ( empty( $post_data ) && $request->get_content_type() ) {
+			$content_type = $request->get_content_type();
+			if ( isset( $content_type['value'] ) && $content_type['value'] === 'application/json' ) {
+				$json_params = $request->get_json_params();
+				if ( is_array( $json_params ) && ! empty( $json_params ) ) {
+					$post_data = $json_params;
+				}
+			}
+		}
+
 		$request->set_query_params( $get_data );
 		$request->set_body_params( $post_data );
 		$request->set_file_params( $file_data );

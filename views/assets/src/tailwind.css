@@ -367,6 +367,7 @@ body.pm-mode-wordpress [data-sonner-toaster] {
 [role="dialog"][data-state] button:not(.border) {
   border: none;
   box-shadow: none;
+  background: transparent;
 }
 #wedevs-project-manager button:not(.components-button):not(.wp-element-button):focus,
 [data-radix-popper-content-wrapper] button:focus {
