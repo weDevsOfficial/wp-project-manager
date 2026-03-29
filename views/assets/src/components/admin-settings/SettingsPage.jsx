@@ -81,7 +81,8 @@ function ProSettingsPreview({ tabLabel, icon: Icon }) {
         </div>
 
         {/* Pro overlay */}
-        <div
+        <button
+          type="button"
           className="absolute inset-0 bg-black/40 backdrop-blur-[2px] flex flex-col items-center justify-center cursor-pointer rounded-xl"
           onClick={() => setOpen(true)}
         >
@@ -101,7 +102,7 @@ function ProSettingsPreview({ tabLabel, icon: Icon }) {
               {__('Upgrade to Pro')}
             </div>
           </div>
-        </div>
+        </button>
       </div>
     </div>
   )

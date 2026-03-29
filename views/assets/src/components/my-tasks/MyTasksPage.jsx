@@ -215,7 +215,7 @@ function MyTaskRow({ task, projectTitle, onToggle, onOpen }) {
       </span>
       {isOverdue(task.due_date, task.status) && (
         <Badge variant="destructive" className="text-[9px] px-1.5 py-0 h-4 shrink-0">
-          Overdue
+          {__('Overdue')}
         </Badge>
       )}
 
@@ -475,7 +475,7 @@ const PIE_COLORS = ["#61BD4F", "#EB5A46", "#0090D9"]; // green, red, blue — ma
 export default function MyTasksPage() {
   const dispatch = useAppDispatch();
   const api = useApi();
-  const proApi = isPro ? useProApi() : null;
+  const proApi = useProApi();
   const { __ } = useI18n();
   const toast = useToast();
   const { canManage } = usePermissions();

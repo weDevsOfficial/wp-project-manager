@@ -63,9 +63,9 @@ class Loom_Preview_Controller {
 
         $status_code = wp_remote_retrieve_response_code( $response );
 
-        // oEmbed returns 404 for invalid video IDs but the endpoint is reachable
-        // A 5xx response means the service is down
-        if ( $status_code >= 500 ) {
+        // 404 is expected for the fake test URL — proves the endpoint is reachable
+        // Any other non-2xx (401, 403, 429, 5xx) means the service is blocking us
+        if ( $status_code !== 404 && ( $status_code < 200 || $status_code >= 300 ) ) {
             return [
                 'success' => false,
                 'error'   => sprintf(

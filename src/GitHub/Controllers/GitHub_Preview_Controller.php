@@ -224,7 +224,15 @@ class GitHub_Preview_Controller {
         $urls    = array_slice( $urls, 0, 10 );
         $results = [];
 
-        foreach ( $urls as $url ) {
+        foreach ( $urls as $index => $url ) {
+            if ( ! is_string( $url ) || $url === '' ) {
+                $results[ $index ] = [
+                    'success' => false,
+                    'error'   => __( 'Invalid GitHub URL.', 'wedevs-project-manager' ),
+                ];
+                continue;
+            }
+
             $parsed = $this->parse_github_url( $url );
 
             if ( ! $parsed ) {
