@@ -43,23 +43,23 @@ function TrelloImportCard() {
     setError('')
     setDone(false)
 
-    const creds = { app_key: appKey, app_token: appToken }
+    const formData = { app_key: appKey, app_token: appToken }
 
     try {
       // Step 1: Get user
       setStatusMsg(__('Importing Trello user data...', 'wedevs-project-manager'))
       setProgress(5)
-      const userData = await callStep('trello/get_user', creds)
-      if (!userData) {
+      const userData = await callStep('trello/get_user', formData)
+      if (!userData || !userData.idMember) {
         setError(__('No user found. Please check your App Key & Token.', 'wedevs-project-manager'))
         setImporting(false)
         return
       }
 
-      // Step 2: Get boards
+      // Step 2: Get boards — controller expects idMember + formData on the payload
       setStatusMsg(__('Fetching Trello boards...', 'wedevs-project-manager'))
       setProgress(15)
-      const boardsData = await callStep('trello/get_boards', { ...creds, formData: creds })
+      const boardsData = await callStep('trello/get_boards', { ...userData, formData })
 
       if (!boardsData || !Array.isArray(boardsData) || boardsData.length === 0) {
         setStatusMsg(__('No boards found in your Trello account.', 'wedevs-project-manager'))
@@ -81,8 +81,7 @@ function TrelloImportCard() {
         setStatusMsg(__(`Importing lists from "${boardLabel}"...`, 'wedevs-project-manager'))
         setProgress(Math.min(boardProgress - 10, 90))
         const listsData = await callStep('trello/get_lists', {
-          ...creds,
-          formData: creds,
+          formData,
           boards_data: [board],
         })
 
@@ -90,17 +89,15 @@ function TrelloImportCard() {
         setStatusMsg(__(`Importing cards from "${boardLabel}"...`, 'wedevs-project-manager'))
         setProgress(Math.min(boardProgress - 5, 92))
         const cardsData = await callStep('trello/get_cards', {
-          ...creds,
-          formData: creds,
+          formData,
           lists_data: listsData,
         })
 
-        // Get subcards
-        setStatusMsg(__(`Importing sub-cards from "${boardLabel}"...`, 'wedevs-project-manager'))
+        // Get subcards (checklists)
+        setStatusMsg(__(`Importing checklists from "${boardLabel}"...`, 'wedevs-project-manager'))
         setProgress(Math.min(boardProgress - 2, 94))
         await callStep('trello/get_subcards', {
-          ...creds,
-          formData: creds,
+          formData,
           cards_data: cardsData,
         })
 
@@ -108,8 +105,7 @@ function TrelloImportCard() {
         setStatusMsg(__(`Importing assignees from "${boardLabel}"...`, 'wedevs-project-manager'))
         setProgress(Math.min(boardProgress, 96))
         await callStep('trello/get_users', {
-          ...creds,
-          formData: creds,
+          formData,
           cards_data: cardsData,
         })
       }
@@ -160,12 +156,12 @@ function TrelloImportCard() {
                 <p className="text-xs text-muted-foreground mt-1 mb-3">
                   {__('Get your API key and token from', 'wedevs-project-manager')}{' '}
                   <a
-                    href="https://trello.com/app-key"
+                    href="https://trello.com/power-ups/admin"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-pm-accent hover:underline"
                   >
-                    trello.com/app-key
+                    trello.com/power-ups/admin
                   </a>
                 </p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
