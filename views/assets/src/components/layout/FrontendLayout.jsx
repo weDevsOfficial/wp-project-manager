@@ -49,7 +49,7 @@ export function FrontendLayout() {
     <div className="min-h-screen bg-[#f8f9fb]">
       {/* Header */}
       <header className="sticky top-0 z-50 bg-white border-b border-border/50 shadow-sm">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
+        <div className="px-4">
           <div className="flex items-center justify-between h-14">
             {/* Logo + Nav */}
             <div className="flex items-center gap-6">

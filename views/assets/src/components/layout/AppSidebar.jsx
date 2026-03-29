@@ -470,6 +470,7 @@ export function AppSidebar() {
           </div>
 
           {/* Modules + Premium */}
+          {!isFrontend && (
           <div className="mb-3">
             {!collapsed ? (
               <p className="text-[11px] font-medium text-pm-text-muted uppercase tracking-wider px-2 mb-1.5">
@@ -478,8 +479,8 @@ export function AppSidebar() {
             ) : (
               <div className="border-t border-pm-border my-2 mx-1" />
             )}
-            {!isFrontend && renderNavItem({ key: 'modules', label: __('Modules'), icon: Layers, route: '/modules', pro: !isPro })}
-            {!isPro && !isFrontend && (
+            {renderNavItem({ key: 'modules', label: __('Modules'), icon: Layers, route: '/modules', pro: !isPro })}
+            {!isPro && (
               collapsed ? (
                 <button
                   className="w-full flex justify-center py-2 text-pm-accent hover:bg-pm-accent/5 rounded-md transition-colors"
@@ -499,6 +500,7 @@ export function AppSidebar() {
               )
             )}
           </div>
+          )}
 
           {/* Admin */}
           {isAdmin && !isFrontend && (
@@ -520,9 +522,7 @@ export function AppSidebar() {
 
       {/* Footer */}
       <div className={cn('border-t border-pm-border py-3', collapsed ? 'px-2' : 'px-4')}>
-        {isFrontend ? (
-          <p className="text-[11px] text-pm-text-muted text-center">WP Project Manager</p>
-        ) : collapsed ? (
+        {collapsed ? (
           <button
             className="w-full flex justify-center p-1 rounded hover:bg-pm-hover text-pm-text-muted hover:text-pm-accent transition-colors"
             title={__('Back to WP Admin')}
@@ -531,7 +531,10 @@ export function AppSidebar() {
             <ArrowLeft className="w-4 h-4" />
           </button>
         ) : (
-          <p className="text-[11px] text-pm-text-muted">WP Project Manager</p>
+          <div className="space-y-1">
+            <p className="text-[11px] text-pm-text-muted text-center">{__('Project Manager')}</p>
+            <p className="text-[10px] text-pm-text-muted/60 text-center">&copy; {new Date().getFullYear()} <a href="https://wedevs.com/" target="_blank" rel="noopener noreferrer" className="hover:text-pm-accent transition-colors">weDevs</a></p>
+          </div>
         )}
       </div>
       </>
