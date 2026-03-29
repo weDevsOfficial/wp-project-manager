@@ -216,9 +216,10 @@ const SettingsPage = () => {
           ) : (
             <Suspense
               fallback={
-                <div className="flex items-center gap-2 text-pm-text-muted text-sm py-16 justify-center">
-                  <span className="w-4 h-4 rounded-full border-2 border-pm-accent border-t-transparent animate-spin" />
-                  {__('Loading...', 'wedevs-project-manager')}
+                <div className="space-y-4 py-4">
+                  {[1, 2, 3, 4].map((i) => (
+                    <div key={i} className="h-14 w-full bg-pm-border/30 rounded-lg animate-pulse" />
+                  ))}
                 </div>
               }
             >

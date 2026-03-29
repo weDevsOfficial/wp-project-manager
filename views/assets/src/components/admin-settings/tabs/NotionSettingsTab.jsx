@@ -121,9 +121,10 @@ const NotionSettingsTab = () => {
             </h2>
           </div>
         </div>
-        <div className="mt-5 flex items-center gap-2 text-pm-text-muted text-sm py-8 justify-center">
-          <span className="w-4 h-4 rounded-full border-2 border-pm-accent border-t-transparent animate-spin" />
-          {__('Loading...', 'wedevs-project-manager')}
+        <div className="mt-5 space-y-4">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="h-14 w-full bg-pm-border/30 rounded-lg animate-pulse" />
+          ))}
         </div>
       </div>
     )
@@ -153,14 +154,14 @@ const NotionSettingsTab = () => {
               {tokenSaved && <span className="text-green-600">&check; {__('Saved', 'wedevs-project-manager')}</span>}
             </p>
           </div>
-          <div className="flex items-center gap-2 max-w-sm">
+          <div className="flex items-center gap-2">
             {!editingToken && maskedToken ? (
               <>
-                <Input value={showToken ? maskedToken : '••••••••••••••••'} readOnly className="bg-muted/30 text-pm-text-muted" />
-                <Button type="button" variant="outline" size="sm" onClick={() => setShowToken(!showToken)}>
-                  {showToken ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+                <Input type={showToken ? 'text' : 'password'} value={maskedToken} readOnly className="w-56" />
+                <Button type="button" variant="outline" size="icon" className="h-9 w-9 shrink-0" onClick={() => setShowToken(!showToken)}>
+                  {showToken ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </Button>
-                <Button type="button" variant="outline" size="sm" onClick={() => { setEditingToken(true); markDirty() }}>
+                <Button type="button" variant="outline" size="sm" className="h-9 shrink-0" onClick={() => { setEditingToken(true); markDirty() }}>
                   {__('Change', 'wedevs-project-manager')}
                 </Button>
               </>
@@ -170,10 +171,10 @@ const NotionSettingsTab = () => {
                   value={accessToken}
                   onChange={(e) => { setAccessToken(e.target.value); markDirty() }}
                   placeholder="secret_xxxxxxxxxxxx"
-                  className="max-w-sm"
+                  className="w-56"
                 />
                 {editingToken && maskedToken && (
-                  <Button type="button" variant="outline" size="sm" onClick={() => { setEditingToken(false); setAccessToken('') }}>
+                  <Button type="button" variant="outline" size="sm" className="h-9 shrink-0" onClick={() => { setEditingToken(false); setAccessToken('') }}>
                     {__('Cancel', 'wedevs-project-manager')}
                   </Button>
                 )}

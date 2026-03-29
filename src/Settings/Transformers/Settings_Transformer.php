@@ -19,27 +19,8 @@ class Settings_Transformer extends TransformerAbstract {
         $hideSettings = \WeDevs\PM\Settings\Models\Settings::$hideSettings;
         $value = $item->value;
         
-        if ( in_array( $item->key, $hideSettings ) ) {
-            // Mask the value for security
-            // Handle API keys for all providers (ai_api_key_openai, ai_api_key_anthropic, ai_api_key_google)
-            if ( $item->key === 'ai_api_key' || strpos( $item->key, 'ai_api_key_' ) === 0 ) {
-                // For API key, we need to decrypt first, then mask
-                $decrypted_key = \WeDevs\PM\Settings\Controllers\AI_Settings_Controller::decrypt_api_key_static( $value );
-                if ( !empty( $decrypted_key ) ) {
-                    $value = $this->mask_api_key( $decrypted_key );
-                } else {
-                    $value = '';
-                }
-            } else if ( $item->key === 'github_access_token' || $item->key === 'notion_access_token' ) {
-                if ( !empty( $value ) ) {
-                    $value = $this->mask_api_key( $value );
-                } else {
-                    $value = '';
-                }
-            } else {
-                // For other hidden settings, return boolean
-                $value = !empty( $value ) ? true : false;
-            }
+        if ( in_array( $item->key, $hideSettings ) && strpos( $item->key, 'ai_api_key_' ) !== 0 && $item->key !== 'github_access_token' && $item->key !== 'notion_access_token' ) {
+            $value = !empty( $value ) ? true : false;
         }
         
         return [
@@ -48,35 +29,6 @@ class Settings_Transformer extends TransformerAbstract {
             'value'      => $value,
             'created_at' => wedevs_pm_format_date( $item->created_at ),
         ];
-    }
-
-    /**
-     * Mask API key showing only first 2 and last 2 characters
-     * Example: "api_key" becomes "ap***ey"
-     * Maximum length: 30 characters
-     *
-     * @param string $api_key
-     * @return string
-     */
-    private function mask_api_key( $api_key ) {
-        if ( empty( $api_key ) || strlen( $api_key ) <= 4 ) {
-            // If key is too short, just return asterisks (max 30)
-            $mask_length = min( strlen( $api_key ), 30 );
-            return str_repeat( '*', $mask_length );
-        }
-
-        $first_two = substr( $api_key, 0, 2 );
-        $last_two = substr( $api_key, -2 );
-        
-        // Maximum total length is 30 chars: first 2 + asterisks + last 2
-        // So maximum asterisks = 30 - 2 - 2 = 26
-        $max_asterisks = 26;
-        $middle_asterisks = str_repeat( '*', $max_asterisks );
-
-        $masked = $first_two . $middle_asterisks . $last_two;
-        
-        // Ensure it's exactly 30 characters
-        return substr( $masked, 0, 30 );
     }
 
     /**

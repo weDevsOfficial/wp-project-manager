@@ -93,9 +93,10 @@ const LoomSettingsTab = () => {
             </h2>
           </div>
         </div>
-        <div className="mt-5 flex items-center gap-2 text-pm-text-muted text-sm py-8 justify-center">
-          <span className="w-4 h-4 rounded-full border-2 border-pm-accent border-t-transparent animate-spin" />
-          {__('Loading...', 'wedevs-project-manager')}
+        <div className="mt-5 space-y-4">
+          {[1, 2].map((i) => (
+            <div key={i} className="h-14 w-full bg-pm-border/30 rounded-lg animate-pulse" />
+          ))}
         </div>
       </div>
     )

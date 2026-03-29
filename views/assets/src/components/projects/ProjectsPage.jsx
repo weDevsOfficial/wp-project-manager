@@ -75,11 +75,11 @@ import {
   CheckCircle,
   Undo2,
   FolderKanban,
-  ListTodo,
+  LayoutList,
   MessageSquare,
+  MessagesSquare,
   Milestone,
   FileText,
-  Activity,
   ClipboardList,
   Sparkles,
   Pencil,
@@ -348,10 +348,10 @@ export default function ProjectsPage() {
     const items = [
       { icon: ClipboardList, label: __("Tasks"), value: meta.total_tasks, route: `/projects/${pid}/task-lists` },
       { icon: MessageSquare, label: __("Discussions"), value: meta.total_discussion_boards, route: `/projects/${pid}/discussions` },
-      { icon: ListTodo, label: __("Task Lists"), value: meta.total_task_lists, route: `/projects/${pid}/task-lists` },
+      { icon: LayoutList, label: __("Task Lists"), value: meta.total_task_lists, route: `/projects/${pid}/task-lists` },
       { icon: FileText, label: __("Files"), value: meta.total_files, route: `/projects/${pid}/files` },
       { icon: Milestone, label: __("Milestones"), value: meta.total_milestones, route: `/projects/${pid}/milestones` },
-      { icon: Activity, label: __("Comments"), value: meta.total_comments, route: `/projects/${pid}/task-lists` },
+      { icon: MessagesSquare, label: __("Comments"), value: meta.total_comments, route: `/projects/${pid}/task-lists` },
     ];
 
     return (

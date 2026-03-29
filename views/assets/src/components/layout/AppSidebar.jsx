@@ -7,7 +7,7 @@ import { useI18n } from '@hooks/useI18n'
 import {
   FolderKanban, CheckSquare, Calendar, BarChart3,
   Settings, ArrowLeft, PanelLeftClose, PanelLeftOpen,
-  ChevronDown, Star, ListTodo, Layout, MessageSquare,
+  ChevronDown, Star, LayoutList, Layout, MessageSquare,
   Milestone, FileText, Activity, Tag, Crown, Layers,
   Columns3, GitBranch, Receipt, Timer, Shield, Wrench,
 } from 'lucide-react'
@@ -24,7 +24,7 @@ function statusColor(p) {
 // ── Project sub-nav items ────────────────────────────
 
 const projectSubNav_FREE = [
-  { key: 'task-lists',   label: 'Task Lists',   icon: ListTodo,       path: (pid) => `/projects/${pid}/task-lists` },
+  { key: 'task-lists',   label: 'Task Lists',   icon: LayoutList,     path: (pid) => `/projects/${pid}/task-lists` },
   { key: 'overview',     label: 'Overview',      icon: Layout,         path: (pid) => `/projects/${pid}/overview` },
   { key: 'discussions',  label: 'Discussions',   icon: MessageSquare,  path: (pid) => `/projects/${pid}/discussions` },
   { key: 'milestones',   label: 'Milestones',    icon: Milestone,      path: (pid) => `/projects/${pid}/milestones` },

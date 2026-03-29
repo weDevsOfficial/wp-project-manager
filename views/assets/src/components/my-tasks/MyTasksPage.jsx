@@ -897,9 +897,13 @@ export default function MyTasksPage() {
               <s.icon className={`h-5 w-5 ${s.color.split(" ")[0]}`} />
             </div>
             <div>
-              <p className="text-2xl font-bold text-pm-text-primary tabular-nums">
-                {s.count}
-              </p>
+              {!user ? (
+                <Skeleton className="h-7 w-10 mb-1" />
+              ) : (
+                <p className="text-2xl font-bold text-pm-text-primary tabular-nums">
+                  {s.count}
+                </p>
+              )}
               <p className="text-[11px] text-pm-text-muted font-medium">
                 {s.label}
               </p>
@@ -1456,9 +1460,25 @@ export default function MyTasksPage() {
 
           {/* Task list */}
           {loading ? (
-            <div className="space-y-2">
+            <div className="rounded-xl border bg-card overflow-hidden">
+              <div className="hidden md:grid grid-cols-12 gap-2 px-4 py-2 bg-muted/30 border-b">
+                <Skeleton className="col-span-5 h-3 w-12" />
+                <Skeleton className="col-span-2 h-3 w-16" />
+                <Skeleton className="col-span-2 h-3 w-14" />
+                <Skeleton className="col-span-2 h-3 w-14" />
+                <div className="col-span-1" />
+              </div>
               {[1, 2, 3, 4, 5].map((i) => (
-                <Skeleton key={i} className="h-11 rounded-lg" />
+                <div key={i} className="grid grid-cols-12 gap-2 px-4 py-3 border-b last:border-b-0 items-center">
+                  <div className="col-span-5 flex items-center gap-2">
+                    <Skeleton className="h-4 w-4 rounded-full shrink-0" />
+                    <Skeleton className="h-4 w-full max-w-[200px]" />
+                  </div>
+                  <Skeleton className="col-span-2 h-3 w-20" />
+                  <Skeleton className="col-span-2 h-3 w-24" />
+                  <Skeleton className="col-span-2 h-3 w-16" />
+                  <div className="col-span-1" />
+                </div>
               ))}
             </div>
           ) : tasks.length === 0 ? (

@@ -12,7 +12,7 @@ import { Label } from '@components/ui/label'
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from '@components/ui/select'
-import { Bot, CheckCircle2 } from 'lucide-react'
+import { Bot, CheckCircle2, Eye, EyeOff, Loader2 } from 'lucide-react'
 
 const providers = [
   { value: 'openai',    label: 'OpenAI'    },
@@ -33,6 +33,7 @@ const AiSettingsTab = () => {
   const aiLoading     = useAppSelector((s) => s.settings.aiLoading)
   const [localApiKey, setLocalApiKey] = useState('')
   const [isDirty, setIsDirty] = useState(false)
+  const [showKey, setShowKey] = useState(false)
 
   useEffect(() => {
     dispatch(loadAiSettings({ provider: ai.ai_provider }))
@@ -65,6 +66,8 @@ const AiSettingsTab = () => {
       setIsDirty(false)
       setLocalApiKey('')
       toast.success(__('AI settings saved', 'wedevs-project-manager'))
+      // Reload settings to fetch updated models from backend
+      dispatch(loadAiSettings({ provider: ai.ai_provider, preserveProvider: true }))
     } catch (err) {
       toast.error(err ?? __('Failed to save AI settings', 'wedevs-project-manager'))
     }
@@ -141,8 +144,28 @@ const AiSettingsTab = () => {
               <p className="text-xs text-pm-text-muted mt-1">{__('Your secret key from the provider dashboard.', 'wedevs-project-manager')}</p>
             </div>
             <div className="space-y-1.5">
-              <Input id="ai_api_key" type="password" value={localApiKey} onChange={(e) => { setLocalApiKey(e.target.value); setIsDirty(true) }} placeholder={apiKeyPlaceholder} className="max-w-sm" />
-              {aiApiState.api_key_saved && (
+              <div className="flex items-center gap-2">
+                <Input
+                  id="ai_api_key"
+                  type={showKey ? 'text' : 'password'}
+                  value={localApiKey || (aiApiState.api_key_saved ? aiApiState.api_key : '')}
+                  onChange={(e) => { setLocalApiKey(e.target.value); setIsDirty(true) }}
+                  placeholder={apiKeyPlaceholder}
+                  className="w-56"
+                />
+                {(localApiKey || aiApiState.api_key_saved) && (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    className="h-9 w-9 shrink-0"
+                    onClick={() => setShowKey(v => !v)}
+                  >
+                    {showKey ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  </Button>
+                )}
+              </div>
+              {aiApiState.api_key_saved && !localApiKey && (
                 <div className="flex items-center gap-1.5 text-xs text-pm-status-done">
                   <CheckCircle2 className="w-3.5 h-3.5" />
                   {__('API key is saved', 'wedevs-project-manager')}
@@ -150,35 +173,52 @@ const AiSettingsTab = () => {
               )}
             </div>
           </div>
-          <div className="border-t border-pm-border" />
-          <div className="flex items-center justify-between px-5 py-4">
-            <div><Label htmlFor="ai_model">{__('Model', 'wedevs-project-manager')}</Label></div>
-            <Select value={ai.ai_model} onValueChange={(val) => { dispatch(setAiModel(val)); setIsDirty(true) }}>
-              <SelectTrigger id="ai_model" className="w-64"><SelectValue placeholder={__('Select a model', 'wedevs-project-manager')} /></SelectTrigger>
-              <SelectContent>
-                {availableModels.map((model) => (<SelectItem key={model.value} value={model.value}>{model.label}</SelectItem>))}
-              </SelectContent>
-            </Select>
-          </div>
-          <div className="border-t border-pm-border" />
-          <div className="flex items-center justify-between px-5 py-4">
-            <div>
-              <Label htmlFor="ai_max_tokens">{__('Max Tokens', 'wedevs-project-manager')}</Label>
-              <p className="text-xs text-pm-text-muted mt-1">{__('500–16384. Higher values allow more detailed responses for both project and subtask generation, but may cost more.', 'wedevs-project-manager')}</p>
-            </div>
-            <Input id="ai_max_tokens" type="number" min={500} max={16384} value={ai.ai_max_tokens} onChange={(e) => { dispatch(setAiMaxTokens(Number(e.target.value))); setIsDirty(true) }} className="w-40" />
-          </div>
-          <div className="border-t border-pm-border" />
-          <div className="flex items-center justify-between px-5 py-4">
-            <div>
-              <Label htmlFor="ai_temperature">{__('Temperature', 'wedevs-project-manager')}</Label>
-              <p className="text-xs text-pm-text-muted mt-1">{__('0 = deterministic / 1 = creative', 'wedevs-project-manager')}</p>
-            </div>
-            <div className="flex items-center gap-3">
-              <input id="ai_temperature" type="range" min={0} max={1} step={0.1} value={ai.ai_temperature} onChange={(e) => { dispatch(setAiTemperature(parseFloat(e.target.value))); setIsDirty(true) }} className="w-44 accent-pm-accent" />
-              <span className="text-sm font-medium text-pm-text w-8">{ai.ai_temperature.toFixed(1)}</span>
-            </div>
-          </div>
+          {aiApiState.api_key_saved && (
+            <>
+              <div className="border-t border-pm-border" />
+              {aiLoading ? (
+                <div className="flex items-center gap-2 px-5 py-4 text-sm text-pm-text-muted">
+                  <Loader2 className="w-4 h-4 animate-spin" />
+                  {__('Fetching models...', 'wedevs-project-manager')}
+                </div>
+              ) : availableModels.length > 0 ? (
+                <>
+                  <div className="flex items-center justify-between px-5 py-4">
+                    <div><Label htmlFor="ai_model">{__('Model', 'wedevs-project-manager')}</Label></div>
+                    <Select value={ai.ai_model} onValueChange={(val) => { dispatch(setAiModel(val)); setIsDirty(true) }}>
+                      <SelectTrigger id="ai_model" className="w-64"><SelectValue placeholder={__('Select a model', 'wedevs-project-manager')} /></SelectTrigger>
+                      <SelectContent>
+                        {availableModels.map((model) => (<SelectItem key={model.value} value={model.value}>{model.label}</SelectItem>))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="border-t border-pm-border" />
+                  <div className="flex items-center justify-between px-5 py-4">
+                    <div>
+                      <Label htmlFor="ai_max_tokens">{__('Max Tokens', 'wedevs-project-manager')}</Label>
+                      <p className="text-xs text-pm-text-muted mt-1">{__('500–16384. Higher values allow more detailed responses for both project and subtask generation, but may cost more.', 'wedevs-project-manager')}</p>
+                    </div>
+                    <Input id="ai_max_tokens" type="number" min={500} max={16384} value={ai.ai_max_tokens} onChange={(e) => { dispatch(setAiMaxTokens(Number(e.target.value))); setIsDirty(true) }} className="w-40" />
+                  </div>
+                  <div className="border-t border-pm-border" />
+                  <div className="flex items-center justify-between px-5 py-4">
+                    <div>
+                      <Label htmlFor="ai_temperature">{__('Temperature', 'wedevs-project-manager')}</Label>
+                      <p className="text-xs text-pm-text-muted mt-1">{__('0 = deterministic / 1 = creative', 'wedevs-project-manager')}</p>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <input id="ai_temperature" type="range" min={0} max={1} step={0.1} value={ai.ai_temperature} onChange={(e) => { dispatch(setAiTemperature(parseFloat(e.target.value))); setIsDirty(true) }} className="w-44 accent-pm-accent" />
+                      <span className="text-sm font-medium text-pm-text w-8">{ai.ai_temperature.toFixed(1)}</span>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <div className="px-5 py-4 text-sm text-pm-text-muted">
+                  {__('No models available for this provider. Please verify your API key and save again.', 'wedevs-project-manager')}
+                </div>
+              )}
+            </>
+          )}
         </div>
 
         <div className="flex items-center gap-3 mt-5 flex-wrap">

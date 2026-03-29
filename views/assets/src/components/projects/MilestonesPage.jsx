@@ -15,12 +15,12 @@ import {
   MoreHorizontal,
   CheckCircle,
   Clock,
-  AlertTriangle,
+  AlertCircle,
   Milestone as MilestoneIcon,
   Lock,
   Unlock,
   Pencil,
-  ListTodo,
+  LayoutList,
   MessageSquare,
 } from "lucide-react";
 import {
@@ -268,7 +268,7 @@ export default function MilestonesPage() {
               )}
               {taskLists.length > 0 && (
                 <span className="flex items-center gap-1">
-                  <ListTodo className="h-3 w-3" />
+                  <LayoutList className="h-3 w-3" />
                   {taskLists.length} {__("lists")}
                 </span>
               )}
@@ -330,7 +330,7 @@ export default function MilestonesPage() {
             {taskLists.length > 0 && (
               <div>
                 <h5 className="text-[11px] font-semibold uppercase tracking-wider text-pm-text-muted/70 mb-2 flex items-center gap-1">
-                  <ListTodo className="h-3 w-3" />
+                  <LayoutList className="h-3 w-3" />
                   {__("Task Lists")}
                 </h5>
                 <ul className="space-y-1.5">
@@ -519,7 +519,7 @@ export default function MilestonesPage() {
             grouped.upcoming,
             "text-blue-500",
           )}
-          {renderGroup(__("Late"), AlertTriangle, grouped.late, "text-red-500")}
+          {renderGroup(__("Late"), AlertCircle, grouped.late, "text-red-500")}
           {renderGroup(
             __("Completed"),
             CheckCircle,
