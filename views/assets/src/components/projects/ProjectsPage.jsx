@@ -20,6 +20,7 @@ import { cn } from "@lib/utils";
 import { useI18n } from "@hooks/useI18n";
 import { useToast } from "@hooks/useToast";
 import { usePermissions } from "@hooks/usePermissions";
+import { useProApi } from "@hooks/useProApi";
 import { useProModal } from "@components/common/ProUpgradeModal";
 
 import { Button } from "@components/ui/button";
@@ -164,6 +165,7 @@ export default function ProjectsPage() {
   const { __ } = useI18n();
   const toast = useToast();
   const { canCreate, isPro } = usePermissions();
+  const proApi = useProApi();
   const { setOpen: setProModalOpen } = useProModal();
 
   const {
@@ -273,21 +275,13 @@ export default function ProjectsPage() {
       return
     }
     try {
-      const baseUrl = typeof PM_Vars !== 'undefined' ? PM_Vars.api_base_url : '/wp-json/'
-      const res = await fetch(`${baseUrl}pm-pro/v2/duplicate/project/${project.id}`, {
-        method: 'POST',
-        headers: {
-          'X-WP-Nonce': typeof PM_Vars !== 'undefined' ? PM_Vars.permission : '',
-          'Content-Type': 'application/json',
-        },
-      })
-      if (!res.ok) throw new Error('Failed')
+      await proApi.post(`duplicate/project/${project.id}`)
       toast.success(__('Project duplicated'))
       dispatch(fetchProjects({ status: activeFilter === 'all' ? '' : activeFilter }))
     } catch {
       toast.error(__('Failed to duplicate project'))
     }
-  }, [dispatch, isPro, activeFilter, setProModalOpen, toast, __])
+  }, [dispatch, isPro, proApi, activeFilter, setProModalOpen, toast, __])
 
   const handleViewModeChange = useCallback(
     (mode) => {

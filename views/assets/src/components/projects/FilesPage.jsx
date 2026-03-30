@@ -215,7 +215,7 @@ export default function FilesPage() {
       formData.append("type", "pro_file");
       formData.append("parent", String(folderId));
       formData.append("project_id", projectId);
-      await api.upload(`pm-pro/v2/projects/${projectId}/files`, formData);
+      await proApi.upload(`projects/${projectId}/files`, formData);
       toast.success(__("File uploaded"));
       setUploadOpen(false);
       fetchFiles();
