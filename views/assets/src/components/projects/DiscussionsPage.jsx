@@ -56,7 +56,7 @@ function renderFiles(files) {
           href={f.url}
           target="_blank"
           rel="noreferrer"
-          className="inline-flex items-center gap-1.5 text-xs border rounded-lg px-2.5 py-1.5 hover:bg-muted/30 transition-colors"
+          className="inline-flex items-center gap-1.5 text-sm border rounded-lg px-2.5 py-1.5 hover:bg-muted/30 transition-colors"
         >
           {f.type === "image" && f.thumb ? (
             <img
@@ -65,7 +65,7 @@ function renderFiles(files) {
               className="h-8 w-8 rounded object-cover"
             />
           ) : (
-            <FileText className="h-4 w-4 text-pm-text-muted" />
+            <FileText className="h-5 w-5 text-pm-text-muted" />
           )}
           <span className="text-pm-text-primary truncate max-w-[120px]">
             {f.name}
@@ -364,13 +364,13 @@ export default function DiscussionsPage() {
             className="h-8 w-8"
             onClick={() => navigate(`/projects/${projectId}/task-lists`)}
           >
-            <ArrowLeft className="h-4 w-4" />
+            <ArrowLeft className="h-5 w-5" />
           </Button>
           <h1 className="text-xl font-bold text-pm-text-primary">
             {__("Discussions")}
           </h1>
           {discussions.length > 0 && (
-            <span className="text-xs text-pm-text-muted bg-muted/60 px-2 py-0.5 rounded-full tabular-nums">
+            <span className="text-sm text-pm-text-muted bg-muted/60 px-2 py-0.5 rounded-full tabular-nums">
               {discussions.length}
             </span>
           )}
@@ -380,7 +380,7 @@ export default function DiscussionsPage() {
           className="gap-1.5"
           onClick={() => setShowForm((v) => !v)}
         >
-          <Plus className="h-4 w-4" />
+          <Plus className="h-5 w-5" />
           {__("New Discussion")}
         </Button>
       </div>
@@ -461,7 +461,7 @@ export default function DiscussionsPage() {
           <h3 className="text-sm font-medium text-pm-text-primary mb-1">
             {__("No discussions yet")}
           </h3>
-          <p className="text-xs text-pm-text-muted">
+          <p className="text-sm text-pm-text-muted">
             {__("Start a conversation about this project.")}
           </p>
         </div>
@@ -495,12 +495,12 @@ export default function DiscussionsPage() {
                           minHeight="50px"
                         />
                         <div className="flex gap-1.5">
-                          <Button size="sm" className="h-7 gap-1 text-xs" onClick={handleUpdateDiscussion} disabled={!editDiscTitle.trim()}>
-                            <Check className="h-3 w-3" />
+                          <Button size="sm" className="h-7 gap-1 text-sm" onClick={handleUpdateDiscussion} disabled={!editDiscTitle.trim()}>
+                            <Check className="h-3.5 w-3.5" />
                             {__("Save")}
                           </Button>
-                          <Button size="sm" variant="outline" className="h-7 gap-1 text-xs" onClick={cancelEditDiscussion}>
-                            <X className="h-3 w-3" />
+                          <Button size="sm" variant="outline" className="h-7 gap-1 text-sm" onClick={cancelEditDiscussion}>
+                            <X className="h-3.5 w-3.5" />
                             {__("Cancel")}
                           </Button>
                         </div>
@@ -513,7 +513,7 @@ export default function DiscussionsPage() {
                     >
                       <div className="flex items-center gap-2">
                         <ChevronDown
-                          className="h-4 w-4 text-pm-text-muted shrink-0 transition-transform duration-200"
+                          className="h-5 w-5 text-pm-text-muted shrink-0 transition-transform duration-200"
                           style={{
                             transform: isOpen
                               ? "rotate(0deg)"
@@ -524,11 +524,11 @@ export default function DiscussionsPage() {
                           {d.title}
                         </h3>
                         {isPrivate ? (
-                          <Lock className="h-3 w-3 text-pm-text-muted shrink-0" />
+                          <Lock className="h-3.5 w-3.5 text-pm-text-muted shrink-0" />
                         ) : null}
                       </div>
                       {d.description?.content && !isOpen && (
-                        <p className="text-xs text-pm-text-muted mt-1 ml-6 line-clamp-2">
+                        <p className="text-sm text-pm-text-muted mt-1 ml-6 line-clamp-2">
                           {d.description.content}
                         </p>
                       )}
@@ -536,8 +536,8 @@ export default function DiscussionsPage() {
                     )}
                     <div className="flex items-center gap-1.5 shrink-0">
                       {commentCount > 0 && (
-                        <span className="flex items-center gap-0.5 text-[11px] text-pm-text-muted">
-                          <MessageSquare className="h-3 w-3" />
+                        <span className="flex items-center gap-0.5 text-[15px] text-pm-text-muted">
+                          <MessageSquare className="h-3.5 w-3.5" />
                           {commentCount}
                         </span>
                       )}
@@ -548,12 +548,12 @@ export default function DiscussionsPage() {
                             size="icon"
                             className="h-7 w-7"
                           >
-                            <MoreHorizontal className="h-3.5 w-3.5" />
+                            <MoreHorizontal className="h-4 w-4" />
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                           <DropdownMenuItem onClick={() => startEditDiscussion(d)}>
-                            <Pencil className="h-3.5 w-3.5 mr-2" />
+                            <Pencil className="h-4 w-4 mr-2" />
                             {__("Edit")}
                           </DropdownMenuItem>
                           <DropdownMenuItem
@@ -562,12 +562,12 @@ export default function DiscussionsPage() {
                           >
                             {isPrivate ? (
                               <>
-                                <Unlock className="h-3.5 w-3.5 mr-2" />
+                                <Unlock className="h-4 w-4 mr-2" />
                                 {__("Make Public")}
                               </>
                             ) : (
                               <>
-                                <Lock className="h-3.5 w-3.5 mr-2" />
+                                <Lock className="h-4 w-4 mr-2" />
                                 {__("Make Private")}
                               </>
                             )}
@@ -577,7 +577,7 @@ export default function DiscussionsPage() {
                             className="text-destructive focus:text-destructive"
                             onClick={() => handleDelete(d.id)}
                           >
-                            <Trash2 className="h-3.5 w-3.5 mr-2" />
+                            <Trash2 className="h-4 w-4 mr-2" />
                             {__("Delete")}
                           </DropdownMenuItem>
                         </DropdownMenuContent>
@@ -588,10 +588,10 @@ export default function DiscussionsPage() {
                   {renderFiles(d.files)}
 
                   {/* Creator + date */}
-                  <div className="flex items-center gap-2 mt-2 ml-6 text-[11px] text-pm-text-muted">
+                  <div className="flex items-center gap-2 mt-2 ml-6 text-[15px] text-pm-text-muted">
                     {d.creator?.data && (
                       <span className="flex items-center gap-1">
-                        <Avatar className="h-4 w-4">
+                        <Avatar className="h-5 w-5">
                           <AvatarImage src={d.creator.data.avatar_url} />
                           <AvatarFallback className="text-[7px]">
                             {userInitials(d.creator.data.display_name)}
@@ -623,8 +623,8 @@ export default function DiscussionsPage() {
                     )}
                     <Separator />
                     <div className="p-4 bg-muted/10 space-y-3">
-                      <h4 className="text-xs font-semibold uppercase tracking-wider text-pm-text-muted/70 flex items-center gap-1.5">
-                        <MessageSquare className="h-3 w-3" />
+                      <h4 className="text-sm font-semibold uppercase tracking-wider text-pm-text-muted/70 flex items-center gap-1.5">
+                        <MessageSquare className="h-3.5 w-3.5" />
                         {__("Comments")}
                       </h4>
 
@@ -645,26 +645,26 @@ export default function DiscussionsPage() {
                               </Avatar>
                               <div className="flex-1 min-w-0">
                                 <div className="flex items-center gap-2 mb-0.5">
-                                  <span className="text-xs font-medium text-pm-text-primary">
+                                  <span className="text-sm font-medium text-pm-text-primary">
                                     {c.creator?.data?.display_name}
                                   </span>
-                                  <span className="text-[10px] text-pm-text-muted">
+                                  <span className="text-[13px] text-pm-text-muted">
                                     {formatPmDateTime(c.created_at)}
                                   </span>
                                   <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity ml-auto">
                                     <button
                                       type="button"
-                                      className="text-[10px] text-pm-text-muted hover:text-pm-accent"
+                                      className="text-[13px] text-pm-text-muted hover:text-pm-accent"
                                       onClick={() => startEditComment(c)}
                                     >
-                                      <Pencil className="h-3 w-3" />
+                                      <Pencil className="h-3.5 w-3.5" />
                                     </button>
                                     <button
                                       type="button"
-                                      className="text-[10px] text-pm-text-muted hover:text-destructive"
+                                      className="text-[13px] text-pm-text-muted hover:text-destructive"
                                       onClick={() => handleDeleteComment(c.id)}
                                     >
-                                      <Trash2 className="h-3 w-3" />
+                                      <Trash2 className="h-3.5 w-3.5" />
                                     </button>
                                   </div>
                                 </div>
@@ -677,11 +677,11 @@ export default function DiscussionsPage() {
                                       minHeight="36px"
                                     />
                                     <div className="flex gap-1">
-                                      <Button size="sm" className="h-6 text-[10px] gap-1 px-2" onClick={handleUpdateComment} disabled={!editCommentText.trim()}>
-                                        <Check className="h-2.5 w-2.5" />
+                                      <Button size="sm" className="h-6 text-[14px] gap-1 px-2" onClick={handleUpdateComment} disabled={!editCommentText.trim()}>
+                                        <Check className="h-3 w-3" />
                                         {__("Save")}
                                       </Button>
-                                      <Button size="sm" variant="ghost" className="h-6 text-[10px] px-2" onClick={cancelEditComment}>
+                                      <Button size="sm" variant="ghost" className="h-6 text-[14px] px-2" onClick={cancelEditComment}>
                                         {__("Cancel")}
                                       </Button>
                                     </div>
@@ -689,7 +689,7 @@ export default function DiscussionsPage() {
                                 ) : (
                                   <>
                                     <div
-                                      className="text-xs text-pm-text-primary/80 leading-relaxed prose prose-sm max-w-none"
+                                      className="text-sm text-pm-text-primary/80 leading-relaxed prose prose-sm max-w-none"
                                       dangerouslySetInnerHTML={{
                                         __html: stripAllPreviewUrls(c.content),
                                       }}
@@ -722,7 +722,7 @@ export default function DiscussionsPage() {
                             onClick={handleAddComment}
                             disabled={!newComment.trim() || submitting}
                           >
-                            <Send className="h-4 w-4" />
+                            <Send className="h-5 w-5" />
                           </Button>
                         </div>
                         <FileUploadArea
@@ -746,7 +746,7 @@ export default function DiscussionsPage() {
                   key={pg}
                   variant={pg === page ? "default" : "outline"}
                   size="sm"
-                  className="h-7 w-7 p-0 text-xs"
+                  className="h-7 w-7 p-0 text-sm"
                   onClick={() => fetchDiscussions(pg)}
                 >
                   {pg}

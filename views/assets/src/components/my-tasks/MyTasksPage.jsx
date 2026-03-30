@@ -140,7 +140,7 @@ function MyTaskRow({ task, projectTitle, onToggle, onOpen }) {
       >
         {complete ? (
           <span className="flex items-center justify-center h-[18px] w-[18px] rounded-full bg-emerald-500 text-white">
-            <Check className="h-3 w-3" strokeWidth={3} />
+            <Check className="h-3.5 w-3.5" strokeWidth={3} />
           </span>
         ) : (
           <span className="h-[18px] w-[18px] rounded-full border-[1.5px] border-dashed border-pm-text-muted/40 block" />
@@ -191,21 +191,21 @@ function MyTaskRow({ task, projectTitle, onToggle, onOpen }) {
 
       {/* Project name */}
       {projectTitle && (
-        <span className="text-[11px] text-pm-text-muted bg-muted/50 px-2 py-0.5 rounded truncate max-w-[120px] shrink-0">
+        <span className="text-[15px] text-pm-text-muted bg-muted/50 px-2 py-0.5 rounded truncate max-w-[120px] shrink-0">
           {projectTitle}
         </span>
       )}
 
       {/* Task list */}
       {task.task_list?.data?.title && (
-        <span className="text-[11px] text-pm-text-muted truncate max-w-[100px] shrink-0 hidden md:block">
+        <span className="text-[15px] text-pm-text-muted truncate max-w-[100px] shrink-0 hidden md:block">
           {task.task_list.data.title}
         </span>
       )}
 
       {/* Due date + overdue badge */}
       <span
-        className={`text-[11px] shrink-0 tabular-nums ${
+        className={`text-[15px] shrink-0 tabular-nums ${
           isOverdue(task.due_date, task.status)
             ? "text-red-500"
             : "text-pm-text-muted"
@@ -214,22 +214,22 @@ function MyTaskRow({ task, projectTitle, onToggle, onOpen }) {
         {formatPmDate(task.due_date) || "—"}
       </span>
       {isOverdue(task.due_date, task.status) && (
-        <Badge variant="destructive" className="text-[9px] px-1.5 py-0 h-4 shrink-0">
+        <Badge variant="destructive" className="text-[11px] px-1.5 py-0 h-4 shrink-0">
           {__('Overdue')}
         </Badge>
       )}
 
       {/* Comment count */}
       {(task.meta?.total_comment ?? 0) > 0 && (
-        <span className="flex items-center gap-0.5 text-[11px] text-pm-text-muted shrink-0">
-          <MessageSquare className="h-3 w-3" />
+        <span className="flex items-center gap-0.5 text-[15px] text-pm-text-muted shrink-0">
+          <MessageSquare className="h-3.5 w-3.5" />
           {task.meta.total_comment}
         </span>
       )}
 
       {/* Privacy */}
       {task.meta?.privacy === 1 && (
-        <Lock className="h-3 w-3 text-pm-text-muted shrink-0" />
+        <Lock className="h-3.5 w-3.5 text-pm-text-muted shrink-0" />
       )}
     </div>
   );
@@ -433,7 +433,7 @@ function NewTaskSheet({ open, onOpenChange, userId, onCreated }) {
               saving || !title.trim() || !selectedProject || !selectedList
             }
           >
-            {saving && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+            {saving && <Loader2 className="h-5 w-5 mr-2 animate-spin" />}
             {saving ? __("Creating...") : __("Create Task")}
           </Button>
         </SheetFooter>
@@ -862,7 +862,7 @@ export default function MyTasksPage() {
           onClick={() => setNewTaskOpen(true)}
           className="gap-1.5"
         >
-          <Plus className="h-4 w-4" />
+          <Plus className="h-5 w-5" />
           {__("New Task")}
         </Button>
       </div>
@@ -904,7 +904,7 @@ export default function MyTasksPage() {
                   {s.count}
                 </p>
               )}
-              <p className="text-[11px] text-pm-text-muted font-medium">
+              <p className="text-[15px] text-pm-text-muted font-medium">
                 {s.label}
               </p>
             </div>
@@ -932,16 +932,16 @@ export default function MyTasksPage() {
                   : "text-pm-text-muted hover:text-pm-text-primary"
               }`}
             >
-              <Icon className="h-3.5 w-3.5" />
+              <Icon className="h-4 w-4" />
               {__(tab.label)}
               {tab.pro && !isPro && (
-                <span className="inline-flex items-center gap-0.5 bg-pm-accent/10 text-pm-accent text-[9px] font-semibold px-1.5 py-0.5 rounded">
-                  <Crown className="h-2.5 w-2.5" />PRO
+                <span className="inline-flex items-center gap-0.5 bg-pm-accent/10 text-pm-accent text-[11px] font-semibold px-1.5 py-0.5 rounded">
+                  <Crown className="h-3 w-3" />PRO
                 </span>
               )}
               {count !== undefined && (
                 <span
-                  className={`inline-flex items-center justify-center rounded-full px-1.5 min-w-[18px] h-[18px] text-[10px] font-semibold tabular-nums ${
+                  className={`inline-flex items-center justify-center rounded-full px-1.5 min-w-[18px] h-[18px] text-[14px] font-semibold tabular-nums ${
                     isActive
                       ? "bg-pm-accent/10 text-pm-accent"
                       : "text-pm-text-muted/70"
@@ -973,18 +973,18 @@ export default function MyTasksPage() {
                 type="date"
                 value={overviewStartDate}
                 onChange={(e) => setOverviewStartDate(e.target.value)}
-                className="h-8 rounded-md border border-pm-border bg-background px-2 text-xs focus:outline-none focus:ring-1 focus:ring-pm-accent"
+                className="h-8 rounded-md border border-pm-border bg-background px-2 text-sm focus:outline-none focus:ring-1 focus:ring-pm-accent"
               />
-              <span className="text-xs text-pm-text-muted">{__('to')}</span>
+              <span className="text-sm text-pm-text-muted">{__('to')}</span>
               <input
                 type="date"
                 value={overviewEndDate}
                 onChange={(e) => setOverviewEndDate(e.target.value)}
-                className="h-8 rounded-md border border-pm-border bg-background px-2 text-xs focus:outline-none focus:ring-1 focus:ring-pm-accent"
+                className="h-8 rounded-md border border-pm-border bg-background px-2 text-sm focus:outline-none focus:ring-1 focus:ring-pm-accent"
               />
               {(overviewStartDate || overviewEndDate) && (
-                <Button variant="outline" size="sm" className="h-8 text-xs" onClick={() => { setOverviewStartDate(''); setOverviewEndDate('') }}>
-                  <X className="h-3 w-3 mr-1" />{__('Clear')}
+                <Button variant="outline" size="sm" className="h-8 text-sm" onClick={() => { setOverviewStartDate(''); setOverviewEndDate('') }}>
+                  <X className="h-3.5 w-3.5 mr-1" />{__('Clear')}
                 </Button>
               )}
             </div>
@@ -1042,7 +1042,7 @@ export default function MyTasksPage() {
                   ].map((item) => (
                     <div key={item.label} className="flex items-center gap-3">
                       <span
-                        className="h-3 w-3 rounded-sm shrink-0"
+                        className="h-3.5 w-3.5 rounded-sm shrink-0"
                         style={{ background: item.color }}
                       />
                       <span className="text-sm text-pm-text-primary w-24">
@@ -1107,23 +1107,23 @@ export default function MyTasksPage() {
             <div className="rounded-xl border bg-card p-6">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-sm font-semibold text-pm-text-primary flex items-center gap-2">
-                  <CalendarIcon className="h-4 w-4" />
+                  <CalendarIcon className="h-5 w-5" />
                   {__("Calendar")}
                 </h3>
                 <div className="flex items-center gap-1">
                   <button type="button" onClick={() => setCalDate(new Date(calYear, calMonth - 1, 1))} className="p-1 rounded hover:bg-muted">
-                    <ChevronLeft className="h-4 w-4 text-pm-text-muted" />
+                    <ChevronLeft className="h-5 w-5 text-pm-text-muted" />
                   </button>
                   <span className="text-sm font-medium min-w-[130px] text-center">{calMonths[calMonth]} {calYear}</span>
                   <button type="button" onClick={() => setCalDate(new Date(calYear, calMonth + 1, 1))} className="p-1 rounded hover:bg-muted">
-                    <ChevronRight className="h-4 w-4 text-pm-text-muted" />
+                    <ChevronRight className="h-5 w-5 text-pm-text-muted" />
                   </button>
                 </div>
               </div>
               {/* Day headers */}
               <div className="grid grid-cols-7 mb-1">
                 {calDays.map((d) => (
-                  <div key={d} className="text-center text-[10px] font-semibold uppercase text-pm-text-muted py-1">{d}</div>
+                  <div key={d} className="text-center text-[14px] font-semibold uppercase text-pm-text-muted py-1">{d}</div>
                 ))}
               </div>
               {/* Calendar grid */}
@@ -1139,7 +1139,7 @@ export default function MyTasksPage() {
                   const dayEvts = calEventsByDate[dateStr] || [];
                   return (
                     <div key={day} className={`min-h-[60px] border border-pm-border/20 p-0.5 ${isToday ? "bg-pm-accent/5" : ""}`}>
-                      <span className={`text-[10px] font-medium inline-flex items-center justify-center w-5 h-5 rounded-full ${isToday ? "bg-pm-accent text-white" : "text-pm-text-muted"}`}>{day}</span>
+                      <span className={`text-[14px] font-medium inline-flex items-center justify-center w-5 h-5 rounded-full ${isToday ? "bg-pm-accent text-white" : "text-pm-text-muted"}`}>{day}</span>
                       {dayEvts.slice(0, 2).map((evt, j) => {
                         const complete = evt.status === 1 || evt.status === "complete";
                         const overdue = !complete && evt.due_date && extractDateStr(evt.due_date) < todayStr;
@@ -1159,7 +1159,7 @@ export default function MyTasksPage() {
                 })}
               </div>
               {/* Legend */}
-              <div className="flex items-center gap-4 mt-3 text-[10px] text-pm-text-muted">
+              <div className="flex items-center gap-4 mt-3 text-[13px] text-pm-text-muted">
                 <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-green-500" />{__("Current")}</span>
                 <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-red-500" />{__("Outstanding")}</span>
                 <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-blue-500" />{__("Completed")}</span>
@@ -1177,11 +1177,11 @@ export default function MyTasksPage() {
           <div className="space-y-4">
             <div className="flex items-end gap-3">
               <div className="space-y-1">
-                <label className="text-[10px] font-medium uppercase text-pm-text-muted">{__("Start Date")}</label>
+                <label className="text-[14px] font-medium uppercase text-pm-text-muted">{__("Start Date")}</label>
                 <Input type="date" value={reportStart} onChange={(e) => setReportStart(e.target.value)} className="h-8 text-sm w-36" />
               </div>
               <div className="space-y-1">
-                <label className="text-[10px] font-medium uppercase text-pm-text-muted">{__("End Date")}</label>
+                <label className="text-[14px] font-medium uppercase text-pm-text-muted">{__("End Date")}</label>
                 <Input type="date" value={reportEnd} onChange={(e) => setReportEnd(e.target.value)} className="h-8 text-sm w-36" />
               </div>
               <Button size="sm" className="h-8" onClick={fetchReport}>{__("Run Report")}</Button>
@@ -1196,11 +1196,11 @@ export default function MyTasksPage() {
             {/* Date filter */}
             <div className="flex items-end gap-3">
               <div className="space-y-1">
-                <label className="text-[10px] font-medium uppercase text-pm-text-muted">{__("Start Date")}</label>
+                <label className="text-[14px] font-medium uppercase text-pm-text-muted">{__("Start Date")}</label>
                 <Input type="date" value={reportStart} onChange={(e) => setReportStart(e.target.value)} className="h-8 text-sm w-36" />
               </div>
               <div className="space-y-1">
-                <label className="text-[10px] font-medium uppercase text-pm-text-muted">{__("End Date")}</label>
+                <label className="text-[14px] font-medium uppercase text-pm-text-muted">{__("End Date")}</label>
                 <Input type="date" value={reportEnd} onChange={(e) => setReportEnd(e.target.value)} className="h-8 text-sm w-36" />
               </div>
               <Button size="sm" className="h-8" onClick={fetchReport}>{__("Run Report")}</Button>
@@ -1227,11 +1227,11 @@ export default function MyTasksPage() {
               const avgTaskPerDay = totalTasks > 0 ? (totalTasks / days).toFixed(1) : "0";
               return (
                 <div className="flex items-center gap-2 flex-wrap">
-                  <span className="inline-flex items-center gap-1.5 bg-teal-600 text-white text-xs font-medium px-2.5 py-1 rounded-full"><Clock className="h-3 w-3" />{__("Total Estimation Hours")} <span className="bg-white/20 px-1.5 rounded">{fmtTime(totalEst)}</span></span>
-                  <span className="inline-flex items-center gap-1.5 bg-blue-600 text-white text-xs font-medium px-2.5 py-1 rounded-full">{__("Completed Task Count")} <span className="bg-white/20 px-1.5 rounded">{completedTasks}</span></span>
-                  <span className="inline-flex items-center gap-1.5 bg-amber-600 text-white text-xs font-medium px-2.5 py-1 rounded-full">{__("Avg. Hour Per-task")} <span className="bg-white/20 px-1.5 rounded">{avgPerTask}</span></span>
-                  <span className="inline-flex items-center gap-1.5 bg-cyan-600 text-white text-xs font-medium px-2.5 py-1 rounded-full">{__("Avg. Work Hour Per-day")} <span className="bg-white/20 px-1.5 rounded">{avgPerDay}</span></span>
-                  <span className="inline-flex items-center gap-1.5 bg-violet-600 text-white text-xs font-medium px-2.5 py-1 rounded-full">{__("Avg. Task Per-day")} <span className="bg-white/20 px-1.5 rounded">{avgTaskPerDay}</span></span>
+                  <span className="inline-flex items-center gap-1.5 bg-teal-600 text-white text-sm font-medium px-2.5 py-1 rounded-full"><Clock className="h-3.5 w-3.5" />{__("Total Estimation Hours")} <span className="bg-white/20 px-1.5 rounded">{fmtTime(totalEst)}</span></span>
+                  <span className="inline-flex items-center gap-1.5 bg-blue-600 text-white text-sm font-medium px-2.5 py-1 rounded-full">{__("Completed Task Count")} <span className="bg-white/20 px-1.5 rounded">{completedTasks}</span></span>
+                  <span className="inline-flex items-center gap-1.5 bg-amber-600 text-white text-sm font-medium px-2.5 py-1 rounded-full">{__("Avg. Hour Per-task")} <span className="bg-white/20 px-1.5 rounded">{avgPerTask}</span></span>
+                  <span className="inline-flex items-center gap-1.5 bg-cyan-600 text-white text-sm font-medium px-2.5 py-1 rounded-full">{__("Avg. Work Hour Per-day")} <span className="bg-white/20 px-1.5 rounded">{avgPerDay}</span></span>
+                  <span className="inline-flex items-center gap-1.5 bg-violet-600 text-white text-sm font-medium px-2.5 py-1 rounded-full">{__("Avg. Task Per-day")} <span className="bg-white/20 px-1.5 rounded">{avgTaskPerDay}</span></span>
                 </div>
               );
             })()}
@@ -1277,7 +1277,7 @@ export default function MyTasksPage() {
                       </ResponsiveContainer>
                     </div>
                   ) : (
-                    <div className="h-[200px] flex items-center justify-center text-xs text-pm-text-muted">{__("No data")}</div>
+                    <div className="h-[200px] flex items-center justify-center text-sm text-pm-text-muted">{__("No data")}</div>
                   )}
                 </div>
               );
@@ -1305,7 +1305,7 @@ export default function MyTasksPage() {
                     <div className="rounded-xl border bg-card overflow-x-auto">
                       <h4 className="text-sm font-semibold text-pm-text-primary px-4 py-3 border-b">{__("Projects")}</h4>
                       <table className="w-full text-sm">
-                        <thead><tr className="border-b text-xs text-pm-text-muted">
+                        <thead><tr className="border-b text-sm text-pm-text-muted">
                           <th className="text-left px-4 py-2">{__("Project")}</th>
                           <th className="text-left px-4 py-2">{__("Assigned")}</th>
                           <th className="text-left px-4 py-2">{__("Completed")}</th>
@@ -1332,7 +1332,7 @@ export default function MyTasksPage() {
                     <div className="rounded-xl border bg-card overflow-x-auto">
                       <h4 className="text-sm font-semibold text-pm-text-primary px-4 py-3 border-b">{__("Task type")}</h4>
                       <table className="w-full text-sm">
-                        <thead><tr className="border-b text-xs text-pm-text-muted">
+                        <thead><tr className="border-b text-sm text-pm-text-muted">
                           <th className="text-left px-4 py-2">{__("Task type")}</th>
                           <th className="text-left px-4 py-2">{__("Task")}</th>
                           <th className="text-left px-4 py-2">{__("Est. Hour")}</th>
@@ -1355,7 +1355,7 @@ export default function MyTasksPage() {
                     <div className="rounded-xl border bg-card overflow-x-auto">
                       <h4 className="text-sm font-semibold text-pm-text-primary px-4 py-3 border-b">{__("Subtasks")}</h4>
                       <table className="w-full text-sm">
-                        <thead><tr className="border-b text-xs text-pm-text-muted">
+                        <thead><tr className="border-b text-sm text-pm-text-muted">
                           <th className="text-left px-4 py-2">{__("Completed At")}</th>
                           <th className="text-left px-4 py-2">{__("Task Title")}</th>
                           <th className="text-left px-4 py-2">{__("Subtask Title")}</th>
@@ -1419,7 +1419,7 @@ export default function MyTasksPage() {
               onClick={() => fetchTasks(1)}
               className="gap-1.5"
             >
-              <Filter className="h-3.5 w-3.5" />
+              <Filter className="h-4 w-4" />
               {__("Filter")}
             </Button>
 
@@ -1434,15 +1434,15 @@ export default function MyTasksPage() {
                 }}
                 className="gap-1 text-pm-text-muted h-8 px-2"
               >
-                <X className="h-3.5 w-3.5" />
+                <X className="h-4 w-4" />
                 {__("Clear")}
               </Button>
             )}
 
-            <div className="ml-auto flex items-center gap-1 text-xs text-pm-text-muted">
+            <div className="ml-auto flex items-center gap-1 text-sm text-pm-text-muted">
               <span>{__("Sort:")}</span>
               <select
-                className="h-8 text-xs border rounded px-2 bg-background"
+                className="h-8 text-sm border rounded px-2 bg-background"
                 value={sortBy}
                 onChange={(e) => {
                   setSortBy(e.target.value);
@@ -1471,7 +1471,7 @@ export default function MyTasksPage() {
               {[1, 2, 3, 4, 5].map((i) => (
                 <div key={i} className="grid grid-cols-12 gap-2 px-4 py-3 border-b last:border-b-0 items-center">
                   <div className="col-span-5 flex items-center gap-2">
-                    <Skeleton className="h-4 w-4 rounded-full shrink-0" />
+                    <Skeleton className="h-5 w-5 rounded-full shrink-0" />
                     <Skeleton className="h-4 w-full max-w-[200px]" />
                   </div>
                   <Skeleton className="col-span-2 h-3 w-20" />
@@ -1494,7 +1494,7 @@ export default function MyTasksPage() {
           ) : (
             <div className="rounded-xl border bg-card overflow-hidden">
               {/* Table header */}
-              <div className="hidden md:grid grid-cols-12 gap-2 px-4 py-2 bg-muted/30 border-b text-[11px] font-semibold uppercase tracking-wider text-pm-text-muted/70">
+              <div className="hidden md:grid grid-cols-12 gap-2 px-4 py-2 bg-muted/30 border-b text-[14px] font-semibold uppercase tracking-wider text-pm-text-muted/70">
                 <div className="col-span-5">{__("Task")}</div>
                 <div className="col-span-2">{__("Task List")}</div>
                 <div className="col-span-2">{__("Project")}</div>
@@ -1607,14 +1607,14 @@ export default function MyTasksPage() {
                   >
                     <Avatar className="h-8 w-8 shrink-0 mt-0.5">
                       <AvatarImage src={actor.avatar_url} />
-                      <AvatarFallback className="text-[11px] font-semibold bg-pm-accent/10 text-pm-accent">
+                      <AvatarFallback className="text-[15px] font-semibold bg-pm-accent/10 text-pm-accent">
                         {userInitials(actor.display_name ?? "?")}
                       </AvatarFallback>
                     </Avatar>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-0.5">
                         <span className="text-sm font-semibold text-pm-text">{actor.display_name || 'Unknown'}</span>
-                        <Badge variant="outline" className={cn('text-[10px] px-1.5 py-0 h-4 font-medium border-0 text-white', badgeColor)}>
+                        <Badge variant="outline" className={cn('text-[14px] px-1.5 py-0 h-4 font-medium border-0 text-white', badgeColor)}>
                           {badgeLabel}
                         </Badge>
                       </div>
@@ -1622,11 +1622,11 @@ export default function MyTasksPage() {
                         {parseActivityMessage(act)}
                       </p>
                       {timeStr && (
-                        <span className="text-[11px] text-pm-text-muted/50 mt-1 inline-block">{timeStr}</span>
+                        <span className="text-[15px] text-pm-text-muted/50 mt-1 inline-block">{timeStr}</span>
                       )}
                     </div>
                     <div className="shrink-0 mt-1">
-                      <Icon className="h-4 w-4 text-pm-text-muted/40" />
+                      <Icon className="h-5 w-5 text-pm-text-muted/40" />
                     </div>
                   </div>
                 )

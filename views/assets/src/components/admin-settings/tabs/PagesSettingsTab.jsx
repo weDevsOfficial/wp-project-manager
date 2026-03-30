@@ -62,7 +62,7 @@ export default function PagesSettingsTab() {
         <div className="flex items-center justify-between px-5 py-4">
           <div>
             <Label className="text-sm font-medium">{__('Project Page')}</Label>
-            <p className="text-xs text-pm-text-muted mt-0.5">{__('Select the page where Project Manager will be displayed on the front-end')}</p>
+            <p className="text-sm text-pm-text-muted mt-0.5">{__('Select the page where Project Manager will be displayed on the front-end')}</p>
           </div>
           <Select
             value={frontEndPage}
@@ -86,7 +86,7 @@ export default function PagesSettingsTab() {
           {saving ? __('Saving...') : __('Save Changes')}
         </Button>
         {isDirty && (
-          <span className="text-xs text-pm-text-muted">
+          <span className="text-sm text-pm-text-muted">
             {__('You have unsaved changes')}
           </span>
         )}

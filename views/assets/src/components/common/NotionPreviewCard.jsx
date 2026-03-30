@@ -80,8 +80,8 @@ export default function NotionPreviewCard({ previewData, loading, url, onRefresh
       <div className="flex-1 p-3 min-w-0">
         {/* Source badge row */}
         <div className="flex items-center justify-between mb-2.5">
-          <div className="flex items-center gap-1.5 text-[10px] text-pm-text-muted font-medium">
-            <NotionLogo className="h-3.5 w-3.5" />
+          <div className="flex items-center gap-1.5 text-[13px] text-pm-text-muted font-medium">
+            <NotionLogo className="h-4 w-4" />
             <span>Notion</span>
           </div>
           <div className="flex items-center gap-1">
@@ -91,17 +91,17 @@ export default function NotionPreviewCard({ previewData, loading, url, onRefresh
                 onClick={(e) => { e.stopPropagation(); onRefresh() }}
                 title={__('Refresh')}
               >
-                <RefreshCw className="h-3 w-3" />
+                <RefreshCw className="h-3.5 w-3.5" />
               </button>
             )}
-            <ExternalLink className="h-3 w-3 text-pm-text-muted/30" />
+            <ExternalLink className="h-3.5 w-3.5 text-pm-text-muted/30" />
           </div>
         </div>
 
         {isError ? (
           <div>
-            <span className="text-xs text-pm-text-muted">{isDatabase ? __('Database') : __('Page')}</span>
-            {previewData.error && <p className="text-[10px] text-amber-600 mt-0.5">{previewData.error}</p>}
+            <span className="text-sm text-pm-text-muted">{isDatabase ? __('Database') : __('Page')}</span>
+            {previewData.error && <p className="text-[14px] text-amber-600 mt-0.5">{previewData.error}</p>}
           </div>
         ) : (
           <div className="flex items-start gap-3">
@@ -127,17 +127,17 @@ export default function NotionPreviewCard({ previewData, loading, url, onRefresh
               </p>
 
               {/* Meta row */}
-              <div className="flex items-center gap-2 text-[11px] text-pm-text-muted mt-1.5">
+              <div className="flex items-center gap-2 text-[15px] text-pm-text-muted mt-1.5">
                 <span className={cn(
                   'inline-flex items-center gap-0.5 font-medium px-1.5 py-0.5 rounded',
                   isDatabase ? 'text-blue-600 bg-blue-50' : 'text-gray-500 bg-gray-100'
                 )}>
-                  <TypeIcon className="h-3 w-3" />
+                  <TypeIcon className="h-3.5 w-3.5" />
                   {isDatabase ? __('Database') : __('Page')}
                 </span>
                 {previewData.last_edited_time && (
                   <span className="flex items-center gap-0.5 text-pm-text-muted/70">
-                    <Clock className="h-3 w-3" />
+                    <Clock className="h-3.5 w-3.5" />
                     {relativeEditTime(previewData.last_edited_time, __)}
                   </span>
                 )}

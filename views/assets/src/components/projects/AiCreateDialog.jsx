@@ -82,7 +82,7 @@ const AiLoadingOverlay = ({ phase }) => {
       {/* Progress bar — full width */}
       <div className="w-full space-y-1.5">
         <Progress value={progress} className="h-1.5" />
-        <p className="text-xs text-center text-muted-foreground">
+        <p className="text-sm text-center text-muted-foreground">
           {steps[activeStep]?.label}
         </p>
       </div>
@@ -105,17 +105,17 @@ const AiLoadingOverlay = ({ phase }) => {
               }`}
             >
               {isDone ? (
-                <CheckCircle2 className="h-4 w-4 text-green-500 shrink-0" />
+                <CheckCircle2 className="h-5 w-5 text-green-500 shrink-0" />
               ) : isActive ? (
-                <Loader2 className="h-4 w-4 text-primary animate-spin shrink-0" />
+                <Loader2 className="h-5 w-5 text-primary animate-spin shrink-0" />
               ) : (
-                <Icon className="h-4 w-4 text-muted-foreground shrink-0" />
+                <Icon className="h-5 w-5 text-muted-foreground shrink-0" />
               )}
               <span className={`text-sm font-medium flex-1 ${isActive ? 'text-foreground' : 'text-muted-foreground'}`}>
                 {s.label}
               </span>
               {isDone && (
-                <Badge variant="secondary" className="text-[10px] px-1.5 py-0 h-4">
+                <Badge variant="secondary" className="text-[14px] px-1.5 py-0 h-4">
                   {__('Done', 'wedevs-project-manager')}
                 </Badge>
               )}
@@ -130,7 +130,7 @@ const AiLoadingOverlay = ({ phase }) => {
       <div className="w-full space-y-2.5">
         <Skeleton className="h-3.5 w-2/5" />
         <Skeleton className="h-3 w-4/5" />
-        <Skeleton className="h-3 w-3/5" />
+        <Skeleton className="h-3.5 w-3.5/5" />
         <Skeleton className="h-3 w-[70%]" />
         <Skeleton className="h-3 w-2/4" />
         <Skeleton className="h-3 w-[85%]" />
@@ -168,7 +168,7 @@ const PromptStep = ({ onGenerate, generating }) => {
       />
       <div className="flex justify-end">
         <Button type="submit" disabled={!prompt.trim()} className="gap-2">
-          <Sparkles className="h-4 w-4" />
+          <Sparkles className="h-5 w-5" />
           {__('Generate', 'wedevs-project-manager')}
         </Button>
       </div>
@@ -268,16 +268,16 @@ const PreviewStep = ({ data, onSave, saving, onBack }) => {
           <p className="text-sm font-medium text-foreground">
             {__('Preview & Edit', 'wedevs-project-manager')}
           </p>
-          <Badge variant="secondary" className="text-[10px] px-1.5 py-0 h-5">
+          <Badge variant="secondary" className="text-[14px] px-1.5 py-0 h-5">
             {totalLists} {totalLists === 1 ? __('list', 'wedevs-project-manager') : __('lists', 'wedevs-project-manager')}
           </Badge>
-          <Badge variant="secondary" className="text-[10px] px-1.5 py-0 h-5">
+          <Badge variant="secondary" className="text-[14px] px-1.5 py-0 h-5">
             {totalTasks} {totalTasks === 1 ? __('task', 'wedevs-project-manager') : __('tasks', 'wedevs-project-manager')}
           </Badge>
         </div>
         {hasSelected && (
-          <Button variant="destructive" size="sm" className="gap-1.5 h-7 text-xs" onClick={deleteSelected}>
-            <Trash2 className="h-3 w-3" />
+          <Button variant="destructive" size="sm" className="gap-1.5 h-7 text-sm" onClick={deleteSelected}>
+            <Trash2 className="h-3.5 w-3.5" />
             {__('Delete Selected', 'wedevs-project-manager')}
           </Button>
         )}
@@ -287,7 +287,7 @@ const PreviewStep = ({ data, onSave, saving, onBack }) => {
       <div className="max-h-[420px] overflow-y-auto space-y-4 pr-1">
         {/* Project Title */}
         <div className="space-y-1.5">
-          <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+          <label className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
             {__('Project Name', 'wedevs-project-manager')}
           </label>
           <Input
@@ -297,7 +297,7 @@ const PreviewStep = ({ data, onSave, saving, onBack }) => {
             placeholder={__('Project Name', 'wedevs-project-manager')}
           />
           {titleError && (
-            <p className="text-xs text-destructive">{__('Project name is required', 'wedevs-project-manager')}</p>
+            <p className="text-sm text-destructive">{__('Project name is required', 'wedevs-project-manager')}</p>
           )}
         </div>
 
@@ -318,14 +318,14 @@ const PreviewStep = ({ data, onSave, saving, onBack }) => {
                 checked={group._selected}
                 onCheckedChange={() => toggleGroupSelected(group._id)}
               />
-              <FolderOpen className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
+              <FolderOpen className="h-4 w-4 text-muted-foreground shrink-0" />
               <Input
                 value={group.title}
                 onChange={(e) => updateGroupTitle(group._id, e.target.value)}
                 className="h-7 font-semibold text-sm border-transparent hover:border-input focus-visible:border-input bg-transparent px-1.5 shadow-none"
                 placeholder={__('Task List Name', 'wedevs-project-manager')}
               />
-              <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4 shrink-0">
+              <Badge variant="outline" className="text-[14px] px-1.5 py-0 h-4 shrink-0">
                 {group.tasks.length}
               </Badge>
             </div>
@@ -346,7 +346,7 @@ const PreviewStep = ({ data, onSave, saving, onBack }) => {
           {__('Back', 'wedevs-project-manager')}
         </Button>
         <Button onClick={handleSave} disabled={saving} className="gap-2">
-          {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
+          {saving ? <Loader2 className="h-5 w-5 animate-spin" /> : <Sparkles className="h-5 w-5" />}
           {saving ? __('Creating...', 'wedevs-project-manager') : __('Create Project', 'wedevs-project-manager')}
         </Button>
       </div>
@@ -358,14 +358,14 @@ const PreviewStep = ({ data, onSave, saving, onBack }) => {
 const TaskItem = ({ task, onToggle, onTitleChange }) => (
   <div className="group flex items-center gap-2 rounded-md px-1 py-0.5 hover:bg-muted/40 transition-colors">
     <Checkbox checked={task._selected} onCheckedChange={() => onToggle(task._id)} />
-    <GripVertical className="h-3.5 w-3.5 text-muted-foreground/40 opacity-0 group-hover:opacity-100 transition-opacity" />
+    <GripVertical className="h-4 w-4 text-muted-foreground/40 opacity-0 group-hover:opacity-100 transition-opacity" />
     <Input
       value={task.title}
       onChange={(e) => onTitleChange(task._id, e.target.value)}
       className="h-7 text-sm border-transparent hover:border-input focus-visible:border-input bg-transparent px-1.5 flex-1 shadow-none"
       placeholder="Task name"
     />
-    <Pencil className="h-3 w-3 text-muted-foreground/40 opacity-0 group-hover:opacity-100 transition-opacity" />
+    <Pencil className="h-3.5 w-3.5 text-muted-foreground/40 opacity-0 group-hover:opacity-100 transition-opacity" />
   </div>
 )
 
@@ -504,7 +504,7 @@ const AiCreateDialog = ({ open, onOpenChange }) => {
             className="p-1.5 rounded-md hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
             title={fullscreen ? __('Exit full screen', 'wedevs-project-manager') : __('Full screen', 'wedevs-project-manager')}
           >
-            {fullscreen ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
+            {fullscreen ? <Minimize2 className="h-5 w-5" /> : <Maximize2 className="h-5 w-5" />}
           </button>
         </div>
 

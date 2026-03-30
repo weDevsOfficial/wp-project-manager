@@ -109,7 +109,7 @@ const TaskTypesTab = () => {
           <p className="text-sm text-pm-text-muted mt-0.5">{__('Define custom task types for your projects.', 'wedevs-project-manager')}</p>
         </div>
         <Button size="sm" className="gap-1.5" onClick={() => setShowNewForm(!showNewForm)}>
-          <Plus className="w-3.5 h-3.5" />
+          <Plus className="w-4 h-4" />
           {__('New Type', 'wedevs-project-manager')}
         </Button>
       </div>
@@ -121,11 +121,11 @@ const TaskTypesTab = () => {
               <h3 className="text-sm font-medium text-pm-text">{__('Create Task Type', 'wedevs-project-manager')}</h3>
               <div className="flex gap-3 items-end">
                 <div className="flex-1">
-                  <Label className="text-xs mb-1 block">{__('Name', 'wedevs-project-manager')}</Label>
+                  <Label className="text-sm mb-1 block">{__('Name', 'wedevs-project-manager')}</Label>
                   <Input value={newForm.title} onChange={(e) => setNewForm((f) => ({ ...f, title: e.target.value }))} placeholder={__('e.g. Bug, Feature, Story...', 'wedevs-project-manager')} />
                 </div>
                 <div className="flex-1">
-                  <Label className="text-xs mb-1 block">{__('Description', 'wedevs-project-manager')}<span className="text-pm-text-muted font-normal"> ({__('optional', 'wedevs-project-manager')})</span></Label>
+                  <Label className="text-sm mb-1 block">{__('Description', 'wedevs-project-manager')}<span className="text-pm-text-muted font-normal"> ({__('optional', 'wedevs-project-manager')})</span></Label>
                   <Input value={newForm.description} onChange={(e) => setNewForm((f) => ({ ...f, description: e.target.value }))} placeholder={__('Short description...', 'wedevs-project-manager')} />
                 </div>
                 <div className="flex gap-2 pb-0.5">
@@ -162,8 +162,8 @@ const TaskTypesTab = () => {
                       <td className="px-5 py-3"><Input value={editForm.description} onChange={(e) => setEditForm((f) => ({ ...f, description: e.target.value }))} className="h-8 text-sm" placeholder={__('optional', 'wedevs-project-manager')} /></td>
                       <td className="px-5 py-3 text-right">
                         <div className="flex justify-end gap-1">
-                          <Button variant="ghost" size="icon" className="h-7 w-7 text-pm-status-done hover:bg-green-50" disabled={editBusy} title={__('Save', 'wedevs-project-manager')} onClick={() => submitEdit(type.id)}><Check className="w-3.5 h-3.5" /></Button>
-                          <Button variant="ghost" size="icon" className="h-7 w-7" title={__('Cancel', 'wedevs-project-manager')} onClick={cancelEdit}><X className="w-3.5 h-3.5" /></Button>
+                          <Button variant="ghost" size="icon" className="h-7 w-7 text-pm-status-done hover:bg-green-50" disabled={editBusy} title={__('Save', 'wedevs-project-manager')} onClick={() => submitEdit(type.id)}><Check className="w-4 h-4" /></Button>
+                          <Button variant="ghost" size="icon" className="h-7 w-7" title={__('Cancel', 'wedevs-project-manager')} onClick={cancelEdit}><X className="w-4 h-4" /></Button>
                         </div>
                       </td>
                     </>
@@ -173,8 +173,8 @@ const TaskTypesTab = () => {
                       <td className="px-5 py-3 text-pm-text-muted">{type.description}</td>
                       <td className="px-5 py-3 text-right">
                         <div className="flex justify-end gap-1">
-                          <Button variant="ghost" size="icon" className="h-7 w-7" title={__('Edit', 'wedevs-project-manager')} onClick={() => startEdit(type)}><Pencil className="w-3.5 h-3.5" /></Button>
-                          <Button variant="ghost" size="icon" className="h-7 w-7 text-red-500 hover:text-red-600 hover:bg-red-50" disabled={deletingId === type.id} title={__('Delete', 'wedevs-project-manager')} onClick={() => handleDelete(type.id)}><Trash2 className="w-3.5 h-3.5" /></Button>
+                          <Button variant="ghost" size="icon" className="h-7 w-7" title={__('Edit', 'wedevs-project-manager')} onClick={() => startEdit(type)}><Pencil className="w-4 h-4" /></Button>
+                          <Button variant="ghost" size="icon" className="h-7 w-7 text-red-500 hover:text-red-600 hover:bg-red-50" disabled={deletingId === type.id} title={__('Delete', 'wedevs-project-manager')} onClick={() => handleDelete(type.id)}><Trash2 className="w-4 h-4" /></Button>
                         </div>
                       </td>
                     </>
@@ -189,7 +189,7 @@ const TaskTypesTab = () => {
           <div className="px-5 py-8 text-center">
             <p className="text-sm text-pm-text-muted">{__('No task types yet.', 'wedevs-project-manager')}</p>
             <Button variant="outline" size="sm" className="mt-3 gap-1.5" onClick={() => setShowNewForm(true)}>
-              <Plus className="w-3.5 h-3.5" />
+              <Plus className="w-4 h-4" />
               {__('Create your first type', 'wedevs-project-manager')}
             </Button>
           </div>

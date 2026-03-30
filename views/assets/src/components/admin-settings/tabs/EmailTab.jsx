@@ -53,7 +53,7 @@ const EmailTab = () => {
             <Label htmlFor="from_email" className="text-sm font-medium text-pm-text">
               {__('From Email', 'wedevs-project-manager')}
             </Label>
-            <p className="text-xs text-pm-text-muted mt-0.5">
+            <p className="text-sm text-pm-text-muted mt-0.5">
               {__('Sender address for all notifications', 'wedevs-project-manager')}
             </p>
           </div>
@@ -98,7 +98,7 @@ const EmailTab = () => {
             <Label htmlFor="link_to_backend" className="text-sm font-medium text-pm-text">
               {__('Link to Backend', 'wedevs-project-manager')}
             </Label>
-            <p className="text-xs text-pm-text-muted mt-0.5">
+            <p className="text-sm text-pm-text-muted mt-0.5">
               {__('Email links point to the WP admin backend', 'wedevs-project-manager')}
             </p>
           </div>
@@ -116,7 +116,7 @@ const EmailTab = () => {
             <Label htmlFor="enable_bcc" className="text-sm font-medium text-pm-text">
               {__('Send via BCC', 'wedevs-project-manager')}
             </Label>
-            <p className="text-xs text-pm-text-muted mt-0.5">
+            <p className="text-sm text-pm-text-muted mt-0.5">
               {__('All recipients added as BCC instead of TO', 'wedevs-project-manager')}
             </p>
           </div>
@@ -135,7 +135,7 @@ const EmailTab = () => {
             : __('Save Changes', 'wedevs-project-manager')}
         </Button>
         {isDirty && !emailSaving && (
-          <span className="text-xs text-pm-text-muted">
+          <span className="text-sm text-pm-text-muted">
             {__('You have unsaved changes', 'wedevs-project-manager')}
           </span>
         )}

@@ -194,24 +194,24 @@ function ActivityItem({ act }) {
     <div className="flex items-start gap-3 py-3 px-4 hover:bg-pm-hover/50 rounded-lg transition-colors">
       <Avatar className="h-8 w-8 shrink-0 mt-0.5">
         <AvatarImage src={actor.avatar_url} />
-        <AvatarFallback className="text-[11px] font-semibold bg-pm-accent/10 text-pm-accent">
+        <AvatarFallback className="text-[15px] font-semibold bg-pm-accent/10 text-pm-accent">
           {userInitials(actor.display_name ?? '?')}
         </AvatarFallback>
       </Avatar>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-0.5">
           <span className="text-sm font-semibold text-pm-text">{actor.display_name || 'Unknown'}</span>
-          <Badge variant="outline" className={cn('text-[10px] px-1.5 py-0 h-4 font-medium border-0 text-white', badgeColor)}>
+          <Badge variant="outline" className={cn('text-[14px] px-1.5 py-0 h-4 font-medium border-0 text-white', badgeColor)}>
             {badgeLabel}
           </Badge>
         </div>
         <p className="text-sm text-pm-text-muted leading-snug">{parseMessage(act)}</p>
         {timeStr && (
-          <span className="text-[11px] text-pm-text-muted/50 mt-1 inline-block">{timeStr}</span>
+          <span className="text-[15px] text-pm-text-muted/50 mt-1 inline-block">{timeStr}</span>
         )}
       </div>
       <div className="shrink-0 mt-1">
-        <Icon className="h-4 w-4 text-pm-text-muted/40" />
+        <Icon className="h-5 w-5 text-pm-text-muted/40" />
       </div>
     </div>
   )
@@ -277,7 +277,7 @@ export default function ActivitiesPage() {
       {/* Header */}
       <div className="flex items-center gap-3">
         <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => navigate(`/projects/${projectId}/task-lists`)}>
-          <ArrowLeft className="h-4 w-4" />
+          <ArrowLeft className="h-5 w-5" />
         </Button>
         <div>
           <h1 className="text-xl font-bold text-pm-text">{__('Activities')}</h1>
@@ -294,7 +294,7 @@ export default function ActivitiesPage() {
             <div key={i} className="flex items-start gap-3 py-3">
               <Skeleton className="h-8 w-8 rounded-full" />
               <div className="flex-1 space-y-2">
-                <Skeleton className="h-4 w-40" />
+                <Skeleton className="h-5 w-50" />
                 <Skeleton className="h-3 w-64" />
               </div>
             </div>
@@ -304,7 +304,7 @@ export default function ActivitiesPage() {
         <div className="text-center py-16">
           <Activity className="h-14 w-14 text-muted-foreground/30 mx-auto mb-3" />
           <h3 className="text-sm font-medium text-pm-text mb-1">{__('No activities yet')}</h3>
-          <p className="text-xs text-pm-text-muted">{__('Project activity will appear here.')}</p>
+          <p className="text-sm text-pm-text-muted">{__('Project activity will appear here.')}</p>
         </div>
       ) : (
         <>
@@ -318,7 +318,7 @@ export default function ActivitiesPage() {
             ].map(stat => (
               <div key={stat.label} className="bg-white rounded-lg px-4 py-3 text-center border">
                 <div className={`text-2xl font-bold ${stat.color}`}>{stat.value}</div>
-                <div className="text-[11px] text-pm-text-muted mt-0.5">{stat.label}</div>
+                <div className="text-[15px] text-pm-text-muted mt-0.5">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -329,11 +329,11 @@ export default function ActivitiesPage() {
               {grouped.map(group => (
                 <div key={group.dateRaw}>
                   <div className="flex items-center gap-3 mb-2 px-1">
-                    <h3 className="text-xs font-bold uppercase tracking-wider text-pm-text-muted/70 whitespace-nowrap">
+                    <h3 className="text-sm font-bold uppercase tracking-wider text-pm-text-muted/70 whitespace-nowrap">
                       {group.date}
                     </h3>
                     <Separator className="flex-1" />
-                    <span className="text-[10px] text-pm-text-muted/50">{group.items.length} {__('activities')}</span>
+                    <span className="text-[13px] text-pm-text-muted/50">{group.items.length} {__('activities')}</span>
                   </div>
                   <div className="space-y-0.5">
                     {group.items.map((act, i) => (
@@ -347,10 +347,10 @@ export default function ActivitiesPage() {
               {hasMore && (
                 <div className="text-center pt-2 pb-1">
                   <Button variant="outline" size="sm" onClick={loadMore} disabled={loadingMore} className="gap-2">
-                    {loadingMore ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <ChevronDown className="h-3.5 w-3.5" />}
+                    {loadingMore ? <Loader2 className="h-4 w-4 animate-spin" /> : <ChevronDown className="h-4 w-4" />}
                     {__('Load More')}
                   </Button>
-                  <p className="text-[10px] text-pm-text-muted/50 mt-1.5">
+                  <p className="text-[13px] text-pm-text-muted/50 mt-1.5">
                     {__('Showing')} {activities.length} {__('of')} {total || '...'} {__('activities')}
                   </p>
                 </div>

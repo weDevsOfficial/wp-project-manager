@@ -225,13 +225,13 @@ export default function ProjectOverview() {
           className="h-8 w-8"
           onClick={() => navigate("/projects")}
         >
-          <ArrowLeft className="h-4 w-4" />
+          <ArrowLeft className="h-5 w-5" />
         </Button>
         <div>
           <h1 className="text-xl font-bold text-pm-text-primary">
             {project.title}
           </h1>
-          <p className="text-xs text-pm-text-muted">{__("Project Overview")}</p>
+          <p className="text-sm text-pm-text-muted">{__("Project Overview")}</p>
         </div>
       </div>
 
@@ -247,11 +247,11 @@ export default function ProjectOverview() {
             }
           >
             <div className={`p-2 rounded-lg ${s.bg} shrink-0`}>
-              <s.icon className={`h-4 w-4 ${s.fg}`} />
+              <s.icon className={`h-5 w-5 ${s.fg}`} />
             </div>
             <div className="text-left min-w-0">
               <p className="text-lg font-bold text-pm-text-primary tabular-nums leading-none">{s.value}</p>
-              <p className="text-[10px] text-pm-text-muted font-medium mt-0.5">{s.label}</p>
+              <p className="text-[13px] text-pm-text-muted font-medium mt-0.5">{s.label}</p>
             </div>
           </button>
         ))}
@@ -268,7 +268,7 @@ export default function ProjectOverview() {
           </span>
         </div>
         <Progress value={progress} className="h-3" />
-        <div className="flex items-center justify-between text-xs text-pm-text-muted">
+        <div className="flex items-center justify-between text-sm text-pm-text-muted">
           <span>
             {completeTasks} {__("completed")}
           </span>
@@ -296,7 +296,7 @@ export default function ProjectOverview() {
           return (
             <div className="rounded-xl border bg-card p-5">
               <h3 className="text-sm font-semibold text-pm-text-primary mb-4 flex items-center gap-2">
-                <Activity className="h-4 w-4 text-pm-text-muted" />
+                <Activity className="h-5 w-5 text-pm-text-muted" />
                 {__("30-Day Activity")}
               </h3>
               <ChartContainer config={chartConfig} className="h-[200px] w-full">
@@ -369,16 +369,16 @@ export default function ProjectOverview() {
       <div className="rounded-xl border bg-card p-5">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-sm font-semibold text-pm-text-primary flex items-center gap-2">
-            <Users className="h-4 w-4 text-pm-text-muted" />
+            <Users className="h-5 w-5 text-pm-text-muted" />
             {__("Team Members")}
-            <span className="text-[10px] bg-muted px-1.5 py-0.5 rounded-full tabular-nums font-normal">
+            <span className="text-[14px] bg-muted px-1.5 py-0.5 rounded-full tabular-nums font-normal">
               {assignees.length}
             </span>
           </h3>
           <Popover open={memberPopover} onOpenChange={setMemberPopover}>
             <PopoverTrigger asChild>
-              <Button variant="outline" size="sm" className="h-7 text-xs gap-1.5">
-                <UserPlus className="h-3 w-3" />
+              <Button variant="outline" size="sm" className="h-7 text-sm gap-1.5">
+                <UserPlus className="h-3.5 w-3.5" />
                 {__("Add")}
               </Button>
             </PopoverTrigger>
@@ -388,7 +388,7 @@ export default function ProjectOverview() {
                 <CommandList>
                   {searchingMembers && (
                     <div className="flex items-center justify-center py-4 text-sm text-muted-foreground">
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />{__("Searching...")}
+                      <Loader2 className="mr-2 h-5 w-5 animate-spin" />{__("Searching...")}
                     </div>
                   )}
                   {!searchingMembers && memberSearch.trim().length >= 2 && memberResults.length === 0 && (
@@ -400,10 +400,10 @@ export default function ProjectOverview() {
                         <CommandItem key={u.id} value={String(u.id)} onSelect={() => handleAddMember(u)} className="cursor-pointer">
                           <Avatar className="h-6 w-6 mr-2">
                             <AvatarImage src={u.avatar_url} />
-                            <AvatarFallback className="text-[9px]">{userInitials(u.display_name)}</AvatarFallback>
+                            <AvatarFallback className="text-[11px]">{userInitials(u.display_name)}</AvatarFallback>
                           </Avatar>
                           <span className="text-sm truncate flex-1">{u.display_name}</span>
-                          <Plus className="h-3.5 w-3.5 text-muted-foreground" />
+                          <Plus className="h-4 w-4 text-muted-foreground" />
                         </CommandItem>
                       ))}
                     </CommandGroup>
@@ -422,7 +422,7 @@ export default function ProjectOverview() {
               >
                 <Avatar className="h-9 w-9">
                   <AvatarImage src={user.avatar_url} />
-                  <AvatarFallback className="text-xs">
+                  <AvatarFallback className="text-sm">
                     {userInitials(user.display_name)}
                   </AvatarFallback>
                 </Avatar>
@@ -430,12 +430,12 @@ export default function ProjectOverview() {
                   <p className="text-sm font-medium text-pm-text-primary truncate">
                     {user.display_name}
                   </p>
-                  <p className="text-[11px] text-pm-text-muted truncate">
+                  <p className="text-[15px] text-pm-text-muted truncate">
                     {user.email}
                   </p>
                 </div>
                 {user.roles?.data?.[0] && (
-                  <span className="text-[10px] text-pm-text-muted bg-muted/50 px-2 py-0.5 rounded-full">
+                  <span className="text-[13px] text-pm-text-muted bg-muted/50 px-2 py-0.5 rounded-full">
                     {user.roles.data[0].title}
                   </span>
                 )}
@@ -445,13 +445,13 @@ export default function ProjectOverview() {
                   onClick={() => handleRemoveMember(user.id)}
                   title={__("Remove")}
                 >
-                  <Trash2 className="h-3.5 w-3.5" />
+                  <Trash2 className="h-4 w-4" />
                 </button>
               </div>
             ))}
           </div>
         ) : (
-          <p className="text-xs text-pm-text-muted italic">
+          <p className="text-sm text-pm-text-muted italic">
             {__("No team members assigned")}
           </p>
         )}

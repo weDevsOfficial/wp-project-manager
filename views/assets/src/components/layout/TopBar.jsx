@@ -180,14 +180,14 @@ export function TopBar() {
         <nav className="flex items-center gap-1 flex-1 min-w-0 overflow-hidden">
           {breadcrumbs.map((crumb, i) => (
             <span key={i} className="flex items-center gap-1">
-              {i > 0 && <ChevronRight className="h-3 w-3 text-pm-text-muted/50 shrink-0" />}
+              {i > 0 && <ChevronRight className="h-3.5 w-3.5 text-pm-text-muted/50 shrink-0" />}
               {i === breadcrumbs.length - 1 ? (
-                <span className="text-xs font-medium text-pm-text-primary truncate">{crumb.label}</span>
+                <span className="text-sm font-medium text-pm-text-primary truncate">{crumb.label}</span>
               ) : (
                 <button
                   type="button"
                   onClick={() => navigate(crumb.path)}
-                  className="text-xs text-pm-text-muted hover:text-pm-accent transition-colors truncate"
+                  className="text-sm text-pm-text-muted hover:text-pm-accent transition-colors truncate"
                 >
                   {crumb.label}
                 </button>
@@ -203,17 +203,17 @@ export function TopBar() {
           className="h-8 w-8 md:hidden shrink-0"
           onClick={() => setSearchOpen(true)}
         >
-          <Search className="h-4 w-4 text-pm-text-muted" />
+          <Search className="h-5 w-5 text-pm-text-muted" />
         </Button>
         <Button
           variant="outline"
           size="sm"
-          className="h-7 text-xs gap-1.5 text-pm-text-muted font-normal hidden md:flex"
+          className="h-7 text-sm gap-1.5 text-pm-text-muted font-normal hidden md:flex"
           onClick={() => setSearchOpen(true)}
         >
-          <Search className="h-3 w-3" />
+          <Search className="h-3.5 w-3.5" />
           {__('Search...')}
-          <kbd className="ml-2 text-[10px] bg-muted px-1 py-0.5 rounded font-mono">⌘K</kbd>
+          <kbd className="ml-2 text-[14px] bg-muted px-1 py-0.5 rounded font-mono">⌘K</kbd>
         </Button>
 
         {/* Share Your Idea */}
@@ -221,10 +221,10 @@ export function TopBar() {
           href="https://pm.canny.io/ideas"
           target="_blank"
           rel="noopener noreferrer"
-          className="hidden md:inline-flex items-center gap-1 text-xs text-pm-text-muted hover:text-pm-accent transition-colors shrink-0"
+          className="hidden md:inline-flex items-center gap-1 text-sm text-pm-text-muted hover:text-pm-accent transition-colors shrink-0"
           title={__('Share your idea')}
         >
-          <Lightbulb className="h-3.5 w-3.5" />
+          <Lightbulb className="h-4 w-4" />
         </a>
 
         {/* What's New (Headway) — wrapper div prevents badge span from breaking button layout */}
@@ -241,15 +241,15 @@ export function TopBar() {
               }
             }}
           >
-            <Megaphone className="h-4 w-4" />
+            <Megaphone className="h-5 w-5" />
           </button>
         </div>
 
         {/* Notifications */}
         <Button variant="ghost" size="icon" className="h-8 w-8 relative shrink-0" onClick={() => setNotifOpen(true)}>
-          <Bell className="h-4 w-4 text-pm-text-muted" />
+          <Bell className="h-5 w-5 text-pm-text-muted" />
           {unreadCount > 0 && (
-            <span className="absolute -top-0.5 -right-0.5 h-4 min-w-[16px] flex items-center justify-center rounded-full bg-destructive text-[9px] text-white font-bold px-1">
+            <span className="absolute -top-0.5 -right-0.5 h-4 min-w-[16px] flex items-center justify-center rounded-full bg-destructive text-[11px] text-white font-bold px-1">
               {unreadCount}
             </span>
           )}
@@ -267,7 +267,7 @@ export function TopBar() {
               )}
               title={__('Plugin sidebar')}
             >
-              <LayoutDashboard className="h-3.5 w-3.5" />
+              <LayoutDashboard className="h-4 w-4" />
             </button>
             <button
               type="button"
@@ -278,7 +278,7 @@ export function TopBar() {
               )}
               title={__('WordPress sidebar')}
             >
-              <Monitor className="h-3.5 w-3.5" />
+              <Monitor className="h-4 w-4" />
             </button>
           </div>
         )}
@@ -287,7 +287,7 @@ export function TopBar() {
         {currentUser && (
           <Avatar className="h-7 w-7 shrink-0">
             <AvatarImage src={currentUser.data?.avatar_url || currentUser.avatar_url || (typeof PM_Vars !== 'undefined' ? PM_Vars.avatar_url : '')} />
-            <AvatarFallback className="text-[10px]">
+            <AvatarFallback className="text-[14px]">
               {userInitials(currentUser.data?.display_name || currentUser.display_name || currentUser.data?.user_login || 'U')}
             </AvatarFallback>
           </Avatar>
@@ -306,7 +306,7 @@ export function TopBar() {
             <CommandList className="max-h-[320px]">
               {searching && (
                 <div className="flex items-center justify-center py-6 text-sm text-muted-foreground">
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />{__('Searching...')}
+                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />{__('Searching...')}
                 </div>
               )}
               {!searching && searchQuery.trim().length >= 2 && !hasResults && (
@@ -321,7 +321,7 @@ export function TopBar() {
                       onSelect={() => { navigate(`/projects/${p.id}/task-lists`); setSearchOpen(false); setSearchQuery('') }}
                       className="cursor-pointer"
                     >
-                      <FolderKanban className="h-3.5 w-3.5 mr-2 text-pm-text-muted" />
+                      <FolderKanban className="h-4 w-4 mr-2 text-pm-text-muted" />
                       <span className="text-sm truncate">{p.title}</span>
                     </CommandItem>
                   ))}
@@ -336,7 +336,7 @@ export function TopBar() {
                       onSelect={() => { navigate(`/projects/${t.project_id}/task-lists`); setSearchOpen(false); setSearchQuery('') }}
                       className="cursor-pointer"
                     >
-                      <CheckSquare className="h-3.5 w-3.5 mr-2 text-pm-text-muted" />
+                      <CheckSquare className="h-4 w-4 mr-2 text-pm-text-muted" />
                       <span className="text-sm truncate">{t.title}</span>
                     </CommandItem>
                   ))}
@@ -352,14 +352,14 @@ export function TopBar() {
         <SheetContent side="right" className="w-full sm:max-w-[380px] p-0 gap-0 flex flex-col h-full">
           <SheetHeader className="px-5 py-4 border-b shrink-0">
             <SheetTitle className="flex items-center gap-2">
-              <Bell className="h-4 w-4 text-pm-accent" />
+              <Bell className="h-5 w-5 text-pm-accent" />
               {__('Notifications')}
             </SheetTitle>
           </SheetHeader>
           <div className="flex-1 overflow-y-auto min-h-0">
             {notifLoading ? (
               <div className="flex items-center justify-center py-12 text-sm text-pm-text-muted">
-                <Loader2 className="mr-2 h-4 w-4 animate-spin" />{__('Loading...')}
+                <Loader2 className="mr-2 h-5 w-5 animate-spin" />{__('Loading...')}
               </div>
             ) : notifications.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-16 text-center px-6">
@@ -386,9 +386,9 @@ export function TopBar() {
                         <div className="h-7 w-7 rounded-full bg-muted shrink-0 mt-0.5" />
                       )}
                       <div className="flex-1 min-w-0">
-                        <p className="text-xs text-pm-text-primary leading-relaxed">{msg}</p>
+                        <p className="text-sm text-pm-text-primary leading-relaxed">{msg}</p>
                         {n.created_at && (
-                          <p className="text-[10px] text-pm-text-muted mt-0.5">{formatPmDateTime(n.created_at)}</p>
+                          <p className="text-[13px] text-pm-text-muted mt-0.5">{formatPmDateTime(n.created_at)}</p>
                         )}
                       </div>
                     </div>

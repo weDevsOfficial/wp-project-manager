@@ -91,14 +91,14 @@ function ProSettingsPreview({ tabLabel, icon: Icon }) {
               <Lock className="h-6 w-6 text-pm-accent" />
             </div>
             <h3 className="text-base font-bold text-pm-text mb-1">{tabLabel}</h3>
-            <p className="text-xs text-pm-text-muted mb-4 max-w-[220px]">
+            <p className="text-sm text-pm-text-muted mb-4 max-w-[220px]">
               {__('Unlock this feature by upgrading to PM Pro.')}
             </p>
             <div
               className="inline-flex items-center gap-2 px-5 py-2 rounded-lg text-white font-semibold text-sm"
               style={{ background: '#ff9000' }}
             >
-              <Crown className="h-4 w-4" />
+              <Crown className="h-5 w-5" />
               {__('Upgrade to Pro')}
             </div>
           </div>
@@ -169,7 +169,7 @@ const SettingsPage = () => {
         <nav className="flex-1 overflow-y-auto pb-4 pt-1 px-2">
           {tabGroups.map((group) => (
             <div key={group.title} className="mb-4">
-              <p className="text-[11px] font-medium text-pm-text-muted uppercase tracking-wider px-2 mb-1.5">
+              <p className="text-[14px] font-medium text-pm-text-muted uppercase tracking-wider px-2 mb-1.5">
                 {group.title}
               </p>
 
@@ -192,11 +192,11 @@ const SettingsPage = () => {
                   >
                     <Icon
                       className={cn(
-                        'w-4 h-4 shrink-0',
+                        'w-5 h-5 shrink-0',
                         isActive ? 'text-pm-accent' : 'text-pm-text-muted'
                       )}
                     />
-                    <span className="flex-1 truncate text-[13px]">{tab.label}</span>
+                    <span className="flex-1 truncate text-[15px]">{tab.label}</span>
                     {needsPro && <ProBadge />}
                   </button>
                 )

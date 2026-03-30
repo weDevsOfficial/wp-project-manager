@@ -19,12 +19,12 @@ function KanbanMock() {
     <div className="flex flex-col sm:flex-row gap-3 p-5" style={{ minHeight: '420px', alignItems: 'flex-start' }}>
       {cols.map(col => (
         <div key={col.title} className="flex-1 rounded-lg bg-gray-50 overflow-hidden">
-          <div className="px-3 py-2 text-white text-xs font-semibold flex justify-between" style={{ background: col.color }}>
-            {col.title} <span className="bg-white/30 rounded-full px-1.5 text-[10px]">{col.tasks.length}</span>
+          <div className="px-3 py-2 text-white text-sm font-semibold flex justify-between" style={{ background: col.color }}>
+            {col.title} <span className="bg-white/30 rounded-full px-1.5 text-[14px]">{col.tasks.length}</span>
           </div>
           <div className="p-2">
             {col.tasks.map((t, i) => (
-              <div key={i} className="bg-white rounded-md px-3 py-2.5 mb-1.5 text-xs text-gray-600 shadow-sm border">{t}</div>
+              <div key={i} className="bg-white rounded-md px-3 py-2.5 mb-1.5 text-sm text-gray-600 shadow-sm border">{t}</div>
             ))}
           </div>
         </div>
@@ -46,14 +46,14 @@ function GanttMock() {
   return (
     <div className="p-5" style={{ minHeight: '420px' }}>
       <div className="flex border-b pb-2 mb-3">
-        <div className="w-28 text-[11px] font-semibold text-gray-500">Task</div>
+        <div className="w-28 text-[15px] font-semibold text-gray-500">Task</div>
         <div className="flex-1 flex">
-          {months.map(m => <div key={m} className="flex-1 text-[10px] text-gray-400 text-center">{m}</div>)}
+          {months.map(m => <div key={m} className="flex-1 text-[14px] text-gray-400 text-center">{m}</div>)}
         </div>
       </div>
       {tasks.map((t, i) => (
         <div key={i} className="flex items-center mb-2.5">
-          <div className="w-28 text-xs text-gray-600 font-medium">{t.name}</div>
+          <div className="w-28 text-sm text-gray-600 font-medium">{t.name}</div>
           <div className="flex-1 relative h-6 bg-gray-100 rounded">
             <div className="absolute h-full rounded" style={{ left: `${t.start}%`, width: `${t.width}%`, background: t.color, opacity: 0.85 }} />
           </div>
@@ -74,14 +74,14 @@ function InvoiceMock() {
       <div className="flex justify-between mb-8">
         <div>
           <div className="text-xl font-bold text-gray-900">INVOICE</div>
-          <div className="text-[11px] text-gray-400 mt-1">#INV-2026-001</div>
+          <div className="text-[15px] text-gray-400 mt-1">#INV-2026-001</div>
         </div>
         <div className="text-right">
-          <div className="text-[11px] text-gray-400">Due: Apr 15, 2026</div>
-          <span className="inline-block mt-1 px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-600 text-[11px] font-semibold">Unpaid</span>
+          <div className="text-[15px] text-gray-400">Due: Apr 15, 2026</div>
+          <span className="inline-block mt-1 px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-600 text-[15px] font-semibold">Unpaid</span>
         </div>
       </div>
-      <table className="w-full text-xs">
+      <table className="w-full text-sm">
         <thead>
           <tr className="border-b-2 border-gray-200">
             <th className="text-left py-2 text-gray-500 font-semibold">Item</th>
@@ -103,7 +103,7 @@ function InvoiceMock() {
       </table>
       <div className="flex justify-end mt-4 pt-3 border-t-2 border-gray-200">
         <div className="text-right">
-          <div className="text-[11px] text-gray-400">Total Due</div>
+          <div className="text-[15px] text-gray-400">Total Due</div>
           <div className="text-2xl font-bold text-pm-accent">$6,050.00</div>
         </div>
       </div>
@@ -118,12 +118,12 @@ function SettingsMock() {
     <div className="p-5" style={{ minHeight: '420px' }}>
       <div className="flex flex-wrap gap-2 sm:gap-3 mb-5">
         {tabs.map((t, i) => (
-          <div key={t} className={`px-4 py-1.5 rounded-md text-xs font-medium ${i === 0 ? 'bg-pm-accent text-white' : 'bg-gray-100 text-gray-500'}`}>{t}</div>
+          <div key={t} className={`px-4 py-1.5 rounded-md text-sm font-medium ${i === 0 ? 'bg-pm-accent text-white' : 'bg-gray-100 text-gray-500'}`}>{t}</div>
         ))}
       </div>
       {fields.map((f, i) => (
         <div key={i} className="flex items-center justify-between gap-3 py-3.5 border-b border-gray-100">
-          <span className="text-[13px] text-gray-700 font-medium shrink-0">{f}</span>
+          <span className="text-[15px] text-gray-700 font-medium shrink-0">{f}</span>
           <div className="w-full sm:w-48 h-8 rounded-md bg-gray-50 border border-gray-200" />
         </div>
       ))}
@@ -146,14 +146,14 @@ function SprintsMock() {
               <div className="flex items-center gap-2">
                 <div className="h-2 w-2 rounded-full" style={{ background: s.color }} />
                 <span className="text-sm font-semibold text-gray-900">{s.name}</span>
-                <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium ${s.status === 'Active' ? 'bg-purple-100 text-purple-700' : 'bg-green-100 text-green-700'}`}>{s.status}</span>
+                <span className={`px-2 py-0.5 rounded-full text-[14px] font-medium ${s.status === 'Active' ? 'bg-purple-100 text-purple-700' : 'bg-green-100 text-green-700'}`}>{s.status}</span>
               </div>
-              <span className="text-[11px] text-gray-400">{s.dates}</span>
+              <span className="text-[15px] text-gray-400">{s.dates}</span>
             </div>
             <div className="w-full h-2 rounded-full bg-gray-100">
               <div className="h-full rounded-full" style={{ width: `${(s.completed / s.tasks) * 100}%`, background: s.color, opacity: 0.7 }} />
             </div>
-            <div className="mt-2 text-[11px] text-gray-400">{s.completed}/{s.tasks} tasks completed</div>
+            <div className="mt-2 text-[15px] text-gray-400">{s.completed}/{s.tasks} tasks completed</div>
           </div>
         ))}
       </div>
@@ -209,12 +209,12 @@ export default function ProFeaturePlaceholder({ title, description, icon: Icon, 
                 {Icon && <Icon className="h-7 w-7 text-pm-accent" />}
               </div>
               <h3 className="text-lg font-bold text-pm-text-primary mb-1">{__(title)}</h3>
-              <p className="text-xs text-pm-text-muted mb-4 max-w-[250px]">{__(description)}</p>
+              <p className="text-sm text-pm-text-muted mb-4 max-w-[250px]">{__(description)}</p>
               <div
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-white font-semibold text-sm"
                 style={{ background: '#ff9000' }}
               >
-                <Crown className="h-4 w-4" />
+                <Crown className="h-5 w-5" />
                 {__('Upgrade to Pro')}
               </div>
             </div>

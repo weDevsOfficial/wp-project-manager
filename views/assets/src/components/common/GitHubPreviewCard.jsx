@@ -40,7 +40,7 @@ function relativeTime(dateStr) {
 }
 
 function StateIcon({ state, type }) {
-  const cls = 'h-3 w-3'
+  const cls = 'h-3.5 w-3.5'
   if (state === 'merged')  return <GitMerge className={cn(cls, 'text-purple-600')} />
   if (state === 'closed' && type === 'pull_request') return <GitPullRequestClosed className={cn(cls, 'text-red-600')} />
   if (state === 'closed')  return <CircleCheck className={cn(cls, 'text-red-600')} />
@@ -98,8 +98,8 @@ export default function GitHubPreviewCard({ previewData, loading, url, onRefresh
     >
       {/* Source badge row */}
       <div className="flex items-center justify-between mb-2">
-        <div className="flex items-center gap-1.5 text-[10px] text-pm-text-muted font-medium">
-          <GitHubLogo className="h-3.5 w-3.5" />
+        <div className="flex items-center gap-1.5 text-[13px] text-pm-text-muted font-medium">
+          <GitHubLogo className="h-4 w-4" />
           <span>GitHub</span>
           {previewData.repository?.full_name && (
             <span className="text-pm-text-muted/60">&middot; {previewData.repository.full_name}</span>
@@ -112,17 +112,17 @@ export default function GitHubPreviewCard({ previewData, loading, url, onRefresh
               onClick={(e) => { e.stopPropagation(); onRefresh() }}
               title={__('Refresh')}
             >
-              <RefreshCw className="h-3 w-3" />
+              <RefreshCw className="h-3.5 w-3.5" />
             </button>
           )}
-          <ExternalLink className="h-3 w-3 text-pm-text-muted/30" />
+          <ExternalLink className="h-3.5 w-3.5 text-pm-text-muted/30" />
         </div>
       </div>
 
       {isError ? (
         <div>
-          <span className="text-xs text-pm-text-muted">{typeLabel} #{previewData.number}</span>
-          {previewData.error && <p className="text-[10px] text-amber-600 mt-0.5">{previewData.error}</p>}
+          <span className="text-sm text-pm-text-muted">{typeLabel} #{previewData.number}</span>
+          {previewData.error && <p className="text-[14px] text-amber-600 mt-0.5">{previewData.error}</p>}
         </div>
       ) : (
         <div className="flex items-start gap-2.5">
@@ -132,7 +132,7 @@ export default function GitHubPreviewCard({ previewData, loading, url, onRefresh
               <img src={previewData.author.avatar_url} alt={previewData.author.login} className="h-7 w-7 rounded-full" />
             ) : (
               <div className="h-7 w-7 rounded-full bg-muted flex items-center justify-center text-pm-text-muted">
-                <GitHubLogo className="h-4 w-4" />
+                <GitHubLogo className="h-5 w-5" />
               </div>
             )}
           </div>
@@ -142,7 +142,7 @@ export default function GitHubPreviewCard({ previewData, loading, url, onRefresh
             <div className="flex items-center gap-1.5 flex-wrap">
               <span className="text-sm font-medium text-pm-text leading-tight">{previewData.title}</span>
               {previewData.state && (
-                <span className={cn('inline-flex items-center gap-0.5 text-[10px] font-medium px-1.5 py-0.5 rounded-full capitalize', stateColors[previewData.state] || 'text-pm-text-muted bg-muted')}>
+                <span className={cn('inline-flex items-center gap-0.5 text-[14px] font-medium px-1.5 py-0.5 rounded-full capitalize', stateColors[previewData.state] || 'text-pm-text-muted bg-muted')}>
                   <StateIcon state={previewData.state} type={previewData.type} />
                   {previewData.state}
                 </span>
@@ -150,7 +150,7 @@ export default function GitHubPreviewCard({ previewData, loading, url, onRefresh
             </div>
 
             {/* Meta */}
-            <div className="flex items-center gap-1.5 text-[11px] text-pm-text-muted mt-0.5 flex-wrap">
+            <div className="flex items-center gap-1.5 text-[15px] text-pm-text-muted mt-0.5 flex-wrap">
               <span className="font-medium">{typeLabel}</span>
               <span>#{previewData.number}</span>
               {previewData.author && <><span>&middot;</span><span>{previewData.author.login}</span></>}
@@ -161,7 +161,7 @@ export default function GitHubPreviewCard({ previewData, loading, url, onRefresh
             {previewData.labels?.length > 0 && (
               <div className="flex items-center gap-1 mt-1.5 flex-wrap">
                 {previewData.labels.map((label, i) => (
-                  <span key={i} className="text-[10px] px-1.5 py-0.5 rounded-full font-medium"
+                  <span key={i} className="text-[14px] px-1.5 py-0.5 rounded-full font-medium"
                     style={{ backgroundColor: `#${label.color}`, color: labelTextColor(label.color) }}>
                     {label.name}
                   </span>

@@ -141,7 +141,7 @@ export default function ModulesPage() {
                       className="p-1.5 rounded-md hover:bg-muted text-pm-text-muted/50 hover:text-pm-accent transition-colors"
                       title={__("Upgrade to Pro")}
                     >
-                      <Lock className="h-4 w-4" />
+                      <Lock className="h-5 w-5" />
                     </button>
                   )}
                 </div>
@@ -150,7 +150,7 @@ export default function ModulesPage() {
                 <h3 className="text-sm font-semibold text-pm-text-primary mb-1.5">
                   {__(m.name)}
                 </h3>
-                <p className="text-xs text-pm-text-muted leading-relaxed">
+                <p className="text-sm text-pm-text-muted leading-relaxed">
                   {__(m.desc)}
                 </p>
               </div>
@@ -162,7 +162,7 @@ export default function ModulesPage() {
                   onClick={() => setOpen(true)}
                 >
                   <div className="flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-lg">
-                    <Crown className="h-4 w-4 text-orange-500" />
+                    <Crown className="h-5 w-5 text-orange-500" />
                     <span className="text-sm font-semibold text-pm-text-primary">
                       {__("Upgrade to Pro")}
                     </span>

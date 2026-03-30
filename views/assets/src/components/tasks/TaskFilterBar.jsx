@@ -112,13 +112,13 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
         <Button
           variant="outline"
           size="sm"
-          className="gap-1.5 h-8 text-xs"
+          className="gap-1.5 h-8 text-sm"
           onClick={() => setIsOpen(true)}
         >
-          <Filter className="h-3.5 w-3.5" />
+          <Filter className="h-4 w-4" />
           {__('Filter')}
           {activeCount > 0 && (
-            <Badge variant="secondary" className="h-4 px-1 text-[10px] rounded-full ml-0.5">
+            <Badge variant="secondary" className="h-4 px-1 text-[14px] rounded-full ml-0.5">
               {activeCount}
             </Badge>
           )}
@@ -131,18 +131,18 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
     <div className="rounded-lg border bg-card px-3 py-2.5 flex items-center gap-2 flex-wrap">
       {/* Search */}
       <div className="flex items-center gap-1.5 flex-1 min-w-[160px] max-w-[240px] h-8 rounded-md border border-input bg-background px-2.5 focus-within:ring-1 focus-within:ring-pm-accent">
-        <Search className="h-3.5 w-3.5 text-pm-text-muted shrink-0" />
+        <Search className="h-4 w-4 text-pm-text-muted shrink-0" />
         <input
           value={searchTitle}
           onChange={(e) => handleSearchChange(e.target.value)}
           placeholder={__('Search tasks...')}
-          className="flex-1 min-w-0 h-full bg-transparent text-xs text-pm-text-primary placeholder:text-muted-foreground focus:outline-none !border-0 !p-0 !shadow-none"
+          className="flex-1 min-w-0 h-full bg-transparent text-sm text-pm-text-primary placeholder:text-muted-foreground focus:outline-none !border-0 !p-0 !shadow-none"
         />
       </div>
 
       {/* Status */}
       <Select value={status} onValueChange={(v) => { setStatus(v); applyFilter({ status: v }) }}>
-        <SelectTrigger className="h-8 w-auto sm:w-[120px] text-xs">
+        <SelectTrigger className="h-8 w-auto sm:w-[120px] text-sm">
           <SelectValue placeholder={__('Status')} />
         </SelectTrigger>
         <SelectContent>
@@ -153,7 +153,7 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
 
       {/* Due date */}
       <Select value={dueDate} onValueChange={(v) => { setDueDate(v); applyFilter({ dueDate: v }) }}>
-        <SelectTrigger className="h-8 w-auto sm:w-[120px] text-xs">
+        <SelectTrigger className="h-8 w-auto sm:w-[120px] text-sm">
           <SelectValue placeholder={__('Due Date')} />
         </SelectTrigger>
         <SelectContent>
@@ -166,7 +166,7 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
       {/* List */}
       {lists?.length > 0 && (
         <Select value={listId} onValueChange={(v) => { setListId(v); applyFilter({ listId: v }) }}>
-          <SelectTrigger className="h-8 w-auto sm:w-[140px] text-xs">
+          <SelectTrigger className="h-8 w-auto sm:w-[140px] text-sm">
             <SelectValue placeholder={__('Task List')} />
           </SelectTrigger>
           <SelectContent>
@@ -180,14 +180,14 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
       {/* Assignee */}
       {allAssignees.length > 0 && (
         <Select value={assigneeId} onValueChange={(v) => { setAssigneeId(v); applyFilter({ assigneeId: v }) }}>
-          <SelectTrigger className="h-8 w-auto sm:w-[140px] text-xs">
+          <SelectTrigger className="h-8 w-auto sm:w-[140px] text-sm">
             <SelectValue placeholder={__('Assignee')} />
           </SelectTrigger>
           <SelectContent>
             {allAssignees.map((u) => (
               <SelectItem key={u.id} value={String(u.id)}>
                 <span className="flex items-center gap-1.5">
-                  <Avatar className="h-4 w-4">
+                  <Avatar className="h-5 w-5">
                     <AvatarImage src={u.avatar_url} />
                     <AvatarFallback className="text-[7px]">{userInitials(u.display_name || '')}</AvatarFallback>
                   </Avatar>
@@ -201,15 +201,15 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
 
       {/* Clear */}
       {hasActiveFilter && (
-        <Button variant="outline" size="sm" className="h-8 text-xs gap-1" onClick={handleClear}>
-          <X className="h-3 w-3" />
+        <Button variant="outline" size="sm" className="h-8 text-sm gap-1" onClick={handleClear}>
+          <X className="h-3.5 w-3.5" />
           {__('Clear')}
         </Button>
       )}
 
       {/* Close */}
       <Button variant="ghost" size="icon" className="h-7 w-7 ml-auto shrink-0" onClick={() => { setIsOpen(false); if (!hasActiveFilter) onClear?.() }}>
-        <X className="h-3.5 w-3.5" />
+        <X className="h-4 w-4" />
       </Button>
     </div>
   )

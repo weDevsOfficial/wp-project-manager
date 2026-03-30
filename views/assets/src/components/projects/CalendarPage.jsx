@@ -55,7 +55,7 @@ export default function CalendarPage() {
               {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d) => (
                 <div
                   key={d}
-                  className="text-center text-[11px] font-semibold text-pm-text-muted py-1"
+                  className="text-center text-[15px] font-semibold text-pm-text-muted py-1"
                 >
                   {d}
                 </div>
@@ -97,7 +97,7 @@ export default function CalendarPage() {
                     {isValid && (
                       <>
                         <span
-                          className={`text-xs ${
+                          className={`text-sm ${
                             isToday
                               ? "font-bold text-pm-accent"
                               : "text-pm-text-muted"
@@ -135,7 +135,7 @@ export default function CalendarPage() {
               <h3 className="text-lg font-bold text-pm-text-primary mb-1">
                 {__("Interactive Calendar")}
               </h3>
-              <p className="text-xs text-pm-text-muted mb-4 max-w-[250px]">
+              <p className="text-sm text-pm-text-muted mb-4 max-w-[250px]">
                 {__(
                   "View all your tasks, milestones, and deadlines in a beautiful calendar view.",
                 )}
@@ -144,7 +144,7 @@ export default function CalendarPage() {
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-white font-semibold text-sm"
                 style={{ background: "#ff9000" }}
               >
-                <Crown className="h-4 w-4" />
+                <Crown className="h-5 w-5" />
                 {__("Upgrade to Pro")}
               </div>
             </div>

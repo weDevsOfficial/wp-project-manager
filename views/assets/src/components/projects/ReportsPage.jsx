@@ -110,14 +110,14 @@ export default function ReportsPage() {
                 </h3>
 
                 {/* Description */}
-                <p className="text-xs text-pm-text-muted leading-relaxed min-h-[40px]">
+                <p className="text-sm text-pm-text-muted leading-relaxed min-h-[40px]">
                   {__(r.desc)}
                 </p>
 
                 {/* Action button */}
                 {isPro ? (
                   <Button variant="outline" size="sm" className="gap-1.5">
-                    <Eye className="h-3.5 w-3.5" />
+                    <Eye className="h-4 w-4" />
                     {__("View Full Report")}
                   </Button>
                 ) : (
@@ -127,7 +127,7 @@ export default function ReportsPage() {
                     className="gap-1.5"
                     onClick={() => setOpen(true)}
                   >
-                    <Lock className="h-3.5 w-3.5" />
+                    <Lock className="h-4 w-4" />
                     {__("View Full Report")}
                   </Button>
                 )}
@@ -140,7 +140,7 @@ export default function ReportsPage() {
                   onClick={() => setOpen(true)}
                 >
                   <div className="flex items-center gap-2 bg-white rounded-full px-4 py-2 shadow-lg">
-                    <Crown className="h-4 w-4 text-orange-500" />
+                    <Crown className="h-5 w-5 text-orange-500" />
                     <span className="text-sm font-semibold text-pm-text-primary">
                       {__("Upgrade to Pro")}
                     </span>

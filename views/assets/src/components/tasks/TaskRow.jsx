@@ -145,7 +145,7 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
     >
       {/* Drag handle */}
       {isDraggable && (
-        <GripVertical className="h-3.5 w-3.5 text-pm-text-muted/30 opacity-0 group-hover:opacity-100 transition-opacity cursor-grab shrink-0" />
+        <GripVertical className="h-4 w-4 text-pm-text-muted/30 opacity-0 group-hover:opacity-100 transition-opacity cursor-grab shrink-0" />
       )}
 
       {/* ClickUp-style circle checkbox */}
@@ -160,12 +160,12 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
         {isComplete ? (
           /* Filled green circle with check */
           <span className="flex items-center justify-center h-[18px] w-[18px] rounded-full bg-emerald-500 text-white">
-            <Check className="h-3 w-3" strokeWidth={3} />
+            <Check className="h-3.5 w-3.5" strokeWidth={3} />
           </span>
         ) : hovered ? (
           /* Solid border on hover */
           <span className="flex items-center justify-center h-[18px] w-[18px] rounded-full border-2 border-pm-accent text-pm-accent">
-            <Check className="h-3 w-3" strokeWidth={3} />
+            <Check className="h-3.5 w-3.5" strokeWidth={3} />
           </span>
         ) : (
           /* Dashed border — pending state */
@@ -187,7 +187,7 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
 
       {/* Task type pill */}
       {task.type?.title && (
-        <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4 shrink-0 font-normal text-muted-foreground">
+        <Badge variant="outline" className="text-[14px] px-1.5 py-0 h-4 shrink-0 font-normal text-muted-foreground">
           {task.type.title}
         </Badge>
       )}
@@ -198,7 +198,7 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
           {task.labels.data.map(label => (
             <span
               key={label.id}
-              className="text-[9px] font-medium text-white uppercase leading-none px-1.5 py-0.5 rounded"
+              className="text-[11px] font-medium text-white uppercase leading-none px-1.5 py-0.5 rounded"
               style={{ backgroundColor: label.color || '#3b82f6' }}
             >
               {label.title}
@@ -213,7 +213,7 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
           <Tooltip>
             <TooltipTrigger asChild>
               <span className="shrink-0">
-                <Flag className={cn('h-3.5 w-3.5', priorityColor)} />
+                <Flag className={cn('h-4 w-4', priorityColor)} />
               </span>
             </TooltipTrigger>
             <TooltipContent side="bottom">
@@ -229,14 +229,14 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
           {visibleAssignees.map((user) => (
             <Avatar key={user.id} className="h-6 w-6 border-2 border-background">
               <AvatarImage src={user.avatar_url} alt={user.display_name} />
-              <AvatarFallback className="text-[9px]">
+              <AvatarFallback className="text-[11px]">
                 {userInitials(user.display_name)}
               </AvatarFallback>
             </Avatar>
           ))}
           {overflow > 0 && (
             <Avatar className="h-6 w-6 border-2 border-background">
-              <AvatarFallback className="text-[9px] bg-muted">+{overflow}</AvatarFallback>
+              <AvatarFallback className="text-[11px] bg-muted">+{overflow}</AvatarFallback>
             </Avatar>
           )}
         </div>
@@ -244,23 +244,23 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
 
       {/* Due date + overdue badge */}
       {dueDateStr && (
-        <span className={cn('flex items-center gap-1 text-[11px] shrink-0', dueDateColorClass(task.due_date))}>
-          <Calendar className="h-3 w-3" />
+        <span className={cn('flex items-center gap-1 text-[15px] shrink-0', dueDateColorClass(task.due_date))}>
+          <Calendar className="h-3.5 w-3.5" />
           {formatPmDate(task.start_at) && !isComplete
             ? `${formatPmDate(task.start_at)} → ${dueDateStr}`
             : dueDateStr}
         </span>
       )}
       {isOverdue(task.due_date, task.status) && (
-        <Badge variant="destructive" className="text-[9px] px-1.5 py-0 h-4 shrink-0">
+        <Badge variant="destructive" className="text-[11px] px-1.5 py-0 h-4 shrink-0">
           Overdue
         </Badge>
       )}
 
       {/* Comment count */}
       {(task.meta?.total_comment ?? 0) > 0 && (
-        <span className="flex items-center gap-0.5 text-[11px] text-pm-text-muted shrink-0">
-          <MessageSquare className="h-3 w-3" />
+        <span className="flex items-center gap-0.5 text-[15px] text-pm-text-muted shrink-0">
+          <MessageSquare className="h-3.5 w-3.5" />
           {task.meta?.total_comment}
         </span>
       )}
@@ -270,9 +270,9 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
         <TooltipProvider delayDuration={200}>
           <Tooltip>
             <TooltipTrigger asChild>
-              <Lock className="h-3 w-3 text-amber-500 shrink-0" />
+              <Lock className="h-3.5 w-3.5 text-amber-500 shrink-0" />
             </TooltipTrigger>
-            <TooltipContent side="top" className="text-[10px]">
+            <TooltipContent side="top" className="text-[14px]">
               {__('Private task')}
             </TooltipContent>
           </Tooltip>
@@ -284,35 +284,35 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="h-6 w-6">
-              <MoreHorizontal className="h-3.5 w-3.5" />
+              <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuItem onClick={handleOpen}>
-              <Pencil className="h-3.5 w-3.5 mr-2" />
+              <Pencil className="h-4 w-4 mr-2" />
               {__('Edit')}
             </DropdownMenuItem>
             <DropdownMenuItem onClick={handleDuplicate}>
-              <Copy className="h-3.5 w-3.5 mr-2" />
+              <Copy className="h-4 w-4 mr-2" />
               {__('Duplicate')}
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => setMoveDialogOpen(true)}>
-              <ArrowRightLeft className="h-3.5 w-3.5 mr-2" />
+              <ArrowRightLeft className="h-4 w-4 mr-2" />
               {__('Move')}
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => isPro && handleTogglePrivacy()} disabled={!isPro}>
               {taskIsPrivate ? (
-                <><Unlock className="h-3.5 w-3.5 mr-2" />{__('Make Public')}</>
+                <><Unlock className="h-4 w-4 mr-2" />{__('Make Public')}</>
               ) : (
-                <><LockIcon className="h-3.5 w-3.5 mr-2" />{__('Make Private')}</>
+                <><LockIcon className="h-4 w-4 mr-2" />{__('Make Private')}</>
               )}
-              {!isPro && <Crown className="h-3 w-3 ml-auto text-pm-accent" />}
+              {!isPro && <Crown className="h-3.5 w-3.5 ml-auto text-pm-accent" />}
             </DropdownMenuItem>
             <DropdownMenuItem
               className="text-destructive focus:text-destructive"
               onClick={handleDelete}
             >
-              <Trash2 className="h-3.5 w-3.5 mr-2" />
+              <Trash2 className="h-4 w-4 mr-2" />
               {__('Delete')}
             </DropdownMenuItem>
           </DropdownMenuContent>

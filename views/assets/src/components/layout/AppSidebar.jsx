@@ -276,8 +276,8 @@ export function AppSidebar() {
         title={item.label}
         onClick={() => navigate(item.route)}
       >
-        <Icon className={cn('shrink-0', collapsed ? 'w-5 h-5' : 'w-4 h-4', isActive ? 'text-pm-accent' : 'text-pm-text-muted')} />
-        {!collapsed && <TruncText className="text-[13px]">{item.label}</TruncText>}
+        <Icon className={cn('shrink-0', collapsed ? 'w-5 h-5' : 'w-[18px] h-[18px]', isActive ? 'text-pm-accent' : 'text-pm-text-muted')} />
+        {!collapsed && <TruncText className="text-[15px]">{item.label}</TruncText>}
         {!collapsed && item.pro && <span className="shrink-0 opacity-0 group-hover/nav:opacity-100 transition-opacity"><ProBadge /></span>}
       </button>
     )
@@ -311,7 +311,7 @@ export function AppSidebar() {
         >
           {!collapsed && (
             <ChevronDown
-              className="h-3 w-3 shrink-0 text-pm-text-muted/50 transition-transform duration-200"
+              className="h-3.5 w-3.5 shrink-0 text-pm-text-muted/50 transition-transform duration-200"
               style={{ transform: isExpanded ? 'rotate(0deg)' : 'rotate(-90deg)' }}
             />
           )}
@@ -321,11 +321,11 @@ export function AppSidebar() {
           />
           {!collapsed && (
             <>
-              <TruncText className={cn('text-[13px]', isActive && 'font-medium')}>
+              <TruncText className={cn('text-[15px]', isActive && 'font-medium')}>
                 {project.title}
               </TruncText>
               {project.favourite && (
-                <Star className="h-3 w-3 shrink-0 fill-yellow-400 text-yellow-400" />
+                <Star className="h-3.5 w-3.5 shrink-0 fill-yellow-400 text-yellow-400" />
               )}
             </>
           )}
@@ -349,8 +349,8 @@ export function AppSidebar() {
                   )}
                   onClick={() => navigate(sub.path(project.id))}
                 >
-                  <SubIcon className={cn('h-3.5 w-3.5 shrink-0', subActive ? 'text-pm-accent' : 'text-pm-text-muted/70')} />
-                  <TruncText className="text-[12px]">{__(sub.label)}</TruncText>
+                  <SubIcon className={cn('h-4 w-4 shrink-0', subActive ? 'text-pm-accent' : 'text-pm-text-muted/70')} />
+                  <TruncText className="text-[14px]">{__(sub.label)}</TruncText>
                   {sub.proPreview && <span className="shrink-0 opacity-0 group-hover/sub:opacity-100 transition-opacity"><ProBadge /></span>}
                 </button>
               )
@@ -383,10 +383,10 @@ export function AppSidebar() {
         <div className={cn('flex items-center', collapsed ? 'justify-center' : 'justify-between')}>
           {!collapsed && (
             <button
-              className="flex items-center gap-1.5 text-xs text-pm-text-muted hover:text-pm-accent transition-colors"
+              className="flex items-center gap-1.5 text-sm text-pm-text-muted hover:text-pm-accent transition-colors"
               onClick={goBack}
             >
-              <ArrowLeft className="w-3.5 h-3.5" />
+              <ArrowLeft className="w-4 h-4" />
               {__('Back to WP Admin')}
             </button>
           )}
@@ -395,7 +395,7 @@ export function AppSidebar() {
             title={collapsed ? __('Expand sidebar') : __('Collapse sidebar')}
             onClick={toggleCollapse}
           >
-            {collapsed ? <PanelLeftOpen className="w-4 h-4" /> : <PanelLeftClose className="w-4 h-4" />}
+            {collapsed ? <PanelLeftOpen className="w-5 h-5" /> : <PanelLeftClose className="w-5 h-5" />}
           </button>
         </div>
         {!collapsed && (
@@ -411,7 +411,7 @@ export function AppSidebar() {
           {/* Main nav */}
           <div className="mb-3">
             {!collapsed && (
-              <p className="text-[11px] font-medium text-pm-text-muted uppercase tracking-wider px-2 mb-1.5">
+              <p className="text-[14px] font-medium text-pm-text-muted uppercase tracking-wider px-2 mb-1.5">
                 {__('Workspace')}
               </p>
             )}
@@ -426,10 +426,10 @@ export function AppSidebar() {
                   className="w-full flex items-center justify-between px-2 mb-1.5 group/sec"
                   onClick={() => setShowFavourites(v => !v)}
                 >
-                  <p className="text-[11px] font-medium text-pm-text-muted uppercase tracking-wider">
+                  <p className="text-[14px] font-medium text-pm-text-muted uppercase tracking-wider">
                     {__('Favourites')}
                   </p>
-                  <ChevronDown className="h-3 w-3 text-pm-text-muted/40 transition-transform duration-200" style={{ transform: showFavourites ? 'rotate(0deg)' : 'rotate(-90deg)' }} />
+                  <ChevronDown className="h-3.5 w-3.5 text-pm-text-muted/40 transition-transform duration-200" style={{ transform: showFavourites ? 'rotate(0deg)' : 'rotate(-90deg)' }} />
                 </button>
               ) : (
                 <div className="border-t border-pm-border my-2 mx-1" />
@@ -446,10 +446,10 @@ export function AppSidebar() {
                   className="w-full flex items-center justify-between px-2 mb-1.5 group/sec"
                   onClick={() => setShowRecent(v => !v)}
                 >
-                  <p className="text-[11px] font-medium text-pm-text-muted uppercase tracking-wider">
+                  <p className="text-[14px] font-medium text-pm-text-muted uppercase tracking-wider">
                     {__('Recent')}
                   </p>
-                  <ChevronDown className="h-3 w-3 text-pm-text-muted/40 transition-transform duration-200" style={{ transform: showRecent ? 'rotate(0deg)' : 'rotate(-90deg)' }} />
+                  <ChevronDown className="h-3.5 w-3.5 text-pm-text-muted/40 transition-transform duration-200" style={{ transform: showRecent ? 'rotate(0deg)' : 'rotate(-90deg)' }} />
                 </button>
               ) : (
                 <div className="border-t border-pm-border my-2 mx-1" />
@@ -461,7 +461,7 @@ export function AppSidebar() {
           {/* Views */}
           <div className="mb-3">
             {!collapsed ? (
-              <p className="text-[11px] font-medium text-pm-text-muted uppercase tracking-wider px-2 mb-1.5">
+              <p className="text-[14px] font-medium text-pm-text-muted uppercase tracking-wider px-2 mb-1.5">
                 {__('Views')}
               </p>
             ) : (
@@ -474,7 +474,7 @@ export function AppSidebar() {
           {!isFrontend && (
           <div className="mb-3">
             {!collapsed ? (
-              <p className="text-[11px] font-medium text-pm-text-muted uppercase tracking-wider px-2 mb-1.5">
+              <p className="text-[14px] font-medium text-pm-text-muted uppercase tracking-wider px-2 mb-1.5">
                 {__('Modules')}
               </p>
             ) : (
@@ -495,8 +495,8 @@ export function AppSidebar() {
                   className="w-full flex items-center min-w-0 gap-2.5 rounded-md px-2.5 py-[7px] text-left mb-0.5 transition-colors text-pm-accent hover:bg-pm-accent/5"
                   onClick={() => navigate('/premium')}
                 >
-                  <Crown className="w-4 h-4 shrink-0" />
-                  <TruncText className="text-[13px] font-medium">{__('Upgrade to Pro')}</TruncText>
+                  <Crown className="w-5 h-5 shrink-0" />
+                  <TruncText className="text-[15px] font-medium">{__('Upgrade to Pro')}</TruncText>
                 </button>
               )
             )}
@@ -507,7 +507,7 @@ export function AppSidebar() {
           {isAdmin && !isFrontend && (
             <div className="mb-3">
               {!collapsed ? (
-                <p className="text-[11px] font-medium text-pm-text-muted uppercase tracking-wider px-2 mb-1.5">
+                <p className="text-[14px] font-medium text-pm-text-muted uppercase tracking-wider px-2 mb-1.5">
                   {__('Administration')}
                 </p>
               ) : (
@@ -529,12 +529,12 @@ export function AppSidebar() {
             title={__('Back to WP Admin')}
             onClick={goBack}
           >
-            <ArrowLeft className="w-4 h-4" />
+            <ArrowLeft className="w-5 h-5" />
           </button>
         ) : (
           <div className="space-y-1">
-            <p className="text-[11px] text-pm-text-muted text-center">{__('Project Manager')}</p>
-            <p className="text-[10px] text-pm-text-muted/60 text-center">&copy; {new Date().getFullYear()} <a href="https://wedevs.com/" target="_blank" rel="noopener noreferrer" className="hover:text-pm-accent transition-colors">weDevs</a></p>
+            <p className="text-[15px] text-pm-text-muted text-center">{__('Project Manager')}</p>
+            <p className="text-[13px] text-pm-text-muted/60 text-center">&copy; {new Date().getFullYear()} <a href="https://wedevs.com/" target="_blank" rel="noopener noreferrer" className="hover:text-pm-accent transition-colors">weDevs</a></p>
           </div>
         )}
       </div>

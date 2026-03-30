@@ -137,12 +137,12 @@ function TrelloImportCard() {
             </div>
             <div>
               <CardTitle className="text-base">{__('Trello', 'wedevs-project-manager')}</CardTitle>
-              <CardDescription className="text-xs">
+              <CardDescription className="text-sm">
                 {__('Import boards, lists, and cards from Trello', 'wedevs-project-manager')}
               </CardDescription>
             </div>
           </div>
-          {open ? <ChevronUp className="w-4 h-4 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
+          {open ? <ChevronUp className="w-5 h-5 text-muted-foreground" /> : <ChevronDown className="w-5 h-5 text-muted-foreground" />}
         </div>
       </CardHeader>
 
@@ -153,7 +153,7 @@ function TrelloImportCard() {
                 <Label htmlFor="trello-key" className="text-sm font-medium">
                   {__('Provide your App Key & Token', 'wedevs-project-manager')}
                 </Label>
-                <p className="text-xs text-muted-foreground mt-1 mb-3">
+                <p className="text-sm text-muted-foreground mt-1 mb-3">
                   {__('Get your API key and token from', 'wedevs-project-manager')}{' '}
                   <a
                     href="https://trello.com/power-ups/admin"
@@ -188,23 +188,23 @@ function TrelloImportCard() {
                   {statusMsg && (
                     <div className="flex items-center gap-2 text-sm">
                       {done ? (
-                        <CheckCircle2 className="w-4 h-4 text-green-500 shrink-0" />
+                        <CheckCircle2 className="w-5 h-5 text-green-500 shrink-0" />
                       ) : importing ? (
-                        <Loader2 className="w-4 h-4 text-pm-accent animate-spin shrink-0" />
+                        <Loader2 className="w-5 h-5 text-pm-accent animate-spin shrink-0" />
                       ) : null}
                       <span className={done ? 'text-green-600' : 'text-muted-foreground'}>{statusMsg}</span>
                     </div>
                   )}
                   {error && (
                     <div className="flex items-center gap-2 text-sm text-red-600">
-                      <AlertCircle className="w-4 h-4 shrink-0" />
+                      <AlertCircle className="w-5 h-5 shrink-0" />
                       <span>{error}</span>
                     </div>
                   )}
                   {progress > 0 && (
                     <div className="space-y-1">
                       <Progress value={progress} className="h-2" />
-                      <p className="text-xs text-muted-foreground text-right">{progress}%</p>
+                      <p className="text-sm text-muted-foreground text-right">{progress}%</p>
                     </div>
                   )}
                 </div>
@@ -218,12 +218,12 @@ function TrelloImportCard() {
                 >
                   {importing ? (
                     <>
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      <Loader2 className="w-5 h-5 mr-2 animate-spin" />
                       {__('Importing...', 'wedevs-project-manager')}
                     </>
                   ) : (
                     <>
-                      <Upload className="w-4 h-4 mr-2" />
+                      <Upload className="w-5 h-5 mr-2" />
                       {__('Import', 'wedevs-project-manager')}
                     </>
                   )}

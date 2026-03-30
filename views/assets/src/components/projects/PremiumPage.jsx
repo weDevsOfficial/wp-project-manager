@@ -140,8 +140,8 @@ export default function PremiumPage() {
       <div className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-purple-600 via-indigo-600 to-blue-600 px-8 py-10 md:px-12 md:py-14 text-center text-white">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.1),transparent_70%)]" />
         <div className="relative z-10">
-          <span className="inline-flex items-center gap-1.5 bg-white/20 backdrop-blur-sm text-white text-xs font-medium px-3 py-1 rounded-full mb-3">
-            <Sparkles className="h-3.5 w-3.5" />
+          <span className="inline-flex items-center gap-1.5 bg-white/20 backdrop-blur-sm text-white text-sm font-medium px-3 py-1 rounded-full mb-3">
+            <Sparkles className="h-4 w-4" />
             {__("Project Manager Pro")}
           </span>
           <h1 className="text-2xl md:text-3xl font-bold mb-2">
@@ -161,7 +161,7 @@ export default function PremiumPage() {
             onMouseEnter={(e) => (e.currentTarget.style.background = "#d07805")}
             onMouseLeave={(e) => (e.currentTarget.style.background = "#ff9000")}
           >
-            <Crown className="h-4 w-4" />
+            <Crown className="h-5 w-5" />
             {__("Upgrade to Pro")}
           </a>
         </div>
@@ -183,16 +183,16 @@ export default function PremiumPage() {
             <h3 className="text-sm font-semibold text-pm-text-primary mb-1">
               {__(f.title)}
             </h3>
-            <p className="text-xs text-pm-text-muted leading-relaxed mb-2">
+            <p className="text-sm text-pm-text-muted leading-relaxed mb-2">
               {__(f.desc)}
             </p>
             <a
               href={f.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-[11px] font-medium text-pm-accent hover:underline no-underline"
+              className="inline-flex items-center gap-1 text-[15px] font-medium text-pm-accent hover:underline no-underline"
             >
-              {__("Learn More")} <ExternalLink className="h-2.5 w-2.5" />
+              {__("Learn More")} <ExternalLink className="h-3 w-3" />
             </a>
           </div>
         ))}
@@ -203,7 +203,7 @@ export default function PremiumPage() {
         <h2 className="text-lg font-bold text-pm-text-primary mb-1">
           {__("Premium Modules")}
         </h2>
-        <p className="text-xs text-pm-text-muted mb-4">
+        <p className="text-sm text-pm-text-muted mb-4">
           {__(
             "Give your team & projects additional pace with 9+ premium modules",
           )}
@@ -223,16 +223,16 @@ export default function PremiumPage() {
                   <h4 className="text-sm font-semibold text-pm-text-primary mb-0.5">
                     {__(m.title)}
                   </h4>
-                  <p className="text-[11px] text-pm-text-muted leading-relaxed">
+                  <p className="text-[15px] text-pm-text-muted leading-relaxed">
                     {__(m.desc)}
                   </p>
                   <a
                     href={m.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-[10px] font-medium text-pm-accent mt-1.5 hover:underline no-underline"
+                    className="inline-flex items-center gap-1 text-[14px] font-medium text-pm-accent mt-1.5 hover:underline no-underline"
                   >
-                    {__("See More")} <ExternalLink className="h-2.5 w-2.5" />
+                    {__("See More")} <ExternalLink className="h-3 w-3" />
                   </a>
                 </div>
               </div>
@@ -251,7 +251,7 @@ export default function PremiumPage() {
           <h2 className="text-lg font-bold text-pm-accent mb-1">
             {__("Managing Your Project")}
           </h2>
-          <p className="text-xs text-pm-text-muted mb-4">
+          <p className="text-sm text-pm-text-muted mb-4">
             {__(
               "Useful & fascinating features for WP Project Manager that can be unlocked with the Pro Version.",
             )}
@@ -264,9 +264,9 @@ export default function PremiumPage() {
                 className="flex items-center gap-2.5 py-1.5 px-2 rounded hover:bg-muted/30 transition-colors"
               >
                 <span className="flex items-center justify-center h-5 w-5 rounded-full bg-emerald-50 shrink-0">
-                  <Check className="h-3 w-3 text-emerald-500" strokeWidth={3} />
+                  <Check className="h-3.5 w-3.5 text-emerald-500" strokeWidth={3} />
                 </span>
-                <span className="text-xs text-pm-text-primary">
+                <span className="text-sm text-pm-text-primary">
                   {__(f.text)}
                 </span>
               </div>
@@ -284,7 +284,7 @@ export default function PremiumPage() {
           >
             <Sparkles className="h-8 w-8 mx-auto mb-3 opacity-80" />
             <h3 className="text-xl font-bold mb-1">{__("Go Pro Today")}</h3>
-            <p className="text-white/70 text-xs mb-4">
+            <p className="text-white/70 text-sm mb-4">
               {__(
                 "Unlock all premium features and take your project management to the next level.",
               )}
@@ -295,7 +295,7 @@ export default function PremiumPage() {
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 bg-white text-purple-600 font-semibold text-sm px-5 py-2.5 rounded-lg hover:bg-white/90 transition-colors no-underline"
             >
-              {__("Get Started Now")} <ArrowRight className="h-4 w-4" />
+              {__("Get Started Now")} <ArrowRight className="h-5 w-5" />
             </a>
           </div>
         </div>

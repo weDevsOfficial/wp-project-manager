@@ -130,7 +130,7 @@ function TaskPrivacyField({ task, projectId, dispatch, api }) {
       <ProGate feature={__('Privacy')}>
         <div className="flex items-center h-8 px-2 rounded-md hover:bg-muted/40 transition-colors">
           <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
-            <Shield className="h-3.5 w-3.5" /><span className="text-xs">{__('Privacy')}</span>
+            <Shield className="h-4 w-4" /><span className="text-sm">{__('Privacy')}</span>
           </div>
           <ProBadge />
         </div>
@@ -141,11 +141,11 @@ function TaskPrivacyField({ task, projectId, dispatch, api }) {
   return (
     <div className="flex items-center h-8 px-2 rounded-md hover:bg-muted/40 transition-colors">
       <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
-        <Shield className="h-3.5 w-3.5" /><span className="text-xs">{__('Privacy')}</span>
+        <Shield className="h-4 w-4" /><span className="text-sm">{__('Privacy')}</span>
       </div>
       <button
         className={cn(
-          'flex items-center gap-1.5 text-xs px-2 py-0.5 rounded transition-colors',
+          'flex items-center gap-1.5 text-sm px-2 py-0.5 rounded transition-colors',
           taskPrivate
             ? 'bg-amber-50 text-amber-700 hover:bg-amber-100'
             : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100',
@@ -155,7 +155,7 @@ function TaskPrivacyField({ task, projectId, dispatch, api }) {
         disabled={toggling}
         title={taskPrivate ? __('Click to make public') : __('Click to make private')}
       >
-        {taskPrivate ? <EyeOff className="h-3 w-3" /> : <Eye className="h-3 w-3" />}
+        {taskPrivate ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
         {taskPrivate ? __('Private') : __('Public')}
       </button>
     </div>
@@ -268,24 +268,24 @@ function TaskEstimationField({ task, projectId, dispatch, api }) {
   return (
     <div className="flex items-center h-8 px-2 rounded-md hover:bg-muted/40 transition-colors">
       <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
-        <Clock className="h-3.5 w-3.5" /><span className="text-xs">{__('Estimate')}</span>
+        <Clock className="h-4 w-4" /><span className="text-sm">{__('Estimate')}</span>
       </div>
       {hasSubTasks ? (
         // Has subtasks: read-only, shows formated_com_est (according subtasks)
-        <span className="text-xs text-pm-text-primary tabular-nums">
+        <span className="text-sm text-pm-text-primary tabular-nums">
           {displayStr}
-          <span className="text-[10px] text-pm-text-muted ml-1 italic">({__('according subtasks')})</span>
+          <span className="text-[13px] text-pm-text-muted ml-1 italic">({__('according subtasks')})</span>
         </span>
       ) : canEditEstimation ? (
         // No subtasks + exactly 1 assignee: editable via popover
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
-            <button className="text-xs text-pm-text-primary tabular-nums hover:text-pm-accent transition-colors">
+            <button className="text-sm text-pm-text-primary tabular-nums hover:text-pm-accent transition-colors">
               {displayStr}
             </button>
           </PopoverTrigger>
           <PopoverContent className="w-48 p-3" align="start">
-            <label className="text-[10px] font-medium text-pm-text-muted block mb-2">{__('Estimation (hh:mm)')}</label>
+            <label className="text-[14px] font-medium text-pm-text-muted block mb-2">{__('Estimation (hh:mm)')}</label>
             <input
               type="text"
               value={timeInput}
@@ -296,14 +296,14 @@ function TaskEstimationField({ task, projectId, dispatch, api }) {
               autoFocus
             />
             <div className="flex items-center justify-between mt-2">
-              <button className="text-xs text-pm-text-muted hover:text-pm-text" onClick={handleClear} disabled={saving}>{__('Clear')}</button>
-              <button className="text-xs bg-pm-accent text-white px-3 py-1 rounded hover:bg-pm-accent-hover disabled:opacity-50" onClick={handleSave} disabled={saving}>{__('Save')}</button>
+              <button className="text-sm text-pm-text-muted hover:text-pm-text" onClick={handleClear} disabled={saving}>{__('Clear')}</button>
+              <button className="text-sm bg-pm-accent text-white px-3 py-1 rounded hover:bg-pm-accent-hover disabled:opacity-50" onClick={handleSave} disabled={saving}>{__('Save')}</button>
             </div>
           </PopoverContent>
         </Popover>
       ) : (
         // No subtasks + 0 or 2+ assignees: show "Please Choose one user"
-        <span className="text-xs text-pm-text-muted bg-muted/50 px-2 py-0.5 rounded">
+        <span className="text-sm text-pm-text-muted bg-muted/50 px-2 py-0.5 rounded">
           {__('Please choose one user')}
         </span>
       )}
@@ -367,12 +367,12 @@ function TaskTypeField({ task, projectId, dispatch, api }) {
   return (
     <div className="flex items-center h-8 px-2 rounded-md hover:bg-muted/40 transition-colors">
       <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
-        <ListTodo className="h-3.5 w-3.5" /><span className="text-xs">{__('Type')}</span>
+        <ListTodo className="h-4 w-4" /><span className="text-sm">{__('Type')}</span>
       </div>
       <Popover open={open} onOpenChange={(v) => { setOpen(v); if (v) loadTypes() }}>
         <PopoverTrigger asChild>
           <button className={cn(
-            'text-xs transition-colors',
+            'text-sm transition-colors',
             currentType
               ? 'text-pm-text-primary bg-muted/50 px-2 py-0.5 rounded hover:bg-muted'
               : 'text-pm-text-muted hover:text-pm-accent'
@@ -382,9 +382,9 @@ function TaskTypeField({ task, projectId, dispatch, api }) {
         </PopoverTrigger>
         <PopoverContent className="w-44 p-2" align="start">
           {loadingTypes ? (
-            <p className="text-xs text-pm-text-muted py-2 text-center">{__('Loading...')}</p>
+            <p className="text-sm text-pm-text-muted py-2 text-center">{__('Loading...')}</p>
           ) : types.length === 0 ? (
-            <p className="text-xs text-pm-text-muted py-2 text-center">{__('No task types found')}</p>
+            <p className="text-sm text-pm-text-muted py-2 text-center">{__('No task types found')}</p>
           ) : (
             <div className="space-y-0.5">
               {types.map(t => (
@@ -392,14 +392,14 @@ function TaskTypeField({ task, projectId, dispatch, api }) {
                   key={t.id}
                   type="button"
                   className={cn(
-                    'w-full text-left text-xs px-2 py-1.5 rounded hover:bg-muted/50 transition-colors flex items-center justify-between',
+                    'w-full text-left text-sm px-2 py-1.5 rounded hover:bg-muted/50 transition-colors flex items-center justify-between',
                     currentType?.id === t.id && 'bg-primary/5 text-primary font-medium'
                   )}
                   onClick={() => handleSelect(t)}
                   disabled={saving}
                 >
                   {t.title}
-                  {currentType?.id === t.id && <Check className="h-3 w-3" />}
+                  {currentType?.id === t.id && <Check className="h-3.5 w-3.5" />}
                 </button>
               ))}
               {currentType && (
@@ -407,7 +407,7 @@ function TaskTypeField({ task, projectId, dispatch, api }) {
                   <div className="border-t border-border my-1" />
                   <button
                     type="button"
-                    className="w-full text-left text-xs px-2 py-1.5 rounded text-destructive hover:bg-destructive/10 transition-colors"
+                    className="w-full text-left text-sm px-2 py-1.5 rounded text-destructive hover:bg-destructive/10 transition-colors"
                     onClick={handleClear}
                     disabled={saving}
                   >
@@ -454,7 +454,7 @@ function ProInlineProperties({ taskId, projectId, currentTask, dispatch, api }) 
         <ProGate feature={__('Time Tracker')}>
           <div className="flex items-center h-8 px-2 rounded-md hover:bg-muted/40 transition-colors">
             <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
-              <Clock className="h-3.5 w-3.5" /><span className="text-xs">{__('Track Time')}</span>
+              <Clock className="h-4 w-4" /><span className="text-sm">{__('Track Time')}</span>
             </div>
             <ProBadge />
           </div>
@@ -462,7 +462,7 @@ function ProInlineProperties({ taskId, projectId, currentTask, dispatch, api }) 
         <ProGate feature={__('Labels')}>
           <div className="flex items-center h-8 px-2 rounded-md hover:bg-muted/40 transition-colors">
             <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
-              <Tag className="h-3.5 w-3.5" /><span className="text-xs">{__('Label')}</span>
+              <Tag className="h-4 w-4" /><span className="text-sm">{__('Label')}</span>
             </div>
             <ProBadge />
           </div>
@@ -470,7 +470,7 @@ function ProInlineProperties({ taskId, projectId, currentTask, dispatch, api }) 
         <ProGate feature={__('Recurrence')}>
           <div className="flex items-center h-8 px-2 rounded-md hover:bg-muted/40 transition-colors">
             <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
-              <Repeat className="h-3.5 w-3.5" /><span className="text-xs">{__('Recurring')}</span>
+              <Repeat className="h-4 w-4" /><span className="text-sm">{__('Recurring')}</span>
             </div>
             <ProBadge />
           </div>
@@ -511,19 +511,19 @@ function ProSubtasksSection({ taskId, projectId, currentTask }) {
         <ProGate feature={__('Subtasks')}>
           <div className="flex items-center justify-between py-1">
             <div className="flex items-center gap-2 text-sm text-pm-text-muted">
-              <Layers className="h-3.5 w-3.5" />
-              <span className="text-xs">{__('Subtasks')}</span>
+              <Layers className="h-4 w-4" />
+              <span className="text-sm">{__('Subtasks')}</span>
               <ProBadge />
             </div>
             <button
               type="button"
               disabled
               aria-disabled="true"
-              className="inline-flex items-center gap-1 text-[11px] text-white bg-pm-accent/60 rounded px-2 py-1 cursor-not-allowed opacity-60"
+              className="inline-flex items-center gap-1 text-[15px] text-white bg-pm-accent/60 rounded px-2 py-1 cursor-not-allowed opacity-60"
             >
-              <Sparkles className="h-3 w-3" />
+              <Sparkles className="h-3.5 w-3.5" />
               {__('Generate with AI')}
-              <span className="bg-white/25 text-white text-[9px] px-1 py-0.5 rounded font-semibold">{__('Pro')}</span>
+              <span className="bg-white/25 text-white text-[11px] px-1 py-0.5 rounded font-semibold">{__('Pro')}</span>
             </button>
           </div>
         </ProGate>
@@ -840,20 +840,20 @@ export default function TaskDetailSheet() {
                 className="p-1.5 rounded-md hover:bg-muted text-pm-text-muted hover:text-pm-text-primary transition-colors"
                 title={fullscreen ? __('Exit full screen') : __('Full screen')}
               >
-                {fullscreen ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
+                {fullscreen ? <Minimize2 className="h-5 w-5" /> : <Maximize2 className="h-5 w-5" />}
               </button>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <button className="p-1.5 rounded-md hover:bg-muted text-pm-text-muted hover:text-pm-text-primary transition-colors">
-                    <MoreHorizontal className="h-4 w-4" />
+                    <MoreHorizontal className="h-5 w-5" />
                   </button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="start">
                   <DropdownMenuItem onClick={handleCopyLink}>
-                    <Link2 className="h-3.5 w-3.5 mr-2" />{__('Copy Link')}
+                    <Link2 className="h-4 w-4 mr-2" />{__('Copy Link')}
                   </DropdownMenuItem>
                   <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={handleDelete}>
-                    <Trash2 className="h-3.5 w-3.5 mr-2" />{__('Delete')}
+                    <Trash2 className="h-4 w-4 mr-2" />{__('Delete')}
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -874,27 +874,27 @@ export default function TaskDetailSheet() {
                           dispatch(closeTaskSheet())
                           navigate(`/projects/${pid}/task-lists`)
                         }}
-                        className="inline-flex items-center gap-1 text-[11px] font-medium text-pm-accent hover:text-pm-accent/80 transition-colors truncate max-w-[200px]"
+                        className="inline-flex items-center gap-1 text-[15px] font-medium text-pm-accent hover:text-pm-accent/80 transition-colors truncate max-w-[200px]"
                         title={currentTask.project?.data?.title || currentTask.project?.title}
                       >
-                        <Layers className="h-3 w-3 shrink-0" />
+                        <Layers className="h-3.5 w-3.5 shrink-0" />
                         {currentTask.project?.data?.title || currentTask.project?.title}
                       </button>
                     )}
-                    <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4 font-mono">
+                    <Badge variant="outline" className="text-[14px] px-1.5 py-0 h-4 font-mono">
                       #{currentTask.id}
                     </Badge>
                     {currentTask.creator?.data && (
                       <div className="flex items-center gap-1.5">
-                        <Avatar className="h-4 w-4">
+                        <Avatar className="h-5 w-5">
                           <AvatarImage src={currentTask.creator.data.avatar_url} />
                           <AvatarFallback className="text-[7px]">{userInitials(currentTask.creator.data.display_name || '')}</AvatarFallback>
                         </Avatar>
-                        <span className="text-[11px] text-muted-foreground">{currentTask.creator.data.display_name}</span>
+                        <span className="text-[15px] text-muted-foreground">{currentTask.creator.data.display_name}</span>
                       </div>
                     )}
                     {currentTask.created_at && (
-                      <span className="text-[11px] text-muted-foreground">· {formatPmDateTime(currentTask.created_at)}</span>
+                      <span className="text-[15px] text-muted-foreground">· {formatPmDateTime(currentTask.created_at)}</span>
                     )}
                   </div>
                 </SheetDescription>
@@ -902,11 +902,11 @@ export default function TaskDetailSheet() {
                   <button type="button" onClick={handleToggleStatus} className="shrink-0 group/status">
                     {complete ? (
                       <span className="flex items-center justify-center h-6 w-6 rounded-full bg-emerald-500 text-white">
-                        <Check className="h-3.5 w-3.5" strokeWidth={3} />
+                        <Check className="h-4 w-4" strokeWidth={3} />
                       </span>
                     ) : (
                       <span className="flex items-center justify-center h-6 w-6 rounded-full border-[1.5px] border-dashed border-pm-text-muted/40 group-hover/status:border-solid group-hover/status:border-pm-accent group-hover/status:text-pm-accent transition-all">
-                        <Check className="h-3.5 w-3.5 opacity-0 group-hover/status:opacity-100 transition-opacity" strokeWidth={3} />
+                        <Check className="h-4 w-4 opacity-0 group-hover/status:opacity-100 transition-opacity" strokeWidth={3} />
                       </span>
                     )}
                   </button>
@@ -929,9 +929,9 @@ export default function TaskDetailSheet() {
                 {/* Status */}
                 <div className="flex items-center h-8 px-2 rounded-md hover:bg-muted/40 transition-colors cursor-pointer" onClick={handleToggleStatus}>
                   <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
-                    <Check className="h-3.5 w-3.5" /><span className="text-xs">{__('Status')}</span>
+                    <Check className="h-4 w-4" /><span className="text-sm">{__('Status')}</span>
                   </div>
-                  <span className={cn('inline-flex items-center gap-1.5 text-[11px] font-medium px-2.5 py-0.5 rounded-full',
+                  <span className={cn('inline-flex items-center gap-1.5 text-[15px] font-medium px-2.5 py-0.5 rounded-full',
                     complete ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-600')}>
                     <span className={cn('h-1.5 w-1.5 rounded-full', complete ? 'bg-emerald-500' : 'bg-amber-500')} />
                     {complete ? __('Done') : __('Active')}
@@ -941,46 +941,46 @@ export default function TaskDetailSheet() {
                 {/* Dates — editable */}
                 <div className="flex items-center min-h-[32px] px-2 rounded-md hover:bg-muted/40 transition-colors">
                   <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
-                    <Calendar className="h-3.5 w-3.5" /><span className="text-xs">{__('Dates')}</span>
+                    <Calendar className="h-4 w-4" /><span className="text-sm">{__('Dates')}</span>
                   </div>
                   {editingDates ? (
                     <div className="flex items-center gap-2 flex-wrap">
                       <Popover>
                         <PopoverTrigger asChild>
-                          <Button variant="outline" size="sm" className="h-7 text-xs gap-1.5 font-normal min-w-[120px] justify-start">
-                            <Calendar className="h-3 w-3" />
+                          <Button variant="outline" size="sm" className="h-7 text-sm gap-1.5 font-normal min-w-[120px] justify-start">
+                            <Calendar className="h-3.5 w-3.5" />
                             {startDate || __('Start')}
                           </Button>
                         </PopoverTrigger>
                         <PopoverContent className="w-auto p-3" align="start">
                           <div className="space-y-2">
-                            <p className="text-xs font-medium text-pm-text-muted">{__('Start Date')}</p>
+                            <p className="text-sm font-medium text-pm-text-muted">{__('Start Date')}</p>
                             <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} className="w-full rounded-md border border-input bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring" />
-                            {startDate && <Button variant="ghost" size="sm" className="h-6 text-[10px] w-full" onClick={() => setStartDate('')}>{__('Clear')}</Button>}
+                            {startDate && <Button variant="ghost" size="sm" className="h-6 text-[14px] w-full" onClick={() => setStartDate('')}>{__('Clear')}</Button>}
                           </div>
                         </PopoverContent>
                       </Popover>
-                      <span className="text-xs text-pm-text-muted">→</span>
+                      <span className="text-sm text-pm-text-muted">→</span>
                       <Popover>
                         <PopoverTrigger asChild>
-                          <Button variant="outline" size="sm" className="h-7 text-xs gap-1.5 font-normal min-w-[120px] justify-start">
-                            <Calendar className="h-3 w-3" />
+                          <Button variant="outline" size="sm" className="h-7 text-sm gap-1.5 font-normal min-w-[120px] justify-start">
+                            <Calendar className="h-3.5 w-3.5" />
                             {dueDate || __('Due')}
                           </Button>
                         </PopoverTrigger>
                         <PopoverContent className="w-auto p-3" align="start">
                           <div className="space-y-2">
-                            <p className="text-xs font-medium text-pm-text-muted">{__('Due Date')}</p>
+                            <p className="text-sm font-medium text-pm-text-muted">{__('Due Date')}</p>
                             <input type="date" value={dueDate} onChange={e => setDueDate(e.target.value)} className="w-full rounded-md border border-input bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring" />
-                            {dueDate && <Button variant="ghost" size="sm" className="h-6 text-[10px] w-full" onClick={() => setDueDate('')}>{__('Clear')}</Button>}
+                            {dueDate && <Button variant="ghost" size="sm" className="h-6 text-[14px] w-full" onClick={() => setDueDate('')}>{__('Clear')}</Button>}
                           </div>
                         </PopoverContent>
                       </Popover>
-                      <Button size="sm" className="h-6 text-[11px] px-2" onClick={handleDateSave}>{__('Save')}</Button>
-                      <Button variant="ghost" size="sm" className="h-6 text-[11px] px-2" onClick={() => setEditingDates(false)}>{__('Cancel')}</Button>
+                      <Button size="sm" className="h-6 text-[15px] px-2" onClick={handleDateSave}>{__('Save')}</Button>
+                      <Button variant="ghost" size="sm" className="h-6 text-[15px] px-2" onClick={() => setEditingDates(false)}>{__('Cancel')}</Button>
                     </div>
                   ) : (
-                    <button type="button" onClick={() => setEditingDates(true)} className="text-xs text-pm-text-primary hover:text-pm-accent transition-colors">
+                    <button type="button" onClick={() => setEditingDates(true)} className="text-sm text-pm-text-primary hover:text-pm-accent transition-colors">
                       {extractDateStr(currentTask.start_at) && extractDateStr(currentTask.due_date)
                         ? `${formatPmDate(currentTask.start_at)} → ${formatPmDate(currentTask.due_date)}`
                         : extractDateStr(currentTask.due_date)
@@ -993,31 +993,31 @@ export default function TaskDetailSheet() {
                 {/* Assignees — interactive (before Estimation so user is assigned first) */}
                 <div className="flex items-start min-h-[32px] px-2 rounded-md hover:bg-muted/40 transition-colors py-1">
                   <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0 pt-0.5">
-                    <Users className="h-3.5 w-3.5" /><span className="text-xs">{__('Assignees')}</span>
+                    <Users className="h-4 w-4" /><span className="text-sm">{__('Assignees')}</span>
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-1.5 flex-wrap">
                       {assignees.map(user => (
-                        <span key={user.id || user.assigned_to} className="inline-flex items-center gap-1 text-xs bg-muted/50 rounded-full pl-0.5 pr-2 py-0.5">
+                        <span key={user.id || user.assigned_to} className="inline-flex items-center gap-1 text-sm bg-muted/50 rounded-full pl-0.5 pr-2 py-0.5">
                           <Avatar className="h-5 w-5">
                             <AvatarImage src={user.avatar_url} />
                             <AvatarFallback className="text-[8px]">{userInitials(user.display_name || '')}</AvatarFallback>
                           </Avatar>
                           {user.display_name}
                           <button type="button" className="ml-0.5 text-pm-text-muted hover:text-destructive" onClick={() => handleRemoveAssignee(user.assigned_to ?? user.id)}>
-                            <X className="h-3 w-3" />
+                            <X className="h-3.5 w-3.5" />
                           </button>
                         </span>
                       ))}
                       <button type="button" onClick={() => setShowAssigneeSearch(v => !v)}
-                        className="inline-flex items-center gap-1 text-[11px] text-pm-accent hover:text-pm-accent/80 transition-colors">
-                        <Plus className="h-3 w-3" />{__('Add')}
+                        className="inline-flex items-center gap-1 text-[15px] text-pm-accent hover:text-pm-accent/80 transition-colors">
+                        <Plus className="h-3.5 w-3.5" />{__('Add')}
                       </button>
                     </div>
                     {showAssigneeSearch && (
                       <div className="relative mt-1.5">
                         <Input autoFocus value={assigneeQuery} onChange={e => handleAssigneeSearch(e.target.value)}
-                          placeholder={__('Search users...')} className="h-7 text-xs"
+                          placeholder={__('Search users...')} className="h-7 text-sm"
                           onKeyDown={e => { if (e.key === 'Escape') { setShowAssigneeSearch(false); setAssigneeQuery(''); setAssigneeResults([]) } }}
                         />
                         {assigneeResults.length > 0 && (
@@ -1026,12 +1026,12 @@ export default function TaskDetailSheet() {
                               const isAssigned = assignees.some(a => parseInt(a.id || a.assigned_to) === parseInt(u.id))
                               return (
                                 <button key={u.id} type="button"
-                                  className={cn("w-full flex items-center gap-2 px-3 py-1.5 text-xs text-left", isAssigned ? "bg-pm-accent/5 text-pm-accent" : "hover:bg-muted/50")}
+                                  className={cn("w-full flex items-center gap-2 px-3 py-1.5 text-sm text-left", isAssigned ? "bg-pm-accent/5 text-pm-accent" : "hover:bg-muted/50")}
                                   onClick={() => isAssigned ? handleRemoveAssignee(u.id) : handleAddAssignee(u)}
                                 >
                                   <Avatar className="h-5 w-5"><AvatarImage src={u.avatar_url} /><AvatarFallback className="text-[8px]">{userInitials(u.display_name)}</AvatarFallback></Avatar>
                                   <span className="flex-1">{u.display_name}</span>
-                                  {isAssigned && <Check className="h-3.5 w-3.5 text-pm-accent shrink-0" />}
+                                  {isAssigned && <Check className="h-4 w-4 text-pm-accent shrink-0" />}
                                 </button>
                               )
                             })}
@@ -1067,9 +1067,9 @@ export default function TaskDetailSheet() {
             {/* ── Description ── */}
             <div className="px-6 py-4">
               <div className="flex items-center justify-between mb-2">
-                <h4 className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-pm-text-muted/70"><FileText className="h-3.5 w-3.5" />{__('Description')}</h4>
+                <h4 className="flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wider text-pm-text-muted/70"><FileText className="h-4 w-4" />{__('Description')}</h4>
                 {!editingDesc && (
-                  <button type="button" className="text-[11px] font-medium text-pm-accent hover:text-pm-accent/80 transition-colors"
+                  <button type="button" className="text-[15px] font-medium text-pm-accent hover:text-pm-accent/80 transition-colors"
                     onClick={() => { setDescription(currentTask.description?.html || currentTask.description?.content || ''); setEditingDesc(true) }}>
                     {currentTask.description?.content ? __('Edit') : __('Add')}
                   </button>
@@ -1079,8 +1079,8 @@ export default function TaskDetailSheet() {
                 <div className="space-y-3">
                   <RichTextEditor content={description} placeholder={__('Write a description...')} onChange={html => setDescription(html)} autofocus minHeight="100px" />
                   <div className="flex items-center gap-2">
-                    <Button size="sm" className="h-7 text-xs" onClick={handleDescSave} disabled={savingDesc}>{savingDesc ? __('Saving...') : __('Save')}</Button>
-                    <Button variant="ghost" size="sm" className="h-7 text-xs" onClick={handleDescCancel}>{__('Cancel')}</Button>
+                    <Button size="sm" className="h-7 text-sm" onClick={handleDescSave} disabled={savingDesc}>{savingDesc ? __('Saving...') : __('Save')}</Button>
+                    <Button variant="ghost" size="sm" className="h-7 text-sm" onClick={handleDescCancel}>{__('Cancel')}</Button>
                   </div>
                 </div>
               ) : (
@@ -1093,7 +1093,7 @@ export default function TaskDetailSheet() {
                       <LoomPreviewContainer content={currentTask.description.html} />
                     </>
                   ) : (
-                    <p className="text-xs text-pm-text-muted italic">{__('No description yet. Click "Add" to write one.')}</p>
+                    <p className="text-sm text-pm-text-muted italic">{__('No description yet. Click "Add" to write one.')}</p>
                   )}
                 </div>
               )}
@@ -1112,9 +1112,9 @@ export default function TaskDetailSheet() {
 
             {/* ── Comments ── */}
             <div className="px-6 py-4">
-              <h4 className="text-xs font-semibold uppercase tracking-wider text-pm-text-muted/70 mb-3 flex items-center gap-1.5">
-                <MessageSquare className="h-3.5 w-3.5" />{__('Comments')}
-                {comments.length > 0 && <span className="text-[10px] bg-muted px-1.5 py-0.5 rounded-full tabular-nums">{comments.length}</span>}
+              <h4 className="text-sm font-semibold uppercase tracking-wider text-pm-text-muted/70 mb-3 flex items-center gap-1.5">
+                <MessageSquare className="h-4 w-4" />{__('Comments')}
+                {comments.length > 0 && <span className="text-[14px] bg-muted px-1.5 py-0.5 rounded-full tabular-nums">{comments.length}</span>}
               </h4>
 
               {/* Comment list */}
@@ -1127,19 +1127,19 @@ export default function TaskDetailSheet() {
                       <div key={comment.id} className="flex gap-2.5 group/comment">
                         <Avatar className="h-7 w-7 shrink-0">
                           <AvatarImage src={comment.creator?.data?.avatar_url} />
-                          <AvatarFallback className="text-[9px]">{userInitials(comment.creator?.data?.display_name ?? '?')}</AvatarFallback>
+                          <AvatarFallback className="text-[11px]">{userInitials(comment.creator?.data?.display_name ?? '?')}</AvatarFallback>
                         </Avatar>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-0.5">
-                            <span className="text-xs font-medium text-pm-text-primary">{comment.creator?.data?.display_name}</span>
-                            <span className="text-[10px] text-pm-text-muted">{formatPmDateTime(comment.created_at)}</span>
+                            <span className="text-sm font-medium text-pm-text-primary">{comment.creator?.data?.display_name}</span>
+                            <span className="text-[13px] text-pm-text-muted">{formatPmDateTime(comment.created_at)}</span>
                             {isOwn && !isEditing && (
                               <span className="opacity-0 group-hover/comment:opacity-100 transition-opacity flex items-center gap-1 ml-auto">
                                 <button type="button" onClick={() => startEditComment(comment)} className="p-0.5 rounded hover:bg-muted text-pm-text-muted hover:text-pm-accent" title={__('Edit')}>
-                                  <Pencil className="h-3 w-3" />
+                                  <Pencil className="h-3.5 w-3.5" />
                                 </button>
                                 <button type="button" onClick={() => handleDeleteComment(comment.id)} className="p-0.5 rounded hover:bg-muted text-pm-text-muted hover:text-destructive" title={__('Delete')}>
-                                  <Trash2 className="h-3 w-3" />
+                                  <Trash2 className="h-3.5 w-3.5" />
                                 </button>
                               </span>
                             )}
@@ -1148,13 +1148,13 @@ export default function TaskDetailSheet() {
                             <div className="space-y-2">
                               <RichTextEditor content={editCommentText} onChange={setEditCommentText} minHeight="60px" autofocus />
                               <div className="flex items-center gap-2">
-                                <Button size="sm" className="h-6 text-[11px]" onClick={handleUpdateComment}>{__('Save')}</Button>
-                                <Button size="sm" variant="ghost" className="h-6 text-[11px]" onClick={cancelEditComment}>{__('Cancel')}</Button>
+                                <Button size="sm" className="h-6 text-[15px]" onClick={handleUpdateComment}>{__('Save')}</Button>
+                                <Button size="sm" variant="ghost" className="h-6 text-[15px]" onClick={cancelEditComment}>{__('Cancel')}</Button>
                               </div>
                             </div>
                           ) : (
                             <>
-                              <div className="text-xs text-pm-text-primary/80 leading-relaxed prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: stripAllPreviewUrls(comment.content) }} />
+                              <div className="text-sm text-pm-text-primary/80 leading-relaxed prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: stripAllPreviewUrls(comment.content) }} />
                               <GitHubPreviewContainer content={comment.content || ''} />
                               <NotionPreviewContainer content={comment.content || ''} />
                               <LoomPreviewContainer content={comment.content || ''} />
@@ -1165,8 +1165,8 @@ export default function TaskDetailSheet() {
                             <div className="flex items-center gap-2 mt-1.5 flex-wrap">
                               {comment.files.data.map(f => (
                                 <a key={f.id} href={f.url} target="_blank" rel="noreferrer"
-                                  className="inline-flex items-center gap-1 text-[10px] text-pm-accent bg-pm-accent/5 px-2 py-0.5 rounded hover:bg-pm-accent/10 transition-colors">
-                                  <Paperclip className="h-2.5 w-2.5" />{f.name}
+                                  className="inline-flex items-center gap-1 text-[14px] text-pm-accent bg-pm-accent/5 px-2 py-0.5 rounded hover:bg-pm-accent/10 transition-colors">
+                                  <Paperclip className="h-3 w-3" />{f.name}
                                 </a>
                               ))}
                             </div>
@@ -1187,7 +1187,7 @@ export default function TaskDetailSheet() {
                   minHeight="60px"
                 />
                 <FileUploadArea files={commentFiles} onFilesChange={setCommentFiles} compact />
-                <Button size="sm" className="h-7 text-xs" onClick={handleSubmitComment} disabled={!newComment.trim() || submittingComment}>
+                <Button size="sm" className="h-7 text-sm" onClick={handleSubmitComment} disabled={!newComment.trim() || submittingComment}>
                   {submittingComment ? __('Sending...') : __('Add Comment')}
                 </Button>
               </div>
@@ -1198,8 +1198,8 @@ export default function TaskDetailSheet() {
             {/* ── Activity Log ── */}
             <div className="px-6 py-4">
               <div className="flex items-center justify-between">
-                <h4 className="text-xs font-semibold uppercase tracking-wider text-pm-text-muted/70 flex items-center gap-1.5">
-                  <Activity className="h-3.5 w-3.5" />{__('Activity')}
+                <h4 className="text-sm font-semibold uppercase tracking-wider text-pm-text-muted/70 flex items-center gap-1.5">
+                  <Activity className="h-4 w-4" />{__('Activity')}
                 </h4>
                 <button
                   type="button"
@@ -1208,8 +1208,8 @@ export default function TaskDetailSheet() {
                   title={showActivities ? __('Hide activity') : __('Show activity')}
                 >
                   {showActivities
-                    ? <Eye className="h-3.5 w-3.5" />
-                    : <EyeOff className="h-3.5 w-3.5" />
+                    ? <Eye className="h-4 w-4" />
+                    : <EyeOff className="h-4 w-4" />
                   }
                 </button>
               </div>
@@ -1223,16 +1223,16 @@ export default function TaskDetailSheet() {
                     </div>
                   ) : activities.length > 0 ? (
                     activities.map((act, i) => (
-                      <div key={act.id || i} className="flex gap-2 text-xs text-pm-text-muted">
+                      <div key={act.id || i} className="flex gap-2 text-sm text-pm-text-muted">
                         <span className="h-1.5 w-1.5 rounded-full bg-pm-text-muted/30 mt-1.5 shrink-0" />
                         <div>
                           {parseActivityMessage(act) || act.action}
-                          {act.committed_at && <span className="ml-1.5 text-[10px]">· {formatPmDateTime(act.committed_at)}</span>}
+                          {act.committed_at && <span className="ml-1.5 text-[14px]">· {formatPmDateTime(act.committed_at)}</span>}
                         </div>
                       </div>
                     ))
                   ) : (
-                    <p className="text-xs text-pm-text-muted italic">{__('No activity yet')}</p>
+                    <p className="text-sm text-pm-text-muted italic">{__('No activity yet')}</p>
                   )}
                 </div>
               )}

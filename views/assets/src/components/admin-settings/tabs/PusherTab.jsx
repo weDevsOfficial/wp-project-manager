@@ -40,7 +40,7 @@ const PusherTab = () => {
       <div className="flex items-start justify-between">
         <div>
           <h2 className="text-base font-semibold text-pm-text flex items-center gap-2">
-            <Radio className="w-4 h-4 text-pm-accent" />
+            <Radio className="w-5 h-5 text-pm-accent" />
             {__('Pusher Settings', 'wedevs-project-manager')}
           </h2>
           <p className="text-sm text-pm-text-muted mt-0.5">
@@ -68,7 +68,7 @@ const PusherTab = () => {
         <div className="flex items-center justify-between px-5 py-4">
           <div>
             <Label htmlFor="pusher_cluster">{__('Cluster', 'wedevs-project-manager')}</Label>
-            <p className="text-xs text-pm-text-muted mt-1">{__('e.g. ap2, eu, us2', 'wedevs-project-manager')}</p>
+            <p className="text-sm text-pm-text-muted mt-1">{__('e.g. ap2, eu, us2', 'wedevs-project-manager')}</p>
           </div>
           <Input id="pusher_cluster" value={form.pusher_cluster} onChange={(e) => updateField('pusher_cluster', e.target.value)} placeholder="mt1" className="w-40" />
         </div>
@@ -79,7 +79,7 @@ const PusherTab = () => {
           {pusherSaving ? __('Saving...', 'wedevs-project-manager') : __('Save Changes', 'wedevs-project-manager')}
         </Button>
         {isDirty && !pusherSaving && (
-          <span className="text-xs text-pm-text-muted">{__('You have unsaved changes', 'wedevs-project-manager')}</span>
+          <span className="text-sm text-pm-text-muted">{__('You have unsaved changes', 'wedevs-project-manager')}</span>
         )}
       </div>
     </form>

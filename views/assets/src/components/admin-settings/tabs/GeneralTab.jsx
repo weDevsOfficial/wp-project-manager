@@ -139,7 +139,7 @@ const GeneralTab = () => {
                   {field.label}
                 </Label>
                 {field.hint && (
-                  <p className="text-xs text-pm-text-muted mt-0.5">{field.hint}</p>
+                  <p className="text-sm text-pm-text-muted mt-0.5">{field.hint}</p>
                 )}
               </div>
               <Input
@@ -165,9 +165,9 @@ const GeneralTab = () => {
           <div className="flex items-center justify-between px-5 py-4">
             <div>
               <Label className="text-sm font-medium flex items-center gap-2">
-                <Calendar className="h-4 w-4 text-pm-text-muted" />{__('Task Start Date')}
+                <Calendar className="h-5 w-5 text-pm-text-muted" />{__('Task Start Date')}
               </Label>
-              <p className="text-xs text-pm-text-muted mt-0.5">{__('Enable start date field for tasks')}</p>
+              <p className="text-sm text-pm-text-muted mt-0.5">{__('Enable start date field for tasks')}</p>
             </div>
             <Switch checked={taskStartField} onCheckedChange={(v) => { setTaskStartField(v); setIsDirty(true) }} />
           </div>
@@ -177,9 +177,9 @@ const GeneralTab = () => {
           <div className="flex items-center justify-between px-5 py-4">
             <div>
               <Label className="text-sm font-medium flex items-center gap-2">
-                <MailIcon className="h-4 w-4 text-pm-text-muted" />{__('Daily Digest')}
+                <MailIcon className="h-5 w-5 text-pm-text-muted" />{__('Daily Digest')}
               </Label>
-              <p className="text-xs text-pm-text-muted mt-0.5">{__('Send daily digest emails to team members')}</p>
+              <p className="text-sm text-pm-text-muted mt-0.5">{__('Send daily digest emails to team members')}</p>
             </div>
             <Switch checked={dailyDigest} onCheckedChange={(v) => { setDailyDigest(v); setIsDirty(true) }} />
           </div>
@@ -188,22 +188,22 @@ const GeneralTab = () => {
 
           <div className="px-5 py-4">
             <Label className="text-sm font-medium flex items-center gap-2 mb-1">
-              <Image className="h-4 w-4 text-pm-text-muted" />{__('Company Logo')}
+              <Image className="h-5 w-5 text-pm-text-muted" />{__('Company Logo')}
             </Label>
-            <p className="text-xs text-pm-text-muted mb-3">{__('Used on invoices and reports')}</p>
+            <p className="text-sm text-pm-text-muted mb-3">{__('Used on invoices and reports')}</p>
             <div className="flex items-center gap-3">
               {logo?.thumb && (
                 <img src={logo.thumb} alt={logo.name || 'Logo'} className="h-14 w-14 rounded-lg border border-pm-border object-contain bg-white" />
               )}
               <div className="flex gap-2">
                 <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleFileChange} />
-                <Button type="button" size="sm" variant="outline" className="h-8 text-xs" onClick={handleLogoUpload} disabled={uploading}>
-                  {uploading ? <Loader2 className="h-3 w-3 mr-1 animate-spin" /> : <Upload className="h-3 w-3 mr-1" />}
+                <Button type="button" size="sm" variant="outline" className="h-8 text-sm" onClick={handleLogoUpload} disabled={uploading}>
+                  {uploading ? <Loader2 className="h-3.5 w-3.5 mr-1 animate-spin" /> : <Upload className="h-3.5 w-3.5 mr-1" />}
                   {uploading ? __('Uploading...') : logo ? __('Change') : __('Upload')}
                 </Button>
                 {logo && (
-                  <Button type="button" size="sm" variant="outline" className="h-8 text-xs text-destructive" onClick={() => { setLogo(null); setLogoId(null); setIsDirty(true) }}>
-                    <Trash2 className="h-3 w-3 mr-1" />{__('Remove')}
+                  <Button type="button" size="sm" variant="outline" className="h-8 text-sm text-destructive" onClick={() => { setLogo(null); setLogoId(null); setIsDirty(true) }}>
+                    <Trash2 className="h-3.5 w-3.5 mr-1" />{__('Remove')}
                   </Button>
                 )}
               </div>
@@ -219,7 +219,7 @@ const GeneralTab = () => {
             : __('Save Changes', 'wedevs-project-manager')}
         </Button>
         {isDirty && !generalSaving && (
-          <span className="text-xs text-pm-text-muted">
+          <span className="text-sm text-pm-text-muted">
             {__('You have unsaved changes', 'wedevs-project-manager')}
           </span>
         )}

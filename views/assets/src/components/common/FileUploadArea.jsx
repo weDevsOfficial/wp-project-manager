@@ -19,7 +19,7 @@ function FileThumbnail({ file }) {
   }, [file])
   if (preview) return <img src={preview} alt="" className="h-8 w-8 rounded object-cover shrink-0" />
   const Icon = fileIcon(file)
-  return <Icon className="h-3 w-3 text-pm-text-muted" />
+  return <Icon className="h-3.5 w-3.5 text-pm-text-muted" />
 }
 
 export default function FileUploadArea({ files = [], onFilesChange, compact = false }) {
@@ -42,21 +42,21 @@ export default function FileUploadArea({ files = [], onFilesChange, compact = fa
     return (
       <div className="flex items-center gap-2 flex-wrap">
         {files.map((f, i) => (
-          <span key={i} className="inline-flex items-center gap-1.5 text-xs bg-muted/50 px-2 py-1 rounded-md border border-border/50">
+          <span key={i} className="inline-flex items-center gap-1.5 text-sm bg-muted/50 px-2 py-1 rounded-md border border-border/50">
             <FileThumbnail file={f} />
             <span className="truncate max-w-[120px]">{f.name}</span>
-            <span className="text-[9px] text-pm-text-muted tabular-nums">{(f.size / 1024).toFixed(0)}KB</span>
+            <span className="text-[11px] text-pm-text-muted tabular-nums">{(f.size / 1024).toFixed(0)}KB</span>
             <button type="button" onClick={() => handleRemove(i)} className="text-pm-text-muted hover:text-destructive ml-0.5">
-              <X className="h-3 w-3" />
+              <X className="h-3.5 w-3.5" />
             </button>
           </span>
         ))}
         <button
           type="button"
           onClick={() => inputRef.current?.click()}
-          className="inline-flex items-center gap-1 text-xs text-pm-accent hover:text-pm-accent/80 transition-colors"
+          className="inline-flex items-center gap-1 text-sm text-pm-accent hover:text-pm-accent/80 transition-colors"
         >
-          <Paperclip className="h-3 w-3" />
+          <Paperclip className="h-3.5 w-3.5" />
           {files.length > 0 ? __('More') : __('Attach')}
         </button>
         <input ref={inputRef} type="file" multiple className="hidden" onChange={handleSelect} />
@@ -72,8 +72,8 @@ export default function FileUploadArea({ files = [], onFilesChange, compact = fa
         onClick={() => inputRef.current?.click()}
       >
         <Paperclip className="h-5 w-5 text-pm-text-muted/50 mx-auto mb-1.5" />
-        <p className="text-xs text-pm-text-muted">{__('Click to attach files')}</p>
-        <p className="text-[10px] text-pm-text-muted/60 mt-0.5">{__('or drag and drop')}</p>
+        <p className="text-sm text-pm-text-muted">{__('Click to attach files')}</p>
+        <p className="text-[13px] text-pm-text-muted/60 mt-0.5">{__('or drag and drop')}</p>
       </div>
       <input ref={inputRef} type="file" multiple className="hidden" onChange={handleSelect} />
 
@@ -83,10 +83,10 @@ export default function FileUploadArea({ files = [], onFilesChange, compact = fa
           {files.map((f, i) => (
             <div key={i} className="flex items-center gap-2 bg-muted/30 rounded-md px-3 py-1.5">
               <FileThumbnail file={f} />
-              <span className="text-xs text-pm-text-primary flex-1 truncate">{f.name}</span>
-              <span className="text-[10px] text-pm-text-muted tabular-nums">{(f.size / 1024).toFixed(0)} KB</span>
+              <span className="text-sm text-pm-text-primary flex-1 truncate">{f.name}</span>
+              <span className="text-[13px] text-pm-text-muted tabular-nums">{(f.size / 1024).toFixed(0)} KB</span>
               <button type="button" onClick={() => handleRemove(i)} className="text-pm-text-muted hover:text-destructive">
-                <X className="h-3.5 w-3.5" />
+                <X className="h-4 w-4" />
               </button>
             </div>
           ))}

@@ -239,7 +239,7 @@ export default function TaskListSection({ list, projectId, showLabels }) {
           className="p-0.5 hover:bg-muted rounded transition-colors"
         >
           <ChevronDown
-            className="h-4 w-4 text-pm-text-muted transition-transform duration-200"
+            className="h-5 w-5 text-pm-text-muted transition-transform duration-200"
             style={{ transform: expanded ? 'rotate(0deg)' : 'rotate(-90deg)' }}
           />
         </button>
@@ -253,8 +253,8 @@ export default function TaskListSection({ list, projectId, showLabels }) {
               onKeyDown={(e) => { if (e.key === 'Enter') handleRename(); if (e.key === 'Escape') setRenaming(false); }}
               className="text-sm font-semibold text-pm-text-primary flex-1 bg-transparent border-b border-pm-accent outline-none px-0 py-0"
             />
-            <button type="button" onClick={handleRename} className="text-pm-accent hover:text-pm-accent/80 text-xs font-medium">{__('Save')}</button>
-            <button type="button" onClick={() => setRenaming(false)} className="text-pm-text-muted hover:text-pm-text text-xs">{__('Cancel')}</button>
+            <button type="button" onClick={handleRename} className="text-pm-accent hover:text-pm-accent/80 text-sm font-medium">{__('Save')}</button>
+            <button type="button" onClick={() => setRenaming(false)} className="text-pm-text-muted hover:text-pm-text text-sm">{__('Cancel')}</button>
           </div>
         ) : (
           <h3 className="text-sm font-semibold text-pm-text-primary flex-1 truncate">
@@ -263,18 +263,18 @@ export default function TaskListSection({ list, projectId, showLabels }) {
         )}
 
         {!renaming && list.meta?.privacy === 1 && (
-          <Lock className="h-3 w-3 text-pm-text-muted shrink-0" title={__('Private')} />
+          <Lock className="h-3.5 w-3.5 text-pm-text-muted shrink-0" title={__('Private')} />
         )}
 
         {/* Counts */}
-        <span className="text-[11px] text-pm-text-muted tabular-nums">
+        <span className="text-[15px] text-pm-text-muted tabular-nums">
           {totalComplete}/{total}
         </span>
 
         {/* Mini progress */}
         <Progress value={progress} className="h-1 w-16" />
 
-        <span className="text-[11px] font-medium text-pm-text-muted tabular-nums w-8 text-right">
+        <span className="text-[14px] font-medium text-pm-text-muted tabular-nums w-8 text-right">
           {progress}%
         </span>
 
@@ -285,25 +285,25 @@ export default function TaskListSection({ list, projectId, showLabels }) {
           className="h-6 w-6"
           onClick={() => { setShowNewTask(v => !v); if (!expanded) dispatch(toggleExpand(list.id)) }}
         >
-          <Plus className="h-3.5 w-3.5" />
+          <Plus className="h-4 w-4" />
         </Button>
 
         {/* Menu */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="h-6 w-6">
-              <MoreHorizontal className="h-3.5 w-3.5" />
+              <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuItem onClick={startRename}>
-              <Pencil className="h-3.5 w-3.5 mr-2" />
+              <Pencil className="h-4 w-4 mr-2" />
               {__('Rename')}
             </DropdownMenuItem>
             {/* Pro slot: archive, duplicate, etc. */}
             <Slot name="tasklist.section.menu" listId={list.id} projectId={projectId} list={list} />
             <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={handleDeleteList}>
-              <Trash2 className="h-3.5 w-3.5 mr-2" />
+              <Trash2 className="h-4 w-4 mr-2" />
               {__('Delete')}
             </DropdownMenuItem>
           </DropdownMenuContent>
@@ -337,7 +337,7 @@ export default function TaskListSection({ list, projectId, showLabels }) {
             <div className="px-4 py-1.5 border-b border-border/40">
               <button
                 type="button"
-                className="text-xs text-pm-accent hover:underline disabled:opacity-50"
+                className="text-sm text-pm-accent hover:underline disabled:opacity-50"
                 disabled={loadingMore}
                 onClick={() => handleLoadMore(0)}
               >
@@ -354,7 +354,7 @@ export default function TaskListSection({ list, projectId, showLabels }) {
                 className="gap-1.5"
                 onClick={() => setShowNewTask(true)}
               >
-                <Plus className="h-4 w-4" />
+                <Plus className="h-5 w-5" />
                 {__('Add a task')}
               </Button>
             </div>
@@ -381,7 +381,7 @@ export default function TaskListSection({ list, projectId, showLabels }) {
                   type="button"
                   variant="ghost"
                   size="sm"
-                  className="h-7 text-xs px-1.5 text-pm-text-muted"
+                  className="h-7 text-sm px-1.5 text-pm-text-muted"
                   onClick={() => setExpandedForm(v => !v)}
                   title={__('More options')}
                 >
@@ -402,7 +402,7 @@ export default function TaskListSection({ list, projectId, showLabels }) {
 
                   {/* Due date */}
                   <div className="flex items-center gap-2">
-                    <label className="text-xs text-pm-text-muted w-16 shrink-0">{__('Due date')}</label>
+                    <label className="text-sm text-pm-text-muted w-16 shrink-0">{__('Due date')}</label>
                     <Input
                       type="date"
                       value={newDueDate}
@@ -414,7 +414,7 @@ export default function TaskListSection({ list, projectId, showLabels }) {
                   {/* Assignees */}
                   <div className="space-y-1.5">
                     <div className="flex items-center gap-2">
-                      <label className="text-xs text-pm-text-muted w-16 shrink-0">{__('Assign')}</label>
+                      <label className="text-sm text-pm-text-muted w-16 shrink-0">{__('Assign')}</label>
                       <div className="relative flex-1">
                         <Input
                           value={assigneeSearch}
@@ -438,7 +438,7 @@ export default function TaskListSection({ list, projectId, showLabels }) {
                                     <AvatarFallback className="text-[8px]">{userInitials(user.display_name)}</AvatarFallback>
                                   </Avatar>
                                   <span className="flex-1 truncate">{user.display_name}</span>
-                                  {isSelected && <Check className="h-3.5 w-3.5 text-pm-accent shrink-0" />}
+                                  {isSelected && <Check className="h-4 w-4 text-pm-accent shrink-0" />}
                                 </button>
                               )
                             })}
@@ -452,9 +452,9 @@ export default function TaskListSection({ list, projectId, showLabels }) {
                         {selectedAssignees.map(user => (
                           <span
                             key={user.id}
-                            className="inline-flex items-center gap-1 text-xs bg-muted rounded-full pl-1 pr-2 py-0.5"
+                            className="inline-flex items-center gap-1 text-sm bg-muted rounded-full pl-1 pr-2 py-0.5"
                           >
-                            <Avatar className="h-4 w-4">
+                            <Avatar className="h-5 w-5">
                               <AvatarImage src={user.avatar_url} />
                               <AvatarFallback className="text-[7px]">{userInitials(user.display_name)}</AvatarFallback>
                             </Avatar>
@@ -479,7 +479,7 @@ export default function TaskListSection({ list, projectId, showLabels }) {
                 <Button
                   type="submit"
                   size="sm"
-                  className="h-7 text-xs"
+                  className="h-7 text-sm"
                   disabled={!newTitle.trim() || creating}
                 >
                   {creating ? __('Adding...') : __('Add Task')}
@@ -488,7 +488,7 @@ export default function TaskListSection({ list, projectId, showLabels }) {
                   type="button"
                   variant="ghost"
                   size="sm"
-                  className="h-7 text-xs"
+                  className="h-7 text-sm"
                   onClick={resetForm}
                 >
                   {__('Cancel')}
@@ -503,10 +503,10 @@ export default function TaskListSection({ list, projectId, showLabels }) {
               <button
                 type="button"
                 onClick={() => setShowCompleted(v => !v)}
-                className="w-full flex items-center gap-2 px-4 py-2 text-xs text-pm-text-muted hover:bg-muted/20 transition-colors"
+                className="w-full flex items-center gap-2 px-4 py-2 text-sm text-pm-text-muted hover:bg-muted/20 transition-colors"
               >
                 <ChevronDown
-                  className="h-3 w-3 transition-transform duration-200"
+                  className="h-3.5 w-3.5 transition-transform duration-200"
                   style={{ transform: showCompleted ? 'rotate(0deg)' : 'rotate(-90deg)' }}
                 />
                 <span className="font-medium">
@@ -522,7 +522,7 @@ export default function TaskListSection({ list, projectId, showLabels }) {
                     <div className="px-4 py-1.5">
                       <button
                         type="button"
-                        className="text-xs text-pm-accent hover:underline disabled:opacity-50"
+                        className="text-sm text-pm-accent hover:underline disabled:opacity-50"
                         disabled={loadingMoreComplete}
                         onClick={() => handleLoadMore(1)}
                       >

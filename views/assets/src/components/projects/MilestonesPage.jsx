@@ -254,27 +254,27 @@ export default function MilestonesPage() {
                 {m.title}
               </h4>
               {m.meta?.privacy ? (
-                <Lock className="h-3 w-3 text-pm-text-muted" />
+                <Lock className="h-3.5 w-3.5 text-pm-text-muted" />
               ) : null}
             </div>
             {m.description?.content && (
-              <p className="text-xs text-pm-text-muted mt-0.5 line-clamp-2">
+              <p className="text-sm text-pm-text-muted mt-0.5 line-clamp-2">
                 {m.description.content}
               </p>
             )}
-            <div className="flex items-center gap-3 mt-2 text-[11px] text-pm-text-muted">
+            <div className="flex items-center gap-3 mt-2 text-[15px] text-pm-text-muted">
               {m.achieve_date && (
                 <span>{formatPmDateTime(m.achieve_date)}</span>
               )}
               {taskLists.length > 0 && (
                 <span className="flex items-center gap-1">
-                  <LayoutList className="h-3 w-3" />
+                  <LayoutList className="h-3.5 w-3.5" />
                   {taskLists.length} {__("lists")}
                 </span>
               )}
               {discussions.length > 0 && (
                 <span className="flex items-center gap-1">
-                  <MessageSquare className="h-3 w-3" />
+                  <MessageSquare className="h-3.5 w-3.5" />
                   {discussions.length} {__("discussions")}
                 </span>
               )}
@@ -283,16 +283,16 @@ export default function MilestonesPage() {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="icon" className="h-7 w-7 shrink-0">
-                <MoreHorizontal className="h-3.5 w-3.5" />
+                <MoreHorizontal className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem onClick={() => startEdit(m)}>
-                <Pencil className="h-3.5 w-3.5 mr-2" />
+                <Pencil className="h-4 w-4 mr-2" />
                 {__("Edit")}
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => handleToggleStatus(m)}>
-                <CheckCircle className="h-3.5 w-3.5 mr-2" />
+                <CheckCircle className="h-4 w-4 mr-2" />
                 {isComplete ? __("Mark Incomplete") : __("Mark Complete")}
               </DropdownMenuItem>
               <DropdownMenuItem
@@ -301,12 +301,12 @@ export default function MilestonesPage() {
               >
                 {m.meta?.privacy ? (
                   <>
-                    <Unlock className="h-3.5 w-3.5 mr-2" />
+                    <Unlock className="h-4 w-4 mr-2" />
                     {__("Make Public")}
                   </>
                 ) : (
                   <>
-                    <Lock className="h-3.5 w-3.5 mr-2" />
+                    <Lock className="h-4 w-4 mr-2" />
                     {__("Make Private")}
                   </>
                 )}
@@ -316,7 +316,7 @@ export default function MilestonesPage() {
                 className="text-destructive focus:text-destructive"
                 onClick={() => handleDelete(m.id)}
               >
-                <Trash2 className="h-3.5 w-3.5 mr-2" />
+                <Trash2 className="h-4 w-4 mr-2" />
                 {__("Delete")}
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -329,8 +329,8 @@ export default function MilestonesPage() {
             {/* Task Lists */}
             {taskLists.length > 0 && (
               <div>
-                <h5 className="text-[11px] font-semibold uppercase tracking-wider text-pm-text-muted/70 mb-2 flex items-center gap-1">
-                  <LayoutList className="h-3 w-3" />
+                <h5 className="text-[14px] font-semibold uppercase tracking-wider text-pm-text-muted/70 mb-2 flex items-center gap-1">
+                  <LayoutList className="h-3.5 w-3.5" />
                   {__("Task Lists")}
                 </h5>
                 <ul className="space-y-1.5">
@@ -345,7 +345,7 @@ export default function MilestonesPage() {
                       <li key={list.id} className="flex items-center gap-2">
                         <button
                           type="button"
-                          className="text-xs text-pm-accent hover:underline truncate flex-1 text-left"
+                          className="text-sm text-pm-accent hover:underline truncate flex-1 text-left"
                           onClick={() =>
                             navigate(`/projects/${projectId}/task-lists`)
                           }
@@ -353,7 +353,7 @@ export default function MilestonesPage() {
                           {list.title}
                         </button>
                         <Progress value={pct} className="h-1 w-12" />
-                        <span className="text-[10px] text-pm-text-muted tabular-nums w-6 text-right">
+                        <span className="text-[13px] text-pm-text-muted tabular-nums w-6 text-right">
                           {pct}%
                         </span>
                       </li>
@@ -366,8 +366,8 @@ export default function MilestonesPage() {
             {/* Discussions */}
             {discussions.length > 0 && (
               <div>
-                <h5 className="text-[11px] font-semibold uppercase tracking-wider text-pm-text-muted/70 mb-2 flex items-center gap-1">
-                  <MessageSquare className="h-3 w-3" />
+                <h5 className="text-[14px] font-semibold uppercase tracking-wider text-pm-text-muted/70 mb-2 flex items-center gap-1">
+                  <MessageSquare className="h-3.5 w-3.5" />
                   {__("Discussions")}
                 </h5>
                 <ul className="space-y-1.5">
@@ -375,7 +375,7 @@ export default function MilestonesPage() {
                     <li key={disc.id}>
                       <button
                         type="button"
-                        className="text-xs text-pm-accent hover:underline truncate block text-left"
+                        className="text-sm text-pm-accent hover:underline truncate block text-left"
                         onClick={() =>
                           navigate(`/projects/${projectId}/discussions`)
                         }
@@ -399,11 +399,11 @@ export default function MilestonesPage() {
     return (
       <div className="space-y-2">
         <h3
-          className={`text-xs font-semibold uppercase tracking-wider flex items-center gap-1.5 ${color}`}
+          className={`text-sm font-semibold uppercase tracking-wider flex items-center gap-1.5 ${color}`}
         >
-          <Icon className="h-3.5 w-3.5" />
+          <Icon className="h-4 w-4" />
           {label}
-          <span className="text-[10px] bg-muted px-1.5 py-0.5 rounded-full tabular-nums font-normal text-pm-text-muted">
+          <span className="text-[14px] bg-muted px-1.5 py-0.5 rounded-full tabular-nums font-normal text-pm-text-muted">
             {items.length}
           </span>
         </h3>
@@ -422,7 +422,7 @@ export default function MilestonesPage() {
             className="h-8 w-8"
             onClick={() => navigate(`/projects/${projectId}/task-lists`)}
           >
-            <ArrowLeft className="h-4 w-4" />
+            <ArrowLeft className="h-5 w-5" />
           </Button>
           <h1 className="text-xl font-bold text-pm-text-primary">
             {__("Milestones")}
@@ -433,7 +433,7 @@ export default function MilestonesPage() {
           className="gap-1.5"
           onClick={() => { setEditingMilestone(null); setTitle(""); setDescription(""); setAchieveDate(""); setShowForm((v) => !v) }}
         >
-          <Plus className="h-4 w-4" />
+          <Plus className="h-5 w-5" />
           {__("New Milestone")}
         </Button>
       </div>
@@ -457,7 +457,7 @@ export default function MilestonesPage() {
             minHeight="60px"
           />
           <div className="flex items-center gap-2">
-            <label className="text-xs text-pm-text-muted w-20 shrink-0">
+            <label className="text-sm text-pm-text-muted w-20 shrink-0">
               {__("Target date")}
             </label>
             <Input
@@ -507,7 +507,7 @@ export default function MilestonesPage() {
           <h3 className="text-sm font-medium text-pm-text-primary mb-1">
             {__("No milestones yet")}
           </h3>
-          <p className="text-xs text-pm-text-muted">
+          <p className="text-sm text-pm-text-muted">
             {__("Track your project progress with milestones.")}
           </p>
         </div>

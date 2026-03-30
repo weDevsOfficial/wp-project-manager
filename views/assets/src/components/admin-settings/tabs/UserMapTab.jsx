@@ -120,12 +120,12 @@ const UserMapTab = () => {
                     </td>
                     <td className="px-5 py-3">
                       {userEdits[user.id] && (
-                        <Input value={userEdits[user.id].github} onChange={(e) => updateUserEdit(user.id, 'github', e.target.value)} placeholder="github-username" className="h-8 text-xs" />
+                        <Input value={userEdits[user.id].github} onChange={(e) => updateUserEdit(user.id, 'github', e.target.value)} placeholder="github-username" className="h-8 text-sm" />
                       )}
                     </td>
                     <td className="px-5 py-3">
                       {userEdits[user.id] && (
-                        <Input value={userEdits[user.id].bitbucket} onChange={(e) => updateUserEdit(user.id, 'bitbucket', e.target.value)} placeholder="bitbucket-username" className="h-8 text-xs" />
+                        <Input value={userEdits[user.id].bitbucket} onChange={(e) => updateUserEdit(user.id, 'bitbucket', e.target.value)} placeholder="bitbucket-username" className="h-8 text-sm" />
                       )}
                     </td>
                   </tr>

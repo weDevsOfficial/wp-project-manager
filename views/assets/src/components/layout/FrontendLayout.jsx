@@ -79,7 +79,7 @@ export function FrontendLayout() {
                           : 'text-pm-text-muted hover:text-pm-text-primary hover:bg-muted/50'
                       )}
                     >
-                      <Icon className="h-3.5 w-3.5" />
+                      <Icon className="h-4 w-4" />
                       {__(item.label)}
                     </button>
                   )
@@ -92,7 +92,7 @@ export function FrontendLayout() {
               <div className="hidden sm:flex items-center gap-2">
                 <Avatar className="h-7 w-7">
                   <AvatarImage src={userAvatar} />
-                  <AvatarFallback className="text-[10px] bg-pm-accent/10 text-pm-accent">{userInitials(userName)}</AvatarFallback>
+                  <AvatarFallback className="text-[14px] bg-pm-accent/10 text-pm-accent">{userInitials(userName)}</AvatarFallback>
                 </Avatar>
                 <span className="text-sm font-medium text-pm-text-primary">{userName}</span>
               </div>
@@ -101,7 +101,7 @@ export function FrontendLayout() {
                 className="p-1.5 rounded-md text-pm-text-muted hover:text-pm-text-primary hover:bg-muted/50 transition-colors"
                 title={__('Logout')}
               >
-                <LogOut className="h-4 w-4" />
+                <LogOut className="h-5 w-5" />
               </a>
 
               {/* Mobile menu toggle */}
@@ -131,7 +131,7 @@ export function FrontendLayout() {
                       active ? 'bg-pm-accent/10 text-pm-accent' : 'text-pm-text-muted hover:bg-muted/50'
                     )}
                   >
-                    <Icon className="h-4 w-4" />
+                    <Icon className="h-5 w-5" />
                     {__(item.label)}
                   </button>
                 )

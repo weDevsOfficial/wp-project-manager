@@ -288,7 +288,7 @@ export function ProjectCreateSheet() {
               )}
             />
             {titleError && (
-              <p className="text-xs text-destructive">{titleError}</p>
+              <p className="text-sm text-destructive">{titleError}</p>
             )}
           </div>
 
@@ -335,7 +335,7 @@ export function ProjectCreateSheet() {
                   className="w-full justify-start text-muted-foreground font-normal"
                   onClick={() => setPopoverOpen(true)}
                 >
-                  <UserPlus className="mr-2 h-4 w-4" />
+                  <UserPlus className="mr-2 h-5 w-5" />
                   {__('Search and add members...')}
                 </Button>
               </PopoverTrigger>
@@ -349,7 +349,7 @@ export function ProjectCreateSheet() {
                   <CommandList>
                     {searchingUsers && (
                       <div className="flex items-center justify-center py-6 text-sm text-muted-foreground">
-                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        <Loader2 className="mr-2 h-5 w-5 animate-spin" />
                         {__('Searching...')}
                       </div>
                     )}
@@ -369,15 +369,15 @@ export function ProjectCreateSheet() {
                           >
                             <Avatar className="h-7 w-7 mr-2">
                               <AvatarImage src={user.avatar_url} alt={user.display_name} />
-                              <AvatarFallback className="text-[10px]">
+                              <AvatarFallback className="text-[14px]">
                                 {userInitials(user.display_name)}
                               </AvatarFallback>
                             </Avatar>
                             <div className="flex-1 min-w-0">
                               <p className="text-sm font-medium truncate">{user.display_name}</p>
-                              <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+                              <p className="text-sm text-muted-foreground truncate">{user.email}</p>
                             </div>
-                            <Plus className="h-4 w-4 text-muted-foreground shrink-0" />
+                            <Plus className="h-5 w-5 text-muted-foreground shrink-0" />
                           </CommandItem>
                         ))}
                       </CommandGroup>
@@ -409,7 +409,7 @@ export function ProjectCreateSheet() {
                           <div className="flex items-center gap-2">
                             <Avatar className="h-7 w-7">
                               <AvatarImage src={user.avatar_url} alt={user.display_name} />
-                              <AvatarFallback className="text-[10px]">
+                              <AvatarFallback className="text-[14px]">
                                 {userInitials(user.display_name)}
                               </AvatarFallback>
                             </Avatar>
@@ -421,7 +421,7 @@ export function ProjectCreateSheet() {
                             value={String(user.roleId)}
                             onValueChange={(val) => handleRoleChange(user.id, Number(val))}
                           >
-                            <SelectTrigger className="h-8 text-xs">
+                            <SelectTrigger className="h-8 text-sm">
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
@@ -440,7 +440,7 @@ export function ProjectCreateSheet() {
                             className="h-7 w-7 text-muted-foreground hover:text-destructive"
                             onClick={() => handleRemoveUser(user.id)}
                           >
-                            <X className="h-4 w-4" />
+                            <X className="h-5 w-5" />
                           </Button>
                         </td>
                       </tr>
@@ -476,7 +476,7 @@ export function ProjectCreateSheet() {
             {__('Cancel')}
           </Button>
           <Button onClick={handleSubmit} disabled={isSaving}>
-            {isSaving && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+            {isSaving && <Loader2 className="h-5 w-5 mr-2 animate-spin" />}
             {isSaving
               ? (isEditMode ? __('Updating...') : __('Creating...'))
               : (isEditMode ? __('Update Project') : __('Create Project'))}

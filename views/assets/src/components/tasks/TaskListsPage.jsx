@@ -183,7 +183,7 @@ export default function TaskListsPage() {
         {__("Create your first task list to start organizing work.")}
       </p>
       <Button onClick={() => setShowNewList(true)}>
-        <Plus className="h-4 w-4 mr-2" />
+        <Plus className="h-5 w-5 mr-2" />
         {__("New Task List")}
       </Button>
     </div>
@@ -202,13 +202,13 @@ export default function TaskListsPage() {
             className="h-8 w-8"
             onClick={() => navigate("/projects")}
           >
-            <ArrowLeft className="h-4 w-4" />
+            <ArrowLeft className="h-5 w-5" />
           </Button>
           <h1 className="text-xl font-bold text-pm-text-primary">
             {__("Task Lists")}
           </h1>
           {lists.length > 0 && (
-            <span className="text-xs text-pm-text-muted bg-muted/60 px-2 py-0.5 rounded-full tabular-nums">
+            <span className="text-sm text-pm-text-muted bg-muted/60 px-2 py-0.5 rounded-full tabular-nums">
               {lists.length} {lists.length === 1 ? __("list") : __("lists")}
             </span>
           )}
@@ -220,12 +220,12 @@ export default function TaskListsPage() {
             <Button
               variant="outline"
               size="sm"
-              className="text-xs gap-1.5 h-8 px-3"
+              className="text-sm gap-1.5 h-8 px-3"
               onClick={() =>
                 allExpanded ? dispatch(collapseAll()) : dispatch(expandAll())
               }
             >
-              <ChevronsUpDown className="h-3.5 w-3.5" />
+              <ChevronsUpDown className="h-4 w-4" />
               {allExpanded ? __("Collapse all") : __("Expand all")}
             </Button>
           )}
@@ -236,10 +236,10 @@ export default function TaskListsPage() {
           {/* New list button */}
           <Button
             size="sm"
-            className="text-xs gap-1.5 h-8 px-3"
+            className="text-sm gap-1.5 h-8 px-3"
             onClick={() => setShowNewList((v) => !v)}
           >
-            <Plus className="h-3.5 w-3.5" />
+            <Plus className="h-4 w-4" />
             {__("New List")}
           </Button>
         </div>
@@ -285,7 +285,7 @@ export default function TaskListsPage() {
             >
               {__("Private")}
             </label>
-            {!isPro && <Crown className="h-3 w-3 text-pm-accent" />}
+            {!isPro && <Crown className="h-3.5 w-3.5 text-pm-accent" />}
           </div>
           <div className="flex items-center gap-2 pt-1">
             <Button
@@ -331,7 +331,7 @@ export default function TaskListsPage() {
         /* Filtered results — flat task list */
         <div className="rounded-xl border bg-card overflow-hidden">
           <div className="px-4 py-2.5 bg-muted/30 border-b">
-            <span className="text-xs font-medium text-pm-text-muted">
+            <span className="text-sm font-medium text-pm-text-muted">
               {filteredTasks.length} {filteredTasks.length === 1 ? __("result") : __("results")}
             </span>
           </div>

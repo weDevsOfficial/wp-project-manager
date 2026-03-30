@@ -187,7 +187,7 @@ export default function CategoriesPage() {
         </h1>
         {canManage && (
           <Button size="sm" className="gap-1.5" onClick={openCreate}>
-            <Plus className="h-4 w-4" />
+            <Plus className="h-5 w-5" />
             {__("New Category")}
           </Button>
         )}
@@ -196,22 +196,22 @@ export default function CategoriesPage() {
       {/* Bulk actions bar */}
       {selected.size > 0 && (
         <div className="flex items-center gap-3 px-4 py-2.5 bg-destructive/5 rounded-lg border border-destructive/20">
-          <span className="text-xs text-pm-text-primary font-medium">
+          <span className="text-sm text-pm-text-primary font-medium">
             {selected.size} {__("selected")}
           </span>
           <Button
             variant="destructive"
             size="sm"
-            className="h-7 text-xs gap-1"
+            className="h-7 text-sm gap-1"
             onClick={handleBulkDelete}
           >
-            <Trash2 className="h-3 w-3" />
+            <Trash2 className="h-3.5 w-3.5" />
             {__("Delete Selected")}
           </Button>
           <Button
             variant="ghost"
             size="sm"
-            className="h-7 text-xs ml-auto"
+            className="h-7 text-sm ml-auto"
             onClick={() => setSelected(new Set())}
           >
             {__("Clear")}
@@ -232,7 +232,7 @@ export default function CategoriesPage() {
           <h3 className="text-sm font-medium text-pm-text-primary mb-1">
             {__("No categories yet")}
           </h3>
-          <p className="text-xs text-pm-text-muted mb-4">
+          <p className="text-sm text-pm-text-muted mb-4">
             {__("Create categories to organize your projects.")}
           </p>
           {canManage && (
@@ -242,7 +242,7 @@ export default function CategoriesPage() {
               className="gap-1.5"
               onClick={openCreate}
             >
-              <Plus className="h-4 w-4" />
+              <Plus className="h-5 w-5" />
               {__("Add Category")}
             </Button>
           )}
@@ -250,14 +250,14 @@ export default function CategoriesPage() {
       ) : (
         <div className="rounded-xl border bg-card overflow-hidden">
           {/* Table header */}
-          <div className="grid grid-cols-12 gap-4 items-center px-4 py-2.5 bg-muted/30 border-b text-[11px] font-semibold uppercase tracking-wider text-pm-text-muted/70">
+          <div className="grid grid-cols-12 gap-4 items-center px-4 py-2.5 bg-muted/30 border-b text-[14px] font-semibold uppercase tracking-wider text-pm-text-muted/70">
             <div className="col-span-1">
               <Checkbox
                 checked={
                   selected.size === categories.length && categories.length > 0
                 }
                 onCheckedChange={toggleAll}
-                className="h-3.5 w-3.5"
+                className="h-4 w-4"
               />
             </div>
             <div className="col-span-4">{__("Name")}</div>
@@ -277,7 +277,7 @@ export default function CategoriesPage() {
                 <Checkbox
                   checked={selected.has(cat.id)}
                   onCheckedChange={() => toggleSelect(cat.id)}
-                  className="h-3.5 w-3.5"
+                  className="h-4 w-4"
                 />
               </div>
               <div className="col-span-4">
@@ -286,7 +286,7 @@ export default function CategoriesPage() {
                 </span>
               </div>
               <div className="col-span-5 hidden md:block">
-                <span className="text-xs text-pm-text-muted line-clamp-1">
+                <span className="text-sm text-pm-text-muted line-clamp-1">
                   {cat.description || "—"}
                 </span>
               </div>
@@ -298,22 +298,22 @@ export default function CategoriesPage() {
                       size="icon"
                       className="h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"
                     >
-                      <MoreHorizontal className="h-4 w-4" />
+                      <MoreHorizontal className="h-5 w-5" />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
                     <DropdownMenuItem
                       onClick={() => openEdit(cat)}
-                      className="gap-2 text-xs"
+                      className="gap-2 text-sm"
                     >
-                      <Pencil className="h-3 w-3" />
+                      <Pencil className="h-3.5 w-3.5" />
                       {__("Edit")}
                     </DropdownMenuItem>
                     <DropdownMenuItem
                       onClick={() => handleDelete(cat.id)}
-                      className="gap-2 text-xs text-destructive focus:text-destructive"
+                      className="gap-2 text-sm text-destructive focus:text-destructive"
                     >
-                      <Trash2 className="h-3 w-3" />
+                      <Trash2 className="h-3.5 w-3.5" />
                       {__("Delete")}
                     </DropdownMenuItem>
                   </DropdownMenuContent>
@@ -332,7 +332,7 @@ export default function CategoriesPage() {
               key={pg}
               variant={pg === page ? "default" : "outline"}
               size="sm"
-              className="h-8 w-8 p-0 text-xs"
+              className="h-8 w-8 p-0 text-sm"
               onClick={() => fetchCategories(pg)}
             >
               {pg}
@@ -387,7 +387,7 @@ export default function CategoriesPage() {
               {__("Cancel")}
             </Button>
             <Button onClick={handleSave} disabled={saving || !formTitle.trim()}>
-              {saving && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+              {saving && <Loader2 className="h-5 w-5 mr-2 animate-spin" />}
               {saving
                 ? __("Saving...")
                 : sheetMode === "create"

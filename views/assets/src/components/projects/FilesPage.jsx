@@ -300,13 +300,13 @@ export default function FilesPage() {
             className="h-8 w-8"
             onClick={() => navigate(`/projects/${projectId}/task-lists`)}
           >
-            <ArrowLeft className="h-4 w-4" />
+            <ArrowLeft className="h-5 w-5" />
           </Button>
           <h1 className="text-xl font-bold text-pm-text-primary">
             {__("Files")}
           </h1>
           {files.length > 0 && (
-            <span className="text-xs text-pm-text-muted bg-muted/60 px-2 py-0.5 rounded-full tabular-nums">
+            <span className="text-sm text-pm-text-muted bg-muted/60 px-2 py-0.5 rounded-full tabular-nums">
               {files.length}
             </span>
           )}
@@ -314,20 +314,20 @@ export default function FilesPage() {
 
         {/* Pro action buttons */}
         <div className="flex items-center gap-2">
-          <Button size="sm" variant="outline" className="h-8 text-xs group/btn" onClick={() => proAction(() => setFolderOpen(true))}>
-            <FolderPlus className="h-3.5 w-3.5 mr-1" />{__("Create a folder")}
+          <Button size="sm" variant="outline" className="h-8 text-sm group/btn" onClick={() => proAction(() => setFolderOpen(true))}>
+            <FolderPlus className="h-4 w-4 mr-1" />{__("Create a folder")}
             {!isPro && <span className="opacity-0 group-hover/btn:opacity-100 transition-opacity ml-1"><ProBadge /></span>}
           </Button>
-          <Button size="sm" variant="outline" className="h-8 text-xs group/btn" onClick={() => proAction(() => setUploadOpen(true))}>
-            <Upload className="h-3.5 w-3.5 mr-1" />{__("Upload a file")}
+          <Button size="sm" variant="outline" className="h-8 text-sm group/btn" onClick={() => proAction(() => setUploadOpen(true))}>
+            <Upload className="h-4 w-4 mr-1" />{__("Upload a file")}
             {!isPro && <span className="opacity-0 group-hover/btn:opacity-100 transition-opacity ml-1"><ProBadge /></span>}
           </Button>
-          <Button size="sm" variant="outline" className="h-8 text-xs group/btn" onClick={() => proAction(() => setDocOpen(true))}>
-            <FilePlus className="h-3.5 w-3.5 mr-1" />{__("Create a doc")}
+          <Button size="sm" variant="outline" className="h-8 text-sm group/btn" onClick={() => proAction(() => setDocOpen(true))}>
+            <FilePlus className="h-4 w-4 mr-1" />{__("Create a doc")}
             {!isPro && <span className="opacity-0 group-hover/btn:opacity-100 transition-opacity ml-1"><ProBadge /></span>}
           </Button>
-          <Button size="sm" variant="outline" className="h-8 text-xs group/btn" onClick={() => proAction(() => setLinkDocOpen(true))}>
-            <Link2 className="h-3.5 w-3.5 mr-1" />{__("Link to Docs")}
+          <Button size="sm" variant="outline" className="h-8 text-sm group/btn" onClick={() => proAction(() => setLinkDocOpen(true))}>
+            <Link2 className="h-4 w-4 mr-1" />{__("Link to Docs")}
             {!isPro && <span className="opacity-0 group-hover/btn:opacity-100 transition-opacity ml-1"><ProBadge /></span>}
           </Button>
         </div>
@@ -345,7 +345,7 @@ export default function FilesPage() {
           <h3 className="text-sm font-medium text-pm-text-primary mb-1">
             {__("No files yet")}
           </h3>
-          <p className="text-xs text-pm-text-muted">
+          <p className="text-sm text-pm-text-muted">
             {__("Files attached to tasks, discussions, and comments will appear here.")}
           </p>
         </div>
@@ -354,14 +354,14 @@ export default function FilesPage() {
           {/* Breadcrumb bar + view toggle */}
           <div className="flex items-center justify-between px-4 py-2.5 bg-pm-accent/5 border-b">
             <div className="flex items-center gap-1.5 flex-wrap">
-              <button onClick={() => navigateToBreadcrumb(-1)} className="flex items-center gap-1 text-xs font-medium text-pm-accent hover:underline">
-                <Home className="h-3.5 w-3.5" />{__("Home")}
+              <button onClick={() => navigateToBreadcrumb(-1)} className="flex items-center gap-1 text-sm font-medium text-pm-accent hover:underline">
+                <Home className="h-4 w-4" />{__("Home")}
               </button>
               {folderPath.map((crumb, idx) => (
                 <React.Fragment key={crumb.id}>
-                  <ChevronRight className="h-3 w-3 text-pm-text-muted/50" />
+                  <ChevronRight className="h-3.5 w-3.5 text-pm-text-muted/50" />
                   <button onClick={() => navigateToBreadcrumb(idx)}
-                    className={`text-xs font-medium ${idx === folderPath.length - 1 ? 'text-pm-text-primary' : 'text-pm-accent hover:underline'}`}>
+                    className={`text-sm font-medium ${idx === folderPath.length - 1 ? 'text-pm-text-primary' : 'text-pm-accent hover:underline'}`}>
                     {crumb.title}
                   </button>
                 </React.Fragment>
@@ -370,11 +370,11 @@ export default function FilesPage() {
             <div className="flex items-center gap-0.5 bg-muted/50 rounded-md p-0.5">
               <button onClick={() => { setViewMode('grid'); localStorage.setItem('pm_files_view', 'grid') }}
                 className={`p-1 rounded ${viewMode === 'grid' ? 'bg-white shadow-sm text-pm-accent' : 'text-pm-text-muted hover:text-pm-text'}`}>
-                <LayoutGrid className="h-3.5 w-3.5" />
+                <LayoutGrid className="h-4 w-4" />
               </button>
               <button onClick={() => { setViewMode('list'); localStorage.setItem('pm_files_view', 'list') }}
                 className={`p-1 rounded ${viewMode === 'list' ? 'bg-white shadow-sm text-pm-accent' : 'text-pm-text-muted hover:text-pm-text'}`}>
-                <List className="h-3.5 w-3.5" />
+                <List className="h-4 w-4" />
               </button>
             </div>
           </div>
@@ -409,9 +409,9 @@ export default function FilesPage() {
                     {/* Info */}
                     <div className="p-2.5">
                       <div className="flex items-center gap-1">
-                        <p className="text-xs font-medium text-pm-text-primary truncate flex-1">{fileName}</p>
+                        <p className="text-sm font-medium text-pm-text-primary truncate flex-1">{fileName}</p>
                       </div>
-                      <p className="text-[10px] text-pm-text-muted mt-0.5 truncate">
+                      <p className="text-[13px] text-pm-text-muted mt-0.5 truncate">
                         {isFolder ? `${f.children_count ?? f.children?.data?.length ?? f.items_count ?? 0} ${__('items')}` : formatPmDateTime(f.created_at) || ''}
                       </p>
                     </div>
@@ -420,22 +420,22 @@ export default function FilesPage() {
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                           <Button variant="secondary" size="icon" className="h-6 w-6 rounded-full shadow-sm bg-white/90 backdrop-blur">
-                            <MoreHorizontal className="h-3 w-3" />
+                            <MoreHorizontal className="h-3.5 w-3.5" />
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                           {!isFolder && f.url && (
                             <DropdownMenuItem onClick={() => window.open(f.url, "_blank")}>
-                              <Download className="h-3.5 w-3.5 mr-2" />{__("Download")}
+                              <Download className="h-4 w-4 mr-2" />{__("Download")}
                             </DropdownMenuItem>
                           )}
                           {isPro && !isFolder && (
                             <DropdownMenuItem onClick={() => openMoveDialog(f)}>
-                              <Move className="h-3.5 w-3.5 mr-2" />{__("Move to Folder")}
+                              <Move className="h-4 w-4 mr-2" />{__("Move to Folder")}
                             </DropdownMenuItem>
                           )}
                           <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => handleDelete(f.id)}>
-                            <Trash2 className="h-3.5 w-3.5 mr-2" />{__("Delete")}
+                            <Trash2 className="h-4 w-4 mr-2" />{__("Delete")}
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
@@ -459,14 +459,14 @@ export default function FilesPage() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
                       <p className={`text-sm font-medium text-pm-text-primary truncate ${isFolder ? 'hover:text-pm-accent' : ''}`}>{fileName}</p>
-                      {isLink && f.url && <ExternalLink className="h-3 w-3 text-pm-text-muted/50 shrink-0" />}
+                      {isLink && f.url && <ExternalLink className="h-3.5 w-3.5 text-pm-text-muted/50 shrink-0" />}
                     </div>
-                    <div className="flex items-center gap-2 mt-0.5 text-[11px] text-pm-text-muted">
+                    <div className="flex items-center gap-2 mt-0.5 text-[15px] text-pm-text-muted">
                       {isFolder && <span>{f.children_count ?? f.children?.data?.length ?? f.items_count ?? 0} {__('items')}</span>}
                       {isDoc && f.description?.content && <span className="truncate max-w-[200px]">{f.description.content.replace(/<[^>]*>/g, '').slice(0, 60)}</span>}
                       {isLink && f.url && <span className="truncate max-w-[200px]">{f.url}</span>}
                       {attachedTo && (
-                        <><span className="inline-flex items-center gap-1"><ExternalLink className="h-2.5 w-2.5" />{attachedTo}</span><span>·</span></>
+                        <><span className="inline-flex items-center gap-1"><ExternalLink className="h-3 w-3" />{attachedTo}</span><span>·</span></>
                       )}
                       {!isFolder && formatPmDateTime(f.created_at) && <span>{formatPmDateTime(f.created_at)}</span>}
                       {f.creator?.data?.display_name && <><span>·</span><span>{__("by")} {f.creator.data.display_name}</span></>}
@@ -476,28 +476,28 @@ export default function FilesPage() {
                     {!isFolder && f.url && (
                       <Button variant="ghost" size="icon" className="h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"
                         onClick={() => window.open(f.url, "_blank")} title={__("Download")}>
-                        <Download className="h-3.5 w-3.5" />
+                        <Download className="h-4 w-4" />
                       </Button>
                     )}
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
                         <Button variant="ghost" size="icon" className="h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <MoreHorizontal className="h-3.5 w-3.5" />
+                          <MoreHorizontal className="h-4 w-4" />
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         {!isFolder && f.url && (
                           <DropdownMenuItem onClick={() => window.open(f.url, "_blank")}>
-                            <Download className="h-3.5 w-3.5 mr-2" />{__("Download")}
+                            <Download className="h-4 w-4 mr-2" />{__("Download")}
                           </DropdownMenuItem>
                         )}
                         {isPro && !isFolder && (
                           <DropdownMenuItem onClick={() => openMoveDialog(f)}>
-                            <Move className="h-3.5 w-3.5 mr-2" />{__("Move to Folder")}
+                            <Move className="h-4 w-4 mr-2" />{__("Move to Folder")}
                           </DropdownMenuItem>
                         )}
                         <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => handleDelete(f.id)}>
-                          <Trash2 className="h-3.5 w-3.5 mr-2" />{__("Delete")}
+                          <Trash2 className="h-4 w-4 mr-2" />{__("Delete")}
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
@@ -518,7 +518,7 @@ export default function FilesPage() {
           <div className="space-y-3">
             <Label>{__("Choose file")}</Label>
             <Input type="file" onChange={handleUpload} disabled={uploading} />
-            {uploading && <p className="text-xs text-pm-text-muted">{__("Uploading...")}</p>}
+            {uploading && <p className="text-sm text-pm-text-muted">{__("Uploading...")}</p>}
           </div>
         </DialogContent>
       </Dialog>
@@ -585,9 +585,9 @@ export default function FilesPage() {
         <DialogContent className="max-w-sm" data-pm-dialog>
           <DialogHeader><DialogTitle>{__("Move to Folder")}</DialogTitle></DialogHeader>
           <div className="space-y-3">
-            <p className="text-xs text-pm-text-muted">{__("Moving")}: <strong>{moveItem?.meta?.title || moveItem?.name || moveItem?.title}</strong></p>
+            <p className="text-sm text-pm-text-muted">{__("Moving")}: <strong>{moveItem?.meta?.title || moveItem?.name || moveItem?.title}</strong></p>
             <div>
-              <Label className="text-xs mb-1 block">{__("Destination Folder")}</Label>
+              <Label className="text-sm mb-1 block">{__("Destination Folder")}</Label>
               <select value={moveTarget} onChange={e => setMoveTarget(e.target.value)}
                 className="w-full h-9 rounded-md border border-pm-border bg-background px-3 text-sm focus:outline-none focus:ring-1 focus:ring-pm-accent">
                 <option value="0">{__("Root (Home)")}</option>

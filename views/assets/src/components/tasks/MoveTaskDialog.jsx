@@ -68,7 +68,7 @@ export default function MoveTaskDialog({ open, onOpenChange, task, projectId, cu
       <DialogContent className="sm:max-w-[420px]" data-pm-dialog>
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <ListTodo className="h-4 w-4 text-pm-accent" />
+            <ListTodo className="h-5 w-5 text-pm-accent" />
             {__('Move Task')}
           </DialogTitle>
         </DialogHeader>
@@ -90,10 +90,10 @@ export default function MoveTaskDialog({ open, onOpenChange, task, projectId, cu
                     onSelect={() => setSelectedListId(list.id)}
                     className="cursor-pointer"
                   >
-                    <ListTodo className="h-3.5 w-3.5 mr-2 text-pm-text-muted" />
+                    <ListTodo className="h-4 w-4 mr-2 text-pm-text-muted" />
                     <span className="flex-1 truncate">{list.title}</span>
                     {selectedListId === list.id && (
-                      <Check className="h-4 w-4 text-pm-accent" />
+                      <Check className="h-5 w-5 text-pm-accent" />
                     )}
                   </CommandItem>
                 ))}
@@ -107,7 +107,7 @@ export default function MoveTaskDialog({ open, onOpenChange, task, projectId, cu
             {__('Cancel')}
           </Button>
           <Button onClick={handleMove} disabled={!selectedListId || moving}>
-            {moving && <Loader2 className="h-4 w-4 mr-2 animate-spin" />}
+            {moving && <Loader2 className="h-5 w-5 mr-2 animate-spin" />}
             {moving ? __('Moving...') : __('Move')}
           </Button>
         </DialogFooter>

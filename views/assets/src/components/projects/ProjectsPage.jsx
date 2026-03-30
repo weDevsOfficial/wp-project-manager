@@ -327,7 +327,7 @@ export default function ProjectsPage() {
       </p>
       {canCreate && (
         <Button onClick={() => dispatch(setCreateSheetOpen(true))}>
-          <Plus className="h-4 w-4 mr-2" />
+          <Plus className="h-5 w-5 mr-2" />
           {__("New Project")}
         </Button>
       )}
@@ -356,10 +356,10 @@ export default function ProjectsPage() {
               <TooltipTrigger asChild>
                 <button
                   type="button"
-                  className="flex items-center gap-1 text-xs hover:text-pm-accent transition-colors"
+                  className="flex items-center gap-1 text-sm hover:text-pm-accent transition-colors"
                   onClick={(e) => { e.stopPropagation(); navigate(item.route) }}
                 >
-                  <item.icon className="h-3.5 w-3.5" />
+                  <item.icon className="h-5 w-5" />
                   <span>{item.value ?? 0}</span>
                 </button>
               </TooltipTrigger>
@@ -383,14 +383,14 @@ export default function ProjectsPage() {
         {visible.map((user) => (
           <Avatar key={user.id} className="h-7 w-7 border-2 border-background">
             <AvatarImage src={user.avatar_url} alt={user.display_name} />
-            <AvatarFallback className="text-[10px]">
+            <AvatarFallback className="text-[14px]">
               {userInitials(user.display_name)}
             </AvatarFallback>
           </Avatar>
         ))}
         {overflow > 0 && (
           <Avatar className="h-7 w-7 border-2 border-background">
-            <AvatarFallback className="text-[10px] bg-muted">
+            <AvatarFallback className="text-[14px] bg-muted">
               +{overflow}
             </AvatarFallback>
           </Avatar>
@@ -403,42 +403,42 @@ export default function ProjectsPage() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon" className="h-8 w-8 text-pm-text-primary">
-          <MoreHorizontal className="h-4 w-4" />
+          <MoreHorizontal className="h-5 w-5" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem onClick={() => dispatch(openEditSheet(project))}>
-          <Pencil className="h-4 w-4 mr-2" />
+          <Pencil className="h-5 w-5 mr-2" />
           {__("Edit")}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => handleToggleStatus(project.id)}>
           {isComplete(project) ? (
             <>
-              <Undo2 className="h-4 w-4 mr-2" />
+              <Undo2 className="h-5 w-5 mr-2" />
               {__("Restore")}
             </>
           ) : (
             <>
-              <CheckCircle className="h-4 w-4 mr-2" />
+              <CheckCircle className="h-5 w-5 mr-2" />
               {__("Complete")}
             </>
           )}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => isPro ? navigate(`/projects/${project.id}/settings`) : setProModalOpen(true)}>
-          <Settings className="h-4 w-4 mr-2" />
+          <Settings className="h-5 w-5 mr-2" />
           {__("Settings")}
-          {!isPro && <Crown className="h-3 w-3 ml-auto text-pm-accent" />}
+          {!isPro && <Crown className="h-3.5 w-3.5 ml-auto text-pm-accent" />}
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => handleDuplicate(project)}>
-          <Copy className="h-4 w-4 mr-2" />
+          <Copy className="h-5 w-5 mr-2" />
           {__("Duplicate")}
-          {!isPro && <Crown className="h-3 w-3 ml-auto text-pm-accent" />}
+          {!isPro && <Crown className="h-3.5 w-3.5 ml-auto text-pm-accent" />}
         </DropdownMenuItem>
         <DropdownMenuItem
           className="text-destructive focus:text-destructive"
           onClick={() => confirmDelete(project)}
         >
-          <Trash2 className="h-4 w-4 mr-2" />
+          <Trash2 className="h-5 w-5 mr-2" />
           {__("Delete")}
         </DropdownMenuItem>
       </DropdownMenuContent>
@@ -493,7 +493,7 @@ export default function ProjectsPage() {
                   >
                     <Star
                       className={cn(
-                        "h-3.5 w-3.5",
+                        "h-4 w-4",
                         project.favourite
                           ? "fill-yellow-400 text-yellow-400"
                           : "text-muted-foreground",
@@ -508,7 +508,7 @@ export default function ProjectsPage() {
 
               {/* Description snippet */}
               {getDescriptionSnippet(project) && (
-                <p className="text-xs text-pm-text-muted line-clamp-2 leading-relaxed">
+                <p className="text-sm text-pm-text-muted truncate leading-relaxed">
                   {getDescriptionSnippet(project)}
                 </p>
               )}
@@ -520,12 +520,12 @@ export default function ProjectsPage() {
               <div className="space-y-1">
                 <div className="flex items-center gap-2.5">
                   <Progress value={progress} className="h-1 flex-1" />
-                  <span className="text-[11px] font-medium text-pm-text-muted tabular-nums w-7 text-right">
+                  <span className="text-[14px] font-medium text-pm-text-muted tabular-nums w-7 text-right">
                     {progress}%
                   </span>
                 </div>
                 {getMeta(project) && (
-                  <p className="text-[10px] text-pm-text-muted">
+                  <p className="text-[13px] text-pm-text-muted">
                     {getMeta(project).total_complete_tasks ?? 0} {__("done")} / {getMeta(project).total_tasks ?? 0} {__("total")}
                   </p>
                 )}
@@ -536,13 +536,13 @@ export default function ProjectsPage() {
                 <div className="flex items-center gap-3">
                   {renderAssignees(project)}
                   {project.created_at && (
-                    <span className="text-[10px] text-pm-text-muted">
+                    <span className="text-[13px] text-pm-text-muted">
                       {formatPmDate(project.created_at)}
                     </span>
                   )}
                 </div>
                 <span
-                  className="inline-flex items-center gap-1 text-[11px] font-medium px-2 py-0.5 rounded-full"
+                  className="inline-flex items-center gap-1 text-[15px] font-medium px-2 py-0.5 rounded-full"
                   style={{ backgroundColor: statusColor(project) + '12', color: statusColor(project) }}
                 >
                   <span
@@ -566,25 +566,25 @@ export default function ProjectsPage() {
       <table className="w-full text-sm min-w-[800px]">
         <thead>
           <tr className="border-b bg-muted/30">
-            <th className="text-left px-5 py-2.5 text-[11px] font-semibold uppercase tracking-wider text-pm-text-muted/70">
+            <th className="text-left px-5 py-2.5 text-[14px] font-semibold uppercase tracking-wider text-pm-text-muted/70">
               {__("Project")}
             </th>
-            <th className="text-left px-4 py-2.5 text-[11px] font-semibold uppercase tracking-wider text-pm-text-muted/70">
+            <th className="text-left px-4 py-2.5 text-[14px] font-semibold uppercase tracking-wider text-pm-text-muted/70">
               {__("Status")}
             </th>
-            <th className="text-left px-4 py-2.5 text-[11px] font-semibold uppercase tracking-wider text-pm-text-muted/70 w-36">
+            <th className="text-left px-4 py-2.5 text-[14px] font-semibold uppercase tracking-wider text-pm-text-muted/70 w-36">
               {__("Progress")}
             </th>
-            <th className="text-left px-4 py-2.5 text-[11px] font-semibold uppercase tracking-wider text-pm-text-muted/70">
+            <th className="text-left px-4 py-2.5 text-[14px] font-semibold uppercase tracking-wider text-pm-text-muted/70">
               {__("Details")}
             </th>
-            <th className="text-left px-4 py-2.5 text-[11px] font-semibold uppercase tracking-wider text-pm-text-muted/70">
+            <th className="text-left px-4 py-2.5 text-[14px] font-semibold uppercase tracking-wider text-pm-text-muted/70">
               {__("Members")}
             </th>
-            <th className="text-left px-4 py-2.5 text-[11px] font-semibold uppercase tracking-wider text-pm-text-muted/70">
+            <th className="text-left px-4 py-2.5 text-[14px] font-semibold uppercase tracking-wider text-pm-text-muted/70">
               {__("Created")}
             </th>
-            <th className="text-left px-4 py-2.5 text-[11px] font-semibold uppercase tracking-wider text-pm-text-muted/70 w-10">
+            <th className="text-left px-4 py-2.5 text-[14px] font-semibold uppercase tracking-wider text-pm-text-muted/70 w-10">
               {__("Action")}
             </th>
           </tr>
@@ -625,7 +625,7 @@ export default function ProjectsPage() {
                     >
                       <Star
                         className={cn(
-                          "h-3.5 w-3.5",
+                          "h-4 w-4",
                           project.favourite
                             ? "fill-yellow-400 text-yellow-400"
                             : "text-muted-foreground",
@@ -636,7 +636,7 @@ export default function ProjectsPage() {
                 </td>
                 <td className="px-4 py-3">
                   <span
-                    className="inline-flex items-center gap-1.5 text-[11px] font-medium px-2 py-0.5 rounded-full"
+                    className="inline-flex items-center gap-1.5 text-[15px] font-medium px-2 py-0.5 rounded-full"
                     style={{ backgroundColor: statusColor(project) + '12', color: statusColor(project) }}
                   >
                     <span
@@ -650,12 +650,12 @@ export default function ProjectsPage() {
                   <div className="space-y-1">
                     <div className="flex items-center gap-2">
                       <Progress value={progress} className="h-1 flex-1" />
-                      <span className="text-[11px] font-medium text-pm-text-muted tabular-nums w-7 text-right">
+                      <span className="text-[14px] font-medium text-pm-text-muted tabular-nums w-7 text-right">
                         {progress}%
                       </span>
                     </div>
                     {getMeta(project) && (
-                      <p className="text-[10px] text-pm-text-muted">
+                      <p className="text-[13px] text-pm-text-muted">
                         {getMeta(project).total_complete_tasks ?? 0} {__("done")} / {getMeta(project).total_tasks ?? 0} {__("total")}
                       </p>
                     )}
@@ -667,7 +667,7 @@ export default function ProjectsPage() {
                 <td className="px-4 py-3">{renderAssignees(project)}</td>
                 <td className="px-4 py-3">
                   {project.created_at && (
-                    <span className="text-[11px] text-pm-text-muted">
+                    <span className="text-[15px] text-pm-text-muted">
                       {formatPmDate(project.created_at)}
                     </span>
                   )}
@@ -770,7 +770,7 @@ export default function ProjectsPage() {
             className="gap-1.5"
             onClick={() => setAiDialogOpen(true)}
           >
-            <Sparkles className="h-4 w-4" />
+            <Sparkles className="h-5 w-5" />
             {__("AI Create")}
           </Button>
           <Button
@@ -778,7 +778,7 @@ export default function ProjectsPage() {
             className="gap-1.5"
             onClick={() => dispatch(setCreateSheetOpen(true))}
           >
-            <Plus className="h-4 w-4" />
+            <Plus className="h-5 w-5" />
             {__("New Project")}
           </Button>
         </div>
@@ -806,7 +806,7 @@ export default function ProjectsPage() {
               >
                 {__(tab.label)}
                 <span
-                  className="inline-flex items-center justify-center rounded-full px-1.5 min-w-[18px] h-[18px] text-[10px] font-semibold tabular-nums transition-colors"
+                  className="inline-flex items-center justify-center rounded-full px-1.5 min-w-[18px] h-[18px] text-[14px] font-semibold tabular-nums transition-colors"
                   style={isActive ? { backgroundColor: tab.color + '15', color: tab.color } : { color: 'var(--pm-text-muted)' }}
                 >
                   {count}
@@ -818,7 +818,7 @@ export default function ProjectsPage() {
 
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-1.5 h-9 w-[180px] rounded-md border border-pm-border bg-background px-2.5 focus-within:ring-1 focus-within:ring-pm-accent">
-            <Search className="h-3.5 w-3.5 text-pm-text-muted shrink-0" />
+            <Search className="h-4 w-4 text-pm-text-muted shrink-0" />
             <input
               type="text"
               value={searchQuery}
@@ -863,7 +863,7 @@ export default function ProjectsPage() {
               className="h-9 w-9 rounded-r-none"
               onClick={() => handleViewModeChange("grid")}
             >
-              <LayoutGrid className="h-4 w-4" />
+              <LayoutGrid className="h-5 w-5" />
             </Button>
             <Button
               variant={viewMode === "list" ? "default" : "ghost"}
@@ -871,7 +871,7 @@ export default function ProjectsPage() {
               className="h-9 w-9 rounded-l-none"
               onClick={() => handleViewModeChange("list")}
             >
-              <List className="h-4 w-4" />
+              <List className="h-5 w-5" />
             </Button>
           </div>
         </div>
@@ -905,7 +905,7 @@ export default function ProjectsPage() {
               {__("Cancel")}
             </Button>
             <Button variant="destructive" onClick={handleDelete}>
-              <Trash2 className="h-4 w-4 mr-2" />
+              <Trash2 className="h-5 w-5 mr-2" />
               {__("Delete")}
             </Button>
           </DialogFooter>

@@ -127,7 +127,7 @@ const GitHubSettingsTab = () => {
         <div className="flex items-start justify-between">
           <div>
             <h2 className="text-base font-semibold text-pm-text flex items-center gap-2">
-              <GitHubLogo className="w-4 h-4 text-pm-accent" />
+              <GitHubLogo className="w-5 h-5 text-pm-accent" />
               {__('GitHub Integration', 'wedevs-project-manager')}
             </h2>
           </div>
@@ -146,7 +146,7 @@ const GitHubSettingsTab = () => {
       <div className="flex items-start justify-between">
         <div>
           <h2 className="text-base font-semibold text-pm-text flex items-center gap-2">
-            <GitHubLogo className="w-4 h-4 text-pm-accent" />
+            <GitHubLogo className="w-5 h-5 text-pm-accent" />
             {__('GitHub Integration', 'wedevs-project-manager')}
           </h2>
           <p className="text-sm text-pm-text-muted mt-0.5">
@@ -160,7 +160,7 @@ const GitHubSettingsTab = () => {
         <div className="flex items-center justify-between px-5 py-4">
           <div>
             <Label>{__('Personal Access Token', 'wedevs-project-manager')}</Label>
-            <p className="text-xs text-pm-text-muted mt-1">
+            <p className="text-sm text-pm-text-muted mt-1">
               {__('Enables private repo access & higher rate limits.', 'wedevs-project-manager')}{' '}
               {tokenSaved && <span className="text-green-600">&check; {__('Saved', 'wedevs-project-manager')}</span>}
             </p>
@@ -170,7 +170,7 @@ const GitHubSettingsTab = () => {
               <>
                 <Input type={showToken ? 'text' : 'password'} value={maskedToken} readOnly className="w-56" />
                 <Button type="button" variant="outline" size="icon" className="h-9 w-9 shrink-0" onClick={() => setShowToken(!showToken)}>
-                  {showToken ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  {showToken ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                 </Button>
                 <Button type="button" variant="outline" size="sm" className="h-9 shrink-0" onClick={() => { setEditingToken(true); markDirty() }}>
                   {__('Change', 'wedevs-project-manager')}
@@ -200,7 +200,7 @@ const GitHubSettingsTab = () => {
         <div className="flex items-center justify-between px-5 py-4">
           <div>
             <Label>{__('Enable Previews', 'wedevs-project-manager')}</Label>
-            <p className="text-xs text-pm-text-muted mt-1">{__('Show GitHub issue/PR preview cards automatically.', 'wedevs-project-manager')}</p>
+            <p className="text-sm text-pm-text-muted mt-1">{__('Show GitHub issue/PR preview cards automatically.', 'wedevs-project-manager')}</p>
           </div>
           <Switch checked={enablePreviews} onCheckedChange={(v) => { setEnablePreviews(v); markDirty() }} />
         </div>
@@ -211,18 +211,18 @@ const GitHubSettingsTab = () => {
         <div className="flex items-center justify-between px-5 py-4">
           <div>
             <Label>{__('Connection Status', 'wedevs-project-manager')}</Label>
-            <div className="flex items-center gap-2 text-xs mt-1">
+            <div className="flex items-center gap-2 text-sm mt-1">
               {connStatus === 'untested' && <span className="text-pm-text-muted">{__('Not tested yet', 'wedevs-project-manager')}</span>}
-              {connStatus === 'testing' && <><Loader2 className="h-3.5 w-3.5 animate-spin text-pm-accent" /><span className="text-pm-text-muted">{__('Testing...', 'wedevs-project-manager')}</span></>}
+              {connStatus === 'testing' && <><Loader2 className="h-4 w-4 animate-spin text-pm-accent" /><span className="text-pm-text-muted">{__('Testing...', 'wedevs-project-manager')}</span></>}
               {connStatus === 'connected' && (
                 <>
-                  <CheckCircle className="h-3.5 w-3.5 text-green-600" />
+                  <CheckCircle className="h-4 w-4 text-green-600" />
                   <span className="text-green-600 font-medium">{__('Connected', 'wedevs-project-manager')}</span>
                   {githubUser && <span className="text-pm-text-muted">{__('as', 'wedevs-project-manager')} <strong>{githubUser}</strong></span>}
                   {rateLimitInfo && <span className="text-pm-text-muted">({rateLimitInfo})</span>}
                 </>
               )}
-              {connStatus === 'failed' && <><XCircle className="h-3.5 w-3.5 text-destructive" /><span className="text-destructive">{connError}</span></>}
+              {connStatus === 'failed' && <><XCircle className="h-4 w-4 text-destructive" /><span className="text-destructive">{connError}</span></>}
             </div>
           </div>
           <Button type="button" variant="outline" size="sm" onClick={testConnection} disabled={connStatus === 'testing'}>
@@ -231,7 +231,7 @@ const GitHubSettingsTab = () => {
         </div>
       </div>
 
-      <div className="mt-3 px-5 py-2 text-xs text-pm-text-muted">
+      <div className="mt-3 px-5 py-2 text-sm text-pm-text-muted">
         <a href="https://github.com/settings/tokens/new?scopes=repo&description=WP%20Project%20Manager" target="_blank" rel="noopener noreferrer" className="text-pm-accent hover:underline">
           {__('Generate a new token on GitHub', 'wedevs-project-manager')}
         </a>{' '}
@@ -243,7 +243,7 @@ const GitHubSettingsTab = () => {
           {saving ? __('Saving...', 'wedevs-project-manager') : __('Save Changes', 'wedevs-project-manager')}
         </Button>
         {isDirty && !saving && (
-          <span className="text-xs text-pm-text-muted">{__('You have unsaved changes', 'wedevs-project-manager')}</span>
+          <span className="text-sm text-pm-text-muted">{__('You have unsaved changes', 'wedevs-project-manager')}</span>
         )}
       </div>
     </form>

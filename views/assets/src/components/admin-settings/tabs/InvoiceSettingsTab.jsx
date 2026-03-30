@@ -43,7 +43,7 @@ function ColorPicker({ value, onChange }) {
           className="flex items-center gap-2 h-8 px-2 rounded-md border border-pm-border hover:border-pm-accent/50 transition-colors"
         >
           <span className="w-5 h-5 rounded border border-pm-border/50" style={{ backgroundColor: value || '#ccc' }} />
-          <span className="text-xs font-mono text-pm-text-muted">{value || '#82b541'}</span>
+          <span className="text-sm font-mono text-pm-text-muted">{value || '#82b541'}</span>
         </button>
       </PopoverTrigger>
       <PopoverContent className="w-56 p-3" align="end">
@@ -54,7 +54,7 @@ function ColorPicker({ value, onChange }) {
             <Input
               value={hex}
               onChange={e => handleHexChange(e.target.value)}
-              className="h-7 text-xs font-mono flex-1"
+              className="h-7 text-sm font-mono flex-1"
               placeholder="#82b541"
             />
           </div>
@@ -67,7 +67,7 @@ function ColorPicker({ value, onChange }) {
           />
           {/* Presets */}
           <div>
-            <p className="text-[10px] text-pm-text-muted mb-1.5">{__('Presets')}</p>
+            <p className="text-[13px] text-pm-text-muted mb-1.5">{__('Presets')}</p>
             <div className="flex flex-wrap gap-1.5">
               {PRESET_COLORS.map(c => (
                 <button
@@ -225,7 +225,7 @@ export default function InvoiceSettingsTab() {
         <div className="flex items-center justify-between px-5 py-4 border-b border-pm-border">
           <div>
             <Label className="text-sm font-medium">{__('Theme Color')}</Label>
-            <p className="text-xs text-pm-text-muted mt-0.5">{__('Used for invoice header and accents')}</p>
+            <p className="text-sm text-pm-text-muted mt-0.5">{__('Used for invoice header and accents')}</p>
           </div>
           <ColorPicker value={themeColor} onChange={set(setThemeColor)} />
         </div>
@@ -255,11 +255,11 @@ export default function InvoiceSettingsTab() {
           <div className="flex items-center justify-between px-5 py-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-lg bg-blue-50 flex items-center justify-center">
-                <span className="text-blue-600 font-bold text-xs">PP</span>
+                <span className="text-blue-600 font-bold text-sm">PP</span>
               </div>
               <div>
                 <Label className="text-sm font-semibold">{__('PayPal')}</Label>
-                <p className="text-[11px] text-pm-text-muted">{__('Accept payments via PayPal')}</p>
+                <p className="text-[15px] text-pm-text-muted">{__('Accept payments via PayPal')}</p>
               </div>
             </div>
             <Switch checked={paypalEnabled} onCheckedChange={set(setPaypalEnabled)} />
@@ -267,19 +267,19 @@ export default function InvoiceSettingsTab() {
           {paypalEnabled && (
             <div className="px-5 pb-4 pt-0 space-y-3 ml-[52px]">
               <div className="flex items-center justify-between">
-                <Label className="text-xs">{__('PayPal Email')}</Label>
-                <Input value={paypalMail} onChange={e => set(setPaypalMail)(e.target.value)} className="w-64 h-7 text-xs" placeholder="paypal@example.com" />
+                <Label className="text-sm">{__('PayPal Email')}</Label>
+                <Input value={paypalMail} onChange={e => set(setPaypalMail)(e.target.value)} className="w-64 h-7 text-sm" placeholder="paypal@example.com" />
               </div>
               <div className="flex items-center justify-between">
                 <div>
-                  <Label className="text-xs">{__('Sandbox Mode')}</Label>
-                  <p className="text-[10px] text-pm-text-muted">{__('Use demo mode for testing')}</p>
+                  <Label className="text-sm">{__('Sandbox Mode')}</Label>
+                  <p className="text-[13px] text-pm-text-muted">{__('Use demo mode for testing')}</p>
                 </div>
                 <Switch checked={sandboxMode} onCheckedChange={set(setSandboxMode)} />
               </div>
               <div>
-                <Label className="text-xs mb-1 block">{__('PayPal Instruction')}</Label>
-                <Textarea value={paypalInstruction} onChange={e => set(setPaypalInstruction)(e.target.value)} className="text-xs" rows={2} />
+                <Label className="text-sm mb-1 block">{__('PayPal Instruction')}</Label>
+                <Textarea value={paypalInstruction} onChange={e => set(setPaypalInstruction)(e.target.value)} className="text-sm" rows={2} />
               </div>
             </div>
           )}
@@ -290,11 +290,11 @@ export default function InvoiceSettingsTab() {
           <div className="flex items-center justify-between px-5 py-4">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-lg bg-purple-50 flex items-center justify-center">
-                <span className="text-purple-600 font-bold text-xs">S</span>
+                <span className="text-purple-600 font-bold text-sm">S</span>
               </div>
               <div>
                 <Label className="text-sm font-semibold">{__('Stripe')}</Label>
-                <p className="text-[11px] text-pm-text-muted">{__('Accept credit card payments via Stripe')}</p>
+                <p className="text-[15px] text-pm-text-muted">{__('Accept credit card payments via Stripe')}</p>
               </div>
             </div>
             <Switch checked={stripeEnabled} onCheckedChange={set(setStripeEnabled)} />
@@ -302,36 +302,36 @@ export default function InvoiceSettingsTab() {
           {stripeEnabled && (
             <div className="px-5 pb-4 pt-0 space-y-3 ml-[52px]">
               <div>
-                <Label className="text-xs mb-1 block">{__('Stripe Instruction')}</Label>
-                <Textarea value={stripeInstruction} onChange={e => set(setStripeInstruction)(e.target.value)} className="text-xs" rows={2} />
+                <Label className="text-sm mb-1 block">{__('Stripe Instruction')}</Label>
+                <Textarea value={stripeInstruction} onChange={e => set(setStripeInstruction)(e.target.value)} className="text-sm" rows={2} />
               </div>
               <div className="flex items-center justify-between">
                 <div>
-                  <Label className="text-xs">{__('Enable Test Secret Key')}</Label>
-                  <p className="text-[10px] text-pm-text-muted">{__('Use sandbox mode for testing')}</p>
+                  <Label className="text-sm">{__('Enable Test Secret Key')}</Label>
+                  <p className="text-[13px] text-pm-text-muted">{__('Use sandbox mode for testing')}</p>
                 </div>
                 <Switch checked={stripeTestSecret} onCheckedChange={set(setStripeTestSecret)} />
               </div>
               {stripeTestSecret ? (
                 <>
                   <div className="flex items-center justify-between">
-                    <Label className="text-xs">{__('Test Secret Key')}</Label>
-                    <Input value={secretKey} onChange={e => set(setSecretKey)(e.target.value)} className="w-64 h-7 text-xs font-mono" placeholder="sk_test_..." />
+                    <Label className="text-sm">{__('Test Secret Key')}</Label>
+                    <Input value={secretKey} onChange={e => set(setSecretKey)(e.target.value)} className="w-64 h-7 text-sm font-mono" placeholder="sk_test_..." />
                   </div>
                   <div className="flex items-center justify-between">
-                    <Label className="text-xs">{__('Test Publishable Key')}</Label>
-                    <Input value={secretPublishableKey} onChange={e => set(setSecretPublishableKey)(e.target.value)} className="w-64 h-7 text-xs font-mono" placeholder="pk_test_..." />
+                    <Label className="text-sm">{__('Test Publishable Key')}</Label>
+                    <Input value={secretPublishableKey} onChange={e => set(setSecretPublishableKey)(e.target.value)} className="w-64 h-7 text-sm font-mono" placeholder="pk_test_..." />
                   </div>
                 </>
               ) : (
                 <>
                   <div className="flex items-center justify-between">
-                    <Label className="text-xs">{__('Live Secret Key')}</Label>
-                    <Input value={liveSecretKey} onChange={e => set(setLiveSecretKey)(e.target.value)} className="w-64 h-7 text-xs font-mono" placeholder="sk_live_..." />
+                    <Label className="text-sm">{__('Live Secret Key')}</Label>
+                    <Input value={liveSecretKey} onChange={e => set(setLiveSecretKey)(e.target.value)} className="w-64 h-7 text-sm font-mono" placeholder="sk_live_..." />
                   </div>
                   <div className="flex items-center justify-between">
-                    <Label className="text-xs">{__('Live Publishable Key')}</Label>
-                    <Input value={livePublishableKey} onChange={e => set(setLivePublishableKey)(e.target.value)} className="w-64 h-7 text-xs font-mono" placeholder="pk_live_..." />
+                    <Label className="text-sm">{__('Live Publishable Key')}</Label>
+                    <Input value={livePublishableKey} onChange={e => set(setLivePublishableKey)(e.target.value)} className="w-64 h-7 text-sm font-mono" placeholder="pk_live_..." />
                   </div>
                 </>
               )}
@@ -348,7 +348,7 @@ export default function InvoiceSettingsTab() {
         <div className="flex items-center justify-between px-5 py-4 border-b border-pm-border">
           <div>
             <Label className="text-sm font-medium">{__('Company Name')}</Label>
-            <p className="text-xs text-pm-text-muted mt-0.5">{__('Displayed on invoices as the billing entity')}</p>
+            <p className="text-sm text-pm-text-muted mt-0.5">{__('Displayed on invoices as the billing entity')}</p>
           </div>
           <Input value={companyName} onChange={e => set(setCompanyName)(e.target.value)} className="w-64 h-8 text-sm" placeholder={__('Your Company Name')} />
         </div>
@@ -356,7 +356,7 @@ export default function InvoiceSettingsTab() {
           <div className="flex items-center justify-between mb-1">
             <div>
               <Label className="text-sm font-medium">{__('Company Address')}</Label>
-              <p className="text-xs text-pm-text-muted mt-0.5">{__('Full address shown on invoices')}</p>
+              <p className="text-sm text-pm-text-muted mt-0.5">{__('Full address shown on invoices')}</p>
             </div>
           </div>
           <Textarea value={companyAddress} onChange={e => set(setCompanyAddress)(e.target.value)} className="text-sm mt-2" rows={3} placeholder={__('123 Main St, Suite 100\nCity, State 12345')} />
@@ -364,7 +364,7 @@ export default function InvoiceSettingsTab() {
         <div className="flex items-center justify-between px-5 py-4 border-b border-pm-border">
           <div>
             <Label className="text-sm font-medium">{__('Tax Rate (%)')}</Label>
-            <p className="text-xs text-pm-text-muted mt-0.5">{__('Default tax percentage applied to invoices')}</p>
+            <p className="text-sm text-pm-text-muted mt-0.5">{__('Default tax percentage applied to invoices')}</p>
           </div>
           <Input
             type="number"
@@ -381,7 +381,7 @@ export default function InvoiceSettingsTab() {
           <div className="flex items-center justify-between mb-1">
             <div>
               <Label className="text-sm font-medium">{__('Default Notes / Terms')}</Label>
-              <p className="text-xs text-pm-text-muted mt-0.5">{__('Automatically included at the bottom of every invoice')}</p>
+              <p className="text-sm text-pm-text-muted mt-0.5">{__('Automatically included at the bottom of every invoice')}</p>
             </div>
           </div>
           <Textarea value={defaultNotes} onChange={e => set(setDefaultNotes)(e.target.value)} className="text-sm mt-2" rows={4} placeholder={__('Payment is due within 30 days of invoice date.\nThank you for your business.')} />
@@ -428,7 +428,7 @@ export default function InvoiceSettingsTab() {
           {__('Save Changes')}
         </Button>
         {isDirty && (
-          <span className="text-xs text-pm-text-muted">
+          <span className="text-sm text-pm-text-muted">
             {__('You have unsaved changes')}
           </span>
         )}

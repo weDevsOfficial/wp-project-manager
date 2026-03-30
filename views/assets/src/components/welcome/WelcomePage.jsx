@@ -186,7 +186,7 @@ function FeatureCard({ feature, __ }) {
           <h3 className="text-base font-semibold text-pm-text-primary mb-2">
             {__(feature.name)}
           </h3>
-          <p className="text-xs text-pm-text-muted leading-relaxed">
+          <p className="text-sm text-pm-text-muted leading-relaxed">
             {__(feature.description)}
           </p>
         </CardContent>
@@ -230,7 +230,7 @@ export default function WelcomePage() {
                 onClick={() => navigate('/projects')}
                 className="bg-white text-purple-600 hover:bg-white/90 font-semibold text-sm no-underline"
               >
-                <Rocket className="h-4 w-4 mr-1.5" />
+                <Rocket className="h-5 w-5 mr-1.5" />
                 {__('Create Your First Project')}
               </Button>
               <Button
@@ -244,7 +244,7 @@ export default function WelcomePage() {
                   rel="noopener noreferrer"
                   className="no-underline"
                 >
-                  <BookOpen className="h-4 w-4 mr-1.5" />
+                  <BookOpen className="h-5 w-5 mr-1.5" />
                   {__('Read Full Guide')}
                 </a>
               </Button>
@@ -291,7 +291,7 @@ export default function WelcomePage() {
               className="no-underline"
             >
               {__('View All Features')}
-              <ExternalLink className="h-3.5 w-3.5 ml-1.5" />
+              <ExternalLink className="h-4 w-4 ml-1.5" />
             </a>
           </Button>
         </div>
@@ -317,7 +317,7 @@ export default function WelcomePage() {
                 <h3 className="text-lg font-semibold text-pm-text-primary mb-2">
                   {__(resource.title)}
                 </h3>
-                <p className="text-xs text-pm-text-muted leading-relaxed mb-4">
+                <p className="text-sm text-pm-text-muted leading-relaxed mb-4">
                   {__(resource.description)}
                 </p>
                 <Button asChild size="sm" variant="default" className="font-medium">
@@ -328,7 +328,7 @@ export default function WelcomePage() {
                     className="no-underline"
                   >
                     {__(resource.buttonLabel)}
-                    <ArrowRight className="h-3.5 w-3.5 ml-1.5" />
+                    <ArrowRight className="h-4 w-4 ml-1.5" />
                   </a>
                 </Button>
               </CardContent>

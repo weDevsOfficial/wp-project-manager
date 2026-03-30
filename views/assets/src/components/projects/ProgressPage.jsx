@@ -57,28 +57,28 @@ function MockActivityItem({ item }) {
   return (
     <div className="flex items-start gap-3 py-3 px-4 hover:bg-pm-hover/50 rounded-lg transition-colors">
       <Avatar className="h-8 w-8 shrink-0 mt-0.5">
-        <AvatarFallback className="text-[11px] font-semibold bg-pm-accent/10 text-pm-accent">
+        <AvatarFallback className="text-[15px] font-semibold bg-pm-accent/10 text-pm-accent">
           {item.initials}
         </AvatarFallback>
       </Avatar>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-0.5">
           <span className="text-sm font-semibold text-pm-text">{item.user}</span>
-          <Badge variant="outline" className={`text-[10px] px-1.5 py-0 h-4 font-medium border-0 text-white ${item.color}`}>
+          <Badge variant="outline" className={`text-[14px] px-1.5 py-0 h-4 font-medium border-0 text-white ${item.color}`}>
             {ACTION_LABELS[item.action] || item.action}
           </Badge>
         </div>
         <p className="text-sm text-pm-text-muted leading-snug">{item.message}</p>
         <div className="flex items-center gap-2 mt-1">
-          <span className="text-[11px] text-pm-text-muted/70 flex items-center gap-1">
-            <FolderKanban className="h-3 w-3" />
+          <span className="text-[15px] text-pm-text-muted/70 flex items-center gap-1">
+            <FolderKanban className="h-3.5 w-3.5" />
             {item.project}
           </span>
-          <span className="text-[11px] text-pm-text-muted/50">{item.time}</span>
+          <span className="text-[15px] text-pm-text-muted/50">{item.time}</span>
         </div>
       </div>
       <div className="shrink-0 mt-1">
-        <Icon className="h-4 w-4 text-pm-text-muted/40" />
+        <Icon className="h-5 w-5 text-pm-text-muted/40" />
       </div>
     </div>
   )
@@ -119,7 +119,7 @@ export default function ProgressPage() {
             ].map((stat) => (
               <div key={stat.label} className="bg-muted/30 rounded-lg px-4 py-3 text-center">
                 <div className={`text-2xl font-bold ${stat.color}`}>{stat.value}</div>
-                <div className="text-[11px] text-pm-text-muted mt-0.5">{stat.label}</div>
+                <div className="text-[15px] text-pm-text-muted mt-0.5">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -129,7 +129,7 @@ export default function ProgressPage() {
             {MOCK_ACTIVITIES.map((group) => (
               <div key={group.date}>
                 <div className="flex items-center gap-3 mb-2 px-1">
-                  <h3 className="text-xs font-bold uppercase tracking-wider text-pm-text-muted/70">{group.date}</h3>
+                  <h3 className="text-sm font-bold uppercase tracking-wider text-pm-text-muted/70">{group.date}</h3>
                   <Separator className="flex-1" />
                 </div>
                 <div className="space-y-0.5">
@@ -143,7 +143,7 @@ export default function ProgressPage() {
 
           {/* Load more hint */}
           <div className="text-center pt-4 pb-2">
-            <div className="inline-flex items-center gap-1 text-xs text-pm-text-muted/50">
+            <div className="inline-flex items-center gap-1 text-sm text-pm-text-muted/50">
               <span>{__('Showing 9 of 250+ activities')}</span>
             </div>
           </div>
@@ -162,14 +162,14 @@ export default function ProgressPage() {
               <h3 className="text-lg font-bold text-pm-text mb-1">
                 {__('Team Progress Tracker')}
               </h3>
-              <p className="text-xs text-pm-text-muted mb-4 max-w-[250px]">
+              <p className="text-sm text-pm-text-muted mb-4 max-w-[250px]">
                 {__('Track all team activities, task completions, and project updates in real-time.')}
               </p>
               <div
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-white font-semibold text-sm"
                 style={{ background: '#ff9000' }}
               >
-                <Crown className="h-4 w-4" />
+                <Crown className="h-5 w-5" />
                 {__('Upgrade to Pro')}
               </div>
             </div>

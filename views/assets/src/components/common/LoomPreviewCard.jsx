@@ -65,8 +65,8 @@ export default function LoomPreviewCard({ previewData, loading, url, onRefresh }
       >
         {/* Source badge row */}
         <div className="flex items-center justify-between px-3 pt-3 pb-1.5">
-          <div className="flex items-center gap-1.5 text-[10px] text-pm-text-muted font-medium">
-            <LoomLogo className="h-3.5 w-3.5" />
+          <div className="flex items-center gap-1.5 text-[13px] text-pm-text-muted font-medium">
+            <LoomLogo className="h-4 w-4" />
             <span>Loom</span>
           </div>
           <div className="flex items-center gap-1">
@@ -76,17 +76,17 @@ export default function LoomPreviewCard({ previewData, loading, url, onRefresh }
                 onClick={(e) => { e.stopPropagation(); onRefresh() }}
                 title={__('Refresh')}
               >
-                <RefreshCw className="h-3 w-3" />
+                <RefreshCw className="h-3.5 w-3.5" />
               </button>
             )}
-            <ExternalLink className="h-3 w-3 text-pm-text-muted/30" />
+            <ExternalLink className="h-3.5 w-3.5 text-pm-text-muted/30" />
           </div>
         </div>
 
         {isError ? (
           <div className="px-3 pb-3">
-            <span className="text-xs text-pm-text-muted">{__('Loom Video')}</span>
-            {previewData.error && <p className="text-[10px] text-amber-600 mt-0.5">{previewData.error}</p>}
+            <span className="text-sm text-pm-text-muted">{__('Loom Video')}</span>
+            {previewData.error && <p className="text-[14px] text-amber-600 mt-0.5">{previewData.error}</p>}
           </div>
         ) : (
           <>
@@ -103,13 +103,13 @@ export default function LoomPreviewCard({ previewData, loading, url, onRefresh }
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent px-2.5 pb-2 pt-6">
                   <div className="flex items-center justify-between">
                     {previewData.author_name && (
-                      <span className="flex items-center gap-1 text-[10px] text-white/80 font-medium">
-                        <User className="h-3 w-3" />
+                      <span className="flex items-center gap-1 text-[14px] text-white/80 font-medium">
+                        <User className="h-3.5 w-3.5" />
                         {previewData.author_name}
                       </span>
                     )}
                     {duration && (
-                      <span className="text-[10px] font-medium text-white bg-black/50 px-1.5 py-0.5 rounded">
+                      <span className="text-[14px] font-medium text-white bg-black/50 px-1.5 py-0.5 rounded">
                         {duration}
                       </span>
                     )}
@@ -124,7 +124,7 @@ export default function LoomPreviewCard({ previewData, loading, url, onRefresh }
                 {previewData.title || __('Untitled Video')}
               </p>
               {previewData.description && (
-                <p className="text-[11px] text-pm-text-muted mt-0.5 line-clamp-1">{previewData.description}</p>
+                <p className="text-[15px] text-pm-text-muted mt-0.5 line-clamp-1">{previewData.description}</p>
               )}
             </div>
           </>
