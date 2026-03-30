@@ -193,6 +193,9 @@ export function AppSidebar() {
     { key: 'my-tasks', label: __('My Tasks'), icon: CheckSquare,  route: '/my-tasks' },
   ], [__])
 
+  // Pro plugin installed (pm-pro.js loaded) — may or may not be licensed
+  const isProInstalled = typeof PM_Pro_Vars !== 'undefined'
+
   const viewNavItems = useMemo(() => {
     const items = [
       { key: 'calendar',  label: __('Calendar'),  icon: Calendar,  route: '/calendar',  pro: !isPro },
@@ -201,12 +204,12 @@ export function AppSidebar() {
     ]
     if (isPro) {
       items.push({ key: 'sprints', label: __('Sprints'), icon: Timer, route: '/sprints' })
-      if (!isFrontend) {
-        items.push({ key: 'license', label: __('License'), icon: Shield, route: '/license' })
-      }
+    }
+    if (isProInstalled && !isFrontend) {
+      items.push({ key: 'license', label: __('License'), icon: Shield, route: '/license' })
     }
     return items
-  }, [__, isPro, isFrontend])
+  }, [__, isPro, isProInstalled, isFrontend])
 
   // Auto-collapse sidebar on full-width pages (reports, calendar, progress, sprints)
   const autoCollapsedRef = useRef(false)
