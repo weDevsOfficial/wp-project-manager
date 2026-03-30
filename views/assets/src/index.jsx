@@ -34,13 +34,14 @@ const ModulesPage     = React.lazy(() => import('@components/projects/ModulesPag
 const MyTasksPage     = React.lazy(() => import('@components/my-tasks/MyTasksPage'))
 const ToolsPage       = React.lazy(() => import('@components/projects/ToolsPage'))
 const WelcomePage     = React.lazy(() => import('@components/welcome/WelcomePage'))
+const LicensePage     = React.lazy(() => import('@components/projects/LicensePage'))
 
 // ── Free placeholder pages (shown when Pro does NOT replace them) ──
 const CalendarPlaceholder = React.lazy(() => import('@components/projects/CalendarPage'))
 const ReportsPlaceholder  = React.lazy(() => import('@components/projects/ReportsPage'))
 const ProgressPlaceholder = React.lazy(() => import('@components/projects/ProgressPage'))
 import ProFeaturePlaceholder from '@components/common/ProFeaturePlaceholder'
-import { Columns3, GitBranch, Receipt, Settings as SettingsIcon } from 'lucide-react'
+import { Columns3, GitBranch, Receipt, Settings as SettingsIcon, Zap } from 'lucide-react'
 
 // ── Replaceable page wrapper — pro can override via filters ──
 function FilteredPage({ filterName, fallback: Fallback }) {
@@ -54,6 +55,7 @@ function FilteredPage({ filterName, fallback: Fallback }) {
 function AppRoutes() {
   const dynamicRoutes = useRegisteredRoutes()
   const isFrontend = typeof PM_Vars !== 'undefined' && PM_Vars.is_frontend && !PM_Vars.is_admin
+  const isProInstalled = typeof PM_Pro_Vars !== 'undefined'
   const Layout = isFrontend ? FrontendLayout : AppLayout
 
   return (
@@ -77,6 +79,7 @@ function AppRoutes() {
         {!isFrontend && <Route path="welcome" element={<WelcomePage />} />}
         {!isFrontend && <Route path="modules" element={<FilteredPage filterName="route.modules.element" fallback={ModulesPage} />} />}
         <Route path="premium" element={<PremiumPage />} />
+        {!isFrontend && isProInstalled && <Route path="license" element={<LicensePage />} />}
 
         {/* ── Replaceable pages — Pro overrides via registerFilter() ── */}
         <Route path="calendar" element={<FilteredPage filterName="route.calendar.element" fallback={CalendarPlaceholder} />} />
@@ -102,6 +105,9 @@ function AppRoutes() {
         )}
         {!dynamicRoutes.some(r => r.path === 'projects/:projectId/settings') && (
           <Route path="projects/:projectId/settings" element={<ProFeaturePlaceholder title="Project Settings" description="Configure project capabilities, integrations, and more." icon={SettingsIcon} mockKey="settings" />} />
+        )}
+        {!dynamicRoutes.some(r => r.path === 'sprints') && (
+          <Route path="sprints" element={<ProFeaturePlaceholder title="Sprints" description="Plan and manage agile sprints to organize your team's work into focused iterations." icon={Zap} mockKey="sprints" />} />
         )}
 
         <Route path="*" element={<Navigate to="/projects" replace />} />
@@ -162,6 +168,7 @@ window.PM = {
   libs: {
     React,
     ReactDOM: require('react-dom'),
+    ReactJsxRuntime: require('react/jsx-runtime'),
     ReactRedux,
     ReactRouterDom,
     ReduxToolkit,

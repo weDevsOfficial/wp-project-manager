@@ -1,4 +1,5 @@
 import React from "react";
+import { Navigate } from "react-router-dom";
 import { useI18n } from "@hooks/useI18n";
 import { usePermissions } from "@hooks/usePermissions";
 import { useProModal } from "@components/common/ProUpgradeModal";
@@ -63,8 +64,10 @@ const REPORTS = [
 
 export default function ReportsPage() {
   const { __ } = useI18n();
-  const { isPro } = usePermissions();
+  const { isPro, isProLicensed } = usePermissions();
   const { setOpen } = useProModal();
+
+  if (isPro && !isProLicensed) return <Navigate to="/license" replace />;
 
   return (
     <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-6">

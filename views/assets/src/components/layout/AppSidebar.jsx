@@ -201,10 +201,8 @@ export function AppSidebar() {
       { key: 'calendar',  label: __('Calendar'),  icon: Calendar,  route: '/calendar',  pro: !isPro },
       { key: 'progress',  label: __('Progress'),  icon: Activity,  route: '/progress',  pro: !isPro },
       { key: 'reports',   label: __('Reports'),   icon: BarChart3, route: '/reports',   pro: !isPro },
+      { key: 'sprints',  label: __('Sprints'),  icon: Timer,     route: '/sprints',  pro: !isPro },
     ]
-    if (isPro) {
-      items.push({ key: 'sprints', label: __('Sprints'), icon: Timer, route: '/sprints' })
-    }
     if (isProInstalled && !isFrontend) {
       items.push({ key: 'license', label: __('License'), icon: Shield, route: '/license' })
     }

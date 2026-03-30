@@ -1,4 +1,5 @@
 import React from 'react'
+import { Navigate } from 'react-router-dom'
 import { useI18n } from '@hooks/useI18n'
 import { usePermissions } from '@hooks/usePermissions'
 import { useProModal } from './ProUpgradeModal'
@@ -130,18 +131,51 @@ function SettingsMock() {
   )
 }
 
+function SprintsMock() {
+  const sprints = [
+    { name: 'Sprint 12', status: 'Active', dates: 'Mar 18 – Mar 31', tasks: 8, completed: 3, color: '#7C3AED' },
+    { name: 'Sprint 11', status: 'Completed', dates: 'Mar 4 – Mar 17', tasks: 12, completed: 12, color: '#22c55e' },
+    { name: 'Sprint 10', status: 'Completed', dates: 'Feb 18 – Mar 3', tasks: 10, completed: 10, color: '#22c55e' },
+  ]
+  return (
+    <div className="p-5" style={{ minHeight: '420px' }}>
+      <div className="space-y-3">
+        {sprints.map((s, i) => (
+          <div key={i} className="rounded-lg border bg-white p-4">
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex items-center gap-2">
+                <div className="h-2 w-2 rounded-full" style={{ background: s.color }} />
+                <span className="text-sm font-semibold text-gray-900">{s.name}</span>
+                <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium ${s.status === 'Active' ? 'bg-purple-100 text-purple-700' : 'bg-green-100 text-green-700'}`}>{s.status}</span>
+              </div>
+              <span className="text-[11px] text-gray-400">{s.dates}</span>
+            </div>
+            <div className="w-full h-2 rounded-full bg-gray-100">
+              <div className="h-full rounded-full" style={{ width: `${(s.completed / s.tasks) * 100}%`, background: s.color, opacity: 0.7 }} />
+            </div>
+            <div className="mt-2 text-[11px] text-gray-400">{s.completed}/{s.tasks} tasks completed</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 const MOCK_MAP = {
   kanban: KanbanMock,
   gantt: GanttMock,
   invoices: InvoiceMock,
   settings: SettingsMock,
+  sprints: SprintsMock,
 }
 
 export default function ProFeaturePlaceholder({ title, description, icon: Icon, mockKey }) {
   const { __ } = useI18n()
-  const { isPro } = usePermissions()
+  const { isPro, isProLicensed } = usePermissions()
   const { setOpen } = useProModal()
   const MockComponent = mockKey && MOCK_MAP[mockKey]
+
+  if (isPro && !isProLicensed) return <Navigate to="/license" replace />
 
   return (
     <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-6">
