@@ -500,6 +500,14 @@ class Project_Controller {
 		$max_tokens = isset( $settings['ai_max_tokens'] ) ? intval( $settings['ai_max_tokens']->value ) : 2000;
 		$temperature = isset( $settings['ai_temperature'] ) ? floatval( $settings['ai_temperature']->value ) : 0.7;
 
+		// Get model config to enforce model-specific output token limit
+		$models_config = \WeDevs\PM\Settings\Controllers\AI_Settings_Controller::get_models();
+		$model_config = isset( $models_config[ $model ] ) ? $models_config[ $model ] : null;
+
+		if ( $model_config && ! empty( $model_config['max_output_tokens'] ) ) {
+			$max_tokens = min( $max_tokens, intval( $model_config['max_output_tokens'] ) );
+		}
+
 		// Enforce token limits for safety
 		$max_tokens = max( self::MIN_MAX_TOKENS, min( self::MAX_MAX_TOKENS, $max_tokens ) );
 
@@ -623,6 +631,13 @@ class Project_Controller {
 		// Get model config
 		$models_config = \WeDevs\PM\Settings\Controllers\AI_Settings_Controller::get_models();
 		$model_config = isset( $models_config[ $model ] ) ? $models_config[ $model ] : null;
+
+		// If model not found, cache may have expired — refresh and retry
+		if ( !$model_config ) {
+			\WeDevs\PM\Settings\AI\Config::update_all_models();
+			$models_config = \WeDevs\PM\Settings\Controllers\AI_Settings_Controller::get_models();
+			$model_config = isset( $models_config[ $model ] ) ? $models_config[ $model ] : null;
+		}
 
 		// Validate model exists
 		if ( !$model_config ) {

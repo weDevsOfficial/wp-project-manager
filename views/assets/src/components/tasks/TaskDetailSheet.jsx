@@ -10,7 +10,6 @@ import { useI18n } from '@hooks/useI18n'
 import { useToast } from '@hooks/useToast'
 import ProGate from '@components/common/ProGate'
 import ProBadge from '@components/common/ProBadge'
-import { Badge } from '@components/ui/badge'
 import { usePermissions } from '@hooks/usePermissions'
 import {
   Sheet,
@@ -865,7 +864,7 @@ export default function TaskDetailSheet() {
             <div className="px-6 pt-6 pb-4 space-y-4">
               <SheetHeader className="space-y-1.5">
                 <SheetDescription asChild>
-                  <div className="flex items-center gap-2 flex-wrap">
+                  <div className="flex items-center gap-2 text-[13px] text-muted-foreground min-w-0">
                     {(currentTask.project?.data?.title || currentTask.project?.title) && (
                       <button
                         type="button"
@@ -874,27 +873,32 @@ export default function TaskDetailSheet() {
                           dispatch(closeTaskSheet())
                           navigate(`/projects/${pid}/task-lists`)
                         }}
-                        className="inline-flex items-center gap-1 text-[15px] font-medium text-pm-accent hover:text-pm-accent/80 transition-colors truncate max-w-[200px]"
+                        className="inline-flex items-center gap-1 font-medium text-pm-accent hover:text-pm-accent/80 transition-colors truncate min-w-0"
                         title={currentTask.project?.data?.title || currentTask.project?.title}
                       >
-                        <Layers className="h-3.5 w-3.5 shrink-0" />
+                        <Layers className="h-3 w-3 shrink-0" />
                         {currentTask.project?.data?.title || currentTask.project?.title}
                       </button>
                     )}
-                    <Badge variant="outline" className="text-[14px] px-1.5 py-0 h-4 font-mono">
-                      #{currentTask.id}
-                    </Badge>
+                    <span className="text-muted-foreground/40">|</span>
+                    <span className="font-mono text-[12px] text-muted-foreground/70">#{currentTask.id}</span>
                     {currentTask.creator?.data && (
-                      <div className="flex items-center gap-1.5">
-                        <Avatar className="h-5 w-5">
-                          <AvatarImage src={currentTask.creator.data.avatar_url} />
-                          <AvatarFallback className="text-[7px]">{userInitials(currentTask.creator.data.display_name || '')}</AvatarFallback>
-                        </Avatar>
-                        <span className="text-[15px] text-muted-foreground">{currentTask.creator.data.display_name}</span>
-                      </div>
+                      <>
+                        <span className="text-muted-foreground/40">·</span>
+                        <div className="inline-flex items-center gap-1 shrink-0">
+                          <Avatar className="h-4 w-4">
+                            <AvatarImage src={currentTask.creator.data.avatar_url} />
+                            <AvatarFallback className="text-[6px]">{userInitials(currentTask.creator.data.display_name || '')}</AvatarFallback>
+                          </Avatar>
+                          <span>{currentTask.creator.data.display_name}</span>
+                        </div>
+                      </>
                     )}
                     {currentTask.created_at && (
-                      <span className="text-[15px] text-muted-foreground">· {formatPmDateTime(currentTask.created_at)}</span>
+                      <>
+                        <span className="text-muted-foreground/40">·</span>
+                        <span className="inline-flex items-center gap-1 shrink-0"><Calendar className="h-3 w-3" />{formatPmDateTime(currentTask.created_at)}</span>
+                      </>
                     )}
                   </div>
                 </SheetDescription>

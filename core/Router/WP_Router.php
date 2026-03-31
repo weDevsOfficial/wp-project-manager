@@ -295,9 +295,12 @@ class WP_Router {
 						return true;
 					}
 
+					$errors = $validator->get_errors( $key );
+					$message = is_array( $errors ) ? implode( ' ', $errors ) : $errors;
+
 					return new WP_Error(
 						'rest_invalid_param',
-						$validator->get_errors( $key ),
+						$message,
 						array(
 							'status' => 400
 						)
