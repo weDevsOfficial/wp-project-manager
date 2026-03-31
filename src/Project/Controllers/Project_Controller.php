@@ -479,6 +479,9 @@ class Project_Controller {
 	 * @return mixed
 	 */
 	public function ai_generate( WP_REST_Request $request ) {
+		// Allow enough time for the AI API to respond
+		@set_time_limit( self::TIMEOUT_DURATION + 30 );
+
 		$prompt = sanitize_text_field( $request->get_param( 'prompt' ) );
 
 		if ( empty( $prompt ) ) {

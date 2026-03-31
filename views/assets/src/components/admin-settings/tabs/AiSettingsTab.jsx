@@ -12,7 +12,7 @@ import { Label } from '@components/ui/label'
 import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
 } from '@components/ui/select'
-import { Bot, CheckCircle2, Eye, EyeOff, Loader2 } from 'lucide-react'
+import { Bot, CheckCircle2, Eye, EyeOff, Loader2, Pencil } from 'lucide-react'
 
 const providers = [
   { value: 'openai',    label: 'OpenAI'    },
@@ -34,6 +34,7 @@ const AiSettingsTab = () => {
   const [localApiKey, setLocalApiKey] = useState('')
   const [isDirty, setIsDirty] = useState(false)
   const [showKey, setShowKey] = useState(false)
+  const [editingKey, setEditingKey] = useState(false)
 
   useEffect(() => {
     dispatch(loadAiSettings({ provider: ai.ai_provider }))
@@ -51,13 +52,6 @@ const AiSettingsTab = () => {
     [aiModels, ai.ai_provider]
   )
 
-  const apiKeyPlaceholder = useMemo(
-    () =>
-      aiApiState.api_key_saved
-        ? __('API key is saved -- enter a new one to replace', 'wedevs-project-manager')
-        : __('Enter your API key', 'wedevs-project-manager'),
-    [aiApiState.api_key_saved, __]
-  )
 
   const onSubmit = async (e) => {
     e.preventDefault()
@@ -65,6 +59,7 @@ const AiSettingsTab = () => {
       await dispatch(saveAiSettings({ ai, apiKey: localApiKey })).unwrap()
       setIsDirty(false)
       setLocalApiKey('')
+      setEditingKey(false)
       toast.success(__('AI settings saved', 'wedevs-project-manager'))
       // Reload settings to fetch updated models from backend
       dispatch(loadAiSettings({ provider: ai.ai_provider, preserveProvider: true }))
@@ -144,31 +139,70 @@ const AiSettingsTab = () => {
               <p className="text-sm text-pm-text-muted mt-1">{__('Your secret key from the provider dashboard.', 'wedevs-project-manager')}</p>
             </div>
             <div className="space-y-1.5">
-              <div className="flex items-center gap-2">
-                <Input
-                  id="ai_api_key"
-                  type={showKey ? 'text' : 'password'}
-                  value={localApiKey || (aiApiState.api_key_saved ? aiApiState.api_key : '')}
-                  onChange={(e) => { setLocalApiKey(e.target.value); setIsDirty(true) }}
-                  placeholder={apiKeyPlaceholder}
-                  className="w-56"
-                />
-                {(localApiKey || aiApiState.api_key_saved) && (
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="icon"
-                    className="h-9 w-9 shrink-0"
-                    onClick={() => setShowKey(v => !v)}
-                  >
-                    {showKey ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-                  </Button>
-                )}
-              </div>
-              {aiApiState.api_key_saved && !localApiKey && (
-                <div className="flex items-center gap-1.5 text-sm text-pm-status-done">
-                  <CheckCircle2 className="w-4 h-4" />
-                  {__('API key is saved', 'wedevs-project-manager')}
+              {aiApiState.api_key_saved && !editingKey ? (
+                <>
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-center h-9 w-56 rounded-md border border-pm-border bg-pm-surface px-3 text-sm select-none overflow-hidden">
+                      <span className="truncate">{showKey ? aiApiState.api_key : '••••••••••••••••••••••••'}</span>
+                    </div>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="icon"
+                      className="h-9 w-9 shrink-0"
+                      onClick={() => setShowKey(v => !v)}
+                      title={showKey ? __('Hide API Key', 'wedevs-project-manager') : __('Show API Key', 'wedevs-project-manager')}
+                    >
+                      {showKey ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="icon"
+                      className="h-9 w-9 shrink-0"
+                      onClick={() => { setEditingKey(true); setLocalApiKey(''); setShowKey(false) }}
+                      title={__('Change API Key', 'wedevs-project-manager')}
+                    >
+                      <Pencil className="h-4 w-4" />
+                    </Button>
+                  </div>
+                  <div className="flex items-center gap-1.5 text-sm text-pm-status-done">
+                    <CheckCircle2 className="w-4 h-4" />
+                    {__('API key is saved', 'wedevs-project-manager')}
+                  </div>
+                </>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <Input
+                    id="ai_api_key"
+                    type={showKey ? 'text' : 'password'}
+                    value={localApiKey}
+                    onChange={(e) => { setLocalApiKey(e.target.value); setIsDirty(true) }}
+                    placeholder={__('Enter your API key', 'wedevs-project-manager')}
+                    className="w-56"
+                    autoFocus={editingKey}
+                  />
+                  {localApiKey && (
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="icon"
+                      className="h-9 w-9 shrink-0"
+                      onClick={() => setShowKey(v => !v)}
+                    >
+                      {showKey ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    </Button>
+                  )}
+                  {editingKey && (
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="sm"
+                      onClick={() => { setEditingKey(false); setLocalApiKey('') }}
+                    >
+                      {__('Cancel', 'wedevs-project-manager')}
+                    </Button>
+                  )}
                 </div>
               )}
             </div>

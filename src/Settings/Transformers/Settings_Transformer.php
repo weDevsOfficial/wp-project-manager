@@ -18,11 +18,17 @@ class Settings_Transformer extends TransformerAbstract {
         // Check if this is a hidden setting that should be masked
         $hideSettings = \WeDevs\PM\Settings\Models\Settings::$hideSettings;
         $value = $item->value;
-        
+
         if ( in_array( $item->key, $hideSettings ) && strpos( $item->key, 'ai_api_key_' ) !== 0 && $item->key !== 'github_access_token' && $item->key !== 'notion_access_token' ) {
             $value = !empty( $value ) ? true : false;
         }
-        
+
+        // Decrypt AI API keys so the frontend receives the actual key
+        if ( strpos( $item->key, 'ai_api_key_' ) === 0 && ! empty( $value ) ) {
+            $decrypted = \WeDevs\PM\Settings\Controllers\AI_Settings_Controller::decrypt_api_key_static( $value );
+            $value = $decrypted !== '' ? $decrypted : $value;
+        }
+
         return [
             'id'         => (int) $item->id,
             'key'        => $item->key,

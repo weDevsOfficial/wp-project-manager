@@ -95,9 +95,9 @@ export const saveAiSettings = createAsyncThunk(
         ai_max_tokens:  ai.ai_max_tokens,
         ai_temperature: ai.ai_temperature,
       }
-      const isMasked = apiKey && apiKey.includes('*')
-      if (!isMasked) {
-        data.ai_api_key = apiKey ? apiKey.trim() : ''
+      // Only send the API key when the user actually entered a new one
+      if (apiKey && apiKey.trim()) {
+        data.ai_api_key = apiKey.trim()
       }
       let filteredData = data
       if (typeof pm_apply_filters === 'function') {
