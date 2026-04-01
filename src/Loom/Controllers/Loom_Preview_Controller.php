@@ -63,9 +63,9 @@ class Loom_Preview_Controller {
 
         $status_code = wp_remote_retrieve_response_code( $response );
 
-        // 404 is expected for the fake test URL — proves the endpoint is reachable
+        // 400 or 404 is expected for the fake test URL — proves the endpoint is reachable
         // Any other non-2xx (401, 403, 429, 5xx) means the service is blocking us
-        if ( $status_code !== 404 && ( $status_code < 200 || $status_code >= 300 ) ) {
+        if ( ! in_array( $status_code, [ 400, 404 ], true ) && ( $status_code < 200 || $status_code >= 300 ) ) {
             return [
                 'success' => false,
                 'error'   => sprintf(

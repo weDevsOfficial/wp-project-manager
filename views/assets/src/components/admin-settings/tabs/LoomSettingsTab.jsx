@@ -10,7 +10,6 @@ import { useToast } from '@hooks/useToast'
 import { Button } from '@components/ui/button'
 import { Switch } from '@components/ui/switch'
 import { Label } from '@components/ui/label'
-import { CheckCircle, XCircle, Loader2 } from 'lucide-react'
 
 // Loom brand starburst logo SVG — exact path from Vue PR #586
 const LoomLogo = ({ className = '' }) => (
@@ -28,9 +27,6 @@ const LoomSettingsTab = () => {
   const [saving, setSaving]                 = useState(false)
   const [isDirty, setIsDirty]               = useState(false)
   const [loading, setLoading]               = useState(true)
-  const [connStatus, setConnStatus]         = useState('untested')
-  const [connError, setConnError]           = useState('')
-
   useEffect(() => {
     const load = async () => {
       try {
@@ -63,23 +59,6 @@ const LoomSettingsTab = () => {
       toast.error(err?.message ?? __('Failed to save settings', 'wedevs-project-manager'))
     }
     setSaving(false)
-  }
-
-  const testConnection = async () => {
-    setConnStatus('testing')
-    setConnError('')
-    try {
-      const res = await api.post('loom/test-connection')
-      if (res?.success) {
-        setConnStatus('connected')
-      } else {
-        setConnStatus('failed')
-        setConnError(res?.error || __('Connection failed', 'wedevs-project-manager'))
-      }
-    } catch (err) {
-      setConnStatus('failed')
-      setConnError(err?.message || __('Connection failed', 'wedevs-project-manager'))
-    }
   }
 
   if (loading) {
@@ -126,23 +105,6 @@ const LoomSettingsTab = () => {
           <Switch checked={enablePreviews} onCheckedChange={(v) => { setEnablePreviews(v); markDirty() }} />
         </div>
 
-        <div className="border-t border-pm-border" />
-
-        {/* oEmbed Status */}
-        <div className="flex items-center justify-between px-5 py-4">
-          <div>
-            <Label>{__('oEmbed Status', 'wedevs-project-manager')}</Label>
-            <div className="flex items-center gap-2 text-sm mt-1">
-              {connStatus === 'untested' && <span className="text-pm-text-muted">{__('Not tested yet', 'wedevs-project-manager')}</span>}
-              {connStatus === 'testing' && <><Loader2 className="h-4 w-4 animate-spin text-pm-accent" /><span className="text-pm-text-muted">{__('Testing...', 'wedevs-project-manager')}</span></>}
-              {connStatus === 'connected' && <><CheckCircle className="h-4 w-4 text-green-600" /><span className="text-green-600 font-medium">{__('oEmbed available', 'wedevs-project-manager')}</span></>}
-              {connStatus === 'failed' && <><XCircle className="h-4 w-4 text-destructive" /><span className="text-destructive">{connError}</span></>}
-            </div>
-          </div>
-          <Button type="button" variant="outline" size="sm" onClick={testConnection} disabled={connStatus === 'testing'}>
-            {__('Test Connection', 'wedevs-project-manager')}
-          </Button>
-        </div>
       </div>
 
       <div className="flex items-center gap-3 mt-5">

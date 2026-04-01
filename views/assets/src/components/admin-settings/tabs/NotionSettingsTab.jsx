@@ -150,8 +150,10 @@ const NotionSettingsTab = () => {
           <div>
             <Label>{__('Internal Integration Token', 'wedevs-project-manager')}</Label>
             <p className="text-sm text-pm-text-muted mt-1">
-              {__('Create an integration in your Notion workspace.', 'wedevs-project-manager')}{' '}
-              {tokenSaved && <span className="text-green-600">&check; {__('Saved', 'wedevs-project-manager')}</span>}
+              {tokenSaved
+                ? <span className="text-green-600 inline-flex items-center gap-1"><CheckCircle className="h-3.5 w-3.5" /> {__('Token saved', 'wedevs-project-manager')}</span>
+                : __('Paste your Notion internal integration token.', 'wedevs-project-manager')
+              }
             </p>
           </div>
           <div className="flex items-center gap-2">
