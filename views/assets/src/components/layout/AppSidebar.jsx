@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect, useRef } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useApi } from '@hooks/useApi'
 import { usePermissions } from '@hooks/usePermissions'
+import { useAppSelector } from '@store/index'
 import ProBadge from '@components/common/ProBadge'
 import { useI18n } from '@hooks/useI18n'
 import {
@@ -32,13 +33,9 @@ const projectSubNav_FREE = [
   { key: 'activities',   label: 'Activities',    icon: Activity,       path: (pid) => `/projects/${pid}/activities` },
 ]
 
-// Pro sub-nav items — filtered by active modules at runtime
-function getProSubNav() {
-  const modules = (typeof PM_Pro_Vars !== 'undefined' && Array.isArray(PM_Pro_Vars.active_modules))
-    ? PM_Pro_Vars.active_modules.map(m => typeof m === 'string' ? m : (m.path || ''))
-    : []
-  const isActive = (dir) => modules.some(m => m.startsWith(dir + '/') || m === dir)
-
+// Pro sub-nav items — filtered by the provided active module paths
+function getProSubNav(modulePaths) {
+  const isActive = (dir) => modulePaths.some(m => m.startsWith(dir + '/') || m === dir)
   const items = []
   if (isActive('Kanboard'))  items.push({ key: 'kanban',   label: 'Kanban Board', icon: Columns3,  path: (pid) => `/projects/${pid}/kanban` })
   if (isActive('Gantt'))     items.push({ key: 'gantt',    label: 'Gantt Chart',  icon: GitBranch,  path: (pid) => `/projects/${pid}/gantt` })
@@ -47,8 +44,6 @@ function getProSubNav() {
   items.push({ key: 'settings', label: 'Settings', icon: Settings, path: (pid) => `/projects/${pid}/settings` })
   return items
 }
-
-const PROJECT_SUB_NAV_PRO = getProSubNav()
 
 // ── Truncated text helper ────────────────────────────
 // A flex-1 span that always truncates. Uses a wrapper div
@@ -73,10 +68,19 @@ export function AppSidebar() {
   const navigate = useNavigate()
   const api      = useApi()
 
-  // Merge free + pro sub-nav items
-  // When pro is off, show Kanban/Gantt/Invoice/Settings as pro previews (like Calendar placeholder)
+  // Redux modules state (populated by pro plugin) — reactive to module toggles.
+  // Falls back to PM_Pro_Vars (PHP-localized, static) when pro plugin not loaded.
+  const reduxActiveModules = useAppSelector(s => s.modules?.activeModules ?? null)
+  const activeModulePaths = useMemo(() => {
+    const raw = reduxActiveModules
+      ?? (typeof PM_Pro_Vars !== 'undefined' ? (PM_Pro_Vars.active_modules ?? []) : [])
+    return raw.map(m => typeof m === 'string' ? m : (m.path || ''))
+  }, [reduxActiveModules])
+
+  // Merge free + pro sub-nav items — reactive via activeModulePaths.
+  // When pro is off, show Kanban/Gantt/Invoice/Settings as pro previews.
   const projectSubNav = useMemo(() => {
-    if (isPro) return [...projectSubNav_FREE, ...PROJECT_SUB_NAV_PRO]
+    if (isPro) return [...projectSubNav_FREE, ...getProSubNav(activeModulePaths)]
     return [
       ...projectSubNav_FREE,
       { key: 'kanban',   label: 'Kanban Board', icon: Columns3,  path: (pid) => `/projects/${pid}/kanban`,   proPreview: true },
@@ -84,7 +88,7 @@ export function AppSidebar() {
       { key: 'invoices', label: 'Invoices',     icon: Receipt,    path: (pid) => `/projects/${pid}/invoices`, proPreview: true },
       { key: 'settings', label: 'Settings',     icon: Settings,   path: (pid) => `/projects/${pid}/settings`, proPreview: true },
     ]
-  }, [isPro])
+  }, [isPro, activeModulePaths])
 
   // Sidebar keeps its own project list — independent of ProjectsPage Redux filters
   const [sidebarProjects, setSidebarProjects] = useState([])
@@ -197,11 +201,7 @@ export function AppSidebar() {
   const isProInstalled = typeof PM_Pro_Vars !== 'undefined'
 
   const viewNavItems = useMemo(() => {
-    const modules = (typeof PM_Pro_Vars !== 'undefined' && Array.isArray(PM_Pro_Vars.active_modules))
-      ? PM_Pro_Vars.active_modules.map(m => typeof m === 'string' ? m : (m.path || ''))
-      : []
-    const isModuleActive = (dir) => modules.some(m => m.startsWith(dir + '/') || m === dir)
-
+    const isModuleActive = (dir) => activeModulePaths.some(m => m.startsWith(dir + '/') || m === dir)
     const items = [
       { key: 'calendar', label: __('Calendar'), icon: Calendar,  route: '/calendar', pro: !isPro },
       { key: 'progress', label: __('Progress'), icon: Activity,  route: '/progress', pro: !isPro },
@@ -216,7 +216,7 @@ export function AppSidebar() {
       items.push({ key: 'license', label: __('License'), icon: Shield, route: '/license' })
     }
     return items
-  }, [__, isPro, isProInstalled, isFrontend])
+  }, [__, isPro, isProInstalled, isFrontend, activeModulePaths])
 
   // Auto-collapse sidebar on full-width pages (reports, calendar, progress, sprints)
   const autoCollapsedRef = useRef(false)

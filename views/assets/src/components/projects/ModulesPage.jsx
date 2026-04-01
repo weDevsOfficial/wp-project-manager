@@ -16,6 +16,7 @@ import {
   Clock,
   CreditCard,
   Receipt,
+  Timer,
   Crown,
   Lock,
 } from "lucide-react";
@@ -69,6 +70,13 @@ const MODULES = [
     desc: "Manage your projects group wise directly from the frontend using this premium integration.",
     icon: Users2,
     color: "text-amber-500 bg-amber-50",
+  },
+  {
+    id: "sprint",
+    name: "Sprint",
+    desc: "Plan and track work in time-boxed iterations to improve team velocity and delivery.",
+    icon: Timer,
+    color: "text-green-500 bg-green-50",
   },
   {
     id: "timetracker",
