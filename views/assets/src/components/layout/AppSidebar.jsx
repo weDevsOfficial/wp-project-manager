@@ -197,12 +197,21 @@ export function AppSidebar() {
   const isProInstalled = typeof PM_Pro_Vars !== 'undefined'
 
   const viewNavItems = useMemo(() => {
+    const modules = (typeof PM_Pro_Vars !== 'undefined' && Array.isArray(PM_Pro_Vars.active_modules))
+      ? PM_Pro_Vars.active_modules.map(m => typeof m === 'string' ? m : (m.path || ''))
+      : []
+    const isModuleActive = (dir) => modules.some(m => m.startsWith(dir + '/') || m === dir)
+
     const items = [
-      { key: 'calendar',  label: __('Calendar'),  icon: Calendar,  route: '/calendar',  pro: !isPro },
-      { key: 'progress',  label: __('Progress'),  icon: Activity,  route: '/progress',  pro: !isPro },
-      { key: 'reports',   label: __('Reports'),   icon: BarChart3, route: '/reports',   pro: !isPro },
-      { key: 'sprints',  label: __('Sprints'),  icon: Timer,     route: '/sprints',  pro: !isPro },
+      { key: 'calendar', label: __('Calendar'), icon: Calendar,  route: '/calendar', pro: !isPro },
+      { key: 'progress', label: __('Progress'), icon: Activity,  route: '/progress', pro: !isPro },
+      { key: 'reports',  label: __('Reports'),  icon: BarChart3, route: '/reports',  pro: !isPro },
     ]
+    // Non-pro: always show as a preview (ProBadge, same as Calendar).
+    // Pro: only show when the Sprint module is active.
+    if (!isPro || isModuleActive('Sprint')) {
+      items.push({ key: 'sprints', label: __('Sprints'), icon: Timer, route: '/sprints', pro: !isPro })
+    }
     if (isProInstalled && !isFrontend) {
       items.push({ key: 'license', label: __('License'), icon: Shield, route: '/license' })
     }
