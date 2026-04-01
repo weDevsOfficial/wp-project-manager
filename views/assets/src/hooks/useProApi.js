@@ -76,11 +76,44 @@ async function request(method, endpoint, data) {
   return json ?? {}
 }
 
+async function uploadFormData(endpoint, formData) {
+  const url = PM_Vars.rest_url_pro + endpoint
+  formData.append('is_admin', PM_Vars.is_admin)
+
+  let res
+  try {
+    res = await fetch(url, {
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: { 'X-WP-Nonce': PM_Vars.permission },
+      body: formData,
+    })
+  } catch {
+    throw new Error('Network error')
+  }
+
+  let json
+  try {
+    const text = await res.text()
+    json = text ? JSON.parse(text) : {}
+  } catch {
+    if (res.ok) return {}
+    throw new Error(res.statusText || 'Upload failed')
+  }
+
+  if (!res.ok) {
+    throw new Error(json?.message ?? res.statusText ?? 'Upload failed')
+  }
+
+  return json ?? {}
+}
+
 const proApi = {
-  get:  (ep, params) => request('GET',    ep, params),
-  post: (ep, body)   => request('POST',   ep, body),
-  put:  (ep, body)   => request('PUT',    ep, body),
-  del:  (ep)         => request('DELETE', ep),
+  get:    (ep, params)   => request('GET',    ep, params),
+  post:   (ep, body)     => request('POST',   ep, body),
+  put:    (ep, body)     => request('PUT',    ep, body),
+  del:    (ep)           => request('DELETE', ep),
+  upload: (ep, formData) => uploadFormData(ep, formData),
 }
 
 export function useProApi() {

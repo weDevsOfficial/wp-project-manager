@@ -211,15 +211,15 @@ export default function FilesPage() {
     setUploading(true);
     try {
       const formData = new FormData();
-      formData.append("files[0]", file);
+      formData.append("files[]", file);
       formData.append("type", "pro_file");
-      formData.append("parent", String(folderId));
-      formData.append("project_id", projectId);
+      formData.append("parent", String(folderId || 0));
+      formData.append("project_id", String(projectId));
       await proApi.upload(`projects/${projectId}/files`, formData);
       toast.success(__("File uploaded"));
       setUploadOpen(false);
       fetchFiles();
-    } catch { toast.error(__("Upload failed")); }
+    } catch (err) { toast.error(err?.message || __("Upload failed")); }
     setUploading(false);
   };
 

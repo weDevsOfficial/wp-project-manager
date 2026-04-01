@@ -126,10 +126,16 @@ export default function DiscussionsPage() {
           per_page: 20,
           page: pg,
         });
-        setDiscussions(res.data ?? []);
+        const data = res.data ?? [];
+        setDiscussions(data);
         if (res.meta?.pagination) {
           setTotalPages(res.meta.pagination.total_pages || 1);
           setPage(pg);
+        }
+        // Auto-open first discussion on initial load
+        if (pg === 1 && data.length > 0 && !openId) {
+          setOpenId(data[0].id);
+          setComments(data[0].comments?.data ?? []);
         }
       } catch {}
       setLoading(false);
@@ -167,14 +173,19 @@ export default function DiscussionsPage() {
           fd.append("milestone", formMilestone);
         formFiles.forEach((f) => fd.append("files[]", f));
 
-        await api.upload(`projects/${projectId}/discussion-boards`, fd);
+        const res = await api.upload(`projects/${projectId}/discussion-boards`, fd);
+        const newDisc = res?.data ?? res;
         setFormTitle("");
         setFormDesc("");
         setFormMilestone("-1");
         setFormFiles([]);
         setShowForm(false);
         toast.success(__("Discussion created"));
-        fetchDiscussions();
+        await fetchDiscussions();
+        if (newDisc?.id) {
+          setOpenId(newDisc.id);
+          setComments(newDisc.comments?.data ?? []);
+        }
       } catch {
         toast.error(__("Failed to create discussion"));
       }
