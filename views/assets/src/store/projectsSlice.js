@@ -317,7 +317,14 @@ const projectsSlice = createSlice({
     })
 
     builder.addCase(fetchRoles.fulfilled, (state, action) => {
-      state.roles = action.payload
+      // Deduplicate roles by slug (QA databases may have duplicate entries)
+      const seen = new Set()
+      state.roles = (action.payload || []).filter(role => {
+        const key = role.slug || role.title
+        if (seen.has(key)) return false
+        seen.add(key)
+        return true
+      })
       state.rolesLoaded = true
     })
 
