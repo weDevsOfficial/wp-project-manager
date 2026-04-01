@@ -14,7 +14,7 @@ trait Transformer_Manager {
         $manager = new Manager();
         $manager->setSerializer( new DataArraySerializer() );
 
-        if (isset(WP_Router::$request->get_query_params()['with'])) {
+        if (WP_Router::$request && isset(WP_Router::$request->get_query_params()['with'])) {
             $manager->parseIncludes(sanitize_text_field(wp_unslash(WP_Router::$request->get_query_params()['with'])));
         }
 
@@ -33,7 +33,7 @@ trait Transformer_Manager {
         $manager->setSerializer( new DataArraySerializer() );
 
 
-        if (isset(WP_Router::$request->get_query_params()['with'])) {
+        if (WP_Router::$request && isset(WP_Router::$request->get_query_params()['with'])) {
             $manager->parseIncludes(sanitize_text_field(wp_unslash(WP_Router::$request->get_query_params()['with'])));
         }
 
