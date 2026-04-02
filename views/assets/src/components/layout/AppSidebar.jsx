@@ -10,7 +10,7 @@ import {
   Settings, ArrowLeft, PanelLeftClose, PanelLeftOpen,
   ChevronDown, Star, LayoutList, Layout, MessageSquare,
   Milestone, FileText, Activity, Tag, Crown, Layers,
-  Columns3, GitBranch, Receipt, Timer, Shield, Wrench,
+  Columns3, GitBranch, Receipt, Timer, Shield, Wrench, ShoppingCart,
 } from 'lucide-react'
 import { cn } from '@lib/utils'
 
@@ -68,12 +68,17 @@ export function AppSidebar() {
   const navigate = useNavigate()
   const api      = useApi()
 
-  // Redux modules state (populated by pro plugin) — reactive to module toggles.
-  // Falls back to PM_Pro_Vars (PHP-localized, static) when pro plugin not loaded.
+  // Redux modules state (populated by pro plugin via injectReducer + fetchModules).
+  // Falls back to PM_Pro_Vars (PHP-localized) when:
+  //   - pro plugin not loaded (s.modules is undefined), OR
+  //   - Redux slice exists but activeModules is still empty (fetch not yet complete)
   const reduxActiveModules = useAppSelector(s => s.modules?.activeModules ?? null)
   const activeModulePaths = useMemo(() => {
-    const raw = reduxActiveModules
-      ?? (typeof PM_Pro_Vars !== 'undefined' ? (PM_Pro_Vars.active_modules ?? []) : [])
+    const phpModules = typeof PM_Pro_Vars !== 'undefined' ? (PM_Pro_Vars.active_modules ?? []) : []
+    // Use Redux only when it has data; otherwise fall back to PHP-localized list
+    const raw = (reduxActiveModules && reduxActiveModules.length > 0)
+      ? reduxActiveModules
+      : phpModules
     return raw.map(m => typeof m === 'string' ? m : (m.path || ''))
   }, [reduxActiveModules])
 
@@ -193,8 +198,8 @@ export function AppSidebar() {
   )
 
   const topNavItems = useMemo(() => [
-    { key: 'projects', label: __('Projects'), icon: FolderKanban, route: '/projects' },
-    { key: 'my-tasks', label: __('My Tasks'), icon: CheckSquare,  route: '/my-tasks' },
+    { key: 'projects', label: __('Projects'), short: __('Proj'), icon: FolderKanban, route: '/projects' },
+    { key: 'my-tasks', label: __('My Tasks'), short: __('Tasks'), icon: CheckSquare,  route: '/my-tasks' },
   ], [__])
 
   // Pro plugin installed (pm-pro.js loaded) — may or may not be licensed
@@ -203,17 +208,21 @@ export function AppSidebar() {
   const viewNavItems = useMemo(() => {
     const isModuleActive = (dir) => activeModulePaths.some(m => m.startsWith(dir + '/') || m === dir)
     const items = [
-      { key: 'calendar', label: __('Calendar'), icon: Calendar,  route: '/calendar', pro: !isPro },
-      { key: 'progress', label: __('Progress'), icon: Activity,  route: '/progress', pro: !isPro },
-      { key: 'reports',  label: __('Reports'),  icon: BarChart3, route: '/reports',  pro: !isPro },
+      { key: 'calendar', label: __('Calendar'), short: __('Cal'),     icon: Calendar,      route: '/calendar', pro: !isPro },
+      { key: 'progress', label: __('Progress'), short: __('Prog'),    icon: Activity,      route: '/progress', pro: !isPro },
+      { key: 'reports',  label: __('Reports'),  short: __('Rep'),     icon: BarChart3,     route: '/reports',  pro: !isPro },
     ]
     // Non-pro: always show as a preview (ProBadge, same as Calendar).
-    // Pro: only show when the Sprint module is active.
+    // Pro: only show when the respective module is active.
     if (!isPro || isModuleActive('Sprint')) {
-      items.push({ key: 'sprints', label: __('Sprints'), icon: Timer, route: '/sprints', pro: !isPro })
+      items.push({ key: 'sprints',     label: __('Sprints'),     short: __('Sprint'), icon: Timer,         route: '/sprints',      pro: !isPro })
     }
+    if (!isPro || isModuleActive('Woo_Project')) {
+      items.push({ key: 'woo-project', label: __('Woo Project'), short: __('Woo'),    icon: ShoppingCart,  route: '/woo-project',  pro: !isPro })
+    }
+
     if (isProInstalled && !isFrontend) {
-      items.push({ key: 'license', label: __('License'), icon: Shield, route: '/license' })
+      items.push({ key: 'license', label: __('License'), short: __('Lic'), icon: Shield, route: '/license' })
     }
     return items
   }, [__, isPro, isProInstalled, isFrontend, activeModulePaths])
@@ -229,7 +238,7 @@ export function AppSidebar() {
     // Skip initial mount
     if (prevPath === currPath) return
 
-    const fullWidthPages = ['reports', 'calendar', 'progress', 'sprints']
+    const fullWidthPages = ['reports', 'calendar', 'progress', 'sprints', 'woo-project']
     const wasFullWidth = fullWidthPages.some(p => prevPath.startsWith(`/${p}`))
     const isFullWidth = fullWidthPages.some(p => currPath.startsWith(`/${p}`))
 
@@ -255,7 +264,8 @@ export function AppSidebar() {
     if (path.startsWith('/calendar')) return 'calendar'
     if (path.startsWith('/progress')) return 'progress'
     if (path.startsWith('/reports'))  return 'reports'
-    if (path.startsWith('/sprints'))  return 'sprints'
+    if (path.startsWith('/sprints'))     return 'sprints'
+    if (path.startsWith('/woo-project')) return 'woo-project'
     if (path.startsWith('/license'))  return 'license'
     return 'projects'
   }, [location.pathname])
@@ -277,7 +287,7 @@ export function AppSidebar() {
         key={item.key}
         className={cn(
           'w-full flex items-center min-w-0 rounded-md transition-colors text-left mb-0.5 group/nav',
-          collapsed ? 'justify-center px-0 py-2' : 'gap-2.5 px-2.5 py-[7px]',
+          collapsed ? 'flex-col justify-center px-0 py-1.5 gap-0.5' : 'gap-2.5 px-2.5 py-[7px]',
           isActive
             ? 'bg-pm-accent/10 text-pm-accent font-medium'
             : 'text-pm-text-muted hover:bg-pm-hover hover:text-pm-text',
@@ -285,8 +295,11 @@ export function AppSidebar() {
         title={item.label}
         onClick={() => navigate(item.route)}
       >
-        <Icon className={cn('shrink-0', collapsed ? 'w-5 h-5' : 'w-[18px] h-[18px]', isActive ? 'text-pm-accent' : 'text-pm-text-muted')} />
-        {!collapsed && <TruncText className="text-[15px]">{item.label}</TruncText>}
+        <Icon className={cn('shrink-0', collapsed ? 'w-[18px] h-[18px]' : 'w-[18px] h-[18px]', isActive ? 'text-pm-accent' : 'text-pm-text-muted')} />
+        {collapsed
+          ? <span className={cn('text-[10px] font-medium leading-none', isActive ? 'text-pm-accent' : 'text-pm-text-muted')}>{item.short ?? item.label}</span>
+          : <TruncText className="text-[15px]">{item.label}</TruncText>
+        }
         {!collapsed && item.pro && <span className="shrink-0 opacity-0 group-hover/nav:opacity-100 transition-opacity"><ProBadge /></span>}
       </button>
     )
@@ -303,7 +316,7 @@ export function AppSidebar() {
         <button
           className={cn(
             'w-full flex items-center min-w-0 rounded-md transition-colors text-left',
-            collapsed ? 'justify-center px-0 py-2' : 'gap-1.5 pl-2 pr-1.5 py-[6px]',
+            collapsed ? 'flex-col justify-center px-0 py-1.5 gap-0.5' : 'gap-1.5 pl-2 pr-1.5 py-[6px]',
             isActive
               ? 'bg-pm-accent/5 text-pm-text-primary'
               : 'text-pm-text-muted hover:bg-pm-hover hover:text-pm-text',
@@ -325,19 +338,22 @@ export function AppSidebar() {
             />
           )}
           <span
-            className="h-2 w-2 rounded-sm shrink-0"
+            className={cn('rounded-sm shrink-0', collapsed ? 'h-3 w-3' : 'h-2 w-2')}
             style={{ backgroundColor: color }}
           />
-          {!collapsed && (
-            <>
-              <TruncText className={cn('text-[15px]', isActive && 'font-medium')}>
-                {project.title}
-              </TruncText>
-              {project.favourite && (
-                <Star className="h-3.5 w-3.5 shrink-0 fill-yellow-400 text-yellow-400" />
-              )}
-            </>
-          )}
+          {collapsed
+            ? <span className="text-[10px] font-medium leading-none text-pm-text-muted w-full text-center truncate px-0.5">
+                {project.title.substring(0, 4)}
+              </span>
+            : <>
+                <TruncText className={cn('text-[15px]', isActive && 'font-medium')}>
+                  {project.title}
+                </TruncText>
+                {project.favourite && (
+                  <Star className="h-3.5 w-3.5 shrink-0 fill-yellow-400 text-yellow-400" />
+                )}
+              </>
+          }
         </button>
 
         {/* Sub-nav (expanded, not collapsed) */}
@@ -372,7 +388,7 @@ export function AppSidebar() {
 
   // ── Main render ─────────────────────────────────────
 
-  const sidebarWidth = sidebarMode === 'wordpress' ? 0 : (collapsed ? 56 : 240)
+  const sidebarWidth = sidebarMode === 'wordpress' ? 0 : (collapsed ? 64 : 240)
 
   return (
     <aside
@@ -415,7 +431,7 @@ export function AppSidebar() {
       </div>
 
       {/* Scrollable nav — overflow-y for scroll, overflow-x hidden to contain content */}
-      <div className="flex-1 overflow-y-auto overflow-x-hidden">
+      <div className="flex-1 overflow-y-auto overflow-x-hidden pm-sidebar-scroll">
         <nav className={cn('pb-4 pt-1', collapsed ? 'px-1.5' : 'px-3')}>
           {/* Main nav */}
           <div className="mb-3">
@@ -522,9 +538,9 @@ export function AppSidebar() {
               ) : (
                 <div className="border-t border-pm-border my-2 mx-1" />
               )}
-              {renderNavItem({ key: 'categories', label: __('Categories'), icon: Tag, route: '/categories', adminOnly: true })}
-              {renderNavItem({ key: 'settings', label: __('Settings'), icon: Settings, route: '/settings', adminOnly: true })}
-              {renderNavItem({ key: 'importtools', label: __('Tools'), icon: Wrench, route: '/importtools', adminOnly: true })}
+              {renderNavItem({ key: 'categories', label: __('Categories'), short: __('Cat'),   icon: Tag,     route: '/categories', adminOnly: true })}
+              {renderNavItem({ key: 'settings',   label: __('Settings'),   short: __('Set'),   icon: Settings, route: '/settings',   adminOnly: true })}
+              {renderNavItem({ key: 'importtools', label: __('Tools'),     short: __('Tools'), icon: Wrench,  route: '/importtools', adminOnly: true })}
             </div>
           )}
         </nav>

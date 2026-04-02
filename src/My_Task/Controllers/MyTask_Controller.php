@@ -736,10 +736,15 @@ class MyTask_Controller {
     //     return $this->get_response( $resource );
     // }
 
-    public function assigned_users () {
-        $roles      =  User_Role::select('user_id')->get()->toArray();
-        $user_ids   = wp_list_pluck( $roles, 'user_id' ); //pluck('user_id')->unique();
-        $users      = User::find($user_ids);
+    public function assigned_users ( ?WP_REST_Request $request = null ) {
+        $project_id = $request ? intval( $request->get_param( 'project_id' ) ) : 0;
+        $query      = User_Role::select('user_id');
+        if ( $project_id ) {
+            $query->where( 'project_id', $project_id );
+        }
+        $roles    = $query->get()->toArray();
+        $user_ids = array_unique( wp_list_pluck( $roles, 'user_id' ) );
+        $users    = User::find($user_ids);
 
         $resource = new Collection( $users, new User_Transformer );
 

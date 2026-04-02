@@ -1335,8 +1335,7 @@ class Task {
 		$tb_asin = wedevs_pm_tb_prefix() . 'pm_assignees';
 
 		if ( $is_user_null ) {
-			$this->join .= " LEFT JOIN {$tb_asin} ON $tb_asin.task_id={$this->tb_tasks}.id";
-			$this->where .= $wpdb->prepare( " AND ( $tb_asin.assigned_to IN ($format) OR $tb_asin.assigned_to is null ) ) ", $users );
+			$this->where .= " AND NOT EXISTS ( SELECT 1 FROM {$tb_asin} WHERE {$tb_asin}.task_id = {$this->tb_tasks}.id )";
 		} else {
 			$this->join .= " LEFT JOIN {$tb_asin} ON $tb_asin.task_id={$this->tb_tasks}.id";
 			$this->where .= $wpdb->prepare( " AND $tb_asin.assigned_to IN ($format)", $users );

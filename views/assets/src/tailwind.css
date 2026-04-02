@@ -188,6 +188,39 @@ body:not(.wp-admin) #wedevs-project-manager {
   }
 }
 
+/* ── Plugin sidebar scrollbar — thin, pm-accent, auto-hide ── */
+.pm-sidebar-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  transition: scrollbar-color 0.3s ease;
+}
+
+.pm-sidebar-scroll:hover {
+  scrollbar-color: hsl(262 80% 57% / 0.35) transparent;
+}
+
+.pm-sidebar-scroll::-webkit-scrollbar {
+  width: 2px;
+}
+
+.pm-sidebar-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.pm-sidebar-scroll::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 9999px;
+  transition: background 0.3s ease;
+}
+
+.pm-sidebar-scroll:hover::-webkit-scrollbar-thumb {
+  background: hsl(262 80% 57% / 0.35);
+}
+
+.pm-sidebar-scroll:hover::-webkit-scrollbar-thumb:hover {
+  background: hsl(262 80% 57% / 0.6);
+}
+
 /* ── Full-screen settings mode — hides WP admin chrome ───── */
 body.pm-fullscreen-settings {
   overflow: hidden !important;
