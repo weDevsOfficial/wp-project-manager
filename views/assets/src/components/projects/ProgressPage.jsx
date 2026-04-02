@@ -4,7 +4,7 @@ import { useI18n } from '@hooks/useI18n'
 import { usePermissions } from '@hooks/usePermissions'
 import { useProModal } from '@components/common/ProUpgradeModal'
 import ProBadge from '@components/common/ProBadge'
-import { Activity, Crown, User, FolderKanban, CheckSquare, MessageSquare, FileText, Plus } from 'lucide-react'
+import { Activity, Crown, User, FolderKanban, CheckSquare, MessageSquare, FileText, Plus, BarChart2, Clock, Upload } from 'lucide-react'
 import { Avatar, AvatarFallback } from '@components/ui/avatar'
 import { Badge } from '@components/ui/badge'
 import { Separator } from '@components/ui/separator'
@@ -112,14 +112,19 @@ export default function ProgressPage() {
           {/* Stats bar */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-5">
             {[
-              { label: __('Activities Today'), value: '24', color: 'text-pm-accent' },
-              { label: __('Tasks Completed'), value: '12', color: 'text-emerald-500' },
-              { label: __('Comments'), value: '8', color: 'text-blue-500' },
-              { label: __('Files Uploaded'), value: '3', color: 'text-amber-500' },
+              { label: __('Activities Today'), value: '24', icon: BarChart2,    color: 'text-pm-accent bg-indigo-50' },
+              { label: __('Tasks Completed'), value: '12', icon: CheckSquare,   color: 'text-emerald-500 bg-emerald-50' },
+              { label: __('Comments'),        value: '8',  icon: MessageSquare, color: 'text-blue-500 bg-blue-50' },
+              { label: __('Files Uploaded'),  value: '3',  icon: Upload,        color: 'text-amber-500 bg-amber-50' },
             ].map((stat) => (
-              <div key={stat.label} className="bg-muted/30 rounded-lg px-4 py-3 text-center">
-                <div className={`text-2xl font-bold ${stat.color}`}>{stat.value}</div>
-                <div className="text-[15px] text-pm-text-muted mt-0.5">{stat.label}</div>
+              <div key={stat.label} className="rounded-xl border bg-card p-4 flex items-center gap-3">
+                <div className={`p-2 rounded-lg ${stat.color.split(' ')[1]}`}>
+                  <stat.icon className={`h-5 w-5 ${stat.color.split(' ')[0]}`} />
+                </div>
+                <div>
+                  <p className={`text-2xl font-bold tabular-nums ${stat.color.split(' ')[0]}`}>{stat.value}</p>
+                  <p className="text-[15px] text-pm-text-muted font-medium">{stat.label}</p>
+                </div>
               </div>
             ))}
           </div>

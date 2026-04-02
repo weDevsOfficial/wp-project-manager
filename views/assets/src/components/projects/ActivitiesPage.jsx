@@ -10,7 +10,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar'
 import {
   ArrowLeft, Activity, CheckSquare, FolderKanban, MessageSquare,
   FileText, Milestone, Trash2, Edit3, ArrowUpDown, Plus,
-  ChevronDown, Loader2,
+  ChevronDown, Loader2, BarChart2, Clock, PlusCircle, RefreshCw,
 } from 'lucide-react'
 import { extractDateStr, userInitials } from '@lib/pm-utils'
 import { cn } from '@lib/utils'
@@ -309,16 +309,21 @@ export default function ActivitiesPage() {
       ) : (
         <>
           {/* Stats cards */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div className="grid grid-cols-4 gap-4">
             {[
-              { label: __('Total'), value: stats.total, color: 'text-pm-accent' },
-              { label: __('Today'), value: stats.today, color: 'text-emerald-500' },
-              { label: __('Created'), value: stats.creates, color: 'text-blue-500' },
-              { label: __('Updated'), value: stats.updates, color: 'text-amber-500' },
+              { label: __('Total'),   value: stats.total,   icon: BarChart2,  color: 'text-pm-accent bg-indigo-50' },
+              { label: __('Today'),   value: stats.today,   icon: Clock,      color: 'text-emerald-500 bg-emerald-50' },
+              { label: __('Created'), value: stats.creates, icon: PlusCircle, color: 'text-blue-500 bg-blue-50' },
+              { label: __('Updated'), value: stats.updates, icon: RefreshCw,  color: 'text-amber-500 bg-amber-50' },
             ].map(stat => (
-              <div key={stat.label} className="bg-white rounded-lg px-4 py-3 text-center border">
-                <div className={`text-2xl font-bold ${stat.color}`}>{stat.value}</div>
-                <div className="text-[15px] text-pm-text-muted mt-0.5">{stat.label}</div>
+              <div key={stat.label} className="rounded-xl border bg-card p-4 flex items-center gap-3">
+                <div className={`p-2 rounded-lg ${stat.color.split(' ')[1]}`}>
+                  <stat.icon className={`h-5 w-5 ${stat.color.split(' ')[0]}`} />
+                </div>
+                <div>
+                  <p className={`text-2xl font-bold tabular-nums ${stat.color.split(' ')[0]}`}>{stat.value}</p>
+                  <p className="text-[15px] text-pm-text-muted font-medium">{stat.label}</p>
+                </div>
               </div>
             ))}
           </div>
