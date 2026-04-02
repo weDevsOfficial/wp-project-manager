@@ -9,7 +9,7 @@ import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
 import * as SonnerLib from 'sonner'
 const { Toaster } = SonnerLib
 import { store, injectReducer, resetProjectState } from '@store/index'
-import { fetchTask } from '@store/tasksSlice'
+import { fetchTask, openTaskSheet } from '@store/tasksSlice'
 import { fetchTaskLists } from '@store/taskListsSlice'
 import { AppLayout } from '@components/layout/AppLayout'
 import { FrontendLayout } from '@components/layout/FrontendLayout'
@@ -162,7 +162,7 @@ window.PM = {
 
   // Free store actions/thunks that pro may need to dispatch
   thunks: { fetchTask, fetchTaskLists },
-  actions: { resetProjectState },
+  actions: { resetProjectState, openTaskSheet },
 
   // Re-export libraries so Pro uses the SAME instances (no duplicate bundling)
   libs: {
