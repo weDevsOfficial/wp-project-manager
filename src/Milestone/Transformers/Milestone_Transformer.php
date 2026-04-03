@@ -25,7 +25,9 @@ class Milestone_Transformer extends TransformerAbstract {
     ];
 
     public function transform( Milestone $item ) {
-        $data =  [
+        $task_count = $item->task_count;
+
+        $data = [
             'id'           => (int) $item->id,
             'title'        => $item->title,
             'description'  => $item->description,
@@ -33,6 +35,9 @@ class Milestone_Transformer extends TransformerAbstract {
             'achieve_date' => wedevs_pm_format_date( $item->achieve_date ),
             'achieved_at'  => wedevs_pm_format_date( $item->updated_at ),
             'status'       => $item->status,
+            'progress'     => (int) $item->progress,
+            'health'       => $item->health,
+            'task_count'   => $task_count,
             'created_at'   => wedevs_pm_format_date( $item->created_at ),
             'meta'         => $this->meta( $item ),
         ];

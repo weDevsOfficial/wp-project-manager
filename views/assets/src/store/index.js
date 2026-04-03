@@ -4,16 +4,18 @@ import settingsReducer from './settingsSlice'
 import projectsReducer from './projectsSlice'
 import taskListsReducer from './taskListsSlice'
 import tasksReducer from './tasksSlice'
+import milestonesReducer from './milestonesSlice'
 
 // Re-export for convenience
 export { resetProjectState } from './actions'
 
 // Static (free) reducers — always present
 const staticReducers = {
-  settings:  settingsReducer,
-  projects:  projectsReducer,
-  taskLists: taskListsReducer,
-  tasks:     tasksReducer,
+  settings:   settingsReducer,
+  projects:   projectsReducer,
+  taskLists:  taskListsReducer,
+  tasks:      tasksReducer,
+  milestones: milestonesReducer,
 }
 
 // Dynamic reducers — pro plugin injects its slices at runtime

@@ -66,6 +66,7 @@ import {
   Pencil,
   FileText,
   Sparkles,
+  Milestone as MilestoneIcon,
 } from 'lucide-react'
 import {
   isTaskComplete,
@@ -418,6 +419,49 @@ function TaskTypeField({ task, projectId, dispatch, api }) {
           )}
         </PopoverContent>
       </Popover>
+    </div>
+  )
+}
+
+/**
+ * MilestoneField — Read-only display of the task's milestone.
+ *
+ * Milestones link to task_lists (not tasks) via pm_boardables.
+ * Fetches milestones once to find which one contains this task's parent list.
+ */
+function MilestoneField({ task, projectId, api }) {
+  const { __ } = useI18n()
+  const [milestoneName, setMilestoneName] = useState(null)
+  const [loaded, setLoaded] = useState(false)
+
+  const taskListId = task?.task_list_id || task?.task_lists?.data?.[0]?.id
+
+  // Fetch milestones once to find the one linked to this task's list
+  useEffect(() => {
+    if (loaded || !projectId || !taskListId) return
+    setLoaded(true)
+    api.get(`projects/${projectId}/milestones`, { with: 'task_lists', per_page: 50 })
+      .then(res => {
+        const items = res?.data ?? []
+        const match = items.find(m =>
+          (m?.task_lists?.data ?? []).some(l => l.id === taskListId)
+        )
+        if (match) setMilestoneName(match.title)
+      })
+      .catch(() => {})
+  }, [api, projectId, taskListId, loaded])
+
+  return (
+    <div className="flex items-center h-8 px-2 rounded-md hover:bg-muted/40 transition-colors">
+      <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
+        <MilestoneIcon className="h-4 w-4" /><span className="text-sm">{__('Milestone')}</span>
+      </div>
+      <span className={cn(
+        'text-sm',
+        milestoneName ? 'text-pm-text-primary' : 'text-pm-text-muted'
+      )}>
+        {milestoneName || __('None')}
+      </span>
     </div>
   )
 }
@@ -1051,6 +1095,9 @@ export default function TaskDetailSheet() {
 
                 {/* Task type — editable dropdown (task types only) */}
                 <TaskTypeField task={currentTask} projectId={currentTask?.project_id} dispatch={dispatch} api={api} />
+
+                {/* Milestone — assign task to a milestone */}
+                <MilestoneField task={currentTask} projectId={currentTask?.project_id} api={api} />
 
                 {/* Privacy — toggleable when Pro, ProGate upsell when free */}
                 <TaskPrivacyField task={currentTask} projectId={currentTask?.project_id} dispatch={dispatch} api={api} />
