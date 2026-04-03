@@ -327,7 +327,7 @@ function TaskTypeField({ task, projectId, dispatch, api }) {
   const loadTypes = useCallback(() => {
     if (types.length > 0) return
     setLoadingTypes(true)
-    api.get('settings/task-types')
+    api.get('settings/task-types', { type: 'task' })
       .then(res => {
         const items = res?.data ?? res ?? []
         setTypes(Array.isArray(items) ? items : [])
@@ -1049,7 +1049,7 @@ export default function TaskDetailSheet() {
                 {/* Estimation — editable, depends on assignees */}
                 <TaskEstimationField task={currentTask} projectId={currentTask?.project_id} dispatch={dispatch} api={api} />
 
-                {/* Task type — editable dropdown */}
+                {/* Task type — editable dropdown (task types only) */}
                 <TaskTypeField task={currentTask} projectId={currentTask?.project_id} dispatch={dispatch} api={api} />
 
                 {/* Privacy — toggleable when Pro, ProGate upsell when free */}
