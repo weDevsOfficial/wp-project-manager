@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { useAppDispatch, useAppSelector } from '@store/index'
-import { toggleExpand, addTaskToList, reorderTasksLocal } from '@store/taskListsSlice'
+import { toggleExpand, addTaskToList, reorderTasksLocal, updateTaskList, deleteTaskList } from '@store/taskListsSlice'
 import { sortTasks } from '@store/tasksSlice'
 import { createTask } from '@store/tasksSlice'
 import { useApi } from '@hooks/useApi'
@@ -182,25 +182,19 @@ export default function TaskListSection({ list, projectId, showLabels }) {
   const handleRename = useCallback(async () => {
     if (!renameTitle.trim()) return
     try {
-      await api.post(`projects/${projectId}/task-lists/${list.id}/update`, {
-        id: list.id,
-        title: renameTitle.trim(),
-      })
+      await dispatch(updateTaskList({ projectId, listId: list.id, title: renameTitle.trim() })).unwrap()
       toast.success(__('List renamed'))
       setRenaming(false)
-      // Refetch to update — simple approach
-      window.location.reload()
     } catch { toast.error(__('Failed to rename')) }
-  }, [api, projectId, list.id, renameTitle, toast, __])
+  }, [dispatch, projectId, list.id, renameTitle, toast, __])
 
   const handleDeleteList = useCallback(async () => {
     if (!confirm(__('Delete this list and all its tasks?'))) return
     try {
-      await api.post(`projects/${projectId}/task-lists/${list.id}/delete`)
+      await dispatch(deleteTaskList({ projectId, listId: list.id })).unwrap()
       toast.success(__('List deleted'))
-      window.location.reload()
     } catch { toast.error(__('Failed to delete list')) }
-  }, [api, projectId, list.id, toast, __])
+  }, [dispatch, projectId, list.id, toast, __])
 
   // ── Load more tasks ──────────────────────────────
   const hasMoreIncomplete = !allIncompleteLoaded && incompleteTasks.length < totalIncomplete
