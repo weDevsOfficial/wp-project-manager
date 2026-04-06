@@ -46,9 +46,11 @@ export function isProjectComplete(status) {
 /**
  * Check if an item is private.
  * API returns: 0/1 integer, '0'/'1' string, 'true'/'false' string, or boolean.
+ * Must strictly match private values — anything else (0, "0", null, undefined, false) is public.
  */
 export function isPrivate(val) {
-  return isTruthy(val)
+  // Strict check: only these exact values mean "private"
+  return val === 1 || val === '1' || val === true || val === 'true'
 }
 
 // ── Dates ─────────────────────────────────────────────
