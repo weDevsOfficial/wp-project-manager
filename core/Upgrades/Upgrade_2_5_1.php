@@ -19,7 +19,7 @@ class Upgrade_2_5_1 {
         $table = $wpdb->prefix . 'pm_task_types';
 
         $wpdb->query(
-            "UPDATE {$table} SET `type` = 'task' WHERE `type` != 'subtask'"
+            "UPDATE {$table} SET `type` = 'task' WHERE `type` != 'subtask' OR `type` IS NULL OR `type` = ''"
         );
     }
 }
