@@ -63,6 +63,7 @@ import {
   Layers,
   Tag,
   Repeat,
+  Zap,
   Pencil,
   FileText,
   Sparkles,
@@ -524,6 +525,14 @@ function ProInlineProperties({ taskId, projectId, currentTask, dispatch, api }) 
           <div className="flex items-center h-8 px-2 rounded-md hover:bg-muted/40 transition-colors">
             <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
               <Repeat className="h-4 w-4" /><span className="text-sm">{__('Recurring')}</span>
+            </div>
+            <ProBadge />
+          </div>
+        </ProGate>
+        <ProGate feature={__('Sprint')}>
+          <div className="flex items-center h-8 px-2 rounded-md hover:bg-muted/40 transition-colors">
+            <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
+              <Zap className="h-4 w-4" /><span className="text-sm">{__('Sprint')}</span>
             </div>
             <ProBadge />
           </div>
