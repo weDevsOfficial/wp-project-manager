@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '@store/index'
 import { toggleExpand, addTaskToList, reorderTasksLocal, updateTaskList, deleteTaskList } from '@store/taskListsSlice'
 import { sortTasks } from '@store/tasksSlice'
@@ -27,12 +28,14 @@ import {
   Pencil,
   Check,
   Lock,
+  ArrowUpRight,
 } from 'lucide-react'
 import { Slot } from '@hooks/useSlot'
 import TaskRow from './TaskRow'
 
 export default function TaskListSection({ list, projectId, showLabels }) {
   const dispatch = useAppDispatch()
+  const navigate = useNavigate()
   const { __ } = useI18n()
   const toast = useToast()
   const expanded = useAppSelector(s => s.taskLists.expandedIds.includes(list.id))
@@ -212,7 +215,7 @@ export default function TaskListSection({ list, projectId, showLabels }) {
       })
       const newTasks = res?.data?.tasks?.data ?? res?.data ?? []
       if (newTasks.length > 0) {
-        newTasks.forEach(t => dispatch(addTaskToList({ listId: list.id, task: t })))
+        newTasks.forEach(t => dispatch(addTaskToList({ listId: list.id, task: t, incrementTotal: false })))
       } else {
         // No more tasks to load
         if (isComplete) setAllCompleteLoaded(true)
@@ -271,6 +274,17 @@ export default function TaskListSection({ list, projectId, showLabels }) {
         <span className="text-[14px] font-medium text-pm-text-muted tabular-nums w-8 text-right">
           {progress}%
         </span>
+
+        {/* View single list */}
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-6 w-6"
+          title={__('View List')}
+          onClick={() => navigate(`/projects/${projectId}/task-lists/${list.id}`)}
+        >
+          <ArrowUpRight className="h-4 w-4" />
+        </Button>
 
         {/* Add task */}
         <Button

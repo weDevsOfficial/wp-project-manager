@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Slot, useSlotFills } from '@hooks/useSlot'
 import { useAppDispatch, useAppSelector } from '@store/index'
 import { closeTaskSheet, fetchTask, updateTask, changeTaskStatus, addTaskComment, updateTaskComment, deleteTaskComment, deleteTask } from '@store/tasksSlice'
-import { toggleTaskInList, removeTaskFromList } from '@store/taskListsSlice'
+import { toggleTaskInList, removeTaskFromList, updateTaskPrivacy } from '@store/taskListsSlice'
 import { useApi } from '@hooks/useApi'
 import { cn } from '@lib/utils'
 import { useI18n } from '@hooks/useI18n'
@@ -110,6 +110,7 @@ function parseActivityMessage(activity) {
 function TaskPrivacyField({ task, projectId, dispatch, api }) {
   const { __ } = useI18n()
   const { isPro } = usePermissions()
+  const taskLoading = useAppSelector(s => s.tasks.loading)
   const taskPrivate = isPrivate(task?.meta?.privacy)
   const [toggling, setToggling] = useState(false)
 
@@ -117,11 +118,16 @@ function TaskPrivacyField({ task, projectId, dispatch, api }) {
     if (toggling) return
     setToggling(true)
     const newPrivacy = taskPrivate ? 0 : 1
+    // Optimistic update in lists (TaskRow lock icon updates immediately)
+    dispatch(updateTaskPrivacy({ taskId: task.id, privacy: newPrivacy }))
     api.post(`projects/${projectId}/tasks/privacy/${task.id}`, {
       is_private: newPrivacy,
     }).then(() => {
       dispatch(fetchTask({ projectId, taskId: task.id }))
-    }).catch(() => {})
+    }).catch(() => {
+      // Revert on failure
+      dispatch(updateTaskPrivacy({ taskId: task.id, privacy: taskPrivate ? 1 : 0 }))
+    })
     .finally(() => setToggling(false))
   }, [taskPrivate, task, projectId, api, dispatch, toggling])
 
@@ -143,21 +149,25 @@ function TaskPrivacyField({ task, projectId, dispatch, api }) {
       <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
         <Shield className="h-4 w-4" /><span className="text-sm">{__('Privacy')}</span>
       </div>
-      <button
-        className={cn(
-          'flex items-center gap-1.5 text-sm px-2 py-0.5 rounded transition-colors',
-          taskPrivate
-            ? 'bg-amber-50 text-amber-700 hover:bg-amber-100'
-            : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100',
-          toggling && 'opacity-50'
-        )}
-        onClick={handleToggle}
-        disabled={toggling}
-        title={taskPrivate ? __('Click to make public') : __('Click to make private')}
-      >
-        {taskPrivate ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
-        {taskPrivate ? __('Private') : __('Public')}
-      </button>
+      {taskLoading ? (
+        <span className="text-sm text-pm-text-muted">...</span>
+      ) : (
+        <button
+          className={cn(
+            'flex items-center gap-1.5 text-sm px-2 py-0.5 rounded transition-colors',
+            taskPrivate
+              ? 'bg-amber-50 text-amber-700 hover:bg-amber-100'
+              : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100',
+            toggling && 'opacity-50'
+          )}
+          onClick={handleToggle}
+          disabled={toggling}
+          title={taskPrivate ? __('Click to make public') : __('Click to make private')}
+        >
+          {taskPrivate ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+          {taskPrivate ? __('Private') : __('Public')}
+        </button>
+      )}
     </div>
   )
 }
