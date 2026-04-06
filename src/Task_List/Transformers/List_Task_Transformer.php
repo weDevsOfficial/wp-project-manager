@@ -83,8 +83,9 @@ class List_Task_Transformer extends TransformerAbstract {
         $metas = [
             'can_complete_task' => $this->wedevs_pm_user_can_complete_task( $item ),
             'total_comment' => $item->total_comment,
+            'privacy'       => (int) $item->is_private,
         ];
-        
+
 	    return $metas;
     }
 
