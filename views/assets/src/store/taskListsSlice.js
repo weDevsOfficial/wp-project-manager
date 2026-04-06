@@ -15,6 +15,7 @@ const initialState = {
   expandedIds:    [],
   projectId:      null,
   listsMeta:      { total: 0, total_pages: 1, current_page: 1, per_page: 10 },
+  listComments:   [],
 }
 
 // ── Async thunks ──────────────────────────────────────
@@ -126,6 +127,54 @@ export const reorderLists = createAsyncThunk(
   },
 )
 
+// ── List comment thunks ──────────────────────────────
+
+export const addListComment = createAsyncThunk(
+  'taskLists/addListComment',
+  async ({ projectId, listId, content }, { rejectWithValue }) => {
+    try {
+      const res = await api.post(`projects/${projectId}/comments`, {
+        content,
+        commentable_id: listId,
+        commentable_type: 'task_list',
+        mentioned_users: '',
+        notify_users: '',
+        project_id: projectId,
+      })
+      return { listId, comment: res.data }
+    } catch (e) {
+      return rejectWithValue(e.message ?? 'Failed to add comment')
+    }
+  },
+)
+
+export const updateListComment = createAsyncThunk(
+  'taskLists/updateListComment',
+  async ({ projectId, commentId, content }, { rejectWithValue }) => {
+    try {
+      const res = await api.post(`projects/${projectId}/comments/${commentId}`, {
+        content,
+        project_id: projectId,
+      })
+      return { commentId, content, data: res.data }
+    } catch (e) {
+      return rejectWithValue(e.message ?? 'Failed to update comment')
+    }
+  },
+)
+
+export const deleteListComment = createAsyncThunk(
+  'taskLists/deleteListComment',
+  async ({ projectId, commentId }, { rejectWithValue }) => {
+    try {
+      await api.post(`projects/${projectId}/comments/${commentId}/delete`)
+      return { commentId }
+    } catch (e) {
+      return rejectWithValue(e.message ?? 'Failed to delete comment')
+    }
+  },
+)
+
 // ── Slice ─────────────────────────────────────────────
 
 const taskListsSlice = createSlice({
@@ -152,32 +201,54 @@ const taskListsSlice = createSlice({
     clearLists(state) {
       state.lists = []
       state.currentList = null
+      state.listComments = []
       state.expandedIds = []
       state.projectId = null
     },
+    clearListComments(state) {
+      state.listComments = []
+    },
     // Optimistic: push a new task into a list's incomplete_tasks
+    // incrementTotal: true when creating a new task, false when loading more existing tasks
     addTaskToList(state, action) {
-      const list = state.lists.find(l => l.id === action.payload.listId)
-      if (list) {
-        list.incomplete_tasks.data.unshift(action.payload.task)
-        list.meta.total_incomplete_tasks++
+      const { listId, task, incrementTotal = true } = action.payload
+      const addTo = (list) => {
+        if (!list) return
+        const exists = list.incomplete_tasks.data.some(t => t.id === task.id)
+          || list.complete_tasks.data.some(t => t.id === task.id)
+        if (exists) return
+        if (task.status === 1 || task.status === '1' || task.status === 'complete' || task.status === true) {
+          list.complete_tasks.data.push(task)
+        } else {
+          if (incrementTotal) {
+            list.incomplete_tasks.data.unshift(task)
+            list.meta.total_incomplete_tasks++
+          } else {
+            list.incomplete_tasks.data.push(task)
+          }
+        }
       }
+      addTo(state.lists.find(l => l.id === listId))
+      if (state.currentList?.id === listId) addTo(state.currentList)
     },
     // Optimistic: remove task from list
     removeTaskFromList(state, action) {
-      const list = state.lists.find(l => l.id === action.payload.listId)
-      if (list) {
-        const inIdx = list.incomplete_tasks.data.findIndex(t => t.id === action.payload.taskId)
+      const { listId, taskId } = action.payload
+      const removeFrom = (list) => {
+        if (!list) return
+        const inIdx = list.incomplete_tasks.data.findIndex(t => t.id === taskId)
         if (inIdx !== -1) {
           list.incomplete_tasks.data.splice(inIdx, 1)
           list.meta.total_incomplete_tasks = Math.max(0, list.meta.total_incomplete_tasks - 1)
         }
-        const coIdx = list.complete_tasks.data.findIndex(t => t.id === action.payload.taskId)
+        const coIdx = list.complete_tasks.data.findIndex(t => t.id === taskId)
         if (coIdx !== -1) {
           list.complete_tasks.data.splice(coIdx, 1)
           list.meta.total_complete_tasks = Math.max(0, list.meta.total_complete_tasks - 1)
         }
       }
+      removeFrom(state.lists.find(l => l.id === listId))
+      if (state.currentList?.id === listId) removeFrom(state.currentList)
     },
     // Optimistic: reorder lists locally (before API call)
     reorderListsLocal(state, action) {
@@ -197,39 +268,43 @@ const taskListsSlice = createSlice({
     // Optimistic: update task privacy in-place
     updateTaskPrivacy(state, action) {
       const { taskId, privacy } = action.payload
-      state.lists.forEach(list => {
+      const updateIn = (list) => {
+        if (!list) return
         const inTask = list.incomplete_tasks.data.find(t => t.id === taskId)
         if (inTask) inTask.meta = { ...inTask.meta, privacy }
         const coTask = list.complete_tasks.data.find(t => t.id === taskId)
         if (coTask) coTask.meta = { ...coTask.meta, privacy }
-      })
+      }
+      state.lists.forEach(list => updateIn(list))
+      if (state.currentList) updateIn(state.currentList)
     },
     // Optimistic: move task between incomplete <-> complete within a list
     toggleTaskInList(state, action) {
-      const list = state.lists.find(l => l.id === action.payload.listId)
-      if (!list) return
-      const { taskId, newStatus } = action.payload
-      if (newStatus === 1) {
-        // incomplete -> complete
-        const idx = list.incomplete_tasks.data.findIndex(t => t.id === taskId)
-        if (idx !== -1) {
-          const [task] = list.incomplete_tasks.data.splice(idx, 1)
-          task.status = 1
-          list.complete_tasks.data.unshift(task)
-          list.meta.total_incomplete_tasks = Math.max(0, list.meta.total_incomplete_tasks - 1)
-          list.meta.total_complete_tasks++
-        }
-      } else {
-        // complete -> incomplete
-        const idx = list.complete_tasks.data.findIndex(t => t.id === taskId)
-        if (idx !== -1) {
-          const [task] = list.complete_tasks.data.splice(idx, 1)
-          task.status = 0
-          list.incomplete_tasks.data.unshift(task)
-          list.meta.total_complete_tasks = Math.max(0, list.meta.total_complete_tasks - 1)
-          list.meta.total_incomplete_tasks++
+      const { listId, taskId, newStatus } = action.payload
+      const toggleInList = (list) => {
+        if (!list) return
+        if (newStatus === 1) {
+          const idx = list.incomplete_tasks.data.findIndex(t => t.id === taskId)
+          if (idx !== -1) {
+            const [task] = list.incomplete_tasks.data.splice(idx, 1)
+            task.status = 1
+            list.complete_tasks.data.unshift(task)
+            list.meta.total_incomplete_tasks = Math.max(0, list.meta.total_incomplete_tasks - 1)
+            list.meta.total_complete_tasks++
+          }
+        } else {
+          const idx = list.complete_tasks.data.findIndex(t => t.id === taskId)
+          if (idx !== -1) {
+            const [task] = list.complete_tasks.data.splice(idx, 1)
+            task.status = 0
+            list.incomplete_tasks.data.unshift(task)
+            list.meta.total_complete_tasks = Math.max(0, list.meta.total_complete_tasks - 1)
+            list.meta.total_incomplete_tasks++
+          }
         }
       }
+      toggleInList(state.lists.find(l => l.id === listId))
+      if (state.currentList?.id === listId) toggleInList(state.currentList)
     },
   },
   extraReducers: (builder) => {
@@ -259,6 +334,7 @@ const taskListsSlice = createSlice({
 
     builder.addCase(fetchSingleList.fulfilled, (state, action) => {
       state.currentList = action.payload
+      state.listComments = action.payload?.comments?.data ?? []
     })
 
     builder.addCase(createTaskList.fulfilled, (state, action) => {
@@ -306,18 +382,27 @@ const taskListsSlice = createSlice({
 
     // ── Sync task changes from tasksSlice back into lists ──
     // When a task is updated in TaskDetailSheet, reflect changes in the list view
+    const syncTaskInList = (list, updatedTask) => {
+      if (!list) return
+      const merge = (existing) => ({
+        ...existing,
+        ...updatedTask,
+        // Deep-merge meta so keys present in existing but absent in updated are preserved
+        meta: { ...existing.meta, ...updatedTask.meta },
+      })
+      const inIdx = list.incomplete_tasks.data.findIndex(t => t.id === updatedTask.id)
+      if (inIdx !== -1) {
+        list.incomplete_tasks.data[inIdx] = merge(list.incomplete_tasks.data[inIdx])
+      }
+      const coIdx = list.complete_tasks.data.findIndex(t => t.id === updatedTask.id)
+      if (coIdx !== -1) {
+        list.complete_tasks.data[coIdx] = merge(list.complete_tasks.data[coIdx])
+      }
+    }
     const syncTaskInLists = (state, updatedTask) => {
       if (!updatedTask?.id) return
-      state.lists.forEach(list => {
-        const inIdx = list.incomplete_tasks.data.findIndex(t => t.id === updatedTask.id)
-        if (inIdx !== -1) {
-          list.incomplete_tasks.data[inIdx] = { ...list.incomplete_tasks.data[inIdx], ...updatedTask }
-        }
-        const coIdx = list.complete_tasks.data.findIndex(t => t.id === updatedTask.id)
-        if (coIdx !== -1) {
-          list.complete_tasks.data[coIdx] = { ...list.complete_tasks.data[coIdx], ...updatedTask }
-        }
-      })
+      state.lists.forEach(list => syncTaskInList(list, updatedTask))
+      if (state.currentList) syncTaskInList(state.currentList, updatedTask)
     }
 
     builder.addCase(updateTask.fulfilled, (state, action) => {
@@ -325,6 +410,21 @@ const taskListsSlice = createSlice({
     })
     builder.addCase(fetchTask.fulfilled, (state, action) => {
       if (action.payload) syncTaskInLists(state, action.payload)
+    })
+
+    // ── List comment reducers ──
+    builder.addCase(addListComment.fulfilled, (state, action) => {
+      if (action.payload?.comment) {
+        state.listComments.push(action.payload.comment)
+      }
+    })
+    builder.addCase(updateListComment.fulfilled, (state, action) => {
+      const { commentId, content } = action.payload
+      const idx = state.listComments.findIndex(c => c.id === commentId)
+      if (idx >= 0) state.listComments[idx] = { ...state.listComments[idx], content }
+    })
+    builder.addCase(deleteListComment.fulfilled, (state, action) => {
+      state.listComments = state.listComments.filter(c => c.id !== action.payload.commentId)
     })
 
     // Global project reset — clear all project-scoped data
@@ -335,7 +435,7 @@ const taskListsSlice = createSlice({
 export const {
   setProjectId, toggleExpand, expandAll, collapseAll, clearLists,
   addTaskToList, removeTaskFromList, updateTaskPrivacy, toggleTaskInList,
-  reorderListsLocal, reorderTasksLocal,
+  reorderListsLocal, reorderTasksLocal, clearListComments,
 } = taskListsSlice.actions
 
 export default taskListsSlice.reducer

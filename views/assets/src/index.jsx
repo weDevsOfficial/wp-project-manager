@@ -23,6 +23,7 @@ import './tailwind.css'
 const ProjectsPage    = React.lazy(() => import('@components/projects/ProjectsPage'))
 const SettingsPage    = React.lazy(() => import('@components/admin-settings/SettingsPage'))
 const TaskListsPage   = React.lazy(() => import('@components/tasks/TaskListsPage'))
+const SingleTaskListPage = React.lazy(() => import('@components/tasks/SingleTaskListPage'))
 const ProjectOverview = React.lazy(() => import('@components/projects/ProjectOverview'))
 const DiscussionsPage = React.lazy(() => import('@components/projects/DiscussionsPage'))
 const MilestonesPage  = React.lazy(() => import('@components/projects/MilestonesPage'))
@@ -65,6 +66,7 @@ function AppRoutes() {
         <Route index element={<Navigate to="/projects" replace />} />
         <Route path="projects" element={<ProjectsPage />} />
         <Route path="projects/:projectId/task-lists" element={<TaskListsPage />} />
+        <Route path="projects/:projectId/task-lists/:listId" element={<SingleTaskListPage />} />
         <Route path="projects/:projectId/overview" element={<ProjectOverview />} />
         <Route path="projects/:projectId/discussions" element={<DiscussionsPage />} />
         <Route path="projects/:projectId/milestones" element={<MilestonesPage />} />
