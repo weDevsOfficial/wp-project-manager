@@ -38,6 +38,7 @@ import {
   Lock as LockIcon,
   Unlock,
   Crown,
+  Github,
 } from 'lucide-react'
 import MoveTaskDialog from './MoveTaskDialog'
 import {
@@ -190,6 +191,22 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
         <Badge variant="outline" className="text-[14px] px-1.5 py-0 h-4 shrink-0 font-normal text-muted-foreground">
           {task.type.title}
         </Badge>
+      )}
+
+      {/* GitHub/Bitbucket sync indicator */}
+      {task.github_issue && (
+        <TooltipProvider delayDuration={200}>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <span className="shrink-0">
+                <Github className="h-3.5 w-3.5 text-pm-text-muted" />
+              </span>
+            </TooltipTrigger>
+            <TooltipContent side="bottom">
+              <p>{task.github_issue.source}{task.github_issue.issue_number ? ` #${task.github_issue.issue_number}` : ''}</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       )}
 
       {/* Labels (when "Show Labels in Tasks List" is enabled in project settings) */}
