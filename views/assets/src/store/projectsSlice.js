@@ -3,6 +3,15 @@ import { useApi } from '@hooks/useApi'
 
 const api = useApi()
 
+// BuddyPress group scoping — when PM is rendered inside a BP group,
+// PM_BP_Vars.group_id is set by the BuddyPress extension.
+function bpGroupParams(params = {}) {
+  if (typeof PM_BP_Vars !== 'undefined' && PM_BP_Vars.group_id) {
+    return { ...params, group_id: PM_BP_Vars.group_id }
+  }
+  return params
+}
+
 // ── Async thunks ──────────────────────────────────────────
 
 export const fetchProjects = createAsyncThunk(
@@ -26,7 +35,7 @@ export const fetchProjects = createAsyncThunk(
       if (state.categoryId) query.category = state.categoryId
       // Use advanced/projects endpoint — returns Fractal-transformed data with per-project meta
       // The Helper (projects) endpoint has meta counting commented out
-      const res = await api.get('advanced/projects', query)
+      const res = await api.get('advanced/projects', bpGroupParams(query))
       return res
     } catch (e) {
       return rejectWithValue(e.message ?? 'Failed to load projects')
@@ -96,7 +105,7 @@ export const createProject = createAsyncThunk(
   'projects/createProject',
   async (payload, { rejectWithValue }) => {
     try {
-      const res = await api.post('projects', payload)
+      const res = await api.post('projects', bpGroupParams(payload))
       return res
     } catch (e) {
       return rejectWithValue(e.message ?? 'Failed to create project')
