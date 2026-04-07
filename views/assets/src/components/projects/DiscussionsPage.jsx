@@ -65,11 +65,13 @@ function renderFiles(files) {
               className="h-8 w-8 rounded object-cover"
             />
           ) : (
-            <FileText className="h-5 w-5 text-pm-text-muted" />
+            <>
+              <FileText className="h-5 w-5 text-pm-text-muted" />
+              <span className="text-pm-text-primary truncate max-w-[120px]">
+                {f.name}
+              </span>
+            </>
           )}
-          <span className="text-pm-text-primary truncate max-w-[120px]">
-            {f.name}
-          </span>
         </a>
       ))}
     </div>

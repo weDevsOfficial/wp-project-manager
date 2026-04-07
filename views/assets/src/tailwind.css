@@ -348,12 +348,11 @@ body.pm-fullscreen-settings.pm-mode-wordpress #wedevs-pm {
    regardless of sidebar width. */
 [data-pm-dialog] {
   position: fixed !important;
-  top: 20% !important;
-  left: 0 !important;
-  right: 0 !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-  transform: none !important;
+  top: 50% !important;
+  left: 50% !important;
+  right: auto !important;
+  margin: 0 !important;
+  transform: translate(-50%, -50%) !important;
 }
 
 /* Radix dialogs only — exclude WP media modal (.media-modal) */
