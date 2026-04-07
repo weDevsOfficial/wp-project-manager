@@ -136,7 +136,7 @@ function App() {
         </div>
         </ProModalProvider>
         {createPortal(
-          <Toaster position="bottom-center" toastOptions={{ style: { zIndex: 99999 } }} style={{ zIndex: 99999 }} />,
+          <Toaster position="bottom-center" richColors toastOptions={{ style: { zIndex: 99999 } }} style={{ zIndex: 99999 }} />,
           document.body
         )}
       </HashRouter>

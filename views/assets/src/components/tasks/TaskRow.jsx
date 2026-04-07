@@ -158,8 +158,8 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
         disabled={toggling}
       >
         {isComplete ? (
-          /* Filled green circle with check */
-          <span className="flex items-center justify-center h-[18px] w-[18px] rounded-full bg-emerald-500 text-white">
+          /* Filled circle with check — uses brand color */
+          <span className="flex items-center justify-center h-[18px] w-[18px] rounded-full bg-pm-accent text-white">
             <Check className="h-3.5 w-3.5" strokeWidth={3} />
           </span>
         ) : hovered ? (

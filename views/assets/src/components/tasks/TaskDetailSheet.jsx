@@ -968,7 +968,7 @@ export default function TaskDetailSheet() {
                 <div className="flex items-center gap-3">
                   <button type="button" onClick={handleToggleStatus} className="shrink-0 group/status">
                     {complete ? (
-                      <span className="flex items-center justify-center h-6 w-6 rounded-full bg-emerald-500 text-white">
+                      <span className="flex items-center justify-center h-6 w-6 rounded-full bg-pm-accent text-white">
                         <Check className="h-4 w-4" strokeWidth={3} />
                       </span>
                     ) : (

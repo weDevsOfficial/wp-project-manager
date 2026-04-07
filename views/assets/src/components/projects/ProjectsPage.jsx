@@ -599,14 +599,14 @@ export default function ProjectsPage() {
                 key={project.id}
                 className="group border-b last:border-b-0 hover:bg-muted/20 transition-colors"
               >
-                <td className="px-5 py-3">
-                  <div className="flex items-center gap-2.5">
+                <td className="px-5 py-3 max-w-[300px]">
+                  <div className="flex items-center gap-2.5 min-w-0">
                     <span
                       className="h-2 w-2 rounded-full shrink-0 ring-2 ring-background"
                       style={{ backgroundColor: projectColor }}
                     />
                     <span
-                      className="font-medium text-pm-text-primary line-clamp-1 cursor-pointer hover:text-pm-accent transition-colors"
+                      className="font-medium text-pm-text-primary truncate cursor-pointer hover:text-pm-accent transition-colors"
                       onClick={() =>
                         navigate(`/projects/${project.id}/task-lists`)
                       }
