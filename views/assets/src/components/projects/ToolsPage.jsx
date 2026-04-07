@@ -13,7 +13,7 @@ import {
 
 /* ── Trello Import Card ── */
 function TrelloImportCard() {
-  const { __ } = useI18n()
+  const { __, sprintf } = useI18n()
   const api    = useApi()
 
   const [open, setOpen]           = useState(true)
@@ -78,7 +78,7 @@ function TrelloImportCard() {
         const boardLabel = board.name || `Board ${i + 1}`
 
         // Get lists for this board
-        setStatusMsg(__(`Importing lists from "${boardLabel}"...`, 'wedevs-project-manager'))
+        setStatusMsg(sprintf(__('Importing lists from "%s"...', 'wedevs-project-manager'), boardLabel))
         setProgress(Math.min(boardProgress - 10, 90))
         const listsData = await callStep('trello/get_lists', {
           formData,
@@ -86,7 +86,7 @@ function TrelloImportCard() {
         })
 
         // Get cards for lists
-        setStatusMsg(__(`Importing cards from "${boardLabel}"...`, 'wedevs-project-manager'))
+        setStatusMsg(sprintf(__('Importing cards from "%s"...', 'wedevs-project-manager'), boardLabel))
         setProgress(Math.min(boardProgress - 5, 92))
         const cardsData = await callStep('trello/get_cards', {
           formData,
@@ -94,7 +94,7 @@ function TrelloImportCard() {
         })
 
         // Get subcards (checklists)
-        setStatusMsg(__(`Importing checklists from "${boardLabel}"...`, 'wedevs-project-manager'))
+        setStatusMsg(sprintf(__('Importing checklists from "%s"...', 'wedevs-project-manager'), boardLabel))
         setProgress(Math.min(boardProgress - 2, 94))
         await callStep('trello/get_subcards', {
           formData,
@@ -102,7 +102,7 @@ function TrelloImportCard() {
         })
 
         // Get users/assignees
-        setStatusMsg(__(`Importing assignees from "${boardLabel}"...`, 'wedevs-project-manager'))
+        setStatusMsg(sprintf(__('Importing assignees from "%s"...', 'wedevs-project-manager'), boardLabel))
         setProgress(Math.min(boardProgress, 96))
         await callStep('trello/get_users', {
           formData,

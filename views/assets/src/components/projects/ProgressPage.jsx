@@ -53,6 +53,7 @@ const ACTION_LABELS = {
 }
 
 function MockActivityItem({ item }) {
+  const { __ } = useI18n()
   const Icon = ACTION_ICONS[item.type] || Activity
   return (
     <div className="flex items-start gap-3 py-3 px-4 hover:bg-pm-hover/50 rounded-lg transition-colors">
@@ -65,7 +66,7 @@ function MockActivityItem({ item }) {
         <div className="flex items-center gap-2 mb-0.5">
           <span className="text-sm font-semibold text-pm-text">{item.user}</span>
           <Badge variant="outline" className={`text-[14px] px-1.5 py-0 h-4 font-medium border-0 text-white ${item.color}`}>
-            {ACTION_LABELS[item.action] || item.action}
+            {__(ACTION_LABELS[item.action] || item.action)}
           </Badge>
         </div>
         <p className="text-sm text-pm-text-muted leading-snug">{item.message}</p>
@@ -134,7 +135,7 @@ export default function ProgressPage() {
             {MOCK_ACTIVITIES.map((group) => (
               <div key={group.date}>
                 <div className="flex items-center gap-3 mb-2 px-1">
-                  <h3 className="text-sm font-bold uppercase tracking-wider text-pm-text-muted/70">{group.date}</h3>
+                  <h3 className="text-sm font-bold uppercase tracking-wider text-pm-text-muted/70">{__(group.date)}</h3>
                   <Separator className="flex-1" />
                 </div>
                 <div className="space-y-0.5">

@@ -60,6 +60,7 @@ const ACTION_COLOR_MAP = {
   delete: 'bg-red-500',
 }
 
+// Keys are translated at render time via __()
 const ACTION_LABELS = {
   create: 'Created',
   update: 'Updated',
@@ -136,7 +137,7 @@ function formatTime(committedAt) {
     try {
       const d = new Date(`1970-01-01T${committedAt.time}`)
       if (!isNaN(d.getTime())) {
-        return d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }).toLowerCase()
+        return d.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: true }).toLowerCase()
       }
     } catch {}
     return committedAt.time?.slice(0, 5) || ''
@@ -144,8 +145,8 @@ function formatTime(committedAt) {
   return ''
 }
 
-function formatGroupDate(dateStr) {
-  if (!dateStr) return 'Unknown'
+function formatGroupDate(dateStr, __) {
+  if (!dateStr) return __('Unknown')
   try {
     const d = new Date(dateStr)
     const today = new Date()
@@ -155,15 +156,15 @@ function formatGroupDate(dateStr) {
     const dateOnly = new Date(d)
     dateOnly.setHours(0, 0, 0, 0)
 
-    if (dateOnly.getTime() === today.getTime()) return 'Today'
-    if (dateOnly.getTime() === yesterday.getTime()) return 'Yesterday'
-    return d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+    if (dateOnly.getTime() === today.getTime()) return __('Today')
+    if (dateOnly.getTime() === yesterday.getTime()) return __('Yesterday')
+    return d.toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' })
   } catch {
     return dateStr
   }
 }
 
-function groupByDate(activities) {
+function groupByDate(activities, __) {
   const groups = []
   let currentDate = null
   let currentGroup = null
@@ -174,7 +175,7 @@ function groupByDate(activities) {
 
     if (dateKey !== currentDate) {
       currentDate = dateKey
-      currentGroup = { dateRaw: dateKey, date: formatGroupDate(dateKey), items: [] }
+      currentGroup = { dateRaw: dateKey, date: formatGroupDate(dateKey, __), items: [] }
       groups.push(currentGroup)
     }
     currentGroup.items.push(act)
@@ -183,12 +184,13 @@ function groupByDate(activities) {
 }
 
 function ActivityItem({ act }) {
+  const { __ } = useI18n()
   const Icon = ACTION_ICON_MAP[act.action] || Activity
   const actor = act.actor?.data || {}
   const actionType = act.action_type || 'update'
   const timeStr = formatTime(act.committed_at)
   const badgeColor = ACTION_COLOR_MAP[actionType] || 'bg-gray-400'
-  const badgeLabel = ACTION_LABELS[actionType] || actionType
+  const badgeLabel = __(ACTION_LABELS[actionType] || actionType)
 
   return (
     <div className="flex items-start gap-3 py-3 px-4 hover:bg-pm-hover/50 rounded-lg transition-colors">
@@ -221,7 +223,7 @@ export default function ActivitiesPage() {
   const { projectId } = useParams()
   const navigate = useNavigate()
   const api = useApi()
-  const { __ } = useI18n()
+  const { __, sprintf } = useI18n()
 
   const [activities, setActivities] = useState([])
   const [loading, setLoading] = useState(true)
@@ -258,7 +260,7 @@ export default function ActivitiesPage() {
     setLoadingMore(false)
   }
 
-  const grouped = useMemo(() => groupByDate(activities), [activities])
+  const grouped = useMemo(() => groupByDate(activities, __), [activities, __])
 
   // Stats from loaded data
   const stats = useMemo(() => {
@@ -356,7 +358,7 @@ export default function ActivitiesPage() {
                     {__('Load More')}
                   </Button>
                   <p className="text-[13px] text-pm-text-muted/50 mt-1.5">
-                    {__('Showing')} {activities.length} {__('of')} {total || '...'} {__('activities')}
+                    {sprintf(__('Showing %1$s of %2$s activities'), activities.length, total || '...')}
                   </p>
                 </div>
               )}

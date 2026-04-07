@@ -28,7 +28,7 @@ export default function ProBadge({ label, className = '', hover = false }) {
       title={__('Available in Pro')}
     >
       <Crown className="h-3 w-3" />
-      {label || 'PRO'}
+      {label || __('PRO')}
     </button>
   )
 }

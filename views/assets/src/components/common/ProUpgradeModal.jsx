@@ -124,7 +124,7 @@ function ProUpgradeModal() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent data-pm-dialog className="sm:max-w-[60vw] w-[60%] p-0 border-0 shadow-2xl [&>button]:hidden max-h-[90vh] overflow-y-auto block gap-0 rounded-lg">
-        <DialogTitle className="sr-only">Upgrade to Pro</DialogTitle>
+        <DialogTitle className="sr-only">{__('Upgrade to Pro')}</DialogTitle>
 
         {/* Close button */}
         <button

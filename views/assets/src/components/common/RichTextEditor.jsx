@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react'
+import React, { useEffect, useCallback, useMemo } from 'react'
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Underline from '@tiptap/extension-underline'
@@ -27,6 +27,7 @@ import {
   Minus,
   RemoveFormatting,
 } from 'lucide-react'
+import { useI18n } from '@hooks/useI18n'
 
 function ToolbarBtn({ icon: Icon, label, active, disabled, onClick }) {
   return (
@@ -57,7 +58,7 @@ function ToolbarBtn({ icon: Icon, label, active, disabled, onClick }) {
 
 export default function RichTextEditor({
   content = '',
-  placeholder = 'Write something...',
+  placeholder: placeholderProp,
   onChange,
   onBlur,
   autofocus = false,
@@ -65,6 +66,9 @@ export default function RichTextEditor({
   minHeight = '120px',
   className,
 }) {
+  const { __ } = useI18n()
+  const placeholder = placeholderProp || __('Write something...')
+
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -75,7 +79,7 @@ export default function RichTextEditor({
         openOnClick: false,
         HTMLAttributes: { class: 'text-pm-accent underline' },
       }),
-      Placeholder.configure({ placeholder }),
+      Placeholder.configure({ placeholder }),``
     ],
     content,
     editable,
@@ -107,7 +111,7 @@ export default function RichTextEditor({
 
   const addLink = useCallback(() => {
     if (!editor) return
-    const url = window.prompt('URL')
+    const url = window.prompt(__('URL'))
     if (url) {
       editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
     }
@@ -122,25 +126,25 @@ export default function RichTextEditor({
         <div className="flex items-center gap-0.5 px-1.5 py-1 border-b bg-muted/30 rounded-t-lg flex-wrap">
           <ToolbarBtn
             icon={Bold}
-            label="Bold"
+            label={__('Bold')}
             active={editor.isActive('bold')}
             onClick={() => editor.chain().focus().toggleBold().run()}
           />
           <ToolbarBtn
             icon={Italic}
-            label="Italic"
+            label={__('Italic')}
             active={editor.isActive('italic')}
             onClick={() => editor.chain().focus().toggleItalic().run()}
           />
           <ToolbarBtn
             icon={UnderlineIcon}
-            label="Underline"
+            label={__('Underline')}
             active={editor.isActive('underline')}
             onClick={() => editor.chain().focus().toggleUnderline().run()}
           />
           <ToolbarBtn
             icon={Strikethrough}
-            label="Strikethrough"
+            label={__('Strikethrough')}
             active={editor.isActive('strike')}
             onClick={() => editor.chain().focus().toggleStrike().run()}
           />
@@ -149,13 +153,13 @@ export default function RichTextEditor({
 
           <ToolbarBtn
             icon={List}
-            label="Bullet List"
+            label={__('Bullet List')}
             active={editor.isActive('bulletList')}
             onClick={() => editor.chain().focus().toggleBulletList().run()}
           />
           <ToolbarBtn
             icon={ListOrdered}
-            label="Numbered List"
+            label={__('Numbered List')}
             active={editor.isActive('orderedList')}
             onClick={() => editor.chain().focus().toggleOrderedList().run()}
           />
@@ -164,24 +168,24 @@ export default function RichTextEditor({
 
           <ToolbarBtn
             icon={Quote}
-            label="Blockquote"
+            label={__('Blockquote')}
             active={editor.isActive('blockquote')}
             onClick={() => editor.chain().focus().toggleBlockquote().run()}
           />
           <ToolbarBtn
             icon={Code}
-            label="Code"
+            label={__('Code')}
             active={editor.isActive('code')}
             onClick={() => editor.chain().focus().toggleCode().run()}
           />
           <ToolbarBtn
             icon={Minus}
-            label="Horizontal Rule"
+            label={__('Horizontal Rule')}
             onClick={() => editor.chain().focus().setHorizontalRule().run()}
           />
           <ToolbarBtn
             icon={LinkIcon}
-            label="Link"
+            label={__('Link')}
             active={editor.isActive('link')}
             onClick={addLink}
           />
@@ -190,18 +194,18 @@ export default function RichTextEditor({
 
           <ToolbarBtn
             icon={RemoveFormatting}
-            label="Clear Formatting"
+            label={__('Clear Formatting')}
             onClick={() => editor.chain().focus().clearNodes().unsetAllMarks().run()}
           />
           <ToolbarBtn
             icon={Undo}
-            label="Undo"
+            label={__('Undo')}
             disabled={!editor.can().undo()}
             onClick={() => editor.chain().focus().undo().run()}
           />
           <ToolbarBtn
             icon={Redo}
-            label="Redo"
+            label={__('Redo')}
             disabled={!editor.can().redo()}
             onClick={() => editor.chain().focus().redo().run()}
           />

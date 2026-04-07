@@ -9,11 +9,12 @@ import { Crown } from 'lucide-react'
 /* ── Mock UI backgrounds for each feature ── */
 
 function KanbanMock() {
+  const { __ } = useI18n()
   const cols = [
-    { title: 'Open', color: '#ef4444', tasks: ['Design homepage', 'API integration', 'Write tests'] },
-    { title: 'In Progress', color: '#f59e0b', tasks: ['Database schema', 'Auth module'] },
-    { title: 'Done', color: '#22c55e', tasks: ['Project setup', 'CI/CD pipeline', 'Documentation', 'Code review'] },
-    { title: 'Overdue', color: '#6b7280', tasks: ['Bug fix #42'] },
+    { title: __('Open'), color: '#ef4444', tasks: [__('Design homepage'), __('API integration'), __('Write tests')] },
+    { title: __('In Progress'), color: '#f59e0b', tasks: [__('Database schema'), __('Auth module')] },
+    { title: __('Done'), color: '#22c55e', tasks: [__('Project setup'), __('CI/CD pipeline'), __('Documentation'), __('Code review')] },
+    { title: __('Overdue'), color: '#6b7280', tasks: [__('Bug fix #42')] },
   ]
   return (
     <div className="flex flex-col sm:flex-row gap-3 p-5" style={{ minHeight: '420px', alignItems: 'flex-start' }}>
@@ -34,19 +35,20 @@ function KanbanMock() {
 }
 
 function GanttMock() {
+  const { __ } = useI18n()
   const tasks = [
-    { name: 'Research', start: 5, width: 30, color: '#7C3AED' },
-    { name: 'Design', start: 20, width: 25, color: '#a78bfa' },
-    { name: 'Development', start: 35, width: 40, color: '#7C3AED' },
-    { name: 'Testing', start: 60, width: 20, color: '#a78bfa' },
-    { name: 'Deployment', start: 75, width: 15, color: '#22c55e' },
-    { name: 'Review', start: 10, width: 35, color: '#f59e0b' },
+    { name: __('Research'), start: 5, width: 30, color: '#7C3AED' },
+    { name: __('Design'), start: 20, width: 25, color: '#a78bfa' },
+    { name: __('Development'), start: 35, width: 40, color: '#7C3AED' },
+    { name: __('Testing'), start: 60, width: 20, color: '#a78bfa' },
+    { name: __('Deployment'), start: 75, width: 15, color: '#22c55e' },
+    { name: __('Review'), start: 10, width: 35, color: '#f59e0b' },
   ]
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May']
+  const months = [__('Jan'), __('Feb'), __('Mar'), __('Apr'), __('May')]
   return (
     <div className="p-5" style={{ minHeight: '420px' }}>
       <div className="flex border-b pb-2 mb-3">
-        <div className="w-28 text-[15px] font-semibold text-gray-500">Task</div>
+        <div className="w-28 text-[15px] font-semibold text-gray-500">{__('Task')}</div>
         <div className="flex-1 flex">
           {months.map(m => <div key={m} className="flex-1 text-[14px] text-gray-400 text-center">{m}</div>)}
         </div>
@@ -64,30 +66,31 @@ function GanttMock() {
 }
 
 function InvoiceMock() {
+  const { __ } = useI18n()
   const rows = [
-    { item: 'Web Design', qty: 1, rate: '$2,500', total: '$2,500' },
-    { item: 'Development', qty: 40, rate: '$85/hr', total: '$3,400' },
-    { item: 'Hosting Setup', qty: 1, rate: '$150', total: '$150' },
+    { item: __('Web Design'), qty: 1, rate: '$2,500', total: '$2,500' },
+    { item: __('Development'), qty: 40, rate: '$85/hr', total: '$3,400' },
+    { item: __('Hosting Setup'), qty: 1, rate: '$150', total: '$150' },
   ]
   return (
     <div className="p-8" style={{ minHeight: '420px' }}>
       <div className="flex justify-between mb-8">
         <div>
-          <div className="text-xl font-bold text-gray-900">INVOICE</div>
+          <div className="text-xl font-bold text-gray-900">{__('INVOICE')}</div>
           <div className="text-[15px] text-gray-400 mt-1">#INV-2026-001</div>
         </div>
         <div className="text-right">
-          <div className="text-[15px] text-gray-400">Due: Apr 15, 2026</div>
-          <span className="inline-block mt-1 px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-600 text-[15px] font-semibold">Unpaid</span>
+          <div className="text-[15px] text-gray-400">{__('Due: Apr 15, 2026')}</div>
+          <span className="inline-block mt-1 px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-600 text-[15px] font-semibold">{__('Unpaid')}</span>
         </div>
       </div>
       <table className="w-full text-sm">
         <thead>
           <tr className="border-b-2 border-gray-200">
-            <th className="text-left py-2 text-gray-500 font-semibold">Item</th>
-            <th className="text-center py-2 text-gray-500 font-semibold">Qty</th>
-            <th className="text-right py-2 text-gray-500 font-semibold">Rate</th>
-            <th className="text-right py-2 text-gray-500 font-semibold">Total</th>
+            <th className="text-left py-2 text-gray-500 font-semibold">{__('Item')}</th>
+            <th className="text-center py-2 text-gray-500 font-semibold">{__('Qty')}</th>
+            <th className="text-right py-2 text-gray-500 font-semibold">{__('Rate')}</th>
+            <th className="text-right py-2 text-gray-500 font-semibold">{__('Total')}</th>
           </tr>
         </thead>
         <tbody>
@@ -103,7 +106,7 @@ function InvoiceMock() {
       </table>
       <div className="flex justify-end mt-4 pt-3 border-t-2 border-gray-200">
         <div className="text-right">
-          <div className="text-[15px] text-gray-400">Total Due</div>
+          <div className="text-[15px] text-gray-400">{__('Total Due')}</div>
           <div className="text-2xl font-bold text-pm-accent">$6,050.00</div>
         </div>
       </div>
@@ -112,8 +115,9 @@ function InvoiceMock() {
 }
 
 function SettingsMock() {
-  const tabs = ['General', 'Capabilities', 'Integrations']
-  const fields = ['Project Name', 'Description', 'Status', 'Visibility']
+  const { __ } = useI18n()
+  const tabs = [__('General'), __('Capabilities'), __('Integrations')]
+  const fields = [__('Project Name'), __('Description'), __('Status'), __('Visibility')]
   return (
     <div className="p-5" style={{ minHeight: '420px' }}>
       <div className="flex flex-wrap gap-2 sm:gap-3 mb-5">
@@ -132,10 +136,11 @@ function SettingsMock() {
 }
 
 function SprintsMock() {
+  const { __, sprintf } = useI18n()
   const sprints = [
-    { name: 'Sprint 12', status: 'Active', dates: 'Mar 18 – Mar 31', tasks: 8, completed: 3, color: '#7C3AED' },
-    { name: 'Sprint 11', status: 'Completed', dates: 'Mar 4 – Mar 17', tasks: 12, completed: 12, color: '#22c55e' },
-    { name: 'Sprint 10', status: 'Completed', dates: 'Feb 18 – Mar 3', tasks: 10, completed: 10, color: '#22c55e' },
+    { name: __('Sprint 12'), status: __('Active'), dates: 'Mar 18 – Mar 31', tasks: 8, completed: 3, color: '#7C3AED' },
+    { name: __('Sprint 11'), status: __('Completed'), dates: 'Mar 4 – Mar 17', tasks: 12, completed: 12, color: '#22c55e' },
+    { name: __('Sprint 10'), status: __('Completed'), dates: 'Feb 18 – Mar 3', tasks: 10, completed: 10, color: '#22c55e' },
   ]
   return (
     <div className="p-5" style={{ minHeight: '420px' }}>
@@ -153,7 +158,7 @@ function SprintsMock() {
             <div className="w-full h-2 rounded-full bg-gray-100">
               <div className="h-full rounded-full" style={{ width: `${(s.completed / s.tasks) * 100}%`, background: s.color, opacity: 0.7 }} />
             </div>
-            <div className="mt-2 text-[15px] text-gray-400">{s.completed}/{s.tasks} tasks completed</div>
+            <div className="mt-2 text-[15px] text-gray-400">{sprintf(__('%1$s/%2$s tasks completed'), s.completed, s.tasks)}</div>
           </div>
         ))}
       </div>
