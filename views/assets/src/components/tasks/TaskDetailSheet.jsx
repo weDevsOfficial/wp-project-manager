@@ -1232,13 +1232,30 @@ export default function TaskDetailSheet() {
                           )}
                           {/* Comment files */}
                           {comment.files?.data?.length > 0 && (
-                            <div className="flex items-center gap-2 mt-1.5 flex-wrap">
-                              {comment.files.data.map(f => (
-                                <a key={f.id} href={f.url} target="_blank" rel="noreferrer"
-                                  className="inline-flex items-center gap-1 text-[14px] text-pm-accent bg-pm-accent/5 px-2 py-0.5 rounded hover:bg-pm-accent/10 transition-colors">
-                                  <Paperclip className="h-3 w-3" />{f.name}
-                                </a>
-                              ))}
+                            <div className="mt-2 space-y-2">
+                              {comment.files.data.some(f => (f.type || f.mime_type || '').startsWith('image') && (f.thumb || f.url)) && (
+                                <div className="flex gap-2 flex-wrap">
+                                  {comment.files.data.filter(f => (f.type || f.mime_type || '').startsWith('image') && (f.thumb || f.url)).map(f => (
+                                    <a key={f.id} href={f.url} target="_blank" rel="noreferrer"
+                                      className="group relative block overflow-hidden rounded-xl border border-border/50 hover:border-pm-accent/40 transition-all hover:shadow-md">
+                                      <img src={f.thumb || f.url} alt={f.name} className="h-24 w-24 object-cover transition-transform group-hover:scale-105" />
+                                    </a>
+                                  ))}
+                                </div>
+                              )}
+                              {comment.files.data.some(f => !((f.type || f.mime_type || '').startsWith('image') && (f.thumb || f.url))) && (
+                                <div className="flex gap-2 flex-wrap">
+                                  {comment.files.data.filter(f => !((f.type || f.mime_type || '').startsWith('image') && (f.thumb || f.url))).map(f => (
+                                    <a key={f.id} href={f.url} target="_blank" rel="noreferrer"
+                                      className="inline-flex items-center gap-2 text-sm border border-border/50 rounded-xl px-3 py-2 hover:bg-muted/40 hover:border-pm-accent/30 transition-all group">
+                                      <div className="h-7 w-7 rounded-lg bg-muted/50 flex items-center justify-center shrink-0">
+                                        <Paperclip className="h-3.5 w-3.5 text-pm-text-muted group-hover:text-pm-accent transition-colors" />
+                                      </div>
+                                      <span className="text-pm-text-primary truncate max-w-[150px] text-[13px] font-medium">{f.name}</span>
+                                    </a>
+                                  ))}
+                                </div>
+                              )}
                             </div>
                           )}
                         </div>
