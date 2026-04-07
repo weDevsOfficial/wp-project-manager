@@ -59,7 +59,25 @@ class Project_Controller {
 
 		$projects = apply_filters( 'wedevs_pm_project_query', $projects, $request->get_params() );
 
-		$projects = $projects->orderBy(  wedevs_pm_tb_prefix().'pm_projects.created_at', 'DESC' );
+		$odr_prms = sanitize_text_field( $request->get_param( 'orderby' ) );
+		$order_column = 'created_at';
+		$order_dir    = 'DESC';
+
+		if ( ! empty( $odr_prms ) ) {
+			$allowed_columns = array( 'id', 'title', 'status', 'created_at', 'updated_at' );
+			$parts = explode( ':', $odr_prms );
+			$col   = isset( $parts[0] ) ? $parts[0] : '';
+			$dir   = isset( $parts[1] ) ? strtoupper( $parts[1] ) : 'DESC';
+
+			if ( in_array( $col, $allowed_columns, true ) ) {
+				$order_column = $col;
+			}
+			if ( in_array( $dir, array( 'ASC', 'DESC' ), true ) ) {
+				$order_dir = $dir;
+			}
+		}
+
+		$projects = $projects->orderBy( wedevs_pm_tb_prefix() . 'pm_projects.' . $order_column, $order_dir );
 
 		if ( -1 === intval( $per_page ) || $per_page == 'all' ) {
 			$per_page = $projects->get()->count();
