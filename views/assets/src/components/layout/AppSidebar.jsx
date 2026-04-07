@@ -547,22 +547,27 @@ export function AppSidebar() {
       </div>
 
       {/* Footer */}
-      <div className={cn('border-t border-pm-border py-3', collapsed ? 'px-2' : 'px-4')}>
-        {collapsed ? (
-          <button
-            className="w-full flex justify-center p-1 rounded hover:bg-pm-hover text-pm-text-muted hover:text-pm-accent transition-colors"
-            title={__('Back to WP Admin')}
-            onClick={goBack}
-          >
-            <ArrowLeft className="w-5 h-5" />
-          </button>
-        ) : (
-          <div className="space-y-1">
-            <p className="text-[15px] text-pm-text-muted text-center">{__('Project Manager')}</p>
-            <p className="text-[13px] text-pm-text-muted/60 text-center">&copy; {new Date().getFullYear()} <a href="https://wedevs.com/" target="_blank" rel="noopener noreferrer" className="hover:text-pm-accent transition-colors">weDevs</a></p>
-          </div>
-        )}
-      </div>
+      {!isFrontend && (
+        <div className={cn('border-t border-pm-border py-3', collapsed ? 'px-2' : 'px-4')}>
+          {collapsed ? (
+            <button
+              className="w-full flex justify-center p-1 rounded hover:bg-pm-hover text-pm-text-muted hover:text-pm-accent transition-colors"
+              title={__('Back to WP Admin')}
+              onClick={goBack}
+            >
+              <ArrowLeft className="w-5 h-5" />
+            </button>
+          ) : (
+            <div className="flex justify-center px-2">
+              <img
+                src={`${typeof PM_Vars !== 'undefined' ? PM_Vars.dir_url : '/wp-content/plugins/wedevs-project-manager/'}views/assets/images/pm-logo.svg`}
+                alt="WP Project Manager"
+                className="h-6 opacity-60"
+              />
+            </div>
+          )}
+        </div>
+      )}
       </>
       )}
     </aside>
