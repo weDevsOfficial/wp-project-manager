@@ -129,35 +129,56 @@ class Milestone extends Eloquent {
 
         $list_ids = $this->task_lists->pluck( 'id' )->toArray();
 
-        if ( empty( $list_ids ) ) {
-            $this->_task_count_cache = [ 'total' => 0, 'completed' => 0 ];
-            return $this->_task_count_cache;
+        $list_total     = 0;
+        $list_completed = 0;
+
+        if ( ! empty( $list_ids ) ) {
+            $list_ids      = array_map( 'intval', $list_ids );
+            $placeholders  = implode( ', ', array_fill( 0, count( $list_ids ), '%d' ) );
+
+            // Count tasks linked to these lists via boardables, parent_id=0 (exclude subtasks)
+            // phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- table names are escaped above
+            $results = $wpdb->get_row(
+                $wpdb->prepare(
+                    "SELECT
+                        COUNT(*) as total,
+                        SUM( CASE WHEN t.status = 1 THEN 1 ELSE 0 END ) as completed
+                    FROM {$tb_boardables} b
+                    INNER JOIN {$tb_tasks} t ON t.id = b.boardable_id
+                    WHERE b.board_id IN ({$placeholders})
+                        AND b.board_type   = 'task_list'
+                        AND b.boardable_type = 'task'
+                        AND t.parent_id = 0",
+                    $list_ids
+                )
+            );
+            // phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
+            $list_total     = (int) ( $results->total ?? 0 );
+            $list_completed = (int) ( $results->completed ?? 0 );
         }
 
-        $list_ids      = array_map( 'intval', $list_ids );
-        $placeholders  = implode( ', ', array_fill( 0, count( $list_ids ), '%d' ) );
-
-        // Count tasks linked to these lists via boardables, parent_id=0 (exclude subtasks)
-        // phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- table names are escaped above
-        $results = $wpdb->get_row(
+        // Count tasks directly linked to this milestone via boardables
+        // phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+        $direct = $wpdb->get_row(
             $wpdb->prepare(
                 "SELECT
                     COUNT(*) as total,
                     SUM( CASE WHEN t.status = 1 THEN 1 ELSE 0 END ) as completed
                 FROM {$tb_boardables} b
                 INNER JOIN {$tb_tasks} t ON t.id = b.boardable_id
-                WHERE b.board_id IN ({$placeholders})
-                    AND b.board_type   = 'task_list'
+                WHERE b.board_id = %d
+                    AND b.board_type     = 'milestone'
                     AND b.boardable_type = 'task'
                     AND t.parent_id = 0",
-                $list_ids
+                $this->id
             )
         );
         // phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
         $this->_task_count_cache = [
-            'total'     => (int) ( $results->total ?? 0 ),
-            'completed' => (int) ( $results->completed ?? 0 ),
+            'total'     => $list_total + (int) ( $direct->total ?? 0 ),
+            'completed' => $list_completed + (int) ( $direct->completed ?? 0 ),
         ];
 
         return $this->_task_count_cache;

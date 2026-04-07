@@ -22,6 +22,7 @@ import {
   UserPlus,
   Loader2,
   Trash2,
+  ListChecks,
 } from "lucide-react";
 import {
   Popover,
@@ -45,6 +46,7 @@ import {
   ChartLegendContent,
 } from "@components/ui/chart";
 import { userInitials, unwrapData, formatPmDate } from "@lib/pm-utils";
+import { usePermissions } from "@hooks/usePermissions";
 
 export default function ProjectOverview() {
   const { projectId } = useParams();
@@ -52,6 +54,7 @@ export default function ProjectOverview() {
   const api = useApi();
   const { __ } = useI18n();
   const toast = useToast();
+  const { isPro } = usePermissions();
 
   const [project, setProject] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -161,6 +164,7 @@ export default function ProjectOverview() {
   const totalTasks = meta.total_tasks ?? 0;
   const completeTasks = meta.total_complete_tasks ?? 0;
   const incompleteTasks = meta.total_incomplete_tasks ?? 0;
+  const totalSubtasks = meta.total_subtasks ?? 0;
   const progress =
     totalTasks > 0 ? Math.round((completeTasks / totalTasks) * 100) : 0;
   const assignees = project.assignees?.data ?? [];
@@ -182,6 +186,14 @@ export default function ProjectOverview() {
       fg: "text-blue-500",
       route: "task-lists",
     },
+    ...(isPro ? [{
+      label: __("Subtasks"),
+      value: totalSubtasks,
+      icon: ListChecks,
+      bg: "bg-amber-50",
+      fg: "text-amber-500",
+      route: "task-lists",
+    }] : []),
     {
       label: __("Completed"),
       value: completeTasks,

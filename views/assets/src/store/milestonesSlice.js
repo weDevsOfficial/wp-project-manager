@@ -23,7 +23,7 @@ export const fetchMilestones = createAsyncThunk(
   async ({ projectId }, { rejectWithValue }) => {
     try {
       const res = await api.get(`projects/${projectId}/milestones`, {
-        with: 'discussion_boards,task_lists',
+        with: 'discussion_boards,tasks',
         per_page: 50,
       })
       return res.data ?? []
