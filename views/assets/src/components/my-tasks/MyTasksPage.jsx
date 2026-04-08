@@ -720,26 +720,37 @@ export default function MyTasksPage() {
   }, [calEvents]);
 
   // Fetch reports data (Pro)
+  const [reportDates, setReportDates] = useState({ start: reportStart, end: reportEnd });
+
   const fetchReport = useCallback(() => {
     if (!userId || !proApi) return;
     setReportLoading(true);
+    const start = reportStart;
+    const end = reportEnd;
     proApi
       .get("report-summary", {
         type: "user",
         users: userId,
-        startDate: reportStart,
-        endDate: reportEnd,
+        startDate: start,
+        endDate: end,
         estimated_time: "task_estimation",
         report_query: "yes",
       })
-      .then((res) => setReportData(res?.data ?? res))
+      .then((res) => {
+        setReportData(res?.data ?? res);
+        setReportDates({ start, end });
+      })
       .catch(() => setReportData(null))
       .finally(() => setReportLoading(false));
-  }, [userId, proApi, reportStart, reportEnd]);
+  }, [userId, proApi]); // eslint-disable-line react-hooks/exhaustive-deps -- only fetch on explicit Run Report click, not on date change
 
+  const reportInitRef = useRef(false);
   useEffect(() => {
-    if (activeTab === "reports" && isPro) fetchReport();
-  }, [activeTab, fetchReport]);
+    if (activeTab === "reports" && isPro && !reportInitRef.current) {
+      reportInitRef.current = true;
+      fetchReport();
+    }
+  }, [activeTab, isPro]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Open task detail sheet
   const handleOpenTask = useCallback(
@@ -1221,7 +1232,7 @@ export default function MyTasksPage() {
               const completedTasks = allProj.reduce((t, p) => t + (p.completed_tasks || 0), 0);
               const totalTasks = allProj.reduce((t, p) => t + (p.assigned_tasks || 0) + (p.assigned_subtasks || 0), 0);
               const fmtTime = (s) => { const h = Math.floor(s / 3600); const m = Math.floor((s % 3600) / 60); return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`; };
-              const days = (() => { const s = new Date(reportStart); const e = new Date(reportEnd); return Math.max(1, Math.ceil((e - s) / (1000 * 60 * 60 * 24)) + 1); })();
+              const days = (() => { const s = new Date(reportDates.start); const e = new Date(reportDates.end); return Math.max(1, Math.ceil((e - s) / (1000 * 60 * 60 * 24)) + 1); })();
               const avgPerTask = totalTasks > 0 ? fmtTime(totalEst / totalTasks) : "00:00";
               const avgPerDay = fmtTime(totalWork / days);
               const avgTaskPerDay = totalTasks > 0 ? (totalTasks / days).toFixed(1) : "0";
