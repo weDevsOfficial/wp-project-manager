@@ -1392,27 +1392,16 @@ function wedevs_pm_load_headway_badge( $selector = '#pm-headway-icon' ) {
         (function() {
             var pmHeadwaySelector = '<?php echo esc_js( $selector ); ?>';
 
-            // Defer Headway init until after page load so it doesn't block rendering
             function pmInitHeadway() {
-                if ( typeof window.Headway === 'undefined' ) return;
-                if ( !document.querySelector( pmHeadwaySelector ) ) return;
-
                 window.HW_config = {
                     selector: pmHeadwaySelector,
                     account: 'yo9n07',
                     callbacks: {
                         onWidgetReady: function ( widget ) {
+                            // Hide badge dot when no unseen items (only the small dot, not the popup)
                             if ( widget.getUnseenCount() === 0 ) {
-                                var badge = document.querySelector('#HW_badge_cont');
-                                if (badge) {
-                                    badge.style.opacity = '0';
-                                }
-                            }
-                        },
-                        onHideWidget: function(){
-                            var badge = document.querySelector('#HW_badge_cont');
-                            if (badge) {
-                                badge.style.opacity = '0';
+                                var badge = document.querySelector('#HW_badge');
+                                if (badge) badge.style.display = 'none';
                             }
                         }
                     }
@@ -1421,13 +1410,31 @@ function wedevs_pm_load_headway_badge( $selector = '#pm-headway-icon' ) {
                 window.Headway.init( window.HW_config );
             }
 
-            // Wait for page to finish loading, then init after a short idle delay
-            if ( document.readyState === 'complete' ) {
-                setTimeout( pmInitHeadway, 2000 );
-            } else {
-                window.addEventListener( 'load', function() {
-                    setTimeout( pmInitHeadway, 2000 );
+            // Use MutationObserver to detect when React mounts the target element
+            function pmWaitForHeadway() {
+                if ( typeof window.Headway === 'undefined' ) return;
+
+                var target = document.querySelector( pmHeadwaySelector );
+                if ( target ) {
+                    pmInitHeadway();
+                    return;
+                }
+
+                // Observe DOM for the React-rendered element
+                var observer = new MutationObserver( function( mutations, obs ) {
+                    if ( document.querySelector( pmHeadwaySelector ) ) {
+                        obs.disconnect();
+                        pmInitHeadway();
+                    }
                 });
+
+                observer.observe( document.body, { childList: true, subtree: true } );
+            }
+
+            if ( document.readyState === 'complete' ) {
+                pmWaitForHeadway();
+            } else {
+                window.addEventListener( 'load', pmWaitForHeadway );
             }
         })();
     </script>
