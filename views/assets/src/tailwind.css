@@ -10,6 +10,15 @@
   pointer-events: none;
 }
 
+/* Headway widget popup — fix position only when visible */
+#HW_frame_cont.HW_visible {
+  position: fixed !important;
+  z-index: 2147483647 !important;
+  top: 50px !important;
+  right: 20px !important;
+  left: auto !important;
+}
+
 /* ── shadcn/ui CSS variables — must be on :root so portaled
      elements (Select, Dialog, Popover) can access them ────── */
 :root {

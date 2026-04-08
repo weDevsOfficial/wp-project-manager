@@ -227,23 +227,22 @@ export function TopBar() {
           <Lightbulb className="h-4 w-4" />
         </a>
 
-        {/* What's New (Headway) — wrapper div prevents badge span from breaking button layout */}
-        <div className="relative shrink-0 hidden sm:block" id="pm-headway-icon">
-          <button
-            type="button"
-            className="p-1 rounded hover:bg-muted text-pm-text-muted hover:text-pm-accent transition-colors"
-            title={__("What's New")}
-            onClick={() => {
-              if (typeof Headway !== 'undefined' && Headway.toggle) {
-                Headway.toggle()
-              } else {
-                window.open('https://headway.co', '_blank')
-              }
-            }}
-          >
-            <Megaphone className="h-5 w-5" />
-          </button>
-        </div>
+        {/* What's New (Headway) */}
+        <span
+          className="relative shrink-0 inline-flex items-center p-1 rounded hover:bg-muted text-pm-text-muted hover:text-pm-accent transition-colors cursor-pointer"
+          id="pm-headway-icon"
+          role="button"
+          tabIndex={0}
+          title={__("What's New")}
+          onClick={(e) => {
+            e.stopPropagation()
+            if (typeof window.Headway !== 'undefined') {
+              window.Headway.toggle(e.nativeEvent)
+            }
+          }}
+        >
+          <Megaphone className="h-5 w-5 pointer-events-none" />
+        </span>
 
         {/* Notifications */}
         <Button variant="ghost" size="icon" className="h-8 w-8 relative shrink-0" onClick={() => setNotifOpen(true)}>
