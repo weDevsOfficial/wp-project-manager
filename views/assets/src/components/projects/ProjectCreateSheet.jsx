@@ -115,7 +115,7 @@ export function ProjectCreateSheet() {
             display_name: a.display_name || a.name || '',
             avatar_url: a.avatar_url || '',
             email: a.email || '',
-            roleId: a.role_id || defaultRoleId,
+            roleId: a.roles?.data?.[0]?.id || a.role_id || defaultRoleId,
           }))
         )
       } else {
