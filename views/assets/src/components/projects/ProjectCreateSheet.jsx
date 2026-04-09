@@ -114,7 +114,7 @@ export function ProjectCreateSheet() {
             id: a.id || a.assigned_to,
             display_name: a.display_name || a.name || '',
             avatar_url: a.avatar_url || '',
-            email: a.email || '',
+            email: a.email || a.user_email || '',
             roleId: a.roles?.data?.[0]?.id || a.role_id || defaultRoleId,
           }))
         )
@@ -190,11 +190,14 @@ export function ProjectCreateSheet() {
     )
   }, [])
 
-  // ── User initials ──────────────────────────────────────
+  // ── User display helpers ────────────────────────────────
+
+  const getUserName = (user) => user.display_name || user.email || ''
 
   const userInitials = (name) =>
-    name
+    (name || '')
       .split(/\s+/)
+      .filter(Boolean)
       .map((w) => w.charAt(0).toUpperCase())
       .slice(0, 2)
       .join('')
@@ -368,14 +371,14 @@ export function ProjectCreateSheet() {
                             className="cursor-pointer"
                           >
                             <Avatar className="h-7 w-7 mr-2">
-                              <AvatarImage src={user.avatar_url} alt={user.display_name} />
+                              <AvatarImage src={user.avatar_url} alt={getUserName(user)} />
                               <AvatarFallback className="text-[14px]">
-                                {userInitials(user.display_name)}
+                                {userInitials(getUserName(user))}
                               </AvatarFallback>
                             </Avatar>
                             <div className="flex-1 min-w-0">
-                              <p className="text-sm font-medium truncate">{user.display_name}</p>
-                              <p className="text-sm text-muted-foreground truncate">{user.email}</p>
+                              <p className="text-sm font-medium truncate">{getUserName(user)}</p>
+                              {user.display_name && <p className="text-sm text-muted-foreground truncate">{user.email}</p>}
                             </div>
                             <Plus className="h-5 w-5 text-muted-foreground shrink-0" />
                           </CommandItem>
@@ -408,12 +411,12 @@ export function ProjectCreateSheet() {
                         <td className="px-3 py-2">
                           <div className="flex items-center gap-2">
                             <Avatar className="h-7 w-7">
-                              <AvatarImage src={user.avatar_url} alt={user.display_name} />
+                              <AvatarImage src={user.avatar_url} alt={getUserName(user)} />
                               <AvatarFallback className="text-[14px]">
-                                {userInitials(user.display_name)}
+                                {userInitials(getUserName(user))}
                               </AvatarFallback>
                             </Avatar>
-                            <span className="font-medium truncate">{user.display_name}</span>
+                            <span className="font-medium truncate">{getUserName(user)}</span>
                           </div>
                         </td>
                         <td className="px-3 py-2">

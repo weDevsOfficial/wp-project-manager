@@ -157,7 +157,7 @@ export const searchUsers = createAsyncThunk(
   'projects/searchUsers',
   async (query, { rejectWithValue }) => {
     try {
-      const res = await api.get('users', { search: query })
+      const res = await api.get('users/search', { query })
       return res.data ?? []
     } catch {
       return []

@@ -112,6 +112,7 @@ class User_Controller {
             ->orWhere( 'user_nicename', 'LIKE', '%' . $query_string . '%' )
             ->orWhere( 'user_email', 'LIKE', '%' . $query_string . '%' )
             ->orWhere( 'user_url', 'LIKE', '%' . $query_string . '%')
+            ->orWhere( 'display_name', 'LIKE', '%' . $query_string . '%' )
             ->multisite();
         
         if ( $limit ) {
