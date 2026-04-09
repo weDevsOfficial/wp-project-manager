@@ -5,9 +5,21 @@
 /* Headway badge — position absolutely so it doesn't break flex layout */
 #pm-headway-icon .HW_badge_cont {
   position: absolute;
-  top: -2px;
-  right: -2px;
+  top: 3px;
+  left: 5px;
+  right: 5px;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   pointer-events: none;
+}
+#pm-headway-icon .HW_badge {
+  position: static !important;
+  height: 6px !important;
+  width: 6px !important;
+  font-size: 0 !important;
+  border-radius: 50% !important;
 }
 
 /* Headway widget popup — fix position only when visible */
