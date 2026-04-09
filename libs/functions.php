@@ -87,6 +87,7 @@ function wedevs_pm_format_date( $date ) {
 
         return [
             'date'      => $date ? $date->format( 'Y-m-d' ) : null,
+            'formatted_date' => $date ? $date->format( $date_format ) : null,
             'time'      => $date ? $date->format( 'H:i:s' ) : null,
             'datetime'      => $date ? $date->format( 'Y-m-d H:i:s' ) : null,
             'timezone'  => wedevs_pm_tzcode_to_tzstring( $timezone ),
