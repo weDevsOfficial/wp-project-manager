@@ -227,7 +227,7 @@ export default function TaskListSection({ list, projectId, showLabels }) {
   }, [api, projectId, list.id, incompleteTasks, completeTasks, dispatch, toast, __])
 
   return (
-    <div className="rounded-xl border bg-card overflow-hidden">
+    <div className="rounded-xl border bg-card">
       {/* Section header */}
       <div className="flex items-center gap-2 px-4 py-2.5 bg-muted/30 border-b">
         <button
