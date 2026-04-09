@@ -682,11 +682,9 @@ function wedevs_pm_filter_content_url( $content ) {
 }
 
 function wedevs_pm_get_user_url( $user_id, $is_admin ) {
-    $user_id = ! empty( $user_id ) ? $user_id : get_current_user_id();
-
     $is_admin = $is_admin ? 'admin' : 'frontend';
     $pm_base  = wedevs_pm_get_project_page($is_admin);
-    $user_url = $pm_base . '#/my-tasks/' . $user_id;
+    $user_url = $pm_base . '#/my-tasks';
 
     return $user_url;
 }
@@ -731,7 +729,7 @@ function wedevs_pm_get_list_url( $project_id, $list_id, $is_admin ) {
 
     $is_admin = $is_admin ? 'admin' : 'frontend';
     $pm_base  = wedevs_pm_get_project_page( $is_admin );
-    $list_url = $pm_base . '#/projects/' . $project_id . '/task-lists/' . $list_id;
+    $list_url = $pm_base . '#/projects/' . $project_id . '/task-lists';
 
     return $list_url;
 }

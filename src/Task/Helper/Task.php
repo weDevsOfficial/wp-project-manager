@@ -1243,6 +1243,7 @@ class Task {
 			->where_start_at()
 			->where_due_date()
 			->where_completed_at()
+			->where_created_at()
 			->where_project_id()
 			->where_users()
 			->where_lists()
@@ -1567,6 +1568,35 @@ class Task {
 	
 		if ( ! empty( $q ) ) {
 			$this->where .= " AND ( $q ) ";
+		}
+
+		return $this;
+	}
+
+	private function where_created_at() {
+		global $wpdb;
+
+		$created_at         = !empty( $this->query_params['created_at'] ) ? $this->query_params['created_at'] : false;
+		$created_at_start   = !empty( $this->query_params['created_at_start'] ) ? $this->query_params['created_at_start'] : false;
+		$created_at_between = !isset( $this->query_params['created_at_between'] ) ? true : wedevs_pm_is_true( $this->query_params['created_at_between'] );
+
+		if ( $created_at === false ) {
+			return $this;
+		}
+
+		if ( $created_at_start ) {
+			$ca_start = gmdate( 'Y-m-d', strtotime( $created_at_start ) );
+			$ca_end   = gmdate( 'Y-m-d', strtotime( $created_at ) );
+
+			if ( $created_at_between ) {
+				$query = $wpdb->prepare( " DATE({$this->tb_tasks}.created_at) BETWEEN %s AND %s ", $ca_start, $ca_end );
+			} else {
+				$query = $wpdb->prepare( " DATE({$this->tb_tasks}.created_at) NOT BETWEEN %s AND %s ", $ca_start, $ca_end );
+			}
+
+			$this->where .= " AND ( $query ) ";
+
+			return $this;
 		}
 
 		return $this;

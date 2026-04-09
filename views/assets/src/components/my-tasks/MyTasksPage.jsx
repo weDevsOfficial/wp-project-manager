@@ -513,14 +513,9 @@ export default function MyTasksPage() {
   // Reports tab (Pro)
   const [reportData, setReportData] = useState(null);
   const [reportLoading, setReportLoading] = useState(false);
-  const [reportStart, setReportStart] = useState(() => {
-    const d = new Date();
-    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-01`;
-  });
-  const [reportEnd, setReportEnd] = useState(() => {
-    const d = new Date();
-    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-  });
+  const [reportStart, setReportStart] = useState("");
+  const [reportEnd, setReportEnd] = useState("");
+  const [showReportDateError, setShowReportDateError] = useState(false);
 
   // Activities
   const [activities, setActivities] = useState([]);
@@ -724,6 +719,25 @@ export default function MyTasksPage() {
 
   const fetchReport = useCallback(() => {
     if (!userId || !proApi) return;
+    // Validate dates are required
+    if (!reportStart || !reportEnd) {
+      setShowReportDateError(true);
+      if (!reportStart && !reportEnd) {
+        toast.error(__("Start Date and End Date are required."));
+      } else if (!reportStart) {
+        toast.error(__("Start Date is required."));
+      } else {
+        toast.error(__("End Date is required."));
+      }
+      return;
+    }
+    // Validate start <= end
+    if (reportStart > reportEnd) {
+      setShowReportDateError(true);
+      toast.error(__("Start Date cannot be greater than End Date."));
+      return;
+    }
+    setShowReportDateError(false);
     setReportLoading(true);
     const start = reportStart;
     const end = reportEnd;
@@ -742,15 +756,9 @@ export default function MyTasksPage() {
       })
       .catch(() => setReportData(null))
       .finally(() => setReportLoading(false));
-  }, [userId, proApi]); // eslint-disable-line react-hooks/exhaustive-deps -- only fetch on explicit Run Report click, not on date change
+  }, [userId, proApi, reportStart, reportEnd, toast, __]);
 
-  const reportInitRef = useRef(false);
-  useEffect(() => {
-    if (activeTab === "reports" && isPro && !reportInitRef.current) {
-      reportInitRef.current = true;
-      fetchReport();
-    }
-  }, [activeTab, isPro]); // eslint-disable-line react-hooks/exhaustive-deps
+  // No auto-fetch for reports — user must select dates and click Run Report
 
   // Open task detail sheet
   const handleOpenTask = useCallback(
@@ -856,7 +864,13 @@ export default function MyTasksPage() {
         {canManage && allUsers.length > 1 && (
           <Select
             value={String(userId || "")}
-            onValueChange={(val) => setUserId(Number(val))}
+            onValueChange={(val) => {
+              setUserId(Number(val));
+              setReportStart("");
+              setReportEnd("");
+              setReportData(null);
+              setShowReportDateError(false);
+            }}
           >
             <SelectTrigger className="h-9 w-[220px] text-sm shrink-0">
               <SelectValue placeholder={__("Select User")} />
@@ -1192,12 +1206,16 @@ export default function MyTasksPage() {
           <div className="space-y-4">
             <div className="flex items-end gap-3">
               <div className="space-y-1">
-                <label className="text-[14px] font-medium uppercase text-pm-text-muted">{__("Start Date")}</label>
-                <Input type="date" value={reportStart} onChange={(e) => setReportStart(e.target.value)} className="h-8 text-sm w-36" />
+                <label className={cn("text-[14px] font-medium uppercase", showReportDateError && !reportStart ? "text-red-500" : "text-pm-text-muted")}>
+                  {__("Start Date")}<span className="text-red-500 ml-0.5">*</span>
+                </label>
+                <Input type="date" value={reportStart} onChange={(e) => { setReportStart(e.target.value); setShowReportDateError(false) }} className={cn("h-8 text-sm w-36", showReportDateError && !reportStart && "border-red-500 ring-1 ring-red-500")} />
               </div>
               <div className="space-y-1">
-                <label className="text-[14px] font-medium uppercase text-pm-text-muted">{__("End Date")}</label>
-                <Input type="date" value={reportEnd} onChange={(e) => setReportEnd(e.target.value)} className="h-8 text-sm w-36" />
+                <label className={cn("text-[14px] font-medium uppercase", showReportDateError && !reportEnd ? "text-red-500" : "text-pm-text-muted")}>
+                  {__("End Date")}<span className="text-red-500 ml-0.5">*</span>
+                </label>
+                <Input type="date" value={reportEnd} onChange={(e) => { setReportEnd(e.target.value); setShowReportDateError(false) }} className={cn("h-8 text-sm w-36", showReportDateError && !reportEnd && "border-red-500 ring-1 ring-red-500")} />
               </div>
               <Button size="sm" className="h-8" onClick={fetchReport}>{__("Run Report")}</Button>
             </div>
@@ -1211,12 +1229,16 @@ export default function MyTasksPage() {
             {/* Date filter */}
             <div className="flex items-end gap-3">
               <div className="space-y-1">
-                <label className="text-[14px] font-medium uppercase text-pm-text-muted">{__("Start Date")}</label>
-                <Input type="date" value={reportStart} onChange={(e) => setReportStart(e.target.value)} className="h-8 text-sm w-36" />
+                <label className={cn("text-[14px] font-medium uppercase", showReportDateError && !reportStart ? "text-red-500" : "text-pm-text-muted")}>
+                  {__("Start Date")}<span className="text-red-500 ml-0.5">*</span>
+                </label>
+                <Input type="date" value={reportStart} onChange={(e) => { setReportStart(e.target.value); setShowReportDateError(false) }} className={cn("h-8 text-sm w-36", showReportDateError && !reportStart && "border-red-500 ring-1 ring-red-500")} />
               </div>
               <div className="space-y-1">
-                <label className="text-[14px] font-medium uppercase text-pm-text-muted">{__("End Date")}</label>
-                <Input type="date" value={reportEnd} onChange={(e) => setReportEnd(e.target.value)} className="h-8 text-sm w-36" />
+                <label className={cn("text-[14px] font-medium uppercase", showReportDateError && !reportEnd ? "text-red-500" : "text-pm-text-muted")}>
+                  {__("End Date")}<span className="text-red-500 ml-0.5">*</span>
+                </label>
+                <Input type="date" value={reportEnd} onChange={(e) => { setReportEnd(e.target.value); setShowReportDateError(false) }} className={cn("h-8 text-sm w-36", showReportDateError && !reportEnd && "border-red-500 ring-1 ring-red-500")} />
               </div>
               <Button size="sm" className="h-8" onClick={fetchReport}>{__("Run Report")}</Button>
             </div>
