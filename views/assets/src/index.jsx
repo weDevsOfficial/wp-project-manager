@@ -42,7 +42,7 @@ const CalendarPlaceholder = React.lazy(() => import('@components/projects/Calend
 const ReportsPlaceholder  = React.lazy(() => import('@components/projects/ReportsPage'))
 const ProgressPlaceholder = React.lazy(() => import('@components/projects/ProgressPage'))
 import ProFeaturePlaceholder from '@components/common/ProFeaturePlaceholder'
-import { Columns3, GitBranch, Receipt, Settings as SettingsIcon, Zap } from 'lucide-react'
+import { Columns3, GitBranch, Receipt, Settings as SettingsIcon, Zap, ShoppingCart } from 'lucide-react'
 
 // ── Replaceable page wrapper — pro can override via filters ──
 function FilteredPage({ filterName, fallback: Fallback }) {
@@ -110,6 +110,9 @@ function AppRoutes() {
         )}
         {!dynamicRoutes.some(r => r.path === 'sprints') && (
           <Route path="sprints" element={<ProFeaturePlaceholder title="Sprints" description="Plan and manage agile sprints to organize your team's work into focused iterations." icon={Zap} mockKey="sprints" />} />
+        )}
+        {!dynamicRoutes.some(r => r.path === 'woo-project') && (
+          <Route path="woo-project" element={<ProFeaturePlaceholder title="WooCommerce Project" description="Automatically create projects from WooCommerce orders with product-based templates." icon={ShoppingCart} mockKey="woo-project" />} />
         )}
 
         <Route path="*" element={<Navigate to="/projects" replace />} />

@@ -854,24 +854,28 @@ export default function MyTasksPage() {
 
         {/* User selector for admins */}
         {canManage && allUsers.length > 1 && (
-          <select
-            className="h-9 text-sm border rounded-md px-3 bg-background text-pm-text-primary"
-            value={userId || ""}
-            onChange={(e) => setUserId(Number(e.target.value))}
+          <Select
+            value={String(userId || "")}
+            onValueChange={(val) => setUserId(Number(val))}
           >
-            {allUsers.map((u) => (
-              <option key={u.id || u.ID} value={u.id || u.ID}>
-                {u.display_name}
-              </option>
-            ))}
-          </select>
+            <SelectTrigger className="h-9 w-[220px] text-sm shrink-0">
+              <SelectValue placeholder={__("Select User")} />
+            </SelectTrigger>
+            <SelectContent>
+              {allUsers.map((u) => (
+                <SelectItem key={u.id || u.ID} value={String(u.id || u.ID)}>
+                  {u.display_name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         )}
 
         {/* Add New Task button */}
         <Button
           size="sm"
           onClick={() => setNewTaskOpen(true)}
-          className="gap-1.5"
+          className="gap-1.5 shrink-0"
         >
           <Plus className="h-5 w-5" />
           {__("New Task")}
@@ -1409,20 +1413,22 @@ export default function MyTasksPage() {
             />
 
             {/* Project filter */}
-            <select
-              className="h-9 text-sm border rounded-md px-3 bg-background text-pm-text-primary w-full sm:max-w-[180px]"
-              value={filterProjectId}
-              onChange={(e) => {
-                setFilterProjectId(e.target.value);
-              }}
+            <Select
+              value={filterProjectId || "all"}
+              onValueChange={(val) => setFilterProjectId(val === "all" ? "" : val)}
             >
-              <option value="">{__("All Projects")}</option>
-              {filterProjects.map((p) => (
-                <option key={p.id} value={p.id}>
-                  {p.title}
-                </option>
-              ))}
-            </select>
+              <SelectTrigger className="h-9 text-sm w-full sm:w-[180px]">
+                <SelectValue placeholder={__("All Projects")} />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">{__("All Projects")}</SelectItem>
+                {filterProjects.map((p) => (
+                  <SelectItem key={p.id} value={String(p.id)}>
+                    {p.title}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
 
             <Button
               variant="outline"
@@ -1452,20 +1458,19 @@ export default function MyTasksPage() {
 
             <div className="ml-auto flex items-center gap-1 text-sm text-pm-text-muted">
               <span>{__("Sort:")}</span>
-              <select
-                className="h-8 text-sm border rounded px-2 bg-background"
-                value={sortBy}
-                onChange={(e) => {
-                  setSortBy(e.target.value);
-                }}
-              >
-                <option value="id:desc">{__("Newest")}</option>
-                <option value="id:asc">{__("Oldest")}</option>
-                <option value="title:asc">{__("Title A-Z")}</option>
-                <option value="title:desc">{__("Title Z-A")}</option>
-                <option value="due_date:asc">{__("Due Date ↑")}</option>
-                <option value="due_date:desc">{__("Due Date ↓")}</option>
-              </select>
+              <Select value={sortBy} onValueChange={(val) => setSortBy(val)}>
+                <SelectTrigger className="h-8 text-sm w-[140px]">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="id:desc">{__("Newest")}</SelectItem>
+                  <SelectItem value="id:asc">{__("Oldest")}</SelectItem>
+                  <SelectItem value="title:asc">{__("Title A-Z")}</SelectItem>
+                  <SelectItem value="title:desc">{__("Title Z-A")}</SelectItem>
+                  <SelectItem value="due_date:asc">{__("Due Date ↑")}</SelectItem>
+                  <SelectItem value="due_date:desc">{__("Due Date ↓")}</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
           </div>
 

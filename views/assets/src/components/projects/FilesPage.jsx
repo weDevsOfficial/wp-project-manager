@@ -13,6 +13,7 @@ import { Label } from "@components/ui/label";
 import { Skeleton } from "@components/ui/skeleton";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@components/ui/dialog";
 import { Textarea } from "@components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@components/ui/select";
 import {
   ArrowLeft,
   FileText,
@@ -588,13 +589,17 @@ export default function FilesPage() {
             <p className="text-sm text-pm-text-muted">{__("Moving")}: <strong>{moveItem?.meta?.title || moveItem?.name || moveItem?.title}</strong></p>
             <div>
               <Label className="text-sm mb-1 block">{__("Destination Folder")}</Label>
-              <select value={moveTarget} onChange={e => setMoveTarget(e.target.value)}
-                className="w-full h-9 rounded-md border border-pm-border bg-background px-3 text-sm focus:outline-none focus:ring-1 focus:ring-pm-accent">
-                <option value="0">{__("Root (Home)")}</option>
-                {allFolders.map(f => (
-                  <option key={f.id} value={String(f.id)}>{f.title || f.meta?.title || `Folder #${f.id}`}</option>
-                ))}
-              </select>
+              <Select value={String(moveTarget)} onValueChange={(val) => setMoveTarget(val)}>
+                <SelectTrigger className="w-full h-9 text-sm">
+                  <SelectValue placeholder={__("Root (Home)")} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="0">{__("Root (Home)")}</SelectItem>
+                  {allFolders.map(f => (
+                    <SelectItem key={f.id} value={String(f.id)}>{f.title || f.meta?.title || `Folder #${f.id}`}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
           </div>
           <DialogFooter>

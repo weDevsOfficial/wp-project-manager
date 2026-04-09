@@ -166,12 +166,55 @@ function SprintsMock() {
   )
 }
 
+function WooProjectMock() {
+  const { __ } = useI18n()
+  const products = [
+    { name: __('Website Development Package'), action: __('Create New Project'), assignees: 3 },
+    { name: __('SEO Audit Service'), action: __('Duplicate Project'), assignees: 2 },
+    { name: __('Logo Design Bundle'), action: __('Create New Project'), assignees: 1 },
+  ]
+  return (
+    <div className="p-5" style={{ minHeight: '420px' }}>
+      <div className="flex items-center justify-between mb-5">
+        <div className="flex items-center gap-2">
+          <div className="h-8 w-8 rounded-lg bg-purple-100 flex items-center justify-center">
+            <svg className="h-4 w-4 text-purple-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          </div>
+          <span className="text-sm font-semibold text-gray-900">{__('WooCommerce Project Mapping')}</span>
+        </div>
+        <div className="px-3 py-1.5 rounded-md bg-pm-accent text-white text-sm font-medium">{__('+ Add Product')}</div>
+      </div>
+      <div className="space-y-3">
+        {products.map((p, i) => (
+          <div key={i} className="rounded-lg border bg-white p-4">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-sm font-medium text-gray-900">{p.name}</span>
+              <span className={`px-2.5 py-0.5 rounded-full text-[14px] font-medium ${p.action.includes('Duplicate') ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700'}`}>{p.action}</span>
+            </div>
+            <div className="flex items-center gap-4 text-[15px] text-gray-400">
+              <div className="flex items-center gap-1">
+                <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                <span>{p.assignees} {__('assignees')}</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+                <span>{__('Auto-created on order')}</span>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 const MOCK_MAP = {
   kanban: KanbanMock,
   gantt: GanttMock,
   invoices: InvoiceMock,
   settings: SettingsMock,
   sprints: SprintsMock,
+  'woo-project': WooProjectMock,
 }
 
 export default function ProFeaturePlaceholder({ title, description, icon: Icon, mockKey }) {
