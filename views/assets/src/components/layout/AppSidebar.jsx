@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect, useRef } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, Link } from 'react-router-dom'
 import { useApi } from '@hooks/useApi'
 import { usePermissions } from '@hooks/usePermissions'
 import { useAppSelector } from '@store/index'
@@ -275,8 +275,9 @@ export function AppSidebar() {
     const isActive = activeKey === item.key && !activeProjectId
 
     return (
-      <button
+      <Link
         key={item.key}
+        to={item.route}
         className={cn(
           'w-full flex items-center min-w-0 rounded-md transition-colors text-left mb-0.5 group/nav',
           collapsed ? 'flex-col justify-center px-0 py-1.5 gap-0.5' : 'gap-2.5 px-2.5 py-[7px]',
@@ -285,7 +286,6 @@ export function AppSidebar() {
             : 'text-pm-text-muted hover:bg-pm-hover hover:text-pm-text',
         )}
         title={item.label}
-        onClick={() => navigate(item.route)}
       >
         <Icon className={cn('shrink-0', collapsed ? 'w-[18px] h-[18px]' : 'w-[18px] h-[18px]', isActive ? 'text-pm-accent' : 'text-pm-text-muted')} />
         {collapsed
@@ -293,7 +293,7 @@ export function AppSidebar() {
           : <TruncText className="text-[15px]">{item.label}</TruncText>
         }
         {!collapsed && item.pro && <span className="shrink-0 opacity-0 group-hover/nav:opacity-100 transition-opacity"><ProBadge /></span>}
-      </button>
+      </Link>
     )
   }
 
@@ -356,20 +356,20 @@ export function AppSidebar() {
               const subActive = isActive && activeSubKey === sub.key
 
               return (
-                <button
+                <Link
                   key={sub.key}
+                  to={sub.path(project.id)}
                   className={cn(
                     'w-full flex items-center min-w-0 gap-2 rounded-md px-2 py-[5px] text-left transition-colors group/sub',
                     subActive
                       ? 'bg-pm-accent/10 text-pm-accent font-medium'
                       : 'text-pm-text-muted hover:bg-pm-hover hover:text-pm-text',
                   )}
-                  onClick={() => navigate(sub.path(project.id))}
                 >
                   <SubIcon className={cn('h-4 w-4 shrink-0', subActive ? 'text-pm-accent' : 'text-pm-text-muted/70')} />
                   <TruncText className="text-[14px]">{__(sub.label)}</TruncText>
                   {sub.proPreview && <span className="shrink-0 opacity-0 group-hover/sub:opacity-100 transition-opacity"><ProBadge /></span>}
-                </button>
+                </Link>
               )
             })}
           </div>
