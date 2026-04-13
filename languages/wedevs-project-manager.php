@@ -1211,4 +1211,15 @@ return [
 	__( 'Back', 'wedevs-project-manager' ),
 	__( 'Create Project', 'wedevs-project-manager' ),
 	__( 'Exit full screen', 'wedevs-project-manager' ),
+
+	// ── Missing tooltip labels with leading space ──
+	__( ' Tasks', 'wedevs-project-manager' ),
+	__( ' Discussions', 'wedevs-project-manager' ),
+	__( ' Task Lists', 'wedevs-project-manager' ),
+	__( ' Files', 'wedevs-project-manager' ),
+	__( ' Milestones', 'wedevs-project-manager' ),
+	__( ' Comments', 'wedevs-project-manager' ),
+
+	// ── Notification error strings ──
+	__( 'Transactional email triggered fatal error for callback ', 'wedevs-project-manager' ),
 ];
