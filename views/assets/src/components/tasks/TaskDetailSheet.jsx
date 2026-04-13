@@ -603,7 +603,13 @@ export default function TaskDetailSheet() {
   const { __ } = useI18n()
   const toast = useToast()
   const { currentTask, taskSheetOpen, loading } = useAppSelector(s => s.tasks)
-  const projectId = useAppSelector(s => s.taskLists.projectId)
+  const storeProjectId = useAppSelector(s => s.taskLists.projectId)
+  
+  // Extract projectId from task object as fallback for PRO plugin context
+  // Free plugin uses taskLists.projectId, but PRO components may pass tasks
+  // with project info embedded. Use whichever is available.
+  const projectId = storeProjectId || currentTask?.project_id || currentTask?.project?.id
+  const isProContext = !storeProjectId && (currentTask?.project_id || currentTask?.project?.id)
 
   // ── State ──────────────────────────────────────────
   const [editingTitle, setEditingTitle] = useState(false)
@@ -647,9 +653,11 @@ export default function TaskDetailSheet() {
 
   useEffect(() => {
     if (taskSheetOpen && currentTask && projectId) {
+      // Always refetch in PRO context to ensure fresh data from task object
+      // In free context, refetch on sheet open to get latest from Redux
       dispatch(fetchTask({ projectId, taskId: currentTask.id }))
     }
-  }, [taskSheetOpen, currentTask?.id, projectId, dispatch])
+  }, [taskSheetOpen, currentTask?.id, projectId, isProContext, dispatch])
 
 
   // ── Derived (must be before handlers that use them) ──
