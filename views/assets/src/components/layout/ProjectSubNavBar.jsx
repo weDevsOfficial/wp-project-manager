@@ -18,7 +18,6 @@ const SUB_NAV_FREE = [
   { key: 'discussions', label: 'Discussions',  icon: MessageSquare, path: (pid) => `/projects/${pid}/discussions` },
   { key: 'milestones',  label: 'Milestones',   icon: Milestone,     path: (pid) => `/projects/${pid}/milestones` },
   { key: 'files',       label: 'Files',        icon: FileText,      path: (pid) => `/projects/${pid}/files` },
-  { key: 'activities',  label: 'Activities',   icon: Activity,      path: (pid) => `/projects/${pid}/activities` },
 ]
 
 function buildProSubNav(modulePaths) {
@@ -68,6 +67,7 @@ export function ProjectSubNavBar() {
     if (isPro) return [...SUB_NAV_FREE, ...buildProSubNav(activeModulePaths)]
     return [
       ...SUB_NAV_FREE,
+      { key: 'activities', label: 'Activities',  icon: Activity,     path: (pid) => `/projects/${pid}/activities`, proPreview: true },
       { key: 'kanban',   label: 'Kanban Board', icon: Columns3,  path: (pid) => `/projects/${pid}/kanban`,   proPreview: true },
       { key: 'gantt',    label: 'Gantt Chart',  icon: GitBranch, path: (pid) => `/projects/${pid}/gantt`,    proPreview: true },
       { key: 'invoices', label: 'Invoices',     icon: Receipt,   path: (pid) => `/projects/${pid}/invoices`, proPreview: true },
@@ -112,7 +112,7 @@ export function ProjectSubNavBar() {
               )} />
               {__(item.label)}
               {item.proPreview && (
-                <span className="opacity-0 group-hover/tab:opacity-100 transition-opacity">
+                <span className="max-w-0 overflow-hidden whitespace-nowrap group-hover/tab:max-w-fit group-hover/tab:ml-1 transition-all">
                   <ProBadge />
                 </span>
               )}
