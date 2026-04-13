@@ -1,18 +1,64 @@
-import React from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import { Navigate } from "react-router-dom";
+import { useAppDispatch } from "@store/index";
 import { useI18n } from "@hooks/useI18n";
 import { usePermissions } from "@hooks/usePermissions";
 import { useProModal } from "@components/common/ProUpgradeModal";
 import ProBadge from "@components/common/ProBadge";
-import { Calendar, Crown, Lock } from "lucide-react";
+import { Calendar, Crown, Lock, ChevronLeft, ChevronRight } from "lucide-react";
+import { createPortal } from "react-dom";
+
+// ── Task Detail Sheet Portal ────────────────────────────
+/**
+ * Hook to safely access TaskDetailSheet from main plugin
+ * @returns {React.ComponentType|null} TaskDetailSheet component or null
+ */
+function useTaskDetailSheet() {
+  const TaskSheetComp = window.PM?.components?.TaskDetailSheet
+  if (!TaskSheetComp) return null
+  return TaskSheetComp
+}
+
+/**
+ * Portal wrapper for TaskDetailSheet with proper rendering context
+ */
+function TaskDetailSheetPortal() {
+  const TaskDetailSheet = useTaskDetailSheet()
+  if (!TaskDetailSheet) return null
+
+  return createPortal(
+    <React.Suspense fallback={null}>
+      <TaskDetailSheet />
+    </React.Suspense>,
+    document.body
+  )
+}
 
 export default function CalendarPage() {
   const { __ } = useI18n();
   const { isPro, isProLicensed } = usePermissions();
   const { setOpen } = useProModal();
+  const dispatch = useAppDispatch();
+  const [currentDate, setCurrentDate] = useState(new Date());
+  const [selectedTask, setSelectedTask] = useState(null);
 
   // Pro installed but not licensed — redirect to license page
   if (isPro && !isProLicensed) return <Navigate to="/license" replace />;
+
+  const handlePrevMonth = () => {
+    setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1));
+  };
+
+  const handleNextMonth = () => {
+    setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1));
+  };
+
+  const handleTaskClick = (task) => {
+    const { openTaskSheet } = window.PM?.actions ?? {}
+    if (openTaskSheet) {
+      dispatch(openTaskSheet(task))
+    }
+  };
 
   return (
     <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-6">
@@ -39,14 +85,24 @@ export default function CalendarPage() {
             {/* Month header */}
             <div className="flex items-center justify-between">
               <h3 className="text-sm font-semibold text-pm-text-primary">
-                {new Date().toLocaleDateString("en-US", {
+                {currentDate.toLocaleDateString("en-US", {
                   month: "long",
                   year: "numeric",
                 })}
               </h3>
               <div className="flex gap-1">
-                <div className="h-7 w-16 rounded bg-muted/50" />
-                <div className="h-7 w-16 rounded bg-muted/50" />
+                <button
+                  onClick={handlePrevMonth}
+                  className="h-7 w-7 rounded hover:bg-muted transition-colors flex items-center justify-center"
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                </button>
+                <button
+                  onClick={handleNextMonth}
+                  className="h-7 w-7 rounded hover:bg-muted transition-colors flex items-center justify-center"
+                >
+                  <ChevronRight className="h-4 w-4" />
+                </button>
               </div>
             </div>
 
@@ -68,29 +124,28 @@ export default function CalendarPage() {
                 const day =
                   i -
                   new Date(
-                    new Date().getFullYear(),
-                    new Date().getMonth(),
+                    currentDate.getFullYear(),
+                    currentDate.getMonth(),
                     1,
                   ).getDay() +
                   1;
                 const maxDay = new Date(
-                  new Date().getFullYear(),
-                  new Date().getMonth() + 1,
+                  currentDate.getFullYear(),
+                  currentDate.getMonth() + 1,
                   0,
                 ).getDate();
                 const isValid = day > 0 && day <= maxDay;
-                const isToday = day === new Date().getDate();
-                const hasTask =
-                  isValid && [3, 7, 12, 15, 18, 22, 25, 28].includes(day);
+                const isToday = day === new Date().getDate() && currentDate.getMonth() === new Date().getMonth();
+                const dayTasks = [];
 
                 return (
                   <div
                     key={i}
-                    className={`relative rounded-lg p-2 min-h-[60px] ${
+                    className={`relative rounded-lg p-2 min-h-[60px] transition-colors ${
                       isToday
                         ? "bg-pm-accent/10 border border-pm-accent/30"
                         : isValid
-                        ? "bg-muted/20"
+                        ? "bg-muted/20 hover:bg-muted/40"
                         : ""
                     }`}
                   >
@@ -105,12 +160,16 @@ export default function CalendarPage() {
                         >
                           {day}
                         </span>
-                        {hasTask && (
+                        {dayTasks.length > 0 && (
                           <div className="mt-1 space-y-0.5">
-                            <div className="h-1.5 rounded-full bg-pm-accent/40 w-full" />
-                            {day % 5 === 0 && (
-                              <div className="h-1.5 rounded-full bg-emerald-400/40 w-3/4" />
-                            )}
+                            {dayTasks.map((task) => (
+                              <button
+                                key={task.id}
+                                onClick={() => handleTaskClick(task)}
+                                className={`h-1.5 rounded-full w-full block hover:h-2 hover:opacity-100 opacity-80 transition-all ${task.color} hover:shadow-sm cursor-pointer`}
+                                title={task.title}
+                              />
+                            ))}
                           </div>
                         )}
                       </>
@@ -151,6 +210,9 @@ export default function CalendarPage() {
           </div>
         )}
       </div>
+
+      {/* Task Detail Sheet Portal */}
+      <TaskDetailSheetPortal />
     </div>
   );
 }
