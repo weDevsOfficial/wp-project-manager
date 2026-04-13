@@ -30,13 +30,13 @@ const projectSubNav_FREE = [
   { key: 'discussions',  label: 'Discussions',   icon: MessageSquare,  path: (pid) => `/projects/${pid}/discussions` },
   { key: 'milestones',   label: 'Milestones',    icon: Milestone,      path: (pid) => `/projects/${pid}/milestones` },
   { key: 'files',        label: 'Files',         icon: FileText,       path: (pid) => `/projects/${pid}/files` },
-  { key: 'activities',   label: 'Activities',    icon: Activity,       path: (pid) => `/projects/${pid}/activities` },
 ]
 
 // Pro sub-nav items — filtered by the provided active module paths
 function getProSubNav(modulePaths) {
   const isActive = (dir) => modulePaths.some(m => m.startsWith(dir + '/') || m === dir)
   const items = []
+  if (isActive('Activities'))  items.push({ key: 'activities', label: 'Activities',    icon: Activity,   path: (pid) => `/projects/${pid}/activities` })
   if (isActive('Kanboard'))  items.push({ key: 'kanban',   label: 'Kanban Board', icon: Columns3,  path: (pid) => `/projects/${pid}/kanban` })
   if (isActive('Gantt'))     items.push({ key: 'gantt',    label: 'Gantt Chart',  icon: GitBranch,  path: (pid) => `/projects/${pid}/gantt` })
   if (isActive('Invoice'))   items.push({ key: 'invoices', label: 'Invoices',     icon: Receipt,    path: (pid) => `/projects/${pid}/invoices` })
@@ -83,11 +83,12 @@ export function AppSidebar() {
   }, [reduxActiveModules])
 
   // Merge free + pro sub-nav items — reactive via activeModulePaths.
-  // When pro is off, show Kanban/Gantt/Invoice/Settings as pro previews.
+  // When pro is off, show Activities/Kanban/Gantt/Invoice/Settings as pro previews.
   const projectSubNav = useMemo(() => {
     if (isPro) return [...projectSubNav_FREE, ...getProSubNav(activeModulePaths)]
     return [
       ...projectSubNav_FREE,
+      { key: 'activities', label: 'Activities',    icon: Activity,   path: (pid) => `/projects/${pid}/activities`, proPreview: true },
       { key: 'kanban',   label: 'Kanban Board', icon: Columns3,  path: (pid) => `/projects/${pid}/kanban`,   proPreview: true },
       { key: 'gantt',    label: 'Gantt Chart',  icon: GitBranch,  path: (pid) => `/projects/${pid}/gantt`,    proPreview: true },
       { key: 'invoices', label: 'Invoices',     icon: Receipt,    path: (pid) => `/projects/${pid}/invoices`, proPreview: true },

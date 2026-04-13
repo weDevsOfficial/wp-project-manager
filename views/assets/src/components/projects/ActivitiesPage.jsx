@@ -1,7 +1,10 @@
 import React, { useEffect, useState, useMemo } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, Navigate } from 'react-router-dom'
 import { useApi } from '@hooks/useApi'
 import { useI18n } from '@hooks/useI18n'
+import { usePermissions } from '@hooks/usePermissions'
+import { useProModal } from '@components/common/ProUpgradeModal'
+import ProBadge from '@components/common/ProBadge'
 import { Button } from '@components/ui/button'
 import { Skeleton } from '@components/ui/skeleton'
 import { Badge } from '@components/ui/badge'
@@ -10,7 +13,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar'
 import {
   ArrowLeft, Activity, CheckSquare, FolderKanban, MessageSquare,
   FileText, Milestone, Trash2, Edit3, ArrowUpDown, Plus,
-  ChevronDown, Loader2, BarChart2, Clock, PlusCircle, RefreshCw,
+  ChevronDown, Loader2, BarChart2, Clock, PlusCircle, RefreshCw, Crown,
 } from 'lucide-react'
 import { extractDateStr, userInitials } from '@lib/pm-utils'
 import { cn } from '@lib/utils'
@@ -224,6 +227,11 @@ export default function ActivitiesPage() {
   const navigate = useNavigate()
   const api = useApi()
   const { __, sprintf } = useI18n()
+  const { isPro, isProLicensed } = usePermissions()
+  const { setOpen } = useProModal()
+
+  // Pro installed but not licensed — redirect to license page
+  if (isPro && !isProLicensed) return <Navigate to="/license" replace />
 
   const [activities, setActivities] = useState([])
   const [loading, setLoading] = useState(true)
@@ -233,6 +241,7 @@ export default function ActivitiesPage() {
   const [total, setTotal] = useState(0)
 
   useEffect(() => {
+    if (!isPro) return // Don't fetch if not pro
     setLoading(true)
     api.get(`projects/${projectId}/activities`, { per_page: 20, page: 1 })
       .then((res) => {
@@ -244,7 +253,7 @@ export default function ActivitiesPage() {
       })
       .catch(() => {})
       .finally(() => setLoading(false))
-  }, [projectId])
+  }, [projectId, isPro])
 
   const loadMore = async () => {
     setLoadingMore(true)
@@ -277,17 +286,136 @@ export default function ActivitiesPage() {
   return (
     <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-5">
       {/* Header */}
-      <div className="flex items-center gap-3">
-        <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => navigate(`/projects/${projectId}/task-lists`)}>
-          <ArrowLeft className="h-5 w-5" />
-        </Button>
+      <div className="flex items-center justify-between">
         <div>
           <h1 className="text-xl font-bold text-pm-text">{__('Activities')}</h1>
           <p className="text-sm text-pm-text-muted">{__('All changes and updates in this project')}</p>
         </div>
+        {!isPro && <ProBadge label={__('Pro Required')} />}
       </div>
 
-      {loading ? (
+      {!isPro ? (
+        // ── Pro mock preview ──────────────────────────
+        <div className="group relative rounded-xl border bg-card overflow-hidden">
+          <div className="p-6 space-y-5">
+            {/* Stats cards */}
+            <div className="grid grid-cols-4 gap-4">
+              {[
+                { label: __('Total'),   value: '—', icon: BarChart2,  color: 'text-pm-accent bg-indigo-50' },
+                { label: __('Today'),   value: '—', icon: Clock,      color: 'text-emerald-500 bg-emerald-50' },
+                { label: __('Created'), value: '—', icon: PlusCircle, color: 'text-blue-500 bg-blue-50' },
+                { label: __('Updated'), value: '—', icon: RefreshCw,  color: 'text-amber-500 bg-amber-50' },
+              ].map(stat => (
+                <div key={stat.label} className="rounded-xl border bg-muted/20 p-4 flex items-center gap-3">
+                  <div className={`p-2 rounded-lg ${stat.color.split(' ')[1]}`}>
+                    <stat.icon className={`h-5 w-5 ${stat.color.split(' ')[0]}`} />
+                  </div>
+                  <div>
+                    <p className={`text-2xl font-bold tabular-nums ${stat.color.split(' ')[0]}`}>{stat.value}</p>
+                    <p className="text-[15px] text-pm-text-muted font-medium">{stat.label}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Activity feed mock */}
+            <div className="rounded-xl border bg-card">
+              <div className="p-4 space-y-4">
+                {['Today', 'Yesterday'].map(date => (
+                  <div key={date}>
+                    <div className="flex items-center gap-3 mb-3 px-1">
+                      <h3 className="text-sm font-bold uppercase tracking-wider text-pm-text-muted/70 whitespace-nowrap">
+                        {date}
+                      </h3>
+                      <Separator className="flex-1" />
+                      <span className="text-[13px] text-pm-text-muted/50">3 activities</span>
+                    </div>
+                    <div className="space-y-0.5">
+                      {[
+                        { 
+                          icon: CheckSquare, type: 'create', actor: 'Alex Johnson', 
+                          message: 'created a task "Design system components"'
+                        },
+                        { 
+                          icon: Edit3, type: 'update', actor: 'Emma Davis', 
+                          message: 'updated task description on "API endpoint setup"'
+                        },
+                        { 
+                          icon: ArrowUpDown, type: 'update', actor: 'Michael Chen', 
+                          message: 'changed status to "In Progress" on "Database migration"'
+                        },
+                        { 
+                          icon: CheckSquare, type: 'create', actor: 'Sarah Wilson', 
+                          message: 'created a task "Code review and testing"'
+                        },
+                        { 
+                          icon: MessageSquare, type: 'update', actor: 'James Brown', 
+                          message: 'commented on "Frontend optimization"'
+                        },
+                        { 
+                          icon: FileText, type: 'update', actor: 'Lisa Anderson', 
+                          message: 'uploaded new document "Requirements.pdf"'
+                        },
+                      ].map((item, i) => {
+                        const Icon = item.icon
+                        const badgeColor = ACTION_COLOR_MAP[item.type] || 'bg-gray-400'
+                        const badgeLabel = __(ACTION_LABELS[item.type] || item.type)
+                        return (
+                          <div key={i} className="flex items-start gap-3 py-3 px-4 hover:bg-pm-hover/50 rounded-lg transition-colors opacity-70">
+                            <Avatar className="h-8 w-8 shrink-0 mt-0.5">
+                              <AvatarFallback className="text-[15px] font-semibold bg-pm-accent/10 text-pm-accent">
+                                {item.actor.split(' ').map(n => n[0]).join('')}
+                              </AvatarFallback>
+                            </Avatar>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-2 mb-0.5">
+                                <span className="text-sm font-semibold text-pm-text">{item.actor}</span>
+                                <Badge variant="outline" className={cn('text-[14px] px-1.5 py-0 h-4 font-medium border-0 text-white', badgeColor)}>
+                                  {badgeLabel}
+                                </Badge>
+                              </div>
+                              <p className="text-sm text-pm-text-muted leading-snug">{item.message}</p>
+                            </div>
+                            <div className="shrink-0 mt-1">
+                              <Icon className="h-5 w-5 text-pm-text-muted/40" />
+                            </div>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Pro overlay */}
+          <div
+            className="absolute inset-0 bg-black/50 backdrop-blur-[2px] flex flex-col items-center justify-center cursor-pointer rounded-xl opacity-0 group-hover:opacity-100 transition-opacity"
+            onClick={() => setOpen(true)}
+          >
+            <div className="bg-white rounded-2xl px-8 py-6 shadow-xl text-center">
+              <div className="inline-flex items-center justify-center h-14 w-14 rounded-2xl bg-pm-accent/10 mb-4">
+                <Activity className="h-7 w-7 text-pm-accent" />
+              </div>
+              <h3 className="text-lg font-bold text-pm-text-primary mb-1">
+                {__('Project Activities')}
+              </h3>
+              <p className="text-sm text-pm-text-muted mb-4 max-w-[250px]">
+                {__('View all changes, updates, and activities happening in your project in real-time.')}
+              </p>
+              <div
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-white font-semibold text-sm"
+                style={{ background: '#ff9000' }}
+              >
+                <Crown className="h-5 w-5" />
+                {__('Upgrade to Pro')}
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : loading ? (
+        // ── Loading state ──────────────────────────
         <div className="space-y-4">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {[1, 2, 3, 4].map(i => <Skeleton key={i} className="h-20 rounded-lg" />)}
@@ -303,12 +431,14 @@ export default function ActivitiesPage() {
           ))}
         </div>
       ) : activities.length === 0 ? (
+        // ── Empty state ──────────────────────────
         <div className="text-center py-16">
           <Activity className="h-14 w-14 text-muted-foreground/30 mx-auto mb-3" />
           <h3 className="text-sm font-medium text-pm-text mb-1">{__('No activities yet')}</h3>
           <p className="text-sm text-pm-text-muted">{__('Project activity will appear here.')}</p>
         </div>
       ) : (
+        // ── Actual activities ──────────────────────────
         <>
           {/* Stats cards */}
           <div className="grid grid-cols-4 gap-4">
