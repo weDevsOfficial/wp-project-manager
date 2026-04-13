@@ -133,6 +133,19 @@ body:not(.wp-admin) #wedevs-project-manager {
     outline: none;
   }
 
+  /* Global focus outline — use pm-accent purple color */
+  *:focus-visible {
+    outline: 2px solid hsl(var(--primary)) !important;
+    outline-offset: 2px;
+  }
+
+  /* Override WordPress admin blue box-shadow with purple */
+  a:focus, button:focus {
+    box-shadow: 0 0 0 2px hsl(var(--primary)) !important;
+    color: inherit !important;
+    outline: 2px solid transparent !important;
+  }
+
   /* Reset WP table styles */
   table { border-collapse: collapse; border-spacing: 0; }
   th { text-align: left; font-weight: 600; }
