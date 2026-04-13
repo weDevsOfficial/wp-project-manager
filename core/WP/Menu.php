@@ -19,28 +19,34 @@ class Menu {
         $home = add_menu_page( __( 'Project Manager', 'wedevs-project-manager' ), __( 'Project Manager', 'wedevs-project-manager' ), self::$capability, $slug, array( new Output, 'home_page' ), self::pm_svg(), 3 );
 
         // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intentionally adding custom submenu items to WordPress admin menu
+        // 1. Projects
         $submenu[$slug][] = [ __( 'Projects', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/" ];
 
+        // 2. My Tasks
         $active_task = self::my_task_count();
         // translators: %s: pending task count number
         $mytask_text = sprintf( __( 'My Tasks %s', 'wedevs-project-manager' ), '<span class="awaiting-mod count-1"><span class="pending-count">' . $active_task . '</span></span>' );
         // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intentionally adding custom submenu items to WordPress admin menu
-        $submenu[$slug][] = [ $mytask_text , self::$capability, "admin.php?page={$slug}#/my-tasks" ];
+        $submenu[$slug][] = [ $mytask_text, self::$capability, "admin.php?page={$slug}#/my-tasks" ];
 
-        if ( wedevs_pm_user_can_access( wedevs_pm_manager_cap_slug() ) ) {
-            // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intentionally adding custom submenu items to WordPress admin menu
-            $submenu[$slug][] = [ __( 'Categories', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/categories" ];
-        }
-
+        // 3. Views + Modules: Calendar, Progress, Reports, Modules, Sprints, Woo Project
+        //    — added by pro plugin via wedevs_pm_menu_before_load_scripts
         do_action( 'wedevs_pm_menu_before_load_scripts', $home );
 
         add_action( 'admin_print_styles-' . $home, array( 'WeDevs\\PM\\Core\\WP\\Menu', 'scripts' ) );
 
         do_action( 'wedevs_cpm_admin_menu', self::$capability, $home );
 
+        // 4. Upgrade to Pro (free only)
         if ( ! $wedevs_pm_pro ) {
             // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intentionally adding custom submenu items to WordPress admin menu
             $submenu[$slug][] = [ __( 'Premium', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/premium" ];
+        }
+
+        // 5. Administration: Categories, Settings, Tools
+        if ( wedevs_pm_user_can_access( wedevs_pm_manager_cap_slug() ) ) {
+            // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- Intentionally adding custom submenu items to WordPress admin menu
+            $submenu[$slug][] = [ __( 'Categories', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/categories" ];
         }
 
         if ( wedevs_pm_has_admin_capability() ) {
@@ -53,6 +59,7 @@ class Menu {
             $submenu[$slug]['importtools'] = [ __( 'Tools', 'wedevs-project-manager' ), self::$capability, "admin.php?page={$slug}#/importtools" ];
         }
 
+        // 6. License — added by pm-pro via wedevs_pm_menu_after_load_scripts
         do_action( 'wedevs_pm_menu_after_load_scripts', $home );
     }
 

@@ -1,12 +1,13 @@
 import React, { useState, lazy, Suspense } from 'react'
 import { useI18n } from '@hooks/useI18n'
 import { usePermissions } from '@hooks/usePermissions'
-import { useProModal } from '@components/common/ProUpgradeModal'
 import ProBadge from '@components/common/ProBadge'
+import ProFeaturePlaceholder from '@components/common/ProFeaturePlaceholder'
 import { cn } from '@lib/utils'
+import { useFilter } from '@hooks/useSlot'
 import {
   Settings, Mail, Users, ListTodo, Bot, Radio,
-  Calendar, Image, FileText, Crown, Lock,
+  FileText, ShoppingCart,
 } from 'lucide-react'
 
 // Brand SVG icons for settings nav (not available as non-deprecated lucide icons)
@@ -36,8 +37,8 @@ const AiSettingsTab      = lazy(() => import('./tabs/AiSettingsTab'))
 const GitHubSettingsTab  = lazy(() => import('./tabs/GitHubSettingsTab'))
 const NotionSettingsTab  = lazy(() => import('./tabs/NotionSettingsTab'))
 const LoomSettingsTab    = lazy(() => import('./tabs/LoomSettingsTab'))
-const InvoiceSettingsTab = lazy(() => import('./tabs/InvoiceSettingsTab'))
-const PagesSettingsTab   = lazy(() => import('./tabs/PagesSettingsTab'))
+const InvoiceSettingsTab  = lazy(() => import('./tabs/InvoiceSettingsTab'))
+const PagesSettingsTab    = lazy(() => import('./tabs/PagesSettingsTab'))
 
 // ── Tab → Component map ──────────────────────────────────────
 const tabComponents = {
@@ -52,60 +53,15 @@ const tabComponents = {
   'loom':         LoomSettingsTab,
   'invoices':     InvoiceSettingsTab,
   'pages':        PagesSettingsTab,
+  'woo-project':  null, // injected by pm-pro via filter
 }
 
-// ── Pro Preview placeholder ──────────────────────────────────
-function ProSettingsPreview({ tabLabel, icon: Icon }) {
-  const { __ } = useI18n()
-  const { setOpen } = useProModal()
 
-  return (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-lg font-semibold text-pm-text mb-1">{tabLabel}</h2>
-        <p className="text-sm text-pm-text-muted">{__('This feature requires PM Pro')}</p>
-      </div>
-
-      <div className="group relative rounded-xl border bg-card overflow-hidden">
-        <div className="p-6 space-y-4 opacity-50">
-          {/* Mock settings rows */}
-          {[1, 2, 3].map(i => (
-            <div key={i} className="flex items-center justify-between py-3 border-b border-pm-border last:border-0">
-              <div className="space-y-1">
-                <div className="h-4 w-32 rounded bg-muted/60" />
-                <div className="h-3 w-48 rounded bg-muted/40" />
-              </div>
-              <div className="h-6 w-11 rounded-full bg-muted/60" />
-            </div>
-          ))}
-        </div>
-
-        {/* Pro overlay */}
-        <button
-          type="button"
-          className="absolute inset-0 bg-black/40 backdrop-blur-[2px] flex flex-col items-center justify-center cursor-pointer rounded-xl"
-          onClick={() => setOpen(true)}
-        >
-          <div className="bg-white rounded-2xl px-8 py-6 shadow-xl text-center">
-            <div className="inline-flex items-center justify-center h-12 w-12 rounded-2xl bg-pm-accent/10 mb-3">
-              <Lock className="h-6 w-6 text-pm-accent" />
-            </div>
-            <h3 className="text-base font-bold text-pm-text mb-1">{tabLabel}</h3>
-            <p className="text-sm text-pm-text-muted mb-4 max-w-[220px]">
-              {__('Unlock this feature by upgrading to PM Pro.')}
-            </p>
-            <div
-              className="inline-flex items-center gap-2 px-5 py-2 rounded-lg text-white font-semibold text-sm"
-              style={{ background: '#ff9000' }}
-            >
-              <Crown className="h-5 w-5" />
-              {__('Upgrade to Pro')}
-            </div>
-          </div>
-        </button>
-      </div>
-    </div>
-  )
+// Per-tab pro preview config — maps tab key → ProFeaturePlaceholder props
+const PRO_TAB_CONFIG = {
+  'invoices':    { title: 'Invoices',    description: 'Create and manage invoices for your projects.',          icon: FileText,    mockKey: 'invoices'     },
+  'pages':       { title: 'Pages',       description: 'Configure front-end pages for Project Manager.',         icon: FileText,    mockKey: 'settings'     },
+  'woo-project': { title: 'WooCommerce', description: 'Automatically create projects from WooCommerce orders.', icon: ShoppingCart, mockKey: 'woo-project'  },
 }
 
 // ── Component ────────────────────────────────────────────────
@@ -114,11 +70,38 @@ const SettingsPage = () => {
   const { isPro } = usePermissions()
   const [activeTab, setActiveTab] = useState('general')
 
-  // Pro tabs that show for everyone (with preview for free users)
-  const proTabs = [
-    { key: 'invoices',     label: __('Invoices', 'wedevs-project-manager'),     icon: FileText, pro: true },
-    { key: 'pages',        label: __('Pages', 'wedevs-project-manager'),        icon: FileText, pro: true },
+  // Woo Project tab component — injected by pm-pro via filter (only when module is active)
+  const WooProjectComponent = useFilter('settings.tab.woo-project.component', null)
+
+  // Mirror the exact sidebar logic:
+  //   !isPro           → show with pro:true (ProSettingsPreview)
+  //   isPro + active   → show, render WooProjectComponent
+  //   isPro + inactive → hide entirely
+  const isProInstalled = typeof PM_Pro_Vars !== 'undefined'
+  const isWooModuleActive = (() => {
+    const mods = (isProInstalled && Array.isArray(PM_Pro_Vars.active_modules))
+      ? PM_Pro_Vars.active_modules.map(m => typeof m === 'string' ? m : (m.path || ''))
+      : []
+    return mods.some(m => m.startsWith('Woo_Project/') || m === 'Woo_Project')
+  })()
+  const showWooTab = !isPro || isWooModuleActive
+
+  const integrationTabs = [
+    { key: 'usermap', label: __('User Map', 'wedevs-project-manager'), icon: Users },
+    { key: 'pusher',  label: __('Pusher',   'wedevs-project-manager'), icon: Radio },
+    { key: 'github',  label: __('GitHub',   'wedevs-project-manager'), icon: GitHubNavIcon },
+    { key: 'notion',  label: __('Notion',   'wedevs-project-manager'), icon: NotionNavIcon },
+    { key: 'loom',    label: __('Loom',     'wedevs-project-manager'), icon: LoomNavIcon },
   ]
+
+  if (showWooTab) {
+    integrationTabs.push({
+      key:   'woo-project',
+      label: __('WooCommerce', 'wedevs-project-manager'),
+      icon:  ShoppingCart,
+      pro:   !isPro,  // show ProBadge + ProSettingsPreview for free users
+    })
+  }
 
   const tabGroups = [
     {
@@ -127,17 +110,13 @@ const SettingsPage = () => {
         { key: 'general',    label: __('General',    'wedevs-project-manager'), icon: Settings },
         { key: 'email',      label: __('Email',      'wedevs-project-manager'), icon: Mail     },
         { key: 'task-types', label: __('Task Types', 'wedevs-project-manager'), icon: ListTodo },
+        { key: 'invoices',   label: __('Invoices',   'wedevs-project-manager'), icon: FileText, pro: true },
+        { key: 'pages',      label: __('Pages',      'wedevs-project-manager'), icon: FileText, pro: true },
       ],
     },
     {
       title: __('Integrations', 'wedevs-project-manager'),
-      tabs: [
-        { key: 'usermap', label: __('User Map', 'wedevs-project-manager'), icon: Users },
-        { key: 'pusher',  label: __('Pusher',   'wedevs-project-manager'), icon: Radio },
-        { key: 'github',  label: __('GitHub',   'wedevs-project-manager'), icon: GitHubNavIcon },
-        { key: 'notion',  label: __('Notion',   'wedevs-project-manager'), icon: NotionNavIcon },
-        { key: 'loom',    label: __('Loom',     'wedevs-project-manager'), icon: LoomNavIcon },
-      ],
+      tabs: integrationTabs,
     },
     {
       title: __('Advanced', 'wedevs-project-manager'),
@@ -145,15 +124,13 @@ const SettingsPage = () => {
         { key: 'ai-settings', label: __('AI Settings', 'wedevs-project-manager'), icon: Bot },
       ],
     },
-    {
-      title: __('Pro', 'wedevs-project-manager'),
-      tabs: proTabs,
-    },
   ]
 
   const activeTabConfig = tabGroups.flatMap(g => g.tabs).find(t => t.key === activeTab)
   const isProTab = activeTabConfig?.pro && !isPro
-  const ActiveComponent = tabComponents[activeTab]
+  // For woo-project tab: use the filter-injected component (set by pm-pro when module is active).
+  // For all other tabs: use the static tabComponents map.
+  const ActiveComponent = activeTab === 'woo-project' ? WooProjectComponent : tabComponents[activeTab]
 
   return (
     <div className="pm-settings-page flex h-full overflow-hidden">
@@ -183,7 +160,7 @@ const SettingsPage = () => {
                     key={tab.key}
                     type="button"
                     className={cn(
-                      'w-full flex items-center gap-2.5 px-2.5 py-[7px] rounded-md transition-colors text-left mb-0.5',
+                      'w-full flex items-center gap-2.5 px-2.5 py-[7px] rounded-md transition-colors text-left mb-0.5 group/tab',
                       isActive
                         ? 'bg-pm-accent/10 text-pm-accent font-medium'
                         : 'text-pm-text-muted hover:bg-pm-hover hover:text-pm-text'
@@ -197,7 +174,7 @@ const SettingsPage = () => {
                       )}
                     />
                     <span className="flex-1 truncate text-[15px]">{tab.label}</span>
-                    {needsPro && <ProBadge />}
+                    {needsPro && <span className="shrink-0 opacity-0 group-hover/tab:opacity-100 transition-opacity"><ProBadge /></span>}
                   </button>
                 )
               })}
@@ -208,26 +185,32 @@ const SettingsPage = () => {
 
       {/* ── Content area ──────────────────────────────────── */}
       <main className="flex-1 overflow-y-auto bg-pm-surface-muted">
-        <div className="max-w-[840px] mx-auto p-8">
-          {isProTab ? (
-            <ProSettingsPreview
-              tabLabel={activeTabConfig.label}
-              icon={activeTabConfig.icon}
-            />
-          ) : (
-            <Suspense
-              fallback={
-                <div className="space-y-4 py-4">
+        {isProTab ? (
+          <ProFeaturePlaceholder {...(PRO_TAB_CONFIG[activeTab] ?? PRO_TAB_CONFIG['invoices'])} />
+        ) : ActiveComponent ? (
+          <Suspense
+            fallback={
+              activeTab === 'woo-project' ? (
+                <div className="max-w-[1400px] mx-auto p-6 space-y-5">
+                  <div className="h-7 w-64 bg-pm-border/30 rounded-lg animate-pulse" />
+                  <div className="h-4 w-96 bg-pm-border/30 rounded-lg animate-pulse" />
+                  <div className="h-32 w-full bg-pm-border/30 rounded-lg animate-pulse" />
+                  <div className="h-32 w-full bg-pm-border/30 rounded-lg animate-pulse" />
+                </div>
+              ) : (
+                <div className="max-w-[840px] mx-auto p-8 space-y-4">
                   {[1, 2, 3, 4].map((i) => (
                     <div key={i} className="h-14 w-full bg-pm-border/30 rounded-lg animate-pulse" />
                   ))}
                 </div>
-              }
-            >
+              )
+            }
+          >
+            <div className={activeTab === 'woo-project' ? '' : 'max-w-[840px] mx-auto p-8'}>
               <ActiveComponent />
-            </Suspense>
-          )}
-        </div>
+            </div>
+          </Suspense>
+        ) : null}
       </main>
     </div>
   )

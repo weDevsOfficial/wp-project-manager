@@ -10,7 +10,7 @@ import {
   Settings, ArrowLeft, PanelLeftClose, PanelLeftOpen,
   ChevronDown, Star, LayoutList, Layout, MessageSquare,
   Milestone, FileText, Activity, Tag, Crown, Layers,
-  Columns3, GitBranch, Receipt, Timer, Shield, Wrench, ShoppingCart,
+  Columns3, GitBranch, Receipt, Timer, Shield, Wrench,
 } from 'lucide-react'
 import { cn } from '@lib/utils'
 
@@ -217,15 +217,8 @@ export function AppSidebar() {
     if (!isPro || isModuleActive('Sprint')) {
       items.push({ key: 'sprints',     label: __('Sprints'),     short: __('Sprint'), icon: Timer,         route: '/sprints',      pro: !isPro })
     }
-    if (!isPro || isModuleActive('Woo_Project')) {
-      items.push({ key: 'woo-project', label: __('Woo Project'), short: __('Woo'),    icon: ShoppingCart,  route: '/woo-project',  pro: !isPro })
-    }
-
-    if (isProInstalled && !isFrontend) {
-      items.push({ key: 'license', label: __('License'), short: __('Lic'), icon: Shield, route: '/license' })
-    }
     return items
-  }, [__, isPro, isProInstalled, isFrontend, activeModulePaths])
+  }, [__, isPro, activeModulePaths])
 
   // Auto-collapse sidebar on full-width pages (reports, calendar, progress, sprints)
   const autoCollapsedRef = useRef(false)
@@ -238,7 +231,7 @@ export function AppSidebar() {
     // Skip initial mount
     if (prevPath === currPath) return
 
-    const fullWidthPages = ['reports', 'calendar', 'progress', 'sprints', 'woo-project']
+    const fullWidthPages = ['reports', 'calendar', 'progress', 'sprints']
     const wasFullWidth = fullWidthPages.some(p => prevPath.startsWith(`/${p}`))
     const isFullWidth = fullWidthPages.some(p => currPath.startsWith(`/${p}`))
 
@@ -264,9 +257,8 @@ export function AppSidebar() {
     if (path.startsWith('/calendar')) return 'calendar'
     if (path.startsWith('/progress')) return 'progress'
     if (path.startsWith('/reports'))  return 'reports'
-    if (path.startsWith('/sprints'))     return 'sprints'
-    if (path.startsWith('/woo-project')) return 'woo-project'
-    if (path.startsWith('/license'))  return 'license'
+    if (path.startsWith('/sprints'))  return 'sprints'
+    if (path.startsWith('/license')) return 'license'
     return 'projects'
   }, [location.pathname])
 
@@ -541,6 +533,7 @@ export function AppSidebar() {
               {renderNavItem({ key: 'categories', label: __('Categories'), short: __('Cat'),   icon: Tag,     route: '/categories', adminOnly: true })}
               {renderNavItem({ key: 'settings',   label: __('Settings'),   short: __('Set'),   icon: Settings, route: '/settings',   adminOnly: true })}
               {renderNavItem({ key: 'importtools', label: __('Tools'),     short: __('Tools'), icon: Wrench,  route: '/importtools', adminOnly: true })}
+              {isProInstalled && renderNavItem({ key: 'license', label: __('License'), short: __('Lic'), icon: Shield, route: '/license' })}
             </div>
           )}
         </nav>
