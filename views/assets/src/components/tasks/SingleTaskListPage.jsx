@@ -14,6 +14,7 @@ import { ArrowLeft, Lock, MessageSquare, Pencil, Trash2, Paperclip } from 'lucid
 import { userInitials, formatPmDateTime } from '@lib/pm-utils'
 import TaskRow from './TaskRow'
 import TaskDetailSheet from './TaskDetailSheet'
+import { sanitizeHtml } from '@lib/sanitize'
 
 export default function SingleTaskListPage() {
   const { projectId: pidParam, listId: lidParam } = useParams()
@@ -218,7 +219,7 @@ export default function SingleTaskListPage() {
 
       {/* Description */}
       {currentList.description && (
-        <div className="text-sm text-pm-text-muted" dangerouslySetInnerHTML={{ __html: currentList.description }} />
+        <div className="text-sm text-pm-text-muted" dangerouslySetInnerHTML={{ __html: sanitizeHtml(currentList.description) }} />
       )}
 
       {/* Tasks */}
@@ -328,7 +329,7 @@ export default function SingleTaskListPage() {
                         </div>
                       </div>
                     ) : (
-                      <div className="text-sm text-pm-text-primary/80 leading-relaxed prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: comment.content }} />
+                      <div className="text-sm text-pm-text-primary/80 leading-relaxed prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: sanitizeHtml(comment.content) }} />
                     )}
                     {/* Comment files */}
                     {comment.files?.data?.length > 0 && (
