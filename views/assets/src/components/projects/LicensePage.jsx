@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useI18n } from '@hooks/useI18n'
+import { useConfirm } from '@hooks/useConfirm'
 import { useProApi } from '@hooks/useProApi'
 import { Button } from '@components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@components/ui/card'
@@ -10,6 +11,7 @@ import { toast } from 'sonner'
 export default function LicensePage() {
   const { __ } = useI18n()
   const proApi = useProApi()
+  const [ConfirmDialog, confirm] = useConfirm()
   const [license, setLicense] = useState(null)
   const [status, setStatus] = useState(null)
   const [message, setMessage] = useState('')
@@ -51,8 +53,9 @@ export default function LicensePage() {
     }).finally(() => setSubmitting(false))
   }
 
-  const handleDelete = () => {
-    if (!window.confirm(__('License will delete permanently'))) return
+  const handleDelete = async () => {
+    const ok = await confirm(__('License will delete permanently'), __('Delete License'))
+    if (!ok) return
     proApi.post('license/delete').then(() => {
       toast.success(__('License removed'))
       location.reload()
@@ -69,6 +72,7 @@ export default function LicensePage() {
 
   return (
     <div className="max-w-[1400px] mx-auto p-6 space-y-6">
+      <ConfirmDialog />
       <div className="flex items-center gap-3 mb-6">
         <Shield className="h-5 w-5 text-pm-accent" />
         <h2 className="text-lg font-semibold text-pm-text-primary">{__('License')}</h2>

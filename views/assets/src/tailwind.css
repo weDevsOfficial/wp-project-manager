@@ -323,8 +323,10 @@ body.pm-fullscreen-settings.pm-mode-wordpress #wedevs-pm {
      100   — Fullscreen app container (#wedevs-pm)
      2000  — Dialog/Sheet overlay (backdrop)
      2001  — Dialog/Sheet content
+     2500  — AlertDialog overlay  [data-pm-alert-overlay]
+     2501  — AlertDialog content  [role="alertdialog"]
      3000  — Popper content (Select, Dropdown, Popover, Tooltip)
-     4000  — Toast notifications
+     99999 — Toast notifications
      WP admin bar (99999) — hidden in fullscreen mode
      In WordPress sidebar mode (pm-mode-wordpress):
        Dialogs/Sheets/Poppers are bumped above 99999 ──────── */
@@ -375,6 +377,51 @@ body.pm-fullscreen-settings.pm-mode-wordpress #wedevs-pm {
   line-height: 1.5;
   color: hsl(var(--foreground));
   -webkit-font-smoothing: antialiased;
+}
+
+/* ── AlertDialog centering — enforced with !important so Sheet/Dialog
+   parent transforms cannot affect the position. Uses margin:auto + inset
+   which is immune to parent transform contexts unlike translate(-50%,-50%). */
+[data-pm-alert-content] {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: auto !important;
+  margin: 0 !important;
+  transform: translate(-50%, -50%) !important;
+}
+
+/* ── AlertDialog — must sit ABOVE Sheet/Dialog (2000/2001) ──────────────────
+     Radix sets role="alertdialog" on the content node.
+     The overlay gets data-pm-alert-overlay to avoid needing :has().
+     Overlay: 2500, Content: 2501 — above Sheet/Dialog, below Popper (3000). */
+[data-pm-alert-overlay] {
+  z-index: 2500 !important;
+}
+[role="alertdialog"][data-state] {
+  z-index: 2501 !important;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: hsl(var(--foreground));
+  background-color: hsl(var(--background));
+  -webkit-font-smoothing: antialiased;
+}
+[role="alertdialog"][data-state] *:not(button),
+[role="alertdialog"][data-state] *:not(button)::before,
+[role="alertdialog"][data-state] *:not(button)::after {
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+  border-color: hsl(var(--border));
+}
+
+body.pm-mode-wordpress [data-pm-alert-overlay] {
+  z-index: 100250 !important;
+}
+body.pm-mode-wordpress [role="alertdialog"][data-state] {
+  z-index: 100251 !important;
 }
 
 /* Center modal dialogs — uses data-pm-dialog attribute to avoid targeting sheets.
@@ -439,6 +486,47 @@ body.pm-mode-wordpress [data-sonner-toaster] {
 [data-radix-popper-content-wrapper] button:focus {
   box-shadow: none;
   outline: none;
+}
+
+/* ── AlertDialog button reset — portals outside #wedevs-project-manager so
+   WP admin global button styles bleed in. Strip them here so Tailwind's
+   buttonVariants classes on AlertDialogAction/AlertDialogCancel take over. ── */
+[role="alertdialog"] button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 2.25rem !important;
+  min-height: 0 !important;
+  min-width: 0 !important;
+  padding: 0.5rem 1rem !important;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+  border-radius: calc(var(--radius) - 2px) !important;
+  /* Reset WP border completely — outline variant restores it below */
+  border-width: 0 !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  cursor: pointer !important;
+  vertical-align: middle !important;
+  transition: background-color 0.15s, color 0.15s, border-color 0.15s, opacity 0.15s !important;
+}
+/* Restore border for the outline (Cancel) button */
+[role="alertdialog"] button.border {
+  border-width: 1px !important;
+  border-style: solid !important;
+  border-color: hsl(var(--input)) !important;
+}
+[role="alertdialog"] button:focus,
+[role="alertdialog"] button:focus-visible {
+  box-shadow: none !important;
+  outline: 2px solid hsl(var(--ring)) !important;
+  outline-offset: 2px !important;
 }
 
 /* ── Override WP admin input styles inside our React app ──

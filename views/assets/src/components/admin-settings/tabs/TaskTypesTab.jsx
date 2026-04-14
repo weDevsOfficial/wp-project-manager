@@ -5,6 +5,7 @@ import {
 } from '@store/settingsSlice'
 import { useI18n } from '@hooks/useI18n'
 import { useToast } from '@hooks/useToast'
+import { useConfirm } from '@hooks/useConfirm'
 import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
 import { Label } from '@components/ui/label'
@@ -30,6 +31,7 @@ const TaskTypesTab = () => {
   const { __ } = useI18n()
   const toast  = useToast()
   const dispatch = useAppDispatch()
+  const [ConfirmDialog, confirm] = useConfirm()
 
   const taskTypes        = useAppSelector((s) => s.settings.taskTypes)
   const taskTypesLoaded  = useAppSelector((s) => s.settings.taskTypesLoaded)
@@ -101,9 +103,11 @@ const TaskTypesTab = () => {
   const [deletingId, setDeletingId] = useState(null)
 
   const handleDelete = useCallback(async (id) => {
-    if (!window.confirm(__('Are you sure you want to delete this task type?', 'wedevs-project-manager'))) {
-      return
-    }
+    const ok = await confirm(
+      __('Are you sure you want to delete this task type?', 'wedevs-project-manager'),
+      __('Delete Task Type', 'wedevs-project-manager')
+    )
+    if (!ok) return
     setDeletingId(id)
     try {
       await dispatch(deleteTaskType(id)).unwrap()
@@ -113,10 +117,11 @@ const TaskTypesTab = () => {
     } finally {
       setDeletingId(null)
     }
-  }, [dispatch, toast, __])
+  }, [dispatch, toast, __, confirm])
 
   return (
     <div>
+      <ConfirmDialog />
       <div className="flex items-start justify-between">
         <div>
           <h2 className="text-base font-semibold text-pm-text">{__('Task Types', 'wedevs-project-manager')}</h2>

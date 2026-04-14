@@ -43,6 +43,7 @@ const CalendarPlaceholder = React.lazy(() => import('@components/projects/Calend
 const ReportsPlaceholder  = React.lazy(() => import('@components/projects/ReportsPage'))
 const ProgressPlaceholder = React.lazy(() => import('@components/projects/ProgressPage'))
 import ProFeaturePlaceholder from '@components/common/ProFeaturePlaceholder'
+import { ErrorBoundary } from '@components/common/ErrorBoundary'
 import { Columns3, GitBranch, Receipt, Settings as SettingsIcon, Zap, ShoppingCart } from 'lucide-react'
 
 // ── Replaceable page wrapper — pro can override via filters ──
@@ -171,7 +172,8 @@ window.PM = {
   actions: { resetProjectState, openTaskSheet },
 
   // Components that pro needs to use (exposed for cross-plugin integration)
-  components: { 
+  components: {
+    ErrorBoundary,
     TaskDetailSheet: (() => {
       // Wrap component to ensure proper error handling across plugin boundaries
       const WrappedTaskDetailSheet = (props) => {
@@ -225,6 +227,7 @@ window.PM = {
     Tabs:         require('@components/ui/tabs'),
     Textarea:     require('@components/ui/textarea'),
     Tooltip:      require('@components/ui/tooltip'),
+    AlertDialog:  require('@components/ui/alert-dialog'),
     RichTextEditor: require('@components/common/RichTextEditor'),
     GitHubPreviewContainer: require('@components/common/GitHubPreviewContainer'),
     NotionPreviewContainer: require('@components/common/NotionPreviewContainer'),
@@ -267,7 +270,9 @@ if (el) {
   const root = createRoot(el)
   root.render(
     <React.StrictMode>
-      <App />
+      <ErrorBoundary>
+        <App />
+      </ErrorBoundary>
     </React.StrictMode>
   )
 }
