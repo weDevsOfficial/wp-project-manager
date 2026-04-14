@@ -129,45 +129,68 @@ export function TopBar() {
   }, [notifOpen]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Build breadcrumb from URL
+  // Translatable breadcrumb labels — ensures make-pot can extract them
+  const BREADCRUMB_LABELS = useMemo(() => ({
+    'task-lists':  __('Task Lists'),
+    'overview':    __('Overview'),
+    'discussions': __('Discussions'),
+    'milestones':  __('Milestones'),
+    'files':       __('Files'),
+    'activities':  __('Activities'),
+    'kanban':      __('Kanban Board'),
+    'gantt':       __('Gantt Chart'),
+    'invoices':    __('Invoices'),
+    'settings':    __('Settings'),
+    'my-tasks':    __('My Tasks'),
+    'projects':    __('Projects'),
+    'categories':  __('Categories'),
+    'calendar':    __('Calendar'),
+    'reports':     __('Reports'),
+    'progress':    __('Progress'),
+    'sprints':     __('Sprints'),
+    'modules':     __('Modules'),
+    'premium':     __('Premium'),
+    'license':     __('License'),
+  }), [__])
+
   const breadcrumbs = useMemo(() => {
     const parts = location.pathname.split('/').filter(Boolean)
-    const crumbs = [{ label: __('Projects'), path: '/projects' }]
+    const crumbs = [{ label: BREADCRUMB_LABELS['projects'] || __('Projects'), path: '/projects' }]
 
     if (parts[0] === 'projects' && parts[1]) {
       crumbs.push({ label: `#${parts[1]}`, path: `/projects/${parts[1]}/task-lists` })
       if (parts[2]) {
-        const section = parts[2].replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+        const section = BREADCRUMB_LABELS[parts[2]] ?? parts[2].replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
         crumbs.push({ label: section, path: location.pathname })
       }
     } else if (parts[0] === 'my-tasks') {
-      crumbs.push({ label: __('My Tasks'), path: '/my-tasks' })
+      crumbs.push({ label: BREADCRUMB_LABELS['my-tasks'] || __('My Tasks'), path: '/my-tasks' })
     } else if (parts[0] === 'settings') {
-      crumbs.push({ label: __('Settings'), path: '/settings' })
+      crumbs.push({ label: BREADCRUMB_LABELS['settings'] || __('Settings'), path: '/settings' })
     } else if (parts[0] === 'categories') {
-      crumbs.push({ label: __('Categories'), path: '/categories' })
+      crumbs.push({ label: BREADCRUMB_LABELS['categories'] || __('Categories'), path: '/categories' })
     } else if (parts[0] === 'reports') {
-      crumbs.push({ label: __('Reports'), path: '/reports' })
+      crumbs.push({ label: BREADCRUMB_LABELS['reports'] || __('Reports'), path: '/reports' })
       if (parts[1] === 'report-summary') {
         crumbs.push({ label: __('Summary Report'), path: location.pathname })
       }
     } else if (parts[0] === 'calendar') {
-      crumbs.push({ label: __('Calendar'), path: '/calendar' })
+      crumbs.push({ label: BREADCRUMB_LABELS['calendar'] || __('Calendar'), path: '/calendar' })
     } else if (parts[0] === 'sprints') {
-      crumbs.push({ label: __('Sprints'), path: '/sprints' })
+      crumbs.push({ label: BREADCRUMB_LABELS['sprints'] || __('Sprints'), path: '/sprints' })
     } else if (parts[0] === 'modules') {
-      crumbs.push({ label: __('Modules'), path: '/modules' })
+      crumbs.push({ label: BREADCRUMB_LABELS['modules'] || __('Modules'), path: '/modules' })
     } else if (parts[0] === 'premium') {
-      crumbs.push({ label: __('Premium'), path: '/premium' })
+      crumbs.push({ label: BREADCRUMB_LABELS['premium'] || __('Premium'), path: '/premium' })
     } else if (parts[0] === 'license') {
-      crumbs.push({ label: __('License'), path: '/license' })
+      crumbs.push({ label: BREADCRUMB_LABELS['license'] || __('License'), path: '/license' })
     } else if (parts[0]) {
-      // Generic fallback: capitalize the route segment
-      const label = parts[0].replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+      const label = BREADCRUMB_LABELS[parts[0]] ?? parts[0].replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
       crumbs.push({ label, path: `/${parts[0]}` })
     }
 
     return crumbs
-  }, [location.pathname, __])
+  }, [location.pathname, __, BREADCRUMB_LABELS])
 
   const currentUser = typeof PM_Vars !== 'undefined' ? PM_Vars.current_user : null
   const isFrontend = typeof PM_Vars !== 'undefined' && PM_Vars.is_frontend && !PM_Vars.is_admin
@@ -237,7 +260,11 @@ export function TopBar() {
           onClick={(e) => {
             e.stopPropagation()
             if (typeof window.Headway !== 'undefined') {
-              window.Headway.toggle(e.nativeEvent)
+              try {
+                window.Headway.toggle(e.nativeEvent)
+              } catch (err) {
+                console.warn('[PM] Headway toggle failed:', err)
+              }
             }
           }}
         >

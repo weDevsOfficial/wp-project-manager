@@ -237,6 +237,7 @@ window.PM = {
   // Shared utilities for pro plugin
   utils: {
     urlStrippers: require('@/lib/url-strippers'),
+    sanitize: require('@lib/sanitize'),
   },
 
   // Re-export Radix UI primitives so pro uses the SAME context instances.

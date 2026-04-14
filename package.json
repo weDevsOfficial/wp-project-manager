@@ -48,6 +48,7 @@
     "clsx": "^2.1.0",
     "cmdk": "^1.1.1",
     "date-fns": "^3.6.0",
+    "dompurify": "^3.4.0",
     "jotai": "^2.18.1",
     "lodash.throttle": "^4.1.1",
     "lucide-react": "^0.400.0",

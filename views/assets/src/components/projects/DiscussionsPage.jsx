@@ -10,6 +10,7 @@ import GitHubPreviewContainer from "@components/common/GitHubPreviewContainer";
 import NotionPreviewContainer from "@components/common/NotionPreviewContainer";
 import LoomPreviewContainer from "@components/common/LoomPreviewContainer";
 import { stripAllPreviewUrls } from "@/lib/url-strippers";
+import { sanitizeHtml } from "@lib/sanitize";
 import { Skeleton } from "@components/ui/skeleton";
 import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
 import { Separator } from "@components/ui/separator";
@@ -643,7 +644,7 @@ export default function DiscussionsPage() {
                         <div
                           className="prose prose-sm max-w-none text-sm text-pm-text-primary/80 [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
                           dangerouslySetInnerHTML={{
-                            __html: stripAllPreviewUrls(d.description.html),
+                            __html: sanitizeHtml(stripAllPreviewUrls(d.description.html)),
                           }}
                         />
                         <GitHubPreviewContainer content={d.description.html} />
@@ -721,7 +722,7 @@ export default function DiscussionsPage() {
                                     <div
                                       className="text-sm text-pm-text-primary/80 leading-relaxed prose prose-sm max-w-none"
                                       dangerouslySetInnerHTML={{
-                                        __html: stripAllPreviewUrls(c.content),
+                                        __html: sanitizeHtml(stripAllPreviewUrls(c.content)),
                                       }}
                                     />
                                     <GitHubPreviewContainer content={c.content || ''} />

@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useRef } from 'react'
+import { useState, useMemo, useEffect, useRef, useCallback } from 'react'
 import { useLocation, useNavigate, Link } from 'react-router-dom'
 import { useApi } from '@hooks/useApi'
 import { usePermissions } from '@hooks/usePermissions'
@@ -22,28 +22,7 @@ function statusColor(p) {
   return '#6366f1'
 }
 
-// ── Project sub-nav items ────────────────────────────
-
-const projectSubNav_FREE = [
-  { key: 'task-lists',   label: 'Task Lists',   icon: LayoutList,     path: (pid) => `/projects/${pid}/task-lists` },
-  { key: 'overview',     label: 'Overview',      icon: Layout,         path: (pid) => `/projects/${pid}/overview` },
-  { key: 'discussions',  label: 'Discussions',   icon: MessageSquare,  path: (pid) => `/projects/${pid}/discussions` },
-  { key: 'milestones',   label: 'Milestones',    icon: Milestone,      path: (pid) => `/projects/${pid}/milestones` },
-  { key: 'files',        label: 'Files',         icon: FileText,       path: (pid) => `/projects/${pid}/files` },
-]
-
-// Pro sub-nav items — filtered by the provided active module paths
-function getProSubNav(modulePaths) {
-  const isActive = (dir) => modulePaths.some(m => m.startsWith(dir + '/') || m === dir)
-  const items = []
-  if (isActive('Activities'))  items.push({ key: 'activities', label: 'Activities',    icon: Activity,   path: (pid) => `/projects/${pid}/activities` })
-  if (isActive('Kanboard'))  items.push({ key: 'kanban',   label: 'Kanban Board', icon: Columns3,  path: (pid) => `/projects/${pid}/kanban` })
-  if (isActive('Gantt'))     items.push({ key: 'gantt',    label: 'Gantt Chart',  icon: GitBranch,  path: (pid) => `/projects/${pid}/gantt` })
-  if (isActive('Invoice'))   items.push({ key: 'invoices', label: 'Invoices',     icon: Receipt,    path: (pid) => `/projects/${pid}/invoices` })
-  // Settings always available when pro is active
-  items.push({ key: 'settings', label: 'Settings', icon: Settings, path: (pid) => `/projects/${pid}/settings` })
-  return items
-}
+// ── Project sub-nav items (moved inside component for i18n — see getProjectSubNav_FREE / getProSubNav below) ──
 
 // ── Truncated text helper ────────────────────────────
 // A flex-1 span that always truncates. Uses a wrapper div
@@ -64,6 +43,27 @@ export function AppSidebar() {
   const { isAdmin, isPro } = usePermissions()
   const isFrontend = typeof PM_Vars !== 'undefined' && PM_Vars.is_frontend && !PM_Vars.is_admin
   const { __ } = useI18n()
+
+  // ── Project sub-nav items — inside component so __() is extractable by make-pot ──
+  const projectSubNav_FREE = useMemo(() => [
+    { key: 'task-lists',   label: __('Task Lists'),   icon: LayoutList,     path: (pid) => `/projects/${pid}/task-lists` },
+    { key: 'overview',     label: __('Overview'),      icon: Layout,         path: (pid) => `/projects/${pid}/overview` },
+    { key: 'discussions',  label: __('Discussions'),   icon: MessageSquare,  path: (pid) => `/projects/${pid}/discussions` },
+    { key: 'milestones',   label: __('Milestones'),    icon: Milestone,      path: (pid) => `/projects/${pid}/milestones` },
+    { key: 'files',        label: __('Files'),         icon: FileText,       path: (pid) => `/projects/${pid}/files` },
+  ], [__])
+
+  // Pro sub-nav items — filtered by the provided active module paths
+  const getProSubNav = useCallback((modulePaths) => {
+    const isActive = (dir) => modulePaths.some(m => m.startsWith(dir + '/') || m === dir)
+    const items = []
+    if (isActive('Activities'))  items.push({ key: 'activities', label: __('Activities'),    icon: Activity,   path: (pid) => `/projects/${pid}/activities` })
+    if (isActive('Kanboard'))  items.push({ key: 'kanban',   label: __('Kanban Board'), icon: Columns3,  path: (pid) => `/projects/${pid}/kanban` })
+    if (isActive('Gantt'))     items.push({ key: 'gantt',    label: __('Gantt Chart'),  icon: GitBranch,  path: (pid) => `/projects/${pid}/gantt` })
+    if (isActive('Invoice'))   items.push({ key: 'invoices', label: __('Invoices'),     icon: Receipt,    path: (pid) => `/projects/${pid}/invoices` })
+    items.push({ key: 'settings', label: __('Settings'), icon: Settings, path: (pid) => `/projects/${pid}/settings` })
+    return items
+  }, [__])
   const location = useLocation()
   const navigate = useNavigate()
   const api      = useApi()
@@ -88,11 +88,11 @@ export function AppSidebar() {
     if (isPro) return [...projectSubNav_FREE, ...getProSubNav(activeModulePaths)]
     return [
       ...projectSubNav_FREE,
-      { key: 'activities', label: 'Activities',    icon: Activity,   path: (pid) => `/projects/${pid}/activities`, proPreview: true },
-      { key: 'kanban',   label: 'Kanban Board', icon: Columns3,  path: (pid) => `/projects/${pid}/kanban`,   proPreview: true },
-      { key: 'gantt',    label: 'Gantt Chart',  icon: GitBranch,  path: (pid) => `/projects/${pid}/gantt`,    proPreview: true },
-      { key: 'invoices', label: 'Invoices',     icon: Receipt,    path: (pid) => `/projects/${pid}/invoices`, proPreview: true },
-      { key: 'settings', label: 'Settings',     icon: Settings,   path: (pid) => `/projects/${pid}/settings`, proPreview: true },
+      { key: 'activities', label: __('Activities'),    icon: Activity,   path: (pid) => `/projects/${pid}/activities`, proPreview: true },
+      { key: 'kanban',   label: __('Kanban Board'), icon: Columns3,  path: (pid) => `/projects/${pid}/kanban`,   proPreview: true },
+      { key: 'gantt',    label: __('Gantt Chart'),  icon: GitBranch,  path: (pid) => `/projects/${pid}/gantt`,    proPreview: true },
+      { key: 'invoices', label: __('Invoices'),     icon: Receipt,    path: (pid) => `/projects/${pid}/invoices`, proPreview: true },
+      { key: 'settings', label: __('Settings'),     icon: Settings,   path: (pid) => `/projects/${pid}/settings`, proPreview: true },
     ]
   }, [isPro, activeModulePaths])
 
