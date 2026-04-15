@@ -582,11 +582,11 @@ function ProSubtasksSection({ taskId, projectId, currentTask }) {
               type="button"
               disabled
               aria-disabled="true"
-              className="inline-flex items-center gap-1 text-[15px] text-white bg-pm-accent/60 rounded px-2 py-1 cursor-not-allowed opacity-60"
+              className="inline-flex items-center gap-1 text-xs font-medium text-pm-accent border border-pm-accent/30 bg-pm-accent/5 rounded px-2 py-1 cursor-not-allowed opacity-70 hover:opacity-70 h-7"
             >
-              <Sparkles className="h-3.5 w-3.5" />
+              <Sparkles className="h-3 w-3" />
               {__('Generate with AI')}
-              <span className="bg-white/25 text-white text-[11px] px-1 py-0.5 rounded font-semibold">{__('Pro')}</span>
+              <span className="ml-1 bg-pm-accent/20 text-pm-accent text-[9px] px-1 py-0.5 rounded font-semibold">{__('Pro')}</span>
             </button>
           </div>
         </ProGate>
@@ -1001,7 +1001,7 @@ export default function TaskDetailSheet() {
               </SheetHeader>
 
               {/* ── Properties grid ── */}
-              <div className="space-y-0.5 bg-muted/20 rounded-lg px-2 pb-2">
+              <div className="bg-muted/20 pb-2">
                 {/* Status */}
                 <div className="flex items-center h-8 px-2 rounded-md hover:bg-muted/40 transition-colors cursor-pointer" onClick={handleToggleStatus}>
                   <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
@@ -1144,14 +1144,21 @@ export default function TaskDetailSheet() {
             <Separator />
 
             {/* ── Description ── */}
-            <div className="px-6 py-4">
+            <div className="px-5 py-2">
               <div className="flex items-center justify-between mb-2">
                 <h4 className="flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wider text-pm-text-muted/70"><FileText className="h-4 w-4" />{__('Description')}</h4>
                 {!editingDesc && (
-                  <button type="button" className="text-[15px] font-medium text-pm-accent hover:text-pm-accent/80 transition-colors"
-                    onClick={() => { setDescription(currentTask.description?.html || currentTask.description?.content || ''); setEditingDesc(true) }}>
-                    {currentTask.description?.content ? __('Edit') : __('Add')}
-                  </button>
+                  <Button 
+                    size="sm"
+                    className="h-7 text-sm gap-1"
+                    onClick={() => { setDescription(currentTask.description?.html || currentTask.description?.content || ''); setEditingDesc(true) }}
+                  >
+                    {currentTask.description?.content ? (<>
+                      <Plus className="h-3 w-3" />{__('Edit')}
+                    </>) : (<>
+                      <Plus className="h-3 w-3" />{__('Add')}
+                    </>)}
+                  </Button>
                 )}
               </div>
               {editingDesc ? (
@@ -1191,7 +1198,7 @@ export default function TaskDetailSheet() {
 
             {/* ── Comments ── */}
             <div className="px-6 py-4">
-              <h4 className="text-sm font-semibold uppercase tracking-wider text-pm-text-muted/70 mb-3 flex items-center gap-1.5">
+              <h4 className="text-sm font-semibold uppercase tracking-wider text-pm-text-muted/70 mb-3 flex items-center gap-1">
                 <MessageSquare className="h-4 w-4" />{__('Comments')}
                 {comments.length > 0 && <span className="text-[14px] bg-muted px-1.5 py-0.5 rounded-full tabular-nums">{comments.length}</span>}
               </h4>
@@ -1283,8 +1290,8 @@ export default function TaskDetailSheet() {
                   minHeight="60px"
                 />
                 <FileUploadArea files={commentFiles} onFilesChange={setCommentFiles} compact />
-                <Button size="sm" className="h-7 text-sm" onClick={handleSubmitComment} disabled={!newComment.trim() || submittingComment}>
-                  {submittingComment ? __('Sending...') : __('Add Comment')}
+                <Button size="sm" className="h-7 text-sm gap-1" onClick={handleSubmitComment} disabled={!newComment.trim() || submittingComment}>
+                  <Plus className="h-3 w-3" />{submittingComment ? __('Sending...') : __('Add Comment')}
                 </Button>
               </div>
             </div>
