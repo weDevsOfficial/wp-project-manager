@@ -95,6 +95,12 @@ body:not(.wp-admin) #wedevs-project-manager {
 
   p { margin: 0; }
 
+  /* Suppress WordPress .wp-die-message p margin conflict */
+  .wp-die-message p,
+  p.wp-die-message {
+    margin: 0 !important;
+  }
+
   a {
     color: inherit;
     text-decoration: inherit;
