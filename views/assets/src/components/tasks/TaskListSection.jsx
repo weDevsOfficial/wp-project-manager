@@ -27,11 +27,13 @@ import {
   Trash2,
   Pencil,
   Check,
+  X,
   Lock,
   ArrowUpRight,
 } from 'lucide-react'
 import { Slot } from '@hooks/useSlot'
 import TaskRow from './TaskRow'
+import { sanitizeHtml } from '@lib/sanitize'
 
 export default function TaskListSection({ list, projectId, showLabels }) {
   const dispatch = useAppDispatch()
@@ -250,13 +252,11 @@ export default function TaskListSection({ list, projectId, showLabels }) {
               onKeyDown={(e) => { if (e.key === 'Enter') handleRename(); if (e.key === 'Escape') setRenaming(false); }}
               className="text-sm font-semibold text-pm-text-primary flex-1 bg-transparent border-b border-pm-accent outline-none px-0 py-0"
             />
-            <button type="button" onClick={handleRename} className="text-pm-accent hover:text-pm-accent/80 text-sm font-medium">{__('Save')}</button>
-            <button type="button" onClick={() => setRenaming(false)} className="text-pm-text-muted hover:text-pm-text text-sm">{__('Cancel')}</button>
+            <button type="button" onClick={handleRename} className="text-pm-accent hover:text-pm-accent/80 p-1 rounded hover:bg-muted transition-colors" title={__('Save')}><Check className="h-4 w-4" /></button>
+            <button type="button" onClick={() => setRenaming(false)} className="text-pm-text-muted hover:text-pm-text p-1 rounded hover:bg-muted transition-colors" title={__('Cancel')}><X className="h-4 w-4" /></button>
           </div>
         ) : (
-          <h3 className="text-sm font-semibold text-pm-text-primary flex-1 truncate">
-            {list.title}
-          </h3>
+          <h3 className="text-sm font-semibold text-pm-text-primary flex-1 truncate" dangerouslySetInnerHTML={{ __html: sanitizeHtml(list.title) }} />
         )}
 
         {!renaming && list.meta?.privacy === 1 && (
