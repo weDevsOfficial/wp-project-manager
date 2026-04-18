@@ -30,6 +30,12 @@ module.exports = function(grunt) {
                     '!node_modules/**',
                     '!build/**',
                     '!tests/**',
+                    '!tests/e2e-playwright/**',
+                    '!playwright-report/**',
+                    '!test-results/**',
+                    '!setup/**',
+                    '!parallel-one/**',
+                    '!parallel-two/**',
                     '!bin/**',
                     '!.git/**',
                     '!Gruntfile.js',
@@ -138,7 +144,7 @@ module.exports = function(grunt) {
 
             makepot: {
                 cmd: 'wp',
-                args: ['i18n', 'make-pot', '.', 'languages/wedevs-project-manager.pot', '--exclude=node_modules,build,views/assets/src']
+                args: ['i18n', 'make-pot', '.', 'languages/wedevs-project-manager.pot', '--exclude=node_modules,build,tests,views/assets/src']
             },
         }
     });

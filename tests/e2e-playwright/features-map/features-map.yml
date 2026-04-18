@@ -1,0 +1,118 @@
+features:
+  # Login and Setup (LS00xx)
+  - id: LS0001
+    name: Admin logs into WP dashboard
+  - id: LS0002
+    name: Admin validates dashboard reached
+  - id: LS0003
+    name: PM menu visible in sidebar
+  - id: LS0004
+    name: PM SPA mounts on Projects page
+  - id: LS0005
+    name: My Tasks page opens
+  - id: LS0006
+    name: Categories page opens for admin
+  - id: LS0007
+    name: Settings page opens for admin
+
+  # Projects (PJ00xx)
+  - id: PJ0001
+    name: Admin creates new project
+  - id: PJ0002
+    name: Admin creates second project
+  - id: PJ0003
+    name: Search filters project list
+  - id: PJ0004
+    name: Admin stars a project
+  - id: PJ0005
+    name: Admin marks project complete
+  - id: PJ0006
+    name: Admin deletes temp project
+
+  # Task Lists (TL00xx)
+  - id: TL0001
+    name: Create task list
+  - id: TL0002
+    name: Create second task list
+  - id: TL0003
+    name: Delete task list
+
+  # Tasks (TK00xx)
+  - id: TK0001
+    name: Quick add first task
+  - id: TK0002
+    name: Quick add second task
+  - id: TK0003
+    name: Set due date on task
+  - id: TK0004
+    name: Assign admin to task
+  - id: TK0005
+    name: Edit task description (Tiptap)
+  - id: TK0006
+    name: Duplicate task
+  - id: TK0007
+    name: Toggle complete
+  - id: TK0008
+    name: Delete second task
+
+  # Milestones (MS00xx)
+  - id: MS0001
+    name: Create milestone
+  - id: MS0002
+    name: Toggle milestone complete
+
+  # Discussions & Comments (DC00xx)
+  - id: DC0001
+    name: Open Discussions tab
+  - id: DC0002
+    name: Create discussion
+  - id: DC0003
+    name: Post comment on discussion
+  - id: DC0004
+    name: Mention admin in comment
+
+  # File Uploads (FU00xx)
+  - id: FU0001
+    name: Upload image to task
+  - id: FU0002
+    name: Delete uploaded file
+
+  # Categories (CT00xx)
+  - id: CT0001
+    name: Admin creates category
+
+  # Settings (ST00xx)
+  - id: ST0001
+    name: Open Settings page
+  - id: ST0002
+    name: Save general settings
+  - id: ST0003
+    name: Save AI provider config
+
+  # Free Permissions (RP00xx)
+  - id: RP0001
+    name: Admin can reach Settings page
+  - id: RP0002
+    name: Admin can reach Categories page
+  - id: RP0003
+    name: Free REST projects endpoint returns 200 for admin
+
+  # My Tasks (MT00xx)
+  - id: MT0001
+    name: Open My Tasks view
+  - id: MT0002
+    name: Assigned task shows in My Tasks
+
+  # AI Generate (AI00xx)
+  - id: AI0001
+    name: Stub AI endpoint and trigger generate
+  - id: AI0002
+    name: Generated list appears in project
+
+  # Pro Upsell (PU00xx) — only run when Pro plugin inactive
+  - id: PU0001
+    name: Premium menu link visible in free mode
+  - id: PU0002
+    name: Premium route shows upgrade view
+  - id: PU0003
+    name: Upgrade modal opens from CTA

@@ -1,0 +1,8 @@
+{
+  "phpVersion": "8.1",
+  "plugins": [
+    "../../",
+    "../../plugins/wp-mail-log",
+    "../../plugins/wp-reset"
+  ]
+}
