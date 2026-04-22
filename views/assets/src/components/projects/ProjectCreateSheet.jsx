@@ -102,7 +102,16 @@ export function ProjectCreateSheet() {
 
       if (isEditMode) {
         setTitle(editProject.title || '')
-        setDescription(editProject.description?.content || editProject.description || '')
+        // Handle description: extract string from object or use directly
+        let desc = ''
+        if (editProject.description) {
+          if (typeof editProject.description === 'object' && editProject.description.content) {
+            desc = String(editProject.description.content)
+          } else if (typeof editProject.description === 'string') {
+            desc = editProject.description
+          }
+        }
+        setDescription(desc)
         const catId = editProject.categories?.data?.[0]?.id
         setCategoryId(catId ? String(catId) : '')
         setNotifyUsers(false)
@@ -321,8 +330,12 @@ export function ProjectCreateSheet() {
           <div className="space-y-2">
             <Label htmlFor="project-description">{__('Description')}</Label>
             <RichTextEditor
-              content={String(description || '')}
-              onChange={(val) => setDescription(String(val || ''))}
+              content={description}
+              onChange={(val) => {
+                // Ensure onChange always receives a string
+                const strVal = typeof val === 'string' ? val : String(val || '')
+                setDescription(strVal)
+              }}
               placeholder={__('Describe your project...')}
               minHeight="100px"
             />
