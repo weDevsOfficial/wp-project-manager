@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useI18n } from "@hooks/useI18n";
 import { Badge } from "@components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
+import TaskLabelBadges from "@components/tasks/TaskLabelBadges";
 import { Check, MessageSquare, Lock } from "lucide-react";
 import {
   isTaskComplete,
@@ -69,18 +70,7 @@ export default function MyTaskRow({ task, projectTitle, onToggle, onOpen }) {
         </div>
       )}
 
-      {task.labels?.data?.length > 0 && (
-        <div className="flex gap-1 shrink-0">
-          {task.labels.data.slice(0, 2).map((l) => (
-            <span
-              key={l.id}
-              className="h-2 w-2 rounded-full shrink-0"
-              style={{ background: l.color || "#ccc" }}
-              title={l.title}
-            />
-          ))}
-        </div>
-      )}
+      <TaskLabelBadges task={task} variant="dot" />
 
       {projectTitle && (
         <span className="text-[15px] text-pm-text-muted bg-muted/50 px-2 py-0.5 rounded truncate max-w-[120px] shrink-0">

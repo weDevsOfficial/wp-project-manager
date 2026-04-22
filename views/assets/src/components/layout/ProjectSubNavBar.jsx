@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { usePermissions } from '@hooks/usePermissions'
-import { useAppSelector } from '@store/index'
+import { useActiveProModules, isProModuleActive } from '@hooks/useActiveProModules'
 import { useI18n } from '@hooks/useI18n'
 import {
   LayoutList, Layout, MessageSquare, Milestone, FileText,
@@ -21,7 +21,7 @@ const SUB_NAV_FREE = [
 ]
 
 function buildProSubNav(modulePaths) {
-  const isActive = (dir) => modulePaths.some(m => m.startsWith(dir + '/') || m === dir)
+  const isActive = (dir) => isProModuleActive(modulePaths, dir)
   const items = []
   if (isActive('Kanboard')) items.push({ key: 'kanban',   label: 'Kanban Board', icon: Columns3,  path: (pid) => `/projects/${pid}/kanban` })
   if (isActive('Gantt'))    items.push({ key: 'gantt',    label: 'Gantt Chart',  icon: GitBranch, path: (pid) => `/projects/${pid}/gantt` })
@@ -35,15 +35,7 @@ function buildProSubNav(modulePaths) {
 export function ProjectSubNavBar() {
   const { isPro } = usePermissions()
 
-  // Mirror AppSidebar exactly: Redux when populated, PHP-localized as fallback
-  const reduxActiveModules = useAppSelector(s => s.modules?.activeModules ?? null)
-  const activeModulePaths = useMemo(() => {
-    const phpModules = typeof PM_Pro_Vars !== 'undefined' ? (PM_Pro_Vars.active_modules ?? []) : []
-    const raw = (reduxActiveModules && reduxActiveModules.length > 0)
-      ? reduxActiveModules
-      : phpModules
-    return raw.map(m => typeof m === 'string' ? m : (m.path || ''))
-  }, [reduxActiveModules])
+  const activeModulePaths = useActiveProModules()
   const { __ } = useI18n()
   const location = useLocation()
   const navigate = useNavigate()
