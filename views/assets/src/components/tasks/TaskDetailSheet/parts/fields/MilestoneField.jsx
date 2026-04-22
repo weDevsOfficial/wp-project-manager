@@ -82,69 +82,71 @@ export default function MilestoneField({ task, projectId, api }) {
   };
 
   return (
-    <div className="relative flex items-center h-8 px-2 rounded-md hover:bg-muted/40 transition-colors" ref={dropdownRef}>
+    <div className="flex items-center h-8 px-2 rounded-md hover:bg-muted/40 transition-colors">
       <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
         <MilestoneIcon className="h-4 w-4" />
         <span className="text-sm">{__('Milestone')}</span>
       </div>
 
-      <button
-        type="button"
-        disabled={saving}
-        onClick={() => setOpen(v => !v)}
-        className={cn(
-          'flex items-center gap-1 text-sm transition-colors',
-          currentMilestone ? 'text-pm-text-primary' : 'text-pm-text-muted',
-          'hover:text-pm-accent disabled:opacity-50'
-        )}
-      >
-        <span>{saving ? __('Saving...') : (currentMilestone?.title || __('None'))}</span>
-        <ChevronDown className="h-3.5 w-3.5 shrink-0 opacity-60" />
-      </button>
-
-      {currentMilestone && !saving && (
+      <div className="relative flex items-center gap-1 h-full" ref={dropdownRef}>
         <button
           type="button"
-          onClick={(e) => { e.stopPropagation(); handleSelect(null); }}
-          className="ml-1 text-pm-text-muted hover:text-destructive transition-colors"
-          title={__('Remove milestone')}
+          disabled={saving}
+          onClick={() => setOpen(v => !v)}
+          className={cn(
+            'flex items-center gap-1 text-sm transition-colors',
+            currentMilestone ? 'text-pm-text-primary' : 'text-pm-text-muted',
+            'hover:text-pm-accent disabled:opacity-50'
+          )}
         >
-          <X className="h-3.5 w-3.5" />
+          <span>{saving ? __('Saving...') : (currentMilestone?.title || __('None'))}</span>
+          <ChevronDown className="h-3.5 w-3.5 shrink-0 opacity-60" />
         </button>
-      )}
 
-      {open && (
-        <div className="absolute left-0 top-full mt-1 z-50 bg-background border rounded-lg shadow-lg min-w-[200px] max-h-48 overflow-y-auto">
+        {currentMilestone && !saving && (
           <button
             type="button"
-            onClick={() => handleSelect(null)}
-            className={cn(
-              'w-full flex items-center justify-between px-3 py-2 text-sm text-left hover:bg-muted/50 transition-colors',
-              !currentMilestone && 'bg-pm-accent/5 text-pm-accent'
-            )}
+            onClick={(e) => { e.stopPropagation(); handleSelect(null); }}
+            className="inline-flex items-center text-pm-text-muted hover:text-destructive transition-colors"
+            title={__('Remove milestone')}
           >
-            <span className="italic">{__('None')}</span>
-            {!currentMilestone && <Check className="h-3.5 w-3.5 shrink-0" />}
+            <X className="h-3.5 w-3.5" />
           </button>
-          {milestones.map(m => (
+        )}
+
+        {open && (
+          <div className="absolute left-0 top-full mt-1 z-50 bg-background border rounded-lg shadow-lg min-w-[200px] max-h-48 overflow-y-auto">
             <button
-              key={m.id}
               type="button"
-              onClick={() => handleSelect(m)}
+              onClick={() => handleSelect(null)}
               className={cn(
                 'w-full flex items-center justify-between px-3 py-2 text-sm text-left hover:bg-muted/50 transition-colors',
-                currentMilestone?.id === m.id && 'bg-pm-accent/5 text-pm-accent'
+                !currentMilestone && 'bg-pm-accent/5 text-pm-accent'
               )}
             >
-              <span className="flex-1 truncate">{m.title}</span>
-              {currentMilestone?.id === m.id && <Check className="h-3.5 w-3.5 shrink-0" />}
+              <span className="italic">{__('None')}</span>
+              {!currentMilestone && <Check className="h-3.5 w-3.5 shrink-0" />}
             </button>
-          ))}
-          {milestones.length === 0 && (
-            <div className="px-3 py-2 text-sm text-pm-text-muted italic">{__('No milestones')}</div>
-          )}
-        </div>
-      )}
+            {milestones.map(m => (
+              <button
+                key={m.id}
+                type="button"
+                onClick={() => handleSelect(m)}
+                className={cn(
+                  'w-full flex items-center justify-between px-3 py-2 text-sm text-left hover:bg-muted/50 transition-colors',
+                  currentMilestone?.id === m.id && 'bg-pm-accent/5 text-pm-accent'
+                )}
+              >
+                <span className="flex-1 truncate">{m.title}</span>
+                {currentMilestone?.id === m.id && <Check className="h-3.5 w-3.5 shrink-0" />}
+              </button>
+            ))}
+            {milestones.length === 0 && (
+              <div className="px-3 py-2 text-sm text-pm-text-muted italic">{__('No milestones')}</div>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
