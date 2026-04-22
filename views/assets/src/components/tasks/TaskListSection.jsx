@@ -8,6 +8,7 @@ import { useApi } from '@hooks/useApi'
 import { cn } from '@lib/utils'
 import { useI18n } from '@hooks/useI18n'
 import { useToast } from '@hooks/useToast'
+import { Milestone as MilestoneIcon } from 'lucide-react'
 import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
 import RichTextEditor from '@components/common/RichTextEditor'
@@ -53,6 +54,8 @@ export default function TaskListSection({ list, projectId, showLabels }) {
   const [assigneeResults, setAssigneeResults] = useState([])
   const [selectedAssignees, setSelectedAssignees] = useState([])
   const [creating, setCreating] = useState(false)
+  const [milestones, setMilestones] = useState([])
+  const [selectedMilestone, setSelectedMilestone] = useState('')
   const [showCompleted, setShowCompleted] = useState(false)
 
   // List rename
@@ -85,6 +88,13 @@ export default function TaskListSection({ list, projectId, showLabels }) {
     setSelectedAssignees(prev => prev.filter(u => u.id !== userId))
   }, [])
 
+  useEffect(() => {
+    if (!showNewTask || !projectId || milestones.length > 0) return;
+    api.get(`projects/${projectId}/milestones`, { per_page: 50 })
+      .then(res => setMilestones(res?.data ?? []))
+      .catch(() => {});
+  }, [showNewTask, projectId, api, milestones.length])
+
   const resetForm = useCallback(() => {
     setShowNewTask(false)
     setExpandedForm(false)
@@ -94,6 +104,7 @@ export default function TaskListSection({ list, projectId, showLabels }) {
     setAssigneeSearch('')
     setAssigneeResults([])
     setSelectedAssignees([])
+    setSelectedMilestone('')
   }, [])
 
   const incompleteTasks = list.incomplete_tasks?.data ?? []
@@ -126,6 +137,11 @@ export default function TaskListSection({ list, projectId, showLabels }) {
       })).unwrap()
       if (result) {
         dispatch(addTaskToList({ listId: list.id, task: result }))
+        if (selectedMilestone && result.id) {
+          api.post(`projects/${projectId}/milestones/${selectedMilestone}/attach-tasks`, {
+            task_ids: [result.id],
+          }).catch(() => {});
+        }
       }
       resetForm()
       setShowNewTask(true) // keep form open for rapid entry
@@ -418,6 +434,25 @@ export default function TaskListSection({ list, projectId, showLabels }) {
                       className="h-8 text-sm w-40"
                     />
                   </div>
+
+                  {/* Milestone */}
+                  {milestones.length > 0 && (
+                    <div className="flex items-center gap-2">
+                      <label className="text-sm text-pm-text-muted w-16 shrink-0 flex items-center gap-1">
+                        <MilestoneIcon className="h-3.5 w-3.5" />{__('Milestone')}
+                      </label>
+                      <select
+                        value={selectedMilestone}
+                        onChange={e => setSelectedMilestone(e.target.value)}
+                        className="h-8 text-sm rounded-md border border-input bg-background px-2 focus:outline-none focus:ring-2 focus:ring-ring w-48"
+                      >
+                        <option value="">{__('None')}</option>
+                        {milestones.map(m => (
+                          <option key={m.id} value={String(m.id)}>{m.title}</option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
 
                   {/* Assignees */}
                   <div className="space-y-1.5">
