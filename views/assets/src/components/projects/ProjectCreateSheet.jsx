@@ -102,16 +102,18 @@ export function ProjectCreateSheet() {
 
       if (isEditMode) {
         setTitle(editProject.title || '')
-        // Handle description: extract string from object or use directly
+        // Handle description: extract from optional object or use directly - NEVER use String() on objects
         let desc = ''
         if (editProject.description) {
           if (typeof editProject.description === 'object' && editProject.description.content) {
-            desc = String(editProject.description.content)
+            // Extract content property - don't use String() on objects
+            desc = editProject.description.content || ''
           } else if (typeof editProject.description === 'string') {
             desc = editProject.description
           }
         }
-        setDescription(desc)
+        // Final safety: always ensure desc is a string, never [object Object]
+        setDescription(typeof desc === 'string' ? desc : '')
         const catId = editProject.categories?.data?.[0]?.id
         setCategoryId(catId ? String(catId) : '')
         setNotifyUsers(false)

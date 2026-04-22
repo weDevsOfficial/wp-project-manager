@@ -104,14 +104,10 @@ export default function RichTextEditor({
 
   // Sync external content changes
   useEffect(() => {
-    if (editor && content) {
-      // Ensure content is a string before setting
-      const contentStr = typeof content === 'string' ? content : String(content || '')
-      if (contentStr !== editor.getHTML()) {
-        editor.commands.setContent(contentStr, false)
-      }
+    if (editor && content !== editor.getHTML()) {
+      editor.commands.setContent(content, false)
     }
-  }, [content, editor])
+  }, [content])
 
   const addLink = useCallback(() => {
     if (!editor) return
