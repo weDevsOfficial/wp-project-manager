@@ -8,6 +8,7 @@ import { useI18n } from '@hooks/useI18n'
 import { useToast } from '@hooks/useToast'
 import { useApi } from '@hooks/useApi'
 import { usePermissions } from '@hooks/usePermissions'
+import { useCurrentProject } from '@hooks/useCurrentProject'
 import { Button } from '@components/ui/button'
 import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar'
 import {
@@ -57,7 +58,10 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
   const { __ } = useI18n()
   const toast = useToast()
   const api = useApi()
-  const { isPro } = usePermissions()
+  const project = useCurrentProject(projectId)
+  const { isPro, canEditTask, canCompleteTask } = usePermissions(project)
+  const mayEdit = canEditTask(task)
+  const mayComplete = canCompleteTask(task)
   const [toggling, setToggling] = useState(false)
   const [hovered, setHovered] = useState(false)
   const [moveDialogOpen, setMoveDialogOpen] = useState(false)
@@ -71,7 +75,7 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
   const dueDateStr = formatPmDate(task.due_date)
 
   const handleToggle = useCallback(async () => {
-    if (toggling) return
+    if (toggling || !mayComplete) return
     setToggling(true)
     const newStatus = isComplete ? 0 : 1
     dispatch(toggleTaskInList({ listId, taskId: task.id, newStatus }))
@@ -83,7 +87,7 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
       toast.error(__('Failed to update task status'))
     }
     setToggling(false)
-  }, [dispatch, projectId, task.id, listId, isComplete, toggling, toast, __])
+  }, [dispatch, projectId, task.id, listId, isComplete, toggling, toast, __, mayComplete])
 
   const handleOpen = useCallback(() => {
     dispatch(openTaskSheet(task))
@@ -298,29 +302,37 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
               <Pencil className="h-4 w-4 mr-2" />
               {__('Edit')}
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={handleDuplicate}>
-              <Copy className="h-4 w-4 mr-2" />
-              {__('Duplicate')}
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => setMoveDialogOpen(true)}>
-              <ArrowRightLeft className="h-4 w-4 mr-2" />
-              {__('Move')}
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => isPro && handleTogglePrivacy()} disabled={!isPro}>
-              {taskIsPrivate ? (
-                <><Unlock className="h-4 w-4 mr-2" />{__('Make Public')}</>
-              ) : (
-                <><LockIcon className="h-4 w-4 mr-2" />{__('Make Private')}</>
-              )}
-              {!isPro && <Crown className="h-3.5 w-3.5 ml-auto text-pm-accent" />}
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              className="text-destructive focus:text-destructive"
-              onClick={handleDelete}
-            >
-              <Trash2 className="h-4 w-4 mr-2" />
-              {__('Delete')}
-            </DropdownMenuItem>
+            {mayEdit && (
+              <DropdownMenuItem onClick={handleDuplicate}>
+                <Copy className="h-4 w-4 mr-2" />
+                {__('Duplicate')}
+              </DropdownMenuItem>
+            )}
+            {mayEdit && (
+              <DropdownMenuItem onClick={() => setMoveDialogOpen(true)}>
+                <ArrowRightLeft className="h-4 w-4 mr-2" />
+                {__('Move')}
+              </DropdownMenuItem>
+            )}
+            {mayEdit && (
+              <DropdownMenuItem onClick={() => isPro && handleTogglePrivacy()} disabled={!isPro}>
+                {taskIsPrivate ? (
+                  <><Unlock className="h-4 w-4 mr-2" />{__('Make Public')}</>
+                ) : (
+                  <><LockIcon className="h-4 w-4 mr-2" />{__('Make Private')}</>
+                )}
+                {!isPro && <Crown className="h-3.5 w-3.5 ml-auto text-pm-accent" />}
+              </DropdownMenuItem>
+            )}
+            {mayEdit && (
+              <DropdownMenuItem
+                className="text-destructive focus:text-destructive"
+                onClick={handleDelete}
+              >
+                <Trash2 className="h-4 w-4 mr-2" />
+                {__('Delete')}
+              </DropdownMenuItem>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

@@ -12,6 +12,8 @@ import {
 } from "@store/milestonesSlice";
 import { useI18n } from "@hooks/useI18n";
 import { useToast } from "@hooks/useToast";
+import { usePermissions } from "@hooks/usePermissions";
+import { useCurrentProject } from "@hooks/useCurrentProject";
 import { extractDateStr } from "@lib/pm-utils";
 import { Button } from "@components/ui/button";
 import {
@@ -46,6 +48,9 @@ export default function MilestonesPage() {
 
   const [saving, setSaving] = useState(false);
   const [importTasksTarget, setImportTasksTarget] = useState(null);
+  const project = useCurrentProject(projectId);
+  const { userCan, isManager } = usePermissions(project);
+  const canCreateMilestone = isManager || userCan('create_milestone');
 
   useEffect(() => {
     dispatch(fetchMilestones({ projectId }));
@@ -191,14 +196,16 @@ export default function MilestonesPage() {
             {__("Milestones")}
           </h1>
         </div>
-        <Button
-          size="sm"
-          className="gap-1.5"
-          onClick={() => dispatch(openForm())}
-        >
-          <Plus className="h-4 w-4" />
-          {__("New Milestone")}
-        </Button>
+        {canCreateMilestone && (
+          <Button
+            size="sm"
+            className="gap-1.5"
+            onClick={() => dispatch(openForm())}
+          >
+            <Plus className="h-4 w-4" />
+            {__("New Milestone")}
+          </Button>
+        )}
       </div>
 
       {!loading && milestones.length > 0 && (
@@ -226,14 +233,16 @@ export default function MilestonesPage() {
           <p className="text-sm text-pm-text-muted mb-4">
             {__("Track your project progress with milestones.")}
           </p>
-          <Button
-            size="sm"
-            className="gap-1.5"
-            onClick={() => dispatch(openForm())}
-          >
-            <Plus className="h-4 w-4" />
-            {__("Create your first milestone")}
-          </Button>
+          {canCreateMilestone && (
+            <Button
+              size="sm"
+              className="gap-1.5"
+              onClick={() => dispatch(openForm())}
+            >
+              <Plus className="h-4 w-4" />
+              {__("Create your first milestone")}
+            </Button>
+          )}
         </div>
       ) : totalVisible === 0 ? (
         <div className="text-center py-12">

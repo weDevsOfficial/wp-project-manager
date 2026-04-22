@@ -31,17 +31,29 @@ import {
   X,
   Lock,
   ArrowUpRight,
+  Archive,
+  Copy,
+  Crown,
 } from 'lucide-react'
 import { Slot } from '@hooks/useSlot'
+import { usePermissions } from '@hooks/usePermissions'
+import { useCurrentProject } from '@hooks/useCurrentProject'
+import { useProModal } from '@components/common/ProUpgradeModal'
 import TaskRow from './TaskRow'
 import { sanitizeHtml } from '@lib/sanitize'
 
-export default function TaskListSection({ list, projectId, showLabels }) {
+export default function TaskListSection({ list, projectId, showLabels, isInbox = false }) {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const { __ } = useI18n()
   const toast = useToast()
   const expanded = useAppSelector(s => s.taskLists.expandedIds.includes(list.id))
+  const project = useCurrentProject(projectId)
+  const { isPro, userCan, isManager } = usePermissions(project)
+  const { setOpen: openProModal } = useProModal()
+  const canCreateTask = isManager || userCan('create_task')
+  const canEditTaskList = isManager || userCan('edit_task_list')
+  const canDeleteTaskList = isManager || userCan('delete_task_list')
 
   const api = useApi()
 
@@ -303,14 +315,16 @@ export default function TaskListSection({ list, projectId, showLabels }) {
         </Button>
 
         {/* Add task */}
-        <Button
-          variant="ghost"
-          size="icon"
-          className="h-6 w-6"
-          onClick={() => { setShowNewTask(v => !v); if (!expanded) dispatch(toggleExpand(list.id)) }}
-        >
-          <Plus className="h-4 w-4" />
-        </Button>
+        {canCreateTask && (
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-6 w-6"
+            onClick={() => { setShowNewTask(v => !v); if (!expanded) dispatch(toggleExpand(list.id)) }}
+          >
+            <Plus className="h-4 w-4" />
+          </Button>
+        )}
 
         {/* Menu */}
         <DropdownMenu>
@@ -319,17 +333,45 @@ export default function TaskListSection({ list, projectId, showLabels }) {
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={startRename}>
-              <Pencil className="h-4 w-4 mr-2" />
-              {__('Rename')}
-            </DropdownMenuItem>
+          <DropdownMenuContent align="end" className="w-48">
+            {canEditTaskList && (
+              <DropdownMenuItem onClick={startRename}>
+                <Pencil className="h-4 w-4 mr-2" />
+                {__('Rename')}
+              </DropdownMenuItem>
+            )}
+
             {/* Pro slot: archive, duplicate, etc. */}
-            <Slot name="tasklist.section.menu" listId={list.id} projectId={projectId} list={list} />
-            <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={handleDeleteList}>
-              <Trash2 className="h-4 w-4 mr-2" />
-              {__('Delete')}
-            </DropdownMenuItem>
+            <Slot name="tasklist.section.menu" listId={list.id} projectId={projectId} list={list} isInbox={isInbox} />
+
+            {/* Free-tier pro preview rows (shown only when pro is not installed) */}
+            {!isPro && (
+              <>
+                <DropdownMenuItem
+                  onSelect={(e) => { e.preventDefault(); openProModal(true) }}
+                  className="text-slate-500 focus:text-slate-700"
+                >
+                  <Copy className="h-4 w-4 mr-2" />
+                  <span className="flex-1">{__('Duplicate')}</span>
+                  <Crown className="h-3.5 w-3.5 text-pm-accent" />
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onSelect={(e) => { e.preventDefault(); openProModal(true) }}
+                  className="text-slate-500 focus:text-slate-700"
+                >
+                  <Archive className="h-4 w-4 mr-2" />
+                  <span className="flex-1">{__('Archive')}</span>
+                  <Crown className="h-3.5 w-3.5 text-pm-accent" />
+                </DropdownMenuItem>
+              </>
+            )}
+
+            {!isInbox && canDeleteTaskList && (
+              <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={handleDeleteList}>
+                <Trash2 className="h-4 w-4 mr-2" />
+                {__('Delete')}
+              </DropdownMenuItem>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
@@ -373,19 +415,21 @@ export default function TaskListSection({ list, projectId, showLabels }) {
           {incompleteTasks.length === 0 && !showNewTask ? (
             <div className="px-4 py-8 text-center">
               <p className="text-sm text-pm-text-muted mb-3">{__('No tasks yet')}</p>
-              <Button
-                size="sm"
-                className="gap-1.5"
-                onClick={() => setShowNewTask(true)}
-              >
-                <Plus className="h-5 w-5" />
-                {__('Add a task')}
-              </Button>
+              {canCreateTask && (
+                <Button
+                  size="sm"
+                  className="gap-1.5"
+                  onClick={() => setShowNewTask(true)}
+                >
+                  <Plus className="h-5 w-5" />
+                  {__('Add a task')}
+                </Button>
+              )}
             </div>
           ) : null}
 
           {/* Inline add task */}
-          {showNewTask && (
+          {showNewTask && canCreateTask && (
             <form
               onSubmit={handleCreateTask}
               className="px-3 py-3 border-b border-border/40 bg-muted/5 space-y-2"

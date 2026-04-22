@@ -45,6 +45,7 @@ import {
 import { formatPmDateTime, userInitials } from "@lib/pm-utils";
 import ProBadge from "@components/common/ProBadge";
 import { usePermissions } from "@hooks/usePermissions";
+import { useCurrentProject } from "@hooks/useCurrentProject";
 import DiscussionFiles from "./parts/DiscussionFiles";
 
 export default function DiscussionsPage() {
@@ -53,7 +54,14 @@ export default function DiscussionsPage() {
   const api = useApi();
   const { __ } = useI18n();
   const toast = useToast();
-  const { isPro } = usePermissions();
+  const project = useCurrentProject(projectId);
+  const { isPro, userCan, isManager, canEditComment, currentUserId } = usePermissions(project);
+  const canCreateDiscussion = isManager || userCan('create_discussion');
+  const canDeleteDiscussion = (d) => {
+    if (isManager || userCan('delete_discussion')) return true;
+    const creatorId = d?.creator?.data?.id ?? d?.created_by;
+    return currentUserId && creatorId && String(currentUserId) === String(creatorId);
+  };
 
   const [discussions, setDiscussions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -340,14 +348,16 @@ export default function DiscussionsPage() {
             </span>
           )}
         </div>
-        <Button
-          size="sm"
-          className="gap-1.5"
-          onClick={() => setShowForm((v) => !v)}
-        >
-          <Plus className="h-5 w-5" />
-          {__("New Discussion")}
-        </Button>
+        {canCreateDiscussion && (
+          <Button
+            size="sm"
+            className="gap-1.5"
+            onClick={() => setShowForm((v) => !v)}
+          >
+            <Plus className="h-5 w-5" />
+            {__("New Discussion")}
+          </Button>
+        )}
       </div>
 
       {showForm && (
@@ -512,27 +522,32 @@ export default function DiscussionsPage() {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuItem onClick={() => startEditDiscussion(d)}>
-                            <Pencil className="h-4 w-4 mr-2" />
-                            {__("Edit")}
-                          </DropdownMenuItem>
-                          <DropdownMenuItem
-                            onClick={() => isPro && handleTogglePrivacy(d)}
-                            disabled={!isPro}
-                          >
-                            {isPrivate ? (
-                              <>
-                                <Unlock className="h-4 w-4 mr-2" />
-                                {__("Make Public")}
-                              </>
-                            ) : (
-                              <>
-                                <Lock className="h-4 w-4 mr-2" />
-                                {__("Make Private")}
-                              </>
-                            )}
-                            {!isPro && <ProBadge className="ml-auto" />}
-                          </DropdownMenuItem>
+                          {canDeleteDiscussion(d) && (
+                            <DropdownMenuItem onClick={() => startEditDiscussion(d)}>
+                              <Pencil className="h-4 w-4 mr-2" />
+                              {__("Edit")}
+                            </DropdownMenuItem>
+                          )}
+                          {canDeleteDiscussion(d) && userCan('view_private_discussion') && (
+                            <DropdownMenuItem
+                              onClick={() => isPro && handleTogglePrivacy(d)}
+                              disabled={!isPro}
+                            >
+                              {isPrivate ? (
+                                <>
+                                  <Unlock className="h-4 w-4 mr-2" />
+                                  {__("Make Public")}
+                                </>
+                              ) : (
+                                <>
+                                  <Lock className="h-4 w-4 mr-2" />
+                                  {__("Make Private")}
+                                </>
+                              )}
+                              {!isPro && <ProBadge className="ml-auto" />}
+                            </DropdownMenuItem>
+                          )}
+                          {canDeleteDiscussion(d) && (
                           <DropdownMenuItem
                             className="text-destructive focus:text-destructive"
                             onClick={() => handleDelete(d.id)}
@@ -540,6 +555,7 @@ export default function DiscussionsPage() {
                             <Trash2 className="h-4 w-4 mr-2" />
                             {__("Delete")}
                           </DropdownMenuItem>
+                          )}
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </div>
@@ -607,22 +623,24 @@ export default function DiscussionsPage() {
                                   <span className="text-[13px] text-pm-text-muted">
                                     {formatPmDateTime(c.created_at)}
                                   </span>
-                                  <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity ml-auto">
-                                    <button
-                                      type="button"
-                                      className="text-[13px] text-pm-text-muted hover:text-pm-accent"
-                                      onClick={() => startEditComment(c)}
-                                    >
-                                      <Pencil className="h-3.5 w-3.5" />
-                                    </button>
-                                    <button
-                                      type="button"
-                                      className="text-[13px] text-pm-text-muted hover:text-destructive"
-                                      onClick={() => handleDeleteComment(c.id)}
-                                    >
-                                      <Trash2 className="h-3.5 w-3.5" />
-                                    </button>
-                                  </div>
+                                  {canEditComment(c) && (
+                                    <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity ml-auto">
+                                      <button
+                                        type="button"
+                                        className="text-[13px] text-pm-text-muted hover:text-pm-accent"
+                                        onClick={() => startEditComment(c)}
+                                      >
+                                        <Pencil className="h-3.5 w-3.5" />
+                                      </button>
+                                      <button
+                                        type="button"
+                                        className="text-[13px] text-pm-text-muted hover:text-destructive"
+                                        onClick={() => handleDeleteComment(c.id)}
+                                      >
+                                        <Trash2 className="h-3.5 w-3.5" />
+                                      </button>
+                                    </div>
+                                  )}
                                 </div>
                                 {editingCommentId === c.id ? (
                                   <div className="space-y-1.5">

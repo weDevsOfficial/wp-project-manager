@@ -11,6 +11,7 @@ import { useApi } from "@hooks/useApi";
 import { useI18n } from "@hooks/useI18n";
 import { useToast } from "@hooks/useToast";
 import { usePermissions } from "@hooks/usePermissions";
+import { useCurrentProject } from "@hooks/useCurrentProject";
 import { cn } from "@lib/utils";
 import { formatPmDateTime } from "@lib/pm-utils";
 import { Button } from "@components/ui/button";
@@ -41,7 +42,14 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
   const toast = useToast();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { isPro } = usePermissions();
+  const project = useCurrentProject(projectId);
+  const { isPro, userCan, isManager, currentUserId } = usePermissions(project);
+  const creatorId = milestone?.creator?.data?.id ?? milestone?.created_by;
+  const canEditMilestone =
+    isManager ||
+    userCan('edit_milestone') ||
+    (currentUserId && creatorId && String(currentUserId) === String(creatorId));
+  const canDeleteMilestone = isManager || userCan('delete_milestone') || canEditMilestone;
 
   const isComplete =
     milestone.status === "complete" || milestone.status === 1 || milestone.status === "1";
@@ -207,43 +215,53 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => onEdit(milestone)}>
-                <Pencil className="h-4 w-4 mr-2" />
-                {__("Edit")}
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => onImportTasks(milestone)}>
-                <ListChecks className="h-4 w-4 mr-2" />
-                {__("Link Tasks")}
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={handleToggleStatus}>
-                <CheckCircle className="h-4 w-4 mr-2" />
-                {isComplete ? __("Mark Incomplete") : __("Mark Complete")}
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => isPro && handleTogglePrivacy()}
-                disabled={!isPro}
-              >
-                {milestone.meta?.privacy ? (
-                  <>
-                    <Unlock className="h-4 w-4 mr-2" />
-                    {__("Make Public")}
-                  </>
-                ) : (
-                  <>
-                    <Lock className="h-4 w-4 mr-2" />
-                    {__("Make Private")}
-                  </>
-                )}
-                {!isPro && <ProBadge className="ml-auto" />}
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
-                className="text-destructive focus:text-destructive"
-                onClick={handleDelete}
-              >
-                <Trash2 className="h-4 w-4 mr-2" />
-                {__("Delete")}
-              </DropdownMenuItem>
+              {canEditMilestone && (
+                <DropdownMenuItem onClick={() => onEdit(milestone)}>
+                  <Pencil className="h-4 w-4 mr-2" />
+                  {__("Edit")}
+                </DropdownMenuItem>
+              )}
+              {canEditMilestone && (
+                <DropdownMenuItem onClick={() => onImportTasks(milestone)}>
+                  <ListChecks className="h-4 w-4 mr-2" />
+                  {__("Link Tasks")}
+                </DropdownMenuItem>
+              )}
+              {canEditMilestone && (
+                <DropdownMenuItem onClick={handleToggleStatus}>
+                  <CheckCircle className="h-4 w-4 mr-2" />
+                  {isComplete ? __("Mark Incomplete") : __("Mark Complete")}
+                </DropdownMenuItem>
+              )}
+              {canEditMilestone && userCan('view_private_milestone') && (
+                <DropdownMenuItem
+                  onClick={() => isPro && handleTogglePrivacy()}
+                  disabled={!isPro}
+                >
+                  {milestone.meta?.privacy ? (
+                    <>
+                      <Unlock className="h-4 w-4 mr-2" />
+                      {__("Make Public")}
+                    </>
+                  ) : (
+                    <>
+                      <Lock className="h-4 w-4 mr-2" />
+                      {__("Make Private")}
+                    </>
+                  )}
+                  {!isPro && <ProBadge className="ml-auto" />}
+                </DropdownMenuItem>
+              )}
+              {canDeleteMilestone && <DropdownMenuSeparator />}
+              {canDeleteMilestone && (
+                <DropdownMenuItem
+                  className="text-destructive focus:text-destructive"
+                  onClick={handleDelete}
+                >
+                  <Trash2 className="h-4 w-4 mr-2" />
+                  {__("Delete")}
+                </DropdownMenuItem>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

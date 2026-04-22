@@ -14,6 +14,7 @@ import { useI18n } from "@hooks/useI18n";
 import { useToast } from "@hooks/useToast";
 import { useApi } from "@hooks/useApi";
 import { usePermissions } from "@hooks/usePermissions";
+import { useCurrentProject } from "@hooks/useCurrentProject";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
 import RichTextEditor from "@components/common/RichTextEditor";
@@ -38,7 +39,9 @@ export default function TaskListsPage() {
   const { __ } = useI18n();
   const toast = useToast();
   const api = useApi();
-  const { isPro } = usePermissions();
+  const project = useCurrentProject(projectId);
+  const { isPro, userCan, isManager } = usePermissions(project);
+  const canCreateList = isManager || userCan('create_task_list');
 
   const { lists, loading, expandedIds, listsMeta } = useAppSelector((s) => s.taskLists);
 
@@ -54,6 +57,7 @@ export default function TaskListsPage() {
   const [creatingList, setCreatingList] = useState(false);
   const [filteredTasks, setFilteredTasks] = useState(null);
   const [showLabels, setShowLabels] = useState(false);
+  const [inboxListId, setInboxListId] = useState(null);
 
   // ── List drag-drop ────────────────────────────────
   const dragListIdx = useRef(null);
@@ -109,6 +113,7 @@ export default function TaskListsPage() {
           if (proj?.label_in_tasks_list) {
             setShowLabels(proj.label_in_tasks_list.status === 'enable' || proj.label_in_tasks_list.status === true)
           }
+          if (proj?.list_inbox) setInboxListId(parseInt(proj.list_inbox, 10) || null)
         })
         .catch(() => {})
     }
@@ -182,10 +187,12 @@ export default function TaskListsPage() {
       <p className="text-sm text-pm-text-muted mb-4">
         {__("Create your first task list to start organizing work.")}
       </p>
-      <Button onClick={() => setShowNewList(true)}>
-        <Plus className="h-5 w-5 mr-2" />
-        {__("New Task List")}
-      </Button>
+      {canCreateList && (
+        <Button onClick={() => setShowNewList(true)}>
+          <Plus className="h-5 w-5 mr-2" />
+          {__("New Task List")}
+        </Button>
+      )}
     </div>
   );
 
@@ -234,14 +241,16 @@ export default function TaskListsPage() {
           <Slot name="tasklist.header.actions" projectId={projectId} />
 
           {/* New list button */}
-          <Button
-            size="sm"
-            className="text-sm gap-1.5 h-8 px-3"
-            onClick={() => setShowNewList((v) => !v)}
-          >
-            <Plus className="h-4 w-4" />
-            {__("New List")}
-          </Button>
+          {canCreateList && (
+            <Button
+              size="sm"
+              className="text-sm gap-1.5 h-8 px-3"
+              onClick={() => setShowNewList((v) => !v)}
+            >
+              <Plus className="h-4 w-4" />
+              {__("New List")}
+            </Button>
+          )}
         </div>
       </div>
 
@@ -365,7 +374,7 @@ export default function TaskListsPage() {
               onDragEnd={handleListDragEnd}
               className={dragOverIdx === idx ? "ring-2 ring-pm-accent/40 rounded-xl transition-shadow" : ""}
             >
-              <TaskListSection list={list} projectId={projectId} showLabels={showLabels} />
+              <TaskListSection list={list} projectId={projectId} showLabels={showLabels} isInbox={inboxListId && parseInt(list.id, 10) === inboxListId} />
             </div>
           ))}
         </div>

@@ -5,6 +5,7 @@ import { useProApi } from "@hooks/useProApi";
 import { useI18n } from "@hooks/useI18n";
 import { useToast } from "@hooks/useToast";
 import { usePermissions } from "@hooks/usePermissions";
+import { useCurrentProject } from "@hooks/useCurrentProject";
 import { useProModal } from "@components/common/ProUpgradeModal";
 import ProBadge from "@components/common/ProBadge";
 import { Button } from "@components/ui/button";
@@ -49,7 +50,14 @@ export default function FilesPage() {
   const proApi = useProApi();
   const { __ } = useI18n();
   const toast = useToast();
-  const { isPro } = usePermissions();
+  const project = useCurrentProject(projectId);
+  const { isPro, userCan, isManager, currentUserId } = usePermissions(project);
+  const canCreateFile = isManager || userCan('create_file');
+  const canDeleteFile = (f) => {
+    if (isManager || userCan('delete_file')) return true;
+    const creatorId = f?.creator?.data?.id ?? f?.created_by;
+    return currentUserId && creatorId && String(currentUserId) === String(creatorId);
+  };
   const { setOpen: setProModalOpen } = useProModal();
 
   const [files, setFiles] = useState([]);
@@ -271,6 +279,7 @@ export default function FilesPage() {
         </div>
 
         <div className="flex items-center gap-2">
+          {canCreateFile && (<>
           <Button size="sm" variant="outline" className="h-8 text-sm group/btn" onClick={() => proAction(() => setFolderOpen(true))}>
             <FolderPlus className="h-4 w-4 mr-1" />{__("Create a folder")}
             {!isPro && <span className="opacity-0 group-hover/btn:opacity-100 transition-opacity ml-1"><ProBadge /></span>}
@@ -287,6 +296,7 @@ export default function FilesPage() {
             <Link2 className="h-4 w-4 mr-1" />{__("Link to Docs")}
             {!isPro && <span className="opacity-0 group-hover/btn:opacity-100 transition-opacity ml-1"><ProBadge /></span>}
           </Button>
+          </>)}
         </div>
       </div>
 
@@ -385,9 +395,11 @@ export default function FilesPage() {
                               <Move className="h-4 w-4 mr-2" />{__("Move to Folder")}
                             </DropdownMenuItem>
                           )}
-                          <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => handleDelete(f.id)}>
-                            <Trash2 className="h-4 w-4 mr-2" />{__("Delete")}
-                          </DropdownMenuItem>
+                          {canDeleteFile(f) && (
+                            <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => handleDelete(f.id)}>
+                              <Trash2 className="h-4 w-4 mr-2" />{__("Delete")}
+                            </DropdownMenuItem>
+                          )}
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </div>
@@ -446,9 +458,11 @@ export default function FilesPage() {
                             <Move className="h-4 w-4 mr-2" />{__("Move to Folder")}
                           </DropdownMenuItem>
                         )}
-                        <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => handleDelete(f.id)}>
-                          <Trash2 className="h-4 w-4 mr-2" />{__("Delete")}
-                        </DropdownMenuItem>
+                        {canDeleteFile(f) && (
+                          <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => handleDelete(f.id)}>
+                            <Trash2 className="h-4 w-4 mr-2" />{__("Delete")}
+                          </DropdownMenuItem>
+                        )}
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>

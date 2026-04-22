@@ -7,6 +7,8 @@ import { useApi } from '@hooks/useApi'
 import { cn } from '@lib/utils'
 import { useI18n } from '@hooks/useI18n'
 import { useToast } from '@hooks/useToast'
+import { usePermissions } from '@hooks/usePermissions'
+import { useCurrentProject } from '@hooks/useCurrentProject'
 import {
   Sheet,
   SheetContent,
@@ -83,6 +85,8 @@ export default function TaskDetailSheet() {
 
   const projectId = storeProjectId || currentTask?.project_id || currentTask?.project?.id
   const isProContext = !storeProjectId && (currentTask?.project_id || currentTask?.project?.id)
+  const project = useCurrentProject(projectId)
+  const { canEditTask, canEditComment, userCan } = usePermissions(project)
 
   const [editingTitle, setEditingTitle] = useState(false)
   const [title, setTitle] = useState('')
@@ -371,9 +375,11 @@ export default function TaskDetailSheet() {
                   <DropdownMenuItem onClick={handleCopyLink}>
                     <Link2 className="h-4 w-4 mr-2" />{__('Copy Link')}
                   </DropdownMenuItem>
-                  <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={handleDelete}>
-                    <Trash2 className="h-4 w-4 mr-2" />{__('Delete')}
-                  </DropdownMenuItem>
+                  {canEditTask(currentTask) && (
+                    <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={handleDelete}>
+                      <Trash2 className="h-4 w-4 mr-2" />{__('Delete')}
+                    </DropdownMenuItem>
+                  )}
                 </DropdownMenuContent>
               </DropdownMenu>
             </div>
@@ -433,14 +439,14 @@ export default function TaskDetailSheet() {
                       </span>
                     )}
                   </button>
-                  {editingTitle ? (
+                  {editingTitle && canEditTask(currentTask) ? (
                     <Input autoFocus value={title} onChange={e => setTitle(e.target.value)} onBlur={handleTitleSave}
                       onKeyDown={e => { if (e.key === 'Enter') handleTitleSave(); if (e.key === 'Escape') { setTitle(currentTask.title); setEditingTitle(false) } }}
                       className="text-lg font-semibold h-auto py-0.5 border-none shadow-none focus-visible:ring-1 flex-1"
                     />
                   ) : (
-                    <SheetTitle className={cn('text-lg cursor-pointer hover:text-pm-accent transition-colors leading-snug', complete && 'line-through text-pm-text-muted')}
-                      onClick={() => setEditingTitle(true)}>
+                    <SheetTitle className={cn('text-lg leading-snug', canEditTask(currentTask) && 'cursor-pointer hover:text-pm-accent transition-colors', complete && 'line-through text-pm-text-muted')}
+                      onClick={() => canEditTask(currentTask) && setEditingTitle(true)}>
                       {currentTask.title}
                     </SheetTitle>
                   )}
@@ -567,7 +573,9 @@ export default function TaskDetailSheet() {
 
                 <MilestoneField task={currentTask} projectId={currentTask?.project_id} api={api} />
 
-                <TaskPrivacyField task={currentTask} projectId={currentTask?.project_id} dispatch={dispatch} api={api} />
+                {canEditTask(currentTask) && userCan('view_private_task') && (
+                  <TaskPrivacyField task={currentTask} projectId={currentTask?.project_id} dispatch={dispatch} api={api} />
+                )}
 
                 <ProInlineProperties
                   taskId={currentTask?.id}
@@ -584,7 +592,7 @@ export default function TaskDetailSheet() {
             <div className="px-5 py-2">
               <div className="flex items-center justify-between mb-2">
                 <h4 className="flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wider text-pm-text-muted/70"><FileText className="h-4 w-4" />{__('Description')}</h4>
-                {!editingDesc && (
+                {!editingDesc && canEditTask(currentTask) && (
                   <Button
                     size="sm"
                     className="h-7 text-sm gap-1"
@@ -641,7 +649,7 @@ export default function TaskDetailSheet() {
               {comments.length > 0 && (
                 <div className="space-y-3 mb-4">
                   {comments.map(comment => {
-                    const isOwn = comment.creator?.data?.id === (typeof PM_Vars !== 'undefined' ? PM_Vars.current_user?.ID : null)
+                    const canEdit = canEditComment(comment)
                     const isEditing = editingCommentId === comment.id
                     return (
                       <div key={comment.id} className="flex gap-2.5 group/comment">
@@ -653,7 +661,7 @@ export default function TaskDetailSheet() {
                           <div className="flex items-center gap-2 mb-0.5">
                             <span className="text-sm font-medium text-pm-text-primary">{comment.creator?.data?.display_name}</span>
                             <span className="text-[13px] text-pm-text-muted">{formatPmDateTime(comment.created_at)}</span>
-                            {isOwn && !isEditing && (
+                            {canEdit && !isEditing && (
                               <span className="opacity-0 group-hover/comment:opacity-100 transition-opacity flex items-center gap-1 ml-auto">
                                 <button type="button" onClick={() => startEditComment(comment)} className="p-0.5 rounded hover:bg-muted text-pm-text-muted hover:text-pm-accent" title={__('Edit')}>
                                   <Pencil className="h-3.5 w-3.5" />
