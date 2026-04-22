@@ -205,17 +205,21 @@ export function ProjectCreateSheet() {
   // ── Submit ──────────────────────────────────────────────
 
   const handleSubmit = useCallback(async () => {
-    if (!title.trim()) {
+    // Ensure title is a string before calling .trim()
+    const titleStr = String(title || '').trim()
+    if (!titleStr) {
       setTitleError(__('Project name is required'))
       return
     }
     setTitleError('')
 
     const payload = {
-      title: title.trim(),
+      title: titleStr,
     }
 
-    if (description.trim()) payload.description = description.trim()
+    // Ensure description is a string before calling .trim()
+    const descStr = String(description || '').trim()
+    if (descStr) payload.description = descStr
 
     if (categoryId && categoryId !== '__none__') {
       payload.categories = [Number(categoryId)]
@@ -280,10 +284,10 @@ export function ProjectCreateSheet() {
             <input
               id="project-title"
               placeholder={__('Enter project name')}
-              value={title}
+              value={String(title || '')}
               onChange={(e) => {
                 setTitle(e.target.value)
-                if (e.target.value.trim()) setTitleError('')
+                if ((e.target.value || '').trim()) setTitleError('')
               }}
               className={cn(
                 'flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
@@ -317,8 +321,8 @@ export function ProjectCreateSheet() {
           <div className="space-y-2">
             <Label htmlFor="project-description">{__('Description')}</Label>
             <RichTextEditor
-              content={description}
-              onChange={setDescription}
+              content={String(description || '')}
+              onChange={(val) => setDescription(String(val || ''))}
               placeholder={__('Describe your project...')}
               minHeight="100px"
             />
