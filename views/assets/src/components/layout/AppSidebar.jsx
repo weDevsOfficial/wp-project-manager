@@ -2,7 +2,7 @@ import { useState, useMemo, useEffect, useRef, useCallback } from 'react'
 import { useLocation, useNavigate, Link } from 'react-router-dom'
 import { useApi } from '@hooks/useApi'
 import { usePermissions } from '@hooks/usePermissions'
-import { useAppSelector } from '@store/index'
+import { useActiveProModules, isProModuleActive, isProPluginInstalled } from '@hooks/useActiveProModules'
 import ProBadge from '@components/common/ProBadge'
 import { useI18n } from '@hooks/useI18n'
 import {
@@ -55,7 +55,7 @@ export function AppSidebar() {
 
   // Pro sub-nav items — filtered by the provided active module paths
   const getProSubNav = useCallback((modulePaths) => {
-    const isActive = (dir) => modulePaths.some(m => m.startsWith(dir + '/') || m === dir)
+    const isActive = (dir) => isProModuleActive(modulePaths, dir)
     const items = []
     if (isActive('Activities'))  items.push({ key: 'activities', label: __('Activities'),    icon: Activity,   path: (pid) => `/projects/${pid}/activities` })
     if (isActive('Kanboard'))  items.push({ key: 'kanban',   label: __('Kanban Board'), icon: Columns3,  path: (pid) => `/projects/${pid}/kanban` })
@@ -68,19 +68,7 @@ export function AppSidebar() {
   const navigate = useNavigate()
   const api      = useApi()
 
-  // Redux modules state (populated by pro plugin via injectReducer + fetchModules).
-  // Falls back to PM_Pro_Vars (PHP-localized) when:
-  //   - pro plugin not loaded (s.modules is undefined), OR
-  //   - Redux slice exists but activeModules is still empty (fetch not yet complete)
-  const reduxActiveModules = useAppSelector(s => s.modules?.activeModules ?? null)
-  const activeModulePaths = useMemo(() => {
-    const phpModules = typeof PM_Pro_Vars !== 'undefined' ? (PM_Pro_Vars.active_modules ?? []) : []
-    // Use Redux only when it has data; otherwise fall back to PHP-localized list
-    const raw = (reduxActiveModules && reduxActiveModules.length > 0)
-      ? reduxActiveModules
-      : phpModules
-    return raw.map(m => typeof m === 'string' ? m : (m.path || ''))
-  }, [reduxActiveModules])
+  const activeModulePaths = useActiveProModules()
 
   // Merge free + pro sub-nav items — reactive via activeModulePaths.
   // When pro is off, show Activities/Kanban/Gantt/Invoice/Settings as pro previews.
@@ -204,10 +192,10 @@ export function AppSidebar() {
   ], [__])
 
   // Pro plugin installed (pm-pro.js loaded) — may or may not be licensed
-  const isProInstalled = typeof PM_Pro_Vars !== 'undefined'
+  const isProInstalled = isProPluginInstalled()
 
   const viewNavItems = useMemo(() => {
-    const isModuleActive = (dir) => activeModulePaths.some(m => m.startsWith(dir + '/') || m === dir)
+    const isModuleActive = (dir) => isProModuleActive(activeModulePaths, dir)
     const items = [
       { key: 'calendar', label: __('Calendar'), short: __('Cal'),     icon: Calendar,      route: '/calendar', pro: !isPro },
       { key: 'progress', label: __('Progress'), short: __('Prog'),    icon: Activity,      route: '/progress', pro: !isPro },

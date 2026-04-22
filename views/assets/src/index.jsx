@@ -228,6 +228,7 @@ window.PM = {
     Textarea:     require('@components/ui/textarea'),
     Tooltip:      require('@components/ui/tooltip'),
     AlertDialog:  require('@components/ui/alert-dialog'),
+    ColorPicker:  require('@components/ui/color-picker'),
     RichTextEditor: require('@components/common/RichTextEditor'),
     GitHubPreviewContainer: require('@components/common/GitHubPreviewContainer'),
     NotionPreviewContainer: require('@components/common/NotionPreviewContainer'),
