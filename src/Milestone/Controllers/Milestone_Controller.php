@@ -12,6 +12,7 @@ use WeDevs\PM\Common\Traits\Transformer_Manager;
 use WeDevs\PM\Milestone\Transformers\Milestone_Transformer;
 use WeDevs\PM\Common\Traits\Request_Filter;
 use WeDevs\PM\Common\Models\Meta;
+use WeDevs\PM\Common\Models\Boardable;
 use Carbon\Carbon;
 use Illuminate\Database\Capsule\Manager as DB;
 use Illuminate\Pagination\Paginator;
@@ -238,6 +239,64 @@ class Milestone_Controller {
 
         return $this->get_response(false, $message);
     }
+    public function attach_tasks( WP_REST_Request $request ) {
+        $project_id   = intval( $request->get_param( 'project_id' ) );
+        $milestone_id = intval( $request->get_param( 'milestone_id' ) );
+        $task_ids     = $request->get_param( 'task_ids' );
+
+        if ( empty( $task_ids ) || ! is_array( $task_ids ) ) {
+            return $this->get_response( null, [
+                'message' => __( 'No tasks provided.', 'wedevs-project-manager' ),
+            ] );
+        }
+
+        $milestone = Milestone::where( 'id', $milestone_id )
+            ->where( 'project_id', $project_id )
+            ->first();
+
+        if ( ! $milestone ) {
+            return $this->get_response( null, [
+                'message' => __( 'Milestone not found.', 'wedevs-project-manager' ),
+            ] );
+        }
+
+        foreach ( $task_ids as $task_id ) {
+            $task_id = intval( $task_id );
+            if ( ! $task_id ) {
+                continue;
+            }
+
+            Boardable::firstOrCreate( [
+                'board_id'       => $milestone->id,
+                'board_type'     => 'milestone',
+                'boardable_id'   => $task_id,
+                'boardable_type' => 'task',
+            ] );
+        }
+
+        $resource = new Item( $milestone->fresh(), new Milestone_Transformer );
+
+        return $this->get_response( $resource, [
+            'message' => __( 'Tasks linked to milestone.', 'wedevs-project-manager' ),
+        ] );
+    }
+
+    public function detach_task( WP_REST_Request $request ) {
+        $project_id   = intval( $request->get_param( 'project_id' ) );
+        $milestone_id = intval( $request->get_param( 'milestone_id' ) );
+        $task_id      = intval( $request->get_param( 'task_id' ) );
+
+        Boardable::where( 'board_id', $milestone_id )
+            ->where( 'board_type', 'milestone' )
+            ->where( 'boardable_id', $task_id )
+            ->where( 'boardable_type', 'task' )
+            ->delete();
+
+        return $this->get_response( null, [
+            'message' => __( 'Task unlinked from milestone.', 'wedevs-project-manager' ),
+        ] );
+    }
+
     public function privacy( WP_REST_Request $request ) {
         $project_id = intval( $request->get_param( 'project_id' ) );
         $milestone_id = $request->get_param( 'milestone_id' );

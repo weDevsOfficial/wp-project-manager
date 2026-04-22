@@ -35,7 +35,8 @@ class List_Task_Transformer extends TransformerAbstract {
             'task_list_id' => $item->task_list,
             'meta'        => $this->meta( $item ),
             'assignees'   => $this->assignees( $item ),
-            'creator'     => $this->get_creator( $item )
+            'creator'     => $this->get_creator( $item ),
+            'type'        => $this->get_type( $item->id ),
         ];
         
         if ( $this->list_task_transormer_filter ) {
@@ -82,8 +83,9 @@ class List_Task_Transformer extends TransformerAbstract {
         $metas = [
             'can_complete_task' => $this->wedevs_pm_user_can_complete_task( $item ),
             'total_comment' => $item->total_comment,
+            'privacy'       => (int) $item->is_private,
         ];
-        
+
 	    return $metas;
     }
 
@@ -135,6 +137,32 @@ class List_Task_Transformer extends TransformerAbstract {
         }
 
         return $assigness;
+    }
+
+    public function get_type( $item_id ) {
+        global $wpdb;
+
+        $tb_task_types     = esc_sql( wedevs_pm_tb_prefix() . 'pm_task_types' );
+        $tb_task_type_task = esc_sql( wedevs_pm_tb_prefix() . 'pm_task_type_task' );
+        $tb_tasks          = esc_sql( wedevs_pm_tb_prefix() . 'pm_tasks' );
+
+        $result = $wpdb->get_row(
+            $wpdb->prepare(
+                "SELECT DISTINCT typ.id as type_id, typ.title, typ.description, tk.id as task_id
+                FROM {$tb_task_types} as typ
+                LEFT JOIN {$tb_task_type_task} as typt ON typ.id = typt.type_id
+                LEFT JOIN {$tb_tasks} as tk ON tk.id = typt.task_id
+                WHERE tk.id = %d",
+                absint( $item_id )
+            )
+        );
+
+        if ( $result ) {
+            $result->id = (int) $result->type_id;
+            unset( $result->type_id );
+        }
+
+        return $result;
     }
 
     public function assignees( $item ) {

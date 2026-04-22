@@ -6,7 +6,7 @@ use WP_REST;
 class Enqueue_Scripts {
 
 	public static function scripts() {
-		
+
 
 		$scripts_id = [
 			'pm-config',
@@ -54,6 +54,8 @@ class Enqueue_Scripts {
 			'base_url'                 => home_url(),
 			'api_base_url'             => esc_url_raw( get_rest_url() ),
 			'api_namespace'            => wedevs_pm_api_namespace(),
+			'rest_url'                 => esc_url_raw( get_rest_url( null, wedevs_pm_api_namespace() . '/' ) ),
+			'rest_url_pro'             => esc_url_raw( get_rest_url( null, 'pm-pro/v2/' ) ),
 			'permalinkStructure'       => get_option( 'permalink_structure' ),
 			'project_page'             => wedevs_pm_get_project_page(),
 			'rest_api_prefix'          => rest_get_url_prefix(),
@@ -86,6 +88,8 @@ class Enqueue_Scripts {
 			'dir_url'                          => wedevs_pm_config('frontend.url'),
 			'is_pro'                           => $wedevs_pm_pro,
 			'is_admin'                         => is_admin(),
+			'is_frontend'                      => ! is_admin(),
+			'logout_url'                       => wp_logout_url( home_url() ),
 			'language'                         => apply_filters( 'wedevs_pm_get_jed_locale_data', [ 'pm' => wedevs_pm_get_jed_locale_data( 'wedevs-project-manager' ) ] ),
 			'date_format'                      => get_option( 'date_format' ),
 			'time_format'                      => get_option( 'time_format' ),

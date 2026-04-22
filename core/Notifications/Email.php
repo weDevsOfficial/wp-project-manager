@@ -192,19 +192,19 @@ class Email {
         $reply_to     = "Reply-To: $no_reply";
 
         if ( self::getInstance()->is_bcc_enable() ) {
-            
+
             if ( is_array( $to ) ) {
                 $bcc     = 'Bcc: ' . implode(',', $to);
             } else {
                 $bcc     = 'Bcc: ' . $to;
             }
-            
+
             $headers = array(
+                $from,
                 $bcc,
                 $reply_to,
                 $content_type,
                 $charset,
-                $from_email
             );
 
             return wp_mail( $from_email, $subject, wp_kses_post( htmlspecialchars_decode( $message ) ), $headers, $attachments );

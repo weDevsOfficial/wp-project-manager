@@ -37,16 +37,6 @@ class AI_Settings_Controller {
     }
 
     /**
-     * Get models filtered by provider
-     *
-     * @param string $provider Provider key (e.g., 'openai', 'anthropic', 'google')
-     * @return array Models for the specified provider
-     */
-    public static function get_models_by_provider( $provider ) {
-        return AI_Config::get_models_by_provider( $provider );
-    }
-
-    /**
      * Get AI settings
      *
      * @param WP_REST_Request $request
@@ -284,10 +274,6 @@ class AI_Settings_Controller {
                 'message' => __( 'Invalid provider selected.', 'wedevs-project-manager' )
             ];
         }
-
-        // Get provider config from static method
-        $providers_config = self::get_providers();
-        $provider_config = $providers_config[ $provider ];
 
         // Build test configuration based on provider
         if ( $provider === 'anthropic' ) {

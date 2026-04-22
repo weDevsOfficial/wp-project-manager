@@ -28,8 +28,14 @@ class Task_Types_Controller {
             return $page;
         });
 
-        $types = Task_Types::orderBy( 'id', 'DESC')
-            ->paginate( $per_page );
+        $filter_type = $request->get_param( 'type' );
+
+        $query = Task_Types::orderBy( 'id', 'DESC' );
+        if ( ! empty( $filter_type ) ) {
+            $query->where( 'type', $filter_type );
+        }
+
+        $types = $query->paginate( $per_page );
         
         if ( $per_page == '-1' ) {
             $per_page = $types->count();
@@ -50,7 +56,7 @@ class Task_Types_Controller {
         $status      = $request->get_param( 'status' );
         $status      = $status != 0 ? 1 : 0;
         $type        = $request->get_param( 'type' );
-        $type        = empty( $type ) ? 'task' : 'subtask';
+        $type        = ( $type === 'subtask' ) ? 'subtask' : 'task';
 
         $task_type = Task_Types::create([
             'title'       => $title,
@@ -75,7 +81,7 @@ class Task_Types_Controller {
         $type = [
             'title'       => $title,
             'description' => $description,
-            'type'        => $type
+            'type'        => ( $type === 'subtask' ) ? 'subtask' : 'task',
         ];
 
         $stored_type = Task_Types::where( 'id', $id )

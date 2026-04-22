@@ -21,11 +21,13 @@ class Milestone_Transformer extends TransformerAbstract {
     ];
 
     protected $availableIncludes = [
-        'discussion_boards', 'task_lists'
+        'discussion_boards', 'task_lists', 'tasks'
     ];
 
     public function transform( Milestone $item ) {
-        $data =  [
+        $task_count = $item->task_count;
+
+        $data = [
             'id'           => (int) $item->id,
             'title'        => $item->title,
             'description'  => $item->description,
@@ -33,6 +35,9 @@ class Milestone_Transformer extends TransformerAbstract {
             'achieve_date' => wedevs_pm_format_date( $item->achieve_date ),
             'achieved_at'  => wedevs_pm_format_date( $item->updated_at ),
             'status'       => $item->status,
+            'progress'     => (int) $item->progress,
+            'health'       => $item->health,
+            'task_count'   => $task_count,
             'created_at'   => wedevs_pm_format_date( $item->created_at ),
             'meta'         => $this->meta( $item ),
         ];
@@ -56,6 +61,7 @@ class Milestone_Transformer extends TransformerAbstract {
         return array_merge( $meta, [
             'total_task_list'        => $item->task_lists->count(),
             'total_discussion_board' => $item->discussion_boards->count(),
+            'total_direct_tasks'     => $item->tasks->count(),
         ] );
     }
 
@@ -77,6 +83,11 @@ class Milestone_Transformer extends TransformerAbstract {
         $resource->setPaginator( new IlluminatePaginatorAdapter( $task_lists ) );
 
         return $resource;
+    }
+
+    public function includeTasks( Milestone $item ) {
+        $tasks = $item->tasks()->orderBy( 'created_at', 'DESC' )->get();
+        return $this->collection( $tasks, new Task_Transformer );
     }
 
     public function includeDiscussionBoards( Milestone $item ) {

@@ -1243,6 +1243,7 @@ class Task {
 			->where_start_at()
 			->where_due_date()
 			->where_completed_at()
+			->where_created_at()
 			->where_project_id()
 			->where_users()
 			->where_lists()
@@ -1335,8 +1336,7 @@ class Task {
 		$tb_asin = wedevs_pm_tb_prefix() . 'pm_assignees';
 
 		if ( $is_user_null ) {
-			$this->join .= " LEFT JOIN {$tb_asin} ON $tb_asin.task_id={$this->tb_tasks}.id";
-			$this->where .= $wpdb->prepare( " AND ( $tb_asin.assigned_to IN ($format) OR $tb_asin.assigned_to is null ) ) ", $users );
+			$this->where .= " AND NOT EXISTS ( SELECT 1 FROM {$tb_asin} WHERE {$tb_asin}.task_id = {$this->tb_tasks}.id )";
 		} else {
 			$this->join .= " LEFT JOIN {$tb_asin} ON $tb_asin.task_id={$this->tb_tasks}.id";
 			$this->where .= $wpdb->prepare( " AND $tb_asin.assigned_to IN ($format)", $users );
@@ -1568,6 +1568,35 @@ class Task {
 	
 		if ( ! empty( $q ) ) {
 			$this->where .= " AND ( $q ) ";
+		}
+
+		return $this;
+	}
+
+	private function where_created_at() {
+		global $wpdb;
+
+		$created_at         = !empty( $this->query_params['created_at'] ) ? $this->query_params['created_at'] : false;
+		$created_at_start   = !empty( $this->query_params['created_at_start'] ) ? $this->query_params['created_at_start'] : false;
+		$created_at_between = !isset( $this->query_params['created_at_between'] ) ? true : wedevs_pm_is_true( $this->query_params['created_at_between'] );
+
+		if ( $created_at === false ) {
+			return $this;
+		}
+
+		if ( $created_at_start ) {
+			$ca_start = gmdate( 'Y-m-d', strtotime( $created_at_start ) );
+			$ca_end   = gmdate( 'Y-m-d', strtotime( $created_at ) );
+
+			if ( $created_at_between ) {
+				$query = $wpdb->prepare( " DATE({$this->tb_tasks}.created_at) BETWEEN %s AND %s ", $ca_start, $ca_end );
+			} else {
+				$query = $wpdb->prepare( " DATE({$this->tb_tasks}.created_at) NOT BETWEEN %s AND %s ", $ca_start, $ca_end );
+			}
+
+			$this->where .= " AND ( $query ) ";
+
+			return $this;
 		}
 
 		return $this;
@@ -1858,7 +1887,7 @@ class Task {
 		);
 
 		// If task has not boardable_id mean no list
-		if ( $id && ! $more_tasks_request ) {
+		if ( $id && ! is_array( $id ) && ! $more_tasks_request ) {
 			foreach ( $results as $key => $result ) {
 				if( $result->id == $id ) {
 					$tasks[] = $result;

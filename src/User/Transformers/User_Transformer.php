@@ -67,7 +67,7 @@ class User_Transformer extends TransformerAbstract {
             'nicename'          => $user->user_nicename,
             'email'             => $user->user_email,
             'profile_url'       => $user->user_url,
-            'display_name'      => $user->display_name,
+            'display_name'      => $user->display_name ?: $user->user_login ?: $user->user_email,
             'manage_capability' => (int) wedevs_pm_has_manage_capability($user->ID),
             'create_capability' => (int) wedevs_pm_has_project_create_capability($user->ID),
             'avatar_url'        => get_avatar_url( $user->user_email ),
