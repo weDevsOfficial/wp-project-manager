@@ -10,6 +10,8 @@ import {
 import { cn } from '@lib/utils'
 import { useI18n } from '@hooks/useI18n'
 import { useToast } from '@hooks/useToast'
+import { applyFilters } from '@hooks/useSlot'
+import ProTemplateField from '@components/projects/ProTemplateField'
 
 import { Button } from '@components/ui/button'
 import { Label } from '@components/ui/label'
@@ -230,13 +232,16 @@ export function ProjectCreateSheet() {
 
     if (notifyUsers) payload.notify_users = true
 
+    // Allow pro modules (e.g. Templates) to inject extra fields (e.g. template_id)
+    const finalPayload = applyFilters('project.create.payload', payload)
+
     try {
       if (isEditMode) {
-        payload.projectId = editProject.id
-        await dispatch(updateProject(payload)).unwrap()
+        finalPayload.projectId = editProject.id
+        await dispatch(updateProject(finalPayload)).unwrap()
         toast.success(__('Project updated successfully'))
       } else {
-        await dispatch(createProject(payload)).unwrap()
+        await dispatch(createProject(finalPayload)).unwrap()
         toast.success(__('Project created successfully'))
       }
     } catch {
@@ -324,7 +329,8 @@ export function ProjectCreateSheet() {
             />
           </div>
 
-          <Separator />
+          {/* Template picker — shows upgrade teaser on free, real picker when pro active */}
+          {!isEditMode && <ProTemplateField />}
 
           {/* Team Members */}
           <div className="space-y-3">

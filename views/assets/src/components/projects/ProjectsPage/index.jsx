@@ -90,6 +90,7 @@ import {
 
 import AiCreateDialog from "../AiCreateDialog";
 import { ProjectCreateSheet } from "../ProjectCreateSheet";
+import TemplatesHeaderButton from "../TemplatesHeaderButton";
 
 import { formatPmDate } from "@lib/pm-utils";
 import {
@@ -695,6 +696,8 @@ export default function ProjectsPage() {
             <Sparkles className="h-5 w-5" />
             {__("AI Create")}
           </Button>
+          {/* Templates button — real picker when pro, upgrade teaser when free */}
+          <TemplatesHeaderButton />
           <Button
             size="sm"
             className="gap-1.5"

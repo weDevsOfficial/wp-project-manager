@@ -11,6 +11,7 @@ import {
   ChevronDown, Star, LayoutList, Layout, MessageSquare,
   Milestone, FileText, Activity, Tag, Crown, Layers,
   Columns3, GitBranch, Receipt, Timer, Shield, Wrench,
+  LayoutTemplate,
 } from 'lucide-react'
 import { cn } from '@lib/utils'
 
@@ -209,14 +210,13 @@ export function AppSidebar() {
   const viewNavItems = useMemo(() => {
     const isModuleActive = (dir) => activeModulePaths.some(m => m.startsWith(dir + '/') || m === dir)
     const items = [
-      { key: 'calendar', label: __('Calendar'), short: __('Cal'),     icon: Calendar,      route: '/calendar', pro: !isPro },
-      { key: 'progress', label: __('Progress'), short: __('Prog'),    icon: Activity,      route: '/progress', pro: !isPro },
-      { key: 'reports',  label: __('Reports'),  short: __('Rep'),     icon: BarChart3,     route: '/reports',  pro: !isPro },
+      { key: 'calendar',  label: __('Calendar'),  short: __('Cal'),    icon: Calendar,       route: '/calendar',  pro: !isPro },
+      { key: 'progress',  label: __('Progress'),  short: __('Prog'),   icon: Activity,       route: '/progress',  pro: !isPro },
+      { key: 'reports',   label: __('Reports'),   short: __('Rep'),    icon: BarChart3,      route: '/reports',   pro: !isPro },
+      { key: 'templates', label: __('Templates'), short: __('Tmpl'),   icon: LayoutTemplate, route: '/templates', pro: !isPro },
     ]
-    // Non-pro: always show as a preview (ProBadge, same as Calendar).
-    // Pro: only show when the respective module is active.
     if (!isPro || isModuleActive('Sprint')) {
-      items.push({ key: 'sprints',     label: __('Sprints'),     short: __('Sprint'), icon: Timer,         route: '/sprints',      pro: !isPro })
+      items.push({ key: 'sprints', label: __('Sprints'), short: __('Sprint'), icon: Timer, route: '/sprints', pro: !isPro })
     }
     return items
   }, [__, isPro, activeModulePaths])
@@ -258,8 +258,9 @@ export function AppSidebar() {
     if (path.startsWith('/calendar')) return 'calendar'
     if (path.startsWith('/progress')) return 'progress'
     if (path.startsWith('/reports'))  return 'reports'
-    if (path.startsWith('/sprints'))  return 'sprints'
-    if (path.startsWith('/license')) return 'license'
+    if (path.startsWith('/sprints'))   return 'sprints'
+    if (path.startsWith('/templates')) return 'templates'
+    if (path.startsWith('/license'))   return 'license'
     return 'projects'
   }, [location.pathname])
 
