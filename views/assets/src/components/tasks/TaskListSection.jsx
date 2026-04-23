@@ -488,7 +488,7 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
                       <select
                         value={selectedMilestone}
                         onChange={e => setSelectedMilestone(e.target.value)}
-                        className="h-8 text-sm rounded-md border border-input bg-background px-2 focus:outline-none focus:ring-2 focus:ring-ring w-48"
+                        className="h-8 text-sm rounded-md border border-input bg-background px-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring w-48"
                       >
                         <option value="">{__('None')}</option>
                         {milestones.map(m => (

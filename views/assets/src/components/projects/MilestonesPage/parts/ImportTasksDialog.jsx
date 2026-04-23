@@ -96,14 +96,14 @@ export default function ImportTasksDialog({ open, onOpenChange, milestone, proje
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-md" data-pm-dialog>
+      <DialogContent className="max-w-md max-h-[90vh] flex flex-col overflow-hidden" data-pm-dialog>
         <DialogHeader>
           <DialogTitle>{__("Link Tasks")}</DialogTitle>
           <DialogDescription className="sr-only">
             {__("Link tasks to this milestone")}
           </DialogDescription>
         </DialogHeader>
-        <div className="space-y-3">
+        <div className="space-y-3 flex-1 overflow-y-auto overflow-x-hidden min-h-0">
           <p className="text-sm text-pm-text-muted">
             {__("Select tasks to link to")} <strong>{milestone?.title}</strong>
           </p>
@@ -201,7 +201,7 @@ export default function ImportTasksDialog({ open, onOpenChange, milestone, proje
             </>
           )}
         </div>
-        <DialogFooter>
+        <DialogFooter className="shrink-0">
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             {__("Cancel")}
           </Button>

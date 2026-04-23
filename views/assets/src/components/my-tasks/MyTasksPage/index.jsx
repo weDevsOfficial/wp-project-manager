@@ -520,14 +520,14 @@ export default function MyTasksPage() {
                 type="date"
                 value={overviewStartDate}
                 onChange={(e) => setOverviewStartDate(e.target.value)}
-                className="h-8 rounded-md border border-pm-border bg-background px-2 text-sm focus:outline-none focus:ring-1 focus:ring-pm-accent"
+                className="h-8 rounded-md border border-pm-border bg-background px-2 text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-pm-accent"
               />
               <span className="text-sm text-pm-text-muted">{__('to')}</span>
               <input
                 type="date"
                 value={overviewEndDate}
                 onChange={(e) => setOverviewEndDate(e.target.value)}
-                className="h-8 rounded-md border border-pm-border bg-background px-2 text-sm focus:outline-none focus:ring-1 focus:ring-pm-accent"
+                className="h-8 rounded-md border border-pm-border bg-background px-2 text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-pm-accent"
               />
               {(overviewStartDate || overviewEndDate) && (
                 <Button variant="outline" size="sm" className="h-8 text-sm" onClick={() => { setOverviewStartDate(''); setOverviewEndDate('') }}>
@@ -828,7 +828,7 @@ export default function MyTasksPage() {
                         <tbody>
                           {allProj.map((p, i) => (
                             <tr key={i} className="border-b last:border-b-0">
-                              <td className="px-4 py-2 font-medium">{p.project?.title || "—"}</td>
+                              <td className="px-4 py-2 font-medium max-w-[200px] truncate" title={p.project?.title || ""}>{p.project?.title || "—"}</td>
                               <td className="px-4 py-2 text-pm-text-muted">{p.assigned_tasks || 0}</td>
                               <td className="px-4 py-2 text-pm-text-muted">{p.completed_tasks || 0}</td>
                               <td className="px-4 py-2 text-pm-text-muted">{p.working_hours_tf || "0:00"}</td>
@@ -878,8 +878,8 @@ export default function MyTasksPage() {
                           {subtasksAll.map((st, i) => (
                             <tr key={i} className="border-b last:border-b-0">
                               <td className="px-4 py-2 text-pm-text-muted">{st.completed_at_display || "N/A"}</td>
-                              <td className="px-4 py-2">{st.parent_task_title || "—"}</td>
-                              <td className="px-4 py-2 font-medium">{st.title}</td>
+                              <td className="px-4 py-2 max-w-[180px] truncate" title={st.parent_task_title || ""}>{st.parent_task_title || "—"}</td>
+                              <td className="px-4 py-2 font-medium max-w-[180px] truncate" title={st.title}>{st.title}</td>
                               <td className="px-4 py-2 text-pm-text-muted">{st.project_title || "—"}</td>
                               <td className="px-4 py-2 text-pm-text-muted">{st.type?.title || "—"}</td>
                               <td className="px-4 py-2 text-pm-text-muted">{st.estimation_tf || "0:00"}</td>

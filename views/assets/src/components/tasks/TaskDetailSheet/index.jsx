@@ -445,7 +445,8 @@ export default function TaskDetailSheet() {
                       className="text-lg font-semibold h-auto py-0.5 border-none shadow-none focus-visible:ring-1 flex-1"
                     />
                   ) : (
-                    <SheetTitle className={cn('text-lg leading-snug', canEditTask(currentTask) && 'cursor-pointer hover:text-pm-accent transition-colors', complete && 'line-through text-pm-text-muted')}
+                    <SheetTitle className={cn('text-lg leading-snug truncate', canEditTask(currentTask) && 'cursor-pointer hover:text-pm-accent transition-colors', complete && 'line-through text-pm-text-muted')}
+                      title={currentTask.title}
                       onClick={() => canEditTask(currentTask) && setEditingTitle(true)}>
                       {currentTask.title}
                     </SheetTitle>
@@ -481,7 +482,7 @@ export default function TaskDetailSheet() {
                         <PopoverContent className="w-auto p-3" align="start">
                           <div className="space-y-2">
                             <p className="text-sm font-medium text-pm-text-muted">{__('Start Date')}</p>
-                            <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} className="w-full rounded-md border border-input bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring" />
+                            <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} className="w-full rounded-md border border-input bg-background px-3 py-1.5 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
                             {startDate && <Button variant="ghost" size="sm" className="h-6 text-[14px] w-full" onClick={() => setStartDate('')}>{__('Clear')}</Button>}
                           </div>
                         </PopoverContent>
@@ -497,7 +498,7 @@ export default function TaskDetailSheet() {
                         <PopoverContent className="w-auto p-3" align="start">
                           <div className="space-y-2">
                             <p className="text-sm font-medium text-pm-text-muted">{__('Due Date')}</p>
-                            <input type="date" value={dueDate} onChange={e => setDueDate(e.target.value)} className="w-full rounded-md border border-input bg-background px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-ring" />
+                            <input type="date" value={dueDate} onChange={e => setDueDate(e.target.value)} className="w-full rounded-md border border-input bg-background px-3 py-1.5 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
                             {dueDate && <Button variant="ghost" size="sm" className="h-6 text-[14px] w-full" onClick={() => setDueDate('')}>{__('Clear')}</Button>}
                           </div>
                         </PopoverContent>
