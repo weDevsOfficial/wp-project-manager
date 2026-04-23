@@ -186,9 +186,9 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
               ) : null}
             </div>
 
-            {milestone.description?.content && (
+            {(typeof milestone.description === 'string' ? milestone.description : milestone.description?.content) && (
               <p className="text-sm text-pm-text-muted mt-1 line-clamp-2">
-                {milestone.description.content}
+                {typeof milestone.description === 'string' ? milestone.description : milestone.description.content}
               </p>
             )}
 
@@ -220,7 +220,7 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-7 w-7 shrink-0">
+              <Button variant="ghost" size="icon" className="h-7 w-7 shrink-0" aria-label={__("More actions")}>
                 <MoreHorizontal className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>

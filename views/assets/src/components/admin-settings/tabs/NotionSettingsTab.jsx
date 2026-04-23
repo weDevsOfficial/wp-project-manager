@@ -42,7 +42,7 @@ const NotionSettingsTab = () => {
         const tokenRes = await api.get('settings', { key: 'notion_access_token' })
         const tokenVal = tokenRes?.data?.[0]?.value ?? tokenRes?.value ?? PM_Vars?.settings?.notion_access_token
         if (tokenVal && typeof tokenVal === 'string' && tokenVal.length > 1) {
-          setMaskedToken(tokenVal)
+          setMaskedToken('••••••••••••')
           setTokenSaved(true)
         }
         const prevRes = await api.get('settings', { key: 'notion_enable_previews' })
@@ -75,7 +75,7 @@ const NotionSettingsTab = () => {
           if (item.key === 'notion_access_token' && item.value) {
             setTokenSaved(true)
             if (typeof item.value === 'string' && item.value.length > 1) {
-              setMaskedToken(item.value)
+              setMaskedToken('••••••••••••')
             }
           }
         })
@@ -170,6 +170,7 @@ const NotionSettingsTab = () => {
             ) : (
               <>
                 <Input
+                  type="password"
                   value={accessToken}
                   onChange={(e) => { setAccessToken(e.target.value); markDirty() }}
                   placeholder="secret_xxxxxxxxxxxx"

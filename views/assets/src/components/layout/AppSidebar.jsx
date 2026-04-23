@@ -122,13 +122,28 @@ export function AppSidebar() {
 
   // Fetch ALL projects for sidebar (never affected by page filters)
   useEffect(() => {
-    api.get('projects', {
-      per_page: 100,
-      select: 'id, title, status',
-      with: 'assignees',
-    })
-      .then(res => setSidebarProjects(res.data ?? []))
-      .catch(() => {})
+    let cancelled = false
+    async function fetchAll() {
+      let page = 1
+      let all = []
+      try {
+        while (true) {
+          const res = await api.get('projects', {
+            per_page: 100,
+            page,
+            select: 'id, title, status, favourite, color_code',
+            with: 'assignees',
+          })
+          const data = res.data ?? []
+          all = all.concat(data)
+          if (data.length < 100) break
+          page++
+        }
+      } catch { /* ignore */ }
+      if (!cancelled) setSidebarProjects(all)
+    }
+    fetchAll()
+    return () => { cancelled = true }
   }, [])
 
   // Detect active project from URL and auto-expand it
@@ -218,19 +233,24 @@ export function AppSidebar() {
     const currPath = location.pathname
     prevPathnameRef.current = currPath
 
-    // Skip initial mount
-    if (prevPath === currPath) return
-
     const fullWidthPages = ['reports', 'calendar', 'progress', 'sprints']
-    const wasFullWidth = fullWidthPages.some(p => prevPath.startsWith(`/${p}`))
     const isFullWidth = fullWidthPages.some(p => currPath.startsWith(`/${p}`))
 
+    if (prevPath === currPath) {
+      // Initial mount — auto-collapse if landing on a full-width page
+      if (isFullWidth && !collapsed) {
+        autoCollapsedRef.current = true
+        setCollapsed(true)
+      }
+      return
+    }
+
+    const wasFullWidth = fullWidthPages.some(p => prevPath.startsWith(`/${p}`))
+
     if (isFullWidth && !wasFullWidth && !collapsed) {
-      // Entering a full-width page from a normal page — auto-collapse
       autoCollapsedRef.current = true
       setCollapsed(true)
     } else if (!isFullWidth && wasFullWidth && autoCollapsedRef.current) {
-      // Leaving a full-width page — restore only if we auto-collapsed it
       autoCollapsedRef.current = false
       setCollapsed(false)
     }
@@ -248,6 +268,7 @@ export function AppSidebar() {
     if (path.startsWith('/progress')) return 'progress'
     if (path.startsWith('/reports'))  return 'reports'
     if (path.startsWith('/sprints'))  return 'sprints'
+    if (path.startsWith('/importtools')) return 'importtools'
     if (path.startsWith('/license')) return 'license'
     return 'projects'
   }, [location.pathname])

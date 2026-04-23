@@ -136,6 +136,7 @@ export default function ProjectsPage() {
     dispatch(fetchProjects(undefined));
     dispatch(fetchCategories());
     dispatch(fetchRoles());
+    return () => clearTimeout(searchTimerRef.current);
   }, [dispatch]);
 
   const handleFilterChange = useCallback(
@@ -406,9 +407,17 @@ export default function ProjectsPage() {
                   />
                   <h3
                     className="font-semibold text-sm text-pm-text-primary line-clamp-1 cursor-pointer hover:text-pm-accent transition-colors"
+                    role="button"
+                    tabIndex={0}
                     onClick={() =>
                       navigate(`/projects/${project.id}/task-lists`)
                     }
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault()
+                        navigate(`/projects/${project.id}/task-lists`)
+                      }
+                    }}
                   >
                     {project.title}
                   </h3>
@@ -533,9 +542,17 @@ export default function ProjectsPage() {
                     />
                     <span
                       className="font-medium text-pm-text-primary truncate cursor-pointer hover:text-pm-accent transition-colors"
+                      role="button"
+                      tabIndex={0}
                       onClick={() =>
                         navigate(`/projects/${project.id}/task-lists`)
                       }
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault()
+                          navigate(`/projects/${project.id}/task-lists`)
+                        }
+                      }}
                     >
                       {project.title}
                     </span>

@@ -39,14 +39,14 @@ export function userInitials(name) {
 }
 
 export function stripHtml(html) {
-  const tmp = document.createElement("div");
-  tmp.innerHTML = html;
-  return tmp.textContent || tmp.innerText || "";
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  return doc.body.textContent || "";
 }
 
 export function getDescriptionSnippet(project) {
   const desc = project.description;
-  if (!desc || typeof desc === "string") return "";
+  if (!desc) return "";
+  if (typeof desc === "string") return stripHtml(desc).trim();
   const raw = desc.content || desc.html || "";
   return raw ? stripHtml(raw).trim() : "";
 }

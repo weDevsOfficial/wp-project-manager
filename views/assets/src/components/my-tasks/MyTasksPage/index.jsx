@@ -301,7 +301,7 @@ export default function MyTasksPage() {
       .get(`users/${userId}/tasks/calender`, { start, end })
       .then((res) => setCalEvents(Array.isArray(res?.data ?? res) ? (res?.data ?? res) : []))
       .catch(() => setCalEvents([]));
-  }, [userId, activeTab, calYear, calMonth]);
+  }, [userId, activeTab, calYear, calMonth, calDaysInMonth]);
 
   const calEventsByDate = useMemo(() => {
     const map = {};
@@ -1165,7 +1165,7 @@ export default function MyTasksPage() {
                 return (
                   <div
                     key={act.id || i}
-                    className="flex items-start gap-3 py-3 px-4 bg-white rounded-lg border border-border/50 hover:shadow-sm transition-all"
+                    className="flex items-start gap-3 py-3 px-4 bg-card rounded-lg border border-border/50 hover:shadow-sm transition-all"
                   >
                     <Avatar className="h-8 w-8 shrink-0 mt-0.5">
                       <AvatarImage src={actor.avatar_url} />

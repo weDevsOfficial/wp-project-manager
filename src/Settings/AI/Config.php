@@ -61,6 +61,15 @@ class Config {
         $cached_models = get_transient('pm_ai_models_cache');
         if (is_array($cached_models) && isset($cached_models['models']) && !empty($cached_models['models'])) {
             $models = array_merge($cached_models['models'], $models);
+        } else {
+            // Cache empty/expired — populate it synchronously so first response includes all providers
+            $result = self::update_all_models();
+            if (true === $result) {
+                $cached_models = get_transient('pm_ai_models_cache');
+                if (is_array($cached_models) && isset($cached_models['models']) && !empty($cached_models['models'])) {
+                    $models = $cached_models['models'];
+                }
+            }
         }
 
         return $models;
