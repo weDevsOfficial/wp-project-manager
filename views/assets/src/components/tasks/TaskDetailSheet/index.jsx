@@ -58,6 +58,7 @@ import {
   Layers,
   Pencil,
   FileText,
+  Loader2,
 } from 'lucide-react'
 import {
   isTaskComplete,
@@ -348,11 +349,8 @@ export default function TaskDetailSheet() {
         )}
       >
         {loading && !currentTask ? (
-          <div className="p-6 space-y-4">
-            <Skeleton className="h-8 w-3/4" />
-            <Skeleton className="h-4 w-full" />
-            <Skeleton className="h-4 w-2/3" />
-            <Skeleton className="h-20 w-full" />
+          <div className="flex items-center justify-center py-20">
+            <Loader2 className="h-8 w-8 animate-spin text-pm-accent" />
           </div>
         ) : currentTask ? (
           <div className={cn('flex flex-col h-full', fullscreen && 'max-w-4xl mx-auto')}>

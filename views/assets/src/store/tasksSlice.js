@@ -217,6 +217,14 @@ const tasksSlice = createSlice({
     setCurrentTask(state, action) {
       state.currentTask = action.payload
     },
+    updateCurrentTaskMeta(state, action) {
+      if (state.currentTask) {
+        state.currentTask = {
+          ...state.currentTask,
+          meta: { ...state.currentTask.meta, ...action.payload },
+        }
+      }
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchTask.pending, (state) => { state.loading = true })
@@ -267,5 +275,5 @@ const tasksSlice = createSlice({
   },
 })
 
-export const { openTaskSheet, closeTaskSheet, setCurrentTask } = tasksSlice.actions
+export const { openTaskSheet, closeTaskSheet, setCurrentTask, updateCurrentTaskMeta } = tasksSlice.actions
 export default tasksSlice.reducer
