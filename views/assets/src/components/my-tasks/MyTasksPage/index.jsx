@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback, useMemo, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@store/index";
 import { openTaskSheet } from "@store/tasksSlice";
 import { setProjectId } from "@store/taskListsSlice";
@@ -76,11 +77,13 @@ import {
   PIE_COLORS,
 } from "./constants";
 import { parseActivityMessage } from "./utils";
+import { resolveActivityUrl } from "@lib/activity-links";
 import MyTaskRow from "./parts/MyTaskRow";
 import NewTaskSheet from "./parts/NewTaskSheet";
 
 export default function MyTasksPage() {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const api = useApi();
   const proApi = useProApi();
   const { __ } = useI18n();
@@ -208,9 +211,10 @@ export default function MyTasksPage() {
   }, [userId, activeTab, fetchTasks]);
 
   const taskSheetOpen = useAppSelector((s) => s.tasks.taskSheetOpen);
+  const taskModified = useAppSelector((s) => s.tasks.taskModifiedInSheet);
   const prevSheetOpen = useRef(false);
   useEffect(() => {
-    if (prevSheetOpen.current && !taskSheetOpen) {
+    if (prevSheetOpen.current && !taskSheetOpen && taskModified) {
       fetchTasks(taskPage);
       if (userId) {
         api.get(`users/${userId}`, { with: "meta" })
@@ -1105,6 +1109,17 @@ export default function MyTasksPage() {
                 const badgeLabel = ACTIVITY_LABELS[actionType] || actionType;
                 const timeStr = act.committed_at?.time?.slice(0, 5) || '';
 
+                const actUrl = resolveActivityUrl(act);
+
+                const handleResourceClick = () => {
+                  if (!actUrl) return;
+                  if (actUrl.openTaskSheet) {
+                    dispatch(openTaskSheet({ id: actUrl.taskId, project_id: actUrl.projectId, task_list_id: actUrl.listId }));
+                  } else {
+                    navigate(actUrl.path);
+                  }
+                };
+
                 return (
                   <div
                     key={act.id || i}
@@ -1118,14 +1133,30 @@ export default function MyTasksPage() {
                     </Avatar>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-0.5">
-                        <span className="text-sm font-semibold text-pm-text">{actor.display_name || 'Unknown'}</span>
+                        <button
+                          type="button"
+                          onClick={() => navigate('/my-tasks')}
+                          className="text-sm font-semibold text-pm-text hover:text-pm-accent transition-colors cursor-pointer"
+                        >
+                          {actor.display_name || 'Unknown'}
+                        </button>
                         <Badge variant="outline" className={cn('text-[14px] px-1.5 py-0 h-4 font-medium border-0 text-white', badgeColor)}>
                           {badgeLabel}
                         </Badge>
                       </div>
-                      <p className="text-sm text-pm-text-muted leading-snug">
-                        {parseActivityMessage(act)}
-                      </p>
+                      {actUrl ? (
+                        <button
+                          type="button"
+                          onClick={handleResourceClick}
+                          className="text-sm text-pm-text-muted leading-snug hover:text-pm-accent transition-colors cursor-pointer text-left"
+                        >
+                          {parseActivityMessage(act)}
+                        </button>
+                      ) : (
+                        <p className="text-sm text-pm-text-muted leading-snug">
+                          {parseActivityMessage(act)}
+                        </p>
+                      )}
                       {timeStr && (
                         <span className="text-[15px] text-pm-text-muted/50 mt-1 inline-block">{timeStr}</span>
                       )}

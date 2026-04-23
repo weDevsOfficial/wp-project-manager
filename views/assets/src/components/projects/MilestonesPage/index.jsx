@@ -47,6 +47,7 @@ export default function MilestonesPage() {
   const { items: milestones, loading, filter, sort, formOpen, editingId } =
     useAppSelector((s) => s.milestones);
   const taskSheetOpen = useAppSelector((s) => s.tasks.taskSheetOpen);
+  const taskModified = useAppSelector((s) => s.tasks.taskModifiedInSheet);
 
   const [saving, setSaving] = useState(false);
   const [importTasksTarget, setImportTasksTarget] = useState(null);
@@ -79,11 +80,11 @@ export default function MilestonesPage() {
 
   const prevSheetOpen = React.useRef(taskSheetOpen);
   useEffect(() => {
-    if (prevSheetOpen.current && !taskSheetOpen) {
+    if (prevSheetOpen.current && !taskSheetOpen && taskModified) {
       dispatch(fetchMilestones({ projectId }));
     }
     prevSheetOpen.current = taskSheetOpen;
-  }, [taskSheetOpen, dispatch, projectId]);
+  }, [taskSheetOpen, dispatch, projectId, taskModified]);
 
   const editingMilestone = editingId
     ? milestones.find((m) => m.id === editingId)

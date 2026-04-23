@@ -1,5 +1,5 @@
 import React from 'react'
-import { Navigate } from 'react-router-dom'
+import { Navigate, useNavigate } from 'react-router-dom'
 import { useI18n } from '@hooks/useI18n'
 import { usePermissions } from '@hooks/usePermissions'
 import { useProModal } from '@components/common/ProUpgradeModal'
@@ -54,6 +54,7 @@ const ACTION_LABELS = {
 
 function MockActivityItem({ item }) {
   const { __ } = useI18n()
+  const navigate = useNavigate()
   const Icon = ACTION_ICONS[item.type] || Activity
   return (
     <div className="flex items-start gap-3 py-3 px-4 hover:bg-pm-hover/50 rounded-lg transition-colors">
@@ -64,7 +65,13 @@ function MockActivityItem({ item }) {
       </Avatar>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-0.5">
-          <span className="text-sm font-semibold text-pm-text">{item.user}</span>
+          <button
+            type="button"
+            onClick={() => navigate('/my-tasks')}
+            className="text-sm font-semibold text-pm-text hover:text-pm-accent transition-colors cursor-pointer"
+          >
+            {item.user}
+          </button>
           <Badge variant="outline" className={`text-[14px] px-1.5 py-0 h-4 font-medium border-0 text-white ${item.color}`}>
             {__(ACTION_LABELS[item.action] || item.action)}
           </Badge>

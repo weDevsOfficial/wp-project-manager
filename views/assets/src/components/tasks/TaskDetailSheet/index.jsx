@@ -67,6 +67,7 @@ import {
   extractDateStr,
 } from '@lib/pm-utils'
 import { parseActivityMessage } from './utils'
+import { resolveActivityUrl } from '@lib/activity-links'
 import TaskPrivacyField from './parts/fields/TaskPrivacyField'
 import TaskEstimationField from './parts/fields/TaskEstimationField'
 import TaskTypeField from './parts/fields/TaskTypeField'
@@ -415,7 +416,13 @@ export default function TaskDetailSheet() {
                             <AvatarImage src={currentTask.creator.data.avatar_url} />
                             <AvatarFallback className="text-[6px]">{userInitials(currentTask.creator.data.display_name || '')}</AvatarFallback>
                           </Avatar>
-                          <span>{currentTask.creator.data.display_name}</span>
+                          <button
+                            type="button"
+                            onClick={() => { dispatch(closeTaskSheet()); navigate('/my-tasks'); }}
+                            className="hover:text-pm-accent transition-colors cursor-pointer"
+                          >
+                            {currentTask.creator.data.display_name}
+                          </button>
                         </div>
                       </>
                     )}
@@ -660,7 +667,13 @@ export default function TaskDetailSheet() {
                         </Avatar>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-0.5">
-                            <span className="text-sm font-medium text-pm-text-primary">{comment.creator?.data?.display_name}</span>
+                            <button
+                              type="button"
+                              onClick={() => { if (comment.creator?.data?.id) { dispatch(closeTaskSheet()); navigate('/my-tasks'); } }}
+                              className="text-sm font-medium text-pm-text-primary hover:text-pm-accent transition-colors cursor-pointer"
+                            >
+                              {comment.creator?.data?.display_name}
+                            </button>
                             <span className="text-[13px] text-pm-text-muted">{formatPmDateTime(comment.created_at)}</span>
                             {canEdit && !isEditing && (
                               <span className="opacity-0 group-hover/comment:opacity-100 transition-opacity flex items-center gap-1 ml-auto">
@@ -765,15 +778,47 @@ export default function TaskDetailSheet() {
                       <Skeleton className="h-4 w-1/2" />
                     </div>
                   ) : activities.length > 0 ? (
-                    activities.map((act, i) => (
-                      <div key={act.id || i} className="flex gap-2 text-sm text-pm-text-muted">
-                        <span className="h-1.5 w-1.5 rounded-full bg-pm-text-muted/30 mt-1.5 shrink-0" />
-                        <div>
-                          {parseActivityMessage(act) || act.action}
-                          {act.committed_at && <span className="ml-1.5 text-[14px]">· {formatPmDateTime(act.committed_at)}</span>}
+                    activities.map((act, i) => {
+                      const actActor = act.actor?.data;
+                      const actUrl = resolveActivityUrl(act);
+                      const handleActClick = () => {
+                        if (!actUrl) return;
+                        if (actUrl.openTaskSheet) {
+                          dispatch(openTaskSheet({ id: actUrl.taskId, project_id: actUrl.projectId, task_list_id: actUrl.listId }));
+                        } else {
+                          dispatch(closeTaskSheet());
+                          navigate(actUrl.path);
+                        }
+                      };
+                      return (
+                        <div key={act.id || i} className="flex gap-2 text-sm text-pm-text-muted">
+                          <span className="h-1.5 w-1.5 rounded-full bg-pm-text-muted/30 mt-1.5 shrink-0" />
+                          <div>
+                            {actActor?.id && (
+                              <button
+                                type="button"
+                                onClick={() => { dispatch(closeTaskSheet()); navigate('/my-tasks'); }}
+                                className="font-medium text-pm-text hover:text-pm-accent transition-colors cursor-pointer mr-1"
+                              >
+                                {actActor.display_name}
+                              </button>
+                            )}
+                            {actUrl ? (
+                              <button
+                                type="button"
+                                onClick={handleActClick}
+                                className="hover:text-pm-accent transition-colors cursor-pointer"
+                              >
+                                {parseActivityMessage(act) || act.action}
+                              </button>
+                            ) : (
+                              <span>{parseActivityMessage(act) || act.action}</span>
+                            )}
+                            {act.committed_at && <span className="ml-1.5 text-[14px]">· {formatPmDateTime(act.committed_at)}</span>}
+                          </div>
                         </div>
-                      </div>
-                    ))
+                      );
+                    })
                   ) : (
                     <p className="text-sm text-pm-text-muted italic">{__('No activity yet')}</p>
                   )}

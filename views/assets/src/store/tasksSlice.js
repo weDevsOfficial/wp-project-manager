@@ -7,11 +7,12 @@ const api = useApi()
 // ── State ─────────────────────────────────────────────
 
 const initialState = {
-  currentTask:    null,
-  taskSheetOpen:  false,
-  taskComments:   [],
-  loading:        false,
-  saving:         false,
+  currentTask:         null,
+  taskSheetOpen:       false,
+  taskModifiedInSheet: false,
+  taskComments:        [],
+  loading:             false,
+  saving:              false,
 }
 
 // ── Async thunks ──────────────────────────────────────
@@ -206,6 +207,7 @@ const tasksSlice = createSlice({
     openTaskSheet(state, action) {
       state.currentTask = action.payload
       state.taskSheetOpen = true
+      state.taskModifiedInSheet = false
     },
     closeTaskSheet(state) {
       state.taskSheetOpen = false
@@ -232,6 +234,7 @@ const tasksSlice = createSlice({
     builder.addCase(updateTask.pending, (state) => { state.saving = true })
     builder.addCase(updateTask.fulfilled, (state, action) => {
       state.saving = false
+      state.taskModifiedInSheet = true
       if (action.payload && state.currentTask?.id === action.payload.id) {
         state.currentTask = { ...state.currentTask, ...action.payload }
       }
@@ -239,6 +242,7 @@ const tasksSlice = createSlice({
     builder.addCase(updateTask.rejected, (state) => { state.saving = false })
 
     builder.addCase(changeTaskStatus.fulfilled, (state, action) => {
+      state.taskModifiedInSheet = true
       if (state.currentTask?.id === action.payload.taskId) {
         state.currentTask = { ...state.currentTask, status: action.payload.status }
       }
