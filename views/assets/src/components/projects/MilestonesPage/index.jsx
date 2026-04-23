@@ -35,6 +35,7 @@ import MilestoneForm from "./parts/MilestoneForm";
 import ImportTasksDialog from "./parts/ImportTasksDialog";
 import MilestoneCard from "./parts/MilestoneCard";
 import GroupHeader from "./parts/GroupHeader";
+import TaskDetailSheet from "@components/tasks/TaskDetailSheet";
 
 export default function MilestonesPage() {
   const { projectId } = useParams();
@@ -45,9 +46,29 @@ export default function MilestonesPage() {
 
   const { items: milestones, loading, filter, sort, formOpen, editingId } =
     useAppSelector((s) => s.milestones);
+  const taskSheetOpen = useAppSelector((s) => s.tasks.taskSheetOpen);
 
   const [saving, setSaving] = useState(false);
   const [importTasksTarget, setImportTasksTarget] = useState(null);
+  const [expandedIds, setExpandedIds] = useState(() => new Set());
+
+  const toggleExpanded = useCallback((id) => {
+    setExpandedIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  }, []);
+
+  const ensureExpanded = useCallback((id) => {
+    setExpandedIds((prev) => {
+      if (prev.has(id)) return prev;
+      const next = new Set(prev);
+      next.add(id);
+      return next;
+    });
+  }, []);
   const project = useCurrentProject(projectId);
   const { userCan, isManager } = usePermissions(project);
   const canCreateMilestone = isManager || userCan('create_milestone');
@@ -55,6 +76,14 @@ export default function MilestonesPage() {
   useEffect(() => {
     dispatch(fetchMilestones({ projectId }));
   }, [dispatch, projectId]);
+
+  const prevSheetOpen = React.useRef(taskSheetOpen);
+  useEffect(() => {
+    if (prevSheetOpen.current && !taskSheetOpen) {
+      dispatch(fetchMilestones({ projectId }));
+    }
+    prevSheetOpen.current = taskSheetOpen;
+  }, [taskSheetOpen, dispatch, projectId]);
 
   const editingMilestone = editingId
     ? milestones.find((m) => m.id === editingId)
@@ -268,6 +297,9 @@ export default function MilestonesPage() {
                     projectId={projectId}
                     onEdit={handleEdit}
                     onImportTasks={setImportTasksTarget}
+                    expanded={expandedIds.has(m.id)}
+                    onToggleExpanded={toggleExpanded}
+                    onTaskOpen={ensureExpanded}
                   />
                 ))}
               </div>
@@ -308,6 +340,8 @@ export default function MilestonesPage() {
         projectId={projectId}
         onDone={() => dispatch(fetchMilestones({ projectId }))}
       />
+
+      <TaskDetailSheet />
     </div>
   );
 }

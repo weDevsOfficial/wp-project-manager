@@ -145,11 +145,15 @@ body:not(.wp-admin) #wedevs-project-manager {
     outline-offset: 2px;
   }
 
-  /* Override WordPress admin blue box-shadow with purple */
-  a:focus, button:focus {
+  /* Override WordPress admin blue box-shadow with purple — keyboard focus only */
+  a:focus-visible, button:focus-visible {
     box-shadow: 0 0 0 2px hsl(var(--primary)) !important;
     color: inherit !important;
     outline: 2px solid transparent !important;
+  }
+  a:focus:not(:focus-visible), button:focus:not(:focus-visible) {
+    box-shadow: none !important;
+    outline: none !important;
   }
 
   /* Reset WP table styles */

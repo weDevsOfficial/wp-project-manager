@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "@store/index";
 import {
@@ -7,6 +7,7 @@ import {
   deleteMilestone,
   toggleMilestonePrivacy,
 } from "@store/milestonesSlice";
+import { openTaskSheet } from "@store/tasksSlice";
 import { useApi } from "@hooks/useApi";
 import { useI18n } from "@hooks/useI18n";
 import { useToast } from "@hooks/useToast";
@@ -36,7 +37,7 @@ import TaskCheckbox from "./TaskCheckbox";
 import MilestoneHealthBadge from "./MilestoneHealthBadge";
 import MilestoneProgress from "./MilestoneProgress";
 
-export default function MilestoneCard({ milestone, projectId, onEdit, onImportTasks }) {
+export default function MilestoneCard({ milestone, projectId, onEdit, onImportTasks, expanded, onToggleExpanded, onTaskOpen }) {
   const { __ } = useI18n();
   const api = useApi();
   const toast = useToast();
@@ -56,7 +57,16 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
   const directTasks = milestone.tasks?.data ?? [];
   const discussions = milestone.discussion_boards?.data ?? [];
   const hasDetails = directTasks.length > 0 || discussions.length > 0;
-  const [tasksExpanded, setTasksExpanded] = useState(false);
+  const tasksExpanded = !!expanded;
+  const setTasksExpanded = useCallback(() => onToggleExpanded?.(milestone.id), [onToggleExpanded, milestone.id]);
+
+  const handleOpenTask = useCallback(
+    (task) => {
+      onTaskOpen?.(milestone.id);
+      dispatch(openTaskSheet({ ...task, project_id: task.project_id ?? projectId }));
+    },
+    [dispatch, projectId, onTaskOpen, milestone.id],
+  );
 
   const handleUnlinkTask = useCallback(
     async (task) => {
@@ -301,9 +311,13 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
                 return (
                   <li key={task.id} className={cn("group flex items-center gap-2 py-2 px-3 rounded hover:bg-muted/30", taskComplete && "opacity-60")}>
                     <TaskCheckbox complete={taskComplete} onClick={() => handleToggleTaskStatus(task)} />
-                    <span className={cn("text-sm truncate flex-1", taskComplete && "line-through text-pm-text-muted")}>
+                    <button
+                      type="button"
+                      onClick={() => handleOpenTask(task)}
+                      className={cn("text-sm truncate flex-1 text-left hover:text-pm-accent transition-colors", taskComplete && "line-through text-pm-text-muted")}
+                    >
                       {task.title}
-                    </span>
+                    </button>
                     {assignees.length > 0 && (
                       <div className="flex -space-x-1.5 shrink-0">
                         {assignees.slice(0, 3).map((u) => (
@@ -346,7 +360,7 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
                 <div>
                   <button
                     type="button"
-                    onClick={() => setTasksExpanded((v) => !v)}
+                    onClick={setTasksExpanded}
                     className="flex items-center gap-1 mb-2 w-full text-left"
                   >
                     <ChevronDown className={cn("h-3.5 w-3.5 text-pm-text-muted/70 transition-transform", !tasksExpanded && "-rotate-90")} />
