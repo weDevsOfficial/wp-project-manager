@@ -26,7 +26,8 @@ import { useProModal } from "@components/common/ProUpgradeModal";
 import { Button } from "@components/ui/button";
 import { Skeleton } from "@components/ui/skeleton";
 import { Progress } from "@components/ui/progress";
-import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
+import { Avatar, AvatarFallback } from "@components/ui/avatar";
+import { UserAvatar } from '@components/common/UserAvatar';
 import {
   Select,
   SelectContent,
@@ -98,7 +99,6 @@ import {
   isComplete,
   statusColor,
   statusLabel,
-  userInitials,
   getDescriptionSnippet,
   FILTER_TABS,
 } from "./utils";
@@ -318,12 +318,7 @@ export default function ProjectsPage() {
     return (
       <div className="flex items-center -space-x-2">
         {visible.map((user) => (
-          <Avatar key={user.id} className="h-7 w-7 border-2 border-background">
-            <AvatarImage src={user.avatar_url} alt={user.display_name} />
-            <AvatarFallback className="text-[14px]">
-              {userInitials(user.display_name)}
-            </AvatarFallback>
-          </Avatar>
+          <UserAvatar key={user.id} user={user} size="md" className="border-2 border-background" />
         ))}
         {overflow > 0 && (
           <Avatar className="h-7 w-7 border-2 border-background">

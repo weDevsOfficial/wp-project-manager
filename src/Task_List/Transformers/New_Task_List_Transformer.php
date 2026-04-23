@@ -13,6 +13,7 @@ use League\Fractal\Pagination\IlluminatePaginatorAdapter;
 use WeDevs\PM\Common\Traits\Resource_Editors;
 use WeDevs\PM\Task\Models\Task;
 use Illuminate\Database\Capsule\Manager as DB;
+use WeDevs\PM\User\Helper\Avatar;
 use Illuminate\Pagination\Paginator;
 use League\Fractal\Resource\Collection as Collection;
 
@@ -64,7 +65,7 @@ class New_Task_List_Transformer extends TransformerAbstract {
             'display_name'      => $user->display_name,
             'manage_capability' => (int) wedevs_pm_has_manage_capability($user->ID),
             'create_capability' => (int) wedevs_pm_has_project_create_capability($user->ID),
-            'avatar_url'        => get_avatar_url( $user->user_email ),
+            'avatar_url'        => Avatar::get_url( $user->ID ),
         ];
 
         return $user;

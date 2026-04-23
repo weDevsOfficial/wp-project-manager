@@ -21,7 +21,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@components/ui/pagination";
-import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
+import { UserAvatar } from '@components/common/UserAvatar';
 import {
   Select,
   SelectContent,
@@ -63,7 +63,6 @@ import {
   isTaskComplete,
   formatPmDate,
   extractDateStr,
-  userInitials,
 } from "@lib/pm-utils";
 import TaskDetailSheet from "@components/tasks/TaskDetailSheet";
 import { useProModal } from "@components/common/ProUpgradeModal";
@@ -390,18 +389,13 @@ export default function MyTasksPage() {
   return (
     <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-6">
       <div className="flex items-center gap-4">
-        <Avatar className="h-14 w-14">
-          <AvatarImage
-            src={user?.avatar_url || PM_Vars.current_user?.data?.avatar_url}
-          />
-          <AvatarFallback className="text-lg">
-            {userInitials(
-              user?.display_name ||
-                PM_Vars.current_user?.data?.display_name ||
-                "?",
-            )}
-          </AvatarFallback>
-        </Avatar>
+        <UserAvatar
+          user={{
+            avatar_url: user?.avatar_url || PM_Vars.current_user?.data?.avatar_url,
+            display_name: user?.display_name || PM_Vars.current_user?.data?.display_name || '?',
+          }}
+          size="xl"
+        />
         <div className="flex-1 min-w-0">
           <h1 className="text-xl font-bold text-pm-text-primary">
             {__("My Tasks")}
@@ -1167,12 +1161,7 @@ export default function MyTasksPage() {
                     key={act.id || i}
                     className="flex items-start gap-3 py-3 px-4 bg-card rounded-lg border border-border/50 hover:shadow-sm transition-all"
                   >
-                    <Avatar className="h-8 w-8 shrink-0 mt-0.5">
-                      <AvatarImage src={actor.avatar_url} />
-                      <AvatarFallback className="text-[15px] font-semibold bg-pm-accent/10 text-pm-accent">
-                        {userInitials(actor.display_name ?? "?")}
-                      </AvatarFallback>
-                    </Avatar>
+                    <UserAvatar user={actor} size="lg" className="mt-0.5" fallbackClassName="bg-pm-accent/10 text-pm-accent" />
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2 mb-0.5">
                         <button

@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { useApi } from '@hooks/useApi'
 import { useI18n } from '@hooks/useI18n'
 import { usePermissions } from '@hooks/usePermissions'
-import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar'
+import { UserAvatar } from '@components/common/UserAvatar'
 import { Button } from '@components/ui/button'
 import {
   Dialog,
@@ -36,7 +36,7 @@ import {
   Megaphone,
 } from 'lucide-react'
 import { cn } from '@lib/utils'
-import { userInitials, formatPmDateTime } from '@lib/pm-utils'
+import { formatPmDateTime } from '@lib/pm-utils'
 
 export function TopBar() {
   const { __ } = useI18n()
@@ -311,12 +311,13 @@ export function TopBar() {
 
         {/* User avatar */}
         {currentUser && (
-          <Avatar className="h-7 w-7 shrink-0">
-            <AvatarImage src={currentUser.data?.avatar_url || currentUser.avatar_url || (typeof PM_Vars !== 'undefined' ? PM_Vars.avatar_url : '')} />
-            <AvatarFallback className="text-[14px]">
-              {userInitials(currentUser.data?.display_name || currentUser.display_name || currentUser.data?.user_login || 'U')}
-            </AvatarFallback>
-          </Avatar>
+          <UserAvatar
+            user={{
+              avatar_url: currentUser.data?.avatar_url || currentUser.avatar_url || (typeof PM_Vars !== 'undefined' ? PM_Vars.avatar_url : ''),
+              display_name: currentUser.data?.display_name || currentUser.display_name || currentUser.data?.user_login || 'U',
+            }}
+            size="md"
+          />
         )}
       </div>
 

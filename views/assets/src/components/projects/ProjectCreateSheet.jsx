@@ -31,11 +31,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@components/ui/select'
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from '@components/ui/avatar'
+import { UserAvatar } from '@components/common/UserAvatar'
 import {
   Popover,
   PopoverContent,
@@ -205,13 +201,6 @@ export function ProjectCreateSheet() {
 
   const getUserName = (user) => user.display_name || user.email || ''
 
-  const userInitials = (name) =>
-    (name || '')
-      .split(/\s+/)
-      .filter(Boolean)
-      .map((w) => w.charAt(0).toUpperCase())
-      .slice(0, 2)
-      .join('')
 
   // ── Submit ──────────────────────────────────────────────
 
@@ -389,12 +378,7 @@ export function ProjectCreateSheet() {
                             onSelect={() => handleAddUser(user)}
                             className="cursor-pointer"
                           >
-                            <Avatar className="h-7 w-7 mr-2">
-                              <AvatarImage src={user.avatar_url} alt={getUserName(user)} />
-                              <AvatarFallback className="text-[14px]">
-                                {userInitials(getUserName(user))}
-                              </AvatarFallback>
-                            </Avatar>
+                            <UserAvatar user={{ ...user, display_name: getUserName(user) }} size="md" className="mr-2" />
                             <div className="flex-1 min-w-0">
                               <p className="text-sm font-medium truncate">{getUserName(user)}</p>
                               {user.display_name && <p className="text-sm text-muted-foreground truncate">{user.email}</p>}
@@ -429,12 +413,7 @@ export function ProjectCreateSheet() {
                       <tr key={user.id} className="border-b last:border-b-0">
                         <td className="px-3 py-2">
                           <div className="flex items-center gap-2">
-                            <Avatar className="h-7 w-7">
-                              <AvatarImage src={user.avatar_url} alt={getUserName(user)} />
-                              <AvatarFallback className="text-[14px]">
-                                {userInitials(getUserName(user))}
-                              </AvatarFallback>
-                            </Avatar>
+                            <UserAvatar user={{ ...user, display_name: getUserName(user) }} size="md" />
                             <span className="font-medium truncate">{getUserName(user)}</span>
                           </div>
                         </td>

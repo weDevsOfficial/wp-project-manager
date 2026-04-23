@@ -2,6 +2,7 @@
 
 namespace WeDevs\PM\Core\WP;
 use WP_REST;
+use WeDevs\PM\User\Helper\Avatar;
 
 class Enqueue_Scripts {
 
@@ -67,7 +68,7 @@ class Enqueue_Scripts {
 			'current_user'             => wp_get_current_user(),
 			'manage_capability'        => wedevs_pm_has_manage_capability(),
 			'create_capability'        => wedevs_pm_has_project_create_capability(),
-			'avatar_url'               => get_avatar_url( get_current_user_id() ),
+			'avatar_url'               => Avatar::get_url( get_current_user_id() ),
 			'plupload'                 => array(
 				'browse_button'            => 'pm-upload-pickfiles',
 				'container'                => 'pm-upload-container',

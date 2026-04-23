@@ -16,6 +16,7 @@ use Illuminate\Pagination\Paginator;
 use WeDevs\PM\Calendar\Transformers\Calendar_Transformer;
 use WeDevs\PM\User\Models\User_Role;
 use WeDevs\PM\Activity\Transformers\Activity_Transformer;
+use WeDevs\PM\User\Helper\Avatar;
 
 class User_Controller {
     use Transformer_Manager, Request_Filter;
@@ -256,7 +257,7 @@ class User_Controller {
         }
 
         foreach ( $users as $user ) {
-            $user->avatar_url = get_avatar_url( $user->user_email );
+            $user->avatar_url = Avatar::get_url( $user->ID );
         }
 
         wp_send_json_success( $users );

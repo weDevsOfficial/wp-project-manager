@@ -16,7 +16,7 @@ import { useCurrentProject } from "@hooks/useCurrentProject";
 import { cn } from "@lib/utils";
 import { formatPmDateTime } from "@lib/pm-utils";
 import { Button } from "@components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
+import { UserAvatar } from '@components/common/UserAvatar';
 import { Badge } from "@components/ui/badge";
 import { Card, CardContent } from "@components/ui/card";
 import { Separator } from "@components/ui/separator";
@@ -321,10 +321,7 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
                     {assignees.length > 0 && (
                       <div className="flex -space-x-1.5 shrink-0">
                         {assignees.slice(0, 3).map((u) => (
-                          <Avatar key={u.id} className="h-5 w-5 border border-white">
-                            <AvatarImage src={u.avatar_url} />
-                            <AvatarFallback className="text-[8px]">{(u.display_name || "U")[0]}</AvatarFallback>
-                          </Avatar>
+                          <UserAvatar key={u.id} user={u} size="sm" className="border border-white" />
                         ))}
                         {assignees.length > 3 && <span className="text-[11px] text-pm-text-muted ml-1">+{assignees.length - 3}</span>}
                       </div>

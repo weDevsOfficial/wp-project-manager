@@ -13,6 +13,7 @@ use WeDevs\PM\Role\Transformers\Role_Transformer;
 use WeDevs\PM\Task\Transformers\Task_Transformer;
 use WeDevs\PM\Activity\Transformers\Activity_Transformer;
 use Carbon\Carbon;
+use WeDevs\PM\User\Helper\Avatar;
 use WeDevs\PM\Core\Router\WP_Router;
 
 class User_Transformer extends TransformerAbstract {
@@ -70,7 +71,7 @@ class User_Transformer extends TransformerAbstract {
             'display_name'      => $user->display_name ?: $user->user_login ?: $user->user_email,
             'manage_capability' => (int) wedevs_pm_has_manage_capability($user->ID),
             'create_capability' => (int) wedevs_pm_has_project_create_capability($user->ID),
-            'avatar_url'        => get_avatar_url( $user->user_email ),
+            'avatar_url'        => Avatar::get_url( $user->ID ),
             'github' => get_user_meta($user->ID,'github' ,true),
             'bitbucket' => get_user_meta($user->ID,'bitbucket', true)
         ];

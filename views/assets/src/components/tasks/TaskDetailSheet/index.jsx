@@ -25,7 +25,7 @@ import LoomPreviewContainer from '@components/common/LoomPreviewContainer'
 import { stripAllPreviewUrls } from '@/lib/url-strippers'
 import { sanitizeHtml } from '@lib/sanitize'
 import FileUploadArea from '@components/common/FileUploadArea'
-import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar'
+import { UserAvatar } from '@components/common/UserAvatar'
 import { Separator } from '@components/ui/separator'
 import { Skeleton } from '@components/ui/skeleton'
 import {
@@ -64,7 +64,6 @@ import {
   isTaskComplete,
   formatPmDate,
   formatPmDateTime,
-  userInitials,
   extractDateStr,
 } from '@lib/pm-utils'
 import { parseActivityMessage } from './utils'
@@ -410,10 +409,7 @@ export default function TaskDetailSheet() {
                       <>
                         <span className="text-muted-foreground/40">·</span>
                         <div className="inline-flex items-center gap-1 shrink-0">
-                          <Avatar className="h-4 w-4">
-                            <AvatarImage src={currentTask.creator.data.avatar_url} />
-                            <AvatarFallback className="text-[6px]">{userInitials(currentTask.creator.data.display_name || '')}</AvatarFallback>
-                          </Avatar>
+                          <UserAvatar user={currentTask.creator.data} size="xs" />
                           <button
                             type="button"
                             onClick={() => { dispatch(closeTaskSheet()); navigate('/my-tasks'); }}
@@ -530,10 +526,7 @@ export default function TaskDetailSheet() {
                     <div className="flex items-center gap-1.5 flex-wrap">
                       {assignees.map(user => (
                         <span key={user.id || user.assigned_to} className="inline-flex items-center gap-1 text-sm bg-muted/50 rounded-full pl-0.5 pr-2 py-0.5">
-                          <Avatar className="h-5 w-5">
-                            <AvatarImage src={user.avatar_url} />
-                            <AvatarFallback className="text-[8px]">{userInitials(user.display_name || '')}</AvatarFallback>
-                          </Avatar>
+                          <UserAvatar user={user} size="sm" />
                           {user.display_name}
                           <button type="button" className="ml-0.5 text-pm-text-muted hover:text-destructive" onClick={() => handleRemoveAssignee(user.assigned_to ?? user.id)}>
                             <X className="h-3.5 w-3.5" />
@@ -560,7 +553,7 @@ export default function TaskDetailSheet() {
                                   className={cn("w-full flex items-center gap-2 px-3 py-1.5 text-sm text-left", isAssigned ? "bg-pm-accent/5 text-pm-accent" : "hover:bg-muted/50")}
                                   onClick={() => isAssigned ? handleRemoveAssignee(u.id) : handleAddAssignee(u)}
                                 >
-                                  <Avatar className="h-5 w-5"><AvatarImage src={u.avatar_url} /><AvatarFallback className="text-[8px]">{userInitials(u.display_name)}</AvatarFallback></Avatar>
+                                  <UserAvatar user={u} size="sm" />
                                   <span className="flex-1">{u.display_name}</span>
                                   {isAssigned && <Check className="h-4 w-4 text-pm-accent shrink-0" />}
                                 </button>
@@ -659,10 +652,7 @@ export default function TaskDetailSheet() {
                     const isEditing = editingCommentId === comment.id
                     return (
                       <div key={comment.id} className="flex gap-2.5 group/comment">
-                        <Avatar className="h-7 w-7 shrink-0">
-                          <AvatarImage src={comment.creator?.data?.avatar_url} />
-                          <AvatarFallback className="text-[11px]">{userInitials(comment.creator?.data?.display_name ?? '?')}</AvatarFallback>
-                        </Avatar>
+                        <UserAvatar user={comment.creator?.data} size="md" />
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2 mb-0.5">
                             <button

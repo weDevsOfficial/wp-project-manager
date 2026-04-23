@@ -13,8 +13,7 @@ import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
 import RichTextEditor from '@components/common/RichTextEditor'
 import { Progress } from '@components/ui/progress'
-import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar'
-import { userInitials } from '@lib/pm-utils'
+import { UserAvatar } from '@components/common/UserAvatar'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -520,10 +519,7 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
                                   className={cn("w-full flex items-center gap-2 px-3 py-2 text-sm text-left transition-colors", isSelected ? "bg-pm-accent/5 text-pm-accent" : "hover:bg-muted/50")}
                                   onClick={() => isSelected ? removeAssignee(user.id) : addAssignee(user)}
                                 >
-                                  <Avatar className="h-5 w-5">
-                                    <AvatarImage src={user.avatar_url} />
-                                    <AvatarFallback className="text-[8px]">{userInitials(user.display_name)}</AvatarFallback>
-                                  </Avatar>
+                                  <UserAvatar user={user} size="sm" />
                                   <span className="flex-1 truncate">{user.display_name}</span>
                                   {isSelected && <Check className="h-4 w-4 text-pm-accent shrink-0" />}
                                 </button>
@@ -541,10 +537,7 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
                             key={user.id}
                             className="inline-flex items-center gap-1 text-sm bg-muted rounded-full pl-1 pr-2 py-0.5"
                           >
-                            <Avatar className="h-5 w-5">
-                              <AvatarImage src={user.avatar_url} />
-                              <AvatarFallback className="text-[7px]">{userInitials(user.display_name)}</AvatarFallback>
-                            </Avatar>
+                            <UserAvatar user={user} size="sm" />
                             {user.display_name}
                             <button
                               type="button"

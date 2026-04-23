@@ -15,6 +15,7 @@ import TaskDetailSheet from '@components/tasks/TaskDetailSheet'
 import { AppLayout } from '@components/layout/AppLayout'
 import { FrontendLayout } from '@components/layout/FrontendLayout'
 import { ProModalProvider } from '@components/common/ProUpgradeModal'
+import { UserAvatar } from '@components/common/UserAvatar'
 import { registerSlot, registerFilter, applyFilters, doAction, addAction, Slot, useFilter, useSlotFills } from '@hooks/useSlot'
 import { registerRoute, useRegisteredRoutes } from '@/router/routeRegistry'
 import { registerNavItem, useRegisteredNavItems } from '@hooks/useNavRegistry'
@@ -173,6 +174,7 @@ window.PM = {
 
   // Components that pro needs to use (exposed for cross-plugin integration)
   components: {
+    UserAvatar,
     ErrorBoundary,
     TaskDetailSheet: (() => {
       // Wrap component to ensure proper error handling across plugin boundaries

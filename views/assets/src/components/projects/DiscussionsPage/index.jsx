@@ -12,7 +12,7 @@ import LoomPreviewContainer from "@components/common/LoomPreviewContainer";
 import { stripAllPreviewUrls } from "@/lib/url-strippers";
 import { sanitizeHtml } from "@lib/sanitize";
 import { Skeleton } from "@components/ui/skeleton";
-import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
+import { UserAvatar } from '@components/common/UserAvatar';
 import { Separator } from "@components/ui/separator";
 import {
   Select,
@@ -42,7 +42,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
-import { formatPmDateTime, userInitials } from "@lib/pm-utils";
+import { formatPmDateTime } from "@lib/pm-utils";
 import ProBadge from "@components/common/ProBadge";
 import { usePermissions } from "@hooks/usePermissions";
 import { useCurrentProject } from "@hooks/useCurrentProject";
@@ -565,12 +565,7 @@ export default function DiscussionsPage() {
                   <div className="flex items-center gap-2 mt-2 ml-6 text-[15px] text-pm-text-muted">
                     {d.creator?.data && (
                       <span className="flex items-center gap-1">
-                        <Avatar className="h-5 w-5">
-                          <AvatarImage src={d.creator.data.avatar_url} />
-                          <AvatarFallback className="text-[7px]">
-                            {userInitials(d.creator.data.display_name)}
-                          </AvatarFallback>
-                        </Avatar>
+                        <UserAvatar user={d.creator.data} size="sm" />
                         {d.creator.data.display_name}
                       </span>
                     )}
@@ -605,16 +600,7 @@ export default function DiscussionsPage() {
                         <div className="space-y-3">
                           {comments.map((c) => (
                             <div key={c.id} className="flex gap-2.5 group">
-                              <Avatar className="h-6 w-6 shrink-0">
-                                <AvatarImage
-                                  src={c.creator?.data?.avatar_url}
-                                />
-                                <AvatarFallback className="text-[8px]">
-                                  {userInitials(
-                                    c.creator?.data?.display_name ?? "?",
-                                  )}
-                                </AvatarFallback>
-                              </Avatar>
+                              <UserAvatar user={c.creator?.data} size="md" />
                               <div className="flex-1 min-w-0">
                                 <div className="flex items-center gap-2 mb-0.5">
                                   <span className="text-sm font-medium text-pm-text-primary">

@@ -8,10 +8,10 @@ import { useToast } from '@hooks/useToast'
 import { Button } from '@components/ui/button'
 import { Progress } from '@components/ui/progress'
 import { Skeleton } from '@components/ui/skeleton'
-import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar'
+import { UserAvatar } from '@components/common/UserAvatar'
 import RichTextEditor from '@components/common/RichTextEditor'
 import { ArrowLeft, Lock, MessageSquare, Pencil, Trash2, Paperclip } from 'lucide-react'
-import { userInitials, formatPmDateTime } from '@lib/pm-utils'
+import { formatPmDateTime } from '@lib/pm-utils'
 import TaskRow from './TaskRow'
 import TaskDetailSheet from './TaskDetailSheet'
 import { sanitizeHtml } from '@lib/sanitize'
@@ -301,10 +301,7 @@ export default function SingleTaskListPage() {
               const isEditing = editingCommentId === comment.id
               return (
                 <div key={comment.id} className="flex gap-2.5 group/comment">
-                  <Avatar className="h-7 w-7 shrink-0">
-                    <AvatarImage src={comment.creator?.data?.avatar_url} />
-                    <AvatarFallback className="text-[11px]">{userInitials(comment.creator?.data?.display_name ?? '?')}</AvatarFallback>
-                  </Avatar>
+                  <UserAvatar user={comment.creator?.data} size="md" />
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-0.5">
                       <span className="text-sm font-medium text-pm-text-primary">{comment.creator?.data?.display_name}</span>

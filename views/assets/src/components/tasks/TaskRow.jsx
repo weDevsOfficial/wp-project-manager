@@ -10,7 +10,8 @@ import { useApi } from '@hooks/useApi'
 import { usePermissions } from '@hooks/usePermissions'
 import { useCurrentProject } from '@hooks/useCurrentProject'
 import { Button } from '@components/ui/button'
-import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar'
+import { Avatar, AvatarFallback } from '@components/ui/avatar'
+import { UserAvatar } from '@components/common/UserAvatar'
 import {
   Tooltip,
   TooltipContent,
@@ -47,7 +48,6 @@ import {
   isTaskComplete,
   formatPmDate,
   dueDateColorClass,
-  userInitials,
   isOverdue,
 } from '@lib/pm-utils'
 
@@ -237,12 +237,7 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
       {visibleAssignees.length > 0 && (
         <div className="flex items-center -space-x-1.5 shrink-0">
           {visibleAssignees.map((user) => (
-            <Avatar key={user.id} className="h-6 w-6 border-2 border-background">
-              <AvatarImage src={user.avatar_url} alt={user.display_name} />
-              <AvatarFallback className="text-[11px]">
-                {userInitials(user.display_name)}
-              </AvatarFallback>
-            </Avatar>
+            <UserAvatar key={user.id} user={user} size="md" className="border-2 border-background" />
           ))}
           {overflow > 0 && (
             <Avatar className="h-6 w-6 border-2 border-background">

@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { useI18n } from "@hooks/useI18n";
 import { Badge } from "@components/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
+import { UserAvatar } from '@components/common/UserAvatar';
 import TaskLabelBadges from "@components/tasks/TaskLabelBadges";
 import { Check, MessageSquare, Lock } from "lucide-react";
 import {
   isTaskComplete,
   formatPmDate,
-  userInitials,
   isOverdue,
 } from "@lib/pm-utils";
 
@@ -57,15 +56,7 @@ export default function MyTaskRow({ task, projectTitle, onToggle, onOpen }) {
       {assignees.length > 0 && (
         <div className="flex -space-x-1.5 shrink-0">
           {assignees.slice(0, 3).map((u) => (
-            <Avatar
-              key={u.id || u.ID}
-              className="h-5 w-5 border border-background"
-            >
-              <AvatarImage src={u.avatar_url} />
-              <AvatarFallback className="text-[7px]">
-                {userInitials(u.display_name || "")}
-              </AvatarFallback>
-            </Avatar>
+            <UserAvatar key={u.id || u.ID} user={u} size="sm" className="border border-background" />
           ))}
         </div>
       )}

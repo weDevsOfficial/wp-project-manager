@@ -10,9 +10,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@components/ui/select'
-import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar'
+import { UserAvatar } from '@components/common/UserAvatar'
 import { Search, X, Filter } from 'lucide-react'
-import { userInitials } from '@lib/pm-utils'
 
 export default function TaskFilterBar({ projectId, lists, onFilterResults, onClear }) {
   const { __ } = useI18n()
@@ -187,10 +186,7 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
             {allAssignees.map((u) => (
               <SelectItem key={u.id} value={String(u.id)}>
                 <span className="flex items-center gap-1.5">
-                  <Avatar className="h-5 w-5">
-                    <AvatarImage src={u.avatar_url} />
-                    <AvatarFallback className="text-[7px]">{userInitials(u.display_name || '')}</AvatarFallback>
-                  </Avatar>
+                  <UserAvatar user={u} size="sm" />
                   {u.display_name}
                 </span>
               </SelectItem>

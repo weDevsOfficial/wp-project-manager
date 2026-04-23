@@ -3,7 +3,7 @@ import { Outlet, useNavigate, useLocation } from 'react-router-dom'
 import { useI18n } from '@hooks/useI18n'
 import { usePermissions } from '@hooks/usePermissions'
 import { cn } from '@lib/utils'
-import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar'
+import { UserAvatar } from '@components/common/UserAvatar'
 import { AppSidebar } from '@components/layout/AppSidebar'
 import {
   FolderKanban, CheckSquare, Calendar, BarChart3,
@@ -11,10 +11,6 @@ import {
 } from 'lucide-react'
 
 const currentUser = typeof PM_Vars !== 'undefined' ? PM_Vars.current_user : {}
-
-function userInitials(name) {
-  return (name || '?').split(/\s+/).map(w => w[0]?.toUpperCase()).slice(0, 2).join('')
-}
 
 // Navigation items for frontend (no Settings, Tools, Categories, Modules)
 function getNavItems(isPro) {
@@ -90,10 +86,7 @@ export function FrontendLayout() {
             {/* Right side — user menu */}
             <div className="flex items-center gap-3">
               <div className="hidden sm:flex items-center gap-2">
-                <Avatar className="h-7 w-7">
-                  <AvatarImage src={userAvatar} />
-                  <AvatarFallback className="text-[14px] bg-pm-accent/10 text-pm-accent">{userInitials(userName)}</AvatarFallback>
-                </Avatar>
+                <UserAvatar user={{ avatar_url: userAvatar, display_name: userName }} size="md" fallbackClassName="bg-pm-accent/10 text-pm-accent" />
                 <span className="text-sm font-medium text-pm-text-primary">{userName}</span>
               </div>
               <a

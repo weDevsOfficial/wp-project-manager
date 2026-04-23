@@ -4,8 +4,7 @@ import { useAppDispatch } from '@store/index';
 import { openTaskSheet } from '@store/tasksSlice';
 import { useI18n } from '@hooks/useI18n';
 import { Badge } from '@components/ui/badge';
-import { Avatar, AvatarFallback, AvatarImage } from '@components/ui/avatar';
-import { userInitials } from '@lib/pm-utils';
+import { UserAvatar } from '@components/common/UserAvatar';
 import { cn } from '@lib/utils';
 import {
   ACTION_ICON_MAP,
@@ -46,12 +45,7 @@ export default function ActivityItem({ act }) {
 
   return (
     <div className="flex items-start gap-3 py-3 px-4 hover:bg-pm-hover/50 rounded-lg transition-colors">
-      <Avatar className="h-8 w-8 shrink-0 mt-0.5">
-        <AvatarImage src={actor.avatar_url} />
-        <AvatarFallback className="text-[15px] font-semibold bg-pm-accent/10 text-pm-accent">
-          {userInitials(actor.display_name ?? '?')}
-        </AvatarFallback>
-      </Avatar>
+      <UserAvatar user={actor} size="lg" className="mt-0.5" fallbackClassName="bg-pm-accent/10 text-pm-accent" />
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2 mb-0.5">
           <button

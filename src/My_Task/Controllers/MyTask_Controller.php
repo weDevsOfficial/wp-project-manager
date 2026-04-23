@@ -16,6 +16,7 @@ use Illuminate\Pagination\Paginator;
 use WeDevs\PM\Calendar\Transformers\Calendar_Transformer;
 use WeDevs\PM\User\Models\User_Role;
 use WeDevs\PM\Activity\Transformers\Activity_Transformer;
+use WeDevs\PM\User\Helper\Avatar;
 
 
 class MyTask_Controller {
@@ -652,7 +653,7 @@ class MyTask_Controller {
                 $expand_users[] = [
                     'id'           => $user->id,
                     'display_name' => $user->display_name,
-                    'avatar_url'   => get_avatar_url( $user->id )
+                    'avatar_url'   => Avatar::get_url( $user->id )
                 ];
             }
         }

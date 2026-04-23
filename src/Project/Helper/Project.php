@@ -3,6 +3,7 @@ namespace WeDevs\PM\Project\Helper;
 
 use WP_REST_Request;
 use WeDevs\PM\Task_List\Helper\Task_List;
+use WeDevs\PM\User\Helper\Avatar;
 
 class Project {
 
@@ -1121,7 +1122,7 @@ class Project {
 			$project_id = $result->project_id;
 			unset( $result->project_id );
 
-			$result->avatar_url = get_avatar_url( $result->id );
+			$result->avatar_url = Avatar::get_url( $result->id );
 			$result->username   = get_userdata( $result->id )->user_login ?? '';
 			$result->github     = get_user_meta( $result->id, 'github', true );
 			$result->bitbucket  = get_user_meta( $result->id, 'bitbucket', true );

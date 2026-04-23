@@ -6,7 +6,7 @@ import { useToast } from "@hooks/useToast";
 import { Button } from "@components/ui/button";
 import { Skeleton } from "@components/ui/skeleton";
 import { Progress } from "@components/ui/progress";
-import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
+import { UserAvatar } from '@components/common/UserAvatar';
 import {
   ArrowLeft,
   ClipboardList,
@@ -45,7 +45,7 @@ import {
   ChartLegend,
   ChartLegendContent,
 } from "@components/ui/chart";
-import { userInitials, unwrapData, formatPmDate } from "@lib/pm-utils";
+import { unwrapData, formatPmDate } from "@lib/pm-utils";
 import { usePermissions } from "@hooks/usePermissions";
 
 export default function ProjectOverview() {
@@ -410,10 +410,7 @@ export default function ProjectOverview() {
                     <CommandGroup>
                       {memberResults.map(u => (
                         <CommandItem key={u.id} value={String(u.id)} onSelect={() => handleAddMember(u)} className="cursor-pointer">
-                          <Avatar className="h-6 w-6 mr-2">
-                            <AvatarImage src={u.avatar_url} />
-                            <AvatarFallback className="text-[11px]">{userInitials(u.display_name)}</AvatarFallback>
-                          </Avatar>
+                          <UserAvatar user={u} size="md" className="mr-2" />
                           <span className="text-sm truncate flex-1">{u.display_name}</span>
                           <Plus className="h-4 w-4 text-muted-foreground" />
                         </CommandItem>
@@ -432,12 +429,7 @@ export default function ProjectOverview() {
                 key={user.id}
                 className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-muted/30 transition-colors group"
               >
-                <Avatar className="h-9 w-9">
-                  <AvatarImage src={user.avatar_url} />
-                  <AvatarFallback className="text-sm">
-                    {userInitials(user.display_name)}
-                  </AvatarFallback>
-                </Avatar>
+                <UserAvatar user={user} size="lg" />
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-pm-text-primary truncate">
                     {user.display_name}
