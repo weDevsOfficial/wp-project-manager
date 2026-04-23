@@ -57,7 +57,8 @@ export function AppSidebar() {
   const getProSubNav = useCallback((modulePaths) => {
     const isActive = (dir) => isProModuleActive(modulePaths, dir)
     const items = []
-    if (isActive('Activities'))  items.push({ key: 'activities', label: __('Activities'),    icon: Activity,   path: (pid) => `/projects/${pid}/activities` })
+    // Activities is not a module, always show when pro is active
+    items.push({ key: 'activities', label: __('Activities'),    icon: Activity,   path: (pid) => `/projects/${pid}/activities` })
     if (isActive('Kanboard'))  items.push({ key: 'kanban',   label: __('Kanban Board'), icon: Columns3,  path: (pid) => `/projects/${pid}/kanban` })
     if (isActive('Gantt'))     items.push({ key: 'gantt',    label: __('Gantt Chart'),  icon: GitBranch,  path: (pid) => `/projects/${pid}/gantt` })
     if (isActive('Invoice'))   items.push({ key: 'invoices', label: __('Invoices'),     icon: Receipt,    path: (pid) => `/projects/${pid}/invoices` })
