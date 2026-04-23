@@ -260,17 +260,6 @@ $wedevs_pm_scripts = [
         'in_footer'  => true
     ],
 
-    'pmglobal' => [
-        'id'         => 'pmglobal',
-        'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/js/pmglobal.js',
-        'path'       => $wedevs_pm_view_path . '/assets/js/pmglobal.js',
-        'dependency' => [
-            'jquery',
-            'jquery-ui-autocomplete',
-        ],
-        'in_footer'  => true
-    ],
-
     'pm-headway' => [
         'id'         => 'pm-headway',
         'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/vendor/headway/headway.js',

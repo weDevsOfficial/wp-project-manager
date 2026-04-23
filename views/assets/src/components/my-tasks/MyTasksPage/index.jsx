@@ -109,8 +109,15 @@ export default function MyTasksPage() {
 
   const [graph, setGraph] = useState([]);
   const [overviewLoading, setOverviewLoading] = useState(false);
-  const [overviewStartDate, setOverviewStartDate] = useState('');
-  const [overviewEndDate, setOverviewEndDate] = useState('');
+  const [overviewStartDate, setOverviewStartDate] = useState(() => {
+    const d = new Date(); d.setMonth(d.getMonth() - 1);
+    return d.toISOString().substring(0, 10);
+  });
+  const [overviewEndDate, setOverviewEndDate] = useState(() => new Date().toISOString().substring(0, 10));
+  const [appliedFilterDates, setAppliedFilterDates] = useState(() => {
+    const d = new Date(); d.setMonth(d.getMonth() - 1);
+    return { start: d.toISOString().substring(0, 10), end: new Date().toISOString().substring(0, 10) };
+  });
 
   const [calDate, setCalDate] = useState(new Date());
   const [calEvents, setCalEvents] = useState([]);
@@ -229,8 +236,8 @@ export default function MyTasksPage() {
     if (!userId || activeTab !== "overview") return;
     setOverviewLoading(true);
     const params = { with: "meta,graph" };
-    if (overviewStartDate) params.start_at = overviewStartDate;
-    if (overviewEndDate) params.due_date = overviewEndDate;
+    if (appliedFilterDates.start) params.start_at = appliedFilterDates.start;
+    if (appliedFilterDates.end) params.due_date = appliedFilterDates.end;
     api
       .get(`users/${userId}`, params)
       .then((res) => {
@@ -239,7 +246,7 @@ export default function MyTasksPage() {
       })
       .catch(() => {})
       .finally(() => setOverviewLoading(false));
-  }, [userId, activeTab, overviewStartDate, overviewEndDate]);
+  }, [userId, activeTab, appliedFilterDates]);
 
   useEffect(() => {
     if (!userId || activeTab !== "activities") return;
@@ -518,26 +525,41 @@ export default function MyTasksPage() {
           </div>
         ) : (
           <div className="space-y-6">
-            <div className="flex items-center gap-3 flex-wrap">
-              <span className="text-sm font-medium text-pm-text-muted">{__('Activity Filter')}</span>
-              <input
-                type="date"
-                value={overviewStartDate}
-                onChange={(e) => setOverviewStartDate(e.target.value)}
-                className="h-8 rounded-md border border-pm-border bg-background px-2 text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-pm-accent"
-              />
-              <span className="text-sm text-pm-text-muted">{__('to')}</span>
-              <input
-                type="date"
-                value={overviewEndDate}
-                onChange={(e) => setOverviewEndDate(e.target.value)}
-                className="h-8 rounded-md border border-pm-border bg-background px-2 text-sm focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-pm-accent"
-              />
-              {(overviewStartDate || overviewEndDate) && (
-                <Button variant="outline" size="sm" className="h-8 text-sm" onClick={() => { setOverviewStartDate(''); setOverviewEndDate('') }}>
-                  <X className="h-3.5 w-3.5 mr-1" />{__('Clear')}
+            <div className="rounded-xl border bg-card p-4">
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-sm font-semibold text-pm-text-primary flex items-center gap-2">
+                  <Filter className="h-4 w-4" />
+                  {__('Activity Filter')}
+                </span>
+                {(overviewStartDate || overviewEndDate) && (
+                  <Button variant="ghost" size="sm" className="h-7 text-xs text-pm-text-muted hover:text-destructive" onClick={() => { setOverviewStartDate(''); setOverviewEndDate(''); setAppliedFilterDates({ start: '', end: '' }) }}>
+                    <X className="h-3.5 w-3.5 mr-1" />{__('Clear')}
+                  </Button>
+                )}
+              </div>
+              <div className="flex items-end gap-3 flex-wrap">
+                <div className="space-y-1">
+                  <label className="text-[11px] font-medium uppercase text-pm-text-muted">{__('From')}</label>
+                  <Input
+                    type="date"
+                    value={overviewStartDate}
+                    onChange={(e) => setOverviewStartDate(e.target.value)}
+                    className="h-8 text-sm w-40"
+                  />
+                </div>
+                <div className="space-y-1">
+                  <label className="text-[11px] font-medium uppercase text-pm-text-muted">{__('To')}</label>
+                  <Input
+                    type="date"
+                    value={overviewEndDate}
+                    onChange={(e) => setOverviewEndDate(e.target.value)}
+                    className="h-8 text-sm w-40"
+                  />
+                </div>
+                <Button size="sm" className="h-8 text-sm" onClick={() => setAppliedFilterDates({ start: overviewStartDate, end: overviewEndDate })}>
+                  <Filter className="h-3.5 w-3.5 mr-1" />{__('Filter')}
                 </Button>
-              )}
+              </div>
             </div>
 
             <div className="rounded-xl border bg-card p-6">
@@ -623,30 +645,33 @@ export default function MyTasksPage() {
               </div>
             )}
 
-            <div className="rounded-xl border bg-card p-6">
-              <div className="flex items-center justify-between mb-4">
+            <div className="rounded-xl border bg-card">
+              <div className="flex items-center justify-between px-4 py-3 border-b border-pm-border">
                 <h3 className="text-sm font-semibold text-pm-text-primary flex items-center gap-2">
-                  <CalendarIcon className="h-5 w-5" />
+                  <CalendarIcon className="h-5 w-5 text-pm-accent" />
                   {__("Calendar")}
                 </h3>
-                <div className="flex items-center gap-1">
-                  <button type="button" onClick={() => setCalDate(new Date(calYear, calMonth - 1, 1))} className="p-1 rounded hover:bg-muted">
-                    <ChevronLeft className="h-5 w-5 text-pm-text-muted" />
-                  </button>
-                  <span className="text-sm font-medium min-w-[130px] text-center">{calMonths[calMonth]} {calYear}</span>
-                  <button type="button" onClick={() => setCalDate(new Date(calYear, calMonth + 1, 1))} className="p-1 rounded hover:bg-muted">
-                    <ChevronRight className="h-5 w-5 text-pm-text-muted" />
-                  </button>
+                <div className="flex items-center gap-2">
+                  <Button size="sm" variant="outline" className="h-7 text-xs" onClick={() => setCalDate(new Date())}>
+                    {__("Today")}
+                  </Button>
+                  <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => setCalDate(new Date(calYear, calMonth - 1, 1))}>
+                    <ChevronLeft className="h-5 w-5" />
+                  </Button>
+                  <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => setCalDate(new Date(calYear, calMonth + 1, 1))}>
+                    <ChevronRight className="h-5 w-5" />
+                  </Button>
+                  <span className="text-sm font-semibold min-w-[140px] text-center">{calMonths[calMonth]} {calYear}</span>
                 </div>
               </div>
-              <div className="grid grid-cols-7 mb-1">
+              <div className="grid grid-cols-7 border-b border-pm-border">
                 {calDays.map((d) => (
-                  <div key={d} className="text-center text-[14px] font-semibold uppercase text-pm-text-muted py-1">{d}</div>
+                  <div key={d} className="text-center py-2 text-[14px] font-semibold uppercase text-pm-text-muted">{d}</div>
                 ))}
               </div>
               <div className="grid grid-cols-7">
                 {Array.from({ length: calFirstDay }).map((_, i) => (
-                  <div key={`e-${i}`} className="min-h-[60px] border border-transparent" />
+                  <div key={`e-${i}`} className="min-h-[120px] border-b border-r border-pm-border/30 bg-muted/20" />
                 ))}
                 {Array.from({ length: calDaysInMonth }).map((_, i) => {
                   const day = i + 1;
@@ -655,30 +680,47 @@ export default function MyTasksPage() {
                   const isToday = dateStr === todayStr;
                   const dayEvts = calEventsByDate[dateStr] || [];
                   return (
-                    <div key={day} className={`min-h-[60px] border border-pm-border/20 p-0.5 ${isToday ? "bg-pm-accent/5" : ""}`}>
-                      <span className={`text-[14px] font-medium inline-flex items-center justify-center w-5 h-5 rounded-full ${isToday ? "bg-pm-accent text-white" : "text-pm-text-muted"}`}>{day}</span>
-                      {dayEvts.slice(0, 2).map((evt, j) => {
-                        const complete = evt.status === 1 || evt.status === "complete";
-                        const overdue = !complete && evt.due_date && extractDateStr(evt.due_date) < todayStr;
-                        return (
-                          <div
-                            key={evt.id || j}
-                            className={`text-[8px] px-1 py-0 rounded truncate mt-0.5 cursor-pointer ${complete ? "bg-blue-100 text-blue-700" : overdue ? "bg-red-100 text-red-700" : "bg-green-100 text-green-700"}`}
-                            title={evt.title}
-                          >
-                            {evt.title}
-                          </div>
-                        );
-                      })}
-                      {dayEvts.length > 2 && <div className="text-[7px] text-pm-text-muted px-1">+{dayEvts.length - 2}</div>}
+                    <div key={day} className={cn("min-h-[120px] border-b border-r border-pm-border/30 p-1", isToday && "bg-pm-accent/5")}>
+                      <div className="flex items-center justify-between">
+                        <span className={cn(
+                          "text-sm font-medium inline-flex items-center justify-center w-6 h-6 rounded-full",
+                          isToday ? "bg-pm-accent text-white" : "text-pm-text-muted"
+                        )}>{day}</span>
+                        {dayEvts.length > 0 && (
+                          <span className="text-[11px] text-pm-text-muted">{dayEvts.length}</span>
+                        )}
+                      </div>
+                      <div className="mt-1 space-y-0.5">
+                        {dayEvts.map((evt, j) => {
+                          const complete = evt.status === 1 || evt.status === "complete";
+                          const overdue = !complete && evt.due_date && extractDateStr(evt.due_date) < todayStr;
+                          return (
+                            <button
+                              type="button"
+                              key={evt.id || j}
+                              onClick={() => {
+                                if (evt.project_id) dispatch(setProjectId(evt.project_id));
+                                dispatch(openTaskSheet(evt));
+                              }}
+                              className={cn(
+                                "text-[11px] px-1.5 py-0.5 rounded truncate block w-full text-left cursor-pointer hover:opacity-80 transition-opacity",
+                                complete ? "bg-blue-100 text-blue-700" : overdue ? "bg-red-100 text-red-700" : "bg-green-100 text-green-700"
+                              )}
+                              title={evt.title}
+                            >
+                              {evt.title}
+                            </button>
+                          );
+                        })}
+                      </div>
                     </div>
                   );
                 })}
               </div>
-              <div className="flex items-center gap-4 mt-3 text-[13px] text-pm-text-muted">
-                <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-green-500" />{__("Current")}</span>
-                <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-red-500" />{__("Outstanding")}</span>
-                <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-blue-500" />{__("Completed")}</span>
+              <div className="flex items-center gap-4 px-4 py-3 text-[13px] text-pm-text-muted border-t border-pm-border">
+                <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-green-500" />{__("Current")}</span>
+                <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-red-500" />{__("Outstanding")}</span>
+                <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-blue-500" />{__("Completed")}</span>
               </div>
             </div>
           </div>

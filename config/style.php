@@ -122,14 +122,6 @@ return [
         'dependency' => false,
         'path'       => $wedevs_pm_view_path . '/assets/css/const-style.css',
     ],
-    'pmglobal' => [
-        'id'         => 'pmglobal',
-        'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/css/pmglobal.css',
-        'path'       => $wedevs_pm_view_path . '/assets/css/pmglobal.css',
-        'dependency' => [
-            //'pm-const-style'
-        ],
-    ],
     'pm-style' => [
         'id'         => 'pm-style',
         'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/dist/pm.css',
