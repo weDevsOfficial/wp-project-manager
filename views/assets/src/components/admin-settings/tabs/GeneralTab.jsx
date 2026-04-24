@@ -25,8 +25,12 @@ const GeneralTab = () => {
 
   // Pro fields
   const settings = typeof PM_Vars !== 'undefined' ? PM_Vars.settings : {}
-  const [taskStartField, setTaskStartField] = useState(settings?.task_start_field === 'true' || settings?.task_start_field === true)
-  const [dailyDigest, setDailyDigest] = useState(settings?.daily_digest === 'true' || settings?.daily_digest === true)
+  const [taskStartField, setTaskStartField] = useState(
+    settings?.task_start_field === undefined ? true : (settings?.task_start_field === 'true' || settings?.task_start_field === true)
+  )
+  const [dailyDigest, setDailyDigest] = useState(
+    settings?.daily_digest === undefined ? true : (settings?.daily_digest === 'true' || settings?.daily_digest === true)
+  )
   const [logo, setLogo] = useState(() => {
     if (typeof PM_Pro_Vars !== 'undefined' && PM_Pro_Vars.pm_logo && typeof PM_Pro_Vars.pm_logo === 'object' && (PM_Pro_Vars.pm_logo.thumb || PM_Pro_Vars.pm_logo.url)) {
       return PM_Pro_Vars.pm_logo
@@ -81,6 +85,11 @@ const GeneralTab = () => {
         payload.task_start_field = taskStartField
         payload.daily_digest = dailyDigest
         if (logoId !== null) payload.logo = logoId
+        // Preserve estimation_type — set by Vue Sub_Tasks module via pm_apply_filters,
+        // must be passed through so React save doesn't wipe the stored value.
+        if (settings?.estimation_type !== undefined) {
+          payload.estimation_type = settings.estimation_type
+        }
       }
       await dispatch(saveGeneral(payload)).unwrap()
       setIsDirty(false)
