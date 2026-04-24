@@ -9,7 +9,7 @@ import { Textarea } from '@components/ui/textarea';
 import { Label } from '@components/ui/label';
 import { Switch } from '@components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/select';
-import { CURRENCIES, getInv } from './constants';
+import { CURRENCIES, COUNTRIES, getInv } from './constants';
 import ColorPicker from './parts/ColorPicker';
 
 export default function InvoiceSettingsTab() {
@@ -81,7 +81,7 @@ export default function InvoiceSettingsTab() {
         paypal_instruction: paypalInstruction,
         stripe_status: stripeEnabled ? 'on' : 'off',
         stripe_instruction: stripeInstruction,
-        stripe_test_secret: stripeTestSecret,
+        stripe_test_secret: stripeTestSecret ? 'true' : 'false',
         secret_key: secretKey,
         secret_publishable_key: secretPublishableKey,
         live_secret_key: liveSecretKey,
@@ -308,7 +308,14 @@ export default function InvoiceSettingsTab() {
         </div>
         <div className="flex items-center justify-between px-5 py-4">
           <Label className="text-sm font-medium">{__('Country')}</Label>
-          <Input value={countryCode} onChange={e => set(setCountryCode)(e.target.value)} className="w-40 h-8 text-sm" placeholder="BD" />
+          <Select value={countryCode} onValueChange={set(setCountryCode)}>
+            <SelectTrigger className="w-52 h-8 text-sm">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {COUNTRIES.map(c => <SelectItem key={c.code} value={c.code}>{c.name}</SelectItem>)}
+            </SelectContent>
+          </Select>
         </div>
       </div>
 
