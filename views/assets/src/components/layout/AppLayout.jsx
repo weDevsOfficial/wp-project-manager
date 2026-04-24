@@ -11,7 +11,7 @@ export function AppLayout() {
   }, [])
 
   return (
-    <div className="pm-app-layout flex h-screen overflow-hidden bg-pm-surface-muted">
+    <div className="pm-app-layout flex h-full overflow-hidden bg-pm-surface-muted">
       <AppSidebar />
       <div className="flex-1 flex flex-col overflow-hidden">
         <TopBar />
