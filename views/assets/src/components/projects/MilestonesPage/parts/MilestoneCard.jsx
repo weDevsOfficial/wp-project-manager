@@ -1,4 +1,5 @@
 import React, { useCallback } from "react";
+import { sanitizeHtml } from "@lib/sanitize";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "@store/index";
 import {
@@ -187,9 +188,9 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
             </div>
 
             {(typeof milestone.description === 'string' ? milestone.description : milestone.description?.content) && (
-              <p className="text-sm text-pm-text-muted mt-1 line-clamp-2">
-                {typeof milestone.description === 'string' ? milestone.description : milestone.description.content}
-              </p>
+              <p className="text-sm text-pm-text-muted mt-1 line-clamp-2"
+                dangerouslySetInnerHTML={{ __html: sanitizeHtml(typeof milestone.description === 'string' ? milestone.description : milestone.description.content) }}
+              />
             )}
 
             <div className="flex items-center gap-4 mt-2.5 flex-wrap">
