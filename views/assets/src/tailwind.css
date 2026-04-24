@@ -298,6 +298,10 @@ body.pm-fullscreen-settings.pm-mode-wordpress #wpcontent {
   transition: margin-left 0.2s ease;
 }
 
+body.pm-fullscreen-settings.pm-mode-wordpress.folded #wpcontent {
+  margin-left: 36px !important;
+}
+
 body.pm-fullscreen-settings #wpbody-content {
   padding-bottom: 0 !important;
 }
@@ -327,6 +331,10 @@ body.pm-fullscreen-settings #wedevs-pm {
 body.pm-fullscreen-settings.pm-mode-wordpress #wedevs-pm {
   top: 32px !important;
   left: 160px !important;
+}
+
+body.pm-fullscreen-settings.pm-mode-wordpress.folded #wedevs-pm {
+  left: 36px !important;
 }
 
 /* ── Z-index hierarchy ───────────────────────────────────────
