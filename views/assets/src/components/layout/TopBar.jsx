@@ -2,6 +2,7 @@ import { useMemo, useState, useEffect, useCallback } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useApi } from '@hooks/useApi'
 import { useI18n } from '@hooks/useI18n'
+import { useCurrentProject } from '@hooks/useCurrentProject'
 import { usePermissions } from '@hooks/usePermissions'
 import { UserAvatar } from '@components/common/UserAvatar'
 import { Button } from '@components/ui/button'
@@ -73,6 +74,13 @@ export function TopBar() {
       document.body.classList.remove('pm-mode-wordpress')
     }
   }, [isFrontendPage])
+
+  const activeProjectId = useMemo(() => {
+    const parts = location.pathname.split('/').filter(Boolean)
+    return parts[0] === 'projects' && parts[1] ? parts[1] : null
+  }, [location.pathname])
+
+  const activeProject = useCurrentProject(activeProjectId)
 
   const [notifOpen, setNotifOpen] = useState(false)
   const [notifications, setNotifications] = useState([])
@@ -158,7 +166,10 @@ export function TopBar() {
     const crumbs = [{ label: BREADCRUMB_LABELS['projects'] || __('Projects'), path: '/projects' }]
 
     if (parts[0] === 'projects' && parts[1]) {
-      crumbs.push({ label: `#${parts[1]}`, path: `/projects/${parts[1]}/task-lists` })
+      const projectLabel = activeProject?.title
+        ? `#${parts[1]} · ${activeProject.title}`
+        : `#${parts[1]}`
+      crumbs.push({ label: projectLabel, path: `/projects/${parts[1]}/task-lists` })
       if (parts[2]) {
         const section = BREADCRUMB_LABELS[parts[2]] ?? parts[2].replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
         crumbs.push({ label: section, path: location.pathname })

@@ -47,10 +47,18 @@ export default function LoomPreviewCard({ previewData, loading, url, onRefresh }
 
   const openEmbed = (e) => {
     e.stopPropagation()
+    if (isError) return
     if (previewData.embed_url) {
       setEmbedOpen(true)
     } else if (url) {
       window.open(url, '_blank', 'noopener,noreferrer')
+    }
+  }
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault()
+      openEmbed(e)
     }
   }
 
@@ -59,9 +67,13 @@ export default function LoomPreviewCard({ previewData, loading, url, onRefresh }
       <div
         className={cn(
           'rounded-lg border border-pm-border bg-white max-w-md overflow-hidden cursor-pointer hover:border-pm-accent/40 hover:shadow-sm transition-all',
-          isError && 'opacity-70'
+          isError && 'opacity-70 cursor-default'
         )}
+        role="button"
+        tabIndex={0}
+        aria-disabled={isError}
         onClick={openEmbed}
+        onKeyDown={handleKeyDown}
       >
         {/* Source badge row */}
         <div className="flex items-center justify-between px-3 pt-3 pb-1.5">

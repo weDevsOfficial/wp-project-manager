@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { useApi } from '@hooks/useApi'
 import { useI18n } from '@hooks/useI18n'
+import { useToast } from '@hooks/useToast'
 import { Button } from '@components/ui/button'
 import { Badge } from '@components/ui/badge'
 import {
@@ -16,6 +17,7 @@ import { Search, X, Filter } from 'lucide-react'
 export default function TaskFilterBar({ projectId, lists, onFilterResults, onClear }) {
   const { __ } = useI18n()
   const api = useApi()
+  const toast = useToast()
 
   const [isOpen, setIsOpen] = useState(false)
   const [status, setStatus] = useState('')
@@ -76,8 +78,9 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
         complete.forEach(t => tasks.push({ ...t, task_list_id: t.task_list_id ?? list.id, board_id: t.board_id ?? list.id }))
       })
       onFilterResults?.(tasks)
-    } catch {
-      // silently fail
+    } catch (err) {
+      console.error('[TaskFilterBar] filter request failed:', err)
+      toast.error(__('Failed to filter tasks'))
     }
     setFiltering(false)
   }, [api, projectId, status, dueDate, listId, assigneeId, searchTitle, onFilterResults, onClear])

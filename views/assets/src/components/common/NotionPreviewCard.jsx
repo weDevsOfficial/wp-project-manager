@@ -57,7 +57,9 @@ export default function NotionPreviewCard({ previewData, loading, url, onRefresh
     if (!target) return
     try {
       const parsed = new URL(target)
-      if (parsed.protocol === 'https:' && /notion\.(so|site)$/.test(parsed.hostname)) {
+      const h = parsed.hostname
+      const isNotion = h === 'notion.so' || h === 'notion.site' || h.endsWith('.notion.so') || h.endsWith('.notion.site')
+      if (parsed.protocol === 'https:' && isNotion) {
         window.open(target, '_blank', 'noopener,noreferrer')
       }
     } catch { /* invalid URL */ }
