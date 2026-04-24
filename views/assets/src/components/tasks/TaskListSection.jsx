@@ -178,7 +178,7 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
     }
   }, [])
 
-  const handleTaskDrop = useCallback((e, toIdx) => {
+  const handleTaskDrop = useCallback(async (e, toIdx) => {
     e.preventDefault()
     e.stopPropagation()
     const fromIdx = dragTaskIdx.current
@@ -194,11 +194,18 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
     const [moved] = tasks.splice(fromIdx, 1)
     tasks.splice(toIdx, 0, moved)
     const orders = tasks.map((t, i) => ({ id: t.id, index: i }))
-    dispatch(sortTasks({ projectId, listId: list.id, taskId: moved.id, orders, receive: 0 }))
 
     dragTaskIdx.current = null
     setDragOverTaskIdx(null)
-  }, [dispatch, projectId, list.id, incompleteTasks])
+
+    try {
+      await dispatch(sortTasks({ projectId, listId: list.id, taskId: moved.id, orders, receive: 0 })).unwrap()
+    } catch {
+      // Undo the optimistic move by reversing the splice
+      dispatch(reorderTasksLocal({ listId: list.id, fromIndex: toIdx, toIndex: fromIdx }))
+      toast.error(__('Failed to reorder tasks'))
+    }
+  }, [dispatch, projectId, list.id, incompleteTasks, toast, __])
 
   const handleTaskDragEnd = useCallback(() => {
     dragTaskIdx.current = null
