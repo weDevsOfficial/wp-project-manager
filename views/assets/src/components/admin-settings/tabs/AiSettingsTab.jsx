@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react'
+import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react'
 import { useAppDispatch, useAppSelector } from '@store/index'
 import {
   loadAiSettings, saveAiSettings, testAiConnection,
@@ -35,17 +35,23 @@ const AiSettingsTab = () => {
   const [isDirty, setIsDirty] = useState(false)
   const [showKey, setShowKey] = useState(false)
   const [editingKey, setEditingKey] = useState(false)
+  const pendingLoadRef = useRef(null)
+
+  const dispatchLoadAiSettings = useCallback((args) => {
+    if (pendingLoadRef.current) pendingLoadRef.current.abort()
+    pendingLoadRef.current = dispatch(loadAiSettings(args))
+  }, [dispatch])
 
   useEffect(() => {
-    dispatch(loadAiSettings({ provider: ai.ai_provider }))
+    dispatchLoadAiSettings({ provider: ai.ai_provider })
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleProviderChange = useCallback((value) => {
     dispatch(setAiProvider(value))
     setLocalApiKey('')
     setIsDirty(true)
-    dispatch(loadAiSettings({ provider: value, preserveProvider: true }))
-  }, [dispatch])
+    dispatchLoadAiSettings({ provider: value, preserveProvider: true })
+  }, [dispatch, dispatchLoadAiSettings])
 
   const availableModels = useMemo(
     () => aiModels[ai.ai_provider] ?? [],
@@ -62,7 +68,7 @@ const AiSettingsTab = () => {
       setEditingKey(false)
       toast.success(__('AI settings saved', 'wedevs-project-manager'))
       // Reload settings to fetch updated models from backend
-      dispatch(loadAiSettings({ provider: ai.ai_provider, preserveProvider: true }))
+      dispatchLoadAiSettings({ provider: ai.ai_provider, preserveProvider: true })
     } catch (err) {
       toast.error(err ?? __('Failed to save AI settings', 'wedevs-project-manager'))
     }

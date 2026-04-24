@@ -60,11 +60,23 @@ export const savePusher = createAsyncThunk(
 
 export const loadAiSettings = createAsyncThunk(
   'settings/loadAiSettings',
-  async ({ provider, preserveProvider }, { rejectWithValue }) => {
+  async ({ provider, preserveProvider }, { rejectWithValue, signal }) => {
     try {
-      const res = await api.get(`settings/ai?provider=${encodeURIComponent(provider)}`)
-      return { ...res, preserveProvider, requestedProvider: provider }
+      const base = PM_Vars.rest_url + `settings/ai?provider=${encodeURIComponent(provider)}&is_admin=${encodeURIComponent(PM_Vars.is_admin)}`
+      const res = await fetch(base, {
+        method: 'GET',
+        credentials: 'same-origin',
+        headers: { 'X-WP-Nonce': PM_Vars.permission },
+        signal,
+      })
+      if (!res.ok) {
+        const json = await res.json().catch(() => ({}))
+        return rejectWithValue(json?.message ?? res.statusText ?? 'API Error')
+      }
+      const json = await res.json().catch(() => ({}))
+      return { ...json, preserveProvider, requestedProvider: provider }
     } catch (e) {
+      if (e.name === 'AbortError') return rejectWithValue('aborted')
       return rejectWithValue(e.message)
     }
   }
