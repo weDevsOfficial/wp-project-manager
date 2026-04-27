@@ -94,7 +94,7 @@ export function AppSidebar() {
   const [expandedProjects, setExpandedProjects] = useState(new Set())
   const [showFavourites, setShowFavourites] = useState(true)
   const [sidebarMode, setSidebarMode] = useState(
-    localStorage.getItem('pm-sidebar-mode') ?? 'plugin'
+    () => isFrontend ? 'plugin' : (localStorage.getItem('pm-sidebar-mode') ?? 'plugin')
   )
 
   // Listen for mode changes from TopBar
@@ -104,15 +104,27 @@ export function AppSidebar() {
     return () => window.removeEventListener('pm-sidebar-mode-change', handler)
   }, [])
 
+  // Frontend should always use plugin sidebar mode.
+  useEffect(() => {
+    if (!isFrontend) return
+    localStorage.setItem('pm-sidebar-mode', 'plugin')
+    if (sidebarMode !== 'plugin') {
+      setSidebarMode('plugin')
+    }
+    document.body.classList.remove('pm-mode-wordpress')
+  }, [isFrontend, sidebarMode])
+
   // Apply mode on mount
   useEffect(() => {
     if (sidebarMode === 'wordpress') {
       document.body.classList.add('pm-mode-wordpress')
+    } else {
+      document.body.classList.remove('pm-mode-wordpress')
     }
     return () => {
       document.body.classList.remove('pm-mode-wordpress')
     }
-  }, [])
+  }, [sidebarMode])
 
   function toggleCollapse() {
     const next = !collapsed

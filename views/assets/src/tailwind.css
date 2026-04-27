@@ -449,10 +449,12 @@ body.pm-fullscreen-settings.pm-mode-wordpress.folded #wedevs-pm {
   border-color: hsl(var(--border));
 }
 
-body.pm-mode-wordpress [data-pm-alert-overlay] {
+body.pm-mode-wordpress [data-pm-alert-overlay],
+body.admin-bar [data-pm-alert-overlay] {
   z-index: 100250 !important;
 }
-body.pm-mode-wordpress [role="alertdialog"][data-state] {
+body.pm-mode-wordpress [role="alertdialog"][data-state],
+body.admin-bar [role="alertdialog"][data-state] {
   z-index: 100251 !important;
 }
 
@@ -484,22 +486,27 @@ ol[data-sonner-toaster],
   z-index: 99999 !important;
 }
 
-/* ── WordPress sidebar mode — bump portaled elements above
-     WP admin bar (z-index 99999) and WP sidebar ─────────── */
-body.pm-mode-wordpress [data-state].fixed {
+/* ── Logged-in/admin-bar mode — bump PM portals above
+     WP admin bar (z-index 99999) and optional WP sidebar ── */
+body.pm-mode-wordpress [data-state].fixed,
+body.admin-bar [data-state].fixed {
   z-index: 100100 !important;
 }
 
-body.pm-mode-wordpress [role="dialog"][data-state] {
+body.pm-mode-wordpress [role="dialog"][data-state],
+body.admin-bar [role="dialog"][data-state] {
   z-index: 100101 !important;
 }
 
-body.pm-mode-wordpress [data-radix-popper-content-wrapper] {
+body.pm-mode-wordpress [data-radix-popper-content-wrapper],
+body.admin-bar [data-radix-popper-content-wrapper] {
   z-index: 100200 !important;
 }
 
 body.pm-mode-wordpress ol[data-sonner-toaster],
-body.pm-mode-wordpress [data-sonner-toaster] {
+body.pm-mode-wordpress [data-sonner-toaster],
+body.admin-bar ol[data-sonner-toaster],
+body.admin-bar [data-sonner-toaster] {
   z-index: 100300 !important;
 }
 
