@@ -118,8 +118,8 @@ class Task {
         foreach ( $tasks['data'] as $key => $result ) {
 	        $csv_data[] = [
 				$result['title'],
-				$result['task_list']->title,
-				$result['project']->title,
+				html_entity_decode( (string) $result['task_list']->title, ENT_QUOTES, 'UTF-8' ),
+				html_entity_decode( (string) $result['project']->title, ENT_QUOTES, 'UTF-8' ),
 				$result['due_date'],
 				$result['created_at'],
 			];
@@ -215,7 +215,7 @@ class Task {
 
 		$items = [
 			'id'                    => (int) $task->id,
-			'title'                 => (string) $task->title,
+			'title'                 => html_entity_decode( (string) $task->title, ENT_QUOTES, 'UTF-8' ),
 			'description'           => [ 'html' => wedevs_pm_get_content( $task->description ), 'content' => $task->description ],
 			'estimation'            => $task->estimation * 60,
 			'comparable_estimation' => $task->comparable_estimation,
@@ -308,12 +308,12 @@ class Task {
 		
 		$items['id']           = (int) $task->id;
 		$items['project_id']   = (int) $task->project_id;
-		$items['project_title']   = $task->project_title;
+		$items['project_title']   = html_entity_decode( (string) $task->project_title, ENT_QUOTES, 'UTF-8' );
 		$items['type']         = $task->type;
 		$items['order']        = $task->order;
 		$items['assignees']    = $task->assignees;
 		$items['task_list_id'] = (int) $task->task_list_id;
-		$items['task_list_title'] = $task->task_list_title;
+		$items['task_list_title'] = html_entity_decode( (string) $task->task_list_title, ENT_QUOTES, 'UTF-8' );
 		
 		if ( isset( $task->is_stop_watch_visible ) ) {
 			$items['is_stop_watch_visible'] = $task->is_stop_watch_visible;

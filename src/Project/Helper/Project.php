@@ -236,7 +236,7 @@ class Project {
 		$items = [
             'id'      	      	  => (int) $project->id,
             'project_id'      	  => (int) $project->id, //need for calendar task create form
-			'title'   	  		  => isset( $project->title ) ? (string) $project->title : '',
+			'title'   	  		  => isset( $project->title ) ? html_entity_decode( (string) $project->title, ENT_QUOTES, 'UTF-8' ) : '',
 			'description' 		  => isset( $project->description ) ? [ 'html' => wedevs_pm_get_content( $project->description ), 'content' => $project->description ] : '',
 			'status'	  		  => isset( $project->status ) ? $project->status : null,
 			'budget'	  		  => isset( $project->budget ) ? $project->budget : null,
