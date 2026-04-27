@@ -24,7 +24,7 @@ class Calendar_Transformer extends TransformerAbstract {
 
         return [
             'id'            => (int) $event['id'],
-            'title'         =>  $event['title'],
+            'title'         =>  html_entity_decode( $event['title'], ENT_QUOTES, 'UTF-8' ),
             'start'         =>  $this->getStart( $event ),
             'end'           =>  $this->getend( $event ),
             'status'        =>  array_key_exists('status', $event) ? $event['status'] : $meta['status'],

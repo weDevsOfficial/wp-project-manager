@@ -17,7 +17,7 @@ class Category_Transformer extends TransformerAbstract {
     public function transform( Category $item ) {
         return [
             'id'               => (int) $item->id,
-            'title'            => $item->title,
+            'title'            => html_entity_decode( $item->title, ENT_QUOTES, 'UTF-8' ),
             'description'      => $item->description,
             'categorible_type' => $item->categorible_type,
             'created_at'       => wedevs_pm_format_date( $item->created_at ),

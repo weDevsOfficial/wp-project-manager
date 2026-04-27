@@ -17,7 +17,7 @@ class List_Task_Transformer extends TransformerAbstract {
 
         $task = [
             'id'          => (int) $item->id,
-            'title'       => $item->title,
+            'title'       => html_entity_decode( $item->title, ENT_QUOTES, 'UTF-8' ),
             'description' => [ 'html' => wedevs_pm_get_content( $item->description ), 'content' => $item->description ],
             'estimation'  => $item->estimation,
             'start_at'    => wedevs_pm_format_date( $item->start_at ),

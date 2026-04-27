@@ -34,7 +34,7 @@ class Project_Transformer extends TransformerAbstract {
         
         $data = [
             'id'                  => (int) $item->id,
-            'title'               => (string) $item->title,
+            'title'               => html_entity_decode( (string) $item->title, ENT_QUOTES, 'UTF-8' ),
             'description'         => [ 'html' => wedevs_pm_get_content( $item->description ), 'content' => $item->description ],
             'status'              => $item->status,
             'budget'              => $item->budget,

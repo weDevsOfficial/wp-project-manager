@@ -29,7 +29,7 @@ class Milestone_Transformer extends TransformerAbstract {
 
         $data = [
             'id'           => (int) $item->id,
-            'title'        => $item->title,
+            'title'        => html_entity_decode( $item->title, ENT_QUOTES, 'UTF-8' ),
             'description'  => $item->description,
             'order'        => (int) $item->order,
             'achieve_date' => wedevs_pm_format_date( $item->achieve_date ),
