@@ -177,7 +177,7 @@ export default function MyTasksPage() {
       setLoading(true);
       const today = new Date().toISOString().split("T")[0];
       const data = {
-        with: "task_list,project",
+        with: "task_list,project,labels,assignees",
         select: "id, title, created_at, start_at, due_date, completed_at",
         per_page: 20,
         pages: page,

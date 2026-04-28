@@ -162,6 +162,47 @@ const milestonesSlice = createSlice({
       }
     })
 
+    // Inline task sync when task sheet fetches or updates a task
+    const syncTaskInMilestones = (state, updatedTask, { preservePrivacy = false } = {}) => {
+      if (!updatedTask?.id) return
+      state.items.forEach((milestone) => {
+        const tasks = milestone.tasks?.data
+        if (!Array.isArray(tasks)) return
+        const idx = tasks.findIndex((t) => t.id === updatedTask.id)
+        if (idx !== -1) {
+          const existing = tasks[idx]
+          const mergedMeta = { ...existing.meta, ...updatedTask.meta }
+          if (preservePrivacy) {
+            // fetchTask reads privacy from pm_meta table (string, may be stale/absent).
+            // Always keep the value already in state — it came from fetchMilestones
+            // which uses is_private column (authoritative source).
+            mergedMeta.privacy = existing.meta?.privacy
+          }
+          tasks[idx] = { ...existing, ...updatedTask, meta: mergedMeta }
+        }
+      })
+    }
+    builder.addCase('tasks/fetchTask/fulfilled', (state, action) => {
+      syncTaskInMilestones(state, action.payload, { preservePrivacy: true })
+    })
+    builder.addCase('tasks/updateTask/fulfilled', (state, action) => {
+      syncTaskInMilestones(state, action.payload)
+    })
+    builder.addCase('tasks/changeTaskStatus/fulfilled', (state, action) => {
+      if (!action.payload) return
+      const { taskId, status } = action.payload
+      syncTaskInMilestones(state, { id: taskId, status })
+    })
+    builder.addCase('taskLists/updateTaskPrivacy', (state, action) => {
+      const { taskId, privacy } = action.payload
+      state.items.forEach((milestone) => {
+        const tasks = milestone.tasks?.data
+        if (!Array.isArray(tasks)) return
+        const task = tasks.find(t => t.id === taskId)
+        if (task) task.meta = { ...task.meta, privacy }
+      })
+    })
+
     // Global reset when navigating between projects
     builder.addCase(resetProjectState, () => initialState)
   },

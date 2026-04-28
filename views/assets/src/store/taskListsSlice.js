@@ -382,14 +382,13 @@ const taskListsSlice = createSlice({
 
     // ── Sync task changes from tasksSlice back into lists ──
     // When a task is updated in TaskDetailSheet, reflect changes in the list view
-    const syncTaskInList = (list, updatedTask) => {
+    const syncTaskInList = (list, updatedTask, { preservePrivacy = false } = {}) => {
       if (!list) return
-      const merge = (existing) => ({
-        ...existing,
-        ...updatedTask,
-        // Deep-merge meta so keys present in existing but absent in updated are preserved
-        meta: { ...existing.meta, ...updatedTask.meta },
-      })
+      const merge = (existing) => {
+        const mergedMeta = { ...existing.meta, ...updatedTask.meta }
+        if (preservePrivacy) mergedMeta.privacy = existing.meta?.privacy
+        return { ...existing, ...updatedTask, meta: mergedMeta }
+      }
       const inIdx = list.incomplete_tasks.data.findIndex(t => t.id === updatedTask.id)
       if (inIdx !== -1) {
         list.incomplete_tasks.data[inIdx] = merge(list.incomplete_tasks.data[inIdx])
@@ -399,17 +398,17 @@ const taskListsSlice = createSlice({
         list.complete_tasks.data[coIdx] = merge(list.complete_tasks.data[coIdx])
       }
     }
-    const syncTaskInLists = (state, updatedTask) => {
+    const syncTaskInLists = (state, updatedTask, opts) => {
       if (!updatedTask?.id) return
-      state.lists.forEach(list => syncTaskInList(list, updatedTask))
-      if (state.currentList) syncTaskInList(state.currentList, updatedTask)
+      state.lists.forEach(list => syncTaskInList(list, updatedTask, opts))
+      if (state.currentList) syncTaskInList(state.currentList, updatedTask, opts)
     }
 
     builder.addCase(updateTask.fulfilled, (state, action) => {
       if (action.payload) syncTaskInLists(state, action.payload)
     })
     builder.addCase(fetchTask.fulfilled, (state, action) => {
-      if (action.payload) syncTaskInLists(state, action.payload)
+      if (action.payload) syncTaskInLists(state, action.payload, { preservePrivacy: true })
     })
 
     // ── List comment reducers ──

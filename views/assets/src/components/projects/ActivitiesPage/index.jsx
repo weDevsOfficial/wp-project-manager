@@ -1,5 +1,6 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useRef, useMemo, useState } from 'react';
 import { useParams, useNavigate, Navigate } from 'react-router-dom';
+import { useAppSelector } from '@store/index';
 import { useApi } from '@hooks/useApi';
 import { useI18n } from '@hooks/useI18n';
 import { usePermissions } from '@hooks/usePermissions';
@@ -39,7 +40,7 @@ export default function ActivitiesPage() {
   const [loadingMore, setLoadingMore] = useState(false);
   const [total, setTotal] = useState(0);
 
-  useEffect(() => {
+  const loadActivities = () => {
     if (!isPro) return;
     setLoading(true);
     api.get(`projects/${projectId}/activities`, { per_page: 20, page: 1 })
@@ -52,7 +53,19 @@ export default function ActivitiesPage() {
       })
       .catch(() => {})
       .finally(() => setLoading(false));
-  }, [projectId, isPro]);
+  };
+
+  useEffect(() => { loadActivities(); }, [projectId, isPro]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const taskSheetOpen = useAppSelector(s => s.tasks?.taskSheetOpen);
+  const taskModified = useAppSelector(s => s.tasks?.taskModifiedInSheet);
+  const prevSheetOpen = useRef(false);
+  useEffect(() => {
+    if (prevSheetOpen.current && !taskSheetOpen && taskModified) {
+      loadActivities();
+    }
+    prevSheetOpen.current = taskSheetOpen;
+  }, [taskSheetOpen, taskModified]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const loadMore = async () => {
     setLoadingMore(true);

@@ -12,6 +12,7 @@ import { store, injectReducer, resetProjectState } from '@store/index'
 import { fetchTask, openTaskSheet, closeTaskSheet, markTaskModified } from '@store/tasksSlice'
 import { fetchTaskLists } from '@store/taskListsSlice'
 import TaskDetailSheet from '@components/tasks/TaskDetailSheet'
+import TaskLabelBadges from '@components/tasks/TaskLabelBadges'
 import { AppLayout } from '@components/layout/AppLayout'
 import { FrontendLayout } from '@components/layout/FrontendLayout'
 import { ProModalProvider } from '@components/common/ProUpgradeModal'
@@ -215,6 +216,7 @@ window.PM = {
   // Components that pro needs to use (exposed for cross-plugin integration)
   components: {
     UserAvatar,
+    TaskLabelBadges,
     ErrorBoundary,
     BackButton:       require('@components/common/BackButton'),
     FileUploadArea:  require('@components/common/FileUploadArea'),

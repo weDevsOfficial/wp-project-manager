@@ -61,7 +61,7 @@ export default function MyTaskRow({ task, projectTitle, onToggle, onOpen }) {
         </div>
       )}
 
-      <TaskLabelBadges task={task} variant="dot" />
+      <TaskLabelBadges task={task} variant="full" />
 
       {projectTitle && (
         <span className="text-[15px] text-pm-text-muted bg-muted/50 px-2 py-0.5 rounded truncate max-w-[120px] shrink-0">

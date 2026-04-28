@@ -86,8 +86,21 @@ class Milestone_Transformer extends TransformerAbstract {
     }
 
     public function includeTasks( Milestone $item ) {
-        $tasks = $item->tasks()->orderBy( 'created_at', 'DESC' )->get();
-        return $this->collection( $tasks, new Task_Transformer );
+        $tasks     = $item->tasks()->orderBy( 'created_at', 'DESC' )->get();
+        $task_ids  = $tasks->pluck( 'id' )->toArray();
+        $resource  = $this->collection( $tasks, new Task_Transformer );
+
+        if ( empty( $task_ids ) ) {
+            return $resource;
+        }
+
+        // Serialize now so label/pro filters can decorate the task rows,
+        // then re-wrap as a passthrough collection.
+        $serialized = wedevs_pm_get_response( $resource );
+        $serialized = apply_filters( 'wedevs_pm_after_transformer_list_tasks', $serialized, $task_ids );
+
+        $rows = isset( $serialized['data'] ) ? array_values( $serialized['data'] ) : [];
+        return $this->collection( $rows, function ( $row ) { return $row; } );
     }
 
     public function includeDiscussionBoards( Milestone $item ) {

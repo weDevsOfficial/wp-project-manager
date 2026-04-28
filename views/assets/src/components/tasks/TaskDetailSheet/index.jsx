@@ -301,7 +301,7 @@ export default function TaskDetailSheet() {
   const handleDeleteComment = useCallback(async (commentId) => {
     if (!projectId) return
     try {
-      await dispatch(deleteTaskComment({ projectId, commentId })).unwrap()
+      await dispatch(deleteTaskComment({ projectId, commentId, taskId: currentTask?.id })).unwrap()
       toast.success(__('Comment deleted'))
     } catch {
       toast.error(__('Failed to delete comment'))

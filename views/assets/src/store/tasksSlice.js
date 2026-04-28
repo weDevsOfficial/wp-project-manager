@@ -188,10 +188,10 @@ export const updateTaskComment = createAsyncThunk(
 
 export const deleteTaskComment = createAsyncThunk(
   'tasks/deleteTaskComment',
-  async ({ projectId, commentId }, { rejectWithValue }) => {
+  async ({ projectId, commentId, taskId }, { rejectWithValue }) => {
     try {
       await api.post(`projects/${projectId}/comments/${commentId}/delete`)
-      return { commentId }
+      return { commentId, taskId }
     } catch (e) {
       return rejectWithValue(e.message ?? 'Failed to delete comment')
     }
@@ -262,6 +262,9 @@ const tasksSlice = createSlice({
     builder.addCase(addTaskComment.fulfilled, (state, action) => {
       if (action.payload) {
         state.taskComments.push(action.payload)
+        if (state.currentTask?.meta) {
+          state.currentTask.meta.total_comment = (parseInt(state.currentTask.meta.total_comment, 10) || 0) + 1
+        }
       }
     })
     builder.addCase(updateTaskComment.fulfilled, (state, action) => {
@@ -271,6 +274,9 @@ const tasksSlice = createSlice({
     })
     builder.addCase(deleteTaskComment.fulfilled, (state, action) => {
       state.taskComments = state.taskComments.filter(c => c.id !== action.payload.commentId)
+      if (state.currentTask?.meta) {
+        state.currentTask.meta.total_comment = Math.max(0, (parseInt(state.currentTask.meta.total_comment, 10) || 0) - 1)
+      }
     })
 
     // Global project reset — clear task sheet and comments

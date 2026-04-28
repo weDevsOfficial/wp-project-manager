@@ -15,7 +15,8 @@ import { useToast } from "@hooks/useToast";
 import { usePermissions } from "@hooks/usePermissions";
 import { useCurrentProject } from "@hooks/useCurrentProject";
 import { cn } from "@lib/utils";
-import { formatPmDateTime } from "@lib/pm-utils";
+import { formatPmDateTime, isOverdue, isPrivate as checkPrivate, dueDateColorClass } from "@lib/pm-utils";
+import TaskLabelBadges from "@components/tasks/TaskLabelBadges";
 import { Button } from "@components/ui/button";
 import { UserAvatar } from '@components/common/UserAvatar';
 import { Badge } from "@components/ui/badge";
@@ -32,7 +33,7 @@ import ProBadge from "@components/common/ProBadge";
 import {
   Trash2, MoreHorizontal, CheckCircle, Clock,
   Lock, Unlock, Pencil, MessageSquare, Minus,
-  ListChecks, ChevronDown, Calendar, Timer,
+  ListChecks, ChevronDown, Calendar, Timer, Flag,
 } from "lucide-react";
 import TaskCheckbox from "./TaskCheckbox";
 import MilestoneHealthBadge from "./MilestoneHealthBadge";
@@ -312,6 +313,10 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
                 const startDate = taskDateStr(task.start_at);
                 const dueDate = taskDateStr(task.due_date);
                 const est = taskEstTime(task);
+                const commentCount = parseInt(task.meta?.total_comment ?? task.comments_count ?? 0, 10) || 0;
+                const taskIsPrivate = checkPrivate(task.meta?.privacy);
+                const priorityColor = task.priority >= 3 ? 'text-red-500' : task.priority === 2 ? 'text-amber-500' : task.priority === 1 ? 'text-blue-500' : '';
+                const overdueTask = isOverdue(task.due_date, task.status);
                 return (
                   <li key={task.id} className={cn("group flex items-center gap-2 py-2 px-3 rounded hover:bg-muted/30", taskComplete && "opacity-60")}>
                     <TaskCheckbox complete={taskComplete} onClick={() => handleToggleTaskStatus(task)} />
@@ -322,6 +327,13 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
                     >
                       {task.title}
                     </button>
+                    <TaskLabelBadges task={task} variant="full" />
+                    {task.type && (
+                      <Badge variant="outline" className="text-[11px] px-1.5 py-0 shrink-0">{task.type.title}</Badge>
+                    )}
+                    {task.priority > 0 && (
+                      <Flag className={cn("h-3.5 w-3.5 shrink-0", priorityColor)} />
+                    )}
                     {assignees.length > 0 && (
                       <div className="flex -space-x-1.5 shrink-0">
                         {assignees.slice(0, 3).map((u) => (
@@ -330,21 +342,32 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
                         {assignees.length > 3 && <span className="text-[11px] text-pm-text-muted ml-1">+{assignees.length - 3}</span>}
                       </div>
                     )}
-                    {task.type && (
-                      <Badge variant="outline" className="text-[11px] px-1.5 py-0 shrink-0">{task.type.title}</Badge>
-                    )}
                     {(startDate || dueDate) && (
-                      <div className="hidden sm:flex items-center gap-1 text-[13px] text-pm-text-muted shrink-0">
+                      <div className={cn("hidden sm:flex items-center gap-1 text-[13px] shrink-0", dueDateColorClass(task.due_date))}>
                         <Calendar className="h-3.5 w-3.5" />
                         <span>{startDate || dueDate}</span>
                         {startDate && dueDate && <><span>–</span><span>{dueDate}</span></>}
                       </div>
+                    )}
+                    {overdueTask && (
+                      <Badge variant="destructive" className="text-[11px] px-1.5 py-0 h-4 shrink-0">
+                        {__("Overdue")}
+                      </Badge>
                     )}
                     {est && (
                       <div className="hidden sm:flex items-center gap-0.5 text-[13px] text-pm-text-muted shrink-0">
                         <Timer className="h-3.5 w-3.5" />
                         <span>{est}</span>
                       </div>
+                    )}
+                    {commentCount > 0 && (
+                      <span className="flex items-center gap-0.5 text-[13px] text-pm-text-muted shrink-0">
+                        <MessageSquare className="h-3.5 w-3.5" />
+                        {commentCount}
+                      </span>
+                    )}
+                    {taskIsPrivate && (
+                      <Lock className="h-3.5 w-3.5 text-amber-500 shrink-0" />
                     )}
                     <button
                       type="button"
