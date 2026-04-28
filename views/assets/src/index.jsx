@@ -69,6 +69,25 @@ function TaskDeepLink() {
   return null
 }
 
+// Handles legacy global-search URLs: #/projects/:projectId/task-lists/tasks/:taskId (no listId)
+function TaskDeepLinkNoList() {
+  const { projectId, taskId } = useParams()
+  const navigate = useNavigate()
+  useEffect(() => {
+    store.dispatch(fetchTask({ projectId, taskId })).then((action) => {
+      const task = action.payload
+      if (task) {
+        const listId = task.task_list_id
+        store.dispatch(openTaskSheet(task))
+        navigate(`/projects/${projectId}/task-lists/${listId}`, { replace: true })
+      } else {
+        navigate(`/projects/${projectId}/task-lists`, { replace: true })
+      }
+    })
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  return null
+}
+
 function AppRoutes() {
   const dynamicRoutes = useRegisteredRoutes()
   const isFrontend = typeof PM_Vars !== 'undefined' && PM_Vars.is_frontend && !PM_Vars.is_admin
@@ -82,6 +101,7 @@ function AppRoutes() {
         <Route index element={<Navigate to="/projects" replace />} />
         <Route path="projects" element={<ProjectsPage />} />
         <Route path="projects/:projectId/task-lists" element={<TaskListsPage />} />
+        <Route path="projects/:projectId/task-lists/tasks/:taskId" element={<TaskDeepLinkNoList />} />
         <Route path="projects/:projectId/task-lists/:listId" element={<SingleTaskListPage />} />
         <Route path="projects/:projectId/task-lists/:listId/tasks/:taskId" element={<TaskDeepLink />} />
         <Route path="projects/:projectId/overview" element={<ProjectOverview />} />

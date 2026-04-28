@@ -1,5 +1,7 @@
 import { useMemo, useState, useEffect, useCallback } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
+import { useAppDispatch } from '@store/index'
+import { fetchTask, openTaskSheet } from '@store/tasksSlice'
 import { useApi } from '@hooks/useApi'
 import { useI18n } from '@hooks/useI18n'
 import { useCurrentProject } from '@hooks/useCurrentProject'
@@ -30,6 +32,7 @@ import {
   Bell,
   FolderKanban,
   CheckSquare,
+  LayoutList,
   Loader2,
   LayoutDashboard,
   Monitor,
@@ -43,11 +46,12 @@ export function TopBar() {
   const { __ } = useI18n()
   const location = useLocation()
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
   const api = useApi()
 
   const [searchOpen, setSearchOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
-  const [searchResults, setSearchResults] = useState({ projects: [], tasks: [] })
+  const [searchResults, setSearchResults] = useState({ projects: [], tasks: [], taskLists: [] })
   const [searching, setSearching] = useState(false)
 
   const isFrontendPage = typeof PM_Vars !== 'undefined' && PM_Vars.is_frontend && !PM_Vars.is_admin
@@ -103,22 +107,22 @@ export function TopBar() {
   const handleSearch = useCallback(async (query) => {
     setSearchQuery(query)
     if (query.trim().length < 2) {
-      setSearchResults({ projects: [], tasks: [] })
+      setSearchResults({ projects: [], tasks: [], taskLists: [] })
       return
     }
     setSearching(true)
     try {
-      // Search projects
-      const projRes = await api.get('projects', { search: query.trim(), per_page: 5 })
-      const projects = projRes.data ?? []
-
-      // Search tasks
-      const taskRes = await api.get('tasks', { title: query.trim(), per_page: 5 })
-      const tasks = taskRes.data ?? []
-
-      setSearchResults({ projects, tasks })
+      const [topbarRes, taskRes] = await Promise.all([
+        api.get('admin-topbar-search', { query: query.trim() }),
+        api.get('tasks', { title: query.trim(), per_page: 5 }),
+      ])
+      const topbarItems = Array.isArray(topbarRes) ? topbarRes : []
+      const projects  = topbarItems.filter(i => i.type === 'project').slice(0, 5)
+      const taskLists = topbarItems.filter(i => i.type === 'task_list').slice(0, 5)
+      const tasks = (taskRes.data ?? []).slice(0, 5)
+      setSearchResults({ projects, tasks, taskLists })
     } catch {
-      setSearchResults({ projects: [], tasks: [] })
+      setSearchResults({ projects: [], tasks: [], taskLists: [] })
     }
     setSearching(false)
   }, [api])
@@ -205,7 +209,7 @@ export function TopBar() {
 
   const currentUser = typeof PM_Vars !== 'undefined' ? PM_Vars.current_user : null
   const isFrontend = typeof PM_Vars !== 'undefined' && PM_Vars.is_frontend && !PM_Vars.is_admin
-  const hasResults = searchResults.projects.length > 0 || searchResults.tasks.length > 0
+  const hasResults = searchResults.projects.length > 0 || searchResults.tasks.length > 0 || searchResults.taskLists.length > 0
 
   return (
     <>
@@ -365,13 +369,41 @@ export function TopBar() {
                   ))}
                 </CommandGroup>
               )}
+              {searchResults.taskLists.length > 0 && (
+                <CommandGroup heading={__('Task Lists')}>
+                  {searchResults.taskLists.map(l => (
+                    <CommandItem
+                      key={`tl-${l.id}`}
+                      value={`tasklist-${l.id}`}
+                      onSelect={() => { navigate(`/projects/${l.project_id}/task-lists/${l.id}`); setSearchOpen(false); setSearchQuery('') }}
+                      className="cursor-pointer"
+                    >
+                      <LayoutList className="h-4 w-4 mr-2 text-pm-text-muted" />
+                      <span className="text-sm truncate">{l.title}</span>
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              )}
               {searchResults.tasks.length > 0 && (
                 <CommandGroup heading={__('Tasks')}>
                   {searchResults.tasks.map(t => (
                     <CommandItem
                       key={`t-${t.id}`}
                       value={`task-${t.id}`}
-                      onSelect={() => { navigate(`/projects/${t.project_id}/task-lists`); setSearchOpen(false); setSearchQuery('') }}
+                      onSelect={() => {
+                        const rawList = t.task_list_id
+                        const listId = rawList?.data?.id ?? rawList?.id ?? rawList ?? null
+                        const projectId = t.project_id
+                        setSearchOpen(false)
+                        setSearchQuery('')
+                        const target = listId
+                          ? `/projects/${projectId}/task-lists/${listId}`
+                          : `/projects/${projectId}/task-lists`
+                        navigate(target)
+                        dispatch(fetchTask({ projectId, taskId: t.id })).then((action) => {
+                          if (action.payload) dispatch(openTaskSheet(action.payload))
+                        })
+                      }}
                       className="cursor-pointer"
                     >
                       <CheckSquare className="h-4 w-4 mr-2 text-pm-text-muted" />
