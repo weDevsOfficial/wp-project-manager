@@ -402,19 +402,28 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
                   {__("Discussions")}
                 </h5>
                 <ul className="space-y-1.5">
-                  {discussions.map((disc) => (
-                    <li key={disc.id}>
-                      <button
-                        type="button"
-                        className="text-sm text-pm-accent hover:underline truncate block text-left"
-                        onClick={() =>
-                          navigate(`/projects/${projectId}/discussions`)
-                        }
-                      >
-                        {disc.title}
-                      </button>
-                    </li>
-                  ))}
+                  {discussions.map((disc) => {
+                    const commentCount = disc.meta?.total_comments ?? 0;
+                    return (
+                      <li key={disc.id} className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          className="text-sm text-pm-accent hover:underline truncate text-left flex-1 min-w-0"
+                          onClick={() =>
+                            navigate(`/projects/${projectId}/discussions/${disc.id}`)
+                          }
+                        >
+                          {disc.title}
+                        </button>
+                        {commentCount > 0 && (
+                          <span className="flex items-center gap-0.5 text-[12px] text-pm-text-muted shrink-0">
+                            <MessageSquare className="h-3 w-3" />
+                            {commentCount}
+                          </span>
+                        )}
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
             )}
