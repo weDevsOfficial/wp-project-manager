@@ -139,10 +139,17 @@ body:not(.wp-admin) #wedevs-project-manager {
     outline: none;
   }
 
-  /* Global focus outline — use pm-accent purple color */
-  *:focus-visible {
+  /* Global focus outline — use pm-accent purple color.
+     Exclude contenteditable (Tiptap) — it manages its own focus indicator
+     via the container border; outline here would show on mouse click too. */
+  *:focus-visible:not([contenteditable]) {
     outline: 2px solid hsl(var(--primary)) !important;
     outline-offset: 2px;
+  }
+
+  [contenteditable]:focus,
+  [contenteditable]:focus-visible {
+    outline: none !important;
   }
 
   /* Override WordPress admin blue box-shadow with purple — keyboard focus only */

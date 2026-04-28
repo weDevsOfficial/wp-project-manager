@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { useApi } from "@hooks/useApi";
 import { useI18n } from "@hooks/useI18n";
 import { useToast } from "@hooks/useToast";
@@ -51,6 +51,8 @@ import DiscussionFiles from "./parts/DiscussionFiles";
 export default function DiscussionsPage() {
   const { projectId } = useParams();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const targetDiscussionId = parseInt(searchParams.get('id')) || null;
   const api = useApi();
   const { __ } = useI18n();
   const toast = useToast();
@@ -106,8 +108,19 @@ export default function DiscussionsPage() {
           setPage(pg);
         }
         if (pg === 1 && data.length > 0 && !openId) {
-          setOpenId(data[0].id);
-          setComments(data[0].comments?.data ?? []);
+          // Honor ?id=<discussionId> deep link from attached-to file links
+          const target = targetDiscussionId
+            ? data.find(d => d.id === targetDiscussionId)
+            : null
+          const initial = target || data[0]
+          setOpenId(initial.id);
+          setComments(initial.comments?.data ?? []);
+          if (target) {
+            setTimeout(() => {
+              const el = document.getElementById(`pm-discuss-${target.id}`)
+              if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+            }, 100)
+          }
         }
       } catch {}
       setLoading(false);
@@ -447,7 +460,8 @@ export default function DiscussionsPage() {
             return (
               <div
                 key={d.id}
-                className="rounded-xl border bg-card overflow-hidden hover:shadow-sm transition-shadow"
+                id={`pm-discuss-${d.id}`}
+                className="rounded-xl border bg-card overflow-hidden hover:shadow-sm transition-shadow scroll-mt-20"
               >
                 <div className="p-4">
                   <div className="flex items-start justify-between gap-3">

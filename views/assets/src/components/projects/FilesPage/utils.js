@@ -29,7 +29,8 @@ export function getAttachedURL(file, projectId) {
   const base = `#/projects/${projectId}`;
   switch (file.fileable_type) {
     case "discussion_board":
-      return `${base}/discussions/${file.fileable_id}`;
+      // DiscussionsPage has no nested route; deep-link via ?id=<discussionId>.
+      return `${base}/discussions?id=${file.fileable_id}`;
     case "task_list":
       return `${base}/task-lists/${file.fileable_id}`;
     case "task":
@@ -40,7 +41,7 @@ export function getAttachedURL(file, projectId) {
         case "task_list":
           return `${base}/task-lists/${c.commentable_id}`;
         case "discussion_board":
-          return `${base}/discussions/${c.commentable_id}`;
+          return `${base}/discussions?id=${c.commentable_id}`;
         case "task":
           return `${base}/task-lists/tasks/${c.commentable_id}`;
         default:
