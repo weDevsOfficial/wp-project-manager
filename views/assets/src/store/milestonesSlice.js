@@ -115,6 +115,16 @@ const milestonesSlice = createSlice({
     setSort(state, action) {
       state.sort = action.payload
     },
+    removeTaskFromMilestone(state, action) {
+      const { milestoneId, taskId } = action.payload
+      const milestone = state.items.find(m => m.id === milestoneId)
+      if (milestone?.tasks?.data) {
+        milestone.tasks.data = milestone.tasks.data.filter(t => t.id !== taskId)
+        if (milestone.meta) {
+          milestone.meta.total_direct_tasks = Math.max(0, (milestone.meta.total_direct_tasks || 1) - 1)
+        }
+      }
+    },
   },
   extraReducers: (builder) => {
     // Fetch all
@@ -215,6 +225,7 @@ export const {
   closeDetail,
   setFilter,
   setSort,
+  removeTaskFromMilestone,
 } = milestonesSlice.actions
 
 export default milestonesSlice.reducer

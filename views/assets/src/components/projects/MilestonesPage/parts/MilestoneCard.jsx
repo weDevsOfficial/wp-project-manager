@@ -7,6 +7,7 @@ import {
   updateMilestone,
   deleteMilestone,
   toggleMilestonePrivacy,
+  removeTaskFromMilestone,
 } from "@store/milestonesSlice";
 import { openTaskSheet, fetchTask } from "@store/tasksSlice";
 import { useApi } from "@hooks/useApi";
@@ -76,11 +77,12 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
   const handleUnlinkTask = useCallback(
     async (task) => {
       if (!confirm(__("Remove this task from the milestone?"))) return;
+      dispatch(removeTaskFromMilestone({ milestoneId: milestone.id, taskId: task.id }));
       try {
         await api.post(`projects/${projectId}/milestones/${milestone.id}/detach-task/${task.id}`);
         toast.success(__("Task unlinked"));
-        dispatch(fetchMilestones({ projectId }));
       } catch {
+        dispatch(fetchMilestones({ projectId }));
         toast.error(__("Failed to unlink task"));
       }
     },
