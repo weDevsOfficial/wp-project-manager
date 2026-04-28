@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '@store/index';
-import { openTaskSheet } from '@store/tasksSlice';
+import { openTaskSheet, fetchTask } from '@store/tasksSlice';
 import { useI18n } from '@hooks/useI18n';
 import { Badge } from '@components/ui/badge';
 import { UserAvatar } from '@components/common/UserAvatar';
@@ -35,7 +35,14 @@ export default function ActivityItem({ act }) {
     const url = resolveActivityUrl(act);
     if (!url) return;
     if (url.openTaskSheet) {
-      dispatch(openTaskSheet({ id: url.taskId, project_id: url.projectId, task_list_id: url.listId }));
+      const listId = url.listId;
+      const target = listId
+        ? `/projects/${url.projectId}/task-lists/${listId}`
+        : `/projects/${url.projectId}/task-lists`;
+      navigate(target);
+      dispatch(fetchTask({ projectId: url.projectId, taskId: url.taskId })).then((action) => {
+        if (action.payload) dispatch(openTaskSheet(action.payload));
+      });
     } else {
       navigate(url.path);
     }
