@@ -335,7 +335,7 @@ class Search_Controller {
     			$result['type'] = $item->type;
     		}
 
-			$result['title'] = $item->title;
+			$result['title'] = html_entity_decode( $item->title, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
 			$result['id']    = $item->id;
 
     		$items_array[] = $result;
