@@ -79,7 +79,7 @@ export default function RichTextEditor({
         openOnClick: false,
         HTMLAttributes: { class: 'text-pm-accent underline' },
       }),
-      Placeholder.configure({ placeholder }),``
+      Placeholder.configure({ placeholder }),
     ],
     content,
     editable,

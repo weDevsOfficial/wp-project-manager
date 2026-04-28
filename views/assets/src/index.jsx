@@ -111,7 +111,7 @@ function AppRoutes() {
         <Route path="projects/:projectId/overview" element={<ProjectOverview />} />
         <Route path="projects/:projectId/discussions" element={<DiscussionsPage />} />
         <Route path="projects/:projectId/milestones" element={<MilestonesPage />} />
-        <Route path="projects/:projectId/files" element={<FilesPage />} />
+        <Route path="projects/:projectId/files" element={<FilteredPage filterName="route.files.element" fallback={FilesPage} />} />
         <Route path="projects/:projectId/activities" element={<ActivitiesPage />} />
         <Route path="my-tasks" element={<MyTasksPage />} />
 
@@ -214,6 +214,9 @@ window.PM = {
   components: {
     UserAvatar,
     ErrorBoundary,
+    FileUploadArea:  require('@components/common/FileUploadArea'),
+    ProBadge:        require('@components/common/ProBadge'),
+    ProUpgradeModal: require('@components/common/ProUpgradeModal'),
     TaskDetailSheet: (() => {
       // Wrap component to ensure proper error handling across plugin boundaries
       const WrappedTaskDetailSheet = (props) => {
@@ -269,7 +272,7 @@ window.PM = {
     Tooltip:      require('@components/ui/tooltip'),
     AlertDialog:  require('@components/ui/alert-dialog'),
     ColorPicker:  require('@components/ui/color-picker'),
-    RichTextEditor: require('@components/common/RichTextEditor'),
+    RichTextEditor:         require('@components/common/RichTextEditor'),
     GitHubPreviewContainer: require('@components/common/GitHubPreviewContainer'),
     NotionPreviewContainer: require('@components/common/NotionPreviewContainer'),
     LoomPreviewContainer:   require('@components/common/LoomPreviewContainer'),
@@ -279,6 +282,7 @@ window.PM = {
   utils: {
     urlStrippers: require('@/lib/url-strippers'),
     sanitize: require('@lib/sanitize'),
+    pmUtils: require('@lib/pm-utils'),
   },
 
   // Re-export Radix UI primitives so pro uses the SAME context instances.
