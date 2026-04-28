@@ -60,6 +60,15 @@ class Activity_Transformer extends TransformerAbstract {
         return $this->item( $item->project, $project_transformer );
     }
 
+    private function decode_meta_strings( $meta ) {
+        if ( ! is_array( $meta ) ) return $meta;
+        $decoded = [];
+        foreach ( $meta as $key => $value ) {
+            $decoded[ $key ] = is_string( $value ) ? html_entity_decode( $value, ENT_QUOTES | ENT_HTML5, 'UTF-8' ) : $value;
+        }
+        return $decoded;
+    }
+
     private function parse_meta( Activity $activity ) {
         $parsed_meta = [];
 
@@ -93,7 +102,7 @@ class Activity_Transformer extends TransformerAbstract {
                 break;
         }
 
-        return $parsed_meta;
+        return $this->decode_meta_strings( $parsed_meta );
     }
 
     private function parse_meta_for_task( Activity $activity ) {
