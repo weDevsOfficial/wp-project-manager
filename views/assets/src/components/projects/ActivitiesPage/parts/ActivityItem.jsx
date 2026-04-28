@@ -13,9 +13,8 @@ import {
   Activity,
 } from '../constants';
 import { parseMessage, formatTime } from '../utils';
-import { resolveActivityUrl } from '@lib/activity-links';
 
-export default function ActivityItem({ act }) {
+export default function ActivityItem({ act, projectId: fallbackProjectId }) {
   const { __ } = useI18n();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
@@ -31,24 +30,16 @@ export default function ActivityItem({ act }) {
     navigate('/my-tasks');
   };
 
-  const handleResourceClick = () => {
-    const url = resolveActivityUrl(act);
-    if (!url) return;
-    if (url.openTaskSheet) {
-      const listId = url.listId;
-      const target = listId
-        ? `/projects/${url.projectId}/task-lists/${listId}`
-        : `/projects/${url.projectId}/task-lists`;
-      navigate(target);
-      dispatch(fetchTask({ projectId: url.projectId, taskId: url.taskId })).then((action) => {
+  const projectId = act.project?.data?.id || act.project?.id || act.meta?.project_id || fallbackProjectId;
+  const isTask = act.resource_type === 'task' && act.resource_id && projectId;
+
+  const handleMessageClick = () => {
+    if (isTask) {
+      dispatch(fetchTask({ projectId, taskId: act.resource_id })).then((action) => {
         if (action.payload) dispatch(openTaskSheet(action.payload));
       });
-    } else {
-      navigate(url.path);
     }
   };
-
-  const actUrl = resolveActivityUrl(act);
 
   return (
     <div className="flex items-start gap-3 py-3 px-4 hover:bg-pm-hover/50 rounded-lg transition-colors">
@@ -66,11 +57,11 @@ export default function ActivityItem({ act }) {
             {badgeLabel}
           </Badge>
         </div>
-        {actUrl ? (
+        {isTask ? (
           <button
             type="button"
-            onClick={handleResourceClick}
-            className="text-sm text-pm-text-muted leading-snug hover:text-pm-accent transition-colors cursor-pointer text-left"
+            onClick={handleMessageClick}
+            className="text-sm text-pm-text-muted leading-snug hover:text-pm-accent transition-colors cursor-pointer text-left block w-full"
           >
             {parseMessage(act)}
           </button>

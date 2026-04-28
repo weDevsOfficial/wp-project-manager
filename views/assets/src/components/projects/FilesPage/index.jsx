@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useSearchParams } from "react-router-dom";
 import { useApi } from "@hooks/useApi";
 import { useProApi } from "@hooks/useProApi";
 import { useI18n } from "@hooks/useI18n";
@@ -46,6 +46,8 @@ import { getFileIcon, getAttachedLabel } from "./utils";
 export default function FilesPage() {
   const { projectId } = useParams();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const urlFolderId = parseInt(searchParams.get('folder')) || 0;
   const api = useApi();
   const proApi = useProApi();
   const { __ } = useI18n();
@@ -63,7 +65,7 @@ export default function FilesPage() {
   const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const [folderId, setFolderId] = useState(0);
+  const [folderId, setFolderId] = useState(urlFolderId);
   const [folderPath, setFolderPath] = useState([]);
   const [detailItem, setDetailItem] = useState(null);
   const [detailOpen, setDetailOpen] = useState(false);
@@ -144,6 +146,19 @@ export default function FilesPage() {
           const proArr = Array.isArray(proFiles) ? proFiles : Object.values(proFiles);
           const filtered = proArr.filter(f => f.id !== folderId);
           setFiles(sortFiles(filtered));
+
+          if (folderId) {
+            const parentMeta = proRes?.meta?.parent?.data ?? proRes?.meta?.parent;
+            if (parentMeta) {
+              const ancestors = parentMeta.parents?.data ?? [];
+              const chain = [...ancestors, parentMeta]
+                .filter(p => p && p.id)
+                .map(p => ({ id: p.id, title: p.meta?.title || p.title || p.name || `Folder #${p.id}` }));
+              setFolderPath(chain);
+            }
+          } else {
+            setFolderPath([]);
+          }
         })
         .catch(() => setFiles([]))
         .finally(() => setLoading(false));
@@ -155,15 +170,25 @@ export default function FilesPage() {
 
   useEffect(() => { fetchFiles(); }, [fetchFiles]);
 
+  useEffect(() => {
+    if (urlFolderId !== folderId) setFolderId(urlFolderId);
+  }, [urlFolderId]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const updateFolderUrl = (id) => {
+    if (id) setSearchParams({ folder: String(id) }, { replace: false });
+    else setSearchParams({}, { replace: false });
+  };
   const enterFolder = (folder) => {
     setFolderPath(prev => [...prev, { id: folder.id, title: folder.title }]);
     setFolderId(folder.id);
+    updateFolderUrl(folder.id);
   };
   const navigateToBreadcrumb = (idx) => {
-    if (idx === -1) { setFolderId(0); setFolderPath([]); return; }
+    if (idx === -1) { setFolderId(0); setFolderPath([]); updateFolderUrl(0); return; }
     const newPath = folderPath.slice(0, idx + 1);
     setFolderPath(newPath);
     setFolderId(newPath[newPath.length - 1].id);
+    updateFolderUrl(newPath[newPath.length - 1].id);
   };
   const handleItemClick = (item) => {
     const type = item.type || item.file_type;
@@ -362,11 +387,11 @@ export default function FilesPage() {
                 return (
                   <div key={f.id} className="group relative rounded-xl border bg-white hover:shadow-md transition-all cursor-pointer overflow-hidden"
                     onClick={() => handleItemClick(f)}>
-                    <div className={`aspect-square flex items-center justify-center ${isFolder ? 'bg-amber-50' : thumbUrl ? '' : 'bg-muted/30'}`}>
+                    <div className={`h-24 flex items-center justify-center ${isFolder ? 'bg-amber-50' : thumbUrl ? 'bg-muted/10' : 'bg-muted/30'}`}>
                       {thumbUrl ? (
-                        <img src={thumbUrl} alt={fileName} className="w-full h-full object-cover" />
+                        <img src={thumbUrl} alt={fileName} className="max-w-full max-h-full object-contain" />
                       ) : (
-                        <Icon className={`h-10 w-10 ${iconColor}`} />
+                        <Icon className={`h-8 w-8 ${iconColor}`} />
                       )}
                     </div>
                     <div className="p-2.5">

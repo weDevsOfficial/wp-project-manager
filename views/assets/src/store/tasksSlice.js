@@ -225,6 +225,9 @@ const tasksSlice = createSlice({
         }
       }
     },
+    markTaskModified(state) {
+      state.taskModifiedInSheet = true
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchTask.pending, (state) => { state.loading = true })
@@ -275,5 +278,5 @@ const tasksSlice = createSlice({
   },
 })
 
-export const { openTaskSheet, closeTaskSheet, setCurrentTask, updateCurrentTaskMeta } = tasksSlice.actions
+export const { openTaskSheet, closeTaskSheet, setCurrentTask, updateCurrentTaskMeta, markTaskModified } = tasksSlice.actions
 export default tasksSlice.reducer

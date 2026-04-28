@@ -2,11 +2,14 @@ import React, { useEffect, useState, useRef } from 'react';
 import { cn } from '@lib/utils';
 import { useI18n } from '@hooks/useI18n';
 import { useToast } from '@hooks/useToast';
+import { useAppDispatch } from '@store/index';
+import { markTaskModified } from '@store/tasksSlice';
 import { Milestone as MilestoneIcon, ChevronDown, X, Check } from 'lucide-react';
 
 export default function MilestoneField({ task, projectId, api }) {
   const { __ } = useI18n();
   const toast = useToast();
+  const dispatch = useAppDispatch();
   const [milestones, setMilestones] = useState([]);
   const [currentMilestone, setCurrentMilestone] = useState(null);
   const [loaded, setLoaded] = useState(false);
@@ -74,6 +77,7 @@ export default function MilestoneField({ task, projectId, api }) {
         });
       }
       setCurrentMilestone(milestone ?? null);
+      dispatch(markTaskModified());
       toast.success(milestone ? __('Milestone assigned') : __('Milestone removed'));
     } catch {
       toast.error(__('Failed to update milestone'));

@@ -20,6 +20,7 @@ import { cn } from '@lib/utils';
 import { ACTION_COLOR_MAP, ACTION_LABELS } from './constants';
 import { groupByDate } from './utils';
 import ActivityItem from './parts/ActivityItem';
+import TaskDetailSheet from '@components/tasks/TaskDetailSheet';
 
 export default function ActivitiesPage() {
   const { projectId } = useParams();
@@ -243,7 +244,7 @@ export default function ActivitiesPage() {
                   </div>
                   <div className="space-y-0.5">
                     {group.items.map((act, i) => (
-                      <ActivityItem key={act.id || i} act={act} />
+                      <ActivityItem key={act.id || i} act={act} projectId={projectId} />
                     ))}
                   </div>
                 </div>
@@ -264,6 +265,7 @@ export default function ActivitiesPage() {
           </div>
         </>
       )}
+      <TaskDetailSheet />
     </div>
   );
 }

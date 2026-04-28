@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useCallback } from "react";
 import { Navigate } from "react-router-dom";
 import { useAppDispatch } from "@store/index";
+import { fetchTask, openTaskSheet } from "@store/tasksSlice";
 import { useI18n } from "@hooks/useI18n";
 import { usePermissions } from "@hooks/usePermissions";
 import { useProModal } from "@components/common/ProUpgradeModal";
@@ -54,10 +55,11 @@ export default function CalendarPage() {
   };
 
   const handleTaskClick = (task) => {
-    const { openTaskSheet } = window.PM?.actions ?? {}
-    if (openTaskSheet) {
-      dispatch(openTaskSheet(task))
-    }
+    const pid = task.project_id || task.project?.data?.id || task.project?.id;
+    if (!pid) return;
+    dispatch(fetchTask({ projectId: pid, taskId: task.id })).then((action) => {
+      if (action.payload) dispatch(openTaskSheet(action.payload));
+    });
   };
 
   return (

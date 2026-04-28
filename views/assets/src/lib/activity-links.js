@@ -1,8 +1,8 @@
-export function resolveActivityUrl(activity) {
+export function resolveActivityUrl(activity, fallbackProjectId) {
   const resourceType = activity.resource_type;
   const resourceId = activity.resource_id;
   const meta = activity.meta || {};
-  const projectId = activity.project?.data?.id || activity.project?.id || meta.project_id;
+  const projectId = activity.project?.data?.id || activity.project?.id || meta.project_id || fallbackProjectId;
 
   if (!projectId && resourceType !== 'project') return null;
 

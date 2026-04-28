@@ -9,7 +9,7 @@ import { HashRouter, Routes, Route, Navigate, useParams, useNavigate } from 'rea
 import * as SonnerLib from 'sonner'
 const { Toaster } = SonnerLib
 import { store, injectReducer, resetProjectState } from '@store/index'
-import { fetchTask, openTaskSheet, closeTaskSheet } from '@store/tasksSlice'
+import { fetchTask, openTaskSheet, closeTaskSheet, markTaskModified } from '@store/tasksSlice'
 import { fetchTaskLists } from '@store/taskListsSlice'
 import TaskDetailSheet from '@components/tasks/TaskDetailSheet'
 import { AppLayout } from '@components/layout/AppLayout'
@@ -208,7 +208,7 @@ window.PM = {
 
   // Free store actions/thunks that pro may need to dispatch
   thunks: { fetchTask, fetchTaskLists },
-  actions: { resetProjectState, openTaskSheet, closeTaskSheet },
+  actions: { resetProjectState, openTaskSheet, closeTaskSheet, markTaskModified },
 
   // Components that pro needs to use (exposed for cross-plugin integration)
   components: {

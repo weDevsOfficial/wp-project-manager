@@ -8,7 +8,7 @@ import {
   deleteMilestone,
   toggleMilestonePrivacy,
 } from "@store/milestonesSlice";
-import { openTaskSheet } from "@store/tasksSlice";
+import { openTaskSheet, fetchTask } from "@store/tasksSlice";
 import { useApi } from "@hooks/useApi";
 import { useI18n } from "@hooks/useI18n";
 import { useToast } from "@hooks/useToast";
@@ -64,7 +64,10 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
   const handleOpenTask = useCallback(
     (task) => {
       onTaskOpen?.(milestone.id);
-      dispatch(openTaskSheet({ ...task, project_id: task.project_id ?? projectId }));
+      const pid = task.project_id ?? projectId;
+      dispatch(fetchTask({ projectId: pid, taskId: task.id })).then((action) => {
+        if (action.payload) dispatch(openTaskSheet(action.payload));
+      });
     },
     [dispatch, projectId, onTaskOpen, milestone.id],
   );
