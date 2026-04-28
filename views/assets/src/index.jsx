@@ -53,6 +53,10 @@ function FilteredPage({ filterName, fallback: Fallback }) {
   if (Override) {
     return <React.Suspense fallback={null}>{Override}</React.Suspense>
   }
+  // Pro installed but not yet signaled ready — render nothing to avoid flash of free placeholder
+  if (typeof PM_Pro_Vars !== 'undefined' && !window.PM?._proReady) {
+    return null
+  }
   return <Fallback />
 }
 
