@@ -623,7 +623,7 @@ export default function TaskDetailSheet() {
               </div>
               {editingDesc ? (
                 <div className="space-y-3">
-                  <RichTextEditor content={description} placeholder={__('Write a description...')} onChange={html => setDescription(html)} autofocus minHeight="100px" />
+                  <RichTextEditor content={description} placeholder={__('Write a description...')} onChange={html => setDescription(html)} autofocus minHeight="100px" users={project?.assignees?.data ?? []} />
                   <div className="flex items-center gap-2">
                     <Button size="sm" className="h-7 text-sm" onClick={handleDescSave} disabled={savingDesc}>{savingDesc ? __('Saving...') : __('Save')}</Button>
                     <Button variant="ghost" size="sm" className="h-7 text-sm" onClick={handleDescCancel}>{__('Cancel')}</Button>
@@ -692,7 +692,7 @@ export default function TaskDetailSheet() {
                           </div>
                           {isEditing ? (
                             <div className="space-y-2">
-                              <RichTextEditor content={editCommentText} onChange={setEditCommentText} minHeight="60px" autofocus />
+                              <RichTextEditor content={editCommentText} onChange={setEditCommentText} minHeight="60px" autofocus users={project?.assignees?.data ?? []} />
                               <div className="flex items-center gap-2">
                                 <Button size="sm" className="h-6 text-[15px]" onClick={handleUpdateComment}>{__('Save')}</Button>
                                 <Button size="sm" variant="ghost" className="h-6 text-[15px]" onClick={cancelEditComment}>{__('Cancel')}</Button>
@@ -746,6 +746,7 @@ export default function TaskDetailSheet() {
                   placeholder={__('Write a comment...')}
                   onChange={(html) => setNewComment(html)}
                   minHeight="60px"
+                  users={project?.assignees?.data ?? []}
                 />
                 <FileUploadArea files={commentFiles} onFilesChange={setCommentFiles} compact />
                 <Button size="sm" className="h-7 text-sm gap-1" onClick={handleSubmitComment} disabled={!newComment.trim() || submittingComment}>

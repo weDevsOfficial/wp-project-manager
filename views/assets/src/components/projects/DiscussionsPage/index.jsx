@@ -208,6 +208,7 @@ export default function DiscussionsPage() {
             onChange={setFormDesc}
             placeholder={__("Description...")}
             minHeight="80px"
+            users={project?.assignees?.data ?? []}
           />
           <Select value={formMilestone} onValueChange={setFormMilestone}>
             <SelectTrigger className="h-9 text-sm w-full sm:w-[200px]">

@@ -5,6 +5,7 @@ import { fetchSingleList, addTaskToList } from '@store/taskListsSlice'
 import { useI18n } from '@hooks/useI18n'
 import { useApi } from '@hooks/useApi'
 import { useToast } from '@hooks/useToast'
+import { useCurrentProject } from '@hooks/useCurrentProject'
 import { Button } from '@components/ui/button'
 import { Progress } from '@components/ui/progress'
 import { Skeleton } from '@components/ui/skeleton'
@@ -22,6 +23,8 @@ export default function SingleTaskListPage() {
   const projectId = parseInt(pidParam ?? '0', 10)
   const listId = parseInt(lidParam ?? '0', 10)
   const dispatch = useAppDispatch()
+  const project = useCurrentProject(projectId)
+  const projectUsers = project?.assignees?.data ?? []
   const { __ } = useI18n()
   const api = useApi()
   const toast = useToast()
@@ -313,7 +316,7 @@ export default function SingleTaskListPage() {
                     </div>
                     {isEditing ? (
                       <div className="space-y-2">
-                        <RichTextEditor content={editCommentText} onChange={setEditCommentText} minHeight="60px" autofocus />
+                        <RichTextEditor content={editCommentText} onChange={setEditCommentText} minHeight="60px" autofocus users={projectUsers} />
                         <div className="flex items-center gap-2">
                           <Button size="sm" className="h-6 text-[15px]" onClick={handleUpdateComment}>{__('Save')}</Button>
                           <Button size="sm" variant="ghost" className="h-6 text-[15px]" onClick={cancelEditComment}>{__('Cancel')}</Button>
@@ -364,6 +367,7 @@ export default function SingleTaskListPage() {
             placeholder={__('Write a comment...')}
             onChange={(html) => setNewComment(html)}
             minHeight="60px"
+            users={projectUsers}
           />
           <Button size="sm" className="h-7 text-sm" onClick={handleSubmitComment} disabled={!newComment.trim() || submittingComment}>
             {submittingComment ? __('Sending...') : __('Post Comment')}

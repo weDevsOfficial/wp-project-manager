@@ -54,6 +54,7 @@ export default function DiscussionDetailPage() {
   const toast = useToast();
   const project = useCurrentProject(projectId);
   const { isPro, userCan, isManager, canEditComment, currentUserId } = usePermissions(project);
+  const projectUsers = project?.assignees?.data ?? [];
 
   const canEditDiscussion = (d) => {
     if (isManager || userCan("delete_discussion")) return true;
@@ -276,6 +277,7 @@ export default function DiscussionDetailPage() {
                 content={editDesc}
                 onChange={setEditDesc}
                 minHeight="80px"
+                users={projectUsers}
               />
               <Select value={editMilestone} onValueChange={setEditMilestone}>
                 <SelectTrigger className="h-8 text-sm w-full sm:w-[200px]">
@@ -432,6 +434,7 @@ export default function DiscussionDetailPage() {
                           onChange={setEditCommentText}
                           autofocus
                           minHeight="36px"
+                          users={projectUsers}
                         />
                         <div className="flex gap-1">
                           <Button
@@ -482,6 +485,7 @@ export default function DiscussionDetailPage() {
                 placeholder={__("Write a comment...")}
                 minHeight="40px"
                 className="flex-1"
+                users={projectUsers}
               />
               <Button
                 size="icon"

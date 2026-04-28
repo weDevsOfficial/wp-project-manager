@@ -472,6 +472,7 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
                     onChange={setNewDesc}
                     placeholder={__('Description...')}
                     minHeight="60px"
+                    users={project?.assignees?.data ?? []}
                   />
 
                   {/* Due date */}

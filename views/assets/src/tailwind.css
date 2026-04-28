@@ -575,6 +575,22 @@ body.admin-bar [data-sonner-toaster] {
   outline-offset: 2px !important;
 }
 
+/* ── @mention node styling ── */
+.mention {
+  color: hsl(var(--primary));
+  background-color: hsl(var(--primary) / 0.1);
+  border-radius: 4px;
+  padding: 0 3px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  text-decoration: none;
+}
+.mention:hover {
+  background-color: hsl(var(--primary) / 0.2);
+  text-decoration: underline;
+}
+
 /* ── Override WP admin input styles inside our React app ──
    WP admin adds extra padding/height/border to inputs which
    misaligns icons and breaks Tailwind's h-* sizing. ── */
