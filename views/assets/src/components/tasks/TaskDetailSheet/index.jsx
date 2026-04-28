@@ -332,10 +332,26 @@ export default function TaskDetailSheet() {
     }
   }, [dispatch, projectId, currentTask, toast, __])
 
-  const handleCopyLink = useCallback(() => {
-    const url = `${window.location.origin}${window.location.pathname}#/projects/${projectId}/task-lists/${currentTask?.task_list_id}/tasks/${currentTask?.id}`
-    navigator.clipboard.writeText(url)
-    toast.success(__('Link copied'))
+  const handleCopyLink = useCallback(async () => {
+    const url = `${window.location.origin}${window.location.pathname}${window.location.search}#/projects/${projectId}/task-lists/${currentTask?.task_list_id}/tasks/${currentTask?.id}`
+    try {
+      await navigator.clipboard.writeText(url)
+      toast.success(__('Link copied'))
+    } catch {
+      try {
+        const el = document.createElement('textarea')
+        el.value = url
+        el.style.position = 'fixed'
+        el.style.opacity = '0'
+        document.body.appendChild(el)
+        el.select()
+        document.execCommand('copy')
+        document.body.removeChild(el)
+        toast.success(__('Link copied'))
+      } catch {
+        toast.error(__('Could not copy link'))
+      }
+    }
   }, [projectId, currentTask, toast, __])
 
   return (

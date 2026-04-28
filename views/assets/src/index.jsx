@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createPortal } from 'react-dom'
 import { Provider } from 'react-redux'
 import * as ReactRedux from 'react-redux'
 import * as ReactRouterDom from 'react-router-dom'
 import * as ReduxToolkit from '@reduxjs/toolkit'
-import { HashRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { HashRouter, Routes, Route, Navigate, useParams, useNavigate } from 'react-router-dom'
 import * as SonnerLib from 'sonner'
 const { Toaster } = SonnerLib
 import { store, injectReducer, resetProjectState } from '@store/index'
@@ -56,6 +56,19 @@ function FilteredPage({ filterName, fallback: Fallback }) {
   return <Fallback />
 }
 
+function TaskDeepLink() {
+  const { projectId, listId, taskId } = useParams()
+  const navigate = useNavigate()
+  useEffect(() => {
+    store.dispatch(fetchTask({ projectId, taskId })).then((action) => {
+      const task = action.payload
+      if (task) store.dispatch(openTaskSheet(task))
+    })
+    navigate(`/projects/${projectId}/task-lists/${listId}`, { replace: true })
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  return null
+}
+
 function AppRoutes() {
   const dynamicRoutes = useRegisteredRoutes()
   const isFrontend = typeof PM_Vars !== 'undefined' && PM_Vars.is_frontend && !PM_Vars.is_admin
@@ -70,6 +83,7 @@ function AppRoutes() {
         <Route path="projects" element={<ProjectsPage />} />
         <Route path="projects/:projectId/task-lists" element={<TaskListsPage />} />
         <Route path="projects/:projectId/task-lists/:listId" element={<SingleTaskListPage />} />
+        <Route path="projects/:projectId/task-lists/:listId/tasks/:taskId" element={<TaskDeepLink />} />
         <Route path="projects/:projectId/overview" element={<ProjectOverview />} />
         <Route path="projects/:projectId/discussions" element={<DiscussionsPage />} />
         <Route path="projects/:projectId/milestones" element={<MilestonesPage />} />

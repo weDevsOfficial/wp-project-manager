@@ -219,17 +219,23 @@ export default function MyTasksPage() {
   const taskSheetOpen = useAppSelector((s) => s.tasks.taskSheetOpen);
   const taskModified = useAppSelector((s) => s.tasks.taskModifiedInSheet);
   const prevSheetOpen = useRef(false);
+  const fetchTasksRef = useRef(fetchTasks);
+  const taskPageRef = useRef(taskPage);
+  const userIdRef = useRef(userId);
+  useEffect(() => { fetchTasksRef.current = fetchTasks; }, [fetchTasks]);
+  useEffect(() => { taskPageRef.current = taskPage; }, [taskPage]);
+  useEffect(() => { userIdRef.current = userId; }, [userId]);
   useEffect(() => {
     if (prevSheetOpen.current && !taskSheetOpen && taskModified) {
-      fetchTasks(taskPage);
-      if (userId) {
-        api.get(`users/${userId}`, { with: "meta" })
+      fetchTasksRef.current(taskPageRef.current);
+      if (userIdRef.current) {
+        api.get(`users/${userIdRef.current}`, { with: "meta" })
           .then((res) => setUser(res.data))
           .catch(() => {});
       }
     }
     prevSheetOpen.current = taskSheetOpen;
-  }, [taskSheetOpen]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [taskSheetOpen, taskModified]);
 
   useEffect(() => {
     if (!userId || activeTab !== "overview") return;
@@ -289,8 +295,14 @@ export default function MyTasksPage() {
   const calMonth = calDate.getMonth();
   const calDaysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
   const calFirstDay = new Date(calYear, calMonth, 1).getDay();
-  const calMonths = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-  const calDays = ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+  const calMonths = useMemo(() => {
+    const fmt = new Intl.DateTimeFormat(navigator.language, { month: "long" });
+    return Array.from({ length: 12 }, (_, i) => fmt.format(new Date(2000, i, 1)));
+  }, []);
+  const calDays = useMemo(() => {
+    const fmt = new Intl.DateTimeFormat(navigator.language, { weekday: "short" });
+    return Array.from({ length: 7 }, (_, i) => fmt.format(new Date(2000, 0, 2 + i)));
+  }, []);
 
   useEffect(() => {
     if (!userId || activeTab !== "overview") return;
@@ -376,7 +388,7 @@ export default function MyTasksPage() {
         toast.error(__("Failed to update task"));
       }
     },
-    [api, userId, activeTab, toast, __],
+    [api, userId, toast, __, fetchTasks, taskPage],
   );
 
   const meta = user?.meta?.data || user?.meta || {};
