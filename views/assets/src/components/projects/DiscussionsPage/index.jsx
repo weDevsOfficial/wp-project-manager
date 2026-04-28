@@ -297,7 +297,13 @@ export default function DiscussionsPage() {
                       {d.milestone?.data && (
                         <>
                           <span>·</span>
-                          <span className="text-pm-accent">{d.milestone.data.title}</span>
+                          <button
+                            type="button"
+                            className="text-pm-accent hover:underline"
+                            onClick={(e) => { e.stopPropagation(); navigate(`/projects/${projectId}/milestones`); }}
+                          >
+                            {d.milestone.data.title}
+                          </button>
                         </>
                       )}
                     </div>
