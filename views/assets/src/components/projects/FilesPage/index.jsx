@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import BackButton from "@components/common/BackButton";
 import { useApi } from "@hooks/useApi";
 import { useI18n } from "@hooks/useI18n";
 import { useToast } from "@hooks/useToast";
@@ -10,7 +11,6 @@ import ProBadge from "@components/common/ProBadge";
 import { Button } from "@components/ui/button";
 import { Skeleton } from "@components/ui/skeleton";
 import {
-  ArrowLeft,
   FileText,
   Download,
   Trash2,
@@ -42,7 +42,7 @@ import {
 // folders/docs/links/comments/revisions UI.
 export default function FilesPage() {
   const { projectId } = useParams();
-  const navigate = useNavigate();
+
   const api = useApi();
   const { __ } = useI18n();
   const toast = useToast();
@@ -85,14 +85,7 @@ export default function FilesPage() {
     <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-5">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-8 w-8"
-            onClick={() => navigate(`/projects/${projectId}/task-lists`)}
-          >
-            <ArrowLeft className="h-5 w-5" />
-          </Button>
+          <BackButton fallback={`/projects/${projectId}/task-lists`} />
           <h1 className="text-xl font-bold text-pm-text-primary">{__("Files")}</h1>
           {files.length > 0 && (
             <span className="text-sm text-pm-text-muted bg-muted/60 px-2 py-0.5 rounded-full tabular-nums">

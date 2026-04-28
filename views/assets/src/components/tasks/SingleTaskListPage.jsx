@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '@store/index'
 import { fetchSingleList, addTaskToList } from '@store/taskListsSlice'
 import { useI18n } from '@hooks/useI18n'
@@ -10,7 +10,8 @@ import { Progress } from '@components/ui/progress'
 import { Skeleton } from '@components/ui/skeleton'
 import { UserAvatar } from '@components/common/UserAvatar'
 import RichTextEditor from '@components/common/RichTextEditor'
-import { ArrowLeft, Lock, MessageSquare, Pencil, Trash2, Paperclip } from 'lucide-react'
+import { Lock, MessageSquare, Pencil, Trash2, Paperclip } from 'lucide-react'
+import BackButton from '@components/common/BackButton'
 import { formatPmDateTime } from '@lib/pm-utils'
 import TaskRow from './TaskRow'
 import TaskDetailSheet from './TaskDetailSheet'
@@ -20,7 +21,6 @@ export default function SingleTaskListPage() {
   const { projectId: pidParam, listId: lidParam } = useParams()
   const projectId = parseInt(pidParam ?? '0', 10)
   const listId = parseInt(lidParam ?? '0', 10)
-  const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const { __ } = useI18n()
   const api = useApi()
@@ -177,10 +177,7 @@ export default function SingleTaskListPage() {
   if (!currentList) {
     return (
       <div className="max-w-[1400px] mx-auto p-4 sm:p-6">
-        <Button variant="outline" size="sm" className="gap-1.5 mb-4 bg-white hover:border-pm-accent hover:text-pm-accent" onClick={() => navigate(`/projects/${projectId}/task-lists`)}>
-          <ArrowLeft className="h-4 w-4" />
-          {__('Back to Task Lists')}
-        </Button>
+        <BackButton fallback={`/projects/${projectId}/task-lists`} label={__('Back to Task Lists')} className="mb-4" />
         <p className="text-sm text-pm-text-muted">{__('Task list not found.')}</p>
       </div>
     )
@@ -197,10 +194,7 @@ export default function SingleTaskListPage() {
   return (
     <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-5">
       {/* Back button */}
-      <Button variant="outline" size="sm" className="gap-1.5 bg-white hover:border-pm-accent hover:text-pm-accent" onClick={() => navigate(`/projects/${projectId}/task-lists`)}>
-        <ArrowLeft className="h-4 w-4" />
-        {__('Back to Task Lists')}
-      </Button>
+      <BackButton fallback={`/projects/${projectId}/task-lists`} label={__('Back to Task Lists')} />
 
       {/* List header */}
       <div className="flex items-center gap-3 flex-wrap">

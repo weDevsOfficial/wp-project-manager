@@ -24,7 +24,8 @@ import {
   Pagination, PaginationContent, PaginationItem,
   PaginationLink, PaginationNext, PaginationPrevious, PaginationEllipsis,
 } from "@components/ui/pagination";
-import { ArrowLeft, Plus, ChevronsUpDown, ListTodo, Crown } from "lucide-react";
+import { Plus, ChevronsUpDown, ListTodo, Crown } from "lucide-react";
+import BackButton from '@components/common/BackButton';
 import { Slot } from "@hooks/useSlot";
 import TaskListSection from "./TaskListSection";
 import TaskDetailSheet from "./TaskDetailSheet";
@@ -203,14 +204,7 @@ export default function TaskListsPage() {
       {/* Header */}
       <div className="flex items-center justify-between flex-wrap gap-2">
         <div className="flex items-center gap-3">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-8 w-8"
-            onClick={() => navigate("/projects")}
-          >
-            <ArrowLeft className="h-5 w-5" />
-          </Button>
+          <BackButton fallback="/projects" />
           <h1 className="text-xl font-bold text-pm-text-primary">
             {__("Task Lists")}
           </h1>

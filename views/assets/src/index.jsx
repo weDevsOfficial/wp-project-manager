@@ -214,6 +214,7 @@ window.PM = {
   components: {
     UserAvatar,
     ErrorBoundary,
+    BackButton:       require('@components/common/BackButton'),
     FileUploadArea:  require('@components/common/FileUploadArea'),
     ProBadge:        require('@components/common/ProBadge'),
     ProUpgradeModal: require('@components/common/ProUpgradeModal'),

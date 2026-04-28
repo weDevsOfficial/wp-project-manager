@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { useParams, useNavigate, useSearchParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
+import BackButton from "@components/common/BackButton";
 import { useApi } from "@hooks/useApi";
 import { useI18n } from "@hooks/useI18n";
 import { useToast } from "@hooks/useToast";
@@ -22,7 +23,6 @@ import {
   SelectValue,
 } from "@components/ui/select";
 import {
-  ArrowLeft,
   Plus,
   MessageSquare,
   Trash2,
@@ -50,7 +50,7 @@ import DiscussionFiles from "./parts/DiscussionFiles";
 
 export default function DiscussionsPage() {
   const { projectId } = useParams();
-  const navigate = useNavigate();
+
   const [searchParams] = useSearchParams();
   const targetDiscussionId = parseInt(searchParams.get('id')) || null;
   const api = useApi();
@@ -344,14 +344,7 @@ export default function DiscussionsPage() {
     <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-5">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-8 w-8"
-            onClick={() => navigate(`/projects/${projectId}/task-lists`)}
-          >
-            <ArrowLeft className="h-5 w-5" />
-          </Button>
+          <BackButton fallback={`/projects/${projectId}/task-lists`} />
           <h1 className="text-xl font-bold text-pm-text-primary">
             {__("Discussions")}
           </h1>

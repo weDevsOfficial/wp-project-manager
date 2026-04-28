@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@store/index";
 import {
   fetchMilestones,
@@ -25,11 +25,11 @@ import {
 } from "@components/ui/dialog";
 import { Skeleton } from "@components/ui/skeleton";
 import {
-  ArrowLeft,
   Plus,
   Milestone as MilestoneIcon,
   Filter,
 } from "lucide-react";
+import BackButton from "@components/common/BackButton";
 import MilestoneFilterBar from "./parts/MilestoneFilterBar";
 import MilestoneForm from "./parts/MilestoneForm";
 import ImportTasksDialog from "./parts/ImportTasksDialog";
@@ -39,7 +39,6 @@ import TaskDetailSheet from "@components/tasks/TaskDetailSheet";
 
 export default function MilestonesPage() {
   const { projectId } = useParams();
-  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { __ } = useI18n();
   const toast = useToast();
@@ -214,14 +213,7 @@ export default function MilestonesPage() {
     <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-5">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-8 w-8"
-            onClick={() => navigate(`/projects/${projectId}/task-lists`)}
-          >
-            <ArrowLeft className="h-5 w-5" />
-          </Button>
+          <BackButton fallback={`/projects/${projectId}/task-lists`} />
           <h1 className="text-xl font-bold text-pm-text-primary">
             {__("Milestones")}
           </h1>
