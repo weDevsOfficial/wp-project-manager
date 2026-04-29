@@ -24,7 +24,6 @@ class Upgrade_2_5_1 {
     public function upgrade_init() {
         $this->normalize_task_types();
         $this->fix_column_default();
-        $this->remove_orphan_task_type_relations();
     }
 
     private function normalize_task_types() {
@@ -47,16 +46,4 @@ class Upgrade_2_5_1 {
         );
     }
 
-    private function remove_orphan_task_type_relations() {
-        global $wpdb;
-
-        $relation_table = "{$wpdb->prefix}pm_task_type_task";
-        $types_table    = "{$wpdb->prefix}pm_task_types";
-
-        $wpdb->query(
-            "DELETE r FROM {$relation_table} r
-             LEFT JOIN {$types_table} t ON r.type_id = t.id
-             WHERE t.id IS NULL"
-        );
-    }
 }
