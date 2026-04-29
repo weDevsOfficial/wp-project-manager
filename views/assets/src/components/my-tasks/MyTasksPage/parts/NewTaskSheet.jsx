@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useApi } from "@hooks/useApi";
 import { useI18n } from "@hooks/useI18n";
 import { useToast } from "@hooks/useToast";
@@ -7,6 +7,7 @@ import { Input } from "@components/ui/input";
 import { Label } from "@components/ui/label";
 import RichTextEditor from "@components/common/RichTextEditor";
 import { Skeleton } from "@components/ui/skeleton";
+import { UserAvatar } from "@components/common/UserAvatar";
 import {
   Sheet,
   SheetContent,
@@ -21,7 +22,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@components/ui/select";
-import { Loader2 } from "lucide-react";
+import { Loader2, X, UserPlus, Calendar } from "lucide-react";
+import { cn } from "@lib/utils";
+
+const getCurrentUser = () => {
+  if (typeof PM_Vars === 'undefined') return null
+  const u = PM_Vars.current_user
+  return {
+    id: u?.ID ?? u?.data?.ID ?? u?.id,
+    display_name: u?.data?.display_name || u?.display_name || u?.data?.user_login || '',
+    avatar_url: u?.data?.avatar_url || u?.avatar_url || PM_Vars.avatar_url || '',
+  }
+}
 
 export default function NewTaskSheet({ open, onOpenChange, userId, onCreated }) {
   const api = useApi();
@@ -34,6 +46,15 @@ export default function NewTaskSheet({ open, onOpenChange, userId, onCreated }) 
   const [selectedList, setSelectedList] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [dueDate, setDueDate] = useState("");
+  const [selectedAssignees, setSelectedAssignees] = useState(() => {
+    const u = getCurrentUser()
+    return u?.id ? [u] : []
+  });
+  const [assigneeSearch, setAssigneeSearch] = useState("");
+  const [assigneeResults, setAssigneeResults] = useState([]);
+  const [showAssigneeSearch, setShowAssigneeSearch] = useState(false);
   const [saving, setSaving] = useState(false);
   const [loadingProjects, setLoadingProjects] = useState(false);
   const [loadingLists, setLoadingLists] = useState(false);
@@ -87,19 +108,52 @@ export default function NewTaskSheet({ open, onOpenChange, userId, onCreated }) 
       setSelectedList("");
       setProjects([]);
       setLists([]);
+      setStartDate("");
+      setDueDate("");
+      const u = getCurrentUser()
+      setSelectedAssignees(u?.id ? [u] : []);
+      setAssigneeSearch("");
+      setAssigneeResults([]);
+      setShowAssigneeSearch(false);
     }
   }, [open]);
+
+  const handleSearchUsers = useCallback(async (q) => {
+    setAssigneeSearch(q);
+    if (q.length < 2) { setAssigneeResults([]); return; }
+    try {
+      const res = await api.get("users", { search: q });
+      setAssigneeResults(res.data ?? []);
+    } catch { setAssigneeResults([]); }
+  }, [api]);
+
+  const addAssignee = useCallback((user) => {
+    if (!selectedAssignees.find(u => parseInt(u.id) === parseInt(user.id))) {
+      setSelectedAssignees(prev => [...prev, user]);
+    }
+    setAssigneeSearch("");
+    setAssigneeResults([]);
+    setShowAssigneeSearch(false);
+  }, [selectedAssignees]);
+
+  const removeAssignee = useCallback((userId) => {
+    setSelectedAssignees(prev => prev.filter(u => u.id !== userId));
+  }, []);
 
   const handleSubmit = async () => {
     if (!title.trim() || !selectedProject || !selectedList) return;
     setSaving(true);
     try {
-      await api.post(`projects/${selectedProject}/tasks`, {
+      const payload = {
         title: title.trim(),
-        description: description.trim() || undefined,
         board_id: selectedList,
-        assignees: [userId],
-      });
+        assignees: selectedAssignees.length > 0 ? selectedAssignees.map(u => u.id) : [userId],
+      };
+      if (description.trim()) payload.description = description.trim();
+      if (startDate) payload.start_at = startDate;
+      if (dueDate) payload.due_date = dueDate;
+
+      await api.post(`projects/${selectedProject}/tasks`, payload);
       toast.success(__("Task created"));
       onOpenChange(false);
       onCreated?.();
@@ -120,6 +174,7 @@ export default function NewTaskSheet({ open, onOpenChange, userId, onCreated }) 
         </SheetHeader>
 
         <div className="flex-1 overflow-y-auto px-6 py-5 space-y-5">
+          {/* Project */}
           <div className="space-y-2">
             <Label>
               {__("Project")} <span className="text-destructive">*</span>
@@ -127,10 +182,7 @@ export default function NewTaskSheet({ open, onOpenChange, userId, onCreated }) 
             {loadingProjects ? (
               <Skeleton className="h-10 rounded-md" />
             ) : (
-              <Select
-                value={selectedProject}
-                onValueChange={setSelectedProject}
-              >
+              <Select value={selectedProject} onValueChange={setSelectedProject}>
                 <SelectTrigger>
                   <SelectValue placeholder={__("Select a project")} />
                 </SelectTrigger>
@@ -145,6 +197,7 @@ export default function NewTaskSheet({ open, onOpenChange, userId, onCreated }) 
             )}
           </div>
 
+          {/* Task List */}
           <div className="space-y-2">
             <Label>
               {__("Task List")} <span className="text-destructive">*</span>
@@ -171,6 +224,7 @@ export default function NewTaskSheet({ open, onOpenChange, userId, onCreated }) 
             )}
           </div>
 
+          {/* Task Title */}
           <div className="space-y-2">
             <Label>
               {__("Task Title")} <span className="text-destructive">*</span>
@@ -189,6 +243,7 @@ export default function NewTaskSheet({ open, onOpenChange, userId, onCreated }) 
             />
           </div>
 
+          {/* Description */}
           <div className="space-y-2">
             <Label>{__("Description")}</Label>
             <RichTextEditor
@@ -196,6 +251,93 @@ export default function NewTaskSheet({ open, onOpenChange, userId, onCreated }) 
               onChange={setDescription}
               placeholder={__("Add a description (optional)")}
             />
+          </div>
+
+          {/* Assignees */}
+          <div className="space-y-2">
+            <Label className="flex items-center gap-1.5">
+              <UserPlus className="h-4 w-4" />
+              {__("Assignees")}
+            </Label>
+            <div className="space-y-2">
+              {selectedAssignees.length > 0 && (
+                <div className="flex flex-wrap gap-1.5">
+                  {selectedAssignees.map(user => (
+                    <div
+                      key={user.id}
+                      className="flex items-center gap-1 bg-muted rounded-full pl-0.5 pr-2 py-0.5"
+                    >
+                      <UserAvatar user={user} size="xs" />
+                      <span className="text-sm">{user.display_name}</span>
+                      <button
+                        type="button"
+                        onClick={() => removeAssignee(user.id)}
+                        className="text-pm-text-muted hover:text-destructive"
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+              <div className="relative">
+                <Input
+                  value={assigneeSearch}
+                  onChange={(e) => handleSearchUsers(e.target.value)}
+                  onFocus={() => setShowAssigneeSearch(true)}
+                  onBlur={() => setTimeout(() => setShowAssigneeSearch(false), 150)}
+                  placeholder={__("Search users...")}
+                  className="h-9"
+                />
+                {showAssigneeSearch && assigneeResults.length > 0 && (
+                  <div className="absolute z-50 top-full mt-1 left-0 right-0 bg-background border rounded-md shadow-lg max-h-40 overflow-y-auto">
+                    {assigneeResults.map(user => (
+                      <button
+                        key={user.id}
+                        type="button"
+                        onMouseDown={() => addAssignee(user)}
+                        className={cn(
+                          "flex items-center gap-2 w-full px-3 py-2 text-sm hover:bg-muted text-left",
+                          selectedAssignees.find(u => u.id === user.id) && "opacity-50"
+                        )}
+                      >
+                        <UserAvatar user={user} size="xs" />
+                        <span>{user.display_name}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Dates */}
+          <div className="space-y-2">
+            <Label className="flex items-center gap-1.5">
+              <Calendar className="h-4 w-4" />
+              {__("Dates")}
+            </Label>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1">
+                <span className="text-xs text-pm-text-muted">{__("Start Date")}</span>
+                <input
+                  type="date"
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                  className="w-full h-9 rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring"
+                />
+              </div>
+              <div className="space-y-1">
+                <span className="text-xs text-pm-text-muted">{__("Due Date")}</span>
+                <input
+                  type="date"
+                  value={dueDate}
+                  onChange={(e) => setDueDate(e.target.value)}
+                  min={startDate || undefined}
+                  className="w-full h-9 rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring"
+                />
+              </div>
+            </div>
           </div>
         </div>
 
@@ -205,9 +347,7 @@ export default function NewTaskSheet({ open, onOpenChange, userId, onCreated }) 
           </Button>
           <Button
             onClick={handleSubmit}
-            disabled={
-              saving || !title.trim() || !selectedProject || !selectedList
-            }
+            disabled={saving || !title.trim() || !selectedProject || !selectedList}
           >
             {saving && <Loader2 className="h-5 w-5 mr-2 animate-spin" />}
             {saving ? __("Creating...") : __("Create Task")}
