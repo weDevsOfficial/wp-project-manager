@@ -94,7 +94,7 @@ export function AppSidebar() {
   const [expandedProjects, setExpandedProjects] = useState(new Set())
   const [showFavourites, setShowFavourites] = useState(true)
   const [sidebarMode, setSidebarMode] = useState(
-    () => isFrontend ? 'plugin' : (localStorage.getItem('pm-sidebar-mode') ?? 'plugin')
+    () => isFrontend ? 'plugin' : (localStorage.getItem('pm-sidebar-mode') ?? 'wordpress')
   )
 
   // Listen for mode changes from TopBar

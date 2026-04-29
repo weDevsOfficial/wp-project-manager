@@ -4,6 +4,7 @@ import { useI18n } from '@hooks/useI18n';
 import { useToast } from '@hooks/useToast';
 import { useAppDispatch } from '@store/index';
 import { markTaskModified } from '@store/tasksSlice';
+import { removeTaskFromMilestone, addTaskToMilestone } from '@store/milestonesSlice';
 import { Milestone as MilestoneIcon, ChevronDown, X, Check } from 'lucide-react';
 
 export default function MilestoneField({ task, projectId, api }) {
@@ -66,20 +67,37 @@ export default function MilestoneField({ task, projectId, api }) {
 
     if (milestone?.id === currentMilestone?.id) return;
 
+    // Optimistic update — reflect immediately like sprint does
+    const previous = currentMilestone;
+    setCurrentMilestone(milestone ?? null);
+    if (previous) {
+      dispatch(removeTaskFromMilestone({ milestoneId: previous.id, taskId }));
+    }
+    if (milestone) {
+      dispatch(addTaskToMilestone({ milestoneId: milestone.id, task: { id: taskId, title: task?.title } }));
+    }
+
     setSaving(true);
     try {
-      if (currentMilestone) {
-        await api.post(`projects/${projectId}/milestones/${currentMilestone.id}/detach-task/${taskId}`);
+      if (previous) {
+        await api.post(`projects/${projectId}/milestones/${previous.id}/detach-task/${taskId}`);
       }
       if (milestone) {
         await api.post(`projects/${projectId}/milestones/${milestone.id}/attach-tasks`, {
           task_ids: [taskId],
         });
       }
-      setCurrentMilestone(milestone ?? null);
       dispatch(markTaskModified());
       toast.success(milestone ? __('Milestone assigned') : __('Milestone removed'));
     } catch {
+      // Rollback on failure
+      setCurrentMilestone(previous);
+      if (previous) {
+        dispatch(addTaskToMilestone({ milestoneId: previous.id, task: { id: taskId, title: task?.title } }));
+      }
+      if (milestone) {
+        dispatch(removeTaskFromMilestone({ milestoneId: milestone.id, taskId }));
+      }
       toast.error(__('Failed to update milestone'));
     }
     setSaving(false);

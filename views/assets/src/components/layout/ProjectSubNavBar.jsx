@@ -41,7 +41,7 @@ export function ProjectSubNavBar() {
   const navigate = useNavigate()
 
   const [sidebarMode, setSidebarMode] = useState(
-    () => localStorage.getItem('pm-sidebar-mode') ?? 'plugin'
+    () => localStorage.getItem('pm-sidebar-mode') ?? 'wordpress'
   )
 
   useEffect(() => {

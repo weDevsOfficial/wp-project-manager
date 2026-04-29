@@ -56,7 +56,7 @@ export function TopBar() {
 
   const isFrontendPage = typeof PM_Vars !== 'undefined' && PM_Vars.is_frontend && !PM_Vars.is_admin
   const [sidebarMode, setSidebarMode] = useState(
-    () => isFrontendPage ? 'plugin' : (localStorage.getItem('pm-sidebar-mode') ?? 'plugin')
+    () => isFrontendPage ? 'plugin' : (localStorage.getItem('pm-sidebar-mode') ?? 'wordpress')
   )
 
   const toggleSidebarMode = useCallback(() => {
@@ -72,12 +72,23 @@ export function TopBar() {
     window.dispatchEvent(new CustomEvent('pm-sidebar-mode-change', { detail: next }))
   }, [sidebarMode])
 
-  // Frontend: always force plugin sidebar mode, remove WP sidebar class
+  // Sync body class with sidebar mode
   useEffect(() => {
     if (isFrontendPage) {
       document.body.classList.remove('pm-mode-wordpress')
+    } else if (sidebarMode === 'wordpress') {
+      document.body.classList.add('pm-mode-wordpress')
+    } else {
+      document.body.classList.remove('pm-mode-wordpress')
     }
-  }, [isFrontendPage])
+  }, [isFrontendPage, sidebarMode])
+
+  // Listen for mode changes dispatched by other components
+  useEffect(() => {
+    const handler = (e) => setSidebarMode(e.detail)
+    window.addEventListener('pm-sidebar-mode-change', handler)
+    return () => window.removeEventListener('pm-sidebar-mode-change', handler)
+  }, [])
 
   const activeProjectId = useMemo(() => {
     const parts = location.pathname.split('/').filter(Boolean)

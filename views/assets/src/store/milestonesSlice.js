@@ -125,6 +125,19 @@ const milestonesSlice = createSlice({
         }
       }
     },
+    addTaskToMilestone(state, action) {
+      const { milestoneId, task } = action.payload
+      const milestone = state.items.find(m => m.id === milestoneId)
+      if (!milestone) return
+      if (!milestone.tasks) milestone.tasks = { data: [] }
+      if (!Array.isArray(milestone.tasks.data)) milestone.tasks.data = []
+      if (!milestone.tasks.data.some(t => t.id === task.id)) {
+        milestone.tasks.data.push(task)
+        if (milestone.meta) {
+          milestone.meta.total_direct_tasks = (milestone.meta.total_direct_tasks || 0) + 1
+        }
+      }
+    },
   },
   extraReducers: (builder) => {
     // Fetch all
@@ -226,6 +239,7 @@ export const {
   setFilter,
   setSort,
   removeTaskFromMilestone,
+  addTaskToMilestone,
 } = milestonesSlice.actions
 
 export default milestonesSlice.reducer
