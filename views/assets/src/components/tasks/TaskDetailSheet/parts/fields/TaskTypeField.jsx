@@ -21,7 +21,7 @@ export default function TaskTypeField({ task, projectId, dispatch, api }) {
   const loadTypes = useCallback(() => {
     if (types.length > 0) return;
     setLoadingTypes(true);
-    api.get('settings/task-types', { type: 'task' })
+    api.get('settings/task-types')
       .then(res => {
         const items = res?.data ?? res ?? [];
         setTypes(Array.isArray(items) ? items : []);

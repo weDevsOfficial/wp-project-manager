@@ -11,16 +11,10 @@ class Task_Type_Transformer extends TransformerAbstract {
     use Resource_Editors;
 
     public function transform( Task_Types $item ) {
-        $type = $item->type;
-        if ( empty( $type ) || ! in_array( $type, [ 'task', 'subtask' ], true ) ) {
-            $type = 'task';
-        }
-
         return [
             'id'          => (int) $item->id,
             'title'       => $item->title,
             'description' => $item->description,
-            'type'        => $type,
             'status'      => $item->status
         ];
     }

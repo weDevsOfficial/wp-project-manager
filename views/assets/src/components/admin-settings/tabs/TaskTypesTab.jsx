@@ -11,21 +11,7 @@ import { Input } from '@components/ui/input'
 import { Label } from '@components/ui/label'
 import { Plus, Pencil, Trash2, Check, X } from 'lucide-react'
 
-const emptyForm = { title: '', description: '', type: 'task', status: 1 }
-
-function TypeToggle({ value, onChange }) {
-  const { __ } = useI18n()
-  return (
-    <div className="flex rounded border border-pm-border overflow-hidden text-sm h-9">
-      <button type="button"
-        className={`px-3 py-1.5 transition-colors ${value === 'task' ? 'bg-pm-accent text-white' : 'bg-pm-surface text-pm-text-muted hover:bg-muted/50'}`}
-        onClick={() => onChange('task')}>{__('Task', 'wedevs-project-manager')}</button>
-      <button type="button"
-        className={`px-3 py-1.5 transition-colors ${value === 'subtask' ? 'bg-pm-accent text-white' : 'bg-pm-surface text-pm-text-muted hover:bg-muted/50'}`}
-        onClick={() => onChange('subtask')}>{__('Subtask', 'wedevs-project-manager')}</button>
-    </div>
-  )
-}
+const emptyForm = { title: '', description: '', status: 1 }
 
 const TaskTypesTab = () => {
   const { __ } = useI18n()
@@ -74,7 +60,6 @@ const TaskTypesTab = () => {
     setEditForm({
       title:       type.title,
       description: type.description,
-      type:        type.type,
       status:      type.status,
     })
   }, [])
@@ -147,10 +132,6 @@ const TaskTypesTab = () => {
                   <Label className="text-sm mb-1 block">{__('Description', 'wedevs-project-manager')}<span className="text-pm-text-muted font-normal"> ({__('optional', 'wedevs-project-manager')})</span></Label>
                   <Input value={newForm.description} onChange={(e) => setNewForm((f) => ({ ...f, description: e.target.value }))} placeholder={__('Short description...', 'wedevs-project-manager')} />
                 </div>
-                <div className="space-y-1">
-                  <Label className="text-sm block">{__('For', 'wedevs-project-manager')}</Label>
-                  <TypeToggle value={newForm.type} onChange={(v) => setNewForm((f) => ({ ...f, type: v }))} />
-                </div>
                 <div className="flex gap-2 pb-0.5">
                   <Button size="sm" disabled={newFormBusy} onClick={submitNew}>{newFormBusy ? __('Creating...', 'wedevs-project-manager') : __('Create', 'wedevs-project-manager')}</Button>
                   <Button size="sm" variant="outline" disabled={newFormBusy} onClick={() => setShowNewForm(false)}>{__('Cancel', 'wedevs-project-manager')}</Button>
@@ -173,7 +154,6 @@ const TaskTypesTab = () => {
               <tr className="border-b border-pm-border">
                 <th className="text-left px-5 py-3 font-medium text-pm-text-muted w-1/4">{__('Name', 'wedevs-project-manager')}</th>
                 <th className="text-left px-5 py-3 font-medium text-pm-text-muted">{__('Description', 'wedevs-project-manager')}</th>
-                <th className="text-left px-5 py-3 font-medium text-pm-text-muted w-28">{__('For', 'wedevs-project-manager')}</th>
                 <th className="text-right px-5 py-3 font-medium text-pm-text-muted w-28">{__('Actions', 'wedevs-project-manager')}</th>
               </tr>
             </thead>
@@ -184,7 +164,6 @@ const TaskTypesTab = () => {
                     <>
                       <td className="px-5 py-3"><Input value={editForm.title} onChange={(e) => setEditForm((f) => ({ ...f, title: e.target.value }))} className="h-8 text-sm" /></td>
                       <td className="px-5 py-3"><Input value={editForm.description} onChange={(e) => setEditForm((f) => ({ ...f, description: e.target.value }))} className="h-8 text-sm" placeholder={__('optional', 'wedevs-project-manager')} /></td>
-                      <td className="px-5 py-3"><TypeToggle value={editForm.type} onChange={(v) => setEditForm((f) => ({ ...f, type: v }))} /></td>
                       <td className="px-5 py-3 text-right">
                         <div className="flex justify-end gap-1">
                           <Button variant="ghost" size="icon" className="h-7 w-7 text-pm-status-done hover:bg-green-50" disabled={editBusy} title={__('Save', 'wedevs-project-manager')} onClick={() => submitEdit(type.id)}><Check className="w-4 h-4" /></Button>
@@ -196,11 +175,6 @@ const TaskTypesTab = () => {
                     <>
                       <td className="px-5 py-3 font-medium text-pm-text">{type.title}</td>
                       <td className="px-5 py-3 text-pm-text-muted">{type.description}</td>
-                      <td className="px-5 py-3">
-                        <span className={`inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${type.type === 'subtask' ? 'bg-emerald-50 text-emerald-700' : 'bg-blue-50 text-blue-700'}`}>
-                          {type.type === 'subtask' ? __('Subtask', 'wedevs-project-manager') : __('Task', 'wedevs-project-manager')}
-                        </span>
-                      </td>
                       <td className="px-5 py-3 text-right">
                         <div className="flex justify-end gap-1">
                           <Button variant="ghost" size="icon" className="h-7 w-7" title={__('Edit', 'wedevs-project-manager')} onClick={() => startEdit(type)}><Pencil className="w-4 h-4" /></Button>
