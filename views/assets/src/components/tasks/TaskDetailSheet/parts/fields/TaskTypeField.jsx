@@ -7,7 +7,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@components/ui/popover';
-import { Check, ListTodo } from 'lucide-react';
+import { Check, ListTodo, X } from 'lucide-react';
 
 export default function TaskTypeField({ task, projectId, dispatch, api }) {
   const { __ } = useI18n();
@@ -62,6 +62,7 @@ export default function TaskTypeField({ task, projectId, dispatch, api }) {
       <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
         <ListTodo className="h-4 w-4" /><span className="text-sm">{__('Type')}</span>
       </div>
+      <div className="flex items-center gap-1">
       <Popover open={open} onOpenChange={(v) => { setOpen(v); if (v) loadTypes(); }}>
         <PopoverTrigger asChild>
           <button className={cn(
@@ -112,6 +113,17 @@ export default function TaskTypeField({ task, projectId, dispatch, api }) {
           )}
         </PopoverContent>
       </Popover>
+      {currentType && !saving && (
+        <button
+          type="button"
+          onClick={handleClear}
+          className="inline-flex items-center text-pm-text-muted hover:text-destructive transition-colors"
+          title={__('Remove type')}
+        >
+          <X className="h-3.5 w-3.5" />
+        </button>
+      )}
+      </div>
     </div>
   );
 }
