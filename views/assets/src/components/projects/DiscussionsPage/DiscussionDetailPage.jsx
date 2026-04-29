@@ -192,7 +192,7 @@ export default function DiscussionDetailPage() {
       fd.append("commentable_id", discussionId);
       fd.append("commentable_type", "discussion_board");
       fd.append("mentioned_users", mentionedUsers);
-      fd.append("notify_users", mentionedUsers);
+      fd.append("notify_users", "");
       fd.append("project_id", projectId);
       commentFiles.forEach((f) => fd.append("files[]", f));
       const res = await api.upload(`projects/${projectId}/comments`, fd);
@@ -224,7 +224,7 @@ export default function DiscussionDetailPage() {
         content: editCommentText.trim(),
         project_id: projectId,
         mentioned_users: mentionedUsers,
-        notify_users: mentionedUsers,
+        notify_users: '',
       });
       setComments((prev) =>
         prev.map((c) =>

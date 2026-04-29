@@ -160,7 +160,7 @@ export const addTaskComment = createAsyncThunk(
           commentable_id: taskId,
           commentable_type: 'task',
           mentioned_users: mentionedUsers,
-          notify_users: mentionedUsers,
+          notify_users: '',
           project_id: projectId,
         },
       )

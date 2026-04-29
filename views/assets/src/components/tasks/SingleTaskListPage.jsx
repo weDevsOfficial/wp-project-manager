@@ -92,7 +92,7 @@ export default function SingleTaskListPage() {
         commentable_type: 'task_list',
         project_id: projectId,
         mentioned_users: mentionedUsers,
-        notify_users: mentionedUsers,
+        notify_users: '',
       })
       if (res.data) {
         setComments(prev => [...prev, res.data])
@@ -122,7 +122,7 @@ export default function SingleTaskListPage() {
       await api.post(`projects/${projectId}/comments/${editingCommentId}`, {
         content: editCommentText.trim(),
         mentioned_users: mentionedUsers,
-        notify_users: mentionedUsers,
+        notify_users: '',
       })
       setComments(prev => prev.map(c =>
         c.id === editingCommentId ? { ...c, content: editCommentText.trim() } : c

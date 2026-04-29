@@ -272,7 +272,7 @@ export default function TaskDetailSheet() {
         formData.append('commentable_id', currentTask.id)
         formData.append('commentable_type', 'task')
         formData.append('mentioned_users', mentionedUsers)
-        formData.append('notify_users', mentionedUsers)
+        formData.append('notify_users', '')
         formData.append('project_id', projectId)
         commentFiles.forEach(f => formData.append('files[]', f))
         await api.upload(`projects/${projectId}/comments`, formData)
