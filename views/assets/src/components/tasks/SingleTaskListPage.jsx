@@ -18,6 +18,17 @@ import TaskRow from './TaskRow'
 import TaskDetailSheet from './TaskDetailSheet'
 import { sanitizeHtml } from '@lib/sanitize'
 
+function extractMentionedUsers(html) {
+  const parser = new DOMParser()
+  const doc = parser.parseFromString(html, 'text/html')
+  const ids = []
+  doc.querySelectorAll('span[data-type="mention"][data-id]').forEach(el => {
+    const id = el.getAttribute('data-id')
+    if (id && !ids.includes(id)) ids.push(id)
+  })
+  return ids.join(',')
+}
+
 export default function SingleTaskListPage() {
   const { projectId: pidParam, listId: lidParam } = useParams()
   const projectId = parseInt(pidParam ?? '0', 10)
@@ -73,12 +84,15 @@ export default function SingleTaskListPage() {
   const handleSubmitComment = useCallback(async () => {
     if (!newComment.trim()) return
     setSubmittingComment(true)
+    const mentionedUsers = extractMentionedUsers(newComment)
     try {
       const res = await api.post(`projects/${projectId}/comments`, {
         content: newComment,
         commentable_id: listId,
         commentable_type: 'task_list',
         project_id: projectId,
+        mentioned_users: mentionedUsers,
+        notify_users: mentionedUsers,
       })
       if (res.data) {
         setComments(prev => [...prev, res.data])
@@ -103,9 +117,12 @@ export default function SingleTaskListPage() {
 
   const handleUpdateComment = useCallback(async () => {
     if (!editCommentText.trim() || !editingCommentId) return
+    const mentionedUsers = extractMentionedUsers(editCommentText)
     try {
       await api.post(`projects/${projectId}/comments/${editingCommentId}`, {
         content: editCommentText.trim(),
+        mentioned_users: mentionedUsers,
+        notify_users: mentionedUsers,
       })
       setComments(prev => prev.map(c =>
         c.id === editingCommentId ? { ...c, content: editCommentText.trim() } : c

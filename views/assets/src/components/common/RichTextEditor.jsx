@@ -58,7 +58,17 @@ function ToolbarBtn({ icon: Icon, label, active, disabled, onClick }) {
   )
 }
 
-const MentionList = forwardRef(({ items, command, clientRect }, ref) => {
+function getMentionPortalTarget(editorEl) {
+  // If inside a Radix dialog/sheet, portal into that content node so
+  // Radix focus-trap and aria-hidden don't block the dropdown.
+  if (editorEl) {
+    const dialog = editorEl.closest('[role="dialog"]')
+    if (dialog) return dialog
+  }
+  return document.body
+}
+
+const MentionList = forwardRef(({ items, command, clientRect, editorElement }, ref) => {
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [pos, setPos] = useState({ top: 0, left: 0 })
 
@@ -67,7 +77,7 @@ const MentionList = forwardRef(({ items, command, clientRect }, ref) => {
   useEffect(() => {
     if (!clientRect) return
     const r = clientRect()
-    if (r) setPos({ top: r.bottom + window.scrollY + 4, left: r.left + window.scrollX })
+    if (r) setPos({ top: r.bottom + 4, left: r.left })
   }, [clientRect, items])
 
   useImperativeHandle(ref, () => ({
@@ -81,10 +91,12 @@ const MentionList = forwardRef(({ items, command, clientRect }, ref) => {
 
   if (!items.length) return null
 
+  const portalTarget = getMentionPortalTarget(editorElement)
+
   return createPortal(
     <div
       style={{
-        position: 'absolute',
+        position: 'fixed',
         top: pos.top,
         left: pos.left,
         zIndex: 9999,
@@ -143,7 +155,7 @@ const MentionList = forwardRef(({ items, command, clientRect }, ref) => {
         </button>
       ))}
     </div>,
-    document.body,
+    portalTarget,
   )
 })
 
@@ -171,17 +183,19 @@ function buildMentionExtension(usersRef) {
       },
       render() {
         let component
+        let portalTarget
 
         return {
           onStart(props) {
+            portalTarget = getMentionPortalTarget(props.editor?.view?.dom)
             component = new ReactRenderer(MentionList, {
-              props: { ...props, clientRect: props.clientRect },
+              props: { ...props, clientRect: props.clientRect, editorElement: props.editor?.view?.dom },
               editor: props.editor,
             })
-            document.body.appendChild(component.element)
+            portalTarget.appendChild(component.element)
           },
           onUpdate(props) {
-            component.updateProps({ ...props, clientRect: props.clientRect })
+            component.updateProps({ ...props, clientRect: props.clientRect, editorElement: props.editor?.view?.dom })
           },
           onKeyDown(props) {
             if (props.event.key === 'Escape') {

@@ -147,7 +147,7 @@ export const sortTasks = createAsyncThunk(
 export const addTaskComment = createAsyncThunk(
   'tasks/addTaskComment',
   async (
-    { projectId, taskId, content },
+    { projectId, taskId, content, mentionedUsers = '' },
     { rejectWithValue },
   ) => {
     try {
@@ -159,8 +159,8 @@ export const addTaskComment = createAsyncThunk(
           content,
           commentable_id: taskId,
           commentable_type: 'task',
-          mentioned_users: '',
-          notify_users: '',
+          mentioned_users: mentionedUsers,
+          notify_users: mentionedUsers,
           project_id: projectId,
         },
       )
@@ -173,11 +173,13 @@ export const addTaskComment = createAsyncThunk(
 
 export const updateTaskComment = createAsyncThunk(
   'tasks/updateTaskComment',
-  async ({ projectId, commentId, content }, { rejectWithValue }) => {
+  async ({ projectId, commentId, content, mentionedUsers = '' }, { rejectWithValue }) => {
     try {
       const res = await api.post(`projects/${projectId}/comments/${commentId}`, {
         content,
         project_id: projectId,
+        mentioned_users: mentionedUsers,
+        notify_users: mentionedUsers,
       })
       return { commentId, content, data: res.data }
     } catch (e) {

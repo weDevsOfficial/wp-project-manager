@@ -46,6 +46,17 @@ import { usePermissions } from "@hooks/usePermissions";
 import { useCurrentProject } from "@hooks/useCurrentProject";
 import DiscussionFiles from "./parts/DiscussionFiles";
 
+function extractMentionedUsers(html) {
+  const parser = new DOMParser()
+  const doc = parser.parseFromString(html, 'text/html')
+  const ids = []
+  doc.querySelectorAll('span[data-type="mention"][data-id]').forEach(el => {
+    const id = el.getAttribute('data-id')
+    if (id && !ids.includes(id)) ids.push(id)
+  })
+  return ids.join(',')
+}
+
 export default function DiscussionDetailPage() {
   const { projectId, discussionId } = useParams();
   const navigate = useNavigate();
@@ -174,13 +185,14 @@ export default function DiscussionDetailPage() {
   const handleAddComment = useCallback(async () => {
     if (!newComment.trim() || submitting) return;
     setSubmitting(true);
+    const mentionedUsers = extractMentionedUsers(newComment);
     try {
       const fd = new FormData();
       fd.append("content", newComment.trim());
       fd.append("commentable_id", discussionId);
       fd.append("commentable_type", "discussion_board");
-      fd.append("mentioned_users", "");
-      fd.append("notify_users", "");
+      fd.append("mentioned_users", mentionedUsers);
+      fd.append("notify_users", mentionedUsers);
       fd.append("project_id", projectId);
       commentFiles.forEach((f) => fd.append("files[]", f));
       const res = await api.upload(`projects/${projectId}/comments`, fd);
@@ -206,10 +218,13 @@ export default function DiscussionDetailPage() {
 
   const handleUpdateComment = useCallback(async () => {
     if (!editCommentText.trim() || !editingCommentId) return;
+    const mentionedUsers = extractMentionedUsers(editCommentText);
     try {
       await api.post(`projects/${projectId}/comments/${editingCommentId}`, {
         content: editCommentText.trim(),
         project_id: projectId,
+        mentioned_users: mentionedUsers,
+        notify_users: mentionedUsers,
       });
       setComments((prev) =>
         prev.map((c) =>

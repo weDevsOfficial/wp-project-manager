@@ -75,6 +75,17 @@ import MilestoneField from './parts/fields/MilestoneField'
 import ProInlineProperties from './parts/ProInlineProperties'
 import ProSubtasksSection from './parts/ProSubtasksSection'
 
+function extractMentionedUsers(html) {
+  const parser = new DOMParser()
+  const doc = parser.parseFromString(html, 'text/html')
+  const ids = []
+  doc.querySelectorAll('span[data-type="mention"][data-id]').forEach(el => {
+    const id = el.getAttribute('data-id')
+    if (id && !ids.includes(id)) ids.push(id)
+  })
+  return ids.join(',')
+}
+
 export default function TaskDetailSheet() {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
@@ -253,20 +264,21 @@ export default function TaskDetailSheet() {
   const handleSubmitComment = useCallback(async () => {
     if (!currentTask || !projectId || !newComment.trim()) return
     setSubmittingComment(true)
+    const mentionedUsers = extractMentionedUsers(newComment)
     try {
       if (commentFiles.length > 0) {
         const formData = new FormData()
         formData.append('content', newComment)
         formData.append('commentable_id', currentTask.id)
         formData.append('commentable_type', 'task')
-        formData.append('mentioned_users', '')
-        formData.append('notify_users', '')
+        formData.append('mentioned_users', mentionedUsers)
+        formData.append('notify_users', mentionedUsers)
         formData.append('project_id', projectId)
         commentFiles.forEach(f => formData.append('files[]', f))
         await api.upload(`projects/${projectId}/comments`, formData)
         dispatch(fetchTask({ projectId, taskId: currentTask.id }))
       } else {
-        await dispatch(addTaskComment({ projectId, taskId: currentTask.id, content: newComment })).unwrap()
+        await dispatch(addTaskComment({ projectId, taskId: currentTask.id, content: newComment, mentionedUsers })).unwrap()
       }
       setNewComment('')
       setCommentFiles([])
@@ -290,7 +302,8 @@ export default function TaskDetailSheet() {
   const handleUpdateComment = useCallback(async () => {
     if (!editCommentText.trim() || !editingCommentId || !projectId) return
     try {
-      await dispatch(updateTaskComment({ projectId, commentId: editingCommentId, content: editCommentText.trim() })).unwrap()
+      const mentionedUsers = extractMentionedUsers(editCommentText)
+      await dispatch(updateTaskComment({ projectId, commentId: editingCommentId, content: editCommentText.trim(), mentionedUsers })).unwrap()
       cancelEditComment()
       toast.success(__('Comment updated'))
     } catch {
