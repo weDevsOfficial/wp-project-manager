@@ -13,6 +13,8 @@ module.exports = {
     preflight: false,
   },
 
+  darkMode: 'class',
+
   theme: {
     extend: {
       // shadcn/ui required color tokens (CSS variable based)
@@ -51,21 +53,22 @@ module.exports = {
           foreground: 'hsl(var(--card-foreground))',
         },
 
-        // Project Manager custom tokens
-        'pm-sidebar':            '#1A1A2E',
-        'pm-sidebar-hover':      '#16213E',
-        'pm-sidebar-active':     '#0F3460',
-        'pm-sidebar-text':       '#A8B2D8',
-        'pm-sidebar-txt-active': '#FFFFFF',
-        'pm-surface':            '#FFFFFF',
-        'pm-surface-muted':      '#F7F8FA',
-        'pm-border':             '#E5E7EB',
-        'pm-hover':              '#F3F4F6',
-        'pm-accent':             '#7C3AED',
-        'pm-accent-hover':       '#6D28D9',
-        'pm-accent-light':       '#EDE9FE',
-        'pm-text':               '#1F2937',
-        'pm-text-muted':         '#6B7280',
+        // Project Manager custom tokens — reference CSS vars so dark mode works
+        'pm-sidebar':            'var(--pm-sidebar)',
+        'pm-sidebar-hover':      'var(--pm-sidebar-hover)',
+        'pm-sidebar-active':     'var(--pm-sidebar-active)',
+        'pm-sidebar-text':       'var(--pm-sidebar-text)',
+        'pm-sidebar-txt-active': 'var(--pm-sidebar-txt-active)',
+        'pm-surface':            'var(--pm-surface)',
+        'pm-surface-muted':      'var(--pm-surface-muted)',
+        'pm-border':             'var(--pm-border)',
+        'pm-hover':              'var(--pm-hover)',
+        'pm-accent':             'var(--pm-accent)',
+        'pm-accent-hover':       'var(--pm-accent-hover)',
+        'pm-accent-light':       'var(--pm-accent-light)',
+        'pm-text':               'var(--pm-text)',
+        'pm-text-muted':         'var(--pm-text-muted)',
+        'pm-text-primary':       'var(--pm-text-primary)',
         'pm-status-todo':        '#6B7280',
         'pm-status-ip':          '#3B82F6',
         'pm-status-review':      '#F59E0B',

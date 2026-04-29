@@ -18,10 +18,10 @@ function TypeToggle({ value, onChange }) {
   return (
     <div className="flex rounded border border-pm-border overflow-hidden text-sm h-9">
       <button type="button"
-        className={`px-3 py-1.5 transition-colors ${value === 'task' ? 'bg-pm-accent text-white' : 'bg-white text-pm-text-muted hover:bg-muted/50'}`}
+        className={`px-3 py-1.5 transition-colors ${value === 'task' ? 'bg-pm-accent text-white' : 'bg-pm-surface text-pm-text-muted hover:bg-muted/50'}`}
         onClick={() => onChange('task')}>{__('Task', 'wedevs-project-manager')}</button>
       <button type="button"
-        className={`px-3 py-1.5 transition-colors ${value === 'subtask' ? 'bg-pm-accent text-white' : 'bg-white text-pm-text-muted hover:bg-muted/50'}`}
+        className={`px-3 py-1.5 transition-colors ${value === 'subtask' ? 'bg-pm-accent text-white' : 'bg-pm-surface text-pm-text-muted hover:bg-muted/50'}`}
         onClick={() => onChange('subtask')}>{__('Subtask', 'wedevs-project-manager')}</button>
     </div>
   )
@@ -133,7 +133,7 @@ const TaskTypesTab = () => {
         </Button>
       </div>
 
-      <div className="mt-5 rounded-lg border border-pm-border bg-white">
+      <div className="mt-5 rounded-lg border border-pm-border bg-pm-surface">
         {showNewForm && (
           <>
             <div className="px-5 py-4 bg-pm-surface-muted space-y-3">

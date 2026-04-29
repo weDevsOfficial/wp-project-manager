@@ -355,7 +355,7 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
               <>
                 <DropdownMenuItem
                   onSelect={(e) => { e.preventDefault(); openProModal(true) }}
-                  className="text-slate-500 focus:text-slate-700"
+                  className="text-pm-text-muted focus:text-pm-text"
                 >
                   <Copy className="h-4 w-4 mr-2" />
                   <span className="flex-1">{__('Duplicate')}</span>
@@ -363,7 +363,7 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onSelect={(e) => { e.preventDefault(); openProModal(true) }}
-                  className="text-slate-500 focus:text-slate-700"
+                  className="text-pm-text-muted focus:text-pm-text"
                 >
                   <Archive className="h-4 w-4 mr-2" />
                   <span className="flex-1">{__('Archive')}</span>

@@ -80,7 +80,7 @@ export function ProjectSubNavBar() {
   if (sidebarMode !== 'wordpress' || !activeProjectId) return null
 
   return (
-    <div className="shrink-0 bg-white border-b border-pm-border">
+    <div className="shrink-0 bg-pm-surface border-b border-pm-border">
       <nav className="flex items-stretch overflow-x-auto px-2 scrollbar-none">
         {subNav.map(item => {
           const Icon = item.icon

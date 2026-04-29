@@ -41,8 +41,8 @@ function ToolbarBtn({ icon: Icon, label, active, disabled, onClick }) {
             variant="ghost"
             size="icon"
             className={cn(
-              'h-7 w-7',
-              active && 'bg-muted text-pm-accent',
+              'h-7 w-7 text-pm-text-muted hover:text-pm-text hover:bg-pm-hover',
+              active && 'bg-pm-accent/10 text-pm-accent hover:bg-pm-accent/20 hover:text-pm-accent',
             )}
             disabled={disabled}
             onClick={onClick}
@@ -249,9 +249,9 @@ export default function RichTextEditor({
     editorProps: {
       attributes: {
         class: cn(
-          'prose prose-sm max-w-none focus:outline-none',
+          'prose prose-sm max-w-none focus:outline-none text-foreground',
           '[&>*:first-child]:mt-0 [&>*:last-child]:mb-0',
-          'text-sm text-pm-text-primary/90',
+          'text-sm',
         ),
         style: `min-height: ${minHeight}`,
       },
@@ -284,7 +284,7 @@ export default function RichTextEditor({
   return (
     <div className={cn('rounded-lg border bg-background', className)}>
       {editable && (
-        <div className="flex items-center gap-0.5 px-1.5 py-1 border-b bg-muted/30 rounded-t-lg flex-wrap">
+        <div className="flex items-center gap-0.5 px-1.5 py-1 border-b bg-pm-surface-muted rounded-t-lg flex-wrap">
           <ToolbarBtn
             icon={Bold}
             label={__('Bold')}
@@ -373,7 +373,7 @@ export default function RichTextEditor({
         </div>
       )}
 
-      <div className="px-3 py-2">
+      <div className="px-3 py-2 text-foreground">
         <EditorContent editor={editor} />
       </div>
     </div>

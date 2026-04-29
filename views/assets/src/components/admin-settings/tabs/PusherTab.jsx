@@ -49,7 +49,7 @@ const PusherTab = () => {
         </div>
       </div>
 
-      <div className="mt-5 rounded-lg border border-pm-border bg-white">
+      <div className="mt-5 rounded-lg border border-pm-border bg-pm-surface">
         <div className="flex items-center justify-between px-5 py-4">
           <div><Label htmlFor="pusher_app_id">{__('App ID', 'wedevs-project-manager')}</Label></div>
           <Input id="pusher_app_id" value={form.pusher_app_id} onChange={(e) => updateField('pusher_app_id', e.target.value)} placeholder={__('Your Pusher App ID', 'wedevs-project-manager')} className="max-w-sm" />

@@ -73,7 +73,7 @@ const ColorPicker = React.forwardRef(function ColorPicker(
           type="button"
           disabled={disabled}
           className={cn(
-            'inline-flex items-center gap-2 h-8 px-2 rounded-md border border-pm-border bg-white hover:border-pm-accent/50 transition-colors text-sm disabled:opacity-50 disabled:cursor-not-allowed',
+            'inline-flex items-center gap-2 h-8 px-2 rounded-md border border-pm-border bg-pm-surface hover:border-pm-accent/50 transition-colors text-sm disabled:opacity-50 disabled:cursor-not-allowed',
             className
           )}
         >

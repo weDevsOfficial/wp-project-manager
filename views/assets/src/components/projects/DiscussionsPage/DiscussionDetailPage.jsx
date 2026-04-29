@@ -385,7 +385,7 @@ export default function DiscussionDetailPage() {
               {discussion.description?.html && (
                 <div className="mt-3">
                   <div
-                    className="prose prose-sm max-w-none text-sm text-pm-text-primary/80 [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
+                    className="prose prose-sm max-w-none text-foreground text-sm [&>*:first-child]:mt-0 [&>*:last-child]:mb-0"
                     dangerouslySetInnerHTML={{
                       __html: sanitizeHtml(stripAllPreviewUrls(discussion.description.html)),
                     }}
@@ -474,7 +474,7 @@ export default function DiscussionDetailPage() {
                     ) : (
                       <>
                         <div
-                          className="text-sm text-pm-text-primary/80 leading-relaxed prose prose-sm max-w-none"
+                          className="text-sm leading-relaxed prose prose-sm max-w-none text-foreground"
                           dangerouslySetInnerHTML={{
                             __html: sanitizeHtml(stripAllPreviewUrls(c.content || "")),
                           }}

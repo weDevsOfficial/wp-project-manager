@@ -30,8 +30,8 @@ export default function NotionPreviewCard({ previewData, loading, url, onRefresh
 
   if (loading) {
     return (
-      <div className="flex rounded-lg border border-pm-border bg-white max-w-md overflow-hidden">
-        <div className="w-1 shrink-0 bg-gray-200" />
+      <div className="flex rounded-lg border border-pm-border bg-pm-surface max-w-md overflow-hidden">
+        <div className="w-1 shrink-0 bg-pm-border" />
         <div className="flex-1 p-3 space-y-2">
           <Skeleton className="h-3.5 w-24" />
           <div className="flex items-center gap-2.5">
@@ -68,7 +68,7 @@ export default function NotionPreviewCard({ previewData, loading, url, onRefresh
   return (
     <div
       className={cn(
-        'flex rounded-lg border border-pm-border bg-white max-w-md overflow-hidden cursor-pointer hover:border-pm-accent/40 hover:shadow-sm transition-all',
+        'flex rounded-lg border border-pm-border bg-pm-surface max-w-md overflow-hidden cursor-pointer hover:border-pm-accent/40 hover:shadow-sm transition-all',
         isError && 'opacity-70'
       )}
       onClick={openInNotion}
@@ -77,7 +77,7 @@ export default function NotionPreviewCard({ previewData, loading, url, onRefresh
       onKeyDown={(e) => { if (e.key === 'Enter') openInNotion() }}
     >
       {/* Left accent stripe */}
-      <div className="w-1 shrink-0 bg-gradient-to-b from-gray-800 to-gray-400" />
+      <div className="w-1 shrink-0 bg-gradient-to-b from-[var(--pm-text)] to-[var(--pm-text-muted)]" />
 
       <div className="flex-1 p-3 min-w-0">
         {/* Source badge row */}
@@ -132,7 +132,7 @@ export default function NotionPreviewCard({ previewData, loading, url, onRefresh
               <div className="flex items-center gap-2 text-[15px] text-pm-text-muted mt-1.5">
                 <span className={cn(
                   'inline-flex items-center gap-0.5 font-medium px-1.5 py-0.5 rounded',
-                  isDatabase ? 'text-blue-600 bg-blue-50' : 'text-gray-500 bg-gray-100'
+                  isDatabase ? 'text-blue-600 bg-blue-50' : 'text-pm-text-muted bg-pm-surface-muted'
                 )}>
                   <TypeIcon className="h-3.5 w-3.5" />
                   {isDatabase ? __('Database') : __('Page')}

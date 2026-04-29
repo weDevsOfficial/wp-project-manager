@@ -53,7 +53,7 @@ export default function GitHubPreviewCard({ previewData, loading, url, onRefresh
 
   if (loading) {
     return (
-      <div className="flex items-center gap-3 rounded-lg border border-pm-border p-3 bg-white max-w-md">
+      <div className="flex items-center gap-3 rounded-lg border border-pm-border p-3 bg-pm-surface max-w-md">
         <Skeleton className="h-8 w-8 rounded-full shrink-0" />
         <div className="flex-1 space-y-1.5">
           <Skeleton className="h-3.5 w-3/4" />
@@ -88,7 +88,7 @@ export default function GitHubPreviewCard({ previewData, loading, url, onRefresh
   return (
     <div
       className={cn(
-        'rounded-lg border border-pm-border p-3 bg-white max-w-md cursor-pointer hover:border-pm-accent/40 hover:shadow-sm transition-all',
+        'rounded-lg border border-pm-border p-3 bg-pm-surface max-w-md cursor-pointer hover:border-pm-accent/40 hover:shadow-sm transition-all',
         isError && 'opacity-70'
       )}
       onClick={openInGitHubLogo}

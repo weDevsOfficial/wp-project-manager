@@ -11,6 +11,7 @@ import {
   ChevronDown, Star, LayoutList, Layout, MessageSquare,
   Milestone, FileText, Activity, Tag, Crown, Layers,
   Columns3, GitBranch, Receipt, Timer, Shield, Wrench,
+  Sun, Moon,
 } from 'lucide-react'
 import { cn } from '@lib/utils'
 
@@ -125,6 +126,16 @@ export function AppSidebar() {
       document.body.classList.remove('pm-mode-wordpress')
     }
   }, [sidebarMode])
+
+  const [isDark, setIsDark] = useState(
+    () => document.documentElement.getAttribute('data-pm-theme') === 'dark'
+  )
+
+  function toggleDarkMode() {
+    const next = !isDark
+    setIsDark(next)
+    window.PM.setDarkMode(next)
+  }
 
   function toggleCollapse() {
     const next = !collapsed
@@ -408,7 +419,7 @@ export function AppSidebar() {
   return (
     <aside
       className={cn(
-        'shrink-0 bg-white border-r border-pm-border flex flex-col transition-all duration-200',
+        'shrink-0 bg-pm-surface border-r border-pm-border flex flex-col transition-all duration-200',
         sidebarMode === 'wordpress' && 'overflow-hidden',
       )}
       style={{ width: sidebarWidth, minWidth: sidebarWidth, maxWidth: sidebarWidth }}
@@ -430,13 +441,22 @@ export function AppSidebar() {
               {__('Back to WP Admin')}
             </button>
           )}
-          <button
-            className="p-1 rounded hover:bg-pm-hover text-pm-text-muted hover:text-pm-text transition-colors"
-            title={collapsed ? __('Expand sidebar') : __('Collapse sidebar')}
-            onClick={toggleCollapse}
-          >
-            {collapsed ? <PanelLeftOpen className="w-5 h-5" /> : <PanelLeftClose className="w-5 h-5" />}
-          </button>
+          <div className="flex items-center gap-0.5">
+            <button
+              className="p-1 rounded hover:bg-pm-hover text-pm-text-muted hover:text-pm-text transition-colors"
+              title={isDark ? __('Switch to light mode') : __('Switch to dark mode')}
+              onClick={toggleDarkMode}
+            >
+              {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            </button>
+            <button
+              className="p-1 rounded hover:bg-pm-hover text-pm-text-muted hover:text-pm-text transition-colors"
+              title={collapsed ? __('Expand sidebar') : __('Collapse sidebar')}
+              onClick={toggleCollapse}
+            >
+              {collapsed ? <PanelLeftOpen className="w-5 h-5" /> : <PanelLeftClose className="w-5 h-5" />}
+            </button>
+          </div>
         </div>
         {!collapsed && (
           <h1 className="text-pm-text font-semibold text-base mt-2">

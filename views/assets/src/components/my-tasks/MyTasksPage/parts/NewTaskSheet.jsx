@@ -299,7 +299,7 @@ export default function NewTaskSheet({ open, onOpenChange, userId, onCreated, de
                         type="button"
                         onMouseDown={() => addAssignee(user)}
                         className={cn(
-                          "flex items-center gap-2 w-full px-3 py-2 text-sm hover:bg-muted text-left",
+                          "flex items-center gap-2 w-full px-3 py-2 text-sm hover:bg-muted text-left text-foreground",
                           selectedAssignees.find(u => u.id === user.id) && "opacity-50"
                         )}
                       >

@@ -63,6 +63,91 @@
   --ring:                  262 80% 57%;         /* matches --primary */
 
   --radius:                0.375rem;
+
+  /* ── PM custom color tokens (light) ── */
+  --pm-sidebar:            #1A1A2E;
+  --pm-sidebar-hover:      #16213E;
+  --pm-sidebar-active:     #0F3460;
+  --pm-sidebar-text:       #A8B2D8;
+  --pm-sidebar-txt-active: #FFFFFF;
+  --pm-surface:            #FFFFFF;
+  --pm-surface-muted:      #F7F8FA;
+  --pm-border:             #E5E7EB;
+  --pm-hover:              #F3F4F6;
+  --pm-accent:             #7C3AED;
+  --pm-accent-hover:       #6D28D9;
+  --pm-accent-light:       #EDE9FE;
+  --pm-text:               #1F2937;
+  --pm-text-muted:         #6B7280;
+  --pm-text-primary:       #111827;
+}
+
+/* ── Dark mode — toggled via data-pm-theme="dark" on <html>
+     Using :root so portaled Radix elements (Select, Dialog etc.)
+     that land on <body> still inherit the vars ────────────────── */
+:root[data-pm-theme="dark"] {
+  --background:            220 43% 11%;
+  --foreground:            210 40% 96%;
+
+  --card:                  220 40% 14%;
+  --card-foreground:       210 40% 96%;
+
+  --popover:               220 40% 14%;
+  --popover-foreground:    210 40% 96%;
+
+  --primary:               262 80% 65%;
+  --primary-foreground:    0 0% 100%;
+
+  --secondary:             220 30% 19%;
+  --secondary-foreground:  210 40% 90%;
+
+  --muted:                 220 30% 17%;
+  --muted-foreground:      215 25% 65%;
+
+  --accent:                220 30% 22%;
+  --accent-foreground:     210 40% 96%;
+
+  --destructive:           0 62% 50%;
+  --destructive-foreground: 0 0% 98%;
+
+  --border:                220 28% 26%;
+  --input:                 220 28% 26%;
+  --ring:                  262 80% 65%;
+
+  /* ── PM custom color tokens (dark) ── */
+  --pm-sidebar:            #0B1020;
+  --pm-sidebar-hover:      #0f1628;
+  --pm-sidebar-active:     #18244a;
+  --pm-sidebar-text:       #8892B0;
+  --pm-sidebar-txt-active: #FFFFFF;
+  --pm-surface:            #151d2e;
+  --pm-surface-muted:      #101828;
+  --pm-border:             #2a3a5c;
+  --pm-hover:              #1e2d48;
+  --pm-accent:             #9D6FFF;
+  --pm-accent-hover:       #8B5CF6;
+  --pm-accent-light:       #2D1F5E;
+  --pm-text:               #CBD5E1;
+  --pm-text-muted:         #7B8DB0;
+  --pm-text-primary:       #F1F5F9;
+
+  /* ── Tailwind Typography (prose) — override for dark mode ── */
+  --tw-prose-body:         #CBD5E1;
+  --tw-prose-headings:     #F1F5F9;
+  --tw-prose-lead:         #94A3B8;
+  --tw-prose-links:        #9D6FFF;
+  --tw-prose-bold:         #F1F5F9;
+  --tw-prose-counters:     #7B8DB0;
+  --tw-prose-bullets:      #7B8DB0;
+  --tw-prose-hr:           #2a3a5c;
+  --tw-prose-quotes:       #CBD5E1;
+  --tw-prose-quote-borders:#2a3a5c;
+  --tw-prose-captions:     #7B8DB0;
+  --tw-prose-code:         #9D6FFF;
+  --tw-prose-pre-code:     #CBD5E1;
+  --tw-prose-pre-bg:       #101828;
+  --tw-prose-th-borders:   #2a3a5c;
+  --tw-prose-td-borders:   #1e2d48;
 }
 
 /* ── Override WP admin margin leak on frontend ─────────── */
@@ -150,6 +235,15 @@ body:not(.wp-admin) #wedevs-project-manager {
   [contenteditable]:focus,
   [contenteditable]:focus-visible {
     outline: none !important;
+  }
+
+  /* Tiptap editor — ensure text color and placeholder use CSS vars */
+  .tiptap, .ProseMirror {
+    color: hsl(var(--foreground)) !important;
+  }
+  .tiptap p.is-editor-empty:first-child::before,
+  .ProseMirror p.is-editor-empty:first-child::before {
+    color: hsl(var(--muted-foreground)) !important;
   }
 
   /* Override WordPress admin blue box-shadow with purple — keyboard focus only */
@@ -335,7 +429,7 @@ body.pm-fullscreen-settings #wedevs-pm {
   right: 0 !important;
   bottom: 0 !important;
   z-index: 100 !important;
-  background: #F7F8FA;
+  background: var(--pm-surface-muted);
   transition: left 0.2s ease;
   overflow: hidden !important;
 }
@@ -375,10 +469,10 @@ body.pm-fullscreen-settings.pm-mode-wordpress.folded #wedevs-pm {
      because a Select inside a Sheet still teleports here. ──── */
 [data-radix-popper-content-wrapper] {
   z-index: 3000 !important;
-  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  font-size: 14px;
-  line-height: 1.5;
-  color: hsl(var(--foreground));
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  color: hsl(var(--foreground)) !important;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -608,4 +702,14 @@ body.admin-bar [data-sonner-toaster] {
   border-color: hsl(var(--border));
   border-radius: calc(var(--radius) - 2px);
   background-color: transparent;
+}
+
+/* ── Tiptap editor inside portaled Sheet/Dialog ── */
+[role="dialog"][data-state] .tiptap,
+[role="dialog"][data-state] .ProseMirror {
+  color: hsl(var(--foreground)) !important;
+}
+[role="dialog"][data-state] .tiptap p.is-editor-empty:first-child::before,
+[role="dialog"][data-state] .ProseMirror p.is-editor-empty:first-child::before {
+  color: hsl(var(--muted-foreground)) !important;
 }

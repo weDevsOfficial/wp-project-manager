@@ -86,7 +86,7 @@ export default function TaskTypeField({ task, projectId, dispatch, api }) {
                   key={t.id}
                   type="button"
                   className={cn(
-                    'w-full text-left text-sm px-2 py-1.5 rounded hover:bg-muted/50 transition-colors flex items-center justify-between',
+                    'w-full text-left text-sm px-2 py-1.5 rounded hover:bg-muted/50 transition-colors flex items-center justify-between text-foreground',
                     currentType?.id === t.id && 'bg-primary/5 text-primary font-medium'
                   )}
                   onClick={() => handleSelect(t)}

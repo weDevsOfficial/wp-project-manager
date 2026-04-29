@@ -224,7 +224,7 @@ export function TopBar() {
 
   return (
     <>
-      <div className="h-12 border-b border-pm-border bg-white flex items-center px-2 sm:px-4 gap-2 sm:gap-3 shrink-0">
+      <div className="h-12 border-b border-pm-border bg-pm-surface flex items-center px-2 sm:px-4 gap-2 sm:gap-3 shrink-0">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-1 flex-1 min-w-0 overflow-hidden">
           {breadcrumbs.map((crumb, i) => (

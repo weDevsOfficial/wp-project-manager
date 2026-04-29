@@ -136,7 +136,7 @@ const SettingsPage = () => {
     <div className="pm-settings-page flex h-full overflow-hidden">
 
       {/* ── Settings sub-nav (internal sidebar) ────────────── */}
-      <aside className="shrink-0 w-[200px] bg-white border-r border-pm-border flex flex-col">
+      <aside className="shrink-0 w-[200px] bg-pm-surface border-r border-pm-border flex flex-col">
         <div className="px-4 pt-5 pb-3">
           <h1 className="text-pm-text font-semibold text-base">
             {__('Settings', 'wedevs-project-manager')}

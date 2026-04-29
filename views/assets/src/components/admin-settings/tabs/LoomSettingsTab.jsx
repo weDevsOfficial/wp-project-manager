@@ -95,7 +95,7 @@ const LoomSettingsTab = () => {
         </div>
       </div>
 
-      <div className="mt-5 rounded-lg border border-pm-border bg-white">
+      <div className="mt-5 rounded-lg border border-pm-border bg-pm-surface">
         {/* Enable Previews */}
         <div className="flex items-center justify-between px-5 py-4">
           <div>

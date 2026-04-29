@@ -142,7 +142,7 @@ export default function MilestoneField({ task, projectId, api }) {
               type="button"
               onClick={() => handleSelect(null)}
               className={cn(
-                'w-full flex items-center justify-between px-3 py-2 text-sm text-left hover:bg-muted/50 transition-colors',
+                'w-full flex items-center justify-between px-3 py-2 text-sm text-left hover:bg-muted/50 transition-colors text-foreground',
                 !currentMilestone && 'bg-pm-accent/5 text-pm-accent'
               )}
             >
@@ -155,7 +155,7 @@ export default function MilestoneField({ task, projectId, api }) {
                 type="button"
                 onClick={() => handleSelect(m)}
                 className={cn(
-                  'w-full flex items-center justify-between px-3 py-2 text-sm text-left hover:bg-muted/50 transition-colors',
+                  'w-full flex items-center justify-between px-3 py-2 text-sm text-left hover:bg-muted/50 transition-colors text-foreground',
                   currentMilestone?.id === m.id && 'bg-pm-accent/5 text-pm-accent'
                 )}
               >

@@ -233,7 +233,7 @@ export default function SingleTaskListPage() {
 
       {/* Description */}
       {currentList.description && (
-        <div className="text-sm text-pm-text-muted" dangerouslySetInnerHTML={{ __html: sanitizeHtml(currentList.description) }} />
+        <div className="text-sm text-foreground" dangerouslySetInnerHTML={{ __html: sanitizeHtml(currentList.description) }} />
       )}
 
       {/* Tasks */}
@@ -340,7 +340,7 @@ export default function SingleTaskListPage() {
                         </div>
                       </div>
                     ) : (
-                      <div className="text-sm text-pm-text-primary/80 leading-relaxed prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: sanitizeHtml(comment.content) }} />
+                      <div className="text-sm leading-relaxed prose prose-sm max-w-none text-foreground" dangerouslySetInnerHTML={{ __html: sanitizeHtml(comment.content) }} />
                     )}
                     {/* Comment files */}
                     {comment.files?.data?.length > 0 && (

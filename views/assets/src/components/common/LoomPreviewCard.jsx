@@ -30,7 +30,7 @@ export default function LoomPreviewCard({ previewData, loading, url, onRefresh }
 
   if (loading) {
     return (
-      <div className="rounded-lg border border-pm-border bg-white max-w-md overflow-hidden">
+      <div className="rounded-lg border border-pm-border bg-pm-surface max-w-md overflow-hidden">
         <Skeleton className="h-36 w-full" />
         <div className="p-3 space-y-1.5">
           <Skeleton className="h-3.5 w-3/4" />
@@ -66,7 +66,7 @@ export default function LoomPreviewCard({ previewData, loading, url, onRefresh }
     <>
       <div
         className={cn(
-          'rounded-lg border border-pm-border bg-white max-w-md overflow-hidden cursor-pointer hover:border-pm-accent/40 hover:shadow-sm transition-all',
+          'rounded-lg border border-pm-border bg-pm-surface max-w-md overflow-hidden cursor-pointer hover:border-pm-accent/40 hover:shadow-sm transition-all',
           isError && 'opacity-70 cursor-default'
         )}
         role="button"

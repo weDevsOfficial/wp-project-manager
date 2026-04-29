@@ -189,7 +189,7 @@ export default function CalendarPage() {
             className="absolute inset-0 bg-black/50 backdrop-blur-[2px] flex flex-col items-center justify-center cursor-pointer rounded-xl opacity-0 group-hover:opacity-100 transition-opacity"
             onClick={() => setOpen(true)}
           >
-            <div className="bg-white rounded-2xl px-8 py-6 shadow-xl text-center">
+            <div className="bg-pm-surface rounded-2xl px-8 py-6 shadow-xl text-center">
               <div className="inline-flex items-center justify-center h-14 w-14 rounded-2xl bg-pm-accent/10 mb-4">
                 <Calendar className="h-7 w-7 text-pm-accent" />
               </div>
@@ -203,7 +203,7 @@ export default function CalendarPage() {
               </p>
               <div
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-white font-semibold text-sm"
-                style={{ background: "#ff9000" }}
+                style={{ background: "var(--pm-accent)" }}
               >
                 <Crown className="h-5 w-5" />
                 {__("Upgrade to Pro")}

@@ -13,7 +13,7 @@ export default function BackButton({ fallback = '/', label, variant = 'ghost', s
       <Button
         variant={variant === 'ghost' ? 'outline' : variant}
         size="sm"
-        className={cn('gap-1.5 bg-white hover:border-pm-accent hover:text-pm-accent', className)}
+        className={cn('gap-1.5 bg-pm-surface hover:border-pm-accent hover:text-pm-accent', className)}
         onClick={handleClick}
       >
         <ArrowLeft className="h-4 w-4" />

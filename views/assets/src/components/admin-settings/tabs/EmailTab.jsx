@@ -47,7 +47,7 @@ const EmailTab = () => {
         {__('Configure how notification emails are sent.', 'wedevs-project-manager')}
       </p>
 
-      <div className="rounded-lg border border-pm-border bg-white">
+      <div className="rounded-lg border border-pm-border bg-pm-surface">
         <div className="flex items-center justify-between px-5 py-4">
           <div>
             <Label htmlFor="from_email" className="text-sm font-medium text-pm-text">

@@ -58,7 +58,7 @@ export default function PagesSettingsTab() {
       <h2 className="text-lg font-semibold text-pm-text mb-1">{__('Front-end Page')}</h2>
       <p className="text-sm text-pm-text-muted mb-5">{__('Configure front-end pages for Project Manager')}</p>
 
-      <div className="rounded-lg border border-pm-border bg-white mb-5">
+      <div className="rounded-lg border border-pm-border bg-pm-surface mb-5">
         <div className="flex items-center justify-between px-5 py-4">
           <div>
             <Label className="text-sm font-medium">{__('Project Page')}</Label>

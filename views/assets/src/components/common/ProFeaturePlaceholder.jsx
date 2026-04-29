@@ -25,7 +25,7 @@ function KanbanMock() {
           </div>
           <div className="p-2">
             {col.tasks.map((t, i) => (
-              <div key={i} className="bg-white rounded-md px-3 py-2.5 mb-1.5 text-sm text-gray-600 shadow-sm border">{t}</div>
+              <div key={i} className="bg-pm-surface rounded-md px-3 py-2.5 mb-1.5 text-sm text-gray-600 shadow-sm border">{t}</div>
             ))}
           </div>
         </div>
@@ -146,7 +146,7 @@ function SprintsMock() {
     <div className="p-5" style={{ minHeight: '420px' }}>
       <div className="space-y-3">
         {sprints.map((s, i) => (
-          <div key={i} className="rounded-lg border bg-white p-4">
+          <div key={i} className="rounded-lg border bg-pm-surface p-4">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
                 <div className="h-2 w-2 rounded-full" style={{ background: s.color }} />
@@ -186,7 +186,7 @@ function WooProjectMock() {
       </div>
       <div className="space-y-3">
         {products.map((p, i) => (
-          <div key={i} className="rounded-lg border bg-white p-4">
+          <div key={i} className="rounded-lg border bg-pm-surface p-4">
             <div className="flex items-center justify-between mb-3">
               <span className="text-sm font-medium text-gray-900">{p.name}</span>
               <span className={`px-2.5 py-0.5 rounded-full text-[14px] font-medium ${p.action.includes('Duplicate') ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700'}`}>{p.action}</span>
@@ -252,7 +252,7 @@ export default function ProFeaturePlaceholder({ title, description, icon: Icon, 
             className="absolute inset-0 bg-black/50 backdrop-blur-[2px] flex flex-col items-center justify-center cursor-pointer rounded-xl opacity-0 group-hover:opacity-100 transition-opacity"
             onClick={() => setOpen(true)}
           >
-            <div className="bg-white rounded-2xl px-8 py-6 shadow-xl text-center">
+            <div className="bg-pm-surface rounded-2xl px-8 py-6 shadow-xl text-center">
               <div className="inline-flex items-center justify-center h-14 w-14 rounded-2xl bg-pm-accent/10 mb-4">
                 {Icon && <Icon className="h-7 w-7 text-pm-accent" />}
               </div>

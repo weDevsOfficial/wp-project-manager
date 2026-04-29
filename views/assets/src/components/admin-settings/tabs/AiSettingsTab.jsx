@@ -125,7 +125,7 @@ const AiSettingsTab = () => {
       </div>
 
       <form onSubmit={onSubmit}>
-        <div className="mt-5 rounded-lg border border-pm-border bg-white">
+        <div className="mt-5 rounded-lg border border-pm-border bg-pm-surface">
           <div className="flex items-center justify-between px-5 py-4">
             <div>
               <Label htmlFor="ai_provider">{__('AI Provider', 'wedevs-project-manager')}</Label>

@@ -646,7 +646,7 @@ export default function TaskDetailSheet() {
                 <div className={cn('rounded-lg p-3 min-h-[48px] transition-colors', currentTask.description?.html ? 'bg-muted/20' : 'bg-muted/10 border border-dashed border-border/60')}>
                   {currentTask.description?.html ? (
                     <>
-                      <div className="prose prose-sm max-w-none text-sm text-pm-text-primary/80 [&>*:first-child]:mt-0 [&>*:last-child]:mb-0" dangerouslySetInnerHTML={{ __html: sanitizeHtml(stripAllPreviewUrls(currentTask.description.html)) }} />
+                      <div className="prose prose-sm max-w-none text-foreground text-sm [&>*:first-child]:mt-0 [&>*:last-child]:mb-0" dangerouslySetInnerHTML={{ __html: sanitizeHtml(stripAllPreviewUrls(currentTask.description.html)) }} />
                       <GitHubPreviewContainer content={currentTask.description.html} />
                       <NotionPreviewContainer content={currentTask.description.html} />
                       <LoomPreviewContainer content={currentTask.description.html} />
@@ -713,7 +713,7 @@ export default function TaskDetailSheet() {
                             </div>
                           ) : (
                             <>
-                              <div className="text-sm text-pm-text-primary/80 leading-relaxed prose prose-sm max-w-none" dangerouslySetInnerHTML={{ __html: sanitizeHtml(stripAllPreviewUrls(comment.content)) }} />
+                              <div className="text-sm leading-relaxed prose prose-sm max-w-none text-foreground" dangerouslySetInnerHTML={{ __html: sanitizeHtml(stripAllPreviewUrls(comment.content)) }} />
                               <GitHubPreviewContainer content={comment.content || ''} />
                               <NotionPreviewContainer content={comment.content || ''} />
                               <LoomPreviewContainer content={comment.content || ''} />

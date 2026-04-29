@@ -194,7 +194,7 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
             </div>
 
             {(typeof milestone.description === 'string' ? milestone.description : milestone.description?.content) && (
-              <p className="text-sm text-pm-text-muted mt-1 line-clamp-2"
+              <p className="text-sm text-foreground mt-1 line-clamp-2"
                 dangerouslySetInnerHTML={{ __html: sanitizeHtml(typeof milestone.description === 'string' ? milestone.description : milestone.description.content) }}
               />
             )}

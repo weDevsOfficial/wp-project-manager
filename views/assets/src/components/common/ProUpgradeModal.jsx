@@ -108,7 +108,7 @@ function FeatureSlider() {
               border: 'none',
               cursor: 'pointer',
               transition: 'all 0.3s',
-              background: i === active ? '#139F84' : '#ccc',
+              background: i === active ? 'var(--pm-accent)' : 'var(--pm-border)',
             }}
           />
         ))}
@@ -130,7 +130,7 @@ function ProUpgradeModal() {
         <button
           type="button"
           onClick={() => setOpen(false)}
-          className="absolute top-5 right-5 z-10 p-2.5 rounded-full bg-black/5 hover:bg-black/10 text-gray-500 hover:text-gray-800 transition-all"
+          className="absolute top-5 right-5 z-10 p-2.5 rounded-full bg-black/5 hover:bg-black/10 text-pm-text-muted hover:text-pm-text transition-all"
         >
           <X className="h-5 w-5" />
         </button>
@@ -144,10 +144,10 @@ function ProUpgradeModal() {
                 <img src={`${typeof PM_Vars !== 'undefined' ? PM_Vars.dir_url : '/wp-content/plugins/wedevs-project-manager/'}views/assets/images/modules/diamond.svg`} alt="" style={{ padding: '6px', background: 'linear-gradient(220deg, #FFF3DD 40%, #FFE3AD 98%)', borderRadius: '5px', width: '36px', height: '36px' }} />
                 <span style={{ color: '#ff9000', fontSize: '30px', fontWeight: 500, lineHeight: '1.6' }}>{__('Upgrade to')}</span>
               </div>
-              <h2 style={{ fontSize: '30px', fontWeight: 400, lineHeight: '1.6', margin: 0, color: '#1a1a1a' }}>
+              <h2 style={{ fontSize: '30px', fontWeight: 400, lineHeight: '1.6', margin: 0, color: 'var(--pm-text-primary)' }}>
                 {__('WP Project Manager')} <span style={{ fontWeight: 700 }}>{__('Pro')}</span>
               </h2>
-              <p style={{ fontSize: '20px', fontWeight: 400, color: '#656668', lineHeight: '1.6', margin: 0 }}>
+              <p style={{ fontSize: '20px', fontWeight: 400, color: 'var(--pm-text-muted)', lineHeight: '1.6', margin: 0 }}>
                 {__('unlock and take advantage of our premium features')} 🎉
               </p>
             </div>
@@ -157,15 +157,15 @@ function ProUpgradeModal() {
               {checklistItems.map((item, i) => (
                 <div key={i} className="flex" style={{ alignItems: 'flex-start' }}>
                   <img src={`${typeof PM_Vars !== 'undefined' ? PM_Vars.dir_url : '/wp-content/plugins/wedevs-project-manager/'}views/assets/images/modules/check.svg`} alt="" style={{ margin: '1em 14px 0 0', padding: '6px 5px', background: '#139F84', borderRadius: '20px', flexShrink: 0, width: '24px', height: '24px' }} />
-                  <p style={{ color: '#656668', marginBottom: '2px', paddingRight: '32px', lineHeight: '1.6', fontSize: '14px' }}>
+                  <p style={{ color: 'var(--pm-text-muted)', marginBottom: '2px', paddingRight: '32px', lineHeight: '1.6', fontSize: '14px' }}>
                     {item.text && __(item.text)}
-                    {item.bold && <span style={{ fontWeight: 500, color: '#000' }}>{__(item.bold)}</span>}
+                    {item.bold && <span style={{ fontWeight: 500, color: 'var(--pm-text-primary)' }}>{__(item.bold)}</span>}
                     {item.mid && __(item.mid)}
-                    {item.bold2 && <span style={{ fontWeight: 500, color: '#000' }}>{__(item.bold2)}</span>}
+                    {item.bold2 && <span style={{ fontWeight: 500, color: 'var(--pm-text-primary)' }}>{__(item.bold2)}</span>}
                     {item.mid2 && __(item.mid2)}
-                    {item.bold3 && <span style={{ fontWeight: 500, color: '#000' }}>{__(item.bold3)}</span>}
+                    {item.bold3 && <span style={{ fontWeight: 500, color: 'var(--pm-text-primary)' }}>{__(item.bold3)}</span>}
                     {item.mid3 && __(item.mid3)}
-                    {item.bold4 && <span style={{ fontWeight: 500, color: '#000' }}>{__(item.bold4)}</span>}
+                    {item.bold4 && <span style={{ fontWeight: 500, color: 'var(--pm-text-primary)' }}>{__(item.bold4)}</span>}
                     {item.suffix && __(item.suffix)}
                   </p>
                 </div>
@@ -191,13 +191,13 @@ function ProUpgradeModal() {
         </div>
 
         {/* Footer — matches Vue: flex, justify-between, margin-top 35px */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0 40px 20px', marginTop: '15px', borderTop: '1px solid #eee', paddingTop: '15px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0 40px 20px', marginTop: '15px', borderTop: '1px solid var(--pm-border)', paddingTop: '15px' }}>
           {[
             __('10,000+ successful businesses'),
             __('14 days no questions asked refund policy'),
             __('Industry leading 24x7 support'),
           ].map((text, i) => (
-            <span key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', color: '#656668', fontSize: '13px' }}>
+            <span key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--pm-text-muted)', fontSize: '13px' }}>
               <svg width="10" height="8" viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path fillRule="evenodd" fill="#139F84" d="M8.927 1.134c-.33-.33-.865-.33-1.195 0L3.374 5.492 1.897 4.015c-.33-.33-.865-.33-1.195 0s-.33.865 0 1.195l2.075 2.075c.33.33.865.33 1.195 0l4.955-4.955c.33-.33.33-.865 0-1.195z" />
               </svg>

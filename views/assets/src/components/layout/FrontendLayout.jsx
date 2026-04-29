@@ -42,9 +42,9 @@ export function FrontendLayout() {
   const isActive = (path) => location.pathname.startsWith(path) || location.hash?.includes(path)
 
   return (
-    <div className="min-h-screen bg-[#f8f9fb]">
+    <div className="min-h-screen bg-pm-surface-muted">
       {/* Header */}
-      <header className="sticky top-0 z-50 bg-white border-b border-border/50 shadow-sm">
+      <header className="sticky top-0 z-50 bg-pm-surface border-b border-pm-border shadow-sm">
         <div className="px-4">
           <div className="flex items-center justify-between h-14">
             {/* Logo + Nav */}

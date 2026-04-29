@@ -191,6 +191,15 @@ function App() {
   )
 }
 
+// ── Dark mode toggle API (exposed before mount so Pro can call it) ──
+function setDarkMode(force) {
+  const isDark = typeof force === 'boolean' ? force : document.documentElement.getAttribute('data-pm-theme') !== 'dark'
+  document.documentElement.setAttribute('data-pm-theme', isDark ? 'dark' : 'light')
+  const mountEl = document.getElementById(mountId)
+  if (mountEl) mountEl.classList.toggle('dark', isDark)
+  localStorage.setItem('pm-dark-mode', String(isDark))
+}
+
 // ── Expose PM extension APIs for Pro plugin ──────────────
 window.PM = {
   // Extension system (React-reactive + WP hooks bridge)
@@ -208,6 +217,7 @@ window.PM = {
   registerNavItem,
   useRegisteredNavItems,
   store,
+  setDarkMode,
 
   // Free store actions/thunks that pro may need to dispatch
   thunks: { fetchTask, fetchTaskLists },
@@ -319,6 +329,20 @@ const mountId = (typeof PM_Vars !== 'undefined' && PM_Vars.id) ? PM_Vars.id : 'w
 const el = document.getElementById(mountId)
 
 if (el) {
+  // ── Dark mode detection ──────────────────────────────────────────────────
+  // Priority: WP admin color scheme → system prefers-color-scheme.
+  // WP sets data-js="color-scheme-dark" on <html> when user picks a dark scheme.
+  // data-pm-theme set on <html> so :root vars apply globally (covers Radix portals).
+  // .dark class set on mount el so Tailwind dark: utilities work inside the app.
+  function applyDarkMode() {
+    const stored = localStorage.getItem('pm-dark-mode')
+    const isDark = stored === 'true'
+    document.documentElement.setAttribute('data-pm-theme', isDark ? 'dark' : 'light')
+    el.classList.toggle('dark', isDark)
+  }
+
+  applyDarkMode()
+
   const root = createRoot(el)
   root.render(
     <React.StrictMode>

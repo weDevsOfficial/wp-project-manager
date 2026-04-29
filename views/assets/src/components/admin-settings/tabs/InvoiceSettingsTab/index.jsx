@@ -112,7 +112,7 @@ export default function InvoiceSettingsTab() {
       <h2 className="text-lg font-semibold text-pm-text mb-1">{__('Invoice Settings')}</h2>
       <p className="text-sm text-pm-text-muted mb-5">{__('Configure invoice appearance and payment gateways')}</p>
 
-      <div className="rounded-lg border border-pm-border bg-white mb-5">
+      <div className="rounded-lg border border-pm-border bg-pm-surface mb-5">
         <div className="px-5 py-3 bg-muted/30 border-b border-pm-border">
           <h3 className="text-sm font-semibold text-pm-text-primary">{__('Appearance')}</h3>
         </div>
@@ -138,7 +138,7 @@ export default function InvoiceSettingsTab() {
         </div>
       </div>
 
-      <div className="rounded-lg border border-pm-border bg-white mb-5">
+      <div className="rounded-lg border border-pm-border bg-pm-surface mb-5">
         <div className="px-5 py-3 bg-muted/30 border-b border-pm-border">
           <h3 className="text-sm font-semibold text-pm-text-primary">{__('Payment Gateways')}</h3>
         </div>
@@ -231,7 +231,7 @@ export default function InvoiceSettingsTab() {
         </div>
       </div>
 
-      <div className="rounded-lg border border-pm-border bg-white mb-5">
+      <div className="rounded-lg border border-pm-border bg-pm-surface mb-5">
         <div className="px-5 py-3 bg-muted/30 border-b border-pm-border">
           <h3 className="text-sm font-semibold text-pm-text-primary">{__('Invoice Defaults')}</h3>
         </div>
@@ -278,7 +278,7 @@ export default function InvoiceSettingsTab() {
         </div>
       </div>
 
-      <div className="rounded-lg border border-pm-border bg-white mb-5">
+      <div className="rounded-lg border border-pm-border bg-pm-surface mb-5">
         <div className="px-5 py-3 bg-muted/30 border-b border-pm-border">
           <h3 className="text-sm font-semibold text-pm-text-primary">{__('Organization')}</h3>
         </div>

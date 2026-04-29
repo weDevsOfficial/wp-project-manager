@@ -1153,7 +1153,7 @@ export default function MyTasksPage() {
                 const Icon = ACTIVITY_ICON_MAP[act.action] || Activity;
                 const actor = act.actor?.data || {};
                 const actionType = act.action_type || 'update';
-                const badgeColor = ACTIVITY_COLOR_MAP[actionType] || 'bg-gray-400';
+                const badgeColor = ACTIVITY_COLOR_MAP[actionType] || 'bg-pm-text-muted';
                 const badgeLabel = ACTIVITY_LABELS[actionType] || actionType;
                 const timeStr = act.committed_at?.time?.slice(0, 5) || '';
 

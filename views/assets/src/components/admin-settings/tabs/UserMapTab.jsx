@@ -86,7 +86,7 @@ const UserMapTab = () => {
       <h2 className="text-lg font-semibold text-pm-text mb-1">{__('User Map', 'wedevs-project-manager')}</h2>
       <p className="text-sm text-pm-text-muted mb-5">{__('Map project members to their GitHub and Bitbucket usernames.', 'wedevs-project-manager')}</p>
 
-      <div className="rounded-lg border border-pm-border bg-white">
+      <div className="rounded-lg border border-pm-border bg-pm-surface">
         <div className="flex items-center justify-between px-5 py-4">
           <Label className="text-sm font-medium text-pm-text">{__('Select Project', 'wedevs-project-manager')}</Label>
           {userMapLoading ? (

@@ -138,7 +138,7 @@ const GeneralTab = () => {
         {__('Configure pagination and file upload limits.', 'wedevs-project-manager')}
       </p>
 
-      <div className="rounded-lg border border-pm-border bg-white">
+      <div className="rounded-lg border border-pm-border bg-pm-surface">
         {fields.map((field, idx) => (
           <React.Fragment key={field.key}>
             {idx > 0 && <div className="border-t border-pm-border" />}
@@ -166,7 +166,7 @@ const GeneralTab = () => {
 
       {/* Pro settings — appended to General when Pro is active */}
       {isPro && (
-        <div className="rounded-lg border border-pm-border bg-white mt-5">
+        <div className="rounded-lg border border-pm-border bg-pm-surface mt-5">
           <div className="px-5 py-3 bg-muted/30 border-b border-pm-border">
             <h3 className="text-sm font-semibold text-pm-text-primary">{__('Pro Settings')}</h3>
           </div>
@@ -202,7 +202,7 @@ const GeneralTab = () => {
             <p className="text-sm text-pm-text-muted mb-3">{__('Used on invoices and reports')}</p>
             <div className="flex items-center gap-3">
               {logo?.thumb && (
-                <img src={logo.thumb} alt={logo.name || 'Logo'} className="h-14 w-14 rounded-lg border border-pm-border object-contain bg-white" />
+                <img src={logo.thumb} alt={logo.name || 'Logo'} className="h-14 w-14 rounded-lg border border-pm-border object-contain bg-pm-surface" />
               )}
               <div className="flex gap-2">
                 <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={handleFileChange} />
