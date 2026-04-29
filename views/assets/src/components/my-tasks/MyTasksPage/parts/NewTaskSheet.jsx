@@ -35,7 +35,7 @@ const getCurrentUser = () => {
   }
 }
 
-export default function NewTaskSheet({ open, onOpenChange, userId, onCreated }) {
+export default function NewTaskSheet({ open, onOpenChange, userId, onCreated, defaultDueDate = '' }) {
   const api = useApi();
   const { __ } = useI18n();
   const toast = useToast();
@@ -115,8 +115,10 @@ export default function NewTaskSheet({ open, onOpenChange, userId, onCreated }) 
       setAssigneeSearch("");
       setAssigneeResults([]);
       setShowAssigneeSearch(false);
+    } else if (defaultDueDate) {
+      setDueDate(defaultDueDate);
     }
-  }, [open]);
+  }, [open, defaultDueDate]);
 
   const handleSearchUsers = useCallback(async (q) => {
     setAssigneeSearch(q);

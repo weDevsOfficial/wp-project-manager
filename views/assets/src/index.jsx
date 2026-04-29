@@ -222,6 +222,7 @@ window.PM = {
     FileUploadArea:  require('@components/common/FileUploadArea'),
     ProBadge:        require('@components/common/ProBadge'),
     ProUpgradeModal: require('@components/common/ProUpgradeModal'),
+    NewTaskSheet:    require('@components/my-tasks/MyTasksPage/parts/NewTaskSheet'),
     TaskDetailSheet: (() => {
       // Wrap component to ensure proper error handling across plugin boundaries
       const WrappedTaskDetailSheet = (props) => {
