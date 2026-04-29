@@ -18,8 +18,14 @@ class Upgrade_2_5_1 {
 
         $table = $wpdb->prefix . 'pm_task_types';
 
+        // Fix existing bad rows
         $wpdb->query(
-            "UPDATE {$table} SET `type` = 'task' WHERE `type` != 'subtask' OR `type` IS NULL OR `type` = ''"
+            "UPDATE {$table} SET `type` = 'task' WHERE `type` IS NULL OR `type` = '' OR `type` NOT IN ('task', 'subtask')"
+        );
+
+        // Fix column default so future rows without explicit type get 'task'
+        $wpdb->query(
+            "ALTER TABLE {$table} MODIFY `type` varchar(255) NOT NULL DEFAULT 'task'"
         );
     }
 }
