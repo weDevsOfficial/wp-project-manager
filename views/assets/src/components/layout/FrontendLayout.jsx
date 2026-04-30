@@ -7,13 +7,14 @@ import { UserAvatar } from '@components/common/UserAvatar'
 import { AppSidebar } from '@components/layout/AppSidebar'
 import {
   FolderKanban, CheckSquare, Calendar, BarChart3,
-  Menu, X, LogOut, Crown,
+  Menu, X, LogOut, Crown, Tag,
 } from 'lucide-react'
 
 const currentUser = typeof PM_Vars !== 'undefined' ? PM_Vars.current_user : {}
 
-// Navigation items for frontend (no Settings, Tools, Categories, Modules)
-function getNavItems(isPro) {
+// Navigation items for frontend. Admins additionally get Categories.
+// Settings/Tools/Modules stay wp-admin-only.
+function getNavItems(isPro, isAdmin) {
   const items = [
     { path: '/projects', label: 'Projects', icon: FolderKanban },
     { path: '/my-tasks', label: 'My Tasks', icon: CheckSquare },
@@ -24,6 +25,9 @@ function getNavItems(isPro) {
       { path: '/reports', label: 'Reports', icon: BarChart3 },
     )
   }
+  if (isAdmin) {
+    items.push({ path: '/categories', label: 'Categories', icon: Tag })
+  }
   items.push({ path: '/premium', label: 'Upgrade', icon: Crown, hideWhenPro: true })
   return items
 }
@@ -32,10 +36,10 @@ export function FrontendLayout() {
   const { __ } = useI18n()
   const navigate = useNavigate()
   const location = useLocation()
-  const { isPro } = usePermissions()
+  const { isPro, isAdmin, canManage } = usePermissions()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
-  const navItems = getNavItems(isPro).filter(item => !(item.hideWhenPro && isPro))
+  const navItems = getNavItems(isPro, isAdmin || canManage).filter(item => !(item.hideWhenPro && isPro))
   const userName = currentUser?.data?.display_name || currentUser?.display_name || 'User'
   const userAvatar = currentUser?.data?.avatar_url || currentUser?.avatar_url || ''
 

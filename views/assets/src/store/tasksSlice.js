@@ -147,7 +147,7 @@ export const sortTasks = createAsyncThunk(
 export const addTaskComment = createAsyncThunk(
   'tasks/addTaskComment',
   async (
-    { projectId, taskId, content, mentionedUsers = '' },
+    { projectId, taskId, content, mentionedUsers = '', notifyUsers = [] },
     { rejectWithValue },
   ) => {
     try {
@@ -160,7 +160,7 @@ export const addTaskComment = createAsyncThunk(
           commentable_id: taskId,
           commentable_type: 'task',
           mentioned_users: mentionedUsers,
-          notify_users: '',
+          notify_users: Array.isArray(notifyUsers) ? notifyUsers : [],
           project_id: projectId,
         },
       )

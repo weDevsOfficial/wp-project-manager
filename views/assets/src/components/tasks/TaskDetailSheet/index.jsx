@@ -26,6 +26,7 @@ import LoomPreviewContainer from '@components/common/LoomPreviewContainer'
 import { stripAllPreviewUrls } from '@/lib/url-strippers'
 import { sanitizeHtml } from '@lib/sanitize'
 import FileUploadArea from '@components/common/FileUploadArea'
+import NotifyUsers from '@components/common/NotifyUsers'
 import { UserAvatar } from '@components/common/UserAvatar'
 import { Separator } from '@components/ui/separator'
 import { Skeleton } from '@components/ui/skeleton'
@@ -119,6 +120,7 @@ export default function TaskDetailSheet() {
   const [newComment, setNewComment] = useState('')
   const [submittingComment, setSubmittingComment] = useState(false)
   const [commentFiles, setCommentFiles] = useState([])
+  const [commentNotifyUsers, setCommentNotifyUsers] = useState([])
   const [editingCommentId, setEditingCommentId] = useState(null)
   const [editCommentText, setEditCommentText] = useState('')
 
@@ -268,22 +270,23 @@ export default function TaskDetailSheet() {
         formData.append('commentable_id', currentTask.id)
         formData.append('commentable_type', 'task')
         formData.append('mentioned_users', mentionedUsers)
-        formData.append('notify_users', '')
+        commentNotifyUsers.forEach(id => formData.append('notify_users[]', String(id)))
         formData.append('project_id', projectId)
         commentFiles.forEach(f => formData.append('files[]', f))
         await api.upload(`projects/${projectId}/comments`, formData)
         dispatch(fetchTask({ projectId, taskId: currentTask.id }))
       } else {
-        await dispatch(addTaskComment({ projectId, taskId: currentTask.id, content: newComment, mentionedUsers })).unwrap()
+        await dispatch(addTaskComment({ projectId, taskId: currentTask.id, content: newComment, mentionedUsers, notifyUsers: commentNotifyUsers })).unwrap()
       }
       setNewComment('')
       setCommentFiles([])
+      setCommentNotifyUsers([])
       toast.success(__('Comment added'))
     } catch {
       toast.error(__('Failed to add comment'))
     }
     setSubmittingComment(false)
-  }, [dispatch, projectId, currentTask, newComment, commentFiles, api, toast, __])
+  }, [dispatch, projectId, currentTask, newComment, commentFiles, commentNotifyUsers, api, toast, __])
 
   const startEditComment = useCallback((c) => {
     setEditingCommentId(c.id)
@@ -762,6 +765,11 @@ export default function TaskDetailSheet() {
                   users={project?.assignees?.data ?? []}
                 />
                 <FileUploadArea files={commentFiles} onFilesChange={setCommentFiles} compact />
+                <NotifyUsers
+                  users={project?.assignees?.data ?? []}
+                  value={commentNotifyUsers}
+                  onChange={setCommentNotifyUsers}
+                />
                 <Button size="sm" className="h-7 text-sm gap-1" onClick={handleSubmitComment} disabled={!newComment.trim() || submittingComment}>
                   <Plus className="h-3 w-3" />{submittingComment ? __('Sending...') : __('Add Comment')}
                 </Button>

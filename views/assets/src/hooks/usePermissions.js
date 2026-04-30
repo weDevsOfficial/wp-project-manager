@@ -102,7 +102,12 @@ export function pmCanCompleteTask(task, project) {
 // ── React hook wrapper ────────────────────────────────────────
 
 export function usePermissions(project) {
-  const isAdmin       = useMemo(() => !!PM_Vars?.is_admin, [])
+  // PM_Vars.is_admin reflects WP's is_admin() — true for ANY user viewing
+  // wp-admin (incl. Subscribers). Use manage_options cap for true admin check.
+  const isAdmin       = useMemo(() => {
+    const u = getCurrentUser()
+    return !!(u?.allcaps?.manage_options || u?.caps?.manage_options)
+  }, [])
   const isPro         = useMemo(() => !!PM_Vars?.is_pro, [])
   const isProLicensed = useMemo(
     () => isPro && typeof PM_Pro_Vars !== 'undefined' && !!PM_Pro_Vars.is_license_active,

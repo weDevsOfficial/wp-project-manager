@@ -41,6 +41,7 @@ import {
   DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
 import FileUploadArea from "@components/common/FileUploadArea";
+import NotifyUsers from "@components/common/NotifyUsers";
 import ProBadge from "@components/common/ProBadge";
 import { formatPmDateTime } from "@lib/pm-utils";
 import { usePermissions } from "@hooks/usePermissions";
@@ -70,10 +71,11 @@ export default function DiscussionDetailPage() {
   const projectUsers = project?.assignees?.data ?? [];
 
   const canEditDiscussion = (d) => {
-    if (isManager || userCan("delete_discussion")) return true;
+    if (isManager) return true;
     const creatorId = d?.creator?.data?.id ?? d?.created_by;
     return currentUserId && creatorId && String(currentUserId) === String(creatorId);
   };
+  const canViewPrivateDiscussion = isManager || userCan("view_private_message");
 
   const [discussion, setDiscussion] = useState(null);
   const [comments, setComments] = useState([]);
@@ -87,6 +89,7 @@ export default function DiscussionDetailPage() {
 
   const [newComment, setNewComment] = useState("");
   const [commentFiles, setCommentFiles] = useState([]);
+  const [commentNotifyUsers, setCommentNotifyUsers] = useState([]);
   const [submitting, setSubmitting] = useState(false);
 
   const [editingCommentId, setEditingCommentId] = useState(null);
@@ -195,19 +198,20 @@ export default function DiscussionDetailPage() {
       fd.append("commentable_id", discussionId);
       fd.append("commentable_type", "discussion_board");
       fd.append("mentioned_users", mentionedUsers);
-      fd.append("notify_users", "");
+      commentNotifyUsers.forEach((id) => fd.append("notify_users[]", String(id)));
       fd.append("project_id", projectId);
       commentFiles.forEach((f) => fd.append("files[]", f));
       const res = await api.upload(`projects/${projectId}/comments`, fd);
       if (res.data) setComments((prev) => [...prev, res.data]);
       setNewComment("");
       setCommentFiles([]);
+      setCommentNotifyUsers([]);
       toast.success(__("Comment added"));
     } catch {
       toast.error(__("Failed to add comment"));
     }
     setSubmitting(false);
-  }, [api, projectId, discussionId, newComment, commentFiles, submitting, toast, __]);
+  }, [api, projectId, discussionId, newComment, commentFiles, commentNotifyUsers, submitting, toast, __]);
 
   const startEditComment = (c) => {
     setEditingCommentId(c.id);
@@ -339,7 +343,7 @@ export default function DiscussionDetailPage() {
                         <Pencil className="h-4 w-4 mr-2" />
                         {__("Edit")}
                       </DropdownMenuItem>
-                      {userCan("view_private_discussion") && (
+                      {canViewPrivateDiscussion && (
                         <DropdownMenuItem
                           onClick={() => isPro && handleTogglePrivacy()}
                           disabled={!isPro}
@@ -520,6 +524,11 @@ export default function DiscussionDetailPage() {
               files={commentFiles}
               onFilesChange={setCommentFiles}
               compact
+            />
+            <NotifyUsers
+              users={projectUsers}
+              value={commentNotifyUsers}
+              onChange={setCommentNotifyUsers}
             />
           </div>
         </div>

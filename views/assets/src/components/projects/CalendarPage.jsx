@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useCallback } from "react";
-import { Navigate } from "react-router-dom";
+import { useLicenseGuard } from "@components/common/LicenseGuard";
 import { useAppDispatch } from "@store/index";
 import { fetchTask, openTaskSheet } from "@store/tasksSlice";
 import { useI18n } from "@hooks/useI18n";
@@ -43,8 +43,9 @@ export default function CalendarPage() {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedTask, setSelectedTask] = useState(null);
 
-  // Pro installed but not licensed — redirect to license page
-  if (isPro && !isProLicensed) return <Navigate to="/license" replace />;
+  // License guard — admins go to /license, lower users see inline message
+  const licenseGuard = useLicenseGuard();
+  if (licenseGuard) return licenseGuard;
 
   const handlePrevMonth = () => {
     setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1));

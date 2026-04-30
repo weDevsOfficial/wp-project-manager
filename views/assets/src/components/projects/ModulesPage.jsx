@@ -1,7 +1,7 @@
 import React from "react";
-import { Navigate } from "react-router-dom";
 import { useI18n } from "@hooks/useI18n";
 import { usePermissions } from "@hooks/usePermissions";
+import { useLicenseGuard } from "@components/common/LicenseGuard";
 import { useProModal } from "@components/common/ProUpgradeModal";
 import ProBadge from "@components/common/ProBadge";
 import { Switch } from "@components/ui/switch";
@@ -106,7 +106,8 @@ export default function ModulesPage() {
   const { isPro, isProLicensed } = usePermissions();
   const { setOpen } = useProModal();
 
-  if (isPro && !isProLicensed) return <Navigate to="/license" replace />;
+  const licenseGuard = useLicenseGuard();
+  if (licenseGuard) return licenseGuard;
 
   return (
     <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-6">

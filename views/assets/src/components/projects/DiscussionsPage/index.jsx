@@ -28,6 +28,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 import FileUploadArea from "@components/common/FileUploadArea";
+import NotifyUsers from "@components/common/NotifyUsers";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -48,13 +49,14 @@ export default function DiscussionsPage() {
   const toast = useToast();
   const [ConfirmDialog, confirm] = useConfirm();
   const project = useCurrentProject(projectId);
-  const { isPro, userCan, isManager, currentUserId } = usePermissions(project);
-  const canCreateDiscussion = isManager || userCan("create_discussion");
+  const { isPro, userCan, isManager, isUserInProject, currentUserId } = usePermissions(project);
+  const canCreateDiscussion = isManager || (isUserInProject && userCan("create_message"));
   const canEditDiscussion = (d) => {
-    if (isManager || userCan("delete_discussion")) return true;
+    if (isManager) return true;
     const creatorId = d?.creator?.data?.id ?? d?.created_by;
     return currentUserId && creatorId && String(currentUserId) === String(creatorId);
   };
+  const canViewPrivateDiscussion = isManager || userCan("view_private_message");
 
   const [discussions, setDiscussions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -66,6 +68,7 @@ export default function DiscussionsPage() {
   const [formDesc, setFormDesc] = useState("");
   const [formMilestone, setFormMilestone] = useState("-1");
   const [formFiles, setFormFiles] = useState([]);
+  const [formNotifyUsers, setFormNotifyUsers] = useState([]);
   const [creating, setCreating] = useState(false);
 
   const [milestones, setMilestones] = useState([]);
@@ -112,7 +115,7 @@ export default function DiscussionsPage() {
         fd.append("title", formTitle.trim());
         fd.append("description", formDesc.trim());
         fd.append("order", "0");
-        fd.append("notify_users", "");
+        formNotifyUsers.forEach((id) => fd.append("notify_users[]", String(id)));
         if (formMilestone && formMilestone !== "-1")
           fd.append("milestone", formMilestone);
         formFiles.forEach((f) => fd.append("files[]", f));
@@ -122,6 +125,7 @@ export default function DiscussionsPage() {
         setFormDesc("");
         setFormMilestone("-1");
         setFormFiles([]);
+        setFormNotifyUsers([]);
         setShowForm(false);
         toast.success(__("Discussion created"));
         if (newDisc?.id) {
@@ -134,7 +138,7 @@ export default function DiscussionsPage() {
       }
       setCreating(false);
     },
-    [api, projectId, formTitle, formDesc, formMilestone, formFiles, creating, toast, __, fetchDiscussions, navigate]
+    [api, projectId, formTitle, formDesc, formMilestone, formFiles, formNotifyUsers, creating, toast, __, fetchDiscussions, navigate]
   );
 
   const handleDelete = useCallback(
@@ -229,6 +233,11 @@ export default function DiscussionsPage() {
             </SelectContent>
           </Select>
           <FileUploadArea files={formFiles} onFilesChange={setFormFiles} />
+          <NotifyUsers
+            users={project?.assignees?.data ?? []}
+            value={formNotifyUsers}
+            onChange={setFormNotifyUsers}
+          />
           <div className="flex gap-2">
             <Button
               variant="outline"
@@ -239,6 +248,7 @@ export default function DiscussionsPage() {
                 setFormTitle("");
                 setFormDesc("");
                 setFormMilestone("-1");
+                setFormNotifyUsers([]);
               }}
             >
               {__("Cancel")}
@@ -340,7 +350,7 @@ export default function DiscussionsPage() {
                             <Pencil className="h-4 w-4 mr-2" />
                             {__("Edit")}
                           </DropdownMenuItem>
-                          {userCan("view_private_discussion") && (
+                          {canViewPrivateDiscussion && (
                             <DropdownMenuItem
                               onClick={(e) => isPro && handleTogglePrivacy(e, d)}
                               disabled={!isPro}

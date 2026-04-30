@@ -37,6 +37,15 @@ import {
   CommandItem,
   CommandList,
 } from "@components/ui/command";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@components/ui/select";
+import { useAppDispatch, useAppSelector } from "@store/index";
+import { fetchRoles } from "@store/projectsSlice";
 import { Area, AreaChart, XAxis, CartesianGrid } from "recharts";
 import {
   ChartContainer,
@@ -54,9 +63,12 @@ export default function ProjectOverview() {
   const api = useApi();
   const { __ } = useI18n();
   const toast = useToast();
-  const { isPro } = usePermissions();
-
   const [project, setProject] = useState(null);
+  const { isPro, isManager, canManage } = usePermissions(project);
+  const canManageMembers = isManager || canManage;
+  const dispatch = useAppDispatch();
+  const roles = useAppSelector((s) => s.projects.roles);
+
   const [loading, setLoading] = useState(true);
   const [graph, setGraph] = useState([]);
 
@@ -65,7 +77,11 @@ export default function ProjectOverview() {
   const [memberSearch, setMemberSearch] = useState('');
   const [memberResults, setMemberResults] = useState([]);
   const [searchingMembers, setSearchingMembers] = useState(false);
+  const [pendingUser, setPendingUser] = useState(null);
+  const [pendingRoleId, setPendingRoleId] = useState(null);
   const searchTimer = useRef(null);
+
+  useEffect(() => { dispatch(fetchRoles()); }, [dispatch]);
 
   // Vue 2 fetches: GET projects/{id}?with=overview_graph
   useEffect(() => {
@@ -99,28 +115,75 @@ export default function ProjectOverview() {
     }, 300);
   }, [api, project]);
 
-  const handleAddMember = useCallback(async (user) => {
-    setMemberPopover(false);
+  const handleSelectUserForAdd = useCallback((user) => {
+    const defaultRoleId = roles.length > 0 ? roles[0].id : 2;
+    setPendingUser(user);
+    setPendingRoleId(defaultRoleId);
     setMemberSearch('');
     setMemberResults([]);
+  }, [roles]);
+
+  const handleConfirmAddMember = useCallback(async () => {
+    if (!pendingUser || !pendingRoleId) return;
+    const user = pendingUser;
+    const newRoleId = pendingRoleId;
+    setMemberPopover(false);
+    setPendingUser(null);
+    setPendingRoleId(null);
     try {
       const existing = project?.assignees?.data ?? [];
-      const allAssignees = [...existing, user].map(u => ({
+      const allAssignees = [
+        ...existing.map(u => ({
+          user_id: u.id,
+          role_id: u.roles?.data?.[0]?.id ?? 2,
+        })),
+        { user_id: user.id, role_id: newRoleId },
+      ];
+      await api.post(`projects/${projectId}/update`, {
+        title: project.title,
+        status: project.status,
+        assignees: allAssignees,
+      });
+      const roleObj = roles.find(r => r.id === newRoleId);
+      const userWithRole = {
+        ...user,
+        roles: { data: roleObj ? [{ id: roleObj.id, title: roleObj.title }] : [] },
+      };
+      setProject(prev => ({
+        ...prev,
+        assignees: { data: [...(prev.assignees?.data ?? []), userWithRole] },
+      }));
+      toast.success(__('Member added'));
+    } catch { toast.error(__('Failed to add member')); }
+  }, [api, projectId, project, toast, __, pendingUser, pendingRoleId, roles]);
+
+  const handleChangeRole = useCallback(async (userId, newRoleId) => {
+    try {
+      const allAssignees = (project?.assignees?.data ?? []).map(u => ({
         user_id: u.id,
-        role_id: u.roles?.data?.[0]?.id ?? 2,
+        role_id: parseInt(u.id) === parseInt(userId)
+          ? newRoleId
+          : (u.roles?.data?.[0]?.id ?? 2),
       }));
       await api.post(`projects/${projectId}/update`, {
         title: project.title,
         status: project.status,
         assignees: allAssignees,
       });
+      const roleObj = roles.find(r => r.id === newRoleId);
       setProject(prev => ({
         ...prev,
-        assignees: { data: [...(prev.assignees?.data ?? []), user] },
+        assignees: {
+          data: (prev.assignees?.data ?? []).map(u =>
+            parseInt(u.id) === parseInt(userId)
+              ? { ...u, roles: { data: roleObj ? [{ id: roleObj.id, title: roleObj.title }] : [] } }
+              : u
+          ),
+        },
       }));
-      toast.success(__('Member added'));
-    } catch { toast.error(__('Failed to add member')); }
-  }, [api, projectId, project, toast, __]);
+      toast.success(__('Role updated'));
+    } catch { toast.error(__('Failed to update role')); }
+  }, [api, projectId, project, toast, __, roles]);
 
   const handleRemoveMember = useCallback(async (userId) => {
     try {
@@ -387,40 +450,91 @@ export default function ProjectOverview() {
               {assignees.length}
             </span>
           </h3>
-          <Popover open={memberPopover} onOpenChange={setMemberPopover}>
+          {canManageMembers && (
+          <Popover
+            open={memberPopover}
+            onOpenChange={(open) => {
+              setMemberPopover(open);
+              if (!open) {
+                setPendingUser(null);
+                setPendingRoleId(null);
+                setMemberSearch('');
+                setMemberResults([]);
+              }
+            }}
+          >
             <PopoverTrigger asChild>
               <Button variant="outline" size="sm" className="h-7 text-sm gap-1.5">
                 <UserPlus className="h-3.5 w-3.5" />
                 {__("Add")}
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-[280px] p-0" align="end">
-              <Command shouldFilter={false}>
-                <CommandInput placeholder={__("Search users...")} value={memberSearch} onValueChange={handleMemberSearch} />
-                <CommandList>
-                  {searchingMembers && (
-                    <div className="flex items-center justify-center py-4 text-sm text-muted-foreground">
-                      <Loader2 className="mr-2 h-5 w-5 animate-spin" />{__("Searching...")}
+            <PopoverContent className="w-[300px] p-0" align="end">
+              {!pendingUser ? (
+                <Command shouldFilter={false}>
+                  <CommandInput placeholder={__("Search users...")} value={memberSearch} onValueChange={handleMemberSearch} />
+                  <CommandList>
+                    {searchingMembers && (
+                      <div className="flex items-center justify-center py-4 text-sm text-muted-foreground">
+                        <Loader2 className="mr-2 h-5 w-5 animate-spin" />{__("Searching...")}
+                      </div>
+                    )}
+                    {!searchingMembers && memberSearch.trim().length >= 2 && memberResults.length === 0 && (
+                      <CommandEmpty>{__("No users found")}</CommandEmpty>
+                    )}
+                    {memberResults.length > 0 && (
+                      <CommandGroup>
+                        {memberResults.map(u => (
+                          <CommandItem key={u.id} value={String(u.id)} onSelect={() => handleSelectUserForAdd(u)} className="cursor-pointer">
+                            <UserAvatar user={u} size="md" className="mr-2" />
+                            <span className="text-sm truncate flex-1">{u.display_name}</span>
+                            <Plus className="h-4 w-4 text-muted-foreground" />
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    )}
+                  </CommandList>
+                </Command>
+              ) : (
+                <div className="p-3 space-y-3">
+                  <div className="flex items-center gap-2">
+                    <UserAvatar user={pendingUser} size="md" />
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium truncate">{pendingUser.display_name}</p>
+                      <p className="text-xs text-muted-foreground truncate">{pendingUser.email}</p>
                     </div>
-                  )}
-                  {!searchingMembers && memberSearch.trim().length >= 2 && memberResults.length === 0 && (
-                    <CommandEmpty>{__("No users found")}</CommandEmpty>
-                  )}
-                  {memberResults.length > 0 && (
-                    <CommandGroup>
-                      {memberResults.map(u => (
-                        <CommandItem key={u.id} value={String(u.id)} onSelect={() => handleAddMember(u)} className="cursor-pointer">
-                          <UserAvatar user={u} size="md" className="mr-2" />
-                          <span className="text-sm truncate flex-1">{u.display_name}</span>
-                          <Plus className="h-4 w-4 text-muted-foreground" />
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
-                  )}
-                </CommandList>
-              </Command>
+                  </div>
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-medium text-muted-foreground">{__("Role")}</label>
+                    <Select
+                      value={pendingRoleId ? String(pendingRoleId) : ''}
+                      onValueChange={(val) => setPendingRoleId(Number(val))}
+                    >
+                      <SelectTrigger className="h-8 text-sm">
+                        <SelectValue placeholder={__("Select role")} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {roles.map((role) => (
+                          <SelectItem key={role.id} value={String(role.id)}>
+                            {role.title}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="flex justify-end gap-2 pt-1">
+                    <Button variant="ghost" size="sm" onClick={() => { setPendingUser(null); setPendingRoleId(null); }}>
+                      {__("Back")}
+                    </Button>
+                    <Button size="sm" onClick={handleConfirmAddMember} disabled={!pendingRoleId}>
+                      {__("Add")}
+                    </Button>
+                  </div>
+                </div>
+              )}
             </PopoverContent>
           </Popover>
+          )}
         </div>
         {assignees.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -438,19 +552,39 @@ export default function ProjectOverview() {
                     {user.email}
                   </p>
                 </div>
-                {user.roles?.data?.[0] && (
-                  <span className="text-[13px] text-pm-text-muted bg-muted/50 px-2 py-0.5 rounded-full">
-                    {user.roles.data[0].title}
-                  </span>
+                {canManageMembers && roles.length > 0 ? (
+                  <Select
+                    value={String(user.roles?.data?.[0]?.id ?? '')}
+                    onValueChange={(val) => handleChangeRole(user.id, Number(val))}
+                  >
+                    <SelectTrigger className="h-7 w-32 text-xs">
+                      <SelectValue placeholder={__("Role")} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {roles.map((role) => (
+                        <SelectItem key={role.id} value={String(role.id)}>
+                          {role.title}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                ) : (
+                  user.roles?.data?.[0] && (
+                    <span className="text-[13px] text-pm-text-muted bg-muted/50 px-2 py-0.5 rounded-full">
+                      {user.roles.data[0].title}
+                    </span>
+                  )
                 )}
-                <button
-                  type="button"
-                  className="opacity-0 group-hover:opacity-100 transition-opacity text-pm-text-muted hover:text-destructive shrink-0"
-                  onClick={() => handleRemoveMember(user.id)}
-                  title={__("Remove")}
-                >
-                  <Trash2 className="h-4 w-4" />
-                </button>
+                {canManageMembers && (
+                  <button
+                    type="button"
+                    className="opacity-0 group-hover:opacity-100 transition-opacity text-pm-text-muted hover:text-destructive shrink-0"
+                    onClick={() => handleRemoveMember(user.id)}
+                    title={__("Remove")}
+                  >
+                    <Trash2 className="h-4 w-4" />
+                  </button>
+                )}
               </div>
             ))}
           </div>

@@ -1,8 +1,8 @@
 import React from 'react'
-import { Navigate } from 'react-router-dom'
 import { useI18n } from '@hooks/useI18n'
 import { usePermissions } from '@hooks/usePermissions'
 import { useProModal } from './ProUpgradeModal'
+import { useLicenseGuard } from './LicenseGuard'
 import ProBadge from './ProBadge'
 import { Crown } from 'lucide-react'
 
@@ -219,11 +219,12 @@ const MOCK_MAP = {
 
 export default function ProFeaturePlaceholder({ title, description, icon: Icon, mockKey }) {
   const { __ } = useI18n()
-  const { isPro, isProLicensed } = usePermissions()
+  const { isPro } = usePermissions()
   const { setOpen } = useProModal()
   const MockComponent = mockKey && MOCK_MAP[mockKey]
 
-  if (isPro && !isProLicensed) return <Navigate to="/license" replace />
+  const licenseGuard = useLicenseGuard()
+  if (licenseGuard) return licenseGuard
 
   return (
     <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-6">

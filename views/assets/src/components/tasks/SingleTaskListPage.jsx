@@ -12,6 +12,7 @@ import { Progress } from '@components/ui/progress'
 import { Skeleton } from '@components/ui/skeleton'
 import { UserAvatar } from '@components/common/UserAvatar'
 import RichTextEditor from '@components/common/RichTextEditor'
+import NotifyUsers from '@components/common/NotifyUsers'
 import { Lock, MessageSquare, Pencil, Trash2, Paperclip } from 'lucide-react'
 import BackButton from '@components/common/BackButton'
 import { formatPmDateTime } from '@lib/pm-utils'
@@ -55,6 +56,7 @@ export default function SingleTaskListPage() {
   const [comments, setComments] = useState([])
   const [newComment, setNewComment] = useState('')
   const [submittingComment, setSubmittingComment] = useState(false)
+  const [commentNotifyUsers, setCommentNotifyUsers] = useState([])
   const [editingCommentId, setEditingCommentId] = useState(null)
   const [editCommentText, setEditCommentText] = useState('')
 
@@ -94,18 +96,19 @@ export default function SingleTaskListPage() {
         commentable_type: 'task_list',
         project_id: projectId,
         mentioned_users: mentionedUsers,
-        notify_users: '',
+        notify_users: commentNotifyUsers,
       })
       if (res.data) {
         setComments(prev => [...prev, res.data])
       }
       setNewComment('')
+      setCommentNotifyUsers([])
       toast.success(__('Comment added'))
     } catch {
       toast.error(__('Failed to add comment'))
     }
     setSubmittingComment(false)
-  }, [api, projectId, listId, newComment, toast, __])
+  }, [api, projectId, listId, newComment, commentNotifyUsers, toast, __])
 
   const startEditComment = useCallback((c) => {
     setEditingCommentId(c.id)
@@ -390,6 +393,11 @@ export default function SingleTaskListPage() {
             onChange={(html) => setNewComment(html)}
             minHeight="60px"
             users={projectUsers}
+          />
+          <NotifyUsers
+            users={projectUsers}
+            value={commentNotifyUsers}
+            onChange={setCommentNotifyUsers}
           />
           <Button size="sm" className="h-7 text-sm" onClick={handleSubmitComment} disabled={!newComment.trim() || submittingComment}>
             {submittingComment ? __('Sending...') : __('Post Comment')}

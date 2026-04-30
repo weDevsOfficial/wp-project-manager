@@ -41,7 +41,8 @@ function TruncText({ children, className }) {
 // ── Main component ───────────────────────────────────
 
 export function AppSidebar() {
-  const { isAdmin, isPro } = usePermissions()
+  const { isAdmin, isPro, canManage, isProLicensed } = usePermissions()
+  const canViewLicense = isAdmin || (canManage && isProLicensed)
   const isFrontend = typeof PM_Vars !== 'undefined' && PM_Vars.is_frontend && !PM_Vars.is_admin
   const { __ } = useI18n()
 
@@ -62,10 +63,10 @@ export function AppSidebar() {
     items.push({ key: 'activities', label: __('Activities'),    icon: Activity,   path: (pid) => `/projects/${pid}/activities` })
     if (isActive('Kanboard'))  items.push({ key: 'kanban',   label: __('Kanban Board'), icon: Columns3,  path: (pid) => `/projects/${pid}/kanban` })
     if (isActive('Gantt'))     items.push({ key: 'gantt',    label: __('Gantt Chart'),  icon: GitBranch,  path: (pid) => `/projects/${pid}/gantt` })
-    if (isActive('Invoice'))   items.push({ key: 'invoices', label: __('Invoices'),     icon: Receipt,    path: (pid) => `/projects/${pid}/invoices` })
-    items.push({ key: 'settings', label: __('Settings'), icon: Settings, path: (pid) => `/projects/${pid}/settings` })
+    if (isActive('Invoice') && canManage) items.push({ key: 'invoices', label: __('Invoices'),     icon: Receipt,    path: (pid) => `/projects/${pid}/invoices` })
+    if (canManage) items.push({ key: 'settings', label: __('Settings'), icon: Settings, path: (pid) => `/projects/${pid}/settings` })
     return items
-  }, [__])
+  }, [__, canManage])
   const location = useLocation()
   const navigate = useNavigate()
   const api      = useApi()
@@ -76,15 +77,17 @@ export function AppSidebar() {
   // When pro is off, show Activities/Kanban/Gantt/Invoice/Settings as pro previews.
   const projectSubNav = useMemo(() => {
     if (isPro) return [...projectSubNav_FREE, ...getProSubNav(activeModulePaths)]
-    return [
-      ...projectSubNav_FREE,
+    const proItems = [
       { key: 'activities', label: __('Activities'),    icon: Activity,   path: (pid) => `/projects/${pid}/activities`, proPreview: true },
       { key: 'kanban',   label: __('Kanban Board'), icon: Columns3,  path: (pid) => `/projects/${pid}/kanban`,   proPreview: true },
       { key: 'gantt',    label: __('Gantt Chart'),  icon: GitBranch,  path: (pid) => `/projects/${pid}/gantt`,    proPreview: true },
-      { key: 'invoices', label: __('Invoices'),     icon: Receipt,    path: (pid) => `/projects/${pid}/invoices`, proPreview: true },
-      { key: 'settings', label: __('Settings'),     icon: Settings,   path: (pid) => `/projects/${pid}/settings`, proPreview: true },
     ]
-  }, [isPro, activeModulePaths])
+    if (canManage) {
+      proItems.push({ key: 'invoices', label: __('Invoices'),     icon: Receipt,    path: (pid) => `/projects/${pid}/invoices`, proPreview: true })
+      proItems.push({ key: 'settings', label: __('Settings'),     icon: Settings,   path: (pid) => `/projects/${pid}/settings`, proPreview: true })
+    }
+    return [...projectSubNav_FREE, ...proItems]
+  }, [isPro, activeModulePaths, canManage])
 
   // Sidebar keeps its own project list — independent of ProjectsPage Redux filters
   const [sidebarProjects, setSidebarProjects] = useState([])
@@ -564,7 +567,7 @@ export function AppSidebar() {
           )}
 
           {/* Admin */}
-          {isAdmin && !isFrontend && (
+          {isAdmin && (
             <div className="mb-3">
               {!collapsed ? (
                 <p className="text-[14px] font-medium text-pm-text-muted uppercase tracking-wider px-2 mb-1.5">
@@ -573,10 +576,12 @@ export function AppSidebar() {
               ) : (
                 <div className="border-t border-pm-border my-2 mx-1" />
               )}
+              {/* Categories available in both wp-admin AND frontend for admins */}
               {renderNavItem({ key: 'categories', label: __('Categories'), short: __('Cat'),   icon: Tag,     route: '/categories', adminOnly: true })}
-              {renderNavItem({ key: 'settings',   label: __('Settings'),   short: __('Set'),   icon: Settings, route: '/settings',   adminOnly: true })}
-              {renderNavItem({ key: 'importtools', label: __('Tools'),     short: __('Tools'), icon: Wrench,  route: '/importtools', adminOnly: true })}
-              {isProInstalled && renderNavItem({ key: 'license', label: __('License'), short: __('Lic'), icon: Shield, route: '/license' })}
+              {/* Settings / Tools / License remain wp-admin-only */}
+              {!isFrontend && renderNavItem({ key: 'settings',   label: __('Settings'),   short: __('Set'),   icon: Settings, route: '/settings',   adminOnly: true })}
+              {!isFrontend && renderNavItem({ key: 'importtools', label: __('Tools'),     short: __('Tools'), icon: Wrench,  route: '/importtools', adminOnly: true })}
+              {!isFrontend && isProInstalled && canViewLicense && renderNavItem({ key: 'license', label: __('License'), short: __('Lic'), icon: Shield, route: '/license' })}
             </div>
           )}
         </nav>

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useMemo, useState } from 'react';
-import { useParams, useNavigate, Navigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useLicenseGuard } from '@components/common/LicenseGuard';
 import { useAppSelector } from '@store/index';
 import { useApi } from '@hooks/useApi';
 import { useI18n } from '@hooks/useI18n';
@@ -31,7 +32,8 @@ export default function ActivitiesPage() {
   const { isPro, isProLicensed } = usePermissions();
   const { setOpen } = useProModal();
 
-  if (isPro && !isProLicensed) return <Navigate to="/license" replace />;
+  const licenseGuard = useLicenseGuard();
+  if (licenseGuard) return licenseGuard;
 
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);

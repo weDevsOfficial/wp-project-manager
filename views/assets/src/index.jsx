@@ -48,6 +48,7 @@ const CalendarPlaceholder = React.lazy(() => import('@components/projects/Calend
 const ReportsPlaceholder  = React.lazy(() => import('@components/projects/ReportsPage'))
 const ProgressPlaceholder = React.lazy(() => import('@components/projects/ProgressPage'))
 import ProFeaturePlaceholder from '@components/common/ProFeaturePlaceholder'
+import { AdminRoute, ProjectRoute, LicenseRoute } from '@components/common/ProtectedRoute'
 import { ErrorBoundary } from '@components/common/ErrorBoundary'
 import { Columns3, GitBranch, Receipt, Settings as SettingsIcon, Zap, ShoppingCart } from 'lucide-react'
 
@@ -108,26 +109,27 @@ function AppRoutes() {
         {/* ── Free routes ── */}
         <Route index element={<Navigate to="/projects" replace />} />
         <Route path="projects" element={<ProjectsPage />} />
-        <Route path="projects/:projectId/task-lists" element={<TaskListsPage />} />
-        <Route path="projects/:projectId/task-lists/tasks/:taskId" element={<TaskDeepLinkNoList />} />
-        <Route path="projects/:projectId/task-lists/:listId" element={<SingleTaskListPage />} />
-        <Route path="projects/:projectId/task-lists/:listId/tasks/:taskId" element={<TaskDeepLink />} />
-        <Route path="projects/:projectId/overview" element={<ProjectOverview />} />
-        <Route path="projects/:projectId/discussions" element={<DiscussionsPage />} />
-        <Route path="projects/:projectId/discussions/:discussionId" element={<DiscussionDetailPage />} />
-        <Route path="projects/:projectId/milestones" element={<MilestonesPage />} />
-        <Route path="projects/:projectId/files" element={<FilteredPage filterName="route.files.element" fallback={FilesPage} />} />
-        <Route path="projects/:projectId/activities" element={<ActivitiesPage />} />
+        <Route path="projects/:projectId/task-lists" element={<ProjectRoute><TaskListsPage /></ProjectRoute>} />
+        <Route path="projects/:projectId/task-lists/tasks/:taskId" element={<ProjectRoute><TaskDeepLinkNoList /></ProjectRoute>} />
+        <Route path="projects/:projectId/task-lists/:listId" element={<ProjectRoute><SingleTaskListPage /></ProjectRoute>} />
+        <Route path="projects/:projectId/task-lists/:listId/tasks/:taskId" element={<ProjectRoute><TaskDeepLink /></ProjectRoute>} />
+        <Route path="projects/:projectId/overview" element={<ProjectRoute><ProjectOverview /></ProjectRoute>} />
+        <Route path="projects/:projectId/discussions" element={<ProjectRoute><DiscussionsPage /></ProjectRoute>} />
+        <Route path="projects/:projectId/discussions/:discussionId" element={<ProjectRoute><DiscussionDetailPage /></ProjectRoute>} />
+        <Route path="projects/:projectId/milestones" element={<ProjectRoute><MilestonesPage /></ProjectRoute>} />
+        <Route path="projects/:projectId/files" element={<ProjectRoute><FilteredPage filterName="route.files.element" fallback={FilesPage} /></ProjectRoute>} />
+        <Route path="projects/:projectId/activities" element={<ProjectRoute><ActivitiesPage /></ProjectRoute>} />
         <Route path="my-tasks" element={<MyTasksPage />} />
 
-        {/* ── Admin-only routes — hidden on frontend ── */}
-        {!isFrontend && <Route path="categories" element={<CategoriesPage />} />}
-        {!isFrontend && <Route path="settings" element={<SettingsPage />} />}
-        {!isFrontend && <Route path="importtools" element={<ToolsPage />} />}
-        {!isFrontend && <Route path="welcome" element={<WelcomePage />} />}
-        {!isFrontend && <Route path="modules" element={<FilteredPage filterName="route.modules.element" fallback={ModulesPage} />} />}
-        <Route path="premium" element={<PremiumPage />} />
-        {!isFrontend && isProInstalled && <Route path="license" element={<LicensePage />} />}
+        {/* ── Admin-only routes — gated by AdminRoute. Categories also available on frontend for admins. ── */}
+        <Route path="categories" element={<AdminRoute><CategoriesPage /></AdminRoute>} />
+        {/* settings/tools/welcome/modules stay wp-admin-only */}
+        {!isFrontend && <Route path="settings" element={<AdminRoute><SettingsPage /></AdminRoute>} />}
+        {!isFrontend && <Route path="importtools" element={<AdminRoute><ToolsPage /></AdminRoute>} />}
+        {!isFrontend && <Route path="welcome" element={<AdminRoute><WelcomePage /></AdminRoute>} />}
+        {!isFrontend && <Route path="modules" element={<AdminRoute><FilteredPage filterName="route.modules.element" fallback={ModulesPage} /></AdminRoute>} />}
+        <Route path="premium" element={<AdminRoute><PremiumPage /></AdminRoute>} />
+        {!isFrontend && isProInstalled && <Route path="license" element={<LicenseRoute><LicensePage /></LicenseRoute>} />}
 
         {/* ── Replaceable pages — Pro overrides via registerFilter() ── */}
         <Route path="calendar" element={<FilteredPage filterName="route.calendar.element" fallback={CalendarPlaceholder} />} />
@@ -143,16 +145,16 @@ function AppRoutes() {
 
         {/* ── Pro feature placeholders — only shown when Pro hasn't registered the route ── */}
         {!dynamicRoutes.some(r => r.path === 'projects/:projectId/kanban') && (
-          <Route path="projects/:projectId/kanban" element={<ProFeaturePlaceholder title="Kanban Board" description="Visualize your workflow with drag-and-drop boards." icon={Columns3} mockKey="kanban" />} />
+          <Route path="projects/:projectId/kanban" element={<ProjectRoute><ProFeaturePlaceholder title="Kanban Board" description="Visualize your workflow with drag-and-drop boards." icon={Columns3} mockKey="kanban" /></ProjectRoute>} />
         )}
         {!dynamicRoutes.some(r => r.path === 'projects/:projectId/gantt') && (
-          <Route path="projects/:projectId/gantt" element={<ProFeaturePlaceholder title="Gantt Chart" description="Plan and track project timelines with interactive Gantt charts." icon={GitBranch} mockKey="gantt" />} />
+          <Route path="projects/:projectId/gantt" element={<ProjectRoute><ProFeaturePlaceholder title="Gantt Chart" description="Plan and track project timelines with interactive Gantt charts." icon={GitBranch} mockKey="gantt" /></ProjectRoute>} />
         )}
         {!dynamicRoutes.some(r => r.path === 'projects/:projectId/invoices') && (
-          <Route path="projects/:projectId/invoices" element={<ProFeaturePlaceholder title="Invoices" description="Create and manage project invoices with payment tracking." icon={Receipt} mockKey="invoices" />} />
+          <Route path="projects/:projectId/invoices" element={<ProjectRoute managerOnly><ProFeaturePlaceholder title="Invoices" description="Create and manage project invoices with payment tracking." icon={Receipt} mockKey="invoices" /></ProjectRoute>} />
         )}
         {!dynamicRoutes.some(r => r.path === 'projects/:projectId/settings') && (
-          <Route path="projects/:projectId/settings" element={<ProFeaturePlaceholder title="Project Settings" description="Configure project capabilities, integrations, and more." icon={SettingsIcon} mockKey="settings" />} />
+          <Route path="projects/:projectId/settings" element={<ProjectRoute managerOnly><ProFeaturePlaceholder title="Project Settings" description="Configure project capabilities, integrations, and more." icon={SettingsIcon} mockKey="settings" /></ProjectRoute>} />
         )}
         {!dynamicRoutes.some(r => r.path === 'sprints') && (
           <Route path="sprints" element={<ProFeaturePlaceholder title="Sprints" description="Plan and manage agile sprints to organize your team's work into focused iterations." icon={Zap} mockKey="sprints" />} />
@@ -233,10 +235,14 @@ window.PM = {
     UserAvatar,
     TaskLabelBadges,
     ErrorBoundary,
+    AdminRoute,
+    ProjectRoute,
+    LicenseRoute,
     BackButton:       require('@components/common/BackButton'),
     FileUploadArea:  require('@components/common/FileUploadArea'),
     ProBadge:        require('@components/common/ProBadge'),
     ProUpgradeModal: require('@components/common/ProUpgradeModal'),
+    LicenseGuard:    require('@components/common/LicenseGuard'),
     NewTaskSheet:    require('@components/my-tasks/MyTasksPage/parts/NewTaskSheet'),
     TaskDetailSheet: (() => {
       // Wrap component to ensure proper error handling across plugin boundaries
