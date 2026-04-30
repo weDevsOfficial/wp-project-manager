@@ -53,7 +53,10 @@ export default function NewTaskSheet({ open, onOpenChange, userId, onCreated, de
     return u?.id ? [u] : []
   });
   const [assigneeSearch, setAssigneeSearch] = useState("");
-  const [assigneeResults, setAssigneeResults] = useState([]);
+  const selectedProjectMembers = (projects.find(p => String(p.id) === String(selectedProject))?.assignees?.data) ?? []
+  const assigneeResults = assigneeSearch.trim().length === 0
+    ? selectedProjectMembers
+    : selectedProjectMembers.filter(u => (u.display_name || '').toLowerCase().includes(assigneeSearch.toLowerCase()))
   const [showAssigneeSearch, setShowAssigneeSearch] = useState(false);
   const [saving, setSaving] = useState(false);
   const [loadingProjects, setLoadingProjects] = useState(false);
@@ -113,28 +116,21 @@ export default function NewTaskSheet({ open, onOpenChange, userId, onCreated, de
       const u = getCurrentUser()
       setSelectedAssignees(u?.id ? [u] : []);
       setAssigneeSearch("");
-      setAssigneeResults([]);
       setShowAssigneeSearch(false);
     } else if (defaultDueDate) {
       setDueDate(defaultDueDate);
     }
   }, [open, defaultDueDate]);
 
-  const handleSearchUsers = useCallback(async (q) => {
+  const handleSearchUsers = useCallback((q) => {
     setAssigneeSearch(q);
-    if (q.length < 2) { setAssigneeResults([]); return; }
-    try {
-      const res = await api.get("users", { search: q });
-      setAssigneeResults(res.data ?? []);
-    } catch { setAssigneeResults([]); }
-  }, [api]);
+  }, []);
 
   const addAssignee = useCallback((user) => {
     if (!selectedAssignees.find(u => parseInt(u.id) === parseInt(user.id))) {
       setSelectedAssignees(prev => [...prev, user]);
     }
     setAssigneeSearch("");
-    setAssigneeResults([]);
     setShowAssigneeSearch(false);
   }, [selectedAssignees]);
 
@@ -326,7 +322,7 @@ export default function NewTaskSheet({ open, onOpenChange, userId, onCreated, de
                   type="date"
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
-                  className="w-full h-9 rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring"
+                  className="w-full h-9 rounded-md border border-input bg-background text-foreground px-3 py-1 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring"
                 />
               </div>
               <div className="space-y-1">
@@ -336,7 +332,7 @@ export default function NewTaskSheet({ open, onOpenChange, userId, onCreated, de
                   value={dueDate}
                   onChange={(e) => setDueDate(e.target.value)}
                   min={startDate || undefined}
-                  className="w-full h-9 rounded-md border border-input bg-background px-3 py-1 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring"
+                  className="w-full h-9 rounded-md border border-input bg-background text-foreground px-3 py-1 text-sm shadow-sm focus:outline-none focus:ring-1 focus:ring-ring"
                 />
               </div>
             </div>

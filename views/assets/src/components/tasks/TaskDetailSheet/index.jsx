@@ -506,7 +506,7 @@ export default function TaskDetailSheet() {
                         <PopoverContent className="w-auto p-3" align="start">
                           <div className="space-y-2">
                             <p className="text-sm font-medium text-pm-text-muted">{__('Start Date')}</p>
-                            <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} className="w-full rounded-md border border-input bg-background px-3 py-1.5 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
+                            <input type="date" value={startDate} onChange={e => setStartDate(e.target.value)} className="w-full rounded-md border border-input bg-background text-foreground px-3 py-1.5 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
                             {startDate && <Button variant="ghost" size="sm" className="h-6 text-[14px] w-full" onClick={() => setStartDate('')}>{__('Clear')}</Button>}
                           </div>
                         </PopoverContent>
@@ -522,7 +522,7 @@ export default function TaskDetailSheet() {
                         <PopoverContent className="w-auto p-3" align="start">
                           <div className="space-y-2">
                             <p className="text-sm font-medium text-pm-text-muted">{__('Due Date')}</p>
-                            <input type="date" value={dueDate} onChange={e => setDueDate(e.target.value)} className="w-full rounded-md border border-input bg-background px-3 py-1.5 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
+                            <input type="date" value={dueDate} onChange={e => setDueDate(e.target.value)} className="w-full rounded-md border border-input bg-background text-foreground px-3 py-1.5 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" />
                             {dueDate && <Button variant="ghost" size="sm" className="h-6 text-[14px] w-full" onClick={() => setDueDate('')}>{__('Clear')}</Button>}
                           </div>
                         </PopoverContent>

@@ -62,7 +62,10 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
   const [newDesc, setNewDesc] = useState('')
   const [newDueDate, setNewDueDate] = useState('')
   const [assigneeSearch, setAssigneeSearch] = useState('')
-  const [assigneeResults, setAssigneeResults] = useState([])
+  const projectMembers = project?.assignees?.data ?? []
+  const assigneeResults = assigneeSearch.trim().length === 0
+    ? projectMembers
+    : projectMembers.filter(u => (u.display_name || '').toLowerCase().includes(assigneeSearch.toLowerCase()))
   const [selectedAssignees, setSelectedAssignees] = useState([])
   const [creating, setCreating] = useState(false)
   const [milestones, setMilestones] = useState([])
@@ -77,22 +80,15 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
   const [allIncompleteLoaded, setAllIncompleteLoaded] = useState(false)
   const [allCompleteLoaded, setAllCompleteLoaded] = useState(false)
 
-  // Search users for assignment
-  const handleSearchUsers = useCallback(async (q) => {
+  const handleSearchUsers = useCallback((q) => {
     setAssigneeSearch(q)
-    if (q.length < 2) { setAssigneeResults([]); return }
-    try {
-      const res = await api.get('users', { search: q })
-      setAssigneeResults(res.data ?? [])
-    } catch { setAssigneeResults([]) }
-  }, [api])
+  }, [])
 
   const addAssignee = useCallback((user) => {
     if (!selectedAssignees.find(u => parseInt(u.id) === parseInt(user.id))) {
       setSelectedAssignees(prev => [...prev, user])
     }
     setAssigneeSearch('')
-    setAssigneeResults([])
   }, [selectedAssignees])
 
   const removeAssignee = useCallback((userId) => {
@@ -113,7 +109,6 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
     setNewDesc('')
     setNewDueDate('')
     setAssigneeSearch('')
-    setAssigneeResults([])
     setSelectedAssignees([])
     setSelectedMilestone('')
   }, [])
@@ -495,7 +490,7 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
                       <select
                         value={selectedMilestone}
                         onChange={e => setSelectedMilestone(e.target.value)}
-                        className="h-8 text-sm rounded-md border border-input bg-background px-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring w-48"
+                        className="h-8 text-sm text-foreground rounded-md border border-input bg-background px-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring w-48"
                       >
                         <option value="">{__('None')}</option>
                         {milestones.map(m => (

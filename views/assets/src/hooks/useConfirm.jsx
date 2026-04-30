@@ -61,10 +61,10 @@ export function useConfirm() {
             <AlertDialogDescription>{state.message}</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => handleResult(false)}>
+            <AlertDialogCancel onClick={(e) => { e.stopPropagation(); handleResult(false) }}>
               {__('Cancel')}
             </AlertDialogCancel>
-            <AlertDialogAction onClick={() => handleResult(true)}>
+            <AlertDialogAction onClick={(e) => { e.stopPropagation(); handleResult(true) }}>
               {__('Confirm')}
             </AlertDialogAction>
           </AlertDialogFooter>
