@@ -8,6 +8,7 @@ import { useApi } from '@hooks/useApi'
 import { cn } from '@lib/utils'
 import { useI18n } from '@hooks/useI18n'
 import { useToast } from '@hooks/useToast'
+import { useConfirm } from '@hooks/useConfirm'
 import { Milestone as MilestoneIcon } from 'lucide-react'
 import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
@@ -55,6 +56,7 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
   const canDeleteTaskList = isManager || userCan('delete_task_list')
 
   const api = useApi()
+  const [ConfirmDialog, confirm] = useConfirm()
 
   const [showNewTask, setShowNewTask] = useState(false)
   const [expandedForm, setExpandedForm] = useState(false)
@@ -223,12 +225,13 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
   }, [dispatch, projectId, list.id, renameTitle, toast, __])
 
   const handleDeleteList = useCallback(async () => {
-    if (!confirm(__('Delete this list and all its tasks?'))) return
+    const ok = await confirm(__('Delete this list and all its tasks?'), __('Delete List'))
+    if (!ok) return
     try {
       await dispatch(deleteTaskList({ projectId, listId: list.id })).unwrap()
       toast.success(__('List deleted'))
     } catch { toast.error(__('Failed to delete list')) }
-  }, [dispatch, projectId, list.id, toast, __])
+  }, [dispatch, projectId, list.id, toast, __, confirm])
 
   // ── Load more tasks ──────────────────────────────
   const hasMoreIncomplete = !allIncompleteLoaded && incompleteTasks.length < totalIncomplete
@@ -259,6 +262,7 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
 
   return (
     <div className="rounded-xl border bg-card">
+      <ConfirmDialog />
       {/* Section header */}
       <div className="flex items-center gap-2 px-4 py-2.5 bg-muted/30 border-b">
         <button
