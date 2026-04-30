@@ -4,6 +4,7 @@ import BackButton from "@components/common/BackButton";
 import { useApi } from "@hooks/useApi";
 import { useI18n } from "@hooks/useI18n";
 import { useToast } from "@hooks/useToast";
+import { useConfirm } from "@hooks/useConfirm";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
 import RichTextEditor from "@components/common/RichTextEditor";
@@ -45,6 +46,7 @@ export default function DiscussionsPage() {
   const api = useApi();
   const { __ } = useI18n();
   const toast = useToast();
+  const [ConfirmDialog, confirm] = useConfirm();
   const project = useCurrentProject(projectId);
   const { isPro, userCan, isManager, currentUserId } = usePermissions(project);
   const canCreateDiscussion = isManager || userCan("create_discussion");
@@ -138,7 +140,8 @@ export default function DiscussionsPage() {
   const handleDelete = useCallback(
     async (e, id) => {
       e.stopPropagation();
-      if (!confirm(__("Are you sure?"))) return;
+      const ok = await confirm(__("Are you sure?"), __("Delete Discussion"));
+      if (!ok) return;
       try {
         await api.post(`projects/${projectId}/discussion-boards/${id}/delete`);
         setDiscussions((prev) => prev.filter((d) => d.id !== id));
@@ -173,6 +176,8 @@ export default function DiscussionsPage() {
   );
 
   return (
+    <>
+    <ConfirmDialog />
     <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-5">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -383,5 +388,6 @@ export default function DiscussionsPage() {
         </div>
       )}
     </div>
+    </>
   );
 }

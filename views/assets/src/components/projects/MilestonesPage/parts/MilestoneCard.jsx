@@ -13,6 +13,7 @@ import { openTaskSheet, fetchTask } from "@store/tasksSlice";
 import { useApi } from "@hooks/useApi";
 import { useI18n } from "@hooks/useI18n";
 import { useToast } from "@hooks/useToast";
+import { useConfirm } from "@hooks/useConfirm";
 import { usePermissions } from "@hooks/usePermissions";
 import { useCurrentProject } from "@hooks/useCurrentProject";
 import { cn } from "@lib/utils";
@@ -44,6 +45,7 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
   const { __ } = useI18n();
   const api = useApi();
   const toast = useToast();
+  const [ConfirmDialog, confirm] = useConfirm();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const project = useCurrentProject(projectId);
@@ -76,7 +78,8 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
 
   const handleUnlinkTask = useCallback(
     async (task) => {
-      if (!confirm(__("Remove this task from the milestone?"))) return;
+      const ok = await confirm(__("Remove this task from the milestone?"), __("Unlink Task"));
+      if (!ok) return;
       dispatch(removeTaskFromMilestone({ milestoneId: milestone.id, taskId: task.id }));
       try {
         await api.post(`projects/${projectId}/milestones/${milestone.id}/detach-task/${task.id}`);
@@ -104,7 +107,8 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
   );
 
   const handleDelete = useCallback(async () => {
-    if (!confirm(__("Are you sure?"))) return;
+    const ok = await confirm(__("Are you sure?"), __("Delete Milestone"));
+    if (!ok) return;
     try {
       await dispatch(
         deleteMilestone({ projectId, milestoneId: milestone.id }),
@@ -152,6 +156,8 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
   }, [dispatch, projectId, milestone, toast, __]);
 
   return (
+    <>
+    <ConfirmDialog />
     <Card className="overflow-hidden hover:shadow-sm transition-shadow">
       <CardContent className="p-4">
         <div className="flex items-start gap-3">
@@ -456,5 +462,6 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
         </>
       )}
     </Card>
+    </>
   );
 }

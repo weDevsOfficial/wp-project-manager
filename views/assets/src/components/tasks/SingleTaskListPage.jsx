@@ -5,6 +5,7 @@ import { fetchSingleList, addTaskToList } from '@store/taskListsSlice'
 import { useI18n } from '@hooks/useI18n'
 import { useApi } from '@hooks/useApi'
 import { useToast } from '@hooks/useToast'
+import { useConfirm } from '@hooks/useConfirm'
 import { useCurrentProject } from '@hooks/useCurrentProject'
 import { Button } from '@components/ui/button'
 import { Progress } from '@components/ui/progress'
@@ -39,6 +40,7 @@ export default function SingleTaskListPage() {
   const { __ } = useI18n()
   const api = useApi()
   const toast = useToast()
+  const [ConfirmDialog, confirm] = useConfirm()
 
   const currentList = useAppSelector(s => s.taskLists.currentList)
   const [loading, setLoading] = useState(true)
@@ -135,7 +137,8 @@ export default function SingleTaskListPage() {
   }, [api, projectId, editingCommentId, editCommentText, toast, __, cancelEditComment])
 
   const handleDeleteComment = useCallback(async (commentId) => {
-    if (!confirm(__('Are you sure?'))) return
+    const ok = await confirm(__('Are you sure?'), __('Delete Comment'))
+    if (!ok) return
     try {
       await api.post(`projects/${projectId}/comments/${commentId}/delete`)
       setComments(prev => prev.filter(c => c.id !== commentId))
@@ -212,6 +215,8 @@ export default function SingleTaskListPage() {
   const currentUserId = typeof PM_Vars !== 'undefined' ? PM_Vars.current_user?.ID : null
 
   return (
+    <>
+    <ConfirmDialog />
     <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-5">
       {/* Back button */}
       <BackButton fallback={`/projects/${projectId}/task-lists`} label={__('Back to Task Lists')} />
@@ -395,5 +400,6 @@ export default function SingleTaskListPage() {
       {/* Task detail sheet */}
       <TaskDetailSheet />
     </div>
+    </>
   )
 }

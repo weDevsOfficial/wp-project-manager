@@ -4,6 +4,7 @@ import BackButton from "@components/common/BackButton";
 import { useApi } from "@hooks/useApi";
 import { useI18n } from "@hooks/useI18n";
 import { useToast } from "@hooks/useToast";
+import { useConfirm } from "@hooks/useConfirm";
 import { usePermissions } from "@hooks/usePermissions";
 import { useCurrentProject } from "@hooks/useCurrentProject";
 import { useProModal } from "@components/common/ProUpgradeModal";
@@ -46,6 +47,7 @@ export default function FilesPage() {
   const api = useApi();
   const { __ } = useI18n();
   const toast = useToast();
+  const [ConfirmDialog, confirm] = useConfirm();
   const project = useCurrentProject(projectId);
   const { isPro, userCan, isManager, currentUserId } = usePermissions(project);
   const canDeleteFile = (f) => {
@@ -71,7 +73,8 @@ export default function FilesPage() {
   const proAction = () => setProModalOpen(true);
 
   const handleDelete = useCallback(async (id) => {
-    if (!confirm(__("Are you sure?"))) return;
+    const ok = await confirm(__("Are you sure?"), __("Delete File"));
+    if (!ok) return;
     try {
       await api.post(`projects/${projectId}/files/${id}/delete`);
       setFiles((prev) => prev.filter((f) => f.id !== id));
@@ -82,6 +85,8 @@ export default function FilesPage() {
   }, [api, projectId, toast, __]);
 
   return (
+    <>
+    <ConfirmDialog />
     <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-5">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -231,5 +236,6 @@ export default function FilesPage() {
         </div>
       )}
     </div>
+    </>
   );
 }

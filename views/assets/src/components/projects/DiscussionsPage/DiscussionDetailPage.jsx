@@ -4,6 +4,7 @@ import BackButton from "@components/common/BackButton";
 import { useApi } from "@hooks/useApi";
 import { useI18n } from "@hooks/useI18n";
 import { useToast } from "@hooks/useToast";
+import { useConfirm } from "@hooks/useConfirm";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
 import RichTextEditor from "@components/common/RichTextEditor";
@@ -63,6 +64,7 @@ export default function DiscussionDetailPage() {
   const api = useApi();
   const { __ } = useI18n();
   const toast = useToast();
+  const [ConfirmDialog, confirm] = useConfirm();
   const project = useCurrentProject(projectId);
   const { isPro, userCan, isManager, canEditComment, currentUserId } = usePermissions(project);
   const projectUsers = project?.assignees?.data ?? [];
@@ -159,7 +161,8 @@ export default function DiscussionDetailPage() {
   }, [api, projectId, discussionId, editTitle, editDesc, editMilestone, milestones, toast, __]);
 
   const handleDelete = async () => {
-    if (!confirm(__("Are you sure?"))) return;
+    const ok = await confirm(__("Are you sure?"), __("Delete Discussion"));
+    if (!ok) return;
     try {
       await api.post(`projects/${projectId}/discussion-boards/${discussionId}/delete`);
       toast.success(__("Discussion deleted"));
@@ -267,6 +270,8 @@ export default function DiscussionDetailPage() {
   const commentCount = comments.length;
 
   return (
+    <>
+    <ConfirmDialog />
     <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-5">
       {/* Header */}
       <div className="flex items-center gap-3">
@@ -520,5 +525,6 @@ export default function DiscussionDetailPage() {
         </div>
       </div>
     </div>
+    </>
   );
 }

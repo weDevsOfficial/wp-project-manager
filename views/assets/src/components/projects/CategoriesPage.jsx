@@ -2,6 +2,7 @@ import React, { useEffect, useState, useCallback } from "react";
 import { useApi } from "@hooks/useApi";
 import { useI18n } from "@hooks/useI18n";
 import { useToast } from "@hooks/useToast";
+import { useConfirm } from "@hooks/useConfirm";
 import { usePermissions } from "@hooks/usePermissions";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
@@ -35,6 +36,7 @@ export default function CategoriesPage() {
   const api = useApi();
   const { __ } = useI18n();
   const toast = useToast();
+  const [ConfirmDialog, confirm] = useConfirm();
   const { canManage } = usePermissions();
 
   const [categories, setCategories] = useState([]);
@@ -130,7 +132,8 @@ export default function CategoriesPage() {
   // ── Delete ─────────────────────────────────────────
 
   const handleDelete = async (id) => {
-    if (!confirm(__("Are you sure?"))) return;
+    const ok = await confirm(__("Are you sure?"), __("Delete Category"));
+    if (!ok) return;
     try {
       await api.post(`categories/${id}/delete`);
       setCategories((prev) => prev.filter((c) => c.id !== id));
@@ -147,7 +150,8 @@ export default function CategoriesPage() {
 
   const handleBulkDelete = async () => {
     if (selected.size === 0) return;
-    if (!confirm(__("Delete selected categories?"))) return;
+    const ok = await confirm(__("Delete selected categories?"), __("Bulk Delete"));
+    if (!ok) return;
     try {
       await api.post("categories/bulk-delete", {
         category_ids: Array.from(selected),
@@ -179,6 +183,8 @@ export default function CategoriesPage() {
   // ── Render ─────────────────────────────────────────
 
   return (
+    <>
+    <ConfirmDialog />
     <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-6">
       {/* Header — same pattern as ProjectsPage */}
       <div className="flex items-center justify-between">
@@ -398,5 +404,6 @@ export default function CategoriesPage() {
         </SheetContent>
       </Sheet>
     </div>
+    </>
   );
 }

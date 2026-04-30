@@ -9,6 +9,7 @@ import { useI18n } from '@hooks/useI18n'
 import { useToast } from '@hooks/useToast'
 import { usePermissions } from '@hooks/usePermissions'
 import { useCurrentProject } from '@hooks/useCurrentProject'
+import { useConfirm } from '@hooks/useConfirm'
 import {
   Sheet,
   SheetContent,
@@ -92,6 +93,7 @@ export default function TaskDetailSheet() {
   const api = useApi()
   const { __ } = useI18n()
   const toast = useToast()
+  const [ConfirmDialog, confirm] = useConfirm()
   const { currentTask, taskSheetOpen, loading } = useAppSelector(s => s.tasks)
   const storeProjectId = useAppSelector(s => s.taskLists.projectId)
 
@@ -328,7 +330,8 @@ export default function TaskDetailSheet() {
 
   const handleDelete = useCallback(async () => {
     if (!currentTask || !projectId) return
-    if (!confirm(__('Are you sure you want to delete this task?'))) return
+    const ok = await confirm(__('Are you sure you want to delete this task?'), __('Delete Task'))
+    if (!ok) return
     dispatch(removeTaskFromList({ listId: currentTask.task_list_id, taskId: currentTask.id }))
     dispatch(closeTaskSheet())
     try {
@@ -337,7 +340,7 @@ export default function TaskDetailSheet() {
     } catch {
       toast.error(__('Failed to delete task'))
     }
-  }, [dispatch, projectId, currentTask, toast, __])
+  }, [dispatch, projectId, currentTask, toast, __, confirm])
 
   const handleCopyLink = useCallback(async () => {
     const url = `${window.location.origin}${window.location.pathname}${window.location.search}#/projects/${projectId}/task-lists/${currentTask?.task_list_id}/tasks/${currentTask?.id}`
@@ -362,6 +365,8 @@ export default function TaskDetailSheet() {
   }, [projectId, currentTask, toast, __])
 
   return (
+    <>
+    <ConfirmDialog />
     <Sheet open={taskSheetOpen} onOpenChange={handleClose}>
       <SheetContent
         side="right"
@@ -843,5 +848,6 @@ export default function TaskDetailSheet() {
         ) : null}
       </SheetContent>
     </Sheet>
+    </>
   )
 }
