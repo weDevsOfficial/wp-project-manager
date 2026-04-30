@@ -117,6 +117,11 @@ export function usePermissions(project) {
   const canCreate     = useMemo(() => pmHasManageCapability(), [])
   const currentUserId = useMemo(() => getCurrentUser().ID ?? null, [])
 
+  // License management is admin-only (manage_options cap). Used by sidebar nav,
+  // LicenseRoute guard, and useLicenseGuard redirect. Single source of truth so
+  // backend (Administrator permission class) and frontend stay aligned.
+  const canManageLicense = isAdmin
+
   const isManager     = useMemo(() => pmIsManager(project), [project])
   const isUserInProject = useMemo(() => pmIsUserInProject(project), [project])
 
@@ -129,6 +134,7 @@ export function usePermissions(project) {
     isAdmin,
     isPro,
     isProLicensed,
+    canManageLicense,
     canManage,
     canCreate,
     isManager,

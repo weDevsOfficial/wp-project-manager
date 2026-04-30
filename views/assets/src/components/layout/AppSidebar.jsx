@@ -41,8 +41,7 @@ function TruncText({ children, className }) {
 // ── Main component ───────────────────────────────────
 
 export function AppSidebar() {
-  const { isAdmin, isPro, canManage, isProLicensed } = usePermissions()
-  const canViewLicense = isAdmin || (canManage && isProLicensed)
+  const { isAdmin, isPro, canManage, canManageLicense } = usePermissions()
   const isFrontend = typeof PM_Vars !== 'undefined' && PM_Vars.is_frontend && !PM_Vars.is_admin
   const { __ } = useI18n()
 
@@ -581,7 +580,7 @@ export function AppSidebar() {
               {/* Settings / Tools / License remain wp-admin-only */}
               {!isFrontend && renderNavItem({ key: 'settings',   label: __('Settings'),   short: __('Set'),   icon: Settings, route: '/settings',   adminOnly: true })}
               {!isFrontend && renderNavItem({ key: 'importtools', label: __('Tools'),     short: __('Tools'), icon: Wrench,  route: '/importtools', adminOnly: true })}
-              {!isFrontend && isProInstalled && canViewLicense && renderNavItem({ key: 'license', label: __('License'), short: __('Lic'), icon: Shield, route: '/license' })}
+              {!isFrontend && isProInstalled && canManageLicense && renderNavItem({ key: 'license', label: __('License'), short: __('Lic'), icon: Shield, route: '/license' })}
             </div>
           )}
         </nav>

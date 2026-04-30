@@ -35,15 +35,16 @@ export function AdminRoute({ children }) {
 }
 
 /**
- * License page guard. Admin always allowed.
- * Non-admin allowed only when license is active AND has manage capability.
- * Blocks delegated managers from license page when license is inactive.
+ * License page guard.
+ * Mirrors backend Administrator permission class (manage_options cap).
+ * Delegated managers and regular users must not access this page; backend
+ * REST will also reject them, this is the UI mirror.
  */
 export function LicenseRoute({ children }) {
-  const { isAdmin, canManage, isProLicensed } = usePermissions()
-  if (isAdmin) return children
-  if (canManage && isProLicensed) return children
-  return <Forbidden />
+  const { __ } = useI18n()
+  const { canManageLicense } = usePermissions()
+  if (canManageLicense) return children
+  return <Forbidden message={__('You are not authorized to view this page.')} />
 }
 
 /**
