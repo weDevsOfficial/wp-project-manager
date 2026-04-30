@@ -113,7 +113,6 @@ export default function TaskDetailSheet() {
 
   const [showAssigneeSearch, setShowAssigneeSearch] = useState(false)
   const [assigneeQuery, setAssigneeQuery] = useState('')
-  const [assigneeResults, setAssigneeResults] = useState([])
 
   const [newComment, setNewComment] = useState('')
   const [submittingComment, setSubmittingComment] = useState(false)
@@ -216,14 +215,10 @@ export default function TaskDetailSheet() {
     }
   }, [dispatch, projectId, currentTask, startDate, dueDate, toast, __])
 
-  const handleAssigneeSearch = useCallback(async (q) => {
-    setAssigneeQuery(q)
-    if (q.length < 2) { setAssigneeResults([]); return }
-    try {
-      const res = await api.get('users', { search: q })
-      setAssigneeResults(res.data ?? [])
-    } catch { setAssigneeResults([]) }
-  }, [api])
+  const projectMembers = project?.assignees?.data ?? []
+  const filteredMembers = assigneeQuery.trim().length === 0
+    ? projectMembers
+    : projectMembers.filter(u => (u.display_name || '').toLowerCase().includes(assigneeQuery.toLowerCase()))
 
   const handleAddAssignee = useCallback(async (user) => {
     if (!currentTask || !projectId) return
@@ -241,7 +236,6 @@ export default function TaskDetailSheet() {
       toast.error(__('Failed to add assignee'))
     }
     setAssigneeQuery('')
-    setAssigneeResults([])
     setShowAssigneeSearch(false)
   }, [dispatch, projectId, currentTask, assignees, toast, __])
 
@@ -569,27 +563,28 @@ export default function TaskDetailSheet() {
                     </div>
                     {showAssigneeSearch && (
                       <div className="relative mt-1.5">
-                        <Input autoFocus value={assigneeQuery} onChange={e => handleAssigneeSearch(e.target.value)}
-                          placeholder={__('Search users...')} className="h-7 text-sm"
-                          onKeyDown={e => { if (e.key === 'Escape') { setShowAssigneeSearch(false); setAssigneeQuery(''); setAssigneeResults([]) } }}
+                        <Input autoFocus value={assigneeQuery} onChange={e => setAssigneeQuery(e.target.value)}
+                          placeholder={__('Search members...')} className="h-7 text-sm"
+                          onKeyDown={e => { if (e.key === 'Escape') { setShowAssigneeSearch(false); setAssigneeQuery('') } }}
                         />
-                        {assigneeResults.length > 0 && (
-                          <div className="absolute top-full left-0 right-0 mt-1 bg-background border rounded-lg shadow-lg z-50 max-h-36 overflow-y-auto">
-                            {assigneeResults.map(u => {
-                              const isAssigned = assignees.some(a => parseInt(a.id || a.assigned_to) === parseInt(u.id))
-                              return (
-                                <button key={u.id} type="button"
-                                  className={cn("w-full flex items-center gap-2 px-3 py-1.5 text-sm text-left", isAssigned ? "bg-pm-accent/5 text-pm-accent" : "hover:bg-muted/50")}
-                                  onClick={() => isAssigned ? handleRemoveAssignee(u.id) : handleAddAssignee(u)}
-                                >
-                                  <UserAvatar user={u} size="sm" />
-                                  <span className="flex-1">{u.display_name}</span>
-                                  {isAssigned && <Check className="h-4 w-4 text-pm-accent shrink-0" />}
-                                </button>
-                              )
-                            })}
-                          </div>
-                        )}
+                        <div className="absolute top-full left-0 right-0 mt-1 bg-background border rounded-lg shadow-lg z-50 max-h-36 overflow-y-auto">
+                          {filteredMembers.length === 0 && (
+                            <div className="px-3 py-2 text-xs text-pm-text-muted">{__('No project members')}</div>
+                          )}
+                          {filteredMembers.map(u => {
+                            const isAssigned = assignees.some(a => parseInt(a.id || a.assigned_to) === parseInt(u.id))
+                            return (
+                              <button key={u.id} type="button"
+                                className={cn("w-full flex items-center gap-2 px-3 py-1.5 text-sm text-left", isAssigned ? "bg-pm-accent/5 text-pm-accent" : "hover:bg-muted/50")}
+                                onClick={() => isAssigned ? handleRemoveAssignee(u.id) : handleAddAssignee(u)}
+                              >
+                                <UserAvatar user={u} size="sm" />
+                                <span className="flex-1">{u.display_name}</span>
+                                {isAssigned && <Check className="h-4 w-4 text-pm-accent shrink-0" />}
+                              </button>
+                            )
+                          })}
+                        </div>
                       </div>
                     )}
                   </div>

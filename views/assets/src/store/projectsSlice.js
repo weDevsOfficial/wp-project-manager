@@ -155,12 +155,31 @@ export const updateProject = createAsyncThunk(
 
 export const searchUsers = createAsyncThunk(
   'projects/searchUsers',
-  async (query, { rejectWithValue }) => {
+  async (query) => {
     try {
       const res = await api.get('users/search', { query })
       return res.data ?? []
     } catch {
       return []
+    }
+  }
+)
+
+export const fetchProjectAssignees = createAsyncThunk(
+  'projects/fetchProjectAssignees',
+  async (projectId, { getState, rejectWithValue }) => {
+    const existing = getState().projects.projectAssignees[String(projectId)]
+    if (existing) return { projectId: String(projectId), assignees: existing }
+    try {
+      const res = await api.get(`projects/${projectId}`, { with: 'assignees' })
+      const p = res?.data ?? res
+      const assignees = p?.assignees?.data || []
+      return {
+        projectId: String(projectId),
+        assignees: Array.isArray(assignees) ? assignees : Object.values(assignees || {}),
+      }
+    } catch (e) {
+      return rejectWithValue(e.message ?? 'Failed to load project assignees')
     }
   }
 )
@@ -194,6 +213,8 @@ const initialState = {
   editSheetOpen:   false,
   editProject:     null,
   searchingUsers:  false,
+
+  projectAssignees: {}, // { [projectId]: User[] }
 }
 
 const projectsSlice = createSlice({
@@ -234,6 +255,14 @@ const projectsSlice = createSlice({
     closeEditSheet(state) {
       state.editSheetOpen = false
       state.editProject = null
+    },
+    invalidateProjectAssignees(state, action) {
+      const id = action.payload
+      if (id == null) {
+        state.projectAssignees = {}
+      } else {
+        delete state.projectAssignees[String(id)]
+      }
     },
   },
   extraReducers: (builder) => {
@@ -340,12 +369,17 @@ const projectsSlice = createSlice({
     builder.addCase(searchUsers.pending, (state) => { state.searchingUsers = true })
     builder.addCase(searchUsers.fulfilled, (state) => { state.searchingUsers = false })
     builder.addCase(searchUsers.rejected, (state) => { state.searchingUsers = false })
+
+    builder.addCase(fetchProjectAssignees.fulfilled, (state, action) => {
+      const { projectId, assignees } = action.payload
+      state.projectAssignees[projectId] = assignees
+    })
   },
 })
 
 export const {
   setStatus, setPage, setCategory, setOrderBy, setViewMode, setCreateSheetOpen,
-  openEditSheet, closeEditSheet,
+  openEditSheet, closeEditSheet, invalidateProjectAssignees,
 } = projectsSlice.actions
 
 export default projectsSlice.reducer

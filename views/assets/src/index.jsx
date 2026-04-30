@@ -11,6 +11,8 @@ const { Toaster } = SonnerLib
 import { store, injectReducer, resetProjectState } from '@store/index'
 import { fetchTask, openTaskSheet, closeTaskSheet, markTaskModified } from '@store/tasksSlice'
 import { fetchTaskLists } from '@store/taskListsSlice'
+import { fetchProjectAssignees } from '@store/projectsSlice'
+import { useProjectAssignees } from '@hooks/useProjectAssignees'
 import TaskDetailSheet from '@components/tasks/TaskDetailSheet'
 import TaskLabelBadges from '@components/tasks/TaskLabelBadges'
 import { AppLayout } from '@components/layout/AppLayout'
@@ -220,8 +222,11 @@ window.PM = {
   setDarkMode,
 
   // Free store actions/thunks that pro may need to dispatch
-  thunks: { fetchTask, fetchTaskLists },
+  thunks: { fetchTask, fetchTaskLists, fetchProjectAssignees },
   actions: { resetProjectState, openTaskSheet, closeTaskSheet, markTaskModified },
+
+  // Free hooks that pro may use (same Redux store context)
+  hooks: { useProjectAssignees },
 
   // Components that pro needs to use (exposed for cross-plugin integration)
   components: {
