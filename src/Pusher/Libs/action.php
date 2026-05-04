@@ -7,18 +7,21 @@ use WeDevs\PM\Project\Helper\Project;
 use WeDevs\PM\Discussion_Board\Models\Discussion_Board;
 
 /**
- * Get is_admin flag from POST request.
- * Nonce is verified at REST API layer via register_rest_route() in WP_Router.
+ * Whether Pusher notification links should target the WP admin backend.
+ * Reads the `pusher_link_to_backend` setting; falls back to backend when
+ * no front-end project page is configured.
  *
- * @return bool True if is_admin flag is set and not empty.
+ * @return bool
  */
 function wedevs_pm_pusher_is_admin_request() {
-    // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified at REST API layer via register_rest_route() in WP_Router.
-    if ( ! isset( $_POST['is_admin'] ) ) {
-        return false;
+    $setting = wedevs_pm_get_setting( 'pusher_link_to_backend' );
+
+    if ( $setting !== null ) {
+        return filter_var( $setting, FILTER_VALIDATE_BOOLEAN );
     }
-    // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified at REST API layer via register_rest_route() in WP_Router.
-    return ! empty( intval( wedevs_pm_clean( sanitize_text_field( wp_unslash( $_POST['is_admin'] ) ) ) ) );
+
+    $pages = get_option( 'pm_pages', [] );
+    return empty( $pages['project'] );
 }
 
 function wedevs_pm_pusher_has_task_update_content( $model ) {

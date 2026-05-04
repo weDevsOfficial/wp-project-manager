@@ -224,10 +224,11 @@ const initialState = {
   emailSaving: false,
 
   pusher: {
-    pusher_app_key: getSetting('pusher_app_key', ''),
-    pusher_secret:  getSetting('pusher_secret', ''),
-    pusher_app_id:  getSetting('pusher_app_id', ''),
-    pusher_cluster: getSetting('pusher_cluster', ''),
+    pusher_app_key:         getSetting('pusher_app_key', ''),
+    pusher_secret:          getSetting('pusher_secret', ''),
+    pusher_app_id:          getSetting('pusher_app_id', ''),
+    pusher_cluster:         getSetting('pusher_cluster', ''),
+    pusher_link_to_backend: getSetting('pusher_link_to_backend', false),
   },
   pusherSaving: false,
 

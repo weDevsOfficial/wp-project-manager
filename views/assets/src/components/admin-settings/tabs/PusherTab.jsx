@@ -7,6 +7,7 @@ import { useApi } from '@hooks/useApi'
 import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
 import { Label } from '@components/ui/label'
+import { Switch } from '@components/ui/switch'
 import { Radio, Zap } from 'lucide-react'
 
 const PusherTab = () => {
@@ -41,9 +42,8 @@ const PusherTab = () => {
   const handleTest = async () => {
     setTesting(true)
     try {
-      const res = await api.post('pusher/test')
-      const msg = res?.data?.message || res?.message || __('Test event sent', 'wedevs-project-manager')
-      toast.success(msg)
+      await api.post('pusher/test')
+      // Success toast comes via Pusher event bridge — avoid double toast.
     } catch (err) {
       const msg = err?.message || err?.data?.message || __('Pusher test failed', 'wedevs-project-manager')
       toast.error(msg)
@@ -88,6 +88,22 @@ const PusherTab = () => {
             <p className="text-sm text-pm-text-muted mt-1">{__('e.g. ap2, eu, us2', 'wedevs-project-manager')}</p>
           </div>
           <Input id="pusher_cluster" value={form.pusher_cluster} onChange={(e) => updateField('pusher_cluster', e.target.value)} placeholder="mt1" className="w-40" />
+        </div>
+        <div className="border-t border-pm-border" />
+        <div className="flex items-center justify-between px-5 py-4">
+          <div>
+            <Label htmlFor="pusher_link_to_backend" className="text-sm font-medium text-pm-text">
+              {__('Link to Backend', 'wedevs-project-manager')}
+            </Label>
+            <p className="text-sm text-pm-text-muted mt-0.5">
+              {__('Pusher notification links point to the WP admin backend', 'wedevs-project-manager')}
+            </p>
+          </div>
+          <Switch
+            id="pusher_link_to_backend"
+            checked={!!form.pusher_link_to_backend}
+            onCheckedChange={(val) => updateField('pusher_link_to_backend', val)}
+          />
         </div>
       </div>
 
