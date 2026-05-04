@@ -186,6 +186,23 @@ body:not(.wp-admin) #wedevs-project-manager {
     margin: 0 !important;
   }
 
+  /* Frontend themes inject list-style/padding via Twenty* etc.
+     Reset so Tailwind utilities (list-none/list-disc/p-*) drive layout.
+     !important needed because theme rules like `.entry-content ul` win on
+     specificity over our scope selector alone. */
+  ul, ol {
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  li {
+    list-style: none !important;
+    list-style-type: none !important;
+  }
+  li::marker {
+    content: none !important;
+  }
+
   a {
     color: inherit;
     text-decoration: inherit;
