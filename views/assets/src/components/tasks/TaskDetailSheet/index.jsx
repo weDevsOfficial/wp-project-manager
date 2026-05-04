@@ -780,7 +780,7 @@ export default function TaskDetailSheet() {
 
             <div className="px-6 py-4">
               <div className="flex items-center justify-between">
-                <h4 className="text-sm font-semibold uppercase tracking-wider text-pm-text-muted/70 flex items-center gap-1.5">
+                <h4 className="text-sm font-semibold uppercase tracking-wider text-pm-text-muted flex items-center gap-1.5">
                   <Activity className="h-4 w-4" />{__('Activity')}
                 </h4>
                 <button
@@ -817,8 +817,8 @@ export default function TaskDetailSheet() {
                         }
                       };
                       return (
-                        <div key={act.id || i} className="flex gap-2 text-sm text-pm-text-muted">
-                          <span className="h-1.5 w-1.5 rounded-full bg-pm-text-muted/30 mt-1.5 shrink-0" />
+                        <div key={act.id || i} className="flex gap-2 text-sm text-pm-text">
+                          <span className="h-1.5 w-1.5 rounded-full bg-pm-text-muted mt-1.5 shrink-0" />
                           <div>
                             {actActor?.id && (
                               <button
@@ -833,12 +833,12 @@ export default function TaskDetailSheet() {
                               <button
                                 type="button"
                                 onClick={handleActClick}
-                                className="hover:text-pm-accent transition-colors cursor-pointer"
+                                className="text-pm-text hover:text-pm-accent transition-colors cursor-pointer"
                               >
                                 {parseActivityMessage(act) || act.action}
                               </button>
                             ) : (
-                              <span>{parseActivityMessage(act) || act.action}</span>
+                              <span className="text-pm-text">{parseActivityMessage(act) || act.action}</span>
                             )}
                             {act.committed_at && <span className="ml-1.5 text-[14px]">· {formatPmDateTime(act.committed_at)}</span>}
                           </div>
