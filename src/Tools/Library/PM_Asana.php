@@ -1398,9 +1398,9 @@ class PM_Asana
                     echo '<pre>';
                     echo 'WordPress HTTP API Error: ' . esc_html($response->get_error_message());
                     echo '</pre>';
-                    echo '<br>Sent info:<br><pre>';
-                    print_r($data);
-                    echo '</pre>';
+                    if ($this->advDebug) {
+                        echo '<br>Sent data type: ' . esc_html(gettype($data));
+                    }
                 }
 
                 if (!$this->failOnError) {

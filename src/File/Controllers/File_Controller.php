@@ -109,8 +109,6 @@ class File_Controller {
             die( esc_html__( 'file not found', 'wedevs-project-manager' ) );
         }
 
-        $file_name = basename( $path );
-
         $mime_type = empty( $file['mime_type'] ) ? 'application/force-download' : $file['mime_type'];
 
         // serve the file with right header
@@ -129,8 +127,9 @@ class File_Controller {
             header( 'Content-Transfer-Encoding: binary' );
             header( 'Content-Disposition: inline; filename=' . basename( $path ) );
 
-            // Replace readfile with WP_Filesystem method
-            echo $wp_filesystem->get_contents( $path );
+            // For downloads, readfile() is more memory-efficient as it streams content
+            // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_readfile
+            readfile( $path );
         }
 
         exit;
