@@ -22,6 +22,7 @@ import { UserAvatar } from '@components/common/UserAvatar'
 import { registerSlot, registerFilter, applyFilters, doAction, addAction, Slot, useFilter, useSlotFills } from '@hooks/useSlot'
 import { registerRoute, useRegisteredRoutes } from '@/router/routeRegistry'
 import { registerNavItem, useRegisteredNavItems } from '@hooks/useNavRegistry'
+import { sanitizeHtml } from '@lib/sanitize'
 import './tailwind.css'
 
 // ── Free pages (always loaded) ──────────────────────────
@@ -170,6 +171,25 @@ function AppRoutes() {
 }
 
 function App() {
+  useEffect(() => {
+    const stripInlineColor = (html) => String(html).replace(/style="[^"]*"/gi, '')
+    const handler = (e) => {
+      const { title, message } = e.detail || {}
+      if (!title && !message) return
+      const titleNode = title
+        ? <span className="pm-pusher-toast" dangerouslySetInnerHTML={{ __html: sanitizeHtml(stripInlineColor(title)) }} />
+        : null
+      const descNode = message
+        ? <span className="pm-pusher-toast" dangerouslySetInnerHTML={{ __html: sanitizeHtml(stripInlineColor(message)) }} />
+        : null
+      SonnerLib.toast(titleNode || descNode, {
+        description: titleNode && descNode ? descNode : undefined,
+      })
+    }
+    window.addEventListener('pm:pusher-notification', handler)
+    return () => window.removeEventListener('pm:pusher-notification', handler)
+  }, [])
+
   return (
     <Provider store={store}>
       <HashRouter>

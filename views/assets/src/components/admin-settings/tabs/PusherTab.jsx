@@ -3,14 +3,16 @@ import { useAppDispatch, useAppSelector } from '@store/index'
 import { savePusher } from '@store/settingsSlice'
 import { useI18n } from '@hooks/useI18n'
 import { useToast } from '@hooks/useToast'
+import { useApi } from '@hooks/useApi'
 import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
 import { Label } from '@components/ui/label'
-import { Radio } from 'lucide-react'
+import { Radio, Zap } from 'lucide-react'
 
 const PusherTab = () => {
   const { __ } = useI18n()
   const toast  = useToast()
+  const api    = useApi()
   const dispatch = useAppDispatch()
 
   const pusher       = useAppSelector((s) => s.settings.pusher)
@@ -18,6 +20,7 @@ const PusherTab = () => {
 
   const [form, setForm] = useState({ ...pusher })
   const [isDirty, setIsDirty] = useState(false)
+  const [testing, setTesting] = useState(false)
 
   const updateField = useCallback((key, value) => {
     setForm((prev) => ({ ...prev, [key]: value }))
@@ -32,6 +35,20 @@ const PusherTab = () => {
       toast.success(__('Pusher settings saved', 'wedevs-project-manager'))
     } catch (err) {
       toast.error(err ?? __('Failed to save Pusher settings', 'wedevs-project-manager'))
+    }
+  }
+
+  const handleTest = async () => {
+    setTesting(true)
+    try {
+      const res = await api.post('pusher/test')
+      const msg = res?.data?.message || res?.message || __('Test event sent', 'wedevs-project-manager')
+      toast.success(msg)
+    } catch (err) {
+      const msg = err?.message || err?.data?.message || __('Pusher test failed', 'wedevs-project-manager')
+      toast.error(msg)
+    } finally {
+      setTesting(false)
     }
   }
 
@@ -78,8 +95,18 @@ const PusherTab = () => {
         <Button type="submit" disabled={!isDirty || pusherSaving}>
           {pusherSaving ? __('Saving...', 'wedevs-project-manager') : __('Save Changes', 'wedevs-project-manager')}
         </Button>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={handleTest}
+          disabled={testing || isDirty || !form.pusher_app_key}
+          className="gap-1.5"
+        >
+          <Zap className="w-4 h-4" />
+          {testing ? __('Testing...', 'wedevs-project-manager') : __('Test Connection', 'wedevs-project-manager')}
+        </Button>
         {isDirty && !pusherSaving && (
-          <span className="text-sm text-pm-text-muted">{__('You have unsaved changes', 'wedevs-project-manager')}</span>
+          <span className="text-sm text-pm-text-muted">{__('Save changes before testing', 'wedevs-project-manager')}</span>
         )}
       </div>
     </form>
