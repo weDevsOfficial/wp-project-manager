@@ -27,7 +27,9 @@ class New_Message_Notification extends Email {
         $project            = $project['data']; //Project::with('assignees', 'managers')->find( $request['project_id'] );
         $message['project'] = $project;
         $users              = array();
-        $notify_users       = explode( ',',  $request['notify_users'] );
+        $notify_users       = is_array( $request['notify_users'] )
+            ? $request['notify_users']
+            : explode( ',', (string) $request['notify_users'] );
         $project_users = [];
 
         foreach ( $project['assignees']['data'] as $key => $project_user ) {

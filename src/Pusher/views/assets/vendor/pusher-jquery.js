@@ -17,7 +17,12 @@
             
             this.pusher = new Pusher( PM_Pusher_Vars.pusher_app_key , {
                 cluster: PM_Pusher_Vars.pusher_cluster,
-                authEndpoint: `${PM_Pusher_Vars.api_base_url}${PM_Pusher_Vars.api_namespace}/user/1/pusher/auth`
+                authEndpoint: `${PM_Pusher_Vars.api_base_url}${PM_Pusher_Vars.api_namespace}/user/${PM_Pusher_Vars.user_id}/pusher/auth`,
+                auth: {
+                    headers: {
+                        'X-WP-Nonce': PM_Pusher_Vars.nonce
+                    }
+                }
             });
 
             return this;

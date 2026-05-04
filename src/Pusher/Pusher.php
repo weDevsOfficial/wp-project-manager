@@ -82,6 +82,7 @@ class Pusher {
             'events'         => wedevs_pm_pusher_events(),
             'api_base_url'   => esc_url_raw( get_rest_url() ),
             'api_namespace'  => wedevs_pm_api_namespace(),
+            'nonce'          => wp_create_nonce( 'wp_rest' ),
         ];
 
         wp_localize_script( 'pm-pusher-jquery', 'PM_Pusher_Vars', $localize );
