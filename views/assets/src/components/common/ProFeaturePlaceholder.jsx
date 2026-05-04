@@ -19,13 +19,13 @@ function KanbanMock() {
   return (
     <div className="flex flex-col sm:flex-row gap-3 p-5" style={{ minHeight: '420px', alignItems: 'flex-start' }}>
       {cols.map(col => (
-        <div key={col.title} className="flex-1 rounded-lg bg-gray-50 overflow-hidden">
+        <div key={col.title} className="flex-1 rounded-lg bg-pm-surface-muted overflow-hidden">
           <div className="px-3 py-2 text-white text-sm font-semibold flex justify-between" style={{ background: col.color }}>
             {col.title} <span className="bg-white/30 rounded-full px-1.5 text-[14px]">{col.tasks.length}</span>
           </div>
           <div className="p-2">
             {col.tasks.map((t, i) => (
-              <div key={i} className="bg-pm-surface rounded-md px-3 py-2.5 mb-1.5 text-sm text-gray-600 shadow-sm border">{t}</div>
+              <div key={i} className="bg-pm-surface rounded-md px-3 py-2.5 mb-1.5 text-sm text-pm-text shadow-sm border border-pm-border">{t}</div>
             ))}
           </div>
         </div>
@@ -47,16 +47,16 @@ function GanttMock() {
   const months = [__('Jan'), __('Feb'), __('Mar'), __('Apr'), __('May')]
   return (
     <div className="p-5" style={{ minHeight: '420px' }}>
-      <div className="flex border-b pb-2 mb-3">
-        <div className="w-28 text-[15px] font-semibold text-gray-500">{__('Task')}</div>
+      <div className="flex border-b border-pm-border pb-2 mb-3">
+        <div className="w-28 text-[15px] font-semibold text-pm-text">{__('Task')}</div>
         <div className="flex-1 flex">
-          {months.map(m => <div key={m} className="flex-1 text-[14px] text-gray-400 text-center">{m}</div>)}
+          {months.map(m => <div key={m} className="flex-1 text-[14px] text-pm-text-muted text-center">{m}</div>)}
         </div>
       </div>
       {tasks.map((t, i) => (
         <div key={i} className="flex items-center mb-2.5">
-          <div className="w-28 text-sm text-gray-600 font-medium">{t.name}</div>
-          <div className="flex-1 relative h-6 bg-gray-100 rounded">
+          <div className="w-28 text-sm text-pm-text font-medium">{t.name}</div>
+          <div className="flex-1 relative h-6 bg-pm-surface-muted rounded">
             <div className="absolute h-full rounded" style={{ left: `${t.start}%`, width: `${t.width}%`, background: t.color, opacity: 0.85 }} />
           </div>
         </div>
@@ -76,37 +76,37 @@ function InvoiceMock() {
     <div className="p-8" style={{ minHeight: '420px' }}>
       <div className="flex justify-between mb-8">
         <div>
-          <div className="text-xl font-bold text-gray-900">{__('INVOICE')}</div>
-          <div className="text-[15px] text-gray-400 mt-1">#INV-2026-001</div>
+          <div className="text-xl font-bold text-pm-text-primary">{__('INVOICE')}</div>
+          <div className="text-[15px] text-pm-text-muted mt-1">#INV-2026-001</div>
         </div>
         <div className="text-right">
-          <div className="text-[15px] text-gray-400">{__('Due: Apr 15, 2026')}</div>
-          <span className="inline-block mt-1 px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-600 text-[15px] font-semibold">{__('Unpaid')}</span>
+          <div className="text-[15px] text-pm-text-muted">{__('Due: Apr 15, 2026')}</div>
+          <span className="inline-block mt-1 px-2.5 py-0.5 rounded-full bg-amber-500/15 text-amber-500 text-[15px] font-semibold">{__('Unpaid')}</span>
         </div>
       </div>
       <table className="w-full text-sm">
         <thead>
-          <tr className="border-b-2 border-gray-200">
-            <th className="text-left py-2 text-gray-500 font-semibold">{__('Item')}</th>
-            <th className="text-center py-2 text-gray-500 font-semibold">{__('Qty')}</th>
-            <th className="text-right py-2 text-gray-500 font-semibold">{__('Rate')}</th>
-            <th className="text-right py-2 text-gray-500 font-semibold">{__('Total')}</th>
+          <tr className="border-b-2 border-pm-border">
+            <th className="text-left py-2 text-pm-text-muted font-semibold">{__('Item')}</th>
+            <th className="text-center py-2 text-pm-text-muted font-semibold">{__('Qty')}</th>
+            <th className="text-right py-2 text-pm-text-muted font-semibold">{__('Rate')}</th>
+            <th className="text-right py-2 text-pm-text-muted font-semibold">{__('Total')}</th>
           </tr>
         </thead>
         <tbody>
           {rows.map((r, i) => (
-            <tr key={i} className="border-b border-gray-100">
-              <td className="py-2.5 text-gray-700">{r.item}</td>
-              <td className="py-2.5 text-center text-gray-500">{r.qty}</td>
-              <td className="py-2.5 text-right text-gray-500">{r.rate}</td>
-              <td className="py-2.5 text-right font-semibold text-gray-900">{r.total}</td>
+            <tr key={i} className="border-b border-pm-border">
+              <td className="py-2.5 text-pm-text">{r.item}</td>
+              <td className="py-2.5 text-center text-pm-text-muted">{r.qty}</td>
+              <td className="py-2.5 text-right text-pm-text-muted">{r.rate}</td>
+              <td className="py-2.5 text-right font-semibold text-pm-text-primary">{r.total}</td>
             </tr>
           ))}
         </tbody>
       </table>
-      <div className="flex justify-end mt-4 pt-3 border-t-2 border-gray-200">
+      <div className="flex justify-end mt-4 pt-3 border-t-2 border-pm-border">
         <div className="text-right">
-          <div className="text-[15px] text-gray-400">{__('Total Due')}</div>
+          <div className="text-[15px] text-pm-text-muted">{__('Total Due')}</div>
           <div className="text-2xl font-bold text-pm-accent">$6,050.00</div>
         </div>
       </div>
@@ -122,13 +122,13 @@ function SettingsMock() {
     <div className="p-5" style={{ minHeight: '420px' }}>
       <div className="flex flex-wrap gap-2 sm:gap-3 mb-5">
         {tabs.map((t, i) => (
-          <div key={t} className={`px-4 py-1.5 rounded-md text-sm font-medium ${i === 0 ? 'bg-pm-accent text-white' : 'bg-gray-100 text-gray-500'}`}>{t}</div>
+          <div key={t} className={`px-4 py-1.5 rounded-md text-sm font-medium ${i === 0 ? 'bg-pm-accent text-white' : 'bg-pm-surface-muted text-pm-text-muted'}`}>{t}</div>
         ))}
       </div>
       {fields.map((f, i) => (
-        <div key={i} className="flex items-center justify-between gap-3 py-3.5 border-b border-gray-100">
-          <span className="text-[15px] text-gray-700 font-medium shrink-0">{f}</span>
-          <div className="w-full sm:w-48 h-8 rounded-md bg-gray-50 border border-gray-200" />
+        <div key={i} className="flex items-center justify-between gap-3 py-3.5 border-b border-pm-border">
+          <span className="text-[15px] text-pm-text font-medium shrink-0">{f}</span>
+          <div className="w-full sm:w-48 h-8 rounded-md bg-pm-surface-muted border border-pm-border" />
         </div>
       ))}
     </div>
@@ -146,19 +146,19 @@ function SprintsMock() {
     <div className="p-5" style={{ minHeight: '420px' }}>
       <div className="space-y-3">
         {sprints.map((s, i) => (
-          <div key={i} className="rounded-lg border bg-pm-surface p-4">
+          <div key={i} className="rounded-lg border border-pm-border bg-pm-surface p-4">
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
                 <div className="h-2 w-2 rounded-full" style={{ background: s.color }} />
-                <span className="text-sm font-semibold text-gray-900">{s.name}</span>
-                <span className={`px-2 py-0.5 rounded-full text-[14px] font-medium ${s.status === 'Active' ? 'bg-purple-100 text-purple-700' : 'bg-green-100 text-green-700'}`}>{s.status}</span>
+                <span className="text-sm font-semibold text-pm-text-primary">{s.name}</span>
+                <span className={`px-2 py-0.5 rounded-full text-[14px] font-medium ${s.status === 'Active' ? 'bg-pm-accent/15 text-pm-accent' : 'bg-green-500/15 text-green-500'}`}>{s.status}</span>
               </div>
-              <span className="text-[15px] text-gray-400">{s.dates}</span>
+              <span className="text-[15px] text-pm-text-muted">{s.dates}</span>
             </div>
-            <div className="w-full h-2 rounded-full bg-gray-100">
+            <div className="w-full h-2 rounded-full bg-pm-surface-muted">
               <div className="h-full rounded-full" style={{ width: `${(s.completed / s.tasks) * 100}%`, background: s.color, opacity: 0.7 }} />
             </div>
-            <div className="mt-2 text-[15px] text-gray-400">{sprintf(__('%1$s/%2$s tasks completed'), s.completed, s.tasks)}</div>
+            <div className="mt-2 text-[15px] text-pm-text-muted">{sprintf(__('%1$s/%2$s tasks completed'), s.completed, s.tasks)}</div>
           </div>
         ))}
       </div>
@@ -177,21 +177,21 @@ function WooProjectMock() {
     <div className="p-5" style={{ minHeight: '420px' }}>
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-2">
-          <div className="h-8 w-8 rounded-lg bg-purple-100 flex items-center justify-center">
-            <svg className="h-4 w-4 text-purple-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          <div className="h-8 w-8 rounded-lg bg-pm-accent/15 flex items-center justify-center">
+            <svg className="h-4 w-4 text-pm-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
           </div>
-          <span className="text-sm font-semibold text-gray-900">{__('WooCommerce Project Mapping')}</span>
+          <span className="text-sm font-semibold text-pm-text-primary">{__('WooCommerce Project Mapping')}</span>
         </div>
         <div className="px-3 py-1.5 rounded-md bg-pm-accent text-white text-sm font-medium">{__('+ Add Product')}</div>
       </div>
       <div className="space-y-3">
         {products.map((p, i) => (
-          <div key={i} className="rounded-lg border bg-pm-surface p-4">
+          <div key={i} className="rounded-lg border border-pm-border bg-pm-surface p-4">
             <div className="flex items-center justify-between mb-3">
-              <span className="text-sm font-medium text-gray-900">{p.name}</span>
-              <span className={`px-2.5 py-0.5 rounded-full text-[14px] font-medium ${p.action.includes('Duplicate') ? 'bg-blue-100 text-blue-700' : 'bg-green-100 text-green-700'}`}>{p.action}</span>
+              <span className="text-sm font-medium text-pm-text-primary">{p.name}</span>
+              <span className={`px-2.5 py-0.5 rounded-full text-[14px] font-medium ${p.action.includes('Duplicate') ? 'bg-blue-500/15 text-blue-500' : 'bg-green-500/15 text-green-500'}`}>{p.action}</span>
             </div>
-            <div className="flex items-center gap-4 text-[15px] text-gray-400">
+            <div className="flex items-center gap-4 text-[15px] text-pm-text-muted">
               <div className="flex items-center gap-1">
                 <svg className="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
                 <span>{p.assignees} {__('assignees')}</span>

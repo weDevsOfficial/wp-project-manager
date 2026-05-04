@@ -144,7 +144,7 @@ export default function PremiumPage() {
             <Sparkles className="h-4 w-4" />
             {__("Project Manager Pro")}
           </span>
-          <h1 className="text-2xl md:text-3xl font-bold mb-2">
+          <h1 className="text-2xl md:text-3xl font-bold mb-2 text-white">
             {__("Premium Features")}
           </h1>
           <p className="text-white/80 text-sm max-w-lg mx-auto leading-relaxed">
@@ -283,7 +283,7 @@ export default function PremiumPage() {
             }}
           >
             <Sparkles className="h-8 w-8 mx-auto mb-3 opacity-80" />
-            <h3 className="text-xl font-bold mb-1">{__("Go Pro Today")}</h3>
+            <h3 className="text-xl font-bold mb-1 text-white">{__("Go Pro Today")}</h3>
             <p className="text-white/70 text-sm mb-4">
               {__(
                 "Unlock all premium features and take your project management to the next level.",
