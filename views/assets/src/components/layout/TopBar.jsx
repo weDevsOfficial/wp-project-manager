@@ -38,6 +38,8 @@ import {
   Monitor,
   Lightbulb,
   Megaphone,
+  Sun,
+  Moon,
 } from 'lucide-react'
 import { cn } from '@lib/utils'
 import { formatPmDateTime } from '@lib/pm-utils'
@@ -55,6 +57,16 @@ export function TopBar() {
   const [searching, setSearching] = useState(false)
 
   const isFrontendPage = typeof PM_Vars !== 'undefined' && PM_Vars.is_frontend && !PM_Vars.is_admin
+
+  const [isDark, setIsDark] = useState(
+    () => document.documentElement.getAttribute('data-pm-theme') === 'dark'
+  )
+  function toggleDarkMode() {
+    const next = !isDark
+    setIsDark(next)
+    window.PM.setDarkMode(next)
+  }
+
   const [sidebarMode, setSidebarMode] = useState(
     () => isFrontendPage ? 'plugin' : (localStorage.getItem('pm-sidebar-mode') ?? 'wordpress')
   )
@@ -306,6 +318,16 @@ export function TopBar() {
             </span>
           )}
         </Button>
+
+        {/* Dark mode toggle */}
+        <button
+          type="button"
+          className="p-1 rounded hover:bg-pm-hover text-pm-text-muted hover:text-pm-text transition-colors shrink-0"
+          title={isDark ? __('Switch to light mode') : __('Switch to dark mode')}
+          onClick={toggleDarkMode}
+        >
+          {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+        </button>
 
         {/* Sidebar mode toggle — admin only (no WP sidebar on frontend), hidden on mobile */}
         {!isFrontend && (
