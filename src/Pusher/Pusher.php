@@ -39,6 +39,10 @@ class Pusher {
         add_action( 'admin_enqueue_scripts', [$this, 'scripts'] );
         add_action( 'wp_enqueue_scripts', [$this, 'scripts'] );
         add_action( 'PM_load_router_files', [$this, 'router'] );
+
+        // Hooks registered unconditionally. Each handler gates itself via
+        // wedevs_pm_pusher_is_event_enabled() so DB is not queried during
+        // hook registration (avoids early-boot model load issues).
         add_action( 'wedevs_pm_update_task_status', 'wedevs_pm_pusher_update_task_status', 10, 3 );
         add_action( 'wedevs_pm_updated', 'wedevs_pm_pusher_update_task' );
         add_action( 'wedevs_pm_before_assignees', 'wedevs_pm_pusher_before_assignees', 10, 2 );
@@ -55,6 +59,10 @@ class Pusher {
     }
 
     public function scripts() {
+        if ( ! wedevs_pm_pusher_is_enabled() ) {
+            return;
+        }
+
         if ( ! Auth::app_key() || ! Auth::app_cluster() ) {
             return;
         }

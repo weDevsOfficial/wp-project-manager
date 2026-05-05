@@ -55,6 +55,10 @@ function wedevs_pm_pusher_has_task_update_content( $model ) {
 }
 
 function wedevs_pm_pusher_before_assignees( $task, $assignees ) {
+    if ( ! wedevs_pm_pusher_is_event_enabled( 'task_assign' ) ) {
+        return;
+    }
+
     $is_admin      = wedevs_pm_pusher_is_admin_request();
     $task          = wedevs_pm_get_task( $task->id );
     $task          = $task['data'];
@@ -98,6 +102,10 @@ function wedevs_pm_pusher_before_assignees( $task, $assignees ) {
 
 //For task update status
 function wedevs_pm_pusher_update_task_status( $new, $old, $task ) {
+    if ( ! wedevs_pm_pusher_is_event_enabled( 'task_status' ) ) {
+        return;
+    }
+
     $is_admin = wedevs_pm_pusher_is_admin_request();
     $task     = wedevs_pm_get_task( $task->id );
     $task     = $task['data'];
@@ -145,6 +153,10 @@ function wedevs_pm_pusher_update_task_status( $new, $old, $task ) {
 }
 
 function wedevs_pm_pusher_update_task( $model ) {
+    if ( ! wedevs_pm_pusher_is_event_enabled( 'task_update' ) ) {
+        return;
+    }
+
     $class_name = class_basename( $model );
 
     if ( $class_name != 'Task' ) {
@@ -216,6 +228,10 @@ function wedevs_pm_pusher_update_task( $model ) {
 }
 
 function wedevs_pm_pusher_after_new_comment( $comment, $params ) {
+    if ( ! wedevs_pm_pusher_is_event_enabled( 'comment_new' ) ) {
+        return;
+    }
+
     $type = $comment['data']['commentable_type'];
     $creator = $comment['data']['creator']['data']['display_name'];
     $title = '';
@@ -298,6 +314,10 @@ function wedevs_pm_pusher_after_new_comment( $comment, $params ) {
 }
 
 function wedevs_pm_pusher_after_update_comment( $comment, $params ) {
+    if ( ! wedevs_pm_pusher_is_event_enabled( 'comment_update' ) ) {
+        return;
+    }
+
     $type = $comment['data']['commentable_type'];
     $creator = $comment['data']['creator']['data']['display_name'];
 
@@ -413,6 +433,10 @@ function wedevs_pm_pusher_file_url( $project_id, $file_id ) {
 }
 
 function wedevs_pm_pusher_after_new_message( $message, $params, $discussion_board ) {
+    if ( ! wedevs_pm_pusher_is_event_enabled( 'message_new' ) ) {
+        return;
+    }
+
     $channel = wedevs_pm_pusher_channel();
     $event   = wedevs_pm_pusher_get_event( 'message_create' );
     $creator = $discussion_board->creator->display_name;
@@ -456,6 +480,10 @@ function wedevs_pm_pusher_after_new_message( $message, $params, $discussion_boar
 }
 
 function wedevs_pm_pusher_after_update_message( $mesage, $params, $discussion_board ) {
+    if ( ! wedevs_pm_pusher_is_event_enabled( 'message_update' ) ) {
+        return;
+    }
+
     $channel = wedevs_pm_pusher_channel();
     $event   = wedevs_pm_pusher_get_event( 'message_update' );
     

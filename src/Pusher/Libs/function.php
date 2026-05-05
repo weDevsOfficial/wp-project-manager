@@ -23,4 +23,40 @@ function wedevs_pm_pusher_get_event( $event_key ) {
     return $events[$event_key];
 }
 
+/**
+ * Master switch. True if Pusher notifications enabled.
+ * Default: true when setting absent (preserves existing behavior).
+ */
+function wedevs_pm_pusher_is_enabled() {
+    $setting = wedevs_pm_get_setting( 'pusher_enable' );
+
+    if ( $setting === null || $setting === '' ) {
+        return true;
+    }
+
+    return filter_var( $setting, FILTER_VALIDATE_BOOLEAN );
+}
+
+/**
+ * Per-event switch. Master must be on AND specific event flag enabled.
+ * Default: true when setting absent.
+ *
+ * @param string $key e.g. 'task_assign', 'task_status', 'task_update',
+ *                    'comment_new', 'comment_update',
+ *                    'message_new', 'message_update'
+ */
+function wedevs_pm_pusher_is_event_enabled( $key ) {
+    if ( ! wedevs_pm_pusher_is_enabled() ) {
+        return false;
+    }
+
+    $setting = wedevs_pm_get_setting( 'pusher_notify_' . $key );
+
+    if ( $setting === null || $setting === '' ) {
+        return true;
+    }
+
+    return filter_var( $setting, FILTER_VALIDATE_BOOLEAN );
+}
+
 

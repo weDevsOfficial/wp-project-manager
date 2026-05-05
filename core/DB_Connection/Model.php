@@ -85,25 +85,25 @@ class Model extends \WeDevs\ORM\Eloquent\Model {
             return true;
         }
 
-        $user = wp_get_current_user();
+        $user = function_exists( '\wp_get_current_user' ) ? \wp_get_current_user() : null;
         $fillable = $this->getFillable();
 
 
         switch ( $event ) {
             case 'creating':
-                if ( in_array('created_by', $fillable, true) ) {
+                if ( $user && in_array('created_by', $fillable, true) ) {
                     $this->created_by = $user->ID;
                     $this->updated_by = $user->ID;
                 }
                 break;
 
-            case 'created': 
+            case 'created':
                 do_action( 'wedevs_pm_created', $this );
                 Activity_Log::entry( $this, 'created' );
                 break;
 
             case 'updating':
-                if ( in_array('updated_by', $fillable, true) ) {
+                if ( $user && in_array('updated_by', $fillable, true) ) {
                     $this->updated_by = $user->ID;
                 }
                 break;
