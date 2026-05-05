@@ -29,8 +29,9 @@ const UserMapTab = () => {
     dispatch(fetchSettingsProjects())
   }, [dispatch])
 
-  const loadProjectUsers = useCallback((projectId) => {
-    const project = projects.find((p) => String(p.id) === projectId)
+  const loadProjectUsers = useCallback((projectId, projectsList) => {
+    const list = projectsList ?? projects
+    const project = list.find((p) => String(p.id) === projectId)
     if (project?.assignees?.data) {
       const assignees = project.assignees.data
       dispatch(selectProjectForMap(assignees))
@@ -72,9 +73,10 @@ const UserMapTab = () => {
     try {
       await dispatch(saveUserMap(payload)).unwrap()
       toast.success(__('User mapping saved', 'wedevs-project-manager'))
-      await dispatch(fetchSettingsProjects()).unwrap()
+
+      const freshProjects = await dispatch(fetchSettingsProjects()).unwrap()
       if (selectedProjectId) {
-        loadProjectUsers(selectedProjectId)
+        loadProjectUsers(selectedProjectId, freshProjects)
       }
     } catch (err) {
       toast.error(err ?? __('Failed to save user map', 'wedevs-project-manager'))
