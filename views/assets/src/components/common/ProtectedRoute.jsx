@@ -35,6 +35,17 @@ export function AdminRoute({ children }) {
 }
 
 /**
+ * Gate route by manage capability OR manager role in any project.
+ * Mirrors Vue sprint access: no global cap required, project-scoped managers pass.
+ * Use for global pages that project managers should access (Sprints, etc).
+ */
+export function ManagerRoute({ children }) {
+  const { canManage, isManagerAnywhere } = usePermissions()
+  if (!(canManage || isManagerAnywhere)) return <Forbidden />
+  return children
+}
+
+/**
  * License page guard.
  * Mirrors backend Administrator permission class (manage_options cap).
  * Delegated managers and regular users must not access this page; backend

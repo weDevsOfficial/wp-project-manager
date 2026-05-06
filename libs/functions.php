@@ -388,6 +388,28 @@ function wedevs_pm_is_manager( $project_id, $user_id = false ) {
 }
 
 /**
+ * Returns true if current user has the manager role (role_id=1) in any project.
+ * Used to gate global pages (Sprints) that project managers should access,
+ * mirroring Vue's canCreateSprint() logic.
+ */
+function wedevs_pm_current_user_is_manager_anywhere( $user_id = false ) {
+    $user_id = $user_id ? intval( $user_id ) : get_current_user_id();
+
+    if ( wedevs_pm_has_manage_capability( $user_id ) ) {
+        return true;
+    }
+
+    global $wpdb;
+    $table = $wpdb->prefix . 'pm_role_user';
+    $count = $wpdb->get_var( $wpdb->prepare(
+        "SELECT COUNT(*) FROM {$table} WHERE user_id = %d AND role_id = 1",
+        $user_id
+    ) );
+
+    return intval( $count ) > 0;
+}
+
+/**
  * Checking for PM_Admin capability
  * @param  boolean $user_id
  * @return [type]

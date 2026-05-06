@@ -40,7 +40,7 @@ function TruncText({ children, className }) {
 // ── Main component ───────────────────────────────────
 
 export function AppSidebar() {
-  const { isAdmin, isPro, canManage, canManageLicense } = usePermissions()
+  const { isAdmin, isPro, canManage, canManageLicense, isManagerAnywhere } = usePermissions()
   const isFrontend = typeof PM_Vars !== 'undefined' && PM_Vars.is_frontend && !PM_Vars.is_admin
   const { __ } = useI18n()
 
@@ -61,10 +61,11 @@ export function AppSidebar() {
     items.push({ key: 'activities', label: __('Activities'),    icon: Activity,   path: (pid) => `/projects/${pid}/activities` })
     if (isActive('Kanboard'))  items.push({ key: 'kanban',   label: __('Kanban Board'), icon: Columns3,  path: (pid) => `/projects/${pid}/kanban` })
     if (isActive('Gantt'))     items.push({ key: 'gantt',    label: __('Gantt Chart'),  icon: GitBranch,  path: (pid) => `/projects/${pid}/gantt` })
-    if (isActive('Invoice') && canManage) items.push({ key: 'invoices', label: __('Invoices'),     icon: Receipt,    path: (pid) => `/projects/${pid}/invoices` })
-    if (canManage) items.push({ key: 'settings', label: __('Settings'), icon: Settings, path: (pid) => `/projects/${pid}/settings` })
+    const canSeeManagerItems = canManage || isManagerAnywhere
+    if (isActive('Invoice') && canSeeManagerItems) items.push({ key: 'invoices', label: __('Invoices'),     icon: Receipt,    path: (pid) => `/projects/${pid}/invoices` })
+    if (canSeeManagerItems) items.push({ key: 'settings', label: __('Settings'), icon: Settings, path: (pid) => `/projects/${pid}/settings` })
     return items
-  }, [__, canManage])
+  }, [__, canManage, isManagerAnywhere])
   const location = useLocation()
   const navigate = useNavigate()
   const api      = useApi()
@@ -80,12 +81,12 @@ export function AppSidebar() {
       { key: 'kanban',   label: __('Kanban Board'), icon: Columns3,  path: (pid) => `/projects/${pid}/kanban`,   proPreview: true },
       { key: 'gantt',    label: __('Gantt Chart'),  icon: GitBranch,  path: (pid) => `/projects/${pid}/gantt`,    proPreview: true },
     ]
-    if (canManage) {
+    if (canManage || isManagerAnywhere) {
       proItems.push({ key: 'invoices', label: __('Invoices'),     icon: Receipt,    path: (pid) => `/projects/${pid}/invoices`, proPreview: true })
       proItems.push({ key: 'settings', label: __('Settings'),     icon: Settings,   path: (pid) => `/projects/${pid}/settings`, proPreview: true })
     }
     return [...projectSubNav_FREE, ...proItems]
-  }, [isPro, activeModulePaths, canManage])
+  }, [isPro, activeModulePaths, canManage, isManagerAnywhere])
 
   // Sidebar keeps its own project list — independent of ProjectsPage Redux filters
   const [sidebarProjects, setSidebarProjects] = useState([])
@@ -231,13 +232,15 @@ export function AppSidebar() {
       { key: 'progress', label: __('Progress'), short: __('Prog'),    icon: Activity,      route: '/progress', pro: !isPro },
       { key: 'reports',  label: __('Reports'),  short: __('Rep'),     icon: BarChart3,     route: '/reports',  pro: !isPro },
     ]
-    // Non-pro: always show as a preview (ProBadge, same as Calendar).
-    // Pro: only show when the respective module is active.
-    if (!isPro || isModuleActive('Sprint')) {
-      items.push({ key: 'sprints',     label: __('Sprints'),     short: __('Sprint'), icon: Timer,         route: '/sprints',      pro: !isPro })
+    // Non-pro: show as upgrade preview only to users who could use it (managers/admins).
+    // Pro: only show when the Sprint module is active, and only to managers/admins.
+    if (canManage || isManagerAnywhere) {
+      if (!isPro || isModuleActive('Sprint')) {
+        items.push({ key: 'sprints', label: __('Sprints'), short: __('Sprint'), icon: Timer, route: '/sprints', pro: !isPro })
+      }
     }
     return items
-  }, [__, isPro, activeModulePaths])
+  }, [__, isPro, activeModulePaths, canManage, isManagerAnywhere])
 
   // Auto-collapse sidebar on full-width pages (reports, calendar, progress, sprints)
   const autoCollapsedRef = useRef(false)

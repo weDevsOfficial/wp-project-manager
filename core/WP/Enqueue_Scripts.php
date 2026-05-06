@@ -100,6 +100,7 @@ class Enqueue_Scripts {
 			'estimationType'                   => wedevs_pm_get_estimation_type(),
 			'admin_cap_slug'                   => wedevs_pm_admin_cap_slug(),
 			'manager_cap_slug'                 => wedevs_pm_manager_cap_slug(),
+			'current_user_is_manager'          => wedevs_pm_current_user_is_manager_anywhere(),
 			// 'settings_page_slug'               => pm_settings_page_slug(),
 			// 'tools_page_slug'                  => pm_tools_page_slug(),
 			// 'categories_page_slug'             => pm_categories_page_slug()

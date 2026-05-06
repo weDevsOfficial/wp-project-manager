@@ -49,7 +49,7 @@ const CalendarPlaceholder = React.lazy(() => import('@components/projects/Calend
 const ReportsPlaceholder  = React.lazy(() => import('@components/projects/ReportsPage'))
 const ProgressPlaceholder = React.lazy(() => import('@components/projects/ProgressPage'))
 import ProFeaturePlaceholder from '@components/common/ProFeaturePlaceholder'
-import { AdminRoute, ProjectRoute, LicenseRoute } from '@components/common/ProtectedRoute'
+import { AdminRoute, ProjectRoute, LicenseRoute, ManagerRoute } from '@components/common/ProtectedRoute'
 import { ErrorBoundary } from '@components/common/ErrorBoundary'
 import { Columns3, GitBranch, Receipt, Settings as SettingsIcon, Zap, ShoppingCart } from 'lucide-react'
 
@@ -258,6 +258,7 @@ window.PM = {
     AdminRoute,
     ProjectRoute,
     LicenseRoute,
+    ManagerRoute,
     BackButton:       require('@components/common/BackButton'),
     FileUploadArea:  require('@components/common/FileUploadArea'),
     ProBadge:        require('@components/common/ProBadge'),

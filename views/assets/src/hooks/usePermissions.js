@@ -60,6 +60,14 @@ export function pmIsManager(project, user) {
   return list.some((r) => r?.slug === 'manager')
 }
 
+// True if user is manager (role_id=1) in ANY project — mirrors Vue canCreateSprint() logic.
+// Reads PM_Vars.current_user_manager_projects injected by backend, falls back to false.
+export function pmIsManagerAnywhere() {
+  if (pmHasManageCapability()) return true
+  const flag = typeof PM_Vars !== 'undefined' && PM_Vars.current_user_is_manager
+  return !!flag
+}
+
 export function pmUserCan(cap, project, user) {
   if (pmHasManageCapability()) return true
   if (!pmIsUserInProject(project, user)) return false
@@ -122,8 +130,9 @@ export function usePermissions(project) {
   // backend (Administrator permission class) and frontend stay aligned.
   const canManageLicense = isAdmin
 
-  const isManager     = useMemo(() => pmIsManager(project), [project])
-  const isUserInProject = useMemo(() => pmIsUserInProject(project), [project])
+  const isManager          = useMemo(() => pmIsManager(project), [project])
+  const isManagerAnywhere  = useMemo(() => pmIsManagerAnywhere(), [])
+  const isUserInProject    = useMemo(() => pmIsUserInProject(project), [project])
 
   const userCan = useCallback((cap) => pmUserCan(cap, project), [project])
   const canEditTask = useCallback((task) => pmCanEditTask(task, project), [project])
@@ -138,6 +147,7 @@ export function usePermissions(project) {
     canManage,
     canCreate,
     isManager,
+    isManagerAnywhere,
     isUserInProject,
     currentUserId,
     userCan,
