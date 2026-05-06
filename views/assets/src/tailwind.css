@@ -150,6 +150,11 @@
   --tw-prose-td-borders:   #1e2d48;
 }
 
+/* ── Date input calendar icon — invert in dark mode ────── */
+:root[data-pm-theme="dark"] #wedevs-project-manager input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1) brightness(0.8);
+}
+
 /* ── Override WP admin margin leak on frontend ─────────── */
 body:not(.wp-admin) #wedevs-project-manager {
   margin-left: 0;
@@ -284,6 +289,13 @@ body:not(.wp-admin) #wedevs-project-manager {
     display: inline-block;
     font-weight: inherit;
     margin: 0;
+  }
+
+  /* Date input — calendar picker icon color */
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0.6;
+    cursor: pointer;
+    filter: none;
   }
 
   /* Range input */

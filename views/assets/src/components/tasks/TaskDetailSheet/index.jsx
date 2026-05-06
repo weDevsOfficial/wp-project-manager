@@ -444,7 +444,7 @@ export default function TaskDetailSheet() {
                           <button
                             type="button"
                             onClick={() => { dispatch(closeTaskSheet()); navigate('/my-tasks'); }}
-                            className="hover:text-pm-accent transition-colors cursor-pointer"
+                            className="text-muted-foreground hover:text-pm-accent transition-colors cursor-pointer"
                           >
                             {currentTask.creator.data.display_name}
                           </button>
