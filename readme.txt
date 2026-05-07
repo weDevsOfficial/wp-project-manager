@@ -241,6 +241,38 @@ A. If you face any issues, you can contact the support team through the official
 
 == Changelog ==
 
+= v4.0.0 – May 7, 2026 =
+
+**New:** Completely redesigned admin and frontend interface with modern, faster performance.
+**New:** Modern sidebar-based navigation with collapsible layout, recent projects, and favorites.
+**New:** Right-side panel for task details with comments, attachments, and inline editing.
+**New:** Improved state management for faster, more reliable data handling across the app.
+**New:** Enhanced rich text editor for discussions and milestones with better formatting options.
+**New:** Project duplication feature with category and metadata preservation.
+**New:** AI-powered project creation with preview and generation steps.
+**New:** Shortcode support for public-facing project manager layouts on the frontend.
+**New:** Grid and list view toggle for projects, tasks, and files.
+
+**Improved:** Better integration with WordPress standards for improved stability.
+**Improved:** Cleaner, more consistent design system with better spacing and visual hierarchy.
+**Improved:** Task rows show priority, assignees, due dates, task types, privacy state, and overdue indicators.
+**Improved:** Project cards display progress breakdown, task counts, and created dates.
+**Improved:** My Tasks dashboard with unified view across all projects and tabs for better organization.
+**Improved:** Pagination and load-more behavior to reduce clutter on large task lists.
+**Improved:** File navigation with breadcrumbs, folder support, and improved preview handling.
+**Improved:** Settings now organized into tabs (General, Email, TaskTypes, UserMap, Pusher, AI, etc.) for easier access.
+**Improved:** Task filtering with search, status, priority, and assignee controls.
+**Improved:** Activity feed display for better task history and project overview visibility.
+**Improved:** Responsive spacing and layout behavior on smaller screens.
+
+**Fixed:** Security improved for task and comment content to prevent data corruption.
+**Fixed:** Confirmation prompts now work consistently across all sensitive actions.
+**Fixed:** Task detail integration with Pro modules working smoothly without performance issues.
+**Fixed:** Frontend shortcodes now properly display the project manager on pages.
+**Fixed:** Sidebar Activities feature now displays correctly when Pro is active regardless of module configuration.
+
+**Update:** Frontend experience now aligned with admin interface using the same design system.
+
 = v3.0.3 – Mar 4, 2026 =
 **Fixed:** Resolved an issue where email notifications were not being sent.
 **Fixed:** Improved button width handling in the list view.
