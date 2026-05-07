@@ -35,9 +35,7 @@ export default function ActivityItem({ act, projectId: fallbackProjectId }) {
 
   const handleMessageClick = () => {
     if (isTask) {
-      dispatch(fetchTask({ projectId, taskId: act.resource_id })).then((action) => {
-        if (action.payload) dispatch(openTaskSheet(action.payload));
-      });
+      dispatch(openTaskSheet({ id: act.resource_id, project_id: projectId }));
     }
   };
 

@@ -433,9 +433,7 @@ export function TopBar() {
                           ? `/projects/${projectId}/task-lists/${listId}`
                           : `/projects/${projectId}/task-lists`
                         navigate(target)
-                        dispatch(fetchTask({ projectId, taskId: t.id })).then((action) => {
-                          if (action.payload) dispatch(openTaskSheet(action.payload))
-                        })
+                        dispatch(openTaskSheet({ ...t, project_id: projectId, task_list_id: listId }))
                       }}
                       className="cursor-pointer"
                     >

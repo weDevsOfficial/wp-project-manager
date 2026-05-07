@@ -58,9 +58,7 @@ export default function CalendarPage() {
   const handleTaskClick = (task) => {
     const pid = task.project_id || task.project?.data?.id || task.project?.id;
     if (!pid) return;
-    dispatch(fetchTask({ projectId: pid, taskId: task.id })).then((action) => {
-      if (action.payload) dispatch(openTaskSheet(action.payload));
-    });
+    dispatch(openTaskSheet({ ...task, project_id: pid }));
   };
 
   return (

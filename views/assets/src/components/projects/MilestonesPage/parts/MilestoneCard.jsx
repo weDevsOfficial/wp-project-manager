@@ -69,9 +69,7 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
     (task) => {
       onTaskOpen?.(milestone.id);
       const pid = task.project_id ?? projectId;
-      dispatch(fetchTask({ projectId: pid, taskId: task.id })).then((action) => {
-        if (action.payload) dispatch(openTaskSheet(action.payload));
-      });
+      dispatch(openTaskSheet({ ...task, project_id: pid }));
     },
     [dispatch, projectId, onTaskOpen, milestone.id],
   );

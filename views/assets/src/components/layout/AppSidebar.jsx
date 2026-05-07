@@ -163,7 +163,7 @@ export function AppSidebar() {
 
   // Detect active project from URL and auto-expand it
   const activeProjectId = useMemo(() => {
-    const match = location.pathname.match(/\/projects\/(\d+)/)
+    const match = location.pathname.match(/^\/projects\/(\d+)/)
     return match ? parseInt(match[1], 10) : null
   }, [location.pathname])
 

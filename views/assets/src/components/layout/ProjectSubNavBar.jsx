@@ -51,7 +51,7 @@ export function ProjectSubNavBar() {
   }, [])
 
   const activeProjectId = useMemo(() => {
-    const m = location.pathname.match(/\/projects\/(\d+)/)
+    const m = location.pathname.match(/^\/projects\/(\d+)/)
     return m ? parseInt(m[1], 10) : null
   }, [location.pathname])
 
