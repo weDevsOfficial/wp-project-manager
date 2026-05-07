@@ -35,8 +35,11 @@
     top: auto !important;
 }
 
-.pm-pro-pusher-notification-wrap .pm-pro-pusher-anchor {
-    color: rgb(15, 122, 174) !important;
-    text-decoration: underline;
-    text-decoration-color: rgb(15, 122, 174) !important;
+.pm-pro-pusher-notification-wrap .pm-pro-pusher-anchor,
+[data-sonner-toaster] .pm-pro-pusher-anchor,
+.pm-pusher-toast a {
+    color: #7C3AED !important;
+    text-decoration: underline !important;
+    text-decoration-color: #7C3AED !important;
+    font-weight: 500;
 }

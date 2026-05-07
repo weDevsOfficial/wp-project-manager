@@ -17,7 +17,12 @@
             
             this.pusher = new Pusher( PM_Pusher_Vars.pusher_app_key , {
                 cluster: PM_Pusher_Vars.pusher_cluster,
-                authEndpoint: `${PM_Pusher_Vars.api_base_url}${PM_Pusher_Vars.api_namespace}/user/1/pusher/auth`
+                authEndpoint: `${PM_Pusher_Vars.api_base_url}${PM_Pusher_Vars.api_namespace}/user/${PM_Pusher_Vars.user_id}/pusher/auth`,
+                auth: {
+                    headers: {
+                        'X-WP-Nonce': PM_Pusher_Vars.nonce
+                    }
+                }
             });
 
             return this;
@@ -27,7 +32,7 @@
             if(!this.pusher) {
                 return this;
             }
-            this.channel = this.pusher.subscribe(PM_Pusher_Vars.channel+'-'+PM_Pusher_Vars.user_id);
+            this.channel = this.pusher.subscribe(PM_Pusher_Vars.channel);
 
             return this;
         }
@@ -36,36 +41,16 @@
             if(!this.channel) {
                 return this;
             }
-            var self = this;
 
-            jQuery.each(PM_Pusher_Vars.events,function( key, event ) {
+            this.channel.bind_global(function(event, data) {
+                if (event && event.indexOf('pusher:') === 0) return;
+                data = data || {};
+                let title = typeof data.title === 'undefined' ? '' : data.title;
+                let message = typeof data.message === 'undefined' ? '' : data.message;
 
-                self.channel.bind(event, function(data) {
-                    let title = typeof data.title == 'undefined' ? '' : data.title;
-                    let message = typeof data.message == 'undefined' ? '' : data.message;
-
-
-                    toastr.info(title, message, {
-                        "closeButton": true,
-                        "debug": false,
-                        "newestOnTop": false,
-                        "progressBar": false,
-                        "positionClass": "toast-top-right",
-                        "preventDuplicates": false,
-                        "onclick": null,
-                        "showDuration": "500",
-                        "hideDuration": "1000",
-                        "timeOut": "5000",//Set 0 for push
-                        "extendedTimeOut": "1000",//Set 0 for push
-                        "showEasing": "swing",
-                        "hideEasing": "linear",
-                        "showMethod": "fadeIn",
-                        "hideMethod": "fadeOut",
-                        "tapToDismiss": false
-                    });
-
-                    jQuery('#toast-container').addClass('pm-pro-pusher-notification-wrap');
-                });
+                window.dispatchEvent(new CustomEvent('pm:pusher-notification', {
+                    detail: { event: event, title: title, message: message, data: data }
+                }));
             });
         }
     }

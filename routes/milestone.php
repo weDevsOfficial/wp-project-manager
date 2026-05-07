@@ -23,5 +23,11 @@ $wedevs_pm_router->post( 'projects/{project_id}/milestones/{milestone_id}/update
 $wedevs_pm_router->post( 'projects/{project_id}/milestones/{milestone_id}/delete', 'WeDevs/PM/Milestone/Controllers/Milestone_Controller@destroy' )
     ->permission( ['WeDevs\PM\Core\Permissions\Edit_Milestone'] );
 
+$wedevs_pm_router->post( 'projects/{project_id}/milestones/{milestone_id}/attach-tasks', 'WeDevs/PM/Milestone/Controllers/Milestone_Controller@attach_tasks' )
+    ->permission( ['WeDevs\PM\Core\Permissions\Edit_Milestone'] );
+
+$wedevs_pm_router->post( 'projects/{project_id}/milestones/{milestone_id}/detach-task/{task_id}', 'WeDevs/PM/Milestone/Controllers/Milestone_Controller@detach_task' )
+    ->permission( ['WeDevs\PM\Core\Permissions\Edit_Milestone'] );
+
 $wedevs_pm_router->post( 'projects/{project_id}/milestones/privacy/{milestone_id}', 'WeDevs/PM/Milestone/Controllers/Milestone_Controller@privacy' )
 	->permission( ['WeDevs\PM\Core\Permissions\Edit_Milestone'] );

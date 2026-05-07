@@ -111,7 +111,7 @@ class Task_List {
 	public function fromat_tasklist( $tasklist ) {
 		$items = [
 			'id'          => (int) $tasklist->id,
-			'title'       => isset( $tasklist->title ) ? (string) $tasklist->title : null,
+			'title'       => isset( $tasklist->title ) ? html_entity_decode( (string) $tasklist->title, ENT_QUOTES, 'UTF-8' ) : null,
 			'description' => isset( $tasklist->description ) ? wedevs_pm_filter_content_url( $tasklist->description ) : null,
 			'order'       => isset( $tasklist->order ) ? (int) $tasklist->order : null,
 			'status'      => isset( $tasklist->status ) ? $tasklist->status : null,

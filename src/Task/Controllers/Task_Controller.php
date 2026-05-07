@@ -110,7 +110,7 @@ class Task_Controller {
         $board_id   = $data[ 'board_id' ];
         $assignees  = $data[ 'assignees' ];
         $is_private = $data[ 'privacy' ];
-        $data['is_private']    = $is_private == 'true' || $is_private === true ? 1 : 0;
+        $data['is_private']    = ($is_private === 'true' || $is_private === true || $is_private === 1 || $is_private === '1') ? 1 : 0;
 
         if ( empty( $board_id ) ) {
             $inbox            = wedevs_pm_get_meta($project_id, $project_id, 'task_list', 'list-inbox');
@@ -170,7 +170,7 @@ class Task_Controller {
 
         $is_private    = intval( $request->get_param( 'privacy' ) );
         $type_id       = intval( $request->get_param( 'type_id' ) );
-        $data['is_private']    = $is_private == 'true' || $is_private === true ? 1 : 0;
+        $data['is_private']    = ($is_private === 'true' || $is_private === true || $is_private === 1 || $is_private === '1') ? 1 : 0;
 
         if ( empty( $board_id ) ) {
             $inbox            = wedevs_pm_get_meta($project_id, $project_id, 'task_list', 'list-inbox');
@@ -354,12 +354,10 @@ class Task_Controller {
         $deleted_users        = apply_filters( 'wedevs_pm_task_deleted_users', $deleted_users, $task );
         $deleted_users        = wp_list_pluck( $deleted_users, 'id' );
 
-        if ( $is_private == 'true' || $is_private === true ) {
+        if ( $is_private === 'true' || $is_private === true || $is_private === 1 || $is_private === '1' ) {
             $params['is_private'] = 1;
-        } else if ( $is_private == 'false' || $is_private === false ) {
-            $params['is_private'] = 0;
         } else {
-            $params['is_private'] = $is_private;
+            $params['is_private'] = 0;
         }
 
         if ( $deleted_users ) {

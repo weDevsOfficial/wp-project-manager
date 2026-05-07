@@ -16,6 +16,7 @@ use Illuminate\Pagination\Paginator;
 use WeDevs\PM\Calendar\Transformers\Calendar_Transformer;
 use WeDevs\PM\User\Models\User_Role;
 use WeDevs\PM\Activity\Transformers\Activity_Transformer;
+use WeDevs\PM\User\Helper\Avatar;
 
 class User_Controller {
     use Transformer_Manager, Request_Filter;
@@ -104,29 +105,35 @@ class User_Controller {
     }
 
     public function search( WP_REST_Request $request ) {
-        $query_string = $request->get_param( 'query' );
+        $query_string = (string) $request->get_param( 'query' );
         $limit        = $request->get_param( 'limit' );
         $term         = $request->get_param( 'term');
-        
-        $users = User::where( 'user_login', 'LIKE', '%' . $query_string . '%' )
-            ->orWhere( 'user_nicename', 'LIKE', '%' . $query_string . '%' )
-            ->orWhere( 'user_email', 'LIKE', '%' . $query_string . '%' )
-            ->orWhere( 'user_url', 'LIKE', '%' . $query_string . '%')
-            ->multisite();
-        
-        if ( $limit ) {
-            $users =  $users->limit( intval( $limit ) )->get();
-        } else {
-            $users =  $users->get();
+
+        // Min query length: avoid bulk-dumping the user table via short LIKE patterns.
+        if ( strlen( trim( $query_string ) ) < 2 ) {
+            $resource = new Collection( [], new User_Transformer );
+            return $this->get_response( $resource );
         }
 
+        // Cap result count to limit email/PII harvesting per request.
+        $limit = min( intval( $limit ) ?: 20, 50 );
 
+        // Only privileged users (admins / project managers) may LIKE-match against email,
+        // so an Authentic-only user cannot enumerate accounts by email substring.
+        $can_search_email = current_user_can( 'list_users' )
+            || current_user_can( 'pm_manage_capability' );
 
-//        $user_collection = $users->getCollection();
-//        $resource = new Collection( $user_collection, new User_Transformer );
+        $users = User::where( 'user_login', 'LIKE', '%' . $query_string . '%' )
+            ->orWhere( 'user_nicename', 'LIKE', '%' . $query_string . '%' )
+            ->orWhere( 'display_name', 'LIKE', '%' . $query_string . '%' );
+
+        if ( $can_search_email ) {
+            $users = $users->orWhere( 'user_email', 'LIKE', '%' . $query_string . '%' );
+        }
+
+        $users = $users->multisite()->limit( $limit )->get();
+
         $resource = new Collection( $users, new User_Transformer );
-
-//        $resource->setPaginator( new IlluminatePaginatorAdapter( $users ) );
 
         return $this->get_response( $resource );
     }
@@ -160,17 +167,22 @@ class User_Controller {
             return new \WP_Error( 'usersmap', __( 'You have no permission to create/update user meta.', 'wedevs-project-manager' ) );
         }
 
-        $usernames = $request->get_params();
-        foreach ( $usernames['usernames'] as $username_key => $username_value ) {
-            $username_key_array = explode( '_', $username_key );
-            if ( in_array( 'github', $username_key_array, true ) || in_array( 'bitbucket', $username_key_array, true ) ) {
-                $user_meta_id    = $username_key_array[1];
-                $user_meta_key   = $username_key_array[0];
-                $user_meta_value = ! empty( $username_value ) ? sanitize_text_field( $username_value ) : '';
+        $usernames = $request->get_param( 'usernames' );
 
-                update_user_meta( $user_meta_id, $user_meta_key, $user_meta_value );
+        if ( ! empty( $usernames ) && is_array( $usernames ) ) {
+            foreach ( $usernames as $username_key => $username_value ) {
+                $username_key_array = explode( '_', $username_key );
+                if ( in_array( 'github', $username_key_array, true ) || in_array( 'bitbucket', $username_key_array, true ) ) {
+                    $user_meta_id    = $username_key_array[1];
+                    $user_meta_key   = $username_key_array[0];
+                    $user_meta_value = ! empty( $username_value ) ? sanitize_text_field( $username_value ) : '';
+
+                    update_user_meta( $user_meta_id, $user_meta_key, $user_meta_value );
+                }
             }
         }
+
+        return new \WP_REST_Response( [ 'message' => __( 'User mapping saved', 'wedevs-project-manager' ) ], 200 );
     }
 
     public function get_user_all_projects(WP_REST_Request $request) {
@@ -250,7 +262,7 @@ class User_Controller {
         }
 
         foreach ( $users as $user ) {
-            $user->avatar_url = get_avatar_url( $user->user_email );
+            $user->avatar_url = Avatar::get_url( $user->ID );
         }
 
         wp_send_json_success( $users );
