@@ -25,18 +25,16 @@ jobs:
         run: |
           pnpm install --frozen-lockfile
           pnpm run build
-          pnpm run makepot
       - name: Use desired version of php
         uses: shivammathur/setup-php@v2
         with:
           php-version: '7.4'
-      - name: Composer install and build # Remove or modify this step as needed
+          tools: wp-cli
+      - name: Generate POT
+        run: pnpm run makepot
+      - name: Composer install and build
         run: |
-          composer install
-          composer update
-          composer dump-autoload -o
-          composer install --no-dev
-          composer dump-autoload -o
+          composer install --no-dev --optimize-autoloader
       - name: Generate zip
         uses: 10up/action-wordpress-plugin-build-zip@stable
         with:
