@@ -33,7 +33,7 @@ function TrelloImportCard() {
   const handleImport = async (e) => {
     e.preventDefault()
     if (!appKey.trim() || !appToken.trim()) {
-      toast.warning(__('Please provide both App Key and App Token', 'wedevs-project-manager'))
+      toast.warning(__('Please provide both API Key and Secret Key', 'wedevs-project-manager'))
       return
     }
 
@@ -51,7 +51,7 @@ function TrelloImportCard() {
       setProgress(5)
       const userData = await callStep('trello/get_user', formData)
       if (!userData || !userData.idMember) {
-        setError(__('No user found. Please check your App Key & Token.', 'wedevs-project-manager'))
+        setError(__('No user found. Please check your API Key & Secret Key.', 'wedevs-project-manager'))
         setImporting(false)
         return
       }
@@ -151,10 +151,10 @@ function TrelloImportCard() {
             <form onSubmit={handleImport} className="space-y-4">
               <div>
                 <Label htmlFor="trello-key" className="text-sm font-medium">
-                  {__('Provide your App Key & Token', 'wedevs-project-manager')}
+                  {__('Provide your API Key & Secret Key', 'wedevs-project-manager')}
                 </Label>
                 <p className="text-sm text-muted-foreground mt-1 mb-3">
-                  {__('Get your API key and token from', 'wedevs-project-manager')}{' '}
+                  {__('Get your API key and secret key from', 'wedevs-project-manager')}{' '}
                   <a
                     href="https://trello.com/power-ups/admin"
                     target="_blank"
@@ -167,14 +167,14 @@ function TrelloImportCard() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <Input
                     id="trello-key"
-                    placeholder={__('App Key', 'wedevs-project-manager')}
+                    placeholder={__('API Key', 'wedevs-project-manager')}
                     value={appKey}
                     onChange={(e) => setAppKey(e.target.value)}
                     disabled={importing}
                   />
                   <Input
                     id="trello-token"
-                    placeholder={__('App Token', 'wedevs-project-manager')}
+                    placeholder={__('Secret Key', 'wedevs-project-manager')}
                     value={appToken}
                     onChange={(e) => setAppToken(e.target.value)}
                     disabled={importing}
