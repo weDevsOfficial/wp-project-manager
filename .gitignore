@@ -2,7 +2,6 @@
 /vendor/
 /views/assets/js/
 /views/assets/css/pm-style.css
-pnpm-lock.yaml
 /.idea
 .env
 .DS_Store
@@ -23,4 +22,3 @@ phpcs-report.txt
 /views/assets/vendor/vue-fullscreen/vue-fullscreen.min.js
 wp-project-manager.zip
 /zipfile/
-
