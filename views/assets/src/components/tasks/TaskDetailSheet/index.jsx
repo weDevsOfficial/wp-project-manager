@@ -630,7 +630,7 @@ export default function TaskDetailSheet() {
                     onClick={() => { setDescription(currentTask.description?.html || currentTask.description?.content || ''); setEditingDesc(true) }}
                   >
                     {currentTask.description?.content ? (<>
-                      <Plus className="h-3 w-3" />{__('Edit')}
+                      <Pencil className="h-3 w-3" />{__('Edit')}
                     </>) : (<>
                       <Plus className="h-3 w-3" />{__('Add')}
                     </>)}

@@ -101,6 +101,9 @@ export default function MyTasksPage() {
   const [searchTitle, setSearchTitle] = useState("");
   const [sortBy, setSortBy] = useState("id:desc");
   const [filterProjectId, setFilterProjectId] = useState("");
+  const [taskStartDate, setTaskStartDate] = useState("");
+  const [taskEndDate, setTaskEndDate] = useState("");
+  const [taskDateError, setTaskDateError] = useState("");
 
   const [newTaskOpen, setNewTaskOpen] = useState(false);
 
@@ -178,7 +181,6 @@ export default function MyTasksPage() {
       const today = new Date().toISOString().split("T")[0];
       const data = {
         with: "task_list,project,labels,assignees",
-        select: "id, title, created_at, start_at, due_date, completed_at",
         per_page: 20,
         pages: page,
         users: userId,
@@ -191,10 +193,13 @@ export default function MyTasksPage() {
         data.due_date = today;
       } else if (tab.taskType === "outstanding") {
         data.status = 0;
-        data.due_date = today;
+        data.due_date = taskEndDate || today;
         data.due_date_operator = ["less_than"];
+        if (taskStartDate) data.due_date_start = taskStartDate;
       } else if (tab.taskType === "complete") {
         data.status = 1;
+        if (taskStartDate) data.completed_at_start = taskStartDate;
+        if (taskEndDate) data.completed_at = taskEndDate;
       }
 
       if (searchTitle.trim()) data.title = searchTitle.trim();
@@ -208,8 +213,14 @@ export default function MyTasksPage() {
       } catch {}
       setLoading(false);
     },
-    [api, userId, activeTab, sortBy, searchTitle, filterProjectId],
+    [api, userId, activeTab, sortBy, searchTitle, filterProjectId, taskStartDate, taskEndDate],
   );
+
+  useEffect(() => {
+    setTaskStartDate("");
+    setTaskEndDate("");
+    setTaskDateError("");
+  }, [activeTab]);
 
   useEffect(() => {
     const tab = TABS.find((t) => t.key === activeTab);
@@ -976,23 +987,54 @@ export default function MyTasksPage() {
               </SelectContent>
             </Select>
 
+            {(activeTab === "outstanding" || activeTab === "complete") && (
+              <>
+                <Input
+                  type="date"
+                  value={taskStartDate}
+                  onChange={(e) => { setTaskStartDate(e.target.value); setTaskDateError(""); }}
+                  className="h-9 text-sm w-[150px]"
+                  aria-label={__("Start Date")}
+                />
+                <span className="text-pm-text-muted text-sm">{__("to")}</span>
+                <Input
+                  type="date"
+                  value={taskEndDate}
+                  onChange={(e) => { setTaskEndDate(e.target.value); setTaskDateError(""); }}
+                  className="h-9 text-sm w-[150px]"
+                  aria-label={__("End Date")}
+                />
+              </>
+            )}
+
             <Button
               variant="outline"
               size="sm"
-              onClick={() => fetchTasks(1)}
+              onClick={() => {
+                if (taskStartDate && taskEndDate && taskStartDate > taskEndDate) {
+                  setTaskDateError(__("Start Date cannot be greater than End Date."));
+                  toast.error(__("Start Date cannot be greater than End Date."));
+                  return;
+                }
+                setTaskDateError("");
+                fetchTasks(1);
+              }}
               className="gap-1.5"
             >
               <Filter className="h-4 w-4" />
               {__("Filter")}
             </Button>
 
-            {(searchTitle || filterProjectId) && (
+            {(searchTitle || filterProjectId || taskStartDate || taskEndDate) && (
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => {
                   setSearchTitle("");
                   setFilterProjectId("");
+                  setTaskStartDate("");
+                  setTaskEndDate("");
+                  setTaskDateError("");
                 }}
                 className="gap-1 text-pm-text-muted h-8 px-2"
               >
@@ -1018,6 +1060,10 @@ export default function MyTasksPage() {
               </Select>
             </div>
           </div>
+
+          {taskDateError && (
+            <p className="text-xs text-red-500">{taskDateError}</p>
+          )}
 
           {loading ? (
             <div className="rounded-xl border bg-card overflow-hidden">
