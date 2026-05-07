@@ -2,11 +2,12 @@
 
 namespace WeDevs\PM\Core\WP;
 use WP_REST;
+use WeDevs\PM\User\Helper\Avatar;
 
 class Enqueue_Scripts {
 
 	public static function scripts() {
-		
+
 
 		$scripts_id = [
 			'pm-config',
@@ -54,6 +55,8 @@ class Enqueue_Scripts {
 			'base_url'                 => home_url(),
 			'api_base_url'             => esc_url_raw( get_rest_url() ),
 			'api_namespace'            => wedevs_pm_api_namespace(),
+			'rest_url'                 => esc_url_raw( get_rest_url( null, wedevs_pm_api_namespace() . '/' ) ),
+			'rest_url_pro'             => esc_url_raw( get_rest_url( null, 'pm-pro/v2/' ) ),
 			'permalinkStructure'       => get_option( 'permalink_structure' ),
 			'project_page'             => wedevs_pm_get_project_page(),
 			'rest_api_prefix'          => rest_get_url_prefix(),
@@ -65,7 +68,7 @@ class Enqueue_Scripts {
 			'current_user'             => wp_get_current_user(),
 			'manage_capability'        => wedevs_pm_has_manage_capability(),
 			'create_capability'        => wedevs_pm_has_project_create_capability(),
-			'avatar_url'               => get_avatar_url( get_current_user_id() ),
+			'avatar_url'               => Avatar::get_url( get_current_user_id() ),
 			'plupload'                 => array(
 				'browse_button'            => 'pm-upload-pickfiles',
 				'container'                => 'pm-upload-container',
@@ -86,6 +89,8 @@ class Enqueue_Scripts {
 			'dir_url'                          => wedevs_pm_config('frontend.url'),
 			'is_pro'                           => $wedevs_pm_pro,
 			'is_admin'                         => is_admin(),
+			'is_frontend'                      => ! is_admin(),
+			'logout_url'                       => wp_logout_url( home_url() ),
 			'language'                         => apply_filters( 'wedevs_pm_get_jed_locale_data', [ 'pm' => wedevs_pm_get_jed_locale_data( 'wedevs-project-manager' ) ] ),
 			'date_format'                      => get_option( 'date_format' ),
 			'time_format'                      => get_option( 'time_format' ),
@@ -95,6 +100,7 @@ class Enqueue_Scripts {
 			'estimationType'                   => wedevs_pm_get_estimation_type(),
 			'admin_cap_slug'                   => wedevs_pm_admin_cap_slug(),
 			'manager_cap_slug'                 => wedevs_pm_manager_cap_slug(),
+			'current_user_is_manager'          => wedevs_pm_current_user_is_manager_anywhere(),
 			// 'settings_page_slug'               => pm_settings_page_slug(),
 			// 'tools_page_slug'                  => pm_tools_page_slug(),
 			// 'categories_page_slug'             => pm_categories_page_slug()

@@ -12,6 +12,10 @@ build
 .DS_Store
 npm-debug.log
 tests
+tests/e2e-playwright
+playwright-report
+test-results
+pnpm-lock.yaml
 .svnignore
 .travis.yml
 package-lock.json

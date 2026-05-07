@@ -12,16 +12,20 @@ jobs:
     steps:
    
       - uses: actions/checkout@v4
-      - name: Use Node.js 12.1.0
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - name: Use Node.js 22
         uses: actions/setup-node@v4
         with:
-          node-version: 12.1.0
-      - uses: actions/checkout@master
-      - name: Npm install and build
+          node-version: 22
+          cache: 'pnpm'
+      - name: Install and build
         run: |
-          npm i
-          npm run build
-          npm run makepot
+          pnpm install --frozen-lockfile
+          pnpm run build
+          pnpm run makepot
       - name: Use desired version of php
         uses: shivammathur/setup-php@v2
         with:
@@ -42,7 +46,7 @@ jobs:
       - name: WordPress Plugin Deploy
         uses: 10up/action-wordpress-plugin-deploy@stable
         with:
-          dry-run: false
+          dry-run: true
         env:
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}

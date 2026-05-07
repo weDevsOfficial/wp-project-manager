@@ -149,7 +149,47 @@ class Settings_Controller {
         if (!wp_verify_nonce($request->get_param('_wpnonce'), 'wp_rest')) {
             return $this->get_response(false, ['message' => __('Nonce verification failed', 'wedevs-project-manager')]);
         }
-        
+
         update_option( $action, 'complete' );
+    }
+
+    /**
+     * Reveal a single hidden setting in clear text. Admin-only, nonce-required.
+     * Used by the Settings UI to show the actual stored token on explicit "show" toggle.
+     */
+    public function reveal( WP_REST_Request $request ) {
+        if ( ! current_user_can( 'manage_options' ) ) {
+            return new \WP_Error( 'permission_denied', __( 'Forbidden.', 'wedevs-project-manager' ), [ 'status' => 403 ] );
+        }
+
+        $nonce = $request->get_header( 'x_wp_nonce' );
+        if ( empty( $nonce ) ) {
+            $nonce = $request->get_param( '_wpnonce' );
+        }
+        if ( ! wp_verify_nonce( $nonce, 'wp_rest' ) ) {
+            return new \WP_Error( 'invalid_nonce', __( 'Nonce verification failed.', 'wedevs-project-manager' ), [ 'status' => 403 ] );
+        }
+
+        $key = sanitize_key( $request->get_param( 'key' ) );
+        if ( empty( $key ) || ! in_array( $key, Settings::$hideSettings, true ) ) {
+            return new \WP_Error( 'invalid_key', __( 'Invalid setting key.', 'wedevs-project-manager' ), [ 'status' => 400 ] );
+        }
+
+        $row = Settings::where( 'key', $key )->whereNull( 'project_id' )->first();
+        if ( ! $row || empty( $row->value ) ) {
+            return $this->get_response( false, [ 'value' => '' ] );
+        }
+
+        $value = $row->value;
+
+        // AI API keys are encrypted at rest; decrypt for the reveal response only.
+        if ( strpos( $key, 'ai_api_key_' ) === 0 ) {
+            $decrypted = AI_Settings_Controller::decrypt_api_key_static( $value );
+            if ( $decrypted !== '' ) {
+                $value = $decrypted;
+            }
+        }
+
+        return $this->get_response( false, [ 'key' => $key, 'value' => $value ] );
     }
 }

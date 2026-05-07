@@ -29,7 +29,9 @@ class New_Comment_Notification extends Email {
         
         $project      = Project::with('assignees', 'managers')->find( $request['project_id'] );
         $users        = array();
-        $notify_users = explode( ',',  $request['notify_users'] );
+        $notify_users = is_array( $request['notify_users'] )
+            ? $request['notify_users']
+            : explode( ',', (string) $request['notify_users'] );
 
         foreach ( $notify_users as $u ) {
             if( $this->is_enable_user_notification( $u ) ){

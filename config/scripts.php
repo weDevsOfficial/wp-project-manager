@@ -233,11 +233,14 @@ $wedevs_pm_scripts = [
 
     'pm' => [
         'id'         => 'pm-scripts',
-        'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/js/pm.js',
-        'path'       => $wedevs_pm_view_path . '/assets/js/pm.js',
-        'dependency' => [
-            'pm-const'
-        ],
+        'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/dist/pm.js',
+        'path'       => $wedevs_pm_view_path . '/assets/dist/pm.js',
+        'dependency' => array_merge(
+            ['jquery', 'pm-config'],
+            file_exists( plugin_dir_path( dirname( __FILE__ ) ) . 'views/assets/dist/pm.asset.php' )
+                ? ( require plugin_dir_path( dirname( __FILE__ ) ) . 'views/assets/dist/pm.asset.php' )['dependencies']
+                : ['wp-element']
+        ),
         'in_footer'  => true
     ],
 
@@ -254,17 +257,6 @@ $wedevs_pm_scripts = [
         'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'core/Pro/assets/vendor/swiffy-slider/swiffy-slider-extensions.min.js',
         'path'       => dirname (__FILE__) . '/../core/Pro/assets/vendor/swiffy-slider/swiffy-slider-extensions.min.js',
         'dependency' => [ 'jquery' ],
-        'in_footer'  => true
-    ],
-
-    'pmglobal' => [
-        'id'         => 'pmglobal',
-        'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/js/pmglobal.js',
-        'path'       => $wedevs_pm_view_path . '/assets/js/pmglobal.js',
-        'dependency' => [
-            'jquery',
-            'jquery-ui-autocomplete',
-        ],
         'in_footer'  => true
     ],
 

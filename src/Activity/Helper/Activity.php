@@ -351,17 +351,16 @@ class Activity {
 		}
 
 		if ( $updated_at_start ) {
-			$com_start_reduce = gmdate('Y-m-d',(strtotime ( '-1 day' , strtotime ( $updated_at_start) ) ));
-			$com_add          = gmdate('Y-m-d',(strtotime ( '+1 day' , strtotime ( $updated_at) ) ));
+			$com_add = gmdate('Y-m-d',(strtotime ( '+1 day' , strtotime ( $updated_at) ) ));
 		}
 
 		//If its contain between condition
 		if ( $updated_at_start ) {
 
 			if ( $updated_at_between ) {
-				$query = $wpdb->prepare( " {$this->tb_activity}.updated_at BETWEEN %s AND %s ", $com_start_reduce, $com_add );
+				$query = $wpdb->prepare( " {$this->tb_activity}.updated_at BETWEEN %s AND %s ", $updated_at_start, $com_add );
 			} else {
-				$query = $wpdb->prepare( " {$this->tb_activity}.updated_at NOT BETWEEN %s AND %s ", $com_start_reduce, $com_add );
+				$query = $wpdb->prepare( " {$this->tb_activity}.updated_at NOT BETWEEN %s AND %s ", $updated_at_start, $com_add );
 			}
 			
 			$this->where .= " AND ( $query ) ";

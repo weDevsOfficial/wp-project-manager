@@ -87,6 +87,7 @@ function wedevs_pm_format_date( $date ) {
 
         return [
             'date'      => $date ? $date->format( 'Y-m-d' ) : null,
+            'formatted_date' => $date ? $date->format( $date_format ) : null,
             'time'      => $date ? $date->format( 'H:i:s' ) : null,
             'datetime'      => $date ? $date->format( 'Y-m-d H:i:s' ) : null,
             'timezone'  => wedevs_pm_tzcode_to_tzstring( $timezone ),
@@ -387,6 +388,28 @@ function wedevs_pm_is_manager( $project_id, $user_id = false ) {
 }
 
 /**
+ * Returns true if current user has the manager role (role_id=1) in any project.
+ * Used to gate global pages (Sprints) that project managers should access,
+ * mirroring Vue's canCreateSprint() logic.
+ */
+function wedevs_pm_current_user_is_manager_anywhere( $user_id = false ) {
+    $user_id = $user_id ? intval( $user_id ) : get_current_user_id();
+
+    if ( wedevs_pm_has_manage_capability( $user_id ) ) {
+        return true;
+    }
+
+    global $wpdb;
+    $table = $wpdb->prefix . 'pm_role_user';
+    $count = $wpdb->get_var( $wpdb->prepare(
+        "SELECT COUNT(*) FROM {$table} WHERE user_id = %d AND role_id = 1",
+        $user_id
+    ) );
+
+    return intval( $count ) > 0;
+}
+
+/**
  * Checking for PM_Admin capability
  * @param  boolean $user_id
  * @return [type]
@@ -681,11 +704,9 @@ function wedevs_pm_filter_content_url( $content ) {
 }
 
 function wedevs_pm_get_user_url( $user_id, $is_admin ) {
-    $user_id = ! empty( $user_id ) ? $user_id : get_current_user_id();
-
     $is_admin = $is_admin ? 'admin' : 'frontend';
     $pm_base  = wedevs_pm_get_project_page($is_admin);
-    $user_url = $pm_base . '#/my-tasks/' . $user_id;
+    $user_url = $pm_base . '#/my-tasks';
 
     return $user_url;
 }
@@ -730,7 +751,7 @@ function wedevs_pm_get_list_url( $project_id, $list_id, $is_admin ) {
 
     $is_admin = $is_admin ? 'admin' : 'frontend';
     $pm_base  = wedevs_pm_get_project_page( $is_admin );
-    $list_url = $pm_base . '#/projects/' . $project_id . '/task-lists/' . $list_id;
+    $list_url = $pm_base . '#/projects/' . $project_id . '/task-lists';
 
     return $list_url;
 }
@@ -1392,27 +1413,16 @@ function wedevs_pm_load_headway_badge( $selector = '#pm-headway-icon' ) {
         (function() {
             var pmHeadwaySelector = '<?php echo esc_js( $selector ); ?>';
 
-            // Defer Headway init until after page load so it doesn't block rendering
             function pmInitHeadway() {
-                if ( typeof window.Headway === 'undefined' ) return;
-                if ( !document.querySelector( pmHeadwaySelector ) ) return;
-
                 window.HW_config = {
                     selector: pmHeadwaySelector,
                     account: 'yo9n07',
                     callbacks: {
                         onWidgetReady: function ( widget ) {
+                            // Hide badge dot when no unseen items (only the small dot, not the popup)
                             if ( widget.getUnseenCount() === 0 ) {
-                                var badge = document.querySelector('#HW_badge_cont');
-                                if (badge) {
-                                    badge.style.opacity = '0';
-                                }
-                            }
-                        },
-                        onHideWidget: function(){
-                            var badge = document.querySelector('#HW_badge_cont');
-                            if (badge) {
-                                badge.style.opacity = '0';
+                                var badge = document.querySelector('#HW_badge');
+                                if (badge) badge.style.display = 'none';
                             }
                         }
                     }
@@ -1421,13 +1431,31 @@ function wedevs_pm_load_headway_badge( $selector = '#pm-headway-icon' ) {
                 window.Headway.init( window.HW_config );
             }
 
-            // Wait for page to finish loading, then init after a short idle delay
-            if ( document.readyState === 'complete' ) {
-                setTimeout( pmInitHeadway, 2000 );
-            } else {
-                window.addEventListener( 'load', function() {
-                    setTimeout( pmInitHeadway, 2000 );
+            // Use MutationObserver to detect when React mounts the target element
+            function pmWaitForHeadway() {
+                if ( typeof window.Headway === 'undefined' ) return;
+
+                var target = document.querySelector( pmHeadwaySelector );
+                if ( target ) {
+                    pmInitHeadway();
+                    return;
+                }
+
+                // Observe DOM for the React-rendered element
+                var observer = new MutationObserver( function( mutations, obs ) {
+                    if ( document.querySelector( pmHeadwaySelector ) ) {
+                        obs.disconnect();
+                        pmInitHeadway();
+                    }
                 });
+
+                observer.observe( document.body, { childList: true, subtree: true } );
+            }
+
+            if ( document.readyState === 'complete' ) {
+                pmWaitForHeadway();
+            } else {
+                window.addEventListener( 'load', pmWaitForHeadway );
             }
         })();
     </script>

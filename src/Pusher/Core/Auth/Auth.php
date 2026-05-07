@@ -34,8 +34,19 @@ class Auth {
      * @return string Json encoded authentication string.
      */
     public function socket_auth( $channel, $socket_id, $custom_data = null ) {
-        $this->validate_channel($channel);
-        $this->validate_socket_id($socket_id);
+        if ( ! $this->validate_channel( $channel ) || ! $this->validate_socket_id( $socket_id ) ) {
+            header( '', true, 400 );
+            echo wp_json_encode( [ 'error' => 'Invalid channel or socket id' ] );
+            exit;
+        }
+
+        // Only allow the current user to sign their own channel.
+        $expected_channel = wedevs_pm_pusher_channel( get_current_user_id() );
+        if ( $channel !== $expected_channel ) {
+            header( '', true, 403 );
+            echo wp_json_encode( [ 'error' => 'Forbidden channel' ] );
+            exit;
+        }
 
         if ($custom_data) {
             $signature = hash_hmac('sha256', $socket_id.':'.$channel.':'.$custom_data, $this->secret(), false);
@@ -71,9 +82,11 @@ class Auth {
      */
     private function validate_channel($channel)
     {
-        if (!preg_match('/\A[-a-zA-Z0-9_=@,.;]+\z/', $channel)) {
+        if (!is_string($channel) || !preg_match('/\A[-a-zA-Z0-9_=@,.;]+\z/', $channel)) {
             return false;
         }
+
+        return true;
     }
 
     /**
@@ -88,5 +101,7 @@ class Auth {
         if ($socket_id !== null && !preg_match('/\A\d+\.\d+\z/', $socket_id)) {
             return false;
         }
+
+        return true;
     }
 }

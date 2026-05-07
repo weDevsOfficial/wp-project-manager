@@ -108,7 +108,7 @@ class Discussion_Board {
 		
 		$items = [
             'id'          => (int) $discussion_board->id,
-            'title'       => $discussion_board->title,
+            'title'       => html_entity_decode( (string) $discussion_board->title, ENT_QUOTES, 'UTF-8' ),
             'description' => wedevs_pm_get_content( $discussion_board->description ),
             'project_id'  => $discussion_board->project_id,
             'order'       => $discussion_board->order,
