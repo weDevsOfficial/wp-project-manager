@@ -10,6 +10,7 @@
     "dev": "wp-scripts start",
     "build": "wp-scripts build",
     "lint": "eslint views/assets/src --ext .ts,.tsx",
+    "makepot": "wp i18n make-pot . languages/wedevs-project-manager.pot --exclude=node_modules,build,tests,views/assets/src,vendor",
     "release": "grunt release --force"
   },
   "dependencies": {
