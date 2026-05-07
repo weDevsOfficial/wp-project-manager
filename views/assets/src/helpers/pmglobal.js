@@ -41,10 +41,18 @@
 
             switch (item.type) {
                 case 'task':
-                    url = '#/projects/'+ item.project_id + '/task-lists/tasks/' + item.id
+                    if ( item.task_list_id ) {
+                        url = '#/projects/'+ item.project_id + '/task-lists/' + item.task_list_id + '/tasks/' + item.id;
+                    } else {
+                        url = '#/projects/'+ item.project_id + '/task-lists/tasks/' + item.id;
+                    }
                     break;
                 case 'subtask':
-                    url = '#/projects/'+ item.project_id + '/task-lists/tasks/' + item.parent_id
+                    if ( item.task_list_id ) {
+                        url = '#/projects/'+ item.project_id + '/task-lists/' + item.task_list_id + '/tasks/' + item.parent_id;
+                    } else {
+                        url = '#/projects/'+ item.project_id + '/task-lists/tasks/' + item.parent_id;
+                    }
                     break;
                 case 'project':
                     url = '#/projects/'+ item.id + '/task-lists/';

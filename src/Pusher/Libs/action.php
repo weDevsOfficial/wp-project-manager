@@ -7,18 +7,21 @@ use WeDevs\PM\Project\Helper\Project;
 use WeDevs\PM\Discussion_Board\Models\Discussion_Board;
 
 /**
- * Get is_admin flag from POST request.
- * Nonce is verified at REST API layer via register_rest_route() in WP_Router.
+ * Whether Pusher notification links should target the WP admin backend.
+ * Reads the `pusher_link_to_backend` setting; falls back to backend when
+ * no front-end project page is configured.
  *
- * @return bool True if is_admin flag is set and not empty.
+ * @return bool
  */
 function wedevs_pm_pusher_is_admin_request() {
-    // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified at REST API layer via register_rest_route() in WP_Router.
-    if ( ! isset( $_POST['is_admin'] ) ) {
-        return false;
+    $setting = wedevs_pm_get_setting( 'pusher_link_to_backend' );
+
+    if ( $setting !== null ) {
+        return filter_var( $setting, FILTER_VALIDATE_BOOLEAN );
     }
-    // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce verified at REST API layer via register_rest_route() in WP_Router.
-    return ! empty( intval( wedevs_pm_clean( sanitize_text_field( wp_unslash( $_POST['is_admin'] ) ) ) ) );
+
+    $pages = get_option( 'pm_pages', [] );
+    return empty( $pages['project'] );
 }
 
 function wedevs_pm_pusher_has_task_update_content( $model ) {
@@ -52,6 +55,10 @@ function wedevs_pm_pusher_has_task_update_content( $model ) {
 }
 
 function wedevs_pm_pusher_before_assignees( $task, $assignees ) {
+    if ( ! wedevs_pm_pusher_is_event_enabled( 'task_assign' ) ) {
+        return;
+    }
+
     $is_admin      = wedevs_pm_pusher_is_admin_request();
     $task          = wedevs_pm_get_task( $task->id );
     $task          = $task['data'];
@@ -65,15 +72,15 @@ function wedevs_pm_pusher_before_assignees( $task, $assignees ) {
     $message = sprintf( '%s <a class="pm-pro-pusher-anchor" class="pm-pro-pusher-anchor" target="_blank" href="' . $url . '">%s</a>', __( "You've been assigned a new", 'wedevs-project-manager' ), __( 'task', 'wedevs-project-manager' ) );
     $nc_message = sprintf( '%1$s <strong>%2$s</strong> %3$s', __( "You've assigned in", 'wedevs-project-manager' ), $task_title, __( 'task', 'wedevs-project-manager' ) );
     
-    $channel = wedevs_pm_pusher_channel();
-    $event   = wedevs_pm_pusher_get_event( 'task_update' );
+    $event    = wedevs_pm_pusher_get_event( 'task_update' );
+    $channels = [];
 
     foreach ( $id_diff as $user_id ) {
         if ( get_current_user_id() ==  $user_id ) {
             continue;
         }
 
-        $channels[] = $channel . '-' . $user_id;
+        $channels[] = wedevs_pm_pusher_channel( $user_id );
 
         wedevs_pm_wp_notification_center( 
             get_current_user_id(), 
@@ -95,6 +102,10 @@ function wedevs_pm_pusher_before_assignees( $task, $assignees ) {
 
 //For task update status
 function wedevs_pm_pusher_update_task_status( $new, $old, $task ) {
+    if ( ! wedevs_pm_pusher_is_event_enabled( 'task_status' ) ) {
+        return;
+    }
+
     $is_admin = wedevs_pm_pusher_is_admin_request();
     $task     = wedevs_pm_get_task( $task->id );
     $task     = $task['data'];
@@ -113,21 +124,21 @@ function wedevs_pm_pusher_update_task_status( $new, $old, $task ) {
         $nc_message = sprintf( '<strong>%1$s</strong> %2$s', $task_title, __( 'has been re-opened', 'wedevs-project-manager' ) );
     }
 
-    $channel = wedevs_pm_pusher_channel();
-    $event   = wedevs_pm_pusher_get_event( 'task_update' );
+    $event    = wedevs_pm_pusher_get_event( 'task_update' );
+    $channels = [];
 
     foreach ( $task['assignees']['data'] as $key => $user ) {
         if ( get_current_user_id() ==  $user['id'] ) {
             continue;
         }
-        
-        $channels[] = $channel . '-' . $user['id'];
 
-        wedevs_pm_wp_notification_center( 
-            get_current_user_id(), 
-            $user['id'], 
+        $channels[] = wedevs_pm_pusher_channel( $user['id'] );
+
+        wedevs_pm_wp_notification_center(
+            get_current_user_id(),
+            $user['id'],
             wp_kses_post( htmlspecialchars_decode( $nc_message ) ),
-            $task_url 
+            $task_url
         );
     }
 
@@ -142,6 +153,10 @@ function wedevs_pm_pusher_update_task_status( $new, $old, $task ) {
 }
 
 function wedevs_pm_pusher_update_task( $model ) {
+    if ( ! wedevs_pm_pusher_is_event_enabled( 'task_update' ) ) {
+        return;
+    }
+
     $class_name = class_basename( $model );
 
     if ( $class_name != 'Task' ) {
@@ -184,21 +199,21 @@ function wedevs_pm_pusher_update_task( $model ) {
         $nc_message  = sprintf( '<strong>%1$s</strong> %2$s', $task['title'], __('has been updated', 'wedevs-project-manager') );
     }
 
-    $channel = wedevs_pm_pusher_channel();
-    $event   = wedevs_pm_pusher_get_event( 'task_update' );
+    $event    = wedevs_pm_pusher_get_event( 'task_update' );
+    $channels = [];
 
     foreach ( $task['assignees']['data'] as $key => $user ) {
         if ( get_current_user_id() ==  $user['id'] ) {
             continue;
         }
 
-        $channels[] = $channel . '-' . $user['id'];
+        $channels[] = wedevs_pm_pusher_channel( $user['id'] );
 
-        wedevs_pm_wp_notification_center( 
-            get_current_user_id(), 
-            $user['id'], 
+        wedevs_pm_wp_notification_center(
+            get_current_user_id(),
+            $user['id'],
             wp_kses_post( htmlspecialchars_decode( $nc_message ) ),
-            $url 
+            $url
         );
     }
 
@@ -213,6 +228,10 @@ function wedevs_pm_pusher_update_task( $model ) {
 }
 
 function wedevs_pm_pusher_after_new_comment( $comment, $params ) {
+    if ( ! wedevs_pm_pusher_is_event_enabled( 'comment_new' ) ) {
+        return;
+    }
+
     $type = $comment['data']['commentable_type'];
     $creator = $comment['data']['creator']['data']['display_name'];
     $title = '';
@@ -249,8 +268,8 @@ function wedevs_pm_pusher_after_new_comment( $comment, $params ) {
             break;
     }
 
-    $channel = wedevs_pm_pusher_channel();
-    $event   = wedevs_pm_pusher_get_event( 'new_comment' );
+    $event    = wedevs_pm_pusher_get_event( 'new_comment' );
+    $channels = [];
 
     $users = empty( $params['notify_users'] ) ? [] : explode( ',', $params['notify_users'] );
 
@@ -274,13 +293,13 @@ function wedevs_pm_pusher_after_new_comment( $comment, $params ) {
             continue;
         }
 
-        $channels[] = $channel . '-' . $user_id;
+        $channels[] = wedevs_pm_pusher_channel( $user_id );
 
-        wedevs_pm_wp_notification_center( 
-            get_current_user_id(), 
-            $user_id, 
+        wedevs_pm_wp_notification_center(
+            get_current_user_id(),
+            $user_id,
             wp_kses_post( htmlspecialchars_decode( $nc_message ) ),
-            $url 
+            $url
         );
     }
 
@@ -295,6 +314,10 @@ function wedevs_pm_pusher_after_new_comment( $comment, $params ) {
 }
 
 function wedevs_pm_pusher_after_update_comment( $comment, $params ) {
+    if ( ! wedevs_pm_pusher_is_event_enabled( 'comment_update' ) ) {
+        return;
+    }
+
     $type = $comment['data']['commentable_type'];
     $creator = $comment['data']['creator']['data']['display_name'];
 
@@ -329,8 +352,8 @@ function wedevs_pm_pusher_after_update_comment( $comment, $params ) {
             break;
     }
 
-    $channel = wedevs_pm_pusher_channel();
-    $event   = wedevs_pm_pusher_get_event( 'new_comment' );
+    $event    = wedevs_pm_pusher_get_event( 'new_comment' );
+    $channels = [];
 
     $users = empty( $params['notify_users'] ) ? [] : explode( ',', $params['notify_users'] );
 
@@ -346,13 +369,13 @@ function wedevs_pm_pusher_after_update_comment( $comment, $params ) {
             continue;
         }
 
-        $channels[] = $channel . '-' . $user_id;
+        $channels[] = wedevs_pm_pusher_channel( $user_id );
 
-        wedevs_pm_wp_notification_center( 
-            get_current_user_id(), 
-            $user_id, 
+        wedevs_pm_wp_notification_center(
+            get_current_user_id(),
+            $user_id,
             wp_kses_post( htmlspecialchars_decode( $nc_message ) ),
-            $url 
+            $url
         );
     }
 
@@ -410,11 +433,15 @@ function wedevs_pm_pusher_file_url( $project_id, $file_id ) {
 }
 
 function wedevs_pm_pusher_after_new_message( $message, $params, $discussion_board ) {
-    $channel = wedevs_pm_pusher_channel();
-    $event   = wedevs_pm_pusher_get_event( 'message_create' );
-    $creator = $discussion_board->creator->display_name;
-    $title   = $discussion_board->title;
-    
+    if ( ! wedevs_pm_pusher_is_event_enabled( 'message_new' ) ) {
+        return;
+    }
+
+    $event    = wedevs_pm_pusher_get_event( 'message_create' );
+    $channels = [];
+    $creator  = $discussion_board->creator->display_name;
+    $title    = $discussion_board->title;
+
     $users = empty( $params['notify_users'] ) ? [] : explode( ',', $params['notify_users'] );
     $url     = wedevs_pm_pusher_message_url( $params['project_id'], $message['data']['id'] );
     $nc_message = sprintf(
@@ -429,7 +456,7 @@ function wedevs_pm_pusher_after_new_message( $message, $params, $discussion_boar
             continue;
         }
 
-        $channels[] = $channel . '-' . $user_id;
+        $channels[] = wedevs_pm_pusher_channel( $user_id );
 
         wedevs_pm_wp_notification_center( 
             get_current_user_id(), 
@@ -453,9 +480,13 @@ function wedevs_pm_pusher_after_new_message( $message, $params, $discussion_boar
 }
 
 function wedevs_pm_pusher_after_update_message( $mesage, $params, $discussion_board ) {
-    $channel = wedevs_pm_pusher_channel();
-    $event   = wedevs_pm_pusher_get_event( 'message_update' );
-    
+    if ( ! wedevs_pm_pusher_is_event_enabled( 'message_update' ) ) {
+        return;
+    }
+
+    $event    = wedevs_pm_pusher_get_event( 'message_update' );
+    $channels = [];
+
     $updater = $discussion_board->updater->display_name;
     $title   = $discussion_board->title;
 
@@ -474,7 +505,7 @@ function wedevs_pm_pusher_after_update_message( $mesage, $params, $discussion_bo
             continue;
         }
 
-        $channels[] = $channel . '-' . $user_id;
+        $channels[] = wedevs_pm_pusher_channel( $user_id );
 
         wedevs_pm_wp_notification_center( 
             get_current_user_id(), 

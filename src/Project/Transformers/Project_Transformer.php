@@ -34,7 +34,7 @@ class Project_Transformer extends TransformerAbstract {
         
         $data = [
             'id'                  => (int) $item->id,
-            'title'               => (string) $item->title,
+            'title'               => html_entity_decode( (string) $item->title, ENT_QUOTES, 'UTF-8' ),
             'description'         => [ 'html' => wedevs_pm_get_content( $item->description ), 'content' => $item->description ],
             'status'              => $item->status,
             'budget'              => $item->budget,
@@ -66,11 +66,13 @@ class Project_Transformer extends TransformerAbstract {
         return $this->item($item, function ($item) {
             $list                   = $item->task_lists();
             $list                   = apply_filters( 'wedevs_pm_task_list_query', $list, $item->id );
-            $task                   = $item->tasks();
+            $task                   = $item->tasks()->where( 'parent_id', 0 );
             $task                   = apply_filters( 'wedevs_pm_task_query', $task, $item->id );
             $task_count             = $task->count();
             $complete_tasks_count   = $task->where( 'status', Task::COMPLETE)->count();
             $incomplete_tasks_count = $task->where( 'status', Task::INCOMPLETE)->count();
+            $subtask                = $item->tasks()->where( 'parent_id', '!=', 0 );
+            $subtask_count          = $subtask->count();
             $discussion             = $item->discussion_boards();
             $discussion             = apply_filters( 'wedevs_pm_discuss_query', $discussion, $item->id);
             $milestones             = $item->milestones();
@@ -83,6 +85,7 @@ class Project_Transformer extends TransformerAbstract {
                 'total_tasks'             => $task_count,
                 'total_complete_tasks'    => $complete_tasks_count,
                 'total_incomplete_tasks'  => $incomplete_tasks_count,
+                'total_subtasks'          => $subtask_count,
                 'total_discussion_boards' => $discussion->count(),
                 'total_milestones'        => $milestones->count(),
                 'total_comments'          => $item->comments()->where('commentable_type', '!=', 'task_activity')->count(),

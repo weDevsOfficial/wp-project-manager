@@ -34,16 +34,13 @@ class Search_Controller {
 	}
 
     public function searchTopBar( WP_REST_Request $request ) {
-        $string     = sanitize_text_field ( $request->get_param( 'query' ) );
-        $type     = sanitize_text_field( $request->get_param( 'type' ) );
-        $model      = $request->get_param( 'model' ); //[milestone, discussion_board, task_list, task]
-        $model 		= empty( $model ) ? '' : $model;
+        $string = sanitize_text_field( $request->get_param( 'query' ) );
 
         if ( empty( trim( $string ) ) ) {
             return $this->get_default_result();
         }
 
-        return $this->search_project_type( $string, 0 );
+        return $this->get_all_result( $string );
     }
 
 	public function search_by_client( WP_REST_Request $request ) {
@@ -181,6 +178,9 @@ class Search_Controller {
 		$tasks = Task::with( [
 			'metas' =>  function( $q ) {
 				$q->where('meta_key', 'privacy')->where('meta_value', 1);
+			},
+			'task_lists' => function( $q ) {
+				$q->select( wedevs_pm_tb_prefix() . 'pm_boards.id' );
 			}
 		])
 		->where( 'title', 'like', '%'. $string.'%')
@@ -301,8 +301,7 @@ class Search_Controller {
 
 
     		if ( $type == 'task' ) {
-
-
+    			$result['task_list_id'] = isset( $item->task_lists[0] ) ? $item->task_lists[0]->id : null;
 
     			if ( $item->parent_id !== "0" ) {
 	    			$result['type'] = 'subtask';
@@ -336,7 +335,7 @@ class Search_Controller {
     			$result['type'] = $item->type;
     		}
 
-			$result['title'] = $item->title;
+			$result['title'] = html_entity_decode( $item->title, ENT_QUOTES | ENT_HTML5, 'UTF-8' );
 			$result['id']    = $item->id;
 
     		$items_array[] = $result;

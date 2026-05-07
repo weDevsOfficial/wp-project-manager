@@ -11,6 +11,9 @@ $wedevs_pm_router->get( 'settings', 'WeDevs/PM/Settings/Controllers/Settings_Con
 $wedevs_pm_router->post( 'settings', 'WeDevs/PM/Settings/Controllers/Settings_Controller@store' )
     ->permission( ['WeDevs\PM\Core\Permissions\Settings_Page_Access'] );
 
+$wedevs_pm_router->post( 'settings/reveal', 'WeDevs/PM/Settings/Controllers/Settings_Controller@reveal' )
+    ->permission( ['WeDevs\PM\Core\Permissions\Settings_Page_Access'] );
+
 $wedevs_pm_router->post( 'settings/notice', 'WeDevs/PM/Settings/Controllers/Settings_Controller@notice' )
     ->permission( [ $wedevs_pm_authentic, 'WeDevs\PM\Core\Permissions\Settings_Page_Access' ] );
 //$wedevs_pm_router->get( 'projects/settings/{key}/key', 'WeDevs/PM/Settings/Controllers/Settings_Controller@pluck_without_project' );;

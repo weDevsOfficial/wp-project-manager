@@ -28,8 +28,7 @@ class Task_Types_Controller {
             return $page;
         });
 
-        $types = Task_Types::orderBy( 'id', 'DESC')
-            ->paginate( $per_page );
+        $types = Task_Types::orderBy( 'id', 'DESC' )->paginate( $per_page );
         
         if ( $per_page == '-1' ) {
             $per_page = $types->count();
@@ -44,18 +43,15 @@ class Task_Types_Controller {
     }
 
     public function store( WP_REST_Request $request ) {
-        
+
         $title       = $request->get_param( 'title' );
         $description = $request->get_param( 'description' );
         $status      = $request->get_param( 'status' );
         $status      = $status != 0 ? 1 : 0;
-        $type        = $request->get_param( 'type' );
-        $type        = empty( $type ) ? 'task' : 'subtask';
 
         $task_type = Task_Types::create([
             'title'       => $title,
             'description' => $description,
-            'type'        => $type,
             'status'      => $status,
             'created_by'  => get_current_user_id(),
             'updated_by'  => get_current_user_id()
@@ -70,18 +66,16 @@ class Task_Types_Controller {
         $id          = intval( $request->get_param( 'id' ) );
         $title       = $request->get_param( 'title' );
         $description = $request->get_param( 'description' );
-        $type        = $request->get_param( 'type' );
 
-        $type = [
+        $data = [
             'title'       => $title,
             'description' => $description,
-            'type'        => $type
         ];
 
         $stored_type = Task_Types::where( 'id', $id )
             ->first();
 
-        $stored_type->update_model( $type );
+        $stored_type->update_model( $data );
 
         $resource = new Item( $stored_type, new Task_Type_Transformer );
 

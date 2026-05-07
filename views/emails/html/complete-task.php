@@ -23,7 +23,7 @@
                                         border-radius: 50%;
                                         outline: none;
                                     "
-                                    src="<?php echo esc_url( get_avatar_url( $completed_by->user_email ) ); ?>" 
+                                    src="<?php echo esc_url( \WeDevs\PM\User\Helper\Avatar::get_url( $completed_by->ID ) ); ?>" 
                                     alt="<?php echo esc_attr( $completed_by->display_name ) ?>" 
                                     title="<?php echo esc_attr( $completed_by->display_name ) ?>"
                                 />

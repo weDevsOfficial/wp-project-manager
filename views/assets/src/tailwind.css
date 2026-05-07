@@ -1,0 +1,744 @@
+/* DO NOT use @tailwind base — Preflight is disabled in config */
+@tailwind components;
+@tailwind utilities;
+
+/* Headway badge — position absolutely so it doesn't break flex layout */
+#pm-headway-icon .HW_badge_cont {
+  position: absolute;
+  top: 3px;
+  left: 5px;
+  right: 5px;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+#pm-headway-icon .HW_badge {
+  position: static !important;
+  height: 6px !important;
+  width: 6px !important;
+  font-size: 0 !important;
+  border-radius: 50% !important;
+}
+
+/* Headway widget popup — fix position only when visible */
+#HW_frame_cont.HW_visible {
+  position: fixed !important;
+  z-index: 2147483647 !important;
+  top: 50px !important;
+  right: 20px !important;
+  left: auto !important;
+}
+
+/* ── shadcn/ui CSS variables — must be on :root so portaled
+     elements (Select, Dialog, Popover) can access them ────── */
+:root {
+  --background:            0 0% 100%;
+  --foreground:            240 10% 3.9%;
+
+  --card:                  0 0% 100%;
+  --card-foreground:       240 10% 3.9%;
+
+  --popover:               0 0% 100%;
+  --popover-foreground:    240 10% 3.9%;
+
+  --primary:               262 80% 57%;        /* #7C3AED — pm-accent */
+  --primary-foreground:    0 0% 100%;           /* white */
+
+  --secondary:             240 4.8% 95.9%;
+  --secondary-foreground:  240 5.9% 10%;
+
+  --muted:                 240 4.8% 95.9%;
+  --muted-foreground:      240 3.8% 46.1%;
+
+  --accent:                240 4.8% 95.9%;
+  --accent-foreground:     240 5.9% 10%;
+
+  --destructive:           0 72.2% 50.6%;
+  --destructive-foreground: 0 0% 98%;
+
+  --border:                240 5.9% 90%;
+  --input:                 240 5.9% 90%;
+  --ring:                  262 80% 57%;         /* matches --primary */
+
+  --radius:                0.375rem;
+
+  /* ── PM custom color tokens (light) ── */
+  --pm-sidebar:            #1A1A2E;
+  --pm-sidebar-hover:      #16213E;
+  --pm-sidebar-active:     #0F3460;
+  --pm-sidebar-text:       #A8B2D8;
+  --pm-sidebar-txt-active: #FFFFFF;
+  --pm-surface:            #FFFFFF;
+  --pm-surface-muted:      #F7F8FA;
+  --pm-border:             #E5E7EB;
+  --pm-hover:              #F3F4F6;
+  --pm-accent:             #7C3AED;
+  --pm-accent-hover:       #6D28D9;
+  --pm-accent-light:       #EDE9FE;
+  --pm-text:               #1F2937;
+  --pm-text-muted:         #6B7280;
+  --pm-text-primary:       #111827;
+}
+
+/* ── Dark mode — toggled via data-pm-theme="dark" on <html>
+     Using :root so portaled Radix elements (Select, Dialog etc.)
+     that land on <body> still inherit the vars ────────────────── */
+:root[data-pm-theme="dark"] {
+  --background:            220 43% 11%;
+  --foreground:            210 40% 96%;
+
+  --card:                  220 40% 14%;
+  --card-foreground:       210 40% 96%;
+
+  --popover:               220 40% 14%;
+  --popover-foreground:    210 40% 96%;
+
+  --primary:               262 80% 65%;
+  --primary-foreground:    0 0% 100%;
+
+  --secondary:             220 30% 19%;
+  --secondary-foreground:  210 40% 90%;
+
+  --muted:                 220 30% 17%;
+  --muted-foreground:      215 25% 65%;
+
+  --accent:                220 30% 22%;
+  --accent-foreground:     210 40% 96%;
+
+  --destructive:           0 62% 50%;
+  --destructive-foreground: 0 0% 98%;
+
+  --border:                220 28% 26%;
+  --input:                 220 28% 26%;
+  --ring:                  262 80% 65%;
+
+  /* ── PM custom color tokens (dark) ── */
+  --pm-sidebar:            #0B1020;
+  --pm-sidebar-hover:      #0f1628;
+  --pm-sidebar-active:     #18244a;
+  --pm-sidebar-text:       #8892B0;
+  --pm-sidebar-txt-active: #FFFFFF;
+  --pm-surface:            #151d2e;
+  --pm-surface-muted:      #101828;
+  --pm-border:             #2a3a5c;
+  --pm-hover:              #1e2d48;
+  --pm-accent:             #9D6FFF;
+  --pm-accent-hover:       #8B5CF6;
+  --pm-accent-light:       #2D1F5E;
+  --pm-text:               #CBD5E1;
+  --pm-text-muted:         #7B8DB0;
+  --pm-text-primary:       #F1F5F9;
+
+  /* ── Tailwind Typography (prose) — override for dark mode ── */
+  --tw-prose-body:         #CBD5E1;
+  --tw-prose-headings:     #F1F5F9;
+  --tw-prose-lead:         #94A3B8;
+  --tw-prose-links:        #9D6FFF;
+  --tw-prose-bold:         #F1F5F9;
+  --tw-prose-counters:     #7B8DB0;
+  --tw-prose-bullets:      #7B8DB0;
+  --tw-prose-hr:           #2a3a5c;
+  --tw-prose-quotes:       #CBD5E1;
+  --tw-prose-quote-borders:#2a3a5c;
+  --tw-prose-captions:     #7B8DB0;
+  --tw-prose-code:         #9D6FFF;
+  --tw-prose-pre-code:     #CBD5E1;
+  --tw-prose-pre-bg:       #101828;
+  --tw-prose-th-borders:   #2a3a5c;
+  --tw-prose-td-borders:   #1e2d48;
+}
+
+/* ── Date input calendar icon — invert in dark mode ────── */
+:root[data-pm-theme="dark"] #wedevs-project-manager input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1) brightness(0.8);
+}
+
+/* ── Override WP admin margin leak on frontend ─────────── */
+body:not(.wp-admin) #wedevs-project-manager {
+  margin-left: 0;
+}
+
+/* ── Scoped reset — ONLY inside plugin root ─────────────── */
+#wedevs-project-manager {
+  *, *::before, *::after {
+    box-sizing: border-box;
+    border-width: 0;
+    border-style: solid;
+    border-color: hsl(var(--border));
+  }
+
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: hsl(var(--foreground));
+  -webkit-font-smoothing: antialiased;
+
+  /* Reset WP admin interference on common elements */
+  h1, h2, h3, h4, h5, h6 {
+    font-size: inherit;
+    font-weight: inherit;
+    margin: 0;
+    padding: 0;
+  }
+
+  p { margin: 0; }
+
+  /* Suppress WordPress .wp-die-message p margin conflict */
+  .wp-die-message p,
+  p.wp-die-message {
+    margin: 0 !important;
+  }
+
+  /* Frontend themes inject list-style/padding via Twenty* etc.
+     Reset so Tailwind utilities (list-none/list-disc/p-*) drive layout.
+     !important needed because theme rules like `.entry-content ul` win on
+     specificity over our scope selector alone. */
+  ul, ol {
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  li {
+    list-style: none !important;
+    list-style-type: none !important;
+  }
+  li::marker {
+    content: none !important;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: inherit;
+  }
+
+  button, input, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+    color: inherit;
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+  }
+
+  button {
+    cursor: pointer;
+    box-shadow: none;
+    text-transform: none;
+    letter-spacing: normal;
+  }
+
+  img, svg {
+    display: inline-block;
+    vertical-align: middle;
+  }
+
+  /* WP admin adds shadows/outlines to inputs — override */
+  input, textarea, select {
+    box-shadow: none !important;
+    outline: none;
+  }
+
+  input:focus, textarea:focus, select:focus {
+    box-shadow: none !important;
+    outline: none;
+  }
+
+  /* Global focus outline — use pm-accent purple color.
+     Exclude contenteditable (Tiptap) — it manages its own focus indicator
+     via the container border; outline here would show on mouse click too. */
+  *:focus-visible:not([contenteditable]) {
+    outline: 2px solid hsl(var(--primary)) !important;
+    outline-offset: 2px;
+  }
+
+  [contenteditable]:focus,
+  [contenteditable]:focus-visible {
+    outline: none !important;
+  }
+
+  /* Tiptap editor — ensure text color and placeholder use CSS vars */
+  .tiptap, .ProseMirror {
+    color: hsl(var(--foreground)) !important;
+  }
+  .tiptap p.is-editor-empty:first-child::before,
+  .ProseMirror p.is-editor-empty:first-child::before {
+    color: hsl(var(--muted-foreground)) !important;
+  }
+
+  /* Override WordPress admin blue box-shadow with purple — keyboard focus only */
+  a:focus-visible, button:focus-visible {
+    box-shadow: 0 0 0 2px hsl(var(--primary)) !important;
+    color: inherit !important;
+    outline: 2px solid transparent !important;
+  }
+  a:focus:not(:focus-visible), button:focus:not(:focus-visible) {
+    box-shadow: none !important;
+    outline: none !important;
+  }
+
+  /* Reset WP table styles */
+  table { border-collapse: collapse; border-spacing: 0; }
+  th { text-align: left; font-weight: 600; }
+  td, th { padding: 0; }
+
+  /* Reset WP label */
+  label {
+    display: inline-block;
+    font-weight: inherit;
+    margin: 0;
+  }
+
+  /* Date input — calendar picker icon color */
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    opacity: 0.6;
+    cursor: pointer;
+    filter: none;
+  }
+
+  /* Range input */
+  input[type="range"] {
+    padding: 0;
+    border: none;
+    background: transparent;
+    box-shadow: none !important;
+  }
+
+  /* Separator / hr */
+  hr {
+    margin: 0;
+    border: none;
+    border-top: 1px solid hsl(var(--border));
+  }
+
+
+  /* Radio — override WP admin button styles on Radix radio */
+  button[role="radio"] {
+    box-shadow: none !important;
+    background: transparent !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    min-height: auto !important;
+    min-width: auto !important;
+    line-height: 1 !important;
+  }
+
+  /* Switch — override WP checkbox/button styles */
+  button[role="switch"] {
+    box-shadow: none !important;
+    position: relative;
+    display: inline-flex;
+    height: 1.5rem;
+    width: 2.75rem;
+    flex-shrink: 0;
+    cursor: pointer;
+    align-items: center;
+    border-radius: 9999px;
+    border: 2px solid transparent !important;
+    background-color: hsl(var(--input));
+    transition: background-color 0.2s ease;
+  }
+
+  button[role="switch"][data-state="checked"] {
+    background-color: hsl(var(--primary)) !important;
+  }
+
+  button[role="switch"] > span {
+    pointer-events: none;
+    display: block;
+    height: 1.25rem;
+    width: 1.25rem;
+    border-radius: 9999px;
+    background-color: white !important;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1) !important;
+    transition: transform 0.2s ease !important;
+    transform: translateX(0) !important;
+  }
+
+  button[role="switch"][data-state="checked"] > span {
+    transform: translateX(1.25rem) !important;
+  }
+}
+
+/* ── Plugin sidebar scrollbar — thin, pm-accent, auto-hide ── */
+.pm-sidebar-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  transition: scrollbar-color 0.3s ease;
+}
+
+.pm-sidebar-scroll:hover {
+  scrollbar-color: hsl(262 80% 57% / 0.35) transparent;
+}
+
+.pm-sidebar-scroll::-webkit-scrollbar {
+  width: 2px;
+}
+
+.pm-sidebar-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.pm-sidebar-scroll::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 9999px;
+  transition: background 0.3s ease;
+}
+
+.pm-sidebar-scroll:hover::-webkit-scrollbar-thumb {
+  background: hsl(262 80% 57% / 0.35);
+}
+
+.pm-sidebar-scroll:hover::-webkit-scrollbar-thumb:hover {
+  background: hsl(262 80% 57% / 0.6);
+}
+
+/* ── Full-screen settings mode — hides WP admin chrome ───── */
+body.pm-fullscreen-settings:not(.pm-mode-wordpress) {
+  overflow: hidden !important;
+}
+
+body.pm-fullscreen-settings.pm-mode-wordpress {
+  overflow: auto !important;
+}
+
+body.pm-fullscreen-settings:not(.pm-mode-wordpress) #wpadminbar {
+  display: none !important;
+}
+
+body.pm-fullscreen-settings.pm-mode-wordpress #wpadminbar {
+  display: block !important;
+}
+
+body.pm-fullscreen-settings:not(.pm-mode-wordpress) #adminmenuwrap,
+body.pm-fullscreen-settings:not(.pm-mode-wordpress) #adminmenuback {
+  display: none !important;
+}
+
+body.pm-fullscreen-settings:not(.pm-mode-wordpress) #wpcontent {
+  margin-left: 0 !important;
+}
+
+body.pm-fullscreen-settings.pm-mode-wordpress #adminmenuwrap,
+body.pm-fullscreen-settings.pm-mode-wordpress #adminmenuback {
+  display: block !important;
+  transition: all 0.2s ease;
+}
+
+body.pm-fullscreen-settings.pm-mode-wordpress #wpcontent {
+  margin-left: 160px !important;
+  transition: margin-left 0.2s ease;
+}
+
+body.pm-fullscreen-settings.pm-mode-wordpress.folded #wpcontent {
+  margin-left: 36px !important;
+}
+
+body.pm-fullscreen-settings #wpbody-content {
+  padding-bottom: 0 !important;
+}
+
+body.pm-fullscreen-settings #wpfooter {
+  display: none !important;
+}
+
+body.pm-fullscreen-settings .notice,
+body.pm-fullscreen-settings .updated,
+body.pm-fullscreen-settings .error,
+body.pm-fullscreen-settings .update-nag {
+  display: none !important;
+}
+
+body.pm-fullscreen-settings #wedevs-pm {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  z-index: 100 !important;
+  background: var(--pm-surface-muted);
+  transition: left 0.2s ease;
+  overflow: hidden !important;
+}
+
+body.pm-fullscreen-settings #wedevs-project-manager {
+  height: 100% !important;
+  overflow: hidden !important;
+}
+
+body.pm-fullscreen-settings.pm-mode-wordpress #wedevs-pm {
+  top: 32px !important;
+  left: 160px !important;
+  bottom: 0 !important;
+  right: 0 !important;
+}
+
+body.pm-fullscreen-settings.pm-mode-wordpress.folded #wedevs-pm {
+  left: 36px !important;
+  bottom: 0 !important;
+  right: 0 !important;
+}
+
+/* ── Z-index hierarchy ───────────────────────────────────────
+     100   — Fullscreen app container (#wedevs-pm)
+     2000  — Dialog/Sheet overlay (backdrop)
+     2001  — Dialog/Sheet content
+     2500  — AlertDialog overlay  [data-pm-alert-overlay]
+     2501  — AlertDialog content  [role="alertdialog"]
+     3000  — Popper content (Select, Dropdown, Popover, Tooltip)
+     99999 — Toast notifications
+     WP admin bar (99999) — hidden in fullscreen mode
+     In WordPress sidebar mode (pm-mode-wordpress):
+       Dialogs/Sheets/Poppers are bumped above 99999 ──────── */
+
+/* ── Radix UI portaled Popper elements (Select, Dropdown, etc.)
+     Teleported to <body>. Must be ABOVE Dialog/Sheet content
+     because a Select inside a Sheet still teleports here. ──── */
+[data-radix-popper-content-wrapper] {
+  z-index: 3000 !important;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-size: 14px !important;
+  line-height: 1.5 !important;
+  color: hsl(var(--foreground)) !important;
+  -webkit-font-smoothing: antialiased;
+}
+
+[data-radix-popper-content-wrapper] *,
+[data-radix-popper-content-wrapper] *::before,
+[data-radix-popper-content-wrapper] *::after {
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+  border-color: hsl(var(--border));
+}
+
+/* Override WP admin focus styles on portaled inputs */
+[data-radix-popper-content-wrapper] input,
+[data-radix-popper-content-wrapper] input:focus,
+[role="dialog"][data-state] input,
+[role="dialog"][data-state] input:focus {
+  box-shadow: none !important;
+  outline: none !important;
+  border-color: hsl(var(--border)) !important;
+}
+
+/* ── Dialog/Sheet overlay (backdrop) ─────────────────────────
+     Specificity (0,2,0) beats Tailwind z-50 at (0,1,0). ───── */
+[data-state].fixed {
+  z-index: 2000 !important;
+}
+
+/* ── Dialog/Sheet content ────────────────────────────────────
+     Specificity (0,2,0) beats Tailwind z-50 at (0,1,0). ───── */
+[role="dialog"][data-state] {
+  z-index: 2001 !important;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: hsl(var(--foreground));
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── AlertDialog centering — enforced with !important so Sheet/Dialog
+   parent transforms cannot affect the position. Uses margin:auto + inset
+   which is immune to parent transform contexts unlike translate(-50%,-50%). */
+[data-pm-alert-content] {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  right: auto !important;
+  bottom: auto !important;
+  margin: 0 !important;
+  transform: translate(-50%, -50%) !important;
+}
+
+/* ── AlertDialog — must sit ABOVE Sheet/Dialog (2000/2001) ──────────────────
+     Radix sets role="alertdialog" on the content node.
+     The overlay gets data-pm-alert-overlay to avoid needing :has().
+     Overlay: 2500, Content: 2501 — above Sheet/Dialog, below Popper (3000). */
+[data-pm-alert-overlay] {
+  z-index: 2500 !important;
+}
+[role="alertdialog"][data-state] {
+  z-index: 2501 !important;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  color: hsl(var(--foreground));
+  background-color: hsl(var(--background));
+  -webkit-font-smoothing: antialiased;
+}
+[role="alertdialog"][data-state] *:not(button),
+[role="alertdialog"][data-state] *:not(button)::before,
+[role="alertdialog"][data-state] *:not(button)::after {
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+  border-color: hsl(var(--border));
+}
+
+body.pm-mode-wordpress [data-pm-alert-overlay],
+body.admin-bar [data-pm-alert-overlay] {
+  z-index: 100250 !important;
+}
+body.pm-mode-wordpress [role="alertdialog"][data-state],
+body.admin-bar [role="alertdialog"][data-state] {
+  z-index: 100251 !important;
+}
+
+/* Center modal dialogs — uses data-pm-dialog attribute to avoid targeting sheets.
+   Dialogs portal to <body>, so we use inset + margin for true centering
+   regardless of sidebar width. */
+[data-pm-dialog] {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  right: auto !important;
+  margin: 0 !important;
+  transform: translate(-50%, -50%) !important;
+}
+
+/* Radix dialogs only — exclude WP media modal (.media-modal) */
+[role="dialog"][data-state]:not(.media-modal) *:not(button[role="radio"]),
+[role="dialog"][data-state]:not(.media-modal) *::before,
+[role="dialog"][data-state]:not(.media-modal) *::after {
+  box-sizing: border-box;
+  border-width: 0;
+  border-style: solid;
+  border-color: hsl(var(--border));
+}
+
+/* ── Toast notifications — above Radix portals (Sheet z-50, Dialog z-50) ── */
+ol[data-sonner-toaster],
+[data-sonner-toaster] {
+  z-index: 99999 !important;
+}
+
+/* ── Logged-in/admin-bar mode — bump PM portals above
+     WP admin bar (z-index 99999) and optional WP sidebar ── */
+body.pm-mode-wordpress [data-state].fixed,
+body.admin-bar [data-state].fixed {
+  z-index: 100100 !important;
+}
+
+body.pm-mode-wordpress [role="dialog"][data-state],
+body.admin-bar [role="dialog"][data-state] {
+  z-index: 100101 !important;
+}
+
+body.pm-mode-wordpress [data-radix-popper-content-wrapper],
+body.admin-bar [data-radix-popper-content-wrapper] {
+  z-index: 100200 !important;
+}
+
+body.pm-mode-wordpress ol[data-sonner-toaster],
+body.pm-mode-wordpress [data-sonner-toaster],
+body.admin-bar ol[data-sonner-toaster],
+body.admin-bar [data-sonner-toaster] {
+  z-index: 100300 !important;
+}
+
+/* ── Override WP admin button styles inside our React app ──
+   WP admin applies background/border/shadow to all <button> elements.
+   We reset these inside #wedevs-project-manager and Radix portals. ── */
+#wedevs-project-manager button:not(.components-button):not(.wp-element-button):not([role="checkbox"]):not([data-state]):not(.border),
+[data-radix-popper-content-wrapper] button:not(.border),
+[data-radix-popper-content-wrapper] [role="menuitem"],
+[role="dialog"][data-state] button:not(.border) {
+  border: none;
+  box-shadow: none;
+  background: transparent;
+}
+#wedevs-project-manager button:not(.components-button):not(.wp-element-button):focus,
+[data-radix-popper-content-wrapper] button:focus {
+  box-shadow: none;
+  outline: none;
+}
+
+/* ── AlertDialog button reset — portals outside #wedevs-project-manager so
+   WP admin global button styles bleed in. Strip them here so Tailwind's
+   buttonVariants classes on AlertDialogAction/AlertDialogCancel take over. ── */
+[role="alertdialog"] button {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  height: 2.25rem !important;
+  min-height: 0 !important;
+  min-width: 0 !important;
+  padding: 0.5rem 1rem !important;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+  border-radius: calc(var(--radius) - 2px) !important;
+  /* Reset WP border completely — outline variant restores it below */
+  border-width: 0 !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  text-transform: none !important;
+  letter-spacing: normal !important;
+  cursor: pointer !important;
+  vertical-align: middle !important;
+  transition: background-color 0.15s, color 0.15s, border-color 0.15s, opacity 0.15s !important;
+}
+/* Restore border for the outline (Cancel) button */
+[role="alertdialog"] button.border {
+  border-width: 1px !important;
+  border-style: solid !important;
+  border-color: hsl(var(--input)) !important;
+}
+[role="alertdialog"] button:focus,
+[role="alertdialog"] button:focus-visible {
+  box-shadow: none !important;
+  outline: 2px solid hsl(var(--ring)) !important;
+  outline-offset: 2px !important;
+}
+
+/* ── @mention node styling ── */
+.mention {
+  color: hsl(var(--primary));
+  background-color: hsl(var(--primary) / 0.1);
+  border-radius: 4px;
+  padding: 0 3px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  text-decoration: none;
+}
+.mention:hover {
+  background-color: hsl(var(--primary) / 0.2);
+  text-decoration: underline;
+}
+
+/* ── Override WP admin input styles inside our React app ──
+   WP admin adds extra padding/height/border to inputs which
+   misaligns icons and breaks Tailwind's h-* sizing. ── */
+#wedevs-project-manager input:not([type="checkbox"]):not([type="radio"]),
+#wedevs-project-manager textarea,
+#wedevs-project-manager select,
+[data-radix-popper-content-wrapper] input,
+[data-radix-popper-content-wrapper] textarea,
+[role="dialog"][data-state] input,
+[role="dialog"][data-state] textarea {
+  padding: revert;
+  height: auto;
+  line-height: inherit;
+  box-shadow: none;
+  border-color: hsl(var(--border));
+  border-radius: calc(var(--radius) - 2px);
+  background-color: transparent;
+}
+
+/* ── Tiptap editor inside portaled Sheet/Dialog ── */
+[role="dialog"][data-state] .tiptap,
+[role="dialog"][data-state] .ProseMirror {
+  color: hsl(var(--foreground)) !important;
+}
+[role="dialog"][data-state] .tiptap p.is-editor-empty:first-child::before,
+[role="dialog"][data-state] .ProseMirror p.is-editor-empty:first-child::before {
+  color: hsl(var(--muted-foreground)) !important;
+}

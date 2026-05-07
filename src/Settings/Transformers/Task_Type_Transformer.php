@@ -15,7 +15,6 @@ class Task_Type_Transformer extends TransformerAbstract {
             'id'          => (int) $item->id,
             'title'       => $item->title,
             'description' => $item->description,
-            'type'        => $item->type,
             'status'      => $item->status
         ];
     }

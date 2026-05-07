@@ -4,6 +4,7 @@ namespace WeDevs\PM\Calendar\Transformers;
 
 use League\Fractal\TransformerAbstract;
 use WeDevs\PM\User\Models\User;
+use WeDevs\PM\User\Helper\Avatar;
 
 class Calendar_Transformer extends TransformerAbstract {
 
@@ -23,7 +24,7 @@ class Calendar_Transformer extends TransformerAbstract {
 
         return [
             'id'            => (int) $event['id'],
-            'title'         =>  $event['title'],
+            'title'         =>  html_entity_decode( $event['title'], ENT_QUOTES, 'UTF-8' ),
             'start'         =>  $this->getStart( $event ),
             'end'           =>  $this->getend( $event ),
             'status'        =>  array_key_exists('status', $event) ? $event['status'] : $meta['status'],
@@ -86,7 +87,7 @@ class Calendar_Transformer extends TransformerAbstract {
                 'email'        => $user->user_email,
                 'profile_url'  => $user->user_url,
                 'display_name' => $user->display_name,
-                'avatar_url'   => get_avatar_url( $user->user_email ),
+                'avatar_url'   => Avatar::get_url( $user->ID ),
             ];
         } );
 

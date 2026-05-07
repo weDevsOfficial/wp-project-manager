@@ -17,31 +17,24 @@ class New_Project_Notification extends Email {
     public function trigger( $project, $data ) {
 
         $project = empty( $project['data'] ) ? [] : $project['data'];
-        
+
         if ( empty( $data['notify_users'] ) ) {
             return;
         }
 
-        if ( 'false' == $data['notify_users'] || false === $data['notify_users'] ) {
+        if ( 'false' === $data['notify_users'] || false === $data['notify_users'] ) {
             return ;
         }
 
         $template_name = apply_filters( 'wedevs_pm_new_project_email_template_path', $this->get_template_path( '/html/new-project.php' ) );
         /* translators: 1: Blog name, 2: Project title */
         $subject       = sprintf( __( '[%1$s] New Project Created: %2$s', 'wedevs-project-manager' ), $this->get_blogname(), $project['title'] );
-        $assignees     = $project['assignees']['data'];
+        $assignees     = isset( $project['assignees']['data'] ) ? $project['assignees']['data'] : [];
         $users         = array();
 
         foreach ( $assignees as $assignee ) {
             if( ! $this->is_enable_user_notification( $assignee['id'] ) ) {
-                // if (  !$this->notify_manager()  && $assignee['roles']['data'][0]['slug'] == 'manager' ) {
-                //     if( $this->is_enable_user_notification_for_notification_type( $assignee['id'] , '_cpm_email_notification_new_project' ) ) {
-                //         continue;
-                //     }
-                // }
-
                 continue;
-
             }
 
             if ( $assignee['id'] == get_current_user_id() ) {
@@ -54,13 +47,13 @@ class New_Project_Notification extends Email {
 
             $users[] = $assignee['email'];
         }
-        
+
         if( !$users ) {
-            return ; 
+            return ;
         }
-        
+
         $message = $this->get_content_html( $template_name, $project );
-        
+
         $this->send( $users, $subject, $message );
 
     }

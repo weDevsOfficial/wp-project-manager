@@ -67,7 +67,6 @@ use WeDevs\PM\Core\Notifications\Emails\Complete_Task_Notification;
      * otherwise falls back to send now.
      */
     public static function queue_transactional_email() {
-        ///echo 'lakjshkajsdasd'; die();
         // if ( is_a( self::$background_emailer, 'WeDevs\PM\Core\Notifications\Background_Emailer' ) ) {
         //     self::$background_emailer->push_to_queue( array(
         //         'filter' => current_filter(),

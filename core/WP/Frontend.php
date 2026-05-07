@@ -12,9 +12,6 @@ use WeDevs\PM\Core\File_System\File_System as File_System;
 use WeDevs\PM\Core\Cli\Commands;
 use WeDevs\PM\Core\Installer\Installer;
 use WeDevs_PM_Create_Table;
-//use WeDevs\PM\Tools\Helpers\ImportActivecollab;
-use WeDevs\PM\Tools\Helpers\ImportTrello;
-//use WeDevs\PM\Tools\Helpers\ImportAsana;
 use WeDevs\PM\Core\Admin_Notice\Admin_Notice;
 use WeDevs\PM\Pusher\Pusher;
 use WeDevs\PM\Core\User_Profile\Profile_Update;
@@ -77,9 +74,7 @@ class Frontend {
         add_action( 'plugins_loaded', array( $this, 'pm_content_filter_url' ) );
         add_filter( 'plugin_action_links_' . PM_BASENAME , array( $this, 'plugin_action_links' ) );
         add_filter( 'in_plugin_update_message-' . PM_BASENAME , array( $this, 'upgrade_notice' ), 10, 2 );
-        add_action( 'admin_footer', array( $this, 'switch_project_html' ) );
         add_action( 'admin_init', array( $this, 'redirect_after_activate' ) );
-        add_action( 'admin_bar_menu', array( $this, 'pm_toolbar_search_button' ), 999);
         add_action( 'wp_initialize_site', array( $this, 'after_insert_site' ), 10 );
         add_filter( 'wedevs_pm_check_permission', array( $this, 'pm_privacy_check' ), 10, 3 );
 
@@ -299,69 +294,6 @@ class Frontend {
         if ( isset( $new_version->upgrade_notice ) && strlen( trim( $new_version->upgrade_notice ) ) > 0 ) {
             echo esc_html('<div style="background-color: #d54e21; padding: 10px; color: #f9f9f9; margin-top: 10px">'. $new_version->upgrade_notice . '</div>');
         }
-    }
-
-    public function switch_project_html() {
-        wp_enqueue_script( 'pmglobal' );
-        wp_enqueue_style( 'pmglobal' );
-        wp_localize_script( 'pmglobal', 'PM_Global_Vars',[
-            'rest_url'           => home_url() .'/'.rest_get_url_prefix(),
-            'project_page'       => wedevs_pm_get_project_page(),
-            'permission'         => wp_create_nonce('wp_rest'),
-            'api_base_url'       => esc_url_raw( get_rest_url() ),
-            'api_namespace'      => wedevs_pm_api_namespace(),
-            'permalinkStructure' => get_option( 'permalink_structure' ),
-        ]);
-
-        require_once wedevs_pm_config('frontend.view_path') . '/project-switch/project-switch.php';
-    }
-
-    public function new_task_craeting() {
-        require_once wedevs_pm_config('frontend.view_path') . '/project-switch/task-creating.php';
-    }
-
-    public function pm_toolbar_new_task_creating ($wp_admin_bar) {
-        $wp_admin_bar->add_node(
-            [
-                'id'        => 'pm_create_task',
-                'title'     => '<span class="ab-icon dashicons dashicons-welcome-add-page"></span>',
-                'href'      => '#',
-                'parent' => 'top-secondary',
-                'meta'  => [
-                    'title' => __('Create New Task', 'wedevs-project-manager'),
-                ]
-
-            ]
-         );
-
-         $wp_admin_bar->add_node(
-            [
-                'id'        => 'pm_new_create_task',
-                'title'     => 'Task',
-                'href'      => '#',
-                'parent' => 'new-content',
-                'meta'  => [
-                    'title' => __('Create New Task', 'wedevs-project-manager'),
-                ]
-
-            ]
-         );
-    }
-
-
-    public function pm_toolbar_search_button($wp_admin_bar) {
-        $wp_admin_bar->add_node(
-            [
-                'id'        => 'pm_search',
-                'title'     => '<span class="ab-icon icon-pm-switch-project" style="padding: 6px 0;"></span>',
-                'href'      => '#',
-                'parent' => 'top-secondary',
-                'meta'  => [
-                    'title' => __('Jump to a project', 'wedevs-project-manager'),
-                ]
-
-            ]
-        );
     }
 
     public function custom_upload_mimes ( $existing_mimes ) {

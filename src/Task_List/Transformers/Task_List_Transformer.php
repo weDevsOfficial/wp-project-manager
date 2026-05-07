@@ -38,7 +38,7 @@ class Task_List_Transformer extends TransformerAbstract {
     public function transform( Task_List $item ) { 
         $data = [
             'id'          => (int) $item->id,
-            'title'       => $item->title,
+            'title'       => html_entity_decode( $item->title, ENT_QUOTES, 'UTF-8' ),
             'description' => wedevs_pm_filter_content_url( $item->description ),
             'order'       => (int) $item->order,
             'status'      => $item->status,
