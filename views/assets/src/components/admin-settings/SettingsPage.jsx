@@ -6,7 +6,7 @@ import ProFeaturePlaceholder from '@components/common/ProFeaturePlaceholder'
 import { cn } from '@lib/utils'
 import { useFilter } from '@hooks/useSlot'
 import {
-  Settings, Mail, Users, ListTodo, Bot, Radio,
+  Settings, Mail, ListTodo, Bot, Radio,
   FileText, ShoppingCart,
 } from 'lucide-react'
 
@@ -31,7 +31,6 @@ const LoomNavIcon = (props) => (
 const GeneralTab    = lazy(() => import('./tabs/GeneralTab'))
 const EmailTab      = lazy(() => import('./tabs/EmailTab'))
 const TaskTypesTab  = lazy(() => import('./tabs/TaskTypesTab'))
-const UserMapTab    = lazy(() => import('./tabs/UserMapTab'))
 const PusherTab     = lazy(() => import('./tabs/PusherTab'))
 const AiSettingsTab      = lazy(() => import('./tabs/AiSettingsTab'))
 const GitHubSettingsTab  = lazy(() => import('./tabs/GitHubSettingsTab'))
@@ -45,7 +44,6 @@ const tabComponents = {
   'general':      GeneralTab,
   'email':        EmailTab,
   'task-types':   TaskTypesTab,
-  'usermap':      UserMapTab,
   'pusher':       PusherTab,
   'ai-settings':  AiSettingsTab,
   'github':       GitHubSettingsTab,
@@ -87,7 +85,6 @@ const SettingsPage = () => {
   const showWooTab = !isPro || isWooModuleActive
 
   const integrationTabs = [
-    { key: 'usermap', label: __('User Map', 'wedevs-project-manager'), icon: Users },
     { key: 'pusher',  label: __('Pusher',   'wedevs-project-manager'), icon: Radio },
     { key: 'github',  label: __('GitHub',   'wedevs-project-manager'), icon: GitHubNavIcon },
     { key: 'notion',  label: __('Notion',   'wedevs-project-manager'), icon: NotionNavIcon },

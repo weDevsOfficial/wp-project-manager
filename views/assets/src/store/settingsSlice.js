@@ -174,30 +174,6 @@ export const deleteTaskType = createAsyncThunk(
   }
 )
 
-export const fetchSettingsProjects = createAsyncThunk(
-  'settings/fetchProjects',
-  async (_, { rejectWithValue }) => {
-    try {
-      const res = await api.get('projects', { per_page: -1, with: 'assignees' })
-      return res.data
-    } catch (e) {
-      return rejectWithValue(e.message)
-    }
-  }
-)
-
-export const saveUserMap = createAsyncThunk(
-  'settings/saveUserMap',
-  async (usernames, { rejectWithValue }) => {
-    try {
-      const res = await api.post('save_users_map_name', { usernames })
-      return res?.message ?? 'User mapping saved'
-    } catch (e) {
-      return rejectWithValue(e.message ?? 'Failed to save user map')
-    }
-  }
-)
-
 // ── Slice ─────────────────────────────────────────────────
 
 const initialState = {
@@ -256,10 +232,6 @@ const initialState = {
   taskTypesLoaded: false,
   taskTypesLoading: false,
 
-  projects: [],
-  userMapUsers: [],
-  userMapLoading: false,
-  userMapSaving: false,
 }
 
 const settingsSlice = createSlice({
@@ -278,9 +250,6 @@ const settingsSlice = createSlice({
     },
     setAiTemperature(state, action) {
       state.ai.ai_temperature = action.payload
-    },
-    selectProjectForMap(state, action) {
-      state.userMapUsers = action.payload
     },
   },
   extraReducers: (builder) => {
@@ -395,23 +364,11 @@ const settingsSlice = createSlice({
       state.taskTypes = state.taskTypes.filter((t) => t.id !== action.payload)
     })
 
-    // User Map projects
-    builder.addCase(fetchSettingsProjects.pending, (state) => { state.userMapLoading = true })
-    builder.addCase(fetchSettingsProjects.fulfilled, (state, action) => {
-      state.userMapLoading = false
-      state.projects       = action.payload
-    })
-    builder.addCase(fetchSettingsProjects.rejected, (state) => { state.userMapLoading = false })
-
-    builder.addCase(saveUserMap.pending, (state) => { state.userMapSaving = true })
-    builder.addCase(saveUserMap.fulfilled, (state) => { state.userMapSaving = false })
-    builder.addCase(saveUserMap.rejected, (state) => { state.userMapSaving = false })
   },
 })
 
 export const {
   setAiProvider, setAiModel, setAiMaxTokens, setAiTemperature,
-  selectProjectForMap,
 } = settingsSlice.actions
 
 export default settingsSlice.reducer
