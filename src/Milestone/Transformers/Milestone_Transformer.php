@@ -21,18 +21,23 @@ class Milestone_Transformer extends TransformerAbstract {
     ];
 
     protected $availableIncludes = [
-        'discussion_boards', 'task_lists'
+        'discussion_boards', 'task_lists', 'tasks'
     ];
 
     public function transform( Milestone $item ) {
-        $data =  [
+        $task_count = $item->task_count;
+
+        $data = [
             'id'           => (int) $item->id,
-            'title'        => $item->title,
+            'title'        => html_entity_decode( $item->title, ENT_QUOTES, 'UTF-8' ),
             'description'  => $item->description,
             'order'        => (int) $item->order,
             'achieve_date' => wedevs_pm_format_date( $item->achieve_date ),
             'achieved_at'  => wedevs_pm_format_date( $item->updated_at ),
             'status'       => $item->status,
+            'progress'     => (int) $item->progress,
+            'health'       => $item->health,
+            'task_count'   => $task_count,
             'created_at'   => wedevs_pm_format_date( $item->created_at ),
             'meta'         => $this->meta( $item ),
         ];
@@ -56,6 +61,7 @@ class Milestone_Transformer extends TransformerAbstract {
         return array_merge( $meta, [
             'total_task_list'        => $item->task_lists->count(),
             'total_discussion_board' => $item->discussion_boards->count(),
+            'total_direct_tasks'     => $item->tasks->count(),
         ] );
     }
 
@@ -77,6 +83,24 @@ class Milestone_Transformer extends TransformerAbstract {
         $resource->setPaginator( new IlluminatePaginatorAdapter( $task_lists ) );
 
         return $resource;
+    }
+
+    public function includeTasks( Milestone $item ) {
+        $tasks     = $item->tasks()->orderBy( 'created_at', 'DESC' )->get();
+        $task_ids  = $tasks->pluck( 'id' )->toArray();
+        $resource  = $this->collection( $tasks, new Task_Transformer );
+
+        if ( empty( $task_ids ) ) {
+            return $resource;
+        }
+
+        // Serialize now so label/pro filters can decorate the task rows,
+        // then re-wrap as a passthrough collection.
+        $serialized = wedevs_pm_get_response( $resource );
+        $serialized = apply_filters( 'wedevs_pm_after_transformer_list_tasks', $serialized, $task_ids );
+
+        $rows = isset( $serialized['data'] ) ? array_values( $serialized['data'] ) : [];
+        return $this->collection( $rows, function ( $row ) { return $row; } );
     }
 
     public function includeDiscussionBoards( Milestone $item ) {

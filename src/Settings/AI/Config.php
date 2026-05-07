@@ -47,253 +47,32 @@ class Config {
     }
 
     /**
-     * Get all model configurations - fully dynamic from cache
+     * Get all model configurations from cache
+     * Anthropic models are always included (static, no API key needed).
+     * OpenAI and Google models are only available after API keys are saved.
      *
      * @return array Model configurations
      */
     public static function get_models() {
-        // Get cached models from WordPress transient
+        // Always include Anthropic models (static, no API key needed)
+        $models = self::fetch_anthropic_models();
+
+        // Merge cached models (OpenAI, Google) if available
         $cached_models = get_transient('pm_ai_models_cache');
-
-        // Extract models if they exist
         if (is_array($cached_models) && isset($cached_models['models']) && !empty($cached_models['models'])) {
-            $models = $cached_models['models'];
-            // Ensure Anthropic models are always included (they're static, no API key needed)
-            // Merge will overwrite any existing Anthropic models with the latest static list
-            $anthropic_models = self::fetch_anthropic_models();
-            $models = array_merge($models, $anthropic_models);
-            return $models;
-        }
-
-        // If no cache, return default models (includes Anthropic)
-        return self::get_default_models();
-    }
-
-    /**
-     * Get default models (shown when no API keys configured)
-     *
-     * @return array Default model configurations
-     */
-    private static function get_default_models() {
-        return [
-            // OpenAI defaults
-            'gpt-4o' => [
-                'name' => 'GPT-4o (OpenAI)',
-                'provider' => 'openai',
-                'token_param' => 'max_tokens',
-                'token_location' => 'body',
-                'supports_json_mode' => true,
-                'supports_custom_temperature' => true
-            ],
-            'gpt-4o-mini' => [
-                'name' => 'GPT-4o Mini (OpenAI)',
-                'provider' => 'openai',
-                'token_param' => 'max_tokens',
-                'token_location' => 'body',
-                'supports_json_mode' => true,
-                'supports_custom_temperature' => true
-            ],
-            'gpt-4-turbo' => [
-                'name' => 'GPT-4 Turbo (OpenAI)',
-                'provider' => 'openai',
-                'token_param' => 'max_tokens',
-                'token_location' => 'body',
-                'supports_json_mode' => true,
-                'supports_custom_temperature' => true
-            ],
-            // Anthropic defaults (latest models)
-            'claude-sonnet-4-5-20250929' => [
-                'name' => 'Claude Sonnet 4.5 - Latest (Anthropic)',
-                'provider' => 'anthropic',
-                'token_param' => 'max_tokens',
-                'token_location' => 'body',
-                'supports_json_mode' => true,
-                'supports_custom_temperature' => true
-            ],
-            'claude-haiku-4-5-20251001' => [
-                'name' => 'Claude Haiku 4.5 - Latest (Anthropic)',
-                'provider' => 'anthropic',
-                'token_param' => 'max_tokens',
-                'token_location' => 'body',
-                'supports_json_mode' => true,
-                'supports_custom_temperature' => true
-            ],
-            // Google defaults - removed hardcoded models since they may not exist
-            // Models will be fetched dynamically from API when API key is configured
-            // Keeping minimal defaults for when no API key is set
-            'gemini-pro' => [
-                'name' => 'Gemini Pro (Google)',
-                'provider' => 'google',
-                'token_param' => 'maxOutputTokens',
-                'token_location' => 'generationConfig',
-                'supports_json_mode' => true,
-                'supports_custom_temperature' => true
-            ]
-        ];
-    }
-
-    /**
-     * Get models for a specific provider
-     *
-     * @param string $provider Provider ID
-     * @return array Models for the provider
-     */
-    public static function get_models_by_provider($provider) {
-        $all_models = self::get_models();
-        $provider_models = [];
-
-        foreach ($all_models as $model_id => $model_config) {
-            // Validate model config is an array with required keys
-            if (!is_array($model_config) || !isset($model_config['provider'])) {
-                continue;
-            }
-
-            if ($model_config['provider'] === $provider) {
-                $provider_models[$model_id] = $model_config;
-            }
-        }
-
-        return $provider_models;
-    }
-
-    /**
-     * Get model configuration
-     *
-     * @param string $model_id Model ID
-     * @return array|null Model configuration or null if not found
-     */
-    public static function get_model_config($model_id) {
-        // Get all models from cache
-        $all_models = self::get_models();
-
-        // Check for exact match
-        if (isset($all_models[$model_id])) {
-            return $all_models[$model_id];
-        }
-
-        // Check for pattern matches (e.g., gpt-5-turbo-preview matches gpt-5-turbo)
-        foreach ($all_models as $pattern => $config) {
-            if (strpos($model_id, $pattern) === 0) {
-                return $config;
-            }
-        }
-
-        // Fallback to provider defaults
-        $provider_defaults = [
-            'openai' => [
-                'token_param' => 'max_tokens',
-                'token_location' => 'body',
-                'supports_json_mode' => true,
-                'supports_custom_temperature' => true
-            ],
-            'anthropic' => [
-                'token_param' => 'max_tokens',
-                'token_location' => 'body',
-                'supports_json_mode' => true,
-                'supports_custom_temperature' => true
-            ],
-            'google' => [
-                'token_param' => 'maxOutputTokens',
-                'token_location' => 'generationConfig',
-                'supports_json_mode' => true,
-                'supports_custom_temperature' => true
-            ]
-        ];
-
-        // Try to detect provider from model ID
-        if (strpos($model_id, 'gpt-') === 0 || strpos($model_id, 'o1') === 0) {
-            return $provider_defaults['openai'];
-        } elseif (strpos($model_id, 'claude-') === 0) {
-            return $provider_defaults['anthropic'];
-        } elseif (strpos($model_id, 'gemini-') === 0) {
-            return $provider_defaults['google'];
-        }
-
-        return null;
-    }
-
-    /**
-     * Get provider configuration
-     *
-     * @param string $provider_id Provider ID
-     * @return array|null Provider configuration or null if not found
-     */
-    public static function get_provider_config($provider_id) {
-        $providers = self::get_providers();
-        return $providers[$provider_id] ?? null;
-    }
-
-    /**
-     * Get models formatted for settings dropdown
-     *
-     * @return array Model options formatted as id => name
-     */
-    public static function get_model_options() {
-        $models = self::get_models();
-        $options = [];
-
-        foreach ($models as $model_id => $model_config) {
-            // Validate model config is an array with required keys
-            if (!is_array($model_config) || !isset($model_config['name'])) {
-                continue;
-            }
-            $options[$model_id] = $model_config['name'];
-        }
-
-        return $options;
-    }
-
-    /**
-     * Get providers formatted for settings options
-     *
-     * @return array Provider options formatted as id => name
-     */
-    public static function get_provider_options() {
-        $providers = self::get_providers();
-        $options = [];
-
-        foreach ($providers as $provider_id => $provider_config) {
-            $options[$provider_id] = $provider_config['name'];
-        }
-
-        return $options;
-    }
-
-    /**
-     * Get provider configurations with their models
-     * Useful for FormGenerator initialization
-     *
-     * @return array Provider configurations with models
-     */
-    public static function get_provider_configs() {
-        $providers = self::get_providers();
-        $models = self::get_models();
-        $configs = [];
-
-        foreach ($providers as $provider_id => $provider_config) {
-            $provider_models = [];
-
-            // Get all models for this provider
-            foreach ($models as $model_id => $model_config) {
-                // Validate model config is an array with required keys
-                if (!is_array($model_config) || !isset($model_config['provider'], $model_config['name'])) {
-                    continue;
-                }
-
-                if ($model_config['provider'] === $provider_id) {
-                    $provider_models[$model_id] = $model_config['name'];
+            $models = array_merge($cached_models['models'], $models);
+        } else {
+            // Cache empty/expired — populate it synchronously so first response includes all providers
+            $result = self::update_all_models();
+            if (true === $result) {
+                $cached_models = get_transient('pm_ai_models_cache');
+                if (is_array($cached_models) && isset($cached_models['models']) && !empty($cached_models['models'])) {
+                    $models = $cached_models['models'];
                 }
             }
-
-            $configs[$provider_id] = [
-                'name' => $provider_config['name'],
-                'endpoint' => $provider_config['endpoint'],
-                'models' => $provider_models,
-                'requires_key' => $provider_config['requires_key']
-            ];
         }
 
-        return $configs;
+        return $models;
     }
 
     /**

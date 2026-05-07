@@ -34,11 +34,20 @@ class Role_Controller {
     }
 
     public function store( WP_REST_Request $request ) {
-        // Extraction of no empty inputs and create a role
         $data = $this->extract_non_empty_values( $request );
+
+        // Prevent duplicate roles by slug
+        if ( ! empty( $data['slug'] ) ) {
+            $existing = Role::where( 'slug', $data['slug'] )->first();
+
+            if ( $existing ) {
+                $resource = new Item( $existing, new Role_Transformer );
+                return $this->get_response( $resource );
+            }
+        }
+
         $role = Role::create( $data );
 
-        // Transforming database model instance
         $resource = new Item( $role, new Role_Transformer );
 
         return $this->get_response( $resource );

@@ -2,14 +2,14 @@
 
 module.exports = function(grunt) {
     var pkg = grunt.file.readJSON('package.json');
-    
+
     var stringReplace = {
         download_link: {
-            src: ['config/app.php'],             // source files array (supports minimatch)
-            dest: 'config/app.php',             // destination directory or file
+            src: ['config/app.php'],
+            dest: 'config/app.php',
             replacements: [
                 {
-                    from: '{github-download-version}',                   // string replacement
+                    from: '{github-download-version}',
                     to:'v' + pkg.version
                 },
             ]
@@ -30,16 +30,38 @@ module.exports = function(grunt) {
                     '!node_modules/**',
                     '!build/**',
                     '!tests/**',
+                    '!tests/e2e-playwright/**',
+                    '!playwright-report/**',
+                    '!test-results/**',
+                    '!setup/**',
+                    '!parallel-one/**',
+                    '!parallel-two/**',
                     '!bin/**',
                     '!.git/**',
                     '!Gruntfile.js',
                     '!package.json',
                     '!package-lock.json',
+                    '!pnpm-lock.yaml',
+                    '!.npmrc',
                     '!phpcs.ruleset.xml',
                     '!phpunit.xml.dist',
                     '!webpack.config.js',
+                    '!tailwind.config.js',
+                    '!postcss.config.js',
+                    '!jsconfig.json',
+                    '!components.json',
                     '!tmp/**',
                     '!views/assets/src/**',
+                    '!views/assets/vendor/vue/**',
+                    '!views/assets/vendor/vue-fullscreen/**',
+                    '!views/assets/vendor/v-tooltip/**',
+                    '!views/assets/vendor/v-autocomplete/**',
+                    '!views/assets/vendor/vue-multiselect/**',
+                    '!views/assets/css/v-tooltip/**',
+                    '!views/assets/css/v-autocomplete/**',
+                    '!views/assets/css/vue-multiselect/**',
+                    '!views/assets/js/**',
+                    '!views/assets/dist/*.map',
                     '!src/Pusher/webpack.config.js',
                     '!src/Pusher/views/assets/src/**',
                     '!debug.log',
@@ -51,13 +73,10 @@ module.exports = function(grunt) {
                     '!npm-debug.log',
                     '!plugin-deploy.sh',
                     '!readme.md',
-                    // '!composer.json', included intentionally due to wp.org repo rules
-                    // '!composer.lock', included intentionally due to wp.org repo rules
                     '!composer.phar',
                     '!secret.json',
                     '!codeception.yml',
                     '!assets/less/**',
-                    '!tests/**',
                     '!**/Gruntfile.js',
                     '!**/package.json',
                     '!**/README.md',
@@ -65,20 +84,20 @@ module.exports = function(grunt) {
                     '!nbproject',
                     '!phpcs-report.txt',
                     '!phpcs.xml.dist',
-                    '!phpcs.xml.dist',
                     '!pm.sublime-project',
                     '!pm.sublime-workspace',
                     '!postman_collection.json',
                     '!views/assets/css/Single Task Page.json',
                     '!views/assets/vendor/wp-hooks/wp-hooks.js',
                     '!**/*~',
+                    '!*.bak',
                     '!/vendor/doctrine/deprecations/src/PHPUnit'
                 ],
                 dest: 'build/'
             }
         },
 
-        //Compress build directory into <name>.zip and <name>-<version>.zip
+        // Compress build directory into zip
         compress: {
             main: {
                 options: {
@@ -109,42 +128,36 @@ module.exports = function(grunt) {
         run: {
             options: {},
 
-            reset:{
-                cmd: 'npm',
+            build: {
+                cmd: 'pnpm',
                 args: ['run', 'build']
             },
 
-            makepot:{
-                cmd: 'npm',
-                args: ['run', 'makepot']
-            },
-
-            removeDev:{
+            removeDev: {
                 cmd: 'composer',
                 args: ['install', '--no-dev']
             },
 
-            dumpautoload:{
+            dumpautoload: {
                 cmd: 'composer',
                 args: ['dumpautoload', '-o']
             },
 
-            composerInstall:{
+            composerInstall: {
                 cmd: 'composer',
                 args: ['install']
             },
 
+            makepot: {
+                cmd: 'wp',
+                args: ['i18n', 'make-pot', '.', 'languages/wedevs-project-manager.pot', '--exclude=node_modules,build,tests,views/assets/src']
+            },
         }
     });
 
-    // Load NPM tasks to be used here
-    grunt.loadNpmTasks( 'grunt-contrib-less' );
-    grunt.loadNpmTasks( 'grunt-contrib-concat' );
-    grunt.loadNpmTasks( 'grunt-contrib-jshint' );
+    // Load NPM tasks
     grunt.loadNpmTasks( 'grunt-wp-i18n' );
     grunt.loadNpmTasks( 'grunt-text-replace' );
-    //grunt.loadNpmTasks( 'grunt-contrib-uglify' );
-    grunt.loadNpmTasks( 'grunt-contrib-watch' );
     grunt.loadNpmTasks( 'grunt-contrib-clean' );
     grunt.loadNpmTasks( 'grunt-contrib-copy' );
     grunt.loadNpmTasks( 'grunt-contrib-compress' );
@@ -152,7 +165,7 @@ module.exports = function(grunt) {
 
     grunt.registerTask( 'release', [
         'clean',
-        'run:reset',
+        'run:build',
         'run:makepot',
         'run:removeDev',
         'run:dumpautoload',

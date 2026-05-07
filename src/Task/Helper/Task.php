@@ -2,6 +2,7 @@
 namespace WeDevs\PM\Task\Helper;
 
 use WP_REST_Request;
+use WeDevs\PM\User\Helper\Avatar;
 
 // data: {
 // 	with: 'assignees,categories, total_comments, task_type',
@@ -117,8 +118,8 @@ class Task {
         foreach ( $tasks['data'] as $key => $result ) {
 	        $csv_data[] = [
 				$result['title'],
-				$result['task_list']->title,
-				$result['project']->title,
+				html_entity_decode( (string) $result['task_list']->title, ENT_QUOTES, 'UTF-8' ),
+				html_entity_decode( (string) $result['project']->title, ENT_QUOTES, 'UTF-8' ),
 				$result['due_date'],
 				$result['created_at'],
 			];
@@ -214,7 +215,7 @@ class Task {
 
 		$items = [
 			'id'                    => (int) $task->id,
-			'title'                 => (string) $task->title,
+			'title'                 => html_entity_decode( (string) $task->title, ENT_QUOTES, 'UTF-8' ),
 			'description'           => [ 'html' => wedevs_pm_get_content( $task->description ), 'content' => $task->description ],
 			'estimation'            => $task->estimation * 60,
 			'comparable_estimation' => $task->comparable_estimation,
@@ -307,12 +308,12 @@ class Task {
 		
 		$items['id']           = (int) $task->id;
 		$items['project_id']   = (int) $task->project_id;
-		$items['project_title']   = $task->project_title;
+		$items['project_title']   = html_entity_decode( (string) $task->project_title, ENT_QUOTES, 'UTF-8' );
 		$items['type']         = $task->type;
 		$items['order']        = $task->order;
 		$items['assignees']    = $task->assignees;
 		$items['task_list_id'] = (int) $task->task_list_id;
-		$items['task_list_title'] = $task->task_list_title;
+		$items['task_list_title'] = html_entity_decode( (string) $task->task_list_title, ENT_QUOTES, 'UTF-8' );
 		
 		if ( isset( $task->is_stop_watch_visible ) ) {
 			$items['is_stop_watch_visible'] = $task->is_stop_watch_visible;
@@ -354,7 +355,7 @@ class Task {
 			'display_name'      => $user->display_name,
 			'manage_capability' => (int) wedevs_pm_has_manage_capability($user->ID),
 			'create_capability' => (int) wedevs_pm_has_project_create_capability($user->ID),
-			'avatar_url'        => get_avatar_url( $user->user_email ),
+			'avatar_url'        => Avatar::get_url( $user->ID ),
 			'github'            => get_user_meta($user->ID,'github' ,true),
 			'bitbucket'         => get_user_meta($user->ID,'bitbucket', true)
         ];
@@ -1071,7 +1072,7 @@ class Task {
 			$task_id = $result->task_id;
 			unset( $result->task_id );
 			
-			$result->avatar_url = get_avatar_url( $result->id );
+			$result->avatar_url = Avatar::get_url( $result->id );
 
 			$users[$task_id][] = $result;
 		}
@@ -1243,6 +1244,7 @@ class Task {
 			->where_start_at()
 			->where_due_date()
 			->where_completed_at()
+			->where_created_at()
 			->where_project_id()
 			->where_users()
 			->where_lists()
@@ -1335,8 +1337,7 @@ class Task {
 		$tb_asin = wedevs_pm_tb_prefix() . 'pm_assignees';
 
 		if ( $is_user_null ) {
-			$this->join .= " LEFT JOIN {$tb_asin} ON $tb_asin.task_id={$this->tb_tasks}.id";
-			$this->where .= $wpdb->prepare( " AND ( $tb_asin.assigned_to IN ($format) OR $tb_asin.assigned_to is null ) ) ", $users );
+			$this->where .= " AND NOT EXISTS ( SELECT 1 FROM {$tb_asin} WHERE {$tb_asin}.task_id = {$this->tb_tasks}.id )";
 		} else {
 			$this->join .= " LEFT JOIN {$tb_asin} ON $tb_asin.task_id={$this->tb_tasks}.id";
 			$this->where .= $wpdb->prepare( " AND $tb_asin.assigned_to IN ($format)", $users );
@@ -1568,6 +1569,35 @@ class Task {
 	
 		if ( ! empty( $q ) ) {
 			$this->where .= " AND ( $q ) ";
+		}
+
+		return $this;
+	}
+
+	private function where_created_at() {
+		global $wpdb;
+
+		$created_at         = !empty( $this->query_params['created_at'] ) ? $this->query_params['created_at'] : false;
+		$created_at_start   = !empty( $this->query_params['created_at_start'] ) ? $this->query_params['created_at_start'] : false;
+		$created_at_between = !isset( $this->query_params['created_at_between'] ) ? true : wedevs_pm_is_true( $this->query_params['created_at_between'] );
+
+		if ( $created_at === false ) {
+			return $this;
+		}
+
+		if ( $created_at_start ) {
+			$ca_start = gmdate( 'Y-m-d', strtotime( $created_at_start ) );
+			$ca_end   = gmdate( 'Y-m-d', strtotime( $created_at ) );
+
+			if ( $created_at_between ) {
+				$query = $wpdb->prepare( " DATE({$this->tb_tasks}.created_at) BETWEEN %s AND %s ", $ca_start, $ca_end );
+			} else {
+				$query = $wpdb->prepare( " DATE({$this->tb_tasks}.created_at) NOT BETWEEN %s AND %s ", $ca_start, $ca_end );
+			}
+
+			$this->where .= " AND ( $query ) ";
+
+			return $this;
 		}
 
 		return $this;
@@ -1858,7 +1888,7 @@ class Task {
 		);
 
 		// If task has not boardable_id mean no list
-		if ( $id && ! $more_tasks_request ) {
+		if ( $id && ! is_array( $id ) && ! $more_tasks_request ) {
 			foreach ( $results as $key => $result ) {
 				if( $result->id == $id ) {
 					$tasks[] = $result;
