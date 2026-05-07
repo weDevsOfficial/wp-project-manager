@@ -1,5 +1,5 @@
-import React, { useEffect, useCallback, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect, useCallback, useState, useRef } from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '@store/index'
 import { closeTaskSheet, fetchTask, updateTask, changeTaskStatus, addTaskComment, updateTaskComment, deleteTaskComment, deleteTask } from '@store/tasksSlice'
 import { toggleTaskInList, removeTaskFromList } from '@store/taskListsSlice'
@@ -91,7 +91,9 @@ function extractMentionedUsers(html) {
 export default function TaskDetailSheet() {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
+  const location = useLocation()
   const api = useApi()
+  const prePathRef = useRef(null)
   const { __ } = useI18n()
   const toast = useToast()
   const [ConfirmDialog, confirm] = useConfirm()
@@ -142,6 +144,78 @@ export default function TaskDetailSheet() {
       dispatch(fetchTask({ projectId, taskId: currentTask.id }))
     }
   }, [taskSheetOpen, currentTask?.id, projectId, isProContext, dispatch])
+
+  const lastPushedPathRef = useRef(null)
+
+  useEffect(() => {
+    const taskId = currentTask?.id
+    const taskListId = currentTask?.task_list_id || currentTask?.task_list?.data?.id
+    const pid = projectId
+
+    if (!taskSheetOpen) {
+      const isOnTaskUrl = /\/tasks\/\d+$/.test(location.pathname)
+      if (prePathRef.current !== null && isOnTaskUrl) {
+        const restore = prePathRef.current
+        prePathRef.current = null
+        lastPushedPathRef.current = null
+        navigate(restore, { replace: false })
+      } else if (lastPushedPathRef.current && isOnTaskUrl) {
+        let fallback = location.pathname.replace(/\/tasks\/\d+$/, '')
+        const sprintProjectMatch = fallback.match(/^\/sprints\/projects\/\d+$/)
+        if (sprintProjectMatch) fallback = '/sprints'
+        lastPushedPathRef.current = null
+        navigate(fallback, { replace: false })
+      } else {
+        prePathRef.current = null
+        lastPushedPathRef.current = null
+      }
+      return
+    }
+
+    if (!taskId || !pid) return
+
+    const onSingleListMatch = location.pathname.match(/^\/projects\/(\d+)\/task-lists\/(\d+)(?:\/|$)/)
+    const onTaskListsOverview = /^\/projects\/(\d+)\/task-lists(?:\/|$)/.test(location.pathname) && !onSingleListMatch
+    const onKanbanMatch = location.pathname.match(/^\/projects\/(\d+)\/kanban(?:\/|$)/)
+    const onGanttMatch = location.pathname.match(/^\/projects\/(\d+)\/gantt(?:\/|$)/)
+    const onMilestonesMatch = location.pathname.match(/^\/projects\/(\d+)\/milestones(?:\/|$)/)
+    const onSprintMatch = /^\/sprints(?:\/|$)/.test(location.pathname)
+
+    let target = null
+    if (onSingleListMatch && String(onSingleListMatch[1]) === String(pid)) {
+      const urlListId = onSingleListMatch[2]
+      const useListId = (taskListId && String(taskListId) !== String(urlListId)) ? taskListId : urlListId
+      target = `/projects/${pid}/task-lists/${useListId}/tasks/${taskId}`
+    } else if (onTaskListsOverview) {
+      target = `/projects/${pid}/task-lists/tasks/${taskId}`
+    } else if (onKanbanMatch && String(onKanbanMatch[1]) === String(pid)) {
+      target = `/projects/${pid}/kanban/tasks/${taskId}`
+    } else if (onGanttMatch && String(onGanttMatch[1]) === String(pid)) {
+      target = `/projects/${pid}/gantt/tasks/${taskId}`
+    } else if (onMilestonesMatch && String(onMilestonesMatch[1]) === String(pid)) {
+      target = `/projects/${pid}/milestones/tasks/${taskId}`
+    } else if (onSprintMatch) {
+      target = `/sprints/projects/${pid}/tasks/${taskId}`
+    }
+
+    if (!target) return
+
+    if (location.pathname === target) {
+      lastPushedPathRef.current = target
+      return
+    }
+
+    if (lastPushedPathRef.current && location.pathname !== lastPushedPathRef.current) {
+      dispatch(closeTaskSheet())
+      return
+    }
+
+    if (prePathRef.current === null) {
+      prePathRef.current = location.pathname + location.search
+    }
+    lastPushedPathRef.current = target
+    navigate(target, { replace: false })
+  }, [taskSheetOpen, currentTask?.id, currentTask?.task_list_id, projectId, location.pathname, location.search, navigate, dispatch])
 
 
   const assignees = currentTask
@@ -346,7 +420,12 @@ export default function TaskDetailSheet() {
   }, [dispatch, projectId, currentTask, toast, __, confirm])
 
   const handleCopyLink = useCallback(async () => {
-    const url = `${window.location.origin}${window.location.pathname}${window.location.search}#/projects/${projectId}/task-lists/${currentTask?.task_list_id}/tasks/${currentTask?.id}`
+    const listId = currentTask?.task_list_id || currentTask?.task_list?.data?.id
+    const taskId = currentTask?.id
+    const hashPath = listId
+      ? `#/projects/${projectId}/task-lists/${listId}/tasks/${taskId}`
+      : `#/projects/${projectId}/task-lists/tasks/${taskId}`
+    const url = `${window.location.origin}${window.location.pathname}${window.location.search}${hashPath}`
     try {
       await navigator.clipboard.writeText(url)
       toast.success(__('Link copied'))

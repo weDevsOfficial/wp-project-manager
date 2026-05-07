@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 import * as ReactRedux from 'react-redux'
 import * as ReactRouterDom from 'react-router-dom'
 import * as ReduxToolkit from '@reduxjs/toolkit'
-import { HashRouter, Routes, Route, Navigate, useParams, useNavigate } from 'react-router-dom'
+import { HashRouter, Routes, Route, Navigate, useParams } from 'react-router-dom'
 import * as SonnerLib from 'sonner'
 const { Toaster } = SonnerLib
 import { store, injectReducer, resetProjectState } from '@store/index'
@@ -66,35 +66,16 @@ function FilteredPage({ filterName, fallback: Fallback }) {
   return <Fallback />
 }
 
-function TaskDeepLink() {
-  const { projectId, listId, taskId } = useParams()
-  const navigate = useNavigate()
+function TaskDeepLinkOpener() {
+  const { projectId, taskId } = useParams()
   useEffect(() => {
+    const state = store.getState()
+    if (state.tasks?.taskSheetOpen && String(state.tasks?.currentTask?.id) === String(taskId)) return
     store.dispatch(fetchTask({ projectId, taskId })).then((action) => {
       const task = action.payload
       if (task) store.dispatch(openTaskSheet(task))
     })
-    navigate(`/projects/${projectId}/task-lists/${listId}`, { replace: true })
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
-  return null
-}
-
-// Handles legacy global-search URLs: #/projects/:projectId/task-lists/tasks/:taskId (no listId)
-function TaskDeepLinkNoList() {
-  const { projectId, taskId } = useParams()
-  const navigate = useNavigate()
-  useEffect(() => {
-    store.dispatch(fetchTask({ projectId, taskId })).then((action) => {
-      const task = action.payload
-      if (task) {
-        const listId = task.task_list_id
-        store.dispatch(openTaskSheet(task))
-        navigate(`/projects/${projectId}/task-lists/${listId}`, { replace: true })
-      } else {
-        navigate(`/projects/${projectId}/task-lists`, { replace: true })
-      }
-    })
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [projectId, taskId])
   return null
 }
 
@@ -111,13 +92,14 @@ function AppRoutes() {
         <Route index element={<Navigate to="/projects" replace />} />
         <Route path="projects" element={<ProjectsPage />} />
         <Route path="projects/:projectId/task-lists" element={<ProjectRoute><TaskListsPage /></ProjectRoute>} />
-        <Route path="projects/:projectId/task-lists/tasks/:taskId" element={<ProjectRoute><TaskDeepLinkNoList /></ProjectRoute>} />
+        <Route path="projects/:projectId/task-lists/tasks/:taskId" element={<ProjectRoute><TaskListsPage /><TaskDeepLinkOpener /></ProjectRoute>} />
         <Route path="projects/:projectId/task-lists/:listId" element={<ProjectRoute><SingleTaskListPage /></ProjectRoute>} />
-        <Route path="projects/:projectId/task-lists/:listId/tasks/:taskId" element={<ProjectRoute><TaskDeepLink /></ProjectRoute>} />
+        <Route path="projects/:projectId/task-lists/:listId/tasks/:taskId" element={<ProjectRoute><SingleTaskListPage /><TaskDeepLinkOpener /></ProjectRoute>} />
         <Route path="projects/:projectId/overview" element={<ProjectRoute><ProjectOverview /></ProjectRoute>} />
         <Route path="projects/:projectId/discussions" element={<ProjectRoute><DiscussionsPage /></ProjectRoute>} />
         <Route path="projects/:projectId/discussions/:discussionId" element={<ProjectRoute><DiscussionDetailPage /></ProjectRoute>} />
         <Route path="projects/:projectId/milestones" element={<ProjectRoute><MilestonesPage /></ProjectRoute>} />
+        <Route path="projects/:projectId/milestones/tasks/:taskId" element={<ProjectRoute><MilestonesPage /><TaskDeepLinkOpener /></ProjectRoute>} />
         <Route path="projects/:projectId/files" element={<ProjectRoute><FilteredPage filterName="route.files.element" fallback={FilesPage} /></ProjectRoute>} />
         <Route path="projects/:projectId/activities" element={<ProjectRoute><ActivitiesPage /></ProjectRoute>} />
         <Route path="my-tasks" element={<MyTasksPage />} />
