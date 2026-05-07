@@ -235,6 +235,12 @@ const tasksSlice = createSlice({
     builder.addCase(fetchTask.pending, (state) => { state.loading = true })
     builder.addCase(fetchTask.fulfilled, (state, action) => {
       state.loading = false
+      const incomingId = action.payload?.id
+      const currentId = state.currentTask?.id
+      // Drop late responses for tasks the user has navigated away from.
+      // Without this guard, slow servers can deliver task A's response after
+      // the user opens task B, overwriting B and causing a re-fetch ping-pong.
+      if (currentId == null || String(currentId) !== String(incomingId)) return
       state.currentTask = action.payload
       state.taskComments = action.payload?.comments?.data ?? []
     })
