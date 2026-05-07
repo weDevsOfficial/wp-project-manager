@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react'
 import { useAppDispatch, useAppSelector } from '@store/index'
 import {
-  loadAiSettings, saveAiSettings, testAiConnection,
+  loadAiSettings, saveAiSettings, testAiConnection, revealAiApiKey,
   setAiProvider, setAiModel, setAiMaxTokens, setAiTemperature,
 } from '@store/settingsSlice'
 import { useI18n } from '@hooks/useI18n'
@@ -35,7 +35,28 @@ const AiSettingsTab = () => {
   const [isDirty, setIsDirty] = useState(false)
   const [showKey, setShowKey] = useState(false)
   const [editingKey, setEditingKey] = useState(false)
+  const [revealing, setRevealing] = useState(false)
   const pendingLoadRef = useRef(null)
+
+  const handleToggleShow = useCallback(async () => {
+    if (showKey) {
+      setShowKey(false)
+      return
+    }
+    if (!aiApiState.api_key) {
+      setRevealing(true)
+      try {
+        await dispatch(revealAiApiKey({ provider: ai.ai_provider })).unwrap()
+        setShowKey(true)
+      } catch (err) {
+        toast.error(err ?? __('Failed to reveal API key', 'wedevs-project-manager'))
+      } finally {
+        setRevealing(false)
+      }
+    } else {
+      setShowKey(true)
+    }
+  }, [showKey, aiApiState.api_key, ai.ai_provider, dispatch, toast, __])
 
   const dispatchLoadAiSettings = useCallback((args) => {
     if (pendingLoadRef.current) pendingLoadRef.current.abort()
@@ -149,17 +170,18 @@ const AiSettingsTab = () => {
                 <>
                   <div className="flex items-center gap-2">
                     <div className="flex items-center h-9 w-56 rounded-md border border-pm-border bg-pm-surface px-3 text-sm select-none overflow-hidden">
-                      <span className="truncate">{showKey ? aiApiState.api_key : '••••••••••••••••••••••••'}</span>
+                      <span className="truncate">{showKey && aiApiState.api_key ? aiApiState.api_key : '••••••••••••••••••••••••'}</span>
                     </div>
                     <Button
                       type="button"
                       variant="outline"
                       size="icon"
                       className="h-9 w-9 shrink-0"
-                      onClick={() => setShowKey(v => !v)}
+                      onClick={handleToggleShow}
+                      disabled={revealing}
                       title={showKey ? __('Hide API Key', 'wedevs-project-manager') : __('Show API Key', 'wedevs-project-manager')}
                     >
-                      {showKey ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                      {revealing ? <Loader2 className="h-4 w-4 animate-spin" /> : (showKey ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />)}
                     </Button>
                     <Button
                       type="button"

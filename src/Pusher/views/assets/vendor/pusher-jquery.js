@@ -32,7 +32,7 @@
             if(!this.pusher) {
                 return this;
             }
-            this.channel = this.pusher.subscribe(PM_Pusher_Vars.channel+'-'+PM_Pusher_Vars.user_id);
+            this.channel = this.pusher.subscribe(PM_Pusher_Vars.channel);
 
             return this;
         }

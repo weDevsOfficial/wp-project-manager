@@ -1,8 +1,13 @@
 <?php
 
-function wedevs_pm_pusher_channel() {
+function wedevs_pm_pusher_channel( $user_id = null ) {
 
-    return 'private-wp-project-manager';
+    if ( $user_id === null ) {
+        $user_id = get_current_user_id();
+    }
+
+    // Pusher requires the `private-` prefix for authenticated channels.
+    return 'private-wp-project-manager-' . absint( $user_id );
 }
 
 function wedevs_pm_pusher_events() {

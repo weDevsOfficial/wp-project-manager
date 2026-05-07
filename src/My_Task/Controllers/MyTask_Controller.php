@@ -738,11 +738,28 @@ class MyTask_Controller {
     // }
 
     public function assigned_users ( ?WP_REST_Request $request = null ) {
-        $project_id = $request ? intval( $request->get_param( 'project_id' ) ) : 0;
-        $query      = User_Role::select('user_id');
-        if ( $project_id ) {
-            $query->where( 'project_id', $project_id );
+        $project_id  = $request ? intval( $request->get_param( 'project_id' ) ) : 0;
+        $current_user = get_current_user_id();
+
+        if ( ! $current_user ) {
+            return new \WP_Error( 'permission_denied', __( 'You have no permission to access this project.', 'wedevs-project-manager' ), [ 'status' => 403 ] );
         }
+
+        $is_manager = wedevs_pm_user_can_access( wedevs_pm_manager_cap_slug() );
+
+        $query = User_Role::select( 'user_id' );
+
+        if ( $project_id ) {
+            // Non-managers must be a member of the requested project.
+            if ( ! $is_manager && ! User_Role::where( 'user_id', $current_user )->where( 'project_id', $project_id )->exists() ) {
+                return new \WP_Error( 'permission_denied', __( 'You have no permission to access this project.', 'wedevs-project-manager' ), [ 'status' => 403 ] );
+            }
+            $query->where( 'project_id', $project_id );
+        } elseif ( ! $is_manager ) {
+            // Limit to projects the caller belongs to.
+            $query->whereIn( 'project_id', User_Role::where( 'user_id', $current_user )->pluck( 'project_id' ) );
+        }
+
         $roles    = $query->get()->toArray();
         $user_ids = array_unique( wp_list_pluck( $roles, 'user_id' ) );
         $users    = User::find($user_ids);

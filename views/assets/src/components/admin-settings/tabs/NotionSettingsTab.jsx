@@ -35,15 +35,37 @@ const NotionSettingsTab = () => {
   const [loading, setLoading]               = useState(true)
   const [connStatus, setConnStatus]         = useState('untested')
   const [connError, setConnError]           = useState('')
+  const [revealing, setRevealing]           = useState(false)
+
+  const handleToggleShow = useCallback(async () => {
+    if (showToken) {
+      setShowToken(false)
+      return
+    }
+    if (!maskedToken || maskedToken.startsWith('•')) {
+      setRevealing(true)
+      try {
+        const res = await api.post('settings/reveal', { key: 'notion_access_token' })
+        setMaskedToken(res?.value || '')
+        setShowToken(true)
+      } catch (err) {
+        toast.error(err?.message ?? __('Failed to reveal token', 'wedevs-project-manager'))
+      } finally {
+        setRevealing(false)
+      }
+    } else {
+      setShowToken(true)
+    }
+  }, [showToken, maskedToken, api, toast, __])
 
   useEffect(() => {
     const load = async () => {
       try {
         const tokenRes = await api.get('settings', { key: 'notion_access_token' })
         const tokenVal = tokenRes?.data?.[0]?.value ?? tokenRes?.value ?? PM_Vars?.settings?.notion_access_token
-        if (tokenVal && typeof tokenVal === 'string' && tokenVal.length > 1) {
-          setMaskedToken('••••••••••••')
+        if (tokenVal === true || (typeof tokenVal === 'string' && tokenVal.length > 1)) {
           setTokenSaved(true)
+          setMaskedToken('••••••••••••')
         }
         const prevRes = await api.get('settings', { key: 'notion_enable_previews' })
         const prevVal = prevRes?.data?.[0]?.value ?? prevRes?.value ?? PM_Vars?.settings?.notion_enable_previews
@@ -157,11 +179,11 @@ const NotionSettingsTab = () => {
             </p>
           </div>
           <div className="flex items-center gap-2">
-            {!editingToken && maskedToken ? (
+            {!editingToken && tokenSaved ? (
               <>
-                <Input type={showToken ? 'text' : 'password'} value={maskedToken} readOnly className="w-56" />
-                <Button type="button" variant="outline" size="icon" className="h-9 w-9 shrink-0" onClick={() => setShowToken(!showToken)}>
-                  {showToken ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                <Input type={showToken ? 'text' : 'password'} value={showToken ? maskedToken : '••••••••••••'} readOnly className="w-56" />
+                <Button type="button" variant="outline" size="icon" className="h-9 w-9 shrink-0" onClick={handleToggleShow} disabled={revealing}>
+                  {revealing ? <Loader2 className="h-4 w-4 animate-spin" /> : (showToken ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />)}
                 </Button>
                 <Button type="button" variant="outline" size="sm" className="h-9 shrink-0" onClick={() => { setEditingToken(true); markDirty() }}>
                   {__('Change', 'wedevs-project-manager')}

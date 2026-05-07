@@ -105,30 +105,35 @@ class User_Controller {
     }
 
     public function search( WP_REST_Request $request ) {
-        $query_string = $request->get_param( 'query' );
+        $query_string = (string) $request->get_param( 'query' );
         $limit        = $request->get_param( 'limit' );
         $term         = $request->get_param( 'term');
-        
-        $users = User::where( 'user_login', 'LIKE', '%' . $query_string . '%' )
-            ->orWhere( 'user_nicename', 'LIKE', '%' . $query_string . '%' )
-            ->orWhere( 'user_email', 'LIKE', '%' . $query_string . '%' )
-            ->orWhere( 'user_url', 'LIKE', '%' . $query_string . '%')
-            ->orWhere( 'display_name', 'LIKE', '%' . $query_string . '%' )
-            ->multisite();
-        
-        if ( $limit ) {
-            $users =  $users->limit( intval( $limit ) )->get();
-        } else {
-            $users =  $users->get();
+
+        // Min query length: avoid bulk-dumping the user table via short LIKE patterns.
+        if ( strlen( trim( $query_string ) ) < 2 ) {
+            $resource = new Collection( [], new User_Transformer );
+            return $this->get_response( $resource );
         }
 
+        // Cap result count to limit email/PII harvesting per request.
+        $limit = min( intval( $limit ) ?: 20, 50 );
 
+        // Only privileged users (admins / project managers) may LIKE-match against email,
+        // so an Authentic-only user cannot enumerate accounts by email substring.
+        $can_search_email = current_user_can( 'list_users' )
+            || current_user_can( 'pm_manage_capability' );
 
-//        $user_collection = $users->getCollection();
-//        $resource = new Collection( $user_collection, new User_Transformer );
+        $users = User::where( 'user_login', 'LIKE', '%' . $query_string . '%' )
+            ->orWhere( 'user_nicename', 'LIKE', '%' . $query_string . '%' )
+            ->orWhere( 'display_name', 'LIKE', '%' . $query_string . '%' );
+
+        if ( $can_search_email ) {
+            $users = $users->orWhere( 'user_email', 'LIKE', '%' . $query_string . '%' );
+        }
+
+        $users = $users->multisite()->limit( $limit )->get();
+
         $resource = new Collection( $users, new User_Transformer );
-
-//        $resource->setPaginator( new IlluminatePaginatorAdapter( $users ) );
 
         return $this->get_response( $resource );
     }

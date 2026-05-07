@@ -15,18 +15,14 @@ class Settings_Transformer extends TransformerAbstract {
     ];
 
     public function transform( Settings $item ) {
-        // Check if this is a hidden setting that should be masked
         $hideSettings = \WeDevs\PM\Settings\Models\Settings::$hideSettings;
         $value = $item->value;
 
-        if ( in_array( $item->key, $hideSettings ) && strpos( $item->key, 'ai_api_key_' ) !== 0 && $item->key !== 'github_access_token' && $item->key !== 'notion_access_token' ) {
-            $value = !empty( $value ) ? true : false;
-        }
-
-        // Decrypt AI API keys so the frontend receives the actual key
-        if ( strpos( $item->key, 'ai_api_key_' ) === 0 && ! empty( $value ) ) {
-            $decrypted = \WeDevs\PM\Settings\Controllers\AI_Settings_Controller::decrypt_api_key_static( $value );
-            $value = $decrypted !== '' ? $decrypted : $value;
+        // Never expose secrets in the standard settings response. Frontend
+        // gets a boolean "is set" flag for hidden keys; clear values are only
+        // available via Settings_Controller::reveal (manage_options + nonce).
+        if ( in_array( $item->key, $hideSettings, true ) ) {
+            $value = ! empty( $value );
         }
 
         return [
@@ -38,10 +34,28 @@ class Settings_Transformer extends TransformerAbstract {
     }
 
     /**
-     * Getter for defaultIncludes.
+     * Mask a secret showing first 2 + last 2 chars, max 30 chars total.
      *
-     * @return array
+     * @param string $secret
+     * @return string
      */
+    public static function mask_secret( $secret ) {
+        $secret = (string) $secret;
+        $len    = strlen( $secret );
+
+        if ( $len === 0 ) {
+            return '';
+        }
+
+        if ( $len <= 4 ) {
+            return str_repeat( '*', min( $len, 30 ) );
+        }
+
+        $masked = substr( $secret, 0, 2 ) . str_repeat( '*', 26 ) . substr( $secret, -2 );
+
+        return substr( $masked, 0, 30 );
+    }
+
     public function getDefaultIncludes()
     {
         return apply_filters( "wedevs_pm_setting_transformer_default_includes", $this->defaultIncludes );

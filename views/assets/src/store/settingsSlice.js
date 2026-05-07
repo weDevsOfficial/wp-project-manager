@@ -97,6 +97,19 @@ export const testAiConnection = createAsyncThunk(
   }
 )
 
+// Fetch clear value of a hidden setting via admin-only reveal endpoint.
+export const revealAiApiKey = createAsyncThunk(
+  'settings/revealAiApiKey',
+  async ({ provider }, { rejectWithValue }) => {
+    try {
+      const res = await api.post('settings/reveal', { key: `ai_api_key_${provider}` })
+      return { provider, value: (res && res.value) ? res.value : '' }
+    } catch (e) {
+      return rejectWithValue(e.message ?? 'Failed to reveal API key')
+    }
+  }
+)
+
 export const saveAiSettings = createAsyncThunk(
   'settings/saveAiSettings',
   async ({ ai, apiKey }, { rejectWithValue }) => {
@@ -298,10 +311,12 @@ const settingsSlice = createSlice({
               if (typeof item.key === 'string' && item.key.startsWith('ai_api_key_')) {
                 const providerToCheck = preserveProvider ? requestedProvider : state.ai.ai_provider
                 if (item.key === `ai_api_key_${providerToCheck}`) {
-                  if (item.value) {
+                  // Backend returns boolean `true` for masked saved keys; string for clear (admin reveal).
+                  if (item.value === true || (typeof item.value === 'string' && item.value)) {
                     state.aiApiState.api_key_saved = true
-                    state.aiApiState.api_key       = item.value
-                    state.aiApiState.api_key_mask  = item.value
+                    // Don't store boolean masks in api_key — leave empty until revealed.
+                    state.aiApiState.api_key       = (typeof item.value === 'string') ? item.value : ''
+                    state.aiApiState.api_key_mask  = ''
                   } else {
                     state.aiApiState.api_key_saved = false
                     state.aiApiState.api_key       = ''
@@ -333,8 +348,8 @@ const settingsSlice = createSlice({
           if (typeof item.key === 'string' && item.key.startsWith('ai_api_key_')) {
             if (item.key === `ai_api_key_${state.ai.ai_provider}` && item.value) {
               state.aiApiState.api_key_saved = true
-              state.aiApiState.api_key       = item.value
-              state.aiApiState.api_key_mask  = item.value
+              state.aiApiState.api_key       = (typeof item.value === 'string') ? item.value : ''
+              state.aiApiState.api_key_mask  = ''
             }
           } else {
             PM_Vars.settings[item.key] = item.value
@@ -343,6 +358,14 @@ const settingsSlice = createSlice({
       }
     })
     builder.addCase(saveAiSettings.rejected, (state) => { state.aiSaving = false })
+
+    // Reveal cached/clear API key for admin-only show toggle.
+    builder.addCase(revealAiApiKey.fulfilled, (state, action) => {
+      const { provider, value } = action.payload
+      if (state.ai.ai_provider === provider) {
+        state.aiApiState.api_key = value
+      }
+    })
 
     // Task Types
     builder.addCase(fetchTaskTypes.pending, (state) => { state.taskTypesLoading = true })

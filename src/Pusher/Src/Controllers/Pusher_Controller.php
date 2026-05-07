@@ -31,23 +31,30 @@ class Pusher_Controller {
 
         $channel_name = $request->get_param( 'channel_name' );
         $socket_id    = $request->get_param( 'socket_id' );
+        $user_id      = $request->get_param( 'user_id' );
 
-        if ( is_user_logged_in() ) {
-            $pusher = new Auth();
-            $auth_response = $pusher->socket_auth($channel_name, $socket_id);
-
-            // Return proper JSON response for Pusher authentication
-            // $auth_response is already JSON-encoded and validated by socket_auth() method
-            header('Content-Type: application/json');
-            // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Already JSON-encoded by Pusher library
-            echo $auth_response;
+        if ( ! is_user_logged_in() ) {
+            header( '', true, 403 );
+            echo "Forbidden";
             exit;
-
-        } else {
-          header('', true, 403);
-          echo "Forbidden";
-          exit;
         }
+
+        // Prevent IDOR: route's {user_id} segment must match the authenticated user.
+        if ( intval( $user_id ) !== get_current_user_id() ) {
+            header( '', true, 403 );
+            echo "Forbidden";
+            exit;
+        }
+
+        $pusher        = new Auth();
+        $auth_response = $pusher->socket_auth( $channel_name, $socket_id );
+
+        // Return proper JSON response for Pusher authentication
+        // $auth_response is already JSON-encoded and validated by socket_auth() method
+        header( 'Content-Type: application/json' );
+        // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Already JSON-encoded by Pusher library
+        echo $auth_response;
+        exit;
     }
 
     public function test_connection( WP_REST_Request $request ) {
@@ -55,15 +62,14 @@ class Pusher_Controller {
             wp_send_json_error( [ 'message' => __( 'Pusher credentials are missing. Save settings first.', 'wedevs-project-manager' ) ], 400 );
         }
 
-        $base_channel = wedevs_pm_pusher_channel();
-        $user_ids     = get_users( [ 'fields' => 'ID' ] );
+        $user_ids = get_users( [ 'fields' => 'ID' ] );
 
         if ( empty( $user_ids ) ) {
             wp_send_json_error( [ 'message' => __( 'No users to notify.', 'wedevs-project-manager' ) ], 400 );
         }
 
-        $channels = array_map( function ( $uid ) use ( $base_channel ) {
-            return $base_channel . '-' . $uid;
+        $channels = array_map( function ( $uid ) {
+            return wedevs_pm_pusher_channel( $uid );
         }, $user_ids );
 
         $payload = [
