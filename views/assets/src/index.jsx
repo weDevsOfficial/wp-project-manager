@@ -25,6 +25,22 @@ import { registerNavItem, useRegisteredNavItems } from '@hooks/useNavRegistry'
 import { sanitizeHtml } from '@lib/sanitize'
 import './tailwind.css'
 
+// ── i18n initialisation ─────────────────────────────────
+// Load translation strings from the JED locale data supplied by PHP via
+// wp_localize_script (PM_Vars.language.pm) into WordPress's wp.i18n system.
+// This makes wp.i18n.__() return translated strings for all React components
+// that use the useI18n() hook, honouring the .mo files in /languages.
+if (
+  typeof PM_Vars !== 'undefined' &&
+  PM_Vars.language?.pm?.locale_data?.['wedevs-project-manager'] &&
+  typeof window.wp?.i18n?.setLocaleData === 'function'
+) {
+  window.wp.i18n.setLocaleData(
+    PM_Vars.language.pm.locale_data['wedevs-project-manager'],
+    'wedevs-project-manager'
+  )
+}
+
 // ── Free pages (always loaded) ──────────────────────────
 const ProjectsPage    = React.lazy(() => import('@components/projects/ProjectsPage'))
 const SettingsPage    = React.lazy(() => import('@components/admin-settings/SettingsPage'))

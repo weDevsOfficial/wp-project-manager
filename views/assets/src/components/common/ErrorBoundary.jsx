@@ -16,7 +16,7 @@ export class ErrorBoundary extends React.Component {
 
   render() {
     if (this.state.hasError) {
-      const __ = typeof window.__ === 'function' ? window.__ : (t) => t
+      const __ = typeof window.wp?.i18n?.__ === 'function' ? window.wp.i18n.__ : (t) => t
       return (
         <div className="flex flex-col items-center justify-center min-h-[300px] text-pm-text-primary gap-3 p-8">
           <p className="text-lg font-semibold">{__('Something went wrong.')}</p>
