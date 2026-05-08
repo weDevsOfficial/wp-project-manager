@@ -16,7 +16,7 @@ Ease Project Management and Task Management using a powerful project manager wit
 ## AI-Powered Project Manager
 [Project Manager](https://wedevs.com/wp-project-manager-pro) is a feature-rich project management plugin built for WordPress users who need structured and organized workflow management.
 
-[youtube https://www.youtube.com/watch?v=GI4u8wXOxHg]
+[youtube https://www.youtube.com/watch?v=Rw769-3DZS0]
 
 Built for teams, agencies, enterprises, and freelancers, Project Manager transforms your WordPress site into a complete project management system with **Kanban Board**, **Gantt Chart**, **Task Manager**, **Milestone Tracking**, **Tasks Calendar**, and **Project Reporting** - all in one place.
 
