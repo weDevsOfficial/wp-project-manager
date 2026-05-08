@@ -236,7 +236,7 @@ $wedevs_pm_scripts = [
         'url'        => plugin_dir_url( dirname( __FILE__ ) ) . 'views/assets/dist/pm.js',
         'path'       => $wedevs_pm_view_path . '/assets/dist/pm.js',
         'dependency' => array_merge(
-            ['jquery', 'pm-config'],
+            ['jquery', 'pm-config', 'wp-i18n'],
             file_exists( plugin_dir_path( dirname( __FILE__ ) ) . 'views/assets/dist/pm.asset.php' )
                 ? ( require plugin_dir_path( dirname( __FILE__ ) ) . 'views/assets/dist/pm.asset.php' )['dependencies']
                 : ['wp-element']
