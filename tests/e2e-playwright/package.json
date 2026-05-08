@@ -1,0 +1,36 @@
+{
+  "name": "wedevs_pm_automation",
+  "version": "1.0.0",
+  "description": "End-to-end tests for weDevs Project Manager (Free)",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "CI=false pnpm exec playwright test --headed --config=playwright.config.ts",
+    "test:ci": "pnpm exec playwright test --config=playwright.config.ts",
+    "test:setup": "CI=false pnpm exec playwright test --config=playwright.setup.config.ts",
+    "test:setup:ci": "pnpm exec playwright test --config=playwright.setup.config.ts",
+    "test:parallel": "CI=false pnpm exec playwright test --config=playwright.parallel-one.config.ts; CI=false pnpm exec playwright test --config=playwright.parallel-two.config.ts",
+    "test:parallel:ci": "pnpm exec playwright test --config=playwright.parallel-one.config.ts; pnpm exec playwright test --config=playwright.parallel-two.config.ts",
+    "test:sharded": "pnpm run test:setup && pnpm run test:parallel",
+    "test:sharded:ci": "pnpm run test:setup:ci && pnpm run test:parallel:ci",
+    "install:browsers": "pnpm exec playwright install chromium",
+    "generate-summary": "node utils/generate-summary.js",
+    "sharded-summary": "node utils/sharded-summary.js"
+  },
+  "keywords": ["playwright", "e2e", "wordpress", "wedevs", "project-manager", "pm"],
+  "author": "weDevs QA",
+  "license": "MIT",
+  "devDependencies": {
+    "@faker-js/faker": "^10.1.0",
+    "@playwright/test": "^1.57.0",
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^24.10.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  },
+  "dependencies": {
+    "@wordpress/env": "^10.36.0",
+    "dotenv": "^17.2.3",
+    "js-yaml": "^4.0.9"
+  }
+}

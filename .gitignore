@@ -3,6 +3,7 @@
 /views/assets/js/
 /views/assets/css/pm-style.css
 /.idea
+.env
 .DS_Store
 .travis.yml
 npm-debug.log
@@ -21,5 +22,3 @@ phpcs-report.txt
 /views/assets/vendor/vue-fullscreen/vue-fullscreen.min.js
 wp-project-manager.zip
 /zipfile/
-
-config.bat

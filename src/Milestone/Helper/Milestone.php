@@ -112,7 +112,7 @@ class Milestone {
 		
 		$items =  [
             'id'           => (int) $milestone->id,
-            'title'        => $milestone->title,
+            'title'        => html_entity_decode( (string) $milestone->title, ENT_QUOTES, 'UTF-8' ),
             'description'  => $milestone->description,
             'order'        => (int) $milestone->order,
             'achieve_date' => wedevs_pm_format_date( $milestone->achieve_date ),

@@ -12,27 +12,29 @@ jobs:
     steps:
    
       - uses: actions/checkout@v4
-      - name: Use Node.js 12.1.0
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - name: Use Node.js 22
         uses: actions/setup-node@v4
         with:
-          node-version: 12.1.0
-      - uses: actions/checkout@master
-      - name: Npm install and build
+          node-version: 22
+          cache: 'pnpm'
+      - name: Install and build
         run: |
-          npm i
-          npm run build
-          npm run makepot
+          pnpm install --frozen-lockfile
+          pnpm run build
       - name: Use desired version of php
         uses: shivammathur/setup-php@v2
         with:
           php-version: '7.4'
-      - name: Composer install and build # Remove or modify this step as needed
+          tools: wp-cli
+      - name: Generate POT
+        run: pnpm run makepot
+      - name: Composer install and build
         run: |
-          composer install
-          composer update
-          composer dump-autoload -o
-          composer install --no-dev
-          composer dump-autoload -o
+          composer install --no-dev --optimize-autoloader
       - name: Generate zip
         uses: 10up/action-wordpress-plugin-build-zip@stable
         with:

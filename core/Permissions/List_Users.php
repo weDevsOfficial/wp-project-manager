@@ -31,6 +31,12 @@ class List_Users extends Abstract_Permission {
             return true;
         }
 
+        // Allow users to view their own profile/metadata
+        $requested_user_id = $this->request->get_param( 'id' );
+        if ( !empty( $requested_user_id ) && (int) $requested_user_id === (int) $user_id ) {
+            return true;
+        }
+
         return new \WP_Error(
             'rest_forbidden',
             __( 'You do not have permission to list users.', 'wedevs-project-manager' ),

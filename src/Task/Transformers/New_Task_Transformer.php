@@ -4,6 +4,7 @@ namespace WeDevs\PM\Task\Transformers;
 
 use League\Fractal\TransformerAbstract;
 use WeDevs\PM\Task\Models\Task;
+use WeDevs\PM\User\Helper\Avatar;
 
 class New_Task_Transformer extends TransformerAbstract {
 
@@ -18,7 +19,7 @@ class New_Task_Transformer extends TransformerAbstract {
 
         $task = [
             'id'          => (int) $item->id,
-            'title'       => $item->title,
+            'title'       => html_entity_decode( $item->title, ENT_QUOTES, 'UTF-8' ),
             'description' => [ 'html' => wedevs_pm_get_content( $item->description ), 'content' => $item->description ],
             'estimation'  => $item->estimation,
             'start_at'    => wedevs_pm_format_date( $item->start_at ),
@@ -68,7 +69,7 @@ class New_Task_Transformer extends TransformerAbstract {
             'display_name'      => $user->display_name,
             'manage_capability' => (int) wedevs_pm_has_manage_capability($user->ID),
             'create_capability' => (int) wedevs_pm_has_project_create_capability($user->ID),
-            'avatar_url'        => get_avatar_url( $user->user_email ),
+            'avatar_url'        => Avatar::get_url( $user->ID ),
         ];
 
         return $user;
@@ -167,7 +168,7 @@ class New_Task_Transformer extends TransformerAbstract {
                 'display_name'      => $user->display_name,
                 'manage_capability' => (int) wedevs_pm_has_manage_capability($user->ID),
                 'create_capability' => (int) wedevs_pm_has_project_create_capability($user->ID),
-                'avatar_url'        => get_avatar_url( $user->user_email ),
+                'avatar_url'        => Avatar::get_url( $user->ID ),
             ];
 
             

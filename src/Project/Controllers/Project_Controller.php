@@ -51,9 +51,33 @@ class Project_Controller {
 
 		$projects = $this->fetch_projects( $category, $status );
 
+		// Search by title (used by React UI search bar)
+		$title = sanitize_text_field( $request->get_param( 'title' ) );
+		if ( ! empty( $title ) ) {
+			$projects = $projects->where( wedevs_pm_tb_prefix() . 'pm_projects.title', 'LIKE', '%' . $title . '%' );
+		}
+
 		$projects = apply_filters( 'wedevs_pm_project_query', $projects, $request->get_params() );
 
-		$projects = $projects->orderBy(  wedevs_pm_tb_prefix().'pm_projects.created_at', 'DESC' );
+		$odr_prms = sanitize_text_field( $request->get_param( 'orderby' ) );
+		$order_column = 'created_at';
+		$order_dir    = 'DESC';
+
+		if ( ! empty( $odr_prms ) ) {
+			$allowed_columns = array( 'id', 'title', 'status', 'created_at', 'updated_at' );
+			$parts = explode( ':', $odr_prms );
+			$col   = isset( $parts[0] ) ? $parts[0] : '';
+			$dir   = isset( $parts[1] ) ? strtoupper( $parts[1] ) : 'DESC';
+
+			if ( in_array( $col, $allowed_columns, true ) ) {
+				$order_column = $col;
+			}
+			if ( in_array( $dir, array( 'ASC', 'DESC' ), true ) ) {
+				$order_dir = $dir;
+			}
+		}
+
+		$projects = $projects->orderBy( wedevs_pm_tb_prefix() . 'pm_projects.' . $order_column, $order_dir );
 
 		if ( -1 === intval( $per_page ) || $per_page == 'all' ) {
 			$per_page = $projects->get()->count();
@@ -491,6 +515,14 @@ class Project_Controller {
 		$max_tokens = isset( $settings['ai_max_tokens'] ) ? intval( $settings['ai_max_tokens']->value ) : 2000;
 		$temperature = isset( $settings['ai_temperature'] ) ? floatval( $settings['ai_temperature']->value ) : 0.7;
 
+		// Get model config to enforce model-specific output token limit
+		$models_config = \WeDevs\PM\Settings\Controllers\AI_Settings_Controller::get_models();
+		$model_config = isset( $models_config[ $model ] ) ? $models_config[ $model ] : null;
+
+		if ( $model_config && ! empty( $model_config['max_output_tokens'] ) ) {
+			$max_tokens = min( $max_tokens, intval( $model_config['max_output_tokens'] ) );
+		}
+
 		// Enforce token limits for safety
 		$max_tokens = max( self::MIN_MAX_TOKENS, min( self::MAX_MAX_TOKENS, $max_tokens ) );
 
@@ -614,6 +646,13 @@ class Project_Controller {
 		// Get model config
 		$models_config = \WeDevs\PM\Settings\Controllers\AI_Settings_Controller::get_models();
 		$model_config = isset( $models_config[ $model ] ) ? $models_config[ $model ] : null;
+
+		// If model not found, cache may have expired — refresh and retry
+		if ( !$model_config ) {
+			\WeDevs\PM\Settings\AI\Config::update_all_models();
+			$models_config = \WeDevs\PM\Settings\Controllers\AI_Settings_Controller::get_models();
+			$model_config = isset( $models_config[ $model ] ) ? $models_config[ $model ] : null;
+		}
 
 		// Validate model exists
 		if ( !$model_config ) {

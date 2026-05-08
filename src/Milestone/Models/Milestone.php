@@ -109,4 +109,130 @@ class Milestone extends Eloquent {
     public function project() {
         return $this->belongsTo( 'WeDevs\PM\Project\Models\Project', 'project_id' );
     }
+
+    /**
+     * Get task counts across all linked task lists.
+     * Uses direct SQL to avoid Eloquent collection type-mismatch issues.
+     * Cached per-request to avoid duplicate queries from progress/health.
+     *
+     * @return array{total: int, completed: int}
+     */
+    public function getTaskCountAttribute() {
+        if ( isset( $this->_task_count_cache ) ) {
+            return $this->_task_count_cache;
+        }
+
+        global $wpdb;
+
+        $tb_tasks      = esc_sql( wedevs_pm_tb_prefix() . 'pm_tasks' );
+        $tb_boardables = esc_sql( wedevs_pm_tb_prefix() . 'pm_boardables' );
+
+        $list_ids = $this->task_lists->pluck( 'id' )->toArray();
+
+        $list_total     = 0;
+        $list_completed = 0;
+
+        if ( ! empty( $list_ids ) ) {
+            $list_ids      = array_map( 'intval', $list_ids );
+            $placeholders  = implode( ', ', array_fill( 0, count( $list_ids ), '%d' ) );
+
+            // Count tasks linked to these lists via boardables, parent_id=0 (exclude subtasks)
+            // phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- table names are escaped above
+            $results = $wpdb->get_row(
+                $wpdb->prepare(
+                    "SELECT
+                        COUNT(*) as total,
+                        SUM( CASE WHEN t.status = 1 THEN 1 ELSE 0 END ) as completed
+                    FROM {$tb_boardables} b
+                    INNER JOIN {$tb_tasks} t ON t.id = b.boardable_id
+                    WHERE b.board_id IN ({$placeholders})
+                        AND b.board_type   = 'task_list'
+                        AND b.boardable_type = 'task'
+                        AND t.parent_id = 0",
+                    $list_ids
+                )
+            );
+            // phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
+            $list_total     = (int) ( $results->total ?? 0 );
+            $list_completed = (int) ( $results->completed ?? 0 );
+        }
+
+        // Count tasks directly linked to this milestone via boardables
+        // phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+        $direct = $wpdb->get_row(
+            $wpdb->prepare(
+                "SELECT
+                    COUNT(*) as total,
+                    SUM( CASE WHEN t.status = 1 THEN 1 ELSE 0 END ) as completed
+                FROM {$tb_boardables} b
+                INNER JOIN {$tb_tasks} t ON t.id = b.boardable_id
+                WHERE b.board_id = %d
+                    AND b.board_type     = 'milestone'
+                    AND b.boardable_type = 'task'
+                    AND t.parent_id = 0",
+                $this->id
+            )
+        );
+        // phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
+        $this->_task_count_cache = [
+            'total'     => $list_total + (int) ( $direct->total ?? 0 ),
+            'completed' => $list_completed + (int) ( $direct->completed ?? 0 ),
+        ];
+
+        return $this->_task_count_cache;
+    }
+
+    /**
+     * Computed progress percentage based on linked task list completion.
+     * Derives from task_count to avoid duplicate queries.
+     *
+     * @return int 0-100
+     */
+    public function getProgressAttribute() {
+        $counts = $this->task_count;
+
+        if ( $counts['total'] === 0 ) {
+            return 0;
+        }
+
+        return (int) round( ( $counts['completed'] / $counts['total'] ) * 100 );
+    }
+
+    /**
+     * Computed health indicator based on date proximity and progress.
+     *
+     * @return string on-track|at-risk|overdue|completed|no-date
+     */
+    public function getHealthAttribute() {
+        if ( $this->getOriginal( 'status' ) == self::COMPLETE ) {
+            return 'completed';
+        }
+
+        $achieve_date = $this->achieve_date;
+
+        if ( ! $achieve_date ) {
+            return 'no-date';
+        }
+
+        $now = Carbon::now();
+
+        if ( $achieve_date->isPast() ) {
+            return 'overdue';
+        }
+
+        $progress       = $this->progress;
+        $days_remaining = $now->diffInDays( $achieve_date, false );
+
+        if ( $days_remaining <= 3 && $progress < 80 ) {
+            return 'at-risk';
+        }
+
+        if ( $days_remaining <= 7 && $progress < 50 ) {
+            return 'at-risk';
+        }
+
+        return 'on-track';
+    }
 }

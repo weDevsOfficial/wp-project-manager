@@ -29,7 +29,7 @@ class Discussion_Board_Transformer extends TransformerAbstract {
     public function transform( Discussion_Board $item ) {
         $data = [
             'id'          => (int) $item->id,
-            'title'       => $item->title,
+            'title'       => html_entity_decode( $item->title, ENT_QUOTES, 'UTF-8' ),
             'description' => wedevs_pm_get_content( $item->description ),
             'order'       => $item->order,
             'created_at'  => wedevs_pm_format_date( $item->created_at ),

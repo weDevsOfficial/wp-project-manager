@@ -3,6 +3,7 @@ namespace WeDevs\PM\Project\Helper;
 
 use WP_REST_Request;
 use WeDevs\PM\Task_List\Helper\Task_List;
+use WeDevs\PM\User\Helper\Avatar;
 
 class Project {
 
@@ -235,7 +236,7 @@ class Project {
 		$items = [
             'id'      	      	  => (int) $project->id,
             'project_id'      	  => (int) $project->id, //need for calendar task create form
-			'title'   	  		  => isset( $project->title ) ? (string) $project->title : '',
+			'title'   	  		  => isset( $project->title ) ? html_entity_decode( (string) $project->title, ENT_QUOTES, 'UTF-8' ) : '',
 			'description' 		  => isset( $project->description ) ? [ 'html' => wedevs_pm_get_content( $project->description ), 'content' => $project->description ] : '',
 			'status'	  		  => isset( $project->status ) ? $project->status : null,
 			'budget'	  		  => isset( $project->budget ) ? $project->budget : null,
@@ -343,6 +344,7 @@ class Project {
 		// if ( $meta == 'all' ) {
 		$this->project_task_list_count();
 		$this->project_task_count();
+		$this->project_subtask_count();
 		$this->project_task_complete();
 		$this->project_incomplete_tasks();
 		$this->project_discussion_board_count();
@@ -501,10 +503,11 @@ class Project {
 
 		$results = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT DISTINCT COUNT(id) as task_count, project_id 
+				"SELECT DISTINCT COUNT(id) as task_count, project_id
 				FROM {$tb_task}
-				WHERE project_id IN ({$project_placeholders})  
+				WHERE project_id IN ({$project_placeholders})
 				AND status = %d
+				AND parent_id = 0
 				GROUP by project_id",
 				$query_data
 			)
@@ -539,10 +542,11 @@ class Project {
 
 		$results = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT DISTINCT COUNT({$tb_task}.id) as task_count, {$tb_task}.project_id 
+				"SELECT DISTINCT COUNT({$tb_task}.id) as task_count, {$tb_task}.project_id
 				FROM {$tb_task}
-				WHERE {$tb_task}.project_id IN ({$project_placeholders})  
+				WHERE {$tb_task}.project_id IN ({$project_placeholders})
 				AND {$tb_task}.status = %d
+				AND {$tb_task}.parent_id = 0
 				GROUP by {$tb_task}.project_id",
 				$query_data
 			)
@@ -604,9 +608,10 @@ class Project {
 
 		$results = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT DISTINCT COUNT(pt.id) as task_count, pt.project_id 
+				"SELECT DISTINCT COUNT(pt.id) as task_count, pt.project_id
 				FROM {$tb_task} as pt
 				WHERE pt.project_id IN ({$project_placeholders})
+				AND pt.parent_id = 0
 				GROUP by pt.project_id",
 				$project_ids_safe
 			)
@@ -620,6 +625,41 @@ class Project {
 
 		foreach ( $this->projects as $key => $project ) {
 			$project->meta['data']['total_tasks'] = empty( $metas[$project->id] ) ? 0 : $metas[$project->id];
+		}
+
+		return $this;
+	}
+
+	private function project_subtask_count() {
+
+		if ( empty( $this->project_ids ) ) {
+			return $this;
+		}
+
+		global $wpdb;
+
+		$metas          = [];
+		$tb_task        = esc_sql( wedevs_pm_tb_prefix() . 'pm_tasks' );
+		$project_ids_safe = array_map( 'absint', $this->project_ids );
+		$project_placeholders = implode( ', ', array_fill( 0, count( $project_ids_safe ), '%d' ) );
+
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT COUNT(pt.id) as task_count, pt.project_id
+				FROM {$tb_task} as pt
+				WHERE pt.project_id IN ({$project_placeholders})
+				AND pt.parent_id != 0
+				GROUP by pt.project_id",
+				$project_ids_safe
+			)
+		);
+
+		foreach ( $results as $result ) {
+			$metas[$result->project_id] = $result->task_count;
+		}
+
+		foreach ( $this->projects as $project ) {
+			$project->meta['data']['total_subtasks'] = empty( $metas[$project->id] ) ? 0 : $metas[$project->id];
 		}
 
 		return $this;
@@ -1081,10 +1121,13 @@ class Project {
 		foreach ( $results as $key => $result ) {
 			$project_id = $result->project_id;
 			unset( $result->project_id );
-			
-			$result->avatar_url = get_avatar_url( $result->id );
+
+			$result->avatar_url = Avatar::get_url( $result->id );
+			$result->username   = get_userdata( $result->id )->user_login ?? '';
+			$result->github     = get_user_meta( $result->id, 'github', true );
+			$result->bitbucket  = get_user_meta( $result->id, 'bitbucket', true );
 			$result->roles = [
-				'data' => [$this->roles($result->role_id)] 
+				'data' => [$this->roles($result->role_id)]
 			];
 
 			$users[$project_id][] = $result;

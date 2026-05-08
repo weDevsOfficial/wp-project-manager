@@ -13,7 +13,19 @@ class Activity_Transformer extends TransformerAbstract {
         'actor', 'project'
     ];
 
-    public function transform( Activity $item ) {
+    public function transform( $item ) {
+        if ( ! $item instanceof Activity ) {
+            return [
+                'id'            => 0,
+                'message'       => '',
+                'action'        => '',
+                'action_type'   => '',
+                'meta'          => [],
+                'committed_at'  => '',
+                'resource_id'   => 0,
+                'resource_type' => '',
+            ];
+        }
         if ( $item->action == 'cpm_migration' ){
             $message = $item->meta['text'];
         }else {
@@ -32,17 +44,29 @@ class Activity_Transformer extends TransformerAbstract {
         ];
     }
 
-    public function includeActor( Activity $item ) {
-        $actor = $item->actor;
-
-        return $this->item( $actor, new User_Transformer );
+    public function includeActor( $item ) {
+        if ( ! $item instanceof Activity || ! $item->actor ) {
+            return $this->null();
+        }
+        return $this->item( $item->actor, new User_Transformer );
     }
 
-    public function includeProject( Activity $item ) {
-        $project = $item->project;
+    public function includeProject( $item ) {
+        if ( ! $item instanceof Activity || ! $item->project ) {
+            return $this->null();
+        }
         $project_transformer = new Project_Transformer;
         $project_transformer = $project_transformer->setDefaultIncludes([]);
-        return $this->item ( $project, $project_transformer);
+        return $this->item( $item->project, $project_transformer );
+    }
+
+    private function decode_meta_strings( $meta ) {
+        if ( ! is_array( $meta ) ) return $meta;
+        $decoded = [];
+        foreach ( $meta as $key => $value ) {
+            $decoded[ $key ] = is_string( $value ) ? html_entity_decode( $value, ENT_QUOTES | ENT_HTML5, 'UTF-8' ) : $value;
+        }
+        return $decoded;
     }
 
     private function parse_meta( Activity $activity ) {
@@ -78,7 +102,7 @@ class Activity_Transformer extends TransformerAbstract {
                 break;
         }
 
-        return $parsed_meta;
+        return $this->decode_meta_strings( $parsed_meta );
     }
 
     private function parse_meta_for_task( Activity $activity ) {

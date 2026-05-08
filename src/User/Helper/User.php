@@ -92,7 +92,7 @@ class User {
 			'display_name'      => $user->display_name,
 			'manage_capability' => (int) wedevs_pm_has_manage_capability($user->ID),
 			'create_capability' => (int) wedevs_pm_has_project_create_capability($user->ID),
-			'avatar_url'        => get_avatar_url( $user->user_email ),
+			'avatar_url'        => Avatar::get_url( $user->ID ),
 			'github'            => get_user_meta($user->ID,'github' ,true),
 			'bitbucket'         => get_user_meta($user->ID,'bitbucket', true)
 	    ];

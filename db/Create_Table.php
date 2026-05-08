@@ -44,7 +44,7 @@ class WeDevs_PM_Create_Table {
           `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
           `title` varchar(255) NOT NULL,
           `description` text,
-          `type` varchar(255) NOT NULL,
+          `type` varchar(255) NOT NULL DEFAULT 'task',
           `status` tinyint(4) NOT NULL DEFAULT 0,
           `created_by` int(11) UNSIGNED DEFAULT NULL,
           `updated_by` int(11) UNSIGNED DEFAULT NULL,
