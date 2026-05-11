@@ -19,9 +19,6 @@
             "Task": [
                 "\u00dakol"
             ],
-            "File": [
-                "Soubory"
-            ],
             "Calendar": [
                 ""
             ],
@@ -55,9 +52,6 @@
             "Tools": [
                 ""
             ],
-            "Are you sure?": [
-                "Jste si jist(a)?"
-            ],
             "Upgrade to PRO ": [
                 ""
             ],
@@ -73,9 +67,6 @@
             "Attach": [
                 ""
             ],
-            "Discussion": [
-                "Diskuze o nedod\u011blku"
-            ],
             "Edit": [
                 "Upravit"
             ],
@@ -87,9 +78,6 @@
             ],
             "Completed": [
                 "Dokon\u010deno"
-            ],
-            "Mark Complete": [
-                "Ozna\u010dit jako spln\u011bn\u00fd"
             ],
             "Copy Link": [
                 ""
@@ -109,9 +97,6 @@
             "Description": [
                 ""
             ],
-            "Update": [
-                "Aktualizovat seznam"
-            ],
             "Activity": [
                 "Aktivita"
             ],
@@ -123,9 +108,6 @@
             ],
             "Restore": [
                 ""
-            ],
-            "Add": [
-                "Dopl\u0148ky"
             ],
             "Discussions": [
                 ""
@@ -148,9 +130,6 @@
             "by": [
                 ""
             ],
-            "No results found.": [
-                "\u017d\u00e1dn\u00ed u\u017eivatel\u00e9 nebyli nalezeni"
-            ],
             "New Task List": [
                 "Nov\u00fd seznam \u00fakol\u016f"
             ],
@@ -159,9 +138,6 @@
             ],
             "Add Task": [
                 "P\u0159idat \u00fakoly"
-            ],
-            "Move Task": [
-                "Nov\u00fd \u00fakol"
             ],
             "Make Private": [
                 ""
@@ -181,38 +157,17 @@
             "Status": [
                 ""
             ],
-            "Project": [
-                "Projekty"
-            ],
-            "Milestone": [
-                "C\u00edle"
-            ],
             "Name": [
                 ""
             ],
-            "Update Category": [
-                "Aktualizovat zpr\u00e1vu"
-            ],
-            "Post Comment": [
-                "1 koment\u00e1\u0159"
-            ],
             "Delete File": [
                 "Odstranit soubor"
-            ],
-            "Select a project": [
-                "Odstranit projekt"
             ],
             "All": [
                 ""
             ],
             "Today": [
                 ""
-            ],
-            "Loading...": [
-                "Na\u010d\u00edst dal\u0161\u00ed"
-            ],
-            "More": [
-                "Na\u010d\u00edst dal\u0161\u00ed"
             ],
             "Overview": [
                 ""
@@ -229,9 +184,6 @@
             "Provide your App Key & Token": [
                 ""
             ],
-            "Load More": [
-                "Na\u010d\u00edst dal\u0161\u00ed"
-            ],
             "My Tasks": [
                 ""
             ],
@@ -241,20 +193,11 @@
             "Overdue": [
                 ""
             ],
-            "Activity Filter": [
-                "Aktivita"
-            ],
             "Current": [
                 ""
             ],
             "Outstanding": [
                 ""
-            ],
-            "Due date": [
-                "Datum spln\u011bn\u00ed"
-            ],
-            "See More": [
-                "Na\u010d\u00edst dal\u0161\u00ed"
             ],
             "More features to unveil while": [
                 ""
@@ -264,9 +207,6 @@
             ],
             "Get Started Now": [
                 ""
-            ],
-            "Project Manager Pro": [
-                "Mana\u017eer projektu"
             ],
             "Premium Features": [
                 ""
@@ -285,9 +225,6 @@
             ],
             "Invoices": [
                 ""
-            ],
-            "Theme Color": [
-                "Vybrat v\u0161echny"
             ],
             "Currency": [
                 ""
@@ -319,17 +256,11 @@
             "Country": [
                 ""
             ],
-            "Pages": [
-                "Zpr\u00e1vy"
-            ],
             "Upload": [
                 ""
             ],
             "Daily Digest": [
                 ""
-            ],
-            "Subtasks": [
-                "\u00dakoly"
             ],
             "Pro": [
                 ""
@@ -364,9 +295,6 @@
             "Link to Docs": [
                 ""
             ],
-            "Generate": [
-                "Obecn\u00e9"
-            ],
             "Please enter a project description": [
                 ""
             ],
@@ -376,26 +304,8 @@
             "Failed to generate project. Please try again.": [
                 ""
             ],
-            "Project created successfully!": [
-                "Projekt vytvo\u0159il %s"
-            ],
-            "Failed to create project": [
-                "N\u00e1zev projektu"
-            ],
-            "Delete Selected": [
-                "Odstranit c\u00edl"
-            ],
-            "Project Name": [
-                "Mana\u017eer projektu"
-            ],
             "Saving...": [
                 ""
-            ],
-            "Project name is required": [
-                "Mana\u017eer projektu"
-            ],
-            "Search users...": [
-                "Hledat zpr\u00e1vu"
             ],
             "Update Project": [
                 "Aktualizovat projekt"
@@ -448,9 +358,6 @@
             "Incomplete": [
                 ""
             ],
-            "Task Title": [
-                "Seznam \u00fakol\u016f"
-            ],
             "Start Date": [
                 ""
             ],
@@ -463,14 +370,8 @@
             "Back to Task Lists": [
                 ""
             ],
-            "Delete List": [
-                "Odstranit c\u00edl"
-            ],
             "Pusher": [
                 ""
-            ],
-            "Pusher Settings": [
-                "Mo\u017enosti"
             ],
             "App ID": [
                 ""
@@ -483,9 +384,6 @@
             ],
             "View Full Report": [
                 ""
-            ],
-            "AI Settings": [
-                "Mo\u017enosti"
             ],
             "API Key": [
                 ""
@@ -541,9 +439,6 @@
             "Total Estimation Hours": [
                 ""
             ],
-            "Completed Task Count": [
-                "Dokon\u010deno:"
-            ],
             "Avg. Hour Per-task": [
                 ""
             ],
@@ -553,26 +448,11 @@
             "Avg. Task Per-day": [
                 ""
             ],
-            "All Projects": [
-                "Projekty"
-            ],
-            "Task Types": [
-                "\u00dakoly"
-            ],
             "Subtask Types": [
                 ""
             ],
-            "Completed At": [
-                "Dokon\u010deno"
-            ],
-            "Subtask Title": [
-                "Seznam \u00fakol\u016f"
-            ],
             "Hour": [
                 ""
-            ],
-            "Task type": [
-                "Seznam \u00fakol\u016f"
             ],
             "Est. Hour": [
                 ""
@@ -610,9 +490,6 @@
             "Import": [
                 ""
             ],
-            "Resources of Project Manager": [
-                "Mana\u017eer projektu"
-            ],
             "Upgrade to Pro": [
                 ""
             ],
@@ -630,9 +507,6 @@
             ],
             "Strikethrough": [
                 ""
-            ],
-            "Bullet List": [
-                "Odstranit c\u00edl"
             ],
             "Numbered List": [
                 ""
@@ -727,9 +601,6 @@
             "Importing...": [
                 ""
             ],
-            "Updated": [
-                "Aktualizovat seznam"
-            ],
             "Unknown": [
                 ""
             ],
@@ -751,15 +622,6 @@
             "Track all project activity and team progress in one place": [
                 ""
             ],
-            "Activities Today": [
-                "Aktivita"
-            ],
-            "Tasks Completed": [
-                "Dokon\u010deno"
-            ],
-            "Files Uploaded": [
-                "Limit velikosti pro nahr\u00e1van\u00e9 soubory"
-            ],
             "Team Progress Tracker": [
                 ""
             ],
@@ -768,9 +630,6 @@
             ],
             "Showing 9 of 250+ activities": [
                 ""
-            ],
-            "Task name": [
-                "Jm\u00e9no seznamu \u00fakol\u016f"
             ],
             "Design homepage": [
                 ""
@@ -786,9 +645,6 @@
             ],
             "Auth module": [
                 ""
-            ],
-            "Project setup": [
-                "Projekty"
             ],
             "CI\/CD pipeline": [
                 ""
@@ -807,9 +663,6 @@
             ],
             "Development": [
                 ""
-            ],
-            "Testing": [
-                "Mo\u017enosti"
             ],
             "Deployment": [
                 ""
@@ -883,17 +736,11 @@
             "Enable start date field for tasks": [
                 ""
             ],
-            "Failed to upload": [
-                "Limit velikosti pro nahr\u00e1van\u00e9 soubory"
-            ],
             "Logo uploaded": [
                 ""
             ],
             "Please select an image file": [
                 ""
-            ],
-            "Pro Settings": [
-                "Mo\u017enosti"
             ],
             "Send daily digest emails to team members": [
                 ""
@@ -943,9 +790,6 @@
             "Invoice Defaults": [
                 ""
             ],
-            "Invoice Settings": [
-                "Mo\u017enosti"
-            ],
             "Invoice settings saved": [
                 ""
             ],
@@ -987,12 +831,6 @@
             ],
             "Page settings saved": [
                 ""
-            ],
-            "Project Page": [
-                "Mana\u017eer projektu"
-            ],
-            "Select a page...": [
-                "Vybrat v\u0161echny"
             ],
             "Select the page where Project Manager will be displayed on the front-end": [
                 ""
@@ -1042,9 +880,6 @@
             "Recent": [
                 ""
             ],
-            "Views": [
-                "Zobrazit \u00fakol"
-            ],
             "Workspace": [
                 ""
             ],
@@ -1060,12 +895,6 @@
             "Plugin sidebar": [
                 ""
             ],
-            "Search projects and tasks...": [
-                "Hledat projekt"
-            ],
-            "Search...": [
-                "Hledat \u00fakol"
-            ],
             "Share your idea": [
                 ""
             ],
@@ -1075,12 +904,6 @@
             "WordPress sidebar": [
                 ""
             ],
-            "Activity Trend": [
-                "Aktivita"
-            ],
-            "Add a description (optional)": [
-                "Podrobnosti o c\u00edli (nepovinn\u00e9)"
-            ],
             "At a Glance": [
                 ""
             ],
@@ -1089,9 +912,6 @@
             ],
             "Due Date \u2193": [
                 ""
-            ],
-            "Enter task title": [
-                "Vlo\u017ete n\u00e1zev zpr\u00e1vy"
             ],
             "Failed to update task": [
                 ""
@@ -1114,12 +934,6 @@
             "Oldest": [
                 ""
             ],
-            "Search by Task Title": [
-                "Hledat seznam \u00fakol\u016f"
-            ],
-            "Select a list": [
-                "Vybrat v\u0161echny"
-            ],
             "Select date range and click Run Report.": [
                 ""
             ],
@@ -1128,9 +942,6 @@
             ],
             "Interactive Calendar": [
                 ""
-            ],
-            "Add Category": [
-                "Vytvo\u0159it zpr\u00e1vu"
             ],
             "Categories deleted": [
                 ""
@@ -1147,20 +958,11 @@
             "Category updated": [
                 ""
             ],
-            "Create Category": [
-                "Aktualizovat zpr\u00e1vu"
-            ],
             "Create categories to organize your projects.": [
                 ""
             ],
             "Delete selected categories?": [
                 ""
-            ],
-            "Edit Category": [
-                "Aktualizovat zpr\u00e1vu"
-            ],
-            "Failed to create category": [
-                "Aktualizovat zpr\u00e1vu"
             ],
             "Failed to delete categories": [
                 ""
@@ -1168,20 +970,8 @@
             "Failed to delete category": [
                 ""
             ],
-            "Failed to update category": [
-                "Aktualizovat zpr\u00e1vu"
-            ],
             "No categories yet": [
                 ""
-            ],
-            "Discussion created": [
-                "Diskuze o nedod\u011blku"
-            ],
-            "Discussion deleted": [
-                "Diskuze o nedod\u011blku"
-            ],
-            "Discussion updated": [
-                "Diskuze o nedod\u011blku"
             ],
             "Failed to create discussion": [
                 ""
@@ -1192,20 +982,11 @@
             "No discussions yet": [
                 ""
             ],
-            "Start a conversation about this project.": [
-                "Vytvo\u0159it nov\u00fd projekt"
-            ],
-            "Discussion Comment": [
-                "%s koment\u00e1\u0159"
-            ],
             "File deleted": [
                 ""
             ],
             "Files attached to tasks, discussions, and comments will appear here.": [
                 ""
-            ],
-            "Task Comment": [
-                "1 koment\u00e1\u0159"
             ],
             "Uploading...": [
                 ""
@@ -1246,21 +1027,6 @@
             "At Risk": [
                 ""
             ],
-            "Create Milestone": [
-                "Posledn\u00ed c\u00edle"
-            ],
-            "Create a new milestone": [
-                "Vytvo\u0159it novou zpr\u00e1vu"
-            ],
-            "Create your first milestone": [
-                "Odstranit c\u00edl"
-            ],
-            "Edit an existing milestone": [
-                "Upravit c\u00edl"
-            ],
-            "Failed to create milestone": [
-                "Odstranit c\u00edl"
-            ],
             "Failed to delete": [
                 ""
             ],
@@ -1273,29 +1039,8 @@
             "Failed to update": [
                 ""
             ],
-            "Failed to update milestone": [
-                "Odstranit c\u00edl"
-            ],
-            "Link Tasks": [
-                "\u00dakoly"
-            ],
             "Link tasks to this milestone": [
                 ""
-            ],
-            "Milestone created": [
-                "N\u00e1zev c\u00edle"
-            ],
-            "Milestone deleted": [
-                "C\u00edl \"%s\" smazal %s "
-            ],
-            "Milestone marked as complete": [
-                "C\u00edl \"%s\" ozna\u010dil %s za spln\u011bn\u00fd"
-            ],
-            "Milestone marked as incomplete": [
-                "C\u00edl \"%s\" ozna\u010dil %s za nespln\u011bn\u00fd"
-            ],
-            "Milestone updated": [
-                "N\u00e1zev c\u00edle"
             ],
             "New Milestone": [
                 "Nov\u00fd c\u00edl"
@@ -1305,12 +1050,6 @@
             ],
             "No milestones match the selected filter.": [
                 ""
-            ],
-            "No milestones yet": [
-                "C\u00edl"
-            ],
-            "No tasks found in this project": [
-                "V ko\u0161i nebyl nalezen \u017e\u00e1dn\u00fd \u00fakol"
             ],
             "No tasks linked": [
                 ""
@@ -1327,17 +1066,8 @@
             "Target Date": [
                 ""
             ],
-            "Task unlinked": [
-                "\u017d\u00e1dn\u00fd \u00fakol nebyl nalezen"
-            ],
             "Track your project progress with milestones.": [
                 ""
-            ],
-            "Unlink from milestone": [
-                "Upravit c\u00edl"
-            ],
-            "tasks linked": [
-                "Seznam \u00fakol\u016f"
             ],
             "Enable or disable project manager modules": [
                 ""
@@ -1345,26 +1075,14 @@
             "Go Pro Today": [
                 ""
             ],
-            "Learn More": [
-                "Na\u010d\u00edst dal\u0161\u00ed"
-            ],
             "Premium Modules": [
                 ""
-            ],
-            "Create New Project": [
-                "Nov\u00fd projekt"
             ],
             "Describe your project...": [
                 ""
             ],
-            "Enter project name": [
-                "Odstranit projekt"
-            ],
             "Fill in the details below to create a new project.": [
                 ""
-            ],
-            "Notify co-workers via email": [
-                "Upozornit spolupracovn\u00edky"
             ],
             "Project updated successfully": [
                 ""
@@ -1375,14 +1093,8 @@
             "Search and add members...": [
                 ""
             ],
-            "Select a category": [
-                "Vybrat v\u0161echny"
-            ],
             "Update the project details below.": [
                 ""
-            ],
-            "30-Day Activity": [
-                "Aktivita"
             ],
             "Failed to add member": [
                 ""
@@ -1402,9 +1114,6 @@
             "Overall Progress": [
                 ""
             ],
-            "Project Overview": [
-                "Mana\u017eer projektu"
-            ],
             "Searching...": [
                 ""
             ],
@@ -1414,41 +1123,11 @@
             "AI Create": [
                 ""
             ],
-            "Delete Project": [
-                "Odstranit projekt"
-            ],
-            "Details": [
-                "Zobrazit podrobnosti"
-            ],
-            "Failed to delete project": [
-                "N\u00e1zev projektu"
-            ],
-            "Failed to duplicate project": [
-                "N\u00e1zev projektu"
-            ],
-            "Failed to update project status": [
-                "N\u00e1zev projektu"
-            ],
-            "Get started by creating a new project.": [
-                "Vytvo\u0159it nov\u00fd projekt"
-            ],
             "Newest First": [
                 ""
             ],
             "Oldest First": [
                 ""
-            ],
-            "Project deleted": [
-                "Projekt vytvo\u0159il %s"
-            ],
-            "Project duplicated": [
-                "Projekt vytvo\u0159il %s"
-            ],
-            "Project status updated": [
-                "Detaily projektu upravil %s"
-            ],
-            "Search projects...": [
-                "Hledat projekt"
             ],
             "Sort By": [
                 ""
@@ -1471,26 +1150,8 @@
             "Failed to move task": [
                 ""
             ],
-            "No lists found": [
-                "Nebyly nalezeny \u017e\u00e1dn\u00e9 koment\u00e1\u0159e"
-            ],
-            "Search task lists...": [
-                "Hledat seznam \u00fakol\u016f"
-            ],
-            "Task moved": [
-                "\u017d\u00e1dn\u00fd \u00fakol nebyl nalezen"
-            ],
             "No incomplete tasks": [
                 ""
-            ],
-            "Task list not found.": [
-                "\u017d\u00e1dn\u00fd seznam \u00fakol\u016f nebyl nalezen"
-            ],
-            "Add type": [
-                "P\u0159idat nov\u00fd"
-            ],
-            "Are you sure you want to delete this task?": [
-                "Jste si jist(a), \u017ee chcete odstranit tuto zpr\u00e1vu?"
             ],
             "Assignee added": [
                 ""
@@ -1500,12 +1161,6 @@
             ],
             "Click to make private": [
                 ""
-            ],
-            "Comment added": [
-                "1 koment\u00e1\u0159"
-            ],
-            "Comment deleted": [
-                "Dokon\u010deno"
             ],
             "Comment updated": [
                 ""
@@ -1522,17 +1177,8 @@
             "Failed to add assignee": [
                 ""
             ],
-            "Failed to add comment": [
-                "%s smazal koment\u00e1\u0159"
-            ],
-            "Failed to delete comment": [
-                "%s smazal koment\u00e1\u0159"
-            ],
             "Failed to remove assignee": [
                 ""
-            ],
-            "Failed to update comment": [
-                "Aktualizovat koment\u00e1\u0159"
             ],
             "Failed to update dates": [
                 ""
@@ -1558,32 +1204,14 @@
             "Link copied": [
                 ""
             ],
-            "No activity yet": [
-                "Aktivita"
-            ],
-            "No task types found": [
-                "\u017d\u00e1dn\u00fd seznam \u00fakol\u016f nebyl nalezen"
-            ],
             "Remove type": [
                 ""
-            ],
-            "Set dates": [
-                "Datum spln\u011bn\u00ed"
-            ],
-            "Show activity": [
-                "Aktivita"
             ],
             "Write a description...": [
                 ""
             ],
-            "Search tasks...": [
-                "Hledat \u00fakol"
-            ],
             "This Week": [
                 ""
-            ],
-            "Add a task": [
-                "P\u0159idat \u00fakoly"
             ],
             "Delete this list and all its tasks?": [
                 ""
@@ -1600,20 +1228,8 @@
             "Failed to load more tasks": [
                 ""
             ],
-            "Failed to rename": [
-                "N\u00e1zev c\u00edle"
-            ],
             "List deleted": [
                 ""
-            ],
-            "List renamed": [
-                "Jm\u00e9no seznamu \u00fakol\u016f"
-            ],
-            "Load more completed": [
-                "Ozna\u010dit jako spln\u011bn\u00fd"
-            ],
-            "Load more tasks": [
-                "Na\u010d\u00edst dal\u0161\u00ed"
             ],
             "More options": [
                 ""
@@ -1627,12 +1243,6 @@
             "Task created": [
                 ""
             ],
-            "Task name...": [
-                "Jm\u00e9no seznamu \u00fakol\u016f"
-            ],
-            "View List": [
-                "Zobrazit seznam \u00fakol\u016f"
-            ],
             "Create your first task list to start organizing work.": [
                 ""
             ],
@@ -1645,17 +1255,8 @@
             "Failed to create task list": [
                 ""
             ],
-            "New List": [
-                "Nov\u00fd seznam \u00fakol\u016f"
-            ],
-            "No task lists yet": [
-                "Seznam \u00fakol\u016f"
-            ],
             "No tasks match your filters.": [
                 ""
-            ],
-            "Task list created": [
-                "Jm\u00e9no seznamu \u00fakol\u016f"
             ],
             "Failed to delete task": [
                 ""
@@ -1693,9 +1294,6 @@
             "License": [
                 ""
             ],
-            "AI Project Generator": [
-                "Mana\u017eer projektu"
-            ],
             "Describe your project and AI will generate the structure.": [
                 ""
             ],
@@ -1717,9 +1315,6 @@
             "Almost ready...": [
                 ""
             ],
-            "Creating project...": [
-                "Odstranit projekt"
-            ],
             "Creating task lists...": [
                 ""
             ],
@@ -1735,26 +1330,14 @@
             "Preview & Edit": [
                 ""
             ],
-            "list": [
-                "Seznam \u00fakol\u016f"
-            ],
             "lists": [
                 ""
             ],
             "task": [
                 ""
             ],
-            "tasks": [
-                "\u00dakoly"
-            ],
-            "Task List Name": [
-                "Jm\u00e9no seznamu \u00fakol\u016f"
-            ],
             "Back": [
                 ""
-            ],
-            "Create Project": [
-                "Aktualizovat projekt"
             ],
             "Exit full screen": [
                 ""
@@ -1762,14 +1345,8 @@
             "Access denied": [
                 ""
             ],
-            "Comment": [
-                "1 koment\u00e1\u0159"
-            ],
             "What's New": [
                 ""
-            ],
-            "Description (optional)": [
-                "Podrobnosti o c\u00edli (nepovinn\u00e9)"
             ],
             "GitHub": [
                 ""
@@ -1837,9 +1414,6 @@
             "Model": [
                 ""
             ],
-            "Select a model": [
-                "Vybrat v\u0161echny"
-            ],
             "500\u201316384. Higher values allow more detailed responses for both project and subtask generation, but may cost more.": [
                 ""
             ],
@@ -1852,23 +1426,14 @@
             "Testing...": [
                 ""
             ],
-            "Email settings saved": [
-                "Nastaven\u00ed email\u016f"
-            ],
             "Failed to save email settings": [
                 ""
-            ],
-            "Email Settings": [
-                "Nastaven\u00ed email\u016f"
             ],
             "Configure how notification emails are sent.": [
                 ""
             ],
             "Sender address for all notifications": [
                 ""
-            ],
-            "Email Type": [
-                "Typ emailu"
             ],
             "Email links point to the WP admin backend": [
                 ""
@@ -1879,20 +1444,11 @@
             "All recipients added as BCC instead of TO": [
                 ""
             ],
-            "Settings saved": [
-                "Mo\u017enosti"
-            ],
             "Failed to save settings": [
                 ""
             ],
-            "Size in Megabytes (e.g. 2)": [
-                "velikost souboru v MB. nap\u0159. 2"
-            ],
             "Configure pagination and file upload limits.": [
                 ""
-            ],
-            "Change": [
-                "Ulo\u017eit zm\u011bny"
             ],
             "Remove": [
                 ""
@@ -1932,9 +1488,6 @@
             ],
             "Connected": [
                 ""
-            ],
-            "as": [
-                "\u00dakol"
             ],
             "Generate a new token on GitHub": [
                 ""
@@ -2044,9 +1597,6 @@
             "Save changes before testing": [
                 ""
             ],
-            "Type name is required": [
-                "Podrobosti seznamu \u00fakol\u016f"
-            ],
             "Task type created": [
                 ""
             ],
@@ -2059,12 +1609,6 @@
             "Failed to update task type": [
                 ""
             ],
-            "Are you sure you want to delete this task type?": [
-                "Jste si jist(a), \u017ee chcete odstranit tuto zpr\u00e1vu?"
-            ],
-            "Delete Task Type": [
-                "Odstranit projekt"
-            ],
             "Task type deleted": [
                 ""
             ],
@@ -2073,9 +1617,6 @@
             ],
             "Define custom task types for your projects.": [
                 ""
-            ],
-            "New Type": [
-                "Nov\u00fd \u00fakol"
             ],
             "Create Task Type": [
                 ""
@@ -2089,17 +1630,11 @@
             "Short description...": [
                 ""
             ],
-            "Actions": [
-                "Aktivita projektu"
-            ],
             "Save": [
                 ""
             ],
             "No task types yet.": [
                 ""
-            ],
-            "Create your first type": [
-                "druh p\u0159\u00edsp\u011bvky zpr\u00e1va"
             ],
             "Something went wrong.": [
                 ""
@@ -2131,17 +1666,11 @@
             "SEO Audit Service": [
                 ""
             ],
-            "Duplicate Project": [
-                "Aktualizovat projekt"
-            ],
             "Logo Design Bundle": [
                 ""
             ],
             "WooCommerce Project Mapping": [
                 ""
-            ],
-            "+ Add Product": [
-                "P\u0159idat projekt"
             ],
             "assignees": [
                 ""
@@ -2155,17 +1684,8 @@
             "unlock and take advantage of our premium features": [
                 ""
             ],
-            "Proj": [
-                "Projekty"
-            ],
-            "Cal": [
-                "Zru\u0161it"
-            ],
             "Prog": [
                 ""
-            ],
-            "Rep": [
-                "Znovuotev\u0159\u00edt"
             ],
             "Sprint": [
                 ""
@@ -2185,23 +1705,11 @@
             "Switch to dark mode": [
                 ""
             ],
-            "No results found": [
-                "\u017d\u00e1dn\u00ed u\u017eivatel\u00e9 nebyli nalezeni"
-            ],
             "Start Date and End Date are required.": [
                 ""
             ],
-            "Start Date is required.": [
-                "Podrobosti seznamu \u00fakol\u016f"
-            ],
-            "End Date is required.": [
-                "Podrobosti seznamu \u00fakol\u016f"
-            ],
             "Start Date cannot be greater than End Date.": [
                 ""
-            ],
-            "Task completed": [
-                "Ozna\u010dit jako spln\u011bn\u00fd"
             ],
             "From": [
                 ""
@@ -2227,26 +1735,11 @@
             "to": [
                 ""
             ],
-            "No activities found": [
-                "Nebyly nalezeny \u017e\u00e1dn\u00e9 soubory!"
-            ],
-            "Load more": [
-                "Na\u010d\u00edst dal\u0161\u00ed"
-            ],
             "Assignees": [
                 ""
             ],
-            "Create Task": [
-                "Nad\u0159azen\u00fd \u00fakol"
-            ],
-            "Project Activities": [
-                "Aktivita projektu"
-            ],
             "View all changes, updates, and activities happening in your project in real-time.": [
                 ""
-            ],
-            "activities": [
-                "Aktivita"
             ],
             "Get the birdseye view of all tasks from an interactive calendar": [
                 ""
@@ -2254,23 +1747,8 @@
             "View all your tasks, milestones, and deadlines in a beautiful calendar view.": [
                 ""
             ],
-            "Delete Category": [
-                "Aktualizovat zpr\u00e1vu"
-            ],
-            "Bulk Delete": [
-                "Odstranit"
-            ],
-            "New Category": [
-                "Vytvo\u0159it zpr\u00e1vu"
-            ],
-            "selected": [
-                "- vyberte -"
-            ],
             "Failed to load discussion": [
                 ""
-            ],
-            "Delete Discussion": [
-                "Odstranit c\u00edl"
             ],
             "Set to private": [
                 ""
@@ -2287,9 +1765,6 @@
             "License will delete permanently": [
                 ""
             ],
-            "Delete License": [
-                "Odstranit c\u00edl"
-            ],
             "License Active": [
                 ""
             ],
@@ -2299,29 +1774,8 @@
             "Upcoming": [
                 ""
             ],
-            "task linked": [
-                "Seznam \u00fakol\u016f"
-            ],
-            "Select All": [
-                "Vybrat v\u0161echny"
-            ],
-            "Unlink Task": [
-                "Zobrazit \u00fakol"
-            ],
-            "Delete Milestone": [
-                "Odstranit c\u00edl"
-            ],
-            "Mark Incomplete": [
-                "Ozna\u010dit jako nespln\u011bn\u00fd"
-            ],
             "discussions": [
                 ""
-            ],
-            "More actions": [
-                "Aktivita projektu"
-            ],
-            "Milestone title": [
-                "N\u00e1zev c\u00edle"
             ],
             "Advanced project management tools to ensure your efficiency and productivity reach the peak.": [
                 ""
@@ -2335,23 +1789,11 @@
             "Unlock all premium features and take your project management to the next level.": [
                 ""
             ],
-            "Project created successfully": [
-                "Projekt vytvo\u0159il %s"
-            ],
-            "Failed to update project": [
-                "N\u00e1zev projektu"
-            ],
             "Edit Project": [
                 "Upravit projekt"
             ],
-            "Category": [
-                "Aktualizovat zpr\u00e1vu"
-            ],
             "None": [
                 ""
-            ],
-            "No users found": [
-                "\u017d\u00e1dn\u00ed u\u017eivatel\u00e9 nebyli nalezeni"
             ],
             "User": [
                 ""
@@ -2359,23 +1801,11 @@
             "Updating...": [
                 ""
             ],
-            "Role updated": [
-                "Datum spln\u011bn\u00ed"
-            ],
             "Failed to update role": [
                 ""
             ],
-            "completed": [
-                "Dokon\u010deno"
-            ],
             "remaining": [
                 ""
-            ],
-            "Select role": [
-                "Vybrat v\u0161echny"
-            ],
-            "No projects found": [
-                "\u017d\u00e1dn\u00fd projekt nebyl nalezen"
             ],
             "done": [
                 ""
@@ -2383,23 +1813,11 @@
             "total": [
                 ""
             ],
-            "All Categories": [
-                "Vytvo\u0159it zpr\u00e1vu"
-            ],
-            "Are you sure you want to delete": [
-                "Jste si jist(a), \u017ee chcete odstranit tuto zpr\u00e1vu?"
-            ],
             "Moving...": [
                 ""
             ],
-            "Delete Comment": [
-                "%s koment\u00e1\u0159"
-            ],
             "Sending...": [
                 ""
-            ],
-            "Delete Task": [
-                "Odstranit c\u00edl"
             ],
             "Could not copy link": [
                 ""
@@ -2410,32 +1828,11 @@
             "Due": [
                 ""
             ],
-            "Search members...": [
-                "Hledat zpr\u00e1vu"
-            ],
             "No project members": [
                 ""
             ],
             "No description yet. Click \"Add\" to write one.": [
                 ""
-            ],
-            "Add Comment": [
-                "%d koment\u00e1\u0159\u016f"
-            ],
-            "Hide activity": [
-                "Aktivita"
-            ],
-            "Milestone assigned": [
-                "N\u00e1zev c\u00edle"
-            ],
-            "Milestone removed": [
-                "N\u00e1zev c\u00edle"
-            ],
-            "Remove milestone": [
-                "Odstranit c\u00edl"
-            ],
-            "No milestones": [
-                "C\u00edl"
             ],
             "Estimate": [
                 ""

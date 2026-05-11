@@ -19,9 +19,6 @@
             "Task": [
                 "\u4efb\u52a1"
             ],
-            "File": [
-                "\u6587\u4ef6"
-            ],
             "Calendar": [
                 ""
             ],
@@ -55,9 +52,6 @@
             "Tools": [
                 ""
             ],
-            "Are you sure?": [
-                "\u786e\u5b9a\uff1f"
-            ],
             "Upgrade to PRO ": [
                 ""
             ],
@@ -73,9 +67,6 @@
             "Attach": [
                 ""
             ],
-            "Discussion": [
-                "\u8ba8\u8bba\u6b64\u4efb\u52a1"
-            ],
             "Edit": [
                 "\u7f16\u8f91"
             ],
@@ -87,9 +78,6 @@
             ],
             "Completed": [
                 "\u5df2\u5b8c\u6210"
-            ],
-            "Mark Complete": [
-                "\u6807\u8bb0\u4e3a\u5df2\u5b8c\u6210"
             ],
             "Copy Link": [
                 ""
@@ -109,9 +97,6 @@
             "Description": [
                 ""
             ],
-            "Update": [
-                "\u66f4\u65b0\u5217\u8868"
-            ],
             "Activity": [
                 "\u52a8\u6001"
             ],
@@ -123,9 +108,6 @@
             ],
             "Restore": [
                 ""
-            ],
-            "Add": [
-                "\u6dfb\u52a0\u65b0\u6d88\u606f"
             ],
             "Discussions": [
                 ""
@@ -148,9 +130,6 @@
             "by": [
                 ""
             ],
-            "No results found.": [
-                "\u6ca1\u6709\u627e\u5230\u7528\u6237"
-            ],
             "New Task List": [
                 "\u65b0\u4efb\u52a1\u5217\u8868"
             ],
@@ -159,9 +138,6 @@
             ],
             "Add Task": [
                 "\u6dfb\u52a0\u4efb\u52a1"
-            ],
-            "Move Task": [
-                "\u65b0\u4efb\u52a1"
             ],
             "Make Private": [
                 ""
@@ -181,38 +157,17 @@
             "Status": [
                 ""
             ],
-            "Project": [
-                "\u9879\u76ee"
-            ],
-            "Milestone": [
-                "\u91cc\u7a0b\u7891"
-            ],
             "Name": [
                 ""
             ],
-            "Update Category": [
-                "\u66f4\u65b0\u6d88\u606f"
-            ],
-            "Post Comment": [
-                "%d \u6761\u8bc4\u8bba"
-            ],
             "Delete File": [
                 "\u5220\u9664\u6587\u4ef6"
-            ],
-            "Select a project": [
-                "\u5220\u9664\u9879\u76ee"
             ],
             "All": [
                 ""
             ],
             "Today": [
                 ""
-            ],
-            "Loading...": [
-                "\u52a0\u8f7d\u66f4\u591a..."
-            ],
-            "More": [
-                "\u52a0\u8f7d\u66f4\u591a..."
             ],
             "Overview": [
                 ""
@@ -229,9 +184,6 @@
             "Provide your App Key & Token": [
                 ""
             ],
-            "Load More": [
-                "\u52a0\u8f7d\u66f4\u591a..."
-            ],
             "My Tasks": [
                 ""
             ],
@@ -241,20 +193,11 @@
             "Overdue": [
                 ""
             ],
-            "Activity Filter": [
-                "\u52a8\u6001"
-            ],
             "Current": [
                 ""
             ],
             "Outstanding": [
                 ""
-            ],
-            "Due date": [
-                "\u5230\u671f\u65f6\u95f4"
-            ],
-            "See More": [
-                "\u52a0\u8f7d\u66f4\u591a..."
             ],
             "More features to unveil while": [
                 ""
@@ -264,9 +207,6 @@
             ],
             "Get Started Now": [
                 ""
-            ],
-            "Project Manager Pro": [
-                "\u9879\u76ee"
             ],
             "Premium Features": [
                 ""
@@ -285,9 +225,6 @@
             ],
             "Invoices": [
                 ""
-            ],
-            "Theme Color": [
-                "\u9009\u62e9\u6240\u6709"
             ],
             "Currency": [
                 ""
@@ -319,17 +256,11 @@
             "Country": [
                 ""
             ],
-            "Pages": [
-                "\u6d88\u606f"
-            ],
             "Upload": [
                 ""
             ],
             "Daily Digest": [
                 ""
-            ],
-            "Subtasks": [
-                "\u4efb\u52a1"
             ],
             "Pro": [
                 ""
@@ -364,9 +295,6 @@
             "Link to Docs": [
                 ""
             ],
-            "Generate": [
-                "\u901a\u7528"
-            ],
             "Please enter a project description": [
                 ""
             ],
@@ -376,26 +304,8 @@
             "Failed to generate project. Please try again.": [
                 ""
             ],
-            "Project created successfully!": [
-                "\u9879\u76ee\u53d1\u8d77\u4eba\uff1a%s"
-            ],
-            "Failed to create project": [
-                "\u9879\u76ee\u540d\u79f0"
-            ],
-            "Delete Selected": [
-                "\u5220\u9664\u91cc\u7a0b\u7891"
-            ],
-            "Project Name": [
-                "\u9879\u76ee"
-            ],
             "Saving...": [
                 ""
-            ],
-            "Project name is required": [
-                "\u9879\u76ee"
-            ],
-            "Search users...": [
-                "\u641c\u7d22\u6d88\u606f"
             ],
             "Update Project": [
                 "\u66f4\u65b0\u9879\u76ee"
@@ -448,9 +358,6 @@
             "Incomplete": [
                 ""
             ],
-            "Task Title": [
-                "\u4efb\u52a1\u5217\u8868"
-            ],
             "Start Date": [
                 ""
             ],
@@ -463,14 +370,8 @@
             "Back to Task Lists": [
                 ""
             ],
-            "Delete List": [
-                "\u5220\u9664\u91cc\u7a0b\u7891"
-            ],
             "Pusher": [
                 ""
-            ],
-            "Pusher Settings": [
-                "\u8bbe\u7f6e"
             ],
             "App ID": [
                 ""
@@ -483,9 +384,6 @@
             ],
             "View Full Report": [
                 ""
-            ],
-            "AI Settings": [
-                "\u8bbe\u7f6e"
             ],
             "API Key": [
                 ""
@@ -541,9 +439,6 @@
             "Total Estimation Hours": [
                 ""
             ],
-            "Completed Task Count": [
-                "\u5b8c\u6210\u65e5\u671f\uff1a"
-            ],
             "Avg. Hour Per-task": [
                 ""
             ],
@@ -553,26 +448,11 @@
             "Avg. Task Per-day": [
                 ""
             ],
-            "All Projects": [
-                "\u9879\u76ee"
-            ],
-            "Task Types": [
-                "\u4efb\u52a1"
-            ],
             "Subtask Types": [
                 ""
             ],
-            "Completed At": [
-                "\u5df2\u5b8c\u6210"
-            ],
-            "Subtask Title": [
-                "\u4efb\u52a1\u5217\u8868"
-            ],
             "Hour": [
                 ""
-            ],
-            "Task type": [
-                "\u4efb\u52a1\u5217\u8868"
             ],
             "Est. Hour": [
                 ""
@@ -610,9 +490,6 @@
             "Import": [
                 ""
             ],
-            "Resources of Project Manager": [
-                "\u9879\u76ee"
-            ],
             "Upgrade to Pro": [
                 ""
             ],
@@ -630,9 +507,6 @@
             ],
             "Strikethrough": [
                 ""
-            ],
-            "Bullet List": [
-                "\u5220\u9664\u91cc\u7a0b\u7891"
             ],
             "Numbered List": [
                 ""
@@ -727,9 +601,6 @@
             "Importing...": [
                 ""
             ],
-            "Updated": [
-                "\u66f4\u65b0\u5217\u8868"
-            ],
             "Unknown": [
                 ""
             ],
@@ -751,15 +622,6 @@
             "Track all project activity and team progress in one place": [
                 ""
             ],
-            "Activities Today": [
-                "\u52a8\u6001"
-            ],
-            "Tasks Completed": [
-                "\u5df2\u5b8c\u6210"
-            ],
-            "Files Uploaded": [
-                "\u6587\u4ef6\u4e0a\u4f20\u9650\u5236"
-            ],
             "Team Progress Tracker": [
                 ""
             ],
@@ -768,9 +630,6 @@
             ],
             "Showing 9 of 250+ activities": [
                 ""
-            ],
-            "Task name": [
-                "\u4efb\u52a1\u5217\u8868\u540d\u79f0"
             ],
             "Design homepage": [
                 ""
@@ -786,9 +645,6 @@
             ],
             "Auth module": [
                 ""
-            ],
-            "Project setup": [
-                "\u9879\u76ee"
             ],
             "CI\/CD pipeline": [
                 ""
@@ -807,9 +663,6 @@
             ],
             "Development": [
                 ""
-            ],
-            "Testing": [
-                "\u8bbe\u7f6e"
             ],
             "Deployment": [
                 ""
@@ -883,17 +736,11 @@
             "Enable start date field for tasks": [
                 ""
             ],
-            "Failed to upload": [
-                "\u6587\u4ef6\u4e0a\u4f20\u9650\u5236"
-            ],
             "Logo uploaded": [
                 ""
             ],
             "Please select an image file": [
                 ""
-            ],
-            "Pro Settings": [
-                "\u8bbe\u7f6e"
             ],
             "Send daily digest emails to team members": [
                 ""
@@ -943,9 +790,6 @@
             "Invoice Defaults": [
                 ""
             ],
-            "Invoice Settings": [
-                "\u8bbe\u7f6e"
-            ],
             "Invoice settings saved": [
                 ""
             ],
@@ -987,12 +831,6 @@
             ],
             "Page settings saved": [
                 ""
-            ],
-            "Project Page": [
-                "\u9879\u76ee"
-            ],
-            "Select a page...": [
-                "\u9009\u62e9\u6240\u6709"
             ],
             "Select the page where Project Manager will be displayed on the front-end": [
                 ""
@@ -1042,9 +880,6 @@
             "Recent": [
                 ""
             ],
-            "Views": [
-                "\u67e5\u770b\u4efb\u52a1"
-            ],
             "Workspace": [
                 ""
             ],
@@ -1060,12 +895,6 @@
             "Plugin sidebar": [
                 ""
             ],
-            "Search projects and tasks...": [
-                "\u641c\u7d22\u9879\u76ee"
-            ],
-            "Search...": [
-                "\u641c\u7d22\u4efb\u52a1"
-            ],
             "Share your idea": [
                 ""
             ],
@@ -1075,12 +904,6 @@
             "WordPress sidebar": [
                 ""
             ],
-            "Activity Trend": [
-                "\u52a8\u6001"
-            ],
-            "Add a description (optional)": [
-                "\u91cc\u7a0b\u7891\u8be6\u60c5\uff08\u53ef\u9009\uff09"
-            ],
             "At a Glance": [
                 ""
             ],
@@ -1089,9 +912,6 @@
             ],
             "Due Date \u2193": [
                 ""
-            ],
-            "Enter task title": [
-                "\u8f93\u5165\u6d88\u606f\u6807\u9898"
             ],
             "Failed to update task": [
                 ""
@@ -1114,12 +934,6 @@
             "Oldest": [
                 ""
             ],
-            "Search by Task Title": [
-                "\u641c\u7d22\u4efb\u52a1\u5217\u8868"
-            ],
-            "Select a list": [
-                "\u9009\u62e9\u6240\u6709"
-            ],
             "Select date range and click Run Report.": [
                 ""
             ],
@@ -1129,59 +943,17 @@
             "Interactive Calendar": [
                 ""
             ],
-            "Add Category": [
-                "\u6dfb\u52a0\u65b0\u6d88\u606f"
-            ],
-            "Categories deleted": [
-                "\u985e\u5225"
-            ],
-            "Category created": [
-                "\u985e\u5225"
-            ],
-            "Category deleted": [
-                "\u985e\u5225"
-            ],
-            "Category name": [
-                "\u985e\u5225"
-            ],
-            "Category updated": [
-                "\u985e\u5225"
-            ],
-            "Create Category": [
-                "\u66f4\u65b0\u6d88\u606f"
-            ],
             "Create categories to organize your projects.": [
                 ""
             ],
             "Delete selected categories?": [
                 ""
             ],
-            "Edit Category": [
-                "\u66f4\u65b0\u6d88\u606f"
-            ],
-            "Failed to create category": [
-                "\u66f4\u65b0\u6d88\u606f"
-            ],
             "Failed to delete categories": [
                 ""
             ],
             "Failed to delete category": [
                 ""
-            ],
-            "Failed to update category": [
-                "\u66f4\u65b0\u6d88\u606f"
-            ],
-            "No categories yet": [
-                "\u985e\u5225"
-            ],
-            "Discussion created": [
-                "\u8ba8\u8bba\u6b64\u4efb\u52a1"
-            ],
-            "Discussion deleted": [
-                "\u8ba8\u8bba\u6b64\u4efb\u52a1"
-            ],
-            "Discussion updated": [
-                "\u8ba8\u8bba\u6b64\u4efb\u52a1"
             ],
             "Failed to create discussion": [
                 ""
@@ -1192,9 +964,6 @@
             "No discussions yet": [
                 ""
             ],
-            "Start a conversation about this project.": [
-                "\u5f00\u59cb\u4e00\u4e2a\u65b0\u9879\u76ee"
-            ],
             "Discussion Comment": [
                 ""
             ],
@@ -1203,9 +972,6 @@
             ],
             "Files attached to tasks, discussions, and comments will appear here.": [
                 ""
-            ],
-            "Task Comment": [
-                "%d \u6761\u8bc4\u8bba"
             ],
             "Uploading...": [
                 ""
@@ -1246,21 +1012,6 @@
             "At Risk": [
                 ""
             ],
-            "Create Milestone": [
-                "\u6700\u65b0\u91cc\u7a0b\u7891"
-            ],
-            "Create a new milestone": [
-                "\u521b\u5efa\u65b0\u6d88\u606f"
-            ],
-            "Create your first milestone": [
-                "\u5220\u9664\u91cc\u7a0b\u7891"
-            ],
-            "Edit an existing milestone": [
-                "\u7f16\u8f91\u91cc\u7a0b\u7891"
-            ],
-            "Failed to create milestone": [
-                "\u5220\u9664\u91cc\u7a0b\u7891"
-            ],
             "Failed to delete": [
                 ""
             ],
@@ -1273,29 +1024,8 @@
             "Failed to update": [
                 ""
             ],
-            "Failed to update milestone": [
-                "\u5220\u9664\u91cc\u7a0b\u7891"
-            ],
-            "Link Tasks": [
-                "\u4efb\u52a1"
-            ],
             "Link tasks to this milestone": [
                 ""
-            ],
-            "Milestone created": [
-                "\u91cc\u7a0b\u7891\u540d\u79f0"
-            ],
-            "Milestone deleted": [
-                "\u91cc\u7a0b\u7891\"%s\"\u5df2\u88ab%s \u5220\u9664"
-            ],
-            "Milestone marked as complete": [
-                "\u91cc\u7a0b\u7891\"%s\"\u5df2\u88ab%s \u6807\u8bb0\u4e3a\u5df2\u5b8c\u6210"
-            ],
-            "Milestone marked as incomplete": [
-                "\u91cc\u7a0b\u7891\"%s\"\u88ab%s \u6807\u8bb0\u4e3a\u672a\u5b8c\u6210"
-            ],
-            "Milestone updated": [
-                "\u91cc\u7a0b\u7891\u540d\u79f0"
             ],
             "New Milestone": [
                 "\u65b0\u91cc\u7a0b\u7891"
@@ -1305,12 +1035,6 @@
             ],
             "No milestones match the selected filter.": [
                 ""
-            ],
-            "No milestones yet": [
-                "\u91cc\u7a0b\u7891"
-            ],
-            "No tasks found in this project": [
-                "\u56de\u6536\u7ad9\u4e2d\u6ca1\u6709\u4efb\u52a1"
             ],
             "No tasks linked": [
                 ""
@@ -1327,17 +1051,8 @@
             "Target Date": [
                 ""
             ],
-            "Task unlinked": [
-                "\u6ca1\u6709\u4efb\u52a1"
-            ],
             "Track your project progress with milestones.": [
                 ""
-            ],
-            "Unlink from milestone": [
-                "\u7f16\u8f91\u91cc\u7a0b\u7891"
-            ],
-            "tasks linked": [
-                "\u4efb\u52a1\u5217\u8868"
             ],
             "Enable or disable project manager modules": [
                 ""
@@ -1345,26 +1060,14 @@
             "Go Pro Today": [
                 ""
             ],
-            "Learn More": [
-                "\u52a0\u8f7d\u66f4\u591a..."
-            ],
             "Premium Modules": [
                 ""
-            ],
-            "Create New Project": [
-                "\u65b0\u9879\u76ee"
             ],
             "Describe your project...": [
                 ""
             ],
-            "Enter project name": [
-                "\u5220\u9664\u9879\u76ee"
-            ],
             "Fill in the details below to create a new project.": [
                 ""
-            ],
-            "Notify co-workers via email": [
-                "\u901a\u77e5\u540c\u4e8b"
             ],
             "Project updated successfully": [
                 ""
@@ -1375,14 +1078,8 @@
             "Search and add members...": [
                 ""
             ],
-            "Select a category": [
-                "\u9009\u62e9\u6240\u6709"
-            ],
             "Update the project details below.": [
                 ""
-            ],
-            "30-Day Activity": [
-                "\u52a8\u6001"
             ],
             "Failed to add member": [
                 ""
@@ -1402,9 +1099,6 @@
             "Overall Progress": [
                 ""
             ],
-            "Project Overview": [
-                "\u9879\u76ee"
-            ],
             "Searching...": [
                 ""
             ],
@@ -1414,41 +1108,14 @@
             "AI Create": [
                 ""
             ],
-            "Delete Project": [
-                "\u5220\u9664\u9879\u76ee"
-            ],
             "Details": [
                 ""
-            ],
-            "Failed to delete project": [
-                "\u9879\u76ee\u540d\u79f0"
-            ],
-            "Failed to duplicate project": [
-                "\u9879\u76ee\u540d\u79f0"
-            ],
-            "Failed to update project status": [
-                "\u9879\u76ee\u540d\u79f0"
-            ],
-            "Get started by creating a new project.": [
-                "\u5f00\u59cb\u4e00\u4e2a\u65b0\u9879\u76ee"
             ],
             "Newest First": [
                 ""
             ],
             "Oldest First": [
                 ""
-            ],
-            "Project deleted": [
-                "\u9879\u76ee\u53d1\u8d77\u4eba\uff1a%s"
-            ],
-            "Project duplicated": [
-                "\u9879\u76ee\u53d1\u8d77\u4eba\uff1a%s"
-            ],
-            "Project status updated": [
-                "\u9879\u76ee\u8be6\u7ec6\u5df2\u7531%s\u66f4\u65b0"
-            ],
-            "Search projects...": [
-                "\u641c\u7d22\u9879\u76ee"
             ],
             "Sort By": [
                 ""
@@ -1471,26 +1138,8 @@
             "Failed to move task": [
                 ""
             ],
-            "No lists found": [
-                "\u6ca1\u6709\u627e\u5230\u8bc4\u8bba"
-            ],
-            "Search task lists...": [
-                "\u641c\u7d22\u4efb\u52a1\u5217\u8868"
-            ],
-            "Task moved": [
-                "\u6ca1\u6709\u4efb\u52a1"
-            ],
             "No incomplete tasks": [
                 ""
-            ],
-            "Task list not found.": [
-                "\u6ca1\u6709\u4efb\u52a1\u5217\u8868"
-            ],
-            "Add type": [
-                "\u6dfb\u52a0\u65b0\u6d88\u606f"
-            ],
-            "Are you sure you want to delete this task?": [
-                "\u786e\u5b9a\u8981\u5220\u9664\u6b64\u6d88\u606f\uff1f"
             ],
             "Assignee added": [
                 ""
@@ -1500,12 +1149,6 @@
             ],
             "Click to make private": [
                 ""
-            ],
-            "Comment added": [
-                "1\u6761\u8bc4\u8bba"
-            ],
-            "Comment deleted": [
-                "\u5df2\u5b8c\u6210"
             ],
             "Comment updated": [
                 ""
@@ -1522,17 +1165,8 @@
             "Failed to add assignee": [
                 ""
             ],
-            "Failed to add comment": [
-                "%s\u5220\u9664\u4e86\u4e00\u6761\u8bc4\u8bba"
-            ],
-            "Failed to delete comment": [
-                "%s\u5220\u9664\u4e86\u4e00\u6761\u8bc4\u8bba"
-            ],
             "Failed to remove assignee": [
                 ""
-            ],
-            "Failed to update comment": [
-                "\u66f4\u65b0\u8bc4\u8bba"
             ],
             "Failed to update dates": [
                 ""
@@ -1558,32 +1192,14 @@
             "Link copied": [
                 ""
             ],
-            "No activity yet": [
-                "\u52a8\u6001"
-            ],
-            "No task types found": [
-                "\u6ca1\u6709\u4efb\u52a1\u5217\u8868"
-            ],
             "Remove type": [
                 ""
-            ],
-            "Set dates": [
-                "\u5230\u671f\u65f6\u95f4"
-            ],
-            "Show activity": [
-                "\u52a8\u6001"
             ],
             "Write a description...": [
                 ""
             ],
-            "Search tasks...": [
-                "\u641c\u7d22\u4efb\u52a1"
-            ],
             "This Week": [
                 ""
-            ],
-            "Add a task": [
-                "\u6dfb\u52a0\u4efb\u52a1"
             ],
             "Delete this list and all its tasks?": [
                 ""
@@ -1600,20 +1216,8 @@
             "Failed to load more tasks": [
                 ""
             ],
-            "Failed to rename": [
-                "\u91cc\u7a0b\u7891\u540d\u79f0"
-            ],
             "List deleted": [
                 ""
-            ],
-            "List renamed": [
-                "\u4efb\u52a1\u5217\u8868\u540d\u79f0"
-            ],
-            "Load more completed": [
-                "\u6807\u8bb0\u4e3a\u5df2\u5b8c\u6210"
-            ],
-            "Load more tasks": [
-                "\u52a0\u8f7d\u66f4\u591a..."
             ],
             "More options": [
                 ""
@@ -1627,12 +1231,6 @@
             "Task created": [
                 ""
             ],
-            "Task name...": [
-                "\u4efb\u52a1\u5217\u8868\u540d\u79f0"
-            ],
-            "View List": [
-                "\u67e5\u770b\u4efb\u52a1\u5217\u8868"
-            ],
             "Create your first task list to start organizing work.": [
                 ""
             ],
@@ -1645,17 +1243,8 @@
             "Failed to create task list": [
                 ""
             ],
-            "New List": [
-                "\u65b0\u4efb\u52a1\u5217\u8868"
-            ],
-            "No task lists yet": [
-                "\u4efb\u52a1\u5217\u8868"
-            ],
             "No tasks match your filters.": [
                 ""
-            ],
-            "Task list created": [
-                "\u4efb\u52a1\u5217\u8868\u540d\u79f0"
             ],
             "Failed to delete task": [
                 ""
@@ -1693,9 +1282,6 @@
             "License": [
                 ""
             ],
-            "AI Project Generator": [
-                "\u9879\u76ee"
-            ],
             "Describe your project and AI will generate the structure.": [
                 ""
             ],
@@ -1717,9 +1303,6 @@
             "Almost ready...": [
                 ""
             ],
-            "Creating project...": [
-                "\u5220\u9664\u9879\u76ee"
-            ],
             "Creating task lists...": [
                 ""
             ],
@@ -1735,26 +1318,14 @@
             "Preview & Edit": [
                 ""
             ],
-            "list": [
-                "\u4efb\u52a1\u5217\u8868"
-            ],
             "lists": [
                 ""
             ],
             "task": [
                 ""
             ],
-            "tasks": [
-                "\u4efb\u52a1"
-            ],
-            "Task List Name": [
-                "\u4efb\u52a1\u5217\u8868\u540d\u79f0"
-            ],
             "Back": [
                 ""
-            ],
-            "Create Project": [
-                "\u66f4\u65b0\u9879\u76ee"
             ],
             "Exit full screen": [
                 ""
@@ -1762,14 +1333,8 @@
             "Access denied": [
                 ""
             ],
-            "Comment": [
-                "1\u6761\u8bc4\u8bba"
-            ],
             "What's New": [
                 ""
-            ],
-            "Description (optional)": [
-                "\u91cc\u7a0b\u7891\u8be6\u60c5\uff08\u53ef\u9009\uff09"
             ],
             "GitHub": [
                 ""
@@ -1837,9 +1402,6 @@
             "Model": [
                 ""
             ],
-            "Select a model": [
-                "\u9009\u62e9\u6240\u6709"
-            ],
             "500\u201316384. Higher values allow more detailed responses for both project and subtask generation, but may cost more.": [
                 ""
             ],
@@ -1852,23 +1414,14 @@
             "Testing...": [
                 ""
             ],
-            "Email settings saved": [
-                "\u90ae\u4ef6\u8bbe\u7f6e"
-            ],
             "Failed to save email settings": [
                 ""
-            ],
-            "Email Settings": [
-                "\u90ae\u4ef6\u8bbe\u7f6e"
             ],
             "Configure how notification emails are sent.": [
                 ""
             ],
             "Sender address for all notifications": [
                 ""
-            ],
-            "Email Type": [
-                "\u90ae\u4ef6\u7c7b\u578b"
             ],
             "Email links point to the WP admin backend": [
                 ""
@@ -1879,20 +1432,11 @@
             "All recipients added as BCC instead of TO": [
                 ""
             ],
-            "Settings saved": [
-                "\u8bbe\u7f6e"
-            ],
             "Failed to save settings": [
                 ""
             ],
-            "Size in Megabytes (e.g. 2)": [
-                "\u6587\u4ef6\u5c3a\u5bf8\uff08\u4ee5M\u4e3a\u5355\u4f4d\uff09\uff0c\u5982\uff1a2"
-            ],
             "Configure pagination and file upload limits.": [
                 ""
-            ],
-            "Change": [
-                "\u4fdd\u5b58\u4fee\u6539"
             ],
             "Remove": [
                 ""
@@ -1932,9 +1476,6 @@
             ],
             "Connected": [
                 ""
-            ],
-            "as": [
-                "\u4efb\u52a1"
             ],
             "Generate a new token on GitHub": [
                 ""
@@ -2044,9 +1585,6 @@
             "Save changes before testing": [
                 ""
             ],
-            "Type name is required": [
-                "\u4efb\u52a1\u8be6\u60c5"
-            ],
             "Task type created": [
                 ""
             ],
@@ -2059,12 +1597,6 @@
             "Failed to update task type": [
                 ""
             ],
-            "Are you sure you want to delete this task type?": [
-                "\u786e\u5b9a\u8981\u5220\u9664\u6b64\u6d88\u606f\uff1f"
-            ],
-            "Delete Task Type": [
-                "\u5220\u9664\u9879\u76ee"
-            ],
             "Task type deleted": [
                 ""
             ],
@@ -2073,9 +1605,6 @@
             ],
             "Define custom task types for your projects.": [
                 ""
-            ],
-            "New Type": [
-                "\u65b0\u4efb\u52a1"
             ],
             "Create Task Type": [
                 ""
@@ -2089,17 +1618,11 @@
             "Short description...": [
                 ""
             ],
-            "Actions": [
-                "\u9879\u76ee\u52a8\u6001"
-            ],
             "Save": [
                 ""
             ],
             "No task types yet.": [
                 ""
-            ],
-            "Create your first type": [
-                "\u6d88\u606f\u6587\u7ae0\u7c7b\u578b"
             ],
             "Something went wrong.": [
                 ""
@@ -2131,17 +1654,11 @@
             "SEO Audit Service": [
                 ""
             ],
-            "Duplicate Project": [
-                "\u66f4\u65b0\u9879\u76ee"
-            ],
             "Logo Design Bundle": [
                 ""
             ],
             "WooCommerce Project Mapping": [
                 ""
-            ],
-            "+ Add Product": [
-                "\u6dfb\u52a0\u9879\u76ee"
             ],
             "assignees": [
                 ""
@@ -2155,17 +1672,8 @@
             "unlock and take advantage of our premium features": [
                 ""
             ],
-            "Proj": [
-                "\u9879\u76ee"
-            ],
-            "Cal": [
-                "\u53d6\u6d88"
-            ],
             "Prog": [
                 ""
-            ],
-            "Rep": [
-                "\u91cd\u65b0\u5f00\u542f"
             ],
             "Sprint": [
                 ""
@@ -2185,23 +1693,11 @@
             "Switch to dark mode": [
                 ""
             ],
-            "No results found": [
-                "\u6ca1\u6709\u627e\u5230\u7528\u6237"
-            ],
             "Start Date and End Date are required.": [
                 ""
             ],
-            "Start Date is required.": [
-                "\u4efb\u52a1\u8be6\u60c5"
-            ],
-            "End Date is required.": [
-                "\u4efb\u52a1\u8be6\u60c5"
-            ],
             "Start Date cannot be greater than End Date.": [
                 ""
-            ],
-            "Task completed": [
-                "\u6807\u8bb0\u4e3a\u5df2\u5b8c\u6210"
             ],
             "From": [
                 ""
@@ -2227,26 +1723,11 @@
             "to": [
                 ""
             ],
-            "No activities found": [
-                "\u6ca1\u6709\u627e\u5230\u6587\u4ef6"
-            ],
-            "Load more": [
-                "\u52a0\u8f7d\u66f4\u591a..."
-            ],
             "Assignees": [
                 ""
             ],
-            "Create Task": [
-                "\u7236\u7ea7\u4efb\u52a1"
-            ],
-            "Project Activities": [
-                "\u9879\u76ee\u52a8\u6001"
-            ],
             "View all changes, updates, and activities happening in your project in real-time.": [
                 ""
-            ],
-            "activities": [
-                "\u52a8\u6001"
             ],
             "Get the birdseye view of all tasks from an interactive calendar": [
                 ""
@@ -2254,23 +1735,11 @@
             "View all your tasks, milestones, and deadlines in a beautiful calendar view.": [
                 ""
             ],
-            "Delete Category": [
-                "\u66f4\u65b0\u6d88\u606f"
-            ],
-            "Bulk Delete": [
-                "\u5220\u9664"
-            ],
-            "New Category": [
-                "\u6dfb\u52a0\u65b0\u6d88\u606f"
-            ],
             "selected": [
                 ""
             ],
             "Failed to load discussion": [
                 ""
-            ],
-            "Delete Discussion": [
-                "\u5220\u9664\u91cc\u7a0b\u7891"
             ],
             "Set to private": [
                 ""
@@ -2287,9 +1756,6 @@
             "License will delete permanently": [
                 ""
             ],
-            "Delete License": [
-                "\u5220\u9664\u91cc\u7a0b\u7891"
-            ],
             "License Active": [
                 ""
             ],
@@ -2299,29 +1765,8 @@
             "Upcoming": [
                 ""
             ],
-            "task linked": [
-                "\u4efb\u52a1\u5217\u8868"
-            ],
-            "Select All": [
-                "\u9009\u62e9\u6240\u6709"
-            ],
-            "Unlink Task": [
-                "\u67e5\u770b\u4efb\u52a1"
-            ],
-            "Delete Milestone": [
-                "\u5220\u9664\u91cc\u7a0b\u7891"
-            ],
-            "Mark Incomplete": [
-                "\u6807\u8bb0\u4e3a\u672a\u5b8c\u6210"
-            ],
             "discussions": [
                 ""
-            ],
-            "More actions": [
-                "\u9879\u76ee\u52a8\u6001"
-            ],
-            "Milestone title": [
-                "\u91cc\u7a0b\u7891\u540d\u79f0"
             ],
             "Advanced project management tools to ensure your efficiency and productivity reach the peak.": [
                 ""
@@ -2335,23 +1780,11 @@
             "Unlock all premium features and take your project management to the next level.": [
                 ""
             ],
-            "Project created successfully": [
-                "\u9879\u76ee\u53d1\u8d77\u4eba\uff1a%s"
-            ],
-            "Failed to update project": [
-                "\u9879\u76ee\u540d\u79f0"
-            ],
             "Edit Project": [
                 "\u7f16\u8f91\u9879\u76ee"
             ],
-            "Category": [
-                "\u985e\u5225"
-            ],
             "None": [
                 ""
-            ],
-            "No users found": [
-                "\u6ca1\u6709\u627e\u5230\u7528\u6237"
             ],
             "User": [
                 ""
@@ -2359,23 +1792,11 @@
             "Updating...": [
                 ""
             ],
-            "Role updated": [
-                "\u5230\u671f\u65f6\u95f4"
-            ],
             "Failed to update role": [
                 ""
             ],
-            "completed": [
-                "\u5df2\u5b8c\u6210"
-            ],
             "remaining": [
                 ""
-            ],
-            "Select role": [
-                "\u9009\u62e9\u6240\u6709"
-            ],
-            "No projects found": [
-                "\u6ca1\u6709\u9879\u76ee"
             ],
             "done": [
                 ""
@@ -2383,23 +1804,11 @@
             "total": [
                 ""
             ],
-            "All Categories": [
-                "\u985e\u5225"
-            ],
-            "Are you sure you want to delete": [
-                "\u786e\u5b9a\u8981\u5220\u9664\u6b64\u6d88\u606f\uff1f"
-            ],
             "Moving...": [
                 ""
             ],
-            "Delete Comment": [
-                "\u5220\u9664\u9879\u76ee"
-            ],
             "Sending...": [
                 ""
-            ],
-            "Delete Task": [
-                "\u5220\u9664\u91cc\u7a0b\u7891"
             ],
             "Could not copy link": [
                 ""
@@ -2410,32 +1819,11 @@
             "Due": [
                 ""
             ],
-            "Search members...": [
-                "\u641c\u7d22\u6d88\u606f"
-            ],
             "No project members": [
                 ""
             ],
             "No description yet. Click \"Add\" to write one.": [
                 ""
-            ],
-            "Add Comment": [
-                "%d \u6761\u8bc4\u8bba"
-            ],
-            "Hide activity": [
-                "\u52a8\u6001"
-            ],
-            "Milestone assigned": [
-                "\u91cc\u7a0b\u7891\u540d\u79f0"
-            ],
-            "Milestone removed": [
-                "\u91cc\u7a0b\u7891\u540d\u79f0"
-            ],
-            "Remove milestone": [
-                "\u5220\u9664\u91cc\u7a0b\u7891"
-            ],
-            "No milestones": [
-                "\u91cc\u7a0b\u7891"
             ],
             "Estimate": [
                 ""

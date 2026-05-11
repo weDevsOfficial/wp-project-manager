@@ -55,11 +55,6 @@ msgstr ""
 msgid "Plugin Activation Error"
 msgstr ""
 
-#: compatibility-checker.php:142
-#, fuzzy
-msgid "WP Project Manager Pro Deactivated"
-msgstr "প্রকল্প ব্যবস্থাপক"
-
 #. translators: 1: Free version number, 2: Pro version number
 #: compatibility-checker.php:146
 msgid "WP Project Manager has been updated to version %1$s. Your Pro version %2$s was automatically deactivated to prevent compatibility errors. Please update WP Project Manager Pro to version 4.0.0 or higher before reactivating it."
@@ -744,13 +739,6 @@ msgstr ""
 #: views/assets/src/components/tasks/TaskDetailSheet/index.jsx:483
 msgid "Copy Link"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:30
-#: views/assets/js/library.js:20
-#: views/assets/js/pm.js:20
-#, fuzzy
-msgid "Project:"
-msgstr "প্রকল্প ব্যবস্থাপক"
 
 #: languages/wedevs-project-manager.php:31
 #: views/assets/js/library.js:20
@@ -2415,12 +2403,6 @@ msgstr ""
 msgid "Get payment with stripe account."
 msgstr ""
 
-#: languages/wedevs-project-manager.php:309
-#: views/assets/js/pm.js:20
-#, fuzzy
-msgid "Project Invoice"
-msgstr "প্রকল্প ব্যবস্থাপক"
-
 #: languages/wedevs-project-manager.php:310
 #: languages/wedevs-project-manager.php:1166
 #: views/assets/js/pm.js:36
@@ -2912,12 +2894,6 @@ msgstr ""
 msgid "Failed to create project"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:400
-#: views/assets/js/pm.js:20
-#, fuzzy
-msgid "Creating Task Lists"
-msgstr "কার্য তালিকা"
-
 #: languages/wedevs-project-manager.php:401
 #: views/assets/js/pm.js:20
 msgid "Finalizing Tasks"
@@ -2965,14 +2941,6 @@ msgstr ""
 #: views/assets/js/pm.js:36
 msgid "Save Project"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:407
-#: views/assets/js/pm.js:20
-#: views/assets/src/components/projects/AiCreateDialog/parts/PreviewStep.jsx:128
-#: views/assets/src/components/projects/ProjectCreateSheet.jsx:210
-#, fuzzy
-msgid "Project name is required"
-msgstr "প্রকল্প ব্যবস্থাপক"
 
 #: languages/wedevs-project-manager.php:408
 #: views/assets/js/pm.js:20
@@ -3177,12 +3145,6 @@ msgstr ""
 msgid "2022-11-17"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:445
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "List"
-msgstr "কার্য তালিকা"
-
 #: languages/wedevs-project-manager.php:446
 #: views/assets/js/pm.js:36
 msgid "November, 2022"
@@ -3312,22 +3274,10 @@ msgstr ""
 msgid "Co-worker"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:469
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "Message: "
-msgstr "বার্তা"
-
 #: languages/wedevs-project-manager.php:470
 #: views/assets/js/pm.js:36
 msgid "View Private"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:471
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "Todo List"
-msgstr "কার্য তালিকা"
 
 #: languages/wedevs-project-manager.php:472
 #: views/assets/js/pm.js:36
@@ -3400,12 +3350,6 @@ msgstr ""
 #: views/assets/js/pm.js:20
 msgid "Custom Field"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:486
-#: views/assets/js/pm.js:20
-#, fuzzy
-msgid "Field title required!"
-msgstr "কার্য তালিকা"
 
 #: languages/wedevs-project-manager.php:487
 #: views/assets/js/pm.js:20
@@ -3501,12 +3445,6 @@ msgstr ""
 msgid "due"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:503
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "Discount"
-msgstr "আলোচনা"
-
 #: languages/wedevs-project-manager.php:504
 #: views/assets/js/pm.js:36
 #: views/assets/src/components/common/ProFeaturePlaceholder.jsx:90
@@ -3549,12 +3487,6 @@ msgstr ""
 #: views/assets/js/pm.js:36
 msgid "Add an option"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:512
-#: views/assets/js/pm.js:20
-#, fuzzy
-msgid "Maximum character limit 40"
-msgstr "নতুন টাস্ক যুক্ত করুন (চরিত্রের সীমা 200)"
 
 #: languages/wedevs-project-manager.php:513
 #: views/assets/js/pm.js:20
@@ -3601,18 +3533,6 @@ msgstr ""
 #: views/assets/src/components/tasks/TaskFilterBar.jsx:150
 msgid "Incomplete"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:522
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "New comment"
-msgstr "একটি মন্তব্য লিখুন"
-
-#: languages/wedevs-project-manager.php:523
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "Update comment"
-msgstr "একটি মন্তব্য লিখুন"
 
 #: languages/wedevs-project-manager.php:524
 #: views/assets/js/pm.js:36
@@ -3678,12 +3598,6 @@ msgstr ""
 #: views/assets/js/pm.js:20
 msgid "Maxmim character limit 200"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:536
-#: views/assets/js/pm.js:20
-#, fuzzy
-msgid "Task title required!"
-msgstr "কার্য তালিকা"
 
 #: languages/wedevs-project-manager.php:537
 #: views/assets/js/pm.js:20
@@ -3819,12 +3733,6 @@ msgstr ""
 #: views/assets/js/pm.js:36
 msgid "User Activities"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:561
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "Task by Milestone"
-msgstr "কার্য তালিকা"
 
 #: languages/wedevs-project-manager.php:562
 #: views/assets/js/pm.js:36
@@ -4133,15 +4041,6 @@ msgstr ""
 msgid "All Projects"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:618
-#: views/assets/js/pm.js:36
-#: views/assets/src/components/admin-settings/SettingsPage.jsx:108
-#: views/assets/src/components/admin-settings/tabs/TaskTypesTab.jsx:111
-#: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:865
-#, fuzzy
-msgid "Task Types"
-msgstr "কার্য তালিকা"
-
 #: languages/wedevs-project-manager.php:619
 #: views/assets/js/pm.js:36
 #: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:866
@@ -4154,26 +4053,11 @@ msgstr ""
 msgid "Completed At"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:621
-#: views/assets/js/pm.js:36
-#: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:934
-#, fuzzy
-msgid "Subtask Title"
-msgstr "কার্য তালিকা"
-
 #: languages/wedevs-project-manager.php:622
 #: views/assets/js/pm.js:36
 #: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:937
 msgid "Hour"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:623
-#: views/assets/js/pm.js:36
-#: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:907
-#: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:910
-#, fuzzy
-msgid "Task type"
-msgstr "কার্য তালিকা"
 
 #: languages/wedevs-project-manager.php:624
 #: views/assets/js/pm.js:36
@@ -4347,22 +4231,10 @@ msgstr ""
 msgid "You will also get a complete activity log history from the activities section of your project. All the activity will also be divided by date so it is easier to keep track."
 msgstr ""
 
-#: languages/wedevs-project-manager.php:658
-#: views/assets/js/pm.js:20
-#, fuzzy
-msgid "Team Discussion"
-msgstr "আলোচনা"
-
 #: languages/wedevs-project-manager.php:659
 #: views/assets/js/pm.js:20
 msgid "There is a built-in discussion panel right inside your projects. Consisting open, group discussion feature. Making team collaboration much more effective."
 msgstr ""
-
-#: languages/wedevs-project-manager.php:660
-#: views/assets/js/pm.js:20
-#, fuzzy
-msgid "To-do Lists"
-msgstr "কার্য তালিকা"
 
 #: languages/wedevs-project-manager.php:661
 #: views/assets/js/pm.js:20
@@ -4538,12 +4410,6 @@ msgstr ""
 #: views/assets/src/helpers/mixin/mixin.js:1117
 msgid "Are you sure to delete this project?"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:695
-#: views/assets/src/components/common/RichTextEditor.jsx:227
-#, fuzzy
-msgid "Write something..."
-msgstr "একটি মন্তব্য লিখুন"
 
 #: languages/wedevs-project-manager.php:697
 #: views/assets/src/components/common/RichTextEditor.jsx:289
@@ -4840,12 +4706,6 @@ msgstr ""
 #: views/assets/src/components/common/ProFeaturePlaceholder.jsx:14
 msgid "Auth module"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:773
-#: views/assets/src/components/common/ProFeaturePlaceholder.jsx:15
-#, fuzzy
-msgid "Project setup"
-msgstr "প্রকল্প ব্যবস্থাপক"
 
 #: languages/wedevs-project-manager.php:774
 #: views/assets/src/components/common/ProFeaturePlaceholder.jsx:15
@@ -5280,12 +5140,6 @@ msgstr ""
 msgid "Page settings saved"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:886
-#: views/assets/src/components/admin-settings/tabs/PagesSettingsTab.jsx:63
-#, fuzzy
-msgid "Project Page"
-msgstr "প্রকল্প ব্যবস্থাপক"
-
 #: languages/wedevs-project-manager.php:887
 #: views/assets/src/components/admin-settings/tabs/PagesSettingsTab.jsx:71
 msgid "Select a page..."
@@ -5511,12 +5365,6 @@ msgstr ""
 msgid "Search by Task Title"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:935
-#: views/assets/src/components/my-tasks/MyTasksPage/parts/NewTaskSheet.jsx:211
-#, fuzzy
-msgid "Select a list"
-msgstr "কার্য তালিকা"
-
 #: languages/wedevs-project-manager.php:936
 #: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:768
 msgid "Select date range and click Run Report."
@@ -5607,25 +5455,6 @@ msgstr ""
 msgid "No categories yet"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:957
-#: views/assets/src/components/projects/DiscussionsPage/index.jsx:129
-#, fuzzy
-msgid "Discussion created"
-msgstr "আলোচনা বোর্ড"
-
-#: languages/wedevs-project-manager.php:958
-#: views/assets/src/components/projects/DiscussionsPage/DiscussionDetailPage.jsx:170
-#: views/assets/src/components/projects/DiscussionsPage/index.jsx:151
-#, fuzzy
-msgid "Discussion deleted"
-msgstr "আলোচনা"
-
-#: languages/wedevs-project-manager.php:959
-#: views/assets/src/components/projects/DiscussionsPage/DiscussionDetailPage.jsx:159
-#, fuzzy
-msgid "Discussion updated"
-msgstr "আলোচনা বোর্ড"
-
 #: languages/wedevs-project-manager.php:960
 #: views/assets/src/components/projects/DiscussionsPage/index.jsx:136
 msgid "Failed to create discussion"
@@ -5635,12 +5464,6 @@ msgstr ""
 #: views/assets/src/components/projects/DiscussionsPage/DiscussionDetailPage.jsx:161
 msgid "Failed to update discussion"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:962
-#: views/assets/src/components/projects/DiscussionsPage/index.jsx:272
-#, fuzzy
-msgid "No discussions yet"
-msgstr "আলোচনা"
 
 #: languages/wedevs-project-manager.php:963
 #: views/assets/src/components/projects/DiscussionsPage/index.jsx:275
@@ -5658,12 +5481,6 @@ msgstr ""
 #: languages/wedevs-project-manager.php:966
 msgid "Destination Folder"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:967
-#: views/assets/src/components/projects/FilesPage/utils.js:20
-#, fuzzy
-msgid "Discussion Comment"
-msgstr "আলোচনা"
 
 #: languages/wedevs-project-manager.php:968
 msgid "Document created"
@@ -5756,11 +5573,6 @@ msgstr ""
 #: views/assets/src/components/admin-settings/tabs/GeneralTab.jsx:210
 msgid "Uploading..."
 msgstr ""
-
-#: languages/wedevs-project-manager.php:990
-#, fuzzy
-msgid "Write document content..."
-msgstr "একটি মন্তব্য লিখুন"
 
 #: languages/wedevs-project-manager.php:991
 msgid "e.g. Design Assets"
@@ -5986,12 +5798,6 @@ msgstr ""
 msgid "Unlink from milestone"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:1035
-#: views/assets/src/components/projects/MilestonesPage/parts/ImportTasksDialog.jsx:86
-#, fuzzy
-msgid "tasks linked"
-msgstr "কার্য তালিকা"
-
 #: languages/wedevs-project-manager.php:1036
 #: views/assets/src/components/projects/ModulesPage.jsx:120
 msgid "Enable or disable project manager modules"
@@ -6023,12 +5829,6 @@ msgstr ""
 #: views/assets/src/components/projects/ProjectCreateSheet.jsx:329
 msgid "Describe your project..."
 msgstr ""
-
-#: languages/wedevs-project-manager.php:1042
-#: views/assets/src/components/projects/ProjectCreateSheet.jsx:285
-#, fuzzy
-msgid "Enter project name"
-msgstr "প্রকল্প ব্যবস্থাপক"
 
 #: languages/wedevs-project-manager.php:1043
 #: views/assets/src/components/projects/ProjectCreateSheet.jsx:272
@@ -6102,12 +5902,6 @@ msgstr ""
 msgid "Overall Progress"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:1057
-#: views/assets/src/components/projects/ProjectOverview.jsx:308
-#, fuzzy
-msgid "Project Overview"
-msgstr "প্রকল্প ব্যবস্থাপক"
-
 #: languages/wedevs-project-manager.php:1058
 #: views/assets/src/components/layout/TopBar.jsx:383
 #: views/assets/src/components/projects/ProjectCreateSheet.jsx:363
@@ -6168,18 +5962,6 @@ msgstr ""
 msgid "Oldest First"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:1069
-#: views/assets/src/components/projects/ProjectsPage/index.jsx:203
-#, fuzzy
-msgid "Project deleted"
-msgstr "প্রকল্প ব্যবস্থাপক"
-
-#: languages/wedevs-project-manager.php:1070
-#: views/assets/src/components/projects/ProjectsPage/index.jsx:219
-#, fuzzy
-msgid "Project duplicated"
-msgstr "প্রকল্প ব্যবস্থাপক"
-
 #: languages/wedevs-project-manager.php:1071
 #: views/assets/src/components/projects/ProjectsPage/index.jsx:186
 msgid "Project status updated"
@@ -6232,12 +6014,6 @@ msgstr ""
 msgid "No lists found"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:1083
-#: views/assets/src/components/tasks/MoveTaskDialog.jsx:81
-#, fuzzy
-msgid "Search task lists..."
-msgstr "কার্য তালিকা"
-
 #: languages/wedevs-project-manager.php:1084
 #: views/assets/src/components/tasks/MoveTaskDialog.jsx:54
 msgid "Task moved"
@@ -6247,12 +6023,6 @@ msgstr ""
 #: views/assets/src/components/tasks/SingleTaskListPage.jsx:255
 msgid "No incomplete tasks"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:1086
-#: views/assets/src/components/tasks/SingleTaskListPage.jsx:206
-#, fuzzy
-msgid "Task list not found."
-msgstr "কার্য তালিকা"
 
 #: languages/wedevs-project-manager.php:1087
 #: views/assets/src/components/tasks/TaskDetailSheet/parts/fields/TaskTypeField.jsx:73
@@ -6324,14 +6094,6 @@ msgstr ""
 #: views/assets/src/components/tasks/TaskDetailSheet/index.jsx:313
 msgid "Failed to add assignee"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:1100
-#: views/assets/src/components/projects/DiscussionsPage/DiscussionDetailPage.jsx:210
-#: views/assets/src/components/tasks/SingleTaskListPage.jsx:107
-#: views/assets/src/components/tasks/TaskDetailSheet/index.jsx:359
-#, fuzzy
-msgid "Failed to add comment"
-msgstr "একটি মন্তব্য লিখুন"
 
 #: languages/wedevs-project-manager.php:1101
 #: views/assets/src/components/projects/DiscussionsPage/DiscussionDetailPage.jsx:254
@@ -6424,12 +6186,6 @@ msgstr ""
 #: views/assets/src/components/tasks/TaskDetailSheet/index.jsx:868
 msgid "Show activity"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:1118
-#: views/assets/src/components/tasks/TaskDetailSheet/index.jsx:720
-#, fuzzy
-msgid "Write a description..."
-msgstr "একটি মন্তব্য লিখুন"
 
 #: languages/wedevs-project-manager.php:1119
 #: views/assets/src/components/projects/MilestonesPage/parts/ImportTasksDialog.jsx:111
@@ -6564,22 +6320,10 @@ msgstr ""
 msgid "New List"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:1143
-#: views/assets/src/components/tasks/TaskListsPage.jsx:185
-#, fuzzy
-msgid "No task lists yet"
-msgstr "কার্য তালিকা"
-
 #: languages/wedevs-project-manager.php:1144
 #: views/assets/src/components/tasks/TaskListsPage.jsx:342
 msgid "No tasks match your filters."
 msgstr ""
-
-#: languages/wedevs-project-manager.php:1145
-#: views/assets/src/components/tasks/TaskListsPage.jsx:140
-#, fuzzy
-msgid "Task list created"
-msgstr "কার্য তালিকা"
 
 #: languages/wedevs-project-manager.php:1146
 #: views/assets/src/components/tasks/TaskDetailSheet/index.jsx:417
@@ -6668,12 +6412,6 @@ msgstr ""
 msgid "Pending"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:1192
-#: views/assets/src/components/projects/AiCreateDialog/index.jsx:153
-#, fuzzy
-msgid "AI Project Generator"
-msgstr "প্রকল্প ব্যবস্থাপক"
-
 #: languages/wedevs-project-manager.php:1193
 #: views/assets/src/components/projects/AiCreateDialog/index.jsx:159
 msgid "Describe your project and AI will generate the structure."
@@ -6739,13 +6477,6 @@ msgstr ""
 msgid "Preview & Edit"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:1206
-#: views/assets/src/components/projects/AiCreateDialog/parts/PreviewStep.jsx:102
-#: views/assets/src/components/tasks/TaskListsPage.jsx:212
-#, fuzzy
-msgid "list"
-msgstr "কার্য তালিকা"
-
 #: languages/wedevs-project-manager.php:1207
 #: views/assets/src/components/projects/AiCreateDialog/parts/PreviewStep.jsx:102
 #: views/assets/src/components/tasks/TaskListsPage.jsx:212
@@ -6762,19 +6493,6 @@ msgstr ""
 #: views/assets/src/components/projects/AiCreateDialog/parts/PreviewStep.jsx:105
 msgid "task"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:1209
-#: views/assets/src/components/projects/AiCreateDialog/parts/PreviewStep.jsx:105
-#: views/assets/src/components/projects/MilestonesPage/parts/MilestoneCard.jsx:219
-#, fuzzy
-msgid "tasks"
-msgstr "কার্য তালিকা"
-
-#: languages/wedevs-project-manager.php:1210
-#: views/assets/src/components/projects/AiCreateDialog/parts/PreviewStep.jsx:152
-#, fuzzy
-msgid "Task List Name"
-msgstr "কার্য তালিকা"
 
 #: languages/wedevs-project-manager.php:1211
 #: views/assets/src/components/projects/AiCreateDialog/parts/PreviewStep.jsx:171
@@ -6839,11 +6557,6 @@ msgstr ""
 #: libs/functions.php:1361
 msgid "PM Admin"
 msgstr ""
-
-#: libs/functions.php:1362
-#, fuzzy
-msgid "PM Manager"
-msgstr "প্রকল্প ব্যবস্থাপক"
 
 #. translators: 1: User display name, 2: Project title
 #: src/Activity/Helper/Activity.php:746
@@ -7896,12 +7609,6 @@ msgstr ""
 msgid " commented on "
 msgstr ""
 
-#: views/emails/html/new-comment.php:50
-#: views/emails/html/update-comment.php:50
-#, fuzzy
-msgid "View this comment"
-msgstr "একটি মন্তব্য লিখুন"
-
 #: views/emails/html/new-comment.php:89
 #: views/emails/html/update-comment.php:89
 #: views/assets/src/components/projects/FilesPage/utils.js:21
@@ -7916,24 +7623,6 @@ msgstr ""
 #: views/emails/html/new-message.php:34
 msgid "start a new discussion"
 msgstr ""
-
-#: views/emails/html/new-message.php:47
-#: views/emails/html/update-message.php:47
-#, fuzzy
-msgid "View this discussion"
-msgstr "আলোচনা"
-
-#: views/emails/html/new-message.php:109
-#: views/emails/html/update-message.php:109
-#, fuzzy
-msgid "View Discussion"
-msgstr "আলোচনা"
-
-#: views/emails/html/new-message.php:121
-#: views/emails/html/update-message.php:121
-#, fuzzy
-msgid "Discussion Members"
-msgstr "আলোচনা"
 
 #: views/emails/html/new-project.php:34
 msgid "assigned a project to you"
@@ -7958,12 +7647,6 @@ msgstr ""
 msgid "View Project"
 msgstr ""
 
-#: views/emails/html/new-project.php:108
-#: views/emails/html/update-project.php:108
-#, fuzzy
-msgid "Project Assignes"
-msgstr "প্রকল্প ব্যবস্থাপক"
-
 #: views/emails/html/new-task.php:7
 msgid "Your Message Subject or Title"
 msgstr ""
@@ -7981,11 +7664,6 @@ msgstr ""
 #: views/emails/html/update-project.php:58
 msgid "Updated at"
 msgstr ""
-
-#: views/emails/html/update-message.php:34
-#, fuzzy
-msgid "update the discussion"
-msgstr "আলোচনা"
 
 #: views/emails/html/update-project.php:34
 msgid "update the project"
@@ -8420,12 +8098,6 @@ msgstr ""
 msgid "Save changes before testing"
 msgstr ""
 
-#: views/assets/src/components/admin-settings/tabs/TaskTypesTab.jsx:37
-#: views/assets/src/components/admin-settings/tabs/TaskTypesTab.jsx:72
-#, fuzzy
-msgid "Type name is required"
-msgstr "কার্য তালিকা"
-
 #: views/assets/src/components/admin-settings/tabs/TaskTypesTab.jsx:45
 msgid "Task type created"
 msgstr ""
@@ -8632,16 +8304,6 @@ msgstr ""
 msgid "Start Date and End Date are required."
 msgstr ""
 
-#: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:345
-#, fuzzy
-msgid "Start Date is required."
-msgstr "কার্য তালিকা"
-
-#: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:347
-#, fuzzy
-msgid "End Date is required."
-msgstr "কার্য তালিকা"
-
 #: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:353
 #: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:1014
 #: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:1015
@@ -8746,22 +8408,11 @@ msgstr ""
 msgid "Failed to load discussion"
 msgstr ""
 
-#: views/assets/src/components/projects/DiscussionsPage/DiscussionDetailPage.jsx:166
-#: views/assets/src/components/projects/DiscussionsPage/index.jsx:146
-#, fuzzy
-msgid "Delete Discussion"
-msgstr "আলোচনা"
-
 #: views/assets/src/components/projects/DiscussionsPage/DiscussionDetailPage.jsx:184
 #: views/assets/src/components/projects/DiscussionsPage/index.jsx:173
 #: views/assets/src/components/tasks/TaskRow.jsx:124
 msgid "Set to private"
 msgstr ""
-
-#: views/assets/src/components/projects/DiscussionsPage/index.jsx:200
-#, fuzzy
-msgid "New Discussion"
-msgstr "আলোচনা"
 
 #: views/assets/src/components/projects/FilesPage/index.jsx:192
 #: views/assets/src/components/projects/FilesPage/index.jsx:221
@@ -8793,11 +8444,6 @@ msgstr ""
 msgid "Upcoming"
 msgstr ""
 
-#: views/assets/src/components/projects/MilestonesPage/parts/ImportTasksDialog.jsx:86
-#, fuzzy
-msgid "task linked"
-msgstr "কার্য তালিকা"
-
 #: views/assets/src/components/projects/MilestonesPage/parts/ImportTasksDialog.jsx:164
 msgid "Select All"
 msgstr ""
@@ -8814,11 +8460,6 @@ msgstr ""
 #: views/assets/src/components/projects/MilestonesPage/parts/MilestoneCard.jsx:253
 msgid "Mark Incomplete"
 msgstr ""
-
-#: views/assets/src/components/projects/MilestonesPage/parts/MilestoneCard.jsx:225
-#, fuzzy
-msgid "discussions"
-msgstr "আলোচনা"
 
 #: views/assets/src/components/projects/MilestonesPage/parts/MilestoneCard.jsx:233
 msgid "More actions"

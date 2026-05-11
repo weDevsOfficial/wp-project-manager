@@ -19,9 +19,6 @@
             "Task": [
                 "Tarefa"
             ],
-            "File": [
-                "Arquivos"
-            ],
             "Calendar": [
                 ""
             ],
@@ -55,9 +52,6 @@
             "Tools": [
                 ""
             ],
-            "Are you sure?": [
-                "Voc\u00ea tem certeza?"
-            ],
             "Upgrade to PRO ": [
                 ""
             ],
@@ -73,9 +67,6 @@
             "Attach": [
                 ""
             ],
-            "Discussion": [
-                "Discutir sobre esta Tarefa"
-            ],
             "Edit": [
                 "Editar"
             ],
@@ -87,9 +78,6 @@
             ],
             "Completed": [
                 "Finalizado"
-            ],
-            "Mark Complete": [
-                "Marcar como finalizado"
             ],
             "Copy Link": [
                 ""
@@ -109,9 +97,6 @@
             "Description": [
                 ""
             ],
-            "Update": [
-                "Atualizar Lista"
-            ],
             "Activity": [
                 "Atividade"
             ],
@@ -123,9 +108,6 @@
             ],
             "Restore": [
                 ""
-            ],
-            "Add": [
-                "Adicionar Nova"
             ],
             "Discussions": [
                 ""
@@ -148,9 +130,6 @@
             "by": [
                 ""
             ],
-            "No results found.": [
-                "Nenhum usu\u00e1rio encontrado"
-            ],
             "New Task List": [
                 "Nova Lista de Tarefas"
             ],
@@ -159,9 +138,6 @@
             ],
             "Add Task": [
                 "Adicionar Tarefa"
-            ],
-            "Move Task": [
-                "Nova Tarefa"
             ],
             "Make Private": [
                 ""
@@ -181,38 +157,17 @@
             "Status": [
                 ""
             ],
-            "Project": [
-                "Projetos"
-            ],
-            "Milestone": [
-                "Marcos"
-            ],
             "Name": [
                 ""
             ],
-            "Update Category": [
-                "Atualizar Mensagem"
-            ],
-            "Post Comment": [
-                "1 Coment\u00e1rio"
-            ],
             "Delete File": [
                 "Excluir Arquivo"
-            ],
-            "Select a project": [
-                "Excluir Projeto"
             ],
             "All": [
                 ""
             ],
             "Today": [
                 ""
-            ],
-            "Loading...": [
-                "Saiba Mais..."
-            ],
-            "More": [
-                "Saiba Mais..."
             ],
             "Overview": [
                 ""
@@ -229,9 +184,6 @@
             "Provide your App Key & Token": [
                 ""
             ],
-            "Load More": [
-                "Saiba Mais..."
-            ],
             "My Tasks": [
                 ""
             ],
@@ -241,20 +193,11 @@
             "Overdue": [
                 ""
             ],
-            "Activity Filter": [
-                "Atividade"
-            ],
             "Current": [
                 ""
             ],
             "Outstanding": [
                 ""
-            ],
-            "Due date": [
-                "Prazo"
-            ],
-            "See More": [
-                "Saiba Mais..."
             ],
             "More features to unveil while": [
                 ""
@@ -264,9 +207,6 @@
             ],
             "Get Started Now": [
                 ""
-            ],
-            "Project Manager Pro": [
-                "Gest\u00e3o de Projetos"
             ],
             "Premium Features": [
                 ""
@@ -285,9 +225,6 @@
             ],
             "Invoices": [
                 ""
-            ],
-            "Theme Color": [
-                "Selecionar todos"
             ],
             "Currency": [
                 ""
@@ -319,17 +256,11 @@
             "Country": [
                 ""
             ],
-            "Pages": [
-                "Mensagens"
-            ],
             "Upload": [
                 ""
             ],
             "Daily Digest": [
                 ""
-            ],
-            "Subtasks": [
-                "Tarefas"
             ],
             "Pro": [
                 ""
@@ -364,9 +295,6 @@
             "Link to Docs": [
                 ""
             ],
-            "Generate": [
-                "Geral"
-            ],
             "Please enter a project description": [
                 ""
             ],
@@ -376,26 +304,8 @@
             "Failed to generate project. Please try again.": [
                 ""
             ],
-            "Project created successfully!": [
-                "Projeto criado por %s"
-            ],
-            "Failed to create project": [
-                "T\u00edtulo do projeto"
-            ],
-            "Delete Selected": [
-                "Excluir marco"
-            ],
-            "Project Name": [
-                "Gest\u00e3o de Projetos"
-            ],
             "Saving...": [
                 ""
-            ],
-            "Project name is required": [
-                "Gest\u00e3o de Projetos"
-            ],
-            "Search users...": [
-                "Pesquisar Mensagens"
             ],
             "Update Project": [
                 "Atualizar Projeto"
@@ -448,9 +358,6 @@
             "Incomplete": [
                 ""
             ],
-            "Task Title": [
-                "Lista de Tarefas"
-            ],
             "Start Date": [
                 ""
             ],
@@ -463,14 +370,8 @@
             "Back to Task Lists": [
                 ""
             ],
-            "Delete List": [
-                "Excluir marco"
-            ],
             "Pusher": [
                 ""
-            ],
-            "Pusher Settings": [
-                "Configura\u00e7\u00f5es"
             ],
             "App ID": [
                 ""
@@ -483,9 +384,6 @@
             ],
             "View Full Report": [
                 ""
-            ],
-            "AI Settings": [
-                "Configura\u00e7\u00f5es"
             ],
             "API Key": [
                 ""
@@ -541,9 +439,6 @@
             "Total Estimation Hours": [
                 ""
             ],
-            "Completed Task Count": [
-                "Finalizado em:"
-            ],
             "Avg. Hour Per-task": [
                 ""
             ],
@@ -553,26 +448,11 @@
             "Avg. Task Per-day": [
                 ""
             ],
-            "All Projects": [
-                "Projetos"
-            ],
-            "Task Types": [
-                "Tarefas"
-            ],
             "Subtask Types": [
                 ""
             ],
-            "Completed At": [
-                "Finalizado"
-            ],
-            "Subtask Title": [
-                "Lista de Tarefas"
-            ],
             "Hour": [
                 ""
-            ],
-            "Task type": [
-                "Lista de Tarefas"
             ],
             "Est. Hour": [
                 ""
@@ -610,9 +490,6 @@
             "Import": [
                 ""
             ],
-            "Resources of Project Manager": [
-                "Gest\u00e3o de Projetos"
-            ],
             "Upgrade to Pro": [
                 ""
             ],
@@ -630,9 +507,6 @@
             ],
             "Strikethrough": [
                 ""
-            ],
-            "Bullet List": [
-                "Excluir marco"
             ],
             "Numbered List": [
                 ""
@@ -727,9 +601,6 @@
             "Importing...": [
                 ""
             ],
-            "Updated": [
-                "Atualizar Lista"
-            ],
             "Unknown": [
                 ""
             ],
@@ -751,15 +622,6 @@
             "Track all project activity and team progress in one place": [
                 ""
             ],
-            "Activities Today": [
-                "Atividade"
-            ],
-            "Tasks Completed": [
-                "Finalizado"
-            ],
-            "Files Uploaded": [
-                "Limite para envio de arquivo"
-            ],
             "Team Progress Tracker": [
                 ""
             ],
@@ -768,9 +630,6 @@
             ],
             "Showing 9 of 250+ activities": [
                 ""
-            ],
-            "Task name": [
-                "Nome da Lista de Tarefas"
             ],
             "Design homepage": [
                 ""
@@ -786,9 +645,6 @@
             ],
             "Auth module": [
                 ""
-            ],
-            "Project setup": [
-                "Projetos"
             ],
             "CI\/CD pipeline": [
                 ""
@@ -807,9 +663,6 @@
             ],
             "Development": [
                 ""
-            ],
-            "Testing": [
-                "Configura\u00e7\u00f5es"
             ],
             "Deployment": [
                 ""
@@ -883,17 +736,11 @@
             "Enable start date field for tasks": [
                 ""
             ],
-            "Failed to upload": [
-                "Limite para envio de arquivo"
-            ],
             "Logo uploaded": [
                 ""
             ],
             "Please select an image file": [
                 ""
-            ],
-            "Pro Settings": [
-                "Configura\u00e7\u00f5es"
             ],
             "Send daily digest emails to team members": [
                 ""
@@ -943,9 +790,6 @@
             "Invoice Defaults": [
                 ""
             ],
-            "Invoice Settings": [
-                "Configura\u00e7\u00f5es"
-            ],
             "Invoice settings saved": [
                 ""
             ],
@@ -987,12 +831,6 @@
             ],
             "Page settings saved": [
                 ""
-            ],
-            "Project Page": [
-                "Gest\u00e3o de Projetos"
-            ],
-            "Select a page...": [
-                "Selecionar todos"
             ],
             "Select the page where Project Manager will be displayed on the front-end": [
                 ""
@@ -1042,9 +880,6 @@
             "Recent": [
                 ""
             ],
-            "Views": [
-                "Exibir Tarefa"
-            ],
             "Workspace": [
                 ""
             ],
@@ -1060,12 +895,6 @@
             "Plugin sidebar": [
                 ""
             ],
-            "Search projects and tasks...": [
-                "Pesquisar Projeto"
-            ],
-            "Search...": [
-                "Pesquisar Tarefa"
-            ],
             "Share your idea": [
                 ""
             ],
@@ -1075,12 +904,6 @@
             "WordPress sidebar": [
                 ""
             ],
-            "Activity Trend": [
-                "Atividade"
-            ],
-            "Add a description (optional)": [
-                "Descri\u00e7\u00e3o sobre o marco (opcional)"
-            ],
             "At a Glance": [
                 ""
             ],
@@ -1089,9 +912,6 @@
             ],
             "Due Date \u2193": [
                 ""
-            ],
-            "Enter task title": [
-                "Informe o t\u00edtulo da mensagem"
             ],
             "Failed to update task": [
                 ""
@@ -1114,12 +934,6 @@
             "Oldest": [
                 ""
             ],
-            "Search by Task Title": [
-                "Pesquisar Lista de Tarefas"
-            ],
-            "Select a list": [
-                "Selecionar todos"
-            ],
             "Select date range and click Run Report.": [
                 ""
             ],
@@ -1128,9 +942,6 @@
             ],
             "Interactive Calendar": [
                 ""
-            ],
-            "Add Category": [
-                "Adicionar Nova Mensagem"
             ],
             "Categories deleted": [
                 ""
@@ -1147,20 +958,11 @@
             "Category updated": [
                 ""
             ],
-            "Create Category": [
-                "Atualizar Mensagem"
-            ],
             "Create categories to organize your projects.": [
                 ""
             ],
             "Delete selected categories?": [
                 ""
-            ],
-            "Edit Category": [
-                "Atualizar Mensagem"
-            ],
-            "Failed to create category": [
-                "Atualizar Mensagem"
             ],
             "Failed to delete categories": [
                 ""
@@ -1168,20 +970,8 @@
             "Failed to delete category": [
                 ""
             ],
-            "Failed to update category": [
-                "Atualizar Mensagem"
-            ],
             "No categories yet": [
                 ""
-            ],
-            "Discussion created": [
-                "Discutir sobre esta Tarefa"
-            ],
-            "Discussion deleted": [
-                "Discutir sobre esta Tarefa"
-            ],
-            "Discussion updated": [
-                "Discutir sobre esta Tarefa"
             ],
             "Failed to create discussion": [
                 ""
@@ -1192,20 +982,11 @@
             "No discussions yet": [
                 ""
             ],
-            "Start a conversation about this project.": [
-                "Iniciar um novo projeto"
-            ],
-            "Discussion Comment": [
-                "Um Coment\u00e1rio"
-            ],
             "File deleted": [
                 ""
             ],
             "Files attached to tasks, discussions, and comments will appear here.": [
                 ""
-            ],
-            "Task Comment": [
-                "1 Coment\u00e1rio"
             ],
             "Uploading...": [
                 ""
@@ -1246,21 +1027,6 @@
             "At Risk": [
                 ""
             ],
-            "Create Milestone": [
-                "Marcos Atrasados"
-            ],
-            "Create a new milestone": [
-                "Criar nova mensagem"
-            ],
-            "Create your first milestone": [
-                "Excluir marco"
-            ],
-            "Edit an existing milestone": [
-                "Editar marco"
-            ],
-            "Failed to create milestone": [
-                "Excluir marco"
-            ],
             "Failed to delete": [
                 ""
             ],
@@ -1273,29 +1039,8 @@
             "Failed to update": [
                 ""
             ],
-            "Failed to update milestone": [
-                "Excluir marco"
-            ],
-            "Link Tasks": [
-                "Tarefas"
-            ],
             "Link tasks to this milestone": [
                 ""
-            ],
-            "Milestone created": [
-                "T\u00edtulo do Marco"
-            ],
-            "Milestone deleted": [
-                "Marco \"%s\" exclu\u00eddo por %s "
-            ],
-            "Milestone marked as complete": [
-                "Marco \"%s\" sinalizado como completo por %s "
-            ],
-            "Milestone marked as incomplete": [
-                "Marco \"%s\" sinalizado como incompleto por %s "
-            ],
-            "Milestone updated": [
-                "T\u00edtulo do Marco"
             ],
             "New Milestone": [
                 "Novo Marco"
@@ -1305,12 +1050,6 @@
             ],
             "No milestones match the selected filter.": [
                 ""
-            ],
-            "No milestones yet": [
-                "Marco"
-            ],
-            "No tasks found in this project": [
-                "Nenhuma Tarefa encontrada na lixeira"
             ],
             "No tasks linked": [
                 ""
@@ -1327,17 +1066,8 @@
             "Target Date": [
                 ""
             ],
-            "Task unlinked": [
-                "Nenhum Tarefa encontrada"
-            ],
             "Track your project progress with milestones.": [
                 ""
-            ],
-            "Unlink from milestone": [
-                "Editar marco"
-            ],
-            "tasks linked": [
-                "Lista de Tarefas"
             ],
             "Enable or disable project manager modules": [
                 ""
@@ -1345,26 +1075,14 @@
             "Go Pro Today": [
                 ""
             ],
-            "Learn More": [
-                "Saiba Mais..."
-            ],
             "Premium Modules": [
                 ""
-            ],
-            "Create New Project": [
-                "Novo Projeto"
             ],
             "Describe your project...": [
                 ""
             ],
-            "Enter project name": [
-                "Excluir Projeto"
-            ],
             "Fill in the details below to create a new project.": [
                 ""
-            ],
-            "Notify co-workers via email": [
-                "Notificar Equipe"
             ],
             "Project updated successfully": [
                 ""
@@ -1375,14 +1093,8 @@
             "Search and add members...": [
                 ""
             ],
-            "Select a category": [
-                "Selecionar todos"
-            ],
             "Update the project details below.": [
                 ""
-            ],
-            "30-Day Activity": [
-                "Atividade"
             ],
             "Failed to add member": [
                 ""
@@ -1402,9 +1114,6 @@
             "Overall Progress": [
                 ""
             ],
-            "Project Overview": [
-                "Gest\u00e3o de Projetos"
-            ],
             "Searching...": [
                 ""
             ],
@@ -1414,41 +1123,14 @@
             "AI Create": [
                 ""
             ],
-            "Delete Project": [
-                "Excluir Projeto"
-            ],
             "Details": [
                 ""
-            ],
-            "Failed to delete project": [
-                "T\u00edtulo do projeto"
-            ],
-            "Failed to duplicate project": [
-                "T\u00edtulo do projeto"
-            ],
-            "Failed to update project status": [
-                "T\u00edtulo do projeto"
-            ],
-            "Get started by creating a new project.": [
-                "Iniciar um novo projeto"
             ],
             "Newest First": [
                 ""
             ],
             "Oldest First": [
                 ""
-            ],
-            "Project deleted": [
-                "Projeto criado por %s"
-            ],
-            "Project duplicated": [
-                "Projeto criado por %s"
-            ],
-            "Project status updated": [
-                "Descri\u00e7\u00e3o do projeto atualizado por %s"
-            ],
-            "Search projects...": [
-                "Pesquisar Projeto"
             ],
             "Sort By": [
                 ""
@@ -1471,26 +1153,8 @@
             "Failed to move task": [
                 ""
             ],
-            "No lists found": [
-                "Nenhum coment\u00e1rio encontrado"
-            ],
-            "Search task lists...": [
-                "Pesquisar Lista de Tarefas"
-            ],
-            "Task moved": [
-                "Nenhum Tarefa encontrada"
-            ],
             "No incomplete tasks": [
                 ""
-            ],
-            "Task list not found.": [
-                "Nenhum Lista de Tarefas encontrada"
-            ],
-            "Add type": [
-                "Adicionar Nova"
-            ],
-            "Are you sure you want to delete this task?": [
-                "Voc\u00ea quer mesmo excluir essa mensagem?"
             ],
             "Assignee added": [
                 ""
@@ -1500,12 +1164,6 @@
             ],
             "Click to make private": [
                 ""
-            ],
-            "Comment added": [
-                "1 Coment\u00e1rio"
-            ],
-            "Comment deleted": [
-                "Finalizado"
             ],
             "Comment updated": [
                 ""
@@ -1522,17 +1180,8 @@
             "Failed to add assignee": [
                 ""
             ],
-            "Failed to add comment": [
-                "%s excluiu um coment\u00e1rio"
-            ],
-            "Failed to delete comment": [
-                "%s excluiu um coment\u00e1rio"
-            ],
             "Failed to remove assignee": [
                 ""
-            ],
-            "Failed to update comment": [
-                "Atualizar coment\u00e1rio"
             ],
             "Failed to update dates": [
                 ""
@@ -1558,32 +1207,14 @@
             "Link copied": [
                 ""
             ],
-            "No activity yet": [
-                "Atividade"
-            ],
-            "No task types found": [
-                "Nenhum Lista de Tarefas encontrada"
-            ],
             "Remove type": [
                 ""
-            ],
-            "Set dates": [
-                "Prazo"
-            ],
-            "Show activity": [
-                "Atividade"
             ],
             "Write a description...": [
                 ""
             ],
-            "Search tasks...": [
-                "Pesquisar Tarefa"
-            ],
             "This Week": [
                 ""
-            ],
-            "Add a task": [
-                "Adicionar Tarefa"
             ],
             "Delete this list and all its tasks?": [
                 ""
@@ -1600,20 +1231,8 @@
             "Failed to load more tasks": [
                 ""
             ],
-            "Failed to rename": [
-                "T\u00edtulo do Marco"
-            ],
             "List deleted": [
                 ""
-            ],
-            "List renamed": [
-                "Nome da Lista de Tarefas"
-            ],
-            "Load more completed": [
-                "Marcar como finalizado"
-            ],
-            "Load more tasks": [
-                "Saiba Mais..."
             ],
             "More options": [
                 ""
@@ -1627,12 +1246,6 @@
             "Task created": [
                 ""
             ],
-            "Task name...": [
-                "Nome da Lista de Tarefas"
-            ],
-            "View List": [
-                "Exibir Lista de Tarefas"
-            ],
             "Create your first task list to start organizing work.": [
                 ""
             ],
@@ -1645,17 +1258,8 @@
             "Failed to create task list": [
                 ""
             ],
-            "New List": [
-                "Nova Lista de Tarefas"
-            ],
-            "No task lists yet": [
-                "Lista de Tarefas"
-            ],
             "No tasks match your filters.": [
                 ""
-            ],
-            "Task list created": [
-                "Nome da Lista de Tarefas"
             ],
             "Failed to delete task": [
                 ""
@@ -1693,9 +1297,6 @@
             "License": [
                 ""
             ],
-            "AI Project Generator": [
-                "Gest\u00e3o de Projetos"
-            ],
             "Describe your project and AI will generate the structure.": [
                 ""
             ],
@@ -1717,9 +1318,6 @@
             "Almost ready...": [
                 ""
             ],
-            "Creating project...": [
-                "Excluir Projeto"
-            ],
             "Creating task lists...": [
                 ""
             ],
@@ -1735,26 +1333,14 @@
             "Preview & Edit": [
                 ""
             ],
-            "list": [
-                "Lista de Tarefas"
-            ],
             "lists": [
                 ""
             ],
             "task": [
                 ""
             ],
-            "tasks": [
-                "Tarefas"
-            ],
-            "Task List Name": [
-                "Nome da Lista de Tarefas"
-            ],
             "Back": [
                 ""
-            ],
-            "Create Project": [
-                "Atualizar Projeto"
             ],
             "Exit full screen": [
                 ""
@@ -1762,14 +1348,8 @@
             "Access denied": [
                 ""
             ],
-            "Comment": [
-                "1 Coment\u00e1rio"
-            ],
             "What's New": [
                 ""
-            ],
-            "Description (optional)": [
-                "Descri\u00e7\u00e3o sobre o marco (opcional)"
             ],
             "GitHub": [
                 ""
@@ -1837,9 +1417,6 @@
             "Model": [
                 ""
             ],
-            "Select a model": [
-                "Selecionar todos"
-            ],
             "500\u201316384. Higher values allow more detailed responses for both project and subtask generation, but may cost more.": [
                 ""
             ],
@@ -1852,23 +1429,14 @@
             "Testing...": [
                 ""
             ],
-            "Email settings saved": [
-                "Configura\u00e7\u00f5es de E-Mail"
-            ],
             "Failed to save email settings": [
                 ""
-            ],
-            "Email Settings": [
-                "Configura\u00e7\u00f5es de E-Mail"
             ],
             "Configure how notification emails are sent.": [
                 ""
             ],
             "Sender address for all notifications": [
                 ""
-            ],
-            "Email Type": [
-                "Formato do E-Mail"
             ],
             "Email links point to the WP admin backend": [
                 ""
@@ -1879,20 +1447,11 @@
             "All recipients added as BCC instead of TO": [
                 ""
             ],
-            "Settings saved": [
-                "Configura\u00e7\u00f5es"
-            ],
             "Failed to save settings": [
                 ""
             ],
-            "Size in Megabytes (e.g. 2)": [
-                "tamanho do arquivo em Megabyte. Ex: 2"
-            ],
             "Configure pagination and file upload limits.": [
                 ""
-            ],
-            "Change": [
-                "Salvar Altera\u00e7\u00f5es"
             ],
             "Remove": [
                 ""
@@ -1932,9 +1491,6 @@
             ],
             "Connected": [
                 ""
-            ],
-            "as": [
-                "Tarefa"
             ],
             "Generate a new token on GitHub": [
                 ""
@@ -2044,9 +1600,6 @@
             "Save changes before testing": [
                 ""
             ],
-            "Type name is required": [
-                "Descri\u00e7\u00e3o da Lista de Tarefas"
-            ],
             "Task type created": [
                 ""
             ],
@@ -2059,12 +1612,6 @@
             "Failed to update task type": [
                 ""
             ],
-            "Are you sure you want to delete this task type?": [
-                "Voc\u00ea quer mesmo excluir essa mensagem?"
-            ],
-            "Delete Task Type": [
-                "Excluir Projeto"
-            ],
             "Task type deleted": [
                 ""
             ],
@@ -2073,9 +1620,6 @@
             ],
             "Define custom task types for your projects.": [
                 ""
-            ],
-            "New Type": [
-                "Nova Tarefa"
             ],
             "Create Task Type": [
                 ""
@@ -2089,17 +1633,11 @@
             "Short description...": [
                 ""
             ],
-            "Actions": [
-                "Atividades do Projeto"
-            ],
             "Save": [
                 ""
             ],
             "No task types yet.": [
                 ""
-            ],
-            "Create your first type": [
-                "formato da mensagem"
             ],
             "Something went wrong.": [
                 ""
@@ -2131,17 +1669,11 @@
             "SEO Audit Service": [
                 ""
             ],
-            "Duplicate Project": [
-                "Atualizar Projeto"
-            ],
             "Logo Design Bundle": [
                 ""
             ],
             "WooCommerce Project Mapping": [
                 ""
-            ],
-            "+ Add Product": [
-                "Adicionar Projeto"
             ],
             "assignees": [
                 ""
@@ -2155,17 +1687,8 @@
             "unlock and take advantage of our premium features": [
                 ""
             ],
-            "Proj": [
-                "Projetos"
-            ],
-            "Cal": [
-                "Cancelar"
-            ],
             "Prog": [
                 ""
-            ],
-            "Rep": [
-                "Re-abrir"
             ],
             "Sprint": [
                 ""
@@ -2185,23 +1708,11 @@
             "Switch to dark mode": [
                 ""
             ],
-            "No results found": [
-                "Nenhum usu\u00e1rio encontrado"
-            ],
             "Start Date and End Date are required.": [
                 ""
             ],
-            "Start Date is required.": [
-                "Descri\u00e7\u00e3o da Lista de Tarefas"
-            ],
-            "End Date is required.": [
-                "Descri\u00e7\u00e3o da Lista de Tarefas"
-            ],
             "Start Date cannot be greater than End Date.": [
                 ""
-            ],
-            "Task completed": [
-                "Marcar como finalizado"
             ],
             "From": [
                 ""
@@ -2227,26 +1738,11 @@
             "to": [
                 ""
             ],
-            "No activities found": [
-                "Nenhum arquivo encontrado!"
-            ],
-            "Load more": [
-                "Saiba Mais..."
-            ],
             "Assignees": [
                 ""
             ],
-            "Create Task": [
-                "Tarefa Relacionada"
-            ],
-            "Project Activities": [
-                "Atividades do Projeto"
-            ],
             "View all changes, updates, and activities happening in your project in real-time.": [
                 ""
-            ],
-            "activities": [
-                "Atividade"
             ],
             "Get the birdseye view of all tasks from an interactive calendar": [
                 ""
@@ -2254,23 +1750,11 @@
             "View all your tasks, milestones, and deadlines in a beautiful calendar view.": [
                 ""
             ],
-            "Delete Category": [
-                "Atualizar Mensagem"
-            ],
-            "Bulk Delete": [
-                "Excluir"
-            ],
-            "New Category": [
-                "Adicionar Nova Mensagem"
-            ],
             "selected": [
                 ""
             ],
             "Failed to load discussion": [
                 ""
-            ],
-            "Delete Discussion": [
-                "Excluir marco"
             ],
             "Set to private": [
                 ""
@@ -2287,9 +1771,6 @@
             "License will delete permanently": [
                 ""
             ],
-            "Delete License": [
-                "Excluir marco"
-            ],
             "License Active": [
                 ""
             ],
@@ -2299,29 +1780,8 @@
             "Upcoming": [
                 ""
             ],
-            "task linked": [
-                "Lista de Tarefas"
-            ],
-            "Select All": [
-                "Selecionar todos"
-            ],
-            "Unlink Task": [
-                "Exibir Tarefa"
-            ],
-            "Delete Milestone": [
-                "Excluir marco"
-            ],
-            "Mark Incomplete": [
-                "Marcar como incompleto"
-            ],
             "discussions": [
                 ""
-            ],
-            "More actions": [
-                "Atividades do Projeto"
-            ],
-            "Milestone title": [
-                "T\u00edtulo do Marco"
             ],
             "Advanced project management tools to ensure your efficiency and productivity reach the peak.": [
                 ""
@@ -2335,23 +1795,11 @@
             "Unlock all premium features and take your project management to the next level.": [
                 ""
             ],
-            "Project created successfully": [
-                "Projeto criado por %s"
-            ],
-            "Failed to update project": [
-                "T\u00edtulo do projeto"
-            ],
             "Edit Project": [
                 "Editar Projeto"
             ],
-            "Category": [
-                "Atualizar Mensagem"
-            ],
             "None": [
                 ""
-            ],
-            "No users found": [
-                "Nenhum usu\u00e1rio encontrado"
             ],
             "User": [
                 ""
@@ -2359,23 +1807,11 @@
             "Updating...": [
                 ""
             ],
-            "Role updated": [
-                "Prazo"
-            ],
             "Failed to update role": [
                 ""
             ],
-            "completed": [
-                "Finalizado"
-            ],
             "remaining": [
                 ""
-            ],
-            "Select role": [
-                "Selecionar todos"
-            ],
-            "No projects found": [
-                "Nenhum Projeto encontrado"
             ],
             "done": [
                 ""
@@ -2383,23 +1819,11 @@
             "total": [
                 ""
             ],
-            "All Categories": [
-                "Adicionar Nova Mensagem"
-            ],
-            "Are you sure you want to delete": [
-                "Voc\u00ea quer mesmo excluir essa mensagem?"
-            ],
             "Moving...": [
                 ""
             ],
-            "Delete Comment": [
-                "Um Coment\u00e1rio"
-            ],
             "Sending...": [
                 ""
-            ],
-            "Delete Task": [
-                "Excluir marco"
             ],
             "Could not copy link": [
                 ""
@@ -2410,32 +1834,11 @@
             "Due": [
                 ""
             ],
-            "Search members...": [
-                "Pesquisar Mensagens"
-            ],
             "No project members": [
                 ""
             ],
             "No description yet. Click \"Add\" to write one.": [
                 ""
-            ],
-            "Add Comment": [
-                "%d Coment\u00e1rios"
-            ],
-            "Hide activity": [
-                "Atividade"
-            ],
-            "Milestone assigned": [
-                "T\u00edtulo do Marco"
-            ],
-            "Milestone removed": [
-                "T\u00edtulo do Marco"
-            ],
-            "Remove milestone": [
-                "Excluir marco"
-            ],
-            "No milestones": [
-                "Marco"
             ],
             "Estimate": [
                 ""

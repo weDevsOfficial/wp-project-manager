@@ -57,11 +57,6 @@ msgstr ""
 msgid "Plugin Activation Error"
 msgstr ""
 
-#: compatibility-checker.php:142
-#, fuzzy
-msgid "WP Project Manager Pro Deactivated"
-msgstr "Chef de projet"
-
 #. translators: 1: Free version number, 2: Pro version number
 #: compatibility-checker.php:146
 msgid "WP Project Manager has been updated to version %1$s. Your Pro version %2$s was automatically deactivated to prevent compatibility errors. Please update WP Project Manager Pro to version 4.0.0 or higher before reactivating it."
@@ -89,11 +84,6 @@ msgstr ""
 msgid "WP Project Manager Pro is not working because you are using an old version of WP Project Manager Pro. Please update"
 msgstr ""
 
-#: core/Admin_Notice/Admin_Notice.php:37
-#, fuzzy
-msgid "WP Project Manager Pro"
-msgstr "Chef de projet"
-
 #: core/Admin_Notice/Admin_Notice.php:39
 msgid "to >= v2.0.12"
 msgstr ""
@@ -101,11 +91,6 @@ msgstr ""
 #: core/Admin_Notice/Admin_Notice.php:42
 msgid "to work with the latest version of WP Project Manager"
 msgstr ""
-
-#: core/Admin_Notice/Admin_Notice.php:45
-#, fuzzy
-msgid "Update WP Project Manager Pro Now"
-msgstr "Chef de projet"
 
 #: core/Admin_Notice/Admin_Notice.php:171
 msgid "WP Project Manager Pro required version 2.0 or above."
@@ -174,54 +159,6 @@ msgstr "Tâche"
 #: views/assets/src/components/projects/FilesPage/index.jsx:141
 msgid "File"
 msgstr ""
-
-#. translators: 1: Blog name, 2: Project title, 3: Commentable title
-#: core/Notifications/Emails/New_Comment_Notification.php:86
-#, fuzzy
-msgid "[%1$s][%2$s] New Comment on: %3$s"
-msgstr "[%s] Nouveau commentaire sur %s: %s"
-
-#. translators: 1: Blog name, 2: Project title, 3: Message title
-#: core/Notifications/Emails/New_Message_Notification.php:61
-#, fuzzy
-msgid "[%1$s][%2$s] New Message: %3$s"
-msgstr "[%s] Nouveau message à propos du projet : %s"
-
-#. translators: 1: Blog name, 2: Project title
-#: core/Notifications/Emails/New_Project_Notification.php:31
-#, fuzzy
-msgid "[%1$s] New Project Created: %2$s"
-msgstr "Mettre à jour Projet"
-
-#. translators: 1: Blog name, 2: Project title, 3: Task title
-#: core/Notifications/Emails/New_Task_Notification.php:47
-#, fuzzy
-msgid "[%1$s][%2$s] New Task Assigned: %3$s"
-msgstr "[%s] Nouvelle tâche vous est assignée"
-
-#. translators: 1: Blog name, 2: Project title, 3: Commentable title
-#: core/Notifications/Emails/Update_Comment_Notification.php:54
-#, fuzzy
-msgid "[%1$s][%2$s] Update Comment on: %3$s"
-msgstr "[%s] Nouveau commentaire sur %s: %s"
-
-#. translators: 1: Blog name, 2: Project title, 3: Message title
-#: core/Notifications/Emails/Update_Message_Notification.php:61
-#, fuzzy
-msgid "[%1$s][%2$s] Update Message: %3$s"
-msgstr "[%s] Nouvelle tâche vous est assignée"
-
-#. translators: 1: Blog name, 2: Project title
-#: core/Notifications/Emails/Update_Project_Notification.php:27
-#, fuzzy
-msgid "[%1$s] Updated Project: %2$s"
-msgstr "Mettre à jour Projet"
-
-#. translators: 1: Blog name, 2: Project title, 3: Task title
-#: core/Notifications/Emails/Update_Task_Notification.php:47
-#, fuzzy
-msgid "[%1$s][%2$s] Update Task Assigned: %3$s"
-msgstr "[%s] Nouvelle tâche vous est assignée"
 
 #: core/Permissions/Access_Project.php:28
 #: core/Permissions/Admin.php:15
@@ -439,12 +376,6 @@ msgstr ""
 msgid "Projects"
 msgstr "Projets"
 
-#. translators: %s: pending task count number
-#: core/WP/Menu.php:28
-#, fuzzy
-msgid "My Tasks %s"
-msgstr "Tâches"
-
 #: core/WP/Menu.php:43
 #: views/assets/src/components/layout/TopBar.jsx:186
 #: views/assets/src/components/layout/TopBar.jsx:221
@@ -484,25 +415,6 @@ msgstr ""
 #: db/seeds/RoleTableSeeder.php:35
 msgid "Co-worker is person who works under a project."
 msgstr ""
-
-#: languages/wedevs-project-manager.php:3
-#: views/assets/js/library.js:1
-#: views/assets/js/pm.js:1
-#: views/assets/js/pm.js:20
-#: views/assets/src/components/categories/mixin.js:182
-#: views/assets/src/components/project-discussions/mixin.js:524
-#: views/assets/src/components/project-overview/mixin.js:98
-#: views/assets/src/components/project-task-lists/mixin.js:412
-#: views/assets/src/components/project-task-lists/mixin.js:644
-#: views/assets/src/components/projects/CategoriesPage.jsx:134
-#: views/assets/src/components/projects/DiscussionsPage/DiscussionDetailPage.jsx:166
-#: views/assets/src/components/projects/DiscussionsPage/index.jsx:146
-#: views/assets/src/components/projects/FilesPage/index.jsx:75
-#: views/assets/src/components/projects/MilestonesPage/parts/MilestoneCard.jsx:107
-#: views/assets/src/components/tasks/SingleTaskListPage.jsx:142
-#, fuzzy
-msgid "Are you sure?"
-msgstr "Etes-vous sûr ?"
 
 #: languages/wedevs-project-manager.php:4
 #: views/assets/js/library.js:20
@@ -569,43 +481,6 @@ msgstr "Annuler"
 msgid "Attach"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:9
-#: views/assets/js/library.js:20
-#: views/assets/js/pm.js:20
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "Notify user"
-msgstr "Notifier utilisateur"
-
-#: languages/wedevs-project-manager.php:10
-#: views/assets/js/library.js:20
-#: views/assets/js/pm.js:20
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "Assign to"
-msgstr "-- assigner à --"
-
-#: languages/wedevs-project-manager.php:11
-#: views/assets/js/library.js:20
-#: views/assets/js/pm.js:20
-#: views/assets/js/pm.js:28
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "Search User"
-msgstr "Recherche tâche"
-
-#: languages/wedevs-project-manager.php:12
-#: views/emails/html/new-message.php:60
-#: views/emails/html/update-message.php:60
-#: views/assets/js/library.js:20
-#: views/assets/js/pm.js:20
-#: views/assets/js/pm.js:36
-#: views/assets/src/components/projects/FilesPage/utils.js:14
-#: views/assets/src/components/tasks/SingleTaskListPage.jsx:311
-#, fuzzy
-msgid "Discussion"
-msgstr "Discuter de cette tâche"
-
 #: languages/wedevs-project-manager.php:13
 #: views/assets/js/library.js:20
 #: views/assets/js/pm.js:20
@@ -645,14 +520,6 @@ msgstr "Editer"
 msgid "Delete"
 msgstr "Supprimer"
 
-#: languages/wedevs-project-manager.php:15
-#: views/assets/js/library.js:20
-#: views/assets/js/pm.js:20
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "Add a comment"
-msgstr "Ajouter ce commentaire"
-
 #: languages/wedevs-project-manager.php:16
 #: views/assets/js/library.js:20
 #: views/assets/js/pm.js:20
@@ -681,27 +548,6 @@ msgstr ""
 #: views/assets/js/pm.js:28
 msgid "Task type not found!"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:20
-#: views/assets/js/library.js:20
-#: views/assets/js/pm.js:20
-#, fuzzy
-msgid "Add new task type"
-msgstr "Ajouter nouvelle liste de tâche"
-
-#: languages/wedevs-project-manager.php:21
-#: views/assets/js/library.js:20
-#: views/assets/js/pm.js:20
-#, fuzzy
-msgid "Add Task Type"
-msgstr "Ajouter tâche"
-
-#: languages/wedevs-project-manager.php:22
-#: views/assets/js/library.js:20
-#: views/assets/js/pm.js:20
-#, fuzzy
-msgid "No type found!"
-msgstr "Aucun utilisateur"
 
 #: languages/wedevs-project-manager.php:23
 #: views/assets/js/library.js:20
@@ -739,22 +585,6 @@ msgstr "Réalisé"
 msgid "When the task is done, click to mark it as completed."
 msgstr ""
 
-#: languages/wedevs-project-manager.php:26
-#: views/assets/js/library.js:20
-#: views/assets/js/pm.js:20
-#: views/assets/src/components/projects/MilestonesPage/parts/MilestoneCard.jsx:165
-#: views/assets/src/components/projects/MilestonesPage/parts/MilestoneCard.jsx:253
-#, fuzzy
-msgid "Mark Complete"
-msgstr "Marquer comme réalisé"
-
-#: languages/wedevs-project-manager.php:27
-#: views/assets/js/library.js:20
-#: views/assets/js/pm.js:20
-#, fuzzy
-msgid "Created by"
-msgstr "Mettre à jour Liste"
-
 #: languages/wedevs-project-manager.php:28
 #: views/assets/js/library.js:20
 #: views/assets/js/pm.js:20
@@ -769,20 +599,6 @@ msgstr ""
 msgid "Copy Link"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:30
-#: views/assets/js/library.js:20
-#: views/assets/js/pm.js:20
-#, fuzzy
-msgid "Project:"
-msgstr "Projets"
-
-#: languages/wedevs-project-manager.php:31
-#: views/assets/js/library.js:20
-#: views/assets/js/pm.js:20
-#, fuzzy
-msgid "Task List:"
-msgstr "Liste de tâche"
-
 #: languages/wedevs-project-manager.php:32
 #: views/assets/js/library.js:20
 #: views/assets/js/pm.js:20
@@ -795,27 +611,6 @@ msgstr ""
 #: views/assets/js/pm.js:20
 msgid "You can add team members responsible for this task."
 msgstr ""
-
-#: languages/wedevs-project-manager.php:34
-#: views/assets/js/library.js:20
-#: views/assets/js/pm.js:20
-#, fuzzy
-msgid "Add new member"
-msgstr "Ajouter nouvelle Etape"
-
-#: languages/wedevs-project-manager.php:35
-#: views/assets/js/library.js:20
-#: views/assets/js/pm.js:20
-#, fuzzy
-msgid "Add New Member"
-msgstr "Ajouter nouvelle étape"
-
-#: languages/wedevs-project-manager.php:36
-#: views/assets/js/library.js:20
-#: views/assets/js/pm.js:20
-#, fuzzy
-msgid "No user found!"
-msgstr "Aucun utilisateur"
 
 #: languages/wedevs-project-manager.php:37
 #: languages/wedevs-project-manager.php:842
@@ -852,37 +647,6 @@ msgstr ""
 msgid "Clear"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:40
-#: views/assets/js/library.js:20
-#: views/assets/js/pm.js:20
-#, fuzzy
-msgid "Add Due Date"
-msgstr "Ajouter nouveau message"
-
-#: languages/wedevs-project-manager.php:41
-#: views/assets/js/library.js:20
-#: views/assets/js/pm.js:20
-#, fuzzy
-msgid "Add Due Date +"
-msgstr "Ajouter nouveau message"
-
-#: languages/wedevs-project-manager.php:42
-#: views/assets/js/library.js:20
-#: views/assets/js/pm.js:20
-#, fuzzy
-msgid "No date found!"
-msgstr "Aucun utilisateur"
-
-#: languages/wedevs-project-manager.php:43
-#: views/assets/js/library.js:20
-#: views/assets/js/pm.js:20
-#: views/assets/src/components/tasks/TaskDetailSheet/parts/fields/TaskPrivacyField.jsx:35
-#: views/assets/src/components/tasks/TaskDetailSheet/parts/fields/TaskPrivacyField.jsx:38
-#: views/assets/src/components/tasks/TaskDetailSheet/parts/fields/TaskPrivacyField.jsx:49
-#, fuzzy
-msgid "Privacy"
-msgstr "Privé"
-
 #: languages/wedevs-project-manager.php:44
 #: views/assets/js/library.js:20
 #: views/assets/js/pm.js:20
@@ -913,16 +677,6 @@ msgstr ""
 msgid "Description"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:47
-#: views/assets/js/library.js:20
-#: views/assets/js/pm.js:20
-#: views/assets/js/pm.js:28
-#: views/assets/js/pm.js:36
-#: views/assets/src/components/projects/MilestonesPage/parts/MilestoneForm.jsx:64
-#, fuzzy
-msgid "Update"
-msgstr "Mettre à jour Liste"
-
 #: languages/wedevs-project-manager.php:48
 #: views/assets/js/library.js:20
 #: views/assets/js/pm.js:20
@@ -932,13 +686,6 @@ msgstr "Mettre à jour Liste"
 #: views/assets/src/components/tasks/TaskDetailSheet/index.jsx:862
 msgid "Activity"
 msgstr "Activité"
-
-#: languages/wedevs-project-manager.php:49
-#: views/assets/js/pm.js:1
-#: views/assets/src/components/project-milestones/mixin.js:316
-#, fuzzy
-msgid "Are you sure you want to delete this milestones?"
-msgstr "Etes vous sûr de supprimer ce message ?"
 
 #: languages/wedevs-project-manager.php:51
 #: views/assets/js/pm.js:28
@@ -1010,37 +757,6 @@ msgstr ""
 msgid "Restore"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:63
-#: views/assets/js/pm.js:28
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "Delete project"
-msgstr "Projet"
-
-#: languages/wedevs-project-manager.php:64
-#: views/assets/js/pm.js:28
-#, fuzzy
-msgid "Project Description"
-msgstr "Activité du projet"
-
-#: languages/wedevs-project-manager.php:65
-#: views/assets/js/pm.js:28
-#, fuzzy
-msgid "No Description Found!"
-msgstr "Aucune Etape"
-
-#: languages/wedevs-project-manager.php:67
-#: views/assets/js/pm.js:28
-#, fuzzy
-msgid "Create New User"
-msgstr "Ecrire un nouveau message"
-
-#: languages/wedevs-project-manager.php:68
-#: views/assets/js/pm.js:28
-#, fuzzy
-msgid "Add User"
-msgstr "Ajouter nouveau"
-
 #: languages/wedevs-project-manager.php:69
 #: views/assets/js/pm.js:28
 msgid " wait ... "
@@ -1061,16 +777,6 @@ msgstr ""
 #: views/assets/js/pm.js:28
 msgid "Create User"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:73
-#: views/assets/js/pm.js:28
-#: views/assets/src/components/projects/ProjectOverview.jsx:468
-#: views/assets/src/components/projects/ProjectOverview.jsx:529
-#: views/assets/src/components/tasks/TaskDetailSheet/index.jsx:647
-#: views/assets/src/components/tasks/TaskDetailSheet/index.jsx:713
-#, fuzzy
-msgid "Add"
-msgstr "Ajouter nouveau"
 
 #: languages/wedevs-project-manager.php:74
 #: languages/wedevs-project-manager.php:1160
@@ -1168,12 +874,6 @@ msgstr ""
 msgid "Load More ..."
 msgstr ""
 
-#: languages/wedevs-project-manager.php:83
-#: views/assets/js/pm.js:28
-#, fuzzy
-msgid "No activities found."
-msgstr "Aucun fichier"
-
 #: languages/wedevs-project-manager.php:84
 #: views/assets/js/pm.js:28
 msgid "Attached to"
@@ -1190,17 +890,6 @@ msgstr ""
 #: views/assets/js/pm.js:28
 msgid "admin"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:87
-#: src/Search/Controllers/Search_Controller.php:81
-#: src/Search/Controllers/Search_Controller.php:124
-#: views/assets/js/pm.js:20
-#: views/assets/js/pm.js:28
-#: views/assets/js/pm.js:36
-#: views/assets/src/components/projects/FilesPage/index.jsx:131
-#, fuzzy
-msgid "No results found."
-msgstr "Aucun utilisateur"
 
 #: languages/wedevs-project-manager.php:88
 #: views/assets/js/pm.js:28
@@ -1241,59 +930,12 @@ msgstr ""
 msgid "Assign user"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:94
-#: views/assets/js/pm.js:28
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "Task Type"
-msgstr "Tâche"
-
 #: languages/wedevs-project-manager.php:95
 #: views/assets/js/pm.js:20
 #: views/assets/js/pm.js:28
 #: views/assets/js/pm.js:36
 msgid "Add New"
 msgstr "Ajouter nouveau"
-
-#: languages/wedevs-project-manager.php:96
-#: views/assets/js/pm.js:28
-#, fuzzy
-msgid "Task: "
-msgstr "Tâche"
-
-#: languages/wedevs-project-manager.php:97
-#: views/assets/js/pm.js:28
-#, fuzzy
-msgid "Search Lists"
-msgstr "Recherche liste de tâche"
-
-#: languages/wedevs-project-manager.php:98
-#: views/assets/js/pm.js:28
-#: views/assets/src/components/tasks/MoveTaskDialog.jsx:71
-#, fuzzy
-msgid "Move Task"
-msgstr "Nouvelle tâche"
-
-#: languages/wedevs-project-manager.php:99
-#: views/assets/js/pm.js:20
-#: views/assets/js/pm.js:28
-#: views/assets/src/components/projects/DiscussionsPage/DiscussionDetailPage.jsx:353
-#: views/assets/src/components/projects/DiscussionsPage/index.jsx:360
-#: views/assets/src/components/projects/MilestonesPage/parts/MilestoneCard.jsx:269
-#: views/assets/src/components/tasks/TaskRow.jsx:316
-#, fuzzy
-msgid "Make Private"
-msgstr "Privé"
-
-#: languages/wedevs-project-manager.php:100
-#: views/assets/js/pm.js:28
-#: views/assets/src/components/projects/DiscussionsPage/DiscussionDetailPage.jsx:351
-#: views/assets/src/components/projects/DiscussionsPage/index.jsx:358
-#: views/assets/src/components/projects/MilestonesPage/parts/MilestoneCard.jsx:264
-#: views/assets/src/components/tasks/TaskRow.jsx:314
-#, fuzzy
-msgid "Make Public"
-msgstr "Publique"
 
 #: languages/wedevs-project-manager.php:101
 #: views/assets/js/pm.js:28
@@ -1315,18 +957,6 @@ msgstr ""
 #: views/assets/js/pm.js:36
 msgid "More Tasks"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:104
-#: views/assets/js/pm.js:28
-#, fuzzy
-msgid "Show Completed Task"
-msgstr "Réalisé"
-
-#: languages/wedevs-project-manager.php:105
-#: views/assets/js/pm.js:28
-#, fuzzy
-msgid "Hide Completed Task"
-msgstr "Réalisé"
 
 #: languages/wedevs-project-manager.php:106
 #: views/assets/js/pm.js:28
@@ -1353,40 +983,12 @@ msgstr ""
 msgid "To assign people to tasks."
 msgstr ""
 
-#: languages/wedevs-project-manager.php:111
-#: views/assets/js/pm.js:36
-#: views/assets/js/pm.js:61
-#, fuzzy
-msgid "Task Filter"
-msgstr "Liste de tâche"
-
-#: languages/wedevs-project-manager.php:112
-#: views/project-switch/task-creating.php:6
-#: views/assets/js/pm.js:61
-#, fuzzy
-msgid "Task title"
-msgstr "Liste de tâche"
-
 #: languages/wedevs-project-manager.php:113
 #: views/assets/js/pm.js:20
 #: views/assets/js/pm.js:61
 #: views/assets/src/components/tasks/TaskListsPage.jsx:260
 msgid "Task list name"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:114
-#: views/assets/js/pm.js:36
-#: views/assets/js/pm.js:61
-#, fuzzy
-msgid "Type task list name"
-msgstr "Liste de tâche"
-
-#: languages/wedevs-project-manager.php:115
-#: views/assets/js/pm.js:36
-#: views/assets/js/pm.js:61
-#, fuzzy
-msgid "No task lists found."
-msgstr "Aucune liste de tâche trouvée"
 
 #: languages/wedevs-project-manager.php:116
 #: views/assets/js/pm.js:36
@@ -1404,78 +1006,15 @@ msgstr ""
 msgid "On-going"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:118
-#: views/assets/js/pm.js:36
-#: views/assets/js/pm.js:61
-#, fuzzy
-msgid "Assigned to"
-msgstr "-- assigner à --"
-
-#: languages/wedevs-project-manager.php:119
-#: views/assets/js/pm.js:61
-#, fuzzy
-msgid "Clear Filter"
-msgstr "Supprimer message"
-
 #: languages/wedevs-project-manager.php:120
 #: views/assets/js/pm.js:61
 msgid "Apply Filter"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:121
-#: views/emails/html/complete-task.php:87
-#: views/emails/html/new-project.php:48
-#: views/emails/html/new-task.php:79
-#: views/emails/html/update-project.php:49
-#: views/emails/html/update-task.php:80
-#: views/assets/js/pm.js:36
-#: views/assets/js/pm.js:61
-#: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:884
-#: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:935
-#: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:1104
-#: views/assets/src/components/my-tasks/MyTasksPage/parts/NewTaskSheet.jsx:177
-#: views/assets/src/components/projects/ProjectsPage/index.jsx:499
-#, fuzzy
-msgid "Project"
-msgstr "Projets"
-
-#: languages/wedevs-project-manager.php:122
-#: views/assets/js/pm.js:36
-#: views/assets/js/pm.js:61
-#, fuzzy
-msgid "Loading projects"
-msgstr "Editer projet"
-
-#: languages/wedevs-project-manager.php:123
-#: views/assets/js/pm.js:36
-#: views/assets/js/pm.js:61
-#, fuzzy
-msgid "In List"
-msgstr "Ajouter Liste"
-
-#: languages/wedevs-project-manager.php:124
-#: views/assets/js/pm.js:36
-#: views/assets/js/pm.js:61
-#, fuzzy
-msgid "Loading task lists"
-msgstr "Liste de tâche"
-
 #: languages/wedevs-project-manager.php:125
 #: views/assets/js/pm.js:61
 msgid "You have no permission to create task for this project"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:127
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "Recurring Test Project"
-msgstr "Projet parent"
-
-#: languages/wedevs-project-manager.php:128
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "Woo Project Testing"
-msgstr "Activité du projet"
 
 #: languages/wedevs-project-manager.php:129
 #: views/assets/js/pm.js:36
@@ -1497,26 +1036,11 @@ msgstr ""
 msgid "Incomplete Task"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:133
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "Complete Task"
-msgstr "Réalisé"
-
 #: languages/wedevs-project-manager.php:134
 #: views/assets/js/pm.js:36
 #: views/assets/src/components/my-tasks/directives.js:135
 msgid "Outstanding Task"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:135
-#: views/assets/js/pm.js:20
-#: views/assets/js/pm.js:36
-#: views/assets/src/components/tasks/TaskDetailSheet/parts/fields/MilestoneField.jsx:109
-#: views/assets/src/components/tasks/TaskListSection.jsx:491
-#, fuzzy
-msgid "Milestone"
-msgstr "Etapes"
 
 #: languages/wedevs-project-manager.php:136
 #: views/assets/js/pm.js:36
@@ -1765,13 +1289,6 @@ msgstr ""
 msgid "Make Final Presentation"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:185
-#: views/assets/js/pm.js:20
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "Add New Category"
-msgstr "Ajouter nouveau message"
-
 #: languages/wedevs-project-manager.php:186
 #: views/assets/js/pm.js:36
 #: views/assets/src/components/admin-settings/tabs/TaskTypesTab.jsx:127
@@ -1791,43 +1308,15 @@ msgstr ""
 msgid "Bulk Actions"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:189
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "No categories found."
-msgstr "Aucun utilisateur"
-
 #: languages/wedevs-project-manager.php:190
 #: views/assets/js/pm.js:36
 msgid "Quick Edit"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:191
-#: views/assets/js/pm.js:20
-#: views/assets/src/components/projects/CategoriesPage.jsx:400
-#, fuzzy
-msgid "Update Category"
-msgstr "Mettre à jour commentaire"
-
 #: languages/wedevs-project-manager.php:192
 #: views/assets/js/pm.js:20
 msgid "Submit"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:193
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "Select Color"
-msgstr "Sélectionner un collègue"
-
-#: languages/wedevs-project-manager.php:194
-#: views/assets/js/library.js:1
-#: views/assets/js/pm.js:1
-#: views/assets/js/pm.js:20
-#: views/assets/src/components/tasks/SingleTaskListPage.jsx:402
-#, fuzzy
-msgid "Post Comment"
-msgstr "%d Commentaires"
 
 #: languages/wedevs-project-manager.php:195
 #: views/assets/js/library.js:1
@@ -1864,19 +1353,6 @@ msgstr ""
 #: views/assets/js/pm.js:20
 msgid "select files"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:202
-#: views/assets/js/pm.js:20
-#: views/assets/src/components/my-tasks/MyTasksPage/parts/NewTaskSheet.jsx:184
-#, fuzzy
-msgid "Select a project"
-msgstr "Créer un nouveau projet"
-
-#: languages/wedevs-project-manager.php:203
-#: views/assets/js/pm.js:20
-#, fuzzy
-msgid "Project Actions"
-msgstr "Activité du projet"
 
 #: languages/wedevs-project-manager.php:204
 #: languages/wedevs-project-manager.php:1187
@@ -1979,12 +1455,6 @@ msgstr ""
 msgid "Provide your App Key & Token"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:217
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "No activities found!"
-msgstr "Aucun fichier"
-
 #: languages/wedevs-project-manager.php:218
 #: views/assets/js/pm.js:36
 #: views/assets/src/components/projects/ActivitiesPage/index.jsx:271
@@ -1995,18 +1465,6 @@ msgstr ""
 #: views/assets/js/pm.js:36
 msgid "My Calendar"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:221
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "Completed at"
-msgstr "Réalisé"
-
-#: languages/wedevs-project-manager.php:222
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "No task found!"
-msgstr "Aucune tâche trouvée"
 
 #: languages/wedevs-project-manager.php:223
 #: views/emails/html/new-comment.php:76
@@ -2021,35 +1479,6 @@ msgstr ""
 msgid "Date Between"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:225
-#: views/assets/js/pm.js:36
-#: views/assets/src/components/my-tasks/directives.js:19
-#, fuzzy
-msgid "activity"
-msgstr "Activité"
-
-#: languages/wedevs-project-manager.php:226
-#: views/assets/js/pm.js:36
-#: views/assets/src/components/my-tasks/directives.js:30
-#: views/assets/src/components/my-tasks/directives.js:134
-#, fuzzy
-msgid "Completed Task"
-msgstr "Réalisé"
-
-#: languages/wedevs-project-manager.php:227
-#: views/assets/js/pm.js:36
-#: views/assets/src/components/my-tasks/directives.js:41
-#, fuzzy
-msgid "Assigned Task"
-msgstr "Ajouter tâche"
-
-#: languages/wedevs-project-manager.php:228
-#: views/assets/js/pm.js:36
-#: views/assets/src/components/my-tasks/directives.js:133
-#, fuzzy
-msgid "Current Task"
-msgstr "Tâche parente"
-
 #: languages/wedevs-project-manager.php:229
 #: languages/wedevs-project-manager.php:1168
 #: views/assets/js/pm.js:36
@@ -2060,30 +1489,12 @@ msgstr "Tâche parente"
 msgid "My Tasks"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:230
-#: views/assets/js/pm.js:20
-#, fuzzy
-msgid "Select an User"
-msgstr "Sélectionner un collègue"
-
 #: languages/wedevs-project-manager.php:231
 #: views/assets/js/pm.js:36
 #: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:460
 #: views/assets/src/components/my-tasks/MyTasksPage/parts/NewTaskSheet.jsx:170
 msgid "New Task"
 msgstr "Nouvelle tâche"
-
-#: languages/wedevs-project-manager.php:232
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "No project found!"
-msgstr "Pas de Projet"
-
-#: languages/wedevs-project-manager.php:233
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "No task lists found!"
-msgstr "Aucune liste de tâche trouvée"
 
 #: languages/wedevs-project-manager.php:234
 #: languages/wedevs-project-manager.php:767
@@ -2100,13 +1511,6 @@ msgstr ""
 #: views/assets/js/pm.js:36
 msgid "My Task Overview"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:236
-#: views/assets/js/pm.js:36
-#: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:548
-#, fuzzy
-msgid "Activity Filter"
-msgstr "Activité"
 
 #: languages/wedevs-project-manager.php:237
 #: views/assets/js/pm.js:36
@@ -2141,19 +1545,6 @@ msgstr ""
 #: views/assets/src/components/tasks/TaskListSection.jsx:478
 msgid "Due date"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:242
-#: views/assets/js/pm.js:36
-#: views/assets/src/components/my-tasks/router.js:27
-#, fuzzy
-msgid "My tasks"
-msgstr "Tâches"
-
-#: languages/wedevs-project-manager.php:243
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "No project found."
-msgstr "Pas de Projet"
 
 #: languages/wedevs-project-manager.php:244
 #: views/assets/js/pm.js:20
@@ -2279,13 +1670,6 @@ msgstr ""
 msgid "Real-time updates"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:268
-#: views/assets/js/pm.js:36
-#: views/assets/src/components/projects/PremiumPage.jsx:144
-#, fuzzy
-msgid "Project Manager Pro"
-msgstr "Chef de projet"
-
 #: languages/wedevs-project-manager.php:269
 #: views/assets/js/pm.js:36
 #: views/assets/src/components/projects/PremiumPage.jsx:147
@@ -2386,12 +1770,6 @@ msgstr ""
 #: views/assets/js/pm.js:20
 msgid "Integrate task management with your WooCommerce store and automate the workflow."
 msgstr ""
-
-#: languages/wedevs-project-manager.php:288
-#: views/assets/js/pm.js:20
-#, fuzzy
-msgid "Sub Task"
-msgstr "Tâche"
 
 #: languages/wedevs-project-manager.php:289
 #: views/assets/js/pm.js:20
@@ -2501,12 +1879,6 @@ msgstr ""
 msgid "Get payment with stripe account."
 msgstr ""
 
-#: languages/wedevs-project-manager.php:309
-#: views/assets/js/pm.js:20
-#, fuzzy
-msgid "Project Invoice"
-msgstr "Info du projet"
-
 #: languages/wedevs-project-manager.php:310
 #: languages/wedevs-project-manager.php:1166
 #: views/assets/js/pm.js:36
@@ -2516,13 +1888,6 @@ msgstr "Info du projet"
 #: views/assets/src/components/layout/TopBar.jsx:176
 msgid "Invoices"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:311
-#: views/assets/js/pm.js:36
-#: views/assets/src/components/admin-settings/tabs/InvoiceSettingsTab/index.jsx:120
-#, fuzzy
-msgid "Theme Color"
-msgstr "Sélectionner un collègue"
 
 #: languages/wedevs-project-manager.php:312
 #: views/assets/js/pm.js:36
@@ -2624,13 +1989,6 @@ msgstr ""
 msgid "Bangladesh"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:330
-#: views/assets/js/pm.js:36
-#: views/assets/src/components/admin-settings/SettingsPage.jsx:110
-#, fuzzy
-msgid "Pages"
-msgstr "Messages"
-
 #: languages/wedevs-project-manager.php:331
 #: views/assets/js/pm.js:36
 msgid "Page Settings"
@@ -2673,16 +2031,6 @@ msgstr ""
 msgid "Enable Daily Digest"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:339
-#: views/assets/js/pm.js:36
-#: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:929
-#: views/assets/src/components/projects/ProjectOverview.jsx:252
-#: views/assets/src/components/tasks/TaskDetailSheet/parts/ProSubtasksSection.jsx:27
-#: views/assets/src/components/tasks/TaskDetailSheet/parts/ProSubtasksSection.jsx:31
-#, fuzzy
-msgid "Subtasks"
-msgstr "Tâches"
-
 #: languages/wedevs-project-manager.php:340
 #: views/assets/js/pm.js:36
 #: views/assets/src/components/common/ProUpgradeModal.jsx:147
@@ -2722,12 +2070,6 @@ msgstr ""
 msgid "Label"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:347
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "Add Label"
-msgstr "Ajouter nouveau"
-
 #: languages/wedevs-project-manager.php:348
 #: views/assets/js/pm.js:36
 #: views/assets/src/components/tasks/TaskDetailSheet/parts/ProInlineProperties.jsx:48
@@ -2755,18 +2097,6 @@ msgstr ""
 msgid "Oct 24 2022"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:353
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "update"
-msgstr "Mettre à jour Liste"
-
-#: languages/wedevs-project-manager.php:354
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "has updated the description of a discussion board,"
-msgstr "%s a mis à jour son commentaire à propos de %s"
-
 #: languages/wedevs-project-manager.php:355
 #: views/assets/js/pm.js:36
 msgid "Profile badge successfully updated"
@@ -2781,12 +2111,6 @@ msgstr ""
 #: views/assets/js/pm.js:36
 msgid "create"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:358
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "has created a discussion board titled as"
-msgstr "%s a mis à jour son commentaire à propos de %s"
 
 #: languages/wedevs-project-manager.php:359
 #: views/assets/js/pm.js:36
@@ -2884,13 +2208,6 @@ msgstr ""
 msgid "Make it private"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:378
-#: views/assets/js/pm.js:1
-#: views/assets/src/components/project-discussions/mixin.js:571
-#, fuzzy
-msgid "Are you sure to delete this comment?"
-msgstr "Etes vous sûr de supprimer ce message ?"
-
 #: languages/wedevs-project-manager.php:379
 #: views/assets/js/pm.js:20
 #: views/assets/src/components/projects/DiscussionsPage/index.jsx:211
@@ -2987,34 +2304,6 @@ msgstr ""
 msgid "Request failed with status code: "
 msgstr ""
 
-#: languages/wedevs-project-manager.php:397
-#: views/assets/js/pm.js:20
-#, fuzzy
-msgid "Creating Project"
-msgstr "Projet parent"
-
-#: languages/wedevs-project-manager.php:398
-#: views/assets/js/pm.js:20
-#: views/assets/src/components/projects/AiCreateDialog/index.jsx:123
-#, fuzzy
-msgid "Project created successfully!"
-msgstr "Project créé par %s"
-
-#: languages/wedevs-project-manager.php:399
-#: views/assets/js/pm.js:20
-#: views/assets/src/components/projects/AiCreateDialog/index.jsx:86
-#: views/assets/src/components/projects/AiCreateDialog/index.jsx:127
-#: views/assets/src/components/projects/ProjectCreateSheet.jsx:246
-#, fuzzy
-msgid "Failed to create project"
-msgstr "Créer un nouveau projet"
-
-#: languages/wedevs-project-manager.php:400
-#: views/assets/js/pm.js:20
-#, fuzzy
-msgid "Creating Task Lists"
-msgstr "Liste de tâche parente"
-
 #: languages/wedevs-project-manager.php:401
 #: views/assets/js/pm.js:20
 msgid "Finalizing Tasks"
@@ -3024,25 +2313,6 @@ msgstr ""
 #: views/assets/js/pm.js:36
 msgid "Previewing your Project & Tasks"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:403
-#: views/assets/js/pm.js:36
-#: views/assets/src/components/projects/AiCreateDialog/parts/PreviewStep.jsx:111
-#: views/assets/src/components/projects/CategoriesPage.jsx:214
-#, fuzzy
-msgid "Delete Selected"
-msgstr "Supprimer message"
-
-#: languages/wedevs-project-manager.php:404
-#: src/Task/Helper/Task.php:112
-#: views/assets/js/pm.js:36
-#: views/assets/src/components/common/ProFeaturePlaceholder.jsx:116
-#: views/assets/src/components/projects/AiCreateDialog/parts/PreviewStep.jsx:119
-#: views/assets/src/components/projects/AiCreateDialog/parts/PreviewStep.jsx:125
-#: views/assets/src/components/projects/ProjectCreateSheet.jsx:281
-#, fuzzy
-msgid "Project Name"
-msgstr "Chef de projet"
 
 #: languages/wedevs-project-manager.php:405
 #: views/assets/js/pm.js:36
@@ -3060,20 +2330,6 @@ msgstr "Chef de projet"
 msgid "Saving..."
 msgstr ""
 
-#: languages/wedevs-project-manager.php:406
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "Save Project"
-msgstr "Nouveau Projet"
-
-#: languages/wedevs-project-manager.php:407
-#: views/assets/js/pm.js:20
-#: views/assets/src/components/projects/AiCreateDialog/parts/PreviewStep.jsx:128
-#: views/assets/src/components/projects/ProjectCreateSheet.jsx:210
-#, fuzzy
-msgid "Project name is required"
-msgstr "Chef de projet"
-
 #: languages/wedevs-project-manager.php:408
 #: views/assets/js/pm.js:20
 msgid "Name of the project"
@@ -3083,16 +2339,6 @@ msgstr ""
 #: views/assets/js/pm.js:20
 msgid "Some details about the project (optional)"
 msgstr "Quelques détails à propos du projet (optionel)"
-
-#: languages/wedevs-project-manager.php:410
-#: views/assets/js/pm.js:20
-#: views/assets/src/components/my-tasks/MyTasksPage/parts/NewTaskSheet.jsx:286
-#: views/assets/src/components/projects/ProjectCreateSheet.jsx:355
-#: views/assets/src/components/projects/ProjectOverview.jsx:474
-#: views/assets/src/components/tasks/TaskListSection.jsx:514
-#, fuzzy
-msgid "Search users..."
-msgstr "Rechercher messages"
 
 #: languages/wedevs-project-manager.php:411
 #: views/assets/js/pm.js:20
@@ -3252,12 +2498,6 @@ msgstr ""
 msgid "Upcoming Milestones"
 msgstr "Prochaines Etapes"
 
-#: languages/wedevs-project-manager.php:439
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "left -"
-msgstr "restant"
-
 #: languages/wedevs-project-manager.php:440
 #: views/assets/js/pm.js:36
 msgid "Start time"
@@ -3278,12 +2518,6 @@ msgstr ""
 #: views/assets/js/pm.js:36
 msgid "2022-11-17"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:445
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "List"
-msgstr "Ajouter Liste"
 
 #: languages/wedevs-project-manager.php:446
 #: views/assets/js/pm.js:36
@@ -3409,30 +2643,6 @@ msgstr ""
 msgid "this email already exists with user name "
 msgstr ""
 
-#: languages/wedevs-project-manager.php:468
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "Co-worker"
-msgstr "Notifier collègues"
-
-#: languages/wedevs-project-manager.php:469
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "Message: "
-msgstr "Message"
-
-#: languages/wedevs-project-manager.php:470
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "View Private"
-msgstr "Privé"
-
-#: languages/wedevs-project-manager.php:471
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "Todo List"
-msgstr "To-do Liste"
-
 #: languages/wedevs-project-manager.php:472
 #: views/assets/js/pm.js:36
 msgid "Todo"
@@ -3495,12 +2705,6 @@ msgstr ""
 msgid "URL"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:484
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "Add description"
-msgstr "Ajouter étape"
-
 #: languages/wedevs-project-manager.php:485
 #: views/assets/js/pm.js:20
 msgid "Custom Field"
@@ -3531,12 +2735,6 @@ msgstr ""
 msgid "Custom field updated successfully!"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:491
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "No field found!"
-msgstr "Aucun utilisateur"
-
 #: languages/wedevs-project-manager.php:492
 #: views/assets/js/pm.js:36
 msgid "Github"
@@ -3566,12 +2764,6 @@ msgstr ""
 #: views/assets/js/pm.js:36
 msgid "Bitbucket Username"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:498
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "No user found"
-msgstr "Aucune tâche trouvée"
 
 #: languages/wedevs-project-manager.php:499
 #: views/assets/js/pm.js:36
@@ -3625,39 +2817,15 @@ msgstr ""
 msgid "Paid"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:506
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "No invoice found!"
-msgstr "Aucun fichier"
-
 #: languages/wedevs-project-manager.php:507
 #: views/assets/js/pm.js:36
 msgid "+ Create label"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:508
-#: views/assets/js/pm.js:20
-#, fuzzy
-msgid "Are you sure!"
-msgstr "Etes-vous sûr ?"
-
 #: languages/wedevs-project-manager.php:509
 #: views/assets/js/pm.js:36
 msgid "Options"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:510
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "Add option"
-msgstr "Ajouter ce commentaire"
-
-#: languages/wedevs-project-manager.php:511
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "Add an option"
-msgstr "Ajouter une tâche"
 
 #: languages/wedevs-project-manager.php:512
 #: views/assets/js/pm.js:20
@@ -3710,12 +2878,6 @@ msgstr ""
 msgid "Incomplete"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:522
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "New comment"
-msgstr "1 Commentaire"
-
 #: languages/wedevs-project-manager.php:523
 #: views/assets/js/pm.js:36
 msgid "Update comment"
@@ -3725,14 +2887,6 @@ msgstr "Mettre à jour commentaire"
 #: views/assets/js/pm.js:36
 msgid "Add Task List"
 msgstr "Ajouter liste de tâche"
-
-#: languages/wedevs-project-manager.php:526
-#: views/assets/js/pm.js:36
-#: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:933
-#: views/assets/src/components/my-tasks/MyTasksPage/parts/NewTaskSheet.jsx:227
-#, fuzzy
-msgid "Task Title"
-msgstr "Liste de tâche"
 
 #: languages/wedevs-project-manager.php:527
 #: views/assets/js/pm.js:20
@@ -3825,23 +2979,6 @@ msgstr ""
 msgid "Back to Task Lists"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:543
-#: views/assets/js/pm.js:20
-#: views/assets/src/components/tasks/TaskListSection.jsx:227
-#, fuzzy
-msgid "Delete List"
-msgstr "Supprimer message"
-
-#: languages/wedevs-project-manager.php:544
-#, fuzzy
-msgid "Mark as private"
-msgstr "Marquer comme réalisé"
-
-#: languages/wedevs-project-manager.php:545
-#, fuzzy
-msgid "Mark as public"
-msgstr "Marquer comme réalisé"
-
 #: languages/wedevs-project-manager.php:546
 #: views/assets/js/library.js:1
 #: views/assets/js/pm.js:1
@@ -3919,24 +3056,6 @@ msgstr ""
 #: views/assets/src/components/projects/ReportsPage.jsx:131
 msgid "View Full Report"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:559
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "Complete Task(s)"
-msgstr "Réalisé"
-
-#: languages/wedevs-project-manager.php:560
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "User Activities"
-msgstr "Activité"
-
-#: languages/wedevs-project-manager.php:561
-#: views/assets/js/pm.js:36
-#, fuzzy
-msgid "Task by Milestone"
-msgstr "Etapes en retard"
 
 #: languages/wedevs-project-manager.php:562
 #: views/assets/js/pm.js:36
@@ -4213,13 +3332,6 @@ msgstr ""
 msgid "Total Estimation Hours"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:613
-#: views/assets/js/pm.js:36
-#: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:809
-#, fuzzy
-msgid "Completed Task Count"
-msgstr "Réalisé sur :"
-
 #: languages/wedevs-project-manager.php:614
 #: views/assets/js/pm.js:36
 #: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:810
@@ -4238,57 +3350,17 @@ msgstr ""
 msgid "Avg. Task Per-day"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:617
-#: views/assets/js/pm.js:36
-#: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:864
-#: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:977
-#: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:980
-#, fuzzy
-msgid "All Projects"
-msgstr "Projets"
-
-#: languages/wedevs-project-manager.php:618
-#: views/assets/js/pm.js:36
-#: views/assets/src/components/admin-settings/SettingsPage.jsx:108
-#: views/assets/src/components/admin-settings/tabs/TaskTypesTab.jsx:111
-#: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:865
-#, fuzzy
-msgid "Task Types"
-msgstr "Tâches"
-
 #: languages/wedevs-project-manager.php:619
 #: views/assets/js/pm.js:36
 #: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:866
 msgid "Subtask Types"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:620
-#: views/assets/js/pm.js:36
-#: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:932
-#, fuzzy
-msgid "Completed At"
-msgstr "Réalisé"
-
-#: languages/wedevs-project-manager.php:621
-#: views/assets/js/pm.js:36
-#: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:934
-#, fuzzy
-msgid "Subtask Title"
-msgstr "Liste de tâche"
-
 #: languages/wedevs-project-manager.php:622
 #: views/assets/js/pm.js:36
 #: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:937
 msgid "Hour"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:623
-#: views/assets/js/pm.js:36
-#: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:907
-#: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:910
-#, fuzzy
-msgid "Task type"
-msgstr "Liste de tâche"
 
 #: languages/wedevs-project-manager.php:624
 #: views/assets/js/pm.js:36
@@ -4472,12 +3544,6 @@ msgstr ""
 msgid "There is a built-in discussion panel right inside your projects. Consisting open, group discussion feature. Making team collaboration much more effective."
 msgstr ""
 
-#: languages/wedevs-project-manager.php:660
-#: views/assets/js/pm.js:20
-#, fuzzy
-msgid "To-do Lists"
-msgstr "To-do Liste"
-
 #: languages/wedevs-project-manager.php:661
 #: views/assets/js/pm.js:20
 msgid "In your projects you get a separate Task List tab to divide your work. You will be able to set due date for a task, set milestone, categorize and more."
@@ -4544,13 +3610,6 @@ msgstr ""
 msgid "Import Now"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:674
-#: views/assets/js/pm.js:36
-#: views/assets/src/components/welcome/WelcomePage.jsx:302
-#, fuzzy
-msgid "Resources of Project Manager"
-msgstr "Chef de projet"
-
 #: languages/wedevs-project-manager.php:675
 #: languages/wedevs-project-manager.php:1171
 #: views/assets/js/pm.js:20
@@ -4589,12 +3648,6 @@ msgstr ""
 msgid "Enhance your project management performance with extended features in the pro version."
 msgstr ""
 
-#: languages/wedevs-project-manager.php:680
-#: views/assets/js/pm.js:20
-#, fuzzy
-msgid "View Pro features"
-msgstr "Afficher Projet"
-
 #: languages/wedevs-project-manager.php:681
 #: views/assets/js/pm.js:20
 msgid "Module"
@@ -4618,11 +3671,6 @@ msgstr ""
 msgid "Order Products"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:686
-#, fuzzy
-msgid "Search Product"
-msgstr "Rechercher Projet"
-
 #: languages/wedevs-project-manager.php:687
 msgid "Oops! No product found. Consider changing the search query."
 msgstr ""
@@ -4630,11 +3678,6 @@ msgstr ""
 #: languages/wedevs-project-manager.php:688
 msgid "Assignees Users"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:689
-#, fuzzy
-msgid "Save Change"
-msgstr "Enregistrer"
 
 #: languages/wedevs-project-manager.php:690
 #: views/assets/js/library.js:1
@@ -4681,12 +3724,6 @@ msgstr ""
 #: views/assets/src/components/common/RichTextEditor.jsx:307
 msgid "Strikethrough"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:701
-#: views/assets/src/components/common/RichTextEditor.jsx:316
-#, fuzzy
-msgid "Bullet List"
-msgstr "Supprimer message"
 
 #: languages/wedevs-project-manager.php:702
 #: views/assets/src/components/common/RichTextEditor.jsx:322
@@ -4850,18 +3887,6 @@ msgstr ""
 msgid "Importing..."
 msgstr ""
 
-#: languages/wedevs-project-manager.php:741
-#: views/assets/src/components/projects/ActivitiesPage/index.jsx:116
-#: views/assets/src/components/projects/ActivitiesPage/index.jsx:234
-#, fuzzy
-msgid "Updated"
-msgstr "Mettre à jour Liste"
-
-#: languages/wedevs-project-manager.php:742
-#, fuzzy
-msgid "Deleted"
-msgstr "Supprimer"
-
 #: languages/wedevs-project-manager.php:743
 #: views/assets/src/components/projects/ActivitiesPage/utils.js:55
 msgid "Unknown"
@@ -4897,27 +3922,10 @@ msgstr ""
 msgid "Track all project activity and team progress in one place"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:752
-#: views/assets/src/components/projects/ProgressPage.jsx:123
-#, fuzzy
-msgid "Activities Today"
-msgstr "Activité"
-
-#: languages/wedevs-project-manager.php:753
-#: views/assets/src/components/projects/ProgressPage.jsx:124
-#, fuzzy
-msgid "Tasks Completed"
-msgstr "Réalisé"
-
 #: languages/wedevs-project-manager.php:754
 #: views/assets/src/components/projects/ProgressPage.jsx:126
 msgid "Files Uploaded"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:755
-#, fuzzy
-msgid "Commented"
-msgstr "1 Commentaire"
 
 #: languages/wedevs-project-manager.php:756
 #: views/assets/src/components/projects/ProgressPage.jsx:176
@@ -4933,12 +3941,6 @@ msgstr ""
 #: views/assets/src/components/projects/ProgressPage.jsx:160
 msgid "Showing 9 of 250+ activities"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:761
-#: views/assets/src/components/projects/AiCreateDialog/parts/TaskItem.jsx:16
-#, fuzzy
-msgid "Task name"
-msgstr "Tâche"
 
 #: languages/wedevs-project-manager.php:768
 #: views/assets/src/components/common/ProFeaturePlaceholder.jsx:13
@@ -4964,12 +3966,6 @@ msgstr ""
 #: views/assets/src/components/common/ProFeaturePlaceholder.jsx:14
 msgid "Auth module"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:773
-#: views/assets/src/components/common/ProFeaturePlaceholder.jsx:15
-#, fuzzy
-msgid "Project setup"
-msgstr "Projets"
 
 #: languages/wedevs-project-manager.php:774
 #: views/assets/src/components/common/ProFeaturePlaceholder.jsx:15
@@ -5184,26 +4180,6 @@ msgstr ""
 msgid "Due Date To"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:837
-#, fuzzy
-msgid "Completed From"
-msgstr "Réalisé sur :"
-
-#: languages/wedevs-project-manager.php:838
-#, fuzzy
-msgid "Completed To"
-msgstr "Réalisé sur :"
-
-#: languages/wedevs-project-manager.php:839
-#, fuzzy
-msgid "Activity From"
-msgstr "Activité"
-
-#: languages/wedevs-project-manager.php:840
-#, fuzzy
-msgid "Activity To"
-msgstr "Activité"
-
 #: languages/wedevs-project-manager.php:843
 #: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:760
 #: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:782
@@ -5408,12 +4384,6 @@ msgstr ""
 msgid "Page settings saved"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:886
-#: views/assets/src/components/admin-settings/tabs/PagesSettingsTab.jsx:63
-#, fuzzy
-msgid "Project Page"
-msgstr "Chef de projet"
-
 #: languages/wedevs-project-manager.php:887
 #: views/assets/src/components/admin-settings/tabs/PagesSettingsTab.jsx:71
 msgid "Select a page..."
@@ -5512,12 +4482,6 @@ msgstr ""
 msgid "Recent"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:908
-#: views/assets/src/components/layout/AppSidebar.jsx:511
-#, fuzzy
-msgid "Views"
-msgstr "Afficher tâche"
-
 #: languages/wedevs-project-manager.php:909
 #: views/assets/src/components/layout/AppSidebar.jsx:461
 msgid "Workspace"
@@ -5543,18 +4507,6 @@ msgstr ""
 msgid "Plugin sidebar"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:914
-#: views/assets/src/components/layout/TopBar.jsx:376
-#, fuzzy
-msgid "Search projects and tasks..."
-msgstr "Rechercher Projet"
-
-#: languages/wedevs-project-manager.php:915
-#: views/assets/src/components/layout/TopBar.jsx:275
-#, fuzzy
-msgid "Search..."
-msgstr "Recherche tâche"
-
 #: languages/wedevs-project-manager.php:916
 #: views/assets/js/pm.js:36
 #: views/assets/src/components/layout/TopBar.jsx:285
@@ -5570,12 +4522,6 @@ msgstr ""
 #: views/assets/src/components/layout/TopBar.jsx:352
 msgid "WordPress sidebar"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:921
-#: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:636
-#, fuzzy
-msgid "Activity Trend"
-msgstr "Activité"
 
 #: languages/wedevs-project-manager.php:922
 #: views/assets/src/components/my-tasks/MyTasksPage/parts/NewTaskSheet.jsx:249
@@ -5596,12 +4542,6 @@ msgstr ""
 #: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:1057
 msgid "Due Date ↓"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:926
-#: views/assets/src/components/my-tasks/MyTasksPage/parts/NewTaskSheet.jsx:232
-#, fuzzy
-msgid "Enter task title"
-msgstr "Editer liste de tâche"
 
 #: languages/wedevs-project-manager.php:927
 #: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:398
@@ -5638,19 +4578,6 @@ msgstr ""
 msgid "Oldest"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:934
-#: views/assets/js/pm.js:36
-#: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:965
-#, fuzzy
-msgid "Search by Task Title"
-msgstr "Recherche liste de tâche"
-
-#: languages/wedevs-project-manager.php:935
-#: views/assets/src/components/my-tasks/MyTasksPage/parts/NewTaskSheet.jsx:211
-#, fuzzy
-msgid "Select a list"
-msgstr "Sélectionner un collègue"
-
 #: languages/wedevs-project-manager.php:936
 #: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:768
 msgid "Select date range and click Run Report."
@@ -5665,12 +4592,6 @@ msgstr ""
 #: views/assets/src/components/projects/CalendarPage.jsx:195
 msgid "Interactive Calendar"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:941
-#: views/assets/src/components/projects/CategoriesPage.jsx:251
-#, fuzzy
-msgid "Add Category"
-msgstr "Ajouter nouveau message"
 
 #: languages/wedevs-project-manager.php:942
 #: views/assets/src/components/projects/CategoriesPage.jsx:160
@@ -5697,12 +4618,6 @@ msgstr ""
 msgid "Category updated"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:947
-#: views/assets/src/components/projects/CategoriesPage.jsx:399
-#, fuzzy
-msgid "Create Category"
-msgstr "Mettre à jour commentaire"
-
 #: languages/wedevs-project-manager.php:948
 #: views/assets/src/components/projects/CategoriesPage.jsx:241
 msgid "Create categories to organize your projects."
@@ -5712,18 +4627,6 @@ msgstr ""
 #: views/assets/src/components/projects/CategoriesPage.jsx:152
 msgid "Delete selected categories?"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:950
-#: views/assets/src/components/projects/CategoriesPage.jsx:359
-#, fuzzy
-msgid "Edit Category"
-msgstr "Mettre à jour commentaire"
-
-#: languages/wedevs-project-manager.php:951
-#: views/assets/src/components/projects/CategoriesPage.jsx:124
-#, fuzzy
-msgid "Failed to create category"
-msgstr "Mettre à jour commentaire"
 
 #: languages/wedevs-project-manager.php:952
 #: views/assets/src/components/projects/CategoriesPage.jsx:162
@@ -5735,35 +4638,10 @@ msgstr ""
 msgid "Failed to delete category"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:954
-#: views/assets/src/components/projects/CategoriesPage.jsx:125
-#, fuzzy
-msgid "Failed to update category"
-msgstr "Mettre à jour commentaire"
-
 #: languages/wedevs-project-manager.php:955
 #: views/assets/src/components/projects/CategoriesPage.jsx:238
 msgid "No categories yet"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:957
-#: views/assets/src/components/projects/DiscussionsPage/index.jsx:129
-#, fuzzy
-msgid "Discussion created"
-msgstr "Discuter de cette tâche"
-
-#: languages/wedevs-project-manager.php:958
-#: views/assets/src/components/projects/DiscussionsPage/DiscussionDetailPage.jsx:170
-#: views/assets/src/components/projects/DiscussionsPage/index.jsx:151
-#, fuzzy
-msgid "Discussion deleted"
-msgstr "Discuter de cette tâche"
-
-#: languages/wedevs-project-manager.php:959
-#: views/assets/src/components/projects/DiscussionsPage/DiscussionDetailPage.jsx:159
-#, fuzzy
-msgid "Discussion updated"
-msgstr "Discuter de cette tâche"
 
 #: languages/wedevs-project-manager.php:960
 #: views/assets/src/components/projects/DiscussionsPage/index.jsx:136
@@ -5779,17 +4657,6 @@ msgstr ""
 #: views/assets/src/components/projects/DiscussionsPage/index.jsx:272
 msgid "No discussions yet"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:963
-#: views/assets/src/components/projects/DiscussionsPage/index.jsx:275
-#, fuzzy
-msgid "Start a conversation about this project."
-msgstr "Créer un nouveau projet"
-
-#: languages/wedevs-project-manager.php:964
-#, fuzzy
-msgid "Add Link"
-msgstr "Ajouter Liste"
 
 #: languages/wedevs-project-manager.php:965
 msgid "Choose file"
@@ -5882,12 +4749,6 @@ msgstr ""
 msgid "Root (Home)"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:987
-#: views/assets/src/components/projects/FilesPage/utils.js:19
-#, fuzzy
-msgid "Task Comment"
-msgstr "%d Commentaires"
-
 #: languages/wedevs-project-manager.php:988
 msgid "Upload failed"
 msgstr ""
@@ -5969,35 +4830,10 @@ msgstr ""
 msgid "At Risk"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:1005
-#: views/assets/src/components/projects/MilestonesPage/index.jsx:312
-#: views/assets/src/components/projects/MilestonesPage/parts/MilestoneForm.jsx:64
-#, fuzzy
-msgid "Create Milestone"
-msgstr "Etapes en retard"
-
-#: languages/wedevs-project-manager.php:1006
-#: views/assets/src/components/projects/MilestonesPage/index.jsx:317
-#, fuzzy
-msgid "Create a new milestone"
-msgstr "Ecrire un nouveau message"
-
 #: languages/wedevs-project-manager.php:1007
 #: views/assets/src/components/projects/MilestonesPage/index.jsx:264
 msgid "Create your first milestone"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:1008
-#: views/assets/src/components/projects/MilestonesPage/index.jsx:316
-#, fuzzy
-msgid "Edit an existing milestone"
-msgstr "Ajouter nouvelle Etape"
-
-#: languages/wedevs-project-manager.php:1009
-#: views/assets/src/components/projects/MilestonesPage/index.jsx:121
-#, fuzzy
-msgid "Failed to create milestone"
-msgstr "Mettre à jour Etape"
 
 #: languages/wedevs-project-manager.php:1010
 #: views/assets/src/components/projects/DiscussionsPage/DiscussionDetailPage.jsx:173
@@ -6022,54 +4858,10 @@ msgstr ""
 msgid "Failed to update"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:1014
-#: views/assets/src/components/projects/MilestonesPage/index.jsx:120
-#: views/assets/src/components/tasks/TaskDetailSheet/parts/fields/MilestoneField.jsx:100
-#, fuzzy
-msgid "Failed to update milestone"
-msgstr "Mettre à jour Etape"
-
-#: languages/wedevs-project-manager.php:1015
-#: views/assets/src/components/projects/MilestonesPage/parts/ImportTasksDialog.jsx:100
-#: views/assets/src/components/projects/MilestonesPage/parts/MilestoneCard.jsx:247
-#, fuzzy
-msgid "Link Tasks"
-msgstr "Tâches"
-
 #: languages/wedevs-project-manager.php:1016
 #: views/assets/src/components/projects/MilestonesPage/parts/ImportTasksDialog.jsx:102
 msgid "Link tasks to this milestone"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:1017
-#: views/assets/src/components/projects/MilestonesPage/index.jsx:113
-#, fuzzy
-msgid "Milestone created"
-msgstr "Etapes"
-
-#: languages/wedevs-project-manager.php:1018
-#: views/assets/src/components/projects/MilestonesPage/parts/MilestoneCard.jsx:113
-#, fuzzy
-msgid "Milestone deleted"
-msgstr "Etape \"%s\" supprimée par %s "
-
-#: languages/wedevs-project-manager.php:1019
-#: views/assets/src/components/projects/MilestonesPage/parts/MilestoneCard.jsx:132
-#, fuzzy
-msgid "Milestone marked as complete"
-msgstr "Etape \"%s\" marquée atteinte par %s "
-
-#: languages/wedevs-project-manager.php:1020
-#: views/assets/src/components/projects/MilestonesPage/parts/MilestoneCard.jsx:133
-#, fuzzy
-msgid "Milestone marked as incomplete"
-msgstr "Etape \"%s\" marquée non atteinte par %s "
-
-#: languages/wedevs-project-manager.php:1021
-#: views/assets/src/components/projects/MilestonesPage/index.jsx:108
-#, fuzzy
-msgid "Milestone updated"
-msgstr "Etape \"%s\" mise à jour par %s "
 
 #: languages/wedevs-project-manager.php:1022
 #: views/assets/src/components/projects/MilestonesPage/index.jsx:227
@@ -6085,18 +4877,6 @@ msgstr ""
 #: views/assets/src/components/projects/MilestonesPage/index.jsx:272
 msgid "No milestones match the selected filter."
 msgstr ""
-
-#: languages/wedevs-project-manager.php:1025
-#: views/assets/src/components/projects/MilestonesPage/index.jsx:252
-#, fuzzy
-msgid "No milestones yet"
-msgstr "Etape"
-
-#: languages/wedevs-project-manager.php:1026
-#: views/assets/src/components/projects/MilestonesPage/parts/ImportTasksDialog.jsx:149
-#, fuzzy
-msgid "No tasks found in this project"
-msgstr "Aucune tâche dans la corbeille"
 
 #: languages/wedevs-project-manager.php:1027
 #: views/assets/src/components/projects/MilestonesPage/parts/MilestoneProgress.jsx:12
@@ -6123,28 +4903,10 @@ msgstr ""
 msgid "Target Date"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:1032
-#: views/assets/src/components/projects/MilestonesPage/parts/MilestoneCard.jsx:83
-#, fuzzy
-msgid "Task unlinked"
-msgstr "Aucune tâche trouvée"
-
 #: languages/wedevs-project-manager.php:1033
 #: views/assets/src/components/projects/MilestonesPage/index.jsx:255
 msgid "Track your project progress with milestones."
 msgstr ""
-
-#: languages/wedevs-project-manager.php:1034
-#: views/assets/src/components/projects/MilestonesPage/parts/MilestoneCard.jsx:381
-#, fuzzy
-msgid "Unlink from milestone"
-msgstr "Etape"
-
-#: languages/wedevs-project-manager.php:1035
-#: views/assets/src/components/projects/MilestonesPage/parts/ImportTasksDialog.jsx:86
-#, fuzzy
-msgid "tasks linked"
-msgstr "Liste de tâche"
 
 #: languages/wedevs-project-manager.php:1036
 #: views/assets/src/components/projects/ModulesPage.jsx:120
@@ -6166,35 +4928,15 @@ msgstr ""
 msgid "Premium Modules"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:1040
-#: views/assets/src/components/common/ProFeaturePlaceholder.jsx:166
-#: views/assets/src/components/common/ProFeaturePlaceholder.jsx:168
-#: views/assets/src/components/projects/ProjectCreateSheet.jsx:268
-#, fuzzy
-msgid "Create New Project"
-msgstr "Nouveau Projet"
-
 #: languages/wedevs-project-manager.php:1041
 #: views/assets/src/components/projects/ProjectCreateSheet.jsx:329
 msgid "Describe your project..."
 msgstr ""
 
-#: languages/wedevs-project-manager.php:1042
-#: views/assets/src/components/projects/ProjectCreateSheet.jsx:285
-#, fuzzy
-msgid "Enter project name"
-msgstr "Chef de projet"
-
 #: languages/wedevs-project-manager.php:1043
 #: views/assets/src/components/projects/ProjectCreateSheet.jsx:272
 msgid "Fill in the details below to create a new project."
 msgstr ""
-
-#: languages/wedevs-project-manager.php:1044
-#: views/assets/src/components/projects/ProjectCreateSheet.jsx:464
-#, fuzzy
-msgid "Notify co-workers via email"
-msgstr "Notifier collègues"
 
 #: languages/wedevs-project-manager.php:1045
 #: views/assets/src/components/projects/ProjectCreateSheet.jsx:240
@@ -6213,22 +4955,10 @@ msgstr ""
 msgid "Search and add members..."
 msgstr ""
 
-#: languages/wedevs-project-manager.php:1048
-#: views/assets/src/components/projects/ProjectCreateSheet.jsx:306
-#, fuzzy
-msgid "Select a category"
-msgstr "Sélectionner un collègue"
-
 #: languages/wedevs-project-manager.php:1049
 #: views/assets/src/components/projects/ProjectCreateSheet.jsx:271
 msgid "Update the project details below."
 msgstr ""
-
-#: languages/wedevs-project-manager.php:1050
-#: views/assets/src/components/projects/ProjectOverview.jsx:374
-#, fuzzy
-msgid "30-Day Activity"
-msgstr "Activité"
 
 #: languages/wedevs-project-manager.php:1051
 #: views/assets/src/components/projects/ProjectOverview.jsx:156
@@ -6260,12 +4990,6 @@ msgstr ""
 msgid "Overall Progress"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:1057
-#: views/assets/src/components/projects/ProjectOverview.jsx:308
-#, fuzzy
-msgid "Project Overview"
-msgstr "Chef de projet"
-
 #: languages/wedevs-project-manager.php:1058
 #: views/assets/src/components/layout/TopBar.jsx:383
 #: views/assets/src/components/projects/ProjectCreateSheet.jsx:363
@@ -6283,12 +5007,6 @@ msgstr ""
 #: views/assets/src/components/projects/ProjectsPage/index.jsx:707
 msgid "AI Create"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:1061
-#: views/assets/src/components/projects/ProjectsPage/index.jsx:826
-#, fuzzy
-msgid "Delete Project"
-msgstr "Nouveau Projet"
 
 #: languages/wedevs-project-manager.php:1062
 #: views/emails/html/new-message.php:82
@@ -6312,12 +5030,6 @@ msgstr ""
 msgid "Failed to update project status"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:1066
-#: views/assets/src/components/projects/ProjectsPage/index.jsx:262
-#, fuzzy
-msgid "Get started by creating a new project."
-msgstr "Créer un nouveau projet"
-
 #: languages/wedevs-project-manager.php:1067
 #: views/assets/src/components/projects/ProjectsPage/index.jsx:785
 msgid "Newest First"
@@ -6327,30 +5039,6 @@ msgstr ""
 #: views/assets/src/components/projects/ProjectsPage/index.jsx:786
 msgid "Oldest First"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:1069
-#: views/assets/src/components/projects/ProjectsPage/index.jsx:203
-#, fuzzy
-msgid "Project deleted"
-msgstr "Project créé par %s"
-
-#: languages/wedevs-project-manager.php:1070
-#: views/assets/src/components/projects/ProjectsPage/index.jsx:219
-#, fuzzy
-msgid "Project duplicated"
-msgstr "Project créé par %s"
-
-#: languages/wedevs-project-manager.php:1071
-#: views/assets/src/components/projects/ProjectsPage/index.jsx:186
-#, fuzzy
-msgid "Project status updated"
-msgstr "Détails du projet ajouté par %s"
-
-#: languages/wedevs-project-manager.php:1072
-#: views/assets/src/components/projects/ProjectsPage/index.jsx:759
-#, fuzzy
-msgid "Search projects..."
-msgstr "Rechercher Projet"
 
 #: languages/wedevs-project-manager.php:1073
 #: views/assets/src/components/projects/ProjectsPage/index.jsx:782
@@ -6389,46 +5077,10 @@ msgstr ""
 msgid "Failed to move task"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:1082
-#: views/assets/src/components/tasks/MoveTaskDialog.jsx:83
-#, fuzzy
-msgid "No lists found"
-msgstr "Aucun commentaire"
-
-#: languages/wedevs-project-manager.php:1083
-#: views/assets/src/components/tasks/MoveTaskDialog.jsx:81
-#, fuzzy
-msgid "Search task lists..."
-msgstr "Recherche liste de tâche"
-
-#: languages/wedevs-project-manager.php:1084
-#: views/assets/src/components/tasks/MoveTaskDialog.jsx:54
-#, fuzzy
-msgid "Task moved"
-msgstr "Aucune tâche trouvée"
-
 #: languages/wedevs-project-manager.php:1085
 #: views/assets/src/components/tasks/SingleTaskListPage.jsx:255
 msgid "No incomplete tasks"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:1086
-#: views/assets/src/components/tasks/SingleTaskListPage.jsx:206
-#, fuzzy
-msgid "Task list not found."
-msgstr "Aucune liste de tâche trouvée"
-
-#: languages/wedevs-project-manager.php:1087
-#: views/assets/src/components/tasks/TaskDetailSheet/parts/fields/TaskTypeField.jsx:73
-#, fuzzy
-msgid "Add type"
-msgstr "Ajouter nouveau"
-
-#: languages/wedevs-project-manager.php:1088
-#: views/assets/src/components/tasks/TaskDetailSheet/index.jsx:409
-#, fuzzy
-msgid "Are you sure you want to delete this task?"
-msgstr "Etes vous sûr de supprimer ce message ?"
 
 #: languages/wedevs-project-manager.php:1089
 #: views/assets/src/components/tasks/TaskDetailSheet/index.jsx:311
@@ -6444,22 +5096,6 @@ msgstr ""
 #: views/assets/src/components/tasks/TaskDetailSheet/parts/fields/TaskPrivacyField.jsx:61
 msgid "Click to make private"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:1092
-#: views/assets/src/components/projects/DiscussionsPage/DiscussionDetailPage.jsx:208
-#: views/assets/src/components/tasks/SingleTaskListPage.jsx:105
-#: views/assets/src/components/tasks/TaskDetailSheet/index.jsx:357
-#, fuzzy
-msgid "Comment added"
-msgstr "1 Commentaire"
-
-#: languages/wedevs-project-manager.php:1093
-#: views/assets/src/components/projects/DiscussionsPage/DiscussionDetailPage.jsx:252
-#: views/assets/src/components/tasks/SingleTaskListPage.jsx:147
-#: views/assets/src/components/tasks/TaskDetailSheet/index.jsx:390
-#, fuzzy
-msgid "Comment deleted"
-msgstr "Réalisé"
 
 #: languages/wedevs-project-manager.php:1094
 #: views/assets/src/components/projects/DiscussionsPage/DiscussionDetailPage.jsx:241
@@ -6493,34 +5129,10 @@ msgstr ""
 msgid "Failed to add assignee"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:1100
-#: views/assets/src/components/projects/DiscussionsPage/DiscussionDetailPage.jsx:210
-#: views/assets/src/components/tasks/SingleTaskListPage.jsx:107
-#: views/assets/src/components/tasks/TaskDetailSheet/index.jsx:359
-#, fuzzy
-msgid "Failed to add comment"
-msgstr "%s a supprimé un commentaire"
-
-#: languages/wedevs-project-manager.php:1101
-#: views/assets/src/components/projects/DiscussionsPage/DiscussionDetailPage.jsx:254
-#: views/assets/src/components/tasks/SingleTaskListPage.jsx:149
-#: views/assets/src/components/tasks/TaskDetailSheet/index.jsx:392
-#, fuzzy
-msgid "Failed to delete comment"
-msgstr "%s a supprimé un commentaire"
-
 #: languages/wedevs-project-manager.php:1102
 #: views/assets/src/components/tasks/TaskDetailSheet/index.jsx:331
 msgid "Failed to remove assignee"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:1103
-#: views/assets/src/components/projects/DiscussionsPage/DiscussionDetailPage.jsx:243
-#: views/assets/src/components/tasks/SingleTaskListPage.jsx:137
-#: views/assets/src/components/tasks/TaskDetailSheet/index.jsx:382
-#, fuzzy
-msgid "Failed to update comment"
-msgstr "Mettre à jour commentaire"
 
 #: languages/wedevs-project-manager.php:1104
 #: views/assets/src/components/tasks/TaskDetailSheet/index.jsx:291
@@ -6565,18 +5177,6 @@ msgstr ""
 msgid "Link copied"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:1112
-#: views/assets/src/components/tasks/TaskDetailSheet/index.jsx:927
-#, fuzzy
-msgid "No activity yet"
-msgstr "Activité"
-
-#: languages/wedevs-project-manager.php:1113
-#: views/assets/src/components/tasks/TaskDetailSheet/parts/fields/TaskTypeField.jsx:80
-#, fuzzy
-msgid "No task types found"
-msgstr "Aucune liste de tâche trouvée"
-
 #: languages/wedevs-project-manager.php:1114
 msgid "Please choose one user"
 msgstr ""
@@ -6592,34 +5192,15 @@ msgstr ""
 msgid "Set dates"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:1117
-#: views/assets/src/components/tasks/TaskDetailSheet/index.jsx:868
-#, fuzzy
-msgid "Show activity"
-msgstr "Activité"
-
 #: languages/wedevs-project-manager.php:1118
 #: views/assets/src/components/tasks/TaskDetailSheet/index.jsx:720
 msgid "Write a description..."
 msgstr ""
 
-#: languages/wedevs-project-manager.php:1119
-#: views/assets/src/components/projects/MilestonesPage/parts/ImportTasksDialog.jsx:111
-#: views/assets/src/components/tasks/TaskFilterBar.jsx:139
-#, fuzzy
-msgid "Search tasks..."
-msgstr "Recherche tâche"
-
 #: languages/wedevs-project-manager.php:1120
 #: views/assets/src/components/tasks/TaskFilterBar.jsx:163
 msgid "This Week"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:1121
-#: views/assets/src/components/tasks/TaskListSection.jsx:429
-#, fuzzy
-msgid "Add a task"
-msgstr "Ajouter tâche"
 
 #: languages/wedevs-project-manager.php:1122
 #: views/assets/src/components/tasks/TaskListSection.jsx:227
@@ -6665,13 +5246,6 @@ msgstr ""
 msgid "List renamed"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:1130
-#: views/assets/src/components/tasks/SingleTaskListPage.jsx:298
-#: views/assets/src/components/tasks/TaskListSection.jsx:615
-#, fuzzy
-msgid "Load more completed"
-msgstr "Marquer comme réalisé"
-
 #: languages/wedevs-project-manager.php:1131
 #: views/assets/src/components/tasks/SingleTaskListPage.jsx:268
 #: views/assets/src/components/tasks/TaskListSection.jsx:414
@@ -6704,12 +5278,6 @@ msgstr ""
 msgid "Task name..."
 msgstr ""
 
-#: languages/wedevs-project-manager.php:1137
-#: views/assets/src/components/tasks/TaskListSection.jsx:315
-#, fuzzy
-msgid "View List"
-msgstr "Voir liste de tâche"
-
 #: languages/wedevs-project-manager.php:1138
 #: views/assets/src/components/tasks/TaskListsPage.jsx:188
 msgid "Create your first task list to start organizing work."
@@ -6735,28 +5303,10 @@ msgstr ""
 msgid "Failed to create task list"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:1142
-#: views/assets/src/components/tasks/TaskListsPage.jsx:244
-#, fuzzy
-msgid "New List"
-msgstr "Nouvelle liste de tâche"
-
-#: languages/wedevs-project-manager.php:1143
-#: views/assets/src/components/tasks/TaskListsPage.jsx:185
-#, fuzzy
-msgid "No task lists yet"
-msgstr "Liste de tâche"
-
 #: languages/wedevs-project-manager.php:1144
 #: views/assets/src/components/tasks/TaskListsPage.jsx:342
 msgid "No tasks match your filters."
 msgstr ""
-
-#: languages/wedevs-project-manager.php:1145
-#: views/assets/src/components/tasks/TaskListsPage.jsx:140
-#, fuzzy
-msgid "Task list created"
-msgstr "To-do liste %s créée par %s"
 
 #: languages/wedevs-project-manager.php:1146
 #: views/assets/src/components/tasks/TaskDetailSheet/index.jsx:417
@@ -6786,12 +5336,6 @@ msgstr ""
 #: views/assets/src/components/tasks/TaskRow.jsx:229
 msgid "Normal"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:1151
-#: views/assets/src/components/tasks/TaskRow.jsx:280
-#, fuzzy
-msgid "Private task"
-msgstr "Privé"
 
 #: languages/wedevs-project-manager.php:1152
 #: views/assets/src/components/projects/DiscussionsPage/DiscussionDetailPage.jsx:184
@@ -6826,11 +5370,6 @@ msgstr ""
 msgid "Sprints"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:1174
-#, fuzzy
-msgid "Woo Project"
-msgstr "Projets"
-
 #: languages/wedevs-project-manager.php:1175
 #: views/assets/src/components/layout/AppSidebar.jsx:567
 #: views/assets/src/components/layout/TopBar.jsx:187
@@ -6846,12 +5385,6 @@ msgstr ""
 #: languages/wedevs-project-manager.php:1189
 msgid "Pending"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:1192
-#: views/assets/src/components/projects/AiCreateDialog/index.jsx:153
-#, fuzzy
-msgid "AI Project Generator"
-msgstr "Chef de projet"
 
 #: languages/wedevs-project-manager.php:1193
 #: views/assets/src/components/projects/AiCreateDialog/index.jsx:159
@@ -6888,12 +5421,6 @@ msgstr ""
 msgid "Almost ready..."
 msgstr ""
 
-#: languages/wedevs-project-manager.php:1200
-#: views/assets/src/components/projects/AiCreateDialog/parts/AiLoadingOverlay.jsx:21
-#, fuzzy
-msgid "Creating project..."
-msgstr "Projet parent"
-
 #: languages/wedevs-project-manager.php:1201
 #: views/assets/src/components/projects/AiCreateDialog/parts/AiLoadingOverlay.jsx:22
 msgid "Creating task lists..."
@@ -6919,13 +5446,6 @@ msgstr ""
 msgid "Preview & Edit"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:1206
-#: views/assets/src/components/projects/AiCreateDialog/parts/PreviewStep.jsx:102
-#: views/assets/src/components/tasks/TaskListsPage.jsx:212
-#, fuzzy
-msgid "list"
-msgstr "Liste de tâche"
-
 #: languages/wedevs-project-manager.php:1207
 #: views/assets/src/components/projects/AiCreateDialog/parts/PreviewStep.jsx:102
 #: views/assets/src/components/tasks/TaskListsPage.jsx:212
@@ -6943,31 +5463,11 @@ msgstr ""
 msgid "task"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:1209
-#: views/assets/src/components/projects/AiCreateDialog/parts/PreviewStep.jsx:105
-#: views/assets/src/components/projects/MilestonesPage/parts/MilestoneCard.jsx:219
-#, fuzzy
-msgid "tasks"
-msgstr "Tâches"
-
-#: languages/wedevs-project-manager.php:1210
-#: views/assets/src/components/projects/AiCreateDialog/parts/PreviewStep.jsx:152
-#, fuzzy
-msgid "Task List Name"
-msgstr "Liste de tâche"
-
 #: languages/wedevs-project-manager.php:1211
 #: views/assets/src/components/projects/AiCreateDialog/parts/PreviewStep.jsx:171
 #: views/assets/src/components/projects/ProjectOverview.jsx:526
 msgid "Back"
 msgstr ""
-
-#: languages/wedevs-project-manager.php:1212
-#: views/assets/src/components/projects/AiCreateDialog/parts/PreviewStep.jsx:175
-#: views/assets/src/components/projects/ProjectCreateSheet.jsx:482
-#, fuzzy
-msgid "Create Project"
-msgstr "Mettre à jour Projet"
 
 #: languages/wedevs-project-manager.php:1213
 #: views/assets/src/components/projects/AiCreateDialog/index.jsx:144
@@ -6975,63 +5475,14 @@ msgstr "Mettre à jour Projet"
 msgid "Exit full screen"
 msgstr ""
 
-#: languages/wedevs-project-manager.php:1216
-#: views/assets/js/pm.js:20
-#, fuzzy
-msgid " Tasks"
-msgstr "Tâches"
-
-#: languages/wedevs-project-manager.php:1217
-#: views/assets/js/pm.js:20
-#, fuzzy
-msgid " Discussions"
-msgstr "Discuter de cette tâche"
-
-#: languages/wedevs-project-manager.php:1218
-#: views/assets/js/pm.js:20
-#, fuzzy
-msgid " Task Lists"
-msgstr "Liste de Tâche"
-
-#: languages/wedevs-project-manager.php:1219
-#: views/assets/js/pm.js:20
-#, fuzzy
-msgid " Files"
-msgstr "Fichiers"
-
-#: languages/wedevs-project-manager.php:1220
-#: views/assets/js/pm.js:20
-#, fuzzy
-msgid " Milestones"
-msgstr "Etapes"
-
-#: languages/wedevs-project-manager.php:1221
-#: views/assets/js/pm.js:20
-#, fuzzy
-msgid " Comments"
-msgstr "%d Commentaires"
-
 #. translators: 1: Current PHP version, 2: Required PHP version
 #: libs/configurations.php:34
 msgid "Your current PHP version is %1$s. You need to upgrade your PHP version to %2$s or later to run project manager."
 msgstr ""
 
-#: libs/functions.php:737
-#: src/Discussion_Board/Controllers/Discussion_Board_Controller.php:63
-#: src/Milestone/Controllers/Milestone_Controller.php:89
-#: src/Task_List/Controllers/Task_List_Controller.php:273
-#, fuzzy
-msgid "No elements found."
-msgstr "Aucun commentaire"
-
 #: libs/functions.php:1361
 msgid "PM Admin"
 msgstr ""
-
-#: libs/functions.php:1362
-#, fuzzy
-msgid "PM Manager"
-msgstr "Chef de projet"
 
 #. translators: 1: User display name, 2: Project title
 #: src/Activity/Helper/Activity.php:746
@@ -7303,23 +5754,10 @@ msgid "{{actor.data.display_name}} has replied to a comment on a %1$s, {{meta.%2
 msgstr ""
 
 #. translators: 1: Resource type (task, project, etc.), 2: Resource type for meta path
-#: src/Activity/Helper/Activity.php:1001
-#: src/Activity/Transformers/Activity_Transformer.php:499
-#, fuzzy
-msgid "{{actor.data.display_name}} has updated a reply to a comment on a %1$s, {{meta.%2$s_title}}."
-msgstr "%s a mis à jour son commentaire à propos de %s"
-
-#. translators: 1: Resource type (task, project, etc.), 2: Resource type for meta path
 #: src/Activity/Helper/Activity.php:1005
 #: src/Activity/Transformers/Activity_Transformer.php:503
 msgid "{{actor.data.display_name}} has deleted a reply to a comment on a %1$s, {{meta.%2$s_title}}."
 msgstr ""
-
-#: src/Activity/Helper/Activity.php:1021
-#: src/Activity/Transformers/Activity_Transformer.php:519
-#, fuzzy
-msgid "project"
-msgstr "Projet"
 
 #: src/Activity/Helper/Activity.php:1024
 #: src/Activity/Transformers/Activity_Transformer.php:522
@@ -7327,26 +5765,6 @@ msgstr "Projet"
 #: src/Pusher/Libs/action.php:351
 msgid "discussion board"
 msgstr ""
-
-#: src/Activity/Helper/Activity.php:1027
-#: src/Activity/Transformers/Activity_Transformer.php:525
-#: src/Pusher/Libs/action.php:245
-#: src/Pusher/Libs/action.php:330
-#, fuzzy
-msgid "task list"
-msgstr "Liste de tâche"
-
-#: src/Activity/Helper/Activity.php:1033
-#: src/Activity/Transformers/Activity_Transformer.php:531
-#, fuzzy
-msgid "milestone"
-msgstr "Etape"
-
-#: src/Activity/Helper/Activity.php:1036
-#: src/Activity/Transformers/Activity_Transformer.php:534
-#, fuzzy
-msgid "comment"
-msgstr "1 Commentaire"
 
 #: src/Activity/Helper/Activity.php:1039
 #: src/Activity/Transformers/Activity_Transformer.php:537
@@ -7604,16 +6022,6 @@ msgstr ""
 msgid "No tasks provided."
 msgstr ""
 
-#: src/Milestone/Controllers/Milestone_Controller.php:259
-#, fuzzy
-msgid "Milestone not found."
-msgstr "Aucune étape trouvée"
-
-#: src/Milestone/Controllers/Milestone_Controller.php:280
-#, fuzzy
-msgid "Tasks linked to milestone."
-msgstr "Ajouter nouvelle Etape"
-
 #: src/Milestone/Controllers/Milestone_Controller.php:296
 msgid "Task unlinked from milestone."
 msgstr ""
@@ -7813,12 +6221,6 @@ msgstr ""
 msgid "You've assigned in"
 msgstr ""
 
-#: src/Pusher/Libs/action.php:118
-#: src/Pusher/Libs/action.php:119
-#, fuzzy
-msgid "has been completed"
-msgstr "Marquer comme réalisé"
-
 #: src/Pusher/Libs/action.php:123
 #: src/Pusher/Libs/action.php:124
 msgid "has been re-opened"
@@ -7844,22 +6246,6 @@ msgstr ""
 msgid "has been updated"
 msgstr ""
 
-#: src/Pusher/Libs/action.php:279
-#: src/Pusher/Libs/action.php:287
-#, fuzzy
-msgid "commented on a"
-msgstr "1 Commentaire"
-
-#: src/Pusher/Libs/action.php:363
-#, fuzzy
-msgid "updated comment on a"
-msgstr "Mettre à jour commentaire"
-
-#: src/Pusher/Libs/action.php:389
-#, fuzzy
-msgid "updated his comment on a"
-msgstr "Ajouter ce commentaire"
-
 #: src/Pusher/Libs/action.php:450
 msgid "started a new discussion on"
 msgstr ""
@@ -7867,11 +6253,6 @@ msgstr ""
 #: src/Pusher/Libs/action.php:474
 msgid "You've got a new"
 msgstr ""
-
-#: src/Pusher/Libs/action.php:474
-#, fuzzy
-msgid "messsage"
-msgstr "Message"
 
 #: src/Pusher/Libs/action.php:499
 msgid "updated discussion on a"
@@ -8055,29 +6436,11 @@ msgstr ""
 msgid " has re-open the task"
 msgstr ""
 
-#: views/emails/html/complete-task.php:38
-#, fuzzy
-msgid " has completed the task"
-msgstr "Tâche %s réalisée par %s"
-
-#: views/emails/html/complete-task.php:44
-#: views/emails/html/new-task.php:36
-#: views/emails/html/update-task.php:35
-#, fuzzy
-msgid "View this task"
-msgstr "Afficher tâche"
-
 #: views/emails/html/complete-task.php:63
 #: views/emails/html/new-task.php:55
 #: views/emails/html/update-task.php:55
 msgid "Assign To"
 msgstr ""
-
-#: views/emails/html/complete-task.php:97
-#: views/emails/html/update-task.php:90
-#, fuzzy
-msgid "No description found!"
-msgstr "Aucun utilisateur"
 
 #: views/emails/html/complete-task.php:105
 #: views/emails/html/new-task.php:96
@@ -8095,24 +6458,6 @@ msgstr ""
 msgid "Made by"
 msgstr ""
 
-#: views/emails/html/new-comment.php:36
-#, fuzzy
-msgid " commented on "
-msgstr "1 Commentaire"
-
-#: views/emails/html/new-comment.php:50
-#: views/emails/html/update-comment.php:50
-#, fuzzy
-msgid "View this comment"
-msgstr "Ajouter ce commentaire"
-
-#: views/emails/html/new-comment.php:89
-#: views/emails/html/update-comment.php:89
-#: views/assets/src/components/projects/FilesPage/utils.js:21
-#, fuzzy
-msgid "Comment"
-msgstr "1 Commentaire"
-
 #: views/emails/html/new-comment.php:116
 #: views/emails/html/update-comment.php:117
 msgid "Reply"
@@ -8127,94 +6472,27 @@ msgstr ""
 msgid "View this discussion"
 msgstr ""
 
-#: views/emails/html/new-message.php:109
-#: views/emails/html/update-message.php:109
-#, fuzzy
-msgid "View Discussion"
-msgstr "Voir étape"
-
 #: views/emails/html/new-message.php:121
 #: views/emails/html/update-message.php:121
 msgid "Discussion Members"
 msgstr ""
-
-#: views/emails/html/new-project.php:34
-#, fuzzy
-msgid "assigned a project to you"
-msgstr "Vous êtes sollicité pour un nouveau projet \"%s\" sur %s"
-
-#: views/emails/html/new-project.php:36
-#: views/emails/html/update-project.php:36
-#, fuzzy
-msgid "View this project"
-msgstr "Afficher Projet"
-
-#: views/emails/html/new-project.php:77
-#, fuzzy
-msgid "You are assigned a project"
-msgstr "Vous êtes sollicité pour un nouveau projet \"%s\" sur %s"
-
-#: views/emails/html/new-project.php:85
-#: views/emails/html/update-project.php:85
-#, fuzzy
-msgid "You can see the project by going here: "
-msgstr "Vous pouvez voir le projet en cliquant sur : %s"
 
 #: views/emails/html/new-project.php:96
 #: views/emails/html/update-project.php:96
 msgid "View Project"
 msgstr "Afficher Projet"
 
-#: views/emails/html/new-project.php:108
-#: views/emails/html/update-project.php:108
-#, fuzzy
-msgid "Project Assignes"
-msgstr "Activité du projet"
-
-#: views/emails/html/new-task.php:7
-#, fuzzy
-msgid "Your Message Subject or Title"
-msgstr "Nouveau message"
-
 #: views/emails/html/new-task.php:34
 msgid "assigned a task to you"
 msgstr ""
-
-#: views/emails/html/update-comment.php:36
-#, fuzzy
-msgid " update comment on "
-msgstr "Mettre à jour commentaire"
-
-#: views/emails/html/update-comment.php:76
-#: views/emails/html/update-message.php:69
-#: views/emails/html/update-project.php:58
-#, fuzzy
-msgid "Updated at"
-msgstr "Mettre à jour Liste"
 
 #: views/emails/html/update-message.php:34
 msgid "update the discussion"
 msgstr ""
 
-#: views/emails/html/update-project.php:34
-#, fuzzy
-msgid "update the project"
-msgstr "Mettre à jour Projet"
-
-#. translators: %1s: project title, %2s: project updated by name
-#: views/emails/html/update-project.php:78
-#, fuzzy
-msgid "The project \"%1$s\" has been updated by %2$s"
-msgstr "Détails du projet ajouté par %s"
-
 #: views/emails/html/update-task.php:33
 msgid "updated the task"
 msgstr ""
-
-#: views/project-switch/project-switch.php:5
-#, fuzzy
-msgid "Jump to a project"
-msgstr "Créer un nouveau projet"
 
 #: views/project-switch/project-switch.php:11
 msgid " to navigate"
@@ -8332,11 +6610,6 @@ msgstr ""
 msgid "Model"
 msgstr ""
 
-#: views/assets/src/components/admin-settings/tabs/AiSettingsTab.jsx:250
-#, fuzzy
-msgid "Select a model"
-msgstr "Sélectionner un collègue"
-
 #: views/assets/src/components/admin-settings/tabs/AiSettingsTab.jsx:260
 msgid "500–16384. Higher values allow more detailed responses for both project and subtask generation, but may cost more."
 msgstr ""
@@ -8411,13 +6684,6 @@ msgstr ""
 msgid "Configure pagination and file upload limits."
 msgstr ""
 
-#: views/assets/src/components/admin-settings/tabs/GeneralTab.jsx:210
-#: views/assets/src/components/admin-settings/tabs/GitHubSettingsTab.jsx:199
-#: views/assets/src/components/admin-settings/tabs/NotionSettingsTab.jsx:188
-#, fuzzy
-msgid "Change"
-msgstr "Enregistrer"
-
 #: views/assets/src/components/admin-settings/tabs/GeneralTab.jsx:214
 #: views/assets/src/components/projects/ProjectOverview.jsx:582
 msgid "Remove"
@@ -8478,11 +6744,6 @@ msgstr ""
 #: views/assets/src/components/admin-settings/tabs/NotionSettingsTab.jsx:230
 msgid "Connected"
 msgstr ""
-
-#: views/assets/src/components/admin-settings/tabs/GitHubSettingsTab.jsx:244
-#, fuzzy
-msgid "as"
-msgstr "Tâche"
 
 #: views/assets/src/components/admin-settings/tabs/GitHubSettingsTab.jsx:259
 msgid "Generate a new token on GitHub"
@@ -8656,11 +6917,6 @@ msgstr ""
 msgid "Failed to update task type"
 msgstr ""
 
-#: views/assets/src/components/admin-settings/tabs/TaskTypesTab.jsx:91
-#, fuzzy
-msgid "Are you sure you want to delete this task type?"
-msgstr "Etes vous sûr de supprimer ce message ?"
-
 #: views/assets/src/components/admin-settings/tabs/TaskTypesTab.jsx:92
 msgid "Delete Task Type"
 msgstr ""
@@ -8676,11 +6932,6 @@ msgstr ""
 #: views/assets/src/components/admin-settings/tabs/TaskTypesTab.jsx:112
 msgid "Define custom task types for your projects."
 msgstr ""
-
-#: views/assets/src/components/admin-settings/tabs/TaskTypesTab.jsx:116
-#, fuzzy
-msgid "New Type"
-msgstr "Nouvelle tâche"
 
 #: views/assets/src/components/admin-settings/tabs/TaskTypesTab.jsx:124
 msgid "Create Task Type"
@@ -8698,12 +6949,6 @@ msgstr ""
 #: views/assets/src/components/admin-settings/tabs/TaskTypesTab.jsx:132
 msgid "Short description..."
 msgstr ""
-
-#: views/assets/src/components/admin-settings/tabs/TaskTypesTab.jsx:156
-#: views/assets/src/components/projects/CategoriesPage.jsx:272
-#, fuzzy
-msgid "Actions"
-msgstr "Activité du projet"
 
 #: views/assets/src/components/admin-settings/tabs/TaskTypesTab.jsx:168
 #: views/assets/src/components/projects/DiscussionsPage/DiscussionDetailPage.jsx:321
@@ -8767,11 +7012,6 @@ msgstr ""
 msgid "SEO Audit Service"
 msgstr ""
 
-#: views/assets/src/components/common/ProFeaturePlaceholder.jsx:167
-#, fuzzy
-msgid "Duplicate Project"
-msgstr "Mettre à jour Projet"
-
 #: views/assets/src/components/common/ProFeaturePlaceholder.jsx:168
 msgid "Logo Design Bundle"
 msgstr ""
@@ -8779,11 +7019,6 @@ msgstr ""
 #: views/assets/src/components/common/ProFeaturePlaceholder.jsx:177
 msgid "WooCommerce Project Mapping"
 msgstr ""
-
-#: views/assets/src/components/common/ProFeaturePlaceholder.jsx:179
-#, fuzzy
-msgid "+ Add Product"
-msgstr "Ajouter projet"
 
 #: views/assets/src/components/common/ProFeaturePlaceholder.jsx:191
 msgid "assignees"
@@ -8801,24 +7036,9 @@ msgstr ""
 msgid "unlock and take advantage of our premium features"
 msgstr ""
 
-#: views/assets/src/components/layout/AppSidebar.jsx:220
-#, fuzzy
-msgid "Proj"
-msgstr "Projets"
-
-#: views/assets/src/components/layout/AppSidebar.jsx:230
-#, fuzzy
-msgid "Cal"
-msgstr "Annuler"
-
 #: views/assets/src/components/layout/AppSidebar.jsx:231
 msgid "Prog"
 msgstr ""
-
-#: views/assets/src/components/layout/AppSidebar.jsx:232
-#, fuzzy
-msgid "Rep"
-msgstr "Ré-ouvrir"
 
 #: views/assets/src/components/layout/AppSidebar.jsx:238
 #: views/assets/src/components/tasks/TaskDetailSheet/parts/ProInlineProperties.jsx:53
@@ -8846,11 +7066,6 @@ msgstr ""
 msgid "Switch to dark mode"
 msgstr ""
 
-#: views/assets/src/components/layout/TopBar.jsx:387
-#, fuzzy
-msgid "No results found"
-msgstr "Aucun utilisateur"
-
 #: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:343
 msgid "Start Date and End Date are required."
 msgstr ""
@@ -8868,13 +7083,6 @@ msgstr ""
 #: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:1015
 msgid "Start Date cannot be greater than End Date."
 msgstr ""
-
-#: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:393
-#: views/assets/src/components/tasks/TaskDetailSheet/index.jsx:275
-#: views/assets/src/components/tasks/TaskRow.jsx:83
-#, fuzzy
-msgid "Task completed"
-msgstr "Marquer comme réalisé"
 
 #: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:558
 msgid "From"
@@ -8909,11 +7117,6 @@ msgstr ""
 msgid "to"
 msgstr ""
 
-#: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:1192
-#, fuzzy
-msgid "No activities found"
-msgstr "Aucun fichier"
-
 #: views/assets/src/components/my-tasks/MyTasksPage/index.jsx:1266
 msgid "Load more"
 msgstr ""
@@ -8923,24 +7126,9 @@ msgstr ""
 msgid "Assignees"
 msgstr ""
 
-#: views/assets/src/components/my-tasks/MyTasksPage/parts/NewTaskSheet.jsx:350
-#, fuzzy
-msgid "Create Task"
-msgstr "Tâche parente"
-
-#: views/assets/src/components/projects/ActivitiesPage/index.jsx:191
-#, fuzzy
-msgid "Project Activities"
-msgstr "Activité du projet"
-
 #: views/assets/src/components/projects/ActivitiesPage/index.jsx:194
 msgid "View all changes, updates, and activities happening in your project in real-time."
 msgstr ""
-
-#: views/assets/src/components/projects/ActivitiesPage/index.jsx:257
-#, fuzzy
-msgid "activities"
-msgstr "Activité"
 
 #: views/assets/src/components/projects/CalendarPage.jsx:72
 msgid "Get the birdseye view of all tasks from an interactive calendar"
@@ -8950,22 +7138,6 @@ msgstr ""
 msgid "View all your tasks, milestones, and deadlines in a beautiful calendar view."
 msgstr ""
 
-#: views/assets/src/components/projects/CategoriesPage.jsx:134
-#, fuzzy
-msgid "Delete Category"
-msgstr "Mettre à jour commentaire"
-
-#: views/assets/src/components/projects/CategoriesPage.jsx:152
-#, fuzzy
-msgid "Bulk Delete"
-msgstr "Supprimer"
-
-#: views/assets/src/components/projects/CategoriesPage.jsx:196
-#: views/assets/src/components/projects/CategoriesPage.jsx:358
-#, fuzzy
-msgid "New Category"
-msgstr "Ajouter nouveau message"
-
 #: views/assets/src/components/projects/CategoriesPage.jsx:205
 #: views/assets/src/components/projects/MilestonesPage/parts/ImportTasksDialog.jsx:168
 msgid "selected"
@@ -8974,12 +7146,6 @@ msgstr ""
 #: views/assets/src/components/projects/DiscussionsPage/DiscussionDetailPage.jsx:108
 msgid "Failed to load discussion"
 msgstr ""
-
-#: views/assets/src/components/projects/DiscussionsPage/DiscussionDetailPage.jsx:166
-#: views/assets/src/components/projects/DiscussionsPage/index.jsx:146
-#, fuzzy
-msgid "Delete Discussion"
-msgstr "Supprimer message"
 
 #: views/assets/src/components/projects/DiscussionsPage/DiscussionDetailPage.jsx:184
 #: views/assets/src/components/projects/DiscussionsPage/index.jsx:173
@@ -9005,11 +7171,6 @@ msgstr ""
 msgid "License will delete permanently"
 msgstr ""
 
-#: views/assets/src/components/projects/LicensePage.jsx:56
-#, fuzzy
-msgid "Delete License"
-msgstr "Supprimer message"
-
 #: views/assets/src/components/projects/LicensePage.jsx:90
 msgid "License Active"
 msgstr ""
@@ -9022,45 +7183,9 @@ msgstr ""
 msgid "Upcoming"
 msgstr ""
 
-#: views/assets/src/components/projects/MilestonesPage/parts/ImportTasksDialog.jsx:86
-#, fuzzy
-msgid "task linked"
-msgstr "Liste de tâche"
-
-#: views/assets/src/components/projects/MilestonesPage/parts/ImportTasksDialog.jsx:164
-#, fuzzy
-msgid "Select All"
-msgstr "Sélectionner un collègue"
-
-#: views/assets/src/components/projects/MilestonesPage/parts/MilestoneCard.jsx:78
-#, fuzzy
-msgid "Unlink Task"
-msgstr "Afficher tâche"
-
-#: views/assets/src/components/projects/MilestonesPage/parts/MilestoneCard.jsx:107
-#, fuzzy
-msgid "Delete Milestone"
-msgstr "Etapes atteintes"
-
-#: views/assets/src/components/projects/MilestonesPage/parts/MilestoneCard.jsx:165
-#: views/assets/src/components/projects/MilestonesPage/parts/MilestoneCard.jsx:253
-#, fuzzy
-msgid "Mark Incomplete"
-msgstr "Marquer comme réalisé"
-
 #: views/assets/src/components/projects/MilestonesPage/parts/MilestoneCard.jsx:225
 msgid "discussions"
 msgstr ""
-
-#: views/assets/src/components/projects/MilestonesPage/parts/MilestoneCard.jsx:233
-#, fuzzy
-msgid "More actions"
-msgstr "Activité du projet"
-
-#: views/assets/src/components/projects/MilestonesPage/parts/MilestoneForm.jsx:37
-#, fuzzy
-msgid "Milestone title"
-msgstr "Etapes"
 
 #: views/assets/src/components/projects/PremiumPage.jsx:150
 msgid "Advanced project management tools to ensure your efficiency and productivity reach the peak."
@@ -9078,24 +7203,9 @@ msgstr ""
 msgid "Unlock all premium features and take your project management to the next level."
 msgstr ""
 
-#: views/assets/src/components/projects/ProjectCreateSheet.jsx:243
-#, fuzzy
-msgid "Project created successfully"
-msgstr "Project créé par %s"
-
-#: views/assets/src/components/projects/ProjectCreateSheet.jsx:246
-#, fuzzy
-msgid "Failed to update project"
-msgstr "Mettre à jour Projet"
-
 #: views/assets/src/components/projects/ProjectCreateSheet.jsx:268
 msgid "Edit Project"
 msgstr "Editer projet"
-
-#: views/assets/src/components/projects/ProjectCreateSheet.jsx:303
-#, fuzzy
-msgid "Category"
-msgstr "Mettre à jour commentaire"
 
 #: views/assets/src/components/projects/ProjectCreateSheet.jsx:309
 #: views/assets/src/components/tasks/TaskDetailSheet/parts/fields/MilestoneField.jsx:123
@@ -9103,12 +7213,6 @@ msgstr "Mettre à jour commentaire"
 #: views/assets/src/components/tasks/TaskListSection.jsx:498
 msgid "None"
 msgstr ""
-
-#: views/assets/src/components/projects/ProjectCreateSheet.jsx:368
-#: views/assets/src/components/projects/ProjectOverview.jsx:482
-#, fuzzy
-msgid "No users found"
-msgstr "Aucun utilisateur"
 
 #: views/assets/src/components/projects/ProjectCreateSheet.jsx:402
 msgid "User"
@@ -9126,24 +7230,9 @@ msgstr ""
 msgid "Failed to update role"
 msgstr ""
 
-#: views/assets/src/components/projects/ProjectOverview.jsx:347
-#, fuzzy
-msgid "completed"
-msgstr "Réalisé"
-
 #: views/assets/src/components/projects/ProjectOverview.jsx:350
 msgid "remaining"
 msgstr ""
-
-#: views/assets/src/components/projects/ProjectOverview.jsx:513
-#, fuzzy
-msgid "Select role"
-msgstr "Sélectionner un collègue"
-
-#: views/assets/src/components/projects/ProjectsPage/index.jsx:259
-#, fuzzy
-msgid "No projects found"
-msgstr "Pas de Projet"
 
 #: views/assets/src/components/projects/ProjectsPage/index.jsx:461
 #: views/assets/src/components/projects/ProjectsPage/index.jsx:596
@@ -9155,35 +7244,14 @@ msgstr ""
 msgid "total"
 msgstr ""
 
-#: views/assets/src/components/projects/ProjectsPage/index.jsx:768
-#: views/assets/src/components/projects/ProjectsPage/index.jsx:771
-#, fuzzy
-msgid "All Categories"
-msgstr "Ajouter nouveau message"
-
-#: views/assets/src/components/projects/ProjectsPage/index.jsx:828
-#, fuzzy
-msgid "Are you sure you want to delete"
-msgstr "Etes vous sûr de supprimer ce message ?"
-
 #: views/assets/src/components/tasks/MoveTaskDialog.jsx:110
 msgid "Moving..."
 msgstr ""
-
-#: views/assets/src/components/tasks/SingleTaskListPage.jsx:142
-#, fuzzy
-msgid "Delete Comment"
-msgstr "%s a supprimé un commentaire"
 
 #: views/assets/src/components/tasks/SingleTaskListPage.jsx:402
 #: views/assets/src/components/tasks/TaskDetailSheet/index.jsx:852
 msgid "Sending..."
 msgstr ""
-
-#: views/assets/src/components/tasks/TaskDetailSheet/index.jsx:409
-#, fuzzy
-msgid "Delete Task"
-msgstr "Supprimer message"
 
 #: views/assets/src/components/tasks/TaskDetailSheet/index.jsx:443
 msgid "Could not copy link"
@@ -9197,11 +7265,6 @@ msgstr ""
 msgid "Due"
 msgstr ""
 
-#: views/assets/src/components/tasks/TaskDetailSheet/index.jsx:653
-#, fuzzy
-msgid "Search members..."
-msgstr "Rechercher messages"
-
 #: views/assets/src/components/tasks/TaskDetailSheet/index.jsx:658
 msgid "No project members"
 msgstr ""
@@ -9209,36 +7272,6 @@ msgstr ""
 #: views/assets/src/components/tasks/TaskDetailSheet/index.jsx:736
 msgid "No description yet. Click \"Add\" to write one."
 msgstr ""
-
-#: views/assets/src/components/tasks/TaskDetailSheet/index.jsx:852
-#, fuzzy
-msgid "Add Comment"
-msgstr "%d Commentaires"
-
-#: views/assets/src/components/tasks/TaskDetailSheet/index.jsx:868
-#, fuzzy
-msgid "Hide activity"
-msgstr "Activité"
-
-#: views/assets/src/components/tasks/TaskDetailSheet/parts/fields/MilestoneField.jsx:90
-#, fuzzy
-msgid "Milestone assigned"
-msgstr "Etapes"
-
-#: views/assets/src/components/tasks/TaskDetailSheet/parts/fields/MilestoneField.jsx:90
-#, fuzzy
-msgid "Milestone removed"
-msgstr "Aucune étape trouvée"
-
-#: views/assets/src/components/tasks/TaskDetailSheet/parts/fields/MilestoneField.jsx:132
-#, fuzzy
-msgid "Remove milestone"
-msgstr "Etape"
-
-#: views/assets/src/components/tasks/TaskDetailSheet/parts/fields/MilestoneField.jsx:166
-#, fuzzy
-msgid "No milestones"
-msgstr "Etape"
 
 #: views/assets/src/components/tasks/TaskDetailSheet/parts/fields/TaskEstimationField.jsx:11
 #: views/assets/src/components/tasks/TaskDetailSheet/parts/fields/TaskEstimationField.jsx:14
@@ -9309,87 +7342,11 @@ msgstr ""
 msgid "Confirm"
 msgstr ""
 
-#, fuzzy
-#~ msgid "%1$s has commented on a task, %2$s."
-#~ msgstr "%s a commenté %s"
-
-#, fuzzy
-#~ msgid "%1$s has updated a comment on a task, %2$s."
-#~ msgstr "%s a mis à jour son commentaire à propos de %s"
-
-#, fuzzy
-#~ msgid "%1$s has replied a comment on a task, %2$s"
-#~ msgstr "%s a mis à jour son commentaire à propos de %s"
-
-#, fuzzy
-#~ msgid "%1$s has commented on a task list, %2$s."
-#~ msgstr "%s a commenté %s"
-
-#, fuzzy
-#~ msgid "%1$s has updated a comment on a task list, %2$s."
-#~ msgstr "%s a mis à jour son commentaire à propos de %s"
-
-#, fuzzy
-#~ msgid "%1$s has replied a comment on a task list, %2$s"
-#~ msgstr "%s a mis à jour son commentaire à propos de %s"
-
-#, fuzzy
-#~ msgid "%1$s has updated a reply comment on a task list, %2$s."
-#~ msgstr "%s a mis à jour son commentaire à propos de %s"
-
-#, fuzzy
-#~ msgid "%1$s has commented on a milestone, %2$s."
-#~ msgstr "%s a commenté %s"
-
-#, fuzzy
-#~ msgid "%1$s has updated a comment on a milestone, %2$s."
-#~ msgstr "%s a mis à jour son commentaire à propos de %s"
-
-#, fuzzy
-#~ msgid "%1$s has replied a comment on a milestone, %2$s"
-#~ msgstr "%s a mis à jour son commentaire à propos de %s"
-
-#, fuzzy
-#~ msgid "%1$s has updated a reply comment on a milestone, %2$s."
-#~ msgstr "%s a mis à jour son commentaire à propos de %s"
-
-#, fuzzy
-#~ msgid "%1$s has commented on the project, %2$s."
-#~ msgstr "%s a commenté %s"
-
-#, fuzzy
-#~ msgid "%1$s has updated a comment on the project, %2$s."
-#~ msgstr "%s a mis à jour son commentaire à propos de %s"
-
-#, fuzzy
-#~ msgid "%1$s has updated a reply comment on the project, %2$s."
-#~ msgstr "%s a mis à jour son commentaire à propos de %s"
-
-#, fuzzy
-#~ msgid "%1$s has commented on a file, %2$s."
-#~ msgstr "%s a commenté %s"
-
-#, fuzzy
-#~ msgid "%1$s has updated a comment on a file, %2$s."
-#~ msgstr "%s a mis à jour son commentaire à propos de %s"
-
-#, fuzzy
-#~ msgid "%1$s has replied a comment on a file, %2$s"
-#~ msgstr "%s a mis à jour son commentaire à propos de %s"
-
-#, fuzzy
-#~ msgid "%1$s has updated a reply comment on a file, %2$s."
-#~ msgstr "%s a mis à jour son commentaire à propos de %s"
-
 #~ msgid "New Message"
 #~ msgstr "Nouveau message"
 
 #~ msgid "View Message"
 #~ msgstr "Lire message"
-
-#, fuzzy
-#~ msgid "Update task has been assigned to you"
-#~ msgstr "Une tâche mise à jour vous a été assignée"
 
 #~ msgid "Message \"%s\" deleted by %s"
 #~ msgstr "Message \"%s\" supprimé par %s"
@@ -9480,22 +7437,6 @@ msgstr ""
 
 #~ msgid "Discuss this to-do list"
 #~ msgstr "Discuter de cette to-do liste"
-
-#, fuzzy
-#~ msgid "New Project Subject"
-#~ msgstr "Nouveau Projet"
-
-#, fuzzy
-#~ msgid "New Project Body"
-#~ msgstr "Nouveau Projet"
-
-#, fuzzy
-#~ msgid "New Message Body"
-#~ msgstr "Nouveau message"
-
-#, fuzzy
-#~ msgid "New Comment Subject"
-#~ msgstr "Nouveau Projet"
 
 #~ msgid "To attach, <a id=\"cpm-upload-pickfiles%s\" href=\"#\">select files</a> from your computer."
 #~ msgstr "Pour joindre un fichier, <a id=\"cpm-upload-pickfiles%s\" href=\"#\">Choisir les fichiers</a> sur votre ordinnateur."

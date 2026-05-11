@@ -19,9 +19,6 @@
             "Task": [
                 "Taak"
             ],
-            "File": [
-                "Bestanden"
-            ],
             "Calendar": [
                 ""
             ],
@@ -55,9 +52,6 @@
             "Tools": [
                 ""
             ],
-            "Are you sure?": [
-                "Weet je het zeker?"
-            ],
             "Upgrade to PRO ": [
                 ""
             ],
@@ -73,9 +67,6 @@
             "Attach": [
                 ""
             ],
-            "Discussion": [
-                "Discussieer over deze taak"
-            ],
             "Edit": [
                 "Bewerk"
             ],
@@ -87,9 +78,6 @@
             ],
             "Completed": [
                 "Voltooid"
-            ],
-            "Mark Complete": [
-                "Markeer als voltooid"
             ],
             "Copy Link": [
                 ""
@@ -109,9 +97,6 @@
             "Description": [
                 ""
             ],
-            "Update": [
-                "Update Lijst"
-            ],
             "Activity": [
                 "Project Activiteit"
             ],
@@ -123,9 +108,6 @@
             ],
             "Restore": [
                 ""
-            ],
-            "Add": [
-                "Voeg nieuwe toe"
             ],
             "Discussions": [
                 ""
@@ -148,9 +130,6 @@
             "by": [
                 ""
             ],
-            "No results found.": [
-                "Geen gebruikers gevonden"
-            ],
             "New Task List": [
                 "Nieuwe Takenlijst"
             ],
@@ -159,9 +138,6 @@
             ],
             "Add Task": [
                 "Voeg taak toe"
-            ],
-            "Move Task": [
-                "Nieuwe Taak"
             ],
             "Make Private": [
                 ""
@@ -181,38 +157,17 @@
             "Status": [
                 ""
             ],
-            "Project": [
-                "Projecten"
-            ],
-            "Milestone": [
-                "Mijlpalen"
-            ],
             "Name": [
                 ""
             ],
-            "Update Category": [
-                "Update Bericht"
-            ],
-            "Post Comment": [
-                "%d Reacties"
-            ],
             "Delete File": [
                 "Verwijder bestand"
-            ],
-            "Select a project": [
-                "Verwijder project"
             ],
             "All": [
                 ""
             ],
             "Today": [
                 ""
-            ],
-            "Loading...": [
-                "Laad Meer..."
-            ],
-            "More": [
-                "Laad Meer..."
             ],
             "Overview": [
                 ""
@@ -229,9 +184,6 @@
             "Provide your App Key & Token": [
                 ""
             ],
-            "Load More": [
-                "Laad Meer..."
-            ],
             "My Tasks": [
                 ""
             ],
@@ -241,20 +193,11 @@
             "Overdue": [
                 ""
             ],
-            "Activity Filter": [
-                "Project Activiteit"
-            ],
             "Current": [
                 ""
             ],
             "Outstanding": [
                 ""
-            ],
-            "Due date": [
-                "Eind datum"
-            ],
-            "See More": [
-                "Laad Meer..."
             ],
             "More features to unveil while": [
                 ""
@@ -264,9 +207,6 @@
             ],
             "Get Started Now": [
                 ""
-            ],
-            "Project Manager Pro": [
-                "Project Manager"
             ],
             "Premium Features": [
                 ""
@@ -285,9 +225,6 @@
             ],
             "Invoices": [
                 ""
-            ],
-            "Theme Color": [
-                "Selecteer alles"
             ],
             "Currency": [
                 ""
@@ -319,17 +256,11 @@
             "Country": [
                 ""
             ],
-            "Pages": [
-                "Berichten"
-            ],
             "Upload": [
                 ""
             ],
             "Daily Digest": [
                 ""
-            ],
-            "Subtasks": [
-                "Taken"
             ],
             "Pro": [
                 ""
@@ -364,9 +295,6 @@
             "Link to Docs": [
                 ""
             ],
-            "Generate": [
-                "Algemeen"
-            ],
             "Please enter a project description": [
                 ""
             ],
@@ -376,26 +304,8 @@
             "Failed to generate project. Please try again.": [
                 ""
             ],
-            "Project created successfully!": [
-                "Project gemaakt door %s"
-            ],
-            "Failed to create project": [
-                "Naam van het project"
-            ],
-            "Delete Selected": [
-                "Verwijder mijlpaal"
-            ],
-            "Project Name": [
-                "Project Manager"
-            ],
             "Saving...": [
                 ""
-            ],
-            "Project name is required": [
-                "Project Manager"
-            ],
-            "Search users...": [
-                "Zoek Berichten"
             ],
             "Update Project": [
                 "Update Project"
@@ -448,9 +358,6 @@
             "Incomplete": [
                 ""
             ],
-            "Task Title": [
-                "Takenlijst"
-            ],
             "Start Date": [
                 ""
             ],
@@ -463,14 +370,8 @@
             "Back to Task Lists": [
                 ""
             ],
-            "Delete List": [
-                "Verwijder mijlpaal"
-            ],
             "Pusher": [
                 ""
-            ],
-            "Pusher Settings": [
-                "Instellingen"
             ],
             "App ID": [
                 ""
@@ -483,9 +384,6 @@
             ],
             "View Full Report": [
                 ""
-            ],
-            "AI Settings": [
-                "Instellingen"
             ],
             "API Key": [
                 ""
@@ -541,9 +439,6 @@
             "Total Estimation Hours": [
                 ""
             ],
-            "Completed Task Count": [
-                "Voltooid op:"
-            ],
             "Avg. Hour Per-task": [
                 ""
             ],
@@ -553,26 +448,11 @@
             "Avg. Task Per-day": [
                 ""
             ],
-            "All Projects": [
-                "Projecten"
-            ],
-            "Task Types": [
-                "Taken"
-            ],
             "Subtask Types": [
                 ""
             ],
-            "Completed At": [
-                "Voltooid"
-            ],
-            "Subtask Title": [
-                "Takenlijst"
-            ],
             "Hour": [
                 ""
-            ],
-            "Task type": [
-                "Takenlijst"
             ],
             "Est. Hour": [
                 ""
@@ -610,9 +490,6 @@
             "Import": [
                 ""
             ],
-            "Resources of Project Manager": [
-                "Project Manager"
-            ],
             "Upgrade to Pro": [
                 ""
             ],
@@ -630,9 +507,6 @@
             ],
             "Strikethrough": [
                 ""
-            ],
-            "Bullet List": [
-                "Verwijder mijlpaal"
             ],
             "Numbered List": [
                 ""
@@ -727,9 +601,6 @@
             "Importing...": [
                 ""
             ],
-            "Updated": [
-                "Update Lijst"
-            ],
             "Unknown": [
                 ""
             ],
@@ -751,15 +622,6 @@
             "Track all project activity and team progress in one place": [
                 ""
             ],
-            "Activities Today": [
-                "Project Activiteit"
-            ],
-            "Tasks Completed": [
-                "Voltooid"
-            ],
-            "Files Uploaded": [
-                "Bestand upload limiet"
-            ],
             "Team Progress Tracker": [
                 ""
             ],
@@ -768,9 +630,6 @@
             ],
             "Showing 9 of 250+ activities": [
                 ""
-            ],
-            "Task name": [
-                "Naam voor de takenlijst"
             ],
             "Design homepage": [
                 ""
@@ -786,9 +645,6 @@
             ],
             "Auth module": [
                 ""
-            ],
-            "Project setup": [
-                "Projecten"
             ],
             "CI\/CD pipeline": [
                 ""
@@ -807,9 +663,6 @@
             ],
             "Development": [
                 ""
-            ],
-            "Testing": [
-                "Instellingen"
             ],
             "Deployment": [
                 ""
@@ -883,17 +736,11 @@
             "Enable start date field for tasks": [
                 ""
             ],
-            "Failed to upload": [
-                "Bestand upload limiet"
-            ],
             "Logo uploaded": [
                 ""
             ],
             "Please select an image file": [
                 ""
-            ],
-            "Pro Settings": [
-                "Instellingen"
             ],
             "Send daily digest emails to team members": [
                 ""
@@ -943,9 +790,6 @@
             "Invoice Defaults": [
                 ""
             ],
-            "Invoice Settings": [
-                "Instellingen"
-            ],
             "Invoice settings saved": [
                 ""
             ],
@@ -987,12 +831,6 @@
             ],
             "Page settings saved": [
                 ""
-            ],
-            "Project Page": [
-                "Project Manager"
-            ],
-            "Select a page...": [
-                "Selecteer alles"
             ],
             "Select the page where Project Manager will be displayed on the front-end": [
                 ""
@@ -1042,9 +880,6 @@
             "Recent": [
                 ""
             ],
-            "Views": [
-                "Bekijk Taak"
-            ],
             "Workspace": [
                 ""
             ],
@@ -1060,12 +895,6 @@
             "Plugin sidebar": [
                 ""
             ],
-            "Search projects and tasks...": [
-                "Zoek Project"
-            ],
-            "Search...": [
-                "Zoek Taak"
-            ],
             "Share your idea": [
                 ""
             ],
@@ -1075,12 +904,6 @@
             "WordPress sidebar": [
                 ""
             ],
-            "Activity Trend": [
-                "Project Activiteit"
-            ],
-            "Add a description (optional)": [
-                "Enkele details over het project (optioneel)"
-            ],
             "At a Glance": [
                 ""
             ],
@@ -1089,9 +912,6 @@
             ],
             "Due Date \u2193": [
                 ""
-            ],
-            "Enter task title": [
-                "Vul een titel voor je bericht in"
             ],
             "Failed to update task": [
                 ""
@@ -1114,12 +934,6 @@
             "Oldest": [
                 ""
             ],
-            "Search by Task Title": [
-                "Zoek Takenlijst"
-            ],
-            "Select a list": [
-                "Selecteer alles"
-            ],
             "Select date range and click Run Report.": [
                 ""
             ],
@@ -1128,9 +942,6 @@
             ],
             "Interactive Calendar": [
                 ""
-            ],
-            "Add Category": [
-                "Voeg nieuw bericht toe"
             ],
             "Categories deleted": [
                 ""
@@ -1147,20 +958,11 @@
             "Category updated": [
                 ""
             ],
-            "Create Category": [
-                "Update Bericht"
-            ],
             "Create categories to organize your projects.": [
                 ""
             ],
             "Delete selected categories?": [
                 ""
-            ],
-            "Edit Category": [
-                "Update Bericht"
-            ],
-            "Failed to create category": [
-                "Update Bericht"
             ],
             "Failed to delete categories": [
                 ""
@@ -1168,20 +970,8 @@
             "Failed to delete category": [
                 ""
             ],
-            "Failed to update category": [
-                "Update Bericht"
-            ],
             "No categories yet": [
                 ""
-            ],
-            "Discussion created": [
-                "Discussieer over deze taak"
-            ],
-            "Discussion deleted": [
-                "Discussieer over deze taak"
-            ],
-            "Discussion updated": [
-                "Discussieer over deze taak"
             ],
             "Failed to create discussion": [
                 ""
@@ -1192,9 +982,6 @@
             "No discussions yet": [
                 ""
             ],
-            "Start a conversation about this project.": [
-                "Start een nieuw project"
-            ],
             "Discussion Comment": [
                 ""
             ],
@@ -1203,9 +990,6 @@
             ],
             "Files attached to tasks, discussions, and comments will appear here.": [
                 ""
-            ],
-            "Task Comment": [
-                "%d Reacties"
             ],
             "Uploading...": [
                 ""
@@ -1246,21 +1030,6 @@
             "At Risk": [
                 ""
             ],
-            "Create Milestone": [
-                "Late Mijlpalen"
-            ],
-            "Create a new milestone": [
-                "Maak een nieuw bericht aan"
-            ],
-            "Create your first milestone": [
-                "Verwijder mijlpaal"
-            ],
-            "Edit an existing milestone": [
-                "Bewerk mijlpaal"
-            ],
-            "Failed to create milestone": [
-                "Verwijder mijlpaal"
-            ],
             "Failed to delete": [
                 ""
             ],
@@ -1273,29 +1042,8 @@
             "Failed to update": [
                 ""
             ],
-            "Failed to update milestone": [
-                "Verwijder mijlpaal"
-            ],
-            "Link Tasks": [
-                "Taken"
-            ],
             "Link tasks to this milestone": [
                 ""
-            ],
-            "Milestone created": [
-                "Naam voor de mijlpaal"
-            ],
-            "Milestone deleted": [
-                "Mijlpaal \"%s\" verwijderd door %s "
-            ],
-            "Milestone marked as complete": [
-                "Mijlpaal \"%s\" gemarkeerd als voltooid door %s "
-            ],
-            "Milestone marked as incomplete": [
-                "Mijlpaal \"%s\" gemarkeerd als in-compleet door %s "
-            ],
-            "Milestone updated": [
-                "Naam voor de mijlpaal"
             ],
             "New Milestone": [
                 "Nieuwe Mijlpaal"
@@ -1305,12 +1053,6 @@
             ],
             "No milestones match the selected filter.": [
                 ""
-            ],
-            "No milestones yet": [
-                "Mijlpaal"
-            ],
-            "No tasks found in this project": [
-                "Geen taak gevonden in de prullenbak"
             ],
             "No tasks linked": [
                 ""
@@ -1327,17 +1069,8 @@
             "Target Date": [
                 ""
             ],
-            "Task unlinked": [
-                "Geen taak gevonden"
-            ],
             "Track your project progress with milestones.": [
                 ""
-            ],
-            "Unlink from milestone": [
-                "Bewerk mijlpaal"
-            ],
-            "tasks linked": [
-                "Takenlijst"
             ],
             "Enable or disable project manager modules": [
                 ""
@@ -1345,26 +1078,14 @@
             "Go Pro Today": [
                 ""
             ],
-            "Learn More": [
-                "Laad Meer..."
-            ],
             "Premium Modules": [
                 ""
-            ],
-            "Create New Project": [
-                "Nieuw Project"
             ],
             "Describe your project...": [
                 ""
             ],
-            "Enter project name": [
-                "Verwijder project"
-            ],
             "Fill in the details below to create a new project.": [
                 ""
-            ],
-            "Notify co-workers via email": [
-                "Stuur bericht aan klanten"
             ],
             "Project updated successfully": [
                 ""
@@ -1375,14 +1096,8 @@
             "Search and add members...": [
                 ""
             ],
-            "Select a category": [
-                "Selecteer alles"
-            ],
             "Update the project details below.": [
                 ""
-            ],
-            "30-Day Activity": [
-                "Project Activiteit"
             ],
             "Failed to add member": [
                 ""
@@ -1402,9 +1117,6 @@
             "Overall Progress": [
                 ""
             ],
-            "Project Overview": [
-                "Project Manager"
-            ],
             "Searching...": [
                 ""
             ],
@@ -1414,41 +1126,14 @@
             "AI Create": [
                 ""
             ],
-            "Delete Project": [
-                "Verwijder project"
-            ],
             "Details": [
                 ""
-            ],
-            "Failed to delete project": [
-                "Naam van het project"
-            ],
-            "Failed to duplicate project": [
-                "Naam van het project"
-            ],
-            "Failed to update project status": [
-                "Naam van het project"
-            ],
-            "Get started by creating a new project.": [
-                "Start een nieuw project"
             ],
             "Newest First": [
                 ""
             ],
             "Oldest First": [
                 ""
-            ],
-            "Project deleted": [
-                "Project gemaakt door %s"
-            ],
-            "Project duplicated": [
-                "Project gemaakt door %s"
-            ],
-            "Project status updated": [
-                "Project details geupdate door %s"
-            ],
-            "Search projects...": [
-                "Zoek Project"
             ],
             "Sort By": [
                 ""
@@ -1471,26 +1156,8 @@
             "Failed to move task": [
                 ""
             ],
-            "No lists found": [
-                "Geen reacties gevonden"
-            ],
-            "Search task lists...": [
-                "Zoek Takenlijst"
-            ],
-            "Task moved": [
-                "Geen taak gevonden"
-            ],
             "No incomplete tasks": [
                 ""
-            ],
-            "Task list not found.": [
-                "Geen takenlijst gevonden"
-            ],
-            "Add type": [
-                "Voeg nieuwe toe"
-            ],
-            "Are you sure you want to delete this task?": [
-                "Weet je zeker dat je dit bericht wilt verwijderen?"
             ],
             "Assignee added": [
                 ""
@@ -1500,12 +1167,6 @@
             ],
             "Click to make private": [
                 ""
-            ],
-            "Comment added": [
-                "1 Reactie"
-            ],
-            "Comment deleted": [
-                "Voltooid"
             ],
             "Comment updated": [
                 ""
@@ -1522,17 +1183,8 @@
             "Failed to add assignee": [
                 ""
             ],
-            "Failed to add comment": [
-                "%s verwijderd een reactie"
-            ],
-            "Failed to delete comment": [
-                "%s verwijderd een reactie"
-            ],
             "Failed to remove assignee": [
                 ""
-            ],
-            "Failed to update comment": [
-                "Update je reactie"
             ],
             "Failed to update dates": [
                 ""
@@ -1558,32 +1210,14 @@
             "Link copied": [
                 ""
             ],
-            "No activity yet": [
-                "Project Activiteit"
-            ],
-            "No task types found": [
-                "Geen takenlijst gevonden"
-            ],
             "Remove type": [
                 ""
-            ],
-            "Set dates": [
-                "Eind datum"
-            ],
-            "Show activity": [
-                "Project Activiteit"
             ],
             "Write a description...": [
                 ""
             ],
-            "Search tasks...": [
-                "Zoek Taak"
-            ],
             "This Week": [
                 ""
-            ],
-            "Add a task": [
-                "Voeg taak toe"
             ],
             "Delete this list and all its tasks?": [
                 ""
@@ -1600,20 +1234,8 @@
             "Failed to load more tasks": [
                 ""
             ],
-            "Failed to rename": [
-                "Naam voor de mijlpaal"
-            ],
             "List deleted": [
                 ""
-            ],
-            "List renamed": [
-                "Naam voor de takenlijst"
-            ],
-            "Load more completed": [
-                "Markeer als voltooid"
-            ],
-            "Load more tasks": [
-                "Laad Meer..."
             ],
             "More options": [
                 ""
@@ -1627,12 +1249,6 @@
             "Task created": [
                 ""
             ],
-            "Task name...": [
-                "Naam voor de takenlijst"
-            ],
-            "View List": [
-                "Bekijk Takenlijst"
-            ],
             "Create your first task list to start organizing work.": [
                 ""
             ],
@@ -1645,17 +1261,8 @@
             "Failed to create task list": [
                 ""
             ],
-            "New List": [
-                "Nieuwe Takenlijst"
-            ],
-            "No task lists yet": [
-                "Takenlijst"
-            ],
             "No tasks match your filters.": [
                 ""
-            ],
-            "Task list created": [
-                "Naam voor de takenlijst"
             ],
             "Failed to delete task": [
                 ""
@@ -1693,9 +1300,6 @@
             "License": [
                 ""
             ],
-            "AI Project Generator": [
-                "Project Manager"
-            ],
             "Describe your project and AI will generate the structure.": [
                 ""
             ],
@@ -1717,9 +1321,6 @@
             "Almost ready...": [
                 ""
             ],
-            "Creating project...": [
-                "Verwijder project"
-            ],
             "Creating task lists...": [
                 ""
             ],
@@ -1735,26 +1336,14 @@
             "Preview & Edit": [
                 ""
             ],
-            "list": [
-                "Takenlijst"
-            ],
             "lists": [
                 ""
             ],
             "task": [
                 ""
             ],
-            "tasks": [
-                "Taken"
-            ],
-            "Task List Name": [
-                "Naam voor de takenlijst"
-            ],
             "Back": [
                 ""
-            ],
-            "Create Project": [
-                "Update Project"
             ],
             "Exit full screen": [
                 ""
@@ -1762,14 +1351,8 @@
             "Access denied": [
                 ""
             ],
-            "Comment": [
-                "1 Reactie"
-            ],
             "What's New": [
                 ""
-            ],
-            "Description (optional)": [
-                "Enkele details over het project (optioneel)"
             ],
             "GitHub": [
                 ""
@@ -1837,9 +1420,6 @@
             "Model": [
                 ""
             ],
-            "Select a model": [
-                "Selecteer alles"
-            ],
             "500\u201316384. Higher values allow more detailed responses for both project and subtask generation, but may cost more.": [
                 ""
             ],
@@ -1852,23 +1432,14 @@
             "Testing...": [
                 ""
             ],
-            "Email settings saved": [
-                "E-mail instellingen"
-            ],
             "Failed to save email settings": [
                 ""
-            ],
-            "Email Settings": [
-                "E-mail instellingen"
             ],
             "Configure how notification emails are sent.": [
                 ""
             ],
             "Sender address for all notifications": [
                 ""
-            ],
-            "Email Type": [
-                "E-mail type"
             ],
             "Email links point to the WP admin backend": [
                 ""
@@ -1879,20 +1450,11 @@
             "All recipients added as BCC instead of TO": [
                 ""
             ],
-            "Settings saved": [
-                "Instellingen"
-            ],
             "Failed to save settings": [
                 ""
             ],
-            "Size in Megabytes (e.g. 2)": [
-                "bestand grootte in Megabyte. bijv. 2"
-            ],
             "Configure pagination and file upload limits.": [
                 ""
-            ],
-            "Change": [
-                "Sla veranderingen op"
             ],
             "Remove": [
                 ""
@@ -1932,9 +1494,6 @@
             ],
             "Connected": [
                 ""
-            ],
-            "as": [
-                "Taak"
             ],
             "Generate a new token on GitHub": [
                 ""
@@ -2044,9 +1603,6 @@
             "Save changes before testing": [
                 ""
             ],
-            "Type name is required": [
-                "Takenlijst detail"
-            ],
             "Task type created": [
                 ""
             ],
@@ -2059,12 +1615,6 @@
             "Failed to update task type": [
                 ""
             ],
-            "Are you sure you want to delete this task type?": [
-                "Weet je zeker dat je dit bericht wilt verwijderen?"
-            ],
-            "Delete Task Type": [
-                "Verwijder project"
-            ],
             "Task type deleted": [
                 ""
             ],
@@ -2073,9 +1623,6 @@
             ],
             "Define custom task types for your projects.": [
                 ""
-            ],
-            "New Type": [
-                "Nieuwe Taak"
             ],
             "Create Task Type": [
                 ""
@@ -2089,17 +1636,11 @@
             "Short description...": [
                 ""
             ],
-            "Actions": [
-                "Project Activiteit"
-            ],
             "Save": [
                 ""
             ],
             "No task types yet.": [
                 ""
-            ],
-            "Create your first type": [
-                "Bericht plaatsings type"
             ],
             "Something went wrong.": [
                 ""
@@ -2131,17 +1672,11 @@
             "SEO Audit Service": [
                 ""
             ],
-            "Duplicate Project": [
-                "Update Project"
-            ],
             "Logo Design Bundle": [
                 ""
             ],
             "WooCommerce Project Mapping": [
                 ""
-            ],
-            "+ Add Product": [
-                "Voeg project toe"
             ],
             "assignees": [
                 ""
@@ -2155,17 +1690,8 @@
             "unlock and take advantage of our premium features": [
                 ""
             ],
-            "Proj": [
-                "Projecten"
-            ],
-            "Cal": [
-                "Annuleer"
-            ],
             "Prog": [
                 ""
-            ],
-            "Rep": [
-                "Heropen"
             ],
             "Sprint": [
                 ""
@@ -2185,23 +1711,11 @@
             "Switch to dark mode": [
                 ""
             ],
-            "No results found": [
-                "Geen gebruikers gevonden"
-            ],
             "Start Date and End Date are required.": [
                 ""
             ],
-            "Start Date is required.": [
-                "Takenlijst detail"
-            ],
-            "End Date is required.": [
-                "Takenlijst detail"
-            ],
             "Start Date cannot be greater than End Date.": [
                 ""
-            ],
-            "Task completed": [
-                "Markeer als voltooid"
             ],
             "From": [
                 ""
@@ -2227,26 +1741,11 @@
             "to": [
                 ""
             ],
-            "No activities found": [
-                "Geen bestanden gevonden!"
-            ],
-            "Load more": [
-                "Laad Meer..."
-            ],
             "Assignees": [
                 ""
             ],
-            "Create Task": [
-                "Huidige Taak"
-            ],
-            "Project Activities": [
-                "Project Activiteit"
-            ],
             "View all changes, updates, and activities happening in your project in real-time.": [
                 ""
-            ],
-            "activities": [
-                "Project Activiteit"
             ],
             "Get the birdseye view of all tasks from an interactive calendar": [
                 ""
@@ -2254,23 +1753,11 @@
             "View all your tasks, milestones, and deadlines in a beautiful calendar view.": [
                 ""
             ],
-            "Delete Category": [
-                "Update Bericht"
-            ],
-            "Bulk Delete": [
-                "Verwijderen"
-            ],
-            "New Category": [
-                "Voeg nieuw bericht toe"
-            ],
             "selected": [
                 ""
             ],
             "Failed to load discussion": [
                 ""
-            ],
-            "Delete Discussion": [
-                "Verwijder mijlpaal"
             ],
             "Set to private": [
                 ""
@@ -2287,9 +1774,6 @@
             "License will delete permanently": [
                 ""
             ],
-            "Delete License": [
-                "Verwijder mijlpaal"
-            ],
             "License Active": [
                 ""
             ],
@@ -2299,29 +1783,8 @@
             "Upcoming": [
                 ""
             ],
-            "task linked": [
-                "Takenlijst"
-            ],
-            "Select All": [
-                "Selecteer alles"
-            ],
-            "Unlink Task": [
-                "Bekijk Taak"
-            ],
-            "Delete Milestone": [
-                "Verwijder mijlpaal"
-            ],
-            "Mark Incomplete": [
-                "Markeer als niet voltooid"
-            ],
             "discussions": [
                 ""
-            ],
-            "More actions": [
-                "Project Activiteit"
-            ],
-            "Milestone title": [
-                "Naam voor de mijlpaal"
             ],
             "Advanced project management tools to ensure your efficiency and productivity reach the peak.": [
                 ""
@@ -2335,23 +1798,11 @@
             "Unlock all premium features and take your project management to the next level.": [
                 ""
             ],
-            "Project created successfully": [
-                "Project gemaakt door %s"
-            ],
-            "Failed to update project": [
-                "Naam van het project"
-            ],
             "Edit Project": [
                 "Bewerk Project"
             ],
-            "Category": [
-                "Update Bericht"
-            ],
             "None": [
                 ""
-            ],
-            "No users found": [
-                "Geen gebruikers gevonden"
             ],
             "User": [
                 ""
@@ -2359,23 +1810,11 @@
             "Updating...": [
                 ""
             ],
-            "Role updated": [
-                "Eind datum"
-            ],
             "Failed to update role": [
                 ""
             ],
-            "completed": [
-                "Voltooid"
-            ],
             "remaining": [
                 ""
-            ],
-            "Select role": [
-                "Selecteer alles"
-            ],
-            "No projects found": [
-                "Geen Project gevonden"
             ],
             "done": [
                 ""
@@ -2383,23 +1822,11 @@
             "total": [
                 ""
             ],
-            "All Categories": [
-                "Voeg nieuw bericht toe"
-            ],
-            "Are you sure you want to delete": [
-                "Weet je zeker dat je dit bericht wilt verwijderen?"
-            ],
             "Moving...": [
                 ""
             ],
-            "Delete Comment": [
-                "Verwijder project"
-            ],
             "Sending...": [
                 ""
-            ],
-            "Delete Task": [
-                "Verwijder mijlpaal"
             ],
             "Could not copy link": [
                 ""
@@ -2410,32 +1837,11 @@
             "Due": [
                 ""
             ],
-            "Search members...": [
-                "Zoek Berichten"
-            ],
             "No project members": [
                 ""
             ],
             "No description yet. Click \"Add\" to write one.": [
                 ""
-            ],
-            "Add Comment": [
-                "%d Reacties"
-            ],
-            "Hide activity": [
-                "Project Activiteit"
-            ],
-            "Milestone assigned": [
-                "Naam voor de mijlpaal"
-            ],
-            "Milestone removed": [
-                "Naam voor de mijlpaal"
-            ],
-            "Remove milestone": [
-                "Verwijder mijlpaal"
-            ],
-            "No milestones": [
-                "Mijlpaal"
             ],
             "Estimate": [
                 ""
