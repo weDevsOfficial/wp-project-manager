@@ -1,8 +1,8 @@
+import { __ } from '@wordpress/i18n';
 /**
  * LoomPreviewCard — Loom video preview with thumbnail, overlay info bar, and embed modal.
  */
 import React, { useState } from 'react'
-import { useI18n } from '@hooks/useI18n'
 import { cn } from '@lib/utils'
 import { Skeleton } from '@components/ui/skeleton'
 import { Dialog, DialogContent } from '@components/ui/dialog'
@@ -25,7 +25,6 @@ function formatDuration(seconds) {
 }
 
 export default function LoomPreviewCard({ previewData, loading, url, onRefresh }) {
-  const { __ } = useI18n()
   const [embedOpen, setEmbedOpen] = useState(false)
 
   if (loading) {
@@ -86,7 +85,7 @@ export default function LoomPreviewCard({ previewData, loading, url, onRefresh }
               <button
                 className="p-0.5 rounded hover:bg-muted text-pm-text-muted/40 hover:text-pm-text-muted transition-colors"
                 onClick={(e) => { e.stopPropagation(); onRefresh() }}
-                title={__('Refresh')}
+                title={__('Refresh', 'wedevs-project-manager')}
               >
                 <RefreshCw className="h-3.5 w-3.5" />
               </button>
@@ -97,7 +96,7 @@ export default function LoomPreviewCard({ previewData, loading, url, onRefresh }
 
         {isError ? (
           <div className="px-3 pb-3">
-            <span className="text-sm text-pm-text-muted">{__('Loom Video')}</span>
+            <span className="text-sm text-pm-text-muted">{__('Loom Video', 'wedevs-project-manager')}</span>
             {previewData.error && <p className="text-[14px] text-amber-600 mt-0.5">{previewData.error}</p>}
           </div>
         ) : (
@@ -133,7 +132,7 @@ export default function LoomPreviewCard({ previewData, loading, url, onRefresh }
             {/* Title */}
             <div className="px-3 pb-3">
               <p className="text-sm font-medium text-pm-text leading-tight truncate">
-                {previewData.title || __('Untitled Video')}
+                {previewData.title || __('Untitled Video', 'wedevs-project-manager')}
               </p>
               {previewData.description && (
                 <p className="text-[15px] text-pm-text-muted mt-0.5 line-clamp-1">{previewData.description}</p>

@@ -8,9 +8,12 @@
   },
   "scripts": {
     "dev": "wp-scripts start",
-    "build": "wp-scripts build",
+    "build": "WP_DEVTOOL=source-map wp-scripts build && pnpm run i18n",
     "lint": "eslint views/assets/src --ext .ts,.tsx",
-    "makepot": "wp i18n make-pot . languages/wedevs-project-manager.pot --exclude=node_modules,build,tests,views/assets/src,vendor",
+    "makepot": "wp i18n make-pot . languages/wedevs-project-manager.pot --exclude=node_modules,build,tests,views/assets/dist,vendor",
+    "makemap": "node build-i18n-map.mjs views/assets/dist/pm.js.map views/assets/dist/pm.js > languages/.i18n-map.json",
+    "makejson": "wp i18n make-json languages/ --pretty-print --use-map=languages/.i18n-map.json",
+    "i18n": "pnpm run makepot && pnpm run makemap && pnpm run makejson",
     "release": "grunt release --force"
   },
   "dependencies": {
@@ -46,6 +49,7 @@
     "@tiptap/starter-kit": "^2.11.0",
     "@tiptap/suggestion": "^2.27.2",
     "@uidotdev/usehooks": "^2.4.1",
+    "@wordpress/i18n": "^6.18.0",
     "chart.js": "^4.4.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.0",

@@ -1,5 +1,5 @@
+import { __ } from '@wordpress/i18n';
 import React from 'react';
-import { useI18n } from '@hooks/useI18n';
 import { usePermissions } from '@hooks/usePermissions';
 import { useFilter } from '@hooks/useSlot';
 import ProGate from '@components/common/ProGate';
@@ -7,12 +7,11 @@ import ProBadge from '@components/common/ProBadge';
 import { Clock } from 'lucide-react';
 
 function EstimationTeaser() {
-  const { __ } = useI18n();
   return (
-    <ProGate feature={__('Estimate')}>
+    <ProGate feature={__('Estimate', 'wedevs-project-manager')}>
       <div className="flex items-center h-8 px-2 rounded-md hover:bg-muted/40 transition-colors">
         <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
-          <Clock className="h-4 w-4" /><span className="text-sm">{__('Estimate')}</span>
+          <Clock className="h-4 w-4" /><span className="text-sm">{__('Estimate', 'wedevs-project-manager')}</span>
         </div>
         <ProBadge />
       </div>

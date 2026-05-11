@@ -1,5 +1,5 @@
+import { __ } from '@wordpress/i18n';
 import React, { createContext, useContext, useState, useEffect } from 'react'
-import { useI18n } from '@hooks/useI18n'
 import {
   Dialog,
   DialogContent,
@@ -119,12 +119,11 @@ function FeatureSlider() {
 
 function ProUpgradeModal() {
   const { open, setOpen } = useProModal()
-  const { __ } = useI18n()
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent data-pm-dialog className="sm:max-w-[60vw] w-[60%] p-0 border-0 shadow-2xl [&>button]:hidden max-h-[90vh] overflow-y-auto block gap-0 rounded-lg">
-        <DialogTitle className="sr-only">{__('Upgrade to Pro')}</DialogTitle>
+        <DialogTitle className="sr-only">{__('Upgrade to Pro', 'wedevs-project-manager')}</DialogTitle>
 
         {/* Close button */}
         <button
@@ -142,13 +141,13 @@ function ProUpgradeModal() {
             <div className="mb-5">
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: 0 }}>
                 <img src={`${typeof PM_Vars !== 'undefined' ? PM_Vars.dir_url : '/wp-content/plugins/wedevs-project-manager/'}views/assets/images/modules/diamond.svg`} alt="" style={{ padding: '6px', background: 'linear-gradient(220deg, #FFF3DD 40%, #FFE3AD 98%)', borderRadius: '5px', width: '36px', height: '36px' }} />
-                <span style={{ color: '#ff9000', fontSize: '30px', fontWeight: 500, lineHeight: '1.6' }}>{__('Upgrade to')}</span>
+                <span style={{ color: '#ff9000', fontSize: '30px', fontWeight: 500, lineHeight: '1.6' }}>{__('Upgrade to', 'wedevs-project-manager')}</span>
               </div>
               <h2 style={{ fontSize: '30px', fontWeight: 400, lineHeight: '1.6', margin: 0, color: 'var(--pm-text-primary)' }}>
-                {__('WP Project Manager')} <span style={{ fontWeight: 700 }}>{__('Pro')}</span>
+                {__('WP Project Manager', 'wedevs-project-manager')} <span style={{ fontWeight: 700 }}>{__('Pro', 'wedevs-project-manager')}</span>
               </h2>
               <p style={{ fontSize: '20px', fontWeight: 400, color: 'var(--pm-text-muted)', lineHeight: '1.6', margin: 0 }}>
-                {__('unlock and take advantage of our premium features')} 🎉
+                {__('unlock and take advantage of our premium features', 'wedevs-project-manager')} 🎉
               </p>
             </div>
 
@@ -158,15 +157,15 @@ function ProUpgradeModal() {
                 <div key={i} className="flex" style={{ alignItems: 'flex-start' }}>
                   <img src={`${typeof PM_Vars !== 'undefined' ? PM_Vars.dir_url : '/wp-content/plugins/wedevs-project-manager/'}views/assets/images/modules/check.svg`} alt="" style={{ margin: '1em 14px 0 0', padding: '6px 5px', background: '#139F84', borderRadius: '20px', flexShrink: 0, width: '24px', height: '24px' }} />
                   <p style={{ color: 'var(--pm-text-muted)', marginBottom: '2px', paddingRight: '32px', lineHeight: '1.6', fontSize: '14px' }}>
-                    {item.text && __(item.text)}
-                    {item.bold && <span style={{ fontWeight: 500, color: 'var(--pm-text-primary)' }}>{__(item.bold)}</span>}
-                    {item.mid && __(item.mid)}
-                    {item.bold2 && <span style={{ fontWeight: 500, color: 'var(--pm-text-primary)' }}>{__(item.bold2)}</span>}
-                    {item.mid2 && __(item.mid2)}
-                    {item.bold3 && <span style={{ fontWeight: 500, color: 'var(--pm-text-primary)' }}>{__(item.bold3)}</span>}
-                    {item.mid3 && __(item.mid3)}
-                    {item.bold4 && <span style={{ fontWeight: 500, color: 'var(--pm-text-primary)' }}>{__(item.bold4)}</span>}
-                    {item.suffix && __(item.suffix)}
+                    {item.text && __(item.text, 'wedevs-project-manager')}
+                    {item.bold && <span style={{ fontWeight: 500, color: 'var(--pm-text-primary)' }}>{__(item.bold, 'wedevs-project-manager')}</span>}
+                    {item.mid && __(item.mid, 'wedevs-project-manager')}
+                    {item.bold2 && <span style={{ fontWeight: 500, color: 'var(--pm-text-primary)' }}>{__(item.bold2, 'wedevs-project-manager')}</span>}
+                    {item.mid2 && __(item.mid2, 'wedevs-project-manager')}
+                    {item.bold3 && <span style={{ fontWeight: 500, color: 'var(--pm-text-primary)' }}>{__(item.bold3, 'wedevs-project-manager')}</span>}
+                    {item.mid3 && __(item.mid3, 'wedevs-project-manager')}
+                    {item.bold4 && <span style={{ fontWeight: 500, color: 'var(--pm-text-primary)' }}>{__(item.bold4, 'wedevs-project-manager')}</span>}
+                    {item.suffix && __(item.suffix, 'wedevs-project-manager')}
                   </p>
                 </div>
               ))}
@@ -181,7 +180,7 @@ function ProUpgradeModal() {
               onMouseEnter={e => e.currentTarget.style.background = '#d07805'}
               onMouseLeave={e => e.currentTarget.style.background = '#ff9000'}
             >
-              {__('Upgrade to PRO ')}
+              {__('Upgrade to PRO ', 'wedevs-project-manager')}
               <Crown style={{ height: '16px', width: '16px' }} />
             </a>
           </div>
@@ -193,9 +192,9 @@ function ProUpgradeModal() {
         {/* Footer — matches Vue: flex, justify-between, margin-top 35px */}
         <div style={{ display: 'flex', justifyContent: 'space-between', padding: '0 40px 20px', marginTop: '15px', borderTop: '1px solid var(--pm-border)', paddingTop: '15px' }}>
           {[
-            __('10,000+ successful businesses'),
-            __('14 days no questions asked refund policy'),
-            __('Industry leading 24x7 support'),
+            __('10,000+ successful businesses', 'wedevs-project-manager'),
+            __('14 days no questions asked refund policy', 'wedevs-project-manager'),
+            __('Industry leading 24x7 support', 'wedevs-project-manager'),
           ].map((text, i) => (
             <span key={i} style={{ display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--pm-text-muted)', fontSize: '13px' }}>
               <svg width="10" height="8" viewBox="0 0 10 8" fill="none" xmlns="http://www.w3.org/2000/svg">

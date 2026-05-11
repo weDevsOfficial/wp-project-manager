@@ -22,3 +22,5 @@ phpcs-report.txt
 /views/assets/vendor/vue-fullscreen/vue-fullscreen.min.js
 wp-project-manager.zip
 /zipfile/
+/languages/.i18n-map.json
+/views/assets/dist/*.map

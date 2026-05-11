@@ -1,10 +1,10 @@
+import { __ } from '@wordpress/i18n';
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react'
 import { useAppDispatch, useAppSelector } from '@store/index'
 import {
   loadAiSettings, saveAiSettings, testAiConnection, revealAiApiKey,
   setAiProvider, setAiModel, setAiMaxTokens, setAiTemperature,
 } from '@store/settingsSlice'
-import { useI18n } from '@hooks/useI18n'
 import { useToast } from '@hooks/useToast'
 import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
@@ -21,7 +21,6 @@ const providers = [
 ]
 
 const AiSettingsTab = () => {
-  const { __ } = useI18n()
   const toast  = useToast()
   const dispatch = useAppDispatch()
 

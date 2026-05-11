@@ -1,0 +1,2493 @@
+{
+    "translation-revision-date": "2023-07-12 09:37+0600",
+    "generator": "WP-CLI\/2.11.0",
+    "source": "views\/assets\/dist\/pm.js",
+    "domain": "messages",
+    "locale_data": {
+        "messages": {
+            "": {
+                "domain": "messages",
+                "lang": "fr",
+                "plural-forms": "nplurals=2; plural=(n > 1);"
+            },
+            "Project Manager": [
+                "Chef de projet"
+            ],
+            "Task List": [
+                "Liste de t\u00e2che"
+            ],
+            "Task": [
+                "T\u00e2che"
+            ],
+            "File": [
+                ""
+            ],
+            "Calendar": [
+                ""
+            ],
+            "Progress": [
+                ""
+            ],
+            "Reports": [
+                ""
+            ],
+            "Modules": [
+                ""
+            ],
+            "WP Project Manager": [
+                ""
+            ],
+            "Settings": [
+                ""
+            ],
+            "Documentation": [
+                ""
+            ],
+            "Projects": [
+                "Projets"
+            ],
+            "Premium": [
+                ""
+            ],
+            "Categories": [
+                ""
+            ],
+            "Tools": [
+                ""
+            ],
+            "Are you sure?": [
+                "Etes-vous s\u00fbr ?"
+            ],
+            "Upgrade to PRO ": [
+                ""
+            ],
+            "Notify users": [
+                "Notifier utilisateur"
+            ],
+            "Select all": [
+                ""
+            ],
+            "Cancel": [
+                "Annuler"
+            ],
+            "Attach": [
+                ""
+            ],
+            "Discussion": [
+                "Discuter de cette t\u00e2che"
+            ],
+            "Edit": [
+                "Editer"
+            ],
+            "Delete": [
+                "Supprimer"
+            ],
+            "Type": [
+                ""
+            ],
+            "Completed": [
+                "R\u00e9alis\u00e9"
+            ],
+            "Mark Complete": [
+                "Marquer comme r\u00e9alis\u00e9"
+            ],
+            "Copy Link": [
+                ""
+            ],
+            "Members": [
+                ""
+            ],
+            "Due Date": [
+                ""
+            ],
+            "Clear": [
+                ""
+            ],
+            "Privacy": [
+                "Priv\u00e9"
+            ],
+            "Description": [
+                ""
+            ],
+            "Update": [
+                "Mettre \u00e0 jour Liste"
+            ],
+            "Activity": [
+                "Activit\u00e9"
+            ],
+            "Email": [
+                ""
+            ],
+            "Complete": [
+                ""
+            ],
+            "Restore": [
+                ""
+            ],
+            "Add": [
+                "Ajouter nouveau"
+            ],
+            "Discussions": [
+                ""
+            ],
+            "Task Lists": [
+                "Liste de T\u00e2che"
+            ],
+            "Tasks": [
+                "T\u00e2ches"
+            ],
+            "Comments": [
+                ""
+            ],
+            "Files": [
+                "Fichiers"
+            ],
+            "Milestones": [
+                "Etapes"
+            ],
+            "by": [
+                ""
+            ],
+            "No results found.": [
+                "Aucun utilisateur"
+            ],
+            "New Task List": [
+                "Nouvelle liste de t\u00e2che"
+            ],
+            "- Milestone -": [
+                ""
+            ],
+            "Add Task": [
+                "Ajouter t\u00e2che"
+            ],
+            "Move Task": [
+                "Nouvelle t\u00e2che"
+            ],
+            "Make Private": [
+                "Priv\u00e9"
+            ],
+            "Make Public": [
+                "Publique"
+            ],
+            "Duplicate": [
+                ""
+            ],
+            "Move": [
+                ""
+            ],
+            "Task list name": [
+                ""
+            ],
+            "Status": [
+                ""
+            ],
+            "Project": [
+                "Projets"
+            ],
+            "Milestone": [
+                "Etapes"
+            ],
+            "Name": [
+                ""
+            ],
+            "Update Category": [
+                "Mettre \u00e0 jour commentaire"
+            ],
+            "Post Comment": [
+                "%d Commentaires"
+            ],
+            "Delete File": [
+                "Supprimer message"
+            ],
+            "Select a project": [
+                "Cr\u00e9er un nouveau projet"
+            ],
+            "All": [
+                ""
+            ],
+            "Today": [
+                ""
+            ],
+            "Loading...": [
+                ""
+            ],
+            "More": [
+                ""
+            ],
+            "Overview": [
+                ""
+            ],
+            "Activities": [
+                ""
+            ],
+            "Title": [
+                ""
+            ],
+            "Write a comment...": [
+                ""
+            ],
+            "Provide your App Key & Token": [
+                ""
+            ],
+            "Load More": [
+                ""
+            ],
+            "My Tasks": [
+                ""
+            ],
+            "New Task": [
+                "Nouvelle t\u00e2che"
+            ],
+            "Overdue": [
+                ""
+            ],
+            "Activity Filter": [
+                "Activit\u00e9"
+            ],
+            "Current": [
+                ""
+            ],
+            "Outstanding": [
+                ""
+            ],
+            "Due date": [
+                ""
+            ],
+            "See More": [
+                ""
+            ],
+            "More features to unveil while": [
+                ""
+            ],
+            "Managing Your Project": [
+                ""
+            ],
+            "Get Started Now": [
+                ""
+            ],
+            "Project Manager Pro": [
+                "Chef de projet"
+            ],
+            "Premium Features": [
+                ""
+            ],
+            "Gantt Chart": [
+                ""
+            ],
+            "Kanban Board": [
+                ""
+            ],
+            "Time Tracker": [
+                ""
+            ],
+            "Private": [
+                "Priv\u00e9"
+            ],
+            "Invoices": [
+                ""
+            ],
+            "Theme Color": [
+                "S\u00e9lectionner un coll\u00e8gue"
+            ],
+            "Currency": [
+                ""
+            ],
+            "Stripe": [
+                ""
+            ],
+            "PayPal Instruction": [
+                ""
+            ],
+            "Organization": [
+                ""
+            ],
+            "Address Line 1": [
+                ""
+            ],
+            "Address Line 2": [
+                ""
+            ],
+            "City": [
+                ""
+            ],
+            "State\/Province": [
+                ""
+            ],
+            "Zip\/Postal Code": [
+                ""
+            ],
+            "Country": [
+                ""
+            ],
+            "Pages": [
+                "Messages"
+            ],
+            "Upload": [
+                ""
+            ],
+            "Daily Digest": [
+                ""
+            ],
+            "Subtasks": [
+                "T\u00e2ches"
+            ],
+            "Pro": [
+                ""
+            ],
+            "Label": [
+                ""
+            ],
+            "Recurring": [
+                ""
+            ],
+            "Track Time": [
+                ""
+            ],
+            "Add List": [
+                "Ajouter Liste"
+            ],
+            "Enter message title": [
+                ""
+            ],
+            "Add Message": [
+                "Ajouter message"
+            ],
+            "Create a folder": [
+                ""
+            ],
+            "Upload a file": [
+                ""
+            ],
+            "Create a doc": [
+                ""
+            ],
+            "Link to Docs": [
+                ""
+            ],
+            "Generate": [
+                ""
+            ],
+            "Please enter a project description": [
+                ""
+            ],
+            "Failed to generate project structure": [
+                ""
+            ],
+            "Failed to generate project. Please try again.": [
+                ""
+            ],
+            "Project created successfully!": [
+                "Project cr\u00e9\u00e9 par %s"
+            ],
+            "Failed to create project": [
+                "Cr\u00e9er un nouveau projet"
+            ],
+            "Delete Selected": [
+                "Supprimer message"
+            ],
+            "Project Name": [
+                "Chef de projet"
+            ],
+            "Saving...": [
+                ""
+            ],
+            "Project name is required": [
+                "Chef de projet"
+            ],
+            "Search users...": [
+                "Rechercher messages"
+            ],
+            "Update Project": [
+                "Mettre \u00e0 jour Projet"
+            ],
+            "Active": [
+                ""
+            ],
+            "New Project": [
+                "Nouveau Projet"
+            ],
+            "Edit Milestone": [
+                "Editer \u00e9tape"
+            ],
+            "Action": [
+                ""
+            ],
+            "Filter": [
+                ""
+            ],
+            "Open": [
+                ""
+            ],
+            "In Progress": [
+                ""
+            ],
+            "Done": [
+                ""
+            ],
+            "Create": [
+                ""
+            ],
+            "URL": [
+                ""
+            ],
+            "Save Changes": [
+                "Enregistrer"
+            ],
+            "Created": [
+                ""
+            ],
+            "Total": [
+                ""
+            ],
+            "Capabilities": [
+                ""
+            ],
+            "Integrations": [
+                ""
+            ],
+            "Incomplete": [
+                ""
+            ],
+            "Task Title": [
+                "Liste de t\u00e2che"
+            ],
+            "Start Date": [
+                ""
+            ],
+            "Select User": [
+                ""
+            ],
+            "Task list details": [
+                ""
+            ],
+            "Back to Task Lists": [
+                ""
+            ],
+            "Delete List": [
+                "Supprimer message"
+            ],
+            "Pusher": [
+                ""
+            ],
+            "Pusher Settings": [
+                ""
+            ],
+            "App ID": [
+                ""
+            ],
+            "App Key": [
+                ""
+            ],
+            "Cluster": [
+                ""
+            ],
+            "View Full Report": [
+                ""
+            ],
+            "AI Settings": [
+                ""
+            ],
+            "API Key": [
+                ""
+            ],
+            "API key is saved": [
+                ""
+            ],
+            "Max Tokens": [
+                ""
+            ],
+            "Temperature": [
+                ""
+            ],
+            "Test Connection": [
+                ""
+            ],
+            "From Email": [
+                ""
+            ],
+            "Link to Backend": [
+                ""
+            ],
+            "HTML Mail": [
+                ""
+            ],
+            "Plain Text": [
+                ""
+            ],
+            "General Settings": [
+                ""
+            ],
+            "File Upload Limit": [
+                ""
+            ],
+            "Projects Per Page": [
+                ""
+            ],
+            "-1 for unlimited": [
+                ""
+            ],
+            "Task Lists Per Page": [
+                ""
+            ],
+            "Incomplete Tasks Per Page": [
+                ""
+            ],
+            "Completed Tasks Per Page": [
+                ""
+            ],
+            "User Name": [
+                ""
+            ],
+            "Total Estimation Hours": [
+                ""
+            ],
+            "Completed Task Count": [
+                "R\u00e9alis\u00e9 sur :"
+            ],
+            "Avg. Hour Per-task": [
+                ""
+            ],
+            "Avg. Work Hour Per-day": [
+                ""
+            ],
+            "Avg. Task Per-day": [
+                ""
+            ],
+            "All Projects": [
+                "Projets"
+            ],
+            "Task Types": [
+                "T\u00e2ches"
+            ],
+            "Subtask Types": [
+                ""
+            ],
+            "Completed At": [
+                "R\u00e9alis\u00e9"
+            ],
+            "Subtask Title": [
+                "Liste de t\u00e2che"
+            ],
+            "Hour": [
+                ""
+            ],
+            "Task type": [
+                "Liste de t\u00e2che"
+            ],
+            "Est. Hour": [
+                ""
+            ],
+            "Upgrade to": [
+                ""
+            ],
+            "10,000+ successful businesses": [
+                ""
+            ],
+            "14 days no questions asked refund policy": [
+                ""
+            ],
+            "Industry leading 24x7 support": [
+                ""
+            ],
+            "Features you can use...": [
+                ""
+            ],
+            "View All Features": [
+                ""
+            ],
+            "Welcome to": [
+                ""
+            ],
+            "The best project management tool for WordPress to get things done with your team.": [
+                ""
+            ],
+            "Create Your First Project": [
+                ""
+            ],
+            "Read Full Guide": [
+                ""
+            ],
+            "Import": [
+                ""
+            ],
+            "Resources of Project Manager": [
+                "Chef de projet"
+            ],
+            "Upgrade to Pro": [
+                ""
+            ],
+            "Write something...": [
+                ""
+            ],
+            "Bold": [
+                ""
+            ],
+            "Italic": [
+                ""
+            ],
+            "Underline": [
+                ""
+            ],
+            "Strikethrough": [
+                ""
+            ],
+            "Bullet List": [
+                "Supprimer message"
+            ],
+            "Numbered List": [
+                ""
+            ],
+            "Blockquote": [
+                ""
+            ],
+            "Code": [
+                ""
+            ],
+            "Horizontal Rule": [
+                ""
+            ],
+            "Link": [
+                ""
+            ],
+            "Clear Formatting": [
+                ""
+            ],
+            "Undo": [
+                ""
+            ],
+            "Redo": [
+                ""
+            ],
+            "PRO": [
+                ""
+            ],
+            "Available in Pro": [
+                ""
+            ],
+            "Pro Required": [
+                ""
+            ],
+            "Importing lists from \"%s\"...": [
+                ""
+            ],
+            "Importing cards from \"%s\"...": [
+                ""
+            ],
+            "Importing checklists from \"%s\"...": [
+                ""
+            ],
+            "Importing assignees from \"%s\"...": [
+                ""
+            ],
+            "Import Tools": [
+                ""
+            ],
+            "Import projects, tasks, and data from third-party project management tools.": [
+                ""
+            ],
+            "Please provide both App Key and App Token": [
+                ""
+            ],
+            "Importing Trello user data...": [
+                ""
+            ],
+            "No user found. Please check your App Key & Token.": [
+                ""
+            ],
+            "Fetching Trello boards...": [
+                ""
+            ],
+            "No boards found in your Trello account.": [
+                ""
+            ],
+            "Trello import completed successfully!": [
+                ""
+            ],
+            "Trello data imported successfully!": [
+                ""
+            ],
+            "Import failed. Please check your credentials and try again.": [
+                ""
+            ],
+            "Trello import failed": [
+                ""
+            ],
+            "Trello": [
+                ""
+            ],
+            "Import boards, lists, and cards from Trello": [
+                ""
+            ],
+            "Get your API key and token from": [
+                ""
+            ],
+            "App Token": [
+                ""
+            ],
+            "Importing...": [
+                ""
+            ],
+            "Updated": [
+                "Mettre \u00e0 jour Liste"
+            ],
+            "Unknown": [
+                ""
+            ],
+            "Yesterday": [
+                ""
+            ],
+            "All changes and updates in this project": [
+                ""
+            ],
+            "No activities yet": [
+                ""
+            ],
+            "Project activity will appear here.": [
+                ""
+            ],
+            "Showing %1$s of %2$s activities": [
+                ""
+            ],
+            "Track all project activity and team progress in one place": [
+                ""
+            ],
+            "Activities Today": [
+                "Activit\u00e9"
+            ],
+            "Tasks Completed": [
+                "R\u00e9alis\u00e9"
+            ],
+            "Files Uploaded": [
+                ""
+            ],
+            "Team Progress Tracker": [
+                ""
+            ],
+            "Track all team activities, task completions, and project updates in real-time.": [
+                ""
+            ],
+            "Showing 9 of 250+ activities": [
+                ""
+            ],
+            "Task name": [
+                "T\u00e2che"
+            ],
+            "Design homepage": [
+                ""
+            ],
+            "API integration": [
+                ""
+            ],
+            "Write tests": [
+                ""
+            ],
+            "Database schema": [
+                ""
+            ],
+            "Auth module": [
+                ""
+            ],
+            "Project setup": [
+                "Projets"
+            ],
+            "CI\/CD pipeline": [
+                ""
+            ],
+            "Code review": [
+                ""
+            ],
+            "Bug fix #42": [
+                ""
+            ],
+            "Research": [
+                ""
+            ],
+            "Design": [
+                ""
+            ],
+            "Development": [
+                ""
+            ],
+            "Testing": [
+                ""
+            ],
+            "Deployment": [
+                ""
+            ],
+            "Review": [
+                ""
+            ],
+            "Jan": [
+                ""
+            ],
+            "Feb": [
+                ""
+            ],
+            "Mar": [
+                ""
+            ],
+            "Apr": [
+                ""
+            ],
+            "May": [
+                ""
+            ],
+            "Web Design": [
+                ""
+            ],
+            "Hosting Setup": [
+                ""
+            ],
+            "INVOICE": [
+                ""
+            ],
+            "Due: Apr 15, 2026": [
+                ""
+            ],
+            "Unpaid": [
+                ""
+            ],
+            "Item": [
+                ""
+            ],
+            "Qty": [
+                ""
+            ],
+            "Rate": [
+                ""
+            ],
+            "Total Due": [
+                ""
+            ],
+            "Visibility": [
+                ""
+            ],
+            "Sprint 12": [
+                ""
+            ],
+            "Sprint 11": [
+                ""
+            ],
+            "Sprint 10": [
+                ""
+            ],
+            "%1$s\/%2$s tasks completed": [
+                ""
+            ],
+            "End Date": [
+                ""
+            ],
+            "Company Logo": [
+                ""
+            ],
+            "Enable start date field for tasks": [
+                ""
+            ],
+            "Failed to upload": [
+                ""
+            ],
+            "Logo uploaded": [
+                ""
+            ],
+            "Please select an image file": [
+                ""
+            ],
+            "Pro Settings": [
+                ""
+            ],
+            "Send daily digest emails to team members": [
+                ""
+            ],
+            "Task Start Date": [
+                ""
+            ],
+            "Used on invoices and reports": [
+                ""
+            ],
+            "Accept credit card payments via Stripe": [
+                ""
+            ],
+            "Accept payments via PayPal": [
+                ""
+            ],
+            "Appearance": [
+                ""
+            ],
+            "Automatically included at the bottom of every invoice": [
+                ""
+            ],
+            "Company Address": [
+                ""
+            ],
+            "Company Name": [
+                ""
+            ],
+            "Configure invoice appearance and payment gateways": [
+                ""
+            ],
+            "Default Notes \/ Terms": [
+                ""
+            ],
+            "Default tax percentage applied to invoices": [
+                ""
+            ],
+            "Displayed on invoices as the billing entity": [
+                ""
+            ],
+            "Enable Test Secret Key": [
+                ""
+            ],
+            "Full address shown on invoices": [
+                ""
+            ],
+            "Invoice Defaults": [
+                ""
+            ],
+            "Invoice Settings": [
+                ""
+            ],
+            "Invoice settings saved": [
+                ""
+            ],
+            "Organization Name": [
+                ""
+            ],
+            "PayPal Email": [
+                ""
+            ],
+            "Payment Gateways": [
+                ""
+            ],
+            "Sandbox Mode": [
+                ""
+            ],
+            "Tax Rate (%)": [
+                ""
+            ],
+            "Test Publishable Key": [
+                ""
+            ],
+            "Use demo mode for testing": [
+                ""
+            ],
+            "Use sandbox mode for testing": [
+                ""
+            ],
+            "Used for invoice header and accents": [
+                ""
+            ],
+            "Your Company Name": [
+                ""
+            ],
+            "Configure front-end pages for Project Manager": [
+                ""
+            ],
+            "Front-end Page": [
+                ""
+            ],
+            "Page settings saved": [
+                ""
+            ],
+            "Project Page": [
+                "Chef de projet"
+            ],
+            "Select a page...": [
+                ""
+            ],
+            "Select the page where Project Manager will be displayed on the front-end": [
+                ""
+            ],
+            "\u2014 None \u2014": [
+                ""
+            ],
+            "You have unsaved changes": [
+                ""
+            ],
+            "Click to attach files": [
+                ""
+            ],
+            "or drag and drop": [
+                ""
+            ],
+            "Loom Video": [
+                ""
+            ],
+            "Untitled Video": [
+                ""
+            ],
+            "Refresh": [
+                ""
+            ],
+            "Untitled": [
+                ""
+            ],
+            "just now": [
+                ""
+            ],
+            "Administration": [
+                ""
+            ],
+            "Back to WP Admin": [
+                ""
+            ],
+            "Collapse sidebar": [
+                ""
+            ],
+            "Expand sidebar": [
+                ""
+            ],
+            "Favourites": [
+                ""
+            ],
+            "Recent": [
+                ""
+            ],
+            "Views": [
+                "Afficher t\u00e2che"
+            ],
+            "Workspace": [
+                ""
+            ],
+            "Logout": [
+                ""
+            ],
+            "No notifications yet": [
+                ""
+            ],
+            "Notifications": [
+                ""
+            ],
+            "Plugin sidebar": [
+                ""
+            ],
+            "Search projects and tasks...": [
+                "Rechercher Projet"
+            ],
+            "Search...": [
+                "Recherche t\u00e2che"
+            ],
+            "Share your idea": [
+                ""
+            ],
+            "Summary Report": [
+                ""
+            ],
+            "WordPress sidebar": [
+                ""
+            ],
+            "Activity Trend": [
+                "Activit\u00e9"
+            ],
+            "Add a description (optional)": [
+                ""
+            ],
+            "At a Glance": [
+                ""
+            ],
+            "Due Date \u2191": [
+                ""
+            ],
+            "Due Date \u2193": [
+                ""
+            ],
+            "Enter task title": [
+                "Editer liste de t\u00e2che"
+            ],
+            "Failed to update task": [
+                ""
+            ],
+            "Newest": [
+                ""
+            ],
+            "No completed tasks yet": [
+                ""
+            ],
+            "No current tasks": [
+                ""
+            ],
+            "No data": [
+                ""
+            ],
+            "No overdue tasks \u2014 great job!": [
+                ""
+            ],
+            "Oldest": [
+                ""
+            ],
+            "Search by Task Title": [
+                "Recherche liste de t\u00e2che"
+            ],
+            "Select a list": [
+                "S\u00e9lectionner un coll\u00e8gue"
+            ],
+            "Select date range and click Run Report.": [
+                ""
+            ],
+            "Sort:": [
+                ""
+            ],
+            "Interactive Calendar": [
+                ""
+            ],
+            "Add Category": [
+                "Ajouter nouveau message"
+            ],
+            "Categories deleted": [
+                ""
+            ],
+            "Category created": [
+                ""
+            ],
+            "Category deleted": [
+                ""
+            ],
+            "Category name": [
+                ""
+            ],
+            "Category updated": [
+                ""
+            ],
+            "Create Category": [
+                "Mettre \u00e0 jour commentaire"
+            ],
+            "Create categories to organize your projects.": [
+                ""
+            ],
+            "Delete selected categories?": [
+                ""
+            ],
+            "Edit Category": [
+                "Mettre \u00e0 jour commentaire"
+            ],
+            "Failed to create category": [
+                "Mettre \u00e0 jour commentaire"
+            ],
+            "Failed to delete categories": [
+                ""
+            ],
+            "Failed to delete category": [
+                ""
+            ],
+            "Failed to update category": [
+                "Mettre \u00e0 jour commentaire"
+            ],
+            "No categories yet": [
+                ""
+            ],
+            "Discussion created": [
+                "Discuter de cette t\u00e2che"
+            ],
+            "Discussion deleted": [
+                "Discuter de cette t\u00e2che"
+            ],
+            "Discussion updated": [
+                "Discuter de cette t\u00e2che"
+            ],
+            "Failed to create discussion": [
+                ""
+            ],
+            "Failed to update discussion": [
+                ""
+            ],
+            "No discussions yet": [
+                ""
+            ],
+            "Start a conversation about this project.": [
+                "Cr\u00e9er un nouveau projet"
+            ],
+            "Discussion Comment": [
+                ""
+            ],
+            "File deleted": [
+                ""
+            ],
+            "Files attached to tasks, discussions, and comments will appear here.": [
+                ""
+            ],
+            "Task Comment": [
+                "%d Commentaires"
+            ],
+            "Uploading...": [
+                ""
+            ],
+            "Deactivate": [
+                ""
+            ],
+            "Enter license key...": [
+                ""
+            ],
+            "Enter your license key to activate Pro features.": [
+                ""
+            ],
+            "Enter your purchase email address...": [
+                ""
+            ],
+            "Invalid license key": [
+                ""
+            ],
+            "License activated": [
+                ""
+            ],
+            "License activation failed": [
+                ""
+            ],
+            "License removed": [
+                ""
+            ],
+            "No Active License": [
+                ""
+            ],
+            "Your Pro license is active. All modules are available.": [
+                ""
+            ],
+            "All tasks are already linked": [
+                ""
+            ],
+            "At Risk": [
+                ""
+            ],
+            "Create Milestone": [
+                "Etapes en retard"
+            ],
+            "Create a new milestone": [
+                "Ecrire un nouveau message"
+            ],
+            "Create your first milestone": [
+                ""
+            ],
+            "Edit an existing milestone": [
+                "Ajouter nouvelle Etape"
+            ],
+            "Failed to create milestone": [
+                "Mettre \u00e0 jour Etape"
+            ],
+            "Failed to delete": [
+                ""
+            ],
+            "Failed to link tasks": [
+                ""
+            ],
+            "Failed to unlink task": [
+                ""
+            ],
+            "Failed to update": [
+                ""
+            ],
+            "Failed to update milestone": [
+                "Mettre \u00e0 jour Etape"
+            ],
+            "Link Tasks": [
+                "T\u00e2ches"
+            ],
+            "Link tasks to this milestone": [
+                ""
+            ],
+            "Milestone created": [
+                "Etapes"
+            ],
+            "Milestone deleted": [
+                "Etape \"%s\" supprim\u00e9e par %s "
+            ],
+            "Milestone marked as complete": [
+                "Etape \"%s\" marqu\u00e9e atteinte par %s "
+            ],
+            "Milestone marked as incomplete": [
+                "Etape \"%s\" marqu\u00e9e non atteinte par %s "
+            ],
+            "Milestone updated": [
+                "Etape \"%s\" mise \u00e0 jour par %s "
+            ],
+            "New Milestone": [
+                "Nouvelle \u00e9tape"
+            ],
+            "No Date": [
+                ""
+            ],
+            "No milestones match the selected filter.": [
+                ""
+            ],
+            "No milestones yet": [
+                "Etape"
+            ],
+            "No tasks found in this project": [
+                "Aucune t\u00e2che dans la corbeille"
+            ],
+            "No tasks linked": [
+                ""
+            ],
+            "No tasks match your search": [
+                ""
+            ],
+            "Remove this task from the milestone?": [
+                ""
+            ],
+            "Select tasks to link to": [
+                ""
+            ],
+            "Target Date": [
+                ""
+            ],
+            "Task unlinked": [
+                "Aucune t\u00e2che trouv\u00e9e"
+            ],
+            "Track your project progress with milestones.": [
+                ""
+            ],
+            "Unlink from milestone": [
+                "Etape"
+            ],
+            "tasks linked": [
+                "Liste de t\u00e2che"
+            ],
+            "Enable or disable project manager modules": [
+                ""
+            ],
+            "Go Pro Today": [
+                ""
+            ],
+            "Learn More": [
+                ""
+            ],
+            "Premium Modules": [
+                ""
+            ],
+            "Create New Project": [
+                "Nouveau Projet"
+            ],
+            "Describe your project...": [
+                ""
+            ],
+            "Enter project name": [
+                "Chef de projet"
+            ],
+            "Fill in the details below to create a new project.": [
+                ""
+            ],
+            "Notify co-workers via email": [
+                "Notifier coll\u00e8gues"
+            ],
+            "Project updated successfully": [
+                ""
+            ],
+            "Role": [
+                ""
+            ],
+            "Search and add members...": [
+                ""
+            ],
+            "Select a category": [
+                "S\u00e9lectionner un coll\u00e8gue"
+            ],
+            "Update the project details below.": [
+                ""
+            ],
+            "30-Day Activity": [
+                "Activit\u00e9"
+            ],
+            "Failed to add member": [
+                ""
+            ],
+            "Failed to remove member": [
+                ""
+            ],
+            "Member added": [
+                ""
+            ],
+            "Member removed": [
+                ""
+            ],
+            "No team members assigned": [
+                ""
+            ],
+            "Overall Progress": [
+                ""
+            ],
+            "Project Overview": [
+                "Chef de projet"
+            ],
+            "Searching...": [
+                ""
+            ],
+            "Team Members": [
+                ""
+            ],
+            "AI Create": [
+                ""
+            ],
+            "Delete Project": [
+                "Nouveau Projet"
+            ],
+            "Details": [
+                ""
+            ],
+            "Failed to delete project": [
+                ""
+            ],
+            "Failed to duplicate project": [
+                ""
+            ],
+            "Failed to update project status": [
+                ""
+            ],
+            "Get started by creating a new project.": [
+                "Cr\u00e9er un nouveau projet"
+            ],
+            "Newest First": [
+                ""
+            ],
+            "Oldest First": [
+                ""
+            ],
+            "Project deleted": [
+                "Project cr\u00e9\u00e9 par %s"
+            ],
+            "Project duplicated": [
+                "Project cr\u00e9\u00e9 par %s"
+            ],
+            "Project status updated": [
+                "D\u00e9tails du projet ajout\u00e9 par %s"
+            ],
+            "Search projects...": [
+                "Rechercher Projet"
+            ],
+            "Sort By": [
+                ""
+            ],
+            "This action cannot be undone.": [
+                ""
+            ],
+            "Title A-Z": [
+                ""
+            ],
+            "Title Z-A": [
+                ""
+            ],
+            "Generate actionable insights from your project data": [
+                ""
+            ],
+            "Introduction Video": [
+                ""
+            ],
+            "Failed to move task": [
+                ""
+            ],
+            "No lists found": [
+                "Aucun commentaire"
+            ],
+            "Search task lists...": [
+                "Recherche liste de t\u00e2che"
+            ],
+            "Task moved": [
+                "Aucune t\u00e2che trouv\u00e9e"
+            ],
+            "No incomplete tasks": [
+                ""
+            ],
+            "Task list not found.": [
+                "Aucune liste de t\u00e2che trouv\u00e9e"
+            ],
+            "Add type": [
+                "Ajouter nouveau"
+            ],
+            "Are you sure you want to delete this task?": [
+                "Etes vous s\u00fbr de supprimer ce message ?"
+            ],
+            "Assignee added": [
+                ""
+            ],
+            "Assignee removed": [
+                ""
+            ],
+            "Click to make private": [
+                ""
+            ],
+            "Comment added": [
+                "1 Commentaire"
+            ],
+            "Comment deleted": [
+                "R\u00e9alis\u00e9"
+            ],
+            "Comment updated": [
+                ""
+            ],
+            "Dates": [
+                ""
+            ],
+            "Dates updated": [
+                ""
+            ],
+            "Description updated": [
+                ""
+            ],
+            "Failed to add assignee": [
+                ""
+            ],
+            "Failed to add comment": [
+                "%s a supprim\u00e9 un commentaire"
+            ],
+            "Failed to delete comment": [
+                "%s a supprim\u00e9 un commentaire"
+            ],
+            "Failed to remove assignee": [
+                ""
+            ],
+            "Failed to update comment": [
+                "Mettre \u00e0 jour commentaire"
+            ],
+            "Failed to update dates": [
+                ""
+            ],
+            "Failed to update description": [
+                ""
+            ],
+            "Failed to update status": [
+                ""
+            ],
+            "Failed to update title": [
+                ""
+            ],
+            "Full screen": [
+                ""
+            ],
+            "Generate with AI": [
+                ""
+            ],
+            "Labels": [
+                ""
+            ],
+            "Link copied": [
+                ""
+            ],
+            "No activity yet": [
+                "Activit\u00e9"
+            ],
+            "No task types found": [
+                "Aucune liste de t\u00e2che trouv\u00e9e"
+            ],
+            "Remove type": [
+                ""
+            ],
+            "Set dates": [
+                ""
+            ],
+            "Show activity": [
+                "Activit\u00e9"
+            ],
+            "Write a description...": [
+                ""
+            ],
+            "Search tasks...": [
+                "Recherche t\u00e2che"
+            ],
+            "This Week": [
+                ""
+            ],
+            "Add a task": [
+                "Ajouter t\u00e2che"
+            ],
+            "Delete this list and all its tasks?": [
+                ""
+            ],
+            "Description...": [
+                ""
+            ],
+            "Failed to create task": [
+                ""
+            ],
+            "Failed to delete list": [
+                ""
+            ],
+            "Failed to load more tasks": [
+                ""
+            ],
+            "Failed to rename": [
+                ""
+            ],
+            "List deleted": [
+                ""
+            ],
+            "List renamed": [
+                ""
+            ],
+            "Load more completed": [
+                "Marquer comme r\u00e9alis\u00e9"
+            ],
+            "Load more tasks": [
+                ""
+            ],
+            "More options": [
+                ""
+            ],
+            "No tasks yet": [
+                ""
+            ],
+            "Rename": [
+                ""
+            ],
+            "Task created": [
+                ""
+            ],
+            "Task name...": [
+                ""
+            ],
+            "View List": [
+                "Voir liste de t\u00e2che"
+            ],
+            "Create your first task list to start organizing work.": [
+                ""
+            ],
+            "Creating...": [
+                ""
+            ],
+            "Expand all": [
+                ""
+            ],
+            "Failed to create task list": [
+                ""
+            ],
+            "New List": [
+                "Nouvelle liste de t\u00e2che"
+            ],
+            "No task lists yet": [
+                "Liste de t\u00e2che"
+            ],
+            "No tasks match your filters.": [
+                ""
+            ],
+            "Task list created": [
+                "To-do liste %s cr\u00e9\u00e9e par %s"
+            ],
+            "Failed to delete task": [
+                ""
+            ],
+            "Failed to duplicate task": [
+                ""
+            ],
+            "Failed to update privacy": [
+                ""
+            ],
+            "Failed to update task status": [
+                ""
+            ],
+            "Normal": [
+                ""
+            ],
+            "Private task": [
+                "Priv\u00e9"
+            ],
+            "Set to public": [
+                ""
+            ],
+            "Task deleted": [
+                ""
+            ],
+            "Task duplicated": [
+                ""
+            ],
+            "Task reopened": [
+                ""
+            ],
+            "Sprints": [
+                ""
+            ],
+            "License": [
+                ""
+            ],
+            "AI Project Generator": [
+                "Chef de projet"
+            ],
+            "Describe your project and AI will generate the structure.": [
+                ""
+            ],
+            "Review and edit the generated structure before creating.": [
+                ""
+            ],
+            "AI is building your project structure...": [
+                ""
+            ],
+            "Thinking...": [
+                ""
+            ],
+            "Generating tasks...": [
+                ""
+            ],
+            "Organizing structure...": [
+                ""
+            ],
+            "Almost ready...": [
+                ""
+            ],
+            "Creating project...": [
+                "Projet parent"
+            ],
+            "Creating task lists...": [
+                ""
+            ],
+            "Finalizing tasks...": [
+                ""
+            ],
+            "Describe your project and AI will generate the structure with task lists and tasks.": [
+                ""
+            ],
+            "e.g. \"Build an e-commerce website with product management, order processing, and customer support...\"": [
+                ""
+            ],
+            "Preview & Edit": [
+                ""
+            ],
+            "list": [
+                "Liste de t\u00e2che"
+            ],
+            "lists": [
+                ""
+            ],
+            "task": [
+                ""
+            ],
+            "tasks": [
+                "T\u00e2ches"
+            ],
+            "Task List Name": [
+                "Liste de t\u00e2che"
+            ],
+            "Back": [
+                ""
+            ],
+            "Create Project": [
+                "Mettre \u00e0 jour Projet"
+            ],
+            "Exit full screen": [
+                ""
+            ],
+            "Access denied": [
+                ""
+            ],
+            "Comment": [
+                "1 Commentaire"
+            ],
+            "What's New": [
+                ""
+            ],
+            "Description (optional)": [
+                ""
+            ],
+            "GitHub": [
+                ""
+            ],
+            "Notion": [
+                ""
+            ],
+            "Loom": [
+                ""
+            ],
+            "WooCommerce": [
+                ""
+            ],
+            "Configuration": [
+                ""
+            ],
+            "General": [
+                ""
+            ],
+            "Advanced": [
+                ""
+            ],
+            "Failed to reveal API key": [
+                ""
+            ],
+            "AI settings saved": [
+                ""
+            ],
+            "Failed to save AI settings": [
+                ""
+            ],
+            "Connection successful": [
+                ""
+            ],
+            "Connection failed": [
+                ""
+            ],
+            "Configure the AI provider used for AI-powered features \u2014 including automatic project generation and AI subtask generation (Pro).": [
+                ""
+            ],
+            "AI Provider": [
+                ""
+            ],
+            "Select your preferred AI service.": [
+                ""
+            ],
+            "Your secret key from the provider dashboard.": [
+                ""
+            ],
+            "Hide API Key": [
+                ""
+            ],
+            "Show API Key": [
+                ""
+            ],
+            "Change API Key": [
+                ""
+            ],
+            "Enter your API key": [
+                ""
+            ],
+            "Fetching models...": [
+                ""
+            ],
+            "Model": [
+                ""
+            ],
+            "Select a model": [
+                "S\u00e9lectionner un coll\u00e8gue"
+            ],
+            "500\u201316384. Higher values allow more detailed responses for both project and subtask generation, but may cost more.": [
+                ""
+            ],
+            "0 = deterministic \/ 1 = creative": [
+                ""
+            ],
+            "No models available for this provider. Please verify your API key and save again.": [
+                ""
+            ],
+            "Testing...": [
+                ""
+            ],
+            "Email settings saved": [
+                ""
+            ],
+            "Failed to save email settings": [
+                ""
+            ],
+            "Email Settings": [
+                ""
+            ],
+            "Configure how notification emails are sent.": [
+                ""
+            ],
+            "Sender address for all notifications": [
+                ""
+            ],
+            "Email Type": [
+                ""
+            ],
+            "Email links point to the WP admin backend": [
+                ""
+            ],
+            "Send via BCC": [
+                ""
+            ],
+            "All recipients added as BCC instead of TO": [
+                ""
+            ],
+            "Settings saved": [
+                ""
+            ],
+            "Failed to save settings": [
+                ""
+            ],
+            "Size in Megabytes (e.g. 2)": [
+                ""
+            ],
+            "Configure pagination and file upload limits.": [
+                ""
+            ],
+            "Change": [
+                "Enregistrer"
+            ],
+            "Remove": [
+                ""
+            ],
+            "Failed to reveal token": [
+                ""
+            ],
+            "GitHub settings saved": [
+                ""
+            ],
+            "GitHub Integration": [
+                ""
+            ],
+            "Show preview cards for GitHub issue and PR URLs in descriptions and comments.": [
+                ""
+            ],
+            "Personal Access Token": [
+                ""
+            ],
+            "Token saved": [
+                ""
+            ],
+            "Enables private repo access & higher rate limits.": [
+                ""
+            ],
+            "Enable Previews": [
+                ""
+            ],
+            "Show GitHub issue\/PR preview cards automatically.": [
+                ""
+            ],
+            "Connection Status": [
+                ""
+            ],
+            "Not tested yet": [
+                ""
+            ],
+            "Connected": [
+                ""
+            ],
+            "as": [
+                "T\u00e2che"
+            ],
+            "Generate a new token on GitHub": [
+                ""
+            ],
+            "Select \"repo\" scope for private repository access": [
+                ""
+            ],
+            "Failed to save": [
+                ""
+            ],
+            "PayPal": [
+                ""
+            ],
+            "Stripe Instruction": [
+                ""
+            ],
+            "Test Secret Key": [
+                ""
+            ],
+            "Live Secret Key": [
+                ""
+            ],
+            "Live Publishable Key": [
+                ""
+            ],
+            "123 Main St, Suite 100\nCity, State 12345": [
+                ""
+            ],
+            "Payment is due within 30 days of invoice date.\nThank you for your business.": [
+                ""
+            ],
+            "Loom settings saved": [
+                ""
+            ],
+            "Loom Integration": [
+                ""
+            ],
+            "Show Loom video preview cards in descriptions and comments. No API token required \u2014 uses oEmbed.": [
+                ""
+            ],
+            "Show Loom video preview cards automatically.": [
+                ""
+            ],
+            "Notion settings saved": [
+                ""
+            ],
+            "Notion Integration": [
+                ""
+            ],
+            "Show preview cards for Notion page URLs in descriptions and comments.": [
+                ""
+            ],
+            "Internal Integration Token": [
+                ""
+            ],
+            "Paste your Notion internal integration token.": [
+                ""
+            ],
+            "Show Notion page preview cards automatically.": [
+                ""
+            ],
+            "Create a Notion integration": [
+                ""
+            ],
+            "Pusher settings saved": [
+                ""
+            ],
+            "Failed to save Pusher settings": [
+                ""
+            ],
+            "Pusher test failed": [
+                ""
+            ],
+            "Enable real-time updates via Pusher.": [
+                ""
+            ],
+            "Enable Pusher Notifications": [
+                ""
+            ],
+            "Master switch. Disables all real-time notifications when off.": [
+                ""
+            ],
+            "Your Pusher App ID": [
+                ""
+            ],
+            "Your Pusher App Key": [
+                ""
+            ],
+            "App Secret": [
+                ""
+            ],
+            "Your Pusher App Secret": [
+                ""
+            ],
+            "e.g. ap2, eu, us2": [
+                ""
+            ],
+            "Pusher notification links point to the WP admin backend": [
+                ""
+            ],
+            "Notification Triggers": [
+                ""
+            ],
+            "Toggle individual events that trigger Pusher notifications.": [
+                ""
+            ],
+            "Save changes before testing": [
+                ""
+            ],
+            "Type name is required": [
+                ""
+            ],
+            "Task type created": [
+                ""
+            ],
+            "Failed to create task type": [
+                ""
+            ],
+            "Task type updated": [
+                ""
+            ],
+            "Failed to update task type": [
+                ""
+            ],
+            "Are you sure you want to delete this task type?": [
+                "Etes vous s\u00fbr de supprimer ce message ?"
+            ],
+            "Delete Task Type": [
+                ""
+            ],
+            "Task type deleted": [
+                ""
+            ],
+            "Failed to delete task type": [
+                ""
+            ],
+            "Define custom task types for your projects.": [
+                ""
+            ],
+            "New Type": [
+                "Nouvelle t\u00e2che"
+            ],
+            "Create Task Type": [
+                ""
+            ],
+            "e.g. Bug, Feature, Story...": [
+                ""
+            ],
+            "optional": [
+                ""
+            ],
+            "Short description...": [
+                ""
+            ],
+            "Actions": [
+                "Activit\u00e9 du projet"
+            ],
+            "Save": [
+                ""
+            ],
+            "No task types yet.": [
+                ""
+            ],
+            "Create your first type": [
+                ""
+            ],
+            "Something went wrong.": [
+                ""
+            ],
+            "Try again": [
+                ""
+            ],
+            "PR": [
+                ""
+            ],
+            "Issue": [
+                ""
+            ],
+            "You are not authorized to view this page.": [
+                ""
+            ],
+            "This feature requires an active Pro license. Please ask your administrator to activate the license.": [
+                ""
+            ],
+            "Database": [
+                ""
+            ],
+            "Page": [
+                ""
+            ],
+            "Website Development Package": [
+                ""
+            ],
+            "SEO Audit Service": [
+                ""
+            ],
+            "Duplicate Project": [
+                "Mettre \u00e0 jour Projet"
+            ],
+            "Logo Design Bundle": [
+                ""
+            ],
+            "WooCommerce Project Mapping": [
+                ""
+            ],
+            "+ Add Product": [
+                "Ajouter projet"
+            ],
+            "assignees": [
+                ""
+            ],
+            "Auto-created on order": [
+                ""
+            ],
+            "You do not have permission to view this page.": [
+                ""
+            ],
+            "unlock and take advantage of our premium features": [
+                ""
+            ],
+            "Proj": [
+                "Projets"
+            ],
+            "Cal": [
+                "Annuler"
+            ],
+            "Prog": [
+                ""
+            ],
+            "Rep": [
+                "R\u00e9-ouvrir"
+            ],
+            "Sprint": [
+                ""
+            ],
+            "Cat": [
+                ""
+            ],
+            "Set": [
+                ""
+            ],
+            "Lic": [
+                ""
+            ],
+            "Switch to light mode": [
+                ""
+            ],
+            "Switch to dark mode": [
+                ""
+            ],
+            "No results found": [
+                "Aucun utilisateur"
+            ],
+            "Start Date and End Date are required.": [
+                ""
+            ],
+            "Start Date is required.": [
+                ""
+            ],
+            "End Date is required.": [
+                ""
+            ],
+            "Start Date cannot be greater than End Date.": [
+                ""
+            ],
+            "Task completed": [
+                "Marquer comme r\u00e9alis\u00e9"
+            ],
+            "From": [
+                ""
+            ],
+            "To": [
+                ""
+            ],
+            "Run Report": [
+                ""
+            ],
+            "Est. Hours": [
+                ""
+            ],
+            "Assigned": [
+                ""
+            ],
+            "Working H": [
+                ""
+            ],
+            "Est. H": [
+                ""
+            ],
+            "to": [
+                ""
+            ],
+            "No activities found": [
+                "Aucun fichier"
+            ],
+            "Load more": [
+                ""
+            ],
+            "Assignees": [
+                ""
+            ],
+            "Create Task": [
+                "T\u00e2che parente"
+            ],
+            "Project Activities": [
+                "Activit\u00e9 du projet"
+            ],
+            "View all changes, updates, and activities happening in your project in real-time.": [
+                ""
+            ],
+            "activities": [
+                "Activit\u00e9"
+            ],
+            "Get the birdseye view of all tasks from an interactive calendar": [
+                ""
+            ],
+            "View all your tasks, milestones, and deadlines in a beautiful calendar view.": [
+                ""
+            ],
+            "Delete Category": [
+                "Mettre \u00e0 jour commentaire"
+            ],
+            "Bulk Delete": [
+                "Supprimer"
+            ],
+            "New Category": [
+                "Ajouter nouveau message"
+            ],
+            "selected": [
+                ""
+            ],
+            "Failed to load discussion": [
+                ""
+            ],
+            "Delete Discussion": [
+                "Supprimer message"
+            ],
+            "Set to private": [
+                ""
+            ],
+            "New Discussion": [
+                ""
+            ],
+            "Open parent": [
+                ""
+            ],
+            "Download": [
+                ""
+            ],
+            "License will delete permanently": [
+                ""
+            ],
+            "Delete License": [
+                "Supprimer message"
+            ],
+            "License Active": [
+                ""
+            ],
+            "Save & Activate": [
+                ""
+            ],
+            "Upcoming": [
+                ""
+            ],
+            "task linked": [
+                "Liste de t\u00e2che"
+            ],
+            "Select All": [
+                "S\u00e9lectionner un coll\u00e8gue"
+            ],
+            "Unlink Task": [
+                "Afficher t\u00e2che"
+            ],
+            "Delete Milestone": [
+                "Etapes atteintes"
+            ],
+            "Mark Incomplete": [
+                "Marquer comme r\u00e9alis\u00e9"
+            ],
+            "discussions": [
+                ""
+            ],
+            "More actions": [
+                "Activit\u00e9 du projet"
+            ],
+            "Milestone title": [
+                "Etapes"
+            ],
+            "Advanced project management tools to ensure your efficiency and productivity reach the peak.": [
+                ""
+            ],
+            "Give your team & projects additional pace with 9+ premium modules": [
+                ""
+            ],
+            "Useful & fascinating features for WP Project Manager that can be unlocked with the Pro Version.": [
+                ""
+            ],
+            "Unlock all premium features and take your project management to the next level.": [
+                ""
+            ],
+            "Project created successfully": [
+                "Project cr\u00e9\u00e9 par %s"
+            ],
+            "Failed to update project": [
+                "Mettre \u00e0 jour Projet"
+            ],
+            "Edit Project": [
+                "Editer projet"
+            ],
+            "Category": [
+                "Mettre \u00e0 jour commentaire"
+            ],
+            "None": [
+                ""
+            ],
+            "No users found": [
+                "Aucun utilisateur"
+            ],
+            "User": [
+                ""
+            ],
+            "Updating...": [
+                ""
+            ],
+            "Role updated": [
+                ""
+            ],
+            "Failed to update role": [
+                ""
+            ],
+            "completed": [
+                "R\u00e9alis\u00e9"
+            ],
+            "remaining": [
+                ""
+            ],
+            "Select role": [
+                "S\u00e9lectionner un coll\u00e8gue"
+            ],
+            "No projects found": [
+                "Pas de Projet"
+            ],
+            "done": [
+                ""
+            ],
+            "total": [
+                ""
+            ],
+            "All Categories": [
+                "Ajouter nouveau message"
+            ],
+            "Are you sure you want to delete": [
+                "Etes vous s\u00fbr de supprimer ce message ?"
+            ],
+            "Moving...": [
+                ""
+            ],
+            "Delete Comment": [
+                "%s a supprim\u00e9 un commentaire"
+            ],
+            "Sending...": [
+                ""
+            ],
+            "Delete Task": [
+                "Supprimer message"
+            ],
+            "Could not copy link": [
+                ""
+            ],
+            "Start": [
+                ""
+            ],
+            "Due": [
+                ""
+            ],
+            "Search members...": [
+                "Rechercher messages"
+            ],
+            "No project members": [
+                ""
+            ],
+            "No description yet. Click \"Add\" to write one.": [
+                ""
+            ],
+            "Add Comment": [
+                "%d Commentaires"
+            ],
+            "Hide activity": [
+                "Activit\u00e9"
+            ],
+            "Milestone assigned": [
+                "Etapes"
+            ],
+            "Milestone removed": [
+                "Aucune \u00e9tape trouv\u00e9e"
+            ],
+            "Remove milestone": [
+                "Etape"
+            ],
+            "No milestones": [
+                "Etape"
+            ],
+            "Estimate": [
+                ""
+            ],
+            "Click to make public": [
+                ""
+            ],
+            "Public": [
+                "Publique"
+            ],
+            "Recurrence": [
+                ""
+            ],
+            "Failed to filter tasks": [
+                ""
+            ],
+            "Assignee": [
+                ""
+            ],
+            "Failed to reorder tasks": [
+                ""
+            ],
+            "Archive": [
+                ""
+            ],
+            "Less": [
+                ""
+            ],
+            "Assign": [
+                ""
+            ],
+            "Adding...": [
+                ""
+            ],
+            "Collapse all": [
+                ""
+            ],
+            "result": [
+                ""
+            ],
+            "results": [
+                ""
+            ],
+            "Urgent": [
+                ""
+            ],
+            "High": [
+                ""
+            ],
+            "Confirm": [
+                ""
+            ]
+        }
+    }
+}

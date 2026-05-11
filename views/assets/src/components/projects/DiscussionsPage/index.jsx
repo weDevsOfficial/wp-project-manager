@@ -1,8 +1,8 @@
+import { __ } from '@wordpress/i18n';
 import React, { useEffect, useState, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import BackButton from "@components/common/BackButton";
 import { useApi } from "@hooks/useApi";
-import { useI18n } from "@hooks/useI18n";
 import { useToast } from "@hooks/useToast";
 import { useConfirm } from "@hooks/useConfirm";
 import { Button } from "@components/ui/button";
@@ -45,7 +45,6 @@ export default function DiscussionsPage() {
   const { projectId } = useParams();
   const navigate = useNavigate();
   const api = useApi();
-  const { __ } = useI18n();
   const toast = useToast();
   const [ConfirmDialog, confirm] = useConfirm();
   const project = useCurrentProject(projectId);
@@ -127,14 +126,14 @@ export default function DiscussionsPage() {
         setFormFiles([]);
         setFormNotifyUsers([]);
         setShowForm(false);
-        toast.success(__("Discussion created"));
+        toast.success(__("Discussion created", 'wedevs-project-manager'));
         if (newDisc?.id) {
           navigate(`/projects/${projectId}/discussions/${newDisc.id}`);
         } else {
           await fetchDiscussions();
         }
       } catch {
-        toast.error(__("Failed to create discussion"));
+        toast.error(__("Failed to create discussion", 'wedevs-project-manager'));
       }
       setCreating(false);
     },
@@ -144,14 +143,14 @@ export default function DiscussionsPage() {
   const handleDelete = useCallback(
     async (e, id) => {
       e.stopPropagation();
-      const ok = await confirm(__("Are you sure?"), __("Delete Discussion"));
+      const ok = await confirm(__("Are you sure?", 'wedevs-project-manager'), __("Delete Discussion", 'wedevs-project-manager'));
       if (!ok) return;
       try {
         await api.post(`projects/${projectId}/discussion-boards/${id}/delete`);
         setDiscussions((prev) => prev.filter((d) => d.id !== id));
-        toast.success(__("Discussion deleted"));
+        toast.success(__("Discussion deleted", 'wedevs-project-manager'));
       } catch {
-        toast.error(__("Failed to delete"));
+        toast.error(__("Failed to delete", 'wedevs-project-manager'));
       }
     },
     [api, projectId, toast, __]
@@ -171,9 +170,9 @@ export default function DiscussionsPage() {
             d.id === disc.id ? { ...d, meta: { ...d.meta, privacy: newPrivacy } } : d
           )
         );
-        toast.success(newPrivacy ? __("Set to private") : __("Set to public"));
+        toast.success(newPrivacy ? __("Set to private", 'wedevs-project-manager') : __("Set to public", 'wedevs-project-manager'));
       } catch {
-        toast.error(__("Failed to update privacy"));
+        toast.error(__("Failed to update privacy", 'wedevs-project-manager'));
       }
     },
     [api, projectId, toast, __]
@@ -187,7 +186,7 @@ export default function DiscussionsPage() {
         <div className="flex items-center gap-3">
           <BackButton fallback={`/projects/${projectId}/task-lists`} />
           <h1 className="text-xl font-bold text-pm-text-primary">
-            {__("Discussions")}
+            {__("Discussions", 'wedevs-project-manager')}
           </h1>
           {discussions.length > 0 && (
             <span className="text-sm text-pm-text-muted bg-muted/60 px-2 py-0.5 rounded-full tabular-nums">
@@ -198,7 +197,7 @@ export default function DiscussionsPage() {
         {canCreateDiscussion && (
           <Button size="sm" className="gap-1.5" onClick={() => setShowForm((v) => !v)}>
             <Plus className="h-5 w-5" />
-            {__("New Discussion")}
+            {__("New Discussion", 'wedevs-project-manager')}
           </Button>
         )}
       </div>
@@ -209,22 +208,22 @@ export default function DiscussionsPage() {
             autoFocus
             value={formTitle}
             onChange={(e) => setFormTitle(e.target.value)}
-            placeholder={__("Enter message title")}
+            placeholder={__("Enter message title", 'wedevs-project-manager')}
             className="h-9 text-sm"
           />
           <RichTextEditor
             content={formDesc}
             onChange={setFormDesc}
-            placeholder={__("Description...")}
+            placeholder={__("Description...", 'wedevs-project-manager')}
             minHeight="80px"
             users={project?.assignees?.data ?? []}
           />
           <Select value={formMilestone} onValueChange={setFormMilestone}>
             <SelectTrigger className="h-9 text-sm w-full sm:w-[200px]">
-              <SelectValue placeholder={__("- Milestone -")} />
+              <SelectValue placeholder={__("- Milestone -", 'wedevs-project-manager')} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="-1">{__("- Milestone -")}</SelectItem>
+              <SelectItem value="-1">{__("- Milestone -", 'wedevs-project-manager')}</SelectItem>
               {milestones.map((m) => (
                 <SelectItem key={m.id} value={String(m.id)}>
                   {m.title}
@@ -251,10 +250,10 @@ export default function DiscussionsPage() {
                 setFormNotifyUsers([]);
               }}
             >
-              {__("Cancel")}
+              {__("Cancel", 'wedevs-project-manager')}
             </Button>
             <Button size="sm" type="submit" disabled={!formTitle.trim() || creating}>
-              {creating ? __("Creating...") : __("Add Message")}
+              {creating ? __("Creating...", 'wedevs-project-manager') : __("Add Message", 'wedevs-project-manager')}
             </Button>
           </div>
         </form>
@@ -270,10 +269,10 @@ export default function DiscussionsPage() {
         <div className="text-center py-16">
           <MessageSquare className="h-14 w-14 text-muted-foreground/30 mx-auto mb-3" />
           <h3 className="text-sm font-medium text-pm-text-primary mb-1">
-            {__("No discussions yet")}
+            {__("No discussions yet", 'wedevs-project-manager')}
           </h3>
           <p className="text-sm text-pm-text-muted">
-            {__("Start a conversation about this project.")}
+            {__("Start a conversation about this project.", 'wedevs-project-manager')}
           </p>
         </div>
       ) : (
@@ -348,7 +347,7 @@ export default function DiscussionsPage() {
                             }}
                           >
                             <Pencil className="h-4 w-4 mr-2" />
-                            {__("Edit")}
+                            {__("Edit", 'wedevs-project-manager')}
                           </DropdownMenuItem>
                           {canViewPrivateDiscussion && (
                             <DropdownMenuItem
@@ -356,9 +355,9 @@ export default function DiscussionsPage() {
                               disabled={!isPro}
                             >
                               {isPrivate ? (
-                                <><Unlock className="h-4 w-4 mr-2" />{__("Make Public")}</>
+                                <><Unlock className="h-4 w-4 mr-2" />{__("Make Public", 'wedevs-project-manager')}</>
                               ) : (
-                                <><Lock className="h-4 w-4 mr-2" />{__("Make Private")}</>
+                                <><Lock className="h-4 w-4 mr-2" />{__("Make Private", 'wedevs-project-manager')}</>
                               )}
                               {!isPro && <ProBadge className="ml-auto" />}
                             </DropdownMenuItem>
@@ -368,7 +367,7 @@ export default function DiscussionsPage() {
                             onClick={(e) => handleDelete(e, d.id)}
                           >
                             <Trash2 className="h-4 w-4 mr-2" />
-                            {__("Delete")}
+                            {__("Delete", 'wedevs-project-manager')}
                           </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>

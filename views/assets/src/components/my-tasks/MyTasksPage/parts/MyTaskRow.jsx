@@ -1,5 +1,5 @@
+import { __ } from '@wordpress/i18n';
 import React, { useState } from "react";
-import { useI18n } from "@hooks/useI18n";
 import { Badge } from "@components/ui/badge";
 import { UserAvatar } from '@components/common/UserAvatar';
 import TaskLabelBadges from "@components/tasks/TaskLabelBadges";
@@ -11,7 +11,6 @@ import {
 } from "@lib/pm-utils";
 
 export default function MyTaskRow({ task, projectTitle, onToggle, onOpen }) {
-  const { __ } = useI18n();
   const complete = isTaskComplete(task.status);
   const [toggling, setToggling] = useState(false);
 
@@ -86,7 +85,7 @@ export default function MyTaskRow({ task, projectTitle, onToggle, onOpen }) {
       </span>
       {isOverdue(task.due_date, task.status) && (
         <Badge variant="destructive" className="text-[11px] px-1.5 py-0 h-4 shrink-0">
-          {__('Overdue')}
+          {__('Overdue', 'wedevs-project-manager')}
         </Badge>
       )}
 

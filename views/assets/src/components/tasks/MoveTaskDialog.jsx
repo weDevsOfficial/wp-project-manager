@@ -1,6 +1,6 @@
+import { __ } from '@wordpress/i18n';
 import React, { useState, useEffect, useCallback } from 'react'
 import { useApi } from '@hooks/useApi'
-import { useI18n } from '@hooks/useI18n'
 import { useToast } from '@hooks/useToast'
 import { Button } from '@components/ui/button'
 import {
@@ -22,7 +22,6 @@ import { ListTodo, Loader2, Check } from 'lucide-react'
 
 export default function MoveTaskDialog({ open, onOpenChange, task, projectId, currentListId, onMoved }) {
   const api = useApi()
-  const { __ } = useI18n()
   const toast = useToast()
 
   const [lists, setLists] = useState([])
@@ -52,11 +51,11 @@ export default function MoveTaskDialog({ open, onOpenChange, task, projectId, cu
         orders: [{ id: task.id, index: 0 }],
         receive: 1,
       })
-      toast.success(__('Task moved'))
+      toast.success(__('Task moved', 'wedevs-project-manager'))
       onMoved?.(task.id, currentListId, selectedListId)
       onOpenChange(false)
     } catch {
-      toast.error(__('Failed to move task'))
+      toast.error(__('Failed to move task', 'wedevs-project-manager'))
     }
     setMoving(false)
   }, [api, projectId, task, selectedListId, currentListId, toast, __, onMoved, onOpenChange])
@@ -69,7 +68,7 @@ export default function MoveTaskDialog({ open, onOpenChange, task, projectId, cu
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <ListTodo className="h-5 w-5 text-pm-accent" />
-            {__('Move Task')}
+            {__('Move Task', 'wedevs-project-manager')}
           </DialogTitle>
         </DialogHeader>
 
@@ -79,9 +78,9 @@ export default function MoveTaskDialog({ open, onOpenChange, task, projectId, cu
           </div>
         ) : (
           <Command className="rounded-lg border">
-            <CommandInput placeholder={__('Search task lists...')} />
+            <CommandInput placeholder={__('Search task lists...', 'wedevs-project-manager')} />
             <CommandList className="max-h-[240px]">
-              <CommandEmpty>{__('No lists found')}</CommandEmpty>
+              <CommandEmpty>{__('No lists found', 'wedevs-project-manager')}</CommandEmpty>
               <CommandGroup>
                 {availableLists.map((list) => (
                   <CommandItem
@@ -104,11 +103,11 @@ export default function MoveTaskDialog({ open, onOpenChange, task, projectId, cu
 
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)} disabled={moving}>
-            {__('Cancel')}
+            {__('Cancel', 'wedevs-project-manager')}
           </Button>
           <Button onClick={handleMove} disabled={!selectedListId || moving}>
             {moving && <Loader2 className="h-5 w-5 mr-2 animate-spin" />}
-            {moving ? __('Moving...') : __('Move')}
+            {moving ? __('Moving...', 'wedevs-project-manager') : __('Move', 'wedevs-project-manager')}
           </Button>
         </DialogFooter>
       </DialogContent>

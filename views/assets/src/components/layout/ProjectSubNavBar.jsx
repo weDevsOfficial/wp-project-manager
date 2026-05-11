@@ -1,8 +1,8 @@
+import { __ } from '@wordpress/i18n';
 import { useState, useEffect, useMemo } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { usePermissions } from '@hooks/usePermissions'
 import { useActiveProModules, isProModuleActive } from '@hooks/useActiveProModules'
-import { useI18n } from '@hooks/useI18n'
 import {
   LayoutList, Layout, MessageSquare, Milestone, FileText,
   Activity, Columns3, GitBranch, Receipt, Settings,
@@ -36,7 +36,6 @@ export function ProjectSubNavBar() {
   const { isPro } = usePermissions()
 
   const activeModulePaths = useActiveProModules()
-  const { __ } = useI18n()
   const location = useLocation()
   const navigate = useNavigate()
 
@@ -102,7 +101,7 @@ export function ProjectSubNavBar() {
                 'w-3.5 h-3.5 shrink-0',
                 isActive ? 'text-pm-accent' : 'text-pm-text-muted group-hover/tab:text-pm-text',
               )} />
-              {__(item.label)}
+              {__(item.label, 'wedevs-project-manager')}
               {item.proPreview && (
                 <span className="max-w-0 overflow-hidden whitespace-nowrap group-hover/tab:max-w-fit group-hover/tab:ml-1 transition-all">
                   <ProBadge />

@@ -1,5 +1,5 @@
+import { __ } from '@wordpress/i18n';
 import React from "react";
-import { useI18n } from "@hooks/useI18n";
 import { usePermissions } from "@hooks/usePermissions";
 import { useLicenseGuard } from "@components/common/LicenseGuard";
 import { useProModal } from "@components/common/ProUpgradeModal";
@@ -102,7 +102,6 @@ const MODULES = [
 ];
 
 export default function ModulesPage() {
-  const { __ } = useI18n();
   const { isPro, isProLicensed } = usePermissions();
   const { setOpen } = useProModal();
 
@@ -115,13 +114,13 @@ export default function ModulesPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-xl font-bold text-pm-text-primary">
-            {__("Modules")}
+            {__("Modules", 'wedevs-project-manager')}
           </h1>
           <p className="text-sm text-pm-text-muted mt-0.5">
-            {__("Enable or disable project manager modules")}
+            {__("Enable or disable project manager modules", 'wedevs-project-manager')}
           </p>
         </div>
-        {!isPro && <ProBadge label={__("Pro Required")} />}
+        {!isPro && <ProBadge label={__("Pro Required", 'wedevs-project-manager')} />}
       </div>
 
       {/* Module grid */}
@@ -148,7 +147,7 @@ export default function ModulesPage() {
                       type="button"
                       onClick={() => setOpen(true)}
                       className="p-1.5 rounded-md hover:bg-muted text-pm-text-muted/50 hover:text-pm-accent transition-colors"
-                      title={__("Upgrade to Pro")}
+                      title={__("Upgrade to Pro", 'wedevs-project-manager')}
                     >
                       <Lock className="h-5 w-5" />
                     </button>
@@ -157,10 +156,10 @@ export default function ModulesPage() {
 
                 {/* Title + description */}
                 <h3 className="text-sm font-semibold text-pm-text-primary mb-1.5">
-                  {__(m.name)}
+                  {__(m.name, 'wedevs-project-manager')}
                 </h3>
                 <p className="text-sm text-pm-text-muted leading-relaxed">
-                  {__(m.desc)}
+                  {__(m.desc, 'wedevs-project-manager')}
                 </p>
               </div>
 
@@ -173,7 +172,7 @@ export default function ModulesPage() {
                   <div className="flex items-center gap-2 bg-pm-surface rounded-full px-4 py-2 shadow-lg">
                     <Crown className="h-5 w-5 text-orange-500" />
                     <span className="text-sm font-semibold text-pm-text-primary">
-                      {__("Upgrade to Pro")}
+                      {__("Upgrade to Pro", 'wedevs-project-manager')}
                     </span>
                   </div>
                 </div>

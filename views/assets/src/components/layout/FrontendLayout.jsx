@@ -1,6 +1,6 @@
+import { __ } from '@wordpress/i18n';
 import { useState } from 'react'
 import { Outlet, useNavigate, useLocation } from 'react-router-dom'
-import { useI18n } from '@hooks/useI18n'
 import { usePermissions } from '@hooks/usePermissions'
 import { cn } from '@lib/utils'
 import { UserAvatar } from '@components/common/UserAvatar'
@@ -33,7 +33,6 @@ function getNavItems(isPro, isAdmin) {
 }
 
 export function FrontendLayout() {
-  const { __ } = useI18n()
   const navigate = useNavigate()
   const location = useLocation()
   const { isPro, isAdmin, canManage } = usePermissions()
@@ -59,7 +58,7 @@ export function FrontendLayout() {
                 onClick={() => navigate('/projects')}
               >
                 <FolderKanban className="h-5 w-5 text-pm-accent" />
-                <span className="text-sm">{__('Project Manager')}</span>
+                <span className="text-sm">{__('Project Manager', 'wedevs-project-manager')}</span>
               </button>
 
               {/* Desktop nav */}
@@ -80,7 +79,7 @@ export function FrontendLayout() {
                       )}
                     >
                       <Icon className="h-4 w-4" />
-                      {__(item.label)}
+                      {__(item.label, 'wedevs-project-manager')}
                     </button>
                   )
                 })}
@@ -96,7 +95,7 @@ export function FrontendLayout() {
               <a
                 href={typeof PM_Vars !== 'undefined' ? (PM_Vars.logout_url || '/wp-login.php?action=logout') : '/wp-login.php?action=logout'}
                 className="p-1.5 rounded-md text-pm-text-muted hover:text-pm-text-primary hover:bg-muted/50 transition-colors"
-                title={__('Logout')}
+                title={__('Logout', 'wedevs-project-manager')}
               >
                 <LogOut className="h-5 w-5" />
               </a>
@@ -129,7 +128,7 @@ export function FrontendLayout() {
                     )}
                   >
                     <Icon className="h-5 w-5" />
-                    {__(item.label)}
+                    {__(item.label, 'wedevs-project-manager')}
                   </button>
                 )
               })}

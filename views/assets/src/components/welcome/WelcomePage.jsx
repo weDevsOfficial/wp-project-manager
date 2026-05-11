@@ -1,6 +1,6 @@
+import { __ } from '@wordpress/i18n';
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useI18n } from '@hooks/useI18n'
 import { Button } from '@components/ui/button'
 import { Card, CardContent } from '@components/ui/card'
 import {
@@ -167,7 +167,7 @@ function FeatureCard({ feature, __ }) {
         >
           <img
             src={getAssetUrl('images/welcome/' + feature.thumb)}
-            alt={__(feature.name)}
+            alt={__(feature.name, 'wedevs-project-manager')}
             className="w-full h-auto block"
           />
           <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/20">
@@ -184,10 +184,10 @@ function FeatureCard({ feature, __ }) {
             <feature.icon className={`h-5 w-5 ${feature.fg}`} />
           </div>
           <h3 className="text-base font-semibold text-pm-text-primary mb-2">
-            {__(feature.name)}
+            {__(feature.name, 'wedevs-project-manager')}
           </h3>
           <p className="text-sm text-pm-text-muted leading-relaxed">
-            {__(feature.description)}
+            {__(feature.description, 'wedevs-project-manager')}
           </p>
         </CardContent>
       </Card>
@@ -196,7 +196,6 @@ function FeatureCard({ feature, __ }) {
 }
 
 export default function WelcomePage() {
-  const { __ } = useI18n()
   const navigate = useNavigate()
   const [bannerVideoOpen, setBannerVideoOpen] = useState(false)
 
@@ -217,13 +216,13 @@ export default function WelcomePage() {
           {/* Left - text */}
           <div>
             <p className="text-sm text-yellow-300 mb-1 font-medium">
-              {__('Welcome to')}
+              {__('Welcome to', 'wedevs-project-manager')}
             </p>
             <h1 className="text-2xl md:text-3xl font-bold mb-3 text-white">
-              {__('WP Project Manager')}
+              {__('WP Project Manager', 'wedevs-project-manager')}
             </h1>
             <p className="text-white/70 text-sm leading-relaxed mb-5">
-              {__('The best project management tool for WordPress to get things done with your team.')}
+              {__('The best project management tool for WordPress to get things done with your team.', 'wedevs-project-manager')}
             </p>
             <div className="flex flex-wrap gap-3">
               <Button
@@ -231,7 +230,7 @@ export default function WelcomePage() {
                 className="bg-white text-purple-600 hover:bg-white/90 font-semibold text-sm no-underline"
               >
                 <Rocket className="h-5 w-5 mr-1.5" />
-                {__('Create Your First Project')}
+                {__('Create Your First Project', 'wedevs-project-manager')}
               </Button>
               <Button
                 variant="outline"
@@ -245,7 +244,7 @@ export default function WelcomePage() {
                   className="no-underline"
                 >
                   <BookOpen className="h-5 w-5 mr-1.5" />
-                  {__('Read Full Guide')}
+                  {__('Read Full Guide', 'wedevs-project-manager')}
                 </a>
               </Button>
             </div>
@@ -259,7 +258,7 @@ export default function WelcomePage() {
             >
               <img
                 src={getAssetUrl('images/welcome/intro-video-bg-image.png')}
-                alt={__('Introduction Video')}
+                alt={__('Introduction Video', 'wedevs-project-manager')}
                 className="max-w-full h-auto block rounded-lg"
               />
               <div className="absolute inset-0 flex items-center justify-center">
@@ -275,7 +274,7 @@ export default function WelcomePage() {
       {/* ── Features Section ── */}
       <div>
         <h2 className="text-xl font-bold text-pm-text-primary text-center mb-8">
-          {__('Features you can use...')}
+          {__('Features you can use...', 'wedevs-project-manager')}
         </h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {FEATURES.map((feature) => (
@@ -290,7 +289,7 @@ export default function WelcomePage() {
               rel="noopener noreferrer"
               className="no-underline"
             >
-              {__('View All Features')}
+              {__('View All Features', 'wedevs-project-manager')}
               <ExternalLink className="h-4 w-4 ml-1.5" />
             </a>
           </Button>
@@ -300,7 +299,7 @@ export default function WelcomePage() {
       {/* ── Resources Section ── */}
       <div className="rounded-2xl border bg-card p-8 md:p-12">
         <h2 className="text-xl font-bold text-pm-text-primary text-center mb-10">
-          {__('Resources of Project Manager')}
+          {__('Resources of Project Manager', 'wedevs-project-manager')}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {RESOURCES.map((resource) => (
@@ -315,10 +314,10 @@ export default function WelcomePage() {
                   <resource.icon className="h-7 w-7 text-white" />
                 </div>
                 <h3 className="text-lg font-semibold text-pm-text-primary mb-2">
-                  {__(resource.title)}
+                  {__(resource.title, 'wedevs-project-manager')}
                 </h3>
                 <p className="text-sm text-pm-text-muted leading-relaxed mb-4">
-                  {__(resource.description)}
+                  {__(resource.description, 'wedevs-project-manager')}
                 </p>
                 <Button asChild size="sm" variant="default" className="font-medium">
                   <a
@@ -327,7 +326,7 @@ export default function WelcomePage() {
                     rel="noopener noreferrer"
                     className="no-underline"
                   >
-                    {__(resource.buttonLabel)}
+                    {__(resource.buttonLabel, 'wedevs-project-manager')}
                     <ArrowRight className="h-4 w-4 ml-1.5" />
                   </a>
                 </Button>

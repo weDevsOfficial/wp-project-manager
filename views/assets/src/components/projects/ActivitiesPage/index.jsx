@@ -1,9 +1,9 @@
+import { __, sprintf } from '@wordpress/i18n';
 import React, { useEffect, useRef, useMemo, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useLicenseGuard } from '@components/common/LicenseGuard';
 import { useAppSelector } from '@store/index';
 import { useApi } from '@hooks/useApi';
-import { useI18n } from '@hooks/useI18n';
 import { usePermissions } from '@hooks/usePermissions';
 import { useProModal } from '@components/common/ProUpgradeModal';
 import ProBadge from '@components/common/ProBadge';
@@ -28,7 +28,6 @@ export default function ActivitiesPage() {
   const { projectId } = useParams();
   const navigate = useNavigate();
   const api = useApi();
-  const { __, sprintf } = useI18n();
   const { isPro, isProLicensed } = usePermissions();
   const { setOpen } = useProModal();
 
@@ -100,10 +99,10 @@ export default function ActivitiesPage() {
     <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-5">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-xl font-bold text-pm-text">{__('Activities')}</h1>
-          <p className="text-sm text-pm-text-muted">{__('All changes and updates in this project')}</p>
+          <h1 className="text-xl font-bold text-pm-text">{__('Activities', 'wedevs-project-manager')}</h1>
+          <p className="text-sm text-pm-text-muted">{__('All changes and updates in this project', 'wedevs-project-manager')}</p>
         </div>
-        {!isPro && <ProBadge label={__('Pro Required')} />}
+        {!isPro && <ProBadge label={__('Pro Required', 'wedevs-project-manager')} />}
       </div>
 
       {!isPro ? (
@@ -111,10 +110,10 @@ export default function ActivitiesPage() {
           <div className="p-6 space-y-5">
             <div className="grid grid-cols-4 gap-4">
               {[
-                { label: __('Total'),   value: '—', icon: BarChart2,  color: 'text-pm-accent bg-indigo-50' },
-                { label: __('Today'),   value: '—', icon: Clock,      color: 'text-emerald-500 bg-emerald-50' },
-                { label: __('Created'), value: '—', icon: PlusCircle, color: 'text-blue-500 bg-blue-50' },
-                { label: __('Updated'), value: '—', icon: RefreshCw,  color: 'text-amber-500 bg-amber-50' },
+                { label: __('Total', 'wedevs-project-manager'),   value: '—', icon: BarChart2,  color: 'text-pm-accent bg-indigo-50' },
+                { label: __('Today', 'wedevs-project-manager'),   value: '—', icon: Clock,      color: 'text-emerald-500 bg-emerald-50' },
+                { label: __('Created', 'wedevs-project-manager'), value: '—', icon: PlusCircle, color: 'text-blue-500 bg-blue-50' },
+                { label: __('Updated', 'wedevs-project-manager'), value: '—', icon: RefreshCw,  color: 'text-amber-500 bg-amber-50' },
               ].map(stat => (
                 <div key={stat.label} className="rounded-xl border bg-muted/20 p-4 flex items-center gap-3">
                   <div className={`p-2 rounded-lg ${stat.color.split(' ')[1]}`}>
@@ -150,7 +149,7 @@ export default function ActivitiesPage() {
                       ].map((item, i) => {
                         const Icon = item.icon;
                         const badgeColor = ACTION_COLOR_MAP[item.type] || 'bg-pm-text-muted';
-                        const badgeLabel = __(ACTION_LABELS[item.type] || item.type);
+                        const badgeLabel = __(ACTION_LABELS[item.type] || item.type, 'wedevs-project-manager');
                         return (
                           <div key={i} className="flex items-start gap-3 py-3 px-4 hover:bg-pm-hover/50 rounded-lg transition-colors opacity-70">
                             <Avatar className="h-8 w-8 shrink-0 mt-0.5">
@@ -189,17 +188,17 @@ export default function ActivitiesPage() {
                 <Activity className="h-7 w-7 text-pm-accent" />
               </div>
               <h3 className="text-lg font-bold text-pm-text-primary mb-1">
-                {__('Project Activities')}
+                {__('Project Activities', 'wedevs-project-manager')}
               </h3>
               <p className="text-sm text-pm-text-muted mb-4 max-w-[250px]">
-                {__('View all changes, updates, and activities happening in your project in real-time.')}
+                {__('View all changes, updates, and activities happening in your project in real-time.', 'wedevs-project-manager')}
               </p>
               <div
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-white font-semibold text-sm"
                 style={{ background: 'var(--pm-accent)' }}
               >
                 <Crown className="h-5 w-5" />
-                {__('Upgrade to Pro')}
+                {__('Upgrade to Pro', 'wedevs-project-manager')}
               </div>
             </div>
           </div>
@@ -222,17 +221,17 @@ export default function ActivitiesPage() {
       ) : activities.length === 0 ? (
         <div className="text-center py-16">
           <Activity className="h-14 w-14 text-muted-foreground/30 mx-auto mb-3" />
-          <h3 className="text-sm font-medium text-pm-text mb-1">{__('No activities yet')}</h3>
-          <p className="text-sm text-pm-text-muted">{__('Project activity will appear here.')}</p>
+          <h3 className="text-sm font-medium text-pm-text mb-1">{__('No activities yet', 'wedevs-project-manager')}</h3>
+          <p className="text-sm text-pm-text-muted">{__('Project activity will appear here.', 'wedevs-project-manager')}</p>
         </div>
       ) : (
         <>
           <div className="grid grid-cols-4 gap-4">
             {[
-              { label: __('Total'),   value: stats.total,   icon: BarChart2,  color: 'text-pm-accent bg-indigo-50' },
-              { label: __('Today'),   value: stats.today,   icon: Clock,      color: 'text-emerald-500 bg-emerald-50' },
-              { label: __('Created'), value: stats.creates, icon: PlusCircle, color: 'text-blue-500 bg-blue-50' },
-              { label: __('Updated'), value: stats.updates, icon: RefreshCw,  color: 'text-amber-500 bg-amber-50' },
+              { label: __('Total', 'wedevs-project-manager'),   value: stats.total,   icon: BarChart2,  color: 'text-pm-accent bg-indigo-50' },
+              { label: __('Today', 'wedevs-project-manager'),   value: stats.today,   icon: Clock,      color: 'text-emerald-500 bg-emerald-50' },
+              { label: __('Created', 'wedevs-project-manager'), value: stats.creates, icon: PlusCircle, color: 'text-blue-500 bg-blue-50' },
+              { label: __('Updated', 'wedevs-project-manager'), value: stats.updates, icon: RefreshCw,  color: 'text-amber-500 bg-amber-50' },
             ].map(stat => (
               <div key={stat.label} className="rounded-xl border bg-card p-4 flex items-center gap-3">
                 <div className={`p-2 rounded-lg ${stat.color.split(' ')[1]}`}>
@@ -255,7 +254,7 @@ export default function ActivitiesPage() {
                       {group.date}
                     </h3>
                     <Separator className="flex-1" />
-                    <span className="text-[13px] text-pm-text-muted/50">{group.items.length} {__('activities')}</span>
+                    <span className="text-[13px] text-pm-text-muted/50">{group.items.length} {__('activities', 'wedevs-project-manager')}</span>
                   </div>
                   <div className="space-y-0.5">
                     {group.items.map((act, i) => (
@@ -269,10 +268,10 @@ export default function ActivitiesPage() {
                 <div className="text-center pt-2 pb-1">
                   <Button variant="outline" size="sm" onClick={loadMore} disabled={loadingMore} className="gap-2">
                     {loadingMore ? <Loader2 className="h-4 w-4 animate-spin" /> : <ChevronDown className="h-4 w-4" />}
-                    {__('Load More')}
+                    {__('Load More', 'wedevs-project-manager')}
                   </Button>
                   <p className="text-[13px] text-pm-text-muted/50 mt-1.5">
-                    {sprintf(__('Showing %1$s of %2$s activities'), activities.length, total || '...')}
+                    {sprintf(__('Showing %1$s of %2$s activities', 'wedevs-project-manager'), activities.length, total || '...')}
                   </p>
                 </div>
               )}

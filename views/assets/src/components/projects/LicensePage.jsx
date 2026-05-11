@@ -1,5 +1,5 @@
+import { __ } from '@wordpress/i18n';
 import React, { useEffect, useState } from 'react'
-import { useI18n } from '@hooks/useI18n'
 import { useConfirm } from '@hooks/useConfirm'
 import { useProApi } from '@hooks/useProApi'
 import { Button } from '@components/ui/button'
@@ -9,7 +9,6 @@ import { Shield, ShieldCheck, ShieldX, Key, Mail, Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
 
 export default function LicensePage() {
-  const { __ } = useI18n()
   const proApi = useProApi()
   const [ConfirmDialog, confirm] = useConfirm()
   const [license, setLicense] = useState(null)
@@ -41,23 +40,23 @@ export default function LicensePage() {
     proApi.post('license/activation', { email: email.trim(), key: key.trim() }).then(res => {
       const data = res?.data || res
       if (data?.data?.activated) {
-        toast.success(__('License activated'))
+        toast.success(__('License activated', 'wedevs-project-manager'))
         location.reload()
       } else if (data?.data?.error) {
         toast.error(data.data.error)
       } else {
-        toast.error(data?.message || __('License activation failed'))
+        toast.error(data?.message || __('License activation failed', 'wedevs-project-manager'))
       }
     }).catch(() => {
-      toast.error(__('Invalid license key'))
+      toast.error(__('Invalid license key', 'wedevs-project-manager'))
     }).finally(() => setSubmitting(false))
   }
 
   const handleDelete = async () => {
-    const ok = await confirm(__('License will delete permanently'), __('Delete License'))
+    const ok = await confirm(__('License will delete permanently', 'wedevs-project-manager'), __('Delete License', 'wedevs-project-manager'))
     if (!ok) return
     proApi.post('license/delete').then(() => {
-      toast.success(__('License removed'))
+      toast.success(__('License removed', 'wedevs-project-manager'))
       location.reload()
     })
   }
@@ -75,7 +74,7 @@ export default function LicensePage() {
       <ConfirmDialog />
       <div className="flex items-center gap-3 mb-6">
         <Shield className="h-5 w-5 text-pm-accent" />
-        <h2 className="text-lg font-semibold text-pm-text-primary">{__('License')}</h2>
+        <h2 className="text-lg font-semibold text-pm-text-primary">{__('License', 'wedevs-project-manager')}</h2>
       </div>
 
       <Card>
@@ -88,18 +87,18 @@ export default function LicensePage() {
             )}
             <div>
               <CardTitle className="text-sm">
-                {isActive ? __('License Active') : __('No Active License')}
+                {isActive ? __('License Active', 'wedevs-project-manager') : __('No Active License', 'wedevs-project-manager')}
               </CardTitle>
               <CardDescription className="text-sm">
                 {isActive
-                  ? (message || __('Your Pro license is active. All modules are available.'))
-                  : __('Enter your license key to activate Pro features.')
+                  ? (message || __('Your Pro license is active. All modules are available.', 'wedevs-project-manager'))
+                  : __('Enter your license key to activate Pro features.', 'wedevs-project-manager')
                 }
               </CardDescription>
             </div>
             {isActive && (
               <Badge variant="outline" className="ml-auto bg-green-50 text-green-700 border-green-200 text-sm">
-                {__('Active')}
+                {__('Active', 'wedevs-project-manager')}
               </Badge>
             )}
           </div>
@@ -120,7 +119,7 @@ export default function LicensePage() {
                     : '****-****-****-****'}
                 </div>
                 <Button size="sm" variant="destructive" onClick={handleDelete}>
-                  <Trash2 className="h-4 w-4 mr-1" />{__('Deactivate')}
+                  <Trash2 className="h-4 w-4 mr-1" />{__('Deactivate', 'wedevs-project-manager')}
                 </Button>
               </div>
             </div>
@@ -131,7 +130,7 @@ export default function LicensePage() {
                 <input
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  placeholder={__('Enter your purchase email address...')}
+                  placeholder={__('Enter your purchase email address...', 'wedevs-project-manager')}
                   type="email"
                   className="flex-1 min-w-0 h-full bg-transparent text-sm placeholder:text-pm-text-muted/60 focus:outline-none !border-0 !p-0 !shadow-none"
                 />
@@ -142,13 +141,13 @@ export default function LicensePage() {
                   <input
                     value={key}
                     onChange={(e) => setKey(e.target.value)}
-                    placeholder={__('Enter license key...')}
+                    placeholder={__('Enter license key...', 'wedevs-project-manager')}
                     className="flex-1 min-w-0 h-full bg-transparent text-sm placeholder:text-pm-text-muted/60 focus:outline-none !border-0 !p-0 !shadow-none"
                     onKeyDown={(e) => e.key === 'Enter' && handleActivate()}
                   />
                 </div>
                 <Button size="sm" onClick={handleActivate} disabled={submitting || !email.trim() || !key.trim()}>
-                  {__('Save & Activate')}
+                  {__('Save & Activate', 'wedevs-project-manager')}
                 </Button>
               </div>
             </div>

@@ -1,7 +1,7 @@
+import { __ } from '@wordpress/i18n';
 import React, { useState, useCallback } from 'react'
 import { useAppDispatch, useAppSelector } from '@store/index'
 import { savePusher } from '@store/settingsSlice'
-import { useI18n } from '@hooks/useI18n'
 import { useToast } from '@hooks/useToast'
 import { useApi } from '@hooks/useApi'
 import { Button } from '@components/ui/button'
@@ -21,7 +21,6 @@ const TRIGGERS = [
 ]
 
 const PusherTab = () => {
-  const { __ } = useI18n()
   const toast  = useToast()
   const api    = useApi()
   const dispatch = useAppDispatch()

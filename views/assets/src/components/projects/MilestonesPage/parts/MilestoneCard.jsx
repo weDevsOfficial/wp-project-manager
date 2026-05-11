@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n';
 import React, { useCallback } from "react";
 import { sanitizeHtml } from "@lib/sanitize";
 import { useNavigate } from "react-router-dom";
@@ -11,7 +12,6 @@ import {
 } from "@store/milestonesSlice";
 import { openTaskSheet, fetchTask } from "@store/tasksSlice";
 import { useApi } from "@hooks/useApi";
-import { useI18n } from "@hooks/useI18n";
 import { useToast } from "@hooks/useToast";
 import { useConfirm } from "@hooks/useConfirm";
 import { usePermissions } from "@hooks/usePermissions";
@@ -42,7 +42,6 @@ import MilestoneHealthBadge from "./MilestoneHealthBadge";
 import MilestoneProgress from "./MilestoneProgress";
 
 export default function MilestoneCard({ milestone, projectId, onEdit, onImportTasks, expanded, onToggleExpanded, onTaskOpen }) {
-  const { __ } = useI18n();
   const api = useApi();
   const toast = useToast();
   const [ConfirmDialog, confirm] = useConfirm();
@@ -76,15 +75,15 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
 
   const handleUnlinkTask = useCallback(
     async (task) => {
-      const ok = await confirm(__("Remove this task from the milestone?"), __("Unlink Task"));
+      const ok = await confirm(__("Remove this task from the milestone?", 'wedevs-project-manager'), __("Unlink Task", 'wedevs-project-manager'));
       if (!ok) return;
       dispatch(removeTaskFromMilestone({ milestoneId: milestone.id, taskId: task.id }));
       try {
         await api.post(`projects/${projectId}/milestones/${milestone.id}/detach-task/${task.id}`);
-        toast.success(__("Task unlinked"));
+        toast.success(__("Task unlinked", 'wedevs-project-manager'));
       } catch {
         dispatch(fetchMilestones({ projectId }));
-        toast.error(__("Failed to unlink task"));
+        toast.error(__("Failed to unlink task", 'wedevs-project-manager'));
       }
     },
     [projectId, milestone.id, api, toast, __, dispatch],
@@ -98,22 +97,22 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
         await api.post(`projects/${projectId}/tasks/${task.id}/change-status`, { status: newStatus });
         dispatch(fetchMilestones({ projectId }));
       } catch {
-        toast.error(__("Failed to update task status"));
+        toast.error(__("Failed to update task status", 'wedevs-project-manager'));
       }
     },
     [projectId, api, toast, __, dispatch],
   );
 
   const handleDelete = useCallback(async () => {
-    const ok = await confirm(__("Are you sure?"), __("Delete Milestone"));
+    const ok = await confirm(__("Are you sure?", 'wedevs-project-manager'), __("Delete Milestone", 'wedevs-project-manager'));
     if (!ok) return;
     try {
       await dispatch(
         deleteMilestone({ projectId, milestoneId: milestone.id }),
       ).unwrap();
-      toast.success(__("Milestone deleted"));
+      toast.success(__("Milestone deleted", 'wedevs-project-manager'));
     } catch {
-      toast.error(__("Failed to delete"));
+      toast.error(__("Failed to delete", 'wedevs-project-manager'));
     }
   }, [dispatch, projectId, milestone.id, toast, __]);
 
@@ -130,11 +129,11 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
       dispatch(fetchMilestones({ projectId }));
       toast.success(
         newStatus === "complete"
-          ? __("Milestone marked as complete")
-          : __("Milestone marked as incomplete"),
+          ? __("Milestone marked as complete", 'wedevs-project-manager')
+          : __("Milestone marked as incomplete", 'wedevs-project-manager'),
       );
     } catch {
-      toast.error(__("Failed to update status"));
+      toast.error(__("Failed to update status", 'wedevs-project-manager'));
     }
   }, [dispatch, projectId, milestone, isComplete, toast, __]);
 
@@ -149,7 +148,7 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
         }),
       ).unwrap();
     } catch {
-      toast.error(__("Failed to update"));
+      toast.error(__("Failed to update", 'wedevs-project-manager'));
     }
   }, [dispatch, projectId, milestone, toast, __]);
 
@@ -163,7 +162,7 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
             type="button"
             onClick={handleToggleStatus}
             className="shrink-0 mt-0.5"
-            title={isComplete ? __("Mark Incomplete") : __("Mark Complete")}
+            title={isComplete ? __("Mark Incomplete", 'wedevs-project-manager') : __("Mark Complete", 'wedevs-project-manager')}
           >
             <CheckCircle
               className={cn(
@@ -217,13 +216,13 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
               {directTasks.length > 0 && (
                 <span className="text-sm text-pm-text-muted flex items-center gap-1">
                   <ListChecks className="h-3.5 w-3.5" />
-                  {directTasks.length} {__("tasks")}
+                  {directTasks.length} {__("tasks", 'wedevs-project-manager')}
                 </span>
               )}
               {discussions.length > 0 && (
                 <span className="text-sm text-pm-text-muted flex items-center gap-1">
                   <MessageSquare className="h-3.5 w-3.5" />
-                  {discussions.length} {__("discussions")}
+                  {discussions.length} {__("discussions", 'wedevs-project-manager')}
                 </span>
               )}
             </div>
@@ -231,7 +230,7 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
 
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-7 w-7 shrink-0" aria-label={__("More actions")}>
+              <Button variant="ghost" size="icon" className="h-7 w-7 shrink-0" aria-label={__("More actions", 'wedevs-project-manager')}>
                 <MoreHorizontal className="h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
@@ -239,19 +238,19 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
               {canEditMilestone && (
                 <DropdownMenuItem onClick={() => onEdit(milestone)}>
                   <Pencil className="h-4 w-4 mr-2" />
-                  {__("Edit")}
+                  {__("Edit", 'wedevs-project-manager')}
                 </DropdownMenuItem>
               )}
               {canEditMilestone && (
                 <DropdownMenuItem onClick={() => onImportTasks(milestone)}>
                   <ListChecks className="h-4 w-4 mr-2" />
-                  {__("Link Tasks")}
+                  {__("Link Tasks", 'wedevs-project-manager')}
                 </DropdownMenuItem>
               )}
               {canEditMilestone && (
                 <DropdownMenuItem onClick={handleToggleStatus}>
                   <CheckCircle className="h-4 w-4 mr-2" />
-                  {isComplete ? __("Mark Incomplete") : __("Mark Complete")}
+                  {isComplete ? __("Mark Incomplete", 'wedevs-project-manager') : __("Mark Complete", 'wedevs-project-manager')}
                 </DropdownMenuItem>
               )}
               {canEditMilestone && userCan('view_private_milestone') && (
@@ -262,12 +261,12 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
                   {milestone.meta?.privacy ? (
                     <>
                       <Unlock className="h-4 w-4 mr-2" />
-                      {__("Make Public")}
+                      {__("Make Public", 'wedevs-project-manager')}
                     </>
                   ) : (
                     <>
                       <Lock className="h-4 w-4 mr-2" />
-                      {__("Make Private")}
+                      {__("Make Private", 'wedevs-project-manager')}
                     </>
                   )}
                   {!isPro && <ProBadge className="ml-auto" />}
@@ -280,7 +279,7 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
                   onClick={handleDelete}
                 >
                   <Trash2 className="h-4 w-4 mr-2" />
-                  {__("Delete")}
+                  {__("Delete", 'wedevs-project-manager')}
                 </DropdownMenuItem>
               )}
             </DropdownMenuContent>
@@ -357,7 +356,7 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
                     )}
                     {overdueTask && (
                       <Badge variant="destructive" className="text-[11px] px-1.5 py-0 h-4 shrink-0">
-                        {__("Overdue")}
+                        {__("Overdue", 'wedevs-project-manager')}
                       </Badge>
                     )}
                     {est && (
@@ -379,7 +378,7 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
                       type="button"
                       className="h-5 w-5 rounded flex items-center justify-center text-pm-text-muted/30 hover:text-destructive hover:bg-destructive/10 opacity-0 group-hover:opacity-100 transition-all shrink-0"
                       onClick={() => handleUnlinkTask(task)}
-                      title={__("Unlink from milestone")}
+                      title={__("Unlink from milestone", 'wedevs-project-manager')}
                     >
                       <Minus className="h-3 w-3" />
                     </button>
@@ -396,7 +395,7 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
                     <ChevronDown className={cn("h-3.5 w-3.5 text-pm-text-muted/70 transition-transform", !tasksExpanded && "-rotate-90")} />
                     <h5 className="text-[11px] font-semibold uppercase tracking-wider text-pm-text-muted/70 flex items-center gap-1">
                       <ListChecks className="h-3 w-3" />
-                      {__("Tasks")}
+                      {__("Tasks", 'wedevs-project-manager')}
                       <span className="text-[10px] font-normal">({directTasks.length})</span>
                     </h5>
                   </button>
@@ -404,7 +403,7 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
                     <>
                       {incompleteTasks.length > 0 && (
                         <div className="mb-3">
-                          <div className="text-[14px] font-semibold uppercase text-pm-text-muted mb-1">{__("Incomplete")} ({incompleteTasks.length})</div>
+                          <div className="text-[14px] font-semibold uppercase text-pm-text-muted mb-1">{__("Incomplete", 'wedevs-project-manager')} ({incompleteTasks.length})</div>
                           <ul className="space-y-0.5">
                             {incompleteTasks.map((task) => renderTask(task, false))}
                           </ul>
@@ -412,7 +411,7 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
                       )}
                       {completedTasks.length > 0 && (
                         <div>
-                          <div className="text-[14px] font-semibold uppercase text-pm-text-muted mb-1">{__("Completed")} ({completedTasks.length})</div>
+                          <div className="text-[14px] font-semibold uppercase text-pm-text-muted mb-1">{__("Completed", 'wedevs-project-manager')} ({completedTasks.length})</div>
                           <ul className="space-y-0.5">
                             {completedTasks.map((task) => renderTask(task, true))}
                           </ul>
@@ -428,7 +427,7 @@ export default function MilestoneCard({ milestone, projectId, onEdit, onImportTa
               <div>
                 <h5 className="text-[11px] font-semibold uppercase tracking-wider text-pm-text-muted/70 mb-2 flex items-center gap-1">
                   <MessageSquare className="h-3 w-3" />
-                  {__("Discussions")}
+                  {__("Discussions", 'wedevs-project-manager')}
                 </h5>
                 <ul className="space-y-1.5">
                   {discussions.map((disc) => {

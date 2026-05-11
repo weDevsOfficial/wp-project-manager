@@ -1,0 +1,2493 @@
+{
+    "translation-revision-date": "2023-07-12 09:37+0600",
+    "generator": "WP-CLI\/2.11.0",
+    "source": "views\/assets\/dist\/pm.js",
+    "domain": "messages",
+    "locale_data": {
+        "messages": {
+            "": {
+                "domain": "messages",
+                "lang": "nl",
+                "plural-forms": "nplurals=2; plural=(n != 1);"
+            },
+            "Project Manager": [
+                "Project Manager"
+            ],
+            "Task List": [
+                "Takenlijst"
+            ],
+            "Task": [
+                "Taak"
+            ],
+            "File": [
+                "Bestanden"
+            ],
+            "Calendar": [
+                ""
+            ],
+            "Progress": [
+                ""
+            ],
+            "Reports": [
+                ""
+            ],
+            "Modules": [
+                ""
+            ],
+            "WP Project Manager": [
+                ""
+            ],
+            "Settings": [
+                "Instellingen"
+            ],
+            "Documentation": [
+                ""
+            ],
+            "Projects": [
+                "Projecten"
+            ],
+            "Premium": [
+                ""
+            ],
+            "Categories": [
+                ""
+            ],
+            "Tools": [
+                ""
+            ],
+            "Are you sure?": [
+                "Weet je het zeker?"
+            ],
+            "Upgrade to PRO ": [
+                ""
+            ],
+            "Notify users": [
+                "Breng klanten op de hoogte"
+            ],
+            "Select all": [
+                "Selecteer alles"
+            ],
+            "Cancel": [
+                "Annuleer"
+            ],
+            "Attach": [
+                ""
+            ],
+            "Discussion": [
+                "Discussieer over deze taak"
+            ],
+            "Edit": [
+                "Bewerk"
+            ],
+            "Delete": [
+                "Verwijderen"
+            ],
+            "Type": [
+                ""
+            ],
+            "Completed": [
+                "Voltooid"
+            ],
+            "Mark Complete": [
+                "Markeer als voltooid"
+            ],
+            "Copy Link": [
+                ""
+            ],
+            "Members": [
+                ""
+            ],
+            "Due Date": [
+                ""
+            ],
+            "Clear": [
+                ""
+            ],
+            "Privacy": [
+                ""
+            ],
+            "Description": [
+                ""
+            ],
+            "Update": [
+                "Update Lijst"
+            ],
+            "Activity": [
+                "Project Activiteit"
+            ],
+            "Email": [
+                ""
+            ],
+            "Complete": [
+                ""
+            ],
+            "Restore": [
+                ""
+            ],
+            "Add": [
+                "Voeg nieuwe toe"
+            ],
+            "Discussions": [
+                ""
+            ],
+            "Task Lists": [
+                "Takenlijst"
+            ],
+            "Tasks": [
+                "Taken"
+            ],
+            "Comments": [
+                ""
+            ],
+            "Files": [
+                "Bestanden"
+            ],
+            "Milestones": [
+                "Mijlpalen"
+            ],
+            "by": [
+                ""
+            ],
+            "No results found.": [
+                "Geen gebruikers gevonden"
+            ],
+            "New Task List": [
+                "Nieuwe Takenlijst"
+            ],
+            "- Milestone -": [
+                ""
+            ],
+            "Add Task": [
+                "Voeg taak toe"
+            ],
+            "Move Task": [
+                "Nieuwe Taak"
+            ],
+            "Make Private": [
+                ""
+            ],
+            "Make Public": [
+                ""
+            ],
+            "Duplicate": [
+                ""
+            ],
+            "Move": [
+                ""
+            ],
+            "Task list name": [
+                ""
+            ],
+            "Status": [
+                ""
+            ],
+            "Project": [
+                "Projecten"
+            ],
+            "Milestone": [
+                "Mijlpalen"
+            ],
+            "Name": [
+                ""
+            ],
+            "Update Category": [
+                "Update Bericht"
+            ],
+            "Post Comment": [
+                "%d Reacties"
+            ],
+            "Delete File": [
+                "Verwijder bestand"
+            ],
+            "Select a project": [
+                "Verwijder project"
+            ],
+            "All": [
+                ""
+            ],
+            "Today": [
+                ""
+            ],
+            "Loading...": [
+                "Laad Meer..."
+            ],
+            "More": [
+                "Laad Meer..."
+            ],
+            "Overview": [
+                ""
+            ],
+            "Activities": [
+                ""
+            ],
+            "Title": [
+                ""
+            ],
+            "Write a comment...": [
+                ""
+            ],
+            "Provide your App Key & Token": [
+                ""
+            ],
+            "Load More": [
+                "Laad Meer..."
+            ],
+            "My Tasks": [
+                ""
+            ],
+            "New Task": [
+                "Nieuwe Taak"
+            ],
+            "Overdue": [
+                ""
+            ],
+            "Activity Filter": [
+                "Project Activiteit"
+            ],
+            "Current": [
+                ""
+            ],
+            "Outstanding": [
+                ""
+            ],
+            "Due date": [
+                "Eind datum"
+            ],
+            "See More": [
+                "Laad Meer..."
+            ],
+            "More features to unveil while": [
+                ""
+            ],
+            "Managing Your Project": [
+                ""
+            ],
+            "Get Started Now": [
+                ""
+            ],
+            "Project Manager Pro": [
+                "Project Manager"
+            ],
+            "Premium Features": [
+                ""
+            ],
+            "Gantt Chart": [
+                ""
+            ],
+            "Kanban Board": [
+                ""
+            ],
+            "Time Tracker": [
+                ""
+            ],
+            "Private": [
+                ""
+            ],
+            "Invoices": [
+                ""
+            ],
+            "Theme Color": [
+                "Selecteer alles"
+            ],
+            "Currency": [
+                ""
+            ],
+            "Stripe": [
+                ""
+            ],
+            "PayPal Instruction": [
+                ""
+            ],
+            "Organization": [
+                ""
+            ],
+            "Address Line 1": [
+                ""
+            ],
+            "Address Line 2": [
+                ""
+            ],
+            "City": [
+                ""
+            ],
+            "State\/Province": [
+                ""
+            ],
+            "Zip\/Postal Code": [
+                ""
+            ],
+            "Country": [
+                ""
+            ],
+            "Pages": [
+                "Berichten"
+            ],
+            "Upload": [
+                ""
+            ],
+            "Daily Digest": [
+                ""
+            ],
+            "Subtasks": [
+                "Taken"
+            ],
+            "Pro": [
+                ""
+            ],
+            "Label": [
+                ""
+            ],
+            "Recurring": [
+                ""
+            ],
+            "Track Time": [
+                ""
+            ],
+            "Add List": [
+                "Voeg een lijst toe"
+            ],
+            "Enter message title": [
+                "Vul een titel voor je bericht in"
+            ],
+            "Add Message": [
+                "Voeg bericht toe"
+            ],
+            "Create a folder": [
+                ""
+            ],
+            "Upload a file": [
+                ""
+            ],
+            "Create a doc": [
+                ""
+            ],
+            "Link to Docs": [
+                ""
+            ],
+            "Generate": [
+                "Algemeen"
+            ],
+            "Please enter a project description": [
+                ""
+            ],
+            "Failed to generate project structure": [
+                ""
+            ],
+            "Failed to generate project. Please try again.": [
+                ""
+            ],
+            "Project created successfully!": [
+                "Project gemaakt door %s"
+            ],
+            "Failed to create project": [
+                "Naam van het project"
+            ],
+            "Delete Selected": [
+                "Verwijder mijlpaal"
+            ],
+            "Project Name": [
+                "Project Manager"
+            ],
+            "Saving...": [
+                ""
+            ],
+            "Project name is required": [
+                "Project Manager"
+            ],
+            "Search users...": [
+                "Zoek Berichten"
+            ],
+            "Update Project": [
+                "Update Project"
+            ],
+            "Active": [
+                ""
+            ],
+            "New Project": [
+                "Nieuw Project"
+            ],
+            "Edit Milestone": [
+                "Bewerk Mijlpaal"
+            ],
+            "Action": [
+                ""
+            ],
+            "Filter": [
+                ""
+            ],
+            "Open": [
+                ""
+            ],
+            "In Progress": [
+                ""
+            ],
+            "Done": [
+                ""
+            ],
+            "Create": [
+                ""
+            ],
+            "URL": [
+                ""
+            ],
+            "Save Changes": [
+                "Sla veranderingen op"
+            ],
+            "Created": [
+                ""
+            ],
+            "Total": [
+                ""
+            ],
+            "Capabilities": [
+                ""
+            ],
+            "Integrations": [
+                ""
+            ],
+            "Incomplete": [
+                ""
+            ],
+            "Task Title": [
+                "Takenlijst"
+            ],
+            "Start Date": [
+                ""
+            ],
+            "Select User": [
+                ""
+            ],
+            "Task list details": [
+                ""
+            ],
+            "Back to Task Lists": [
+                ""
+            ],
+            "Delete List": [
+                "Verwijder mijlpaal"
+            ],
+            "Pusher": [
+                ""
+            ],
+            "Pusher Settings": [
+                "Instellingen"
+            ],
+            "App ID": [
+                ""
+            ],
+            "App Key": [
+                ""
+            ],
+            "Cluster": [
+                ""
+            ],
+            "View Full Report": [
+                ""
+            ],
+            "AI Settings": [
+                "Instellingen"
+            ],
+            "API Key": [
+                ""
+            ],
+            "API key is saved": [
+                ""
+            ],
+            "Max Tokens": [
+                ""
+            ],
+            "Temperature": [
+                ""
+            ],
+            "Test Connection": [
+                ""
+            ],
+            "From Email": [
+                ""
+            ],
+            "Link to Backend": [
+                ""
+            ],
+            "HTML Mail": [
+                "HTML e-mail"
+            ],
+            "Plain Text": [
+                "Platte tekst"
+            ],
+            "General Settings": [
+                ""
+            ],
+            "File Upload Limit": [
+                "Bestand upload limiet"
+            ],
+            "Projects Per Page": [
+                ""
+            ],
+            "-1 for unlimited": [
+                ""
+            ],
+            "Task Lists Per Page": [
+                ""
+            ],
+            "Incomplete Tasks Per Page": [
+                ""
+            ],
+            "Completed Tasks Per Page": [
+                ""
+            ],
+            "User Name": [
+                ""
+            ],
+            "Total Estimation Hours": [
+                ""
+            ],
+            "Completed Task Count": [
+                "Voltooid op:"
+            ],
+            "Avg. Hour Per-task": [
+                ""
+            ],
+            "Avg. Work Hour Per-day": [
+                ""
+            ],
+            "Avg. Task Per-day": [
+                ""
+            ],
+            "All Projects": [
+                "Projecten"
+            ],
+            "Task Types": [
+                "Taken"
+            ],
+            "Subtask Types": [
+                ""
+            ],
+            "Completed At": [
+                "Voltooid"
+            ],
+            "Subtask Title": [
+                "Takenlijst"
+            ],
+            "Hour": [
+                ""
+            ],
+            "Task type": [
+                "Takenlijst"
+            ],
+            "Est. Hour": [
+                ""
+            ],
+            "Upgrade to": [
+                ""
+            ],
+            "10,000+ successful businesses": [
+                ""
+            ],
+            "14 days no questions asked refund policy": [
+                ""
+            ],
+            "Industry leading 24x7 support": [
+                ""
+            ],
+            "Features you can use...": [
+                ""
+            ],
+            "View All Features": [
+                ""
+            ],
+            "Welcome to": [
+                ""
+            ],
+            "The best project management tool for WordPress to get things done with your team.": [
+                ""
+            ],
+            "Create Your First Project": [
+                ""
+            ],
+            "Read Full Guide": [
+                ""
+            ],
+            "Import": [
+                ""
+            ],
+            "Resources of Project Manager": [
+                "Project Manager"
+            ],
+            "Upgrade to Pro": [
+                ""
+            ],
+            "Write something...": [
+                ""
+            ],
+            "Bold": [
+                ""
+            ],
+            "Italic": [
+                ""
+            ],
+            "Underline": [
+                ""
+            ],
+            "Strikethrough": [
+                ""
+            ],
+            "Bullet List": [
+                "Verwijder mijlpaal"
+            ],
+            "Numbered List": [
+                ""
+            ],
+            "Blockquote": [
+                ""
+            ],
+            "Code": [
+                ""
+            ],
+            "Horizontal Rule": [
+                ""
+            ],
+            "Link": [
+                ""
+            ],
+            "Clear Formatting": [
+                ""
+            ],
+            "Undo": [
+                ""
+            ],
+            "Redo": [
+                ""
+            ],
+            "PRO": [
+                ""
+            ],
+            "Available in Pro": [
+                ""
+            ],
+            "Pro Required": [
+                ""
+            ],
+            "Importing lists from \"%s\"...": [
+                ""
+            ],
+            "Importing cards from \"%s\"...": [
+                ""
+            ],
+            "Importing checklists from \"%s\"...": [
+                ""
+            ],
+            "Importing assignees from \"%s\"...": [
+                ""
+            ],
+            "Import Tools": [
+                ""
+            ],
+            "Import projects, tasks, and data from third-party project management tools.": [
+                ""
+            ],
+            "Please provide both App Key and App Token": [
+                ""
+            ],
+            "Importing Trello user data...": [
+                ""
+            ],
+            "No user found. Please check your App Key & Token.": [
+                ""
+            ],
+            "Fetching Trello boards...": [
+                ""
+            ],
+            "No boards found in your Trello account.": [
+                ""
+            ],
+            "Trello import completed successfully!": [
+                ""
+            ],
+            "Trello data imported successfully!": [
+                ""
+            ],
+            "Import failed. Please check your credentials and try again.": [
+                ""
+            ],
+            "Trello import failed": [
+                ""
+            ],
+            "Trello": [
+                ""
+            ],
+            "Import boards, lists, and cards from Trello": [
+                ""
+            ],
+            "Get your API key and token from": [
+                ""
+            ],
+            "App Token": [
+                ""
+            ],
+            "Importing...": [
+                ""
+            ],
+            "Updated": [
+                "Update Lijst"
+            ],
+            "Unknown": [
+                ""
+            ],
+            "Yesterday": [
+                ""
+            ],
+            "All changes and updates in this project": [
+                ""
+            ],
+            "No activities yet": [
+                ""
+            ],
+            "Project activity will appear here.": [
+                ""
+            ],
+            "Showing %1$s of %2$s activities": [
+                ""
+            ],
+            "Track all project activity and team progress in one place": [
+                ""
+            ],
+            "Activities Today": [
+                "Project Activiteit"
+            ],
+            "Tasks Completed": [
+                "Voltooid"
+            ],
+            "Files Uploaded": [
+                "Bestand upload limiet"
+            ],
+            "Team Progress Tracker": [
+                ""
+            ],
+            "Track all team activities, task completions, and project updates in real-time.": [
+                ""
+            ],
+            "Showing 9 of 250+ activities": [
+                ""
+            ],
+            "Task name": [
+                "Naam voor de takenlijst"
+            ],
+            "Design homepage": [
+                ""
+            ],
+            "API integration": [
+                ""
+            ],
+            "Write tests": [
+                ""
+            ],
+            "Database schema": [
+                ""
+            ],
+            "Auth module": [
+                ""
+            ],
+            "Project setup": [
+                "Projecten"
+            ],
+            "CI\/CD pipeline": [
+                ""
+            ],
+            "Code review": [
+                ""
+            ],
+            "Bug fix #42": [
+                ""
+            ],
+            "Research": [
+                ""
+            ],
+            "Design": [
+                ""
+            ],
+            "Development": [
+                ""
+            ],
+            "Testing": [
+                "Instellingen"
+            ],
+            "Deployment": [
+                ""
+            ],
+            "Review": [
+                ""
+            ],
+            "Jan": [
+                ""
+            ],
+            "Feb": [
+                ""
+            ],
+            "Mar": [
+                ""
+            ],
+            "Apr": [
+                ""
+            ],
+            "May": [
+                ""
+            ],
+            "Web Design": [
+                ""
+            ],
+            "Hosting Setup": [
+                ""
+            ],
+            "INVOICE": [
+                ""
+            ],
+            "Due: Apr 15, 2026": [
+                ""
+            ],
+            "Unpaid": [
+                ""
+            ],
+            "Item": [
+                ""
+            ],
+            "Qty": [
+                ""
+            ],
+            "Rate": [
+                ""
+            ],
+            "Total Due": [
+                ""
+            ],
+            "Visibility": [
+                ""
+            ],
+            "Sprint 12": [
+                ""
+            ],
+            "Sprint 11": [
+                ""
+            ],
+            "Sprint 10": [
+                ""
+            ],
+            "%1$s\/%2$s tasks completed": [
+                ""
+            ],
+            "End Date": [
+                ""
+            ],
+            "Company Logo": [
+                ""
+            ],
+            "Enable start date field for tasks": [
+                ""
+            ],
+            "Failed to upload": [
+                "Bestand upload limiet"
+            ],
+            "Logo uploaded": [
+                ""
+            ],
+            "Please select an image file": [
+                ""
+            ],
+            "Pro Settings": [
+                "Instellingen"
+            ],
+            "Send daily digest emails to team members": [
+                ""
+            ],
+            "Task Start Date": [
+                ""
+            ],
+            "Used on invoices and reports": [
+                ""
+            ],
+            "Accept credit card payments via Stripe": [
+                ""
+            ],
+            "Accept payments via PayPal": [
+                ""
+            ],
+            "Appearance": [
+                ""
+            ],
+            "Automatically included at the bottom of every invoice": [
+                ""
+            ],
+            "Company Address": [
+                ""
+            ],
+            "Company Name": [
+                ""
+            ],
+            "Configure invoice appearance and payment gateways": [
+                ""
+            ],
+            "Default Notes \/ Terms": [
+                ""
+            ],
+            "Default tax percentage applied to invoices": [
+                ""
+            ],
+            "Displayed on invoices as the billing entity": [
+                ""
+            ],
+            "Enable Test Secret Key": [
+                ""
+            ],
+            "Full address shown on invoices": [
+                ""
+            ],
+            "Invoice Defaults": [
+                ""
+            ],
+            "Invoice Settings": [
+                "Instellingen"
+            ],
+            "Invoice settings saved": [
+                ""
+            ],
+            "Organization Name": [
+                ""
+            ],
+            "PayPal Email": [
+                ""
+            ],
+            "Payment Gateways": [
+                ""
+            ],
+            "Sandbox Mode": [
+                ""
+            ],
+            "Tax Rate (%)": [
+                ""
+            ],
+            "Test Publishable Key": [
+                ""
+            ],
+            "Use demo mode for testing": [
+                ""
+            ],
+            "Use sandbox mode for testing": [
+                ""
+            ],
+            "Used for invoice header and accents": [
+                ""
+            ],
+            "Your Company Name": [
+                ""
+            ],
+            "Configure front-end pages for Project Manager": [
+                ""
+            ],
+            "Front-end Page": [
+                ""
+            ],
+            "Page settings saved": [
+                ""
+            ],
+            "Project Page": [
+                "Project Manager"
+            ],
+            "Select a page...": [
+                "Selecteer alles"
+            ],
+            "Select the page where Project Manager will be displayed on the front-end": [
+                ""
+            ],
+            "\u2014 None \u2014": [
+                ""
+            ],
+            "You have unsaved changes": [
+                ""
+            ],
+            "Click to attach files": [
+                ""
+            ],
+            "or drag and drop": [
+                ""
+            ],
+            "Loom Video": [
+                ""
+            ],
+            "Untitled Video": [
+                ""
+            ],
+            "Refresh": [
+                ""
+            ],
+            "Untitled": [
+                ""
+            ],
+            "just now": [
+                ""
+            ],
+            "Administration": [
+                ""
+            ],
+            "Back to WP Admin": [
+                ""
+            ],
+            "Collapse sidebar": [
+                ""
+            ],
+            "Expand sidebar": [
+                ""
+            ],
+            "Favourites": [
+                ""
+            ],
+            "Recent": [
+                ""
+            ],
+            "Views": [
+                "Bekijk Taak"
+            ],
+            "Workspace": [
+                ""
+            ],
+            "Logout": [
+                ""
+            ],
+            "No notifications yet": [
+                ""
+            ],
+            "Notifications": [
+                ""
+            ],
+            "Plugin sidebar": [
+                ""
+            ],
+            "Search projects and tasks...": [
+                "Zoek Project"
+            ],
+            "Search...": [
+                "Zoek Taak"
+            ],
+            "Share your idea": [
+                ""
+            ],
+            "Summary Report": [
+                ""
+            ],
+            "WordPress sidebar": [
+                ""
+            ],
+            "Activity Trend": [
+                "Project Activiteit"
+            ],
+            "Add a description (optional)": [
+                "Enkele details over het project (optioneel)"
+            ],
+            "At a Glance": [
+                ""
+            ],
+            "Due Date \u2191": [
+                ""
+            ],
+            "Due Date \u2193": [
+                ""
+            ],
+            "Enter task title": [
+                "Vul een titel voor je bericht in"
+            ],
+            "Failed to update task": [
+                ""
+            ],
+            "Newest": [
+                ""
+            ],
+            "No completed tasks yet": [
+                ""
+            ],
+            "No current tasks": [
+                ""
+            ],
+            "No data": [
+                ""
+            ],
+            "No overdue tasks \u2014 great job!": [
+                ""
+            ],
+            "Oldest": [
+                ""
+            ],
+            "Search by Task Title": [
+                "Zoek Takenlijst"
+            ],
+            "Select a list": [
+                "Selecteer alles"
+            ],
+            "Select date range and click Run Report.": [
+                ""
+            ],
+            "Sort:": [
+                ""
+            ],
+            "Interactive Calendar": [
+                ""
+            ],
+            "Add Category": [
+                "Voeg nieuw bericht toe"
+            ],
+            "Categories deleted": [
+                ""
+            ],
+            "Category created": [
+                ""
+            ],
+            "Category deleted": [
+                ""
+            ],
+            "Category name": [
+                ""
+            ],
+            "Category updated": [
+                ""
+            ],
+            "Create Category": [
+                "Update Bericht"
+            ],
+            "Create categories to organize your projects.": [
+                ""
+            ],
+            "Delete selected categories?": [
+                ""
+            ],
+            "Edit Category": [
+                "Update Bericht"
+            ],
+            "Failed to create category": [
+                "Update Bericht"
+            ],
+            "Failed to delete categories": [
+                ""
+            ],
+            "Failed to delete category": [
+                ""
+            ],
+            "Failed to update category": [
+                "Update Bericht"
+            ],
+            "No categories yet": [
+                ""
+            ],
+            "Discussion created": [
+                "Discussieer over deze taak"
+            ],
+            "Discussion deleted": [
+                "Discussieer over deze taak"
+            ],
+            "Discussion updated": [
+                "Discussieer over deze taak"
+            ],
+            "Failed to create discussion": [
+                ""
+            ],
+            "Failed to update discussion": [
+                ""
+            ],
+            "No discussions yet": [
+                ""
+            ],
+            "Start a conversation about this project.": [
+                "Start een nieuw project"
+            ],
+            "Discussion Comment": [
+                ""
+            ],
+            "File deleted": [
+                ""
+            ],
+            "Files attached to tasks, discussions, and comments will appear here.": [
+                ""
+            ],
+            "Task Comment": [
+                "%d Reacties"
+            ],
+            "Uploading...": [
+                ""
+            ],
+            "Deactivate": [
+                ""
+            ],
+            "Enter license key...": [
+                ""
+            ],
+            "Enter your license key to activate Pro features.": [
+                ""
+            ],
+            "Enter your purchase email address...": [
+                ""
+            ],
+            "Invalid license key": [
+                ""
+            ],
+            "License activated": [
+                ""
+            ],
+            "License activation failed": [
+                ""
+            ],
+            "License removed": [
+                ""
+            ],
+            "No Active License": [
+                ""
+            ],
+            "Your Pro license is active. All modules are available.": [
+                ""
+            ],
+            "All tasks are already linked": [
+                ""
+            ],
+            "At Risk": [
+                ""
+            ],
+            "Create Milestone": [
+                "Late Mijlpalen"
+            ],
+            "Create a new milestone": [
+                "Maak een nieuw bericht aan"
+            ],
+            "Create your first milestone": [
+                "Verwijder mijlpaal"
+            ],
+            "Edit an existing milestone": [
+                "Bewerk mijlpaal"
+            ],
+            "Failed to create milestone": [
+                "Verwijder mijlpaal"
+            ],
+            "Failed to delete": [
+                ""
+            ],
+            "Failed to link tasks": [
+                ""
+            ],
+            "Failed to unlink task": [
+                ""
+            ],
+            "Failed to update": [
+                ""
+            ],
+            "Failed to update milestone": [
+                "Verwijder mijlpaal"
+            ],
+            "Link Tasks": [
+                "Taken"
+            ],
+            "Link tasks to this milestone": [
+                ""
+            ],
+            "Milestone created": [
+                "Naam voor de mijlpaal"
+            ],
+            "Milestone deleted": [
+                "Mijlpaal \"%s\" verwijderd door %s "
+            ],
+            "Milestone marked as complete": [
+                "Mijlpaal \"%s\" gemarkeerd als voltooid door %s "
+            ],
+            "Milestone marked as incomplete": [
+                "Mijlpaal \"%s\" gemarkeerd als in-compleet door %s "
+            ],
+            "Milestone updated": [
+                "Naam voor de mijlpaal"
+            ],
+            "New Milestone": [
+                "Nieuwe Mijlpaal"
+            ],
+            "No Date": [
+                ""
+            ],
+            "No milestones match the selected filter.": [
+                ""
+            ],
+            "No milestones yet": [
+                "Mijlpaal"
+            ],
+            "No tasks found in this project": [
+                "Geen taak gevonden in de prullenbak"
+            ],
+            "No tasks linked": [
+                ""
+            ],
+            "No tasks match your search": [
+                ""
+            ],
+            "Remove this task from the milestone?": [
+                ""
+            ],
+            "Select tasks to link to": [
+                ""
+            ],
+            "Target Date": [
+                ""
+            ],
+            "Task unlinked": [
+                "Geen taak gevonden"
+            ],
+            "Track your project progress with milestones.": [
+                ""
+            ],
+            "Unlink from milestone": [
+                "Bewerk mijlpaal"
+            ],
+            "tasks linked": [
+                "Takenlijst"
+            ],
+            "Enable or disable project manager modules": [
+                ""
+            ],
+            "Go Pro Today": [
+                ""
+            ],
+            "Learn More": [
+                "Laad Meer..."
+            ],
+            "Premium Modules": [
+                ""
+            ],
+            "Create New Project": [
+                "Nieuw Project"
+            ],
+            "Describe your project...": [
+                ""
+            ],
+            "Enter project name": [
+                "Verwijder project"
+            ],
+            "Fill in the details below to create a new project.": [
+                ""
+            ],
+            "Notify co-workers via email": [
+                "Stuur bericht aan klanten"
+            ],
+            "Project updated successfully": [
+                ""
+            ],
+            "Role": [
+                ""
+            ],
+            "Search and add members...": [
+                ""
+            ],
+            "Select a category": [
+                "Selecteer alles"
+            ],
+            "Update the project details below.": [
+                ""
+            ],
+            "30-Day Activity": [
+                "Project Activiteit"
+            ],
+            "Failed to add member": [
+                ""
+            ],
+            "Failed to remove member": [
+                ""
+            ],
+            "Member added": [
+                ""
+            ],
+            "Member removed": [
+                ""
+            ],
+            "No team members assigned": [
+                ""
+            ],
+            "Overall Progress": [
+                ""
+            ],
+            "Project Overview": [
+                "Project Manager"
+            ],
+            "Searching...": [
+                ""
+            ],
+            "Team Members": [
+                ""
+            ],
+            "AI Create": [
+                ""
+            ],
+            "Delete Project": [
+                "Verwijder project"
+            ],
+            "Details": [
+                ""
+            ],
+            "Failed to delete project": [
+                "Naam van het project"
+            ],
+            "Failed to duplicate project": [
+                "Naam van het project"
+            ],
+            "Failed to update project status": [
+                "Naam van het project"
+            ],
+            "Get started by creating a new project.": [
+                "Start een nieuw project"
+            ],
+            "Newest First": [
+                ""
+            ],
+            "Oldest First": [
+                ""
+            ],
+            "Project deleted": [
+                "Project gemaakt door %s"
+            ],
+            "Project duplicated": [
+                "Project gemaakt door %s"
+            ],
+            "Project status updated": [
+                "Project details geupdate door %s"
+            ],
+            "Search projects...": [
+                "Zoek Project"
+            ],
+            "Sort By": [
+                ""
+            ],
+            "This action cannot be undone.": [
+                ""
+            ],
+            "Title A-Z": [
+                ""
+            ],
+            "Title Z-A": [
+                ""
+            ],
+            "Generate actionable insights from your project data": [
+                ""
+            ],
+            "Introduction Video": [
+                ""
+            ],
+            "Failed to move task": [
+                ""
+            ],
+            "No lists found": [
+                "Geen reacties gevonden"
+            ],
+            "Search task lists...": [
+                "Zoek Takenlijst"
+            ],
+            "Task moved": [
+                "Geen taak gevonden"
+            ],
+            "No incomplete tasks": [
+                ""
+            ],
+            "Task list not found.": [
+                "Geen takenlijst gevonden"
+            ],
+            "Add type": [
+                "Voeg nieuwe toe"
+            ],
+            "Are you sure you want to delete this task?": [
+                "Weet je zeker dat je dit bericht wilt verwijderen?"
+            ],
+            "Assignee added": [
+                ""
+            ],
+            "Assignee removed": [
+                ""
+            ],
+            "Click to make private": [
+                ""
+            ],
+            "Comment added": [
+                "1 Reactie"
+            ],
+            "Comment deleted": [
+                "Voltooid"
+            ],
+            "Comment updated": [
+                ""
+            ],
+            "Dates": [
+                ""
+            ],
+            "Dates updated": [
+                ""
+            ],
+            "Description updated": [
+                ""
+            ],
+            "Failed to add assignee": [
+                ""
+            ],
+            "Failed to add comment": [
+                "%s verwijderd een reactie"
+            ],
+            "Failed to delete comment": [
+                "%s verwijderd een reactie"
+            ],
+            "Failed to remove assignee": [
+                ""
+            ],
+            "Failed to update comment": [
+                "Update je reactie"
+            ],
+            "Failed to update dates": [
+                ""
+            ],
+            "Failed to update description": [
+                ""
+            ],
+            "Failed to update status": [
+                ""
+            ],
+            "Failed to update title": [
+                ""
+            ],
+            "Full screen": [
+                ""
+            ],
+            "Generate with AI": [
+                ""
+            ],
+            "Labels": [
+                ""
+            ],
+            "Link copied": [
+                ""
+            ],
+            "No activity yet": [
+                "Project Activiteit"
+            ],
+            "No task types found": [
+                "Geen takenlijst gevonden"
+            ],
+            "Remove type": [
+                ""
+            ],
+            "Set dates": [
+                "Eind datum"
+            ],
+            "Show activity": [
+                "Project Activiteit"
+            ],
+            "Write a description...": [
+                ""
+            ],
+            "Search tasks...": [
+                "Zoek Taak"
+            ],
+            "This Week": [
+                ""
+            ],
+            "Add a task": [
+                "Voeg taak toe"
+            ],
+            "Delete this list and all its tasks?": [
+                ""
+            ],
+            "Description...": [
+                ""
+            ],
+            "Failed to create task": [
+                ""
+            ],
+            "Failed to delete list": [
+                ""
+            ],
+            "Failed to load more tasks": [
+                ""
+            ],
+            "Failed to rename": [
+                "Naam voor de mijlpaal"
+            ],
+            "List deleted": [
+                ""
+            ],
+            "List renamed": [
+                "Naam voor de takenlijst"
+            ],
+            "Load more completed": [
+                "Markeer als voltooid"
+            ],
+            "Load more tasks": [
+                "Laad Meer..."
+            ],
+            "More options": [
+                ""
+            ],
+            "No tasks yet": [
+                ""
+            ],
+            "Rename": [
+                ""
+            ],
+            "Task created": [
+                ""
+            ],
+            "Task name...": [
+                "Naam voor de takenlijst"
+            ],
+            "View List": [
+                "Bekijk Takenlijst"
+            ],
+            "Create your first task list to start organizing work.": [
+                ""
+            ],
+            "Creating...": [
+                ""
+            ],
+            "Expand all": [
+                ""
+            ],
+            "Failed to create task list": [
+                ""
+            ],
+            "New List": [
+                "Nieuwe Takenlijst"
+            ],
+            "No task lists yet": [
+                "Takenlijst"
+            ],
+            "No tasks match your filters.": [
+                ""
+            ],
+            "Task list created": [
+                "Naam voor de takenlijst"
+            ],
+            "Failed to delete task": [
+                ""
+            ],
+            "Failed to duplicate task": [
+                ""
+            ],
+            "Failed to update privacy": [
+                ""
+            ],
+            "Failed to update task status": [
+                ""
+            ],
+            "Normal": [
+                ""
+            ],
+            "Private task": [
+                ""
+            ],
+            "Set to public": [
+                ""
+            ],
+            "Task deleted": [
+                ""
+            ],
+            "Task duplicated": [
+                ""
+            ],
+            "Task reopened": [
+                ""
+            ],
+            "Sprints": [
+                ""
+            ],
+            "License": [
+                ""
+            ],
+            "AI Project Generator": [
+                "Project Manager"
+            ],
+            "Describe your project and AI will generate the structure.": [
+                ""
+            ],
+            "Review and edit the generated structure before creating.": [
+                ""
+            ],
+            "AI is building your project structure...": [
+                ""
+            ],
+            "Thinking...": [
+                ""
+            ],
+            "Generating tasks...": [
+                ""
+            ],
+            "Organizing structure...": [
+                ""
+            ],
+            "Almost ready...": [
+                ""
+            ],
+            "Creating project...": [
+                "Verwijder project"
+            ],
+            "Creating task lists...": [
+                ""
+            ],
+            "Finalizing tasks...": [
+                ""
+            ],
+            "Describe your project and AI will generate the structure with task lists and tasks.": [
+                ""
+            ],
+            "e.g. \"Build an e-commerce website with product management, order processing, and customer support...\"": [
+                ""
+            ],
+            "Preview & Edit": [
+                ""
+            ],
+            "list": [
+                "Takenlijst"
+            ],
+            "lists": [
+                ""
+            ],
+            "task": [
+                ""
+            ],
+            "tasks": [
+                "Taken"
+            ],
+            "Task List Name": [
+                "Naam voor de takenlijst"
+            ],
+            "Back": [
+                ""
+            ],
+            "Create Project": [
+                "Update Project"
+            ],
+            "Exit full screen": [
+                ""
+            ],
+            "Access denied": [
+                ""
+            ],
+            "Comment": [
+                "1 Reactie"
+            ],
+            "What's New": [
+                ""
+            ],
+            "Description (optional)": [
+                "Enkele details over het project (optioneel)"
+            ],
+            "GitHub": [
+                ""
+            ],
+            "Notion": [
+                ""
+            ],
+            "Loom": [
+                ""
+            ],
+            "WooCommerce": [
+                ""
+            ],
+            "Configuration": [
+                ""
+            ],
+            "General": [
+                "Algemeen"
+            ],
+            "Advanced": [
+                ""
+            ],
+            "Failed to reveal API key": [
+                ""
+            ],
+            "AI settings saved": [
+                ""
+            ],
+            "Failed to save AI settings": [
+                ""
+            ],
+            "Connection successful": [
+                ""
+            ],
+            "Connection failed": [
+                ""
+            ],
+            "Configure the AI provider used for AI-powered features \u2014 including automatic project generation and AI subtask generation (Pro).": [
+                ""
+            ],
+            "AI Provider": [
+                ""
+            ],
+            "Select your preferred AI service.": [
+                ""
+            ],
+            "Your secret key from the provider dashboard.": [
+                ""
+            ],
+            "Hide API Key": [
+                ""
+            ],
+            "Show API Key": [
+                ""
+            ],
+            "Change API Key": [
+                ""
+            ],
+            "Enter your API key": [
+                ""
+            ],
+            "Fetching models...": [
+                ""
+            ],
+            "Model": [
+                ""
+            ],
+            "Select a model": [
+                "Selecteer alles"
+            ],
+            "500\u201316384. Higher values allow more detailed responses for both project and subtask generation, but may cost more.": [
+                ""
+            ],
+            "0 = deterministic \/ 1 = creative": [
+                ""
+            ],
+            "No models available for this provider. Please verify your API key and save again.": [
+                ""
+            ],
+            "Testing...": [
+                ""
+            ],
+            "Email settings saved": [
+                "E-mail instellingen"
+            ],
+            "Failed to save email settings": [
+                ""
+            ],
+            "Email Settings": [
+                "E-mail instellingen"
+            ],
+            "Configure how notification emails are sent.": [
+                ""
+            ],
+            "Sender address for all notifications": [
+                ""
+            ],
+            "Email Type": [
+                "E-mail type"
+            ],
+            "Email links point to the WP admin backend": [
+                ""
+            ],
+            "Send via BCC": [
+                ""
+            ],
+            "All recipients added as BCC instead of TO": [
+                ""
+            ],
+            "Settings saved": [
+                "Instellingen"
+            ],
+            "Failed to save settings": [
+                ""
+            ],
+            "Size in Megabytes (e.g. 2)": [
+                "bestand grootte in Megabyte. bijv. 2"
+            ],
+            "Configure pagination and file upload limits.": [
+                ""
+            ],
+            "Change": [
+                "Sla veranderingen op"
+            ],
+            "Remove": [
+                ""
+            ],
+            "Failed to reveal token": [
+                ""
+            ],
+            "GitHub settings saved": [
+                ""
+            ],
+            "GitHub Integration": [
+                ""
+            ],
+            "Show preview cards for GitHub issue and PR URLs in descriptions and comments.": [
+                ""
+            ],
+            "Personal Access Token": [
+                ""
+            ],
+            "Token saved": [
+                ""
+            ],
+            "Enables private repo access & higher rate limits.": [
+                ""
+            ],
+            "Enable Previews": [
+                ""
+            ],
+            "Show GitHub issue\/PR preview cards automatically.": [
+                ""
+            ],
+            "Connection Status": [
+                ""
+            ],
+            "Not tested yet": [
+                ""
+            ],
+            "Connected": [
+                ""
+            ],
+            "as": [
+                "Taak"
+            ],
+            "Generate a new token on GitHub": [
+                ""
+            ],
+            "Select \"repo\" scope for private repository access": [
+                ""
+            ],
+            "Failed to save": [
+                ""
+            ],
+            "PayPal": [
+                ""
+            ],
+            "Stripe Instruction": [
+                ""
+            ],
+            "Test Secret Key": [
+                ""
+            ],
+            "Live Secret Key": [
+                ""
+            ],
+            "Live Publishable Key": [
+                ""
+            ],
+            "123 Main St, Suite 100\nCity, State 12345": [
+                ""
+            ],
+            "Payment is due within 30 days of invoice date.\nThank you for your business.": [
+                ""
+            ],
+            "Loom settings saved": [
+                ""
+            ],
+            "Loom Integration": [
+                ""
+            ],
+            "Show Loom video preview cards in descriptions and comments. No API token required \u2014 uses oEmbed.": [
+                ""
+            ],
+            "Show Loom video preview cards automatically.": [
+                ""
+            ],
+            "Notion settings saved": [
+                ""
+            ],
+            "Notion Integration": [
+                ""
+            ],
+            "Show preview cards for Notion page URLs in descriptions and comments.": [
+                ""
+            ],
+            "Internal Integration Token": [
+                ""
+            ],
+            "Paste your Notion internal integration token.": [
+                ""
+            ],
+            "Show Notion page preview cards automatically.": [
+                ""
+            ],
+            "Create a Notion integration": [
+                ""
+            ],
+            "Pusher settings saved": [
+                ""
+            ],
+            "Failed to save Pusher settings": [
+                ""
+            ],
+            "Pusher test failed": [
+                ""
+            ],
+            "Enable real-time updates via Pusher.": [
+                ""
+            ],
+            "Enable Pusher Notifications": [
+                ""
+            ],
+            "Master switch. Disables all real-time notifications when off.": [
+                ""
+            ],
+            "Your Pusher App ID": [
+                ""
+            ],
+            "Your Pusher App Key": [
+                ""
+            ],
+            "App Secret": [
+                ""
+            ],
+            "Your Pusher App Secret": [
+                ""
+            ],
+            "e.g. ap2, eu, us2": [
+                ""
+            ],
+            "Pusher notification links point to the WP admin backend": [
+                ""
+            ],
+            "Notification Triggers": [
+                ""
+            ],
+            "Toggle individual events that trigger Pusher notifications.": [
+                ""
+            ],
+            "Save changes before testing": [
+                ""
+            ],
+            "Type name is required": [
+                "Takenlijst detail"
+            ],
+            "Task type created": [
+                ""
+            ],
+            "Failed to create task type": [
+                ""
+            ],
+            "Task type updated": [
+                ""
+            ],
+            "Failed to update task type": [
+                ""
+            ],
+            "Are you sure you want to delete this task type?": [
+                "Weet je zeker dat je dit bericht wilt verwijderen?"
+            ],
+            "Delete Task Type": [
+                "Verwijder project"
+            ],
+            "Task type deleted": [
+                ""
+            ],
+            "Failed to delete task type": [
+                ""
+            ],
+            "Define custom task types for your projects.": [
+                ""
+            ],
+            "New Type": [
+                "Nieuwe Taak"
+            ],
+            "Create Task Type": [
+                ""
+            ],
+            "e.g. Bug, Feature, Story...": [
+                ""
+            ],
+            "optional": [
+                ""
+            ],
+            "Short description...": [
+                ""
+            ],
+            "Actions": [
+                "Project Activiteit"
+            ],
+            "Save": [
+                ""
+            ],
+            "No task types yet.": [
+                ""
+            ],
+            "Create your first type": [
+                "Bericht plaatsings type"
+            ],
+            "Something went wrong.": [
+                ""
+            ],
+            "Try again": [
+                ""
+            ],
+            "PR": [
+                ""
+            ],
+            "Issue": [
+                ""
+            ],
+            "You are not authorized to view this page.": [
+                ""
+            ],
+            "This feature requires an active Pro license. Please ask your administrator to activate the license.": [
+                ""
+            ],
+            "Database": [
+                ""
+            ],
+            "Page": [
+                ""
+            ],
+            "Website Development Package": [
+                ""
+            ],
+            "SEO Audit Service": [
+                ""
+            ],
+            "Duplicate Project": [
+                "Update Project"
+            ],
+            "Logo Design Bundle": [
+                ""
+            ],
+            "WooCommerce Project Mapping": [
+                ""
+            ],
+            "+ Add Product": [
+                "Voeg project toe"
+            ],
+            "assignees": [
+                ""
+            ],
+            "Auto-created on order": [
+                ""
+            ],
+            "You do not have permission to view this page.": [
+                ""
+            ],
+            "unlock and take advantage of our premium features": [
+                ""
+            ],
+            "Proj": [
+                "Projecten"
+            ],
+            "Cal": [
+                "Annuleer"
+            ],
+            "Prog": [
+                ""
+            ],
+            "Rep": [
+                "Heropen"
+            ],
+            "Sprint": [
+                ""
+            ],
+            "Cat": [
+                ""
+            ],
+            "Set": [
+                ""
+            ],
+            "Lic": [
+                ""
+            ],
+            "Switch to light mode": [
+                ""
+            ],
+            "Switch to dark mode": [
+                ""
+            ],
+            "No results found": [
+                "Geen gebruikers gevonden"
+            ],
+            "Start Date and End Date are required.": [
+                ""
+            ],
+            "Start Date is required.": [
+                "Takenlijst detail"
+            ],
+            "End Date is required.": [
+                "Takenlijst detail"
+            ],
+            "Start Date cannot be greater than End Date.": [
+                ""
+            ],
+            "Task completed": [
+                "Markeer als voltooid"
+            ],
+            "From": [
+                ""
+            ],
+            "To": [
+                ""
+            ],
+            "Run Report": [
+                ""
+            ],
+            "Est. Hours": [
+                ""
+            ],
+            "Assigned": [
+                ""
+            ],
+            "Working H": [
+                ""
+            ],
+            "Est. H": [
+                ""
+            ],
+            "to": [
+                ""
+            ],
+            "No activities found": [
+                "Geen bestanden gevonden!"
+            ],
+            "Load more": [
+                "Laad Meer..."
+            ],
+            "Assignees": [
+                ""
+            ],
+            "Create Task": [
+                "Huidige Taak"
+            ],
+            "Project Activities": [
+                "Project Activiteit"
+            ],
+            "View all changes, updates, and activities happening in your project in real-time.": [
+                ""
+            ],
+            "activities": [
+                "Project Activiteit"
+            ],
+            "Get the birdseye view of all tasks from an interactive calendar": [
+                ""
+            ],
+            "View all your tasks, milestones, and deadlines in a beautiful calendar view.": [
+                ""
+            ],
+            "Delete Category": [
+                "Update Bericht"
+            ],
+            "Bulk Delete": [
+                "Verwijderen"
+            ],
+            "New Category": [
+                "Voeg nieuw bericht toe"
+            ],
+            "selected": [
+                ""
+            ],
+            "Failed to load discussion": [
+                ""
+            ],
+            "Delete Discussion": [
+                "Verwijder mijlpaal"
+            ],
+            "Set to private": [
+                ""
+            ],
+            "New Discussion": [
+                ""
+            ],
+            "Open parent": [
+                ""
+            ],
+            "Download": [
+                ""
+            ],
+            "License will delete permanently": [
+                ""
+            ],
+            "Delete License": [
+                "Verwijder mijlpaal"
+            ],
+            "License Active": [
+                ""
+            ],
+            "Save & Activate": [
+                ""
+            ],
+            "Upcoming": [
+                ""
+            ],
+            "task linked": [
+                "Takenlijst"
+            ],
+            "Select All": [
+                "Selecteer alles"
+            ],
+            "Unlink Task": [
+                "Bekijk Taak"
+            ],
+            "Delete Milestone": [
+                "Verwijder mijlpaal"
+            ],
+            "Mark Incomplete": [
+                "Markeer als niet voltooid"
+            ],
+            "discussions": [
+                ""
+            ],
+            "More actions": [
+                "Project Activiteit"
+            ],
+            "Milestone title": [
+                "Naam voor de mijlpaal"
+            ],
+            "Advanced project management tools to ensure your efficiency and productivity reach the peak.": [
+                ""
+            ],
+            "Give your team & projects additional pace with 9+ premium modules": [
+                ""
+            ],
+            "Useful & fascinating features for WP Project Manager that can be unlocked with the Pro Version.": [
+                ""
+            ],
+            "Unlock all premium features and take your project management to the next level.": [
+                ""
+            ],
+            "Project created successfully": [
+                "Project gemaakt door %s"
+            ],
+            "Failed to update project": [
+                "Naam van het project"
+            ],
+            "Edit Project": [
+                "Bewerk Project"
+            ],
+            "Category": [
+                "Update Bericht"
+            ],
+            "None": [
+                ""
+            ],
+            "No users found": [
+                "Geen gebruikers gevonden"
+            ],
+            "User": [
+                ""
+            ],
+            "Updating...": [
+                ""
+            ],
+            "Role updated": [
+                "Eind datum"
+            ],
+            "Failed to update role": [
+                ""
+            ],
+            "completed": [
+                "Voltooid"
+            ],
+            "remaining": [
+                ""
+            ],
+            "Select role": [
+                "Selecteer alles"
+            ],
+            "No projects found": [
+                "Geen Project gevonden"
+            ],
+            "done": [
+                ""
+            ],
+            "total": [
+                ""
+            ],
+            "All Categories": [
+                "Voeg nieuw bericht toe"
+            ],
+            "Are you sure you want to delete": [
+                "Weet je zeker dat je dit bericht wilt verwijderen?"
+            ],
+            "Moving...": [
+                ""
+            ],
+            "Delete Comment": [
+                "Verwijder project"
+            ],
+            "Sending...": [
+                ""
+            ],
+            "Delete Task": [
+                "Verwijder mijlpaal"
+            ],
+            "Could not copy link": [
+                ""
+            ],
+            "Start": [
+                ""
+            ],
+            "Due": [
+                ""
+            ],
+            "Search members...": [
+                "Zoek Berichten"
+            ],
+            "No project members": [
+                ""
+            ],
+            "No description yet. Click \"Add\" to write one.": [
+                ""
+            ],
+            "Add Comment": [
+                "%d Reacties"
+            ],
+            "Hide activity": [
+                "Project Activiteit"
+            ],
+            "Milestone assigned": [
+                "Naam voor de mijlpaal"
+            ],
+            "Milestone removed": [
+                "Naam voor de mijlpaal"
+            ],
+            "Remove milestone": [
+                "Verwijder mijlpaal"
+            ],
+            "No milestones": [
+                "Mijlpaal"
+            ],
+            "Estimate": [
+                ""
+            ],
+            "Click to make public": [
+                ""
+            ],
+            "Public": [
+                ""
+            ],
+            "Recurrence": [
+                ""
+            ],
+            "Failed to filter tasks": [
+                ""
+            ],
+            "Assignee": [
+                ""
+            ],
+            "Failed to reorder tasks": [
+                ""
+            ],
+            "Archive": [
+                ""
+            ],
+            "Less": [
+                ""
+            ],
+            "Assign": [
+                ""
+            ],
+            "Adding...": [
+                ""
+            ],
+            "Collapse all": [
+                ""
+            ],
+            "result": [
+                ""
+            ],
+            "results": [
+                ""
+            ],
+            "Urgent": [
+                ""
+            ],
+            "High": [
+                ""
+            ],
+            "Confirm": [
+                ""
+            ]
+        }
+    }
+}

@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n';
 import { useState, useCallback } from 'react'
 import {
   AlertDialog,
@@ -9,7 +10,6 @@ import {
   AlertDialogCancel,
   AlertDialogAction,
 } from '@components/ui/alert-dialog'
-import { useI18n } from '@hooks/useI18n'
 
 /**
  * Returns [ConfirmDialog, confirm]
@@ -22,7 +22,6 @@ import { useI18n } from '@hooks/useI18n'
  *   if (!ok) return
  */
 export function useConfirm() {
-  const { __ } = useI18n()
   const [state, setState] = useState({
     open: false,
     resolve: null,
@@ -62,10 +61,10 @@ export function useConfirm() {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel onClick={(e) => { e.stopPropagation(); handleResult(false) }}>
-              {__('Cancel')}
+              {__('Cancel', 'wedevs-project-manager')}
             </AlertDialogCancel>
             <AlertDialogAction onClick={(e) => { e.stopPropagation(); handleResult(true) }}>
-              {__('Confirm')}
+              {__('Confirm', 'wedevs-project-manager')}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

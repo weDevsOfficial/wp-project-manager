@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n';
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@store/index";
@@ -10,7 +11,6 @@ import {
   setFilter as setStoreFilter,
   setSort as setStoreSort,
 } from "@store/milestonesSlice";
-import { useI18n } from "@hooks/useI18n";
 import { useToast } from "@hooks/useToast";
 import { usePermissions } from "@hooks/usePermissions";
 import { useCurrentProject } from "@hooks/useCurrentProject";
@@ -40,7 +40,6 @@ import TaskDetailSheet from "@components/tasks/TaskDetailSheet";
 export default function MilestonesPage() {
   const { projectId } = useParams();
   const dispatch = useAppDispatch();
-  const { __ } = useI18n();
   const toast = useToast();
 
   const { items: milestones, loading, filter, sort, formOpen, editingId } =
@@ -106,20 +105,20 @@ export default function MilestonesPage() {
               data: payload,
             }),
           ).unwrap();
-          toast.success(__("Milestone updated"));
+          toast.success(__("Milestone updated", 'wedevs-project-manager'));
         } else {
           await dispatch(
             createMilestone({ projectId, data: payload }),
           ).unwrap();
-          toast.success(__("Milestone created"));
+          toast.success(__("Milestone created", 'wedevs-project-manager'));
         }
         dispatch(fetchMilestones({ projectId }));
         dispatch(closeForm());
       } catch {
         toast.error(
           editingMilestone
-            ? __("Failed to update milestone")
-            : __("Failed to create milestone"),
+            ? __("Failed to update milestone", 'wedevs-project-manager')
+            : __("Failed to create milestone", 'wedevs-project-manager'),
         );
       }
       setSaving(false);
@@ -170,27 +169,27 @@ export default function MilestonesPage() {
     const groups = [];
     if (filter === "all" || filter === "upcoming") {
       if (upcoming.length > 0)
-        groups.push({ key: "upcoming", label: __("Upcoming"), items: upcoming });
+        groups.push({ key: "upcoming", label: __("Upcoming", 'wedevs-project-manager'), items: upcoming });
     }
     if (filter === "all" || filter === "at-risk") {
       if (atRisk.length > 0)
-        groups.push({ key: "at-risk", label: __("At Risk"), items: atRisk });
+        groups.push({ key: "at-risk", label: __("At Risk", 'wedevs-project-manager'), items: atRisk });
     }
     if (filter === "all" || filter === "overdue") {
       if (overdue.length > 0)
-        groups.push({ key: "overdue", label: __("Overdue"), items: overdue });
+        groups.push({ key: "overdue", label: __("Overdue", 'wedevs-project-manager'), items: overdue });
     }
     if (filter === "all" || filter === "completed") {
       if (completed.length > 0)
         groups.push({
           key: "completed",
-          label: __("Completed"),
+          label: __("Completed", 'wedevs-project-manager'),
           items: completed,
         });
     }
     if (filter === "all" || filter === "no-date") {
       if (noDate.length > 0)
-        groups.push({ key: "no-date", label: __("No Date"), items: noDate });
+        groups.push({ key: "no-date", label: __("No Date", 'wedevs-project-manager'), items: noDate });
     }
     return groups;
   }, [filter, upcoming, atRisk, overdue, completed, noDate, __]);
@@ -215,7 +214,7 @@ export default function MilestonesPage() {
         <div className="flex items-center gap-3">
           <BackButton fallback={`/projects/${projectId}/task-lists`} />
           <h1 className="text-xl font-bold text-pm-text-primary">
-            {__("Milestones")}
+            {__("Milestones", 'wedevs-project-manager')}
           </h1>
         </div>
         {canCreateMilestone && (
@@ -225,7 +224,7 @@ export default function MilestonesPage() {
             onClick={() => dispatch(openForm())}
           >
             <Plus className="h-4 w-4" />
-            {__("New Milestone")}
+            {__("New Milestone", 'wedevs-project-manager')}
           </Button>
         )}
       </div>
@@ -250,10 +249,10 @@ export default function MilestonesPage() {
         <div className="text-center py-16">
           <MilestoneIcon className="h-14 w-14 text-muted-foreground/30 mx-auto mb-3" />
           <h3 className="text-sm font-medium text-pm-text-primary mb-1">
-            {__("No milestones yet")}
+            {__("No milestones yet", 'wedevs-project-manager')}
           </h3>
           <p className="text-sm text-pm-text-muted mb-4">
-            {__("Track your project progress with milestones.")}
+            {__("Track your project progress with milestones.", 'wedevs-project-manager')}
           </p>
           {canCreateMilestone && (
             <Button
@@ -262,7 +261,7 @@ export default function MilestonesPage() {
               onClick={() => dispatch(openForm())}
             >
               <Plus className="h-4 w-4" />
-              {__("Create your first milestone")}
+              {__("Create your first milestone", 'wedevs-project-manager')}
             </Button>
           )}
         </div>
@@ -270,7 +269,7 @@ export default function MilestonesPage() {
         <div className="text-center py-12">
           <Filter className="h-10 w-10 text-muted-foreground/30 mx-auto mb-2" />
           <p className="text-sm text-pm-text-muted">
-            {__("No milestones match the selected filter.")}
+            {__("No milestones match the selected filter.", 'wedevs-project-manager')}
           </p>
         </div>
       ) : (
@@ -309,13 +308,13 @@ export default function MilestonesPage() {
           <DialogHeader>
             <DialogTitle>
               {editingMilestone
-                ? __("Edit Milestone")
-                : __("Create Milestone")}
+                ? __("Edit Milestone", 'wedevs-project-manager')
+                : __("Create Milestone", 'wedevs-project-manager')}
             </DialogTitle>
             <DialogDescription className="sr-only">
               {editingMilestone
-                ? __("Edit an existing milestone")
-                : __("Create a new milestone")}
+                ? __("Edit an existing milestone", 'wedevs-project-manager')
+                : __("Create a new milestone", 'wedevs-project-manager')}
             </DialogDescription>
           </DialogHeader>
           <MilestoneForm

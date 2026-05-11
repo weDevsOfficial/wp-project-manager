@@ -1,5 +1,5 @@
+import { __ } from '@wordpress/i18n';
 import React, { useState, lazy, Suspense } from 'react'
-import { useI18n } from '@hooks/useI18n'
 import { usePermissions } from '@hooks/usePermissions'
 import ProBadge from '@components/common/ProBadge'
 import ProFeaturePlaceholder from '@components/common/ProFeaturePlaceholder'
@@ -64,7 +64,6 @@ const PRO_TAB_CONFIG = {
 
 // ── Component ────────────────────────────────────────────────
 const SettingsPage = () => {
-  const { __ } = useI18n()
   const { isPro } = usePermissions()
   const [activeTab, setActiveTab] = useState('general')
 

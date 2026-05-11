@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n';
 import React, { useEffect, useState, useCallback, useMemo, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@store/index";
@@ -5,7 +6,6 @@ import { openTaskSheet } from "@store/tasksSlice";
 import { setProjectId } from "@store/taskListsSlice";
 import { useApi } from "@hooks/useApi";
 import { useProApi } from "@hooks/useProApi";
-import { useI18n } from "@hooks/useI18n";
 import { useToast } from "@hooks/useToast";
 import { usePermissions } from "@hooks/usePermissions";
 import { Button } from "@components/ui/button";
@@ -85,7 +85,6 @@ export default function MyTasksPage() {
   const navigate = useNavigate();
   const api = useApi();
   const proApi = useProApi();
-  const { __ } = useI18n();
   const toast = useToast();
   const { canManage } = usePermissions();
   const { setOpen: setProModalOpen } = useProModal();
@@ -341,17 +340,17 @@ export default function MyTasksPage() {
     if (!reportStart || !reportEnd) {
       setShowReportDateError(true);
       if (!reportStart && !reportEnd) {
-        toast.error(__("Start Date and End Date are required."));
+        toast.error(__("Start Date and End Date are required.", 'wedevs-project-manager'));
       } else if (!reportStart) {
-        toast.error(__("Start Date is required."));
+        toast.error(__("Start Date is required.", 'wedevs-project-manager'));
       } else {
-        toast.error(__("End Date is required."));
+        toast.error(__("End Date is required.", 'wedevs-project-manager'));
       }
       return;
     }
     if (reportStart > reportEnd) {
       setShowReportDateError(true);
-      toast.error(__("Start Date cannot be greater than End Date."));
+      toast.error(__("Start Date cannot be greater than End Date.", 'wedevs-project-manager'));
       return;
     }
     setShowReportDateError(false);
@@ -391,12 +390,12 @@ export default function MyTasksPage() {
           `projects/${task.project_id}/tasks/${task.id}/change-status`,
           { status: newStatus },
         );
-        toast.success(newStatus === 1 ? __("Task completed") : __("Task reopened"));
+        toast.success(newStatus === 1 ? __("Task completed", 'wedevs-project-manager') : __("Task reopened", 'wedevs-project-manager'));
         fetchTasks(taskPage);
         const userRes = await api.get(`users/${userId}`, { with: "meta" });
         setUser(userRes.data);
       } catch {
-        toast.error(__("Failed to update task"));
+        toast.error(__("Failed to update task", 'wedevs-project-manager'));
       }
     },
     [api, userId, toast, __, fetchTasks, taskPage],
@@ -421,7 +420,7 @@ export default function MyTasksPage() {
         />
         <div className="flex-1 min-w-0">
           <h1 className="text-xl font-bold text-pm-text-primary">
-            {__("My Tasks")}
+            {__("My Tasks", 'wedevs-project-manager')}
           </h1>
           <p className="text-sm text-pm-text-muted">
             {user?.display_name || PM_Vars.current_user?.data?.display_name}
@@ -440,7 +439,7 @@ export default function MyTasksPage() {
             }}
           >
             <SelectTrigger className="h-9 w-[220px] text-sm shrink-0">
-              <SelectValue placeholder={__("Select User")} />
+              <SelectValue placeholder={__("Select User", 'wedevs-project-manager')} />
             </SelectTrigger>
             <SelectContent>
               {allUsers.map((u) => (
@@ -458,15 +457,15 @@ export default function MyTasksPage() {
           className="gap-1.5 shrink-0"
         >
           <Plus className="h-5 w-5" />
-          {__("New Task")}
+          {__("New Task", 'wedevs-project-manager')}
         </Button>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {[
-          { label: __("Current"),     count: counts.current,     icon: CheckSquare,    color: "text-emerald-500 bg-emerald-50" },
-          { label: __("Outstanding"), count: counts.outstanding, icon: AlertTriangle,  color: "text-red-500 bg-red-50" },
-          { label: __("Completed"),   count: counts.complete,    icon: CheckCircle,    color: "text-blue-500 bg-blue-50" },
+          { label: __("Current", 'wedevs-project-manager'),     count: counts.current,     icon: CheckSquare,    color: "text-emerald-500 bg-emerald-50" },
+          { label: __("Outstanding", 'wedevs-project-manager'), count: counts.outstanding, icon: AlertTriangle,  color: "text-red-500 bg-red-50" },
+          { label: __("Completed", 'wedevs-project-manager'),   count: counts.complete,    icon: CheckCircle,    color: "text-blue-500 bg-blue-50" },
         ].map((s) => (
           <div
             key={s.label}
@@ -511,7 +510,7 @@ export default function MyTasksPage() {
               }`}
             >
               <Icon className="h-4 w-4" />
-              {__(tab.label)}
+              {__(tab.label, 'wedevs-project-manager')}
               {tab.pro && !isPro && (
                 <span className="inline-flex items-center gap-0.5 bg-pm-accent/10 text-pm-accent text-[11px] font-semibold px-1.5 py-0.5 rounded">
                   <Crown className="h-3 w-3" />PRO
@@ -546,17 +545,17 @@ export default function MyTasksPage() {
               <div className="flex items-center justify-between mb-3">
                 <span className="text-sm font-semibold text-pm-text-primary flex items-center gap-2">
                   <Filter className="h-4 w-4" />
-                  {__('Activity Filter')}
+                  {__('Activity Filter', 'wedevs-project-manager')}
                 </span>
                 {(overviewStartDate || overviewEndDate) && (
                   <Button variant="ghost" size="sm" className="h-7 text-xs text-pm-text-muted hover:text-destructive" onClick={() => { setOverviewStartDate(''); setOverviewEndDate(''); setAppliedFilterDates({ start: '', end: '' }) }}>
-                    <X className="h-3.5 w-3.5 mr-1" />{__('Clear')}
+                    <X className="h-3.5 w-3.5 mr-1" />{__('Clear', 'wedevs-project-manager')}
                   </Button>
                 )}
               </div>
               <div className="flex items-end gap-3 flex-wrap">
                 <div className="space-y-1">
-                  <label className="text-[11px] font-medium uppercase text-pm-text-muted">{__('From')}</label>
+                  <label className="text-[11px] font-medium uppercase text-pm-text-muted">{__('From', 'wedevs-project-manager')}</label>
                   <Input
                     type="date"
                     value={overviewStartDate}
@@ -565,7 +564,7 @@ export default function MyTasksPage() {
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-[11px] font-medium uppercase text-pm-text-muted">{__('To')}</label>
+                  <label className="text-[11px] font-medium uppercase text-pm-text-muted">{__('To', 'wedevs-project-manager')}</label>
                   <Input
                     type="date"
                     value={overviewEndDate}
@@ -574,14 +573,14 @@ export default function MyTasksPage() {
                   />
                 </div>
                 <Button size="sm" className="h-8 text-sm" onClick={() => setAppliedFilterDates({ start: overviewStartDate, end: overviewEndDate })}>
-                  <Filter className="h-3.5 w-3.5 mr-1" />{__('Filter')}
+                  <Filter className="h-3.5 w-3.5 mr-1" />{__('Filter', 'wedevs-project-manager')}
                 </Button>
               </div>
             </div>
 
             <div className="rounded-xl border bg-card p-6">
               <h3 className="text-sm font-semibold text-pm-text-primary mb-4">
-                {__("At a Glance")}
+                {__("At a Glance", 'wedevs-project-manager')}
               </h3>
               <div className="flex items-center gap-8">
                 <div className="w-[200px] h-[200px]">
@@ -589,9 +588,9 @@ export default function MyTasksPage() {
                     <PieChart>
                       <Pie
                         data={[
-                          { name: __("Current"), value: counts.current },
-                          { name: __("Outstanding"), value: counts.outstanding },
-                          { name: __("Completed"), value: counts.complete },
+                          { name: __("Current", 'wedevs-project-manager'), value: counts.current },
+                          { name: __("Outstanding", 'wedevs-project-manager'), value: counts.outstanding },
+                          { name: __("Completed", 'wedevs-project-manager'), value: counts.complete },
                         ]}
                         cx="50%"
                         cy="50%"
@@ -610,9 +609,9 @@ export default function MyTasksPage() {
                 </div>
                 <div className="space-y-3">
                   {[
-                    { label: __("Current"),     count: counts.current,     color: "#61BD4F" },
-                    { label: __("Outstanding"), count: counts.outstanding, color: "#EB5A46" },
-                    { label: __("Completed"),   count: counts.complete,    color: "#0090D9" },
+                    { label: __("Current", 'wedevs-project-manager'),     count: counts.current,     color: "#61BD4F" },
+                    { label: __("Outstanding", 'wedevs-project-manager'), count: counts.outstanding, color: "#EB5A46" },
+                    { label: __("Completed", 'wedevs-project-manager'),   count: counts.complete,    color: "#0090D9" },
                   ].map((item) => (
                     <div key={item.label} className="flex items-center gap-3">
                       <span
@@ -623,7 +622,7 @@ export default function MyTasksPage() {
                         {item.label}
                       </span>
                       <span className="text-sm font-bold text-pm-text-primary tabular-nums">
-                        {item.count} {__("Tasks")}
+                        {item.count} {__("Tasks", 'wedevs-project-manager')}
                       </span>
                     </div>
                   ))}
@@ -634,7 +633,7 @@ export default function MyTasksPage() {
             {graph.length > 0 && (
               <div className="rounded-xl border bg-card p-6">
                 <h3 className="text-sm font-semibold text-pm-text-primary mb-4">
-                  {__("Activity Trend")}
+                  {__("Activity Trend", 'wedevs-project-manager')}
                 </h3>
                 <div className="h-[220px]">
                   <ResponsiveContainer width="100%" height="100%">
@@ -654,8 +653,8 @@ export default function MyTasksPage() {
                         interval={Math.floor(graph.length / 5)}
                       />
                       <Tooltip />
-                      <Line type="monotone" dataKey="tasks" stroke="#61BD4F" strokeWidth={2} dot={false} name={__("Tasks")} />
-                      <Line type="monotone" dataKey="activities" stroke="#0090D9" strokeWidth={2} dot={false} name={__("Activities")} />
+                      <Line type="monotone" dataKey="tasks" stroke="#61BD4F" strokeWidth={2} dot={false} name={__("Tasks", 'wedevs-project-manager')} />
+                      <Line type="monotone" dataKey="activities" stroke="#0090D9" strokeWidth={2} dot={false} name={__("Activities", 'wedevs-project-manager')} />
                     </LineChart>
                   </ResponsiveContainer>
                 </div>
@@ -666,11 +665,11 @@ export default function MyTasksPage() {
               <div className="flex items-center justify-between px-4 py-3 border-b border-pm-border">
                 <h3 className="text-sm font-semibold text-pm-text-primary flex items-center gap-2">
                   <CalendarIcon className="h-5 w-5 text-pm-accent" />
-                  {__("Calendar")}
+                  {__("Calendar", 'wedevs-project-manager')}
                 </h3>
                 <div className="flex items-center gap-2">
                   <Button size="sm" variant="outline" className="h-7 text-xs" onClick={() => setCalDate(new Date())}>
-                    {__("Today")}
+                    {__("Today", 'wedevs-project-manager')}
                   </Button>
                   <Button size="icon" variant="ghost" className="h-7 w-7" onClick={() => setCalDate(new Date(calYear, calMonth - 1, 1))}>
                     <ChevronLeft className="h-5 w-5" />
@@ -735,9 +734,9 @@ export default function MyTasksPage() {
                 })}
               </div>
               <div className="flex items-center gap-4 px-4 py-3 text-[13px] text-pm-text-muted border-t border-pm-border">
-                <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-green-500" />{__("Current")}</span>
-                <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-red-500" />{__("Outstanding")}</span>
-                <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-blue-500" />{__("Completed")}</span>
+                <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-green-500" />{__("Current", 'wedevs-project-manager')}</span>
+                <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-red-500" />{__("Outstanding", 'wedevs-project-manager')}</span>
+                <span className="flex items-center gap-1.5"><span className="w-2.5 h-2.5 rounded-full bg-blue-500" />{__("Completed", 'wedevs-project-manager')}</span>
               </div>
             </div>
           </div>
@@ -752,21 +751,21 @@ export default function MyTasksPage() {
             <div className="flex items-end gap-3">
               <div className="space-y-1">
                 <label className={cn("text-[14px] font-medium uppercase", showReportDateError && !reportStart ? "text-red-500" : "text-pm-text-muted")}>
-                  {__("Start Date")}<span className="text-red-500 ml-0.5">*</span>
+                  {__("Start Date", 'wedevs-project-manager')}<span className="text-red-500 ml-0.5">*</span>
                 </label>
                 <Input type="date" value={reportStart} onChange={(e) => { setReportStart(e.target.value); setShowReportDateError(false) }} className={cn("h-8 text-sm w-36", showReportDateError && !reportStart && "border-red-500 ring-1 ring-red-500")} />
               </div>
               <div className="space-y-1">
                 <label className={cn("text-[14px] font-medium uppercase", showReportDateError && !reportEnd ? "text-red-500" : "text-pm-text-muted")}>
-                  {__("End Date")}<span className="text-red-500 ml-0.5">*</span>
+                  {__("End Date", 'wedevs-project-manager')}<span className="text-red-500 ml-0.5">*</span>
                 </label>
                 <Input type="date" value={reportEnd} onChange={(e) => { setReportEnd(e.target.value); setShowReportDateError(false) }} className={cn("h-8 text-sm w-36", showReportDateError && !reportEnd && "border-red-500 ring-1 ring-red-500")} />
               </div>
-              <Button size="sm" className="h-8" onClick={fetchReport}>{__("Run Report")}</Button>
+              <Button size="sm" className="h-8" onClick={fetchReport}>{__("Run Report", 'wedevs-project-manager')}</Button>
             </div>
             <div className="text-center py-12">
               <BarChart3 className="h-12 w-12 text-pm-text-muted/20 mx-auto mb-3" />
-              <p className="text-sm text-pm-text-muted">{__("Select date range and click Run Report.")}</p>
+              <p className="text-sm text-pm-text-muted">{__("Select date range and click Run Report.", 'wedevs-project-manager')}</p>
             </div>
           </div>
         ) : (
@@ -774,21 +773,21 @@ export default function MyTasksPage() {
             <div className="flex items-end gap-3">
               <div className="space-y-1">
                 <label className={cn("text-[14px] font-medium uppercase", showReportDateError && !reportStart ? "text-red-500" : "text-pm-text-muted")}>
-                  {__("Start Date")}<span className="text-red-500 ml-0.5">*</span>
+                  {__("Start Date", 'wedevs-project-manager')}<span className="text-red-500 ml-0.5">*</span>
                 </label>
                 <Input type="date" value={reportStart} onChange={(e) => { setReportStart(e.target.value); setShowReportDateError(false) }} className={cn("h-8 text-sm w-36", showReportDateError && !reportStart && "border-red-500 ring-1 ring-red-500")} />
               </div>
               <div className="space-y-1">
                 <label className={cn("text-[14px] font-medium uppercase", showReportDateError && !reportEnd ? "text-red-500" : "text-pm-text-muted")}>
-                  {__("End Date")}<span className="text-red-500 ml-0.5">*</span>
+                  {__("End Date", 'wedevs-project-manager')}<span className="text-red-500 ml-0.5">*</span>
                 </label>
                 <Input type="date" value={reportEnd} onChange={(e) => { setReportEnd(e.target.value); setShowReportDateError(false) }} className={cn("h-8 text-sm w-36", showReportDateError && !reportEnd && "border-red-500 ring-1 ring-red-500")} />
               </div>
-              <Button size="sm" className="h-8" onClick={fetchReport}>{__("Run Report")}</Button>
+              <Button size="sm" className="h-8" onClick={fetchReport}>{__("Run Report", 'wedevs-project-manager')}</Button>
             </div>
 
             <div className="flex items-center gap-3">
-              <span className="text-sm font-semibold">{__("User Name")}</span>
+              <span className="text-sm font-semibold">{__("User Name", 'wedevs-project-manager')}</span>
               <span className="text-sm bg-muted px-2.5 py-1 rounded">{user?.display_name || "—"}</span>
             </div>
 
@@ -806,11 +805,11 @@ export default function MyTasksPage() {
               const avgTaskPerDay = totalTasks > 0 ? (totalTasks / days).toFixed(1) : "0";
               return (
                 <div className="flex items-center gap-2 flex-wrap">
-                  <span className="inline-flex items-center gap-1.5 bg-teal-600 text-white text-sm font-medium px-2.5 py-1 rounded-full"><Clock className="h-3.5 w-3.5" />{__("Total Estimation Hours")} <span className="bg-white/20 px-1.5 rounded">{fmtTime(totalEst)}</span></span>
-                  <span className="inline-flex items-center gap-1.5 bg-blue-600 text-white text-sm font-medium px-2.5 py-1 rounded-full">{__("Completed Task Count")} <span className="bg-white/20 px-1.5 rounded">{completedTasks}</span></span>
-                  <span className="inline-flex items-center gap-1.5 bg-amber-600 text-white text-sm font-medium px-2.5 py-1 rounded-full">{__("Avg. Hour Per-task")} <span className="bg-white/20 px-1.5 rounded">{avgPerTask}</span></span>
-                  <span className="inline-flex items-center gap-1.5 bg-cyan-600 text-white text-sm font-medium px-2.5 py-1 rounded-full">{__("Avg. Work Hour Per-day")} <span className="bg-white/20 px-1.5 rounded">{avgPerDay}</span></span>
-                  <span className="inline-flex items-center gap-1.5 bg-violet-600 text-white text-sm font-medium px-2.5 py-1 rounded-full">{__("Avg. Task Per-day")} <span className="bg-white/20 px-1.5 rounded">{avgTaskPerDay}</span></span>
+                  <span className="inline-flex items-center gap-1.5 bg-teal-600 text-white text-sm font-medium px-2.5 py-1 rounded-full"><Clock className="h-3.5 w-3.5" />{__("Total Estimation Hours", 'wedevs-project-manager')} <span className="bg-white/20 px-1.5 rounded">{fmtTime(totalEst)}</span></span>
+                  <span className="inline-flex items-center gap-1.5 bg-blue-600 text-white text-sm font-medium px-2.5 py-1 rounded-full">{__("Completed Task Count", 'wedevs-project-manager')} <span className="bg-white/20 px-1.5 rounded">{completedTasks}</span></span>
+                  <span className="inline-flex items-center gap-1.5 bg-amber-600 text-white text-sm font-medium px-2.5 py-1 rounded-full">{__("Avg. Hour Per-task", 'wedevs-project-manager')} <span className="bg-white/20 px-1.5 rounded">{avgPerTask}</span></span>
+                  <span className="inline-flex items-center gap-1.5 bg-cyan-600 text-white text-sm font-medium px-2.5 py-1 rounded-full">{__("Avg. Work Hour Per-day", 'wedevs-project-manager')} <span className="bg-white/20 px-1.5 rounded">{avgPerDay}</span></span>
+                  <span className="inline-flex items-center gap-1.5 bg-violet-600 text-white text-sm font-medium px-2.5 py-1 rounded-full">{__("Avg. Task Per-day", 'wedevs-project-manager')} <span className="bg-white/20 px-1.5 rounded">{avgTaskPerDay}</span></span>
                 </div>
               );
             })()}
@@ -849,22 +848,22 @@ export default function MyTasksPage() {
                           <YAxis tick={{ fontSize: 9 }} tickLine={false} axisLine={false} allowDecimals={false} width={25} />
                           <Tooltip />
                           <Legend wrapperStyle={{ fontSize: 10 }} />
-                          <Bar dataKey="estHours" name={__("Est. Hours")} fill="#f77726" radius={[3, 3, 0, 0]} maxBarSize={20} />
-                          <Bar dataKey="completed" name={__("Completed")} fill="#4bc0c0" radius={[3, 3, 0, 0]} maxBarSize={20} />
+                          <Bar dataKey="estHours" name={__("Est. Hours", 'wedevs-project-manager')} fill="#f77726" radius={[3, 3, 0, 0]} maxBarSize={20} />
+                          <Bar dataKey="completed" name={__("Completed", 'wedevs-project-manager')} fill="#4bc0c0" radius={[3, 3, 0, 0]} maxBarSize={20} />
                         </BarChart>
                       </ResponsiveContainer>
                     </div>
                   ) : (
-                    <div className="h-[200px] flex items-center justify-center text-sm text-pm-text-muted">{__("No data")}</div>
+                    <div className="h-[200px] flex items-center justify-center text-sm text-pm-text-muted">{__("No data", 'wedevs-project-manager')}</div>
                   )}
                 </div>
               );
 
               return (
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                  {renderChart(projChart, __("All Projects"))}
-                  {renderChart(ttChart, __("Task Types"))}
-                  {renderChart(stChart, __("Subtask Types"))}
+                  {renderChart(projChart, __("All Projects", 'wedevs-project-manager'))}
+                  {renderChart(ttChart, __("Task Types", 'wedevs-project-manager'))}
+                  {renderChart(stChart, __("Subtask Types", 'wedevs-project-manager'))}
                 </div>
               );
             })()}
@@ -879,14 +878,14 @@ export default function MyTasksPage() {
                 <>
                   {allProj.length > 0 && (
                     <div className="rounded-xl border bg-card overflow-x-auto">
-                      <h4 className="text-sm font-semibold text-pm-text-primary px-4 py-3 border-b">{__("Projects")}</h4>
+                      <h4 className="text-sm font-semibold text-pm-text-primary px-4 py-3 border-b">{__("Projects", 'wedevs-project-manager')}</h4>
                       <table className="w-full text-sm">
                         <thead><tr className="border-b text-sm text-pm-text-muted">
-                          <th className="text-left px-4 py-2">{__("Project")}</th>
-                          <th className="text-left px-4 py-2">{__("Assigned")}</th>
-                          <th className="text-left px-4 py-2">{__("Completed")}</th>
-                          <th className="text-left px-4 py-2">{__("Working H")}</th>
-                          <th className="text-left px-4 py-2">{__("Est. H")}</th>
+                          <th className="text-left px-4 py-2">{__("Project", 'wedevs-project-manager')}</th>
+                          <th className="text-left px-4 py-2">{__("Assigned", 'wedevs-project-manager')}</th>
+                          <th className="text-left px-4 py-2">{__("Completed", 'wedevs-project-manager')}</th>
+                          <th className="text-left px-4 py-2">{__("Working H", 'wedevs-project-manager')}</th>
+                          <th className="text-left px-4 py-2">{__("Est. H", 'wedevs-project-manager')}</th>
                         </tr></thead>
                         <tbody>
                           {allProj.map((p, i) => (
@@ -905,12 +904,12 @@ export default function MyTasksPage() {
 
                   {Array.isArray(taskTypes) && taskTypes.length > 0 && (
                     <div className="rounded-xl border bg-card overflow-x-auto">
-                      <h4 className="text-sm font-semibold text-pm-text-primary px-4 py-3 border-b">{__("Task type")}</h4>
+                      <h4 className="text-sm font-semibold text-pm-text-primary px-4 py-3 border-b">{__("Task type", 'wedevs-project-manager')}</h4>
                       <table className="w-full text-sm">
                         <thead><tr className="border-b text-sm text-pm-text-muted">
-                          <th className="text-left px-4 py-2">{__("Task type")}</th>
-                          <th className="text-left px-4 py-2">{__("Task")}</th>
-                          <th className="text-left px-4 py-2">{__("Est. Hour")}</th>
+                          <th className="text-left px-4 py-2">{__("Task type", 'wedevs-project-manager')}</th>
+                          <th className="text-left px-4 py-2">{__("Task", 'wedevs-project-manager')}</th>
+                          <th className="text-left px-4 py-2">{__("Est. Hour", 'wedevs-project-manager')}</th>
                         </tr></thead>
                         <tbody>
                           {taskTypes.map((t, i) => (
@@ -927,15 +926,15 @@ export default function MyTasksPage() {
 
                   {subtasksAll.length > 0 && (
                     <div className="rounded-xl border bg-card overflow-x-auto">
-                      <h4 className="text-sm font-semibold text-pm-text-primary px-4 py-3 border-b">{__("Subtasks")}</h4>
+                      <h4 className="text-sm font-semibold text-pm-text-primary px-4 py-3 border-b">{__("Subtasks", 'wedevs-project-manager')}</h4>
                       <table className="w-full text-sm">
                         <thead><tr className="border-b text-sm text-pm-text-muted">
-                          <th className="text-left px-4 py-2">{__("Completed At")}</th>
-                          <th className="text-left px-4 py-2">{__("Task Title")}</th>
-                          <th className="text-left px-4 py-2">{__("Subtask Title")}</th>
-                          <th className="text-left px-4 py-2">{__("Project")}</th>
-                          <th className="text-left px-4 py-2">{__("Type")}</th>
-                          <th className="text-left px-4 py-2">{__("Hour")}</th>
+                          <th className="text-left px-4 py-2">{__("Completed At", 'wedevs-project-manager')}</th>
+                          <th className="text-left px-4 py-2">{__("Task Title", 'wedevs-project-manager')}</th>
+                          <th className="text-left px-4 py-2">{__("Subtask Title", 'wedevs-project-manager')}</th>
+                          <th className="text-left px-4 py-2">{__("Project", 'wedevs-project-manager')}</th>
+                          <th className="text-left px-4 py-2">{__("Type", 'wedevs-project-manager')}</th>
+                          <th className="text-left px-4 py-2">{__("Hour", 'wedevs-project-manager')}</th>
                         </tr></thead>
                         <tbody>
                           {subtasksAll.map((st, i) => (
@@ -963,7 +962,7 @@ export default function MyTasksPage() {
             <Input
               value={searchTitle}
               onChange={(e) => setSearchTitle(e.target.value)}
-              placeholder={__("Search by Task Title")}
+              placeholder={__("Search by Task Title", 'wedevs-project-manager')}
               className="h-9 text-sm w-full sm:max-w-[220px]"
               onKeyDown={(e) => {
                 if (e.key === "Enter") fetchTasks(1);
@@ -975,10 +974,10 @@ export default function MyTasksPage() {
               onValueChange={(val) => setFilterProjectId(val === "all" ? "" : val)}
             >
               <SelectTrigger className="h-9 text-sm w-full sm:w-[180px]">
-                <SelectValue placeholder={__("All Projects")} />
+                <SelectValue placeholder={__("All Projects", 'wedevs-project-manager')} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">{__("All Projects")}</SelectItem>
+                <SelectItem value="all">{__("All Projects", 'wedevs-project-manager')}</SelectItem>
                 {filterProjects.map((p) => (
                   <SelectItem key={p.id} value={String(p.id)}>
                     {p.title}
@@ -994,15 +993,15 @@ export default function MyTasksPage() {
                   value={taskStartDate}
                   onChange={(e) => { setTaskStartDate(e.target.value); setTaskDateError(""); }}
                   className="h-9 text-sm w-[150px]"
-                  aria-label={__("Start Date")}
+                  aria-label={__("Start Date", 'wedevs-project-manager')}
                 />
-                <span className="text-pm-text-muted text-sm">{__("to")}</span>
+                <span className="text-pm-text-muted text-sm">{__("to", 'wedevs-project-manager')}</span>
                 <Input
                   type="date"
                   value={taskEndDate}
                   onChange={(e) => { setTaskEndDate(e.target.value); setTaskDateError(""); }}
                   className="h-9 text-sm w-[150px]"
-                  aria-label={__("End Date")}
+                  aria-label={__("End Date", 'wedevs-project-manager')}
                 />
               </>
             )}
@@ -1012,8 +1011,8 @@ export default function MyTasksPage() {
               size="sm"
               onClick={() => {
                 if (taskStartDate && taskEndDate && taskStartDate > taskEndDate) {
-                  setTaskDateError(__("Start Date cannot be greater than End Date."));
-                  toast.error(__("Start Date cannot be greater than End Date."));
+                  setTaskDateError(__("Start Date cannot be greater than End Date.", 'wedevs-project-manager'));
+                  toast.error(__("Start Date cannot be greater than End Date.", 'wedevs-project-manager'));
                   return;
                 }
                 setTaskDateError("");
@@ -1022,7 +1021,7 @@ export default function MyTasksPage() {
               className="gap-1.5"
             >
               <Filter className="h-4 w-4" />
-              {__("Filter")}
+              {__("Filter", 'wedevs-project-manager')}
             </Button>
 
             {(searchTitle || filterProjectId || taskStartDate || taskEndDate) && (
@@ -1039,23 +1038,23 @@ export default function MyTasksPage() {
                 className="gap-1 text-pm-text-muted h-8 px-2"
               >
                 <X className="h-4 w-4" />
-                {__("Clear")}
+                {__("Clear", 'wedevs-project-manager')}
               </Button>
             )}
 
             <div className="ml-auto flex items-center gap-1 text-sm text-pm-text-muted">
-              <span>{__("Sort:")}</span>
+              <span>{__("Sort:", 'wedevs-project-manager')}</span>
               <Select value={sortBy} onValueChange={(val) => setSortBy(val)}>
                 <SelectTrigger className="h-8 text-sm w-[140px]">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="id:desc">{__("Newest")}</SelectItem>
-                  <SelectItem value="id:asc">{__("Oldest")}</SelectItem>
-                  <SelectItem value="title:asc">{__("Title A-Z")}</SelectItem>
-                  <SelectItem value="title:desc">{__("Title Z-A")}</SelectItem>
-                  <SelectItem value="due_date:asc">{__("Due Date ↑")}</SelectItem>
-                  <SelectItem value="due_date:desc">{__("Due Date ↓")}</SelectItem>
+                  <SelectItem value="id:desc">{__("Newest", 'wedevs-project-manager')}</SelectItem>
+                  <SelectItem value="id:asc">{__("Oldest", 'wedevs-project-manager')}</SelectItem>
+                  <SelectItem value="title:asc">{__("Title A-Z", 'wedevs-project-manager')}</SelectItem>
+                  <SelectItem value="title:desc">{__("Title Z-A", 'wedevs-project-manager')}</SelectItem>
+                  <SelectItem value="due_date:asc">{__("Due Date ↑", 'wedevs-project-manager')}</SelectItem>
+                  <SelectItem value="due_date:desc">{__("Due Date ↓", 'wedevs-project-manager')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -1091,20 +1090,20 @@ export default function MyTasksPage() {
             <div className="text-center py-12">
               <p className="text-sm text-pm-text-muted">
                 {activeTab === "current"
-                  ? __("No current tasks")
+                  ? __("No current tasks", 'wedevs-project-manager')
                   : activeTab === "outstanding"
-                  ? __("No overdue tasks — great job!")
-                  : __("No completed tasks yet")}
+                  ? __("No overdue tasks — great job!", 'wedevs-project-manager')
+                  : __("No completed tasks yet", 'wedevs-project-manager')}
               </p>
             </div>
           ) : (
             <div className="rounded-xl border bg-card overflow-hidden">
               <div className="hidden md:grid grid-cols-12 gap-2 px-4 py-2 bg-muted/30 border-b text-[14px] font-semibold uppercase tracking-wider text-pm-text-muted/70">
-                <div className="col-span-5">{__("Task")}</div>
-                <div className="col-span-2">{__("Task List")}</div>
-                <div className="col-span-2">{__("Project")}</div>
+                <div className="col-span-5">{__("Task", 'wedevs-project-manager')}</div>
+                <div className="col-span-2">{__("Task List", 'wedevs-project-manager')}</div>
+                <div className="col-span-2">{__("Project", 'wedevs-project-manager')}</div>
                 <div className="col-span-2">
-                  {activeTab === "complete" ? __("Completed") : __("Due Date")}
+                  {activeTab === "complete" ? __("Completed", 'wedevs-project-manager') : __("Due Date", 'wedevs-project-manager')}
                 </div>
                 <div className="col-span-1"></div>
               </div>
@@ -1190,7 +1189,7 @@ export default function MyTasksPage() {
             <div className="text-center py-12">
               <Activity className="h-12 w-12 text-muted-foreground/30 mx-auto mb-3" />
               <p className="text-sm text-pm-text-muted">
-                {__("No activities found")}
+                {__("No activities found", 'wedevs-project-manager')}
               </p>
             </div>
           ) : (
@@ -1264,7 +1263,7 @@ export default function MyTasksPage() {
                     onClick={loadMoreActivities}
                     disabled={actLoading}
                   >
-                    {actLoading ? __("Loading...") : __("Load more")}
+                    {actLoading ? __("Loading...", 'wedevs-project-manager') : __("Load more", 'wedevs-project-manager')}
                   </Button>
                 </div>
               )}
