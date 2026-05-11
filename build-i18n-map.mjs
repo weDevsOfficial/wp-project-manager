@@ -13,7 +13,18 @@ if (!mapPath || !bundleName) {
   process.exit(1);
 }
 
-const sm = JSON.parse(fs.readFileSync(mapPath, 'utf8'));
+let sm;
+try {
+  sm = JSON.parse(fs.readFileSync(mapPath, 'utf8'));
+} catch (e) {
+  console.error(`Failed to read/parse sourcemap at ${mapPath}: ${e.message}`);
+  process.exit(1);
+}
+if (!sm || typeof sm !== 'object' || !Array.isArray(sm.sources)) {
+  console.error(`Invalid sourcemap at ${mapPath}: missing "sources" array`);
+  process.exit(1);
+}
+
 const out = {};
 for (const src of sm.sources) {
   // strip webpack URI prefix
