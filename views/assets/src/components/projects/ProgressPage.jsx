@@ -48,9 +48,9 @@ const ACTION_ICONS = {
 }
 
 const ACTION_LABELS = {
-  create: 'Created',
-  update: 'Updated',
-  comment: 'Commented',
+  create: __('Created', 'wedevs-project-manager'),
+  update: __('Updated', 'wedevs-project-manager'),
+  comment: __('Commented', 'wedevs-project-manager'),
 }
 
 function MockActivityItem({ item }) {
@@ -73,7 +73,7 @@ function MockActivityItem({ item }) {
             {item.user}
           </button>
           <Badge variant="outline" className={`text-[14px] px-1.5 py-0 h-4 font-medium border-0 text-white ${item.color}`}>
-            {__(ACTION_LABELS[item.action] || item.action, 'wedevs-project-manager')}
+            {ACTION_LABELS[item.action] || item.action}
           </Badge>
         </div>
         <p className="text-sm text-pm-text-muted leading-snug">{item.message}</p>

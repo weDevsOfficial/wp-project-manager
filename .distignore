@@ -21,8 +21,6 @@ package-lock.json
 phpcs.ruleset.xml
 phpunit.xml.dist
 webpack.config.js
-build-i18n-map.mjs
-/languages/.i18n-map.json
 /tmp
 /views/assets/src
 src/Pusher/webpack.config.js

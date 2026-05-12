@@ -22,7 +22,7 @@ export default function ActivityItem({ act, projectId: fallbackProjectId }) {
   const actionType = act.action_type || 'update';
   const timeStr = formatTime(act.committed_at);
   const badgeColor = ACTION_COLOR_MAP[actionType] || 'bg-pm-text-muted';
-  const badgeLabel = __(ACTION_LABELS[actionType] || actionType, 'wedevs-project-manager');
+  const badgeLabel = ACTION_LABELS[actionType] || actionType;
 
   const handleActorClick = () => {
     if (!actor.id) return;

@@ -30,6 +30,8 @@ jobs:
         run: |
           pnpm install --frozen-lockfile
           pnpm run build
+      - name: Generate POT
+        run: pnpm run makepot
       - name: Composer install and build
         run: |
           composer install --no-dev --optimize-autoloader

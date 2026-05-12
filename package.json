@@ -8,12 +8,9 @@
   },
   "scripts": {
     "dev": "wp-scripts start",
-    "build": "WP_DEVTOOL=source-map wp-scripts build && pnpm run i18n",
+    "build": "wp-scripts build",
     "lint": "eslint views/assets/src --ext .ts,.tsx",
     "makepot": "wp i18n make-pot . languages/wedevs-project-manager.pot --exclude=node_modules,build,tests,views/assets/dist,vendor",
-    "makemap": "node build-i18n-map.mjs views/assets/dist/pm.js.map views/assets/dist/pm.js > languages/.i18n-map.json",
-    "makejson": "wp i18n make-json languages/ --pretty-print --use-map=languages/.i18n-map.json",
-    "i18n": "pnpm run makepot && pnpm run makemap && pnpm run makejson",
     "release": "grunt release --force"
   },
   "dependencies": {

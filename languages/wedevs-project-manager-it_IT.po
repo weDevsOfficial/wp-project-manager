@@ -11,6 +11,7 @@ msgstr ""
 "PO-Revision-Date: 2024-06-26 09:03+0000\n"
 "Language: it-IT\n"
 "X-Generator: Loco https://localise.biz/\n"
+"X-Domain: wedevs-project-manager\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Loco-Version: 2.6.10; wp-6.5.5\n"
 

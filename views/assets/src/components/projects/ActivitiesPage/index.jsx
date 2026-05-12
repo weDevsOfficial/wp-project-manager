@@ -149,7 +149,7 @@ export default function ActivitiesPage() {
                       ].map((item, i) => {
                         const Icon = item.icon;
                         const badgeColor = ACTION_COLOR_MAP[item.type] || 'bg-pm-text-muted';
-                        const badgeLabel = __(ACTION_LABELS[item.type] || item.type, 'wedevs-project-manager');
+                        const badgeLabel = ACTION_LABELS[item.type] || item.type;
                         return (
                           <div key={i} className="flex items-start gap-3 py-3 px-4 hover:bg-pm-hover/50 rounded-lg transition-colors opacity-70">
                             <Avatar className="h-8 w-8 shrink-0 mt-0.5">

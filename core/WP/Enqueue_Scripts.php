@@ -20,12 +20,6 @@ class Enqueue_Scripts {
 			do_action( 'wedevs_after_loaded_' . $script_id );
 		}
 
-		wp_set_script_translations(
-			'pm-scripts',
-			'wedevs-project-manager',
-			wedevs_pm_config( 'frontend.patch' ) . '/languages'
-		);
-
 		wp_enqueue_media();
 
 		self::localize_scripts();

@@ -14,6 +14,7 @@ msgstr ""
 "X-Poedit-KeywordsList: _e;__;gettext_noop;esc_attr_e;_n\n"
 "X-Poedit-Basepath: .\n"
 "X-Generator: Poedit 3.3.2\n"
+"X-Domain: wedevs-project-manager\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: ..\n"
 
