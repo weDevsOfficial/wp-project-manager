@@ -23,3 +23,8 @@ phpcs-report.txt
 wp-project-manager.zip
 /zipfile/
 /views/assets/dist/*.map
+
+# Claude Code - personal overrides (do not commit)
+CLAUDE.local.md
+.claude/settings.local.json
+.claude/agent-memory/
