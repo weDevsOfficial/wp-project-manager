@@ -1,5 +1,5 @@
 import { __ } from '@wordpress/i18n';
-import React from "react";
+import React, { useMemo } from "react";
 import { usePermissions } from "@hooks/usePermissions";
 import { useLicenseGuard } from "@components/common/LicenseGuard";
 import { useProModal } from "@components/common/ProUpgradeModal";
@@ -108,7 +108,7 @@ export default function ModulesPage() {
   const licenseGuard = useLicenseGuard();
   if (licenseGuard) return licenseGuard;
 
-  const modules = getModules();
+ const modules = useMemo(() => getModules(), []);
 
   return (
     <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-6">
