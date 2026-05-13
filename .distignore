@@ -55,3 +55,4 @@ api-schema.json
 vendor/doctrine/deprecations/src/PHPUnit
 vendor/doctrine/deprecations/test_fixtures
 vendor/doctrine/deprecations/tests
+/.claude
