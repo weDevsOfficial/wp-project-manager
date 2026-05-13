@@ -21,15 +21,15 @@ jobs:
         with:
           node-version: 22
           cache: 'pnpm'
-      - name: Install and build
-        run: |
-          pnpm install --frozen-lockfile
-          pnpm run build
       - name: Use desired version of php
         uses: shivammathur/setup-php@v2
         with:
           php-version: '7.4'
           tools: wp-cli
+      - name: Install and build
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm run build
       - name: Generate POT
         run: pnpm run makepot
       - name: Composer install and build
@@ -44,7 +44,7 @@ jobs:
       - name: WordPress Plugin Deploy
         uses: 10up/action-wordpress-plugin-deploy@stable
         with:
-          dry-run: false
+          dry-run: true
         env:
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
           SVN_USERNAME: ${{ secrets.SVN_USERNAME }}

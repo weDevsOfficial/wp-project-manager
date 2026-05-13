@@ -1,8 +1,8 @@
+import { __ } from '@wordpress/i18n';
 /**
  * NotionPreviewCard — Notion page/database preview with left accent stripe.
  */
 import React from 'react'
-import { useI18n } from '@hooks/useI18n'
 import { cn } from '@lib/utils'
 import { Skeleton } from '@components/ui/skeleton'
 import { RefreshCw, ExternalLink, Database, FileText, Clock } from 'lucide-react'
@@ -22,11 +22,10 @@ function relativeEditTime(dateStr, __) {
   if (days > 0) return `${days}d ago`
   const hours = Math.floor(diffMs / 3600000)
   if (hours > 0) return `${hours}h ago`
-  return __('just now')
+  return __('just now', 'wedevs-project-manager')
 }
 
 export default function NotionPreviewCard({ previewData, loading, url, onRefresh }) {
-  const { __ } = useI18n()
 
   if (loading) {
     return (
@@ -91,7 +90,7 @@ export default function NotionPreviewCard({ previewData, loading, url, onRefresh
               <button
                 className="p-0.5 rounded hover:bg-muted text-pm-text-muted/40 hover:text-pm-text-muted transition-colors"
                 onClick={(e) => { e.stopPropagation(); onRefresh() }}
-                title={__('Refresh')}
+                title={__('Refresh', 'wedevs-project-manager')}
               >
                 <RefreshCw className="h-3.5 w-3.5" />
               </button>
@@ -102,7 +101,7 @@ export default function NotionPreviewCard({ previewData, loading, url, onRefresh
 
         {isError ? (
           <div>
-            <span className="text-sm text-pm-text-muted">{isDatabase ? __('Database') : __('Page')}</span>
+            <span className="text-sm text-pm-text-muted">{isDatabase ? __('Database', 'wedevs-project-manager') : __('Page', 'wedevs-project-manager')}</span>
             {previewData.error && <p className="text-[14px] text-amber-600 mt-0.5">{previewData.error}</p>}
           </div>
         ) : (
@@ -125,7 +124,7 @@ export default function NotionPreviewCard({ previewData, loading, url, onRefresh
             <div className="flex-1 min-w-0">
               {/* Title */}
               <p className="text-sm font-semibold text-pm-text leading-snug">
-                {previewData.title || __('Untitled')}
+                {previewData.title || __('Untitled', 'wedevs-project-manager')}
               </p>
 
               {/* Meta row */}
@@ -135,7 +134,7 @@ export default function NotionPreviewCard({ previewData, loading, url, onRefresh
                   isDatabase ? 'text-blue-600 bg-blue-50' : 'text-pm-text-muted bg-pm-surface-muted'
                 )}>
                   <TypeIcon className="h-3.5 w-3.5" />
-                  {isDatabase ? __('Database') : __('Page')}
+                  {isDatabase ? __('Database', 'wedevs-project-manager') : __('Page', 'wedevs-project-manager')}
                 </span>
                 {previewData.last_edited_time && (
                   <span className="flex items-center gap-0.5 text-pm-text-muted/70">

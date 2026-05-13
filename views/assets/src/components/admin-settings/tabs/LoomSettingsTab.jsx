@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n';
 /**
  * LoomSettingsTab — Loom integration settings (enable previews, oEmbed test).
  * Loom uses oEmbed — no API token needed.
@@ -5,7 +6,6 @@
  */
 import React, { useState, useEffect, useCallback } from 'react'
 import { useApi } from '@hooks/useApi'
-import { useI18n } from '@hooks/useI18n'
 import { useToast } from '@hooks/useToast'
 import { Button } from '@components/ui/button'
 import { Switch } from '@components/ui/switch'
@@ -20,7 +20,6 @@ const LoomLogo = ({ className = '' }) => (
 
 const LoomSettingsTab = () => {
   const api   = useApi()
-  const { __ } = useI18n()
   const toast  = useToast()
 
   const [enablePreviews, setEnablePreviews] = useState(true)

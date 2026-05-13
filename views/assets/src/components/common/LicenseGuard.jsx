@@ -1,7 +1,7 @@
+import { __ } from '@wordpress/i18n';
 import React from 'react'
 import { Navigate } from 'react-router-dom'
 import { Lock } from 'lucide-react'
-import { useI18n } from '@hooks/useI18n'
 import { usePermissions } from '@hooks/usePermissions'
 
 /**
@@ -14,7 +14,6 @@ import { usePermissions } from '@hooks/usePermissions'
  *   if (guard) return guard
  */
 export function useLicenseGuard() {
-  const { __ } = useI18n()
   const { isPro, isProLicensed, canManageLicense } = usePermissions()
 
   if (!isPro || isProLicensed) return null
@@ -31,10 +30,10 @@ export function useLicenseGuard() {
           <Lock className="h-6 w-6 text-muted-foreground" />
         </div>
         <h2 className="text-lg font-semibold text-pm-text-primary mb-1">
-          {__('You are not authorized to view this page.')}
+          {__('You are not authorized to view this page.', 'wedevs-project-manager')}
         </h2>
         <p className="text-sm text-pm-text-muted">
-          {__('This feature requires an active Pro license. Please ask your administrator to activate the license.')}
+          {__('This feature requires an active Pro license. Please ask your administrator to activate the license.', 'wedevs-project-manager')}
         </p>
       </div>
     </div>

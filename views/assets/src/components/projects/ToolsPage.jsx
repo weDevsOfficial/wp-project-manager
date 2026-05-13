@@ -1,6 +1,6 @@
+import { __, sprintf } from '@wordpress/i18n';
 import React, { useState, useCallback } from 'react'
 import { useApi } from '@hooks/useApi'
-import { useI18n } from '@hooks/useI18n'
 import { toast } from 'sonner'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@components/ui/card'
 import { Button } from '@components/ui/button'
@@ -13,7 +13,6 @@ import {
 
 /* ── Trello Import Card ── */
 function TrelloImportCard() {
-  const { __, sprintf } = useI18n()
   const api    = useApi()
 
   const [open, setOpen]           = useState(true)
@@ -238,7 +237,6 @@ function TrelloImportCard() {
 
 /* ── Main Tools Page ── */
 export default function ToolsPage() {
-  const { __ } = useI18n()
 
   return (
     <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-6">

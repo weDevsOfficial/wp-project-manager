@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n';
 import {
   Activity, CheckSquare, FolderKanban, MessageSquare,
   FileText, Milestone, Trash2, Edit3, ArrowUpDown, Plus,
@@ -48,34 +49,34 @@ export const ACTION_COLOR_MAP = {
 };
 
 export const ACTION_LABELS = {
-  create: 'Created',
-  update: 'Updated',
-  delete: 'Deleted',
+  create: __('Created', 'wedevs-project-manager'),
+  update: __('Updated', 'wedevs-project-manager'),
+  delete: __('Deleted', 'wedevs-project-manager'),
 };
 
 export const ACTION_FALLBACKS = {
-  create_project: 'created a project',
-  update_project_title: 'updated project title',
-  create_task: 'created a task',
-  delete_task: 'deleted a task',
-  update_task_title: 'updated task title',
-  update_task_description: 'updated task description',
-  update_task_status: 'updated task status',
-  update_task_start_at: 'updated task start date',
-  update_task_start_at_date: 'updated task start date',
-  update_task_due_date: 'updated task due date',
-  update_task_estimation: 'updated task estimation',
-  update_task_priority: 'updated task priority',
-  create_task_list: 'created a task list',
-  delete_task_list: 'deleted a task list',
-  update_task_list_title: 'updated task list title',
-  create_milestone: 'created a milestone',
-  delete_milestone: 'deleted a milestone',
-  create_discussion_board: 'created a discussion',
-  comment_on_task: 'commented on a task',
-  comment_on_discussion_board: 'commented on a discussion',
-  comment_on_project: 'commented on a project',
-  reply_comment_on_task: 'replied to a comment',
+  create_project: __('created a project', 'wedevs-project-manager'),
+  update_project_title: __('updated project title', 'wedevs-project-manager'),
+  create_task: __('created a task', 'wedevs-project-manager'),
+  delete_task: __('deleted a task', 'wedevs-project-manager'),
+  update_task_title: __('updated task title', 'wedevs-project-manager'),
+  update_task_description: __('updated task description', 'wedevs-project-manager'),
+  update_task_status: __('updated task status', 'wedevs-project-manager'),
+  update_task_start_at: __('updated task start date', 'wedevs-project-manager'),
+  update_task_start_at_date: __('updated task start date', 'wedevs-project-manager'),
+  update_task_due_date: __('updated task due date', 'wedevs-project-manager'),
+  update_task_estimation: __('updated task estimation', 'wedevs-project-manager'),
+  update_task_priority: __('updated task priority', 'wedevs-project-manager'),
+  create_task_list: __('created a task list', 'wedevs-project-manager'),
+  delete_task_list: __('deleted a task list', 'wedevs-project-manager'),
+  update_task_list_title: __('updated task list title', 'wedevs-project-manager'),
+  create_milestone: __('created a milestone', 'wedevs-project-manager'),
+  delete_milestone: __('deleted a milestone', 'wedevs-project-manager'),
+  create_discussion_board: __('created a discussion', 'wedevs-project-manager'),
+  comment_on_task: __('commented on a task', 'wedevs-project-manager'),
+  comment_on_discussion_board: __('commented on a discussion', 'wedevs-project-manager'),
+  comment_on_project: __('commented on a project', 'wedevs-project-manager'),
+  reply_comment_on_task: __('replied to a comment', 'wedevs-project-manager'),
 };
 
 export { Activity };

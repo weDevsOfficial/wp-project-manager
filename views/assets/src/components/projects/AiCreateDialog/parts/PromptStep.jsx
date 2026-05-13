@@ -1,12 +1,11 @@
+import { __ } from '@wordpress/i18n';
 import React, { useState } from 'react';
-import { useI18n } from '@hooks/useI18n';
 import { Button } from '@components/ui/button';
 import { Textarea } from '@components/ui/textarea';
 import { Sparkles } from 'lucide-react';
 import AiLoadingOverlay from './AiLoadingOverlay';
 
 export default function PromptStep({ onGenerate, generating }) {
-  const { __ } = useI18n();
   const [prompt, setPrompt] = useState('');
 
   const handleSubmit = (e) => {

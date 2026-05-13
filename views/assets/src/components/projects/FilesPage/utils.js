@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n';
 import { File, Image, FileArchive, FileText } from "lucide-react";
 
 export function getFileIcon(type) {
@@ -10,14 +11,14 @@ export function getFileIcon(type) {
 
 export function getAttachedLabel(file, __) {
   const type = file.fileable_type;
-  if (type === "discussion_board") return __("Discussion");
-  if (type === "task") return __("Task");
-  if (type === "task_list") return __("Task List");
+  if (type === "discussion_board") return __("Discussion", 'wedevs-project-manager');
+  if (type === "task") return __("Task", 'wedevs-project-manager');
+  if (type === "task_list") return __("Task List", 'wedevs-project-manager');
   if (type === "comment") {
     const parentType = file.fileable?.commentable_type;
-    if (parentType === "task") return __("Task Comment");
-    if (parentType === "discussion_board") return __("Discussion Comment");
-    return __("Comment");
+    if (parentType === "task") return __("Task Comment", 'wedevs-project-manager');
+    if (parentType === "discussion_board") return __("Discussion Comment", 'wedevs-project-manager');
+    return __("Comment", 'wedevs-project-manager');
   }
   return "";
 }
@@ -79,7 +80,7 @@ export async function checkPermissionAndDownload(permissionUrl, downloadUrl, __)
       a.click();
       document.body.removeChild(a);
     } else {
-      alert(__ ? __("Permission denied.") : "Permission denied.");
+      alert(__ ? __("Permission denied.", 'wedevs-project-manager') : "Permission denied.");
     }
   } catch {
     window.open(downloadUrl, "_blank");

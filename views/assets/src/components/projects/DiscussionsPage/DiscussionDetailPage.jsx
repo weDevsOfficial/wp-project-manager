@@ -1,8 +1,8 @@
+import { __ } from '@wordpress/i18n';
 import React, { useEffect, useState, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import BackButton from "@components/common/BackButton";
 import { useApi } from "@hooks/useApi";
-import { useI18n } from "@hooks/useI18n";
 import { useToast } from "@hooks/useToast";
 import { useConfirm } from "@hooks/useConfirm";
 import { Button } from "@components/ui/button";
@@ -63,7 +63,6 @@ export default function DiscussionDetailPage() {
   const { projectId, discussionId } = useParams();
   const navigate = useNavigate();
   const api = useApi();
-  const { __ } = useI18n();
   const toast = useToast();
   const [ConfirmDialog, confirm] = useConfirm();
   const project = useCurrentProject(projectId);
@@ -106,7 +105,7 @@ export default function DiscussionDetailPage() {
       setDiscussion(d);
       setComments(d.comments?.data ?? []);
     } catch {
-      toast.error(__("Failed to load discussion"));
+      toast.error(__("Failed to load discussion", 'wedevs-project-manager'));
     }
     setLoading(false);
   }, [api, projectId, discussionId]);
@@ -157,21 +156,21 @@ export default function DiscussionDetailPage() {
         milestone: milestone ? { data: milestone } : null,
       }));
       cancelEdit();
-      toast.success(__("Discussion updated"));
+      toast.success(__("Discussion updated", 'wedevs-project-manager'));
     } catch {
-      toast.error(__("Failed to update discussion"));
+      toast.error(__("Failed to update discussion", 'wedevs-project-manager'));
     }
   }, [api, projectId, discussionId, editTitle, editDesc, editMilestone, milestones, toast, __]);
 
   const handleDelete = async () => {
-    const ok = await confirm(__("Are you sure?"), __("Delete Discussion"));
+    const ok = await confirm(__("Are you sure?", 'wedevs-project-manager'), __("Delete Discussion", 'wedevs-project-manager'));
     if (!ok) return;
     try {
       await api.post(`projects/${projectId}/discussion-boards/${discussionId}/delete`);
-      toast.success(__("Discussion deleted"));
+      toast.success(__("Discussion deleted", 'wedevs-project-manager'));
       navigate(`/projects/${projectId}/discussions`);
     } catch {
-      toast.error(__("Failed to delete"));
+      toast.error(__("Failed to delete", 'wedevs-project-manager'));
     }
   };
 
@@ -182,9 +181,9 @@ export default function DiscussionDetailPage() {
         is_private: newPrivacy,
       });
       setDiscussion((prev) => ({ ...prev, meta: { ...prev.meta, privacy: newPrivacy } }));
-      toast.success(newPrivacy ? __("Set to private") : __("Set to public"));
+      toast.success(newPrivacy ? __("Set to private", 'wedevs-project-manager') : __("Set to public", 'wedevs-project-manager'));
     } catch {
-      toast.error(__("Failed to update privacy"));
+      toast.error(__("Failed to update privacy", 'wedevs-project-manager'));
     }
   };
 
@@ -206,9 +205,9 @@ export default function DiscussionDetailPage() {
       setNewComment("");
       setCommentFiles([]);
       setCommentNotifyUsers([]);
-      toast.success(__("Comment added"));
+      toast.success(__("Comment added", 'wedevs-project-manager'));
     } catch {
-      toast.error(__("Failed to add comment"));
+      toast.error(__("Failed to add comment", 'wedevs-project-manager'));
     }
     setSubmitting(false);
   }, [api, projectId, discussionId, newComment, commentFiles, commentNotifyUsers, submitting, toast, __]);
@@ -239,9 +238,9 @@ export default function DiscussionDetailPage() {
         )
       );
       cancelEditComment();
-      toast.success(__("Comment updated"));
+      toast.success(__("Comment updated", 'wedevs-project-manager'));
     } catch {
-      toast.error(__("Failed to update comment"));
+      toast.error(__("Failed to update comment", 'wedevs-project-manager'));
     }
   }, [api, projectId, editingCommentId, editCommentText, toast, __]);
 
@@ -250,9 +249,9 @@ export default function DiscussionDetailPage() {
       try {
         await api.post(`projects/${projectId}/comments/${commentId}/delete`);
         setComments((prev) => prev.filter((c) => c.id !== commentId));
-        toast.success(__("Comment deleted"));
+        toast.success(__("Comment deleted", 'wedevs-project-manager'));
       } catch {
-        toast.error(__("Failed to delete comment"));
+        toast.error(__("Failed to delete comment", 'wedevs-project-manager'));
       }
     },
     [api, projectId, toast, __]
@@ -281,7 +280,7 @@ export default function DiscussionDetailPage() {
       <div className="flex items-center gap-3">
         <BackButton fallback={`/projects/${projectId}/discussions`} />
         <h1 className="text-xl font-bold text-pm-text-primary flex items-center gap-2">
-          {__("Discussions")}
+          {__("Discussions", 'wedevs-project-manager')}
           {isPrivate && <Lock className="h-4 w-4 text-pm-text-muted" />}
         </h1>
       </div>
@@ -305,10 +304,10 @@ export default function DiscussionDetailPage() {
               />
               <Select value={editMilestone} onValueChange={setEditMilestone}>
                 <SelectTrigger className="h-8 text-sm w-full sm:w-[200px]">
-                  <SelectValue placeholder={__("- Milestone -")} />
+                  <SelectValue placeholder={__("- Milestone -", 'wedevs-project-manager')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="-1">{__("- Milestone -")}</SelectItem>
+                  <SelectItem value="-1">{__("- Milestone -", 'wedevs-project-manager')}</SelectItem>
                   {milestones.map((m) => (
                     <SelectItem key={m.id} value={String(m.id)}>
                       {m.title}
@@ -319,11 +318,11 @@ export default function DiscussionDetailPage() {
               <div className="flex gap-2">
                 <Button size="sm" className="gap-1" onClick={handleUpdate} disabled={!editTitle.trim()}>
                   <Check className="h-3.5 w-3.5" />
-                  {__("Save")}
+                  {__("Save", 'wedevs-project-manager')}
                 </Button>
                 <Button size="sm" variant="outline" className="gap-1" onClick={cancelEdit}>
                   <X className="h-3.5 w-3.5" />
-                  {__("Cancel")}
+                  {__("Cancel", 'wedevs-project-manager')}
                 </Button>
               </div>
             </div>
@@ -341,7 +340,7 @@ export default function DiscussionDetailPage() {
                     <DropdownMenuContent align="end">
                       <DropdownMenuItem onClick={startEdit}>
                         <Pencil className="h-4 w-4 mr-2" />
-                        {__("Edit")}
+                        {__("Edit", 'wedevs-project-manager')}
                       </DropdownMenuItem>
                       {canViewPrivateDiscussion && (
                         <DropdownMenuItem
@@ -349,9 +348,9 @@ export default function DiscussionDetailPage() {
                           disabled={!isPro}
                         >
                           {isPrivate ? (
-                            <><Unlock className="h-4 w-4 mr-2" />{__("Make Public")}</>
+                            <><Unlock className="h-4 w-4 mr-2" />{__("Make Public", 'wedevs-project-manager')}</>
                           ) : (
-                            <><Lock className="h-4 w-4 mr-2" />{__("Make Private")}</>
+                            <><Lock className="h-4 w-4 mr-2" />{__("Make Private", 'wedevs-project-manager')}</>
                           )}
                           {!isPro && <ProBadge className="ml-auto" />}
                         </DropdownMenuItem>
@@ -361,7 +360,7 @@ export default function DiscussionDetailPage() {
                         onClick={handleDelete}
                       >
                         <Trash2 className="h-4 w-4 mr-2" />
-                        {__("Delete")}
+                        {__("Delete", 'wedevs-project-manager')}
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -416,7 +415,7 @@ export default function DiscussionDetailPage() {
         <div className="p-4 sm:p-5 bg-muted/10 space-y-4">
           <h3 className="text-sm font-semibold uppercase tracking-wider text-pm-text-muted/70 flex items-center gap-1.5">
             <MessageSquare className="h-3.5 w-3.5" />
-            {commentCount > 0 ? `${commentCount} ${__("Comments")}` : __("Comments")}
+            {commentCount > 0 ? `${commentCount} ${__("Comments", 'wedevs-project-manager')}` : __("Comments", 'wedevs-project-manager')}
           </h3>
 
           {comments.length > 0 && (
@@ -468,7 +467,7 @@ export default function DiscussionDetailPage() {
                             disabled={!editCommentText.trim()}
                           >
                             <Check className="h-3 w-3" />
-                            {__("Save")}
+                            {__("Save", 'wedevs-project-manager')}
                           </Button>
                           <Button
                             size="sm"
@@ -476,7 +475,7 @@ export default function DiscussionDetailPage() {
                             className="h-6 text-[13px] px-2"
                             onClick={cancelEditComment}
                           >
-                            {__("Cancel")}
+                            {__("Cancel", 'wedevs-project-manager')}
                           </Button>
                         </div>
                       </div>
@@ -506,7 +505,7 @@ export default function DiscussionDetailPage() {
               <RichTextEditor
                 content={newComment}
                 onChange={setNewComment}
-                placeholder={__("Write a comment...")}
+                placeholder={__("Write a comment...", 'wedevs-project-manager')}
                 minHeight="40px"
                 className="flex-1"
                 users={projectUsers}

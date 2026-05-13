@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n';
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector, resetProjectState } from "@store/index";
@@ -10,7 +11,6 @@ import {
   collapseAll,
 } from "@store/taskListsSlice";
 import { cn } from "@lib/utils";
-import { useI18n } from "@hooks/useI18n";
 import { useToast } from "@hooks/useToast";
 import { useApi } from "@hooks/useApi";
 import { usePermissions } from "@hooks/usePermissions";
@@ -37,7 +37,6 @@ export default function TaskListsPage() {
   const projectId = parseInt(pidParam ?? "0", 10);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const { __ } = useI18n();
   const toast = useToast();
   const api = useApi();
   const project = useCurrentProject(projectId);
@@ -138,9 +137,9 @@ export default function TaskListsPage() {
         setNewListDesc("");
         setNewListPrivate(false);
         setShowNewList(false);
-        toast.success(__("Task list created"));
+        toast.success(__("Task list created", 'wedevs-project-manager'));
       } catch {
-        toast.error(__("Failed to create task list"));
+        toast.error(__("Failed to create task list", 'wedevs-project-manager'));
       }
       setCreatingList(false);
     },
@@ -183,15 +182,15 @@ export default function TaskListsPage() {
     <div className="flex flex-col items-center justify-center py-20 text-center">
       <ListTodo className="h-16 w-16 text-muted-foreground/40 mb-4" />
       <h3 className="text-lg font-medium text-pm-text-primary mb-1">
-        {__("No task lists yet")}
+        {__("No task lists yet", 'wedevs-project-manager')}
       </h3>
       <p className="text-sm text-pm-text-muted mb-4">
-        {__("Create your first task list to start organizing work.")}
+        {__("Create your first task list to start organizing work.", 'wedevs-project-manager')}
       </p>
       {canCreateList && (
         <Button onClick={() => setShowNewList(true)}>
           <Plus className="h-5 w-5 mr-2" />
-          {__("New Task List")}
+          {__("New Task List", 'wedevs-project-manager')}
         </Button>
       )}
     </div>
@@ -206,11 +205,11 @@ export default function TaskListsPage() {
         <div className="flex items-center gap-3">
           <BackButton fallback="/projects" />
           <h1 className="text-xl font-bold text-pm-text-primary">
-            {__("Task Lists")}
+            {__("Task Lists", 'wedevs-project-manager')}
           </h1>
           {lists.length > 0 && (
             <span className="text-sm text-pm-text-muted bg-muted/60 px-2 py-0.5 rounded-full tabular-nums">
-              {lists.length} {lists.length === 1 ? __("list") : __("lists")}
+              {lists.length} {lists.length === 1 ? __("list", 'wedevs-project-manager') : __("lists", 'wedevs-project-manager')}
             </span>
           )}
         </div>
@@ -227,7 +226,7 @@ export default function TaskListsPage() {
               }
             >
               <ChevronsUpDown className="h-4 w-4" />
-              {allExpanded ? __("Collapse all") : __("Expand all")}
+              {allExpanded ? __("Collapse all", 'wedevs-project-manager') : __("Expand all", 'wedevs-project-manager')}
             </Button>
           )}
 
@@ -242,7 +241,7 @@ export default function TaskListsPage() {
               onClick={() => setShowNewList((v) => !v)}
             >
               <Plus className="h-4 w-4" />
-              {__("New List")}
+              {__("New List", 'wedevs-project-manager')}
             </Button>
           )}
         </div>
@@ -258,7 +257,7 @@ export default function TaskListsPage() {
             autoFocus
             value={newListTitle}
             onChange={(e) => setNewListTitle(e.target.value)}
-            placeholder={__("Task list name")}
+            placeholder={__("Task list name", 'wedevs-project-manager')}
             className="h-9 text-sm"
             onKeyDown={(e) => {
               if (e.key === "Escape") {
@@ -272,7 +271,7 @@ export default function TaskListsPage() {
           <RichTextEditor
             content={newListDesc}
             onChange={setNewListDesc}
-            placeholder={__("Task list details")}
+            placeholder={__("Task list details", 'wedevs-project-manager')}
             minHeight="80px"
           />
           <div className="flex items-center gap-2">
@@ -286,7 +285,7 @@ export default function TaskListsPage() {
               htmlFor="new-list-private"
               className={cn("text-sm cursor-pointer", isPro ? 'text-pm-text-primary' : 'text-pm-text-muted')}
             >
-              {__("Private")}
+              {__("Private", 'wedevs-project-manager')}
             </label>
             {!isPro && <Crown className="h-3.5 w-3.5 text-pm-accent" />}
           </div>
@@ -302,14 +301,14 @@ export default function TaskListsPage() {
                 setNewListPrivate(false);
               }}
             >
-              {__("Cancel")}
+              {__("Cancel", 'wedevs-project-manager')}
             </Button>
             <Button
               type="submit"
               size="sm"
               disabled={!newListTitle.trim() || creatingList}
             >
-              {creatingList ? __("Creating...") : __("Add List")}
+              {creatingList ? __("Creating...", 'wedevs-project-manager') : __("Add List", 'wedevs-project-manager')}
             </Button>
           </div>
         </form>
@@ -335,12 +334,12 @@ export default function TaskListsPage() {
         <div className="rounded-xl border bg-card overflow-hidden">
           <div className="px-4 py-2.5 bg-muted/30 border-b">
             <span className="text-sm font-medium text-pm-text-muted">
-              {filteredTasks.length} {filteredTasks.length === 1 ? __("result") : __("results")}
+              {filteredTasks.length} {filteredTasks.length === 1 ? __("result", 'wedevs-project-manager') : __("results", 'wedevs-project-manager')}
             </span>
           </div>
           {filteredTasks.length === 0 ? (
             <div className="py-8 text-center text-sm text-pm-text-muted">
-              {__("No tasks match your filters.")}
+              {__("No tasks match your filters.", 'wedevs-project-manager')}
             </div>
           ) : (
             <div>

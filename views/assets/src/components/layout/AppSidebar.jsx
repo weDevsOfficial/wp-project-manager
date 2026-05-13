@@ -1,10 +1,10 @@
+import { __ } from '@wordpress/i18n';
 import { useState, useMemo, useEffect, useRef, useCallback } from 'react'
 import { useLocation, useNavigate, Link } from 'react-router-dom'
 import { useApi } from '@hooks/useApi'
 import { usePermissions } from '@hooks/usePermissions'
 import { useActiveProModules, isProModuleActive, isProPluginInstalled } from '@hooks/useActiveProModules'
 import ProBadge from '@components/common/ProBadge'
-import { useI18n } from '@hooks/useI18n'
 import {
   FolderKanban, CheckSquare, Calendar, BarChart3,
   Settings, ArrowLeft, PanelLeftClose, PanelLeftOpen,
@@ -42,15 +42,14 @@ function TruncText({ children, className }) {
 export function AppSidebar() {
   const { isAdmin, isPro, canManage, canManageLicense, isManagerAnywhere } = usePermissions()
   const isFrontend = typeof PM_Vars !== 'undefined' && PM_Vars.is_frontend && !PM_Vars.is_admin
-  const { __ } = useI18n()
 
   // ── Project sub-nav items — inside component so __() is extractable by make-pot ──
   const projectSubNav_FREE = useMemo(() => [
-    { key: 'task-lists',   label: __('Task Lists'),   icon: LayoutList,     path: (pid) => `/projects/${pid}/task-lists` },
-    { key: 'overview',     label: __('Overview'),      icon: Layout,         path: (pid) => `/projects/${pid}/overview` },
-    { key: 'discussions',  label: __('Discussions'),   icon: MessageSquare,  path: (pid) => `/projects/${pid}/discussions` },
-    { key: 'milestones',   label: __('Milestones'),    icon: Milestone,      path: (pid) => `/projects/${pid}/milestones` },
-    { key: 'files',        label: __('Files'),         icon: FileText,       path: (pid) => `/projects/${pid}/files` },
+    { key: 'task-lists',   label: __('Task Lists', 'wedevs-project-manager'),   icon: LayoutList,     path: (pid) => `/projects/${pid}/task-lists` },
+    { key: 'overview',     label: __('Overview', 'wedevs-project-manager'),      icon: Layout,         path: (pid) => `/projects/${pid}/overview` },
+    { key: 'discussions',  label: __('Discussions', 'wedevs-project-manager'),   icon: MessageSquare,  path: (pid) => `/projects/${pid}/discussions` },
+    { key: 'milestones',   label: __('Milestones', 'wedevs-project-manager'),    icon: Milestone,      path: (pid) => `/projects/${pid}/milestones` },
+    { key: 'files',        label: __('Files', 'wedevs-project-manager'),         icon: FileText,       path: (pid) => `/projects/${pid}/files` },
   ], [__])
 
   // Pro sub-nav items — filtered by the provided active module paths
@@ -58,12 +57,12 @@ export function AppSidebar() {
     const isActive = (dir) => isProModuleActive(modulePaths, dir)
     const items = []
     // Activities is not a module, always show when pro is active
-    items.push({ key: 'activities', label: __('Activities'),    icon: Activity,   path: (pid) => `/projects/${pid}/activities` })
-    if (isActive('Kanboard'))  items.push({ key: 'kanban',   label: __('Kanban Board'), icon: Columns3,  path: (pid) => `/projects/${pid}/kanban` })
-    if (isActive('Gantt'))     items.push({ key: 'gantt',    label: __('Gantt Chart'),  icon: GitBranch,  path: (pid) => `/projects/${pid}/gantt` })
+    items.push({ key: 'activities', label: __('Activities', 'wedevs-project-manager'),    icon: Activity,   path: (pid) => `/projects/${pid}/activities` })
+    if (isActive('Kanboard'))  items.push({ key: 'kanban',   label: __('Kanban Board', 'wedevs-project-manager'), icon: Columns3,  path: (pid) => `/projects/${pid}/kanban` })
+    if (isActive('Gantt'))     items.push({ key: 'gantt',    label: __('Gantt Chart', 'wedevs-project-manager'),  icon: GitBranch,  path: (pid) => `/projects/${pid}/gantt` })
     const canSeeManagerItems = canManage || isManagerAnywhere
-    if (isActive('Invoice') && canSeeManagerItems) items.push({ key: 'invoices', label: __('Invoices'),     icon: Receipt,    path: (pid) => `/projects/${pid}/invoices` })
-    if (canSeeManagerItems) items.push({ key: 'settings', label: __('Settings'), icon: Settings, path: (pid) => `/projects/${pid}/settings` })
+    if (isActive('Invoice') && canSeeManagerItems) items.push({ key: 'invoices', label: __('Invoices', 'wedevs-project-manager'),     icon: Receipt,    path: (pid) => `/projects/${pid}/invoices` })
+    if (canSeeManagerItems) items.push({ key: 'settings', label: __('Settings', 'wedevs-project-manager'), icon: Settings, path: (pid) => `/projects/${pid}/settings` })
     return items
   }, [__, canManage, isManagerAnywhere])
   const location = useLocation()
@@ -77,13 +76,13 @@ export function AppSidebar() {
   const projectSubNav = useMemo(() => {
     if (isPro) return [...projectSubNav_FREE, ...getProSubNav(activeModulePaths)]
     const proItems = [
-      { key: 'activities', label: __('Activities'),    icon: Activity,   path: (pid) => `/projects/${pid}/activities`, proPreview: true },
-      { key: 'kanban',   label: __('Kanban Board'), icon: Columns3,  path: (pid) => `/projects/${pid}/kanban`,   proPreview: true },
-      { key: 'gantt',    label: __('Gantt Chart'),  icon: GitBranch,  path: (pid) => `/projects/${pid}/gantt`,    proPreview: true },
+      { key: 'activities', label: __('Activities', 'wedevs-project-manager'),    icon: Activity,   path: (pid) => `/projects/${pid}/activities`, proPreview: true },
+      { key: 'kanban',   label: __('Kanban Board', 'wedevs-project-manager'), icon: Columns3,  path: (pid) => `/projects/${pid}/kanban`,   proPreview: true },
+      { key: 'gantt',    label: __('Gantt Chart', 'wedevs-project-manager'),  icon: GitBranch,  path: (pid) => `/projects/${pid}/gantt`,    proPreview: true },
     ]
     if (canManage || isManagerAnywhere) {
-      proItems.push({ key: 'invoices', label: __('Invoices'),     icon: Receipt,    path: (pid) => `/projects/${pid}/invoices`, proPreview: true })
-      proItems.push({ key: 'settings', label: __('Settings'),     icon: Settings,   path: (pid) => `/projects/${pid}/settings`, proPreview: true })
+      proItems.push({ key: 'invoices', label: __('Invoices', 'wedevs-project-manager'),     icon: Receipt,    path: (pid) => `/projects/${pid}/invoices`, proPreview: true })
+      proItems.push({ key: 'settings', label: __('Settings', 'wedevs-project-manager'),     icon: Settings,   path: (pid) => `/projects/${pid}/settings`, proPreview: true })
     }
     return [...projectSubNav_FREE, ...proItems]
   }, [isPro, activeModulePaths, canManage, isManagerAnywhere])
@@ -218,8 +217,8 @@ export function AppSidebar() {
   )
 
   const topNavItems = useMemo(() => [
-    { key: 'projects', label: __('Projects'), short: __('Proj'), icon: FolderKanban, route: '/projects' },
-    { key: 'my-tasks', label: __('My Tasks'), short: __('Tasks'), icon: CheckSquare,  route: '/my-tasks' },
+    { key: 'projects', label: __('Projects', 'wedevs-project-manager'), short: __('Proj', 'wedevs-project-manager'), icon: FolderKanban, route: '/projects' },
+    { key: 'my-tasks', label: __('My Tasks', 'wedevs-project-manager'), short: __('Tasks', 'wedevs-project-manager'), icon: CheckSquare,  route: '/my-tasks' },
   ], [__])
 
   // Pro plugin installed (pm-pro.js loaded) — may or may not be licensed
@@ -228,15 +227,15 @@ export function AppSidebar() {
   const viewNavItems = useMemo(() => {
     const isModuleActive = (dir) => isProModuleActive(activeModulePaths, dir)
     const items = [
-      { key: 'calendar', label: __('Calendar'), short: __('Cal'),     icon: Calendar,      route: '/calendar', pro: !isPro },
-      { key: 'progress', label: __('Progress'), short: __('Prog'),    icon: Activity,      route: '/progress', pro: !isPro },
-      { key: 'reports',  label: __('Reports'),  short: __('Rep'),     icon: BarChart3,     route: '/reports',  pro: !isPro },
+      { key: 'calendar', label: __('Calendar', 'wedevs-project-manager'), short: __('Cal', 'wedevs-project-manager'),     icon: Calendar,      route: '/calendar', pro: !isPro },
+      { key: 'progress', label: __('Progress', 'wedevs-project-manager'), short: __('Prog', 'wedevs-project-manager'),    icon: Activity,      route: '/progress', pro: !isPro },
+      { key: 'reports',  label: __('Reports', 'wedevs-project-manager'),  short: __('Rep', 'wedevs-project-manager'),     icon: BarChart3,     route: '/reports',  pro: !isPro },
     ]
     // Non-pro: show as upgrade preview only to users who could use it (managers/admins).
     // Pro: only show when the Sprint module is active, and only to managers/admins.
     if (canManage || isManagerAnywhere) {
       if (!isPro || isModuleActive('Sprint')) {
-        items.push({ key: 'sprints', label: __('Sprints'), short: __('Sprint'), icon: Timer, route: '/sprints', pro: !isPro })
+        items.push({ key: 'sprints', label: __('Sprints', 'wedevs-project-manager'), short: __('Sprint', 'wedevs-project-manager'), icon: Timer, route: '/sprints', pro: !isPro })
       }
     }
     return items
@@ -395,7 +394,7 @@ export function AppSidebar() {
                   )}
                 >
                   <SubIcon className={cn('h-4 w-4 shrink-0', subActive ? 'text-pm-accent' : 'text-pm-text-muted/70')} />
-                  <TruncText className="text-[14px]">{__(sub.label)}</TruncText>
+                  <TruncText className="text-[14px]">{__(sub.label, 'wedevs-project-manager')}</TruncText>
                   {sub.proPreview && <span className="shrink-0 opacity-0 group-hover/sub:opacity-100 transition-opacity"><ProBadge /></span>}
                 </Link>
               )
@@ -432,13 +431,13 @@ export function AppSidebar() {
               onClick={goBack}
             >
               <ArrowLeft className="w-4 h-4" />
-              {__('Back to WP Admin')}
+              {__('Back to WP Admin', 'wedevs-project-manager')}
             </button>
           )}
           <div className="flex items-center gap-0.5">
             <button
               className="p-1 rounded hover:bg-pm-hover text-pm-text-muted hover:text-pm-text transition-colors"
-              title={collapsed ? __('Expand sidebar') : __('Collapse sidebar')}
+              title={collapsed ? __('Expand sidebar', 'wedevs-project-manager') : __('Collapse sidebar', 'wedevs-project-manager')}
               onClick={toggleCollapse}
             >
               {collapsed ? <PanelLeftOpen className="w-5 h-5" /> : <PanelLeftClose className="w-5 h-5" />}
@@ -447,7 +446,7 @@ export function AppSidebar() {
         </div>
         {!collapsed && (
           <h1 className="text-pm-text font-semibold text-base mt-2">
-            {__('Project Manager')}
+            {__('Project Manager', 'wedevs-project-manager')}
           </h1>
         )}
       </div>
@@ -459,7 +458,7 @@ export function AppSidebar() {
           <div className="mb-3">
             {!collapsed && (
               <p className="text-[14px] font-medium text-pm-text-muted uppercase tracking-wider px-2 mb-1.5">
-                {__('Workspace')}
+                {__('Workspace', 'wedevs-project-manager')}
               </p>
             )}
             {topNavItems.map(renderNavItem)}
@@ -474,7 +473,7 @@ export function AppSidebar() {
                   onClick={() => setShowFavourites(v => !v)}
                 >
                   <p className="text-[14px] font-medium text-pm-text-muted uppercase tracking-wider">
-                    {__('Favourites')}
+                    {__('Favourites', 'wedevs-project-manager')}
                   </p>
                   <ChevronDown className="h-3.5 w-3.5 text-pm-text-muted/40 transition-transform duration-200" style={{ transform: showFavourites ? 'rotate(0deg)' : 'rotate(-90deg)' }} />
                 </button>
@@ -494,7 +493,7 @@ export function AppSidebar() {
                   onClick={() => setShowRecent(v => !v)}
                 >
                   <p className="text-[14px] font-medium text-pm-text-muted uppercase tracking-wider">
-                    {__('Recent')}
+                    {__('Recent', 'wedevs-project-manager')}
                   </p>
                   <ChevronDown className="h-3.5 w-3.5 text-pm-text-muted/40 transition-transform duration-200" style={{ transform: showRecent ? 'rotate(0deg)' : 'rotate(-90deg)' }} />
                 </button>
@@ -509,7 +508,7 @@ export function AppSidebar() {
           <div className="mb-3">
             {!collapsed ? (
               <p className="text-[14px] font-medium text-pm-text-muted uppercase tracking-wider px-2 mb-1.5">
-                {__('Views')}
+                {__('Views', 'wedevs-project-manager')}
               </p>
             ) : (
               <div className="border-t border-pm-border my-2 mx-1" />
@@ -522,17 +521,17 @@ export function AppSidebar() {
           <div className="mb-3">
             {!collapsed ? (
               <p className="text-[14px] font-medium text-pm-text-muted uppercase tracking-wider px-2 mb-1.5">
-                {__('Modules')}
+                {__('Modules', 'wedevs-project-manager')}
               </p>
             ) : (
               <div className="border-t border-pm-border my-2 mx-1" />
             )}
-            {renderNavItem({ key: 'modules', label: __('Modules'), icon: Layers, route: '/modules', pro: !isPro })}
+            {renderNavItem({ key: 'modules', label: __('Modules', 'wedevs-project-manager'), icon: Layers, route: '/modules', pro: !isPro })}
             {!isPro && (
               collapsed ? (
                 <button
                   className="w-full flex justify-center py-2 text-pm-accent hover:bg-pm-accent/5 rounded-md transition-colors"
-                  title={__('Upgrade to Pro')}
+                  title={__('Upgrade to Pro', 'wedevs-project-manager')}
                   onClick={() => navigate('/premium')}
                 >
                   <Crown className="w-5 h-5" />
@@ -543,7 +542,7 @@ export function AppSidebar() {
                   onClick={() => navigate('/premium')}
                 >
                   <Crown className="w-5 h-5 shrink-0" />
-                  <TruncText className="text-[15px] font-medium">{__('Upgrade to Pro')}</TruncText>
+                  <TruncText className="text-[15px] font-medium">{__('Upgrade to Pro', 'wedevs-project-manager')}</TruncText>
                 </button>
               )
             )}
@@ -555,17 +554,17 @@ export function AppSidebar() {
             <div className="mb-3">
               {!collapsed ? (
                 <p className="text-[14px] font-medium text-pm-text-muted uppercase tracking-wider px-2 mb-1.5">
-                  {__('Administration')}
+                  {__('Administration', 'wedevs-project-manager')}
                 </p>
               ) : (
                 <div className="border-t border-pm-border my-2 mx-1" />
               )}
               {/* Categories available in both wp-admin AND frontend for admins */}
-              {renderNavItem({ key: 'categories', label: __('Categories'), short: __('Cat'),   icon: Tag,     route: '/categories', adminOnly: true })}
+              {renderNavItem({ key: 'categories', label: __('Categories', 'wedevs-project-manager'), short: __('Cat', 'wedevs-project-manager'),   icon: Tag,     route: '/categories', adminOnly: true })}
               {/* Settings / Tools / License remain wp-admin-only */}
-              {!isFrontend && renderNavItem({ key: 'settings',   label: __('Settings'),   short: __('Set'),   icon: Settings, route: '/settings',   adminOnly: true })}
-              {!isFrontend && renderNavItem({ key: 'importtools', label: __('Tools'),     short: __('Tools'), icon: Wrench,  route: '/importtools', adminOnly: true })}
-              {!isFrontend && isProInstalled && canManageLicense && renderNavItem({ key: 'license', label: __('License'), short: __('Lic'), icon: Shield, route: '/license' })}
+              {!isFrontend && renderNavItem({ key: 'settings',   label: __('Settings', 'wedevs-project-manager'),   short: __('Set', 'wedevs-project-manager'),   icon: Settings, route: '/settings',   adminOnly: true })}
+              {!isFrontend && renderNavItem({ key: 'importtools', label: __('Tools', 'wedevs-project-manager'),     short: __('Tools', 'wedevs-project-manager'), icon: Wrench,  route: '/importtools', adminOnly: true })}
+              {!isFrontend && isProInstalled && canManageLicense && renderNavItem({ key: 'license', label: __('License', 'wedevs-project-manager'), short: __('Lic', 'wedevs-project-manager'), icon: Shield, route: '/license' })}
             </div>
           )}
         </nav>
@@ -577,7 +576,7 @@ export function AppSidebar() {
           {collapsed ? (
             <button
               className="w-full flex justify-center p-1 rounded hover:bg-pm-hover text-pm-text-muted hover:text-pm-accent transition-colors"
-              title={__('Back to WP Admin')}
+              title={__('Back to WP Admin', 'wedevs-project-manager')}
               onClick={goBack}
             >
               <ArrowLeft className="w-5 h-5" />

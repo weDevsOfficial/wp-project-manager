@@ -1,7 +1,7 @@
+import { __ } from '@wordpress/i18n';
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useApi } from "@hooks/useApi";
-import { useI18n } from "@hooks/useI18n";
 import { useToast } from "@hooks/useToast";
 import { Button } from "@components/ui/button";
 import { Skeleton } from "@components/ui/skeleton";
@@ -61,7 +61,6 @@ export default function ProjectOverview() {
   const { projectId } = useParams();
   const navigate = useNavigate();
   const api = useApi();
-  const { __ } = useI18n();
   const toast = useToast();
   const [project, setProject] = useState(null);
   const { isPro, isManager, canManage } = usePermissions(project);
@@ -153,8 +152,8 @@ export default function ProjectOverview() {
         ...prev,
         assignees: { data: [...(prev.assignees?.data ?? []), userWithRole] },
       }));
-      toast.success(__('Member added'));
-    } catch { toast.error(__('Failed to add member')); }
+      toast.success(__('Member added', 'wedevs-project-manager'));
+    } catch { toast.error(__('Failed to add member', 'wedevs-project-manager')); }
   }, [api, projectId, project, toast, __, pendingUser, pendingRoleId, roles]);
 
   const handleChangeRole = useCallback(async (userId, newRoleId) => {
@@ -181,8 +180,8 @@ export default function ProjectOverview() {
           ),
         },
       }));
-      toast.success(__('Role updated'));
-    } catch { toast.error(__('Failed to update role')); }
+      toast.success(__('Role updated', 'wedevs-project-manager'));
+    } catch { toast.error(__('Failed to update role', 'wedevs-project-manager')); }
   }, [api, projectId, project, toast, __, roles]);
 
   const handleRemoveMember = useCallback(async (userId) => {
@@ -201,8 +200,8 @@ export default function ProjectOverview() {
         ...prev,
         assignees: { data: (prev.assignees?.data ?? []).filter(u => parseInt(u.id) !== parseInt(userId)) },
       }));
-      toast.success(__('Member removed'));
-    } catch { toast.error(__('Failed to remove member')); }
+      toast.success(__('Member removed', 'wedevs-project-manager'));
+    } catch { toast.error(__('Failed to remove member', 'wedevs-project-manager')); }
   }, [api, projectId, project, toast, __]);
 
   useEffect(() => { return () => { if (searchTimer.current) clearTimeout(searchTimer.current); }; }, []);
@@ -234,7 +233,7 @@ export default function ProjectOverview() {
 
   const stats = [
     {
-      label: __("Task Lists"),
+      label: __("Task Lists", 'wedevs-project-manager'),
       value: meta.total_task_lists ?? 0,
       icon: ListTodo,
       bg: "bg-indigo-50",
@@ -242,7 +241,7 @@ export default function ProjectOverview() {
       route: "task-lists",
     },
     {
-      label: __("Tasks"),
+      label: __("Tasks", 'wedevs-project-manager'),
       value: totalTasks,
       icon: ClipboardList,
       bg: "bg-blue-50",
@@ -250,7 +249,7 @@ export default function ProjectOverview() {
       route: "task-lists",
     },
     ...(isPro ? [{
-      label: __("Subtasks"),
+      label: __("Subtasks", 'wedevs-project-manager'),
       value: totalSubtasks,
       icon: ListChecks,
       bg: "bg-amber-50",
@@ -258,14 +257,14 @@ export default function ProjectOverview() {
       route: "task-lists",
     }] : []),
     {
-      label: __("Completed"),
+      label: __("Completed", 'wedevs-project-manager'),
       value: completeTasks,
       icon: CheckCircle,
       bg: "bg-emerald-50",
       fg: "text-emerald-500",
     },
     {
-      label: __("Discussions"),
+      label: __("Discussions", 'wedevs-project-manager'),
       value: meta.total_discussion_boards ?? 0,
       icon: MessageSquare,
       bg: "bg-purple-50",
@@ -273,7 +272,7 @@ export default function ProjectOverview() {
       route: "discussions",
     },
     {
-      label: __("Milestones"),
+      label: __("Milestones", 'wedevs-project-manager'),
       value: meta.total_milestones ?? 0,
       icon: Milestone,
       bg: "bg-pink-50",
@@ -281,7 +280,7 @@ export default function ProjectOverview() {
       route: "milestones",
     },
     {
-      label: __("Files"),
+      label: __("Files", 'wedevs-project-manager'),
       value: meta.total_files ?? 0,
       icon: FileText,
       bg: "bg-cyan-50",
@@ -306,7 +305,7 @@ export default function ProjectOverview() {
           <h1 className="text-xl font-bold text-pm-text-primary">
             {project.title}
           </h1>
-          <p className="text-sm text-pm-text-muted">{__("Project Overview")}</p>
+          <p className="text-sm text-pm-text-muted">{__("Project Overview", 'wedevs-project-manager')}</p>
         </div>
       </div>
 
@@ -336,7 +335,7 @@ export default function ProjectOverview() {
       <div className="rounded-xl border bg-card p-5 space-y-3">
         <div className="flex items-center justify-between">
           <h3 className="text-sm font-semibold text-pm-text-primary">
-            {__("Overall Progress")}
+            {__("Overall Progress", 'wedevs-project-manager')}
           </h3>
           <span className="text-lg font-bold text-pm-accent tabular-nums">
             {progress}%
@@ -345,10 +344,10 @@ export default function ProjectOverview() {
         <Progress value={progress} className="h-3" />
         <div className="flex items-center justify-between text-sm text-pm-text-muted">
           <span>
-            {completeTasks} {__("completed")}
+            {completeTasks} {__("completed", 'wedevs-project-manager')}
           </span>
           <span>
-            {incompleteTasks} {__("remaining")}
+            {incompleteTasks} {__("remaining", 'wedevs-project-manager')}
           </span>
         </div>
       </div>
@@ -364,15 +363,15 @@ export default function ProjectOverview() {
           }));
 
           const chartConfig = {
-            tasks: { label: __("Tasks"), color: "hsl(var(--primary))" },
-            activities: { label: __("Activities"), color: "hsl(152 60% 52%)" },
+            tasks: { label: __("Tasks", 'wedevs-project-manager'), color: "hsl(var(--primary))" },
+            activities: { label: __("Activities", 'wedevs-project-manager'), color: "hsl(152 60% 52%)" },
           };
 
           return (
             <div className="rounded-xl border bg-card p-5">
               <h3 className="text-sm font-semibold text-pm-text-primary mb-4 flex items-center gap-2">
                 <Activity className="h-5 w-5 text-pm-text-muted" />
-                {__("30-Day Activity")}
+                {__("30-Day Activity", 'wedevs-project-manager')}
               </h3>
               <ChartContainer config={chartConfig} className="h-[200px] w-full">
                 <AreaChart data={chartData}>
@@ -445,7 +444,7 @@ export default function ProjectOverview() {
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-sm font-semibold text-pm-text-primary flex items-center gap-2">
             <Users className="h-5 w-5 text-pm-text-muted" />
-            {__("Team Members")}
+            {__("Team Members", 'wedevs-project-manager')}
             <span className="text-[14px] bg-muted px-1.5 py-0.5 rounded-full tabular-nums font-normal">
               {assignees.length}
             </span>
@@ -466,21 +465,21 @@ export default function ProjectOverview() {
             <PopoverTrigger asChild>
               <Button variant="outline" size="sm" className="h-7 text-sm gap-1.5">
                 <UserPlus className="h-3.5 w-3.5" />
-                {__("Add")}
+                {__("Add", 'wedevs-project-manager')}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="w-[300px] p-0" align="end">
               {!pendingUser ? (
                 <Command shouldFilter={false}>
-                  <CommandInput placeholder={__("Search users...")} value={memberSearch} onValueChange={handleMemberSearch} />
+                  <CommandInput placeholder={__("Search users...", 'wedevs-project-manager')} value={memberSearch} onValueChange={handleMemberSearch} />
                   <CommandList>
                     {searchingMembers && (
                       <div className="flex items-center justify-center py-4 text-sm text-muted-foreground">
-                        <Loader2 className="mr-2 h-5 w-5 animate-spin" />{__("Searching...")}
+                        <Loader2 className="mr-2 h-5 w-5 animate-spin" />{__("Searching...", 'wedevs-project-manager')}
                       </div>
                     )}
                     {!searchingMembers && memberSearch.trim().length >= 2 && memberResults.length === 0 && (
-                      <CommandEmpty>{__("No users found")}</CommandEmpty>
+                      <CommandEmpty>{__("No users found", 'wedevs-project-manager')}</CommandEmpty>
                     )}
                     {memberResults.length > 0 && (
                       <CommandGroup>
@@ -505,13 +504,13 @@ export default function ProjectOverview() {
                     </div>
                   </div>
                   <div className="space-y-1.5">
-                    <label className="text-xs font-medium text-muted-foreground">{__("Role")}</label>
+                    <label className="text-xs font-medium text-muted-foreground">{__("Role", 'wedevs-project-manager')}</label>
                     <Select
                       value={pendingRoleId ? String(pendingRoleId) : ''}
                       onValueChange={(val) => setPendingRoleId(Number(val))}
                     >
                       <SelectTrigger className="h-8 text-sm">
-                        <SelectValue placeholder={__("Select role")} />
+                        <SelectValue placeholder={__("Select role", 'wedevs-project-manager')} />
                       </SelectTrigger>
                       <SelectContent>
                         {roles.map((role) => (
@@ -524,10 +523,10 @@ export default function ProjectOverview() {
                   </div>
                   <div className="flex justify-end gap-2 pt-1">
                     <Button variant="ghost" size="sm" onClick={() => { setPendingUser(null); setPendingRoleId(null); }}>
-                      {__("Back")}
+                      {__("Back", 'wedevs-project-manager')}
                     </Button>
                     <Button size="sm" onClick={handleConfirmAddMember} disabled={!pendingRoleId}>
-                      {__("Add")}
+                      {__("Add", 'wedevs-project-manager')}
                     </Button>
                   </div>
                 </div>
@@ -558,7 +557,7 @@ export default function ProjectOverview() {
                     onValueChange={(val) => handleChangeRole(user.id, Number(val))}
                   >
                     <SelectTrigger className="h-7 w-32 text-xs">
-                      <SelectValue placeholder={__("Role")} />
+                      <SelectValue placeholder={__("Role", 'wedevs-project-manager')} />
                     </SelectTrigger>
                     <SelectContent>
                       {roles.map((role) => (
@@ -580,7 +579,7 @@ export default function ProjectOverview() {
                     type="button"
                     className="opacity-0 group-hover:opacity-100 transition-opacity text-pm-text-muted hover:text-destructive shrink-0"
                     onClick={() => handleRemoveMember(user.id)}
-                    title={__("Remove")}
+                    title={__("Remove", 'wedevs-project-manager')}
                   >
                     <Trash2 className="h-4 w-4" />
                   </button>
@@ -590,7 +589,7 @@ export default function ProjectOverview() {
           </div>
         ) : (
           <p className="text-sm text-pm-text-muted italic">
-            {__("No team members assigned")}
+            {__("No team members assigned", 'wedevs-project-manager')}
           </p>
         )}
       </div>

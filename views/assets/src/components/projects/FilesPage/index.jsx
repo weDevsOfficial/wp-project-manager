@@ -1,8 +1,8 @@
+import { __ } from '@wordpress/i18n';
 import React, { useEffect, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import BackButton from "@components/common/BackButton";
 import { useApi } from "@hooks/useApi";
-import { useI18n } from "@hooks/useI18n";
 import { useToast } from "@hooks/useToast";
 import { useConfirm } from "@hooks/useConfirm";
 import { usePermissions } from "@hooks/usePermissions";
@@ -45,7 +45,6 @@ export default function FilesPage() {
   const { projectId } = useParams();
 
   const api = useApi();
-  const { __ } = useI18n();
   const toast = useToast();
   const [ConfirmDialog, confirm] = useConfirm();
   const project = useCurrentProject(projectId);
@@ -73,14 +72,14 @@ export default function FilesPage() {
   const proAction = () => setProModalOpen(true);
 
   const handleDelete = useCallback(async (id) => {
-    const ok = await confirm(__("Are you sure?"), __("Delete File"));
+    const ok = await confirm(__("Are you sure?", 'wedevs-project-manager'), __("Delete File", 'wedevs-project-manager'));
     if (!ok) return;
     try {
       await api.post(`projects/${projectId}/files/${id}/delete`);
       setFiles((prev) => prev.filter((f) => f.id !== id));
-      toast.success(__("File deleted"));
+      toast.success(__("File deleted", 'wedevs-project-manager'));
     } catch {
-      toast.error(__("Failed to delete"));
+      toast.error(__("Failed to delete", 'wedevs-project-manager'));
     }
   }, [api, projectId, toast, __]);
 
@@ -91,7 +90,7 @@ export default function FilesPage() {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <BackButton fallback={`/projects/${projectId}/task-lists`} />
-          <h1 className="text-xl font-bold text-pm-text-primary">{__("Files")}</h1>
+          <h1 className="text-xl font-bold text-pm-text-primary">{__("Files", 'wedevs-project-manager')}</h1>
           {files.length > 0 && (
             <span className="text-sm text-pm-text-muted bg-muted/60 px-2 py-0.5 rounded-full tabular-nums">
               {files.length}
@@ -102,19 +101,19 @@ export default function FilesPage() {
         {!isPro && (
           <div className="flex items-center gap-2">
             <Button size="sm" variant="outline" className="h-8 text-sm group/btn" onClick={proAction}>
-              <FolderPlus className="h-4 w-4 mr-1" />{__("Create a folder")}
+              <FolderPlus className="h-4 w-4 mr-1" />{__("Create a folder", 'wedevs-project-manager')}
               <span className="opacity-0 group-hover/btn:opacity-100 transition-opacity ml-1"><ProBadge /></span>
             </Button>
             <Button size="sm" variant="outline" className="h-8 text-sm group/btn" onClick={proAction}>
-              <Upload className="h-4 w-4 mr-1" />{__("Upload a file")}
+              <Upload className="h-4 w-4 mr-1" />{__("Upload a file", 'wedevs-project-manager')}
               <span className="opacity-0 group-hover/btn:opacity-100 transition-opacity ml-1"><ProBadge /></span>
             </Button>
             <Button size="sm" variant="outline" className="h-8 text-sm group/btn" onClick={proAction}>
-              <FilePlus className="h-4 w-4 mr-1" />{__("Create a doc")}
+              <FilePlus className="h-4 w-4 mr-1" />{__("Create a doc", 'wedevs-project-manager')}
               <span className="opacity-0 group-hover/btn:opacity-100 transition-opacity ml-1"><ProBadge /></span>
             </Button>
             <Button size="sm" variant="outline" className="h-8 text-sm group/btn" onClick={proAction}>
-              <Link2 className="h-4 w-4 mr-1" />{__("Link to Docs")}
+              <Link2 className="h-4 w-4 mr-1" />{__("Link to Docs", 'wedevs-project-manager')}
               <span className="opacity-0 group-hover/btn:opacity-100 transition-opacity ml-1"><ProBadge /></span>
             </Button>
           </div>
@@ -129,17 +128,17 @@ export default function FilesPage() {
         <div className="text-center py-16">
           <FileText className="h-14 w-14 text-muted-foreground/30 mx-auto mb-3" />
           <h3 className="text-sm font-medium text-pm-text-primary mb-1">
-            {__("No results found.")}
+            {__("No results found.", 'wedevs-project-manager')}
           </h3>
           <p className="text-sm text-pm-text-muted">
-            {__("Files attached to tasks, discussions, and comments will appear here.")}
+            {__("Files attached to tasks, discussions, and comments will appear here.", 'wedevs-project-manager')}
           </p>
         </div>
       ) : (
         <div className="rounded-xl border bg-card overflow-hidden divide-y divide-border/50">
           {files.map((f) => {
             const Icon = getFileIcon(f.type || f.mime_type);
-            const fileName = f.meta?.title || f.name || f.title || __("File");
+            const fileName = f.meta?.title || f.name || f.title || __("File", 'wedevs-project-manager');
             const attachedTo = getAttachedLabel(f, __);
             const attachedUrl = getAttachedURL(f, projectId);
             const isImage = (f.type || f.mime_type || "").startsWith("image");
@@ -179,7 +178,7 @@ export default function FilesPage() {
                     {f.creator?.data?.display_name && (
                       <>
                         <span>·</span>
-                        <span>{__("by")} {f.creator.data.display_name}</span>
+                        <span>{__("by", 'wedevs-project-manager')} {f.creator.data.display_name}</span>
                       </>
                     )}
                   </div>
@@ -190,7 +189,7 @@ export default function FilesPage() {
                       variant="ghost" size="icon"
                       className="h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"
                       onClick={() => { window.location.hash = attachedUrl.replace(/^#/, ''); }}
-                      title={__("Open parent")}
+                      title={__("Open parent", 'wedevs-project-manager')}
                     >
                       <LinkIcon className="h-4 w-4" />
                     </Button>
@@ -200,7 +199,7 @@ export default function FilesPage() {
                       variant="ghost" size="icon"
                       className="h-7 w-7 opacity-0 group-hover:opacity-100 transition-opacity"
                       onClick={handleDownload}
-                      title={__("Download")}
+                      title={__("Download", 'wedevs-project-manager')}
                     >
                       <Download className="h-4 w-4" />
                     </Button>
@@ -214,17 +213,17 @@ export default function FilesPage() {
                     <DropdownMenuContent align="end">
                       {f.url && (
                         <DropdownMenuItem onClick={handleDownload}>
-                          <Download className="h-4 w-4 mr-2" />{__("Download")}
+                          <Download className="h-4 w-4 mr-2" />{__("Download", 'wedevs-project-manager')}
                         </DropdownMenuItem>
                       )}
                       {attachedUrl && (
                         <DropdownMenuItem onClick={() => { window.location.hash = attachedUrl.replace(/^#/, ''); }}>
-                          <LinkIcon className="h-4 w-4 mr-2" />{__("Open parent")}
+                          <LinkIcon className="h-4 w-4 mr-2" />{__("Open parent", 'wedevs-project-manager')}
                         </DropdownMenuItem>
                       )}
                       {canDeleteFile(f) && (
                         <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={() => handleDelete(f.id)}>
-                          <Trash2 className="h-4 w-4 mr-2" />{__("Delete")}
+                          <Trash2 className="h-4 w-4 mr-2" />{__("Delete", 'wedevs-project-manager')}
                         </DropdownMenuItem>
                       )}
                     </DropdownMenuContent>

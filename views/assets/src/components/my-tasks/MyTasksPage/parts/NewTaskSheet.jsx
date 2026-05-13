@@ -1,6 +1,6 @@
+import { __ } from '@wordpress/i18n';
 import React, { useEffect, useState, useCallback } from "react";
 import { useApi } from "@hooks/useApi";
-import { useI18n } from "@hooks/useI18n";
 import { useToast } from "@hooks/useToast";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
@@ -37,7 +37,6 @@ const getCurrentUser = () => {
 
 export default function NewTaskSheet({ open, onOpenChange, userId, onCreated, defaultDueDate = '' }) {
   const api = useApi();
-  const { __ } = useI18n();
   const toast = useToast();
 
   const [projects, setProjects] = useState([]);
@@ -152,11 +151,11 @@ export default function NewTaskSheet({ open, onOpenChange, userId, onCreated, de
       if (dueDate) payload.due_date = dueDate;
 
       await api.post(`projects/${selectedProject}/tasks`, payload);
-      toast.success(__("Task created"));
+      toast.success(__("Task created", 'wedevs-project-manager'));
       onOpenChange(false);
       onCreated?.();
     } catch {
-      toast.error(__("Failed to create task"));
+      toast.error(__("Failed to create task", 'wedevs-project-manager'));
     }
     setSaving(false);
   };
@@ -168,21 +167,21 @@ export default function NewTaskSheet({ open, onOpenChange, userId, onCreated, de
         className="w-full sm:max-w-[520px] flex flex-col p-0 gap-0"
       >
         <SheetHeader className="px-6 py-4 border-b">
-          <SheetTitle>{__("New Task")}</SheetTitle>
+          <SheetTitle>{__("New Task", 'wedevs-project-manager')}</SheetTitle>
         </SheetHeader>
 
         <div className="flex-1 overflow-y-auto px-6 py-5 space-y-5">
           {/* Project */}
           <div className="space-y-2">
             <Label>
-              {__("Project")} <span className="text-destructive">*</span>
+              {__("Project", 'wedevs-project-manager')} <span className="text-destructive">*</span>
             </Label>
             {loadingProjects ? (
               <Skeleton className="h-10 rounded-md" />
             ) : (
               <Select value={selectedProject} onValueChange={setSelectedProject}>
                 <SelectTrigger>
-                  <SelectValue placeholder={__("Select a project")} />
+                  <SelectValue placeholder={__("Select a project", 'wedevs-project-manager')} />
                 </SelectTrigger>
                 <SelectContent>
                   {projects.map((p) => (
@@ -198,7 +197,7 @@ export default function NewTaskSheet({ open, onOpenChange, userId, onCreated, de
           {/* Task List */}
           <div className="space-y-2">
             <Label>
-              {__("Task List")} <span className="text-destructive">*</span>
+              {__("Task List", 'wedevs-project-manager')} <span className="text-destructive">*</span>
             </Label>
             {loadingLists ? (
               <Skeleton className="h-10 rounded-md" />
@@ -209,7 +208,7 @@ export default function NewTaskSheet({ open, onOpenChange, userId, onCreated, de
                 disabled={!selectedProject}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder={__("Select a list")} />
+                  <SelectValue placeholder={__("Select a list", 'wedevs-project-manager')} />
                 </SelectTrigger>
                 <SelectContent>
                   {lists.map((l) => (
@@ -225,12 +224,12 @@ export default function NewTaskSheet({ open, onOpenChange, userId, onCreated, de
           {/* Task Title */}
           <div className="space-y-2">
             <Label>
-              {__("Task Title")} <span className="text-destructive">*</span>
+              {__("Task Title", 'wedevs-project-manager')} <span className="text-destructive">*</span>
             </Label>
             <Input
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder={__("Enter task title")}
+              placeholder={__("Enter task title", 'wedevs-project-manager')}
               onKeyDown={(e) => {
                 if (e.key === "Enter" && !e.shiftKey) {
                   e.preventDefault();
@@ -243,11 +242,11 @@ export default function NewTaskSheet({ open, onOpenChange, userId, onCreated, de
 
           {/* Description */}
           <div className="space-y-2">
-            <Label>{__("Description")}</Label>
+            <Label>{__("Description", 'wedevs-project-manager')}</Label>
             <RichTextEditor
               content={description}
               onChange={setDescription}
-              placeholder={__("Add a description (optional)")}
+              placeholder={__("Add a description (optional)", 'wedevs-project-manager')}
             />
           </div>
 
@@ -255,7 +254,7 @@ export default function NewTaskSheet({ open, onOpenChange, userId, onCreated, de
           <div className="space-y-2">
             <Label className="flex items-center gap-1.5">
               <UserPlus className="h-4 w-4" />
-              {__("Assignees")}
+              {__("Assignees", 'wedevs-project-manager')}
             </Label>
             <div className="space-y-2">
               {selectedAssignees.length > 0 && (
@@ -284,7 +283,7 @@ export default function NewTaskSheet({ open, onOpenChange, userId, onCreated, de
                   onChange={(e) => handleSearchUsers(e.target.value)}
                   onFocus={() => setShowAssigneeSearch(true)}
                   onBlur={() => setTimeout(() => setShowAssigneeSearch(false), 150)}
-                  placeholder={__("Search users...")}
+                  placeholder={__("Search users...", 'wedevs-project-manager')}
                   className="h-9"
                 />
                 {showAssigneeSearch && assigneeResults.length > 0 && (
@@ -313,11 +312,11 @@ export default function NewTaskSheet({ open, onOpenChange, userId, onCreated, de
           <div className="space-y-2">
             <Label className="flex items-center gap-1.5">
               <Calendar className="h-4 w-4" />
-              {__("Dates")}
+              {__("Dates", 'wedevs-project-manager')}
             </Label>
             <div className="grid grid-cols-2 gap-3">
               <div className="space-y-1">
-                <span className="text-xs text-pm-text-muted">{__("Start Date")}</span>
+                <span className="text-xs text-pm-text-muted">{__("Start Date", 'wedevs-project-manager')}</span>
                 <input
                   type="date"
                   value={startDate}
@@ -326,7 +325,7 @@ export default function NewTaskSheet({ open, onOpenChange, userId, onCreated, de
                 />
               </div>
               <div className="space-y-1">
-                <span className="text-xs text-pm-text-muted">{__("Due Date")}</span>
+                <span className="text-xs text-pm-text-muted">{__("Due Date", 'wedevs-project-manager')}</span>
                 <input
                   type="date"
                   value={dueDate}
@@ -341,14 +340,14 @@ export default function NewTaskSheet({ open, onOpenChange, userId, onCreated, de
 
         <SheetFooter className="px-6 py-4 border-t">
           <Button variant="outline" onClick={() => onOpenChange(false)}>
-            {__("Cancel")}
+            {__("Cancel", 'wedevs-project-manager')}
           </Button>
           <Button
             onClick={handleSubmit}
             disabled={saving || !title.trim() || !selectedProject || !selectedList}
           >
             {saving && <Loader2 className="h-5 w-5 mr-2 animate-spin" />}
-            {saving ? __("Creating...") : __("Create Task")}
+            {saving ? __("Creating...", 'wedevs-project-manager') : __("Create Task", 'wedevs-project-manager')}
           </Button>
         </SheetFooter>
       </SheetContent>

@@ -1,8 +1,8 @@
+import { __ } from '@wordpress/i18n';
 import React, { useCallback, useState } from 'react';
 import { updateCurrentTaskMeta } from '@store/tasksSlice';
 import { updateTaskPrivacy } from '@store/taskListsSlice';
 import { cn } from '@lib/utils';
-import { useI18n } from '@hooks/useI18n';
 import { usePermissions } from '@hooks/usePermissions';
 import ProGate from '@components/common/ProGate';
 import ProBadge from '@components/common/ProBadge';
@@ -10,7 +10,6 @@ import { Shield, Eye, EyeOff } from 'lucide-react';
 import { isPrivate } from '@lib/pm-utils';
 
 export default function TaskPrivacyField({ task, projectId, dispatch, api }) {
-  const { __ } = useI18n();
   const { isPro } = usePermissions();
   const taskPrivate = isPrivate(task?.meta?.privacy);
   const [toggling, setToggling] = useState(false);
@@ -33,10 +32,10 @@ export default function TaskPrivacyField({ task, projectId, dispatch, api }) {
 
   if (!isPro) {
     return (
-      <ProGate feature={__('Privacy')}>
+      <ProGate feature={__('Privacy', 'wedevs-project-manager')}>
         <div className="flex items-center h-8 px-2 rounded-md hover:bg-muted/40 transition-colors">
           <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
-            <Shield className="h-4 w-4" /><span className="text-sm">{__('Privacy')}</span>
+            <Shield className="h-4 w-4" /><span className="text-sm">{__('Privacy', 'wedevs-project-manager')}</span>
           </div>
           <ProBadge />
         </div>
@@ -47,7 +46,7 @@ export default function TaskPrivacyField({ task, projectId, dispatch, api }) {
   return (
     <div className="flex items-center h-8 px-2 rounded-md hover:bg-muted/40 transition-colors">
       <div className="flex items-center gap-2 text-pm-text-muted w-28 shrink-0">
-        <Shield className="h-4 w-4" /><span className="text-sm">{__('Privacy')}</span>
+        <Shield className="h-4 w-4" /><span className="text-sm">{__('Privacy', 'wedevs-project-manager')}</span>
       </div>
       <button
         className={cn(
@@ -59,10 +58,10 @@ export default function TaskPrivacyField({ task, projectId, dispatch, api }) {
         )}
         onClick={handleToggle}
         disabled={toggling}
-        title={taskPrivate ? __('Click to make public') : __('Click to make private')}
+        title={taskPrivate ? __('Click to make public', 'wedevs-project-manager') : __('Click to make private', 'wedevs-project-manager')}
       >
         {taskPrivate ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
-        {taskPrivate ? __('Private') : __('Public')}
+        {taskPrivate ? __('Private', 'wedevs-project-manager') : __('Public', 'wedevs-project-manager')}
       </button>
     </div>
   );

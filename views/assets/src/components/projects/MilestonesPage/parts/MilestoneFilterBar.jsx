@@ -1,5 +1,5 @@
+import { __ } from '@wordpress/i18n';
 import React from "react";
-import { useI18n } from "@hooks/useI18n";
 import { cn } from "@lib/utils";
 import { Button } from "@components/ui/button";
 import {
@@ -12,7 +12,6 @@ import { ArrowUpDown } from "lucide-react";
 import { filterTabs, sortOptions } from "../constants";
 
 export default function MilestoneFilterBar({ filter, sort, counts, onFilterChange, onSortChange }) {
-  const { __ } = useI18n();
 
   return (
     <div className="flex items-center justify-between flex-wrap gap-3">
@@ -33,7 +32,7 @@ export default function MilestoneFilterBar({ filter, sort, counts, onFilterChang
                   : "text-pm-text-muted hover:text-pm-text-primary",
               )}
             >
-              {__(tab.label)}
+              {__(tab.label, 'wedevs-project-manager')}
               <span
                 className="inline-flex items-center justify-center rounded-full px-1.5 min-w-[18px] h-[18px] text-[14px] font-semibold tabular-nums transition-colors"
                 style={isActive ? { backgroundColor: tab.color + '15', color: tab.color } : { color: 'var(--pm-text-muted)' }}
@@ -49,7 +48,7 @@ export default function MilestoneFilterBar({ filter, sort, counts, onFilterChang
         <DropdownMenuTrigger asChild>
           <Button variant="outline" size="sm" className="h-8 gap-1.5 text-sm">
             <ArrowUpDown className="h-3.5 w-3.5" />
-            {__(sortOptions.find((s) => s.value === sort)?.label ?? "Sort")}
+            {__(sortOptions.find((s) => s.value === sort)?.label ?? "Sort", 'wedevs-project-manager')}
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
@@ -59,7 +58,7 @@ export default function MilestoneFilterBar({ filter, sort, counts, onFilterChang
               onClick={() => onSortChange(opt.value)}
               className={cn(sort === opt.value && "font-medium text-primary")}
             >
-              {__(opt.label)}
+              {__(opt.label, 'wedevs-project-manager')}
             </DropdownMenuItem>
           ))}
         </DropdownMenuContent>

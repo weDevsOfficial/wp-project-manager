@@ -1,5 +1,5 @@
+import { __ } from '@wordpress/i18n';
 import React, { useEffect, useState } from 'react';
-import { useI18n } from '@hooks/useI18n';
 import { Skeleton } from '@components/ui/skeleton';
 import { Progress } from '@components/ui/progress';
 import { Badge } from '@components/ui/badge';
@@ -7,7 +7,6 @@ import { Separator } from '@components/ui/separator';
 import { Sparkles, Loader2, Brain, ListChecks, FolderOpen, CheckCircle2 } from 'lucide-react';
 
 export default function AiLoadingOverlay({ phase }) {
-  const { __ } = useI18n();
   const [activeStep, setActiveStep] = useState(0);
   const [progress, setProgress] = useState(0);
 

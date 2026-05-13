@@ -1,8 +1,8 @@
+import { __ } from '@wordpress/i18n';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '@store/index';
 import { openTaskSheet, fetchTask } from '@store/tasksSlice';
-import { useI18n } from '@hooks/useI18n';
 import { Badge } from '@components/ui/badge';
 import { UserAvatar } from '@components/common/UserAvatar';
 import { cn } from '@lib/utils';
@@ -15,7 +15,6 @@ import {
 import { parseMessage, formatTime } from '../utils';
 
 export default function ActivityItem({ act, projectId: fallbackProjectId }) {
-  const { __ } = useI18n();
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const Icon = ACTION_ICON_MAP[act.action] || Activity;
@@ -23,7 +22,7 @@ export default function ActivityItem({ act, projectId: fallbackProjectId }) {
   const actionType = act.action_type || 'update';
   const timeStr = formatTime(act.committed_at);
   const badgeColor = ACTION_COLOR_MAP[actionType] || 'bg-pm-text-muted';
-  const badgeLabel = __(ACTION_LABELS[actionType] || actionType);
+  const badgeLabel = ACTION_LABELS[actionType] || actionType;
 
   const handleActorClick = () => {
     if (!actor.id) return;

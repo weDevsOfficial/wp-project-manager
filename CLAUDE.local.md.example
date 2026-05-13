@@ -1,0 +1,27 @@
+# CLAUDE.local.md — Personal Overrides
+
+> Copy this file to `CLAUDE.local.md` (gitignored) and tailor for your machine/style.
+
+## My environment
+- Local WP root: `/Users/me/Local Sites/pm/app/public`
+- Plugin path: `/wp-content/plugins/wp-project-manager`
+- Local URL: `https://pm.local` (or your Local by Flywheel domain)
+- WP admin: `wp-admin/admin.php?page=pm_projects`
+
+## My preferences
+- Don't ask before running `pnpm dev` / `pnpm build` — I want fast feedback.
+- When fixing a bug, also add a regression test in `tests/` (Codeception unit for PHP, Playwright for UI).
+- Prefer `useApi` over raw `fetch` — flag any `fetch(` usage you see in PRs.
+- I work in IST/BST. Treat dates in UTC unless I say otherwise.
+
+## My current focus
+- Branch: pr/593
+- Working on: React i18n + translations (recent commits)
+- Watch for: regressions in `setLocaleData` boot in `views/assets/src/index.jsx`
+
+## Tools I use
+- IDE: VSCode (Cursor) with Tailwind extension + PHP Intelephense
+- Browser: Chrome with React DevTools + Redux DevTools
+
+## Notes I want Claude to remember
+- (Add per-task notes here. Clear them when stale.)

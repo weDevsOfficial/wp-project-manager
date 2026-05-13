@@ -1,10 +1,10 @@
+import { __ } from '@wordpress/i18n';
 import React, { useCallback, useState } from 'react'
 import { useAppDispatch } from '@store/index'
 import { changeTaskStatus, deleteTask, duplicateTask, openTaskSheet } from '@store/tasksSlice'
 import { toggleTaskInList, removeTaskFromList, addTaskToList, updateTaskPrivacy } from '@store/taskListsSlice'
 import { cn } from '@lib/utils'
 import { isPrivate as checkPrivate } from '@lib/pm-utils'
-import { useI18n } from '@hooks/useI18n'
 import { useToast } from '@hooks/useToast'
 import { useApi } from '@hooks/useApi'
 import { usePermissions } from '@hooks/usePermissions'
@@ -55,7 +55,6 @@ import {
 
 export default function TaskRow({ task, projectId, listId, draggable: isDraggable, onDragStart, onDragOver, onDrop, onDragEnd, isDragOver, showLabels }) {
   const dispatch = useAppDispatch()
-  const { __ } = useI18n()
   const toast = useToast()
   const api = useApi()
   const project = useCurrentProject(projectId)
@@ -81,10 +80,10 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
     dispatch(toggleTaskInList({ listId, taskId: task.id, newStatus }))
     try {
       await dispatch(changeTaskStatus({ projectId, taskId: task.id, status: newStatus })).unwrap()
-      toast.success(newStatus === 1 ? __('Task completed') : __('Task reopened'))
+      toast.success(newStatus === 1 ? __('Task completed', 'wedevs-project-manager') : __('Task reopened', 'wedevs-project-manager'))
     } catch {
       dispatch(toggleTaskInList({ listId, taskId: task.id, newStatus: isComplete ? 1 : 0 }))
-      toast.error(__('Failed to update task status'))
+      toast.error(__('Failed to update task status', 'wedevs-project-manager'))
     }
     setToggling(false)
   }, [dispatch, projectId, task.id, listId, isComplete, toggling, toast, __, mayComplete])
@@ -97,9 +96,9 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
     dispatch(removeTaskFromList({ listId, taskId: task.id }))
     try {
       await dispatch(deleteTask({ projectId, taskId: task.id })).unwrap()
-      toast.success(__('Task deleted'))
+      toast.success(__('Task deleted', 'wedevs-project-manager'))
     } catch {
-      toast.error(__('Failed to delete task'))
+      toast.error(__('Failed to delete task', 'wedevs-project-manager'))
     }
   }, [dispatch, projectId, task.id, listId, toast, __])
 
@@ -108,10 +107,10 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
       const result = await dispatch(duplicateTask(task.id)).unwrap()
       if (result?.task) {
         dispatch(addTaskToList({ listId: result.listId ?? listId, task: result.task }))
-        toast.success(__('Task duplicated'))
+        toast.success(__('Task duplicated', 'wedevs-project-manager'))
       }
     } catch {
-      toast.error(__('Failed to duplicate task'))
+      toast.error(__('Failed to duplicate task', 'wedevs-project-manager'))
     }
   }, [dispatch, task.id, listId, toast, __])
 
@@ -122,10 +121,10 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
     dispatch(updateTaskPrivacy({ taskId: task.id, privacy: newPrivacy }))
     try {
       await api.post(`projects/${projectId}/tasks/privacy/${task.id}`, { is_private: newPrivacy })
-      toast.success(newPrivacy ? __('Set to private') : __('Set to public'))
+      toast.success(newPrivacy ? __('Set to private', 'wedevs-project-manager') : __('Set to public', 'wedevs-project-manager'))
     } catch {
       dispatch(updateTaskPrivacy({ taskId: task.id, privacy: taskIsPrivate ? 1 : 0 }))
-      toast.error(__('Failed to update privacy'))
+      toast.error(__('Failed to update privacy', 'wedevs-project-manager'))
     }
   }, [api, projectId, task.id, taskIsPrivate, dispatch, toast, __])
 
@@ -227,7 +226,7 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
               </span>
             </TooltipTrigger>
             <TooltipContent side="bottom">
-              <p>{task.priority >= 3 ? __('Urgent') : task.priority === 2 ? __('High') : __('Normal')}</p>
+              <p>{task.priority >= 3 ? __('Urgent', 'wedevs-project-manager') : task.priority === 2 ? __('High', 'wedevs-project-manager') : __('Normal', 'wedevs-project-manager')}</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
@@ -278,7 +277,7 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
               <Lock className="h-3.5 w-3.5 text-amber-500 shrink-0" />
             </TooltipTrigger>
             <TooltipContent side="top" className="text-[14px]">
-              {__('Private task')}
+              {__('Private task', 'wedevs-project-manager')}
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
@@ -295,26 +294,26 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
           <DropdownMenuContent align="end">
             <DropdownMenuItem onClick={handleOpen}>
               <Pencil className="h-4 w-4 mr-2" />
-              {__('Edit')}
+              {__('Edit', 'wedevs-project-manager')}
             </DropdownMenuItem>
             {mayEdit && (
               <DropdownMenuItem onClick={handleDuplicate}>
                 <Copy className="h-4 w-4 mr-2" />
-                {__('Duplicate')}
+                {__('Duplicate', 'wedevs-project-manager')}
               </DropdownMenuItem>
             )}
             {mayEdit && (
               <DropdownMenuItem onClick={() => setMoveDialogOpen(true)}>
                 <ArrowRightLeft className="h-4 w-4 mr-2" />
-                {__('Move')}
+                {__('Move', 'wedevs-project-manager')}
               </DropdownMenuItem>
             )}
             {mayEdit && (
               <DropdownMenuItem onClick={() => isPro && handleTogglePrivacy()} disabled={!isPro}>
                 {taskIsPrivate ? (
-                  <><Unlock className="h-4 w-4 mr-2" />{__('Make Public')}</>
+                  <><Unlock className="h-4 w-4 mr-2" />{__('Make Public', 'wedevs-project-manager')}</>
                 ) : (
-                  <><LockIcon className="h-4 w-4 mr-2" />{__('Make Private')}</>
+                  <><LockIcon className="h-4 w-4 mr-2" />{__('Make Private', 'wedevs-project-manager')}</>
                 )}
                 {!isPro && <Crown className="h-3.5 w-3.5 ml-auto text-pm-accent" />}
               </DropdownMenuItem>
@@ -325,7 +324,7 @@ export default function TaskRow({ task, projectId, listId, draggable: isDraggabl
                 onClick={handleDelete}
               >
                 <Trash2 className="h-4 w-4 mr-2" />
-                {__('Delete')}
+                {__('Delete', 'wedevs-project-manager')}
               </DropdownMenuItem>
             )}
           </DropdownMenuContent>
