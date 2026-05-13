@@ -1,7 +1,7 @@
+import { __ } from '@wordpress/i18n';
 import React, { useState, useCallback } from 'react'
 import { useAppDispatch, useAppSelector } from '@store/index'
 import { saveEmail } from '@store/settingsSlice'
-import { useI18n } from '@hooks/useI18n'
 import { useToast } from '@hooks/useToast'
 import { Button } from '@components/ui/button'
 import { Input } from '@components/ui/input'
@@ -12,7 +12,6 @@ import {
 } from '@components/ui/select'
 
 const EmailTab = () => {
-  const { __ } = useI18n()
   const toast  = useToast()
   const dispatch = useAppDispatch()
 

@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n';
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { useAppDispatch, useAppSelector } from '@store/index'
 import {
@@ -8,7 +9,6 @@ import {
   closeEditSheet,
 } from '@store/projectsSlice'
 import { cn } from '@lib/utils'
-import { useI18n } from '@hooks/useI18n'
 import { useToast } from '@hooks/useToast'
 
 import { Button } from '@components/ui/button'
@@ -52,7 +52,6 @@ import { Plus, X, Loader2, UserPlus } from 'lucide-react'
 
 export function ProjectCreateSheet() {
   const dispatch = useAppDispatch()
-  const { __ } = useI18n()
   const toast = useToast()
 
   const {
@@ -208,7 +207,7 @@ export function ProjectCreateSheet() {
     // Ensure title is a string before calling .trim()
     const titleStr = String(title || '').trim()
     if (!titleStr) {
-      setTitleError(__('Project name is required'))
+      setTitleError(__('Project name is required', 'wedevs-project-manager'))
       return
     }
     setTitleError('')
@@ -238,13 +237,13 @@ export function ProjectCreateSheet() {
       if (isEditMode) {
         payload.projectId = editProject.id
         await dispatch(updateProject(payload)).unwrap()
-        toast.success(__('Project updated successfully'))
+        toast.success(__('Project updated successfully', 'wedevs-project-manager'))
       } else {
         await dispatch(createProject(payload)).unwrap()
-        toast.success(__('Project created successfully'))
+        toast.success(__('Project created successfully', 'wedevs-project-manager'))
       }
     } catch {
-      toast.error(isEditMode ? __('Failed to update project') : __('Failed to create project'))
+      toast.error(isEditMode ? __('Failed to update project', 'wedevs-project-manager') : __('Failed to create project', 'wedevs-project-manager'))
     }
   }, [dispatch, title, description, categoryId, selectedUsers, notifyUsers, toast, __, isEditMode, editProject])
 
@@ -266,11 +265,11 @@ export function ProjectCreateSheet() {
       >
         {/* Header */}
         <SheetHeader className="px-6 py-4 border-b">
-          <SheetTitle>{isEditMode ? __('Edit Project') : __('Create New Project')}</SheetTitle>
+          <SheetTitle>{isEditMode ? __('Edit Project', 'wedevs-project-manager') : __('Create New Project', 'wedevs-project-manager')}</SheetTitle>
           <SheetDescription>
             {isEditMode
-              ? __('Update the project details below.')
-              : __('Fill in the details below to create a new project.')}
+              ? __('Update the project details below.', 'wedevs-project-manager')
+              : __('Fill in the details below to create a new project.', 'wedevs-project-manager')}
           </SheetDescription>
         </SheetHeader>
 
@@ -279,11 +278,11 @@ export function ProjectCreateSheet() {
           {/* Project Name */}
           <div className="space-y-2">
             <Label htmlFor="project-title">
-              {__('Project Name')} <span className="text-destructive">*</span>
+              {__('Project Name', 'wedevs-project-manager')} <span className="text-destructive">*</span>
             </Label>
             <input
               id="project-title"
-              placeholder={__('Enter project name')}
+              placeholder={__('Enter project name', 'wedevs-project-manager')}
               value={String(title || '')}
               onChange={(e) => {
                 setTitle(e.target.value)
@@ -301,13 +300,13 @@ export function ProjectCreateSheet() {
 
           {/* Category */}
           <div className="space-y-2">
-            <Label>{__('Category')}</Label>
+            <Label>{__('Category', 'wedevs-project-manager')}</Label>
             <Select value={categoryId} onValueChange={setCategoryId}>
               <SelectTrigger>
-                <SelectValue placeholder={__('Select a category')} />
+                <SelectValue placeholder={__('Select a category', 'wedevs-project-manager')} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="__none__">{__('None')}</SelectItem>
+                <SelectItem value="__none__">{__('None', 'wedevs-project-manager')}</SelectItem>
                 {categories.map((cat) => (
                   <SelectItem key={cat.id} value={String(cat.id)}>
                     {cat.title}
@@ -319,7 +318,7 @@ export function ProjectCreateSheet() {
 
           {/* Description */}
           <div className="space-y-2">
-            <Label htmlFor="project-description">{__('Description')}</Label>
+            <Label htmlFor="project-description">{__('Description', 'wedevs-project-manager')}</Label>
             <RichTextEditor
               content={description}
               onChange={(val) => {
@@ -327,7 +326,7 @@ export function ProjectCreateSheet() {
                 const strVal = typeof val === 'string' ? val : String(val || '')
                 setDescription(strVal)
               }}
-              placeholder={__('Describe your project...')}
+              placeholder={__('Describe your project...', 'wedevs-project-manager')}
               minHeight="100px"
             />
           </div>
@@ -336,7 +335,7 @@ export function ProjectCreateSheet() {
 
           {/* Team Members */}
           <div className="space-y-3">
-            <Label>{__('Team Members')}</Label>
+            <Label>{__('Team Members', 'wedevs-project-manager')}</Label>
 
             {/* User search — Popover + Command */}
             <Popover open={popoverOpen} onOpenChange={setPopoverOpen}>
@@ -347,13 +346,13 @@ export function ProjectCreateSheet() {
                   onClick={() => setPopoverOpen(true)}
                 >
                   <UserPlus className="mr-2 h-5 w-5" />
-                  {__('Search and add members...')}
+                  {__('Search and add members...', 'wedevs-project-manager')}
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-[--radix-popover-trigger-width] p-0" align="start">
                 <Command shouldFilter={false}>
                   <CommandInput
-                    placeholder={__('Search users...')}
+                    placeholder={__('Search users...', 'wedevs-project-manager')}
                     value={searchQuery}
                     onValueChange={handleSearchChange}
                   />
@@ -361,12 +360,12 @@ export function ProjectCreateSheet() {
                     {searchingUsers && (
                       <div className="flex items-center justify-center py-6 text-sm text-muted-foreground">
                         <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                        {__('Searching...')}
+                        {__('Searching...', 'wedevs-project-manager')}
                       </div>
                     )}
 
                     {!searchingUsers && searchQuery.trim().length >= 2 && searchResults.length === 0 && (
-                      <CommandEmpty>{__('No users found')}</CommandEmpty>
+                      <CommandEmpty>{__('No users found', 'wedevs-project-manager')}</CommandEmpty>
                     )}
 
                     {searchResults.length > 0 && (
@@ -400,10 +399,10 @@ export function ProjectCreateSheet() {
                   <thead>
                     <tr className="border-b bg-muted/50">
                       <th className="text-left px-3 py-2 font-medium text-pm-text-muted">
-                        {__('User')}
+                        {__('User', 'wedevs-project-manager')}
                       </th>
                       <th className="text-left px-3 py-2 font-medium text-pm-text-muted w-36">
-                        {__('Role')}
+                        {__('Role', 'wedevs-project-manager')}
                       </th>
                       <th className="px-3 py-2 w-10" />
                     </tr>
@@ -462,7 +461,7 @@ export function ProjectCreateSheet() {
               onCheckedChange={(checked) => setNotifyUsers(checked === true)}
             />
             <Label htmlFor="notify-users" className="text-sm cursor-pointer">
-              {__('Notify co-workers via email')}
+              {__('Notify co-workers via email', 'wedevs-project-manager')}
             </Label>
           </div>
         </div>
@@ -474,13 +473,13 @@ export function ProjectCreateSheet() {
             onClick={() => isEditMode ? dispatch(closeEditSheet()) : dispatch(setCreateSheetOpen(false))}
             disabled={isSaving}
           >
-            {__('Cancel')}
+            {__('Cancel', 'wedevs-project-manager')}
           </Button>
           <Button onClick={handleSubmit} disabled={isSaving}>
             {isSaving && <Loader2 className="h-5 w-5 mr-2 animate-spin" />}
             {isSaving
-              ? (isEditMode ? __('Updating...') : __('Creating...'))
-              : (isEditMode ? __('Update Project') : __('Create Project'))}
+              ? (isEditMode ? __('Updating...', 'wedevs-project-manager') : __('Creating...', 'wedevs-project-manager'))
+              : (isEditMode ? __('Update Project', 'wedevs-project-manager') : __('Create Project', 'wedevs-project-manager'))}
           </Button>
         </SheetFooter>
       </SheetContent>

@@ -1,5 +1,5 @@
+import { __ } from '@wordpress/i18n';
 import React, { useState } from "react";
-import { useI18n } from "@hooks/useI18n";
 import { extractDateStr } from "@lib/pm-utils";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
@@ -8,7 +8,6 @@ import { DialogFooter } from "@components/ui/dialog";
 import RichTextEditor from "@components/common/RichTextEditor";
 
 export default function MilestoneForm({ milestone, onSubmit, onCancel }) {
-  const { __ } = useI18n();
   const [title, setTitle] = useState(milestone?.title || "");
   const [description, setDescription] = useState(
     milestone?.description?.content || milestone?.description || "",
@@ -31,25 +30,25 @@ export default function MilestoneForm({ milestone, onSubmit, onCancel }) {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="space-y-1.5">
-        <Label>{__("Title")}</Label>
+        <Label>{__("Title", 'wedevs-project-manager')}</Label>
         <Input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder={__("Milestone title")}
+          placeholder={__("Milestone title", 'wedevs-project-manager')}
           autoFocus
         />
       </div>
       <div className="space-y-1.5">
-        <Label>{__("Description")}</Label>
+        <Label>{__("Description", 'wedevs-project-manager')}</Label>
         <RichTextEditor
           content={description}
           onChange={setDescription}
-          placeholder={__("Description...")}
+          placeholder={__("Description...", 'wedevs-project-manager')}
           minHeight="80px"
         />
       </div>
       <div className="space-y-1.5">
-        <Label>{__("Target Date")}</Label>
+        <Label>{__("Target Date", 'wedevs-project-manager')}</Label>
         <Input
           type="date"
           value={achieveDate}
@@ -59,10 +58,10 @@ export default function MilestoneForm({ milestone, onSubmit, onCancel }) {
       </div>
       <DialogFooter>
         <Button type="button" variant="outline" onClick={onCancel}>
-          {__("Cancel")}
+          {__("Cancel", 'wedevs-project-manager')}
         </Button>
         <Button type="submit" disabled={!title.trim()}>
-          {milestone ? __("Update") : __("Create Milestone")}
+          {milestone ? __("Update", 'wedevs-project-manager') : __("Create Milestone", 'wedevs-project-manager')}
         </Button>
       </DialogFooter>
     </form>

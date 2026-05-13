@@ -1,8 +1,8 @@
+import { __ } from '@wordpress/i18n';
 import React, { useEffect, useState, useCallback } from 'react'
 import { useParams } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '@store/index'
 import { fetchSingleList, addTaskToList } from '@store/taskListsSlice'
-import { useI18n } from '@hooks/useI18n'
 import { useApi } from '@hooks/useApi'
 import { useToast } from '@hooks/useToast'
 import { useConfirm } from '@hooks/useConfirm'
@@ -38,7 +38,6 @@ export default function SingleTaskListPage() {
   const dispatch = useAppDispatch()
   const project = useCurrentProject(projectId)
   const projectUsers = project?.assignees?.data ?? []
-  const { __ } = useI18n()
   const api = useApi()
   const toast = useToast()
   const [ConfirmDialog, confirm] = useConfirm()
@@ -103,9 +102,9 @@ export default function SingleTaskListPage() {
       }
       setNewComment('')
       setCommentNotifyUsers([])
-      toast.success(__('Comment added'))
+      toast.success(__('Comment added', 'wedevs-project-manager'))
     } catch {
-      toast.error(__('Failed to add comment'))
+      toast.error(__('Failed to add comment', 'wedevs-project-manager'))
     }
     setSubmittingComment(false)
   }, [api, projectId, listId, newComment, commentNotifyUsers, toast, __])
@@ -133,21 +132,21 @@ export default function SingleTaskListPage() {
         c.id === editingCommentId ? { ...c, content: editCommentText.trim() } : c
       ))
       cancelEditComment()
-      toast.success(__('Comment updated'))
+      toast.success(__('Comment updated', 'wedevs-project-manager'))
     } catch {
-      toast.error(__('Failed to update comment'))
+      toast.error(__('Failed to update comment', 'wedevs-project-manager'))
     }
   }, [api, projectId, editingCommentId, editCommentText, toast, __, cancelEditComment])
 
   const handleDeleteComment = useCallback(async (commentId) => {
-    const ok = await confirm(__('Are you sure?'), __('Delete Comment'))
+    const ok = await confirm(__('Are you sure?', 'wedevs-project-manager'), __('Delete Comment', 'wedevs-project-manager'))
     if (!ok) return
     try {
       await api.post(`projects/${projectId}/comments/${commentId}/delete`)
       setComments(prev => prev.filter(c => c.id !== commentId))
-      toast.success(__('Comment deleted'))
+      toast.success(__('Comment deleted', 'wedevs-project-manager'))
     } catch {
-      toast.error(__('Failed to delete comment'))
+      toast.error(__('Failed to delete comment', 'wedevs-project-manager'))
     }
   }, [api, projectId, toast, __])
 
@@ -174,7 +173,7 @@ export default function SingleTaskListPage() {
         else setAllIncompleteLoaded(true)
       }
     } catch {
-      toast.error(__('Failed to load more tasks'))
+      toast.error(__('Failed to load more tasks', 'wedevs-project-manager'))
     }
     if (isComplete) setLoadingMoreComplete(false)
     else setLoadingMore(false)
@@ -203,8 +202,8 @@ export default function SingleTaskListPage() {
   if (!currentList) {
     return (
       <div className="max-w-[1400px] mx-auto p-4 sm:p-6">
-        <BackButton fallback={`/projects/${projectId}/task-lists`} label={__('Back to Task Lists')} className="mb-4" />
-        <p className="text-sm text-pm-text-muted">{__('Task list not found.')}</p>
+        <BackButton fallback={`/projects/${projectId}/task-lists`} label={__('Back to Task Lists', 'wedevs-project-manager')} className="mb-4" />
+        <p className="text-sm text-pm-text-muted">{__('Task list not found.', 'wedevs-project-manager')}</p>
       </div>
     )
   }
@@ -222,13 +221,13 @@ export default function SingleTaskListPage() {
     <ConfirmDialog />
     <div className="max-w-[1400px] mx-auto p-4 sm:p-6 space-y-5">
       {/* Back button */}
-      <BackButton fallback={`/projects/${projectId}/task-lists`} label={__('Back to Task Lists')} />
+      <BackButton fallback={`/projects/${projectId}/task-lists`} label={__('Back to Task Lists', 'wedevs-project-manager')} />
 
       {/* List header */}
       <div className="flex items-center gap-3 flex-wrap">
         <h1 className="text-xl font-bold text-pm-text-primary">{currentList.title}</h1>
         {currentList.meta?.privacy === 1 && (
-          <Lock className="h-4 w-4 text-pm-text-muted" title={__('Private')} />
+          <Lock className="h-4 w-4 text-pm-text-muted" title={__('Private', 'wedevs-project-manager')} />
         )}
         <span className="text-sm text-pm-text-muted tabular-nums">
           {totalComplete}/{total}
@@ -253,7 +252,7 @@ export default function SingleTaskListPage() {
           ))
         ) : (
           <div className="px-4 py-8 text-center text-sm text-pm-text-muted">
-            {__('No incomplete tasks')}
+            {__('No incomplete tasks', 'wedevs-project-manager')}
           </div>
         )}
 
@@ -266,7 +265,7 @@ export default function SingleTaskListPage() {
               disabled={loadingMore}
               onClick={() => handleLoadMore(0)}
             >
-              {loadingMore ? __('Loading...') : __('Load more tasks')}
+              {loadingMore ? __('Loading...', 'wedevs-project-manager') : __('Load more tasks', 'wedevs-project-manager')}
             </button>
           </div>
         )}
@@ -280,7 +279,7 @@ export default function SingleTaskListPage() {
               className="w-full flex items-center gap-2 px-4 py-2 text-sm text-pm-text-muted hover:bg-muted/20 transition-colors"
             >
               <span className="font-medium">
-                {totalComplete} {__('Completed')}
+                {totalComplete} {__('Completed', 'wedevs-project-manager')}
               </span>
             </button>
             {showCompleted && (
@@ -296,7 +295,7 @@ export default function SingleTaskListPage() {
                       disabled={loadingMoreComplete}
                       onClick={() => handleLoadMore(1)}
                     >
-                      {loadingMoreComplete ? __('Loading...') : __('Load more completed')}
+                      {loadingMoreComplete ? __('Loading...', 'wedevs-project-manager') : __('Load more completed', 'wedevs-project-manager')}
                     </button>
                   </div>
                 )}
@@ -309,7 +308,7 @@ export default function SingleTaskListPage() {
       {/* ── Discussion ── */}
       <div className="rounded-xl border bg-card p-4 space-y-4">
         <h3 className="text-sm font-semibold uppercase tracking-wider text-pm-text-muted flex items-center gap-1.5">
-          <MessageSquare className="h-4 w-4" />{__('Discussion')}
+          <MessageSquare className="h-4 w-4" />{__('Discussion', 'wedevs-project-manager')}
           {comments.length > 0 && (
             <span className="text-[14px] bg-muted px-1.5 py-0.5 rounded-full tabular-nums">{comments.length}</span>
           )}
@@ -330,10 +329,10 @@ export default function SingleTaskListPage() {
                       <span className="text-[13px] text-pm-text-muted">{formatPmDateTime(comment.created_at)}</span>
                       {isOwn && !isEditing && (
                         <span className="opacity-0 group-hover/comment:opacity-100 transition-opacity flex items-center gap-1 ml-auto">
-                          <button type="button" onClick={() => startEditComment(comment)} className="p-0.5 rounded hover:bg-muted text-pm-text-muted hover:text-pm-accent" title={__('Edit')}>
+                          <button type="button" onClick={() => startEditComment(comment)} className="p-0.5 rounded hover:bg-muted text-pm-text-muted hover:text-pm-accent" title={__('Edit', 'wedevs-project-manager')}>
                             <Pencil className="h-3.5 w-3.5" />
                           </button>
-                          <button type="button" onClick={() => handleDeleteComment(comment.id)} className="p-0.5 rounded hover:bg-muted text-pm-text-muted hover:text-destructive" title={__('Delete')}>
+                          <button type="button" onClick={() => handleDeleteComment(comment.id)} className="p-0.5 rounded hover:bg-muted text-pm-text-muted hover:text-destructive" title={__('Delete', 'wedevs-project-manager')}>
                             <Trash2 className="h-3.5 w-3.5" />
                           </button>
                         </span>
@@ -343,8 +342,8 @@ export default function SingleTaskListPage() {
                       <div className="space-y-2">
                         <RichTextEditor content={editCommentText} onChange={setEditCommentText} minHeight="60px" autofocus users={projectUsers} />
                         <div className="flex items-center gap-2">
-                          <Button size="sm" className="h-6 text-[15px]" onClick={handleUpdateComment}>{__('Save')}</Button>
-                          <Button size="sm" variant="ghost" className="h-6 text-[15px]" onClick={cancelEditComment}>{__('Cancel')}</Button>
+                          <Button size="sm" className="h-6 text-[15px]" onClick={handleUpdateComment}>{__('Save', 'wedevs-project-manager')}</Button>
+                          <Button size="sm" variant="ghost" className="h-6 text-[15px]" onClick={cancelEditComment}>{__('Cancel', 'wedevs-project-manager')}</Button>
                         </div>
                       </div>
                     ) : (
@@ -389,7 +388,7 @@ export default function SingleTaskListPage() {
         <div className="space-y-2">
           <RichTextEditor
             content={newComment}
-            placeholder={__('Write a comment...')}
+            placeholder={__('Write a comment...', 'wedevs-project-manager')}
             onChange={(html) => setNewComment(html)}
             minHeight="60px"
             users={projectUsers}
@@ -400,7 +399,7 @@ export default function SingleTaskListPage() {
             onChange={setCommentNotifyUsers}
           />
           <Button size="sm" className="h-7 text-sm" onClick={handleSubmitComment} disabled={!newComment.trim() || submittingComment}>
-            {submittingComment ? __('Sending...') : __('Post Comment')}
+            {submittingComment ? __('Sending...', 'wedevs-project-manager') : __('Post Comment', 'wedevs-project-manager')}
           </Button>
         </div>
       </div>

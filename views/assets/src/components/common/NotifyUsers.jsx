@@ -1,11 +1,10 @@
+import { __ } from '@wordpress/i18n';
 import React, { useMemo } from "react";
 import { Checkbox } from "@components/ui/checkbox";
 import { UserAvatar } from "@components/common/UserAvatar";
-import { useI18n } from "@hooks/useI18n";
 import { usePermissions } from "@hooks/usePermissions";
 
 export default function NotifyUsers({ users = [], value = [], onChange, className = "" }) {
-  const { __ } = useI18n();
   const { currentUserId } = usePermissions();
 
   const assainUsers = useMemo(
@@ -35,11 +34,11 @@ export default function NotifyUsers({ users = [], value = [], onChange, classNam
     <div className={`rounded-lg border bg-card p-3 ${className}`}>
       <div className="flex items-center justify-between mb-2">
         <h4 className="text-sm font-semibold text-pm-text-primary">
-          {__("Notify users")}
+          {__("Notify users", 'wedevs-project-manager')}
         </h4>
         <label className="flex items-center gap-1.5 text-xs text-pm-text-muted cursor-pointer">
           <Checkbox checked={allSelected} onCheckedChange={toggleAll} />
-          {__("Select all")}
+          {__("Select all", 'wedevs-project-manager')}
         </label>
       </div>
       <ul className="grid grid-cols-1 sm:grid-cols-2 gap-1">

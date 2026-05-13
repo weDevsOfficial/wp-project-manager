@@ -1,4 +1,14 @@
 import React, { useEffect } from 'react'
+import { setLocaleData } from '@wordpress/i18n'
+
+// Mirrors the Vue 3.x JED pipeline: PHP injects locale data into PM_Vars and we
+// feed it to wp.i18n so __()/_n()/sprintf() resolve against the existing .mo
+// files without depending on wp i18n make-json output.
+if (typeof window.PM_Vars !== 'undefined' && window.PM_Vars.language?.pm?.locale_data) {
+  const data = window.PM_Vars.language.pm.locale_data['wedevs-project-manager']
+  if (data) setLocaleData(data, 'wedevs-project-manager')
+}
+
 import { createRoot } from 'react-dom/client'
 import { createPortal } from 'react-dom'
 import { Provider } from 'react-redux'

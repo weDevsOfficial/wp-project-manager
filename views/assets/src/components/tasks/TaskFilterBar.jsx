@@ -1,6 +1,6 @@
+import { __ } from '@wordpress/i18n';
 import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { useApi } from '@hooks/useApi'
-import { useI18n } from '@hooks/useI18n'
 import { useToast } from '@hooks/useToast'
 import { Button } from '@components/ui/button'
 import { Badge } from '@components/ui/badge'
@@ -15,7 +15,6 @@ import { UserAvatar } from '@components/common/UserAvatar'
 import { Search, X, Filter } from 'lucide-react'
 
 export default function TaskFilterBar({ projectId, lists, onFilterResults, onClear }) {
-  const { __ } = useI18n()
   const api = useApi()
   const toast = useToast()
 
@@ -80,7 +79,7 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
       onFilterResults?.(tasks)
     } catch (err) {
       console.error('[TaskFilterBar] filter request failed:', err)
-      toast.error(__('Failed to filter tasks'))
+      toast.error(__('Failed to filter tasks', 'wedevs-project-manager'))
     }
     setFiltering(false)
   }, [api, projectId, status, dueDate, listId, assigneeId, searchTitle, onFilterResults, onClear])
@@ -118,7 +117,7 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
           onClick={() => setIsOpen(true)}
         >
           <Filter className="h-4 w-4" />
-          {__('Filter')}
+          {__('Filter', 'wedevs-project-manager')}
           {activeCount > 0 && (
             <Badge variant="secondary" className="h-4 px-1 text-[14px] rounded-full ml-0.5">
               {activeCount}
@@ -137,7 +136,7 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
         <input
           value={searchTitle}
           onChange={(e) => handleSearchChange(e.target.value)}
-          placeholder={__('Search tasks...')}
+          placeholder={__('Search tasks...', 'wedevs-project-manager')}
           className="flex-1 min-w-0 h-full bg-transparent text-sm text-pm-text-primary placeholder:text-muted-foreground focus:outline-none !border-0 !p-0 !shadow-none"
         />
       </div>
@@ -145,23 +144,23 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
       {/* Status */}
       <Select value={status} onValueChange={(v) => { setStatus(v); applyFilter({ status: v }) }}>
         <SelectTrigger className="h-8 w-auto sm:w-[120px] text-sm">
-          <SelectValue placeholder={__('Status')} />
+          <SelectValue placeholder={__('Status', 'wedevs-project-manager')} />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="incomplete">{__('Incomplete')}</SelectItem>
-          <SelectItem value="complete">{__('Complete')}</SelectItem>
+          <SelectItem value="incomplete">{__('Incomplete', 'wedevs-project-manager')}</SelectItem>
+          <SelectItem value="complete">{__('Complete', 'wedevs-project-manager')}</SelectItem>
         </SelectContent>
       </Select>
 
       {/* Due date */}
       <Select value={dueDate} onValueChange={(v) => { setDueDate(v); applyFilter({ dueDate: v }) }}>
         <SelectTrigger className="h-8 w-auto sm:w-[120px] text-sm">
-          <SelectValue placeholder={__('Due Date')} />
+          <SelectValue placeholder={__('Due Date', 'wedevs-project-manager')} />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="overdue">{__('Overdue')}</SelectItem>
-          <SelectItem value="today">{__('Today')}</SelectItem>
-          <SelectItem value="week">{__('This Week')}</SelectItem>
+          <SelectItem value="overdue">{__('Overdue', 'wedevs-project-manager')}</SelectItem>
+          <SelectItem value="today">{__('Today', 'wedevs-project-manager')}</SelectItem>
+          <SelectItem value="week">{__('This Week', 'wedevs-project-manager')}</SelectItem>
         </SelectContent>
       </Select>
 
@@ -169,7 +168,7 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
       {lists?.length > 0 && (
         <Select value={listId} onValueChange={(v) => { setListId(v); applyFilter({ listId: v }) }}>
           <SelectTrigger className="h-8 w-auto sm:w-[140px] text-sm">
-            <SelectValue placeholder={__('Task List')} />
+            <SelectValue placeholder={__('Task List', 'wedevs-project-manager')} />
           </SelectTrigger>
           <SelectContent>
             {lists.map((l) => (
@@ -183,7 +182,7 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
       {allAssignees.length > 0 && (
         <Select value={assigneeId} onValueChange={(v) => { setAssigneeId(v); applyFilter({ assigneeId: v }) }}>
           <SelectTrigger className="h-8 w-auto sm:w-[140px] text-sm">
-            <SelectValue placeholder={__('Assignee')} />
+            <SelectValue placeholder={__('Assignee', 'wedevs-project-manager')} />
           </SelectTrigger>
           <SelectContent>
             {allAssignees.map((u) => (
@@ -202,7 +201,7 @@ export default function TaskFilterBar({ projectId, lists, onFilterResults, onCle
       {hasActiveFilter && (
         <Button variant="outline" size="sm" className="h-8 text-sm gap-1" onClick={handleClear}>
           <X className="h-3.5 w-3.5" />
-          {__('Clear')}
+          {__('Clear', 'wedevs-project-manager')}
         </Button>
       )}
 

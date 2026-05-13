@@ -1,5 +1,5 @@
+import { __ } from '@wordpress/i18n';
 import React, { useCallback, useState } from 'react';
-import { useI18n } from '@hooks/useI18n';
 import { Button } from '@components/ui/button';
 import { Input } from '@components/ui/input';
 import { Checkbox } from '@components/ui/checkbox';
@@ -10,7 +10,6 @@ import { Sparkles, Trash2, Loader2, FolderOpen } from 'lucide-react';
 import TaskItem from './TaskItem';
 
 export default function PreviewStep({ data, onSave, saving, onBack }) {
-  const { __ } = useI18n();
   const [project, setProject] = useState(() => ({
     title: data.title || '',
     description: data.description || '',

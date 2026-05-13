@@ -1,5 +1,5 @@
+import { __ } from '@wordpress/i18n';
 import React from "react";
-import { useI18n } from "@hooks/useI18n";
 import { usePermissions } from "@hooks/usePermissions";
 import { useLicenseGuard } from "@components/common/LicenseGuard";
 import { useProModal } from "@components/common/ProUpgradeModal";
@@ -63,7 +63,6 @@ const REPORTS = [
 ];
 
 export default function ReportsPage() {
-  const { __ } = useI18n();
   const { isPro, isProLicensed } = usePermissions();
   const { setOpen } = useProModal();
 
@@ -76,13 +75,13 @@ export default function ReportsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-xl font-bold text-pm-text-primary">
-            {__("Reports")}
+            {__("Reports", 'wedevs-project-manager')}
           </h1>
           <p className="text-sm text-pm-text-muted mt-0.5">
-            {__("Generate actionable insights from your project data")}
+            {__("Generate actionable insights from your project data", 'wedevs-project-manager')}
           </p>
         </div>
-        {!isPro && <ProBadge label={__("Pro Required")} />}
+        {!isPro && <ProBadge label={__("Pro Required", 'wedevs-project-manager')} />}
       </div>
 
       {/* Report cards grid */}
@@ -106,20 +105,20 @@ export default function ReportsPage() {
 
                 {/* Title */}
                 <h3 className="text-sm font-semibold text-pm-text-primary">
-                  {__(r.title)}
+                  {__(r.title, 'wedevs-project-manager')}
                   {!isPro && <ProBadge className="ml-2 align-middle" />}
                 </h3>
 
                 {/* Description */}
                 <p className="text-sm text-pm-text-muted leading-relaxed min-h-[40px]">
-                  {__(r.desc)}
+                  {__(r.desc, 'wedevs-project-manager')}
                 </p>
 
                 {/* Action button */}
                 {isPro ? (
                   <Button variant="outline" size="sm" className="gap-1.5">
                     <Eye className="h-4 w-4" />
-                    {__("View Full Report")}
+                    {__("View Full Report", 'wedevs-project-manager')}
                   </Button>
                 ) : (
                   <Button
@@ -129,7 +128,7 @@ export default function ReportsPage() {
                     onClick={() => setOpen(true)}
                   >
                     <Lock className="h-4 w-4" />
-                    {__("View Full Report")}
+                    {__("View Full Report", 'wedevs-project-manager')}
                   </Button>
                 )}
               </div>
@@ -143,7 +142,7 @@ export default function ReportsPage() {
                   <div className="flex items-center gap-2 bg-pm-surface rounded-full px-4 py-2 shadow-lg">
                     <Crown className="h-5 w-5 text-orange-500" />
                     <span className="text-sm font-semibold text-pm-text-primary">
-                      {__("Upgrade to Pro")}
+                      {__("Upgrade to Pro", 'wedevs-project-manager')}
                     </span>
                   </div>
                 </div>

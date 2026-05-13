@@ -1,12 +1,11 @@
+import { __ } from '@wordpress/i18n';
 import React from 'react'
 import { Navigate, useParams } from 'react-router-dom'
 import { Lock } from 'lucide-react'
 import { usePermissions } from '@hooks/usePermissions'
 import { useCurrentProject } from '@hooks/useCurrentProject'
-import { useI18n } from '@hooks/useI18n'
 
 function Forbidden({ message }) {
-  const { __ } = useI18n()
   return (
     <div className="max-w-[1400px] mx-auto p-8 sm:p-12">
       <div className="rounded-xl border bg-card p-10 text-center">
@@ -14,10 +13,10 @@ function Forbidden({ message }) {
           <Lock className="h-6 w-6 text-muted-foreground" />
         </div>
         <h2 className="text-lg font-semibold text-pm-text-primary mb-1">
-          {__('Access denied')}
+          {__('Access denied', 'wedevs-project-manager')}
         </h2>
         <p className="text-sm text-pm-text-muted">
-          {message || __('You do not have permission to view this page.')}
+          {message || __('You do not have permission to view this page.', 'wedevs-project-manager')}
         </p>
       </div>
     </div>
@@ -52,10 +51,9 @@ export function ManagerRoute({ children }) {
  * REST will also reject them, this is the UI mirror.
  */
 export function LicenseRoute({ children }) {
-  const { __ } = useI18n()
   const { canManageLicense } = usePermissions()
   if (canManageLicense) return children
-  return <Forbidden message={__('You are not authorized to view this page.')} />
+  return <Forbidden message={__('You are not authorized to view this page.', 'wedevs-project-manager')} />
 }
 
 /**

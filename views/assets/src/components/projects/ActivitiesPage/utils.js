@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n';
 import { extractDateStr } from '@lib/pm-utils';
 import { ACTION_FALLBACKS } from './constants';
 
@@ -51,7 +52,7 @@ export function formatTime(committedAt) {
 }
 
 export function formatGroupDate(dateStr, __) {
-  if (!dateStr) return __('Unknown');
+  if (!dateStr) return __('Unknown', 'wedevs-project-manager');
   try {
     const d = new Date(dateStr);
     const today = new Date();
@@ -61,8 +62,8 @@ export function formatGroupDate(dateStr, __) {
     const dateOnly = new Date(d);
     dateOnly.setHours(0, 0, 0, 0);
 
-    if (dateOnly.getTime() === today.getTime()) return __('Today');
-    if (dateOnly.getTime() === yesterday.getTime()) return __('Yesterday');
+    if (dateOnly.getTime() === today.getTime()) return __('Today', 'wedevs-project-manager');
+    if (dateOnly.getTime() === yesterday.getTime()) return __('Yesterday', 'wedevs-project-manager');
     return d.toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' });
   } catch {
     return dateStr;

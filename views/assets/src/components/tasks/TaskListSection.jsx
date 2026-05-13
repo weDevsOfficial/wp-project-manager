@@ -1,3 +1,4 @@
+import { __ } from '@wordpress/i18n';
 import React, { useState, useCallback, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '@store/index'
@@ -6,7 +7,6 @@ import { sortTasks } from '@store/tasksSlice'
 import { createTask } from '@store/tasksSlice'
 import { useApi } from '@hooks/useApi'
 import { cn } from '@lib/utils'
-import { useI18n } from '@hooks/useI18n'
 import { useToast } from '@hooks/useToast'
 import { useConfirm } from '@hooks/useConfirm'
 import { Milestone as MilestoneIcon } from 'lucide-react'
@@ -45,7 +45,6 @@ import { sanitizeHtml } from '@lib/sanitize'
 export default function TaskListSection({ list, projectId, showLabels, isInbox = false }) {
   const dispatch = useAppDispatch()
   const navigate = useNavigate()
-  const { __ } = useI18n()
   const toast = useToast()
   const expanded = useAppSelector(s => s.taskLists.expandedIds.includes(list.id))
   const project = useCurrentProject(projectId)
@@ -153,9 +152,9 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
       }
       resetForm()
       setShowNewTask(true) // keep form open for rapid entry
-      toast.success(__('Task created'))
+      toast.success(__('Task created', 'wedevs-project-manager'))
     } catch {
-      toast.error(__('Failed to create task'))
+      toast.error(__('Failed to create task', 'wedevs-project-manager'))
     }
     setCreating(false)
   }, [dispatch, projectId, list.id, newTitle, newDesc, newDueDate, selectedAssignees, creating, toast, __, resetForm])
@@ -200,7 +199,7 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
     } catch {
       // Undo the optimistic move by reversing the splice
       dispatch(reorderTasksLocal({ listId: list.id, fromIndex: toIdx, toIndex: fromIdx }))
-      toast.error(__('Failed to reorder tasks'))
+      toast.error(__('Failed to reorder tasks', 'wedevs-project-manager'))
     }
   }, [dispatch, projectId, list.id, incompleteTasks, toast, __])
 
@@ -219,18 +218,18 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
     if (!renameTitle.trim()) return
     try {
       await dispatch(updateTaskList({ projectId, listId: list.id, title: renameTitle.trim() })).unwrap()
-      toast.success(__('List renamed'))
+      toast.success(__('List renamed', 'wedevs-project-manager'))
       setRenaming(false)
-    } catch { toast.error(__('Failed to rename')) }
+    } catch { toast.error(__('Failed to rename', 'wedevs-project-manager')) }
   }, [dispatch, projectId, list.id, renameTitle, toast, __])
 
   const handleDeleteList = useCallback(async () => {
-    const ok = await confirm(__('Delete this list and all its tasks?'), __('Delete List'))
+    const ok = await confirm(__('Delete this list and all its tasks?', 'wedevs-project-manager'), __('Delete List', 'wedevs-project-manager'))
     if (!ok) return
     try {
       await dispatch(deleteTaskList({ projectId, listId: list.id })).unwrap()
-      toast.success(__('List deleted'))
-    } catch { toast.error(__('Failed to delete list')) }
+      toast.success(__('List deleted', 'wedevs-project-manager'))
+    } catch { toast.error(__('Failed to delete list', 'wedevs-project-manager')) }
   }, [dispatch, projectId, list.id, toast, __, confirm])
 
   // ── Load more tasks ──────────────────────────────
@@ -255,7 +254,7 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
         if (isComplete) setAllCompleteLoaded(true)
         else setAllIncompleteLoaded(true)
       }
-    } catch { toast.error(__('Failed to load more tasks')) }
+    } catch { toast.error(__('Failed to load more tasks', 'wedevs-project-manager')) }
     if (isComplete) setLoadingMoreComplete(false)
     else setLoadingMore(false)
   }, [api, projectId, list.id, incompleteTasks, completeTasks, dispatch, toast, __])
@@ -285,15 +284,15 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
               onKeyDown={(e) => { if (e.key === 'Enter') handleRename(); if (e.key === 'Escape') setRenaming(false); }}
               className="text-sm font-semibold text-pm-text-primary flex-1 bg-transparent border-b border-pm-accent outline-none px-0 py-0"
             />
-            <button type="button" onClick={handleRename} className="text-pm-accent hover:text-pm-accent/80 p-1 rounded hover:bg-muted transition-colors" title={__('Save')}><Check className="h-4 w-4" /></button>
-            <button type="button" onClick={() => setRenaming(false)} className="text-pm-text-muted hover:text-pm-text p-1 rounded hover:bg-muted transition-colors" title={__('Cancel')}><X className="h-4 w-4" /></button>
+            <button type="button" onClick={handleRename} className="text-pm-accent hover:text-pm-accent/80 p-1 rounded hover:bg-muted transition-colors" title={__('Save', 'wedevs-project-manager')}><Check className="h-4 w-4" /></button>
+            <button type="button" onClick={() => setRenaming(false)} className="text-pm-text-muted hover:text-pm-text p-1 rounded hover:bg-muted transition-colors" title={__('Cancel', 'wedevs-project-manager')}><X className="h-4 w-4" /></button>
           </div>
         ) : (
           <h3 className="text-sm font-semibold text-pm-text-primary flex-1 truncate" dangerouslySetInnerHTML={{ __html: sanitizeHtml(list.title) }} />
         )}
 
         {!renaming && list.meta?.privacy === 1 && (
-          <Lock className="h-3.5 w-3.5 text-pm-text-muted shrink-0" title={__('Private')} />
+          <Lock className="h-3.5 w-3.5 text-pm-text-muted shrink-0" title={__('Private', 'wedevs-project-manager')} />
         )}
 
         {/* Counts */}
@@ -313,7 +312,7 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
           variant="ghost"
           size="icon"
           className="h-6 w-6"
-          title={__('View List')}
+          title={__('View List', 'wedevs-project-manager')}
           onClick={() => navigate(`/projects/${projectId}/task-lists/${list.id}`)}
         >
           <ArrowUpRight className="h-4 w-4" />
@@ -342,7 +341,7 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
             {canEditTaskList && (
               <DropdownMenuItem onClick={startRename}>
                 <Pencil className="h-4 w-4 mr-2" />
-                {__('Rename')}
+                {__('Rename', 'wedevs-project-manager')}
               </DropdownMenuItem>
             )}
 
@@ -357,7 +356,7 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
                   className="text-pm-text-muted focus:text-pm-text"
                 >
                   <Copy className="h-4 w-4 mr-2" />
-                  <span className="flex-1">{__('Duplicate')}</span>
+                  <span className="flex-1">{__('Duplicate', 'wedevs-project-manager')}</span>
                   <Crown className="h-3.5 w-3.5 text-pm-accent" />
                 </DropdownMenuItem>
                 <DropdownMenuItem
@@ -365,7 +364,7 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
                   className="text-pm-text-muted focus:text-pm-text"
                 >
                   <Archive className="h-4 w-4 mr-2" />
-                  <span className="flex-1">{__('Archive')}</span>
+                  <span className="flex-1">{__('Archive', 'wedevs-project-manager')}</span>
                   <Crown className="h-3.5 w-3.5 text-pm-accent" />
                 </DropdownMenuItem>
               </>
@@ -374,7 +373,7 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
             {!isInbox && canDeleteTaskList && (
               <DropdownMenuItem className="text-destructive focus:text-destructive" onClick={handleDeleteList}>
                 <Trash2 className="h-4 w-4 mr-2" />
-                {__('Delete')}
+                {__('Delete', 'wedevs-project-manager')}
               </DropdownMenuItem>
             )}
           </DropdownMenuContent>
@@ -412,14 +411,14 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
                 disabled={loadingMore}
                 onClick={() => handleLoadMore(0)}
               >
-                {loadingMore ? __('Loading...') : __('Load more tasks')}
+                {loadingMore ? __('Loading...', 'wedevs-project-manager') : __('Load more tasks', 'wedevs-project-manager')}
               </button>
             </div>
           )}
 
           {incompleteTasks.length === 0 && !showNewTask ? (
             <div className="px-4 py-8 text-center">
-              <p className="text-sm text-pm-text-muted mb-3">{__('No tasks yet')}</p>
+              <p className="text-sm text-pm-text-muted mb-3">{__('No tasks yet', 'wedevs-project-manager')}</p>
               {canCreateTask && (
                 <Button
                   size="sm"
@@ -427,7 +426,7 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
                   onClick={() => setShowNewTask(true)}
                 >
                   <Plus className="h-5 w-5" />
-                  {__('Add a task')}
+                  {__('Add a task', 'wedevs-project-manager')}
                 </Button>
               )}
             </div>
@@ -446,7 +445,7 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
                   autoFocus
                   value={newTitle}
                   onChange={e => setNewTitle(e.target.value)}
-                  placeholder={__('Task name...')}
+                  placeholder={__('Task name...', 'wedevs-project-manager')}
                   className="h-8 text-sm flex-1"
                   onKeyDown={e => { if (e.key === 'Escape') resetForm() }}
                 />
@@ -456,9 +455,9 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
                   size="sm"
                   className="h-7 text-sm px-1.5 text-pm-text-muted"
                   onClick={() => setExpandedForm(v => !v)}
-                  title={__('More options')}
+                  title={__('More options', 'wedevs-project-manager')}
                 >
-                  {expandedForm ? __('Less') : __('More')}
+                  {expandedForm ? __('Less', 'wedevs-project-manager') : __('More', 'wedevs-project-manager')}
                 </Button>
               </div>
 
@@ -469,14 +468,14 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
                   <RichTextEditor
                     content={newDesc}
                     onChange={setNewDesc}
-                    placeholder={__('Description...')}
+                    placeholder={__('Description...', 'wedevs-project-manager')}
                     minHeight="60px"
                     users={project?.assignees?.data ?? []}
                   />
 
                   {/* Due date */}
                   <div className="flex items-center gap-2">
-                    <label className="text-sm text-pm-text-muted w-16 shrink-0">{__('Due date')}</label>
+                    <label className="text-sm text-pm-text-muted w-16 shrink-0">{__('Due date', 'wedevs-project-manager')}</label>
                     <Input
                       type="date"
                       value={newDueDate}
@@ -489,14 +488,14 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
                   {milestones.length > 0 && (
                     <div className="flex items-center gap-2">
                       <label className="text-sm text-pm-text-muted w-16 shrink-0 flex items-center gap-1">
-                        <MilestoneIcon className="h-3.5 w-3.5" />{__('Milestone')}
+                        <MilestoneIcon className="h-3.5 w-3.5" />{__('Milestone', 'wedevs-project-manager')}
                       </label>
                       <select
                         value={selectedMilestone}
                         onChange={e => setSelectedMilestone(e.target.value)}
                         className="h-8 text-sm text-foreground rounded-md border border-input bg-background px-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring w-48"
                       >
-                        <option value="">{__('None')}</option>
+                        <option value="">{__('None', 'wedevs-project-manager')}</option>
                         {milestones.map(m => (
                           <option key={m.id} value={String(m.id)}>{m.title}</option>
                         ))}
@@ -507,12 +506,12 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
                   {/* Assignees */}
                   <div className="space-y-1.5">
                     <div className="flex items-center gap-2">
-                      <label className="text-sm text-pm-text-muted w-16 shrink-0">{__('Assign')}</label>
+                      <label className="text-sm text-pm-text-muted w-16 shrink-0">{__('Assign', 'wedevs-project-manager')}</label>
                       <div className="relative flex-1">
                         <Input
                           value={assigneeSearch}
                           onChange={e => handleSearchUsers(e.target.value)}
-                          placeholder={__('Search users...')}
+                          placeholder={__('Search users...', 'wedevs-project-manager')}
                           className="h-8 text-sm"
                         />
                         {assigneeResults.length > 0 && (
@@ -569,7 +568,7 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
                   className="h-7 text-sm"
                   disabled={!newTitle.trim() || creating}
                 >
-                  {creating ? __('Adding...') : __('Add Task')}
+                  {creating ? __('Adding...', 'wedevs-project-manager') : __('Add Task', 'wedevs-project-manager')}
                 </Button>
                 <Button
                   type="button"
@@ -578,7 +577,7 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
                   className="h-7 text-sm"
                   onClick={resetForm}
                 >
-                  {__('Cancel')}
+                  {__('Cancel', 'wedevs-project-manager')}
                 </Button>
               </div>
             </form>
@@ -597,7 +596,7 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
                   style={{ transform: showCompleted ? 'rotate(0deg)' : 'rotate(-90deg)' }}
                 />
                 <span className="font-medium">
-                  {totalComplete} {__('Completed')}
+                  {totalComplete} {__('Completed', 'wedevs-project-manager')}
                 </span>
               </button>
               {showCompleted && (
@@ -613,7 +612,7 @@ export default function TaskListSection({ list, projectId, showLabels, isInbox =
                         disabled={loadingMoreComplete}
                         onClick={() => handleLoadMore(1)}
                       >
-                        {loadingMoreComplete ? __('Loading...') : __('Load more completed')}
+                        {loadingMoreComplete ? __('Loading...', 'wedevs-project-manager') : __('Load more completed', 'wedevs-project-manager')}
                       </button>
                     </div>
                   )}

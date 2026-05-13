@@ -1,9 +1,9 @@
+import { __ } from '@wordpress/i18n';
 import React, { useState, useEffect, useCallback } from 'react'
 import { useAppDispatch, useAppSelector } from '@store/index'
 import {
   fetchTaskTypes, createTaskType, updateTaskType, deleteTaskType,
 } from '@store/settingsSlice'
-import { useI18n } from '@hooks/useI18n'
 import { useToast } from '@hooks/useToast'
 import { useConfirm } from '@hooks/useConfirm'
 import { Button } from '@components/ui/button'
@@ -14,7 +14,6 @@ import { Plus, Pencil, Trash2, Check, X } from 'lucide-react'
 const emptyForm = { title: '', description: '', status: 1 }
 
 const TaskTypesTab = () => {
-  const { __ } = useI18n()
   const toast  = useToast()
   const dispatch = useAppDispatch()
   const [ConfirmDialog, confirm] = useConfirm()

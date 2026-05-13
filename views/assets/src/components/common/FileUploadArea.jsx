@@ -1,7 +1,7 @@
+import { __ } from '@wordpress/i18n';
 import React, { useRef, useState, useEffect } from 'react'
 import { Button } from '@components/ui/button'
 import { Paperclip, X, FileText, Image as ImageIcon } from 'lucide-react'
-import { useI18n } from '@hooks/useI18n'
 
 function fileIcon(file) {
   if (file.type?.startsWith('image')) return ImageIcon
@@ -23,7 +23,6 @@ function FileThumbnail({ file }) {
 }
 
 export default function FileUploadArea({ files = [], onFilesChange, compact = false }) {
-  const { __ } = useI18n()
   const inputRef = useRef(null)
 
   const handleSelect = (e) => {
@@ -57,7 +56,7 @@ export default function FileUploadArea({ files = [], onFilesChange, compact = fa
           className="inline-flex items-center gap-1 text-sm text-pm-accent hover:text-pm-accent/80 transition-colors"
         >
           <Paperclip className="h-3.5 w-3.5" />
-          {files.length > 0 ? __('More') : __('Attach')}
+          {files.length > 0 ? __('More', 'wedevs-project-manager') : __('Attach', 'wedevs-project-manager')}
         </button>
         <input ref={inputRef} type="file" multiple className="hidden" onChange={handleSelect} />
       </div>
@@ -72,8 +71,8 @@ export default function FileUploadArea({ files = [], onFilesChange, compact = fa
         onClick={() => inputRef.current?.click()}
       >
         <Paperclip className="h-5 w-5 text-pm-text-muted/50 mx-auto mb-1.5" />
-        <p className="text-sm text-pm-text-muted">{__('Click to attach files')}</p>
-        <p className="text-[13px] text-pm-text-muted/60 mt-0.5">{__('or drag and drop')}</p>
+        <p className="text-sm text-pm-text-muted">{__('Click to attach files', 'wedevs-project-manager')}</p>
+        <p className="text-[13px] text-pm-text-muted/60 mt-0.5">{__('or drag and drop', 'wedevs-project-manager')}</p>
       </div>
       <input ref={inputRef} type="file" multiple className="hidden" onChange={handleSelect} />
 

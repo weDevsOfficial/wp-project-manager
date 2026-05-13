@@ -1,8 +1,8 @@
+import { __ } from '@wordpress/i18n';
 import React, { useState, useMemo, useCallback } from "react";
 import { useLicenseGuard } from "@components/common/LicenseGuard";
 import { useAppDispatch } from "@store/index";
 import { fetchTask, openTaskSheet } from "@store/tasksSlice";
-import { useI18n } from "@hooks/useI18n";
 import { usePermissions } from "@hooks/usePermissions";
 import { useProModal } from "@components/common/ProUpgradeModal";
 import ProBadge from "@components/common/ProBadge";
@@ -36,7 +36,6 @@ function TaskDetailSheetPortal() {
 }
 
 export default function CalendarPage() {
-  const { __ } = useI18n();
   const { isPro, isProLicensed } = usePermissions();
   const { setOpen } = useProModal();
   const dispatch = useAppDispatch();
@@ -67,15 +66,15 @@ export default function CalendarPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-xl font-bold text-pm-text-primary">
-            {__("Calendar")}
+            {__("Calendar", 'wedevs-project-manager')}
           </h1>
           <p className="text-sm text-pm-text-muted mt-0.5">
             {__(
-              "Get the birdseye view of all tasks from an interactive calendar",
+              "Get the birdseye view of all tasks from an interactive calendar", 'wedevs-project-manager',
             )}
           </p>
         </div>
-        {!isPro && <ProBadge label={__("Pro Required")} />}
+        {!isPro && <ProBadge label={__("Pro Required", 'wedevs-project-manager')} />}
       </div>
 
       {/* Calendar preview card */}
@@ -193,11 +192,11 @@ export default function CalendarPage() {
                 <Calendar className="h-7 w-7 text-pm-accent" />
               </div>
               <h3 className="text-lg font-bold text-pm-text-primary mb-1">
-                {__("Interactive Calendar")}
+                {__("Interactive Calendar", 'wedevs-project-manager')}
               </h3>
               <p className="text-sm text-pm-text-muted mb-4 max-w-[250px]">
                 {__(
-                  "View all your tasks, milestones, and deadlines in a beautiful calendar view.",
+                  "View all your tasks, milestones, and deadlines in a beautiful calendar view.", 'wedevs-project-manager',
                 )}
               </p>
               <div
@@ -205,7 +204,7 @@ export default function CalendarPage() {
                 style={{ background: "var(--pm-accent)" }}
               >
                 <Crown className="h-5 w-5" />
-                {__("Upgrade to Pro")}
+                {__("Upgrade to Pro", 'wedevs-project-manager')}
               </div>
             </div>
           </div>

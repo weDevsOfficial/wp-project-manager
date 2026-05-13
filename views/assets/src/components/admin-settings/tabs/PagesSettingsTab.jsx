@@ -1,7 +1,7 @@
+import { __ } from '@wordpress/i18n';
 import React, { useState, useEffect } from 'react'
 import { useAppDispatch } from '@store/index'
 import { saveGeneral } from '@store/settingsSlice'
-import { useI18n } from '@hooks/useI18n'
 import { useToast } from '@hooks/useToast'
 import { getSetting } from '@lib/utils'
 import { Button } from '@components/ui/button'
@@ -9,7 +9,6 @@ import { Label } from '@components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@components/ui/select'
 
 export default function PagesSettingsTab() {
-  const { __ } = useI18n()
   const toast = useToast()
   const dispatch = useAppDispatch()
   const [isDirty, setIsDirty] = useState(false)
@@ -46,33 +45,33 @@ export default function PagesSettingsTab() {
         PM_Pro_Vars.page.project = valueToSave
       }
       setIsDirty(false)
-      toast.success(__('Page settings saved'))
+      toast.success(__('Page settings saved', 'wedevs-project-manager'))
     } catch (err) {
-      toast.error(err ?? __('Failed to save'))
+      toast.error(err ?? __('Failed to save', 'wedevs-project-manager'))
     }
     setSaving(false)
   }
 
   return (
     <form onSubmit={onSubmit}>
-      <h2 className="text-lg font-semibold text-pm-text mb-1">{__('Front-end Page')}</h2>
-      <p className="text-sm text-pm-text-muted mb-5">{__('Configure front-end pages for Project Manager')}</p>
+      <h2 className="text-lg font-semibold text-pm-text mb-1">{__('Front-end Page', 'wedevs-project-manager')}</h2>
+      <p className="text-sm text-pm-text-muted mb-5">{__('Configure front-end pages for Project Manager', 'wedevs-project-manager')}</p>
 
       <div className="rounded-lg border border-pm-border bg-pm-surface mb-5">
         <div className="flex items-center justify-between px-5 py-4">
           <div>
-            <Label className="text-sm font-medium">{__('Project Page')}</Label>
-            <p className="text-sm text-pm-text-muted mt-0.5">{__('Select the page where Project Manager will be displayed on the front-end')}</p>
+            <Label className="text-sm font-medium">{__('Project Page', 'wedevs-project-manager')}</Label>
+            <p className="text-sm text-pm-text-muted mt-0.5">{__('Select the page where Project Manager will be displayed on the front-end', 'wedevs-project-manager')}</p>
           </div>
           <Select
             value={frontEndPage}
             onValueChange={(v) => { setFrontEndPage(v); setIsDirty(true) }}
           >
             <SelectTrigger className="w-64 h-8 text-sm">
-              <SelectValue placeholder={__('Select a page...')} />
+              <SelectValue placeholder={__('Select a page...', 'wedevs-project-manager')} />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="none">{__('— None —')}</SelectItem>
+              <SelectItem value="none">{__('— None —', 'wedevs-project-manager')}</SelectItem>
               {pages.map(page => (
                 <SelectItem key={page.ID} value={String(page.ID)}>{page.post_title}</SelectItem>
               ))}
@@ -83,11 +82,11 @@ export default function PagesSettingsTab() {
 
       <div className="flex items-center gap-3">
         <Button type="submit" disabled={!isDirty || saving}>
-          {saving ? __('Saving...') : __('Save Changes')}
+          {saving ? __('Saving...', 'wedevs-project-manager') : __('Save Changes', 'wedevs-project-manager')}
         </Button>
         {isDirty && (
           <span className="text-sm text-pm-text-muted">
-            {__('You have unsaved changes')}
+            {__('You have unsaved changes', 'wedevs-project-manager')}
           </span>
         )}
       </div>

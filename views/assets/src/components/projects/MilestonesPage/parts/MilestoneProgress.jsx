@@ -1,16 +1,15 @@
+import { __ } from '@wordpress/i18n';
 import React from "react";
-import { useI18n } from "@hooks/useI18n";
 import { Progress } from "@components/ui/progress";
 
 export default function MilestoneProgress({ progress, taskCount }) {
-  const { __ } = useI18n();
   const total = taskCount?.total ?? 0;
   const completed = taskCount?.completed ?? 0;
 
   if (total === 0) {
     return (
       <span className="text-sm text-pm-text-muted italic">
-        {__("No tasks linked")}
+        {__("No tasks linked", 'wedevs-project-manager')}
       </span>
     );
   }
