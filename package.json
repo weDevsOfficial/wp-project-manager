@@ -1,6 +1,6 @@
 {
   "name": "pmapi",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Front-end package manager for project manager",
   "engines": {
     "node": ">=22.0.0",
